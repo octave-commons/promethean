@@ -1,3 +1,4 @@
+import pytest; pytest.skip("example script", allow_module_level=True)
 import os
 print(os.path.dirname(os.path.abspath(__file__)))
 print(os.getcwd())
