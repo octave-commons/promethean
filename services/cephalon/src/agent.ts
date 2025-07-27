@@ -16,6 +16,9 @@ import { CollectionManager } from "./collectionManager.ts";
 import EventEmitter from "events";
 import { readFileSync } from "fs";
 import { writeFile } from "fs/promises";
+import * as dotenv from 'dotenv';
+dotenv.config({ path: '../../.env' });
+export const AGENT_NAME = process.env.AGENT_NAME || "duck";
 import { ContextManager, formatMessage, GenericEntry} from "./contextManager.ts";
 import tokenizer from 'sbd';
 import { choice, generatePromptChoice, generateSpecialQuery } from "./util.ts";
@@ -509,7 +512,7 @@ ${text}
                 is_transcript,
                 author: this.bot.applicationId,
                 agentMessage: true,
-                userName: "Duck",
+                userName: AGENT_NAME,
                 channel: this.bot.currentVoiceSession?.voiceChannelId,
                 recipient: this.bot.applicationId,
                 createdAt: Date.now(),
@@ -663,7 +666,7 @@ Why are they your goals?
             text: `You thought to yourself: ${newThought}`,
             createdAt: Date.now(),
             metadata: {
-                userName: "Duck",
+                userName: AGENT_NAME,
                 isThought: true,
             }
         })

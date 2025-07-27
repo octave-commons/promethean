@@ -1,5 +1,7 @@
 import os
 
+AGENT_NAME=os.environ.get('AGENT_NAME','duck')
+
 MIN_TEMP=float(os.environ.get('MIN_TEMP',0.7))
 MAX_TEMP=float(os.environ.get('MAX_TEMP',0.9))
 
@@ -17,7 +19,7 @@ DISCORD_CLIENT_USER_NAME = os.environ.get('DISCORD_CLIENT_USER_NAME')
 DEFAULT_CHANNEL=os.environ['DEFAULT_CHANNEL']
 DEFAULT_CHANNEL_NAME=os.environ['DEFAULT_CHANNEL_NAME']
 
-model_path="/app/models/duck_gpt.v0.6.1/"
+model_path=f"/app/models/{AGENT_NAME}_gpt.v0.6.1/"
 
 # The discord id of the author of the bot.
 AUTHOR_ID=os.environ.get('AUTHOR_ID')

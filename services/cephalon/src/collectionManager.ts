@@ -1,7 +1,10 @@
 import { Collection as ChromaCollection, ChromaClient } from "chromadb";
 import { Collection, MongoClient, ObjectId, OptionalUnlessRequiredId, WithId } from "mongodb";
+import * as dotenv from 'dotenv';
+dotenv.config({ path: '../../.env' });
+const AGENT_NAME = process.env.AGENT_NAME || "duck";
 const chromaClient = new ChromaClient();
-const mongoClient = new MongoClient("mongodb://localhost:27017");
+const mongoClient = new MongoClient(process.env.MONGODB_URI || "mongodb://localhost:27017");
 import crypto from "crypto";
 export type DiscordEntry = CollectionEntry<"content", "created_at">
 export type ThoughtEntry = CollectionEntry<"text", "createdAt">
@@ -56,10 +59,11 @@ export class CollectionManager<
         textKey: TTextKey,
         timeStampKey: TTimeKey
     ) {
-        const chromaCollection = await chromaClient.getOrCreateCollection({ name });
+        const collectionName = `${AGENT_NAME}_${name}`;
+        const chromaCollection = await chromaClient.getOrCreateCollection({ name: collectionName });
         const db = mongoClient.db("database");
-        const mongoCollection = db.collection<CollectionEntry<TTextKey, TTimeKey>>(name);
-        return new CollectionManager(name, chromaCollection, mongoCollection, textKey, timeStampKey);
+        const mongoCollection = db.collection<CollectionEntry<TTextKey, TTimeKey>>(collectionName);
+        return new CollectionManager(collectionName, chromaCollection, mongoCollection, textKey, timeStampKey);
     }
 
     // AddEntry method:

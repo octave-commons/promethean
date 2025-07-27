@@ -6,6 +6,7 @@ It is designed for:
 
 * Modular cognitive system design
 * Multi-agent support (e.g. Duck)
+* Root `ecosystem.config.js` starts shared services like STT and TTS
 * Language-flexible implementation (Hy/Python and Sibilant/JS/TS)
 * Integrated documentation and dataset pipelines
 

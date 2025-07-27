@@ -15,7 +15,7 @@ import {
 } from 'discord.js';
 import EventEmitter from "events";
 import { FinalTranscript } from "./transcriber.ts";
-import { AIAgent } from "./agent.ts";
+import { AIAgent, AGENT_NAME } from "./agent.ts";
 import { CollectionManager } from "./collectionManager.ts";
 import { ContextManager } from "./contextManager.ts";
 /**
@@ -93,7 +93,7 @@ export class Bot extends EventEmitter {
 
         await this.context.createCollection("transcripts", "text", "createdAt");
         // await this.context.createCollection("thoughts", "text", "createdAt");
-        await this.context.createCollection("discord_messages", "content", "created_at");
+        await this.context.createCollection(`${AGENT_NAME}_discord_messages`, "content", "created_at");
         await this.context.createCollection("agent_messages", "text", "createdAt");
         await this.client.login(this.token)
         await this.registerInteractions()

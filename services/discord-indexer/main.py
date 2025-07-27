@@ -4,6 +4,10 @@ Crawl through discord history and fill in all messages that are not getting proc
 from dotenv import load_dotenv
 load_dotenv()
 
+import os
+AGENT_NAME = os.environ.get("AGENT_NAME", "duck")
+print(f"Discord indexer running for {AGENT_NAME}")
+
 import asyncio
 import random
 import traceback

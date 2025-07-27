@@ -4,6 +4,8 @@ import { MongoClient, ObjectId, Collection } from "mongodb";
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '../../.env' });  // 👈 resolve from wherever you want
 
+const AGENT_NAME = process.env.AGENT_NAME || "duck";
+
 const chromaClient = new ChromaClient();
 
 type MessageMetaData = {
@@ -33,7 +35,7 @@ type DiscordMessage = {
     is_embedded?: boolean;
 };
 
-const MONGO_CONNECTION_STRING = `mongodb://localhost`;
+const MONGO_CONNECTION_STRING = process.env.MONGODB_URI || `mongodb://localhost`;
 
 (async () => {
     const mongoClient = new MongoClient(MONGO_CONNECTION_STRING);
@@ -46,10 +48,11 @@ const MONGO_CONNECTION_STRING = `mongodb://localhost`;
     }
 
     const db = mongoClient.db("database");
-    const discordMessagesCollection: Collection<DiscordMessage> = db.collection("discord_messages");
+    const collectionName = `${AGENT_NAME}_discord_messages`;
+    const discordMessagesCollection: Collection<DiscordMessage> = db.collection(collectionName);
 
     const chromaCollection = await chromaClient.getOrCreateCollection({
-        name: "discord_messages"
+        name: collectionName
     });
 
     while (true) {
