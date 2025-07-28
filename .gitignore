@@ -1,3 +1,4 @@
+**/node_modules/**
 node_modules/
 onnx_model/
 models/
