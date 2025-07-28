@@ -24,6 +24,7 @@ import numpy as np
 
 # for WaveRNN approach (https://github.com/fatchord/WaveRNN), first step before upsample
 def pad_tensor(x, pad, side='both'):
+    """Pad a tensor along the time dimension."""
     # NB - this is just a quick method i need right now
     # i.e., it won't generalise to other shapes/dims
     b, t, c = x.shape

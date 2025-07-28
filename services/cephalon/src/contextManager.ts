@@ -1,5 +1,5 @@
 import { Message } from "ollama";
-import {  CollectionEntry, CollectionManager } from "./collectionManager.ts";
+import {  CollectionEntry, CollectionManager } from "./collectionManager";
 
 import TimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
