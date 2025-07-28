@@ -17,3 +17,13 @@ def test_respects_max_length():
     )
     chunks = split_sentences(text, max_chunk_len=20, min_chunk_len=5)
     assert all(len(chunk) <= 20 for chunk in chunks)
+
+def test_appends_filler_for_short_text():
+    chunks = split_sentences('Hi.', max_chunk_len=10, min_chunk_len=5)
+    assert chunks == ['Hi. ...']
+
+
+def test_long_sentence_breaks_into_multiple_chunks():
+    text = 'This is a very long sentence that is definitely going to exceed the max limit by a considerable margin.'
+    chunks = split_sentences(text, max_chunk_len=40, min_chunk_len=5)
+    assert len(chunks) > 1
