@@ -1,6 +1,13 @@
 # TTS Service
 
-This service provides text-to-speech synthesis using Tacotron and WaveRNN pipelines.
-Run `run.sh` to start the service once dependencies are installed.
+This service converts text to speech using Tacotron and WaveRNN models.
+
+## Usage
+
+Run via pm2 or execute `run.sh` directly:
+
+```bash
+./run.sh
+```
 
 #hashtags: #tts #service #promethean

@@ -1,10 +1,10 @@
 import * as discord from "discord.js"
-import { VoiceSynthOptions} from "./voice-synth.ts";
+import { VoiceSynthOptions} from "./voice-synth";
 // import {Transcriber, TranscriberOptions} from "./transcriber.ts"
 // import {VoiceRecorder, VoiceRecorderOptions} from "./voice-recorder.ts"
 
 import { Client, Events, GatewayIntentBits } from 'discord.js';
-import { VoiceSession } from "./voice-session.ts";
+import { VoiceSession } from "./voice-session";
 
 
 import {
@@ -14,10 +14,10 @@ import {
     type RESTPutAPIApplicationCommandsJSONBody,
 } from 'discord.js';
 import EventEmitter from "events";
-import { FinalTranscript } from "./transcriber.ts";
-import { AIAgent, AGENT_NAME } from "./agent.ts";
-import { CollectionManager } from "./collectionManager.ts";
-import { ContextManager } from "./contextManager.ts";
+import { FinalTranscript } from "./transcriber";
+import { AIAgent, AGENT_NAME } from "./agent";
+import { CollectionManager } from "./collectionManager";
+import { ContextManager } from "./contextManager";
 /**
    Handles top level discord interactions. EG slash commands send by the user.
    */
@@ -132,6 +132,7 @@ export class Bot extends EventEmitter {
         for (let [_, command] of Bot.interactions) {
             commands.push(command);
         }
+        console.log("Registering commands:", commands    )
         return Promise.all(
             (await this.guilds).map(
                 guild => (new REST().setToken(this.token).put(

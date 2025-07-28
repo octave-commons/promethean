@@ -12,16 +12,16 @@ import { AudioPlayer } from "@discordjs/voice"
 import ollama, { Message } from "ollama";
 
 import { Bot } from "./bot";
-import { CollectionManager } from "./collectionManager.ts";
+import { CollectionManager } from "./collectionManager";
 import EventEmitter from "events";
 import { readFileSync } from "fs";
 import { writeFile } from "fs/promises";
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '../../.env' });
 export const AGENT_NAME = process.env.AGENT_NAME || "duck";
-import { ContextManager, formatMessage, GenericEntry} from "./contextManager.ts";
+import { ContextManager, formatMessage, GenericEntry} from "./contextManager";
 import tokenizer from 'sbd';
-import { choice, generatePromptChoice, generateSpecialQuery } from "./util.ts";
+import { choice, generatePromptChoice, generateSpecialQuery } from "./util";
 import screenshot from 'screenshot-desktop';
 
 // type BotActivityState = 'idle' | 'listening' | 'speaking';

@@ -31,15 +31,18 @@ _ordinal_re = re.compile(r'[0-9]+(st|nd|rd|th)')
 _number_re = re.compile(r'[0-9]+')
 
 
-def _remove_commas(m):
+def _remove_commas(m: re.Match) -> str:
+    """Return the number string with embedded commas removed."""
     return m.group(1).replace(',', '')
 
 
-def _expand_decimal_point(m):
+def _expand_decimal_point(m: re.Match) -> str:
+    """Convert a decimal point match into words."""
     return m.group(1).replace('.', ' point ')
 
 
-def _expand_dollars(m):
+def _expand_dollars(m: re.Match) -> str:
+    """Expand a currency amount into spoken words."""
     match = m.group(1)
     parts = match.split('.')
     if len(parts) > 2:
@@ -60,11 +63,13 @@ def _expand_dollars(m):
         return 'zero dollars'
 
 
-def _expand_ordinal(m):
+def _expand_ordinal(m: re.Match) -> str:
+    """Expand an ordinal number into words."""
     return _inflect.number_to_words(m.group(0))
 
 
-def _expand_number(m):
+def _expand_number(m: re.Match) -> str:
+    """Expand a cardinal number into words."""
     num = int(m.group(0))
     if num > 1000 and num < 3000:
         if num == 2000:
@@ -79,7 +84,8 @@ def _expand_number(m):
         return _inflect.number_to_words(num, andword='')
 
 
-def normalize_numbers(text):
+def normalize_numbers(text: str) -> str:
+    """Normalize all numbers within ``text`` to their spoken forms."""
     text = re.sub(_comma_number_re, _remove_commas, text)
     text = re.sub(_pounds_re, r'\1 pounds', text)
     text = re.sub(_dollars_re, _expand_dollars, text)

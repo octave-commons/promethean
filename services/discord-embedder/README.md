@@ -1,6 +1,20 @@
-# Discord Embedder
+# Discord Embedder Service
 
-Enriches Discord messages with ChromaDB embeddings for later retrieval.
-Run the Node service with `npm start` after installing dependencies.
+Enriches Discord messages by generating embeddings and storing them in ChromaDB.
+Built with Node.js and TypeScript.
 
-#hashtags: #discord #embedder #service #promethean
+## Setup
+
+```bash
+npm install
+```
+
+## Usage
+
+Run in development mode:
+
+```bash
+npm run start:dev
+```
+
+#hashtags: #discord #service #promethean

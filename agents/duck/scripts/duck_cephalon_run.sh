@@ -1,4 +1,15 @@
 #!/usr/bin/bash
-export AGENT_NAME="duck"
+source .env
+source .tokens
+export DISCORD_TOKEN
+export DISCORD_CLIENT_USER_ID
 cd ../../services/cephalon/
-node --loader ts-node/esm ./src/index.ts
+npm install
+
+# echo "wooot"
+npm run build
+# echo "wooth"
+
+node dist/index.js
+
+# npm run start:dev

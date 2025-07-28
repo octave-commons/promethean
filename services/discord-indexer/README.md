@@ -1,5 +1,20 @@
-# Discord Indexer
+# Discord Indexer Service
 
-Archives messages from Discord servers for later processing. Run `main.py` with your bot token configured.
+Archives Discord messages for later processing using the Discord API.
+Implemented in Python.
 
-#hashtags: #discord #indexer #service #promethean
+## Setup
+
+```bash
+pipenv install
+```
+
+## Usage
+
+Run the crawler:
+
+```bash
+pipenv run python main.py
+```
+
+#hashtags: #discord #service #promethean
