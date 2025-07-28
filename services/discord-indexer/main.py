@@ -1,8 +1,8 @@
 """
 Crawl through discord history and fill in all messages that are not getting processed in real time.
 """
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 import os
 AGENT_NAME = os.environ.get("AGENT_NAME", "duck")
@@ -13,8 +13,8 @@ import random
 import traceback
 from typing import List
 import discord
-from ...shared.py import settings
-from ...shared.py.mongodb import discord_message_collection, discord_channel_collection
+from shared.py import settings
+from shared.py.mongodb import discord_message_collection, discord_channel_collection
 
 
 intents = discord.Intents.default()

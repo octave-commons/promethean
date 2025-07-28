@@ -1,10 +1,13 @@
+import 'source-map-support/register.js';
 
-import { Bot } from "./bot.ts";
-import * as dotenv from 'dotenv';
-dotenv.config({ path: '../../.env' });  // 👈 resolve from wherever you want
 
+console.log("Stuff and things...")
+import { Bot } from "./bot";
+// import * as dotenv from 'dotenv';
+// dotenv.config({ path: '../../.env' });  // 👈 resolve from wherever you want
 const AGENT_NAME = process.env.AGENT_NAME || "duck";
 
+console.log("Starting",AGENT_NAME, "Cephalon")
 
 
 const bot = new Bot({

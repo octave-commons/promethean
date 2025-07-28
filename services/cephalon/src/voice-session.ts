@@ -1,12 +1,12 @@
 import { AudioPlayerStatus, EndBehaviorType, StreamType, VoiceConnection, createAudioPlayer, createAudioResource, getVoiceConnection, joinVoiceChannel } from "@discordjs/voice";
 import *  as discord from "discord.js"
-import {Speaker} from "./speaker.ts";
+import {Speaker} from "./speaker";
 // import {Transcript} from "./transcript"
 import { randomUUID, UUID } from "crypto";
-import { Transcriber } from "./transcriber.ts";
-import { VoiceRecorder } from "./voice-recorder.ts";
-import { Bot } from "./bot.ts";
-import { VoiceSynth } from "./voice-synth.ts";
+import { Transcriber } from "./transcriber";
+import { VoiceRecorder } from "./voice-recorder";
+import { Bot } from "./bot";
+import { VoiceSynth } from "./voice-synth";
 import EventEmitter from "events";
 /**
    Handles all things voice. Emits an event when a user begins speaking, and when they stop speaking
