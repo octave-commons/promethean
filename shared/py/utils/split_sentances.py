@@ -1,8 +1,31 @@
+"""Utilities for splitting text into sentence-based chunks."""
 
 import re
 
+
 def split_sentences(text, max_chunk_len=79, min_chunk_len=20):
-    print(f"Splitting text into sentence-aware chunks (max {max_chunk_len}, min {min_chunk_len}).")
+    """Return a list of sentence-like chunks from ``text``.
+
+    Parameters
+    ----------
+    text : str
+        Input paragraph to be chunked.
+    max_chunk_len : int, optional
+        Hard limit for chunk size; longer sentences are split by words.
+        Defaults to ``79``.
+    min_chunk_len : int, optional
+        Minimum chunk length. Short chunks will try to absorb following
+        sentences to reach this length. Defaults to ``20``.
+
+    Returns
+    -------
+    list[str]
+        Sequence of chunks derived from the input.
+    """
+
+    print(
+        f"Splitting text into sentence-aware chunks (max {max_chunk_len}, min {min_chunk_len})."
+    )
     print(f"Input text length: {len(text)} characters")
 
     # First pass: basic sentence splitting
