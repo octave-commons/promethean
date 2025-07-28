@@ -26,7 +26,6 @@ kanban-plugin: board
 - [ ] Finalize `MIGRATION_PLAN.md`
 - [ ] Set up `Makefile` for Python + JS build/test/dev
 - [ ] Annotate legacy code with migration tags
-- [ ] Create base `README.md` templates for each service
 - [ ] Build data structures for Eidolon field #codex-task #framework-core
 - [ ] Implement fragment ingestion with activation vectors #codex-task #framework-core
 - [ ] Create permission gating layer #codex-task #framework-core
@@ -40,6 +39,7 @@ kanban-plugin: board
 ## 🟡 In Progress (4)
 
 - [ ] Migrating relevant modules from `riatzukiza.github.io` to `/site/` and `/docs/`
+- [ ] Create base `README.md` templates for each service
 
 
 ## 🔵 Done
