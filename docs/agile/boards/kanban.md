@@ -19,8 +19,8 @@ kanban-plugin: board
 ## Incoming
 
 - [ ] Ensure GitHub-compatible markdown settings are documented
-- [ ] Write `vault-config/README.md` for Obsidian vault onboarding
-- [ ] Create `vault-config/.obsidian/` with Kanban and minimal vault setup
+- [x] Write `vault-config/README.md` for Obsidian vault onboarding
+- [x] Create `vault-config/.obsidian/` with Kanban and minimal vault setup
 - [ ] Add starter notes: `[[eidolon_fields]]`, `[[cephalon_inner_monologue]]`
 - [ ] Start Eidolon
 - [ ] Smart Task templater
@@ -65,7 +65,7 @@ kanban-plugin: board
 
 ## Rejected
 
-- [ ] Add vault instructions to main `README.md` #Duplicate
+- [x] Add vault instructions to main `README.md` #Duplicate
 
 
 ## Blocked
@@ -86,7 +86,9 @@ kanban-plugin: board
 
 ## 🟡 In Progress (4)
 
-- [ ] Add vault instructions to main `README.md`
+- [ ] Migrate duck services to  promethean
+- [x] Add vault instructions to main `README.md`
+- [x] Write `vault-config/README.md` for Obsidian vault onboarding
 
 
 ## In Review
@@ -105,8 +107,8 @@ kanban-plugin: board
 - [ ] Moved initial Duck 2.0 content into `/Promethean/`
 - [ ] Created canvas and populated `AGENTS.md`
 - [ ] Defined language strategy: Hy/Python + Sibilant/TS/JS hybrid
-- [ ] Vault root confirmed at repo root
-- [ ] Obsidian config strategy established: untracked `.obsidian/`, with example in `vault-config/`
+- [x] Vault root confirmed at repo root
+- [x] Obsidian config strategy established: untracked `.obsidian/`, with example in `vault-config/`
 
 
 ## 🧠 Notes
