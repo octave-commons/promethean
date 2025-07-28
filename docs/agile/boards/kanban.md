@@ -22,25 +22,45 @@ kanban-plugin: board
 - [ ] Write `vault-config/README.md` for Obsidian vault onboarding
 - [ ] Create `vault-config/.obsidian/` with Kanban and minimal vault setup
 - [ ] Add starter notes: `[[eidolon_fields]]`, `[[cephalon_inner_monologue]]`
-- [ ] Obsidian Kanban <-> Github Project Board Mirror system
+- [ ] Start Eidolon
+- [ ] Smart Task templater
+- [ ] Add Ollama formally to pipeline
 
 
 ## Accepted (8)
 
-- [ ] write simple ecosystem declaration library for new agents
-- [ ] write simple ecosystem declaration library for new agents
-- [ ] Migrate portfolio client code to promethean
 - [ ] Migrate server side sibilant libs to promethean architecture.
 - [ ] Migrate server side sibilant libs to promethean architecture.
+- [ ] Annotate legacy code with migration tags
+* [ ] Add Ollama formally to pipeline
+* [ ] Smart Task templater
+* [ ] Start Eidolon
 
+
+## Prompt refinement
+
+* [ ] Migrate portfolio client code to Promethean
+* [ ] write simple ecosystem declaration library for new agents
+* [ ] Implement fragment ingestion with activation vectors #codex-task
+* [ ] Detect contradictions in memory #codex-task
+* [ ] Suggest metaprogramming updates #codex-task
+
+## Agent thinking
+
+🧠 Conceptual or reflection tasks, good for Codex or Agent mode:
+
+* [ ] Evaluate and reward flow satisfaction #framework-core
+* [ ] Identify ancestral resonance patterns #framework-core
+* [ ] Implement transcendence cascade #framework-core
+* [ ] Create permission gating layer #framework-core
 
 ## Breakdown (8)
 
-- [ ] [[Structure vault to mirror ` services `, ` agents `, ` docs `]]
 - [ ] [[Create base `README.md` templates for each service]]
-- [ ] Set up `Makefile` for Python + JS build/test/dev
+- [ ] [[Set up `Makefile` for Python + JS build test dev]]
 - [ ] Ensure GitHub-compatible markdown settings are documented
-- [ ] Finalize `MIGRATION_PLAN.md`
+- [ ] Obsidian Kanban <-> Github Project Board Mirror system
+- [ ] Migrating relevant modules from `riatzukiza.github.io` to `/site/` and `/docs/`
 
 
 ## Rejected
@@ -50,34 +70,36 @@ kanban-plugin: board
 
 ## Blocked
 
-- [ ] Annotate legacy code with migration tags
+(consider moving tasks here if you define permission/env/dependency needs)
 
 
 ## ready (8)
 
+- [ ] [[Finalize `MIGRATION_PLAN.md`]]
+- [ ] [Structure vault to mirror ` services `, ` agents `, ` docs `](Structure%20vault%20to%20mirror%20`%20services%20`,%20`%20agents%20`,%20`%20docs%20`.md)
 
 
 ## 🟢 To Do (8)
 
-- [ ] Initialize Obsidian vault at repo root
-- [ ] Add `.obsidian/` to `.gitignore`
 
+(ready for human or agent to start)
 
 ## 🟡 In Progress (4)
 
 - [ ] Add vault instructions to main `README.md`
-- [ ] Write `vault-config/README.md` for Obsidian vault onboarding
 
 
 ## In Review
 
-- [ ] Migrating relevant modules from `riatzukiza.github.io` to `/site/` and `/docs/`
-- [ ] Migrate duck services to  promethean
+- [ ] Add `.obsidian/` to `.gitignore`
+- [ ] Write `vault-config/README.md` for Obsidian vault onboarding
 
 
 ## 🔵 Done
 
 **Complete**
+- [x] Migrate duck services to  promethean
+- [x] Initialize Obsidian vault at repo root
 - [x] Obsidian vault is initialized at the root and actively being configured
 - [ ] Decided on monorepo architecture
 - [ ] Moved initial Duck 2.0 content into `/Promethean/`
@@ -99,18 +121,10 @@ kanban-plugin: board
 
 
 
-## Prompt refinement
-
-
-
-## Agent thinking
-
-
-
 
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,null,false,false,false,true,false,false,false,false,true,true,true,false,false],"new-note-template":"agile/templates/New Task.md","new-note-folder":"agile/Tasks"}
+{"kanban-plugin":"board","list-collapse":[false,null,false,false,false,false,true,true,false,false,false,false,false,true,true],"new-note-template":"agile/templates/New Task.md","new-note-folder":"agile/Tasks"}
 ```
 %%

@@ -1,39 +1,50 @@
-## Description
+## 🧠 Description
 
-Block of text describing the purpose of the tasks, expected outcomes, possible solutions, estimates, etc.
+Each service in `services/` should have a minimal `README.md` that documents its purpose, how to start it, and what dependencies it has. This task was initially created when the system was less structured — it referred loosely to “creating README templates,” but in reality it means ensuring *each* service has a baseline `README.md`.
 
-Just the info we need to know what it is we're working on
+Most of these are either already created or partially filled. The goal here is to solidify the ritual: every service must be self-documenting, even if it's minimal.
 
-EG. We need to start where we can reach, the damn thing's so big.
-We have to start with the legs.
+This helps:
+- Agents understand their role
+- Codex or Duck know how to run/debug them
+- Future devs orient themselves quickly
 
-## Related Epics
+We treat this as a “quick win” task to bring our ritualized flow up to speed.
 
-- [[Monumental task]]
-- [[Eat Elephant]]
+## 🎯 Goals / Outcomes
 
-## Requirements
+- Each `services/<name>/README.md` exists
+- Each one describes:
+  - What the service does
+  - How to run it (PM2 or dev mode)
+  - Relevant environment variables or configs
+- If incomplete, it should at least be a placeholder with TODOs
 
-## Steps/Tasks
+## 🧩 Related Concepts
 
-- [ ] Pick up fork and knife
-- [ ] Cut part of elephant's leg
-- [ ] Season
-- [ ] Cook until tender
-- [ ] Serve and enjoy
+- [[process_board_flow]]
+- [[AGENTS.md]]
+- [[service directory conventions]]
+- #doc-this #framework-core #ritual
 
-## Blocked by 
+## 🛠 Requirements
 
-- [ ] [[Get Knife]]
-- [ ] [[Get Get Fork]]
-- [ ] [[Find Elephant]]
+- Add `README.md` if missing
+- Confirm each has:
+  - Overview
+  - Launch instructions
+  - Related AGENT.md or spec file link
+- Frontmatter is optional, but encouraged
 
+## ✅ Tasks
 
-## Blocks
+- [x] Check for missing READMEs in `services/`
+- [x] Create placeholder if needed
+- [x] Add launch command examples
+- [x] Link to related `AGENT.md` if available
 
-- [[Document Best Ways to Cook Elephant]]
-- [[Eat Elephant Thighs]]
+## 🔗 Links
 
-## Relavent links
-
-- [Eating an elephant is easier than you think](https://onepieceatatime.com/where-to-start)
+- `services/duck_cephalon/README.md`
+- `services/synthesis_agent/README.md`
+- [[AGENTS.md]]
