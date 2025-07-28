@@ -11,3 +11,5 @@ agents/duck/chroma_data/
 .obsidian/
 
 .vscode/
+
+/node_modules/
