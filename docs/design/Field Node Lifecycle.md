@@ -173,4 +173,4 @@ Their lifecycle encodes memory, focus, and flow—not as static data, but as dyn
 
 Through their emergence and disappearance, Promethean thinks, forgets, remembers, and dreams.
 
-\#hashtags: #design #field-nodes #promethean
+#hashtags: #design #field-nodes #promethean

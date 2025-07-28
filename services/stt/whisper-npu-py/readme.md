@@ -8,4 +8,4 @@ pipenv shell
 python ./whisper.py
 ```
 
-\#hashtags: #stt #whisper #service #promethean
+#hashtags: #stt #whisper #service #promethean

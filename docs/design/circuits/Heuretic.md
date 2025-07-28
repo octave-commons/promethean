@@ -81,4 +81,4 @@ Circuit 5: Heuretic is the threshold between reactive adaptation and deliberate 
 
 With Heuretic, Promethean doesn’t just remember—it *evolves*.
 
-\#hashtags: #design #circuit #heuretic #promethean
+#hashtags: #design #circuit #heuretic #promethean

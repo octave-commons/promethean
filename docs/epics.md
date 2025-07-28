@@ -31,4 +31,4 @@ This document outlines high level initiatives for the Promethean Framework. Epic
 
 ---
 
-\#hashtags: #epics #promethean #documentation #project-management
+#hashtags: #epics #promethean #documentation #project-management

@@ -7,4 +7,4 @@ Current features:
 - `time-ago`: convert two datetime objects into a human-readable string.
 
 
-\#hashtags: #hy #utilities #promethean
+#hashtags: #hy #utilities #promethean
