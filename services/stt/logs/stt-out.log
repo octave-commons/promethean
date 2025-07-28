@@ -40666,3 +40666,4 @@ waveform resampled shape torch.Size([2, 80, 3000])
 waveform resampled shape torch.Size([2, 80, 3000])
 waveform resampled shape torch.Size([2, 80, 3000])
 Using device: cpu
+Using device: cpu
