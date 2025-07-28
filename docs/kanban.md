@@ -27,7 +27,6 @@ kanban-plugin: board
 - [ ] Set up `Makefile` for Python + JS build/test/dev
 - [ ] Annotate legacy code with migration tags
 - [ ] Create base `README.md` templates for each service
-
 - [ ] Build data structures for Eidolon field #codex-task #framework-core
 - [ ] Implement fragment ingestion with activation vectors #codex-task #framework-core
 - [ ] Create permission gating layer #codex-task #framework-core
@@ -36,14 +35,17 @@ kanban-plugin: board
 - [ ] Identify ancestral resonance patterns #codex-task #framework-core
 - [ ] Suggest metaprogramming updates #codex-task #framework-core
 - [ ] Implement transcendence cascade #codex-task #framework-core
+
+
 ## 🟡 In Progress (4)
 
-	- [ ] Transferring `agents/duck/` and restructuring legacy code into `/agents/` and `/services/`
 - [ ] Migrating relevant modules from `riatzukiza.github.io` to `/site/` and `/docs/`
-- [ ] Obsidian vault is initialized at the root and actively being configured
+
 
 ## 🔵 Done
 
+**Complete**
+- [x] Obsidian vault is initialized at the root and actively being configured
 - [ ] Decided on monorepo architecture
 - [ ] Moved initial Duck 2.0 content into `/Promethean/`
 - [ ] Created canvas and populated `AGENTS.md`
@@ -60,22 +62,14 @@ kanban-plugin: board
 - [ ] Use `#codex-task`, `#agent-specific`, `#framework-core`, `#doc-this`, `#rewrite-later` as task tags
 
 
+## 🟡 In Progress (limit: 4)
 
-* Resolve `allowImportingTsExtensions` errors in TypeScript configs under `services/cephalon` and `services/discord-embedder` #todo #typescript
 
-* Add Node test scripts and ensure TypeScript compilation succeeds #todo #typescript #tests
 
-* Fix flake8 issues across Python scripts, particularly in `services/discord-indexer` and `shared/py/speech` #todo #python
 
-* Rename `split_sentances.py` to `split_sentences.py` and update imports #todo #python
-
-* Review empty module `shared/py/speech/llm.py` and implement or remove #todo #python
-
-# 🟡 In Progress (limit: 4)
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false]}
+{"kanban-plugin":"board"}
 ```
 %%
-#hashtags: #kanban #tasks #promethean
