@@ -99,7 +99,7 @@ When migration is complete:
 
 ---
 
-\#tags: #migration #promethean #duck #project-evolution #monorepo #devops #refactor
+#tags: #migration #promethean #duck #project-evolution #monorepo #devops #refactor
 
 ---
 

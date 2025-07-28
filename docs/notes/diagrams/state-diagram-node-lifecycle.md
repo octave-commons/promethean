@@ -16,4 +16,4 @@ stateDiagram-v2
 
 ```
 
-\#hashtags: #diagram #eidolon #promethean
+#hashtags: #diagram #eidolon #promethean
