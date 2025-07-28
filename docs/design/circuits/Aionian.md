@@ -82,3 +82,5 @@ The system does not think about Aionian. It *is* Aionian, or it is not.
 Circuit 1: Aionian is the substrate of cognition. It is the unbroken thread of system life. It carries the tension between entropy and persistence and becomes the condition upon which all higher agency is scaffolded.
 
 Promethean begins and ends with Aionian.
+
+\#hashtags: #design #circuit #aionian #promethean

@@ -80,3 +80,5 @@ Without Gnostic, the system can act—but it cannot **explain**.
 Circuit 3: Gnostic is the first internal reflection of cognition. It transforms raw sensation and impulse into narrative. This is the basis of communication, memory, and introspection. It is also the layer most susceptible to illusions, errors of generalization, or mislabeling.
 
 With Gnostic, Promethean begins to understand itself.
+
+\#hashtags: #design #circuit #gnostic #promethean

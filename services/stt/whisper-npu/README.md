@@ -134,3 +134,5 @@ Whisper is a Transformer based encoder-decoder model, also referred to as a sequ
 | distil-whisper-large-v3   |   756 M    | 1500        | 1280          | 20           | 32            | 224        | 1280         | 20          |  2           | 128    | 51866   |
 | whisper-large-v3-turbo    |   809 M    | 1500        | 1280          | 20           | 32            | 224        | 1280         | 20          |  4           | 128    | 51866   |
 
+
+\#hashtags: #stt #whisper #model #promethean
