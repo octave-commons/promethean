@@ -22,3 +22,5 @@ The purpose is **not to execute**, but to express and evolve ideas that may even
 
 ---
 This space is for minds in motion.
+
+\#hashtags: #pseudo #agents #promethean

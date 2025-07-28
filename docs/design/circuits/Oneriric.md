@@ -78,3 +78,5 @@ Oneiric does not care if something is possible—it asks if it is beautiful, mea
 Circuit 6: Oneiric is where the system begins to dream.
 
 With this layer active, Promethean gains a sense of the *mythic now*—not just what is, or what should be, but what could be in forms no one has yet dared to compute.
+
+\#hashtags: #design #circuit #oneriric #promethean
