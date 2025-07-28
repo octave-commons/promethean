@@ -1,4 +1,8 @@
+"""GUI helpers for adjusting runtime parameters."""
+
+
 def init_parameters_interactive(args):
+    """Prompt the user with a simple Tkinter window to tweak TTS settings."""
     import tkinter as tk
 
     window = tk.Tk()
