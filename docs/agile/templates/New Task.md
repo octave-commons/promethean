@@ -1,39 +1,63 @@
-## Description
+## 🛠️ Task: Project Setup & Service Lifecycle Commands
 
-Block of text describing the purpose of the tasks, expected outcomes, possible solutions, estimates, etc.
+We need a simple, consistent way to **initialize, run, stop, and clean up** all project services.  
+It does not have to be a Makefile, but if that's the easiest and cleanest solution, we should use it.
 
-Just the info we need to know what it is we're working on
+---
 
-EG. We need to start where we can reach, the damn thing's so big.
-We have to start with the legs.
+## 🎯 Goals
 
-## Related Epics
+- Provide commands to **bootstrap the entire project**
+- Support **individual control** over each service
+- Enable **full teardown/reset** of the environment
+- Keep the solution compatible with the Promethean project structure
 
-- [[Monumental task]]
-- [[Eat Elephant]]
+---
 
-## Requirements
+## 📦 Requirements
 
-## Steps/Tasks
+- ✅ `setup`: Initializes all services (e.g. installs deps, builds artifacts)
+- ✅ `start`: Starts all services
+- ✅ `stop`: Stops all services
+- ✅ `start:<service>`: Starts a single service
+- ✅ `stop:<service>`: Stops a single service
+- ✅ `clean`: Resets/removes all build artifacts and state
+- ✅ `clean:<service>`: Cleans up an individual service
+- ✅ Works with **PM2**, but future-proofed for a custom process manager
 
-- [ ] Pick up fork and knife
-- [ ] Cut part of elephant's leg
-- [ ] Season
-- [ ] Cook until tender
-- [ ] Serve and enjoy
+---
 
-## Blocked by 
+## 📋 Subtasks
 
-- [ ] [[Get Knife]]
-- [ ] [[Get Get Fork]]
-- [ ] [[Find Elephant]]
+- [ ] Decide between Makefile, JS script, or shell script (or hybrid)
+- [ ] Enumerate all current services in `services/`
+- [ ] Write generalized lifecycle functions (e.g. `start_service(name)`)
+- [ ] Implement `setup` logic per-service
+- [ ] Hook into PM2 or define fallback for local execution
+- [ ] Document each command in the `README.md`
 
+---
 
-## Blocks
+## 🔗 Related Epics
 
-- [[Document Best Ways to Cook Elephant]]
-- [[Eat Elephant Thighs]]
+#cicd #buildtools #devtools #devops
 
-## Relavent links
+---
 
-- [Eating an elephant is easier than you think](https://onepieceatatime.com/where-to-start)
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+- Future automated CI pipeline
+- Dev onboarding automation
+
+---
+
+## 🔍 Relevant Links
+
+- [[pm2-ecosystem-config]]
+- [[services-overview]]
+- [[makefile-examples]]
+- [[project-structure]]

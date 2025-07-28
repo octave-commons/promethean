@@ -1,134 +1,147 @@
 # Board flow
 
+## 🌐 Updated Kanban Flow Diagram
+
+```mermaid
+flowchart TD
+
+    subgraph Brainstorm
+        IceBox["🧊 Ice Box"]
+        New["💭 New"]
+    end
+
+    subgraph Planning
+        Accepted["✅ Accepted"]
+        Breakdown["🧩 Breakdown"]
+        PromptRefine["🔍 Prompt Refinement"]
+        AgentThinking["🤔 Agent Thinking"]
+        Blocked["🚧 Blocked"]
+    end
+
+    subgraph Execution
+        Ready["🛠 Ready"]
+        Todo["🟢 To Do"]
+        InProgress["🟡 In Progress"]
+        InReview["🔍 In Review"]
+        Document["📚 Document"]
+        Done["✅ Done"]
+    end
+
+    subgraph Abandoned
+        Rejected["❌ Rejected"]
+    end
+
+    IceBox --> New
+    New --> Accepted
+    New --> Rejected
+    Accepted --> Breakdown
+    Breakdown --> Ready
+    Breakdown --> Blocked
+    Breakdown --> Rejected
+
+    Accepted --> PromptRefine
+    PromptRefine --> CodexPrompt["🤖 Codex Prompt"]
+    PromptRefine --> AgentThinking
+    AgentThinking --> Breakdown
+    CodexPrompt --> Breakdown
+
+    Ready --> Todo
+    Todo --> InProgress
+    InProgress --> InReview
+    InReview --> Document
+    Document --> Done
+    InReview --> Done
+
+    Done --> IceBox
+    Blocked --> Breakdown
+    Rejected --> IceBox
 ```
 
-New-> Accepted -> Breakdown -----> Ready -> Todo -> In Progress -> In Review -> Done
-|                 |  |  ^          ^                |    ^            |
-|                 |  |  |          |                |    |            |
-----> Rejected<----  -> Blocked ---|    |<-----------    |-------------
-                           ^            |<----------------
-                           |-------------
-```
+## 🧭 Stage Descriptions
 
-```
-New -> Accepted -> Breakdown -----> Ready -> Todo -> In Progress -> In Review -> Done
-|                 |  |  ^    \       ^                |    ^            |
-|                 |  |  |     \      |                |    |            |
-----> Rejected<----  -> Blocked  \----|    |<-----------    |-------------
-                     \     ^      \        |<----------------
-                      \   /        \-------------------------
-                     Ice Box
+### Ice Box
 
-```
+Raw ideas, incomplete thoughts, or unclear goals. May never move forward without refinement.
 
-# New
+### New
 
-Feature ideas we may or may not do. A place for brainstorming.
+A lightly-formed idea or proposal. We are not yet committed to doing it.
 
+**Transitions:**
 
-## Acceptance Criteria
+* `New -> Accepted`: we've discussed and decided it has value.
+* `New -> Rejected`: it's a duplicate, not feasible, or not relevant.
 
-New ideas can move to either an accepted or rejected state.
+### Rejected
 
-```
-New-> Accepted
-|
-----> Rejected
-```
-- We've started writing about it
-- it seems feasable.
-- It is not a duplicate.
+Explicitly considered and shelved ideas. Archived but remembered.
 
-# Rejected
+### Accepted
 
-Tasks we opened up that we later realized were not useful, or a duplicate of an existing task.
+An idea we've acknowledged as worth exploring. Still needs structure.
 
-Rejected tasks do not have state transitions at the moment.
+**Must go through `Breakdown` before work can begin.**
 
-```
-New  Breakdown
-|    |
---------> Rejected
-```
-## Tasks
+### Prompt Refinement
 
-- a backend implementation of the simulation
-  - Duplicate
-- Components as data views
-  - Redundent by entity panel, provides data view
+Used for refining fuzzy ideas into clear prompts or specs, often for Codex or Agent mode.
 
+### Agent Thinking
 
-# Accepted 
+Exploration space for agent-mode and collaborative AI discussions.
+These are not implementation-ready.
 
-Features we have decided to look into.
-If we think they will add value we will move on to break down.
-The task must be described to continue
+### Breakdown
 
-Accepted tasks cannot be rejected with out first going through [breakdown](breakdown.md)
+We break the idea down into requirements, values, and approaches.
+Outcomes:
 
+* Becomes `Ready`
+* Moves to `Blocked`
+* Gets `Rejected`
 
-```
-Accepted -> Breakdown
-```
+### Blocked
 
-## Acceptance Criteria
+Work was promising but halted due to dependencies, design holes, or undefined scope.
 
-- A brief description of the task is created. 
-- We have decided the feature has value
-- The task must not be a duplicate or redundent.
+### Ready
 
-# Breakdown (limit)
+We understand the task and could start it anytime. Not yet prioritized.
 
-Features we are actively thinking about and preparing for work.
-The result of a [breakdown](breakdown.md) is either a task that is [ready](ready.md) for work,
-or a task that is rejected upon further examination.
-Tasks may become [blocked](blocked.md) if once the work was started it became [clear](../docs/Pools/Dynamic/clear.md)
-the task was not defined clearly enough.
+### To Do
 
-```
+Prioritized tasks queued for action.
 
-Breakdown->Ready
-|
-->Blocked
+### In Progress
 
-```
+Actively being worked on.
 
-## Definition of done
+### In Review
 
-- requirements
-- explaination of value
-- a general approach to the problem
+Awaiting human or agent confirmation, test passes, or spec matching.
 
+### Document
 
-# Blocked
+Needs written `AGENT.md`, docstrings, or Markdown notes.
 
-Features that have been refined and are [ready](ready.md) to work on after a feature they rely on has been implemented
+### Done
 
+Confirmed complete and aligned with system.
 
-# Ready (limit)
+---
 
-Tasks that are [ready](ready.md) to be worked that we have not decided to start.
-Tasks that are [ready](ready.md) for work have not been prioritized and there is no estimate on complexity.
+## 🏷 Tags
 
+* `#codex-task` → Codex should code/test/doc
+* `#agent-mode` → Discussion-style exploration
+* `#framework-core` → Related to Promethean internals
+* `#agent-specific` → Tied to a named agent (e.g., Duck, Synthesis)
+* `#layer1`, `#layer2` → Tied to Eidolon/Cephalon layers
+* `#doc-this` → Task produces documentation
+* `#rewrite-later` → Placeholder
 
-# Todo (limit)
+---
 
-Tasks that have been prioritized and estimated. These are what are to be [done](done.md) after 
-in progress tasks have been completed.
+This kanban is intended to reflect the needs of a distributed hybrid development model: you, agent-mode, Duck, and Codex all work together across asynchronous phases.
 
-
-# In Progress (limit)
-
-Tasks that are currently being worked on.
-
-# In Review (limit)
-
-Work that has been completed but needs to be reviewed to be sure.
-
-
-# Done
-
-The work has been reviewed and we are sure that it is [done](done.md).
-:confetti:
-
-#agile #workflow
+#agile #workflow #codex #agent-mode #promethean
