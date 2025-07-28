@@ -73,3 +73,8 @@ You can use this one as a **legend** or top-of-page visual summary in any future
 ---
 
 Want me to embed these into the **Field Node Lifecycle** document under a “More Diagrams” section? Or split them out into a new document called something like `Field Node Diagrams` or `Cognitive Topology Visuals`?
+---
+
+Related notes: [[node-type-topology-map]], [[circuit-weight-visualizations]], [[full-system-overview-diagrams]], [[layer1-uptime-diagrams]], [[field-node-lifecycle-additional-diagrams]], [[state-diagram-node-lifecycle]] [[unique/index]]
+
+#tags: #diagram #design

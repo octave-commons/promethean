@@ -137,3 +137,9 @@ Next up, I can drop:
 * or circuit-coupled field interference terms (multi-layer crosstalk modeling)
 
 Just say the word and I'll keep firing them.
+
+---
+
+Related notes: [[advanced-field-math]], [[aionian-feedback-oscillator]], [[aionian-pulse-rhythm-model]], [[eidolon-field-math]], [[symbolic-gravity-models]] [[unique/index]]
+
+#tags: #math #theory

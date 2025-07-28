@@ -89,3 +89,9 @@ You now have a full round-trip simulation:
 5. It expires, releasing memory.
 
 Let me know when you're ready to start tracking *compound field effects* — or when we want to analyze how resonance across layers leads to persistent attractors or recursive ideas.
+
+---
+
+Related notes: [[fragment-injection-simulation]], [[heartbeat-fragment-flow]], [[ripple-propagation-flow]] [[unique/index]]
+
+#tags: #simulation #design
