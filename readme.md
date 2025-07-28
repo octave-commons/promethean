@@ -55,3 +55,19 @@ To run them locally:
 ```bash
 pytest -q
 ```
+
+## Converting Kanban Tasks to GitHub Issues
+
+A helper script `scripts/kanban_to_issues.py` can create GitHub issues from the tasks listed in `docs/kanban.md`. Set the following environment variables before running the script:
+
+- `GITHUB_TOKEN` – a personal access token with permission to create issues
+- `GITHUB_REPO` – the repository in `owner/repo` format
+
+Then run:
+
+```bash
+python scripts/kanban_to_issues.py
+```
+
+Without a token the script performs a dry run and prints the issues that would be created.
+
