@@ -9,7 +9,9 @@ pulbic/
 agents/duck/chroma_data/
 
 .obsidian/
+!vault-config/.obsidian/
 
 .vscode/
 
-/node_modules/
+/node_modules/__pycache__/
+**/__pycache__/

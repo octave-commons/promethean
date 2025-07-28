@@ -20,8 +20,8 @@ kanban-plugin: board
 - [ ] Build data structures for Eidolon field #codex-task #framework-core
 - [ ] write simple ecosystem declaration library for new agents
 - [ ] Ensure GitHub-compatible markdown settings are documented
-- [ ] Write `vault-config/README.md` for Obsidian vault onboarding
-- [ ] Create `vault-config/.obsidian/` with Kanban and minimal vault setup
+- [x] Write `vault-config/README.md` for Obsidian vault onboarding
+- [x] Create `vault-config/.obsidian/` with Kanban and minimal vault setup
 - [ ] Add starter notes: `[[eidolon_fields]]`, `[[cephalon_inner_monologue]]`
 - [ ] Obsidian Kanban <-> Github Project Board Mirror system
 
@@ -37,7 +37,7 @@ kanban-plugin: board
 
 ## Breakdown (8)
 
-- [ ] Create base `README.md` templates for each service
+- [x] Create base `README.md` templates for each service
 - [ ] Set up `Makefile` for Python + JS build/test/dev
 - [ ] Ensure GitHub-compatible markdown settings are documented
 - [ ] Finalize `MIGRATION_PLAN.md`
@@ -45,7 +45,7 @@ kanban-plugin: board
 
 ## Rejected
 
-- [ ] Add vault instructions to main `README.md` #Duplicate
+- [x] Add vault instructions to main `README.md` #Duplicate
 
 
 ## Blocked
@@ -66,8 +66,8 @@ kanban-plugin: board
 ## 🟡 In Progress (4)
 
 - [ ] Migrate duck services to  promethean
-- [ ] Add vault instructions to main `README.md`
-- [ ] Write `vault-config/README.md` for Obsidian vault onboarding
+- [x] Add vault instructions to main `README.md`
+- [x] Write `vault-config/README.md` for Obsidian vault onboarding
 
 
 ## In Review
@@ -83,8 +83,8 @@ kanban-plugin: board
 - [ ] Moved initial Duck 2.0 content into `/Promethean/`
 - [ ] Created canvas and populated `AGENTS.md`
 - [ ] Defined language strategy: Hy/Python + Sibilant/TS/JS hybrid
-- [ ] Vault root confirmed at repo root
-- [ ] Obsidian config strategy established: untracked `.obsidian/`, with example in `vault-config/`
+- [x] Vault root confirmed at repo root
+- [x] Obsidian config strategy established: untracked `.obsidian/`, with example in `vault-config/`
 
 
 ## 🧠 Notes
