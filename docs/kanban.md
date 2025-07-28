@@ -53,6 +53,17 @@ kanban-plugin: board
 
 
 
+* Resolve `allowImportingTsExtensions` errors in TypeScript configs under `services/cephalon` and `services/discord-embedder` #todo #typescript
+
+* Add Node test scripts and ensure TypeScript compilation succeeds #todo #typescript #tests
+
+* Fix flake8 issues across Python scripts, particularly in `services/discord-indexer` and `shared/py/speech` #todo #python
+
+* Rename `split_sentances.py` to `split_sentences.py` and update imports #todo #python
+
+* Review empty module `shared/py/speech/llm.py` and implement or remove #todo #python
+
+# 🟡 In Progress (limit: 4)
 
 %% kanban:settings
 ```
