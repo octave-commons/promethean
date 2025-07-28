@@ -84,3 +84,9 @@ Perfect — let’s keep the info dump rolling, now annotated for Obsidian-style
 ---
 
 Let me know when you're ready for ripple propagation back into the field — so the daemon can deform the Eidolon layer it binds to.
+
+---
+
+Related notes: [[fragment-injection-simulation]], [[heartbeat-fragment-flow]], [[ripple-propagation-flow]] [[unique/index]]
+
+#tags: #simulation #design

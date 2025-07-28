@@ -109,3 +109,9 @@ I can add:
 * or anything else you're hungry for.
 
 Say the word—I'll write it up.
+
+---
+
+Related notes: [[advanced-field-math]], [[aionian-feedback-oscillator]], [[aionian-pulse-rhythm-model]], [[eidolon-field-math]], [[symbolic-gravity-models]] [[unique/index]]
+
+#tags: #math #theory

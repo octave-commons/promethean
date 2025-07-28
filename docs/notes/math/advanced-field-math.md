@@ -124,3 +124,9 @@ Next up, I can do:
 * **charge-field resonance**
 * **dynamic viscosity modeling** (obstacles)
 * or **reinforcement curves** (from Nemesian/Heuretic tension)
+
+---
+
+Related notes: [[advanced-field-math]], [[aionian-feedback-oscillator]], [[aionian-pulse-rhythm-model]], [[eidolon-field-math]], [[symbolic-gravity-models]] [[unique/index]]
+
+#tags: #math #theory
