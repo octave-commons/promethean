@@ -40667,3 +40667,47 @@ waveform resampled shape torch.Size([2, 80, 3000])
 waveform resampled shape torch.Size([2, 80, 3000])
 Using device: cpu
 Using device: cpu
+Done in 4.682317500002682 seconds
+INFO:     127.0.0.1:60690 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 3.099410100003297 seconds
+INFO:     127.0.0.1:60700 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 4.29158859999734 seconds
+INFO:     127.0.0.1:60690 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 4.374736500001745 seconds
+INFO:     127.0.0.1:60716 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 3.6922979000009946 seconds
+INFO:     127.0.0.1:61869 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 3.3840981000030297 seconds
+INFO:     127.0.0.1:61878 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 3.162383900002169 seconds
+INFO:     127.0.0.1:61869 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 3.4688626999995904 seconds
+INFO:     127.0.0.1:61869 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 3.160391700002947 seconds
+INFO:     127.0.0.1:61869 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 3.667074100005266 seconds
+INFO:     127.0.0.1:61869 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 4.810631100001046 seconds
+INFO:     127.0.0.1:61923 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 4.1030118000053335 seconds
+INFO:     127.0.0.1:61934 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 4.182297899998957 seconds
+INFO:     127.0.0.1:61942 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 3.92220449999877 seconds
+INFO:     127.0.0.1:61923 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 4.133280300004117 seconds
+INFO:     127.0.0.1:61934 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 3.8292060000021593 seconds
+INFO:     127.0.0.1:61923 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 3.9013162999981432 seconds
+INFO:     127.0.0.1:61955 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 3.2475192999991123 seconds
+INFO:     127.0.0.1:61955 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 5.2694399999963935 seconds
+INFO:     127.0.0.1:61972 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 37.77616350000608 seconds
+INFO:     127.0.0.1:61972 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 3.159119099997042 seconds
+INFO:     127.0.0.1:61989 - "POST /transcribe_pcm HTTP/1.1" 200 OK
+Done in 3.5316001000028336 seconds
+INFO:     127.0.0.1:61999 - "POST /transcribe_pcm HTTP/1.1" 200 OK
