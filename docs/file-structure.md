@@ -44,7 +44,9 @@ It is designed for:
 │   └── sibilant/    ← Sibilant/Lithp source
 │       ├── common/
 │       ├── server/
-│       └── client/
+│       ├── client/
+│       ├── headers/ ← Sibilant/Lithp headers
+│       └── inc/     ← Sibilant/Lithp includables
 ├── bridge/          ← Language-agnostic protocols & message contracts
 │   ├── protocols/   ← JSONSchema, Protobufs, OpenAPI definitions
 │   ├── events/      ← Pub/sub event names and enums

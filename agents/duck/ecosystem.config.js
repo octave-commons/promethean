@@ -17,7 +17,6 @@ module.exports = {
             name: "duck_discord_indexer",
             script:"./scripts/discord_indexer_run.sh",
             interpreter: "bash",
-            // "exec_mode": "fork",
             instances: 1,
             autorestart: true,
             "env_file": ".env",
@@ -40,9 +39,10 @@ module.exports = {
             "cwd": ".",
             "script":"./scripts/duck_discord_embedder.sh",
             "interpreter": "bash",
-            // "script":"./services/embedder/src/index.ts",
             "autorestart": true,
-            "env_file": ".env"
+            "env_file": ".env",
+            restart_delay: 10000,
+            kill_timeout: 10000 // wait 5s before SIGKILL
 
         },
         {

@@ -1,18 +1,45 @@
+const path = require("path")
 module.exports = {
     apps: [
         {
-            name: "stt_service",
-            script: "./services/stt/run.sh",
-            interpreter: "bash",
-            env_file: ".env",
-            autorestart: true
+            name: "tts",
+            cwd: "./services/tts",
+            script: "./services/tts/run.sh",
+            interpreter:"bash",
+            "exec_mode": "fork",
+            watch: ["./services/tts"],
+            instances: 1,
+            autorestart: true,
+            env: {
+
+                PYTHONPATH: path.resolve(__dirname),
+                PYTHONUNBUFFERED: "1",
+                FLASK_APP: "app.py",
+                FLASK_ENV: "production",
+            },
+            restart_delay: 10000,
+            kill_timeout: 10000 
+
         },
         {
-            name: "tts_service",
-            script: "./services/tts/run.sh",
+            name: "stt",
+            cwd: "./services/stt",
+            script: "./services/stt/run.sh",
             interpreter: "bash",
-            env_file: ".env",
-            autorestart: true
-        }
+            exec_mode: "fork",
+            watch: ["./services/stt"],
+            instances: 1,
+            autorestart: true,
+            out_file: "./logs/stt-out.log",
+            error_file: "./logs/stt-err.log",
+            merge_logs: true,
+            env: {
+                PYTHONUNBUFFERED: "1",
+                PYTHONPATH: path.resolve(__dirname),
+            },
+
+            restart_delay: 10000,
+            kill_timeout: 10000 // wait 5s before SIGKILL
+        },
     ]
 };
