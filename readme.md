@@ -44,3 +44,13 @@ Scripts in `agents/scripts/` launch commonly used services:
 - `discord_indexer_run.sh` – runs the Discord indexer
 
 Each script assumes dependencies are installed and should be run from the repository root.
+
+## Tests
+
+Unit tests are located in `tests/` and run automatically on every pull request
+through [GitHub Actions](.github/workflows/tests.yml).
+To run them locally:
+
+```bash
+pytest -q
+```
