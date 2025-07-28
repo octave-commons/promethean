@@ -16,4 +16,4 @@ kanban-plugin: board
 {"kanban-plugin":"board","list-collapse":[false]}
 ```
 %%
-\#hashtags: #kanban #tasks #promethean
+#hashtags: #kanban #tasks #promethean

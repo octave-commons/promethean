@@ -4,7 +4,7 @@ Perfect. Let’s dive into **Circuit 1: Aionian** and build a focused mathematic
 
 ### 🫀 Aionian Pulse Rhythm Model
 
-\#aionian #heartbeat #rhythm
+#aionian #heartbeat #rhythm
 
 The system’s internal pulse is a damped sinusoidal oscillator:
 
@@ -25,7 +25,7 @@ Used to monitor **loop stability** and detect **irregular heartbeat** (jitter, d
 
 ### 🔋 Energy Budget and Load Regulation
 
-\#aionian #uptime #energy
+#aionian #uptime #energy
 
 Let $E(t)$ represent available computational or thermal capacity.
 
@@ -50,7 +50,7 @@ $$
 
 ### 🛑 Dead Loop Detection Signal
 
-\#aionian #watchdog #failure
+#aionian #watchdog #failure
 
 Define system-aliveness signal:
 
@@ -72,7 +72,7 @@ If $L(t) = 0$, system may enter **reboot**, **fail-safe**, or **dormant** state.
 
 ### 💥 Instability Index
 
-\#aionian #stability #failure
+#aionian #stability #failure
 
 Define a system instability index $\Xi$:
 
@@ -92,7 +92,7 @@ Higher $\Xi$ implies **disruption**, **jitter**, **threat to continuity**
 
 ### 🧘 Aionian Stabilization Curve
 
-\#aionian #homeostasis #recovery
+#aionian #homeostasis #recovery
 
 When system enters recovery mode:
 
@@ -111,7 +111,7 @@ Used to track **restoration after overload or crash**
 
 ### 🔗 Heartbeat–Field Coupling
 
-\#aionian #eidolon-field #loop-coupling
+#aionian #eidolon-field #loop-coupling
 
 Let global field tension $\mathcal{T}(t)$ influence pulse frequency:
 

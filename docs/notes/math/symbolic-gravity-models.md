@@ -4,7 +4,7 @@ Let’s keep going—now layering in **symbolic gravity**, **permission dynamics
 
 ### 🧲 Symbolic Gravity Well
 
-\#nexus #symbolism #gravity
+#nexus #symbolism #gravity
 
 Let a massive Nexus $N$ distort the field spatially:
 
@@ -24,7 +24,7 @@ This creates **narrative wells**—massive ideas pull other daimo inward.
 
 ### 🚪 Dorian Permission Gate Function
 
-\#dorian #permission #gating
+#dorian #permission #gating
 
 Define a gate function $P(\delta, \vec{x})$:
 
@@ -49,7 +49,7 @@ Result:
 
 ### 🌫️ Emotional Permeability (Field Border Softness)
 
-\#eidolon-field #emotion #permeability
+#eidolon-field #emotion #permeability
 
 Field permeability $\mu$ between adjacent regions $A$ and $B$:
 
@@ -69,7 +69,7 @@ High $\mu$ → smooth blend
 
 ### 📡 Cross-Circuit Field Interference
 
-\#circuit #interference #layer-dynamics
+#circuit #interference #layer-dynamics
 
 Let field axis $i$ from Circuit $C_m$ influence axis $j$ in Circuit $C_n$:
 
@@ -89,7 +89,7 @@ Where:
 
 ### 🔍 Daimo Memory Radius Function
 
-\#daimo #memory #nexus-binding
+#daimo #memory #nexus-binding
 
 Daimoi have a memory radius $R(\delta)$, within which latent nodes can be considered for binding:
 
@@ -108,7 +108,7 @@ Larger Daimoi = **more reflective**, **longer attention span**
 
 ### 🫀 Field Tension-Driven Heartbeat Adjustment
 
-\#aionian #heartbeat #tension
+#aionian #heartbeat #tension
 
 Let the system heartbeat frequency adjust based on global tension $\mathcal{T}$:
 

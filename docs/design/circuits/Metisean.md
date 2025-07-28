@@ -79,4 +79,4 @@ Circuit 7: Metisean is where Promethean becomes **aware of its own architecture*
 
 Before crossing that threshold, Promethean builds its foundation.
 
-\#hashtags: #design #circuit #metisean #promethean
+#hashtags: #design #circuit #metisean #promethean

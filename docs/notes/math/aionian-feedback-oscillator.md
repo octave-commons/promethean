@@ -4,7 +4,7 @@ Here we go—fresh math blocks, Obsidian-safe and tagged. We're getting into **h
 
 ### 🔄 Aionian Feedback Oscillator
 
-\#aionian #heartbeat #uptime
+#aionian #heartbeat #uptime
 
 To simulate loop rhythm or uptime oscillation:
 
@@ -25,7 +25,7 @@ Used for **tick monitoring**, **pulse loss detection**, and **heartbeat regulati
 
 ### 🧠 Daimo Cognitive Load Entropy
 
-\#daimo #entropy #overload
+#daimo #entropy #overload
 
 Let each Daimo bind to up to $N$ nodes simultaneously.
 
@@ -48,7 +48,7 @@ Zero → single-point binding
 
 ### 🔁 Node Temporal Stability Function
 
-\#field-node #decay #activation
+#field-node #decay #activation
 
 Probability that a node remains active at time $t$:
 
@@ -68,7 +68,7 @@ This models **node lifetime extension via stimulation**.
 
 ### 🌌 Eidolon Field Coherence Metric
 
-\#eidolon-field #structure #coherence
+#eidolon-field #structure #coherence
 
 Define global coherence:
 
@@ -90,7 +90,7 @@ Where:
 
 ### 🌱 Field Growth Trigger
 
-\#field-node #emergence #tension
+#field-node #emergence #tension
 
 At position $\vec{x}$, a node emerges if:
 

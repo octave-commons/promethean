@@ -208,4 +208,4 @@ Agents like Duck must:
 * [ ] Annotate legacy code with migration tags
 * [ ] Create base `README.md` templates for each service
 
-\#hashtags: #guidelines #promethean
+#hashtags: #guidelines #promethean
