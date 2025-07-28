@@ -25,6 +25,10 @@
 * Migrate server side sibilant libs to promethean architecture.
 
 * write simple ecosystem declaration library for new agents
+* Finalize `MIGRATION_PLAN.md`
+* Set up `Makefile` for Python + JS build/test/dev
+* Annotate legacy code with migration tags
+* Create base `README.md` templates for each service
 
 # 🟡 In Progress (limit: 4)
 
