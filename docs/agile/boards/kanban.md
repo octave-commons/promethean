@@ -6,19 +6,18 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] Build data structures for Eidolon field #codex-task #framework-core
+- [ ] Implement fragment ingestion with activation vectors #codex-task #framework-core
+- [ ] Detect contradictions in memory #codex-task #framework-core
+- [ ] Create permission gating layer #codex-task #framework-core
+- [ ] Evaluate and reward flow satisfaction #codex-task #framework-core
+- [ ] Identify ancestral resonance patterns #codex-task #framework-core
+- [ ] Suggest metaprogramming updates #codex-task #framework-core
+- [ ] Implement transcendence cascade #codex-task #framework-core
 
 
 ## Incoming
 
-- [ ] Implement transcendence cascade #codex-task #framework-core
-- [ ] Suggest metaprogramming updates #codex-task #framework-core
-- [ ] Identify ancestral resonance patterns #codex-task #framework-core
-- [ ] Evaluate and reward flow satisfaction #codex-task #framework-core
-- [ ] Create permission gating layer #codex-task #framework-core
-- [ ] Detect contradictions in memory #codex-task #framework-core
-- [ ] Implement fragment ingestion with activation vectors #codex-task #framework-core
-- [ ] Build data structures for Eidolon field #codex-task #framework-core
-- [ ] write simple ecosystem declaration library for new agents
 - [ ] Ensure GitHub-compatible markdown settings are documented
 - [ ] Write `vault-config/README.md` for Obsidian vault onboarding
 - [ ] Create `vault-config/.obsidian/` with Kanban and minimal vault setup
@@ -29,15 +28,16 @@ kanban-plugin: board
 ## Accepted (8)
 
 - [ ] write simple ecosystem declaration library for new agents
+- [ ] write simple ecosystem declaration library for new agents
 - [ ] Migrate portfolio client code to promethean
-- [ ] Structure vault to mirror `/services/`, `/agents/`, `/docs/`
 - [ ] Migrate server side sibilant libs to promethean architecture.
 - [ ] Migrate server side sibilant libs to promethean architecture.
 
 
 ## Breakdown (8)
 
-- [ ] Create base `README.md` templates for each service
+- [ ] [[Structure vault to mirror ` services `, ` agents `, ` docs `]]
+- [ ] [[Create base `README.md` templates for each service]]
 - [ ] Set up `Makefile` for Python + JS build/test/dev
 - [ ] Ensure GitHub-compatible markdown settings are documented
 - [ ] Finalize `MIGRATION_PLAN.md`
@@ -65,7 +65,6 @@ kanban-plugin: board
 
 ## 🟡 In Progress (4)
 
-- [ ] Migrate duck services to  promethean
 - [ ] Add vault instructions to main `README.md`
 - [ ] Write `vault-config/README.md` for Obsidian vault onboarding
 
@@ -73,6 +72,7 @@ kanban-plugin: board
 ## In Review
 
 - [ ] Migrating relevant modules from `riatzukiza.github.io` to `/site/` and `/docs/`
+- [ ] Migrate duck services to  promethean
 
 
 ## 🔵 Done
@@ -99,10 +99,18 @@ kanban-plugin: board
 
 
 
+## Prompt refinement
+
+
+
+## Agent thinking
+
+
+
 
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[true,null,false,false,false,true,false,false,false,false,true,true,true],"new-note-template":"node_modules/lodash/fp/__.js"}
+{"kanban-plugin":"board","list-collapse":[false,null,false,false,false,true,false,false,false,false,true,true,true,false,false],"new-note-template":"agile/templates/New Task.md","new-note-folder":"agile/Tasks"}
 ```
 %%
