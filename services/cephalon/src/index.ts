@@ -1,10 +1,11 @@
 
+console.log("Stuff and things...")
 import { Bot } from "./bot.ts";
-import * as dotenv from 'dotenv';
-dotenv.config({ path: '../../.env' });  // 👈 resolve from wherever you want
-
+// import * as dotenv from 'dotenv';
+// dotenv.config({ path: '../../.env' });  // 👈 resolve from wherever you want
 const AGENT_NAME = process.env.AGENT_NAME || "duck";
 
+console.log("Starting",AGENT_NAME, "Cephalon")
 
 
 const bot = new Bot({

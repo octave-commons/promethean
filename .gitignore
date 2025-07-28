@@ -13,3 +13,4 @@ agents/duck/chroma_data/
 .vscode/
 
 /node_modules/
+agents/duck/.tokens
