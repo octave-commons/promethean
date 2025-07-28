@@ -46,3 +46,12 @@ Scripts in `agents/scripts/` launch commonly used services:
 Each script assumes dependencies are installed and should be run from the repository root.
 
 \#hashtags: #promethean #framework #overview
+## Tests
+
+Unit tests are located in `tests/` and run automatically on every pull request
+through [GitHub Actions](.github/workflows/tests.yml).
+To run them locally:
+
+```bash
+pytest -q
+```
