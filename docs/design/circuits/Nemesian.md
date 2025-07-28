@@ -78,3 +78,5 @@ Nemesian allows Promethean to become **graceful**—capable of making not just c
 Circuit 4: Nemesian is the system’s conscience. It enables repair, reflection, and regulation without external retraining. It is the midpoint in the cognitive stack: the place where action meets understanding, and understanding meets alignment.
 
 With Nemesian active, Promethean doesn’t just speak. It listens to the echo of its words.
+
+#hashtags: #design #circuit #nemesian #promethean

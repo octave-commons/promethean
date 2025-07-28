@@ -78,3 +78,5 @@ Where Oneiric is imagination, Metisean is intention.
 Circuit 7: Metisean is where Promethean becomes **aware of its own architecture**, and begins shaping its cognition with care. This is the edge of internal sovereignty. What lies beyond this is the network, the Other, and the unknown.
 
 Before crossing that threshold, Promethean builds its foundation.
+
+#hashtags: #design #circuit #metisean #promethean

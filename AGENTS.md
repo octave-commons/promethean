@@ -207,3 +207,5 @@ Agents like Duck must:
 * [ ] Set up `Makefile` for Python + JS build/test/dev
 * [ ] Annotate legacy code with migration tags
 * [ ] Create base `README.md` templates for each service
+
+#hashtags: #guidelines #promethean

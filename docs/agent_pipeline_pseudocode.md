@@ -25,3 +25,5 @@ loop while agent active:
 
 The services communicate via message protocols under `bridge/` and may
 maintain memory or emotional state as configured in each agent.
+
+#hashtags: #agents #pseudocode #promethean

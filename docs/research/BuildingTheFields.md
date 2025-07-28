@@ -172,3 +172,4 @@ Ultimately, this franken-brain won’t be a monstrosity but rather a **collectiv
 - Dai et al. (2021), _Knowledge Neurons in Pretrained Transformers_ – identifying neurons that store specific facts and editing them
     
 - Meng et al. (2022), _Locating and Editing Factual Associations in GPT (ROME)_ – precise weight updates to modify factual knowledge
+#hashtags: #research #eidolon #promethean

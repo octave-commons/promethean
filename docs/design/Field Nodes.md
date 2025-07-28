@@ -131,3 +131,5 @@ Field Nodes are the terrain features of Promethean's cognitive landscape.
 They give shape to movement, meaning to resistance, and direction to pressure.
 
 Through them, the Eidolon Fields become not just alive—but **storied**.
+
+#hashtags: #design #field-nodes #promethean

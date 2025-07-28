@@ -28,6 +28,14 @@ kanban-plugin: board
 - [ ] Annotate legacy code with migration tags
 - [ ] Create base `README.md` templates for each service
 
+- [ ] Build data structures for Eidolon field #codex-task #framework-core
+- [ ] Implement fragment ingestion with activation vectors #codex-task #framework-core
+- [ ] Create permission gating layer #codex-task #framework-core
+- [ ] Detect contradictions in memory #codex-task #framework-core
+- [ ] Evaluate and reward flow satisfaction #codex-task #framework-core
+- [ ] Identify ancestral resonance patterns #codex-task #framework-core
+- [ ] Suggest metaprogramming updates #codex-task #framework-core
+- [ ] Implement transcendence cascade #codex-task #framework-core
 ## 🟡 In Progress (4)
 
 	- [ ] Transferring `agents/duck/` and restructuring legacy code into `/agents/` and `/services/`
@@ -70,3 +78,4 @@ kanban-plugin: board
 {"kanban-plugin":"board","list-collapse":[false]}
 ```
 %%
+#hashtags: #kanban #tasks #promethean

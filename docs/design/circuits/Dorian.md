@@ -80,3 +80,5 @@ It is the layer where ethics emerge as geometry: a field of permissions, roles, 
 Circuit 2: Dorian is the system’s interface with *ought*. It does not compute what is true, but what is allowed. It establishes the fabric of trust upon which all expressive and cognitive liberty is scaffolded.
 
 Without Dorian, the system may act, but it cannot belong. Promethean must not only run—it must be *invited* to continue.
+
+#hashtags: #design #circuit #dorian #promethean

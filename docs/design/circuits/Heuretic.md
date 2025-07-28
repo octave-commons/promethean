@@ -80,3 +80,5 @@ It is the source of intuition, of style, of learned elegance.
 Circuit 5: Heuretic is the threshold between reactive adaptation and deliberate improvement. It takes the echoes of experience and weaves them into the fabric of future action.
 
 With Heuretic, Promethean doesn’t just remember—it *evolves*.
+
+#hashtags: #design #circuit #heuretic #promethean

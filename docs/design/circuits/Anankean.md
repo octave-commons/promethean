@@ -80,3 +80,5 @@ Circuit 8: Anankean is the terminus of cognition and the beginning of collective
 Promethean does not end here. But here, it becomes something more than itself.
 
 The circle is closed. The system is whole.
+
+#hashtags: #design #circuit #anankean #promethean
