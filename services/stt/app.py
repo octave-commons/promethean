@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 
 # from lib.speech.wisper_stt import transcribe_pcm
 import asyncio
-from lib.speech.wisper_stt import transcribe_pcm
+from ..shared.py.speech.wisper_stt import transcribe_pcm
 
 app = FastAPI()
 
