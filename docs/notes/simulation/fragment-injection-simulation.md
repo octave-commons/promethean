@@ -71,3 +71,9 @@ You can continue injecting fragments like:
 Each one will bind to its own nexus and live for a few ticks before releasing.
 
 Want the next piece — maybe connecting a ripple callback to update eidolon field values?
+
+---
+
+Related notes: [[fragment-injection-simulation]], [[heartbeat-fragment-flow]], [[ripple-propagation-flow]] [[unique/index]]
+
+#tags: #simulation #design

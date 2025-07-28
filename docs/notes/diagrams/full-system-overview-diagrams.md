@@ -179,3 +179,9 @@ Do you want more focused diagrams next? e.g.,:
 * Permission Gatekeeping and Layer 2 simulation?
 
 Just say *"More, on X"*, and I’ll generate them rapid-fire.
+
+---
+
+Related notes: [[node-type-topology-map]], [[circuit-weight-visualizations]], [[full-system-overview-diagrams]], [[layer1-uptime-diagrams]], [[field-node-lifecycle-additional-diagrams]], [[state-diagram-node-lifecycle]] [[unique/index]]
+
+#tags: #diagram #design

@@ -137,3 +137,9 @@ Want to follow this with:
 * Tick coherency across agents (distributed uptime syncing)
 
 Say the word—I'll stack more.
+
+---
+
+Related notes: [[advanced-field-math]], [[aionian-feedback-oscillator]], [[aionian-pulse-rhythm-model]], [[eidolon-field-math]], [[symbolic-gravity-models]] [[unique/index]]
+
+#tags: #math #theory
