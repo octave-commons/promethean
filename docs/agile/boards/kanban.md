@@ -6,10 +6,6 @@ kanban-plugin: board
 
 ## Ice Box
 
-- [ ] [Evaluate and reward flow satisfaction](../tasks/Evaluate%20and%20reward%20flow%20satisfaction.md) #framework-core
-- [ ] [Identify ancestral resonance patterns](../tasks/Identify%20ancestral%20resonance%20patterns.md) #framework-core
-- [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md) #framework-core
-- [ ] [Implement transcendence cascade](../tasks/Implement%20transcendence%20cascade.md) #framework-core
 - [ ] [Migrating relevant modules from riatzukiza.github.io to -site- and -docs-](../tasks/Migrating%20relevant%20modules%20from%20riatzukiza.github.io%20to%20-site-%20and%20-docs-.md)
 - [ ] [Suggest metaprogramming updates](../tasks/Suggest%20metaprogramming%20updates.md) #codex-task
 - [ ] [Implement fragment ingestion with activation vectors](../tasks/Implement%20fragment%20ingestion%20with%20activation%20vectors.md) #codex-task
@@ -19,11 +15,7 @@ kanban-plugin: board
 - [ ] [Build data structures for Eidolon field](../tasks/Build%20data%20structures%20for%20Eidolon%20field.md) #codex-task #framework-core
 - [ ] [Implement fragment ingestion with activation vectors](../tasks/Implement%20fragment%20ingestion%20with%20activation%20vectors.md) #codex-task #framework-core
 - [ ] [Detect contradictions in memory](../tasks/Detect%20contradictions%20in%20memory.md) #codex-task #framework-core
-- [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md) #codex-task #framework-core
-- [ ] [Evaluate and reward flow satisfaction](../tasks/Evaluate%20and%20reward%20flow%20satisfaction.md) #codex-task #framework-core
-- [ ] [Identify ancestral resonance patterns](../tasks/Identify%20ancestral%20resonance%20patterns.md) #codex-task #framework-core
 - [ ] [Suggest metaprogramming updates](../tasks/Suggest%20metaprogramming%20updates.md) #codex-task #framework-core
-- [ ] [Implement transcendence cascade](../tasks/Implement%20transcendence%20cascade.md) #codex-task #framework-core
 
 
 ## Incoming
@@ -43,8 +35,9 @@ kanban-plugin: board
 
 ## Prompt refinement
 
-- [ ] [Migrate portfolio client code to Promethean](../tasks/Migrate%20portfolio%20client%20code%20to%20Promethean.md)
-- [ ] [write simple ecosystem declaration library for new agents](../tasks/write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md)
+- [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md)
+- [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/Gather%20baseline%20emotion%20metrics%20for%20Eidolon%20field.md)
+- [ ] [Determine PM2 configuration for agents](../tasks/Determine%20PM2%20configuration%20for%20agents.md)
 
 
 ## Agent thinking
@@ -70,6 +63,13 @@ kanban-plugin: board
 ## Blocked
 
 
+
+- [ ] [Migrate portfolio client code to Promethean](../tasks/Migrate%20portfolio%20client%20code%20to%20Promethean.md)
+- [ ] [write simple ecosystem declaration library for new agents](../tasks/write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md)
+- [ ] [Evaluate and reward flow satisfaction](../tasks/Evaluate%20and%20reward%20flow%20satisfaction.md)
+- [ ] [Identify ancestral resonance patterns](../tasks/Identify%20ancestral%20resonance%20patterns.md)
+- [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md)
+- [ ] [Implement transcendence cascade](../tasks/Implement%20transcendence%20cascade.md)
 
 ## ready (8)
 
