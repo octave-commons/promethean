@@ -105,8 +105,8 @@ kanban-plugin: board
 - [ ] Moved initial Duck 2.0 content into `/Promethean/`
 - [ ] Created canvas and populated `AGENTS.md`
 - [ ] Defined language strategy: Hy/Python + Sibilant/TS/JS hybrid
-- [ ] Vault root confirmed at repo root
-- [ ] Obsidian config strategy established: untracked `.obsidian/`, with example in `vault-config/`
+- [x] Vault root confirmed at repo root
+- [x] Obsidian config strategy established: untracked `.obsidian/`, with example in `vault-config/`
 
 
 ## 🧠 Notes
