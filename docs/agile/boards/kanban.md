@@ -6,66 +6,66 @@ kanban-plugin: board
 
 ## Ice Box
 
-- [ ] Build data structures for Eidolon field #codex-task #framework-core
-- [ ] Implement fragment ingestion with activation vectors #codex-task #framework-core
-- [ ] Detect contradictions in memory #codex-task #framework-core
-- [ ] Create permission gating layer #codex-task #framework-core
-- [ ] Evaluate and reward flow satisfaction #codex-task #framework-core
-- [ ] Identify ancestral resonance patterns #codex-task #framework-core
-- [ ] Suggest metaprogramming updates #codex-task #framework-core
-- [ ] Implement transcendence cascade #codex-task #framework-core
+- [ ] [[Build data structures for Eidolon field]] #codex-task #framework-core
+- [ ] [[Implement fragment ingestion with activation vectors]] #codex-task #framework-core
+- [ ] [[Detect contradictions in memory]] #codex-task #framework-core
+- [ ] [[Create permission gating layer]] #codex-task #framework-core
+- [ ] [[Evaluate and reward flow satisfaction]] #codex-task #framework-core
+- [ ] [[Identify ancestral resonance patterns]] #codex-task #framework-core
+- [ ] [[Suggest metaprogramming updates]] #codex-task #framework-core
+- [ ] [[Implement transcendence cascade]] #codex-task #framework-core
 
 
 ## Incoming
 
-- [ ] Ensure GitHub-compatible markdown settings are documented
-- [ ] Write `vault-config/README.md` for Obsidian vault onboarding
-- [ ] Create `vault-config/.obsidian/` with Kanban and minimal vault setup
-- [ ] Add starter notes: `[[eidolon_fields]]`, `[[cephalon_inner_monologue]]`
-- [ ] Start Eidolon
-- [ ] Smart Task templater
-- [ ] Add Ollama formally to pipeline
+- [ ] [[Ensure GitHub-compatible markdown settings are documented]]
+- [ ] [[Write vault-config README.md for Obsidian vault onboarding]]
+- [ ] [[Create vault-config .obsidian with Kanban and minimal vault setup]]
+- [ ] [[Add starter notes - eidolon_fields, cephalon_inner_monologue]]
+- [ ] [[Start Eidolon]]
+- [ ] [[Smart Task templater]]
+- [ ] [[Add Ollama formally to pipeline]]
 
 
 ## Accepted (8)
 
-- [ ] Migrate server side sibilant libs to promethean architecture.
-- [ ] Migrate server side sibilant libs to promethean architecture.
-- [ ] Annotate legacy code with migration tags
-* [ ] Add Ollama formally to pipeline
-* [ ] Smart Task templater
-* [ ] Start Eidolon
+- [ ] [[Migrate server side sibilant libs to promethean architecture]]
+- [ ] [[Migrate server side sibilant libs to promethean architecture]]
+- [ ] [[Annotate legacy code with migration tags]]
+* [ ] [[Add Ollama formally to pipeline]]
+* [ ] [[Smart Task templater]]
+* [ ] [[Start Eidolon]]
 
 
 ## Prompt refinement
 
-* [ ] Migrate portfolio client code to Promethean
-* [ ] write simple ecosystem declaration library for new agents
-* [ ] Implement fragment ingestion with activation vectors #codex-task
-* [ ] Detect contradictions in memory #codex-task
-* [ ] Suggest metaprogramming updates #codex-task
+* [ ] [[Migrate portfolio client code to Promethean]]
+* [ ] [[write simple ecosystem declaration library for new agents]]
+* [ ] [[Implement fragment ingestion with activation vectors]] #codex-task
+* [ ] [[Detect contradictions in memory]] #codex-task
+* [ ] [[Suggest metaprogramming updates]] #codex-task
 
 ## Agent thinking
 
 🧠 Conceptual or reflection tasks, good for Codex or Agent mode:
 
-* [ ] Evaluate and reward flow satisfaction #framework-core
-* [ ] Identify ancestral resonance patterns #framework-core
-* [ ] Implement transcendence cascade #framework-core
-* [ ] Create permission gating layer #framework-core
+* [ ] [[Evaluate and reward flow satisfaction]] #framework-core
+* [ ] [[Identify ancestral resonance patterns]] #framework-core
+* [ ] [[Implement transcendence cascade]] #framework-core
+* [ ] [[Create permission gating layer]] #framework-core
 
 ## Breakdown (8)
 
 - [ ] [[Create base `README.md` templates for each service]]
 - [ ] [[Set up `Makefile` for Python + JS build test dev]]
-- [ ] Ensure GitHub-compatible markdown settings are documented
-- [ ] Obsidian Kanban <-> Github Project Board Mirror system
-- [ ] Migrating relevant modules from `riatzukiza.github.io` to `/site/` and `/docs/`
+- [ ] [[Ensure GitHub-compatible markdown settings are documented]]
+- [ ] [[Obsidian Kanban <-> Github Project Board Mirror system]]
+- [ ] [[Migrating relevant modules from riatzukiza.github.io to -site- and -docs-]]
 
 
 ## Rejected
 
-- [ ] Add vault instructions to main `README.md` #Duplicate
+- [ ] [[Add vault instructions to main README.md]] #Duplicate
 
 
 ## Blocked
@@ -86,13 +86,13 @@ kanban-plugin: board
 
 ## 🟡 In Progress (4)
 
-- [ ] Add vault instructions to main `README.md`
+- [ ] [[Add vault instructions to main README.md]]
 
 
 ## In Review
 
-- [ ] Add `.obsidian/` to `.gitignore`
-- [ ] Write `vault-config/README.md` for Obsidian vault onboarding
+- [ ] [[Add .obsidian to .gitignore]]
+- [ ] [[Write vault-config README.md for Obsidian vault onboarding]]
 
 
 ## 🔵 Done
