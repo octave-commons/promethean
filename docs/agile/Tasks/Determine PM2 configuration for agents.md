@@ -1,6 +1,8 @@
 ## 🛠️ Task: Determine PM2 configuration for agents
 
-Establish a shared PM2 ecosystem or alternative process manager setup that all agents can rely on. Document the chosen approach in `MIGRATION_PLAN.md`.
+Establish a shared PM2 ecosystem or alternative process manager setup that all
+agents can rely on. Document the chosen approach in `MIGRATION_PLAN.md` and
+include startup instructions in each service README.
 
 ---
 
@@ -17,6 +19,7 @@ Establish a shared PM2 ecosystem or alternative process manager setup that all a
 - [ ] Review existing Makefile or npm scripts
 - [ ] Draft a sample `ecosystem.config.js`
 - [ ] Document instructions in `docs/MIGRATION_PLAN.md`
+- [ ] Show how environment variables are passed to each service
 
 ---
 
@@ -24,6 +27,7 @@ Establish a shared PM2 ecosystem or alternative process manager setup that all a
 
 - [ ] Prototype with Duck services
 - [ ] Validate restart behavior and log handling
+- [ ] Add `npm run start:all` that loads the ecosystem file
 - [ ] Share the config with the team for feedback
 
 ---

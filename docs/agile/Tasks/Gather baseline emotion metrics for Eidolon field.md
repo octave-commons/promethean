@@ -1,6 +1,7 @@
 ## 🛠️ Task: Gather baseline emotion metrics for Eidolon field
 
-Collect initial emotional state data to seed analysis and reward calculations. The metrics will be referenced by multiple tasks.
+Collect initial emotional state data to seed analysis and reward calculations.
+These numbers provide a reference point for future reinforcement logic.
 
 ---
 
@@ -15,16 +16,17 @@ Collect initial emotional state data to seed analysis and reward calculations. T
 ## 📦 Requirements
 
 - [ ] Decide on sampling frequency and duration
-- [ ] Implement a script to log raw emotional vectors
+- [ ] Implement a script `services/eidolon/scripts/collect_baseline.py`
+- [ ] Log raw vectors to `data/eidolon/raw/`
 - [ ] Summarize averages and ranges in a short report
 
 ---
 
 ## 📋 Subtasks
 
-- [ ] Run initial collection using current Eidolon service
-- [ ] Export to `data/eidolon/baseline.csv`
-- [ ] Update doc `eidolon-field-math.md` with methodology
+- [ ] Run initial collection using current Eidolon service (or mock data)
+- [ ] Export cleaned results to `data/eidolon/baseline.csv`
+- [ ] Update doc `eidolon-field-math.md` with methodology and assumptions
 
 ---
 

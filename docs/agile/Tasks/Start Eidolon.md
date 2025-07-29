@@ -1,24 +1,33 @@
 ## 🛠️ Task: Start Eidolon
 
-Placeholder task stub generated from kanban board.
+Bootstrap the **Eidolon** service that will manage emotion-state tracking and
+reward calculations. This task creates the initial folder structure and minimal
+code required to run a placeholder event loop.
 
 ---
 
 ## 🎯 Goals
 
-- Define clear objectives for "Start Eidolon".
+- Provide a runnable service skeleton in `services/eidolon/`
+- Mirror patterns used by `services/cephalon` for configuration and logging
+- Enable future integration with emotional metrics collection
 
 ---
 
 ## 📦 Requirements
 
-- [ ] Detail requirements.
+- [ ] Create package structure `services/eidolon/` with `__init__.py` and `main.py`
+- [ ] Implement a basic event loop that prints "Eidolon running" when executed
+- [ ] Add a placeholder config file `services/eidolon/config.json`
+- [ ] Include a README describing the service purpose
 
 ---
 
 ## 📋 Subtasks
 
-- [ ] Outline steps to implement.
+- [ ] Copy patterns from `services/stt/` for CLI entry point
+- [ ] Wire up a simple logging setup using `shared/py/utils`
+- [ ] Add an npm script or Makefile target to start Eidolon
 
 ---
 
