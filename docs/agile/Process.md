@@ -143,6 +143,14 @@ A board manager agent keeps this flow consistent.
 
 The human contributor has final say on priorities and merges, but the agent maintains board hygiene and surfaces gaps.
 
+
+Codex and the board manager agent participate throughout this flow. The board
+manager keeps tasks synced between the Kanban board and `agile/tasks/`, while
+Codex provides code or documentation when a card carries the `#codex-task` tag.
+During **Prompt Refinement** and **Agent Thinking**, the user and the agent talk
+through rough ideas until they can be broken down into actionable work. The agent
+suggests board movements based on metadata and helps enforce WIP limits.
+
 ---
 
 ## 🏷 Tags
