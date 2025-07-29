@@ -20,18 +20,17 @@ kanban-plugin: board
 
 ## Incoming
 
-- [ ] [Write vault-config README.md for Obsidian vault onboarding](../tasks/Write%20vault-config%20README.md%20for%20Obsidian%20vault%20onboarding.md)
-- [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md)
-- [ ] [Add starter notes - eidolon\_fields, cephalon\_inner\_monologue](../tasks/Add%20starter%20notes%20-%20eidolon_fields,%20cephalon_inner_monologue.md)
-- [ ] [Start Eidolon](../tasks/Start%20Eidolon.md)
-- [ ] [Smart Task templater](../tasks/Smart%20Task%20templater.md)
 - [ ] Clearly seperate service dependency  files
 - [ ] seperate all  testing pipelines  in github Actions
 - [ ] Move all testing to individual  services
+- [ ] update github actions to use makefile
+- [ ] Update makefile to have commands specific for agents
+- [ ] Update cephalon to use custom embedding function
 
 
 ## Rejected
 
+- [ ] [Write vault-config README.md for Obsidian vault onboarding](../tasks/Write%20vault-config%20README.md%20for%20Obsidian%20vault%20onboarding.md) #Duplicate
 - [ ] [Add vault instructions to main README.md](../tasks/Add%20vault%20instructions%20to%20main%20README.md.md) #Duplicate
 - [ ] [Ensure GitHub-compatible markdown settings are documented](../tasks/Ensure%20GitHub-compatible%20markdown%20settings%20are%20documented.md) #Duplicate
 
@@ -46,6 +45,10 @@ kanban-plugin: board
 - [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md)
 - [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/Gather%20baseline%20emotion%20metrics%20for%20Eidolon%20field.md)
 - [ ] [Determine PM2 configuration for agents](../tasks/Determine%20PM2%20configuration%20for%20agents.md)
+- [ ] [Add starter notes - eidolon\_fields, cephalon\_inner\_monologue](../tasks/Add%20starter%20notes%20-%20eidolon_fields,%20cephalon_inner_monologue.md)
+- [ ] [Smart Task templater](../tasks/Smart%20Task%20templater.md)
+- [ ] [Start Eidolon](../tasks/Start%20Eidolon.md)
+- [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md)
 
 
 ## Agent thinking
@@ -61,14 +64,13 @@ kanban-plugin: board
 
 ## Blocked
 
-
-
 - [ ] [Migrate portfolio client code to Promethean](../tasks/Migrate%20portfolio%20client%20code%20to%20Promethean.md)
 - [ ] [write simple ecosystem declaration library for new agents](../tasks/write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md)
 - [ ] [Evaluate and reward flow satisfaction](../tasks/Evaluate%20and%20reward%20flow%20satisfaction.md)
 - [ ] [Identify ancestral resonance patterns](../tasks/Identify%20ancestral%20resonance%20patterns.md)
 - [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md)
 - [ ] [Implement transcendence cascade](../tasks/Implement%20transcendence%20cascade.md)
+
 
 ## ready (8)
 
