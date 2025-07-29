@@ -26,14 +26,12 @@ kanban-plugin: board
 - [ ] [update github actions to use makefile](../tasks/update%20github%20actions%20to%20use%20makefile.md)
 - [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md)
 - [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
+- [ ] Clean up notes into design  docs
+- [ ] Describe github branching workflow
 - [ ] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md)
 - [ ] [Mirror shared utils with language-specific doc folders](../tasks/Mirror%20shared%20utils%20with%20language-specific%20doc%20folders.md)
 - [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md)
 - [ ] [Integrate synthesis-agent pass on unique to produce draft docs](../tasks/Integrate%20synthesis-agent%20pass%20on%20unique%20to%20produce%20draft%20docs.md)
-- [ ] Clean up notes into design  docs
-- [ ] Describe github branching workflow
-
-
 ## Rejected
 
 - [ ] [Write vault-config README.md for Obsidian vault onboarding](../tasks/Write%20vault-config%20README.md%20for%20Obsidian%20vault%20onboarding.md) #Duplicate
@@ -48,13 +46,19 @@ kanban-plugin: board
 
 ## Prompt refinement
 
-- [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md) #framework-core
-- [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/Gather%20baseline%20emotion%20metrics%20for%20Eidolon%20field.md) #framework-core
-- [ ] [Determine PM2 configuration for agents](../tasks/Determine%20PM2%20configuration%20for%20agents.md) #framework-core
-- [ ] [Add starter notes - eidolon\_fields, cephalon\_inner\_monologue](../tasks/Add%20starter%20notes%20-%20eidolon_fields,%20cephalon_inner_monologue.md) #framework-core
-- [ ] [Smart Task templater](../tasks/Smart%20Task%20templater.md) #framework-core
-- [ ] [Start Eidolon](../tasks/Start%20Eidolon.md) #framework-core
-- [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md) #framework-core
+- [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md)
+- [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/Gather%20baseline%20emotion%20metrics%20for%20Eidolon%20field.md)
+- [ ] [Determine PM2 configuration for agents](../tasks/Determine%20PM2%20configuration%20for%20agents.md)
+- [ ] [Add starter notes - eidolon\_fields, cephalon\_inner\_monologue](../tasks/Add%20starter%20notes%20-%20eidolon_fields,%20cephalon_inner_monologue.md)
+- [ ] [Smart Task templater](../tasks/Smart%20Task%20templater.md)
+- [ ] [Start Eidolon](../tasks/Start%20Eidolon.md)
+- [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md)
+- [ ] [Clearly separate service dependency files](../tasks/Clearly%20separate%20service%20dependency%20files.md)
+- [ ] [Separate all testing pipelines in GitHub Actions](../tasks/separate%20all%20testing%20pipelines%20in%20github%20Actions.md)
+- [ ] [Move all testing to individual services](../tasks/Move%20all%20testing%20to%20individual%20services.md)
+- [ ] [Update GitHub Actions to use makefile](../tasks/update%20github%20actions%20to%20use%20makefile.md)
+- [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md)
+- [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
 - [ ] Write meaningful tests for Cephalon
 
 
