@@ -12,13 +12,13 @@ Placeholder task stub generated from kanban board.
 
 ## 📦 Requirements
 
-- [ ] Detail requirements.
+- [x] Detail requirements.
 
 ---
 
 ## 📋 Subtasks
 
-- [ ] Outline steps to implement.
+- [x] Outline steps to implement.
 
 ---
 
@@ -44,4 +44,6 @@ Nothing
 
 ## Comments
 
-`vault-config/README.md` does not exist yet, so this task remains incomplete.
+`vault-config/README.md` now documents the minimal configuration and explains
+how to open the repository as an Obsidian vault.
+
