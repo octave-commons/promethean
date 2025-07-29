@@ -84,6 +84,8 @@ Codex is **not** allowed to:
 
 ## 🧠 Codex Mode Integration
 
+Codex collaborates with the board manager agent described in
+`docs/agile/AGENTS.md` to keep tasks in sync with the kanban workflow.
 Codex mode can:
 
 * Read from Obsidian Kanban boards, if they are stored in `docs/kanban.md` or elsewhere in the vault

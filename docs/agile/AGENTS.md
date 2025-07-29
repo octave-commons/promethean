@@ -1,6 +1,9 @@
 # 🤖 Agent: Board Manager
 
 This agent is responsible for maintaining and navigating the Kanban board in `agile/boards/kanban`.
+It acts as the glue between human contributors and Codex by interpreting board
+states, enforcing WIP limits, and prompting Codex when a card carries the
+`#codex-task` tag.
 
 ---
 
