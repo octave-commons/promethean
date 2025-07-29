@@ -131,6 +131,15 @@ Needs written `AGENT.md`, docstrings, or Markdown notes.
 
 Confirmed complete and aligned with system.
 
+## 🤖 Agent Collaboration
+
+Codex and the board manager agent participate throughout this flow. The board
+manager keeps tasks synced between the Kanban board and `agile/tasks/`, while
+Codex provides code or documentation when a card carries the `#codex-task` tag.
+During **Prompt Refinement** and **Agent Thinking**, the user and the agent talk
+through rough ideas until they can be broken down into actionable work. The agent
+suggests board movements based on metadata and helps enforce WIP limits.
+
 ---
 
 ## 🏷 Tags
