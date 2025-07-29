@@ -90,6 +90,7 @@ Codex mode can:
 * Use card titles as task names and tag them with `#in-progress`, `#todo`, etc
 * Generate PRs tied to board updates
 * Reflect status back to the board, though user review is always preferred
+* Follow the workflow in `docs/agile/Process.md` and board manager rules in `docs/agile/AGENTS.md`
 
 Codex mode **should not**:
 
