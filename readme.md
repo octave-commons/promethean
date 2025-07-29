@@ -73,6 +73,8 @@ This enables the Kanban plugin for task tracking so `docs/agile/boards/kanban.md
 renders as a board. Open the repository folder in Obsidian after copying the
 configuration. Feel free to customize the settings or install additional
 plugins locally. See `vault-config/README.md` for more details.
+To push tasks from the board to GitHub Projects, see `docs/board_sync.md` and the
+`github_board_sync.py` script.
 
 ## Tests
 
@@ -99,3 +101,16 @@ python scripts/kanban_to_issues.py
 
 Without a token the script performs a dry run and prints the issues that would be created.
 
+
+## Pre-commit Setup
+
+Documentation uses `[[wikilinks]]` inside the vault but they must be converted to standard markdown links before committing. A helper script `scripts/convert_wikilinks.py` runs automatically via [pre-commit](https://pre-commit.com/).
+
+Install the hook with:
+
+```bash
+pip install pre-commit
+pre-commit install
+```
+
+This ensures all modified markdown files are converted during `git commit`.

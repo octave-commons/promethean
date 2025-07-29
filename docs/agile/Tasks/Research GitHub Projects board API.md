@@ -12,13 +12,13 @@ We need to understand how to interact programmatically with GitHub Projects so o
 ---
 
 ## 📦 Requirements
-- [ ] Document relevant API endpoints
-- [ ] Summarize required auth tokens
+- [x] Document relevant API endpoints
+- [x] Summarize required auth tokens
 
 ---
 
 ## 📋 Subtasks
-- [ ] Read GitHub API documentation
+- [x] Read GitHub API documentation
 - [ ] Experiment with basic calls via `curl`
 - [ ] Outline how board data maps to GitHub structures
 

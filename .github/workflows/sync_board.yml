@@ -1,0 +1,24 @@
+name: Sync Board
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install requests
+      - name: Sync project board
+        env:
+          GITHUB_TOKEN: ${{ secrets.PROJECT_PAT || github.token }}
+          GITHUB_PROJECT_ID: ${{ secrets.PROJECT_COLUMN_ID }}
+        run: python scripts/github_board_sync.py
