@@ -22,14 +22,6 @@ kanban-plugin: board
 
 ## Incoming
 
-- [ ] Clearly seperate service dependency  files
-- [ ] seperate all  testing pipelines  in github Actions
-- [ ] Move all testing to individual  services
-- [ ] update github actions to use makefile
-- [ ] Update makefile to have commands specific for agents
-- [ ] Update cephalon to use custom embedding function
-
-
 ## Rejected
 
 - [ ] [Write vault-config README.md for Obsidian vault onboarding](../tasks/Write%20vault-config%20README.md%20for%20Obsidian%20vault%20onboarding.md) #Duplicate
@@ -51,6 +43,12 @@ kanban-plugin: board
 - [ ] [Smart Task templater](../tasks/Smart%20Task%20templater.md)
 - [ ] [Start Eidolon](../tasks/Start%20Eidolon.md)
 - [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md)
+- [ ] [Clearly separate service dependency files](../tasks/Clearly%20separate%20service%20dependency%20files.md)
+- [ ] [Separate all testing pipelines in GitHub Actions](../tasks/separate%20all%20testing%20pipelines%20in%20github%20Actions.md)
+- [ ] [Move all testing to individual services](../tasks/Move%20all%20testing%20to%20individual%20services.md)
+- [ ] [Update GitHub Actions to use makefile](../tasks/update%20github%20actions%20to%20use%20makefile.md)
+- [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md)
+- [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
 
 
 ## Agent thinking
