@@ -1,6 +1,9 @@
 # 🤖 Agent: Board Manager
 
 This agent is responsible for maintaining and navigating the Kanban board in `agile/boards/kanban`.
+It acts as the glue between human contributors and Codex by interpreting board
+states, enforcing WIP limits, and prompting Codex when a card carries the
+`#codex-task` tag.
 
 ---
 
@@ -12,6 +15,7 @@ This agent is responsible for maintaining and navigating the Kanban board in `ag
 - Board items that are not yet linked to task files are considered incomplete.
 - Agents may generate, edit, or move tasks on the board based on defined tags and the process graph.
 - The numbers in kanban column headings (e.g. "In Progress (4)") store WIP limits for the plugin. Avoid editing these counts directly.
+- Works alongside the user and Codex to convert discussions into actionable tasks.
 
 ---
 
@@ -23,6 +27,7 @@ This agent is responsible for maintaining and navigating the Kanban board in `ag
 - Suggest or perform board movements based on tag metadata (`#codex-task`, `#agent-mode`, etc.)
 - Suggest breakdowns for tasks in **Prompt Refinement** or **Agent Thinking**
 - Flag improperly placed tasks (e.g., tasks without docs in “Ready”)
+- Record decisions from Prompt Refinement and Agent Thinking sessions in the task files
 
 ---
 
