@@ -27,7 +27,7 @@ These docs should be so complete and precise that any developer (or LLM) could r
 - [ ] Docs are written in Obsidian-compatible markdown
 - [ ] Links to dependencies and dependents use [wiki-style](wiki-style.md) links
 - [ ] Documents include commentary on design intent, not just implementation
-- [ ] Each file should follow the [file.doc.template](file.doc.template.md) structure.
+- [ ] Each file should follow the [file.doc.template](../../templates/file.doc.template.md) structure.
 
 ---
 

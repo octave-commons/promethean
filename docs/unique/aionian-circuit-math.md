@@ -140,6 +140,6 @@ Say the word—I'll stack more.
 
 ---
 
-Related notes: [[advanced-field-math]], [[aionian-feedback-oscillator]], [[aionian-pulse-rhythm-model]], [[eidolon-field-math]], [[symbolic-gravity-models]] [[unique/index]]
+Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../notes/math/aionian-feedback-oscillator|aionian-feedback-oscillator]], [[../notes/math/aionian-pulse-rhythm-model|aionian-pulse-rhythm-model]], [[../notes/math/eidolon-field-math|eidolon-field-math]], [[../notes/math/symbolic-gravity-models|symbolic-gravity-models]] [[index|unique/index]]
 
 #tags: #math #theory
