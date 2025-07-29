@@ -48,16 +48,18 @@ Each script assumes dependencies are installed and should be run from the reposi
 #hashtags: #promethean #framework #overview
 ## Obsidian Vault
 
-This repository is also an Obsidian vault. To use the provided baseline
-configuration, copy the contents of `vault-config/.obsidian/` to a local
-`.obsidian/` folder:
+This repository doubles as an Obsidian vault. If you would like to view the
+documentation inside Obsidian, copy the baseline configuration provided in
+`vault-config/.obsidian/` to a local `.obsidian/` directory:
 
 ```bash
 cp -r vault-config/.obsidian .obsidian
 ```
 
-This enables the Kanban plugin for task tracking. You can customize the
-configuration or install additional plugins as needed.
+This enables the Kanban plugin for task tracking so `docs/agile/boards/kanban.md`
+renders as a board. Open the repository folder in Obsidian after copying the
+configuration. Feel free to customize the settings or install additional
+plugins locally. See `vault-config/README.md` for more details.
 
 ## Tests
 

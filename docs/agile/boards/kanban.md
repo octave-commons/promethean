@@ -86,8 +86,8 @@ kanban-plugin: board
 
 ## 🟡 In Progress (4)
 
-- [ ] [Add vault instructions to main README.md](../Tasks/Add%20vault%20instructions%20to%20main%20README.md.md)
-- [ ] [Write vault-config README.md for Obsidian vault onboarding](../Tasks/Write%20vault-config%20README.md%20for%20Obsidian%20vault%20onboarding.md)
+- [x] [Add vault instructions to main README.md](../Tasks/Add%20vault%20instructions%20to%20main%20README.md.md)
+- [x] [Write vault-config README.md for Obsidian vault onboarding](../Tasks/Write%20vault-config%20README.md%20for%20Obsidian%20vault%20onboarding.md)
 
 
 ## In Review
