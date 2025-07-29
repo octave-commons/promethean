@@ -1,4 +1,7 @@
 name: Sync Board
+permissions:
+  contents: read
+  projects: write
 
 on:
   push:
