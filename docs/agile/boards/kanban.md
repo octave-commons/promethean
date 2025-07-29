@@ -3,8 +3,6 @@
 kanban-plugin: board
 
 ---
-<!-- Numbers in column headings (e.g. "In Progress (4)") track WIP limits for the
-     Obsidian Kanban plugin. Do not edit these counts manually. -->
 
 ## Ice Box
 
@@ -28,6 +26,7 @@ kanban-plugin: board
 - [ ] update github actions to use makefile
 - [ ] Update makefile to have commands specific for agents
 - [ ] Update cephalon to use custom embedding function
+- [ ] Clean up notes into design  docs
 
 
 ## Rejected
