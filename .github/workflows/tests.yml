@@ -28,10 +28,9 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Run Cephalon Tests
+      - name: Run JS/TS Tests
         run: |
-          cd services/cephalon && npm ci && npm test && cd ../..
+          npm install
+          npm ci
+          npm test
 
-      - name: Run Embedder Tests
-        run: |
-          cd services/discord-embedder && npm ci && npm test && cd ../..
