@@ -1,52 +1,41 @@
-## 🛠️ Task: Update GitHub Actions to use makefile
+## 🛠️ Task: update GitHub Actions to use Makefile
 
-Our CI scripts currently duplicate install and build logic. By invoking the
-Makefile we can keep the workflow files minimal and ensure local and CI steps
-stay in sync.
+CI workflows should call standardized Makefile targets rather than duplicating commands. This keeps automation consistent with the design docs.
 
 ---
 
 ## 🎯 Goals
-
-- Delegate build and test steps to `make` commands.
-- Reduce maintenance overhead when build logic changes.
-- Demonstrate usage of the Makefile in automation.
+- Invoke `make test` and `make build` from workflows
+- Reduce script duplication across jobs
 
 ---
 
 ## 📦 Requirements
-
-- [ ] Add `make ci` target that installs deps and runs tests.
-- [ ] Modify existing workflow files to call `make ci`.
-- [ ] Ensure matrix jobs still set up language runtimes properly.
+- [ ] Modify existing workflow files to call Makefile targets
+- [ ] Ensure the Makefile covers setup for all services
 
 ---
 
 ## 📋 Subtasks
-
-- [ ] Implement `make ci` in the Makefile.
-- [ ] Update `.github/workflows/test.yml` (or equivalents) to use it.
-- [ ] Remove redundant install commands from workflows.
-- [ ] Verify workflows pass locally via `act` or remote run.
+- [ ] Audit current workflow steps
+- [ ] Add `make lint` and `make test` usage
+- [ ] Verify environment variables for PM2
 
 ---
 
 ## 🔗 Related Epics
-
-#framework-core
+#cicd #devops
 
 ---
 
 ## ⛓️ Blocked By
-
-Nothing
+- Clearly seperate service dependency files
 
 ## ⛓️ Blocks
-
-Nothing
+- Update Makefile to have commands specific for agents
 
 ---
 
 ## 🔍 Relevant Links
-
 - [kanban](../boards/kanban.md)
+- [Process](../Process.md)

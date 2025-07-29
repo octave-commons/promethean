@@ -1,52 +1,41 @@
-## 🛠️ Task: Update makefile to have commands specific for agents
+## 🛠️ Task: Update Makefile to have commands specific for agents
 
-Extend the project Makefile with helper commands for managing individual
-agents. Each agent should have shortcuts for install, run and clean steps so
-contributors can work on them without affecting the rest of the repo.
+The monorepo hosts multiple agents. The Makefile should expose targets to launch or test each agent individually as referenced in the migration plan.
 
 ---
 
 ## 🎯 Goals
-
-- Provide `make agent-<name>` style commands to start a specific agent.
-- Simplify setup with `make install-<name>` for agent dependencies.
-- Keep the Makefile readable and documented.
+- `make start:duck` or similar commands
+- Reusable patterns for any future agent
 
 ---
 
 ## 📦 Requirements
-
-- [ ] Discover all agent entry points in `agents/`.
-- [ ] Add `install`, `start` and `clean` targets per agent.
-- [ ] Document the commands in `agents/README.md`.
+- [ ] Define agent-specific PM2 targets
+- [ ] Document usage in the root README
 
 ---
 
 ## 📋 Subtasks
-
-- [ ] Audit current Makefile and identify common patterns.
-- [ ] Create templated rules for agent actions.
-- [ ] Test commands against at least one agent (Duck).
-- [ ] Update CI scripts if necessary.
+- [ ] Extend current Makefile with per-agent start/stop
+- [ ] Provide example for Duck
+- [ ] Add placeholder for new agents
 
 ---
 
 ## 🔗 Related Epics
-
-#framework-core
+#devops
 
 ---
 
 ## ⛓️ Blocked By
-
-Nothing
+- update GitHub Actions to use makefile
 
 ## ⛓️ Blocks
-
 Nothing
 
 ---
 
 ## 🔍 Relevant Links
-
 - [kanban](../boards/kanban.md)
+- [MIGRATION_PLAN](../MIGRATION_PLAN.md)
