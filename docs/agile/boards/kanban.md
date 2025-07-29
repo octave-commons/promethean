@@ -53,11 +53,10 @@ kanban-plugin: board
 
 ## Breakdown (8)
 
-- [ ] [Create base `README.md` templates for each service](../Tasks/Create%20base%20%60README.md%60%20templates%20for%20each%20service.md)
-- [ ] [[Set up `Makefile` for Python + JS build test dev]]
 - [ ] [Ensure GitHub-compatible markdown settings are documented](../Tasks/Ensure%20GitHub-compatible%20markdown%20settings%20are%20documented.md)
 - [ ] [Obsidian Kanban Github Project Board Mirror system](../Tasks/Obsidian%20Kanban%20Github%20Project%20Board%20Mirror%20system.md)
 - [ ] [Migrating relevant modules from riatzukiza.github.io to -site- and -docs-](../Tasks/Migrating%20relevant%20modules%20from%20riatzukiza.github.io%20to%20-site-%20and%20-docs-.md)
+- [ ] [Write vault-config README.md for Obsidian vault onboarding](../Tasks/Write%20vault-config%20README.md%20for%20Obsidian%20vault%20onboarding.md)
 
 
 ## Rejected
@@ -71,8 +70,6 @@ kanban-plugin: board
 
 ## ready (8)
 
-- [ ] [Finalize `MIGRATION_PLAN.md`](../Tasks/Finalize%20%60MIGRATION_PLAN.md%60.md)
-- [ ] [Structure vault to mirror ` services `, ` agents `, ` docs `](Structure%20vault%20to%20mirror%20`%20services%20`,%20`%20agents%20`,%20`%20docs%20`.md)
 
 
 ## 🟢 To Do (8)
@@ -82,17 +79,20 @@ kanban-plugin: board
 ## 🟡 In Progress (4)
 
 - [ ] [Add vault instructions to main README.md](../Tasks/Add%20vault%20instructions%20to%20main%20README.md.md)
+- [ ] [Create base `README.md` templates for each service](../Tasks/Create%20base%20%60README.md%60%20templates%20for%20each%20service.md)
+- [ ] [Structure vault to mirror ` services `, ` agents `, ` docs `](Structure%20vault%20to%20mirror%20`%20services%20`,%20`%20agents%20`,%20`%20docs%20`.md)
+- [ ] [[Set up `Makefile` for Python + JS build test dev]]
 
 
 ## In Review
 
-- [ ] [Add .obsidian to .gitignore](../Tasks/Add%20.obsidian%20to%20.gitignore.md)
-- [ ] [Write vault-config README.md for Obsidian vault onboarding](../Tasks/Write%20vault-config%20README.md%20for%20Obsidian%20vault%20onboarding.md)
+- [ ] [Finalize `MIGRATION_PLAN.md`](../Tasks/Finalize%20%60MIGRATION_PLAN.md%60.md)
 
 
 ## 🔵 Done
 
 **Complete**
+- [x] [Add .obsidian to .gitignore](../Tasks/Add%20.obsidian%20to%20.gitignore.md)
 - [x] Migrate duck services to  promethean
 - [x] Initialize Obsidian vault at repo root
 - [x] Obsidian vault is initialized at the root and actively being configured
