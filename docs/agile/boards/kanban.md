@@ -32,6 +32,8 @@ kanban-plugin: board
 - [ ] [Mirror shared utils with language-specific doc folders](../tasks/Mirror%20shared%20utils%20with%20language-specific%20doc%20folders.md)
 - [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md)
 - [ ] [Integrate synthesis-agent pass on unique to produce draft docs](../tasks/Integrate%20synthesis-agent%20pass%20on%20unique%20to%20produce%20draft%20docs.md)
+
+
 ## Rejected
 
 - [ ] [Write vault-config README.md for Obsidian vault onboarding](../tasks/Write%20vault-config%20README.md%20for%20Obsidian%20vault%20onboarding.md) #Duplicate
@@ -111,12 +113,12 @@ kanban-plugin: board
 
 - [ ] [Set up Makefile for Python + JS build test dev](../tasks/Set%20up%20`Makefile`%20for%20Python%20+%20JS%20build%20test%20dev.md) #cicd
 - [ ] [Structure vault to mirror services, agents, docs](../tasks/Structure%20vault%20to%20mirror%20`%20services%20`,%20`%20agents%20`,%20`%20docs%20`.md) #cephalon
+- [ ] [Finalize MIGRATION\_PLAN.md](../tasks/Finalize%20`MIGRATION_PLAN.md`.md) #framework-core
+- [ ] [Create base README.md templates for each service](../tasks/Create%20base%20`README.md`%20templates%20for%20each%20service.md) #doc-this
 
 
 ## In Review
 
-- [ ] [Finalize MIGRATION\_PLAN.md](../tasks/Finalize%20`MIGRATION_PLAN.md`.md) #framework-core
-- [ ] [Create base README.md templates for each service](../tasks/Create%20base%20`README.md`%20templates%20for%20each%20service.md) #doc-this
 
 
 ## 🔵 Done
