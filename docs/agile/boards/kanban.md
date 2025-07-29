@@ -27,6 +27,7 @@ kanban-plugin: board
 - [ ] Update makefile to have commands specific for agents
 - [ ] Update cephalon to use custom embedding function
 - [ ] Clean up notes into design  docs
+- [ ] Describe github branching workflow
 
 
 ## Rejected
