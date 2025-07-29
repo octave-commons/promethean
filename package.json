@@ -9,7 +9,6 @@
         "pm2": "^6.0.8",
         "screenshot-desktop": "^1.15.1",
         "tokenizers": "^0.13.3",
-        "tokenizers-win32-x64-msvc": "^0.13.4-rc1",
         "typescript": "^5.8.3"
     },
     "devDependencies": {
