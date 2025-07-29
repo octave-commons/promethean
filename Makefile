@@ -8,7 +8,10 @@ TS_OUT=shared/js
 
 # === High-Level Targets ===
 
-.PHONY: all build clean lint format test
+.PHONY: all build clean lint format test setup start stop start-tts start-stt stop-tts stop-stt
+
+SERVICES_PY=services/stt services/tts services/discord-indexer
+SERVICES_JS=services/cephalon services/discord-embedder
 
 all: build
 
@@ -68,4 +71,27 @@ format-js:
 	prettier --write shared/js/ services/**/
 
 test-js:
-	npm test
+        npm test
+
+# === Service Management ===
+
+setup:
+	pipenv install --dev
+	@for d in $(SERVICES_PY); do \
+	cd $$d && pipenv install --dev && cd - >/dev/null; \
+	done
+	@for d in $(SERVICES_JS); do \
+		cd $$d && npm install && cd - >/dev/null; \
+	done
+
+start:
+	pm2 start ecosystem.config.js
+
+stop:
+	pm2 stop ecosystem.config.js || true
+
+start-%:
+	pm2 start ecosystem.config.js --only $*
+
+stop-%:
+	pm2 stop $* || true
