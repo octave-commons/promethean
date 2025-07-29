@@ -20,14 +20,14 @@ kanban-plugin: board
 
 ## Incoming
 
+- [ ] [Clearly seperate service dependency  files](../tasks/Clearly%20seperate%20service%20dependency%20files.md)
+- [ ] [seperate all  testing pipelines  in github Actions](../tasks/seperate%20all%20testing%20pipelines%20in%20github%20Actions.md)
+- [ ] [Move all testing to individual  services](../tasks/Move%20all%20testing%20to%20individual%20services.md)
+- [ ] [update github actions to use makefile](../tasks/update%20github%20actions%20to%20use%20makefile.md)
+- [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md)
+- [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
 - [ ] Clean up notes into design  docs
 - [ ] Describe github branching workflow
-- [ ] Clearly seperate service dependency  files
-- [ ] seperate all  testing pipelines  in github Actions
-- [ ] Move all testing to individual  services
-- [ ] update github actions to use makefile
-- [ ] Update makefile to have commands specific for agents
-- [ ] Update cephalon to use custom embedding function
 - [ ] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md)
 - [ ] [Mirror shared utils with language-specific doc folders](../tasks/Mirror%20shared%20utils%20with%20language-specific%20doc%20folders.md)
 - [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md)
