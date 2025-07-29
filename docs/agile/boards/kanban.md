@@ -50,7 +50,6 @@ kanban-plugin: board
 - [ ] [Add starter notes - eidolon\_fields, cephalon\_inner\_monologue](../tasks/Add%20starter%20notes%20-%20eidolon_fields,%20cephalon_inner_monologue.md)
 - [ ] [Smart Task templater](../tasks/Smart%20Task%20templater.md)
 - [ ] [Start Eidolon](../tasks/Start%20Eidolon.md)
-- [ ] Write meaningful tests for Cephalon
 - [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md)
 
 
@@ -63,6 +62,15 @@ kanban-plugin: board
 ## Breakdown (10)
 
 - [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
+- [ ] [Add unit tests for date_tools.py](../tasks/Add_unit_tests_for_date_tools.py.md) #codex-task #testing
+- [ ] [Add unit tests for GUI helpers](../tasks/Add_unit_tests_for_gui_helpers.md) #codex-task #testing
+- [ ] [Add unit tests for wav_processing](../tasks/Add_unit_tests_for_wav_processing.md) #codex-task #testing
+- [ ] [Add STT service tests](../tasks/Add_STT_service_tests.md) #codex-task #testing
+- [ ] [Add TTS service tests](../tasks/Add_TTS_service_tests.md) #codex-task #testing
+- [ ] [Write meaningful tests for Cephalon](../tasks/Write_meaningful_tests_for_Cephalon.md) #codex-task #testing
+- [ ] [Fix Makefile test target](../tasks/Fix_makefile_test_target.md) #codex-task #testing
+- [ ] [Document local testing setup](../tasks/Document_local_testing_setup.md) #codex-task #testing
+- [ ] [Finalize STT workflow](../tasks/Finalize_STT_workflow.md) #codex-task #testing
 
 
 ## Blocked
