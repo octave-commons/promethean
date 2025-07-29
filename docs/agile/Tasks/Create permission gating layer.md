@@ -1,24 +1,33 @@
 ## 🛠️ Task: Create permission gating layer
 
-Placeholder task stub generated from kanban board.
+Introduce a middleware layer that checks whether an action or
+information request is allowed before it reaches core services.  This
+is based on the "Dorian Permission Gate" equations in our math notes.
 
 ---
 
 ## 🎯 Goals
 
-- Define clear objectives for "Create permission gating layer".
+- Prevent unauthorized commands from propagating through the system
+- Allow per-agent rule sets and default fallbacks
+- Log gate denials for auditing
 
 ---
 
 ## 📦 Requirements
 
-- [ ] Detail requirements.
+- [ ] Implement gate logic as a Python module (`shared/py/permission_gate.py`)
+- [ ] Support weight/threshold config via YAML
+- [ ] Expose a simple `check_permission(agent, action)` API
+- [ ] Document schema expectations in [AGENTS.md](../../AGENTS.md)
 
 ---
 
 ## 📋 Subtasks
 
-- [ ] Outline steps to implement.
+- [ ] Translate the Dorian equation from [symbolic-gravity-models](../../notes/math/symbolic-gravity-models.md)
+- [ ] Add unit tests for grant/deny cases
+- [ ] Tie into Cephalon’s command router
 
 ---
 
@@ -30,14 +39,19 @@ Placeholder task stub generated from kanban board.
 
 ## ⛓️ Blocked By
 
-Nothing
+- Requires agreement on permission schema in `AGENTS.md`
 
 ## ⛓️ Blocks
 
-Nothing
+- Future multi-user interfaces
 
 ---
 
 ## 🔍 Relevant Links
 
 - [kanban](../boards/kanban.md)
+
+## ❓ Questions
+
+- What format should permission rules use—YAML or JSON?
+- Do we need real-time updates or is a static config sufficient?
