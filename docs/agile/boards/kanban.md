@@ -50,6 +50,7 @@ kanban-plugin: board
 - [ ] [Add starter notes - eidolon\_fields, cephalon\_inner\_monologue](../tasks/Add%20starter%20notes%20-%20eidolon_fields,%20cephalon_inner_monologue.md)
 - [ ] [Smart Task templater](../tasks/Smart%20Task%20templater.md)
 - [ ] [Start Eidolon](../tasks/Start%20Eidolon.md)
+- [ ] Write meaningful tests for Cephalon
 - [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md)
 
 
