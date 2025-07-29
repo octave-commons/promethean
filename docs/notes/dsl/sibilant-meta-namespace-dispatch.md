@@ -2,4 +2,4 @@ Sibilant's macros can be organized by namespace to avoid runtime `if` checks. By
 
 Related notes: [[sibilant-cross-target-macros]], [[template-based-compilation]] [[../../unique/index|unique/index]]
 
-#tags: #sibilant #macros #namespaces
+#tags: #notes #dsl

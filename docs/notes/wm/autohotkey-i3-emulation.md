@@ -4,4 +4,4 @@ This note explains how to wire up hotkeys that cycle window groups, launch termi
 
 Related notes: [[lisp-window-manager-dsl]], [[typescript-group-manager-komorebi]], [[windows-npu-tiling-strategy]] [[../../unique/index|unique/index]]
 
-#tags: #windows #autohotkey #tiling
+#tags: #notes #wm

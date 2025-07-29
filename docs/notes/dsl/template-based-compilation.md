@@ -2,4 +2,4 @@ With Sibilant you can treat macros as string templates, effectively compiling co
 
 Related notes: [[sibilant-metacompiler-overview]], [[sibilant-cross-target-macros]] [[../../unique/index|unique/index]]
 
-#tags: #sibilant #codegen #templates
+#tags: #notes #dsl

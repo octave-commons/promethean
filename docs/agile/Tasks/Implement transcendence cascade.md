@@ -56,3 +56,5 @@ experimental feature inspired by the Anankean circuit.
 
 - How should conflicting outputs from Cephalon and Eidolon be resolved?
 - What user-facing cue toggles the cascade mode?
+
+#tags: #agile #task

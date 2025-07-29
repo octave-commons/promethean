@@ -77,4 +77,4 @@ Want me to embed these into the **Field Node Lifecycle** document under a “Mor
 
 Related notes: [[node-type-topology-map]], [[circuit-weight-visualizations]], [[full-system-overview-diagrams]], [[layer1-uptime-diagrams]], [[field-node-lifecycle-additional-diagrams]], [[state-diagram-node-lifecycle]] [[../../unique/index|unique/index]]
 
-#tags: #diagram #design
+#tags: #notes #diagram

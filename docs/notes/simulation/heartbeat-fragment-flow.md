@@ -89,4 +89,4 @@ Let me know when you're ready for ripple propagation back into the field — so 
 
 Related notes: [[fragment-injection-simulation]], [[heartbeat-fragment-flow]], [[ripple-propagation-flow]] [[../../unique/index|unique/index]]
 
-#tags: #simulation #design
+#tags: #notes #simulation

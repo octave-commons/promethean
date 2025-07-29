@@ -129,3 +129,5 @@ It is designed for:
 ---
 
 #hashtags: #project-structure #promethean #repo-layout #architecture #mono-repo
+
+#tags: #docs

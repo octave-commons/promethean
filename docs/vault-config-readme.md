@@ -52,3 +52,5 @@ If you're unsure, start with the Kanban.
 ---
 
 #hashtags: #obsidian #vault #setup #docs #knowledge-graph
+
+#tags: #docs

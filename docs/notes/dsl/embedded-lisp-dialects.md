@@ -2,4 +2,4 @@ A quick overview of mainstream and embedded Lisp dialects, from Common Lisp and 
 
 Related notes: [[universal-lisp-interface]] [[../../unique/index|unique/index]]
 
-#tags: #lisp #embedding #dsl
+#tags: #notes #dsl

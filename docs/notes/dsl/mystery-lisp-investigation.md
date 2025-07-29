@@ -2,4 +2,4 @@ Trying to recall a Lisp dialect used in an academic setting: it wasn't Hy or Jul
 
 Related notes: [[embedded-lisp-dialects]] [[../../unique/index|unique/index]]
 
-#tags: #lisp #cython #history
+#tags: #notes #dsl

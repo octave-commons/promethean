@@ -173,3 +173,5 @@ Ultimately, this franken-brain won’t be a monstrosity but rather a **collectiv
     
 - Meng et al. (2022), _Locating and Editing Factual Associations in GPT (ROME)_ – precise weight updates to modify factual knowledge
 #hashtags: #research #eidolon #promethean
+
+#tags: #research

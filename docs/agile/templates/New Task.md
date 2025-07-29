@@ -61,3 +61,5 @@ Nothing
 - [[services-overview]]
 - [[makefile-examples]]
 - [[project-structure]]
+
+#tags: #agile #template

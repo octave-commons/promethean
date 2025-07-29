@@ -4,3 +4,5 @@ Hy translation of environment-based configuration values.
 Based on `shared/py/settings.py`.
 
 #hashtags: #hy #settings #promethean
+
+#tags: #docs

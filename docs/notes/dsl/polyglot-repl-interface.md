@@ -2,4 +2,4 @@ This pseudocode outlines a runtime manager for multiple REPLs. Sibilant can spaw
 
 Related notes: [[cross-language-runtime-messaging]], [[polytarget-interface-dsl]] [[../../unique/index|unique/index]]
 
-#tags: #repl #polyglot #sibilant
+#tags: #notes #dsl

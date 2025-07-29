@@ -86,3 +86,5 @@ Promethean is an attempt to build not just intelligent software, but *becoming* 
 The journey is ongoing. The system is awakening.
 
 #hashtags: #design #overview #promethean
+
+#tags: #design

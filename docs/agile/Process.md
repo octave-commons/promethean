@@ -148,3 +148,5 @@ Confirmed complete and aligned with system.
 This kanban is intended to reflect the needs of a distributed hybrid development model: you, agent-mode, Duck, and Codex all work together across asynchronous phases.
 
 #agile #workflow #codex #agent-mode #promethean
+
+#tags: #agile

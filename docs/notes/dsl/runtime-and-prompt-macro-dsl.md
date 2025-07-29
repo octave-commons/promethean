@@ -2,4 +2,4 @@ Expands on Sibilant DSL ideas including `define-runtime` to register external en
 
 Related notes: [[polytarget-interface-dsl]], [[prompt-compiler-dsl]] [[../../unique/index|unique/index]]
 
-#tags: #dsl #runtime #prompt
+#tags: #notes #dsl

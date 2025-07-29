@@ -80,3 +80,5 @@ Circuit 4: Nemesian is the system’s conscience. It enables repair, reflection,
 With Nemesian active, Promethean doesn’t just speak. It listens to the echo of its words.
 
 #hashtags: #design #circuit #nemesian #promethean
+
+#tags: #design #circuits

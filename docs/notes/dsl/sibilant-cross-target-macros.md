@@ -2,4 +2,4 @@ A target system for Sibilant lets macros emit different code depending on the ch
 
 Related notes: [[sibilant-meta-namespace-dispatch]], [[template-based-compilation]] [[../../unique/index|unique/index]]
 
-#tags: #sibilant #crosscompile #macros
+#tags: #notes #dsl

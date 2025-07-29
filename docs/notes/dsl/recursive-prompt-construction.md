@@ -2,4 +2,4 @@ A reflective system for building prompts: each LLM call generates output that is
 
 Related notes: [[prompt-compiler-dsl]], [[runtime-and-prompt-macro-dsl]] [[../../unique/index|unique/index]]
 
-#tags: #prompt #llm #reflection
+#tags: #notes #dsl

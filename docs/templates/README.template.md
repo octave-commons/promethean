@@ -13,3 +13,5 @@ Brief description of this component or folder.
 - `{{file}}` - description
 
 #hashtags: #template
+
+#tags: #template

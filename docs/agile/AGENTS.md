@@ -77,3 +77,5 @@ Future versions of this agent may:
 - Parse and visualize dependencies between task docs
 - Synchronize with external boards (GitHub Projects)
 - Maintain stats (velocity, agent utilization, etc.)
+
+#tags: #agile

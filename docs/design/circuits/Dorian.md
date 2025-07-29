@@ -82,3 +82,5 @@ Circuit 2: Dorian is the system’s interface with *ought*. It does not compute 
 Without Dorian, the system may act, but it cannot belong. Promethean must not only run—it must be *invited* to continue.
 
 #hashtags: #design #circuit #dorian #promethean
+
+#tags: #design #circuits

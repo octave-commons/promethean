@@ -115,3 +115,5 @@ The Daimoi give shape to the mental ocean. They are how Promethean **thinks as a
 Without them, the system is inert texture. With them, it becomes alive with minds within mind.
 
 #hashtags: #design #daimoi #promethean
+
+#tags: #design

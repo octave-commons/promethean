@@ -2,4 +2,4 @@ A design for a polymorphic DSL where each language backend exposes an `Interface
 
 Related notes: [[polyglot-repl-interface]], [[cross-language-runtime-messaging]] [[../../unique/index|unique/index]]
 
-#tags: #dsl #interface #polyglot
+#tags: #notes #dsl

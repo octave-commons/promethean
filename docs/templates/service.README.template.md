@@ -14,3 +14,5 @@ Describe what this service does.
 - `...`
 
 #hashtags: #service #template
+
+#tags: #template

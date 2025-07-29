@@ -2,4 +2,4 @@ This concept outlines a **TypeScript-based group manager** that watches windows 
 
 Related notes: [[autohotkey-i3-emulation]], [[lisp-window-manager-dsl]] [[../../unique/index|unique/index]]
 
-#tags: #typescript #komorebi #window-management
+#tags: #notes #wm

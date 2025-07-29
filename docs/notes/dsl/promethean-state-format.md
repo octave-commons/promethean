@@ -2,4 +2,4 @@ Promethean State Format (PSF) is a homoiconic representation of the system's cog
 
 Related notes: [[runtime-and-prompt-macro-dsl]], [[prompt-scripting-dsl]] [[../../unique/index|unique/index]]
 
-#tags: #promethean #state #dsl
+#tags: #notes #dsl

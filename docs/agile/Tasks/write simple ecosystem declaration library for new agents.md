@@ -57,3 +57,5 @@ spawn the correct services for an agent.
 
 - Should PM2 remain the default process manager or is a custom tool planned?
 - How will per-agent environment variables be stored?
+
+#tags: #agile #task

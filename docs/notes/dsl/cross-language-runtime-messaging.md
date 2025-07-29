@@ -2,4 +2,4 @@ To orchestrate multiple runtimes, start with JSON message passing between Sibila
 
 Related notes: [[sibilant-meta-namespace-dispatch]], [[polyglot-repl-interface]] [[../../unique/index|unique/index]]
 
-#tags: #runtime #interop #json
+#tags: #notes #dsl

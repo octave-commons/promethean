@@ -2,4 +2,4 @@
 
 Related notes: [[autohotkey-i3-emulation]], [[typescript-group-manager-komorebi]] [[../../unique/index|unique/index]]
 
-#tags: #lisp #dsl #window-management
+#tags: #notes #wm

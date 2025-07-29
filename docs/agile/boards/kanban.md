@@ -135,3 +135,5 @@ kanban-plugin: board
 {"kanban-plugin":"board","list-collapse":[false,false,false,true,false,true,true,true,false,false,false,false,false,true,true],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks"}
 ```
 %%
+
+#tags: #agile #board

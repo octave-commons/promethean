@@ -2,4 +2,4 @@ Windows lacks i3-style nested containers, so achieving deep tiling requires work
 
 Related notes: [[autohotkey-i3-emulation]], [[typescript-group-manager-komorebi]], [[windows-npu-tiling-strategy]] [[../../unique/index|unique/index]]
 
-#tags: #windows #tiling #komorebi
+#tags: #notes #wm

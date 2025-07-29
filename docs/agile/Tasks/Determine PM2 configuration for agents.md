@@ -52,3 +52,5 @@ Nothing
 
 - Should we consider lightweight alternatives to PM2 for local dev?
 - How will service logs be aggregated when using PM2?
+
+#tags: #agile #task

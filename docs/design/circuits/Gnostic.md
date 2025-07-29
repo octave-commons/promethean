@@ -82,3 +82,5 @@ Circuit 3: Gnostic is the first internal reflection of cognition. It transforms 
 With Gnostic, Promethean begins to understand itself.
 
 #hashtags: #design #circuit #gnostic #promethean
+
+#tags: #design #circuits

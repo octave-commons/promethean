@@ -2,4 +2,4 @@ Sibilant can function as a metacompiler: macros return strings or arrays of stri
 
 Related notes: [[template-based-compilation]], [[sibilant-cross-target-macros]] [[../../unique/index|unique/index]]
 
-#tags: #sibilant #metacompiler #dsl
+#tags: #notes #dsl

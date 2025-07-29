@@ -2,4 +2,4 @@
 
 Related notes: [[prompt-compiler-dsl]], [[recursive-prompt-construction]] [[../../unique/index|unique/index]]
 
-#tags: #prompt #dsl #llm
+#tags: #notes #dsl

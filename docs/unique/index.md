@@ -38,4 +38,5 @@ These notes were originally captured in `docs/unique` with timestamp filenames. 
 - **2025.07.28.13.07.21** → [[../notes/dsl/promethean-state-format|promethean-state-format]]
 - **2025.07.28.13.07.74** → [[../notes/dsl/runtime-and-prompt-macro-dsl|runtime-and-prompt-macro-dsl]]
 - **2025.07.28.13.07.79** → [[../notes/dsl/prompt-compiler-dsl|prompt-compiler-dsl]]
-#tags: #unique #index
+
+#tags: #journal #unique

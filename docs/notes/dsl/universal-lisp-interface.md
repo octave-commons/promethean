@@ -2,4 +2,4 @@ A vision for a **host-neutral Lisp** with a universal FFI and a meta-package man
 
 Related notes: [[embedded-lisp-dialects]], [[polyglot-repl-interface]] [[../../unique/index|unique/index]]
 
-#tags: #lisp #ffi #polyglot
+#tags: #notes #dsl

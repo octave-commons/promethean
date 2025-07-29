@@ -8,3 +8,5 @@ Current features:
 
 
 #hashtags: #hy #utilities #promethean
+
+#tags: #docs

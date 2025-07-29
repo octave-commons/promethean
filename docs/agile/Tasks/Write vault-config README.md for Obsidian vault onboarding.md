@@ -47,3 +47,4 @@ Nothing
 `vault-config/README.md` now documents the minimal configuration and explains
 how to open the repository as an Obsidian vault.
 
+#tags: #agile #task

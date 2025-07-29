@@ -45,3 +45,5 @@ Nothing
 ## Comments
 
 `.obsidian/` is already listed in `.gitignore` (line 11), so this task is effectively complete.
+
+#tags: #agile #task

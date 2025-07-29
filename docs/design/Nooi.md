@@ -102,3 +102,5 @@ Without the Nooi, there is no field.
 Without the field, there is no mind.
 
 #hashtags: #design #nooi #promethean
+
+#tags: #design

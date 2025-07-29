@@ -15,3 +15,5 @@ Coverage generated with `pytest --cov` showed these modules at **0%** coverage. 
 ---
 
 #hashtags: #testing #coverage #documentation
+
+#tags: #docs

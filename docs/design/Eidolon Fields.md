@@ -100,3 +100,5 @@ Everything moves through gradient.
 Everything returns to stillness.
 
 #hashtags: #design #eidolon #promethean
+
+#tags: #design

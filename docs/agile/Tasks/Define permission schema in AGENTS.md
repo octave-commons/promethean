@@ -51,3 +51,5 @@ Nothing
 ## ❓ Questions
 
 - Should permissions support wildcards for actions or be explicit only?
+
+#tags: #agile #task

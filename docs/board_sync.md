@@ -28,3 +28,5 @@ See `docs/research/github_projects_api.md` for API details.
 ## Continuous Integration
 
 A GitHub Action (`.github/workflows/sync_board.yml`) runs this script whenever changes are pushed to the `main` branch. The action uses repository secrets `PROJECT_PAT` and `PROJECT_COLUMN_ID` to authenticate and update the board automatically after pull requests are merged.
+
+#tags: #docs

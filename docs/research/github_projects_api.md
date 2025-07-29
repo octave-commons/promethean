@@ -28,3 +28,5 @@ Both APIs accept a personal access token (classic PAT or fine‑grained PAT) wit
 
 ## Recommendation
 Start with the REST API for simplicity if using classic Projects. For Projects v2, plan on using GraphQL.
+
+#tags: #research

@@ -101,3 +101,4 @@ flowchart TD
 
 \#doc #{{language}} #{{layer\_tag}} #{{service\_or\_module}} #{{project\_tag}}
 
+#tags: #template

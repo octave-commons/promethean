@@ -99,8 +99,10 @@ When migration is complete:
 
 ---
 
-#tags: #migration #promethean #duck #project-evolution #monorepo #devops #refactor
+
 
 ---
 
 Let me know if you'd like this turned into a canvas or kanban board.
+
+#tags: #docs

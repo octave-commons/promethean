@@ -2,4 +2,4 @@ A meta-prompt DSL built in Sibilant treats prompts as compilable programs. A `(p
 
 Related notes: [[prompt-scripting-dsl]], [[runtime-and-prompt-macro-dsl]] [[../../unique/index|unique/index]]
 
-#tags: #prompt #dsl #compiler
+#tags: #notes #dsl
