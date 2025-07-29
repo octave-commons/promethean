@@ -28,12 +28,20 @@ kanban-plugin: board
 
 ## Incoming
 
-- [ ] [Ensure GitHub-compatible markdown settings are documented](../tasks/Ensure%20GitHub-compatible%20markdown%20settings%20are%20documented.md)
 - [ ] [Write vault-config README.md for Obsidian vault onboarding](../tasks/Write%20vault-config%20README.md%20for%20Obsidian%20vault%20onboarding.md)
 - [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md)
 - [ ] [Add starter notes - eidolon\_fields, cephalon\_inner\_monologue](../tasks/Add%20starter%20notes%20-%20eidolon_fields,%20cephalon_inner_monologue.md)
 - [ ] [Start Eidolon](../tasks/Start%20Eidolon.md)
 - [ ] [Smart Task templater](../tasks/Smart%20Task%20templater.md)
+- [ ] Clearly seperate service dependency  files
+- [ ] seperate all  testing pipelines  in github Actions
+- [ ] Move all testing to individual  services
+
+
+## Rejected
+
+- [ ] [Add vault instructions to main README.md](../tasks/Add%20vault%20instructions%20to%20main%20README.md.md) #Duplicate
+- [ ] [Ensure GitHub-compatible markdown settings are documented](../tasks/Ensure%20GitHub-compatible%20markdown%20settings%20are%20documented.md) #Duplicate
 
 
 ## Accepted (8)
@@ -60,11 +68,6 @@ kanban-plugin: board
 ## Breakdown (10)
 
 - [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
-
-
-## Rejected
-
-- [ ] [Add vault instructions to main README.md](../tasks/Add%20vault%20instructions%20to%20main%20README.md.md) #Duplicate
 
 
 ## Blocked
@@ -129,6 +132,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,true,false,false,false,false,true,true,false,false,false,false,false,true,true],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks"}
+{"kanban-plugin":"board","list-collapse":[false,false,false,true,false,true,true,true,false,false,false,false,false,true,true],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks"}
 ```
 %%
