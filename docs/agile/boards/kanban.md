@@ -60,6 +60,8 @@ kanban-plugin: board
 - [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md)
 - [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
 - [ ] Write meaningful tests for Cephalon
+- [ ] [Clarify Promethean project vision](../tasks/Clarify%20Promethean%20project%20vision.md)
+- [ ] [Document board usage guidelines](../tasks/Document%20board%20usage%20guidelines.md)
 
 
 ## Agent thinking
