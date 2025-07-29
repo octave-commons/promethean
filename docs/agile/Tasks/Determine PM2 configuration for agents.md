@@ -17,6 +17,8 @@ Establish a shared PM2 ecosystem or alternative process manager setup that all a
 - [ ] Review existing Makefile or npm scripts
 - [ ] Draft a sample `ecosystem.config.js`
 - [ ] Document instructions in `docs/MIGRATION_PLAN.md`
+- [ ] Include environment variable examples for development vs production
+- [ ] Ensure log files are rotated to `logs/pm2/*.log`
 
 ---
 
@@ -25,6 +27,7 @@ Establish a shared PM2 ecosystem or alternative process manager setup that all a
 - [ ] Prototype with Duck services
 - [ ] Validate restart behavior and log handling
 - [ ] Share the config with the team for feedback
+- [ ] Add a Makefile target `make pm2-start` for convenience
 
 ---
 

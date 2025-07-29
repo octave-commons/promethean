@@ -1,24 +1,29 @@
 ## 🛠️ Task: Create vault-config .obsidian with Kanban and minimal vault setup
 
-Placeholder task stub generated from kanban board.
+Provide a small example of an Obsidian configuration so contributors can quickly
+spin up the same vault environment.  The config should enable the Kanban plugin
+and include a `README` explaining how to copy the folder into `.obsidian/`.
 
 ---
 
 ## 🎯 Goals
 
-- Define clear objectives for "Create vault-config .obsidian with Kanban and minimal vault setup".
+- Supply a ready-to-copy `.obsidian` folder under `vault-config/`.
+- Document how to copy the folder and what plugins are enabled.
+- Keep the configuration minimal so personal settings remain local.
 
 ---
 
 ## 📦 Requirements
-
-- [ ] Detail requirements.
+- [ ] Include `config` file with Kanban plugin enabled.
+- [ ] Provide `community-plugins.json` listing `obsidian-kanban` only.
+- [ ] Write `vault-config/README.md` instructions on usage.
 
 ---
 
 ## 📋 Subtasks
-
-- [ ] Outline steps to implement.
+- [ ] Verify the folder works by opening the vault locally.
+- [ ] Add a note in `README.md` referencing the config.
 
 ---
 
