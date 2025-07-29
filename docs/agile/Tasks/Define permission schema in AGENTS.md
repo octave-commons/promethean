@@ -1,8 +1,14 @@
 ## 🛠️ Task: Define permission schema in AGENTS.md
 
 Create a concise section in the root `AGENTS.md` explaining how agents declare
+<<<<<<< HEAD
 allowed actions and resource access. The schema will be consumed by the future
 "permission gating" middleware to enforce boundaries.
+=======
+allowed actions and resource access.  The schema should be simple enough for
+manual editing but structured so a parser can enforce permissions during agent
+execution.
+>>>>>>> main
 
 ---
 
@@ -18,7 +24,11 @@ allowed actions and resource access. The schema will be consumed by the future
 
 - [ ] Outline required fields (action, scope, default behavior)
 - [ ] Document YAML and JSON examples
+<<<<<<< HEAD
 - [ ] Provide one sample per agent in `agents/*/config/permissions.yaml`
+=======
+- [ ] Provide at least one example for a read-only agent and one for a full-access agent
+>>>>>>> main
 - [ ] Link to any mathematical reasoning notes
 
 ---
@@ -29,6 +39,7 @@ allowed actions and resource access. The schema will be consumed by the future
 - [ ] Add example snippet under `agents/duck/config/`
 - [ ] Review with team for completeness
 - [ ] Update any affected tasks
+- [ ] Mirror the schema in `bridge/protocols/permission-schema.md` for future API use
 
 ---
 

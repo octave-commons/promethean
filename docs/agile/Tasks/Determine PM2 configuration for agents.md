@@ -19,7 +19,12 @@ include startup instructions in each service README.
 - [ ] Review existing Makefile or npm scripts
 - [ ] Draft a sample `ecosystem.config.js`
 - [ ] Document instructions in `docs/MIGRATION_PLAN.md`
+<<<<<<< HEAD
 - [ ] Show how environment variables are passed to each service
+=======
+- [ ] Include environment variable examples for development vs production
+- [ ] Ensure log files are rotated to `logs/pm2/*.log`
+>>>>>>> main
 
 ---
 
@@ -29,6 +34,7 @@ include startup instructions in each service README.
 - [ ] Validate restart behavior and log handling
 - [ ] Add `npm run start:all` that loads the ecosystem file
 - [ ] Share the config with the team for feedback
+- [ ] Add a Makefile target `make pm2-start` for convenience
 
 ---
 
