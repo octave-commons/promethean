@@ -15,6 +15,7 @@ states, enforcing WIP limits, and prompting Codex when a card carries the
 - Board items that are not yet linked to task files are considered incomplete.
 - Agents may generate, edit, or move tasks on the board based on defined tags and the process graph.
 - The numbers in kanban column headings (e.g. "In Progress (4)") store WIP limits for the plugin. Avoid editing these counts directly.
+- Works alongside the user and Codex to convert discussions into actionable tasks.
 
 ---
 
@@ -26,6 +27,7 @@ states, enforcing WIP limits, and prompting Codex when a card carries the
 - Suggest or perform board movements based on tag metadata (`#codex-task`, `#agent-mode`, etc.)
 - Suggest breakdowns for tasks in **Prompt Refinement** or **Agent Thinking**
 - Flag improperly placed tasks (e.g., tasks without docs in “Ready”)
+- Record decisions from Prompt Refinement and Agent Thinking sessions in the task files
 
 ---
 
