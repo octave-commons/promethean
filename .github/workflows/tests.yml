@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Run JS/TS tests
+      - name: Run Cephalon Tests
         run: |
           cd services/cephalon && npm ci && npm test && cd ../..
 
