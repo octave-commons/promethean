@@ -26,7 +26,6 @@
     "author": "Amish Shah <amishshah.2k@gmail.com>",
     "license": "UNLICENSE",
     "dependencies": {
-        "@chroma-core/default-embed": "^0.1.8",
         "@discordjs/voice": "^0.18.0",
         "chromadb": "^3.0.9",
         "discord.js": "^14.17.3",

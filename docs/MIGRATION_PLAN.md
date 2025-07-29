@@ -54,9 +54,9 @@ This document outlines the migration steps from the legacy `duck/` folder and `r
 ### 5. 📁 Normalize Obsidian Vault
 
 * [x] Place vault at project root (`/`)
-* [ ] Add `vault-config/` with minimal plugin setup (e.g., Kanban)
-* [ ] Reference vault contents in `README.md`
-* [ ] Exclude `.obsidian/` in `.gitignore`, commit `vault-config/` only
+* [x] Add `vault-config/` with minimal plugin setup (e.g., Kanban)
+* [x] Reference vault contents in `README.md`
+* [x] Exclude `.obsidian/` in `.gitignore`, commit `vault-config/` only
 
 ### 6. 🧪 DevOps & Ecosystems
 
