@@ -84,12 +84,15 @@ Codex is **not** allowed to:
 
 ## 🧠 Codex Mode Integration
 
+Codex collaborates with the board manager agent described in
+`docs/agile/AGENTS.md` to keep tasks in sync with the kanban workflow.
 Codex mode can:
 
 * Read from Obsidian Kanban boards, if they are stored in `docs/kanban.md` or elsewhere in the vault
 * Use card titles as task names and tag them with `#in-progress`, `#todo`, etc
 * Generate PRs tied to board updates
 * Reflect status back to the board, though user review is always preferred
+* Follow the workflow in `docs/agile/Process.md` and board manager rules in `docs/agile/AGENTS.md`
 
 Codex mode **should not**:
 

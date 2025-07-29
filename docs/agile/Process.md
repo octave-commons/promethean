@@ -84,15 +84,15 @@ An idea we've acknowledged as worth exploring. Still needs structure.
 
 ### Prompt Refinement
 
-Used for refining fuzzy ideas into clear prompts or specs, often for Codex or Agent mode.
-These often start  as info dumps I intend to refine through conversation with the agent.
-I will  work with the agent here on more abstract  ideas.
+Used for refining fuzzy ideas into clear prompts or specs.
+The human and the agent collaborate here to shape rough thoughts into actionable items.
+The agent can suggest required files or tests and highlight missing details.
 
 ### Agent Thinking
 
-Exploration space for agent-mode and collaborative AI discussions.
-These are not implementation-ready.
-Tasks come here after initial.
+Exploration space for free-form dialogue with the AI agent.
+The agent surfaces risks, proposes sub‑tasks, and explores implementation options.
+Items from here usually return to **Breakdown** once concrete actions emerge.
 
 ### Breakdown
 
@@ -130,6 +130,26 @@ Needs written `AGENT.md`, docstrings, or Markdown notes.
 ### Done
 
 Confirmed complete and aligned with system.
+
+## 🤖 Agent Collaboration
+
+A board manager agent keeps this flow consistent.
+
+- When ideas appear in **New** or **Accepted**, the agent can create task stubs in `agile/tasks/`.
+- During **Prompt Refinement** and **Agent Thinking**, it records decisions and links related tasks.
+- The agent verifies that each item has clear requirements before moving from **Breakdown** to **Ready**.
+- It may shift cards automatically when commits or documentation satisfy stage requirements.
+- Before marking **Done**, the agent checks that docs exist and links to code or artifacts are attached.
+
+The human contributor has final say on priorities and merges, but the agent maintains board hygiene and surfaces gaps.
+
+
+Codex and the board manager agent participate throughout this flow. The board
+manager keeps tasks synced between the Kanban board and `agile/tasks/`, while
+Codex provides code or documentation when a card carries the `#codex-task` tag.
+During **Prompt Refinement** and **Agent Thinking**, the user and the agent talk
+through rough ideas until they can be broken down into actionable work. The agent
+suggests board movements based on metadata and helps enforce WIP limits.
 
 ---
 
