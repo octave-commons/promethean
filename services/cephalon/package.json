@@ -7,7 +7,7 @@
     "scripts": {
         "build": "tsc && node scripts/patch-imports.js",
         "start": "node dist/index.js",
-        "test": "ava",
+        "test": "ava tests/test.ts",
         "build:check": "tsc --noEmit --incremental false",
         "deploy": "npm run build && node --env-file=../../.env dist/util/deploy.js",
         "lint": "prettier --cache --check . && eslint src --ext mjs,js,ts --cache",
@@ -26,7 +26,6 @@
     "author": "Amish Shah <amishshah.2k@gmail.com>",
     "license": "UNLICENSE",
     "dependencies": {
-        "@chroma-core/default-embed": "^0.1.8",
         "@discordjs/opus": "^0.10.0",
         "@discordjs/voice": "^0.18.0",
         "@types/sbd": "^1.0.5",
@@ -63,7 +62,7 @@
             "ts": "module"
         },
         "files": [
-            "tests/**/*.ts"
+            "tests/test.ts"
         ],
         "nodeArguments": [
             "--loader",
