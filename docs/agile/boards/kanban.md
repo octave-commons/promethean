@@ -52,6 +52,8 @@ kanban-plugin: board
 - [ ] [Start Eidolon](../tasks/Start%20Eidolon.md)
 - [ ] Write meaningful tests for Cephalon
 - [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md)
+- [ ] [Clarify Promethean project vision](../tasks/Clarify%20Promethean%20project%20vision.md)
+- [ ] [Document board usage guidelines](../tasks/Document%20board%20usage%20guidelines.md)
 
 
 ## Agent thinking
