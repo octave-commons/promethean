@@ -45,19 +45,36 @@ Scripts in `agents/scripts/` launch commonly used services:
 
 Each script assumes dependencies are installed and should be run from the repository root.
 
+## Makefile Commands
+
+Common tasks are wrapped in the root `Makefile`:
+
+- `make setup` – install dependencies across all services
+- `make build` – transpile Hy, Sibilant and TypeScript sources
+- `make start` – launch shared services defined in `ecosystem.config.js` via PM2
+- `make start:<service>` – run a service from `ecosystem.config.js` by name
+- `make stop` – stop running services
+- `make test` – run Python and JS test suites
+
+Agent-specific services may define their own `ecosystem.config.js` files.
+
 #hashtags: #promethean #framework #overview
 ## Obsidian Vault
 
-This repository is also an Obsidian vault. To use the provided baseline
-configuration, copy the contents of `vault-config/.obsidian/` to a local
-`.obsidian/` folder:
+This repository doubles as an Obsidian vault. If you would like to view the
+documentation inside Obsidian, copy the baseline configuration provided in
+`vault-config/.obsidian/` to a local `.obsidian/` directory:
 
 ```bash
 cp -r vault-config/.obsidian .obsidian
 ```
 
-This enables the Kanban plugin for task tracking. You can customize the
-configuration or install additional plugins as needed.
+This enables the Kanban plugin for task tracking so `docs/agile/boards/kanban.md`
+renders as a board. Open the repository folder in Obsidian after copying the
+configuration. Feel free to customize the settings or install additional
+plugins locally. See `vault-config/README.md` for more details.
+To push tasks from the board to GitHub Projects, see `docs/board_sync.md` and the
+`github_board_sync.py` script.
 
 ## Tests
 
@@ -84,3 +101,16 @@ python scripts/kanban_to_issues.py
 
 Without a token the script performs a dry run and prints the issues that would be created.
 
+
+## Pre-commit Setup
+
+Documentation uses `[[wikilinks]]` inside the vault but they must be converted to standard markdown links before committing. A helper script `scripts/convert_wikilinks.py` runs automatically via [pre-commit](https://pre-commit.com/).
+
+Install the hook with:
+
+```bash
+pip install pre-commit
+pre-commit install
+```
+
+This ensures all modified markdown files are converted during `git commit`.

@@ -140,6 +140,6 @@ Just say go.
 
 ---
 
-Related notes: [[advanced-field-math]], [[aionian-feedback-oscillator]], [[aionian-pulse-rhythm-model]], [[eidolon-field-math]], [[symbolic-gravity-models]] [[unique/index]]
+Related notes: [[advanced-field-math]], [[aionian-feedback-oscillator]], [[aionian-pulse-rhythm-model]], [[eidolon-field-math]], [[symbolic-gravity-models]] [[../../unique/index|unique/index]]
 
 #tags: #math #theory

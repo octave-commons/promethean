@@ -187,6 +187,8 @@ train_cephalon_align_lora.py
 * Use `[[Wikilinks]]` in your Obsidian workflow, but ensure they are converted to regular markdown links for compatibility. Use `#hashtags` to support the Obsidian graph view.
 * Code paths must be written like: `services/cephalon/langstream.py`
 * All new modules must have a doc stub in `/docs/`
+* See `docs/vault-config-readme.md` for tips on configuring Obsidian to export
+  GitHub-friendly markdown
 
 ---
 

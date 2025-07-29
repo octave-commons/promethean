@@ -85,11 +85,14 @@ An idea we've acknowledged as worth exploring. Still needs structure.
 ### Prompt Refinement
 
 Used for refining fuzzy ideas into clear prompts or specs, often for Codex or Agent mode.
+These often start  as info dumps I intend to refine through conversation with the agent.
+I will  work with the agent here on more abstract  ideas.
 
 ### Agent Thinking
 
 Exploration space for agent-mode and collaborative AI discussions.
 These are not implementation-ready.
+Tasks come here after initial.
 
 ### Breakdown
 

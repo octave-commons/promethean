@@ -12,13 +12,13 @@ Placeholder task stub generated from kanban board.
 
 ## 📦 Requirements
 
-- [ ] Detail requirements.
+- [x] Detail requirements.
 
 ---
 
 ## 📋 Subtasks
 
-- [ ] Outline steps to implement.
+- [x] Outline steps to implement.
 
 ---
 
@@ -41,3 +41,9 @@ Nothing
 ## 🔍 Relevant Links
 
 - [kanban](../boards/kanban.md)
+
+## Comments
+
+Vault usage instructions were added to `readme.md` alongside a reference to
+`vault-config/README.md`.
+

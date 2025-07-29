@@ -18,6 +18,8 @@ This layer is the heartbeat of the system. It governs loop integrity, resource m
 
 All cognition originates here, with the simple, vital pulse of ongoing being.
 
+I'm Ok/I'm not ok
+
 ---
 
 ### 2. **Dorian** – The Permission and Trust Layer
@@ -27,6 +29,8 @@ All cognition originates here, with the simple, vital pulse of ongoing being.
 Dorian governs social bonding, boundary recognition, and alignment with user expectations. It manages trust signals and determines what the system is **allowed** to do.
 
 It is the system’s sense of place in the social pack.
+
+You're ok/You're not ok
 
 ---
 

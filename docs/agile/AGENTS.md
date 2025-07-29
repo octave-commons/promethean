@@ -6,11 +6,12 @@ This agent is responsible for maintaining and navigating the Kanban board in `ag
 
 ## 📚 Operating Context
 
-- The board structure and flow logic are defined in [[process.md]].
+- The board structure and flow logic are defined in [[Process|process.md]].
 - Tasks must live in `agile/tasks/` as individual files.
 - Tasks must be linked from the board before they can move to **Ready** or beyond.
 - Board items that are not yet linked to task files are considered incomplete.
 - Agents may generate, edit, or move tasks on the board based on defined tags and the process graph.
+- The numbers in kanban column headings (e.g. "In Progress (4)") store WIP limits for the plugin. Avoid editing these counts directly.
 
 ---
 
