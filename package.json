@@ -11,6 +11,7 @@
     },
     "devDependencies": {
         "@types/sbd": "^1.0.5",
-        "@types/screenshot-desktop": "^1.12.3"
+        "@types/screenshot-desktop": "^1.12.3",
+        "ava": "^6.4.1"
     }
 }
