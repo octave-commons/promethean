@@ -1,5 +1,6 @@
 #!/usr/bin/bash
-export AGENT_NAME="duck"
-
+source .env
+source .tokens
 cd ../../../services/discord-embedder/
+npm install
 node --loader ts-node/esm ./src/index.ts

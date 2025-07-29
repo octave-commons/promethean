@@ -46,6 +46,19 @@ Scripts in `agents/scripts/` launch commonly used services:
 Each script assumes dependencies are installed and should be run from the repository root.
 
 #hashtags: #promethean #framework #overview
+## Obsidian Vault
+
+This repository is also an Obsidian vault. To use the provided baseline
+configuration, copy the contents of `vault-config/.obsidian/` to a local
+`.obsidian/` folder:
+
+```bash
+cp -r vault-config/.obsidian .obsidian
+```
+
+This enables the Kanban plugin for task tracking. You can customize the
+configuration or install additional plugins as needed.
+
 ## Tests
 
 Unit tests are located in `tests/` and run automatically on every pull request
@@ -55,3 +68,19 @@ To run them locally:
 ```bash
 pytest -q
 ```
+
+## Converting Kanban Tasks to GitHub Issues
+
+A helper script `scripts/kanban_to_issues.py` can create GitHub issues from the tasks listed in `docs/kanban.md`. Set the following environment variables before running the script:
+
+- `GITHUB_TOKEN` – a personal access token with permission to create issues
+- `GITHUB_REPO` – the repository in `owner/repo` format
+
+Then run:
+
+```bash
+python scripts/kanban_to_issues.py
+```
+
+Without a token the script performs a dry run and prints the issues that would be created.
+
