@@ -45,6 +45,19 @@ Scripts in `agents/scripts/` launch commonly used services:
 
 Each script assumes dependencies are installed and should be run from the repository root.
 
+## Makefile Commands
+
+Common tasks are wrapped in the root `Makefile`:
+
+- `make setup` – install dependencies across all services
+- `make build` – transpile Hy, Sibilant and TypeScript sources
+- `make start` – launch shared services defined in `ecosystem.config.js` via PM2
+- `make start:<service>` – run a service from `ecosystem.config.js` by name
+- `make stop` – stop running services
+- `make test` – run Python and JS test suites
+
+Agent-specific services may define their own `ecosystem.config.js` files.
+
 #hashtags: #promethean #framework #overview
 ## Obsidian Vault
 

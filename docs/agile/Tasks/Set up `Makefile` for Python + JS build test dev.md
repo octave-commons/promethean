@@ -13,19 +13,19 @@ A unified Makefile (or equivalent script) will streamline development. It should
 ---
 
 ## 📦 Requirements
-- [ ] `setup` installs dependencies for all services
-- [ ] `start` and `stop` manage processes via PM2
-- [ ] `start:<service>` and `stop:<service>` for granular control
-- [ ] `test` aggregates Python and JS test suites
-- [ ] `clean` removes build artifacts
+- [x] `setup` installs dependencies for all services
+- [x] `start` and `stop` manage processes via PM2
+- [x] `start:<service>` and `stop:<service>` for granular control
+- [x] `test` aggregates Python and JS test suites
+- [x] `clean` removes build artifacts
 
 ---
 
 ## 📋 Subtasks
-- [ ] Inventory current service start commands
-- [ ] Draft initial Makefile structure
-- [ ] Integrate PM2 ecosystem config
-- [ ] Document usage in the root `README.md`
+- [x] Inventory current service start commands
+- [x] Draft initial Makefile structure
+- [x] Integrate PM2 ecosystem config
+- [x] Document usage in the root `README.md`
 
 ---
 

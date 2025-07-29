@@ -1,24 +1,33 @@
 ## 🛠️ Task: Start Eidolon
 
-Placeholder task stub generated from kanban board.
+Bootstrap the **Eidolon** service that manages emotional state simulation. This
+task sets up a minimal Python package under `services/eidolon/` with a command
+line entry point and README.  The goal is to create a runnable skeleton so
+future tasks can iterate on the underlying field mechanics.
 
 ---
 
 ## 🎯 Goals
 
-- Define clear objectives for "Start Eidolon".
+- Provide a runnable service scaffold for the Eidolon field.
+- Include placeholder classes that mirror structures in
+  `pseudo/eidolon-field-scratchpad.lisp`.
+- Ensure the service can log basic state information to the console.
 
 ---
 
 ## 📦 Requirements
-
-- [ ] Detail requirements.
+- [ ] Create directory `services/eidolon/` with `__init__.py` and `main.py`.
+- [ ] Implement a minimal `EidolonState` class with a simple update loop.
+- [ ] Add a `README.md` describing how to run the service with Python.
+- [ ] Expose a CLI entry point: `python -m services.eidolon`.
 
 ---
 
 ## 📋 Subtasks
-
-- [ ] Outline steps to implement.
+- [ ] Translate key pseudocode structures from `pseudo/eidolon-field-scratchpad.lisp`.
+- [ ] Write a basic unit test ensuring the service starts and updates.
+- [ ] Document next steps for expanding the field model.
 
 ---
 

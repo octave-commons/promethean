@@ -1,24 +1,33 @@
 ## 🛠️ Task: Smart Task templater
 
-Placeholder task stub generated from kanban board.
+Automate the creation of new task files using a command-line script. The tool
+should take a task title and optional tags, generate a markdown file based on
+`agile/templates/task.stub.template.md`, and place it in `docs/agile/Tasks/`.
+This reduces manual copying when adding cards to the kanban board.
 
 ---
 
 ## 🎯 Goals
 
-- Define clear objectives for "Smart Task templater".
+- Speed up creation of structured task files.
+- Ensure all new tasks include the standard headers and checklists.
+- Allow optional tags to be inserted automatically.
 
 ---
 
 ## 📦 Requirements
-
-- [ ] Detail requirements.
+- [ ] Accept task title as a required argument.
+- [ ] Optional `--tags` flag appends tag lines to the new file.
+- [ ] Use the stub template from `agile/templates/task.stub.template.md`.
+- [ ] Generate filenames with spaces replaced by `%20` for board linking.
+- [ ] Provide usage instructions in `docs/agile/AGENTS.md`.
 
 ---
 
 ## 📋 Subtasks
-
-- [ ] Outline steps to implement.
+- [ ] Write script `scripts/new_task.py` implementing the template logic.
+- [ ] Update `Makefile` with a convenience target `make new-task`.
+- [ ] Document the workflow in `docs/board_sync.md`.
 
 ---
 
