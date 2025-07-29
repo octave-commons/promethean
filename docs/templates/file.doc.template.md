@@ -1,7 +1,7 @@
 # 🗂️ {{file_name}} — {{short description}}
 
 **Path:** `{{relative/path/to/file}}`  
-**Service / Module:** [[{{service_or_module}}]]  
+**Service / Module:** [{{service_or_module}}]({{service_or_module}})  
 **Layer / Circuit:** #{{layer_tag}}  
 **Tags:** #doc #{{language}} #{{domain}} #{{custom_tags}}
 
@@ -40,9 +40,9 @@ E.g., why this abstraction? What does it *not* handle?
 
 > Which other files/modules does this file depend on?
 
-- [[file-a]]
-- [[file-b]]
-- [[shared/py/utils]]
+- [file-a](file-a)
+- [file-b](file-b)
+- [shared/py/utils](shared/py/utils)
 - External: `{{external library or API}}`
 
 ---
@@ -51,9 +51,9 @@ E.g., why this abstraction? What does it *not* handle?
 
 > Which files/modules depend on this one?
 
-- [[service-x]]
-- [[main entrypoint]]
-- [[doc-template generator]]
+- [service-x](service-x)
+- [main entrypoint](main%20entrypoint)
+- [doc-template generator](doc-template%20generator)
 
 ---
 

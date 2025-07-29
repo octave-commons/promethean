@@ -37,7 +37,7 @@ cp -r vault-config/.obsidian .obsidian
 
 If you're contributing documentation to the codebase:
 
-* Enable `Auto-convert [[wikilinks]] to MD links on export`
+* Enable `Auto-convert [wikilinks](wikilinks) to MD links on export`
 * Or use the `Markdown Format Converter` plugin
 * All markdown is written to be GitHub-compatible by default, but \[\[Wikilinks]] are preferred internally for Obsidian graph features
 

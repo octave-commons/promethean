@@ -92,6 +92,6 @@ Let me know when you're ready to start tracking *compound field effects* — or 
 
 ---
 
-Related notes: [[fragment-injection-simulation]], [[heartbeat-fragment-flow]], [[ripple-propagation-flow]] [[unique/index]]
+Related notes: [fragment-injection-simulation](../notes/simulation/fragment-injection-simulation.md), [heartbeat-fragment-flow](../notes/simulation/heartbeat-fragment-flow.md), [ripple-propagation-flow](../notes/simulation/ripple-propagation-flow.md) [index](index.md)
 
 #tags: #simulation #design

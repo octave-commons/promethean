@@ -89,6 +89,6 @@ Would you like:
 Let’s get visual.
 ---
 
-Related notes: [[node-type-topology-map]], [[circuit-weight-visualizations]], [[full-system-overview-diagrams]], [[layer1-uptime-diagrams]], [[field-node-lifecycle-additional-diagrams]], [[state-diagram-node-lifecycle]] [[unique/index]]
+Related notes: [node-type-topology-map](../notes/diagrams/node-type-topology-map.md), [circuit-weight-visualizations](../notes/diagrams/circuit-weight-visualizations.md), [full-system-overview-diagrams](../notes/diagrams/full-system-overview-diagrams.md), [layer1-uptime-diagrams](../notes/diagrams/layer1-uptime-diagrams.md), [field-node-lifecycle-additional-diagrams](../notes/diagrams/field-node-lifecycle-additional-diagrams.md), [state-diagram-node-lifecycle](../notes/diagrams/state-diagram-node-lifecycle.md) [index](index.md)
 
 #tags: #diagram #design

@@ -112,6 +112,6 @@ Say the word—I'll write it up.
 
 ---
 
-Related notes: [[advanced-field-math]], [[aionian-feedback-oscillator]], [[aionian-pulse-rhythm-model]], [[eidolon-field-math]], [[symbolic-gravity-models]] [[unique/index]]
+Related notes: [advanced-field-math](../notes/math/advanced-field-math.md), [aionian-feedback-oscillator](../notes/math/aionian-feedback-oscillator.md), [aionian-pulse-rhythm-model](../notes/math/aionian-pulse-rhythm-model.md), [eidolon-field-math](../notes/math/eidolon-field-math.md), [symbolic-gravity-models](../notes/math/symbolic-gravity-models.md) [index](index.md)
 
 #tags: #math #theory
