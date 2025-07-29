@@ -28,9 +28,12 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Run JS/TS Tests
+      - name: Install JS/TS dependencies
         run: |
           npm install
-          npm ci
-          npm test
+          npm --prefix services/cephalon install --no-package-lock
+          npm --prefix services/discord-embedder install --no-package-lock
+
+      - name: Run JS/TS Tests
+        run: npm test
 

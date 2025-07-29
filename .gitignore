@@ -18,3 +18,5 @@ agents/duck/chroma_data/
 
 /node_modules/
 agents/duck/.tokens
+
+*.log

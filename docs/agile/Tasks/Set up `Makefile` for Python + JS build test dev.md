@@ -1,33 +1,46 @@
-## Description
+## 🛠️ Task: Set up Makefile for Python + JS build test dev
 
-It doesn't have to be a makefile, but  if that is what is easiest to do then we should do it that way.
+A unified Makefile (or equivalent script) will streamline development. It should bootstrap dependencies, start services, run tests and clean artifacts.
 
-We need a way to quickly set this  project up from scratch.
+---
 
-## Related Epics
+## 🎯 Goals
+- Provide a quick `setup` target for all services
+- Allow starting and stopping each service individually
+- Offer a single command to run tests across languages
+- Keep the workflow cross platform when possible
 
+---
+
+## 📦 Requirements
+- [ ] `setup` installs dependencies for all services
+- [ ] `start` and `stop` manage processes via PM2
+- [ ] `start:<service>` and `stop:<service>` for granular control
+- [ ] `test` aggregates Python and JS test suites
+- [ ] `clean` removes build artifacts
+
+---
+
+## 📋 Subtasks
+- [ ] Inventory current service start commands
+- [ ] Draft initial Makefile structure
+- [ ] Integrate PM2 ecosystem config
+- [ ] Document usage in the root `README.md`
+
+---
+
+## 🔗 Related Epics
 #cicd #buildtools #devtools #devops
 
-## Requirements
+---
 
-- There is a command that sets up all services
-- There is a command that starts all services
-- There is a command that shuts down all services
-- There is a command to start each service
-- There is a command to shutdown each service
-- There is a reset/clean command that unbuilds  all services
-- There is a reset/clean command that unbuilds  each individual service
-
-## Steps/Tasks
-
-
-## Block By
-
-Nothing 
-
-## Blocks
-
+## ⛓️ Blocked By
 Nothing
 
-## Relavent links
+## ⛓️ Blocks
+- Future CI automation
 
+---
+
+## 🔍 Relevant Links
+- [kanban](../boards/kanban.md)

@@ -1,4 +1,5 @@
 import { ChromaClient } from "chromadb";
+import { SimpleEmbeddingFunction } from "./embedding";
 import { MongoClient, ObjectId, Collection } from "mongodb";
 
 import * as dotenv from 'dotenv';
@@ -52,7 +53,8 @@ const MONGO_CONNECTION_STRING = process.env.MONGODB_URI || `mongodb://localhost`
     const discordMessagesCollection: Collection<DiscordMessage> = db.collection(collectionName);
 
     const chromaCollection = await chromaClient.getOrCreateCollection({
-        name: collectionName
+        name: collectionName,
+        embeddingFunction: new SimpleEmbeddingFunction(),
     });
 
     while (true) {
