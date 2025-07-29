@@ -3,8 +3,6 @@
 kanban-plugin: board
 
 ---
-<!-- Numbers in column headings (e.g. "In Progress (4)") track WIP limits for the
-     Obsidian Kanban plugin. Do not edit these counts manually. -->
 
 ## Ice Box
 
@@ -28,6 +26,8 @@ kanban-plugin: board
 - [ ] update github actions to use makefile #cicd
 - [ ] Update makefile to have commands specific for agents #cicd
 - [ ] Update cephalon to use custom embedding function #cephalon
+- [ ] Clean up notes into design  docs
+- [ ] Describe github branching workflow
 
 
 ## Rejected
@@ -51,6 +51,7 @@ kanban-plugin: board
 - [ ] [Smart Task templater](../tasks/Smart%20Task%20templater.md) #framework-core
 - [ ] [Start Eidolon](../tasks/Start%20Eidolon.md) #framework-core
 - [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md) #framework-core
+- [ ] Write meaningful tests for Cephalon
 
 
 ## Agent thinking
