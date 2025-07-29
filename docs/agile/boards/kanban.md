@@ -45,21 +45,21 @@ kanban-plugin: board
 
 - [ ] [Migrate portfolio client code to Promethean](../tasks/Migrate%20portfolio%20client%20code%20to%20Promethean.md)
 - [ ] [write simple ecosystem declaration library for new agents](../tasks/write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md)
+- [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
+- [ ] [Reach 100 percent complete test coverage](Reach%20100%20percent%20complete%20test%20coverage.md)
+- [ ] [Make seperate execution pathways](Make%20seperate%20execution%20pathways.md)
+- [ ] [Annotate legacy code with migration tags](../tasks/Annotate%20legacy%20code%20with%20migration%20tags.md)
 
 
 ## Agent thinking
 
+- [ ] [Remove ts-node and compile ava tests directly](Remove%20ts-node%20and%20compile%20ava%20tests%20directly.md)
+- [ ] [Add Ollama formally to pipeline](../tasks/Add%20Ollama%20formally%20to%20pipeline.md)
 
 
 ## Breakdown (10)
 
 - [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
-- [ ] [Add Ollama formally to pipeline](../tasks/Add%20Ollama%20formally%20to%20pipeline.md)
-- [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
-- [ ] [Annotate legacy code with migration tags](../tasks/Annotate%20legacy%20code%20with%20migration%20tags.md)
-- [ ] [Remove ts-node and compile ava tests directly](Remove%20ts-node%20and%20compile%20ava%20tests%20directly.md)
-- [ ] [Make seperate execution pathways](Make%20seperate%20execution%20pathways.md)
-- [ ] [Reach 100 percent complete test coverage](Reach%20100%20percent%20complete%20test%20coverage.md)
 
 
 ## Rejected
