@@ -20,7 +20,7 @@ Synchronize our local kanban board with a GitHub Projects board so tasks stay co
 ---
 
 ## 📋 Subtasks
-- [ ] [Research GitHub Projects board API](Research%20GitHub%20Projects%20board%20API.md)
+- [x] [Research GitHub Projects board API](Research%20GitHub%20Projects%20board%20API.md)
 - [ ] [Write board sync script](Write%20board%20sync%20script.md)
 - [ ] [Document board sync workflow](Document%20board%20sync%20workflow.md)
 

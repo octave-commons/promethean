@@ -12,16 +12,16 @@ After the sync script exists, we need clear instructions on how to use it and ho
 ---
 
 ## 📦 Requirements
-- [ ] Add documentation under `docs/` describing setup
-- [ ] Include example command invocations
-- [ ] Mention required GitHub permissions
+- [x] Add documentation under `docs/` describing setup
+- [x] Include example command invocations
+- [x] Mention required GitHub permissions
 
 ---
 
 ## 📋 Subtasks
-- [ ] Write README section or new doc
-- [ ] Describe expected workflow
-- [ ] Link to the sync script
+- [x] Write README section or new doc
+- [x] Describe expected workflow
+- [x] Link to the sync script
 
 ---
 
@@ -40,3 +40,4 @@ Nothing
 
 ## 🔍 Relevant Links
 - [kanban](../boards/kanban.md)
+- [Board Sync Workflow](../../board_sync.md)
