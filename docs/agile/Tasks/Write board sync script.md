@@ -12,17 +12,17 @@ Create a small tool that pushes updates from our Obsidian kanban board to a GitH
 ---
 
 ## 📦 Requirements
-- [ ] Node or Python script using the GitHub API
-- [ ] Reads `kanban.md` and updates project items
-- [ ] Supports personal access token configuration
+- [x] Python script using the GitHub API
+- [x] Reads `kanban.md` and updates project items
+- [x] Supports personal access token configuration
 
 ---
 
 ## 📋 Subtasks
-- [ ] Parse kanban board data
-- [ ] Use endpoints outlined in research
-- [ ] Handle basic error reporting
-- [ ] Document usage examples
+- [x] Parse kanban board data
+- [x] Use endpoints outlined in research
+- [x] Handle basic error reporting
+- [x] Document usage examples
 
 ---
 
@@ -41,3 +41,5 @@ Create a small tool that pushes updates from our Obsidian kanban board to a GitH
 
 ## 🔍 Relevant Links
 - [kanban](../boards/kanban.md)
+- [board_sync.py](../../scripts/github_board_sync.py)
+- [Board Sync Workflow](../../board_sync.md)

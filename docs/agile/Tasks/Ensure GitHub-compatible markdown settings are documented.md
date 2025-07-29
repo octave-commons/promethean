@@ -12,16 +12,16 @@ Some Obsidian features don't render well on GitHub. We need clear guidelines so 
 ---
 
 ## 📦 Requirements
-- [ ] Add a section to `vault-config/README.md` describing recommended settings
-- [ ] Mention any plugins used to export or format markdown
+- [x] Add a section to `vault-config/README.md` describing recommended settings
+- [x] Mention any plugins used to export or format markdown
 - [ ] Include Prettier or markdownlint configuration if applicable
 
 ---
 
 ## 📋 Subtasks
-- [ ] Review current Obsidian settings
-- [ ] Summarize options that influence markdown syntax
-- [ ] Update documentation and link from `AGENTS.md`
+- [x] Review current Obsidian settings
+- [x] Summarize options that influence markdown syntax
+- [x] Update documentation and link from `AGENTS.md`
 
 ---
 
