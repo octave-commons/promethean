@@ -40,4 +40,4 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [[kanban]]
+- [kanban](../boards/kanban.md)

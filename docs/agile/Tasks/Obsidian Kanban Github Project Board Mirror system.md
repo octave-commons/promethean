@@ -1,4 +1,4 @@
-## 🛠️ Task: Obsidian Kanban <-> Github Project Board Mirror system
+## 🛠️ Task: Obsidian Kanban Github Project Board Mirror system
 
 Placeholder task stub generated from kanban board.
 
@@ -6,7 +6,7 @@ Placeholder task stub generated from kanban board.
 
 ## 🎯 Goals
 
-- Define clear objectives for "Obsidian Kanban <-> Github Project Board Mirror system".
+- Define clear objectives for "Obsidian Kanban Github Project Board Mirror system".
 
 ---
 
@@ -40,4 +40,4 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [[kanban]]
+- [kanban](../boards/kanban.md)

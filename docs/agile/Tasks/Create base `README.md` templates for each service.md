@@ -22,9 +22,9 @@ We treat this as a “quick win” task to bring our ritualized flow up to speed
 
 ## 🧩 Related Concepts
 
-- [[process_board_flow]]
-- [[AGENTS.md]]
-- [[service directory conventions]]
+- [process_board_flow](../process_board_flow.md)
+- [AGENTS.md](../AGENTS.md)
+- [service directory conventions](../service%20directory%20conventions.md)
 - #doc-this #framework-core #ritual
 
 ## 🛠 Requirements
@@ -47,4 +47,4 @@ We treat this as a “quick win” task to bring our ritualized flow up to speed
 
 - `services/duck_cephalon/README.md`
 - `services/synthesis_agent/README.md`
-- [[AGENTS.md]]
+- [AGENTS.md](../AGENTS.md)
