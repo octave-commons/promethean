@@ -3,6 +3,8 @@
 kanban-plugin: board
 
 ---
+<!-- Numbers in column headings (e.g. "In Progress (4)") track WIP limits for the
+     Obsidian Kanban plugin. Do not edit these counts manually. -->
 
 ## Ice Box
 
@@ -86,8 +88,6 @@ kanban-plugin: board
 
 ## 🟡 In Progress (4)
 
-- [ ] [Add vault instructions to main README.md](../tasks/Add%20vault%20instructions%20to%20main%20README.md.md)
-- [ ] [Write vault-config README.md for Obsidian vault onboarding](../tasks/Write%20vault-config%20README.md%20for%20Obsidian%20vault%20onboarding.md)
 - [ ] [Set up Makefile for Python + JS build test dev](../tasks/Set%20up%20`Makefile`%20for%20Python%20+%20JS%20build%20test%20dev.md)
 - [ ] [Structure vault to mirror services, agents, docs](../tasks/Structure%20vault%20to%20mirror%20`%20services%20`,%20`%20agents%20`,%20`%20docs%20`.md)
 
@@ -111,6 +111,8 @@ kanban-plugin: board
 - [ ] Defined language strategy: Hy/Python + Sibilant/TS/JS hybrid
 - [x] Vault root confirmed at repo root
 - [x] Obsidian config strategy established: untracked `.obsidian/`, with example in `vault-config/`
+- [x] [Add vault instructions to main README.md](../tasks/Add%20vault%20instructions%20to%20main%20README.md.md)
+- [x] [Write vault-config README.md for Obsidian vault onboarding](../tasks/Write%20vault-config%20README.md%20for%20Obsidian%20vault%20onboarding.md)
 
 
 ## 🧠 Notes
