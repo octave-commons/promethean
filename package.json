@@ -4,8 +4,6 @@
     },
     "dependencies": {
         "@discordjs/voice": "^0.18.0",
-        "@huggingface/transformers": "^3.6.1",
-        "openvino-node": "^2024.3.0",
         "pm2": "^6.0.8",
         "screenshot-desktop": "^1.15.1",
         "tokenizers": "^0.13.3",
