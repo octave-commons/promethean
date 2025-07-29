@@ -68,6 +68,9 @@ kanban-plugin: board
 
 ## Agent thinking
 
+- [ ] [Gather open questions about system direction](../tasks/Gather%20open%20questions%20about%20system%20direction.md) #agent-mode
+- [ ] [Schedule alignment meeting with stakeholders](../tasks/Schedule%20alignment%20meeting%20with%20stakeholders.md) #agent-mode
+- [ ] [Summarize clarified priorities for next sprint](../tasks/Summarize%20clarified%20priorities%20for%20next%20sprint.md) #agent-mode
 - [ ] [Remove ts-node and compile ava tests directly](Remove%20ts-node%20and%20compile%20ava%20tests%20directly.md) #cicd
 - [ ] [Add Ollama formally to pipeline](../tasks/Add%20Ollama%20formally%20to%20pipeline.md) #framework-core
 
