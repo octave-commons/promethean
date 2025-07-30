@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "test": "npm --prefix services/cephalon test && npm --prefix services/discord-embedder test"
+        "test": "npm --prefix services/cephalon test && npm --prefix services/discord-embedder test && (cd services/voice && npm test)"
     },
     "dependencies": {
         "@discordjs/voice": "^0.18.0",
