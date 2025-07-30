@@ -61,6 +61,7 @@ Common tasks are wrapped in the root `Makefile`:
 - `make start:<service>` – run a service from `ecosystem.config.js` by name
 - `make stop` – stop running services
 - `make test` – run Python and JS test suites
+- `make coverage` – run tests with coverage reports
 
 Agent-specific services may define their own `ecosystem.config.js` files.
 

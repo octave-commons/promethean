@@ -8,7 +8,7 @@ TS_OUT=shared/js
 
 # === High-Level Targets ===
 
-.PHONY: all build clean lint format test setup start stop start-tts start-stt stop-tts stop-stt
+.PHONY: all build clean lint format test setup start stop start-tts start-stt stop-tts stop-stt coverage coverage-python coverage-js
 
 SERVICES_PY=services/stt services/tts services/discord-indexer
 SERVICES_JS=services/cephalon services/discord-embedder
@@ -72,6 +72,16 @@ format-js:
 
 test-js:
 	npm test
+
+# === Coverage ===
+
+coverage-python:
+	pytest --cov=./ --cov-report=xml --cov-report=term
+
+coverage-js:
+	npx c8 --reporter=text --reporter=lcov npm test
+
+coverage: coverage-python coverage-js
 
 # === Service Management ===
 
