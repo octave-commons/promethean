@@ -181,10 +181,20 @@ train_cephalon_align_lora.py
 
 All contributions must be validated locally before opening a pull request:
 
-1. Run `make test` for the relevant services.
-2. Run `make simulate-ci` to emulate GitHub Actions using [`act`](https://github.com/nektos/act).
+1. Run `make install` for the relevant services.
+2. Run `make test` for the relevant services.
+3. Run `make build` to ensure all modules compile correctly.
+4. Run `make lint` to check code style and formatting.
+5. Run `make format` to auto-format code.
 
-Work is only considered complete when both commands succeed.
+Work is only considered complete when all commands succeed.
+
+Additionally, ensure that:
+* All new code is covered by tests
+* Documentation is updated in `/docs/` as needed
+* Migration plans are followed for any structural changes
+* .github/workflows all use `make` targets for consistency
+* 
 
 ---
 
