@@ -2,7 +2,7 @@ import importlib.util
 from pathlib import Path
 
 MODULE_PATH = (
-    Path(__file__).resolve().parent.parent
+    Path(__file__).resolve().parent.parent.parent
     / "scripts"
     / "hashtags_to_kanban.py"
 )
