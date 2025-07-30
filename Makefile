@@ -95,6 +95,7 @@ setup:
 	python -m pip install --upgrade pip
 	python -m pip install pipenv
 	PIPENV_NOSPIN=1 pipenv install --dev --skip-lock
+	pipenv install --dev --skip-lock --system
 	@for d in $(SERVICES_PY); do \
 	cd $$d && PIPENV_NOSPIN=1 pipenv install --dev --skip-lock && cd - >/dev/null; \
 	done
