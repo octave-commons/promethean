@@ -4,3 +4,8 @@ inflect
 pytest
 pytest-asyncio
 pymongo
+
+fastapi
+uvicorn
+httpx
+websockets

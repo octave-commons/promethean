@@ -41,5 +41,37 @@ module.exports = {
             restart_delay: 10000,
             kill_timeout: 10000 // wait 5s before SIGKILL
         },
+        {
+            name: "stt-ws",
+            cwd: "./services/stt_ws",
+            script: "./services/stt_ws/run.sh",
+            interpreter: "bash",
+            exec_mode: "fork",
+            watch: ["./services/stt_ws"],
+            instances: 1,
+            autorestart: true,
+            env: {
+                PYTHONUNBUFFERED: "1",
+                PYTHONPATH: path.resolve(__dirname),
+            },
+            restart_delay: 10000,
+            kill_timeout: 10000
+        },
+        {
+            name: "whisper-stream-ws",
+            cwd: "./services/whisper_stream_ws",
+            script: "./services/whisper_stream_ws/run.sh",
+            interpreter: "bash",
+            exec_mode: "fork",
+            watch: ["./services/whisper_stream_ws"],
+            instances: 1,
+            autorestart: true,
+            env: {
+                PYTHONUNBUFFERED: "1",
+                PYTHONPATH: path.resolve(__dirname),
+            },
+            restart_delay: 10000,
+            kill_timeout: 10000
+        },
     ]
 };
