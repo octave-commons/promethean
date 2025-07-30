@@ -8,7 +8,8 @@ TS_OUT=shared/js
 
 # === High-Level Targets ===
 
-.PHONY: all build clean lint format test setup start stop start-tts start-stt stop-tts stop-stt
+.PHONY: all build clean lint format test setup start stop start-tts start-stt stop-tts stop-stt \
+    board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues
 
 SERVICES_PY=services/stt services/tts services/discord-indexer
 SERVICES_JS=services/cephalon services/discord-embedder
@@ -95,3 +96,17 @@ start-%:
 
 stop-%:
 	pm2 stop $* || true
+
+# === Kanban Board ===
+
+board-sync:
+	python scripts/github_board_sync.py
+
+kanban-from-tasks:
+	python scripts/hashtags_to_kanban.py > docs/agile/boards/kanban.md
+
+kanban-to-hashtags:
+	python scripts/kanban_to_hashtags.py
+
+kanban-to-issues:
+	python scripts/kanban_to_issues.py

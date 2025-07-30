@@ -4,7 +4,7 @@ This agent is responsible for maintaining and navigating the Kanban board in `ag
 It acts as the glue between human contributors and Codex by interpreting board
 states, enforcing WIP limits, and prompting Codex when a card carries the
 `#codex-task` tag. The board itself is generated from the task files in
-`agile/tasks/` using `scripts/update_kanban_from_tasks.py`.
+`agile/tasks/` via the `make kanban-from-tasks` target.
 
 ---
 
@@ -17,6 +17,7 @@ states, enforcing WIP limits, and prompting Codex when a card carries the
 - Agents may generate, edit, or move tasks on the board based on defined tags and the process graph.
 - The numbers in kanban column headings (e.g. "In Progress (4)") store WIP limits for the plugin. Avoid editing these counts directly.
 - Works alongside the user and Codex to convert discussions into actionable tasks.
+- All board scripts should be invoked through Makefile targets rather than directly running Python files.
 
 ---
 
@@ -79,7 +80,7 @@ The board columns are derived from these hashtags in each task file:
 - Tasks: `agile/tasks/*.md`
 - Process flow: `process.md`
 
-The board file is regenerated whenever `scripts/update_kanban_from_tasks.py` is run. **Do not edit `kanban.md` manually.** To move a task between columns, edit the status hashtag in its corresponding task file and rerun the script.
+The board file is regenerated whenever `make kanban-from-tasks` is run. **Do not edit `kanban.md` manually.** To move a task between columns, edit the status hashtag in its corresponding task file and rerun `make kanban-to-hashtags`.
 
 ---
 
