@@ -54,6 +54,8 @@ To sync with system structure:
 npm run build:docs  # optional sync or generate script
 ````
 
+Board automation tasks are run via Makefile targets such as `make kanban-from-tasks`.
+
 To browse:
 
 * Open `docs/` in Obsidian with plugins enabled

@@ -10,7 +10,7 @@ for the Obsidian Kanban plugin but renders fine on GitHub.
 2. Include a status hashtag such as `#todo` or `#in-progress` at the top.
 3. Link the file from the appropriate column on the board using a relative
    markdown link.
-4. Run the sync scripts (`hashtags_to_kanban.py` or `kanban_to_hashtags.py`) if
+4. Run the Makefile commands (`make kanban-from-tasks` or `make kanban-to-hashtags`) if
    you reorganise tasks outside Obsidian.
 
 Tasks should always be linked on the board before moving to **Ready** or beyond.

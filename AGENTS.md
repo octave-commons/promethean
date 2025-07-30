@@ -61,6 +61,9 @@ site/            # Website or UI content (optional)
 * Contributors may submit raw JS or TS modules—Sibilant is preferred but not mandatory
 * If a module evolves entirely into JS or TS, it will be respected as-is if quality is maintained
 
+### Makefile Driven Workflow
+All development and board automation tasks should use the root `Makefile` targets for consistency.
+
 ---
 
 ## ⚙️ Codex Permissions
@@ -173,6 +176,15 @@ Example:
 train_stt_quantize.py
 train_cephalon_align_lora.py
 ```
+
+## 🚥 CI Verification
+
+All contributions must be validated locally before opening a pull request:
+
+1. Run `make test` for the relevant services.
+2. Run `make simulate-ci` to emulate GitHub Actions using [`act`](https://github.com/nektos/act).
+
+Work is only considered complete when both commands succeed.
 
 ---
 

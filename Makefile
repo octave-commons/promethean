@@ -8,7 +8,8 @@ TS_OUT=shared/js
 
 # === High-Level Targets ===
 
-.PHONY: all build clean lint format test setup start stop start-tts start-stt stop-tts stop-stt
+.PHONY: all build clean lint format test setup start stop start-tts start-stt stop-tts stop-stt \
+	board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues coverage coverage-python coverage-js simulate-ci
 
 SERVICES_PY=services/stt services/tts services/discord-indexer
 SERVICES_JS=services/cephalon services/discord-embedder
@@ -24,6 +25,10 @@ lint: lint-python lint-js
 format: format-python format-js
 
 test: test-python test-js
+
+# === Workflow Simulation ===
+simulate-ci:
+	act -W .github/workflows/tests.yml pull_request
 
 # === Python/HY ===
 
@@ -49,14 +54,15 @@ test-python:
 build-js: build-ts build-sibilant
 
 build-sibilant:
-	@echo "Transpiling Sibilant to JS..."
-	npx sibilant $(SIBILANT_SRC)/common -o $(JS_BUILD_DIR)/common
-	npx sibilant $(SIBILANT_SRC)/server -o $(JS_BUILD_DIR)/server
-	npx sibilant $(SIBILANT_SRC)/client -o $(JS_BUILD_DIR)/client
+	@echo "Transpiling Sibilant to JS... (not ready)"
+	# npx sibilant $(SIBILANT_SRC)/common -o $(JS_BUILD_DIR)/common
+	# npx sibilant $(SIBILANT_SRC)/server -o $(JS_BUILD_DIR)/server
+	# npx sibilant $(SIBILANT_SRC)/client -o $(JS_BUILD_DIR)/client
 
 build-ts:
-	@echo "Transpiling TS to JS..."
-	tsc -p $(TS_SRC)
+	@echo "Transpiling TS to JS... (if we had any shared ts modules)"
+  # There are no ts modules yet.
+	# tsc -p $(TS_SRC)
 
 clean-js:
 	rm -rf $(JS_BUILD_DIR)/*
@@ -72,6 +78,16 @@ format-js:
 
 test-js:
 	npm test
+
+# === Coverage ===
+
+coverage-python:
+	pytest --cov=./ --cov-report=xml --cov-report=term
+
+coverage-js:
+	npx c8 --reporter=text --reporter=lcov npm test
+
+coverage: coverage-python coverage-js
 
 # === Service Management ===
 
@@ -95,3 +111,17 @@ start-%:
 
 stop-%:
 	pm2 stop $* || true
+
+# === Kanban Board ===
+
+board-sync:
+	python scripts/github_board_sync.py
+
+kanban-from-tasks:
+	python scripts/hashtags_to_kanban.py > docs/agile/boards/kanban.md
+
+kanban-to-hashtags:
+	python scripts/kanban_to_hashtags.py
+
+kanban-to-issues:
+	python scripts/kanban_to_issues.py

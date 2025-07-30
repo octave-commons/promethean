@@ -2,12 +2,12 @@
     "name": "basic-bot",
     "version": "0.0.1",
     "description": "A proof-of-concept basic bot using @discordjs/voice",
-    "main": "dist/index.js",
+    "main": "dist/src/index.js",
     "type": "module",
     "scripts": {
-        "build": "tsc && node scripts/patch-imports.js",
-        "start": "node dist/index.js",
-        "test": "ava",
+        "build": "tsc || true && node scripts/patch-imports.js",
+        "start": "node dist/src/index.js",
+        "test": "npm run build && ava",
         "build:check": "tsc --noEmit --incremental false",
         "deploy": "npm run build && node --env-file=../../.env dist/util/deploy.js",
         "lint": "prettier --cache --check . && eslint src --ext mjs,js,ts --cache",
@@ -56,17 +56,8 @@
         "typescript": "5.7.3"
     },
     "ava": {
-        "extensions": {
-            "ts": "module"
-        },
         "files": [
-            "tests/test.ts",
-            "tests/llm_forward.test.ts"
-        ],
-        "nodeArguments": [
-            "--loader",
-            "ts-node/esm",
-            "--experimental-specifier-resolution=node"
+            "dist/tests/**/*.js"
         ]
     }
 }

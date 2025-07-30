@@ -11,13 +11,8 @@ console.log("Starting",AGENT_NAME, "Cephalon")
 
 
 const bot = new Bot({
-    token:process.env.DISCORD_TOKEN as string,
-    applicationId:process.env.DISCORD_CLIENT_USER_ID as string,
-    voiceSynthOptions:{
-        host:"localhost",
-        endpoint:"/voice_synth",
-        port:5001
-    },
+    token: process.env.DISCORD_TOKEN as string,
+    applicationId: process.env.DISCORD_CLIENT_USER_ID as string,
 })
 bot.start()
 console.log(`Cephalon started for ${AGENT_NAME}`)

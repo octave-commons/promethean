@@ -51,6 +51,12 @@ Scripts in `agents/scripts/` launch commonly used services:
 
 Each script assumes dependencies are installed and should be run from the repository root.
 
+## Environment Variables
+
+The framework relies on several environment variables for configuration. See
+[docs/environment-variables.md](docs/environment-variables.md) for details on
+all available settings.
+
 ## Makefile Commands
 
 Common tasks are wrapped in the root `Makefile`:
@@ -61,6 +67,11 @@ Common tasks are wrapped in the root `Makefile`:
 - `make start:<service>` – run a service from `ecosystem.config.js` by name
 - `make stop` – stop running services
 - `make test` – run Python and JS test suites
+- `make board-sync` – sync `kanban.md` with GitHub Projects
+- `make kanban-from-tasks` – regenerate `kanban.md` from task files
+- `make kanban-to-hashtags` – update task statuses from `kanban.md`
+- `make kanban-to-issues` – create GitHub issues from the board
+- `make coverage` – run tests with coverage reports
 
 Agent-specific services may define their own `ecosystem.config.js` files.
 
@@ -94,7 +105,7 @@ pytest -q
 
 ## Converting Kanban Tasks to GitHub Issues
 
-A helper script `scripts/kanban_to_issues.py` can create GitHub issues from the tasks listed in `docs/agile/boards/kanban.md`. Set the following environment variables before running the script:
+A helper Makefile target `make kanban-to-issues` can create GitHub issues from the tasks listed in `docs/agile/boards/kanban.md`. Set the following environment variables before running it:
 
 - `GITHUB_TOKEN` – a personal access token with permission to create issues
 - `GITHUB_REPO` – the repository in `owner/repo` format
@@ -102,7 +113,7 @@ A helper script `scripts/kanban_to_issues.py` can create GitHub issues from the 
 Then run:
 
 ```bash
-python scripts/kanban_to_issues.py
+make kanban-to-issues
 ```
 
 Without a token the script performs a dry run and prints the issues that would be created.
