@@ -17,7 +17,7 @@
 
 		// Modules
 		"allowArbitraryExtensions": true,
-		// "allowImportingTsExtensions": true,
+                "allowImportingTsExtensions": true,
       "allowJs": true,
 		"module": "es2022",
 		"moduleResolution": "bundler",

@@ -17,6 +17,7 @@ import EventEmitter from "events";
 import { FinalTranscript } from "./transcriber";
 import { AIAgent, AGENT_NAME } from "./agent";
 import { CollectionManager } from "./collectionManager";
+import { LLMService } from "./llm-service";
 import { ContextManager } from "./contextManager";
 /**
    Handles top level discord interactions. EG slash commands send by the user.
@@ -80,7 +81,8 @@ export class Bot extends EventEmitter {
         this.agent = new AIAgent({
             historyLimit: 20,
             bot: this,
-            context:this.context
+            context:this.context,
+            llm:new LLMService()
         })
 
     }

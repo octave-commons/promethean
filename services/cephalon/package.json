@@ -7,7 +7,7 @@
     "scripts": {
         "build": "tsc && node scripts/patch-imports.js",
         "start": "node dist/index.js",
-        "test": "ava tests/test.ts",
+        "test": "ava",
         "build:check": "tsc --noEmit --incremental false",
         "deploy": "npm run build && node --env-file=../../.env dist/util/deploy.js",
         "lint": "prettier --cache --check . && eslint src --ext mjs,js,ts --cache",
@@ -62,11 +62,13 @@
             "ts": "module"
         },
         "files": [
-            "tests/test.ts"
+            "tests/test.ts",
+            "tests/llm_forward.test.ts"
         ],
         "nodeArguments": [
             "--loader",
-            "ts-node/esm"
+            "ts-node/esm",
+            "--experimental-specifier-resolution=node"
         ]
     }
 }
