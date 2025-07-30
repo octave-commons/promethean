@@ -29,7 +29,6 @@
         "@discordjs/opus": "^0.10.0",
         "@discordjs/voice": "^0.18.0",
         "@types/sbd": "^1.0.5",
-        "@types/screenshot-desktop": "^1.12.3",
         "@types/wav": "^1.0.4",
         "chromadb": "^3.0.9",
         "discord.js": "^14.17.3",
@@ -42,7 +41,6 @@
         "pnpm": "^10.13.1",
         "prism-media": "^2.0.0-alpha.0",
         "sbd": "^1.0.19",
-        "screenshot-desktop": "^1.15.1",
         "wav": "^1.0.2"
     },
     "devDependencies": {

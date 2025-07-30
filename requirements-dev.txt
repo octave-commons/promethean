@@ -5,6 +5,7 @@ pytest
 pytest-asyncio
 pymongo
 pytest-cov
+requests
 
 fastapi
 uvicorn
