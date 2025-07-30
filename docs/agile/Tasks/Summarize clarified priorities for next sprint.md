@@ -11,7 +11,8 @@ After the alignment meeting, document the agreed-upon priorities and share them 
 ---
 
 ## 📦 Requirements
-- [ ] Meeting notes from the alignment session
+- [ ] Meeting notes from the alignment session #done 
+
 - [ ] Summary saved as `docs/notes/next-sprint-priorities.md`
 
 ---
