@@ -17,8 +17,8 @@
 
 		// Modules
 		"allowArbitraryExtensions": true,
-                "allowImportingTsExtensions": true,
-      "allowJs": true,
+                "allowImportingTsExtensions": false,
+                "allowJs": true,
 		"module": "es2022",
 		"moduleResolution": "bundler",
 		// "resolveJsonModule": true,
@@ -31,7 +31,8 @@
 		"importHelpers": false,
 		"newLine": "lf",
 		"noEmitHelpers": true,
-		"outDir": "dist",
+                "outDir": "dist",
+                "rootDir": ".",
 		"removeComments": false,
 		"sourceMap": true,
 
@@ -50,7 +51,7 @@
 		// Completeness
 		"skipLibCheck": true
 	},
-	"include": ["src/**/*.ts"],
-	"exclude": ["node_modules"]
+        "include": ["src/**/*.ts", "tests/**/*.ts"],
+        "exclude": ["node_modules", "tests/node_modules", "src/bot.ts"]
 }
 
