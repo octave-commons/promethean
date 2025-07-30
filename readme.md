@@ -51,6 +51,12 @@ Scripts in `agents/scripts/` launch commonly used services:
 
 Each script assumes dependencies are installed and should be run from the repository root.
 
+## Environment Variables
+
+The framework relies on several environment variables for configuration. See
+[docs/environment-variables.md](docs/environment-variables.md) for details on
+all available settings.
+
 ## Makefile Commands
 
 Common tasks are wrapped in the root `Makefile`:
