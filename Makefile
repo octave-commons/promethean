@@ -60,8 +60,9 @@ build-sibilant:
 	npx sibilant $(SIBILANT_SRC)/client -o $(JS_BUILD_DIR)/client
 
 build-ts:
-	@echo "Transpiling TS to JS..."
-	tsc -p $(TS_SRC)
+	@echo "Transpiling TS to JS... (if we had any shared ts modules)"
+  # There are no ts modules yet.
+	# tsc -p $(TS_SRC)
 
 clean-js:
 	rm -rf $(JS_BUILD_DIR)/*
