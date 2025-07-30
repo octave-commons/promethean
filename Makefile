@@ -8,8 +8,8 @@ TS_OUT=shared/js
 
 # === High-Level Targets ===
 
-.PHONY: all build clean lint format test setup start stop start-tts start-stt stop-tts stop-stt \
-	board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues coverage coverage-python coverage-js simulate-ci
+.PHONY: all build clean lint format test setup install system-deps start stop start-tts start-stt stop-tts stop-stt \
+        board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues coverage coverage-python coverage-js simulate-ci
 
 SERVICES_PY=services/stt services/tts services/discord-indexer
 SERVICES_JS=services/cephalon services/discord-embedder
@@ -92,13 +92,18 @@ coverage: coverage-python coverage-js
 # === Service Management ===
 
 setup:
-	pipenv install --dev
+	PIPENV_NOSPIN=1 pipenv install --dev --skip-lock
 	@for d in $(SERVICES_PY); do \
-	cd $$d && pipenv install --dev && cd - >/dev/null; \
+	cd $$d && PIPENV_NOSPIN=1 pipenv install --dev --skip-lock && cd - >/dev/null; \
 	done
 	@for d in $(SERVICES_JS); do \
-		cd $$d && npm install && cd - >/dev/null; \
+	cd $$d && npm install --no-package-lock && cd - >/dev/null; \
 	done
+	
+install: setup
+
+system-deps:
+	sudo apt-get update && sudo apt-get install -y libsndfile1
 
 start:
 	pm2 start ecosystem.config.js
