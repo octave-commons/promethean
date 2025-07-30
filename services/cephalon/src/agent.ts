@@ -22,7 +22,14 @@ export const AGENT_NAME = process.env.AGENT_NAME || "duck";
 import { ContextManager, formatMessage, GenericEntry} from "./contextManager";
 import tokenizer from 'sbd';
 import { choice, generatePromptChoice, generateSpecialQuery } from "./util";
-import screenshot from 'screenshot-desktop';
+const VISION_HOST = process.env.VISION_HOST || 'http://localhost:5003';
+
+export async function captureScreen(): Promise<Buffer> {
+    const res = await fetch(`${VISION_HOST}/capture`);
+    if(!res.ok) throw new Error('Failed to capture screen');
+    const arrayBuf = await res.arrayBuffer();
+    return Buffer.from(arrayBuf);
+}
 
 // type BotActivityState = 'idle' | 'listening' | 'speaking';
 // type ConversationState = 'clear' | 'overlapping_speech' | 'awaiting_response';
@@ -277,7 +284,7 @@ export class AIAgent extends EventEmitter {
         })
         const model = "gemma3"
         console.log("You won't believe how big this context is...", context.length)
-        const imageBuffer = await screenshot({ format: 'png' });
+        const imageBuffer = await captureScreen();
         const lastMessage: Message = context.pop() as Message
         lastMessage.images = [imageBuffer]
         await writeFile("./test.png", imageBuffer) // save the screenshot for testing purposes
