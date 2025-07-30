@@ -3,13 +3,14 @@
 This agent is responsible for maintaining and navigating the Kanban board in `agile/boards/kanban`.
 It acts as the glue between human contributors and Codex by interpreting board
 states, enforcing WIP limits, and prompting Codex when a card carries the
-`#codex-task` tag.
+`#codex-task` tag. The board itself is generated from the task files in
+`agile/tasks/` using `scripts/update_kanban_from_tasks.py`.
 
 ---
 
 ## 📚 Operating Context
 
-- The board structure and flow logic are defined in [[Process|process.md]].
+- The board structure and flow logic are defined in [process.md](Process.md).
 - Tasks must live in `agile/tasks/` as individual files.
 - Tasks must be linked from the board before they can move to **Ready** or beyond.
 - Board items that are not yet linked to task files are considered incomplete.
@@ -43,6 +44,20 @@ states, enforcing WIP limits, and prompting Codex when a card carries the
 
 ---
 
+### Status Hashtags
+
+The board columns are derived from these hashtags in each task file:
+
+| Hashtag        | Column |
+|----------------|--------|
+| `#IceBox`      | Ice Box |
+| `#Accepted`    | Accepted |
+| `#Ready`       | Ready |
+| `#Todo`        | 🟢 To Do |
+| `#InProgress`  | 🟡 In Progress |
+| `#Done`        | 🔵 Done |
+
+
 ## 🛠️ Required Behaviors
 
 - Before moving a task to `Ready`, confirm:
@@ -63,6 +78,8 @@ states, enforcing WIP limits, and prompting Codex when a card carries the
 - Epics: `agile/boards/epic.md`
 - Tasks: `agile/tasks/*.md`
 - Process flow: `process.md`
+
+The board file is regenerated whenever `scripts/update_kanban_from_tasks.py` is run. **Do not edit `kanban.md` manually.** To move a task between columns, edit the status hashtag in its corresponding task file and rerun the script.
 
 ---
 
