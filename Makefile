@@ -11,7 +11,7 @@ TS_OUT=shared/js
 .PHONY: all build clean lint format test setup install system-deps start stop start-tts start-stt stop-tts stop-stt \
         board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues coverage coverage-python coverage-js simulate-ci
 
-SERVICES_PY=services/stt services/tts services/discord-indexer services/stt_ws services/whisper_stream_ws
+SERVICES_PY=services/stt services/tts services/discord_indexer services/stt_ws services/whisper_stream_ws
 SERVICES_JS=services/cephalon services/discord-embedder services/llm services/vision services/voice
 
 all: build
@@ -46,6 +46,13 @@ format-python:
 
 test-python:
 	pytest tests/
+
+test-python-services:
+	@for d in $(SERVICES_PY); do \
+		echo "Running tests in $$d...";\
+		cd $$d && PIPENV_NOSPIN=1 pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term && cd - >/dev/null; \
+	done
+
 
 # === JS/TS/Sibilant ===
 

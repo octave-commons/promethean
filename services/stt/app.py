@@ -4,6 +4,9 @@ from fastapi.responses import JSONResponse
 
 # from lib.speech.wisper_stt import transcribe_pcm
 import asyncio
+
+import sys
+sys.path.append("../../")
 from shared.py.speech.wisper_stt import transcribe_pcm
 
 app = FastAPI()

@@ -13,6 +13,7 @@ pymongo = "*"
 pytest = "*"
 flake8 = "*"
 black = "*"
+anyio = "*"
 
 [requires]
 python_version = "3.11"

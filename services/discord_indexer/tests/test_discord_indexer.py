@@ -1,6 +1,6 @@
 import os, sys, asyncio, importlib
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "shared", "py"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../", "shared", "py"))
 
 import pytest
 import discord
