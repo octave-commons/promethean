@@ -14,7 +14,7 @@ This `docs` directory houses internal documentation for the **Promethean Framewo
         
 - **Agile process and tasks**
     
-    - [Kanban board](agile/boards/kanban.md) – the Kanban board used to track work. When opened in Obsidian with the Kanban plugin, it renders as an interactive board.
+    - [Kanban board](agile/boards/kanban.md) – the Kanban board used to track work. When opened in Obsidian with the Kanban plugin, it renders as an interactive board. See [board usage](board_usage.md) for how to interact with it.
         
     - [Process](agile/Process.md) – explains the stages of the development flow (Ice Box, Accepted, Breakdown, etc.) and when cards move between them[raw.githubusercontent.com](https://raw.githubusercontent.com/riatzukiza/promethean/ef2459fe07e70d361b9d915670ce2fa8218fbe51/docs/agile/Process.md#:~:text=).
         

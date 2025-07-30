@@ -4,6 +4,9 @@ kanban-plugin: board
 
 ---
 
+For guidelines on using this board effectively, see
+[Board Usage](../board_usage.md).
+
 ## Ice Box
 
 - [ ] [Migrating relevant modules from riatzukiza.github.io to -site- and -docs-](../tasks/Migrating%20relevant%20modules%20from%20riatzukiza.github.io%20to%20-site-%20and%20-docs-.md) #framework-core
