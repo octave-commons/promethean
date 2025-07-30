@@ -4,6 +4,7 @@ inflect
 pytest
 pytest-asyncio
 pymongo
+pytest-cov
 
 fastapi
 uvicorn

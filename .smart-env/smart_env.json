@@ -1,0 +1,131 @@
+{
+  "is_obsidian_vault": true,
+  "smart_blocks": {
+    "embed_blocks": true,
+    "min_chars": 200
+  },
+  "smart_sources": {
+    "single_file_data_path": ".smart-env/smart_sources.json",
+    "min_chars": 200,
+    "embed_model": {
+      "adapter": "transformers",
+      "transformers": {
+        "legacy_transformers": false,
+        "model_key": "TaylorAI/bge-micro-v2"
+      },
+      "TaylorAI/bge-micro-v2": {}
+    }
+  },
+  "file_exclusions": "Untitled",
+  "folder_exclusions": "",
+  "smart_view_filter": {
+    "render_markdown": true,
+    "show_full_path": false,
+    "exclude_blocks_from_source_connections": false,
+    "exclude_frontmatter_blocks": true,
+    "expanded_view": false
+  },
+  "excluded_headings": "",
+  "language": "en",
+  "new_user": true,
+  "re_import_wait_time": 13,
+  "smart_chat_threads": {
+    "chat_model": {
+      "adapter": "ollama",
+      "ollama": {
+        "model_key": "llama3.2:latest",
+        "models": {
+          "nomic-embed-text:latest": {
+            "model_name": "nomic-embed-text:latest",
+            "id": "nomic-embed-text:latest",
+            "multimodal": false,
+            "max_input_tokens": 2048,
+            "can_use_tools": true
+          },
+          "gemma3:latest": {
+            "model_name": "gemma3:latest",
+            "id": "gemma3:latest",
+            "multimodal": false,
+            "max_input_tokens": 131072,
+            "can_use_tools": true
+          },
+          "qwen2.5vl:3b": {
+            "model_name": "qwen2.5vl:3b",
+            "id": "qwen2.5vl:3b",
+            "multimodal": false,
+            "max_input_tokens": 128000,
+            "can_use_tools": true
+          },
+          "qwen2.5vl:latest": {
+            "model_name": "qwen2.5vl:latest",
+            "id": "qwen2.5vl:latest",
+            "multimodal": false,
+            "max_input_tokens": 128000,
+            "can_use_tools": true
+          },
+          "moondream:latest": {
+            "model_name": "moondream:latest",
+            "id": "moondream:latest",
+            "multimodal": false,
+            "max_input_tokens": 2048,
+            "can_use_tools": true
+          },
+          "gemma3n:e4b": {
+            "model_name": "gemma3n:e4b",
+            "id": "gemma3n:e4b",
+            "multimodal": false,
+            "max_input_tokens": 32768,
+            "can_use_tools": true
+          },
+          "llama3.2:latest": {
+            "model_name": "llama3.2:latest",
+            "id": "llama3.2:latest",
+            "multimodal": false,
+            "max_input_tokens": 131072,
+            "can_use_tools": true
+          },
+          "llama3.2:1b": {
+            "model_name": "llama3.2:1b",
+            "id": "llama3.2:1b",
+            "multimodal": false,
+            "max_input_tokens": 131072,
+            "can_use_tools": true
+          }
+        }
+      }
+    },
+    "active_thread_key": "Untitled Chat 2025-07-29 23-26-55",
+    "system_prompt": "",
+    "detect_self_referential": true,
+    "review_context": true,
+    "stream": true,
+    "language": "en",
+    "modifier_key_to_send": "shift",
+    "use_tool_calls": true
+  },
+  "smart_notices": {
+    "muted": {}
+  },
+  "version": "",
+  "smart_contexts": {
+    "link_depth": 0,
+    "inlinks": false,
+    "follow_links_in_excluded": true,
+    "excluded_headings": [],
+    "max_len": 0,
+    "templates": {
+      "0": {
+        "before": "<context_primary path=\"{{ITEM_PATH}}\" mtime=\"{{ITEM_TIME_AGO}}\">",
+        "after": "</context_primary>"
+      },
+      "1": {
+        "before": "<context_linked path=\"{{ITEM_PATH}}\" mtime=\"{{ITEM_TIME_AGO}}\">",
+        "after": "</context_linked>"
+      },
+      "-1": {
+        "before": "<context>\n<file_tree>\n{{FILE_TREE}}\n</file_tree>",
+        "after": "</context>"
+      }
+    }
+  }
+}

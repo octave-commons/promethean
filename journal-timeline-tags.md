@@ -1,2 +1,0 @@
-
-\#hashtags: #journal #timeline #promethean
