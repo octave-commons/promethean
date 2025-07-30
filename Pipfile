@@ -47,6 +47,7 @@ g2p-en = "*"
 nltk = "*"
 whisper = "*"
 openai-whisper = "*"
+websockets = "*"
 
 [dev-packages]
 pytest = "*"
