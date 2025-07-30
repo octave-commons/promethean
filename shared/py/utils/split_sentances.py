@@ -1,6 +1,10 @@
 """Utilities for splitting text into sentence-based chunks."""
 
+import logging
 import re
+
+# module level logger
+log = logging.getLogger(__name__)
 
 
 def split_sentences(text, max_chunk_len=79, min_chunk_len=20):
@@ -23,14 +27,16 @@ def split_sentences(text, max_chunk_len=79, min_chunk_len=20):
         Sequence of chunks derived from the input.
     """
 
-    print(
-        f"Splitting text into sentence-aware chunks (max {max_chunk_len}, min {min_chunk_len})."
+    log.debug(
+        "Splitting text into sentence-aware chunks (max %s, min %s).",
+        max_chunk_len,
+        min_chunk_len,
     )
-    print(f"Input text length: {len(text)} characters")
+    log.debug("Input text length: %d characters", len(text))
 
     # First pass: basic sentence splitting
     sentences = re.split(r'(?<=[.!?]) +', text.strip())
-    print(f"Found {len(sentences)} sentences.")
+    log.debug("Found %d sentences.", len(sentences))
 
     all_chunks = []
     current_chunk = ""
@@ -80,6 +86,6 @@ def split_sentences(text, max_chunk_len=79, min_chunk_len=20):
         all_chunks.append(current_chunk.strip())
 
     for chunk in all_chunks:
-        print(f"Chunk: '{chunk}' (length: {len(chunk)})")
+        log.debug("Chunk: '%s' (length: %d)", chunk, len(chunk))
 
     return all_chunks
