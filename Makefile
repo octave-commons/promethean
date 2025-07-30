@@ -54,14 +54,15 @@ test-python:
 build-js: build-ts build-sibilant
 
 build-sibilant:
-	@echo "Transpiling Sibilant to JS..."
-	npx sibilant $(SIBILANT_SRC)/common -o $(JS_BUILD_DIR)/common
-	npx sibilant $(SIBILANT_SRC)/server -o $(JS_BUILD_DIR)/server
-	npx sibilant $(SIBILANT_SRC)/client -o $(JS_BUILD_DIR)/client
+	@echo "Transpiling Sibilant to JS... (not ready)"
+	# npx sibilant $(SIBILANT_SRC)/common -o $(JS_BUILD_DIR)/common
+	# npx sibilant $(SIBILANT_SRC)/server -o $(JS_BUILD_DIR)/server
+	# npx sibilant $(SIBILANT_SRC)/client -o $(JS_BUILD_DIR)/client
 
 build-ts:
-	@echo "Transpiling TS to JS..."
-	tsc -p $(TS_SRC)
+	@echo "Transpiling TS to JS... (if we had any shared ts modules)"
+  # There are no ts modules yet.
+	# tsc -p $(TS_SRC)
 
 clean-js:
 	rm -rf $(JS_BUILD_DIR)/*
