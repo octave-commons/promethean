@@ -16,7 +16,7 @@
 - fs/promises
 - ollama
 - sbd
-- screenshot-desktop
+- vision service (`/capture`)
 
 ## Dependents
 - None

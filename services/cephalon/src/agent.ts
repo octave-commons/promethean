@@ -22,8 +22,14 @@ export const AGENT_NAME = process.env.AGENT_NAME || "duck";
 import { ContextManager, formatMessage, GenericEntry} from "./contextManager";
 import tokenizer from 'sbd';
 import { choice, generatePromptChoice, generateSpecialQuery } from "./util";
-import screenshot from 'screenshot-desktop';
-import { LLMService } from "./llm-service";
+const VISION_HOST = process.env.VISION_HOST || 'http://localhost:5003';
+
+export async function captureScreen(): Promise<Buffer> {
+    const res = await fetch(`${VISION_HOST}/capture`);
+    if(!res.ok) throw new Error('Failed to capture screen');
+    const arrayBuf = await res.arrayBuffer();
+    return Buffer.from(arrayBuf);
+}
 
 // type BotActivityState = 'idle' | 'listening' | 'speaking';
 // type ConversationState = 'clear' | 'overlapping_speech' | 'awaiting_response';
@@ -278,14 +284,11 @@ export class AIAgent extends EventEmitter {
             "content": specialQuery
         })
         console.log("You won't believe how big this context is...", context.length)
-        let imageBuffer: Buffer | undefined;
-        if(!process.env.NO_SCREENSHOT) {
-            imageBuffer = await screenshot({ format: 'png' });
-            const lastMessage: Message = context.pop() as Message;
-            lastMessage.images = [imageBuffer];
-            await writeFile("./test.png", imageBuffer); // save the screenshot for testing purposes
-            context.push(lastMessage);
-        }
+        const imageBuffer = await captureScreen();
+        const lastMessage: Message = context.pop() as Message
+        lastMessage.images = [imageBuffer]
+        await writeFile("./test.png", imageBuffer) // save the screenshot for testing purposes
+        context.push(lastMessage);
 
         for(const message of context)
             console.log(message.content)
