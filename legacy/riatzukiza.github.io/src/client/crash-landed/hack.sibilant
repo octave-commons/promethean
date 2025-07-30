@@ -1,0 +1,15 @@
+(namespace crash-landed)
+
+
+(include "kit/header" )
+(import-namespace kit)
+
+(include "kit-interface/header" )
+(import-namespace interface)
+
+(include "../../../inc/rand.sibilant")
+(include "../../../inc/misc.sibilant")
+(include "../../../inc/docs.sibilant")
+(import-namespace docs)
+
+(set global 'mixin mixin 'create create)

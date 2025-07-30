@@ -1,0 +1,38 @@
+(include "../../../inc/dom.sibilant")
+
+(import config "./config.js")
+(import game-view start-button particle-list "./ui.js")
+(import setup "./setup.sibilant")
+(import update "./update.sibilant")
+(import Game-systems-manager "./workers.sibilant")
+(import particles vertices "./data.sibilant")
+
+(const (lit min-mass max-mass actual-maximum-mass spawn-width spawn-height spawn-area particle-count) config)
+
+(def-async main ()
+  (setup particles Game-systems-manager vertices)
+
+  (var promise (Promise.resolve))
+  (while! true (await (update Game-systems-manager particles vertices)))
+  (return null))
+
+
+(const debug-view (dom (.div .id "debug-view" .className "panel"
+                         .style (lit (height (+  (second config.dimensions)"px"))
+                                     (width (+ (Math.round (- (* window.innerWidth 0.2) 42)) "px"))
+                                     ("overflow-y" "scroll"))
+                         (-> (Date.now))
+                         (start-button main)
+                         (-> (particle-list particles))
+                         )))
+
+
+(set-interval (-> (.render debug-view))
+              3000)
+
+(with-dom Document-body
+  (.div .id 'frame (.div .id "container"
+                         game-view
+                         debug-view)))
+
+

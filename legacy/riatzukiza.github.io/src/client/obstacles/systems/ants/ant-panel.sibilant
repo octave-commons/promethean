@@ -1,0 +1,14 @@
+(namespace obstacles)
+(import Property-view View-panel "/client/obstacles/systems/property-view.js")
+
+(define Ants-property-view Property-view)
+
+(define Ant-panel View-panel
+
+  (page-size 5)
+  (page 0)
+  (cursor 0)
+  (title "Ants"))
+
+(export Ants-property-view)
+(export Ant-panel)

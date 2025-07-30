@@ -1,0 +1,27 @@
+(namespace obstacles)
+(import Property-view View-panel "/client/obstacles/systems/property-view.js")
+(import Trail-dots "/client/obstacles/systems/ants/trail-dots.js")
+
+(include "../../../../../inc/dom.sibilant")
+(import-namespace dom)
+
+(define Trails-property-view Property-view)
+
+(define Trails-panel View-panel
+  (gett trail-dots (this.game.systems.get-by-symbol
+                    Trail-dots.symbol))
+  (gett visible? this.trail-dots.visible?)
+  (def-view settings-panel this.settings-panel
+    (.div .className "panel"
+          (.button .onclick (-> (.toggle-visibility this.trail-dots) )
+                   (-> (if this.visible?
+                           "visible"
+                           "hidden"
+                           )))))
+  (page-size 20)
+  (page 0)
+  (cursor 0)
+  (title "Trails"))
+
+(export Trails-property-view)
+(export Trails-panel)

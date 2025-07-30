@@ -1,0 +1,16 @@
+(namespace obstacles )
+
+(import display-decimal "/client/obstacles/strings.js")
+(import Position Position-interface "/shared/systems/position.js")
+
+(include "../../../../inc/dom.sibilant")
+(import-namespace dom)
+
+(def-view Position-interface.view ()
+  (.div .className "panel"
+        .style (lit (width "48%"))
+        (.div "position")
+        (.div (-> (display-decimal this.x 2)) ", " (-> (display-decimal this.y 2)))))
+
+(export Position)
+(export Position-interface)

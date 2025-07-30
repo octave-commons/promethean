@@ -1,0 +1,25 @@
+(import System Component "/shared/ecs.js")
+(import List "/shared/data-structures/list.js")
+(define Item-interface Component
+  (type "food") ;; only type of item right now.
+  (calories 500)
+  (container null)
+  (def store (container)
+    (if this.container
+        (throw (new Error "An item must first be removed from its container to store it in another."))
+        )
+    (if (.add container.entity.container this.entity)
+        (assign this.container container)
+        false))
+  (def consume (entity)
+    (entity.needs.eat this))
+  (def clear ()
+    (when this.container
+        (.remove this.container this.entity)
+        (assign this.container null))))
+(export Item-interface)
+(define Item System
+  (Component Item-interface)
+  (def *update-component ())
+  )
+(export Item)

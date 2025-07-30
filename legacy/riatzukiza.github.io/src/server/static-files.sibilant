@@ -1,0 +1,51 @@
+(include "kit/header")
+(include "../../inc/async")
+(import-namespace async)
+(import-namespace kit)
+
+(require! mime-types "mime-types"
+          Path 'path)
+
+(def serve-static-files (sys)
+
+  (def serve (message)
+
+    (const (lit request response route key) message)
+
+    (var path (if (= (first key) "")
+                  "./"
+                  (pipe (.filter key (=> (k) (not (or (= k ".") (= k "..")))))
+                        (.join "/"))))
+    (print "serving path" path)
+    (def serve-file (file)
+      (var ext (Path.extname file.path)
+           mime (.lookup mime-types ext))
+
+      (print "serving static file" file.path)
+
+      (.set-header response "Content-Type" mime)
+      (.set-header response "Cross-Origin-Opener-Policy"  "same-origin")
+      (.set-header response "Cross-Origin-Embedder-Policy"  "credentialless")
+      (.pipe file.read-stream response))
+
+    (def serve-directory (index)
+      (print "serving directory")
+      (.end response "directory"))
+
+    (def handle-directory (file)
+      (pipe file
+            (.get "index.html")
+            (.then serve-file)
+            (.catch (-> (serve-directory file)))))
+
+    (pipe (.find sys path)
+          (.then (=> (file)
+                     (if (file.is-dir?)
+                         (handle-directory file)
+                         (serve-file file))))
+          (.catch (=> (err)
+                      (print "file not found" route key)
+                      (assign response.statusCode 404)
+                      (response.end))))))
+
+(export serve-static-files)

@@ -1,0 +1,17 @@
+(namespace obstacles)
+(import display-decimal "/client/obstacles/strings.js")
+(import Velocity-interface Velocity "/shared/systems/velocity.js")
+
+(include "../../../../inc/dom.sibilant")
+(import-namespace dom)
+
+(def-view Velocity-interface.view ()
+  (.div .className "panel"
+        .id (+ "velocity-panel" this.entity.id)
+        .style (lit (width "48%"))
+        (.div "velocity:")
+        (.div (-> (display-decimal this.xd 2)) "," (-> (display-decimal this.yd 2)))))
+
+(export Velocity-interface)
+
+(export Velocity)

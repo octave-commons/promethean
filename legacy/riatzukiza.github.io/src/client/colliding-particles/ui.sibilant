@@ -1,0 +1,41 @@
+(include "../../../inc/dom.sibilant")
+(import rendering "./rendering.js")
+(const game-view (dom (.div .id "game-view" .className "panel"
+                            .style (lit ("background-color" "black"))
+                            (-> rendering.context.canvas))))
+
+
+(def start-button  (start-game)
+  (dom (.div .id 'start-game (.button .onclick start-game "start game"))))
+(def panel (...args)
+  (dom (.div .className "panel" .style (lit (width "99%")) args))
+  )
+(def particle-list (particles)
+  (dom (.div .className "panel"
+             (panel "total mass" (reduce particles.phys.data 0 (r phys)
+                                         (+ r phys.mass)
+                                         ))
+             (pipe particles.pos.data
+
+                   (map (p)
+                        (lit (id p.id)
+                             (x p.x)
+                             (y p.y)
+                             (pos p)
+                             (mass (get particles.phys.data p.id 'mass))
+                             (scale (get particles.phys.data p.id 'scale))))
+                   (sort (a b) (- b.mass a.mass))
+                   (.slice 0 20)
+                   (map  (p) (dom (.div .className "panel"
+                                        (.button .onclick (-> (print "CLICK" (lit p rendering))(set rendering 'x-offset (* -1 p.pos.x)
+                                                                                                    'y-offset (* -1 p.pos.y)))
+                                                 "jump to"
+                                                 )
+                                        (panel "id:" (+ " " p.id))
+                                        (panel "x:" (+ " " p.x))
+                                        (panel "y:" (+ " " p.y))
+                                        (panel "mass:" (+ " " p.mass))
+                                        (panel "scale:" (+ " " p.scale)))))))))
+(export particle-list)
+(export game-view)
+(export start-button)
