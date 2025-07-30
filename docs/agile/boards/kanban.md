@@ -128,7 +128,7 @@ kanban-plugin: board
 
 **Complete**
 - [x] Migrate duck services to  promethean
-- [x] Initialize Obsidian vault at repo root
+- [x] Initialize Obsidian vault at repo root #done
 - [x] Obsidian vault is initialized at the root and actively being configured
 - [x] [Add .obsidian to .gitignore](../tasks/Add%20.obsidian%20to%20.gitignore.md)
 - [ ] Decided on monorepo architecture #framework-core
