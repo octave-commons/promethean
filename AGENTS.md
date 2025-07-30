@@ -61,6 +61,9 @@ site/            # Website or UI content (optional)
 * Contributors may submit raw JS or TS modules—Sibilant is preferred but not mandatory
 * If a module evolves entirely into JS or TS, it will be respected as-is if quality is maintained
 
+### Makefile Driven Workflow
+All development and board automation tasks should use the root `Makefile` targets for consistency.
+
 ---
 
 ## ⚙️ Codex Permissions
