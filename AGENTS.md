@@ -41,6 +41,38 @@ site/            # Website or UI content (optional)
 
 ---
 
+# Environment variables
+
+You have access to the following ENV vars:
+
+```
+AGENT NAME
+DISCORD CLIENT_USER_ID
+
+DISCORD_GUILD_ID
+DISCORD_CLIENT_USER_NAME
+AUTHOR_ID
+AUTHOR USER NAME
+```
+
+## Secrets
+
+You have the following secrets in your ENV:
+
+```
+
+GITHUB API KEY
+DISCORD TOKEN
+```
+
+The discord token is to a bot named   `AGENT_NAME`
+
+You can use this to interact with me through discord.
+You can use `AUTHOR_NAME` and  `AUTHOR_ID` to find  me.
+
+Keep these secrets close  to your chest, and be responsible with your use of them or I will have to take them away from you.
+
+
 ## 📆 Language & Tooling
 
 ### Python & Hy

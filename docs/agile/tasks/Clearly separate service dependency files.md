@@ -1,8 +1,5 @@
 ## 🛠️ Task: Clearly separate service dependency files
 
-Create isolated dependency manifests for each service so they can be installed
-independently. Currently some packages are shared in the root `package.json`
-and `Pipfile`, which complicates per-service deployment.
 
 ---
 
