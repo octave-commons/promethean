@@ -41,5 +41,20 @@ module.exports = {
             restart_delay: 10000,
             kill_timeout: 10000 // wait 5s before SIGKILL
         },
+        {
+            name: "file-watcher",
+            cwd: "./services/file-watcher",
+            script: "npm",
+            args: "start",
+            exec_mode: "fork",
+            watch: ["./services/file-watcher"],
+            instances: 1,
+            autorestart: true,
+            env: {
+                NODE_ENV: "production"
+            },
+            restart_delay: 10000,
+            kill_timeout: 10000
+        },
     ]
 };
