@@ -88,7 +88,7 @@ pytest -q
 
 ## Converting Kanban Tasks to GitHub Issues
 
-A helper script `scripts/kanban_to_issues.py` can create GitHub issues from the tasks listed in `docs/kanban.md`. Set the following environment variables before running the script:
+A helper script `scripts/kanban_to_issues.py` can create GitHub issues from the tasks listed in `docs/agile/boards/kanban.md`. Set the following environment variables before running the script:
 
 - `GITHUB_TOKEN` – a personal access token with permission to create issues
 - `GITHUB_REPO` – the repository in `owner/repo` format
