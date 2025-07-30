@@ -66,6 +66,7 @@ The board columns are derived from these hashtags in each task file:
 - Before moving to `Done`, confirm:
   - The outcome is documented
   - Any generated files are linked
+  - `make test` and `make simulate-ci` run successfully
 - When a task is added to the board with no backing file:
   - Create a markdown stub in `agile/tasks/` with metadata and checklist
   - Flag it for review in `Breakdown`

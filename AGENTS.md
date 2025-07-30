@@ -174,6 +174,15 @@ train_stt_quantize.py
 train_cephalon_align_lora.py
 ```
 
+## 🚥 CI Verification
+
+All contributions must be validated locally before opening a pull request:
+
+1. Run `make test` for the relevant services.
+2. Run `make simulate-ci` to emulate GitHub Actions using [`act`](https://github.com/nektos/act).
+
+Work is only considered complete when both commands succeed.
+
 ---
 
 ## 🔐 Versioning and Storage Rules

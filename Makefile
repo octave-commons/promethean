@@ -8,7 +8,7 @@ TS_OUT=shared/js
 
 # === High-Level Targets ===
 
-.PHONY: all build clean lint format test setup start stop start-tts start-stt stop-tts stop-stt
+.PHONY: all build clean lint format test simulate-ci setup start stop start-tts start-stt stop-tts stop-stt
 
 SERVICES_PY=services/stt services/tts services/discord-indexer
 SERVICES_JS=services/cephalon services/discord-embedder
@@ -24,6 +24,10 @@ lint: lint-python lint-js
 format: format-python format-js
 
 test: test-python test-js
+
+# === Workflow Simulation ===
+simulate-ci:
+	act -W .github/workflows/tests.yml pull_request
 
 # === Python/HY ===
 
