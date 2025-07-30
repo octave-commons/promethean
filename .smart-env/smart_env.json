@@ -32,9 +32,78 @@
   "smart_chat_threads": {
     "chat_model": {
       "adapter": "ollama",
-      "ollama": {}
-    }
+      "ollama": {
+        "model_key": "llama3.2:latest",
+        "models": {
+          "nomic-embed-text:latest": {
+            "model_name": "nomic-embed-text:latest",
+            "id": "nomic-embed-text:latest",
+            "multimodal": false,
+            "max_input_tokens": 2048,
+            "can_use_tools": true
+          },
+          "gemma3:latest": {
+            "model_name": "gemma3:latest",
+            "id": "gemma3:latest",
+            "multimodal": false,
+            "max_input_tokens": 131072,
+            "can_use_tools": true
+          },
+          "qwen2.5vl:3b": {
+            "model_name": "qwen2.5vl:3b",
+            "id": "qwen2.5vl:3b",
+            "multimodal": false,
+            "max_input_tokens": 128000,
+            "can_use_tools": true
+          },
+          "qwen2.5vl:latest": {
+            "model_name": "qwen2.5vl:latest",
+            "id": "qwen2.5vl:latest",
+            "multimodal": false,
+            "max_input_tokens": 128000,
+            "can_use_tools": true
+          },
+          "moondream:latest": {
+            "model_name": "moondream:latest",
+            "id": "moondream:latest",
+            "multimodal": false,
+            "max_input_tokens": 2048,
+            "can_use_tools": true
+          },
+          "gemma3n:e4b": {
+            "model_name": "gemma3n:e4b",
+            "id": "gemma3n:e4b",
+            "multimodal": false,
+            "max_input_tokens": 32768,
+            "can_use_tools": true
+          },
+          "llama3.2:latest": {
+            "model_name": "llama3.2:latest",
+            "id": "llama3.2:latest",
+            "multimodal": false,
+            "max_input_tokens": 131072,
+            "can_use_tools": true
+          },
+          "llama3.2:1b": {
+            "model_name": "llama3.2:1b",
+            "id": "llama3.2:1b",
+            "multimodal": false,
+            "max_input_tokens": 131072,
+            "can_use_tools": true
+          }
+        }
+      }
+    },
+    "active_thread_key": "Untitled Chat 2025-07-29 23-26-55",
+    "system_prompt": "",
+    "detect_self_referential": true,
+    "review_context": true,
+    "stream": true,
+    "language": "en",
+    "modifier_key_to_send": "shift",
+    "use_tool_calls": true
   },
-  "smart_notices": {},
-  "version": ""
-}
+  "smart_notices": {
+    "muted": {}
+  },
+  "version": "",
