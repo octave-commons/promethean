@@ -19,10 +19,16 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install numpy inflect pytest discord pytest-asyncio pymongo scipy
+          pip install numpy inflect pytest discord pytest-asyncio pymongo pytest-cov scipy
 
-      - name: Run Python tests
-        run: pytest -q
+      - name: Run Python tests with coverage
+        run: pytest --cov=./ --cov-report=xml --cov-report=term
+
+      - name: Upload Python coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-coverage
+          path: coverage.xml
 
       - uses: actions/setup-node@v3
         with:
@@ -34,6 +40,12 @@ jobs:
           npm --prefix services/cephalon install --no-package-lock
           npm --prefix services/discord-embedder install --no-package-lock
 
-      - name: Run JS/TS Tests
-        run: npm test
+      - name: Run JS/TS tests with coverage
+        run: npx c8 --reporter=text --reporter=lcov npm test
+
+      - name: Upload JS coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: js-coverage
+          path: coverage
 
