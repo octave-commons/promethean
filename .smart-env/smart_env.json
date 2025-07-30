@@ -107,3 +107,25 @@
     "muted": {}
   },
   "version": "",
+  "smart_contexts": {
+    "link_depth": 0,
+    "inlinks": false,
+    "follow_links_in_excluded": true,
+    "excluded_headings": [],
+    "max_len": 0,
+    "templates": {
+      "0": {
+        "before": "<context_primary path=\"{{ITEM_PATH}}\" mtime=\"{{ITEM_TIME_AGO}}\">",
+        "after": "</context_primary>"
+      },
+      "1": {
+        "before": "<context_linked path=\"{{ITEM_PATH}}\" mtime=\"{{ITEM_TIME_AGO}}\">",
+        "after": "</context_linked>"
+      },
+      "-1": {
+        "before": "<context>\n<file_tree>\n{{FILE_TREE}}\n</file_tree>",
+        "after": "</context>"
+      }
+    }
+  }
+}
