@@ -60,9 +60,8 @@ kanban-plugin: board
 - [ ] [Update GitHub Actions to use makefile](../tasks/update%20github%20actions%20to%20use%20makefile.md)
 - [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md)
 - [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
-- [ ] Write meaningful tests for Cephalon
+- [ ] [Write meaningful tests for Cephalon](../../../Write%20meaningful%20tests%20for%20Cephalon.md)
 - [ ] [Clarify Promethean project vision](../tasks/Clarify%20Promethean%20project%20vision.md)
-- [ ] [Document board usage guidelines](../tasks/Document%20board%20usage%20guidelines.md)
 
 
 ## Agent thinking (16)
@@ -73,6 +72,7 @@ kanban-plugin: board
 - [ ] [Remove ts-node and compile ava tests directly](Remove%20ts-node%20and%20compile%20ava%20tests%20directly.md) #cicd
 - [ ] [Add Ollama formally to pipeline](../tasks/Add%20Ollama%20formally%20to%20pipeline.md) #framework-core
 - [ ] [Separate all testing pipelines in GitHub Actions](../tasks/separate%20all%20testing%20pipelines%20in%20github%20Actions.md)
+- [ ] [Document board usage guidelines](../tasks/Document%20board%20usage%20guidelines.md)
 
 
 ## Breakdown (10)
@@ -95,11 +95,6 @@ kanban-plugin: board
 
 ## ready (8)
 
-- [ ] [Write board sync script](../tasks/Write%20board%20sync%20script.md) #framework-core
-- [ ] [Document board sync workflow](../tasks/Document%20board%20sync%20workflow.md) #framework-core
-- [ ] [Add unit tests for date_tools.py](../tasks/Add_unit_tests_for_date_tools.py.md) #codex-task #testing
-- [ ] [Add unit tests for GUI helpers](../tasks/Add_unit_tests_for_gui_helpers.md) #codex-task #testing
-- [ ] [Add unit tests for wav_processing](../tasks/Add_unit_tests_for_wav_processing.md) #codex-task #testing
 - [ ] [Add STT service tests](../tasks/Add_STT_service_tests.md) #codex-task #testing
 - [ ] [Add TTS service tests](../tasks/Add_TTS_service_tests.md) #codex-task #testing
 - [ ] [Write meaningful tests for Cephalon](../tasks/Write_meaningful_tests_for_Cephalon.md) #codex-task #testing
@@ -108,6 +103,11 @@ kanban-plugin: board
 ## 🟢 To Do (8)
 
 - [ ] [Obsidian Kanban Github Project Board Mirror system](../tasks/Obsidian%20Kanban%20Github%20Project%20Board%20Mirror%20system.md) #framework-core
+- [ ] [Write board sync script](../tasks/Write%20board%20sync%20script.md) #framework-core
+- [ ] [Document board sync workflow](../tasks/Document%20board%20sync%20workflow.md) #framework-core
+- [ ] [Add unit tests for date_tools.py](../tasks/Add_unit_tests_for_date_tools.py.md) #codex-task #testing
+- [ ] [Add unit tests for GUI helpers](../tasks/Add_unit_tests_for_gui_helpers.md) #codex-task #testing
+- [ ] [Add unit tests for wav_processing](../tasks/Add_unit_tests_for_wav_processing.md) #codex-task #testing
 
 
 ## 🟡 In Progress (4)
