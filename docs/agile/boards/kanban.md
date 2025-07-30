@@ -78,12 +78,6 @@ kanban-plugin: board
 ## Breakdown (10)
 
 - [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
-- [ ] [Add unit tests for date_tools.py](../tasks/Add_unit_tests_for_date_tools.py.md) #codex-task #testing
-- [ ] [Add unit tests for GUI helpers](../tasks/Add_unit_tests_for_gui_helpers.md) #codex-task #testing
-- [ ] [Add unit tests for wav_processing](../tasks/Add_unit_tests_for_wav_processing.md) #codex-task #testing
-- [ ] [Add STT service tests](../tasks/Add_STT_service_tests.md) #codex-task #testing
-- [ ] [Add TTS service tests](../tasks/Add_TTS_service_tests.md) #codex-task #testing
-- [ ] [Write meaningful tests for Cephalon](../tasks/Write_meaningful_tests_for_Cephalon.md) #codex-task #testing
 - [ ] [Fix Makefile test target](../tasks/Fix_makefile_test_target.md) #codex-task #testing
 - [ ] [Document local testing setup](../tasks/Document_local_testing_setup.md) #codex-task #testing
 - [ ] [Finalize STT workflow](../tasks/Finalize_STT_workflow.md) #codex-task #testing
@@ -103,12 +97,16 @@ kanban-plugin: board
 
 - [ ] [Write board sync script](../tasks/Write%20board%20sync%20script.md) #framework-core
 - [ ] [Document board sync workflow](../tasks/Document%20board%20sync%20workflow.md) #framework-core
+- [ ] [Add unit tests for date_tools.py](../tasks/Add_unit_tests_for_date_tools.py.md) #codex-task #testing
+- [ ] [Add unit tests for GUI helpers](../tasks/Add_unit_tests_for_gui_helpers.md) #codex-task #testing
+- [ ] [Add unit tests for wav_processing](../tasks/Add_unit_tests_for_wav_processing.md) #codex-task #testing
+- [ ] [Add STT service tests](../tasks/Add_STT_service_tests.md) #codex-task #testing
+- [ ] [Add TTS service tests](../tasks/Add_TTS_service_tests.md) #codex-task #testing
+- [ ] [Write meaningful tests for Cephalon](../tasks/Write_meaningful_tests_for_Cephalon.md) #codex-task #testing
 
 
 ## 🟢 To Do (8)
 
-- [ ] [Ensure GitHub-compatible markdown settings are documented](../tasks/Ensure%20GitHub-compatible%20markdown%20settings%20are%20documented.md) #documentation
-- [ ] [Research GitHub Projects board API](../tasks/Research%20GitHub%20Projects%20board%20API.md) #framework-core
 - [ ] [Obsidian Kanban Github Project Board Mirror system](../tasks/Obsidian%20Kanban%20Github%20Project%20Board%20Mirror%20system.md) #framework-core
 
 
@@ -116,6 +114,8 @@ kanban-plugin: board
 
 - [ ] [Finalize MIGRATION\_PLAN.md](../tasks/Finalize%20`MIGRATION_PLAN.md`.md) #framework-core
 - [ ] [Create base README.md templates for each service](../tasks/Create%20base%20`README.md`%20templates%20for%20each%20service.md) #doc-this
+- [ ] [Ensure GitHub-compatible markdown settings are documented](../tasks/Ensure%20GitHub-compatible%20markdown%20settings%20are%20documented.md) #documentation
+- [ ] [Research GitHub Projects board API](../tasks/Research%20GitHub%20Projects%20board%20API.md) #framework-core
 
 
 ## In Review
