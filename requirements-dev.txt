@@ -1,0 +1,6 @@
+discord
+numpy
+inflect
+pytest
+pytest-asyncio
+pymongo
