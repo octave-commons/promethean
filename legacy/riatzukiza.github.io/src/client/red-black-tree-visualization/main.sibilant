@@ -6,9 +6,9 @@
 (include "kit-interface/header" )
 (import-namespace interface)
 
-(include "../../../inc/rand.sibilant")
-(include "../../../inc/misc.sibilant")
-(include "../../../inc/docs.sibilant")
+(include "@shared/sibilant/inc/rand.sibilant")
+(include "@shared/sibilant/inc/misc.sibilant")
+(include "@shared/sibilant/inc/docs.sibilant")
 (import-namespace docs)
 
 (set global 'mixin mixin 'create create)
@@ -17,7 +17,7 @@
           (lit Ticker) "@shared/ticker.js"
           )
 
-(include "../../../inc/dom.sibilant")
+(include "@shared/sibilant/inc/dom.sibilant")
 (import-namespace dom)
 
 (const rb-tree (.spawn Red-black-tree))

@@ -3,7 +3,7 @@
 (import display-decimal "/client/obstacles/strings.js")
 (import Position Position-interface "/shared/systems/position.js")
 
-(include "../../../../inc/dom.sibilant")
+(include "@shared/sibilant/inc/dom.sibilant")
 (import-namespace dom)
 
 (def-view Position-interface.view ()

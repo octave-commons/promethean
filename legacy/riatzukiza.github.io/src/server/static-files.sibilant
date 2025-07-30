@@ -1,5 +1,5 @@
 (include "kit/header")
-(include "../../inc/async")
+(include "@shared/sibilant/inc/async.sibilant")
 (import-namespace async)
 (import-namespace kit)
 

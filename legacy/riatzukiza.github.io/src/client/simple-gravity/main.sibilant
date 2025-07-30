@@ -1,4 +1,4 @@
-(include "../../../inc/dom.sibilant")
+(include "@shared/sibilant/inc/dom.sibilant")
 (import simplex3 simplex2 "/shared/noise.js")
 (import Vector-2D-phase-space "./typed-arrays/vector-2d.js")
 (import Double-buffered-array "./typed-arrays/double-buffered.js")

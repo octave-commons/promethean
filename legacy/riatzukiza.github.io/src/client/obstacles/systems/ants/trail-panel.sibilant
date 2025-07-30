@@ -2,7 +2,7 @@
 (import Property-view View-panel "/client/obstacles/systems/property-view.js")
 (import Trail-dots "/client/obstacles/systems/ants/trail-dots.js")
 
-(include "../../../../../inc/dom.sibilant")
+(include "@shared/sibilant/inc/dom.sibilant")
 (import-namespace dom)
 
 (define Trails-property-view Property-view)
