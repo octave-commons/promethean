@@ -20,17 +20,11 @@ kanban-plugin: board
 
 ## Incoming
 
-- [ ] [Clearly seperate service dependency  files](../tasks/Clearly%20seperate%20service%20dependency%20files.md)
-- [ ] [seperate all  testing pipelines  in github Actions](../tasks/seperate%20all%20testing%20pipelines%20in%20github%20Actions.md)
-- [ ] [Move all testing to individual  services](../tasks/Move%20all%20testing%20to%20individual%20services.md)
-- [ ] [update github actions to use makefile](../tasks/update%20github%20actions%20to%20use%20makefile.md)
-- [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md)
 - [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
 - [ ] Clean up notes into design  docs
 - [ ] Describe github branching workflow
 - [ ] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md)
 - [ ] [Mirror shared utils with language-specific doc folders](../tasks/Mirror%20shared%20utils%20with%20language-specific%20doc%20folders.md)
-- [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md)
 - [ ] [Integrate synthesis-agent pass on unique to produce draft docs](../tasks/Integrate%20synthesis-agent%20pass%20on%20unique%20to%20produce%20draft%20docs.md)
 
 
@@ -44,9 +38,15 @@ kanban-plugin: board
 ## Accepted (8)
 
 - [ ] [Write end to end tests](Write%20end%20to%20end%20tests.md) #framework-core
+- [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md) #agent #automation #prompt #metaagent #meta-prompting #documentation
+- [ ] [Clearly seperate service dependency  files](../tasks/Clearly%20seperate%20service%20dependency%20files.md) #devops #dependencies #seperation-of-concerns
+- [ ] [seperate all  testing pipelines  in github Actions](../tasks/seperate%20all%20testing%20pipelines%20in%20github%20Actions.md) #seperation-of-concerns #testing #devops
+- [ ] [Move all testing to individual  services](../tasks/Move%20all%20testing%20to%20individual%20services.md) #seperation-of-concerns #testing #devops
+- [ ] [update github actions to use makefile](../tasks/update%20github%20actions%20to%20use%20makefile.md) #devops #makefile #buildtools
+- [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md) #devops #seperation-of-concerns #makefile #buildtools
 
 
-## Prompt refinement
+## Prompt refinement (16)
 
 - [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md)
 - [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/Gather%20baseline%20emotion%20metrics%20for%20Eidolon%20field.md)
@@ -157,6 +157,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,false,true,false,true,true,true,false,false,false,false,false,true,true],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks"}
+{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,true,false,false,false,false,false,true,true],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks"}
 ```
 %%

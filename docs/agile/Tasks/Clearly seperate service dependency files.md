@@ -1,4 +1,4 @@
-## 🛠️ Task: Clearly seperate service dependency files
+Q## 🛠️ Task: Clearly seperate service dependency files
 
 Each service should maintain its own dependency declarations so deployments remain isolated. Refer to the design notes in `file-structure.md` and the migration plan for guidance.
 
