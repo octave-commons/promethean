@@ -29,6 +29,7 @@ jobs:
       - name: Build project
         run: make build
 
+
       - name: Run tests with coverage
         run: make coverage
 
@@ -37,6 +38,9 @@ jobs:
         with:
           name: python-coverage
           path: coverage.xml
+
+      - name: Run JS/TS tests with coverage
+        run: make coverage-js
 
       - name: Upload JS coverage
         uses: actions/upload-artifact@v4

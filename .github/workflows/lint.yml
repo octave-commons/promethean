@@ -29,18 +29,9 @@ jobs:
       - name: Build project
         run: make build
 
-      - name: Run tests with coverage
-        run: make coverage
+      - name: Lint
+        run: make lint
 
-      - name: Upload Python coverage
-        uses: actions/upload-artifact@v4
-        with:
-          name: python-coverage
-          path: coverage.xml
-
-      - name: Upload JS coverage
-        uses: actions/upload-artifact@v4
-        with:
-          name: js-coverage
-          path: coverage
+      # - name: Format
+      #   run: make format
 
