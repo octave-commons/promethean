@@ -1,8 +1,8 @@
 import test from 'ava';
 import http from 'http';
-import { AIAgent } from '../src/agent.ts';
-import { LLMService } from '../src/llm-service.ts';
-import { ContextManager } from '../src/contextManager.ts';
+import { AIAgent } from '../src/agent.js';
+import { LLMService } from '../src/llm-service.js';
+import { ContextManager } from '../src/contextManager.js';
 import EventEmitter from 'events';
 
 class StubBot extends EventEmitter {

@@ -16,6 +16,7 @@ import { CollectionManager } from "./collectionManager";
 import EventEmitter from "events";
 import { readFileSync } from "fs";
 import { writeFile } from "fs/promises";
+import { LLMService } from "./llm-service";
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '../../.env' });
 export const AGENT_NAME = process.env.AGENT_NAME || "duck";
@@ -25,6 +26,9 @@ import { choice, generatePromptChoice, generateSpecialQuery } from "./util";
 const VISION_HOST = process.env.VISION_HOST || 'http://localhost:5003';
 
 export async function captureScreen(): Promise<Buffer> {
+    if (process.env.NO_SCREENSHOT === '1') {
+        return Buffer.alloc(0);
+    }
     const res = await fetch(`${VISION_HOST}/capture`);
     if(!res.ok) throw new Error('Failed to capture screen');
     const arrayBuf = await res.arrayBuffer();

@@ -1,38 +1,25 @@
 import * as discord from 'discord.js';
-import { Client, Events, GatewayIntentBits } from 'discord.js';
-import { ApplicationCommandOptionType, REST, Routes, type RESTPutAPIApplicationCommandsJSONBody } from 'discord.js';
-import EventEmitter from 'events';
-import { AIAgent, AGENT_NAME } from './agent';
-import { CollectionManager } from './collectionManager';
-import { ContextManager } from './contextManager';
-
-const VOICE_SERVICE_URL = process.env.VOICE_SERVICE_URL || 'http://localhost:4000';
-
 import {
+    Client,
+    Events,
+    GatewayIntentBits,
     ApplicationCommandOptionType,
     REST,
     Routes,
-    type RESTPutAPIApplicationCommandsJSONBody,
+    type RESTPutAPIApplicationCommandsJSONBody
 } from 'discord.js';
-import EventEmitter from "events";
-import { FinalTranscript } from "./transcriber";
-import { AIAgent, AGENT_NAME } from "./agent";
-import { CollectionManager } from "./collectionManager";
-import { LLMService } from "./llm-service";
-import { ContextManager } from "./contextManager";
-/**
-   Handles top level discord interactions. EG slash commands send by the user.
-   */
-type Interaction = discord.ChatInputCommandInteraction<"cached">
-function interaction(commandConfig: Omit<discord.RESTPostAPIChatInputApplicationCommandsJSONBody, 'name'>
-) {
-    return function (
-        target: any, key: string, describer: PropertyDescriptor
-    ) {
+import EventEmitter from 'events';
+import { AIAgent, AGENT_NAME } from './agent';
+import { ContextManager } from './contextManager';
+import { LLMService } from './llm-service';
+
+const VOICE_SERVICE_URL = process.env.VOICE_SERVICE_URL || 'http://localhost:4000';
+
+type Interaction = discord.ChatInputCommandInteraction<'cached'>;
 
 function interaction(commandConfig: Omit<discord.RESTPostAPIChatInputApplicationCommandsJSONBody, 'name'>) {
-    return function(target: any, key: string, describer: PropertyDescriptor) {
-        const ctor = target.constructor;
+    return function (target: any, key: string, describer: PropertyDescriptor) {
+        const ctor = target.constructor as typeof Bot;
         const originalMethod = describer.value;
         const name = key.replace(/[A-Z]/g, l => `_${l.toLowerCase()}`).toLowerCase();
         ctor.interactions.set(name, { name, ...commandConfig });
@@ -47,32 +34,24 @@ export interface BotOptions {
 }
 
 export class Bot extends EventEmitter {
-    static interactions: Map<string, discord.RESTPostAPIChatInputApplicationCommandsJSONBody> = new Map();
-    static handlers: Map<string, (bot: Bot, interaction: Interaction) => Promise<any>> = new Map();
+    static interactions = new Map<string, discord.RESTPostAPIChatInputApplicationCommandsJSONBody>();
+    static handlers = new Map<string, (bot: Bot, interaction: Interaction) => Promise<any>>();
 
     agent: AIAgent;
     client: Client;
     token: string;
     applicationId: string;
     context: ContextManager = new ContextManager();
+    currentVoiceSession?: any;
 
     constructor(options: BotOptions) {
         super();
         this.token = options.token;
         this.applicationId = options.applicationId;
         this.client = new Client({
-            intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates],
+            intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates]
         });
-        this.agent = new AIAgent({ historyLimit: 20, bot: this, context: this.context });
-    }
-
-        this.agent = new AIAgent({
-            historyLimit: 20,
-            bot: this,
-            context:this.context,
-            llm:new LLMService()
-        })
-
+        this.agent = new AIAgent({ historyLimit: 20, bot: this, context: this.context, llm: new LLMService() });
     }
 
     get guilds(): Promise<discord.Guild[]> {
@@ -88,29 +67,33 @@ export class Bot extends EventEmitter {
         await this.client.login(this.token);
         await this.registerInteractions();
 
-        this.client.on(Events.InteractionCreate, async interaction => {
-            if (!interaction.inCachedGuild() || !interaction.isChatInputCommand()) return;
-            if (!Bot.interactions.has(interaction.commandName)) {
-                await interaction.reply('Unknown command');
-                return;
-            }
-            try {
-                const handler = Bot.handlers.get(interaction.commandName);
-                if (handler) await handler(this, interaction);
-            } catch (e) {
-                console.warn(e);
-            }
-        }).on(Events.Error, console.error);
+        this.client
+            .on(Events.InteractionCreate, async interaction => {
+                if (!interaction.inCachedGuild() || !interaction.isChatInputCommand()) return;
+                if (!Bot.interactions.has(interaction.commandName)) {
+                    await interaction.reply('Unknown command');
+                    return;
+                }
+                try {
+                    const handler = Bot.handlers.get(interaction.commandName);
+                    if (handler) await handler(this, interaction);
+                } catch (e) {
+                    console.warn(e);
+                }
+            })
+            .on(Events.Error, console.error);
     }
 
     async registerInteractions() {
         const commands: RESTPutAPIApplicationCommandsJSONBody = [];
         for (const [, command] of Bot.interactions) commands.push(command);
         return Promise.all(
-            (await this.guilds).map(guild => new REST().setToken(this.token).put(
-                Routes.applicationGuildCommands(this.applicationId, guild.id),
-                { body: commands }
-            ))
+            (await this.guilds).map(guild =>
+                new REST().setToken(this.token).put(
+                    Routes.applicationGuildCommands(this.applicationId, guild.id),
+                    { body: commands }
+                )
+            )
         );
     }
 
@@ -176,5 +159,13 @@ export class Bot extends EventEmitter {
         await interaction.deferReply({ ephemeral: true });
         await this.voiceRequest('/speak', { text: interaction.options.getString('message', true) });
         await interaction.deleteReply().catch(() => {});
+    }
+
+    private async voiceRequest(endpoint: string, data: any) {
+        await fetch(`${VOICE_SERVICE_URL}${endpoint}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
     }
 }
