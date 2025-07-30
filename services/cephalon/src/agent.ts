@@ -9,7 +9,7 @@
  */
 
 import { AudioPlayer } from "@discordjs/voice"
-import ollama, { Message } from "ollama";
+import { Message } from "ollama";
 
 import { Bot } from "./bot";
 import { CollectionManager } from "./collectionManager";
@@ -23,6 +23,7 @@ import { ContextManager, formatMessage, GenericEntry} from "./contextManager";
 import tokenizer from 'sbd';
 import { choice, generatePromptChoice, generateSpecialQuery } from "./util";
 import screenshot from 'screenshot-desktop';
+import { LLMService } from "./llm-service";
 
 // type BotActivityState = 'idle' | 'listening' | 'speaking';
 // type ConversationState = 'clear' | 'overlapping_speech' | 'awaiting_response';
@@ -89,7 +90,7 @@ type GenerateResponseOptions = {
     format?: object | undefined;
     context?: Message[] | undefined;
     prompt?: string | undefined;
-    retryCount?: number | undefined;
+    
 }
 function mergeShortFragments(sentences:string[], minLength = 20) {
     const merged = [];
@@ -219,7 +220,7 @@ export interface AgentOptions  {
     prompt?: string;
     bot: Bot;
     context: ContextManager;
-
+    llm?: LLMService;
 }
 export class AIAgent extends EventEmitter {
     bot: Bot
@@ -243,12 +244,14 @@ export class AIAgent extends EventEmitter {
     newTranscript?: boolean
     audioPlayer?: AudioPlayer;
     context: ContextManager;
+    llm: LLMService;
     constructor(options: AgentOptions) {
         super();
         this.state = 'idle'; // Initial state of the agent
         this.bot = options.bot;
         this.prompt = options.prompt || defaultPrompt;
         this.context = options.context;
+        this.llm = options.llm || new LLMService();
     }
     get contextManager () {
         return this.bot.context
@@ -263,8 +266,7 @@ export class AIAgent extends EventEmitter {
         specialQuery,
         context,
         format,
-        prompt =  this.prompt,
-        retryCount = 0
+        prompt =  this.prompt
     }: GenerateResponseOptions): Promise<string | object> {
 
         if (!context)
@@ -275,43 +277,23 @@ export class AIAgent extends EventEmitter {
             "role": "user",
             "content": specialQuery
         })
-        const model = "gemma3"
         console.log("You won't believe how big this context is...", context.length)
-        const imageBuffer = await screenshot({ format: 'png' });
-        const lastMessage: Message = context.pop() as Message
-        lastMessage.images = [imageBuffer]
-        await writeFile("./test.png", imageBuffer) // save the screenshot for testing purposes
-        context.push(lastMessage);
+        let imageBuffer: Buffer | undefined;
+        if(!process.env.NO_SCREENSHOT) {
+            imageBuffer = await screenshot({ format: 'png' });
+            const lastMessage: Message = context.pop() as Message;
+            lastMessage.images = [imageBuffer];
+            await writeFile("./test.png", imageBuffer); // save the screenshot for testing purposes
+            context.push(lastMessage);
+        }
 
         for(const message of context)
             console.log(message.content)
-        try {
-            if (format) {
-                return JSON.parse((await ollama.chat({
-                    model,
-                    format,
-                    messages: [{
-                        "role": "system",
-                        content: generatePrompt(prompt, this.innerState)
-                    }, ...context],
-                })).message.content);
-            } else {
-                return (await ollama.chat({
-                    model,
-                    messages: [{
-                        "role": "system", content: generatePrompt(prompt, this.innerState)
-                    }, ...context],
-                })).message.content
-            }
-        } catch (e) {
-            console.error(e)
-            if (retryCount < 5) {
-                await sleep(retryCount * 1.61 * 1000)
-                return this.generateResponse({ format, context, prompt, retryCount: retryCount + 1})
-            } else {
-                throw new Error("Max retries reached.")
-            }
-        }
+        return this.llm.generate({
+            prompt: generatePrompt(prompt, this.innerState),
+            context,
+            ...(format ? { format } : {})
+        })
     }
     generateJSONResponse(specialQuery:string, {
         context,
