@@ -193,8 +193,7 @@ Additionally, ensure that:
 * All new code is covered by tests
 * Documentation is updated in `/docs/` as needed
 * Migration plans are followed for any structural changes
-* .github/workflows all use `make` targets for consistency
-* 
+* [test workflows](.github/workflows/tests.yaml) all use `make` targets for consistency
 
 ---
 
