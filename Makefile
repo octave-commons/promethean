@@ -92,6 +92,8 @@ coverage: coverage-python coverage-js
 # === Service Management ===
 
 setup:
+	python -m pip install --upgrade pip
+	python -m pip install pipenv
 	PIPENV_NOSPIN=1 pipenv install --dev --skip-lock
 	@for d in $(SERVICES_PY); do \
 	cd $$d && PIPENV_NOSPIN=1 pipenv install --dev --skip-lock && cd - >/dev/null; \
@@ -99,7 +101,6 @@ setup:
 	@for d in $(SERVICES_JS); do \
 	cd $$d && npm install --no-package-lock && cd - >/dev/null; \
 	done
-	
 install: setup
 
 system-deps:
