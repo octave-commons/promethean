@@ -20,3 +20,7 @@ agents/duck/chroma_data/
 agents/duck/.tokens
 
 *.log
+
+.smart-env/
+
+services/discord-embedder/voice-examples
