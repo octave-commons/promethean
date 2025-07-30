@@ -4,9 +4,6 @@ kanban-plugin: board
 
 ---
 
-For guidelines on using this board effectively, see
-[Board Usage](../board_usage.md).
-
 ## Ice Box
 
 - [ ] [Migrating relevant modules from riatzukiza.github.io to -site- and -docs-](../tasks/Migrating%20relevant%20modules%20from%20riatzukiza.github.io%20to%20-site-%20and%20-docs-.md) #framework-core
@@ -59,7 +56,6 @@ For guidelines on using this board effectively, see
 - [ ] [Start Eidolon](../tasks/Start%20Eidolon.md)
 - [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md)
 - [ ] [Clearly separate service dependency files](../tasks/Clearly%20separate%20service%20dependency%20files.md)
-- [ ] [Separate all testing pipelines in GitHub Actions](../tasks/separate%20all%20testing%20pipelines%20in%20github%20Actions.md)
 - [ ] [Move all testing to individual services](../tasks/Move%20all%20testing%20to%20individual%20services.md)
 - [ ] [Update GitHub Actions to use makefile](../tasks/update%20github%20actions%20to%20use%20makefile.md)
 - [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md)
@@ -69,13 +65,14 @@ For guidelines on using this board effectively, see
 - [ ] [Document board usage guidelines](../tasks/Document%20board%20usage%20guidelines.md)
 
 
-## Agent thinking
+## Agent thinking (16)
 
 - [ ] [Gather open questions about system direction](../tasks/Gather%20open%20questions%20about%20system%20direction.md) #agent-mode
 - [ ] [Schedule alignment meeting with stakeholders](../tasks/Schedule%20alignment%20meeting%20with%20stakeholders.md) #agent-mode
 - [ ] [Summarize clarified priorities for next sprint](../tasks/Summarize%20clarified%20priorities%20for%20next%20sprint.md) #agent-mode
 - [ ] [Remove ts-node and compile ava tests directly](Remove%20ts-node%20and%20compile%20ava%20tests%20directly.md) #cicd
 - [ ] [Add Ollama formally to pipeline](../tasks/Add%20Ollama%20formally%20to%20pipeline.md) #framework-core
+- [ ] [Separate all testing pipelines in GitHub Actions](../tasks/separate%20all%20testing%20pipelines%20in%20github%20Actions.md)
 
 
 ## Breakdown (10)
