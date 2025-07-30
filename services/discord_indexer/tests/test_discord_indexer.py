@@ -1,6 +1,7 @@
 import os, sys, asyncio, importlib
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../", "shared", "py"))
+import anyio
 
 import pytest
 import discord
@@ -77,9 +78,9 @@ def setup_env(monkeypatch):
 
 def load_indexer(monkeypatch):
     # Reload module with patched collections for isolation
-    if "services.discord-indexer.main" in sys.modules:
-        del sys.modules["services.discord-indexer.main"]
-    mod = importlib.import_module("services.discord-indexer.main")
+    if "discord-indexer.main" in sys.modules:
+        del sys.modules["discord-indexer.main"]
+    mod = importlib.import_module("discord-indexer.main")
     monkeypatch.setattr(mod, "discord_channel_collection", MemoryCollection())
     monkeypatch.setattr(mod, "discord_message_collection", MemoryCollection())
     return mod
