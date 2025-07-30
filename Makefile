@@ -42,7 +42,7 @@ format-python:
 	black services/ shared/py/
 
 test-python:
-	pytest tests/python/
+	pytest tests/
 
 # === JS/TS/Sibilant ===
 
@@ -71,7 +71,7 @@ format-js:
 	prettier --write shared/js/ services/**/
 
 test-js:
-        npm test
+	npm test
 
 # === Service Management ===
 

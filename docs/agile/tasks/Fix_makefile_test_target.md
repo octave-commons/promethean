@@ -1,6 +1,7 @@
 ## 🛠️ Task: Fix Makefile test target
 
-The `test-python` target points to `tests/python/` but tests live in `tests/`.
+The `test-python` target originally pointed to `tests/python/` but tests live in `tests/`.
+Update the path so that `pytest` runs against `tests/`.
 
 ---
 
