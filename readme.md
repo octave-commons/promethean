@@ -64,6 +64,10 @@ Install PM2 globally if it isn't already available:
 npm install -g pm2
 ```
 
+The service management targets `make start`, `make start-tts` and
+`make start-stt` require PM2. You can install it globally as shown above or add
+it as a project dependency.
+
 ## Running Services
 
 Scripts in `agents/scripts/` launch commonly used services:
@@ -89,6 +93,10 @@ Common tasks are wrapped in the root `Makefile`:
 - `make start` – launch shared services defined in `ecosystem.config.js` via PM2
 - `make start:<service>` – run a service from `ecosystem.config.js` by name
 - `make stop` – stop running services
+- `make start-tts` – start the text-to-speech service
+- `make start-stt` – start the speech-to-text service
+- `make stop-tts` – stop the text-to-speech service
+- `make stop-stt` – stop the speech-to-text service
 - `make test` – run Python and JS test suites without coverage
 - `make board-sync` – sync `kanban.md` with GitHub Projects
 - `make kanban-from-tasks` – regenerate `kanban.md` from task files
