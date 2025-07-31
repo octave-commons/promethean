@@ -1,6 +1,6 @@
 import os
 import sys
-from shared.py.utils.split_sentances import split_sentences
+from shared.py.utils.split_sentences import split_sentences
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "shared", "py"))
 

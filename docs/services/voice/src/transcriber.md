@@ -1,6 +1,6 @@
 # transcriber.ts
 
-**Path**: `services/voice/src/transcriber.ts`
+**Path**: `services/ts/voice/src/transcriber.ts`
 
 **Description**: Streams PCM audio to the STT service and emits transcript events.
 
@@ -12,4 +12,4 @@
 - ./speaker
 
 ## Dependents
-- `services/voice/src/speaker.ts`
+- `services/ts/voice/src/speaker.ts`

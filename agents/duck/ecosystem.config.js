@@ -60,11 +60,11 @@ module.exports = {
         },
         {
             name: "tts",
-            cwd: "../../services/tts",
-            script: "../../services/tts/run.sh",
+            cwd: "../../services/py/tts",
+            script: "../../services/py/tts/run.sh",
             interpreter: "bash",
             exec_mode: "fork",
-            watch: ["../../services/tts"],
+            watch: ["../../services/py/tts"],
             instances: 1,
             autorestart: true,
             env: {
@@ -78,11 +78,11 @@ module.exports = {
         },
         {
             name: "stt",
-            cwd: "../../services/stt",
-            script: "../../services/stt/run.sh",
+            cwd: "../../services/py/stt",
+            script: "../../services/py/stt/run.sh",
             interpreter: "bash",
             exec_mode: "fork",
-            watch: ["../../services/stt"],
+            watch: ["../../services/py/stt"],
             instances: 1,
             autorestart: true,
             env: {
@@ -109,11 +109,11 @@ module.exports = {
         },
         {
             name: "stt-ws",
-            cwd: "../../services/stt_ws",
-            script: "../../services/stt_ws/run.sh",
+            cwd: "../../services/py/stt_ws",
+            script: "../../services/py/stt_ws/run.sh",
             interpreter: "bash",
             exec_mode: "fork",
-            watch: ["../../services/stt_ws"],
+            watch: ["../../services/py/stt_ws"],
             instances: 1,
             autorestart: true,
             env: {
@@ -125,11 +125,11 @@ module.exports = {
         },
         {
             name: "whisper-stream-ws",
-            cwd: "../../services/whisper_stream_ws",
-            script: "../../services/whisper_stream_ws/run.sh",
+            cwd: "../../services/py/whisper_stream_ws",
+            script: "../../services/py/whisper_stream_ws/run.sh",
             interpreter: "bash",
             exec_mode: "fork",
-            watch: ["../../services/whisper_stream_ws"],
+            watch: ["../../services/py/whisper_stream_ws"],
             instances: 1,
             autorestart: true,
             env: {

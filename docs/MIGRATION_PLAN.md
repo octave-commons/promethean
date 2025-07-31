@@ -69,6 +69,11 @@ This document outlines the migration steps from the legacy `duck/` folder and `r
 * [x] Define `Promethean File Structure` canvas
 * [ ] Add `agent-mode` prompt guidance to `AGENTS.md`
 
+### 8. 📦 Model Asset Management
+
+* [x] Track large model binaries with Git LFS using `.gitattributes`
+* [x] Provide `download.sh` helpers in model folders so weights can be fetched on demand
+
 ---
 
 ## 🧠 Philosophy

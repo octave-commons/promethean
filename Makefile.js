@@ -36,5 +36,12 @@ test-js-services:
 	done
 test-js: test-js-services
 
+coverage-js-services:
+	@for d in $(SERVICES_JS); do \
+		echo "Generating coverage in $$d...";\
+		cd $$d && npm run coverage && cd - >/dev/null; \
+	done
+coverage-js: coverage-js-services
+
 clean-js:
 	rm -rf $(JS_BUILD_DIR)/*

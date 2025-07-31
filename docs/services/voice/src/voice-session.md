@@ -1,6 +1,6 @@
 # voice-session.ts
 
-**Path**: `services/voice/src/voice-session.ts`
+**Path**: `services/ts/voice/src/voice-session.ts`
 
 **Description**: Manages Discord voice connections, speaker state and TTS playback.
 
@@ -14,4 +14,4 @@
 - ./voice-synth
 
 ## Dependents
-- `services/voice/src/index.ts`
+- `services/ts/voice/src/index.ts`
