@@ -36,3 +36,5 @@ services/py/whisper_stream_ws/coverage.xml
 *.xml
 
 shared/py/.coverage
+
+.infio_json_db/
