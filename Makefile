@@ -18,8 +18,8 @@ include Makefile.sibilant
 
 all: build
 
-build: build-python build-js build-ts
-clean: clean-python clean-js clean-ts
+build: build-js build-ts
+clean: clean-js clean-ts
 lint: lint-python lint-js lint-ts
 test: test-python test-js test-ts
 format: format-python format-js format-ts
