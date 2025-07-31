@@ -16,6 +16,7 @@ pytest = "*"
 flake8 = "*"
 black = "*"
 anyio = "*"
+httpx = "*"
 
 [requires]
 python_version = "3.12"

@@ -8,7 +8,6 @@ fastapi = "*"
 transformers = "*"
 torch = "*"
 numpy = "*"
-httpx = "*"
 
 [dev-packages]
 pytest = "*"
