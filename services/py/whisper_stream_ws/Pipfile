@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+fastapi = "*"
 
 [dev-packages]
 pytest-cov = "*"
