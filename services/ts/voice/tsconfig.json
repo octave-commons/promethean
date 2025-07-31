@@ -5,14 +5,13 @@
     "module": "es2022",
     "moduleResolution": "bundler",
     "outDir": "dist",
-    "rootDir": "src",
-    "allowImportingTsExtensions": true,
+    "rootDir": "./",
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "types": ["node", "wav"]
+    "types": ["node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts"],
+  "files": ["tests/dummy.test.ts"],
   "exclude": ["node_modules"]
 }
