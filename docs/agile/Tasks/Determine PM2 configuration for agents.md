@@ -19,12 +19,9 @@ include startup instructions in each service README.
 - [ ] Review existing Makefile or npm scripts
 - [ ] Draft a sample `ecosystem.config.js`
 - [ ] Document instructions in `docs/MIGRATION_PLAN.md`
-<<<<<<< HEAD
 - [ ] Show how environment variables are passed to each service
-=======
 - [ ] Include environment variable examples for development vs production
 - [ ] Ensure log files are rotated to `logs/pm2/*.log`
->>>>>>> main
 
 ---
 
@@ -61,5 +58,10 @@ Nothing
 ## ❓ Questions
 
 - Should we consider lightweight alternatives to PM2 for local dev?
+	- feel like PM2 *is* the lightweight alternative MR AI, but if you have other ideas, I'm all ears. It's definitely lighter weight than docker
+	- And there is only gonna be local dev... this is a local tool
+	- as much as I am sure your greedy owners would like to use this in the cloud, it's designed to not scale that way
+	- unless you can afford well... all the people you're trying to automate's time to spend a life time training 1 model that only works for them.
+	- Then please.
 - How will service logs be aggregated when using PM2?
 #ice-box

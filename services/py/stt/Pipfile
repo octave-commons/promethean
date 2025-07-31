@@ -8,13 +8,13 @@ fastapi = "*"
 transformers = "*"
 torch = "*"
 numpy = "*"
-httpx = "*"
 
 [dev-packages]
 pytest = "*"
 pytest-cov = "*"
 flake8 = "*"
 black = "*"
+httpx = "*"
 
 [requires]
 python_version = "3.12"

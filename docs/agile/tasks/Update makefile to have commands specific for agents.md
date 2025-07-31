@@ -11,7 +11,7 @@ It's too complicated to seperate this idea of "agents", "Agent specififc service
 ---
 
 ## 🎯 Goals
-- `make start:duck` or similar commands
+- `make start:duck` through `make start:%`
 - Reusable patterns for any future agent
 
 ---
@@ -35,15 +35,18 @@ It's too complicated to seperate this idea of "agents", "Agent specififc service
 ---
 
 ## ⛓️ Blocked By
-- update GitHub Actions to use makefile
+- [update github actions to use makefile](update%20github%20actions%20to%20use%20makefile.md)
+- [write simple ecosystem declaration library for new agents](write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md)
+- [Determine PM2 configuration for agents](Determine%20PM2%20configuration%20for%20agents.md)
+
 
 ## ⛓️ Blocks
 Nothing
 
----
+ 
 
 ## 🔍 Relevant Links
-- [kanban](../boards/kanban.md)
+- [kanban](../boards/kanban.md) 
 - [MIGRATION_PLAN](../MIGRATION_PLAN.md)
 - [write simple ecosystem declaration library for new agents](write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md)
 #breakdown
