@@ -70,3 +70,6 @@ kanban-to-hashtags:
 
 kanban-to-issues:
 	python scripts/kanban_to_issues.py
+
+simulate-ci:
+	python scripts/simulate_ci.py
