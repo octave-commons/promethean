@@ -47,6 +47,3 @@ clean-js:
 	rm -rf $(JS_BUILD_DIR)/*
 build-js:
 	@echo "No build step for JavaScript services"
-
-build-js:
-	@echo "No JS build step required"
