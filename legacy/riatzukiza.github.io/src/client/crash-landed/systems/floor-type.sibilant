@@ -1,0 +1,42 @@
+(import Spawnable "/shared/data-structures/spawnable.js")
+(import System Component "/shared/ecs.js")
+(import Interface "/shared/kit/interface/index.js")
+
+(define Ground-type Spawnable 
+  (init ((sprite-coord-min-x 0)
+         (sprite-coord-min-y 0)
+
+         (sprite-coord-max-x 3)
+         (sprite-coord-max-y 3)
+         (movement-speed 0.75)) ))
+
+(define Ground Component
+  (type null)
+  (gett stats (get this.system 'types this.type)))
+
+(define Ground-types System
+  (Component Ground)
+  (define types Interface
+    (grass (.spawn Ground-type
+                   0 0
+                   3 3
+                   0.75))
+    (stone (.spawn Ground-type
+                   0 3
+                   3 7
+                   1.1))
+    (broken-stone (.spawn Ground-type
+                          3 3
+                           7 7
+                          1))
+    (flowery-grass (.spawn Ground-type
+                           3 0
+                           7 3
+                           0.70)))
+
+  (def *update-component ()
+;; this will dos omtihng later, floor tile types will evolve over time.
+    )
+  )
+
+(export Ground-types)

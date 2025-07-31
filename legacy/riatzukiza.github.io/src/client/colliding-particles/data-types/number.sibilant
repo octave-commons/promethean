@@ -1,0 +1,6 @@
+
+(define Float Data-type
+  (keys ['value]))
+
+(define Int Data-type
+  (keys ['value]))

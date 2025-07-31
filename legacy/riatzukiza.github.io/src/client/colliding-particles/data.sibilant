@@ -1,0 +1,45 @@
+(import Vector-2D-array "./typed-arrays/vector-2d.js")
+(import rendering vertex-layer "./rendering.js")
+(import Interface "/shared/kit/interface/index.js")
+(import Physics-array "./typed-arrays/physics-array.js")
+(import Group-id-array "./typed-arrays/group-id-array.js")
+(import Barycenter-array "./typed-arrays/barycenter-array.sibilant")
+(import Kd-tree "./typed-arrays/kd-tree.sibilant")
+(import config "./config.sibilant")
+(const (lit particle-count) config)
+(const vertices (vertex-layer particle-count))
+(export vertices)
+
+(define particles Interface
+  (pos (.spawn Vector-2D-array config.particle-count))
+  (vel (.spawn Vector-2D-array config.particle-count))
+  (near-gravity (.spawn Vector-2D-array config.particle-count))
+  (far-gravity (.spawn Vector-2D-array config.particle-count))
+  (deflection (.spawn Vector-2D-array config.particle-count))
+  (correction (.spawn Vector-2D-array config.particle-count))
+  (phys (.spawn Physics-array config.particle-count))
+  (group-id (.spawn Group-id-array config.particle-count))
+  (kd-tree (.spawn Kd-tree (* 32 config.particle-count)))
+  )
+
+(export particles)
+
+(const particle-groups (.spawn Barycenter-array config.group-count))
+
+(export particle-groups)
+
+(const game-data [
+       particles.pos
+       particles.phys
+       particles.vel
+       particles.near-gravity
+       particles.far-gravity
+       particles.deflection
+       particles.correction
+       particles.group-id
+       particles.kd-tree
+
+       particle-groups
+       ])
+
+(export game-data)
