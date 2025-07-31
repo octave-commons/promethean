@@ -35,7 +35,7 @@ setup-python-services-quick: generate-python-services-requirements
 		cd $$d && python -m pip install --user -r requirements.txt && cd - >/dev/null; \
 	done
 
-setup-python-quick: setup-python-services-quick setup-python-shared-quick
+setup-python-quick: setup-pipenv setup-python-services-quick setup-python-shared-quick
 generate-python-requirements: generate-python-services-requirements generate-python-shared-requirements
 
 build-python:
