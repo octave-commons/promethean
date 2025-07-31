@@ -11,8 +11,8 @@ include Makefile.sibilant
 
 # === High-Level Targets ===
 
-.PHONY: all build clean lint format test setup install system-deps start stop start-tts start-stt stop-tts stop-stt \
-        board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues coverage coverage-python coverage-js coverage-ts simulate-ci
+.PHONY: all build clean lint format test setup setup-quick install system-deps start stop start-tts start-stt stop-tts stop-stt \
+        board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues coverage coverage-python coverage-js coverage-ts simulate-ci generate-requirements generate-requirements-service-% setup-python-quick
 
 
 all: build
@@ -20,8 +20,8 @@ all: build
 build: build-python build-js build-ts
 clean: clean-python clean-js clean-ts
 lint: lint-python lint-js lint-ts
-format: format-python format-js lint-ts
-test: test-python-services test-js-services test-js-services
+format: format-python format-js format-ts
+test: test-python-services test-js-services test-ts-services
 coverage: coverage-python coverage-js coverage-ts
 setup:
 	@echo "Setting up all services..."
@@ -30,7 +30,13 @@ setup:
 	@$(MAKE) setup-ts
 	@$(MAKE) setup-hy
 	@$(MAKE) setup-sibilant
-
+setup-quick:
+	@echo "Quick setup using requirements.txt files..."
+	@$(MAKE) setup-python-quick
+	@$(MAKE) setup-js
+	@$(MAKE) setup-ts
+	@$(MAKE) setup-hy
+	@$(MAKE) setup-sibilant
 install: setup
 
 system-deps:
