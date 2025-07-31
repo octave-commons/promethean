@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 fastapi = "*"
 numpy = "*"
+uvicorn = "*"
 
 [dev-packages]
 pytest-cov = "*"
