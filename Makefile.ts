@@ -31,6 +31,13 @@ test-ts-services:
 
 # Eventually also test-shared-ts
 test-ts: test-ts-services
+
+coverage-ts-services:
+	@for d in $(SERVICES_TS); do \
+		echo "Generating coverage in $$d...";\
+		cd $$d && npm run coverage && cd - >/dev/null; \
+	done
+coverage-ts: coverage-ts-services
 clean-ts:
 	@for d in $(SERVICES_TS); do \
 		cd $$d && npm run clean >/dev/null; \

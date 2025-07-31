@@ -6,7 +6,8 @@
     "scripts": {
         "build": "tsc",
         "start": "node dist/index.js",
-        "test": "cross-env TS_NODE_TRANSPILE_ONLY=1 ava tests/dummy.test.ts"
+        "test": "cross-env TS_NODE_TRANSPILE_ONLY=1 ava tests/dummy.test.ts",
+        "coverage": "npm run build && c8 ava \"dist/tests/**/*.js\""
     },
     "dependencies": {
         "@discordjs/voice": "^0.18.0",
@@ -21,7 +22,8 @@
         "ava": "^6.4.1",
         "ts-node": "^10.9.2",
         "cross-env": "^10.0.0",
-        "typescript": "5.7.3"
+        "typescript": "5.7.3",
+        "c8": "^9.1.0"
     },
     "ava": {
         "extensions": {
