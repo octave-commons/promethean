@@ -24,12 +24,13 @@ format: format-python format-js lint-ts
 test: test-python-services test-js-services test-js-services
 coverage: coverage-python coverage-js coverage-ts
 setup:
-	@echo "Setting up all services..."
-	@$(MAKE) setup-python
+		@echo "Setting up all services..."
+		@$(MAKE) setup-python
 	@$(MAKE) setup-js
 	@$(MAKE) setup-ts
 	@$(MAKE) setup-hy
 	@$(MAKE) setup-sibilant
+	@command -v pm2 >/dev/null 2>&1 || npm install -g pm2
 
 install: setup
 

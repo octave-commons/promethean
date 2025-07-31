@@ -41,6 +41,12 @@ pipenv shell
 npm install
 ```
 
+Install PM2 globally if it isn't already available:
+
+```bash
+npm install -g pm2
+```
+
 ## Running Services
 
 Scripts in `agents/scripts/` launch commonly used services:
