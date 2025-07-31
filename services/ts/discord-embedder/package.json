@@ -7,6 +7,7 @@
     "scripts": {
         "build": "rimraf dist && tsc",
         "test": "ava",
+        "coverage": "npm run build && c8 ava \"dist/tests/**/*.js\"",
         "build:check": "tsc --noEmit --incremental false",
         "deploy": "npm run build && node --env-file=../../.env dist/util/deploy.js",
         "lint": "prettier --cache --check . && eslint src --ext mjs,js,ts --cache",
@@ -46,7 +47,8 @@
         "prettier": "^3.4.2",
         "rimraf": "^6.0.1",
         "ts-node": "^10.9.2",
-        "typescript": "5.7.3"
+        "typescript": "5.7.3",
+        "c8": "^9.1.0"
     },
     "ava": {
         "extensions": {

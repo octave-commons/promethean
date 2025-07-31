@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "test": "ava"
+    "test": "ava",
+    "coverage": "c8 ava"
   },
   "dependencies": {
     "express": "^4.18.2",
     "ollama": "^0.5.16"
   },
   "devDependencies": {
-    "ava": "^6.4.1"
+    "ava": "^6.4.1",
+    "c8": "^9.1.0"
   }
 }

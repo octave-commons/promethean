@@ -71,7 +71,7 @@ Common tasks are wrapped in the root `Makefile`:
 - `make kanban-from-tasks` – regenerate `kanban.md` from task files
 - `make kanban-to-hashtags` – update task statuses from `kanban.md`
 - `make kanban-to-issues` – create GitHub issues from the board
-- `make coverage` – run tests with coverage reports
+- `make coverage` – run tests with coverage reports for Python, JavaScript and TypeScript services
 
 Agent-specific services may define their own `ecosystem.config.js` files.
 
