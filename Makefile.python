@@ -2,7 +2,7 @@ SERVICES_PY=services/py/stt services/py/tts services/py/discord_indexer services
 # Install dependencies =========================================================
 setup-shared-python:
 	cd shared/py
-	pipenv install
+	pipenv install --dev --system
 setup-pipenv:
 	python -m pip install --upgrade pip
 	@echo "installing pipenv"
@@ -25,8 +25,9 @@ test-python-services:
 		echo "Running tests in $$d...";\
 		cd $$d && PIPENV_NOSPIN=1 pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term && cd - >/dev/null; \
 	done
+
 test-shared-python:
-	cd shared/py && pipenv install --dev --system
+	cd shared/py && PIPENV_NOSPIN=1 pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term
 test-python: test-python-services test-shared-python
 
 # Lint/formatting================================================================

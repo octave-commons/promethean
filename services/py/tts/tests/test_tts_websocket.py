@@ -1,11 +1,11 @@
 import os, sys
-ROOT_DIR = os.path.join(os.path.dirname(__file__), "../../../")
+ROOT_DIR = os.path.join(os.path.dirname(__file__), "../../../../")
 sys.path.insert(0, os.path.join(ROOT_DIR, "shared", "py"))
 sys.path.insert(0, ROOT_DIR)
 
 import numpy as np
 from fastapi.testclient import TestClient
-from services.tts.ws import app
+from services.py.tts.ws import app
 from unittest.mock import patch
 import types
 

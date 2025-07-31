@@ -34,6 +34,7 @@ test-js-services:
 		echo "Running tests in $$d...";\
 		cd $$d && npm test && cd - >/dev/null; \
 	done
+test-js: test-js-services
 
 clean-js:
 	rm -rf $(JS_BUILD_DIR)/*

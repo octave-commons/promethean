@@ -1,11 +1,14 @@
-import os, sys, importlib, types
-from unittest import mock
+import importlib
+import types
+import os
+import sys
+import pytest
+import numpy as np
+# from unittest import mock
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
 
 ROOT_DIR = os.path.join(os.path.dirname(__file__), "..")
-sys.path.insert(0, os.path.join(ROOT_DIR, "shared", "py"))
-
-import numpy as np
-import pytest
 
 
 def load_stt_module():
@@ -66,11 +69,11 @@ def load_stt_module():
     sys.modules.setdefault("openvino", dummy_ov)
     sys.modules.setdefault("transformers", dummy_transformers)
     sys.modules.setdefault("symspellpy.symspellpy", dummy_symspellpy)
-    return importlib.import_module("speech.stt")
+    return importlib.import_module("shared.py.speech.stt")
 
 
 stt = load_stt_module()
-from speech.wav import normalize_audio
+from shared.py.speech.wav import normalize_audio
 
 clamp_freq = stt.clamp_freq
 convert_to_mono_np = stt.convert_to_mono_np

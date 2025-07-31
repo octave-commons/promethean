@@ -4,6 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+nltk = "*"
+soundfile = "*"
+safetensors = "*"
+torch = "*"
+fastapi = "*"
 
 [dev-packages]
 

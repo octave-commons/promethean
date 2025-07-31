@@ -10,7 +10,7 @@ print(f"Discord indexer running for {AGENT_NAME}")
 
 
 import sys
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../"))
 
 import asyncio
 import random

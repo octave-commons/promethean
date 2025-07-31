@@ -1,16 +1,18 @@
-import os, sys
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "shared", "py"))
+import os
+import sys
 
 import numpy as np
 
-from utils.text_preprocessing import (
+from shared.py.utils.text_preprocessing import (
     expand_abbreviations,
     collapse_whitespace,
     text_to_sequence,
     _symbols_to_sequence,
 )
-from utils.numbers import normalize_numbers
-from utils.embeddings_processing import PCA
+from shared.py.utils.numbers import normalize_numbers
+from shared.py.utils.embeddings_processing import PCA
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
 
 
 def test_expand_abbreviations_and_numbers():

@@ -1,10 +1,10 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../')))
 
 from fastapi.testclient import TestClient
-import services.whisper_stream_ws.app as app_module
+import services.py.whisper_stream_ws.app as app_module
 
 
 class DummyStreamer:

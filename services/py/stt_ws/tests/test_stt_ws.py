@@ -4,10 +4,10 @@ import os
 import sys
 
 # Add repository root to path to allow 'services' imports
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../')))
 
 from fastapi.testclient import TestClient
-import services.stt_ws.app as app_module
+import services.py.stt_ws.app as app_module
 
 
 def test_websocket_transcription(monkeypatch):
