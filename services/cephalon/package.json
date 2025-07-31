@@ -5,7 +5,7 @@
     "main": "dist/src/index.js",
     "type": "module",
     "scripts": {
-        "build": "tsc || true && node scripts/patch-imports.js",
+        "build": "tsc && node scripts/patch-imports.js",
         "start": "node dist/src/index.js",
         "test": "npm run build && ava dist/tests/test.js",
         "build:check": "tsc --noEmit --incremental false",
