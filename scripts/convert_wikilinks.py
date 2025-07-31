@@ -1,3 +1,5 @@
+"""Convert Obsidian style wikilinks to normal markdown links."""
+
 import re
 import sys
 from pathlib import Path
@@ -6,6 +8,7 @@ WIKILINK_RE = re.compile(r"\[\[([^\]|]+)(\|([^\]]+))?\]\]")
 
 
 def convert_wikilinks(path: Path) -> None:
+    """Rewrite wikilinks inside ``path`` in place."""
     text = path.read_text(encoding="utf-8")
 
     def repl(match: re.Match) -> str:
@@ -19,10 +22,15 @@ def convert_wikilinks(path: Path) -> None:
         path.write_text(new_text, encoding="utf-8")
 
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: convert_wikilinks.py <files>")
-        sys.exit(1)
+def iter_md_files(paths: list[Path]):
+    for p in paths:
+        if p.is_dir():
+            yield from p.rglob("*.md")
+        else:
+            yield p
 
-    for file in sys.argv[1:]:
-        convert_wikilinks(Path(file))
+
+if __name__ == "__main__":
+    targets = [Path(p) for p in sys.argv[1:]] or [Path("docs")]
+    for path in iter_md_files(targets):
+        convert_wikilinks(path)

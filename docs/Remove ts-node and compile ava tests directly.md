@@ -95,7 +95,7 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [[pm2-ecosystem-config]]
-- [[services-overview]]
-- [[makefile-examples]]
-- [[project-structure]]
+- [pm2-ecosystem-config](pm2-ecosystem-config.md)
+- [services-overview](services-overview.md)
+- [makefile-examples](makefile-examples.md)
+- [project-structure](project-structure.md)

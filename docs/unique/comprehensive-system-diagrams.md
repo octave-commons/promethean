@@ -182,6 +182,6 @@ Just say *"More, on X"*, and I’ll generate them rapid-fire.
 
 ---
 
-Related notes: [[../notes/diagrams/node-type-topology-map|node-type-topology-map]], [[../notes/diagrams/circuit-weight-visualizations|circuit-weight-visualizations]], [[../notes/diagrams/full-system-overview-diagrams|full-system-overview-diagrams]], [[../notes/diagrams/layer1-uptime-diagrams|layer1-uptime-diagrams]], [[../notes/diagrams/field-node-lifecycle-additional-diagrams|field-node-lifecycle-additional-diagrams]], [[../notes/diagrams/state-diagram-node-lifecycle|state-diagram-node-lifecycle]] [[index|unique/index]]
+Related notes: [node-type-topology-map](../notes/diagrams/node-type-topology-map.md), [circuit-weight-visualizations](../notes/diagrams/circuit-weight-visualizations.md), [full-system-overview-diagrams](../notes/diagrams/full-system-overview-diagrams.md), [layer1-uptime-diagrams](../notes/diagrams/layer1-uptime-diagrams.md), [field-node-lifecycle-additional-diagrams](../notes/diagrams/field-node-lifecycle-additional-diagrams.md), [state-diagram-node-lifecycle](../notes/diagrams/state-diagram-node-lifecycle.md) [unique/index](index.md)
 
 #tags: #diagram #design

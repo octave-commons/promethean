@@ -31,7 +31,7 @@ new repository.
 - [ ] Identify which pages and assets to keep
 - [ ] Move selected files under `site/portfolio/`
 - [ ] Add build or serve command to `package.json` or `Makefile`
-- [ ] Reference [[../MIGRATION_PLAN.md]] for context
+- [ ] Reference [../MIGRATION_PLAN.md](../MIGRATION_PLAN.md.md) for context
 - [ ] Decide whether to import history via submodule or direct copy
 
 ---
