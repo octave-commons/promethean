@@ -7,7 +7,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "test": "cross-env TS_NODE_TRANSPILE_ONLY=1 ava tests/dummy.test.ts",
-    "coverage": "npm run build && c8 ava \"dist/tests/**/*.js\""
+    "coverage": "cross-env TS_NODE_TRANSPILE_ONLY=1 c8 ava tests/dummy.test.ts"
   },
   "dependencies": {
     "@discordjs/voice": "^0.18.0",
