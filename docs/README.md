@@ -11,6 +11,7 @@ This `docs` directory houses internal documentation for the **Promethean Framewo
     - [file‑structure](file-structure.md) – a description of the monorepo layout and design principles[raw.githubusercontent.com](https://raw.githubusercontent.com/riatzukiza/promethean/ef2459fe07e70d361b9d915670ce2fa8218fbe51/docs/file-structure.md#:~:text=).
         
     - [MIGRATION_PLAN](MIGRATION_PLAN.md) – a living checklist of steps to migrate code from legacy repositories into this structure.
+    - [site README](../site/README.md) – instructions for building and serving the portfolio site.
         
 - **Agile process and tasks**
     
