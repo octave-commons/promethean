@@ -1,9 +1,10 @@
 TS_SRC=shared/ts
 TS_OUT=shared/js
 SERVICES_TS=services/ts/cephalon services/ts/discord-embedder services/ts/llm  services/ts/voice
+
 lint-ts:
 	@for d in $(SERVICES_TS); do \
-	cd $$d && npx eslint . --ext .js,.ts && cd - >/dev/null; \
+		cd $$d && npx eslint . --no-warn-ignored --ext .js,.ts && cd - >/dev/null; \
 	done
 format-ts:
 	@for d in $(SERVICES_TS); do \

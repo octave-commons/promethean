@@ -8,6 +8,8 @@ import torch.nn.functional as F
 import matplotlib.pyplot as plt
 
 from typing import Optional, Union
+
+
 def pad_or_trim_mel(mel, target_length=3000):
     if mel.shape[1] > target_length:
         print(f"Trimming mel from {mel.shape[1]} frames to {target_length} frames.")
@@ -15,8 +17,10 @@ def pad_or_trim_mel(mel, target_length=3000):
     elif mel.shape[1] < target_length:
         print(f"Padding mel from {mel.shape[1]} frames to {target_length} frames.")
         pad_width = target_length - mel.shape[1]
-        mel = np.pad(mel, ((0, 0), (0, pad_width)), mode='constant', constant_values=0)
+        mel = np.pad(mel, ((0, 0), (0, pad_width)), mode="constant", constant_values=0)
     return mel
+
+
 def mel_filters(device, n_mels: int) -> torch.Tensor:
     """
     load the mel filterbank matrix for projecting STFT into a Mel spectrogram.
@@ -30,9 +34,10 @@ def mel_filters(device, n_mels: int) -> torch.Tensor:
     """
     assert n_mels in {80, 128}, f"Unsupported n_mels: {n_mels}"
 
-    filters_path ="mel_filters.npz"
+    filters_path = "mel_filters.npz"
     with np.load(filters_path, allow_pickle=False) as f:
         return torch.from_numpy(f[f"mel_{n_mels}"]).to(device)
+
 
 def log_mel_spectrogram(
     audio: Union[str, np.ndarray, torch.Tensor],
@@ -81,8 +86,12 @@ def log_mel_spectrogram(
     log_spec = (log_spec + 4.0) / 4.0
     return log_spec.numpy()
 
-def audio_to_mel(audio: np.ndarray, sample_rate=16000, n_fft=400, hop_length=160, n_mels=80):
+
+def audio_to_mel(
+    audio: np.ndarray, sample_rate=16000, n_fft=400, hop_length=160, n_mels=80
+):
     return log_mel_spectrogram(audio)
+
 
 # def audio_to_mel(audio: np.ndarray, sample_rate=16000, n_fft=400, hop_length=160, n_mels=80):
 #     if audio.ndim > 1:
@@ -102,7 +111,10 @@ def audio_to_mel(audio: np.ndarray, sample_rate=16000, n_fft=400, hop_length=160
 
 #     return mel.astype(np.float32)
 
-def chunk_waveform_with_overlap(waveform: np.ndarray, sample_rate=16000, chunk_duration_sec=30, overlap_sec=0):
+
+def chunk_waveform_with_overlap(
+    waveform: np.ndarray, sample_rate=16000, chunk_duration_sec=30, overlap_sec=0
+):
     chunk_size = chunk_duration_sec * sample_rate
     overlap_size = overlap_sec * sample_rate
     step = chunk_size - overlap_size
@@ -115,14 +127,18 @@ def chunk_waveform_with_overlap(waveform: np.ndarray, sample_rate=16000, chunk_d
         chunk_wave = waveform[start:end]
 
         if len(chunk_wave) < chunk_size:
-            print(f"Warning: Chunk from {start} to {end} has only {len(chunk_wave)} samples, padding to {chunk_size} samples.")
+            print(
+                f"Warning: Chunk from {start} to {end} has only {len(chunk_wave)} samples, padding to {chunk_size} samples."
+            )
             pad_width = chunk_size - len(chunk_wave)
-            chunk_wave = np.pad(chunk_wave, (0, pad_width), mode='constant')
+            chunk_wave = np.pad(chunk_wave, (0, pad_width), mode="constant")
 
         chunks.append(chunk_wave)
 
         if end >= total_samples:
-            print(f"Reached end of waveform at sample {end}. No more chunks can be created.")
+            print(
+                f"Reached end of waveform at sample {end}. No more chunks can be created."
+            )
             break
 
     return chunks
@@ -145,9 +161,11 @@ def plot_waveform_and_mel_chunks(chunk, mel, sr, hop_length=256):
 
     # Plot mel spectrogram
     plt.figure(figsize=(14, 4))
-    librosa.display.specshow(mel_db, sr=sr, hop_length=hop_length, x_axis='time', y_axis='mel')
+    librosa.display.specshow(
+        mel_db, sr=sr, hop_length=hop_length, x_axis="time", y_axis="mel"
+    )
     plt.title(f"Chunk  - Mel Spectrogram")
-    plt.colorbar(format='%+2.0f dB')
+    plt.colorbar(format="%+2.0f dB")
     plt.tight_layout()
     plt.show()
 
@@ -157,7 +175,6 @@ def preprocess_audio(audio_path: str):
     max_val = np.max(np.abs(waveform)) + 1e-8  # avoid div by zero
     waveform = waveform / max_val
     waveform = np.clip(waveform, -1.0, 1.0)
-
 
     waveform_chunks = chunk_waveform_with_overlap(waveform, sample_rate=sr)
     mel_chunks = []

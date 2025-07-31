@@ -1,10 +1,10 @@
-import express from 'express';
-import screenshot from 'screenshot-desktop';
+import express from "express";
+import screenshot from "screenshot-desktop";
 
 export const app = express();
-let capture = async () => screenshot({ format: 'png' });
+let capture = async () => screenshot({ format: "png" });
 if (process.env.VISION_STUB) {
-  capture = async () => Buffer.from('stub');
+  capture = async () => Buffer.from("stub");
 }
 
 export function setCaptureFn(fn) {
@@ -17,17 +17,17 @@ export function start(port = process.env.PORT || 5003) {
   });
 }
 
-app.get('/capture', async (req, res) => {
+app.get("/capture", async (req, res) => {
   try {
     const img = await capture();
-    res.set('Content-Type', 'image/png');
+    res.set("Content-Type", "image/png");
     res.send(img);
   } catch (err) {
-    console.error('capture failed', err);
-    res.status(500).send('capture failed');
+    console.error("capture failed", err);
+    res.status(500).send("capture failed");
   }
 });
 
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== "test") {
   start();
 }
