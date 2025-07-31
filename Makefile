@@ -12,17 +12,17 @@ include Makefile.sibilant
 # === High-Level Targets ===
 
 .PHONY: all build clean lint format test setup install system-deps start stop start-tts start-stt stop-tts stop-stt \
-        board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues coverage coverage-python coverage-js coverage-ts simulate-ci
+        board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues coverage coverage-js coverage-ts simulate-ci
 
 
 all: build
 
-build: build-python build-js build-ts
-clean: clean-python clean-js clean-ts
+build: build-js build-ts
+clean: clean-js clean-ts
 lint: lint-python lint-js lint-ts
 format: format-python format-js lint-ts
 test: test-python-services test-js-services test-js-services
-coverage: coverage-python coverage-js coverage-ts
+coverage: coverage-js coverage-ts
 setup:
 	@echo "Setting up all services..."
 	@$(MAKE) setup-python
