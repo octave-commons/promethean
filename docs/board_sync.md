@@ -1,6 +1,6 @@
 # Board Sync Workflow
 
-This document explains how to keep the local `kanban.md` board in sync with a GitHub Projects board using `scripts/github_board_sync.py`.
+This document explains how to keep the local `kanban.md` board in sync with a GitHub Projects board using the `make board-sync` target.
 
 ## Setup
 1. Obtain a GitHub personal access token with `project` and `repo` scopes.
@@ -8,10 +8,10 @@ This document explains how to keep the local `kanban.md` board in sync with a Gi
 3. Set `GITHUB_TOKEN` in your environment.
 
 ## Usage
-Run the script from the repository root:
+Run the sync target from the repository root:
 
 ```bash
-python scripts/github_board_sync.py
+make board-sync
 ```
 
 By default the script reads `docs/agile/boards/kanban.md` and creates note cards in the specified project column. Without environment variables it performs a dry run.
@@ -36,10 +36,10 @@ You can regenerate `kanban.md` from the task files themselves. The
 status hashtag such as `#todo` or `#in-progress` and groups the tasks by those
 hashtags.
 
-Run the script and redirect the output to your board:
+Generate the board from task files:
 
 ```bash
-python scripts/hashtags_to_kanban.py > docs/agile/boards/kanban.md
+make kanban-from-tasks
 ```
 
 The resulting board uses the same layout as the existing `kanban.md` file,
@@ -47,13 +47,8 @@ placing each task under the column that matches its hashtag.
 
 ## Update Hashtags from the Board
 
-When you move cards between columns, run `kanban_to_hashtags.py` to write the
-new status hashtags back into each task file. The script reads
-`kanban.md` and updates the linked documents:
-
-```bash
-python scripts/kanban_to_hashtags.py
-```
+When you move cards between columns, run `make kanban-to-hashtags` to write the
+new status hashtags back into each task file. The target reads `kanban.md` and updates the linked documents.
 
 This keeps the `#todo` or `#in-progress` tags inside the tasks synchronized with
 their board position.

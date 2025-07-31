@@ -1,7 +1,7 @@
 ## 🛠️ Task: Evaluate and reward flow satisfaction
 
 Develop a metric for how "smooth" an interaction feels and use it to
-reinforce the agent.  This could combine response latency, emotional
+reinforce the agent. This could combine response latency, emotional
 stability from Eidolon, and user feedback.
 
 ---
@@ -56,3 +56,4 @@ stability from Eidolon, and user feedback.
 
 - Should user feedback be captured explicitly or inferred from message content?
 - Do we need real-time updates to the reward signal or batched summaries?
+#blocked

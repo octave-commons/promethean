@@ -1,0 +1,13 @@
+
+build-sibilant:
+	@echo "Transpiling Sibilant to JS... (not ready)"
+# npx sibilant $(SIBILANT_SRC)/common -o $(JS_BUILD_DIR)/common
+# npx sibilant $(SIBILANT_SRC)/server -o $(JS_BUILD_DIR)/server
+# npx sibilant $(SIBILANT_SRC)/client -o $(JS_BUILD_DIR)/client
+
+setup-sibilant:
+	@echo "Setting up Sibilant services..."
+
+setup-sibilant-service-%:
+	@echo "Setting up Sibilant service: $*"
+	cd services/$* && npx sibilant --install

@@ -5,7 +5,7 @@ Create a concise section in the root `AGENTS.md` explaining how agents declare
 allowed actions and resource access. The schema will be consumed by the future
 "permission gating" middleware to enforce boundaries.
 =======
-allowed actions and resource access.  The schema should be simple enough for
+allowed actions and resource access. The schema should be simple enough for
 manual editing but structured so a parser can enforce permissions during agent
 execution.
 >>>>>>> main
@@ -66,3 +66,4 @@ Nothing
 ## ❓ Questions
 
 - Should permissions support wildcards for actions or be explicit only?
+#blocked

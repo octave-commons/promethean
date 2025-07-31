@@ -11,7 +11,7 @@ After the alignment meeting, document the agreed-upon priorities and share them 
 ---
 
 ## 📦 Requirements
-- [ ] Meeting notes from the alignment session #done 
+- [ ] Meeting notes from the alignment session
 
 - [ ] Summary saved as `docs/notes/next-sprint-priorities.md`
 
@@ -39,3 +39,8 @@ Nothing
 
 ## 🔍 Relevant Links
 - [kanban](../boards/kanban.md)
+
+#reject
+
+## Reason for rejection
+#rejected

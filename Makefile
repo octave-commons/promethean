@@ -1,88 +1,40 @@
 # === Global Settings ===
-PY_BUILD_DIR=shared/py
-JS_BUILD_DIR=shared/js
 HYPHON_SRC=shared/hy
 SIBILANT_SRC=shared/sibilant
-TS_SRC=shared/ts
-TS_OUT=shared/js
+include Makefile.core
+include Makefile.python
+include Makefile.js
+include Makefile.ts
+include Makefile.hy
+include Makefile.sibilant
+
 
 # === High-Level Targets ===
 
-.PHONY: all build clean lint format test setup start stop start-tts start-stt stop-tts stop-stt
+.PHONY: all build clean lint format test setup install system-deps start stop start-tts start-stt stop-tts stop-stt \
+        board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues coverage coverage-python coverage-js coverage-ts simulate-ci
 
-SERVICES_PY=services/stt services/tts services/discord-indexer
-SERVICES_JS=services/cephalon services/discord-embedder
 
 all: build
 
-build: build-python build-js
-
+build: build-python build-js build-ts
 clean: clean-python clean-js clean-ts
-
-lint: lint-python lint-js
-
-format: format-python format-js
-
-test: test-python test-js
-
-# === Python/HY ===
-
-build-python:
-	@echo "Transpiling Hy to Python..."
-	# Add real transpilation if needed
-	@echo "Done."
-
-clean-python:
-	find $(PY_BUILD_DIR) -name '*.pyc' -delete
-
-lint-python:
-	flake8 services/ shared/py/
-
-format-python:
-	black services/ shared/py/
-
-test-python:
-	pytest tests/
-
-# === JS/TS/Sibilant ===
-
-build-js: build-ts build-sibilant
-
-build-sibilant:
-	@echo "Transpiling Sibilant to JS..."
-	npx sibilant $(SIBILANT_SRC)/common -o $(JS_BUILD_DIR)/common
-	npx sibilant $(SIBILANT_SRC)/server -o $(JS_BUILD_DIR)/server
-	npx sibilant $(SIBILANT_SRC)/client -o $(JS_BUILD_DIR)/client
-
-build-ts:
-	@echo "Transpiling TS to JS..."
-	tsc -p $(TS_SRC)
-
-clean-js:
-	rm -rf $(JS_BUILD_DIR)/*
-
-clean-ts:
-	rm -rf $(TS_OUT)/*
-
-lint-js:
-	eslint shared/js/ services/**/ --ext .js,.ts
-
-format-js:
-	prettier --write shared/js/ services/**/
-
-test-js:
-	npm test
-
-# === Service Management ===
-
+lint: lint-python lint-js lint-ts
+format: format-python format-js lint-ts
+test: test-python-services test-js-services test-js-services
+coverage: coverage-python coverage-js coverage-ts
 setup:
-	pipenv install --dev
-	@for d in $(SERVICES_PY); do \
-	cd $$d && pipenv install --dev && cd - >/dev/null; \
-	done
-	@for d in $(SERVICES_JS); do \
-		cd $$d && npm install && cd - >/dev/null; \
-	done
+	@echo "Setting up all services..."
+	@$(MAKE) setup-python
+	@$(MAKE) setup-js
+	@$(MAKE) setup-ts
+	@$(MAKE) setup-hy
+	@$(MAKE) setup-sibilant
+
+install: setup
+
+system-deps:
+	sudo apt-get update && sudo apt-get install -y libsndfile1
 
 start:
 	pm2 start ecosystem.config.js
@@ -95,3 +47,15 @@ start-%:
 
 stop-%:
 	pm2 stop $* || true
+
+board-sync:
+	python scripts/github_board_sync.py
+
+kanban-from-tasks:
+	python scripts/hashtags_to_kanban.py > docs/agile/boards/kanban.md
+
+kanban-to-hashtags:
+	python scripts/kanban_to_hashtags.py
+
+kanban-to-issues:
+	python scripts/kanban_to_issues.py

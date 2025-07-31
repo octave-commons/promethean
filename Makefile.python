@@ -1,0 +1,40 @@
+SERVICES_PY=services/py/stt services/py/tts services/py/discord_indexer services/py/stt_ws services/py/whisper_stream_ws
+# Install dependencies =========================================================
+setup-shared-python:
+	cd shared/py && python -m pipenv install --dev
+setup-pipenv:
+	python -m pip install --upgrade pip
+	@echo "installing pipenv"
+	python -m pip install pipenv
+setup-python-services:
+	@echo "Setting up Python services..."
+	@for d in $(SERVICES_PY); do \
+		cd $$d && PIPENV_NOSPIN=1 python -m pipenv sync --dev  && cd - >/dev/null; \
+	done
+setup-python-service-%:
+	@echo "Setting up Python service: $*"
+	cd services/$* && PIPENV_NOSPIN=1 python -m pipenv sync --dev
+setup-python: setup-pipenv setup-python-services setup-shared-python
+# Run Tests=====================================================================
+test-python-service-%:
+	@echo "Running tests for Python service: $*"
+	cd services/py/$* && PIPENV_NOSPIN=1 python -m pipenv run pytest tests/
+test-python-services:
+	@for d in $(SERVICES_PY); do \
+		echo "Running tests in $$d...";\
+		cd $$d && PIPENV_NOSPIN=1 python -m pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term && cd - >/dev/null; \
+	done
+
+test-shared-python:
+	cd shared/py && PIPENV_NOSPIN=1 python -m pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term
+test-python: test-python-services test-shared-python
+
+# Lint/formatting================================================================
+lint-python-service-%:
+	@echo "Linting Python service: $*"
+	flake8 services/$*
+
+lint-python:
+	flake8 services/ shared/py/
+format-python:
+	black services/ shared/py/
