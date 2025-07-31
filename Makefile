@@ -114,7 +114,7 @@ setup-js:
 setup-python:
 	@echo "Setting up Python services..."
 	@for d in $(SERVICES_PY); do \
-		cd $$d && PIPENV_NOSPIN=1 pipenv install --dev --skip-lock && cd - >/dev/null; \
+		cd $$d && PIPENV_NOSPIN=1 pipenv install --dev && cd - >/dev/null; \
 	done
 setup-hy:
 	@echo "Setting up Hy services..."
@@ -127,7 +127,7 @@ setup-core:
 	@echo "installing pipenv"
 	python -m pip install pipenv
 	@echo "setting up root pipenv"
-	pipenv install --dev --skip-lock --system
+	pipenv install --dev  --system
 
 setup:
 	@echo "Setting up all services..."
@@ -142,13 +142,13 @@ setup-js-service-%:
 	cd services/$* && npm install --no-package-lock
 setup-python-service-%:
 	@echo "Setting up Python service: $*"
-	cd services/$* && PIPENV_NOSPIN=1 pipenv install --dev --skip-lock
+	cd services/$* && PIPENV_NOSPIN=1 pipenv install --dev
 setup-sibilant-service-%:
 	@echo "Setting up Sibilant service: $*"
 	cd services/$* && npx sibilant --install
 setup-hy-service-%:
 	@echo "Setting up Hy service: $*"
-	cd services/$* && pipenv install --dev --skip-lock
+	cd services/$* && pipenv install --dev
 install: setup
 
 system-deps:
