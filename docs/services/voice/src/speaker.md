@@ -1,6 +1,6 @@
 # speaker.ts
 
-**Path**: `services/voice/src/speaker.ts`
+**Path**: `services/ts/voice/src/speaker.ts`
 
 **Description**: Handles decoding user voice packets, recording and transcription control for a single user.
 
@@ -13,4 +13,4 @@
 - ./voice-recorder
 
 ## Dependents
-- `services/voice/src/voice-session.ts`
+- `services/ts/voice/src/voice-session.ts`

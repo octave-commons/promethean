@@ -1,6 +1,6 @@
 # voice-synth.ts
 
-**Path**: `services/voice/src/voice-synth.ts`
+**Path**: `services/ts/voice/src/voice-synth.ts`
 
 **Description**: Requests synthesized speech from the TTS service and optionally upsamples via ffmpeg.
 
@@ -11,4 +11,4 @@
 - stream
 
 ## Dependents
-- `services/voice/src/voice-session.ts`
+- `services/ts/voice/src/voice-session.ts`

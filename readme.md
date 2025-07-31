@@ -72,7 +72,7 @@ Common tasks are wrapped in the root `Makefile`:
 - `make start` – launch shared services defined in `ecosystem.config.js` via PM2
 - `make start:<service>` – run a service from `ecosystem.config.js` by name
 - `make stop` – stop running services
-- `make test` – run Python and JS test suites
+- `make test` – run Python and JS test suites without coverage
 - `make board-sync` – sync `kanban.md` with GitHub Projects
 - `make kanban-from-tasks` – regenerate `kanban.md` from task files
 - `make kanban-to-hashtags` – update task statuses from `kanban.md`

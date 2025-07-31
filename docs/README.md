@@ -18,7 +18,7 @@ This `docs` directory houses internal documentation for the **Promethean Framewo
         
     - [Process](agile/Process.md) – explains the stages of the development flow (Ice Box, Accepted, Breakdown, etc.) and when cards move between them[raw.githubusercontent.com](https://raw.githubusercontent.com/riatzukiza/promethean/ef2459fe07e70d361b9d915670ce2fa8218fbe51/docs/agile/Process.md#:~:text=).
         
-    - [`agile/Tasks/`](agile/Tasks/) – individual task files. Each document includes a description, goals, requirements and subtasks. The board links to these files; creating a new task means adding a markdown file here and linking it from the board.
+    - [`agile/tasks/`](agile/tasks/) – individual task files. Each document includes a description, goals, requirements and subtasks. The board links to these files; creating a new task means adding a markdown file here and linking it from the board.
         
 - **Vault configuration**
     
@@ -39,7 +39,7 @@ This `docs` directory houses internal documentation for the **Promethean Framewo
     
 - **Keep filenames simple.** Avoid spaces or punctuation in new document filenames. Use kebab‑case or underscores instead of spaces (e.g. `clarify-promethean-project-vision.md`). This prevents URL‑encoding issues when browsing on GitHub.
     
-- **Create tasks in the right place.** When you add a new task or design note, create a file under `docs/agile/Tasks/` and link it from the Kanban board in the appropriate column. The board‑manager agent relies on these links to move cards through the workflow.
+- **Create tasks in the right place.** When you add a new task or design note, create a file under `docs/agile/tasks/` and link it from the Kanban board in the appropriate column. The board‑manager agent relies on these links to move cards through the workflow.
     
 - **Leverage the vault, but don’t depend on it.** Obsidian is optional. If you use it, copy the baseline configuration and explore the knowledge graph. If not, all docs are plain Markdown and render correctly on GitHub or any editor.
     
