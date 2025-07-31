@@ -10,7 +10,7 @@ setup-pipenv:
 setup-python-services:
 	@echo "Setting up Python services..."
 	@for d in $(SERVICES_PY); do \
-		cd $$d && PIPENV_NOSPIN=1 pipenv install --dev --system && cd - >/dev/null; \
+		cd $$d && PIPENV_NOSPIN=1 pipenv install --dev  && cd - >/dev/null; \
 	done
 setup-python-service-%:
 	@echo "Setting up Python service: $*"
