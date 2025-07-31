@@ -1,6 +1,6 @@
 # voice-recorder.ts
 
-**Path**: `services/voice/src/voice-recorder.ts`
+**Path**: `services/ts/voice/src/voice-recorder.ts`
 
 **Description**: Saves PCM data to wav files and emits events when recordings finish.
 
@@ -12,4 +12,4 @@
 - discord.js
 
 ## Dependents
-- `services/voice/src/speaker.ts`
+- `services/ts/voice/src/speaker.ts`
