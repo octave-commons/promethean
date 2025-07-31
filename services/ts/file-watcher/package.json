@@ -7,14 +7,30 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "start:dev": "node --loader ts-node/esm src/index.ts",
-    "build:check": "tsc --noEmit --incremental false"
+    "build:check": "tsc --noEmit --incremental false",
+    "test": "ava",
+    "coverage": "c8 ava"
   },
   "dependencies": {
     "chokidar": "^3.5.3"
   },
   "devDependencies": {
     "@types/node": "^22.10.10",
+    "ava": "^6.4.1",
+    "c8": "^9.1.0",
     "ts-node": "^10.9.2",
     "typescript": "5.7.3"
+  },
+  "ava": {
+    "extensions": {
+      "ts": "module"
+    },
+    "files": [
+      "tests/**/*.ts"
+    ],
+    "nodeArguments": [
+      "--loader",
+      "ts-node/esm"
+    ]
   }
 }
