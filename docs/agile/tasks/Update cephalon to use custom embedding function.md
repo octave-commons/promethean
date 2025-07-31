@@ -33,9 +33,9 @@ Premature optimization is bad.
 ## 📋 Subtasks
 - [ ] Define request/response schema in `bridge/protocols`
 - [ ] Write tests for new embeddings service
-	- [ ] Unit tests
-	- [ ] e2e
-	- [ ] integration
+- [ ] Unit tests
+- [ ] e2e
+- [ ] integration
 - [ ] Write unit tests for the new helper
 - [ ] Implement service
 - [ ] implement wrapper class
@@ -45,7 +45,7 @@ Premature optimization is bad.
 ---
 
 ## 🔗 Related Epics
-#framework-core #cephalon #discord #embedding #typescript 
+#framework-core #cephalon #discord #embedding #typescript
 
 ---
 
@@ -60,3 +60,4 @@ Nothing
 ## 🔍 Relevant Links
 - [kanban](../boards/kanban.md)
 - [pseudo/eidolon-field-scratchpad.lisp](../../pseudo/eidolon-field-scratchpad.lisp)
+#ready
