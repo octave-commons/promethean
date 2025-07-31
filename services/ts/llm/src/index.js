@@ -1,13 +1,15 @@
 import express from "express";
 import ollama from "ollama";
 
-const app = express();
+export const MODEL = process.env.LLM_MODEL || "gemma3";
+
+export const app = express();
 app.use(express.json({ limit: "5mb" }));
 
-async function callOllama({ prompt, context, format }, retry = 0) {
+export async function callOllama({ prompt, context, format }, retry = 0) {
   try {
     const res = await ollama.chat({
-      model: "gemma3",
+      model: MODEL,
       messages: [{ role: "system", content: prompt }, ...context],
       format,
     });
