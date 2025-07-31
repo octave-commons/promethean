@@ -1,6 +1,6 @@
 # speaker.test.ts
 
-**Path**: `services/voice/tests/speaker.test.ts`
+**Path**: `services/ts/voice/tests/speaker.test.ts`
 
 **Description**: Integration tests for speaker start/stop recording and transcription state changes.
 
