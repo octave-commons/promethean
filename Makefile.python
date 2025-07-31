@@ -14,6 +14,13 @@ setup-python-services:
 
 
 generate-python-shared-requirements:
+		cd shared/py && python -m pipenv requirements > requirements.txt
+generate-python-services-requirements:
+	@echo "Generating requirements.txt for Python services..."
+	@for d in $(SERVICES_PY); do \
+		cd $$d &&  && cd - >/dev/null; \
+	done
+
 	cd shared/py && python -m pipenv lock -r > requirements.txt
 generate-python-services-requirements:
 	@echo "Generating requirements.txt for Python services..."
