@@ -24,3 +24,15 @@ agents/duck/.tokens
 .smart-env/
 
 services/discord-embedder/voice-examples
+
+services/py/discord_indexer/coverage.xml
+
+services/py/stt/coverage.xml
+
+services/py/stt_ws/coverage.xml
+
+services/py/whisper_stream_ws/coverage.xml
+
+*.xml
+
+shared/py/.coverage
