@@ -1,4 +1,3 @@
-
 [[source]]
 url = "https://pypi.org/simple"
 verify_ssl = true
@@ -15,6 +14,7 @@ pytest = "*"
 pytest-cov = "*"
 flake8 = "*"
 black = "*"
+httpx = "*"
 
 [requires]
 python_version = "3.12"
