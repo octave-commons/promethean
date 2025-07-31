@@ -38,6 +38,7 @@ kanban-plugin: board
 
 ## Blocked
 
+- [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md) #devops #seperation-of-concerns #makefile #buildtools
 
 
 ## Incoming
@@ -67,26 +68,23 @@ kanban-plugin: board
 
 ## Accepted (8)
 
-- [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md)
-- [ ] [Clarify Promethean project vision](../tasks/Clarify%20Promethean%20project%20vision.md)
-- [ ] [Add Ollama formally to pipeline](../tasks/Add%20Ollama%20formally%20to%20pipeline.md) #framework-core
-- [ ] [Describe github branching workflow](../tasks/Describe%20github%20branching%20workflow.md)
-- [ ] [Finalize MIGRATION\_PLAN.md](../tasks/Finalize%20`MIGRATION_PLAN.md`.md) #framework-core
 
 
 ## Prompt refinement (8)
 
+- [ ] [Clarify Promethean project vision](../tasks/Clarify%20Promethean%20project%20vision.md)
+- [ ] [Add Ollama formally to pipeline](../tasks/Add%20Ollama%20formally%20to%20pipeline.md) #framework-core
+- [ ] [Describe github branching workflow](../tasks/Describe%20github%20branching%20workflow.md)
 
 
 ## Agent thinking (8)
 
-- [ ] [Determine PM2 configuration for agents](../tasks/Determine%20PM2%20configuration%20for%20agents.md)
-- [ ] [write simple ecosystem declaration library for new agents](../tasks/write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md) #framework-core
 
 
 ## Breakdown (10)
 
-- [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md) #devops #seperation-of-concerns #makefile #buildtools
+- [ ] [Determine PM2 configuration for agents](../tasks/Determine%20PM2%20configuration%20for%20agents.md)
+- [ ] [write simple ecosystem declaration library for new agents](../tasks/write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md) #framework-core
 
 
 ## ready (8)
@@ -97,7 +95,6 @@ kanban-plugin: board
 
 ## 🟢 To Do (8)
 
-- [ ] [Document local testing setup](../tasks/Document_local_testing_setup.md) #codex-task #testing
 - [ ] [Write meaningful tests for Cephalon](../tasks/Write_meaningful_tests_for_Cephalon.md) #codex-task #testing
 - [ ] [Add STT service tests](../tasks/Add_STT_service_tests.md) #codex-task #testing
 - [ ] [Write end to end tests](Write%20end%20to%20end%20tests.md) #framework-core
@@ -111,6 +108,7 @@ kanban-plugin: board
 
 - [ ] [Clearly seperate service dependency  files](../tasks/Clearly%20seperate%20service%20dependency%20files.md) #devops #dependencies #seperation-of-concerns
 - [ ] [seperate all  testing pipelines  in github Actions](../tasks/seperate%20all%20testing%20pipelines%20in%20github%20Actions.md) #seperation-of-concerns #testing #devops
+- [ ] [Document local testing setup](../tasks/Document_local_testing_setup.md) #codex-task #testing
 
 
 ## In Review (4)
@@ -121,6 +119,7 @@ kanban-plugin: board
 ## 🔵 Done
 
 **Complete**
+- [x] [Finalize MIGRATION\_PLAN.md](../tasks/Finalize%20`MIGRATION_PLAN.md`.md) #framework-core ✅ 2025-07-31
 
 
 ## 🧠 Notes
@@ -156,6 +155,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,true,false,true,true,true,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,false,true,true,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
