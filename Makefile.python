@@ -1,8 +1,7 @@
 SERVICES_PY=services/py/stt services/py/tts services/py/discord_indexer services/py/stt_ws services/py/whisper_stream_ws
 # Install dependencies =========================================================
 
-setup-shared-python:
-	cd shared/py && python -m pipenv install --dev
+
 
 setup-pipenv:
 	python -m pip install --upgrade pip
@@ -15,7 +14,10 @@ setup-python-services:
 		cd $$d && PIPENV_NOSPIN=1 python -m pipenv sync --dev && cd - >/dev/null; \
 	done
 
-generate-requirements:
+
+generate-python-shared-requirements:
+		cd shared/py && python -m pipenv lock -r > requirements.txt
+generate-python-services-requirements:
 	@echo "Generating requirements.txt for Python services..."
 	@for d in $(SERVICES_PY); do \
 		cd $$d && python -m pipenv lock -r > requirements.txt && cd - >/dev/null; \
@@ -24,12 +26,18 @@ generate-requirements:
 generate-requirements-service-%:
 	cd services/py/$* && python -m pipenv lock -r > requirements.txt
 
-setup-python-services-quick: generate-requirements
+setup-shared-python:
+	cd shared/py && python -m pipenv install --dev
+setup-shared-python-quick: generate-python-shared-requirements
+	cd shared/py && python -m pip install --user -r requirements.txt
+setup-python-services-quick: generate-python-services-requirements
 	@for d in $(SERVICES_PY); do \
 		cd $$d && python -m pip install --user -r requirements.txt && cd - >/dev/null; \
 	done
 
-setup-python-quick: setup-python-services-quick
+setup-python-quick: setup-python-services-quick setup-python-shared-quick
+generate-python-requirements: generate-python-services-requirements generate-python-shared-requirements
+
 build-python:
 	@echo "No build step for Python services"
 clean-python:
