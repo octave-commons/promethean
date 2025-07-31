@@ -47,11 +47,6 @@ format-python:
 test-python:
 	pytest tests/
 
-test-python-services:
-	@for d in $(SERVICES_PY); do \
-		echo "Running tests in $$d...";\
-		cd $$d && PIPENV_NOSPIN=1 pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term && cd - >/dev/null; \
-	done
 
 
 # === JS/TS/Sibilant ===
@@ -136,12 +131,12 @@ setup-core:
 
 setup:
 	@echo "Setting up all services..."
-	setup-core
-	setup-python
-	setup-js
-	setup-ts
-	setup-hy
-	setup-sibilant
+	@$(MAKE) setup-core
+	@$(MAKE) setup-python
+	@$(MAKE) setup-js
+	@$(MAKE) setup-ts
+	@$(MAKE) setup-hy
+	@$(MAKE) setup-sibilant
 setup-js-service-%:
 	@echo "Setting up JS service: $*"
 	cd services/$* && npm install --no-package-lock
@@ -175,9 +170,21 @@ test-python-service-%:
 	@echo "Running tests for Python service: $*"
 	cd services/$* && PIPENV_NOSPIN=1 pipenv run pytest tests/
 
+test-python-services:
+	@for d in $(SERVICES_PY); do \
+		echo "Running tests in $$d...";\
+		cd $$d && PIPENV_NOSPIN=1 pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term && cd - >/dev/null; \
+	done
+
 test-js-service-%:
 	@echo "Running tests for JS service: $*"
 	cd services/$* && npm test
+
+test-js-services:
+	@for d in $(SERVICES_JS); do \
+		echo "Running tests in $$d...";\
+		cd $$d && npm test && cd - >/dev/null; \
+	done
 
 lint-python-service-%:
 	@echo "Linting Python service: $*"
