@@ -49,6 +49,11 @@ make setup-quick
 This skips `pipenv` during installation and uses the generated requirement
 files.
 
+Makefile targets for Python, JavaScript and TypeScript iterate over their
+respective service directories using a shared helper.
+Missing services are skipped with a message, and the overall target fails if
+any service command returns an error.
+
 Always install into a virtual environment (`pipenv shell` or one created with
 `python -m venv`) to avoid modifying your system Python packages.
 
