@@ -6,7 +6,7 @@ for the Obsidian Kanban plugin but renders fine on GitHub.
 
 ## Adding and linking tasks
 
-1. Create a new markdown file in `docs/agile/Tasks/` using the task template.
+1. Create a new markdown file in `docs/agile/tasks/` using the task template.
 2. Include a status hashtag such as `#todo` or `#in-progress` at the top.
 3. Link the file from the appropriate column on the board using a relative
    markdown link.
