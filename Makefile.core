@@ -1,0 +1,15 @@
+# Utility macro for running a command across a list of directories.
+# Usage: $(call run_dirs,<dirs>,<command>)
+# Fails if any command returns non-zero and skips missing directories.
+define run_dirs
+status=0; \
+for d in $(1); do \
+if [ ! -d "$$d" ]; then \
+echo "Skipping $$d (not found)"; \
+continue; \
+fi; \
+(cd "$$d" && $(2)) || status=1; \
+done; \
+exit $$status
+endef
+

@@ -49,6 +49,11 @@ make setup-quick
 This skips `pipenv` during installation and uses the generated requirement
 files.
 
+Makefile targets for Python, JavaScript and TypeScript iterate over their
+respective service directories using a shared helper.
+Missing services are skipped with a message, and the overall target fails if
+any service command returns an error.
+
 Always install into a virtual environment (`pipenv shell` or one created with
 `python -m venv`) to avoid modifying your system Python packages.
 
@@ -63,6 +68,10 @@ Install PM2 globally if it isn't already available:
 ```bash
 npm install -g pm2
 ```
+
+The service management targets `make start`, `make start-tts` and
+`make start-stt` require PM2. You can install it globally as shown above or add
+it as a project dependency.
 
 ## Running Services
 
@@ -89,6 +98,10 @@ Common tasks are wrapped in the root `Makefile`:
 - `make start` – launch shared services defined in `ecosystem.config.js` via PM2
 - `make start:<service>` – run a service from `ecosystem.config.js` by name
 - `make stop` – stop running services
+- `make start-tts` – start the text-to-speech service
+- `make start-stt` – start the speech-to-text service
+- `make stop-tts` – stop the text-to-speech service
+- `make stop-stt` – stop the speech-to-text service
 - `make test` – run Python and JS test suites without coverage
 - `make board-sync` – sync `kanban.md` with GitHub Projects
 - `make kanban-from-tasks` – regenerate `kanban.md` from task files
