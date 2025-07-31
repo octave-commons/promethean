@@ -1,8 +1,7 @@
 SERVICES_PY=services/py/stt services/py/tts services/py/discord_indexer services/py/stt_ws services/py/whisper_stream_ws
 # Install dependencies =========================================================
 setup-shared-python:
-	cd shared/py
-	python -m pipenv install --dev
+	cd shared/py && python -m pipenv install --dev
 setup-pipenv:
 	python -m pip install --upgrade pip
 	@echo "installing pipenv"
