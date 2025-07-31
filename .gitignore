@@ -43,3 +43,5 @@ shared/py/.coverage
 !services/py/stt/whisper-npu/download.sh
 !services/py/stt/whisper-npu/README_LOCAL.md
 !agents/duck/scripts/download_chroma_data.sh
+
+.infio_json_db/

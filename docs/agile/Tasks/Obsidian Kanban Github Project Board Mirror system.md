@@ -41,4 +41,4 @@ Nothing
 
 ## 🔍 Relevant Links
 - [kanban](../boards/kanban.md)
-#agent-thinking
+#ice-box

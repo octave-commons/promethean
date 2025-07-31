@@ -43,4 +43,4 @@ Create a small tool that pushes updates from our Obsidian kanban board to a GitH
 - [kanban](../boards/kanban.md)
 - [board_sync.py](../../scripts/github_board_sync.py)
 - [Board Sync Workflow](../../board_sync.md)
-#agent-thinking
+#ice-box

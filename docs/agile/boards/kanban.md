@@ -89,13 +89,11 @@ kanban-plugin: board
 
 ## ready (8)
 
-- [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
 - [ ] [Add unit tests for GUI helpers](../tasks/Add_unit_tests_for_gui_helpers.md) #codex-task #testing
 
 
 ## 🟢 To Do (8)
 
-- [ ] [Write meaningful tests for Cephalon](../tasks/Write_meaningful_tests_for_Cephalon.md) #codex-task #testing
 - [ ] [Add STT service tests](../tasks/Add_STT_service_tests.md) #codex-task #testing
 - [ ] [Write end to end tests](Write%20end%20to%20end%20tests.md) #framework-core
 - [ ] [Add unit tests for wav_processing](../tasks/Add_unit_tests_for_wav_processing.md) #codex-task #testing
@@ -106,19 +104,21 @@ kanban-plugin: board
 
 ## 🟡 In Progress (4)
 
-- [ ] [Clearly seperate service dependency  files](../tasks/Clearly%20seperate%20service%20dependency%20files.md) #devops #dependencies #seperation-of-concerns
-- [ ] [seperate all  testing pipelines  in github Actions](../tasks/seperate%20all%20testing%20pipelines%20in%20github%20Actions.md) #seperation-of-concerns #testing #devops
 - [ ] [Document local testing setup](../tasks/Document_local_testing_setup.md) #codex-task #testing
+- [ ] [seperate all  testing pipelines  in github Actions](../tasks/seperate%20all%20testing%20pipelines%20in%20github%20Actions.md) #seperation-of-concerns #testing #devops
+- [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
+- [ ] [Write meaningful tests for Cephalon](../tasks/Write_meaningful_tests_for_Cephalon.md) #codex-task #testing
 
 
 ## In Review (4)
 
-- [ ] [Update GitHub Actions to use makefile](../tasks/update%20github%20actions%20to%20use%20makefile.md)
+- [ ] [Clearly seperate service dependency  files](../tasks/Clearly%20seperate%20service%20dependency%20files.md) #devops #dependencies #seperation-of-concerns
 
 
 ## 🔵 Done
 
 **Complete**
+- [x] [Update GitHub Actions to use makefile](../tasks/update%20github%20actions%20to%20use%20makefile.md) ✅ 2025-07-31
 - [x] [Finalize MIGRATION\_PLAN.md](../tasks/Finalize%20`MIGRATION_PLAN.md`.md) #framework-core ✅ 2025-07-31
 
 
