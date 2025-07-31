@@ -47,11 +47,6 @@ format-python:
 test-python:
 	pytest tests/
 
-test-python-services:
-	@for d in $(SERVICES_PY); do \
-		echo "Running tests in $$d...";\
-		cd $$d && PIPENV_NOSPIN=1 pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term && cd - >/dev/null; \
-	done
 
 
 # === JS/TS/Sibilant ===
@@ -119,7 +114,7 @@ setup-js:
 setup-python:
 	@echo "Setting up Python services..."
 	@for d in $(SERVICES_PY); do \
-		cd $$d && PIPENV_NOSPIN=1 pipenv install --dev --skip-lock && cd - >/dev/null; \
+		cd $$d && PIPENV_NOSPIN=1 pipenv install --dev && cd - >/dev/null; \
 	done
 setup-hy:
 	@echo "Setting up Hy services..."
@@ -132,28 +127,28 @@ setup-core:
 	@echo "installing pipenv"
 	python -m pip install pipenv
 	@echo "setting up root pipenv"
-	pipenv install --dev --skip-lock --system
+	pipenv install --dev  --system
 
 setup:
 	@echo "Setting up all services..."
-	setup-core
-	setup-python
-	setup-js
-	setup-ts
-	setup-hy
-	setup-sibilant
+	@$(MAKE) setup-core
+	@$(MAKE) setup-python
+	@$(MAKE) setup-js
+	@$(MAKE) setup-ts
+	@$(MAKE) setup-hy
+	@$(MAKE) setup-sibilant
 setup-js-service-%:
 	@echo "Setting up JS service: $*"
 	cd services/$* && npm install --no-package-lock
 setup-python-service-%:
 	@echo "Setting up Python service: $*"
-	cd services/$* && PIPENV_NOSPIN=1 pipenv install --dev --skip-lock
+	cd services/$* && PIPENV_NOSPIN=1 pipenv install --dev
 setup-sibilant-service-%:
 	@echo "Setting up Sibilant service: $*"
 	cd services/$* && npx sibilant --install
 setup-hy-service-%:
 	@echo "Setting up Hy service: $*"
-	cd services/$* && pipenv install --dev --skip-lock
+	cd services/$* && pipenv install --dev
 install: setup
 
 system-deps:
@@ -175,9 +170,21 @@ test-python-service-%:
 	@echo "Running tests for Python service: $*"
 	cd services/$* && PIPENV_NOSPIN=1 pipenv run pytest tests/
 
+test-python-services:
+	@for d in $(SERVICES_PY); do \
+		echo "Running tests in $$d...";\
+		cd $$d && PIPENV_NOSPIN=1 pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term && cd - >/dev/null; \
+	done
+
 test-js-service-%:
 	@echo "Running tests for JS service: $*"
 	cd services/$* && npm test
+
+test-js-services:
+	@for d in $(SERVICES_JS); do \
+		echo "Running tests in $$d...";\
+		cd $$d && npm test && cd - >/dev/null; \
+	done
 
 lint-python-service-%:
 	@echo "Linting Python service: $*"
