@@ -7,7 +7,7 @@ code required to run a placeholder event loop.
 =======
 Bootstrap the **Eidolon** service that manages emotional state simulation. This
 task sets up a minimal Python package under `services/eidolon/` with a command
-line entry point and README.  The goal is to create a runnable skeleton so
+line entry point and README. The goal is to create a runnable skeleton so
 future tasks can iterate on the underlying field mechanics.
 >>>>>>> main
 
@@ -22,7 +22,7 @@ future tasks can iterate on the underlying field mechanics.
 =======
 - Provide a runnable service scaffold for the Eidolon field.
 - Include placeholder classes that mirror structures in
-  `pseudo/eidolon-field-scratchpad.lisp`.
+`pseudo/eidolon-field-scratchpad.lisp`.
 - Ensure the service can log basic state information to the console.
 >>>>>>> main
 
@@ -77,3 +77,4 @@ Nothing
 ## 🔍 Relevant Links
 
 - [kanban](../boards/kanban.md)
+#ice-box

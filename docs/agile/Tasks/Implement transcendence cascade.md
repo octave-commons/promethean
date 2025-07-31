@@ -2,7 +2,7 @@
 
 Design a mechanism where an agent can escalate from ordinary
 conversation into a "transcendent" mode—pulling insight from multiple
-cognitive circuits and returning a synthesized response.  This is an
+cognitive circuits and returning a synthesized response. This is an
 experimental feature inspired by the Anankean circuit.
 
 ---
@@ -56,3 +56,4 @@ experimental feature inspired by the Anankean circuit.
 
 - How should conflicting outputs from Cephalon and Eidolon be resolved?
 - What user-facing cue toggles the cascade mode?
+#blocked

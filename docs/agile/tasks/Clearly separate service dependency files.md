@@ -6,7 +6,7 @@
 ## 🎯 Goals
 
 - Each service should declare its own Python and Node dependencies
-  (`requirements.txt` or `package.json`).
+(`requirements.txt` or `package.json`).
 - Reduce cross‑service coupling in the root manifests.
 - Document how to install dependencies for an individual service.
 
@@ -49,3 +49,4 @@ Nothing
 ## 🔍 Relevant Links
 
 - [kanban](../boards/kanban.md)
+#ready

@@ -44,3 +44,4 @@ Nothing
 - [kanban](../boards/kanban.md)
 - [file-structure](../file-structure.md)
 - [MIGRATION_PLAN](../MIGRATION_PLAN.md)
+#ready
