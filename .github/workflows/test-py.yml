@@ -16,7 +16,7 @@ jobs:
 
 
       - name: Install dependencies
-        run: make system-deps  setup-python-quick
+        run: make system-deps  setup-python
 
 
       - name: Run tests
