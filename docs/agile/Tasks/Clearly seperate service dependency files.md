@@ -11,6 +11,10 @@ and `Pipfile`, which complicates per-service deployment.
 ## 🎯 Goals
 - Distinct `requirements.txt` or `package.json` for every service
 - Document dependency layout in `/docs/file-structure.md`
+- Each service should declare its own Python and Node dependencies
+(`requirements.txt` or `package.json`).
+- Reduce cross‑service coupling in the root manifests.
+- Document how to install dependencies for an individual service.
 
 ---
 
@@ -18,12 +22,21 @@ and `Pipfile`, which complicates per-service deployment.
 - [ ] Audit current shared dependency usage
 - [ ] Create per-service files and update CI accordingly
 
+- [ ] Audit existing packages in the root manifests.
+- [ ] Move service‑specific libraries into the corresponding service folder.
+- [ ] Keep shared dev tooling (lint, test runners) at the repository root.
+- [ ] Update documentation to describe per‑service setup.
+
 ---
 
 ## 📋 Subtasks
 - [ ] Split Python requirements by service
 - [ ] Split Node dependencies by service
 - [ ] Update documentation with examples
+- [ ] List all current dependencies by service.
+- [ ] Create `requirements.txt` or `package.json` as needed.
+- [ ] Update the Makefile to install dependencies per service.
+- [ ] Clean up obsolete references in the root manifests.
 
 ---
 
@@ -44,3 +57,4 @@ Nothing
 - [kanban](../boards/kanban.md)
 - [file-structure](../file-structure.md)
 - [MIGRATION_PLAN](../MIGRATION_PLAN.md)
+#ready

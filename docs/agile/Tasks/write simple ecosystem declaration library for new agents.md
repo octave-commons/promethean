@@ -1,7 +1,7 @@
 ## 🛠️ Task: write simple ecosystem declaration library for new agents
 
 Create a lightweight module that lets each agent declare which
-services or processes it needs.  The goal is a shared "ecosystem"
+services or processes it needs. The goal is a shared "ecosystem"
 format—likely a JS or JSON file—that PM2 or similar tools can read to
 spawn the correct services for an agent.
 
@@ -57,3 +57,4 @@ spawn the correct services for an agent.
 
 - Should PM2 remain the default process manager or is a custom tool planned?
 - How will per-agent environment variables be stored?
+#blocked

@@ -1,7 +1,10 @@
-import os, sys
+import os
+import sys
+from shared.py.utils.split_sentances import split_sentences
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "shared", "py"))
-import pytest
-from utils.split_sentances import split_sentences
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
 
 
 def test_split_basic():

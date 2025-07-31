@@ -1,7 +1,8 @@
-import os, sys
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "shared", "py"))
+import os
+import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
 
-from utils.numbers import normalize_numbers
+from shared.py.utils.numbers import normalize_numbers
 
 
 def test_normalize_simple_number():
