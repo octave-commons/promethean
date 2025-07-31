@@ -3,6 +3,7 @@
 This service exposes a simple HTTP endpoint that proxies requests to the local LLM via the `ollama` library.
 
 Start the service:
+
 ```bash
 npm start
 ```

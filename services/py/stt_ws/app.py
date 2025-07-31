@@ -5,6 +5,7 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 
 app = FastAPI()
 
+
 @app.websocket("/transcribe")
 async def transcribe_ws(ws: WebSocket):
     await ws.accept()
@@ -18,6 +19,7 @@ async def transcribe_ws(ws: WebSocket):
         sample_rate = int(payload.get("sample_rate", 16000))
         pcm_bytes = base64.b64decode(pcm_b64)
         from shared.py.speech.wisper_stt import transcribe_pcm
+
         text = transcribe_pcm(bytearray(pcm_bytes), sample_rate)
         await ws.send_json({"transcription": text})
     except WebSocketDisconnect:

@@ -4,6 +4,7 @@ from shared.py.speech.whisper_stream import WhisperStreamer
 app = FastAPI()
 streamer = None
 
+
 @app.websocket("/stream")
 async def stream(ws: WebSocket):
     await ws.accept()

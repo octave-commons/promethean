@@ -7,7 +7,10 @@ import discord
 
 from scipy.signal import resample_poly
 
-def split_waveform_into_batches(waveform: torch.Tensor, chunk_size: int = 320000) -> list:
+
+def split_waveform_into_batches(
+    waveform: torch.Tensor, chunk_size: int = 320000
+) -> list:
     """
     Splits a waveform tensor into chunks of `chunk_size` samples, padding the last chunk if needed.
 
@@ -30,8 +33,8 @@ def split_waveform_into_batches(waveform: torch.Tensor, chunk_size: int = 320000
 
         if chunk.shape[1] < chunk_size:
             pad_amount = chunk_size - chunk.shape[1]
-            chunk = F.pad(chunk, (0, pad_amount), mode='constant', value=0)
-            
+            chunk = F.pad(chunk, (0, pad_amount), mode="constant", value=0)
+
         chunks.append(chunk)
 
     return chunks
@@ -45,11 +48,13 @@ def normalize_audio(wav_data: np.ndarray) -> np.ndarray:
     return wav_data / max_val
 
 
-def upsample_and_stereo(wav_data: np.ndarray, orig_sr: int = 22050, target_sr: int = 48000) -> np.ndarray:
+def upsample_and_stereo(
+    wav_data: np.ndarray, orig_sr: int = 22050, target_sr: int = 48000
+) -> np.ndarray:
     """Resample from orig_sr to target_sr and convert to stereo."""
     # Normalize
     wav_data = normalize_audio(wav_data)
-    
+
     # Resample using high-quality polyphase filter
     upsampled = resample_poly(wav_data, target_sr, orig_sr)
 
@@ -58,13 +63,18 @@ def upsample_and_stereo(wav_data: np.ndarray, orig_sr: int = 22050, target_sr: i
 
     return stereo
 
-def upsample_to_stream(wav_data: np.ndarray, orig_sr: int = 22050, target_sr: int = 48000):
+
+def upsample_to_stream(
+    wav_data: np.ndarray, orig_sr: int = 22050, target_sr: int = 48000
+):
     # Convert float32 [-1.0, 1.0] to int16
-    int16_data = np.clip(upsample_and_stereo(wav_data, orig_sr, target_sr) * 32767, -32768, 32767).astype(np.int16)
+    int16_data = np.clip(
+        upsample_and_stereo(wav_data, orig_sr, target_sr) * 32767, -32768, 32767
+    ).astype(np.int16)
 
     # Write to a WAV buffer
     wav_buffer = io.BytesIO()
-    with wave.open(wav_buffer, 'wb') as wf:
+    with wave.open(wav_buffer, "wb") as wf:
         wf.setnchannels(2)
         wf.setsampwidth(2)  # 2 bytes for int16
         wf.setframerate(48000)

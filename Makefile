@@ -20,7 +20,7 @@ all: build
 build: build-python build-js build-ts
 clean: clean-python clean-js clean-ts
 lint: lint-python lint-js lint-ts
-format: format-python format-js lint-ts
+format: format-python format-js format-ts
 test: test-python-services test-js-services test-js-services
 coverage: coverage-python coverage-js coverage-ts
 setup:

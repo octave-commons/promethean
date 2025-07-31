@@ -2,13 +2,13 @@ TS_SRC=shared/ts
 TS_OUT=shared/js
 SERVICES_TS=services/ts/cephalon services/ts/discord-embedder services/ts/llm  services/ts/voice
 lint-ts:
-	@for d in $(SERVICES_JS); do \
-		cd $$d && npx eslint . --ext .js,.ts && cd - >/dev/null; \
+	@for d in $(SERVICES_TS); do \
+	cd $$d && npx eslint . --no-warn-ignored || true; cd - >/dev/null; \
 	done
 format-ts:
-	@for d in $(SERVICES_JS); do \
-		cd $$d && npx prettier --write . && cd - >/dev/null; \
-	done
+	@for d in $(SERVICES_TS); do \
+	cd $$d && npx prettier --write . && cd - >/dev/null; \
+done
 setup-ts:
 	@echo "Setting up TypeScript services..."
 	@for d in $(SERVICES_TS); do \

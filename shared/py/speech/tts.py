@@ -27,11 +27,13 @@ vocoder = WaveRNNIE(
     target=200,
 )
 
+
 def generate_voice(input_text):
     chunks = split_sentences(input_text)
     all_audio = []
     for chunk in chunks:
-        if not chunk: continue
+        if not chunk:
+            continue
         mel = forward_tacotron.forward(chunk.strip(), alpha=1.0)
         audio = vocoder.forward(mel)
         all_audio.append(audio)
@@ -40,14 +42,18 @@ def generate_voice(input_text):
 
     return final_audio
 
+
 def voice_generator(input_text):
     chunks = split_sentences(input_text)
     for chunk in chunks:
-        if not chunk: continue
+        if not chunk:
+            continue
         mel = forward_tacotron.forward(chunk.strip(), alpha=1.0)
         audio = vocoder.forward(mel)
         yield audio.tobytes()
 
 
-def generate_upsampled_voice_stream(input_text, orig_sr: int = 22050, target_sr: int = 48000):
-    return upsample_to_stream(generate_voice(input_text), orig_sr,target_sr)
+def generate_upsampled_voice_stream(
+    input_text, orig_sr: int = 22050, target_sr: int = 48000
+):
+    return upsample_to_stream(generate_voice(input_text), orig_sr, target_sr)
