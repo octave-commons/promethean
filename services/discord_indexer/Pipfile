@@ -8,6 +8,7 @@ discord = "*"
 pandas = "*"
 dotenv = "*"
 pymongo = "*"
+pytest-asyncio = "*"
 
 [dev-packages]
 pytest-cov = "*"

@@ -1,9 +1,13 @@
-import os, sys, asyncio, importlib
+import os
+import sys
+import importlib
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../", "shared", "py"))
-import anyio
 
 import pytest
+
+import asyncio
+
 import discord
 
 # Dummy in-memory collection to mimic pymongo behaviour
@@ -78,9 +82,7 @@ def setup_env(monkeypatch):
 
 def load_indexer(monkeypatch):
     # Reload module with patched collections for isolation
-    if "discord-indexer.main" in sys.modules:
-        del sys.modules["discord-indexer.main"]
-    mod = importlib.import_module("discord-indexer.main")
+    mod = importlib.import_module("main")
     monkeypatch.setattr(mod, "discord_channel_collection", MemoryCollection())
     monkeypatch.setattr(mod, "discord_message_collection", MemoryCollection())
     return mod
@@ -125,3 +127,4 @@ async def test_index_channel(monkeypatch):
     assert len(coll.data) == 3
     # cursor updated to newest message id
     assert ch_coll.find_one({"id": 10})["cursor"] == messages[-1].id
+

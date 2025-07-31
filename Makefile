@@ -173,7 +173,7 @@ stop-%:
 
 test-python-service-%:
 	@echo "Running tests for Python service: $*"
-	PIPENV_NOSPIN=1 pipenv run pytest services/$*
+	cd services/$* && PIPENV_NOSPIN=1 pipenv run pytest tests/
 
 test-js-service-%:
 	@echo "Running tests for JS service: $*"
