@@ -39,3 +39,7 @@ Nothing
 
 ## 🔍 Relevant Links
 - [kanban](../boards/kanban.md)
+
+#reject
+
+## Reason for rejection

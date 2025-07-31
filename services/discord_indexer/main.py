@@ -8,6 +8,10 @@ import os
 AGENT_NAME = os.environ.get("AGENT_NAME", "duck")
 print(f"Discord indexer running for {AGENT_NAME}")
 
+
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../"))
+
 import asyncio
 import random
 import traceback

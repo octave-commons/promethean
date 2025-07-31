@@ -1,6 +1,8 @@
 import subprocess, os, time, requests
 
 
+
+# This should have been written in JS/TS it's a test for a JS/TS service
 def test_vision_service_e2e(tmp_path):
     env = os.environ.copy()
     env['PORT'] = '5010'

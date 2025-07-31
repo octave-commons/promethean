@@ -7,6 +7,9 @@ pymongo
 pytest-cov
 requests
 
+flake8
+black
+
 fastapi
 uvicorn
 httpx

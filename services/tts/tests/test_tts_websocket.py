@@ -1,5 +1,5 @@
 import os, sys
-ROOT_DIR = os.path.join(os.path.dirname(__file__), "..")
+ROOT_DIR = os.path.join(os.path.dirname(__file__), "../../../")
 sys.path.insert(0, os.path.join(ROOT_DIR, "shared", "py"))
 sys.path.insert(0, ROOT_DIR)
 
