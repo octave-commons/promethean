@@ -43,7 +43,7 @@ kanban-plugin: board
 
 ## Incoming
 
-- [ ] [Remove ts-node and compile ava tests directly](Remove%20ts-node%20and%20compile%20ava%20tests%20directly.md) #cicd
+- [ ] [Remove ts-node and compile ava tests directly](remove-ts-node-compile-ava-tests-directly.md) #cicd
 - [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
 - [ ] [Write meaningful tests for Cephalon](../../../Write%20meaningful%20tests%20for%20Cephalon.md)
 - [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md)
