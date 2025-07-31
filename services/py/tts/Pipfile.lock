@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "84098d3751df8b0b76b807f8ea4f85b841bd1e76261278e307a7937c23fd5287"
+            "sha256": "cd7372e8f6b33c48298d86d9a09b261971f41348aa0b42a15ada42a29af61cc8"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -732,14 +732,6 @@
             "markers": "python_version >= '3.10'",
             "version": "==8.2.1"
         },
-        "colorama": {
-            "hashes": [
-                "sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44",
-                "sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6"
-            ],
-            "markers": "platform_system == 'Windows'",
-            "version": "==0.4.6"
-        },
         "coverage": {
             "extras": [
                 "toml"
@@ -992,6 +984,15 @@
             ],
             "markers": "python_version >= '3.9'",
             "version": "==4.14.1"
+        },
+        "uvicorn": {
+            "hashes": [
+                "sha256:197535216b25ff9b785e29a0b79199f55222193d47f820816e7da751e9bc8d4a",
+                "sha256:bc662f087f7cf2ce11a1d7fd70b90c9f98ef2e2831556dd078d131b96cc94a01"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.9'",
+            "version": "==0.35.0"
         }
     }
 }
