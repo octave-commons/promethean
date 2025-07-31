@@ -1,15 +1,18 @@
 """
 Crawl through discord history and fill in all messages that are not getting processed in real time.
 """
+
 # from dotenv import load_dotenv
 # load_dotenv()
 
 import os
+
 AGENT_NAME = os.environ.get("AGENT_NAME", "duck")
 print(f"Discord indexer running for {AGENT_NAME}")
 
 
 import sys
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../"))
 
 import asyncio
@@ -25,26 +28,27 @@ intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 intents.message_content = True
 
+
 def format_message(message):
     channel = message.channel
     author = message.author
 
-    if hasattr(channel, 'name'):
-        channel_name= channel.name
+    if hasattr(channel, "name"):
+        channel_name = channel.name
     else:
         channel_name = f"DM from {channel.recipient.name}"
     return {
         "id": message.id,
-        "recipient":settings.DISCORD_CLIENT_USER_ID,
-        "recipient_name":settings.DISCORD_CLIENT_USER_NAME,
-        "created_at":str(message.created_at),
-        "raw_mentions":message.raw_mentions,
-        "author_name":author.name,
-        "guild":message.guild.id,
+        "recipient": settings.DISCORD_CLIENT_USER_ID,
+        "recipient_name": settings.DISCORD_CLIENT_USER_NAME,
+        "created_at": str(message.created_at),
+        "raw_mentions": message.raw_mentions,
+        "author_name": author.name,
+        "guild": message.guild.id,
         "channel_name": channel_name,
-        "content":message.content,
-        "author":author.id,
-        "channel":channel.id
+        "content": message.content,
+        "author": author.id,
+        "channel": channel.id,
     }
 
 
@@ -53,10 +57,7 @@ def setup_channel(channel_id) -> None:
     Setup a channel for indexing.
     """
     print(f"Setting up channel {channel_id}")
-    discord_channel_collection.insert_one({
-        "id": channel_id,
-        "cursor": None
-    })
+    discord_channel_collection.insert_one({"id": channel_id, "cursor": None})
 
 
 def update_cursor(message: discord.Message) -> None:
@@ -65,9 +66,9 @@ def update_cursor(message: discord.Message) -> None:
     """
     print(f"Updating cursor for channel {message.channel.id} to {message.id}")
     discord_channel_collection.update_one(
-        { "id": message.channel.id }, 
-        { "$set": {"cursor": message.id} }
+        {"id": message.channel.id}, {"$set": {"cursor": message.id}}
     )
+
 
 def index_message(message: discord.Message) -> None:
     """
@@ -81,54 +82,65 @@ def index_message(message: discord.Message) -> None:
         print(f"Message {message.id} already indexed")
         print(message_record)
 
-def find_channel_record(channel_id): 
+
+def find_channel_record(channel_id):
     """
     Find the record for a channel.
     """
     print(f"Finding channel record for {channel_id}")
-    record=discord_channel_collection.find_one({"id": channel_id})
-    if record is None: 
+    record = discord_channel_collection.find_one({"id": channel_id})
+    if record is None:
         print(f"No record found for {channel_id}")
         setup_channel(channel_id)
-        record=discord_channel_collection.find_one({"id": channel_id})
+        record = discord_channel_collection.find_one({"id": channel_id})
     else:
         print(f"Found channel record for {channel_id}")
     print(f"Channel record: {record}")
     return record
+
 
 async def next_messages(channel: discord.TextChannel) -> List[discord.Message]:
     """
     Get the next batch of messages in a channel.
     """
     channel_record = find_channel_record(channel.id)
-    print  (f"Cursor: {channel_record['cursor']}")
+    print(f"Cursor: {channel_record['cursor']}")
     print(f"Getting history for {channel_record}")
 
-    if not channel_record.get('is_valid', True):
+    if not channel_record.get("is_valid", True):
         print(f"Channel {channel_record['id']} is not valid")
         return []
     if channel_record["cursor"] is None:
         print(f"No cursor found for {channel_record['id']}")
         try:
-            return [message async for message in channel.history(limit=200, oldest_first=True)]
+            return [
+                message
+                async for message in channel.history(limit=200, oldest_first=True)
+            ]
         # mark channel as invalid if there is an error
-        except  Exception as e:
+        except Exception as e:
             print(f"Error getting history for {channel_record['id']}")
             print(e)
-            discord_channel_collection.update_one({"id": channel_record['id']},{"$set":{"is_valid":False}})
+            discord_channel_collection.update_one(
+                {"id": channel_record["id"]}, {"$set": {"is_valid": False}}
+            )
             return []
     else:
         print(f"Cursor found for {channel} {channel_record['cursor']}")
         try:
-            return [message async for message in channel.history(
-                limit=200,
-                oldest_first=True,
-                after=channel.get_partial_message(channel_record["cursor"])
-            )]
+            return [
+                message
+                async for message in channel.history(
+                    limit=200,
+                    oldest_first=True,
+                    after=channel.get_partial_message(channel_record["cursor"]),
+                )
+            ]
         except AttributeError as e:
             print(f"Attribute error for {channel.id}")
             print(e)
             return []
+
 
 async def index_channel(channel: discord.TextChannel) -> None:
     """
@@ -144,25 +156,32 @@ async def index_channel(channel: discord.TextChannel) -> None:
         update_cursor(newest_message)
     print(f"Newest message: {newest_message}")
 
+
 def shuffle_array(array):
     """
     Shuffle an array.
     """
     import random
+
     random.shuffle(array)
     return array
+
 
 @client.event
 async def on_ready():
     while True:
-        for  channel in shuffle_array(list(client.get_all_channels())):
+        for channel in shuffle_array(list(client.get_all_channels())):
             if isinstance(channel, discord.TextChannel):
                 print(f"Indexing channel {channel}")
-                random_sleep=random.randint(1,10)
+                random_sleep = random.randint(1, 10)
                 await asyncio.sleep(random_sleep)
-                await index_channel( channel )
+                await index_channel(channel)
+
+
 @client.event
 async def on_message(message):
     print(message)
     index_message(message)
+
+
 client.run(settings.DISCORD_TOKEN)

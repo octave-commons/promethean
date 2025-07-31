@@ -4,11 +4,13 @@ import soundfile as sf
 
 app = FastAPI()
 
+
 @app.websocket("/ws/tts")
 async def tts_websocket(ws: WebSocket):
     await ws.accept()
     try:
         from shared.py.speech import tts
+
         while True:
             text = await ws.receive_text()
             audio = tts.generate_voice(text)

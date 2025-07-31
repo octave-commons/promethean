@@ -1,0 +1,232 @@
+
+
+(meta "import '/bundles/external.js'")
+
+(import Vector-2D-array "../typed-arrays/vector-2d.js")
+(import Physics-array "../typed-arrays/physics-array.js")
+(import Kd-tree "../typed-arrays/kd-tree.sibilant")
+(import Vector "/shared/vectors.js")
+(import Spawnable "/shared/data-structures/spawnable.js")
+(import config "../config.js")
+(const (lit max-objects max-levels) config)
+
+(import Parent-system "../system.sibilant")
+
+(def-lit-macro def-async (name args ..body)
+  ["async "  name  `(parenthetic (comma ...@args.contents)) `(curly (do-block ...@body))])
+
+
+(define Elastic-particle Spawnable
+  (init (pos-source
+         vel-source
+         phys-source
+         deflection-source
+         correction-source
+
+
+
+         (*mass phys-source.mass)
+         (*scale phys-source.scale)
+         (deflection (.spawn Vector 0 0))
+         (correction (.spawn Vector 0 0))
+         (pos (.spawn Vector pos-source.x pos-source.y))
+
+
+         (vel (.spawn Vector vel-source.x vel-source.y))))
+
+  (gett x this.pos-source.x)
+  (gett y this.pos-source.y)
+
+  (gett height this.scale)
+  (gett width this.scale)
+
+  (gett mass this.*mass)
+  (gett scale this.*scale)
+
+  (sett mass v (assign this.*mass v))
+  (sett scale v (assign this.*scale v))
+
+  (def clear ()
+
+    (assign this.pos-source null)
+
+    (.despawn this.pos)
+    (.despawn this.vel)
+    (assign this.deflection.impacts null)
+    (.despawn this.deflection)
+    (.despawn this.correction)
+
+    (assign this.pos null)
+
+    (assign this.deflection null)
+    (assign this.correction null)
+    (assign this.phys-source null)
+    (assign this.vel null)
+
+    )
+
+  (gett id this.pos-source.id)
+
+  )
+
+(define Elastic-deflection-system Parent-system
+  (data-types [ Vector-2D-array  Vector-2D-array Physics-array
+
+              Kd-tree
+
+              Vector-2D-array Vector-2D-array ])
+  (def-async update ((lit (bounds [min-x min-y max-x max-y])
+                          collision-group-id)
+                     [ positions velocities phys
+
+                     kd-tree
+
+                     deflections corrections ])
+
+    (const particles [])
+    (const initial-index (* config.collision-group-size collision-group-id))
+    (const last-index (- (* config.collision-group-size (+ collision-group-id 1)) 1))
+    (const collision-group-particles [])
+    (for-of! pos positions.data
+             (const vel (get velocities.data pos.id))
+             (const object (get phys.data pos.id ))
+
+             (const correction (get corrections.data pos.id ))
+             (const deflection (get deflections.data pos.id ))
+
+             (const particle (.spawn Elastic-particle pos vel object deflection correction) )
+
+             (.push particles particle)
+             (if! (and (>= particle.id initial-index)
+                       (<= particle.id last-index))
+                  (.push collision-group-particles particle)))
+
+    (var collisions-count 0)
+    (for-of!  target  collision-group-particles
+              (const query-results (.query kd-tree target.x target.y (* 4 target.scale)))
+              (const elements (pipe query-results
+                                    (map (el) (get particles el.pid))
+                                    (sort (a b)
+                                          (const d1 (.distance-to a.pos target.pos))
+                                          (const d2 (.distance-to b.pos target.pos))
+
+                                          (const l1 (Math.abs (.get-length d1)))
+                                          (const l2 (Math.abs (.get-length d2)))
+
+                                          (.despawn d1)
+                                          (.despawn d2)
+
+                                          (- l1 l2))
+                                    ))
+              (for-of! affector elements
+                       (if! (= target.id affector.id) continue)
+
+                       (const dist (.distance-to  affector.pos target.pos))
+                       (const diff (.get-length dist ))
+                       (const used-distance (Math.abs diff))
+                       (const threshold (* 0.01 (+ affector.scale target.scale)))
+                       (if! (>  threshold used-distance)
+                           (const total-mass (+ affector.mass target.mass))
+
+                           ;; (const correction (.spawn Vector (* -1 dist.x) (* -1 dist.y)))
+                           ;; (.set-length correction threshold)
+                           ;; (.add-to target.correction correction)
+
+                           ;; (.despawn correction)
+                           ;; (const correction (.spawn Vector 0 0))
+                           ;; (.add-to target.correction affector.vel)
+                           (.sub-from target.correction target.vel)
+
+
+                           ;; (.sub-from target.correction correction)
+                           ;; (.add-to target.correction correction)
+
+                           (.set-length dist (- threshold used-distance))
+
+                           (.sub-from target.correction dist)
+
+
+                           ;; (.despawn correction)
+
+
+                           (if! (> target.scale affector.scale)
+
+                                (const mass-diff (-  target.scale affector.scale))
+                                (const mass-gain-factor (/ mass-diff total-mass))
+                                (const mass-gain (* target.mass mass-gain-factor))
+
+                                (const mass (+ target.mass mass-gain))
+
+                                (assign target.mass mass)
+                                (assign target.scale (Math.cbrt mass)))
+                           (if! (< target.scale affector.scale)
+                                (if! (> config.actual-min-mass target.mass)
+                                     (const mass-diff (- affector.scale target.scale))
+                                     (const mass-loss-factor (/ mass-diff total-mass))
+                                     (const mass-loss (* target.mass mass-loss-factor))
+                                     (const mass (- target.mass mass-loss))
+
+                                     (assign target.mass mass)
+                                     (assign target.scale (Math.cbrt mass))))
+                           (if! (not target.deflection.impacts)
+                                (assign target.deflection.impacts 0))
+                           (incr target.deflection.impacts)
+
+
+                           (const vector1 (.spawn Vector target.vel.x target.vel.y))
+                           (const vector2 (.spawn Vector affector.vel.x affector.vel.y))
+
+                           (const theta (Math.atan2 (- vector1.y vector2.y)
+                                                    (- vector1.x vector2.x)))
+
+                           (const v1 (pipe vector1 (.rotate-to (* 1 theta))))
+                           (const v2 (pipe vector2 (.rotate-to (* 1 theta))))
+                           (const m target.mass)
+                           (const m* affector.mass)
+
+
+                           (const u1 (pipe (.spawn Vector
+                                                   (+ (/ (* v1.x (- m m*)) (+ m m*))
+                                                      (* v2.x 2 (/ m* (+ m m*))))
+                                                   v1.y)
+                                           (.rotate-to (* -1 theta))
+                                           ))
+
+                           ;; (const u2 (pipe (.spawn Vector
+                           ;;                         (+ (/ (* v2.x (- m* m))
+                           ;;                               (+ m* m))
+                           ;;                            (* v1.x 2 (/ m (+ m* m))))
+                           ;;                         v2.y)
+                           ;;                 (.rotate-to theta)))
+
+
+
+                           (.add-to target.deflection u1)
+                           ;; (.add-to affector.deflection u2)
+                           (.despawn u1)
+                           ;; (.despawn u2)
+                           (.despawn v1)
+                           (.despawn v2))
+
+                      (.despawn dist)
+                      )
+             )
+    (for-of! particle collision-group-particles
+             (if! particle.deflection.impacts
+                  (.div-to particle.deflection particle.deflection.impacts)
+                  (.div-to particle.correction particle.deflection.impacts)
+                  )
+             (set particle.correction-source
+                  'x particle.correction.x
+                  'y particle.correction.y)
+
+             (set particle.deflection-source
+                  'x particle.deflection.x
+                  'y particle.deflection.y)
+
+             (set particle.phys-source
+                  'mass particle.mass
+                  'scale particle.scale))
+    (for-of! particle particles (.despawn particle))
+    (return null)))
+(.start Elastic-deflection-system)

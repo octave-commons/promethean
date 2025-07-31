@@ -1,0 +1,65 @@
+
+(import Velocity "/shared/systems/velocity.js")
+(import Position "/shared/systems/position.js")
+(import game "../game.js")
+(import create-particle-updater "/shared/field.js")
+(import plants ants rocks "../entities.js")
+(import Physics "/shared/systems/physics/system.js")
+(import Vector "/shared/vectors.js")
+
+(on game.events 'simple-collision (c, c*)
+
+    (var v c.entity.velocity-interface)
+    (var v* c*.entity.velocity-interface)
+
+
+    (var p (.get game.systems Physics c.entity))
+    (var p* (.get game.systems Physics c*.entity))
+
+
+    (var m p.mass)
+    (var m* p*.mass)
+
+
+    (const pos v.pos)
+    (const pos* v*.pos)
+
+
+    (const vector1 (.spawn Vector v.xd v.yd))
+    (const vector2 (.spawn Vector v*.xd v*.yd))
+
+    (const theta (Math.atan2 (- vector1.y vector2.y)
+                             (- vector1.x vector2.x)))
+
+    (const v1 (pipe vector1 (.rotate-to (- theta))))
+    (const v2 (pipe vector2 (.rotate-to (- theta))))
+
+
+    (const u1 (pipe (.spawn Vector
+                            (+ (/ (* v1.x (- m m*)) (+ m m*))
+                               (* v2.x 2 (/ m* (+ m m*))))
+                            v1.y)
+                    (.rotate-to theta)))
+
+
+    ;; (const u2 (pipe (.spawn Vector
+    ;;                         (+ (/ (* v2.x (- m* m))
+    ;;                               (+ m* m))
+    ;;                            (* v1.x 2 (/ m (+ m* m))))
+    ;;                         v2.y)
+    ;;                 (.rotate-to theta)))
+    (set v 'xd u1.x 'yd u1.y)
+
+
+    ;; (set v* 'xd u2.x 'yd u2.y)
+
+    (.despawn v1)
+    (.despawn v2)
+
+    (.despawn u1)
+    ;; (.despawn u2)
+
+
+    null
+
+    )

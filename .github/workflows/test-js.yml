@@ -23,7 +23,7 @@ jobs:
 
 
       - name: Run tests
-        run: make test-js-services
+        run: make test-js
 
       # - name: Upload Python coverage
       #   uses: actions/upload-artifact@v4

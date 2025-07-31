@@ -1,0 +1,2 @@
+
+Crash landed is a distant future space based survival and colony management game. It will be heavily inspired by rim world and factorio. It will have a mix of top down multi agent colony management like in rimworld, and individual action like in factorio. The idea is you will control one of the pawns directly, not like it is drafted, but like you control it

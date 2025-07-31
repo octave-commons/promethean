@@ -1,0 +1,82 @@
+(namespace obstacles)
+
+(import Time-limit Timer "/client/obstacles/systems/timer.js")
+
+(import Red-black-tree "/shared/data-structures/trees/red-black-tree.js")
+(import rgba "/client/obstacles/colors.js")
+(import config "/client/obstacles/config.js")
+
+(def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
+
+(define Trail-segment Time-limit
+  (doc-string "obstacles.systems.ant-trails.Trail-vector"
+              "inherits from shared.ecs.Component"
+              "A time limited vector component that modifies the signal field when the ant has either succeeded or failed"
+              "If the time limit expires, it disapears.")
+
+  (duration config.trail-limit)
+
+  ;; (def *clear ()
+  ;;   (.call Time-limit.*clear this)
+  ;;   ;; (assign this.duration config.trail-limit)
+  ;;   )
+
+  (update-view? true)
+  (def-view view ()
+    (.div .className "panel"
+          "trail segment"
+          (.div "pos:" (-> (display-decimal this.x 2)) "," (-> (display-decimal this.y 2)))
+          (.div "remaining" (-> this.remaining-time))
+          (.div "duration" (-> (+ "" this.duration)))
+          (.div "triggered?" (-> (+ "" this.triggered)))
+          (.div "started at" (-> this.created-at))))
+
+  (gett seg-group (get (require "/obstacles/entities/trail-segments.js") 'trail-segments))
+  (def callback (entity c)
+    (.delete entity.ant.ant-trail.segments entity)
+    (.despawn entity.group entity))
+
+  (def apply ()
+    (doc-string "obstacles.systems.ant-trails.Trail-segment.apply"
+                ""
+                "Apply the trail segment forward")
+
+    (assign this.entity.trail-dot.color (rgba 20 200 20 255))
+
+    (when config.reward-winners
+      (const weight (/ this.entity.ant.ant-life.loose-count (+ this.entity.ant.ant-life.win-count 1)))
+      (this.pheremones.add-to
+       (lit
+        (x (* this.x weight config.ant-influence))
+        (y (* this.y weight config.ant-influence))))
+
+
+      (.reset this  (+ this.remaining-time config.trail-result-duration))
+
+      ))
+
+  (def apply-inverse ()
+    (doc-string "obstacles.systems.ant-trails.Trail-segment.apply"
+                ""
+                "Apply the trail segment backward")
+    (assign this.entity.trail-dot.color (rgba 255 20 20 255))
+    (when config.punish-loosers
+      (const weight (/ this.entity.ant.ant-life.loose-count (+ this.entity.ant.ant-life.win-count 1)))
+      (this.pheremones.sub-from
+       (lit
+        (x (* this.x weight config.ant-influence))
+        (y (* this.y weight config.ant-influence))))
+      (.reset this  (+ this.remaining-time config.trail-result-duration))
+      )
+    ))
+
+(export Trail-segment)
+
+(define Decaying-trails Timer
+  ;; (def register ()
+  ;;   (assign this.tree (.spawn Red-black-tree)))
+
+  (gett default-duration config.trail-limit)
+  (interface Trail-segment))
+
+(export Decaying-trails)

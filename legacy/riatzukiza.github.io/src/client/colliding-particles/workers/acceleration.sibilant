@@ -1,0 +1,43 @@
+
+
+(meta "import '/bundles/external.js'")
+
+(import Vector "/shared/vectors.js")
+(import Vector-2D-array "../typed-arrays/vector-2d.js")
+
+(import Parent-system "../system.sibilant")
+
+(def-lit-macro def-async (name args ..body)
+  ["async "  name  `(parenthetic (comma ...@args.contents)) `(curly (do-block ...@body))])
+
+(define Acceleration-system Parent-system
+  (data-types [ Vector-2D-array Vector-2D-array Vector-2D-array Vector-2D-array ])
+  (def-async update (args [ velocities deflections near-gravity far-gravity ])
+    (for-of! vel velocities.data
+
+             (const v (get velocities.data vel.id))
+             (const d (get deflections.data vel.id))
+
+             (const ng (get near-gravity.data vel.id))
+             (const fg (get far-gravity.data vel.id))
+
+             (const a (.add ng fg))
+
+             (const v* (.spawn Vector v.x v.y))
+
+             (if! (or d.x d.y)
+                  (set v*
+                       'x d.x
+                       'y d.y))
+
+             (.add-to v* a)
+
+             (set vel
+                  'x v*.x
+                  'y v*.y)
+             (.despawn v*)
+             (.despawn a))
+    (return null)))
+
+
+(.start Acceleration-system)

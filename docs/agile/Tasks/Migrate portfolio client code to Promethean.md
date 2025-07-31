@@ -60,4 +60,4 @@ new repository.
 
 - Should the portfolio be maintained as a submodule or migrated directly?
 - Do we need a static build step or can GitHub Pages handle raw files?
-#blocked
+#ice-box

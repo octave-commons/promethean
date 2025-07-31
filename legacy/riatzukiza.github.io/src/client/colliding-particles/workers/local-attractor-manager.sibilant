@@ -1,0 +1,56 @@
+
+
+(meta "import '/bundles/external.js'")
+
+(import Vector "/shared/vectors.js")
+(import Spawnable "/shared/data-structures/spawnable.js")
+(import Physics-array "../typed-arrays/physics-array.js")
+(import Group-id-array "../typed-arrays/group-id-array.js")
+(import Vector-2D-array "../typed-arrays/vector-2d.js")
+(import Threaded-system "../system.sibilant")
+
+(import config "../config.js")
+(const (lit gravitational-constant ) config)
+
+(define Attractor-group-system Threaded-system
+  (url "/client/colliding-particles/workers/local-attractor-system.js")
+  (data [])
+  )
+
+
+(print config )
+(const threads [])
+(for! (i 0) (> config.attractor-thread-count i) (incr i )
+      (const thread (.spawn Attractor-group-system))
+      (assign thread.url (+ "/client/colliding-particles/workers/local-attractor-system.js?gid=" i))
+      (assign thread.args (lit (thread-id i)))
+      (.start thread)
+      (.push threads thread))
+
+(def self.onmessage (e)
+  (const [[pb1 pb2] [mb1 mb2] [gb1 gb2] [nb1 nb2] ] e.data.buffers)
+
+
+  (const positions (.from-buffers Vector-2D-array pb1 pb2))
+  (const phys (.from-buffers Physics-array mb1 mb2))
+  (const group-ids (.from-buffers Group-id-array gb1 gb2))
+
+  (const near-gravity (.from-buffers Vector-2D-array nb1 nb2))
+
+  (const data [ positions phys group-ids near-gravity ])
+
+
+  (then-do (Promise.all (map threads (thread)
+                             (assign thread.data data)
+                             (.update thread)))
+
+           (.post-message self [])
+
+
+           (.despawn positions)
+           (.despawn near-gravity)
+           (.despawn phys)
+           (.despawn group-ids))
+
+
+  )

@@ -56,4 +56,4 @@ stability from Eidolon, and user feedback.
 
 - Should user feedback be captured explicitly or inferred from message content?
 - Do we need real-time updates to the reward signal or batched summaries?
-#blocked
+#ice-box
