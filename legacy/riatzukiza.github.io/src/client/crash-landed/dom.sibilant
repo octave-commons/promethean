@@ -1,4 +1,4 @@
-(include "../../../inc/dom.sibilant")
+(include "@shared/sibilant/inc/dom.sibilant")
 (import config "./config.js")
 (import get-game start-game load-game save-game "./game.js")
 
