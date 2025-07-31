@@ -10,11 +10,11 @@ setup-pipenv:
 setup-python-services:
 	@echo "Setting up Python services..."
 	@for d in $(SERVICES_PY); do \
-		cd $$d && PIPENV_NOSPIN=1 python -m pipenv install --dev  && cd - >/dev/null; \
+		cd $$d && PIPENV_NOSPIN=1 python -m pipenv sync --dev  && cd - >/dev/null; \
 	done
 setup-python-service-%:
 	@echo "Setting up Python service: $*"
-	cd services/$* && PIPENV_NOSPIN=1 python -m pipenv install --dev
+	cd services/$* && PIPENV_NOSPIN=1 python -m pipenv sync --dev
 setup-python: setup-pipenv setup-python-services setup-shared-python
 # Run Tests=====================================================================
 test-python-service-%:
