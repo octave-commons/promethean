@@ -45,3 +45,5 @@ coverage-js: coverage-js-services
 
 clean-js:
 	rm -rf $(JS_BUILD_DIR)/*
+build-js:
+	@echo "No build step for JavaScript services"

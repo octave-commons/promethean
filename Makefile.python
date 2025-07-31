@@ -6,11 +6,30 @@ setup-pipenv:
 	python -m pip install --upgrade pip
 	@echo "installing pipenv"
 	python -m pip install pipenv
-setup-python-services:
+	setup-python-services:
 	@echo "Setting up Python services..."
 	@for d in $(SERVICES_PY); do \
-		cd $$d && PIPENV_NOSPIN=1 python -m pipenv sync --dev  && cd - >/dev/null; \
+	cd $$d && PIPENV_NOSPIN=1 python -m pipenv sync --dev && cd - >/dev/null; \
+done
+	
+generate-requirements:
+	@echo "Generating requirements.txt for Python services..."
+	@for d in $(SERVICES_PY); do \
+	cd $$d && python -m pipenv lock -r > requirements.txt && cd - >/dev/null; \
 	done
+	generate-requirements-service-%:
+	cd services/py/$* && python -m pipenv lock -r > requirements.txt
+
+	setup-python-services-quick: generate-requirements
+		@for d in $(SERVICES_PY); do \
+	cd $$d && python -m pip install --user -r requirements.txt && cd - >/dev/null; \
+done
+
+setup-python-quick: setup-python-services-quick
+build-python:
+	@echo "No build step for Python services"
+clean-python:
+	@echo "Cleaning Python artifacts..."
 setup-python-service-%:
 	@echo "Setting up Python service: $*"
 	cd services/$* && PIPENV_NOSPIN=1 python -m pipenv sync --dev

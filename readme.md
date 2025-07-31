@@ -35,6 +35,23 @@ Activate the environment when developing or running Python services:
 pipenv shell
 ```
 
+#### Quick Setup
+
+Generate pinned `requirements.txt` files and install from them if you prefer a
+standard virtual environment:
+
+```bash
+make generate-requirements
+python -m venv .venv && source .venv/bin/activate
+make setup-quick
+```
+
+This skips `pipenv` during installation and uses the generated requirement
+files.
+
+Always install into a virtual environment (`pipenv shell` or one created with
+`python -m venv`) to avoid modifying your system Python packages.
+
 ### Node
 
 ```bash
