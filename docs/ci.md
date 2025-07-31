@@ -7,15 +7,17 @@ sources. `make test` executes the suites without coverage, while `make coverage`
 Python, JavaScript, and TypeScript tests with coverage enabled. The workflow uploads
 the resulting coverage artifacts for review.
 
-You can emulate this workflow locally using the
-[`act`](https://github.com/nektos/act) CLI. A Makefile target wraps the
-command:
+You can emulate this workflow locally using the `make simulate-ci` target,
+which parses the workflow files and executes the `pull_request` job steps
+directly:
 
 ```bash
 make simulate-ci
 ```
 
-This runs `act pull_request` to replicate the GitHub Actions job definitions.
+The underlying script runs each `run:` command from the workflows in order,
+honoring any environment variables and working directories defined for the
+step.
 Both `make test` and `make simulate-ci` should succeed before sending a pull
 request.
 
