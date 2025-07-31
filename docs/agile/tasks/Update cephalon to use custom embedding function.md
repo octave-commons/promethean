@@ -39,4 +39,3 @@ Nothing
 ## 🔍 Relevant Links
 - [kanban](../boards/kanban.md)
 - [pseudo/eidolon-field-scratchpad.lisp](../../pseudo/eidolon-field-scratchpad.lisp)
-#incoming
