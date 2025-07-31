@@ -6,6 +6,11 @@ name = "pypi"
 [packages]
 
 [dev-packages]
+pytest-cov = "*"
+pytest = "*"
+flake8 = "*"
+black = "*"
+anyio = "*"
 
 [requires]
 python_version = "3.12"
