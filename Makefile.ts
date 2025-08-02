@@ -25,7 +25,7 @@ test-ts-services:
 test-ts: test-ts-services
 
 coverage-ts-services:
-	       @$(call run_dirs,$(SERVICES_TS),echo "Generating coverage in $$d..." \&\& npm run coverage)
+	@$(call run_dirs,$(SERVICES_TS),npm run coverage && npx c8 report -r lcov)
 coverage-ts: coverage-ts-services
 clean-ts:
 		       @$(call run_dirs,$(SERVICES_TS),npm run clean >/dev/null)
