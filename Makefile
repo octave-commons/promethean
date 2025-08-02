@@ -13,7 +13,8 @@ include Makefile.sibilant
 
 .PHONY: all build clean lint format test setup setup-quick install system-deps start stop start-tts start-stt stop-tts stop-stt \
         board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues coverage coverage-python coverage-js coverage-ts simulate-ci \
-				generate-requirements generate-requirements-service-% setup-python-quick test-python test-js test-ts
+                                generate-requirements generate-requirements-service-% setup-python-quick test-python test-js test-ts \
+                                test-integration test-e2e
 
 
 all: build
@@ -85,3 +86,10 @@ kanban-to-issues:
 
 simulate-ci:
 	python scripts/simulate_ci.py
+
+test-integration:
+	cd tests && python -m pytest integration
+
+
+test-e2e:
+	cd tests && python -m pytest e2e
