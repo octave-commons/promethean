@@ -73,6 +73,7 @@ kanban-plugin: board
 ## Prompt refinement (8)
 
 - [ ] [Clarify Promethean project vision](../tasks/Clarify%20Promethean%20project%20vision.md)
+- [ ] 
 - [ ] [Add Ollama formally to pipeline](../tasks/Add%20Ollama%20formally%20to%20pipeline.md) #framework-core
 - [ ] [Describe github branching workflow](../tasks/Describe%20github%20branching%20workflow.md)
 
@@ -83,13 +84,13 @@ kanban-plugin: board
 
 ## Breakdown (10)
 
-- [ ] [Determine PM2 configuration for agents](../tasks/Determine%20PM2%20configuration%20for%20agents.md)
 - [ ] [write simple ecosystem declaration library for new agents](../tasks/write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md) #framework-core
 
 
 ## ready (8)
 
 - [ ] [Add unit tests for GUI helpers](../tasks/Add_unit_tests_for_gui_helpers.md) #codex-task #testing
+- [ ] [Determine PM2 configuration for agents](../tasks/Determine%20PM2%20configuration%20for%20agents.md)
 
 
 ## 🟢 To Do (8)
