@@ -70,7 +70,6 @@ kanban-plugin: board
 
 ## Prompt refinement (8)
 
-- [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
 - [ ] [Decouple from Ollama Write a driver system for multiple LLM sources for easier testing in CI](../tasks/Decouple%20from%20Ollama.md) #framework-core
 - [ ] Clean up notes into design  docs
 - [ ] [Describe github branching workflow](../tasks/Describe%20github%20branching%20workflow.md)
@@ -80,6 +79,7 @@ kanban-plugin: board
 
 ## Agent thinking (8)
 
+- [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
 
 
 ## Breakdown (10)
