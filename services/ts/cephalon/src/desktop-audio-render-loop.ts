@@ -1,7 +1,7 @@
-import { captureAndRenderWaveform } from "./waveform";
+import { captureAndRenderWaveform, AudioImageData } from "./waveform";
 
 export class CircularWaveForm {
-    frames:Buffer[]=[];
+    frames:AudioImageData[]=[];
     limit=5;
     step=5; // how many seconds is each waveform capturing?
     isRunning = false;

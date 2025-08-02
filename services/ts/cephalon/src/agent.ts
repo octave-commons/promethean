@@ -22,8 +22,8 @@ import * as dotenv from 'dotenv';
 dotenv.config({ path: '../../.env' });
 export const AGENT_NAME = process.env.AGENT_NAME || 'duck';
 import { ContextManager, formatMessage, GenericEntry } from './contextManager';
-import tokenizer from 'sbd';
 import { choice, generatePromptChoice, generateSpecialQuery } from './util';
+import { splitSentances, seperateSpeechFromThought, classifyPause, estimatePauseDuration } from './tokenizers';
 import { annotateImage } from './annotate-image';
 const VISION_HOST = process.env.VISION_HOST || 'http://localhost:9999';
 
@@ -102,79 +102,6 @@ type GenerateResponseOptions = {
     context?: Message[] | undefined;
     prompt?: string | undefined;
 };
-function mergeShortFragments(sentences: string[], minLength = 20) {
-    const merged = [];
-    let buffer = '';
-
-    for (const s of sentences) {
-        if ((buffer + ' ' + s).length < minLength) {
-            buffer += ' ' + s;
-        } else {
-            if (buffer) merged.push(buffer.trim());
-            buffer = s;
-        }
-    }
-    if (buffer) merged.push(buffer.trim());
-    return merged;
-}
-const splitterOptions = {
-    newline_boundaries: false, // If true, \n is treated like a sentence boundary
-    html_boundaries: false, // If true, <p>, <br> and similar tags become boundaries
-    sanitize: true, // Strips non-breaking spaces and normalizes whitespace
-    abbreviations: ['Mr', 'Mrs', 'Dr', 'Ms', 'e.g', 'i.e', 'etc', 'vs', 'Prof', 'Sr', 'Jr', 'U.S', 'U.K', 'Duck', 'AI'],
-};
-function splitSentances(text: string) {
-    const sentences: string[] = tokenizer.sentences(text, splitterOptions);
-    const cleaned = sentences.map((s) => s.trim()).filter((s) => s.length > 0);
-    return mergeShortFragments(cleaned);
-}
-export function extractParentheticals(text: string): string[] {
-    const results: string[] = [];
-    let depth = 0;
-    let buffer = '';
-    let inParen = false;
-
-    for (let i = 0; i < text.length; i++) {
-        const ch = text[i];
-
-        if (ch === '(') {
-            if (depth === 0) {
-                inParen = true;
-                buffer = '';
-            } else {
-                buffer += ch;
-            }
-            depth++;
-        } else if (ch === ')') {
-            depth--;
-            if (depth === 0 && inParen) {
-                results.push(buffer.trim());
-                inParen = false;
-            } else if (depth > 0) {
-                buffer += ch;
-            }
-        } else if (inParen) {
-            buffer += ch;
-        }
-    }
-
-    return results;
-}
-
-function classifyPause(phrase: string): 'silence' | 'ambient' | 'introspective' | 'narrative' | 'unknown' {
-    const lc = phrase.toLowerCase();
-    if (lc.includes('silence') || lc.includes('pause')) return 'silence';
-    if (lc.includes('hum') || lc.includes('fan') || lc.includes('noise') || lc.includes('background')) return 'ambient';
-    if (lc.includes('thought') || lc.includes('introspective') || lc.includes('considering')) return 'introspective';
-    if (lc.includes('sigh') || lc.includes('murmur') || lc.includes('drawn') || lc.includes('drift')) return 'narrative';
-    return 'unknown';
-}
-
-function estimatePauseDuration(phrase: string): number {
-    const base = 1000; // base duration in ms
-    const len = phrase.length;
-    return base + Math.min(len * 40, 8000); // caps around 8s
-}
 
 // const voicePrompt = `
 // Generate only the words you say out loud. Do not repeat your internal thoughts.
@@ -326,8 +253,8 @@ export class AIAgent extends EventEmitter {
         }
         const lastMessage: Message = context.pop() as Message;
         lastMessage.images = await Promise.all([
-            ...this.imageContext.map(img => annotateImage(img, )),
-            ...this.wavRecorder.frames.map(img => img )
+            ...this.imageContext,
+            ...this.wavRecorder.frames.flatMap(({waveForm, spectrogram}) => [waveForm, spectrogram] )
         ]);
         await writeFile('./test.png', imageBuffer); // save the screenshot for testing purposes
         context.push(lastMessage);
@@ -483,25 +410,28 @@ ${text}
             console.log('Generated voice response:', content);
             this.emit('readyToSpeak', content);
             // split sentances preserving punctuation.
-            const sentences: string[] = splitSentances(content);
+
+            const texts = seperateSpeechFromThought(content)
+            console.log(texts)
+            const sentences: { type: string, text: string }[] =
+                texts.flatMap(({ text, type }) =>
+                splitSentances(text)
+                    .map(sentance => ({ text:sentance , type })));
             console.log('sentences', sentences);
             const finishedSentences = [];
 
             const startTime = Date.now();
             for (let sentence of sentences) {
-                const parentheticals = extractParentheticals(sentence);
 
-                if (parentheticals.length > 0) {
-                    for (const p of parentheticals) {
-                        const kind = classifyPause(p);
-                        const ms = estimatePauseDuration(p);
+                if(sentence.type === "thought") {
+                    const kind = classifyPause(sentence.text);
+                    const ms = estimatePauseDuration(sentence.text);
 
-                        console.log(`[Pause] (${kind}) "${p}" → sleeping ${ms}ms`);
-                        await sleep(ms);
-                    }
-                } else {
-                    await this.speak(sentence.trim());
+                    console.log(`[Pause] (${kind}) "${sentence.text}" → sleeping ${ms}ms`);
+                    await sleep(ms);
+                    continue
                 }
+                await this.speak(sentence.text.trim());
 
                 finishedSentences.push(sentence);
 
@@ -513,7 +443,11 @@ ${text}
 
             const endTime = Date.now();
 
-            await this.storeAgentMessage(finishedSentences.join(' '), true, startTime, endTime);
+
+
+            await this.storeAgentMessage(finishedSentences
+                .map(({ text }) => text)
+                .join(' '), true, startTime, endTime);
 
             this.isSpeaking = false;
         } catch (err) {
@@ -629,14 +563,9 @@ Why are they your goals?
             this.onTick();
         });
 
-        let stateUpdateCount = 0;
         this.on('thought', async () => {
-            stateUpdateCount++;
-            if (stateUpdateCount > 10) {
                 console.log('updating inner state');
-                stateUpdateCount = 0;
                 await this.generateInnerState().catch(console.error);
-            }
 
             this.isThinking = false;
         });
