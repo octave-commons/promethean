@@ -47,6 +47,16 @@ kanban-plugin: board
 - [ ] design circular buffers for inputs with layered states of persistance (in memory, on disk, cold storage, so )
 - [ ] Define codex CLI baseg agent
 - [ ] Web frontend for system management
+- [ ] Twitch stream title generator
+- [ ] twitch/discord/general auto mod
+- [ ] Full agent mode (Text chat, selectively join channels, etc)
+- [ ] Add file system to context management system
+- [ ] Add web searches to context management system
+- [ ] cache decay mechanisim
+- [ ] Tool chain management system
+- [ ] Thinking Model integration
+- [ ] discord image awareness
+- [ ] Discord/chat link  traversal
 
 
 ## Accepted (8)
