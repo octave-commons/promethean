@@ -43,7 +43,7 @@ def synthesize(text: str):
         return output.waveform.squeeze().cpu().numpy()
 
 
-# model.load_state_dict(load_file("path/to/model.safetensors"))
+
 
 
 @app.post("/synth_voice_pcm")

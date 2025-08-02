@@ -53,6 +53,18 @@ start:
 stop:
 	pm2 stop ecosystem.config.js || true
 
+start-tts:
+	pm2 start ecosystem.config.js --only tts
+
+start-stt:
+	pm2 start ecosystem.config.js --only stt
+
+stop-tts:
+	pm2 stop tts || true
+
+stop-stt:
+	pm2 stop stt || true
+
 start-%:
 	pm2 start ecosystem.config.js --only $*
 
@@ -70,3 +82,6 @@ kanban-to-hashtags:
 
 kanban-to-issues:
 	python scripts/kanban_to_issues.py
+
+simulate-ci:
+	python scripts/simulate_ci.py
