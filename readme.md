@@ -47,7 +47,7 @@ make setup-quick
 ```
 
 This skips `pipenv` during installation and uses the generated requirement
-files.
+files. `make setup-quick` calls `setup-python-services-quick`, which installs each Python service from its `requirements.txt`.
 
 Makefile targets for Python, JavaScript and TypeScript iterate over their
 respective service directories using a shared helper.
