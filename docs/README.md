@@ -12,6 +12,7 @@ This `docs` directory houses internal documentation for the **Promethean Framewo
         
     - [MIGRATION_PLAN](MIGRATION_PLAN.md) – a living checklist of steps to migrate code from legacy repositories into this structure.
     - [site README](../site/README.md) – instructions for building and serving the portfolio site.
+    - [pre-commit](pre-commit.md) – how to install and run repository hooks before committing changes.
         
 - **Agile process and tasks**
     
