@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && node scripts/patch-imports.js",
     "start": "node dist/index.js",
     "start:dev": "node --loader ts-node/esm src/index.ts",
     "build:check": "tsc --noEmit --incremental false",
@@ -26,11 +26,7 @@
       "ts": "module"
     },
     "files": [
-      "tests/**/*.ts"
-    ],
-    "nodeArguments": [
-      "--loader",
-      "ts-node/esm"
+      "dist/tests/**/*.ts"
     ]
   }
 }

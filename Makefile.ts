@@ -8,7 +8,7 @@ format-ts:
 	       @$(call run_dirs,$(SERVICES_TS),npx prettier --write .)
 setup-ts:
 	       @echo "Setting up TypeScript services..."
-	       @$(call run_dirs,$(SERVICES_TS),npm install --no-package-lock)
+	       @$(call run_dirs,$(SERVICES_TS),npm install )
 lint-ts-service-%:
 	@echo "Linting TS service: $*"
 	cd services/ts/$* && npx eslint . --ext .js,.ts
@@ -33,5 +33,5 @@ clean-ts:
 
 
 build-ts:
-	       @echo "Transpiling TS to JS... (if we had any shared ts modules)"
-		       @$(call run_dirs,$(SERVICES_TS),npm run build >/dev/null)
+	@echo "Transpiling TS to JS... (if we had any shared ts modules)"
+	@$(call run_dirs,$(SERVICES_TS),npm run build )

@@ -1,32 +1,33 @@
 const path = require("path")
+const duck = require("./agents/duck/ecosystem.config.js")
 module.exports = {
     apps: [
+        ...duck.apps,
         {
             name: "tts",
             cwd: "./services/py/tts",
-            script: "./services/py/tts/run.sh",
-            interpreter:"bash",
-            "exec_mode": "fork",
+            script: "pipenv",
+            exec_mode:"fork",
+            args:["run", "uvicorn", "--host", "0.0.0.0", "--port" ,"5001", "app:app"],
             watch: ["./services/py/tts"],
             instances: 1,
             autorestart: true,
             env: {
-
-                PYTHONPATH: path.resolve(__dirname),
+                PYTHONPATH: `.:${path.resolve(__dirname)}`,
                 PYTHONUNBUFFERED: "1",
                 FLASK_APP: "app.py",
                 FLASK_ENV: "production",
             },
             restart_delay: 10000,
-            kill_timeout: 10000 
+            kill_timeout: 10000
 
         },
         {
             name: "stt",
             cwd: "./services/py/stt",
-            script: "./services/py/stt/run.sh",
-            interpreter: "bash",
-            exec_mode: "fork",
+            script: "pipenv",
+            exec_mode:"fork",
+            args:["run", "uvicorn", "--host", "0.0.0.0", "--port" ,"5002", "app:app"],
             watch: ["./services/py/stt"],
             instances: 1,
             autorestart: true,
@@ -35,7 +36,9 @@ module.exports = {
             merge_logs: true,
             env: {
                 PYTHONUNBUFFERED: "1",
-                PYTHONPATH: path.resolve(__dirname),
+                PYTHONPATH: `.:${path.resolve(__dirname)}:.`,
+                FLASK_APP: "app.py",
+                FLASK_ENV: "production",
             },
 
             restart_delay: 10000,
@@ -43,50 +46,48 @@ module.exports = {
         },
         {
             name: "file-watcher",
-            cwd: "./services/file-watcher",
-            script: "npm",
-            args: "start",
-            exec_mode: "fork",
-            watch: ["./services/file-watcher"],
+            cwd: "./services/ts/file-watcher",
+            "script":".",
+            watch: ["./services/ts/file-watcher"],
             instances: 1,
             autorestart: true,
             env: {
-                NODE_ENV: "production"
+                NODE_ENV: "production",
+                REPO_ROOT:__dirname
+
             },
             restart_delay: 10000,
             kill_timeout: 10000
         },
+
+
         {
-            name: "stt-ws",
-            cwd: "./services/py/stt_ws",
-            script: "./services/py/stt_ws/run.sh",
-            interpreter: "bash",
-            exec_mode: "fork",
-            watch: ["./services/py/stt_ws"],
+            name: "vision",
+            cwd: "./services/js/vision",
+
+            "script":".",
+            watch: ["./services/js/vision/"],
             instances: 1,
             autorestart: true,
-            env: {
-                PYTHONUNBUFFERED: "1",
-                PYTHONPATH: path.resolve(__dirname),
-            },
             restart_delay: 10000,
-            kill_timeout: 10000
+            kill_timeout: 10000,
+            env:{
+                PORT:9999
+            }
         },
         {
-            name: "whisper-stream-ws",
-            cwd: "./services/py/whisper_stream_ws",
-            script: "./services/py/whisper_stream_ws/run.sh",
-            interpreter: "bash",
-            exec_mode: "fork",
-            watch: ["./services/py/whisper_stream_ws"],
+            name: "llm",
+            cwd: "./services/ts/llm",
+
+            "script":".",
+            watch: ["./services/ts/llm/src"],
             instances: 1,
             autorestart: true,
-            env: {
-                PYTHONUNBUFFERED: "1",
-                PYTHONPATH: path.resolve(__dirname),
-            },
             restart_delay: 10000,
-            kill_timeout: 10000
+            kill_timeout: 10000,
+            env:{
+                LLM_PORT:8888
+            }
         },
     ]
 };
