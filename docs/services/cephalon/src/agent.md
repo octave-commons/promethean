@@ -1,6 +1,6 @@
 # agent.ts
 
-**Path**: `services/cephalon/src/agent.ts`
+**Path**: `services/ts/cephalon/src/agent.ts`
 
 **Description**: @file agent.ts
 
