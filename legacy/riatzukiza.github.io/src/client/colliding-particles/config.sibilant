@@ -1,0 +1,52 @@
+(import Interface "/shared/kit/interface/index.js")
+
+(const max-mass (* 8 8 8 8 16 1024))
+(const spawn-area (* 8 max-mass ))
+(const group-count 256)
+(const attractor-thread-count 8)
+(const groups-per-thread (/  group-count attractor-thread-count))
+(const collision-group-count 8)
+(const particle-count (* 2 1024))
+
+(const min-mass 16)
+(const actual-min-mass (Math.pow min-mass 3))
+
+(const group-size (/ particle-count group-count))
+(const collision-group-size (/ particle-count collision-group-count))
+(const max-collisions (* particle-count  8 8 16))
+
+(define config Interface
+
+  (spawn-area spawn-area)
+  ( spawn-width spawn-area)
+  ( spawn-height spawn-area)
+
+  (particle-count particle-count)
+  (group-size group-size)
+  (group-count group-count)
+
+  (attractor-thread-count attractor-thread-count)
+  (groups-per-thread groups-per-thread)
+  (group-count group-count)
+
+  (collision-group-count collision-group-count)
+  (collision-group-size collision-group-size)
+
+  ( max-mass max-mass)
+  (min-mass min-mass)
+
+  ( gravitational-constant 0.0000000000000000000000000000000000003711365152319191)
+  ( min-dist min-mass)
+  (max-collisions max-collisions)
+
+  ( max-objects (/ particle-count min-mass))
+  (max-levels min-mass)
+
+
+  ( particle-render-size 512)
+  (actual-maximum-mass (Math.pow max-mass 3))
+  (actual-min-mass actual-min-mass)
+
+  (cached dimensions [(Math.round (* 0.8 window.innerWidth)), (Math.round (- window.innerHeight 3))]))
+
+(export config)

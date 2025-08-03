@@ -1,0 +1,14 @@
+(import Trie "/shared/data-structures/trees/trie.js")
+
+(def Trie.get ((dots args))
+  (get (.find this (dots args)) 'value))
+
+(def memoize (f)
+  (var cache ((create Tree-map)))
+  (=> ((dots args))
+      (remember cache args
+                (f (dots args)))))
+
+(var rgba (memoize (=> (r g b a) (lit r g b a))))
+
+(export rgba)

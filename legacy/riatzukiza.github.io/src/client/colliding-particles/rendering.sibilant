@@ -1,0 +1,48 @@
+(import Rendering "/shared/systems/rendering/rendering.js")
+(import Mote "/shared/systems/rendering/mote.js")
+(import Interface "/shared/kit/interface/index.js")
+(import Gl "/shared/gl.js")
+(import config "./config.js")
+
+
+(const rendering (.load Rendering
+                        (lit (dimensions
+                              [(* 1 (first config.dimensions))
+                              (* 1 (second config.dimensions))])
+                             (blend true))))
+(set rendering
+     'background-color
+     (lit (r 0) (g 0) (b 0) (a 255)))
+
+(export rendering)
+
+(define shaders Interface
+
+  (vert (read-shader "./shaders/mote.vert"))
+
+  (frag (read-shader "./shaders/mote.frag")))
+
+
+
+(define uniforms Interface
+  (gett res (-> (Gl.uniform 'Vector2 "Resolution" config.dimensions)))
+  (gett zoom (-> (Gl.uniform 'Vector3 "Zoom" [ 1.0 1.0 rendering.zoom-level  ])))
+  (gett offset (-> (Gl.uniform 'Vector3 "Offset" [ rendering.x-offset rendering.y-offset 0.0  ])))
+  (gett scale  (-> (Gl.uniform 'Float "Scale" rendering.zoom-level))))
+
+(def vertex-layer (limit)
+
+  (const context rendering.context)
+
+  (const layer (.spawn rendering limit Mote
+           [ uniforms.res uniforms.scale uniforms.zoom uniforms.offset]
+           [shaders.vert shaders.frag]))
+
+  (const verts [])
+
+  (do-times limit
+    (.push verts (.spawn layer)))
+
+  (return verts))
+
+(export vertex-layer)

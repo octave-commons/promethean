@@ -1,0 +1,5 @@
+(import Data-type "./data-type.js")
+(define Barycenter Data-type
+  (keys ['x 'y 'mass]))
+
+(export Barycenter)

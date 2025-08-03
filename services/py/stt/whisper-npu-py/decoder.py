@@ -1,21 +1,21 @@
 import torch
 import numpy as np
-from models import (
-     decoder_compiled , tokenizer, run_encoder, run_cross_kv
-)
+from models import decoder_compiled, tokenizer, run_encoder, run_cross_kv
 from cache import update_cache, init_empty_cache
 
-from post_processing import (
-    cleanup_tokens
-)
+from post_processing import cleanup_tokens
+
 
 def softmax_np(logits):
     exp_logits = np.exp(logits - np.max(logits))  # subtract max for numerical stability
     return exp_logits / exp_logits.sum()
+
+
 # def make_attention_mask(current_seq_len, max_seq_len=224):
 #     mask = np.zeros((1, max_seq_len), dtype=np.int64)
 #     mask[0, :current_seq_len] = 1
 #     return mask
+
 
 def make_attention_mask(current_seq_len, max_seq_len=224):
     if current_seq_len < 128:
@@ -23,14 +23,14 @@ def make_attention_mask(current_seq_len, max_seq_len=224):
     mask = np.ones((1, current_seq_len), dtype=np.int64)
     if current_seq_len < max_seq_len:
         pad_width = max_seq_len - current_seq_len
-        mask = np.pad(mask, ((0, 0), (0, pad_width)), mode='constant', constant_values=0)
+        mask = np.pad(
+            mask, ((0, 0), (0, pad_width)), mode="constant", constant_values=0
+        )
     return mask
+
+
 def run_decoder_step(
-    input_ids,
-    attention_mask,
-    position_ids,
-    encoder_kv,
-    past_decoder_kv
+    input_ids, attention_mask, position_ids, encoder_kv, past_decoder_kv
 ):
     """
     Run a single step of the decoder with the given inputs.
@@ -60,21 +60,18 @@ def run_decoder_step(
     logits = outputs["logits"]
     update_cache(past_decoder_kv, outputs, position_ids[0])
 
-
     return logits
 
 
-
 def generate_token(
-        current_chunk_tokens,
-        past_decoder_kv = None,
-        cross_kv_outputs = None,
-        greedy=True
+    current_chunk_tokens, past_decoder_kv=None, cross_kv_outputs=None, greedy=True
 ):
     if past_decoder_kv is None:
         past_decoder_kv = init_empty_cache()
     input_ids = np.array([[current_chunk_tokens[-1]]], dtype=np.int64)
-    position_ids = np.array([len(current_chunk_tokens) - 1], dtype=np.int64)  # minus 1 because position index starts from 0
+    position_ids = np.array(
+        [len(current_chunk_tokens) - 1], dtype=np.int64
+    )  # minus 1 because position index starts from 0
     attention_mask = make_attention_mask(len(current_chunk_tokens))
 
     logits = run_decoder_step(
@@ -101,9 +98,12 @@ def generate_tokens_for_chunk(chunk, prior_tokens=[], is_first_chunk=False):
 
     # === Initialize decoder state
     past_decoder_kv = init_empty_cache()
-    current_chunk_tokens = tokenizer.convert_tokens_to_ids([
-        "<|startoftranscript|>", "<|en|>", "<|notimestamps|>"
-    ]) + prior_tokens.copy()
+    current_chunk_tokens = (
+        tokenizer.convert_tokens_to_ids(
+            ["<|startoftranscript|>", "<|en|>", "<|notimestamps|>"]
+        )
+        + prior_tokens.copy()
+    )
 
     # === Generate tokens
     while len(current_chunk_tokens) < 224:
@@ -111,15 +111,10 @@ def generate_tokens_for_chunk(chunk, prior_tokens=[], is_first_chunk=False):
             current_chunk_tokens,
             cross_kv_outputs=cross_kv_outputs,
             past_decoder_kv=past_decoder_kv,
-            greedy=True
+            greedy=True,
         )
         if next_token == tokenizer.eos_token_id:
             break
         current_chunk_tokens.append(next_token)
 
-    return cleanup_tokens(
-        current_chunk_tokens,
-        prior_tokens,
-        tokenizer,
-        is_first_chunk
-    )
+    return cleanup_tokens(current_chunk_tokens, prior_tokens, tokenizer, is_first_chunk)

@@ -1,0 +1,161 @@
+(def recurse-transpile (node)
+     (if (list? node)
+         (map node recurse-transpile)
+
+         (node? node 'output)
+         (merge-into node { contents: (recurse-transpile node.contents) })
+
+         (node? node)
+         (transpile node)
+
+         node))
+
+(def transpile (node preprocessor)
+     (if
+      (string? node)
+      (assign node { type 'js token node contents []})
+
+      (number? node)
+      (assign node { type 'number token (node.to-string) contents []}))
+     
+     (if
+      (list? node)
+      node
+
+      (exists? node)
+      (do
+       (var transpiler (or (get transpile node.type)
+                           transpile.default)
+
+            result (transpiler node)
+
+            result-node (recurse-transpile (if (node? result) result
+                                               { contents result
+                                                 type 'output })))
+
+       (when (undefined? result-node)
+             (console.log (""node.file":"node.line":"node.col"\n"(prettify node)""))
+             (console.log (prettify result))
+             (console.log (prettify (transpile result)))
+             (throw (new Error ("Encountered an undefined return from recursive transpile.\n"
+                                "Please report this bug at "
+                                "https://github.com/jbr/sibilant/issues/new"))))
+
+       (set result-node
+            'contents (flat-compact result-node.contents)
+            'source node)
+
+       (if (empty-node? result-node) undefined
+           result-node))))
+
+
+(set sibilant 'transpile transpile)
+
+(var reader-macros {})
+
+(def transpile.hat (node)
+     (var token (get (first node.contents) 'token)
+          [ namespace macro ] (if (match-regex? token "\/")
+                                  (token.split "/")
+                                  [ (first sibilant.macros.search-path) token ]))
+
+     (sibilant.macros.namespaces.core.get.call node
+                                               'sibilant.macros.namespaces
+                                               (^quote (transpile.literal {token namespace}))
+                                               (^quote (transpile.literal {token macro}))))
+
+(def transpile.tick (node)
+     (sibilant.macros.namespaces.core.quote.apply node node.contents))
+
+(def transpile.at (node)
+     (transpile (first node.contents)))
+
+(def transpile.dots (node)
+     (sibilant.macros.namespaces.core.dots.apply node node.contents))
+
+(def transpile.default (node)
+     node.token)
+
+(def transpile.output (node)
+     node)
+
+(def transpile.number (node)
+     (pipe (replace-all node.token "," "")
+         parse-float
+         .to-string))
+
+(def transpile.root (node)
+     (if (= 1 node.contents.length)
+         (transpile (first node.contents))
+         (pipe node.contents
+               (map as-statement)
+               (compact)
+               (interleave "\n"))))
+
+
+(def transpile.expression (node preprocessor)
+     (if node.contents.length
+         (do
+          (var head (first node.contents)
+               args node.contents
+               macro (sibilant.resolve-macro 'call))
+
+          (if (node? head 'string)
+              (assign macro (sibilant.resolve-macro 'concat))
+
+              (node? head 'dots)
+              (assign macro (sibilant.resolve-macro 'send)
+                      args [ (second node.contents) (first head.contents) ...(.slice node.contents 2) ])
+
+              (and (node? head 'literal)
+                   (= (first head.token) "."))
+              (assign macro (sibilant.resolve-macro 'send)
+                      args [ (second node.contents)
+                             (merge-into head {token (rest head.token)})
+                             ...(.slice node.contents 2) ])
+
+              (node? head 'literal 'other-char)
+              (do
+               (pipe head
+                   transpile
+                   output-formatter
+                   sibilant.resolve-macro
+                   (var resolved-macro #))
+
+               (when resolved-macro
+                     (set head 'hint 'macro)
+                     (assign macro resolved-macro
+                             args (rest node.contents)))))
+
+          (macro.apply node args))
+
+         "null"))
+
+(def transpile.bracket (node)
+     (apply sibilant.macros.namespaces.core.list node.contents))
+
+(def transpile.brace (node) (apply sibilant.macros.namespaces.core.hash node.contents))
+
+(def transpile.literal (node)
+     (var string (pipe node.token (replace-all "\\*" "_"))
+          last-char (last string))
+
+     (assign string (if (= last-char "?") (concat (string.slice 0 -1) "__QUERY")
+                        (= last-char "!") (concat (string.slice 0 -1) "__BANG")
+                        string))
+
+     (inject string (match-regex? string "-([a-zA-Z0-9])" 'g)
+             (#(return-string match)
+               (var letter (second match))
+               (return-string.replace match (if (and (= letter (letter.to-upper-case))
+                                                     (!= letter (letter.to-lower-case)))
+                                                ("_"letter)
+                                                (.to-upper-case letter))))))
+
+(def transpile.string (node)
+     (pipe node.token
+         (.split "\n")
+         (.join "\\n\" +\n\"")))
+
+(def transpile.comment (node) null)
+

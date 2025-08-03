@@ -1,0 +1,128 @@
+
+(meta "import '/bundles/external.js'")
+
+(import Vector-2D-array "../typed-arrays/vector-2d.js")
+(import Physics-array "../typed-arrays/physics-array.js")
+(import Group-id-array "../typed-arrays/group-id-array.js")
+(import Barycenter-array "../typed-arrays/barycenter-array.js")
+(import Kd-tree "../typed-arrays/kd-tree.sibilant")
+
+(import Vector "/shared/vectors.js")
+(import Spawnable "/shared/data-structures/spawnable.js")
+
+(import Parent-system "../system.sibilant")
+
+(def-lit-macro def-async (name args ..body)
+  ["async "  name  `(parenthetic (comma ...@args.contents)) `(curly (do-block ...@body))])
+
+(import config "../config.js")
+(const (lit max-levels max-objects) config)
+
+
+(define Particle-group Spawnable
+  (init ((members (or this.members []))))
+  (cached center
+          (var center (.spawn Vector 0 0))
+
+          (if! (= this.members.length 0) (throw (new Error "can't calculate center of empty particle group.")))
+
+          (for-of! member this.members
+
+                   (const a (.mult member.pos member.mass))
+                   (.add-to center a)
+                   (.despawn a))
+          (.div-to center this.mass)
+
+          (return center )
+          )
+  (cached mass (var mass 0)
+          (for-of! member this.members
+                   (incr-by mass member.mass))
+          mass)
+  (def clear ()
+    (clear-cache  this center)
+    (clear-cache this mass)
+    (assign this.gid 0)
+    (assign this.members.length 0)))
+
+(define Particle Spawnable
+  (init (pos-source
+         phys-source
+         (pos (.spawn Vector pos-source.x pos-source.y))))
+  (gett x this.pos-source.x)
+  (gett y this.pos-source.y)
+  (gett mass this.phys-source.mass)
+  (gett scale this.phys-source.scale)
+
+  (sett mass v (assign this.phys-source.mass v))
+  (sett scale v (assign this.phys-source.scale v))
+
+  (gett height this.scale)
+         (gett width this.scale)
+  (def clear ()
+    (assign this.pos-source null)
+    (assign this.phys-source null)
+    (.despawn this.pos)
+    (assign this.pos null)
+    )
+
+  (gett id this.pos-source.id))
+(define Grouper-system Parent-system
+  (data-types [ Vector-2D-array Physics-array Group-id-array Kd-tree Barycenter-array ])
+  (def-async update ((lit (bounds [min-x min-y max-x max-y]))
+                     [ positions phys group-ids kd-tree barycenters ])
+
+    (const particles [])
+
+
+    (for-of! pos positions.data
+             (const object (get phys.data pos.id ))
+             (const particle (.spawn Particle pos object) )
+             ;; (print particle.x particle.y particle.scale (lit pos object particle positions))
+             (.push particles particle)
+
+             )
+
+    (const visited (new Set))
+    (const groups [])
+
+    (var current-group (.spawn Particle-group))
+
+    (for-of! particle particles
+
+             (if! (.has visited particle.id) continue)
+             (const query-results (.query kd-tree particle.x particle.y (* particle.scale 128)))
+
+             (const elements (pipe query-results (map (el) (get particles el.pid))))
+             ;; (print (lit particle particles elements current-group groups kd-tree positions))
+
+             (for-of! neighbor elements
+                      (if! (.has visited neighbor.id) continue)
+                      (if! (>=  current-group.members.length config.group-size)
+                           (.push groups current-group)
+                           (assign current-group (.spawn Particle-group))
+                           ;; break
+                           )
+
+                      (.add visited neighbor.id)
+                      (.push current-group.members neighbor)
+                      (assign neighbor.group current-group)))
+    (if! (> current-group.members.length 0) (.push groups current-group))
+
+    (var i 0)
+    (for-of! group groups
+             (assign group.gid i)
+             (++ i)
+             (for-of! member group.members
+                      (const group-id (get group-ids.data member.id))
+                      (set group-id 'group-id group.gid))
+             (const barycenter (get barycenters.data group.gid))
+             (set barycenter 'mass group.mass)
+             (set barycenter 'x group.center.x
+                  'y group.center.y))
+
+    (for-of! particle particles (.despawn particle))
+    (for-of! group groups (.despawn group))
+    (return null)))
+
+(.start Grouper-system)

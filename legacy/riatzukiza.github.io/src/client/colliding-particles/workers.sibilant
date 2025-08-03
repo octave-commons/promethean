@@ -1,0 +1,94 @@
+(import Systems-manager Threaded-system "./system.sibilant")
+(import game-data particles particle-groups "./data.sibilant")
+(define Velocity-system Threaded-system
+
+  (url "/client/colliding-particles/workers/velocity.js")
+  (data [
+        particles.vel
+        particles.correction
+
+        particles.pos
+        ]))
+(export Velocity-system)
+(define Acceleration-system Threaded-system
+
+  (url "/client/colliding-particles/workers/acceleration.js")
+  (data [
+        particles.vel
+        particles.deflection
+
+        particles.near-gravity
+        particles.far-gravity
+
+        ]))
+(export Acceleration-system)
+(define Particle-attractor-system Threaded-system
+  (url "/client/colliding-particles/workers/local-attractor-manager.js")
+  (data [
+        particles.pos
+        particles.phys
+        particles.group-id
+
+        particles.near-gravity
+        ]))
+(export Particle-attractor-system)
+(define Cluster-attractor-system Threaded-system
+
+  (url "/client/colliding-particles/workers/cluster-attractor-manager.js")
+  (data [
+        particles.pos
+        particles.phys
+        particles.group-id
+        particle-groups
+
+        particles.far-gravity
+        ]))
+(export Cluster-attractor-system)
+(define Grouping-system Threaded-system
+
+  (url "/client/colliding-particles/workers/kd-grouper.js")
+  (data [
+
+        particles.pos
+        particles.phys
+        particles.group-id
+        particles.kd-tree
+
+        particle-groups
+        ]))
+(export Grouping-system)
+(define Elastic-deflection-system Threaded-system
+  (url "/client/colliding-particles/workers/elastic-deflection-manager.js")
+  (data [
+
+        particles.pos
+        particles.vel
+        particles.phys
+        particles.kd-tree
+
+        particles.deflection
+        particles.correction
+        ]))
+(export Elastic-deflection-system)
+(define Kd-tree-builder Threaded-system
+  (url "/client/colliding-particles/workers/kd-tree-builder.js")
+  (data [ particles.pos
+
+        particles.kd-tree ]))
+
+
+(define Game-systems-manager Systems-manager
+  (systems [
+
+           Velocity-system
+           Grouping-system
+           Acceleration-system
+           Particle-attractor-system
+           Cluster-attractor-system
+           Elastic-deflection-system
+           Kd-tree-builder
+
+           ])
+  (data game-data))
+
+(export Game-systems-manager)
