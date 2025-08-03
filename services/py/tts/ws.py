@@ -1,10 +1,26 @@
 from fastapi import FastAPI, WebSocket
 import io
 import soundfile as sf
+from shared.py.heartbeat_client import HeartbeatClient
 
 from shared.py.utils import websocket_endpoint
 
 app = FastAPI()
+hb = HeartbeatClient()
+
+
+@app.on_event("startup")
+async def startup_event():
+    try:
+        hb.send_once()
+    except Exception as exc:
+        raise RuntimeError("heartbeat registration failed") from exc
+    hb.start()
+
+
+@app.on_event("shutdown")
+def shutdown_event():
+    hb.stop()
 
 
 @app.websocket("/ws/tts")

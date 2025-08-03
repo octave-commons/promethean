@@ -17,10 +17,19 @@ from typing import List
 import discord
 from shared.py import settings
 from shared.py.mongodb import discord_message_collection, discord_channel_collection
+from shared.py.heartbeat_client import HeartbeatClient
 
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 intents.message_content = True
+
+hb = HeartbeatClient()
+try:
+    hb.send_once()
+except Exception as exc:
+    print(f"failed to register heartbeat: {exc}")
+    sys.exit(1)
+hb.start()
 
 
 def format_message(message):

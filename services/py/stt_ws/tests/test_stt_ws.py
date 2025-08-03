@@ -9,10 +9,26 @@ sys.path.insert(
 )
 
 from fastapi.testclient import TestClient
-import services.py.stt_ws.app as app_module
 
 
 def test_websocket_transcription(monkeypatch):
+    class DummyHB:
+        def send_once(self):
+            pass
+
+        def start(self):
+            pass
+
+        def stop(self):
+            pass
+
+    monkeypatch.setattr(
+        "shared.py.heartbeat_client.HeartbeatClient", lambda *a, **k: DummyHB()
+    )
+
+    import importlib
+
+    app_module = importlib.import_module("services.py.stt_ws.app")
     client = TestClient(app_module.app)
     import types
 

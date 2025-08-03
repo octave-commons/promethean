@@ -1,9 +1,25 @@
 import hy
 import base64
 import json
-from fastapi import FastAPI, WebSocket
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from shared.py.heartbeat_client import HeartbeatClient
 
 app = FastAPI()
+hb = HeartbeatClient()
+
+
+@app.on_event("startup")
+async def startup_event():
+    try:
+        hb.send_once()
+    except Exception as exc:
+        raise RuntimeError("heartbeat registration failed") from exc
+    hb.start()
+
+
+@app.on_event("shutdown")
+def shutdown_event():
+    hb.stop()
 
 
 @app.websocket("/transcribe")
