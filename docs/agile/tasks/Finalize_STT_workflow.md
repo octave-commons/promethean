@@ -38,3 +38,10 @@ Nothing
 ## 🔍 Relevant Links
 - [kanban](../boards/kanban.md)
 - [python-tests.yml](../../services/stt/.github/workflows/python-tests.yml)
+
+
+
+
+## Reason for rejection
+Other tasks expanded to include the intention of this ticket before this one was b
+#rejected

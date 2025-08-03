@@ -1,0 +1,10 @@
+# Git LFS configuration for large model binaries
+
+# Whisper STT NPU binaries
+services/py/stt/whisper-npu/** filter=lfs diff=lfs merge=lfs -text
+
+# TTS model weights
+services/py/tts/models/** filter=lfs diff=lfs merge=lfs -text
+
+# Duck chroma embedding data
+agents/duck/chroma_data/** filter=lfs diff=lfs merge=lfs -text

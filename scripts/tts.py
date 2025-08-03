@@ -5,7 +5,7 @@ from openvino import Core
 from lib.models.forward_tacotron_ie import ForwardTacotronIE
 from lib.models.mel2wave_ie import WaveRNNIE
 from time import perf_counter
-from lib.utils.split_sentances import split_sentences
+from lib.utils.split_sentences import split_sentences
 import re
 import os
 

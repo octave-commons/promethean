@@ -23,6 +23,12 @@ Promethean is a modular cognitive architecture for building embodied AI agents. 
 pipenv install
 ```
 
+Install additional packages needed for the test suite (including the `discord` library):
+
+```bash
+pip install -r requirements-dev.txt
+```
+
 Activate the environment when developing or running Python services:
 
 ```bash
@@ -35,6 +41,12 @@ pipenv shell
 npm install
 ```
 
+Install PM2 globally if it isn't already available:
+
+```bash
+npm install -g pm2
+```
+
 ## Running Services
 
 Scripts in `agents/scripts/` launch commonly used services:
@@ -45,6 +57,12 @@ Scripts in `agents/scripts/` launch commonly used services:
 
 Each script assumes dependencies are installed and should be run from the repository root.
 
+## Environment Variables
+
+The framework relies on several environment variables for configuration. See
+[docs/environment-variables.md](docs/environment-variables.md) for details on
+all available settings.
+
 ## Makefile Commands
 
 Common tasks are wrapped in the root `Makefile`:
@@ -54,7 +72,12 @@ Common tasks are wrapped in the root `Makefile`:
 - `make start` – launch shared services defined in `ecosystem.config.js` via PM2
 - `make start:<service>` – run a service from `ecosystem.config.js` by name
 - `make stop` – stop running services
-- `make test` – run Python and JS test suites
+- `make test` – run Python and JS test suites without coverage
+- `make board-sync` – sync `kanban.md` with GitHub Projects
+- `make kanban-from-tasks` – regenerate `kanban.md` from task files
+- `make kanban-to-hashtags` – update task statuses from `kanban.md`
+- `make kanban-to-issues` – create GitHub issues from the board
+- `make coverage` – run tests with coverage reports for Python, JavaScript and TypeScript services
 
 Agent-specific services may define their own `ecosystem.config.js` files.
 
@@ -88,7 +111,7 @@ pytest -q
 
 ## Converting Kanban Tasks to GitHub Issues
 
-A helper script `scripts/kanban_to_issues.py` can create GitHub issues from the tasks listed in `docs/kanban.md`. Set the following environment variables before running the script:
+A helper Makefile target `make kanban-to-issues` can create GitHub issues from the tasks listed in `docs/agile/boards/kanban.md`. Set the following environment variables before running it:
 
 - `GITHUB_TOKEN` – a personal access token with permission to create issues
 - `GITHUB_REPO` – the repository in `owner/repo` format
@@ -96,7 +119,7 @@ A helper script `scripts/kanban_to_issues.py` can create GitHub issues from the 
 Then run:
 
 ```bash
-python scripts/kanban_to_issues.py
+make kanban-to-issues
 ```
 
 Without a token the script performs a dry run and prints the issues that would be created.
@@ -104,7 +127,7 @@ Without a token the script performs a dry run and prints the issues that would b
 
 ## Pre-commit Setup
 
-Documentation uses `[[wikilinks]]` inside the vault but they must be converted to standard markdown links before committing. A helper script `scripts/convert_wikilinks.py` runs automatically via [pre-commit](https://pre-commit.com/).
+Documentation uses `[wikilinks](wikilinks.md)` inside the vault but they must be converted to standard markdown links before committing. A helper script `scripts/convert_wikilinks.py` runs automatically via [pre-commit](https://pre-commit.com/).
 
 Install the hook with:
 

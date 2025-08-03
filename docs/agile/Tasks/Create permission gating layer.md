@@ -1,7 +1,7 @@
 ## 🛠️ Task: Create permission gating layer
 
 Introduce a middleware layer that checks whether an action or
-information request is allowed before it reaches core services.  This
+information request is allowed before it reaches core services. This
 is based on the "Dorian Permission Gate" equations in our math notes.
 
 ---
@@ -55,3 +55,4 @@ is based on the "Dorian Permission Gate" equations in our math notes.
 
 - What format should permission rules use—YAML or JSON?
 - Do we need real-time updates or is a static config sufficient?
+#ice-box

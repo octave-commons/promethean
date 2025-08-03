@@ -7,7 +7,7 @@ formatted markdown stub without manual copying.
 =======
 Automate the creation of new task files using a command-line script. The tool
 should take a task title and optional tags, generate a markdown file based on
-`agile/templates/task.stub.template.md`, and place it in `docs/agile/Tasks/`.
+`agile/templates/task.stub.template.md`, and place it in `docs/agile/tasks/`.
 This reduces manual copying when adding cards to the kanban board.
 >>>>>>> main
 
@@ -32,7 +32,7 @@ This reduces manual copying when adding cards to the kanban board.
 
 - [ ] Use `docs/agile/templates/task.stub.template.md` as the base
 - [ ] Support variable substitution for task name and tags
-- [ ] Output files to `docs/agile/Tasks/`
+- [ ] Output files to `docs/agile/tasks/`
 - [ ] Document usage in `docs/agile/templates/README.md`
 =======
 - [ ] Accept task title as a required argument.
@@ -77,3 +77,4 @@ Nothing
 ## 🔍 Relevant Links
 
 - [kanban](../boards/kanban.md)
+#ice-box

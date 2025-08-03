@@ -2,7 +2,7 @@ import os
 import re
 import requests
 
-KANBAN_PATH = os.environ.get("KANBAN_PATH", "docs/kanban.md")
+KANBAN_PATH = os.environ.get("KANBAN_PATH", "docs/agile/boards/kanban.md")
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 GITHUB_REPO = os.environ.get("GITHUB_REPO")
 

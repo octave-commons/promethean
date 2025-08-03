@@ -1,0 +1,39 @@
+name: Linter
+permissions:
+  contents: read
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install system dependencies
+        run: make system-deps
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: make install
+
+      - name: Build project
+        run: make build
+
+      - name: Lint
+        run: make lint
+
+      # - name: Format
+      #   run: make format
+

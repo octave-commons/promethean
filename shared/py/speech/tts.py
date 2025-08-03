@@ -3,7 +3,7 @@ from openvino.runtime import Core
 from ..models.forward_tacotron_ie import ForwardTacotronIE
 from ..models.mel2wave_ie import WaveRNNIE
 from time import perf_counter
-from ..utils.split_sentances import split_sentences
+from ..utils.split_sentences import split_sentences
 from .wav import upsample_to_stream
 import re
 

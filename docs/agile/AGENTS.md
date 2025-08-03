@@ -3,19 +3,22 @@
 This agent is responsible for maintaining and navigating the Kanban board in `agile/boards/kanban`.
 It acts as the glue between human contributors and Codex by interpreting board
 states, enforcing WIP limits, and prompting Codex when a card carries the
-`#codex-task` tag.
+`#codex-task` tag. The board itself is generated from the task files in
+
+`agile/tasks/` via the `make kanban-from-tasks` target.
 
 ---
 
 ## 📚 Operating Context
 
-- The board structure and flow logic are defined in [[Process|process.md]].
+- The board structure and flow logic are defined in [process.md](Process.md).
 - Tasks must live in `agile/tasks/` as individual files.
 - Tasks must be linked from the board before they can move to **Ready** or beyond.
 - Board items that are not yet linked to task files are considered incomplete.
 - Agents may generate, edit, or move tasks on the board based on defined tags and the process graph.
 - The numbers in kanban column headings (e.g. "In Progress (4)") store WIP limits for the plugin. Avoid editing these counts directly.
 - Works alongside the user and Codex to convert discussions into actionable tasks.
+- All board scripts should be invoked through Makefile targets rather than directly running Python files.
 
 ---
 
@@ -43,6 +46,20 @@ states, enforcing WIP limits, and prompting Codex when a card carries the
 
 ---
 
+### Status Hashtags
+
+The board columns are derived from these hashtags in each task file:
+
+| Hashtag        | Column |
+|----------------|--------|
+| `#IceBox`      | Ice Box |
+| `#Accepted`    | Accepted |
+| `#Ready`       | Ready |
+| `#Todo`        | 🟢 To Do |
+| `#InProgress`  | 🟡 In Progress |
+| `#Done`        | 🔵 Done |
+
+
 ## 🛠️ Required Behaviors
 
 - Before moving a task to `Ready`, confirm:
@@ -51,6 +68,7 @@ states, enforcing WIP limits, and prompting Codex when a card carries the
 - Before moving to `Done`, confirm:
   - The outcome is documented
   - Any generated files are linked
+  - `make test` and `make simulate-ci` run successfully
 - When a task is added to the board with no backing file:
   - Create a markdown stub in `agile/tasks/` with metadata and checklist
   - Flag it for review in `Breakdown`
@@ -63,6 +81,8 @@ states, enforcing WIP limits, and prompting Codex when a card carries the
 - Epics: `agile/boards/epic.md`
 - Tasks: `agile/tasks/*.md`
 - Process flow: `process.md`
+
+The board file is regenerated whenever `make kanban-from-tasks` is run. **Do not edit `kanban.md` manually.** To move a task between columns, edit the status hashtag in its corresponding task file and rerun `make kanban-to-hashtags`.
 
 ---
 
