@@ -98,6 +98,20 @@ def setup_env(monkeypatch):
 
 def load_indexer(monkeypatch):
     # Reload module with patched collections for isolation
+    class DummyHB:
+        def send_once(self):
+            pass
+
+        def start(self):
+            pass
+
+        def stop(self):
+            pass
+
+    monkeypatch.setattr(
+        "shared.py.heartbeat_client.HeartbeatClient", lambda *a, **k: DummyHB()
+    )
+
     mod = importlib.import_module("main")
     monkeypatch.setattr(mod, "discord_channel_collection", MemoryCollection())
     monkeypatch.setattr(mod, "discord_message_collection", MemoryCollection())
