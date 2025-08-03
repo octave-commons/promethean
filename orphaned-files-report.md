@@ -1,3 +1,5 @@
+# Orphaned files report
+
 - [[services/py/stt/whisper-npu/models/whisper_medium/whisper_medium_decoder_static_kvcache_224_lm_QKs.bin]]
 - [[services/py/stt/whisper-npu/models/whisper_medium/whisper_medium_encoder.bin]]
 - [[services/py/stt/whisper-npu/models/whisper_medium/whisper_medium_encoder_decoder_cross_kv.bin]]
