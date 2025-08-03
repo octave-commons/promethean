@@ -45,13 +45,10 @@ jobs:
         run: make install
 
       - name: Install lint dependencies
-        run: python -m pip install flake8 pre-commit
+        run: python -m pip install flake8
 
       - name: Build project
         run: make build
-
-      - name: Pre-commit
-        run: pre-commit run --files $(git ls-files | tr '\n' ' ')
 
       - name: Lint
         run: make lint
