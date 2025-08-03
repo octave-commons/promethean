@@ -28,7 +28,7 @@ test-js-services:
 test-js: test-js-services
 
 coverage-js-services:
-	       @$(call run_dirs,$(SERVICES_JS),echo "Generating coverage in $$d..." \&\& npm run coverage)
+	@$(call run_dirs,$(SERVICES_JS),npm run coverage && npx c8 report -r lcov)
 coverage-js: coverage-js-services
 
 clean-js:
