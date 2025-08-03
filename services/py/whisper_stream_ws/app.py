@@ -1,3 +1,4 @@
+import hy
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from shared.py.speech.whisper_stream import WhisperStreamer
 
@@ -13,11 +14,15 @@ async def stream(ws: WebSocket):
             global streamer
             if streamer is None:
                 streamer = WhisperStreamer()
+                _hy_anon_var_1 = None
+            else:
+                _hy_anon_var_1 = None
             data = await ws.receive_bytes()
             text = next(streamer.transcribe_chunks([data]))
             await ws.send_json({"transcription": text})
+        _hy_anon_var_2 = None
     except WebSocketDisconnect:
-        pass
+        _hy_anon_var_2 = None
     finally:
-        if not ws.client_state.name == "CLOSED":
-            await ws.close()
+        await ws.close() if not ws.client_state.name == "CLOSED" else None
+    return _hy_anon_var_2
