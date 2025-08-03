@@ -7,10 +7,6 @@ Crawl through discord history and fill in all messages that are not getting proc
 
 import os
 
-AGENT_NAME = os.environ.get("AGENT_NAME", "duck")
-print(f"Discord indexer running for {AGENT_NAME}")
-
-
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../"))
@@ -22,6 +18,8 @@ from typing import List
 import discord
 from shared.py import settings
 from shared.py.mongodb import discord_message_collection, discord_channel_collection
+
+print(f"Discord indexer running for {settings.AGENT_NAME}")
 
 
 intents = discord.Intents.default()
