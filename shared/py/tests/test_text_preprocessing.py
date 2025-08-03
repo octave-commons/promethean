@@ -12,7 +12,9 @@ from shared.py.utils.text_preprocessing import (
 from shared.py.utils.numbers import normalize_numbers
 from shared.py.utils.embeddings_processing import PCA
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
+)
 
 
 def test_expand_abbreviations_and_numbers():

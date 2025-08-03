@@ -1,0 +1,821 @@
+#!/usr/bin/env sibilant -x
+(include "./testHelper.sibilant")
+
+(var file "eval.sibilant"
+     fail-fast false
+     line-comment ("/* "file":1:0 */"))
+
+(assert-translation "()"       "null")
+(assert-translation "5"        "5")
+(assert-translation "1,000,000.01" "1000000.01")
+(assert-translation "1,000.00" "1000")
+(assert-translation "$"        "$")
+(assert-translation "-10.2"    "-10.2")
+(assert-translation "hello"    "hello")
+(assert-translation "hi-world" "hiWorld")
+(assert-translation "hi_world" "hi_world")
+(assert-translation "(Object.to-string)" "Object.toString()")
+(assert-translation "1two"     "1;\ntwo;")
+(assert-translation "t1"       "t1")
+(assert-translation "JSON"     "JSON")
+(assert-translation "time-zone-1"       "timeZone1")
+(assert-translation "TIME-ZONE" "TIME_ZONE")
+(assert-translation "'t1"      "\"t1\"")
+(assert-translation "*hello*"  "_hello_")
+(assert-translation "\"this\nstring\"" "\"this\\n\" +\n\"string\"")
+(assert-translation "hello?"   "hello__QUERY")
+(assert-translation "hello!"   "hello__BANG")
+(assert-translation "-math"    "Math")
+(assert-translation "\"string\"" "\"string\"")
+(assert-translation "\"\"" "\"\"")
+(assert-translation "$.make-array" "$.makeArray")
+(assert-translation "($.make-array 1)" "$.makeArray(1)")
+
+(assert-translation "(mod 5 2)" "(5 % 2)")
+(assert-translation "(and a b c-d)" "(a && b && cD)")
+;;(assert-translation "(and 1)" "1")
+(assert-translation "(or a b c-d)" "(a || b || cD)")
+
+(assert-translation "(> a b)" "a > b")
+(assert-translation "(> a b c)" "(a > b && b > c)")
+(assert-translation "(> a (+ 1 b) c d)"
+                    "(a > (1 + b) && (1 + b) > c && c > d)")
+
+(meta ";;")
+(each (infix) [ ">" "<" ">=" "<=" ]
+  (assert-translation (concat "(" infix " a b c)")
+                      (concat "(a " infix " b && b " infix " c)")))
+
+(assert (> 5 3 2 1) "> comparator works")
+(assert (< 1 2 3 4 5) "< comparator works")
+(assert (<= 1 2 2 3 3) "<= comparator works")
+(assert (>= 3 3 2 2 1 1) ">= comparator works")
+
+(assert-translation-error "(foo" ("Error: unclosed node at "file":1:0\n  (foo"))
+(assert-translation-error ")" "Error: unexpected ) on eval.sibilant:1:0")
+
+(assert-translation "(!= a b c)" "(a !== b && b !== c)")
+
+
+(assert-translation "(regex \"regex\")" "(new RegExp(\"regex\", undefined))")
+(assert-translation "(regex \"regex\" 'g)" "(new RegExp(\"regex\", \"g\"))")
+
+(assert-translation "(incr x)"  "((x)++)")
+(assert-translation "(decr x)"  "((x)--)")
+
+(assert-translation "'hello"        "\"hello\"")
+
+;; (assert-translation "'(hello world)"
+;;     "[ \"hello\", \"world\" ]")
+;; (assert-translation "(quote (a b c))"
+;;     "[ \"a\", \"b\", \"c\" ]")
+
+; lists
+(assert-translation "(list)" "[]")
+
+(assert-translation "(list a b)"
+                    "[ a, b ]")
+
+(assert-translation "(list ...a)" "a")
+(assert-translation "(list ...a b)" "a.concat([ b ])")
+(assert-translation "(list ...(a) b)" "a().concat([ b ])")
+(assert-translation "(list a ...b c ...d)" "[ a ].concat(b, [ c ], d)")
+(assert-translation "(list ...a ...a)" "a.concat(a)")
+(assert-translation "(list a)" "[ a ]")
+
+; hashes
+(assert-translation "(hash)" "{  }")
+(assert-translation "(hash a b)"
+    "{ a: b }")
+(assert-translation "(hash a b c d)"
+    "{\n  a: b,\n  c: d\n}")
+(assert-translation "{ a& b& c 1 d & }" "{
+  a: a,
+  b: b,
+  c: 1,
+  d: d
+}")
+(assert-translation "{ `a b c 1 `d & & e }" "(function() {
+  var hash$1 = {
+    c: 1,
+    e: e
+  };
+  hash$1[a] = b;
+  hash$1[d] = d;
+  return hash$1;
+}).call(this)")
+
+(assert-translation "(when a b)"
+"(function() {
+  if (a) {
+    return b;
+  }
+}).call(this)")
+
+(assert-translation "(when a b c d)"
+"(function() {
+  if (a) {
+    b;
+    c;
+    return d;
+  }
+}).call(this)")
+
+
+(line)
+
+;unless
+
+(assert-translation "(unless a b)"
+"(function() {
+  if (!(a)) {
+    return b;
+  }
+}).call(this)")
+
+; if
+
+(assert-translation "(if a b c)"
+"(function() {
+  if (a) {
+    return b;
+  } else {
+    return c;
+  }
+}).call(this)")
+
+; do
+
+(assert-translation "(do a b c d e)"
+    "a;\nb;\nc;\nd;\nreturn e;")
+
+
+; join
+
+(assert-translation "(join [ a b c ] \" \")"
+    "[ a, b, c ].join(\" \")")
+
+(assert-translation "(join [ a b c ])"
+    "[ a, b, c ].join(\"\")")
+
+; meta
+
+(assert-translation "(meta (+ 5 2))" "7")
+
+; comment
+
+(assert-translation "(comment hello)" "// hello")
+
+(assert-translation "(comment (lambda () hello))"
+    ("// (function() {
+//   /* "file":1:9 */
+// 
+//   return hello;
+// })"))
+
+; new
+
+(assert-translation "(new prototype a b c)" "(new prototype(a, b, c))")
+
+(assert-translation "(thunk a b c)" ("(function() {
+  "line-comment"
+
+  a;
+  b;
+  return c;
+})"))
+
+(assert-translation "(keys some-object)" "Object.keys(someObject)")
+
+(assert-translation "(get foo 'bar 'baz 1 2)" "foo.bar.baz[1][2]")
+
+(assert-translation "(delete (get foo 'bar))" "delete foo.bar;")
+
+(assert-translation "(delete (get foo 'bar) bam.bibble)"
+"delete foo.bar;
+delete bam.bibble;")
+
+(assert-translation "(thunk (delete a.b c.d e.f))"
+                    ("(function() {
+  "line-comment"
+
+  delete a.b;
+  delete c.d;
+  return delete e.f;
+})"))
+
+
+(assert-translation "(get a (+ 1 2))" "a[(1 + 2)]")
+
+(assert-translation "(var a b c d)" "var a = b,\n    c = d;")
+
+(assert-translation "(with-state symbol-counts {} (var [a b] c))"
+"var a = c[0],
+    b = c[1];")
+
+(assert-translation "(with-state symbol-counts {} (var [a b] (c)))"
+"var c$1 = c(),
+    a = c$1[0],
+    b = c$1[1],
+    c$1 = undefined;")
+
+(assert-translation "(with-state symbol-counts {} (var {a-part b-part} c))"
+"var aPart = c.aPart,
+    bPart = c.bPart;")
+
+(assert-translation "(with-state symbol-counts {} (var {a-part b-part} (c)))"
+"var c$1 = c(),
+    aPart = c$1.aPart,
+    bPart = c$1.bPart,
+    c$1 = undefined;")
+
+
+(assert-translation "(function? x)" "typeof x === \"function\"")
+(assert-translation "(function? x y)" "(typeof x === \"function\" && typeof y === \"function\")")
+
+(assert-translation "(number? x)" "typeof x === \"number\"")
+(assert-translation "(number? x y)" "(typeof x === \"number\" && typeof y === \"number\")")
+
+
+(assert-translation "\n   (def foo.bar (a) (* a 2))"
+                    ("foo.bar = (function foo$bar$(a) {
+  /* foo.bar "file":2:3 */
+
+  return (a * 2);
+});"))
+
+(assert-translation "(each-key key hash a b c)"
+                    ("Object.keys(hash).forEach((function(key) {
+  "line-comment"
+
+  a;
+  b;
+  return c;
+}))"))
+
+(assert-translation "(#(a b ...c) [a b c])"
+("(function(a, b, c) {
+  "line-comment"
+
+  var c = Array.prototype.slice.call(arguments, 2);
+
+  return [ a, b, c ];
+})"))
+
+
+(assert-translation "(scoped a b c)"
+                    ("(function() {
+  "line-comment"
+
+  a;
+  b;
+  return c;
+}).call(this)"))
+
+(assert-translation "(arguments)" "Array.prototype.slice.call(arguments)")
+(assert-translation "(arguments 1 3)" "Array.prototype.slice.call(arguments, 1, 3)")
+
+(assert-translation "(set hash k1 v1 k2 v2 'k3 v3)"
+"hash[k1] = v1;
+hash[k2] = v2;
+hash.k3 = v3;")
+
+
+(assert-translation "(each (x) arr a b c)"
+("arr.forEach((function(x) {
+  "line-comment"
+
+  a;
+  b;
+  return c;
+}))"))
+
+(assert-translation "(switch a ([q r] 1) (s 2) (t 3))"
+"(function() {
+  switch(a) {
+  case q:
+  case r:
+    return 1;
+  
+  case s:
+    return 2;
+  
+  case t:
+    return 3;
+  }
+}).call(this)")
+
+(assert-translation "(switch a ('q 2))"
+"(function() {
+  switch(a) {
+  case \"q\":
+    return 2;
+  }
+}).call(this)"
+)
+(assert-translation "(switch a ([a b] t))"
+"(function() {
+  switch(a) {
+  case a:
+  case b:
+    return t;
+  }
+}).call(this)")
+
+(assert-translation "(switch a ([r 's] l))"
+"(function() {
+  switch(a) {
+  case r:
+  case \"s\":
+    return l;
+  }
+}).call(this)")
+
+(assert-translation "(switch 1 ((1 2) 'one))"
+"(function() {
+  switch(1) {
+  case 1:
+  case 2:
+    return \"one\";
+  }
+}).call(this)")
+
+(assert-translation "(switch (+ 5 2) (('u 'v) (wibble) (foo bar)))"
+"(function() {
+  switch((5 + 2)) {
+  case \"u\":
+  case \"v\":
+    wibble();
+    return foo(bar);
+  }
+}).call(this)")
+
+
+(assert-translation "(match? regexp foo)" "foo.match(regexp)")
+(assert-translation "(match-regex? foo \"test-regex\")" "foo.match((new RegExp(\"test-regex\", undefined)))")
+
+(assert-translation
+ "(before-include)
+  (include \"./includeFile1\")
+  (after-include-1)
+  (include \"./includeFile2\")
+  (after-include-2)"
+
+"beforeInclude();
+fromIncluded(one);
+here();
+afterInclude1();
+fromIncluded(two);
+there();
+afterInclude2();")
+
+(assert-translation
+ "(include \"./includeFile1\" \"./includeFile2\")"
+ "fromIncluded(one);\nhere();\nfromIncluded(two);\nthere();")
+
+
+(assert-equal 2 (switch 'a ('a 1 2)))
+(assert-equal 'default (switch 27 ('foo 1) (default 'default)))
+(assert-equal undefined (switch 10 (1 1)))
+(assert-equal 'hello (switch (+ 5 2)
+			     ((1 7) (concat 'he 'llo))
+			     (7 "doesn't match because it's second")
+			     (default 10)))
+
+(assert-translation "(thunk (assign a b c d e f))"
+("(function() {
+  "line-comment"
+
+  a = b;
+  c = d;
+  return e = f;
+})"))
+
+
+(assert-translation "(thunk (assign [ a b ] c { d e } f))"
+("(function() {
+  "line-comment"
+
+  a = c[0];
+  b = c[1];
+  d = f.d;
+  return e = f.e;
+})"))
+
+(assert-translation "(thunk (set b c d e f 'g h))"
+("(function() {
+  "line-comment"
+
+  b[c] = d;
+  b[e] = f;
+  return b.g = h;
+})"))
+
+
+(assert-translation
+ "(macro foo? () 1) (foo?) (delmacro foo?) (foo?)"
+ "1;\nfoo__QUERY();")
+
+(assert-translation
+ "(with-state symbol-counts {} (while (< i 10) (console.log 'here) (alert 'there) 'everywhere))"
+ ("(function() {
+  var while$1 = undefined;
+  while (i < 10) {
+    while$1 = (function() {
+      console.log(\"here\");
+      alert(\"there\");
+      return \"everywhere\";
+    }).call(this);
+  };
+  return while$1;
+}).call(this)"))
+
+(assert-translation
+ "(with-state symbol-counts {} (until (< i 10) (console.log 'here) (alert 'there) 'everywhere))"
+ ("(function() {
+  var while$1 = undefined;
+  while (!(i < 10)) {
+    while$1 = (function() {
+      console.log(\"here\");
+      alert(\"there\");
+      return \"everywhere\";
+    }).call(this);
+  };
+  return while$1;
+}).call(this)"))
+
+
+;; (scoped
+;;  (var i 0)
+;;  (var return-string
+;;    (while (< i 10)
+;;      (assign i (+ i 1))
+;;      (concat "stopped at iteration: " i)))
+;;  (assert-equal "stopped at iteration: 10" return-string))
+
+(assert-translation
+ "(return (do (return a)))" "return a;")
+
+(assert-translation
+ "(return (do (switch a (b c))))"
+
+"return (function() {
+  switch(a) {
+  case b:
+    return c;
+  }
+}).call(this);")
+
+(assert-translation "(= a b c)"
+"(a === b && b === c)")
+
+;;(assert-translation "(do)" "return undefined;")
+
+
+
+
+(assert-translation "{foo : bar wibble : wam }"
+"{
+  foo: bar,
+  wibble: wam
+}")
+
+(assert-translation "[ foo bar (baz) ]"
+"[ foo, bar, baz() ]")
+
+(assert-translation "[[] {} baz {q r s [t]}]"
+"[ [], {  }, baz, {
+  q: r,
+  s: [ t ]
+} ]")
+
+(assert-translation "{ this: is, valid: [\"json\"]}",
+"{
+  this: is,
+  valid: [ \"json\" ]
+}")
+
+
+(assert-translation "(cons a [ b c d ])"
+                     "[ a ].concat([ b, c, d ])")
+
+;; (assert-deep-equal '(a b c d) (cons 'a '(b c d)))
+
+(assert-translation "(macro -> () 1) (->)" "1;")
+
+(assert-translation "(alias-macro lambda ->)\n  (-> (a) a)\n(delmacro ->) (-> (a) a)"
+("(function(a) {
+  /* "file":2:2 */
+
+  return a;
+});
+->(a(), a);"))
+
+(assert-translation
+"(rename-macro thunk =>) (=> 'hello) (thunk 'world)
+(rename-macro => thunk) (thunk 'foo) (=> 'bar)"
+
+("(function() {
+  /* "file":1:24 */
+
+  return \"hello\";
+});
+thunk(\"world\");
+(function() {
+  /* "file":2:24 */
+
+  return \"foo\";
+});
+=>(\"bar\");"))
+
+
+
+(assert-translation
+ "(if a b c d e (do (g) h))"
+ "(function() {
+  if (a) {
+    return b;
+  } else if (c) {
+    return d;
+  } else if (e) {
+    g();
+    return h;
+  }
+}).call(this)")
+
+
+(assert-translation
+  "(if a b c d e)"
+  "(function() {
+  if (a) {
+    return b;
+  } else if (c) {
+    return d;
+  } else {
+    return e;
+  }
+}).call(this)")
+
+(assert-translation
+  "(list? thing)"
+ "(thing && \"object\" === typeof thing && \"Array\" === thing.constructor.name)")
+
+(assert-translation
+ "(thunk (assign x 1))"
+ ("(function() {
+  "line-comment"
+
+  return x = 1;
+})"))
+
+
+; this test is for duplicated semicolons
+(assert-translation
+ "(when a (do (assign b c)))"
+ "(function() {
+  if (a) {
+    return b = c;
+  }
+}).call(this)")
+
+(assert-translation "(var a (assign b c))": "var a = b = c;")
+
+
+;; (assert-translation
+;;  "(chain a (b c) (d e))"
+;;  "a.b(c)
+;;   .d(e)")
+
+;; (assert-translation "(chain a)": "a")
+
+;; (assert-translation "(chain a (b c))": "a.b(c)")
+
+
+;; (assert-translation
+;;  "(chainable $) ($ 'div (data 'jquery true) (css {background 'blue color 'light-blue})) (delete-macro $)"
+;;  "$(\"div\").data(\"jquery\", true)
+;;   .css({
+;;     background: \"blue\",
+;;     color: \"lightBlue\"
+;;   });")
+
+;; (assert-translation
+;;  "(chainable a b) (a target-a (fn-a 1) (fn-a 2)) (b target-b (fn-b 1) (fn-b 2)) (delete-macro a b)"
+;;  "a(targetA).fnA(1)
+;;   .fnA(2);
+;; b(targetB).fnB(1)
+;;   .fnB(2);")
+
+(assert-translation "(#(fn) (fn arg))"
+("(function(fn) {
+  "line-comment"
+
+  return fn(arg);
+})"))
+
+(assert-translation "(#> 'howdy)"
+("(function() {
+  "line-comment"
+
+  return \"howdy\";
+})"))
+
+(assert-translation "(includes? [1 2 3 4] 4)": "[ 1, 2, 3, 4 ].indexOf(4) !== -1")
+(assert-translation "(excludes? [1 2 3 4] 4)": "[ 1, 2, 3, 4 ].indexOf(4) === -1")
+
+(assert-translation "(append [1 2 3] 5 6 7)": "[ 1, 2, 3 ].concat([ 5, 6, 7 ])")
+
+(assert-translation-error "(include \"./nonexistant-file\")"
+                          (regex "Failed to resolve file for inclusion"))
+
+(assert-translation
+ "(try (do-something-that-might-throw) (console.log e))"
+ "(function() {
+  try {
+    return doSomethingThatMightThrow();
+  } catch (e) {
+    return console.log(e);
+  }
+}).call(this)")
+
+(assert-translation
+ "(undefined? a b c)"
+ "(typeof a === \"undefined\" && typeof b === \"undefined\" && typeof c === \"undefined\")")
+
+(assert-translation
+ "(defined? a b c)"
+ "(typeof a !== \"undefined\" && typeof b !== \"undefined\" && typeof c !== \"undefined\")")
+
+(assert-translation
+ "(exists? thing)"
+ "(typeof thing !== \"undefined\" && thing !== null)")
+
+
+(assert-equal
+ (JSON.stringify (require "./require.son"))
+ (JSON.stringify
+  {
+    a-string 'test
+    an-object {
+      null null
+      an-array [ 0 1 2,000 ]
+      the-truth true
+    }
+    }))
+
+;; (assert (undefined? (state armed)))
+
+;; (state armed true)
+;; (with-state armed false (assert-false (state armed)))
+;; (assert-true (state armed))
+
+;; (state armed false)
+;; (with-state armed true (assert-true (state armed)))
+;; (assert-false (state armed))
+
+(assert-translation "(\"test\" 2 \"concat\")" "(\"test\" + 2 + \"concat\")")
+
+(assert-translation "(call a b ...c d e ...f)" "a.apply(this, [ b ].concat(c, [ d, e ], f))")
+(assert-translation "(a b ...c d e ...f)" "a.apply(this, [ b ].concat(c, [ d, e ], f))")
+
+
+(assert-translation "(def a () 1) (def b () 2) (var c 3) (a) (b)"
+("var a = (function a$() {
+  /* a "file":1:0 */
+
+  return 1;
+});
+var b = (function b$() {
+  /* b "file":1:13 */
+
+  return 2;
+});
+var c = 3;
+a();
+b();"))
+
+(assert-translation "(odd? n)" "1 === (n % 2)")
+
+(assert-translation "(even? n)" "0 === (n % 2)")
+
+(assert-translation "(zero? n)" "n === 0")
+
+(assert-translation "(#> (#0 #1))"
+("(function() {
+  "line-comment"
+
+  return arguments[0](arguments[1]);
+})"))
+
+(assert-translation "(default foo 1 bar 2)"
+                    "foo = (typeof foo !== \"undefined\") ? foo : 1;
+bar = (typeof bar !== \"undefined\") ? bar : 2;")
+
+
+(assert-translation "(pipe a (b c) (d e) (+ 1) (.to-string) (.to-upper-case))"
+                    "(d(b(a, c), e) + 1).toString().toUpperCase()")
+(assert-translation "(|> a (b c) (d e) (+ 1) .to-string .to-upper-case)"
+                    "(d(b(a, c), e) + 1).toString().toUpperCase()")
+
+(assert-translation "(.b a c)" "a.b(c)")
+
+(assert-translation "(upper-case? a)" "(a.toLowerCase() !== a && a.toUpperCase() === a)")
+(assert-translation "(lower-case? a)" "(a.toUpperCase() !== a && a.toLowerCase() === a)")
+
+
+(assert-translation "(#> (var a 1))" "(function() {
+  "line-comment"
+
+  var a = 1;
+  return a;
+})")
+(assert-translation "(#> (def a () 1))"
+                    "(function() {
+  "line-comment"
+
+  var a = (function a$() {
+    /* a "file":1:4 */
+  
+    return 1;
+  });
+  return a;
+})")
+
+
+(assert-translation "(require! {a b} 'my-library)"
+"var myLibrary$1 = require(\"myLibrary\"),
+    a = myLibrary$1.a,
+    b = myLibrary$1.b,
+    myLibrary$1 = undefined;")
+
+
+(assert-translation "(#({a b c}) [a b c])" "(function(a_b_c$1) {
+  /* eval.sibilant:1:0 */
+
+  var a = a_b_c$1.a,
+      b = a_b_c$1.b,
+      c = a_b_c$1.c;
+
+  return [ a, b, c ];
+})")
+
+(assert-translation "(#{a b c} [a b c])" "(function(a_b_c$2) {
+  /* eval.sibilant:1:0 */
+
+  var a = a_b_c$2.a,
+      b = a_b_c$2.b,
+      c = a_b_c$2.c;
+
+  return [ a, b, c ];
+})")
+
+(assert-translation "(#({a} [b]) [a b])" "(function(a$1, b$1) {
+  /* eval.sibilant:1:0 */
+
+  var a = a$1.a,
+      b = b$1[0];
+
+  return [ a, b ];
+})")
+
+(assert-translation "(#([a b]) [b a])" "(function(a_b$1) {
+  /* eval.sibilant:1:0 */
+
+  var a = a_b$1[0],
+      b = a_b$1[1];
+
+  return [ b, a ];
+})")
+
+(assert-translation "(def fn ([a] {b} ...c) [c b a])" "var fn = (function fn$(a$2, b$2, c) {
+  /* fn eval.sibilant:1:0 */
+
+  var c = Array.prototype.slice.call(arguments, 2),
+      a = a$2[0],
+      b = b$2.b;
+
+  return [ c, b, a ];
+});")
+
+
+(assert-translation "(as-boolean 1)" "(!!(1))")
+
+(assert-translation "(case subject
+string? 10
+number? 20
+(= true) 'was-true
+(= false) 'nope
+'default-value)" "(function() {
+  if (typeof subject === \"string\") {
+    return 10;
+  } else if (typeof subject === \"number\") {
+    return 20;
+  } else if (subject === true) {
+    return \"wasTrue\";
+  } else if (subject === false) {
+    return \"nope\";
+  } else {
+    return \"defaultValue\";
+  }
+}).call(this)")
+

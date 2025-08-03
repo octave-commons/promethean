@@ -7,10 +7,11 @@ This `docs` directory houses internal documentation for the **Promethean Framewo
 - **High‑level references**
     
     - [AGENTS](AGENTS.md) – an overview of the framework, how agents like Duck fit into it and the allowed operations for automated tools.
-
     - [file‑structure](file-structure.md) – a description of the monorepo layout and design principles.
         
     - [MIGRATION_PLAN](MIGRATION_PLAN.md) – a living checklist of steps to migrate code from legacy repositories into this structure.
+    - [site README](../site/README.md) – instructions for building and serving the portfolio site.
+    - [pre-commit](pre-commit.md) – how to install and run repository hooks before committing changes.
         
 - **Agile process and tasks**
     
@@ -31,6 +32,12 @@ This `docs` directory houses internal documentation for the **Promethean Framewo
     - Various notes under `docs/research/` summarize APIs or algorithms (e.g. `github_projects_api.md`).
         
     - Utility scripts in `scripts/` (outside `docs`) may be referenced here; for example, `scripts/github_board_sync.py` syncs the Kanban board with a GitHub Projects column.
+
+
+    - Utility scripts in `scripts/` (outside `docs`) may be referenced here; for example, `scripts/github_board_sync.py` syncs the Kanban board with a GitHub Projects column[api.github.com](https://api.github.com/repos/riatzukiza/promethean/pulls/41/files).
+    - Duck agent helper scripts are documented under [agents/duck/scripts](agents/duck/scripts/).
+
+    - The raw WAV dataset for STT lives in [../data/raw-wav/](../data/raw-wav/). Run [scripts/batch_transcribe.py](../scripts/batch_transcribe.py) to generate transcripts stored in [../data/transcripts/](../data/transcripts/).
         
 
 ## Writing and navigating docs

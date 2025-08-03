@@ -44,13 +44,19 @@ class PostProcessor:
         """Strip special tokens such as BOS/EOS."""
         return [t for t in tokens if t not in self.tokenizer.all_special_ids]
 
-    def _trim_overlap(self, prior_tokens: List[int], current_tokens: List[int]) -> List[int]:
+    def _trim_overlap(
+        self, prior_tokens: List[int], current_tokens: List[int]
+    ) -> List[int]:
         """Trim redundant text at the start of the current chunk.
 
         Compares the end of ``prior_tokens`` with the start of
         ``current_tokens`` on the string level and removes the overlap.
         """
-        prior_text = self.tokenizer.decode(prior_tokens[-self.overlap_window :]) if prior_tokens else ""
+        prior_text = (
+            self.tokenizer.decode(prior_tokens[-self.overlap_window :])
+            if prior_tokens
+            else ""
+        )
         current_text = self.tokenizer.decode(current_tokens)
         prev_words = prior_text.strip().split()
         curr_words = current_text.strip().split()
@@ -67,12 +73,13 @@ class PostProcessor:
     def _dedupe_ngrams(self, tokens: List[int]) -> List[int]:
         """Remove repeated n‑grams from the token sequence."""
         from collections import defaultdict
+
         seen: Dict[int, set] = defaultdict(set)
         output: List[int] = []
         i = 0
         while i < len(tokens):
             found_repeat = False
-            for n in range(self.max_ngram, 1, ‑1):
+            for n in range(self.max_ngram, 1, -1):
                 if i + n > len(tokens):
                     continue
                 ngram = tuple(tokens[i : i + n])
@@ -87,7 +94,9 @@ class PostProcessor:
                 i += 1
         return output
 
-    def clean_tokens(self, tokens: List[int], prior_tokens: Optional[List[int]] = None) -> List[int]:
+    def clean_tokens(
+        self, tokens: List[int], prior_tokens: Optional[List[int]] = None
+    ) -> List[int]:
         """Clean up a list of token IDs.
 
         This method removes special tokens, trims overlapping text with

@@ -25,3 +25,21 @@ allowDelete: true
 https://chatgpt.com/codex/tasks/taske688ef50cf230832480ffcae4e7d763a5
 
 
+
+
+---
+### New status: "open"
+
+# chore: format tests and update plugins
+## Summary
+- run black and prettier on various tests
+- update community plugins config for Obsidian vault
+
+## Testing
+- pre-commit run --files tests/scripts/testkanbantohashtags.py tests/scripts/testhashtagstokanban.py tests/portfolio.test.js vault-config/.obsidian/community-plugins.json
+- pytest tests/scripts/testhashtagstokanban.py tests/scripts/testkanbantohashtags.py
+- npx ava tests/portfolio.test.js
+
+
+- - -- - -
+https://chatgpt.com/codex/tasks/taske688ef50cf230832480ffcae4e7d763a5

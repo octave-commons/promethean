@@ -24,3 +24,20 @@ allowDelete: true
 https://chatgpt.com/codex/tasks/taske688eeff2e3d0832490525f22c1f8cf1a
 
 
+
+
+---
+### New status: "open"
+
+# docs: title unique notes
+## Summary
+- add descriptive headings to unique documentation notes for clarity
+
+## Testing
+- make format (fails: Cannot parse services/py/stt/whispernpu/audio.py)
+- make lint (fails: flake8 not installed)
+- make test (fails: No module named pipenv)
+- make build (fails: No rule to make target 'build-python')
+
+- - -- - -
+https://chatgpt.com/codex/tasks/taske688eeff2e3d0832490525f22c1f8cf1a

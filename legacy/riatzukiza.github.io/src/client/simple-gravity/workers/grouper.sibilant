@@ -1,0 +1,122 @@
+(meta "import '/bundles/external.js'")
+
+(import Vector-2D-phase-space "../typed-arrays/vector-2d.js")
+(import Double-buffered-array "../typed-arrays/double-buffered.js")
+
+(import Data-type "../data-types/data-type.js")
+
+(import Vector "/shared/vectors.js")
+(import Spawnable "/shared/data-structures/spawnable.js")
+
+(require! Quad-tree  "@timohausmann/quadtree-js")
+
+
+(import config "../config.js")
+
+(define Particle-group Spawnable
+  (init ((members (or this.members []))))
+  (cached center
+          (var center (.spawn Vector 0 0))
+          (for-of! member this.members
+
+                   (const a (.mult member.pos member.mass))
+                   (.add-to center a)
+                   (.despawn a))
+          (.div-to center this.mass)
+
+          (return center )
+          )
+  (cached mass (var mass 0)
+          (for-of! member this.members
+                   (incr-by mass member.mass))
+          mass)
+  (def clear ()
+    (clear-cache  this center)
+    (clear-cache this mass)
+    (assign this.members.length 0)))
+
+(define Particle Spawnable
+  (init (pos-source
+         mass
+         scale
+         (height scale)
+         (width scale)
+
+         (pos (.spawn Vector pos-source.x pos-source.y))))
+  (gett x this.pos-source.x)
+  (gett y this.pos-source.y)
+  (def clear ()
+    (assign this.pos-source null)
+    (.despawn this.pos)
+    (.despawn this.vel)
+    (assign this.pos null)
+    (assign this.vel null)
+    (assign this.width null)
+    (assign this.height null)
+    )
+
+  (gett id this.pos-source.id)
+
+  )
+
+(def self.onmessage (e)
+
+  (const [[pb1 pb2] [mb1 mb2] ] e.data.buffers)
+  (const group-buffers e.data.group-buffers)
+  (const groups (map group-buffers ([gb1 gb2])
+                     (.from-buffers Vector-2D-phase-space gb1 gb2)))
+
+  (const (lit (bounds [min-x min-y max-x max-y])) e.data.args)
+
+  (const positions (.from-buffers Vector-2D-phase-space pb1 pb2))
+  (const phys (.from-buffers Physical-properties mb1 mb2))
+
+  (const particles [])
+  (const quads-config (lit (x min-x) (y min-y)
+                           (height (- max-y min-y))
+                           (width (- max-x min-x ))))
+
+  (const quads (new Quad-tree quads-config
+                    max-objects
+                    max-levels
+                    ))
+  (for-of! pos positions.data
+           (const object (get phys.data pos.id ))
+           (const particle (.spawn Particle pos object.mass object.scale) )
+           (.push particles particle)
+           (.insert quads particle))
+  (const visited (new Set))
+  (const groups [])
+
+  (var current-group (.spawn Particle-group))
+
+  (for-of! pos positions.data
+
+           (if! (.has visited pos.id) continue)
+           (const object (get phys.data pos.id))
+           (const p (.spawn Vector pos.x pos.y))
+
+           (const elements (sort (.retrieve quads (lit (x pos.x) (y pos.y)
+                                                       (height object.scale)
+                                                       (width object.scale)))
+                                 (a b)
+                                 (const d1 (Math.abs (.distance-to p a.pos)))
+                                 (const d2 (Math.abs (.distance-to p b.pos)))
+                                 (if (> d1 d2) 1 -1)))
+           (.despawn p)
+
+           (for-of! neighbor elements
+
+                    (if! (>  current-group.members.length config.group-size)
+                         (.push groups current-group)
+                         (assign current-group (.spawn Particle-group)))
+
+                    (if! (.has visited neighbor.id) continue)
+
+                    (.add visited neighbor.id)
+                    (.push current-group.members neighbor)
+                    (assign neighbor.group current-group)))
+  (for-of! group groups
+
+           )
+  )

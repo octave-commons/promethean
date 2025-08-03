@@ -1,0 +1,61 @@
+(import Tile-grid "/client/crash-landed/world-gen/tile-grid.js")
+(import field "/client/crash-landed/world-gen/modules.js")
+
+(print "world generator started")
+
+(const tile-grid (.spawn Tile-grid))
+
+
+(var pos (lit (x 0) (y 0)))
+
+(def send-message (type data)
+  (.post-message
+   self
+   (lit type (spread data))))
+
+(on tile-grid.events 'tile (data)
+    (send-message 'collapsed-tile
+                   (lit (tile (.collapse-cell tile-grid data))) ))
+
+(on tile-grid.events 'tiles (data)
+    (send-message 'collapsed-tiles
+                   (lit (tiles (.collapse-cells tile-grid data)))))
+
+(on tile-grid.events 'player-tile-pos (data)
+    (send-message 'player-pos-update
+                  (lit (success true))))
+(on tile-grid.events 'save (save-name)
+    (.save tile-grid save-name))
+(on tile-grid.events 'load (save-name)
+    (.load tile-grid save-name)
+    )
+
+(on tile-grid.events 'get-loaded-tiles (data)
+    (.update-player-pos tile-grid data)
+    (then tile-grid.ready-tiles tiles
+          (print "ready tile" tiles)
+          (send-message 'loaded-tiles
+                        (lit tiles))))
+
+(on tile-grid.events 'chunks-near (data)
+    (send-message 'collapsed-tiles
+                  (lit (tiles (.collapse-nearest-chunks
+                               tile-grid
+                               data.x
+                               data.y
+                               data.n)))))
+(on tile-grid.events '*step ()
+    (pipe (.step tile-grid)
+          (.then (-> (.emit tile-grid.events '*step)))))
+
+(once tile-grid.events 'get-starting-tiles (data)
+      (print "generating tiles" data)
+      (send-message 'initial-tiles
+                    (lit (tiles (.collapse-nearest-chunks
+                                 tile-grid
+                                 data.x
+                                 data.y
+                                 data.n))))
+      (.update-player-pos tile-grid data)
+      (.emit tile-grid.events '*step))
+(export tile-grid)

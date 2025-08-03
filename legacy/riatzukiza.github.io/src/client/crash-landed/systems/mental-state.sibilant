@@ -1,0 +1,133 @@
+(import System Component "/shared/ecs.js")
+(import List "/shared/data-structures/list.js")
+(import Vector "/shared/vectors.js")
+(import config "../config.js")
+
+(import Red-black-tree "/shared/data-structures/trees/red-black-tree.js")
+(import simplex3 "/shared/noise.js")
+
+(def-generic get-move-noise (x y t (force 16) (v (.spawn Vector 1 1)))
+  (.set-angle v
+              (* (simplex3 (/ x config.angle-zoom 5)
+                                 (/ y config.angle-zoom 5)
+                                 (* t (/ config.noise-z 10000)))
+                 Math.PI 2))
+  (const length (simplex3 (+ (/ x 50)
+                                   40000)
+                                (+ (/ x 50)
+                                   40000)
+                                (* t (/ config.noise-z 10000))))
+  (.set-length v (* length force))
+  v)
+(define Mind-state Component
+  (gett needs this.entity.needs)
+  (gett hunger this.needs.hunger-efficiency-modifier)
+  (gett is-hungry? this.needs.is-hungry?)
+  (gett is-tired? this.needs.is-tired?)
+
+  (gett tiredness this.needs.sleep-efficiency-modifier)
+  (gett threat 0) ;; no enemies implemented yet.
+  (gett tile (.get-closest-from-world-pos this.entity.current-path.system.tiles
+                                  this.pos.x
+                                  this.pos.y))
+  (gett pos this.entity.position-interface)
+  (gett explorative (/ 1
+                       (+ this.hunger this.tiredness) ;; desire to explore is inversly proportionate the sum of needs.
+                       ))
+  (sett target t
+        (assign this.entity.current-path.start this.tile)
+        (assign this.entity.current-path.end t))
+  (gett target this.entity.current-path.end)
+  (gett visible-tiles this.entity.field-of-view.visible-tiles)
+  (food (new Set))
+  (known-food-items (.spawn Red-black-tree)))
+(export Mind-state)
+
+(define Mental-state System
+  (Component Mind-state)
+  (def add-visible-food-to-tree (c)
+    (each c.visible-tiles (tile)
+          (if (and tile.entity.container.objects.head
+                   (not (.has c.food tile.entity.container.objects.head.item.item-interface))
+                   (= tile.entity.container.objects.head.item.item-interface.type "food"))
+              (do (.add c.food tile.entity.container.objects.head.item.item-interface)
+                  (.set c.known-food-items (+ "" tile.world-pos.x tile.world-pos.y)
+                        tile
+                        ;; currently the only containers are tiles, and tiles can have at most 1 object.
+                        )))))
+  (def wakeup-starving (c)
+    (do (assign c.needs.is-resting? false)
+        (print "i'm starving, I have to wake up." c))
+    )
+  (def handle-tired (c)
+    (assign c.needs.is-resting? true)
+    (.set-length c.entity.velocity-interface.vector 0)
+    (assign c.target null)
+    (print "I'm tired, it's time to rest" c))
+  (def handle-food-in-same-tile (c)
+    (do (print "I'm hungry, and there's food right here" c)
+        (c.tile.entity.container.objects.head.item.item-interface.consume
+         c.entity)))
+  (def handle-known-food-location (c items key)
+    (print "I'm hungry and I know where food is")
+    (assign c.target items.values.head.item)
+    (.remove c.known-food-items key items.values.head.item))
+  (def handle-explore-for-food (c)
+    
+    (print "I'm hungry and I don't know where food is.")
+    (.explore-map this c))
+
+  (def search-for-food (c )
+    (const key (+ "" c.pos.x c.pos.y))
+    ;; adding the coordinates together should
+    ;; loosely correspond with the distance somthing is from that location
+    ;; this is a hack to make the high level behavior work.
+    ;; In the future, with more possible actions, and needs, and more ways to meat those needs, we will be using a meta heuristic vector system to quickly
+    ;; find paths that solve a given set of problems, score them,
+    ;; then weight them according to the agents current needs.
+
+    (const items (.search c.known-food-items key))
+    (if (and (not c.target) items.values.head)
+        (.handle-known-food-location this c items key)
+        (not c.target)
+        (.handle-explore-for-food this c)))
+  (def handle-hungry (c key)
+    (assign c.known-food-items c.known-food-items.root)
+    (if (c.tile.entity.container.has-type 'food)
+        (.handle-food-in-same-tile this c)
+        (not (c.tile.entity.container.has-type 'food))
+        (.search-for-food this c)))
+  (def explore-map (c)
+    (var new-x c.entity.position-interface.x
+         new-y c.entity.position-interface.y)
+
+    (const search-limit 10)
+    (var i 0)
+    (until (or c.entity.current-path.end (> i search-limit ))
+           (const noise-v (get-move-noise new-x new-y this.game.ticker.ticks (* 1.0 config.game-scale)))
+
+           (incr i)
+           (assign new-x (+ new-x (*  20 noise-v.x)))
+           (assign new-y (+ new-y (*  20 noise-v.y)))
+           (const tiles c.tile.graph)
+           (const possible-end (.get-closest-from-world-pos tiles new-x new-y))
+           (unless (or possible-end.entity.visible-status.explored?)
+             (assign c.entity.current-path.start
+                     (.get-closest-from-world-pos tiles c.entity.position-interface.x
+                                                  c.entity.position-interface.y))
+             (assign c.entity.current-path.end
+                     possible-end))
+
+           (.despawn noise-v)))
+  (def *update-component (c)
+    (.add-visible-food-to-tree this c)
+    (if (and c.is-tired? (not c.is-hungry?) (not c.needs.is-resting?))
+        (.handle-tired this c)
+        (and c.needs.is-resting? c.needs.is-starving?)
+        (.wakeup-starving this c)
+        (and c.is-hungry? (not c.is-resting?))
+        (.handle-hungry this c)
+        (not c.needs.is-resting?)
+        (.explore-map this c))))
+
+(export Mental-state)
