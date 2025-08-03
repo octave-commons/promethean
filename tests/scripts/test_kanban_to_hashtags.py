@@ -14,12 +14,14 @@ def test_parse_board(tmp_path):
     (tasks_dir / "a.md").write_text("content", encoding="utf-8")
     (tasks_dir / "b.md").write_text("content", encoding="utf-8")
     board.write_text(
-        "\n".join([
-            "## Todo",
-            "- [ ] [A](../tasks/a.md)",
-            "## In Progress",
-            "- [ ] [B](../tasks/b.md)",
-        ]),
+        "\n".join(
+            [
+                "## Todo",
+                "- [ ] [A](../tasks/a.md)",
+                "## In Progress",
+                "- [ ] [B](../tasks/b.md)",
+            ]
+        ),
         encoding="utf-8",
     )
     mapping = kh.parse_board(board)
@@ -32,7 +34,10 @@ def test_update_tasks(tmp_path):
     tasks_dir = tmp_path / "tasks"
     tasks_dir.mkdir()
     task = tasks_dir / "a.md"
-    task.write_text("initial", encoding="utf-8")
-    board.write_text("## Done\n- [ ] [A](tasks/a.md)", encoding="utf-8")
+    original = "First line with #todo inside\nSecond line\n#todo\n"
+    task.write_text(original, encoding="utf-8")
+    board.write_text("## Done\n- [ ] [A](tasks/a.md)\n", encoding="utf-8")
     kh.update_tasks(board)
-    assert task.read_text(encoding="utf-8").strip().splitlines()[-1] == "#done"
+    updated = task.read_text(encoding="utf-8")
+    assert updated.splitlines()[:-1] == original.splitlines()[:-1]
+    assert updated.splitlines()[-1] == "#done"
