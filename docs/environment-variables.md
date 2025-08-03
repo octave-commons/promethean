@@ -47,4 +47,5 @@ These variables appear in multiple locations:
 - PM2 ecosystem configuration sets common Python and Node environment values【F:ecosystem.config.js†L15-L18】【F:ecosystem.config.js†L53-L70】
 - Development scripts under `agents/duck/scripts/` export additional variables for local runs【F:agents/duck/scripts/discord_indexer_run.sh†L5-L8】
 
+
 Refer to this list when configuring new deployments or running tests locally.
