@@ -25,6 +25,22 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
       - name: Install dependencies
         run: make install
 
@@ -40,6 +56,12 @@ jobs:
 
       - name: Lint
         run: make lint
+
+      - name: Typecheck Python
+        run: make typecheck-python
+
+      - name: Typecheck TypeScript
+        run: make typecheck-ts
 
       # - name: Format
       #   run: make format

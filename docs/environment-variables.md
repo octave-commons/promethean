@@ -47,4 +47,5 @@ These variables appear in multiple locations:
 - `ecosystem.config.js` – sets common environment variables for PM2, including `PYTHONPATH`, `PYTHONUNBUFFERED`, `FLASK_APP` and `FLASK_ENV`.
 - `agents/duck/scripts/` – local run scripts that export variables like Discord tokens and Python options for development convenience.
 
+
 Refer to this list when configuring new deployments or running tests locally.
