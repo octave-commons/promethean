@@ -40,11 +40,11 @@ Most services rely on these variables for configuration. Defaults are taken from
 
 These variables appear in multiple locations:
 
-- Python settings module: `shared/py/settings.py`【F:shared/py/settings.py†L3-L29】
-- Vision service: `services/vision/index.js`【F:services/vision/index.js†L5-L32】
-- Cephalon agent: `services/cephalon/src/agent.ts`【F:services/cephalon/src/agent.ts†L19-L30】
-- GitHub utilities: `scripts/github_board_sync.py` and `scripts/kanban_to_issues.py`【F:scripts/github_board_sync.py†L7-L10】【F:scripts/kanban_to_issues.py†L5-L7】
-- PM2 ecosystem configuration sets common Python and Node environment values【F:ecosystem.config.js†L15-L18】【F:ecosystem.config.js†L53-L70】
-- Development scripts under `agents/duck/scripts/` export additional variables for local runs【F:agents/duck/scripts/discord_indexer_run.sh†L5-L8】
+- `shared/py/settings.py` – defines defaults for agent names, temperature settings, MongoDB credentials and Discord identifiers.
+- `services/js/vision/index.js` – reads vision-related options such as `VISION_HOST`, `VISION_STUB` and `PORT`.
+- `services/ts/cephalon/src/agent.ts` – uses values like `AGENT_NAME`, `VISION_HOST` and `NO_SCREENSHOT` to manage runtime behavior.
+- `scripts/github_board_sync.py` and `scripts/kanban_to_issues.py` – rely on `KANBAN_PATH`, `GITHUB_TOKEN`, `GITHUB_PROJECT_ID` and `GITHUB_REPO` to synchronize the Kanban board with GitHub.
+- `ecosystem.config.js` – sets common environment variables for PM2, including `PYTHONPATH`, `PYTHONUNBUFFERED`, `FLASK_APP` and `FLASK_ENV`.
+- `agents/duck/scripts/` – local run scripts that export variables like Discord tokens and Python options for development convenience.
 
 Refer to this list when configuring new deployments or running tests locally.

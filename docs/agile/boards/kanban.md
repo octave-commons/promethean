@@ -39,6 +39,10 @@ kanban-plugin: board
 - [ ] [Write board sync script](../tasks/Write%20board%20sync%20script.md) #framework-core
 - [ ] [Smart Task templater](../tasks/Smart%20Task%20templater.md)
 - [ ] [Obsidian Kanban Github Project Board Mirror system](../tasks/Obsidian%20Kanban%20Github%20Project%20Board%20Mirror%20system.md) #framework-core
+
+- [ ] [Remove ts-node and compile ava tests directly](remove-ts-node-compile-ava-tests-directly.md) #cicd
+- [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
+- [ ] [Write meaningful tests for Cephalon](../../../Write%20meaningful%20tests%20for%20Cephalon.md)
 - [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md)
 - [ ] [Mirror shared utils with language-specific doc folders](../tasks/Mirror%20shared%20utils%20with%20language-specific%20doc%20folders.md)
 - [ ] Add twitch chat integration
