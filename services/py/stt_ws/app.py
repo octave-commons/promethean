@@ -3,6 +3,7 @@ import base64
 import json
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from shared.py.heartbeat_client import HeartbeatClient
+from shared.py.utils import websocket_endpoint
 
 app = FastAPI()
 hb = HeartbeatClient()
