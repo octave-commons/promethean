@@ -2,22 +2,20 @@
 Scan Discord history for attachments and add their metadata to message documents.
 """
 
+import hy
 import os
 import sys
 import asyncio
 import random
 from typing import List
-
 import discord
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../"))
-
 from shared.py import settings
 from shared.py.mongodb import discord_message_collection, discord_channel_collection
 
 AGENT_NAME = os.environ.get("AGENT_NAME", "duck")
 print(f"Discord attachment indexer running for {AGENT_NAME}")
-
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 intents.message_content = True
@@ -37,24 +35,29 @@ def index_attachments(message: discord.Message) -> None:
     attachments = [format_attachment(a) for a in message.attachments]
     if not attachments:
         return
+        _hy_anon_var_1 = None
+    else:
+        _hy_anon_var_1 = None
     print(
         f"Indexing attachments for message {message.id}: {[a['filename'] for a in attachments]}"
     )
-    discord_message_collection.update_one(
+    return discord_message_collection.update_one(
         {"id": message.id}, {"$set": {"attachments": attachments}}
     )
 
 
 def setup_channel(channel_id) -> None:
     print(f"Setting up channel {channel_id}")
-    discord_channel_collection.insert_one({"id": channel_id, "attachment_cursor": None})
+    return discord_channel_collection.insert_one(
+        {"id": channel_id, "attachment_cursor": None}
+    )
 
 
 def update_attachment_cursor(message: discord.Message) -> None:
     print(
         f"Updating attachment cursor for channel {message.channel.id} to {message.id}"
     )
-    discord_channel_collection.update_one(
+    return discord_channel_collection.update_one(
         {"id": message.channel.id}, {"$set": {"attachment_cursor": message.id}}
     )
 
@@ -65,11 +68,17 @@ def find_channel_record(channel_id):
     if record is None:
         setup_channel(channel_id)
         record = discord_channel_collection.find_one({"id": channel_id})
+        _hy_anon_var_2 = None
+    else:
+        _hy_anon_var_2 = None
     if "attachment_cursor" not in record:
         discord_channel_collection.update_one(
             {"id": channel_id}, {"$set": {"attachment_cursor": None}}
         )
         record["attachment_cursor"] = None
+        _hy_anon_var_3 = None
+    else:
+        _hy_anon_var_3 = None
     print(f"Channel record: {record}")
     return record
 
@@ -78,6 +87,9 @@ async def next_messages(channel: discord.TextChannel) -> List[discord.Message]:
     channel_record = find_channel_record(channel.id)
     if not channel_record.get("is_valid", True):
         return []
+        _hy_anon_var_4 = None
+    else:
+        _hy_anon_var_4 = None
     cursor = channel_record.get("attachment_cursor")
     try:
         if cursor is None:
@@ -85,6 +97,7 @@ async def next_messages(channel: discord.TextChannel) -> List[discord.Message]:
                 message
                 async for message in channel.history(limit=200, oldest_first=True)
             ]
+            _hy_anon_var_5 = None
         else:
             return [
                 message
@@ -94,6 +107,8 @@ async def next_messages(channel: discord.TextChannel) -> List[discord.Message]:
                     after=channel.get_partial_message(cursor),
                 )
             ]
+            _hy_anon_var_5 = None
+        _hy_anon_var_6 = _hy_anon_var_5
     except Exception as e:
         print(f"Error getting history for {channel_record['id']}")
         print(e)
@@ -101,6 +116,8 @@ async def next_messages(channel: discord.TextChannel) -> List[discord.Message]:
             {"id": channel_record["id"]}, {"$set": {"is_valid": False}}
         )
         return []
+        _hy_anon_var_6 = None
+    return _hy_anon_var_6
 
 
 async def index_channel(channel: discord.TextChannel) -> None:
@@ -109,8 +126,9 @@ async def index_channel(channel: discord.TextChannel) -> None:
         await asyncio.sleep(0.1)
         newest_message = message
         index_attachments(message)
-    if newest_message is not None:
-        update_attachment_cursor(newest_message)
+    return (
+        update_attachment_cursor(newest_message) if newest_message is not None else None
+    )
 
 
 def shuffle_array(array):
@@ -125,12 +143,14 @@ async def on_ready():
             if isinstance(channel, discord.TextChannel):
                 random_sleep = random.randint(1, 10)
                 await asyncio.sleep(random_sleep)
-                await index_channel(channel)
+                _hy_anon_var_7 = await index_channel(channel)
+            else:
+                _hy_anon_var_7 = None
 
 
 @client.event
 async def on_message(message):
-    index_attachments(message)
+    return index_attachments(message)
 
 
 client.run(settings.DISCORD_TOKEN)
