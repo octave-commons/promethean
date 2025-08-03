@@ -1,5 +1,5 @@
 JS_BUILD_DIR=shared/js
-SERVICES_JS=services/js/vision
+SERVICES_JS=services/js/vision services/js/heartbeat
 
 lint-js:
 	       @$(call run_dirs,$(SERVICES_JS),npx eslint . --ext .js,.ts)
