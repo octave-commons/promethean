@@ -35,7 +35,8 @@ jobs:
         run: make build
 
       - name: Pre-commit
-        run: pre-commit run --files $(git ls-files | tr '\n' ' ')
+        run: |
+          git ls-files -z | xargs -0 pre-commit run --files
 
       - name: Lint
         run: make lint
