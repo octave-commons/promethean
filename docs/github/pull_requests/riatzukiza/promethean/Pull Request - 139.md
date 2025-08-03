@@ -25,3 +25,21 @@ allowDelete: true
 https://chatgpt.com/codex/tasks/taske688bebe5bd648324bda43a40be869012
 
 
+
+
+---
+### New status: "open"
+
+# Fix agent ecosystem config path
+## Summary
+- fix README instructions for starting agents with pm2
+
+## Testing
+- make install
+- make format
+- make lint *(fails: Invalid option '--ext' - using eslint.config.js)*
+- make build *(fails: build-ts error)*
+- make test
+
+- - -- - -
+https://chatgpt.com/codex/tasks/taske688bebe5bd648324bda43a40be869012

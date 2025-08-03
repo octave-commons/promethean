@@ -29,3 +29,25 @@ allowDelete: true
 https://chatgpt.com/codex/tasks/taske688f0741afa4832493faed19514f4cdc
 
 
+
+
+---
+### New status: "open"
+
+# feat: debounce file watcher self updates
+## Summary
+- debounce board and task watchers to ignore self-triggered changes
+- build TS tests and run them through ava
+- add regression tests for board/task change handling
+
+## Testing
+- make install *(fails: ENETUNREACH downloading onnxruntime-node)*
+- make test
+- make build *(fails: build-ts)*
+- make lint *(fails: flake8 not found)*
+- make format
+- npm test (services/ts/file-watcher)
+
+
+- - -- - -
+https://chatgpt.com/codex/tasks/taske688f0741afa4832493faed19514f4cdc
