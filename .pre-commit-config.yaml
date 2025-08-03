@@ -6,3 +6,9 @@ repos:
         entry: python scripts/convert_wikilinks.py
         language: system
         files: '\.md$'
+      - id: generate-hashtag-index
+        name: Generate hashtag index
+        entry: python scripts/generate_hashtags_doc.py
+        language: system
+        pass_filenames: false
+        files: '^docs/.*\.md$'
