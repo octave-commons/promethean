@@ -51,6 +51,16 @@ export class VoiceSession extends EventEmitter {
 		// this.transcript = new Transcript();
 		this.transcriber = new Transcriber();
 		this.recorder = new VoiceRecorder();
+		this.recorder.on('saved', async ({ filename }) => {
+			const channel = this.bot.waveformChannel;
+			if (channel) {
+				try {
+					await channel.send({ files: [filename] });
+				} catch (e) {
+					console.warn('Failed to upload waveform', e);
+				}
+			}
+		});
 		this.voiceSynth = new VoiceSynth();
 	}
 	get receiver() {

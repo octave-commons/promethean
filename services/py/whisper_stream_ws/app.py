@@ -1,6 +1,8 @@
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket
+
 from shared.py.speech.whisper_stream import WhisperStreamer
 from shared.py.heartbeat_client import HeartbeatClient
+from shared.py.utils import websocket_endpoint
 
 app = FastAPI()
 streamer = None
@@ -22,18 +24,12 @@ def shutdown_event():
 
 
 @app.websocket("/stream")
+@websocket_endpoint
 async def stream(ws: WebSocket):
-    await ws.accept()
-    try:
-        while True:
-            global streamer
-            if streamer is None:
-                streamer = WhisperStreamer()
-            data = await ws.receive_bytes()
-            text = next(streamer.transcribe_chunks([data]))
-            await ws.send_json({"transcription": text})
-    except WebSocketDisconnect:
-        pass
-    finally:
-        if not ws.client_state.name == "CLOSED":
-            await ws.close()
+    global streamer
+    while True:
+        if streamer is None:
+            streamer = WhisperStreamer()
+        data = await ws.receive_bytes()
+        text = next(streamer.transcribe_chunks([data]))
+        await ws.send_json({"transcription": text})
