@@ -1,0 +1,15 @@
+
+(import Data-type "./data-type.sibilant")
+
+
+(define Binary-tree-node Data-type
+  (occupied false)
+  (gett left  (get this.array.data (+ (* 2 this.id) 1)))
+  (gett right (get this.array.data (+ (* 2 this.id) 2)))
+  (gett parent (get this.data.array (Math.floor (/ (- this.id 1) 2))))
+
+  (def clear ()
+    (.call Data-type.clear this)
+    (assign this.occupied false)))
+
+(export Binary-tree-node)

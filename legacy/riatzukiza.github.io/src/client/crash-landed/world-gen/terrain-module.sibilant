@@ -1,0 +1,47 @@
+(import Interface "/shared/kit/interface/index.js" )
+
+(define Terrain-module Interface
+  (directions [['north-west 0]
+               ['north 1]
+               ['north-east 2]
+               ['west 3]
+               ['center 4]
+               ['east 5]
+               ['south-west 6]
+               ['south 7]
+               ['south-east 8]])
+  (modules [])
+  (gett chunks this.modules)
+
+  (weight 1)
+
+  (define indexes Interface
+    (north-west 0)
+    (north 1)
+    (north-east 2)
+    (west 3)
+    (center 4)
+    (east 5)
+    (south-west 6)
+    (south 7)
+    (south-east 8))
+
+  (init ((data []) (weight 1)) (.push this.chunks this))
+
+  (def create (weight (dots data)) ((create Terrain-module) data weight))
+  (def get (direction) (get this.data (get this.indexes direction)))
+
+  (def-generic each (f data directions)
+    (each directions (dir i)
+          (f (get data (second dir)) (first dir) i)))
+  (def-generic reduce (f  initial-value  data directions)
+    (reduce directions initial-value (acc dir i)
+            (f acc
+               (get data (second dir))
+               (first dir)
+               i))
+    )
+  (def-generic every (f data directions)
+    (every directions  (dir i)
+           (f (get data (second dir)) (first dir) i))))
+(export Terrain-module)

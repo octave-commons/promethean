@@ -1,0 +1,66 @@
+(import Velocity "/shared/systems/velocity.js")
+(import Position "/shared/systems/position.js")
+(import game "../game.js")
+(import plants ants rocks "../entities.js")
+(import Vector "/shared/vectors.js")
+(import config "../config.js")
+
+(on game.events 'static-object-collision (o1, o2)
+
+    (var v o1.entity.velocity-interface)
+    (var v* o2.entity.velocity-interface)
+
+    (const phys1 o1.physics)
+    (const phys2 o2.physics)
+
+    (const pos v.pos)
+    (const pos* v*.pos)
+
+    (const p1 (.spawn Vector pos.x pos.y))
+    (const p2 (.spawn Vector pos*.x pos*.y))
+
+    (const v1 (.spawn Vector v.xd v.yd))
+    (const dv1 (- phys1.volume phys1.prior-volume))
+    (const dm1 (- phys1.mass phys1.prior-mass))
+    (const gr1 (* dv1 dm1))
+    (.set-length v1 (+ (.get-length v1) gr1))
+
+    (const v2 (.spawn Vector v*.xd v*.yd))
+
+    (const dv2 (- phys2.volume phys2.prior-volume))
+    (const dm2 (- phys2.mass phys2.prior-mass))
+    (const gr2 (* dv2 dm2))
+
+    (.set-length v2 (+ (.get-length v2) gr2))
+
+    (const r (.distance-to v1 v2))
+    (const s (.get-length r))
+
+
+    (const d (.distance-to p1 p2))
+    (const dl (.get-length d))
+
+    (.set-length  d (/ (Math.max s 0.1 ) dl))
+
+    (if (> s 0) (.set-angle d (.get-angle r)))
+
+    (const a1 [(*   d.x  (/ phys2.density phys1.density) phys1.density)
+
+               (*   d.y (/ phys2.density phys1.density) phys1.density)])
+
+    (const a2 [(*   -1 d.x  (/ phys1.density phys2.density) phys2.density)
+
+               (*   -1 d.y (/ phys1.density phys2.density) phys2.density)])
+
+
+    (.accelerate v a1)
+    (.accelerate v* a2)
+
+    (.despawn p1)
+    (.despawn p2)
+
+    (.despawn v1)
+    (.despawn v2)
+
+    (.despawn d)
+    (.despawn r))

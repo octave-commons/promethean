@@ -9,23 +9,30 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
 
 # Load small model
-processor = WhisperProcessor.from_pretrained("openai/whisper-small")
-model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-small").to(device)
+processor = WhisperProcessor.from_pretrained("openai/whisper-tiny")
+model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-tiny").to(
+    device
+)
 
 
-def resample_waveform(waveform: torch.Tensor, orig_freq: int, new_freq: int) -> torch.Tensor:
+def resample_waveform(
+    waveform: torch.Tensor, orig_freq: int, new_freq: int
+) -> torch.Tensor:
     """
     Resamples a waveform tensor to a new frequency.
-    
+
     Args:
         waveform (torch.Tensor): Input waveform tensor of shape [channels, samples].
         orig_freq (int): Original sampling freq
         new_freq (int): Desired sampling frequency.
-        
+
     Returns:
         torch.Tensor: Resampled waveform tensor.
     """
-    return torchaudio.transforms.Resample(orig_freq=orig_freq, new_freq=new_freq)(waveform)
+    return torchaudio.transforms.Resample(orig_freq=orig_freq, new_freq=new_freq)(
+        waveform
+    )
+
 
 def convert_to_mono_np(audio: np.ndarray) -> np.ndarray:
     """
@@ -41,7 +48,10 @@ def convert_to_mono_np(audio: np.ndarray) -> np.ndarray:
         return audio.mean(axis=0)
     else:  # likely [samples, channels]
         return audio.mean(axis=1)
+
+
 import torch
+
 
 def convert_to_mono_tensor(waveform: torch.Tensor) -> torch.Tensor:
     """
@@ -57,9 +67,14 @@ def convert_to_mono_tensor(waveform: torch.Tensor) -> torch.Tensor:
         return waveform.mean(dim=0, keepdim=True)  # [1, T]
     else:  # assume [T, C]
         return waveform.mean(dim=1, keepdim=True).T  # transpose to [1, T]
+
+
 from typing import Union
 
-def convert_to_mono(audio: Union[np.ndarray, torch.Tensor]) -> Union[np.ndarray, torch.Tensor]:
+
+def convert_to_mono(
+    audio: Union[np.ndarray, torch.Tensor],
+) -> Union[np.ndarray, torch.Tensor]:
     if isinstance(audio, np.ndarray):
         return convert_to_mono_np(audio)
     elif isinstance(audio, torch.Tensor):
@@ -69,9 +84,7 @@ def convert_to_mono(audio: Union[np.ndarray, torch.Tensor]) -> Union[np.ndarray,
 
 
 def get_waveform_from_bytes(
-    pcm_data: bytearray,
-    sample_rate: int = 48000,
-    num_channels: int = 2
+    pcm_data: bytearray, sample_rate: int = 48000, num_channels: int = 2
 ) -> torch.Tensor:
     """
     Converts raw PCM bytes to mono waveform tensor at 16kHz.
@@ -84,7 +97,9 @@ def get_waveform_from_bytes(
 
     # Reshape and convert to float32
     audio_int16 = audio_int16.reshape(-1, num_channels).T  # [C, T]
-    waveform = torch.from_numpy(np.clip(audio_int16.astype(np.float32) / 32768.0, -1.0, 1.0))  # [C, T]
+    waveform = torch.from_numpy(
+        np.clip(audio_int16.astype(np.float32) / 32768.0, -1.0, 1.0)
+    )  # [C, T]
     mono_waveform = convert_to_mono_tensor(waveform)
     # Resample to 16kHz
     resampled = resample_waveform(mono_waveform, orig_freq=sample_rate, new_freq=16000)
@@ -92,41 +107,35 @@ def get_waveform_from_bytes(
 
 
 def get_np_from_bytes(
-        pcm_data: bytearray,
-        sample_rate: int = 48000,
-        num_channels: int = 2
+    pcm_data: bytearray, sample_rate: int = 48000, num_channels: int = 2
 ) -> np.ndarray:
     """
     Converts raw PCM audio data to a 1D tensor.
     """
     return get_waveform_from_bytes(
-        pcm_data,
-        sample_rate=sample_rate,
-        num_channels=num_channels
+        pcm_data, sample_rate=sample_rate, num_channels=num_channels
     ).numpy()
 
 
 def transcribe_pcm(
-        pcm_data: bytearray,
-        sample_rate: int = 48000,
-        num_channels: int = 2,
-        # chunk_size: int = max_wave_len
+    pcm_data: bytearray,
+    sample_rate: int = 48000,
+    num_channels: int = 2,
+    # chunk_size: int = max_wave_len
 ):
     """
     Transcribes raw 16-bit PCM audio data (mono or stereo).
     """
     return transcribe(
-        waveform = get_waveform_from_bytes(
-            pcm_data,
-            sample_rate=sample_rate,
-            num_channels=num_channels
+        waveform=get_waveform_from_bytes(
+            pcm_data, sample_rate=sample_rate, num_channels=num_channels
         ),
         sample_rate=sample_rate,
         # chunk_size=chunk_size
     )
 
-def transcribe(waveform,sample_rate):
 
+def transcribe(waveform, sample_rate):
 
     # Process inputs
     start = time.perf_counter()
@@ -135,7 +144,7 @@ def transcribe(waveform,sample_rate):
     inputs = processor(
         waveform.squeeze().float().cpu().numpy(),  # force float32, detach from graph
         sampling_rate=16000,
-        return_tensors="pt"
+        return_tensors="pt",
     ).to(device)
 
     # Generate transcription
@@ -145,4 +154,6 @@ def transcribe(waveform,sample_rate):
     # Decode and time
     print("Done in", time.perf_counter() - start, "seconds")
     return processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
+
+
 import numpy as np

@@ -1,0 +1,12 @@
+(define Double-buffer Interface
+  (gett data this.current-state)
+  (init ((length 0)
+         (current-state (new Shared-array-buffer length))
+         (next-state (new Shared-array-buffer length))))
+  (def step ()
+    (const state this.current-state)
+    (const next-state this.next-state)
+
+    (assign this.next-state state)
+    (assign this.current-state next-state)
+    this))

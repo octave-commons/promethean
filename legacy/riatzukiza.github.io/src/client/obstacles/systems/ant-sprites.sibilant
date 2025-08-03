@@ -1,0 +1,12 @@
+
+(import Sprites Sprite "/shared/systems/rendering/gl-sprites.js")
+(const ant-image (.get-element-by-id document "ant-texture"))
+
+(define Ant-sprite Sprite)
+
+(define Ant-sprites Sprites
+  (id 1)
+  (interface Ant-sprite)
+  (img ant-image))
+
+(export Ant-sprites)

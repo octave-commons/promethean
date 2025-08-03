@@ -1,0 +1,58 @@
+
+(import Trail-dots "/client/obstacles/systems/ants/trail-dots.js")
+(import Decaying-trails "/client/obstacles/systems/ants/trail-segments.js")
+(import Position "/client/obstacles/systems/position.js")
+(import Velocity "/client/obstacles/systems/velocity.js")
+(import Physics "/shared/systems/physics.js")
+(import Component System Entity-group "/shared/ecs.js")
+(import rgba "/client/obstacles/colors.js")
+(import Collision place-entity "/shared/systems/collision.js")
+(import game active-game-systems "/client/obstacles/game.js")
+(import Trails-panel "/client/obstacles/systems/ants/trail-panel.js")
+(import config "/client/obstacles/config.js")
+
+(import Friction  "/client/obstacles/forces.js")
+
+
+(const systems [Position Trail-dots  Decaying-trails Trails-panel])
+(const trail-segments ((create Entity-group)
+             "Trail segments"
+             systems
+             game.ent))
+(def get-trail-segments () trail-segments)
+
+(def spawn-ant-trail-segment (ant )
+  (doc-string "obstacles.entities.trail-segment.spawn-trail-segment"
+              "ant: An entity from the obstacles.entities.ant entity group"
+              "Spawns a new trail vector entity from the ants current location and velocity.")
+  (const trail-segment (.spawn trail-segments))
+  (assign trail-segment.ant ant)
+
+  (const tpos trail-segment.position-interface)
+  (const apos ant.position-interface)
+
+  (const avel ant.velocity-interface)
+
+  (set trail-segment.trail-dot.vertex.point
+       'x (assign tpos.x apos.x)
+       'y (assign tpos.y apos.y)
+       'z apos.z)
+
+  (assign trail-segment.trail-segment.x avel.xd)
+  (assign trail-segment.trail-segment.y avel.yd)
+
+  (assign trail-segment.trail-segment.pheremones
+          (get Signal-field.layer
+               (or (Math.min (Math.max (Math.round (/ apos.x config.size)) 0)
+                             (- config.columns 1))
+                   ;; I think this can be 0
+                   1)
+               (or (Math.min (Math.max (Math.round (/ apos.y config.size)) 0)
+                             (- config.rows 1))
+                   ;; I think this can be 0
+                   1)))
+  trail-segment)
+
+(export spawn-ant-trail-segment)
+
+
