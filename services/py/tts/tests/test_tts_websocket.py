@@ -6,9 +6,9 @@ sys.path.insert(0, ROOT_DIR)
 
 import numpy as np
 from fastapi.testclient import TestClient
-from services.py.tts.ws import app
 from unittest.mock import patch
 import types
+import importlib
 
 
 def test_websocket_tts_returns_wav_bytes():
@@ -16,18 +16,31 @@ def test_websocket_tts_returns_wav_bytes():
     dummy_module = types.SimpleNamespace(generate_voice=lambda text: dummy_audio)
     dummy_package = types.ModuleType("speech")
     dummy_package.tts = dummy_module
-    with patch.dict(
-        sys.modules,
-        {
-            "speech": dummy_package,
-            "speech.tts": dummy_module,
-            "shared.py.speech": dummy_package,
-            "shared.py.speech.tts": dummy_module,
-        },
-    ):
-        client = TestClient(app)
-        with client.websocket_connect("/ws/tts") as websocket:
-            websocket.send_text("hello")
-            data = websocket.receive_bytes()
-            assert data.startswith(b"RIFF")
-            assert len(data) > 44  # standard WAV header size
+
+    class DummyHB:
+        def send_once(self):
+            pass
+
+        def start(self):
+            pass
+
+        def stop(self):
+            pass
+
+    with patch("shared.py.heartbeat_client.HeartbeatClient", lambda *a, **k: DummyHB()):
+        with patch.dict(
+            sys.modules,
+            {
+                "speech": dummy_package,
+                "speech.tts": dummy_module,
+                "shared.py.speech": dummy_package,
+                "shared.py.speech.tts": dummy_module,
+            },
+        ):
+            app_module = importlib.import_module("services.py.tts.ws")
+            client = TestClient(app_module.app)
+            with client.websocket_connect("/ws/tts") as websocket:
+                websocket.send_text("hello")
+                data = websocket.receive_bytes()
+                assert data.startswith(b"RIFF")
+                assert len(data) > 44  # standard WAV header size
