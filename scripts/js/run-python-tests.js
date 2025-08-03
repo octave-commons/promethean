@@ -1,4 +1,4 @@
-// scripts/run-python-tests.js
+// scripts/js/run-python-tests.js
 
 const services = [
   "services/py/stt",

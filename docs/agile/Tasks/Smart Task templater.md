@@ -48,10 +48,10 @@ This reduces manual copying when adding cards to the kanban board.
 <<<<<<< HEAD
 
 - [ ] Write Templater script `templates/new-task.js`
-- [ ] Or create equivalent Python script `scripts/new_task.py`
+  - [ ] Or create equivalent Python script `scripts/py/new_task.py`
 - [ ] Update board manager doc with instructions to run the templater
 =======
-- [ ] Write script `scripts/new_task.py` implementing the template logic.
+  - [ ] Write script `scripts/py/new_task.py` implementing the template logic.
 - [ ] Update `Makefile` with a convenience target `make new-task`.
 - [ ] Document the workflow in `docs/board_sync.md`.
 >>>>>>> main

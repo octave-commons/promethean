@@ -157,7 +157,7 @@ Without a token the script performs a dry run and prints the issues that would b
 
 ## Pre-commit Setup
 
-Documentation uses `[wikilinks](wikilinks.md)` inside the vault but they must be converted to standard markdown links before committing. A helper script `scripts/convert_wikilinks.py` runs automatically via [pre-commit](https://pre-commit.com/).
+Documentation uses `[wikilinks](wikilinks.md)` inside the vault but they must be converted to standard markdown links before committing. A helper script `scripts/py/convert_wikilinks.py` runs automatically via [pre-commit](https://pre-commit.com/).
 
 Install the hook with:
 

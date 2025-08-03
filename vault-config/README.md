@@ -40,7 +40,7 @@ cleaner.
 
 ## Automated Wikilink Conversion
 
-A small script `scripts/convert_wikilinks.py` converts `[[wikilinks]]` to standard markdown links. The repository provides a `.pre-commit-config.yaml` that runs this script automatically before each commit.
+A small script `scripts/py/convert_wikilinks.py` converts `[[wikilinks]]` to standard markdown links. The repository provides a `.pre-commit-config.yaml` that runs this script automatically before each commit.
 
 Install the `pre-commit` tool and enable the hook:
 

@@ -72,16 +72,16 @@ stop-%:
 	pm2 stop $* || true
 
 board-sync:
-	python scripts/github_board_sync.py
+	python scripts/py/github_board_sync.py
 
 kanban-from-tasks:
-	python scripts/hashtags_to_kanban.py > docs/agile/boards/kanban.md
+	python scripts/py/hashtags_to_kanban.py > docs/agile/boards/kanban.md
 
 kanban-to-hashtags:
-	python scripts/kanban_to_hashtags.py
+	python scripts/py/kanban_to_hashtags.py
 
 kanban-to-issues:
-	python scripts/kanban_to_issues.py
+	python scripts/py/kanban_to_issues.py
 
 simulate-ci:
-	python scripts/simulate_ci.py
+	python scripts/py/simulate_ci.py

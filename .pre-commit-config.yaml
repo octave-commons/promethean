@@ -3,6 +3,6 @@ repos:
     hooks:
       - id: wikilink-to-md
         name: Convert wikilinks
-        entry: python scripts/convert_wikilinks.py
+        entry: python scripts/py/convert_wikilinks.py
         language: system
         files: '\.md$'

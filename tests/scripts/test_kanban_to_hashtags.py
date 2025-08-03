@@ -4,6 +4,7 @@ from pathlib import Path
 MODULE_PATH = (
     Path(__file__).resolve().parent.parent.parent
     / "scripts"
+    / "py"
     / "kanban_to_hashtags.py"
 )
 spec = importlib.util.spec_from_file_location(

@@ -1,9 +1,11 @@
 import importlib.util
+import sys
 from pathlib import Path
 
-MODULE_PATH = Path(__file__).resolve().parents[2] / "scripts" / "simulate_ci.py"
+MODULE_PATH = Path(__file__).resolve().parents[2] / "scripts" / "py" / "simulate_ci.py"
 spec = importlib.util.spec_from_file_location("simulate_ci", MODULE_PATH)
 sc = importlib.util.module_from_spec(spec)
+sys.modules["simulate_ci"] = sc
 spec.loader.exec_module(sc)
 
 

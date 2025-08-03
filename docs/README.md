@@ -31,7 +31,7 @@ This `docs` directory houses internal documentation for the **Promethean Framewo
     
     - Various notes under `docs/research/` summarize APIs or algorithms (e.g. `github_projects_api.md`).
         
-    - Utility scripts in `scripts/` (outside `docs`) may be referenced here; for example, `scripts/github_board_sync.py` syncs the Kanban board with a GitHub Projects column[api.github.com](https://api.github.com/repos/riatzukiza/promethean/pulls/41/files).
+    - Utility scripts in `scripts/` (outside `docs`) may be referenced here; for example, `scripts/py/github_board_sync.py` syncs the Kanban board with a GitHub Projects column[api.github.com](https://api.github.com/repos/riatzukiza/promethean/pulls/41/files).
         
 
 ## Writing and navigating docs
