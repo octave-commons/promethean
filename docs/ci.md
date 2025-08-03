@@ -21,3 +21,22 @@ step.
 Both `make test` and `make simulate-ci` should succeed before sending a pull
 request.
 
+## Dependency caching
+
+The CI workflows cache package downloads to speed up installs:
+
+- `~/.cache/pip` for Python packages, keyed by the hash of `Pipfile.lock`
+- `~/.npm` for npm packages, keyed by the hash of `package-lock.json`
+
+If a job reports a cache miss:
+
+1. Ensure the lockfiles are checked into the repository and match the
+   environment you expect.
+2. Modifying either lockfile invalidates the cache. Rerun the job to populate a
+   new cache with the updated dependencies.
+3. Delete the cache manually from the GitHub Actions interface if a cache
+   becomes corrupt.
+
+These caches are scoped by operating system so they won't cross-contaminate
+between Windows, macOS, and Linux runners.
+
