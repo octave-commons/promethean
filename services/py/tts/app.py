@@ -25,8 +25,9 @@ def synthesize(text: str) -> np.ndarray:
     """Generate a waveform for the provided text."""
     input_ids = tokenizer(text, return_tensors="pt").input_ids.to(device)
     with torch.no_grad():
-        waveform = model(input_ids, return_dict=True).waveform
-    return waveform.squeeze().cpu().numpy()
+        output = model(input_ids, return_dict=True)
+        return output.waveform.squeeze().cpu().numpy()
+
 
 
 @app.post("/synth_voice_pcm")
