@@ -46,6 +46,8 @@ shared/py/.coverage
 
 .infio_json_db/
 
+patch.sh
+
 frames/
 
 output.mp4
