@@ -7,18 +7,20 @@
 (setv SERVICES_JS ["services/js/vision"])
 (setv SERVICES_TS ["services/ts/cephalon" "services/ts/discord-embedder" "services/ts/llm" "services/ts/voice" "services/ts/file-watcher"])
 
-(defn sh [cmd &optional [cwd None] [shell False]]
+(defn sh [cmd [cwd None] [shell False]]
   (if shell
-      (do (print (format "Running in {}: {}" (or cwd ".") cmd))
+      (do (print (.format "Running in {}: {}" (or cwd ".") cmd))
           (subprocess.run cmd :cwd cwd :check True :shell True))
-      (do (print (format "Running in {}: {}" (or cwd ".") (.join " " cmd)))
+      (do (print (.format "Running in {}: {}" (or cwd ".") (.join " " cmd)))
           (subprocess.run cmd :cwd cwd :check True))))
 
-(defn run-dirs [dirs cmd &optional [shell False]]
+(defn run-dirs [dirs cmd [shell False]]
   (for [d dirs]
     (if (isdir d)
       (sh cmd :cwd d :shell shell)
-      (print (format "Skipping {} (not found)" d)))))
+      (print (.format "Skipping {} (not found)" d)))))
+
+
 
 ;; Python helpers --------------------------------------------------------------
 (defn setup-pipenv []
@@ -70,11 +72,11 @@
   (print "Cleaning Python artifacts..."))
 
 (defn setup-python-service [service]
-  (print (format "Setting up Python service: {}" service))
+  (print (.format "Setting up Python service: {}" service))
   (sh "PIPENV_NOSPIN=1 python -m pipenv sync --dev" :cwd (join "services/py" service) :shell True))
 
 (defn test-python-service [service]
-  (print (format "Running tests for Python service: {}" service))
+  (print (.format "Running tests for Python service: {}" service))
   (sh "PIPENV_NOSPIN=1 python -m pipenv run pytest tests/" :cwd (join "services/py" service) :shell True))
 
 (defn test-python-services []
@@ -88,7 +90,7 @@
   (test-shared-python))
 
 (defn coverage-python-service [service]
-  (print (format "Running coverage for Python service: {}" service))
+  (print (.format "Running coverage for Python service: {}" service))
   (sh "PIPENV_NOSPIN=1 python -m pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term" :cwd (join "services/py" service) :shell True))
 
 (defn coverage-python-services []
@@ -102,7 +104,7 @@
   (coverage-shared-python))
 
 (defn lint-python-service [service]
-  (print (format "Linting Python service: {}" service))
+  (print (.format "Linting Python service: {}" service))
   (sh ["flake8" (join "services" "py" service)]))
 
 (defn lint-python []
@@ -116,7 +118,7 @@
 
 ;; JavaScript helpers ---------------------------------------------------------
 (defn lint-js-service [service]
-  (print (format "Linting JS service: {}" service))
+  (print (.format "Linting JS service: {}" service))
   (sh "npx eslint . --ext .js,.ts" :cwd (join "services/js" service) :shell True))
 
 (defn lint-js []
@@ -126,7 +128,7 @@
   (run-dirs SERVICES_JS "npx prettier --write ." :shell True))
 
 (defn setup-js-service [service]
-  (print (format "Setting up JS service: {}" service))
+  (print (.format "Setting up JS service: {}" service))
   (sh "npm install --no-package-lock" :cwd (join "services/js" service) :shell True))
 
 (defn setup-js []
@@ -134,7 +136,7 @@
   (run-dirs SERVICES_JS "npm install --no-package-lock" :shell True))
 
 (defn test-js-service [service]
-  (print (format "Running tests for JS service: {}" service))
+  (print (.format "Running tests for JS service: {}" service))
   (sh "npm test" :cwd (join "services/js" service) :shell True))
 
 (defn test-js-services []
@@ -157,7 +159,7 @@
 
 ;; TypeScript helpers ---------------------------------------------------------
 (defn lint-ts-service [service]
-  (print (format "Linting TS service: {}" service))
+  (print (.format "Linting TS service: {}" service))
   (sh "npx eslint . --no-warn-ignored --ext .js,.ts" :cwd (join "services/ts" service) :shell True))
 
 (defn lint-ts []
@@ -170,7 +172,7 @@
   (run-dirs SERVICES_TS "npx tsc --noEmit" :shell True))
 
 (defn setup-ts-service [service]
-  (print (format "Setting up TS service: {}" service))
+  (print (.format "Setting up TS service: {}" service))
   (sh "npm install --no-package-lock" :cwd (join "services/ts" service) :shell True))
 
 (defn setup-ts []
@@ -178,7 +180,7 @@
   (run-dirs SERVICES_TS "npm install" :shell True))
 
 (defn test-ts-service [service]
-  (print (format "Running tests for TS service: {}" service))
+  (print (.format "Running tests for TS service: {}" service))
   (sh "npm test" :cwd (join "services/ts" service) :shell True))
 
 (defn test-ts-services []
@@ -209,7 +211,7 @@
   (print "Setting up Sibilant services..."))
 
 (defn setup-sibilant-service [service]
-  (print (format "Setting up Sibilant service: {}" service))
+  (print (.format "Setting up Sibilant service: {}" service))
   (sh "npx sibilant --install" :cwd (join "services" service) :shell True))
 
 ;; Hy ------------------------------------------------------------------------
@@ -217,7 +219,7 @@
   (print "Setting up Hy services..."))
 
 (defn setup-hy-service [service]
-  (print (format "Setting up Hy service: {}" service))
+  (print (.format "Setting up Hy service: {}" service))
   (sh ["pipenv" "install" "--dev"] :cwd (join "services" service)))
 
 ;; Root targets ---------------------------------------------------------------
@@ -287,7 +289,7 @@
   (sh ["pm2" "start" "ecosystem.config.js" "--only" service]))
 
 (defn stop-service [service]
-  (sh (format "pm2 stop {} || true" service) :shell True))
+  (sh (.format "pm2 stop {} || true" service) :shell True))
 
 (defn board-sync []
   (sh ["python" "scripts/github_board_sync.py"]))
@@ -389,21 +391,20 @@
 
 (defn main []
   (if (< (len sys.argv) 2)
-    (do (print "No command provided") (sys.exit 1))
-    (let [cmd (get sys.argv 1)]
-      (if (in cmd commands)
-        ((get commands cmd))
-        (do
-          (setv handled False)
-(for [[prefix func] patterns]
-            (when (.startswith cmd prefix)
-              (func (.replace cmd prefix "" 1))
-              (setv handled True)
-              (break)))
-          (unless handled
-            (print (format "Unknown command: {}" cmd))
-            (sys.exit 1))))))
+      (do (print "No command provided") (sys.exit 1))
+      (let [cmd (get sys.argv 1)]
+        (if (in cmd commands)
+            ((get commands cmd))
+            (do
+              (setv handled False)
+              (for [[prefix func] patterns]
+                (when (.startswith cmd prefix)
+                  (func (.replace cmd prefix "" 1))
+                  (setv handled True)
+                  (break)))
+              (unless handled
+                (print (.format "Unknown command: {}" cmd))
+                (sys.exit 1)))))))
 
 (when (= __name__ "__main__")
   (main))
-)
