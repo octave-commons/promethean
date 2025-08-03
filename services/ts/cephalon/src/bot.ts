@@ -43,10 +43,11 @@ export class Bot extends EventEmitter {
 	agent: AIAgent;
 	client: Client;
 	token: string;
-	applicationId: string;
-	context: ContextManager = new ContextManager();
-	currentVoiceSession?: any;
-	waveformChannel?: discord.TextChannel;
+        applicationId: string;
+        context: ContextManager = new ContextManager();
+        currentVoiceSession?: any;
+        captureChannel?: discord.TextChannel;
+        desktopChannel?: discord.TextChannel;
 
 	constructor(options: BotOptions) {
 		super();
@@ -71,24 +72,27 @@ export class Bot extends EventEmitter {
 		await this.client.login(this.token);
 		await this.registerInteractions();
 
-		this.client
-			.on(Events.InteractionCreate, async (interaction) => {
-				if (!interaction.inCachedGuild() || !interaction.isChatInputCommand()) return;
-				if (!Bot.interactions.has(interaction.commandName)) {
-					await interaction.reply('Unknown command');
-					return;
-				}
-				try {
-					const handler = Bot.handlers.get(interaction.commandName);
-					if (handler) await handler(this, interaction);
-				} catch (e) {
-					console.warn(e);
-				}
-			})
-			.on(Events.Error, console.error);
-	}
+                this.client
+                        .on(Events.InteractionCreate, async (interaction) => {
+                                if (!interaction.inCachedGuild() || !interaction.isChatInputCommand()) return;
+                                if (!Bot.interactions.has(interaction.commandName)) {
+                                        await interaction.reply('Unknown command');
+                                        return;
+                                }
+                                try {
+                                        const handler = Bot.handlers.get(interaction.commandName);
+                                        if (handler) await handler(this, interaction);
+                                } catch (e) {
+                                        console.warn(e);
+                                }
+                        })
+                        .on(Events.MessageCreate, async (message) => {
+                                await this.forwardAttachments(message);
+                        })
+                        .on(Events.Error, console.error);
+        }
 
-	async registerInteractions() {
+        async registerInteractions() {
 		const commands: RESTPutAPIApplicationCommandsJSONBody = [];
 		for (const [, command] of Bot.interactions) commands.push(command);
 		return Promise.all(
@@ -98,7 +102,22 @@ export class Bot extends EventEmitter {
 					.put(Routes.applicationGuildCommands(this.applicationId, guild.id), { body: commands }),
 			),
 		);
-	}
+        }
+
+        async forwardAttachments(message: discord.Message) {
+                if (!this.captureChannel) return;
+                if (message.author?.bot) return;
+                const imageAttachments = [...message.attachments.values()].filter((att) =>
+                        att.contentType?.startsWith('image/'),
+                );
+                if (!imageAttachments.length) return;
+                const files = imageAttachments.map((att) => ({ attachment: att.url, name: att.name }));
+                try {
+                        await this.captureChannel.send({ files });
+                } catch (e) {
+                        console.warn('Failed to forward attachments', e);
+                }
+        }
 
 	@interaction({
 		description: 'Joins the voice channel the requesting user is currently in',
@@ -158,25 +177,46 @@ export class Bot extends EventEmitter {
 
 		// Leave the specified voice channel
 	}
-	@interaction({
-		description: 'Sets the channel where recorded waveforms will be stored',
+        @interaction({
+                description: 'Sets the channel where captured waveforms, spectrograms, and screenshots will be stored',
 		options: [
 			{
 				name: 'channel',
-				description: 'Text channel for waveform storage',
+				description: 'Target text channel for captured media',
 				type: ApplicationCommandOptionType.Channel,
 				required: true,
 			},
 		],
 	})
-	async setWaveformChannel(interaction: Interaction) {
-		const channel = interaction.options.getChannel('channel', true);
-		if (!channel.isTextBased()) {
-			return interaction.reply('Channel must be text-based.');
-		}
-		this.waveformChannel = channel as discord.TextChannel;
-		return interaction.reply(`Waveform channel set to ${channel.id}`);
-	}
+        async setCaptureChannel(interaction: Interaction) {
+                const channel = interaction.options.getChannel('channel', true);
+                if (!channel.isTextBased()) {
+                        return interaction.reply('Channel must be text-based.');
+                }
+                this.captureChannel = channel as discord.TextChannel;
+                return interaction.reply(`Capture channel set to ${channel.id}`);
+        }
+
+        @interaction({
+                description: 'Sets the channel where desktop captures will be stored',
+                options: [
+                        {
+                                name: 'channel',
+                                description: 'Target text channel for desktop captures',
+                                type: ApplicationCommandOptionType.Channel,
+                                required: true,
+                        },
+                ],
+        })
+        async setDesktopChannel(interaction: Interaction) {
+                const channel = interaction.options.getChannel('channel', true);
+                if (!channel.isTextBased()) {
+                        return interaction.reply('Channel must be text-based.');
+                }
+                this.desktopChannel = channel as discord.TextChannel;
+                this.agent.desktop.setChannel(this.desktopChannel);
+                return interaction.reply(`Desktop capture channel set to ${channel.id}`);
+        }
 	@interaction({
 		description: 'begin recording the given user.',
 		options: [
