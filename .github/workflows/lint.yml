@@ -18,6 +18,9 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install Hy
+        run: python -m pip install hy
+
       - name: Install system dependencies
         run: make system-deps
 

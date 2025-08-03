@@ -18,6 +18,13 @@ jobs:
         with:
           node-version: '20'
 
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install Hy
+        run: python -m pip install hy
+
       - name: Cache pip dependencies
         uses: actions/cache@v3
         with:
@@ -37,17 +44,16 @@ jobs:
       - name: Install dependencies
         run: make system-deps  setup-js
 
+      - name: Run tests
+        run: make test-js
 
-        - name: Run tests
-          run: make test-js
+      - name: Generate coverage report
+        run: make coverage-js
 
-        - name: Generate coverage report
-          run: make coverage-js
-
-        - name: Upload coverage to Codecov
-          uses: codecov/codecov-action@v3
-          with:
-            token: ${{ secrets.CODECOV_TOKEN }}
-            files: services/js/**/coverage/lcov.info
-            flags: js
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: services/js/**/coverage/lcov.info
+          flags: js
 
