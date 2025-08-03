@@ -6,9 +6,9 @@ This `docs` directory houses internal documentation for the **Promethean Framewo
 
 - **High‑level references**
     
-    - [AGENTS](AGENTS.md) – an overview of the framework, how agents like Duck fit into it and the allowed operations for automated tools[raw.githubusercontent.com](https://raw.githubusercontent.com/riatzukiza/promethean/ef2459fe07e70d361b9d915670ce2fa8218fbe51/AGENTS.md#:~:text=This%20repo%20defines%20the%20,and%20emotionally%20mediated%20decision%20structures).
-        
-    - [file‑structure](file-structure.md) – a description of the monorepo layout and design principles[raw.githubusercontent.com](https://raw.githubusercontent.com/riatzukiza/promethean/ef2459fe07e70d361b9d915670ce2fa8218fbe51/docs/file-structure.md#:~:text=).
+    - [AGENTS](AGENTS.md) – an overview of the framework, how agents like Duck fit into it and the allowed operations for automated tools.
+
+    - [file‑structure](file-structure.md) – a description of the monorepo layout and design principles.
         
     - [MIGRATION_PLAN](MIGRATION_PLAN.md) – a living checklist of steps to migrate code from legacy repositories into this structure.
         
@@ -16,13 +16,13 @@ This `docs` directory houses internal documentation for the **Promethean Framewo
     
     - [Kanban board](agile/boards/kanban.md) – the Kanban board used to track work. When opened in Obsidian with the Kanban plugin, it renders as an interactive board. See [board usage](board_usage.md) for how to interact with it.
         
-    - [Process](agile/Process.md) – explains the stages of the development flow (Ice Box, Accepted, Breakdown, etc.) and when cards move between them[raw.githubusercontent.com](https://raw.githubusercontent.com/riatzukiza/promethean/ef2459fe07e70d361b9d915670ce2fa8218fbe51/docs/agile/Process.md#:~:text=).
+    - [Process](agile/Process.md) – explains the stages of the development flow (Ice Box, Accepted, Breakdown, etc.) and when cards move between them.
         
     - [`agile/tasks/`](agile/tasks/) – individual task files. Each document includes a description, goals, requirements and subtasks. The board links to these files; creating a new task means adding a markdown file here and linking it from the board.
         
 - **Vault configuration**
     
-    - [vault‑config README](vault-config/README.md) – guidance for using this repo as an Obsidian vault. It covers settings for GitHub‑compatible Markdown, recommended plugins and how to install the baseline configuration[raw.githubusercontent.com](https://raw.githubusercontent.com/riatzukiza/promethean/ef2459fe07e70d361b9d915670ce2fa8218fbe51/vault-config/README.md#:~:text=%23%23%20GitHub).
+    - [vault‑config README](vault-config/README.md) – guidance for using this repo as an Obsidian vault. It covers settings for GitHub‑compatible Markdown, recommended plugins and how to install the baseline configuration.
         
     - [`vault-config/.obsidian/`](vault-config/.obsidian/) – a minimal Obsidian configuration with the Kanban plugin enabled. Copy it to the repository root (`cp -r vault-config/.obsidian .obsidian`) to activate the baseline setup.
         
@@ -30,7 +30,7 @@ This `docs` directory houses internal documentation for the **Promethean Framewo
     
     - Various notes under `docs/research/` summarize APIs or algorithms (e.g. `github_projects_api.md`).
         
-    - Utility scripts in `scripts/` (outside `docs`) may be referenced here; for example, `scripts/github_board_sync.py` syncs the Kanban board with a GitHub Projects column[api.github.com](https://api.github.com/repos/riatzukiza/promethean/pulls/41/files).
+    - Utility scripts in `scripts/` (outside `docs`) may be referenced here; for example, `scripts/github_board_sync.py` syncs the Kanban board with a GitHub Projects column.
         
 
 ## Writing and navigating docs
