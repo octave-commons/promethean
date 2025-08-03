@@ -48,6 +48,8 @@ export class Bot extends EventEmitter {
 	context: ContextManager = new ContextManager();
 	currentVoiceSession?: any;
 
+	waveformChannel?: discord.TextChannel;
+
 	constructor(options: BotOptions) {
 		super();
 		this.token = options.token;
@@ -157,6 +159,25 @@ export class Bot extends EventEmitter {
 		return interaction.followUp('No voice channel to leave.');
 
 		// Leave the specified voice channel
+	}
+	@interaction({
+		description: 'Sets the channel where recorded waveforms will be stored',
+		options: [
+			{
+				name: 'channel',
+				description: 'Text channel for waveform storage',
+				type: ApplicationCommandOptionType.Channel,
+				required: true,
+			},
+		],
+	})
+	async setWaveformChannel(interaction: Interaction) {
+		const channel = interaction.options.getChannel('channel', true);
+		if (!channel.isTextBased()) {
+			return interaction.reply('Channel must be text-based.');
+		}
+		this.waveformChannel = channel as discord.TextChannel;
+		return interaction.reply(`Waveform channel set to ${channel.id}`);
 	}
 	@interaction({
 		description: 'begin recording the given user.',
