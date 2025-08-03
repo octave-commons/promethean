@@ -2,20 +2,14 @@ JS_BUILD_DIR=shared/js
 SERVICES_JS=services/js/vision
 
 lint-js:
-	@for d in $(SERVICES_JS); do \
-		cd $$d && npx eslint . --ext .js,.ts && cd - >/dev/null; \
-	done
+	       @$(call run_dirs,$(SERVICES_JS),npx eslint . --ext .js,.ts)
 
 format-js:
-	@for d in $(SERVICES_JS); do \
-		cd $$d && npx prettier --write . && cd - >/dev/null; \
-	done
+	       @$(call run_dirs,$(SERVICES_JS),npx prettier --write .)
 
 setup-js:
-	@echo "Setting up JavaScript services..."
-	@for d in $(SERVICES_JS); do \
-		cd $$d && npm install --no-package-lock && cd - >/dev/null; \
-	done
+	       @echo "Setting up JavaScript services..."
+	       @$(call run_dirs,$(SERVICES_JS),npm install --no-package-lock)
 
 lint-js-service-%:
 	@echo "Linting JS service: $*"
@@ -30,23 +24,14 @@ test-js-service-%:
 	cd services/js/$* && npm test
 
 test-js-services:
-	@for d in $(SERVICES_JS); do \
-		echo "Running tests in $$d...";\
-		cd $$d && npm test && cd - >/dev/null; \
-	done
+	       @$(call run_dirs,$(SERVICES_JS),echo "Running tests in $$d..." \&\& npm test)
 test-js: test-js-services
 
 coverage-js-services:
-	@for d in $(SERVICES_JS); do \
-		echo "Generating coverage in $$d...";\
-		cd $$d && npm run coverage && cd - >/dev/null; \
-	done
+	@$(call run_dirs,$(SERVICES_JS),npm run coverage && npx c8 report -r lcov)
 coverage-js: coverage-js-services
 
 clean-js:
 	rm -rf $(JS_BUILD_DIR)/*
 build-js:
 	@echo "No build step for JavaScript services"
-
-build-js:
-	@echo "No JS build step required"
