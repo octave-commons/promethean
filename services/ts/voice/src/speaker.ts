@@ -4,13 +4,13 @@
 // import { once } from 'node:events';
 import * as prism from "prism-media";
 import { PassThrough } from "node:stream";
-import { Transcriber } from "./transcriber.ts";
+import { Transcriber } from "./transcriber";
 import { AudioReceiveStream } from "@discordjs/voice";
 import { User } from "discord.js";
 
 import { Transform, TransformCallback } from "node:stream";
 import EventEmitter from "node:events";
-import { VoiceRecorder } from "./voice-recorder.ts";
+import { VoiceRecorder } from "./voice-recorder";
 
 class OpusSilenceFilter extends Transform {
   override _transform(

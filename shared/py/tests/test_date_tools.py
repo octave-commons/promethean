@@ -28,3 +28,19 @@ def test_days_until_future_and_past():
     past = now - timedelta(days=5)
     assert days_until(future, now) == 10
     assert days_until(past, now) == -5
+def test_time_ago_minute_singular():
+    now = datetime(2024, 1, 1, tzinfo=timezone.utc)
+    past = now - timedelta(minutes=1)
+    assert time_ago(past, now) == "1 minute ago"
+
+
+def test_time_ago_hours():
+    now = datetime(2024, 1, 1, tzinfo=timezone.utc)
+    past = now - timedelta(hours=5)
+    assert time_ago(past, now) == "5 hours ago"
+
+
+def test_time_ago_days():
+    now = datetime(2024, 1, 10, tzinfo=timezone.utc)
+    past = now - timedelta(days=2)
+    assert time_ago(past, now) == "2 days ago"
