@@ -25,20 +25,19 @@ export async function callOllama({ prompt, context, format }, retry = 0) {
 }
 app.post("/generate", async (req, res) => {
   const { prompt, context, format } = req.body;
-    for (let m of context) {
-        console.log("message:",m.content)
-        if(m.images) {
-            console.log("image data:")
-            for(let imageData of m.images) {
-                console.log(imageData.type)
-                // console.log(imageData.data)
-            }
-            m.images = m.images.map(img => new Uint8Array(img.data))
-
-        }
+  for (let m of context) {
+    console.log("message:", m.content);
+    if (m.images) {
+      console.log("image data:");
+      for (let imageData of m.images) {
+        console.log(imageData.type);
+        // console.log(imageData.data)
+      }
+      m.images = m.images.map((img) => new Uint8Array(img.data));
     }
-    console.log("root prompt",prompt)
-    console.log("format",format||"string")
+  }
+  console.log("root prompt", prompt);
+  console.log("format", format || "string");
   try {
     const reply = await callOllama({ prompt, context, format });
     res.json({ reply });

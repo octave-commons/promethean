@@ -42,7 +42,7 @@ jobs:
             ${{ runner.os }}-npm-
 
       - name: Install dependencies
-        run: make system-deps  setup-ts
+        run: make system-deps setup-ts
 
       - name: Run tests
         run: make test-ts
@@ -56,4 +56,3 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: services/ts/**/coverage/lcov.info
           flags: ts
-
