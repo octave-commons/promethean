@@ -1,0 +1,82 @@
+(import Terrain-module "../../terrain-module.js")
+(import road-weight "./weights.js")
+(const horizontal-road
+       (.create Terrain-module road-weight
+                'grass 'grass 'grass
+                'stone 'stone 'stone
+                'grass 'grass 'grass))
+
+
+(export horizontal-road)
+
+(const vertical-road
+       (.create Terrain-module road-weight
+                'grass 'stone 'grass
+                'grass 'stone 'grass
+                'grass 'stone 'grass
+                ))
+(export vertical-road)
+
+(const left-diagonal-road
+       (.create Terrain-module
+
+                road-weight
+                'stone 'grass 'grass
+                'grass 'stone 'grass
+                'grass 'grass 'stone
+                ))
+(export left-diagonal-road)
+(const right-diagonal-road
+       (.create Terrain-module
+                road-weight
+                'grass 'grass 'stone
+                'grass 'stone 'grass
+                'stone 'grass 'grass))
+(export right-diagonal-road)
+
+
+(const grass-below-road (.create Terrain-module road-weight
+                                 'stone 'stone 'stone
+                                 'grass 'grass 'grass
+                                 'grass 'grass 'grass))
+(const grass-above-road (.create Terrain-module road-weight
+                                 'grass 'grass 'grass
+                                 'grass 'grass 'grass
+                                 'stone 'stone 'stone))
+
+(const flowers-below-road (.create Terrain-module road-weight
+                                   'stone 'stone 'stone
+                                   'grass 'grass 'grass
+                                   'flowery-grass 'flowery-grass 'flowery-grass
+                                   ))
+(const flowers-above-road (.create Terrain-module road-weight
+                                   'flowery-grass 'flowery-grass 'flowery-grass
+                                   'grass 'grass 'grass
+                                   'stone 'stone 'stone
+                                   ))
+
+
+(const grass-on-right-of-road (.create Terrain-module road-weight
+                                       'stone 'grass  'grass
+                                       'stone 'grass  'grass
+                                       'stone 'grass  'grass
+                                       ))
+
+(const grass-on-left-of-road (.create Terrain-module road-weight
+                                      'grass  'grass  'stone
+                                      'grass  'grass  'stone
+                                      'grass  'grass  'stone
+                                      ))
+
+
+(const flowers-on-right-of-road (.create Terrain-module road-weight
+                                         'stone 'grass  'flowery-grass
+                                         'stone 'grass  'flowery-grass
+                                         'stone 'grass  'flowery-grass
+                                         ))
+
+(const flowers-on-left-of-road (.create Terrain-module road-weight
+                                        'flowery-grass  'grass  'stone
+                                        'flowery-grass  'grass  'stone
+                                        'flowery-grass  'grass  'stone
+                                        ))

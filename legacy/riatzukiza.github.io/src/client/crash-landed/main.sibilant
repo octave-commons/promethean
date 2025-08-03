@@ -1,0 +1,26 @@
+(namespace crashlanded)
+
+(import start-interface "./dom.js")
+(import Position "/shared/systems/position.js")
+(import Sight "./systems/sight.js")
+(import get-cardinal-direction-name "./directions.js")
+(import Path-finding "./systems/path-finding.js")
+(import Velocity "/shared/systems/velocity.js")
+(import get-tile-noise "./noise.js")
+(import config "./config.js")
+
+(macro each (o args ...body) `(.each @o (=> @args ...@body)))
+
+
+(assign Velocity.real-time? false)
+(assign Position.wraps? false)
+
+
+
+(add-event-listener 'load (-> (start-interface )))
+
+
+
+
+
+

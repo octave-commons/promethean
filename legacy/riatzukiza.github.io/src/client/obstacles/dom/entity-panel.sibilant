@@ -1,0 +1,52 @@
+
+(namespace obstacles)
+
+(import Component "/shared/ecs.js")
+(import game "/client/obstacles/game.js")
+(import Dot "/shared/systems/rendering/dot.js")
+(import Pooled-data-structure "/shared/data-structures/pooled.js")
+(import rgba "/client/obstacles/colors.js")
+
+(define Entity-panel Interface
+  (init (entity ))
+  (def clear () (assign this.entity null))
+  (def spawn (entity) ((create this) entity))
+  (def-generic render (*parent attributes tag-name *node children)
+    (const component-panel
+           (=> (component)
+               (.reduce (Object.keys component)
+                        (=> (accumulator key)
+                            (const property (get component key))
+                            (if (or (string? property)
+                                    property.render
+                                    (number? property)
+                                    )
+                                [(dots accumulator)
+                                 (dom (.div .className "panel" key ":" (get component key)))]
+                                )) [])))
+    (with-dom *parent
+      (.div .className "panel"
+
+            .onmouseenter (->
+                           (const dot (.get game.systems Dot this.entity))
+                           (assign this.entity.original-color dot.color)
+                           (assign dot.color (rgba 255 255 0 255))
+                           (print "mouse entered" dot.color)
+                           )
+
+            .onmouseleave (->
+
+                           (const dot (.get game.systems Dot this.entity))
+                           (assign dot.color this.entity.original-color)
+                           (print "mouse left" dot.color))
+            (map this.entity.aspects (system)
+                 (const component (.get game.systems system this.entity))
+                 (dom (.div .className "panel"
+                            (.div .className "panel" (.b system.name ))
+
+                            (if (get this system.name)
+                                ((get this system.name ) component)
+                                (dom (.div .className "panel"
+                                           (component-panel component)))))))))))
+
+(export Entity-panel)

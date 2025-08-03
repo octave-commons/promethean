@@ -1,0 +1,97 @@
+(import rendering "./rendering.sibilant")
+(import particles "./data.sibilant")
+(import Vector "/shared/vectors.js")
+(import config "./config.sibilant")
+
+(const (lit min-mass max-mass actual-maximum-mass spawn-height spawn-width) config)
+
+(const random-signed-float (=> (range) (random-float (* -1 range) range)))
+
+(macro do-for-of (el  itterable ...body)
+       (const tail (.pop body))
+       `(do (var r null)
+            (for-of! @el @itterable ...@body
+                     (assign r @tail)
+                     )))
+
+(def initialize-motes (particles verts)
+  (for-of! p particles.pos.data
+           (const phys (get particles.phys.data p.id))
+           (set (get verts p.id 'color) 'r 255 'g 10 'b 10 'a 255)
+           (set  (get verts p.id)
+
+                 'size phys.scale
+                 'intensity (Math.sqrt phys.mass)
+                 )
+           (set (get verts p.id 'point)
+                'x p.x
+                'y p.y
+                'z 1))
+  null)
+
+
+
+
+
+
+
+(def randomly-place-particles (particles)
+
+  (const spawn-pos (.spawn Vector 0 0))
+
+  (for-of! p particles.pos.data
+
+           (const phys (get particles.phys.data p.id))
+           (const vel (get particles.vel.data p.id))
+
+           (set vel 'x (random-signed-float 1000)
+                'y (random-signed-float 1000)
+                )
+
+           (var scale (* max-mass (Math.random)))
+           (var mass (Math.pow  (Math.max min-mass scale) 3))
+
+           (set phys 'mass mass 'scale scale)
+
+           (.add-to spawn-pos (lit (x (* (/ mass actual-maximum-mass)
+                                         (random-signed-float spawn-width)))
+                                   (y (* (/  mass actual-maximum-mass)
+                                         (random-signed-float spawn-height)))))
+
+           (assign p.x spawn-pos.x)
+           (assign p.y spawn-pos.y))
+  (set (first particles.phys.data) 'mass actual-maximum-mass 'scale max-mass)
+  null)
+
+(def-async draw ()
+  (while! true
+          (await (make-promise
+                  (request-animation-frame (-> (.update rendering)
+                                               (resolve))))))
+  (return null))
+
+(def setup (particles systems vertices)
+
+
+  (randomly-place-particles particles)
+
+  (.step particles.phys)
+  (.step particles.pos)
+  (.step particles.vel)
+  (.construct-tree particles.kd-tree particles.pos.data)
+  ;; (.step particles.kd-tree)
+
+
+  (initialize-motes particles vertices)
+  (assign systems.drawer (draw))
+
+  (.step particles.pos)
+  (.step particles.phys)
+  ;; (.step particles.kd-tree)
+
+
+
+  (.init systems)
+  (.start systems))
+
+(export setup)

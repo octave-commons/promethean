@@ -1,0 +1,18 @@
+(import Velocity "/shared/systems/velocity.js")
+(import Position "/shared/systems/position.js")
+(import game "../game.js")
+
+(import config "../config.js")
+(import plants ants rocks "../entities.js")
+
+(on game.events 'plant-colliding-with-spawn (home, plant)
+
+    (const v plant.entity.velocity-interface)
+    (const pos plant.pos)
+    (var xd (random-signed config.collision-static))
+    (var yd (random-signed config.collision-static))
+
+    (assign pos.x (+ pos.x xd))
+    (assign pos.y (+ pos.y yd))
+    (.accelerate v [xd yd])
+    )

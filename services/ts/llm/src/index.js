@@ -1,10 +1,10 @@
 import express from "express";
 import ollama from "ollama";
 
-export const MODEL = process.env.LLM_MODEL || "gemma3";
+export const MODEL = process.env.LLM_MODEL || "gemma3:latest";
 
 export const app = express();
-app.use(express.json({ limit: "5mb" }));
+app.use(express.json({ limit: "10mb" }));
 
 export async function callOllama({ prompt, context, format }, retry = 0) {
   try {
@@ -25,6 +25,7 @@ export async function callOllama({ prompt, context, format }, retry = 0) {
 }
 
 app.post("/generate", async (req, res) => {
+    console.log("what?")
   const { prompt, context, format } = req.body;
   try {
     const reply = await callOllama({ prompt, context, format });

@@ -1,0 +1,14 @@
+(import Tile-generator  "./world-gen/worker.js")
+(import Tile-graph "/shared/tiles.js")
+(import Floor-sprites "./systems/sprites/floor.js")
+(import Tile-visibility "./systems/visibility.js")
+(import Ground-types "./systems/floor-type.js")
+(import Containers "./systems/containers.js")
+(import config "./config.js")
+
+
+(const game-scale config.game-scale)
+(const tile-systems [Floor-sprites Tile-visibility Ground-types Containers])
+(const tiles (.spawn Tile-graph game-scale tile-systems game))
+(export tiles)
+(export tile-systems)

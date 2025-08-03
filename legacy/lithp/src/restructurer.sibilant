@@ -1,0 +1,131 @@
+(var acceptable-pairs { "(" ")" "[" "]" "{" "}" }
+     bracket-types { "(" 'expression
+                     "[" 'bracket
+                     "{" 'brace })
+
+(def restructure (input)
+     (var output { type 'root
+                   contents []
+                   file sibilant.file
+                   col 0
+                   line 1 }
+          context { parse-stack [output]
+                    output output
+                    input input
+                    ignored-nodes []
+                    specials 0 })
+
+     (inject context input restructurers)
+
+     (unless (= 1 (length context.parse-stack))
+             (var unclosed-node (pipe context.parse-stack first))
+             (throw (new Error ("unclosed node at " unclosed-node.file":"unclosed-node.line":"unclosed-node.col"\n  "
+                                (pipe unclosed-node
+                                    (prettify false)
+                                    (.slice 0 100))))))
+
+     output)
+
+(def restructurers (context node)
+     (var restructurer (or (get restructurers node.type)
+                           restructurers.default))
+     (restructurer node context))
+(set sibilant 'restructure restructure)
+
+(def restructurers.head (node context)
+     (var head (merge-with node { token (node.token.slice 0 -1)
+                                  type 'literal })
+          expression (merge-with node { token "("
+                                        type 'open-expression }))
+
+     (pipe context
+         (restructurers expression)
+         (restructurers head)))
+
+(def restructurers.open-expression (node context)
+     (var first (first context.parse-stack))
+     (set node
+          'contents []
+          'type (get bracket-types node.token))
+     (accept-ignored-nodes node context)
+     (accept-specials node context)
+     (.push first.contents node)
+     (context.parse-stack.unshift node)
+     context)
+
+
+(def restructurers.close-expression (node context)
+     (var first (first context.parse-stack))
+
+     (when (node? first 'root)
+           (throw (new Error ("unexpected " node.token " on "node.file":"node.line":"node.col))))
+     (when (!= (get acceptable-pairs first.token) node.token)
+           (throw (new Error ("trying to close " (yellow (sibilant.pretty-print first))
+                                      "\n   on "first.file":"first.line":"first.col
+                                      "\n   with "(sibilant.pretty-print node)
+                                      "\n   on "node.file":"node.line":"node.col
+                                      "\n"))))
+
+     (set first
+          'end node.end
+          'closed true
+          'closing-ignored context.ignored-nodes)
+     (set context 'ignored-nodes [])
+
+     (context.parse-stack.shift)
+     (close-specials first context)
+     (when (zero? context.parse-stack.length)
+           (throw (new Error ("unbalanced parens:\n"
+                   (call inspect parse-stack)))))
+     context)
+
+(def open-special (node context)
+     (incr context.specials)
+
+     (accept-ignored-nodes node context)
+
+     (var first (first context.parse-stack))
+     (set node
+          'contents [])
+
+     (first.contents.push node)
+     (context.parse-stack.unshift node)
+     context)
+
+(def accept-specials (node context)
+     (set node 'specials (get context 'specials))
+     (set context 'specials 0)
+     context)
+
+(def accept-ignored-nodes (node context)
+     (set node 'preceding-ignored context.ignored-nodes)
+     (set context 'ignored-nodes [])
+     context)
+
+(def close-specials (node context)
+     (when (> node.specials 0)
+           (decr node.specials)
+           (context.parse-stack.shift)
+           (close-specials node context))
+     context)
+
+
+(def accumulate-ignored-node (node context)
+     (context.ignored-nodes.push node)
+     context)
+
+(each special `[ hat dots tick at ]
+      (set restructurers special open-special))
+
+(each ignored `[ whitespace newline ignored comment ]
+      (set restructurers ignored accumulate-ignored-node))
+
+(def restructurers.default (node context)
+     (accept-specials node context)
+     (accept-ignored-nodes node context)
+     (pipe context
+           (get 'parse-stack)
+           (first)
+           (get 'contents)
+           (.push node))
+     (close-specials node context))

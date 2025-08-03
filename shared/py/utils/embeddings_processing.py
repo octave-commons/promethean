@@ -21,7 +21,7 @@ class PCA:
 
         idx = np.argsort(eig_values)[::-1]
         eig_vectors = eig_vectors[:, idx]
-        v = eig_vectors[:, :self.n_components]
+        v = eig_vectors[:, : self.n_components]
         projection = xm.dot(v)
 
         self.eig_vectors = eig_vectors
@@ -31,11 +31,11 @@ class PCA:
     def project(self, x: np.ndarray) -> np.ndarray:
         """Project ``x`` using the fitted components."""
         xm = x - self.mean
-        v = self.eig_vectors[:, :self.n_components]
+        v = self.eig_vectors[:, : self.n_components]
         return xm.dot(v)
 
     def iproject(self, z: np.ndarray) -> np.ndarray:
         """Inverse transform ``z`` back to the original space."""
-        v = self.eig_vectors[:, :self.n_components]
+        v = self.eig_vectors[:, : self.n_components]
         x = z * v.T + self.mean
         return x

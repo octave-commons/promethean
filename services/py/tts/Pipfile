@@ -9,6 +9,11 @@ soundfile = "*"
 safetensors = "*"
 torch = "*"
 fastapi = "*"
+uvicorn = "*"
+transformers = "*"
+protobuf = "*"
+g2p-en = "*"
+python-multipart = "*"
 
 [dev-packages]
 pytest-cov = "*"

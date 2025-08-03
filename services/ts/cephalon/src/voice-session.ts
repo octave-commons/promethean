@@ -1,183 +1,190 @@
-import { AudioPlayerStatus, EndBehaviorType, StreamType, VoiceConnection, createAudioPlayer, createAudioResource, getVoiceConnection, joinVoiceChannel } from "@discordjs/voice";
-import *  as discord from "discord.js"
-import {Speaker} from "./speaker";
+import {
+	AudioPlayerStatus,
+	EndBehaviorType,
+	StreamType,
+	VoiceConnection,
+	createAudioPlayer,
+	createAudioResource,
+	getVoiceConnection,
+	joinVoiceChannel,
+} from '@discordjs/voice';
+import * as discord from 'discord.js';
+import { Speaker } from './speaker';
 // import {Transcript} from "./transcript"
-import { randomUUID, UUID } from "crypto";
-import { Transcriber } from "./transcriber";
-import { VoiceRecorder } from "./voice-recorder";
-import { Bot } from "./bot";
-import { VoiceSynth } from "./voice-synth";
-import EventEmitter from "events";
+import { randomUUID, UUID } from 'crypto';
+import { Transcriber } from './transcriber';
+import { VoiceRecorder } from './voice-recorder';
+import { Bot } from './bot';
+import { VoiceSynth } from './voice-synth';
+import EventEmitter from 'events';
 /**
    Handles all things voice. Emits an event when a user begins speaking, and when they stop speaking
    the start speaking event will have a timestamp and a wav  stream.
    */
 
 export type VoiceSessionOptions = {
-    voiceChannelId:string;
-    guild:discord.Guild;
-    bot:Bot
-}
+	voiceChannelId: string;
+	guild: discord.Guild;
+	bot: Bot;
+};
 export class VoiceSession extends EventEmitter {
-    id:UUID;
-    guild:discord.Guild;
-    voiceChannelId:string;
-    options:VoiceSessionOptions;
-    speakers: Map<string, Speaker>
-    // transcript: Transcript;
-    connection?: VoiceConnection;
-    transcriber: Transcriber;
-    recorder: VoiceRecorder;
-    voiceSynth: VoiceSynth;
-    bot: Bot;
-    constructor(options: VoiceSessionOptions) {
-        super()
-        this.id = randomUUID()
-        this.guild = options.guild
-        this.voiceChannelId = options.voiceChannelId;
-        this.bot = options.bot;
+	id: UUID;
+	guild: discord.Guild;
+	voiceChannelId: string;
+	options: VoiceSessionOptions;
+	speakers: Map<string, Speaker>;
+	// transcript: Transcript;
+	connection?: VoiceConnection;
+	transcriber: Transcriber;
+	recorder: VoiceRecorder;
+	voiceSynth: VoiceSynth;
+	bot: Bot;
+	constructor(options: VoiceSessionOptions) {
+		super();
+		this.id = randomUUID();
+		this.guild = options.guild;
+		this.voiceChannelId = options.voiceChannelId;
+		this.bot = options.bot;
 
-        this.options = options;
-        this.speakers = new Map(); // Map of user IDs to Speaker instances
-        // this.transcript = new Transcript();
-        this.transcriber = new Transcriber();
-        this.recorder = new VoiceRecorder();
-        this.voiceSynth = new VoiceSynth()
-    }
-    get receiver( ) {
-        return this.connection?.receiver
-    }
-    start() {
-        const existingConnection = getVoiceConnection(this.guild.id)
-        if(existingConnection) {
-            throw new Error(
-                "Cannot start new voice session with an existing connection. Bot must leave current voice  session to start a new one."
-            )
-        }
-        this.connection = joinVoiceChannel({
-            guildId:this.guild.id,
-            adapterCreator:this.guild.voiceAdapterCreator,
-            channelId:this.voiceChannelId,
-            selfDeaf:false,
-            selfMute:false,
-        });
-        try {
-            this.connection.receiver.speaking.on('start',(userId) => {
+		this.options = options;
+		this.speakers = new Map(); // Map of user IDs to Speaker instances
+		// this.transcript = new Transcript();
+		this.transcriber = new Transcriber();
+		this.recorder = new VoiceRecorder();
+		this.recorder.on('saved', async ({ filename }) => {
+			const channel = this.bot.waveformChannel;
+			if (channel) {
+				try {
+					await channel.send({ files: [filename] });
+				} catch (e) {
+					console.warn('Failed to upload waveform', e);
+				}
+			}
+		});
+		this.voiceSynth = new VoiceSynth();
+	}
+	get receiver() {
+		return this.connection?.receiver;
+	}
+	start() {
+		const existingConnection = getVoiceConnection(this.guild.id);
+		if (existingConnection) {
+			throw new Error(
+				'Cannot start new voice session with an existing connection. Bot must leave current voice  session to start a new one.',
+			);
+		}
+		this.connection = joinVoiceChannel({
+			guildId: this.guild.id,
+			adapterCreator: this.guild.voiceAdapterCreator,
+			channelId: this.voiceChannelId,
+			selfDeaf: false,
+			selfMute: false,
+		});
+		try {
+			this.connection.receiver.speaking.on('start', (userId) => {
+				const speaker = this.speakers.get(userId);
+				if (speaker) {
+					if (speaker.stream) return;
+					speaker.isSpeaking = true;
 
-                const speaker = this.speakers.get(userId);
-                if (speaker) {
-                    if(speaker.stream) return;
-                    speaker.isSpeaking = true
+					if (!speaker.stream) speaker.stream = this.getOpusStreamForUser(userId);
+					if (speaker.stream) {
+						speaker.stream.on('end', () => {
+							try {
+								speaker.stream?.destroy(); // prevents any more `push` calls
+							} catch (e) {
+								console.warn('Failed to destroy stream cleanly', e);
+							}
+						});
 
-                    if(!speaker.stream) speaker.stream = this.getOpusStreamForUser(userId)
-                    if (speaker.stream) {
-                        speaker.stream.on('end', () => {
-                            try {
-                                speaker.stream?.destroy(); // prevents any more `push` calls
-                            } catch (e) {
-                                console.warn('Failed to destroy stream cleanly', e);
-  }
-                        });
+						speaker.stream.on('error', (err) => {
+							console.warn(`Stream error for ${userId}:`, err);
+						});
 
-                        speaker.stream.on('error', (err) => {
-                            console.warn(`Stream error for ${userId}:`, err);
-                        });
+						// NEW: Prevent pushing to an ended stream by checking
+						speaker.stream.on('close', () => {
+							console.log(`Stream closed for ${userId}`);
+							speaker.stream = null;
+						});
 
-                        // NEW: Prevent pushing to an ended stream by checking
-                        speaker.stream.on('close', () => {
-                            console.log(`Stream closed for ${userId}`);
-                            speaker.stream = null;
-                        });
+						speaker.handleSpeakingStart(speaker.stream);
+					}
+				}
+			});
+		} catch (err) {
+			console.error(err);
+			throw new Error('Something went wrong starting the voice session');
+		}
+	}
+	getOpusStreamForUser(userId: string) {
+		return this.receiver?.subscribe(userId, {
+			end: {
+				behavior: EndBehaviorType.AfterSilence,
+				duration: 1_000,
+			},
+		});
+	}
+	async stop() {
+		if (this.connection) {
+			this.connection.destroy();
+			this.speakers.clear();
+		}
+	}
+	async addSpeaker(user: discord.User) {
+		if (this.speakers.has(user.id)) return;
+		return this.speakers.set(
+			user.id,
+			new Speaker({
+				user,
+				transcriber: this.transcriber,
+				recorder: this.recorder,
+			}),
+		);
+	}
+	async removeSpeaker(user: discord.User) {
+		this.speakers.delete(user.id);
+	}
+	async startSpeakerRecord(user: discord.User) {
+		const speaker = this.speakers.get(user.id);
+		if (speaker) {
+			speaker.isRecording = true;
+		}
+	}
+	async startSpeakerTranscribe(user: discord.User, log: boolean = false) {
+		const speaker = this.speakers.get(user.id);
+		if (speaker) {
+			speaker.isTranscribing = true;
+			speaker.logTranscript = log;
+		}
+	}
+	async stopSpeakerRecord(user: discord.User) {
+		const speaker = this.speakers.get(user.id);
+		if (speaker) speaker.isRecording = false;
+	}
+	async stopSpeakerTranscribe(user: discord.User) {
+		const speaker = this.speakers.get(user.id);
+		if (speaker) speaker.isTranscribing = false;
+	}
+	async playVoice(text: string) {
+		return new Promise(async (resolve, _) => {
+			if (!this.connection) throw new Error('No connection');
+			const player = createAudioPlayer();
+			const { stream, cleanup } = await this.voiceSynth.generateAndUpsampleVoice(text);
 
-                        speaker.handleSpeakingStart(speaker.stream);
-}
-                }
-            })
-        } catch (err) {
-            console.error(err)
-            throw new Error("Something went wrong starting the voice session")
-        }
+			const resource = createAudioResource(stream, { inputType: StreamType.Raw });
+			player.play(resource);
 
-    }
-    getOpusStreamForUser(userId: string) {
-        return this.receiver?.subscribe(userId, {
-            end: {
-                behavior: EndBehaviorType.AfterSilence,
-                duration: 1_000,
-            },
-        })
-    }
-    async stop() {
-        if(this.connection) {
-            this.connection.destroy();
-            this.speakers.clear();
-        }
-    }
-    async addSpeaker(user: discord.User) {
-        if (this.speakers.has(user.id)) return
-        return this.speakers.set(user.id, new Speaker({
-            user,
-            transcriber: this.transcriber,
-            recorder: this.recorder
+			this.emit('audioPlayerStart', player);
 
-        }));
-    }
-    async removeSpeaker(user: discord.User) {
+			this.connection.subscribe(player);
 
-        this.speakers.delete(user.id)
-    }
-    async startSpeakerRecord(user: discord.User) {
-        const speaker = this.speakers.get(user.id)
-        if (speaker) {
-            speaker.isRecording = true
-        }
+			player.on(AudioPlayerStatus.Idle, () => {
+				cleanup(); // ensure subprocesses are cleaned up
+				this.emit('audioPlayerStop', player);
+				resolve(this);
+			});
 
-
-    }
-    async startSpeakerTranscribe(user: discord.User, log: boolean = false) {
-
-        const speaker = this.speakers.get(user.id)
-        if (speaker) {
-            speaker.isTranscribing = true
-            speaker.logTranscript = log
-        }
-
-    }
-    async stopSpeakerRecord(user:discord.User) {
-        const speaker = this.speakers.get(user.id)
-        if (speaker)
-            speaker.isRecording = false
-    }
-    async stopSpeakerTranscribe(user:discord.User) {
-
-        const speaker = this.speakers.get(user.id)
-        if (speaker)
-            speaker.isTranscribing = false
-    }
-    async playVoice(text: string) {
-
-        return new Promise(async (resolve, _) => {
-
-            if (!this.connection) throw new Error("No connection");
-            const player = createAudioPlayer();
-            const { stream, cleanup } = await this.voiceSynth.generateAndUpsampleVoice(text);
-
-            const resource = createAudioResource(stream, { inputType: StreamType.Raw });
-            player.play(resource);
-
-            this.emit("audioPlayerStart", player);
-
-            this.connection.subscribe(player);
-
-            player.on(AudioPlayerStatus.Idle, () => {
-                cleanup(); // ensure subprocesses are cleaned up
-                this.emit("audioPlayerStop", player);
-                resolve(this)
-            });
-
-            return player; // return the player so you can call pause/stop externally
-        })
-    }
-
-
+			return player; // return the player so you can call pause/stop externally
+		});
+	}
 }

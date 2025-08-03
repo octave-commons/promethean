@@ -1,0 +1,14 @@
+(namespace obstacles)
+
+(import Rendering "/shared/systems/rendering/rendering.js")
+(import config "./config.js")
+
+(const rendering (.load Rendering
+                        (lit (dimensions [(* 1 (first config.dimensions))
+                                          (* 1 (second config.dimensions))])
+                             (blend true))))
+
+(set rendering 'background-color
+     (lit (r 0) (g 0) (b 0) (a 255)))
+
+(export rendering)

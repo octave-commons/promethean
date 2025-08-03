@@ -1,0 +1,41 @@
+(namespace obstacles)
+
+(import Velocity "/shared/systems/velocity.js")
+
+(import Position "/shared/systems/position.js")
+
+(import game "../game.js")
+(import create-particle-updater "/shared/field.js")
+(import home-pos plants ants rocks "../entities.js")
+(import place-entity "/shared/systems/collision.js")
+(import Physics "/shared/systems/physics/system.js")
+(import Friction Signal-field "../forces.js")
+(import config "../config.js")
+
+(const update-particle (create-particle-updater config game))
+(def Set.prototype.each (f)
+  (.for-each this f)
+  this)
+
+(.on game.events "antFoundPlant"
+     (=> (ant plant)
+         (var av ant.entity.velocity-interface)
+         (var ap (.get game.systems Physics ant.entity))
+
+         (for-of! seg  ant.entity.ant-trail.segments
+               (.apply seg.trail-segment ))
+         (.reset ant.entity.ant-life)
+         (incr ant.entity.ant-life.win-count)
+         (.clear ant.entity.ant-trail.segments)
+
+
+         (set av.pos
+              'x  home-pos.x
+              'y home-pos.y)
+         (place-entity ant.entity game config)
+
+
+         (var pp (.get game.systems Physics plant.entity))
+
+         (set pp 'scale (set pp 'mass (Math.max (- pp.mass (* 0.05 ap.mass)) 0))))
+    )

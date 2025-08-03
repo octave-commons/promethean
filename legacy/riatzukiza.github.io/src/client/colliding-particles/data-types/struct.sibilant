@@ -1,0 +1,32 @@
+(define Struct-type Spawnable
+  (init (id typed-arrays)
+        (for-of! array typed-arrays
+                 (set this array.data-type.key (get array.data id)))))
+(define Struct Spawnable
+  (cached keys (filter (Object.keys this) (key)
+                       (.includes ['length '*data-types '*typed-arrays '*data]
+                                  key)))
+  (cached data-types
+          (map this.keys (key) 
+
+               (const dt (get this key))
+               (assign dt.key key)
+               dt))
+
+  (def-generic build (keys data-types)) ;; :D
+
+  (cached typed-arrays (map this.data-types (dt) (.spawn dt this.length)))
+  (cached data (Array.from (.generate this)))
+
+  (init (length ))
+  (def* generate ()
+    (for! (i 0) (< i this.length) (incr i)
+          (yield (.spawn Struct-type i this.typed-arrays))))
+  (def clear ()
+    (clear-cache this data)
+    (clear-cache this typed-arrays)
+    (clear-cache this keys)
+    (clear-cache this data-types)
+    (assign this.length null)
+    )
+  )

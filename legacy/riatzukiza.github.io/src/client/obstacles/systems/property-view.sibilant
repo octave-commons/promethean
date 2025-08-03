@@ -1,0 +1,132 @@
+(namespace obstacles)
+
+(import Component System "/shared/ecs.js")
+(import config "/client/obstacles/config.js")
+(import debug-view  "/client/obstacles/dom.js" )
+
+(def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
+(macro cache (m k ...body)
+       `(if (.has @m @k)
+            (.get @m @k)
+            (do (var r (scoped ...@body))
+                (.set @m @k r) r)))
+(const views (new Map))
+(define Property-view Component
+  (def register ()
+    (assign this.panel-id (+ "entity-panel" this.entity.id))
+
+    )
+  (gett parent-view this.system.content-view)
+
+  (def *clear () (.remove (this.view)))
+
+  (def-view view ()
+    (.div .id (-> this.panel-id)
+          .className "panel"
+          .style (lit (width "99%"))
+          (.div "entity" this.entity.id))))
+
+(define View-panel System
+  (interface Property-view)
+  (page-size 10)
+  (page 0)
+  (cursor 0)
+  (title "Entities")
+
+  (gett hidden (= this.view.style.display "none"))
+  (gett pages (Math.ceil (/  this.components.length this.page-size)))
+  (gett debug-view debug-view)
+
+  (def register ()
+
+    (.append this.debug-view  (this.container-view))
+    (assign this.updated? true)
+    (.hide this))
+
+  (gett next-page
+        (-> (when (< this.page this.pages)
+              (incr this.page)
+              (assign this.updated? true)
+              (.render (this.page-number-view) false)
+              )))
+
+  (gett previous-page
+        (-> (when (> this.page 0)
+              (decr this.page)
+              (assign this.updated? true)
+              (.render (this.page-number-view) false)
+              )))
+  (gett hide (-> (if this.hidden
+                     (assign this.view.style.display "")
+                     (assign this.view.style.display "none"))
+                 (.render (this.title-view) false)))
+
+  (gett view (this.content-view))
+  (def-view settings-panel () (.div .className "panel" ))
+  (def-view page-number-view () (.span (-> (+ (+ 1 this.page)  "/" this.pages))))
+  (def-view title-view () (.b (.div .className "panel"
+                                    .style (lit (width "30%")) this.title) .onclick this.hide
+                              (.div .className "panel"
+                                    .style (lit (width 20)
+                                                (height 20)
+                                                )
+                                    (-> (if this.hidden "+" "-")))))
+
+  (def-view previous-page-button () 
+    (.button "prev"
+             .onclick
+             this.previous-page))
+  (def-view next-page-button () (.button "next" .onclick this.next-page))
+
+  (def-view header ()
+    (.div .className "panel"
+          .style (lit (width "100%"))
+          (.div .className "panel"
+                .style (lit (width "100%"))
+                this.title-view
+                this.next-page-button
+                this.previous-page-button
+                this.page-number-view)
+          this.settings-panel
+          ))
+
+  (def-view container-view ()
+    (.div .id (+ this.title "-container")
+
+          .className "panel"
+          .style (lit (width "99%"))
+          this.header
+          this.content-view))
+
+  (def-view content-view ()
+    (.div .id (+ this.title "-content")
+          .style (lit ("overflow-y" "scroll")
+                      ("height" 500)
+                      ("width" "99%"))))
+
+  (def *prepare () (assign this.cursor 0))
+
+  (def *update-all ()
+    (.render (this.page-number-view))
+    (when (and (not this.hidden)
+               (or this.updated? (= (mod this.game.ticker.ticks config.ui-polling-rate) 0)))
+      (.call System.*update-all this)))
+
+  (def *update-component (c t)
+    (if c.displayed? (.remove (c.view)))
+    (assign c.displayed? false)
+
+    (when (= (Math.floor (/  this.cursor this.page-size)) this.page)
+
+      (assign c.displayed? true)
+      (each c.entity.aspects (a)
+            (const c* (get c.entity a.interface.name))
+            (when c*.update-view?
+              (.append (c.view) (c*.view))))
+      (.append (this.content-view) (c.view)))
+    (incr this.cursor))
+  (def *cleanup ()
+    (.render (this.container-view))
+    (assign this.updated? false)))
+(export View-panel)
+(export Property-view)

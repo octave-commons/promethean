@@ -1,0 +1,7 @@
+(import Double-buffered-array "./double-buffered.js")
+(import Physics-object "../data-types/physics-object.js")
+
+(define Physics-array Double-buffered-array
+  (data-type Physics-object))
+
+(export Physics-array)

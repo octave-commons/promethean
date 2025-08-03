@@ -1,0 +1,47 @@
+
+
+(meta "import '/bundles/external.js'")
+
+(import Vector "/shared/vectors.js")
+(import Spawnable "/shared/data-structures/spawnable.js")
+(import Physics-array "../typed-arrays/physics-array.js")
+(import Group-id-array "../typed-arrays/group-id-array.js")
+(import Vector-2D-array "../typed-arrays/vector-2d.js")
+(import Threaded-system "../system.sibilant")
+(import Barycenter-array "../typed-arrays/barycenter-array.sibilant")
+(import Parent-system "../system.sibilant")
+
+(import config "../config.js")
+(const (lit gravitational-constant ) config)
+
+(define Attractor-group-system Threaded-system
+  (url "/client/colliding-particles/workers/cluster-attractor-system.js")
+  (data [])
+  )
+
+
+(print config )
+(const threads [])
+(for! (i 0) (> config.attractor-thread-count i) (incr i )
+      (const thread (.spawn Attractor-group-system))
+      (assign thread.url (+ "/client/colliding-particles/workers/cluster-attractor-system.js?gid=" i))
+      (assign thread.args (lit (thread-id i)))
+      (.start thread)
+      (.push threads thread))
+(define Cluster-attractor-manager Parent-system
+  (data-types [
+
+              Vector-2D-array
+              Physics-array
+              Group-id-array
+              Barycenter-array
+
+              Vector-2D-array
+
+              ])
+  (def-async update (args data)
+    (Promise.all (map threads (thread)
+                      (assign thread.data data)
+                      (.update thread)))))
+
+(.start Cluster-attractor-manager)

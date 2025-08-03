@@ -1,0 +1,12 @@
+
+(define Particle Struct
+  (pos Vector-2D-array) ;;current location
+  (vel Vector-2D-array) ;; current velocity
+  (near-gravity Vector-2D-array) ;; current change in velocity due to nearby masses
+  (far-gravity Vector-2D-array) ;; Current change in velocity due to clusters of distant objects
+  (deflection Vector-2D-array) ;; new velocity after deflection
+  ;; if present, replaces current velocity in movement calculation.
+  (correction Vector-2D-array) ;; Change in position to avoid collision
+  ;; if present, added to the position in movement calculation.
+  (phys Physics-array)
+  (group-id Group-id))
