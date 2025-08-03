@@ -13,7 +13,7 @@ import { Speaker } from './speaker';
 // import {Transcript} from "./transcript"
 import { randomUUID, UUID } from 'crypto';
 import { Transcriber } from './transcriber';
-import { VoiceRecorder } from './voice-recorder';
+import { RecordingMetaData, VoiceRecorder } from './voice-recorder';
 import { Bot } from './bot';
 import { VoiceSynth } from './voice-synth';
 import EventEmitter from 'events';
@@ -64,6 +64,7 @@ export class VoiceSession extends EventEmitter {
 		// this.transcript = new Transcript();
 		this.transcriber = new Transcriber();
 		this.recorder = new VoiceRecorder();
+<<<<<<< HEAD
 		this.deps = {
 			renderWaveForm,
 			generateSpectrogram,
@@ -102,6 +103,9 @@ export class VoiceSession extends EventEmitter {
 				}
 			}
 		});
+=======
+		this.recorder.on('saved', (meta: RecordingMetaData) => this.bot.sendWaveform(meta));
+>>>>>>> origin/codex/update-cephalon-for-waveform-storage
 		this.voiceSynth = new VoiceSynth();
 	}
 	get receiver() {

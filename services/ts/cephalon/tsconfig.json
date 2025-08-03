@@ -49,6 +49,10 @@
 		// Completeness
 		"skipLibCheck": true
 	},
+<<<<<<< HEAD
 	"include": ["src/**/*.ts", "tests/**/*.ts", "types/**/*.d.ts"],
+=======
+	"include": ["src/**/*.ts", "tests/**/*.ts"],
+>>>>>>> origin/codex/update-cephalon-for-waveform-storage
 	"exclude": ["node_modules"]
 }

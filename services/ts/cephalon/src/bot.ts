@@ -16,6 +16,10 @@ import { AGENT_NAME } from '../../../../shared/js/env.js';
 import { ContextManager } from './contextManager';
 import { LLMService } from './llm-service';
 import { CollectionManager } from './collectionManager';
+<<<<<<< HEAD
+=======
+import { RecordingMetaData } from './voice-recorder';
+>>>>>>> origin/codex/update-cephalon-for-waveform-storage
 
 // const VOICE_SERVICE_URL = process.env.VOICE_SERVICE_URL || 'http://localhost:4000';
 
@@ -47,8 +51,12 @@ export class Bot extends EventEmitter {
 	applicationId: string;
 	context: ContextManager = new ContextManager();
 	currentVoiceSession?: any;
+<<<<<<< HEAD
 	captureChannel?: discord.TextChannel;
 	desktopChannel?: discord.TextChannel;
+=======
+	waveformChannelId?: string;
+>>>>>>> origin/codex/update-cephalon-for-waveform-storage
 
 	constructor(options: BotOptions) {
 		super();
@@ -57,7 +65,11 @@ export class Bot extends EventEmitter {
 		this.client = new Client({
 			intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates],
 		});
+<<<<<<< HEAD
 		this.agent = new AIAgent({ historyLimit: 20, bot: this, context: this.context, llm: new LLMService() });
+=======
+		this.agent = new AIAgent({ historyLimit: 5, bot: this, context: this.context, llm: new LLMService() });
+>>>>>>> origin/codex/update-cephalon-for-waveform-storage
 	}
 
 	get guilds(): Promise<discord.Guild[]> {
@@ -87,9 +99,12 @@ export class Bot extends EventEmitter {
 					console.warn(e);
 				}
 			})
+<<<<<<< HEAD
 			.on(Events.MessageCreate, async (message) => {
 				await this.forwardAttachments(message);
 			})
+=======
+>>>>>>> origin/codex/update-cephalon-for-waveform-storage
 			.on(Events.Error, console.error);
 	}
 
@@ -105,6 +120,7 @@ export class Bot extends EventEmitter {
 		);
 	}
 
+<<<<<<< HEAD
 	async forwardAttachments(message: discord.Message) {
 		if (!this.captureChannel) return;
 		if (message.author?.bot) return;
@@ -119,6 +135,20 @@ export class Bot extends EventEmitter {
 	}
 
 <<<<<<<
+=======
+	async sendWaveform(meta: RecordingMetaData) {
+		if (!this.waveformChannelId) return;
+		try {
+			const channel = await this.client.channels.fetch(this.waveformChannelId);
+			if (channel?.isTextBased()) {
+				await channel.send({ files: [meta.filename] });
+			}
+		} catch (e) {
+			console.warn('Failed to send waveform', e);
+		}
+	}
+
+>>>>>>> origin/codex/update-cephalon-for-waveform-storage
 	@interaction({
 		description: 'Joins the voice channel the requesting user is currently in',
 	})
@@ -164,6 +194,7 @@ export class Bot extends EventEmitter {
 		this.currentVoiceSession.start();
 		return interaction.followUp('DONE!');
 	}
+<<<<<<< HEAD
 =======
 	@interaction({
 		description: "Joins the caller's voice channel, transcribes everyone, and starts the AI agent",
@@ -173,6 +204,9 @@ export class Bot extends EventEmitter {
 >>>>>>>
 
 <<<<<<<
+=======
+
+>>>>>>> origin/codex/update-cephalon-for-waveform-storage
 	@interaction({
 		description: 'Leaves whatever channel the bot is currently in.',
 	})
@@ -182,6 +216,7 @@ export class Bot extends EventEmitter {
 			return interaction.followUp('Successfully left voice channel');
 		}
 		return interaction.followUp('No voice channel to leave.');
+<<<<<<< HEAD
 =======
 		let textChannel: discord.TextChannel | null = null;
 		if (interaction.channel?.id) {
@@ -236,11 +271,24 @@ export class Bot extends EventEmitter {
 			{
 				name: 'channel',
 				description: 'Target text channel for desktop captures',
+=======
+
+		// Leave the specified voice channel
+	}
+
+	@interaction({
+		description: 'Set the text channel where recorded waveforms will be stored',
+		options: [
+			{
+				name: 'channel',
+				description: 'Target text channel',
+>>>>>>> origin/codex/update-cephalon-for-waveform-storage
 				type: ApplicationCommandOptionType.Channel,
 				required: true,
 			},
 		],
 	})
+<<<<<<< HEAD
 	async setDesktopChannel(interaction: Interaction) {
 		const channel = interaction.options.getChannel('channel', true);
 		if (!channel.isTextBased()) {
@@ -249,6 +297,15 @@ export class Bot extends EventEmitter {
 		this.desktopChannel = channel as discord.TextChannel;
 		this.agent.desktop.setChannel(this.desktopChannel);
 		return interaction.reply(`Desktop capture channel set to ${channel.id}`);
+=======
+	async setWaveformChannel(interaction: Interaction) {
+		const channel = interaction.options.getChannel('channel', true);
+		if (!channel?.isTextBased()) {
+			return interaction.reply('Channel must be text based');
+		}
+		this.waveformChannelId = channel.id;
+		return interaction.reply(`Waveforms will be stored in <#${channel.id}>`);
+>>>>>>> origin/codex/update-cephalon-for-waveform-storage
 	}
 	@interaction({
 		description: 'begin recording the given user.',
@@ -269,6 +326,7 @@ export class Bot extends EventEmitter {
 		}
 		return interaction.reply('Recording!');
 	}
+<<<<<<< HEAD
 =======
 		this.currentVoiceSession.transcriber.on('transcriptEnd', async (transcript: FinalTranscript) => {
 			const transcripts = this.context.getCollection('transcripts') as CollectionManager<'text', 'createdAt'>;
@@ -291,6 +349,9 @@ export class Bot extends EventEmitter {
 >>>>>>>
 
 <<<<<<<
+=======
+
+>>>>>>> origin/codex/update-cephalon-for-waveform-storage
 	@interaction({
 		description: 'stop recording the given user.',
 		options: [
@@ -309,11 +370,15 @@ export class Bot extends EventEmitter {
 		}
 		return interaction.reply("I'm not recording you any more... I promise...");
 	}
+<<<<<<< HEAD
 =======
 		this.currentVoiceSession.start();
 >>>>>>>
 
 <<<<<<<
+=======
+
+>>>>>>> origin/codex/update-cephalon-for-waveform-storage
 	@interaction({
 		description: 'Begin transcribing the speech of users in the current channel to the target text channel',
 		options: [
@@ -336,6 +401,7 @@ export class Bot extends EventEmitter {
 			const user = interaction.options.getUser('speaker', true);
 			this.currentVoiceSession.addSpeaker(user);
 			this.currentVoiceSession.startSpeakerTranscribe(user, interaction.options.getBoolean('log') || false);
+<<<<<<< HEAD
 =======
 		for (const [, member] of voiceChannel.members) {
 			if (member.user.bot) continue;
@@ -345,6 +411,9 @@ export class Bot extends EventEmitter {
 >>>>>>>
 
 <<<<<<<
+=======
+
+>>>>>>> origin/codex/update-cephalon-for-waveform-storage
 			return interaction.reply(`I will faithfully transcribe every word ${user.displayName} says... I promise.`);
 		}
 		return interaction.reply("I can't transcribe what I can't hear. Join a voice channel.");
@@ -391,6 +460,7 @@ export class Bot extends EventEmitter {
 			return this.agent?.start();
 		}
 	}
+<<<<<<< HEAD
 =======
 		const handleVoiceState = async (_oldState: discord.VoiceState, newState: discord.VoiceState) => {
 			if (this.currentVoiceSession && newState.channelId === voiceChannel.id && !newState.member?.user.bot) {
@@ -544,4 +614,6 @@ export class Bot extends EventEmitter {
 		}
 	}
 >>>>>>>
+=======
+>>>>>>> origin/codex/update-cephalon-for-waveform-storage
 }

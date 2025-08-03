@@ -20,3 +20,6 @@
 ## Dependents
 - `services/cephalon/tests/bot.test.ts`
 
+## Commands
+- `set_waveform_channel` – selects the Discord text channel where recorded waveforms are uploaded.
+
