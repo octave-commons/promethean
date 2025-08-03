@@ -15,7 +15,7 @@ export class VoiceSynth extends EventEmitter {
 		options: VoiceSynthOptions = {
 			host: 'localhost',
 			endpoint: '/synth-voice', // fix this later
-			port: 5002,
+			port: 5001,
 		},
 	) {
 		super();
@@ -26,7 +26,7 @@ export class VoiceSynth extends EventEmitter {
 	async generateAndUpsampleVoice(text: string): Promise<{ stream: Readable; cleanup: () => void }> {
 		const req = request({
 			hostname: 'localhost',
-			port: 5002,
+			port: 5001,
 			path: '/synth_voice_pcm',
 			method: 'POST',
 			headers: {
@@ -85,8 +85,8 @@ export class VoiceSynth extends EventEmitter {
 			const req = request(
 				{
 					hostname: 'localhost',
-					port: 5002,
-					path: '/synth_voice',
+					port: 5001,
+					path: '/synth_voice_pcm',
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/x-www-form-urlencoded',

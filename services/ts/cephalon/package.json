@@ -1,14 +1,14 @@
 {
-	"name": "basic-bot",
+	"name": "Cephalon",
 	"version": "0.0.1",
 	"description": "A proof-of-concept basic bot using @discordjs/voice",
-	"main": "dist/src/index.js",
+	"main": "dist/index.js",
 	"type": "module",
 	"scripts": {
 		"build": "tsc && node scripts/patch-imports.js",
 		"start": "node dist/src/index.js",
-		"test": "npm run build && ava dist/tests/test.js",
-		"coverage": "npm run build && c8 ava \"dist/tests/**/*.js\"",
+		"test": "npm run build && ava",
+		"coverage": "npm run build && c8 ava",
 		"build:check": "tsc --noEmit --incremental false",
 		"deploy": "npm run build && node --env-file=../../.env dist/util/deploy.js",
 		"lint": "prettier --cache --check . && eslint src --ext mjs,js,ts --cache",
@@ -27,6 +27,7 @@
 	"author": "Amish Shah <amishshah.2k@gmail.com>",
 	"license": "UNLICENSE",
 	"dependencies": {
+		"@chroma-core/default-embed": "^0.1.8",
 		"@discordjs/opus": "^0.10.0",
 		"@discordjs/voice": "^0.18.0",
 		"@types/sbd": "^1.0.5",
@@ -47,6 +48,7 @@
 	"devDependencies": {
 		"@types/node": "^22.10.10",
 		"ava": "^6.4.1",
+		"c8": "^9.1.0",
 		"eslint": "^8.57.0",
 		"eslint-config-neon": "^0.1.62",
 		"prettier": "^3.4.2",
@@ -54,8 +56,7 @@
 		"rimraf": "^6.0.1",
 		"source-map-support": "^0.5.21",
 		"ts-node": "^10.9.2",
-		"typescript": "5.7.3",
-		"c8": "^9.1.0"
+		"typescript": "5.7.3"
 	},
 	"ava": {
 		"files": [

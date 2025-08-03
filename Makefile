@@ -13,7 +13,7 @@ include Makefile.sibilant
 
 .PHONY: all build clean lint format test setup setup-quick install system-deps start stop start-tts start-stt stop-tts stop-stt \
         board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues coverage coverage-python coverage-js coverage-ts simulate-ci \
-				generate-requirements generate-requirements-service-% setup-python-quick test-python test-js test-ts
+        generate-requirements generate-requirements-service-% setup-python-quick test-python test-js test-ts docker-build docker-up docker-down
 
 
 all: build
@@ -53,6 +53,18 @@ start:
 stop:
 	pm2 stop ecosystem.config.js || true
 
+start-tts:
+	pm2 start ecosystem.config.js --only tts
+
+start-stt:
+	pm2 start ecosystem.config.js --only stt
+
+stop-tts:
+	pm2 stop tts || true
+
+stop-stt:
+	pm2 stop stt || true
+
 start-%:
 	pm2 start ecosystem.config.js --only $*
 
@@ -70,3 +82,15 @@ kanban-to-hashtags:
 
 kanban-to-issues:
 	python scripts/kanban_to_issues.py
+
+simulate-ci:
+	python scripts/simulate_ci.py
+
+docker-build:
+	docker compose build
+
+docker-up:
+	docker compose up -d
+
+docker-down:
+	docker compose down

@@ -23,7 +23,7 @@ export const AGENT_NAME = process.env.AGENT_NAME || 'duck';
 import { ContextManager, formatMessage, GenericEntry } from './contextManager';
 import tokenizer from 'sbd';
 import { choice, generatePromptChoice, generateSpecialQuery } from './util';
-const VISION_HOST = process.env.VISION_HOST || 'http://localhost:5003';
+const VISION_HOST = process.env.VISION_HOST || 'http://localhost:9999';
 
 export async function captureScreen(): Promise<Buffer> {
 	if (process.env.NO_SCREENSHOT === '1') {

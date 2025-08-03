@@ -9,8 +9,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Using device:", device)
 
 # Load small model
-processor = WhisperProcessor.from_pretrained("openai/whisper-small")
-model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-small").to(
+processor = WhisperProcessor.from_pretrained("openai/whisper-tiny")
+model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-tiny").to(
     device
 )
 

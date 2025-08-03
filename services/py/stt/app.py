@@ -6,7 +6,7 @@ import asyncio
 
 import sys
 
-sys.path.append("../../")
+sys.path.append("../../../")
 from shared.py.speech.wisper_stt import transcribe_pcm
 
 app = FastAPI()
