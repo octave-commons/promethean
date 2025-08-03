@@ -9,7 +9,7 @@
     "start:dev": "node --loader ts-node/esm src/index.ts",
     "build:check": "tsc --noEmit --incremental false",
     "test": "npm run build && ava",
-    "coverage": "c8 ava"
+    "coverage": "npm run build && c8 ava"
   },
   "dependencies": {
     "chokidar": "^3.5.3"
