@@ -25,3 +25,21 @@ allowDelete: true
 https://chatgpt.com/codex/tasks/taske688ef37680b0832491c0189a1f23298a
 
 
+
+
+---
+### New status: "open"
+
+# feat: compile file watcher ts on start
+## Summary
+- compile TypeScript before launching file watcher service
+- document automatic TypeScript compilation in service README
+
+## Testing
+- npm run build
+- npx ava tests/dummy.test.ts --node-arguments"--loader ts-node/esm"
+- npx eslint src/index.ts (ignored: file matched ignore pattern)
+- npx prettier --write package.json README.md
+
+- - -- - -
+https://chatgpt.com/codex/tasks/taske688ef37680b0832491c0189a1f23298a

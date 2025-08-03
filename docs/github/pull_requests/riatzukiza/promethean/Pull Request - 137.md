@@ -26,3 +26,22 @@ allowDelete: true
 https://chatgpt.com/codex/tasks/taske688bec1d09ec83249d9448c95c5588f7
 
 
+
+
+---
+### New status: "open"
+
+# Standardize dependency setup docs
+## Summary
+- docs: reference make setup as the single install command
+- update lint workflow to use make setup
+
+## Testing
+- make setup *(fails: interrupted)*
+- make test *(fails: ModuleNotFoundError: No module named 'numpy')*
+- make build *(fails: rimraf not found)*
+- make lint *(fails: flake8 not installed)*
+- make format
+
+- - -- - -
+https://chatgpt.com/codex/tasks/taske688bec1d09ec83249d9448c95c5588f7
