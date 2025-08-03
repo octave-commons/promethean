@@ -11,7 +11,8 @@ import {
 import { VoiceSession } from './voice-session';
 import { FinalTranscript } from './transcriber';
 import EventEmitter from 'events';
-import { AIAgent, AGENT_NAME } from './agent';
+import { AIAgent } from './agent';
+import { AGENT_NAME } from '../../../../shared/js/env.js';
 import { ContextManager } from './contextManager';
 import { LLMService } from './llm-service';
 import { CollectionManager } from './collectionManager';
@@ -46,6 +47,7 @@ export class Bot extends EventEmitter {
 	applicationId: string;
 	context: ContextManager = new ContextManager();
 	currentVoiceSession?: any;
+
 	waveformChannel?: discord.TextChannel;
 
 	constructor(options: BotOptions) {
