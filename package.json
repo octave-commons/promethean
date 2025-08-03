@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "dotenv": "^17.2.1"
+    "canvas": "^3.1.2",
+    "dotenv": "^17.2.1",
+    "execa": "^9.6.0",
+    "fs-extra": "^11.3.0"
   }
 }

@@ -4,7 +4,7 @@ import ollama from "ollama";
 export const MODEL = process.env.LLM_MODEL || "gemma3:latest";
 
 export const app = express();
-app.use(express.json({ limit: "10mb" }));
+app.use(express.json({ limit: "500mb" }));
 
 export async function callOllama({ prompt, context, format }, retry = 0) {
   try {
@@ -23,10 +23,21 @@ export async function callOllama({ prompt, context, format }, retry = 0) {
     throw err;
   }
 }
-
 app.post("/generate", async (req, res) => {
-    console.log("what?")
   const { prompt, context, format } = req.body;
+  for (let m of context) {
+    console.log("message:", m.content);
+    if (m.images) {
+      console.log("image data:");
+      for (let imageData of m.images) {
+        console.log(imageData.type);
+        // console.log(imageData.data)
+      }
+      m.images = m.images.map((img) => new Uint8Array(img.data));
+    }
+  }
+  console.log("root prompt", prompt);
+  console.log("format", format || "string");
   try {
     const reply = await callOllama({ prompt, context, format });
     res.json({ reply });

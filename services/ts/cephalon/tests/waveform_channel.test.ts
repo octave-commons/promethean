@@ -1,5 +1,14 @@
 import test from 'ava';
-import { VoiceSession } from '../src/voice-session.js';
+import Module from 'module';
+
+const ModuleAny = Module as any;
+const originalLoad = ModuleAny._load;
+ModuleAny._load = function (request: string, parent: any, isMain: boolean) {
+	if (request.includes('canvas')) return {};
+	return originalLoad(request, parent, isMain);
+};
+
+const { VoiceSession } = await import('../src/voice-session.js');
 
 // Verify that saved recordings are sent to the configured channel
 
