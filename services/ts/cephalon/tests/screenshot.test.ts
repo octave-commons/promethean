@@ -1,4 +1,4 @@
-import test from 'ava';
+import test, { type ExecutionContext } from 'ava';
 import { Bot } from '../src/bot.js';
 
 class TestBot extends Bot {
@@ -15,9 +15,11 @@ class TestBot extends Bot {
 				toString: () => '#chan',
 			}) as any;
 	}
+
+	lastReply?: string;
 }
 
-test('setScreenshotChannel sets id and logScreenshot sends', async (t) => {
+test('setScreenshotChannel sets id and logScreenshot sends', async (t: ExecutionContext) => {
 	const bot = new TestBot();
 	const interaction: any = {
 		options: {

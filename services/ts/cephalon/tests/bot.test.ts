@@ -1,4 +1,4 @@
-import test from 'ava';
+import test, { type ExecutionContext } from 'ava';
 import Module from 'module';
 
 const ModuleAny = Module as any;
@@ -26,7 +26,7 @@ function makeBot() {
 	return bot;
 }
 
-test('registerInteractions issues REST call', async (t) => {
+test('registerInteractions issues REST call', async (t: ExecutionContext) => {
 	const originalPut = REST.prototype.put;
 	const calls: unknown[][] = [];
 	(REST.prototype as any).put = async (...args: unknown[]) => {

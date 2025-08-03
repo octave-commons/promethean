@@ -1,5 +1,5 @@
-import test from 'ava';
+import test, { type ExecutionContext } from 'ava';
 
-test('my passing test', (t) => {
+test('my passing test', (t: ExecutionContext) => {
 	t.pass();
 });

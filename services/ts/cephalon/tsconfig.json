@@ -45,6 +45,7 @@
 		"lib": ["ESNext", "esnext.disposable"],
 		"target": "ESNext",
 		"useDefineForClassFields": true,
+		"types": ["node", "ava"],
 
 		// Completeness
 		"skipLibCheck": true

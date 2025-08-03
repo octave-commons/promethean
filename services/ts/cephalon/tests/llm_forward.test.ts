@@ -1,4 +1,4 @@
-import test from 'ava';
+import test, { type ExecutionContext } from 'ava';
 import http from 'http';
 import Module from 'module';
 import EventEmitter from 'events';
@@ -20,7 +20,7 @@ class StubBot extends EventEmitter {
 	currentVoiceSession = undefined;
 }
 
-test('AIAgent forwards prompt to LLM service', async (t) => {
+test('AIAgent forwards prompt to LLM service', async (t: ExecutionContext) => {
 	process.env.NO_SCREENSHOT = '1';
 	let received: any = null;
 	const server = http.createServer((req, res) => {

@@ -18,67 +18,64 @@ export interface DesktopCaptureData {
 }
 
 type DesktopDeps = {
-        captureScreen: typeof captureScreen;
-        captureAndRenderWaveform: typeof captureAndRenderWaveform;
+	captureScreen: typeof captureScreen;
+	captureAndRenderWaveform: typeof captureAndRenderWaveform;
 };
 
 export class DesktopCaptureManager {
-        frames: DesktopCaptureData[] = [];
-        limit = 5;
-        step = 5; // seconds between captures
-        isRunning = false;
-        channel?: discord.TextChannel;
-        deps: DesktopDeps;
+	frames: DesktopCaptureData[] = [];
+	limit = 5;
+	step = 5; // seconds between captures
+	isRunning = false;
+	channel: discord.TextChannel | undefined;
+	deps: DesktopDeps;
 
-        constructor(deps: Partial<DesktopDeps> = {}) {
-                this.deps = {
-                        captureScreen,
-                        captureAndRenderWaveform,
-                        ...deps,
-                };
-        }
+	constructor(deps: Partial<DesktopDeps> = {}) {
+		this.deps = {
+			captureScreen,
+			captureAndRenderWaveform,
+			...deps,
+		};
+	}
 
-        setChannel(channel?: discord.TextChannel) {
-                this.channel = channel;
-        }
+	setChannel(channel?: discord.TextChannel) {
+		this.channel = channel;
+	}
 
-        async capture(): Promise<DesktopCaptureData> {
-                const [screen, audio] = await Promise.all([
-                        this.deps.captureScreen(),
-                        this.deps.captureAndRenderWaveform(),
-                ]);
-                return { screen, audio };
-        }
+	async capture(): Promise<DesktopCaptureData> {
+		const [screen, audio] = await Promise.all([this.deps.captureScreen(), this.deps.captureAndRenderWaveform()]);
+		return { screen, audio };
+	}
 
-        async start() {
-                this.isRunning = true;
-                while (this.isRunning) {
-                        const frame = await this.capture();
-                        this.frames.push(frame);
+	async start() {
+		this.isRunning = true;
+		while (this.isRunning) {
+			const frame = await this.capture();
+			this.frames.push(frame);
 
-                        if (this.channel) {
-                                const now = Date.now();
-                                const files = [
-                                        { attachment: frame.screen, name: `screen-${now}.png` },
-                                        { attachment: frame.audio.waveForm, name: `waveform-${now}.png` },
-                                        { attachment: frame.audio.spectrogram, name: `spectrogram-${now}.png` },
-                                ];
-                                try {
-                                        await this.channel.send({ files });
-                                } catch (e) {
-                                        console.warn('Failed to upload desktop capture', e);
-                                }
-                        }
+			if (this.channel) {
+				const now = Date.now();
+				const files = [
+					{ attachment: frame.screen, name: `screen-${now}.png` },
+					{ attachment: frame.audio.waveForm, name: `waveform-${now}.png` },
+					{ attachment: frame.audio.spectrogram, name: `spectrogram-${now}.png` },
+				];
+				try {
+					await this.channel.send({ files });
+				} catch (e) {
+					console.warn('Failed to upload desktop capture', e);
+				}
+			}
 
-                        if (this.frames.length > this.limit) {
-                                this.frames.shift();
-                        }
+			if (this.frames.length > this.limit) {
+				this.frames.shift();
+			}
 
-                        await new Promise((res) => setTimeout(res, this.step * 1000));
-                }
-        }
+			await new Promise((res) => setTimeout(res, this.step * 1000));
+		}
+	}
 
-        stop() {
-                this.isRunning = false;
-        }
+	stop() {
+		this.isRunning = false;
+	}
 }

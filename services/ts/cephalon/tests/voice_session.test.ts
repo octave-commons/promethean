@@ -1,4 +1,4 @@
-import test from 'ava';
+import test, { type ExecutionContext } from 'ava';
 import Module from 'module';
 
 const ModuleAny = Module as any;
@@ -18,11 +18,11 @@ function makeUser(id: string, username: string): any {
 	return { id, username };
 }
 
-test.skip('start joins voice channel', (t) => {
+test.skip('start joins voice channel', (t: ExecutionContext) => {
 	t.pass();
 });
 
-test('addSpeaker registers user', async (t) => {
+test('addSpeaker registers user', async (t: ExecutionContext) => {
 	const guild = makeGuild('1');
 	const vs = new VoiceSession({ voiceChannelId: '99', guild, bot: {} as any });
 	const user = makeUser('7', 'bob');
