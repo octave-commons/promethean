@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  tts:
+    build: ./services/py/tts
+    ports:
+      - "5001:5001"
+  stt:
+    build: ./services/py/stt
+    ports:
+      - "5002:5002"
+  vision:
+    build: ./services/js/vision
+    environment:
+      - PORT=9999
+    ports:
+      - "9999:9999"

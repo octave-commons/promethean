@@ -19,12 +19,28 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
       - name: Install dependencies
         run: make system-deps  setup-ts
 
 
-      - name: Run tests
-        run: make test-ts
+        - name: Run tests
+          run: make test-ts
 
       - name: Generate coverage
         run: make coverage-ts
@@ -34,3 +50,12 @@ jobs:
         with:
           name: ts-coverage
           path: services/ts/**/coverage
+        - name: Generate coverage report
+          run: make coverage-ts
+
+        - name: Upload coverage to Codecov
+          uses: codecov/codecov-action@v3
+          with:
+            token: ${{ secrets.CODECOV_TOKEN }}
+            files: services/ts/**/coverage/lcov.info
+            flags: ts
