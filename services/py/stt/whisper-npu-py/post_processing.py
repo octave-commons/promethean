@@ -1,11 +1,18 @@
 from models import tokenizer
+
+
 def remove_special_tokens(tokens):
     # Remove special tokens like BOS, EOS, etc.
     return [token for token in tokens if token not in tokenizer.all_special_ids]
+
+
 def remove_repeated_tokens(tokens):
     # Remove consecutive repeated tokens
     return [token for i, token in enumerate(tokens) if i == 0 or token != tokens[i - 1]]
+
+
 from difflib import SequenceMatcher
+
 
 def find_overlap(a, b):
     """
@@ -16,7 +23,10 @@ def find_overlap(a, b):
         if a[-i:] == b[:i]:
             return i
     return 0
+
+
 from difflib import SequenceMatcher
+
 
 def trim_redundant_prefix(previous_text, current_text):
     """
@@ -34,8 +44,10 @@ def trim_redundant_prefix(previous_text, current_text):
     match = sm.find_longest_match(0, len(prev_words), 0, len(curr_words))
 
     if match.size > 3 and match.b == 0:
-        return " ".join(curr_words[match.size:])
+        return " ".join(curr_words[match.size :])
     return " ".join(curr_words)
+
+
 def dedupe_ngrams(tokens, max_ngram=6):
     """
     Remove repeated n-grams from the token sequence.
@@ -51,7 +63,7 @@ def dedupe_ngrams(tokens, max_ngram=6):
         for n in range(max_ngram, 1, -1):
             if i + n > len(tokens):
                 continue
-            ngram = tuple(tokens[i:i+n])
+            ngram = tuple(tokens[i : i + n])
             if ngram in seen[n]:
                 # skip this ngram
                 i += n
@@ -63,6 +75,8 @@ def dedupe_ngrams(tokens, max_ngram=6):
             output.append(tokens[i])
             i += 1
     return output
+
+
 # def cleanup_tokens(current_chunk_tokens, prior_tokens, tokenizer, is_first_chunk=True):
 #     full_tokens = remove_repeated_tokens(remove_special_tokens(current_chunk_tokens))
 #     current_text = tokenizer.decode(full_tokens)
@@ -82,11 +96,14 @@ def dedupe_ngrams(tokens, max_ngram=6):
 #     # if not is_first_chunk:
 #     #     trimmed_tokens = trimmed_tokens[3:]
 
+
 #     overlap = find_overlap(prior_tokens, trimmed_tokens)
 #     return trimmed_tokens[overlap:]
 def cleanup_tokens(current_chunk_tokens, prior_tokens, tokenizer, is_first_chunk=True):
     # Strip special tokens
-    full_tokens = [t for t in current_chunk_tokens if t not in tokenizer.all_special_ids]
+    full_tokens = [
+        t for t in current_chunk_tokens if t not in tokenizer.all_special_ids
+    ]
 
     # Decode
     current_text = tokenizer.decode(full_tokens)
@@ -103,6 +120,4 @@ def cleanup_tokens(current_chunk_tokens, prior_tokens, tokenizer, is_first_chunk
     print("TRIMMED TEXT:", repr(trimmed_text))
     print("TOKEN LENGTH CHANGE:", len(current_chunk_tokens), "→", len(trimmed_tokens))
 
-
     return trimmed_tokens
-

@@ -1,0 +1,11 @@
+(import Double-buffered-array "./double-buffered.sibilant")
+(import Binary-tree-node "../data-types/binary-tree-node.sibilant")
+
+(define Binary-tree Double-buffered-array
+  ;; (element-type null)
+  (data-type Binary-tree-node)
+
+  ;; (cached data-type (.bind-type this.node-type this.element-type))
+  (gett root (get this.data 0)))
+
+(export Binary-tree)

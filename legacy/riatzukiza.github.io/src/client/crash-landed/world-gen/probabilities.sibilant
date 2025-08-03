@@ -1,0 +1,105 @@
+(import Spawnable "/shared/data-structures/spawnable.js")
+(import Terrain-module "./terrain-module.js")
+(import Possible-state "./possible-state.js")
+(import base-weights "./base-weights.js")
+(import summate "/shared/math/math.js")
+
+(define Probability-distrobution Spawnable
+
+  (expects grass)
+  (expects stone)
+  (expects flowery-grass)
+
+  (def sample-inverse ()
+    (var r (Math.random))
+    (var s 0)
+    (var i 0)
+    (for-of! type-name ['grass 'stone 'flowery-grass]
+             (incr-by s (- 1 (get this type-name)))
+             (if! (> s r) (return type-name)))
+    (throw (new Error "You screwed up your math, these probabilities don't add up to 1.")))
+  (def sample ()
+    (var r (Math.random))
+    (var s 0)
+    (var i 0)
+    (for-of! type-name ['grass 'stone 'flowery-grass]
+             (incr-by s (get this type-name))
+             (if! (> s r) (return type-name)))
+    (throw (new Error "You screwed up your math, these probabilities don't add up to 1.")))
+  (def clear () (set this 'grass 0 'stone 0 'flowery-grass 0)))
+(export Probability-distrobution)
+(define Super-position-distrobution Probability-distrobution
+  (init (super-position))
+  (gett grass (.get-likelyhood-of-state this.super-position 'grass))
+  (gett stone (.get-likelyhood-of-state this.super-position 'stone))
+  (gett flowery-grass (.get-likelyhood-of-state this.super-position 'flowery-grass))
+  (def clear () (assign this.super-position null)))
+(export Super-position-distrobution)
+
+(define Base-distrobution Probability-distrobution
+  (cached total-weight (summate this.weights))
+  (cached weights (map this.states (state)
+                       (* state.weight (get base-weights state.collapsed-state))))
+  (cached states (map Terrain-module.modules (chunk-type)
+                      (.spawn Possible-state this chunk-type)))
+  (cached grass (/ (reduce this.states 0 (weight state)
+                           (if (= state.collapsed-state 'grass)
+                               (+ weight (* state.weight (get base-weights state.collapsed-state)))
+                               weight))
+                   this.total-weight))
+  (cached stone (/ (reduce this.states 0 (weight state)
+                           (if (= state.collapsed-state 'stone)
+                               (+ weight (* state.weight (get base-weights state.collapsed-state)))
+                               weight))
+                   this.total-weight))
+  (cached  flowery-grass (/ (reduce this.states 0 (weight state)
+                                    (if (= state.collapsed-state 'flowery-grass)
+                                        (+ weight (* state.weight (get base-weights state.collapsed-state)))
+                                        weight))
+                            this.total-weight))
+  (def clear ()
+    (clear-cache this total-weight)
+    (clear-cache this weights)
+    (clear-cache this states)
+    (clear-cache this grass)
+    (clear-cache this stone)
+    (clear-cache this flowery-grass)))
+(export Base-distrobution)
+
+(define Current-distrobution Probability-distrobution
+
+  (grass-instances 1)
+  (stone-instances 1)
+  (flowery-grass-instances 1)
+
+  (gett total-instances (+ this.grass-instances
+                           this.stone-instances
+                           this.flowery-grass-instances))
+  (gett grass (/ this.grass-instances this.total-instances))
+  (gett stone (/ this.stone-instances this.total-instances))
+  (gett flowery-grass (/ this.flowery-grass-instances this.total-instances)))
+(export Current-distrobution)
+
+(define Expected-likelyhood-given-current-state Probability-distrobution
+  (base Base-distrobution)
+  (current Current-distrobution)
+
+  (gett B [this.base.grass this.base.stone this.base.flowery-grass])
+  (gett C [(or this.current.grass this.base.grass)
+           (or this.current.stone this.base.stone)
+           (or this.current.flowery-grass
+               this.base.flowery-grass)])
+  (gett E (map this.B (Bn i) (/ Bn (get this.C i))))
+  (gett corrected (map this.E (En i) (* En (get this.B i))))
+  (gett total-corrected (summate this.corrected))
+
+
+  (gett grass-correction (first this.corrected))
+  (gett stone-correction (second this.corrected))
+  (gett flowery-grass-correction (third this.corrected))
+
+  (gett grass (/ this.grass-correction this.total-corrected))
+  (gett stone (/ this.stone-correction this.total-corrected))
+  (gett flowery-grass (/ this.flowery-grass-correction this.total-corrected)))
+(export Expected-likelyhood-given-current-state)
+

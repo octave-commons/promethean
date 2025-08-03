@@ -6,8 +6,9 @@ from openvino.runtime import Core
 model_paths = {
     "encoder": "./whisper-model-npu/whisper_medium_encoder.xml",
     "cross_kv": "./whisper-model-npu/whisper_medium_encoder_decoder_cross_kv.xml",
-    "decoder": "./whisper-model-npu/whisper_medium_decoder_static_kvcache_224_lm_QKs.xml"
+    "decoder": "./whisper-model-npu/whisper_medium_decoder_static_kvcache_224_lm_QKs.xml",
 }
+
 
 def describe_model_io(model, compiled):
     desc = {"inputs": {}, "outputs": {}}
@@ -22,7 +23,10 @@ def describe_model_io(model, compiled):
         desc["outputs"][name] = list(shape)
     return desc
 
-def cache_model_io(ie: Core, paths: dict, device="NPU", cache_file="model_io.json", force_reload=False):
+
+def cache_model_io(
+    ie: Core, paths: dict, device="NPU", cache_file="model_io.json", force_reload=False
+):
     if os.path.exists(cache_file) and not force_reload:
         with open(cache_file, "r") as f:
             return json.load(f)
@@ -38,6 +42,7 @@ def cache_model_io(ie: Core, paths: dict, device="NPU", cache_file="model_io.jso
         json.dump(results, f, indent=2)
 
     return results
+
 
 # Usage
 ie = Core()

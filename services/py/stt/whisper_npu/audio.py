@@ -74,8 +74,8 @@ class AudioProcessor:
         if file_sr != sr:
             waveform = librosa.resample(waveform, orig_sr=file_sr, target_sr=sr)
         # normalise
-        max_val = np.max(np.abs(waveform)) + 1e‑8
-        waveform = np.clip(waveform / max_val, ‑1.0, 1.0)
+        max_val = np.max(np.abs(waveform)) + 1e-8
+        waveform = np.clip(waveform / max_val, -1.0, 1.0)
         return waveform.astype(np.float32)
 
     def _mel_filters(self, device: torch.device, n_mels: int) -> torch.Tensor:
@@ -99,12 +99,18 @@ class AudioProcessor:
         x = torch.from_numpy(audio).to(device)
         # no additional padding here; chunking handles that
         window = torch.hann_window(self.config.n_fft).to(device)
-        stft = torch.stft(x, self.config.n_fft, self.config.hop_length, window=window, return_complex=True)
+        stft = torch.stft(
+            x,
+            self.config.n_fft,
+            self.config.hop_length,
+            window=window,
+            return_complex=True,
+        )
         magnitudes = stft[..., :-1].abs() ** 2
         filters = self._mel_filters(device, self.config.n_mels)
         mel_spec = filters @ magnitudes
-        log_spec = torch.clamp(mel_spec, min=1e‑10).log10()
-        log_spec = torch.maximum(log_spec, log_spec.max() ‑ 8.0)
+        log_spec = torch.clamp(mel_spec, min=1e-10).log10()
+        log_spec = torch.maximum(log_spec, log_spec.max() - 8.0)
         log_spec = (log_spec + 4.0) / 4.0
         return log_spec.numpy()
 
@@ -119,7 +125,7 @@ class AudioProcessor:
             chunk = waveform[start:end]
             if len(chunk) < chunk_size:
                 # pad with zeros
-                pad_width = chunk_size ‑ len(chunk)
+                pad_width = chunk_size - len(chunk)
                 chunk = np.pad(chunk, (0, pad_width), mode="constant")
             chunks.append(chunk)
             if end >= total:

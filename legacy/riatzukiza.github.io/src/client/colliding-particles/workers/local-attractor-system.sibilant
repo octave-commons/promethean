@@ -1,0 +1,123 @@
+
+(meta "import '/bundles/external.js'")
+
+(import Vector "/shared/vectors.js")
+(import Spawnable "/shared/data-structures/spawnable.js")
+(import Physics-array "../typed-arrays/physics-array.js")
+(import Group-id-array "../typed-arrays/group-id-array.js")
+(import Vector-2D-array "../typed-arrays/vector-2d.js")
+(import Parent-system "../system.sibilant")
+
+(import config "../config.js")
+(const (lit gravitational-constant ) config)
+
+(def calculate-gravitational-intensity (target affector)
+
+  (const dist (.distance-to  affector.pos target.pos))
+  (const used-distance (Math.abs (.get-length dist )))
+  ;; distance cut off
+  ;; if these objects are too far away, they don't affect each other
+  ;; (if! (> used-distance (Math.pow (+ target.scale affector.scale) 3))
+  ;;      (set dist 'x 0 'y 0)
+  ;;      (return dist))
+  ;; local cut off
+  ;; if the objects are close, they no longer affect each other.
+  (if! (< used-distance target.scale)
+       (set dist 'x 0 'y 0)
+       (return dist))
+  (const mag (Math.sqrt (+ (* dist.x dist.x)
+                           (* dist.y dist.y))))
+  (.set-length dist (Math.abs (/ (* -1
+                                    gravitational-constant
+                                    affector.mass
+                                    target.mass
+                                    used-distance)
+                                 (Math.pow mag 2))))
+  (return dist)
+  )
+
+
+
+(define Local-particle Spawnable
+  (init (pos-source
+         phys-source
+         group-id-source
+         near-gravity-source
+
+         (mass phys-source.mass)
+         (scale phys-source.scale)
+
+         (group-id group-id-source.group-id)
+
+         (height scale)
+         (width scale)
+
+         (pos (.spawn Vector pos-source.x pos-source.y))
+         (vel (.spawn Vector 0 0))))
+  (gett x this.pos-source.x)
+  (gett y this.pos-source.y)
+  (def clear ()
+    (assign this.pos-source null)
+    (.despawn this.pos)
+    (.despawn this.vel)
+    (assign this.pos null)
+    (assign this.vel null)
+    (assign this.width null)
+    (assign this.height null)
+    )
+
+  (gett id this.pos-source.id))
+
+(define Local-attractor-system Parent-system
+  (data-types [ Vector-2D-array Physics-array  Group-id-array Vector-2D-array ] )
+  (def-async update ((lit thread-id)
+                     [positions phys group-ids near-gravity])
+
+
+    (const start-group-id (* thread-id config.groups-per-thread))
+    (const end-group-id (+ -1 (* thread-id config.groups-per-thread)
+                           config.groups-per-thread))
+
+    ;; (print (lit thread-id start-group-id end-group-id))
+    (const groups (new Map))
+    (const particles [])
+    (for! (i start-group-id) (>= end-group-id i) (incr i)
+          (.set groups i []))
+    (for-of! pos positions.data
+
+             (const gid-source (get group-ids.data pos.id))
+             (const gid gid-source.group-id)
+             (if! (and (>= gid start-group-id)
+                       (<= gid end-group-id))
+
+                  (const group (.get groups gid))
+                  (const particle (.spawn Local-particle
+                                          pos
+                                          (get phys.data pos.id)
+                                          gid-source
+                                          (get near-gravity.data pos.id)))
+                  (.push group particle)
+                  (.push particles particle)))
+    ;; (print particles)
+
+    ;; (print "group" group-id particles)
+
+    (loop
+     (for-of! [gid group] groups )
+     (for-of! target group)
+     (for-of! affector group
+              (if! (= target.id affector.id) continue)
+              (const intensity (calculate-gravitational-intensity target affector))
+              (.add-to target.vel intensity)
+              (.despawn intensity)))
+
+
+    (for-of! particle particles
+
+             (set particle.near-gravity-source
+                  'x particle.vel.x
+                  'y particle.vel.y)
+             (.despawn particle))
+    (return null)))
+
+(.start Local-attractor-system)

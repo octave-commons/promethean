@@ -1,0 +1,25 @@
+(define Dynamic-double-buffer Interface
+
+  (gett bucket-type (const t (Object.create Double-buffered-array))
+        (assign t.data-type this.data-type)
+        (return t))
+
+  (bucket-size 256)
+  (init ((length 0)
+         (buckets [])))
+  (def push (data)
+    (var bucket (last this.buckets))
+    (var element-bucket-id (+ 1 (- this.length (* this.buckets this.bucket-size))))
+    (if! (> element-bucket-id (- this.bucket-size 1))
+         (assign bucket (.spawn this.bucket-type this.bucket-size))
+        (.push this.buckets bucket)
+        (assign bucket-element-id 0))
+    (const last-element (get bucket.data bucket-element-id))
+
+    (for-of! key this.bucket-type.keys
+             (set last-element key (get data key))))
+
+  (def pop ())
+  (def shift ())
+  (def unshift ())
+  )

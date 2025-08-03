@@ -1,0 +1,56 @@
+
+(import Ant-dots "../systems/ants/ant-dot.js")
+(import Ant-trails "../systems/ants/ant-trails.js")
+(import Ant-life-timer "../systems/ants/ant-life-timer.js")
+(import Position "../systems/position.js")
+(import Velocity "../systems/velocity.js")
+(import Physics "/shared/systems/physics.js")
+(import  Entity-group "/shared/ecs.js")
+
+(import Ant-sprites "../systems/ant-sprites.js")
+(import Collision place-entity "/shared/systems/collision.js")
+(import game active-game-systems "../game.js")
+(import Ant-panel "../systems/ants/ant-panel.js")
+
+(import config "../config.js")
+
+(const ants ((create Entity-group)
+             "Ants"
+             [Collision
+              ;; Ant-dots
+              Ant-sprites
+              Ant-panel
+              Physics
+              Velocity
+              Position
+              Ant-trails
+              Ant-life-timer
+              ]
+             game.ent))
+(def clear-ants () (.clear ants))
+(def spawn-ant ([x, y], home, starting-life)
+  (var ant (.spawn ants))
+
+
+  (set (.get game.systems Position ant )
+       'x x
+       'y y
+       'z 0)
+
+  (set (.get game.systems Physics ant)
+       'scale 1
+       'mass 1
+       'forces [SignalField Friction])
+
+  (var v (.get game.systems Velocity ant))
+
+  (if (not (= config.spawn-static 0))
+      (.accelerate v [(+ 1 (random-signed config.spawn-static)),
+                      (+ 1 (random-signed config.spawn-static))]))
+
+
+  (place-entity ant game config))
+
+(export spawn-ant)
+(export clear-ants)
+(export ants)

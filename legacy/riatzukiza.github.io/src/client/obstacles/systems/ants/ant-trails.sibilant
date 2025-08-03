@@ -1,0 +1,34 @@
+(import Component System "/shared/ecs.js")
+(import Timer Time-limit "/client/obstacles/systems/timer.js")
+(import config "/client/obstacles/config.js")
+(import spawn-ant-trail-segment "/client/obstacles/entities/trail-segments.js" )
+
+(define Ant-trail Component
+  ;; (update-view? true)
+  ;; (view (.div .className "panel"
+  ;;                  .style (lit (width "48%"))
+  ;;                  (-> (const segments [])
+  ;;                      (each this.segments (s)
+  ;;                            (segments.push s.trail-segment.view))
+  ;;                      segments)))
+  (def *clear ()
+    (each this.segments (s)
+          (.delete this.segments s)))
+
+
+  (def register ()
+    (unless this.segments
+      (assign this.segments (new Set)))))
+
+(export Ant-trail)
+(define Ant-trails System
+  (interface Ant-trail)
+
+  (gett spawn-ant-trail-segment
+        )
+
+  (def *update-component (c)
+    (when (= (mod (+ c.entity.id c.system.process.ticker.ticks) config.trail-resolution) 0)
+        (.add c.segments (this.spawn-ant-trail-segment c.entity)))))
+
+(export Ant-trails)
