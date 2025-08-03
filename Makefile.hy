@@ -323,53 +323,56 @@
   (generate-python-requirements))
 
 ;; Dispatch -------------------------------------------------------------------
-(setv commands {
-  "all" build
-  "build" build
-  "clean" clean
-  "lint" lint
-  "format" format
-  "test" test
-  "coverage" coverage
-  "setup" setup
-  "setup-quick" setup-quick
-  "install" install
-  "system-deps" system-deps
-  "start" start
-  "stop" stop
-  "board-sync" board-sync
-  "kanban-from-tasks" kanban-from-tasks
-  "kanban-to-hashtags" kanban-to-hashtags
-  "kanban-to-issues" kanban-to-issues
-  "simulate-ci" simulate-ci
-  "docker-build" docker-build
-  "docker-up" docker-up
-  "docker-down" docker-down
-  "setup-hy" setup-hy
-  "lint-python" lint-python
-  "lint-js" lint-js
-  "lint-ts" lint-ts
-  "format-python" format-python
-  "format-js" format-js
-  "format-ts" format-ts
-  "test-python" test-python
-  "test-js" test-js
-  "test-ts" test-ts
-  "coverage-python" coverage-python
-  "coverage-js" coverage-js
-  "coverage-ts" coverage-ts
-  "build-js" build-js
-  "build-ts" build-ts
-  "clean-js" clean-js
-  "clean-ts" clean-ts
-  "setup-python" setup-python
-  "setup-js" setup-js
-  "setup-ts" setup-ts
-  "typecheck-python" typecheck-python
-  "typecheck-ts" typecheck-ts
-  "setup-python-quick" setup-python-quick
-  "generate-requirements" generate-requirements
-})
+(setv commands
+      {
+       "all" build
+       "build" build
+       "clean" clean
+       "lint" lint
+       "format" format
+       "test" test
+       "coverage" coverage
+       "setup" setup
+       "setup-quick" setup-quick
+       "install" install
+       "system-deps" system-deps
+       "start" start
+       "stop" stop
+       "board-sync" board-sync
+       "kanban-from-tasks" kanban-from-tasks
+       "kanban-to-hashtags" kanban-to-hashtags
+       "kanban-to-issues" kanban-to-issues
+       "simulate-ci" simulate-ci
+       "docker-build" docker-build
+       "docker-up" docker-up
+       "docker-down" docker-down
+       "setup-hy" setup-hy
+       "lint-python" lint-python
+       "lint-js" lint-js
+       "lint-ts" lint-ts
+       "format-python" format-python
+       "format-js" format-js
+       "format-ts" format-ts
+       "test-python" test-python
+       "test-js" test-js
+       "test-ts" test-ts
+       "coverage-python" coverage-python
+       "coverage-js" coverage-js
+       "coverage-ts" coverage-ts
+       "build-js" build-js
+       "build-ts" build-ts
+       "clean-js" clean-js
+       "clean-ts" clean-ts
+       "setup-python" setup-python
+       "setup-js" setup-js
+       "setup-ts" setup-ts
+       
+       "typecheck-python" typecheck-python
+       "typecheck-ts" typecheck-ts
+       "setup-python-quick" setup-python-quick
+       "generate-requirements" generate-requirements
+       "setup-pipenv" setup-pipenv
+       })
 
 (setv patterns [
   ["setup-python-service-" setup-python-service]
