@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Form, Response
 import torch
 import io
+from shared.py.heartbeat_client import HeartbeatClient
 
 from safetensors.torch import load_file
 
@@ -14,6 +15,22 @@ nltk.download("averaged_perceptron_tagger_eng")
 # print(hf_hub_download(repo_id="facebook/fastspeech2-en-ljspeech", filename="vocab.txt", cache_dir=None, local_files_only=True))
 
 app = FastAPI()
+hb = HeartbeatClient()
+
+
+@app.on_event("startup")
+async def startup_event():
+    try:
+        hb.send_once()
+    except Exception as exc:
+        raise RuntimeError("heartbeat registration failed") from exc
+    hb.start()
+
+
+@app.on_event("shutdown")
+def shutdown_event():
+    hb.stop()
+
 
 # Load the model and processor
 from transformers import (
@@ -41,9 +58,6 @@ def synthesize(text: str):
     with torch.no_grad():
         output = model(input_ids, return_dict=True)
         return output.waveform.squeeze().cpu().numpy()
-
-
-
 
 
 @app.post("/synth_voice_pcm")

@@ -1,8 +1,24 @@
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from shared.py.speech.whisper_stream import WhisperStreamer
+from shared.py.heartbeat_client import HeartbeatClient
 
 app = FastAPI()
 streamer = None
+hb = HeartbeatClient()
+
+
+@app.on_event("startup")
+async def startup_event():
+    try:
+        hb.send_once()
+    except Exception as exc:
+        raise RuntimeError("heartbeat registration failed") from exc
+    hb.start()
+
+
+@app.on_event("shutdown")
+def shutdown_event():
+    hb.stop()
 
 
 @app.websocket("/stream")

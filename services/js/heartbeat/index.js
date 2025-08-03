@@ -36,9 +36,9 @@ export async function monitor(now = Date.now()) {
     try {
       process.kill(doc.pid, "SIGKILL");
     } catch (err) {
-      /* ignore */
+      console.error(`failed to kill pid ${doc.pid}`, err);
     }
-    await collection.deleteOne({ pid: doc.pid });
+    await collection.updateOne({ pid: doc.pid }, { $set: { killedAt: now } });
   }
 }
 
