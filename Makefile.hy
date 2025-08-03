@@ -24,9 +24,12 @@
 
 ;; Python helpers --------------------------------------------------------------
 (defn setup-pipenv []
-  (sh ["python" "-m" "pip" "install" "--upgrade" "pip"])
-  (print "installing pipenv")
-  (sh ["python" "-m" "pip" "install" "pipenv"]))
+  (if (shutil.which "pipenv")
+      (print "pipenv already installed, skipping")
+      (do
+        (sh ["python" "-m" "pip" "install" "--upgrade" "pip"])
+        (print "installing pipenv")
+        (sh ["python" "-m" "pip" "install" "pipenv"]))))
 
 (defn setup-python-services []
   (print "Setting up Python services...")
@@ -274,7 +277,11 @@
     )
 
 (defn install []
-  (setup))
+  (try
+    (setup-quick)
+    (except [Exception]
+      (print "setup-quick failed; falling back to full setup")
+      (setup))))
 
 (defn system-deps []
   (sh "sudo apt-get update && sudo apt-get install -y libsndfile1" :shell True))
