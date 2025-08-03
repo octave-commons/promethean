@@ -1,5 +1,7 @@
 import test from "ava";
 import request from "supertest";
+
+process.env.NODE_ENV = "test";
 import { app, setCaptureFn } from "../index.js";
 
 test("capture endpoint returns png buffer", async (t) => {

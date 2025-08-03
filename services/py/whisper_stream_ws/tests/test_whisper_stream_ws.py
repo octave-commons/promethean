@@ -6,7 +6,6 @@ sys.path.insert(
 )
 
 from fastapi.testclient import TestClient
-import services.py.whisper_stream_ws.app as app_module
 
 
 class DummyStreamer:
@@ -20,6 +19,23 @@ class DummyStreamer:
 
 
 def test_ws_stream(monkeypatch):
+    class DummyHB:
+        def send_once(self):
+            pass
+
+        def start(self):
+            pass
+
+        def stop(self):
+            pass
+
+    monkeypatch.setattr(
+        "shared.py.heartbeat_client.HeartbeatClient", lambda *a, **k: DummyHB()
+    )
+
+    import importlib
+
+    app_module = importlib.import_module("services.py.whisper_stream_ws.app")
     dummy = DummyStreamer()
     monkeypatch.setattr(app_module, "streamer", dummy)
     client = TestClient(app_module.app)
