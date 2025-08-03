@@ -2,9 +2,7 @@ import importlib.util
 from pathlib import Path
 
 MODULE_PATH = (
-    Path(__file__).resolve().parent.parent.parent
-    / "scripts"
-    / "hashtags_to_kanban.py"
+    Path(__file__).resolve().parent.parent.parent / "scripts" / "hashtags_to_kanban.py"
 )
 spec = importlib.util.spec_from_file_location(
     "hashtags_to_kanban",

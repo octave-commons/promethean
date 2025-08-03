@@ -2,9 +2,7 @@ import importlib.util
 from pathlib import Path
 
 MODULE_PATH = (
-    Path(__file__).resolve().parent.parent.parent
-    / "scripts"
-    / "kanban_to_hashtags.py"
+    Path(__file__).resolve().parent.parent.parent / "scripts" / "kanban_to_hashtags.py"
 )
 spec = importlib.util.spec_from_file_location(
     "kanban_to_hashtags",
@@ -21,12 +19,14 @@ def test_parse_board(tmp_path):
     (tasks_dir / "a.md").write_text("content", encoding="utf-8")
     (tasks_dir / "b.md").write_text("content", encoding="utf-8")
     board.write_text(
-        "\n".join([
-            "## Todo",
-            "- [ ] [A](../tasks/a.md)",
-            "## In Progress",
-            "- [ ] [B](../tasks/b.md)",
-        ]),
+        "\n".join(
+            [
+                "## Todo",
+                "- [ ] [A](../tasks/a.md)",
+                "## In Progress",
+                "- [ ] [B](../tasks/b.md)",
+            ]
+        ),
         encoding="utf-8",
     )
     mapping = kh.parse_board(board)
