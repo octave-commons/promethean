@@ -43,9 +43,6 @@ def synthesize(text: str):
         return output.waveform.squeeze().cpu().numpy()
 
 
-
-
-
 @app.post("/synth_voice_pcm")
 def synth_voice_pcm(input_text: str = Form(...)):
 
