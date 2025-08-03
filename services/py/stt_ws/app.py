@@ -1,12 +1,15 @@
 import hy
 import base64
 import json
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket
+
+from shared.py.utils import websocket_endpoint
 
 app = FastAPI()
 
 
 @app.websocket("/transcribe")
+@websocket_endpoint
 async def transcribe_ws(ws: WebSocket):
     await ws.accept()
     try:
@@ -30,3 +33,4 @@ async def transcribe_ws(ws: WebSocket):
     finally:
         await ws.close() if not ws.client_state.name == "CLOSED" else None
     return _hy_anon_var_2
+
