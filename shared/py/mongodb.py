@@ -35,5 +35,6 @@ generated_message_collection = db[f"{AGENT_NAME}_generated_messages"]
 discord_channel_collection = db[f"{AGENT_NAME}_discord_channels"]
 discord_user_collection = db[f"{AGENT_NAME}_discord_users"]
 discord_server_collection = db[f"{AGENT_NAME}_discord_servers"]
+discord_link_collection = db[f"{AGENT_NAME}_discord_links"]
 
 duck_gpt = db[f"{AGENT_NAME}_gpt"]

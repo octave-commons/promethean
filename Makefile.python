@@ -1,4 +1,4 @@
-SERVICES_PY=services/py/stt services/py/tts services/py/discord_indexer services/py/stt_ws services/py/whisper_stream_ws
+SERVICES_PY=services/py/stt services/py/tts services/py/discord_indexer services/py/stt_ws services/py/whisper_stream_ws services/py/discord_link_collector
 # Install dependencies =========================================================
 
 
