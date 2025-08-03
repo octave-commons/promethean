@@ -1,5 +1,10 @@
 from fastapi import FastAPI, Form, Response
 import io
+from shared.py.heartbeat_client import HeartbeatClient
+
+from safetensors.torch import load_file
+
+import soundfile as sf
 import nltk
 import soundfile as sf
 import torch
@@ -9,8 +14,32 @@ from transformers import FastSpeech2ConformerTokenizer, FastSpeech2ConformerWith
 nltk.download("averaged_perceptron_tagger_eng")
 
 app = FastAPI()
+hb = HeartbeatClient()
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+@app.on_event("startup")
+async def startup_event():
+    try:
+        hb.send_once()
+    except Exception as exc:
+        raise RuntimeError("heartbeat registration failed") from exc
+    hb.start()
+
+
+@app.on_event("shutdown")
+def shutdown_event():
+    hb.stop()
+
+
+# Load the model and processor
+from transformers import (
+    FastSpeech2ConformerTokenizer,
+    FastSpeech2ConformerWithHifiGan,
+)
+import torch
+
+# Ensure GPU usage
+device = "cuda" if torch.cuda.is_available() else "cpu"
 print("Running on device", device)
 
 tokenizer = FastSpeech2ConformerTokenizer.from_pretrained(
