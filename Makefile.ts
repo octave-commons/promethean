@@ -3,12 +3,14 @@ TS_OUT=shared/js
 SERVICES_TS=services/ts/cephalon services/ts/discord-embedder services/ts/llm services/ts/voice services/ts/file-watcher
 
 lint-ts:
-	       @$(call run_dirs,$(SERVICES_TS),npx eslint . --no-warn-ignored --ext .js,.ts)
+	@$(call run_dirs,$(SERVICES_TS),npx eslint . --no-warn-ignored --ext .js,.ts)
 format-ts:
-	       @$(call run_dirs,$(SERVICES_TS),npx prettier --write .)
+	@$(call run_dirs,$(SERVICES_TS),npx prettier --write .)
+typecheck-ts:
+	@$(call run_dirs,$(SERVICES_TS),npx tsc --noEmit)
 setup-ts:
-	       @echo "Setting up TypeScript services..."
-	       @$(call run_dirs,$(SERVICES_TS),npm install )
+	@echo "Setting up TypeScript services..."
+	@$(call run_dirs,$(SERVICES_TS),npm install )
 lint-ts-service-%:
 	@echo "Linting TS service: $*"
 	cd services/ts/$* && npx eslint . --ext .js,.ts
@@ -25,7 +27,7 @@ test-ts-services:
 test-ts: test-ts-services
 
 coverage-ts-services:
-	       @$(call run_dirs,$(SERVICES_TS),echo "Generating coverage in $$d..." \&\& npm run coverage)
+	@$(call run_dirs,$(SERVICES_TS),npm run coverage && npx c8 report -r lcov)
 coverage-ts: coverage-ts-services
 clean-ts:
 		       @$(call run_dirs,$(SERVICES_TS),npm run clean >/dev/null)

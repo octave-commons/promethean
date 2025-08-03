@@ -26,7 +26,6 @@ kanban-plugin: board
 
 - [ ] [Add vault instructions to main README.md](..\tasks\Add vault instructions to main README.md.md) #rejected
 - [ ] [Clearly separate service dependency files](..\tasks\Clearly separate service dependency files.md) #rejected
-- [ ] [Ensure GitHub-compatible markdown settings are documented](..\tasks\Ensure GitHub-compatible markdown settings are documented.md) #rejected
 - [ ] [Finalize STT workflow](..\tasks\Finalize_STT_workflow.md) #rejected
 - [ ] [Move all testing to individual services](..\tasks\Move all testing to individual services.md) #rejected
 - [ ] [Summarize clarified priorities for next sprint](..\tasks\Summarize clarified priorities for next sprint.md) #rejected
@@ -52,7 +51,6 @@ kanban-plugin: board
 ## Todo
 
 - [ ] [Add .obsidian to .gitignore](..\tasks\Add .obsidian to .gitignore.md) #todo
-- [ ] [Add Ollama formally to pipeline](..\tasks\Decouple from Ollama.md) #todo
 - [ ] [Add STT service tests](..\tasks\Add_STT_service_tests.md) #todo
 - [ ] [Add TTS service tests](..\tasks\Add_TTS_service_tests.md) #todo
 - [ ] [Add semantic overlays for layer1 through layer8](..\tasks\Add semantic overlays for layer1 through layer8.md) #todo
@@ -62,6 +60,7 @@ kanban-plugin: board
 - [ ] [Create base `README.md` templates for each service](..\tasks\Create base `README.md` templates for each service.md) #todo
 - [ ] [Create permission gating layer](..\tasks\Create permission gating layer.md) #todo
 - [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](..\tasks\Create vault-config .obsidian with Kanban and minimal vault setup.md) #todo
+- [ ] [Decouple from Ollama](..\tasks\Decouple from Ollama.md) #todo
 - [ ] [Define permission schema in AGENTS](..\tasks\Define permission schema in AGENTS.md) #todo
 - [ ] [Describe github branching workflow](..\tasks\Describe github branching workflow.md) #todo
 - [ ] [Detect contradictions in memory](..\tasks\Detect contradictions in memory.md) #todo
@@ -69,6 +68,7 @@ kanban-plugin: board
 - [ ] [Document board usage guidelines](..\tasks\Document board usage guidelines.md) #todo
 - [ ] [Document local testing setup](..\tasks\Document_local_testing_setup.md) #todo
 - [ ] [Document-Driven Development for Service Scripts](..\tasks\Structure vault to mirror ` services `, ` agents `, ` docs `.md) #todo
+- [ ] [Ensure GitHub-compatible markdown settings are documented](..\tasks\Ensure GitHub-compatible markdown settings are documented.md) #todo
 - [ ] [Extract docs from riatzukiza.github.io](..\tasks\Extract docs from riatzukiza.github.io.md) #todo
 - [ ] [Finalize `MIGRATION PLAN.md`](..\tasks\Finalize `MIGRATION_PLAN.md`.md) #todo
 - [ ] [Fix makefile test target](..\tasks\Fix_makefile_test_target.md) #todo
@@ -85,7 +85,7 @@ kanban-plugin: board
 - [ ] [Suggest metaprogramming updates](..\tasks\Suggest metaprogramming updates.md) #todo
 - [ ] [Write end to end tests](..\tasks\Write end to end tests.md) #todo
 - [ ] [separate all testing pipelines in github Actions](..\tasks\separate all testing pipelines in github Actions.md) #todo
-- [ ] [seperate all testing pipelines in GitHub Actions](..\tasks\seperate all testing pipelines in github Actions.md) #todo
+- [ ] [seperate all testing pipelines in github Actions](..\tasks\seperate all testing pipelines in github Actions.md) #todo
 - [ ] [update github actions to use makefile](..\tasks\update github actions to use makefile.md) #todo
 - [ ] [write simple ecosystem declaration library for new agents](..\tasks\write simple ecosystem declaration library for new agents.md) #todo
 
