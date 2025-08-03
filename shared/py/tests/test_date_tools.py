@@ -1,0 +1,34 @@
+import os
+import sys
+from datetime import datetime, timezone, timedelta
+
+# Add repository root to sys.path
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
+)
+
+from shared.py.date_tools import time_ago
+
+
+def test_seconds_ago():
+    now = datetime(2024, 1, 1, tzinfo=timezone.utc)
+    past = now - timedelta(seconds=5)
+    assert time_ago(past, now) == "5 seconds ago"
+
+
+def test_single_minute_ago():
+    now = datetime(2024, 1, 1, tzinfo=timezone.utc)
+    past = now - timedelta(minutes=1)
+    assert time_ago(past, now) == "1 minute ago"
+
+
+def test_hours_ago():
+    now = datetime(2024, 1, 1, 12, tzinfo=timezone.utc)
+    past = now - timedelta(hours=3)
+    assert time_ago(past, now) == "3 hours ago"
+
+
+def test_days_ago():
+    now = datetime(2024, 1, 10, tzinfo=timezone.utc)
+    past = now - timedelta(days=2)
+    assert time_ago(past, now) == "2 days ago"
