@@ -57,6 +57,9 @@ kanban-plugin: board
 - [ ] Thinking Model integration
 - [ ] discord image awareness
 - [ ] Discord/chat link  traversal
+- [ ] discord image/attachment indexer
+- [ ] discord link indexer
+- [ ] Allow old/unnessisary messages to decay from database while retaining index entries/ids
 
 
 ## Accepted (8)
