@@ -40,5 +40,11 @@ jobs:
       - name: Lint
         run: make lint
 
+      - name: Typecheck Python
+        run: make typecheck-python
+
+      - name: Typecheck TypeScript
+        run: make typecheck-ts
+
       # - name: Format
       #   run: make format
