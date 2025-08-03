@@ -5,7 +5,7 @@ conversation into a "transcendent" mode—pulling insight from multiple
 cognitive circuits and returning a synthesized response. This is an
 experimental feature inspired by the Anankean circuit.
 
-welp, guess we'll see 
+welp, guess we'll see
 
 ---
 

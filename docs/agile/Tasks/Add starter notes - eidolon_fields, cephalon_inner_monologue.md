@@ -35,12 +35,12 @@ knowledge base.
 - [ ] Keep each note under 2 pages of markdown with clear headings.
 
 - [ ] Include reference links to `pseudo/eidolon-field-scratchpad.lisp`
-- [ ] Use [[wikilinks]] so notes connect to existing math docs
+- [ ] Use [wikilinks](wikilinks.md) so notes connect to existing math docs
 
 ---
 
 ## 📋 Subtasks
-- [ ] Draft each note in the vault using [[wikilinks]] for related concepts.
+- [ ] Draft each note in the vault using [wikilinks](wikilinks.md) for related concepts.
 - [ ] Convert wikilinks to standard markdown before committing.
 - [ ] Commit notes and update the index file.
 
@@ -69,4 +69,4 @@ Nothing
 ## 🔍 Relevant Links
 
 - [kanban](../boards/kanban.md)
-#ice-box
+#breakdown
