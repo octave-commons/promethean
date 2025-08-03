@@ -1,7 +1,7 @@
 ## 🛠️ Task: Identify ancestral resonance patterns
 
 Research how ideas echo through the system over time and across
-generations of agents.  "Resonance patterns" refer to recurring
+generations of agents. "Resonance patterns" refer to recurring
 fragments or emotional states that reappear in different contexts.
 
 ---
@@ -54,3 +54,4 @@ fragments or emotional states that reappear in different contexts.
 
 - Should resonance search include emotional embeddings or just lexical ones?
 - What time span of logs is considered "ancestral" for this project?
+#ice-box

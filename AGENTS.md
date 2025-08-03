@@ -41,6 +41,38 @@ site/            # Website or UI content (optional)
 
 ---
 
+# Environment variables
+
+You have access to the following ENV vars:
+
+```
+AGENT NAME
+DISCORD CLIENT_USER_ID
+
+DISCORD_GUILD_ID
+DISCORD_CLIENT_USER_NAME
+AUTHOR_ID
+AUTHOR USER NAME
+```
+
+## Secrets
+
+You have the following secrets in your ENV:
+
+```
+
+GITHUB API KEY
+DISCORD TOKEN
+```
+
+The discord token is to a bot named   `AGENT_NAME`
+
+You can use this to interact with me through discord.
+You can use `AUTHOR_NAME` and  `AUTHOR_ID` to find  me.
+
+Keep these secrets close  to your chest, and be responsible with your use of them or I will have to take them away from you.
+
+
 ## 📆 Language & Tooling
 
 ### Python & Hy
@@ -60,6 +92,9 @@ site/            # Website or UI content (optional)
 * Future support planned for TypeScript transpilation from Sibilant
 * Contributors may submit raw JS or TS modules—Sibilant is preferred but not mandatory
 * If a module evolves entirely into JS or TS, it will be respected as-is if quality is maintained
+
+### Makefile Driven Workflow
+All development and board automation tasks should use the root `Makefile` targets for consistency.
 
 ---
 
@@ -88,7 +123,7 @@ Codex collaborates with the board manager agent described in
 `docs/agile/AGENTS.md` to keep tasks in sync with the kanban workflow.
 Codex mode can:
 
-* Read from Obsidian Kanban boards, if they are stored in `docs/kanban.md` or elsewhere in the vault
+* Read from Obsidian Kanban boards, if they are stored in `docs/agile/boards/kanban.md` or elsewhere in the vault
 * Use card titles as task names and tag them with `#in-progress`, `#todo`, etc
 * Generate PRs tied to board updates
 * Reflect status back to the board, though user review is always preferred
@@ -173,6 +208,24 @@ Example:
 train_stt_quantize.py
 train_cephalon_align_lora.py
 ```
+
+## 🚥 CI Verification
+
+All contributions must be validated locally before opening a pull request:
+
+1. Run `make install` for the relevant services.
+2. Run `make test` for the relevant services.
+3. Run `make build` to ensure all modules compile correctly.
+4. Run `make lint` to check code style and formatting.
+5. Run `make format` to auto-format code.
+
+Work is only considered complete when all commands succeed.
+
+Additionally, ensure that:
+* All new code is covered by tests
+* Documentation is updated in `/docs/` as needed
+* Migration plans are followed for any structural changes
+* [test workflows](.github/workflows/tests.yaml) all use `make` targets for consistency
 
 ---
 

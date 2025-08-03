@@ -6,7 +6,7 @@ same Kanban board and plugin configuration. Keep the config minimal so it works
 across different operating systems.
 =======
 Provide a small example of an Obsidian configuration so contributors can quickly
-spin up the same vault environment.  The config should enable the Kanban plugin
+spin up the same vault environment. The config should enable the Kanban plugin
 and include a `README` explaining how to copy the folder into `.obsidian/`.
 >>>>>>> main
 
@@ -73,3 +73,4 @@ Nothing
 ## 🔍 Relevant Links
 
 - [kanban](../boards/kanban.md)
+#incoming

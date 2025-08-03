@@ -1,0 +1,40 @@
+Path,README.md Content
+docs/prompts/templates/README.md,"# templates/
+
+Reusable prompt blueprints and scaffolds.
+Use these to generate structured task prompts or guide agents on unfamiliar tasks.
+Include annotated examples with labeled parts (framing, role, constraints, etc.)."
+docs/prompts/history/README.md,"# history/
+
+Logs and examples of past prompt sessions.
+Use this to understand what worked, what failed, and what was lost.
+Prompts here help you recover cognition after resets or reverts."
+docs/prompts/tasks/README.md,"# tasks/
+
+Prompt-based versions of Kanban tasks.
+Each file here defines a current or proposed agent-facing job.
+Agents should write here when they generate new tasks for themselves."
+docs/prompts/scratch/README.md,"# scratch/
+
+Unstructured, raw, exploratory thoughts.
+This is where you can think out loud. Not everything has to be clean.
+Prompts in here may grow into seeds or be archived into history."
+docs/prompts/meta/README.md,"# meta/
+
+Reflections on prompt strategy, language, and failure modes.
+This is where we analyze our prompt engineering.
+Both agents and humans can contribute to improve how we think."
+docs/prompts/seed/README.md,"# seed/
+
+Early-stage prompt fragments meant for later expansion.
+These are starting points—not finished products.
+Great for agents proposing ideas or scaffolding future task prompts."
+docs/prompts/agents/README.md,"# agents/
+
+Per-agent prompt instructions and role files.
+Each file should define:
+- The agent's personality or function
+- Known good/bad prompt patterns
+- System-level expectations
+
+Use this to help agents understand who they are becoming."

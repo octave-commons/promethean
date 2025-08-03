@@ -1,7 +1,7 @@
 ## 🛠️ Task: Migrate portfolio client code to Promethean
 
 Move the legacy portfolio web client from `riatzukiza.github.io` into
-the Promethean monorepo under `site/`.  This keeps the project’s demo
+the Promethean monorepo under `site/`. This keeps the project’s demo
 pages available and ensures the build pipeline works from inside the
 new repository.
 
@@ -60,3 +60,4 @@ new repository.
 
 - Should the portfolio be maintained as a submodule or migrated directly?
 - Do we need a static build step or can GitHub Pages handle raw files?
+#ice-box
