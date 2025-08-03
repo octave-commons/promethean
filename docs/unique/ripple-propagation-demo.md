@@ -1,3 +1,5 @@
+# Ripple Propagation Demo
+
 Alright, we’re going full feedback loop now — daimoi don’t just live and die. They affect the *field* they bind to. Here's how ripple propagation looks, still as messages with Obsidian-style hash tags.
 
 ---

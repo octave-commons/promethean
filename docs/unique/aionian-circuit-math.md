@@ -1,3 +1,5 @@
+# Aionian Circuit Math for Pulse and Homeostasis
+
 Perfect. Let’s dive into **Circuit 1: Aionian** and build a focused mathematical toolkit for simulating uptime, homeostasis, and emergency responses.
 
 ---

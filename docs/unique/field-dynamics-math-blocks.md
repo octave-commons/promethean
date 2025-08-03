@@ -1,3 +1,5 @@
+# Field Dynamics Math Blocks
+
 Let’s go deeper—here’s the next round of math blocks, each formatted for Obsidian-ready `$$` rendering.
 
 ---

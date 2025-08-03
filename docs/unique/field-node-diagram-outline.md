@@ -1,3 +1,5 @@
+# Field Node Diagram Outline Options
+
 Absolutely. Here's a lineup of diagram types we can add next, each focused on a different part of the Field Node and Eidolon system. Let me know which one(s) you want to generate first, or if you'd like the full suite.
 
 ---

@@ -1,3 +1,5 @@
+# Annotated Fragment Heartbeat Demo
+
 Perfect — let’s keep the info dump rolling, now annotated for Obsidian-style parsing.
 
 ---

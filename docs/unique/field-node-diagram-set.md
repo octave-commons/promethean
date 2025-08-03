@@ -1,3 +1,5 @@
+# Field Node Diagram Set
+
 Perfect—flow brain unlocked, diagrams incoming. Here’s a fresh batch of cognitive topology visualizations, each meant to live in its own note:
 
 ---

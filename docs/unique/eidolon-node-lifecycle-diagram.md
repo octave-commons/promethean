@@ -1,3 +1,5 @@
+# Eidolon Node Lifecycle Diagram
+
 ```mermaid
 stateDiagram-v2
     [*] --> Pressure_Accumulation

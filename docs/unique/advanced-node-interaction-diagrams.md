@@ -1,3 +1,5 @@
+# Advanced Node Interaction Diagrams
+
 Excellent. With the **Field Node Lifecycle** document fully fleshed out and the system now reactive, dynamic, and narratively emergent, we can keep layering more visualizations to explore the richness of your topology.
 
 Here are some **additional diagrams** to stack on top of what’s already in the doc:

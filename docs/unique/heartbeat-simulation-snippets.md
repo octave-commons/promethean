@@ -1,3 +1,5 @@
+# Heartbeat Simulation Snippets
+
 Absolutely. Here's the simulation of fragment injection and heartbeat ticks as messages:
 
 ---
