@@ -1,6 +1,6 @@
 ## 🛠️ Task: Add Ollama formally to pipeline
 
-It's difficult to get the system running for codex and CI/CD for them to properly run integration tests, or  just to sanity  test that it starts.
+It's difficult to get the system running for codex and CI/CD for them to properly run integration tests, or just to sanity test that it starts.
 
 
 
@@ -16,16 +16,16 @@ It's difficult to get the system running for codex and CI/CD for them to properl
 ## 📦 Requirements
 
 - System Can use any model from:
-	- ollama
-	- HuggingFace
-	- ...npu/open vino?
+- ollama
+- HuggingFace
+- ...npu/open vino?
 
 ---
 
 ## 📋 Subtasks
 
 - [ ] Write driver classes for llm service
-- [ ] 
+- [ ]
 
 
 ---

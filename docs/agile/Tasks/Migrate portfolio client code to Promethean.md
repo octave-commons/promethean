@@ -31,7 +31,7 @@ new repository.
 - [ ] Identify which pages and assets to keep
 - [ ] Move selected files under `site/portfolio/`
 - [ ] Add build or serve command to `package.json` or `Makefile`
-- [ ] Reference [[../MIGRATION_PLAN.md]] for context
+- [ ] Reference [../MIGRATION_PLAN.md](../MIGRATION_PLAN.md.md) for context
 - [ ] Decide whether to import history via submodule or direct copy
 
 ---
@@ -60,4 +60,4 @@ new repository.
 
 - Should the portfolio be maintained as a submodule or migrated directly?
 - Do we need a static build step or can GitHub Pages handle raw files?
-#ice-box
+#breakdown

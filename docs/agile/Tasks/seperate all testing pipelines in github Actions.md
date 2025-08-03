@@ -20,7 +20,7 @@ its own test job.
 ## 📦 Requirements
 - [ ] Create a workflow file under `.github/workflows` for each service
 - [ ] Ensure shared setup steps use the Makefile
-- [ ] Create a workflow file that runs actions from a matrix containing each service  under `.github/workflows`.
+- [ ] Create a workflow file that runs actions from a matrix containing each service under `.github/workflows`.
 - [ ] Trigger the appropriate workflow only when files under that service change.
 
 ---
@@ -36,7 +36,7 @@ its own test job.
 ---
 
 ## 🔗 Related Epics
-#cicd 
+#cicd
 #framework-core
 
 ---
@@ -52,3 +52,4 @@ Nothing
 ## 🔍 Relevant Links
 - [kanban](../boards/kanban.md)
 - [ci](../ci.md)
+#todo

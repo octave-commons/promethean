@@ -39,7 +39,7 @@ execution.
 
 ## 🔗 Related Epics
 
-#framework-core #eidolon #Dorian #layer2 
+#framework-core #eidolon #Dorian #layer2
 
 ---
 
@@ -60,4 +60,4 @@ Nothing
 ## ❓ Questions
 
 - Should permissions support wildcards for actions or be explicit only?
-#incoming
+#accepted
