@@ -118,6 +118,7 @@ export class Bot extends EventEmitter {
 		}
 	}
 
+<<<<<<<
 	@interaction({
 		description: 'Joins the voice channel the requesting user is currently in',
 	})
@@ -163,7 +164,15 @@ export class Bot extends EventEmitter {
 		this.currentVoiceSession.start();
 		return interaction.followUp('DONE!');
 	}
+=======
+	@interaction({
+		description: "Joins the caller's voice channel, transcribes everyone, and starts the AI agent",
+	})
+	async startVoiceAgent(interaction: Interaction): Promise<any> {
+		await interaction.deferReply();
+>>>>>>>
 
+<<<<<<<
 	@interaction({
 		description: 'Leaves whatever channel the bot is currently in.',
 	})
@@ -173,7 +182,23 @@ export class Bot extends EventEmitter {
 			return interaction.followUp('Successfully left voice channel');
 		}
 		return interaction.followUp('No voice channel to leave.');
+=======
+		let textChannel: discord.TextChannel | null = null;
+		if (interaction.channel?.id) {
+			const channel = await this.client.channels.fetch(interaction.channel.id);
+			if (channel?.isTextBased()) {
+				textChannel = channel as discord.TextChannel;
+			}
+		}
+		if (this.currentVoiceSession) {
+			return interaction.followUp('Cannot join a new voice session with out leaving the current one.');
+		}
+		if (!interaction.member.voice?.channel?.id) {
+			return interaction.followUp('Join a voice channel then try that again.');
+		}
+>>>>>>>
 
+<<<<<<<
 		// Leave the specified voice channel
 	}
 	@interaction({
@@ -195,7 +220,16 @@ export class Bot extends EventEmitter {
 		this.captureChannel = channel as discord.TextChannel;
 		return interaction.reply(`Capture channel set to ${channel.id}`);
 	}
+=======
+		const voiceChannel = interaction.member.voice.channel;
+		this.currentVoiceSession = new VoiceSession({
+			bot: this,
+			guild: interaction.guild,
+			voiceChannelId: voiceChannel.id,
+		});
+>>>>>>>
 
+<<<<<<<
 	@interaction({
 		description: 'Sets the channel where desktop captures will be stored',
 		options: [
@@ -215,6 +249,191 @@ export class Bot extends EventEmitter {
 		this.desktopChannel = channel as discord.TextChannel;
 		this.agent.desktop.setChannel(this.desktopChannel);
 		return interaction.reply(`Desktop capture channel set to ${channel.id}`);
+	}
+	@interaction({
+		description: 'begin recording the given user.',
+		options: [
+			{
+				name: 'speaker',
+				description: 'The user to begin recording',
+				type: ApplicationCommandOptionType.User,
+				required: true,
+			},
+		],
+	})
+	async beginRecordingUser(interaction: Interaction) {
+		if (this.currentVoiceSession) {
+			const user = interaction.options.getUser('speaker', true);
+			this.currentVoiceSession.addSpeaker(user);
+			this.currentVoiceSession.startSpeakerRecord(user);
+		}
+		return interaction.reply('Recording!');
+	}
+=======
+		this.currentVoiceSession.transcriber.on('transcriptEnd', async (transcript: FinalTranscript) => {
+			const transcripts = this.context.getCollection('transcripts') as CollectionManager<'text', 'createdAt'>;
+			await transcripts.addEntry({
+				text: transcript.transcript,
+				createdAt: transcript.startTime || Date.now(),
+				metadata: {
+					createdAt: Date.now(),
+					endTime: transcript.endTime,
+					userId: transcript.user?.id,
+					userName: transcript.user?.username,
+					is_transcript: true,
+					channel: this.currentVoiceSession?.voiceChannelId,
+					recipient: this.applicationId,
+				},
+			});
+			if (textChannel && transcript.transcript.trim().length > 0 && transcript.speaker?.logTranscript)
+				await textChannel.send(`${transcript.user?.username}:${transcript.transcript}`);
+		});
+>>>>>>>
+
+<<<<<<<
+	@interaction({
+		description: 'stop recording the given user.',
+		options: [
+			{
+				name: 'speaker',
+				description: 'The user to begin recording',
+				type: ApplicationCommandOptionType.User,
+				required: true,
+			},
+		],
+	})
+	async stopRecordingUser(interaction: Interaction) {
+		if (this.currentVoiceSession) {
+			const user = interaction.options.getUser('speaker', true);
+			this.currentVoiceSession.stopSpeakerRecord(user);
+		}
+		return interaction.reply("I'm not recording you any more... I promise...");
+	}
+=======
+		this.currentVoiceSession.start();
+>>>>>>>
+
+<<<<<<<
+	@interaction({
+		description: 'Begin transcribing the speech of users in the current channel to the target text channel',
+		options: [
+			{
+				name: 'speaker',
+				description: 'The user to begin transcribing',
+				type: ApplicationCommandOptionType.User,
+				required: true,
+			},
+			{
+				name: 'log',
+				description: 'Should the bot send the transcript to the current text channel?',
+				type: ApplicationCommandOptionType.Boolean,
+			},
+		],
+	})
+	async beginTranscribingUser(interaction: Interaction) {
+		// Begin transcribing audio in the voice channel to the specified text channel
+		if (this.currentVoiceSession) {
+			const user = interaction.options.getUser('speaker', true);
+			this.currentVoiceSession.addSpeaker(user);
+			this.currentVoiceSession.startSpeakerTranscribe(user, interaction.options.getBoolean('log') || false);
+=======
+		for (const [, member] of voiceChannel.members) {
+			if (member.user.bot) continue;
+			await this.currentVoiceSession.addSpeaker(member.user);
+			await this.currentVoiceSession.startSpeakerTranscribe(member.user, true);
+		}
+>>>>>>>
+
+<<<<<<<
+			return interaction.reply(`I will faithfully transcribe every word ${user.displayName} says... I promise.`);
+		}
+		return interaction.reply("I can't transcribe what I can't hear. Join a voice channel.");
+	}
+	@interaction({
+		description: 'speak the message with text to speech',
+		options: [
+			{
+				name: 'message',
+				description: 'The message you wish spoken in the voice channel',
+				type: ApplicationCommandOptionType.String,
+				required: true,
+			},
+		],
+	})
+	async tts(interaction: Interaction) {
+		if (this.currentVoiceSession) {
+			await interaction.deferReply({ ephemeral: true });
+			await this.currentVoiceSession.playVoice(interaction.options.getString('message', true));
+		} else {
+			await interaction.reply("That didn't work... try again?");
+		}
+		await interaction.deleteReply().catch(() => {}); // Ignore if already deleted or errored
+	}
+	@interaction({
+		description: 'Start a dialog with the bot',
+	})
+	async startDialog(interaction: Interaction) {
+		if (this.currentVoiceSession) {
+			await interaction.deferReply({ ephemeral: true });
+			this.currentVoiceSession.transcriber
+				.on('transcriptEnd', async () => {
+					if (this.agent) {
+						this.agent.newTranscript = true;
+						this.agent.userSpeaking = false;
+					}
+				})
+				.on('transcriptStart', async () => {
+					if (this.agent) {
+						this.agent.newTranscript = false;
+						this.agent.userSpeaking = true;
+					}
+				});
+			return this.agent?.start();
+		}
+	}
+=======
+		const handleVoiceState = async (_oldState: discord.VoiceState, newState: discord.VoiceState) => {
+			if (this.currentVoiceSession && newState.channelId === voiceChannel.id && !newState.member?.user.bot) {
+				await this.currentVoiceSession.addSpeaker(newState.member!.user);
+				await this.currentVoiceSession.startSpeakerTranscribe(newState.member!.user, true);
+			}
+		};
+		this.client.on(Events.VoiceStateUpdate, handleVoiceState);
+		(this.currentVoiceSession as any).voiceStateHandler = handleVoiceState;
+
+		this.currentVoiceSession.transcriber
+			.on('transcriptEnd', async () => {
+				if (this.agent) {
+					this.agent.newTranscript = true;
+					this.agent.userSpeaking = false;
+				}
+			})
+			.on('transcriptStart', async () => {
+				if (this.agent) {
+					this.agent.newTranscript = false;
+					this.agent.userSpeaking = true;
+				}
+			});
+
+		await this.agent.start();
+
+		return interaction.followUp('Joined voice channel and began transcribing all speakers.');
+	}
+
+	@interaction({
+		description: 'Leaves whatever channel the bot is currently in.',
+	})
+	async leaveVoiceChannel(interaction: Interaction) {
+		if (this.currentVoiceSession) {
+			const handler = (this.currentVoiceSession as any).voiceStateHandler;
+			if (handler) this.client.off(Events.VoiceStateUpdate, handler);
+			await this.currentVoiceSession.stop();
+			this.currentVoiceSession = undefined;
+			return interaction.followUp('Successfully left voice channel');
+		}
+		return interaction.followUp('No voice channel to leave.');
+
+		// Leave the specified voice channel
 	}
 	@interaction({
 		description: 'begin recording the given user.',
@@ -324,4 +543,5 @@ export class Bot extends EventEmitter {
 			return this.agent?.start();
 		}
 	}
+>>>>>>>
 }

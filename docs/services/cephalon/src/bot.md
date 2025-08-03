@@ -4,6 +4,9 @@
 
 **Description**: Handles top level discord interactions. EG slash commands send by the user.
 
+## Notable Commands
+- `startVoiceAgent`: joins a voice channel, automatically transcribes all speakers (current and future), and starts the AI agent.
+
 ## Dependencies
 - ./agent
 - ./collectionManager
