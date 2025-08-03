@@ -8,8 +8,8 @@
     "start": "node dist/index.js",
     "start:dev": "node --loader ts-node/esm src/index.ts",
     "build:check": "tsc --noEmit --incremental false",
-    "test": "ava",
-    "coverage": "c8 ava"
+    "test": "npm run build && ava",
+    "coverage": "npm run build && c8 ava"
   },
   "dependencies": {
     "chokidar": "^3.5.3"
@@ -20,13 +20,5 @@
     "c8": "^9.1.0",
     "ts-node": "^10.9.2",
     "typescript": "5.7.3"
-  },
-  "ava": {
-    "extensions": {
-      "ts": "module"
-    },
-    "files": [
-      "dist/tests/**/*.ts"
-    ]
   }
 }
