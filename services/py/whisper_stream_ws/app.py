@@ -1,12 +1,15 @@
 import hy
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+
 from shared.py.speech.whisper_stream import WhisperStreamer
+from shared.py.utils import websocket_endpoint
 
 app = FastAPI()
 streamer = None
 
 
 @app.websocket("/stream")
+@websocket_endpoint
 async def stream(ws: WebSocket):
     await ws.accept()
     try:
