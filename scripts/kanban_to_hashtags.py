@@ -7,25 +7,13 @@ import re
 from pathlib import Path
 from urllib.parse import unquote
 
+try:  # pragma: no cover - fallback for direct execution
+    from .agile_statuses import STATUS_ORDER, STATUS_SET
+except ImportError:  # pragma: no cover
+    from agile_statuses import STATUS_ORDER, STATUS_SET
+
 BOARD_PATH = Path("docs/agile/boards/kanban.md")
 TASK_DIR = Path("docs/agile/tasks")
-
-STATUS_ORDER = [
-    "#ice-box",
-    "#incoming",
-    "#rejected",
-    "#accepted",
-    "#prompt-refinement",
-    "#agent-thinking",
-    "#breakdown",
-    "#blocked",
-    "#ready",
-    "#todo",
-    "#in-progress",
-    "#in-review",
-    "#done",
-]
-STATUS_SET = set(STATUS_ORDER)
 
 
 def parse_board(path: Path = BOARD_PATH) -> dict[Path, str]:
