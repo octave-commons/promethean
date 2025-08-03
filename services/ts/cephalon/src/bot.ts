@@ -6,6 +6,11 @@ import {
 	ApplicationCommandOptionType,
 	REST,
 	Routes,
+<<<<<<< HEAD
+=======
+	ChannelType,
+	TextChannel,
+>>>>>>> origin/codex/update-cephalon-for-screenshot-discord-integration
 	type RESTPutAPIApplicationCommandsJSONBody,
 } from 'discord.js';
 import { VoiceSession } from './voice-session';
@@ -17,9 +22,12 @@ import { ContextManager } from './contextManager';
 import { LLMService } from './llm-service';
 import { CollectionManager } from './collectionManager';
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import { RecordingMetaData } from './voice-recorder';
 >>>>>>> origin/codex/update-cephalon-for-waveform-storage
+=======
+>>>>>>> origin/codex/update-cephalon-for-screenshot-discord-integration
 
 // const VOICE_SERVICE_URL = process.env.VOICE_SERVICE_URL || 'http://localhost:4000';
 
@@ -46,12 +54,16 @@ export class Bot extends EventEmitter {
 	static handlers = new Map<string, (bot: Bot, interaction: Interaction) => Promise<any>>();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/codex/update-cephalon-for-screenshot-discord-integration
 	agent: AIAgent;
 	client: Client;
 	token: string;
 	applicationId: string;
 	context: ContextManager = new ContextManager();
 	currentVoiceSession?: any;
+<<<<<<< HEAD
 <<<<<<< HEAD
 	captureChannel?: discord.TextChannel;
 	desktopChannel?: discord.TextChannel;
@@ -67,6 +79,9 @@ export class Bot extends EventEmitter {
     currentVoiceSession?: any;
     recordingChannelId?: string;
 >>>>>>> origin/codex/update-cephalon-to-store-audio-recordings
+=======
+	screenshotChannelId?: string;
+>>>>>>> origin/codex/update-cephalon-for-screenshot-discord-integration
 
 	constructor(options: BotOptions) {
 		super();
@@ -76,10 +91,14 @@ export class Bot extends EventEmitter {
 			intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates],
 		});
 <<<<<<< HEAD
+<<<<<<< HEAD
 		this.agent = new AIAgent({ historyLimit: 20, bot: this, context: this.context, llm: new LLMService() });
 =======
 		this.agent = new AIAgent({ historyLimit: 5, bot: this, context: this.context, llm: new LLMService() });
 >>>>>>> origin/codex/update-cephalon-for-waveform-storage
+=======
+		this.agent = new AIAgent({ historyLimit: 5, bot: this, context: this.context, llm: new LLMService() });
+>>>>>>> origin/codex/update-cephalon-for-screenshot-discord-integration
 	}
 
 	get guilds(): Promise<discord.Guild[]> {
@@ -110,11 +129,14 @@ export class Bot extends EventEmitter {
 				}
 			})
 <<<<<<< HEAD
+<<<<<<< HEAD
 			.on(Events.MessageCreate, async (message) => {
 				await this.forwardAttachments(message);
 			})
 =======
 >>>>>>> origin/codex/update-cephalon-for-waveform-storage
+=======
+>>>>>>> origin/codex/update-cephalon-for-screenshot-discord-integration
 			.on(Events.Error, console.error);
 	}
 
@@ -130,6 +152,7 @@ export class Bot extends EventEmitter {
 		);
 	}
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 	async forwardAttachments(message: discord.Message) {
 		if (!this.captureChannel) return;
@@ -159,6 +182,43 @@ export class Bot extends EventEmitter {
 	}
 
 >>>>>>> origin/codex/update-cephalon-for-waveform-storage
+=======
+	async logScreenshot(buffer: Buffer) {
+		if (!this.screenshotChannelId) return;
+		try {
+			const channel = await this.client.channels.fetch(this.screenshotChannelId);
+			if (channel && channel.isTextBased()) {
+				await (channel as TextChannel).send({
+					files: [{ attachment: buffer, name: `screenshot-${Date.now()}.png` }],
+				});
+			}
+		} catch (e) {
+			console.warn(e);
+		}
+	}
+
+	@interaction({
+		description: 'Set the channel where screenshots will be stored',
+		options: [
+			{
+				name: 'channel',
+				description: 'Target text channel',
+				type: ApplicationCommandOptionType.Channel,
+				channel_types: [ChannelType.GuildText],
+				required: true,
+			},
+		],
+	})
+	async setScreenshotChannel(interaction: Interaction) {
+		const channel = interaction.options.getChannel('channel', true);
+		if (!channel.isTextBased()) {
+			return interaction.reply('Please choose a text channel.');
+		}
+		this.screenshotChannelId = channel.id;
+		return interaction.reply(`Screenshots will be sent to ${channel.toString()}`);
+	}
+
+>>>>>>> origin/codex/update-cephalon-for-screenshot-discord-integration
 	@interaction({
 		description: 'Joins the voice channel the requesting user is currently in',
 	})
@@ -205,6 +265,7 @@ export class Bot extends EventEmitter {
 		return interaction.followUp('DONE!');
 	}
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	@interaction({
 		description: "Joins the caller's voice channel, transcribes everyone, and starts the AI agent",
@@ -217,6 +278,9 @@ export class Bot extends EventEmitter {
 =======
 
 >>>>>>> origin/codex/update-cephalon-for-waveform-storage
+=======
+
+>>>>>>> origin/codex/update-cephalon-for-screenshot-discord-integration
 	@interaction({
 		description: 'Leaves whatever channel the bot is currently in.',
 	})
@@ -226,6 +290,7 @@ export class Bot extends EventEmitter {
 			return interaction.followUp('Successfully left voice channel');
 		}
 		return interaction.followUp('No voice channel to leave.');
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 		let textChannel: discord.TextChannel | null = null;
@@ -557,6 +622,8 @@ export class Bot extends EventEmitter {
 			return interaction.followUp('Successfully left voice channel');
 		}
 		return interaction.followUp('No voice channel to leave.');
+=======
+>>>>>>> origin/codex/update-cephalon-for-screenshot-discord-integration
 
 		// Leave the specified voice channel
 	}
@@ -668,7 +735,10 @@ export class Bot extends EventEmitter {
 			return this.agent?.start();
 		}
 	}
+<<<<<<< HEAD
 >>>>>>>
 =======
 >>>>>>> origin/codex/update-cephalon-for-waveform-storage
+=======
+>>>>>>> origin/codex/update-cephalon-for-screenshot-discord-integration
 }
