@@ -1,0 +1,40 @@
+(import Dot "/shared/systems/rendering/dot.js")
+(import Position "/client/obstacles/systems/position.js")
+(import Velocity "/client/obstacles/systems/velocity.js")
+(import Physics "/shared/systems/physics.js")
+(import Component System Entity-group "/shared/ecs.js")
+(import rgba "/client/obstacles/colors.js")
+(import Collision place-entity "/shared/systems/collision.js")
+(import game active-game-systems "/client/obstacles/game.js")
+(import config "/client/obstacles/config.js")
+(import  Friction "/client/obstacles/forces.js")
+
+(const plants ((create Entity-group) "Plants"
+               [
+               Dot,
+               Position,
+               Physics,
+               Collision,
+               Velocity
+               ]
+               game.ent))
+(def spawn-plant ([x, y], mass)
+  (var plant (.spawn plants [Dot, Position, Physics, Collision, Velocity]))
+
+  (set (.get game.systems Dot plant)
+       'color (rgba 0 255   0 255))
+
+  (set (.get game.systems Physics plant)
+       'mass mass
+       'scale mass
+       'forces [Friction])
+
+  (set (.get game.systems Position plant)
+       'x x
+       'y y
+       'z 0)
+  (place-entity plant game config))
+
+(export plants)
+(export spawn-plant)
+

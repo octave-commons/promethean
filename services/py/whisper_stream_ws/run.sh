@@ -1,2 +1,2 @@
 #!/usr/bin/bash
-uvicorn app:app --host 0.0.0.0 --port 5003
+pipenv run uvicorn app:app --host 0.0.0.0 --port 5003

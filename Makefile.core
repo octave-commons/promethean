@@ -1,0 +1,15 @@
+# Run a command across a list of directories.
+# Usage: $(call run_dirs,<dirs>,<command>)
+define run_dirs
+bash -c '\
+status=0; \
+for d in $(1); do \
+  if [ ! -d "$$d" ]; then \
+    echo "Skipping $$d (not found)"; \
+    continue; \
+  fi; \
+  echo "Running in $$d: $(2)"; \
+  (cd "$$d" && $(2)) || status=1; \
+done; \
+exit $$status'
+endef

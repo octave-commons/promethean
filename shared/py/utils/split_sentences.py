@@ -35,7 +35,7 @@ def split_sentences(text, max_chunk_len=79, min_chunk_len=20):
     log.debug("Input text length: %d characters", len(text))
 
     # First pass: basic sentence splitting
-    sentences = re.split(r'(?<=[.!?]) +', text.strip())
+    sentences = re.split(r"(?<=[.!?]) +", text.strip())
     log.debug("Found %d sentences.", len(sentences))
 
     all_chunks = []

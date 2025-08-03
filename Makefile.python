@@ -1,16 +1,44 @@
-SERVICES_PY=services/py/stt services/py/tts services/py/discord_indexer services/py/stt_ws services/py/whisper_stream_ws
+SERVICES_PY=services/py/stt services/py/tts services/py/discord_indexer services/py/discord_attachment_indexer services/py/stt_ws services/py/whisper_stream_ws
 # Install dependencies =========================================================
-setup-shared-python:
-	cd shared/py && python -m pipenv install --dev
+
+
+
 setup-pipenv:
 	python -m pip install --upgrade pip
 	@echo "installing pipenv"
 	python -m pip install pipenv
+
 setup-python-services:
 	@echo "Setting up Python services..."
+	@$(call run_dirs,$(SERVICES_PY),PIPENV_NOSPIN=1 python -m pipenv sync --dev)
+
+
+generate-python-shared-requirements:
+	cd shared/py && python -m pipenv requirements > requirements.txt
+
+generate-python-services-requirements:
+	@echo "Generating requirements.txt for Python services..."
 	@for d in $(SERVICES_PY); do \
-		cd $$d && PIPENV_NOSPIN=1 python -m pipenv sync --dev  && cd - >/dev/null; \
+	cd $$d && python -m pipenv requirements > requirements.txt && cd - >/dev/null; \
 	done
+
+generate-requirements-service-%:
+		cd services/py/$* && python -m pipenv requirements > requirements.txt
+
+setup-shared-python:
+	cd shared/py && python -m pipenv install --dev
+setup-shared-python-quick: generate-python-shared-requirements
+	cd shared/py && python -m pip install --user -r requirements.txt
+setup-python-services-quick: generate-python-services-requirements
+	@$(call run_dirs,$(SERVICES_PY),python -m pip install --user -r requirements.txt)
+
+setup-python-quick: setup-pipenv setup-python-services-quick setup-python-shared-quick
+generate-python-requirements: generate-python-services-requirements generate-python-shared-requirements
+
+build-python:
+	@echo "No build step for Python services"
+clean-python:
+	@echo "Cleaning Python artifacts..."
 setup-python-service-%:
 	@echo "Setting up Python service: $*"
 	cd services/$* && PIPENV_NOSPIN=1 python -m pipenv sync --dev
@@ -20,10 +48,7 @@ test-python-service-%:
 	@echo "Running tests for Python service: $*"
 	cd services/py/$* && PIPENV_NOSPIN=1 python -m pipenv run pytest tests/
 test-python-services:
-	@for d in $(SERVICES_PY); do \
-	echo "Running tests in $$d...";\
-	cd $$d && PIPENV_NOSPIN=1 python -m pipenv run pytest tests/ && cd - >/dev/null; \
-	done
+	@$(call run_dirs,$(SERVICES_PY),echo "Running tests in $$d..." \&\& PIPENV_NOSPIN=1 python -m pipenv run pytest tests/)
 
 test-shared-python:
 	cd shared/py && PIPENV_NOSPIN=1 python -m pipenv run pytest tests/
@@ -33,11 +58,9 @@ test-python: test-python-services test-shared-python
 coverage-python-service-%:
 	@echo "Running coverage for Python service: $*"
 	cd services/py/$* && PIPENV_NOSPIN=1 python -m pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term
+
 coverage-python-services:
-	@for d in $(SERVICES_PY); do \
-	echo "Generating coverage in $$d...";\
-	cd $$d && PIPENV_NOSPIN=1 python -m pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term && cd - >/dev/null; \
-	done
+	@$(call run_dirs,$(SERVICES_PY),echo "Generating coverage in $$d..." \&\& PIPENV_NOSPIN=1 python -m pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term)
 
 coverage-shared-python:
 	cd shared/py && PIPENV_NOSPIN=1 python -m pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term
@@ -52,3 +75,5 @@ lint-python:
 	flake8 services/ shared/py/
 format-python:
 	black services/ shared/py/
+typecheck-python:
+	mypy services/ shared/py/

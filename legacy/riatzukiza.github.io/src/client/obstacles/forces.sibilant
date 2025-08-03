@@ -1,0 +1,12 @@
+(import Friction "/shared/systems/physics/forces/friction.js")
+(import game "./game.js")
+(import config "./config.js")
+(import entities "/client/obstacles/entities.js")
+
+(print "initializing forces" (lit Friction ))
+
+(set Fricion 'config config 'template false)
+(def Friction.register () (assign this.config config))
+(def Friction.reset ())
+
+(export Friction)

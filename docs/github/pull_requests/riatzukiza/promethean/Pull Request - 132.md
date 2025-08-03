@@ -25,3 +25,21 @@ allowDelete: true
 https://chatgpt.com/codex/tasks/taske688beb2ac53c832488a2ba94b4ce5f71
 
 
+
+
+---
+### New status: "open"
+
+# Convert docs Wikilinks
+## Summary
+- convert Obsidian wikilinks across docs
+- update convertwikilinks.py to handle directories
+
+## Testing
+- make format-python
+- make lint-python
+- make build *(fails: rimraf not found)*
+- make test-python *(fails: pipenv module missing)*
+
+- - -- - -
+https://chatgpt.com/codex/tasks/taske688beb2ac53c832488a2ba94b4ce5f71

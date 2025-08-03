@@ -1,0 +1,8 @@
+(import horizontal-road "./modules/roads.js")
+(import field "./modules/fields.js")
+(import full-stone "./modules/exclusions.js")
+;; just making the compiler shut up for now, import macro is not complete yet.
+
+(export horizontal-road)
+(export field)
+(export full-stone)

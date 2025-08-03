@@ -1,0 +1,35 @@
+(import System Component "/shared/ecs.js")
+(import List "/shared/data-structures/list.js")
+
+(define Visible-status Component
+  (*visible? false)
+  (*explored? false)
+  (gett visible? this.*visible?)
+  (gett explored? this.*explored?)
+
+  (sett visible? v (assign this.*visible? v)
+        (.redraw this.sprite)
+        (each this.entity.container.objects (o)
+              (each o.entity.components (c)
+                    (if c.redraw (.redraw c))))
+        )
+
+  (sett explored? e (assign this.*explored? e)
+        (.redraw this.sprite)
+
+        (each this.entity.container.objects (o)
+              (each o.entity.components (c)
+                    (if c.redraw (.redraw c))))
+        )
+
+  (gett sprite this.entity.floor-sprite)
+  )
+(define Tile-visibility System
+  (Component Visible-status)
+  (def *update-all ())
+  (def *update-component (c)
+    ;; noop/data only component
+
+    ))
+
+(export Tile-visibility)

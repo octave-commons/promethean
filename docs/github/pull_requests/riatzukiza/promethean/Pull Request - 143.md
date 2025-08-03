@@ -25,3 +25,21 @@ allowDelete: true
 https://chatgpt.com/codex/tasks/taske688d77633008832481925e76eb818a14
 
 
+
+
+---
+### New status: "open"
+
+# Enable coverage thresholds and artifacts in CI
+## Summary
+- generate JS and TS coverage in CI and upload artifacts
+- enforce Python, JS, and TS coverage thresholds in Makefile and package scripts
+
+## Testing
+- npm run coverage in services/js/vision
+- npm run coverage in services/ts/llm
+- npm run coverage in services/ts/voice
+- make coverage-python *(fails: No module named pipenv)*
+
+- - -- - -
+https://chatgpt.com/codex/tasks/taske688d77633008832481925e76eb818a14

@@ -1,0 +1,26 @@
+(import Composite-typed-array "./composite.js")
+(define Double-buffered-array Composite-typed-array
+  (gett array-type (const t (Object.create Composite-typed-array))
+        (assign t.data-type this.data-type)
+        (return t))
+  (init ((length 0)
+         (current-state (.spawn this.array-type length))
+         (next-state (.spawn this.array-type length)))
+        (if (isNaN length) (throw (new Type-error "length is not a number")) ))
+
+  (def clear () (set this 'length 0 'current-state null 'next-state null))
+  (def from-buffers (b1 b2)
+    (.spawn this (/  b1.byte-length this.data-type.bytes)
+            (.from-buffer this.array-type  b1)
+            (.from-buffer this.array-type  b2)))
+  (def step ()
+    (const state this.current-state)
+    (const next-state this.next-state)
+
+    (assign this.next-state state)
+    (assign this.current-state next-state)
+
+    )
+  )
+
+(export Double-buffered-array)

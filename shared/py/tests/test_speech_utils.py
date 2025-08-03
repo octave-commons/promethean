@@ -4,9 +4,12 @@ import os
 import sys
 import pytest
 import numpy as np
+
 # from unittest import mock
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../')))
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
+)
 
 ROOT_DIR = os.path.join(os.path.dirname(__file__), "..")
 
@@ -17,35 +20,55 @@ def load_stt_module():
     dummy_torch.Tensor = np.ndarray
     dummy_torch.stack = lambda seq: np.stack(seq)
     functional = types.ModuleType("torch.nn.functional")
-    functional.pad = lambda x, pad, mode='constant', value=0: x
+    functional.pad = lambda x, pad, mode="constant", value=0: x
     dummy_torch.nn = types.ModuleType("torch.nn")
     dummy_torch.nn.functional = functional
 
     dummy_torchaudio = types.ModuleType("torchaudio")
     dummy_torchaudio.load = lambda *a, **k: (np.zeros((1, 16000)), 16000)
+
     class DummyResample:
         def __init__(self, orig_freq, new_freq):
             pass
+
         def __call__(self, waveform):
             return waveform
+
     dummy_torchaudio.transforms = types.SimpleNamespace(Resample=DummyResample)
 
     dummy_transformers = types.ModuleType("transformers")
-    dummy_transformers.Wav2Vec2ForCTC = types.SimpleNamespace(from_pretrained=lambda *a, **k: None)
-    dummy_transformers.Wav2Vec2Processor = types.SimpleNamespace(from_pretrained=lambda *a, **k: None)
-    dummy_transformers.AutoTokenizer = types.SimpleNamespace(from_pretrained=lambda *a, **k: types.SimpleNamespace(__call__=lambda text, return_tensors=None: types.SimpleNamespace(input_ids=None, attention_mask=None)))
-    dummy_transformers.AutoModelForSeq2SeqLM = types.SimpleNamespace(from_pretrained=lambda *a, **k: types.SimpleNamespace(generate=lambda *a, **k: [0]))
+    dummy_transformers.Wav2Vec2ForCTC = types.SimpleNamespace(
+        from_pretrained=lambda *a, **k: None
+    )
+    dummy_transformers.Wav2Vec2Processor = types.SimpleNamespace(
+        from_pretrained=lambda *a, **k: None
+    )
+    dummy_transformers.AutoTokenizer = types.SimpleNamespace(
+        from_pretrained=lambda *a, **k: types.SimpleNamespace(
+            __call__=lambda text, return_tensors=None: types.SimpleNamespace(
+                input_ids=None, attention_mask=None
+            )
+        )
+    )
+    dummy_transformers.AutoModelForSeq2SeqLM = types.SimpleNamespace(
+        from_pretrained=lambda *a, **k: types.SimpleNamespace(
+            generate=lambda *a, **k: [0]
+        )
+    )
 
     dummy_ov = types.ModuleType("openvino")
+
     class DummyInput:
         def get_partial_shape(self):
             return None
+
         def __hash__(self):
             return 1
 
     class DummyModel:
         def __init__(self):
             self.inputs = [DummyInput()]
+
         def reshape(self, mapping):
             pass
 
@@ -54,11 +77,14 @@ def load_stt_module():
     dummy_ov.PartialShape = lambda x: None
 
     dummy_symspellpy = types.ModuleType("symspellpy.symspellpy")
+
     class DummySymSpell:
         def __init__(self, *args, **kwargs):
             pass
+
         def load_dictionary(self, *a, **k):
             pass
+
     dummy_symspellpy.SymSpell = DummySymSpell
     dummy_symspellpy.Verbosity = object
 
@@ -115,5 +141,3 @@ def test_convert_to_mono_invalid_type():
 def test_normalize_audio_no_clip():
     data = np.array([0.0, 0.5, -1.0])
     assert np.allclose(normalize_audio(data), data)
-
-

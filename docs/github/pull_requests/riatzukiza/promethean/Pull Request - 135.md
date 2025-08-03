@@ -23,3 +23,19 @@ allowDelete: true
 https://chatgpt.com/codex/tasks/taske688bebdfaa18832488698aab4df9af00
 
 
+
+
+---
+### New status: "open"
+
+# Fix service doc paths
+## Summary
+- correct path references in environment-variables docs
+- fix links in service docs
+
+## Testing
+- make lint *(fails: ESLint reports all files ignored)*
+- make format
+
+- - -- - -
+https://chatgpt.com/codex/tasks/taske688bebdfaa18832488698aab4df9af00

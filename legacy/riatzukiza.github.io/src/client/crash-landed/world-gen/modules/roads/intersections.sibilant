@@ -1,0 +1,52 @@
+
+(import Terrain-module "../../terrain-module.js")
+(import intersection-weight "./weights.js")
+
+(const cross-roads
+       (.create Terrain-module intersection-weight
+                'grass 'stone 'grass
+                'stone 'stone 'stone
+                'grass 'stone 'grass ))
+(const diagonal-cross-roads
+       (.create Terrain-module intersection-weight
+                 'stone 'grass 'stone
+                'grass 'stone 'grass
+                'stone 'grass 'stone ))
+
+(const north-t-junction (.create Terrain-module intersection-weight
+                                 'grass 'grass 'grass
+                                 'stone 'stone 'stone
+                                 'grass 'stone 'grass ))
+(const south-t-junction
+       (.create Terrain-module intersection-weight
+                'grass 'stone 'grass
+                'stone 'stone 'stone
+                'grass 'grass 'grass ))
+(const east-t-junction
+       (.create Terrain-module intersection-weight
+                'grass 'stone 'grass
+                'stone 'stone 'grass
+                'grass 'stone 'grass ))
+(const west-t-junction
+       (.create Terrain-module intersection-weight
+                'grass 'stone 'grass
+                'grass 'stone 'stone
+                'grass 'stone 'grass ))
+(const intersections (lit
+
+
+
+                      cross-roads
+                      diagonal-cross-roads
+                      north-t-junction
+                      south-t-junction
+                      east-t-junction
+                      west-t-junction
+                      ))
+(export intersections)
+(export cross-roads)
+(export diagonal-cross-roads)
+(export north-t-junction)
+(export south-t-junction)
+(export east-t-junction)
+(export west-t-junction)
