@@ -62,6 +62,8 @@ kanban-plugin: board
 - [ ] Allow old/unnessisary messages to decay from database while retaining index entries/ids
 - [ ] Prevent dangling processes when a process fails due to error, or automaticly clean them up
 - [ ] each service registers a pid with a heartbeat service. If they do not successfully check in, terminate the process using the pid
+- [ ] Allow configuration of hyperparameters through discord (context size, spectrogram resolution, interuption threshold)
+- [ ] Refactor speech interuption system to be more inteligent,  using audio data  to decide if interupted
 
 
 ## Accepted (8)
