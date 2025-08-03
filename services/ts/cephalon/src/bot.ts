@@ -45,6 +45,7 @@ export class Bot extends EventEmitter {
 	static interactions = new Map<string, discord.RESTPostAPIChatInputApplicationCommandsJSONBody>();
 	static handlers = new Map<string, (bot: Bot, interaction: Interaction) => Promise<any>>();
 
+<<<<<<< HEAD
 	agent: AIAgent;
 	client: Client;
 	token: string;
@@ -57,6 +58,15 @@ export class Bot extends EventEmitter {
 =======
 	waveformChannelId?: string;
 >>>>>>> origin/codex/update-cephalon-for-waveform-storage
+=======
+    agent: AIAgent;
+    client: Client;
+    token: string;
+    applicationId: string;
+    context: ContextManager = new ContextManager();
+    currentVoiceSession?: any;
+    recordingChannelId?: string;
+>>>>>>> origin/codex/update-cephalon-to-store-audio-recordings
 
 	constructor(options: BotOptions) {
 		super();
@@ -276,6 +286,7 @@ export class Bot extends EventEmitter {
 		// Leave the specified voice channel
 	}
 
+<<<<<<< HEAD
 	@interaction({
 		description: 'Set the text channel where recorded waveforms will be stored',
 		options: [
@@ -347,6 +358,50 @@ export class Bot extends EventEmitter {
 				await textChannel.send(`${transcript.user?.username}:${transcript.transcript}`);
 		});
 >>>>>>>
+=======
+    @interaction({
+        description: "Set the text channel where audio recordings will be uploaded",
+        options: [
+            {
+                name: "channel",
+                description: "Target text channel",
+                type: ApplicationCommandOptionType.Channel,
+                required: true,
+            },
+        ],
+    })
+    async setRecordingChannel(interaction: Interaction) {
+        const channel = interaction.options.getChannel("channel", true);
+        if (!channel?.isTextBased()) {
+            return interaction.reply("Please choose a text channel.");
+        }
+        this.recordingChannelId = channel.id;
+        return interaction.reply(`Recordings will be posted in ${channel}`);
+    }
+
+    @interaction({
+        "description": "Begin transcribing the speech of users in the current channel to the target text channel",
+        options: [
+            {
+                name: "speaker",
+                description: "The user to begin transcribing",
+                type: ApplicationCommandOptionType.User,
+                required: true
+            },
+            {
+                name: "log",
+                description: "Should the bot send the transcript to the current text channel?",
+                type: ApplicationCommandOptionType.Boolean,
+            }
+        ]
+    })
+    async beginTranscribingUser(interaction: Interaction) {
+        // Begin transcribing audio in the voice channel to the specified text channel
+        if (this.currentVoiceSession) {
+            const user = interaction.options.getUser("speaker", true)
+            this.currentVoiceSession.addSpeaker(user)
+            this.currentVoiceSession.startSpeakerTranscribe(user, interaction.options.getBoolean("log") || false)
+>>>>>>> origin/codex/update-cephalon-to-store-audio-recordings
 
 <<<<<<<
 =======
