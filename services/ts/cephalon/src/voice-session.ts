@@ -13,19 +13,10 @@ import { Speaker } from './speaker';
 // import {Transcript} from "./transcript"
 import { randomUUID, UUID } from 'crypto';
 import { Transcriber } from './transcriber';
-<<<<<<< HEAD
-import { RecordingMetaData, VoiceRecorder } from './voice-recorder';
-=======
-import { VoiceRecorder, RecordingMetaData } from './voice-recorder';
->>>>>>> origin/codex/update-cephalon-to-store-audio-recordings
+import { VoiceRecorder } from './voice-recorder';
 import { Bot } from './bot';
 import { VoiceSynth } from './voice-synth';
 import EventEmitter from 'events';
-import { renderWaveForm } from './audioProcessing/waveform';
-import { generateSpectrogram } from './audioProcessing/spectrogram';
-import { captureScreen } from './desktop/desktopLoop';
-import { readFile } from 'fs/promises';
-import { decode } from 'wav-decoder';
 /**
    Handles all things voice. Emits an event when a user begins speaking, and when they stop speaking
    the start speaking event will have a timestamp and a wav  stream.
@@ -35,13 +26,6 @@ export type VoiceSessionOptions = {
 	voiceChannelId: string;
 	guild: discord.Guild;
 	bot: Bot;
-};
-type CaptureDeps = {
-	renderWaveForm: typeof renderWaveForm;
-	generateSpectrogram: typeof generateSpectrogram;
-	captureScreen: typeof captureScreen;
-	readFile: typeof readFile;
-	decode: typeof decode;
 };
 export class VoiceSession extends EventEmitter {
 	id: UUID;
@@ -55,8 +39,7 @@ export class VoiceSession extends EventEmitter {
 	recorder: VoiceRecorder;
 	voiceSynth: VoiceSynth;
 	bot: Bot;
-	deps: CaptureDeps;
-	constructor(options: VoiceSessionOptions, deps: Partial<CaptureDeps> = {}) {
+	constructor(options: VoiceSessionOptions) {
 		super();
 		this.id = randomUUID();
 		this.guild = options.guild;
@@ -65,76 +48,11 @@ export class VoiceSession extends EventEmitter {
 
 		this.options = options;
 		this.speakers = new Map(); // Map of user IDs to Speaker instances
-<<<<<<< HEAD
 		// this.transcript = new Transcript();
 		this.transcriber = new Transcriber();
 		this.recorder = new VoiceRecorder();
-<<<<<<< HEAD
-		this.deps = {
-			renderWaveForm,
-			generateSpectrogram,
-			captureScreen,
-			readFile,
-			decode,
-			...deps,
-		};
-		this.recorder.on('saved', async ({ filename, saveTime }) => {
-			const channel = this.bot.captureChannel;
-			if (channel) {
-				try {
-					const wavBuffer = await this.deps.readFile(filename);
-					const files: any[] = [filename];
-					try {
-						const { channelData } = await this.deps.decode(wavBuffer);
-						const data = channelData[0];
-						if (data) {
-							const waveForm = await this.deps.renderWaveForm(data, { width: 1024, height: 256 });
-							files.push({ attachment: waveForm, name: `waveform-${saveTime}.png` });
-						}
-						const spectrogram = await this.deps.generateSpectrogram(wavBuffer);
-						files.push({ attachment: spectrogram, name: `spectrogram-${saveTime}.png` });
-					} catch (err) {
-						console.warn('Failed to generate waveform or spectrogram', err);
-					}
-					try {
-						const screen = await this.deps.captureScreen();
-						if (screen.length) files.push({ attachment: screen, name: `screencap-${saveTime}.png` });
-					} catch (err) {
-						console.warn('Failed to capture screen', err);
-					}
-					await channel.send({ files });
-				} catch (e) {
-					console.warn('Failed to upload captures', e);
-				}
-			}
-		});
-=======
-		this.recorder.on('saved', (meta: RecordingMetaData) => this.bot.sendWaveform(meta));
->>>>>>> origin/codex/update-cephalon-for-waveform-storage
 		this.voiceSynth = new VoiceSynth();
 	}
-=======
-                // this.transcript = new Transcript();
-                this.transcriber = new Transcriber();
-                this.recorder = new VoiceRecorder();
-                this.recorder.on('saved', async (meta: RecordingMetaData) => {
-                        const channelId = this.bot.recordingChannelId;
-                        if (!channelId) return;
-                        try {
-                                const channel = await this.bot.client.channels.fetch(channelId);
-                                if (channel?.isTextBased()) {
-                                        await (channel as discord.TextChannel).send({
-                                                files: [meta.filename],
-                                                content: `<@${meta.userId}>`,
-                                        });
-                                }
-                        } catch (e) {
-                                console.warn('Failed to upload recording', e);
-                        }
-                });
-                this.voiceSynth = new VoiceSynth();
-        }
->>>>>>> origin/codex/update-cephalon-to-store-audio-recordings
 	get receiver() {
 		return this.connection?.receiver;
 	}

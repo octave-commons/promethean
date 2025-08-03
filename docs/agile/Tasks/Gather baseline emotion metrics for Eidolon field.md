@@ -30,16 +30,10 @@ this baseline to detect deviations and compute rewards.
 
 ## 📋 Subtasks
 
-<<<<<<< HEAD
-- [ ] Run initial collection using current Eidolon service (or mock data)
-- [ ] Export cleaned results to `data/eidolon/baseline.csv`
-- [ ] Update doc `eidolon-field-math.md` with methodology and assumptions
-=======
-- [ ] Run the collection script on a local machine
+- [ ] Run the collection script on a local machine using the current Eidolon service (or mock data)
 - [ ] Verify the CSV contains timestamped vectors with eight fields
-- [ ] Update doc `eidolon-field-math.md` with sampling methodology
-- [ ] Commit the CSV and report under `data/eidolon/`
->>>>>>> main
+- [ ] Export cleaned results to `data/eidolon/baseline.csv` and commit the report
+- [ ] Update `eidolon-field-math.md` with sampling methodology and assumptions
 
 ---
 

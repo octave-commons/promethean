@@ -15,11 +15,7 @@ import { DesktopCaptureManager } from './desktop/desktopLoop';
 import { Bot } from './bot';
 import { CollectionManager } from './collectionManager';
 import EventEmitter from 'events';
-<<<<<<< HEAD
 import { writeFile } from 'fs/promises';
-=======
-import { readFileSync } from 'fs';
->>>>>>> origin/codex/update-cephalon-for-screenshot-discord-integration
 import { LLMService } from './llm-service';
 import { AGENT_NAME } from '../../../../shared/js/env.js';
 import { ContextManager, formatMessage, GenericEntry } from './contextManager';
@@ -101,16 +97,9 @@ export class AIAgent extends EventEmitter {
 			});
 		console.log("You won't believe how big this context is...", context.length);
 		const lastMessage: Message = context.pop() as Message;
-<<<<<<< HEAD
-
 		lastMessage.images = await Promise.all(
 			this.desktop.frames.flatMap(({ screen, audio: { waveForm, spectrogram } }) => [screen, waveForm, spectrogram]),
 		);
-
-=======
-		lastMessage.images = [imageBuffer];
-		await this.bot.logScreenshot(imageBuffer);
->>>>>>> origin/codex/update-cephalon-for-screenshot-discord-integration
 		context.push(lastMessage);
 
 		return this.llm.generate({

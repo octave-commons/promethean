@@ -49,18 +49,6 @@
 		// Completeness
 		"skipLibCheck": true
 	},
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 	"include": ["src/**/*.ts", "tests/**/*.ts", "types/**/*.d.ts"],
-=======
-	"include": ["src/**/*.ts", "tests/**/*.ts"],
->>>>>>> origin/codex/update-cephalon-for-waveform-storage
-=======
-	"include": ["src/*.ts", "tests/**/*.ts"],
->>>>>>> origin/codex/update-cephalon-to-store-audio-recordings
-=======
-	"include": ["src/**/*.ts", "tests/**/*.ts"],
->>>>>>> origin/codex/update-cephalon-for-screenshot-discord-integration
 	"exclude": ["node_modules"]
 }
