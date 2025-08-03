@@ -21,19 +21,10 @@ import * as dotenv from 'dotenv';
 dotenv.config({ path: '../../.env' });
 export const AGENT_NAME = process.env.AGENT_NAME || 'duck';
 import { ContextManager, formatMessage, GenericEntry } from './contextManager';
-import tokenizer from 'sbd';
 import { choice, generatePromptChoice, generateSpecialQuery } from './util';
-const VISION_HOST = process.env.VISION_HOST || 'http://localhost:9999';
-
-export async function captureScreen(): Promise<Buffer> {
-	if (process.env.NO_SCREENSHOT === '1') {
-		return Buffer.alloc(0);
-	}
-	const res = await fetch(`${VISION_HOST}/capture`);
-	if (!res.ok) throw new Error('Failed to capture screen');
-	const arrayBuf = await res.arrayBuffer();
-	return Buffer.from(arrayBuf);
-}
+import { captureScreen } from './lib/captureScreen';
+import { splitSentences } from './lib/text';
+import { AgentInnerState, GenerateResponseOptions } from './types';
 
 // type BotActivityState = 'idle' | 'listening' | 'speaking';
 // type ConversationState = 'clear' | 'overlapping_speech' | 'awaiting_response';
@@ -93,39 +84,6 @@ const innerStateFormat = {
 		},
 	},
 };
-
-type GenerateResponseOptions = {
-	specialQuery?: string | undefined;
-	format?: object | undefined;
-	context?: Message[] | undefined;
-	prompt?: string | undefined;
-};
-function mergeShortFragments(sentences: string[], minLength = 20) {
-	const merged = [];
-	let buffer = '';
-
-	for (const s of sentences) {
-		if ((buffer + ' ' + s).length < minLength) {
-			buffer += ' ' + s;
-		} else {
-			if (buffer) merged.push(buffer.trim());
-			buffer = s;
-		}
-	}
-	if (buffer) merged.push(buffer.trim());
-	return merged;
-}
-const splitterOptions = {
-	newline_boundaries: false, // If true, \n is treated like a sentence boundary
-	html_boundaries: false, // If true, <p>, <br> and similar tags become boundaries
-	sanitize: true, // Strips non-breaking spaces and normalizes whitespace
-	abbreviations: ['Mr', 'Mrs', 'Dr', 'Ms', 'e.g', 'i.e', 'etc', 'vs', 'Prof', 'Sr', 'Jr', 'U.S', 'U.K', 'Duck', 'AI'],
-};
-function splitSentances(text: string) {
-	const sentences: string[] = tokenizer.sentences(text, splitterOptions);
-	const cleaned = sentences.map((s) => s.trim()).filter((s) => s.length > 0);
-	return mergeShortFragments(cleaned);
-}
 
 // const voicePrompt = `
 // Generate only the words you say out loud. Do not repeat your internal thoughts.
@@ -195,34 +153,6 @@ ${state.selfAffirmations.join('\n')}
 ${prompt}
 `;
 };
-
-export type FormatProperty = {
-	type: string;
-	description: string;
-	name: string;
-};
-export type FormatObject = {
-	type: 'object';
-	properties: FormatProperty[];
-};
-export type ChatMessage = {
-	role: 'system' | 'user' | 'assistant';
-	content: string;
-};
-
-export type AgentInnerState = {
-	currentFriend: string;
-	chatMembers: string[];
-	currentMood: string;
-	currentDesire: string;
-	currentGoal: string;
-	likes: string;
-	dislikes: string;
-	favoriteColor: string;
-	favoriteTimeOfDay: string;
-	selfAffirmations: string[];
-};
-
 export interface AgentOptions {
 	historyLimit?: number;
 	prompt?: string;
@@ -441,15 +371,15 @@ ${text}
 
 			console.log('Generated voice response:', content);
 			this.emit('readyToSpeak', content);
-			// split sentances preserving punctuation.
-			const sentances: string[] = splitSentances(content);
-			console.log('sentances', sentances);
-			const finishedSentances = [];
+			// split sentences preserving punctuation.
+			const sentences: string[] = splitSentences(content);
+			console.log('sentences', sentences);
+			const finishedSentences: string[] = [];
 
 			const startTime = Date.now();
-			for (let sentance of sentances) {
-				await this.speak(sentance.trim());
-				finishedSentances.push(sentance);
+			for (let sentence of sentences) {
+				await this.speak(sentence.trim());
+				finishedSentences.push(sentence);
 				if (this.isStopped) {
 					this.isStopped = false;
 					break;
@@ -458,7 +388,7 @@ ${text}
 
 			const endTime = Date.now();
 
-			await this.storeAgentMessage(finishedSentances.join(' '), true, startTime, endTime);
+			await this.storeAgentMessage(finishedSentences.join(' '), true, startTime, endTime);
 
 			this.isSpeaking = false;
 		} catch (err) {
