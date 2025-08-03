@@ -64,6 +64,7 @@ kanban-plugin: board
 - [ ] each service registers a pid with a heartbeat service. If they do not successfully check in, terminate the process using the pid
 - [ ] Allow configuration of hyperparameters through discord (context size, spectrogram resolution, interuption threshold)
 - [ ] Refactor speech interuption system to be more inteligent,  using audio data  to decide if interupted
+- [ ] Send waveforms, spectrograms, and dekstop screenshots to discord for remote storage
 
 
 ## Accepted (8)
