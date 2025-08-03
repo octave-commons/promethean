@@ -39,6 +39,7 @@ def format_message(message):
         channel_name = channel.name
         _hy_anon_var_1 = None
     else:
+
         channel_name = f"DM from {channel.recipient.name}"
         _hy_anon_var_1 = None
     return {
@@ -152,6 +153,7 @@ async def next_messages(channel: discord.TextChannel) -> List[discord.Message]:
                 )
             ]
             _hy_anon_var_6 = None
+
         except AttributeError as e:
             print(f"Attribute error for {channel.id}")
             print(e)
