@@ -75,3 +75,5 @@ lint-python:
 	flake8 services/ shared/py/
 format-python:
 	black services/ shared/py/
+typecheck-python:
+	mypy services/ shared/py/
