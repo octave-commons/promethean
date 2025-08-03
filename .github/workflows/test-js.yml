@@ -18,22 +18,36 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
       - name: Install dependencies
         run: make system-deps  setup-js
 
 
-      - name: Run tests
-        run: make test-js
+        - name: Run tests
+          run: make test-js
 
-      # - name: Upload Python coverage
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: python-coverage
-      #     path: coverage.xml
+        - name: Generate coverage report
+          run: make coverage-js
 
-      # - name: Upload JS coverage
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: js-coverage
-      #     path: coverage
+        - name: Upload coverage to Codecov
+          uses: codecov/codecov-action@v3
+          with:
+            token: ${{ secrets.CODECOV_TOKEN }}
+            files: services/js/**/coverage/lcov.info
+            flags: js
 

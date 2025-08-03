@@ -3,7 +3,7 @@ import chokidar from 'chokidar';
 import { join } from 'path';
 import { writeFile } from 'fs/promises';
 
-const repoRoot = join(__dirname, '..', '..');
+const repoRoot = process.env.REPO_ROOT || ""
 
 function runPython(script: string, capture = false): Promise<string | void> {
   return new Promise((resolve, reject) => {
