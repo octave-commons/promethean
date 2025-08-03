@@ -1,9 +1,18 @@
 import test from 'ava';
 import http from 'http';
-import { AIAgent } from '../src/agent.js';
-import { LLMService } from '../src/llm-service.js';
-import { ContextManager } from '../src/contextManager.js';
+import Module from 'module';
 import EventEmitter from 'events';
+
+const ModuleAny = Module as any;
+const originalLoad = ModuleAny._load;
+ModuleAny._load = function (request: string, parent: any, isMain: boolean) {
+	if (request.includes('canvas')) return {};
+	return originalLoad(request, parent, isMain);
+};
+
+const { AIAgent } = await import('../src/agent.js');
+const { LLMService } = await import('../src/llm-service.js');
+const { ContextManager } = await import('../src/contextManager.js');
 
 class StubBot extends EventEmitter {
 	applicationId = 'app';
