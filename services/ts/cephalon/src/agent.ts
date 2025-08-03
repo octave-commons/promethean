@@ -15,7 +15,6 @@ import { Bot } from './bot';
 import { CollectionManager } from './collectionManager';
 import EventEmitter from 'events';
 import { readFileSync } from 'fs';
-import { writeFile } from 'fs/promises';
 import { LLMService } from './llm-service';
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '../../.env' });
@@ -287,7 +286,7 @@ export class AIAgent extends EventEmitter {
 		const imageBuffer = await captureScreen();
 		const lastMessage: Message = context.pop() as Message;
 		lastMessage.images = [imageBuffer];
-		await writeFile('./test.png', imageBuffer); // save the screenshot for testing purposes
+		await this.bot.logScreenshot(imageBuffer);
 		context.push(lastMessage);
 
 		for (const message of context) console.log(message.content);
