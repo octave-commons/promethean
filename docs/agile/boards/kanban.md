@@ -97,5 +97,5 @@ kanban-plugin: board
 ## In Review
 
 - [ ] [Clearly seperate service dependency files](..\tasks\Clearly seperate service dependency files.md) #in-review
-- [ ] [update GitHub Actions to use Makefile](..\tasks\update github actions to use makefile.md) #in-review
+- [ ] [update github actions to use makefile](..\tasks\update github actions to use makefile.md) #in-review
 
