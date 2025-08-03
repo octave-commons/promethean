@@ -1,5 +1,5 @@
-import test from 'ava';
+import test from "ava";
 
-test('placeholder', t => {
+test("placeholder", (t) => {
   t.pass();
 });
