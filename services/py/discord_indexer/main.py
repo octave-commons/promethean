@@ -33,9 +33,8 @@ def format_message(message):
     channel = message.channel
     author = message.author
 
-    if hasattr(channel, "name"):
-        channel_name = channel.name
-    else:
+    channel_name = getattr(channel, "name", None)
+    if channel_name is None:
         channel_name = f"DM from {channel.recipient.name}"
     return {
         "id": message.id,
@@ -85,7 +84,7 @@ def index_message(message: discord.Message) -> None:
 
 def find_channel_record(channel_id):
     """
-    Find the record for a channel.
+    Find the record for a channel, creating one if missing.
     """
     print(f"Finding channel record for {channel_id}")
     record = discord_channel_collection.find_one({"id": channel_id})
@@ -117,7 +116,6 @@ async def next_messages(channel: discord.TextChannel) -> List[discord.Message]:
                 message
                 async for message in channel.history(limit=200, oldest_first=True)
             ]
-        # mark channel as invalid if there is an error
         except Exception as e:
             print(f"Error getting history for {channel_record['id']}")
             print(e)
@@ -127,15 +125,13 @@ async def next_messages(channel: discord.TextChannel) -> List[discord.Message]:
             return []
     else:
         print(f"Cursor found for {channel} {channel_record['cursor']}")
+        history_kwargs = {
+            "limit": 200,
+            "oldest_first": True,
+            "after": channel.get_partial_message(channel_record["cursor"]),
+        }
         try:
-            return [
-                message
-                async for message in channel.history(
-                    limit=200,
-                    oldest_first=True,
-                    after=channel.get_partial_message(channel_record["cursor"]),
-                )
-            ]
+            return [message async for message in channel.history(**history_kwargs)]
         except AttributeError as e:
             print(f"Attribute error for {channel.id}")
             print(e)
@@ -146,23 +142,20 @@ async def index_channel(channel: discord.TextChannel) -> None:
     """
     Index all messages in a channel.
     """
-    newest_message = None
     print(f"Indexing channel {channel}")
-    for message in await next_messages(channel):
+    messages = await next_messages(channel)
+    newest_message = None
+    for message in messages:
         await asyncio.sleep(0.1)
-        newest_message = message
         index_message(message)
+        newest_message = message
     if newest_message is not None:
         update_cursor(newest_message)
     print(f"Newest message: {newest_message}")
 
 
 def shuffle_array(array):
-    """
-    Shuffle an array.
-    """
-    import random
-
+    """Shuffle an array in place."""
     random.shuffle(array)
     return array
 
