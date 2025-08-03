@@ -1,66 +1,15 @@
 {
 	"$schema": "https://json.schemastore.org/tsconfig.json",
-	// Mapped from https://www.typescriptlang.org/tsconfig
 	"compilerOptions": {
-		// Type Checking
-		"allowUnreachableCode": false,
-		"allowUnusedLabels": false,
-		"exactOptionalPropertyTypes": true,
-		"noFallthroughCasesInSwitch": true,
-		"noImplicitOverride": true,
-		"noImplicitReturns": true,
-		"noPropertyAccessFromIndexSignature": false,
-		"noUncheckedIndexedAccess": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"strict": true,
-
-		// Modules
-		"allowArbitraryExtensions": false,
-		"allowImportingTsExtensions": false,
+		"target": "ESNext",
 		"module": "ESNext",
 		"moduleResolution": "Bundler",
-		"resolveJsonModule": true,
-		"resolvePackageJsonExports": true,
-		"resolvePackageJsonImports": true,
-
-		// Emit
-		"declaration": true,
-		"declarationMap": true,
-		"importHelpers": false,
-		"newLine": "lf",
-		"noEmitHelpers": true,
-		"outDir": "dist",
-		"removeComments": false,
-		"sourceMap": true,
-
-		// Interop Constraints
-		"allowSyntheticDefaultImports": true,
+		"strict": true,
 		"esModuleInterop": false,
 		"forceConsistentCasingInFileNames": true,
-		"isolatedModules": true,
-
-		// Language and Environment
-		"experimentalDecorators": true,
-		"lib": ["ESNext", "esnext.disposable"],
-		"target": "ESNext",
-		"useDefineForClassFields": true,
-
-		// Completeness
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"outDir": "dist"
 	},
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 	"include": ["src/**/*.ts", "tests/**/*.ts", "types/**/*.d.ts"],
-=======
-	"include": ["src/**/*.ts", "tests/**/*.ts"],
->>>>>>> origin/codex/update-cephalon-for-waveform-storage
-=======
-	"include": ["src/*.ts", "tests/**/*.ts"],
->>>>>>> origin/codex/update-cephalon-to-store-audio-recordings
-=======
-	"include": ["src/**/*.ts", "tests/**/*.ts"],
->>>>>>> origin/codex/update-cephalon-for-screenshot-discord-integration
 	"exclude": ["node_modules"]
 }
