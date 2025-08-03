@@ -13,7 +13,7 @@ import { Speaker } from './speaker';
 // import {Transcript} from "./transcript"
 import { randomUUID, UUID } from 'crypto';
 import { Transcriber } from './transcriber';
-import { VoiceRecorder } from './voice-recorder';
+import { VoiceRecorder, RecordingMetaData } from './voice-recorder';
 import { Bot } from './bot';
 import { VoiceSynth } from './voice-synth';
 import EventEmitter from 'events';
@@ -48,11 +48,26 @@ export class VoiceSession extends EventEmitter {
 
 		this.options = options;
 		this.speakers = new Map(); // Map of user IDs to Speaker instances
-		// this.transcript = new Transcript();
-		this.transcriber = new Transcriber();
-		this.recorder = new VoiceRecorder();
-		this.voiceSynth = new VoiceSynth();
-	}
+                // this.transcript = new Transcript();
+                this.transcriber = new Transcriber();
+                this.recorder = new VoiceRecorder();
+                this.recorder.on('saved', async (meta: RecordingMetaData) => {
+                        const channelId = this.bot.recordingChannelId;
+                        if (!channelId) return;
+                        try {
+                                const channel = await this.bot.client.channels.fetch(channelId);
+                                if (channel?.isTextBased()) {
+                                        await (channel as discord.TextChannel).send({
+                                                files: [meta.filename],
+                                                content: `<@${meta.userId}>`,
+                                        });
+                                }
+                        } catch (e) {
+                                console.warn('Failed to upload recording', e);
+                        }
+                });
+                this.voiceSynth = new VoiceSynth();
+        }
 	get receiver() {
 		return this.connection?.receiver;
 	}

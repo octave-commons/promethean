@@ -46,6 +46,7 @@ export class Bot extends EventEmitter {
     applicationId: string;
     context: ContextManager = new ContextManager();
     currentVoiceSession?: any;
+    recordingChannelId?: string;
 
     constructor(options: BotOptions) {
         super();
@@ -196,6 +197,26 @@ export class Bot extends EventEmitter {
             this.currentVoiceSession.stopSpeakerRecord(user)
         }
         return interaction.reply("I'm not recording you any more... I promise...")
+    }
+
+    @interaction({
+        description: "Set the text channel where audio recordings will be uploaded",
+        options: [
+            {
+                name: "channel",
+                description: "Target text channel",
+                type: ApplicationCommandOptionType.Channel,
+                required: true,
+            },
+        ],
+    })
+    async setRecordingChannel(interaction: Interaction) {
+        const channel = interaction.options.getChannel("channel", true);
+        if (!channel?.isTextBased()) {
+            return interaction.reply("Please choose a text channel.");
+        }
+        this.recordingChannelId = channel.id;
+        return interaction.reply(`Recordings will be posted in ${channel}`);
     }
 
     @interaction({
