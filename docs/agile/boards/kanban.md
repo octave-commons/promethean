@@ -6,155 +6,123 @@ kanban-plugin: board
 
 ## Ice Box
 
-- [ ] [Write board sync script](../tasks/Write%20board%20sync%20script.md) #framework-core
-- [ ] [Document board sync workflow](../tasks/Document%20board%20sync%20workflow.md) #framework-core
-- [ ] [Research GitHub Projects board API](../tasks/Research%20GitHub%20Projects%20board%20API.md) #framework-core
-- [ ] [Obsidian Kanban Github Project Board Mirror system](../tasks/Obsidian%20Kanban%20Github%20Project%20Board%20Mirror%20system.md) #framework-core
-- [ ] [Integrate synthesis-agent pass on unique to produce draft docs](../tasks/Integrate%20synthesis-agent%20pass%20on%20unique%20to%20produce%20draft%20docs.md)
-- [ ] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md)
-- [ ] [Add starter notes - eidolon\_fields, cephalon\_inner\_monologue](../tasks/Add%20starter%20notes%20-%20eidolon_fields,%20cephalon_inner_monologue.md)
-- [ ] [Start Eidolon](../tasks/Start%20Eidolon.md)
-- [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/Gather%20baseline%20emotion%20metrics%20for%20Eidolon%20field.md)
-- [ ] [Migrating relevant modules from riatzukiza.github.io to -site- and -docs-](../tasks/Migrating%20relevant%20modules%20from%20riatzukiza.github.io%20to%20-site-%20and%20-docs-.md) #framework-core
-- [ ] [Smart Task templater](../tasks/Smart%20Task%20templater.md)
-- [ ] [Schedule alignment meeting with stakeholders](../tasks/Schedule%20alignment%20meeting%20with%20stakeholders.md) #agent-mode
-- [ ] [Implement transcendence cascade](../tasks/Implement%20transcendence%20cascade.md) #framework-core
-- [ ] [Gather open questions about system direction](../tasks/Gather%20open%20questions%20about%20system%20direction.md) #agent-mode
-- [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md) #framework-core
-- [ ] [Identify ancestral resonance patterns](../tasks/Identify%20ancestral%20resonance%20patterns.md) #framework-core
-- [ ] [Evaluate and reward flow satisfaction](../tasks/Evaluate%20and%20reward%20flow%20satisfaction.md) #framework-core
-- [ ] [Migrate portfolio client code to Promethean](../tasks/Migrate%20portfolio%20client%20code%20to%20Promethean.md) #framework-core
-- [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
-- [ ] [Suggest metaprogramming updates](../tasks/Suggest%20metaprogramming%20updates.md) #codex-task
-- [ ] [Implement fragment ingestion with activation vectors](../tasks/Implement%20fragment%20ingestion%20with%20activation%20vectors.md) #codex-task
-- [ ] [Detect contradictions in memory](../tasks/Detect%20contradictions%20in%20memory.md) #codex-task
-- [ ] [Extract site modules from riatzukiza.github.io](../tasks/Extract%20site%20modules%20from%20riatzukiza.github.io.md) #framework-core
-- [ ] [Extract docs from riatzukiza.github.io](../tasks/Extract%20docs%20from%20riatzukiza.github.io.md) #framework-core
-- [ ] [Build data structures for Eidolon field](../tasks/Build%20data%20structures%20for%20Eidolon%20field.md) #codex-task #framework-core
-- [ ] [Implement fragment ingestion with activation vectors](../tasks/Implement%20fragment%20ingestion%20with%20activation%20vectors.md) #codex-task #framework-core
-- [ ] [Detect contradictions in memory](../tasks/Detect%20contradictions%20in%20memory.md) #codex-task #framework-core
-- [ ] [Suggest metaprogramming updates](../tasks/Suggest%20metaprogramming%20updates.md) #codex-task #framework-core
-
-
-## Blocked
-
-- [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md) #devops #seperation-of-concerns #makefile #buildtools
-
+- [ ] [Build data structures for Eidolon field](..\tasks\Build data structures for Eidolon field.md) #ice-box
+- [ ] [Document board sync workflow](..\tasks\Document board sync workflow.md) #ice-box
+- [ ] [Evaluate and reward flow satisfaction](..\tasks\Evaluate and reward flow satisfaction.md) #ice-box
+- [ ] [Extract site modules from riatzukiza.github.io](..\tasks\Extract site modules from riatzukiza.github.io.md) #ice-box
+- [ ] [Identify ancestral resonance patterns](..\tasks\Identify ancestral resonance patterns.md) #ice-box
+- [ ] [Implement fragment ingestion with activation vectors](..\tasks\Implement fragment ingestion with activation vectors.md) #ice-box
+- [ ] [Implement transcendence cascade](..\tasks\Implement transcendence cascade.md) #ice-box
 
 ## Incoming
 
-- [ ] [Remove ts-node and compile ava tests directly](Remove%20ts-node%20and%20compile%20ava%20tests%20directly.md) #cicd
-- [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
-- [ ] [Write meaningful tests for Cephalon](../../../Write%20meaningful%20tests%20for%20Cephalon.md)
+- [ ] [Gather open questions about system direction](../tasks/Gather%20open%20questions%20about%20system%20direction.md) #agent-mode
+- [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/Gather%20baseline%20emotion%20metrics%20for%20Eidolon%20field.md)
+- [ ] [Write board sync script](../tasks/Write%20board%20sync%20script.md) #framework-core
+- [ ] [Smart Task templater](../tasks/Smart%20Task%20templater.md)
+- [ ] [Obsidian Kanban Github Project Board Mirror system](../tasks/Obsidian%20Kanban%20Github%20Project%20Board%20Mirror%20system.md) #framework-core
 - [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md)
 - [ ] [Mirror shared utils with language-specific doc folders](../tasks/Mirror%20shared%20utils%20with%20language-specific%20doc%20folders.md)
-- [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md) #agent #automation #prompt #metaagent #meta-prompting #documentation
-- [ ] [Document board usage guidelines](../tasks/Document%20board%20usage%20guidelines.md)
-- [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md)
-- [ ] Clean up notes into design  docs
-
+- [ ] Add twitch chat integration
+- [ ] Automaticly capture every participant in an audio session
+- [ ] Break down cephalon agent.ts
+- [ ] design circular buffers for inputs with layered states of persistance (in memory, on disk, cold storage, so )
+- [ ] Define codex CLI baseg agent
+- [ ] Web frontend for system management
+- [ ] Twitch stream title generator
+- [ ] twitch/discord/general auto mod
+- [ ] Full agent mode (Text chat, selectively join channels, etc)
+- [ ] Add file system to context management system
+- [ ] Add web searches to context management system
+- [ ] cache decay mechanisim
+- [ ] Tool chain management system
+- [ ] Thinking Model integration
+- [ ] discord image awareness
+- [ ] Discord/chat link  traversal
+- [ ] discord image/attachment indexer
+- [ ] discord link indexer
+- [ ] Allow old/unnessisary messages to decay from database while retaining index entries/ids
+- [ ] Prevent dangling processes when a process fails due to error, or automaticly clean them up
+- [ ] each service registers a pid with a heartbeat service. If they do not successfully check in, terminate the process using the pid
+- [ ] Allow configuration of hyperparameters through discord (context size, spectrogram resolution, interuption threshold)
+- [ ] Refactor speech interuption system to be more inteligent,  using audio data  to decide if interupted
+- [ ] Send waveforms, spectrograms, and dekstop screenshots to discord for remote storage
+- [ ] Split out audio processing logic to a seperate service without changing the current behavior in cephalon
 
 ## Rejected
 
-- [ ] [Finalize STT workflow](../tasks/Finalize_STT_workflow.md) #codex-task #testing
-- [ ] [Summarize clarified priorities for next sprint](../tasks/Summarize%20clarified%20priorities%20for%20next%20sprint.md) #agent-mode
-- [ ] [Move all testing to individual services](../tasks/Move%20all%20testing%20to%20individual%20services.md)
-- [ ] [Clearly separate service dependency files](../tasks/Clearly%20separate%20service%20dependency%20files.md)
-- [ ] [Move all testing to individual  services](../tasks/Move%20all%20testing%20to%20individual%20services.md) #seperation-of-concerns #testing #devops
-- [ ] [Write vault-config README.md for Obsidian vault onboarding](../tasks/Write%20vault-config%20README.md%20for%20Obsidian%20vault%20onboarding.md) #Duplicate
-- [ ] [Add vault instructions to main README.md](../tasks/Add%20vault%20instructions%20to%20main%20README.md.md) #Duplicate
-- [ ] [Ensure GitHub-compatible markdown settings are documented](../tasks/Ensure%20GitHub-compatible%20markdown%20settings%20are%20documented.md) #Duplicate
+- [ ] [Add vault instructions to main README.md](..\tasks\Add vault instructions to main README.md.md) #rejected
+- [ ] [Clearly separate service dependency files](..\tasks\Clearly separate service dependency files.md) #rejected
+- [ ] [Finalize STT workflow](..\tasks\Finalize_STT_workflow.md) #rejected
+- [ ] [Move all testing to individual services](..\tasks\Move all testing to individual services.md) #rejected
+- [ ] [Summarize clarified priorities for next sprint](..\tasks\Summarize clarified priorities for next sprint.md) #rejected
+- [ ] [Write vault-config README.md for Obsidian vault onboarding](..\tasks\Write vault-config README.md for Obsidian vault onboarding.md) #rejected
 
+- [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md)
+- [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md) #agent #automation #prompt #metaagent #meta-prompting #documentation
 
-## Accepted (8)
+- [ ] [Update cephalon to use custom embedding function](..\tasks\Update cephalon to use custom embedding function.md) #prompt-refinement
+- [ ] [Update makefile to have commands specific for agents](..\tasks\Update makefile to have commands specific for agents.md) #prompt-refinement
 
+## Agent Thinking
 
-
-## Prompt refinement (8)
-
-- [ ] [Clarify Promethean project vision](../tasks/Clarify%20Promethean%20project%20vision.md)
-- [ ] [Add Ollama formally to pipeline](../tasks/Add%20Ollama%20formally%20to%20pipeline.md) #framework-core
+- [ ] [Decouple from Ollama Write a driver system for multiple LLM sources for easier testing in CI](../tasks/Decouple%20from%20Ollama.md) #framework-core
+- [ ] Clean up notes into design  docs
 - [ ] [Describe github branching workflow](../tasks/Describe%20github%20branching%20workflow.md)
+- [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
+- [ ] [Document board usage guidelines](../tasks/Document%20board%20usage%20guidelines.md)
 
+## Breakdown
 
-## Agent thinking (8)
+- [ ] [Add starter notes - eidolon fields, cephalon inner monologue](..\tasks\Add starter notes - eidolon_fields, cephalon_inner_monologue.md) #breakdown
+- [ ] [Clarify Promethean project vision](..\tasks\Clarify Promethean project vision.md) #breakdown
+- [ ] [Migrating relevant modules from riatzukiza.github.io to -site- and -docs-](..\tasks\Migrating relevant modules from riatzukiza.github.io to -site- and -docs-.md) #breakdown
 
-
-
-## Breakdown (10)
-
-- [ ] [Determine PM2 configuration for agents](../tasks/Determine%20PM2%20configuration%20for%20agents.md)
-- [ ] [write simple ecosystem declaration library for new agents](../tasks/write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md) #framework-core
-
-
-## ready (8)
-
-- [ ] [Add unit tests for GUI helpers](../tasks/Add_unit_tests_for_gui_helpers.md) #codex-task #testing
-
-
-## 🟢 To Do (8)
-
-- [ ] [Add STT service tests](../tasks/Add_STT_service_tests.md) #codex-task #testing
-- [ ] [Write end to end tests](Write%20end%20to%20end%20tests.md) #framework-core
-- [ ] [Add unit tests for wav_processing](../tasks/Add_unit_tests_for_wav_processing.md) #codex-task #testing
-- [ ] [rewrite vision end to end test in typescript](../../../rewrite%20vision%20end%20to%20end%20test%20in%20typescript.md)
-- [ ] [Add TTS service tests](../tasks/Add_TTS_service_tests.md) #codex-task #testing
-- [ ] [Add unit tests for date_tools.py](../tasks/Add_unit_tests_for_date_tools.py.md) #codex-task #testing
-
-
-## 🟡 In Progress (4)
-
-- [ ] [Document local testing setup](../tasks/Document_local_testing_setup.md) #codex-task #testing
-- [ ] [seperate all  testing pipelines  in github Actions](../tasks/seperate%20all%20testing%20pipelines%20in%20github%20Actions.md) #seperation-of-concerns #testing #devops
 - [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
-- [ ] [Write meaningful tests for Cephalon](../tasks/Write_meaningful_tests_for_Cephalon.md) #codex-task #testing
+- [ ] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md)
+- [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md) #framework-core
+- [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md) #devops #seperation-of-concerns #makefile #buildtools
 
+- [ ] [Add .obsidian to .gitignore](..\tasks\Add .obsidian to .gitignore.md) #todo
+- [ ] [Add STT service tests](..\tasks\Add_STT_service_tests.md) #todo
+- [ ] [Add TTS service tests](..\tasks\Add_TTS_service_tests.md) #todo
+- [ ] [Add semantic overlays for layer1 through layer8](..\tasks\Add semantic overlays for layer1 through layer8.md) #todo
+- [ ] [Add unit tests for gui helpers](..\tasks\Add_unit_tests_for_gui_helpers.md) #todo
+- [ ] [Annotate legacy code with migration tags](..\tasks\Annotate legacy code with migration tags.md) #todo
+- [ ] [Auto-generate AGENTS.md stubs from services structure](..\tasks\Auto-generate AGENTS.md stubs from services structure.md) #todo
+- [ ] [Create base `README.md` templates for each service](..\tasks\Create base `README.md` templates for each service.md) #todo
+- [ ] [Create permission gating layer](..\tasks\Create permission gating layer.md) #todo
+- [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](..\tasks\Create vault-config .obsidian with Kanban and minimal vault setup.md) #todo
+- [ ] [Decouple from Ollama](..\tasks\Decouple from Ollama.md) #todo
+- [ ] [Define permission schema in AGENTS](..\tasks\Define permission schema in AGENTS.md) #todo
+- [ ] [Describe github branching workflow](..\tasks\Describe github branching workflow.md) #todo
+- [ ] [Detect contradictions in memory](..\tasks\Detect contradictions in memory.md) #todo
+- [ ] [Determine PM2 configuration for agents](..\tasks\Determine PM2 configuration for agents.md) #todo
+- [ ] [Document board usage guidelines](..\tasks\Document board usage guidelines.md) #todo
+- [ ] [Document local testing setup](..\tasks\Document_local_testing_setup.md) #todo
+- [ ] [Document-Driven Development for Service Scripts](..\tasks\Structure vault to mirror ` services `, ` agents `, ` docs `.md) #todo
+- [ ] [Ensure GitHub-compatible markdown settings are documented](..\tasks\Ensure GitHub-compatible markdown settings are documented.md) #todo
+- [ ] [Extract docs from riatzukiza.github.io](..\tasks\Extract docs from riatzukiza.github.io.md) #todo
+- [ ] [Finalize `MIGRATION PLAN.md`](..\tasks\Finalize `MIGRATION_PLAN.md`.md) #todo
+- [ ] [Fix makefile test target](..\tasks\Fix_makefile_test_target.md) #todo
+- [ ] [Integrate synthesis-agent pass on unique to produce draft docs](..\tasks\Integrate synthesis-agent pass on unique to produce draft docs.md) #todo
+- [ ] [Make seperate execution pathways](..\tasks\Make seperate execution pathways.md) #todo
+- [ ] [Migrate portfolio client code to Promethean](..\tasks\Migrate portfolio client code to Promethean.md) #todo
+- [ ] [Migrate server side sibilant libs to promethean architecture](..\tasks\Migrate server side sibilant libs to promethean architecture.md) #todo
+- [ ] [Mirror shared utils with language-specific doc folders](..\tasks\Mirror shared utils with language-specific doc folders.md) #todo
+- [ ] [Reach 100 percent complete test coverage](..\tasks\Reach 100 percent complete test coverage.md) #todo
+- [ ] [Research GitHub Projects board API](..\tasks\Research GitHub Projects board API.md) #todo
+- [ ] [Schedule alignment meeting with stakeholders](..\tasks\Schedule alignment meeting with stakeholders.md) #todo
+- [ ] [Set up Makefile for Python + JS build test dev](..\tasks\Set up `Makefile` for Python + JS build test dev.md) #todo
+- [ ] [Start Eidolon](..\tasks\Start Eidolon.md) #todo
+- [ ] [Suggest metaprogramming updates](..\tasks\Suggest metaprogramming updates.md) #todo
+- [ ] [Write end to end tests](..\tasks\Write end to end tests.md) #todo
+- [ ] [separate all testing pipelines in github Actions](..\tasks\separate all testing pipelines in github Actions.md) #todo
+- [ ] [seperate all testing pipelines in github Actions](..\tasks\seperate all testing pipelines in github Actions.md) #todo
+- [ ] [update github actions to use makefile](..\tasks\update github actions to use makefile.md) #todo
+- [ ] [write simple ecosystem declaration library for new agents](..\tasks\write simple ecosystem declaration library for new agents.md) #todo
 
-## In Review (4)
+## In Review
 
-- [ ] [Clearly seperate service dependency  files](../tasks/Clearly%20seperate%20service%20dependency%20files.md) #devops #dependencies #seperation-of-concerns
+- [ ] [Clearly seperate service dependency files](..\tasks\Clearly seperate service dependency files.md) #in-review
 
-
-## 🔵 Done
-
-**Complete**
-- [x] [Update GitHub Actions to use makefile](../tasks/update%20github%20actions%20to%20use%20makefile.md) ✅ 2025-07-31
-- [x] [Finalize MIGRATION\_PLAN.md](../tasks/Finalize%20`MIGRATION_PLAN.md`.md) #framework-core ✅ 2025-07-31
-
-
-## 🧠 Notes
-
-- [ ] JS and Python will maintain separate `core/` implementations for now #framework-core
-- [ ] Sibilant may compile to TS in future; raw JS is acceptable if quality is high #framework-core
-- [ ] Hy encouraged but optional — fallback to `.py` expected for broader contributors #framework-core
-- [ ] Use `#codex-task`, `#agent-specific`, `#framework-core`, `#doc-this`, `#rewrite-later` as task tags
-- [ ] 
-
-
-***
-
-## Archive
-
-- [x] [Fix Makefile test target](../tasks/Fix_makefile_test_target.md) #codex-task #testing ✅ 2025-07-30
-- [x] [Create base README.md templates for each service](../tasks/Create%20base%20`README.md`%20templates%20for%20each%20service.md) #doc-this ✅ 2025-07-30
-- [x] [Ensure GitHub-compatible markdown settings are documented](../tasks/Ensure%20GitHub-compatible%20markdown%20settings%20are%20documented.md) #documentation ✅ 2025-07-30
-- [x] [Set up Makefile for Python + JS build test dev](../tasks/Set%20up%20`Makefile`%20for%20Python%20+%20JS%20build%20test%20dev.md) #cicd ✅ 2025-07-30
-- [x] [Structure vault to mirror services, agents, docs](../tasks/Structure%20vault%20to%20mirror%20`%20services%20`,%20`%20agents%20`,%20`%20docs%20`.md) #cephalon ✅ 2025-07-30
-- [x] Migrate duck services to  promethean
-- [x] Initialize Obsidian vault at repo root #done
-- [x] Obsidian vault is initialized at the root and actively being configured
-- [x] [Add .obsidian to .gitignore](../tasks/Add%20.obsidian%20to%20.gitignore.md)
-- [ ] Decided on monorepo architecture #framework-core
-- [ ] Moved initial Duck 2.0 content into `/Promethean/` #framework-core
-- [ ] Created canvas and populated `AGENTS.md` #framework-core
-- [ ] Defined language strategy: Hy/Python + Sibilant/TS/JS hybrid #framework-core
-- [x] Vault root confirmed at repo root
-- [x] Obsidian config strategy established: untracked `.obsidian/`, with example in `vault-config/`
-- [x] [Add vault instructions to main README.md](../tasks/Add%20vault%20instructions%20to%20main%20README.md.md)
-- [x] [Write vault-config README.md for Obsidian vault onboarding](../tasks/Write%20vault-config%20README.md%20for%20Obsidian%20vault%20onboarding.md)
-
-%% kanban:settings
-```
-{"kanban-plugin":"board","list-collapse":[false,false,true,true,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
-```
-%%

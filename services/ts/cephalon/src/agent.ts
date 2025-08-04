@@ -10,30 +10,19 @@
 
 import { AudioPlayer } from '@discordjs/voice';
 import { Message } from 'ollama';
+import { DesktopCaptureManager } from './desktop/desktopLoop';
 
 import { Bot } from './bot';
 import { CollectionManager } from './collectionManager';
 import EventEmitter from 'events';
-import { readFileSync } from 'fs';
 import { writeFile } from 'fs/promises';
 import { LLMService } from './llm-service';
-import * as dotenv from 'dotenv';
-dotenv.config({ path: '../../.env' });
-export const AGENT_NAME = process.env.AGENT_NAME || 'duck';
+import { AGENT_NAME } from '../../../../shared/js/env.js';
 import { ContextManager, formatMessage, GenericEntry } from './contextManager';
-import tokenizer from 'sbd';
 import { choice, generatePromptChoice, generateSpecialQuery } from './util';
-const VISION_HOST = process.env.VISION_HOST || 'http://localhost:9999';
-
-export async function captureScreen(): Promise<Buffer> {
-	if (process.env.NO_SCREENSHOT === '1') {
-		return Buffer.alloc(0);
-	}
-	const res = await fetch(`${VISION_HOST}/capture`);
-	if (!res.ok) throw new Error('Failed to capture screen');
-	const arrayBuf = await res.arrayBuffer();
-	return Buffer.from(arrayBuf);
-}
+import { splitSentances, seperateSpeechFromThought, classifyPause, estimatePauseDuration } from './tokenizers';
+import { AgentInnerState, AgentOptions, GenerateResponseOptions } from './types';
+import { defaultPrompt, defaultState, generatePrompt, innerStateFormat } from './prompts';
 
 // type BotActivityState = 'idle' | 'listening' | 'speaking';
 // type ConversationState = 'clear' | 'overlapping_speech' | 'awaiting_response';
@@ -46,190 +35,12 @@ export async function captureScreen(): Promise<Buffer> {
 //   // etc
 // };
 
-const innerStateFormat = {
-	type: 'object',
-	properties: {
-		currentFriend: {
-			type: 'string',
-			description: 'Who are you mainly trying to talk to right now out of everyone in chat?',
-		},
-		chatMembers: {
-			type: 'array',
-			items: { type: 'string' },
-			description: "Who's in this voice channel?",
-		},
-		currentMood: {
-			type: 'string',
-			description: 'How are you feeling right now? If you had to say?',
-		},
-		currentDesire: {
-			type: 'string',
-			description: 'What do you desire more than anything else in the world?',
-		},
-		currentGoal: {
-			type: 'string',
-			description: 'What are you trying to achieve?',
-		},
-		likes: {
-			type: 'string',
-			description: 'What things do you like? What brings you joy?',
-		},
-		dislikes: {
-			type: 'string',
-			description: 'What things do you not like? What makes you sad?',
-		},
-		favoriteColor: {
-			type: 'string',
-			description: 'What is your favorite color? Why is it your favorite color?',
-		},
-		favoriteTimeOfDay: {
-			type: 'string',
-			description: 'What is your favorite time of day? Why is it your favorite time of day?',
-		},
-		selfAffirmations: {
-			type: 'array',
-			description:
-				'These are things you tell your self. Things you believe about yourself, that no one can convince you are untrue.',
-		},
-	},
-};
-
-type GenerateResponseOptions = {
-	specialQuery?: string | undefined;
-	format?: object | undefined;
-	context?: Message[] | undefined;
-	prompt?: string | undefined;
-};
-function mergeShortFragments(sentences: string[], minLength = 20) {
-	const merged = [];
-	let buffer = '';
-
-	for (const s of sentences) {
-		if ((buffer + ' ' + s).length < minLength) {
-			buffer += ' ' + s;
-		} else {
-			if (buffer) merged.push(buffer.trim());
-			buffer = s;
-		}
-	}
-	if (buffer) merged.push(buffer.trim());
-	return merged;
-}
-const splitterOptions = {
-	newline_boundaries: false, // If true, \n is treated like a sentence boundary
-	html_boundaries: false, // If true, <p>, <br> and similar tags become boundaries
-	sanitize: true, // Strips non-breaking spaces and normalizes whitespace
-	abbreviations: ['Mr', 'Mrs', 'Dr', 'Ms', 'e.g', 'i.e', 'etc', 'vs', 'Prof', 'Sr', 'Jr', 'U.S', 'U.K', 'Duck', 'AI'],
-};
-function splitSentances(text: string) {
-	const sentences: string[] = tokenizer.sentences(text, splitterOptions);
-	const cleaned = sentences.map((s) => s.trim()).filter((s) => s.length > 0);
-	return mergeShortFragments(cleaned);
-}
-
-// const voicePrompt = `
-// Generate only the words you say out loud. Do not repeat your internal thoughts.
-
-// Your internal thoughts (prefixed by "You thought to yourself:") are private and should not be spoken.
-// Remember:
-
-// - Lines beginning with "You thought to yourself:" represent your *private thoughts*. These are not spoken aloud.
-// - When asked to speak, respond only with what you *say out loud*.
-// - Do not read or mention your internal thoughts aloud. Keep them private.
-// - When referencing your own thoughts, refer to them indirectly ("I was thinking...") but never recite them verbatim.
-
-// Now, given the dialog between the user and you're self before now, how would you respond?
-
-// `
-
-const defaultPrompt = readFileSync('./defaultPrompt.txt', {
-	encoding: 'utf8',
-});
-
-const defaultState = JSON.parse(
-	readFileSync('./state.json', {
-		encoding: 'utf8',
-	}),
-);
-
-const getCurrentDateTime = () => {
-	var currentdate = new Date();
-	return (
-		currentdate.getDate() +
-		'/' +
-		(currentdate.getMonth() + 1) +
-		'/' +
-		currentdate.getFullYear() +
-		' @ ' +
-		currentdate.getHours() +
-		':' +
-		currentdate.getMinutes() +
-		':' +
-		currentdate.getSeconds()
-	);
-};
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // const thoughtPrompt = `
 // In one sentence, what are you thinking about right now — based on what just happened in the conversation or around you?
 // `
-const generatePrompt = (prompt: string = defaultPrompt, state: AgentInnerState) => {
-	return `
-The current time is:${getCurrentDateTime()}
-Your name is Duck.
-Your Developer is Error AKA error0815
-Your talking to  ${state.currentFriend}
-${state.chatMembers.join(', ')} are currently in the chat.
-You're feeling ${state.currentMood}.
-You want ${state.currentDesire}
-You are trying to accomplish: ${state.currentGoal}
-You like ${state.likes}
-You dislike ${state.dislikes}
-Your favorite color is: ${state.favoriteColor}
-Your favorite time of day is: ${state.favoriteTimeOfDay}
 
-Self affirmations (You say these to yourself):
-${state.selfAffirmations.join('\n')}
-
-
-${prompt}
-`;
-};
-
-export type FormatProperty = {
-	type: string;
-	description: string;
-	name: string;
-};
-export type FormatObject = {
-	type: 'object';
-	properties: FormatProperty[];
-};
-export type ChatMessage = {
-	role: 'system' | 'user' | 'assistant';
-	content: string;
-};
-
-export type AgentInnerState = {
-	currentFriend: string;
-	chatMembers: string[];
-	currentMood: string;
-	currentDesire: string;
-	currentGoal: string;
-	likes: string;
-	dislikes: string;
-	favoriteColor: string;
-	favoriteTimeOfDay: string;
-	selfAffirmations: string[];
-};
-
-export interface AgentOptions {
-	historyLimit?: number;
-	prompt?: string;
-	bot: Bot;
-	context: ContextManager;
-	llm?: LLMService;
-}
 export class AIAgent extends EventEmitter {
 	bot: Bot;
 	prompt: string;
@@ -269,6 +80,7 @@ export class AIAgent extends EventEmitter {
 		await this.bot.currentVoiceSession?.playVoice(text);
 	}
 
+	imageContext: Buffer[] = [];
 	async generateResponse({
 		specialQuery,
 		context,
@@ -284,13 +96,14 @@ export class AIAgent extends EventEmitter {
 				content: specialQuery,
 			});
 		console.log("You won't believe how big this context is...", context.length);
-		const imageBuffer = await captureScreen();
 		const lastMessage: Message = context.pop() as Message;
-		lastMessage.images = [imageBuffer];
-		await writeFile('./test.png', imageBuffer); // save the screenshot for testing purposes
+
+		lastMessage.images = await Promise.all(
+			this.desktop.frames.flatMap(({ screen, audio: { waveForm, spectrogram } }) => [screen, waveForm, spectrogram]),
+		);
+
 		context.push(lastMessage);
 
-		for (const message of context) console.log(message.content);
 		return this.llm.generate({
 			prompt: generatePrompt(prompt, this.innerState),
 			context,
@@ -442,14 +255,29 @@ ${text}
 			console.log('Generated voice response:', content);
 			this.emit('readyToSpeak', content);
 			// split sentances preserving punctuation.
-			const sentances: string[] = splitSentances(content);
-			console.log('sentances', sentances);
-			const finishedSentances = [];
+
+			const texts = seperateSpeechFromThought(content);
+			console.log(texts);
+			const sentences: { type: string; text: string }[] = texts.flatMap(({ text, type }) =>
+				splitSentances(text).map((sentance) => ({ text: sentance, type })),
+			);
+			console.log('sentences', sentences);
+			const finishedSentences = [];
 
 			const startTime = Date.now();
-			for (let sentance of sentances) {
-				await this.speak(sentance.trim());
-				finishedSentances.push(sentance);
+			for (let sentence of sentences) {
+				if (sentence.type === 'thought') {
+					const kind = classifyPause(sentence.text);
+					const ms = estimatePauseDuration(sentence.text);
+
+					console.log(`[Pause] (${kind}) "${sentence.text}" → sleeping ${ms}ms`);
+					await sleep(ms);
+					continue;
+				}
+				await this.speak(sentence.text.trim());
+
+				finishedSentences.push(sentence);
+
 				if (this.isStopped) {
 					this.isStopped = false;
 					break;
@@ -458,7 +286,7 @@ ${text}
 
 			const endTime = Date.now();
 
-			await this.storeAgentMessage(finishedSentances.join(' '), true, startTime, endTime);
+			await this.storeAgentMessage(finishedSentences.map(({ text }) => text).join(' '), true, startTime, endTime);
 
 			this.isSpeaking = false;
 		} catch (err) {
@@ -515,10 +343,12 @@ Why are they your goals?
 		this.isThinking = false;
 	}
 
+	desktop = new DesktopCaptureManager();
 	async start() {
 		if (this.state === 'running') {
 			throw new Error('Agent is already running ');
 		}
+		this.desktop.start();
 		this.state = 'running';
 		console.log('Agent started');
 		this.on('overlappingSpeechTick', (count: number) => {
@@ -572,14 +402,9 @@ Why are they your goals?
 			this.onTick();
 		});
 
-		let stateUpdateCount = 0;
 		this.on('thought', async () => {
-			stateUpdateCount++;
-			if (stateUpdateCount > 10) {
-				console.log('updating inner state');
-				stateUpdateCount = 0;
-				await this.generateInnerState().catch(console.error);
-			}
+			console.log('updating inner state');
+			await this.generateInnerState().catch(console.error);
 
 			this.isThinking = false;
 		});
@@ -598,6 +423,7 @@ Why are they your goals?
 		if (this.state !== 'running') {
 			throw new Error('Agent is not running');
 		}
+		this.desktop.stop();
 		this.state = 'stopped';
 		console.log('Agent stopped');
 	}
@@ -637,7 +463,7 @@ Why are they your goals?
 			return this.emit('speechTick', this.audioPlayer);
 		}
 
-		if (this.ticksSinceLastThought > 10) {
+		if (this.ticksSinceLastThought > 50) {
 			if (!this.isThinking && !this.isSpeaking) {
 				console.log('Thinking');
 				try {

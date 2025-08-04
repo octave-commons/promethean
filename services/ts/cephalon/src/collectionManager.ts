@@ -1,8 +1,6 @@
 import { Collection as ChromaCollection, ChromaClient } from 'chromadb';
 import { Collection, MongoClient, ObjectId, OptionalUnlessRequiredId, WithId } from 'mongodb';
-import * as dotenv from 'dotenv';
-dotenv.config({ path: '../../.env' });
-const AGENT_NAME = process.env.AGENT_NAME || 'duck';
+import { AGENT_NAME } from '../../../../shared/js/env.js';
 const chromaClient = new ChromaClient();
 const mongoClient = new MongoClient(process.env.MONGODB_URI || 'mongodb://localhost:27017');
 import crypto from 'crypto';
