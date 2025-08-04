@@ -4,7 +4,7 @@
 (import sys)
 
 (setv SERVICES_PY ["services/py/stt" "services/py/tts" "services/py/discord_indexer" "services/py/discord_attachment_indexer" "services/py/discord_attachment_embedder" "services/py/stt_ws" "services/py/whisper_stream_ws"])
-(setv SERVICES_JS ["services/js/vision"])
+(setv SERVICES_JS ["services/js/vision" "services/js/heartbeat"])
 (setv SERVICES_TS ["services/ts/cephalon" "services/ts/discord-embedder" "services/ts/llm" "services/ts/voice" "services/ts/file-watcher"])
 
 (defn sh [cmd [cwd None] [shell False]]
@@ -151,6 +151,10 @@
 (defn test-js []
   (test-js-services))
 
+(defn coverage-js-service [service]
+  (print (.format "Running coverage for JS service: {}" service))
+  (sh "npm run coverage && npx c8 report -r lcov" :cwd (join "services/js" service) :shell True))
+
 (defn coverage-js-services []
   (run-dirs SERVICES_JS "npm run coverage && npx c8 report -r lcov" :shell True))
 
@@ -194,6 +198,10 @@
 
 (defn test-ts []
   (test-ts-services))
+
+(defn coverage-ts-service [service]
+  (print (.format "Running coverage for TS service: {}" service))
+  (sh "npm run coverage && npx c8 report -r lcov" :cwd (join "services/ts" service) :shell True))
 
 (defn coverage-ts-services []
   (run-dirs SERVICES_TS "npm run coverage && npx c8 report -r lcov" :shell True))
@@ -392,9 +400,11 @@
   ["setup-js-service-" setup-js-service]
   ["lint-js-service-" lint-js-service]
   ["test-js-service-" test-js-service]
+  ["coverage-js-service-" coverage-js-service]
   ["setup-ts-service-" setup-ts-service]
   ["lint-ts-service-" lint-ts-service]
   ["test-ts-service-" test-ts-service]
+  ["coverage-ts-service-" coverage-ts-service]
   ["setup-hy-service-" setup-hy-service]
   ["setup-sibilant-service-" setup-sibilant-service]
   ["start-" start-service]
