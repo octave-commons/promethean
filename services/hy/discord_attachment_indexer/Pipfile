@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+discord = "*"
+pandas = "*"
+dotenv = "*"
+pymongo = "*"
+pytest-asyncio = "*"
+hy = "*"
+
+[dev-packages]
+pytest-cov = "*"
+pytest = "*"
+flake8 = "*"
+black = "*"
+anyio = "*"
+
+[requires]
+python_version = "3.12"
