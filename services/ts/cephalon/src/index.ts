@@ -2,9 +2,7 @@ import 'source-map-support/register.js';
 
 console.log('Stuff and things...');
 import { Bot } from './bot';
-// import * as dotenv from 'dotenv';
-// dotenv.config({ path: '../../.env' });  // 👈 resolve from wherever you want
-const AGENT_NAME = process.env.AGENT_NAME || 'duck';
+import { AGENT_NAME } from '../../../../shared/js/env.js';
 
 console.log('Starting', AGENT_NAME, 'Cephalon');
 

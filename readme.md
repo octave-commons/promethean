@@ -93,6 +93,7 @@ all available settings.
 
 Common tasks are wrapped in the root `Makefile`:
 
+- `make install` – attempt a quick dependency install and fall back to full setup if needed
 - `make setup` – install dependencies across all services
 - `make build` – transpile Hy, Sibilant and TypeScript sources
 - `make start` – launch shared services defined in `ecosystem.config.js` via PM2

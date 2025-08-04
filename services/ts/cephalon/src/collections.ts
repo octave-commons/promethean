@@ -1,5 +1,5 @@
 import { CollectionManager } from './collectionManager';
-import { AGENT_NAME } from './agent';
+import { AGENT_NAME } from '../../../../shared/js/env.js';
 
 export const discordMessages = await CollectionManager.create<'content', 'created_at'>(
 	`${AGENT_NAME}_discord_messages`,

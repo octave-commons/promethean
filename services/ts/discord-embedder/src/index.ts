@@ -1,11 +1,7 @@
 import { ChromaClient } from 'chromadb';
 import { SimpleEmbeddingFunction } from './embedding';
 import { MongoClient, ObjectId, Collection } from 'mongodb';
-
-import * as dotenv from 'dotenv';
-dotenv.config({ path: '../../.env' }); // 👈 resolve from wherever you want
-
-const AGENT_NAME = process.env.AGENT_NAME || 'duck';
+import { AGENT_NAME } from '../../../../shared/js/env.js';
 
 const chromaClient = new ChromaClient();
 

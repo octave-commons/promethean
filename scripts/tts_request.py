@@ -1,16 +1,10 @@
-import requests
+"""Convenience script for invoking the TTS service."""
 
-url = "http://localhost:5000/synth_voice"
-data = {
-    "input_text": "This is a test of the text to speech system"
-}
+from shared.py.speech.service_clients import synthesize_text_to_file
 
-response = requests.post(url, data=data)
 
-if response.status_code == 200:
-    with open("output.wav", "wb") as f:
-        f.write(response.content)
-    print("Audio saved as output.wav")
-else:
-    print("Request failed with status code:", response.status_code)
-    print("Response:", response.text)
+if __name__ == "__main__":
+    synthesize_text_to_file(
+        "This is a test of the text to speech system",
+        output_path="output.wav",
+    )

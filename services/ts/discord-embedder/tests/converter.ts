@@ -1,5 +1,5 @@
 import test from 'ava';
-import { convert } from '../src/converter.ts';
+import { convert } from '../src/converter.js';
 
 const sample = Buffer.from('sample');
 

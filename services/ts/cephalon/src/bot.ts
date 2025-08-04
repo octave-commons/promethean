@@ -11,7 +11,8 @@ import {
 import { VoiceSession } from './voice-session';
 import { FinalTranscript } from './transcriber';
 import EventEmitter from 'events';
-import { AIAgent, AGENT_NAME } from './agent';
+import { AIAgent } from './agent';
+import { AGENT_NAME, DESKTOP_CAPTURE_CHANNEL_ID } from '../../../../shared/js/env.js';
 import { ContextManager } from './contextManager';
 import { LLMService } from './llm-service';
 import { CollectionManager } from './collectionManager';
@@ -46,7 +47,9 @@ export class Bot extends EventEmitter {
 	applicationId: string;
 	context: ContextManager = new ContextManager();
 	currentVoiceSession?: any;
-	waveformChannel?: discord.TextChannel;
+	captureChannel?: discord.TextChannel;
+	desktopChannel?: discord.TextChannel;
+	voiceStateHandler?: (oldState: discord.VoiceState, newState: discord.VoiceState) => void;
 
 	constructor(options: BotOptions) {
 		super();
@@ -55,7 +58,7 @@ export class Bot extends EventEmitter {
 		this.client = new Client({
 			intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates],
 		});
-		this.agent = new AIAgent({ historyLimit: 5, bot: this, context: this.context, llm: new LLMService() });
+		this.agent = new AIAgent({ historyLimit: 20, bot: this, context: this.context, llm: new LLMService() });
 	}
 
 	get guilds(): Promise<discord.Guild[]> {
@@ -69,6 +72,17 @@ export class Bot extends EventEmitter {
 		await this.context.createCollection(`${AGENT_NAME}_discord_messages`, 'content', 'created_at');
 		await this.context.createCollection('agent_messages', 'text', 'createdAt');
 		await this.client.login(this.token);
+		if (DESKTOP_CAPTURE_CHANNEL_ID) {
+			try {
+				const channel = await this.client.channels.fetch(DESKTOP_CAPTURE_CHANNEL_ID);
+				if (channel?.isTextBased()) {
+					this.desktopChannel = channel as discord.TextChannel;
+					this.agent.desktop.setChannel(this.desktopChannel);
+				}
+			} catch (e) {
+				console.warn('Failed to set default desktop channel', e);
+			}
+		}
 		await this.registerInteractions();
 
 		this.client
@@ -85,6 +99,9 @@ export class Bot extends EventEmitter {
 					console.warn(e);
 				}
 			})
+			.on(Events.MessageCreate, async (message) => {
+				await this.forwardAttachments(message);
+			})
 			.on(Events.Error, console.error);
 	}
 
@@ -98,6 +115,19 @@ export class Bot extends EventEmitter {
 					.put(Routes.applicationGuildCommands(this.applicationId, guild.id), { body: commands }),
 			),
 		);
+	}
+
+	async forwardAttachments(message: discord.Message) {
+		if (!this.captureChannel) return;
+		if (message.author?.bot) return;
+		const imageAttachments = [...message.attachments.values()].filter((att) => att.contentType?.startsWith('image/'));
+		if (!imageAttachments.length) return;
+		const files = imageAttachments.map((att) => ({ attachment: att.url, name: att.name }));
+		try {
+			await this.captureChannel.send({ files });
+		} catch (e) {
+			console.warn('Failed to forward attachments', e);
+		}
 	}
 
 	@interaction({
@@ -152,6 +182,12 @@ export class Bot extends EventEmitter {
 	async leaveVoiceChannel(interaction: Interaction) {
 		if (this.currentVoiceSession) {
 			this.currentVoiceSession.stop();
+			if (this.voiceStateHandler) {
+				this.client.off(Events.VoiceStateUpdate, this.voiceStateHandler);
+				this.voiceStateHandler = (_1: discord.VoiceState, _2: discord.VoiceState) => {
+					throw new Error('Voice channel left, voice state update called after leaving voice channel');
+				};
+			}
 			return interaction.followUp('Successfully left voice channel');
 		}
 		return interaction.followUp('No voice channel to leave.');
@@ -159,23 +195,44 @@ export class Bot extends EventEmitter {
 		// Leave the specified voice channel
 	}
 	@interaction({
-		description: 'Sets the channel where recorded waveforms will be stored',
+		description: 'Sets the channel where captured waveforms, spectrograms, and screenshots will be stored',
 		options: [
 			{
 				name: 'channel',
-				description: 'Text channel for waveform storage',
+				description: 'Target text channel for captured media',
 				type: ApplicationCommandOptionType.Channel,
 				required: true,
 			},
 		],
 	})
-	async setWaveformChannel(interaction: Interaction) {
+	async setCaptureChannel(interaction: Interaction) {
 		const channel = interaction.options.getChannel('channel', true);
 		if (!channel.isTextBased()) {
 			return interaction.reply('Channel must be text-based.');
 		}
-		this.waveformChannel = channel as discord.TextChannel;
-		return interaction.reply(`Waveform channel set to ${channel.id}`);
+		this.captureChannel = channel as discord.TextChannel;
+		return interaction.reply(`Capture channel set to ${channel.id}`);
+	}
+
+	@interaction({
+		description: 'Sets the channel where desktop captures will be stored',
+		options: [
+			{
+				name: 'channel',
+				description: 'Target text channel for desktop captures',
+				type: ApplicationCommandOptionType.Channel,
+				required: true,
+			},
+		],
+	})
+	async setDesktopChannel(interaction: Interaction) {
+		const channel = interaction.options.getChannel('channel', true);
+		if (!channel.isTextBased()) {
+			return interaction.reply('Channel must be text-based.');
+		}
+		this.desktopChannel = channel as discord.TextChannel;
+		this.agent.desktop.setChannel(this.desktopChannel);
+		return interaction.reply(`Desktop capture channel set to ${channel.id}`);
 	}
 	@interaction({
 		description: 'begin recording the given user.',
@@ -282,6 +339,30 @@ export class Bot extends EventEmitter {
 						this.agent.userSpeaking = true;
 					}
 				});
+
+			const channel = await interaction.guild.channels.fetch(this.currentVoiceSession.voiceChannelId);
+			if (channel?.isVoiceBased()) {
+				for (const [, member] of channel.members) {
+					if (member.user.bot) continue;
+					await this.currentVoiceSession.addSpeaker(member.user);
+					await this.currentVoiceSession.startSpeakerTranscribe(member.user);
+				}
+			}
+
+			if (this.voiceStateHandler) this.client.off(Events.VoiceStateUpdate, this.voiceStateHandler);
+			this.voiceStateHandler = (oldState, newState) => {
+				const id = this.currentVoiceSession?.voiceChannelId;
+				const user = newState.member?.user || oldState.member?.user;
+				if (!id || !user || user.bot) return;
+				if (oldState.channelId !== id && newState.channelId === id) {
+					this.currentVoiceSession?.addSpeaker(user);
+					this.currentVoiceSession?.startSpeakerTranscribe(user);
+				} else if (oldState.channelId === id && newState.channelId !== id) {
+					this.currentVoiceSession?.stopSpeakerTranscribe(user);
+					this.currentVoiceSession?.removeSpeaker(user);
+				}
+			};
+			this.client.on(Events.VoiceStateUpdate, this.voiceStateHandler);
 			return this.agent?.start();
 		}
 	}

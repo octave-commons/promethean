@@ -46,3 +46,9 @@ shared/py/.coverage
 
 .infio_json_db/
 .chromadb/
+
+patch.sh
+
+frames/
+
+output.mp4
