@@ -6,7 +6,9 @@ import numpy as np
 from scipy.io import wavfile
 
 # Ensure repository root on sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../")))
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
+)
 
 from shared.py.speech.service_clients import (
     send_wav_as_pcm,
@@ -34,7 +36,9 @@ def test_synthesize_text_to_file(tmp_path):
     mock_response.raise_for_status = MagicMock()
 
     with patch("requests.post", return_value=mock_response) as mock_post:
-        path = synthesize_text_to_file("hi", output_path=output, url="http://example.com")
+        path = synthesize_text_to_file(
+            "hi", output_path=output, url="http://example.com"
+        )
         assert path == output
         assert output.read_bytes() == b"data"
         mock_post.assert_called_once()

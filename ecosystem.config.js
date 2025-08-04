@@ -140,6 +140,7 @@ module.exports = {
         FLASK_APP: "app.py",
         FLASK_ENV: "production",
         HEARTBEAT_PORT,
+        DEESKTOP_CAPTURE_CHANNEL_ID: "1401730790467047586",
       },
       restart_delay: 10000,
       kill_timeout: 10000,
