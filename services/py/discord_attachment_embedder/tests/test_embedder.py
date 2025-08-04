@@ -5,7 +5,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[4]))
 
 import chromadb
-from PIL import Image
 import importlib
 import pytest
 
@@ -22,19 +21,6 @@ class MemoryCollection:
         for doc in self.docs:
             if doc.get("id") == query.get("id"):
                 doc.update(update.get("$set", {}))
-
-
-def fake_fetch_image(url):
-    return Image.new("RGB", (1, 1))
-
-
-class FakeModel:
-    def encode(self, inputs):
-        class F(list):
-            def tolist(self):
-                return list(self)
-
-        return [F([0.1, 0.2, 0.3]) for _ in inputs]
 
 
 @pytest.fixture(autouse=True)
@@ -62,9 +48,14 @@ def test_process_message(monkeypatch):
     }
     mem = MemoryCollection([message])
     monkeypatch.setattr(mod, "discord_message_collection", mem)
-    monkeypatch.setattr(mod, "fetch_image", fake_fetch_image)
     client = chromadb.Client()
-    collection = client.get_or_create_collection("test")
-    mod.process_message(message, collection, FakeModel())
+
+    def embedding_fn(texts):
+        return [[0.1, 0.2, 0.3] for _ in texts]
+
+    collection = client.get_or_create_collection(
+        "test", embedding_function=embedding_fn
+    )
+    mod.process_message(message, collection)
     assert collection.count() == 2
     assert mem.docs[0].get("embedded") is True

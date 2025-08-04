@@ -1,4 +1,5 @@
 import { Collection as ChromaCollection, ChromaClient } from 'chromadb';
+import { RemoteEmbeddingFunction } from './embedding';
 import { Collection, MongoClient, ObjectId, OptionalUnlessRequiredId, WithId } from 'mongodb';
 import { AGENT_NAME } from '../../../../shared/js/env.js';
 const chromaClient = new ChromaClient();
@@ -49,7 +50,10 @@ export class CollectionManager<TextKey extends string = 'text', TimeKey extends 
 		timeStampKey: TTimeKey,
 	) {
 		const collectionName = `${AGENT_NAME}_${name}`;
-		const chromaCollection = await chromaClient.getOrCreateCollection({ name: collectionName });
+		const chromaCollection = await chromaClient.getOrCreateCollection({
+			name: collectionName,
+			embeddingFunction: new RemoteEmbeddingFunction(),
+		});
 		const db = mongoClient.db('database');
 		const mongoCollection = db.collection<CollectionEntry<TTextKey, TTimeKey>>(collectionName);
 		return new CollectionManager(collectionName, chromaCollection, mongoCollection, textKey, timeStampKey);
