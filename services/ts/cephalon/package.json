@@ -2,7 +2,7 @@
 	"name": "Cephalon",
 	"version": "0.0.1",
 	"description": "A proof-of-concept basic bot using @discordjs/voice",
-	"main": "dist/index.js",
+	"main": "dist/src/index.js",
 	"type": "module",
 	"scripts": {
 		"build": "tsc && node scripts/patch-imports.js",

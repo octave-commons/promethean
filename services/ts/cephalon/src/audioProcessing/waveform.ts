@@ -38,6 +38,7 @@ export async function renderWaveForm(channelData: Float32Array, { width = DEFAUL
 export type AudioImageData = {
 	waveForm: Buffer;
 	spectrogram: Buffer;
+	waveBuffer: Buffer;
 };
 export async function captureAndRenderWaveform({ duration = 5, width = 1024, height = 1024 } = {}) {
 	console.log(`🎙 Capturing ${duration}s of audio into memory...`);
@@ -46,5 +47,5 @@ export async function captureAndRenderWaveform({ duration = 5, width = 1024, hei
 	});
 	const waveForm = await renderWaveForm(channelData, { width, height });
 	const spectrogram = await generateSpectrogram(waveBuffer);
-	return { waveForm, spectrogram };
+	return { waveForm, spectrogram, waveBuffer };
 }
