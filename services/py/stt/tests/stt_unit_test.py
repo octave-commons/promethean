@@ -21,7 +21,21 @@ def stub_wisper_module(monkeypatch):
 
 
 @pytest.fixture
-def client():
+def client(monkeypatch):
+    class DummyHB:
+        def send_once(self):
+            pass
+
+        def start(self):
+            pass
+
+        def stop(self):
+            pass
+
+    monkeypatch.setattr(
+        "shared.py.heartbeat_client.HeartbeatClient", lambda *a, **k: DummyHB()
+    )
+
     import app
     from fastapi.testclient import TestClient
 

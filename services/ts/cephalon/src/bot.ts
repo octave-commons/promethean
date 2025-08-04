@@ -46,6 +46,7 @@ export class Bot extends EventEmitter {
 	applicationId: string;
 	context: ContextManager = new ContextManager();
 	currentVoiceSession?: any;
+	waveformChannel?: discord.TextChannel;
 
 	constructor(options: BotOptions) {
 		super();
@@ -307,6 +308,25 @@ export class Bot extends EventEmitter {
 			return interaction.reply(`I will faithfully transcribe every word ${user.displayName} says... I promise.`);
 		}
 		return interaction.reply("I can't transcribe what I can't hear. Join a voice channel.");
+	}
+  	@interaction({
+		description: 'Sets the channel where recorded waveforms will be stored',
+		options: [
+			{
+				name: 'channel',
+				description: 'Text channel for waveform storage',
+				type: ApplicationCommandOptionType.Channel,
+				required: true,
+			},
+		],
+	})
+	async setWaveformChannel(interaction: Interaction) {
+		const channel = interaction.options.getChannel('channel', true);
+		if (!channel.isTextBased()) {
+			return interaction.reply('Channel must be text-based.');
+		}
+		this.waveformChannel = channel as discord.TextChannel;
+		return interaction.reply(`Waveform channel set to ${channel.id}`);
 	}
 	@interaction({
 		description: 'speak the message with text to speech',

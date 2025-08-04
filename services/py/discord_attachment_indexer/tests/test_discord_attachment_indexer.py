@@ -8,13 +8,10 @@ sys.path.insert(
 )
 
 import pytest
-
 import asyncio
-
 import discord
 
 
-# Dummy in-memory collection to mimic pymongo behaviour
 class MemoryCollection:
     def __init__(self):
         self.data = []
@@ -35,7 +32,15 @@ class MemoryCollection:
                 doc[k] = v
 
 
-# Simple discord object stubs
+class FakeAttachment:
+    def __init__(self, id, filename, size=0, url="u", content_type="text/plain"):
+        self.id = id
+        self.filename = filename
+        self.size = size
+        self.url = url
+        self.content_type = content_type
+
+
 class FakeUser:
     def __init__(self, id, name):
         self.id = id
@@ -57,7 +62,6 @@ class FakeChannel:
     async def history(self, limit=200, oldest_first=True, after=None):
         msgs = self._messages
         if after:
-            # skip messages up to and including the one with after.id
             for i, m in enumerate(self._messages):
                 if m.id == after.id:
                     msgs = self._messages[i + 1 :]
@@ -74,12 +78,20 @@ class FakeChannel:
 
 class FakeMessage:
     def __init__(
-        self, id, content, channel, author, created_at="2024-01-01", raw_mentions=None
+        self,
+        id,
+        content,
+        channel,
+        author,
+        attachments=None,
+        created_at="2024-01-01",
+        raw_mentions=None,
     ):
         self.id = id
         self.content = content
         self.channel = channel
         self.author = author
+        self.attachments = attachments or []
         self.created_at = created_at
         self.guild = channel.guild
         self.raw_mentions = raw_mentions or []
@@ -87,7 +99,6 @@ class FakeMessage:
 
 @pytest.fixture(autouse=True)
 def setup_env(monkeypatch):
-    # Minimal environment required by settings module
     monkeypatch.setenv("DISCORD_TOKEN", "token")
     monkeypatch.setenv("DEFAULT_CHANNEL", "0")
     monkeypatch.setenv("DEFAULT_CHANNEL_NAME", "general")
@@ -97,53 +108,37 @@ def setup_env(monkeypatch):
 
 
 def load_indexer(monkeypatch):
-    # Reload module with patched collections for isolation
-    class DummyHB:
-        def send_once(self):
-            pass
-
-        def start(self):
-            pass
-
-        def stop(self):
-            pass
-
-    monkeypatch.setattr(
-        "shared.py.heartbeat_client.HeartbeatClient", lambda *a, **k: DummyHB()
-    )
-
     mod = importlib.import_module("main")
     monkeypatch.setattr(mod, "discord_channel_collection", MemoryCollection())
     monkeypatch.setattr(mod, "discord_message_collection", MemoryCollection())
     return mod
 
 
-def test_format_message(monkeypatch):
+def test_index_attachments(monkeypatch):
     mod = load_indexer(monkeypatch)
     channel = FakeChannel(5, [])
-    msg = FakeMessage(1, "hello", channel, FakeUser(2, "bob"))
-    formatted = mod.format_message(msg)
-    assert formatted["id"] == 1
-    assert formatted["channel_name"] == "chan"
-    assert formatted["author_name"] == "bob"
-
-
-def test_index_message(monkeypatch):
-    mod = load_indexer(monkeypatch)
+    msg = FakeMessage(
+        1,
+        "hello",
+        channel,
+        FakeUser(2, "bob"),
+        attachments=[FakeAttachment(10, "file.txt")],
+    )
     coll = mod.discord_message_collection
-    msg = FakeMessage(2, "hey", FakeChannel(7, []), FakeUser(3, "sally"))
-    mod.index_message(msg)
-    assert coll.find_one({"id": 2})["content"] == "hey"
-    # second call should not create a duplicate
-    mod.index_message(msg)
-    assert len(coll.data) == 1
+    coll.insert_one({"id": 1})
+    mod.index_attachments(msg)
+    assert coll.find_one({"id": 1})["attachments"][0]["filename"] == "file.txt"
 
 
 @pytest.mark.asyncio
 async def test_index_channel(monkeypatch):
     mod = load_indexer(monkeypatch)
     chan = FakeChannel(10, [])
-    messages = [FakeMessage(i, f"m{i}", chan, FakeUser(9, "x")) for i in range(3)]
+    messages = [
+        FakeMessage(i, f"m{i}", chan, FakeUser(9, "x"), attachments=[])
+        for i in range(3)
+    ]
+    messages[1].attachments = [FakeAttachment(20, "pic.png")]
     chan._messages = messages
 
     async def dummy_sleep(*a, **k):
@@ -151,10 +146,12 @@ async def test_index_channel(monkeypatch):
 
     monkeypatch.setattr(asyncio, "sleep", dummy_sleep)
     coll = mod.discord_message_collection
+    for m in messages:
+        coll.insert_one({"id": m.id})
     ch_coll = mod.discord_channel_collection
-    ch_coll.insert_one({"id": 10, "cursor": None})
+    ch_coll.insert_one({"id": 10, "attachment_cursor": None})
     await mod.index_channel(chan)
-    # all messages inserted
-    assert len(coll.data) == 3
-    # cursor updated to newest message id
-    assert ch_coll.find_one({"id": 10})["cursor"] == messages[-1].id
+    assert (
+        coll.find_one({"id": messages[1].id})["attachments"][0]["filename"] == "pic.png"
+    )
+    assert ch_coll.find_one({"id": 10})["attachment_cursor"] == messages[-1].id
