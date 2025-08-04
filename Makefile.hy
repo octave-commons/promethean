@@ -3,7 +3,7 @@
 (import os.path [isdir join])
 (import sys)
 
-(setv SERVICES_PY ["services/py/stt" "services/py/tts" "services/py/discord_indexer" "services/py/discord_attachment_indexer" "services/py/stt_ws" "services/py/whisper_stream_ws"])
+(setv SERVICES_PY ["services/py/stt" "services/py/tts" "services/py/discord_indexer" "services/py/discord_attachment_indexer" "services/py/discord_attachment_embedder" "services/py/stt_ws" "services/py/whisper_stream_ws"])
 (setv SERVICES_JS ["services/js/vision"])
 (setv SERVICES_TS ["services/ts/cephalon" "services/ts/discord-embedder" "services/ts/llm" "services/ts/voice" "services/ts/file-watcher"])
 
