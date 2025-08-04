@@ -1,5 +1,6 @@
 (import subprocess)
 (import shutil)
+(import glob)
 (import os.path [isdir join])
 (import sys)
 
@@ -294,6 +295,15 @@
       (print "setup-quick failed; falling back to full setup")
       (setup))))
 
+(defn install-gha-artifacts []
+  "Download and install build artifacts from the latest GitHub Actions run."
+  (let [artifact-dir "gh-actions-artifacts"]
+    (print "Downloading GitHub Actions artifacts...")
+    (sh (.format "gh run download -R riatzukiza/promethean -n dist -D {}" artifact-dir) :shell True)
+    (for [wheel (glob.glob (join artifact-dir "*.whl"))]
+      (sh ["pip" "install" wheel]))
+    (print "GitHub Actions artifact installation complete")))
+
 (defn system-deps []
   (sh "sudo apt-get update && sudo apt-get install -y libsndfile1" :shell True))
 
@@ -353,6 +363,7 @@
        "setup" setup
        "setup-quick" setup-quick
        "install" install
+       "install-gha-artifacts" install-gha-artifacts
        "system-deps" system-deps
        "start" start
        "stop" stop
