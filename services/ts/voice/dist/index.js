@@ -1,6 +1,7 @@
 import express from "express";
 import { Client, GatewayIntentBits } from "discord.js";
 import { VoiceSession } from "./voice-session.js";
+import { HeartbeatClient } from "../../../../shared/js/heartbeat/index.js";
 export function createVoiceService(token = process.env.DISCORD_TOKEN || "") {
   if (!token) {
     throw new Error("DISCORD_TOKEN env required");
@@ -93,6 +94,9 @@ export function createVoiceService(token = process.env.DISCORD_TOKEN || "") {
     }
   });
   async function start(port = parseInt(process.env.PORT || "4000")) {
+    const hb = new HeartbeatClient();
+    await hb.sendOnce();
+    hb.start();
     await client.login(token);
     return new Promise((resolve) => {
       const server = app.listen(port, () => {
@@ -103,5 +107,12 @@ export function createVoiceService(token = process.env.DISCORD_TOKEN || "") {
   }
   return { app, client, start, getSession: () => session };
 }
-createVoiceService().start();
+if (process.env.NODE_ENV !== "test") {
+  createVoiceService()
+    .start()
+    .catch((err) => {
+      console.error("Failed to start voice service", err);
+      process.exit(1);
+    });
+}
 //# sourceMappingURL=index.js.map
