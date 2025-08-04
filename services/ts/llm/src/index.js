@@ -1,5 +1,6 @@
 import express from "express";
 import ollama from "ollama";
+import { HeartbeatClient } from "../../../../shared/js/heartbeat/index.js";
 
 export const MODEL = process.env.LLM_MODEL || "gemma3:latest";
 
@@ -48,12 +49,18 @@ app.post("/generate", async (req, res) => {
 
 export const port = process.env.LLM_PORT || 5003;
 
-export function start(listenPort = port) {
+export async function start(listenPort = port) {
+  const hb = new HeartbeatClient();
+  await hb.sendOnce();
+  hb.start();
   return app.listen(listenPort, () => {
     console.log(`LLM service listening on ${listenPort}`);
   });
 }
 
 if (process.env.NODE_ENV !== "test") {
-  start();
+  start().catch((err) => {
+    console.error("Failed to start LLM service", err);
+    process.exit(1);
+  });
 }
