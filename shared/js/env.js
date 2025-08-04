@@ -18,3 +18,5 @@ try {
 loadEnv?.();
 
 export const AGENT_NAME = process.env.AGENT_NAME || "duck";
+export const DESKTOP_CAPTURE_CHANNEL_ID =
+  process.env.DESKTOP_CAPTURE_CHANNEL_ID;
