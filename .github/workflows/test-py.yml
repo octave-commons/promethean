@@ -10,6 +10,17 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - stt
+          - tts
+          - discord_indexer
+          - discord_attachment_indexer
+          - discord_attachment_embedder
+          - stt_ws
+          - whisper_stream_ws
 
     steps:
       - uses: actions/checkout@v3
@@ -25,7 +36,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('services/py/' + matrix.service + '/Pipfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
@@ -38,20 +49,19 @@ jobs:
             ${{ runner.os }}-npm-
 
       - name: Install dependencies
-        run: make system-deps  setup-python
-
+        run: make system-deps setup-python-service-${{ matrix.service }}
 
       - name: Run tests
-        run: make test-python
+        run: make test-python-service-${{ matrix.service }}
 
       - name: Generate coverage
-        run: make coverage-python
+        run: make coverage-python-service-${{ matrix.service }}
 
       - name: Upload Python coverage
         uses: actions/upload-artifact@v4
         with:
-          name: python-coverage
-          path: coverage.xml
+          name: python-coverage-${{ matrix.service }}
+          path: services/py/${{ matrix.service }}/coverage.xml
 
       # - name: Upload JS coverage
       #   uses: actions/upload-artifact@v4
