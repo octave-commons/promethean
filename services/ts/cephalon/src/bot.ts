@@ -12,7 +12,7 @@ import { VoiceSession } from './voice-session';
 import { FinalTranscript } from './transcriber';
 import EventEmitter from 'events';
 import { AIAgent } from './agent';
-import { AGENT_NAME } from '../../../../shared/js/env.js';
+import { AGENT_NAME, DESKTOP_CAPTURE_CHANNEL_ID } from '../../../../shared/js/env.js';
 import { ContextManager } from './contextManager';
 import { LLMService } from './llm-service';
 import { CollectionManager } from './collectionManager';
@@ -49,6 +49,7 @@ export class Bot extends EventEmitter {
 	currentVoiceSession?: any;
 	captureChannel?: discord.TextChannel;
 	desktopChannel?: discord.TextChannel;
+	voiceStateHandler?: (oldState: discord.VoiceState, newState: discord.VoiceState) => void;
 
 	constructor(options: BotOptions) {
 		super();
@@ -71,6 +72,17 @@ export class Bot extends EventEmitter {
 		await this.context.createCollection(`${AGENT_NAME}_discord_messages`, 'content', 'created_at');
 		await this.context.createCollection('agent_messages', 'text', 'createdAt');
 		await this.client.login(this.token);
+		if (DESKTOP_CAPTURE_CHANNEL_ID) {
+			try {
+				const channel = await this.client.channels.fetch(DESKTOP_CAPTURE_CHANNEL_ID);
+				if (channel?.isTextBased()) {
+					this.desktopChannel = channel as discord.TextChannel;
+					this.agent.desktop.setChannel(this.desktopChannel);
+				}
+			} catch (e) {
+				console.warn('Failed to set default desktop channel', e);
+			}
+		}
 		await this.registerInteractions();
 
 		this.client
@@ -170,6 +182,10 @@ export class Bot extends EventEmitter {
 	async leaveVoiceChannel(interaction: Interaction) {
 		if (this.currentVoiceSession) {
 			this.currentVoiceSession.stop();
+			if (this.voiceStateHandler) {
+				this.client.off(Events.VoiceStateUpdate, this.voiceStateHandler);
+				this.voiceStateHandler = undefined;
+			}
 			return interaction.followUp('Successfully left voice channel');
 		}
 		return interaction.followUp('No voice channel to leave.');
@@ -321,6 +337,30 @@ export class Bot extends EventEmitter {
 						this.agent.userSpeaking = true;
 					}
 				});
+
+			const channel = await interaction.guild.channels.fetch(this.currentVoiceSession.voiceChannelId);
+			if (channel?.isVoiceBased()) {
+				for (const [, member] of channel.members) {
+					if (member.user.bot) continue;
+					await this.currentVoiceSession.addSpeaker(member.user);
+					await this.currentVoiceSession.startSpeakerTranscribe(member.user);
+				}
+			}
+
+			if (this.voiceStateHandler) this.client.off(Events.VoiceStateUpdate, this.voiceStateHandler);
+			this.voiceStateHandler = (oldState, newState) => {
+				const id = this.currentVoiceSession?.voiceChannelId;
+				const user = newState.member?.user || oldState.member?.user;
+				if (!id || !user || user.bot) return;
+				if (oldState.channelId !== id && newState.channelId === id) {
+					this.currentVoiceSession?.addSpeaker(user);
+					this.currentVoiceSession?.startSpeakerTranscribe(user);
+				} else if (oldState.channelId === id && newState.channelId !== id) {
+					this.currentVoiceSession?.stopSpeakerTranscribe(user);
+					this.currentVoiceSession?.removeSpeaker(user);
+				}
+			};
+			this.client.on(Events.VoiceStateUpdate, this.voiceStateHandler);
 			return this.agent?.start();
 		}
 	}
