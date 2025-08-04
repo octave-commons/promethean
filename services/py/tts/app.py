@@ -1,5 +1,8 @@
 from fastapi import FastAPI, Form, Response
 import io
+import sys
+
+print(sys.path)
 from shared.py.heartbeat_client import HeartbeatClient
 
 from safetensors.torch import load_file
@@ -10,6 +13,7 @@ import nltk
 import soundfile as sf
 import torch
 import numpy as np
+import os
 from transformers import FastSpeech2ConformerTokenizer, FastSpeech2ConformerWithHifiGan
 
 nltk.download("averaged_perceptron_tagger_eng")
