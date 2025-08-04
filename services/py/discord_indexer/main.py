@@ -173,6 +173,7 @@ async def index_channel(channel: discord.TextChannel) -> None:
     for message in messages:
         await asyncio.sleep(0.1)
         index_message(message)
+        newest_message = message
     update_cursor(newest_message) if newest_message is not None else None
     return print(f"Newest message: {newest_message}")
 
