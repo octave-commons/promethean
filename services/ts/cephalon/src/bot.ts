@@ -184,7 +184,9 @@ export class Bot extends EventEmitter {
 			this.currentVoiceSession.stop();
 			if (this.voiceStateHandler) {
 				this.client.off(Events.VoiceStateUpdate, this.voiceStateHandler);
-				this.voiceStateHandler = undefined;
+				this.voiceStateHandler = (_1: discord.VoiceState, _2: discord.VoiceState) => {
+					throw new Error('Voice channel left, voice state update called after leaving voice channel');
+				};
 			}
 			return interaction.followUp('Successfully left voice channel');
 		}
