@@ -27,7 +27,6 @@ def shutdown_event():
 @app.websocket("/stream")
 @websocket_endpoint
 async def stream(ws: WebSocket):
-    await ws.accept()
     try:
         while True:
             global streamer
