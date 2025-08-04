@@ -3,10 +3,16 @@ COMMANDS := all build clean lint format test setup setup-quick install system-de
         generate-requirements setup-python-quick test-python test-js test-ts docker-build docker-up docker-down \
         setup-hy setup-python setup-js setup-ts typecheck-python typecheck-ts build-ts build-js setup-pipenv
 
-.PHONY: $(COMMANDS) generate-requirements-service-% setup-hy-service-%
+.PHONY: $(COMMANDS) generate-requirements-service-% setup-hy-service-% \
+        setup-python-service-% test-python-service-% coverage-python-service-% \
+        setup-js-service-%    test-js-service-%    coverage-js-service-% \
+        setup-ts-service-%    test-ts-service-%    coverage-ts-service-%
 
 $(COMMANDS):
 	@hy Makefile.hy $@
 
-generate-requirements-service-% setup-hy-service-%:
+generate-requirements-service-% setup-hy-service-% \
+setup-python-service-% test-python-service-% coverage-python-service-% \
+setup-js-service-%    test-js-service-%    coverage-js-service-% \
+setup-ts-service-%    test-ts-service-%    coverage-ts-service-%:
 	@hy Makefile.hy $@
