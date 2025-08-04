@@ -79,6 +79,7 @@ Keep these secrets close  to your chest, and be responsible with your use of the
 
 * Used in: `services/stt/`, `services/tts/`, `services/cephalon/`, `services/eidolon/`
 * Hy is fully interoperable with Python; files may be written in `.hy` or `.py`
+* Prefer Hy code over Python; write Hy unless explicitly asked otherwise
 * Package management: `Pipfile` (prefer Pipenv)
 * Testing: `pytest`
 * Logging: `log.debug()` preferred
@@ -240,7 +241,7 @@ Additionally, ensure that:
 ## 📚 Documentation Standards
 
 * Markdown only
-* Use `[[Wikilinks]]` in your Obsidian workflow, but ensure they are converted to regular markdown links for compatibility. Use `#hashtags` to support the Obsidian graph view.
+* Use `[Wikilinks](Wikilinks.md)` in your Obsidian workflow, but ensure they are converted to regular markdown links for compatibility. Use `#hashtags` to support the Obsidian graph view.
 * Code paths must be written like: `services/cephalon/langstream.py`
 * All new modules must have a doc stub in `/docs/`
 * See `docs/vault-config-readme.md` for tips on configuring Obsidian to export
