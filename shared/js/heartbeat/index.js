@@ -10,19 +10,24 @@ export class HeartbeatClient {
   constructor({
     url = `http://127.0.0.1:${HEARTBEAT_PORT}/heartbeat`,
     pid = process.pid,
+    name = process.env.name,
     interval = 3000,
   } = {}) {
     this.url = url;
     this.pid = pid;
+    this.name = name;
     this.interval = interval;
     this._timer = null;
+    if (!this.name) {
+      throw new Error("name required for HeartbeatClient");
+    }
   }
 
   async sendOnce() {
     const res = await fetch(this.url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ pid: this.pid }),
+      body: JSON.stringify({ pid: this.pid, name: this.name }),
     });
     if (!res.ok) {
       throw new Error(`heartbeat failed with status ${res.status}`);
