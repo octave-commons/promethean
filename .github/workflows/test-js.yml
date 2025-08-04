@@ -10,13 +10,19 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - vision
+          - heartbeat
 
     steps:
       - uses: actions/checkout@v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: "20"
 
       - uses: actions/setup-python@v4
         with:
@@ -37,23 +43,22 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-npm-${{ hashFiles('services/js/' + matrix.service + '/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-npm-
 
       - name: Install dependencies
-        run: make system-deps  setup-js
+        run: make system-deps setup-js-service-${{ matrix.service }}
 
       - name: Run tests
-        run: make test-js
+        run: make test-js-service-${{ matrix.service }}
 
       - name: Generate coverage report
-        run: make coverage-js
+        run: make coverage-js-service-${{ matrix.service }}
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: services/js/**/coverage/lcov.info
-          flags: js
-
+          files: services/js/${{ matrix.service }}/coverage/lcov.info
+          flags: js-${{ matrix.service }}
