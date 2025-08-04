@@ -8,6 +8,9 @@
 (setv SERVICES_TS ["services/ts/cephalon" "services/ts/discord-embedder" "services/ts/llm" "services/ts/voice" "services/ts/file-watcher"])
 
 (defn sh [cmd [cwd None] [shell False]]
+  (import subprocess os)
+  (setv env (os.environ.copy))
+  (setv (get env "PIPENV_NOSPIN") "1")
   (if shell
       (do (print (.format "Running in {}: {}" (or cwd ".") cmd))
           (subprocess.run cmd :cwd cwd :check True :shell True))
@@ -33,7 +36,7 @@
 
 (defn setup-python-services []
   (print "Setting up Python services...")
-  (run-dirs SERVICES_PY "PIPENV_NOSPIN=1 python -m pipenv sync --dev" :shell True))
+  (run-dirs SERVICES_PY "python -m pipenv sync --dev" :shell True))
 
 (defn generate-python-shared-requirements []
   (sh "python -m pipenv requirements > requirements.txt" :cwd "shared/py" :shell True))
@@ -76,17 +79,17 @@
 
 (defn setup-python-service [service]
   (print (.format "Setting up Python service: {}" service))
-  (sh "PIPENV_NOSPIN=1 python -m pipenv sync --dev" :cwd (join "services/py" service) :shell True))
+  (sh "python -m pipenv sync --dev" :cwd (join "services/py" service) :shell True))
 
 (defn test-python-service [service]
   (print (.format "Running tests for Python service: {}" service))
-  (sh "PIPENV_NOSPIN=1 python -m pipenv run pytest tests/" :cwd (join "services/py" service) :shell True))
+  (sh "python -m pipenv run pytest tests/" :cwd (join "services/py" service) :shell True))
 
 (defn test-python-services []
-  (run-dirs SERVICES_PY "echo 'Running tests in $PWD...' && PIPENV_NOSPIN=1 python -m pipenv run pytest tests/" :shell True))
+  (run-dirs SERVICES_PY "echo 'Running tests in $PWD...' && python -m pipenv run pytest tests/" :shell True))
 
 (defn test-shared-python []
-  (sh "PIPENV_NOSPIN=1 python -m pipenv run pytest tests/" :cwd "shared/py" :shell True))
+  (sh "python -m pipenv run pytest tests/" :cwd "shared/py" :shell True))
 
 (defn test-python []
   (test-python-services)
@@ -94,13 +97,13 @@
 
 (defn coverage-python-service [service]
   (print (.format "Running coverage for Python service: {}" service))
-  (sh "PIPENV_NOSPIN=1 python -m pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term" :cwd (join "services/py" service) :shell True))
+  (sh "python -m pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term" :cwd (join "services/py" service) :shell True))
 
 (defn coverage-python-services []
-  (run-dirs SERVICES_PY "echo 'Generating coverage in $PWD...' && PIPENV_NOSPIN=1 python -m pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term" :shell True))
+  (run-dirs SERVICES_PY "echo 'Generating coverage in $PWD...' && python -m pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term" :shell True))
 
 (defn coverage-shared-python []
-  (sh "PIPENV_NOSPIN=1 python -m pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term" :cwd "shared/py" :shell True))
+  (sh "python -m pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term" :cwd "shared/py" :shell True))
 
 (defn coverage-python []
   (coverage-python-services)
