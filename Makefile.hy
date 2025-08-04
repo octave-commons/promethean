@@ -4,6 +4,7 @@
 (import sys)
 
 (setv SERVICES_PY ["services/py/stt" "services/py/tts" "services/py/discord_indexer" "services/py/discord_attachment_indexer" "services/py/discord_attachment_embedder" "services/py/stt_ws" "services/py/whisper_stream_ws"])
+(setv SERVICES_HY ["services/hy/stt" "services/hy/tts" "services/hy/discord_indexer" "services/hy/discord_attachment_indexer" "services/hy/discord_attachment_embedder" "services/hy/stt_ws" "services/hy/whisper_stream_ws"])
 (setv SERVICES_JS ["services/js/vision"])
 (setv SERVICES_TS ["services/ts/cephalon" "services/ts/discord-embedder" "services/ts/llm" "services/ts/voice" "services/ts/file-watcher"])
 
@@ -94,6 +95,16 @@
 (defn test-python []
   (test-python-services)
   (test-shared-python))
+
+(defn test-hy-service [service]
+  (print (.format "Running tests for Hy service: {}" service))
+  (sh "hy -m pytest tests/" :cwd (join "services/hy" service) :shell True))
+
+(defn test-hy-services []
+  (run-dirs SERVICES_HY "echo 'Running tests in $PWD...' && hy -m pytest tests/" :shell True))
+
+(defn test-hy []
+  (test-hy-services))
 
 (defn coverage-python-service [service]
   (print (.format "Running coverage for Python service: {}" service))
@@ -228,6 +239,9 @@
   (print (.format "Setting up Hy service: {}" service))
   (sh ["pipenv" "install" "--dev"] :cwd (join "services" service)))
 
+(defn compile-hy []
+  (sh ["python" "scripts/compile_hy.py"]))
+
 ;; Root targets ---------------------------------------------------------------
 (defn build []
   (build-js)
@@ -244,6 +258,7 @@
 
 (defn test []
   (test-python)
+  (test-hy)
   (test-js)
   (test-ts))
 
@@ -357,6 +372,7 @@
        "docker-up" docker-up
        "docker-down" docker-down
        "setup-hy" setup-hy
+       "compile-hy" compile-hy
        "lint-python" lint-python
        "lint-js" lint-js
        "lint-ts" lint-ts
@@ -364,6 +380,7 @@
        "format-js" format-js
        "format-ts" format-ts
        "test-python" test-python
+       "test-hy" test-hy
        "test-js" test-js
        "test-ts" test-ts
        "coverage-python" coverage-python
@@ -387,6 +404,7 @@
 (setv patterns [
   ["setup-python-service-" setup-python-service]
   ["test-python-service-" test-python-service]
+  ["test-hy-service-" test-hy-service]
   ["coverage-python-service-" coverage-python-service]
   ["lint-python-service-" lint-python-service]
   ["setup-js-service-" setup-js-service]
