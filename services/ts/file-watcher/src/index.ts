@@ -10,7 +10,11 @@ export interface FileWatcherOptions {
   /** Root of the repository. Defaults to the REPO_ROOT env var or "". */
   repoRoot?: string;
   /** Function used to execute python scripts. */
-  runPython?: (script: string, capture?: boolean) => Promise<string | void>;
+  runPython?: (
+    script: string,
+    capture?: boolean,
+    args?: string[],
+  ) => Promise<string | void>;
   /** Function used to write the kanban board file. */
   writeFile?: (path: string, data: string) => Promise<void>;
 }
@@ -20,9 +24,10 @@ const defaultRepoRoot = process.env.REPO_ROOT || "";
 function defaultRunPython(
   script: string,
   capture = false,
+  args: string[] = [],
 ): Promise<string | void> {
   return new Promise((resolve, reject) => {
-    const proc = spawn("python", [script], { cwd: defaultRepoRoot });
+    const proc = spawn("python", [script, ...args], { cwd: defaultRepoRoot });
     let data = "";
 
     proc.stdout.on("data", (chunk) => {
@@ -106,6 +111,22 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
   });
 
   const tasksWatcher = chokidar.watch(tasksPath, { ignoreInitial: true });
+  tasksWatcher.on("add", (path) => {
+    if (updatingTasks) {
+      console.log("Ignoring task addition triggered by watcher");
+      return;
+    }
+    console.log("New task file added, populating stub...");
+    updatingTasks = true;
+    runPython(join("scripts", "populate_task_ollama.py"), false, [path])
+      .then(() => updateBoard())
+      .catch((err) => console.error("populate_task_ollama failed", err))
+      .finally(() => {
+        setTimeout(() => {
+          updatingTasks = false;
+        }, 100);
+      });
+  });
   tasksWatcher.on("change", () => {
     if (updatingTasks) {
       console.log("Ignoring task change triggered by watcher");
