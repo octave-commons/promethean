@@ -1,9 +1,10 @@
-from fastapi import FastAPI, Form, Response
+from fastapi import FastAPI, Form, Response, WebSocket
 import io
 import sys
 
 print(sys.path)
 from shared.py.heartbeat_client import HeartbeatClient
+from shared.py.utils import websocket_endpoint
 
 from safetensors.torch import load_file
 
@@ -76,3 +77,16 @@ def synth_voice_pcm(input_text: str = Form(...)):
     return Response(
         content=pcm_bytes_io.getvalue(), media_type="application/octet-stream"
     )
+
+
+@app.websocket("/ws/tts")
+@websocket_endpoint
+async def tts_websocket(ws: WebSocket):
+    from shared.py.speech import tts
+
+    while True:
+        text = await ws.receive_text()
+        audio = tts.generate_voice(text)
+        buf = io.BytesIO()
+        sf.write(buf, audio, samplerate=22050, format="WAV")
+        await ws.send_bytes(buf.getvalue())
