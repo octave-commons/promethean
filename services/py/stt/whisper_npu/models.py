@@ -25,7 +25,9 @@ LOGGER = logging.getLogger(__name__)
 class ModelManager:
     """Manage the Whisper tokenizer and OpenVINO models."""
 
-    def __init__(self, config: Config, tokenizer_name: str = "openai/whisper-medium") -> None:
+    def __init__(
+        self, config: Config, tokenizer_name: str = "openai/whisper-medium"
+    ) -> None:
         self.config = config
         self.tokenizer = WhisperTokenizer.from_pretrained(tokenizer_name)
         self._encoder = None

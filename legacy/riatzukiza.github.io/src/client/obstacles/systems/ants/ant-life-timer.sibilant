@@ -1,0 +1,59 @@
+
+(import Component System "/shared/ecs.js")
+(import Red-black-tree "/shared/data-structures/trees/red-black-tree.js")
+(import config "../../config.js")
+(import Timer Time-limit "../timer.js")
+(import place-entity "/shared/systems/collision.js")
+(import trail-segments "../../entities/trail-segments.js" )
+
+
+(const views (new Map))
+
+(define Ant-life Time-limit
+  (duration config.ant-life)
+  (update-view? true)
+  (def-view view ()
+    (.div .className "panel"
+          .style (lit (width "48%"))
+          (.div "life" (-> this.remaining-time))
+          (.div "wins" (-> this.win-count))
+          (.div "losses" (-> this.loose-count))))
+
+
+  (def *clear ()
+    (.call Time-limit.*clear this)
+    (.delete this.views this.entity)
+
+    (assign this.win-count 0)
+    (assign this.loose-count 0))
+
+  (def register ()
+    (.call Time-limit.register this)
+    (assign this.win-count 0)
+    (assign this.loose-count 0))
+
+  (gett home-pos config.home-location)
+  (gett seg-group (get-trail-segments))
+
+
+  (def callback (e c)
+    ;; timer callback is called when the ant looses.
+    ;; the timer is reset when the ant wins, so this callback is not called.
+
+    (assign e.position-interface.x this.home-pos.x)
+    (assign e.position-interface.y this.home-pos.y)
+    (place-entity e c.system.process config)
+
+    (for-of! seg e.ant-trail.segments
+             (.apply-inverse seg.trail-segment))
+    (incr c.loose-count)
+    (.clear e.ant-trail.segments)
+
+    (.reset c config.ant-life-duration)))
+(export Ant-life)
+
+(define Ant-life-timer Timer
+  (gett default-duration config.ant-life)
+  (interface Ant-life))
+
+(export Ant-life-timer)

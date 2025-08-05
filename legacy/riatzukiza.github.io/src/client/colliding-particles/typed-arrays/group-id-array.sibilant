@@ -1,0 +1,9 @@
+
+(import Double-buffered-array "./double-buffered.js")
+(import Group-id "../data-types/group-id.js")
+
+(define Group-id-array Double-buffered-array
+  (data-type Group-id))
+
+(export Group-id-array)
+

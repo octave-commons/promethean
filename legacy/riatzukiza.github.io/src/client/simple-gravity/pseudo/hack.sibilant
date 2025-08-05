@@ -1,0 +1,111 @@
+(def-worker System-worker (data)
+  (const components (map data.components (component)
+                         (.get Component component)))
+
+  )
+(def-worker Component-broker (data))
+(def-worker Game-loop (data))
+(def-worker DB-worker (data))
+
+
+(define Model Interface
+  (doc-string "Model" "modelName:str data:any"
+              "An interface for syncronizing data over threads and databases."
+              )
+  (init (model-name *data))
+  (gett data this.*data)
+  (def save (database-name))
+  )
+
+(define Component Interface
+  (doc-string "Component" "data:any" "a piece of data in the game associated with an entity.")
+  (def connect (entity))
+
+  (def save ()))
+
+(define Data-component Component)
+(define View-component Component)
+
+(define Vector-component Data-component
+  (struct (x Int)
+          (y Int)))
+
+(define Position Vector-component)
+(define Velocity Vector-component)
+(define Acceleration Vector-component)
+(define Resistance Vector-component)
+(define Needs Data-component
+  (struct (hunger Int)
+          (restedness Int)
+          (boredom Int)
+          (thirst Int)
+          (cleanliness Int)))
+(define Order-queue Data-component)
+(define Order Data-component
+  (struct (target)))
+(define Navigation Order
+  (struct (start Position)
+          (end Position)
+          (waypoints )))
+
+(define Character Entity
+  (views [(.spawn Sprite-atlas "character.png")
+          (.spawn Gauge 'health)
+          (.spawn Gauge 'hunger)
+          (.spawn Gauge 'stamina)
+          (.spawn Gauge 'restedness)
+          (.spawn Gauge 'thirst)
+          (.spawn Speach-bubble 'mind-state)])
+  (systems [Movement
+            Navigation
+            Memory
+            Sight
+            Sleep
+            Hunger
+            Priorities
+            Combat ])
+  (components [Position
+               Velocity
+               Acceleration
+               Needs
+               Task-queue
+               Stats
+               Experience
+               Personality]))
+
+(define Tile Entity
+  (views [(.spawn Sprite-atlas "tiles.png")])
+  (components [Position Tile-container Ground-type]))
+
+(define Food Entity
+  (views [(.spawn Sprite-atlas "items.png")]))
+
+(define Plant Entity
+  (views [(.spawn Sprite-atlas "plants.png")])
+  (components [Position Harvestable])
+  )
+
+
+(define Entity Interface
+  (doc-string "Entity" "data-types: list[Component]"
+              "an id which associated several pieces of data in the game.")
+  (init (id components)))
+
+(define Entity-assembler Assembler
+
+  )
+
+(define Tile-generator Entity-assembler)
+(define Food-planter Entity-assembler)
+
+
+
+(define Game Interface
+  (init (components systems entities database))
+  (def start ())
+  (def-generic save (save-name entities)
+
+    )
+  )
+
+(const game (.create Game))

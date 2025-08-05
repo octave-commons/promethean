@@ -1,0 +1,77 @@
+(import Terrain-module "../terrain-module.js")
+(const adjacent-stone-weight 0)
+(const paralell-horizontal-roads (.create Terrain-module adjacent-stone-weight
+                                          'stone 'stone 'stone
+                                          'grass 'grass 'grass
+                                          'stone 'stone 'stone))
+(export paralell-horizontal-roads)
+(const paralell-vertical-roads (.create Terrain-module adjacent-stone-weight
+                                        'stone 'grass 'stone
+                                        'stone 'grass 'stone
+                                        'stone 'grass 'stone
+                                        ))
+(export paralell-vertical-roads)
+(const full-stone (.create Terrain-module adjacent-stone-weight
+                                        'stone 'stone 'stone
+                                        'stone 'stone 'stone
+                                        'stone 'stone 'stone
+                                        ))
+(export full-stone)
+
+
+;; (const lone-stone-weight 0.0000000000000000000000001)
+(const lone-stone-weight 0)
+(.create Terrain-module lone-stone-weight
+         'grass 'grass 'grass
+         'grass 'stone 'grass
+         'grass 'grass 'grass)
+(.create Terrain-module lone-stone-weight
+         'grass 'stone 'grass
+         'grass 'grass 'grass
+         'grass 'grass 'grass)
+(.create Terrain-module lone-stone-weight
+         'stone 'grass 'grass
+         'grass 'grass 'grass
+         'grass 'grass 'grass)
+(.create Terrain-module lone-stone-weight
+         'grass 'grass 'grass
+         'stone 'grass 'grass
+         'grass 'grass 'grass)
+(.create Terrain-module lone-stone-weight
+         'grass 'grass 'grass
+         'grass 'grass 'grass
+         'stone 'grass 'grass)
+(.create Terrain-module lone-stone-weight
+         'grass 'grass 'grass
+         'grass 'grass 'grass
+         'grass 'stone 'grass)
+(.create Terrain-module lone-stone-weight
+         'grass 'grass 'grass
+         'grass 'grass 'grass
+         'grass 'grass 'stone)
+(.create Terrain-module lone-stone-weight
+         'grass 'grass 'grass
+         'grass 'grass 'stone
+         'grass 'grass 'grass)
+(.create Terrain-module lone-stone-weight
+         'grass 'grass 'stone
+         'grass 'grass 'grass
+         'grass 'grass 'grass)
+(const road-end-stone-weight 0)
+(.create Terrain-module  road-end-stone-weight
+         'grass 'stone 'grass
+         'grass 'stone 'grass
+         'grass 'grass 'grass)
+(.create Terrain-module  road-end-stone-weight
+         'grass 'grass 'grass
+         'grass 'stone 'grass
+         'grass 'stone 'grass)
+
+(.create Terrain-module  road-end-stone-weight
+         'grass 'grass 'grass
+         'stone 'stone 'grass
+         'grass 'grass 'grass)
+(.create Terrain-module  road-end-stone-weight
+         'grass 'grass 'grass
+         'grass 'stone 'stone
+         'grass 'grass 'grass)

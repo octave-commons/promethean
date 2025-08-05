@@ -1,0 +1,29 @@
+
+(meta "import '/bundles/external.js'")
+
+(import Vector "/shared/vectors.js")
+(import Vector-2D-array "../typed-arrays/vector-2d.js")
+
+(import Parent-system "../system.sibilant")
+
+(def-lit-macro def-async (name args ..body)
+  ["async "  name  `(parenthetic (comma ...@args.contents)) `(curly (do-block ...@body))])
+
+(define Velocity-system Parent-system
+  (data-types [ Vector-2D-array Vector-2D-array Vector-2D-array    ])
+  (def-async update (args [ velocities corrections positions ])
+    (for-of! pos positions.data
+
+             (const v (get velocities.data pos.id))
+             (const c (get corrections.data pos.id))
+
+             (const p* (.spawn Vector v.x v.y))
+             (.add-to p* v)
+             (.add-to p* c)
+
+             (.add-to pos p*)
+             (.despawn p*))
+    (return null)))
+
+
+(.start Velocity-system)

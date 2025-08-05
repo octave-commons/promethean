@@ -45,6 +45,6 @@ These variables appear in multiple locations:
 - Cephalon agent: `services/cephalon/src/agent.ts`【F:services/cephalon/src/agent.ts†L19-L30】
 - GitHub utilities: `scripts/github_board_sync.py` and `scripts/kanban_to_issues.py`【F:scripts/github_board_sync.py†L7-L10】【F:scripts/kanban_to_issues.py†L5-L7】
 - PM2 ecosystem configuration sets common Python and Node environment values【F:ecosystem.config.js†L15-L18】【F:ecosystem.config.js†L53-L70】
-- Development scripts under `agents/duck/scripts/` export additional variables for local runs【F:agents/duck/scripts/discord_indexer_run.sh†L5-L8】
+- Duck development helpers export additional variables; see [docs/agents/duck/scripts](agents/duck/scripts/)【F:agents/duck/scripts/discord_indexer_run.sh†L5-L8】
 
 Refer to this list when configuring new deployments or running tests locally.

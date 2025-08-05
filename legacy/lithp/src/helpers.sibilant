@@ -1,0 +1,230 @@
+(def debug! (level ...message)
+     (var {debug} sibilant)
+     (when (and debug (<= level debug))
+           (message.for-each (#-> console.log))))
+
+(def recurse-indent (arg)
+     (case arg
+           node? (merge-into arg { contents (|> arg.contents flat-compact recurse-indent) })
+           list? (map arg recurse-indent)
+           number? (arg.to-string)
+           string? (|> arg
+                       (replace-all "\\n" "\n  ")
+                       (replace-all "\\n\\s+\\n" "\n\n"))
+           arg))
+
+(def indent (...args)
+     ["\n  " (recurse-indent (map args transpile)) "\n"])
+
+(def escape-regex (string)
+     (string.replace (regex "[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\\^\\$\\|]" 'g) "\\$&"))
+
+(def qescape (content)
+     (case content
+           (|> exists? not) ""
+           string? (|> content
+                       (.split (first "\\\\ "))
+                       (.join (.slice "\\\\ " 0 -1))
+                       (replace-all "\"" "\\\"")
+                       (replace-all "\\n" "\\n\" +\n\""))
+           content))
+
+(def map-node (node fn)
+     (case node
+           node? (do
+                  (var mapped-node (fn node))
+                  (when (node? mapped-node)
+                        (set mapped-node 'contents (map-node mapped-node.contents fn)))
+
+                  mapped-node)
+
+           list? (map node (#> (map-node #0 fn)))
+
+           (fn node)))
+
+(def each-node (node fn)
+     (case node
+           node? (when (fn node) (each-node node.contents fn))
+           list? (each (c) node (each-node c fn))
+           (fn node)))
+
+(def statement? (transpiled)
+     (case transpiled
+           node? (statement? transpiled.contents)
+           list? (statement? (last transpiled))
+           string? (= ";" (last transpiled))
+           false))
+
+(def as-statement (node)
+     (var transpiled (transpile node))
+     (case transpiled
+           empty-node? undefined
+           statement? transpiled
+           [ transpiled ";" ]))
+
+(def unquote? (node) (node? node 'at))
+
+(def find-unquotes (node)
+     (var unquotes {})
+     (each-node node (#(n)
+                       (when (unquote? n)
+                             (set unquotes n.node-id (transpile n)))
+                       (not (node? n 'tick))))
+     unquotes)
+
+(def splice-dots (node)
+     (when (and node (list? node.contents))
+           (var contents [])
+           (each (content) node.contents
+                 (if (and (node? content 'dots)
+                          (list? content.contents)
+                          (= content.contents.length 1)
+                          (list? (first content.contents)))
+                     (contents.push.apply contents (first content.contents))
+                     (contents.push content)))
+
+           (set node 'contents contents))
+     node)
+
+
+(def alternating-keys-and-values (hash)
+     (|> hash keys
+         (map (#(key) [key (get hash key)]))
+         flatten))
+
+(def map-node-for-quote-expansion (node expansions)
+     (case node
+           node? (do
+                  (var mapped-node (if (expansions.has-own-property node.node-id) (get expansions node.node-id) (clone node)))
+                  (when (node? mapped-node)
+                        (set mapped-node 'contents (map-node-for-quote-expansion mapped-node.contents expansions)))
+
+                  (assign mapped-node (splice-dots mapped-node))
+                  mapped-node)
+
+           list? (map node (#> (map-node-for-quote-expansion #0 expansions)))
+
+           node))
+
+(def dots-and-at (content)
+     (and (node? content 'dots)
+          (= 3 content.token.length)
+          (node? (first content.contents) 'at)))
+
+(def replace! (content)
+     (case content
+           dots-and-at (merge-with content
+                                   { contents (|> content.contents first transpile list) })
+
+           (node? 'at) (|> content.contents first transpile)
+           (node? 'tick) (JSON.stringify content)
+           object? (^hash ...(|> content keys
+                                 (.reduce
+                                  (#-> (.concat [ #1 (replace! (get content #1)) ]))
+                                  [])))
+           list? (^list ...(map content replace!))
+           undefined? 'undefined
+           number? (content.to-string)
+           (JSON.stringify content)))
+
+
+
+(def node? (thing type type2 type3 type4 test-arg)
+     (var a arguments)
+     (and thing thing.type thing.contents
+     (if test-arg
+         (includes? (Array.prototype.slice.call a 1) thing.type)
+
+         type (distribute thing.type or
+                          (= type)
+                          (= type2)
+                          (= type3)
+                          (= type4))
+
+         true)))
+
+
+
+(def empty-node? (item)
+     (case item
+           (= null) true
+           undefined? true
+           (= false) true
+           string? (match-regex? item "^\\s*$")
+           list? (all? item empty-node?)
+           node? (empty-node? item.contents)
+           false))
+
+(def compact-node (item)
+     (case item
+           node? (do
+                  (set item 'contents (compact-node item.contents))
+                  (if (and item.contents item.contents.length) item null))
+           list? (do
+                  (var compacted (compact (map item compact-node)))
+                  (if (and compacted compacted.length) compacted null))
+
+           (distribute or (= "") (= false)) null
+
+           item))
+
+(def generate-symbol (clue)
+     (var {state} sibilant)
+     (default clue 'temp
+              state.symbol-counts {})
+     (var count (|> state.symbol-counts
+         (get clue)
+         (or 0)
+         (+ 1)))
+     (set state.symbol-counts clue count)
+     [(""clue"$"count)])
+
+(def make-symbol-clue (node)
+     (var target-node (if (and (node? node 'expression) (|> node.contents first (get 'token) (= 'require)))
+             (|> node.contents second)
+             (node? node 'expression) (first node.contents)
+             node))
+     (|> (try (|> target-node transpile output-formatter)
+              (sibilant.pretty-print node false))
+         (replace-all "[^a-zA-Z]+" "_")
+         (replace-all "^_|_$" "")
+         (.slice 0 15)))
+
+(def destructure (pairs)
+     (var destructured [])
+     (bulk-map pairs (#(lhs rhs)
+                       (var transpiled-rhs (transpile rhs))
+                       (switch lhs.type
+                               ('bracket
+                                (var literal-rhs? (|> transpiled-rhs (output-formatter) (match-regex? "^[\._a-zA-Z0-9$]+$"))
+                                     source (if literal-rhs?
+                                                transpiled-rhs
+                                                (do                             
+                                                 (var symbol (generate-symbol (make-symbol-clue rhs)))
+                                                 (destructured.push [symbol transpiled-rhs])
+                                                 symbol)))
+                                (each (item index) lhs.contents
+                                      (destructured.push [(transpile item) '(get @source @index)]))
+                                (unless literal-rhs?
+                                        (destructured.push [source 'undefined])))
+                               ('brace
+                                (var literal-rhs? (|> transpiled-rhs (output-formatter) (match-regex? "^[\._a-zA-Z0-9$]+$"))
+                                     source (if literal-rhs?
+                                                transpiled-rhs
+
+                                                (= 1 (length lhs.contents)) ["(" rhs ")"]
+                                                
+                                                (do                             
+                                                 (var symbol (generate-symbol (make-symbol-clue rhs)))
+                                                 (destructured.push [symbol transpiled-rhs])
+                                                 symbol)))
+                                (each (item index) lhs.contents
+                                      (var tr-item (transpile item))
+                                      (destructured.push [tr-item '(get @source @["\"" tr-item "\""])]))
+                                (unless (or literal-rhs? (= 1 (length lhs.contents)))
+                                        (destructured.push [source 'undefined])))
+
+                               (default
+                                (destructured.push [ (transpile lhs)
+                                                     (if rhs transpiled-rhs 'undefined)])))))
+     destructured)

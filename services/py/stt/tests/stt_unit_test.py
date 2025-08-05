@@ -9,17 +9,36 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Ensure shared modules are importable
 sys.path.append("../../../")
 
+
 @pytest.fixture(autouse=True)
 def stub_wisper_module(monkeypatch):
-    mock_module = types.SimpleNamespace(transcribe_pcm=lambda *a, **k: 'transcribed text')
-    sys.modules['shared.py.speech.wisper_stt'] = mock_module
+    mock_module = types.SimpleNamespace(
+        transcribe_pcm=lambda *a, **k: "transcribed text"
+    )
+    sys.modules["shared.py.speech.wisper_stt"] = mock_module
     yield
-    sys.modules.pop('shared.py.speech.wisper_stt', None)
+    sys.modules.pop("shared.py.speech.wisper_stt", None)
+
 
 @pytest.fixture
-def client():
+def client(monkeypatch):
+    class DummyHB:
+        def send_once(self):
+            pass
+
+        def start(self):
+            pass
+
+        def stop(self):
+            pass
+
+    monkeypatch.setattr(
+        "shared.py.heartbeat_client.HeartbeatClient", lambda *a, **k: DummyHB()
+    )
+
     import app
     from fastapi.testclient import TestClient
+
     return TestClient(app.app)
 
 

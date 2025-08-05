@@ -1,0 +1,6 @@
+(import Interface "/shared/kit/interface/index.js")
+(define base-weights Interface
+  (grass 10)
+  (stone 1)
+  (flowery-grass 10))
+(export base-weights)

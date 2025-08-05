@@ -1,0 +1,127 @@
+(namespace dev)
+
+(include "./header"
+         "./compile")
+
+(macro html (...body) `(markup (.html ...@body)))
+
+(import-namespace kit)
+(import-namespace interface)
+(import-namespace async)
+(import-namespace markup)
+
+(require! (lit read-file-sync) 'fs)
+
+(const package-json (JSON.parse (read-file-sync "./package.json")))
+(const dependencies (Object.keys package-json.dependencies))
+
+(def-generic File-system.watch (path opts root )
+  (var sys this)
+  (print "Watcher initiating")
+  ;; file watching should be an entirely seperate system.
+  ;;(print "watch method of File-system is pending depreciation")
+  (async-let ((node (.find sys path )))
+    (assign node.*watcher
+            (pipe chokidar
+                  (.watch  node.path)
+                  (on  'all (event-name changed-path stats)
+                       (var rel (Path.relative root changed-path ))
+                       (async-let ((changed-node (.find sys rel )))
+                         (var event (lit (event event-name) (node changed-node)))
+                         (.emit node "*" event)
+                         (.emit node "all" event)
+                         (.emit node event-name event)))))
+    node))
+(define src Interface
+  (inc (.load File-system "./inc"))
+  (client (.load File-system "./src/client"))
+  (shared (.load File-system "./src/shared"))
+  (server (.load File-system "./src/server"))
+
+  (templates (.load File-system "./src/templates")))
+
+(define js Interface
+
+  (client (.load File-system "./static/client"))
+  (shared (.load File-system "./static/shared"))
+  (server (.load File-system "./server"))
+
+  (templates (.load File-system "./templates"))
+
+  (bundles (.load File-system "./static/bundles"))
+  (shared-bundles (.load File-system "./static/bundles/shared")))
+
+(define html Interface
+  (files (.load File-system "./static")))
+
+(macro html (...body) `(markup (.html ...@body)))
+
+(def-async main ()
+  ;; LISP program files
+  (await (each src.server (file) (compile-module file js.server)))
+
+  (require! server "./server")
+  (.on process 'exit (=> (.stop server)))
+
+  (await (bundle-external))
+
+
+  ;: LISP modules
+  (await (each src.shared (file) (compile-client-module file js.shared)))
+  (await (each src.client (file) (compile-client-module file js.client)))
+
+  ;; LISP HTML Templates
+  (await (each src.templates (file) (compile-module file js.templates)))
+
+  ;; HTML
+  (await (each js.templates (file) (compile-html file html.files)))
+
+  ;; ;; Pre-bundling
+  ;; (await (each js.shared (file) (bundle-shared file js.shared-bundles)))
+  ;; (await (each js.client (file) (bundle file js.bundles)))
+
+  ;; ;; Final bundling
+  ;; (await (each js.shared (file) (bundle-shared file js.shared-bundles true)))
+  ;; (await (each js.client (file) (bundle file js.bundles true)))
+
+  (print "beginning watch party")
+
+  ;; LISP program files
+  (await (watch src.server "." "change"
+                (print file.path "changed")
+                (compile-module file js.server)))
+
+  (await (watch src.shared "." "change"
+                (print file.path "changed")
+                (compile-client-module file js.shared)))
+
+  (await (watch src.client "." "change"
+
+                (print file "changed")
+                (compile-client-module file js.client)))
+
+  ;; LISP HTML templates
+  (await (watch src.templates "." "change"
+                (print file.path "changed")
+                (compile-module file js.templates)))
+
+  ;; HTML
+  (await (watch js.templates "." "change"
+                (print file.path "changed")
+                (compile-html file html.files)))
+
+  ;; Bundles
+  ;; (await (watch js.client "." "change"
+  ;;               (print file.path "changed")
+  ;;               (bundle file js.bundles true)))
+
+  ;; (await (watch js.shared "." "change"
+  ;;               (print file.path "changed")
+  ;;               (bundle-shared file js.shared-bundles true)))
+  )
+
+
+(.then (main) (-> (print "waiting for changes")
+                  null
+                  ))
+

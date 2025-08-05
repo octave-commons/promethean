@@ -1,0 +1,30 @@
+(import Terrain-module "../terrain-module.js")
+(const field (.create Terrain-module 15.1
+                      'grass 'grass 'grass
+                      'grass 'grass 'grass
+                      'grass 'grass 'grass))
+(export field)
+
+(const meadow (.create Terrain-module 5.1
+                       'flowery-grass 'flowery-grass 'flowery-grass
+                       'flowery-grass 'flowery-grass  'flowery-grass
+                       'flowery-grass 'flowery-grass 'flowery-grass))
+(export meadow)
+
+(const grassy-meadow
+       (.create Terrain-module 5
+               'grass 'flowery-grass 'grass
+               'flowery-grass 'grass 'flowery-grass
+               'grass 'flowery-grass 'grass))
+(export grassy-meadow)
+(const other-grassy-meadow (.create Terrain-module 5.1
+                                    'flowery-grass 'grass 'flowery-grass
+                                    'grass 'flowery-grass 'grass
+                                    'flowery-grass 'grass 'flowery-grass))
+(export other-grassy-meadow)
+
+(const lone-flower (.create Terrain-module 0.1
+                            'grass 'grass 'grass
+                            'grass 'flowery-grass 'grass
+                            'grass 'grass 'grass))
+(export lone-flower)

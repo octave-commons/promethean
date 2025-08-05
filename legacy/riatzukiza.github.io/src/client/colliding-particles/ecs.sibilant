@@ -1,0 +1,13 @@
+(define Component-store Interface
+  )
+(define Game-component Data-type
+
+  (cached keys ['entity-id this.data-type])
+  )
+(define Game-entity Data-type
+
+  )
+
+(define Game-system Spawnable
+  (init (components))
+  )

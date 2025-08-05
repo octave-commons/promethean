@@ -1,0 +1,47 @@
+(import System Component "/shared/ecs.js")
+(import List "/shared/data-structures/list.js")
+
+(define Container Component
+  (item-limit 1)
+  (objects null)
+  (gett tile (.get-closest-from-world-pos this.system.game.tiles
+                                  this.entity.position-interface.x
+                                  this.entity.position-interface.y))
+  (gett visible? this.tile.entity.visible-status.visible?)
+  (gett explored? this.tile.entity.visible-status.explored?)
+  (def add (entity)
+    (if  (and entity.item-interface
+              (> this.item-limit this.objects.length)
+              ) ;; the only objects right now are items.
+         (do (.push this.objects entity)
+             (assign entity.item-interface.container this))
+         (throw (new Error "Container cannot store any more items"))))
+
+  (def has-type (type)
+    (and this.objects.head
+         (= this.objects.head.item.item-interface.type type)))
+
+  (def has (entity)
+    (= this.objects.head.item entity) ;; simple implementation for the single object  container.
+    )
+  (def remove (entity)
+    (.remove this.objects entity))
+
+  (def clear ()
+    ;; for now, if this container is destroyed/despawned, the item will be too
+    (.despawn this.objects.head.item)
+    (.despawn this.objects))
+  (def register () (assign this.objects (.spawn List))))
+(export Container)
+
+(define Containers System
+  (Component Container)
+  (def *update-all ()
+    ;; nothing to see here.
+    )
+  (def *update-component ()
+    ;; nothing to do here for now.
+    )
+  )
+
+(export Containers)
