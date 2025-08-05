@@ -8,6 +8,16 @@ import chromadb
 import importlib
 import pytest
 
+from chromadb.utils.embedding_functions import EmbeddingFunction
+
+
+class EmbeddingFn:
+    def name():
+        return "test"
+
+    def __call__(self, input: list[str]) -> list[list[float]]:
+        return [[0.1, 0.2, 0.3] for _ in input]
+
 
 class MemoryCollection:
     def __init__(self, docs=None):
@@ -50,12 +60,7 @@ def test_process_message(monkeypatch):
     monkeypatch.setattr(mod, "discord_message_collection", mem)
     client = chromadb.Client()
 
-    def embedding_fn(texts):
-        return [[0.1, 0.2, 0.3] for _ in texts]
-
-    collection = client.get_or_create_collection(
-        "test", embedding_function=embedding_fn
-    )
+    collection = client.get_or_create_collection("test", embedding_function=EmbeddingFn)
     mod.process_message(message, collection)
     assert collection.count() == 2
     assert mem.docs[0].get("embedded") is True
