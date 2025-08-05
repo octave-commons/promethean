@@ -10,7 +10,7 @@ async function main() {
 		applicationId: process.env.DISCORD_CLIENT_USER_ID as string,
 	});
 	const hb = new HeartbeatClient({
-		onHeartbeat: ({ cpu }) => {
+		onHeartbeat: ({ cpu }: { cpu: number }) => {
 			const delay = Math.min(1000, 100 + Math.round(cpu));
 			bot.agent.updateTickInterval(delay);
 		},
