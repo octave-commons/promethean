@@ -44,15 +44,15 @@
         (sh ["python" "-m" "pip" "install" "pipenv"]))))
 
 (defn-cmd generate-python-shared-requirements []
-  (sh "python -m pipenv requirements > requirements.txt" :cwd "shared/py" :shell True))
+  (sh "python -m pipenv requirements | grep -Ev '^nvidia-[a-z0-9\\-]+-cu[0-9]+(\\.[0-9]+)?' > requirements.txt" :cwd "shared/py" :shell True))
 
 (defn-cmd generate-python-services-requirements []
   (print "Generating requirements.txt for Python services...")
   (for [d SERVICES_PY]
-    (sh "python -m pipenv requirements > requirements.txt" :cwd d :shell True)))
+       (sh "python -m pipenv requirements | grep -Ev '^nvidia-[a-z0-9\\-]+-cu[0-9]+(\\.[0-9]+)?' > requirements.txt" :cwd d :shell True)))
 
 (defn-cmd generate-requirements-service [service]
-  (sh "python -m pipenv requirements > requirements.txt" :cwd (join "services/py" service) :shell True))
+  (sh "python -m pipenv requirements | grep -Ev '^nvidia-[a-z0-9\\-]+-cu[0-9]+(\\.[0-9]+)?' > requirements.txt" :cwd (join "services/py" service) :shell True))
 
 (defn-cmd setup-shared-python []
   (sh ["python" "-m" "pipenv" "install" "--dev"] :cwd "shared/py"))
