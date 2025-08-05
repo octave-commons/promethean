@@ -19,8 +19,6 @@ jobs:
           - discord_indexer
           - discord_attachment_indexer
           - discord_attachment_embedder
-          - stt_ws
-          - whisper_stream_ws
 
     steps:
       - uses: actions/checkout@v3
