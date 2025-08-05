@@ -1,0 +1,41 @@
+import os
+from functools import lru_cache
+from typing import List
+
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+from .drivers import get_driver
+
+app = FastAPI()
+
+
+class EmbedItem(BaseModel):
+    type: str
+    data: str
+
+
+class EmbedRequest(BaseModel):
+    items: List[EmbedItem]
+    driver: str | None = None
+    function: str | None = None
+
+
+class EmbedResponse(BaseModel):
+    embeddings: List[List[float]]
+
+
+@lru_cache(maxsize=1)
+def _load(driver_name: str, function_name: str):
+    driver = get_driver(driver_name)
+    return driver.load(function_name)
+
+
+@app.post("/embed", response_model=EmbedResponse)
+def embed(request: EmbedRequest) -> EmbedResponse:
+    driver_name = request.driver or os.environ.get("EMBEDDING_DRIVER", "naive")
+    function_name = request.function or os.environ.get("EMBEDDING_FUNCTION", "simple")
+    driver = get_driver(driver_name)
+    model = _load(driver_name, function_name)
+    embeddings = driver.embed(request.items, function_name, model)
+    return EmbedResponse(embeddings=embeddings)
