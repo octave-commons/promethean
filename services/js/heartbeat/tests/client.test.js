@@ -32,4 +32,8 @@ test("heartbeat client posts pid", async (t) => {
   const res = await client.sendOnce();
   t.is(res.pid, 999);
   t.is(res.name, "test-app");
+  t.is(typeof res.cpu, "number");
+  t.is(typeof res.memory, "number");
+  t.is(typeof res.netRx, "number");
+  t.is(typeof res.netTx, "number");
 });

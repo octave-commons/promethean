@@ -1,6 +1,7 @@
 import test from "ava";
 import request from "supertest";
 import { MongoMemoryServer } from "mongodb-memory-server";
+import { MongoClient } from "mongodb";
 import { spawn } from "child_process";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -69,4 +70,30 @@ test.serial("rejects excess instances", async (t) => {
     .post("/heartbeat")
     .send({ pid: child2.pid, name: "test-app" });
   t.is(res.status, 409);
+});
+
+test.serial("records process metrics", async (t) => {
+  const child = spawn("node", ["-e", "setInterval(()=>{},1000)"]);
+  t.teardown(() => {
+    if (!child.killed) {
+      try {
+        child.kill();
+      } catch {}
+    }
+  });
+  await request(server)
+    .post("/heartbeat")
+    .send({ pid: child.pid, name: "metric-app" })
+    .expect(200);
+  const client = new MongoClient(process.env.MONGO_URL);
+  await client.connect();
+  const doc = await client
+    .db("heartbeat_db")
+    .collection("heartbeats")
+    .findOne({ pid: child.pid });
+  await client.close();
+  t.is(typeof doc.cpu, "number");
+  t.is(typeof doc.memory, "number");
+  t.is(typeof doc.netRx, "number");
+  t.is(typeof doc.netTx, "number");
 });
