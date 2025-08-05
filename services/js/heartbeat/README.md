@@ -3,11 +3,13 @@
 Tracks process heartbeats via HTTP and terminates those that fail to report within a timeout.
 Backed by MongoDB for storage. Intended for detecting and cleaning up hung or orphaned worker processes.
 Also enforces the instance limits defined in a PM2 ecosystem file, rejecting registrations that exceed the configured count for a given app name.
+Each heartbeat updates CPU, memory, and network byte counts for the process based on its PID.
 
 ## API
 
 - `POST /heartbeat` `{ pid: number, name: string }`
   - Records a heartbeat for the given PID and PM2 app name.
+  - Responds with `{ cpu, memory, netRx, netTx }` metrics.
   - Returns `409` if the number of live instances for that name exceeds the limit in the ecosystem config.
 
 ## Environment
