@@ -27,7 +27,7 @@
 	"author": "Amish Shah <amishshah.2k@gmail.com>",
 	"license": "UNLICENSE",
 	"dependencies": {
-		"@chroma-core/default-embed": "^0.1.8",
+		"@chroma-core/ollama": "^0.1.7",
 		"@discordjs/opus": "^0.10.0",
 		"@discordjs/voice": "^0.18.0",
 		"@types/sbd": "^1.0.5",
