@@ -1,11 +1,17 @@
 import os
 import sys
+from pathlib import Path
 import importlib
 
 
 import pytest
 import asyncio
 import discord
+
+
+# Ensure service and repository roots are on the import path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[4]))
 
 
 class MemoryCollection:
