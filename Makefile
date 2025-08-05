@@ -49,92 +49,92 @@ COMMANDS := \
 $(COMMANDS):
 	@hy Makefile.hy $@
 
-setup-python-service-:
+setup-python-service-%:
 	@hy Makefile.hy $@
 
-setup-quick-service-python-service-:
+setup-quick-service-python-service-%:
 	@hy Makefile.hy $@
 
-setup-quick-shared-python-service-:
+setup-quick-shared-python-service-%:
 	@hy Makefile.hy $@
 
-test-python-service-:
+test-python-service-%:
 	@hy Makefile.hy $@
 
-test-shared-python-service-:
+test-shared-python-service-%:
 	@hy Makefile.hy $@
 
-coverage-python-service-:
+coverage-python-service-%:
 	@hy Makefile.hy $@
 
-coverage-shared-python-service-:
+coverage-shared-python-service-%:
 	@hy Makefile.hy $@
 
-test-quick-service-python-service-:
+test-quick-service-python-service-%:
 	@hy Makefile.hy $@
 
-test-quick-shared-python-service-:
+test-quick-shared-python-service-%:
 	@hy Makefile.hy $@
 
-coverage-quick-service-python-service-:
+coverage-quick-service-python-service-%:
 	@hy Makefile.hy $@
 
-coverage-quick-shared-python-service-:
+coverage-quick-shared-python-service-%:
 	@hy Makefile.hy $@
 
-setup-js-service-:
+setup-js-service-%:
 	@hy Makefile.hy $@
 
-test-js-service-:
+test-js-service-%:
 	@hy Makefile.hy $@
 
-coverage-js-service-:
+coverage-js-service-%:
 	@hy Makefile.hy $@
 
-lint-js-service-:
+lint-js-service-%:
 	@hy Makefile.hy $@
 
-test-quick-service-js-service-:
+test-quick-service-js-service-%:
 	@hy Makefile.hy $@
 
-coverage-quick-service-js-service-:
+coverage-quick-service-js-service-%:
 	@hy Makefile.hy $@
 
-setup-ts-service-:
+setup-ts-service-%:
 	@hy Makefile.hy $@
 
-test-ts-service-:
+test-ts-service-%:
 	@hy Makefile.hy $@
 
-coverage-ts-service-:
+coverage-ts-service-%:
 	@hy Makefile.hy $@
 
-lint-ts-service-:
+lint-ts-service-%:
 	@hy Makefile.hy $@
 
-test-quick-service-ts-service-:
+test-quick-service-ts-service-%:
 	@hy Makefile.hy $@
 
-coverage-quick-service-ts-service-:
+coverage-quick-service-ts-service-%:
 	@hy Makefile.hy $@
 
-setup-hy-service-:
+setup-hy-service-%:
 	@hy Makefile.hy $@
 
-test-hy-service-:
+test-hy-service-%:
 	@hy Makefile.hy $@
 
-test-quick-service-hy-service-:
+test-quick-service-hy-service-%:
 	@hy Makefile.hy $@
 
-setup-sibilant-service-:
+setup-sibilant-service-%:
 	@hy Makefile.hy $@
 
-start--service-:
+start--service-%:
 	@hy Makefile.hy $@
 
-stop--service-:
+stop--service-%:
 	@hy Makefile.hy $@
 
-generate-requirements--service-:
+generate-requirements--service-%:
 	@hy Makefile.hy $@

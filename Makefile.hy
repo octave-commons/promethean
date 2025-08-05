@@ -429,7 +429,7 @@
       (setv target (.replace prefix "%" "%"))
       (unless (in target phony-lines)
         (+= phony-lines [target])
-        (+= rule-lines [(+ target ":\n\t@hy Makefile.hy $@")])))
+        (+= rule-lines [(+ target "%:\n\t@hy Makefile.hy $@")])))
   )
 
   (setv static-phony ".PHONY: \\\n  $(COMMANDS) \\\n  "
