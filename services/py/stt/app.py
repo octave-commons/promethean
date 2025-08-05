@@ -8,6 +8,7 @@ from fastapi import (
     WebSocketDisconnect,
 )
 from fastapi.responses import JSONResponse
+from starlette.websockets import WebSocketState
 
 import asyncio
 import base64
@@ -90,5 +91,5 @@ async def stream(ws: WebSocket):
     except WebSocketDisconnect:
         pass
     finally:
-        if ws.client_state.name != "CLOSED":
+        if ws.client_state != WebSocketState.DISCONNECTED:
             await ws.close()
