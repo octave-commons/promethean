@@ -23,6 +23,8 @@ https://github.com/riatzukiza/kit-file-system
 
 ---
 
+
+
 ## 📂 Repository Structure
 
 ```
@@ -268,3 +270,6 @@ Agents like Duck must:
 * [ ] Create base `README.md` templates for each service
 
 #hashtags: #guidelines #promethean
+
+## Extra
+[Hy macros cheatsheet](./docs/hy-macros-cheatsheet.md)
