@@ -1,5 +1,6 @@
 import express from "express";
 import screenshot from "screenshot-desktop";
+import { HeartbeatClient } from "../../../shared/js/heartbeat/index.js";
 
 export const app = express();
 let capture = async () => screenshot({ format: "png" });
@@ -11,7 +12,10 @@ export function setCaptureFn(fn) {
   capture = fn;
 }
 
-export function start(port = process.env.PORT || 5003) {
+export async function start(port = process.env.PORT || 5003) {
+  const hb = new HeartbeatClient();
+  await hb.sendOnce();
+  hb.start();
   return app.listen(port, () => {
     console.log(`vision service listening on ${port}`);
   });
@@ -29,5 +33,8 @@ app.get("/capture", async (req, res) => {
 });
 
 if (process.env.NODE_ENV !== "test") {
-  start();
+  start().catch((err) => {
+    console.error("Failed to start vision service", err);
+    process.exit(1);
+  });
 }

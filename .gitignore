@@ -45,3 +45,10 @@ shared/py/.coverage
 !agents/duck/scripts/download_chroma_data.sh
 
 .infio_json_db/
+.chromadb/
+
+patch.sh
+
+frames/
+
+output.mp4
