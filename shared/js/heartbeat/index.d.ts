@@ -1,3 +1,4 @@
+
 export interface HeartbeatOptions {
   url?: string;
   pid?: number;
