@@ -17,7 +17,6 @@
 
 		// Modules
 		"allowArbitraryExtensions": true,
-		"allowImportingTsExtensions": true,
 		"module": "ESNext",
 		"moduleResolution": "Bundler",
 		"resolveJsonModule": true,
@@ -49,6 +48,6 @@
 		// Completeness
 		"skipLibCheck": true
 	},
-	"include": ["src/**/*.ts"],
+	"include": ["src/**/*.ts", "tests/**/*.ts"],
 	"exclude": ["node_modules"]
 }

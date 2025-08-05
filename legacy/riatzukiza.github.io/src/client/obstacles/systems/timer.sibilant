@@ -1,0 +1,78 @@
+
+(import Component System "/shared/ecs.js")
+(import Binary-search-tree "/shared/data-structures/trees/binary-search-tree.js")
+(import Red-black-tree "/shared/data-structures/trees/red-black-tree.js")
+(import config "/client/obstacles/config.js")
+
+(define Time-limit Component
+  (doc-string "Obstacles.systems.Time-limit"
+              "Inherits shared.ecs.Component arguments"
+              "Sets somthing to happen at a given time."
+              "Requires a " (pre duration) "and" (pre callback))
+
+  (def add-to-tree ()
+    (when this.system.tree
+      (.set this.system.tree this.trigger-time this)))
+
+  (def remove-from-tree ()
+    (when this.system.tree
+        (.remove this.system.tree this.trigger-time this)))
+
+  (def register ()
+    (incr this.system.started)
+    (assign this.created-at (Date.now))
+    (assign this.triggered false)
+    (.add-to-tree this))
+
+  (gett duration (throw (new Error "no duration was given to time limit component")))
+  (gett callback (throw (new Error "No callback was given to time limit component")))
+  (gett trigger-time (const r (+ this.created-at this.duration))
+        (if (isNaN r) (throw (new Error "Non number trigger time"))
+            r))
+
+  (gett elapsed (- (Date.now) this.created-at))
+  (gett remaining-time (- this.duration this.elapsed))
+  (gett expired (> this.elapsed this.duration))
+
+  (def-generic reset (duration)
+    (incr this.system.started)
+    (.remove-from-tree this)
+    (assign this.created-at (Date.now))
+    (assign this.triggered false)
+    (assign this.duration duration)
+    (.add-to-tree this))
+
+  (def *clear ()
+    (.remove-from-tree this)
+    (assign this.triggered true)))
+
+(export Time-limit)
+
+(define Timer System
+  (doc-string "Obstacles.systems.Timer"
+              "Inherits from shared.ecs.ComponentSystem"
+              "Allows timed events to occur for entities with time limit components")
+
+  (gett default-duration 5000)
+  (def register ()
+    (assign this.started 0)
+    (assign this.first-tick (assign this.last-tick-at (Date.now)))
+    (assign this.tree (.spawn Red-black-tree)))
+  (def *update-all ()
+
+    (assign this.tree this.tree.root)
+    (const now (Date.now))
+    (.for-each-in-range this.tree
+                        this.first-tick now
+                        (=> (c) (.*update-component this c)))
+
+    (assign this.last-tick-at now)
+
+
+    )
+  (def *update-component (c)
+    (when (and c.expired (not c.triggered))
+      (assign c.triggered true)
+      (c.callback c.entity c))))
+
+(export Timer)

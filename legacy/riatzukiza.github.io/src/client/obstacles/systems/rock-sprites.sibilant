@@ -1,0 +1,11 @@
+(import Sprites Sprite "/shared/systems/rendering/gl-sprites.js")
+
+
+(define Rock-sprite Sprite)
+
+(const rock-image (.get-element-by-id document "rock-texture"))
+(define Rock-sprites Sprites
+  (interface Rock-sprite)
+  (id 1)
+  (img rock-image))
+(export Rock-sprites)

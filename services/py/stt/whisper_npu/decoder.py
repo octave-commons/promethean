@@ -100,7 +100,10 @@ class DecoderBase:
         cross_kv = self.encode(mel)
         # initialise cache and starting token list
         prior_tokens = prior_tokens or []
-        tokens = self.model_manager.tokenizer.convert_tokens_to_ids(self.start_tokens) + prior_tokens.copy()
+        tokens = (
+            self.model_manager.tokenizer.convert_tokens_to_ids(self.start_tokens)
+            + prior_tokens.copy()
+        )
         past_kv: Dict[str, np.ndarray] = self._init_cache()
         eos_id = self.model_manager.tokenizer.eos_token_id
         # loop until max length
@@ -110,7 +113,9 @@ class DecoderBase:
             attention_mask = np.ones((1, len(tokens)), dtype=np.int64)
             attn_pad = self.config.max_tokens - len(tokens)
             if attn_pad > 0:
-                attention_mask = np.pad(attention_mask, ((0, 0), (0, attn_pad)), constant_values=0)
+                attention_mask = np.pad(
+                    attention_mask, ((0, 0), (0, attn_pad)), constant_values=0
+                )
             next_token, past_kv = self._next_token(
                 tokens=tokens,
                 position_ids=position_ids,
@@ -124,7 +129,9 @@ class DecoderBase:
         # remove the start special tokens
         cleaned = tokens[len(self.start_tokens) :]
         if self.post_processor:
-            cleaned = self.post_processor.clean_tokens(cleaned, prior_tokens=prior_tokens)
+            cleaned = self.post_processor.clean_tokens(
+                cleaned, prior_tokens=prior_tokens
+            )
         return cleaned
 
 
@@ -185,12 +192,19 @@ class BeamDecoder(DecoderBase):
     ) -> List[int]:
         cross_kv = self.encode(mel)
         prior_tokens = prior_tokens or []
-        start_ids = self.model_manager.tokenizer.convert_tokens_to_ids(self.start_tokens)
+        start_ids = self.model_manager.tokenizer.convert_tokens_to_ids(
+            self.start_tokens
+        )
         eos_id = self.model_manager.tokenizer.eos_token_id
         # initialise beams
         initial_tokens = start_ids + prior_tokens.copy()
         beams: List[BeamDecoder.Beam] = [
-            BeamDecoder.Beam(tokens=initial_tokens, score=0.0, kv_cache=self._init_cache(), finished=False)
+            BeamDecoder.Beam(
+                tokens=initial_tokens,
+                score=0.0,
+                kv_cache=self._init_cache(),
+                finished=False,
+            )
         ]
         for _ in range(self.config.max_tokens):
             all_candidates: List[BeamDecoder.Beam] = []
@@ -226,15 +240,24 @@ class BeamDecoder(DecoderBase):
                     # copy kv cache (shallow copy is fine for numpy arrays if updated in place)
                     new_cache = {k: np.copy(v) for k, v in beam.kv_cache.items()}
                     all_candidates.append(
-                        BeamDecoder.Beam(tokens=new_tokens, score=adjusted_score, kv_cache=new_cache, finished=finished)
+                        BeamDecoder.Beam(
+                            tokens=new_tokens,
+                            score=adjusted_score,
+                            kv_cache=new_cache,
+                            finished=finished,
+                        )
                     )
             # prune
-            beams = sorted(all_candidates, key=lambda b: b.score, reverse=True)[: self.config.beam_size]
+            beams = sorted(all_candidates, key=lambda b: b.score, reverse=True)[
+                : self.config.beam_size
+            ]
             # early stopping if all beams finished
             if all(b.finished for b in beams):
                 break
         best_beam = beams[0]
         cleaned = best_beam.tokens[len(self.start_tokens) :]
         if self.post_processor:
-            cleaned = self.post_processor.clean_tokens(cleaned, prior_tokens=prior_tokens)
+            cleaned = self.post_processor.clean_tokens(
+                cleaned, prior_tokens=prior_tokens
+            )
         return cleaned
