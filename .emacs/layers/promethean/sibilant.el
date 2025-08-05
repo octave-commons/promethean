@@ -15,6 +15,8 @@
   (setq font-lock-defaults '(sibilant-font-lock-keywords))
   (setq-local comment-start ";"))
 
+(add-hook 'promethean-sibilant-mode-hook #'promethean/setup-lispy-env)
+
 (add-to-list 'auto-mode-alist '("\\.sibilant\\'" . promethean-sibilant-mode))
 (add-to-list 'auto-mode-alist '("\\.prompt\\.sibilant\\'" . promethean-sibilant-mode))
 
