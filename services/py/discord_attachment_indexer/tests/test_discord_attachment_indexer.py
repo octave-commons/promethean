@@ -2,10 +2,6 @@ import os
 import sys
 import importlib
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-sys.path.insert(
-    0, os.path.join(os.path.dirname(__file__), "../../../../", "shared", "py")
-)
 
 import pytest
 import asyncio
