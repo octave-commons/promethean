@@ -4,10 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-fastapi = "*"
+fastapi = "==0.116.1"
 transformers = "*"
 torch = "*"
 numpy = "*"
+uvicorn = "*"
+hy = "*"
 
 [dev-packages]
 pytest = "*"

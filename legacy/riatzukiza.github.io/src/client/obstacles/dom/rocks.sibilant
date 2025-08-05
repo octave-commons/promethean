@@ -1,0 +1,29 @@
+(namespace obstacles)
+
+(const rock-views [])
+(import  Entity-panel "/client/obstacles/dom/entity-panel.js")
+
+(def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
+
+(define Rock-panel Entity-panel
+  (def Dot  (dot)
+    (print "rendering color")
+    (const color-string (+ "rgb(" dot.color.r"," dot.color.g "," dot.color.b ")"))
+    (dom (.div .className "panel"
+               .style (lit ("background-color" color-string)
+                           ("color" "grey"))
+               color-string)))
+
+  (def Position (pos)
+    )
+
+  (def Velocity (vel) )
+  (def Physics  (phys)
+    (dom (.div .className "panel"
+           (.div .className "panel" "scale:" (display-decimal phys.scale 2))
+           (.div .className "panel" "mass:" (display-decimal phys.mass 2))
+           (.div .className "panel" "vol:" (display-decimal phys.volume 1))
+           (.div .className "panel" "density:" (display-decimal phys.density 4))
+           ))))
+
+(export Rock-panel)

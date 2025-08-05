@@ -16,14 +16,13 @@
 		"strict": true,
 
 		// Modules
-		"allowArbitraryExtensions": true,
-                "allowImportingTsExtensions": false,
-                "allowJs": true,
-		"module": "es2022",
-		"moduleResolution": "bundler",
-		// "resolveJsonModule": true,
-		// "resolvePackageJsonExports": true,
-		// "resolvePackageJsonImports": true,
+		"allowArbitraryExtensions": false,
+		"allowImportingTsExtensions": false,
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"resolveJsonModule": true,
+		"resolvePackageJsonExports": true,
+		"resolvePackageJsonImports": true,
 
 		// Emit
 		"declaration": true,
@@ -31,14 +30,13 @@
 		"importHelpers": false,
 		"newLine": "lf",
 		"noEmitHelpers": true,
-                "outDir": "dist",
-                "rootDir": ".",
+		"outDir": "dist",
 		"removeComments": false,
 		"sourceMap": true,
 
 		// Interop Constraints
 		"allowSyntheticDefaultImports": true,
-		"esModuleInterop": true,
+		"esModuleInterop": false,
 		"forceConsistentCasingInFileNames": true,
 		"isolatedModules": true,
 
@@ -51,7 +49,6 @@
 		// Completeness
 		"skipLibCheck": true
 	},
-        "include": ["src/**/*.ts", "tests/test.ts"],
-        "exclude": ["node_modules", "tests/node_modules", "src/bot.ts"]
+	"include": ["src/**/*.ts", "tests/**/*.ts", "types/**/*.d.ts"],
+	"exclude": ["node_modules"]
 }
-

@@ -1,92 +1,149 @@
-const path = require("path")
+const path = require("path");
+const duck = require("./agents/duck/ecosystem.config.js");
+const HEARTBEAT_PORT = 5005;
 module.exports = {
-    apps: [
-        {
-            name: "tts",
-            cwd: "./services/py/tts",
-            script: "./services/py/tts/run.sh",
-            interpreter:"bash",
-            "exec_mode": "fork",
-            watch: ["./services/py/tts"],
-            instances: 1,
-            autorestart: true,
-            env: {
+  apps: [
+    ...duck.apps,
+    {
+      name: "tts",
+      cwd: "./services/py/tts",
+      script: "pipenv",
+      exec_mode: "fork",
+      args: [
+        "run",
+        "uvicorn",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "5001",
+        "app:app",
+      ],
+      watch: ["./services/py/tts"],
+      instances: 1,
+      autorestart: true,
+      env: {
+        PYTHONPATH: __dirname,
+        PYTHONUNBUFFERED: "1",
+        FLASK_APP: "app.py",
+        FLASK_ENV: "production",
+        HEARTBEAT_PORT,
+      },
+      restart_delay: 10000,
+      kill_timeout: 10000,
+    },
+    {
+      name: "stt",
+      cwd: "./services/py/stt",
+      script: "pipenv",
+      exec_mode: "fork",
+      args: [
+        "run",
+        "uvicorn",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "5002",
+        "app:app",
+      ],
+      watch: ["./services/py/stt"],
+      instances: 1,
+      autorestart: true,
+      out_file: "./logs/stt-out.log",
+      error_file: "./logs/stt-err.log",
+      merge_logs: true,
+      env: {
+        PYTHONUNBUFFERED: "1",
+        PYTHONPATH: __dirname,
+        FLASK_APP: "app.py",
+        FLASK_ENV: "production",
 
-                PYTHONPATH: path.resolve(__dirname),
-                PYTHONUNBUFFERED: "1",
-                FLASK_APP: "app.py",
-                FLASK_ENV: "production",
-            },
-            restart_delay: 10000,
-            kill_timeout: 10000 
+        HEARTBEAT_PORT,
+      },
 
-        },
-        {
-            name: "stt",
-            cwd: "./services/py/stt",
-            script: "./services/py/stt/run.sh",
-            interpreter: "bash",
-            exec_mode: "fork",
-            watch: ["./services/py/stt"],
-            instances: 1,
-            autorestart: true,
-            out_file: "./logs/stt-out.log",
-            error_file: "./logs/stt-err.log",
-            merge_logs: true,
-            env: {
-                PYTHONUNBUFFERED: "1",
-                PYTHONPATH: path.resolve(__dirname),
-            },
+      restart_delay: 10000,
+      kill_timeout: 10000, // wait 5s before SIGKILL
+    },
+    {
+      name: "file-watcher",
+      cwd: "./services/ts/file-watcher",
+      script: ".",
+      watch: ["./services/ts/file-watcher"],
+      instances: 1,
+      autorestart: true,
+      env: {
+        NODE_ENV: "production",
+        REPO_ROOT: __dirname,
+        HEARTBEAT_PORT,
+      },
+      restart_delay: 10000,
+      kill_timeout: 10000,
+    },
 
-            restart_delay: 10000,
-            kill_timeout: 10000 // wait 5s before SIGKILL
-        },
-        {
-            name: "file-watcher",
-            cwd: "./services/file-watcher",
-            script: "npm",
-            args: "start",
-            exec_mode: "fork",
-            watch: ["./services/file-watcher"],
-            instances: 1,
-            autorestart: true,
-            env: {
-                NODE_ENV: "production"
-            },
-            restart_delay: 10000,
-            kill_timeout: 10000
-        },
-        {
-            name: "stt-ws",
-            cwd: "./services/py/stt_ws",
-            script: "./services/py/stt_ws/run.sh",
-            interpreter: "bash",
-            exec_mode: "fork",
-            watch: ["./services/py/stt_ws"],
-            instances: 1,
-            autorestart: true,
-            env: {
-                PYTHONUNBUFFERED: "1",
-                PYTHONPATH: path.resolve(__dirname),
-            },
-            restart_delay: 10000,
-            kill_timeout: 10000
-        },
-        {
-            name: "whisper-stream-ws",
-            cwd: "./services/py/whisper_stream_ws",
-            script: "./services/py/whisper_stream_ws/run.sh",
-            interpreter: "bash",
-            exec_mode: "fork",
-            watch: ["./services/py/whisper_stream_ws"],
-            instances: 1,
-            autorestart: true,
-            env: {
-                PYTHONUNBUFFERED: "1",
-                PYTHONPATH: path.resolve(__dirname),
-            },
-            restart_delay: 10000,
-            kill_timeout: 10000
-        },
-    ]
+    {
+      name: "vision",
+      cwd: "./services/js/vision",
+
+      script: ".",
+      watch: ["./services/js/vision/"],
+      instances: 1,
+      autorestart: true,
+      restart_delay: 10000,
+      kill_timeout: 10000,
+      env: {
+        PORT: 9999,
+        HEARTBEAT_PORT,
+      },
+    },
+    {
+      name: "llm",
+      cwd: "./services/ts/llm",
+
+      script: ".",
+      watch: ["./services/ts/llm/src"],
+      instances: 1,
+      autorestart: true,
+      restart_delay: 10000,
+      kill_timeout: 10000,
+      env: {
+        LLM_PORT: 8888,
+        HEARTBEAT_PORT,
+      },
+    },
+    {
+      name: "heartbeat",
+      cwd: "./services/js/heartbeat",
+
+      script: ".",
+      watch: ["./services/js/heartbeat/"],
+      instances: 1,
+      autorestart: true,
+      restart_delay: 10000,
+      kill_timeout: 10000,
+      env: {
+        PORT: 5005,
+        CHECK_INTERVAL: 1000 * 60 * 5,
+        HEARTBEAT_TIMEOUT: 1000 * 60 * 10,
+      },
+    },
+    {
+      name: "duck_attachment_indexer",
+      cwd: "./services/py/discord_attachment_indexer",
+      script: "pipenv",
+      exec_mode: "fork",
+      args: ["run", "python", "-m", "main"],
+      watch: ["./services/py/tts"],
+      instances: 1,
+      autorestart: true,
+      env: {
+        PYTHONPATH: __dirname,
+        PYTHONUNBUFFERED: "1",
+        FLASK_APP: "app.py",
+        FLASK_ENV: "production",
+        HEARTBEAT_PORT,
+        DEESKTOP_CAPTURE_CHANNEL_ID: "1401730790467047586",
+      },
+      restart_delay: 10000,
+      kill_timeout: 10000,
+    },
+  ],
 };

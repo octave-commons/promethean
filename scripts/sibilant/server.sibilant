@@ -1,0 +1,4 @@
+(include "./header")
+(import-namespace dev)
+(require! server "./server")
+(.on process 'exit (=> (.stop server)))

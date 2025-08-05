@@ -1,0 +1,24 @@
+(define Component Interface
+  (init (store id)))
+(define Component-store Interface
+  (Component null)
+  (worker null)
+  (current []) ;; Components current state
+  (updated []) ;; components updated states
+  (entities [])
+  (pool [])
+  (def get ())
+  (def sync ()
+    (const updated this.updated)
+    (const current this.current)
+    (assign this.current updated)
+    (assign this.updated current))
+  (def save ())
+  (def spawn ()
+    )
+  )
+
+(define Component-store-thread Inline-worker
+  (def-threaded main ()
+    )
+  )

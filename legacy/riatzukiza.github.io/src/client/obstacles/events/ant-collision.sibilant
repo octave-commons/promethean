@@ -1,0 +1,45 @@
+(import Velocity "/shared/systems/velocity.js")
+
+(import Position "/shared/systems/position.js")
+
+(import game "../game.js")
+(import create-particle-updater "/shared/field.js")
+(import home-pos plants ants rocks "../entities.js")
+(import Friction Signal-field "../forces.js")
+(import Physics "/shared/systems/physics.js")
+
+(import config "../config.js")
+
+
+(const update-particle (create-particle-updater config game))
+(on game.events 'ant-collision (c c*)
+
+    (var v c.entity.velocity-interface)
+    (var v* c*.entity.velocity-interface)
+
+    (var p c.entity.physical-properties)
+    (var p* c*.entity.physical-properties)
+
+    ;; (var xd (random-signed config.collision-static))
+    ;; (var yd (random-signed config.collision-static))
+
+
+    ;; (.accelerate v [xd yd])
+    ;; (.accelerate v* [(* xd -1) (* yd -1)])
+
+    (update-particle v v.pos, Signal-field.field,
+                     Signal-field.layer
+                     game.ticker.ticks
+                     config.decay-on-collision
+                     false
+
+                     home-pos)
+
+    ;; (update-particle v* v*.pos, Signal-field.field,
+
+    ;;                  Signal-field.layer
+    ;;                  game.ticker.ticks
+    ;;                  config.decay-on-collision
+    ;;                  false
+    ;;                  home-pos)
+    )

@@ -1,4 +1,3 @@
-
 from openvino.runtime import Core
 import numpy as np
 import torch
@@ -8,7 +7,15 @@ core = Core()
 import numpy as np
 import librosa
 
-def audio_to_mel(audio: np.ndarray, sample_rate=16000, n_fft=400, hop_length=160, n_mels=80, padding=3000):
+
+def audio_to_mel(
+    audio: np.ndarray,
+    sample_rate=16000,
+    n_fft=400,
+    hop_length=160,
+    n_mels=80,
+    padding=3000,
+):
     # Load mono if stereo
     if audio.ndim > 1:
         audio = np.mean(audio, axis=0)
@@ -17,7 +24,7 @@ def audio_to_mel(audio: np.ndarray, sample_rate=16000, n_fft=400, hop_length=160
 
     # Normalize and pad
     audio = audio / np.max(np.abs(audio))
-    audio = np.pad(audio, (0, max(0, 16000*30 - len(audio))))[:16000*30]
+    audio = np.pad(audio, (0, max(0, 16000 * 30 - len(audio))))[: 16000 * 30]
 
     # STFT → Mel → Log
     stft = librosa.stft(audio, n_fft=n_fft, hop_length=hop_length, win_length=n_fft)
@@ -28,8 +35,11 @@ def audio_to_mel(audio: np.ndarray, sample_rate=16000, n_fft=400, hop_length=160
     # Normalize like Whisper expects
     mel = (mel - mel.mean()) / (mel.std() + 1e-5)
     return mel.astype(np.float32)
+
+
 from openvino.runtime import Core
 import numpy as np
+
 
 class WhisperStreamer:
     def __init__(self, encoder_path, decoder_path, tokenizer):
@@ -64,6 +74,8 @@ class WhisperStreamer:
                 break
 
         return self.tokenizer.decode(tokens[1:-1])
+
+
 from transformers import WhisperTokenizer
 
 tokenizer = WhisperTokenizer.from_pretrained("openai/whisper-medium")
@@ -72,7 +84,7 @@ input_ids = torch.tensor([[tokenizer.bos_token_id]])
 model = WhisperStreamer(
     "./whisper-model-npu/whisper_medium_encoder.xml",
     "./whisper-model-npu/whisper_medium_decoder_static_kvcache_224_lm_QKs.xml",
-    tokenizer
-    )
+    tokenizer,
+)
 audio = np.random.randn(16000 * 30).astype(np.float32)  # Simulated 30 seconds of audio
 transcription = model.transcribe(audio)

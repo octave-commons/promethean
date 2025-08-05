@@ -1,0 +1,108 @@
+
+(import Binary-tree "./binary-tree.sibilant")
+(import Kd-tree-node "../data-types/kd-tree-node.sibilant")
+(import config "../config.sibilant")
+
+(def sample (array n)
+  (const r [])
+  (const visited (new Set))
+  (if! (> n array.length) (assign n array.length))
+  (while! (> n r.length)
+          (const i (Math.floor (* (Math.random)
+                                  array.length)))
+          (const s (get array i))
+          (if! (not (.has visited i)))
+          (.add visited i)
+          (.push r s))
+  (return r))
+
+(define Kd-tree Binary-tree
+  (data-type Kd-tree-node)
+  (bucket-size 128)
+
+  (def-generic construct-tree (points (node this.root) (depth 0))
+    ;; (print node depth)
+    (if! (and (= node this.root) (!= depth 0)) (throw (new Error "Root not in root")) )
+
+    (if! (= node this.root)
+         (for-of! data this.data
+                  (assign data.x 0)
+                  (assign data.y 0)
+                  (assign data.pid -1)
+                  (assign data.bucket-id -1)
+                  ))
+
+    (const keys this.data-type.keys)
+    (const k-indexes this.data-type.k-indexes)
+
+    (const axis (get k-indexes (mod depth k-indexes.length)))
+
+    ;; (const sampled-points (sort (sample points 512) (a b) (- (get a axis) (get b axis))))
+    (const sampled-points (sort (sample points (/  config.particle-count  2)) (a b) (- (get a axis) (get b axis))))
+    ;; (const sampled-points points)
+    ;; (const sampled-points (sort points (a b) (- (get a axis) (get b axis))))
+
+    (const median (get sampled-points (Math.floor (/ sampled-points.length 2))))
+
+    ;; (for-of! key keys (set node key (get median key)))
+    ;; (print median node)
+    (set node 'x median.x
+         'y median.y 'pid median.id)
+
+    (const axis-split (get median axis))
+
+    (const left-points (filter points (p)
+                               (< (get p axis) axis-split)))
+    (const right-points (filter points (p) (and (!= p median) (>= (get p axis) axis-split))))
+    ;; (print (lit sampled-points node median axis-split left-points right-points))
+
+    (if! (< 0 left-points.length)
+         (if! (not node.left) (throw (new Error "Maximum depth exeeded")))
+         (.construct-tree this left-points node.left (+ depth 1)))
+
+    (if! (< 0 right-points.length)
+         (if! (not node.right) (throw (new Error "Maximum depth exeeded")))
+         (.construct-tree this right-points node.right (+ depth 1)))
+
+    (return this))
+
+  (def-generic query
+      (x y range
+         (min (lit (x (- x range)) (y (- y range))))
+         (max (lit (x (+ x range)) (y (+ y range))))
+
+         (node this.root)
+         (depth 0)
+         (matches []))
+
+    (if! node.empty?
+         ;; (print "node is empty" node matches)
+         (return matches))
+
+    (const k-indexes this.data-type.k-indexes)
+    (const axis (get k-indexes (mod depth k-indexes.length)))
+
+    (if! (and (> node.x min.x)
+              (> node.y min.y)
+              (< node.x max.x)
+              (< node.y max.y))
+         (.push matches node))
+
+    (if! (and node.left (<= (get node axis) (get max axis)))
+         (.query this x y range
+
+                 min max
+
+                 node.left (+ depth 1) matches))
+
+
+    (if! (and node.right (>= (get node axis) (get min axis)))
+         (.query this x y range
+
+                 min max
+
+                 node.right (+ depth 1) matches))
+
+    (return matches)))
+
+(export Kd-tree)

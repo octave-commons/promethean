@@ -6,9 +6,22 @@ repos:
         entry: python scripts/convert_wikilinks.py
         language: system
         files: '\.md$'
-      - id: generate-hashtag-index
-        name: Generate hashtag index
-        entry: python scripts/generate_hashtags_doc.py
-        language: system
-        pass_filenames: false
-        files: '^docs/.*\.md$'
+  - repo: https://github.com/psf/black
+    rev: 24.4.2
+    hooks:
+      - id: black
+        language_version: python3
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.3.0
+    hooks:
+      - id: flake8
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v9.32.0
+    hooks:
+      - id: eslint
+        types: [javascript, ts, tsx]
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+        types_or: [javascript, ts, tsx, json, yaml]

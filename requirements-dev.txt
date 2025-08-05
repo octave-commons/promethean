@@ -14,3 +14,7 @@ fastapi
 uvicorn
 httpx
 websockets
+PyYAML
+chromadb
+sentence-transformers
+Pillow

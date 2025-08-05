@@ -1,0 +1,26 @@
+(import Spawnable "/shared/data-structures/spawnable.js")
+(import Data-type "../data-types/data-type.js")
+(define Composite-typed-array Spawnable
+  (data-type Data-type)
+
+  (init ((length 0)
+         (buffer (.buffer this.data-type length))
+         (array (new Float-64-array buffer))
+
+         (current-state this)
+         (next-state this)))
+  (cached data (Array.from (.generate this)))
+
+  (gett element-size this.data-type.size)
+
+  (def from-buffer (b1)
+    (.spawn this (/ b1.byte-length this.data-type.bytes )  b1))
+
+
+  (def* generate ()
+    (for! (i 0) (< i this.length) (incr i)
+          (yield (.spawn this.data-type i this)))
+    null))
+
+
+(export Composite-typed-array)
