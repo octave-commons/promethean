@@ -30,7 +30,7 @@ test("ignores board changes caused by watcher", async (t) => {
 
   const watchers = startFileWatcher({
     repoRoot: root,
-    runPython: async (script) => {
+    runPython: async (script, _capture, _args) => {
       calls.push(script);
       if (script.includes("hashtags_to_kanban.py")) {
         return "board";
@@ -57,7 +57,7 @@ test("ignores task changes caused by watcher", async (t) => {
 
   const watchers = startFileWatcher({
     repoRoot: root,
-    runPython: async (script) => {
+    runPython: async (script, _capture, _args) => {
       calls.push(script);
       if (script.includes("kanban_to_hashtags.py")) {
         await fs.writeFile(taskFile, "updated");

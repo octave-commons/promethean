@@ -1,6 +1,7 @@
 import os
-import os
 import sys
+import types
+import importlib
 
 sys.path.insert(
     0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../"))
@@ -34,7 +35,8 @@ def test_ws_stream(monkeypatch):
         "shared.py.heartbeat_client.HeartbeatClient", lambda *a, **k: DummyHB()
     )
 
-    import importlib
+    stub = types.SimpleNamespace(transcribe_pcm=lambda *a, **k: "")
+    monkeypatch.setitem(sys.modules, "shared.py.speech.wisper_stt", stub)
 
     app_module = importlib.import_module("services.py.stt.app")
     dummy = DummyStreamer()
