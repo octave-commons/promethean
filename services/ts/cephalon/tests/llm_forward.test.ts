@@ -10,7 +10,7 @@ ModuleAny._load = function (request: string, parent: any, isMain: boolean) {
 	return originalLoad(request, parent, isMain);
 };
 
-const { AIAgent } = await import('../src/agent.js');
+const { AIAgent } = await import('../src/agent/index.js');
 const { LLMService } = await import('../src/llm-service.js');
 const { ContextManager } = await import('../src/contextManager.js');
 
