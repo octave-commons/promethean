@@ -1,13 +1,16 @@
 # app.py
 
-**Path**: `services/tts/app.py`
+**Path**: `services/py/tts/app.py`
 
-**Description**: print(hf_hub_download(repo_id="facebook/fastspeech2-en-ljspeech", filename="vocab.txt", cache_dir=None, local_files_only=True))
+**Description**: FastAPI application exposing `/synth_voice_pcm` for HTTP
+text-to-speech and `/ws/tts` for WebSocket streaming.
 
 ## Dependencies
 - fastapi
 - safetensors.torch
 - transformers
+- soundfile
+- shared.py.speech.tts
 
 ## Dependents
 - None

@@ -1,13 +1,17 @@
 # app.py
 
-**Path**: `services/stt/app.py`
+**Path**: `services/py/stt/app.py`
 
-**Description**: Now call your transcription logic. For offline processing, run [batch_transcribe.py](../../scripts/batch_transcribe.py) on the raw WAV dataset in [data/raw-wav/](../../data/raw-wav/); transcripts are written to [data/transcripts/](../../data/transcripts/).
+**Description**: FastAPI application providing HTTP and WebSocket speech-to-text
+APIs. Supports single-shot transcription via `/transcribe` and streaming
+transcription via `/stream`.
 
 ## Dependencies
 - fastapi
 - fastapi.responses
 - shared.py.speech.wisper_stt
+- shared.py.speech.whisper_stream
+- shared.py.utils
 
 ## Dependents
 - None
