@@ -1,8 +1,9 @@
 import base64
-import base64
 import json
 import os
 import sys
+import types
+import importlib
 
 # Add repository root to path to allow 'services' imports
 sys.path.insert(
@@ -27,14 +28,11 @@ def test_websocket_transcription(monkeypatch):
         "shared.py.heartbeat_client.HeartbeatClient", lambda *a, **k: DummyHB()
     )
 
-    import importlib
+    stub = types.SimpleNamespace(transcribe_pcm=lambda pcm, sr: "hello world")
+    monkeypatch.setitem(sys.modules, "shared.py.speech.wisper_stt", stub)
 
     app_module = importlib.import_module("services.py.stt.app")
     client = TestClient(app_module.app)
-    import types
-
-    stub = types.SimpleNamespace(transcribe_pcm=lambda pcm, sr: "hello world")
-    monkeypatch.setitem(sys.modules, "shared.py.speech.wisper_stt", stub)
 
     data = base64.b64encode(b"abc").decode()
     with client.websocket_connect("/transcribe") as websocket:

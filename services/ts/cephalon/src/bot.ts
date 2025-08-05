@@ -9,7 +9,7 @@ import {
 	type RESTPutAPIApplicationCommandsJSONBody,
 } from 'discord.js';
 import EventEmitter from 'events';
-import { AIAgent } from './agent';
+import { AIAgent } from './agent/index.js';
 import { AGENT_NAME, DESKTOP_CAPTURE_CHANNEL_ID } from '../../../../shared/js/env.js';
 import { ContextManager } from './contextManager';
 import { LLMService } from './llm-service';

@@ -22,25 +22,25 @@ options in **Settings → Files & Links**:
 
 * **Automatically update internal links** – keeps link paths tidy when files are
   moved.
-* **Use [[wikilinks]]** – preferred inside the vault for graph navigation.
+* **Use [wikilinks](wikilinks.md)** – preferred inside the vault for graph navigation.
 * **Default location for new attachments → Same folder as current file** – avoids
   absolute paths.
 
 Then, install the optional **Markdown Format Converter** plugin and run the
 `Convert all to Markdown` command before committing docs. This converts
-`[[wikilinks]]` to standard `[text](link.md)` syntax so everything renders on
+`[wikilinks](wikilinks.md)` to standard `[text](link.md)` syntax so everything renders on
 GitHub without broken links.
 
-If you prefer an automated approach, you can add a `markdownlint` or `Prettier`
-configuration in your editor to normalize code fences and line breaks. The repo
-does not currently enforce a style, but consistent formatting makes diffs
-cleaner.
+For automated formatting, the repository includes a `.markdownlint.yml`
+configuration. Enable a markdownlint plugin in your editor or run the CLI to
+apply these rules, ensuring consistent code fences and line wrapping. Prettier
+is also compatible if you prefer JS-based tooling.
 
 #hashtags: #obsidian #vault
 
 ## Automated Wikilink Conversion
 
-A small script `scripts/convert_wikilinks.py` converts `[[wikilinks]]` to standard markdown links. The repository provides a `.pre-commit-config.yaml` that runs this script automatically before each commit.
+A small script `scripts/convert_wikilinks.py` converts `[wikilinks](wikilinks.md)` to standard markdown links. The repository provides a `.pre-commit-config.yaml` that runs this script automatically before each commit.
 
 Install the `pre-commit` tool and enable the hook:
 

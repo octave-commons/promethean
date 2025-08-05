@@ -2,7 +2,6 @@ import { spawn } from "child_process";
 import chokidar from "chokidar";
 import { join } from "path";
 import { writeFile as fsWriteFile } from "fs/promises";
-import { HeartbeatClient } from "../../../../shared/js/heartbeat/index.js";
 
 /**
  * Options for {@link startFileWatcher} allowing injection of dependencies for testing.
@@ -11,7 +10,11 @@ export interface FileWatcherOptions {
   /** Root of the repository. Defaults to the REPO_ROOT env var or "". */
   repoRoot?: string;
   /** Function used to execute python scripts. */
-  runPython?: (script: string, capture?: boolean) => Promise<string | void>;
+  runPython?: (
+    script: string,
+    capture?: boolean,
+    args?: string[],
+  ) => Promise<string | void>;
   /** Function used to write the kanban board file. */
   writeFile?: (path: string, data: string) => Promise<void>;
 }
@@ -21,9 +24,10 @@ const defaultRepoRoot = process.env.REPO_ROOT || "";
 function defaultRunPython(
   script: string,
   capture = false,
+  args: string[] = [],
 ): Promise<string | void> {
   return new Promise((resolve, reject) => {
-    const proc = spawn("python", [script], { cwd: defaultRepoRoot });
+    const proc = spawn("python", [script, ...args], { cwd: defaultRepoRoot });
     let data = "";
 
     proc.stdout.on("data", (chunk) => {
@@ -107,6 +111,22 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
   });
 
   const tasksWatcher = chokidar.watch(tasksPath, { ignoreInitial: true });
+  tasksWatcher.on("add", (path) => {
+    if (updatingTasks) {
+      console.log("Ignoring task addition triggered by watcher");
+      return;
+    }
+    console.log("New task file added, populating stub...");
+    updatingTasks = true;
+    runPython(join("scripts", "populate_task_ollama.py"), false, [path])
+      .then(() => updateBoard())
+      .catch((err) => console.error("populate_task_ollama failed", err))
+      .finally(() => {
+        setTimeout(() => {
+          updatingTasks = false;
+        }, 100);
+      });
+  });
   tasksWatcher.on("change", () => {
     if (updatingTasks) {
       console.log("Ignoring task change triggered by watcher");
@@ -120,15 +140,20 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
 }
 
 if (process.env.NODE_ENV !== "test") {
-  const hb = new HeartbeatClient();
-  hb.sendOnce()
-    .then(() => {
+  (async () => {
+    try {
+      const repoRoot = defaultRepoRoot || process.cwd();
+      const { HeartbeatClient } = await import(
+        join(repoRoot, "shared", "js", "heartbeat", "index.js")
+      );
+      const hb = new HeartbeatClient();
+      await hb.sendOnce();
       hb.start();
       startFileWatcher();
       console.log("File watcher running...");
-    })
-    .catch((err) => {
+    } catch (err) {
       console.error("failed to register heartbeat", err);
       process.exit(1);
-    });
+    }
+  })();
 }
