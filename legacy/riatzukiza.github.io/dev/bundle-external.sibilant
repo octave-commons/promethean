@@ -1,0 +1,25 @@
+(def-async bundle-external ()
+  (print "bundling external" dependencies)
+  (const bundle (browserify ))
+  (each [
+         'events
+         'assert
+         ...dependencies] (name)
+        (print "requiring" name)
+        (.require bundle name))
+  (print "external dependencies added to bundle")
+
+  (const reader (.bundle bundle))
+
+  (const bundle-file (await (.insert js.bundles "./external.js")))
+  (const writer bundle-file.write-stream)
+  (print "creating external bundle")
+
+  (await (make-promise
+    (.on reader 'error fail)
+    (.on writer 'finish success)
+    (.on writer 'error fail)
+    (.pipe reader writer)))
+  (const bundle-string (await bundle-file.string))
+  ;;hacks for workers
+  (assign bundle-file.string (+ "self." bundle-string)))

@@ -65,13 +65,11 @@ kanban-plugin: board
 - [ ] Allow configuration of hyperparameters through discord (context size, spectrogram resolution, interuption threshold)
 - [ ] Refactor speech interuption system to be more inteligent,  using audio data  to decide if interupted
 - [ ] Send waveforms, spectrograms, and dekstop screenshots to discord for remote storage
+- [ ] Split out audio processing logic to a seperate service without changing the current behavior in cephalon
 
 
 ## Accepted (8)
 
-- [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
-- [ ] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md)
-- [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md) #framework-core
 - [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md)
 - [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md) #agent #automation #prompt #metaagent #meta-prompting #documentation
 
@@ -81,13 +79,16 @@ kanban-plugin: board
 - [ ] [Decouple from Ollama Write a driver system for multiple LLM sources for easier testing in CI](../tasks/Decouple%20from%20Ollama.md) #framework-core
 - [ ] Clean up notes into design  docs
 - [ ] [Describe github branching workflow](../tasks/Describe%20github%20branching%20workflow.md)
-- [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md) #devops #seperation-of-concerns #makefile #buildtools
+- [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
 - [ ] [Document board usage guidelines](../tasks/Document%20board%20usage%20guidelines.md)
 
 
 ## Agent thinking (8)
 
 - [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
+- [ ] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md)
+- [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md) #framework-core
+- [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md) #devops #seperation-of-concerns #makefile #buildtools
 
 
 ## Breakdown (10)

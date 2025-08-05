@@ -1,0 +1,19 @@
+(define Composite-typed-array Interface
+  (data-type Data-type)
+
+  (init ((length 0)
+         (buffer (.buffer this.data-type))
+         (array (new Float-64-array buffer))
+
+         (current-state this)
+         (next-state this)))
+  (cached data (data (Array.from (.generate this))))
+
+  (gett element-size this.data-type.size)
+
+
+  (def* generate ()
+    (for! (i 0) this.length (incr-by i this.element-size)
+          (yield (.spawn this.data-type i this)))))
+
+

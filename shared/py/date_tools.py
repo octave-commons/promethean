@@ -1,5 +1,6 @@
 from datetime import datetime, timezone, timedelta
 
+
 def time_ago(past: datetime, now: datetime = None) -> str:
     if now is None:
         now = datetime.now(timezone.utc)
@@ -18,4 +19,3 @@ def time_ago(past: datetime, now: datetime = None) -> str:
         return f"{hours} hour{'s' if hours != 1 else ''} ago"
     else:
         return f"{days} day{'s' if days != 1 else ''} ago"
-    

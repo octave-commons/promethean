@@ -1,0 +1,5 @@
+(import Data-type "./data-type.js")
+(define Physics-object  Data-type
+  (keys ['mass 'scale ]))
+
+(export Physics-object)

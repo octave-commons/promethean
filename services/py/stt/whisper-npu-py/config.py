@@ -1,11 +1,12 @@
-
 def exact_div(x, y):
     assert x % y == 0
     return x // y
+
+
 EXPECTED_ENCODER_LEN = 1500
 
 SEQ_LEN = 223
-NUM_LAYERS=24
+NUM_LAYERS = 24
 EXPECTED_DECODER_LEN = 223
 SAMPLE_RATE = 16000
 N_FFT = 400

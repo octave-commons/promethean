@@ -1,0 +1,13 @@
+(import Vector2D "./vector-2d.sibilant")
+(import Data-type "./data-type.sibilant")
+(import Binary-tree-node "./binary-tree-node.sibilant")
+
+(define Kd-tree-node Binary-tree-node
+  (bucket-size 32)
+  (keys [ 'x 'y 'pid])
+  (k-indexes ['x 'y])
+  (gett bucket-id (Math.floor (/ this.id this.bucket-size)))
+  (gett empty? (= this.pid -1))
+  (gett occupied (!= this.pid -1)))
+
+(export Kd-tree-node)

@@ -1,0 +1,10 @@
+(include "@shared/sibilant/inc/dom.sibilant")
+(import rendering "./rendering.js")
+(const game-view (dom (.div .id "game-view" .className "panel"
+                            .style (lit ("background-color" "black"))
+                            (-> rendering.context.canvas))))
+
+
+(const start-button (=> (start-game) (dom (.div .id 'start-game (.button .onclick start-game "start game")))))
+(export game-view)
+(export start-button)

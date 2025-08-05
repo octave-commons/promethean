@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI, Request, Header, Query, HTTPException
 from fastapi.responses import JSONResponse
 
@@ -6,19 +5,38 @@ from fastapi.responses import JSONResponse
 import asyncio
 
 import sys
-sys.path.append("../../")
+
+sys.path.append("../../../")
 from shared.py.speech.wisper_stt import transcribe_pcm
+from shared.py.heartbeat_client import HeartbeatClient
 
 app = FastAPI()
 
+hb = HeartbeatClient()
+
+
+@app.on_event("startup")
+async def startup_event():
+    try:
+        hb.send_once()
+    except Exception as exc:
+        raise RuntimeError("heartbeat registration failed") from exc
+    hb.start()
+
+
+@app.on_event("shutdown")
+def shutdown_event():
+    hb.stop()
+
+
 @app.post("/transcribe_pcm")
 async def transcribe_pcm_endpoint(
-    request: Request,
-    x_sample_rate: int = Header(16000),
-    x_dtype: str = Header("int16")
+    request: Request, x_sample_rate: int = Header(16000), x_dtype: str = Header("int16")
 ):
     if x_dtype != "int16":
-        return JSONResponse({"error": "Only int16 PCM supported for now"}, status_code=400)
+        return JSONResponse(
+            {"error": "Only int16 PCM supported for now"}, status_code=400
+        )
 
     pcm_data = bytearray()
     async for chunk in request.stream():
@@ -28,4 +46,3 @@ async def transcribe_pcm_endpoint(
     transcription = transcribe_pcm(pcm_data, x_sample_rate)
     # print("final transcription", transcription)
     return {"transcription": transcription}
-

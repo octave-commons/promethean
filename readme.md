@@ -35,6 +35,28 @@ Activate the environment when developing or running Python services:
 pipenv shell
 ```
 
+#### Quick Setup
+
+Generate pinned `requirements.txt` files and install from them if you prefer a
+standard virtual environment:
+
+```bash
+make generate-requirements
+python -m venv .venv && source .venv/bin/activate
+make setup-quick
+```
+
+This skips `pipenv` during installation and uses the generated requirement
+files. `make setup-quick` calls `setup-python-services-quick`, which installs each Python service from its `requirements.txt`.
+
+Makefile targets for Python, JavaScript and TypeScript iterate over their
+respective service directories using a shared helper.
+Missing services are skipped with a message, and the overall target fails if
+any service command returns an error.
+
+Always install into a virtual environment (`pipenv shell` or one created with
+`python -m venv`) to avoid modifying your system Python packages.
+
 ### Node
 
 ```bash
@@ -46,6 +68,10 @@ Install PM2 globally if it isn't already available:
 ```bash
 npm install -g pm2
 ```
+
+The service management targets `make start`, `make start-tts` and
+`make start-stt` require PM2. You can install it globally as shown above or add
+it as a project dependency.
 
 ## Running Services
 
@@ -72,6 +98,10 @@ Common tasks are wrapped in the root `Makefile`:
 - `make start` – launch shared services defined in `ecosystem.config.js` via PM2
 - `make start:<service>` – run a service from `ecosystem.config.js` by name
 - `make stop` – stop running services
+- `make start-tts` – start the text-to-speech service
+- `make start-stt` – start the speech-to-text service
+- `make stop-tts` – stop the text-to-speech service
+- `make stop-stt` – stop the speech-to-text service
 - `make test` – run Python and JS test suites without coverage
 - `make board-sync` – sync `kanban.md` with GitHub Projects
 - `make kanban-from-tasks` – regenerate `kanban.md` from task files

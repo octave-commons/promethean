@@ -1,0 +1,50 @@
+;; (define Content Tile-component)
+;; (define Contents Tile-system )
+
+;; (define Opacity Tile-component
+;;   (explored false)
+;;   (obstructs-vision )
+;;   )
+;; (define Visibility Tile-system
+;;   (interface Opacity)
+
+;;   )
+
+;; (define Temp Tile-component)
+;; (define Temperature Tile-system
+;;   (interface Temp))
+
+;; (define Traversability-modifiers Tile-component)
+;; (define Traversability Tile-system
+;;   (interface Traversability-modifiers)
+;;   )
+
+;; (define Beauty Type-system)
+
+(define Floor Tile-component)
+
+(define Flooring Tile-system
+  (types ['dirt 'rock 'grass])
+  (interface Floor))
+
+(define Tile-sprite Sprite )
+(define Tile-sprites Sprites
+  (interface Tile-sprite))
+
+(define Tile-component Component )
+(define Tile-system System
+  (interface Tile-data))
+
+(const tile-systems
+       [Flooring
+        Floor-sprite
+        Contents
+        Visibility
+        Temperature
+        Traversability
+        Movement-signals
+        Memory-labels
+        Beauty
+        ])
+
+(const tiles (.spawn Tile-graph tile-systems))
