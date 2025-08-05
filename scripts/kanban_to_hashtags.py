@@ -7,25 +7,13 @@ import re
 from pathlib import Path
 from urllib.parse import unquote
 
+try:  # pragma: no cover - fallback for direct execution
+    from .agile_statuses import STATUS_ORDER, STATUS_SET
+except ImportError:  # pragma: no cover
+    from agile_statuses import STATUS_ORDER, STATUS_SET
+
 BOARD_PATH = Path("docs/agile/boards/kanban.md")
 TASK_DIR = Path("docs/agile/tasks")
-
-STATUS_ORDER = [
-    "#ice-box",
-    "#incoming",
-    "#rejected",
-    "#accepted",
-    "#prompt-refinement",
-    "#agent-thinking",
-    "#breakdown",
-    "#blocked",
-    "#ready",
-    "#todo",
-    "#in-progress",
-    "#in-review",
-    "#done",
-]
-STATUS_SET = set(STATUS_ORDER)
 
 
 def parse_board(path: Path = BOARD_PATH) -> dict[Path, str]:
@@ -50,24 +38,38 @@ def parse_board(path: Path = BOARD_PATH) -> dict[Path, str]:
     return mapping
 
 
-def _remove_status_tokens(line: str) -> str:
-    tokens = [tok for tok in line.split() if tok not in STATUS_SET]
-    return " ".join(tokens)
+def _remove_status_tokens(tokens: list[str]) -> list[str]:
+    """Return tokens with any status hashtags removed."""
+    return [tok for tok in tokens if tok not in STATUS_SET]
 
 
 def set_status(path: Path, status: str) -> None:
     """Update a task file with the given status hashtag."""
     if not path.exists():
         return
-    lines = [
-        _remove_status_tokens(line.rstrip())
-        for line in path.read_text(encoding="utf-8").splitlines()
-    ]
-    while lines and lines[-1] == "":
-        lines.pop()
-    lines.append(status)
-    lines.append("")
-    path.write_text("\n".join(lines), encoding="utf-8")
+
+    text = path.read_text(encoding="utf-8")
+    ends_with_newline = text.endswith("\n")
+    lines = text.splitlines()
+
+    status_idx: int | None = None
+    for i in range(len(lines) - 1, -1, -1):
+        tokens = lines[i].split()
+        if any(tok in STATUS_SET for tok in tokens):
+            status_idx = i
+            lines[i] = " ".join(_remove_status_tokens(tokens))
+            break
+
+    if status_idx is None:
+        lines.append(status)
+    else:
+        prefix = lines[status_idx].strip()
+        lines[status_idx] = f"{prefix} {status}".strip()
+
+    out = "\n".join(lines)
+    if ends_with_newline or status_idx is None:
+        out += "\n"
+    path.write_text(out, encoding="utf-8")
 
 
 def update_tasks(board: Path = BOARD_PATH) -> None:

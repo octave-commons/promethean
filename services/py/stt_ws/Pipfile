@@ -9,6 +9,7 @@ transformers = "*"
 torch = "*"
 numpy = "*"
 uvicorn = "*"
+hy = "*"
 
 [dev-packages]
 pytest = "*"
