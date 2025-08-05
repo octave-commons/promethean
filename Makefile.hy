@@ -6,6 +6,10 @@
 
 (import os.path [isdir])
 (import sys)
+(defmacro unless [ cond #* body]
+  `(when (not ~cond)
+     ~@body
+     ))
 
 ;; -----------------------------------------------------------------------------
 ;; Service List Definitions
@@ -15,7 +19,7 @@
 (define-service-list SERVICES_PY "services/py")
 (define-service-list SERVICES_JS "services/js")
 (define-service-list SERVICES_TS "services/ts")
-(setv commands [])
+(setv commands {})
 
 
 (defn-cmd setup-python-services []
@@ -406,4 +410,5 @@
                 (sys.exit 1)))))))
 
 (when (= __name__ "__main__")
+  ;; (print (str (. commands [0] [0])))
   (main))

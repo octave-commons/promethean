@@ -38,6 +38,7 @@
               `[~(str (+ action "-" lang "-service-")) ~fn]))))
 
 (defmacro defn-cmd [name args #* body]
-          `(.append commands
-                    [(quote ~name) (setx ~name (fn ~args ~@body))]))
+          `(setv (get commands (str (quote ~name)))
+                 (setx ~name (fn ~args ~@body)))
+          )
 
