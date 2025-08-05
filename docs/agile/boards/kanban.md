@@ -34,83 +34,84 @@ kanban-plugin: board
 
 ## Incoming
 
-- [ ] [Gather open questions about system direction](../tasks/Gather%20open%20questions%20about%20system%20direction.md) #agent-mode
-- [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/Gather%20baseline%20emotion%20metrics%20for%20Eidolon%20field.md)
-- [ ] [Write board sync script](../tasks/Write%20board%20sync%20script.md) #framework-core
-- [ ] [Smart Task templater](../tasks/Smart%20Task%20templater.md)
-- [ ] [Obsidian Kanban Github Project Board Mirror system](../tasks/Obsidian%20Kanban%20Github%20Project%20Board%20Mirror%20system.md) #framework-core
-- [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md)
-- [ ] [Mirror shared utils with language-specific doc folders](../tasks/Mirror%20shared%20utils%20with%20language-specific%20doc%20folders.md)
-- [ ] Add twitch chat integration
-- [ ] Automaticly capture every participant in an audio session
-- [ ] Break down cephalon agent.ts
-- [ ] design circular buffers for inputs with layered states of persistance (in memory, on disk, cold storage, so )
-- [ ] Define codex CLI baseg agent
-- [ ] Web frontend for system management
-- [ ] Twitch stream title generator
-- [ ] twitch/discord/general auto mod
-- [ ] Full agent mode (Text chat, selectively join channels, etc)
-- [ ] Add file system to context management system
 - [ ] Add web searches to context management system
-- [ ] cache decay mechanisim
-- [ ] Tool chain management system
-- [ ] Thinking Model integration
-- [ ] discord image awareness
-- [ ] Discord/chat link  traversal
-- [ ] discord image/attachment indexer
-- [ ] discord link indexer
-- [ ] Allow old/unnessisary messages to decay from database while retaining index entries/ids
-- [ ] Prevent dangling processes when a process fails due to error, or automaticly clean them up
-- [ ] each service registers a pid with a heartbeat service. If they do not successfully check in, terminate the process using the pid
+- [ ] factor out makefile
+- [ ] Look  into why the state object never seems to get updated.
+- [ ] [setup a second agent](../tasks/setup%20a%20second%20agent.md)
+
+
+## Accepted (24)
+
+- [ ] [refactor any python modules not currently for ML stuff (discord, etc)](../tasks/refactor%20any%20python%20modules%20not%20currently%20for%20ML%20stuff%20(discord,%20etc).md)
+- [ ] [Web frontend for system management](../tasks/Web%20frontend%20for%20system%20management.md)
+- [ ] [twitch discord general auto mod](../tasks/twitch%20discord%20general%20auto%20mod.md)
+- [ ] [finish whisper NPU system](../tasks/finish%20whisper%20NPU%20system.md)
+- [ ] [Add file watcher that loooooks at agent thinking and prompt refinement and runs an LLM on it a few times and asked if it feels like it's ready](../tasks/Add%20file%20watcher%20that%20loooooks%20at%20agent%20thinking%20and%20prompt%20refinement%20and%20runs%20an%20LLM%20on%20it%20a%20few%20times%20and%20asked%20if%20it%20feels%20like%20it's%20ready.md)
+- [ ] [Setup code in wsl](../tasks/Setup%20code%20in%20wsl.md)
+- [ ] $\psi$ML Markup  language  definition
+- [ ] [Make discord channel aware contextualizer](../tasks/Make%20discord%20channel%20aware%20contextualizer.md)
+- [ ] [Refactor speech interuption system to be more inteligent, using audio data to decide if interupted](../tasks/Refactor%20speech%20interuption%20system%20to%20be%20more%20inteligent,%20using%20audio%20data%20to%20decide%20if%20interupted.md)
+- [ ] [Split out audio processing logic to a seperate service without changing the current behavior in cephalon](../tasks/Split%20out%20audio%20processing%20logic%20to%20a%20seperate%20service%20without%20changing%20the%20current%20behavior%20in%20cephalon.md)
 - [ ] Allow configuration of hyperparameters through discord (context size, spectrogram resolution, interuption threshold)
-- [ ] Refactor speech interuption system to be more inteligent,  using audio data  to decide if interupted
 - [ ] Send waveforms, spectrograms, and dekstop screenshots to discord for remote storage
-- [ ] Split out audio processing logic to a seperate service without changing the current behavior in cephalon
-
-
-## Accepted (8)
-
-- [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md)
-- [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md) #agent #automation #prompt #metaagent #meta-prompting #documentation
+- [ ] Discord/chat link  traversal
+- [ ] each service registers a pid with a heartbeat service. If they do not successfully check in, terminate the process using the pid
+- [ ] cache decay mechanisim
+- [ ] Thinking Model integration
 
 
 ## Prompt refinement (8)
 
-- [ ] [Decouple from Ollama Write a driver system for multiple LLM sources for easier testing in CI](../tasks/Decouple%20from%20Ollama.md) #framework-core
-- [ ] Clean up notes into design  docs
-- [ ] [Describe github branching workflow](../tasks/Describe%20github%20branching%20workflow.md)
-- [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
-- [ ] [Document board usage guidelines](../tasks/Document%20board%20usage%20guidelines.md)
+- [ ] [discord link indexer](../tasks/discord%20link%20indexer.md)
+- [ ] [discord image awareness](../tasks/discord%20image%20awareness.md)
+- [ ] Tool chain management system
+- [ ] Add file system to context management system
+- [ ] Define codex CLI baseg agent
+- [ ] Full agent mode (Text chat, selectively join channels, etc)
+- [ ] design circular buffers for inputs with layered states of persistance (in memory, on disk, cold storage, so )
+- [ ] Add twitch chat integration
 
 
 ## Agent thinking (8)
 
-- [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
-- [ ] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md)
-- [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md) #framework-core
-- [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md) #devops #seperation-of-concerns #makefile #buildtools
+- [ ] [Prevent dangling processes when a process fails due to error, or automaticly clean them up](../tasks/Prevent%20dangling%20processes%20when%20a%20process%20fails%20due%20to%20error,%20or%20automaticly%20clean%20them%20up.md)
+- [ ] [discord image attachment indexer](../tasks/discord%20image%20attachment%20indexer.md)
+- [ ] [Clean up notes into design docs](../tasks/Clean%20up%20notes%20into%20design%20docs.md)
+- [ ] [Twitch stream title generator](../tasks/Twitch%20stream%20title%20generator.md)
+- [ ] [Allow old unnessisary messages to decay from database while retaining index entries ids](../tasks/Allow%20old%20unnessisary%20messages%20to%20decay%20from%20database%20while%20retaining%20index%20entries%20ids.md)
+- [ ] [Describe github branching workflow](../tasks/Describe%20github%20branching%20workflow.md)
+- [ ] [Smart Task templater](../tasks/Smart%20Task%20templater.md)
+- [ ] [Obsidian Kanban Github Project Board Mirror system](../tasks/Obsidian%20Kanban%20Github%20Project%20Board%20Mirror%20system.md) #framework-core
 
 
 ## Breakdown (10)
 
-- [ ] [Migrate portfolio client code to Promethean](../tasks/Migrate%20portfolio%20client%20code%20to%20Promethean.md) #framework-core
-- [ ] [Migrating relevant modules from riatzukiza.github.io to -site- and -docs-](../tasks/Migrating%20relevant%20modules%20from%20riatzukiza.github.io%20to%20-site-%20and%20-docs-.md) #framework-core
-- [ ] [Clarify Promethean project vision](../tasks/Clarify%20Promethean%20project%20vision.md)
-- [ ] [Add starter notes - eidolon\_fields, cephalon\_inner\_monologue](../tasks/Add%20starter%20notes%20-%20eidolon_fields,%20cephalon_inner_monologue.md)
-- [ ] [Start Eidolon](../tasks/Start%20Eidolon.md)
+- [ ] [Write board sync script](../tasks/Write%20board%20sync%20script.md) #framework-core
+- [ ] [Mirror shared utils with language-specific doc folders](../tasks/Mirror%20shared%20utils%20with%20language-specific%20doc%20folders.md)
 
 
 ## ready (16)
 
-- [ ] [Add unit tests for GUI helpers](../tasks/Add_unit_tests_for_gui_helpers.md) #codex-task #testing
-- [ ] [Determine PM2 configuration for agents](../tasks/Determine%20PM2%20configuration%20for%20agents.md)
-- [ ] [Remove ts-node and compile ava tests directly](Remove%20ts-node%20and%20compile%20ava%20tests%20directly.md) #cicd
-- [ ] [write simple ecosystem declaration library for new agents](../tasks/write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md) #framework-core
+- [ ] [Gather open questions about system direction](../tasks/Gather%20open%20questions%20about%20system%20direction.md) #agent-mode
+- [ ] [Decouple from Ollama Write a driver system for multiple LLM sources for easier testing in CI](../tasks/Decouple%20from%20Ollama.md) #framework-core
+- [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md) #agent #automation #prompt #metaagent #meta-prompting #documentation
+- [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
+- [ ] [Document board usage guidelines](../tasks/Document%20board%20usage%20guidelines.md)
+- [ ] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md)
+- [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md) #framework-core
+- [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md) #devops #seperation-of-concerns #makefile #buildtools
+- [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md)
+- [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/Gather%20baseline%20emotion%20metrics%20for%20Eidolon%20field.md)
+- [ ] [Start Eidolon](../tasks/Start%20Eidolon.md)
+- [ ] [Add starter notes - eidolon\_fields, cephalon\_inner\_monologue](../tasks/Add%20starter%20notes%20-%20eidolon_fields,%20cephalon_inner_monologue.md)
+- [ ] [Clarify Promethean project vision](../tasks/Clarify%20Promethean%20project%20vision.md)
+- [ ] [Migrating relevant modules from riatzukiza.github.io to -site- and -docs-](../tasks/Migrating%20relevant%20modules%20from%20riatzukiza.github.io%20to%20-site-%20and%20-docs-.md) #framework-core
+- [ ] [Migrate portfolio client code to Promethean](../tasks/Migrate%20portfolio%20client%20code%20to%20Promethean.md) #framework-core
 
 
 ## 🟢 To Do (8)
 
-- [ ] [Add STT service tests](../tasks/Add_STT_service_tests.md) #codex-task #testing
+- [ ] [write simple ecosystem declaration library for new agents](../tasks/write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md) #framework-core
 - [ ] [Write end to end tests](Write%20end%20to%20end%20tests.md) #framework-core
 - [ ] [Add unit tests for wav_processing](../tasks/Add_unit_tests_for_wav_processing.md) #codex-task #testing
 - [ ] [rewrite vision end to end test in typescript](../../../rewrite%20vision%20end%20to%20end%20test%20in%20typescript.md)
@@ -121,19 +122,25 @@ kanban-plugin: board
 ## 🟡 In Progress (4)
 
 - [ ] [Document local testing setup](../tasks/Document_local_testing_setup.md) #codex-task #testing
-- [ ] [seperate all  testing pipelines  in github Actions](../tasks/seperate%20all%20testing%20pipelines%20in%20github%20Actions.md) #seperation-of-concerns #testing #devops
 - [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
-- [ ] [Write meaningful tests for Cephalon](../tasks/Write_meaningful_tests_for_Cephalon.md) #codex-task #testing
 
 
 ## In Review (4)
 
-- [ ] [Clearly seperate service dependency  files](../tasks/Clearly%20seperate%20service%20dependency%20files.md) #devops #dependencies #seperation-of-concerns
+- [ ] Break down cephalon agent.ts
 
 
 ## 🔵 Done
 
 **Complete**
+- [x] Automaticly capture every participant in an audio session ✅ 2025-08-05
+- [x] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md) ✅ 2025-08-05
+- [x] [Remove ts-node and compile ava tests directly](Remove%20ts-node%20and%20compile%20ava%20tests%20directly.md) #cicd ✅ 2025-08-05
+- [x] [Determine PM2 configuration for agents](../tasks/Determine%20PM2%20configuration%20for%20agents.md) ✅ 2025-08-05
+- [x] [Add STT service tests](../tasks/Add_STT_service_tests.md) #codex-task #testing ✅ 2025-08-05
+- [x] [seperate all  testing pipelines  in github Actions](../tasks/seperate%20all%20testing%20pipelines%20in%20github%20Actions.md) #seperation-of-concerns #testing #devops ✅ 2025-08-05
+- [x] [Write meaningful tests for Cephalon](../tasks/Write_meaningful_tests_for_Cephalon.md) #codex-task #testing ✅ 2025-08-05
+- [x] [Clearly seperate service dependency  files](../tasks/Clearly%20seperate%20service%20dependency%20files.md) #devops #dependencies #seperation-of-concerns ✅ 2025-08-05
 - [x] [Update GitHub Actions to use makefile](../tasks/update%20github%20actions%20to%20use%20makefile.md) ✅ 2025-07-31
 - [x] [Finalize MIGRATION\_PLAN.md](../tasks/Finalize%20`MIGRATION_PLAN.md`.md) #framework-core ✅ 2025-07-31
 
@@ -174,6 +181,8 @@ kanban-plugin: board
 - [ ] [Ensure GitHub-compatible markdown settings are documented](../tasks/Ensure%20GitHub-compatible%20markdown%20settings%20are%20documented.md) #Duplicate
 - [ ] [Clearly separate service dependency files](../tasks/Clearly%20separate%20service%20dependency%20files.md)
 - [ ] [Move all testing to individual services](../tasks/Move%20all%20testing%20to%20individual%20services.md)
+- [ ] [Add unit tests for GUI helpers](../tasks/Add_unit_tests_for_gui_helpers.md) #codex-task #testing #wontdo
+- [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
 
 %% kanban:settings
 ```

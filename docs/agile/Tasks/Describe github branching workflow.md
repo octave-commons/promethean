@@ -1,7 +1,18 @@
 ## 🛠️ Description
 
-Placeholder task stub generated from kanban board.
-[seperate all testing pipelines in github Actions](seperate%20all%20testing%20pipelines%20in%20github%20Actions.md)
+
+It was gettting too chaotic merging everything into main.
+
+I've been loosely working based off dev -> staging -> main
+But I need to make clear guidelines for when to merge into each.
+
+Cause our test suite/ci are not reliable enough yet.
+
+Our gold standard for main is  "It worked"
+
+Our standard for staging is "It should work"
+
+And dev was "I'm working on it."
 
 ---
 
