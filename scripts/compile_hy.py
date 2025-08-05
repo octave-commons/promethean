@@ -1,24 +1,19 @@
 #!/usr/bin/env python3
-"""Compile Hy source files in ``services/hy`` to Python equivalents in ``services/py``."""
+"""Compile Hy source files to Python equivalents."""
 from pathlib import Path
-
-from hy import reader
 from hy.compiler import hy_compile
+from hy import reader
 import astor
 
-HY_ROOT = Path("services/hy")
-PY_ROOT = Path("services/py")
+HY_FILES = [
+    Path("services/py/discord_attachment_indexer/main.hy"),
+    Path("services/py/discord_indexer/main.hy"),
+    Path("services/py/stt_ws/app.hy"),
+    Path("services/py/whisper_stream_ws/app.hy"),
+]
 
-
-for hy_path in HY_ROOT.rglob("*.hy"):
-    rel = hy_path.relative_to(HY_ROOT)
-    py_path = PY_ROOT / rel.with_suffix(".py")
-    py_path.parent.mkdir(parents=True, exist_ok=True)
-
-    src = hy_path.read_text()
-    try:
-        models = reader.read_many(src)
-        py_ast = hy_compile(models, "__main__", filename=str(hy_path))
-        py_path.write_text(astor.to_source(py_ast))
-    except Exception as exc:
-        print(f"Failed to compile {hy_path}: {exc}")
+for path in HY_FILES:
+    src = path.read_text()
+    models = reader.read_many(src)
+    py_ast = hy_compile(models, "__main__")
+    path.with_suffix(".py").write_text(astor.to_source(py_ast))

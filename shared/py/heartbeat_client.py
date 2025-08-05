@@ -14,8 +14,6 @@ from dataclasses import dataclass
 from typing import Optional
 from urllib import request
 
-HEARTBEAT_PORT = os.environ.get("HEARTBEAT_PORT", 5000)
-
 
 @dataclass
 class HeartbeatClient:
@@ -31,7 +29,7 @@ class HeartbeatClient:
         Seconds between heartbeats when :meth:`start` is used.
     """
 
-    url: str = f"http://127.0.0.1:{HEARTBEAT_PORT}/heartbeat"
+    url: str = "http://127.0.0.1:5000/heartbeat"
     pid: int = os.getpid()
     interval: float = 3.0
 

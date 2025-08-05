@@ -1,9 +1,9 @@
 ## 🛠️ Task: Document-Driven Development for Service Scripts
 
-We are following a **document-driven development** process.
+We are following a **document-driven development** process.  
 This means **each program file must have a corresponding documentation file** that fully describes its behavior, purpose, and relationships—*before or alongside implementation*.
 
-Our documentation structure should **mirror the code structure** one-to-one.
+Our documentation structure should **mirror the code structure** one-to-one.  
 These docs should be so complete and precise that any developer (or LLM) could rebuild the system from documentation alone.
 
 ---
@@ -12,9 +12,9 @@ These docs should be so complete and precise that any developer (or LLM) could r
 
 - Every program file has a corresponding documentation file
 - Each document fully describes:
-- The script's purpose
-- Its internal logic and structure
-- Its role in the larger system
+  - The script's purpose
+  - Its internal logic and structure
+  - Its role in the larger system
 - Documents include **bi-directional links** to relevant dependencies and dependents
 - Enables better AI pair programming, onboarding, and debugging
 
@@ -35,19 +35,19 @@ These docs should be so complete and precise that any developer (or LLM) could r
 
 - [ ] Create matching folder structure in `docs/` or `notes/` (or use vault-wide)
 - [ ] For each existing script:
-- [ ] Create corresponding markdown file
-- [ ] Describe its internal logic clearly
-- [ ] Explain its role in the larger system
-- [ ] Link to:
-- [ ] Files it *depends on*
-- [ ] Files that *depend on it*
+  - [ ] Create corresponding markdown file
+  - [ ] Describe its internal logic clearly
+  - [ ] Explain its role in the larger system
+  - [ ] Link to:
+    - [ ] Files it *depends on*
+    - [ ] Files that *depend on it*
 - [ ] Add tags for epics, services, and layers (e.g. #cephalon, #layer1)
 
 ---
 
 ## 🔗 Related Epics
 
-#cicd #buildtools #devtools #devops
+#cicd #buildtools #devtools #devops  
 #documentation #knowledge-graph #docdrivendev
 
 ---
@@ -70,4 +70,3 @@ Nothing
 - [project-file-structure](project-file-structure.md)
 - [doc-template](doc-template.md)
 - [docdrivendev-principles](docdrivendev-principles.md)
-#todo

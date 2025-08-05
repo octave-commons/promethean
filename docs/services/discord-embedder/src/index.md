@@ -2,7 +2,7 @@
 
 **Path**: `services/discord-embedder/src/index.ts`
 
-**Description**: Embeds Discord messages using ChromaDB with a remote embedding service.
+**Description**: Documentation stub.
 
 ## Dependencies
 - ./embedding

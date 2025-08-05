@@ -1,10 +1,17 @@
+import importlib.util
 from pathlib import Path
-import sys
 
-sys.path.append(str(Path(__file__).resolve().parent))
-from utils import load_script_module
-
-hk = load_script_module("hashtags_to_kanban")
+MODULE_PATH = (
+    Path(__file__).resolve().parent.parent.parent
+    / "scripts"
+    / "hashtags_to_kanban.py"
+)
+spec = importlib.util.spec_from_file_location(
+    "hashtags_to_kanban",
+    MODULE_PATH,
+)
+hk = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(hk)
 
 
 def test_parse_task_with_status(tmp_path):

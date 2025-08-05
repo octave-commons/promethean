@@ -5,16 +5,16 @@ import { PassThrough } from "node:stream";
 import EventEmitter from "node:events";
 import { User } from "discord.js";
 export type RecordingMetaData = {
-  filename: string;
-  userId: string;
-  saveTime: number;
+    filename: string;
+    userId: string;
+    saveTime: number;
 };
 export type VoiceRecorderOptions = {
-  saveDest: string;
+    saveDest: string;
 };
 export declare class VoiceRecorder extends EventEmitter {
-  saveDest: string;
-  constructor(options?: VoiceRecorderOptions);
-  recordPCMStream(saveTime: number, user: User, pcmStream: PassThrough): any;
+    saveDest: string;
+    constructor(options?: VoiceRecorderOptions);
+    recordPCMStream(saveTime: number, user: User, pcmStream: PassThrough): any;
 }
 //# sourceMappingURL=voice-recorder.d.ts.map

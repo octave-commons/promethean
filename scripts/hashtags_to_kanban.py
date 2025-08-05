@@ -7,12 +7,25 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
-try:  # pragma: no cover - fallback for direct execution
-    from .agile_statuses import STATUS_ORDER, STATUS_SET
-except ImportError:  # pragma: no cover
-    from agile_statuses import STATUS_ORDER, STATUS_SET
-
 TASK_DIR = Path("docs/agile/tasks")
+
+# Ordered list of recognized status hashtags
+STATUS_ORDER = [
+    "#ice-box",
+    "#incoming",
+    "#rejected",
+    "#accepted",
+    "#prompt-refinement",
+    "#agent-thinking",
+    "#breakdown",
+    "#blocked",
+    "#ready",
+    "#todo",
+    "#in-progress",
+    "#in-review",
+    "#done",
+]
+STATUS_SET = set(STATUS_ORDER)
 
 TITLE_RE = re.compile(r"^##\s+🛠️\s+Task:\s*(.+)")
 HASHTAG_RE = re.compile(r"#([A-Za-z0-9_-]+)")

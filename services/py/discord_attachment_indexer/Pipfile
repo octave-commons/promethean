@@ -9,7 +9,6 @@ pandas = "*"
 dotenv = "*"
 pymongo = "*"
 pytest-asyncio = "*"
-hy = "*"
 
 [dev-packages]
 pytest-cov = "*"

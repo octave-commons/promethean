@@ -1,3 +1,4 @@
+// scripts/patch-imports.js
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -6,16 +7,13 @@ const DIST_DIR = path.resolve('./dist');
 async function patchFile(filePath) {
 	let content = await fs.readFile(filePath, 'utf8');
 
-	// Match import/export statements with relative paths (./ or ../)
-	const result = content.replace(/(from\s+['"])(\.{1,2}\/[^'"]+?)(['"])/g, (_, prefix, importPath, suffix) => {
-		// Add .js unless it already ends with .js or .mjs or contains query params
-		if (importPath.endsWith('.js') || importPath.endsWith('.mjs') || importPath.includes('?')) {
-			return `${prefix}${importPath}${suffix}`;
-		}
-		return `${prefix}${importPath}.js${suffix}`;
+	// Match bare relative imports like './bot' or '../thing'
+	content = content.replace(/(from\s+['"])(\.\/[^'"]+?)(['"])/g, (_, p1, p2, p3) => {
+		if (p2.endsWith('.js') || p2.includes('?')) return `${p1}${p2}${p3}`; // skip already patched or dynamic
+		return `${p1}${p2}.js${p3}`;
 	});
 
-	await fs.writeFile(filePath, result);
+	await fs.writeFile(filePath, content);
 }
 
 async function walk(dir) {
@@ -33,4 +31,4 @@ async function walk(dir) {
 }
 
 await walk(DIST_DIR);
-console.log('✅ All relative imports patched to use .js');
+console.log('✅ Imports patched to include .js extensions.');

@@ -1,7 +1,8 @@
 import { Collection as ChromaCollection, ChromaClient } from 'chromadb';
-import { RemoteEmbeddingFunction } from './embedding';
 import { Collection, MongoClient, ObjectId, OptionalUnlessRequiredId, WithId } from 'mongodb';
-import { AGENT_NAME } from '../../../../shared/js/env.js';
+import * as dotenv from 'dotenv';
+dotenv.config({ path: '../../.env' });
+const AGENT_NAME = process.env.AGENT_NAME || 'duck';
 const chromaClient = new ChromaClient();
 const mongoClient = new MongoClient(process.env.MONGODB_URI || 'mongodb://localhost:27017');
 import crypto from 'crypto';
@@ -50,10 +51,7 @@ export class CollectionManager<TextKey extends string = 'text', TimeKey extends 
 		timeStampKey: TTimeKey,
 	) {
 		const collectionName = `${AGENT_NAME}_${name}`;
-		const chromaCollection = await chromaClient.getOrCreateCollection({
-			name: collectionName,
-			embeddingFunction: new RemoteEmbeddingFunction(),
-		});
+		const chromaCollection = await chromaClient.getOrCreateCollection({ name: collectionName });
 		const db = mongoClient.db('database');
 		const mongoCollection = db.collection<CollectionEntry<TTextKey, TTimeKey>>(collectionName);
 		return new CollectionManager(collectionName, chromaCollection, mongoCollection, textKey, timeStampKey);

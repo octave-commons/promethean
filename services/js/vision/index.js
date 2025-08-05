@@ -13,7 +13,7 @@ export function setCaptureFn(fn) {
 }
 
 export async function start(port = process.env.PORT || 5003) {
-  const hb = new HeartbeatClient({ name: process.env.name || "vision" });
+  const hb = new HeartbeatClient();
   await hb.sendOnce();
   hb.start();
   return app.listen(port, () => {

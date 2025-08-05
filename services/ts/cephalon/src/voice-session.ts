@@ -17,11 +17,6 @@ import { VoiceRecorder } from './voice-recorder';
 import { Bot } from './bot';
 import { VoiceSynth } from './voice-synth';
 import EventEmitter from 'events';
-import { renderWaveForm } from './audioProcessing/waveform';
-import { generateSpectrogram } from './audioProcessing/spectrogram';
-import { captureScreen } from './desktop/desktopLoop';
-import { readFile } from 'fs/promises';
-import { decode } from 'wav-decoder';
 /**
    Handles all things voice. Emits an event when a user begins speaking, and when they stop speaking
    the start speaking event will have a timestamp and a wav  stream.
@@ -31,13 +26,6 @@ export type VoiceSessionOptions = {
 	voiceChannelId: string;
 	guild: discord.Guild;
 	bot: Bot;
-};
-type CaptureDeps = {
-	renderWaveForm: typeof renderWaveForm;
-	generateSpectrogram: typeof generateSpectrogram;
-	captureScreen: typeof captureScreen;
-	readFile: typeof readFile;
-	decode: typeof decode;
 };
 export class VoiceSession extends EventEmitter {
 	id: UUID;
@@ -51,8 +39,7 @@ export class VoiceSession extends EventEmitter {
 	recorder: VoiceRecorder;
 	voiceSynth: VoiceSynth;
 	bot: Bot;
-	deps: CaptureDeps;
-	constructor(options: VoiceSessionOptions, deps: Partial<CaptureDeps> = {}) {
+	constructor(options: VoiceSessionOptions) {
 		super();
 		this.id = randomUUID();
 		this.guild = options.guild;
@@ -64,41 +51,13 @@ export class VoiceSession extends EventEmitter {
 		// this.transcript = new Transcript();
 		this.transcriber = new Transcriber();
 		this.recorder = new VoiceRecorder();
-		this.deps = {
-			renderWaveForm,
-			generateSpectrogram,
-			captureScreen,
-			readFile,
-			decode,
-			...deps,
-		};
-		this.recorder.on('saved', async ({ filename, saveTime }) => {
-			const channel = this.bot.captureChannel;
+		this.recorder.on('saved', async ({ filename }) => {
+			const channel = this.bot.waveformChannel;
 			if (channel) {
 				try {
-					const wavBuffer = await this.deps.readFile(filename);
-					const files: any[] = [filename];
-					try {
-						const { channelData } = await this.deps.decode(wavBuffer);
-						const data = channelData[0];
-						if (data) {
-							const waveForm = await this.deps.renderWaveForm(data, { width: 1024, height: 256 });
-							files.push({ attachment: waveForm, name: `waveform-${saveTime}.png` });
-						}
-						const spectrogram = await this.deps.generateSpectrogram(wavBuffer);
-						files.push({ attachment: spectrogram, name: `spectrogram-${saveTime}.png` });
-					} catch (err) {
-						console.warn('Failed to generate waveform or spectrogram', err);
-					}
-					try {
-						const screen = await this.deps.captureScreen();
-						if (screen.length) files.push({ attachment: screen, name: `screencap-${saveTime}.png` });
-					} catch (err) {
-						console.warn('Failed to capture screen', err);
-					}
-					await channel.send({ files });
+					await channel.send({ files: [filename] });
 				} catch (e) {
-					console.warn('Failed to upload captures', e);
+					console.warn('Failed to upload waveform', e);
 				}
 			}
 		});

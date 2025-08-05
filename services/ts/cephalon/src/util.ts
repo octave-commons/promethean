@@ -37,5 +37,3 @@ ${promptChoice}
 Talk to the user about the image on the screen and engage with the conversation.
 `;
 }
-
-export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
