@@ -6,11 +6,13 @@ This repository contains a modular multi‑agent architecture. To start shared i
 pm2 start ecosystem.config.js
 ```
 
-Then start individual agents, for example Duck, using the agent config:
+Then start individual agents using their own ecosystem file. For Duck you would
+run:
 
 ```bash
-pm2 start agents/ecosystem.config.js
+pm2 start agents/duck/ecosystem.config.js
 ```
+Choose the config inside `agents/<agent>/` for other agents.
 
 Set `AGENT_NAME` in your environment before launching agent services to isolate collections and data.
 Promethean is a modular cognitive architecture for building embodied AI agents. It breaks the system into small services that handle speech-to-text, text-to-speech, memory, and higher level reasoning. Agents such as **Duck** combine these services to create an interactive assistant with emotional state and memory.
@@ -93,6 +95,7 @@ all available settings.
 
 Common tasks are wrapped in the root `Makefile`:
 
+- `make install` – attempt a quick dependency install and fall back to full setup if needed
 - `make setup` – install dependencies across all services
 - `make build` – transpile Hy, Sibilant and TypeScript sources
 - `make start` – launch shared services defined in `ecosystem.config.js` via PM2

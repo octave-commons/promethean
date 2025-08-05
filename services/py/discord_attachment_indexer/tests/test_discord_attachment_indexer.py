@@ -1,15 +1,17 @@
 import os
 import sys
+from pathlib import Path
 import importlib
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-sys.path.insert(
-    0, os.path.join(os.path.dirname(__file__), "../../../../", "shared", "py")
-)
 
 import pytest
 import asyncio
 import discord
+
+
+# Ensure service and repository roots are on the import path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[4]))
 
 
 class MemoryCollection:
@@ -105,6 +107,20 @@ def setup_env(monkeypatch):
     monkeypatch.setenv("DISCORD_CLIENT_USER_ID", "1")
     monkeypatch.setenv("DISCORD_CLIENT_USER_NAME", "client")
     monkeypatch.setattr(discord.Client, "run", lambda self, token: None)
+
+    class DummyHB:
+        def send_once(self):
+            pass
+
+        def start(self):
+            pass
+
+        def stop(self):
+            pass
+
+    monkeypatch.setattr(
+        "shared.py.heartbeat_client.HeartbeatClient", lambda *a, **k: DummyHB()
+    )
 
 
 def load_indexer(monkeypatch):

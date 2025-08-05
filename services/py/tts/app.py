@@ -1,5 +1,8 @@
 from fastapi import FastAPI, Form, Response
 import io
+import sys
+
+print(sys.path)
 from shared.py.heartbeat_client import HeartbeatClient
 
 from safetensors.torch import load_file
@@ -10,6 +13,7 @@ import nltk
 import soundfile as sf
 import torch
 import numpy as np
+import os
 from transformers import FastSpeech2ConformerTokenizer, FastSpeech2ConformerWithHifiGan
 
 nltk.download("averaged_perceptron_tagger_eng")
@@ -32,7 +36,15 @@ def shutdown_event():
     hb.stop()
 
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# Load the model and processor
+from transformers import (
+    FastSpeech2ConformerTokenizer,
+    FastSpeech2ConformerWithHifiGan,
+)
+import torch
+
+# Ensure GPU usage
+device = "cuda" if torch.cuda.is_available() else "cpu"
 print("Running on device", device)
 
 tokenizer = FastSpeech2ConformerTokenizer.from_pretrained(
@@ -49,6 +61,7 @@ def synthesize(text: str) -> np.ndarray:
     with torch.no_grad():
         output = model(input_ids, return_dict=True)
         return output.waveform.squeeze().cpu().numpy()
+
 
 @app.post("/synth_voice_pcm")
 def synth_voice_pcm(input_text: str = Form(...)):

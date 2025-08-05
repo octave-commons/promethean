@@ -9,7 +9,7 @@ We may have to make a seperate service for embeddings in python.
 
 I think that was mostly a javascript problem.
 
-If we just don't do any ML in js for  now,  we shouldn't have any problems.
+If we just don't do any ML in js for now, we shouldn't have any problems.
 
 
 
@@ -52,3 +52,4 @@ Nothing
 ## 🔍 Relevant Links
 
 - [kanban](../boards/kanban.md)
+#todo
