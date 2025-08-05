@@ -37,7 +37,7 @@ def test_websocket_tts_returns_wav_bytes():
                 "shared.py.speech.tts": dummy_module,
             },
         ):
-            app_module = importlib.import_module("services.py.tts.ws")
+            app_module = importlib.import_module("services.py.tts.app")
             client = TestClient(app_module.app)
             with client.websocket_connect("/ws/tts") as websocket:
                 websocket.send_text("hello")

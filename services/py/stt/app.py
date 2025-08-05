@@ -1,17 +1,27 @@
-from fastapi import FastAPI, Request, Header, Query, HTTPException
+from fastapi import (
+    FastAPI,
+    Request,
+    Header,
+    Query,
+    HTTPException,
+    WebSocket,
+    WebSocketDisconnect,
+)
 from fastapi.responses import JSONResponse
 
-# from lib.speech.wisper_stt import transcribe_pcm
 import asyncio
-
+import base64
+import json
 import sys
 
 sys.path.append("../../../")
 from shared.py.speech.wisper_stt import transcribe_pcm
+from shared.py.speech.whisper_stream import WhisperStreamer
+from shared.py.utils import websocket_endpoint
 from shared.py.heartbeat_client import HeartbeatClient
 
 app = FastAPI()
-
+streamer = None
 hb = HeartbeatClient()
 
 
@@ -46,3 +56,39 @@ async def transcribe_pcm_endpoint(
     transcription = transcribe_pcm(pcm_data, x_sample_rate)
     # print("final transcription", transcription)
     return {"transcription": transcription}
+
+
+@app.websocket("/transcribe")
+@websocket_endpoint
+async def transcribe_ws(ws: WebSocket):
+    try:
+        msg = await ws.receive_text()
+        payload = json.loads(msg)
+        pcm_b64 = payload.get("pcm")
+        if pcm_b64 is None:
+            await ws.close(code=1003)
+            return
+        sample_rate = int(payload.get("sample_rate", 16000))
+        pcm_bytes = base64.b64decode(pcm_b64)
+        text = transcribe_pcm(bytearray(pcm_bytes), sample_rate)
+        await ws.send_json({"transcription": text})
+    except WebSocketDisconnect:
+        pass
+
+
+@app.websocket("/stream")
+@websocket_endpoint
+async def stream(ws: WebSocket):
+    global streamer
+    try:
+        while True:
+            if streamer is None:
+                streamer = WhisperStreamer()
+            data = await ws.receive_bytes()
+            text = next(streamer.transcribe_chunks([data]))
+            await ws.send_json({"transcription": text})
+    except WebSocketDisconnect:
+        pass
+    finally:
+        if ws.client_state.name != "CLOSED":
+            await ws.close()

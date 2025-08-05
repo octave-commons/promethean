@@ -27,8 +27,6 @@ const services = [
   "services/hy/discord_indexer",
   "services/hy/discord_attachment_indexer",
   "services/hy/discord_attachment_embedder",
-  "services/hy/stt_ws",
-  "services/hy/whisper_stream_ws",
 ];
 
 async function runTests() {
