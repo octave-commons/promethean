@@ -1,0 +1,7 @@
+# Markdownlint configuration for Promethean docs
+# Enable default rules but allow longer lines and disable duplicate heading rule
+MD013:
+  line_length: 120
+MD041: false
+MD024:
+  siblings_only: true
