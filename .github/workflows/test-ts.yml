@@ -46,7 +46,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('services/ts/' + matrix.service + '/package-lock.json') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles(format('services/ts/{0}/package-lock.json', matrix.service)) }}
           restore-keys: |
             ${{ runner.os }}-npm-
 
