@@ -11,8 +11,8 @@ import pytest
 from chromadb.utils.embedding_functions import EmbeddingFunction
 
 
-class EmbeddingFn:
-    def name():
+class EmbeddingFn(EmbeddingFunction):
+    def name(self) -> str:
         return "test"
 
     def __call__(self, input: list[str]) -> list[list[float]]:
@@ -60,7 +60,9 @@ def test_process_message(monkeypatch):
     monkeypatch.setattr(mod, "discord_message_collection", mem)
     client = chromadb.Client()
 
-    collection = client.get_or_create_collection("test", embedding_function=EmbeddingFn)
+    collection = client.get_or_create_collection(
+        "test", embedding_function=EmbeddingFn()
+    )
     mod.process_message(message, collection)
     assert collection.count() == 2
     assert mem.docs[0].get("embedded") is True
