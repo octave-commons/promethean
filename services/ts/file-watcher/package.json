@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc && node scripts/patch-imports.js",
+    "prestart": "npm run build",
     "start": "node dist/index.js",
     "start:dev": "node --loader ts-node/esm src/index.ts",
     "build:check": "tsc --noEmit --incremental false",
