@@ -3,6 +3,7 @@ import argparse
 import time
 import websockets
 
+
 async def run_benchmark(host, port, text, iterations):
     uri = f"ws://{host}:{port}/ws/tts"
     latencies = []
@@ -19,7 +20,7 @@ async def run_benchmark(host, port, text, iterations):
 def main():
     parser = argparse.ArgumentParser(description="Benchmark TTS WebSocket service")
     parser.add_argument("--host", default="localhost")
-    parser.add_argument("--port", type=int, default=5003)
+    parser.add_argument("--port", type=int, default=5004)
     parser.add_argument("--text", default="hello world")
     parser.add_argument("-n", "--iterations", type=int, default=10)
     args = parser.parse_args()

@@ -2,6 +2,8 @@ import express from "express";
 import { MongoClient } from "mongodb";
 import { createRequire } from "module";
 import path from "path";
+import fs from "fs";
+import pidusage from "pidusage";
 
 export const app = express();
 app.use(express.json());
@@ -17,6 +19,30 @@ let collection;
 let interval;
 let server;
 let allowedInstances = {};
+
+async function getProcessMetrics(pid) {
+  const metrics = { cpu: 0, memory: 0, netRx: 0, netTx: 0 };
+  try {
+    const { cpu, memory } = await pidusage(pid);
+    metrics.cpu = cpu;
+    metrics.memory = memory;
+  } catch (err) {
+    console.warn(`failed to get cpu/memory for pid ${pid}`, err);
+  }
+  try {
+    const data = fs.readFileSync(`/proc/${pid}/net/dev`, "utf8");
+    for (const line of data.trim().split("\n").slice(2)) {
+      const parts = line.trim().split(/\s+/);
+      if (parts.length >= 17) {
+        metrics.netRx += parseInt(parts[1], 10) || 0;
+        metrics.netTx += parseInt(parts[9], 10) || 0;
+      }
+    }
+  } catch (err) {
+    // ignore network stats errors
+  }
+  return metrics;
+}
 
 function loadConfig() {
   try {
@@ -58,12 +84,13 @@ app.post("/heartbeat", async (req, res) => {
         .json({ error: `instance limit exceeded for ${name}` });
     }
   }
+  const metrics = await getProcessMetrics(pid);
   await collection.updateOne(
     { pid },
-    { $set: { last: now, name }, $unset: { killedAt: "" } },
+    { $set: { last: now, name, ...metrics }, $unset: { killedAt: "" } },
     { upsert: true },
   );
-  res.json({ status: "ok", pid, name });
+  res.json({ status: "ok", pid, name, ...metrics });
 });
 
 export async function monitor(now = Date.now()) {

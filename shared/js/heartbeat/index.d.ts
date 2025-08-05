@@ -1,10 +1,13 @@
+
+export interface HeartbeatOptions {
+  url?: string;
+  pid?: number;
+  name?: string;
+  interval?: number;
+}
+
 export class HeartbeatClient {
-  constructor(options?: {
-    url?: string;
-    pid?: number;
-    name?: string;
-    interval?: number;
-  });
+  constructor(options?: HeartbeatOptions);
   sendOnce(): Promise<any>;
   start(): void;
   stop(): void;
