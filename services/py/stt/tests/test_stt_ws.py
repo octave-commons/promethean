@@ -1,4 +1,5 @@
 import base64
+import base64
 import json
 import os
 import sys
@@ -28,7 +29,7 @@ def test_websocket_transcription(monkeypatch):
 
     import importlib
 
-    app_module = importlib.import_module("services.py.stt_ws.app")
+    app_module = importlib.import_module("services.py.stt.app")
     client = TestClient(app_module.app)
     import types
 

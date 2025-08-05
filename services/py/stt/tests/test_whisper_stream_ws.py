@@ -1,4 +1,5 @@
 import os
+import os
 import sys
 
 sys.path.insert(
@@ -35,7 +36,7 @@ def test_ws_stream(monkeypatch):
 
     import importlib
 
-    app_module = importlib.import_module("services.py.whisper_stream_ws.app")
+    app_module = importlib.import_module("services.py.stt.app")
     dummy = DummyStreamer()
     monkeypatch.setattr(app_module, "streamer", dummy)
     client = TestClient(app_module.app)
