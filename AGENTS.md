@@ -213,7 +213,7 @@ train_cephalon_align_lora.py
 
 All contributions must be validated locally before opening a pull request:
 
-1. Run `make install` for the relevant services.
+1. Run `make setup` for the relevant services.
 2. Run `make test` for the relevant services.
 3. Run `make build` to ensure all modules compile correctly.
 4. Run `make lint` to check code style and formatting.
