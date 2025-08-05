@@ -7,7 +7,6 @@
 (import os.path [isdir])
 (import sys)
 
-
 ;; -----------------------------------------------------------------------------
 ;; Service List Definitions
 ;; -----------------------------------------------------------------------------
@@ -89,6 +88,17 @@
 (defn-cmd test-python []
   (test-python-services)
   (test-shared-python))
+
+(defn-cmd test-hy-service [service]
+  (print (.format "Running tests for Hy service: {}" service))
+  (sh "hy -m pytest tests/" :cwd (join "services/hy" service) :shell True))
+
+(defn-cmd test-hy-services []
+  (run-dirs SERVICES_HY "echo 'Running tests in $PWD...' && hy -m pytest tests/" :shell True))
+
+(defn-cmd test-hy []
+  (test-hy-services))
+
 
 (defn-cmd coverage-python-service [service]
   (print (.format "Running coverage for Python service: {}" service))
@@ -231,6 +241,9 @@
   (print (.format "Setting up Hy service: {}" service))
   (sh ["pipenv" "install" "--dev"] :cwd (join "services" service)))
 
+(defn-cmd compile-hy []
+  (sh ["python" "scripts/compile_hy.py"]))
+
 ;; Root targets ---------------------------------------------------------------
 (defn-cmd build []
   (build-js)
@@ -247,6 +260,7 @@
 
 (defn-cmd test []
   (test-python)
+  (test-hy)
   (test-js)
   (test-ts))
 
@@ -343,60 +357,6 @@
 
 (defn-cmd generate-requirements []
   (generate-python-requirements))
-
-;; Dispatch -------------------------------------------------------------------
-(setv commands
-      {
-       "all" build
-       "build" build
-       "clean" clean
-       "lint" lint
-       "format" format
-       "test" test
-       "coverage" coverage
-       "setup" setup
-       "setup-quick" setup-quick
-       "install" install
-       "install-gha-artifacts" install-gha-artifacts
-       "system-deps" system-deps
-       "start" start
-       "stop" stop
-       "board-sync" board-sync
-       "kanban-from-tasks" kanban-from-tasks
-       "kanban-to-hashtags" kanban-to-hashtags
-       "kanban-to-issues" kanban-to-issues
-       "simulate-ci" simulate-ci
-       "docker-build" docker-build
-       "docker-up" docker-up
-       "docker-down" docker-down
-       "setup-hy" setup-hy
-       "lint-python" lint-python
-       "lint-js" lint-js
-       "lint-ts" lint-ts
-       "format-python" format-python
-       "format-js" format-js
-       "format-ts" format-ts
-       "test-python" test-python
-       "test-js" test-js
-       "test-ts" test-ts
-       "coverage-python" coverage-python
-       "coverage-js" coverage-js
-       "coverage-ts" coverage-ts
-       "build-js" build-js
-       "build-ts" build-ts
-       "clean-js" clean-js
-       "clean-ts" clean-ts
-       "setup-python" setup-python
-       "setup-js" setup-js
-       "setup-ts" setup-ts
-       
-       "typecheck-python" typecheck-python
-       "typecheck-ts" typecheck-ts
-       "setup-python-quick" setup-python-quick
-       "generate-requirements" generate-requirements
-       "setup-pipenv" setup-pipenv
-       })
-
 
 (define-patterns
   ["python"
