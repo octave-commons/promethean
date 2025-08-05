@@ -25,6 +25,7 @@ Why are they your goals?
 `,
 		format: innerStateFormat,
 	})) as Partial<AgentInnerState>;
+	console.log('saving new state', newState);
 	await this.updateInnerState(newState);
 	this.isThinking = false;
 }

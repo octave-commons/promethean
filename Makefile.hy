@@ -1,7 +1,14 @@
 (import shutil)
 (import util [sh run-dirs])
-(require macros [define-patterns define-service-list defn-cmd list-comp])
+(import dotenv [load-dotenv])
+(import os.path [isdir join])
+(load-dotenv)
+(require macros [ define-service-list defn-cmd ])
 
+(defn define-patterns [#* groups]
+      (lfor [lang commands] groups
+            [action fn] commands
+            [(+ action "-" lang "-service-") fn]))
 (import glob)
 
 (import os.path [isdir])
@@ -362,35 +369,35 @@
 (defn-cmd generate-requirements []
   (generate-python-requirements))
 
-(define-patterns
-  ["python"
-   [["setup" setup-python-service]
-    ["test" test-python-service]
-    ["coverage" coverage-python-service]
-    ["lint" lint-python-service]]]
+(setv patterns (define-patterns
+                   ["python"
+                 [["setup" setup-python-service]
+                 ["test" test-python-service]
+                 ["coverage" coverage-python-service]
+                 ["lint" lint-python-service]]]
 
-  ["js"
-   [["setup" setup-js-service]
-    ["test" test-js-service]
-    ["coverage" coverage-js-service]
-    ["lint" lint-js-service]]]
+                 ["js"
+                 [["setup" setup-js-service]
+                 ["test" test-js-service]
+                 ["coverage" coverage-js-service]
+                 ["lint" lint-js-service]]]
 
-  ["ts"
-   [["setup" setup-ts-service]
-    ["test" test-ts-service]
-    ["coverage" coverage-ts-service]
-    ["lint" lint-ts-service]]]
+                 ["ts"
+                 [["setup" setup-ts-service]
+                 ["test" test-ts-service]
+                 ["coverage" coverage-ts-service]
+                 ["lint" lint-ts-service]]]
 
-  ["hy"
-   [["setup" setup-hy-service]]]
+                 ["hy"
+                 [["setup" setup-hy-service]]]
 
-  ["sibilant"
-   [["setup" setup-sibilant-service]]]
+                 ["sibilant"
+                 [["setup" setup-sibilant-service]]]
 
-  [""
-   [["start" start-service]
-    ["stop" stop-service]
-    ["generate-requirements" generate-requirements-service]]])
+                 [""
+                 [["start" start-service]
+                 ["stop" stop-service]
+                 ["generate-requirements" generate-requirements-service]]]))
 
 (defn main []
   (if (< (len sys.argv) 2)
@@ -411,4 +418,5 @@
 
 (when (= __name__ "__main__")
   ;; (print (str (. commands [0] [0])))
+  (print "patterns" patterns)
   (main))
