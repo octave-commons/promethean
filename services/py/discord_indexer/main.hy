@@ -14,8 +14,16 @@
 (setv intents ((. discord.Intents default)))
 (setv client (discord.Client :intents intents))
 (setv intents.message_content True)
-(defn format_message [message] (setv channel message.channel) (setv author message.author) (if (hasattr channel "name") (do (setv channel_name channel.name)) (do (setv channel_name f"DM from {(. channel.recipient name)}"))) (return {"id" message.id  "recipient" settings.DISCORD_CLIENT_USER_ID  "recipient_name" settings.DISCORD_CLIENT_USER_NAME  "created_at" (str message.created_at)  "raw_mentions" message.raw_mentions  "author_name" author.name  "guild" (. message.guild id)  "channel_name" channel_name  "content" message.content  "author" author.id  "channel" channel.id}))
-(defn (annotate setup_channel None) [channel_id] "\n    Setup a channel for indexing.\n    " (print f"Setting up channel {channel_id}") (discord_channel_collection.insert_one {"id" channel_id  "cursor" None}))
+(defn format_message [message]
+  (setv channel message.channel)
+  (setv author message.author)
+  (if (hasattr channel "name")
+      (do (setv channel_name channel.name))
+      (do (setv channel_name f"DM from {(. channel.recipient name)}")))
+  (return {"id" message.id  "recipient" settings.DISCORD_CLIENT_USER_ID  "recipient_name" settings.DISCORD_CLIENT_USER_NAME  "created_at" (str message.created_at)  "raw_mentions" message.raw_mentions  "author_name" author.name  "guild" (. message.guild id)  "channel_name" channel_name  "content" message.content  "author" author.id  "channel" channel.id}))
+
+(defn (annotate setup_channel None) [channel_id]
+  "\n    Setup a channel for indexing.\n    " (print f"Setting up channel {channel_id}") (discord_channel_collection.insert_one {"id" channel_id  "cursor" None}))
 (defn (annotate update_cursor None) [(annotate message discord.Message)] "\n    Update the cursor for a channel.\n    " (print f"Updating cursor for channel {(. message.channel id)} to {message.id}") (discord_channel_collection.update_one {"id" (. message.channel id)} {"$set" {"cursor" message.id}}))
 (defn (annotate index_message None) [(annotate message discord.Message)] "\n    Index a message only if it has not already been added to mongo.\n    " (setv message_record (discord_message_collection.find_one {"id" message.id})) (if (is message_record None) (do (print f"Indexing message {message.id} {message.content}") (discord_message_collection.insert_one (format_message message))) (do (print f"Message {message.id} already indexed") (print message_record))))
 (defn find_channel_record [channel_id] "\n    Find the record for a channel.\n    " (print f"Finding channel record for {channel_id}") (setv record (discord_channel_collection.find_one {"id" channel_id})) (if (is record None) (do (print f"No record found for {channel_id}") (setup_channel channel_id) (setv record (discord_channel_collection.find_one {"id" channel_id}))) (do (print f"Found channel record for {channel_id}"))) (print f"Channel record: {record}") (return record))

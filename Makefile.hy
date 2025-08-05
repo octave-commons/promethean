@@ -1,15 +1,27 @@
 (import shutil)
-(import [util [sh run-dirs]])
-(require [macros [define-patterns define-service-list defn-cmd-cmd]])
+(import util [sh run-dirs])
+(require macros [define-patterns define-service-list defn-cmd list-comp])
+
+(import glob)
+
+(import os.path [isdir])
+(import sys)
 
 
 ;; -----------------------------------------------------------------------------
 ;; Service List Definitions
 ;; -----------------------------------------------------------------------------
+
+
 (define-service-list SERVICES_PY "services/py")
 (define-service-list SERVICES_JS "services/js")
 (define-service-list SERVICES_TS "services/ts")
 (setv commands [])
+
+
+(defn-cmd setup-python-services []
+  (print "Setting up Python services...")
+  (run-dirs SERVICES_PY "python -m pipenv sync --dev" :shell True))
 
 
 ;; Python helpers --------------------------------------------------------------
@@ -20,10 +32,6 @@
         (sh ["python" "-m" "pip" "install" "--upgrade" "pip"])
         (print "installing pipenv")
         (sh ["python" "-m" "pip" "install" "pipenv"]))))
-
-(defn-cmd setup-python-services []
-  (print "Setting up Python services...")
-  (run-dirs SERVICES_PY "python -m pipenv sync --dev" :shell True))
 
 (defn-cmd generate-python-shared-requirements []
   (sh "python -m pipenv requirements > requirements.txt" :cwd "shared/py" :shell True))
