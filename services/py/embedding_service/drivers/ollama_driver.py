@@ -13,7 +13,7 @@ class OllamaDriver(EmbeddingDriver):
         self.url = url or "http://localhost:11434/api/embeddings"
 
     def list_functions(self) -> List[str]:
-        return ["nomic-embed-text", "all-minilm"]
+        return ["nomic-embed-text", "all-minilm", "chroma/all-minilm-l6-v2-f32"]
 
     @lru_cache(maxsize=1)
     def load(self, fn: str) -> str:

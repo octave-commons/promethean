@@ -49,7 +49,7 @@ jobs:
             ${{ runner.os }}-npm-
 
       - name: Install dependencies
-        run: make system-deps setup-python-service-${{ matrix.service }}
+        run: make system-deps setup-pipenv setup-python-service-${{ matrix.service }}
 
       - name: Run tests
         run: make test-python-service-${{ matrix.service }}
