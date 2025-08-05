@@ -45,7 +45,7 @@ jobs:
             ${{ runner.os }}-npm-
 
       - name: Install dependencies
-        run: make install
+        run: make setup
 
       - name: Install lint dependencies
         run: python -m pip install flake8
