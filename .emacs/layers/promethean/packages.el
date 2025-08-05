@@ -4,6 +4,7 @@
   '(
     smartparens
     rainbow-delimiters
+    company
     promethean-hy-mode
     promethean-sibilant-mode
     promethean-lisp-mode
