@@ -6,6 +6,11 @@ repos:
         entry: python scripts/convert_wikilinks.py
         language: system
         files: '\.md$'
+      - id: add-tags-ollama
+        name: Append tags with ollama
+        entry: python scripts/add_tags_ollama.py
+        language: system
+        pass_filenames: false
   - repo: https://github.com/psf/black
     rev: 24.4.2
     hooks:
