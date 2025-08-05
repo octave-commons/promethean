@@ -10,30 +10,55 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - vision
+          - heartbeat
 
     steps:
       - uses: actions/checkout@v3
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: "20"
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install Hy
+        run: python -m pip install hy
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('services/js/' + matrix.service + '/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
 
       - name: Install dependencies
-        run: make system-deps  setup-js
-
+        run: make system-deps setup-js-service-${{ matrix.service }}
 
       - name: Run tests
-        run: make test-js
+        run: make test-js-service-${{ matrix.service }}
 
-      # - name: Upload Python coverage
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: python-coverage
-      #     path: coverage.xml
+      - name: Generate coverage report
+        run: make coverage-js-service-${{ matrix.service }}
 
-      # - name: Upload JS coverage
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: js-coverage
-      #     path: coverage
-
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: services/js/${{ matrix.service }}/coverage/lcov.info
+          flags: js-${{ matrix.service }}

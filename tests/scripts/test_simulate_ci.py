@@ -1,10 +1,10 @@
-import importlib.util
 from pathlib import Path
+import sys
 
-MODULE_PATH = Path(__file__).resolve().parents[2] / "scripts" / "simulate_ci.py"
-spec = importlib.util.spec_from_file_location("simulate_ci", MODULE_PATH)
-sc = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(sc)
+sys.path.append(str(Path(__file__).resolve().parent))
+from utils import load_script_module
+
+sc = load_script_module("simulate_ci")
 
 
 def test_collect_jobs(tmp_path):
