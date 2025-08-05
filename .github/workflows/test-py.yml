@@ -36,7 +36,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('services/py/' + matrix.service + '/Pipfile.lock') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles(format('services/py/{0}/Pipfile.lock', matrix.service)) }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
