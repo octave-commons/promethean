@@ -2,6 +2,8 @@ import express from "express";
 import { MongoClient } from "mongodb";
 import { createRequire } from "module";
 import path from "path";
+import fs from "fs";
+import pidusage from "pidusage";
 
 export const app = express();
 app.use(express.json());
@@ -17,6 +19,45 @@ let collection;
 let interval;
 let server;
 let allowedInstances = {};
+
+async function collectMetrics(now = Date.now()) {
+  const active = await collection
+    .find({
+      last: { $gte: now - HEARTBEAT_TIMEOUT },
+      killedAt: { $exists: false },
+    })
+    .toArray();
+  for (const doc of active) {
+    try {
+      const stats = await pidusage(doc.pid);
+      const { rx, tx } = getNetUsage(doc.pid);
+      await collection.updateOne(
+        { pid: doc.pid },
+        { $set: { cpu: stats.cpu, memory: stats.memory, rx, tx } },
+      );
+    } catch (err) {
+      console.warn(`failed to collect metrics for pid ${doc.pid}`, err);
+    }
+  }
+}
+
+function getNetUsage(pid) {
+  try {
+    const data = fs.readFileSync(`/proc/${pid}/net/dev`, "utf8");
+    let rx = 0;
+    let tx = 0;
+    for (const line of data.split("\n").slice(2)) {
+      const parts = line.trim().split(/\s+/);
+      if (parts.length >= 10) {
+        rx += parseInt(parts[1], 10) || 0;
+        tx += parseInt(parts[9], 10) || 0;
+      }
+    }
+    return { rx, tx };
+  } catch {
+    return { rx: 0, tx: 0 };
+  }
+}
 
 function loadConfig() {
   try {
@@ -67,6 +108,7 @@ app.post("/heartbeat", async (req, res) => {
 });
 
 export async function monitor(now = Date.now()) {
+  await collectMetrics(now);
   const stale = await collection
     .find({ last: { $lt: now - HEARTBEAT_TIMEOUT } })
     .toArray();
