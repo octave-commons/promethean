@@ -3,8 +3,8 @@ import type { EmbeddingFunction, EmbeddingFunctionSpace } from 'chromadb';
 export class RemoteEmbeddingFunction implements EmbeddingFunction {
 	name = 'remote';
 	url: string;
-	driver?: string;
-	fn?: string;
+	driver: string | undefined;
+	fn: string | undefined;
 
 	constructor(
 		url = process.env.EMBEDDING_SERVICE_URL || 'http://localhost:8000/embed',
