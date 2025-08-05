@@ -253,7 +253,7 @@ export class AIAgent extends EventEmitter {
 			return this.emit('speechTick', this.audioPlayer);
 		}
 
-		if (this.ticksSinceLastThought > 50) {
+		if (this.ticksSinceLastThought > 10) {
 			if (!this.isThinking && !this.isSpeaking) {
 				console.log('Thinking');
 				try {
