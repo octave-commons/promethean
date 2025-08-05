@@ -3,6 +3,7 @@
 Tracks process heartbeats via HTTP and terminates those that fail to report within a timeout.
 Backed by MongoDB for storage. Intended for detecting and cleaning up hung or orphaned worker processes.
 Also enforces the instance limits defined in a PM2 ecosystem file, rejecting registrations that exceed the configured count for a given app name.
+The service now records CPU, memory, and network usage for active PIDs.
 
 ## API
 
