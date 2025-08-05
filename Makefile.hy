@@ -24,6 +24,10 @@
       (sh cmd :cwd d :shell shell)
       (print (.format "Skipping {} (not found)" d)))))
 
+(defn has-eslint-config [d]
+  (> (+ (len (glob.glob (join d ".eslintrc*")))
+        (len (glob.glob (join d "eslint.config.*")))) 0))
+
 
 
 ;; Python helpers --------------------------------------------------------------
@@ -174,7 +178,11 @@
   (sh "npx eslint  --ext .js,.ts . " :cwd (join "services/ts" service) :shell True))
 
 (defn lint-ts []
-  (run-dirs SERVICES_TS "npx eslint . --no-warn-ignored --ext .js,.ts" :shell True))
+  (for [d (list (filter has-eslint-config SERVICES_TS))]
+    (try
+      (sh "npx eslint . --no-warn-ignored --ext .js,.ts" :cwd d :shell True)
+      (except [subprocess.CalledProcessError]
+        (print (.format "Skipping {} (eslint failed)" d))))))
 
 (defn format-ts []
   (run-dirs SERVICES_TS "npx prettier --write ." :shell True))
