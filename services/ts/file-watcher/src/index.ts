@@ -2,7 +2,6 @@ import { spawn } from "child_process";
 import chokidar from "chokidar";
 import { join } from "path";
 import { writeFile as fsWriteFile } from "fs/promises";
-import { HeartbeatClient } from "../../../../shared/js/heartbeat/index.js";
 
 /**
  * Options for {@link startFileWatcher} allowing injection of dependencies for testing.
@@ -120,15 +119,20 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
 }
 
 if (process.env.NODE_ENV !== "test") {
-  const hb = new HeartbeatClient();
-  hb.sendOnce()
-    .then(() => {
+  (async () => {
+    try {
+      const repoRoot = defaultRepoRoot || process.cwd();
+      const { HeartbeatClient } = await import(
+        join(repoRoot, "shared", "js", "heartbeat", "index.js")
+      );
+      const hb = new HeartbeatClient();
+      await hb.sendOnce();
       hb.start();
       startFileWatcher();
       console.log("File watcher running...");
-    })
-    .catch((err) => {
+    } catch (err) {
       console.error("failed to register heartbeat", err);
       process.exit(1);
-    });
+    }
+  })();
 }
