@@ -370,34 +370,83 @@
   (generate-python-requirements))
 
 (setv patterns (define-patterns
-                   ["python"
-                 [["setup" setup-python-service]
-                 ["test" test-python-service]
-                 ["coverage" coverage-python-service]
-                 ["lint" lint-python-service]]]
+  ["python"
+   [["setup" setup-python-service]
+    ["setup-quick-service" (fn [service]
+                             (generate-requirements-service service)
+                             (sh ["python" "-m" "pip" "install" "--user" "-r" "requirements.txt"] :cwd (join "services/py" service)))]
+    ["setup-quick-shared" setup-shared-python-quick]
+    ["test" test-python-service]
+    ["test-shared" test-shared-python]
+    ["coverage" coverage-python-service]
+    ["coverage-shared" coverage-shared-python]
+    ["test-quick-service" test-python-service] ;; same as normal test
+    ["test-quick-shared" test-shared-python]   ;; no change in quick variant
+    ["coverage-quick-service" coverage-python-service]
+    ["coverage-quick-shared" coverage-shared-python]]]
 
-                 ["js"
-                 [["setup" setup-js-service]
-                 ["test" test-js-service]
-                 ["coverage" coverage-js-service]
-                 ["lint" lint-js-service]]]
+  ["js"
+   [["setup" setup-js-service]
+    ["test" test-js-service]
+    ["coverage" coverage-js-service]
+    ["lint" lint-js-service]
+    ["test-quick-service" test-js-service]
+    ["coverage-quick-service" coverage-js-service]]]
 
-                 ["ts"
-                 [["setup" setup-ts-service]
-                 ["test" test-ts-service]
-                 ["coverage" coverage-ts-service]
-                 ["lint" lint-ts-service]]]
+  ["ts"
+   [["setup" setup-ts-service]
+    ["test" test-ts-service]
+    ["coverage" coverage-ts-service]
+    ["lint" lint-ts-service]
+    ["test-quick-service" test-ts-service]
+    ["coverage-quick-service" coverage-ts-service]]]
 
-                 ["hy"
-                 [["setup" setup-hy-service]]]
+  ["hy"
+   [["setup" setup-hy-service]
+    ["test" test-hy-service]
+    ["test-quick-service" test-hy-service]]]
 
-                 ["sibilant"
-                 [["setup" setup-sibilant-service]]]
+  ["sibilant"
+   [["setup" setup-sibilant-service]]]
 
-                 [""
-                 [["start" start-service]
-                 ["stop" stop-service]
-                 ["generate-requirements" generate-requirements-service]]]))
+  ["" ;; root
+   [["start" start-service]
+    ["stop" stop-service]
+    ["generate-requirements" generate-requirements-service]]]))
+
+(defn-cmd generate-makefile []
+  (setv header
+        "# Auto-generated Makefile. DO NOT EDIT MANUALLY.\n\n"
+        command-section
+        "COMMANDS := \\\n  all build clean lint format test setup setup-quick install \\\n  install-gha-artifacts system-deps start stop \\\n  start-tts start-stt stop-tts stop-stt \\\n  board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues \\\n  coverage coverage-python coverage-js coverage-ts simulate-ci \\\n  docker-build docker-up docker-down \\\n  typecheck-python typecheck-ts build-ts build-js \\\n  setup-pipenv compile-hy \\\n  setup-python setup-python-quick setup-js setup-ts setup-hy \\\n  test-python test-js test-ts test-hy \\\n  generate-requirements generate-python-services-requirements generate-makefile\n\n")
+
+  ;; Group rules by prefix for PHONY
+  (setv phony-lines []
+        rule-lines [])
+
+  (for [[prefix func] patterns]
+    (when (not (= prefix ""))
+      (setv target (.replace prefix "%" "%"))
+      (unless (in target phony-lines)
+        (+= phony-lines [target])
+        (+= rule-lines [(+ target ":\n\t@hy Makefile.hy $@")])))
+  )
+
+  (setv static-phony ".PHONY: \\\n  $(COMMANDS) \\\n  "
+        phony-block (.join " \\\n  " phony-lines)
+        rules (.join "\n\n" rule-lines))
+
+  (with [f (open "Makefile" "w")]
+    (.write f header)
+    (.write f command-section)
+    (.write f static-phony)
+    (.write f phony-block)
+    (.write f "\n\n")
+    (.write f "$(COMMANDS):\n\t@hy Makefile.hy $@\n\n")
+    (.write f rules)
+    (.write f "\n")))
+
+
 
 (defn main []
   (if (< (len sys.argv) 2)
