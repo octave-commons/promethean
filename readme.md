@@ -45,11 +45,13 @@ standard virtual environment:
 ```bash
 make generate-requirements
 python -m venv .venv && source .venv/bin/activate
-make setup-quick
+make setup-quick SERVICE=<name>
 ```
 
-This skips `pipenv` during installation and uses the generated requirement
-files. `make setup-quick` calls `setup-python-services-quick`, which installs each Python service from its `requirements.txt`.
+This skips `pipenv` and installs dependencies for a single service using the
+generated requirement files. Use `SERVICE=stt` or `SERVICE=cephalon` for example.
+Running `make setup-quick` without specifying a service installs all services and
+is much slower.
 
 Makefile targets for Python, JavaScript and TypeScript iterate over their
 respective service directories using a shared helper.
