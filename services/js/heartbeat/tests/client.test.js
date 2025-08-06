@@ -37,3 +37,21 @@ test("heartbeat client posts pid", async (t) => {
   t.is(typeof res.netRx, "number");
   t.is(typeof res.netTx, "number");
 });
+
+test("heartbeat client invokes callback", async (t) => {
+  const url = `http://127.0.0.1:${server.address().port}/heartbeat`;
+  await new Promise((resolve) => {
+    const client = new HeartbeatClient({
+      url,
+      pid: 1000,
+      name: "test-app",
+      interval: 50,
+      onHeartbeat(data) {
+        t.is(data.pid, 1000);
+        client.stop();
+        resolve(null);
+      },
+    });
+    client.start();
+  });
+});
