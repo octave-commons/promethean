@@ -18,6 +18,7 @@ import discord
 from shared.py import settings
 from shared.py.mongodb import discord_message_collection, discord_channel_collection
 from shared.py.heartbeat_client import HeartbeatClient
+from shared.py.utils import shuffle_array
 
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
@@ -176,12 +177,6 @@ async def index_channel(channel: discord.TextChannel) -> None:
         newest_message = message
     update_cursor(newest_message) if newest_message is not None else None
     return print(f"Newest message: {newest_message}")
-
-
-def shuffle_array(array):
-    """Shuffle an array in place."""
-    random.shuffle(array)
-    return array
 
 
 @client.event

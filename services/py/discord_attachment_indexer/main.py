@@ -14,6 +14,7 @@ import discord
 from shared.py import settings
 from shared.py.mongodb import discord_message_collection, discord_channel_collection
 from shared.py.heartbeat_client import HeartbeatClient
+from shared.py.utils import shuffle_array
 
 AGENT_NAME = os.environ.get("AGENT_NAME", "duck")
 print(f"Discord attachment indexer running for {AGENT_NAME}")
@@ -138,11 +139,6 @@ async def index_channel(channel: discord.TextChannel) -> None:
     return (
         update_attachment_cursor(newest_message) if newest_message is not None else None
     )
-
-
-def shuffle_array(array):
-    random.shuffle(array)
-    return array
 
 
 @client.event
