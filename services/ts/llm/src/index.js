@@ -1,6 +1,7 @@
 import express from "express";
 import ollama from "ollama";
 import { HeartbeatClient } from "../../../../shared/js/heartbeat/index.js";
+import { WebSocketServer } from "ws";
 
 export const MODEL = process.env.LLM_MODEL || "gemma3:latest";
 
@@ -26,11 +27,11 @@ export async function callOllama({ prompt, context, format }, retry = 0) {
 }
 app.post("/generate", async (req, res) => {
   const { prompt, context, format } = req.body;
-  for (let m of context) {
+  for (const m of context) {
     console.log("message:", m.content);
     if (m.images) {
       console.log("image data:");
-      for (let imageData of m.images) {
+      for (const imageData of m.images) {
         console.log(imageData.type);
         // console.log(imageData.data)
       }
@@ -53,9 +54,22 @@ export async function start(listenPort = port) {
   const hb = new HeartbeatClient();
   await hb.sendOnce();
   hb.start();
-  return app.listen(listenPort, () => {
+  const server = app.listen(listenPort, () => {
     console.log(`LLM service listening on ${listenPort}`);
   });
+  const wss = new WebSocketServer({ server, path: "/generate" });
+  wss.on("connection", (ws) => {
+    ws.on("message", async (data) => {
+      try {
+        const { prompt, context, format } = JSON.parse(data.toString());
+        const reply = await callOllama({ prompt, context, format });
+        ws.send(JSON.stringify({ reply }));
+      } catch (e) {
+        ws.send(JSON.stringify({ error: e.message }));
+      }
+    });
+  });
+  return server;
 }
 
 if (process.env.NODE_ENV !== "test") {
