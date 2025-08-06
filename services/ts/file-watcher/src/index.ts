@@ -1,10 +1,6 @@
 import { spawn } from "child_process";
-import { basename, dirname, join, resolve } from "path";
-import {
-  readFile as fsReadFile,
-  writeFile as fsWriteFile,
-  stat as fsStat,
-} from "fs/promises";
+import { dirname, join, resolve } from "path";
+import { readFile as fsReadFile, writeFile as fsWriteFile } from "fs/promises";
 import { MongoClient, Collection } from "mongodb";
 import { io, Socket } from "socket.io-client";
 import crypto from "crypto";
@@ -32,8 +28,8 @@ export interface FileWatcherOptions {
   ) => Promise<string>;
   /** Function used to write the kanban board file. */
   writeFile?: (path: string, data: string) => Promise<void>;
-  /** Function used to populate new task files using the LLM service. */
-  populateTask?: (path: string) => Promise<void>;
+  /** Maximum number of concurrent LLM tasks. Defaults to 2. */
+  maxConcurrentLLMTasks?: number;
   /** Mongo collection for projecting board state. */
   mongoCollection?: Collection<any>;
   /** Socket instance used to emit board events. */
@@ -88,6 +84,33 @@ async function defaultCallLLM(
   return data.reply as string;
 }
 
+function createQueue(concurrency: number) {
+  let running = 0;
+  const queue: (() => void)[] = [];
+
+  const runNext = () => {
+    if (running >= concurrency || queue.length === 0) return;
+    const task = queue.shift()!;
+    task();
+  };
+
+  return function <T>(task: () => Promise<T>): Promise<T> {
+    return new Promise((resolve, reject) => {
+      const run = () => {
+        running++;
+        task()
+          .then(resolve, reject)
+          .finally(() => {
+            running--;
+            runNext();
+          });
+      };
+      queue.push(run);
+      queueMicrotask(runNext);
+    });
+  };
+}
+
 /**
  * Start the file watcher which keeps the kanban board and task files in sync.
  *
@@ -102,43 +125,15 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
   const repoRoot = options.repoRoot ?? defaultRepoRoot;
   const runPython = options.runPython ?? defaultRunPython;
   const writeFile = options.writeFile ?? fsWriteFile;
-  const populateTask =
-    options.populateTask ??
-    (async (path: string) => {
-      try {
-        const info = await fsStat(path);
-        if (info.size > 0) return;
-      } catch {
-        // ignore
-      }
-      const title = basename(path, ".md").replace(/_/g, " ");
-      const llmUrl = process.env.LLM_URL || "http://localhost:8080/llm";
-      const prompt =
-        "You are an engineering assistant. Given a task title, produce a concise markdown task stub with headings for Goals, Requirements, and Subtasks.";
-      try {
-        const res = await fetch(`${llmUrl}/generate`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            prompt,
-            context: [{ role: "user", content: `Title: ${title}` }],
-          }),
-        });
-        if (!res.ok) {
-          throw new Error(`LLM request failed with status ${res.status}`);
-        }
-        const data = (await res.json()) as { reply: string };
-        let content = data.reply?.toString().trim() || "";
-        if (!content.startsWith("#")) {
-          content = `#Todo\n\n${content}`;
-        }
-        if (!content.endsWith("\n")) content += "\n";
-        await writeFile(path, content);
-      } catch (err) {
-        console.error("populateTask failed", err);
-      }
-    });
   const callLLM = options.callLLM ?? defaultCallLLM;
+  const maxConcurrentLLMTasks =
+    options.maxConcurrentLLMTasks ??
+    Number(process.env.MAX_CONCURRENT_LLM_TASKS || 2);
+  const enqueueLLM = createQueue(maxConcurrentLLMTasks);
+  const queuedCallLLM = (
+    prompt: string,
+    context: { role: string; content: string }[],
+  ) => enqueueLLM(() => callLLM(prompt, context));
 
   const boardPath = join(repoRoot, "docs", "agile", "boards", "kanban.md");
   const tasksPath = join(repoRoot, "docs", "agile", "tasks");
@@ -316,10 +311,9 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
 
   const tasksWatcher = createTasksWatcher({
     tasksPath,
-    populateTask,
     updateBoard,
     fileLocks,
-    callLLM,
+    callLLM: queuedCallLLM,
   });
 
   if (initialParse) {
