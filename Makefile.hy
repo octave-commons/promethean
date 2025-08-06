@@ -188,14 +188,15 @@
   (print "No build step for JavaScript services"))
 
 ;; TypeScript helpers ---------------------------------------------------------
+
 (defn-cmd lint-ts-service [service]
   (print (.format "Linting TS service: {}" service))
-  (sh "npx --yes @biomejs/biome lint ." :cwd (join "services/ts" service) :shell True))
+  (sh "npm run lint" :cwd (join "services/ts" service) :shell True))
 
 (defn-cmd lint-ts []
   (for [d SERVICES_TS]
-    (when (isfile (join d "biome.json"))
-      (sh "npx --yes @biomejs/biome lint ." :cwd d :shell True))))
+    (when (isfile (join d "package.json"))
+      (sh "npm run lint" :cwd d :shell True))))
 
 (defn-cmd format-ts []
   (run-dirs SERVICES_TS "npx --yes @biomejs/biome format ." :shell True))
