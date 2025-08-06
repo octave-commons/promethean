@@ -1,11 +1,13 @@
 import { spawn } from "child_process";
-import chokidar from "chokidar";
 import { dirname, join, resolve } from "path";
 import { readFile as fsReadFile, writeFile as fsWriteFile } from "fs/promises";
 import { MongoClient, Collection } from "mongodb";
 import { io, Socket } from "socket.io-client";
 import crypto from "crypto";
-import { AGENT_NAME } from "../../../../shared/js/env.js";
+import { FileLocks } from "./file-lock.js";
+import { createBoardWatcher } from "./board-watcher.js";
+import { createTasksWatcher } from "./tasks-watcher.js";
+import type chokidar from "chokidar";
 
 /**
  * Options for {@link startFileWatcher} allowing injection of dependencies for testing.
@@ -76,6 +78,7 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
   const tasksPath = join(repoRoot, "docs", "agile", "tasks");
   const boardDir = dirname(boardPath);
 
+  const agentName = process.env.AGENT_NAME || "";
   const mongoCollection =
     options.mongoCollection ??
     (() => {
@@ -85,7 +88,7 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
       client
         .connect()
         .catch((err) => console.error("mongo connect failed", err));
-      return client.db("database").collection(`${AGENT_NAME}_kanban`);
+      return client.db("database").collection(`${agentName}_kanban`);
     })();
 
   const socket =
@@ -93,9 +96,7 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
   const initialParse = options.initialParse ?? true;
 
   let previousState: Record<string, KanbanCard> = {};
-
-  let updatingBoard = false;
-  let updatingTasks = false;
+  const fileLocks = new FileLocks();
 
   interface KanbanCard {
     id: string;
@@ -146,7 +147,7 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
         lines[i] = `- [ ] [${title}](${rel})`;
         link = rel;
         boardModified = true;
-        updatingTasks = true;
+        fileLocks.lock(tasksPath);
       }
       let content = "";
       try {
@@ -161,7 +162,7 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
         if (!id) id = crypto.randomUUID();
         content = `id: ${id}\n${content}`;
         await fsWriteFile(filePath, content);
-        updatingTasks = true;
+        fileLocks.lock(tasksPath);
       }
       const card: KanbanCard = {
         id,
@@ -173,16 +174,9 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
     }
 
     if (boardModified) {
-      updatingBoard = true;
+      fileLocks.lock(boardPath);
       await writeFile(boardPath, lines.join("\n"));
-      setTimeout(() => {
-        updatingBoard = false;
-      }, 100);
-    }
-    if (updatingTasks) {
-      setTimeout(() => {
-        updatingTasks = false;
-      }, 100);
+      fileLocks.unlockAfter(boardPath, 100);
     }
 
     const currentState: Record<string, KanbanCard> = {};
@@ -225,23 +219,9 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
     previousState = currentState;
   }
 
-  async function updateFromBoard() {
-    try {
-      updatingTasks = true;
-      await runPython(join("scripts", "kanban_to_hashtags.py"));
-      await processKanban();
-    } catch (err) {
-      console.error("kanban_to_hashtags failed", err);
-    } finally {
-      setTimeout(() => {
-        updatingTasks = false;
-      }, 100);
-    }
-  }
-
   async function updateBoard() {
     try {
-      updatingBoard = true;
+      fileLocks.lock(boardPath);
       const output = await runPython(
         join("scripts", "hashtags_to_kanban.py"),
         true,
@@ -252,47 +232,25 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
     } catch (err) {
       console.error("hashtags_to_kanban failed", err);
     } finally {
-      setTimeout(() => {
-        updatingBoard = false;
-      }, 100);
+      fileLocks.unlockAfter(boardPath, 100);
     }
   }
 
-  const boardWatcher = chokidar.watch(boardPath, { ignoreInitial: true });
-  boardWatcher.on("change", () => {
-    if (updatingBoard) {
-      console.log("Ignoring board change triggered by watcher");
-      return;
-    }
-    console.log("Board changed, syncing hashtags...");
-    updateFromBoard();
+  const boardWatcher = createBoardWatcher({
+    boardPath,
+    tasksPath,
+    runPython,
+    processKanban,
+    fileLocks,
   });
 
-  const tasksWatcher = chokidar.watch(tasksPath, { ignoreInitial: true });
-  tasksWatcher.on("add", (path) => {
-    if (updatingTasks) {
-      console.log("Ignoring task addition triggered by watcher");
-      return;
-    }
-    console.log("New task file added, populating stub...");
-    updatingTasks = true;
-    runPython(join("scripts", "populate_task_ollama.py"), false, [path])
-      .then(() => updateBoard())
-      .catch((err) => console.error("populate_task_ollama failed", err))
-      .finally(() => {
-        setTimeout(() => {
-          updatingTasks = false;
-        }, 100);
-      });
+  const tasksWatcher = createTasksWatcher({
+    tasksPath,
+    runPython,
+    updateBoard,
+    fileLocks,
   });
-  tasksWatcher.on("change", () => {
-    if (updatingTasks) {
-      console.log("Ignoring task change triggered by watcher");
-      return;
-    }
-    console.log("Task file changed, regenerating board...");
-    updateBoard();
-  });
+
   if (initialParse) {
     processKanban(false).catch((err) =>
       console.error("initial kanban parse failed", err),
