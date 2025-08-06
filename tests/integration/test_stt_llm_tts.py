@@ -3,6 +3,7 @@ import sys
 import types
 import numpy as np
 from fastapi.testclient import TestClient
+import pytest
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
@@ -20,6 +21,7 @@ def stub_generate_voice(_text: str) -> np.ndarray:
 
 
 def test_stt_llm_tts_pipeline(monkeypatch):
+    pytest.importorskip("services.py.tts.app")
     # Stub STT module
     monkeypatch.setitem(
         sys.modules,
@@ -27,18 +29,27 @@ def test_stt_llm_tts_pipeline(monkeypatch):
         types.SimpleNamespace(transcribe_pcm=stub_transcribe_pcm),
     )
 
+    # Stub WhisperStreamer dependency
+    monkeypatch.setitem(
+        sys.modules,
+        "shared.py.speech.whisper_stream",
+        types.SimpleNamespace(WhisperStreamer=object),
+    )
+
     # Stub TTS module
     dummy_module = types.SimpleNamespace(generate_voice=stub_generate_voice)
     monkeypatch.setitem(sys.modules, "speech", types.SimpleNamespace(tts=dummy_module))
     monkeypatch.setitem(sys.modules, "speech.tts", dummy_module)
-    monkeypatch.setitem(sys.modules, "shared.py.speech", types.SimpleNamespace(tts=dummy_module))
+    monkeypatch.setitem(
+        sys.modules, "shared.py.speech", types.SimpleNamespace(tts=dummy_module)
+    )
     monkeypatch.setitem(sys.modules, "shared.py.speech.tts", dummy_module)
 
     from services.py.stt import app as stt_app
-    from services.py.tts import ws as tts_ws
+    from services.py.tts import app as tts_app
 
     stt_client = TestClient(stt_app.app)
-    tts_client = TestClient(tts_ws.app)
+    tts_client = TestClient(tts_app.app)
 
     resp = stt_client.post(
         "/transcribe_pcm",

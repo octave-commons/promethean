@@ -81,6 +81,7 @@ export async function start(listenPort = port) {
       const { prompt, context, format } = data;
       try {
         const reply = await callOllamaFn({ prompt, context, format });
+
         ws.send(JSON.stringify({ reply }));
       } catch (e) {
         ws.send(JSON.stringify({ error: e.message }));
