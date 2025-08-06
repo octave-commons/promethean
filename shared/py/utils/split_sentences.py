@@ -7,24 +7,29 @@ import re
 log = logging.getLogger(__name__)
 
 
-def split_sentences(text, max_chunk_len=79, min_chunk_len=20):
+def _split_long_sentence(sentence: str, max_len: int) -> list[str]:
+    """Break a long sentence into sub-chunks no longer than ``max_len``."""
+    pieces: list[str] = []
+    current = ""
+    for word in sentence.split():
+        if current and len(current) + len(word) + 1 > max_len:
+            pieces.append(current)
+            current = word
+        else:
+            current = f"{current} {word}".strip()
+    if current:
+        pieces.append(current)
+    return pieces
+
+
+def split_sentences(
+    text: str, max_chunk_len: int = 79, min_chunk_len: int = 20
+) -> list[str]:
     """Return a list of sentence-like chunks from ``text``.
 
-    Parameters
-    ----------
-    text : str
-        Input paragraph to be chunked.
-    max_chunk_len : int, optional
-        Hard limit for chunk size; longer sentences are split by words.
-        Defaults to ``79``.
-    min_chunk_len : int, optional
-        Minimum chunk length. Short chunks will try to absorb following
-        sentences to reach this length. Defaults to ``20``.
-
-    Returns
-    -------
-    list[str]
-        Sequence of chunks derived from the input.
+    Sentences longer than ``max_chunk_len`` are split by words. Short
+    chunks are merged with following chunks when possible and the final
+    chunk is padded with an ellipsis if it falls below ``min_chunk_len``.
     """
 
     log.debug(
@@ -34,58 +39,44 @@ def split_sentences(text, max_chunk_len=79, min_chunk_len=20):
     )
     log.debug("Input text length: %d characters", len(text))
 
-    # First pass: basic sentence splitting
     sentences = re.split(r"(?<=[.!?]) +", text.strip())
     log.debug("Found %d sentences.", len(sentences))
 
-    all_chunks = []
-    current_chunk = ""
-
-    i = 0
-    while i < len(sentences):
-        sentence = sentences[i]
-
-        # If sentence is too long, split by words
+    expanded: list[str] = []
+    for sentence in sentences:
         if len(sentence) > max_chunk_len:
-            words = sentence.split()
-            for word in words:
-                if len(current_chunk) + len(word) + 1 > max_chunk_len:
-                    if len(current_chunk) >= min_chunk_len:
-                        all_chunks.append(current_chunk.strip())
-                        current_chunk = ""
-                if current_chunk:
-                    current_chunk += " "
-                current_chunk += word
+            expanded.extend(_split_long_sentence(sentence, max_chunk_len))
         else:
-            # Would adding this sentence bust the limit?
-            if len(current_chunk) + len(sentence) + 1 > max_chunk_len:
-                if len(current_chunk) >= min_chunk_len:
-                    all_chunks.append(current_chunk.strip())
-                    current_chunk = ""
-                else:
-                    # Try to append next sentence to reach min length
-                    while len(current_chunk) < min_chunk_len and i + 1 < len(sentences):
-                        sentence += " " + sentences[i + 1]
-                        i += 1
-                        if len(sentence) > max_chunk_len:
-                            break
-                    # At this point, try again to add
-                    if len(current_chunk) + len(sentence) + 1 > max_chunk_len:
-                        all_chunks.append(current_chunk.strip())
-                        current_chunk = ""
+            expanded.append(sentence)
 
-            if current_chunk:
-                current_chunk += " "
-            current_chunk += sentence
+    chunks: list[str] = []
+    current = ""
+    for sentence in expanded:
+        potential = f"{current} {sentence}".strip() if current else sentence
+        if current and len(potential) > max_chunk_len:
+            chunks.append(current)
+            current = sentence
+        else:
+            current = potential
 
+    if current:
+        chunks.append(current)
+
+    # Merge short chunks with the following chunk when possible
+    i = 0
+    while i < len(chunks) - 1:
+        if len(chunks[i]) < min_chunk_len:
+            merged = f"{chunks[i]} {chunks[i + 1]}".strip()
+            if len(merged) <= max_chunk_len:
+                chunks[i] = merged
+                del chunks[i + 1]
+                continue
         i += 1
 
-    if current_chunk:
-        if len(current_chunk) < min_chunk_len:
-            current_chunk += " ..."  # Or your filler of choice
-        all_chunks.append(current_chunk.strip())
+    if chunks and len(chunks[-1]) < min_chunk_len:
+        chunks[-1] += " ..."
 
-    for chunk in all_chunks:
+    for chunk in chunks:
         log.debug("Chunk: '%s' (length: %d)", chunk, len(chunk))
 
-    return all_chunks
+    return chunks
