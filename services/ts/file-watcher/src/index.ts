@@ -9,7 +9,6 @@ import { createBoardWatcher } from "./board-watcher.js";
 import { createTasksWatcher } from "./tasks-watcher.js";
 import type chokidar from "chokidar";
 
-
 /**
  * Options for {@link startFileWatcher} allowing injection of dependencies for testing.
  */
@@ -22,6 +21,11 @@ export interface FileWatcherOptions {
     capture?: boolean,
     args?: string[],
   ) => Promise<string | void>;
+  /** Function used to call the LLM service. */
+  callLLM?: (
+    prompt: string,
+    context: { role: string; content: string }[],
+  ) => Promise<string>;
   /** Function used to write the kanban board file. */
   writeFile?: (path: string, data: string) => Promise<void>;
   /** Mongo collection for projecting board state. */
@@ -61,6 +65,23 @@ function defaultRunPython(
   });
 }
 
+async function defaultCallLLM(
+  prompt: string,
+  context: { role: string; content: string }[],
+): Promise<string> {
+  const fetchFn = (globalThis as any).fetch;
+  const res = await fetchFn(
+    process.env.LLM_URL || "http://localhost:5003/generate",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt, context }),
+    },
+  );
+  const data = await res.json();
+  return data.reply as string;
+}
+
 /**
  * Start the file watcher which keeps the kanban board and task files in sync.
  *
@@ -75,22 +96,24 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
   const repoRoot = options.repoRoot ?? defaultRepoRoot;
   const runPython = options.runPython ?? defaultRunPython;
   const writeFile = options.writeFile ?? fsWriteFile;
+  const callLLM = options.callLLM ?? defaultCallLLM;
 
   const boardPath = join(repoRoot, "docs", "agile", "boards", "kanban.md");
   const tasksPath = join(repoRoot, "docs", "agile", "tasks");
   const boardDir = dirname(boardPath);
 
   const agentName = process.env.AGENT_NAME || "";
+  let mongoClient: MongoClient | null = null;
   const mongoCollection =
     options.mongoCollection ??
     (() => {
-      const client = new MongoClient(
+      mongoClient = new MongoClient(
         process.env.MONGODB_URI || "mongodb://localhost:27017",
       );
-      client
+      mongoClient
         .connect()
         .catch((err) => console.error("mongo connect failed", err));
-      return client.db("database").collection(`${agentName}_kanban`);
+      return mongoClient.db("database").collection(`${agentName}_kanban`);
     })();
 
   const socket =
@@ -251,9 +274,9 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
 
   const tasksWatcher = createTasksWatcher({
     tasksPath,
-    runPython,
     updateBoard,
     fileLocks,
+    callLLM,
   });
 
   if (initialParse) {
