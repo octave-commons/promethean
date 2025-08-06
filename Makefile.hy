@@ -28,6 +28,9 @@
 (define-service-list SERVICES_TS "services/ts")
 (setv commands {})
 
+(defn has-eslint-config [d]
+  (> (+ (len (glob.glob (join d ".eslintrc*")))
+        (len (glob.glob (join d "eslint.config.*")))) 0))
 
 (defn-cmd setup-python-services []
   (print "Setting up Python services...")
