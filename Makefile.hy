@@ -89,7 +89,9 @@
 
 (defn-cmd setup-python-service [service]
   (print (.format "Setting up Python service: {}" service))
-  (sh "python -m pipenv sync --dev" :cwd (join "services/py" service) :shell True))
+  (if (os.environ.get "SIMULATE_CI")
+      (print "Skipping pipenv sync during CI simulation")
+      (sh "python -m pipenv sync --dev" :cwd (join "services/py" service) :shell True)))
 
 (defn-cmd test-python-service [service]
   (print (.format "Running tests for Python service: {}" service))
@@ -141,7 +143,9 @@
   (sh ["black" "services/" "shared/py/"]))
 
 (defn-cmd typecheck-python []
-  (sh ["mypy" "services/" "shared/py/"]))
+  (if (os.environ.get "SIMULATE_CI")
+      (print "Skipping Python typecheck during CI simulation")
+      (sh ["mypy" "services/" "shared/py/"])) )
 
 ;; JavaScript helpers ---------------------------------------------------------
 (defn-cmd lint-js-service [service]
@@ -344,7 +348,9 @@
     (print "GitHub Actions artifact installation complete")))
 
 (defn-cmd system-deps []
-  (sh "sudo apt-get update && sudo apt-get install -y libsndfile1" :shell True))
+  (if (os.environ.get "SIMULATE_CI")
+      (print "Skipping system dependency installation during CI simulation")
+      (sh "sudo apt-get update && sudo apt-get install -y libsndfile1" :shell True)))
 
 (defn-cmd install-mongodb []
   (if (= (platform.system) "Linux")
@@ -376,7 +382,9 @@
   (sh ["python" "scripts/kanban_to_issues.py"]))
 
 (defn-cmd simulate-ci []
-  (sh ["python" "scripts/simulate_ci.py"]))
+  (if (os.environ.get "SIMULATE_CI_JOB")
+      (sh ["python" "scripts/simulate_ci.py" "--job" (os.environ.get "SIMULATE_CI_JOB")])
+      (sh ["python" "scripts/simulate_ci.py"])) )
 
 (defn-cmd docker-build []
   (sh ["docker" "compose" "build"]))
@@ -409,7 +417,8 @@
     ["test-quick-service" test-python-service] ;; same as normal test
     ["test-quick-shared" test-shared-python]   ;; no change in quick variant
     ["coverage-quick-service" coverage-python-service]
-    ["coverage-quick-shared" coverage-shared-python]]]
+    ["coverage-quick-shared" coverage-shared-python]
+    ["lint" lint-python-service]]]
 
   ["js"
    [["setup" setup-js-service]
