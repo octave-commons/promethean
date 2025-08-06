@@ -26,7 +26,7 @@ class DummyHB:
         pass
 
 
-def test_websocket_tts_returns_wav_bytes():
+def test_websocket_tts_returns_wav_bytes(monkeypatch):
     dummy_module = types.SimpleNamespace(generate_voice=lambda text: None)
     dummy_package = types.ModuleType("speech")
     dummy_package.tts = dummy_module
@@ -82,30 +82,34 @@ def test_websocket_tts_returns_wav_bytes():
     dummy_numpy = types.ModuleType("numpy")
     dummy_numpy.ndarray = list
 
-    with patch("shared.py.heartbeat_client.HeartbeatClient", lambda *a, **k: DummyHB()):
-        with patch.dict(
-            sys.modules,
-            {
-                "speech": dummy_package,
-                "speech.tts": dummy_module,
-                "shared.py.speech": dummy_package,
-                "shared.py.speech.tts": dummy_module,
-                "shared.py.service_template": types.SimpleNamespace(
-                    start_service=dummy_start_service
-                ),
-                "soundfile": dummy_sf,
-                "nltk": dummy_nltk,
-                "torch": dummy_torch,
-                "transformers": dummy_transformers,
-                "safetensors": dummy_safetensors,
-                "safetensors.torch": dummy_safetensors_torch,
-                "numpy": dummy_numpy,
-            },
-        ):
-            app_module = importlib.import_module("services.py.tts.app")
-            client = TestClient(app_module.app)
-            with client.websocket_connect("/ws/tts") as websocket:
-                websocket.send_text("hello")
-                data = websocket.receive_bytes()
-                assert data.startswith(b"RIFF")
-                assert len(data) > 44  # standard WAV header size
+    monkeypatch.setitem(
+        sys.modules,
+        "shared.py.heartbeat_client",
+        types.SimpleNamespace(HeartbeatClient=lambda *a, **k: DummyHB()),
+    )
+    with patch.dict(
+        sys.modules,
+        {
+            "speech": dummy_package,
+            "speech.tts": dummy_module,
+            "shared.py.speech": dummy_package,
+            "shared.py.speech.tts": dummy_module,
+            "shared.py.service_template": types.SimpleNamespace(
+                start_service=dummy_start_service
+            ),
+            "soundfile": dummy_sf,
+            "nltk": dummy_nltk,
+            "torch": dummy_torch,
+            "transformers": dummy_transformers,
+            "safetensors": dummy_safetensors,
+            "safetensors.torch": dummy_safetensors_torch,
+            "numpy": dummy_numpy,
+        },
+    ):
+        app_module = importlib.import_module("services.py.tts.app")
+        client = TestClient(app_module.app)
+        with client.websocket_connect("/ws/tts") as websocket:
+            websocket.send_text("hello")
+            data = websocket.receive_bytes()
+            assert data.startswith(b"RIFF")
+            assert len(data) > 44  # standard WAV header size
