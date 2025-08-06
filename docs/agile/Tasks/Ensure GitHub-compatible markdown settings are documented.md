@@ -14,7 +14,7 @@ Some Obsidian features don't render well on GitHub. We need clear guidelines so 
 ## 📦 Requirements
 - [x] Add a section to `vault-config/README.md` describing recommended settings
 - [x] Mention any plugins used to export or format markdown
-- [ ] Include Prettier or markdownlint configuration if applicable
+- [x] Include Prettier or markdownlint configuration if applicable
 
 ---
 
@@ -40,4 +40,4 @@ Nothing
 
 ## 🔍 Relevant Links
 - [kanban](../boards/kanban.md)
-#todo
+#breakdown

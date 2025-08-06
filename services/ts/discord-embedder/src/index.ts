@@ -1,5 +1,5 @@
 import { ChromaClient } from 'chromadb';
-import { SimpleEmbeddingFunction } from './embedding';
+import { RemoteEmbeddingFunction } from './embedding';
 import { MongoClient, ObjectId, Collection } from 'mongodb';
 import { AGENT_NAME } from '../../../../shared/js/env.js';
 import { HeartbeatClient } from '../../../../shared/js/heartbeat/index.js';
@@ -59,7 +59,7 @@ const MONGO_CONNECTION_STRING = process.env.MONGODB_URI || `mongodb://localhost`
 
 	const chromaCollection = await chromaClient.getOrCreateCollection({
 		name: collectionName,
-		embeddingFunction: new SimpleEmbeddingFunction(),
+		embeddingFunction: new RemoteEmbeddingFunction(),
 	});
 
 	while (true) {

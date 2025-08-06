@@ -4,10 +4,8 @@ const services = [
   "services/py/stt",
   "services/py/tts",
   "services/py/discord_indexer",
-  "services/py/stt_ws",
-  "services/py/whisper_stream_ws"
+  // WebSocket endpoints now live in their respective HTTP services
 ];
-
 
 async function runTests() {
   let allPassed = true;
@@ -20,7 +18,11 @@ async function runTests() {
 
     console.log(`\n=== Running tests in ${service} ===`);
     try {
-      await runCommand("python", ["-m", "pipenv", "run", "pytest", "tests/"], service);
+      await runCommand(
+        "python",
+        ["-m", "pipenv", "run", "pytest", "tests/"],
+        service,
+      );
     } catch (err) {
       console.error(`❌ ${err.message}`);
       allPassed = false;

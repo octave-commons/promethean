@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "dotenv": "^17.2.1"
+  }
+}

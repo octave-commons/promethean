@@ -9,8 +9,8 @@ const python_env = {
   PYTHONUTF8: 1,
 };
 const AGENT_NAME = "Duck";
+const { defineApp } = require("../../dev/pm2Helpers");
 
-const HEARTBEAT_PORT = 5005;
 const discord_env = {
   DISCORD_TOKEN: process.env.DISCORD_TOKEN,
   DISCORD_CLIENT_USER_ID: "449279570445729793",
@@ -33,65 +33,46 @@ const discord_env = {
 
 module.exports = {
   apps: [
-    {
-      name: "duck_discord_indexer",
-      script: "pipenv",
-      cwd: path.join(__dirname, "../../services/py/discord_indexer/"),
-      args: ["run", "python", "-m", "main"],
-      instances: 1,
-      autorestart: true,
-      env_file: ".env",
-      restart_delay: 10000,
-      kill_timeout: 10000,
-      env: {
-        ...python_env,
-        ...discord_env,
-        HEARTBEAT_PORT,
+    defineApp(
+      "duck_discord_indexer",
+      "pipenv",
+      ["run", "python", "-m", "main"],
+      {
+        cwd: path.join(__dirname, "../../services/py/discord_indexer/"),
+        env_file: ".env",
+        env: {
+          ...python_env,
+          ...discord_env,
+        },
       },
-    },
-    {
-      name: "duck_cephalon",
+    ),
+    defineApp("duck_cephalon", ".", [], {
       cwd: path.join(__dirname, "../../services/ts/cephalon"),
-      script: ".",
-      autorestart: true,
-      restart_delay: 10000,
-      kill_timeout: 10000,
       env: {
         ...discord_env,
-        HEARTBEAT_PORT,
       },
-    },
-    {
-      name: "duck_embedder",
+    }),
+    defineApp("duck_embedder", ".", [], {
       cwd: path.join(__dirname, "../../services/ts/discord-embedder"),
-      script: ".",
-      autorestart: true,
-      restart_delay: 10000,
-      kill_timeout: 10000,
       env: {
         ...discord_env,
-        HEARTBEAT_PORT,
       },
-    },
+    }),
+    defineApp(
+      "duck_attachment_indexer",
+      "pipenv",
+      ["run", "python", "-m", "main"],
+      {
+        cwd: "./services/py/discord_attachment_indexer",
+        watch: ["./services/py/tts"],
+        env: {
+          ...discord_env,
+          DEESKTOP_CAPTURE_CHANNEL_ID: "1401730790467047586",
+        },
+      },
+    ),
 
-    // {
-    //     "name": "duck_voice",
-    //     "cwd": path.join(__dirname,"../../services/ts/voice"),
-    //     "script":".",
-    //     "autorestart": true,
-    //     restart_delay: 10000,
-    //     kill_timeout: 10000,
-    //     env:{
-    //         ...discord_env
-    //     }
-    // } ,
     {
-      // should each agent hold their own chroma?
-      // will there be a single core chroma?
-      // or will it be a mix of the two?
-      // some "core" data we know is just used by all agents
-      // and some data is specific to the agent?
-      // for now, we'll just run chroma in each agent
       name: "chromadb",
       cwd: __dirname,
       script: "./scripts/run_chroma.sh",
