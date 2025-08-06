@@ -46,8 +46,7 @@ test("ignores board changes caused by watcher", async (t) => {
   t.is(calls.length, 1);
   t.true(calls[0]!.includes("hashtags_to_kanban.py"));
 
-  await watchers.boardWatcher.close();
-  await watchers.tasksWatcher.close();
+  await watchers.close();
 });
 
 test("ignores task changes caused by watcher", async (t) => {
@@ -73,6 +72,5 @@ test("ignores task changes caused by watcher", async (t) => {
   t.is(calls.length, 1);
   t.true(calls[0]!.includes("kanban_to_hashtags.py"));
 
-  await watchers.boardWatcher.close();
-  await watchers.tasksWatcher.close();
+  await watchers.close();
 });
