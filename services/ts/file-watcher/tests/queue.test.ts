@@ -18,31 +18,34 @@ async function setupTempRepo() {
   return { root, tasksDir };
 }
 
-test("populates new task files", async (t) => {
+test("limits concurrent LLM tasks", async (t) => {
   process.env.NODE_ENV = "test";
   const { root, tasksDir } = await setupTempRepo();
-  const llmCalls: { prompt: string; context: any[] }[] = [];
+  let active = 0;
+  let max = 0;
 
   const watchers = startFileWatcher({
     repoRoot: root,
     runPython: async () => undefined,
-    callLLM: async (prompt, context) => {
-      llmCalls.push({ prompt, context });
-      return "#Todo\n\n## 🛠️ Task: stub\n";
+    callLLM: async () => {
+      active++;
+      if (active > max) max = active;
+      await delay(50);
+      active--;
+      return "#Todo\n";
     },
     writeFile: async () => {},
     mongoCollection: { updateOne: async () => {} } as any,
     socket: { emit: () => {} } as any,
+    maxConcurrentLLMTasks: 1,
   });
 
   await delay(150);
-  const newTask = join(tasksDir, "new_task.md");
-  await fs.writeFile(newTask, "");
-  await delay(300);
+  await fs.writeFile(join(tasksDir, "a.md"), "");
+  await fs.writeFile(join(tasksDir, "b.md"), "");
+  await fs.writeFile(join(tasksDir, "c.md"), "");
+  await delay(400);
 
-  const content = await fs.readFile(newTask, "utf8");
-  t.true(content.includes("Task: stub"));
-  t.true(llmCalls.some((c) => c.context[0].content.includes("new task")));
-
+  t.is(max, 1);
   await watchers.close();
 });
