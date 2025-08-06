@@ -30,9 +30,11 @@ test("populates new task files", async (t) => {
       return undefined;
     },
     writeFile: async () => {},
+    mongoCollection: { updateOne: async () => {} } as any,
+    socket: { emit: () => {} } as any,
   });
 
-  await delay(50);
+  await delay(150);
   const newTask = join(tasksDir, "new_task.md");
   await fs.writeFile(newTask, "");
   await delay(300);

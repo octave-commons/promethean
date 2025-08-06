@@ -37,9 +37,11 @@ test("ignores board changes caused by watcher", async (t) => {
       }
       return undefined;
     },
+    mongoCollection: { updateOne: async () => {} } as any,
+    socket: { emit: () => {} } as any,
   });
 
-  await delay(50);
+  await delay(150);
   await fs.writeFile(taskFile, "update");
   await delay(300);
 
@@ -63,9 +65,11 @@ test("ignores task changes caused by watcher", async (t) => {
       }
       return undefined;
     },
+    mongoCollection: { updateOne: async () => {} } as any,
+    socket: { emit: () => {} } as any,
   });
 
-  await delay(50);
+  await delay(150);
   await fs.writeFile(boardFile, "change");
   await delay(300);
 
