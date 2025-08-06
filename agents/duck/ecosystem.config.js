@@ -58,6 +58,12 @@ module.exports = {
         ...discord_env,
       },
     }),
+    defineApp("duck_voice", ".", [], {
+      cwd: path.join(__dirname, "../../services/ts/voice"),
+      env: {
+        ...discord_env,
+      },
+    }),
     defineApp(
       "duck_attachment_indexer",
       "pipenv",
