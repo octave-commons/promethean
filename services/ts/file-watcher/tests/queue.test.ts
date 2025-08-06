@@ -26,6 +26,7 @@ test("limits concurrent LLM tasks", async (t) => {
 
   const watchers = startFileWatcher({
     repoRoot: root,
+    publish: () => {},
     runPython: async () => undefined,
     callLLM: async () => {
       active++;
