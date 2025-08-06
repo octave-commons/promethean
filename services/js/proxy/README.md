@@ -2,6 +2,8 @@
 
 Routes HTTP requests for multiple Promethean services through a single entry point.
 
+Also hosts a Socket.IO WebSocket hub for real-time event routing between clients.
+
 ## Routes
 
 Requests with the following prefixes are proxied by default:
