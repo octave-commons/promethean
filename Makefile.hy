@@ -1,6 +1,7 @@
 (import shutil)
 (import util [sh run-dirs])
 (import dotenv [load-dotenv])
+(import os)
 (import os.path [isdir isfile join])
 (import platform)
 (load-dotenv)
@@ -201,11 +202,14 @@
   (run-dirs SERVICES_TS "npx --yes @biomejs/biome format ." :shell True))
 
 (defn-cmd typecheck-ts []
-  (run-dirs SERVICES_TS "npx tsc --noEmit" :shell True))
+  (setv svc (or (os.environ.get "service") (os.environ.get "SERVICE")))
+  (if svc
+    (sh "npx tsc --noEmit" :cwd (join "services/ts" svc) :shell True)
+    (run-dirs SERVICES_TS "npx tsc --noEmit" :shell True)))
 
 (defn-cmd setup-ts-service [service]
   (print (.format "Setting up TS service: {}" service))
-  (sh "npm install --no-package-lock" :cwd (join "services/ts" service) :shell True))
+  (sh "npm install --no-package-lock --ignore-scripts" :cwd (join "services/ts" service) :shell True))
 
 (defn-cmd setup-ts []
   (print "Setting up TypeScript services...")
