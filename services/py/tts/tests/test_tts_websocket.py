@@ -34,6 +34,13 @@ def test_websocket_tts_returns_wav_bytes():
     dummy_sf = types.SimpleNamespace(write=dummy_write)
     dummy_nltk = types.SimpleNamespace(download=lambda *a, **k: None)
 
+    class DummyBroker:
+        async def publish(self, *a, **k):
+            pass
+
+    async def dummy_start_service(*a, **k):
+        return DummyBroker()
+
     class DummyNoGrad:
         def __enter__(self):
             pass
@@ -83,6 +90,9 @@ def test_websocket_tts_returns_wav_bytes():
                 "speech.tts": dummy_module,
                 "shared.py.speech": dummy_package,
                 "shared.py.speech.tts": dummy_module,
+                "shared.py.service_template": types.SimpleNamespace(
+                    start_service=dummy_start_service
+                ),
                 "soundfile": dummy_sf,
                 "nltk": dummy_nltk,
                 "torch": dummy_torch,

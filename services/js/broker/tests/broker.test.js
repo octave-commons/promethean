@@ -13,12 +13,41 @@ async function connect() {
 }
 
 test.beforeEach(async () => {
+  process.env.REDIS_URL = "redis://127.0.0.1:6390"; // force fallback to memory
   server = await start(0);
   port = server.address().port;
 });
 
 test.afterEach.always(async () => {
   await stop(server);
+});
+
+test.serial("enqueues and dequeues tasks", async (t) => {
+  const prod = await connect();
+  const worker = await connect();
+  prod.send(
+    JSON.stringify({
+      action: "enqueue",
+      queue: "jobs",
+      task: { x: 1 },
+    }),
+  );
+  await new Promise((r) => setTimeout(r, 50));
+  const received = new Promise((resolve) => {
+    worker.once("message", (data) => resolve(JSON.parse(data)));
+  });
+  worker.send(JSON.stringify({ action: "dequeue", queue: "jobs" }));
+  const msg = await received;
+  t.deepEqual(msg.task, { x: 1 });
+
+  const received2 = new Promise((resolve) => {
+    worker.once("message", (data) => resolve(JSON.parse(data)));
+  });
+  worker.send(JSON.stringify({ action: "dequeue", queue: "jobs" }));
+  const msg2 = await received2;
+  t.is(msg2.task, null);
+  prod.close();
+  worker.close();
 });
 
 test.serial("routes published messages to subscribers", async (t) => {
