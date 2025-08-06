@@ -2,6 +2,7 @@
 (import util [sh run-dirs])
 (import dotenv [load-dotenv])
 (import os.path [isdir join])
+(import platform)
 (load-dotenv)
 (require macros [ define-service-list defn-cmd ])
 
@@ -336,6 +337,11 @@
 (defn-cmd system-deps []
   (sh "sudo apt-get update && sudo apt-get install -y libsndfile1" :shell True))
 
+(defn-cmd install-mongodb []
+  (if (= (platform.system) "Linux")
+      (sh "curl -fsSL https://pgp.mongodb.com/server-7.0.asc | sudo gpg --dearmor --yes -o /usr/share/keyrings/mongodb-server-7.0.gpg && echo 'deb [ signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse' | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list && sudo apt-get update && sudo apt-get install -y mongodb-org" :shell True)
+      (print "MongoDB installation is only supported on Linux")))
+
 (defn-cmd start []
   (sh ["pm2" "start" "ecosystem.config.js"]))
 
@@ -428,7 +434,7 @@
   (setv header
         "# Auto-generated Makefile. DO NOT EDIT MANUALLY.\n\n"
         command-section
-        "COMMANDS := \\\n  all build clean lint format test setup setup-quick install \\\n  install-gha-artifacts system-deps start stop \\\n  start-tts start-stt stop-tts stop-stt \\\n  board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues \\\n  coverage coverage-python coverage-js coverage-ts simulate-ci \\\n  docker-build docker-up docker-down \\\n  typecheck-python test-e2e typecheck-ts build-ts build-js \\\n  setup-pipenv compile-hy \\\n  setup-python setup-python-quick setup-js setup-ts setup-hy \\\n  test-python test-js test-ts test-hy test-integration \\\n  generate-requirements generate-python-services-requirements generate-makefile\n\n")
+        "COMMANDS := \\\n  all build clean lint format test setup setup-quick install install-mongodb \\\n  install-gha-artifacts system-deps start stop \\\n  start-tts start-stt stop-tts stop-stt \\\n  board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues \\\n  coverage coverage-python coverage-js coverage-ts simulate-ci \\\n  docker-build docker-up docker-down \\\n  typecheck-python test-e2e typecheck-ts build-ts build-js \\\n  setup-pipenv compile-hy \\\n  setup-python setup-python-quick setup-js setup-ts setup-hy \\\n  test-python test-js test-ts test-hy test-integration \\\n  generate-requirements generate-python-services-requirements generate-makefile\n\n")
 
   ;; Group rules by prefix for PHONY
   (setv phony-lines []
