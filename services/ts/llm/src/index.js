@@ -8,7 +8,7 @@ export const MODEL = process.env.LLM_MODEL || "gemma3:latest";
 export const app = express();
 app.use(express.json({ limit: "500mb" }));
 
-export async function callOllama({ prompt, context, format }, retry = 0) {
+let callOllamaFn = async ({ prompt, context, format }, retry = 0) => {
   try {
     const res = await ollama.chat({
       model: MODEL,
@@ -20,10 +20,18 @@ export async function callOllama({ prompt, context, format }, retry = 0) {
   } catch (err) {
     if (retry < 5) {
       await new Promise((r) => setTimeout(r, retry * 1610));
-      return callOllama({ prompt, context, format }, retry + 1);
+      return callOllamaFn({ prompt, context, format }, retry + 1);
     }
     throw err;
   }
+};
+
+export function setCallOllamaFn(fn) {
+  callOllamaFn = fn;
+}
+
+export async function callOllama(args, retry = 0) {
+  return callOllamaFn(args, retry);
 }
 app.post("/generate", async (req, res) => {
   const { prompt, context, format } = req.body;
@@ -41,7 +49,7 @@ app.post("/generate", async (req, res) => {
   console.log("root prompt", prompt);
   console.log("format", format || "string");
   try {
-    const reply = await callOllama({ prompt, context, format });
+    const reply = await callOllamaFn({ prompt, context, format });
     res.json({ reply });
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -50,19 +58,30 @@ app.post("/generate", async (req, res) => {
 
 export const port = process.env.LLM_PORT || 5003;
 
+let wss;
 export async function start(listenPort = port) {
-  const hb = new HeartbeatClient();
-  await hb.sendOnce();
-  hb.start();
+  try {
+    const hb = new HeartbeatClient({ name: process.env.name || "llm" });
+    await hb.sendOnce();
+    hb.start();
+  } catch {}
   const server = app.listen(listenPort, () => {
     console.log(`LLM service listening on ${listenPort}`);
   });
-  const wss = new WebSocketServer({ server, path: "/generate" });
+  wss = new WebSocketServer({ server, path: "/generate" });
   wss.on("connection", (ws) => {
-    ws.on("message", async (data) => {
+    ws.on("message", async (msg) => {
+      let data;
       try {
-        const { prompt, context, format } = JSON.parse(data.toString());
-        const reply = await callOllama({ prompt, context, format });
+        data = JSON.parse(msg.toString());
+      } catch {
+        ws.send(JSON.stringify({ error: "invalid json" }));
+        return;
+      }
+      const { prompt, context, format } = data;
+      try {
+        const reply = await callOllamaFn({ prompt, context, format });
+
         ws.send(JSON.stringify({ reply }));
       } catch (e) {
         ws.send(JSON.stringify({ error: e.message }));
