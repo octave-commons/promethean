@@ -1,6 +1,7 @@
 import express from "express";
 import ollama from "ollama";
 import { HeartbeatClient } from "../../../../shared/js/heartbeat/index.js";
+import { startService } from "../../../../shared/js/serviceTemplate.js";
 import { WebSocketServer } from "ws";
 
 export const MODEL = process.env.LLM_MODEL || "gemma3:latest";
@@ -59,7 +60,31 @@ app.post("/generate", async (req, res) => {
 export const port = process.env.LLM_PORT || 5003;
 
 let wss;
+let broker;
+
+export function setBroker(b) {
+  broker = b;
+}
+
+export async function handleTask(task) {
+  const payload = task?.payload || {};
+  const { prompt, context = [], format = null, replyTopic } = payload;
+  const reply = await callOllamaFn({ prompt, context, format });
+  if (replyTopic && broker) {
+    broker.publish(replyTopic, { reply, taskId: task.id });
+  }
+}
+
 export async function start(listenPort = port) {
+  try {
+    broker = await startService({
+      id: process.env.name || "llm",
+      queues: ["llm.generate"],
+      handleTask,
+    });
+  } catch (err) {
+    console.error("Failed to initialize broker", err);
+  }
   try {
     const hb = new HeartbeatClient({ name: process.env.name || "llm" });
     await hb.sendOnce();
