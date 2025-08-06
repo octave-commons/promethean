@@ -10,7 +10,7 @@ COMMANDS := \
   typecheck-python typecheck-ts build-ts build-js \
   setup-pipenv compile-hy \
   setup-python setup-python-quick setup-js setup-ts setup-hy \
-  test-python test-js test-ts test-hy \
+  test-python test-js test-ts test-hy test-integration \
   generate-requirements generate-python-services-requirements generate-makefile
 
 .PHONY: \

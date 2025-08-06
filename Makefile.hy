@@ -275,6 +275,9 @@
   (test-js)
   (test-ts))
 
+(defn-cmd test-integration []
+  (sh "python -m pytest tests/integration" :shell True))
+
 (defn-cmd format []
   (format-python)
   (format-js)
@@ -418,7 +421,7 @@
   (setv header
         "# Auto-generated Makefile. DO NOT EDIT MANUALLY.\n\n"
         command-section
-        "COMMANDS := \\\n  all build clean lint format test setup setup-quick install \\\n  install-gha-artifacts system-deps start stop \\\n  start-tts start-stt stop-tts stop-stt \\\n  board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues \\\n  coverage coverage-python coverage-js coverage-ts simulate-ci \\\n  docker-build docker-up docker-down \\\n  typecheck-python typecheck-ts build-ts build-js \\\n  setup-pipenv compile-hy \\\n  setup-python setup-python-quick setup-js setup-ts setup-hy \\\n  test-python test-js test-ts test-hy \\\n  generate-requirements generate-python-services-requirements generate-makefile\n\n")
+        "COMMANDS := \\\n  all build clean lint format test setup setup-quick install \\\n  install-gha-artifacts system-deps start stop \\\n  start-tts start-stt stop-tts stop-stt \\\n  board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues \\\n  coverage coverage-python coverage-js coverage-ts simulate-ci \\\n  docker-build docker-up docker-down \\\n  typecheck-python typecheck-ts build-ts build-js \\\n  setup-pipenv compile-hy \\\n  setup-python setup-python-quick setup-js setup-ts setup-hy \\\n  test-python test-js test-ts test-hy test-integration \\\n  generate-requirements generate-python-services-requirements generate-makefile\n\n")
 
   ;; Group rules by prefix for PHONY
   (setv phony-lines []
