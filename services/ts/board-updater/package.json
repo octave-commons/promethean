@@ -1,5 +1,5 @@
 {
-  "name": "file-watcher",
+  "name": "board-updater",
   "version": "0.1.0",
   "main": "dist/index.js",
   "type": "module",
@@ -15,7 +15,6 @@
     "format": "prettier --cache --write . && eslint . --fix --cache || true"
   },
   "dependencies": {
-    "chokidar": "^3.5.3",
     "ws": "^8.18.0"
   },
   "devDependencies": {
