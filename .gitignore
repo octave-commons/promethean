@@ -1,10 +1,7 @@
 **/node_modules/**
 node_modules/
 dist/
-onnx_model/
-models/
 data/
-open_vino_modelfp16/
 pulbic/
 .env
 agents/duck/chroma_data/

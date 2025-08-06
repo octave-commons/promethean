@@ -137,15 +137,15 @@
   (sh ["flake8" (join "services" "py" service)]))
 
 (defn-cmd lint-python []
-  (sh ["flake8" "services/" "shared/py/"]))
+  (sh ["flake8" "services/py" "shared/py/"]))
 
 (defn-cmd format-python []
-  (sh ["black" "services/" "shared/py/"]))
+  (sh ["black" "services/py" "shared/py/"])
+  (sh ["black"  "shared/py/"])
+  )
 
 (defn-cmd typecheck-python []
-  (if (os.environ.get "SIMULATE_CI")
-      (print "Skipping Python typecheck during CI simulation")
-      (sh ["mypy" "services/" "shared/py/"])) )
+  (sh ["mypy" "services/py" "shared/py/"]) )
 
 ;; JavaScript helpers ---------------------------------------------------------
 (defn-cmd lint-js-service [service]
@@ -204,7 +204,7 @@
       (sh "npm run lint" :cwd d :shell True))))
 
 (defn-cmd format-ts []
-  (run-dirs SERVICES_TS "npx --yes @biomejs/biome format ." :shell True))
+  (run-dirs SERVICES_TS "npx --yes @biomejs/biome format --write"  :shell True))
 
 (defn-cmd typecheck-ts []
   (setv svc (or (os.environ.get "service") (os.environ.get "SERVICE")))
@@ -220,7 +220,7 @@
 
 (defn-cmd setup-ts-service [service]
   (print (.format "Setting up TS service: {}" service))
-  (sh "npm install --no-package-lock --ignore-scripts" :cwd (join "services/ts" service) :shell True))
+  (sh "npm install " :cwd (join "services/ts" service) :shell True))
 
 (defn-cmd setup-ts []
   (print "Setting up TypeScript services...")
@@ -457,9 +457,22 @@
 
 (defn-cmd generate-makefile []
   (setv header
-        "# Auto-generated Makefile. DO NOT EDIT MANUALLY.\n\n"
-        command-section
-        "COMMANDS := \\\n  all build clean lint format test setup setup-quick install install-mongodb \\\n  install-gha-artifacts system-deps start stop \\\n  start-tts start-stt stop-tts stop-stt \\\n  board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues \\\n  coverage coverage-python coverage-js coverage-ts simulate-ci \\\n  docker-build docker-up docker-down \\\n  typecheck-python test-e2e typecheck-ts build-ts build-js \\\n  setup-pipenv compile-hy \\\n  setup-python setup-python-quick setup-js setup-ts setup-hy \\\n  test-python test-js test-ts test-hy test-integration \\\n  generate-requirements generate-python-services-requirements generate-makefile\n\n")
+        "# Auto-generated Makefile. DO NOT EDIT MANUALLY.\n\n")
+  ;; Extract base commands (no % wildcard) for COMMANDS block
+  (setv commands
+        (sorted
+         (list (set
+                (gfor [cmd _] patterns
+                      :if (not (in "%" cmd))
+                      cmd)))))
+
+  ;; Join COMMANDS into lines with `\` continuation
+  (setv command-section
+        (.join ""
+              ["COMMANDS := \\\n  "
+              (.join " \\\n  " commands)
+              "\n\n"]))
+
 
   ;; Group rules by prefix for PHONY
   (setv phony-lines []
@@ -507,6 +520,4 @@
                 (sys.exit 1)))))))
 
 (when (= __name__ "__main__")
-  ;; (print (str (. commands [0] [0])))
-  (print "patterns" patterns)
   (main))

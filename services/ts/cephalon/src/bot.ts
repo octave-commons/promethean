@@ -52,7 +52,12 @@ export class Bot extends EventEmitter {
 		this.client = new Client({
 			intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates],
 		});
-		this.agent = new AIAgent({ historyLimit: 20, bot: this, context: this.context, llm: new LLMService() });
+		this.agent = new AIAgent({
+			historyLimit: 20,
+			bot: this,
+			context: this.context,
+			llm: new LLMService(),
+		});
 	}
 
 	get guilds(): Promise<discord.Guild[]> {
@@ -104,9 +109,9 @@ export class Bot extends EventEmitter {
 		for (const [, command] of Bot.interactions) commands.push(command);
 		return Promise.all(
 			(await this.guilds).map((guild) =>
-				new REST()
-					.setToken(this.token)
-					.put(Routes.applicationGuildCommands(this.applicationId, guild.id), { body: commands }),
+				new REST().setToken(this.token).put(Routes.applicationGuildCommands(this.applicationId, guild.id), {
+					body: commands,
+				}),
 			),
 		);
 	}
@@ -116,7 +121,10 @@ export class Bot extends EventEmitter {
 		if (message.author?.bot) return;
 		const imageAttachments = [...message.attachments.values()].filter((att) => att.contentType?.startsWith('image/'));
 		if (!imageAttachments.length) return;
-		const files = imageAttachments.map((att) => ({ attachment: att.url, name: att.name }));
+		const files = imageAttachments.map((att) => ({
+			attachment: att.url,
+			name: att.name,
+		}));
 		try {
 			await this.captureChannel.send({ files });
 		} catch (e) {
