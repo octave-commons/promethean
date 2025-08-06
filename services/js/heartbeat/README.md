@@ -1,6 +1,6 @@
 # Heartbeat Service (Node.js)
 
-Tracks process heartbeats via HTTP and terminates those that fail to report within a timeout.
+Tracks process heartbeats published on the message broker and terminates those that fail to report within a timeout.
 Backed by MongoDB for storage. Intended for detecting and cleaning up hung or orphaned worker processes.
 Also enforces the instance limits defined in a PM2 ecosystem file, rejecting registrations that exceed the configured count for a given app name.
 Each heartbeat updates CPU, memory, and network byte counts for the process based on its PID.
@@ -9,10 +9,9 @@ On shutdown the service marks all heartbeats from its current session as killed 
 
 ## API
 
-- `POST /heartbeat` `{ pid: number, name: string }`
-  - Records a heartbeat for the given PID and PM2 app name.
-  - Responds with `{ cpu, memory, netRx, netTx }` metrics.
-  - Returns `409` if the number of live instances for that name exceeds the limit in the ecosystem config.
+- Broker topic `heartbeat`
+  - Services publish `{ pid: number, name: string }` messages to this topic.
+  - Heartbeats exceeding instance limits are ignored.
 - `GET /heartbeats`
   - Returns an array of all known heartbeats with their last-seen metrics.
 
@@ -25,6 +24,7 @@ Visiting the service root (`/`) serves a simple dashboard that polls `/heartbeat
 - `HEARTBEAT_TIMEOUT` milliseconds before a process is considered stale (default `10000`)
 - `CHECK_INTERVAL` monitor interval in milliseconds (default `5000`)
 - `ECOSYSTEM_CONFIG` path to a PM2 ecosystem config file; defaults to `../../../ecosystem.config.js`
+- `BROKER_URL` WebSocket URL of the message broker (default `ws://127.0.0.1:7000`)
 
 ## Development
 
