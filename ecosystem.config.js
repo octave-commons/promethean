@@ -1,4 +1,7 @@
 const { defineApp } = require("./dev/pm2Helpers.js");
+const {
+  apps: [embeddingService],
+} = require("./ecosystem.embedder.js");
 defineApp.PYTHONPATH = __dirname;
 const duck = require("./agents/duck/ecosystem.config.js");
 defineApp.HEARTBEAT_PORT = 5005;
@@ -6,6 +9,7 @@ defineApp.HEARTBEAT_PORT = 5005;
 module.exports = {
   apps: [
     ...duck.apps,
+    embeddingService,
     defineApp(
       "tts",
       "pipenv",
@@ -14,10 +18,7 @@ module.exports = {
         cwd: "./services/py/tts",
         watch: ["./services/py/tts"],
 
-        env: {
-          FLASK_APP: "app.py",
-          FLASK_ENV: "production",
-        },
+        env: {},
       },
     ),
     defineApp(

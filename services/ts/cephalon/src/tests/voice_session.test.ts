@@ -8,7 +8,7 @@ ModuleAny._load = function (request: string, parent: any, isMain: boolean) {
 	return originalLoad(request, parent, isMain);
 };
 
-const { VoiceSession } = await import('../src/voice-session.js');
+const { VoiceSession } = await import('../../src/voice-session.js');
 
 function makeGuild(id: string): any {
 	return { id, voiceAdapterCreator: () => ({}) };

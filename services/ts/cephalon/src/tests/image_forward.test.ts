@@ -1,5 +1,5 @@
 import test from 'ava';
-import { Bot } from '../src/bot.js';
+import { Bot } from '../../src/bot.js';
 
 test('forwards image attachments to capture channel', async (t) => {
 	let sent: any = null;
