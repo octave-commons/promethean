@@ -25,6 +25,11 @@ export interface FileWatcherOptions {
     capture?: boolean,
     args?: string[],
   ) => Promise<string | void>;
+  /** Function used to call the LLM service. */
+  callLLM?: (
+    prompt: string,
+    context: { role: string; content: string }[],
+  ) => Promise<string>;
   /** Function used to write the kanban board file. */
   writeFile?: (path: string, data: string) => Promise<void>;
   /** Function used to populate new task files using the LLM service. */
@@ -64,6 +69,23 @@ function defaultRunPython(
       }
     });
   });
+}
+
+async function defaultCallLLM(
+  prompt: string,
+  context: { role: string; content: string }[],
+): Promise<string> {
+  const fetchFn = (globalThis as any).fetch;
+  const res = await fetchFn(
+    process.env.LLM_URL || "http://localhost:5003/generate",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt, context }),
+    },
+  );
+  const data = await res.json();
+  return data.reply as string;
 }
 
 /**
@@ -116,6 +138,7 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
         console.error("populateTask failed", err);
       }
     });
+  const callLLM = options.callLLM ?? defaultCallLLM;
 
   const boardPath = join(repoRoot, "docs", "agile", "boards", "kanban.md");
   const tasksPath = join(repoRoot, "docs", "agile", "tasks");
@@ -296,6 +319,7 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
     populateTask,
     updateBoard,
     fileLocks,
+    callLLM,
   });
 
   if (initialParse) {

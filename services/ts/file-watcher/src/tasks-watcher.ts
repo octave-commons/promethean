@@ -1,22 +1,27 @@
 import chokidar from "chokidar";
+import { basename } from "path";
+import { stat, writeFile } from "fs/promises";
 import { FileLocks } from "./file-lock.js";
 
 export interface TasksWatcherOptions {
   tasksPath: string;
-  /**
-   * Populate a newly created task file using the LLM service.
-   */
-  populateTask: (path: string) => Promise<void>;
+  callLLM: (
+    prompt: string,
+    context: { role: string; content: string }[],
+  ) => Promise<string>;
   updateBoard: () => Promise<void>;
   fileLocks: FileLocks;
   lockDelay?: number;
 }
 
 export function createTasksWatcher(options: TasksWatcherOptions) {
-  const { tasksPath, populateTask, updateBoard, fileLocks } = options;
+  const { tasksPath, callLLM, updateBoard, fileLocks } = options;
   const lockDelay = options.lockDelay ?? 100;
 
   const watcher = chokidar.watch(tasksPath, { ignoreInitial: true });
+
+  const TEMPLATE_PROMPT =
+    "You are an engineering assistant. Given a task title, produce a concise markdown task stub with headings for Goals, Requirements, and Subtasks.";
 
   watcher.on("add", (path) => {
     if (fileLocks.isLocked(path)) {
@@ -25,12 +30,37 @@ export function createTasksWatcher(options: TasksWatcherOptions) {
     }
     console.log("New task file added, populating stub...");
     fileLocks.lock(path);
-    populateTask(path)
-      .then(() => updateBoard())
-      .catch((err) => console.error("populateTask failed", err))
-      .finally(() => {
+    (async () => {
+      try {
+        const info = await stat(path);
+        if (info.size > 0) {
+          return;
+        }
+      } catch {}
+
+      try {
+        const title = basename(path, ".md").replace(/_/g, " ");
+        let content = await callLLM(TEMPLATE_PROMPT, [
+          { role: "user", content: `Title: ${title}` },
+        ]);
+        content = content.trim();
+        if (!content) {
+          content = `## 🛠️ Task: ${title}\n\n- outline details here`;
+        }
+        if (!content.startsWith("#")) {
+          content = `#Todo\n\n${content}`;
+        }
+        if (!content.endsWith("\n")) {
+          content += "\n";
+        }
+        await writeFile(path, content);
+        await updateBoard();
+      } catch (err) {
+        console.error("populate_task_llm failed", err);
+      } finally {
         fileLocks.unlockAfter(path, lockDelay);
-      });
+      }
+    })();
   });
 
   watcher.on("change", (path) => {
