@@ -5,18 +5,20 @@
  * to the service on a fixed interval. Uses the global `fetch` available in
  * modern Node.js versions, avoiding external dependencies.
  */
-const HEARTBEAT_PORT = process.env.HEARTBEAT_PORT || 5000;
+const HEARTBEAT_PORT = process.env.HEARTBEAT_PORT || 5005;
 export class HeartbeatClient {
   constructor({
     url = `http://127.0.0.1:${HEARTBEAT_PORT}/heartbeat`,
     pid = process.pid,
     name = process.env.name,
     interval = 3000,
+    onHeartbeat,
   } = {}) {
     this.url = url;
     this.pid = pid;
     this.name = name;
     this.interval = interval;
+    this.onHeartbeat = onHeartbeat;
     this._timer = null;
     if (!this.name) {
       throw new Error("name required for HeartbeatClient");
@@ -37,11 +39,15 @@ export class HeartbeatClient {
 
   start() {
     if (this._timer) return;
-    this._timer = setInterval(() => {
-      this.sendOnce().catch(() => {
+    const tick = async () => {
+      try {
+        const data = await this.sendOnce();
+        if (this.onHeartbeat) this.onHeartbeat(data);
+      } catch {
         /* ignore errors */
-      });
-    }, this.interval);
+      }
+    };
+    this._timer = setInterval(tick, this.interval);
   }
 
   stop() {
