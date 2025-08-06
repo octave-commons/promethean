@@ -459,12 +459,6 @@
   (setv header
         "# Auto-generated Makefile. DO NOT EDIT MANUALLY.\n\n")
   ;; Extract base commands (no % wildcard) for COMMANDS block
-  (setv commands
-        (sorted
-         (list (set
-                (gfor [cmd _] patterns
-                      :if (not (in "%" cmd))
-                      cmd)))))
 
   ;; Join COMMANDS into lines with `\` continuation
   (setv command-section
