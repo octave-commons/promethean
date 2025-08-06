@@ -1,4 +1,5 @@
 import { MongoClient } from "mongodb";
+import { startService } from "../../../shared/js/serviceTemplate.js";
 
 export class VectorN {
   constructor(values) {
@@ -147,14 +148,36 @@ export class VectorFieldService {
   }
 }
 
-if (process.env.NODE_ENV !== "test") {
+export async function start() {
   const service = new VectorFieldService();
   service.addNode(new FieldNode(VectorN.zero(8), 1.0, 1));
-  service
-    .start()
-    .then(() => console.log("eidolon-field service started"))
-    .catch((err) => {
-      console.error("failed to start service", err);
-      process.exit(1);
-    });
+  await service.start();
+
+  await startService({
+    id: "eidolon-field",
+    queues: ["eidolon-field"],
+    handleTask: async (task) => {
+      const {
+        action,
+        position,
+        strength = 1.0,
+        radius = 1,
+      } = task.payload || {};
+      if (action === "add-node" && Array.isArray(position)) {
+        service.addNode(new FieldNode(new VectorN(position), strength, radius));
+      } else if (action === "tick") {
+        service.tick();
+      }
+    },
+  });
+
+  console.log("eidolon-field service started");
+  return service;
+}
+
+if (process.env.NODE_ENV !== "test") {
+  start().catch((err) => {
+    console.error("failed to start service", err);
+    process.exit(1);
+  });
 }
