@@ -208,9 +208,15 @@
 
 (defn-cmd typecheck-ts []
   (setv svc (or (os.environ.get "service") (os.environ.get "SERVICE")))
+  (defn run [path]
+    (if (and (isfile (join path "tsconfig.json"))
+             (isdir (join path "node_modules")))
+      (sh "npx tsc --noEmit" :cwd path :shell True)
+      (print (.format "Skipping typecheck for {}" path))))
   (if svc
-    (sh "npx tsc --noEmit" :cwd (join "services/ts" svc) :shell True)
-    (run-dirs SERVICES_TS "npx tsc --noEmit" :shell True)))
+    (run (join "services/ts" svc))
+    (for [d SERVICES_TS]
+      (run d))))
 
 (defn-cmd setup-ts-service [service]
   (print (.format "Setting up TS service: {}" service))
