@@ -30,8 +30,8 @@ export class Transcriber extends EventEmitter {
 	constructor(
 		options: TranscriberOptions = {
 			hostname: 'localhost',
-			port: 5002,
-			endpoint: '/transcribe_pcm',
+			port: Number(process.env.PROXY_PORT) || 8080,
+			endpoint: '/stt/transcribe_pcm',
 		},
 	) {
 		super();
