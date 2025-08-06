@@ -11,6 +11,10 @@ Each heartbeat updates CPU, memory, and network byte counts for the process base
   - Records a heartbeat for the given PID and PM2 app name.
   - Responds with `{ cpu, memory, netRx, netTx }` metrics.
   - Returns `409` if the number of live instances for that name exceeds the limit in the ecosystem config.
+- `GET /heartbeats`
+  - Returns an array of all known heartbeats with their last-seen metrics.
+
+Visiting the service root (`/`) serves a simple dashboard that polls `/heartbeats` and lists active processes.
 
 ## Environment
 

@@ -2,7 +2,7 @@
 
 **Path**: `services/js/heartbeat/index.js`
 
-**Description**: Express service that records process heartbeats in MongoDB, enforcing per-app instance limits and capturing CPU, memory, and network metrics.
+**Description**: Express service that records process heartbeats in MongoDB, enforcing per-app instance limits and capturing CPU, memory, and network metrics. Provides a `/heartbeats` endpoint and a simple web dashboard.
 
 ## Dependencies
 - express
