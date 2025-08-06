@@ -9,6 +9,7 @@ import { createBoardWatcher } from "./board-watcher.js";
 import { createTasksWatcher } from "./tasks-watcher.js";
 import type chokidar from "chokidar";
 
+
 /**
  * Options for {@link startFileWatcher} allowing injection of dependencies for testing.
  */
@@ -69,6 +70,7 @@ function defaultRunPython(
 export function startFileWatcher(options: FileWatcherOptions = {}): {
   boardWatcher: chokidar.FSWatcher;
   tasksWatcher: chokidar.FSWatcher;
+  close: () => Promise<void>;
 } {
   const repoRoot = options.repoRoot ?? defaultRepoRoot;
   const runPython = options.runPython ?? defaultRunPython;
@@ -92,7 +94,10 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
     })();
 
   const socket =
-    options.socket ?? io(process.env.SOCKET_URL || "http://localhost:3000");
+    options.socket ??
+    (process.env.NODE_ENV === "test"
+      ? ({ emit: () => {}, disconnect: () => {} } as any)
+      : io(process.env.SOCKET_URL || "http://localhost:3000"));
   const initialParse = options.initialParse ?? true;
 
   let previousState: Record<string, KanbanCard> = {};
@@ -257,7 +262,20 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
     );
   }
 
-  return { boardWatcher, tasksWatcher };
+  return {
+    boardWatcher,
+    tasksWatcher,
+    async close() {
+      await Promise.all([
+        boardWatcher.close(),
+        tasksWatcher.close(),
+        mongoClient ? mongoClient.close() : Promise.resolve(),
+      ]);
+      if (!options.socket && (socket as any)?.disconnect) {
+        (socket as any).disconnect();
+      }
+    },
+  };
 }
 
 if (process.env.NODE_ENV !== "test") {
