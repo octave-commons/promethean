@@ -14,8 +14,8 @@ export class VoiceSynth extends EventEmitter {
 	constructor(
 		options: VoiceSynthOptions = {
 			host: 'localhost',
-			endpoint: '/synth-voice', // fix this later
-			port: 5001,
+			endpoint: '/tts/synth_voice_pcm',
+			port: Number(process.env.PROXY_PORT) || 8080,
 		},
 	) {
 		super();
@@ -25,9 +25,9 @@ export class VoiceSynth extends EventEmitter {
 	}
 	async generateAndUpsampleVoice(text: string): Promise<{ stream: Readable; cleanup: () => void }> {
 		const req = request({
-			hostname: 'localhost',
-			port: 5001,
-			path: '/synth_voice_pcm',
+			hostname: this.host,
+			port: this.port,
+			path: this.endpoint,
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
@@ -84,9 +84,9 @@ export class VoiceSynth extends EventEmitter {
 		return new Promise((resolve, reject) => {
 			const req = request(
 				{
-					hostname: 'localhost',
-					port: 5001,
-					path: '/synth_voice_pcm',
+					hostname: this.host,
+					port: this.port,
+					path: this.endpoint,
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/x-www-form-urlencoded',
