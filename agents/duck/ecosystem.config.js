@@ -78,6 +78,19 @@ module.exports = {
       },
     ),
 
+    defineApp(
+      "discord_attachment_embedder",
+      "pipenv",
+      ["run", "python", "-m", "main"],
+      {
+        cwd: "./services/py/discord_attachment_embedder",
+        watch: ["./services/py/discord_attachment_embedder"],
+
+        env: {
+          ...discord_env,
+        },
+      },
+    ),
     {
       name: "chromadb",
       cwd: __dirname,

@@ -9,6 +9,7 @@ sentence-transformers = "*"
 pymongo = "*"
 requests = "*"
 pillow = "*"
+websockets="*"
 
 [dev-packages]
 pytest = "*"

@@ -10,6 +10,7 @@ dotenv = "*"
 pymongo = "*"
 pytest-asyncio = "*"
 hy = "*"
+websockets="*"
 
 [dev-packages]
 pytest-cov = "*"
