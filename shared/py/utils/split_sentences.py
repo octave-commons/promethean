@@ -39,7 +39,15 @@ def split_sentences(text, max_chunk_len=79, min_chunk_len=20):
     log.debug("Found %d sentences.", len(sentences))
 
     all_chunks = []
-    current_chunk = ""
+    current_words: list[str] = []
+    current_len = 0
+
+    def flush_chunk() -> None:
+        nonlocal current_words, current_len
+        if current_words:
+            all_chunks.append(" ".join(current_words).strip())
+            current_words = []
+            current_len = 0
 
     i = 0
     while i < len(sentences):
@@ -47,43 +55,46 @@ def split_sentences(text, max_chunk_len=79, min_chunk_len=20):
 
         # If sentence is too long, split by words
         if len(sentence) > max_chunk_len:
-            words = sentence.split()
-            for word in words:
-                if len(current_chunk) + len(word) + 1 > max_chunk_len:
-                    if len(current_chunk) >= min_chunk_len:
-                        all_chunks.append(current_chunk.strip())
-                        current_chunk = ""
-                if current_chunk:
-                    current_chunk += " "
-                current_chunk += word
+            for word in sentence.split():
+                potential_len = current_len + len(word) + (1 if current_words else 0)
+                if potential_len > max_chunk_len and current_len >= min_chunk_len:
+                    flush_chunk()
+                if current_words:
+                    current_len += 1  # account for space
+                current_words.append(word)
+                current_len += len(word)
         else:
             # Would adding this sentence bust the limit?
-            if len(current_chunk) + len(sentence) + 1 > max_chunk_len:
-                if len(current_chunk) >= min_chunk_len:
-                    all_chunks.append(current_chunk.strip())
-                    current_chunk = ""
+            potential_len = current_len + len(sentence) + (1 if current_words else 0)
+            if potential_len > max_chunk_len:
+                if current_len >= min_chunk_len:
+                    flush_chunk()
                 else:
                     # Try to append next sentence to reach min length
-                    while len(current_chunk) < min_chunk_len and i + 1 < len(sentences):
+                    while current_len + len(sentence) < min_chunk_len and i + 1 < len(
+                        sentences
+                    ):
                         sentence += " " + sentences[i + 1]
                         i += 1
                         if len(sentence) > max_chunk_len:
                             break
-                    # At this point, try again to add
-                    if len(current_chunk) + len(sentence) + 1 > max_chunk_len:
-                        all_chunks.append(current_chunk.strip())
-                        current_chunk = ""
+                    potential_len = (
+                        current_len + len(sentence) + (1 if current_words else 0)
+                    )
+                    if potential_len > max_chunk_len:
+                        flush_chunk()
 
-            if current_chunk:
-                current_chunk += " "
-            current_chunk += sentence
+            if current_words:
+                current_len += 1
+            current_words.append(sentence)
+            current_len += len(sentence)
 
         i += 1
 
-    if current_chunk:
-        if len(current_chunk) < min_chunk_len:
-            current_chunk += " ..."  # Or your filler of choice
-        all_chunks.append(current_chunk.strip())
+    if current_words:
+        if current_len < min_chunk_len:
+            current_words.append("...")  # Or your filler of choice
+        flush_chunk()
 
     for chunk in all_chunks:
         log.debug("Chunk: '%s' (length: %d)", chunk, len(chunk))
