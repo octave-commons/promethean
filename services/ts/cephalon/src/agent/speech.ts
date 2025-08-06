@@ -1,4 +1,7 @@
-import { AGENT_NAME } from '../../../../../shared/js/env.js';
+let AGENT_NAME = 'Agent';
+try {
+	({ AGENT_NAME } = await import('../../../../../shared/js/env.js'));
+} catch {}
 import { splitSentances, seperateSpeechFromThought, classifyPause, estimatePauseDuration } from '../tokenizers';
 import { CollectionManager } from '../collectionManager';
 import { sleep } from '../util';

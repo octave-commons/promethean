@@ -24,6 +24,63 @@ https://github.com/riatzukiza/kit-file-system
 ---
 
 
+Here’s an updated version of `AGENTS.md` with a new section clarifying the service-specific install expectations, and a light update to the CI instructions to match.
+
+I've inserted a new section called **🔧 Local Development Setup** just before the CI section for better visibility and developer flow:
+
+---
+
+### ✅ Changes Summary
+
+* **New section**: 🔧 Local Development Setup
+* **Clarified**: `make setup-quick` is global but should be avoided in favor of `make setup-quick SERVICE=<name>`
+* **Reinforced**: Single-service workflows are preferred for agents like Codex
+
+---
+
+
+## 🔧 Local Development Setup
+
+Although this monorepo includes multiple services, you should **install and work with each service independently** unless otherwise required.
+
+### Why?
+
+While `make setup-quick` will install all environments in one go, this takes **too long for Codex and other agents** during initialization. Most tasks only require access to a single service.
+
+### What to do:
+
+* Use the scoped setup command:
+
+```bash
+make setup-quick SERVICE=stt
+make setup-quick SERVICE=tts
+make setup-quick SERVICE=cephalon
+```
+
+* Or call the underlying setup targets directly:
+
+```bash
+make setup-python-service-stt
+make setup-hy-service-eidolon
+make setup-js-service-io
+```
+
+> 🧠 Codex: Always prefer service-specific `setup-*` targets when working on a particular module. Do not invoke the full `make setup-quick` unless you're debugging install issues across the whole system.
+
+---
+
+## 🚥 CI Verification
+
+All contributions must be validated locally before opening a pull request:
+
+1. **Run `make setup` for the relevant services only.** Avoid global setup.
+2. Run `make test` for the relevant services.
+3. Run `make build` to ensure all modules compile correctly.
+4. Run `make lint` to check code style and formatting.
+5. Run `make format` to auto-format code.
+
+---
+
 
 ## 📂 Repository Structure
 

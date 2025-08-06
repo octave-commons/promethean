@@ -14,7 +14,6 @@
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"strict": true,
-
 		// Modules
 		"allowArbitraryExtensions": false,
 		"allowImportingTsExtensions": false,
@@ -23,7 +22,6 @@
 		"resolveJsonModule": true,
 		"resolvePackageJsonExports": true,
 		"resolvePackageJsonImports": true,
-
 		// Emit
 		"declaration": true,
 		"declarationMap": true,
@@ -31,21 +29,23 @@
 		"newLine": "lf",
 		"noEmitHelpers": true,
 		"outDir": "dist",
+		"baseUrl": ".",
 		"removeComments": false,
 		"sourceMap": true,
-
+		"paths": {
+			"@shared/*": ["../../../shared/*", "../../../shared/*"] // fallback for tools that don't support imports field
+		},
 		// Interop Constraints
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": false,
 		"forceConsistentCasingInFileNames": true,
 		"isolatedModules": true,
-
 		// Language and Environment
 		"experimentalDecorators": true,
 		"lib": ["ESNext", "esnext.disposable"],
+		"types": ["node"],
 		"target": "ESNext",
 		"useDefineForClassFields": true,
-
 		// Completeness
 		"skipLibCheck": true
 	},

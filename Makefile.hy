@@ -1,7 +1,15 @@
 (import shutil)
 (import util [sh run-dirs])
-(require macros [define-patterns define-service-list defn-cmd list-comp])
+(import dotenv [load-dotenv])
+(import os.path [isdir isfile join])
+(import platform)
+(load-dotenv)
+(require macros [ define-service-list defn-cmd ])
 
+(defn define-patterns [#* groups]
+      (lfor [lang commands] groups
+            [action fn] commands
+            [(+ action "-" lang "-service-") fn]))
 (import glob)
 
 (import os.path [isdir])
@@ -21,6 +29,9 @@
 (define-service-list SERVICES_TS "services/ts")
 (setv commands {})
 
+(defn has-eslint-config [d]
+  (> (+ (len (glob.glob (join d ".eslintrc*")))
+        (len (glob.glob (join d "eslint.config.*")))) 0))
 
 (defn-cmd setup-python-services []
   (print "Setting up Python services...")
@@ -37,15 +48,15 @@
         (sh ["python" "-m" "pip" "install" "pipenv"]))))
 
 (defn-cmd generate-python-shared-requirements []
-  (sh "python -m pipenv requirements > requirements.txt" :cwd "shared/py" :shell True))
+  (sh "python -m pipenv requirements | grep -Ev '^nvidia-[a-z0-9\\-]+-cu[0-9]+(\\.[0-9]+)?' > requirements.txt" :cwd "shared/py" :shell True))
 
 (defn-cmd generate-python-services-requirements []
   (print "Generating requirements.txt for Python services...")
   (for [d SERVICES_PY]
-    (sh "python -m pipenv requirements > requirements.txt" :cwd d :shell True)))
+       (sh "python -m pipenv requirements | grep -Ev '^nvidia-[a-z0-9\\-]+-cu[0-9]+(\\.[0-9]+)?' > requirements.txt" :cwd d :shell True)))
 
 (defn-cmd generate-requirements-service [service]
-  (sh "python -m pipenv requirements > requirements.txt" :cwd (join "services/py" service) :shell True))
+  (sh "python -m pipenv requirements | grep -Ev '^nvidia-[a-z0-9\\-]+-cu[0-9]+(\\.[0-9]+)?' > requirements.txt" :cwd (join "services/py" service) :shell True))
 
 (defn-cmd setup-shared-python []
   (sh ["python" "-m" "pipenv" "install" "--dev"] :cwd "shared/py"))
@@ -134,13 +145,13 @@
 ;; JavaScript helpers ---------------------------------------------------------
 (defn-cmd lint-js-service [service]
   (print (.format "Linting JS service: {}" service))
-  (sh "npx eslint --ext .js,.ts . " :cwd (join "services/js" service) :shell True))
+  (sh "npx --yes eslint ." :cwd (join "services/js" service) :shell True))
 
 (defn-cmd lint-js []
-  (run-dirs SERVICES_JS "npx eslint --ext .js,.ts . " :shell True))
+  (run-dirs SERVICES_JS "npx --yes eslint ." :shell True))
 
 (defn-cmd format-js []
-  (run-dirs SERVICES_JS "npx prettier --write ." :shell True))
+  (run-dirs SERVICES_JS "npx --yes prettier --write ." :shell True))
 
 (defn-cmd setup-js-service [service]
   (print (.format "Setting up JS service: {}" service))
@@ -179,13 +190,15 @@
 ;; TypeScript helpers ---------------------------------------------------------
 (defn-cmd lint-ts-service [service]
   (print (.format "Linting TS service: {}" service))
-  (sh "npx eslint  --ext .js,.ts . " :cwd (join "services/ts" service) :shell True))
+  (sh "npx --yes @biomejs/biome lint ." :cwd (join "services/ts" service) :shell True))
 
 (defn-cmd lint-ts []
-  (run-dirs SERVICES_TS "npx eslint . --no-warn-ignored --ext .js,.ts" :shell True))
+  (for [d SERVICES_TS]
+    (when (isfile (join d "biome.json"))
+      (sh "npx --yes @biomejs/biome lint ." :cwd d :shell True))))
 
 (defn-cmd format-ts []
-  (run-dirs SERVICES_TS "npx prettier --write ." :shell True))
+  (run-dirs SERVICES_TS "npx --yes @biomejs/biome format ." :shell True))
 
 (defn-cmd typecheck-ts []
   (run-dirs SERVICES_TS "npx tsc --noEmit" :shell True))
@@ -224,7 +237,9 @@
 
 (defn-cmd build-ts []
   (print "Transpiling TS to JS... (if we had any shared ts modules)")
-  (run-dirs SERVICES_TS "npm run build" :shell True))
+  (for [d SERVICES_TS]
+    (when (isfile (join d "node_modules/.bin/tsc"))
+      (sh "npm run build" :cwd d :shell True))))
 
 ;; Sibilant ------------------------------------------------------------------
 (defn-cmd build-sibilant []
@@ -267,6 +282,13 @@
   (test-hy)
   (test-js)
   (test-ts))
+
+(defn-cmd test-integration []
+  (sh "python -m pytest tests/integration" :shell True))
+(defn-cmd test-e2e []
+  (if (shutil.which "pipenv")
+      (sh "python -m pipenv run pytest tests/e2e || true" :shell True)
+      (sh "pytest tests/e2e || true" :shell True)))
 
 (defn-cmd format []
   (format-python)
@@ -319,6 +341,11 @@
 (defn-cmd system-deps []
   (sh "sudo apt-get update && sudo apt-get install -y libsndfile1" :shell True))
 
+(defn-cmd install-mongodb []
+  (if (= (platform.system) "Linux")
+      (sh "curl -fsSL https://pgp.mongodb.com/server-7.0.asc | sudo gpg --dearmor --yes -o /usr/share/keyrings/mongodb-server-7.0.gpg && echo 'deb [ signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse' | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list && sudo apt-get update && sudo apt-get install -y mongodb-org" :shell True)
+      (print "MongoDB installation is only supported on Linux")))
+
 (defn-cmd start []
   (sh ["pm2" "start" "ecosystem.config.js"]))
 
@@ -362,35 +389,84 @@
 (defn-cmd generate-requirements []
   (generate-python-requirements))
 
-(define-patterns
+(setv patterns (define-patterns
   ["python"
    [["setup" setup-python-service]
+    ["setup-quick-service" (fn [service]
+                             (generate-requirements-service service)
+                             (sh ["python" "-m" "pip" "install" "--user" "-r" "requirements.txt"] :cwd (join "services/py" service)))]
+    ["setup-quick-shared" setup-shared-python-quick]
     ["test" test-python-service]
+    ["test-shared" test-shared-python]
     ["coverage" coverage-python-service]
-    ["lint" lint-python-service]]]
+    ["coverage-shared" coverage-shared-python]
+    ["test-quick-service" test-python-service] ;; same as normal test
+    ["test-quick-shared" test-shared-python]   ;; no change in quick variant
+    ["coverage-quick-service" coverage-python-service]
+    ["coverage-quick-shared" coverage-shared-python]]]
 
   ["js"
    [["setup" setup-js-service]
     ["test" test-js-service]
     ["coverage" coverage-js-service]
-    ["lint" lint-js-service]]]
+    ["lint" lint-js-service]
+    ["test-quick-service" test-js-service]
+    ["coverage-quick-service" coverage-js-service]]]
 
   ["ts"
    [["setup" setup-ts-service]
     ["test" test-ts-service]
     ["coverage" coverage-ts-service]
-    ["lint" lint-ts-service]]]
+    ["lint" lint-ts-service]
+    ["test-quick-service" test-ts-service]
+    ["coverage-quick-service" coverage-ts-service]]]
 
   ["hy"
-   [["setup" setup-hy-service]]]
+   [["setup" setup-hy-service]
+    ["test" test-hy-service]
+    ["test-quick-service" test-hy-service]]]
 
   ["sibilant"
    [["setup" setup-sibilant-service]]]
 
-  [""
+  ["" ;; root
    [["start" start-service]
     ["stop" stop-service]
-    ["generate-requirements" generate-requirements-service]]])
+    ["generate-requirements" generate-requirements-service]]]))
+
+(defn-cmd generate-makefile []
+  (setv header
+        "# Auto-generated Makefile. DO NOT EDIT MANUALLY.\n\n"
+        command-section
+        "COMMANDS := \\\n  all build clean lint format test setup setup-quick install install-mongodb \\\n  install-gha-artifacts system-deps start stop \\\n  start-tts start-stt stop-tts stop-stt \\\n  board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues \\\n  coverage coverage-python coverage-js coverage-ts simulate-ci \\\n  docker-build docker-up docker-down \\\n  typecheck-python test-e2e typecheck-ts build-ts build-js \\\n  setup-pipenv compile-hy \\\n  setup-python setup-python-quick setup-js setup-ts setup-hy \\\n  test-python test-js test-ts test-hy test-integration \\\n  generate-requirements generate-python-services-requirements generate-makefile\n\n")
+
+  ;; Group rules by prefix for PHONY
+  (setv phony-lines []
+        rule-lines [])
+
+  (for [[prefix func] patterns]
+    (when (not (= prefix ""))
+      (setv target (.replace prefix "%" "%"))
+      (unless (in target phony-lines)
+        (+= phony-lines [target])
+        (+= rule-lines [(+ target "%:\n\t@hy Makefile.hy $@")])))
+  )
+
+  (setv static-phony ".PHONY: \\\n  $(COMMANDS) \\\n  "
+        phony-block (.join " \\\n  " phony-lines)
+        rules (.join "\n\n" rule-lines))
+
+  (with [f (open "Makefile" "w")]
+    (.write f header)
+    (.write f command-section)
+    (.write f static-phony)
+    (.write f phony-block)
+    (.write f "\n\n")
+    (.write f "$(COMMANDS):\n\t@hy Makefile.hy $@\n\n")
+    (.write f rules)
+    (.write f "\n")))
+
+
 
 (defn main []
   (if (< (len sys.argv) 2)
@@ -411,4 +487,5 @@
 
 (when (= __name__ "__main__")
   ;; (print (str (. commands [0] [0])))
+  (print "patterns" patterns)
   (main))

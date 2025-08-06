@@ -6,6 +6,7 @@ This is a modular Emacs layer for building LLM-integrated, Lisp-native environme
 - Smartparens + rainbow delimiters for structural editing
 - Codex CLI integration (Copilot-like completion)
 - Eval buffer hooks for Hy and Sibilant
+- LSP-powered IntelliSense for Hy via `hyls`
 - Easy to extend per dialect
 
 ** Usage

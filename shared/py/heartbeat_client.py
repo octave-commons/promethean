@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from typing import Optional
 from urllib import request
 
-HEARTBEAT_PORT = os.environ.get("HEARTBEAT_PORT", 5000)
+HEARTBEAT_PORT = os.environ.get("HEARTBEAT_PORT", 5005)
 
 
 @dataclass
@@ -44,10 +44,13 @@ class HeartbeatClient:
         Returns the parsed JSON response from the service.
         """
 
-        data = json.dumps({"pid": self.pid}).encode("utf-8")
+        data = json.dumps(
+            {"pid": self.pid, "name": os.environ.get("PM2_PROCESS_NAME")}
+        ).encode("utf-8")
         req = request.Request(
             self.url,
             data=data,
+            method="POST",
             headers={"Content-Type": "application/json"},
         )
         with request.urlopen(req, timeout=5) as resp:

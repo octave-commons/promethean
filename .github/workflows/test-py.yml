@@ -19,8 +19,6 @@ jobs:
           - discord_indexer
           - discord_attachment_indexer
           - discord_attachment_embedder
-          - stt_ws
-          - whisper_stream_ws
 
     steps:
       - uses: actions/checkout@v3
@@ -30,7 +28,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install Hy
-        run: python -m pip install hy
+        run: python -m pip install hy dotenv
 
       - name: Cache pip dependencies
         uses: actions/cache@v3
@@ -49,7 +47,7 @@ jobs:
             ${{ runner.os }}-npm-
 
       - name: Install dependencies
-        run: make system-deps setup-python-service-${{ matrix.service }}
+        run: make system-deps setup-pipenv setup-python-service-${{ matrix.service }}
 
       - name: Run tests
         run: make test-python-service-${{ matrix.service }}

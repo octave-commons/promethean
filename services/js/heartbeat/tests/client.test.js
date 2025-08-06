@@ -32,4 +32,32 @@ test("heartbeat client posts pid", async (t) => {
   const res = await client.sendOnce();
   t.is(res.pid, 999);
   t.is(res.name, "test-app");
+  t.is(typeof res.cpu, "number");
+  t.is(typeof res.memory, "number");
+  t.is(typeof res.netRx, "number");
+  t.is(typeof res.netTx, "number");
+});
+
+test("heartbeat client invokes callback", async (t) => {
+  const url = `http://127.0.0.1:${server.address().port}/heartbeat`;
+  await new Promise((resolve) => {
+    const client = new HeartbeatClient({
+      url,
+      pid: 1000,
+      name: "test-app",
+      interval: 50,
+      onHeartbeat(data) {
+        t.is(data.pid, 1000);
+        client.stop();
+        resolve(null);
+      },
+    });
+    client.start();
+  });
+});
+
+test("heartbeat client requires name", (t) => {
+  const url = `http://127.0.0.1:${server.address().port}/heartbeat`;
+  const err = t.throws(() => new HeartbeatClient({ url, pid: 1 }));
+  t.regex(err.message, /name required/);
 });

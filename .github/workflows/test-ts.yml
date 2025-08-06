@@ -32,7 +32,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install Hy
-        run: python -m pip install hy
+        run: python -m pip install hy dotenv
 
       - name: Cache pip dependencies
         uses: actions/cache@v3

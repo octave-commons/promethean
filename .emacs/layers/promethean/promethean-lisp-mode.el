@@ -72,7 +72,6 @@
           (non-expression-keywords "true" "false" "null" "None" "True" "False")
           (variable-assignment "let" "setv" "assign"))
 
-
 (define-derived-mode promethean-lisp-mode lisp-mode "Promethean Lisp"
   "Base mode for Promethean dialects like Hy, Sibilant, Lithp, etc."
   (setq-local font-lock-defaults '(promethean-core-font-lock-defaults))

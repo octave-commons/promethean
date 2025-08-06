@@ -2,17 +2,20 @@
 	"name": "Cephalon",
 	"version": "0.0.1",
 	"description": "A proof-of-concept basic bot using @discordjs/voice",
-	"main": "dist/src/index.js",
+	"main": "dist/index.js",
 	"type": "module",
+	"imports": {
+		"@shared/js": "../../../shared/js"
+	},
 	"scripts": {
 		"build": "tsc && node scripts/patch-imports.js",
-		"start": "node dist/src/index.js",
+		"start": "node dist/index.js",
 		"test": "npm run build && ava",
 		"coverage": "npm run build && c8 ava",
 		"build:check": "tsc --noEmit --incremental false",
 		"deploy": "npm run build && node --env-file=../../.env dist/util/deploy.js",
-		"lint": "prettier --cache --check . && eslint src --ext mjs,js,ts --cache",
-		"format": "prettier --cache --write . && eslint src --ext mjs,js,ts --fix --cache",
+		"lint": "biome lint .",
+		"format": "biome format .",
 		"start:dev": "node  --loader ts-node/esm  src/index.ts"
 	},
 	"keywords": [
@@ -27,7 +30,7 @@
 	"author": "Amish Shah <amishshah.2k@gmail.com>",
 	"license": "UNLICENSE",
 	"dependencies": {
-		"@chroma-core/default-embed": "^0.1.8",
+		"@chroma-core/ollama": "^0.1.7",
 		"@discordjs/opus": "^0.10.0",
 		"@discordjs/voice": "^0.18.0",
 		"@types/sbd": "^1.0.5",
@@ -53,9 +56,7 @@
 		"@types/node": "^22.17.0",
 		"ava": "^6.4.1",
 		"c8": "^9.1.0",
-		"eslint": "^8.57.0",
-		"eslint-config-neon": "^0.1.62",
-		"prettier": "^3.4.2",
+		"@biomejs/biome": "^2.1.3",
 		"rewrite-imports": "^3.0.0",
 		"rimraf": "^6.0.1",
 		"source-map-support": "^0.5.21",

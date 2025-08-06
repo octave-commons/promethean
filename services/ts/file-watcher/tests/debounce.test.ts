@@ -30,24 +30,25 @@ test("ignores board changes caused by watcher", async (t) => {
 
   const watchers = startFileWatcher({
     repoRoot: root,
-    runPython: async (script) => {
+    runPython: async (script, _capture, _args) => {
       calls.push(script);
       if (script.includes("hashtags_to_kanban.py")) {
         return "board";
       }
       return undefined;
     },
+    mongoCollection: { updateOne: async () => {} } as any,
+    socket: { emit: () => {} } as any,
   });
 
-  await delay(50);
+  await delay(150);
   await fs.writeFile(taskFile, "update");
   await delay(300);
 
   t.is(calls.length, 1);
   t.true(calls[0]!.includes("hashtags_to_kanban.py"));
 
-  await watchers.boardWatcher.close();
-  await watchers.tasksWatcher.close();
+  await watchers.close();
 });
 
 test("ignores task changes caused by watcher", async (t) => {
@@ -57,22 +58,23 @@ test("ignores task changes caused by watcher", async (t) => {
 
   const watchers = startFileWatcher({
     repoRoot: root,
-    runPython: async (script) => {
+    runPython: async (script, _capture, _args) => {
       calls.push(script);
       if (script.includes("kanban_to_hashtags.py")) {
         await fs.writeFile(taskFile, "updated");
       }
       return undefined;
     },
+    mongoCollection: { updateOne: async () => {} } as any,
+    socket: { emit: () => {} } as any,
   });
 
-  await delay(50);
+  await delay(150);
   await fs.writeFile(boardFile, "change");
   await delay(300);
 
   t.is(calls.length, 1);
   t.true(calls[0]!.includes("kanban_to_hashtags.py"));
 
-  await watchers.boardWatcher.close();
-  await watchers.tasksWatcher.close();
+  await watchers.close();
 });

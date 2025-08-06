@@ -1,5 +1,8 @@
 import { writeFile } from 'fs/promises';
-import { AGENT_NAME } from '../../../../../shared/js/env.js';
+let AGENT_NAME = 'Agent';
+try {
+	({ AGENT_NAME } = await import('../../../../../shared/js/env.js'));
+} catch {}
 import { choice } from '../util';
 import { CollectionManager } from '../collectionManager';
 import { innerStateFormat } from '../prompts';
@@ -25,6 +28,7 @@ Why are they your goals?
 `,
 		format: innerStateFormat,
 	})) as Partial<AgentInnerState>;
+	console.log('saving new state', newState);
 	await this.updateInnerState(newState);
 	this.isThinking = false;
 }
