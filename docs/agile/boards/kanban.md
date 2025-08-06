@@ -62,7 +62,6 @@ kanban-plugin: board
 
 ## Prompt refinement (8)
 
-- [ ] [discord link indexer](../tasks/discord%20link%20indexer.md)
 - [ ] [discord image awareness](../tasks/discord%20image%20awareness.md)
 - [ ] Tool chain management system
 - [ ] Add file system to context management system
@@ -74,7 +73,6 @@ kanban-plugin: board
 
 ## Agent thinking (8)
 
-- [ ] [Clean up notes into design docs](../tasks/Clean%20up%20notes%20into%20design%20docs.md)
 - [ ] [Twitch stream title generator](../tasks/Twitch%20stream%20title%20generator.md)
 - [ ] [Allow old unnessisary messages to decay from database while retaining index entries ids](../tasks/Allow%20old%20unnessisary%20messages%20to%20decay%20from%20database%20while%20retaining%20index%20entries%20ids.md)
 - [ ] [Describe github branching workflow](../tasks/Describe%20github%20branching%20workflow.md)
@@ -84,21 +82,15 @@ kanban-plugin: board
 
 ## Breakdown (10)
 
-- [ ] [Prevent dangling processes when a process fails due to error, or automaticly clean them up](../tasks/Prevent%20dangling%20processes%20when%20a%20process%20fails%20due%20to%20error,%20or%20automaticly%20clean%20them%20up.md)
-- [ ] [Write board sync script](../tasks/Write%20board%20sync%20script.md) #framework-core
+- [ ] [Clean up notes into design docs](../tasks/Clean%20up%20notes%20into%20design%20docs.md)
 - [ ] [Mirror shared utils with language-specific doc folders](../tasks/Mirror%20shared%20utils%20with%20language-specific%20doc%20folders.md)
-- [ ] [discord image attachment indexer](../tasks/discord%20image%20attachment%20indexer.md)
 
 
 ## ready (16)
 
-- [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
-- [ ] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md)
-- [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md) #framework-core
+- [ ] [Prevent dangling processes when a process fails due to error, or automaticly clean them up](../tasks/Prevent%20dangling%20processes%20when%20a%20process%20fails%20due%20to%20error,%20or%20automaticly%20clean%20them%20up.md)
 - [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md) #devops #seperation-of-concerns #makefile #buildtools
-- [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md)
 - [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/Gather%20baseline%20emotion%20metrics%20for%20Eidolon%20field.md)
-- [ ] [Start Eidolon](../tasks/Start%20Eidolon.md)
 - [ ] [Add starter notes - eidolon\_fields, cephalon\_inner\_monologue](../tasks/Add%20starter%20notes%20-%20eidolon_fields,%20cephalon_inner_monologue.md)
 - [ ] [Clarify Promethean project vision](../tasks/Clarify%20Promethean%20project%20vision.md)
 - [ ] [Migrating relevant modules from riatzukiza.github.io to -site- and -docs-](../tasks/Migrating%20relevant%20modules%20from%20riatzukiza.github.io%20to%20-site-%20and%20-docs-.md) #framework-core
@@ -107,9 +99,13 @@ kanban-plugin: board
 
 ## 🟢 To Do (8)
 
-- [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md) #agent #automation #prompt #metaagent #meta-prompting #documentation
 - [ ] [Decouple from Ollama Write a driver system for multiple LLM sources for easier testing in CI](../tasks/Decouple%20from%20Ollama.md) #framework-core
+- [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md) #framework-core
+- [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md)
+- [ ] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md)
+- [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md) #agent #automation #prompt #metaagent #meta-prompting #documentation
 - [ ] [Gather open questions about system direction](../tasks/Gather%20open%20questions%20about%20system%20direction.md) #agent-mode
+- [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
 
 
 ## 🟡 In Progress (4)
@@ -119,12 +115,15 @@ kanban-plugin: board
 
 ## In Review (4)
 
+- [ ] [Start Eidolon](../tasks/Start%20Eidolon.md)
 - [ ] [Write end to end tests](Write%20end%20to%20end%20tests.md) #framework-core
 
 
 ## 🔵 Done
 
 **Complete**
+- [x] [discord image attachment indexer](../tasks/discord%20image%20attachment%20indexer.md) ✅ 2025-08-06
+- [x] [Write board sync script](../tasks/Write%20board%20sync%20script.md) #framework-core ✅ 2025-08-06
 - [x] Break down cephalon agent.ts ✅ 2025-08-06
 - [x] [rewrite vision end to end test in typescript](../../../rewrite%20vision%20end%20to%20end%20test%20in%20typescript.md) ✅ 2025-08-06
 - [x] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md) ✅ 2025-08-06
@@ -183,6 +182,7 @@ kanban-plugin: board
 - [ ] [Move all testing to individual services](../tasks/Move%20all%20testing%20to%20individual%20services.md)
 - [ ] [Add unit tests for GUI helpers](../tasks/Add_unit_tests_for_gui_helpers.md) #codex-task #testing #wontdo
 - [ ] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md)
+- [ ] [discord link indexer](../tasks/discord%20link%20indexer.md)
 
 %% kanban:settings
 ```
