@@ -44,6 +44,5 @@ test("populates new task files", async (t) => {
     ),
   );
 
-  await watchers.boardWatcher.close();
-  await watchers.tasksWatcher.close();
+  await watchers.close();
 });
