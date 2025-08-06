@@ -4,6 +4,8 @@
 
 **Description**: Express-based HTTP proxy that forwards requests to Promethean services so they can be accessed through a single port and domain.
 
+Also exposes a Socket.IO WebSocket hub. Any event emitted by a client is broadcast to all other connected clients, allowing services to communicate in real time.
+
 ### Proxied Routes
 
 By default requests are forwarded to local services:
@@ -15,8 +17,11 @@ By default requests are forwarded to local services:
 - `/heartbeat` → `http://127.0.0.1:5005`
 
 ## Dependencies
+
 - express
 - http-proxy-middleware
+- socket.io
 
 ## Dependents
+
 - `services/js/proxy/tests/proxy.test.js`
