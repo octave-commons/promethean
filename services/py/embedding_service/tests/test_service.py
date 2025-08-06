@@ -20,3 +20,17 @@ def test_naive_embedding():
     assert res.status_code == 200
     data = res.json()
     assert len(data["embeddings"][0]) == 256
+
+
+def test_websocket_embedding():
+    client = TestClient(app)
+    with client.websocket_connect("/ws/embed") as ws:
+        ws.send_json(
+            {
+                "items": [{"type": "text", "data": "hello"}],
+                "driver": "naive",
+                "function": "simple",
+            }
+        )
+        data = ws.receive_json()
+        assert len(data["embeddings"][0]) == 256
