@@ -8,8 +8,8 @@ async def start_service(
     id,
     queues=None,
     topics=None,
-    handle_event=lambda event: None,
-    handle_task=lambda task: None,
+    handle_event=lambda event, client: None,
+    handle_task=lambda task, client: None,
 ):
     queues = queues or []
     topics = topics or []
@@ -24,7 +24,7 @@ async def start_service(
         async def event_handler(event, topic=topic):
             print(f"[{id}] received event: {event['type']}")
             try:
-                await handle_event(event)
+                await handle_event(event, client)
             except Exception as e:
                 print(f"[{id}] error handling event {event['type']}: {e}")
 
@@ -34,7 +34,7 @@ async def start_service(
     async def task_handler(task):
         print(f"[{id}] received task from {task['queue']}")
         try:
-            await handle_task(task)
+            await handle_task(task, client)
             await client.ack(task["id"])
         except Exception as e:
             print(f"[{id}] task failed: {e}")
