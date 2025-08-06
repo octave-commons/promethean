@@ -5,6 +5,7 @@ import path from "path";
 import fs from "fs";
 import pidusage from "pidusage";
 import { fileURLToPath } from "url";
+import { randomUUID } from "crypto";
 
 export const app = express();
 app.use(express.json());
@@ -23,6 +24,8 @@ let collection;
 let interval;
 let server;
 let allowedInstances = {};
+let SESSION_ID;
+let shuttingDown = false;
 
 async function getProcessMetrics(pid) {
   const metrics = { cpu: 0, memory: 0, netRx: 0, netTx: 0 };
@@ -78,11 +81,12 @@ app.post("/heartbeat", async (req, res) => {
   }
   const now = Date.now();
   try {
-    const existing = await collection.findOne({ pid });
+    const existing = await collection.findOne({ pid, sessionId: SESSION_ID });
     if (!existing) {
       const allowed = allowedInstances[name] ?? Infinity;
       const count = await collection.countDocuments({
         name,
+        sessionId: SESSION_ID,
         last: { $gte: now - HEARTBEAT_TIMEOUT },
         killedAt: { $exists: false },
       });
@@ -95,7 +99,10 @@ app.post("/heartbeat", async (req, res) => {
     const metrics = await getProcessMetrics(pid);
     await collection.updateOne(
       { pid },
-      { $set: { last: now, name, ...metrics }, $unset: { killedAt: "" } },
+      {
+        $set: { last: now, name, sessionId: SESSION_ID, ...metrics },
+        $unset: { killedAt: "" },
+      },
       { upsert: true },
     );
     return res.json({ status: "ok", pid, name, ...metrics });
@@ -146,6 +153,8 @@ export async function start(port = process.env.PORT || 5000) {
 
   loadConfig();
 
+  SESSION_ID = randomUUID();
+
   client = new MongoClient(MONGO_URL);
   await client.connect();
   collection = client.db(DB_NAME).collection(COLLECTION);
@@ -158,7 +167,22 @@ export async function start(port = process.env.PORT || 5000) {
   return server;
 }
 
+export async function cleanup() {
+  if (collection) {
+    const now = Date.now();
+    try {
+      await collection.updateMany(
+        { sessionId: SESSION_ID, killedAt: { $exists: false } },
+        { $set: { killedAt: now } },
+      );
+    } catch {
+      /* ignore cleanup errors */
+    }
+  }
+}
+
 export async function stop() {
+  await cleanup();
   if (interval) {
     clearInterval(interval);
     interval = null;
@@ -184,3 +208,18 @@ if (process.env.NODE_ENV !== "test") {
     process.exit(1);
   });
 }
+
+async function handleSignal() {
+  if (shuttingDown) return;
+  shuttingDown = true;
+  await stop();
+  process.exit(0);
+}
+
+for (const sig of ["SIGINT", "SIGTERM"]) {
+  process.on(sig, handleSignal);
+}
+
+process.on("beforeExit", () => {
+  cleanup().catch(() => {});
+});
