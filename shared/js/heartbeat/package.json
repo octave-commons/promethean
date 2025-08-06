@@ -1,5 +1,8 @@
 {
   "name": "heartbeat-client",
   "version": "0.0.1",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "ws": "^8.0.0"
+  }
 }
