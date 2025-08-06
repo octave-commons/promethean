@@ -27,6 +27,17 @@ Published messages are normalized to:
 
 Subscribers receive `{ "event": <normalized message> }` envelopes.
 
+## Task Queues
+
+The broker also provides simple task queue semantics. Clients may enqueue work items and workers may dequeue them one at a time.
+
+### Actions
+
+- `{"action":"enqueue","queue":"jobs","task":{...}}`
+- `{"action":"dequeue","queue":"jobs"}` → server responds with `{ "task": { ... } }` or `{ "task": null }` if empty
+
+If a Redis server is available (configured via `REDIS_URL` or default `redis://127.0.0.1:6379`), queues are persisted in Redis. Otherwise, an in-memory queue is used.
+
 ## Development
 
 ```
