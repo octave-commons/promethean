@@ -1,8 +1,9 @@
 # STT Service
 
-This service handles speech-to-text using Whisper models accelerated on NPU hardware.
-It now also exposes WebSocket endpoints for single-shot transcription (`/transcribe`)
-and streaming transcription (`/stream`).
+This service handles speech-to-text using Whisper models.
+It now runs as a broker-connected worker using the shared Python service template.
+Tasks from the `stt.transcribe` queue are processed and results are published to
+`stt.transcribed`.
 
 ## Usage
 
