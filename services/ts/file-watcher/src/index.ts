@@ -90,7 +90,7 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
         // ignore
       }
       const title = basename(path, ".md").replace(/_/g, " ");
-      const llmUrl = process.env.LLM_URL || "http://localhost:5003";
+      const llmUrl = process.env.LLM_URL || "http://localhost:8080/llm";
       const prompt =
         "You are an engineering assistant. Given a task title, produce a concise markdown task stub with headings for Goals, Requirements, and Subtasks.";
       try {
