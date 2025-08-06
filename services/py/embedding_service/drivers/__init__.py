@@ -1,13 +1,21 @@
 from .base import EmbeddingDriver
 from .naive_driver import NaiveDriver
-from .transformers_driver import TransformersDriver
-from .ollama_driver import OllamaDriver
 
-DRIVERS = {
-    "naive": NaiveDriver(),
-    "transformers": TransformersDriver(),
-    "ollama": OllamaDriver(),
-}
+DRIVERS = {"naive": NaiveDriver()}
+
+try:  # Optional: only register if dependency is available
+    from .transformers_driver import TransformersDriver
+
+    DRIVERS["transformers"] = TransformersDriver()
+except Exception:  # pragma: no cover - missing heavy deps
+    pass
+
+try:
+    from .ollama_driver import OllamaDriver
+
+    DRIVERS["ollama"] = OllamaDriver()
+except Exception:  # pragma: no cover
+    pass
 
 
 def get_driver(name: str) -> EmbeddingDriver:

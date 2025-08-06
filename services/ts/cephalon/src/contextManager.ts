@@ -6,7 +6,9 @@ import en from 'javascript-time-ago/locale/en';
 TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo('en-US');
 export const formatMessage = (m: CollectionEntry<'text', 'timestamp'>): string =>
-	`${m.metadata?.userName === 'Duck' ? 'You' : m.metadata.userName} ${m.metadata.isThought ? 'thought' : 'said'} (${timeAgo.format(new Date(m.timestamp).getTime())}): ${m.text}`;
+	`${m.metadata?.userName === 'Duck' ? 'You' : m.metadata.userName} ${
+		m.metadata.isThought ? 'thought' : 'said'
+	} (${timeAgo.format(new Date(m.timestamp).getTime())}): ${m.text}`;
 
 export type GenericEntry = CollectionEntry<'text', 'timestamp'>;
 

@@ -22,14 +22,10 @@ test("populates new task files", async (t) => {
   process.env.NODE_ENV = "test";
   const { root, tasksDir } = await setupTempRepo();
   const llmCalls: { prompt: string; context: any[] }[] = [];
-  const populateCalls: string[] = [];
 
   const watchers = startFileWatcher({
     repoRoot: root,
     runPython: async () => undefined,
-    populateTask: async (path) => {
-      populateCalls.push(path);
-    },
     callLLM: async (prompt, context) => {
       llmCalls.push({ prompt, context });
       return "#Todo\n\n## 🛠️ Task: stub\n";
@@ -44,7 +40,8 @@ test("populates new task files", async (t) => {
   await fs.writeFile(newTask, "");
   await delay(300);
 
-  t.true(populateCalls.includes(newTask));
+  const content = await fs.readFile(newTask, "utf8");
+  t.true(content.includes("Task: stub"));
   t.true(llmCalls.some((c) => c.context[0].content.includes("new task")));
 
   await watchers.close();

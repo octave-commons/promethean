@@ -58,9 +58,18 @@ export class DesktopCaptureManager {
 				const now = Date.now();
 				const files = [
 					{ attachment: frame.screen, name: `screen-${now}.png` },
-					{ attachment: frame.audio.waveForm, name: `desktop-waveform-${now}.png` },
-					{ attachment: frame.audio.spectrogram, name: `desktop-spectrogram-${now}.png` },
-					{ attachment: frame.audio.waveBuffer, name: `desktop-audio-${now}.wav` },
+					{
+						attachment: frame.audio.waveForm,
+						name: `desktop-waveform-${now}.png`,
+					},
+					{
+						attachment: frame.audio.spectrogram,
+						name: `desktop-spectrogram-${now}.png`,
+					},
+					{
+						attachment: frame.audio.waveBuffer,
+						name: `desktop-audio-${now}.wav`,
+					},
 				];
 				try {
 					await this.channel.send({ files });
