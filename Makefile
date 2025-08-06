@@ -22,6 +22,7 @@ COMMANDS := \
   test-shared-python-service- \
   coverage-python-service- \
   coverage-shared-python-service- \
+  lint-python-service- \
   test-quick-service-python-service- \
   test-quick-shared-python-service- \
   coverage-quick-service-python-service- \
@@ -68,6 +69,9 @@ coverage-python-service-%:
 	@hy Makefile.hy $@
 
 coverage-shared-python-service-%:
+	@hy Makefile.hy $@
+
+lint-python-service-%:
 	@hy Makefile.hy $@
 
 test-quick-service-python-service-%:
