@@ -1,0 +1,28 @@
+{
+  "name": "proxy-service",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "ava",
+    "coverage": "c8 ava"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "http-proxy-middleware": "^2.0.6"
+  },
+  "devDependencies": {
+    "ava": "^6.4.1",
+    "supertest": "^6.3.3",
+    "c8": "^9.1.0"
+  },
+  "ava": {
+    "extensions": {
+      "js": true
+    },
+    "files": [
+      "tests/**/*.js"
+    ]
+  }
+}

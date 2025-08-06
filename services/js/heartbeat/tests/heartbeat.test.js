@@ -97,3 +97,22 @@ test.serial("records process metrics", async (t) => {
   t.is(typeof doc.netRx, "number");
   t.is(typeof doc.netTx, "number");
 });
+
+test.serial("lists heartbeats", async (t) => {
+  const child = spawn("node", ["-e", "setInterval(()=>{},1000)"]);
+  t.teardown(() => {
+    if (!child.killed) {
+      try {
+        child.kill();
+      } catch {}
+    }
+  });
+  await request(server)
+    .post("/heartbeat")
+    .send({ pid: child.pid, name: "list-app" })
+    .expect(200);
+  const res = await request(server).get("/heartbeats").expect(200);
+  const found = res.body.find((h) => h.pid === child.pid);
+  t.truthy(found);
+  t.is(found.name, "list-app");
+});
