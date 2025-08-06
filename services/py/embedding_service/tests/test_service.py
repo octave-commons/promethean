@@ -1,36 +1,37 @@
+import asyncio
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+BASE_DIR = Path(__file__).resolve()
+sys.path.insert(0, str(BASE_DIR.parents[2]))
+sys.path.insert(0, str(BASE_DIR.parents[4]))
 
-from fastapi.testclient import TestClient
-from embedding_service.main import app
+from embedding_service.main import handle_task
 
 
-def test_naive_embedding():
-    client = TestClient(app)
-    res = client.post(
-        "/embed",
-        json={
+class DummyClient:
+    def __init__(self):
+        self.published = []
+
+    async def publish(self, type_, payload, **opts):
+        self.published.append((type_, payload, opts))
+
+
+def test_handle_task_publishes_embeddings():
+    client = DummyClient()
+    task = {
+        "id": "1",
+        "payload": {
             "items": [{"type": "text", "data": "hello"}],
             "driver": "naive",
             "function": "simple",
+            "replyTo": "reply.queue",
         },
-    )
-    assert res.status_code == 200
-    data = res.json()
-    assert len(data["embeddings"][0]) == 256
-
-
-def test_websocket_embedding():
-    client = TestClient(app)
-    with client.websocket_connect("/ws/embed") as ws:
-        ws.send_json(
-            {
-                "items": [{"type": "text", "data": "hello"}],
-                "driver": "naive",
-                "function": "simple",
-            }
-        )
-        data = ws.receive_json()
-        assert len(data["embeddings"][0]) == 256
+    }
+    asyncio.run(handle_task(task, client))
+    assert client.published
+    evt_type, payload, opts = client.published[0]
+    assert evt_type == "embedding.result"
+    assert len(payload["embeddings"][0]) == 256
+    assert opts["replyTo"] == "reply.queue"
+    assert opts["correlationId"] == "1"
