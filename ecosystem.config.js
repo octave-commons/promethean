@@ -60,5 +60,12 @@ module.exports = {
         PORT: defineApp.HEARTBEAT_PORT,
       },
     }),
+    defineApp("proxy", ".", [], {
+      cwd: "./services/js/proxy",
+      watch: ["./services/js/proxy/"],
+      env: {
+        PORT: 8080,
+      },
+    }),
   ],
 };

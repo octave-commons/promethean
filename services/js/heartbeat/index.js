@@ -4,9 +4,13 @@ import { createRequire } from "module";
 import path from "path";
 import fs from "fs";
 import pidusage from "pidusage";
+import { fileURLToPath } from "url";
 
 export const app = express();
 app.use(express.json());
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.join(__dirname, "public")));
 
 let HEARTBEAT_TIMEOUT = 10000;
 let CHECK_INTERVAL = 5000;
@@ -95,6 +99,18 @@ app.post("/heartbeat", async (req, res) => {
       { upsert: true },
     );
     return res.json({ status: "ok", pid, name, ...metrics });
+  } catch {
+    return res.status(500).json({ error: "db failure" });
+  }
+});
+
+app.get("/heartbeats", async (req, res) => {
+  if (!collection) {
+    return res.status(503).json({ error: "db not available" });
+  }
+  try {
+    const docs = await collection.find({}).toArray();
+    return res.json(docs);
   } catch {
     return res.status(500).json({ error: "db failure" });
   }

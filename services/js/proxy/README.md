@@ -1,0 +1,20 @@
+# Proxy Service (Node.js)
+
+Routes HTTP requests for multiple Promethean services through a single entry point.
+
+## Routes
+
+Requests with the following prefixes are proxied by default:
+
+- `/tts` -> `http://localhost:5001`
+- `/stt` -> `http://localhost:5002`
+- `/vision` -> `http://localhost:9999`
+- `/llm` -> `http://localhost:8888`
+- `/heartbeat` -> `http://localhost:5005`
+
+## Development
+
+```
+npm install
+npm test
+```
