@@ -1,7 +1,11 @@
 import { spawn } from "child_process";
 import chokidar from "chokidar";
-import { join } from "path";
-import { writeFile as fsWriteFile } from "fs/promises";
+import { dirname, join, resolve } from "path";
+import { readFile as fsReadFile, writeFile as fsWriteFile } from "fs/promises";
+import { MongoClient, Collection } from "mongodb";
+import { io, Socket } from "socket.io-client";
+import crypto from "crypto";
+import { AGENT_NAME } from "../../../../shared/js/env.js";
 
 /**
  * Options for {@link startFileWatcher} allowing injection of dependencies for testing.
@@ -13,6 +17,12 @@ export interface FileWatcherOptions {
   runPython?: (script: string, capture?: boolean) => Promise<string | void>;
   /** Function used to write the kanban board file. */
   writeFile?: (path: string, data: string) => Promise<void>;
+  /** Mongo collection for projecting board state. */
+  mongoCollection?: Collection<any>;
+  /** Socket instance used to emit board events. */
+  socket?: Pick<Socket, "emit">;
+  /** Skip initial kanban parse when true. */
+  initialParse?: boolean;
 }
 
 const defaultRepoRoot = process.env.REPO_ROOT || "";
@@ -59,14 +69,162 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
 
   const boardPath = join(repoRoot, "docs", "agile", "boards", "kanban.md");
   const tasksPath = join(repoRoot, "docs", "agile", "tasks");
+  const boardDir = dirname(boardPath);
+
+  const mongoCollection =
+    options.mongoCollection ??
+    (() => {
+      const client = new MongoClient(
+        process.env.MONGODB_URI || "mongodb://localhost:27017",
+      );
+      client
+        .connect()
+        .catch((err) => console.error("mongo connect failed", err));
+      return client.db("database").collection(`${AGENT_NAME}_kanban`);
+    })();
+
+  const socket =
+    options.socket ?? io(process.env.SOCKET_URL || "http://localhost:3000");
+  const initialParse = options.initialParse ?? true;
+
+  let previousState: Record<string, KanbanCard> = {};
 
   let updatingBoard = false;
   let updatingTasks = false;
+
+  interface KanbanCard {
+    id: string;
+    title: string;
+    column: string;
+    link: string;
+  }
+
+  async function processKanban(emit = true) {
+    const text = await fsReadFile(boardPath, "utf8");
+    const lines = text.split(/\r?\n/);
+    let currentColumn = "";
+    let boardModified = false;
+    const cards: KanbanCard[] = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i]!;
+      if (line.startsWith("## ")) {
+        currentColumn = line.slice(3).trim();
+        continue;
+      }
+      const match = line.match(/^\-\s*\[[ xX]\]\s*(.*)$/);
+      if (!match) continue;
+      const rest = match[1]!;
+      const linkMatch = rest.match(/\[(.*?)\]\((.*?)\)/);
+      let title = rest.trim();
+      let link: string | undefined;
+      if (linkMatch) {
+        title = linkMatch[1]!.trim();
+        link = linkMatch[2]!;
+      }
+      let filePath: string | undefined;
+      if (link) {
+        link = link.replace(/\\/g, "/");
+        filePath = resolve(boardDir, link);
+      }
+      let id = "";
+      if (!filePath) {
+        // create new task file
+        id = crypto.randomUUID();
+        const filename = `${title.replace(/[<>:\"/\\|?*]/g, "-")}.md`;
+        filePath = join(tasksPath, filename);
+        await fsWriteFile(filePath, `id: ${id}\n`);
+        const rel = join("..", "tasks", encodeURI(filename)).replace(
+          /\\/g,
+          "/",
+        );
+        lines[i] = `- [ ] [${title}](${rel})`;
+        link = rel;
+        boardModified = true;
+        updatingTasks = true;
+      }
+      let content = "";
+      try {
+        content = await fsReadFile(filePath, "utf8");
+      } catch {
+        content = "";
+      }
+      const idMatch = content.match(/^id:\s*(.+)$/m);
+      if (idMatch) {
+        id = idMatch[1]!.trim();
+      } else {
+        if (!id) id = crypto.randomUUID();
+        content = `id: ${id}\n${content}`;
+        await fsWriteFile(filePath, content);
+        updatingTasks = true;
+      }
+      const card: KanbanCard = {
+        id,
+        title,
+        column: currentColumn,
+        link: link!,
+      };
+      cards.push(card);
+    }
+
+    if (boardModified) {
+      updatingBoard = true;
+      await writeFile(boardPath, lines.join("\n"));
+      setTimeout(() => {
+        updatingBoard = false;
+      }, 100);
+    }
+    if (updatingTasks) {
+      setTimeout(() => {
+        updatingTasks = false;
+      }, 100);
+    }
+
+    const currentState: Record<string, KanbanCard> = {};
+    for (const card of cards) {
+      currentState[card.id] = card;
+      await mongoCollection.updateOne(
+        { id: card.id },
+        { $set: card },
+        { upsert: true },
+      );
+      if (emit) {
+        const prev = previousState[card.id];
+        if (!prev) {
+          socket.emit("kanban:cardCreated", card);
+        } else {
+          if (prev.column !== card.column) {
+            socket.emit("kanban:cardMoved", {
+              id: card.id,
+              from: prev.column,
+              to: card.column,
+            });
+          }
+          if (prev.title !== card.title) {
+            socket.emit("kanban:cardRenamed", {
+              id: card.id,
+              from: prev.title,
+              to: card.title,
+            });
+          }
+          if (prev.link !== card.link) {
+            socket.emit("kanban:cardTaskChanged", {
+              id: card.id,
+              from: prev.link,
+              to: card.link,
+            });
+          }
+        }
+      }
+    }
+    previousState = currentState;
+  }
 
   async function updateFromBoard() {
     try {
       updatingTasks = true;
       await runPython(join("scripts", "kanban_to_hashtags.py"));
+      await processKanban();
     } catch (err) {
       console.error("kanban_to_hashtags failed", err);
     } finally {
@@ -114,6 +272,11 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
     console.log("Task file changed, regenerating board...");
     updateBoard();
   });
+  if (initialParse) {
+    processKanban(false).catch((err) =>
+      console.error("initial kanban parse failed", err),
+    );
+  }
 
   return { boardWatcher, tasksWatcher };
 }
