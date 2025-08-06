@@ -1,21 +1,19 @@
 import chokidar from "chokidar";
-import { join } from "path";
 import { FileLocks } from "./file-lock.js";
 
 export interface TasksWatcherOptions {
   tasksPath: string;
-  runPython: (
-    script: string,
-    capture?: boolean,
-    args?: string[],
-  ) => Promise<string | void>;
+  /**
+   * Populate a newly created task file using the LLM service.
+   */
+  populateTask: (path: string) => Promise<void>;
   updateBoard: () => Promise<void>;
   fileLocks: FileLocks;
   lockDelay?: number;
 }
 
 export function createTasksWatcher(options: TasksWatcherOptions) {
-  const { tasksPath, runPython, updateBoard, fileLocks } = options;
+  const { tasksPath, populateTask, updateBoard, fileLocks } = options;
   const lockDelay = options.lockDelay ?? 100;
 
   const watcher = chokidar.watch(tasksPath, { ignoreInitial: true });
@@ -27,9 +25,9 @@ export function createTasksWatcher(options: TasksWatcherOptions) {
     }
     console.log("New task file added, populating stub...");
     fileLocks.lock(path);
-    runPython(join("scripts", "populate_task_ollama.py"), false, [path])
+    populateTask(path)
       .then(() => updateBoard())
-      .catch((err) => console.error("populate_task_ollama failed", err))
+      .catch((err) => console.error("populateTask failed", err))
       .finally(() => {
         fileLocks.unlockAfter(path, lockDelay);
       });

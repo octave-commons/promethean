@@ -21,13 +21,13 @@ async function setupTempRepo() {
 test("populates new task files", async (t) => {
   process.env.NODE_ENV = "test";
   const { root, tasksDir } = await setupTempRepo();
-  const calls: { script: string; args?: string[] }[] = [];
+  const populateCalls: string[] = [];
 
   const watchers = startFileWatcher({
     repoRoot: root,
-    runPython: async (script, _capture, args) => {
-      calls.push({ script, ...(args ? { args } : {}) });
-      return undefined;
+    runPython: async () => undefined,
+    populateTask: async (path) => {
+      populateCalls.push(path);
     },
     writeFile: async () => {},
     mongoCollection: { updateOne: async () => {} } as any,
@@ -39,12 +39,7 @@ test("populates new task files", async (t) => {
   await fs.writeFile(newTask, "");
   await delay(300);
 
-  t.true(
-    calls.some(
-      (c) =>
-        c.script.includes("populate_task_ollama.py") && c.args?.[0] === newTask,
-    ),
-  );
+  t.true(populateCalls.includes(newTask));
 
   await watchers.close();
 });
