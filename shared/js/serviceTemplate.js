@@ -27,8 +27,14 @@ export async function startService({
 
   // Handle task pulling
   if (queues.length > 0) {
-    broker.onTaskReceived(async (task) => {
-      console.log(`[${id}] received task:`, task.queue);
+    broker.onTaskReceived(async (task, queue) => {
+      const q = task?.queue || queue;
+      if (!q) return;
+      if (!task) {
+        setTimeout(() => broker.pull(q), 500);
+        return;
+      }
+      console.log(`[${id}] received task:`, q);
       try {
         await handleTask(task);
         broker.ack(task.id);
@@ -36,7 +42,7 @@ export async function startService({
         console.error(`[${id}] task failed:`, err);
         broker.fail(task.id, err.message);
       } finally {
-        setTimeout(() => broker.pull(task.queue), 100); // pull next
+        setTimeout(() => broker.pull(q), 100); // pull next
       }
     });
 

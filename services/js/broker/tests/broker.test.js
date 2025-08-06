@@ -22,7 +22,7 @@ test.afterEach.always(async () => {
   await stop(server);
 });
 
-test.serial("enqueues and dequeues tasks", async (t) => {
+test.serial("enqueues and pulls tasks", async (t) => {
   const prod = await connect();
   const worker = await connect();
   prod.send(
@@ -36,16 +36,40 @@ test.serial("enqueues and dequeues tasks", async (t) => {
   const received = new Promise((resolve) => {
     worker.once("message", (data) => resolve(JSON.parse(data)));
   });
-  worker.send(JSON.stringify({ action: "dequeue", queue: "jobs" }));
+  worker.send(JSON.stringify({ action: "pull", queue: "jobs" }));
   const msg = await received;
-  t.deepEqual(msg.task, { x: 1 });
+  t.deepEqual(msg.task.payload, { x: 1 });
+  t.is(msg.task.queue, "jobs");
 
   const received2 = new Promise((resolve) => {
     worker.once("message", (data) => resolve(JSON.parse(data)));
   });
-  worker.send(JSON.stringify({ action: "dequeue", queue: "jobs" }));
+  worker.send(JSON.stringify({ action: "pull", queue: "jobs" }));
   const msg2 = await received2;
   t.is(msg2.task, null);
+  t.is(msg2.queue, "jobs");
+  prod.close();
+  worker.close();
+});
+
+test.serial("expired tasks are discarded", async (t) => {
+  const prod = await connect();
+  const worker = await connect();
+  prod.send(
+    JSON.stringify({
+      action: "enqueue",
+      queue: "jobs",
+      task: { x: 2 },
+      ttl: 10,
+    }),
+  );
+  await new Promise((r) => setTimeout(r, 20));
+  const received = new Promise((resolve) => {
+    worker.once("message", (data) => resolve(JSON.parse(data)));
+  });
+  worker.send(JSON.stringify({ action: "pull", queue: "jobs" }));
+  const msg = await received;
+  t.is(msg.task, null);
   prod.close();
   worker.close();
 });

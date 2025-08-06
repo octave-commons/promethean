@@ -9,7 +9,7 @@ export class BrokerClient {
     this.id = id;
     this.socket = null;
     this.handlers = new Map();
-    this.onTask = null; // callback(task)
+    this.onTask = null; // callback(task, queue)
   }
 
   connect() {
@@ -20,8 +20,8 @@ export class BrokerClient {
       this.socket.on("message", (data) => {
         try {
           const msg = JSON.parse(data);
-          if (msg.task && this.onTask) {
-            this.onTask(msg.task);
+          if ("task" in msg && this.onTask) {
+            this.onTask(msg.task, msg.queue);
           } else if (msg.event) {
             const handler = this.handlers.get(msg.event.type);
             if (handler) handler(msg.event);
@@ -54,8 +54,10 @@ export class BrokerClient {
     this.socket.send(JSON.stringify({ action: "publish", message }));
   }
 
-  enqueue(queue, task) {
-    this.socket.send(JSON.stringify({ action: "enqueue", queue, task }));
+  enqueue(queue, task, opts = {}) {
+    const message = { action: "enqueue", queue, task };
+    if (opts.ttl) message.ttl = opts.ttl;
+    this.socket.send(JSON.stringify(message));
   }
 
   pull(queue) {

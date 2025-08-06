@@ -76,15 +76,25 @@ export async function start(port = process.env.PORT || 7000) {
         route(event, ws);
         console.log(`client ${id} published ${event.type}`);
       } else if (action === "enqueue") {
-        const { queue, task } = msg;
+        const { queue, task, ttl } = msg;
         if (typeof queue !== "string") return;
-        await taskQueue.enqueue(queue, task);
+        await taskQueue.enqueue(queue, task, ttl);
         console.log(`client ${id} enqueued task on ${queue}`);
-      } else if (action === "dequeue") {
+      } else if (action === "dequeue" || action === "pull") {
         const { queue } = msg;
         if (typeof queue !== "string") return;
         const task = await taskQueue.dequeue(queue);
-        ws.send(JSON.stringify({ task }));
+        if (task) {
+          ws.send(
+            JSON.stringify({
+              task: { id: task.id, payload: task.payload, queue },
+            }),
+          );
+        } else {
+          ws.send(JSON.stringify({ task: null, queue }));
+        }
+      } else if (action === "ack" || action === "fail") {
+        // acknowledgments are fire-and-forget; no server state needed
       } else {
         ws.send(JSON.stringify({ error: "unknown action" }));
       }
