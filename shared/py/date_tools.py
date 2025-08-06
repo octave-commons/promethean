@@ -1,7 +1,25 @@
-from datetime import datetime, timezone, timedelta
+"""Date and time helpers for shared utilities."""
+
+from datetime import datetime, timezone
+from typing import Optional
 
 
-def time_ago(past: datetime, now: datetime = None) -> str:
+def time_ago(past: datetime, now: Optional[datetime] = None) -> str:
+    """Return a human-friendly relative time string.
+
+    Parameters
+    ----------
+    past : datetime
+        The past moment to compare against ``now``.
+    now : datetime, optional
+        Reference time. Defaults to the current UTC time if not provided.
+
+    Returns
+    -------
+    str
+        A description like ``"5 minutes ago"`` or ``"2 days ago"``.
+    """
+
     if now is None:
         now = datetime.now(timezone.utc)
     delta = now - past
