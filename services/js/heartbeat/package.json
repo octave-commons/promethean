@@ -11,7 +11,8 @@
   "dependencies": {
     "express": "^4.18.2",
     "mongodb": "^6.8.0",
-    "pidusage": "^3.0.2"
+    "pidusage": "^3.0.2",
+    "ws": "^8.0.0"
   },
   "devDependencies": {
     "ava": "^6.4.1",
