@@ -1,13 +1,13 @@
 # Auto-generated Makefile. DO NOT EDIT MANUALLY.
 
 COMMANDS := \
-  all build clean lint format test test-e2e setup setup-quick install \
+  all build clean lint format test setup setup-quick install \
   install-gha-artifacts system-deps start stop \
   start-tts start-stt stop-tts stop-stt \
   board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues \
   coverage coverage-python coverage-js coverage-ts simulate-ci \
   docker-build docker-up docker-down \
-  typecheck-python typecheck-ts build-ts build-js \
+  typecheck-python test-e2e typecheck-ts build-ts build-js \
   setup-pipenv compile-hy \
   setup-python setup-python-quick setup-js setup-ts setup-hy \
   test-python test-js test-ts test-hy test-integration \
