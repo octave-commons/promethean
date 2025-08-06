@@ -1,2 +1,0 @@
-
-"smart_sources:docs/whisper-stream-ws-app.md": {"path":"docs/whisper-stream-ws-app.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"1wwqc8l","at":1753852091793},"class_name":"SmartSource","last_import":{"mtime":1753852074144,"size":191,"at":1753852091793,"hash":"1wwqc8l"},"blocks":{"#`services/whisper_stream_ws/app.py`":[1,4],"#`services/whisper_stream_ws/app.py`#{1}":[3,4],"#hashtags: #stt #whisper #websocket #service #promethean":[5,6]},"outlinks":[]},

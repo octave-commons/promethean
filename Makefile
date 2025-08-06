@@ -1,17 +1,37 @@
 # Auto-generated Makefile. DO NOT EDIT MANUALLY.
 
 COMMANDS := \
-  all build clean lint format test setup setup-quick install install-mongodb \
-  install-gha-artifacts system-deps start stop \
-  start-tts start-stt stop-tts stop-stt \
-  board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues \
-  coverage coverage-python coverage-js coverage-ts simulate-ci \
-  docker-build docker-up docker-down \
-  typecheck-python test-e2e typecheck-ts build-ts build-js \
-  setup-pipenv compile-hy \
-  setup-python setup-python-quick setup-js setup-ts setup-hy \
-  test-python test-js test-ts test-hy test-integration \
-  generate-requirements generate-python-services-requirements generate-makefile
+  coverage-js-service- \
+  coverage-python-service- \
+  coverage-quick-service-js-service- \
+  coverage-quick-service-python-service- \
+  coverage-quick-service-ts-service- \
+  coverage-quick-shared-python-service- \
+  coverage-shared-python-service- \
+  coverage-ts-service- \
+  generate-requirements--service- \
+  lint-js-service- \
+  lint-python-service- \
+  lint-ts-service- \
+  setup-hy-service- \
+  setup-js-service- \
+  setup-python-service- \
+  setup-quick-service-python-service- \
+  setup-quick-shared-python-service- \
+  setup-sibilant-service- \
+  setup-ts-service- \
+  start--service- \
+  stop--service- \
+  test-hy-service- \
+  test-js-service- \
+  test-python-service- \
+  test-quick-service-hy-service- \
+  test-quick-service-js-service- \
+  test-quick-service-python-service- \
+  test-quick-service-ts-service- \
+  test-quick-shared-python-service- \
+  test-shared-python-service- \
+  test-ts-service-
 
 .PHONY: \
   $(COMMANDS) \
@@ -27,7 +47,6 @@ COMMANDS := \
   test-quick-shared-python-service- \
   coverage-quick-service-python-service- \
   coverage-quick-shared-python-service- \
-  lint-python-service- \
   setup-js-service- \
   test-js-service- \
   coverage-js-service- \
@@ -85,9 +104,6 @@ coverage-quick-service-python-service-%:
 	@hy Makefile.hy $@
 
 coverage-quick-shared-python-service-%:
-	@hy Makefile.hy $@
-
-lint-python-service-%:
 	@hy Makefile.hy $@
 
 setup-js-service-%:
