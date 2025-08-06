@@ -1,7 +1,7 @@
 (import shutil)
 (import util [sh run-dirs])
 (import dotenv [load-dotenv])
-(import os.path [isdir join])
+(import os.path [isdir isfile join])
 (load-dotenv)
 (require macros [ define-service-list defn-cmd ])
 
@@ -141,13 +141,13 @@
 ;; JavaScript helpers ---------------------------------------------------------
 (defn-cmd lint-js-service [service]
   (print (.format "Linting JS service: {}" service))
-  (sh "npx eslint --ext .js,.ts . " :cwd (join "services/js" service) :shell True))
+  (sh "npx --yes eslint ." :cwd (join "services/js" service) :shell True))
 
 (defn-cmd lint-js []
-  (run-dirs SERVICES_JS "npx eslint --ext .js,.ts . " :shell True))
+  (run-dirs SERVICES_JS "npx --yes eslint ." :shell True))
 
 (defn-cmd format-js []
-  (run-dirs SERVICES_JS "npx prettier --write ." :shell True))
+  (run-dirs SERVICES_JS "npx --yes prettier --write ." :shell True))
 
 (defn-cmd setup-js-service [service]
   (print (.format "Setting up JS service: {}" service))
@@ -186,13 +186,15 @@
 ;; TypeScript helpers ---------------------------------------------------------
 (defn-cmd lint-ts-service [service]
   (print (.format "Linting TS service: {}" service))
-  (sh "npx eslint  --ext .js,.ts . " :cwd (join "services/ts" service) :shell True))
+  (sh "npx --yes @biomejs/biome lint ." :cwd (join "services/ts" service) :shell True))
 
 (defn-cmd lint-ts []
-  (run-dirs SERVICES_TS "npx eslint . --no-warn-ignored --ext .js,.ts" :shell True))
+  (for [d SERVICES_TS]
+    (when (isfile (join d "biome.json"))
+      (sh "npx --yes @biomejs/biome lint ." :cwd d :shell True))))
 
 (defn-cmd format-ts []
-  (run-dirs SERVICES_TS "npx prettier --write ." :shell True))
+  (run-dirs SERVICES_TS "npx --yes @biomejs/biome format ." :shell True))
 
 (defn-cmd typecheck-ts []
   (run-dirs SERVICES_TS "npx tsc --noEmit" :shell True))
@@ -231,7 +233,9 @@
 
 (defn-cmd build-ts []
   (print "Transpiling TS to JS... (if we had any shared ts modules)")
-  (run-dirs SERVICES_TS "npm run build" :shell True))
+  (for [d SERVICES_TS]
+    (when (isfile (join d "node_modules/.bin/tsc"))
+      (sh "npm run build" :cwd d :shell True))))
 
 ;; Sibilant ------------------------------------------------------------------
 (defn-cmd build-sibilant []
