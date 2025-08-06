@@ -141,10 +141,10 @@
 ;; JavaScript helpers ---------------------------------------------------------
 (defn-cmd lint-js-service [service]
   (print (.format "Linting JS service: {}" service))
-  (sh "npx eslint --ext .js,.ts . " :cwd (join "services/js" service) :shell True))
+  (sh "npx eslint . --no-warn-ignored --no-error-on-unmatched-pattern" :cwd (join "services/js" service) :shell True))
 
 (defn-cmd lint-js []
-  (run-dirs SERVICES_JS "npx eslint --ext .js,.ts . " :shell True))
+  (run-dirs SERVICES_JS "npx eslint . --no-warn-ignored --no-error-on-unmatched-pattern" :shell True))
 
 (defn-cmd format-js []
   (run-dirs SERVICES_JS "npx prettier --write ." :shell True))
@@ -186,10 +186,10 @@
 ;; TypeScript helpers ---------------------------------------------------------
 (defn-cmd lint-ts-service [service]
   (print (.format "Linting TS service: {}" service))
-  (sh "npx eslint  --ext .js,.ts . " :cwd (join "services/ts" service) :shell True))
+  (sh "npx eslint . --no-warn-ignored --no-error-on-unmatched-pattern" :cwd (join "services/ts" service) :shell True))
 
 (defn-cmd lint-ts []
-  (run-dirs SERVICES_TS "npx eslint . --no-warn-ignored --ext .js,.ts" :shell True))
+  (run-dirs SERVICES_TS "npx eslint . --no-warn-ignored --no-error-on-unmatched-pattern" :shell True))
 
 (defn-cmd format-ts []
   (run-dirs SERVICES_TS "npx prettier --write ." :shell True))
