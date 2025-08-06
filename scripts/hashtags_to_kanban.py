@@ -51,7 +51,7 @@ def build_board(tasks: dict[str, list[tuple[str, Path]]]) -> str:
         lines.append(f"## {header}")
         lines.append("")
         for title, path in sorted(items):
-            rel = Path("../tasks") / path.name
+            rel = (Path("../tasks") / path.name).as_posix()
             lines.append(f"- [ ] [{title}]({rel}) {status}")
         lines.append("")
     return "\n".join(lines)
