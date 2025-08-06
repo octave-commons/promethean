@@ -97,3 +97,61 @@ test.serial("records process metrics", async (t) => {
   t.is(typeof doc.netRx, "number");
   t.is(typeof doc.netTx, "number");
 });
+
+test.serial("ignores heartbeats from previous sessions", async (t) => {
+  const client = new MongoClient(process.env.MONGO_URL);
+  await client.connect();
+  await client.db("heartbeat_db").collection("heartbeats").insertOne({
+    pid: 12345,
+    name: "test-app",
+    last: Date.now(),
+    sessionId: "old-session",
+  });
+  await client.close();
+  await stop();
+  server = await start(0);
+  const child = spawn("node", ["-e", "setInterval(()=>{},1000)"]);
+  t.teardown(() => {
+    if (!child.killed) {
+      try {
+        child.kill();
+      } catch {}
+    }
+  });
+  const res = await request(server)
+    .post("/heartbeat")
+    .send({ pid: child.pid, name: "test-app" });
+  t.is(res.status, 200);
+  const verify = new MongoClient(process.env.MONGO_URL);
+  await verify.connect();
+  const doc = await verify
+    .db("heartbeat_db")
+    .collection("heartbeats")
+    .findOne({ pid: child.pid });
+  await verify.close();
+  t.truthy(doc.sessionId);
+  t.not(doc.sessionId, "old-session");
+});
+
+test.serial("cleanup marks heartbeats killed on stop", async (t) => {
+  const child = spawn("node", ["-e", "setInterval(()=>{},1000)"]);
+  await request(server)
+    .post("/heartbeat")
+    .send({ pid: child.pid, name: "cleanup-app" })
+    .expect(200);
+  await stop();
+  const client = new MongoClient(process.env.MONGO_URL);
+  await client.connect();
+  const doc = await client
+    .db("heartbeat_db")
+    .collection("heartbeats")
+    .findOne({ pid: child.pid });
+  t.truthy(doc.killedAt);
+  await client.close();
+  server = await start(0);
+  if (!child.killed) {
+    try {
+      child.kill();
+    } catch {}
+  }
+});

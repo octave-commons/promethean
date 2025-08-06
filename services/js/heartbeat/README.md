@@ -4,6 +4,8 @@ Tracks process heartbeats via HTTP and terminates those that fail to report with
 Backed by MongoDB for storage. Intended for detecting and cleaning up hung or orphaned worker processes.
 Also enforces the instance limits defined in a PM2 ecosystem file, rejecting registrations that exceed the configured count for a given app name.
 Each heartbeat updates CPU, memory, and network byte counts for the process based on its PID.
+Heartbeats are tagged with a service-instance session ID so that restarts do not conflict with stale database entries.
+On shutdown the service marks all heartbeats from its current session as killed to allow clean restarts.
 
 ## API
 
