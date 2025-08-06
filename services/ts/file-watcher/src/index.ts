@@ -5,7 +5,7 @@ import { readFile as fsReadFile, writeFile as fsWriteFile } from "fs/promises";
 import { MongoClient, Collection } from "mongodb";
 import { io, Socket } from "socket.io-client";
 import crypto from "crypto";
-import { AGENT_NAME } from "../../../../shared/js/env.js";
+const AGENT_NAME = process.env.AGENT_NAME || "agent";
 
 /**
  * Options for {@link startFileWatcher} allowing injection of dependencies for testing.
@@ -67,6 +67,7 @@ function defaultRunPython(
 export function startFileWatcher(options: FileWatcherOptions = {}): {
   boardWatcher: chokidar.FSWatcher;
   tasksWatcher: chokidar.FSWatcher;
+  close: () => Promise<void>;
 } {
   const repoRoot = options.repoRoot ?? defaultRepoRoot;
   const runPython = options.runPython ?? defaultRunPython;
@@ -76,20 +77,26 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
   const tasksPath = join(repoRoot, "docs", "agile", "tasks");
   const boardDir = dirname(boardPath);
 
+  let mongoClient: MongoClient | undefined;
   const mongoCollection =
     options.mongoCollection ??
-    (() => {
-      const client = new MongoClient(
-        process.env.MONGODB_URI || "mongodb://localhost:27017",
-      );
-      client
-        .connect()
-        .catch((err) => console.error("mongo connect failed", err));
-      return client.db("database").collection(`${AGENT_NAME}_kanban`);
-    })();
+    (process.env.NODE_ENV === "test"
+      ? ({ updateOne: async () => {} } as any)
+      : (() => {
+          mongoClient = new MongoClient(
+            process.env.MONGODB_URI || "mongodb://localhost:27017",
+          );
+          mongoClient
+            .connect()
+            .catch((err) => console.error("mongo connect failed", err));
+          return mongoClient.db("database").collection(`${AGENT_NAME}_kanban`);
+        })());
 
   const socket =
-    options.socket ?? io(process.env.SOCKET_URL || "http://localhost:3000");
+    options.socket ??
+    (process.env.NODE_ENV === "test"
+      ? ({ emit: () => {}, disconnect: () => {} } as any)
+      : io(process.env.SOCKET_URL || "http://localhost:3000"));
   const initialParse = options.initialParse ?? true;
 
   let previousState: Record<string, KanbanCard> = {};
@@ -299,7 +306,20 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
     );
   }
 
-  return { boardWatcher, tasksWatcher };
+  return {
+    boardWatcher,
+    tasksWatcher,
+    async close() {
+      await Promise.all([
+        boardWatcher.close(),
+        tasksWatcher.close(),
+        mongoClient ? mongoClient.close() : Promise.resolve(),
+      ]);
+      if (!options.socket && (socket as any)?.disconnect) {
+        (socket as any).disconnect();
+      }
+    },
+  };
 }
 
 if (process.env.NODE_ENV !== "test") {
