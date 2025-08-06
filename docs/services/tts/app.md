@@ -2,8 +2,14 @@
 
 **Path**: `services/py/tts/app.py`
 
-**Description**: FastAPI application exposing `/synth_voice_pcm` for HTTP
-text-to-speech and `/ws/tts` for WebSocket streaming.
+**Description**: FastAPI application exposing HTTP and WebSocket text-to-speech
+interfaces.
+
+### Endpoints
+
+- `POST /synth_voice_pcm` – form field `input_text`; responds with 16‑bit PCM
+  audio bytes.
+- `WS /ws/tts` – send text frames and receive WAV audio bytes.
 
 ## Dependencies
 - fastapi
