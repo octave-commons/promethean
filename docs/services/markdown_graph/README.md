@@ -2,8 +2,10 @@
 
 Maintains a graph of markdown links and `#hashtags` in an SQLite database.
 
-- **Cold start:** traverses from `readme.md` and indexes all linked markdown files.
-- **Updates:** file watcher services POST file contents to `/update`.
-- **Query:** other services access `/links/{path}` or `/hashtags/{tag}`.
+### Endpoints
+
+- `POST /update` – supply `{ path, content }` to update the graph.
+- `GET /links/{path}` – return links from the given markdown file.
+- `GET /hashtags/{tag}` – return all files referencing the tag.
 
 #markdown #service
