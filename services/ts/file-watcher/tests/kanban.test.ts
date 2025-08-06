@@ -41,6 +41,5 @@ test("creates task and emits event for new card", async (t) => {
   t.true(files.length === 1);
   t.true(events.some((e) => e.evt === "kanban:cardCreated"));
 
-  await watchers.boardWatcher.close();
-  await watchers.tasksWatcher.close();
+  await watchers.close();
 });

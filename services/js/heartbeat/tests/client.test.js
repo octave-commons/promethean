@@ -55,3 +55,9 @@ test("heartbeat client invokes callback", async (t) => {
     client.start();
   });
 });
+
+test("heartbeat client requires name", (t) => {
+  const url = `http://127.0.0.1:${server.address().port}/heartbeat`;
+  const err = t.throws(() => new HeartbeatClient({ url, pid: 1 }));
+  t.regex(err.message, /name required/);
+});
