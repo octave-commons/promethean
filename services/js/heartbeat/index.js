@@ -69,34 +69,47 @@ app.post("/heartbeat", async (req, res) => {
   if (!pid || !name) {
     return res.status(400).json({ error: "pid and name required" });
   }
-  const now = Date.now();
-  const existing = await collection.findOne({ pid });
-  if (!existing) {
-    const allowed = allowedInstances[name] ?? Infinity;
-    const count = await collection.countDocuments({
-      name,
-      last: { $gte: now - HEARTBEAT_TIMEOUT },
-      killedAt: { $exists: false },
-    });
-    if (count >= allowed) {
-      return res
-        .status(409)
-        .json({ error: `instance limit exceeded for ${name}` });
-    }
+  if (!collection) {
+    return res.status(503).json({ error: "db not available" });
   }
-  const metrics = await getProcessMetrics(pid);
-  await collection.updateOne(
-    { pid },
-    { $set: { last: now, name, ...metrics }, $unset: { killedAt: "" } },
-    { upsert: true },
-  );
-  res.json({ status: "ok", pid, name, ...metrics });
+  const now = Date.now();
+  try {
+    const existing = await collection.findOne({ pid });
+    if (!existing) {
+      const allowed = allowedInstances[name] ?? Infinity;
+      const count = await collection.countDocuments({
+        name,
+        last: { $gte: now - HEARTBEAT_TIMEOUT },
+        killedAt: { $exists: false },
+      });
+      if (count >= allowed) {
+        return res
+          .status(409)
+          .json({ error: `instance limit exceeded for ${name}` });
+      }
+    }
+    const metrics = await getProcessMetrics(pid);
+    await collection.updateOne(
+      { pid },
+      { $set: { last: now, name, ...metrics }, $unset: { killedAt: "" } },
+      { upsert: true },
+    );
+    return res.json({ status: "ok", pid, name, ...metrics });
+  } catch {
+    return res.status(500).json({ error: "db failure" });
+  }
 });
 
 export async function monitor(now = Date.now()) {
-  const stale = await collection
-    .find({ last: { $lt: now - HEARTBEAT_TIMEOUT } })
-    .toArray();
+  if (!collection) return;
+  let stale = [];
+  try {
+    stale = await collection
+      .find({ last: { $lt: now - HEARTBEAT_TIMEOUT } })
+      .toArray();
+  } catch {
+    return;
+  }
   for (const doc of stale) {
     try {
       process.kill(doc.pid, "SIGKILL");
@@ -120,7 +133,9 @@ export async function start(port = process.env.PORT || 5000) {
   client = new MongoClient(MONGO_URL);
   await client.connect();
   collection = client.db(DB_NAME).collection(COLLECTION);
-  interval = setInterval(() => monitor(), CHECK_INTERVAL);
+  interval = setInterval(() => {
+    monitor().catch(() => {});
+  }, CHECK_INTERVAL);
   server = app.listen(port, () => {
     console.log(`heartbeat service listening on ${port}`);
   });
@@ -128,9 +143,23 @@ export async function start(port = process.env.PORT || 5000) {
 }
 
 export async function stop() {
-  if (interval) clearInterval(interval);
-  if (server) server.close();
-  if (client) await client.close();
+  if (interval) {
+    clearInterval(interval);
+    interval = null;
+  }
+  if (server) {
+    server.close();
+    server = null;
+  }
+  if (client) {
+    try {
+      await client.close();
+    } catch {
+      /* ignore errors from closing */
+    }
+    client = null;
+    collection = null;
+  }
 }
 
 if (process.env.NODE_ENV !== "test") {
