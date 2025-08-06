@@ -6,6 +6,7 @@ import fs from "fs";
 import pidusage from "pidusage";
 import { fileURLToPath } from "url";
 import { randomUUID } from "crypto";
+import WebSocket from "ws";
 
 export const app = express();
 app.use(express.json());
@@ -18,11 +19,13 @@ let CHECK_INTERVAL = 5000;
 let MONGO_URL = "mongodb://127.0.0.1:27017";
 let DB_NAME = "heartbeat_db";
 let COLLECTION = "heartbeats";
+let BROKER_URL = "ws://127.0.0.1:7000";
 
 let client;
 let collection;
 let interval;
 let server;
+let ws;
 let allowedInstances = {};
 let SESSION_ID;
 let shuttingDown = false;
@@ -70,15 +73,9 @@ function loadConfig() {
   }
 }
 
-app.post("/heartbeat", async (req, res) => {
-  const pid = parseInt(req.body?.pid, 10);
-  const name = req.body?.name;
-  if (!pid || !name) {
-    return res.status(400).json({ error: "pid and name required" });
-  }
-  if (!collection) {
-    return res.status(503).json({ error: "db not available" });
-  }
+async function handleHeartbeat({ pid, name }) {
+  pid = parseInt(pid, 10);
+  if (!pid || !name || !collection) return;
   const now = Date.now();
   try {
     const existing = await collection.findOne({ pid, sessionId: SESSION_ID });
@@ -90,11 +87,7 @@ app.post("/heartbeat", async (req, res) => {
         last: { $gte: now - HEARTBEAT_TIMEOUT },
         killedAt: { $exists: false },
       });
-      if (count >= allowed) {
-        return res
-          .status(409)
-          .json({ error: `instance limit exceeded for ${name}` });
-      }
+      if (count >= allowed) return;
     }
     const metrics = await getProcessMetrics(pid);
     await collection.updateOne(
@@ -105,11 +98,10 @@ app.post("/heartbeat", async (req, res) => {
       },
       { upsert: true },
     );
-    return res.json({ status: "ok", pid, name, ...metrics });
   } catch {
-    return res.status(500).json({ error: "db failure" });
+    /* swallow processing errors */
   }
-});
+}
 
 app.get("/heartbeats", async (req, res) => {
   if (!collection) {
@@ -150,6 +142,7 @@ export async function start(port = process.env.PORT || 5000) {
   MONGO_URL = process.env.MONGO_URL || MONGO_URL;
   DB_NAME = process.env.DB_NAME || DB_NAME;
   COLLECTION = process.env.COLLECTION || COLLECTION;
+  BROKER_URL = process.env.BROKER_URL || BROKER_URL;
 
   loadConfig();
 
@@ -158,6 +151,21 @@ export async function start(port = process.env.PORT || 5000) {
   client = new MongoClient(MONGO_URL);
   await client.connect();
   collection = client.db(DB_NAME).collection(COLLECTION);
+  ws = new WebSocket(BROKER_URL);
+  ws.on("message", (raw) => {
+    try {
+      const msg = JSON.parse(raw.toString());
+      if (msg.event?.type === "heartbeat") {
+        handleHeartbeat(msg.event.payload || {}).catch(() => {});
+      }
+    } catch {}
+  });
+  await new Promise((resolve) =>
+    ws.once("open", () => {
+      ws.send(JSON.stringify({ action: "subscribe", topic: "heartbeat" }));
+      resolve();
+    }),
+  );
   interval = setInterval(() => {
     monitor().catch(() => {});
   }, CHECK_INTERVAL);
@@ -190,6 +198,12 @@ export async function stop() {
   if (server) {
     server.close();
     server = null;
+  }
+  if (ws) {
+    try {
+      ws.close();
+    } catch {}
+    ws = null;
   }
   if (client) {
     try {
