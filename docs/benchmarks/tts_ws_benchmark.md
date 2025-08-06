@@ -9,5 +9,5 @@
 
 ## Usage
 ```bash
-python scripts/bench_tts_ws.py --host localhost --port 5003 --text "Hello" -n 5
+python scripts/bench_tts_ws.py --host localhost --port 5004 --text "Hello" -n 5
 ```

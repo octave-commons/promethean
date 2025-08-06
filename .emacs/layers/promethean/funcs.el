@@ -3,7 +3,8 @@
 (defun promethean/setup-lispy-env ()
   (smartparens-strict-mode 1)
   (rainbow-delimiters-mode 1)
-  (electric-pair-mode -1))
+  (electric-pair-mode -1)
+  (company-mode 1))
 
 (defun promethean/codex-complete-buffer ()
   "Run codex-cli on the current buffer and insert completion."

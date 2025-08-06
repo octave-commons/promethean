@@ -1,6 +1,40 @@
 """Tests for :mod:`scripts.index_project_files`."""
 
 from pathlib import Path
+import sys
+import types
+
+# Ensure the repository root is on sys.path so "scripts" can be imported
+sys.path.append(str(Path(__file__).resolve().parents[2]))
+
+# Provide a lightweight stub for chromadb if it's not installed. This allows
+# the tests to run without pulling in heavy optional dependencies.
+try:  # pragma: no cover - exercised when chromadb is available
+    import chromadb  # type: ignore
+    from chromadb.config import Settings  # noqa: F401  - imported for side effect
+except ModuleNotFoundError:  # pragma: no cover - stub path
+    chromadb = types.ModuleType("chromadb")
+
+    class _DummyCollection:
+        def upsert(self, **kwargs):
+            pass
+
+    class _DummyClient:
+        def get_or_create_collection(self, name):
+            return _DummyCollection()
+
+    chromadb.Client = lambda *a, **k: _DummyClient()
+
+    config_mod = types.ModuleType("chromadb.config")
+
+    class Settings:  # pylint: disable=too-few-public-methods
+        def __init__(self, **kwargs):
+            pass
+
+    config_mod.Settings = Settings
+
+    sys.modules["chromadb"] = chromadb
+    sys.modules["chromadb.config"] = config_mod
 
 from scripts.index_project_files import index_project_files
 
@@ -19,4 +53,3 @@ def test_index_project_files(tmp_path: Path) -> None:
     )
 
     assert count == 2
-
