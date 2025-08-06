@@ -11,7 +11,6 @@ const python_env = {
 const AGENT_NAME = "Duck";
 const { defineApp } = require("../../dev/pm2Helpers");
 
-const HEARTBEAT_PORT = 5005;
 const discord_env = {
   DISCORD_TOKEN: process.env.DISCORD_TOKEN,
   DISCORD_CLIENT_USER_ID: "449279570445729793",
@@ -51,7 +50,6 @@ module.exports = {
       cwd: path.join(__dirname, "../../services/ts/cephalon"),
       env: {
         ...discord_env,
-        HEARTBEAT_PORT,
       },
     }),
     defineApp("duck_embedder", ".", [], {
