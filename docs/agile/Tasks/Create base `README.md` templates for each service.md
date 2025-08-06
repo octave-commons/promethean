@@ -18,9 +18,9 @@ Most directories currently lack a README, so we need to create them using a comm
 ## 🛠 Requirements
 - Add `README.md` if missing
 - Confirm each has:
-- Overview
-- Launch instructions
-- Related AGENT.md or spec file link
+  - Overview
+  - Launch instructions
+  - Related AGENT.md or spec file link
 
 ## ✅ Tasks
 - [ ] Create `services/cephalon/README.md`
@@ -31,4 +31,3 @@ Most directories currently lack a README, so we need to create them using a comm
 
 ## 🔗 Links
 - [AGENTS.md](../AGENTS.md)
-#breakdown
