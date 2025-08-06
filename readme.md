@@ -75,6 +75,19 @@ The service management targets `make start`, `make start-tts` and
 `make start-stt` require PM2. You can install it globally as shown above or add
 it as a project dependency.
 
+### MongoDB
+
+Some services (for example `heartbeat`) require a running MongoDB instance.
+On Linux you can install and start MongoDB with:
+
+```bash
+make install-mongodb
+```
+
+This target adds the MongoDB apt repository and installs the `mongodb-org` package.
+On Windows, install [MongoDB Community Edition](https://www.mongodb.com/try/download/community)
+and ensure the `mongod` service is running locally before starting PM2.
+
 ## Running Services
 
 Scripts in `agents/scripts/` launch commonly used services:
