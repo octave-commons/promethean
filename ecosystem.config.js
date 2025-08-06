@@ -67,5 +67,23 @@ module.exports = {
         PORT: 8080,
       },
     }),
+    defineApp(
+      "discord_attachment_embedder",
+      "pipenv",
+      ["run", "python", "-m", "main"],
+      {
+        cwd: "./services/py/discord_attachment_embedder",
+        watch: ["./services/py/discord_attachment_embedder"],
+      },
+    ),
+    defineApp("eidolon-field", ".", [], {
+      cwd: "./services/js/eidolon-field",
+      watch: ["./services/js/eidolon-field/"],
+    }),
+    defineApp("markdown-graph", ".", [], {
+      cwd: "./services/ts/markdown-graph",
+      watch: ["./services/ts/markdown-graph/src"],
+      env: { PORT: 8000 },
+    }),
   ],
 };
