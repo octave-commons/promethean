@@ -1,30 +1,31 @@
 import test from "ava";
-import WebSocket from "ws";
-import * as llm from "../src/index.js";
-import ollama from "ollama";
-import { HeartbeatClient } from "../../../../shared/js/heartbeat/index.js";
+import { WebSocket } from "ws";
+import { start, setCallOllamaFn } from "../src/index.js";
 
-// mock ollama chat to avoid external dependency
-ollama.chat = async () => ({ message: { content: "ok" } });
-process.env.name = "test";
-HeartbeatClient.prototype.sendOnce = async () => {};
-HeartbeatClient.prototype.start = () => {};
+let server;
 
-test("websocket generates replies", async (t) => {
-  const server = await llm.start(0);
+test.before(async () => {
+  process.env.NODE_ENV = "test";
+  process.env.name = "llm";
+  setCallOllamaFn(async () => "hi");
+  server = await start(0);
+});
+
+test.after.always(() => {
+  if (server) server.close();
+});
+
+test("generate via websocket", async (t) => {
   const port = server.address().port;
-
-  const ws = new WebSocket(`ws://localhost:${port}/generate`);
-  const reply = await new Promise((resolve, reject) => {
-    ws.on("open", () => {
-      ws.send(JSON.stringify({ prompt: "p", context: [], format: undefined }));
-    });
-    ws.on("message", (data) => {
-      resolve(JSON.parse(data.toString()).reply);
+  const ws = new WebSocket(`ws://127.0.0.1:${port}/generate`);
+  const payload = { prompt: "hi", context: [], format: null };
+  const response = await new Promise((resolve, reject) => {
+    ws.on("open", () => ws.send(JSON.stringify(payload)));
+    ws.on("message", (msg) => {
+      resolve(JSON.parse(msg.toString()));
     });
     ws.on("error", reject);
   });
-  t.is(reply, "ok");
+  t.is(response.reply, "hi");
   ws.close();
-  await new Promise((r) => server.close(r));
 });

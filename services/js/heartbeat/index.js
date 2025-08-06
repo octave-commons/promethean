@@ -6,6 +6,7 @@ import fs from "fs";
 import pidusage from "pidusage";
 import { fileURLToPath } from "url";
 import { randomUUID } from "crypto";
+import { WebSocketServer } from "ws";
 
 export const app = express();
 app.use(express.json());
@@ -23,9 +24,50 @@ let client;
 let collection;
 let interval;
 let server;
+let wss;
 let allowedInstances = {};
 let SESSION_ID;
 let shuttingDown = false;
+
+async function processHeartbeat(pid, name) {
+  if (!pid || !name) {
+    return { status: 400, body: { error: "pid and name required" } };
+  }
+  if (!collection) {
+    return { status: 503, body: { error: "db not available" } };
+  }
+  const now = Date.now();
+  try {
+    const existing = await collection.findOne({ pid, sessionId: SESSION_ID });
+    if (!existing) {
+      const allowed = allowedInstances[name] ?? Infinity;
+      const count = await collection.countDocuments({
+        name,
+        sessionId: SESSION_ID,
+        last: { $gte: now - HEARTBEAT_TIMEOUT },
+        killedAt: { $exists: false },
+      });
+      if (count >= allowed) {
+        return {
+          status: 409,
+          body: { error: `instance limit exceeded for ${name}` },
+        };
+      }
+    }
+    const metrics = await getProcessMetrics(pid);
+    await collection.updateOne(
+      { pid },
+      {
+        $set: { last: now, name, sessionId: SESSION_ID, ...metrics },
+        $unset: { killedAt: "" },
+      },
+      { upsert: true },
+    );
+    return { status: 200, body: { status: "ok", pid, name, ...metrics } };
+  } catch {
+    return { status: 500, body: { error: "db failure" } };
+  }
+}
 
 async function getProcessMetrics(pid) {
   const metrics = { cpu: 0, memory: 0, netRx: 0, netTx: 0 };
@@ -73,42 +115,8 @@ function loadConfig() {
 app.post("/heartbeat", async (req, res) => {
   const pid = parseInt(req.body?.pid, 10);
   const name = req.body?.name;
-  if (!pid || !name) {
-    return res.status(400).json({ error: "pid and name required" });
-  }
-  if (!collection) {
-    return res.status(503).json({ error: "db not available" });
-  }
-  const now = Date.now();
-  try {
-    const existing = await collection.findOne({ pid, sessionId: SESSION_ID });
-    if (!existing) {
-      const allowed = allowedInstances[name] ?? Infinity;
-      const count = await collection.countDocuments({
-        name,
-        sessionId: SESSION_ID,
-        last: { $gte: now - HEARTBEAT_TIMEOUT },
-        killedAt: { $exists: false },
-      });
-      if (count >= allowed) {
-        return res
-          .status(409)
-          .json({ error: `instance limit exceeded for ${name}` });
-      }
-    }
-    const metrics = await getProcessMetrics(pid);
-    await collection.updateOne(
-      { pid },
-      {
-        $set: { last: now, name, sessionId: SESSION_ID, ...metrics },
-        $unset: { killedAt: "" },
-      },
-      { upsert: true },
-    );
-    return res.json({ status: "ok", pid, name, ...metrics });
-  } catch {
-    return res.status(500).json({ error: "db failure" });
-  }
+  const result = await processHeartbeat(pid, name);
+  return res.status(result.status).json(result.body);
 });
 
 app.get("/heartbeats", async (req, res) => {
@@ -164,6 +172,20 @@ export async function start(port = process.env.PORT || 5000) {
   server = app.listen(port, () => {
     console.log(`heartbeat service listening on ${port}`);
   });
+  wss = new WebSocketServer({ server, path: "/heartbeat" });
+  wss.on("connection", (ws) => {
+    ws.on("message", async (msg) => {
+      let data;
+      try {
+        data = JSON.parse(msg.toString());
+      } catch {
+        ws.send(JSON.stringify({ error: "invalid json" }));
+        return;
+      }
+      const result = await processHeartbeat(parseInt(data.pid, 10), data.name);
+      ws.send(JSON.stringify(result.body));
+    });
+  });
   return server;
 }
 
@@ -190,6 +212,10 @@ export async function stop() {
   if (server) {
     server.close();
     server = null;
+  }
+  if (wss) {
+    wss.close();
+    wss = null;
   }
   if (client) {
     try {
