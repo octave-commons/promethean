@@ -1,6 +1,10 @@
 import { spawn } from "child_process";
-import { dirname, join, resolve } from "path";
-import { readFile as fsReadFile, writeFile as fsWriteFile } from "fs/promises";
+import { basename, dirname, join, resolve } from "path";
+import {
+  readFile as fsReadFile,
+  writeFile as fsWriteFile,
+  stat as fsStat,
+} from "fs/promises";
 import { MongoClient, Collection } from "mongodb";
 import { io, Socket } from "socket.io-client";
 import crypto from "crypto";
@@ -8,7 +12,6 @@ import { FileLocks } from "./file-lock.js";
 import { createBoardWatcher } from "./board-watcher.js";
 import { createTasksWatcher } from "./tasks-watcher.js";
 import type chokidar from "chokidar";
-
 
 /**
  * Options for {@link startFileWatcher} allowing injection of dependencies for testing.
@@ -24,6 +27,8 @@ export interface FileWatcherOptions {
   ) => Promise<string | void>;
   /** Function used to write the kanban board file. */
   writeFile?: (path: string, data: string) => Promise<void>;
+  /** Function used to populate new task files using the LLM service. */
+  populateTask?: (path: string) => Promise<void>;
   /** Mongo collection for projecting board state. */
   mongoCollection?: Collection<any>;
   /** Socket instance used to emit board events. */
@@ -75,22 +80,59 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
   const repoRoot = options.repoRoot ?? defaultRepoRoot;
   const runPython = options.runPython ?? defaultRunPython;
   const writeFile = options.writeFile ?? fsWriteFile;
+  const populateTask =
+    options.populateTask ??
+    (async (path: string) => {
+      try {
+        const info = await fsStat(path);
+        if (info.size > 0) return;
+      } catch {
+        // ignore
+      }
+      const title = basename(path, ".md").replace(/_/g, " ");
+      const llmUrl = process.env.LLM_URL || "http://localhost:5003";
+      const prompt =
+        "You are an engineering assistant. Given a task title, produce a concise markdown task stub with headings for Goals, Requirements, and Subtasks.";
+      try {
+        const res = await fetch(`${llmUrl}/generate`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            prompt,
+            context: [{ role: "user", content: `Title: ${title}` }],
+          }),
+        });
+        if (!res.ok) {
+          throw new Error(`LLM request failed with status ${res.status}`);
+        }
+        const data = (await res.json()) as { reply: string };
+        let content = data.reply?.toString().trim() || "";
+        if (!content.startsWith("#")) {
+          content = `#Todo\n\n${content}`;
+        }
+        if (!content.endsWith("\n")) content += "\n";
+        await writeFile(path, content);
+      } catch (err) {
+        console.error("populateTask failed", err);
+      }
+    });
 
   const boardPath = join(repoRoot, "docs", "agile", "boards", "kanban.md");
   const tasksPath = join(repoRoot, "docs", "agile", "tasks");
   const boardDir = dirname(boardPath);
 
   const agentName = process.env.AGENT_NAME || "";
+  let mongoClient: MongoClient | undefined;
   const mongoCollection =
     options.mongoCollection ??
     (() => {
-      const client = new MongoClient(
+      mongoClient = new MongoClient(
         process.env.MONGODB_URI || "mongodb://localhost:27017",
       );
-      client
+      mongoClient
         .connect()
         .catch((err) => console.error("mongo connect failed", err));
-      return client.db("database").collection(`${agentName}_kanban`);
+      return mongoClient.db("database").collection(`${agentName}_kanban`);
     })();
 
   const socket =
@@ -251,7 +293,7 @@ export function startFileWatcher(options: FileWatcherOptions = {}): {
 
   const tasksWatcher = createTasksWatcher({
     tasksPath,
-    runPython,
+    populateTask,
     updateBoard,
     fileLocks,
   });
