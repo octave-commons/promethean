@@ -401,6 +401,7 @@
     ["test-shared" test-shared-python]
     ["coverage" coverage-python-service]
     ["coverage-shared" coverage-shared-python]
+    ["lint" lint-python-service]
     ["test-quick-service" test-python-service] ;; same as normal test
     ["test-quick-shared" test-shared-python]   ;; no change in quick variant
     ["coverage-quick-service" coverage-python-service]
