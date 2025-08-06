@@ -1,0 +1,6 @@
+{
+  "STT_INPUT": { "name": "stt-input", "protocol": "stt_ws_request" },
+  "STT_OUTPUT": { "name": "stt-output", "protocol": "stt_ws_response" },
+  "CEPHALON_ROUTE": { "name": "cephalon-route" },
+  "TTS_OUTPUT": { "name": "tts-output" }
+}
