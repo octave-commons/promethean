@@ -153,10 +153,14 @@ export class AIAgent extends EventEmitter {
 			prompt,
 		}) as Promise<string>;
 	}
+	tickInterval = 100;
+	updateTickInterval(ms: number) {
+		this.tickInterval = ms;
+	}
 	async startTicker() {
 		while (this.state === 'running') {
 			this.emit('tick');
-			await sleep(100);
+			await sleep(this.tickInterval);
 		}
 	}
 
@@ -253,7 +257,7 @@ export class AIAgent extends EventEmitter {
 			return this.emit('speechTick', this.audioPlayer);
 		}
 
-		if (this.ticksSinceLastThought > 50) {
+		if (this.ticksSinceLastThought > 10) {
 			if (!this.isThinking && !this.isSpeaking) {
 				console.log('Thinking');
 				try {

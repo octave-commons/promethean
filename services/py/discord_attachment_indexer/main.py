@@ -10,7 +10,7 @@ import random
 from typing import List
 import discord
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../"))
+# sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../"))
 from shared.py import settings
 from shared.py.mongodb import discord_message_collection, discord_channel_collection
 from shared.py.heartbeat_client import HeartbeatClient

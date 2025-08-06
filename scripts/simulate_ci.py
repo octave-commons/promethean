@@ -10,6 +10,7 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, Iterable
+from itertools import product
 
 import yaml
 
@@ -52,24 +53,51 @@ def _get_on(data: dict) -> Any:
     return None
 
 
+def _expand_matrix(matrix: Dict[str, Any] | None) -> Iterable[Dict[str, Any]]:
+    """Yield each combination of the matrix strategy."""
+    if not matrix:
+        yield {}
+        return
+    axes = {k: v for k, v in matrix.items() if isinstance(v, list)}
+    if not axes:
+        yield {}
+        return
+    keys = list(axes)
+    for values in product(*(axes[k] for k in keys)):
+        yield dict(zip(keys, values))
+
+
+def _sub_matrix(text: str, vars: Dict[str, Any]) -> str:
+    for key, value in vars.items():
+        text = text.replace(f"${{{{ matrix.{key} }}}}", str(value))
+    return text
+
+
 def collect_jobs(data: dict) -> Dict[str, list[Step]]:
     jobs: Dict[str, list[Step]] = {}
     if not _is_pull_request(_get_on(data)):
         return jobs
     for job_name, job in (data.get("jobs") or {}).items():
-        job_env = job.get("env", {}) or {}
-        steps = []
-        for idx, step in enumerate(job.get("steps") or []):
-            if "run" not in step:
-                continue
-            env = {**job_env, **(step.get("env") or {})}
-            cwd = Path(step.get("working-directory", "."))
-            name = step.get("name") or f"step-{idx + 1}"
-            steps.append(
-                Step(job=job_name, name=name, run=step["run"], env=env, cwd=cwd)
-            )
-        if steps:
-            jobs[job_name] = steps
+        matrix_list = list(_expand_matrix(job.get("strategy", {}).get("matrix")))
+        for vars in matrix_list:
+            job_env = {**(job.get("env") or {}), **{k: str(v) for k, v in vars.items()}}
+            steps = []
+            for idx, step in enumerate(job.get("steps") or []):
+                if "run" not in step:
+                    continue
+                env = {**job_env, **(step.get("env") or {})}
+                cwd = Path(_sub_matrix(step.get("working-directory", "."), vars))
+                name = step.get("name") or f"step-{idx + 1}"
+                run = _sub_matrix(step["run"], vars)
+                step_job_name = job_name
+                if vars:
+                    matrix_suffix = ",".join(f"{k}={v}" for k, v in vars.items())
+                    step_job_name = f"{job_name}[{matrix_suffix}]"
+                steps.append(
+                    Step(job=step_job_name, name=name, run=run, env=env, cwd=cwd)
+                )
+            if steps:
+                jobs[steps[0].job] = steps
     return jobs
 
 

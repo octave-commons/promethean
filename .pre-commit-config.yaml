@@ -6,6 +6,12 @@ repos:
         entry: python scripts/convert_wikilinks.py
         language: system
         files: '\.md$'
+      - id: generate-orphan-docs
+        name: Generate docs for orphaned files
+        entry: python scripts/generate_orphan_docs.py
+        language: system
+        pass_filenames: false
+        files: ^orphaned-files-report\.md$
   - repo: https://github.com/psf/black
     rev: 24.4.2
     hooks:

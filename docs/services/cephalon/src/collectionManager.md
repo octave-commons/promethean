@@ -5,6 +5,7 @@
 **Description**: AddEntry method:
 
 ## Dependencies
+- ./embedding
 - chromadb
 - crypto
 - dotenv

@@ -1,7 +1,7 @@
 # Discord Attachment Embedder Service
 
 Generates a ChromaDB collection of embeddings for Discord message text and image attachments.
-Uses a CLIP-based model so that related images and descriptions map to similar vectors.
+Uses the shared embedding service so that related images and descriptions map to similar vectors.
 
 ## Setup
 

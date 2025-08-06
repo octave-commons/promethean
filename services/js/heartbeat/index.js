@@ -1,8 +1,17 @@
 import express from "express";
 import { MongoClient } from "mongodb";
+import { createRequire } from "module";
+import path from "path";
+import fs from "fs";
+import pidusage from "pidusage";
+import { fileURLToPath } from "url";
+import { randomUUID } from "crypto";
 
 export const app = express();
 app.use(express.json());
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+app.use(express.static(path.join(__dirname, "public")));
 
 let HEARTBEAT_TIMEOUT = 10000;
 let CHECK_INTERVAL = 5000;
@@ -14,24 +23,116 @@ let client;
 let collection;
 let interval;
 let server;
+let allowedInstances = {};
+let SESSION_ID;
+let shuttingDown = false;
+
+async function getProcessMetrics(pid) {
+  const metrics = { cpu: 0, memory: 0, netRx: 0, netTx: 0 };
+  try {
+    const { cpu, memory } = await pidusage(pid);
+    metrics.cpu = cpu;
+    metrics.memory = memory;
+  } catch (err) {
+    console.warn(`failed to get cpu/memory for pid ${pid}`, err);
+  }
+  try {
+    const data = fs.readFileSync(`/proc/${pid}/net/dev`, "utf8");
+    for (const line of data.trim().split("\n").slice(2)) {
+      const parts = line.trim().split(/\s+/);
+      if (parts.length >= 17) {
+        metrics.netRx += parseInt(parts[1], 10) || 0;
+        metrics.netTx += parseInt(parts[9], 10) || 0;
+      }
+    }
+  } catch (err) {
+    // ignore network stats errors
+  }
+  return metrics;
+}
+
+function loadConfig() {
+  try {
+    const require = createRequire(import.meta.url);
+    const configPath =
+      process.env.ECOSYSTEM_CONFIG ||
+      path.resolve(process.cwd(), "../../../ecosystem.config.js");
+    const ecosystem = require(configPath);
+    allowedInstances = {};
+    for (const app of ecosystem.apps || []) {
+      if (app?.name) {
+        allowedInstances[app.name] = app.instances || 1;
+      }
+    }
+  } catch (err) {
+    console.warn("failed to load ecosystem config", err);
+    allowedInstances = {};
+  }
+}
 
 app.post("/heartbeat", async (req, res) => {
   const pid = parseInt(req.body?.pid, 10);
-  if (!pid) {
-    return res.status(400).json({ error: "pid required" });
+  const name = req.body?.name;
+  if (!pid || !name) {
+    return res.status(400).json({ error: "pid and name required" });
   }
-  await collection.updateOne(
-    { pid },
-    { $set: { last: Date.now() } },
-    { upsert: true },
-  );
-  res.json({ status: "ok", pid });
+  if (!collection) {
+    return res.status(503).json({ error: "db not available" });
+  }
+  const now = Date.now();
+  try {
+    const existing = await collection.findOne({ pid, sessionId: SESSION_ID });
+    if (!existing) {
+      const allowed = allowedInstances[name] ?? Infinity;
+      const count = await collection.countDocuments({
+        name,
+        sessionId: SESSION_ID,
+        last: { $gte: now - HEARTBEAT_TIMEOUT },
+        killedAt: { $exists: false },
+      });
+      if (count >= allowed) {
+        return res
+          .status(409)
+          .json({ error: `instance limit exceeded for ${name}` });
+      }
+    }
+    const metrics = await getProcessMetrics(pid);
+    await collection.updateOne(
+      { pid },
+      {
+        $set: { last: now, name, sessionId: SESSION_ID, ...metrics },
+        $unset: { killedAt: "" },
+      },
+      { upsert: true },
+    );
+    return res.json({ status: "ok", pid, name, ...metrics });
+  } catch {
+    return res.status(500).json({ error: "db failure" });
+  }
+});
+
+app.get("/heartbeats", async (req, res) => {
+  if (!collection) {
+    return res.status(503).json({ error: "db not available" });
+  }
+  try {
+    const docs = await collection.find({}).toArray();
+    return res.json(docs);
+  } catch {
+    return res.status(500).json({ error: "db failure" });
+  }
 });
 
 export async function monitor(now = Date.now()) {
-  const stale = await collection
-    .find({ last: { $lt: now - HEARTBEAT_TIMEOUT } })
-    .toArray();
+  if (!collection) return;
+  let stale = [];
+  try {
+    stale = await collection
+      .find({ last: { $lt: now - HEARTBEAT_TIMEOUT } })
+      .toArray();
+  } catch {
+    return;
+  }
   for (const doc of stale) {
     try {
       process.kill(doc.pid, "SIGKILL");
@@ -50,20 +151,55 @@ export async function start(port = process.env.PORT || 5000) {
   DB_NAME = process.env.DB_NAME || DB_NAME;
   COLLECTION = process.env.COLLECTION || COLLECTION;
 
+  loadConfig();
+
+  SESSION_ID = randomUUID();
+
   client = new MongoClient(MONGO_URL);
   await client.connect();
   collection = client.db(DB_NAME).collection(COLLECTION);
-  interval = setInterval(() => monitor(), CHECK_INTERVAL);
+  interval = setInterval(() => {
+    monitor().catch(() => {});
+  }, CHECK_INTERVAL);
   server = app.listen(port, () => {
     console.log(`heartbeat service listening on ${port}`);
   });
   return server;
 }
 
+export async function cleanup() {
+  if (collection) {
+    const now = Date.now();
+    try {
+      await collection.updateMany(
+        { sessionId: SESSION_ID, killedAt: { $exists: false } },
+        { $set: { killedAt: now } },
+      );
+    } catch {
+      /* ignore cleanup errors */
+    }
+  }
+}
+
 export async function stop() {
-  if (interval) clearInterval(interval);
-  if (server) server.close();
-  if (client) await client.close();
+  await cleanup();
+  if (interval) {
+    clearInterval(interval);
+    interval = null;
+  }
+  if (server) {
+    server.close();
+    server = null;
+  }
+  if (client) {
+    try {
+      await client.close();
+    } catch {
+      /* ignore errors from closing */
+    }
+    client = null;
+    collection = null;
+  }
 }
 
 if (process.env.NODE_ENV !== "test") {
@@ -72,3 +208,18 @@ if (process.env.NODE_ENV !== "test") {
     process.exit(1);
   });
 }
+
+async function handleSignal() {
+  if (shuttingDown) return;
+  shuttingDown = true;
+  await stop();
+  process.exit(0);
+}
+
+for (const sig of ["SIGINT", "SIGTERM"]) {
+  process.on(sig, handleSignal);
+}
+
+process.on("beforeExit", () => {
+  cleanup().catch(() => {});
+});

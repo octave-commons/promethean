@@ -5,18 +5,24 @@ import { HeartbeatClient } from '../../../../shared/js/heartbeat/index.js';
 
 async function main() {
 	console.log('Starting', AGENT_NAME, 'Cephalon');
-	const hb = new HeartbeatClient();
+	const bot = new Bot({
+		token: process.env.DISCORD_TOKEN as string,
+		applicationId: process.env.DISCORD_CLIENT_USER_ID as string,
+	});
+	const hb = new HeartbeatClient({
+		onHeartbeat: ({ cpu }: { cpu: number }) => {
+			const delay = Math.min(1000, 100 + Math.round(cpu));
+			bot.agent.updateTickInterval(delay);
+		},
+	});
 	try {
-		await hb.sendOnce();
+		const data = await hb.sendOnce();
+		hb.onHeartbeat?.(data);
 	} catch (err) {
 		console.error('failed to register heartbeat', err);
 		process.exit(1);
 	}
 	hb.start();
-	const bot = new Bot({
-		token: process.env.DISCORD_TOKEN as string,
-		applicationId: process.env.DISCORD_CLIENT_USER_ID as string,
-	});
 	bot.start();
 	console.log(`Cephalon started for ${AGENT_NAME}`);
 }
