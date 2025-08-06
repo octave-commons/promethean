@@ -26,6 +26,7 @@ COMMANDS := \
   test-quick-shared-python-service- \
   coverage-quick-service-python-service- \
   coverage-quick-shared-python-service- \
+  lint-python-service- \
   setup-js-service- \
   test-js-service- \
   coverage-js-service- \
@@ -80,6 +81,9 @@ coverage-quick-service-python-service-%:
 	@hy Makefile.hy $@
 
 coverage-quick-shared-python-service-%:
+	@hy Makefile.hy $@
+
+lint-python-service-%:
 	@hy Makefile.hy $@
 
 setup-js-service-%:
