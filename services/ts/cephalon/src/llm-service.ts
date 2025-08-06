@@ -17,7 +17,13 @@ export class LLMService {
 	host: string;
 	port: number;
 	endpoint: string;
-	constructor(options: LLMClientOptions = { host: 'localhost', port: 8888, endpoint: '/generate' }) {
+	constructor(
+		options: LLMClientOptions = {
+			host: 'localhost',
+			port: Number(process.env.PROXY_PORT) || 8080,
+			endpoint: '/llm/generate',
+		},
+	) {
 		this.host = options.host;
 		this.port = options.port;
 		this.endpoint = options.endpoint;
