@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from typing import Optional
 from urllib import request
 
-HEARTBEAT_PORT = os.environ.get("HEARTBEAT_PORT", 5005)
+PROXY_PORT = os.environ.get("PROXY_PORT", 8080)
 
 
 @dataclass
@@ -31,7 +31,7 @@ class HeartbeatClient:
         Seconds between heartbeats when :meth:`start` is used.
     """
 
-    url: str = f"http://127.0.0.1:{HEARTBEAT_PORT}/heartbeat"
+    url: str = f"http://127.0.0.1:{PROXY_PORT}/heartbeat/heartbeat"
     pid: int = os.getpid()
     interval: float = 3.0
 
@@ -44,9 +44,11 @@ class HeartbeatClient:
         Returns the parsed JSON response from the service.
         """
 
-        data = json.dumps(
-            {"pid": self.pid, "name": os.environ.get("PM2_PROCESS_NAME")}
-        ).encode("utf-8")
+        payload = {"pid": self.pid}
+        name = os.environ.get("PM2_PROCESS_NAME")
+        if name:
+            payload["name"] = name
+        data = json.dumps(payload).encode("utf-8")
         req = request.Request(
             self.url,
             data=data,

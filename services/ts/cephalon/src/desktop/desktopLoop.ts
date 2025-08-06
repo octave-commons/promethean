@@ -1,7 +1,7 @@
 import * as discord from 'discord.js';
 import { captureAndRenderWaveform, AudioImageData } from '../audioProcessing/waveform';
 
-const VISION_HOST = process.env.VISION_HOST || 'http://localhost:9999';
+const VISION_HOST = process.env.VISION_HOST || 'http://localhost:8080/vision';
 export async function captureScreen(): Promise<Buffer> {
 	if (process.env.NO_SCREENSHOT === '1') {
 		return Buffer.alloc(0);

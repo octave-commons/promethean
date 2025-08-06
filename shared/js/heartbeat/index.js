@@ -5,10 +5,10 @@
  * to the service on a fixed interval. Uses the global `fetch` available in
  * modern Node.js versions, avoiding external dependencies.
  */
-const HEARTBEAT_PORT = process.env.HEARTBEAT_PORT || 5005;
+const PROXY_PORT = process.env.PROXY_PORT || 8080;
 export class HeartbeatClient {
   constructor({
-    url = `http://127.0.0.1:${HEARTBEAT_PORT}/heartbeat`,
+    url = `http://127.0.0.1:${PROXY_PORT}/heartbeat/heartbeat`,
     pid = process.pid,
     name = process.env.name,
     interval = 3000,
