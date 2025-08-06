@@ -31,3 +31,4 @@ repos:
     hooks:
       - id: prettier
         types_or: [javascript, ts, tsx, json, yaml]
+        exclude: ^legacy/
