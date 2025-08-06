@@ -100,6 +100,50 @@ site/            # Website or UI content (optional)
 
 ---
 
+## 🛠 Service Templates
+
+New services can bootstrap their broker connection and event loop using the shared templates.
+
+### Python
+
+```python
+from shared.py.service_template import start_service
+
+async def handle_event(event):
+    ...
+
+async def handle_task(task):
+    ...
+
+asyncio.run(
+    start_service(
+        id="my-service",
+        queues=["some.queue"],
+        topics=["some.topic"],
+        handle_event=handle_event,
+        handle_task=handle_task,
+    )
+)
+```
+
+### JavaScript
+
+```javascript
+import { startService } from "../shared/js/serviceTemplate.js";
+
+startService({
+  id: "my-service",
+  queues: ["some.queue"],
+  topics: ["some.topic"],
+  handleEvent: async (event) => { /* ... */ },
+  handleTask: async (task) => { /* ... */ },
+});
+```
+
+Both helpers connect a `BrokerClient`, subscribe to topics, pull tasks from queues, and dispatch them to your handlers. Each returns the broker instance for further publishing or cleanup.
+
+---
+
 # Environment variables
 
 You have access to the following ENV vars:
