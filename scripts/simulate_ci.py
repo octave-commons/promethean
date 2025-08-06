@@ -58,19 +58,48 @@ def _expand_matrix(matrix: Dict[str, Any] | None) -> Iterable[Dict[str, Any]]:
     if not matrix:
         yield {}
         return
-    axes = {k: v for k, v in matrix.items() if isinstance(v, list)}
+    include = matrix.get("include") if isinstance(matrix.get("include"), list) else None
+    axes = {k: v for k, v in matrix.items() if isinstance(v, list) and k != "include"}
     if not axes:
-        yield {}
+        if include:
+            for item in include:
+                if isinstance(item, dict):
+                    yield item
+        else:
+            yield {}
         return
     keys = list(axes)
     for values in product(*(axes[k] for k in keys)):
-        yield dict(zip(keys, values))
+        base = dict(zip(keys, values))
+        if include:
+            for item in include:
+                if isinstance(item, dict):
+                    yield {**base, **item}
+        else:
+            yield base
 
 
 def _sub_matrix(text: str, vars: Dict[str, Any]) -> str:
     for key, value in vars.items():
         text = text.replace(f"${{{{ matrix.{key} }}}}", str(value))
     return text
+
+
+def _evaluate_if(expr: str, vars: Dict[str, Any]) -> bool:
+    """Evaluate a simple GitHub Actions ``if`` expression.
+
+    This is intentionally minimal – it only supports referencing matrix
+    variables and basic Python expressions.  If evaluation fails, the
+    condition defaults to ``True`` so that required steps still run rather
+    than silently being skipped.
+    """
+    expr = _sub_matrix(expr, vars)
+    for key, value in vars.items():
+        expr = expr.replace(f"matrix.{key}", repr(value))
+    try:
+        return bool(eval(expr, {}, {}))
+    except Exception:
+        return True
 
 
 def collect_jobs(data: dict) -> Dict[str, list[Step]]:
@@ -84,6 +113,8 @@ def collect_jobs(data: dict) -> Dict[str, list[Step]]:
             steps = []
             for idx, step in enumerate(job.get("steps") or []):
                 if "run" not in step:
+                    continue
+                if step.get("if") and not _evaluate_if(step["if"], vars):
                     continue
                 env = {**job_env, **(step.get("env") or {})}
                 cwd = Path(_sub_matrix(step.get("working-directory", "."), vars))
