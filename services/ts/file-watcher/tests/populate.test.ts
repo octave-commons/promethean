@@ -21,13 +21,14 @@ async function setupTempRepo() {
 test("populates new task files", async (t) => {
   process.env.NODE_ENV = "test";
   const { root, tasksDir } = await setupTempRepo();
-  const calls: { script: string; args?: string[] }[] = [];
+  const llmCalls: { prompt: string; context: any[] }[] = [];
 
   const watchers = startFileWatcher({
     repoRoot: root,
-    runPython: async (script, _capture, args) => {
-      calls.push({ script, ...(args ? { args } : {}) });
-      return undefined;
+    runPython: async () => "",
+    callLLM: async (prompt, context) => {
+      llmCalls.push({ prompt, context });
+      return "#Todo\n\n## 🛠️ Task: stub\n";
     },
     writeFile: async () => {},
     mongoCollection: { updateOne: async () => {} } as any,
@@ -39,12 +40,7 @@ test("populates new task files", async (t) => {
   await fs.writeFile(newTask, "");
   await delay(300);
 
-  t.true(
-    calls.some(
-      (c) =>
-        c.script.includes("populate_task_ollama.py") && c.args?.[0] === newTask,
-    ),
-  );
+  t.true(llmCalls.some((c) => c.context[0].content.includes("new task")));
 
   await watchers.close();
 });
