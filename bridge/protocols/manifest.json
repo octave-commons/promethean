@@ -1,0 +1,10 @@
+{
+  "stt_ws_request": {
+    "version": 1,
+    "schema": "stt-ws-request-v1.json"
+  },
+  "stt_ws_response": {
+    "version": 1,
+    "schema": "stt-ws-response-v1.json"
+  }
+}
