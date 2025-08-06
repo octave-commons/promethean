@@ -6,6 +6,9 @@ import re
 # module level logger
 log = logging.getLogger(__name__)
 
+# Precompiled regex for sentence splitting to avoid recompilation overhead
+_SENTENCE_RE = re.compile(r"(?<=[.!?]) +")
+
 
 def _split_long_sentence(sentence: str, max_len: int) -> list[str]:
     """Break a long sentence into sub-chunks no longer than ``max_len``."""
