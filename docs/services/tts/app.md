@@ -3,7 +3,9 @@
 **Path**: `services/py/tts/app.py`
 
 **Description**: FastAPI application exposing HTTP and WebSocket text-to-speech
-interfaces.
+interfaces. On startup it also connects to the internal message broker via
+`shared.py.service_template`, consuming tasks from the `tts.speak` queue and
+publishing base64-encoded audio on the `tts-output` event channel.
 
 ### Endpoints
 
