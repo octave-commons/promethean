@@ -51,7 +51,7 @@ jobs:
             ${{ runner.os }}-npm-
 
       - name: Install dependencies
-        run: make system-deps setup-ts-service-${{ matrix.service }}
+        run: make system-deps setup-ts-service-${{ matrix.service }} setup-shared-js
 
       - name: Run tests
         run: make test-ts-service-${{ matrix.service }}
