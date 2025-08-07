@@ -39,6 +39,7 @@ kanban-plugin: board
 - [ ] factor out makefile
 - [ ] Look  into why the state object never seems to get updated.
 - [ ] [setup a second agent](../tasks/setup%20a%20second%20agent.md)
+- [ ] [[setup services to recieve work from the broker via push]]
 
 
 ## Accepted (24)
