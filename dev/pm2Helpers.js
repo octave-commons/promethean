@@ -1,17 +1,33 @@
-exports.defineApp = function defineApp(name, script, args = [], opts = {}) {
+// pm2Helpers.js (updated)
+const path = require("path");
+
+function defineApp(name, script, args = [], opts = {}) {
+  const {
+    cwd,
+    watch,
+    env_file,
+    env = {},
+    instances = 1,
+    exec_mode = "fork",
+  } = opts;
+
   return {
     name,
-    exec_mode: "fork",
     script,
     args,
-    ...opts,
+    exec_mode,
+    cwd,
+    watch,
+    env_file,
     out_file: `./logs/${name}-out.log`,
     error_file: `./logs/${name}-err.log`,
     merge_logs: true,
-    instances: 1,
+    instances,
     autorestart: true,
+    restart_delay: 10000,
+    kill_timeout: 10000,
     env: {
-      ...opts.env,
+      ...env,
       PM2_PROCESS_NAME: name,
       HEARTBEAT_PORT: defineApp.HEARTBEAT_PORT,
       PYTHONUNBUFFERED: "1",
@@ -19,7 +35,54 @@ exports.defineApp = function defineApp(name, script, args = [], opts = {}) {
       CHECK_INTERVAL: 1000 * 60 * 5,
       HEARTBEAT_TIMEOUT: 1000 * 60 * 10,
     },
-    restart_delay: 10000,
-    kill_timeout: 10000,
   };
+}
+
+defineApp.HEARTBEAT_PORT = 5005;
+defineApp.PYTHONPATH = path.resolve(__dirname, "..");
+
+function definePythonService(name, serviceDir, opts = {}) {
+  return defineApp(
+    name,
+    "pipenv",
+    ["run", "python", "-m", "main"],
+    {
+      cwd: serviceDir,
+      ...opts,
+    }
+  );
+}
+
+function defineNodeService(name, serviceDir, opts = {}) {
+  return defineApp(
+    name,
+    ".",
+    [],
+    {
+      cwd: serviceDir,
+      ...opts,
+    }
+  );
+}
+
+function defineAgent(name, appDefs, opts = {}) {
+  return {
+    name,
+    apps: appDefs.map((app) => ({
+      ...app,
+      name: `${name}_${app.name}`,
+      env: {
+        ...(app.env || {}),
+        AGENT_NAME: name,
+      },
+    })),
+    ...opts,
+  };
+}
+
+module.exports = {
+  defineApp,
+  definePythonService,
+  defineNodeService,
+  defineAgent,
 };
