@@ -20,7 +20,7 @@ export class BrokerClient {
       this.socket.on("message", (data) => {
         try {
           const msg = JSON.parse(data);
-          if (msg.task && this.onTask) {
+          if (msg.action === "task-assigned" && this.onTask) {
             this.onTask(msg.task);
           } else if (msg.event) {
             const handler = this.handlers.get(msg.event.type);
@@ -58,16 +58,16 @@ export class BrokerClient {
     this.socket.send(JSON.stringify({ action: "enqueue", queue, task }));
   }
 
-  pull(queue) {
-    this.socket.send(JSON.stringify({ action: "pull", queue }));
+  ready(queue) {
+    this.socket.send(JSON.stringify({ action: "ready", queue }));
   }
 
   ack(taskId) {
     this.socket.send(JSON.stringify({ action: "ack", taskId }));
   }
 
-  fail(taskId, reason = "") {
-    this.socket.send(JSON.stringify({ action: "fail", taskId, reason }));
+  heartbeat() {
+    this.socket.send(JSON.stringify({ action: "heartbeat" }));
   }
 
   onTaskReceived(callback) {
