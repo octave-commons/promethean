@@ -6,9 +6,11 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] [Migrating relevant modules from riatzukiza.github.io to -site- and -docs-](../tasks/Migrating%20relevant%20modules%20from%20riatzukiza.github.io%20to%20-site-%20and%20-docs-.md) #framework-core
+- [ ] [Migrate portfolio client code to Promethean](../tasks/Migrate%20portfolio%20client%20code%20to%20Promethean.md) #framework-core
+- [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
+- [ ] [Decouple from Ollama Write a driver system for multiple LLM sources for easier testing in CI](../tasks/Decouple%20from%20Ollama.md) #framework-core
 - [ ] [Document board sync workflow](../tasks/Document%20board%20sync%20workflow.md) #framework-core
-- [ ] [Research GitHub Projects board API](../tasks/Research%20GitHub%20Projects%20board%20API.md) #framework-core
-- [ ] [Integrate synthesis-agent pass on unique to produce draft docs](../tasks/Integrate%20synthesis-agent%20pass%20on%20unique%20to%20produce%20draft%20docs.md)
 - [ ] [Schedule alignment meeting with stakeholders](../tasks/Schedule%20alignment%20meeting%20with%20stakeholders.md) #agent-mode
 - [ ] [Implement transcendence cascade](../tasks/Implement%20transcendence%20cascade.md) #framework-core
 - [ ] [Identify ancestral resonance patterns](../tasks/Identify%20ancestral%20resonance%20patterns.md) #framework-core
@@ -18,7 +20,6 @@ kanban-plugin: board
 - [ ] [Detect contradictions in memory](../tasks/Detect%20contradictions%20in%20memory.md) #codex-task
 - [ ] [Extract site modules from riatzukiza.github.io](../tasks/Extract%20site%20modules%20from%20riatzukiza.github.io.md) #framework-core
 - [ ] [Extract docs from riatzukiza.github.io](../tasks/Extract%20docs%20from%20riatzukiza.github.io.md) #framework-core
-- [ ] [Build data structures for Eidolon field](../tasks/Build%20data%20structures%20for%20Eidolon%20field.md) #codex-task #framework-core
 - [ ] [Implement fragment ingestion with activation vectors](../tasks/Implement%20fragment%20ingestion%20with%20activation%20vectors.md) #codex-task #framework-core
 - [ ] [Detect contradictions in memory](../tasks/Detect%20contradictions%20in%20memory.md) #codex-task #framework-core
 - [ ] [Suggest metaprogramming updates](../tasks/Suggest%20metaprogramming%20updates.md) #codex-task #framework-core
@@ -50,6 +51,7 @@ kanban-plugin: board
 - [ ] [Setup code in wsl](../tasks/Setup%20code%20in%20wsl.md)
 - [ ] $\psi$ML Markup  language  definition
 - [ ] [Make discord channel aware contextualizer](../tasks/Make%20discord%20channel%20aware%20contextualizer.md)
+- [ ] [Build data structures for Eidolon field](../tasks/Build%20data%20structures%20for%20Eidolon%20field.md) #codex-task #framework-core
 - [ ] [Refactor speech interuption system to be more inteligent, using audio data to decide if interupted](../tasks/Refactor%20speech%20interuption%20system%20to%20be%20more%20inteligent,%20using%20audio%20data%20to%20decide%20if%20interupted.md)
 - [ ] [Split out audio processing logic to a seperate service without changing the current behavior in cephalon](../tasks/Split%20out%20audio%20processing%20logic%20to%20a%20seperate%20service%20without%20changing%20the%20current%20behavior%20in%20cephalon.md)
 - [ ] Allow configuration of hyperparameters through discord (context size, spectrogram resolution, interuption threshold)
@@ -93,35 +95,33 @@ kanban-plugin: board
 - [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/Gather%20baseline%20emotion%20metrics%20for%20Eidolon%20field.md)
 - [ ] [Add starter notes - eidolon\_fields, cephalon\_inner\_monologue](../tasks/Add%20starter%20notes%20-%20eidolon_fields,%20cephalon_inner_monologue.md)
 - [ ] [Clarify Promethean project vision](../tasks/Clarify%20Promethean%20project%20vision.md)
-- [ ] [Migrating relevant modules from riatzukiza.github.io to -site- and -docs-](../tasks/Migrating%20relevant%20modules%20from%20riatzukiza.github.io%20to%20-site-%20and%20-docs-.md) #framework-core
-- [ ] [Migrate portfolio client code to Promethean](../tasks/Migrate%20portfolio%20client%20code%20to%20Promethean.md) #framework-core
+- [ ] [Research GitHub Projects board API](../tasks/Research%20GitHub%20Projects%20board%20API.md) #framework-core
+- [ ] [Integrate synthesis-agent pass on unique to produce draft docs](../tasks/Integrate%20synthesis-agent%20pass%20on%20unique%20to%20produce%20draft%20docs.md)
 
 
 ## 🟢 To Do (8)
 
-- [ ] [Decouple from Ollama Write a driver system for multiple LLM sources for easier testing in CI](../tasks/Decouple%20from%20Ollama.md) #framework-core
 - [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md) #framework-core
 - [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md)
 - [ ] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md)
-- [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md) #agent #automation #prompt #metaagent #meta-prompting #documentation
 - [ ] [Gather open questions about system direction](../tasks/Gather%20open%20questions%20about%20system%20direction.md) #agent-mode
-- [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
 
 
 ## 🟡 In Progress (4)
 
 - [ ] [write simple ecosystem declaration library for new agents](../tasks/write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md) #framework-core
+- [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md) #agent #automation #prompt #metaagent #meta-prompting #documentation
 
 
 ## In Review (4)
 
-- [ ] [Start Eidolon](../tasks/Start%20Eidolon.md)
-- [ ] [Write end to end tests](Write%20end%20to%20end%20tests.md) #framework-core
 
 
 ## 🔵 Done
 
 **Complete**
+- [x] [Write end to end tests](Write%20end%20to%20end%20tests.md) #framework-core
+- [x] [Start Eidolon](../tasks/Start%20Eidolon.md)
 - [x] [discord image attachment indexer](../tasks/discord%20image%20attachment%20indexer.md) ✅ 2025-08-06
 - [x] [Write board sync script](../tasks/Write%20board%20sync%20script.md) #framework-core ✅ 2025-08-06
 - [x] Break down cephalon agent.ts ✅ 2025-08-06
@@ -186,6 +186,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,true,true,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,true,true,true,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
