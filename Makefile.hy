@@ -165,6 +165,7 @@
   )
 (defn-cmd setup-js-service [service]
   (print (.format "Setting up JS service: {}" service))
+  (setup-shared-js)
   (sh "npm install" :cwd (join "services/js" service) :shell True))
 
 (defn-cmd setup-js []
@@ -173,6 +174,7 @@
   (run-dirs SERVICES_JS "npm install" :shell True))
 
 (defn-cmd test-js-service [service]
+
   (print (.format "Running tests for JS service: {}" service))
   (sh "npm test" :cwd (join "services/js" service) :shell True))
 
@@ -226,6 +228,7 @@
 
 (defn-cmd setup-ts-service [service]
   (print (.format "Setting up TS service: {}" service))
+  (setup-shared-js)
   (sh "npm install " :cwd (join "services/ts" service) :shell True))
 
 (defn-cmd setup-ts []
@@ -235,6 +238,8 @@
 
 (defn-cmd test-ts-service [service]
   (print (.format "Running tests for TS service: {}" service))
+
+  (setup-shared-js)
   (sh "npm test" :cwd (join "services/ts" service) :shell True))
 
 (defn-cmd test-ts-services []
