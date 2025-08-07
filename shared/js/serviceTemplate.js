@@ -25,24 +25,22 @@ export async function startService({
     });
   }
 
-  // Handle task pulling
+  // Handle task delivery
   if (queues.length > 0) {
     broker.onTaskReceived(async (task) => {
       console.log(`[${id}] received task:`, task.queue);
+      broker.ack(task.id);
       try {
         await handleTask(task);
-        broker.ack(task.id);
       } catch (err) {
         console.error(`[${id}] task failed:`, err);
-        broker.fail(task.id, err.message);
       } finally {
-        setTimeout(() => broker.pull(task.queue), 100); // pull next
+        broker.ready(task.queue);
       }
     });
 
-    // Start pulling
     for (const queue of queues) {
-      broker.pull(queue);
+      broker.ready(queue);
     }
   }
 
