@@ -22,7 +22,11 @@ def test_send_once():
 
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    server = loop.run_until_complete(websockets.serve(handler, "127.0.0.1", 0))
+
+    async def start_server():
+        return await websockets.serve(handler, "127.0.0.1", 0)
+
+    server = loop.run_until_complete(start_server())
     port = server.sockets[0].getsockname()[1]
     thread = threading.Thread(target=loop.run_forever, daemon=True)
     thread.start()
