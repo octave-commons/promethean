@@ -160,11 +160,12 @@
 
 (defn-cmd setup-js-service [service]
   (print (.format "Setting up JS service: {}" service))
-  (sh "npm install --no-package-lock" :cwd (join "services/js" service) :shell True))
+  (sh "npm install"  :shell True)
+  (sh "npm install" :cwd (join "services/js" service) :shell True))
 
 (defn-cmd setup-js []
   (print "Setting up JavaScript services...")
-  (run-dirs SERVICES_JS "npm install --no-package-lock" :shell True))
+  (run-dirs SERVICES_JS "npm install" :shell True))
 
 (defn-cmd test-js-service [service]
   (print (.format "Running tests for JS service: {}" service))
