@@ -9,7 +9,8 @@
     "coverage": "c8 ava"
   },
   "dependencies": {
-    "mongodb": "^6.8.0"
+    "mongodb": "^6.8.0",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "ava": "^6.4.1",
