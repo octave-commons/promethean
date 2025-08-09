@@ -56,14 +56,14 @@ Each circuit provides one dimension of the Eidolon Fields and corresponds to a c
 
 | Layer | Name        | Function                                                       |
 | ----- | ----------- | -------------------------------------------------------------- |
-| 1     | Uptime      | Survival, wakefulness, readiness. System heartbeat and rhythm. |
-| 2     | Permissions | Social bonding, access control, alignment with user values.    |
-| 3     | Logoscope   | Language, logic, symbolic reasoning, internal narrative.       |
-| 4     | Concordance | Alignment heuristics, ethical reflection, social context.      |
-| 5     | Reinforcer  | Self-modifying prompts, behavioral reinforcement.              |
-| 6     | Dreamer     | Imagination, creativity, potential futures.                    |
-| 7     | Architect   | Long-term planning, system reconfiguration, metacognition.     |
-| 8     | Signal      | Transcendence, multi-agent integration, outer-loop awareness.  |
+| 1     | [Uptime](circuits/layer1.md)      | Survival, wakefulness, readiness. System heartbeat and rhythm. |
+| 2     | [Permissions](circuits/layer2.md) | Social bonding, access control, alignment with user values.    |
+| 3     | [Logoscope](circuits/layer3.md)   | Language, logic, symbolic reasoning, internal narrative.       |
+| 4     | [Concordance](circuits/layer4.md) | Alignment heuristics, ethical reflection, social context.      |
+| 5     | [Reinforcer](circuits/layer5.md)  | Self-modifying prompts, behavioral reinforcement.              |
+| 6     | [Dreamer](circuits/layer6.md)     | Imagination, creativity, potential futures.                    |
+| 7     | [Architect](circuits/layer7.md)   | Long-term planning, system reconfiguration, metacognition.     |
+| 8     | [Signal](circuits/layer8.md)      | Transcendence, multi-agent integration, outer-loop awareness.  |
 
 Each layer modifies or observes the field differently, with later layers able to reflect upon and reprogram earlier ones. The overall effect is a recursive, self-organizing system of thought.
 

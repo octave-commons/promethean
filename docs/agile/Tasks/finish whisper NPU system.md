@@ -1,45 +1,55 @@
+Here’s the refined version, keeping it focused on **NPU-accelerated transcription** as a performance optimization:
+
+---
+
 ## 🛠️ Description
 
-If we could do transcription on the NPU, that would save  up processor cycles for other systems
+Offload **speech-to-text transcription** from the CPU/GPU to the **Intel NPU** to free up processor cycles for other system components.
+This will involve adapting the current transcription pipeline (likely Whisper or similar model) to run efficiently on the NPU via **OpenVINO** or compatible inference runtime.
 
+The goal is to maintain or improve transcription speed and accuracy while significantly reducing CPU/GPU load, enabling the system to process more concurrent tasks without bottlenecks.
 
 ---
 
 ## 🎯 Goals
 
-- Define clear objectives for "Add Ollama formally to pipeline".
+* Migrate transcription workload to the **NPU**.
+* Maintain or improve **latency** and **accuracy** compared to current CPU/GPU implementation.
+* Reduce **CPU/GPU usage**, freeing resources for other processes (e.g., LLM inference, real-time interaction).
+* Ensure **compatibility** with existing context ingestion and processing pipeline.
 
 ---
 
 ## 📦 Requirements
 
-- [ ] Detail requirements.
+* [ ] Identify target STT model and verify NPU compatibility.
+* [ ] Adapt model for NPU execution (e.g., convert to OpenVINO IR format).
+* [ ] Integrate NPU-based transcription into pipeline with fallback to CPU/GPU.
+* [ ] Benchmark speed, accuracy, and resource usage vs. existing implementation.
+* [ ] Ensure streaming transcription support if required.
+* [ ] Implement error handling for NPU availability issues.
 
 ---
 
 ## 📋 Subtasks
 
-- [ ] Outline steps to implement.
+* [ ] Audit current transcription pipeline for NPU integration points.
+* [ ] Select/convert STT model to OpenVINO IR.
+* [ ] Write NPU inference wrapper for transcription.
+* [ ] Integrate wrapper into existing STT service.
+* [ ] Benchmark under realistic workload.
+* [ ] Add fallback logic for when NPU is unavailable.
+* [ ] Document installation and runtime requirements.
 
 ---
 
 ## 🔗 Related Epics
 
-#framework-core
+\#framework-core
+\#performance-optimization
+\#npu-integration
 
 ---
 
-## ⛓️ Blocked By
-
-Nothing
-
-## ⛓️ Blocks
-
-Nothing
-
----
-
-## 🔍 Relevant Links
-
-- [kanban](../boards/kanban.md)
-#accepted
+If you want, I can also make you a **mermaid diagram** showing the current CPU-bound STT flow vs. the new NPU-accelerated flow so we can see where the changes happen and how fallbacks work.
+That’ll make it easier to slot into the Promethean pipeline.
