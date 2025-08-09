@@ -1,23 +1,30 @@
 // pm2Helpers.js (updated)
 import path from "path";
 
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 export function defineApp(name, script, args = [], opts = {}) {
   const {
     cwd,
     watch,
+    ignore_watch,
     env_file,
     env = {},
     instances = 1,
     exec_mode = "fork",
   } = opts;
 
-  return {
+
+  const out = {
     name,
     script,
     args,
     exec_mode,
     cwd,
-    watch,
+    watch: [...(watch || [])],
+    ignore_watch: [...(ignore_watch || []), "**/*.log"],
     env_file,
     out_file: `./logs/${name}-out.log`,
     error_file: `./logs/${name}-err.log`,
@@ -36,6 +43,12 @@ export function defineApp(name, script, args = [], opts = {}) {
       HEARTBEAT_TIMEOUT: 1000 * 60 * 10,
     },
   };
+
+  if (script === "pipenv") {
+    out.interpreter = "none"
+
+  }
+  return out
 }
 
 defineApp.HEARTBEAT_PORT = 5005;
@@ -47,6 +60,7 @@ export function definePythonService(name, serviceDir, opts = {}) {
     "pipenv",
     ["run", "python", "-m", "main"],
     {
+      "interpreter": "none",
       cwd: serviceDir,
       ...opts,
     }

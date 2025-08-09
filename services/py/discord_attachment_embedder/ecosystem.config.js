@@ -1,6 +1,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
-import { defineApp } from "../../../dev/pm2Helpers.js";
+import { definePythonService } from "../../../dev/pm2Helpers.js";
 import deps from "./ecosystem.dependencies.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -13,7 +13,7 @@ if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
 }
 
 const apps = [
-  defineApp(
+  definePythonService(
     "discord_attachment_embedder",
     "pipenv",
     ["run", "python", "-m", "main"],

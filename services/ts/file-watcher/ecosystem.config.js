@@ -13,7 +13,7 @@ if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
 }
 
 const apps = [
-  defineApp("file-watcher", ".", [], {
+  defineApp("file-watcher", "dist/src/index.js", [], {
     cwd: __dirname,
     watch: [__dirname],
     env: {

@@ -1,3 +1,4 @@
+
 import path from "path";
 import { fileURLToPath } from "url";
 import { defineApp } from "../../../dev/pm2Helpers.js";
@@ -13,19 +14,10 @@ if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
 }
 
 const apps = [
-  defineApp(
-    "stt",
-    "pipenv",
-      ["run", "python", "-m", "service"],
-    {
-      cwd: __dirname,
-      watch: [__dirname],
-      env: {
-        FLASK_APP: "app.py",
-        FLASK_ENV: "production",
-      },
-    },
-  ),
+  defineApp("broker", "dist/index.js", [], {
+    cwd: __dirname,
+    watch: [__dirname],
+  }),
 ];
 
 const allApps = !process.env.PROMETHEAN_ROOT_ECOSYSTEM
