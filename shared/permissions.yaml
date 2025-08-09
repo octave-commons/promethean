@@ -1,0 +1,22 @@
+beta: 1.0
+default:
+  threshold: 0.5
+  weights:
+    access_level: 1.0
+    trust_level: 1.0
+  actions:
+    default:
+      features:
+        access_level: 0.0
+        trust_level: 0.0
+agents:
+  alice:
+    actions:
+      read:
+        features:
+          access_level: 1.0
+          trust_level: 1.0
+      delete:
+        features:
+          access_level: 0.0
+          trust_level: 0.0
