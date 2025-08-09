@@ -1,10 +1,10 @@
-import asyncio
 import os
 import subprocess
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from threading import Thread
 
-import httpx
+import time
+import urllib.request
 import pytest
 
 
@@ -19,8 +19,7 @@ class _HBHandler(BaseHTTPRequestHandler):
         pass
 
 
-@pytest.mark.asyncio
-async def test_vision_capture_endpoint():
+def test_vision_capture_endpoint():
     hb_port = 5064
     hb_server = HTTPServer(("127.0.0.1", hb_port), _HBHandler)
     hb_thread = Thread(target=hb_server.serve_forever, daemon=True)
@@ -31,19 +30,19 @@ async def test_vision_capture_endpoint():
     env.update({"PORT": str(port), "VISION_STUB": "1", "HEARTBEAT_PORT": str(hb_port)})
     proc = subprocess.Popen(["node", "services/js/vision/index.js"], env=env)
     try:
-        async with httpx.AsyncClient() as client:
-            for _ in range(50):
-                try:
-                    resp = await client.get(f"http://127.0.0.1:{port}/capture")
-                    if resp.status_code == 200:
-                        break
-                except Exception:
-                    await asyncio.sleep(0.1)
-            else:
-                pytest.fail("vision service did not start in time")
+        for _ in range(50):
+            try:
+                with urllib.request.urlopen(f"http://127.0.0.1:{port}/capture") as r:
+                    headers = r.headers
+                    data = r.read()
+                    break
+            except Exception:
+                time.sleep(0.1)
+        else:
+            pytest.fail("vision service did not start in time")
 
-            assert resp.headers.get("Content-Type") == "image/png"
-            assert resp.content == b"stub"
+        assert headers.get("Content-Type") == "image/png"
+        assert data == b"stub"
     finally:
         proc.terminate()
         try:
