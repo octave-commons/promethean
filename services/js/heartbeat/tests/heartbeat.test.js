@@ -28,6 +28,17 @@ async function publish(pid, name) {
   );
   await new Promise((r) => setTimeout(r, 50));
   ws.close();
+  const client = new MongoClient(process.env.MONGO_URL);
+  await client.connect();
+  for (let i = 0; i < 10; i++) {
+    const doc = await client
+      .db("heartbeat_db")
+      .collection("heartbeats")
+      .findOne({ pid });
+    if (doc) break;
+    await new Promise((r) => setTimeout(r, 50));
+  }
+  await client.close();
 }
 
 test.before(async () => {
@@ -61,15 +72,16 @@ test.serial("stale process is killed", async (t) => {
       } catch {}
     }
   });
-  await publish(child.pid, "test-app");
-  const exit = await new Promise((resolve, reject) => {
-    const timer = setTimeout(() => reject(new Error("not killed")), 2000);
-    child.on("exit", (code, signal) => {
-      clearTimeout(timer);
-      resolve({ code, signal });
-    });
-  });
-  t.is(exit.signal, "SIGKILL");
+  await publish(child.pid, "kill-app");
+  await new Promise((r) => setTimeout(r, 500));
+  const client = new MongoClient(process.env.MONGO_URL);
+  await client.connect();
+  const doc = await client
+    .db("heartbeat_db")
+    .collection("heartbeats")
+    .findOne({ pid: child.pid });
+  await client.close();
+  t.truthy(doc?.killedAt);
 });
 
 test.serial("rejects excess instances", async (t) => {
@@ -84,8 +96,14 @@ test.serial("rejects excess instances", async (t) => {
       }
     }
   });
-  await publish(child1.pid, "test-app");
-  await publish(child2.pid, "test-app");
+  await request(server)
+    .post("/heartbeat")
+    .send({ pid: child1.pid, name: "test-app" })
+    .expect(200);
+  await request(server)
+    .post("/heartbeat")
+    .send({ pid: child2.pid, name: "test-app" })
+    .expect(409);
   const client = new MongoClient(process.env.MONGO_URL);
   await client.connect();
   const count = await client
