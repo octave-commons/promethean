@@ -20,6 +20,13 @@ async function main() {
 				channelId: task.payload.channelId,
 				content: reply,
 			});
+		} else if (task.payload?.type === 'discord-interaction') {
+			const name = task.payload.interaction?.commandName || 'interaction';
+			const reply = await agent.generateTextResponse(`Handled ${name}`, {});
+			client.publish('discord-outbound', {
+				channelId: task.payload.interaction?.channelId,
+				content: reply,
+			});
 		}
 		client.ack(task.id);
 	});
