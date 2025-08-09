@@ -1,15 +1,29 @@
 import 'source-map-support/register.js';
-import { Bot } from './bot';
 import { AGENT_NAME } from '../../../../shared/js/env.js';
 import { HeartbeatClient } from '../../../../shared/js/heartbeat/index.js';
-import { initMessageThrottler } from './messageThrottler';
+import { BrokerClient } from '../../../../shared/js/brokerClient.js';
+import { AIAgent } from './agent/index.js';
+import { ContextManager } from './contextManager.js';
+import { LLMService } from './llm-service.js';
+import { initMessageThrottler } from './messageThrottler.js';
 
 async function main() {
-	console.log('Starting', AGENT_NAME, 'Cephalon');
-	const bot = new Bot({
-		token: process.env.DISCORD_TOKEN as string,
-		applicationId: process.env.DISCORD_CLIENT_USER_ID as string,
+	console.log('Starting', AGENT_NAME, 'Cephalon worker');
+	const context = new ContextManager();
+	const bot = { context };
+	const agent = new AIAgent({ historyLimit: 20, bot, context, llm: new LLMService() });
+	const client: BrokerClient = await initMessageThrottler(agent, process.env.BROKER_URL);
+	client.onTaskReceived(async (task: any) => {
+		if (task.payload?.type === 'discord-message') {
+			const reply = await agent.generateTextResponse(task.payload.content, {});
+			client.publish('discord-outbound', {
+				channelId: task.payload.channelId,
+				content: reply,
+			});
+		}
+		client.ack(task.id);
 	});
+	client.ready('cephalon');
 	const hb = new HeartbeatClient();
 	try {
 		await hb.sendOnce();
@@ -18,9 +32,7 @@ async function main() {
 		process.exit(1);
 	}
 	hb.start();
-	await initMessageThrottler(bot.agent, process.env.BROKER_URL);
-	bot.start();
-	console.log(`Cephalon started for ${AGENT_NAME}`);
+	console.log(`Cephalon worker started for ${AGENT_NAME}`);
 }
 
 if (process.env.NODE_ENV !== 'test') {

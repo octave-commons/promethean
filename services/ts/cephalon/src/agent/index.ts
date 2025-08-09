@@ -13,7 +13,6 @@ import { Message } from 'ollama';
 import EventEmitter from 'events';
 
 import { DesktopCaptureManager } from '../desktop/desktopLoop';
-import { Bot } from '../bot';
 import { LLMService } from '../llm-service';
 import { ContextManager } from '../contextManager';
 import { AgentInnerState, AgentOptions, GenerateResponseOptions } from '../types';
@@ -55,7 +54,7 @@ import {
 // `
 
 export class AIAgent extends EventEmitter {
-	bot: Bot;
+	bot: any;
 	prompt: string;
 	state: string;
 

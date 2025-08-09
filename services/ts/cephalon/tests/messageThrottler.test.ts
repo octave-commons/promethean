@@ -1,6 +1,5 @@
 import test from 'ava';
 import { AIAgent } from '../src/agent';
-import type { Bot } from '../src/bot';
 import type { ContextManager } from '../src/contextManager';
 import { initMessageThrottler } from '../src/messageThrottler';
 import path from 'path';
@@ -13,7 +12,7 @@ const { start: startBroker, stop: stopBroker } = brokerModule;
 
 test('throttles tick interval based on messages', async (t) => {
 	const context = {} as unknown as ContextManager;
-	const bot = { context } as unknown as Bot;
+	const bot = { context } as any;
 	const agent = new AIAgent({ bot, context });
 	const broker = await startBroker(0);
 	const port = broker.address().port;
