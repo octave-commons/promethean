@@ -32,32 +32,7 @@ export function setCallOllamaFn(fn) {
 export async function callOllama(args, retry = 0) {
   return callOllamaFn(args, retry);
 }
-app.post("/generate", async (req, res) => {
-  const { prompt, context, format } = req.body;
-  for (const m of context) {
-    console.log("message:", m.content);
-    if (m.images) {
-      console.log("image data:");
-      for (const imageData of m.images) {
-        console.log(imageData.type);
-        // console.log(imageData.data)
-      }
-      m.images = m.images.map((img) => new Uint8Array(img.data));
-    }
-  }
-  console.log("root prompt", prompt);
-  console.log("format", format || "string");
-  try {
-    const reply = await callOllamaFn({ prompt, context, format });
-    res.json({ reply });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
 
-export const port = process.env.LLM_PORT || 5003;
-
-let wss;
 let broker;
 
 export function setBroker(b) {
@@ -73,7 +48,7 @@ export async function handleTask(task) {
   }
 }
 
-export async function start(listenPort = port) {
+export async function start() {
   try {
     const { startService } = await import(
       "../../../../shared/js/serviceTemplate.js"
@@ -86,38 +61,12 @@ export async function start(listenPort = port) {
   } catch (err) {
     console.error("Failed to initialize broker", err);
   }
-  try {
-    const { HeartbeatClient } = await import(
-      "../../../../shared/js/heartbeat/index.js"
-    );
-    const hb = new HeartbeatClient({ name: process.env.name || "llm" });
-    await hb.sendOnce();
-    hb.start();
-  } catch {}
-  const server = app.listen(listenPort, () => {
-    console.log(`LLM service listening on ${listenPort}`);
-  });
-  wss = new WebSocketServer({ server, path: "/generate" });
-  wss.on("connection", (ws) => {
-    ws.on("message", async (msg) => {
-      let data;
-      try {
-        data = JSON.parse(msg.toString());
-      } catch {
-        ws.send(JSON.stringify({ error: "invalid json" }));
-        return;
-      }
-      const { prompt, context, format } = data;
-      try {
-        const reply = await callOllamaFn({ prompt, context, format });
-
-        ws.send(JSON.stringify({ reply }));
-      } catch (e) {
-        ws.send(JSON.stringify({ error: e.message }));
-      }
-    });
-  });
-  return server;
+  const { HeartbeatClient } = await import(
+    "../../../../shared/js/heartbeat/index.js"
+  );
+  const hb = new HeartbeatClient({ name: process.env.name || "llm" });
+  await hb.sendOnce();
+  hb.start();
 }
 
 if (process.env.NODE_ENV !== "test") {

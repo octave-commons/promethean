@@ -17,5 +17,10 @@
     "worker/**/*.ts",
     "intention/**/*.ts",
     "compiler/**/*.ts"
+    "ws/**/*.ts",
+    "compaction/**/*.ts",
+    "metrics/**/*.ts",
+    "examples/**/*.ts",
+    "http/**/*.ts"
   ]
 }
