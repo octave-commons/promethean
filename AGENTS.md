@@ -319,6 +319,19 @@ Agents like Duck must:
 
 ---
 
+## 🕹️ Agent-Mode Prompt Guidance
+
+When invoking agent-mode, frame prompts with:
+
+* **Goal** – the outcome the agent should achieve.
+* **Context** – relevant files, docs, or history.
+* **Constraints** – boundaries such as runtime or style requirements.
+* **Exit Criteria** – the signals that mark completion.
+
+Agents should verify their work and reference any touched paths before exiting agent-mode.
+
+---
+
 ## ✅ Next Steps
 
 * [ ] Finalize `MIGRATION_PLAN.md`
