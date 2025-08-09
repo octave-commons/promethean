@@ -1,7 +1,7 @@
 # shared/py/broker_client.py
 
 import asyncio
-import websockets
+from websockets.asyncio.client import connect
 import json
 import uuid
 
@@ -15,7 +15,7 @@ class BrokerClient:
         self.task_handler = None
 
     async def connect(self):
-        self.ws = await websockets.connect(self.url)
+        self.ws = await connect(self.url)
         asyncio.create_task(self._listen())
 
     async def _listen(self):

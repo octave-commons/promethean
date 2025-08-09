@@ -24,15 +24,22 @@ import svc_heartbeat from "./services/js/heartbeat/ecosystem.config.js";
 import svc_proxy from "./services/js/proxy/ecosystem.config.js";
 import svc_eidolon from "./services/js/eidolon-field/ecosystem.config.js";
 import svc_mdgraph from "./services/ts/markdown-graph/ecosystem.config.js";
-import svc_broker from "./services/js/broker/ecosystem.config.js";
-import svc_health from "./services/js/health/ecosystem.config.js";
 
 const duckApps = duck.default?.apps ?? duck.apps ?? [];
 const svcMods = [
   svc_embed, svc_tts, svc_stt, svc_filewatch, svc_vision,
-  svc_llm, svc_heartbeat, svc_proxy, svc_eidolon, svc_mdgraph, svc_broker
+  svc_llm, svc_heartbeat, svc_proxy, svc_eidolon, svc_mdgraph,
 ];
 const serviceApps = svcMods.flatMap(m => m?.default?.apps ?? m?.apps ?? []);
 
-export const apps = [...duckApps, ...serviceApps];
+const apps = [...duckApps, ...serviceApps];
 
+// Optional sanity check; fails fast if any entry is missing a script
+for (const [i, app] of apps.entries()) {
+  if (!app?.script && !app?.pm_exec_path) {
+    console.error("PM2 config error: app missing 'script'", app?.name || `#${i}`, app);
+    process.exit(1);
+  }
+}
+
+export default { apps };

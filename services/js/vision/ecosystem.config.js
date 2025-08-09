@@ -13,7 +13,7 @@ if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
 }
 
 const apps = [
-  defineApp("vision", ".", [], {
+  defineApp("vision", "index.js", [], {
     cwd: __dirname,
     watch: [__dirname],
     env: { PORT: 9999 },

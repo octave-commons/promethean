@@ -13,7 +13,7 @@ if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
 }
 
 const apps = [
-  defineApp("heartbeat", ".", [], {
+  defineApp("heartbeat", "index.js", [], {
     cwd: __dirname,
     watch: [__dirname],
     env: { PORT: defineApp.HEARTBEAT_PORT },
