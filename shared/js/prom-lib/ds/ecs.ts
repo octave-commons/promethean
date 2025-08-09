@@ -83,6 +83,7 @@ export class World {
 
   // === Component registration ===
   defineComponent<T>(spec: ComponentSpec<T>): ComponentType<T> {
+
     if (this.nextCompId >= MAX_COMPONENTS)
       throw new Error(`Max ${MAX_COMPONENTS} components reached`);
     const id = this.nextCompId++;
@@ -148,6 +149,7 @@ export class World {
   }
 
   isAlive(e: Entity): boolean {
+
     const idx = e & 0xffff,
       gen = e >>> 16;
     return this.generations[idx] === gen && this.alive.has(e);
@@ -203,6 +205,7 @@ export class World {
   set<T>(e: Entity, ct: ComponentType<T>, value: T): void {
     this.requireAlive(e);
     const { arch, row } = this.loc[e & 0xffff];
+
     if ((arch.mask & ct.mask) === 0n)
       throw new Error(`entity lacks component '${ct.name}'`);
     arch.columns.get(ct.id)![row] = value;
@@ -353,9 +356,12 @@ export class World {
       // mark changed for touched rows
       arch.changed.get(cid)!.add(row);
     }
-    // update moved entity loc
-    const idxLast = eLast & 0xffff;
-    this.loc[idxLast] = { arch, row };
+    // update moved entity loc if we swapped different entity
+    if (row !== last) {
+      const idxLast = eLast & 0xffff;
+      this.loc[idxLast] = { arch, row };
+    }
+
   }
 
   private move(
@@ -365,7 +371,10 @@ export class World {
     to: Archetype,
     payloads: Record<number, any>,
   ) {
+    // add to 'to'
     const loc = this.addRow(to, e);
+    // seed columns from payloads
+
     for (const [cid, val] of Object.entries(payloads)) {
       const n = Number(cid);
       to.columns.get(n)![loc.row] = val;
