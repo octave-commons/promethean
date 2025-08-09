@@ -5,7 +5,8 @@
     "dotenv": "^17.2.1",
     "execa": "^9.6.0",
     "fs-extra": "^11.3.0",
-    "ws": "^8.18.0"
+    "ws": "^8.18.0",
+    "yaml": "^2.7.0"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
