@@ -7,6 +7,12 @@ name = "pypi"
 
 [dev-packages]
 python-dotenv = "*"
+httpx = "*"
+pytest = "*"
+pytest-asyncio = "*"
+numpy = "*"
+uvicorn = "*"
+websockets = "*"
 
 [requires]
 python_version = "3.12"
