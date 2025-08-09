@@ -1,3 +1,5 @@
+Note: Consolidated here → ../notes/math/field-dynamics-math-blocks.md
+
 Let’s go deeper—here’s the next round of math blocks, each formatted for Obsidian-ready `$$` rendering.
 
 ---

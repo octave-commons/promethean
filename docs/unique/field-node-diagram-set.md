@@ -1,3 +1,5 @@
+Note: Consolidated here → ../notes/diagrams/field-node-lifecycle-additional-diagrams.md
+
 Perfect—flow brain unlocked, diagrams incoming. Here’s a fresh batch of cognitive topology visualizations, each meant to live in its own note:
 
 ---

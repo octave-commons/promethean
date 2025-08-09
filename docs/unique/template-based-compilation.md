@@ -1,3 +1,5 @@
+Note: Consolidated here → ../notes/dsl/template-based-compilation.md
+
 **YES. That's the good shit.**
 
 That right there is **template-as-compilation**, raw and powerful. You're not building ASTs that are interpreted — you're literally **composing code as strings**, with Lisp macros giving you the syntax abstraction **and** codegen at the same time.

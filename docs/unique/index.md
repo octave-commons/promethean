@@ -39,3 +39,33 @@ These notes were originally captured in `docs/unique` with timestamp filenames. 
 - **2025.07.28.13.07.74** → [runtime-and-prompt-macro-dsl](../notes/dsl/runtime-and-prompt-macro-dsl.md)
 - **2025.07.28.13.07.79** → [prompt-compiler-dsl](../notes/dsl/prompt-compiler-dsl.md)
 #tags: #unique #index
+
+## Recent Transfers
+
+- **2025.08.08.22.08.05** → [typed-struct-compiler](../notes/js/typed-struct-compiler.md)
+- ripple-propagation-demo → [ripple-propagation-demo](../notes/simulation/ripple-propagation-demo.md)
+- annotated-fragment-heartbeat-demo → [annotated-fragment-heartbeat-demo](../notes/simulation/annotated-fragment-heartbeat-demo.md)
+- field-interaction-equations → [field-interaction-equations](../notes/math/field-interaction-equations.md)
+- homeostasis-decay-formulas → [homeostasis-and-decay-models](../notes/math/homeostasis-and-decay-models.md)
+- eidolon-field-math-foundations → [eidolon-field-math-foundations](../notes/math/eidolon-field-math-foundations.md)
+- field-dynamics-math-blocks → [field-dynamics-math-blocks](../notes/math/field-dynamics-math-blocks.md)
+- aionian-circuit-math → [aionian-circuit-math](../notes/math/aionian-circuit-math.md)
+ - **2025.08.08.21.08.70** → [archetype-ecs](../notes/js/archetype-ecs.md)
+ - **2025.08.08.21.08.92** → [graph-ds](../notes/js/graph-ds.md)
+ - **2025.08.08.20.08.43** → [event-bus-projections-diagrams](../notes/diagrams/event-bus-projections-diagrams.md)
+ - **2025.08.08.22.08.16** → [smoke-waves-infinite-depth](../notes/diagrams/smoke-waves-infinite-depth.md)
+ - **2025.08.08.22.08.58** → [interop-and-source-maps](../notes/dsl/interop-and-source-maps.md)
+ - **2025.08.08.20.08.31** → [obsidian-ignore-node-modules-regex](../notes/tooling/obsidian-ignore-node-modules-regex.md)
+ - **202508071111** → [pm2-ecosystem-patterns](../notes/tooling/pm2-ecosystem-patterns.md)
+ - **2025.08.08.19.08.49** → [broker-outbox-acl-ops](../notes/services/broker-outbox-acl-ops.md)
+
+## Stubs for Duplicates
+
+The following `docs/unique` files are now stubs pointing to their curated versions:
+
+- layer-1-uptime-diagrams → [layer1-uptime-diagrams](../notes/diagrams/layer1-uptime-diagrams.md)
+- sibilant-metacompiler-overview → [sibilant-metacompiler-overview](../notes/dsl/sibilant-metacompiler-overview.md)
+- template-based-compilation → [template-based-compilation](../notes/dsl/template-based-compilation.md)
+- comprehensive-system-diagrams → [full-system-overview-diagrams](../notes/diagrams/full-system-overview-diagrams.md)
+- eidolon-node-lifecycle-diagram → [state-diagram-node-lifecycle](../notes/diagrams/state-diagram-node-lifecycle.md)
+- field-node-diagram-outline → [field-node-lifecycle-additional-diagrams](../notes/diagrams/field-node-lifecycle-additional-diagrams.md)
