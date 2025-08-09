@@ -46,6 +46,7 @@ export interface SubscribeOptions {
   maxInFlight?: number; // default 1000
   ackTimeoutMs?: number; // default 30_000
   maxAttempts?: number; // default 5
+  manualAck?: boolean; // if true, caller must ack explicitly
   filter?(e: EventRecord): boolean;
   topics?: string[]; // if adapter supports multi-topic fan-in
 }
