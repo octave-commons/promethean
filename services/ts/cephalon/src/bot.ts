@@ -13,6 +13,7 @@ import { AIAgent } from './agent/index.js';
 import { AGENT_NAME, DESKTOP_CAPTURE_CHANNEL_ID } from '../../../../shared/js/env.js';
 import { ContextManager } from './contextManager';
 import { LLMService } from './llm-service';
+import { checkPermission } from '@shared/js/permissionGate.js';
 import { interaction, type Interaction } from './interactions';
 import {
 	joinVoiceChannel,
@@ -89,6 +90,10 @@ export class Bot extends EventEmitter {
 				if (!interaction.inCachedGuild() || !interaction.isChatInputCommand()) return;
 				if (!Bot.interactions.has(interaction.commandName)) {
 					await interaction.reply('Unknown command');
+					return;
+				}
+				if (!checkPermission(interaction.user.id, interaction.commandName)) {
+					await interaction.reply('Permission denied');
 					return;
 				}
 				try {

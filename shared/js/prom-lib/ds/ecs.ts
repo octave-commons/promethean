@@ -83,9 +83,9 @@ export class World {
 
   // === Component registration ===
   defineComponent<T>(spec: ComponentSpec<T>): ComponentType<T> {
-    if (this.nextCompId >= MAX_COMPONENTS) {
+
+    if (this.nextCompId >= MAX_COMPONENTS)
       throw new Error(`Max ${MAX_COMPONENTS} components reached`);
-    }
     const id = this.nextCompId++;
     const type: ComponentType<T> = { ...spec, id, mask: 1n << BigInt(id) };
     this.comps[id] = type;
@@ -149,8 +149,9 @@ export class World {
   }
 
   isAlive(e: Entity): boolean {
-    const idx = e & 0xffff;
-    const gen = e >>> 16;
+
+    const idx = e & 0xffff,
+      gen = e >>> 16;
     return this.generations[idx] === gen && this.alive.has(e);
   }
 
@@ -204,9 +205,9 @@ export class World {
   set<T>(e: Entity, ct: ComponentType<T>, value: T): void {
     this.requireAlive(e);
     const { arch, row } = this.loc[e & 0xffff];
-    if ((arch.mask & ct.mask) === 0n) {
+
+    if ((arch.mask & ct.mask) === 0n)
       throw new Error(`entity lacks component '${ct.name}'`);
-    }
     arch.columns.get(ct.id)![row] = value;
     arch.changed.get(ct.id)!.add(row);
   }
@@ -360,6 +361,7 @@ export class World {
       const idxLast = eLast & 0xffff;
       this.loc[idxLast] = { arch, row };
     }
+
   }
 
   private move(
@@ -372,6 +374,7 @@ export class World {
     // add to 'to'
     const loc = this.addRow(to, e);
     // seed columns from payloads
+
     for (const [cid, val] of Object.entries(payloads)) {
       const n = Number(cid);
       to.columns.get(n)![loc.row] = val;

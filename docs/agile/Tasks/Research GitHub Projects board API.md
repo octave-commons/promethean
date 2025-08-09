@@ -19,8 +19,8 @@ We need to understand how to interact programmatically with GitHub Projects so o
 
 ## 📋 Subtasks
 - [x] Read GitHub API documentation
-- [ ] Experiment with basic calls via `curl`
-- [ ] Outline how board data maps to GitHub structures
+- [x] Experiment with basic calls via `curl`
+- [x] Outline how board data maps to GitHub structures
 
 ---
 
@@ -39,4 +39,4 @@ Nothing
 
 ## 🔍 Relevant Links
 - [kanban](../boards/kanban.md)
-#ice-box
+#done
