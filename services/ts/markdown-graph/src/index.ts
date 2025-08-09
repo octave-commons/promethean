@@ -44,7 +44,7 @@ if (process.env.NODE_ENV !== "test") {
   const url = process.env.MONGODB_URI || "mongodb://localhost:27017";
   const cold = process.env.COLD_START === "1";
   createApp(url, repo, cold).then((app) => {
-    const port = Number(process.env.PORT) || 8000;
+    const port = Number(process.env.PORT) || 8123;
     app.listen(port, "0.0.0.0", () => {
       console.log(`markdown-graph listening on ${port}`);
     });

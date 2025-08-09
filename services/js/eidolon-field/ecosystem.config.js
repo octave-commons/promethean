@@ -13,7 +13,7 @@ if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
 }
 
 const apps = [
-  defineApp("eidolon-field", ".", [], {
+  defineApp("eidolon-field", "index.js", [], {
     cwd: __dirname,
     watch: [__dirname],
   }),

@@ -13,14 +13,7 @@ import threading
 from dataclasses import dataclass
 from typing import Optional
 
-# `websockets` is an optional dependency.  The Discord indexer tests patch the
-# heartbeat client and do not require an actual WebSocket connection, so the
-# module should still be importable even when the library is missing.  Importing
-# lazily (or with a fallback) avoids an ImportError during test collection.
-try:  # pragma: no cover - exercised indirectly in tests
-    from websockets.sync.client import connect
-except Exception:  # pragma: no cover - library may not be installed
-    connect = None  # type: ignore[assignment]
+from websockets.sync.client import connect
 
 BROKER_PORT = os.environ.get("BROKER_PORT", 7000)
 

@@ -13,10 +13,10 @@ if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
 }
 
 const apps = [
-  defineApp("markdown-graph", ".", [], {
+  defineApp("markdown-graph", "dist/src/index.js", [], {
     cwd: __dirname,
     watch: [path.join(__dirname, "src")],
-    env: { PORT: 8000 },
+    env: { PORT: 8123 },
   }),
 ];
 
