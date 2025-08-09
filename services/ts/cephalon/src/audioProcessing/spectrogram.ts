@@ -1,5 +1,4 @@
 import { execa } from 'execa';
-import { writeFile } from 'fs/promises';
 
 /**
  * Generate a spectrogram PNG image buffer from an in-memory WAV audio buffer.
@@ -46,6 +45,6 @@ export async function generateSpectrogram(
 
 	const { stdout } = await ffmpeg;
 
-	await writeFile('textspectrogram.png', stdout);
+	// await writeFile('textspectrogram.png', stdout);
 	return Buffer.from(stdout);
 }
