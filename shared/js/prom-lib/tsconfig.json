@@ -16,6 +16,10 @@
     "ds/**/*.ts",
     "worker/**/*.ts",
     "intention/**/*.ts",
+    "naming/**/*.ts",
+    "schema/**/*.ts",
+    "dlq/**/*.ts",
+    "changefeed/**/*.ts"
     "compiler/**/*.ts"
     "ws/**/*.ts",
     "compaction/**/*.ts",
