@@ -16,15 +16,16 @@
 (import os.path [isdir])
 (import sys)
 (defmacro unless [ cond #* body]
-  `(when (not ~cond)
-     ~@body
-     ))
+          `(when (not ~cond)
+             ~@body
+             ))
 
 ;; -----------------------------------------------------------------------------
 ;; Service List Definitions
 ;; -----------------------------------------------------------------------------
 
 
+(define-service-list SERVICES_HY "services/hy")
 (define-service-list SERVICES_PY "services/py")
 (define-service-list SERVICES_JS "services/js")
 (define-service-list SERVICES_TS "services/ts")
@@ -158,15 +159,22 @@
 (defn-cmd format-js []
   (run-dirs SERVICES_JS "npx --yes prettier --write ." :shell True))
 
+(defn-cmd setup-shared-js []
+  (print (.format "installing shared dependencies" service))
+  (sh "npm install"  :shell True)
+  )
 (defn-cmd setup-js-service [service]
   (print (.format "Setting up JS service: {}" service))
-  (sh "npm install --no-package-lock" :cwd (join "services/js" service) :shell True))
+  (setup-shared-js)
+  (sh "npm install" :cwd (join "services/js" service) :shell True))
 
 (defn-cmd setup-js []
   (print "Setting up JavaScript services...")
-  (run-dirs SERVICES_JS "npm install --no-package-lock" :shell True))
+  (setup-shared-js)
+  (run-dirs SERVICES_JS "npm install" :shell True))
 
 (defn-cmd test-js-service [service]
+
   (print (.format "Running tests for JS service: {}" service))
   (sh "npm test" :cwd (join "services/js" service) :shell True))
 
@@ -220,14 +228,18 @@
 
 (defn-cmd setup-ts-service [service]
   (print (.format "Setting up TS service: {}" service))
+  (setup-shared-js)
   (sh "npm install " :cwd (join "services/ts" service) :shell True))
 
 (defn-cmd setup-ts []
   (print "Setting up TypeScript services...")
+  (setup-shared-js)
   (run-dirs SERVICES_TS "npm install" :shell True))
 
 (defn-cmd test-ts-service [service]
   (print (.format "Running tests for TS service: {}" service))
+
+  (setup-shared-js)
   (sh "npm test" :cwd (join "services/ts" service) :shell True))
 
 (defn-cmd test-ts-services []

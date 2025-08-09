@@ -22,7 +22,7 @@ class BrokerClient:
         async for msg in self.ws:
             try:
                 data = json.loads(msg)
-                if "task" in data and self.task_handler:
+                if data.get("action") == "task-assigned" and self.task_handler:
                     await self.task_handler(data["task"])
                 elif "event" in data:
                     event = data["event"]
@@ -56,14 +56,14 @@ class BrokerClient:
     async def enqueue(self, queue, task):
         await self._send({"action": "enqueue", "queue": queue, "task": task})
 
-    async def pull(self, queue):
-        await self._send({"action": "pull", "queue": queue})
+    async def ready(self, queue):
+        await self._send({"action": "ready", "queue": queue})
 
     async def ack(self, task_id):
         await self._send({"action": "ack", "taskId": task_id})
 
-    async def fail(self, task_id, reason=""):
-        await self._send({"action": "fail", "taskId": task_id, "reason": reason})
+    async def heartbeat(self):
+        await self._send({"action": "heartbeat"})
 
     def on_task(self, handler):
         self.task_handler = handler
@@ -84,6 +84,6 @@ class BrokerClient:
 #     await client.subscribe("fs.change", lambda e: print("event:", e))
 #     await client.enqueue("agent.think", {"input": "hello"})
 #     client.on_task(lambda task: print("task:", task))
-#     await client.pull("agent.think")
+#     await client.ready("agent.think")
 
 # asyncio.run(main())
