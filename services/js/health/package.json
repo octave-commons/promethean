@@ -10,13 +10,12 @@
   },
   "dependencies": {
     "express": "^4.18.2",
-    "mongodb": "^6.8.0"
+    "ws": "^8.17.0"
   },
   "devDependencies": {
     "ava": "^6.4.1",
     "supertest": "^6.3.3",
-    "c8": "^9.1.0",
-    "mongodb-memory-server": "^10.1.4"
+    "c8": "^9.1.0"
   },
   "ava": {
     "extensions": {
