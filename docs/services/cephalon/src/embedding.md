@@ -2,11 +2,12 @@
 
 **Path**: `services/cephalon/src/embedding.ts`
 
-Embedding function that forwards requests to the shared embedding service.
+Embedding function that forwards requests to the embedding service through the
+message broker.
 
 ## Dependencies
 - chromadb
-- global fetch
+- `../../../../shared/js/brokerClient.js`
 
 ## Dependents
 - `collectionManager.ts`
