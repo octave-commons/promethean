@@ -10,7 +10,6 @@ These end-to-end tests verify that each networked service in the Promethean ecos
 - **STT** – `/transcribe_pcm` returns transcription text
 - **Vision** – `/capture` returns a PNG frame
 - **LLM** – `/generate` returns a text reply
-- **Heartbeat** – `/heartbeat` echoes back process info
 
 ## Running the Tests
 
