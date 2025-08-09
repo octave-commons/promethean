@@ -67,7 +67,7 @@ This document outlines the migration steps from the legacy `duck/` folder and `r
 * [ ] Update `README.md` at root
 * [x] Write and maintain `AGENTS.md`
 * [x] Define `Promethean File Structure` canvas
-* [ ] Add `agent-mode` prompt guidance to `AGENTS.md`
+* [x] Add `agent-mode` prompt guidance to `AGENTS.md`
 
 ### 8. 📦 Model Asset Management
 
