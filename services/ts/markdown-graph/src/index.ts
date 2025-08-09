@@ -39,14 +39,42 @@ export async function createApp(
   return app;
 }
 
-if (process.env.NODE_ENV !== "test") {
+export async function handleTask(
+  app: express.Express,
+  task: { payload?: { path?: string; content?: string } },
+) {
+  const payload = task?.payload || {};
+  const { path, content = "" } = payload;
+  if (typeof path === "string" && path) {
+    const db: GraphDB = app.locals.graph;
+    await db.updateFile(path, content);
+  }
+}
+
+export async function start() {
   const repo = process.env.REPO_PATH || ".";
   const url = process.env.MONGODB_URI || "mongodb://localhost:27017";
   const cold = process.env.COLD_START === "1";
-  createApp(url, repo, cold).then((app) => {
-    const port = Number(process.env.PORT) || 8123;
-    app.listen(port, "0.0.0.0", () => {
-      console.log(`markdown-graph listening on ${port}`);
+  const app = await createApp(url, repo, cold);
+  try {
+    const { startService } = await import(
+      /* @ts-ignore */ "../../../../shared/js/serviceTemplate.js"
+    );
+    const broker = await startService({
+      id: process.env.name || "markdown-graph",
+      queues: ["markdown_graph.update"],
+      handleTask: (task: any) => handleTask(app, task),
     });
+    app.locals.broker = broker;
+  } catch (err) {
+    console.error("Failed to initialize broker", err);
+  }
+  const port = Number(process.env.PORT) || 8123;
+  return app.listen(port, "0.0.0.0", () => {
+    console.log(`markdown-graph listening on ${port}`);
   });
+}
+
+if (process.env.NODE_ENV !== "test") {
+  start();
 }
