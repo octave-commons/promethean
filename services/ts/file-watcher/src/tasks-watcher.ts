@@ -11,20 +11,17 @@ export interface TasksWatcherOptions {
   callLLM?: (path: string) => Promise<string>;
   writeFile?: (path: string, content: string) => Promise<void>;
   mongoCollection?: { updateOne: (...args: any[]) => Promise<any> };
-  socket?: { emit: (...args: any[]) => void };
   maxConcurrentLLMTasks?: number;
 }
 
 export function createTasksWatcher({
   tasksPath,
   publish,
-  socket,
 }: TasksWatcherOptions) {
   const watcher = chokidar.watch(tasksPath, { ignoreInitial: true });
 
   watcher.on("add", (path) => {
     publish(EVENTS.add, { path });
-    queue.push(path);
   });
 
   watcher.on("change", (path) => {

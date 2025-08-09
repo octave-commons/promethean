@@ -1,7 +1,10 @@
-const path = require("path");
-const { defineApp } = require(
-  path.join(__dirname, "../../../dev/pm2Helpers.js"),
-);
+import path from "path";
+import { fileURLToPath } from "url";
+import { defineApp } from "../../../dev/pm2Helpers.js";
+import deps from "./ecosystem.dependencies.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const root = path.join(__dirname, "../../..");
 
 if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
@@ -16,9 +19,8 @@ const apps = [
   }),
 ];
 
-if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
-  const deps = require("./ecosystem.dependencies.js");
-  module.exports = { apps: [...apps, ...deps.apps] };
-} else {
-  module.exports = { apps };
-}
+const allApps = !process.env.PROMETHEAN_ROOT_ECOSYSTEM
+  ? [...apps, ...(deps?.apps || [])]
+  : apps;
+
+export default { apps: allApps };
