@@ -1,5 +1,4 @@
 import { Message } from 'ollama';
-import { Bot } from './bot';
 import { ContextManager } from './contextManager';
 import { LLMService } from './llm-service';
 
@@ -33,7 +32,7 @@ export type AgentInnerState = {
 export interface AgentOptions {
 	historyLimit?: number;
 	prompt?: string;
-	bot: Bot;
+	bot: any;
 	context: ContextManager;
 	llm?: LLMService;
 }

@@ -123,7 +123,7 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 			}
 		}
 		if (bot.voiceStateHandler) bot.client.off(discord.Events.VoiceStateUpdate, bot.voiceStateHandler);
-		bot.voiceStateHandler = (oldState, newState) => {
+		bot.voiceStateHandler = (oldState: discord.VoiceState, newState: discord.VoiceState) => {
 			const id = bot.currentVoiceSession?.voiceChannelId;
 			const user = newState.member?.user || oldState.member?.user;
 			if (!id || !user || user.bot) return;
