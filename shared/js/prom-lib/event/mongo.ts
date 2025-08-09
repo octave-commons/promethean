@@ -1,4 +1,4 @@
-import { Collection, Db, IndexSpecification } from "mongodb";
+import { Collection, Db } from "mongodb";
 import {
   EventBus,
   EventRecord,
@@ -18,14 +18,13 @@ export class MongoEventStore implements EventStore {
   }
   static async ensureIndexes(db: Db, name = "events") {
     const coll = db.collection(name);
-    const idx: IndexSpecification[] = [
+    const idx: any[] = [
       { key: { topic: 1, ts: 1, id: 1 } },
       { key: { topic: 1, key: 1, ts: -1 } }, // supports compaction queries
       { key: { id: 1 }, unique: true },
       { key: { "headers.correlationId": 1 } },
     ];
-    for (const i of idx)
-      await coll.createIndex(i.key as any, { unique: (i as any).unique });
+    for (const i of idx) await coll.createIndex(i.key, { unique: i.unique });
   }
   async insert<T>(e: EventRecord<T>): Promise<void> {
     await this.coll.insertOne(e as any);
