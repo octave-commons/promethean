@@ -11,5 +11,5 @@
     "outDir": "dist",
     "lib": ["ES2022"]
   },
-  "include": ["event/**/*.ts", "ds/**/*.ts"]
+  "include": ["event/**/*.ts", "ds/**/*.ts", "worker/**/*.ts"]
 }
