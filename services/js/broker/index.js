@@ -1,10 +1,9 @@
 import { WebSocketServer } from "ws";
 import { randomUUID } from "crypto";
-import { createTaskQueue } from "./taskQueue.js";
+import { queueManager } from "../../../shared/js/queueManager.js";
 
 const subscriptions = new Map(); // topic -> Set of ws
 const clients = new Map(); // ws -> { id, topics:Set }
-let taskQueue;
 
 function normalize(message) {
   const event = {
@@ -35,7 +34,6 @@ function route(event, sender) {
 export async function start(port = process.env.PORT || 7000) {
   subscriptions.clear();
   clients.clear();
-  taskQueue = await createTaskQueue();
   const wss = new WebSocketServer({ port });
   wss.on("connection", (ws) => {
     const id = randomUUID();
@@ -78,13 +76,18 @@ export async function start(port = process.env.PORT || 7000) {
       } else if (action === "enqueue") {
         const { queue, task } = msg;
         if (typeof queue !== "string") return;
-        await taskQueue.enqueue(queue, task);
+        queueManager.enqueue(queue, task);
         console.log(`client ${id} enqueued task on ${queue}`);
-      } else if (action === "dequeue") {
+      } else if (action === "ready") {
         const { queue } = msg;
         if (typeof queue !== "string") return;
-        const task = await taskQueue.dequeue(queue);
-        ws.send(JSON.stringify({ task }));
+        queueManager.ready(ws, id, queue);
+        console.log(`client ${id} ready on ${queue}`);
+      } else if (action === "ack") {
+        const { taskId } = msg;
+        queueManager.acknowledge(id, taskId);
+      } else if (action === "heartbeat") {
+        queueManager.heartbeat(id);
       } else {
         ws.send(JSON.stringify({ error: "unknown action" }));
       }
@@ -100,6 +103,7 @@ export async function start(port = process.env.PORT || 7000) {
         }
       }
       clients.delete(ws);
+      queueManager.unregisterWorker(id);
     });
   });
 
@@ -115,7 +119,6 @@ export async function stop(server) {
     } catch {}
   }
   await new Promise((resolve) => server.close(resolve));
-  if (taskQueue?.close) await taskQueue.close();
 }
 
 if (process.env.NODE_ENV !== "test") {

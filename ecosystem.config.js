@@ -14,7 +14,6 @@ const services = [
   require("./services/ts/llm/ecosystem.config.js"),
   require("./services/js/heartbeat/ecosystem.config.js"),
   require("./services/js/proxy/ecosystem.config.js"),
-  require("./services/py/discord_attachment_embedder/ecosystem.config.js"),
   require("./services/js/eidolon-field/ecosystem.config.js"),
   require("./services/ts/markdown-graph/ecosystem.config.js"),
 ];
