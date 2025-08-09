@@ -31,7 +31,7 @@ test.after.always(async (t) => {
 
 // Ensure stopping twice does not throw and cleans up internal state.
 test("stop may be called multiple times", async (t) => {
-  await start(0);
+  await start();
   await stop();
   await t.notThrowsAsync(stop);
 });

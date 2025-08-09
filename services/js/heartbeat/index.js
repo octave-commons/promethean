@@ -1,19 +1,10 @@
-import express from "express";
 import { MongoClient } from "mongodb";
 import { createRequire } from "module";
 import path from "path";
 import fs from "fs";
 import pidusage from "pidusage";
-import { fileURLToPath } from "url";
 import { randomUUID } from "crypto";
 import WebSocket from "ws";
-import { WebSocketServer } from "ws";
-
-export const app = express();
-app.use(express.json());
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.join(__dirname, "public")));
 
 let HEARTBEAT_TIMEOUT = 10000;
 let CHECK_INTERVAL = 5000;
@@ -25,52 +16,10 @@ let BROKER_URL = "ws://127.0.0.1:7000";
 let client;
 let collection;
 let interval;
-let server;
 let ws;
-let wss;
 let allowedInstances = {};
 let SESSION_ID;
 let shuttingDown = false;
-
-async function processHeartbeat(pid, name) {
-  if (!pid || !name) {
-    return { status: 400, body: { error: "pid and name required" } };
-  }
-  if (!collection) {
-    return { status: 503, body: { error: "db not available" } };
-  }
-  const now = Date.now();
-  try {
-    const existing = await collection.findOne({ pid, sessionId: SESSION_ID });
-    if (!existing) {
-      const allowed = allowedInstances[name] ?? Infinity;
-      const count = await collection.countDocuments({
-        name,
-        sessionId: SESSION_ID,
-        last: { $gte: now - HEARTBEAT_TIMEOUT },
-        killedAt: { $exists: false },
-      });
-      if (count >= allowed) {
-        return {
-          status: 409,
-          body: { error: `instance limit exceeded for ${name}` },
-        };
-      }
-    }
-    const metrics = await getProcessMetrics(pid);
-    await collection.updateOne(
-      { pid },
-      {
-        $set: { last: now, name, sessionId: SESSION_ID, ...metrics },
-        $unset: { killedAt: "" },
-      },
-      { upsert: true },
-    );
-    return { status: 200, body: { status: "ok", pid, name, ...metrics } };
-  } catch {
-    return { status: 500, body: { error: "db failure" } };
-  }
-}
 
 async function getProcessMetrics(pid) {
   const metrics = { cpu: 0, memory: 0, netRx: 0, netTx: 0 };
@@ -144,24 +93,6 @@ async function handleHeartbeat({ pid, name }) {
     /* swallow processing errors */
   }
 }
-app.post("/heartbeat", async (req, res) => {
-  const pid = parseInt(req.body?.pid, 10);
-  const name = req.body?.name;
-  const result = await processHeartbeat(pid, name);
-  return res.status(result.status).json(result.body);
-});
-
-app.get("/heartbeats", async (req, res) => {
-  if (!collection) {
-    return res.status(503).json({ error: "db not available" });
-  }
-  try {
-    const docs = await collection.find({}).toArray();
-    return res.json(docs);
-  } catch {
-    return res.status(500).json({ error: "db failure" });
-  }
-});
 
 export async function monitor(now = Date.now()) {
   if (!collection) return;
@@ -184,7 +115,7 @@ export async function monitor(now = Date.now()) {
   }
 }
 
-export async function start(port = process.env.PORT || 5000) {
+export async function start() {
   HEARTBEAT_TIMEOUT = parseInt(process.env.HEARTBEAT_TIMEOUT || "10000", 10);
   CHECK_INTERVAL = parseInt(process.env.CHECK_INTERVAL || "5000", 10);
   MONGO_URL = process.env.MONGO_URL || MONGO_URL;
@@ -217,24 +148,6 @@ export async function start(port = process.env.PORT || 5000) {
   interval = setInterval(() => {
     monitor().catch(() => {});
   }, CHECK_INTERVAL);
-  server = app.listen(port, () => {
-    console.log(`heartbeat service listening on ${port}`);
-  });
-  wss = new WebSocketServer({ server, path: "/heartbeat" });
-  wss.on("connection", (ws) => {
-    ws.on("message", async (msg) => {
-      let data;
-      try {
-        data = JSON.parse(msg.toString());
-      } catch {
-        ws.send(JSON.stringify({ error: "invalid json" }));
-        return;
-      }
-      const result = await processHeartbeat(parseInt(data.pid, 10), data.name);
-      ws.send(JSON.stringify(result.body));
-    });
-  });
-  return server;
 }
 
 export async function cleanup() {
@@ -257,19 +170,11 @@ export async function stop() {
     clearInterval(interval);
     interval = null;
   }
-  if (server) {
-    server.close();
-    server = null;
-  }
   if (ws) {
     try {
       ws.close();
     } catch {}
     ws = null;
-  }
-  if (wss) {
-    wss.close();
-    wss = null;
   }
   if (client) {
     try {

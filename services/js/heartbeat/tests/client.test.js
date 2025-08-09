@@ -10,7 +10,6 @@ import {
 import { start, stop } from "../index.js";
 import { HeartbeatClient } from "../../../../shared/js/heartbeat/index.js";
 
-let server;
 let mongo;
 let broker;
 let brokerPort;
@@ -28,7 +27,7 @@ test.before(async () => {
   broker = await startBroker(0);
   brokerPort = broker.address().port;
   process.env.BROKER_URL = `ws://127.0.0.1:${brokerPort}`;
-  server = await start(0);
+  await start();
 });
 
 test.after.always(async () => {
