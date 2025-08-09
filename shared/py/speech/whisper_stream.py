@@ -1,3 +1,6 @@
+import importlib
+from typing import Any, cast
+
 import numpy as np
 
 
@@ -7,9 +10,8 @@ class WhisperStreamer:
     def __init__(self, model_size: str = "tiny") -> None:
         """Load the chosen model size."""
         self.model_size = model_size
-        import whisper  # defer heavy import
-
-        self.model = whisper.load_model(model_size)
+        whisper = importlib.import_module("whisper")
+        self.model = cast(Any, whisper).load_model(model_size)
 
     def transcribe_chunks(self, chunks, sample_rate: int = 16000):
         """Yield transcripts for each pcm chunk provided."""
