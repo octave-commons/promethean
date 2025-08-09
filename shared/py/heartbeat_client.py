@@ -13,7 +13,10 @@ import threading
 from dataclasses import dataclass
 from typing import Optional
 
-from websockets.sync.client import connect
+try:
+    from websockets.sync.client import connect as ws_connect
+except Exception:  # pragma: no cover - optional dependency
+    ws_connect = None
 
 BROKER_PORT = os.environ.get("BROKER_PORT", 7000)
 
@@ -44,9 +47,11 @@ class HeartbeatClient:
     _ws: Optional[object] = None
 
     def _ensure(self) -> None:
-        if self._ws and self._ws.open:
+        if self._ws and getattr(self._ws, "open", False):
             return
-        self._ws = connect(self.url)
+        if ws_connect is None:
+            raise RuntimeError("websockets library required for heartbeats")
+        self._ws = ws_connect(self.url)
 
     def send_once(self) -> None:
         """Send a single heartbeat."""
