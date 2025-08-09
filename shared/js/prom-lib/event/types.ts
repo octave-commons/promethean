@@ -55,6 +55,7 @@ export interface PublishOptions {
   id?: UUID;
   ts?: Millis;
   key?: string;
+  partition?: number;
   headers?: Record<string, string>;
   tags?: string[];
   caused_by?: UUID[];
