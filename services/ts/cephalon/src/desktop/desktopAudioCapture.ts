@@ -1,17 +1,47 @@
 import { execa } from 'execa';
 import { decode } from 'wav-decoder';
-const AUDIO_INPUT = 'audio=Voicemeeter Out B1 (VB-Audio Voicemeeter VAIO)';
-export async function captureAudio({ duration = 5 } = {}) {
+
+async function getAudioSource() {
+	if (process.platform === 'win32') {
+		return {
+			format: 'dshow',
+			device: 'audio=Voicemeeter Out B1 (VB-Audio Voicemeeter VAIO)',
+		};
+	}
+	if (process.platform === 'linux') {
+		try {
+			const { stdout } = await execa('pactl', ['list', 'short', 'sources']);
+			const lines = stdout.split('\n').filter(Boolean);
+			const monitor = lines.find((line) => line.includes('.monitor'));
+			const device = (monitor ?? lines[0])?.split('\t')[1] ?? 'default';
+			return { format: 'pulse', device };
+		} catch {
+			return { format: 'pulse', device: 'default' };
+		}
+	}
+	return { format: 'avfoundation', device: ':0' };
+}
+
+export async function captureAudio({
+	duration = 5,
+	source,
+}: {
+	duration?: number;
+	source?: string;
+} = {}) {
 	const startTime = Date.now();
+
+	const { format, device } = await getAudioSource();
+	const input = source ?? device;
 
 	const ffmpeg = execa(
 		'ffmpeg',
 		[
 			'-y',
 			'-f',
-			'dshow',
+			format,
 			'-i',
-			AUDIO_INPUT,
+			input,
 			'-t',
 			duration.toString(),
 			'-acodec',
