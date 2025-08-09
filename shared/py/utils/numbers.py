@@ -41,6 +41,16 @@ def _expand_decimal_point(m: re.Match) -> str:
     return m.group(1).replace(".", " point ")
 
 
+def _pluralize(unit: str, amount: int) -> str:
+    """Return ``unit`` in singular or plural form based on ``amount``."""
+    return unit if amount == 1 else unit + "s"
+
+
+def _format_currency(amount: int, unit: str) -> str:
+    """Format a currency amount with correct pluralization."""
+    return f"{amount} {_pluralize(unit, amount)}"
+
+
 def _expand_dollars(m: re.Match) -> str:
     """Expand a currency amount into spoken words."""
     match = m.group(1)
@@ -50,15 +60,13 @@ def _expand_dollars(m: re.Match) -> str:
     dollars = int(parts[0]) if parts[0] else 0
     cents = int(parts[1]) if len(parts) > 1 and parts[1] else 0
     if dollars and cents:
-        dollar_unit = "dollar" if dollars == 1 else "dollars"
-        cent_unit = "cent" if cents == 1 else "cents"
-        return "%s %s, %s %s" % (dollars, dollar_unit, cents, cent_unit)
+        return (
+            f"{_format_currency(dollars, 'dollar')}, {_format_currency(cents, 'cent')}"
+        )
     elif dollars:
-        dollar_unit = "dollar" if dollars == 1 else "dollars"
-        return "%s %s" % (dollars, dollar_unit)
+        return _format_currency(dollars, "dollar")
     elif cents:
-        cent_unit = "cent" if cents == 1 else "cents"
-        return "%s %s" % (cents, cent_unit)
+        return _format_currency(cents, "cent")
     else:
         return "zero dollars"
 
