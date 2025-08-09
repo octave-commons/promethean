@@ -4,7 +4,7 @@ test("publish -> subscribe (earliest) delivers and advances cursor", async () =>
   const bus = new InMemoryEventBus();
   const seen: string[] = [];
 
-  await bus.subscribe(
+  const unsub = await bus.subscribe(
     "t.a",
     "g1",
     async (e) => {
@@ -21,13 +21,14 @@ test("publish -> subscribe (earliest) delivers and advances cursor", async () =>
 
   const cur = await bus.getCursor("t.a", "g1");
   expect(cur?.lastId).toBeTruthy();
+  await unsub();
 });
 
 test("nack leaves cursor; event is retried", async () => {
   const bus = new InMemoryEventBus();
   let attempts = 0;
 
-  await bus.subscribe(
+  const unsub = await bus.subscribe(
     "t.b",
     "g1",
     async (e) => {
@@ -40,4 +41,5 @@ test("nack leaves cursor; event is retried", async () => {
   await bus.publish("t.b", "x");
   await new Promise((r) => setTimeout(r, 80));
   expect(attempts).toBeGreaterThanOrEqual(2);
+  await unsub();
 });
