@@ -46,6 +46,17 @@ export class Bot {
   async handleInteraction(interaction: any) {
     if (!interaction.inCachedGuild() || !interaction.isChatInputCommand())
       return;
+    this.broker.enqueue("cephalon", {
+      type: "discord-interaction",
+      interaction: {
+        id: interaction.id,
+        commandName: interaction.commandName,
+        channelId: interaction.channelId,
+        guildId: interaction.guildId,
+        userId: interaction.user.id,
+        options: interaction.options.data,
+      },
+    });
     if (interaction.commandName === "setcapturechannel") {
       const channel = interaction.options.getChannel("channel", true);
       if (!channel.isTextBased()) {

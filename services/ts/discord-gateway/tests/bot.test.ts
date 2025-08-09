@@ -46,3 +46,35 @@ test("handleMessage forwards attachments", async (t) => {
   t.truthy(sent);
   t.is(sent.files[0].attachment, "http://x/y.png");
 });
+
+test("handleInteraction forwards to broker", async (t) => {
+  const bot = new Bot({ token: "t", applicationId: "a", brokerUrl: "u" });
+  let payload: any = null;
+  (bot.broker as any) = {
+    enqueue(_queue: string, body: any) {
+      payload = body;
+    },
+  };
+  const interaction: any = {
+    inCachedGuild: () => true,
+    isChatInputCommand: () => true,
+    commandName: "foo",
+    id: "1",
+    channelId: "10",
+    guildId: "20",
+    user: { id: "30" },
+    options: { data: [] },
+  };
+  await bot.handleInteraction(interaction);
+  t.deepEqual(payload, {
+    type: "discord-interaction",
+    interaction: {
+      id: "1",
+      commandName: "foo",
+      channelId: "10",
+      guildId: "20",
+      userId: "30",
+      options: [],
+    },
+  });
+});
