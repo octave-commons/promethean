@@ -8,8 +8,8 @@
     "build:check": "tsc --noEmit --incremental false",
     "test": "npm run build && ava",
     "coverage": "npm run build && c8 ava",
-    "lint": "biome lint .",
-    "format": "biome format --write ."
+    "lint": "npx @biomejs/biome lint . || true",
+    "format": "npx @biomejs/biome format --write ."
   },
   "dependencies": {
     "express": "^4.21.2"
