@@ -15,6 +15,11 @@
     "event/**/*.ts",
     "ds/**/*.ts",
     "worker/**/*.ts",
-    "intention/**/*.ts"
+    "intention/**/*.ts",
+    "ws/**/*.ts",
+    "compaction/**/*.ts",
+    "metrics/**/*.ts",
+    "examples/**/*.ts",
+    "http/**/*.ts"
   ]
 }
