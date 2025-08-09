@@ -141,6 +141,7 @@ export class InMemoryEventBus implements EventBus {
         ts,
         afterId,
         filter,
+        manualAck = false,
       } = sub.opts;
 
       let cursor = await this.cursors.get(sub.topic, sub.group);
@@ -182,11 +183,13 @@ export class InMemoryEventBus implements EventBus {
 
         sub.inflight++;
         const ctx = { attempt: 1, maxAttempts: maxAttempts, cursor };
-        // fire-and-forget; ack immediately on success
+        // fire-and-forget; ack immediately on success unless manualAck
         (async () => {
           try {
             await sub.handler(e, ctx);
-            await this.ack(e.topic, sub.group, e.id);
+            if (!manualAck) {
+              await this.ack(e.topic, sub.group, e.id);
+            }
           } catch (err) {
             // basic NACK: do nothing (consumer can reprocess on next kick)
             await this.nack(e.topic, sub.group, e.id, (err as Error)?.message);
