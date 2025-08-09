@@ -32,6 +32,7 @@ COMMANDS := \
   lint-js-service \
   lint-js \
   format-js \
+  setup-shared-js \
   setup-js-service \
   setup-js \
   test-js-service \

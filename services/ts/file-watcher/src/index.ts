@@ -6,11 +6,6 @@ import { createTasksWatcher } from "./tasks-watcher.js";
 export interface FileWatcherOptions {
   repoRoot?: string;
   publish?: (type: string, payload: any) => void;
-  runPython?: (path: string) => Promise<any>;
-  callLLM?: (path: string) => Promise<string>;
-  writeFile?: (path: string, content: string) => Promise<void>;
-  mongoCollection?: { updateOne: (...args: any[]) => Promise<any> };
-  socket?: { emit: (...args: any[]) => void };
   maxConcurrentLLMTasks?: number;
 }
 
@@ -42,16 +37,7 @@ export function startFileWatcher(options: FileWatcherOptions = {}) {
   const tasksWatcher = createTasksWatcher({
     tasksPath,
     publish,
-    ...(options.runPython ? { runPython: options.runPython } : {}),
-    ...(options.callLLM ? { callLLM: options.callLLM } : {}),
-    ...(options.writeFile ? { writeFile: options.writeFile } : {}),
-    ...(options.mongoCollection
-      ? { mongoCollection: options.mongoCollection }
-      : {}),
     ...(options.socket ? { socket: options.socket } : {}),
-    ...(options.maxConcurrentLLMTasks !== undefined
-      ? { maxConcurrentLLMTasks: options.maxConcurrentLLMTasks }
-      : {}),
   });
 
   return {

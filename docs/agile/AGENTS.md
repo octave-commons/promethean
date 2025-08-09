@@ -1,6 +1,6 @@
 # 🤖 Agent: Board Manager
 
-This agent is responsible for maintaining and navigating the Kanban board in `agile/boards/kanban`.
+This agent is responsible for maintaining and navigating the Kanban board in `agile/boards/kanban.md`.
 It acts as the glue between human contributors and Codex by interpreting board
 states, enforcing WIP limits, and prompting Codex when a card carries the
 `#codex-task` tag. The board itself is generated from the task files in
@@ -78,9 +78,9 @@ The board columns are derived from these hashtags in each task file:
 ## 📁 File Locations
 
 - Board file: `agile/boards/kanban.md`
-- Epics: `agile/boards/epic.md`
+- Epics: `agile/boards/epics.md`
 - Tasks: `agile/tasks/*.md`
-- Process flow: `process.md`
+- Process flow: `agile/Process.md`
 
 The board file is regenerated whenever `make kanban-from-tasks` is run. **Do not edit `kanban.md` manually.** To move a task between columns, edit the status hashtag in its corresponding task file and rerun `make kanban-to-hashtags`.
 

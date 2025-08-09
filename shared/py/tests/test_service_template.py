@@ -1,5 +1,6 @@
 import asyncio
 
+import asyncio
 from shared.py import service_template
 
 
@@ -7,7 +8,7 @@ class DummyClient:
     def __init__(self, client_id=None):
         self.client_id = client_id
         self.task_handler = None
-        self.pulled = False
+        self.dispatched = False
 
     async def connect(self):
         pass
@@ -18,9 +19,9 @@ class DummyClient:
     def on_task(self, handler):
         self.task_handler = handler
 
-    async def pull(self, queue):
-        if not self.pulled and self.task_handler:
-            self.pulled = True
+    async def ready(self, queue):
+        if not self.dispatched and self.task_handler:
+            self.dispatched = True
             await self.task_handler({"id": "1", "queue": queue, "payload": {}})
 
     async def publish(self, *args, **kwargs):
@@ -29,7 +30,7 @@ class DummyClient:
     async def ack(self, *args, **kwargs):
         pass
 
-    async def fail(self, *args, **kwargs):
+    async def heartbeat(self, *args, **kwargs):
         pass
 
 

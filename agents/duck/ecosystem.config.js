@@ -78,6 +78,20 @@ module.exports = {
       },
     ),
 
+    defineApp(
+      "duck_attachment_embedder",
+      "pipenv",
+      ["run", "python", "-m", "main"],
+      {
+        cwd: "./services/py/discord_attachment_embedder",
+        watch: ["./services/py/tts"],
+        env: {
+          ...discord_env,
+          DEESKTOP_CAPTURE_CHANNEL_ID: "1401730790467047586",
+        },
+      },
+    ),
+
     {
       name: "chromadb",
       cwd: __dirname,
