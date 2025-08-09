@@ -9,11 +9,13 @@
     "dotenv": "^17.2.1",
     "mongodb": "^6.18.0",
     "pm2": "^6.0.8",
-    "ws": "^8.18.3"
+    "ws": "^8.18.3",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "@types/mongodb": "^4.0.6",
+    "@types/ws": "^8.5.10",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
     "ava": "^6.4.1",

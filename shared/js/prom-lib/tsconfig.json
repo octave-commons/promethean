@@ -15,6 +15,9 @@
     "event/**/*.ts",
     "ds/**/*.ts",
     "worker/**/*.ts",
-    "intention/**/*.ts"
+    "intention/**/*.ts",
+    "bus/**/*.ts",
+    "outbox/**/*.ts",
+    "task/**/*.ts"
   ]
 }
