@@ -23,11 +23,17 @@ This `docs` directory houses internal documentation for the **Promethean Framewo
     - [`agile/tasks/`](agile/tasks/) – individual task files. Each document includes a description, goals, requirements and subtasks. The board links to these files; creating a new task means adding a markdown file here and linking it from the board.
         
 - **Vault configuration**
-    
+
     - [vault‑config README](vault-config/README.md) – guidance for using this repo as an Obsidian vault. It covers settings for GitHub‑compatible Markdown, recommended plugins and how to install the baseline configuration.
-        
+
     - [`vault-config/.obsidian/`](vault-config/.obsidian/) – a minimal Obsidian configuration with the Kanban plugin enabled. Copy it to the repository root (`cp -r vault-config/.obsidian .obsidian`) to activate the baseline setup.
-        
+
+- **Code-aligned documentation**
+
+    - [services](services/README.md) – docs for individual subsystems under `services/`.
+    - [agents](agents/README.md) – behaviour notes and prompts for each agent.
+    - [shared](shared/README.md) – reusable libraries and clients shared across services.
+
 - **Research and scripts**
     
     - Various notes under `docs/research/` summarize APIs or algorithms (e.g. `github_projects_api.md`).
