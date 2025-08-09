@@ -113,6 +113,8 @@ plt.close(fig)
 OUTFILE
 #+end_src
 
+#+RESULTS: anim
+
 # Display (inline + clickable)
 #+attr_org: :width 800
 [[file:smoke_symbols.gif]]
