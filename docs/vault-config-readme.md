@@ -23,36 +23,48 @@ cp -r vault-config/.obsidian .obsidian
 
 ---
 
+## 🏗️ Generate Service Doc Stubs
+
+Keep documentation aligned with the current services by generating placeholder files:
+
+```bash
+npm run build:docs
+```
+
+This creates `docs/services/<service>/AGENTS.md` entries linking back to their implementations.
+
+---
+
 ## 📦 Recommended Plugins
 
 * Kanban 
 	- Make the [kanban](agile/boards/kanban.md) look like a board
 - consistent links and attachments 
-	- Solves the problem `[[WikiLinks]]` would solve if you didn't care about your board links working on github
+	- Solves the problem `[WikiLinks](WikiLinks.md)` would solve if you didn't care about your board links working on github
 	- Allows you to move notes and the link location will update automaticly.
 
 ---
 
 ## 🔁 \[\[Wikilink]] Compatibility
 
-If you're contributing documentation to the codebase, Obsidian allows the `[[Wikilink]]` short hand  for making notes by default. So `[[docname]]` goes to the nearest doc  in the tree with that name. This is not compatible with github. So use the following settings:
+If you're contributing documentation to the codebase, Obsidian allows the `[Wikilink](Wikilink.md)` short hand  for making notes by default. So `[docname](docname.md)` goes to the nearest doc  in the tree with that name. This is not compatible with github. So use the following settings:
 
-* Disable `Use [[wikilinks]]`
+* Disable `Use [wikilinks](wikilinks.md)`
 - Change `New link format` to `relative`
 * All markdown is written to be GitHub-compatible by default
 
 You'll still be able to use the shorthand, Obsidian will just expand to a markdown link.
 ```
 # With wikilinks disabled and New link format = Relative:
-typing [[kanban]] → [kanban](agile/boards/kanban.md)
+typing [kanban](kanban.md) → [kanban](agile/boards/kanban.md)
 
 # With wikilinks disabled, and new link format = Shortest if possible
 # assuming you don't have another file in your vault called `kanban.md`
-typing [[kanban]] → [kanban](kanban.md) 
+typing [kanban](kanban.md) → [kanban](kanban.md) 
 
 
 # With wikilinks enabled:
-typing [[kanban]] → [[kanban]] (requires conversion to work on GitHub)
+typing [kanban](kanban.md) → [kanban](kanban.md) (requires conversion to work on GitHub)
 ```
 
 ## Copying Latex from chatGPT
