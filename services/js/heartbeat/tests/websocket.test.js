@@ -4,9 +4,15 @@ import { fileURLToPath } from "url";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { WebSocket } from "ws";
 import { start, stop } from "../index.js";
+import {
+  start as startBroker,
+  stop as stopBroker,
+} from "../../broker/index.js";
 
 let server;
 let mongo;
+let broker;
+let brokerPort;
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -17,11 +23,15 @@ test.before(async () => {
   );
   mongo = await MongoMemoryServer.create();
   process.env.MONGO_URL = mongo.getUri();
+  broker = await startBroker(0);
+  brokerPort = broker.address().port;
+  process.env.BROKER_URL = `ws://127.0.0.1:${brokerPort}`;
   server = await start(0);
 });
 
 test.after.always(async () => {
   await stop();
+  if (broker) await stopBroker(broker);
   if (mongo) await mongo.stop();
 });
 
