@@ -15,6 +15,12 @@
     "event/**/*.ts",
     "ds/**/*.ts",
     "worker/**/*.ts",
-    "intention/**/*.ts"
+    "intention/**/*.ts",
+    "outbox/**/*.ts",
+    "acl/**/*.ts",
+    "auth/**/*.ts",
+    "ops/**/*.ts",
+    "sdk/**/*.ts",
+    "ws/**/*.ts"
   ]
 }
