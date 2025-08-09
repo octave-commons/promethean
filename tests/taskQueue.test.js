@@ -38,3 +38,18 @@ test("fail without requeue drops task", (t) => {
   t.is(q.list("gamma").length, 0);
   t.is(q.inflightTasks().length, 0);
 });
+
+test("pull returns null when queue empty", (t) => {
+  const q = new TaskQueue();
+  const result = q.pull("delta", "worker1");
+  t.is(result, null);
+});
+
+test("allQueues returns all active queues", (t) => {
+  const q = new TaskQueue();
+  q.enqueue("alpha", { a: 1 });
+  q.enqueue("beta", { b: 2 });
+  const queues = q.allQueues();
+  t.is(queues.length, 2);
+  t.deepEqual(queues.map(([name]) => name).sort(), ["alpha", "beta"]);
+});
