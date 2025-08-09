@@ -5,7 +5,8 @@
 	"main": "dist/index.js",
 	"type": "module",
 	"imports": {
-		"@shared/js": "../../../shared/js"
+		"@shared/js": "../../../shared/js",
+		"@shared/ts/*": "../../../shared/ts/*.js"
 	},
 	"scripts": {
 		"build": "tsc && node scripts/patch-imports.js",

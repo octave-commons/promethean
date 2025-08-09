@@ -15,7 +15,7 @@ import EventEmitter from 'events';
 import { DesktopCaptureManager } from '../desktop/desktopLoop';
 import { Bot } from '../bot';
 import { LLMService } from '../llm-service';
-import { ContextManager } from '../contextManager';
+import { ContextManager } from '@shared/ts/contextManager';
 import { AgentInnerState, AgentOptions, GenerateResponseOptions } from '../types';
 import { defaultPrompt, defaultState, generatePrompt } from '../prompts';
 import { sleep } from '../util';

@@ -1,6 +1,10 @@
 {
   "dependencies": {
     "adm-zip": "^0.5.16",
-    "dotenv": "^17.2.1"
+    "chromadb": "^3.0.11",
+    "dotenv": "^17.2.1",
+    "javascript-time-ago": "^2.5.11",
+    "mongodb": "^6.18.0",
+    "ollama": "^0.5.17"
   }
 }
