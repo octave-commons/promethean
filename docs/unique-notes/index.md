@@ -1,6 +1,6 @@
 # Unique Info Dump Index
 
-These notes were originally captured in `docs/unique` with timestamp filenames. They have been organized into the `docs/notes` folder with descriptive names. Use the links below to navigate each idea note.
+These notes were originally captured in `docs/unique-notes` with timestamp filenames. They have been organized into the `docs/notes` folder with descriptive names. Use the links below to navigate each idea note.
 
 ## Chunks
 
@@ -47,7 +47,7 @@ These notes were originally captured in `docs/unique` with timestamp filenames. 
 
 ## Stubs for Duplicates
 
-The following `docs/unique` files are now stubs pointing to their curated versions:
+The following `docs/unique-notes` files are now stubs pointing to their curated versions:
 
 - layer-1-uptime-diagrams → [layer1-uptime-diagrams](../notes/diagrams/layer1-uptime-diagrams.md)
 - sibilant-metacompiler-overview → [sibilant-metacompiler-overview](../notes/dsl/sibilant-metacompiler-overview.md)

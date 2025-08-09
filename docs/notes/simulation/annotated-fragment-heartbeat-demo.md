@@ -29,7 +29,7 @@ Try more fragments to probe different circuits:
 (receive-descended-fragment "Fragment unsafe. Initiate containment.")
 ```
 
-Related: [[fragment-injection-simulation]], [[heartbeat-fragment-flow]], [[ripple-propagation-flow]] [[../../unique/index|unique/index]]
+Related: [fragment-injection-simulation](fragment-injection-simulation.md), [heartbeat-fragment-flow](heartbeat-fragment-flow.md), [ripple-propagation-flow](ripple-propagation-flow.md) [unique/index](../../unique-notes/index.md)
 
 #tags: #simulation #design
 

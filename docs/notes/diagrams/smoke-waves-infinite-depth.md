@@ -7,7 +7,7 @@ Key points:
 
 See also: root `smoke_waves_small.gif` for a smaller variant.
 
-Related: [[../../unique/index|unique/index]]
+Related: [unique/index](../../unique-notes/index.md)
 
 #tags: #visualization #animation #python
 

@@ -18,7 +18,7 @@ $$ x(t) = x_0 (1 - e^{-k t}) $$
 ### Heartbeat–field coupling
 $$ f(t) = f_0 + \alpha \cdot \mathcal{T}(t), \quad \mathcal{T}(t)= \int \|\nabla\Phi(\vec{x},t)\|^2 d\vec{x} $$
 
-Related: [[eidolon-field-math]], [[homeostasis-and-decay-models]], [[field-dynamics-math-blocks]] [[../../unique/index|unique/index]]
+Related: [eidolon-field-math](eidolon-field-math.md), [homeostasis-and-decay-models](homeostasis-and-decay-models.md), [field-dynamics-math-blocks](field-dynamics-math-blocks.md) [unique/index](../../unique-notes/index.md)
 
 #tags: #math #theory #aionian
 

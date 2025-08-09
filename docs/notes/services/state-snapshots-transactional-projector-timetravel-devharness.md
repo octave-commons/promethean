@@ -6,7 +6,7 @@ Includes:
 - reconstructAt(store, { topic, key, atTs, apply })
 - In-memory harness: WS gateway + HTTP publisher + example projector
 
-Related: [[partitions-schema-registry-projector]], [[event-bus-projections-diagrams]] [[../../unique/index|unique/index]]
+Related: [partitions-schema-registry-projector](partitions-schema-registry-projector.md), [event-bus-projections-diagrams](event-bus-projections-diagrams.md) [unique/index](../../unique-notes/index.md)
 
 #tags: #snapshots #projectors #timetravel #testing
 

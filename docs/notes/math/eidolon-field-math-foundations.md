@@ -19,7 +19,7 @@ Total: $\Phi(\vec{x}) = \sum_k \Phi_{N_k}(\vec{x}) + \text{background}$.
 ### Binding condition
 $$ \|\vec{p}_\delta - \vec{x}_N\| < \epsilon \;\wedge\; \text{sign}(q_\delta) \neq \text{sign}(A_N) $$
 
-Related: [[advanced-field-math]], [[aionian-feedback-oscillator]], [[aionian-pulse-rhythm-model]], [[eidolon-field-math]], [[symbolic-gravity-models]] [[../../unique/index|unique/index]]
+Related: [advanced-field-math](advanced-field-math.md), [aionian-feedback-oscillator](aionian-feedback-oscillator.md), [aionian-pulse-rhythm-model](aionian-pulse-rhythm-model.md), [eidolon-field-math](eidolon-field-math.md), [symbolic-gravity-models](symbolic-gravity-models.md) [unique/index](../../unique-notes/index.md)
 
 #tags: #math #theory
 

@@ -74,6 +74,6 @@ Want the next piece — maybe connecting a ripple callback to update eidolon fie
 
 ---
 
-Related notes: [[fragment-injection-simulation]], [[heartbeat-fragment-flow]], [[ripple-propagation-flow]] [[../../unique/index|unique/index]]
+Related notes: [fragment-injection-simulation](fragment-injection-simulation.md), [heartbeat-fragment-flow](heartbeat-fragment-flow.md), [ripple-propagation-flow](ripple-propagation-flow.md) [unique/index](../../unique-notes/index.md)
 
 #tags: #simulation #design

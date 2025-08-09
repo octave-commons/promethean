@@ -19,7 +19,7 @@ If $\mathcal{E}(\vec{x})>\mathcal{E}_\text{th}$, emit $\delta_{new}=(\vec{x},\ve
 ### Gradient sampling (central difference)
 $$ \partial\Phi/\partial x_i \approx [\Phi(x_i+h)-\Phi(x_i-h)]/(2h) $$
 
-Related: [[eidolon-field-math-foundations]], [[homeostasis-and-decay-models]] [[../../unique/index|unique/index]]
+Related: [eidolon-field-math-foundations](eidolon-field-math-foundations.md), [homeostasis-and-decay-models](homeostasis-and-decay-models.md) [unique/index](../../unique-notes/index.md)
 
 #tags: #math #theory
 

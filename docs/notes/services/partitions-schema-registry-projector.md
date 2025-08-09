@@ -6,7 +6,7 @@ Highlights:
 - Registry validates payloads and basic compat (backward/forward)
 - Projector materializes compaction streams to collections
 
-Related: [[schema-evolution-dlq-changefeed]], [[event-bus-projections-diagrams]] [[../../unique/index|unique/index]]
+Related: [schema-evolution-dlq-changefeed](schema-evolution-dlq-changefeed.md), [event-bus-projections-diagrams](event-bus-projections-diagrams.md) [unique/index](../../unique-notes/index.md)
 
 #tags: #broker #partitions #schema #mongo #projectors
 

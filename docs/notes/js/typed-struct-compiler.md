@@ -27,6 +27,6 @@ B.write(view, { pos: { x: 1, y: 2 }, vel: { x: 0, y: 0 }, life: 3 });
 const obj = B.read(view);
 ```
 
-Related notes: [unique/index](../../unique/index.md)
+Related notes: [unique/index](../../unique-notes/index.md)
 
 #tags: #js #binary #workers #soa

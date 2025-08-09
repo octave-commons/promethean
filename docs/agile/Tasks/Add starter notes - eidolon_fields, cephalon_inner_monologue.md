@@ -8,7 +8,7 @@ Write introductory documentation for two core concepts: **eidolon_fields** and
 **cephalon_inner_monologue**. These notes will serve as a reference for future
 implementation work in the Eidolon and Cephalon services. Place the notes in
 `docs/notes/` so they are available to the vault and link them from the
-`docs/unique/index.md` file.
+`docs/unique-notes/index.md` file.
 
 ---
 
@@ -30,7 +30,7 @@ the Eidolon field during agent reasoning.
 list of key properties.
 - [ ] Create `docs/notes/cephalon_inner_monologue.md` describing the monologue
 loop and its inputs/outputs.
-- [ ] Link both notes from `docs/unique/index.md` so they appear in the
+- [ ] Link both notes from `docs/unique-notes/index.md` so they appear in the
 knowledge base.
 - [ ] Keep each note under 2 pages of markdown with clear headings.
 

@@ -33,7 +33,7 @@ $$ R = \gamma \cdot \log(m + 1) $$
 ### Tension-Driven Heartbeat Adjustment
 $$ f_{\text{pulse}} = f_0 + \alpha \cdot \mathcal{T} $$
 
-Related: [[advanced-field-math]], [[aionian-feedback-oscillator]], [[aionian-pulse-rhythm-model]], [[eidolon-field-math]], [[symbolic-gravity-models]] [[../../unique/index|unique/index]]
+Related: [advanced-field-math](advanced-field-math.md), [aionian-feedback-oscillator](aionian-feedback-oscillator.md), [aionian-pulse-rhythm-model](aionian-pulse-rhythm-model.md), [eidolon-field-math](eidolon-field-math.md), [symbolic-gravity-models](symbolic-gravity-models.md) [unique/index](../../unique-notes/index.md)
 
 #tags: #math #theory
 

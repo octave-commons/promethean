@@ -125,6 +125,6 @@ Want another round? I can start sketching:
 Let’s go until your working memory caps.
 ---
 
-Related notes: [[node-type-topology-map]], [[circuit-weight-visualizations]], [[full-system-overview-diagrams]], [[layer1-uptime-diagrams]], [[field-node-lifecycle-additional-diagrams]], [[state-diagram-node-lifecycle]] [[../../unique/index|unique/index]]
+Related notes: [node-type-topology-map](node-type-topology-map.md), [circuit-weight-visualizations](circuit-weight-visualizations.md), [full-system-overview-diagrams](full-system-overview-diagrams.md), [layer1-uptime-diagrams](layer1-uptime-diagrams.md), [field-node-lifecycle-additional-diagrams](field-node-lifecycle-additional-diagrams.md), [state-diagram-node-lifecycle](state-diagram-node-lifecycle.md) [unique/index](../../unique-notes/index.md)
 
 #tags: #diagram #design

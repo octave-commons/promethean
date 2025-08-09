@@ -7,7 +7,7 @@ Suggested paths:
 - Lowerer: `compiler/lower.ts` records `symSpan`
 - Driver: `compiler/lisp/driver.ts` returns `{ code, map }` or inline data URL
 
-Related: [[sibilant-metacompiler-overview]], [[template-based-compilation]] [[../../unique/index|unique/index]]
+Related: [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md), [template-based-compilation](template-based-compilation.md) [unique/index](../../unique-notes/index.md)
 
 #tags: #dsl #sibilant #source-maps #interop
 

@@ -5,7 +5,7 @@ Highlights:
 - Local fallback dynamic-imports and runs in-process
 - Workers operate on snapshots and return patches; main thread applies
 
-Related: [[zero-copy-snapshots-and-workers]], [[ecs-scheduler-and-prefabs]] [[../../unique/index|unique/index]]
+Related: [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md), [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md) [unique/index](../../unique-notes/index.md)
 
 #tags: #js #workers #ecs #parallel
 

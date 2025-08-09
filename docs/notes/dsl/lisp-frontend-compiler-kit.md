@@ -2,7 +2,7 @@ Macro-first Lisp frontend: reader with quote/quasiquote/unquote/splice, hygienic
 
 Suggested layout: `shared/js/prom-lib/compiler/lisp/` (syntax.ts, reader.ts, macros.ts, qq.ts, …).
 
-Related: [[compiler-kit-foundations]], [[interop-and-source-maps]] [[../../unique/index|unique/index]]
+Related: [compiler-kit-foundations](compiler-kit-foundations.md), [interop-and-source-maps](interop-and-source-maps.md) [unique/index](../../unique-notes/index.md)
 
 #tags: #lisp #macros #compiler #dsl
 
