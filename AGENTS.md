@@ -412,6 +412,37 @@ When invoking agent-mode, frame prompts with:
 
 Agents should verify their work and reference any touched paths before exiting agent-mode.
 
+## 🔐 Permission Schema
+
+Agents declare what they can do and where via a minimal permissions file. The parser reads these rules to gate runtime behavior.
+
+### Required Fields
+
+- **default** – `allow` or `deny` when no rule matches.
+- **rules** – list of entries, each with:
+  - **action** – capability identifier (`file.read`, `network.request`).
+  - **scope** – path or pattern the action applies to (`docs/**`, `*`).
+
+### YAML Example
+```yaml
+default: deny
+rules:
+  - action: file.read
+    scope: docs/**
+```
+
+### JSON Example
+```json
+{
+  "default": "allow",
+  "rules": [
+    {"action": "*", "scope": "*"}
+  ]
+}
+```
+
+Example permission files live in `agents/*/config/permissions.yaml`. For background reasoning see [docs/notes/math/aionian-pulse-rhythm-model.md](docs/notes/math/aionian-pulse-rhythm-model.md).
+
 ---
 
 ## 🛡️ Permission Gate Configuration
