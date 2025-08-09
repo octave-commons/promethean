@@ -39,9 +39,11 @@ def process_message(message: dict, collection) -> None:
             metadatas=metadatas,
             ids=ids,
         )
-        discord_message_collection.update_one(
-            {"id": message["id"]}, {"$set": {"embedded": True}}
-        )
+
+    # Mark the message as processed even if no embeddings were generated
+    discord_message_collection.update_one(
+        {"id": message["id"]}, {"$set": {"embedded": True}}
+    )
 
 
 def main() -> None:
