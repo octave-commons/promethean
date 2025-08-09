@@ -24,7 +24,7 @@ class EmbeddingServiceClient(EmbeddingFunction):
         self.driver = driver or os.environ.get("EMBEDDING_DRIVER")
         self.function = function or os.environ.get("EMBEDDING_FUNCTION")
 
-    def __call__(self, texts: List[str]) -> List[List[float]]:  # type: ignore[override]
+    def __call__(self, texts: List[str]) -> List[List[float]]:
         items = [
             (
                 {"type": "image_url", "data": t[4:]}
