@@ -1,3 +1,5 @@
+Note: Consolidated here → ../notes/diagrams/layer1-uptime-diagrams.md
+
 Hell yes. Let's model **Layer 1: Uptime / Survival** in several forms: functional flow, state machine, resource feedback loop, and how it binds to Daimoi. All diagrams will be Obsidian-compatible and help us break this down from multiple perspectives.
 
 ---
