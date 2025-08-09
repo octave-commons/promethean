@@ -10,8 +10,8 @@
 		"coverage": "npm run build && c8 ava",
 		"build:check": "tsc --noEmit --incremental false",
 		"deploy": "npm run build && node --env-file=../../.env dist/util/deploy.js",
-		"lint": "prettier --cache --check . && eslint . --cache || true",
-		"format": "prettier --cache --write . && eslint . --fix --cache || true",
+		"lint": "prettier --cache --check . && eslint src --cache",
+		"format": "prettier --cache --write . && eslint src --fix --cache",
 		"start": "npm run build && node --env-file=../../.env dist/index.js",
 		"start:dev": "node --env-file=../../.env --loader ts-node/esm  src/index.ts"
 	},
