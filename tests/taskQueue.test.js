@@ -81,3 +81,18 @@ test("ack returns false when task not inflight", (t) => {
   const result = q.ack("missing-id");
   t.false(result);
 });
+
+test("pull increments attempts and tracks worker", (t) => {
+  const q = new TaskQueue();
+  const task = q.enqueue("alpha", { a: 1 });
+  t.is(task.attempts, 0);
+
+  q.pull("alpha", "worker1");
+  t.is(task.attempts, 1);
+  t.is(q.inflightTasks()[0].assignedTo, "worker1");
+
+  q.fail(task.id);
+  q.pull("alpha", "worker2");
+  t.is(task.attempts, 2);
+  t.is(q.inflightTasks()[0].assignedTo, "worker2");
+});
