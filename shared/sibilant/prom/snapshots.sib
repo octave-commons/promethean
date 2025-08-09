@@ -1,0 +1,7 @@
+; shared/sibilant/prom/snapshots.sib (pseudo)
+(defn start-snapshot-api [db port coll]
+  (startSnapshotApi db port {:collection coll}))
+
+; transactional projector macro-ish feel
+(defmacro def-txn-projector [topic group & body]
+  `(startTransactionalProjector bus db {:topic ~topic :group ~group :handler (fn [e db s] ~@body)}))

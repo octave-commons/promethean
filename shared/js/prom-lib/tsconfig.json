@@ -15,6 +15,13 @@
     "event/**/*.ts",
     "ds/**/*.ts",
     "worker/**/*.ts",
-    "intention/**/*.ts"
+    "intention/**/*.ts",
+    "snapshots/**/*.ts",
+    "projectors/**/*.ts",
+    "timetravel/**/*.ts",
+    "dev/**/*.ts",
+    "examples/**/*.ts",
+    "http/**/*.ts",
+    "ws/**/*.ts"
   ]
 }
