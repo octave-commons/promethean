@@ -6,7 +6,9 @@
   "scripts": {
     "build": "tsc && node scripts/patch-imports.js",
     "test": "cross-env TS_NODE_TRANSPILE_ONLY=1 ava tests/dummy.test.ts",
-    "coverage": "cross-env TS_NODE_TRANSPILE_ONLY=1 c8 ava tests/dummy.test.ts"
+    "coverage": "cross-env TS_NODE_TRANSPILE_ONLY=1 c8 ava tests/dummy.test.ts",
+    "lint": "npx @biomejs/biome lint . || true",
+    "format": "npx @biomejs/biome format --write ."
   },
   "dependencies": {
     "@discordjs/opus": "^0.10.0",
