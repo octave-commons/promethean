@@ -4,7 +4,7 @@ import request from "supertest";
 import { promises as fs } from "fs";
 import { join } from "path";
 import { tmpdir } from "os";
-import { createApp } from "../src/index.js";
+import { createApp, handleTask } from "../src/index.js";
 
 test("cold start and update", async (t) => {
   const repo = await fs.mkdtemp(join(tmpdir(), "mg-"));
@@ -24,10 +24,9 @@ test("cold start and update", async (t) => {
   const tag = await agent.get("/hashtags/tag1");
   t.deepEqual(tag.body.files, ["docs/one.md"]);
 
-  await agent
-    .post("/update")
-    .send({ path: "docs/two.md", content: "[One](../docs/one.md) #tag2" })
-    .set("Content-Type", "application/json");
+  await handleTask(app, {
+    payload: { path: "docs/two.md", content: "[One](../docs/one.md) #tag2" },
+  });
 
   const links2 = await agent.get("/links/docs/two.md");
   t.deepEqual(links2.body.links, ["docs/one.md"]);

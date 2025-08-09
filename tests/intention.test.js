@@ -18,7 +18,24 @@ test("RouterLLM falls back to next provider on failure", async (t) => {
   t.is(out, "ok:hi");
 });
 
+test("RouterLLM throws when all providers fail", async (t) => {
+  class BadLLM {
+    async generate() {
+      throw new Error("fail");
+    }
+  }
+  const router = new RouterLLM([new BadLLM()]);
+  await t.throwsAsync(() => router.generate({ system: "", prompt: "hi" }), {
+    message: "fail",
+  });
+});
+
 test("extractCode strips fences", (t) => {
   const s = "```js\nconsole.log(1);\n```";
   t.is(extractCode(s), "console.log(1);\n");
+});
+
+test("extractCode splits on triple-dash", (t) => {
+  const s = "console.log(1);\n---\nmore";
+  t.is(extractCode(s), "console.log(1);");
 });
