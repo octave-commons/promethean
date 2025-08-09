@@ -1,4 +1,3 @@
-
 export interface HeartbeatOptions {
   url?: string;
   pid?: number;
@@ -25,7 +24,7 @@ export class HeartbeatClient {
   name: string;
   interval: number;
   onHeartbeat?: (data: HeartbeatData) => void;
-  sendOnce(): Promise<HeartbeatData>;
+  sendOnce(): Promise<void>;
   start(): void;
   stop(): void;
 }
