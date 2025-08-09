@@ -15,7 +15,7 @@ Notes:
 - Topo sort errors on cycles (by design)
 - SCC via Kosaraju
 
-Related: [[archetype-ecs]] [[../../unique/index|unique/index]]
+Related: [archetype-ecs](archetype-ecs.md) [unique/index](../../unique-notes/index.md)
 
 #tags: #js #algorithms #graph
 

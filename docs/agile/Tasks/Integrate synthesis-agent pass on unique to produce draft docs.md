@@ -1,6 +1,6 @@
 ## 🛠️ Task: Integrate synthesis-agent pass on `unique/` to produce draft docs
 
-Run the synthesis agent over the files in `docs/unique/` to generate more polished documentation. The agent should create drafts in the appropriate design subfolders.
+Run the synthesis agent over the files in `docs/unique-notes/` to generate more polished documentation. The agent should create drafts in the appropriate design subfolders.
 
 ---
 
@@ -22,7 +22,7 @@ Run the synthesis agent over the files in `docs/unique/` to generate more polish
 
 ## 📋 Subtasks
 
-- [ ] Configure synthesis-agent to read from `docs/unique/`
+- [ ] Configure synthesis-agent to read from `docs/unique-notes/`
 - [ ] Export cleaned markdown to new folder
 - [ ] Link resulting docs on the kanban board
 

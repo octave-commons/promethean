@@ -1,6 +1,6 @@
 # Automatically Generated Tasks
 
-The following tasks were derived from notes in `docs/unique` and are intended for future work:
+The following tasks were derived from notes in `docs/unique-notes` and are intended for future work:
 
 ## Board workflow & migration
 - Migrate server-side Sibilant libraries to the Promethean architecture and annotate legacy code with migration tags

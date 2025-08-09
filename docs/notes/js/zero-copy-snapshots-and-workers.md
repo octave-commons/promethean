@@ -5,7 +5,7 @@ Highlights:
 - buildSnapshot(world, spec, query) → { snap, transfer }
 - Worker mutates columns and marks changed bits; main commits minimal diffs
 
-Related: [[typed-struct-compiler]], [[ecs-offload-workers]] [[../../unique/index|unique/index]]
+Related: [typed-struct-compiler](typed-struct-compiler.md), [ecs-offload-workers](ecs-offload-workers.md) [unique/index](../../unique-notes/index.md)
 
 #tags: #js #workers #zerocopy #soa
 

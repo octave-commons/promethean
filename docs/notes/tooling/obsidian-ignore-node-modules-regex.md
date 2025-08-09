@@ -13,7 +13,7 @@ Cross-platform portable:
 .*[\\\\/]+node_modules[\\\\/]+.*
 ```
 
-Related: [[../../unique/index|unique/index]]
+Related: [unique/index](../../unique-notes/index.md)
 
 #tags: #obsidian #regex #tooling
 

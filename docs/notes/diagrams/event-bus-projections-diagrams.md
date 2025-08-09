@@ -8,7 +8,7 @@ Includes:
 
 Use these to communicate broker architecture and replay/ops flows.
 
-Related: [[../../unique/index|unique/index]]
+Related: [unique/index](../../unique-notes/index.md)
 
 #tags: #diagrams #broker #streaming
 
