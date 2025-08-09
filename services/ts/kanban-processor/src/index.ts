@@ -2,8 +2,9 @@ import { spawn } from "child_process";
 import { dirname, join, resolve } from "path";
 import { readFile, writeFile } from "fs/promises";
 import crypto from "crypto";
-import WebSocket from "ws";
 import { MongoClient, Collection } from "mongodb";
+// @ts-ignore
+import { BrokerClient } from "../../../../../shared/js/brokerClient.js";
 
 const EVENTS = {
   boardChange: "file-watcher-board-change",
@@ -175,20 +176,13 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
     .collection(`${agentName}_kanban`);
 
   const brokerUrl = process.env.BROKER_URL || "ws://localhost:7000";
-  const ws = new WebSocket(brokerUrl);
+  const broker = new BrokerClient({ url: brokerUrl, id: "kanban-processor" });
   const QUEUE = "kanban-processor";
 
   let previousState: Record<string, KanbanCard> = {};
 
   function publish(type: string, payload: any) {
-    if (ws.readyState === ws.OPEN) {
-      ws.send(
-        JSON.stringify({
-          action: "publish",
-          message: { type, payload, source: "kanban-processor" },
-        }),
-      );
-    }
+    broker.publish(type, payload);
   }
 
   async function handleBoardChange() {
@@ -208,31 +202,27 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
     }
   }
 
-  ws.on("open", () => {
-    ws.send(JSON.stringify({ action: "subscribe", topic: EVENTS.boardChange }));
-    ws.send(JSON.stringify({ action: "ready", queue: QUEUE }));
-    console.log("kanban processor connected to broker");
-  });
+  broker
+    .connect()
+    .then(() => {
+      broker.subscribe(EVENTS.boardChange, () => {
+        broker.enqueue(QUEUE, {});
+      });
+      broker.ready(QUEUE);
+      console.log("kanban processor connected to broker");
+    })
+    .catch((err: unknown) => console.error("broker connect failed", err));
 
-  ws.on("message", (raw: WebSocket.RawData) => {
-    try {
-      const msg = JSON.parse(raw.toString());
-      if (msg?.event?.type === EVENTS.boardChange) {
-        ws.send(JSON.stringify({ action: "enqueue", queue: QUEUE, task: {} }));
-      } else if (msg?.action === "task-assigned" && msg.task) {
-        handleBoardChange().finally(() => {
-          ws.send(JSON.stringify({ action: "ack", taskId: msg.task.id }));
-          ws.send(JSON.stringify({ action: "ready", queue: QUEUE }));
-        });
-      }
-    } catch (err) {
-      console.error("invalid broker message", err);
-    }
+  broker.onTaskReceived((task: any) => {
+    handleBoardChange().finally(() => {
+      broker.ack(task.id);
+      broker.ready(QUEUE);
+    });
   });
 
   return {
     async close() {
-      ws.close();
+      broker.socket?.close();
       try {
         await mongoClient.close();
       } catch (err) {
