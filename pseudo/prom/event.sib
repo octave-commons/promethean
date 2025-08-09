@@ -1,0 +1,16 @@
+; shared/sibilant/prom/event.sib (pseudo)
+(defmacro define-topic (name opts)
+  `{:name ~name :opts ~opts})
+
+(defn publish! [bus topic payload & opts]
+  (.publish bus topic payload (or opts {})))
+
+(defn subscribe! [bus topic group handler & {:from "earliest" :batchSize 100}]
+  (.subscribe bus topic group handler {:from from :batchSize batchSize}))
+
+; usage
+(def TOPIC-HEARTBEAT (define-topic "heartbeat.received" {:retentionDays 3}))
+(defn on-heartbeat [e ctx] (do-something e.payload))
+
+; (subscribe! bus TOPIC-HEARTBEAT.name "ops" on-heartbeat :from "earliest")
+; (publish!  bus TOPIC-HEARTBEAT.name {:pid 42 :name "stt"})

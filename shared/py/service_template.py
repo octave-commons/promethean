@@ -30,22 +30,21 @@ async def start_service(
 
         await client.subscribe(topic, event_handler)
 
-    # Pull and handle tasks
+    # Receive and handle tasks
     async def task_handler(task):
         print(f"[{id}] received task from {task['queue']}")
+        await client.ack(task["id"])
         try:
             await handle_task(task, client)
-            await client.ack(task["id"])
         except Exception as e:
             print(f"[{id}] task failed: {e}")
-            await client.fail(task["id"], str(e))
         await asyncio.sleep(0.1)
-        await client.pull(task["queue"])
+        await client.ready(task["queue"])
 
     if queues:
         client.on_task(task_handler)
         for queue in queues:
-            await client.pull(queue)
+            await client.ready(queue)
 
     return client
 
