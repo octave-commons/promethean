@@ -1,5 +1,7 @@
 ## 🛠️ Description
 
+Add file watcher that loooooks at agent thinking and prompt refinement and runs an LLM on it a few times and asked if it feels like it's ready
+
 Ready for "agent thinking" would be like "It's clear what the intent is"
 Ready for Prompt refinement is  "There is a general outline of how this connects to things and how it might be done"
 

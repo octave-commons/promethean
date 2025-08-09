@@ -62,8 +62,6 @@ kanban-plugin: board
 
 ## Prompt refinement (8)
 
-- [ ] [Web frontend for system management](../tasks/Web%20frontend%20for%20system%20management.md)
-- [ ] [twitch discord general auto mod](../tasks/twitch%20discord%20general%20auto%20mod.md)
 - [ ] [Tool chain management system](Tool%20chain%20management%20system.md)
 - [ ] [Add file system to context management system](Add%20file%20system%20to%20context%20management%20system.md)
 - [ ] [Define codex CLI baseg agent](Define%20codex%20CLI%20baseg%20agent.md)
@@ -74,7 +72,8 @@ kanban-plugin: board
 
 ## Agent thinking (8)
 
-- [ ] [refactor any python modules not currently for ML stuff (discord, etc)](../tasks/refactor%20any%20python%20modules%20not%20currently%20for%20ML%20stuff%20(discord,%20etc).md)
+- [ ] [twitch discord general auto mod](../tasks/twitch%20discord%20general%20auto%20mod.md)
+- [ ] [Web frontend for system management](../tasks/Web%20frontend%20for%20system%20management.md)
 - [ ] [Allow old unnessisary messages to decay from database while retaining index entries ids](../tasks/Allow%20old%20unnessisary%20messages%20to%20decay%20from%20database%20while%20retaining%20index%20entries%20ids.md)
 - [ ] [Describe github branching workflow](../tasks/Describe%20github%20branching%20workflow.md)
 - [ ] [Smart Task templater](../tasks/Smart%20Task%20templater.md)
@@ -83,6 +82,7 @@ kanban-plugin: board
 
 ## Breakdown (10)
 
+- [ ] [refactor any python modules not currently for ML stuff (discord, etc)](../tasks/refactor%20any%20python%20modules%20not%20currently%20for%20ML%20stuff%20(discord,%20etc).md)
 - [ ] [Twitch stream title generator](../tasks/Twitch%20stream%20title%20generator.md)
 - [ ] [discord image awareness](../tasks/discord%20image%20awareness.md)
 - [ ] [finish whisper NPU system](../tasks/finish%20whisper%20NPU%20system.md)
