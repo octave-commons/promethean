@@ -48,7 +48,7 @@ export async function handleTask(task) {
   }
 }
 
-export async function start(listenPort = port) {
+export async function start() {
   try {
     const { startService } = await import(
       "../../../../shared/js/serviceTemplate.js"
