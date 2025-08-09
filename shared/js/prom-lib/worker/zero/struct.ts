@@ -1,253 +1,361 @@
-// Typed struct compiler for zero-copy binary layouts.
-// Generated from notes in docs/notes/js/typed-struct-compiler.md
+// shared/js/prom-lib/worker/zero/struct.ts
+// MIT. No deps. Node + browser safe.
 
-export type LittleEndian = boolean;
+// Features:
+// - Scalars: f32,f64,i8,u8,i16,u16,i32,u32,bool (bool packs as u8 0/1)
+// - Arrays: fixed length arrays of any element type
+// - Nested structs
+// - Alignment: scalar-aligned per-field + struct alignment = max(field align)
+// - Endianness configurable (default little-endian)
+// - Pack/Unpack (AoS) + Columns spec for SoA (flattened field paths)
+// - TS type inference from schema
 
-// Base schema type carrying compile-time information through `_type`.
-interface BaseSchema<T> {
-  _type?: T;
-}
+export type Scalar =
+  | "f32"
+  | "f64"
+  | "i8"
+  | "u8"
+  | "i16"
+  | "u16"
+  | "i32"
+  | "u32"
+  | "bool";
 
-export interface ScalarSchema<T> extends BaseSchema<T> {
+export type ScalarInfo = {
   kind: "scalar";
-  name: string;
-  size: number;
-  align: number;
-  read(view: DataView, offset: number, le: LittleEndian): T;
-  write(view: DataView, offset: number, value: T, le: LittleEndian): void;
-}
-
-export interface ArraySchema<T> extends BaseSchema<T[]> {
+  t: Scalar;
+};
+export type ArrayInfo = {
   kind: "array";
-  length: number;
-  element: Schema<T>;
-}
-
-export interface StructSchema<T> extends BaseSchema<T> {
+  elem: TypeInfo;
+  len: number; // fixed length
+};
+export type StructInfo = {
   kind: "struct";
-  fields: { [K in keyof T]: Schema<T[K]> };
-}
+  fields: Record<string, TypeInfo>;
+};
+export type PadInfo = {
+  kind: "pad";
+  bytes: number;
+};
 
-export type Schema<T> = ScalarSchema<T> | ArraySchema<any> | StructSchema<any>;
+export type TypeInfo = ScalarInfo | ArrayInfo | StructInfo | PadInfo;
 
-interface Compiled<T> {
-  size: number;
-  align: number;
-  read(view: DataView, offset: number): T;
-  write(view: DataView, offset: number, value: T): void;
-  flatten(prefix: string[], offset: number, out: Column[]): void;
-}
-
-export interface Column {
-  path: string;
-  offset: number;
-  type: string;
-}
-
-function alignTo(n: number, align: number): number {
-  return (n + align - 1) & ~(align - 1);
-}
-
-function scalar<T>(
-  name: string,
-  size: number,
-  align: number,
-  reader: (view: DataView, offset: number, le: LittleEndian) => T,
-  writer: (view: DataView, offset: number, value: T, le: LittleEndian) => void,
-): ScalarSchema<T> {
-  return { kind: "scalar", name, size, align, read: reader, write: writer };
-}
-
+// ---------- Schema DSL ----------
 export const S = {
-  f32: () =>
-    scalar(
-      "f32",
-      4,
-      4,
-      (v, o, le) => v.getFloat32(o, le),
-      (v, o, val, le) => v.setFloat32(o, val, le),
-    ),
-  f64: () =>
-    scalar(
-      "f64",
-      8,
-      8,
-      (v, o, le) => v.getFloat64(o, le),
-      (v, o, val, le) => v.setFloat64(o, val, le),
-    ),
-  i8: () =>
-    scalar(
-      "i8",
-      1,
-      1,
-      (v, o) => v.getInt8(o),
-      (v, o, val) => v.setInt8(o, val),
-    ),
-  u8: () =>
-    scalar(
-      "u8",
-      1,
-      1,
-      (v, o) => v.getUint8(o),
-      (v, o, val) => v.setUint8(o, val),
-    ),
-  i16: () =>
-    scalar(
-      "i16",
-      2,
-      2,
-      (v, o, le) => v.getInt16(o, le),
-      (v, o, val, le) => v.setInt16(o, val, le),
-    ),
-  u16: () =>
-    scalar(
-      "u16",
-      2,
-      2,
-      (v, o, le) => v.getUint16(o, le),
-      (v, o, val, le) => v.setUint16(o, val, le),
-    ),
-  i32: () =>
-    scalar(
-      "i32",
-      4,
-      4,
-      (v, o, le) => v.getInt32(o, le),
-      (v, o, val, le) => v.setInt32(o, val, le),
-    ),
-  u32: () =>
-    scalar(
-      "u32",
-      4,
-      4,
-      (v, o, le) => v.getUint32(o, le),
-      (v, o, val, le) => v.setUint32(o, val, le),
-    ),
-  bool: () =>
-    scalar(
-      "bool",
-      1,
-      1,
-      (v, o) => v.getUint8(o) !== 0,
-      (v, o, val) => v.setUint8(o, val ? 1 : 0),
-    ),
-  array: <T>(length: number, element: Schema<T>): ArraySchema<T> => ({
+  f32: (): ScalarInfo => ({ kind: "scalar", t: "f32" }),
+  f64: (): ScalarInfo => ({ kind: "scalar", t: "f64" }),
+  i8: (): ScalarInfo => ({ kind: "scalar", t: "i8" }),
+  u8: (): ScalarInfo => ({ kind: "scalar", t: "u8" }),
+  i16: (): ScalarInfo => ({ kind: "scalar", t: "i16" }),
+  u16: (): ScalarInfo => ({ kind: "scalar", t: "u16" }),
+  i32: (): ScalarInfo => ({ kind: "scalar", t: "i32" }),
+  u32: (): ScalarInfo => ({ kind: "scalar", t: "u32" }),
+  bool: (): ScalarInfo => ({ kind: "scalar", t: "bool" }),
+
+  array: (elem: TypeInfo, len: number): ArrayInfo => ({
     kind: "array",
-    length,
-    element,
+    elem,
+    len,
   }),
-  struct: <T>(fields: { [K in keyof T]: Schema<T[K]> }): StructSchema<T> => ({
+  struct: (fields: Record<string, TypeInfo>): StructInfo => ({
     kind: "struct",
     fields,
   }),
+  pad: (bytes: number): PadInfo => ({ kind: "pad", bytes }),
 };
 
-export type Infer<S extends BaseSchema<any>> = S extends BaseSchema<infer T>
-  ? T
-  : never;
+// ---------- Type inference (TS) ----------
+export type Infer<T extends TypeInfo> = T extends ScalarInfo
+  ? T["t"] extends "bool"
+    ? boolean
+    : T["t"] extends "f32" | "f64"
+      ? number
+      : T["t"] extends "i8" | "u8" | "i16" | "u16" | "i32" | "u32"
+        ? number
+        : never
+  : T extends ArrayInfo
+    ? Infer<T["elem"]>[]
+    : T extends StructInfo
+      ? { [K in keyof T["fields"]]: Infer<T["fields"][K]> }
+      : T extends PadInfo
+        ? never
+        : never;
 
-export function compileStruct<T>(
-  schema: StructSchema<T>,
-  littleEndian: LittleEndian = true,
-) {
-  const le = littleEndian;
+// ---------- Size/align ----------
+const SCALAR_SIZE: Record<Exclude<Scalar, "bool">, number> = {
+  f32: 4,
+  f64: 8,
+  i8: 1,
+  u8: 1,
+  i16: 2,
+  u16: 2,
+  i32: 4,
+  u32: 4,
+};
+function sizeOf(t: TypeInfo): number {
+  switch (t.kind) {
+    case "scalar":
+      return t.t === "bool" ? 1 : SCALAR_SIZE[t.t as Exclude<Scalar, "bool">];
+    case "pad":
+      return t.bytes;
+    case "array":
+      return t.len * sizeOf(t.elem);
+    case "struct": {
+      let off = 0,
+        align = 1;
+      for (const [_, f] of Object.entries(t.fields)) {
+        const a = alignOf(f);
+        off = alignUp(off, a);
+        off += sizeOf(f);
+        align = Math.max(align, a);
+      }
+      return alignUp(off, align);
+    }
+  }
+}
+function alignOf(t: TypeInfo): number {
+  switch (t.kind) {
+    case "scalar":
+      return t.t === "bool" ? 1 : SCALAR_SIZE[t.t as Exclude<Scalar, "bool">];
+    case "pad":
+      return 1;
+    case "array":
+      return alignOf(t.elem);
+    case "struct": {
+      let a = 1;
+      for (const f of Object.values(t.fields)) a = Math.max(a, alignOf(f));
+      return a;
+    }
+  }
+}
+function alignUp(x: number, a: number) {
+  return (x + (a - 1)) & ~(a - 1);
+}
 
-  function compile<U>(s: Schema<U>): Compiled<U> {
-    if (s.kind === "scalar") {
-      return {
-        size: s.size,
-        align: s.align,
-        read(view, offset) {
-          return s.read(view, offset, le);
-        },
-        write(view, offset, value) {
-          s.write(view, offset, value, le);
-        },
-        flatten(prefix, offset, out) {
-          out.push({ path: prefix.join("."), offset, type: s.name });
-        },
-      };
+// ---------- Compiler ----------
+export type FieldLayout = {
+  path: string; // flattened path, e.g. "pos.x" or "vel[3].y"
+  offset: number;
+  size: number;
+  align: number;
+  info: TypeInfo;
+};
+
+export type StructLayout<T> = {
+  size: number;
+  align: number;
+  fields: FieldLayout[];
+  // fast pack/unpack
+  read(view: DataView, offset?: number, littleEndian?: boolean): T;
+  write(
+    view: DataView,
+    value: T,
+    offset?: number,
+    littleEndian?: boolean,
+  ): void;
+  // Helpers
+  flattenColumns(prefixToUnderscore?: boolean): Record<string, Scalar>; // scalars only, flattened
+};
+
+export function compileStruct<T extends StructInfo>(
+  schema: T,
+): StructLayout<Infer<T>> {
+  const fields: FieldLayout[] = [];
+  let offset = 0,
+    maxAlign = 1;
+
+  const visit = (info: TypeInfo, base: string) => {
+    if (info.kind === "pad") {
+      offset += info.bytes; // explicit pad (no alignment)
+      return;
     }
-    if (s.kind === "array") {
-      const compiledEl = compile(s.element);
-      const step = alignTo(compiledEl.size, compiledEl.align);
-      return {
-        size: step * s.length,
-        align: compiledEl.align,
-        read(view, offset) {
-          const arr = [] as U[];
-          for (let i = 0; i < s.length; i++) {
-            arr.push(compiledEl.read(view, offset + i * step));
-          }
-          return arr as U;
-        },
-        write(view, offset, value) {
-          const arr = value as unknown as any[];
-          for (let i = 0; i < s.length; i++) {
-            compiledEl.write(view, offset + i * step, arr[i]);
-          }
-        },
-        flatten(prefix, offset, out) {
-          for (let i = 0; i < s.length; i++) {
-            compiledEl.flatten(
-              prefix.concat(String(i)),
-              offset + i * step,
-              out,
-            );
-          }
-        },
-      };
+    const a = alignOf(info);
+    offset = alignUp(offset, a);
+    maxAlign = Math.max(maxAlign, a);
+
+    if (info.kind === "scalar") {
+      const sz = sizeOf(info);
+      fields.push({ path: base, offset, size: sz, align: a, info });
+      offset += sz;
+      return;
     }
-    // struct
-    const entries = Object.entries(s.fields) as [string, Schema<any>][];
-    let off = 0;
-    let maxAlign = 1;
-    const compiledFields: { name: string; off: number; c: Compiled<any> }[] =
-      [];
-    for (const [name, sch] of entries) {
-      const c = compile(sch);
-      off = alignTo(off, c.align);
-      compiledFields.push({ name, off, c });
-      off += c.size;
-      if (c.align > maxAlign) maxAlign = c.align;
+    if (info.kind === "array") {
+      const elemSize = sizeOf(info.elem);
+      const elemAlign = alignOf(info.elem);
+      for (let i = 0; i < info.len; i++) {
+        offset = alignUp(offset, elemAlign);
+        const start = offset;
+        visit(info.elem, `${base}[${i}]`);
+        // ensure fixed stride
+        offset = start + elemSize;
+      }
+      return;
     }
-    const size = alignTo(off, maxAlign);
-    return {
-      size,
-      align: maxAlign,
-      read(view, offset) {
-        const obj: any = {};
-        for (const f of compiledFields) {
-          obj[f.name] = f.c.read(view, offset + f.off);
+    if (info.kind === "struct") {
+      const start = offset;
+      let innerAlign = 1;
+      for (const [k, child] of Object.entries(info.fields)) {
+        const a2 = alignOf(child);
+        offset = alignUp(offset, a2);
+        innerAlign = Math.max(innerAlign, a2);
+        visit(child, base ? `${base}.${k}` : k);
+      }
+      // pad struct to its alignment
+      offset = alignUp(offset, innerAlign);
+      maxAlign = Math.max(maxAlign, innerAlign);
+      return;
+    }
+  };
+
+  // assign offsets in order
+  for (const [k, child] of Object.entries(schema.fields)) {
+    const a = alignOf(child);
+    offset = alignUp(offset, a);
+    visit(child, k);
+  }
+  const total = alignUp(offset, maxAlign);
+
+  // Runtime read/write using DataView
+  function read(view: DataView, off = 0, le = true): any {
+    const out: any = {};
+    // we’ll lazily build nested objects on demand
+    const ensurePath = (p: string): { parent: any; key: string } => {
+      const parts = p.split("."); // might contain [i] segments—handle later
+      let cur = out;
+      for (let i = 0; i < parts.length; i++) {
+        const seg = parts[i];
+        // split idx if array notation present
+        const m = seg.match(/^([^\[]+)(\[(\d+)\])?$/);
+        if (!m) continue;
+        const key = m[1];
+        const hasIdx = !!m[3];
+        if (i === parts.length - 1 && !hasIdx) return { parent: cur, key };
+        if (!(key in cur)) cur[key] = hasIdx ? [] : {};
+        cur = cur[key];
+        if (hasIdx) {
+          const idx = Number(m[3]);
+          if (!Array.isArray(cur)) cur = cur[key] = [];
+          if (!cur[idx]) cur[idx] = {};
+          if (i === parts.length - 1) return { parent: cur, key: String(idx) };
+          cur = cur[idx];
         }
-        return obj;
-      },
-      write(view, offset, value) {
-        for (const f of compiledFields) {
-          f.c.write(view, offset + f.off, (value as any)[f.name]);
-        }
-      },
-      flatten(prefix, offset, out) {
-        for (const f of compiledFields) {
-          f.c.flatten(prefix.concat(f.name), offset + f.off, out);
-        }
-      },
+      }
+      // fallback, though we should have returned
+      return { parent: out, key: p };
     };
+
+    for (const f of fields) {
+      if (f.info.kind !== "scalar") continue; // only scalars produce values
+      const addr = off + f.offset;
+      const { parent, key } = ensurePath(f.path);
+      parent[key] = readScalar(view, addr, f.info.t, le);
+    }
+    return out;
   }
 
-  const root = compile(schema);
-  return {
-    size: root.size,
-    read(view: DataView, offset = 0) {
-      return root.read(view, offset);
-    },
-    write(view: DataView, value: T, offset = 0) {
-      root.write(view, offset, value);
-    },
-    flattenColumns() {
-      const out: Column[] = [];
-      root.flatten([], 0, out);
-      return out;
-    },
-  };
+  function write(view: DataView, value: any, off = 0, le = true) {
+    // Walk all scalar leaves and write from 'value' by path
+    for (const f of fields) {
+      if (f.info.kind !== "scalar") continue;
+      const addr = off + f.offset;
+      const v = getByPath(value, f.path);
+      writeScalar(view, addr, f.info.t, v ?? 0, le);
+    }
+  }
+
+  function flattenColumns(prefixToUnderscore = true): Record<string, Scalar> {
+    const out: Record<string, Scalar> = {};
+    for (const f of fields) {
+      if (f.info.kind !== "scalar") continue;
+      const name = prefixToUnderscore
+        ? f.path.replace(/\./g, "_").replace(/\[/g, "_").replace(/\]/g, "")
+        : f.path;
+      out[name] = f.info.t;
+    }
+    return out;
+  }
+
+  return { size: total, align: maxAlign, fields, read, write, flattenColumns };
+}
+
+// ---------- Scalar R/W ----------
+function readScalar(
+  view: DataView,
+  addr: number,
+  t: Scalar,
+  le: boolean,
+): number | boolean {
+  switch (t) {
+    case "f32":
+      return view.getFloat32(addr, le);
+    case "f64":
+      return view.getFloat64(addr, le);
+    case "i8":
+      return view.getInt8(addr);
+    case "u8":
+      return view.getUint8(addr);
+    case "i16":
+      return view.getInt16(addr, le);
+    case "u16":
+      return view.getUint16(addr, le);
+    case "i32":
+      return view.getInt32(addr, le);
+    case "u32":
+      return view.getUint32(addr, le);
+    case "bool":
+      return view.getUint8(addr) !== 0;
+  }
+}
+function writeScalar(
+  view: DataView,
+  addr: number,
+  t: Scalar,
+  v: any,
+  le: boolean,
+) {
+  switch (t) {
+    case "f32":
+      view.setFloat32(addr, +v, le);
+      break;
+    case "f64":
+      view.setFloat64(addr, +v, le);
+      break;
+    case "i8":
+      view.setInt8(addr, v | 0);
+      break;
+    case "u8":
+      view.setUint8(addr, (v >>> 0) & 0xff);
+      break;
+    case "i16":
+      view.setInt16(addr, v | 0, le);
+      break;
+    case "u16":
+      view.setUint16(addr, (v >>> 0) & 0xffff, le);
+      break;
+    case "i32":
+      view.setInt32(addr, v | 0, le);
+      break;
+    case "u32":
+      view.setUint32(addr, v >>> 0, le);
+      break;
+    case "bool":
+      view.setUint8(addr, v ? 1 : 0);
+      break;
+  }
+}
+
+// ---------- Utils ----------
+function getByPath(obj: any, path: string): any {
+  const parts = path.split(".");
+  let cur = obj;
+  for (const seg of parts) {
+    const m = seg.match(/^([^\[]+)(\[(\d+)\])?$/);
+    if (!m) return undefined;
+    const key = m[1];
+    if (cur == null) return undefined;
+    cur = cur[key];
+    if (m[3]) cur = cur?.[Number(m[3])];
+  }
+  return cur;
 }
