@@ -1,7 +1,7 @@
 import * as discord from 'discord.js';
 import { VoiceSession } from './voice-session';
 import { FinalTranscript } from './transcriber';
-import { CollectionManager } from './collectionManager';
+import { CollectionManager } from '@shared/ts/collectionManager';
 import type { Interaction } from './interactions';
 import type { Bot } from './bot';
 

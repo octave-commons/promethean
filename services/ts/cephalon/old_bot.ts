@@ -10,8 +10,8 @@ import { ApplicationCommandOptionType, REST, Routes, type RESTPutAPIApplicationC
 import EventEmitter from 'events';
 import { FinalTranscript } from './transcriber.ts';
 import { AIAgent } from './agent.ts';
-import { CollectionManager } from './collectionManager.ts';
-import { ContextManager } from './contextManager.ts';
+import { CollectionManager } from '@shared/ts/collectionManager.ts';
+import { ContextManager } from '@shared/ts/contextManager.ts';
 /**
    Handles top level discord interactions. EG slash commands send by the user.
    */

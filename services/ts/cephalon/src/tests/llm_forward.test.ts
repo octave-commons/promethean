@@ -12,7 +12,7 @@ ModuleAny._load = function (request: string, parent: any, isMain: boolean) {
 
 const { AIAgent } = await import('../../src/agent/index.js');
 const { LLMService } = await import('../../src/llm-service.js');
-const { ContextManager } = await import('../../src/contextManager.js');
+const { ContextManager } = await import('@shared/ts/contextManager');
 
 class StubBot extends EventEmitter {
 	applicationId = 'app';
