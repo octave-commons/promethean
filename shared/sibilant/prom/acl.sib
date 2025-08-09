@@ -1,0 +1,9 @@
+(defmacro allow [action & patterns]
+  `{:effect "allow" :action ~action :topics [~@patterns]})
+
+(defn scopes->policy [scopes]
+  {:rules (map (fn [s] (let [[action pattern] (.split s ":")]
+                          {:effect "allow" :action action :topics [pattern]}))
+               scopes)})
+
+; (def POLICY (scopes->policy ["publish:heartbeat.*" "subscribe:process.**"]))
