@@ -33,6 +33,7 @@ def test_send_once(monkeypatch):
 
         def close(self):
             pass
+
     monkeypatch.setattr(heartbeat_client, "connect", lambda url: DummyConn(url))
 
     client = heartbeat_client.HeartbeatClient(url="ws://example", pid=1234, name="test")
