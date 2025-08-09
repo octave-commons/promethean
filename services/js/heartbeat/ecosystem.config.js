@@ -9,14 +9,12 @@ const root = path.join(__dirname, "../../..");
 
 if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
   defineApp.PYTHONPATH = root;
-  defineApp.HEARTBEAT_PORT = 5005;
 }
 
 const apps = [
   defineApp("heartbeat", "index.js", [], {
     cwd: __dirname,
     watch: [__dirname],
-    env: { PORT: defineApp.HEARTBEAT_PORT },
   }),
 ];
 

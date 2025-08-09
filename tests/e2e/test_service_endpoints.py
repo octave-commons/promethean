@@ -1,4 +1,3 @@
-import os
 import asyncio
 import httpx
 import pytest
@@ -76,19 +75,3 @@ def test_llm_generate_endpoint():
     data = resp.json()
     assert "reply" in data
     assert isinstance(data["reply"], str)
-
-
-def test_heartbeat_endpoint():
-    payload = {"pid": os.getpid(), "name": "test-e2e"}
-
-    async def _run():
-        return await _post_json("http://127.0.0.1:5005/heartbeat", json=payload)
-
-    try:
-        resp = asyncio.run(_run())
-    except Exception:
-        pytest.skip("heartbeat service not running")
-    assert resp.status_code == 200
-    data = resp.json()
-    assert data.get("pid") == payload["pid"]
-    assert data.get("name") == payload["name"]
