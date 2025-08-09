@@ -4,7 +4,7 @@ import { MongoClient } from "mongodb";
 import { spawn } from "child_process";
 import path from "path";
 import { fileURLToPath } from "url";
-import WebSocket from "ws";
+import { BrokerClient } from "../../../../shared/js/brokerClient.js";
 import {
   start as startBroker,
   stop as stopBroker,
@@ -16,16 +16,11 @@ let broker;
 let brokerPort;
 
 async function publish(pid, name) {
-  const ws = new WebSocket(`ws://127.0.0.1:${brokerPort}`);
-  await new Promise((resolve) => ws.once("open", resolve));
-  ws.send(
-    JSON.stringify({
-      action: "publish",
-      message: { type: "heartbeat", payload: { pid, name } },
-    }),
-  );
+  const bc = new BrokerClient({ url: `ws://127.0.0.1:${brokerPort}` });
+  await bc.connect();
+  bc.publish("heartbeat", { pid, name });
   await new Promise((r) => setTimeout(r, 50));
-  ws.close();
+  bc.socket.close();
   const client = new MongoClient(process.env.MONGO_URL);
   await client.connect();
   for (let i = 0; i < 10; i++) {
