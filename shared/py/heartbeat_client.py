@@ -51,7 +51,7 @@ class HeartbeatClient:
     _ws: Optional[object] = None
 
     def _ensure(self) -> None:
-        if self._ws and self._ws.open:
+        if self._ws and getattr(self._ws, "open", False):
             return
         if connect is None:
             raise RuntimeError("websockets package is required for heartbeats")
