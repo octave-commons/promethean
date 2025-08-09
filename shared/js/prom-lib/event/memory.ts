@@ -67,6 +67,7 @@ type Sub = {
   stopped: boolean;
   inflight: number;
   timer?: any;
+  kicking: boolean;
 };
 
 export class InMemoryEventBus implements EventBus {
@@ -75,8 +76,8 @@ export class InMemoryEventBus implements EventBus {
   private subs: Set<Sub> = new Set();
 
   constructor(
-    store = new InMemoryEventStore(),
-    cursors = new InMemoryCursorStore(),
+    store: EventStore = new InMemoryEventStore(),
+    cursors: CursorStore = new InMemoryCursorStore(),
   ) {
     this.store = store;
     this.cursors = cursors;
@@ -117,6 +118,7 @@ export class InMemoryEventBus implements EventBus {
       opts,
       stopped: false,
       inflight: 0,
+      kicking: false,
     };
     this.subs.add(sub);
     this.kick(sub);
@@ -128,70 +130,74 @@ export class InMemoryEventBus implements EventBus {
   }
 
   private async kick(sub: Sub) {
-    if (sub.stopped) return;
-    const {
-      batchSize = 100,
-      maxInFlight = 1000,
-      maxAttempts = 5,
-      from = "latest",
-      ts,
-      afterId,
-      filter,
-    } = sub.opts;
+    if (sub.stopped || sub.kicking || sub.inflight > 0) return;
+    sub.kicking = true;
+    try {
+      const {
+        batchSize = 100,
+        maxInFlight = 1000,
+        maxAttempts = 5,
+        from = "latest",
+        ts,
+        afterId,
+        filter,
+      } = sub.opts;
 
-    if (sub.inflight >= maxInFlight) return;
-
-    let cursor = await this.cursors.get(sub.topic, sub.group);
-    // initialize cursor
-    if (!cursor) {
-      if (from === "latest") {
-        // scan last one to set baseline; no delivery
-        const last = (await this.store.scan(sub.topic, { ts: 0 })).at(-1);
-        cursor = { topic: sub.topic, lastId: last?.id, lastTs: last?.ts };
-      } else if (from === "earliest") {
-        cursor = { topic: sub.topic };
-      } else if (from === "ts") {
-        cursor = { topic: sub.topic, lastTs: ts };
-      } else if (from === "afterId") {
-        cursor = { topic: sub.topic, lastId: afterId };
-      } else {
-        cursor = { topic: sub.topic };
-      }
-      await this.cursors.set(sub.topic, sub.group, cursor);
-    }
-
-    const batch = await this.store.scan(sub.topic, {
-      afterId: cursor.lastId,
-      ts: cursor.lastTs,
-      limit: batchSize,
-    });
-    const deliver = filter ? batch.filter(filter) : batch;
-
-    if (deliver.length === 0) {
-      // poll again soon
-      sub.timer = setTimeout(() => this.kick(sub), 50);
-      return;
-    }
-
-    for (const e of deliver) {
-      if (sub.stopped) break;
-      if (sub.inflight >= maxInFlight) break;
-
-      sub.inflight++;
-      const ctx = { attempt: 1, maxAttempts: maxAttempts, cursor };
-      // fire-and-forget; ack immediately on success
-      (async () => {
-        try {
-          await sub.handler(e, ctx);
-          await this.ack(e.topic, sub.group, e.id);
-        } catch (err) {
-          // basic NACK: do nothing (consumer can reprocess on next kick)
-          await this.nack(e.topic, sub.group, e.id, (err as Error)?.message);
-        } finally {
-          sub.inflight--;
-          this.kick(sub);
+      let cursor = await this.cursors.get(sub.topic, sub.group);
+      // initialize cursor
+      if (!cursor) {
+        if (from === "latest") {
+          // scan last one to set baseline; no delivery
+          const scan = await this.store.scan(sub.topic, { ts: 0 });
+          const last = scan[scan.length - 1];
+          cursor = { topic: sub.topic, lastId: last?.id, lastTs: last?.ts };
+        } else if (from === "earliest") {
+          cursor = { topic: sub.topic };
+        } else if (from === "ts") {
+          cursor = { topic: sub.topic, lastTs: ts };
+        } else if (from === "afterId") {
+          cursor = { topic: sub.topic, lastId: afterId };
+        } else {
+          cursor = { topic: sub.topic };
         }
-      })();
+        await this.cursors.set(sub.topic, sub.group, cursor);
+      }
+
+      const batch = await this.store.scan(sub.topic, {
+        afterId: cursor.lastId,
+        ts: cursor.lastTs,
+        limit: batchSize,
+      });
+      const deliver = filter ? batch.filter(filter) : batch;
+
+      if (deliver.length === 0) {
+        // poll again soon
+        sub.timer = setTimeout(() => this.kick(sub), 50);
+        return;
+      }
+
+      for (const e of deliver) {
+        if (sub.stopped) break;
+        if (sub.inflight >= maxInFlight) break;
+
+        sub.inflight++;
+        const ctx = { attempt: 1, maxAttempts: maxAttempts, cursor };
+        // fire-and-forget; ack immediately on success
+        (async () => {
+          try {
+            await sub.handler(e, ctx);
+            await this.ack(e.topic, sub.group, e.id);
+          } catch (err) {
+            // basic NACK: do nothing (consumer can reprocess on next kick)
+            await this.nack(e.topic, sub.group, e.id, (err as Error)?.message);
+          } finally {
+            sub.inflight--;
+            if (sub.inflight === 0) this.kick(sub);
+          }
+        })();
+      }
+    } finally {
+      sub.kicking = false;
     }
   }
 
