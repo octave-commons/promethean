@@ -38,6 +38,9 @@ These notes were originally captured in `docs/unique` with timestamp filenames. 
 - **2025.07.28.13.07.21** → [promethean-state-format](../notes/dsl/promethean-state-format.md)
 - **2025.07.28.13.07.74** → [runtime-and-prompt-macro-dsl](../notes/dsl/runtime-and-prompt-macro-dsl.md)
 - **2025.07.28.13.07.79** → [prompt-compiler-dsl](../notes/dsl/prompt-compiler-dsl.md)
+- **2025.08.08.15.08.24** → [event-bus-mvp](../notes/shared/event-bus-mvp.md)
+- **2025.08.08.16.08.27** → [model-upgrade-processing](../notes/ops/model-upgrade-processing.md)
+
 #tags: #unique #index
 
 ## Recent Transfers
