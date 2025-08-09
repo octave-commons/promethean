@@ -3,7 +3,7 @@ try {
 	({ AGENT_NAME } = await import('../../../../../shared/js/env.js'));
 } catch {}
 import { splitSentances, seperateSpeechFromThought, classifyPause, estimatePauseDuration } from '../tokenizers';
-import { CollectionManager } from '../collectionManager';
+import { CollectionManager } from '@shared/ts/collectionManager';
 import { sleep } from '../util';
 import type { AIAgent } from './index';
 

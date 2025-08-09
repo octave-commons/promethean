@@ -1,4 +1,4 @@
-import { formatMessage, GenericEntry } from './contextManager';
+import { formatMessage, GenericEntry } from '@shared/ts/contextManager';
 
 export function randomInt(max: number) {
 	return Math.floor(Math.random() * max);

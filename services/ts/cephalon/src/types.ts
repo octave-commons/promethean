@@ -1,6 +1,6 @@
 import { Message } from 'ollama';
 import { Bot } from './bot';
-import { ContextManager } from './contextManager';
+import { ContextManager } from '@shared/ts/contextManager';
 import { LLMService } from './llm-service';
 
 export type FormatProperty = {
