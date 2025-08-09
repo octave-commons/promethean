@@ -35,7 +35,7 @@ This is not passive documentation — it is an active *epistemic interface* thro
 - Obsidian vault logic
 - Codex prompt conventions
 - Agent-mode dialogue structure
-- `kanban.md`, `process_board_flow.md`, and other core docs
+- `agile/boards/kanban.md`, `agile/Process.md`, and other core docs
 - Vault symlinks to code mirrors
 
 ## Related Services
