@@ -66,3 +66,28 @@ def test_process_message(monkeypatch):
     mod.process_message(message, collection)
     assert collection.count() == 2
     assert mem.docs[0].get("embedded") is True
+
+
+def test_process_message_no_image(monkeypatch):
+    mod = importlib.import_module("main")
+    message = {
+        "id": 2,
+        "attachments": [
+            {
+                "id": 3,
+                "filename": "doc.pdf",
+                "url": "http://example.com/doc.pdf",
+                "content_type": "application/pdf",
+            }
+        ],
+    }
+    mem = MemoryCollection([message])
+    monkeypatch.setattr(mod, "discord_message_collection", mem)
+    client = chromadb.Client()
+
+    collection = client.get_or_create_collection(
+        "test-no-image", embedding_function=EmbeddingFn()
+    )
+    mod.process_message(message, collection)
+    assert collection.count() == 0
+    assert mem.docs[0].get("embedded") is True
