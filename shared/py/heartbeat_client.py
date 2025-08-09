@@ -13,7 +13,7 @@ import threading
 from dataclasses import dataclass
 from typing import Optional
 
-from websockets.sync.client import connect
+from websockets.sync.client import ClientConnection, connect
 
 BROKER_PORT = os.environ.get("BROKER_PORT", 7000)
 
@@ -41,7 +41,7 @@ class HeartbeatClient:
 
     _thread: Optional[threading.Thread] = None
     _stop: threading.Event = threading.Event()
-    _ws: Optional[object] = None
+    _ws: Optional[ClientConnection] = None
 
     def _ensure(self) -> None:
         if self._ws and getattr(self._ws, "open", False):
@@ -63,6 +63,7 @@ class HeartbeatClient:
                 "payload": {"pid": self.pid, "name": self.name},
             },
         }
+        assert self._ws is not None
         self._ws.send(json.dumps(msg))
 
     def _run(self) -> None:
