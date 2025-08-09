@@ -414,6 +414,32 @@ Agents should verify their work and reference any touched paths before exiting a
 
 ---
 
+## 🛡️ Permission Gate Configuration
+
+Permission rules live in `shared/permissions.yaml`. The file uses:
+
+```yaml
+beta: <softness>
+default:
+  threshold: <float>
+  weights:
+    <feature>: <weight>
+  actions:
+    default:
+      features:
+        <feature>: <value>
+agents:
+  <agent>:
+    weights: {...}
+    threshold: <float>
+    actions:
+      <action>:
+        features:
+          <feature>: <value>
+```
+
+`check_permission(agent, action)` combines weights and features with a sigmoid gate; results below 0.5 are denied and logged.
+
 ## ✅ Next Steps
 
 * [ ] Finalize `MIGRATION_PLAN.md`
