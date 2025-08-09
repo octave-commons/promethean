@@ -6,6 +6,7 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] [Gather open questions about system direction](../tasks/Gather%20open%20questions%20about%20system%20direction.md) #agent-mode
 - [ ] [Migrating relevant modules from riatzukiza.github.io to -site- and -docs-](../tasks/Migrating%20relevant%20modules%20from%20riatzukiza.github.io%20to%20-site-%20and%20-docs-.md) #framework-core
 - [ ] [Migrate portfolio client code to Promethean](../tasks/Migrate%20portfolio%20client%20code%20to%20Promethean.md) #framework-core
 - [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/Migrate%20server%20side%20sibilant%20libs%20to%20promethean%20architecture.md)
@@ -37,17 +38,13 @@ kanban-plugin: board
 
 - [ ] Add web searches to context management system
 - [ ] factor out makefile
-- [ ] Look  into why the state object never seems to get updated.
+- [ ] [Look into why the state object never seems to get updated.](Look%20into%20why%20the%20state%20object%20never%20seems%20to%20get%20updated..md)
 - [ ] [setup a second agent](../tasks/setup%20a%20second%20agent.md)
 - [ ] [setup services to recieve work from the broker via push](setup%20services%20to%20recieve%20work%20from%20the%20broker%20via%20push.md)
 
 
 ## Accepted (24)
 
-- [ ] [refactor any python modules not currently for ML stuff (discord, etc)](../tasks/refactor%20any%20python%20modules%20not%20currently%20for%20ML%20stuff%20(discord,%20etc).md)
-- [ ] [Web frontend for system management](../tasks/Web%20frontend%20for%20system%20management.md)
-- [ ] [twitch discord general auto mod](../tasks/twitch%20discord%20general%20auto%20mod.md)
-- [ ] [finish whisper NPU system](../tasks/finish%20whisper%20NPU%20system.md)
 - [ ] [Add file watcher that loooooks at agent thinking and prompt refinement and runs an LLM on it a few times and asked if it feels like it's ready](../tasks/Add%20file%20watcher%20that%20loooooks%20at%20agent%20thinking%20and%20prompt%20refinement%20and%20runs%20an%20LLM%20on%20it%20a%20few%20times%20and%20asked%20if%20it%20feels%20like%20it's%20ready.md)
 - [ ] [Setup code in wsl](../tasks/Setup%20code%20in%20wsl.md)
 - [ ] $\psi$ML Markup  language  definition
@@ -55,28 +52,29 @@ kanban-plugin: board
 - [ ] [Build data structures for Eidolon field](../tasks/Build%20data%20structures%20for%20Eidolon%20field.md) #codex-task #framework-core
 - [ ] [Refactor speech interuption system to be more inteligent, using audio data to decide if interupted](../tasks/Refactor%20speech%20interuption%20system%20to%20be%20more%20inteligent,%20using%20audio%20data%20to%20decide%20if%20interupted.md)
 - [ ] [Split out audio processing logic to a seperate service without changing the current behavior in cephalon](../tasks/Split%20out%20audio%20processing%20logic%20to%20a%20seperate%20service%20without%20changing%20the%20current%20behavior%20in%20cephalon.md)
-- [ ] Allow configuration of hyperparameters through discord (context size, spectrogram resolution, interuption threshold)
-- [ ] Send waveforms, spectrograms, and dekstop screenshots to discord for remote storage
-- [ ] Discord/chat link  traversal
-- [ ] each service registers a pid with a heartbeat service. If they do not successfully check in, terminate the process using the pid
-- [ ] cache decay mechanisim
-- [ ] Thinking Model integration
+- [ ] [Allow configuration of hyperparameters through discord (context size, spectrogram resolution, interuption threshold)](Allow%20configuration%20of%20hyperparameters%20through%20discord%20(context%20size,%20spectrogram%20resolution,%20interuption%20threshold).md)
+- [ ] [Send waveforms, spectrograms, and dekstop screenshots to discord for remote storage](Send%20waveforms,%20spectrograms,%20and%20dekstop%20screenshots%20to%20discord%20for%20remote%20storage.md)
+- [ ] [Discord chat link traversal](Discord%20chat%20link%20traversal.md)
+- [ ] [each service registers a pid with a heartbeat service. If they do not successfully check in, terminate the process using the pid](each%20service%20registers%20a%20pid%20with%20a%20heartbeat%20service.%20If%20they%20do%20not%20successfully%20check%20in,%20terminate%20the%20process%20using%20the%20pid.md)
+- [ ] [cache decay mechanisim](cache%20decay%20mechanisim.md)
+- [ ] [Thinking Model integration](Thinking%20Model%20integration.md)
 
 
 ## Prompt refinement (8)
 
-- [ ] [discord image awareness](../tasks/discord%20image%20awareness.md)
-- [ ] Tool chain management system
-- [ ] Add file system to context management system
-- [ ] Define codex CLI baseg agent
-- [ ] Full agent mode (Text chat, selectively join channels, etc)
-- [ ] design circular buffers for inputs with layered states of persistance (in memory, on disk, cold storage, so )
-- [ ] Add twitch chat integration
+- [ ] [Web frontend for system management](../tasks/Web%20frontend%20for%20system%20management.md)
+- [ ] [twitch discord general auto mod](../tasks/twitch%20discord%20general%20auto%20mod.md)
+- [ ] [Tool chain management system](Tool%20chain%20management%20system.md)
+- [ ] [Add file system to context management system](Add%20file%20system%20to%20context%20management%20system.md)
+- [ ] [Define codex CLI baseg agent](Define%20codex%20CLI%20baseg%20agent.md)
+- [ ] [Full agent mode (Text chat, selectively join channels, etc)](Full%20agent%20mode%20(Text%20chat,%20selectively%20join%20channels,%20etc).md)
+- [ ] [design circular buffers for inputs with layered states of persistance (in memory, on disk, cold storage, so )](design%20circular%20buffers%20for%20inputs%20with%20layered%20states%20of%20persistance%20(in%20memory,%20on%20disk,%20cold%20storage,%20so%20).md)
+- [ ] [Add twitch chat integration](Add%20twitch%20chat%20integration.md)
 
 
 ## Agent thinking (8)
 
-- [ ] [Twitch stream title generator](../tasks/Twitch%20stream%20title%20generator.md)
+- [ ] [refactor any python modules not currently for ML stuff (discord, etc)](../tasks/refactor%20any%20python%20modules%20not%20currently%20for%20ML%20stuff%20(discord,%20etc).md)
 - [ ] [Allow old unnessisary messages to decay from database while retaining index entries ids](../tasks/Allow%20old%20unnessisary%20messages%20to%20decay%20from%20database%20while%20retaining%20index%20entries%20ids.md)
 - [ ] [Describe github branching workflow](../tasks/Describe%20github%20branching%20workflow.md)
 - [ ] [Smart Task templater](../tasks/Smart%20Task%20templater.md)
@@ -85,42 +83,44 @@ kanban-plugin: board
 
 ## Breakdown (10)
 
-- [ ] [Clean up notes into design docs](../tasks/Clean%20up%20notes%20into%20design%20docs.md)
-- [ ] [Mirror shared utils with language-specific doc folders](../tasks/Mirror%20shared%20utils%20with%20language-specific%20doc%20folders.md)
+- [ ] [Twitch stream title generator](../tasks/Twitch%20stream%20title%20generator.md)
+- [ ] [discord image awareness](../tasks/discord%20image%20awareness.md)
+- [ ] [finish whisper NPU system](../tasks/finish%20whisper%20NPU%20system.md)
 
 
 ## ready (16)
 
-- [ ] [Prevent dangling processes when a process fails due to error, or automaticly clean them up](../tasks/Prevent%20dangling%20processes%20when%20a%20process%20fails%20due%20to%20error,%20or%20automaticly%20clean%20them%20up.md)
-- [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md) #devops #seperation-of-concerns #makefile #buildtools
-- [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/Gather%20baseline%20emotion%20metrics%20for%20Eidolon%20field.md)
-- [ ] [Add starter notes - eidolon\_fields, cephalon\_inner\_monologue](../tasks/Add%20starter%20notes%20-%20eidolon_fields,%20cephalon_inner_monologue.md)
+- [ ] [Mirror shared utils with language-specific doc folders](../tasks/Mirror%20shared%20utils%20with%20language-specific%20doc%20folders.md)
+- [ ] [Clean up notes into design docs](../tasks/Clean%20up%20notes%20into%20design%20docs.md)
+
+
+## 🟢 To Do (7)
+
 - [ ] [Clarify Promethean project vision](../tasks/Clarify%20Promethean%20project%20vision.md)
-
-
-## 🟢 To Do (8)
-
-- [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md) #framework-core
-- [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md)
-- [ ] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md)
-- [ ] [Gather open questions about system direction](../tasks/Gather%20open%20questions%20about%20system%20direction.md) #agent-mode
-- [ ] [Integrate synthesis-agent pass on unique to produce draft docs](../tasks/Integrate%20synthesis-agent%20pass%20on%20unique%20to%20produce%20draft%20docs.md)
+- [ ] [Add starter notes - eidolon\_fields, cephalon\_inner\_monologue](../tasks/Add%20starter%20notes%20-%20eidolon_fields,%20cephalon_inner_monologue.md)
+- [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/Gather%20baseline%20emotion%20metrics%20for%20Eidolon%20field.md)
+- [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md) #devops #seperation-of-concerns #makefile #buildtools
+- [ ] [Prevent dangling processes when a process fails due to error, or automaticly clean them up](../tasks/Prevent%20dangling%20processes%20when%20a%20process%20fails%20due%20to%20error,%20or%20automaticly%20clean%20them%20up.md)
 
 
 ## 🟡 In Progress (4)
 
-- [ ] [write simple ecosystem declaration library for new agents](../tasks/write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md) #framework-core
-- [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md) #agent #automation #prompt #metaagent #meta-prompting #documentation
+- [ ] [Integrate synthesis-agent pass on unique to produce draft docs](../tasks/Integrate%20synthesis-agent%20pass%20on%20unique%20to%20produce%20draft%20docs.md)
 
 
 ## In Review (4)
 
-- [ ] [Research GitHub Projects board API](../tasks/Research%20GitHub%20Projects%20board%20API.md) #framework-core
+- [ ] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md)
+- [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md) #agent #automation #prompt #metaagent #meta-prompting #documentation
+- [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md) #framework-core
+- [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md)
 
 
 ## 🔵 Done
 
 **Complete**
+- [x] [write simple ecosystem declaration library for new agents](../tasks/write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md) #framework-core
+- [x] [Research GitHub Projects board API](../tasks/Research%20GitHub%20Projects%20board%20API.md) #framework-core
 - [x] [Write end to end tests](Write%20end%20to%20end%20tests.md) #framework-core
 - [x] [Start Eidolon](../tasks/Start%20Eidolon.md)
 - [x] [discord image attachment indexer](../tasks/discord%20image%20attachment%20indexer.md) ✅ 2025-08-06
@@ -128,6 +128,7 @@ kanban-plugin: board
 - [x] Break down cephalon agent.ts ✅ 2025-08-06
 - [x] [rewrite vision end to end test in typescript](../../../rewrite%20vision%20end%20to%20end%20test%20in%20typescript.md) ✅ 2025-08-06
 - [x] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md) ✅ 2025-08-06
+- [x] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md) #framework-core ✅ 2025-08-09
 - [x] [Document local testing setup](../tasks/Document_local_testing_setup.md) #codex-task #testing ✅ 2025-08-06
 - [x] [Document board usage guidelines](../tasks/Document%20board%20usage%20guidelines.md) ✅ 2025-08-06
 - [x] [Add unit tests for date_tools.py](../tasks/Add_unit_tests_for_date_tools.py.md) #codex-task #testing ✅ 2025-08-06
@@ -187,6 +188,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,true,true,true,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

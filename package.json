@@ -2,7 +2,8 @@
   "type": "module",
   "scripts": {
     "test": "ava tests/*.test.js",
-    "coverage": "c8 ava tests/*.test.js"
+    "coverage": "c8 ava tests/*.test.js",
+    "build:docs": "node scripts/generate-service-docs.js"
   },
   "dependencies": {
     "adm-zip": "^0.5.16",
