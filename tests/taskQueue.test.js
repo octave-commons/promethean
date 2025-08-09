@@ -75,3 +75,9 @@ test("allQueues returns all active queues", (t) => {
   t.is(queues.length, 2);
   t.deepEqual(queues.map(([name]) => name).sort(), ["alpha", "beta"]);
 });
+
+test("ack returns false when task not inflight", (t) => {
+  const q = new TaskQueue();
+  const result = q.ack("missing-id");
+  t.false(result);
+});
