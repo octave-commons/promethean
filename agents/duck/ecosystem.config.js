@@ -1,5 +1,6 @@
-const path = require("path");
-const dotenv = require("dotenv");
+import path from "path";
+import dotenv from "dotenv";
+import { defineApp } from "../../dev/pm2Helpers";
 dotenv.config({
   path: __dirname + "/.tokens",
 });
@@ -9,7 +10,6 @@ const python_env = {
   PYTHONUTF8: 1,
 };
 const AGENT_NAME = "Duck";
-const { defineApp } = require("../../dev/pm2Helpers");
 
 const discord_env = {
   DISCORD_TOKEN: process.env.DISCORD_TOKEN,
@@ -31,7 +31,7 @@ const discord_env = {
 // either way, you use docker, you use a mongo db instance
 // someone needs to download a program as a dependency.
 
-module.exports = {
+export default {
   apps: [
     defineApp(
       "duck_discord_indexer",

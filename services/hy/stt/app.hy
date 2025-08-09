@@ -1,7 +1,7 @@
-(import [fastapi [FastAPI Request Header HTTPException]])
-(import [fastapi.responses [JSONResponse]])
+(import fastapi [FastAPI Request Header HTTPException])
+(import fastapi.responses [JSONResponse])
 (import asyncio)
-(import [lib.speech.wisper_stt [transcribe_pcm]])
+(import lib.speech.wisper_stt [transcribe_pcm])
 
 (setv app (FastAPI))
 

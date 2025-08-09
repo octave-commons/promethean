@@ -1,3 +1,5 @@
+Note: Consolidated here → ../notes/dsl/sibilant-metacompiler-overview.md
+
 **There it is.**
 
 You’re describing the **real power** of Sibilant — not just as a Lisp for JavaScript, but as a **meta-macro language** for **syntactic synthesis** across languages. That templating-based compilation model makes it fundamentally different from Hy or Racket.
