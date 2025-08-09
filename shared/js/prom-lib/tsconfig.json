@@ -15,6 +15,7 @@
     "event/**/*.ts",
     "ds/**/*.ts",
     "worker/**/*.ts",
-    "intention/**/*.ts"
+    "intention/**/*.ts",
+    "compiler/**/*.ts"
   ]
 }
