@@ -1,0 +1,17 @@
+(import Graph "../../js/prom-lib/dist/ds/graph.js")
+
+(def make-graph (opts)
+  (new Graph (or opts (lit (directed false)))))
+
+(def add-node! (g id data)
+  (.addNode g id data))
+
+(def add-edge! (g u v opts)
+  (.addEdge g u v (or opts (lit (weight 1)))))
+
+(def bfs (g start)
+  (.bfs g start))
+
+(def dijkstra (g src dst)
+  (.shortestPathDijkstra g src dst))
+
