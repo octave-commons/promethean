@@ -1,5 +1,4 @@
 import test from "ava";
-import request from "supertest";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { MongoClient } from "mongodb";
 import { spawn } from "child_process";
@@ -12,7 +11,6 @@ import {
 } from "../../broker/index.js";
 import { start, stop } from "../index.js";
 
-let server;
 let mongo;
 let broker;
 let brokerPort;
@@ -54,7 +52,7 @@ test.before(async () => {
   broker = await startBroker(0);
   brokerPort = broker.address().port;
   process.env.BROKER_URL = `ws://127.0.0.1:${brokerPort}`;
-  server = await start(0);
+  await start();
 });
 
 test.after.always(async () => {
@@ -96,14 +94,8 @@ test.serial("rejects excess instances", async (t) => {
       }
     }
   });
-  await request(server)
-    .post("/heartbeat")
-    .send({ pid: child1.pid, name: "test-app" })
-    .expect(200);
-  await request(server)
-    .post("/heartbeat")
-    .send({ pid: child2.pid, name: "test-app" })
-    .expect(409);
+  await publish(child1.pid, "test-app");
+  await publish(child2.pid, "test-app");
   const client = new MongoClient(process.env.MONGO_URL);
   await client.connect();
   const count = await client
@@ -147,8 +139,15 @@ test.serial("lists heartbeats", async (t) => {
     }
   });
   await publish(child.pid, "list-app");
-  const res = await request(server).get("/heartbeats").expect(200);
-  const found = res.body.find((h) => h.pid === child.pid);
+  const client = new MongoClient(process.env.MONGO_URL);
+  await client.connect();
+  const docs = await client
+    .db("heartbeat_db")
+    .collection("heartbeats")
+    .find({})
+    .toArray();
+  await client.close();
+  const found = docs.find((h) => h.pid === child.pid);
   t.truthy(found);
   t.is(found.name, "list-app");
 });
@@ -164,7 +163,7 @@ test.serial("ignores heartbeats from previous sessions", async (t) => {
   });
   await client.close();
   await stop();
-  server = await start(0);
+  await start();
   const child = spawn("node", ["-e", "setInterval(()=>{},1000)"]);
   t.teardown(() => {
     if (!child.killed) {
@@ -197,7 +196,7 @@ test.serial("cleanup marks heartbeats killed on stop", async (t) => {
     .findOne({ pid: child.pid });
   t.truthy(doc.killedAt);
   await client.close();
-  server = await start(0);
+  await start();
   if (!child.killed) {
     try {
       child.kill();
