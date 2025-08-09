@@ -1,58 +1,62 @@
+Here’s a refined version that keeps your analogy to hardware memory hierarchies but makes it concrete enough to implement as a framework component:
+
+---
+
 ## 🛠️ Description
 
-This isn't the eidolon fields, but some nessisary tooling for them to do their job correctly.
+Implement a **multi-tier memory management system** for the Promethean framework that supports movement of context between different “distance” levels, enabling Eidolon fields and other cognitive components to access relevant data at the right speed and cost.
 
-Stuff has to be able to move in and out of the allowable context in phases.
+Instead of a single monolithic context buffer, the system will maintain **phased memory tiers**:
 
-There has to be like "Working" memory (stuff that is recent and is just staying in memory)
-"Recent" (Stuff that could be relavent  because it was recent, but may not be. It can fall out of context, but is still queryable, probably still held in memory. In a cache)
+* **Working** – Actively in use, highest priority, lowest latency. Directly influences ongoing processing.
+* **Recent** – Recently used or possibly relevant. May drop out of active context but still cached in memory for fast retrieval.
+* **Important** – Older but high-value information. May be stored in slower, larger-capacity layers (disk, DB, distributed storage) but still queryable.
 
-"Important" These  could be old, but remain relavent. 
+Data flows **between tiers automatically** based on recency, relevance scoring, and available space—mirroring the behavior of CPU caches (L1/L2/L3), RAM, swap, and persistent storage. The further the tier from the working set, the higher the retrieval cost.
 
-This issue isn't about strictly defining these, but to provide mechanisims for them. Cacheing levels of various sizes that memory falls in and out of.
-
-kinda like L1, L2, L3, RAM, swap,  hdd, net fs, so on.
-The further away it is, the harder it is to get.
-
-But still accessable.
+This task is not about strictly defining the scoring model for “relevance,” but about **building the mechanisms** (caches, queues, retrieval APIs) that make tiered memory movement possible.
 
 ---
 
 ## 🎯 Goals
 
-- Define clear objectives for "Add Ollama formally to pipeline".
+* Design and implement a **tiered memory architecture** for context handling.
+* Ensure **automatic promotion/demotion** of items between tiers based on activity and scoring signals.
+* Allow all tiers to be **queryable** even if not in active context.
+* Support **pluggable storage backends** for lower tiers (local DB, remote FS, etc.).
+* Optimize for **speed in working tier** while enabling **deep historical retrieval**.
 
 ---
 
 ## 📦 Requirements
 
-- [ ] Detail requirements.
+* [ ] Define tier structure and interfaces (`Working`, `Recent`, `Important`).
+* [ ] Implement tier-specific capacity limits and eviction strategies.
+* [ ] Create a **movement mechanism** for items between tiers.
+* [ ] Provide a **query API** that transparently retrieves from all tiers.
+* [ ] Support in-memory caches for higher tiers and pluggable persistence for lower tiers.
+* [ ] Expose metrics/logging for tier usage and retrieval latency.
 
 ---
 
 ## 📋 Subtasks
 
-- [ ] Outline steps to implement.
+* [ ] Create in-memory LRU cache for **Working** tier.
+* [ ] Implement **Recent** tier with in-memory + optional on-disk swap.
+* [ ] Implement **Important** tier backed by DB or object storage.
+* [ ] Write tier migration logic (promotion/demotion).
+* [ ] Write tier-aware retrieval API.
+* [ ] Add hooks for relevance scoring (to be defined later).
+* [ ] Add metrics for retrieval frequency, promotion/demotion events, and hit/miss ratios.
 
 ---
 
 ## 🔗 Related Epics
 
-#framework-core
+\#framework-core
+\#eidolon-support
 
 ---
 
-## ⛓️ Blocked By
-
-Nothing
-
-## ⛓️ Blocks
-
-Nothing
-
----
-
-## 🔍 Relevant Links
-
-- [kanban](../boards/kanban.md)
-#agent-thinking
+If you want, I can also give you a **mermaid diagram showing the memory tier flow**—Working ↔ Recent ↔ Important—with promotion/demotion paths, which will help when we wire it into the Eidolon field loop.
+That would make it much easier to see where scoring and eviction logic plug in.
