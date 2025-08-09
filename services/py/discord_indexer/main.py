@@ -12,7 +12,6 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../"))
 import asyncio
 import random
-import traceback
 from typing import List
 import discord
 from shared.py import settings
@@ -37,11 +36,8 @@ def format_message(message):
     author = message.author
     if hasattr(channel, "name"):
         channel_name = channel.name
-        _hy_anon_var_1 = None
     else:
-
         channel_name = f"DM from {channel.recipient.name}"
-        _hy_anon_var_1 = None
     return {
         "id": message.id,
         "recipient": settings.DISCORD_CLIENT_USER_ID,
@@ -82,11 +78,10 @@ def index_message(message: discord.Message) -> None:
     message_record = discord_message_collection.find_one({"id": message.id})
     if message_record is None:
         print(f"Indexing message {message.id} {message.content}")
-        _hy_anon_var_2 = discord_message_collection.insert_one(format_message(message))
+        discord_message_collection.insert_one(format_message(message))
     else:
         print(f"Message {message.id} already indexed")
-        _hy_anon_var_2 = print(message_record)
-    return _hy_anon_var_2
+        print(message_record)
 
 
 def find_channel_record(channel_id):
@@ -99,11 +94,32 @@ def find_channel_record(channel_id):
         print(f"No record found for {channel_id}")
         setup_channel(channel_id)
         record = discord_channel_collection.find_one({"id": channel_id})
-        _hy_anon_var_3 = None
     else:
-        _hy_anon_var_3 = print(f"Found channel record for {channel_id}")
+        print(f"Found channel record for {channel_id}")
     print(f"Channel record: {record}")
     return record
+
+
+async def fetch_history(
+    channel: discord.TextChannel, cursor: int | None
+) -> List[discord.Message]:
+    """Retrieve channel history handling cursors and errors."""
+    history_kwargs = {"limit": 200, "oldest_first": True}
+    if cursor is None:
+        print(f"No cursor found for {channel.id}")
+    else:
+        print(f"Cursor found for {channel} {cursor}")
+        history_kwargs["after"] = channel.get_partial_message(cursor)
+    try:
+        return [message async for message in channel.history(**history_kwargs)]
+    except Exception as e:
+        print(f"Error getting history for {channel.id}")
+        print(e)
+        if cursor is None:
+            discord_channel_collection.update_one(
+                {"id": channel.id}, {"$set": {"is_valid": False}}
+            )
+        return []
 
 
 async def next_messages(channel: discord.TextChannel) -> List[discord.Message]:
@@ -116,51 +132,7 @@ async def next_messages(channel: discord.TextChannel) -> List[discord.Message]:
     if not channel_record.get("is_valid", True):
         print(f"Channel {channel_record['id']} is not valid")
         return []
-        _hy_anon_var_4 = None
-    else:
-        _hy_anon_var_4 = None
-    if channel_record["cursor"] is None:
-        print(f"No cursor found for {channel_record['id']}")
-        try:
-            return [
-                message
-                async for message in channel.history(limit=200, oldest_first=True)
-            ]
-            _hy_anon_var_5 = None
-        except Exception as e:
-            print(f"Error getting history for {channel_record['id']}")
-            print(e)
-            discord_channel_collection.update_one(
-                {"id": channel_record["id"]}, {"$set": {"is_valid": False}}
-            )
-            return []
-            _hy_anon_var_5 = None
-        _hy_anon_var_7 = _hy_anon_var_5
-    else:
-        print(f"Cursor found for {channel} {channel_record['cursor']}")
-        history_kwargs = {
-            "limit": 200,
-            "oldest_first": True,
-            "after": channel.get_partial_message(channel_record["cursor"]),
-        }
-        try:
-            return [
-                message
-                async for message in channel.history(
-                    limit=200,
-                    oldest_first=True,
-                    after=channel.get_partial_message(channel_record["cursor"]),
-                )
-            ]
-            _hy_anon_var_6 = None
-
-        except AttributeError as e:
-            print(f"Attribute error for {channel.id}")
-            print(e)
-            return []
-            _hy_anon_var_6 = None
-        _hy_anon_var_7 = _hy_anon_var_6
-    return _hy_anon_var_7
+    return await fetch_history(channel, channel_record["cursor"])
 
 
 async def index_channel(channel: discord.TextChannel) -> None:
@@ -174,8 +146,9 @@ async def index_channel(channel: discord.TextChannel) -> None:
         await asyncio.sleep(0.1)
         index_message(message)
         newest_message = message
-    update_cursor(newest_message) if newest_message is not None else None
-    return print(f"Newest message: {newest_message}")
+    if newest_message is not None:
+        update_cursor(newest_message)
+    print(f"Newest message: {newest_message}")
 
 
 def shuffle_array(array):
@@ -192,15 +165,13 @@ async def on_ready():
                 print(f"Indexing channel {channel}")
                 random_sleep = random.randint(1, 10)
                 await asyncio.sleep(random_sleep)
-                _hy_anon_var_8 = await index_channel(channel)
-            else:
-                _hy_anon_var_8 = None
+                await index_channel(channel)
 
 
 @client.event
 async def on_message(message):
     print(message)
-    return index_message(message)
+    index_message(message)
 
 
 client.run(settings.DISCORD_TOKEN)
