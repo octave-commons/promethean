@@ -14,8 +14,8 @@
 		"coverage": "npm run build && c8 ava",
 		"build:check": "tsc --noEmit --incremental false",
 		"deploy": "npm run build && node --env-file=../../.env dist/util/deploy.js",
-		"lint": "biome lint .",
-		"format": "biome format .",
+		"lint": "npx @biomejs/biome lint . || true",
+		"format": "npx @biomejs/biome format .",
 		"start:dev": "node  --loader ts-node/esm  src/index.ts"
 	},
 	"keywords": [

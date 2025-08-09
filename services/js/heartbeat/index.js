@@ -4,7 +4,7 @@ import path from "path";
 import fs from "fs";
 import pidusage from "pidusage";
 import { randomUUID } from "crypto";
-import WebSocket from "ws";
+import { BrokerClient } from "../../../shared/js/brokerClient.js";
 
 let HEARTBEAT_TIMEOUT = 10000;
 let CHECK_INTERVAL = 5000;
@@ -16,7 +16,7 @@ let BROKER_URL = "ws://127.0.0.1:7000";
 let client;
 let collection;
 let interval;
-let ws;
+let broker;
 let allowedInstances = {};
 let SESSION_ID;
 let shuttingDown = false;
@@ -130,21 +130,11 @@ export async function start() {
   client = new MongoClient(MONGO_URL);
   await client.connect();
   collection = client.db(DB_NAME).collection(COLLECTION);
-  ws = new WebSocket(BROKER_URL);
-  ws.on("message", (raw) => {
-    try {
-      const msg = JSON.parse(raw.toString());
-      if (msg.event?.type === "heartbeat") {
-        handleHeartbeat(msg.event.payload || {}).catch(() => {});
-      }
-    } catch {}
+  broker = new BrokerClient({ url: BROKER_URL });
+  await broker.connect();
+  broker.subscribe("heartbeat", (event) => {
+    handleHeartbeat(event.payload || {}).catch(() => {});
   });
-  await new Promise((resolve) =>
-    ws.once("open", () => {
-      ws.send(JSON.stringify({ action: "subscribe", topic: "heartbeat" }));
-      resolve();
-    }),
-  );
   interval = setInterval(() => {
     monitor().catch(() => {});
   }, CHECK_INTERVAL);
@@ -170,11 +160,11 @@ export async function stop() {
     clearInterval(interval);
     interval = null;
   }
-  if (ws) {
+  if (broker) {
     try {
-      ws.close();
+      broker.socket.close();
     } catch {}
-    ws = null;
+    broker = null;
   }
   if (client) {
     try {

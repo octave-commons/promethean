@@ -1,12 +1,20 @@
+import asyncio
 import json
 import os
+import threading
 import sys
+
+import websockets
 
 sys.path.insert(
     0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
 )
 
 from shared.py import heartbeat_client
+
+
+async def handler(_websocket):
+    pass
 
 
 def test_send_once(monkeypatch):
@@ -25,7 +33,6 @@ def test_send_once(monkeypatch):
 
         def close(self):
             pass
-
     monkeypatch.setattr(heartbeat_client, "connect", lambda url: DummyConn(url))
 
     client = heartbeat_client.HeartbeatClient(url="ws://example", pid=1234, name="test")
