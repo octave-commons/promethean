@@ -160,7 +160,7 @@
   (run-dirs SERVICES_JS "npx --yes prettier --write ." :shell True))
 
 (defn-cmd setup-shared-js []
-  (print (.format "installing shared dependencies" service))
+  (print (.format "installing shared dependencies"))
   (sh "npm install"  :shell True)
   )
 (defn-cmd setup-js-service [service]
@@ -507,6 +507,7 @@
     (.write f "\n")))
 
 
+(setv exceptions [])
 
 (defn main []
   (if (< (len sys.argv) 2)
@@ -523,7 +524,13 @@
                   (break)))
               (unless handled
                 (print (.format "Unknown command: {}" cmd))
-                (sys.exit 1)))))))
+                (sys.exit 1))))
+        (when (> (len exceptions) 0)
+          (print "commands failed:" #* (lfor [name e] exceptions name))
+          (.exit sys 1)
+
+            )
+        )))
 
 (when (= __name__ "__main__")
   (main))

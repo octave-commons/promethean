@@ -1,7 +1,7 @@
 // pm2Helpers.js (updated)
-const path = require("path");
+import path from "path";
 
-function defineApp(name, script, args = [], opts = {}) {
+export function defineApp(name, script, args = [], opts = {}) {
   const {
     cwd,
     watch,
@@ -41,7 +41,7 @@ function defineApp(name, script, args = [], opts = {}) {
 defineApp.HEARTBEAT_PORT = 5005;
 defineApp.PYTHONPATH = path.resolve(__dirname, "..");
 
-function definePythonService(name, serviceDir, opts = {}) {
+export function definePythonService(name, serviceDir, opts = {}) {
   return defineApp(
     name,
     "pipenv",
@@ -53,7 +53,7 @@ function definePythonService(name, serviceDir, opts = {}) {
   );
 }
 
-function defineNodeService(name, serviceDir, opts = {}) {
+export function defineNodeService(name, serviceDir, opts = {}) {
   return defineApp(
     name,
     ".",
@@ -65,7 +65,7 @@ function defineNodeService(name, serviceDir, opts = {}) {
   );
 }
 
-function defineAgent(name, appDefs, opts = {}) {
+export function defineAgent(name, appDefs, opts = {}) {
   return {
     name,
     apps: appDefs.map((app) => ({
@@ -79,10 +79,3 @@ function defineAgent(name, appDefs, opts = {}) {
     ...opts,
   };
 }
-
-module.exports = {
-  defineApp,
-  definePythonService,
-  defineNodeService,
-  defineAgent,
-};
