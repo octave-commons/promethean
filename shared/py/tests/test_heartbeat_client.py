@@ -18,6 +18,8 @@ async def handler(_websocket):
 
 
 def test_send_once(monkeypatch):
+    """HeartbeatClient sends a single heartbeat message."""
+
     sent = {}
 
     class DummyConn:
@@ -31,9 +33,6 @@ def test_send_once(monkeypatch):
 
         def close(self):
             pass
-
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
 
     monkeypatch.setattr(heartbeat_client, "connect", lambda url: DummyConn(url))
 
