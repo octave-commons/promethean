@@ -12,7 +12,6 @@ Requests with the following prefixes are proxied by default:
 - `/stt` -> `http://localhost:5002`
 - `/vision` -> `http://localhost:9999`
 - `/llm` -> `http://localhost:8888`
-- `/heartbeat` -> `http://localhost:5005`
 
 ## Development
 
