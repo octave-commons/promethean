@@ -98,6 +98,44 @@ docs/            # System-level documentation and markdown exports
 site/            # Website or UI content (optional)
 ```
 
+### Current Services
+
+The `services/` directory currently includes:
+
+**Python**
+- `services/py/discord_attachment_embedder`
+- `services/py/discord_attachment_indexer`
+- `services/py/discord_indexer`
+- `services/py/embedding_service`
+- `services/py/stt`
+- `services/py/tts`
+
+**Hy (legacy)**
+- `services/hy/discord_attachment_embedder`
+- `services/hy/discord_attachment_indexer`
+- `services/hy/discord_indexer`
+- `services/hy/stt`
+- `services/hy/tts`
+
+**JavaScript**
+- `services/js/broker`
+- `services/js/eidolon-field`
+- `services/js/health`
+- `services/js/heartbeat`
+- `services/js/proxy`
+- `services/js/vision`
+
+**TypeScript**
+- `services/ts/board-updater`
+- `services/ts/cephalon`
+- `services/ts/discord-embedder`
+- `services/ts/file-watcher`
+- `services/ts/kanban-processor`
+- `services/ts/llm`
+- `services/ts/markdown-graph`
+- `services/ts/reasoner`
+- `services/ts/voice`
+
 ---
 
 ## 🛠 Service Templates
@@ -329,7 +367,7 @@ Additionally, ensure that:
 * All new code is covered by tests
 * Documentation is updated in `/docs/` as needed
 * Migration plans are followed for any structural changes
-* [test workflows](.github/workflows/tests.yaml) all use `make` targets for consistency
+* [test workflows](.github/workflows/) all use `make` targets for consistency
 
 ---
 
@@ -337,14 +375,14 @@ Additionally, ensure that:
 
 * Use `.gitattributes` to track LFS-managed binaries (e.g., weights, wavs)
 * Do **not** store raw datasets or models directly—use `download.sh` or link instructions
-* All changes to `/models/`, `/data/`, or `/training/` must be documented in `MIGRATION_PLAN.md` or a note in `CHANGELOG.md`
+* All changes to `/models/`, `/data/`, or `/training/` must be documented in `MIGRATION_PLAN.md` or noted in a changelog (`CHANGELOG.md` when available)
 
 ---
 
 ## 📚 Documentation Standards
 
 * Markdown only
-* Use `[Wikilinks](Wikilinks.md)` in your Obsidian workflow, but ensure they are converted to regular markdown links for compatibility. Use `#hashtags` to support the Obsidian graph view.
+* Use Wikilinks in your Obsidian workflow, but ensure they are converted to regular markdown links for compatibility. Use `#hashtags` to support the Obsidian graph view.
 * Code paths must be written like: `services/cephalon/langstream.py`
 * All new modules must have a doc stub in `/docs/`
 * See `docs/vault-config-readme.md` for tips on configuring Obsidian to export

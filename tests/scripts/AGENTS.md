@@ -2,4 +2,4 @@
 
 ## Overview
 
-This folder `/workspace/tests/scripts` is for testing the systems standalone scripts EG `/workspace/scripts`
+This folder `tests/scripts` is for testing the system's standalone scripts, e.g., `scripts/`
