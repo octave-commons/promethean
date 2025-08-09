@@ -1,0 +1,7 @@
+; shared/sibilant/prom/ds/ecs-scheduler.sib (pseudo)
+(defn scheduler [world] (new Scheduler world))
+(defn sys [name stage query reads writes run]
+  {:name name :stage stage :query query :reads reads :writes writes :run run})
+(defn add-sys! [sched sys] (.register sched sys))
+(defn tick! [sched dt t] (.runFrame sched dt t))
+
