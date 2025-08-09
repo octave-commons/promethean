@@ -146,7 +146,7 @@
   )
 
 (defn-cmd typecheck-python []
-  (sh ["mypy" "--explicit-package-bases" "--ignore-missing-imports" "services/py" "shared/py/"]) )
+  (sh ["mypy"]))
 
 ;; JavaScript helpers ---------------------------------------------------------
 (defn-cmd lint-js-service [service]
