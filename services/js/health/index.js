@@ -1,62 +1,51 @@
 import express from "express";
-import { MongoClient } from "mongodb";
 import os from "os";
+import { BrokerClient } from "../../../shared/js/brokerClient.js";
 
 export const app = express();
 
 let HEARTBEAT_TIMEOUT = 10000;
-let MONGO_URL = "mongodb://127.0.0.1:27017";
-let DB_NAME = "heartbeat_db";
-let COLLECTION = "heartbeats";
-
-let client;
-let collection;
 let server;
+let broker;
+const heartbeats = new Map();
 
-app.get("/health", async (req, res) => {
-  if (!collection) {
-    return res.status(503).json({ error: "db not available" });
-  }
+app.get("/health", (req, res) => {
   const now = Date.now();
-  try {
-    const docs = await collection
-      .find({
-        last: { $gte: now - HEARTBEAT_TIMEOUT },
-        killedAt: { $exists: false },
-      })
-      .toArray();
-    let totalCpu = 0;
-    let totalMemory = 0;
-    for (const doc of docs) {
-      totalCpu += doc.cpu || 0;
-      totalMemory += doc.memory || 0;
+  let totalCpu = 0;
+  let totalMemory = 0;
+  for (const hb of heartbeats.values()) {
+    if (hb.last >= now - HEARTBEAT_TIMEOUT) {
+      totalCpu += hb.cpu || 0;
+      totalMemory += hb.memory || 0;
     }
-    const cores = os.cpus().length || 1;
-    const cpuRatio = totalCpu / (cores * 100);
-    const totalMem = os.totalmem() || 1;
-    const memoryRatio = totalMemory / totalMem;
-    let status = "ok";
-    if (cpuRatio > 0.9 || memoryRatio > 0.9) status = "critical";
-    else if (cpuRatio > 0.75 || memoryRatio > 0.75) status = "high";
-    return res.json({
-      status,
-      cpu: { total: totalCpu, ratio: cpuRatio },
-      memory: { total: totalMemory, ratio: memoryRatio },
-    });
-  } catch {
-    return res.status(500).json({ error: "db failure" });
   }
+  const cores = os.cpus().length || 1;
+  const cpuRatio = totalCpu / (cores * 100);
+  const totalMem = os.totalmem() || 1;
+  const memoryRatio = totalMemory / totalMem;
+  let status = "ok";
+  if (cpuRatio > 0.9 || memoryRatio > 0.9) status = "critical";
+  else if (cpuRatio > 0.75 || memoryRatio > 0.75) status = "high";
+  return res.json({
+    status,
+    cpu: { total: totalCpu, ratio: cpuRatio },
+    memory: { total: totalMemory, ratio: memoryRatio },
+  });
 });
 
 export async function start(port = process.env.PORT || 0) {
   HEARTBEAT_TIMEOUT = parseInt(process.env.HEARTBEAT_TIMEOUT || "10000", 10);
-  MONGO_URL = process.env.MONGO_URL || MONGO_URL;
-  DB_NAME = process.env.DB_NAME || DB_NAME;
-  COLLECTION = process.env.COLLECTION || COLLECTION;
-
-  client = new MongoClient(MONGO_URL);
-  await client.connect();
-  collection = client.db(DB_NAME).collection(COLLECTION);
+  const url =
+    process.env.BROKER_URL ||
+    `ws://127.0.0.1:${process.env.BROKER_PORT || 7000}`;
+  broker = new BrokerClient({ url });
+  heartbeats.clear();
+  await broker.connect();
+  broker.subscribe("heartbeat", (event) => {
+    const { name, cpu = 0, memory = 0 } = event.payload || {};
+    const key = name || event.source;
+    heartbeats.set(key, { cpu, memory, last: Date.now() });
+  });
   server = app.listen(port);
   return server;
 }
@@ -66,13 +55,17 @@ export async function stop() {
     server.close();
     server = null;
   }
-  if (client) {
+  if (broker) {
     try {
-      await client.close();
+      broker.socket.close();
     } catch {}
-    client = null;
-    collection = null;
+    broker = null;
   }
+  heartbeats.clear();
+}
+
+export function reset() {
+  heartbeats.clear();
 }
 
 if (process.env.NODE_ENV !== "test") {

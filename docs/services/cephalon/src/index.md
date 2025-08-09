@@ -2,10 +2,13 @@
 
 **Path**: `services/cephalon/src/index.ts`
 
-**Description**: dotenv.config({ path: '../../.env' });  // 👈 resolve from wherever you want
+**Description**: Entry point for the Cephalon service. Starts the Discord bot,
+sends heartbeats, and initializes message-based throttling.
 
 ## Dependencies
 - ./bot
+- ../../../../shared/js/heartbeat/index.js
+- ./messageThrottler
 - source-map-support/register.js
 
 ## Dependents

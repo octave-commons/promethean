@@ -2,11 +2,11 @@
 
 **Path**: `services/js/health/index.js`
 
-**Description**: Express service that aggregates recent heartbeat metrics from MongoDB and returns overall CPU and memory load via a `/health` endpoint. The response includes total and normalized ratios so other services can determine when to throttle.
+**Description**: Express service that subscribes to heartbeat events from the message broker and returns overall CPU and memory load via a `/health` endpoint. The response includes total and normalized ratios so other services can determine when to throttle.
 
 ## Dependencies
 - express
-- mongodb
+- ws
 - os
 
 ## Dependents
