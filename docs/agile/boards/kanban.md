@@ -96,7 +96,7 @@ kanban-plugin: board
 - [ ] [Gather open questions about system direction](../tasks/Gather%20open%20questions%20about%20system%20direction.md) #agent-mode
 
 
-## 🟢 To Do (8)
+## 🟢 To Do (7)
 
 - [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/Gather%20baseline%20emotion%20metrics%20for%20Eidolon%20field.md)
 - [ ] [Update makefile to have commands specific for agents](../tasks/Update%20makefile%20to%20have%20commands%20specific%20for%20agents.md) #devops #seperation-of-concerns #makefile #buildtools
@@ -128,6 +128,7 @@ kanban-plugin: board
 - [x] Break down cephalon agent.ts ✅ 2025-08-06
 - [x] [rewrite vision end to end test in typescript](../../../rewrite%20vision%20end%20to%20end%20test%20in%20typescript.md) ✅ 2025-08-06
 - [x] [Update cephalon to use custom embedding function](../tasks/Update%20cephalon%20to%20use%20custom%20embedding%20function.md) ✅ 2025-08-06
+- [x] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md) #framework-core ✅ 2025-08-09
 - [x] [Document local testing setup](../tasks/Document_local_testing_setup.md) #codex-task #testing ✅ 2025-08-06
 - [x] [Document board usage guidelines](../tasks/Document%20board%20usage%20guidelines.md) ✅ 2025-08-06
 - [x] [Add unit tests for date_tools.py](../tasks/Add_unit_tests_for_date_tools.py.md) #codex-task #testing ✅ 2025-08-06
