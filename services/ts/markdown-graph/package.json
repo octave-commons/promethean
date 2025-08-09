@@ -8,8 +8,8 @@
     "build:check": "tsc --noEmit --incremental false",
     "test": "npm run build && ava",
     "coverage": "npm run build && c8 ava",
-    "lint": "prettier --cache --check . && eslint src --ext ts --cache",
-    "format": "prettier --cache --write . && eslint src --ext ts --fix --cache",
+    "lint": "prettier --cache --check . && eslint src --cache",
+    "format": "prettier --cache --write . && eslint src --fix --cache",
     "start": "node dist/index.js",
     "start:dev": "node --loader ts-node/esm src/index.ts"
   },
