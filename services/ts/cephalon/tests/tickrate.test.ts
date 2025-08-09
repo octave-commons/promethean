@@ -1,7 +1,7 @@
 import test from 'ava';
 import { AIAgent } from '../src/agent';
 import type { Bot } from '../src/bot';
-import type { ContextManager } from '../src/contextManager';
+import type { ContextManager } from '@shared/ts/contextManager';
 
 test('agent updates tick interval', (t) => {
 	const context = {} as unknown as ContextManager;

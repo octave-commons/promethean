@@ -1,5 +1,5 @@
-import { CollectionManager } from '../collectionManager';
-import { formatMessage, GenericEntry } from '../contextManager';
+import { CollectionManager } from '@shared/ts/collectionManager';
+import { formatMessage, GenericEntry } from '@shared/ts/contextManager';
 import { generatePromptChoice, generateSpecialQuery } from '../util';
 import type { AIAgent } from './index';
 
