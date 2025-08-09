@@ -37,7 +37,6 @@ export function startFileWatcher(options: FileWatcherOptions = {}) {
   const tasksWatcher = createTasksWatcher({
     tasksPath,
     publish,
-    ...(options.socket ? { socket: options.socket } : {}),
   });
 
   return {
