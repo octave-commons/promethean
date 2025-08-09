@@ -22,9 +22,11 @@ test.afterEach.always(async () => {
   await stop(server);
 });
 
-test.serial("enqueues and dequeues tasks", async (t) => {
+test.serial("dispatches tasks to ready workers", async (t) => {
   const prod = await connect();
   const worker = await connect();
+  worker.send(JSON.stringify({ action: "ready", queue: "jobs" }));
+  await new Promise((r) => setTimeout(r, 20));
   prod.send(
     JSON.stringify({
       action: "enqueue",
@@ -32,20 +34,28 @@ test.serial("enqueues and dequeues tasks", async (t) => {
       task: { x: 1 },
     }),
   );
+  const msg = await new Promise((resolve) =>
+    worker.once("message", (data) => resolve(JSON.parse(data))),
+  );
+  t.is(msg.action, "task-assigned");
+  t.deepEqual(msg.task.payload, { x: 1 });
+  worker.send(JSON.stringify({ action: "ack", taskId: msg.task.id }));
+  // enqueue another task but don't mark ready yet
+  prod.send(
+    JSON.stringify({ action: "enqueue", queue: "jobs", task: { x: 2 } }),
+  );
+  let received = false;
+  worker.once("message", () => {
+    received = true;
+  });
   await new Promise((r) => setTimeout(r, 50));
-  const received = new Promise((resolve) => {
-    worker.once("message", (data) => resolve(JSON.parse(data)));
-  });
-  worker.send(JSON.stringify({ action: "dequeue", queue: "jobs" }));
-  const msg = await received;
-  t.deepEqual(msg.task, { x: 1 });
-
-  const received2 = new Promise((resolve) => {
-    worker.once("message", (data) => resolve(JSON.parse(data)));
-  });
-  worker.send(JSON.stringify({ action: "dequeue", queue: "jobs" }));
-  const msg2 = await received2;
-  t.is(msg2.task, null);
+  t.false(received);
+  worker.send(JSON.stringify({ action: "ready", queue: "jobs" }));
+  const msg2 = await new Promise((resolve) =>
+    worker.once("message", (data) => resolve(JSON.parse(data))),
+  );
+  t.deepEqual(msg2.task.payload, { x: 2 });
+  worker.send(JSON.stringify({ action: "ack", taskId: msg2.task.id }));
   prod.close();
   worker.close();
 });
