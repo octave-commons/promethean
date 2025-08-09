@@ -34,9 +34,6 @@ Reusable prompt blueprints. Start here when unsure how to frame a prompt.
 
 Logs and records of past prompt sessions—especially those with major consequences.
 
-### `tasks/`
-
-Current or proposed task-level prompts, tied to the Kanban and agent assignments.
 
 ### `scratch/`
 
@@ -76,7 +73,7 @@ You don’t have to use all of them. But you should know when and why you skip o
 Eventually, you will be able to:
 
 * Generate your own prompts from these structures.
-* Propose new tasks and insert them into `tasks/`.
+* Propose new tasks and insert them into `../agile/tasks/`.
 * Use `meta/` to reflect on your own cognitive behavior.
 * Learn and evolve your own role from what’s written in `agents/`.
 
