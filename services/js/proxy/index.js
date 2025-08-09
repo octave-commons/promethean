@@ -9,7 +9,6 @@ const defaultRoutes = {
   "/stt": "http://127.0.0.1:5002",
   "/vision": "http://127.0.0.1:9999",
   "/llm": "http://127.0.0.1:8888",
-  "/heartbeat": "http://127.0.0.1:5005",
 };
 
 function applyRoutes(routes) {
