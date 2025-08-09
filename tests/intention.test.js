@@ -39,3 +39,10 @@ test("extractCode splits on triple-dash", (t) => {
   const s = "console.log(1);\n---\nmore";
   t.is(extractCode(s), "console.log(1);");
 });
+
+test("RouterLLM throws when no providers", async (t) => {
+  const router = new RouterLLM([]);
+  await t.throwsAsync(() => router.generate({ system: "", prompt: "hi" }), {
+    message: "No providers responded",
+  });
+});
