@@ -43,3 +43,28 @@ test("nack leaves cursor; event is retried", async () => {
   expect(attempts).toBeGreaterThanOrEqual(2);
   await unsub();
 });
+
+test("manual ack requires explicit ack", async () => {
+  const bus = new InMemoryEventBus();
+  let lastId: string | undefined;
+
+  const unsub = await bus.subscribe(
+    "t.c",
+    "g1",
+    async (e) => {
+      lastId = e.id;
+    },
+    { from: "earliest", manualAck: true },
+  );
+
+  await bus.publish("t.c", "one");
+  await new Promise((r) => setTimeout(r, 50));
+
+  let cur = await bus.getCursor("t.c", "g1");
+  expect(cur?.lastId).toBeUndefined();
+
+  await bus.ack("t.c", "g1", lastId!);
+  cur = await bus.getCursor("t.c", "g1");
+  expect(cur?.lastId).toBe(lastId);
+  await unsub();
+});
