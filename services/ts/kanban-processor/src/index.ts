@@ -176,6 +176,7 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
 
   const brokerUrl = process.env.BROKER_URL || "ws://localhost:7000";
   const ws = new WebSocket(brokerUrl);
+  const QUEUE = "kanban-processor";
 
   let previousState: Record<string, KanbanCard> = {};
 
@@ -209,14 +210,20 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
 
   ws.on("open", () => {
     ws.send(JSON.stringify({ action: "subscribe", topic: EVENTS.boardChange }));
+    ws.send(JSON.stringify({ action: "ready", queue: QUEUE }));
     console.log("kanban processor connected to broker");
   });
 
   ws.on("message", (raw: WebSocket.RawData) => {
     try {
-      const { event } = JSON.parse(raw.toString());
-      if (event?.type === EVENTS.boardChange) {
-        handleBoardChange();
+      const msg = JSON.parse(raw.toString());
+      if (msg?.event?.type === EVENTS.boardChange) {
+        ws.send(JSON.stringify({ action: "enqueue", queue: QUEUE, task: {} }));
+      } else if (msg?.action === "task-assigned" && msg.task) {
+        handleBoardChange().finally(() => {
+          ws.send(JSON.stringify({ action: "ack", taskId: msg.task.id }));
+          ws.send(JSON.stringify({ action: "ready", queue: QUEUE }));
+        });
       }
     } catch (err) {
       console.error("invalid broker message", err);
@@ -226,7 +233,11 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
   return {
     async close() {
       ws.close();
-      await mongoClient.close();
+      try {
+        await mongoClient.close();
+      } catch (err) {
+        console.error("mongo close failed", err);
+      }
     },
   };
 }
