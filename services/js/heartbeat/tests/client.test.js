@@ -43,11 +43,18 @@ test("heartbeat client posts pid", async (t) => {
   await client.sendOnce();
   const mongoClient = new MongoClient(process.env.MONGO_URL);
   await mongoClient.connect();
-  const doc = await mongoClient
-    .db("heartbeat_db")
-    .collection("heartbeats")
-    .findOne({ pid: 999 });
+  let doc = null;
+  for (let i = 0; i < 10 && !doc; i++) {
+    doc = await mongoClient
+      .db("heartbeat_db")
+      .collection("heartbeats")
+      .findOne({ pid: 999 });
+    if (!doc) {
+      await new Promise((r) => setTimeout(r, 50));
+    }
+  }
   await mongoClient.close();
+  t.truthy(doc);
   t.is(doc.name, "test-app");
   t.is(typeof doc.cpu, "number");
 });
