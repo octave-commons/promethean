@@ -1,9 +1,63 @@
 import WebSocket, { WebSocketServer } from "ws";
 import { randomUUID } from "crypto";
+import { EventEmitter } from "events";
 import { queueManager } from "../../../shared/js/queueManager.js";
 
 const subscriptions = new Map(); // topic -> Set<WebSocket>
-const clients = new Map();       // WebSocket -> { id, topics:Set<string> }
+const clients = new Map(); // WebSocket -> { id, topics:Set<string> }
+const actions = new EventEmitter();
+
+actions.on("subscribe", ({ ws, data, msg, id }) => {
+  const topic = msg.topic;
+  if (typeof topic !== "string") return;
+  data.topics.add(topic);
+  if (!subscriptions.has(topic)) subscriptions.set(topic, new Set());
+  subscriptions.get(topic).add(ws);
+  console.log(`client ${id} subscribed ${topic}`);
+});
+
+actions.on("unsubscribe", ({ ws, data, msg, id }) => {
+  const topic = msg.topic;
+  if (typeof topic !== "string") return;
+  data.topics.delete(topic);
+  const set = subscriptions.get(topic);
+  if (set) {
+    set.delete(ws);
+    if (set.size === 0) subscriptions.delete(topic);
+  }
+  console.log(`client ${id} unsubscribed ${topic}`);
+});
+
+actions.on("publish", ({ ws, msg, id }) => {
+  const event = normalize(msg.message || {});
+  if (!event.type) return;
+  event.source = event.source || id;
+  route(event, ws);
+  console.log(`client ${id} published ${event.type}`);
+});
+
+actions.on("enqueue", async ({ msg, id }) => {
+  const { queue, task } = msg;
+  if (typeof queue !== "string") return;
+  await queueManager.enqueue(queue, task);
+  console.log(`client ${id} enqueued task on ${queue}`);
+});
+
+actions.on("ready", async ({ ws, msg, id }) => {
+  const { queue } = msg;
+  if (typeof queue !== "string") return;
+  await queueManager.ready(ws, id, queue);
+  console.log(`client ${id} ready on ${queue}`);
+});
+
+actions.on("ack", async ({ msg, id }) => {
+  const { taskId } = msg;
+  await queueManager.acknowledge(id, taskId);
+});
+
+actions.on("heartbeat", async ({ id }) => {
+  await queueManager.heartbeat(id);
+});
 
 function normalize(message) {
   const event = {
@@ -65,51 +119,11 @@ export async function start(port = process.env.PORT || 7000) {
 
       const { action } = msg || {};
       try {
-        if (action === "subscribe") {
-          const topic = msg.topic;
-          if (typeof topic !== "string") return;
-          data.topics.add(topic);
-          if (!subscriptions.has(topic)) subscriptions.set(topic, new Set());
-          subscriptions.get(topic).add(ws);
-          console.log(`client ${id} subscribed ${topic}`);
-
-        } else if (action === "unsubscribe") {
-          const topic = msg.topic;
-          if (typeof topic !== "string") return;
-          data.topics.delete(topic);
-          const set = subscriptions.get(topic);
-          if (set) {
-            set.delete(ws);
-            if (set.size === 0) subscriptions.delete(topic);
+        const ctx = { ws, id, data, msg };
+        if (actions.listenerCount(action)) {
+          for (const handler of actions.listeners(action)) {
+            await handler(ctx);
           }
-          console.log(`client ${id} unsubscribed ${topic}`);
-
-        } else if (action === "publish") {
-          const event = normalize(msg.message || {});
-          if (!event.type) return;
-          event.source = event.source || id;
-          route(event, ws);
-          console.log(`client ${id} published ${event.type}`);
-
-        } else if (action === "enqueue") {
-          const { queue, task } = msg;
-          if (typeof queue !== "string") return;
-          await queueManager.enqueue(queue, task);
-          console.log(`client ${id} enqueued task on ${queue}`);
-
-        } else if (action === "ready") {
-          const { queue } = msg;
-          if (typeof queue !== "string") return;
-          await queueManager.ready(ws, id, queue);
-          console.log(`client ${id} ready on ${queue}`);
-
-        } else if (action === "ack") {
-          const { taskId } = msg;
-          await queueManager.acknowledge(id, taskId);
-
-        } else if (action === "heartbeat") {
-          await queueManager.heartbeat(id);
-
         } else {
           ws.send(JSON.stringify({ error: "unknown action" }));
         }
@@ -148,7 +162,9 @@ export async function start(port = process.env.PORT || 7000) {
 export async function stop(server) {
   if (!server) return;
   for (const ws of server.clients) {
-    try { ws.terminate(); } catch { }
+    try {
+      ws.terminate();
+    } catch {}
   }
   await new Promise((resolve) => server.close(resolve));
 }
@@ -159,7 +175,7 @@ if (process.env.NODE_ENV !== "test") {
     try {
       console.log("starting…");
       const wss = await start();
-      console.log("listening")
+      console.log("listening");
       // Catch process-level crashes too
       process.on("uncaughtException", (e) => {
         console.error("uncaughtException:", e);
