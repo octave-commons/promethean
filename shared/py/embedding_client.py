@@ -23,12 +23,14 @@ class EmbeddingServiceClient(EmbeddingFunction):
         self.function = function or os.environ.get("EMBEDDING_FUNCTION")
 
     def __call__(self, texts: List[str]) -> List[List[float]]:  # type: ignore[override]
-        items = []
-        for t in texts:
-            if t.startswith("img:"):
-                items.append({"type": "image_url", "data": t[4:]})
-            else:
-                items.append({"type": "text", "data": t})
+        items = [
+            (
+                {"type": "image_url", "data": t[4:]}
+                if t.startswith("img:")
+                else {"type": "text", "data": t}
+            )
+            for t in texts
+        ]
         payload: dict = {"items": items}
         if self.driver:
             payload["driver"] = self.driver
