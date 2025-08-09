@@ -39,7 +39,7 @@ kanban-plugin: board
 - [ ] factor out makefile
 - [ ] Look  into why the state object never seems to get updated.
 - [ ] [setup a second agent](../tasks/setup%20a%20second%20agent.md)
-- [ ] [[setup services to recieve work from the broker via push]]
+- [ ] [setup services to recieve work from the broker via push](setup%20services%20to%20recieve%20work%20from%20the%20broker%20via%20push.md)
 
 
 ## Accepted (24)
@@ -96,8 +96,6 @@ kanban-plugin: board
 - [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/Gather%20baseline%20emotion%20metrics%20for%20Eidolon%20field.md)
 - [ ] [Add starter notes - eidolon\_fields, cephalon\_inner\_monologue](../tasks/Add%20starter%20notes%20-%20eidolon_fields,%20cephalon_inner_monologue.md)
 - [ ] [Clarify Promethean project vision](../tasks/Clarify%20Promethean%20project%20vision.md)
-- [ ] [Research GitHub Projects board API](../tasks/Research%20GitHub%20Projects%20board%20API.md) #framework-core
-- [ ] [Integrate synthesis-agent pass on unique to produce draft docs](../tasks/Integrate%20synthesis-agent%20pass%20on%20unique%20to%20produce%20draft%20docs.md)
 
 
 ## 🟢 To Do (8)
@@ -106,6 +104,7 @@ kanban-plugin: board
 - [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md)
 - [ ] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md)
 - [ ] [Gather open questions about system direction](../tasks/Gather%20open%20questions%20about%20system%20direction.md) #agent-mode
+- [ ] [Integrate synthesis-agent pass on unique to produce draft docs](../tasks/Integrate%20synthesis-agent%20pass%20on%20unique%20to%20produce%20draft%20docs.md)
 
 
 ## 🟡 In Progress (4)
@@ -116,6 +115,7 @@ kanban-plugin: board
 
 ## In Review (4)
 
+- [ ] [Research GitHub Projects board API](../tasks/Research%20GitHub%20Projects%20board%20API.md) #framework-core
 
 
 ## 🔵 Done
