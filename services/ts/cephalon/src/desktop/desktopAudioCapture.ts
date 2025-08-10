@@ -12,7 +12,7 @@ async function getAudioSource() {
 		try {
 			const { stdout } = await execa('pactl', ['list', 'short', 'sources']);
 			const lines = stdout.split('\n').filter(Boolean);
-			const monitor = lines.find((line) => line.includes('.monitor'));
+			const monitor = lines.find((line) => line.includes('.monitor') && line.includes('RUNNING'));
 			const device = (monitor ?? lines[0])?.split('\t')[1] ?? 'default';
 			return { format: 'pulse', device };
 		} catch {
