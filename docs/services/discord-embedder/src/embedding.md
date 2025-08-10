@@ -2,12 +2,12 @@
 
 **Path**: `services/discord-embedder/src/embedding.ts`
 
-**Description**: Embedding function that calls the shared embedding service.
+**Description**: Embedding function that forwards requests to the shared embedding service through the message broker.
 
 ## Dependencies
 - chromadb
-- global fetch
+- `../../../../../shared/js/brokerClient.js`
 
 ## Dependents
-- None
+- `index.ts`
 
