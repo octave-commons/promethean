@@ -1,7 +1,7 @@
 import 'source-map-support/register.js';
 import { Bot } from './bot';
-import { AGENT_NAME } from '../../../../shared/js/env.js';
-import { HeartbeatClient } from '../../../../shared/js/heartbeat/index.js';
+import { AGENT_NAME } from '@shared/js/env.js';
+import { HeartbeatClient } from '@shared/js/heartbeat/index.js';
 import { initMessageThrottler } from './messageThrottler';
 
 async function main() {
