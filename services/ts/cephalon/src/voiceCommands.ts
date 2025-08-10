@@ -105,13 +105,13 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 			.on('transcriptEnd', async () => {
 				if (bot.agent) {
 					bot.agent.newTranscript = true;
-					bot.agent.userSpeaking = false;
+					bot.agent.updateVad(false);
 				}
 			})
 			.on('transcriptStart', async () => {
 				if (bot.agent) {
 					bot.agent.newTranscript = false;
-					bot.agent.userSpeaking = true;
+					bot.agent.updateVad(true);
 				}
 			});
 		const channel = await interaction.guild.channels.fetch(bot.currentVoiceSession.voiceChannelId);
