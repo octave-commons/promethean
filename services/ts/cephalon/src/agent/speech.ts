@@ -6,9 +6,29 @@ import { splitSentances, seperateSpeechFromThought, classifyPause, estimatePause
 import { CollectionManager } from '../collectionManager';
 import { sleep } from '../util';
 import type { AIAgent } from './index';
+import { createAudioResource, StreamType } from '@discordjs/voice';
+import { randomUUID } from 'crypto';
+import { Utterance } from './speechCoordinator';
 
 export async function speak(this: AIAgent, text: string) {
-	await this.bot.currentVoiceSession?.playVoice(text);
+	const session = this.bot.currentVoiceSession;
+	if (!session || !session.connection) return;
+	let cleanup: (() => void) | undefined;
+	const utterance: Utterance = {
+		id: randomUUID(),
+		turnId: this.turnManager.turnId,
+		priority: 1,
+		bargeIn: 'pause',
+		group: 'agent-speech',
+		makeResource: async () => {
+			const { stream, cleanup: c } = await session.voiceSynth.generateAndUpsampleVoice(text);
+			cleanup = c;
+			return createAudioResource(stream, { inputType: StreamType.Raw });
+		},
+		onEnd: () => cleanup?.(),
+	};
+	session.connection.subscribe(this.speechArbiter.audioPlayer);
+	this.speechArbiter.enqueue(utterance);
 }
 
 export async function storeAgentMessage(
