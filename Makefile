@@ -66,6 +66,7 @@ COMMANDS := \
   build \
   clean \
   lint \
+  lint-topics \
   test \
   test-integration \
   test-e2e \
