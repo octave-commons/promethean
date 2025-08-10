@@ -6,7 +6,7 @@
 interval based on the rate of published messages.
 
 ## Dependencies
-- ../../../../shared/js/brokerClient.js
+- @shared/js/brokerClient.js
 - ./agent
 
 ## Dependents

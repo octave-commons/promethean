@@ -17,7 +17,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const brokerModule = await import(path.resolve(__dirname, '../../../../js/broker/index.js'));
 const { start: startBroker, stop: stopBroker } = brokerModule;
 // @ts-ignore dynamic import of JS modules
-const clientModule = await import(path.resolve(__dirname, '../../../../../shared/js/brokerClient.js'));
+const clientModule = await import('@shared/js/brokerClient.js');
 const { BrokerClient } = clientModule;
 
 const { AIAgent } = await import('../src/agent/index.js');
