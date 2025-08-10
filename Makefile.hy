@@ -1,6 +1,7 @@
 (import shutil)
 (import util [sh run-dirs])
 (import dotenv [load-dotenv])
+(import os)
 (import os.path [isdir isfile join])
 (import platform)
 (load-dotenv)
@@ -15,15 +16,16 @@
 (import os.path [isdir])
 (import sys)
 (defmacro unless [ cond #* body]
-  `(when (not ~cond)
-     ~@body
-     ))
+          `(when (not ~cond)
+             ~@body
+             ))
 
 ;; -----------------------------------------------------------------------------
 ;; Service List Definitions
 ;; -----------------------------------------------------------------------------
 
 
+(define-service-list SERVICES_HY "services/hy")
 (define-service-list SERVICES_PY "services/py")
 (define-service-list SERVICES_JS "services/js")
 (define-service-list SERVICES_TS "services/ts")
@@ -88,7 +90,9 @@
 
 (defn-cmd setup-python-service [service]
   (print (.format "Setting up Python service: {}" service))
-  (sh "python -m pipenv sync --dev" :cwd (join "services/py" service) :shell True))
+  (if (os.environ.get "SIMULATE_CI")
+      (print "Skipping pipenv sync during CI simulation")
+      (sh "python -m pipenv sync --dev" :cwd (join "services/py" service) :shell True)))
 
 (defn-cmd test-python-service [service]
   (print (.format "Running tests for Python service: {}" service))
@@ -134,13 +138,15 @@
   (sh ["flake8" (join "services" "py" service)]))
 
 (defn-cmd lint-python []
-  (sh ["flake8" "services/" "shared/py/"]))
+  (sh ["flake8" "services/py" "shared/py/"]))
 
 (defn-cmd format-python []
-  (sh ["black" "services/" "shared/py/"]))
+  (sh ["black" "services/py" "shared/py/"])
+  (sh ["black"  "shared/py/"])
+  )
 
 (defn-cmd typecheck-python []
-  (sh ["mypy" "services/" "shared/py/"]))
+  (sh ["mypy" "services/py" "shared/py/"]) )
 
 ;; JavaScript helpers ---------------------------------------------------------
 (defn-cmd lint-js-service [service]
@@ -153,15 +159,22 @@
 (defn-cmd format-js []
   (run-dirs SERVICES_JS "npx --yes prettier --write ." :shell True))
 
+(defn-cmd setup-shared-js []
+  (print (.format "installing shared dependencies"))
+  (sh "npm install"  :shell True)
+  )
 (defn-cmd setup-js-service [service]
   (print (.format "Setting up JS service: {}" service))
-  (sh "npm install --no-package-lock" :cwd (join "services/js" service) :shell True))
+  (setup-shared-js)
+  (sh "npm install" :cwd (join "services/js" service) :shell True))
 
 (defn-cmd setup-js []
   (print "Setting up JavaScript services...")
-  (run-dirs SERVICES_JS "npm install --no-package-lock" :shell True))
+  (setup-shared-js)
+  (run-dirs SERVICES_JS "npm install" :shell True))
 
 (defn-cmd test-js-service [service]
+
   (print (.format "Running tests for JS service: {}" service))
   (sh "npm test" :cwd (join "services/js" service) :shell True))
 
@@ -188,31 +201,45 @@
   (print "No build step for JavaScript services"))
 
 ;; TypeScript helpers ---------------------------------------------------------
+
 (defn-cmd lint-ts-service [service]
   (print (.format "Linting TS service: {}" service))
-  (sh "npx --yes @biomejs/biome lint ." :cwd (join "services/ts" service) :shell True))
+  (sh "npm run lint" :cwd (join "services/ts" service) :shell True))
 
 (defn-cmd lint-ts []
   (for [d SERVICES_TS]
-    (when (isfile (join d "biome.json"))
-      (sh "npx --yes @biomejs/biome lint ." :cwd d :shell True))))
+    (when (isfile (join d "package.json"))
+      (sh "npm run lint" :cwd d :shell True))))
 
 (defn-cmd format-ts []
-  (run-dirs SERVICES_TS "npx --yes @biomejs/biome format ." :shell True))
+  (run-dirs SERVICES_TS "npx --yes @biomejs/biome format --write"  :shell True))
 
 (defn-cmd typecheck-ts []
-  (run-dirs SERVICES_TS "npx tsc --noEmit" :shell True))
+  (setv svc (or (os.environ.get "service") (os.environ.get "SERVICE")))
+  (defn run [path]
+    (if (and (isfile (join path "tsconfig.json"))
+             (isdir (join path "node_modules")))
+      (sh "npx tsc --noEmit" :cwd path :shell True)
+      (print (.format "Skipping typecheck for {}" path))))
+  (if svc
+    (run (join "services/ts" svc))
+    (for [d SERVICES_TS]
+      (run d))))
 
 (defn-cmd setup-ts-service [service]
   (print (.format "Setting up TS service: {}" service))
-  (sh "npm install --no-package-lock" :cwd (join "services/ts" service) :shell True))
+  (setup-shared-js)
+  (sh "npm install " :cwd (join "services/ts" service) :shell True))
 
 (defn-cmd setup-ts []
   (print "Setting up TypeScript services...")
+  (setup-shared-js)
   (run-dirs SERVICES_TS "npm install" :shell True))
 
 (defn-cmd test-ts-service [service]
   (print (.format "Running tests for TS service: {}" service))
+
+  (setup-shared-js)
   (sh "npm test" :cwd (join "services/ts" service) :shell True))
 
 (defn-cmd test-ts-services []
@@ -339,7 +366,9 @@
     (print "GitHub Actions artifact installation complete")))
 
 (defn-cmd system-deps []
-  (sh "sudo apt-get update && sudo apt-get install -y libsndfile1" :shell True))
+  (if (os.environ.get "SIMULATE_CI")
+      (print "Skipping system dependency installation during CI simulation")
+      (sh "sudo apt-get update && sudo apt-get install -y libsndfile1" :shell True)))
 
 (defn-cmd install-mongodb []
   (if (= (platform.system) "Linux")
@@ -371,7 +400,9 @@
   (sh ["python" "scripts/kanban_to_issues.py"]))
 
 (defn-cmd simulate-ci []
-  (sh ["python" "scripts/simulate_ci.py"]))
+  (if (os.environ.get "SIMULATE_CI_JOB")
+      (sh ["python" "scripts/simulate_ci.py" "--job" (os.environ.get "SIMULATE_CI_JOB")])
+      (sh ["python" "scripts/simulate_ci.py"])) )
 
 (defn-cmd docker-build []
   (sh ["docker" "compose" "build"]))
@@ -400,10 +431,12 @@
     ["test-shared" test-shared-python]
     ["coverage" coverage-python-service]
     ["coverage-shared" coverage-shared-python]
+    ["lint" lint-python-service]
     ["test-quick-service" test-python-service] ;; same as normal test
     ["test-quick-shared" test-shared-python]   ;; no change in quick variant
     ["coverage-quick-service" coverage-python-service]
-    ["coverage-quick-shared" coverage-shared-python]]]
+    ["coverage-quick-shared" coverage-shared-python]
+    ["lint" lint-python-service]]]
 
   ["js"
    [["setup" setup-js-service]
@@ -436,9 +469,16 @@
 
 (defn-cmd generate-makefile []
   (setv header
-        "# Auto-generated Makefile. DO NOT EDIT MANUALLY.\n\n"
-        command-section
-        "COMMANDS := \\\n  all build clean lint format test setup setup-quick install install-mongodb \\\n  install-gha-artifacts system-deps start stop \\\n  start-tts start-stt stop-tts stop-stt \\\n  board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues \\\n  coverage coverage-python coverage-js coverage-ts simulate-ci \\\n  docker-build docker-up docker-down \\\n  typecheck-python test-e2e typecheck-ts build-ts build-js \\\n  setup-pipenv compile-hy \\\n  setup-python setup-python-quick setup-js setup-ts setup-hy \\\n  test-python test-js test-ts test-hy test-integration \\\n  generate-requirements generate-python-services-requirements generate-makefile\n\n")
+        "# Auto-generated Makefile. DO NOT EDIT MANUALLY.\n\n")
+  ;; Extract base commands (no % wildcard) for COMMANDS block
+
+  ;; Join COMMANDS into lines with `\` continuation
+  (setv command-section
+        (.join ""
+              ["COMMANDS := \\\n  "
+              (.join " \\\n  " commands)
+              "\n\n"]))
+
 
   ;; Group rules by prefix for PHONY
   (setv phony-lines []
@@ -467,6 +507,7 @@
     (.write f "\n")))
 
 
+(setv exceptions [])
 
 (defn main []
   (if (< (len sys.argv) 2)
@@ -483,9 +524,13 @@
                   (break)))
               (unless handled
                 (print (.format "Unknown command: {}" cmd))
-                (sys.exit 1)))))))
+                (sys.exit 1))))
+        (when (> (len exceptions) 0)
+          (print "commands failed:" #* (lfor [name e] exceptions name))
+          (.exit sys 1)
+
+            )
+        )))
 
 (when (= __name__ "__main__")
-  ;; (print (str (. commands [0] [0])))
-  (print "patterns" patterns)
   (main))

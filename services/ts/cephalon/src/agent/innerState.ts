@@ -67,5 +67,7 @@ export async function updateInnerState(this: AIAgent, newState: Partial<AgentInn
 		...Object.fromEntries(Object.entries(newState).filter(([_, v]) => v !== undefined)),
 	};
 
-	await writeFile('./state.json', JSON.stringify(this.innerState), { encoding: 'utf8' });
+	await writeFile('./state.json', JSON.stringify(this.innerState), {
+		encoding: 'utf8',
+	});
 }

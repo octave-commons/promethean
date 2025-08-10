@@ -1,0 +1,32 @@
+{
+  "name": "kanban-processor",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && node scripts/patch-imports.js",
+    "prestart": "npm run build",
+    "start": "node dist/index.js",
+    "start:dev": "node --loader ts-node/esm src/index.ts",
+    "build:check": "tsc --noEmit --incremental false",
+    "test": "npm run build && ava",
+    "coverage": "npm run build && c8 ava",
+    "lint": "prettier --cache --check . && eslint . --cache || true",
+    "format": "prettier --cache --write . && eslint . --fix --cache || true"
+  },
+  "dependencies": {
+    "mongodb": "^6.17.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.10",
+    "@types/ws": "^8.5.10",
+    "ava": "^6.4.1",
+    "c8": "^9.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "5.7.3",
+    "eslint": "^8.57.0",
+    "eslint-config-neon": "^0.1.62",
+    "prettier": "^3.4.2"
+  }
+}

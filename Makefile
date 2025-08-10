@@ -1,17 +1,97 @@
 # Auto-generated Makefile. DO NOT EDIT MANUALLY.
 
 COMMANDS := \
-  all build clean lint format test setup setup-quick install install-mongodb \
-  install-gha-artifacts system-deps start stop \
-  start-tts start-stt stop-tts stop-stt \
-  board-sync kanban-from-tasks kanban-to-hashtags kanban-to-issues \
-  coverage coverage-python coverage-js coverage-ts simulate-ci \
-  docker-build docker-up docker-down \
-  typecheck-python test-e2e typecheck-ts build-ts build-js \
-  setup-pipenv compile-hy \
-  setup-python setup-python-quick setup-js setup-ts setup-hy \
-  test-python test-js test-ts test-hy test-integration \
-  generate-requirements generate-python-services-requirements generate-makefile
+  setup-python-services \
+  setup-pipenv \
+  generate-python-shared-requirements \
+  generate-python-services-requirements \
+  generate-requirements-service \
+  setup-shared-python \
+  setup-shared-python-quick \
+  setup-python-services-quick \
+  setup-python \
+  setup-python-quick \
+  build-python \
+  clean-python \
+  setup-python-service \
+  test-python-service \
+  test-python-services \
+  test-shared-python \
+  test-python \
+  test-hy-service \
+  test-hy-services \
+  test-hy \
+  coverage-python-service \
+  coverage-python-services \
+  coverage-shared-python \
+  coverage-python \
+  lint-python-service \
+  lint-python \
+  format-python \
+  typecheck-python \
+  lint-js-service \
+  lint-js \
+  format-js \
+  setup-shared-js \
+  setup-js-service \
+  setup-js \
+  test-js-service \
+  test-js-services \
+  test-js \
+  coverage-js-service \
+  coverage-js-services \
+  coverage-js \
+  clean-js \
+  build-js \
+  lint-ts-service \
+  lint-ts \
+  format-ts \
+  typecheck-ts \
+  setup-ts-service \
+  setup-ts \
+  test-ts-service \
+  test-ts-services \
+  test-ts \
+  coverage-ts-service \
+  coverage-ts-services \
+  coverage-ts \
+  clean-ts \
+  build-ts \
+  build-sibilant \
+  setup-sibilant \
+  setup-sibilant-service \
+  setup-hy \
+  setup-hy-service \
+  compile-hy \
+  build \
+  clean \
+  lint \
+  test \
+  test-integration \
+  test-e2e \
+  format \
+  coverage \
+  setup \
+  setup-quick \
+  install \
+  install-gha-artifacts \
+  system-deps \
+  install-mongodb \
+  start \
+  stop \
+  start-service \
+  stop-service \
+  board-sync \
+  kanban-from-tasks \
+  kanban-to-hashtags \
+  kanban-to-issues \
+  simulate-ci \
+  docker-build \
+  docker-up \
+  docker-down \
+  generate-python-requirements \
+  generate-requirements \
+  generate-makefile
 
 .PHONY: \
   $(COMMANDS) \
@@ -22,6 +102,7 @@ COMMANDS := \
   test-shared-python-service- \
   coverage-python-service- \
   coverage-shared-python-service- \
+  lint-python-service- \
   test-quick-service-python-service- \
   test-quick-shared-python-service- \
   coverage-quick-service-python-service- \
@@ -68,6 +149,9 @@ coverage-python-service-%:
 	@hy Makefile.hy $@
 
 coverage-shared-python-service-%:
+	@hy Makefile.hy $@
+
+lint-python-service-%:
 	@hy Makefile.hy $@
 
 test-quick-service-python-service-%:

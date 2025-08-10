@@ -98,6 +98,88 @@ docs/            # System-level documentation and markdown exports
 site/            # Website or UI content (optional)
 ```
 
+### Current Services
+
+The `services/` directory currently includes:
+
+**Python**
+- `services/py/discord_attachment_embedder`
+- `services/py/discord_attachment_indexer`
+- `services/py/discord_indexer`
+- `services/py/embedding_service`
+- `services/py/stt`
+- `services/py/tts`
+
+**Hy (legacy)**
+- `services/hy/discord_attachment_embedder`
+- `services/hy/discord_attachment_indexer`
+- `services/hy/discord_indexer`
+- `services/hy/stt`
+- `services/hy/tts`
+
+**JavaScript**
+- `services/js/broker`
+- `services/js/eidolon-field`
+- `services/js/health`
+- `services/js/heartbeat`
+- `services/js/proxy`
+- `services/js/vision`
+
+**TypeScript**
+- `services/ts/board-updater`
+- `services/ts/cephalon`
+- `services/ts/discord-embedder`
+- `services/ts/file-watcher`
+- `services/ts/kanban-processor`
+- `services/ts/llm`
+- `services/ts/markdown-graph`
+- `services/ts/reasoner`
+- `services/ts/voice`
+
+---
+
+## 🛠 Service Templates
+
+New services can bootstrap their broker connection and event loop using the shared templates.
+
+### Python
+
+```python
+from shared.py.service_template import start_service
+
+async def handle_event(event):
+    ...
+
+async def handle_task(task):
+    ...
+
+asyncio.run(
+    start_service(
+        id="my-service",
+        queues=["some.queue"],
+        topics=["some.topic"],
+        handle_event=handle_event,
+        handle_task=handle_task,
+    )
+)
+```
+
+### JavaScript
+
+```javascript
+import { startService } from "../shared/js/serviceTemplate.js";
+
+startService({
+  id: "my-service",
+  queues: ["some.queue"],
+  topics: ["some.topic"],
+  handleEvent: async (event) => { /* ... */ },
+  handleTask: async (task) => { /* ... */ },
+});
+```
+
+Both helpers connect a `BrokerClient`, subscribe to topics, pull tasks from queues, and dispatch them to your handlers. Each returns the broker instance for further publishing or cleanup.
+
 ---
 
 # Environment variables
@@ -285,7 +367,7 @@ Additionally, ensure that:
 * All new code is covered by tests
 * Documentation is updated in `/docs/` as needed
 * Migration plans are followed for any structural changes
-* [test workflows](.github/workflows/tests.yaml) all use `make` targets for consistency
+* [test workflows](.github/workflows/) all use `make` targets for consistency
 
 ---
 
@@ -293,14 +375,14 @@ Additionally, ensure that:
 
 * Use `.gitattributes` to track LFS-managed binaries (e.g., weights, wavs)
 * Do **not** store raw datasets or models directly—use `download.sh` or link instructions
-* All changes to `/models/`, `/data/`, or `/training/` must be documented in `MIGRATION_PLAN.md` or a note in `CHANGELOG.md`
+* All changes to `/models/`, `/data/`, or `/training/` must be documented in `MIGRATION_PLAN.md` or noted in a changelog (`CHANGELOG.md` when available)
 
 ---
 
 ## 📚 Documentation Standards
 
 * Markdown only
-* Use `[Wikilinks](Wikilinks.md)` in your Obsidian workflow, but ensure they are converted to regular markdown links for compatibility. Use `#hashtags` to support the Obsidian graph view.
+* Use Wikilinks in your Obsidian workflow, but ensure they are converted to regular markdown links for compatibility. Use `#hashtags` to support the Obsidian graph view.
 * Code paths must be written like: `services/cephalon/langstream.py`
 * All new modules must have a doc stub in `/docs/`
 * See `docs/vault-config-readme.md` for tips on configuring Obsidian to export
@@ -318,6 +400,76 @@ Agents like Duck must:
 * Specify their prompt logic in `/agents/{agent}/prompt.md`
 
 ---
+
+## 🕹️ Agent-Mode Prompt Guidance
+
+When invoking agent-mode, frame prompts with:
+
+* **Goal** – the outcome the agent should achieve.
+* **Context** – relevant files, docs, or history.
+* **Constraints** – boundaries such as runtime or style requirements.
+* **Exit Criteria** – the signals that mark completion.
+
+Agents should verify their work and reference any touched paths before exiting agent-mode.
+
+## 🔐 Permission Schema
+
+Agents declare what they can do and where via a minimal permissions file. The parser reads these rules to gate runtime behavior.
+
+### Required Fields
+
+- **default** – `allow` or `deny` when no rule matches.
+- **rules** – list of entries, each with:
+  - **action** – capability identifier (`file.read`, `network.request`).
+  - **scope** – path or pattern the action applies to (`docs/**`, `*`).
+
+### YAML Example
+```yaml
+default: deny
+rules:
+  - action: file.read
+    scope: docs/**
+```
+
+### JSON Example
+```json
+{
+  "default": "allow",
+  "rules": [
+    {"action": "*", "scope": "*"}
+  ]
+}
+```
+
+Example permission files live in `agents/*/config/permissions.yaml`. For background reasoning see [docs/notes/math/aionian-pulse-rhythm-model.md](docs/notes/math/aionian-pulse-rhythm-model.md).
+
+---
+
+## 🛡️ Permission Gate Configuration
+
+Permission rules live in `shared/permissions.yaml`. The file uses:
+
+```yaml
+beta: <softness>
+default:
+  threshold: <float>
+  weights:
+    <feature>: <weight>
+  actions:
+    default:
+      features:
+        <feature>: <value>
+agents:
+  <agent>:
+    weights: {...}
+    threshold: <float>
+    actions:
+      <action>:
+        features:
+          <feature>: <value>
+```
+
+`check_permission(agent, action)` combines weights and features with a sigmoid gate; results below 0.5 are denied and logged.
 
 ## ✅ Next Steps
 

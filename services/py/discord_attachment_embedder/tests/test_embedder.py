@@ -1,17 +1,37 @@
 import sys
 from pathlib import Path
+import importlib
+import pytest
+import types
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 sys.path.insert(0, str(Path(__file__).resolve().parents[4]))
 
-import chromadb
-import importlib
-import pytest
 
-from chromadb.utils.embedding_functions import EmbeddingFunction
+class FakeCollection:
+    def __init__(self):
+        self.docs: list[str] = []
+
+    def add(self, documents, metadatas, ids):  # noqa: D401 - simple stub
+        self.docs.extend(documents)
+
+    def count(self) -> int:
+        return len(self.docs)
 
 
-class EmbeddingFn(EmbeddingFunction):
+class FakeClient:
+    def get_or_create_collection(self, name, embedding_function):
+        return FakeCollection()
+
+
+class FakeChromadb:
+    Client = FakeClient
+
+
+chromadb = FakeChromadb()
+
+
+class EmbeddingFn:
     def name(self) -> str:
         return "test"
 
@@ -43,6 +63,19 @@ def setup_env(monkeypatch):
 
 
 def test_process_message(monkeypatch):
+    monkeypatch.setitem(sys.modules, "chromadb", chromadb)
+    fake_mongodb = types.ModuleType("mongodb")
+    fake_mongodb.discord_message_collection = None
+    monkeypatch.setitem(sys.modules, "shared.py.mongodb", fake_mongodb)
+    fake_embedding_client = types.ModuleType("embedding_client")
+
+    class DummyEmbeddingServiceClient:  # noqa: D401 - simple stub
+        pass
+
+    fake_embedding_client.EmbeddingServiceClient = DummyEmbeddingServiceClient
+    monkeypatch.setitem(
+        sys.modules, "shared.py.embedding_client", fake_embedding_client
+    )
     mod = importlib.import_module("main")
     message = {
         "id": 1,

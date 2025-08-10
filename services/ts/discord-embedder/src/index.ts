@@ -94,7 +94,13 @@ const MONGO_CONNECTION_STRING = process.env.MONGODB_URI || `mongodb://localhost`
 		const messageIds = messages.map((msg) => msg._id);
 		await discordMessagesCollection.updateMany(
 			{ _id: { $in: messageIds } },
-			{ $set: { is_embedded: true, embedding_has_time_stamp: true, has_meta_data: true } },
+			{
+				$set: {
+					is_embedded: true,
+					embedding_has_time_stamp: true,
+					has_meta_data: true,
+				},
+			},
 		);
 	}
 })();

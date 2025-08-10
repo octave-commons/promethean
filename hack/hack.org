@@ -1,0 +1,120 @@
+#+title: Matplotlib Animation (anim/v1)
+#+property: header-args:python :session *py-anim* :python /home/err/.venvs/main/bin/python :dir ./ :results file :exports both
+#+startup: inlineimages
+
+# Optional sanity check — which Python is running?
+#+begin_src python :results output
+import sys, importlib.util
+print("python:", sys.executable)
+print("packaging:", importlib.util.find_spec("packaging") is not None)
+#+end_src
+
+# Animation block — “infinite depth smoke” + symbol condensation
+# Required variables: OUTFILE, FRAMES, FPS, FIGSIZE
+#+name: anim
+#+begin_src python :file smoke_symbols.gif
+# --- config ---
+OUTFILE = "smoke_symbols.gif"   # output file
+FRAMES  = 120                   # more frames for breathing effect
+FPS     = 20
+FIGSIZE = (6, 4)
+
+# --- setup ---
+import matplotlib
+matplotlib.use("Agg")
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation, PillowWriter
+
+fig, ax = plt.subplots(figsize=FIGSIZE)
+ax.set_xlim(0, 10)
+ax.set_ylim(-2, 2)
+ax.set_facecolor("black")
+ax.axis("off")
+
+# --- USER CODE START ---
+x = np.linspace(0, 10, 400)
+freqs = [1, 1.2, 0.9, 1.1]
+phases = [0, np.pi/4, np.pi/2, 3*np.pi/4]
+
+# Three depth layers (foreground, midground, background)
+layer_colors = [
+    ['#00ffff', '#ff00ff', '#ffff00', '#00ff00'],  # Foreground bright
+    ['#00cccc', '#cc00cc', '#cccc00', '#00cc00'],  # Mid muted
+    ['#009999', '#990099', '#999900', '#009900']   # Back faint
+]
+depth_factors = [1.0, 0.7, 0.4]
+
+# Lines for each layer
+all_lines = [
+    [ax.plot([], [], lw=1.5, alpha=0.5, color=color)[0] for color in colors]
+    for colors in layer_colors
+]
+
+# Combined interference "smoke" (foreground emphasis)
+smoke_line, = ax.plot([], [], lw=2, color='white', alpha=0.8)
+
+# Symbol condensation — glyphs that briefly appear then dissolve
+symbol_xpos  = np.array([2.5, 5.0, 7.5])
+symbol_texts = ["☯", "✦", "∞"]
+symbol_objs  = [ax.text(px, 0, txt, color="white", alpha=0, fontsize=18,
+                        ha="center", va="center") for px, txt in zip(symbol_xpos, symbol_texts)]
+
+def turbulence(t, scale=0.5, speed=0.05):
+    # Low-frequency spatial wobble
+    return scale * np.sin(speed * np.arange(len(x)) + t)
+
+def opacity_breath(t, phase_offset, base=0.2, amp=0.3, speed=10):
+    # Irregular fade in/out to feel alive
+    return base + amp * (1 + np.sin(t / speed + phase_offset)) / 2
+
+def init():
+    for layer in all_lines:
+        for line in layer:
+            line.set_data([], [])
+    smoke_line.set_data([], [])
+    for sym in symbol_objs:
+        sym.set_alpha(0)
+    return sum(all_lines, []) + [smoke_line] + symbol_objs
+
+def update(frame):
+    t = frame / 5
+    combined = np.zeros_like(x)
+
+    # Draw layered ghost threads
+    for depth_idx, layer in enumerate(all_lines):
+        depth_factor = depth_factors[depth_idx]
+        for i, (line, freq, phase) in enumerate(zip(layer, freqs, phases)):
+            y_base = np.sin(2 * np.pi * freq * x * depth_factor - t * depth_factor + phase)
+            y_turb = y_base + turbulence(t + i * 10, scale=0.15 * depth_factor)
+            fade   = opacity_breath(t, i + depth_idx, base=0.1, amp=0.3, speed=12 - depth_idx*2)
+            # Gaussian window to keep focus near center
+            y_draw = y_turb * np.exp(-0.05 * (x - 5)**2)
+            line.set_data(x, y_draw)
+            line.set_alpha(fade * (0.6 if depth_idx > 0 else 1.0))
+            combined += y_turb * fade * (1.0 if depth_idx == 0 else 0.5)
+
+    # Foreground interference (the “smoke”)
+    smoke_line.set_data(x, combined / len(freqs))
+    smoke_line.set_alpha(0.4 + 0.4 * np.sin(t / 15))
+
+    # Symbol condensation: appear on beats, then fade
+    for idx, sym in enumerate(symbol_objs):
+        # Sharper peaks using power to mimic sudden condensation
+        alpha = max(0.0, np.sin(t / 3 + idx)) ** 4
+        sym.set_alpha(alpha)
+
+    return sum(all_lines, []) + [smoke_line] + symbol_objs
+# --- USER CODE END ---
+
+ani = FuncAnimation(fig, update, init_func=init, frames=FRAMES, interval=50, blit=True)
+ani.save(OUTFILE, writer=PillowWriter(fps=FPS))
+plt.close(fig)
+OUTFILE
+#+end_src
+
+#+RESULTS: anim
+
+# Display (inline + clickable)
+#+attr_org: :width 800
+[[file:smoke_symbols.gif]]

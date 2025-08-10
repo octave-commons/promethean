@@ -82,17 +82,30 @@ export class VoiceSession extends EventEmitter {
 						const { channelData } = await this.deps.decode(wavBuffer);
 						const data = channelData[0];
 						if (data) {
-							const waveForm = await this.deps.renderWaveForm(data, { width: 1024, height: 256 });
-							files.push({ attachment: waveForm, name: `waveform-${saveTime}.png` });
+							const waveForm = await this.deps.renderWaveForm(data, {
+								width: 1024,
+								height: 256,
+							});
+							files.push({
+								attachment: waveForm,
+								name: `waveform-${saveTime}.png`,
+							});
 						}
 						const spectrogram = await this.deps.generateSpectrogram(wavBuffer);
-						files.push({ attachment: spectrogram, name: `spectrogram-${saveTime}.png` });
+						files.push({
+							attachment: spectrogram,
+							name: `spectrogram-${saveTime}.png`,
+						});
 					} catch (err) {
 						console.warn('Failed to generate waveform or spectrogram', err);
 					}
 					try {
 						const screen = await this.deps.captureScreen();
-						if (screen.length) files.push({ attachment: screen, name: `screencap-${saveTime}.png` });
+						if (screen.length)
+							files.push({
+								attachment: screen,
+								name: `screencap-${saveTime}.png`,
+							});
 					} catch (err) {
 						console.warn('Failed to capture screen', err);
 					}
@@ -212,7 +225,9 @@ export class VoiceSession extends EventEmitter {
 			const player = createAudioPlayer();
 			const { stream, cleanup } = await this.voiceSynth.generateAndUpsampleVoice(text);
 
-			const resource = createAudioResource(stream, { inputType: StreamType.Raw });
+			const resource = createAudioResource(stream, {
+				inputType: StreamType.Raw,
+			});
 			player.play(resource);
 
 			this.emit('audioPlayerStart', player);
