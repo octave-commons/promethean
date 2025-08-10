@@ -24,6 +24,6 @@ test('throttles tick interval based on messages', async (t) => {
 	await new Promise((r) => setTimeout(r, 1100));
 	client.publish('test', {});
 	t.true((agent as any).tickInterval > 100);
-	client.socket.close();
+	client.socket?.close();
 	await stopBroker(broker);
 });

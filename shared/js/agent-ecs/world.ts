@@ -13,8 +13,10 @@ export function createAgentWorld(audioPlayer: any) {
   const agent = cmd.createEntity();
   cmd.add(agent, C.Turn);
   cmd.add(agent, C.PlaybackQ);
-  cmd.add(agent, C.Policy, { defaultBargeIn: "pause" });
+  cmd.add(agent, C.Policy, { defaultBargeIn: "pause" as const });
   cmd.add(agent, C.AudioRef, { player: audioPlayer });
+  cmd.add(agent, C.RawVAD);
+  cmd.add(agent, C.VAD);
   cmd.flush();
   w.endTick();
 
