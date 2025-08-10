@@ -29,6 +29,7 @@
     "projectors/**/*.ts",
     "snapshots/**/*.ts",
     "timetravel/**/*.ts",
-    "dev/**/*.ts"
+    "dev/**/*.ts",
+    "rate/**/*.ts"
   ]
 }
