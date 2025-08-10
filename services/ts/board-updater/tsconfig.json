@@ -43,6 +43,7 @@
     // Language and Environment
     "experimentalDecorators": true,
     "lib": ["ESNext", "esnext.disposable"],
+    "types": ["node"],
     "target": "ESNext",
     "useDefineForClassFields": true,
 
