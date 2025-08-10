@@ -29,10 +29,19 @@ import svc_health from "./services/js/health/ecosystem.config.js";
 
 const duckApps = duck.default?.apps ?? duck.apps ?? [];
 const svcMods = [
-  svc_embed, svc_tts, svc_stt, svc_filewatch, svc_vision,
-  svc_llm, svc_heartbeat, svc_proxy, svc_eidolon, svc_mdgraph, svc_broker
+  svc_embed,
+  svc_tts,
+  svc_stt,
+  svc_filewatch,
+  svc_vision,
+  svc_llm,
+  svc_heartbeat,
+  svc_proxy,
+  svc_eidolon,
+  svc_mdgraph,
+  svc_broker,
+  svc_health,
 ];
-const serviceApps = svcMods.flatMap(m => m?.default?.apps ?? m?.apps ?? []);
+const serviceApps = svcMods.flatMap((m) => m?.default?.apps ?? m?.apps ?? []);
 
 export const apps = [...duckApps, ...serviceApps];
-
