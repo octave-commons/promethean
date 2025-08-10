@@ -4,6 +4,9 @@ import { FinalTranscript } from './transcriber';
 import { CollectionManager } from './collectionManager';
 import type { Interaction } from './interactions';
 import type { Bot } from './bot';
+import { createAudioPlayer, AudioPlayerStatus } from '@discordjs/voice';
+import { createAgentWorld } from '@shared/js/agent-ecs/world';
+import { randomUUID } from 'node:crypto';
 
 export async function joinVoiceChannel(bot: Bot, interaction: Interaction): Promise<any> {
 	await interaction.deferReply();
@@ -101,41 +104,46 @@ export async function tts(bot: Bot, interaction: Interaction) {
 export async function startDialog(bot: Bot, interaction: Interaction) {
 	if (bot.currentVoiceSession) {
 		await interaction.deferReply({ ephemeral: true });
-		bot.currentVoiceSession.transcriber
-			.on('transcriptEnd', async () => {
-				if (bot.agent) {
-					bot.agent.newTranscript = true;
-					bot.agent.updateVad(false);
-				}
-			})
-			.on('transcriptStart', async () => {
-				if (bot.agent) {
-					bot.agent.newTranscript = false;
-					bot.agent.updateVad(true);
-				}
+		const player = createAudioPlayer();
+		bot.currentVoiceSession.connection?.subscribe(player);
+		bot.agentWorld = createAgentWorld(player);
+		const { w, agent, C } = bot.agentWorld;
+		setInterval(() => bot.agentWorld?.tick(50), 50);
+
+		bot.currentVoiceSession.transcriber.on('transcriptEnd', (tr: FinalTranscript) => {
+			const turnId = w.get(agent, C.Turn)!.id;
+			bot.bus?.publish({
+				topic: 'agent.transcript.final',
+				corrId: randomUUID(),
+				turnId,
+				ts: Date.now(),
+				text: tr.transcript,
+				channelId: bot.currentVoiceSession!.voiceChannelId,
+				userId: tr.user?.id,
 			});
-		const channel = await interaction.guild.channels.fetch(bot.currentVoiceSession.voiceChannelId);
-		if (channel?.isVoiceBased()) {
-			for (const [, member] of channel.members) {
-				if (member.user.bot) continue;
-				await bot.currentVoiceSession.addSpeaker(member.user);
-				await bot.currentVoiceSession.startSpeakerTranscribe(member.user);
-			}
-		}
-		if (bot.voiceStateHandler) bot.client.off(discord.Events.VoiceStateUpdate, bot.voiceStateHandler);
-		bot.voiceStateHandler = (oldState, newState) => {
-			const id = bot.currentVoiceSession?.voiceChannelId;
-			const user = newState.member?.user || oldState.member?.user;
-			if (!id || !user || user.bot) return;
-			if (oldState.channelId !== id && newState.channelId === id) {
-				bot.currentVoiceSession?.addSpeaker(user);
-				bot.currentVoiceSession?.startSpeakerTranscribe(user);
-			} else if (oldState.channelId === id && newState.channelId !== id) {
-				bot.currentVoiceSession?.stopSpeakerTranscribe(user);
-				bot.currentVoiceSession?.removeSpeaker(user);
-			}
+		});
+
+		const speaking = bot.currentVoiceSession.connection?.receiver.speaking;
+		const onLevel = (level: number) => {
+			const rv = w.get(agent, C.RawVAD)!;
+			rv.level = level;
+			rv.ts = Date.now();
+			w.set(agent, C.RawVAD, rv);
 		};
-		bot.client.on(discord.Events.VoiceStateUpdate, bot.voiceStateHandler);
-		return bot.agent?.start();
+		speaking?.on('start', () => onLevel(1));
+		speaking?.on('end', () => onLevel(0));
+
+		const qUtter = w.makeQuery({ all: [C.Utterance] });
+		player.on(AudioPlayerStatus.Idle, () => {
+			for (const [e, get] of w.iter(qUtter)) {
+				const u = get(C.Utterance);
+				if (u.status === 'playing') {
+					u.status = 'done';
+					w.set(e, C.Utterance, u);
+				}
+			}
+		});
+
+		await interaction.deleteReply().catch(() => {});
 	}
 }

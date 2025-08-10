@@ -13,7 +13,7 @@ export function SpeechArbiterSystem(w: World) {
   }
 
   return async function run(_dt: number) {
-    for (const [agent, get] of w.iter(qAgent)) {
+    for (const [, get] of w.iter(qAgent)) {
       const turnId = get(Turn).id;
       const queue = get(PlaybackQ);
       const player = get(AudioRef).player;
@@ -31,7 +31,7 @@ export function SpeechArbiterSystem(w: World) {
 
       // if currently playing, enforce barge-in
       const current = queue.items.find(
-        (uEid) => w.get(uEid, Utterance)?.status === "playing",
+        (uEid: Entity) => w.get(uEid, Utterance)?.status === "playing",
       );
       if (current) {
         const u = w.get(current, Utterance)!;
@@ -54,7 +54,7 @@ export function SpeechArbiterSystem(w: World) {
 
       if (!player.isPlaying() && queue.items.length) {
         queue.items.sort(
-          (a, b) =>
+          (a: Entity, b: Entity) =>
             w.get(b, Utterance)!.priority - w.get(a, Utterance)!.priority,
         );
         let pickedIdx = -1,
