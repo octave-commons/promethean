@@ -13,7 +13,7 @@ import { AIAgent } from './agent/index.js';
 import { AGENT_NAME, DESKTOP_CAPTURE_CHANNEL_ID } from '../../../../shared/js/env.js';
 import { ContextManager } from './contextManager';
 import { LLMService } from './llm-service';
-import { checkPermission } from '@shared/js/permissionGate.js';
+import { checkPermission } from '../../../../shared/js/permissionGate.js';
 import { interaction, type Interaction } from './interactions';
 import {
 	joinVoiceChannel,

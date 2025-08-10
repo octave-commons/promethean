@@ -112,8 +112,8 @@ kanban-plugin: board
 
 - [ ] [Add semantic overlays for layer1 through layer8](../tasks/Add%20semantic%20overlays%20for%20layer1%20through%20layer8.md)
 - [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md) #agent #automation #prompt #metaagent #meta-prompting #documentation
-- [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md) #framework-core
-- [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md)
+- [ ] [Create permission gating layer 1](Create%20permission%20gating%20layer%201.md) #framework-core
+- [ ] [Define permission schema in AGENTS 1.md](Define%20permission%20schema%20in%20AGENTS%201.md)
 
 
 ## 🔵 Done
@@ -135,7 +135,7 @@ kanban-plugin: board
 - [x] [Add TTS service tests](../tasks/Add_TTS_service_tests.md) #codex-task #testing ✅ 2025-08-06
 - [x] [Add unit tests for wav_processing](../tasks/Add_unit_tests_for_wav_processing.md) #codex-task #testing ✅ 2025-08-06
 - [x] Automaticly capture every participant in an audio session ✅ 2025-08-05
-- [x] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md) ✅ 2025-08-05
+- [x] [Create vault-config .obsidian with Kanban and minimal vault setup 1](Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup%201.md) ✅ 2025-08-05
 - [x] [Remove ts-node and compile ava tests directly](Remove%20ts-node%20and%20compile%20ava%20tests%20directly.md) #cicd ✅ 2025-08-05
 - [x] [Determine PM2 configuration for agents](../tasks/Determine%20PM2%20configuration%20for%20agents.md) ✅ 2025-08-05
 - [x] [Add STT service tests](../tasks/Add_STT_service_tests.md) #codex-task #testing ✅ 2025-08-05

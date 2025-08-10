@@ -46,6 +46,7 @@ def _remove_status_tokens(tokens: list[str]) -> list[str]:
 def set_status(path: Path, status: str) -> None:
     """Update a task file with the given status hashtag."""
     if not path.exists():
+        print(path, "doesn't exist")
         return
 
     text = path.read_text(encoding="utf-8")
