@@ -4,7 +4,7 @@ import path from "path";
 import fs from "fs";
 import pidusage from "pidusage";
 import { randomUUID } from "crypto";
-import { BrokerClient } from "../../../shared/js/brokerClient.js";
+import { BrokerClient } from "@shared/js/brokerClient.js";
 
 let HEARTBEAT_TIMEOUT = 10000;
 let CHECK_INTERVAL = 5000;

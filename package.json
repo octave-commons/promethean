@@ -6,6 +6,7 @@
     "build:docs": "node scripts/generate-service-docs.js"
   },
   "dependencies": {
+    "@shared/js": "file:shared/js",
     "adm-zip": "^0.5.16",
     "dotenv": "^17.2.1",
     "mongodb": "^6.18.0",

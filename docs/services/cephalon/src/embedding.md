@@ -7,7 +7,7 @@ message broker.
 
 ## Dependencies
 - chromadb
-- `../../../../shared/js/brokerClient.js`
+- `@shared/js/brokerClient.js`
 
 ## Dependents
 - `collectionManager.ts`

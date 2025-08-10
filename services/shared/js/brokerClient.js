@@ -1,1 +1,1 @@
-export * from "../../../shared/js/brokerClient.js";
+export * from "@shared/js/brokerClient.js";

@@ -1,6 +1,5 @@
 // @ts-ignore import js module without types
-// Fix incorrect relative path (one too many ..)
-import { BrokerClient } from '../../../../shared/js/brokerClient.js';
+import { BrokerClient } from '@shared/js/brokerClient.js';
 import { Message } from 'ollama';
 
 export type LLMClientOptions = {
