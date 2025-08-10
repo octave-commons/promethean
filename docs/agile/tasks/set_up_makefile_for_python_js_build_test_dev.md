@@ -1,22 +1,46 @@
-## 🛠️ Task: \[\[Set up `Makefile` for Python + JS build test dev]]
+## 🛠️ Task: Set up Makefile for Python + JS build test dev
 
-Generated from [../unique/2025.07.28.18.07.20.md](../unique/2025.07.28.18.07.20.md)
+A unified Makefile (or equivalent script) will streamline development. It should bootstrap dependencies, start services, run tests and clean artifacts.
 
 ---
 
 ## 🎯 Goals
-- [ ] TODO
+- Provide a quick `setup` target for all services
+- Allow starting and stopping each service individually
+- Offer a single command to run tests across languages
+- Keep the workflow cross platform when possible
 
 ---
 
 ## 📦 Requirements
-- [ ] TODO
+- [x] `setup` installs dependencies for all services
+- [x] `start` and `stop` manage processes via PM2
+- [x] `start:<service>` and `stop:<service>` for granular control
+- [x] `test` aggregates Python and JS test suites
+- [x] `clean` removes build artifacts
 
 ---
 
 ## 📋 Subtasks
-- [ ] TODO
+- [x] Inventory current service start commands
+- [x] Draft initial Makefile structure
+- [x] Integrate PM2 ecosystem config
+- [x] Document usage in the root `README.md`
 
 ---
 
-#Todo
+## 🔗 Related Epics
+#cicd #buildtools #devtools #devops
+
+---
+
+## ⛓️ Blocked By
+Nothing
+
+## ⛓️ Blocks
+- Future CI automation
+
+---
+
+## 🔍 Relevant Links
+- [kanban](../boards/kanban.md)
