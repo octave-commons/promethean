@@ -8,16 +8,16 @@ default:
     default:
       features:
         join_voice_channel: 1.0
-        access_level: 0.0
-        trust_level: 0.0
+        access_level: 1.0
+        trust_level: 1.0
     join_voice_channel:
       features:
-        access_level: 0.0
-        trust_level: 0.0
+        access_level: 1.0
+        trust_level: 1.0
     leave_voice_channel:
       features:
-        access_level: 0.0
-        trust_level: 0.0
+        access_level: 1.0
+        trust_level: 1.0
     set_capture_channel:
       features:
         access_level: 0.0
