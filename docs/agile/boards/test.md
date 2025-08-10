@@ -22,7 +22,7 @@ kanban-plugin: board
 
 ## Incoming
 
-- [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup.md) #incoming
+- [ ] [Create vault-config .obsidian with Kanban and minimal vault setup 1](Create%20vault-config%20.obsidian%20with%20Kanban%20and%20minimal%20vault%20setup%201.md) #incoming
 - [ ] [setup a second agent](../tasks/setup%20a%20second%20agent.md) #incoming
 
 ## Rejected
@@ -84,8 +84,8 @@ kanban-plugin: board
 - [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/Auto-generate%20AGENTS.md%20stubs%20from%20services%20structure.md) #ready
 - [ ] [Clarify Promethean project vision](../tasks/Clarify%20Promethean%20project%20vision.md) #ready
 - [ ] [Clearly seperate service dependency files](../tasks/Clearly%20seperate%20service%20dependency%20files.md) #ready
-- [ ] [Create permission gating layer](../tasks/Create%20permission%20gating%20layer.md) #ready
-- [ ] [Define permission schema in AGENTS.md](../tasks/Define%20permission%20schema%20in%20AGENTS.md) #ready
+- [ ] [Create permission gating layer 1](Create%20permission%20gating%20layer%201.md) #ready
+- [ ] [Define permission schema in AGENTS 1.md](Define%20permission%20schema%20in%20AGENTS%201.md) #ready
 - [ ] [Document board usage guidelines](../tasks/Document%20board%20usage%20guidelines.md) #ready
 - [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/Gather%20baseline%20emotion%20metrics%20for%20Eidolon%20field.md) #ready
 - [ ] [Gather open questions about system direction](../tasks/Gather%20open%20questions%20about%20system%20direction.md) #ready

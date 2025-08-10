@@ -7,6 +7,7 @@ default:
   actions:
     default:
       features:
+        join_voice_channel: 1.0
         access_level: 0.0
         trust_level: 0.0
 agents:
