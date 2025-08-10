@@ -2,13 +2,13 @@ import re
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(sys.argv[1]) if sys.argv[1] else Path(__file__).resolve().parents[1]
 LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 
 
 def rename_dirs(base: Path, link: str) -> None:
     """Rename directories in the link path to lowercase if they exist."""
-    if '/' not in link:
+    if "/" not in link:
         return
     target = (base.parent / link).resolve()
     if not target.exists():
@@ -47,6 +47,6 @@ def process_file(path: Path) -> None:
 
 
 if __name__ == "__main__":
-    files = [Path(p) for p in sys.argv[1:]] or list(ROOT.rglob("*.md"))
+    files = list(ROOT.rglob("*.md"))
     for f in files:
         process_file(f)
