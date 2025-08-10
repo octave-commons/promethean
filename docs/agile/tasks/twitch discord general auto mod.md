@@ -128,3 +128,4 @@ flowchart LR
 ```
 
 If you want, I can spin this into a canvas-ready policy DSL starter (schema + a few exemplar rules) so you can start committing rules immediately.
+#agent-thinking
