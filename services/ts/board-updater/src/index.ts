@@ -10,8 +10,8 @@ const defaultRepoRoot = process.env.REPO_ROOT || "";
 function runPython(script: string, repoRoot: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const proc = spawn("python", [script], { cwd: repoRoot });
-    proc.stderr.on("data", (c) => process.stderr.write(c));
-    proc.on("close", (code) => {
+    proc.stderr.on("data", (c: Buffer) => process.stderr.write(c));
+    proc.on("close", (code: number | null) => {
       if (code === 0) resolve();
       else reject(new Error(`Process exited with code ${code}`));
     });
