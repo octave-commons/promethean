@@ -1,9 +1,8 @@
-// @ts-ignore
-import { BrokerClient } from '../../../../../shared/js/brokerClient.js';
+import { BrokerClient } from '@shared/js/brokerClient.js';
 import type { AIAgent } from './agent';
 
 export async function initMessageThrottler(agent: AIAgent, url?: string) {
-	const client = new BrokerClient({ url });
+	const client = new BrokerClient(url ? { url } : {});
 	let count = 0;
 	let windowStart = Date.now();
 	const base = 100;

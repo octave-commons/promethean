@@ -4,7 +4,7 @@ import { MongoClient } from "mongodb";
 import { spawn } from "child_process";
 import path from "path";
 import { fileURLToPath } from "url";
-import { BrokerClient } from "../../../../shared/js/brokerClient.js";
+import { BrokerClient } from "@shared/js/brokerClient.js";
 import {
   start as startBroker,
   stop as stopBroker,
