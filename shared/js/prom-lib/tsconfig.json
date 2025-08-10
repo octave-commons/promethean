@@ -25,6 +25,10 @@
     "compaction/**/*.ts",
     "metrics/**/*.ts",
     "examples/**/*.ts",
-    "http/**/*.ts"
+    "http/**/*.ts",
+    "projectors/**/*.ts",
+    "snapshots/**/*.ts",
+    "timetravel/**/*.ts",
+    "dev/**/*.ts"
   ]
 }
