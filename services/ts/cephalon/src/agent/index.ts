@@ -8,7 +8,7 @@
  * @requires EventEmitter
  */
 
-import { AudioPlayer } from '@discordjs/voice';
+import { AudioPlayer, createAudioPlayer } from '@discordjs/voice';
 import { Message } from 'ollama';
 import EventEmitter from 'events';
 
@@ -38,6 +38,7 @@ import {
 	think as thinkFn,
 	updateInnerState as updateInnerStateFn,
 } from './innerState';
+import { SpeechArbiter, TurnManager } from './speechCoordinator';
 
 // type BotActivityState = 'idle' | 'listening' | 'peaking';
 // type ConversationState = 'clear' | 'overlapping_speech' | 'awaiting_response';
@@ -74,7 +75,9 @@ export class AIAgent extends EventEmitter {
 
 	userSpeaking?: boolean;
 	newTranscript?: boolean;
-	audioPlayer?: AudioPlayer;
+	audioPlayer: AudioPlayer;
+	speechArbiter: SpeechArbiter;
+	turnManager: TurnManager;
 	context: ContextManager;
 	llm: LLMService;
 
@@ -92,6 +95,10 @@ export class AIAgent extends EventEmitter {
 		this.prompt = options.prompt || defaultPrompt;
 		this.context = options.context;
 		this.llm = options.llm || new LLMService();
+		this.audioPlayer = createAudioPlayer();
+		this.speechArbiter = new SpeechArbiter(this.audioPlayer);
+		this.turnManager = new TurnManager();
+		this.turnManager.on('turn', (id) => this.speechArbiter.setTurnId(id));
 	}
 	get contextManager() {
 		return this.bot.context;
@@ -343,10 +350,6 @@ export class AIAgent extends EventEmitter {
 	}
 	onAudioPlayerStop() {
 		console.log('audio player has stopped');
-		delete this.audioPlayer;
-		this.isSpeaking = false;
-		// emit doneSpeaking so the reset handler actually runs
-		this.emit('doneSpeaking');
 	}
 	onAudioPlayerStart(player: AudioPlayer) {
 		console.log('audio player has started');
