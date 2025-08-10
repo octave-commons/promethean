@@ -35,7 +35,7 @@ async def main():
 
     client_holder = {}
 
-    async def handle_task(task):
+    async def handle_task(task, client):
         await process_task(client_holder["client"], task)
 
     client_holder["client"] = await start_service(
