@@ -304,6 +304,9 @@
   (lint-js)
   (lint-ts))
 
+(defn-cmd lint-topics []
+  (sh ["npx" "tsx" "scripts/lint-topics.ts"]))
+
 (defn-cmd test []
   (test-python)
   (test-hy)
