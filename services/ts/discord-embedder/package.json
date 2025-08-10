@@ -37,10 +37,12 @@
 		"ollama": "^0.5.16",
 		"pnpm": "^10.13.1",
 		"prism-media": "^2.0.0-alpha.0",
-		"wav": "^1.0.2"
+		"wav": "^1.0.2",
+		"ws": "^8.18.3"
 	},
 	"devDependencies": {
 		"@types/node": "^22.10.10",
+		"@types/ws": "^8.5.12",
 		"ava": "^6.4.1",
 		"eslint": "^8.57.0",
 		"eslint-config-neon": "^0.1.62",
