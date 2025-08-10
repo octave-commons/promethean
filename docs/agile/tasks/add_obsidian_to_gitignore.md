@@ -1,22 +1,47 @@
-## 🛠️ Task: Add `.obsidian/` to `.gitignore`
+## 🛠️ Task: Add .obsidian to .gitignore
 
-Generated from [../unique/2025.07.28.18.07.20.md](../unique/2025.07.28.18.07.20.md)
+Placeholder task stub generated from kanban board.
 
 ---
 
 ## 🎯 Goals
-- [ ] TODO
+
+- Define clear objectives for "Add .obsidian to .gitignore".
 
 ---
 
 ## 📦 Requirements
-- [ ] TODO
+
+- [ ] Detail requirements.
 
 ---
 
 ## 📋 Subtasks
-- [ ] TODO
+
+- [x] Outline steps to implement.
 
 ---
 
-#Todo
+## 🔗 Related Epics
+
+#framework-core
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [kanban](../boards/kanban.md)
+
+## Comments
+
+`.obsidian/` is already listed in `.gitignore` (line 11), so this task is effectively complete.
