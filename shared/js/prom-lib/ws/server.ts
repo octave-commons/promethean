@@ -1,5 +1,7 @@
 import { WebSocketServer, WebSocket } from "ws";
 import { EventBus, EventRecord } from "../event/types";
+import { makeConnLimiter, makeTopicLimiter } from "./server.rate";
+import { TokenBucket } from "../rate/limiter";
 
 export type AuthResult =
   | { ok: true; subScopes?: string[] }
@@ -35,6 +37,8 @@ export function startWSGateway(
   wss.on("connection", (ws: WebSocket) => {
     let authed = false;
     const subs = new Map<SubKey, SubState>();
+    const connLimiter = makeConnLimiter();
+    const topicLimiters = new Map<string, TokenBucket>();
 
     const safeSend = (obj: any) => {
       if (ws.readyState === ws.OPEN) ws.send(JSON.stringify(obj));
@@ -69,9 +73,12 @@ export function startWSGateway(
 
       // AUTH
       if (msg.op === "AUTH") {
-        const a = await (opts.auth?.(msg.token) ??
+        const a: AuthResult = await (opts.auth?.(msg.token) ??
           Promise.resolve({ ok: true } as AuthResult));
-        if (!a.ok) return err(a.code, a.msg);
+        if (!a.ok) {
+          const { code, msg } = a as { ok: false; code: string; msg: string };
+          return err(code, msg);
+        }
         authed = true;
         return safeSend({ op: "OK", corr });
       }
@@ -80,6 +87,14 @@ export function startWSGateway(
 
       // PUBLISH
       if (msg.op === "PUBLISH") {
+        if (!connLimiter.tryConsume(1))
+          return err("rate_limited", "conn publish rate exceeded");
+        const tl =
+          topicLimiters.get(msg.topic) ??
+          (topicLimiters.set(msg.topic, makeTopicLimiter(msg.topic)),
+          topicLimiters.get(msg.topic)!);
+        if (!tl.tryConsume(1))
+          return err("rate_limited", "topic publish rate exceeded");
         try {
           const rec = await bus.publish(msg.topic, msg.payload, msg.opts);
           return safeSend({ op: "OK", corr, id: rec.id });
@@ -105,6 +120,7 @@ export function startWSGateway(
           async (e, ctx) => {
             // backpressure
             if (state.inflight.size >= maxInflight) return; // drop; will redeliver later
+            if (!connLimiter.tryConsume(1)) return; // slow push if client is hot
             // dedupe if same id still inflight
             if (state.inflight.has(e.id)) return;
 
