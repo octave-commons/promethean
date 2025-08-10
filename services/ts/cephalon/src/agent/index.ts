@@ -210,7 +210,7 @@ export class AIAgent extends EventEmitter {
 			} else if (this.userSpeaking && this.isPaused && !this.isStopped) {
 				this.ticksWaitingToResume++;
 				this.emit('waitingToResumeTick', this.ticksWaitingToResume);
-			} else if (this.isPaused && !this.isStopped) {
+			} else {
 				player.unpause();
 				this.isPaused = false;
 				this.overlappingSpeech = 0;
@@ -219,7 +219,16 @@ export class AIAgent extends EventEmitter {
 			}
 		});
 
-		this.on('readyoToSpeak', () => (this.userSpeaking = false));
+		this.on(
+			'readyToSpeak',
+			() => (
+				(this.overlappingSpeech = 0),
+				(this.ticksWaitingToResume = 0),
+				(this.userSpeaking = false),
+				(this.isStopped = false),
+				(this.isPaused = false)
+			),
+		);
 		this.on('tick', async () => {
 			this.onTick();
 		});
@@ -285,7 +294,6 @@ export class AIAgent extends EventEmitter {
 	onAudioPlayerStop() {
 		console.log('audio player has stopped');
 		delete this.audioPlayer;
-		this.overlappingSpeech = 0;
 	}
 	onAudioPlayerStart(player: AudioPlayer) {
 		console.log('audio player has started');
