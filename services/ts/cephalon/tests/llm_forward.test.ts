@@ -65,6 +65,5 @@ test('AIAgent forwards prompt to LLM service via broker', async (t) => {
 	t.deepEqual(received.context[0].content, 'hi');
 
 	worker.socket.close();
-	llm.broker.socket.close();
 	await stopBroker(broker);
 });
