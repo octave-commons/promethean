@@ -4,6 +4,7 @@ import EventEmitter from 'node:events';
 import { Transcriber } from '../transcriber.js';
 
 class DummyBroker extends EventEmitter {
+	socket: any = null;
 	lastEnqueue: { queue: string; task: any } | null = null;
 	async connect() {}
 	subscribe(_topic: string, handler: (event: any) => void) {
