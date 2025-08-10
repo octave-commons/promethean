@@ -83,7 +83,6 @@ export class World {
 
   // === Component registration ===
   defineComponent<T>(spec: ComponentSpec<T>): ComponentType<T> {
-
     if (this.nextCompId >= MAX_COMPONENTS)
       throw new Error(`Max ${MAX_COMPONENTS} components reached`);
     const id = this.nextCompId++;
@@ -130,7 +129,7 @@ export class World {
 
   destroyEntity(e: Entity): void {
     this.requireAlive(e);
-    const { arch, row } = this.loc[e & 0xffff];
+    const { arch, row } = this.loc[e & 0xffff]!;
     // call onRemove hooks for all comps present
     for (let cid = 0; cid < this.nextCompId; cid++) {
       const bit = 1n << BigInt(cid);
@@ -149,7 +148,6 @@ export class World {
   }
 
   isAlive(e: Entity): boolean {
-
     const idx = e & 0xffff,
       gen = e >>> 16;
     return this.generations[idx] === gen && this.alive.has(e);
@@ -159,17 +157,18 @@ export class World {
   addComponent<T>(e: Entity, ct: ComponentType<T>, value?: T): void {
     this.requireAlive(e);
     const idx = e & 0xffff;
-    const from = this.loc[idx].arch;
+    const loc = this.loc[idx]!;
+    const from = loc.arch;
     if ((from.mask & ct.mask) !== 0n) {
       // already has: set value + mark changed
-      const row = this.loc[idx].row;
+      const row = loc.row;
       from.columns.get(ct.id)![row] = value ?? from.columns.get(ct.id)![row];
       from.changed.get(ct.id)!.add(row);
       return;
     }
     // move to new archetype with component added
     const to = this.nextArchetype(from, ct.id, true);
-    const oldRow = this.loc[idx].row;
+    const oldRow = loc.row;
     const payloads: Record<number, any> = {};
     // carry over existing columns
     for (const [cid, col] of from.columns) payloads[cid] = col[oldRow];
@@ -182,10 +181,11 @@ export class World {
   removeComponent<T>(e: Entity, ct: ComponentType<T>): void {
     this.requireAlive(e);
     const idx = e & 0xffff;
-    const from = this.loc[idx].arch;
+    const loc = this.loc[idx]!;
+    const from = loc.arch;
     if ((from.mask & ct.mask) === 0n) return; // nothing to do
     const to = this.nextArchetype(from, ct.id, false);
-    const oldRow = this.loc[idx].row;
+    const oldRow = loc.row;
     const payloads: Record<number, any> = {};
     // carry over existing columns except the removed one
     for (const [cid, col] of from.columns)
@@ -197,14 +197,14 @@ export class World {
 
   get<T>(e: Entity, ct: ComponentType<T>): T | undefined {
     if (!this.isAlive(e)) return undefined;
-    const { arch, row } = this.loc[e & 0xffff];
+    const { arch, row } = this.loc[e & 0xffff]!;
     if ((arch.mask & ct.mask) === 0n) return undefined;
     return arch.columns.get(ct.id)![row];
   }
 
   set<T>(e: Entity, ct: ComponentType<T>, value: T): void {
     this.requireAlive(e);
-    const { arch, row } = this.loc[e & 0xffff];
+    const { arch, row } = this.loc[e & 0xffff]!;
 
     if ((arch.mask & ct.mask) === 0n)
       throw new Error(`entity lacks component '${ct.name}'`);
@@ -214,7 +214,7 @@ export class World {
 
   has(e: Entity, ct: ComponentType<any>): boolean {
     if (!this.isAlive(e)) return false;
-    const { arch } = this.loc[e & 0xffff];
+    const { arch } = this.loc[e & 0xffff]!;
     return (arch.mask & ct.mask) !== 0n;
   }
 
@@ -269,7 +269,7 @@ export class World {
           }
           if (!ok) continue;
         }
-        const e = arch.entities[row];
+        const e = arch.entities[row]!;
         const get = (ct: ComponentType<any>) => arch.columns.get(ct.id)![row];
         const v1 = c1 ? arch.columns.get(c1.id)![row] : undefined;
         const v2 = c2 ? arch.columns.get(c2.id)![row] : undefined;
@@ -340,13 +340,14 @@ export class World {
       arch.changed.get(cid)!.add(row); // mark as changed on arrival
     }
     // stash loc
-    this.loc[e & 0xffff] = { arch, row };
-    return this.loc[e & 0xffff];
+    const loc = { arch, row };
+    this.loc[e & 0xffff] = loc;
+    return loc;
   }
 
   private removeRow(arch: Archetype, row: number): void {
     const last = arch.entities.length - 1;
-    const eLast = arch.entities[last];
+    const eLast = arch.entities[last]!;
     // swap-remove entity row
     arch.entities[row] = eLast;
     arch.entities.pop();
@@ -361,7 +362,6 @@ export class World {
       const idxLast = eLast & 0xffff;
       this.loc[idxLast] = { arch, row };
     }
-
   }
 
   private move(
