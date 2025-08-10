@@ -39,7 +39,7 @@ import {
 	updateInnerState as updateInnerStateFn,
 } from './innerState';
 
-// type BotActivityState = 'idle' | 'listening' | 'speaking';
+// type BotActivityState = 'idle' | 'listening' | 'peaking';
 // type ConversationState = 'clear' | 'overlapping_speech' | 'awaiting_response';
 // type EmotionState = 'neutral' | 'irritated' | 'curious' | 'sleepy';
 
@@ -219,6 +219,7 @@ export class AIAgent extends EventEmitter {
 			}
 		});
 
+		this.on('readyoToSpeak', () => (this.userSpeaking = false));
 		this.on('tick', async () => {
 			this.onTick();
 		});

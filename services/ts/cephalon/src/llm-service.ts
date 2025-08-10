@@ -1,6 +1,5 @@
 // @ts-ignore import js module without types
 import { BrokerClient } from '@shared/js/brokerClient.js';
-import { randomUUID } from 'crypto';
 import { Message } from 'ollama';
 
 export type LLMClientOptions = {
@@ -22,12 +21,12 @@ export class LLMService {
 
 	constructor(options: LLMClientOptions = {}) {
 		const brokerUrl = options.brokerUrl || process.env.BROKER_URL || 'ws://localhost:7000';
-		this.#replyTopic = `llm.result.${randomUUID()}`;
+		this.#replyTopic = `llm.result`;
 		this.broker =
 			options.broker ||
 			new BrokerClient({
 				url: brokerUrl,
-				id: `cephalon-llm-${randomUUID()}`,
+				id: `cephalon-llm`,
 			});
 		this.#ready = this.broker
 			.connect()
