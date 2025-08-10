@@ -1,71 +1,38 @@
-const { defineApp } = require("./dev/pm2Helpers.js");
-const {
-  apps: [embeddingService],
-} = require("./ecosystem.embedder.js");
+// ecosystem.config.js (ESM, but NO top-level await)
+import { defineApp } from "./dev/pm2Helpers.js";
+import { fileURLToPath } from "url";
+import path from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 defineApp.PYTHONPATH = __dirname;
-const duck = require("./agents/duck/ecosystem.config.js");
 defineApp.HEARTBEAT_PORT = 5005;
+process.env.PROMETHEAN_ROOT_ECOSYSTEM = "1";
 
-module.exports = {
-  apps: [
-    ...duck.apps,
-    embeddingService,
-    defineApp(
-      "tts",
-      "pipenv",
-      ["run", "uvicorn", "--host", "0.0.0.0", "--port", "5001", "app:app"],
-      {
-        cwd: "./services/py/tts",
-        watch: ["./services/py/tts"],
+// Agents
+import duck from "./agents/duck/ecosystem.config.js";
 
-        env: {},
-      },
-    ),
-    defineApp(
-      "stt",
-      "pipenv",
-      ["run", "uvicorn", "--host", "0.0.0.0", "--port", "5002", "app:app"],
-      {
-        cwd: "./services/py/stt",
-        watch: ["./services/py/stt"],
-        env: {
-          FLASK_APP: "app.py",
-          FLASK_ENV: "production",
-        },
-      },
-    ),
-    defineApp("file-watcher", ".", [], {
-      cwd: "./services/ts/file-watcher",
-      watch: ["./services/ts/file-watcher"],
-      env: {
-        NODE_ENV: "production",
-        REPO_ROOT: __dirname,
-      },
-    }),
+// Services (static imports, no await)
+import svc_embed from "./services/py/embedding_service/ecosystem.config.js";
+import svc_tts from "./services/py/tts/ecosystem.config.js";
+import svc_stt from "./services/py/stt/ecosystem.config.js";
+import svc_filewatch from "./services/ts/file-watcher/ecosystem.config.js";
+import svc_vision from "./services/js/vision/ecosystem.config.js";
+import svc_llm from "./services/ts/llm/ecosystem.config.js";
+import svc_heartbeat from "./services/js/heartbeat/ecosystem.config.js";
+import svc_proxy from "./services/js/proxy/ecosystem.config.js";
+import svc_eidolon from "./services/js/eidolon-field/ecosystem.config.js";
+import svc_mdgraph from "./services/ts/markdown-graph/ecosystem.config.js";
+import svc_broker from "./services/js/broker/ecosystem.config.js";
+import svc_health from "./services/js/health/ecosystem.config.js";
 
-    defineApp("vision", ".", [], {
-      cwd: "./services/js/vision",
-      watch: ["./services/js/vision/"],
-      env: { PORT: 9999 },
-    }),
-    defineApp("llm", ".", [], {
-      cwd: "./services/ts/llm",
-      watch: ["./services/ts/llm/src"],
-      env: { LLM_PORT: 8888 },
-    }),
-    defineApp("heartbeat", ".", [], {
-      cwd: "./services/js/heartbeat",
-      watch: ["./services/js/heartbeat/"],
-      env: {
-        PORT: defineApp.HEARTBEAT_PORT,
-      },
-    }),
-    defineApp("proxy", ".", [], {
-      cwd: "./services/js/proxy",
-      watch: ["./services/js/proxy/"],
-      env: {
-        PORT: 8080,
-      },
-    }),
-  ],
-};
+const duckApps = duck.default?.apps ?? duck.apps ?? [];
+const svcMods = [
+  svc_embed, svc_tts, svc_stt, svc_filewatch, svc_vision,
+  svc_llm, svc_heartbeat, svc_proxy, svc_eidolon, svc_mdgraph, svc_broker
+];
+const serviceApps = svcMods.flatMap(m => m?.default?.apps ?? m?.apps ?? []);
+
+export const apps = [...duckApps, ...serviceApps];
+

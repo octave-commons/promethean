@@ -31,5 +31,8 @@ test('forwards image attachments to capture channel', async (t) => {
 	await bot.forwardAttachments(message);
 	t.truthy(sent);
 	t.is(sent.files.length, 1);
-	t.deepEqual(sent.files[0], { attachment: 'https://example.com/img.png', name: 'img.png' });
+	t.deepEqual(sent.files[0], {
+		attachment: 'https://example.com/img.png',
+		name: 'img.png',
+	});
 });

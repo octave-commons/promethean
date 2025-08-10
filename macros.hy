@@ -17,7 +17,9 @@
 
 (defmacro defn-cmd [name args #* body]
           `(setv (get commands (str (quote ~name)))
-                 (setx ~name (fn ~args ~@body)))
-          )
-
+                 (setx ~name (fn ~args (try ~@body
+                                            (except [e Exception]
+                                                    (.append exceptions [
+                                                             (str (quote ~name))
+                                                             e ])))))))
 

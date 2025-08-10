@@ -3,6 +3,7 @@
 ;; across shared cognitive services.
 
 (import [promethean.bridge [send-event]])
+(import [promethean.bridge.events [STT_INPUT CEPHALON_ROUTE TTS_OUTPUT]])
 
 ;; --- Agent Node Object ---
 (defclass AgentNode [object]
@@ -21,9 +22,9 @@
 
 (defn handle-utterance [node msg]
   ;; Pass utterance to STT, Cephalon, TTS
-  (send-event "stt-input" msg.content)
-  (let [thought (send-event "cephalon-route" msg.content)]
-    (send-event "tts-output" thought)))
+  (send-event STT_INPUT msg.content)
+  (let [thought (send-event CEPHALON_ROUTE msg.content)]
+    (send-event TTS_OUTPUT thought)))
 
 (defn schedule-action [node msg]
   ;; Placeholder for action scheduling

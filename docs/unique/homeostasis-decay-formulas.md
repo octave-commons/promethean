@@ -1,3 +1,5 @@
+Note: Consolidated here → ../notes/math/homeostasis-and-decay-models.md
+
 Here we go—fresh math blocks, Obsidian-safe and tagged. We're getting into **homeostasis**, **entropy**, and **temporal mechanics** now:
 
 ---

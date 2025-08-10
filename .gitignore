@@ -1,9 +1,9 @@
 **/node_modules/**
 node_modules/
-onnx_model/
-models/
+dist/
+!shared/js/prom-lib/dist/intention/
+!shared/js/prom-lib/dist/intention/**
 data/
-open_vino_modelfp16/
 pulbic/
 .env
 agents/duck/chroma_data/
@@ -52,3 +52,9 @@ patch.sh
 frames/
 
 output.mp4
+
+
+
+
+# Ignore Smart Environment folder
+.smart-env

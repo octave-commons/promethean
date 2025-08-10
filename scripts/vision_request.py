@@ -1,6 +1,6 @@
 import requests
 
-url = "http://localhost:5003/capture"
+url = "http://localhost:8080/vision/capture"
 response = requests.get(url)
 
 if response.status_code == 200:

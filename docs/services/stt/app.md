@@ -3,8 +3,17 @@
 **Path**: `services/py/stt/app.py`
 
 **Description**: FastAPI application providing HTTP and WebSocket speech-to-text
-APIs. Supports single-shot transcription via `/transcribe` and streaming
-transcription via `/stream`.
+APIs. Supports raw PCM transcription and real-time streaming.
+
+### Endpoints
+
+- `POST /transcribe_pcm` – accepts 16‑bit PCM audio in the request body with
+  `x-sample-rate` and `x-dtype` headers. Returns `{ "transcription": str }`.
+- `WS /transcribe` – WebSocket endpoint for single-shot transcription. Send
+  `{ "pcm": base64, "sample_rate": int }` and receive the transcription as
+  JSON.
+- `WS /stream` – WebSocket endpoint for streaming audio chunks. Send raw PCM
+  bytes and receive incremental transcriptions.
 
 ## Dependencies
 - fastapi

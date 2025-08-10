@@ -10,6 +10,7 @@ torch = "*"
 numpy = "*"
 uvicorn = "*"
 torchaudio = "*"
+websockets = "*"
 
 [dev-packages]
 pytest = "*"

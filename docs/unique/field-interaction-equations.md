@@ -1,3 +1,5 @@
+Note: Consolidated here → ../notes/math/field-interaction-equations.md
+
 Let’s keep going—now layering in **symbolic gravity**, **permission dynamics**, **emotional permeability**, and **circuit crosstalk** models. All Obsidian-ready with tags.
 
 ---

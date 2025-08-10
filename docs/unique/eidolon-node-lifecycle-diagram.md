@@ -1,3 +1,5 @@
+Note: Consolidated here → ../notes/diagrams/state-diagram-node-lifecycle.md
+
 ```mermaid
 stateDiagram-v2
     [*] --> Pressure_Accumulation
