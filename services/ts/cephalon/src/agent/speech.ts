@@ -14,21 +14,26 @@ export async function speak(this: AIAgent, text: string) {
 	const session = this.bot.currentVoiceSession;
 	if (!session || !session.connection) return;
 	let cleanup: (() => void) | undefined;
-	const utterance: Utterance = {
-		id: randomUUID(),
-		turnId: this.turnManager.turnId,
-		priority: 1,
-		bargeIn: 'pause',
-		group: 'agent-speech',
-		makeResource: async () => {
-			const { stream, cleanup: c } = await session.voiceSynth.generateAndUpsampleVoice(text);
-			cleanup = c;
-			return createAudioResource(stream, { inputType: StreamType.Raw });
-		},
-		onEnd: () => cleanup?.(),
-	};
-	session.connection.subscribe(this.speechArbiter.audioPlayer);
-	this.speechArbiter.enqueue(utterance);
+	return new Promise((resolve) => {
+		const utterance: Utterance = {
+			id: randomUUID(),
+			turnId: this.turnManager.turnId,
+			priority: 1,
+			bargeIn: 'pause',
+			group: 'agent-speech',
+			makeResource: async () => {
+				const { stream, cleanup: c } = await session.voiceSynth.generateAndUpsampleVoice(text);
+				cleanup = c;
+				return createAudioResource(stream, { inputType: StreamType.Raw });
+			},
+			onEnd: () => {
+				cleanup?.();
+				resolve(null);
+			},
+		};
+		session.connection.subscribe(this.speechArbiter.audioPlayer);
+		this.speechArbiter.enqueue(utterance);
+	});
 }
 
 export async function storeAgentMessage(
@@ -75,6 +80,7 @@ export async function generateVoiceResponse(this: AIAgent) {
 		const sentences: { type: string; text: string }[] = texts.flatMap(({ text, type }) =>
 			splitSentances(text).map((sentance) => ({ text: sentance, type })),
 		);
+		console.log({ sentences });
 		const finishedSentences = [] as { type: string; text: string }[];
 
 		const startTime = Date.now();
@@ -86,6 +92,7 @@ export async function generateVoiceResponse(this: AIAgent) {
 				await sleep(ms);
 				continue;
 			}
+			console.log(sentence);
 			await this.speak(sentence.text.trim());
 
 			finishedSentences.push(sentence);
