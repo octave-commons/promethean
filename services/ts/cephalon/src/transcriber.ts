@@ -1,7 +1,7 @@
 import { User } from 'discord.js';
 import EventEmitter from 'node:events';
 import { PassThrough } from 'node:stream';
-import { BrokerClient } from '../../../../shared/js/brokerClient.js';
+import { BrokerClient } from '@shared/js/brokerClient.js';
 import { Speaker } from './speaker';
 
 export type TranscriberOptions = {

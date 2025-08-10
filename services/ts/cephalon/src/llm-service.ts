@@ -1,5 +1,5 @@
 // @ts-ignore import js module without types
-import { BrokerClient } from '../../../../../shared/js/brokerClient.js';
+import { BrokerClient } from '@shared/js/brokerClient.js';
 import { randomUUID } from 'crypto';
 import { Message } from 'ollama';
 

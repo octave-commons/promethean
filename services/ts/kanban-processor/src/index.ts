@@ -4,7 +4,7 @@ import { readFile, writeFile } from "fs/promises";
 import crypto from "crypto";
 import { MongoClient, Collection } from "mongodb";
 // @ts-ignore
-import { BrokerClient } from "../../../../../shared/js/brokerClient.js";
+import { BrokerClient } from "@shared/js/brokerClient.js";
 
 const EVENTS = {
   boardChange: "file-watcher-board-change",
