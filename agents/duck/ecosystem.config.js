@@ -52,6 +52,7 @@ export default {
     ),
     defineApp("duck_cephalon", "dist/src/index.js", [], {
       cwd: path.join(__dirname, "../../services/ts/cephalon"),
+      ignore_watch: ["./services/ts/cephalon/state.json"],
       env: {
         ...discord_env,
       },
