@@ -77,6 +77,14 @@ export class AIAgent extends EventEmitter {
 	audioPlayer?: AudioPlayer;
 	context: ContextManager;
 	llm: LLMService;
+
+	// --- VAD smoothing / hysteresis ---
+	private vadAttackMs = 120; // how long speech must be 'active' to count as speaking
+	private vadReleaseMs = 250; // how long silence must persist to count as not speaking
+	private vadHangMs = 800; // max time to allow stale 'true' before forcing false (safety)
+	private lastVadTrueAt = 0;
+	private lastVadFalseAt = 0;
+	// --- end VAD smoothing / hysteresis ---
 	constructor(options: AgentOptions) {
 		super();
 		this.state = 'idle'; // Initial state of the agent
@@ -101,6 +109,40 @@ export class AIAgent extends EventEmitter {
 	generateInnerState = generateInnerStateFn;
 	think = thinkFn;
 	updateInnerState = updateInnerStateFn;
+
+	/** external VAD should call this with raw activity booleans frequently */
+	public updateVad(rawActive: boolean) {
+		const now = Date.now();
+
+		if (rawActive) {
+			this.lastVadTrueAt = now;
+			// attack: only flip userSpeaking true if it's been active long enough
+			if (!this.userSpeaking && now - this.lastVadFalseAt >= this.vadAttackMs) {
+				this.userSpeaking = true;
+				// when user starts speaking while we're speaking, we enter overlap flow naturally
+			}
+		} else {
+			this.lastVadFalseAt = now;
+			// release: only flip false after sustained silence
+			if (this.userSpeaking && now - this.lastVadTrueAt >= this.vadReleaseMs) {
+				this.userSpeaking = false;
+				// reset overlap counters on clean release
+				this.overlappingSpeech = 0;
+				this.ticksWaitingToResume = 0;
+			}
+		}
+	}
+
+	/** safety: call each tick to force userSpeaking=false if VAD stalls */
+	private reconcileVadStall() {
+		const now = Date.now();
+		if (this.userSpeaking && now - this.lastVadTrueAt > this.vadHangMs) {
+			// stale 'true' — force release
+			this.userSpeaking = false;
+			this.overlappingSpeech = 0;
+			this.ticksWaitingToResume = 0;
+		}
+	}
 
 	imageContext: Buffer[] = [];
 	async generateResponse({
@@ -189,6 +231,8 @@ export class AIAgent extends EventEmitter {
 			this.isSpeaking = false;
 			this.overlappingSpeech = 0;
 			this.ticksWaitingToResume = 0;
+			// when we finish, treat user as not speaking unless VAD immediately says otherwise
+			this.userSpeaking = false;
 		});
 		this.on('speechStopped', () => console.log('speech has been forcefully stopped'));
 		this.on('waitingToResumeTick', (count: number) => {
@@ -202,8 +246,11 @@ export class AIAgent extends EventEmitter {
 			}
 		});
 		this.on('speechTick', (player: AudioPlayer) => {
-			// console.log("speech Tick")
 			if (!player) return;
+
+			// safety: reconcile if VAD hasn't updated recently
+			this.reconcileVadStall();
+
 			if (this.userSpeaking && !this.isPaused) {
 				this.overlappingSpeech++;
 				this.emit('overlappingSpeechTick', this.overlappingSpeech);
@@ -211,27 +258,26 @@ export class AIAgent extends EventEmitter {
 				this.ticksWaitingToResume++;
 				this.emit('waitingToResumeTick', this.ticksWaitingToResume);
 			} else {
+				// no user speech: resume playback if we paused
+				if (this.isPaused) this.emit('speechResumed');
 				player.unpause();
 				this.isPaused = false;
 				this.overlappingSpeech = 0;
 				this.ticksWaitingToResume = 0;
-				this.emit('speechResumed');
 			}
 		});
 
-		this.on(
-			'readyToSpeak',
-			() => (
-				(this.overlappingSpeech = 0),
-				(this.ticksWaitingToResume = 0),
-				(this.userSpeaking = false),
-				(this.isStopped = false),
-				(this.isPaused = false)
-			),
-		);
-		this.on('tick', async () => {
-			this.onTick();
+		this.on('readyToSpeak', () => {
+			// hard reset before TTS starts
+			this.overlappingSpeech = 0;
+			this.ticksWaitingToResume = 0;
+			this.isStopped = false;
+			this.isPaused = false;
+			// don't assume userSpeaking; keep current VAD smoothed state
+			// but make sure stale true can't leak in:
+			this.reconcileVadStall();
 		});
+		this.on('tick', async () => this.onTick());
 
 		this.on('thought', async () => {
 			console.log('updating inner state');
@@ -263,8 +309,12 @@ export class AIAgent extends EventEmitter {
 	async onTick() {
 		if (this.isThinking) return;
 
+		// keep VAD from sticking if upstream stalls
+		this.reconcileVadStall();
+
 		if (this.isSpeaking) {
-			return this.emit('speechTick', this.audioPlayer);
+			this.emit('speechTick', this.audioPlayer);
+			return;
 		}
 
 		if (this.ticksSinceLastThought > 10) {
@@ -294,9 +344,14 @@ export class AIAgent extends EventEmitter {
 	onAudioPlayerStop() {
 		console.log('audio player has stopped');
 		delete this.audioPlayer;
+		this.isSpeaking = false;
+		// emit doneSpeaking so the reset handler actually runs
+		this.emit('doneSpeaking');
 	}
 	onAudioPlayerStart(player: AudioPlayer) {
 		console.log('audio player has started');
 		this.audioPlayer = player;
+		this.isSpeaking = true; // <-- important
+		this.emit('readyToSpeak'); // normalize state before overlap logic
 	}
 }
