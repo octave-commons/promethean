@@ -1,5 +1,6 @@
 import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
+import { Server as SocketIOServer } from "socket.io";
 
 export const app = express();
 
@@ -8,7 +9,6 @@ const defaultRoutes = {
   "/stt": "http://127.0.0.1:5002",
   "/vision": "http://127.0.0.1:9999",
   "/llm": "http://127.0.0.1:8888",
-  "/heartbeat": "http://127.0.0.1:5005",
 };
 
 function applyRoutes(routes) {
@@ -25,6 +25,19 @@ function applyRoutes(routes) {
 }
 
 let server;
+export let io;
+
+function setupSocketIO(httpServer) {
+  io = new SocketIOServer(httpServer, {
+    cors: { origin: "*" },
+  });
+
+  io.on("connection", (socket) => {
+    socket.onAny((event, ...args) => {
+      socket.broadcast.emit(event, ...args);
+    });
+  });
+}
 
 export async function start(
   port = process.env.PORT || 8080,
@@ -34,10 +47,15 @@ export async function start(
   server = app.listen(port, () => {
     console.log(`proxy service listening on ${port}`);
   });
+  setupSocketIO(server);
   return server;
 }
 
 export async function stop() {
+  if (io) {
+    io.close();
+    io = null;
+  }
   if (server) {
     await new Promise((resolve) => server.close(resolve));
     server = null;

@@ -1,7 +1,10 @@
 import os
+import subprocess
 import sys
 import types
+
 import numpy as np
+import pytest
 from fastapi.testclient import TestClient
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -11,47 +14,92 @@ def fake_llm(text: str) -> str:
     return f"LLM:{text}"
 
 
-def stub_transcribe_pcm(_pcm: bytes, _sr: int) -> str:
-    return "hello world"
-
-
-def stub_generate_voice(_text: str) -> np.ndarray:
-    return np.zeros(22050, dtype=np.float32)
+def _ensure_pkg(pkg: str):
+    try:
+        return __import__(pkg)
+    except ImportError:
+        try:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", pkg])
+            return __import__(pkg)
+        except Exception:
+            module = types.SimpleNamespace()
+            sys.modules[pkg] = module
+            return module
 
 
 def test_stt_llm_tts_pipeline(monkeypatch):
-    # Stub STT module
+    stt_mod = pytest.importorskip("services.py.stt.app")
+
+    nltk = _ensure_pkg("nltk")
+    monkeypatch.setattr(nltk, "download", lambda *a, **k: None, raising=False)
+
+    transformers = _ensure_pkg("transformers")
+
+    class DummyTokenizer:
+        @classmethod
+        def from_pretrained(cls, *a, **k):
+            return cls()
+
+        def __call__(self, text, return_tensors=None):
+            return types.SimpleNamespace(input_ids=[0])
+
+    class DummyModel:
+        @classmethod
+        def from_pretrained(cls, *a, **k):
+            return cls()
+
+        def to(self, device):
+            return self
+
+        def __call__(self, input_ids, return_dict=True):
+            return types.SimpleNamespace(waveform=np.zeros(22050, dtype=np.float32))
+
+    monkeypatch.setattr(
+        transformers, "FastSpeech2ConformerTokenizer", DummyTokenizer, raising=False
+    )
+    monkeypatch.setattr(
+        transformers, "FastSpeech2ConformerWithHifiGan", DummyModel, raising=False
+    )
+
+    torch = _ensure_pkg("torch")
+    monkeypatch.setattr(torch.cuda, "is_available", lambda: False, raising=False)
+
     monkeypatch.setitem(
         sys.modules,
         "shared.py.speech.wisper_stt",
-        types.SimpleNamespace(transcribe_pcm=stub_transcribe_pcm),
+        types.SimpleNamespace(transcribe_pcm=lambda *_: "hello world"),
+    )
+    monkeypatch.setitem(
+        sys.modules,
+        "shared.py.speech.whisper_stream",
+        types.SimpleNamespace(WhisperStreamer=object),
     )
 
-    # Stub TTS module
-    dummy_module = types.SimpleNamespace(generate_voice=stub_generate_voice)
-    monkeypatch.setitem(sys.modules, "speech", types.SimpleNamespace(tts=dummy_module))
-    monkeypatch.setitem(sys.modules, "speech.tts", dummy_module)
-    monkeypatch.setitem(sys.modules, "shared.py.speech", types.SimpleNamespace(tts=dummy_module))
-    monkeypatch.setitem(sys.modules, "shared.py.speech.tts", dummy_module)
-
-    from services.py.stt import app as stt_app
-    from services.py.tts import ws as tts_ws
-
-    stt_client = TestClient(stt_app.app)
-    tts_client = TestClient(tts_ws.app)
-
-    resp = stt_client.post(
-        "/transcribe_pcm",
-        headers={"X-Sample-Rate": "16000", "X-Dtype": "int16"},
-        data=b"pcm",
+    dummy_voice = types.SimpleNamespace(
+        generate_voice=lambda _text: np.zeros(22050, dtype=np.float32)
     )
-    assert resp.status_code == 200
-    text = resp.json()["transcription"]
+    monkeypatch.setitem(sys.modules, "speech", types.SimpleNamespace(tts=dummy_voice))
+    monkeypatch.setitem(sys.modules, "speech.tts", dummy_voice)
+    monkeypatch.setitem(
+        sys.modules, "shared.py.speech", types.SimpleNamespace(tts=dummy_voice)
+    )
+    monkeypatch.setitem(sys.modules, "shared.py.speech.tts", dummy_voice)
 
-    reply = fake_llm(text)
+    tts_mod = pytest.importorskip("services.py.tts.app")
 
-    with tts_client.websocket_connect("/ws/tts") as websocket:
-        websocket.send_text(reply)
-        audio = websocket.receive_bytes()
+    with TestClient(stt_mod.app) as stt_client, TestClient(tts_mod.app) as tts_client:
+        resp = stt_client.post(
+            "/transcribe_pcm",
+            headers={"X-Sample-Rate": "16000", "X-Dtype": "int16"},
+            data=b"pcm",
+        )
+        assert resp.status_code == 200
+        text = resp.json()["transcription"]
+
+        reply = fake_llm(text)
+
+        with tts_client.websocket_connect("/ws/tts") as ws:
+            ws.send_text(reply)
+            audio = ws.receive_bytes()
 
     assert audio.startswith(b"RIFF")

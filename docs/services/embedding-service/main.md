@@ -2,12 +2,16 @@
 
 **Path**: `services/py/embedding_service/main.py`
 
-**Description**: FastAPI application exposing `/embed` to generate vector embeddings using pluggable drivers such as naive, transformers, or Ollama implementations.
+**Description**: Async worker built on the shared `start_service` template to
+generate vector embeddings. Listens for tasks on `embedding.generate` and
+publishes results to the `embedding.result` topic using pluggable drivers such
+as naive, transformers, or Ollama implementations.
 
 ## Dependencies
-- fastapi
-- pydantic
+- asyncio
+- os
 - functools.lru_cache
+- shared.py.service_template
 - services/py/embedding_service/drivers
 
 ## Dependents

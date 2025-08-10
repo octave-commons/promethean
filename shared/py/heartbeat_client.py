@@ -1,8 +1,8 @@
-"""Utilities for sending periodic heartbeats to the heartbeat service.
+"""Utilities for sending periodic heartbeats via the message broker.
 
-This module provides a small `HeartbeatClient` class that can be reused by
-other services. It relies only on Python's standard library so that it can be
-embedded in constrained environments.
+This module provides a small :class:`HeartbeatClient` class that can be reused
+by other services. It uses the ``websockets`` package to publish heartbeat
+messages to the broker.
 """
 
 from __future__ import annotations
@@ -12,50 +12,58 @@ import os
 import threading
 from dataclasses import dataclass
 from typing import Optional
-from urllib import request
 
-HEARTBEAT_PORT = os.environ.get("HEARTBEAT_PORT", 5005)
+from websockets.sync.client import connect
+
+BROKER_PORT = os.environ.get("BROKER_PORT", 7000)
 
 
 @dataclass
 class HeartbeatClient:
-    """Send PID heartbeats to a heartbeat service.
+    """Send PID heartbeats to the broker.
 
     Parameters
     ----------
     url:
-        Fully qualified URL of the service's `/heartbeat` endpoint.
+        Fully qualified WebSocket URL of the broker.
     pid:
         Process identifier to report. Defaults to ``os.getpid()``.
+    name:
+        Name of the process, taken from ``PM2_PROCESS_NAME`` if not provided.
     interval:
         Seconds between heartbeats when :meth:`start` is used.
     """
 
-    url: str = f"http://127.0.0.1:{HEARTBEAT_PORT}/heartbeat"
+    url: str = f"ws://127.0.0.1:{BROKER_PORT}"
     pid: int = os.getpid()
+    name: str = os.environ.get("PM2_PROCESS_NAME", "")
     interval: float = 3.0
 
     _thread: Optional[threading.Thread] = None
     _stop: threading.Event = threading.Event()
+    _ws: Optional[object] = None
 
-    def send_once(self) -> dict:
-        """Send a single heartbeat.
+    def _ensure(self) -> None:
+        if self._ws and getattr(self._ws, "open", False):
+            return
+        if connect is None:
+            raise RuntimeError("websockets package is required for heartbeats")
+        self._ws = connect(self.url)
 
-        Returns the parsed JSON response from the service.
-        """
+    def send_once(self) -> None:
+        """Send a single heartbeat."""
 
-        data = json.dumps(
-            {"pid": self.pid, "name": os.environ.get("PM2_PROCESS_NAME")}
-        ).encode("utf-8")
-        req = request.Request(
-            self.url,
-            data=data,
-            method="POST",
-            headers={"Content-Type": "application/json"},
-        )
-        with request.urlopen(req, timeout=5) as resp:
-            body = resp.read()
-        return json.loads(body.decode("utf-8"))
+        if not self.name:
+            raise RuntimeError("process name required for heartbeats")
+        self._ensure()
+        msg = {
+            "action": "publish",
+            "message": {
+                "type": "heartbeat",
+                "payload": {"pid": self.pid, "name": self.name},
+            },
+        }
+        self._ws.send(json.dumps(msg))
 
     def _run(self) -> None:
         while not self._stop.is_set():
@@ -82,3 +90,9 @@ class HeartbeatClient:
         if self._thread:
             self._thread.join()
             self._thread = None
+        if self._ws:
+            try:
+                self._ws.close()
+            except Exception:
+                pass
+            self._ws = None

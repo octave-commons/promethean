@@ -1,5 +1,10 @@
-const path = require("path");
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
+import { defineApp } from "../../dev/pm2Helpers.js";
+import { fileURLToPath } from "url";
+import path from "path";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 dotenv.config({
   path: __dirname + "/.tokens",
 });
@@ -9,7 +14,6 @@ const python_env = {
   PYTHONUTF8: 1,
 };
 const AGENT_NAME = "Duck";
-const { defineApp } = require("../../dev/pm2Helpers");
 
 const discord_env = {
   DISCORD_TOKEN: process.env.DISCORD_TOKEN,
@@ -31,7 +35,7 @@ const discord_env = {
 // either way, you use docker, you use a mongo db instance
 // someone needs to download a program as a dependency.
 
-module.exports = {
+export default {
   apps: [
     defineApp(
       "duck_discord_indexer",
@@ -46,24 +50,47 @@ module.exports = {
         },
       },
     ),
-    defineApp("duck_cephalon", ".", [], {
+    defineApp("duck_cephalon", "dist/src/index.js", [], {
       cwd: path.join(__dirname, "../../services/ts/cephalon"),
+      watch_ignore: [
+        path.join(__dirname, "../../services/ts/cephalon/state.json"),
+      ],
       env: {
         ...discord_env,
       },
     }),
-    defineApp("duck_embedder", ".", [], {
+    defineApp("duck_embedder", "dist/src/index.js", [], {
       cwd: path.join(__dirname, "../../services/ts/discord-embedder"),
       env: {
         ...discord_env,
       },
     }),
+    // defineApp("duck_voice", "dist/src/index.js", [], {
+    //   cwd: path.join(__dirname, "../../services/ts/voice"),
+    //   env: {
+    //     ...discord_env,
+    //   },
+    // }),
     defineApp(
       "duck_attachment_indexer",
       "pipenv",
       ["run", "python", "-m", "main"],
       {
         cwd: "./services/py/discord_attachment_indexer",
+        watch: ["./services/py/tts"],
+        env: {
+          ...discord_env,
+          DEESKTOP_CAPTURE_CHANNEL_ID: "1401730790467047586",
+        },
+      },
+    ),
+
+    defineApp(
+      "duck_attachment_embedder",
+      "pipenv",
+      ["run", "python", "-m", "main"],
+      {
+        cwd: "./services/py/discord_attachment_embedder",
         watch: ["./services/py/tts"],
         env: {
           ...discord_env,

@@ -41,6 +41,15 @@ def collect_tasks(directory: Path = TASK_DIR):
     return tasks
 
 
+import urllib.parse
+
+
+def encode_path_and_url(file_path):
+    encoded_path = urllib.parse.quote(file_path)
+    encoded_url = urllib.parse.quote_plus(file_path)
+    return encoded_path, encoded_url
+
+
 def build_board(tasks: dict[str, list[tuple[str, Path]]]) -> str:
     lines = ["---", "", "kanban-plugin: board", "", "---", ""]
     for status in STATUS_ORDER:
@@ -51,8 +60,8 @@ def build_board(tasks: dict[str, list[tuple[str, Path]]]) -> str:
         lines.append(f"## {header}")
         lines.append("")
         for title, path in sorted(items):
-            rel = Path("../tasks") / path.name
-            lines.append(f"- [ ] [{title}]({rel}) {status}")
+            rel = (Path("../tasks") / path.name).as_posix()
+            lines.append(f"- [ ] [{title}]({encode_path_and_url(rel)[0]}) {status}")
         lines.append("")
     return "\n".join(lines)
 

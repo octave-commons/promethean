@@ -21,7 +21,8 @@ def process_message(message: dict, collection) -> None:
         ids.append(f"msg-{message['id']}")
 
     for attachment in message.get("attachments", []):
-        if attachment.get("content_type", "").startswith("image/"):
+        attachment_type = attachment.get("content_type", "")
+        if attachment_type and attachment_type.startswith("image/"):
             docs.append(f"img:{attachment['url']}")
             metadatas.append(
                 {

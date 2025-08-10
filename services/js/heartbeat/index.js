@@ -1,28 +1,22 @@
-import express from "express";
 import { MongoClient } from "mongodb";
 import { createRequire } from "module";
 import path from "path";
 import fs from "fs";
 import pidusage from "pidusage";
-import { fileURLToPath } from "url";
 import { randomUUID } from "crypto";
-
-export const app = express();
-app.use(express.json());
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-app.use(express.static(path.join(__dirname, "public")));
+import { BrokerClient } from "../../../shared/js/brokerClient.js";
 
 let HEARTBEAT_TIMEOUT = 10000;
 let CHECK_INTERVAL = 5000;
 let MONGO_URL = "mongodb://127.0.0.1:27017";
 let DB_NAME = "heartbeat_db";
 let COLLECTION = "heartbeats";
+let BROKER_URL = "ws://127.0.0.1:7000";
 
 let client;
 let collection;
 let interval;
-let server;
+let broker;
 let allowedInstances = {};
 let SESSION_ID;
 let shuttingDown = false;
@@ -70,15 +64,9 @@ function loadConfig() {
   }
 }
 
-app.post("/heartbeat", async (req, res) => {
-  const pid = parseInt(req.body?.pid, 10);
-  const name = req.body?.name;
-  if (!pid || !name) {
-    return res.status(400).json({ error: "pid and name required" });
-  }
-  if (!collection) {
-    return res.status(503).json({ error: "db not available" });
-  }
+async function handleHeartbeat({ pid, name }) {
+  pid = parseInt(pid, 10);
+  if (!pid || !name || !collection) return;
   const now = Date.now();
   try {
     const existing = await collection.findOne({ pid, sessionId: SESSION_ID });
@@ -90,11 +78,7 @@ app.post("/heartbeat", async (req, res) => {
         last: { $gte: now - HEARTBEAT_TIMEOUT },
         killedAt: { $exists: false },
       });
-      if (count >= allowed) {
-        return res
-          .status(409)
-          .json({ error: `instance limit exceeded for ${name}` });
-      }
+      if (count >= allowed) return;
     }
     const metrics = await getProcessMetrics(pid);
     await collection.updateOne(
@@ -105,23 +89,10 @@ app.post("/heartbeat", async (req, res) => {
       },
       { upsert: true },
     );
-    return res.json({ status: "ok", pid, name, ...metrics });
   } catch {
-    return res.status(500).json({ error: "db failure" });
+    /* swallow processing errors */
   }
-});
-
-app.get("/heartbeats", async (req, res) => {
-  if (!collection) {
-    return res.status(503).json({ error: "db not available" });
-  }
-  try {
-    const docs = await collection.find({}).toArray();
-    return res.json(docs);
-  } catch {
-    return res.status(500).json({ error: "db failure" });
-  }
-});
+}
 
 export async function monitor(now = Date.now()) {
   if (!collection) return;
@@ -144,12 +115,13 @@ export async function monitor(now = Date.now()) {
   }
 }
 
-export async function start(port = process.env.PORT || 5000) {
+export async function start() {
   HEARTBEAT_TIMEOUT = parseInt(process.env.HEARTBEAT_TIMEOUT || "10000", 10);
   CHECK_INTERVAL = parseInt(process.env.CHECK_INTERVAL || "5000", 10);
   MONGO_URL = process.env.MONGO_URL || MONGO_URL;
   DB_NAME = process.env.DB_NAME || DB_NAME;
   COLLECTION = process.env.COLLECTION || COLLECTION;
+  BROKER_URL = process.env.BROKER_URL || BROKER_URL;
 
   loadConfig();
 
@@ -158,13 +130,14 @@ export async function start(port = process.env.PORT || 5000) {
   client = new MongoClient(MONGO_URL);
   await client.connect();
   collection = client.db(DB_NAME).collection(COLLECTION);
+  broker = new BrokerClient({ url: BROKER_URL });
+  await broker.connect();
+  broker.subscribe("heartbeat", (event) => {
+    handleHeartbeat(event.payload || {}).catch(() => {});
+  });
   interval = setInterval(() => {
     monitor().catch(() => {});
   }, CHECK_INTERVAL);
-  server = app.listen(port, () => {
-    console.log(`heartbeat service listening on ${port}`);
-  });
-  return server;
 }
 
 export async function cleanup() {
@@ -187,9 +160,11 @@ export async function stop() {
     clearInterval(interval);
     interval = null;
   }
-  if (server) {
-    server.close();
-    server = null;
+  if (broker) {
+    try {
+      broker.socket.close();
+    } catch {}
+    broker = null;
   }
   if (client) {
     try {
