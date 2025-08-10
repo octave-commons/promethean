@@ -80,6 +80,7 @@ async def index_channel(channel: discord.TextChannel) -> None:
 
 @client.event
 async def on_ready():
+    print("hola")
     while True:
         for channel in shuffle_array(list(client.get_all_channels())):
             if isinstance(channel, discord.TextChannel):
