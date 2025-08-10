@@ -1,6 +1,6 @@
 import express from "express";
 import os from "os";
-import { BrokerClient } from "../../../shared/js/brokerClient.js";
+import { BrokerClient } from "@shared/js/brokerClient.js";
 
 export const app = express();
 
