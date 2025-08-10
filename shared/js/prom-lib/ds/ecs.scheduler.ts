@@ -136,9 +136,11 @@ export class Scheduler {
     // explicit before/after
     for (const s of compiled) {
       for (const a of s.after ?? [])
-        if (a !== s.name) g.addEdge(a, s.name, 1, { reason: "after" });
+        if (a !== s.name)
+          g.addEdge(a, s.name, { weight: 1, data: { reason: "after" } });
       for (const b of s.before ?? [])
-        if (b !== s.name) g.addEdge(s.name, b, 1, { reason: "before" });
+        if (b !== s.name)
+          g.addEdge(s.name, b, { weight: 1, data: { reason: "before" } });
     }
 
     // stage barriers (later stage depends on earlier stage)
@@ -148,8 +150,9 @@ export class Scheduler {
         const ra = stageRank.get(a.stage)!;
         const rb = stageRank.get(b.stage)!;
         if (ra < rb)
-          g.addEdge(a.id, b.id, 1, {
-            reason: `stage:${a.stage}->${b.stage}`,
+          g.addEdge(a.id, b.id, {
+            weight: 1,
+            data: { reason: `stage:${a.stage}->${b.stage}` },
           });
       }
     }
@@ -183,20 +186,31 @@ export class Scheduler {
         if (writeRead) {
           // order: writers before readers; if both write same, tie-break by name
           const conflictOn =
-            [...intersection(union(wA, wB), union(rA, rB, wA, wB))][0] ??
-            "unknown";
+            [
+              ...intersection(
+                union(wA, wB),
+                union(union(rA, rB), union(wA, wB)),
+              ),
+            ][0] ?? "unknown";
           if (intersects(wA, union(rB, wB)) && !intersects(wB, union(rA, wA))) {
-            g.addEdge(A.id, B.id, 1, { reason: `conflict:${conflictOn}` });
+            g.addEdge(A.id, B.id, {
+              weight: 1,
+              data: { reason: `conflict:${conflictOn}` },
+            });
           } else if (
             intersects(wB, union(rA, wA)) &&
             !intersects(wA, union(rB, wB))
           ) {
-            g.addEdge(B.id, A.id, 1, { reason: `conflict:${conflictOn}` });
+            g.addEdge(B.id, A.id, {
+              weight: 1,
+              data: { reason: `conflict:${conflictOn}` },
+            });
           } else {
             // both write same thing; deterministic order by name
             const [first, second] = A.id < B.id ? [A, B] : [B, A];
-            g.addEdge(first.id, second.id, 1, {
-              reason: `conflict:${conflictOn}:tie`,
+            g.addEdge(first.id, second.id, {
+              weight: 1,
+              data: { reason: `conflict:${conflictOn}:tie` },
             });
           }
         }
@@ -204,12 +218,12 @@ export class Scheduler {
     }
 
     // topo sort
-    const order = g.topoSort(); // throws if cycle
+    const order = topoSortGraph(g); // throws if cycle
     // layer into batches by removing edges level-by-level within each stage
     const batchesByStage = new Map<Stage, Batch[]>();
     for (const stage of this.stageOrder) {
       const nodes = order
-        .map((id) => sysMap.get(id)!)
+        .map((id: string) => sysMap.get(id)!)
         .filter((s) => s.stage === stage);
       // Greedy batching: place systems into earliest batch where no conflicts with batch members
       const batches: Batch[] = [];
@@ -286,6 +300,25 @@ function intersection<T>(a: Set<T>, b: Set<T>): Set<T> {
   const s = new Set<T>();
   for (const x of a) if (b.has(x)) s.add(x);
   return s;
+}
+
+function topoSortGraph<ND, ED>(g: Graph<ND, ED>): string[] {
+  const inDeg = new Map<string | number, number>();
+  for (const { id } of g.nodes()) inDeg.set(id, 0);
+  for (const { u, v } of g.edges()) inDeg.set(v, (inDeg.get(v) ?? 0) + 1);
+  const q: (string | number)[] = [];
+  for (const [id, deg] of inDeg) if (deg === 0) q.push(id);
+  const order: (string | number)[] = [];
+  while (q.length) {
+    const u = q.shift()!;
+    order.push(u);
+    for (const [v] of g.neighbors(u)) {
+      inDeg.set(v, inDeg.get(v)! - 1);
+      if (inDeg.get(v) === 0) q.push(v);
+    }
+  }
+  if (order.length !== inDeg.size) throw new Error("cycle detected");
+  return order.map((x) => String(x));
 }
 function conflictsInBatch(
   existing: CompiledSystem[],
