@@ -31,5 +31,6 @@
     "timetravel/**/*.ts",
     "dev/**/*.ts",
     "rate/**/*.ts"
-  ]
+  ],
+  "exclude": ["**/*.test.ts"]
 }

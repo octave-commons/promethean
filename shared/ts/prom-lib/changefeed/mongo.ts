@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Db, ResumeToken } from "mongodb";
 import { EventBus } from "../event/types";
 

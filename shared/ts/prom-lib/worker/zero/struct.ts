@@ -1,4 +1,4 @@
-// shared/js/prom-lib/worker/zero/struct.ts
+// shared/ts/prom-lib/worker/zero/struct.ts
 // MIT. No deps. Node + browser safe.
 
 // Features:
