@@ -46,6 +46,6 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [design overview](../../design/overview.md)
-- [kanban](../boards/kanban.md)
+- [[overview.md|design overview]]
+- [[kanban.md]]
 #ready

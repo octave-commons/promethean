@@ -47,13 +47,13 @@ Nothing
 
 ## ⛓️ Blocks
 
-- [write simple ecosystem declaration library for new agents](write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md)
+- [[write simple ecosystem declaration library for new agents.md]]
 
 ---
 
 ## 🔍 Relevant Links
 
-- [kanban](../boards/kanban.md)
+- [[kanban.md]]
 
 ## ❓ Questions
 

@@ -4,11 +4,11 @@
 
 ### Overview
 
-Layer 4 maps to Circuit 4: [Nemesian](Nemesian.md). It aligns behavior with context and ethical reflection.
+Layer 4 maps to Circuit 4: [[Nemesian.md]]. It aligns behavior with context and ethical reflection.
 
 ### Related Services and Agents
 
-- [Reasoner service](../../../services/ts/reasoner/)
-- [Duck agent](../../../agents/duck/)
+- [[reasoner|Reasoner service]]
+- [[duck|Duck agent]]
 
 #hashtags: #design #layer4

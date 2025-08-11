@@ -1,3 +1,3 @@
 # Document board sync workflow
 
-#ice-box
+#accepted

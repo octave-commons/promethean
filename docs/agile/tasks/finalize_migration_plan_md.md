@@ -1,6 +1,6 @@
 ## 🛠️ Task: \[\[Finalize `MIGRATION_PLAN.md`]]
 
-Generated from [../unique/2025.07.28.18.07.20.md](../unique/2025.07.28.18.07.20.md)
+Generated from [[2025.07.28.18.07.20.md|../unique/2025.07.28.18.07.20.md]]
 
 ---
 

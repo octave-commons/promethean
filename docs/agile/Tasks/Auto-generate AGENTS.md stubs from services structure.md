@@ -46,6 +46,6 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [vault config readme](../../vault-config-readme.md)
-- [kanban](../boards/kanban.md)
+- [[vault-config-readme.md|vault config readme]]
+- [[kanban.md]]
 #ready

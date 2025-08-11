@@ -10,9 +10,9 @@ Most directories currently lack a README, so we need to create them using a comm
 - Provide links to related `AGENT.md` files
 
 ## 🧩 Related Concepts
-- [process_board_flow](../process_board_flow.md)
-- [AGENTS.md](../AGENTS.md)
-- [service directory conventions](../service%20directory%20conventions.md)
+- [[process_board_flow.md]]
+- [[AGENTS.md|AGENTS.md]]
+- [[service directory conventions.md]]
 - #doc-this #framework-core #ritual
 
 ## 🛠 Requirements
@@ -30,4 +30,4 @@ Most directories currently lack a README, so we need to create them using a comm
 - [ ] Create `services/tts/README.md`
 
 ## 🔗 Links
-- [AGENTS.md](../AGENTS.md)
+- [[AGENTS.md|AGENTS.md]]

@@ -4,11 +4,11 @@
 
 ### Overview
 
-Layer 1 maps to Circuit 1: [Aionian](Aionian.md). It safeguards basic execution by maintaining heartbeat and system liveness.
+Layer 1 maps to Circuit 1: [[Aionian.md]]. It safeguards basic execution by maintaining heartbeat and system liveness.
 
 ### Related Services and Agents
 
-- [Heartbeat service](../../../services/js/heartbeat/)
-- [Duck agent](../../../agents/duck/)
+- [[heartbeat|Heartbeat service]]
+- [[duck|Duck agent]]
 
 #hashtags: #design #layer1
