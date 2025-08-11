@@ -1,12 +1,12 @@
 import os
 import sys
-from shared.py.utils.split_sentences import split_sentences
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "shared", "py"))
 
 sys.path.insert(
     0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
 )
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "shared", "py"))
+
+from shared.py.utils.split_sentences import split_sentences
 
 
 def test_split_basic():
