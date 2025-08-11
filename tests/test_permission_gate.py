@@ -1,4 +1,9 @@
 import importlib
+import os
+import sys
+
+# Ensure repository root is on the path so `shared` can be imported
+sys.path.append(os.getcwd())
 
 permission_gate = importlib.import_module("shared.py.permission_gate")
 
