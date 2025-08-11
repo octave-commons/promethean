@@ -149,6 +149,7 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 		};
 		speaking?.on('start', () => onLevel(1));
 		speaking?.on('end', () => onLevel(0));
+		bot.currentVoiceSession.transcriber.on('transcriptStart', () => onLevel(1)).on('transcriptEnd', () => onLevel(0));
 
 		const qUtter = w.makeQuery({ all: [C.Utterance] });
 		player.on(AudioPlayerStatus.Idle, () => {
@@ -160,6 +161,49 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 				}
 			}
 		});
+		// services/ts/cephalon/src/voiceCommands.ts  (inside startDialog, after you create player/world/etc.)
+
+		// 1) Start transcribing everyone currently in the channel
+		const voiceChan = await interaction.guild.channels.fetch(bot.currentVoiceSession.voiceChannelId);
+		if (voiceChan?.isVoiceBased()) {
+			for (const [, member] of voiceChan.members) {
+				if (member.user.bot) continue;
+				await bot.currentVoiceSession.addSpeaker(member.user);
+				await bot.currentVoiceSession.startSpeakerTranscribe(member.user);
+			}
+		}
+
+		// 2) Track joins/leaves dynamically while dialog is active
+		if (bot.voiceStateHandler) bot.client.off(discord.Events.VoiceStateUpdate, bot.voiceStateHandler);
+		bot.voiceStateHandler = (oldState, newState) => {
+			const id = bot.currentVoiceSession?.voiceChannelId;
+			const user = newState.member?.user || oldState.member?.user;
+			if (!id || !user || user.bot) return;
+			// joined target channel
+			if (oldState.channelId !== id && newState.channelId === id) {
+				bot.currentVoiceSession?.addSpeaker(user);
+				bot.currentVoiceSession?.startSpeakerTranscribe(user);
+			}
+			// left target channel
+			else if (oldState.channelId === id && newState.channelId !== id) {
+				bot.currentVoiceSession?.stopSpeakerTranscribe(user);
+				bot.currentVoiceSession?.removeSpeaker(user);
+			}
+		};
+		bot.client.on(discord.Events.VoiceStateUpdate, bot.voiceStateHandler);
+		bot.currentVoiceSession.transcriber
+			.on('transcriptStart', () => {
+				const rv = w.get(agent, C.RawVAD)!;
+				rv.level = 1;
+				rv.ts = Date.now();
+				w.set(agent, C.RawVAD, rv);
+			})
+			.on('transcriptEnd', () => {
+				const rv = w.get(agent, C.RawVAD)!;
+				rv.level = 0;
+				rv.ts = Date.now();
+				w.set(agent, C.RawVAD, rv);
+			});
 
 		await interaction.deleteReply().catch(() => {});
 	}

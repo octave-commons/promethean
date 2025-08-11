@@ -18,6 +18,7 @@ export function createAgentWorld(audioPlayer: any) {
   cmd.add(agent, C.RawVAD);
   cmd.add(agent, C.VAD);
   cmd.add(agent, C.TranscriptFinal);
+  cmd.add(agent, C.BargeState);
   cmd.add(agent, C.VisionRing);
   cmd.flush();
   w.endTick();

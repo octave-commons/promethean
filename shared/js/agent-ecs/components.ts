@@ -3,6 +3,14 @@ import type { World } from "../prom-lib/ds/ecs";
 export type BargeIn = "none" | "duck" | "pause" | "stop";
 
 export const defineAgentComponents = (w: World) => {
+  const BargeState = w.defineComponent<{
+    speakingSince: number | null;
+    paused: boolean;
+  }>({
+    name: "BargeState",
+    defaults: () => ({ speakingSince: null, paused: false }),
+  });
+
   const Turn = w.defineComponent<{ id: number }>({
     name: "Turn",
     defaults: () => ({ id: 0 }),
@@ -130,6 +138,7 @@ export const defineAgentComponents = (w: World) => {
     AudioRes,
     TranscriptFinal,
     VisionFrame,
+    BargeState,
     VisionRing,
     Policy,
   };
