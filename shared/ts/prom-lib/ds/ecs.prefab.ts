@@ -1,4 +1,4 @@
-// shared/js/prom-lib/ds/ecs.prefab.ts
+// shared/ts/prom-lib/ds/ecs.prefab.ts
 
 import { World, ComponentType } from "./ecs";
 
