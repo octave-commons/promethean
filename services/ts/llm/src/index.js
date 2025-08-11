@@ -9,6 +9,7 @@ app.use(express.json({ limit: "500mb" }));
 
 let callOllamaFn = async ({ prompt, context, format }, retry = 0) => {
   try {
+    for (let c of context) console.log(c);
     const res = await ollama.chat({
       model: MODEL,
       messages: [{ role: "system", content: prompt }, ...context],
