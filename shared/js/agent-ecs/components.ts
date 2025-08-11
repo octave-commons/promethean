@@ -95,6 +95,26 @@ export const defineAgentComponents = (w: World) => {
     defaults: () => ({ text: "", ts: 0 }),
   });
 
+  const VisionFrame = w.defineComponent<{
+    id: string;
+    ts: number;
+    ref: {
+      type: "url" | "blob" | "attachment";
+      url?: string;
+      mime?: string;
+      data?: string;
+      id?: string;
+    };
+  }>({
+    name: "VisionFrame",
+    defaults: () => ({ id: "", ts: 0, ref: { type: "url", url: "" } }),
+  });
+
+  const VisionRing = w.defineComponent<{ frames: number[]; capacity: number }>({
+    name: "VisionRing",
+    defaults: () => ({ frames: [], capacity: 12 }),
+  });
+
   const Policy = w.defineComponent<{ defaultBargeIn: BargeIn }>({
     name: "Policy",
     defaults: () => ({ defaultBargeIn: "pause" }),
@@ -109,6 +129,8 @@ export const defineAgentComponents = (w: World) => {
     Utterance,
     AudioRes,
     TranscriptFinal,
+    VisionFrame,
+    VisionRing,
     Policy,
   };
 };

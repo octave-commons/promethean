@@ -6,7 +6,9 @@ import type { Interaction } from './interactions';
 import type { Bot } from './bot';
 import { createAudioPlayer, AudioPlayerStatus } from '@discordjs/voice';
 import { createAgentWorld } from '@shared/js/agent-ecs/world';
+import { OrchestratorSystem } from '@shared/js/agent-ecs/systems/orchestrator';
 import { randomUUID } from 'node:crypto';
+import { defaultPrompt } from './prompts';
 
 export async function joinVoiceChannel(bot: Bot, interaction: Interaction): Promise<any> {
 	await interaction.deferReply();
@@ -107,11 +109,26 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 		const player = createAudioPlayer();
 		bot.currentVoiceSession.connection?.subscribe(player);
 		bot.agentWorld = createAgentWorld(player);
-		const { w, agent, C } = bot.agentWorld;
+		const { w, agent, C, addSystem } = bot.agentWorld;
+		addSystem(
+			OrchestratorSystem(
+				w,
+				bot.bus!,
+				(text) =>
+					bot.context
+						.compileContext([text])
+						.then((msgs) => msgs.map((m) => ({ role: m.role as 'user' | 'assistant' | 'system', content: m.content }))),
+				() => defaultPrompt,
+			),
+		);
 		setInterval(() => bot.agentWorld?.tick(50), 50);
 
 		bot.currentVoiceSession.transcriber.on('transcriptEnd', (tr: FinalTranscript) => {
 			const turnId = w.get(agent, C.Turn)!.id;
+			const tf = w.get(agent, C.TranscriptFinal)!;
+			tf.text = tr.transcript;
+			tf.ts = Date.now();
+			w.set(agent, C.TranscriptFinal, tf);
 			bot.bus?.publish({
 				topic: 'agent.transcript.final',
 				corrId: randomUUID(),

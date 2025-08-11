@@ -13,6 +13,7 @@ import { AGENT_NAME, DESKTOP_CAPTURE_CHANNEL_ID } from '@shared/js/env.js';
 import { ContextManager } from './contextManager';
 import { createAgentWorld } from '@shared/js/agent-ecs/world';
 import { enqueueUtterance } from '@shared/js/agent-ecs/helpers/enqueueUtterance';
+import { pushVisionFrame } from '@shared/js/agent-ecs/helpers/pushVision';
 import { AgentBus } from '@shared/js/agent-ecs/bus';
 import { createAudioResource } from '@discordjs/voice';
 import { Readable } from 'stream';
@@ -168,6 +169,17 @@ export class Bot extends EventEmitter {
 		}));
 		try {
 			await this.captureChannel.send({ files });
+			if (this.agentWorld) {
+				const { w, agent } = this.agentWorld;
+				for (const att of imageAttachments) {
+					const ref = {
+						type: 'url' as const,
+						url: att.url,
+						...(att.contentType ? { mime: att.contentType } : {}),
+					};
+					pushVisionFrame(w, agent, ref);
+				}
+			}
 		} catch (e) {
 			console.warn('Failed to forward attachments', e);
 		}
