@@ -1,4 +1,4 @@
-// shared/js/prom-lib/ds/graph.ts
+// shared/ts/prom-lib/ds/graph.ts
 // MIT. Zero deps. Node + browser safe.
 
 export type Id = string | number;

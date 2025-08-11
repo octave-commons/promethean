@@ -1,4 +1,4 @@
-// shared/js/prom-lib/ds/ecs.scheduler.ts
+// shared/ts/prom-lib/ds/ecs.scheduler.ts
 // MIT. Zero deps (uses World from ecs.ts and Graph from graph.ts)
 
 import { World, CommandBuffer, ComponentType, Query } from "./ecs";
