@@ -2,13 +2,11 @@ import test from "ava";
 import { WebSocketServer } from "ws";
 import { startKanbanProcessor } from "../src/index.js";
 
-const QUEUE = "kanban-processor";
-
 function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-test("enqueues board processing tasks", async (t) => {
+test("enqueues processing tasks for board and file changes", async (t) => {
   const wss = new WebSocketServer({ port: 0 });
   const messages: any[] = [];
   wss.on("connection", (ws) => {
@@ -26,10 +24,18 @@ test("enqueues board processing tasks", async (t) => {
     client.send(
       JSON.stringify({ event: { type: "file-watcher-board-change" } }),
     );
+    client.send(
+      JSON.stringify({ event: { type: "file-watcher-task-change" } }),
+    );
   }
 
   await wait(100);
-  t.truthy(messages.find((m) => m.action === "enqueue" && m.queue === QUEUE));
+  t.truthy(
+    messages.find((m) => m.action === "enqueue" && m.task?.kind === "board"),
+  );
+  t.truthy(
+    messages.find((m) => m.action === "enqueue" && m.task?.kind === "tasks"),
+  );
 
   await svc.close();
   await new Promise((r) => wss.close(r));
