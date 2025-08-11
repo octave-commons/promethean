@@ -53,3 +53,4 @@ The goal is to maintain or improve transcription speed and accuracy while signif
 
 If you want, I can also make you a **mermaid diagram** showing the current CPU-bound STT flow vs. the new NPU-accelerated flow so we can see where the changes happen and how fallbacks work.
 That’ll make it easier to slot into the Promethean pipeline.
+#todo

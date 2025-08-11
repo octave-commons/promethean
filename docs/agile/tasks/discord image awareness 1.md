@@ -59,3 +59,4 @@ This allows the “Duck” to have **visual memory** tied to conversational cont
 
 If you want, I can also make you a **flow diagram** showing how Discord images move from ingestion → storage → context selection → pipeline, so we can see exactly where the “selective” part happens.
 That’ll help decide where scoring and filtering logic plug in.
+#todo
