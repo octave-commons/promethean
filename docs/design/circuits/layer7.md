@@ -8,7 +8,7 @@ Layer 7 maps to Circuit 7: [Metisean](Metisean.md). It orchestrates long-term pl
 
 ### Related Services and Agents
 
-- [Board updater service](../../../services/ts/board-updater/)
+ - [Kanban processor service](../../../services/ts/kanban-processor/)
 - [Duck agent](../../../agents/duck/)
 
 #hashtags: #design #layer7

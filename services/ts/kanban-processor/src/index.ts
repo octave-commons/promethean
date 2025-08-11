@@ -8,6 +8,8 @@ import { BrokerClient } from "@shared/js/brokerClient.js";
 
 const EVENTS = {
   boardChange: "file-watcher-board-change",
+  taskAdd: "file-watcher-task-add",
+  taskChange: "file-watcher-task-change",
   cardCreated: "kanban-card-created",
   cardMoved: "kanban-card-moved",
   cardRenamed: "kanban-card-renamed",
@@ -29,6 +31,19 @@ function runPython(script: string, repoRoot: string): Promise<void> {
     proc.stderr.on("data", (c) => process.stderr.write(c));
     proc.on("close", (code) => {
       if (code === 0) resolve();
+      else reject(new Error(`Process exited with code ${code}`));
+    });
+  });
+}
+
+function runPythonCapture(script: string, repoRoot: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const proc = spawn("python", [script], { cwd: repoRoot });
+    let stdout = "";
+    proc.stdout.on("data", (c) => (stdout += c.toString()));
+    proc.stderr.on("data", (c) => process.stderr.write(c));
+    proc.on("close", (code) => {
+      if (code === 0) resolve(stdout);
       else reject(new Error(`Process exited with code ${code}`));
     });
   });
@@ -180,12 +195,19 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
   const QUEUE = "kanban-processor";
 
   let previousState: Record<string, KanbanCard> = {};
+  let ignoreBoard = false;
+  let ignoreTasks = false;
 
   function publish(type: string, payload: any) {
     broker.publish(type, payload);
   }
 
   async function handleBoardChange() {
+    if (ignoreBoard) {
+      ignoreBoard = false;
+      return;
+    }
+    ignoreTasks = true;
     try {
       await runPython(join("scripts", "kanban_to_hashtags.py"), repoRoot);
       const lines = await loadBoard(boardPath);
@@ -199,6 +221,32 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
       );
     } catch (err) {
       console.error("processKanban failed", err);
+    } finally {
+      setTimeout(() => {
+        ignoreTasks = false;
+      }, 500);
+    }
+  }
+
+  async function handleTasksChange() {
+    if (ignoreTasks) return;
+    ignoreBoard = true;
+    try {
+      const boardText = await runPythonCapture(
+        join("scripts", "hashtags_to_kanban.py"),
+        repoRoot,
+      );
+      const lines = boardText.split(/\r?\n/);
+      const parsed = await parseBoard(lines, boardDir, tasksPath);
+      await writeBoardFile(boardPath, parsed.lines, true);
+      previousState = await projectState(
+        parsed.cards,
+        previousState,
+        mongoCollection,
+        publish,
+      );
+    } catch (err) {
+      console.error("updateBoard failed", err);
     }
   }
 
@@ -206,7 +254,13 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
     .connect()
     .then(() => {
       broker.subscribe(EVENTS.boardChange, () => {
-        broker.enqueue(QUEUE, {});
+        broker.enqueue(QUEUE, { kind: "board" });
+      });
+      broker.subscribe(EVENTS.taskAdd, () => {
+        broker.enqueue(QUEUE, { kind: "tasks" });
+      });
+      broker.subscribe(EVENTS.taskChange, () => {
+        broker.enqueue(QUEUE, { kind: "tasks" });
       });
       broker.ready(QUEUE);
       console.log("kanban processor connected to broker");
@@ -214,7 +268,9 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
     .catch((err: unknown) => console.error("broker connect failed", err));
 
   broker.onTaskReceived((task: any) => {
-    handleBoardChange().finally(() => {
+    const kind = task.payload?.kind;
+    const fn = kind === "tasks" ? handleTasksChange : handleBoardChange;
+    fn().finally(() => {
       broker.ack(task.id);
       broker.ready(QUEUE);
     });
