@@ -17,19 +17,24 @@ export function createAgentWorld(audioPlayer: any) {
   cmd.add(agent, C.AudioRef, { player: audioPlayer });
   cmd.add(agent, C.RawVAD);
   cmd.add(agent, C.VAD);
+  cmd.add(agent, C.TranscriptFinal);
+  cmd.add(agent, C.VisionRing);
   cmd.flush();
   w.endTick();
 
-  const systems = [
+  const systems: Array<(dtMs: number) => void | Promise<void>> = [
     VADUpdateSystem(w),
     TurnDetectionSystem(w),
     SpeechArbiterSystem(w),
-    // TODO: add ContextAssembler, LLMRequest, TTSRequest, PlaybackLifecycle
   ];
 
   function tick(dtMs = 50) {
-    systems.forEach((s) => s(dtMs));
+    for (const s of systems) s(dtMs);
   }
 
-  return { w, agent, C, tick };
+  function addSystem(s: (dtMs: number) => void | Promise<void>) {
+    systems.push(s);
+  }
+
+  return { w, agent, C, tick, addSystem };
 }

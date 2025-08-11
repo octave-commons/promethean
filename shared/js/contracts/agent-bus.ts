@@ -22,10 +22,16 @@ export type TranscriptFinal = BaseMsg & {
   userId?: string;
 };
 
+export type ImageRef =
+  | { type: "url"; url: string; mime?: string }
+  | { type: "attachment"; id: string; mime?: string }
+  | { type: "blob"; mime: string; data: string };
+
 export type LlmRequest = BaseMsg & {
   topic: "agent.llm.request";
   prompt: string;
   context: Array<{ role: "user" | "assistant" | "system"; content: string }>;
+  images?: ImageRef[];
   specialQuery?: string;
   format?: "json" | "text";
 };
