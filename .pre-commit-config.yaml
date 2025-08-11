@@ -1,17 +1,18 @@
 repos:
   - repo: local
     hooks:
-      - id: wikilink-to-md
-        name: Convert wikilinks
-        entry: python scripts/convert_wikilinks.py
-        language: system
-        files: '\.md$'
       - id: generate-orphan-docs
         name: Generate docs for orphaned files
         entry: python scripts/generate_orphan_docs.py
         language: system
         pass_filenames: false
         files: ^orphaned-files-report\.md$
+      - id: enforce-wiki-links
+        name: Enforce Wikilinks
+        entry: python scripts/hashtags_to_kanban.py --check --write --wikilinks
+        language: system
+        pass_filenames: false
+
   - repo: https://github.com/psf/black
     rev: 24.4.2
     hooks:
