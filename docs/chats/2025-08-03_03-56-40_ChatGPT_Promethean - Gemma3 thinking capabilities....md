@@ -418,7 +418,15 @@ If you’re working within your _Promethean_ architecture and want to chain Qwen
 Let me know if you’d like help crafting prompts tailored to your workflow or designing tree-of-thought extensions built on CoT.undefined
 
 ## User
-I finally got the thing working again... Now I'm just tryin to think about what to do next...  It doesn't have any of the layer stuff I want.  Having been away from what it was for long enough, having reasoned through so much of the architecture I aspire to creating, it makes a lot of sense how this needs to work....  Just shoving a bunch of related messages into the context only lets the context change very slowly.  Which makes the outputs change very slowly.
+I finally got the thing working again... Now I'm just tryin to think about what to do next...
+
+It doesn't have any of the layer stuff I want.
+
+Having been away from what it was for long enough, having reasoned through so much of the architecture I aspire to creating, it makes a lot of sense how this needs to work....
+
+Just shoving a bunch of related messages into the context only lets the context change very slowly.
+
+Which makes the outputs change very slowly.
 
 ## ChatGPT
 Yes… exactly.  

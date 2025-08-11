@@ -50,5 +50,5 @@ Nothing
 ---
 
 ## 🔍 Relevant Links
-- [kanban](../boards/kanban.md)
-- [ci](../ci.md)
+- [[kanban.md]]
+- [[ci.md]]

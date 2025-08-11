@@ -40,5 +40,5 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [kanban](../boards/kanban.md)
+- [[kanban.md]]
 #prompt-refinement

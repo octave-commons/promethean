@@ -4,11 +4,11 @@
 
 ### Overview
 
-Layer 7 maps to Circuit 7: [Metisean](Metisean.md). It orchestrates long-term planning and system reconfiguration.
+Layer 7 maps to Circuit 7: [[Metisean.md]]. It orchestrates long-term planning and system reconfiguration.
 
 ### Related Services and Agents
 
- - [Kanban processor service](../../../services/ts/kanban-processor/)
-- [Duck agent](../../../agents/duck/)
+ - [[kanban-processor|Kanban processor service]]
+- [[duck|Duck agent]]
 
 #hashtags: #design #layer7

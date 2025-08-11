@@ -38,5 +38,5 @@ Organize a meeting to discuss the open questions about Promethean and confirm pr
 ---
 
 ## 🔍 Relevant Links
-- [kanban](../boards/kanban.md)
+- [[kanban.md]]
 #ice-box

@@ -46,6 +46,6 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [file structure](../file-structure.md)
-- [kanban](../boards/kanban.md)
+- [[file-structure.md|file structure]]
+- [[kanban.md]]
 #breakdown

@@ -28,7 +28,7 @@ stability from Eidolon, and user feedback.
 - [ ] Add a small Python module to compute satisfaction (0‑1 scale)
 - [ ] Update Eidolon to accept a reward event
 - [ ] Write a minimal visualization notebook
-- [ ] Link baseline metrics from [eidolon-field-math](../../notes/math/eidolon-field-math.md)
+- [ ] Link baseline metrics from [[eidolon-field-math.md]]
 
 ---
 
@@ -40,7 +40,7 @@ stability from Eidolon, and user feedback.
 
 ## ⛓️ Blocked By
 
-- Needs baseline emotion metrics from [Eidolon Fields](../../notes/math/eidolon-field-math.md)
+- Needs baseline emotion metrics from [[eidolon-field-math.md|Eidolon Fields]]
 
 ## ⛓️ Blocks
 
@@ -50,7 +50,7 @@ stability from Eidolon, and user feedback.
 
 ## 🔍 Relevant Links
 
-- [kanban](../boards/kanban.md)
+- [[kanban.md]]
 
 ## ❓ Questions
 

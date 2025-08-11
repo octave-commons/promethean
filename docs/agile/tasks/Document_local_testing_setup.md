@@ -36,6 +36,6 @@ Nothing
 ---
 
 ## 🔍 Relevant Links
-- [kanban](../boards/kanban.md)
-- [ci docs](../../ci.md)
+- [[kanban.md]]
+- [[ci.md|ci docs]]
 #in-review

@@ -38,7 +38,7 @@ fragments or emotional states that reappear in different contexts.
 
 ## ⛓️ Blocked By
 
-- Requires migrated history from [Extract docs from riatzukiza.github.io](Extract%20docs%20from%20riatzukiza.github.io.md)
+- Requires migrated history from [[Extract docs from riatzukiza.github.io.md]]
 
 ## ⛓️ Blocks
 
@@ -48,7 +48,7 @@ fragments or emotional states that reappear in different contexts.
 
 ## 🔍 Relevant Links
 
-- [kanban](../boards/kanban.md)
+- [[kanban.md]]
 
 ## ❓ Questions
 

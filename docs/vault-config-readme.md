@@ -38,18 +38,18 @@ This creates `docs/services/<service>/AGENTS.md` entries linking back to their i
 ## 📦 Recommended Plugins
 
 * Kanban 
-	- Make the [kanban](agile/boards/kanban.md) look like a board
+	- Make the [[kanban.md]] look like a board
 - consistent links and attachments 
-	- Solves the problem `[WikiLinks](WikiLinks.md)` would solve if you didn't care about your board links working on github
+	- Solves the problem `[[WikiLinks.md]]` would solve if you didn't care about your board links working on github
 	- Allows you to move notes and the link location will update automaticly.
 
 ---
 
 ## 🔁 \[\[Wikilink]] Compatibility
 
-If you're contributing documentation to the codebase, Obsidian allows the `[Wikilink](Wikilink.md)` short hand  for making notes by default. So `[docname](docname.md)` goes to the nearest doc  in the tree with that name. This is not compatible with github. So use the following settings:
+If you're contributing documentation to the codebase, Obsidian allows the `[[Wikilink.md]]` short hand  for making notes by default. So `[[docname.md]]` goes to the nearest doc  in the tree with that name. This is not compatible with github. So use the following settings:
 
-* Disable `Use [wikilinks](wikilinks.md)`
+* Disable `Use [[wikilinks.md]]`
 - Change `New link format` to `relative`
 * All markdown is written to be GitHub-compatible by default
 

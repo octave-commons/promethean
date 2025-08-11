@@ -41,7 +41,7 @@ spawn the correct services for an agent.
 
 ## ⛓️ Blocked By
 
-- Pending PM2 config decisions in [MIGRATION_PLAN.md](../MIGRATION_PLAN.md)
+- Pending PM2 config decisions in [[MIGRATION_PLAN.md|MIGRATION_PLAN.md]]
 
 ## ⛓️ Blocks
 
@@ -51,7 +51,7 @@ spawn the correct services for an agent.
 
 ## 🔍 Relevant Links
 
-- [kanban](../boards/kanban.md)
+- [[kanban.md]]
 
 ## ❓ Questions
 
