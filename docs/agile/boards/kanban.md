@@ -8,7 +8,6 @@ kanban-plugin: board
 
 - [ ] [[Decouple from Ollama.md|Decouple from Ollama]] #ice-box
 - [ ] [[Detect contradictions in memory.md|Detect contradictions in memory]] #ice-box
-- [ ] [[Document board sync workflow.md|Document board sync workflow]] #ice-box
 - [ ] [[Evaluate and reward flow satisfaction.md|Evaluate and reward flow satisfaction]] #ice-box
 - [ ] [[Extract docs from riatzukiza.github.io.md|Extract docs from riatzukiza.github.io]] #ice-box
 - [ ] [[Extract site modules from riatzukiza.github.io.md|Extract site modules from riatzukiza.github.io]] #ice-box
@@ -16,7 +15,6 @@ kanban-plugin: board
 - [ ] [[Identify ancestral resonance patterns.md|Identify ancestral resonance patterns]] #ice-box
 - [ ] [[Implement fragment ingestion with activation vectors.md|Implement fragment ingestion with activation vectors]] #ice-box
 - [ ] [[Implement transcendence cascade.md|Implement transcendence cascade]] #ice-box
-- [ ] [[Integrate synthesis-agent pass on unique to produce draft docs 1.md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #ice-box
 - [ ] [[Schedule alignment meeting with stakeholders.md|Schedule alignment meeting with stakeholders]] #ice-box
 - [ ] [[Suggest metaprogramming updates.md|Suggest metaprogramming updates]] #ice-box
 
@@ -24,21 +22,14 @@ kanban-plugin: board
 ## Incoming
 
 - [ ] [[Create vault-config .obsidian with Kanban and minimal vault setup 1.md|Create vault-config .obsidian with Kanban and minimal vault setup]] #incoming
-- [ ] [[setup a second agent.md|setup a second agent]] #incoming
-
-
-## Rejected
-
-- [ ] [[add_vault_instructions_to_main_readme_md.md|Add vault instructions to main README.md]] #rejected
-- [ ] [[Clearly separate service dependency files.md|Clearly separate service dependency files]] #rejected
-- [ ] [[Ensure GitHub-compatible markdown settings are documented 1.md|Ensure GitHub-compatible markdown settings are documented]] #rejected
-- [ ] [[Finalize_STT_workflow.md|Finalize STT workflow]] #rejected
-- [ ] [[Move all testing to individual services.md|Move all testing to individual services]] #rejected
-- [ ] [[Summarize clarified priorities for next sprint.md|Summarize clarified priorities for next sprint]] #rejected
+- [ ] obsidian replacement
+- [ ] [[Document board sync workflow.md|Document board sync workflow]] #ice-box
+- [ ] [[Integrate synthesis-agent pass on unique to produce draft docs 1.md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #ice-box
 
 
 ## Accepted
 
+- [ ] [[setup a second agent.md|setup a second agent]] #incoming
 
 
 ## Prompt Refinement
@@ -195,6 +186,12 @@ kanban-plugin: board
 
 ## Archive
 
+- [ ] [[add_vault_instructions_to_main_readme_md.md|Add vault instructions to main README.md]] #rejected
+- [ ] [[Clearly separate service dependency files.md|Clearly separate service dependency files]] #rejected
+- [ ] [[Ensure GitHub-compatible markdown settings are documented 1.md|Ensure GitHub-compatible markdown settings are documented]] #rejected
+- [ ] [[Finalize_STT_workflow.md|Finalize STT workflow]] #rejected
+- [ ] [[Move all testing to individual services.md|Move all testing to individual services]] #rejected
+- [ ] [[Summarize clarified priorities for next sprint.md|Summarize clarified priorities for next sprint]] #rejected
 - [ ] [[update github actions to use makefile.md|update GitHub Actions to use Makefile]] #in-review
 - [ ] [[Update cephalon to use custom embedding function.md|Update cephalon to use custom embedding function]] #in-review
 - [ ] [[Document_local_testing_setup.md|Document local testing setup]] #in-review
@@ -206,6 +203,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
