@@ -60,4 +60,4 @@ Nothing
 ## ❓ Questions
 
 - Should permissions support wildcards for actions or be explicit only?
-#in-review
+#ready

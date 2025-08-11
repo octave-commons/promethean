@@ -37,7 +37,7 @@ kanban-plugin: board
 
 ## Accepted
 
-- [ ] [Add file watcher that loooooks at agent thinking and prompt refinement and runs an LLM on it a few times and asked if it feels like it's ready](../tasks/Add%20file%20watcher%20that%20loooooks%20at%20agent%20thinking%20and%20prompt%20refinement%20and%20runs%20an%20LLM%20on%20it%20a%20few%20times%20and%20asked%20if%20it%20feels%20like%20it%27s%20ready.md) #accepted
+- [ ] [Add file watcher that looks at agent thinking and prompt refinement and runs an LLM on it a few times and asked if it feels like it's ready](../Tasks/Add%20file%20watcher%20that%20looks%20at%20agent%20thinking%20and%20prompt%20refinement%20and%20runs%20an%20LLM%20on%20it%20a%20few%20times%20and%20asked%20if%20it%20feels%20like%20it's%20ready.md) #accepted
 - [ ] [Make discord channel aware contextualizer](../tasks/Make%20discord%20channel%20aware%20contextualizer.md) #accepted
 - [ ] [Refactor speech interuption system to be more inteligent, using audio data to decide if interupted](../tasks/Refactor%20speech%20interuption%20system%20to%20be%20more%20inteligent%2C%20using%20audio%20data%20to%20decide%20if%20interupted.md) #accepted
 - [ ] [Setup code in wsl](../tasks/Setup%20code%20in%20wsl.md) #accepted
