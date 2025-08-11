@@ -3,14 +3,14 @@ import {
   MongoEventBus,
   MongoEventStore,
   MongoCursorStore,
-} from "../../shared/js/prom-lib/event/mongo";
-import { withDualWrite } from "../../shared/js/prom-lib/schema/dualwrite";
-import { SchemaRegistry } from "../../shared/js/prom-lib/schema/registry";
-import { reg as topicSchemas } from "../../shared/js/prom-lib/schema/topics";
-import { UpcastChain } from "../../shared/js/prom-lib/schema/upcast";
-import { withDLQ } from "../../shared/js/prom-lib/dlq/subscribe";
-import { startMongoChangefeed } from "../../shared/js/prom-lib/changefeed/mongo";
-import { tokenStore } from "../../shared/js/prom-lib/changefeed/resume.mongo";
+} from "../../shared/ts/prom-lib/event/mongo";
+import { withDualWrite } from "../../shared/ts/prom-lib/schema/dualwrite";
+import { SchemaRegistry } from "../../shared/ts/prom-lib/schema/registry";
+import { reg as topicSchemas } from "../../shared/ts/prom-lib/schema/topics";
+import { UpcastChain } from "../../shared/ts/prom-lib/schema/upcast";
+import { withDLQ } from "../../shared/ts/prom-lib/dlq/subscribe";
+import { startMongoChangefeed } from "../../shared/ts/prom-lib/changefeed/mongo";
+import { tokenStore } from "../../shared/ts/prom-lib/changefeed/resume.mongo";
 
 async function main() {
   const client = await MongoClient.connect(

@@ -5,8 +5,8 @@ import { CollectionManager } from './collectionManager';
 import type { Interaction } from './interactions';
 import type { Bot } from './bot';
 import { createAudioPlayer, AudioPlayerStatus } from '@discordjs/voice';
-import { createAgentWorld } from '@shared/js/agent-ecs/world';
-import { OrchestratorSystem } from '@shared/js/agent-ecs/systems/orchestrator';
+import { createAgentWorld } from '@shared/ts/agent-ecs/world';
+import { OrchestratorSystem } from '@shared/ts/agent-ecs/systems/orchestrator';
 import { randomUUID } from 'node:crypto';
 import { defaultPrompt } from './prompts';
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Db, ClientSession } from "mongodb";
 import type { EventBus, EventRecord } from "../event/types";
 

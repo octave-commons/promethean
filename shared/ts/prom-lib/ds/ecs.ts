@@ -1,4 +1,4 @@
-// shared/js/prom-lib/ds/ecs.ts
+// shared/ts/prom-lib/ds/ecs.ts
 // MIT. Zero deps. Archetype ECS with 64-bit signature mask.
 // NOTE: 64 components max (extend to 128+ via two bigints if needed).
 

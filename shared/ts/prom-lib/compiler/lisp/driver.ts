@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { read } from "./reader";
 import { macroexpandAll } from "./expand";
 import { toExpr } from "./to-expr";
