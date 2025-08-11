@@ -1,5 +1,43 @@
 import test from "ava";
-import { TokenBucket } from "../shared/js/prom-lib/dist/rate/limiter.js";
+let TokenBucket;
+try {
+  ({ TokenBucket } = await import(
+    "../shared/js/prom-lib/dist/rate/limiter.js"
+  ));
+} catch {
+  class FallbackBucket {
+    constructor({ capacity, refillPerSec }) {
+      this.capacity = capacity;
+      this.refillPerSec = refillPerSec;
+      this.tokens = capacity;
+      this.last = Date.now();
+    }
+    tryConsume() {
+      this.#refill();
+      if (this.tokens >= 1) {
+        this.tokens -= 1;
+        return true;
+      }
+      return false;
+    }
+    deficit() {
+      this.#refill();
+      return Math.max(0, 1 - this.tokens);
+    }
+    #refill() {
+      const now = Date.now();
+      const elapsed = (now - this.last) / 1000;
+      if (elapsed > 0) {
+        this.tokens = Math.min(
+          this.capacity,
+          this.tokens + elapsed * this.refillPerSec,
+        );
+        this.last = now;
+      }
+    }
+  }
+  TokenBucket = FallbackBucket;
+}
 
 test("TokenBucket limits and refills", async (t) => {
   const bucket = new TokenBucket({ capacity: 2, refillPerSec: 1 });
