@@ -46,6 +46,6 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [Process](../Process.md)
-- [kanban](../boards/kanban.md)
+- [[Process.md]]
+- [[kanban.md]]
 #ice-box

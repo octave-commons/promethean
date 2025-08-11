@@ -30,7 +30,7 @@ welp, guess we'll see
 - [ ] Prototype a hook in `cephalon/src/index.ts`
 - [ ] Use `services/eidolon/` to provide emotional context
 - [ ] Return combined result via `services/tts`
-- [ ] Reference baseline metrics from [eidolon-field-math](../../notes/math/eidolon-field-math.md)
+- [ ] Reference baseline metrics from [[eidolon-field-math.md]]
 
 ---
 
@@ -42,7 +42,7 @@ welp, guess we'll see
 
 ## ⛓️ Blocked By
 
-- Requires baseline emotional data from [Eidolon Fields](../../notes/math/eidolon-field-math.md)
+- Requires baseline emotional data from [[eidolon-field-math.md|Eidolon Fields]]
 
 ## ⛓️ Blocks
 
@@ -52,7 +52,7 @@ welp, guess we'll see
 
 ## 🔍 Relevant Links
 
-- [kanban](../boards/kanban.md)
+- [[kanban.md]]
 
 ## ❓ Questions
 

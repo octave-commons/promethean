@@ -19,13 +19,13 @@ is based on the "Dorian Permission Gate" equations in our math notes.
 - [ ] Implement gate logic as a Python module (`shared/py/permission_gate.py`)
 - [ ] Support weight/threshold config via YAML
 - [ ] Expose a simple `check_permission(agent, action)` API
-- [ ] Document schema expectations in [AGENTS.md](../../AGENTS.md)
+- [ ] Document schema expectations in [[AGENTS.md|AGENTS.md]]
 
 ---
 
 ## 📋 Subtasks
 
-- [ ] Translate the Dorian equation from [symbolic-gravity-models](../../notes/math/symbolic-gravity-models.md)
+- [ ] Translate the Dorian equation from [[symbolic-gravity-models.md]]
 - [ ] Add unit tests for grant/deny cases
 - [ ] Tie into Cephalon’s command router
 
@@ -49,7 +49,7 @@ is based on the "Dorian Permission Gate" equations in our math notes.
 
 ## 🔍 Relevant Links
 
-- [kanban](../boards/kanban.md)
+- [[kanban.md]]
 
 ## ❓ Questions
 

@@ -6,7 +6,7 @@ TODO: Add service description.
 
 ## Paths
 
-- [services/js/heartbeat](../../../services/js/heartbeat)
+- [[heartbeat|services/js/heartbeat]]
 
 ## Tags
 

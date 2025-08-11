@@ -4,11 +4,11 @@
 
 ### Overview
 
-Layer 5 maps to Circuit 5: [Heuretic](Heuretic.md). It manages self-modification and reinforcement loops.
+Layer 5 maps to Circuit 5: [[Heuretic.md]]. It manages self-modification and reinforcement loops.
 
 ### Related Services and Agents
 
-- [LLM service](../../../services/ts/llm/)
-- [Duck agent](../../../agents/duck/)
+- [[llm|LLM service]]
+- [[duck|Duck agent]]
 
 #hashtags: #design #layer5

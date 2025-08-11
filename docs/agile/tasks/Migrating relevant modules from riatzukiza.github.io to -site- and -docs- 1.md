@@ -20,8 +20,8 @@ Move documentation and site pieces from the legacy `riatzukiza.github.io` reposi
 ---
 
 ## 📋 Subtasks
-- [ ] [Extract docs from riatzukiza.github.io](Extract%20docs%20from%20riatzukiza.github.io.md)
-- [ ] [Extract site modules from riatzukiza.github.io](Extract%20site%20modules%20from%20riatzukiza.github.io.md)
+- [ ] [[Extract docs from riatzukiza.github.io.md]]
+- [ ] [[Extract site modules from riatzukiza.github.io.md]]
 
 ---
 
@@ -39,5 +39,5 @@ Nothing
 ---
 
 ## 🔍 Relevant Links
-- [kanban](../boards/kanban.md)
+- [[kanban.md]]
 #ready

@@ -6,7 +6,7 @@ TODO: Add service description.
 
 ## Paths
 
-- [services/ts/cephalon](../../../services/ts/cephalon)
+- [[cephalon|services/ts/cephalon]]
 
 ## Tags
 

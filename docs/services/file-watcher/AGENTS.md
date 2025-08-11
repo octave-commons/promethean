@@ -6,7 +6,7 @@ TODO: Add service description.
 
 ## Paths
 
-- [services/ts/file-watcher](../../../services/ts/file-watcher)
+- [[file-watcher|services/ts/file-watcher]]
 
 ## Tags
 

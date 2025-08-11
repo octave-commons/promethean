@@ -39,6 +39,6 @@ Nothing
 ---
 
 ## 🔍 Relevant Links
-- [kanban](../boards/kanban.md)
-- [Board Sync Workflow](../../board_sync.md)
+- [[kanban.md]]
+- [[board_sync.md|Board Sync Workflow]]
 #incoming
