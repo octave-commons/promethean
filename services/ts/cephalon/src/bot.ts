@@ -9,10 +9,16 @@ import {
 	type RESTPutAPIApplicationCommandsJSONBody,
 } from 'discord.js';
 import EventEmitter from 'events';
-import { AIAgent } from './agent/index.js';
 import { AGENT_NAME, DESKTOP_CAPTURE_CHANNEL_ID } from '@shared/js/env.js';
 import { ContextManager } from './contextManager';
-import { LLMService } from './llm-service';
+import { createAgentWorld } from '@shared/js/agent-ecs/world';
+import { enqueueUtterance } from '@shared/js/agent-ecs/helpers/enqueueUtterance';
+import { pushVisionFrame } from '@shared/js/agent-ecs/helpers/pushVision';
+import { AgentBus } from '@shared/js/agent-ecs/bus';
+import { createAudioResource } from '@discordjs/voice';
+import { Readable } from 'stream';
+import type { LlmResult, TtsRequest, TtsResult } from '@shared/js/contracts/agent-bus';
+import WebSocket from 'ws';
 import { checkPermission } from '@shared/js/permissionGate.js';
 import { interaction, type Interaction } from './interactions';
 import {
@@ -36,7 +42,8 @@ export class Bot extends EventEmitter {
 	static interactions = new Map<string, discord.RESTPostAPIChatInputApplicationCommandsJSONBody>();
 	static handlers = new Map<string, (bot: Bot, interaction: Interaction) => Promise<any>>();
 
-	agent: AIAgent;
+	bus?: AgentBus;
+	agentWorld?: ReturnType<typeof createAgentWorld>;
 	client: Client;
 	token: string;
 	applicationId: string;
@@ -52,12 +59,6 @@ export class Bot extends EventEmitter {
 		this.applicationId = options.applicationId;
 		this.client = new Client({
 			intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates],
-		});
-		this.agent = new AIAgent({
-			historyLimit: 20,
-			bot: this,
-			context: this.context,
-			llm: new LLMService(),
 		});
 	}
 
@@ -77,13 +78,15 @@ export class Bot extends EventEmitter {
 				const channel = await this.client.channels.fetch(DESKTOP_CAPTURE_CHANNEL_ID);
 				if (channel?.isTextBased()) {
 					this.desktopChannel = channel as discord.TextChannel;
-					this.agent.desktop.setChannel(this.desktopChannel);
 				}
 			} catch (e) {
 				console.warn('Failed to set default desktop channel', e);
 			}
 		}
 		await this.registerInteractions();
+
+		const ws = new WebSocket(process.env.BROKER_WS_URL || 'ws://localhost:3000');
+		this.bus = new AgentBus(ws);
 
 		this.client
 			.on(Events.InteractionCreate, async (interaction) => {
@@ -107,6 +110,40 @@ export class Bot extends EventEmitter {
 				await this.forwardAttachments(message);
 			})
 			.on(Events.Error, console.error);
+
+		this.bus.subscribe<LlmResult>('agent.llm.result', (res) => {
+			if (!res.ok || !this.agentWorld) return;
+			const ttsReq: TtsRequest = {
+				topic: 'agent.tts.request',
+				corrId: res.corrId,
+				turnId: res.turnId,
+				ts: Date.now(),
+				text: res.text,
+				group: 'agent-speech',
+				bargeIn: 'pause',
+				priority: 1,
+			};
+			this.bus?.publish(ttsReq);
+		});
+
+		this.bus.subscribe<TtsResult>('agent.tts.result', async (r) => {
+			if (!r.ok || !this.agentWorld) return;
+			const { w, agent, C } = this.agentWorld;
+			const turnId = w.get(agent, C.Turn)!.id;
+			if (r.turnId < turnId) return;
+			enqueueUtterance(w, agent, {
+				id: r.corrId,
+				group: 'agent-speech',
+				priority: 1,
+				bargeIn: 'pause',
+				factory: async () => {
+					const res = await fetch(r.mediaUrl);
+					if (!res.ok || !res.body) throw new Error(`TTS fetch failed ${res.status}`);
+					const nodeStream = Readable.fromWeb(res.body as any);
+					return createAudioResource(nodeStream, { inlineVolume: true });
+				},
+			});
+		});
 	}
 
 	async registerInteractions() {
@@ -132,6 +169,17 @@ export class Bot extends EventEmitter {
 		}));
 		try {
 			await this.captureChannel.send({ files });
+			if (this.agentWorld) {
+				const { w, agent } = this.agentWorld;
+				for (const att of imageAttachments) {
+					const ref = {
+						type: 'url' as const,
+						url: att.url,
+						...(att.contentType ? { mime: att.contentType } : {}),
+					};
+					pushVisionFrame(w, agent, ref);
+				}
+			}
 		} catch (e) {
 			console.warn('Failed to forward attachments', e);
 		}
@@ -187,7 +235,6 @@ export class Bot extends EventEmitter {
 			return interaction.reply('Channel must be text-based.');
 		}
 		this.desktopChannel = channel as discord.TextChannel;
-		this.agent.desktop.setChannel(this.desktopChannel);
 		return interaction.reply(`Desktop capture channel set to ${channel.id}`);
 	}
 	@interaction({

@@ -34,15 +34,24 @@ export function enqueueUtterance(
 
   const cmd = w.beginTick();
   const e = cmd.createEntity();
-  cmd.add(e, Utterance, {
+  const utt = {
     id: opts.id ?? globalThis.crypto?.randomUUID?.() ?? String(Math.random()),
     turnId,
     priority: opts.priority ?? 1,
-    group: opts.group,
     bargeIn: opts.bargeIn ?? defaultBarge,
-    status: "queued",
+    status: "queued" as const,
     token: Math.floor(Math.random() * 1e9),
-  });
+  } as {
+    id: string;
+    turnId: number;
+    priority: number;
+    group?: string;
+    bargeIn: "none" | "duck" | "pause" | "stop";
+    status: "queued";
+    token: number;
+  };
+  if (opts.group !== undefined) utt.group = opts.group;
+  cmd.add(e, Utterance, utt);
   cmd.add(e, AudioRes, { factory: opts.factory });
   cmd.flush();
   w.endTick();
