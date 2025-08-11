@@ -39,7 +39,7 @@ test('requests embeddings via broker', async (t) => {
 	const fn = new RemoteEmbeddingFunction();
 	const result = await fn.generate(['a', 'b']);
 	t.deepEqual(result, [[0], [1]]);
-	fn.broker.socket.close();
-	worker.socket.close();
+	fn.broker.socket?.close();
+	worker.socket?.close();
 	await stopBroker(broker);
 });
