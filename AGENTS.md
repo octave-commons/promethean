@@ -126,7 +126,6 @@ The `services/` directory currently includes:
 - `services/js/vision`
 
 **TypeScript**
-- `services/ts/board-updater`
 - `services/ts/cephalon`
 - `services/ts/discord-embedder`
 - `services/ts/file-watcher`
