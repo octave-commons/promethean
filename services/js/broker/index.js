@@ -3,6 +3,11 @@ import { randomUUID } from "crypto";
 import { EventEmitter } from "events";
 import { queueManager } from "../../../shared/js/queueManager.js";
 
+const rateLimitEnv = Number(process.env.BROKER_RATE_LIMIT_MS);
+if (rateLimitEnv > 0) {
+  queueManager.setRateLimit(rateLimitEnv);
+}
+
 const subscriptions = new Map(); // topic -> Set<WebSocket>
 const clients = new Map(); // WebSocket -> { id, topics:Set<string> }
 const actions = new EventEmitter();
