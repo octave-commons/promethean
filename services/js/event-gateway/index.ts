@@ -1,8 +1,8 @@
-import { InMemoryEventBus } from "../../shared/js/prom-lib/event/memory";
-import { startWSGateway } from "../../shared/js/prom-lib/ws/server";
-import { startHttpPublisher } from "../../shared/js/prom-lib/http/publish";
-import { startProcessProjector } from "../../shared/js/prom-lib/examples/process/projector";
-import { Topics } from "../../shared/js/prom-lib/event/topics";
+import { InMemoryEventBus } from "../../shared/ts/prom-lib/event/memory";
+import { startWSGateway } from "../../shared/ts/prom-lib/ws/server";
+import { startHttpPublisher } from "../../shared/ts/prom-lib/http/publish";
+import { startProcessProjector } from "../../shared/ts/prom-lib/examples/process/projector";
+import { Topics } from "../../shared/ts/prom-lib/event/topics";
 
 async function main() {
   const bus = new InMemoryEventBus();

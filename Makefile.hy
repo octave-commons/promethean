@@ -29,6 +29,7 @@
 (define-service-list SERVICES_PY "services/py")
 (define-service-list SERVICES_JS "services/js")
 (define-service-list SERVICES_TS "services/ts")
+(define-service-list SHARED_TS "shared/ts")
 (setv commands {})
 
 (defn has-eslint-config [d]
@@ -209,10 +210,14 @@
 (defn-cmd lint-ts []
   (for [d SERVICES_TS]
     (when (isfile (join d "package.json"))
+      (sh "npm run lint" :cwd d :shell True)))
+  (for [d SHARED_TS]
+    (when (isfile (join d "package.json"))
       (sh "npm run lint" :cwd d :shell True))))
 
 (defn-cmd format-ts []
-  (run-dirs SERVICES_TS "npx --yes @biomejs/biome format --write"  :shell True))
+  (run-dirs SERVICES_TS "npx --yes @biomejs/biome format --write"  :shell True)
+  (run-dirs SHARED_TS "npx --yes @biomejs/biome format --write"  :shell True))
 
 (defn-cmd typecheck-ts []
   (setv svc (or (os.environ.get "service") (os.environ.get "SERVICE")))
@@ -223,8 +228,9 @@
       (print (.format "Skipping typecheck for {}" path))))
   (if svc
     (run (join "services/ts" svc))
-    (for [d SERVICES_TS]
-      (run d))))
+    (do
+      (for [d SERVICES_TS] (run d))
+      (for [d SHARED_TS] (run d)))))
 
 (defn-cmd setup-ts-service [service]
   (print (.format "Setting up TS service: {}" service))
@@ -234,7 +240,8 @@
 (defn-cmd setup-ts []
   (print "Setting up TypeScript services...")
   (setup-shared-js)
-  (run-dirs SERVICES_TS "npm install" :shell True))
+  (run-dirs SERVICES_TS "npm install" :shell True)
+  (run-dirs SHARED_TS "npm install" :shell True))
 
 (defn-cmd test-ts-service [service]
   (print (.format "Running tests for TS service: {}" service))
@@ -246,7 +253,8 @@
   (run-dirs SERVICES_TS "echo 'Running tests in $PWD...' && npm test" :shell True))
 
 (defn-cmd test-ts []
-  (test-ts-services))
+  (test-ts-services)
+  (run-dirs SHARED_TS "echo 'Running tests in $PWD...' && npm test" :shell True))
 
 (defn-cmd coverage-ts-service [service]
   (print (.format "Running coverage for TS service: {}" service))
@@ -256,15 +264,19 @@
   (run-dirs SERVICES_TS "npm run coverage && npx c8 report -r lcov" :shell True))
 
 (defn-cmd coverage-ts []
-  (coverage-ts-services))
+  (coverage-ts-services)
+  (run-dirs SHARED_TS "npm run coverage && npx c8 report -r lcov" :shell True))
 
 (defn-cmd clean-ts []
   (run-dirs SERVICES_TS "npm run clean >/dev/null" :shell True)
-  (sh "rm -rf shared/js/*" :shell True))
+  (run-dirs SHARED_TS "npm run clean >/dev/null" :shell True))
 
 (defn-cmd build-ts []
   (print "Transpiling TS to JS... (if we had any shared ts modules)")
   (for [d SERVICES_TS]
+    (when (isfile (join d "node_modules/.bin/tsc"))
+      (sh "npm run build" :cwd d :shell True)))
+  (for [d SHARED_TS]
     (when (isfile (join d "node_modules/.bin/tsc"))
       (sh "npm run build" :cwd d :shell True))))
 

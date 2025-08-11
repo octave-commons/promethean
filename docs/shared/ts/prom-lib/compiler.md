@@ -1,4 +1,4 @@
-# `shared/js/prom-lib/compiler`
+# `shared/ts/prom-lib/compiler`
 
 Provides a minimal compiler toolkit with:
 
