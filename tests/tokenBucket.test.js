@@ -1,5 +1,5 @@
 import test from "ava";
-import { TokenBucket } from "../shared/js/prom-lib/dist/rate/limiter.js";
+import { TokenBucket } from "../shared/ts/prom-lib/dist/rate/limiter.js";
 
 test("TokenBucket limits and refills", async (t) => {
   const bucket = new TokenBucket({ capacity: 2, refillPerSec: 1 });

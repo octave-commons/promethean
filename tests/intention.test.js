@@ -1,6 +1,6 @@
 import test from "ava";
-import { RouterLLM } from "../shared/js/prom-lib/dist/intention/router.js";
-import { extractCode } from "../shared/js/prom-lib/dist/intention/utils.js";
+import { RouterLLM } from "../shared/ts/prom-lib/dist/intention/router.js";
+import { extractCode } from "../shared/ts/prom-lib/dist/intention/utils.js";
 
 test("RouterLLM falls back to next provider on failure", async (t) => {
   class BadLLM {

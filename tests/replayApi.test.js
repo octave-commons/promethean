@@ -1,5 +1,5 @@
 import test from "ava";
-import { startReplayAPI } from "../shared/js/prom-lib/dist/http/replay.js";
+import { startReplayAPI } from "../shared/ts/prom-lib/dist/http/replay.js";
 
 class FakeStore {
   constructor(events) {
