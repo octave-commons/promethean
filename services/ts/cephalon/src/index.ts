@@ -2,7 +2,6 @@ import 'source-map-support/register.js';
 import { Bot } from './bot';
 import { AGENT_NAME } from '@shared/js/env.js';
 import { HeartbeatClient } from '@shared/js/heartbeat/index.js';
-import { initMessageThrottler } from './messageThrottler';
 
 async function main() {
 	console.log('Starting', AGENT_NAME, 'Cephalon');
@@ -18,7 +17,6 @@ async function main() {
 		process.exit(1);
 	}
 	hb.start();
-	await initMessageThrottler(bot.agent, process.env.BROKER_URL);
 	bot.start();
 	console.log(`Cephalon started for ${AGENT_NAME}`);
 }
