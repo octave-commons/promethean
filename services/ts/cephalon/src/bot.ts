@@ -11,13 +11,13 @@ import {
 import EventEmitter from 'events';
 import { AGENT_NAME, DESKTOP_CAPTURE_CHANNEL_ID } from '@shared/js/env.js';
 import { ContextManager } from './contextManager';
-import { createAgentWorld } from '@shared/js/agent-ecs/world';
-import { enqueueUtterance } from '@shared/js/agent-ecs/helpers/enqueueUtterance';
-import { pushVisionFrame } from '@shared/js/agent-ecs/helpers/pushVision';
-import { AgentBus } from '@shared/js/agent-ecs/bus';
+import { createAgentWorld } from '@shared/ts/agent-ecs/world';
+import { enqueueUtterance } from '@shared/ts/agent-ecs/helpers/enqueueUtterance';
+import { pushVisionFrame } from '@shared/ts/agent-ecs/helpers/pushVision';
+import { AgentBus } from '@shared/ts/agent-ecs/bus';
 import { createAudioResource } from '@discordjs/voice';
 import { Readable } from 'stream';
-import type { LlmResult, TtsRequest, TtsResult } from '@shared/js/contracts/agent-bus';
+import type { LlmResult, TtsRequest, TtsResult } from '@shared/ts/contracts/agent-bus';
 import WebSocket from 'ws';
 import { checkPermission } from '@shared/js/permissionGate.js';
 import { interaction, type Interaction } from './interactions';
