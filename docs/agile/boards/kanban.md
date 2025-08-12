@@ -21,9 +21,6 @@ kanban-plugin: board
 
 ## Incoming
 
-- [ ] obsidian replacement
-- [ ] [[add_ollama_formally_to_pipeline.md|Add Ollama formally to pipeline]] #todo
-- [ ] [[add_prometheus_events_counters_in_ws_server_hook_p.md|Add Prometheus \`events\_\*\` counters in WS server hook points]] #todo
 - [ ] [[add_ttls_per_topic_via_migration_script.md|Add TTLs per topic via migration script]] #todo
 - [ ] [[add_lag_checks_to_ci_smoke_ensure_small_lag_after_.md|Add \`/lag\` checks to CI smoke (ensure small lag after publishing bursts)]] #todo
 - [ ] [[add_ops_endpoint_to_list_partition_assignments_opt.md|Add \`/ops\` endpoint to list \*\*partition assignments\*\* (optional: dump coordinator state)]] #todo
@@ -98,86 +95,89 @@ kanban-plugin: board
 - [ ] [[write_a_smoke_test_client_subscribes_publish_10_ms.md|Write a smoke test: client subscribes, publish 10 msgs, assert all ACKed]] #todo
 
 
-## Accepted
+## Accepted (8)
 
+- [ ] [[obsidian replacement]]
+- [ ] [[add_prometheus_events_counters_in_ws_server_hook_p.md|Add Prometheus \`events\_\*\` counters in WS server hook points]] #todo
 - [ ] [[add_withdlq_around_risky_consumers_set_maxattempts.md|Add \*\*withDLQ\*\* around risky consumers; set \`maxAttempts\`]] #todo
 - [ ] [[setup a second agent.md]] #incoming
+
+
+## Prompt Refinement (24)
+
+- [ ] [[Split out audio processing logic to a seperate service without changing the current behavior in cephalon.md]] #accepted
+- [ ] [[Refactor speech interuption system to be more inteligent, using audio data to decide if interupted.md]] #accepted
+- [ ] [[Make discord channel aware contextualizer.md]] #accepted
+- [ ] [[Build data structures for Eidolon field.md]] #accepted
 - [ ] [[add_startchangelogprojector_for_any_compaction_lik.md|Add \*\*startChangelogProjector\*\* for any compaction-like topic you want live-queryable]] #todo
 - [ ] [[Document board sync workflow.md]] #ice-box
 - [ ] [[Integrate synthesis-agent pass on unique to produce draft docs 1.md|Integrate synthesis-agent pass on \`unique/\` to produce draft docs]] #ice-box
 
 
-## Prompt Refinement
+## Agent Thinking (24)
 
 - [ ] [[Web frontend for system management.md]] #accepted
-- [ ] [[Split out audio processing logic to a seperate service without changing the current behavior in cephalon.md]] #accepted
-- [ ] [[Refactor speech interuption system to be more inteligent, using audio data to decide if interupted.md]] #accepted
-- [ ] [[Make discord channel aware contextualizer.md]] #accepted
-- [ ] [[Build data structures for Eidolon field.md]] #accepted
 - [ ] [[Add file watcher that looks at agent thinking and prompt refinement and runs an LLM on it a few times and asked if it feels like it's ready.md]] #accepted
-
-
-## Agent Thinking
-
-- [ ] [[Add_STT_service_tests.md|Add STT service tests]] #agent-thinking
-- [ ] [[Add_TTS_service_tests.md|Add TTS service tests]] #agent-thinking
-- [ ] [[Add_unit_tests_for_date_tools.py.md|Add unit tests for date\_tools.py]] #agent-thinking
-- [ ] [[Add_unit_tests_for_wav_processing.md|Add unit tests for wav\_processing]] #agent-thinking
-- [ ] [[Allow old unnessisary messages to decay from database while retaining index entries ids.md]] #agent-thinking
 - [ ] [[Describe github branching workflow.md]] #agent-thinking
-- [ ] [[obsidian_kanban_github_project_board_mirror_system.md|Obsidian Kanban Github Project Board Mirror system]] #agent-thinking
-- [ ] [[Prevent dangling processes when a process fails due to error, or automaticly clean them up 1.md]] #agent-thinking
-- [ ] [[smart_task_templater.md|Smart Task templater]] #agent-thinking
-- [ ] [[Write_meaningful_tests_for_Cephalon.md|Write meaningful tests for Cephalon]] #agent-thinking
 
 
-## Breakdown
+## Breakdown (16)
 
-- [ ] [[Determine PM2 configuration for agents 1.md|Determine PM2 configuration for agents]] #breakdown
-- [ ] [[Write board sync script.md]] #breakdown
-- [ ] [[discord image attachment indexer 1.md]] #breakdown
+- [ ] [[Allow old unnessisary messages to decay from database while retaining index entries ids.md]] #agent-thinking
 - [ ] [[discord image awareness.md]] #breakdown
 - [ ] [[finish whisper NPU system.md]] #breakdown
+- [ ] [[smart_task_templater.md|Smart Task templater]] #agent-thinking
 
 
-## Ready
+## Ready (24)
 
-- [ ] [[Add starter notes - eidolon_fields, cephalon_inner_monologue 1.md|Add starter notes - eidolon\_fields, cephalon\_inner\_monologue]] #ready
-- [ ] [[Add_unit_tests_for_gui_helpers.md|Add unit tests for GUI helpers]] #ready
 - [ ] [[Clarify Promethean project vision 1.md|Clarify Promethean project vision]] #ready
 - [ ] [[Clean up notes into design docs.md]] #ready
-- [ ] [[Clearly seperate service dependency files 1.md]] #ready
-- [ ] [[Create permission gating layer 1.md|Create permission gating layer]] #ready
-- [ ] [[Define permission schema in AGENTS 1.md|Define permission schema in AGENTS.md]] #ready
-- [ ] [[Document board usage guidelines 1.md|Document board usage guidelines]] #ready
 - [ ] [[Gather baseline emotion metrics for Eidolon field 1.md|Gather baseline emotion metrics for Eidolon field]] #ready
 - [ ] [[migrate_portfolio_client_code_to_promethean.md|Migrate portfolio client code to Promethean]] #ready
 - [ ] [[Mirror shared utils with language-specific doc folders.md]] #ready
-- [ ] [[start_eidolon.md|Start Eidolon]] #ready
 - [ ] [[Update makefile to have commands specific for agents.md|Update Makefile to have commands specific for agents]] #ready
 
 
-## Todo
+## Todo (16)
 
-- [ ] [[Write end to end tests.md]] #todo
-- [ ] [[finalize_migration_plan_md.md|\\\[\\\[Finalize \`MIGRATION\_PLAN.md\`]]]] #todo
 - [ ] [[cache decay mechanisim.md]] #todo
 - [ ] [[create_base_readme_md_templates_for_each_service.md|create base readme md templates for each service]] #todo
-- [ ] [[design circular buffers for inputs with layered states of persistance (in memory, on disk, cold storage, so |design circular buffers for inputs with layered states of persistance (in memory, on disk, cold storage, so )]].md) #todo
-- [ ] [[each service registers a pid with a heartbeat service. If they do not successfully check in, terminate the process using the pid.md]] #todo
-- [ ] [[refactor any python modules not currently for ML stuff (discord, etc|refactor any python modules not currently for ML stuff (discord, etc) 1]]%201.md) #todo
-- [ ] [[seperate all testing pipelines in github Actions 1.md|seperate all testing pipelines in GitHub Actions]] #todo
-- [ ] [[setup services to recieve work from the broker via push.md]] #todo
+- [ ] [[design circular buffers for inputs with layered states of persistance (in memory, on disk, cold storage, so )]]
+- [ ] [[Define permission schema in AGENTS 1.md|Define permission schema in AGENTS.md]] #ready
+- [ ] [[refactor any python modules not currently for ML stuff (discord, etc) 2]]
 - [ ] [[twitch discord general auto mod.md]] #todo
-- [ ] [[write_simple_ecosystem_declaration_library_for_new.md|write simple ecosystem declaration library for new agents]] #todo
+
+
+## In Progress (8)
+
 
 
 ## In Review
 
+- [ ] [[obsidian_kanban_github_project_board_mirror_system.md|Obsidian Kanban Github Project Board Mirror system]] #agent-thinking
 
 
 ## Done
 
+- [ ] [[Add_unit_tests_for_wav_processing.md|Add unit tests for wav\_processing]] #agent-thinking
+- [ ] [[Add_TTS_service_tests.md|Add TTS service tests]] #agent-thinking
+- [ ] [[Add_STT_service_tests.md|Add STT service tests]] #agent-thinking
+- [ ] [[Add_unit_tests_for_date_tools.py.md|Add unit tests for date\_tools.py]] #agent-thinking
+- [ ] [[setup services to recieve work from the broker via push.md]] #todo
+- [ ] [[Prevent dangling processes when a process fails due to error, or automaticly clean them up 1.md]] #agent-thinking
+- [ ] [[each service registers a pid with a heartbeat service. If they do not successfully check in, terminate the process using the pid.md]] #todo
+- [ ] [[seperate all testing pipelines in github Actions 1.md|seperate all testing pipelines in GitHub Actions]] #todo
+- [ ] [[finalize_migration_plan_md.md|\\\[\\\[Finalize \`MIGRATION\_PLAN.md\`]]]] #todo
+- [ ] [[Write end to end tests.md]] #todo
+- [ ] [[discord image attachment indexer 1.md]] #breakdown
+- [ ] [[Write board sync script.md]] #breakdown
+- [ ] [[Determine PM2 configuration for agents 1.md|Determine PM2 configuration for agents]] #breakdown
+- [ ] [[Clearly seperate service dependency files 1.md]] #ready
+- [ ] [[Add starter notes - eidolon_fields, cephalon_inner_monologue 1.md|Add starter notes - eidolon\_fields, cephalon\_inner\_monologue]] #ready
+- [ ] [[Create permission gating layer 1.md|Create permission gating layer]] #ready
+- [ ] [[Document board usage guidelines 1.md|Document board usage guidelines]] #ready
+- [ ] [[start_eidolon.md|Start Eidolon]] #ready
 
 
 ***
@@ -200,9 +200,13 @@ kanban-plugin: board
 - [ ] [[Setup code in wsl.md]] #accepted
 - [ ] [[Create vault-config .obsidian with Kanban and minimal vault setup 1.md|Create vault-config .obsidian with Kanban and minimal vault setup]] #incoming
 - [ ] [[add_obsidian_to_gitignore.md|Add .obsidian to .gitignore]] #todo
+- [ ] [[Add_unit_tests_for_gui_helpers.md|Add unit tests for GUI helpers]] #ready
+- [ ] [[write_simple_ecosystem_declaration_library_for_new.md|write simple ecosystem declaration library for new agents]] #todo
+- [ ] [[add_ollama_formally_to_pipeline.md|Add Ollama formally to pipeline]] #todo
+- [ ] [[Write_meaningful_tests_for_Cephalon.md|Write meaningful tests for Cephalon]] #agent-thinking
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

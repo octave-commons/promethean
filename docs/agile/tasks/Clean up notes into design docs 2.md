@@ -1,7 +1,11 @@
 ## 🛠️ Description
 
-Get a second agent running so we can have the two  talk to each other, and  get an opertunity to abstract the creation of agents like mentioned  in [[Update makefile to have commands specific for agents.md]]
-[[write simple ecosystem declaration library for new agents 2]]
+Ive kinda been doing this, but not really.
+
+I've been breaking notes down  into easier to handle chunks.
+
+but not really turning them into concrete  design docs.
+
 
 
 ---
@@ -42,5 +46,5 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [[kanban.md]]
-#incoming
+- [[kanban]]
+#agent-thinking

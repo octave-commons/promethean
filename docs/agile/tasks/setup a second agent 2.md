@@ -1,6 +1,6 @@
 ## 🛠️ Description
 
-Get a second agent running so we can have the two  talk to each other, and  get an opertunity to abstract the creation of agents like mentioned  in [[Update makefile to have commands specific for agents.md]]
+Get a second agent running so we can have the two  talk to each other, and  get an opertunity to abstract the creation of agents like mentioned  in [[Update makefile to have commands specific for agents]]
 [[write simple ecosystem declaration library for new agents 2]]
 
 
@@ -42,5 +42,5 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [[kanban.md]]
+- [[kanban]]
 #incoming
