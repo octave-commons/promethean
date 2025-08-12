@@ -36,7 +36,7 @@ It's too complicated to seperate this idea of "agents", "Agent specififc service
 
 ## ⛓️ Blocked By
 - [[update github actions to use makefile.md]]
-- [[write simple ecosystem declaration library for new agents.md]]
+- [[write simple ecosystem declaration library for new agents 2]]
 - [[Determine PM2 configuration for agents.md]]
 
 
@@ -48,5 +48,5 @@ Nothing
 ## 🔍 Relevant Links
 - [[kanban.md]]
 - [[MIGRATION_PLAN.md]]
-- [[write simple ecosystem declaration library for new agents.md]]
+- [[write simple ecosystem declaration library for new agents 2]]
 #ready

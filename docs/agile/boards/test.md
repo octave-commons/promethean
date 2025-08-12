@@ -15,8 +15,8 @@ kanban-plugin: board
 - [ ] [[Identify ancestral resonance patterns.md]] #ice-box
 - [ ] [[Implement fragment ingestion with activation vectors.md]] #ice-box
 - [ ] [[Implement transcendence cascade.md]] #ice-box
-- [ ] [[Integrate synthesis-agent pass on unique to produce draft docs.md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #ice-box
-- [ ] [[Research GitHub Projects board API.md]] #ice-box
+- [ ] [[Integrate synthesis-agent pass on unique to produce draft docs 2|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #ice-box
+- [ ] [[Research GitHub Projects board API 2]] #ice-box
 - [ ] [[Schedule alignment meeting with stakeholders.md]] #ice-box
 - [ ] [[Suggest metaprogramming updates.md]] #ice-box
 
@@ -29,7 +29,7 @@ kanban-plugin: board
 
 - [ ] [[Add vault instructions to main README.md.md]] #rejected
 - [ ] [[Clearly separate service dependency files.md]] #rejected
-- [ ] [[Ensure GitHub-compatible markdown settings are documented.md]] #rejected
+- [ ] [[Ensure GitHub-compatible markdown settings are documented 2]] #rejected
 - [ ] [[Finalize_STT_workflow.md|Finalize STT workflow]] #rejected
 - [ ] [[Move all testing to individual services.md]] #rejected
 - [ ] [[Summarize clarified priorities for next sprint.md]] #rejected
@@ -48,7 +48,7 @@ kanban-plugin: board
 
 ## Prompt Refinement
 
-- [ ] [[Finalize `MIGRATION_PLAN.md`.md|Project Setup & Service Lifecycle Commands]] #prompt-refinement
+- [ ] [[Finalize `MIGRATION_PLAN.md` 1|Project Setup & Service Lifecycle Commands]] #prompt-refinement
 - [ ] [[discord image awareness.md]] #prompt-refinement
 - [ ] [[discord link indexer.md]] #prompt-refinement
 
@@ -62,7 +62,7 @@ kanban-plugin: board
 - [ ] [[Clean up notes into design docs.md]] #agent-thinking
 - [ ] [[Describe github branching workflow.md]] #agent-thinking
 - [ ] [[Obsidian Kanban Github Project Board Mirror system.md]] #agent-thinking
-- [ ] [[Prevent dangling processes when a process fails due to error, or automaticly clean them up.md]] #agent-thinking
+- [ ] [[Prevent dangling processes when a process fails due to error, or automaticly clean them up 2]] #agent-thinking
 - [ ] [[Smart Task templater.md]] #agent-thinking
 - [ ] [[Twitch stream title generator.md]] #agent-thinking
 - [ ] [[Write_meaningful_tests_for_Cephalon.md|Write meaningful tests for Cephalon]] #agent-thinking
@@ -73,7 +73,7 @@ kanban-plugin: board
 - [ ] [[Mirror shared utils with language-specific doc folders.md]] #breakdown
 - [ ] [[Write board sync script.md]] #breakdown
 - [ ] [[discord image attachment indexer.md]] #breakdown
-- [ ] [[write simple ecosystem declaration library for new agents.md]] #breakdown
+- [ ] [[write simple ecosystem declaration library for new agents 2]] #breakdown
 
 ## Ready
 
@@ -86,13 +86,13 @@ kanban-plugin: board
 - [ ] [[Clearly seperate service dependency files.md]] #ready
 - [ ] [[Create permission gating layer 1.md]] #ready
 - [ ] [[Define permission schema in AGENTS 1.md|Define permission schema in AGENTS 1.md]] #ready
-- [ ] [[Document board usage guidelines.md]] #ready
-- [ ] [[Gather baseline emotion metrics for Eidolon field.md]] #ready
+- [ ] [[Document board usage guidelines 2]] #ready
+- [ ] [[Gather baseline emotion metrics for Eidolon field 2]] #ready
 - [ ] [[Gather open questions about system direction.md]] #ready
 - [ ] [[Migrate portfolio client code to Promethean.md]] #ready
 - [ ] [[Migrate server side sibilant libs to promethean architecture.md]] #ready
 - [ ] [[Migrating relevant modules from riatzukiza.github.io to -site- and -docs-.md]] #ready
-- [ ] [[Start Eidolon.md]] #ready
+- [ ] [[Start Eidolon 1]] #ready
 - [ ] [[Update makefile to have commands specific for agents.md|Update Makefile to have commands specific for agents]] #ready
 
 ## Todo
@@ -100,15 +100,15 @@ kanban-plugin: board
 - [ ] [[Add .obsidian to .gitignore.md]] #todo
 - [ ] [[Annotate legacy code with migration tags.md]] #todo
 - [ ] [[Create base `README.md` templates for each service.md]] #todo
-- [ ] [[Structure vault to mirror ` services `, ` agents `, ` docs `.md|Document-Driven Development for Service Scripts]] #todo
+- [ ] [[Structure vault to mirror ` services `, ` agents `, ` docs ` 1|Document-Driven Development for Service Scripts]] #todo
 - [ ] [[Fix_makefile_test_target.md|Fix Makefile test target]] #todo
-- [ ] [[Make seperate execution pathways.md]] #todo
-- [ ] [[Reach 100 percent complete test coverage.md]] #todo
+- [ ] [[Make seperate execution pathways 2]] #todo
+- [ ] [[Reach 100 percent complete test coverage 2]] #todo
 - [ ] [[separate all testing pipelines in github Actions.md|Separate all testing pipelines in GitHub Actions]] #todo
-- [ ] [[Set up `Makefile` for Python + JS build test dev.md|Set up Makefile for Python + JS build test dev]] #todo
+- [ ] [[Set up `Makefile` for Python + JS build test dev 1|Set up Makefile for Python + JS build test dev]] #todo
 - [ ] [[Write end to end tests.md]] #todo
-- [ ] [[refactor any python modules not currently for ML stuff (discord, etc).md]] #todo
-- [ ] [[seperate all testing pipelines in github Actions.md|seperate all testing pipelines in GitHub Actions]] #todo
+- [ ] [[refactor any python modules not currently for ML stuff (discord, etc) 2]] #todo
+- [ ] [[seperate all testing pipelines in github Actions 2|seperate all testing pipelines in GitHub Actions]] #todo
 
 ## In Review
 
