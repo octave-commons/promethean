@@ -105,6 +105,12 @@ With prefix arg ASK-HEADER, insert a header."
   (prom/open-unique-for-mode (if (fboundp 'js-ts-mode) 'js-ts-mode 'js-mode) ask-header))
 
 ;;;; ---------- List continuation (fallback) ----------
+(defun prom/list--empty-item-p ()
+  "Return non-nil if current line is a list item with no content (only marker, optional checkbox, spaces)."
+  (save-excursion
+    (beginning-of-line)
+    (looking-at
+     "^[[:space:]]*\\([-+*]\\|[0-9]+[\\.)]\\|[A-Za-z][\\.)]\\)[[:space:]]+\\(\\[[ xX-]\\][[:space:]]+\\)?[[:space:]]*$")))
 
 (defun prom-list--current-marker ()
   "Return plist describing current line's list marker or nil.
@@ -119,46 +125,92 @@ Keys: :indent :raw :next :checkbox."
                     (seq (group (+ digit)) (any ".)"))   ; 3:num
                     (seq (group alpha)      (any ".)")))) ; 4:alpha
                (+ blank)
-               (opt (group "[" (any " xX-") "]") (+ blank))) ; 5:checkbox
-           ))
-    (let* ((indent (match-string 1))
-           (raw    (match-string 2))
-           (num    (match-string 3))
-           (alp    (match-string 4))
-           (cbx    (match-string 5))
-           (next
-            (cond
-             (num (format "%d%c" (1+ (string-to-number num))
-                          (aref raw (1- (length raw)))))
-             (alp (format "%c%c" (1+ (string-to-char alp))
-                          (aref raw (1- (length raw)))))
-             (t raw))))
-      (list :indent indent :raw raw :next next :checkbox cbx))))
+               (opt (group "[" (any " xX-") "]") (+ blank))))
+      (let* ((indent (match-string 1))
+             (raw    (match-string 2))
+             (num    (match-string 3))
+             (alp    (match-string 4))
+             (cbx    (match-string 5))
+             (next
+              (cond
+               (num (format "%d%c" (1+ (string-to-number num))
+                            (aref raw (1- (length raw)))))
+               (alp (format "%c%c" (1+ (string-to-char alp))
+                            (aref raw (1- (length raw)))))
+               (t raw))))
+        (list :indent indent :raw raw :next next :checkbox cbx)))))
+
+(defun prom/list--prev-list-indent ()
+  "Indent columns of the previous non-blank list line, or nil."
+  (save-excursion
+    (forward-line -1)
+    (while (and (not (bobp)) (looking-at-p "^[[:space:]]*$"))
+      (forward-line -1))
+    (when (looking-at
+           "^[[:space:]]*\([-+*]\|[0-9]+[\.)]\|[A-Za-z][\.)]\)[[:space:]]+")
+      (- (match-beginning 0) (line-beginning-position)))))
+
+(defun prom/list--first-marker-like (raw)
+  "Given RAW like \"3.\", \"a)\" or \"-\", return the first in that style."
+  (let ((term (aref raw (1- (length raw)))))
+    (cond
+     ((string-match-p "^[0-9]+" raw) (format "1%c" term))
+     ((string-match-p "^[A-Z]" raw)  (format "A%c" term))
+     ((string-match-p "^[a-z]" raw)  (format "a%c" term))
+     (t raw))))
+
+(defun prom/list--second-marker-like (raw)
+  "Given RAW like \"3.\", \"a)\" or \"-\", return the second in that style."
+  (let ((term (aref raw (1- (length raw)))))
+    (cond
+     ((string-match-p "^[0-9]+" raw) (format "2%c" term))
+     ((string-match-p "^[A-Z]" raw)  (format "B%c" term))
+     ((string-match-p "^[a-z]" raw)  (format "b%c" term))
+     (t raw))))
 
 (defun prom/list-ret-dwim ()
-  "Obsidian-like RET: continue list or exit on empty item."
+  "RET: continue list; if current item empty, exit.
+If indent is deeper than previous list line, reset current marker to 1/a/A."
   (interactive)
-  (let* ((m (prom-list--current-marker))
+  (let* ((m   (prom-list--current-marker))
          (bol (line-beginning-position))
          (eol (line-end-position)))
     (cond
+     ;; Not a list line → plain newline
      ((null m) (newline))
-     ((save-excursion
-        (goto-char bol)
-        (re-search-forward
-         (rx-to-string
-          `(: bol ,(plist-get m :indent) ,(plist-get m :raw)
-              (+ blank)
-              ,(when (plist-get m :checkbox) '(: ,(plist-get m :checkbox) (+ blank)))
-              (* blank) eol)) nil t)))
-     ;; empty item → clear marker and break list
-     (delete-region bol eol) (newline))
-    (t
-     (goto-char eol)
-     (newline)
-     (insert (plist-get m :indent) (plist-get m :next) " ")
-     (when-let ((cb (plist-get m :checkbox)))
-       (insert cb " ")))))
+     ;; Empty list item → delete the marker line, then newline (exit list)
+     ((prom/list--empty-item-p)
+      (delete-region bol eol)
+      (newline))
+     ;; Otherwise continue the list (maybe with restart at 1/a/A when deeper)
+     (t
+      (let* ((indent (or (plist-get m :indent) ""))
+             (raw    (or (plist-get m :raw)    ""))
+             (cb     (plist-get m :checkbox))
+             (prev-indent (prom/list--prev-list-indent))
+             (deep? (and prev-indent
+                         (> (length indent) prev-indent)
+                         (or (string-match-p "^[0-9]+" raw)
+                             (string-match-p "^[A-Za-z]" raw))))
+             (next (plist-get m :next)))
+        ;; If we just indented deeper, force current item to 1/a/A
+        (when deep?
+          (let ((first (prom/list--first-marker-like raw)))
+            (save-excursion
+              (goto-char bol)
+              (when (looking-at "^[[:space:]]*\\([-+*]\\|[0-9]+[\\.)]\\|[A-Za-z][\\.)]\\)")
+                (let ((s (match-beginning 1)) (e (match-end 1)))
+                  (unless (string-equal (match-string 1) first)
+                    (goto-char s)
+                    (delete-region s e)
+                    (insert first)))))))
+        (when deep?
+          (setq next (prom/list--second-marker-like raw)))
+        (goto-char eol)
+        (newline)
+        (insert indent next " ")
+        (when cb (insert cb " ")))))))
+
 
 (define-minor-mode prom-list-continue-mode
   "Fallback list continuation on RET for any text buffer."
@@ -166,25 +218,3 @@ Keys: :indent :raw :next :checkbox."
   (if prom-list-continue-mode
       (local-set-key (kbd "RET") #'prom/list-ret-dwim)
     (local-unset-key (kbd "RET"))))
-
-;;;; ---------- Orgalist DWIM (when available) ----------
-
-(defun prom/orgalist-ret-dwim ()
-  "RET that continues list or exits on empty when `orgalist-mode' is active."
-  (interactive)
-  (let ((bol (line-beginning-position))
-        (eol (line-end-position)))
-    (save-excursion
-      (goto-char bol)
-      (cond
-       ((looking-at
-         (rx bol (* blank)
-             (or (any "-+*")
-                 (seq (+ digit) (any ".)"))
-                 (seq alpha (any ".)")))
-             (+ blank) (opt "[" (any " xX-") "]" (+ blank))
-             (* blank) eol))
-        (delete-region bol eol) (newline))
-       ((bound-and-true-p orgalist-mode)
-        (goto-char eol) (call-interactively 'orgalist-insert-item))
-       (t (newline))))))

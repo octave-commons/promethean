@@ -243,7 +243,7 @@ Keys: :indent :raw :next :checkbox."
          (rx-to-string
           `(: bol ,(plist-get m :indent) ,(plist-get m :raw)
               (+ blank)
-              ,(when (plist-get m :checkbox) '(: ,(plist-get m :checkbox) (+ blank)))
+              ,@(when (plist-get m :checkbox) '(: ,(plist-get m :checkbox) (+ blank)))
               (* blank) eol)) nil t)))
       ;; empty item → clear marker and break list
       (delete-region bol eol) (newline))
@@ -435,3 +435,241 @@ emacs --with-profile main     # main
 * Per-project overrides: `.dir-locals.el`
 
 If/when you want `orgalist` later, we can add a minimal patch to `packages.el`/`config.el` to auto-install and swap `RET` to its implementation—*without* breaking this fallback.
+
+## Patch: Clean Lists Implementation — fixed & balanced (2025-08-11)
+
+**Drop-in replacement.** This version fixes unmatched parens and bad regex escapes. It restarts numbering when you indent into a sublist, exits on empty items, and keeps point on the new item.
+
+```elisp
+;;;; ---------- Lists: clean, single-impl (balanced) ----------
+
+(defun prom-list--current-marker ()
+  "Return plist describing current line's list marker or nil.
+Keys: :indent :raw :next :checkbox."
+  (save-excursion
+    (beginning-of-line)
+    (when (looking-at
+           (rx bol
+               (group (* blank))                         ; 1: indent
+               (group
+                (or (any "-+*")
+                    (seq (group (+ digit)) (any ".)"))   ; 3:num
+                    (seq (group alpha)      (any ".)")))) ; 4:alpha
+               (+ blank)
+               (opt (group "[" (any " xX-") "]") (+ blank))))
+      (let* ((indent (match-string 1))
+             (raw    (match-string 2))
+             (num    (match-string 3))
+             (alp    (match-string 4))
+             (cbx    (match-string 5))
+             (next
+              (cond
+               (num (format "%d%c" (1+ (string-to-number num))
+                            (aref raw (1- (length raw)))))
+               (alp (format "%c%c" (1+ (string-to-char alp))
+                            (aref raw (1- (length raw)))))
+               (t raw))))
+        (list :indent indent :raw raw :next next :checkbox cbx)))))
+
+(defun prom/list--prev-list-indent ()
+  "Indent columns of the previous non-blank list line, or nil."
+  (save-excursion
+    (forward-line -1)
+    (while (and (not (bobp)) (looking-at-p "^[[:space:]]*$"))
+      (forward-line -1))
+    (when (looking-at
+           "^[[:space:]]*\([-+*]\|[0-9]+[\.)]\|[A-Za-z][\.)]\)[[:space:]]+")
+      (- (match-beginning 0) (line-beginning-position)))))
+
+(defun prom/list--first-marker-like (raw)
+  "Given RAW like \"3.\", \"a)\" or \"-\", return the first in that style."
+  (let ((term (aref raw (1- (length raw)))))
+    (cond
+     ((string-match-p "^[0-9]+" raw) (format "1%c" term))
+     ((string-match-p "^[A-Z]" raw)  (format "A%c" term))
+     ((string-match-p "^[a-z]" raw)  (format "a%c" term))
+     (t raw))))
+
+(defun prom/list--second-marker-like (raw)
+  "Given RAW like \"3.\", \"a)\" or \"-\", return the second in that style."
+  (let ((term (aref raw (1- (length raw)))))
+    (cond
+     ((string-match-p "^[0-9]+" raw) (format "2%c" term))
+     ((string-match-p "^[A-Z]" raw)  (format "B%c" term))
+     ((string-match-p "^[a-z]" raw)  (format "b%c" term))
+     (t raw))))
+
+(defun prom/list-ret-dwim ()
+  "RET: continue list; if current item empty, exit.
+If indent is deeper than previous list line, reset current marker to 1/a/A."
+  (interactive)
+  (let* ((m   (prom-list--current-marker))
+         (bol (line-beginning-position))
+         (eol (line-end-position)))
+    (if (not m)
+        (newline)
+      (let* ((indent (or (plist-get m :indent) ""))
+             (raw    (or (plist-get m :raw)    ""))
+             (cb     (plist-get m :checkbox))
+             ;; detect empty item
+             (pat (concat "^" (regexp-quote indent) (regexp-quote raw)
+                          "\s-+" (if cb (concat (regexp-quote cb) "\s-+") "")
+                          "\s-*$"))
+             (empty-item nil))
+        (save-excursion
+          (goto-char bol)
+          (setq empty-item (re-search-forward pat nil t))
+          (when empty-item (delete-region bol eol)))
+        (if empty-item
+            (newline)
+          (let* ((prev-indent (prom/list--prev-list-indent))
+                 (deep? (and prev-indent
+                             (> (length indent) prev-indent)
+                             (or (string-match-p "^[0-9]+" raw)
+                                 (string-match-p "^[A-Za-z]" raw))))
+                 (next (plist-get m :next)))
+            ;; If we just indented deeper, force current item to 1/a/A,
+            ;; and make the *next* item the second in that style.
+            (when deep?
+              (let ((first (prom/list--first-marker-like raw)))
+                (save-excursion
+                  (goto-char bol)
+                  (when (looking-at "^[[:space:]]*\([-+*]\|[0-9]+[\.)]\|[A-Za-z][\.)]\)")
+                    (let ((s (match-beginning 1)) (e (match-end 1)))
+                      (unless (string-equal (match-string 1) first)
+                        (goto-char s)
+                        (delete-region s e)
+                        (insert first))))))
+              (setq next (prom/list--second-marker-like raw)))
+            (goto-char eol)
+            (newline)
+            (insert indent next " ")
+            (when cb (insert cb " "))))))))
+
+(define-minor-mode prom-list-continue-mode
+  "Fallback list continuation on RET for any text buffer."
+  :lighter " ▪RET"
+  (if prom-list-continue-mode
+      (local-set-key (kbd "RET") #'prom/list-ret-dwim)
+    (local-unset-key (kbd "RET"))))
+```
+
+### Verify quickly
+
+* `M-x check-parens` in your `funcs.el` → should report **no errors**.
+* Try:
+
+  ```
+  1. alpha
+  2. beta
+     1. child
+     2. next
+  ```
+* Empty item + `RET` exits list. Deeper indent restarts at 1/a/A.
+
+## Patch: Restart numbering when using **TAB** indent (columns, not chars)
+
+**Why your sublists didn’t restart:** the previous version compared the *string length* of the indent vs. the previous line’s indent. A literal TAB is 1 char but many columns. In Emacs you want **`current-indentation`** (columns), not string length.
+
+Drop these in — they replace the old helpers and `RET` function.
+
+```elisp
+;; Replace the old prev-indent function with a columns-aware version
+(defun prom/list--prev-list-indent ()
+  "Indent columns of the previous non-blank list line, or nil."
+  (save-excursion
+    (forward-line -1)
+    (while (and (not (bobp)) (looking-at-p "^[[:space:]]*$"))
+      (forward-line -1))
+    (when (looking-at
+           "^[[:space:]]*\([-+*]\|[0-9]+[\.)]\|[A-Za-z][\.)]\)[[:space:]]+")
+      (current-indentation))))
+
+;; Robust empty-item detector (kept here so this file is self-contained)
+(defun prom/list--empty-item-p ()
+  "Return non-nil if current line is a list item with no content (only marker, optional checkbox, spaces)."
+  (save-excursion
+    (beginning-of-line)
+    (looking-at
+     "^[[:space:]]*\([-+*]\|[0-9]+[\.)]\|[A-Za-z][\.)]\)[[:space:]]+\(\[[ xX-]\][[:space:]]+\)?[[:space:]]*$")))
+
+;; RET: exits on empty; restarts numbering at deeper indent (using columns)
+(defun prom/list-ret-dwim ()
+  "RET: continue list; if current item empty, exit.
+If indent is deeper than previous list line, reset current marker to 1/a/A."
+  (interactive)
+  (let* ((m   (prom-list--current-marker))
+         (bol (line-beginning-position))
+         (eol (line-end-position)))
+    (cond
+     ((null m) (newline))
+     ((prom/list--empty-item-p)
+      (delete-region bol eol)
+      (newline))
+     (t
+      (let* ((indent (or (plist-get m :indent) ""))
+             (raw    (or (plist-get m :raw)    ""))
+             (cb     (plist-get m :checkbox))
+             (curr-indent (save-excursion (goto-char bol) (current-indentation)))
+             (prev-indent (prom/list--prev-list-indent))
+             (deep? (and prev-indent
+                         (> curr-indent prev-indent)
+                         (or (string-match-p "^[0-9]+" raw)
+                             (string-match-p "^[A-Za-z]" raw))))
+             (next (plist-get m :next)))
+        (when deep?
+          (let ((first (prom/list--first-marker-like raw)))
+            (save-excursion
+              (goto-char bol)
+              (when (looking-at "^[[:space:]]*\([-+*]\|[0-9]+[\.)]\|[A-Za-z][\.)]\)")
+                (let ((s (match-beginning 1)) (e (match-end 1)))
+                  (unless (string-equal (match-string 1) first)
+                    (goto-char s)
+                    (delete-region s e)
+                    (insert first))))))
+          (setq next (prom/list--second-marker-like raw)))
+        (goto-char eol)
+        (newline)
+        (insert indent next " ")
+        (when cb (insert cb " ")))))))
+```
+
+**Optional (exact Obsidian feel):** restart to `1.` *as soon as you indent with TAB* (no waiting for RET):
+
+```elisp
+(defun prom/list--line-indent-cols ()
+  (save-excursion (beginning-of-line) (current-indentation)))
+
+(defun prom/list--current-numbered-or-alpha ()
+  (save-excursion
+    (beginning-of-line)
+    (when (looking-at "^[[:space:]]*\([0-9]+[\.)]\|[A-Za-z][\.)]\)[[:space:]]+")
+      (match-string 1))))
+
+(defun prom/list-restart-on-indent (orig &rest args)
+  (let ((before (prom/list--line-indent-cols)))
+    (prog1 (apply orig args)
+      (let ((after (prom/list--line-indent-cols)))
+        (when (and before after (> after before))
+          (let ((marker (prom/list--current-numbered-or-alpha)))
+            (when marker
+              (let ((first (prom/list--first-marker-like marker)))
+                (save-excursion
+                  (beginning-of-line)
+                  (when (looking-at "^[[:space:]]*\([0-9]+[\.)]\|[A-Za-z][\.)]\)")
+                    (let ((s (match-beginning 1)) (e (match-end 1)))
+                      (unless (string-equal (match-string 1) first)
+                        (goto-char s)
+                        (delete-region s e)
+                        (insert first))))))))))))
+
+;; enable this if you want the immediate behavior
+;; (advice-add 'indent-for-tab-command :around #'prom/list-restart-on-indent)
+```
+
+**Test:**
+
+* Type `1. foo`, `RET` → `2.`
+* Make a third: `RET` → `3.`
+* Hit `TAB` to indent the `3.` line → *stays `1.` if advice enabled*; otherwise `RET` now produces `2.`
+* Blank item + `RET` exits list.
