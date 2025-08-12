@@ -21,8 +21,8 @@ Synchronize our local kanban board with a GitHub Projects board so tasks stay co
 
 ## 📋 Subtasks
 - [x] [[Research GitHub Projects board API 2]]
-- [ ] [[Write board sync script.md]]
-- [ ] [[Document board sync workflow.md]]
+- [ ] [[Write board sync script]]
+- [ ] [[Document board sync workflow]]
 
 ---
 
@@ -40,5 +40,5 @@ Nothing
 ---
 
 ## 🔍 Relevant Links
-- [[kanban.md]]
+- [[kanban]]
 #agent-thinking
