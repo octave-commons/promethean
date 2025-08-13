@@ -5,7 +5,7 @@
 Using symbiants and algae programs as reference, implement physics system in a way that does not alter the previous game state while generating the current one.
 ## Related Epics
 
-- [Optimizations](Optimizations.md)
+- [[Optimizations.md]]
 ## Requirements
 
 - physics simulations are more accurate
@@ -16,12 +16,12 @@ Using symbiants and algae programs as reference, implement physics system in a w
 
   - Consolodate position and velocity into physics
   - When performing updates, do not mutate the state of the
-last tick. Use two data structures, and swap them out [each](../docs/Pools/Dynamic/each.md) tick.
+last tick. Use two data structures, and swap them out [[each.md]] tick.
 ## Blocked by 
 
 {{BlockedBy}}
 
-- Can't be worked on till this task is [done](../done.md)
+- Can't be worked on till this task is [[done.md]]
 - blocking task
 - blocking task
 
@@ -29,6 +29,6 @@ last tick. Use two data structures, and swap them out [each](../docs/Pools/Dynam
 
 {{Blocks}}
 
-- This task cannot be [done](../done.md) until this one is [done](../done.md).
+- This task cannot be [[done.md]] until this one is [[done.md]].
 - neither can this one
 - or this one

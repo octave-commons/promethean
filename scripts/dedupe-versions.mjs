@@ -1,44 +1,67 @@
-// dedupe-fuzzy-rename.mjs
-// Usage:
-//   node dedupe-fuzzy-rename.mjs [DIR] [--apply] [--rm] [--rename]
-//                                [--ext md] [--dist 2] [--ratio 0.12]
-//                                [--minlen 3]
+// dedupe-to-kanban-largest.mjs
 //
-// Behavior:
-// - Groups files by normalized base name + extension (ignoring a final .bak).
-// - Fuzzy-merges nearby group keys using a BK-tree + Levenshtein with a distance
-//   threshold of max(--dist, ceil(len * --ratio)). Defaults: dist=2, ratio=0.12.
-// - For each merged cluster (same extension), keeps **one** file using tie-breakers:
-//     1) prefer non-.bak
-//     2) larger size
-//     3) newer mtime
-//     4) shorter name
-// - Moves all extras to a timestamped .dedupe_trash_* folder unless --rm is set.
-// - If --rename is set, renames the kept file to a canonical short name
-//   ("shortest sensible" sanitized base) plus the base extension.
-// - Dry-run by default; use --apply to enact changes.
+// WHAT THIS DOES (updated):
+//   • Fuzzy-cluster filenames that look like versions of the same task
+//     (ignores trailing numbers / "v2" / "final" noise, treats .md and .md.bak as same base ext).
+//   • In each cluster: **KEEP THE LARGEST FILE BY SIZE**. Ties → newer mtime → shorter name.
+//   • Move all smaller siblings to a timestamped `.dedupe_trash_*` unless `--rm` is set.
+//   • Parse your Kanban board Markdown (lines like `- [ ] [[Task name]]` or `- [x] [[Task name]]`).
+//   • If `--rename` is set, rename the kept (largest) file to the **exact Kanban task title**
+//     plus the base extension (ignoring a trailing `.bak`). No lowercasing, no reformatting.
 //
-// Notes:
-// - "Canonical short name" heuristic: choose the shortest sanitized base among the
-//   cluster after stripping versiony suffixes (" 1", "_final", "-v2" etc.) and
-//   collapsing separators. Enforce --minlen (default 3) to avoid silly names.
-// - Multi-extensions: we respect only the last extension as the base extension
-//   (e.g. name.py.md -> ".md"). A trailing ".bak" is ignored for canonical ext.
+// WHAT IT DOES *NOT* DO:
+//   • It does not prefer non-.bak or any specific name/extension—**size alone decides** the keeper.
+//   • It does not "sanitize" the Kanban title beyond OS-unsafe edge cases; it uses the title as-is.
 //
-// This file is dependency-free and safe to tweak.
+// USAGE
+//   node dedupe-to-kanban-largest.mjs [DIR]
+//       [--apply] [--rm]
+//       [--rename]                 # actually rename keepers to matching Kanban titles
+//       [--board <pathOrUrl>]      # Kanban .md path or URL (default: Promethean dev board raw URL)
+//       [--ext md]                 # operate only on one extension family (.md & .md.bak)
+//       [--dist 2] [--ratio 0.12]  # filename clustering fuzz (BK-tree + Levenshtein)
+//       [--taskdist 3] [--taskratio 0.14] # cluster→task title matching fuzz
+//       [--rename-solo]            # also rename singletons (clusters with 1 file)
+//       [--plan out.json]          # write a JSON change plan (preview or audit)
+//
+// DEFAULT BOARD (per your project setting #75):
+//   https://raw.githubusercontent.com/riatzukiza/promethean/dev/docs/agile/boards/kanban.md
+//
+// SAFETY
+//   • Dry-run by default; shows plan without making changes.
+//   • Use --apply to enact. Use --rm to permanently delete instead of moving to trash.
+//   • If a Kanban title contains a '/' (rare), we SKIP renaming that cluster and warn.
 
-import { readdir, stat, mkdir, rename, rm } from "fs/promises";
+import {
+  readdir,
+  stat,
+  mkdir,
+  rename,
+  rm,
+  access,
+  writeFile,
+  readFile,
+} from "fs/promises";
+import { constants as FS_CONST } from "fs";
 import { join, resolve, parse } from "path";
+import https from "https";
 
+// ---------- CLI ----------
 const args = process.argv.slice(2);
 const DIR = resolve(args[0] || ".");
 const APPLY = args.includes("--apply");
-const PERMA = args.includes("--rm"); // permanent delete if true
+const PERMA = args.includes("--rm");
 const DO_RENAME = args.includes("--rename");
-const ONLY_EXT = getFlag("--ext"); // e.g. "md"
+const RENAME_SOLO = args.includes("--rename-solo");
+const ONLY_EXT = getFlag("--ext"); // e.g. 'md'
 const BASE_DIST = toInt(getFlag("--dist"), 2);
 const RATIO = toFloat(getFlag("--ratio"), 0.12);
-const MINLEN = toInt(getFlag("--minlen"), 3);
+const TASK_BASE_DIST = toInt(getFlag("--taskdist"), 3);
+const TASK_RATIO = toFloat(getFlag("--taskratio"), 0.14);
+const PLAN_OUT = getFlag("--plan");
+const BOARD =
+  getFlag("--board") ||
+  "https://raw.githubusercontent.com/riatzukiza/promethean/dev/docs/agile/boards/kanban.md";
 
 function getFlag(name) {
   const i = args.indexOf(name);
@@ -51,11 +74,10 @@ function toFloat(v, d) {
   return v != null ? parseFloat(v) : d;
 }
 
-// ---------- String utils ----------
+// ---------- String & filename helpers ----------
 function stripTrailingBak(name) {
   return name.endsWith(".bak") ? name.slice(0, -4) : name;
 }
-
 function splitNameAndExtNoBak(filename) {
   const noBak = stripTrailingBak(filename);
   const dot = noBak.lastIndexOf(".");
@@ -68,16 +90,14 @@ const VERSIONY =
 function stripVersiony(base) {
   let s = base;
   for (let i = 0; i < 4; i++) {
-    // peel a few layers if stacked
     const t = s.replace(VERSIONY, "");
     if (t === s) break;
     s = t;
   }
   return s.replace(/[\s_-]+$/g, "").trim();
 }
-
 function sanitizeForKey(base) {
-  // lowercase, collapse separators, remove most punctuation (keep alnum and space)
+  // for fuzzy comparison only
   return base
     .toLowerCase()
     .replace(/[._-]+/g, " ")
@@ -86,13 +106,9 @@ function sanitizeForKey(base) {
     .trim();
 }
 
-function canonicalBaseForRename(candidates) {
-  // Choose the shortest sanitized-but-readable candidate with min length
-  const sorted = [...candidates]
-    .map((s) => sanitizeForKey(stripVersiony(s)))
-    .filter((s) => s.length >= MINLEN)
-    .sort((a, b) => a.length - b.length || a.localeCompare(b));
-  return sorted[0] || sanitizeForKey(stripVersiony(candidates[0]));
+function isOSUnsafeFilename(title) {
+  // On cross-platform repos, these are usually problematic. We only *warn* and skip rename if present.
+  return /\//.test(title); // keep strict: forward slash breaks paths on all OSes
 }
 
 // ---------- Levenshtein & BK-tree ----------
@@ -107,19 +123,14 @@ function levenshtein(a, b) {
     let prev = dp[0];
     dp[0] = i;
     for (let j = 1; j <= n; j++) {
-      const temp = dp[j];
+      const tmp = dp[j];
       const cost = a.charCodeAt(i - 1) === b.charCodeAt(j - 1) ? 0 : 1;
-      dp[j] = Math.min(
-        dp[j] + 1, // deletion
-        dp[j - 1] + 1, // insertion
-        prev + cost, // substitution
-      );
-      prev = temp;
+      dp[j] = Math.min(dp[j] + 1, dp[j - 1] + 1, prev + cost);
+      prev = tmp;
     }
   }
   return dp[n];
 }
-
 class BKNode {
   constructor(term) {
     this.term = term;
@@ -140,7 +151,6 @@ class BKNode {
     }
   }
 }
-
 class BKTree {
   constructor() {
     this.root = null;
@@ -157,26 +167,67 @@ class BKTree {
   }
 }
 
-// ---------- IO ----------
+// ---------- Kanban parsing ----------
+async function readBoardMarkdown(src) {
+  if (/^https?:\/\//i.test(src)) return await httpGet(src);
+  const p = resolve(src);
+  return (await readFile(p)).toString("utf8");
+}
+function httpGet(url) {
+  return new Promise((resolve, reject) => {
+    https
+      .get(url, (res) => {
+        if (
+          res.statusCode &&
+          res.statusCode >= 300 &&
+          res.statusCode < 400 &&
+          res.headers.location
+        ) {
+          return resolve(httpGet(res.headers.location));
+        }
+        if (res.statusCode !== 200)
+          return reject(new Error(`HTTP ${res.statusCode} for ${url}`));
+        const chunks = [];
+        res.on("data", (d) => chunks.push(d));
+        res.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
+      })
+      .on("error", reject);
+  });
+}
+function extractKanbanTasks(md) {
+  const re = /^\s*-\s*\[(?: |x|X|-)\]\s*\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/gm; // [[Title]] or [[Title|Alias]]
+  const titles = [];
+  let m;
+  while ((m = re.exec(md)) !== null) titles.push(m[1].trim());
+  const seen = new Set();
+  const tasks = [];
+  for (const t of titles) {
+    if (!seen.has(t)) {
+      seen.add(t);
+      tasks.push({ title: t, key: sanitizeForKey(t) });
+    }
+  }
+  return tasks;
+}
+
+// ---------- IO & indexing ----------
 function hasWantedExt(name) {
   if (!ONLY_EXT) return true;
-  // allow .md and .md.bak when --ext md
   return (
     name.toLowerCase().endsWith("." + ONLY_EXT.toLowerCase()) ||
     name.toLowerCase().endsWith("." + ONLY_EXT.toLowerCase() + ".bak")
   );
 }
-
 function fileInfo(direntName) {
   const name = direntName;
   const { base, ext } = splitNameAndExtNoBak(name);
   const rawBase = base; // before stripping versiony
   const cleanBase = stripVersiony(rawBase);
   const key = sanitizeForKey(cleanBase);
-  const isBak = name.endsWith(".bak");
-  return { name, rawBase, cleanBase, key, ext, isBak };
+  return { name, rawBase, cleanBase, key, ext };
 }
 
+// ---------- MAIN ----------
 const dirents = await readdir(DIR, { withFileTypes: true });
 const files = [];
 for (const de of dirents) {
@@ -187,13 +238,12 @@ for (const de of dirents) {
   const info = fileInfo(de.name);
   files.push({ path: abs, size: st.size, mtimeMs: st.mtimeMs, ...info });
 }
-
 if (files.length === 0) {
   console.log("No files to process.");
   process.exit(0);
 }
 
-// Group by extension first, then by key
+// Group by base extension (ignoring .bak), then by fuzzy key
 const byExt = new Map(); // ext -> Map(key -> files[])
 for (const f of files) {
   if (!byExt.has(f.ext)) byExt.set(f.ext, new Map());
@@ -202,8 +252,18 @@ for (const f of files) {
   m.get(f.key).push(f);
 }
 
-// Fuzzy merge group keys within each extension using BK-tree
-const clusters = []; // { ext, keys: string[], files: File[], canonicalBase }
+// Parse Kanban
+let tasks = [];
+try {
+  const md = await readBoardMarkdown(BOARD);
+  tasks = extractKanbanTasks(md);
+  if (tasks.length === 0) console.warn("Warning: No tasks found in board.");
+} catch (e) {
+  console.warn(`Warning: Failed to read board (${BOARD}):`, e.message);
+}
+
+// Build clusters by fuzzy-merging keys within each extension
+const clusters = []; // { ext, keys: string[], files: File[], label }
 for (const [ext, map] of byExt) {
   const keys = [...map.keys()];
   const tree = new BKTree();
@@ -213,70 +273,114 @@ for (const [ext, map] of byExt) {
     if (visited.has(k)) continue;
     const maxDist = Math.max(BASE_DIST, Math.ceil(k.length * RATIO));
     const near = tree.near(k, maxDist).filter((x) => !visited.has(x));
-    // mark visited and merge
     near.forEach((x) => visited.add(x));
-    // collect files across merged keys
     const mergedFiles = near.flatMap((x) => map.get(x));
     const candidateBases = Array.from(
       new Set(mergedFiles.map((f) => f.cleanBase)),
     ).sort();
-    const canonicalBase = canonicalBaseForRename(candidateBases);
-    clusters.push({ ext, keys: near, files: mergedFiles, canonicalBase });
+    // Label (only for display / fallback): choose the shortest clean base
+    const label =
+      candidateBases.sort(
+        (a, b) => a.length - b.length || a.localeCompare(b),
+      )[0] || k;
+    clusters.push({ ext, keys: near, files: mergedFiles, label });
   }
 }
 
-// Within each cluster, pick a single keeper and mark the rest for deletion
-function pickKeeper(a, b) {
-  // return -1 if a wins over b
-  if (a.isBak !== b.isBak) return a.isBak ? 1 : -1; // non-bak wins
-  if (a.size !== b.size) return b.size - a.size; // bigger wins
+// Keeper = largest-by-size
+function cmpLargest(a, b) {
+  if (a.size !== b.size) return b.size - a.size; // larger wins
   if (a.mtimeMs !== b.mtimeMs) return b.mtimeMs - a.mtimeMs; // newer wins
-  if (a.name.length !== b.name.length) return a.name.length - b.name.length; // shorter wins
+  if (a.name.length !== b.name.length) return a.name.length - b.name.length; // shorter name as tie-breaker
   return a.name.localeCompare(b.name);
+}
+
+function bestTaskMatch(labelSanitized, tasksList) {
+  if (!tasksList || tasksList.length === 0) return null;
+  let best = null;
+  let bestDist = Infinity;
+  for (const t of tasksList) {
+    const d = levenshtein(labelSanitized, t.key);
+    if (d < bestDist) {
+      bestDist = d;
+      best = t;
+    }
+  }
+  const maxDist = Math.max(
+    TASK_BASE_DIST,
+    Math.ceil(labelSanitized.length * TASK_RATIO),
+  );
+  return bestDist <= maxDist ? best : null;
 }
 
 const actions = [];
 for (const cl of clusters) {
-  if (cl.files.length === 1) continue; // nothing to dedupe
-  const sorted = [...cl.files].sort(pickKeeper);
+  const sorted = [...cl.files].sort(cmpLargest);
   const keep = sorted[0];
   const drops = sorted.slice(1);
-  // Desired new name for keeper
-  const desiredBase = cl.canonicalBase || stripVersiony(keep.cleanBase);
-  const desiredName = desiredBase + cl.ext;
-  const desiredPath = join(DIR, desiredName);
+
+  // Only rename if duplicates OR user asked to rename singletons
+  const shouldConsiderRename = DO_RENAME && (drops.length > 0 || RENAME_SOLO);
+
+  // Determine desired rename target from Kanban
+  let desiredName = null;
+  let matchedTask = null;
+  if (shouldConsiderRename) {
+    const labelSan = sanitizeForKey(cl.label);
+    const task = bestTaskMatch(labelSan, tasks);
+    if (task) {
+      if (isOSUnsafeFilename(task.title)) {
+        console.warn(
+          `Skipping rename: task title has OS-unsafe character '/' → ${task.title}`,
+        );
+      } else {
+        matchedTask = task.title; // exact title as filename stem
+        const keepExt = splitNameAndExtNoBak(keep.name).ext; // base ext (ignoring .bak)
+        desiredName = matchedTask + keepExt;
+      }
+    }
+  }
 
   actions.push({
-    type: "cluster",
     ext: cl.ext,
-    base: desiredBase,
+    label: cl.label,
     keep,
     drops,
-    desiredPath,
     desiredName,
+    matchedTask,
   });
-}
-
-if (actions.length === 0) {
-  console.log("No clusters with duplicates found (after fuzzy merge).");
-  process.exit(0);
 }
 
 // Report plan
 for (const a of actions) {
-  console.log(`\nCluster (ext=${a.ext || "(none)"}): base → "${a.base}"`);
+  const header = `\nCluster (ext=${a.ext || "(none)"}): label "${a.label}"`;
+  console.log(header);
+  if (a.matchedTask) console.log(`  ↳ matches Kanban: "${a.matchedTask}"`);
   console.log(
-    `  KEEP -> ${rel(a.keep.path)} (${a.keep.size} bytes)${
-      DO_RENAME ? `  ⇒  ${a.desiredName}` : ""
-    }`,
+    `  KEEP -> ${rel(a.keep.path)} (${a.keep.size} bytes)` +
+      (a.desiredName ? `  ⇒  ${a.desiredName}` : ""),
   );
   for (const d of a.drops)
     console.log(`  drop -> ${rel(d.path)} (${d.size} bytes)`);
 }
 
+// Optionally write a plan JSON
+if (PLAN_OUT) {
+  const plan = actions.map((a) => ({
+    label: a.label,
+    ext: a.ext,
+    keep: { path: rel(a.keep.path), size: a.keep.size },
+    drops: a.drops.map((d) => ({ path: rel(d.path), size: d.size })),
+    renameTo: a.desiredName || null,
+    matchedTask: a.matchedTask || null,
+  }));
+  await writeFile(resolve(PLAN_OUT), JSON.stringify(plan, null, 2));
+  console.log(`\nWrote plan → ${PLAN_OUT}`);
+}
+
 if (!APPLY) {
   console.log(
-    `\nDry run. Use --apply to make changes. Flags: [--rename] to rename keeper, [--rm] to permanently delete, [--ext md], [--dist N], [--ratio 0.12], [--minlen 3]`,
+    `\nDry run. Use --apply to make changes. Flags: [--rename] [--rm] [--board <path|url>] [--ext md] [--dist N] [--ratio 0.12] [--taskdist N] [--taskratio 0.14] [--rename-solo] [--plan out.json]`,
   );
   process.exit(0);
 }
@@ -290,43 +394,42 @@ if (!PERMA) {
 
 // Execute
 for (const a of actions) {
-  // move drops
   for (const d of a.drops) {
     if (PERMA) await rm(d.path);
-    else await rename(d.path, uniqueDest(trashDir, d.name));
+    else await rename(d.path, await uniqueDest(trashDir, d.name));
   }
-  // rename keeper if requested and different
-  if (DO_RENAME && a.keep.path !== a.desiredPath) {
-    const finalDest = uniqueDest(DIR, a.desiredName); // avoid collision
+  if (a.desiredName) {
+    const finalDest = await uniqueDest(DIR, a.desiredName);
     if (finalDest !== a.keep.path) await rename(a.keep.path, finalDest);
   }
 }
 
 console.log(
-  PERMA ? "\nDeleted extras." : `\nMoved extras to ${rel(trashDir)}.`,
+  PERMA
+    ? "\nDeleted extras."
+    : `\nMoved extras to ${trashDir ? rel(trashDir) : "(none)"}.`,
 );
-if (DO_RENAME) console.log("Renamed keepers to canonical names.");
+if (DO_RENAME) console.log("Renamed keepers where a Kanban match existed.");
 
 // ---------- helpers ----------
 function rel(p) {
   return p.replace(DIR + "/", "");
 }
-function uniqueDest(parent, name) {
-  let base = name;
-  const { name: stem, ext } = parse(name);
-  let target = join(parent, base);
-  let i = 1;
-  // eslint-disable-next-line no-constant-condition
-  while (true) {
-    try {
-      // stat throws if missing; simulate existence check via fs.access in a try
-      // but we already know existing files were moved/renamed; keep it simple
-      return target; // optimistic: rely on earlier moves to free names
-    } catch {
-      /* not used */
-    }
-    // fallback: ensure uniqueness if target was still present
-    base = `${stem}-dedup-${i++}${ext}`;
-    target = join(parent, base);
+async function exists(p) {
+  try {
+    await access(p, FS_CONST.F_OK);
+    return true;
+  } catch {
+    return false;
   }
+}
+async function uniqueDest(parent, name) {
+  let candidate = join(parent, name);
+  if (!(await exists(candidate))) return candidate;
+  const { name: stem, ext } = parse(name);
+  let i = 1;
+  while (await exists(candidate)) {
+    candidate = join(parent, `${stem}-dedup-${i++}${ext}`);
+  }
+  return candidate;
 }

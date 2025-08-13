@@ -4,30 +4,30 @@ Several of our applications are dependent on effective in browser NLP tasks like
 
 ## Related Epics
 
-- [Game AI](Game%20AI.md)
-- [chat app MVP](chat%20app%20MVP.md)
-- [file explorer](file%20explorer.md)
-- [Governor System](Governor%20System.md)
+- [[Game AI.md]]
+- [[chat app MVP.md]]
+- [[file explorer.md]]
+- [[Governor System.md]]
 ## Requirements
 
 - High level expecations
 - Acceptance criteria
-- Definition of [done](../done.md)
+- Definition of [[done.md]]
 
 ## Tasks 
 
-- [ ] Somthing that needs to be [done](../done.md) to accomplish this task
+- [ ] Somthing that needs to be [[done.md]] to accomplish this task
 - [ ] Non exhaustive, suggestive
 - [ ] Represents expected high level steps to meet AC
 ## Blocked by 
 
-- Can't be worked on till this task is [done](../done.md)
+- Can't be worked on till this task is [[done.md]]
 - blocking task
 - blocking task
 
 ## Blocks
 
-- This task cannot be [done](../done.md) until this one is [done](../done.md).
+- This task cannot be [[done.md]] until this one is [[done.md]].
 - neither can this one
 - or this one
 
