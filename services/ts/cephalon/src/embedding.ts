@@ -65,8 +65,8 @@ export class RemoteEmbeddingFunction implements EmbeddingFunction {
 	supportedSpaces(): EmbeddingFunctionSpace[] {
 		return ['l2', 'cosine'];
 	}
-	static buildFromConfig(): RemoteEmbeddingFunction {
-		return new RemoteEmbeddingFunction();
+	static fromConfig(cfg: { driver: string; fn: string; brokerUrl?: string }): RemoteEmbeddingFunction {
+		return new RemoteEmbeddingFunction(cfg.brokerUrl, cfg.driver, cfg.fn);
 	}
 	getConfig() {
 		return {};
