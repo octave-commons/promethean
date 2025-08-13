@@ -38,18 +38,21 @@ This creates `docs/services/<service>/AGENTS.md` entries linking back to their i
 ## 📦 Recommended Plugins
 
 * Kanban 
-	- Make the [kanban](agile/boards/kanban.md) look like a board
+	- Make the [[kanban.md]] look like a board
 - consistent links and attachments 
-	- Solves the problem `[WikiLinks](WikiLinks.md)` would solve if you didn't care about your board links working on github
+	- Solves the problem `[[WikiLinks.md]]` would solve if you didn't care about your board links working on github
 	- Allows you to move notes and the link location will update automaticly.
 
 ---
 
 ## 🔁 \[\[Wikilink]] Compatibility
 
-If you're contributing documentation to the codebase, Obsidian allows the `[Wikilink](Wikilink.md)` short hand  for making notes by default. So `[docname](docname.md)` goes to the nearest doc  in the tree with that name. This is not compatible with github. So use the following settings:
+If you're contributing documentation to the codebase, Obsidian allows the
+`[[Wikilink.md]]` short hand for making notes by default. So `[[docname.md]]`
+goes to the nearest doc  in the tree with that name. This is not compatible
+with github. So use the following settings:
 
-* Disable `Use [wikilinks](wikilinks.md)`
+* Disable `Use [[wikilinks.md]]`
 - Change `New link format` to `relative`
 * All markdown is written to be GitHub-compatible by default
 
@@ -66,22 +69,6 @@ typing [kanban](kanban.md) → [kanban](kanban.md)
 # With wikilinks enabled:
 typing [kanban](kanban.md) → [kanban](kanban.md) (requires conversion to work on GitHub)
 ```
-
-## Copying Latex from chatGPT
-
-If you copy Math from ChatGPT and paste it  into a note in obsidian, if you have "Convert pasted HTML to Markdown" selected in your `Editor -> Advance Settings` enabled it breaks.
-
-I'm not sure exactly what the the problem is, and I'm not exactly sure what allowed this fix  to  work.
-
-Some plugins that are supposed to fix this told me to enable this setting. Some sources say that ChatGPT uses KaTeX, while chat GPT it's self seems to think it is LaTeX.
-
-I think what obsidian uses is Math Jax, but I'm really not sure.
-
-It's one of those things where I just kept talking to ChatGPT about it, and tweaking settings, till it just started working. I've either coerced my instance of ChatGPT to give me math syntax that obsidian will accept when this setting is turned off, or this is just how it works.
-
-Let me know if *your personal* ChatGPT's math outputs render in your obsidian with these settings. 
-
----
 
 ## 🧠 Design Note
 

@@ -134,10 +134,10 @@ Agent-specific services may define their own `ecosystem.config.js` files.
 
 This repository doubles as an Obsidian vault. If you would like to view the
 documentation inside Obsidian, copy the baseline configuration provided in
-`vault-config/.obsidian/` to a local `.obsidian/` directory:
+`vault-config/.obsidian/` to `docs/.obsidian/` directory:
 
 ```bash
-cp -r vault-config/.obsidian .obsidian
+cp -r docs/vault-config/.obsidian docs/.obsidian
 ```
 
 This enables the Kanban plugin for task tracking so `docs/agile/boards/kanban.md`
@@ -175,7 +175,7 @@ Without a token the script performs a dry run and prints the issues that would b
 
 ## Pre-commit Setup
 
-Documentation uses `[[wikilinks.md]]` inside the vault but they must be converted to standard markdown links before committing. A helper script `scripts/convert_wikilinks.py` runs automatically via [pre-commit](https://pre-commit.com/).
+Documentation uses `[[wikilinks.md]]` inside the vault. We refinforce this using precommit hooks. It breaks the markdown on github, but they are so much simpler to manage. A wiki will be published from the notes in due time.
 
 Install the hook with:
 
