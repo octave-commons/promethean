@@ -1,3 +1,4 @@
+//services/ts/dicosrd-embedder/src/index.ts
 import { ChromaClient } from 'chromadb';
 import { RemoteEmbeddingFunction } from './embedding';
 import { MongoClient, ObjectId, Collection } from 'mongodb';
