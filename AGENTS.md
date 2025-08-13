@@ -366,7 +366,7 @@ Additionally, ensure that:
 * All new code is covered by tests
 * Documentation is updated in `/docs/` as needed
 * Migration plans are followed for any structural changes
-* [test workflows](.github/workflows/) all use `make` targets for consistency
+* [[workflows|test workflows]] all use `make` targets for consistency
 
 ---
 
@@ -440,7 +440,7 @@ rules:
 }
 ```
 
-Example permission files live in `agents/*/config/permissions.yaml`. For background reasoning see [docs/notes/math/aionian-pulse-rhythm-model.md](docs/notes/math/aionian-pulse-rhythm-model.md).
+Example permission files live in `agents/*/config/permissions.yaml`. For background reasoning see [[aionian-pulse-rhythm-model.md|docs/notes/math/aionian-pulse-rhythm-model.md]].
 
 ---
 
@@ -480,4 +480,4 @@ agents:
 #hashtags: #guidelines #promethean
 
 ## Extra
-[Hy macros cheatsheet](./docs/hy-macros-cheatsheet.md)
+[[hy-macros-cheatsheet.md|Hy macros cheatsheet]]

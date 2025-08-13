@@ -103,7 +103,7 @@ Each script assumes dependencies are installed and should be run from the reposi
 ## Environment Variables
 
 The framework relies on several environment variables for configuration. See
-[docs/environment-variables.md](docs/environment-variables.md) for details on
+[[environment-variables.md|docs/environment-variables.md]] for details on
 all available settings.
 
 ## Makefile Commands
@@ -150,7 +150,7 @@ To push tasks from the board to GitHub Projects, see `docs/board_sync.md` and th
 ## Tests
 
 Unit tests are located in `tests/` and run automatically on every pull request
-through [GitHub Actions](.github/workflows/tests.yml).
+through [[tests.yml|GitHub Actions]].
 To run them locally:
 
 ```bash
@@ -175,7 +175,7 @@ Without a token the script performs a dry run and prints the issues that would b
 
 ## Pre-commit Setup
 
-Documentation uses `[wikilinks](wikilinks.md)` inside the vault but they must be converted to standard markdown links before committing. A helper script `scripts/convert_wikilinks.py` runs automatically via [pre-commit](https://pre-commit.com/).
+Documentation uses `[[wikilinks.md]]` inside the vault but they must be converted to standard markdown links before committing. A helper script `scripts/convert_wikilinks.py` runs automatically via [pre-commit](https://pre-commit.com/).
 
 Install the hook with:
 

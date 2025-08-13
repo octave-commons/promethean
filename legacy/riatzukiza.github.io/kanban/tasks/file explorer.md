@@ -1,4 +1,4 @@
-A simple file explorer interface for the website. Could be facilitated through the obsidian index plugin that generates files like [\_Index\_of\_docs](../../docs/_Index_of_docs.md)
+A simple file explorer interface for the website. Could be facilitated through the obsidian index plugin that generates files like [[_Index_of_docs.md|\_Index\_of\_docs]]
 
 
 ## Requirements
@@ -21,4 +21,4 @@ A simple file explorer interface for the website. Could be facilitated through t
 
 
 ## Blocked by
-- [move kit fs](move%20kit%20fs.md)
+- [[move kit fs.md]]

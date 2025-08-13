@@ -19,4 +19,4 @@ Agents need to find a path back home. With our new A* path finding system, they 
 - [ ] Add exploration behavior from crash landed to symbiants/obstacles
 ## Blocked by
 
-- [Layered Vector Field System](Layered%20Vector%20Field%20System.md)?
+- [[Layered Vector Field System.md]]?
