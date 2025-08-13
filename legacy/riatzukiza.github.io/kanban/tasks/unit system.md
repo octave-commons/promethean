@@ -3,7 +3,7 @@
 
 We need an abstraction that allows us to describe and talk about agents abstractly with out manually creating them every time. We have "Entity Groups" right now, but that requires us to create a new entity group every time we have a new set of entities, and the way it is written there cannot be overlap between the groups.
 
-If we wanted to say create [multiple factions](multiple%20factions.md) that [each](../../docs/Pools/Dynamic/each.md) have the same set of units, just using entity groups as they are would be combersome.
+If we wanted to say create [[multiple factions.md]] that [[each.md]] have the same set of units, just using entity groups as they are would be combersome.
 
 ## Requirements
 
