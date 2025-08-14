@@ -13,14 +13,14 @@ into seperate processes.
 - When in dev mode:
   - The frontend reloads when a change is made
   - The backend reloads when a change is made
-  - [each](../../docs/Pools/Dynamic/each.md) compiler runs in it's own [process](../process.md). Those compilers are:
+  - [[each.md]] compiler runs in it's own [[process.md]]. Those compilers are:
     - templates
     - frontend
     - backend
-      - This will become more than one part as we work on the [simulation backend](simulation%20backend.md),
+      - This will become more than one part as we work on the [[simulation backend.md]],
         so this feature should be set up to handle that.
-    - [each](../../docs/Pools/Dynamic/each.md) bundler runs in it's own [process](../process.md).
-- There should be seperate scripts for npm to run for [each](../../docs/Pools/Dynamic/each.md) piece.
+    - [[each.md]] bundler runs in it's own [[process.md]].
+- There should be seperate scripts for npm to run for [[each.md]] piece.
   - bundle x
   - compile x
   - start x
