@@ -2,25 +2,25 @@
 
 Firstly we need to meet pairity with existing Real TIme strategy games. 
 ## Related Epics
-- [Game Mechanics](Game%20Mechanics.md)
-- [Game AI](Game%20AI.md)
-- [Intelligent movement commands](Intelligent%20movement%20commands.md)
+- [[Game Mechanics.md]]
+- [[Game AI.md]]
+- [[Intelligent movement commands.md]]
 ## Requirements
 
 - [[Movement waypoints]]
-- [Building system](Building%20system.md)
-- [unit system](unit%20system.md)
-- [attack system](attack%20system.md)
-- [multiple factions](multiple%20factions.md)
-- [resource mechanics](resource%20mechanics.md)
-- [minimap](minimap.md)
+- [[Building system.md]]
+- [[unit system.md]]
+- [[attack system.md]]
+- [[multiple factions.md]]
+- [[resource mechanics.md]]
+- [[minimap.md]]
 - [[fog of war]]
 - [[line of sight system]]
-- [Sprite sheets](Sprite%20sheets.md)
-- [Order queues](Order%20queues.md)
-- [ground tiles](ground%20tiles.md)
-- [predator agents](predator%20agents.md)
-- [Round trip path finding](Round%20trip%20path%20finding.md)
+- [[Sprite sheets.md]]
+- [[Order queues.md]]
+- [[ground tiles.md]]
+- [[predator agents.md]]
+- [[Round trip path finding.md]]
 
 
 

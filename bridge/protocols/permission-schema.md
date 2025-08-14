@@ -27,4 +27,4 @@ rules:
 }
 ```
 
-See [docs/notes/math/aionian-pulse-rhythm-model.md](../../docs/notes/math/aionian-pulse-rhythm-model.md) for related mathematical reasoning.
+See [[aionian-pulse-rhythm-model.md|docs/notes/math/aionian-pulse-rhythm-model.md]] for related mathematical reasoning.

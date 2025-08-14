@@ -8,6 +8,6 @@ I'm thinking monkai. If we make the website from obsidian using the export funct
 
 ## Review
 
-I have some [Colors](../../Colors.md) I want to use, mainly from the monokai theme. I will continue to look for more of the [Colors](../../Colors.md), for example from obsidians monokai, but for now it's working.
+I have some [[Colors.md]] I want to use, mainly from the monokai theme. I will continue to look for more of the [[Colors.md]], for example from obsidians monokai, but for now it's working.
 
 How do emacs themes work? Where would there color data be stored?

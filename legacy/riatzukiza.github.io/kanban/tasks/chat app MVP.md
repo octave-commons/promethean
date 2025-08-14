@@ -2,8 +2,8 @@ Add a simple chat widget that allows the user to communicate with a variety of L
 
 ## Related epics
 
-- [Natural language information systems](Natural%20language%20information%20systems.md)
-- [Game AI](Game%20AI.md)
+- [[Natural language information systems.md]]
+- [[Game AI.md]]
 ## Requirements
 - [ ] User can send messages
 - [ ] Messages are never stored remotely
