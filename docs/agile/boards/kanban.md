@@ -10,7 +10,7 @@ kanban-plugin: board
 - [ ] [[Gather baseline emotion metrics for Eidolon field 1.md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
 - [ ] [[Update makefile to have commands specific for agents.md.md|Update Makefile to have commands specific for agents]] #devops #ice-box
 - [ ] [[migrate_portfolio_client_code_to_promethean.md.md|Migrate portfolio client code to Promethean]] #framework-core #ice-box
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_.md.md|Migrating relevant modules from `riatzukiza.github.io` to `/site/` and `/docs/`]] #Todo #ice-box
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_.md.md|Migrating relevant modules from `riatzukiza.github.io` to `/site/` and `/docs/`]] #ice-box
 - [ ] [[Extract docs from riatzukiza.github.io.md.md|Extract docs from riatzukiza.github.io]] #framework-core #ice-box
 - [ ] [[Extract site modules from riatzukiza.github.io.md.md|Extract site modules from riatzukiza.github.io]] #framework-core #ice-box
 - [ ] [[Identify ancestral resonance patterns.md.md|Identify ancestral resonance patterns]] #framework-core #ice-box
