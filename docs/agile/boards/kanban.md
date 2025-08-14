@@ -6,6 +6,9 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] [[Gather baseline emotion metrics for Eidolon field 1.md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ready
+- [ ] [[Update makefile to have commands specific for agents.md.md|Update Makefile to have commands specific for agents]] #devops #ready
+- [ ] [[migrate_portfolio_client_code_to_promethean.md.md|Migrate portfolio client code to Promethean]] #framework-core #ready
 - [ ] [[migrating_relevant_modules_from_riatzukiza_github_.md.md|Migrating relevant modules from `riatzukiza.github.io` to `/site/` and `/docs/`]] #Todo #todo
 - [ ] [[Extract docs from riatzukiza.github.io.md.md|Extract docs from riatzukiza.github.io]] #framework-core #ice-box
 - [ ] [[Extract site modules from riatzukiza.github.io.md.md|Extract site modules from riatzukiza.github.io]] #framework-core #ice-box
@@ -140,22 +143,18 @@ kanban-plugin: board
 
 ## Ready
 
-- [ ] [[setup services to recieve work from the broker via push.md|setup services to recieve work from the broker via push]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #todo
-- [ ] [[separate all testing pipelines in github Actions.md.md|seperate all testing pipelines in GitHub Actions]] #cicd #framework-core #todo
-- [ ] [[refactor any python modules not currently for ML stuff (discord, etc) 2.md|refactor any python modules not currently for ML stuff (discord, etc) 2]] #framework-core #language-strategy #performance-optimization #todo
-- [ ] [[obsidian replacement.md|obsidian replacement]] #framework-core #todo
-- [ ] [[finish whisper NPU system.md.md|finish whisper NPU system.md]] #framework-core #performance-optimization #npu-integration #todo
-- [ ] [[discord image awareness.md.md|discord image awareness.md]] #framework-core #ollama-integration #multimodal-context #todo
 - [ ] [[design circular buffers for inputs with layered states of persistance (in memory, on disk, cold storage, so ).md|design circular buffers for inputs with layered states of persistance (in memory, on disk, cold storage, so )]] #framework-core #todo
 - [ ] [[cache decay mechanisim.md.md|cache decay mechanisim.md]] #framework-core #todo
+- [ ] [[obsidian replacement.md|obsidian replacement]] #framework-core #todo
+- [ ] [[wrap_event_hub_publish_path_with_withschemavalidat.md.md|Wrap `event-hub` publish path with **withSchemaValidation**; fail fast on bad payloads]] #Todo #todo
+- [ ] [[finish whisper NPU system.md.md|finish whisper NPU system.md]] #framework-core #performance-optimization #npu-integration #todo
+- [ ] [[discord image awareness.md.md|discord image awareness.md]] #framework-core #ollama-integration #multimodal-context #todo
 - [ ] [[write_a_smoke_test_client_subscribes_publish_10_ms.md.md|Write a smoke test: client subscribes, publish 10 msgs, assert all ACKed]] #Todo #todo
+- [ ] [[wire_mongoeventstore_mongocursorstore_in_place_of_.md.md|Wire MongoEventStore + MongoCursorStore in place of InMemory]] #Todo #todo
 - [ ] [[write_a_small_cutover_script_to_replay_historical_.md.md|Write a small **cutover** script to replay historical events through upcasters into snapshots]] #Todo #todo
 - [ ] [[write_a_replay_job_that_replays_process_state_snap.md.md|Write a replay job that replays `process.state.snapshot` to warm the `processes` collection]] #Todo #todo
 - [ ] [[wrap_writers_with_withdualwrite.md.md|Wrap writers with **withDualWrite**]] #Todo #todo
-- [ ] [[wrap_event_hub_publish_path_with_withschemavalidat.md.md|Wrap `event-hub` publish path with **withSchemaValidation**; fail fast on bad payloads]] #Todo #todo
 - [ ] [[wire_runoutboxdrainer_in_event_hub.md.md|Wire `runOutboxDrainer` in event-hub]] #Todo #todo
-- [ ] [[wire_mongoeventstore_mongocursorstore_in_place_of_.md.md|Wire MongoEventStore + MongoCursorStore in place of InMemory]] #Todo #todo
-- [ ] [[Web frontend for system management.md.md|Web frontend for system management.md]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #todo
 - [ ] [[use_subscribepartitioned_for_cpu_heavy_consumers_t.md.md|Use **subscribePartitioned** for CPU-heavy consumers; tune `partitions` (power of 2 is fine)]] #Todo #todo
 - [ ] [[Tool chain management system.md.md|Tool chain management system.md]] #framework-core #todo
 - [ ] [[switch_critical_readers_to_subscribenormalized.md.md|Switch critical readers to **subscribeNormalized**]] #Todo #todo
@@ -170,7 +169,6 @@ kanban-plugin: board
 - [ ] [[pin_versions_in_configs_promethean_codex.md.md|Pin versions in configs (Promethean + Codex)]] #Todo #todo
 - [ ] [[Pin_versions_in_configs.md.md|Pin versions in configs]] #ops #codex-task #todo
 - [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar.md.md|Migrate server side sibilant libs to Promethean architecture.]] #Todo #todo
-- [ ] [[Look into why the state object never seems to get updated..md.md|Look into why the state object never seems to get updated..md]] #framework-core #todo
 - [ ] [[launch_replayapi_on_8083_test_replay_and_export_nd.md.md|Launch `ReplayAPI` on `:8083`; test `/replay` and `/export?ndjson=1`]] #Todo #todo
 - [ ] [[implement_transcendence_cascade_framework_core.md.md|Implement transcendence cascade #framework-core]] #framework-core #Todo #todo
 - [ ] [[implement_timetravel_processat_processid_t_in_a_sm.md.md|Implement `timetravel.processAt(processId, T)` in a small CLI for debugging]] #Todo #todo
@@ -184,6 +182,7 @@ kanban-plugin: board
 - [ ] [[ensure_mongo_indexes_key_1_unique_common_query_fie.md.md|Ensure Mongo indexes: `{ _key: 1 } unique` + common query fields]] #Todo #todo
 - [ ] [[enable_compactor_for_process_state_process_state_s.md.md|Enable compactor for `process.state` → `process.state.snapshot`]] #Todo #todo
 - [ ] [[enable_scripts_lint_topics_ts_in_ci.md.md|Enable **scripts/lint-topics.ts** in CI]] #Todo #todo
+- [ ] [[Allow old unnessisary messages to decay from database while retaining index entries ids.md.md|Allow old unnessisary messages to decay from database while retaining index entries ids.md]] #framework-core #eidolon-support #todo
 - [ ] [[structure_vault_to_mirror_services_agents_docs.md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #todo
 - [ ] [[document_etag_semantics_and_cache_headers_for_snap.md.md|Document ETag semantics and cache headers for `/snap/:key`]] #Todo #todo
 - [ ] [[Discord chat link traversal.md.md|Discord chat link traversal.md]] #framework-core #todo
@@ -196,7 +195,6 @@ kanban-plugin: board
 - [ ] [[build_tiny_web_page_that_uses_promclient_in_the_br.md.md|Build tiny web page that uses `PromClient` in the browser to show live `process.state` (optional)]] #Todo #todo
 - [ ] [[build_data_structures_for_eidolon_field_codex_task.md.md|Build data structures for Eidolon field #codex-task]] #codex-task #Todo #todo
 - [ ] [[annotate_legacy_code_with_migration_tags.md.md|Annotate legacy code with migration tags]] #framework-core #todo
-- [ ] [[Allow old unnessisary messages to decay from database while retaining index entries ids.md.md|Allow old unnessisary messages to decay from database while retaining index entries ids.md]] #framework-core #eidolon-support #todo
 - [ ] [[Allow configuration of hyperparameters through discord (context size, spectrogram resolution, interuption threshold.md|Allow configuration of hyperparameters through discord (context size, spectrogram resolution, interuption threshold]] #framework-core #todo
 - [ ] [[Add twitch chat integration.md.md|Add twitch chat integration.md]] #framework-core #todo
 - [ ] [[add_snapshot_consumer_to_warm_cache_on_boot.md.md|Add snapshot consumer to warm cache on boot]] #Todo #todo
@@ -224,35 +222,38 @@ kanban-plugin: board
 - [ ] [[Create permission gating layer 1.md.md|Create permission gating layer]] #framework-core #ready
 - [ ] [[Define permission schema in AGENTS 1.md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #ready
 - [ ] [[Document board usage guidelines 1.md.md|Document board usage guidelines]] #framework-core #ready
-- [ ] [[Gather baseline emotion metrics for Eidolon field 1.md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ready
 - [ ] [[Gather open questions about system direction.md.md|Gather open questions about system direction]] #framework-core #ready
-- [ ] [[migrate_portfolio_client_code_to_promethean.md.md|Migrate portfolio client code to Promethean]] #framework-core #ready
-- [ ] [[start_eidolon.md.md|Start Eidolon]] #framework-core #ready
-- [ ] [[Update makefile to have commands specific for agents.md.md|Update Makefile to have commands specific for agents]] #devops #ready
 - [ ] [[Clarify Promethean project vision 1.md|Clarify Promethean project vision]] #ready
 - [ ] [[Gather baseline emotion metrics for Eidolon field 1.md|Gather baseline emotion metrics for Eidolon field]] #ready
 - [ ] [[migrate_portfolio_client_code_to_promethean.md|Migrate portfolio client code to Promethean]] #ready
-- [ ] [[Update makefile to have commands specific for agents.md|Update Makefile to have commands specific for agents]] #ready
 
 
-## Todo
+## Todo (8)
 
+- [ ] [[Web frontend for system management.md.md|Web frontend for system management.md]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #todo
+- [ ] [[refactor any python modules not currently for ML stuff (discord, etc) 2.md|refactor any python modules not currently for ML stuff (discord, etc) 2]] #framework-core #language-strategy #performance-optimization #todo
 - [ ] [[twitch discord general auto mod.md.md|twitch discord general auto mod.md]] #framework-core #observability #multimodal-context #risk #todo
 - [ ] [[create_base_readme_md_templates_for_each_service.md|create base readme md templates for each service]] #todo
 - [ ] [[Define permission schema in AGENTS 1.md|Define permission schema in AGENTS.md]] #todo
 - [ ] [[switch_gateway_auth_to_jwt_generate_temp_hs256_tok.md.md|Switch gateway auth to JWT; generate temp HS256 token for dev]] #Todo #todo
 
 
-## In Review
+## In Progress (8)
+
+- [ ] [[setup services to recieve work from the broker via push.md|setup services to recieve work from the broker via push]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #todo
+- [ ] [[Identify and resolve a service client apparently connecting repeatedly to broker with new session ids]]
+
+
+## In Review (8)
 
 - [ ] [[Document_local_testing_setup.md.md|Document local testing setup]] #codex-task #testing #in-review
 - [ ] [[Update cephalon to use custom embedding function.md.md|Update cephalon to use custom embedding function]] #framework-core #cephalon #discord #embedding #typescript #in-review
-- [ ] [[update github actions to use makefile.md.md|update GitHub Actions to use Makefile]] #cicd #devops #framework-core #in-review
-- [ ] [[obsidian_kanban_github_project_board_mirror_system.md|Obsidian Kanban Github Project Board Mirror system]] #in-review
 
 
 ## Done
 
+- [ ] [[separate all testing pipelines in github Actions.md.md|seperate all testing pipelines in GitHub Actions]] #cicd #framework-core #todo
+- [ ] [[update github actions to use makefile.md.md|update GitHub Actions to use Makefile]] #cicd #devops #framework-core #in-review
 - [ ] [[Make seperate execution pathways 1.md.md|Make seperate execution pathways 1.md]] #framework-core #todo
 - [ ] [[Research GitHub Projects board API 1.md.md|Research GitHub Projects board API]] #framework-core #done
 - [ ] [[Add_unit_tests_for_wav_processing.md|Add unit tests for wav\_processing]] #done
@@ -273,9 +274,12 @@ kanban-plugin: board
 - [ ] [[create_base_readme_md_templates_for_each_service.md.md|create base readme md templates for each service.md]] #doc-this #framework-core #ritual #todo
 - [ ] [[set_up_makefile_for_python_js_build_test_dev.md.md|Set up Makefile for Python + JS build test dev]] #cicd #buildtools #devtools #devops #todo
 - [ ] [[Send waveforms, spectrograms, and dekstop screenshots to discord for remote storage.md.md|Send waveforms, spectrograms, and dekstop screenshots to discord for remote storage.md]] #framework-core #todo
+- [ ] [[Look into why the state object never seems to get updated..md.md|Look into why the state object never seems to get updated..md]] #framework-core #todo
+- [ ] [[start_eidolon.md.md|Start Eidolon]] #framework-core #ready
+- [ ] [[Update makefile to have commands specific for agents.md|Update Makefile to have commands specific for agents]] #ready
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[true,false,true,true,true,true,true,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

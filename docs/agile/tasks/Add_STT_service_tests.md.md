@@ -36,5 +36,5 @@ Nothing
 ---
 
 ## 🔍 Relevant Links
-- [[kanban.md]]
-#agent-thinking
+- [kanban](../boards/kanban.md)
+#prompt-refinement
