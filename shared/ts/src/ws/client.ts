@@ -11,6 +11,15 @@ export class EventClient {
   private handlers = new Map<string, Handler>(); // key = `${topic}::${group}`
 
   constructor(url: string, token?: string) {
+    // Prevent misuse of this client for the broker
+    if (
+      process.env.BROKER_WS_URL &&
+      url.startsWith(process.env.BROKER_WS_URL)
+    ) {
+      throw new Error(
+        "Do not use ws/client to talk to the broker. Use @shared/js/brokerClient.js (or AgentBus wrapping it).",
+      );
+    }
     this.ws = new WebSocket(url);
     this.ws.on("open", () => {
       this.send({ op: "AUTH", token }, true);
