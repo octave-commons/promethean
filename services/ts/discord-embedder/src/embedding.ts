@@ -1,7 +1,7 @@
 //services/ts/dicosrd-embedder/src/embedder.ts
 import type { EmbeddingFunction, EmbeddingFunctionSpace } from 'chromadb';
 // @ts-ignore import js module without types
-import { BrokerClient } from '../../../../../shared/js/brokerClient.js';
+import { BrokerClient } from '@shared/js/brokerClient.js';
 import { randomUUID } from 'crypto';
 
 export class RemoteEmbeddingFunction implements EmbeddingFunction {
@@ -66,8 +66,8 @@ export class RemoteEmbeddingFunction implements EmbeddingFunction {
 	supportedSpaces(): EmbeddingFunctionSpace[] {
 		return ['l2', 'cosine'];
 	}
-	static buildFromConfig(): RemoteEmbeddingFunction {
-		return new RemoteEmbeddingFunction();
+	static fromConfig(cfg: { driver: string; fn: string; brokerUrl?: string }): RemoteEmbeddingFunction {
+		return new RemoteEmbeddingFunction(cfg.brokerUrl, cfg.driver, cfg.fn);
 	}
 	getConfig() {
 		return {};

@@ -31,6 +31,7 @@
 		"@discordjs/opus": "^0.10.0",
 		"@discordjs/voice": "^0.18.0",
 		"@shared/js": "file:../../../shared/js",
+		"@shared/ts": "file:../../../shared/ts",
 		"@types/sbd": "^1.0.5",
 		"@types/wav": "^1.0.4",
 		"canvas": "^3.1.2",
