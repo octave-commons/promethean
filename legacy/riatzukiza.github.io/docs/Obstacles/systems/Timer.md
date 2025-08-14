@@ -2,7 +2,7 @@
 
 ## arguments
 
-Inherits from shared.ecs.[ComponentSystem](../../Shared/ecs/ComponentSystem.md)
+Inherits from shared.ecs.[[ComponentSystem.md]]
 
 ## description
 

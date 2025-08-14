@@ -5,7 +5,7 @@ A single page with links and previews of all the currently hosted projects
 
 ## Related Epics
 
-- [Website Design](Website%20Design.md)
+- [[Website Design.md]]
 ## Requirements
 
 - [x] Projects are automaticly added to a page ✅ 2024-12-23

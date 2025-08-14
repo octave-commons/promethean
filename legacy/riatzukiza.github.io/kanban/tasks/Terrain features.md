@@ -23,13 +23,13 @@ Hand making 3x3 tile chunks isn't working.
 
 ## Blocked by 
 
-- Can't be worked on till this task is [done](../done.md)
+- Can't be worked on till this task is [[done.md]]
 - blocking task
 - blocking task
 
 ## Blocks
 
-- This task cannot be [done](../done.md) until this one is [done](../done.md).
+- This task cannot be [[done.md]] until this one is [[done.md]].
 - neither can this one
 - or this one
 

@@ -1,1 +1,1 @@
-this is [done](../done.md)
+this is [[done.md]]

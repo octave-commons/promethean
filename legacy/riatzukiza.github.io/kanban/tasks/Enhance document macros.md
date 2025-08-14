@@ -5,7 +5,7 @@
 The current document macros place simple markdown files into a "./docs" folder.
 If I want them to be hosted on the website, they need to end up as html files.
 In fact, since we are working with lisp we can make them go directly to html can't we?
-We can make this [documentation](documentation.md) system pretty powerful. 
+We can make this [[documentation.md]] system pretty powerful. 
 
 I'm going to sit on this for a bit, more ideas will come to mind after I have documented the esisting codebase.
 

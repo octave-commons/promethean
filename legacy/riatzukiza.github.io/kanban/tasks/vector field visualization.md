@@ -14,7 +14,7 @@ It represents a visual effect in the game, but it is not a part of the simulatio
 Other examples of non unit entities would be like:
 - tile
   - Not selectable, simple, static
-- [shadows](shadows.md)
+- [[shadows.md]]
   - May be a part of a unit, but would be a simple entity.
   - it has a location, and a rendering component,
     but is not meaningful to the simulation.
@@ -22,7 +22,7 @@ Other examples of non unit entities would be like:
 ## Requirements
 
 - the @shared/field.sibilant file is factored out
-- [each](../../docs/Pools/Dynamic/each.md) field gets it's own system
+- [[each.md]] field gets it's own system
 - There are non interacting ghost entities that follow the fields
 - The number of ghosts is configurable.
 - The length of their trails is configurable.
