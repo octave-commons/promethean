@@ -26,7 +26,6 @@ kanban-plugin: board
 - [ ] [[Build data structures for Eidolon field.md.md|Build data structures for Eidolon field]] #framework-core #incoming
 - [ ] [[Create vault-config .obsidian with Kanban and minimal vault setup 1.md.md|Create vault-config .obsidian with Kanban and minimal vault setup]] #framework-core #incoming
 - [ ] [[Detect contradictions in memory.md.md|Detect contradictions in memory]] #framework-core #incoming
-- [ ] [[Document board sync workflow.md.md|Document board sync workflow]] #framework-core #incoming
 - [ ] [[Evaluate and reward flow satisfaction.md.md|Evaluate and reward flow satisfaction]] #framework-core #incoming
 - [ ] [[Twitch stream title generator.md.md|Twitch stream title generator.md]] #framework-core #ollama-integration #stream-automation #incoming
 - [ ] [[setup a second agent.md.md|setup a second agent.md]] #framework-core #incoming
@@ -277,6 +276,7 @@ kanban-plugin: board
 - [ ] [[Look into why the state object never seems to get updated..md.md|Look into why the state object never seems to get updated..md]] #framework-core #todo
 - [ ] [[start_eidolon.md.md|Start Eidolon]] #framework-core #ready
 - [ ] [[Update makefile to have commands specific for agents.md|Update Makefile to have commands specific for agents]] #ready
+- [ ] [[Document board sync workflow.md.md|Document board sync workflow]] #framework-core #incoming
 
 %% kanban:settings
 ```
