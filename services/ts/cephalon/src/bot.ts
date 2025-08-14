@@ -9,15 +9,15 @@ import {
 	type RESTPutAPIApplicationCommandsJSONBody,
 } from 'discord.js';
 import EventEmitter from 'events';
-import { AGENT_NAME, DESKTOP_CAPTURE_CHANNEL_ID } from '@shared/js/env.js';
+import { DESKTOP_CAPTURE_CHANNEL_ID } from '@shared/js/env.js';
 import { ContextManager } from './contextManager';
-import { createAgentWorld } from '@shared/ts/agent-ecs/world';
-import { enqueueUtterance } from '@shared/ts/agent-ecs/helpers/enqueueUtterance';
-import { pushVisionFrame } from '@shared/ts/agent-ecs/helpers/pushVision';
-import { AgentBus } from '@shared/ts/agent-ecs/bus';
+import { createAgentWorld } from '@shared/ts/dist/agent-ecs/world';
+import { enqueueUtterance } from '@shared/ts/dist/agent-ecs/helpers/enqueueUtterance.js';
+import { pushVisionFrame } from '@shared/ts/dist/agent-ecs/helpers/pushVision.js';
+import { AgentBus } from '@shared/ts/dist/agent-ecs/bus.js';
 import { createAudioResource } from '@discordjs/voice';
 import { Readable } from 'stream';
-import type { LlmResult, TtsRequest, TtsResult } from '@shared/ts/contracts/agent-bus';
+import type { LlmResult, TtsRequest, TtsResult } from '@shared/ts/dist/contracts/agent-bus.js';
 import WebSocket from 'ws';
 import { checkPermission } from '@shared/js/permissionGate.js';
 import { interaction, type Interaction } from './interactions';
@@ -30,6 +30,7 @@ import {
 	tts,
 	startDialog,
 } from './voiceCommands';
+import { DesktopCaptureManager } from './desktop/desktopLoop';
 
 // const VOICE_SERVICE_URL = process.env.VOICE_SERVICE_URL || 'http://localhost:4000';
 
@@ -57,6 +58,8 @@ export class Bot extends EventEmitter {
 		super();
 		this.token = options.token;
 		this.applicationId = options.applicationId;
+
+		this.desktop = new DesktopCaptureManager();
 		this.client = new Client({
 			intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates],
 		});
@@ -68,9 +71,10 @@ export class Bot extends EventEmitter {
 			.then((guildCollection) => Promise.all(guildCollection.map((g) => this.client.guilds.fetch(g.id))));
 	}
 
+	desktop: DesktopCaptureManager;
 	async start() {
 		await this.context.createCollection('transcripts', 'text', 'createdAt');
-		await this.context.createCollection(`${AGENT_NAME}_discord_messages`, 'content', 'created_at');
+		await this.context.createCollection(`discord_messages`, 'content', 'created_at');
 		await this.context.createCollection('agent_messages', 'text', 'createdAt');
 		await this.client.login(this.token);
 		if (DESKTOP_CAPTURE_CHANNEL_ID) {
@@ -85,7 +89,7 @@ export class Bot extends EventEmitter {
 		}
 		await this.registerInteractions();
 
-		const ws = new WebSocket(process.env.BROKER_WS_URL || 'ws://localhost:3000');
+		const ws = new WebSocket(process.env.BROKER_WS_URL || 'ws://localhost:7000');
 		this.bus = new AgentBus(ws);
 
 		this.client
@@ -192,12 +196,11 @@ export class Bot extends EventEmitter {
 		return joinVoiceChannel(this, interaction);
 	}
 
-	@interaction({
-		description: 'Leaves whatever channel the bot is currently in.',
-	})
+	@interaction({ description: 'Leaves whatever channel the bot is currently in.' })
 	async leaveVoiceChannel(interaction: Interaction) {
 		return leaveVoiceChannel(this, interaction);
 	}
+
 	@interaction({
 		description: 'Sets the channel where captured waveforms, spectrograms, and screenshots will be stored',
 		options: [

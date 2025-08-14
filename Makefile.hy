@@ -409,12 +409,12 @@
 
 (defn-cmd build-ts []
   (print "Transpiling TS to JS... (if we had any shared ts modules)")
+
+  (sh "npm run build" :cwd "./shared/ts/" :shell True)
   (for [d SERVICES_TS]
        (when (isfile (join d "node_modules/.bin/tsc"))
          (sh "npm run build" :cwd d :shell True)))
-  (for [d SHARED_TS]
-       (when (isfile (join d "node_modules/.bin/tsc"))
-         (sh "npm run build" :cwd d :shell True))))
+  )
 
 ;; Sibilant ------------------------------------------------------------------
 (defn-cmd build-sibilant []

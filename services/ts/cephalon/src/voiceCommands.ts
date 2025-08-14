@@ -5,8 +5,8 @@ import { CollectionManager } from './collectionManager';
 import type { Interaction } from './interactions';
 import type { Bot } from './bot';
 import { createAudioPlayer, AudioPlayerStatus } from '@discordjs/voice';
-import { createAgentWorld } from '@shared/ts/agent-ecs/world';
-import { OrchestratorSystem } from '@shared/ts/agent-ecs/systems/orchestrator';
+import { createAgentWorld } from '@shared/ts/dist/agent-ecs/world.js';
+import { OrchestratorSystem } from '@shared/ts/dist/agent-ecs/systems/orchestrator.js';
 import { randomUUID } from 'node:crypto';
 import { defaultPrompt } from './prompts';
 
@@ -32,6 +32,7 @@ export async function joinVoiceChannel(bot: Bot, interaction: Interaction): Prom
 	});
 	bot.currentVoiceSession.transcriber.on('transcriptEnd', async (transcript: FinalTranscript) => {
 		const transcripts = bot.context.getCollection('transcripts') as CollectionManager<'text', 'createdAt'>;
+		console.log('inserting transcript', transcript.transcript);
 		await transcripts.addEntry({
 			text: transcript.transcript,
 			createdAt: transcript.startTime || Date.now(),
@@ -45,6 +46,7 @@ export async function joinVoiceChannel(bot: Bot, interaction: Interaction): Prom
 				recipient: bot.applicationId,
 			},
 		});
+		console.log('insert complete');
 		if (textChannel && transcript.transcript.trim().length > 0 && transcript.speaker?.logTranscript)
 			await textChannel.send(`${transcript.user?.username}:${transcript.transcript}`);
 	});
@@ -105,6 +107,7 @@ export async function tts(bot: Bot, interaction: Interaction) {
 
 export async function startDialog(bot: Bot, interaction: Interaction) {
 	if (bot.currentVoiceSession) {
+		bot.desktop.start();
 		await interaction.deferReply({ ephemeral: true });
 		const player = createAudioPlayer();
 		bot.currentVoiceSession.connection?.subscribe(player);
@@ -114,14 +117,17 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 			OrchestratorSystem(
 				w,
 				bot.bus!,
-				(text) =>
-					bot.context
+				(text) => {
+					return bot.context
 						.compileContext([text])
-						.then((msgs) => msgs.map((m) => ({ role: m.role as 'user' | 'assistant' | 'system', content: m.content }))),
+						.then((msgs) => msgs.map((m) => ({ role: m.role as 'user' | 'assistant' | 'system', content: m.content })));
+				},
 				() => defaultPrompt,
 			),
 		);
-		setInterval(() => bot.agentWorld?.tick(50), 50);
+		setInterval(() => {
+			bot.agentWorld?.tick(50);
+		}, 50);
 
 		bot.currentVoiceSession.transcriber.on('transcriptEnd', (tr: FinalTranscript) => {
 			const turnId = w.get(agent, C.Turn)!.id;
@@ -129,6 +135,8 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 			tf.text = tr.transcript;
 			tf.ts = Date.now();
 			w.set(agent, C.TranscriptFinal, tf);
+
+			console.log('publishing transcript to agent...', { turnId, tf, w });
 			bot.bus?.publish({
 				topic: 'agent.transcript.final',
 				corrId: randomUUID(),

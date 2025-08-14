@@ -50,14 +50,14 @@ export default {
         },
       },
     ),
-    defineApp("duck_cephalon", "dist/src/index.js", [], {
+    defineApp("duck_cephalon", "dist/index.js", [], {
       cwd: path.join(__dirname, "../../services/ts/cephalon"),
       ignore_watch: ["**/*.json"],
       env: {
         ...discord_env,
       },
     }),
-    defineApp("duck_embedder", "dist/src/index.js", [], {
+    defineApp("duck_embedder", "dist/index.js", [], {
       cwd: path.join(__dirname, "../../services/ts/discord-embedder"),
       env: {
         ...discord_env,
