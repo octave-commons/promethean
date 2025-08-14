@@ -43,5 +43,5 @@ Nothing
 ---
 
 ## 🔍 Relevant Links
-- [[kanban.md]]
-#todo
+- [kanban](../boards/kanban.md)
+#archive

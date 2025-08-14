@@ -1,6 +1,6 @@
 ## 🛠️ Task: Add `TokenBucket` to WS server (conn + per-topic)
 
-Generated from [[2025.08.08.19.08.25.md|../unique/2025.08.08.19.08.25.md]]
+Generated from [../unique/2025.08.08.19.08.25.md](../unique/2025.08.08.19.08.25.md)
 
 ---
 
@@ -20,4 +20,4 @@ Generated from [[2025.08.08.19.08.25.md|../unique/2025.08.08.19.08.25.md]]
 ---
 
 #Todo
-#todo
+#ready

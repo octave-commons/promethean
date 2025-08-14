@@ -248,4 +248,4 @@ flowchart LR
 
 ---
 
-tags: #framework-core #ollama-integration #kanban #watcher #automation #prompt-refinement
+tags: #framework-core #ollama-integration #kanban #watcher #automation #accepted

@@ -1,6 +1,6 @@
 ## 🛠️ Task: Add `/ops` endpoint to list **partition assignments** (optional: dump coordinator state)
 
-Generated from [[2025.08.08.20.08.56.md|../unique/2025.08.08.20.08.56.md]]
+Generated from [../unique/2025.08.08.20.08.56.md](../unique/2025.08.08.20.08.56.md)
 
 ---
 
@@ -20,4 +20,4 @@ Generated from [[2025.08.08.20.08.56.md|../unique/2025.08.08.20.08.56.md]]
 ---
 
 #Todo
-#todo
+#ready

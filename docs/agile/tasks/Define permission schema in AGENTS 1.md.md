@@ -49,13 +49,13 @@ Nothing
 
 ## ⛓️ Blocks
 
-- [[Create permission gating layer.md]]
+- [Create permission gating layer](Create%20permission%20gating%20layer.md)
 
 ---
 
 ## 🔍 Relevant Links
 
-- [[kanban.md]]
+- [kanban](../boards/kanban.md)
 
 ## ❓ Questions
 
