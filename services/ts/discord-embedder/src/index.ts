@@ -1,9 +1,9 @@
 import { ChromaClient } from 'chromadb';
 import { RemoteEmbeddingFunction } from './embedding';
 import { MongoClient, ObjectId, Collection } from 'mongodb';
-import { AGENT_NAME } from '../../../../shared/js/env.js';
-import { HeartbeatClient } from '../../../../shared/js/heartbeat/index.js';
-import { collectionFor, CONFIG_FP } from '../../../../shared/js/embeddings/versioning.js';
+import { AGENT_NAME } from '@shared/js/env.js';
+import { HeartbeatClient } from '@shared/js/heartbeat/index.js';
+import { collectionFor, CONFIG_FP } from '@shared/js/embeddings/versioning.js';
 
 const chromaClient = new ChromaClient();
 
@@ -98,6 +98,7 @@ const EMBED_DIMS = Number(process.env.EMBED_DIMS || 768);
 		};
 
 		try {
+			console.log({ EMBEDDING_DRIVER, EMBEDDING_FUNCTION, EMBED_DIMS, EMBED_VERSION });
 			await chromaCollection.upsert(chromaQuery);
 			await discordMessagesCollection.updateMany(
 				{ _id: { $in: messages.map((m) => m._id) } },

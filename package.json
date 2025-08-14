@@ -29,5 +29,6 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.20.3",
     "typescript": "^5.9.2"
-  }
+  },
+  "license": "GPL-3.0-only"
 }
