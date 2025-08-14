@@ -1,6 +1,6 @@
 ## 🛠️ Task: Run bakeoff (see below)
 
-Generated from [[2025.08.08.16.08.27.md|../unique/2025.08.08.16.08.27.md]]
+Generated from [../unique/2025.08.08.16.08.27.md](../unique/2025.08.08.16.08.27.md)
 
 ---
 
@@ -20,4 +20,4 @@ Generated from [[2025.08.08.16.08.27.md|../unique/2025.08.08.16.08.27.md]]
 ---
 
 #Todo
-#todo
+#ready

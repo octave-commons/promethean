@@ -40,7 +40,7 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [[kanban.md]]
+- [kanban](../boards/kanban.md)
 
 ## Comments
 
