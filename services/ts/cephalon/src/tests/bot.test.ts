@@ -9,7 +9,7 @@ ModuleAny._load = function (request: string, parent: any, isMain: boolean) {
 };
 
 const { REST } = await import('discord.js');
-const { Bot } = await import('../../src/bot.js');
+const { Bot } = await import('../bot.js');
 
 class TestBot extends Bot {
 	constructor() {

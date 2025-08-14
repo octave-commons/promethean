@@ -1,7 +1,7 @@
 //services/ts/dicosrd-embedder/src/embedder.ts
 import type { EmbeddingFunction, EmbeddingFunctionSpace } from 'chromadb';
 // @ts-ignore import js module without types
-import { BrokerClient } from '../../../../../shared/js/brokerClient.js';
+import { BrokerClient } from '@shared/js/brokerClient.js';
 import { randomUUID } from 'crypto';
 
 export class RemoteEmbeddingFunction implements EmbeddingFunction {

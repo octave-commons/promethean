@@ -17,7 +17,7 @@ async function main() {
 		process.exit(1);
 	}
 	hb.start();
-	bot.start();
+	await bot.start();
 	console.log(`Cephalon started for ${AGENT_NAME}`);
 }
 
