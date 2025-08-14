@@ -15,7 +15,9 @@ pm2 start agents/duck/ecosystem.config.js
 Choose the config inside `agents/<agent>/` for other agents.
 
 Set `AGENT_NAME` in your environment before launching agent services to isolate collections and data.
-Promethean is a modular cognitive architecture for building embodied AI agents. It breaks the system into small services that handle speech-to-text, text-to-speech, memory, and higher level reasoning. Agents such as **Duck** combine these services to create an interactive assistant with emotional state and memory.
+Promethean is a modular cognitive architecture for building embodied AI agents. It breaks the system
+into small services that handle speech-to-text, text-to-speech, memory, and higher level reasoning.
+Agents such as **Duck** combine these services to create an interactive assistant with emotional state and memory.
 
 ## Setup
 
