@@ -47,13 +47,13 @@ Nothing
 
 ## ⛓️ Blocks
 
-- [[write simple ecosystem declaration library for new agents.md]]
+- [write simple ecosystem declaration library for new agents](write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md)
 
 ---
 
 ## 🔍 Relevant Links
 
-- [[kanban.md]]
+- [kanban](../boards/kanban.md)
 
 ## ❓ Questions
 
@@ -64,4 +64,4 @@ Nothing
 - unless you can afford well... all the people you're trying to automate's time to spend a life time training 1 model that only works for them.
 - Then please.
 - How will service logs be aggregated when using PM2?
-#breakdown
+#agent-thinking

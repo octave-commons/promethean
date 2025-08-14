@@ -64,5 +64,5 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [[kanban.md]]
-#ready
+- [kanban](../boards/kanban.md)
+#archive

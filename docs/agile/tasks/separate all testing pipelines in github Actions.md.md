@@ -50,6 +50,6 @@ Nothing
 ---
 
 ## 🔍 Relevant Links
-- [[kanban.md]]
-- [[ci.md]]
-#todo
+- [kanban](../boards/kanban.md)
+- [ci](../ci.md)
+#done
