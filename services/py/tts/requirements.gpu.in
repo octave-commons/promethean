@@ -53,3 +53,4 @@ nvidia-cusparse-cu12==12.*
 nvidia-cusparselt-cu12==0.*
 nvidia-cuda-runtime-cu12==12.*
 nvidia-cudnn-cu12==9.*
+hy==*

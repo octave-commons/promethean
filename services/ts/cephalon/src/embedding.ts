@@ -32,6 +32,7 @@ export class RemoteEmbeddingFunction implements EmbeddingFunction {
 			.then(() => {
 				this.broker.subscribe('embedding.result', (event: any) => {
 					if (event.replyTo !== this.#replyId) return;
+					console.log('recieved embedding', event);
 					const resolve = this.#pending.shift();
 					if (resolve) {
 						resolve(event.payload.embeddings);
@@ -48,6 +49,7 @@ export class RemoteEmbeddingFunction implements EmbeddingFunction {
 			t.startsWith('img:') ? { type: 'image_url', data: t.slice(4) } : { type: 'text', data: t },
 		);
 		await this.#ready;
+		console.log('requesting embedding');
 		return new Promise((resolve) => {
 			this.#pending.push(resolve);
 			this.broker.enqueue('embedding.generate', {
@@ -65,8 +67,8 @@ export class RemoteEmbeddingFunction implements EmbeddingFunction {
 	supportedSpaces(): EmbeddingFunctionSpace[] {
 		return ['l2', 'cosine'];
 	}
-	static buildFromConfig(): RemoteEmbeddingFunction {
-		return new RemoteEmbeddingFunction();
+	static fromConfig(cfg: { driver: string; fn: string; brokerUrl?: string }): RemoteEmbeddingFunction {
+		return new RemoteEmbeddingFunction(cfg.brokerUrl, cfg.driver, cfg.fn);
 	}
 	getConfig() {
 		return {};

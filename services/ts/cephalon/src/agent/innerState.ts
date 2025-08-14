@@ -1,7 +1,7 @@
 import { writeFile } from 'fs/promises';
 let AGENT_NAME = 'Agent';
 try {
-	({ AGENT_NAME } = await import('../../../../../shared/js/env.js'));
+	({ AGENT_NAME } = await import('@shared/js/env.js'));
 } catch {}
 import { choice } from '../util';
 import { CollectionManager } from '../collectionManager';
