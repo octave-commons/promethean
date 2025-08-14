@@ -1,6 +1,6 @@
 ## 🛠️ Task: Switch critical readers to **subscribeNormalized**
 
-Generated from [[2025.08.08.20.08.52.md|../unique/2025.08.08.20.08.52.md]]
+Generated from [../unique/2025.08.08.20.08.52.md](../unique/2025.08.08.20.08.52.md)
 
 ---
 
@@ -20,4 +20,4 @@ Generated from [[2025.08.08.20.08.52.md|../unique/2025.08.08.20.08.52.md]]
 ---
 
 #Todo
-#todo
+#ready

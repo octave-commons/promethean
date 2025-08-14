@@ -55,17 +55,17 @@ Nothing
 
 ## ⛓️ Blocks
 
-- [[Evaluate and reward flow satisfaction.md]]
-- [[Implement transcendence cascade.md]]
+- [Evaluate and reward flow satisfaction](Evaluate%20and%20reward%20flow%20satisfaction.md)
+- [Implement transcendence cascade](Implement%20transcendence%20cascade.md)
 
 ---
 
 ## 🔍 Relevant Links
 
-- [[kanban.md]]
+- [kanban](../boards/kanban.md)
 
 ## ❓ Questions
 
 - What instrumentation already exists in Eidolon for metric export?
 - How much historical data is needed for a meaningful baseline?
-#ready
+#ice-box

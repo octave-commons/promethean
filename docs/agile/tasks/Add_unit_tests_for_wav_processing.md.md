@@ -36,6 +36,6 @@ Nothing
 ---
 
 ## 🔍 Relevant Links
-- [[kanban.md]]
-- [[untested-code.md|Untested modules]]
-#agent-thinking
+- [kanban](../boards/kanban.md)
+- [Untested modules](../../untested-code.md)
+#prompt-refinement

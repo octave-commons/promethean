@@ -25,9 +25,9 @@ These docs should be so complete and precise that any developer (or LLM) could r
 - [ ] Folder structure for docs matches `services/`, `shared/`, etc.
 - [ ] Every source file has a `README.md`, `DOC.md`, or `.note.md` style doc
 - [ ] Docs are written in Obsidian-compatible markdown
-- [ ] Links to dependencies and dependents use [[wiki-style.md]] links
+- [ ] Links to dependencies and dependents use [wiki-style](wiki-style.md) links
 - [ ] Documents include commentary on design intent, not just implementation
-- [ ] Each file should follow the [[file.doc.template.md]] structure.
+- [ ] Each file should follow the [file.doc.template](../../templates/file.doc.template.md) structure.
 
 ---
 
@@ -66,8 +66,8 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [[promethean-doc-structure.md]]
-- [[project-file-structure.md]]
-- [[doc-template.md]]
-- [[docdrivendev-principles.md]]
-#todo
+- [promethean-doc-structure](promethean-doc-structure.md)
+- [project-file-structure](project-file-structure.md)
+- [doc-template](doc-template.md)
+- [docdrivendev-principles](docdrivendev-principles.md)
+#ready
