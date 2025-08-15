@@ -18,7 +18,7 @@ import { AgentBus } from '@shared/ts/dist/agent-ecs/bus.js';
 import { createAudioResource } from '@discordjs/voice';
 import { Readable } from 'stream';
 import type { LlmResult, TtsRequest, TtsResult } from '@shared/ts/dist/contracts/agent-bus.js';
-import BrokerClient from '@shared/js/brokerClient.js';
+import { BrokerClient } from '@shared/js/brokerClient.js';
 import { checkPermission } from '@shared/js/permissionGate.js';
 import { interaction, type Interaction } from './interactions';
 import {

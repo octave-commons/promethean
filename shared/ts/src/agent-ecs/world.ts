@@ -30,9 +30,9 @@ export function createAgentWorld(audioPlayer: any) {
     SpeechArbiterSystem(w),
   ];
 
-  function tick(dtMs = 50) {
+  async function tick(dtMs = 50) {
     const cmd = w.beginTick();
-    for (const s of systems) s(dtMs);
+    for (const s of systems) await s(dtMs);
 
     cmd.flush();
     w.endTick();

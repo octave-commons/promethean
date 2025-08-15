@@ -282,14 +282,15 @@ export class World {
   beginTick(): CommandBuffer {
     if (this._inTick) throw new Error("nested tick not allowed");
     this._inTick = true;
-    // clear 'changed' flags at start of tick
-    for (const a of this.archetypes.values())
-      for (const s of a.changed.values()) s.clear();
     return new CommandBuffer(this);
   }
 
   endTick(): void {
     if (!this._inTick) return;
+
+    // clear 'changed' flags at END of tick
+    for (const a of this.archetypes.values())
+      for (const s of a.changed.values()) s.clear();
     this._inTick = false;
   }
 

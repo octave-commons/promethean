@@ -1,10 +1,10 @@
-import { defineAgentComponents } from "../components";
 import type { AgentBus } from "../bus";
 import type { LlmRequest } from "../../contracts/agent-bus";
 
 export function OrchestratorSystem(
   w: any,
   bus: AgentBus,
+  C: any,
   getContext: (
     text: string,
   ) => Promise<
@@ -12,8 +12,8 @@ export function OrchestratorSystem(
   >,
   systemPrompt: () => string,
 ) {
-  const { Turn, TranscriptFinal, VisionRing, VisionFrame } =
-    defineAgentComponents(w);
+  const { Turn, TranscriptFinal, VisionRing, VisionFrame } = C;
+
   const q = w.makeQuery({
     changed: [TranscriptFinal],
     all: [Turn, TranscriptFinal, VisionRing],
@@ -22,6 +22,7 @@ export function OrchestratorSystem(
   return async function run() {
     for (const [agent, get] of w.iter(q)) {
       const tf = get(TranscriptFinal);
+      console.log("something?", tf);
       if (!tf.text) continue;
       const turnId = get(Turn).id;
       const ring = get(VisionRing);

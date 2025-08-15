@@ -21,7 +21,7 @@ export class LLMService {
 
 	constructor(options: LLMClientOptions = {}) {
 		const brokerUrl = options.brokerUrl || process.env.BROKER_URL || 'ws://localhost:7000';
-		this.#replyTopic = `llm.result`;
+		this.#replyTopic = `agent.llm.result`;
 		this.broker =
 			options.broker ||
 			new BrokerClient({

@@ -51,6 +51,8 @@ export class BrokerClient {
       timestamp: new Date().toISOString(),
       ...opts,
     };
+
+    console.log("publishing", message);
     this.socket.send(JSON.stringify({ action: "publish", message }));
   }
 

@@ -118,6 +118,7 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 				w,
 				bot.bus!,
 				(text) => {
+					console.log('compiling context for', text);
 					return bot.context
 						.compileContext([text])
 						.then((msgs) => msgs.map((m) => ({ role: m.role as 'user' | 'assistant' | 'system', content: m.content })));
@@ -136,7 +137,7 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 			tf.ts = Date.now();
 			w.set(agent, C.TranscriptFinal, tf);
 
-			console.log('publishing transcript to agent...', { turnId, tf, w });
+			console.log('publishing transcript to agent...', { turnId, tf });
 			bot.bus?.publish({
 				topic: 'agent.transcript.final',
 				corrId: randomUUID(),
@@ -150,7 +151,9 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 
 		const speaking = bot.currentVoiceSession.connection?.receiver.speaking;
 		const onLevel = (level: number) => {
+			console.log(agent);
 			const rv = w.get(agent, C.RawVAD)!;
+			console.log(rv);
 			rv.level = level;
 			rv.ts = Date.now();
 			w.set(agent, C.RawVAD, rv);
