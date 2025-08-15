@@ -1,6 +1,6 @@
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
-import torchaudio
 import torch
+import torchaudio
 import time
 import numpy as np
 
