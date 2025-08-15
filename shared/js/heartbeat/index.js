@@ -5,7 +5,7 @@
  * to the broker on a fixed interval. Uses the `ws` WebSocket implementation
  * available in the repository.
  */
-import BrokerClient from "@shared/js/brokerClient.js";
+import { BrokerClient } from "@shared/js/brokerClient.js";
 
 const BROKER_PORT = process.env.BROKER_PORT || 7000;
 
