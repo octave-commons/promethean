@@ -192,8 +192,19 @@
   (sh ["python" "-m" "pipenv" "install" "--dev"] :cwd "shared/py"))
 
 (defn-cmd setup-shared-python-quick []
-  (generate-python-shared-requirements)
-  (sh ["python" "-m" "pip" "install" "--user" "-r" "requirements.txt"] :cwd "shared/py"))
+  (setv d "./shared/py/")
+  (if (has-uv)
+      (do
+       (uv-venv d)
+       ;; quick path = trust existing lock if present; else compile it
+       (if (has-file* d "requirements.lock")
+           (uv-sync d)
+           (do (uv-compile d) (uv-sync d)))
+        (inject-sitecustomize-into-venv d))
+      (do
+       (print "uv not found → pip --user fallback in" d)
+       (generate-requirements-service (.split (os.path.relpath d "services/py") "/") 0)
+        (sh ["python" "-m" "pip" "install" "--user" "-r" "requirements.txt"] :cwd d))))
 
 (defn-cmd setup-python-services-quick []
   (print "Quick Python setup (uv preferred)...")
