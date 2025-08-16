@@ -1,6 +1,5 @@
 import express from "express";
 import ollama from "ollama";
-import { WebSocketServer } from "ws";
 
 export const MODEL = process.env.LLM_MODEL || "gemma3:latest";
 

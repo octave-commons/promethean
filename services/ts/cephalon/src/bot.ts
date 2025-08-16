@@ -18,7 +18,7 @@ import { AgentBus } from '@shared/ts/dist/agent-ecs/bus.js';
 import { createAudioResource } from '@discordjs/voice';
 import { Readable } from 'stream';
 import type { LlmResult, TtsRequest, TtsResult } from '@shared/ts/dist/contracts/agent-bus.js';
-import WebSocket from 'ws';
+import { BrokerClient } from '@shared/js/brokerClient.js';
 import { checkPermission } from '@shared/js/permissionGate.js';
 import { interaction, type Interaction } from './interactions';
 import {
@@ -89,8 +89,8 @@ export class Bot extends EventEmitter {
 		}
 		await this.registerInteractions();
 
-		const ws = new WebSocket(process.env.BROKER_WS_URL || 'ws://localhost:7000');
-		this.bus = new AgentBus(ws);
+		const broker = new BrokerClient({ url: process.env.BROKER_WS_URL || 'ws://localhost:7000' });
+		this.bus = new AgentBus(broker);
 
 		this.client
 			.on(Events.InteractionCreate, async (interaction) => {
