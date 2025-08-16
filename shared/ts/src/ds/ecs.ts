@@ -8,9 +8,10 @@ const MAX_COMPONENTS = 64;
 
 export interface ComponentSpec<T> {
   name: string;
-  defaults?: () => T; // create default component payload
+  defaults?: () => T;
   onAdd?: (w: World, e: Entity, v: T) => void;
   onRemove?: (w: World, e: Entity, v: T) => void;
+  equals?: (a: T, b: T) => boolean; // <-- for setIfChanged()
 }
 
 export interface ComponentType<T> extends ComponentSpec<T> {
@@ -31,21 +32,37 @@ type Edge = Map<ComponentId, Archetype>; // add/remove graph edges for fast move
 class Archetype {
   mask: bigint;
   entities: Entity[] = [];
-  // per component id -> column array
-  columns: Map<ComponentId, Column> = new Map();
-  addEdges: Edge = new Map(); // if you add comp X, go to archetype Y
-  rmEdges: Edge = new Map(); // if you remove comp X, go to archetype Z
-  // changed flags per comp id (bitset of rows changed in this tick)
-  // For simplicity we track "row touched this tick" as a sparse Set per comp id.
-  changed: Map<ComponentId, Set<number>> = new Map();
+  // per comp: [prev, next]
+  columns: Map<ComponentId, [any[], any[]]> = new Map();
+
+  // “what changed last frame” (queried this frame)
+  changedPrev: Map<ComponentId, Set<number>> = new Map();
+  // “what was written this frame”
+  changedNext: Map<ComponentId, Set<number>> = new Map();
+  // “what was written at all this frame” (carry or set) — to detect missed rows & double writes
+  writtenNext: Map<ComponentId, Set<number>> = new Map();
 
   constructor(mask: bigint) {
     this.mask = mask;
   }
 
   ensureColumn(cid: ComponentId) {
-    if (!this.columns.has(cid)) this.columns.set(cid, []);
-    if (!this.changed.has(cid)) this.changed.set(cid, new Set());
+    if (!this.columns.has(cid)) this.columns.set(cid, [[], []]);
+    if (!this.changedPrev.has(cid)) this.changedPrev.set(cid, new Set());
+    if (!this.changedNext.has(cid)) this.changedNext.set(cid, new Set());
+    if (!this.writtenNext.has(cid)) this.writtenNext.set(cid, new Set());
+  }
+
+  swapBuffers() {
+    for (const [cid, [prev, next]] of this.columns) {
+      this.columns.set(cid, [next, prev]); // swap references
+      // promote “this frame changed” → “prev changed”
+      const nextChanged = this.changedNext.get(cid)!;
+      this.changedPrev.set(cid, nextChanged);
+      this.changedNext.set(cid, new Set());
+      // reset coverage bookkeeping
+      this.writtenNext.set(cid, new Set());
+    }
   }
 }
 
@@ -69,8 +86,7 @@ export class World {
   private loc: { arch: Archetype; row: number }[] = []; // by entity index
 
   // components
-  private comps: (ComponentType<any> | null)[] =
-    Array(MAX_COMPONENTS).fill(null);
+  private comps: (ComponentType<any> | null)[] = Array(MAX_COMPONENTS).fill(null);
   private nextCompId = 0;
 
   // archetypes by mask
@@ -94,9 +110,7 @@ export class World {
   // === Entities ===
   createEntity(init?: Record<ComponentId, any> | bigint): Entity {
     // allocate entity id
-    const idx = this.freeList.length
-      ? (this.freeList.pop() as number)
-      : this.generations.length;
+    const idx = this.freeList.length ? (this.freeList.pop() as number) : this.generations.length;
     const gen = (this.generations[idx] ?? 0) & 0xffff;
     this.generations[idx] = gen;
     const e = (gen << 16) | idx;
@@ -106,7 +120,7 @@ export class World {
     this.loc[idx] = this.addRow(this.emptyArch, e);
 
     // attach initial components
-    if (typeof init === "bigint") {
+    if (typeof init === 'bigint') {
       // mask-only init: fill with defaults
       for (let cid = 0; cid < this.nextCompId; cid++) {
         const m = 1n << BigInt(cid);
@@ -187,28 +201,54 @@ export class World {
     const oldRow = loc.row;
     const payloads: Record<number, any> = {};
     // carry over existing columns except the removed one
-    for (const [cid, col] of from.columns)
-      if (cid !== ct.id) payloads[cid] = col[oldRow];
+    for (const [cid, col] of from.columns) if (cid !== ct.id) payloads[cid] = col[oldRow];
     const oldVal = from.columns.get(ct.id)![oldRow];
     this.move(e, from, oldRow, to, payloads);
     ct.onRemove?.(this, e, oldVal);
   }
 
   get<T>(e: Entity, ct: ComponentType<T>): T | undefined {
-    if (!this.isAlive(e)) return undefined;
+    this.requireAlive(e);
     const { arch, row } = this.loc[e & 0xffff]!;
     if ((arch.mask & ct.mask) === 0n) return undefined;
-    return arch.columns.get(ct.id)![row];
+    arch.ensureColumn(ct.id);
+    const [prev] = arch.columns.get(ct.id)!;
+    return prev[row];
+  }
+
+  carry<T>(e: Entity, ct: ComponentType<T>): void {
+    // copy prev → next for this (entity,comp) WITHOUT marking changed
+    this.requireAlive(e);
+    const { arch, row } = this.loc[e & 0xffff]!;
+    if ((arch.mask & ct.mask) === 0n) throw new Error(`entity lacks ${ct.name}`);
+    arch.ensureColumn(ct.id);
+    const [prev, next] = arch.columns.get(ct.id)!;
+    // conflict detection: if another system already wrote this row, warn
+    const written = arch.writtenNext.get(ct.id)!;
+    if (written.has(row)) console.warn(`[ECS] double write (carry) on ${ct.name} row ${row}`);
+    next[row] = prev[row];
+    written.add(row); // mark covered, but NOT changed
   }
 
   set<T>(e: Entity, ct: ComponentType<T>, value: T): void {
     this.requireAlive(e);
     const { arch, row } = this.loc[e & 0xffff]!;
+    if ((arch.mask & ct.mask) === 0n) throw new Error(`entity lacks ${ct.name}`);
+    arch.ensureColumn(ct.id);
+    const [, next] = arch.columns.get(ct.id)!;
+    const written = arch.writtenNext.get(ct.id)!;
+    if (written.has(row)) console.warn(`[ECS] double write (set) on ${ct.name} row ${row}`);
+    next[row] = value;
+    written.add(row);
+    arch.changedNext.get(ct.id)!.add(row); // mark CHANGED
+  }
 
-    if ((arch.mask & ct.mask) === 0n)
-      throw new Error(`entity lacks component '${ct.name}'`);
-    arch.columns.get(ct.id)![row] = value;
-    arch.changed.get(ct.id)!.add(row);
+  // convenience: only flag changed if different (uses equals | Object.is)
+  setIfChanged<T>(e: Entity, ct: ComponentType<T>, value: T) {
+    const prev = this.get(e, ct);
+    const eq = this.comps[ct.id]!.equals ?? Object.is;
+    if (!eq(prev as any, value)) this.set(e, ct, value);
+    else this.carry(e, ct);
   }
 
   has(e: Entity, ct: ComponentType<any>): boolean {
@@ -226,9 +266,7 @@ export class World {
     changed?: ComponentType<any>[];
   }): Query {
     const bit = (arr?: ComponentType<any>[]) =>
-      arr && arr.length
-        ? arr.map((c) => c.mask).reduce((a, b) => a | b, 0n)
-        : 0n;
+      arr && arr.length ? arr.map((c) => c.mask).reduce((a, b) => a | b, 0n) : 0n;
     return {
       all: bit(opts.all),
       any: bit(opts.any),
@@ -243,9 +281,7 @@ export class World {
     c1?: ComponentType<T1>,
     c2?: ComponentType<T2>,
     c3?: ComponentType<T3>,
-  ): IterableIterator<
-    [Entity, (ct: ComponentType<any>) => any, T1?, T2?, T3?]
-  > {
+  ): IterableIterator<[Entity, (ct: ComponentType<any>) => any, T1?, T2?, T3?]> {
     for (const arch of this.archetypes.values()) {
       const m = arch.mask;
       if (q.all && !hasAll(m, q.all)) continue;
@@ -280,7 +316,7 @@ export class World {
 
   // === Ticking & command buffers ===
   beginTick(): CommandBuffer {
-    if (this._inTick) throw new Error("nested tick not allowed");
+    if (this._inTick) throw new Error('nested tick not allowed');
     this._inTick = true;
     return new CommandBuffer(this);
   }
@@ -289,8 +325,7 @@ export class World {
     if (!this._inTick) return;
 
     // clear 'changed' flags at END of tick
-    for (const a of this.archetypes.values())
-      for (const s of a.changed.values()) s.clear();
+    for (const a of this.archetypes.values()) for (const s of a.changed.values()) s.clear();
     this._inTick = false;
   }
 
@@ -309,17 +344,11 @@ export class World {
     return a;
   }
 
-  private nextArchetype(
-    from: Archetype,
-    cid: ComponentId,
-    adding: boolean,
-  ): Archetype {
+  private nextArchetype(from: Archetype, cid: ComponentId, adding: boolean): Archetype {
     const edges = adding ? from.addEdges : from.rmEdges;
     let to = edges.get(cid);
     if (!to) {
-      const toMask = adding
-        ? from.mask | (1n << BigInt(cid))
-        : from.mask & ~(1n << BigInt(cid));
+      const toMask = adding ? from.mask | (1n << BigInt(cid)) : from.mask & ~(1n << BigInt(cid));
       to = this.getOrCreateArchetype(toMask);
       // ensure necessary columns exist there
       for (let i = 0; i < this.nextCompId; i++) {
@@ -385,8 +414,7 @@ export class World {
   }
 
   private requireAlive(e: Entity) {
-    if (!this.isAlive(e))
-      throw new Error(`entity ${e} is not alive or stale handle`);
+    if (!this.isAlive(e)) throw new Error(`entity ${e} is not alive or stale handle`);
   }
 }
 

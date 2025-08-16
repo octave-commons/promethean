@@ -1,8 +1,8 @@
-import { World } from "../ds/ecs";
-import { defineAgentComponents } from "./components";
-import { VADUpdateSystem } from "./systems/vad";
-import { TurnDetectionSystem } from "./systems/turn";
-import { SpeechArbiterSystem } from "./systems/speechArbiter";
+import { World } from '../ds/ecs';
+import { defineAgentComponents } from './components';
+import { VADUpdateSystem } from './systems/vad';
+import { TurnDetectionSystem } from './systems/turn';
+import { SpeechArbiterSystem } from './systems/speechArbiter';
 
 export function createAgentWorld(audioPlayer: any) {
   const w = new World();
@@ -13,7 +13,7 @@ export function createAgentWorld(audioPlayer: any) {
   const agent = cmd.createEntity();
   cmd.add(agent, C.Turn);
   cmd.add(agent, C.PlaybackQ);
-  cmd.add(agent, C.Policy, { defaultBargeIn: "pause" as const });
+  cmd.add(agent, C.Policy, { defaultBargeIn: 'pause' as const });
   cmd.add(agent, C.AudioRef, { player: audioPlayer });
   cmd.add(agent, C.RawVAD);
   cmd.add(agent, C.VAD);
@@ -41,6 +41,34 @@ export function createAgentWorld(audioPlayer: any) {
   function addSystem(s: (dtMs: number) => void | Promise<void>) {
     systems.push(s);
   }
+  let running = false;
+  let tickPromise = Promise.resolve();
+  function sleep(ms: number) {
+    return new Promise((resolve, _) => {
+      setTimeout(resolve, ms);
+    });
+  }
+  async function start(delay: number) {
+    let tickStart,
+      tickStop,
+      dT = 0;
+    running = true;
+    while (running) {
+      tickStart = Date.now();
+      await tickPromise;
+      tickPromise = tick(dT);
+      tickStop = Date.now();
+      dT = tickStop - tickStart;
+      if (delay >= dT) {
+        await sleep(delay - dT);
+      }
+    }
+  }
+  async function stop() {
+    if (!running) throw new Error('There is no ticker to stop');
+    await tickPromise;
+    running = false;
+  }
 
-  return { w, agent, C, tick, addSystem };
+  return { w, agent, C, tick, addSystem, start, stop };
 }
