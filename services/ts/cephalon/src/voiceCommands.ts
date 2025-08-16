@@ -10,50 +10,6 @@ import { OrchestratorSystem } from '@shared/ts/dist/agent-ecs/systems/orchestrat
 import { randomUUID } from 'node:crypto';
 import { defaultPrompt } from './prompts';
 
-export async function joinVoiceChannel(bot: Bot, interaction: Interaction): Promise<any> {
-	await interaction.deferReply();
-	let textChannel: discord.TextChannel | null;
-	if (interaction?.channel?.id) {
-		const channel = await bot.client.channels.fetch(interaction?.channel?.id);
-		if (channel?.isTextBased()) {
-			textChannel = channel as discord.TextChannel;
-		}
-	}
-	if (bot.currentVoiceSession) {
-		return interaction.followUp('Cannot join a new voice session with out leaving the current one.');
-	}
-	if (!interaction.member.voice?.channel?.id) {
-		return interaction.followUp('Join a voice channel then try that again.');
-	}
-	bot.currentVoiceSession = new VoiceSession({
-		bot: bot,
-		guild: interaction.guild,
-		voiceChannelId: interaction.member.voice.channel.id,
-	});
-	bot.currentVoiceSession.transcriber.on('transcriptEnd', async (transcript: FinalTranscript) => {
-		const transcripts = bot.context.getCollection('transcripts') as CollectionManager<'text', 'createdAt'>;
-		console.log('inserting transcript', transcript.transcript);
-		await transcripts.addEntry({
-			text: transcript.transcript,
-			createdAt: transcript.startTime || Date.now(),
-			metadata: {
-				createdAt: Date.now(),
-				endTime: transcript.endTime,
-				userId: transcript.user?.id,
-				userName: transcript.user?.username,
-				is_transcript: true,
-				channel: bot.currentVoiceSession?.voiceChannelId,
-				recipient: bot.applicationId,
-			},
-		});
-		console.log('insert complete');
-		if (textChannel && transcript.transcript.trim().length > 0 && transcript.speaker?.logTranscript)
-			await textChannel.send(`${transcript.user?.username}:${transcript.transcript}`);
-	});
-	bot.currentVoiceSession.start();
-	return interaction.followUp('DONE!');
-}
-
 export async function leaveVoiceChannel(bot: Bot, interaction: Interaction) {
 	if (bot.currentVoiceSession) {
 		bot.currentVoiceSession.stop();
@@ -105,6 +61,50 @@ export async function tts(bot: Bot, interaction: Interaction) {
 	await interaction.deleteReply().catch(() => {});
 }
 
+export async function joinVoiceChannel(bot: Bot, interaction: Interaction): Promise<any> {
+	await interaction.deferReply();
+	let textChannel: discord.TextChannel | null;
+	if (interaction?.channel?.id) {
+		const channel = await bot.client.channels.fetch(interaction?.channel?.id);
+		if (channel?.isTextBased()) {
+			textChannel = channel as discord.TextChannel;
+		}
+	}
+	if (bot.currentVoiceSession) {
+		return interaction.followUp('Cannot join a new voice session with out leaving the current one.');
+	}
+	if (!interaction.member.voice?.channel?.id) {
+		return interaction.followUp('Join a voice channel then try that again.');
+	}
+	bot.currentVoiceSession = new VoiceSession({
+		bot: bot,
+		guild: interaction.guild,
+		voiceChannelId: interaction.member.voice.channel.id,
+	});
+	bot.currentVoiceSession.transcriber.on('transcriptEnd', async (transcript: FinalTranscript) => {
+		const transcripts = bot.context.getCollection('transcripts') as CollectionManager<'text', 'createdAt'>;
+		console.log('inserting transcript', transcript.transcript);
+		await transcripts.addEntry({
+			text: transcript.transcript,
+			createdAt: transcript.startTime || Date.now(),
+			metadata: {
+				createdAt: Date.now(),
+				endTime: transcript.endTime,
+				userId: transcript.user?.id,
+				userName: transcript.user?.username,
+				is_transcript: true,
+				channel: bot.currentVoiceSession?.voiceChannelId,
+				recipient: bot.applicationId,
+			},
+		});
+		console.log('insert complete');
+		if (textChannel && transcript.transcript.trim().length > 0 && transcript.speaker?.logTranscript)
+			await textChannel.send(`${transcript.user?.username}:${transcript.transcript}`);
+	});
+	bot.currentVoiceSession.start();
+	return interaction.followUp('DONE!');
+}
+
 export async function startDialog(bot: Bot, interaction: Interaction) {
 	if (bot.currentVoiceSession) {
 		bot.desktop.start();
@@ -117,6 +117,7 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 			OrchestratorSystem(
 				w,
 				bot.bus!,
+				C,
 				(text) => {
 					console.log('compiling context for', text);
 					return bot.context
@@ -126,9 +127,8 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 				() => defaultPrompt,
 			),
 		);
-		setInterval(() => {
-			bot.agentWorld?.tick(50);
-		}, 50);
+
+		bot.agentWorld?.start(50);
 
 		bot.currentVoiceSession.transcriber.on('transcriptEnd', (tr: FinalTranscript) => {
 			const turnId = w.get(agent, C.Turn)!.id;
