@@ -1,7 +1,7 @@
 import WebSocket, { WebSocketServer } from "ws";
 import { randomUUID } from "crypto";
 import { EventEmitter } from "events";
-import { queueManager } from "../../../shared/js/queueManager.js";
+import { queueManager } from "@shared/js/queueManager.js";
 
 const subscriptions = new Map(); // topic -> Set<WebSocket>
 const clients = new Map(); // WebSocket -> { id, topics:Set<string> }

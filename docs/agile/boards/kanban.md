@@ -29,7 +29,7 @@ kanban-plugin: board
 - [ ] [[Identify ancestral resonance patterns.md.md|Identify ancestral resonance patterns]] #framework-core #ice-box
 - [ ] [[implement_fragment_ingestion_with_activation_vecto.md.md|Implement fragment ingestion with activation vectors]] #framework-core #ice-box
 - [ ] [[Implement transcendence cascade.md.md|Implement transcendence cascade]] #framework-core #ice-box
-- [ ] [[Thinking Model integration.md.md|Thinking Model integration.md]] #framework-core #todo
+- [ ] [[Thinking Model integration.md.md|Thinking Model integration.md]] #framework-core #ice-box
 - [ ] [[Integrate synthesis-agent pass on unique to produce draft docs 1.md.md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #ice-box
 - [ ] [[Schedule alignment meeting with stakeholders.md.md|Schedule alignment meeting with stakeholders]] #framework-core #ice-box
 - [ ] [[Suggest metaprogramming updates.md.md|Suggest metaprogramming updates]] #framework-core #ice-box
@@ -230,14 +230,13 @@ kanban-plugin: board
 
 ## In Progress (8)
 
-- [ ] [[setup services to recieve work from the broker via push.md|setup services to recieve work from the broker via push]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #todo
-- [ ] [[Identify and resolve a service client apparently connecting repeatedly to broker with new session ids]]
+- [ ] [[setup services to recieve work from the broker via push.md|setup services to recieve work from the broker via push]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-progress
+- [ ] [[Identify and resolve a service client apparently connecting repeatedly to broker with new session ids]] #in-progress
 
 
 ## In Review (8)
 
 - [ ] [[Document_local_testing_setup.md.md|Document local testing setup]] #codex-task #testing #in-review
-- [ ] [[Update cephalon to use custom embedding function.md.md|Update cephalon to use custom embedding function]] #framework-core #cephalon #discord #embedding #typescript #in-review
 
 
 ## Done
