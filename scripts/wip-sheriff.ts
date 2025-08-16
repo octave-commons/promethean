@@ -1,6 +1,6 @@
 // tools/wip-sheriff.ts
-import fs from "node:fs/promises";
-import path from "node:path";
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
 type Card = {
   title: string;
@@ -19,36 +19,33 @@ type Lane = {
 };
 type Board = Lane[];
 
-const VAULT = process.env.VAULT_ROOT ?? ".";
-const BOARD_PATH = path.join(VAULT, "docs/agile/boards/kanban.md");
-const TASKS_DIR = path.join(VAULT, "docs/agile/tasks");
+const VAULT = process.env.VAULT_ROOT ?? '.';
+const BOARD_PATH = path.join(VAULT, 'docs/agile/boards/kanban.md');
+const TASKS_DIR = path.join(VAULT, 'docs/agile/tasks');
 
 const argv = new Map(
   process.argv.slice(2).flatMap((a) => {
     const m = a.match(/^--([^=]+)(?:=(.*))?$/);
-    return m ? [[m[1], m[2] ?? "true"]] : [];
+    return m ? [[m[1], m[2] ?? 'true']] : [];
   }),
 );
-const WRITE = argv.get("write") === "true";
-const BASIS = (argv.get("basis") ?? "points") as "points" | "count";
-const DEFAULT_CAP = parseInt(argv.get("default-cap") ?? "3", 10);
-const DOING = (
-  argv.get("doing") ??
-  "Prompt Refinement,Agent Thinking,Breakdown,In Progress,Todo"
-)
-  .split(",")
+const WRITE = argv.get('write') === 'true';
+const BASIS = (argv.get('basis') ?? 'points') as 'points' | 'count';
+const DEFAULT_CAP = parseInt(argv.get('default-cap') ?? '3', 10);
+const DOING = (argv.get('doing') ?? 'Breakdown,In Progress,Todo,In Review')
+  .split(',')
   .map((s) => s.trim());
-const SAFE_LEFT = argv.get("safe-left") ?? "Accepted";
+const SAFE_LEFT = argv.get('safe-left') ?? 'Accepted';
 // Keep exactly what's after the settings marker so we can round-trip it.
 function splitKanbanSettings(md: string): { content: string; footer: string } {
   const start = md.search(/^\s*%%\s*kanban:settings\b/m);
   if (start >= 0) {
     return {
-      content: md.slice(0, start).replace(/\s+$/, ""),
+      content: md.slice(0, start).replace(/\s+$/, ''),
       footer: md.slice(start),
     };
   }
-  return { content: md.replace(/\s+$/, ""), footer: "" };
+  return { content: md.replace(/\s+$/, ''), footer: '' };
 }
 
 // Optional: keep any preamble before the first "## " heading
@@ -56,23 +53,21 @@ function extractPreamble(content: string): { preamble: string; body: string } {
   const idx = content.search(/^##\s+/m);
   if (idx > 0) {
     return {
-      preamble: content.slice(0, idx).replace(/\s+$/, ""),
+      preamble: content.slice(0, idx).replace(/\s+$/, ''),
       body: content.slice(idx),
     };
   }
-  return { preamble: "", body: content };
+  return { preamble: '', body: content };
 }
 
 // Normalize lane titles (strip "(n)" etc.) — unchanged from earlier advice
 function laneName(title: string): string {
-  const noHash = title.split("#")[0].trim();
-  return noHash
-    .replace(/\s*(?:\(|\[)\d+\s*(?:pts?|points?)?(?:\)|\])\s*$/i, "")
-    .trim();
+  const noHash = title.split('#')[0].trim();
+  return noHash.replace(/\s*(?:\(|\[)\d+\s*(?:pts?|points?)?(?:\)|\])\s*$/i, '').trim();
 }
 function parseCapacity(title: string): number | null {
   // Strip trailing hashtags/comments (e.g. "In Progress (5) #doing")
-  const base = title.split("#")[0];
+  const base = title.split('#')[0];
 
   // Find the LAST "(number ...)" group in the remaining text.
   const all = Array.from(base.matchAll(/\((\d+)\s*(?:pts?|points?)?\)/g));
@@ -88,13 +83,13 @@ function extractPointsFromTitle(t: string): number | undefined {
   return m ? parseInt(m[1], 10) : undefined;
 }
 function slugFromWiki(s: string) {
-  return s.replace(/\[\[|\]\]/g, "").split("|")[0];
+  return s.replace(/\[\[|\]\]/g, '').split('|')[0];
 }
 
 async function readTask(filepath: string): Promise<Partial<Card>> {
-  let txt = "";
+  let txt = '';
   try {
-    txt = await fs.readFile(filepath, "utf8");
+    txt = await fs.readFile(filepath, 'utf8');
   } catch {
     return {};
   }
@@ -133,15 +128,10 @@ async function parseBoard(md: string): Promise<Board> {
     const it = line.match(/^- \[.\]\s+\[\[([^\]]+)\]\](?:\s+(.+))?$/);
     if (it && current) {
       const wikilink = `[[${it[1]}]]`;
-      const suffix = it[2] ?? "";
+      const suffix = it[2] ?? '';
       const fileSlug = slugFromWiki(wikilink);
-      const title = fileSlug.includes("|")
-        ? fileSlug.split("|")[1]
-        : fileSlug.split("|")[0];
-      const filepath = path.join(
-        TASKS_DIR,
-        fileSlug.endsWith(".md") ? fileSlug : `${fileSlug}.md`,
-      );
+      const title = fileSlug.includes('|') ? fileSlug.split('|')[1] : fileSlug.split('|')[0];
+      const filepath = path.join(TASKS_DIR, fileSlug.endsWith('.md') ? fileSlug : `${fileSlug}.md`);
       const meta = await readTask(filepath);
       const pts = meta.points ?? extractPointsFromTitle(title) ?? 1;
       current.cards.push({
@@ -160,15 +150,12 @@ async function parseBoard(md: string): Promise<Board> {
 }
 
 function laneUsage(l: Lane): number {
-  return BASIS === "points"
-    ? l.cards.reduce((a, c) => a + (c.points || 1), 0)
-    : l.cards.length;
+  return BASIS === 'points' ? l.cards.reduce((a, c) => a + (c.points || 1), 0) : l.cards.length;
 }
 
 function nearestSafeLeft(lanes: Board, idx: number): number {
   for (let i = idx - 1; i >= 0; i--) {
-    if (lanes[i].capacity == null || lanes[i].title.startsWith(SAFE_LEFT))
-      return i;
+    if (lanes[i].capacity == null || lanes[i].title.startsWith(SAFE_LEFT)) return i;
   }
   return Math.max(0, idx - 1);
 }
@@ -177,7 +164,7 @@ function pickVictims(l: Lane, need: number): Card[] {
   const key = (c: Card) =>
     [
       c.mtimeMs ?? Number.POSITIVE_INFINITY, // younger first
-      c.origin?.startsWith("bot/") ? 0 : 1, // bot first
+      c.origin?.startsWith('bot/') ? 0 : 1, // bot first
       c.points || 1, // low points first
     ] as const;
   const sorted = [...l.cards].sort((a, b) => {
@@ -189,7 +176,7 @@ function pickVictims(l: Lane, need: number): Card[] {
   let acc = 0;
   for (const c of sorted) {
     take.push(c);
-    acc += BASIS === "points" ? c.points || 1 : 1;
+    acc += BASIS === 'points' ? c.points || 1 : 1;
     if (acc >= need) break;
   }
   return take;
@@ -203,20 +190,20 @@ function renderBoard(lanes: Board, preamble: string, footer: string): string {
     out.push(`\n## ${l.title}`);
     for (const c of l.cards) {
       const wl = c.wikilink ?? `[[${c.title}]]`;
-      const tagStr = (c.tags || []).join(" ");
-      out.push(`- [ ] ${wl}${tagStr ? " " + tagStr : ""}`);
+      const tagStr = (c.tags || []).join(' ');
+      out.push(`- [ ] ${wl}${tagStr ? ' ' + tagStr : ''}`);
     }
   }
   const body =
     out
-      .join("\n")
-      .replace(/\n{3,}/g, "\n\n")
-      .trimEnd() + "\n";
-  return footer ? body + (body.endsWith("\n") ? "" : "\n") + footer : body;
+      .join('\n')
+      .replace(/\n{3,}/g, '\n\n')
+      .trimEnd() + '\n';
+  return footer ? body + (body.endsWith('\n') ? '' : '\n') + footer : body;
 }
 
 (async function main() {
-  const raw = await fs.readFile(BOARD_PATH, "utf8");
+  const raw = await fs.readFile(BOARD_PATH, 'utf8');
 
   // NEW: split footer so parsing ignores the settings block
   const { content, footer } = splitKanbanSettings(raw);
@@ -260,24 +247,22 @@ function renderBoard(lanes: Board, preamble: string, footer: string): string {
     console.log(`- ${l.title}: ${used}/${cap}`);
   }
   if (moves.length === 0) {
-    console.log("No WIP violations.");
+    console.log('No WIP violations.');
   } else {
-    console.log("\nPlanned moves:");
+    console.log('\nPlanned moves:');
     for (const m of moves) {
       console.log(
-        `  • ${lanes[m.from].title} → ${lanes[m.to].title}: ${m.card.title} (${
-          m.card.points
-        } pts)`,
+        `  • ${lanes[m.from].title} → ${lanes[m.to].title}: ${m.card.title} (${m.card.points} pts)`,
       );
     }
     if (WRITE) {
       const out = renderBoard(lanes, preamble, footer);
-      const tmp = BOARD_PATH + ".tmp";
-      await fs.writeFile(tmp, out, "utf8");
+      const tmp = BOARD_PATH + '.tmp';
+      await fs.writeFile(tmp, out, 'utf8');
       await fs.rename(tmp, BOARD_PATH);
       console.log(`\nApplied. Wrote ${BOARD_PATH} (footer preserved)`);
     } else {
-      console.log("\nDry run. Footer will be preserved on write.");
+      console.log('\nDry run. Footer will be preserved on write.');
     }
   }
 })().catch((e) => {

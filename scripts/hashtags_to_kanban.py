@@ -44,6 +44,27 @@ DEFAULT_KANBAN_SETTINGS_BLOCK = """%% kanban:settings
 """
 
 
+def extract_header_labels(board_path: Path = BOARD_PATH) -> Dict[str, str]:
+    """
+    Preserve the exact header text per status from the current board (e.g., 'Prompt Refinement (3)').
+    Returns dict[status_tag] -> header_label (without leading '## ').
+    """
+    labels: Dict[str, str] = {}
+    if not board_path.exists():
+        return labels
+    with board_path.open(encoding="utf-8") as fh:
+        for raw in fh:
+            line = raw.rstrip("\n")
+            if not line.startswith("## "):
+                continue
+            hdr = line[3:].strip()
+            st = _status_tag_from_header(hdr)
+            if st:
+                # Keep the header exactly as written (emoji, spacing, '(N)', etc.)
+                labels[st] = hdr
+    return labels
+
+
 def parse_task(path: Path) -> Tuple[str, str]:
     """Return task title and status hashtag from a markdown file."""
     title = path.stem.replace("_", " ")
@@ -188,6 +209,7 @@ def build_board(
     tasks: Dict[str, List[Tuple[str, Path]]],
     unlinked: Dict[str, List[str]],
     settings_block: str | None,
+    header_labels: Dict[str, str],
     *,
     wikilinks: bool,
     encode_urls: bool,
@@ -211,7 +233,9 @@ def build_board(
         if not linked_items and not unlinked_items:
             continue
 
-        header = status.lstrip("#").replace("-", " ").title()
+        # Prefer the exact header from the existing board (preserves WIP limits like '(3)'),
+        # otherwise fall back to a normalized title.
+        header = header_labels.get(status, status.lstrip("#").replace("-", " ").title())
         lines.append(f"## {header}")
         lines.append("")
 
@@ -270,12 +294,14 @@ def main() -> None:
     # Read BEFORE writing so we can preserve unlinked + settings
     unlinked = parse_unlinked_from_board(BOARD_PATH)
     settings_block = extract_settings_block(BOARD_PATH)
+    header_labels = extract_header_labels(BOARD_PATH)
 
     tasks = collect_tasks()
     board = build_board(
         tasks,
         unlinked,
         settings_block,
+        header_labels,
         wikilinks=args.wikilinks,
         encode_urls=args.encode_urls,
     )
