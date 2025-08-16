@@ -7,6 +7,9 @@
 (add-to-list 'load-path prom-unique--layer-dir)
 (defconst prom-unique-packages '())
 
-(load (expand-file-name "config.el" prom-unique--layer-dir))
-(load (expand-file-name "funcs.el" prom-unique--layer-dir))
-(load (expand-file-name "keybinds.el" prom-unique--layer-dir))
+(defun prom-unique/init ()
+  (load (expand-file-name "config.el" prom-unique--layer-dir))
+  (load (expand-file-name "funcs.el" prom-unique--layer-dir))
+  (load (expand-file-name "keybinds.el" prom-unique--layer-dir)))
+
+(provide 'prom-unique)
