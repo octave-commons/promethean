@@ -4,6 +4,10 @@
 
 TODO: Add service description.
 
+## Broker Usage
+
+Publish events via `@shared/js/brokerClient.js`. Do not instantiate raw `WebSocket` clients.
+
 ## Paths
 
 - [[file-watcher|services/ts/file-watcher]]

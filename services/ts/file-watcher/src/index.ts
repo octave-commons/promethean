@@ -1,5 +1,5 @@
 import { join } from "path";
-import WebSocket from "ws";
+import BrokerClient from "@shared/js/brokerClient.js";
 import { createBoardWatcher } from "./board-watcher.js";
 import { createTasksWatcher } from "./tasks-watcher.js";
 
@@ -16,22 +16,19 @@ export function startFileWatcher(options: FileWatcherOptions = {}) {
   const boardPath = join(repoRoot, "docs", "agile", "boards", "kanban.md");
   const tasksPath = join(repoRoot, "docs", "agile", "tasks");
 
-  const brokerUrl = process.env.BROKER_URL || "ws://localhost:7000";
-  const ws = options.publish ? undefined : new WebSocket(brokerUrl);
+  const broker = options.publish
+    ? undefined
+    : new BrokerClient({
+        url: process.env.BROKER_URL || "ws://localhost:7000",
+      });
 
-  function publish(type: string, payload: any) {
+  async function publish(type: string, payload: any) {
     if (options.publish) return options.publish(type, payload);
-    if (ws && ws.readyState === ws.OPEN) {
-      ws.send(
-        JSON.stringify({
-          action: "publish",
-          message: { type, payload, source: "file-watcher" },
-        }),
-      );
-    }
+    await broker!.connect();
+    broker!.publish(type, payload, { source: "file-watcher" });
   }
 
-  ws?.on("open", () => console.log("file watcher connected to broker"));
+  broker?.connect().then(() => console.log("file watcher connected to broker"));
 
   const boardWatcher = createBoardWatcher({ boardPath, publish });
   const tasksWatcher = createTasksWatcher({
@@ -44,7 +41,7 @@ export function startFileWatcher(options: FileWatcherOptions = {}) {
     tasksWatcher,
     async close() {
       await Promise.all([boardWatcher.close(), tasksWatcher.close()]);
-      ws?.close();
+      (broker as any)?.socket?.close?.();
     },
   };
 }
