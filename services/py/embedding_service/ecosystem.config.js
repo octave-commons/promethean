@@ -13,7 +13,7 @@ if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
 }
 
 const apps = [
-  defineApp("embeddings_provider", "pipenv", ["run", "python", "-m", "main"], {
+  defineApp("embedding_service", "uv", ["run", "python", "-m", "main"], {
     cwd: __dirname,
     watch: [__dirname],
     env: {

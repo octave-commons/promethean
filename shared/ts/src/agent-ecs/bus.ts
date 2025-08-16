@@ -1,4 +1,4 @@
-import WebSocket from "ws";
+import type { BrokerClient as JsBrokerClient } from "@shared/js/brokerClient.js";
 
 type Handler<T> = (msg: T) => void;
 
@@ -7,46 +7,30 @@ export class AgentBus {
   private pending: { topic: string; handler?: Handler<any>; payload?: any }[] =
     [];
 
-  constructor(private ws: WebSocket) {
-    ws.on("open", () => {
+  constructor(private broker: JsBrokerClient) {
+    // `BrokerClient.connect()` opens the socket; mirror previous "open" behavior.
+    void this.broker.connect().then(() => {
       this.open = true;
       for (const item of this.pending) {
         if (item.handler) {
-          this.ws.send(
-            JSON.stringify({ action: "subscribe", topic: item.topic }),
-          );
+          this.broker.subscribe(item.topic, (evt: any) => {
+            const arr = this.handlers.get(item.topic);
+            if (arr) arr.forEach((fn) => fn(evt?.payload));
+          });
         } else {
-          this.ws.send(
-            JSON.stringify({
-              action: "publish",
-              topic: item.topic,
-              payload: item.payload,
-            }),
-          );
+          // maintain legacy shape
+          this.broker.publish(item.topic, item.payload);
         }
       }
       this.pending = [];
-    });
-
-    ws.on("message", (data: WebSocket.RawData) => {
-      let m: any;
-      try {
-        m = JSON.parse(data.toString());
-      } catch {
-        return;
-      }
-      if (!m?.topic) return;
-      const h = this.handlers.get(m.topic);
-      if (h) h.forEach((fn) => fn(m.payload));
     });
   }
 
   private handlers = new Map<string, Handler<any>[]>();
 
   publish<T extends { topic: string }>(msg: T) {
-    const payload = { action: "publish", topic: msg.topic, payload: msg };
     if (!this.open) this.pending.push({ topic: msg.topic, payload: msg });
-    else this.ws.send(JSON.stringify(payload));
+    else this.broker.publish(msg.topic, msg);
   }
 
   subscribe<T>(topic: string, handler: Handler<T>) {
@@ -54,6 +38,11 @@ export class AgentBus {
     arr.push(handler);
     this.handlers.set(topic, arr);
     if (!this.open) this.pending.push({ topic, handler });
-    else this.ws.send(JSON.stringify({ action: "subscribe", topic }));
+    else {
+      this.broker.subscribe(topic, (evt: any) => {
+        const list = this.handlers.get(topic);
+        if (list) list.forEach((fn) => fn(evt?.payload));
+      });
+    }
   }
 }

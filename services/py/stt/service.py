@@ -7,10 +7,10 @@ import base64
 
 from shared.py.service_template import start_service
 from shared.py.heartbeat_client import HeartbeatClient
+from shared.py.speech.wisper_stt import transcribe_pcm
 
 
 async def process_task(client, task):
-    from shared.py.speech.wisper_stt import transcribe_pcm
 
     payload = task.get("payload", {})
     pcm_b64 = payload.get("pcm")

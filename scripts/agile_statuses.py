@@ -1,12 +1,10 @@
 """Common agile status definitions shared by kanban utilities."""
 
 STATUS_ORDER = [
+    "#rejected",
     "#ice-box",
     "#incoming",
-    "#rejected",
     "#accepted",
-    "#prompt-refinement",
-    "#agent-thinking",
     "#breakdown",
     "#blocked",
     "#ready",
