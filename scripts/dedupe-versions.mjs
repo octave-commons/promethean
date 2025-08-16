@@ -32,9 +32,8 @@
 //   • Use --apply to enact. Use --rm to permanently delete instead of moving to trash.
 //   • If a Kanban title contains a '/' (rare), we SKIP renaming that cluster and warn.
 
-import { readdir, stat, mkdir, rename, rm, access, writeFile, readFile } from 'fs/promises';
-import { constants as FS_CONST } from 'fs';
-import { join, resolve, parse } from 'path';
+import { readdir, stat, mkdir, rename, rm, writeFile, readFile } from 'fs/promises';
+import { join, resolve } from 'path';
 import https from 'https';
 
 // ---------- CLI ----------
@@ -45,6 +44,7 @@ const PERMA = args.includes('--rm');
 const DO_RENAME = args.includes('--rename');
 const RENAME_SOLO = args.includes('--rename-solo');
 const ONLY_EXT = getFlag('--ext'); // e.g. 'md'
+
 const BASE_DIST = toInt(getFlag('--dist'), 2);
 const RATIO = toFloat(getFlag('--ratio'), 0.12);
 const TASK_BASE_DIST = toInt(getFlag('--taskdist'), 3);
@@ -63,6 +63,20 @@ function toInt(v, d) {
 }
 function toFloat(v, d) {
   return v != null ? parseFloat(v) : d;
+}
+
+function removeDuplicateExtensions(path) {
+  const extensionRegex = /\.[a-zA-Z0-9]+$/g;
+  let currentExtension = '';
+
+  return path.replace(extensionRegex, (match) => {
+    if (currentExtension === match.slice(1)) {
+      return '';
+    } else {
+      currentExtension = match.slice(1);
+      return match;
+    }
+  });
 }
 
 // ---------- String & filename helpers ----------
@@ -315,7 +329,7 @@ for (const cl of clusters) {
       } else {
         matchedTask = task.title; // exact title as filename stem
         const keepExt = splitNameAndExtNoBak(keep.name).ext; // base ext (ignoring .bak)
-        desiredName = matchedTask + keepExt;
+        desiredName = matchedTask;
       }
     }
   }
@@ -376,8 +390,7 @@ for (const a of actions) {
     await rm(d.path);
   }
   if (a.desiredName) {
-    const finalDest = await uniqueDest(DIR, a.desiredName);
-    if (finalDest !== a.keep.path) await rename(a.keep.path, finalDest);
+    if (a.desiredName !== a.keep.path) await rename(a.keep.path, join(DIR, a.desiredName));
   }
 }
 
@@ -389,22 +402,4 @@ if (DO_RENAME) console.log('Renamed keepers where a Kanban match existed.');
 // ---------- helpers ----------
 function rel(p) {
   return p.replace(DIR + '/', '');
-}
-async function exists(p) {
-  try {
-    await access(p, FS_CONST.F_OK);
-    return true;
-  } catch {
-    return false;
-  }
-}
-async function uniqueDest(parent, name) {
-  let candidate = join(parent, name);
-  if (!(await exists(candidate))) return candidate;
-  const { name: stem, ext } = parse(name);
-  let i = 1;
-  while (await exists(candidate)) {
-    candidate = join(parent, `${stem}-dedup-${i++}${ext}`);
-  }
-  return candidate;
 }
