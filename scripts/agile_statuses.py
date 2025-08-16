@@ -12,6 +12,7 @@ STATUS_ORDER = [
     "#in-progress",
     "#in-review",
     "#done",
+    "#archive",
 ]
 
 STATUS_SET = set(STATUS_ORDER)
