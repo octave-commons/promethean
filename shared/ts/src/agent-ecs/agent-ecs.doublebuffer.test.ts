@@ -23,7 +23,7 @@ describe('agent-ecs double buffer semantics', () => {
     };
   }
 
-  test('enqueueUtterance writes to next buffer; visible after endTick', async () => {
+  test('enqueueUtterance appends and is visible to next tick (also readable immediately)', async () => {
     const player = makePlayer();
     const { w, agent, C } = createAgentWorld(player);
 
@@ -33,9 +33,9 @@ describe('agent-ecs double buffer semantics', () => {
     // enqueue one utterance (begins a tick internally but does not end it)
     enqueueUtterance(w, agent, C, { factory: async () => ({}) });
 
-    // still in same frame: read prev buffer
+    // still in same frame: prev is updated for out-of-tick write, so it is readable
     const pqPrev = w.get(agent, C.PlaybackQ)!;
-    expect(pqPrev.items).toEqual([]);
+    expect(pqPrev.items.length).toBe(1);
 
     // swap buffers
     w.endTick();
@@ -58,6 +58,8 @@ describe('agent-ecs double buffer semantics', () => {
 
     // run systems once: arbiter should pick and call play
     await tick(0);
+    // allow async factory microtask to resolve and invoke player.play
+    await new Promise((r) => setTimeout(r, 0));
 
     pq = w.get(agent, C.PlaybackQ)!;
     expect(pq.items).toEqual([]); // dequeued

@@ -60,16 +60,19 @@ export class VoiceSynth extends EventEmitter {
 							'2',
 							'pipe:1',
 						],
-						{
-							stdio: ['pipe', 'pipe', 'ignore'],
-							windowsHide: true,
-						},
+						{ stdio: ['pipe', 'pipe', 'ignore'], windowsHide: true },
 					);
 
 					const cleanup = () => {
-						res.unpipe(ffmpeg.stdin);
-						ffmpeg.stdin.destroy(); // prevent EPIPE
-						ffmpeg.kill('SIGTERM');
+						try {
+							res.unpipe(ffmpeg.stdin);
+						} catch {}
+						try {
+							ffmpeg.stdin.destroy();
+						} catch {}
+						try {
+							ffmpeg.kill('SIGTERM');
+						} catch {}
 					};
 
 					res.pipe(ffmpeg.stdin);
