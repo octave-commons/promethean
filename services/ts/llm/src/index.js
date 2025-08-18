@@ -1,17 +1,17 @@
-import express from "express";
-import ollama from "ollama";
+import express from 'express';
+import ollama from 'ollama';
 
-export const MODEL = process.env.LLM_MODEL || "gemma3:latest";
+export const MODEL = process.env.LLM_MODEL || 'gemma3:latest';
 
 export const app = express();
-app.use(express.json({ limit: "500mb" }));
+app.use(express.json({ limit: '500mb' }));
 
 let callOllamaFn = async ({ prompt, context, format }, retry = 0) => {
   try {
     for (let c of context) console.log(c);
     const res = await ollama.chat({
       model: MODEL,
-      messages: [{ role: "system", content: prompt }, ...context],
+      messages: [{ role: 'system', content: prompt }, ...context],
       format,
     });
     const content = res.message.content;
@@ -43,6 +43,7 @@ export async function handleTask(task) {
   const payload = task?.payload || {};
   const { prompt, context = [], format = null, replyTopic } = payload;
   const reply = await callOllamaFn({ prompt, context, format });
+  console.log('handling llm task', task);
   if (replyTopic && broker) {
     broker.publish(replyTopic, { reply, taskId: task.id });
   }
@@ -50,28 +51,24 @@ export async function handleTask(task) {
 
 export async function start() {
   try {
-    const { startService } = await import(
-      "../../../../shared/js/serviceTemplate.js"
-    );
+    const { startService } = await import('../../../../shared/js/serviceTemplate.js');
     broker = await startService({
-      id: process.env.name || "llm",
-      queues: ["llm.generate"],
+      id: process.env.name || 'llm',
+      queues: ['llm.generate'],
       handleTask,
     });
   } catch (err) {
-    console.error("Failed to initialize broker", err);
+    console.error('Failed to initialize broker', err);
   }
-  const { HeartbeatClient } = await import(
-    "../../../../shared/js/heartbeat/index.js"
-  );
-  const hb = new HeartbeatClient({ name: process.env.name || "llm" });
+  const { HeartbeatClient } = await import('../../../../shared/js/heartbeat/index.js');
+  const hb = new HeartbeatClient({ name: process.env.name || 'llm' });
   await hb.sendOnce();
   hb.start();
 }
 
-if (process.env.NODE_ENV !== "test") {
+if (process.env.NODE_ENV !== 'test') {
   start().catch((err) => {
-    console.error("Failed to start LLM service", err);
+    console.error('Failed to start LLM service', err);
     process.exit(1);
   });
 }

@@ -4,7 +4,7 @@ import { FinalTranscript } from './transcriber';
 import { CollectionManager } from './collectionManager';
 import type { Interaction } from './interactions';
 import type { Bot } from './bot';
-import { createAudioPlayer, AudioPlayerStatus } from '@discordjs/voice';
+import { AudioPlayerStatus } from '@discordjs/voice';
 import { createAgentWorld } from '@shared/ts/dist/agent-ecs/world.js';
 import { OrchestratorSystem } from '@shared/ts/dist/agent-ecs/systems/orchestrator.js';
 import { randomUUID } from 'node:crypto';
@@ -109,17 +109,17 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 	if (bot.currentVoiceSession) {
 		bot.desktop.start();
 		await interaction.deferReply({ ephemeral: true });
-		const player = createAudioPlayer();
-		bot.currentVoiceSession.connection?.subscribe(player);
-		bot.agentWorld = createAgentWorld(player);
+
+		const discordAudioRef = bot.currentVoiceSession.getEcsAudioRef();
+		bot.agentWorld = createAgentWorld(discordAudioRef);
 		const { w, agent, C, addSystem } = bot.agentWorld;
+
 		addSystem(
 			OrchestratorSystem(
 				w,
 				bot.bus!,
 				C,
 				(text) => {
-					console.log('compiling context for', text);
 					return bot.context
 						.compileContext([text])
 						.then((msgs) => msgs.map((m) => ({ role: m.role as 'user' | 'assistant' | 'system', content: m.content })));
@@ -131,13 +131,11 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 		bot.agentWorld?.start(50);
 
 		bot.currentVoiceSession.transcriber.on('transcriptEnd', (tr: FinalTranscript) => {
-			const turnId = w.get(agent, C.Turn)!.id;
-			const tf = w.get(agent, C.TranscriptFinal)!;
-			tf.text = tr.transcript;
-			tf.ts = Date.now();
+			const turnId = w.get(agent, C.Turn)?.id ?? 0;
+			// const tf0 = w.get(agent, C.TranscriptFinal) ?? { text: "", ts: 0 };
+			const tf = { text: tr.transcript, ts: Date.now() };
 			w.set(agent, C.TranscriptFinal, tf);
 
-			console.log('publishing transcript to agent...', { turnId, tf });
 			bot.bus?.publish({
 				topic: 'agent.transcript.final',
 				corrId: randomUUID(),
@@ -150,12 +148,12 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 		});
 
 		const speaking = bot.currentVoiceSession.connection?.receiver.speaking;
+		let lastLevel = -1;
 		const onLevel = (level: number) => {
-			console.log(agent);
-			const rv = w.get(agent, C.RawVAD)!;
-			console.log(rv);
-			rv.level = level;
-			rv.ts = Date.now();
+			if (level === lastLevel) return;
+			lastLevel = level;
+			const rv0 = w.get(agent, C.RawVAD) ?? { level: 0, ts: 0 };
+			const rv = { ...rv0, level, ts: Date.now() };
 			w.set(agent, C.RawVAD, rv);
 		};
 		speaking?.on('start', () => onLevel(1));
@@ -163,12 +161,11 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 		bot.currentVoiceSession.transcriber.on('transcriptStart', () => onLevel(1)).on('transcriptEnd', () => onLevel(0));
 
 		const qUtter = w.makeQuery({ all: [C.Utterance] });
-		player.on(AudioPlayerStatus.Idle, () => {
+		bot.currentVoiceSession.getPlayer().on(AudioPlayerStatus.Idle, () => {
 			for (const [e, get] of w.iter(qUtter)) {
 				const u = get(C.Utterance);
 				if (u.status === 'playing') {
-					u.status = 'done';
-					w.set(e, C.Utterance, u);
+					w.set(e, C.Utterance, { ...u, status: 'done' });
 				}
 			}
 		});
@@ -202,19 +199,7 @@ export async function startDialog(bot: Bot, interaction: Interaction) {
 			}
 		};
 		bot.client.on(discord.Events.VoiceStateUpdate, bot.voiceStateHandler);
-		bot.currentVoiceSession.transcriber
-			.on('transcriptStart', () => {
-				const rv = w.get(agent, C.RawVAD)!;
-				rv.level = 1;
-				rv.ts = Date.now();
-				w.set(agent, C.RawVAD, rv);
-			})
-			.on('transcriptEnd', () => {
-				const rv = w.get(agent, C.RawVAD)!;
-				rv.level = 0;
-				rv.ts = Date.now();
-				w.set(agent, C.RawVAD, rv);
-			});
+		bot.currentVoiceSession.transcriber.on('transcriptStart', () => onLevel(1)).on('transcriptEnd', () => onLevel(0));
 
 		await interaction.deleteReply().catch(() => {});
 	}

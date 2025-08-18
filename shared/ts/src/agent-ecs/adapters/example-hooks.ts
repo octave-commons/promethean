@@ -1,7 +1,7 @@
-import { enqueueUtterance } from "../helpers/enqueueUtterance";
+import { enqueueUtterance } from '../helpers/enqueueUtterance';
 
 export function wireAdapters(
-  world: ReturnType<typeof import("../world").createAgentWorld>,
+  world: ReturnType<typeof import('../world').createAgentWorld>,
   deps: {
     tts: { synth: (text: string) => Promise<any> }; // returns AudioResource-compatible stream
   },
@@ -10,29 +10,18 @@ export function wireAdapters(
 
   return {
     onRawLevel(level: number) {
-      const vad = w.get(agent, C.RawVAD)!; // ensure RawVAD is added if you want per-agent source
-      if (!vad) {
-        const cmd = w.beginTick();
-        cmd.add(agent, C.RawVAD, { level, ts: Date.now() });
-        cmd.flush();
-        w.endTick();
-      } else {
-        vad.level = level;
-        vad.ts = Date.now();
-        w.set(agent, C.RawVAD, vad);
-      }
+      const rv0 = w.get(agent, C.RawVAD) ?? { level: 0, ts: 0 };
+      w.set(agent, C.RawVAD, { ...rv0, level, ts: Date.now() });
     },
     onFinalTranscript(text: string) {
-      const cmd = w.beginTick();
-      cmd.add(agent, C.TranscriptFinal, { text, ts: Date.now() });
-      cmd.flush();
-      w.endTick();
+      const tf0 = w.get(agent, C.TranscriptFinal) ?? { text: '', ts: 0 };
+      w.set(agent, C.TranscriptFinal, { ...tf0, text, ts: Date.now() });
     },
     speak(text: string) {
-      enqueueUtterance(w, agent, {
-        group: "agent-speech",
+      enqueueUtterance(w, agent, C, {
+        group: 'agent-speech',
         priority: 1,
-        bargeIn: "pause",
+        bargeIn: 'pause',
         factory: async () => deps.tts.synth(text),
       });
     },

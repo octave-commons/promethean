@@ -1,5 +1,7 @@
 import {
+	AudioPlayer,
 	AudioPlayerStatus,
+	AudioResource,
 	EndBehaviorType,
 	StreamType,
 	VoiceConnection,
@@ -52,9 +54,12 @@ export class VoiceSession extends EventEmitter {
 	voiceSynth: VoiceSynth;
 	bot: Bot;
 	deps: CaptureDeps;
+	private currentCleanup: (() => void) | null = null;
+	private player?: AudioPlayer;
 	constructor(options: VoiceSessionOptions, deps: Partial<CaptureDeps> = {}) {
 		super();
 		this.id = randomUUID();
+
 		this.guild = options.guild;
 		this.voiceChannelId = options.voiceChannelId;
 		this.bot = options.bot;
@@ -133,6 +138,23 @@ export class VoiceSession extends EventEmitter {
 			channelId: this.voiceChannelId,
 			selfDeaf: false,
 			selfMute: false,
+		});
+		this.player = createAudioPlayer();
+		this.connection!.subscribe(this.player);
+
+		// cleanup hook for current resource
+		this.player.on('stateChange', (_old, neu) => {
+			console.log('[discord] status:', neu.status); // expect Playing → Idle
+			if (neu.status === AudioPlayerStatus.Playing) {
+				this.emit('audioPlayerStart', this.player);
+			} else if (neu.status === AudioPlayerStatus.Idle) {
+				// No reliance on oldState.resource — just run whatever we armed at play()
+				try {
+					this.currentCleanup?.();
+				} catch {}
+				this.currentCleanup = null;
+				this.emit('audioPlayerStop', this.player);
+			}
 		});
 		try {
 			this.connection.receiver.speaking.on('start', (userId) => {
@@ -219,6 +241,53 @@ export class VoiceSession extends EventEmitter {
 		const speaker = this.speakers.get(user.id);
 		if (speaker) speaker.isTranscribing = false;
 	}
+	/** Synthesize → return an AudioResource (do NOT play here). */
+	async makeResourceFromText(text: string): Promise<AudioResource> {
+		const { stream, cleanup } = await this.voiceSynth.generateAndUpsampleVoice(text);
+		// stash cleanup in metadata so we can pick it up in our wrapper's play()
+		return createAudioResource(stream, {
+			inputType: StreamType.Raw,
+			metadata: { cleanup }, // your cleanup from VoiceSynth
+		});
+	}
+	/** Wrapper the ECS will use; we arm/clear cleanup here, not via discord events. */
+	getEcsAudioRef() {
+		const player = this.getPlayer();
+		return {
+			play: (res: AudioResource) => {
+				// arm cleanup for this resource
+				this.currentCleanup =
+					typeof (res?.metadata as any)?.cleanup === 'function' ? (res.metadata as any).cleanup : null;
+				player.play(res);
+			},
+			pause: (_hard?: boolean) => {
+				try {
+					player.pause(true);
+				} catch {}
+			},
+			unpause: () => {
+				try {
+					player.unpause();
+				} catch {}
+			},
+			stop: (_hard?: boolean) => {
+				try {
+					player.stop(true);
+				} catch {}
+				// ensure cleanup runs even if we force-stop
+				try {
+					this.currentCleanup?.();
+				} catch {}
+				this.currentCleanup = null;
+			},
+			isPlaying: () => player.state.status === AudioPlayerStatus.Playing,
+		};
+	}
+	getPlayer() {
+		if (!this.player) throw new Error('VoiceSession not started');
+		return this.player;
+	}
+
 	async playVoice(text: string) {
 		return new Promise(async (resolve, _) => {
 			if (!this.connection) throw new Error('No connection');

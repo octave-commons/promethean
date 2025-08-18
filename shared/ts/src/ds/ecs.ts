@@ -4,7 +4,7 @@
 export type Entity = number; // 32-bit index, versioned via generations[]
 export type ComponentId = number;
 
-const MAX_COMPONENTS = 64;
+const MAX_COMPONENTS = 1024 * 8;
 
 export interface ComponentSpec<T> {
   name: string;
@@ -34,6 +34,10 @@ class Archetype {
   entities: Entity[] = [];
   // per comp: [prev, next]
   columns: Map<ComponentId, [any[], any[]]> = new Map();
+
+  // cached transition edges
+  addEdges: Edge = new Map();
+  rmEdges: Edge = new Map();
 
   // “what changed last frame” (queried this frame)
   changedPrev: Map<ComponentId, Set<number>> = new Map();
@@ -175,8 +179,13 @@ export class World {
     if ((from.mask & ct.mask) !== 0n) {
       // already has: set value + mark changed
       const row = loc.row;
-      from.columns.get(ct.id)![row] = value ?? from.columns.get(ct.id)![row];
-      from.changed.get(ct.id)!.add(row);
+      from.ensureColumn(ct.id);
+      const [prev, next] = from.columns.get(ct.id)!;
+      const written = from.writtenNext.get(ct.id)!;
+      // write to next buffer; if no explicit value, carry prev
+      next[row] = value ?? prev[row];
+      written.add(row);
+      from.changedNext.get(ct.id)!.add(row);
       return;
     }
     // move to new archetype with component added
@@ -184,7 +193,7 @@ export class World {
     const oldRow = loc.row;
     const payloads: Record<number, any> = {};
     // carry over existing columns
-    for (const [cid, col] of from.columns) payloads[cid] = col[oldRow];
+    for (const [cid, [prev]] of from.columns) payloads[cid] = prev[oldRow];
     // new comp value (or default)
     payloads[ct.id] = value ?? ct.defaults?.();
     this.move(e, from, oldRow, to, payloads);
@@ -201,8 +210,9 @@ export class World {
     const oldRow = loc.row;
     const payloads: Record<number, any> = {};
     // carry over existing columns except the removed one
-    for (const [cid, col] of from.columns) if (cid !== ct.id) payloads[cid] = col[oldRow];
-    const oldVal = from.columns.get(ct.id)![oldRow];
+    for (const [cid, [prev]] of from.columns) if (cid !== ct.id) payloads[cid] = prev[oldRow];
+    const [prev] = from.columns.get(ct.id)!;
+    const oldVal = prev[oldRow];
     this.move(e, from, oldRow, to, payloads);
     ct.onRemove?.(this, e, oldVal);
   }
@@ -296,7 +306,7 @@ export class World {
           for (let cid = 0; cid < this.nextCompId; cid++) {
             const bit = 1n << BigInt(cid);
             if ((q.changed! & bit) !== 0n) {
-              if (arch.changed.get(cid)?.has(row)) {
+              if (arch.changedPrev.get(cid)?.has(row)) {
                 ok = true;
                 break;
               }
@@ -305,10 +315,14 @@ export class World {
           if (!ok) continue;
         }
         const e = arch.entities[row]!;
-        const get = (ct: ComponentType<any>) => arch.columns.get(ct.id)![row];
-        const v1 = c1 ? arch.columns.get(c1.id)![row] : undefined;
-        const v2 = c2 ? arch.columns.get(c2.id)![row] : undefined;
-        const v3 = c3 ? arch.columns.get(c3.id)![row] : undefined;
+        const get = (ct: ComponentType<any>) => {
+          arch.ensureColumn(ct.id);
+          const [prev] = arch.columns.get(ct.id)!;
+          return prev[row];
+        };
+        const v1 = c1 ? (arch.columns.get(c1.id)![0][row] as any) : undefined;
+        const v2 = c2 ? (arch.columns.get(c2.id)![0][row] as any) : undefined;
+        const v3 = c3 ? (arch.columns.get(c3.id)![0][row] as any) : undefined;
         yield [e, get, v1 as any, v2 as any, v3 as any];
       }
     }
@@ -324,8 +338,15 @@ export class World {
   endTick(): void {
     if (!this._inTick) return;
 
-    // clear 'changed' flags at END of tick
-    for (const a of this.archetypes.values()) for (const s of a.changed.values()) s.clear();
+    // finalize writes: fill gaps with carry and swap buffers
+    for (const a of this.archetypes.values()) {
+      for (const [cid, [prev, next]] of a.columns) {
+        const written = a.writtenNext.get(cid)!;
+        const rows = a.entities.length;
+        for (let row = 0; row < rows; row++) if (!written.has(row)) next[row] = prev[row];
+      }
+      a.swapBuffers();
+    }
     this._inTick = false;
   }
 
@@ -364,9 +385,11 @@ export class World {
     const row = arch.entities.length;
     arch.entities.push(e);
     // grow columns
-    for (const [cid, col] of arch.columns) {
-      if (col.length < arch.entities.length) col.push(undefined);
-      arch.changed.get(cid)!.add(row); // mark as changed on arrival
+    for (const [cid, [prev, next]] of arch.columns) {
+      if (prev.length < arch.entities.length) prev.push(undefined as any);
+      if (next.length < arch.entities.length) next.push(undefined as any);
+      arch.changedNext.get(cid)!.add(row); // mark as changed on arrival
+      arch.writtenNext.get(cid)!.add(row); // treat as written for coverage
     }
     // stash loc
     const loc = { arch, row };
@@ -380,11 +403,14 @@ export class World {
     // swap-remove entity row
     arch.entities[row] = eLast;
     arch.entities.pop();
-    for (const [cid, col] of arch.columns) {
-      col[row] = col[last];
-      col.pop();
+    for (const [cid, [prev, next]] of arch.columns) {
+      prev[row] = prev[last];
+      next[row] = next[last];
+      prev.pop();
+      next.pop();
       // mark changed for touched rows
-      arch.changed.get(cid)!.add(row);
+      arch.changedNext.get(cid)!.add(row);
+      arch.writtenNext.get(cid)!.add(row);
     }
     // update moved entity loc if we swapped different entity
     if (row !== last) {
@@ -406,8 +432,11 @@ export class World {
 
     for (const [cid, val] of Object.entries(payloads)) {
       const n = Number(cid);
-      to.columns.get(n)![loc.row] = val;
-      to.changed.get(n)!.add(loc.row);
+      to.ensureColumn(n);
+      const [, next] = to.columns.get(n)!;
+      next[loc.row] = val;
+      to.changedNext.get(n)!.add(loc.row);
+      to.writtenNext.get(n)!.add(loc.row);
     }
     // remove old row (will swap another entity down)
     this.removeRow(from, oldRow);
