@@ -245,10 +245,13 @@ export class World {
     const { arch, row } = this.loc[e & 0xffff]!;
     if ((arch.mask & ct.mask) === 0n) throw new Error(`entity lacks ${ct.name}`);
     arch.ensureColumn(ct.id);
-    const [, next] = arch.columns.get(ct.id)!;
+    const [prev, next] = arch.columns.get(ct.id)!;
     const written = arch.writtenNext.get(ct.id)!;
     if (written.has(row)) console.warn(`[ECS] double write (set) on ${ct.name} row ${row}`);
     next[row] = value;
+    // If we're outside a tick, mirror into prev so immediate readers (this frame)
+    // observe the update. This is safe because there's no concurrent writer.
+    if (!this._inTick) prev[row] = value;
     written.add(row);
     arch.changedNext.get(ct.id)!.add(row); // mark CHANGED
   }
@@ -433,8 +436,12 @@ export class World {
     for (const [cid, val] of Object.entries(payloads)) {
       const n = Number(cid);
       to.ensureColumn(n);
-      const [, next] = to.columns.get(n)!;
+      const [prev, next] = to.columns.get(n)!;
       next[loc.row] = val;
+      // For brand-new placement this frame, mirror into prev so reads during
+      // this tick see a coherent value. This preserves double-buffer semantics
+      // because there is no prior value to conflict with.
+      prev[loc.row] = val;
       to.changedNext.get(n)!.add(loc.row);
       to.writtenNext.get(n)!.add(loc.row);
     }

@@ -17,6 +17,7 @@ export function SpeechArbiterSystem(
 
   const qAgent = w.makeQuery({ all: [Turn, PlaybackQ, AudioRef, Policy] });
   const qVAD = w.makeQuery({ all: [VAD] });
+  const qAllUtter = w.makeQuery({ all: [Utterance] });
 
   // per-agent transient state, no component needed
   const state = new Map<Entity, BargeState>();
@@ -37,15 +38,9 @@ export function SpeechArbiterSystem(
   return async function run(_dt: number) {
     for (const [agent, get] of w.iter(qAgent)) {
       const turnId = get(Turn)?.id ?? 0;
-      const queue = get(PlaybackQ) ?? { items: [] as number[] };
+      const queue = get(PlaybackQ);
       const original = queue.items as number[];
-      const player = get(AudioRef)?.player ?? {
-        play() {},
-        stop() {},
-        pause() {},
-        unpause() {},
-        isPlaying: () => false,
-      };
+      const player = get(AudioRef)?.player;
       const policy = get(Policy) ?? { defaultBargeIn: 'pause' as const };
       const bs = getState(agent);
 
@@ -55,65 +50,16 @@ export function SpeechArbiterSystem(
         return u && (u.status === 'queued' || u.status === 'playing');
       });
       let items = filteredItems;
+      // Fallback: include any queued utterances not yet reflected in PlaybackQ
+      for (const [uEid] of w.iter(qAllUtter)) {
+        if (items.includes(uEid)) continue;
+        const u = w.get(uEid, Utterance);
+        if (!u) continue;
+        if (u.status === 'queued' && u.turnId >= turnId) items.push(uEid);
+      }
       const sameLength = items.length === original.length;
       const sameOrder = sameLength && items.every((v, i) => v === original[i]);
       let queueChanged = !(sameLength && sameOrder);
-
-      // if currently playing, enforce barge-in with pause→stop escalation
-      // Note: since we dequeue the picked item, the playing utterance
-      // may no longer be present in items; if you want barge-in, track
-      // now-playing separately (future improvement).
-      const current = undefined as unknown as Entity | undefined;
-
-      if (current !== undefined && current !== null) {
-        const u = w.get(current, Utterance)!;
-        const active = userSpeaking();
-        const bi = u.bargeIn ?? policy.defaultBargeIn; // "pause" | "stop" | "duck" | "none"
-
-        const hardStop = () => {
-          const cancelled: typeof u = { ...u, status: 'cancelled' };
-          w.set(current, Utterance, cancelled);
-          try {
-            player.stop(true);
-          } catch {}
-          bs.speakingSince = null;
-          bs.paused = false;
-        };
-
-        if (active) {
-          const now = Date.now();
-          if (bi === 'stop') {
-            hardStop();
-          } else if (bi === 'pause') {
-            // pause immediately, then escalate to stop if speech continues
-            if (!bs.paused) {
-              try {
-                player.pause(true);
-              } catch {}
-              bs.paused = true;
-              bs.speakingSince = now;
-            } else if (bs.speakingSince != null && now - bs.speakingSince >= STOP_AFTER_MS) {
-              hardStop();
-            }
-          }
-          // NOTE: "duck" should be handled by external mixer (set volume),
-          // and "none" means ignore speech while playing.
-        } else {
-          // no user speech; resume if we were paused
-          if (bi === 'pause' && bs.paused) {
-            try {
-              player.unpause();
-            } catch {}
-            bs.paused = false;
-          }
-          bs.speakingSince = null;
-        }
-
-        state.set(agent, bs);
-        // persist the filtered queue for next frame
-        w.set(agent, PlaybackQ, { items });
-        continue; // don't pick a new item while we're dealing with current
-      }
 
       // no current item: clear paused state and pick next if any
       if (bs.paused || bs.speakingSince != null) {
@@ -123,6 +69,18 @@ export function SpeechArbiterSystem(
       }
 
       if (items.length) {
+        console.log('speech arbiters system running', {
+          turnId,
+          queue,
+          original,
+          player,
+          policy,
+          bs,
+          filteredItems,
+          sameLength,
+          sameOrder,
+          queueChanged,
+        });
         items = [...items].sort((a: Entity, b: Entity) => {
           const ub = w.get(b, Utterance);
           const ua = w.get(a, Utterance);
@@ -148,21 +106,23 @@ export function SpeechArbiterSystem(
           const utt = w.get(picked, Utterance)!;
           const token = utt.token;
 
+          // Mark as playing immediately to prevent re-pick next ticks
+          const nowPlaying: typeof utt = { ...utt, status: 'playing' };
+          w.set(picked, Utterance, nowPlaying);
+
           // kick off resource creation in background; don't block the tick
           Promise.resolve()
             .then(() => w.get(picked, AudioRes)!.factory())
             .then((res) => {
               if (!res) return;
               const latest = w.get(picked, Utterance);
-              if (!latest || latest.token !== token) return;
+              // only proceed if this is still the same utterance and in playing state
+              if (!latest || latest.token !== token || latest.status !== 'playing') return;
               try {
                 player.play(res);
               } catch {}
             })
             .catch(() => {});
-
-          const nowPlaying: typeof utt = { ...utt, status: 'playing' };
-          w.set(picked, Utterance, nowPlaying);
 
           // reset barge transient state at start of playback
           bs.paused = false;

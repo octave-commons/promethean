@@ -110,7 +110,7 @@ export class CollectionManager<TextKey extends string = 'text', TimeKey extends 
 
 	async getMostRecent(
 		limit: number = 10,
-		mongoFilter: any = { content: { $nin: [null, ''], $not: /^\s*$/ } },
+		mongoFilter: any = { [this.textKey]: { $nin: [null, ''], $not: /^\s*$/ } },
 		sorter: any = { [this.timeStampKey]: -1 },
 	): Promise<CollectionEntry<'text', 'timestamp'>[]> {
 		// console.log("Getting most recent entries from collection", this.name, "with limit", limit);

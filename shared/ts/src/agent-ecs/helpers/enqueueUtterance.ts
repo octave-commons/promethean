@@ -28,6 +28,7 @@ export function enqueueUtterance(
     bargeIn: rawOpts?.bargeIn ?? defaultBarge,
     factory: rawOpts?.factory,
   };
+
   if (typeof opts.factory !== 'function') {
     console.warn('[enqueueUtterance] missing factory; dropping', { rawOpts });
     return; // or throw if you want hard fail
@@ -67,5 +68,6 @@ export function enqueueUtterance(
 
   // ---- append immutably to next buffer
   const currentQ = w.get(agent, PlaybackQ) ?? { items: [] as number[] };
+  console.log('adding utterance to queue', currentQ.items, e, 'agent', agent);
   w.set(agent, PlaybackQ, { items: [...currentQ.items, e] });
 }

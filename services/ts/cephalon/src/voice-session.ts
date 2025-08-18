@@ -274,11 +274,15 @@ export class VoiceSession extends EventEmitter {
 				try {
 					player.stop(true);
 				} catch {}
-				// ensure cleanup runs even if we force-stop
-				try {
-					this.currentCleanup?.();
-				} catch {}
+				// Defer cleanup slightly to avoid smashing in-flight pipes (reduces EPIPEs)
+				const fn = this.currentCleanup;
 				this.currentCleanup = null;
+				if (fn)
+					setTimeout(() => {
+						try {
+							fn();
+						} catch {}
+					}, 100);
 			},
 			isPlaying: () => player.state.status === AudioPlayerStatus.Playing,
 		};
