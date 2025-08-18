@@ -5,9 +5,12 @@ kanban-plugin: board
 ---
 
 ## Rejected
+
+- [ ] [[snapshot_prompts_specs_to_repo_md.md|snapshot prompts specs to repo md]] #incoming
 - [ ] [[add_startchangelogprojector_for_any_compaction_lik_md.md|Add **startChangelogProjector** for any compaction-like topic you want live-queryable]] #rejected
 - [ ] [[add_ollama_formally_to_pipeline_md_md.md|Add Ollama formally to pipeline]] #rejected
 - [ ] [[add_prometheus_events_counters_in_ws_server_hook_p_md.md|Add Prometheus `events_*` counters in WS server hook points]] #rejected
+- [ ] [[enable_compactor_for_process_state_process_state_s_md.md|Enable compactor for `process.state` → `process.state.snapshot`]] #ice-box
 - [ ] [[add_ttls_per_topic_via_migration_script_md.md|Add TTLs per topic via migration script]] #rejected
 - [ ] [[add_lag_checks_to_ci_smoke_ensure_small_lag_after_md.md|Add `/lag` checks to CI smoke (ensure small lag after publishing bursts)]] #rejected
 - [ ] [[add_ops_endpoint_to_list_partition_assignments_opt_md.md|Add `/ops` endpoint to list **partition assignments** (optional: dump coordinator state)]] #rejected
@@ -141,11 +144,12 @@ kanban-plugin: board
 - [ ] [[launch_replayapi_on_8083_test_replay_and_export_nd_md.md|Launch \`ReplayAPI\` on \`:8083\`; test \`/replay\` and \`/export?ndjson\=1\`]] #rejected
 - [ ] [[enable_compactor_for_process_state_process_state_s_md.md|Enable compactor for \`process.state\` → \`process.state.snapshot\`]] #ice-box
 
+
 ## Ice Box
+
 - [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md.md|Add semantic overlays for layer1 through layer8]] #layerX #framework-core #ice-box
 - [ ] [[annotate_legacy_code_with_migration_tags_md.md|Annotate legacy code with migration tags]] #framework-core #ice-box
 - [ ] [[detect_contradictions_in_memory_md_md.md|Detect contradictions in memory]] #framework-core #ice-box
-- [ ] [[enable_compactor_for_process_state_process_state_s_md.md|Enable compactor for `process.state` → `process.state.snapshot`]] #ice-box
 - [ ] [[evaluate_and_reward_flow_satisfaction_md_md.md|Evaluate and reward flow satisfaction]] #framework-core #ice-box
 - [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
 - [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #framework-core #ice-box
@@ -210,11 +214,14 @@ kanban-plugin: board
 - [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #framework-core #ice-box
 - [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
 
+
 ## Incoming
+
 - [ ] [[setup_a_second_agent_md.md|setup a second agent md]] #framework-core #incoming
-- [ ] [[snapshot_prompts_specs_to_repo_md.md|snapshot prompts specs to repo md]] #incoming
+
 
 ## Accepted
+
 - [ ] [[description.md|description]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #todo
 - [ ] [[describe_github_branching_workflow_md.md|describe github branching workflow md]] #framework-core #agent-thinking
 - [ ] [[clean_up_notes_into_design_docs_md.md|clean up notes into design docs md]] #framework-core #agent-thinking
@@ -251,20 +258,25 @@ kanban-plugin: board
 - [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md.md|Migrate server side sibilant libs to Promethean architecture.]] #accepted
 - [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
 
+
 ## Breakdown (8)
+
 - [ ] [[discord_image_attachment_indexer_md.md|discord image attachment indexer md]] #framework-core #discord #images #attachments #indexing #memory #breakdown
 - [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md.md|refactor speech interuption system to be more inteligent using audio data to decide if interupted md md]] #framework-core #breakdown
 - [ ] [[split_out_audio_processing_logic_to_a_seperate_service_without_changing_the_current_behavior_in_cephalon_md_md.md|split out audio processing logic to a seperate service without changing the current behavior in cephalon md md]] #framework-core #breakdown
 - [ ] [[split_out_audio_processing_logic_to_a_seperate_service_without_changing_the_current_behavior_in_cephalon_md_md.md|Split out audio processing logic to a seperate service without changing the current behavior in cephalon.md]] #framework-core #breakdown
 - [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md.md|Refactor speech interuption system to be more inteligent, using audio data to decide if interupted.md]] #framework-core #breakdown
 
+
 ## Ready (13)
+
 - [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ready
 - [ ] [[clearly_seperate_service_dependency_files_md.md|clearly seperate service dependency files md]] #devops #cicd #ready
 - [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ready
 
+
 ## Todo (8)
-- [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #todo
+
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #todo
 - [ ] [[twitch_discord_general_auto_mod_md_md.md|twitch discord general auto mod md md]] #framework-core #observability #multimodal-context #risk #todo
 - [ ] [[description.md|Web frontend for system management.md]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #todo
@@ -273,15 +285,22 @@ kanban-plugin: board
 - [ ] [[create_base_readme_md_templates_for_each_service_md.md|create base readme md templates for each service]] #doc-this #framework-core #ritual #archive
 - [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #todo
 
+
 ## In Progress (4)
+
+- [ ] [[breakdown cephalon voice commands file using ecs]]
 - [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids.md|identify and resolve a service client apparently connecting repeatedly to broker with new session ids]] #in-progress
 
+
 ## In Review (8)
+
 - [ ] [[update_cephalon_to_use_custom_embedding_function_md_md.md|Update cephalon to use custom embedding function]] #framework-core #cephalon #discord #embedding #typescript #in-review
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push md]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
 
+
 ## Done
+
 - [ ] [[add_obsidian_to_gitignore_md_md.md|Add .obsidian to .gitignore]] #framework-core #done
 - [ ] [[add_stt_service_tests_md.md|Add STT service tests]] #codex-task #testing #done
 - [ ] [[add_starter_notes_-_eidolon_fields_cephalon_inner_monologue_1_md.md|Add starter notes - eidolon_fields, cephalon_inner_monologue]] #framework-core #done
@@ -343,7 +362,9 @@ kanban-plugin: board
 - [ ] [[document_board_usage_guidelines_1_md.md|Document board usage guidelines]] #framework-core #done
 - [ ] [[start_eidolon_md_md.md|Start Eidolon]] #framework-core #archive
 
+
 ## Archive
+
 - [ ] [[add_unit_tests_for_gui_helpers_md_md.md|Add unit tests for GUI helpers]] #codex-task #testing #archive
 - [ ] [[build_tiny_web_page_that_uses_promclient_in_the_br_md.md|Build tiny web page that uses `PromClient` in the browser to show live `process.state` (optional)]] #archive
 - [ ] [[create_permission_gating_layer_codex_task_md.md|Create permission gating layer #codex-task]] #codex-task #archive
@@ -378,8 +399,11 @@ kanban-plugin: board
 - [ ] [[add_unit_tests_for_gui_helpers_md_md.md|Add unit tests for GUI helpers]] #codex-task #testing #archive
 - [ ] [[build_tiny_web_page_that_uses_promclient_in_the_br_md.md|Build tiny web page that uses `PromClient` in the browser to show live `process.state` (optional)]] #archive
 
+
+
+
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[true,true,true,true,true,false,false,false,false,false,true,false,false],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

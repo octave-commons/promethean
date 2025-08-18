@@ -15,9 +15,6 @@ import { createAgentWorld } from '@shared/ts/dist/agent-ecs/world';
 import { enqueueUtterance } from '@shared/ts/dist/agent-ecs/helpers/enqueueUtterance.js';
 import { pushVisionFrame } from '@shared/ts/dist/agent-ecs/helpers/pushVision.js';
 import { AgentBus } from '@shared/ts/dist/agent-ecs/bus.js';
-import { createAudioResource } from '@discordjs/voice';
-import { Readable } from 'stream';
-import type { LlmResult, TtsRequest, TtsResult } from '@shared/ts/dist/contracts/agent-bus.js';
 import { BrokerClient } from '@shared/js/brokerClient.js';
 import { checkPermission } from '@shared/js/permissionGate.js';
 import { interaction, type Interaction } from './interactions';
@@ -115,39 +112,27 @@ export class Bot extends EventEmitter {
 			})
 			.on(Events.Error, console.error);
 
-		this.bus.subscribe<LlmResult>('agent.llm.result', (res) => {
-			if (!res.ok || !this.agentWorld) return;
-			const ttsReq: TtsRequest = {
-				topic: 'agent.tts.request',
-				corrId: res.corrId,
-				turnId: res.turnId,
-				ts: Date.now(),
-				text: res.text,
-				group: 'agent-speech',
-				bargeIn: 'pause',
-				priority: 1,
-			};
-			this.bus?.publish(ttsReq);
-		});
-
-		this.bus.subscribe<TtsResult>('agent.tts.result', async (r) => {
-			if (!r.ok || !this.agentWorld) return;
+		this.bus.subscribe('agent.llm.result', (res: any) => {
+			if (!this.agentWorld) return;
 			const { w, agent, C } = this.agentWorld;
-			const turnId = w.get(agent, C.Turn)!.id;
-			if (r.turnId < turnId) return;
-			enqueueUtterance(w, agent, {
-				id: r.corrId,
+			const text = res?.text ?? res?.reply ?? '';
+			console.log('llm response', text);
+			if (!text) return;
+			enqueueUtterance(w, agent, C, {
+				id: res.corrId ?? res.taskId ?? `${Date.now()}`,
 				group: 'agent-speech',
 				priority: 1,
 				bargeIn: 'pause',
-				factory: async () => {
-					const res = await fetch(r.mediaUrl);
-					if (!res.ok || !res.body) throw new Error(`TTS fetch failed ${res.status}`);
-					const nodeStream = Readable.fromWeb(res.body as any);
-					return createAudioResource(nodeStream, { inlineVolume: true });
-				},
+				factory: async () => this.currentVoiceSession.makeResourceFromText(text),
 			});
 		});
+
+		// this.bus.subscribe<TtsResult>('agent.tts.result', async (r) => {
+		//     if ( !this.agentWorld) return;
+		//     const { w, agent, C } = this.agentWorld;
+		//     const turnId = w.get(agent, C.Turn)!.id;
+		//     if (r.turnId < turnId) return;
+		// });
 	}
 
 	async registerInteractions() {
@@ -174,14 +159,14 @@ export class Bot extends EventEmitter {
 		try {
 			await this.captureChannel.send({ files });
 			if (this.agentWorld) {
-				const { w, agent } = this.agentWorld;
+				const { w, agent, C } = this.agentWorld;
 				for (const att of imageAttachments) {
 					const ref = {
 						type: 'url' as const,
 						url: att.url,
 						...(att.contentType ? { mime: att.contentType } : {}),
 					};
-					pushVisionFrame(w, agent, ref);
+					pushVisionFrame(w, agent, C, ref);
 				}
 			}
 		} catch (e) {

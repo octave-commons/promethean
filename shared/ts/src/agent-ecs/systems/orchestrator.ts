@@ -1,5 +1,4 @@
-import type { AgentBus } from "../bus";
-import type { LlmRequest } from "../../contracts/agent-bus";
+import type { AgentBus } from '../bus';
 
 export function OrchestratorSystem(
   w: any,
@@ -7,9 +6,7 @@ export function OrchestratorSystem(
   C: any,
   getContext: (
     text: string,
-  ) => Promise<
-    Array<{ role: "user" | "assistant" | "system"; content: string }>
-  >,
+  ) => Promise<Array<{ role: 'user' | 'assistant' | 'system'; content: string }>>,
   systemPrompt: () => string,
 ) {
   const { Turn, TranscriptFinal, VisionRing, VisionFrame } = C;
@@ -22,26 +19,25 @@ export function OrchestratorSystem(
   return async function run() {
     for (const [agent, get] of w.iter(q)) {
       const tf = get(TranscriptFinal);
-      console.log("something?", tf);
-      if (!tf.text) continue;
-      const turnId = get(Turn).id;
+      console.log('orchestrator triggered on changed transcript', tf);
+      if (!tf || !tf.text) continue;
+      const turnId = get(Turn)?.id ?? 0;
       const ring = get(VisionRing);
-      const frames = ring.frames
+      const frames = (ring?.frames ?? [])
         .slice(-4)
-        .map((eid: number) => w.get(eid, VisionFrame)!.ref);
+        .map((eid: number) => w.get(eid, VisionFrame)!.ref)
+        .filter(Boolean);
       const context = await getContext(tf.text);
-      const msg: LlmRequest = {
-        topic: "agent.llm.request",
-        corrId: globalThis.crypto?.randomUUID?.() ?? `${Date.now()}`,
-        turnId,
-        ts: Date.now(),
+      bus.enqueue('llm.generate', {
         prompt: systemPrompt(),
-        context,
+        context, // [{role, content}...]
+        format: null, // keep simple
+        replyTopic: 'agent.llm.result',
         images: frames,
-      };
-      bus.publish(msg);
-      tf.text = "";
-      w.set(agent, TranscriptFinal, tf);
+        turnId,
+      });
+      // clear consumed transcript by writing to the next buffer
+      w.set(agent, TranscriptFinal, { ...tf, text: '' });
     }
   };
 }
