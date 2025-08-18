@@ -65,7 +65,7 @@ const EMBED_DIMS = Number(process.env.EMBED_DIMS || 768);
 		const messages = (await discordMessagesCollection
 			.find({
 				[`embedding_status.${EMBED_VERSION}`]: { $ne: 'done' },
-				content: { $ne: null },
+				content: { $nin: [null, ''], $not: /^\s*$/ },
 			})
 			.limit(100)
 			.toArray()) as Array<DiscordMessage & { content: string }>;
@@ -96,6 +96,7 @@ const EMBED_DIMS = Number(process.env.EMBED_DIMS || 768);
 				dims: EMBED_DIMS,
 			})),
 		};
+		console.log('chroma query', chromaQuery);
 
 		try {
 			console.log({ EMBEDDING_DRIVER, EMBEDDING_FUNCTION, EMBED_DIMS, EMBED_VERSION });
