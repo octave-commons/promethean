@@ -9,5 +9,5 @@ This service monitors the local kanban board and task files.
 - When a new task is created the service calls the LLM HTTP endpoint to
   generate a starter task stub.
 
-`npm start` will compile the TypeScript source before launching.
-Use `npm run start:dev` while developing to watch TypeScript files.
+`pnpm start` will compile the TypeScript source before launching.
+Use `pnpm run start:dev` while developing to watch TypeScript files.

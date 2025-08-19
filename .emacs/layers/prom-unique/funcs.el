@@ -104,7 +104,7 @@ With prefix arg ASK-HEADER, insert a header."
   (interactive "P")
   (prom/open-unique-for-mode (if (fboundp 'js-ts-mode) 'js-ts-mode 'js-mode) ask-header))
 
-;;;; ---------- List continuation (fallback) ----------
+;; ---------- List continuation (fallback) ----------
 (defun prom/list--empty-item-p ()
   "Return non-nil if current line is a list item with no content (only marker, optional checkbox, spaces)."
   (save-excursion
@@ -169,20 +169,22 @@ Keys: :indent :raw :next :checkbox."
      (t raw))))
 
 (defun prom/list-ret-dwim ()
-  "RET: continue list; if current item empty, exit.
-If indent is deeper than previous list line, reset current marker to 1/a/A."
+  "Insert newline with list continuation if at end of a list item.
+Otherwise, fallback to default `RET` behavior."
   (interactive)
-  (let* ((m   (prom-list--current-marker))
+  (let* ((eol (line-end-position))
          (bol (line-beginning-position))
-         (eol (line-end-position)))
+         (at-eol (eq (point) eol))
+         (m (prom-list--current-marker)))
     (cond
-     ;; Not a list line → plain newline
-     ((null m) (newline))
-     ;; Empty list item → delete the marker line, then newline (exit list)
+     ;; If not on a list line or not at end of line → fallback
+     ((or (null m) (not at-eol))
+      (call-interactively (default-value 'newline-and-indent)))
+     ;; Empty item → exit list
      ((prom/list--empty-item-p)
       (delete-region bol eol)
       (newline))
-     ;; Otherwise continue the list (maybe with restart at 1/a/A when deeper)
+     ;; List continuation
      (t
       (let* ((indent (or (plist-get m :indent) ""))
              (raw    (or (plist-get m :raw)    ""))
@@ -193,7 +195,7 @@ If indent is deeper than previous list line, reset current marker to 1/a/A."
                          (or (string-match-p "^[0-9]+" raw)
                              (string-match-p "^[A-Za-z]" raw))))
              (next (plist-get m :next)))
-        ;; If we just indented deeper, force current item to 1/a/A
+        ;; If deeper indent, reset marker to 1/a/A
         (when deep?
           (let ((first (prom/list--first-marker-like raw)))
             (save-excursion
@@ -206,15 +208,19 @@ If indent is deeper than previous list line, reset current marker to 1/a/A."
                     (insert first)))))))
         (when deep?
           (setq next (prom/list--second-marker-like raw)))
-        (goto-char eol)
         (newline)
         (insert indent next " ")
         (when cb (insert cb " ")))))))
 
 
+
+(defvar prom-list-continue-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "RET") #'prom/list-ret-dwim)
+    map)
+  "Keymap for `prom-list-continue-mode`.")
+
 (define-minor-mode prom-list-continue-mode
-  "Fallback list continuation on RET for any text buffer."
+  "Minor mode for Obsidian-like list continuation on RET."
   :lighter " ▪RET"
-  (if prom-list-continue-mode
-      (local-set-key (kbd "RET") #'prom/list-ret-dwim)
-    (local-unset-key (kbd "RET"))))
+  :keymap prom-list-continue-mode-map)
