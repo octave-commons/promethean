@@ -13,3 +13,11 @@ PM2.
 
 See [[ecosystem-declarations.md|`docs/ecosystem-declarations.md`]] for
 the schema and additional details.
+
+## Tooling
+
+- Node package manager: prefer `pnpm` when developing or running agent-related services. The root Makefile auto-detects `pnpm` and falls back to `npm`.
+- Typical workflow in a service directory:
+  - `pnpm install`
+  - `pnpm run build`
+  - `pnpm test`

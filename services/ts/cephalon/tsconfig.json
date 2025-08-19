@@ -1,54 +1,19 @@
 {
-	"$schema": "https://json.schemastore.org/tsconfig.json",
-	// Mapped from https://www.typescriptlang.org/tsconfig
-	"compilerOptions": {
-		// Type Checking
-		"allowUnreachableCode": false,
-		"allowUnusedLabels": false,
-		"exactOptionalPropertyTypes": true,
-		"noFallthroughCasesInSwitch": true,
-		"noImplicitOverride": true,
-		"noImplicitReturns": true,
-		"noPropertyAccessFromIndexSignature": false,
-		"noUncheckedIndexedAccess": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"strict": true,
-		// Modules
-		"allowArbitraryExtensions": false,
-		"allowImportingTsExtensions": false,
-		"module": "ESNext",
-		"moduleResolution": "Bundler",
-		"resolveJsonModule": true,
-		"resolvePackageJsonExports": true,
-		"resolvePackageJsonImports": true,
-		// Emit
-		"declaration": true,
-		"declarationMap": true,
-		"importHelpers": false,
-		"newLine": "lf",
-		"noEmitHelpers": true,
-		"outDir": "dist",
-		"baseUrl": ".",
-		"removeComments": false,
-		"sourceMap": true,
-		"paths": {
-			"@shared/*": ["../../../shared/*", "../../../shared/*"] // fallback for tools that don't support imports field
-		},
-		// Interop Constraints
-		"allowSyntheticDefaultImports": true,
-		"esModuleInterop": false,
-		"forceConsistentCasingInFileNames": true,
-		"isolatedModules": true,
-		// Language and Environment
-		"experimentalDecorators": true,
-		"lib": ["ESNext", "esnext.disposable"],
-		"types": ["node"],
-		"target": "ESNext",
-		"useDefineForClassFields": true,
-		// Completeness
-		"skipLibCheck": true
-	},
-	"include": ["src/**/*.ts", "tests/**/*.ts", "types/**/*.d.ts", "../../../shared/ts/src/types/**/*.d.ts"],
-	"exclude": ["node_modules"]
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "outDir": "dist",
+        "rootDir": "src",
+        "strict": true,
+        "sourceMap": true,
+        "inlineSources": true,
+        "esModuleInterop": false,
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
+        "types": ["node", "ava"], // <-- add "ava"
+        "skipLibCheck": true
+    },
+    "include": ["src/**/*"],
+    "exclude": ["dist"]
 }

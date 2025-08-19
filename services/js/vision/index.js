@@ -1,143 +1,134 @@
 // vision service
-import express from "express";
-import { spawn } from "node:child_process";
-import { HeartbeatClient } from "../../../shared/js/heartbeat/index.js";
-import { startService } from "../../../shared/js/serviceTemplate.js";
-import { WebSocketServer } from "ws";
+import express from 'express';
+import { spawn } from 'node:child_process';
+import { HeartbeatClient } from '../../../shared/js/heartbeat/index.js';
+import { startService } from '../../../shared/js/serviceTemplate.js';
+import { WebSocketServer } from 'ws';
 
 export const app = express();
 
 // --- streaming capture (no maxBuffer) ---
 const W = Number(process.env.SCREEN_W) || 2560;
 const H = Number(process.env.SCREEN_H) || 1600;
-const FORMAT = (process.env.VISION_FORMAT || "png").toLowerCase();
+const FORMAT = (process.env.VISION_FORMAT || 'png').toLowerCase();
 
 async function captureStreamed() {
-  const args = [
-    "-silent",
-    "-window",
-    "root",
-    "-crop",
-    `${W}x${H}+0+0`,
-    "-screen",
-  ];
+    const args = ['-silent', '-window', 'root', '-crop', `${W}x${H}+0+0`, '-screen'];
 
-  if (FORMAT === "png") {
-    args.push("-depth", "8", "-strip", "png:-");
-  } else if (FORMAT === "jpg" || FORMAT === "jpeg") {
-    args.push("-quality", process.env.VISION_QUALITY || "85", "jpg:-");
-  } else if (FORMAT === "webp") {
-    args.push("-quality", process.env.VISION_QUALITY || "85", "webp:-");
-  } else {
-    throw new Error(`Unsupported format: ${FORMAT}`);
-  }
+    if (FORMAT === 'png') {
+        args.push('-depth', '8', '-strip', 'png:-');
+    } else if (FORMAT === 'jpg' || FORMAT === 'jpeg') {
+        args.push('-quality', process.env.VISION_QUALITY || '85', 'jpg:-');
+    } else if (FORMAT === 'webp') {
+        args.push('-quality', process.env.VISION_QUALITY || '85', 'webp:-');
+    } else {
+        throw new Error(`Unsupported format: ${FORMAT}`);
+    }
 
-  return new Promise((resolve, reject) => {
-    const p = spawn("import", args, { stdio: ["ignore", "pipe", "pipe"] });
-    const bufs = [];
-    let stderr = "";
-    p.stdout.on("data", (d) => bufs.push(d));
-    p.stderr.on("data", (d) => (stderr += d));
-    p.on("error", reject);
-    p.on("close", (code) => {
-      if (code !== 0)
-        return reject(new Error(`import exited ${code}: ${stderr}`));
-      resolve(Buffer.concat(bufs));
+    return new Promise((resolve, reject) => {
+        const p = spawn('import', args, { stdio: ['ignore', 'pipe', 'pipe'] });
+        const bufs = [];
+        let stderr = '';
+        p.stdout.on('data', (d) => bufs.push(d));
+        p.stderr.on('data', (d) => (stderr += d));
+        p.on('error', reject);
+        p.on('close', (code) => {
+            if (code !== 0) return reject(new Error(`import exited ${code}: ${stderr}`));
+            resolve(Buffer.concat(bufs));
+        });
     });
-  });
 }
 
 let capture = captureStreamed;
 if (process.env.VISION_STUB) {
-  capture = async () => Buffer.from("stub");
+    capture = async () => Buffer.from('stub');
 }
 
 export function setCaptureFn(fn) {
-  capture = fn;
+    capture = fn;
 }
 
 export async function start(port = process.env.PORT || 5003) {
-  try {
-    const hb = new HeartbeatClient({ name: process.env.name || "vision" });
-    await hb.sendOnce();
-    hb.start();
-  } catch {}
+    try {
+        const hb = new HeartbeatClient({ name: process.env.name || 'vision' });
+        await hb.sendOnce();
+        hb.start();
+    } catch {}
 
-  const server = app.listen(port, () => {
-    console.log(`vision service listening on ${port}`);
-  });
+    const server = app.listen(port, () => {
+        console.log(`vision service listening on ${port}`);
+    });
 
-  // Helpful WS tweaks: lower CPU and add simple “busy” gate
-  const wss = new WebSocketServer({
-    server,
-    path: "/capture",
-    perMessageDeflate: { threshold: 64 * 1024 }, // avoid compressing giant frames
-    // maxPayload defaults to 100 MiB; leave it unless you want stricter limits
-  });
+    // Helpful WS tweaks: lower CPU and add simple “busy” gate
+    const wss = new WebSocketServer({
+        server,
+        path: '/capture',
+        perMessageDeflate: { threshold: 64 * 1024 }, // avoid compressing giant frames
+        // maxPayload defaults to 100 MiB; leave it unless you want stricter limits
+    });
 
-  wss.on("connection", (ws) => {
-    let busy = false;
-    ws.on("message", async () => {
-      if (busy || ws.readyState !== ws.OPEN) return;
-      busy = true;
-      try {
-        const img = await capture();
-        // Backpressure: if network is slow, avoid piling up
-        if (ws.readyState === ws.OPEN && ws.bufferedAmount < 16 * 1024 * 1024) {
-          ws.send(img, { binary: true });
+    wss.on('connection', (ws) => {
+        let busy = false;
+        ws.on('message', async () => {
+            if (busy || ws.readyState !== ws.OPEN) return;
+            busy = true;
+            try {
+                const img = await capture();
+                // Backpressure: if network is slow, avoid piling up
+                if (ws.readyState === ws.OPEN && ws.bufferedAmount < 16 * 1024 * 1024) {
+                    ws.send(img, { binary: true });
+                }
+            } catch (e) {
+                console.error('capture failed', e);
+                if (ws.readyState === ws.OPEN) ws.send(JSON.stringify({ error: 'capture_failed' }));
+            } finally {
+                busy = false;
+            }
+        });
+    });
+
+    let broker;
+    const handleTask = async (task) => {
+        if (task.queue === 'vision-capture') {
+            try {
+                const img = await capture();
+                // base64 expands ~33%; consider sending binary via your broker if possible
+                broker?.publish('vision-capture', { image: img.toString('base64') });
+            } catch (err) {
+                console.error('capture task failed', err);
+            }
         }
-      } catch (e) {
-        console.error("capture failed", e);
-        if (ws.readyState === ws.OPEN)
-          ws.send(JSON.stringify({ error: "capture_failed" }));
-      } finally {
-        busy = false;
-      }
-    });
-  });
+    };
 
-  let broker;
-  const handleTask = async (task) => {
-    if (task.queue === "vision-capture") {
-      try {
-        const img = await capture();
-        // base64 expands ~33%; consider sending binary via your broker if possible
-        broker?.publish("vision-capture", { image: img.toString("base64") });
-      } catch (err) {
-        console.error("capture task failed", err);
-      }
-    }
-  };
-
-  startService({
-    id: process.env.name || "vision",
-    queues: ["vision-capture"],
-    handleTask,
-  })
-    .then((b) => {
-      broker = b;
+    startService({
+        id: process.env.name || 'vision',
+        queues: ['vision-capture'],
+        handleTask,
     })
-    .catch((err) => {
-      console.warn("[vision] broker connection failed", err);
-    });
+        .then((b) => {
+            broker = b;
+        })
+        .catch((err) => {
+            console.warn('[vision] broker connection failed', err);
+        });
 
-  return server;
+    return server;
 }
 
-app.get("/capture", async (_req, res) => {
-  try {
-    const img = await capture();
-    res.set("Content-Type", `image/${FORMAT === "jpg" ? "jpeg" : FORMAT}`);
-    res.send(img);
-  } catch (err) {
-    console.error("capture failed", err);
-    res.status(500).send("capture failed");
-  }
+app.get('/capture', async (_req, res) => {
+    try {
+        const img = await capture();
+        res.set('Content-Type', `image/${FORMAT === 'jpg' ? 'jpeg' : FORMAT}`);
+        res.send(img);
+    } catch (err) {
+        console.error('capture failed', err);
+        res.status(500).send('capture failed');
+    }
 });
 
-if (process.env.NODE_ENV !== "test") {
-  start().catch((err) => {
-    console.error("Failed to start vision service", err);
-    process.exit(1);
-  });
+if (process.env.NODE_ENV !== 'test') {
+    start().catch((err) => {
+        console.error('Failed to start vision service', err);
+        process.exit(1);
+    });
 }

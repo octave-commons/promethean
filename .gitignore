@@ -54,7 +54,7 @@ frames/
 output.mp4
 
 
-
-
 # Ignore Smart Environment folder
 .smart-env
+
+coverage/

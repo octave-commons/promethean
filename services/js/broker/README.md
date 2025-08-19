@@ -16,12 +16,12 @@ Published messages are normalized to:
 
 ```json
 {
-  "type": "example.topic",
-  "source": "publisher-id",
-  "payload": { "key": "value" },
-  "timestamp": "2025-08-06T01:23:45Z",
-  "correlationId": "optional",
-  "replyTo": "optional.topic"
+    "type": "example.topic",
+    "source": "publisher-id",
+    "payload": { "key": "value" },
+    "timestamp": "2025-08-06T01:23:45Z",
+    "correlationId": "optional",
+    "replyTo": "optional.topic"
 }
 ```
 
@@ -41,6 +41,6 @@ If a Redis server is available (configured via `REDIS_URL` or default `redis://1
 ## Development
 
 ```
-npm install
-npm test
+pnpm install
+pnpm test
 ```

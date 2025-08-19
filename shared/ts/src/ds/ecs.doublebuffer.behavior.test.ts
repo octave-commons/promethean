@@ -1,7 +1,7 @@
+import test from 'ava';
 import { World } from './ecs';
 
-describe('ECS double-buffer semantics', () => {
-  test('add is readable in-frame (new row prev seeded); set visible after endTick', () => {
+test('ECS double-buffer: add readable in-frame; set visible after endTick', (t) => {
     const w = new World();
     const Pos = w.defineComponent<{ x: number }>({ name: 'Pos' });
     const e = w.createEntity();
@@ -9,34 +9,34 @@ describe('ECS double-buffer semantics', () => {
     // Add comp in a tick → prev is seeded for new rows; readable same frame
     w.beginTick();
     w.addComponent(e, Pos, { x: 1 });
-    expect(w.get(e, Pos)).toEqual({ x: 1 });
+    t.deepEqual(w.get(e, Pos), { x: 1 });
     w.endTick();
-    expect(w.get(e, Pos)).toEqual({ x: 1 });
+    t.deepEqual(w.get(e, Pos), { x: 1 });
 
     // Update in next tick, observe staged write is not visible until swap
     w.beginTick();
     w.set(e, Pos, { x: 2 });
-    expect(w.get(e, Pos)).toEqual({ x: 1 }); // prev still
+    t.deepEqual(w.get(e, Pos), { x: 1 }); // prev still
     w.endTick();
-    expect(w.get(e, Pos)).toEqual({ x: 2 });
-  });
+    t.deepEqual(w.get(e, Pos), { x: 2 });
+});
 
-  test('unwritten rows carry forward automatically across endTick', () => {
+test('ECS double-buffer: unwritten rows carry forward', (t) => {
     const w = new World();
     const Pos = w.defineComponent<{ n: number }>({ name: 'Pos' });
     const e = w.createEntity();
     w.beginTick();
     w.addComponent(e, Pos, { n: 10 });
     w.endTick();
-    expect(w.get(e, Pos)!.n).toBe(10);
+    t.is(w.get(e, Pos)!.n, 10);
 
     // No writes this frame → value should carry
     w.beginTick();
     w.endTick();
-    expect(w.get(e, Pos)!.n).toBe(10);
-  });
+    t.is(w.get(e, Pos)!.n, 10);
+});
 
-  test('changed mask flags rows written last tick', () => {
+test('ECS double-buffer: changed mask flags rows written last tick', (t) => {
     const w = new World();
     const Pos = w.defineComponent<{ v: number }>({ name: 'Pos' });
     const e = w.createEntity();
@@ -55,10 +55,10 @@ describe('ECS double-buffer semantics', () => {
     const q = w.makeQuery({ changed: [Pos], all: [Pos] });
     let seen = 0;
     for (const [_e] of w.iter(q)) seen++;
-    expect(seen).toBe(1);
-  });
+    t.is(seen, 1);
+});
 
-  test('double write in same tick warns once and last write wins', () => {
+test('ECS double-buffer: double write warns once and last wins', (t) => {
     const w = new World();
     const Pos = w.defineComponent<{ n: number }>({ name: 'Pos' });
     const e = w.createEntity();
@@ -66,20 +66,27 @@ describe('ECS double-buffer semantics', () => {
     w.addComponent(e, Pos, { n: 0 });
     w.endTick();
 
-    const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
-    w.beginTick();
-    w.set(e, Pos, { n: 1 });
-    w.set(e, Pos, { n: 2 });
-    w.endTick();
-    expect(warnSpy).toHaveBeenCalled();
-    expect(w.get(e, Pos)!.n).toBe(2);
-    warnSpy.mockRestore();
-  });
+    const origWarn = console.warn;
+    let warnCount = 0;
+    // @ts-ignore
+    console.warn = (..._args: any[]) => {
+        warnCount++;
+    };
+    try {
+        w.beginTick();
+        w.set(e, Pos, { n: 1 });
+        w.set(e, Pos, { n: 2 });
+        w.endTick();
+    } finally {
+        console.warn = origWarn;
+    }
+    t.true(warnCount > 0);
+    t.is(w.get(e, Pos)!.n, 2);
+});
 
-  test('nested beginTick throws', () => {
+test('ECS double-buffer: nested beginTick throws', (t) => {
     const w = new World();
     w.beginTick();
-    expect(() => w.beginTick()).toThrow();
+    t.throws(() => w.beginTick());
     w.endTick();
-  });
 });
