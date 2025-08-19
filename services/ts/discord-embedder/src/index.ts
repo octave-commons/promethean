@@ -8,7 +8,11 @@ import { collectionFor, CONFIG_FP } from '@shared/js/embeddings/versioning.js';
 const chromaClient = new ChromaClient();
 
 type MessageMetaData = { timeStamp: number; userName: string };
-type ChromaQuery = { ids: string[]; documents: string[]; metadatas: MessageMetaData[] };
+type ChromaQuery = {
+	ids: string[];
+	documents: string[];
+	metadatas: MessageMetaData[];
+};
 type DiscordMessage = {
 	_id: ObjectId;
 	created_at: number;
@@ -40,24 +44,37 @@ const EMBED_DIMS = Number(process.env.EMBED_DIMS || 768);
 	const discordMessagesCollection: Collection<DiscordMessage> = db.collection(collectionName);
 
 	const aliases = db.collection<{ _id: string }>('collection_aliases');
-	const cfg = { driver: EMBEDDING_DRIVER, fn: EMBEDDING_FUNCTION, dims: EMBED_DIMS };
+	const cfg = {
+		driver: EMBEDDING_DRIVER,
+		fn: EMBEDDING_FUNCTION,
+		dims: EMBED_DIMS,
+	};
 	const target = collectionFor(family, EMBED_VERSION, cfg);
 	await aliases.updateOne(
 		{ _id: family },
 		{
 			$setOnInsert: { _id: family },
-			$set: { target, embed: { ...cfg, version: EMBED_VERSION, config_fp: CONFIG_FP(cfg) } },
+			$set: {
+				target,
+				embed: { ...cfg, version: EMBED_VERSION, config_fp: CONFIG_FP(cfg) },
+			},
 		},
 		{ upsert: true },
 	);
 
 	const chromaCollection = await chromaClient.getOrCreateCollection({
 		name: target,
-		embeddingFunction: RemoteEmbeddingFunction.fromConfig({ driver: EMBEDDING_DRIVER, fn: EMBEDDING_FUNCTION }),
+		embeddingFunction: RemoteEmbeddingFunction.fromConfig({
+			driver: EMBEDDING_DRIVER,
+			fn: EMBEDDING_FUNCTION,
+		}),
 		metadata: { family, version: EMBED_VERSION, ...cfg },
 	});
 
-	await discordMessagesCollection.createIndex({ [`embedding_status.${EMBED_VERSION}`]: 1, content: 1 });
+	await discordMessagesCollection.createIndex({
+		[`embedding_status.${EMBED_VERSION}`]: 1,
+		content: 1,
+	});
 
 	while (true) {
 		await new Promise((res) => setTimeout(res, 1000));
@@ -99,7 +116,12 @@ const EMBED_DIMS = Number(process.env.EMBED_DIMS || 768);
 		console.log('chroma query', chromaQuery);
 
 		try {
-			console.log({ EMBEDDING_DRIVER, EMBEDDING_FUNCTION, EMBED_DIMS, EMBED_VERSION });
+			console.log({
+				EMBEDDING_DRIVER,
+				EMBEDDING_FUNCTION,
+				EMBED_DIMS,
+				EMBED_VERSION,
+			});
 			await chromaCollection.upsert(chromaQuery);
 			await discordMessagesCollection.updateMany(
 				{ _id: { $in: messages.map((m) => m._id) } },

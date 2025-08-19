@@ -147,6 +147,13 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] [[setup_a_second_agent_md.md|setup a second agent md]] #framework-core #incoming
+- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ready
+- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #todo
+- [ ] [[twitch_discord_general_auto_mod_md_md.md|twitch discord general auto mod md md]] #framework-core #observability #multimodal-context #risk #todo
+- [ ] [[description.md|Web frontend for system management.md]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #todo
+- [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #todo
+- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ML stuff (discord, etc) 2]] #framework-core #language-strategy #performance-optimization #todo
 - [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md.md|Add semantic overlays for layer1 through layer8]] #layerX #framework-core #ice-box
 - [ ] [[annotate_legacy_code_with_migration_tags_md.md|Annotate legacy code with migration tags]] #framework-core #ice-box
 - [ ] [[detect_contradictions_in_memory_md_md.md|Detect contradictions in memory]] #framework-core #ice-box
@@ -217,7 +224,8 @@ kanban-plugin: board
 
 ## Incoming
 
-- [ ] [[setup_a_second_agent_md.md|setup a second agent md]] #framework-core #incoming
+- [ ] Find music that triggered copyright mute on twitch for analysis
+- [ ] redefine all existing lambdas with high order functions
 
 
 ## Accepted
@@ -261,39 +269,28 @@ kanban-plugin: board
 
 ## Breakdown (8)
 
-- [ ] [[discord_image_attachment_indexer_md.md|discord image attachment indexer md]] #framework-core #discord #images #attachments #indexing #memory #breakdown
-- [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md.md|refactor speech interuption system to be more inteligent using audio data to decide if interupted md md]] #framework-core #breakdown
-- [ ] [[split_out_audio_processing_logic_to_a_seperate_service_without_changing_the_current_behavior_in_cephalon_md_md.md|split out audio processing logic to a seperate service without changing the current behavior in cephalon md md]] #framework-core #breakdown
-- [ ] [[split_out_audio_processing_logic_to_a_seperate_service_without_changing_the_current_behavior_in_cephalon_md_md.md|Split out audio processing logic to a seperate service without changing the current behavior in cephalon.md]] #framework-core #breakdown
-- [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md.md|Refactor speech interuption system to be more inteligent, using audio data to decide if interupted.md]] #framework-core #breakdown
+- [ ] [[Decouple Audio Processing Logic From Discord|Split out audio processing logic to a seperate service without changing the current behavior in cephalon.md]] #framework-core #breakdown
+- [ ] [[seperate discord commands from the actions they perform]]
+- [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|Refactor Speech interuption system ]] #framework-core #breakdown
 
 
 ## Ready (13)
 
-- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ready
-- [ ] [[clearly_seperate_service_dependency_files_md.md|clearly seperate service dependency files md]] #devops #cicd #ready
-- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ready
 
 
 ## Todo (8)
 
-- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #todo
-- [ ] [[twitch_discord_general_auto_mod_md_md.md|twitch discord general auto mod md md]] #framework-core #observability #multimodal-context #risk #todo
-- [ ] [[description.md|Web frontend for system management.md]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #todo
-- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ML stuff (discord, etc) 2]] #framework-core #language-strategy #performance-optimization #todo
-- [ ] [[twitch_discord_general_auto_mod_md_md.md|twitch discord general auto mod.md]] #framework-core #observability #multimodal-context #risk #todo
-- [ ] [[create_base_readme_md_templates_for_each_service_md.md|create base readme md templates for each service]] #doc-this #framework-core #ritual #archive
-- [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #todo
 
 
 ## In Progress (4)
 
 - [ ] [[breakdown cephalon voice commands file using ecs]]
-- [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids.md|identify and resolve a service client apparently connecting repeatedly to broker with new session ids]] #in-progress
 
 
 ## In Review (8)
 
+- [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids.md|identify and resolve a service client apparently connecting repeatedly to broker with new session ids]] #in-progress
+- [ ] [[create_base_readme_md_templates_for_each_service_md.md|create base readme md templates for each service]] #doc-this #framework-core #ritual #archive
 - [ ] [[update_cephalon_to_use_custom_embedding_function_md_md.md|Update cephalon to use custom embedding function]] #framework-core #cephalon #discord #embedding #typescript #in-review
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push md]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
@@ -301,6 +298,8 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[discord_image_attachment_indexer_md.md|discord image attachment indexer md]] #framework-core #discord #images #attachments #indexing #memory #breakdown
+- [ ] [[clearly_seperate_service_dependency_files_md.md|clearly seperate service dependency files md]] #devops #cicd #ready
 - [ ] [[add_obsidian_to_gitignore_md_md.md|Add .obsidian to .gitignore]] #framework-core #done
 - [ ] [[add_stt_service_tests_md.md|Add STT service tests]] #codex-task #testing #done
 - [ ] [[add_starter_notes_-_eidolon_fields_cephalon_inner_monologue_1_md.md|Add starter notes - eidolon_fields, cephalon_inner_monologue]] #framework-core #done
@@ -404,6 +403,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[true,true,true,true,true,false,false,false,false,false,true,false,false],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[true,true,false,false,false,false,false,false,false,false,true,false,false],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

@@ -1,14 +1,14 @@
 import test from 'ava';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import Module from 'module';
-import EventEmitter from 'events';
+import * as Module from 'module';
+import { EventEmitter } from 'events';
 
 const ModuleAny = Module as any;
 const originalLoad = ModuleAny._load;
 ModuleAny._load = function (request: string, parent: any, isMain: boolean) {
-	if (request.includes('canvas')) return {};
-	return originalLoad(request, parent, isMain);
+    if (request.includes('canvas')) return {};
+    return originalLoad(request, parent, isMain);
 };
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -25,45 +25,45 @@ const { LLMService } = await import('../llm-service.js');
 const { ContextManager } = await import('../contextManager.js');
 
 class StubBot extends EventEmitter {
-	applicationId = 'app';
-	context = new ContextManager();
-	currentVoiceSession = undefined;
+    applicationId = 'app';
+    context = new ContextManager();
+    currentVoiceSession = undefined;
 }
 
 test('AIAgent forwards prompt to LLM service via broker', async (t) => {
-	process.env.NO_SCREENSHOT = '1';
-	let received: any = null;
-	const broker = await startBroker(0);
-	const port = broker.address().port;
-	const worker = new BrokerClient({
-		url: `ws://127.0.0.1:${port}`,
-		id: 'llm-worker',
-	});
-	await worker.connect();
-	worker.onTaskReceived(async (task: any) => {
-		received = task.payload;
-		await worker.ack(task.id);
-		await worker.publish(task.payload.replyTopic, {
-			reply: 'ok',
-			taskId: task.id,
-		});
-		await worker.ready(task.queue);
-	});
-	await worker.ready('llm.generate');
+    process.env.NO_SCREENSHOT = '1';
+    let received: any = null;
+    const broker = await startBroker(0);
+    const port = broker.address().port;
+    const worker = new BrokerClient({
+        url: `ws://127.0.0.1:${port}`,
+        id: 'llm-worker',
+    });
+    await worker.connect();
+    worker.onTaskReceived(async (task: any) => {
+        received = task.payload;
+        await worker.ack(task.id);
+        await worker.publish(task.payload.replyTopic, {
+            reply: 'ok',
+            taskId: task.id,
+        });
+        await worker.ready(task.queue);
+    });
+    await worker.ready('llm.generate');
 
-	const llm = new LLMService({ brokerUrl: `ws://127.0.0.1:${port}` });
-	const agent = new AIAgent({
-		bot: new StubBot() as any,
-		context: new ContextManager(),
-		llm,
-	});
+    const llm = new LLMService({ brokerUrl: `ws://127.0.0.1:${port}` });
+    const agent = new AIAgent({
+        bot: new StubBot() as any,
+        context: new ContextManager(),
+        llm,
+    });
 
-	const reply = await agent.generateTextResponse('hello', {
-		context: [{ role: 'user', content: 'hi' }],
-	});
-	t.is(reply, 'ok');
-	t.deepEqual(received.context[0].content, 'hi');
+    const reply = await agent.generateTextResponse('hello', {
+        context: [{ role: 'user', content: 'hi' }],
+    });
+    t.is(reply, 'ok');
+    t.deepEqual(received.context[0].content, 'hi');
 
-	worker.socket?.close();
-	await stopBroker(broker);
+    worker.socket?.close();
+    await stopBroker(broker);
 });

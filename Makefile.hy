@@ -78,6 +78,7 @@
 
 (defn has-file* [d f] (isfile (join d f)))
 (defn has-uv [] (not (= (shutil.which "uv") None)))
+(defn has-pnpm [] (not (= (shutil.which "pnpm") None)))
 
 (defn venv-site-packages [svc-dir]
   ;; glob .venv/lib/python*/site-packages
@@ -269,13 +270,18 @@
 
 (defn-cmd coverage-python-service [service]
   (print (.format "Running coverage for Python service: {}" service))
-  (sh "python -m pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term" :cwd (join "services/py" service) :shell True))
+  ;; Run with coverage only if pytest-cov is available in the env
+  (sh
+   "python -m pipenv run bash -lc '\nset -e\nif python - <<\"PY\"\nimport importlib.util, sys\nsys.exit(0 if importlib.util.find_spec(\"pytest_cov\") else 1)\nPY\nthen\n  echo \"[coverage] pytest-cov found → using coverage flags\"\n  pytest tests/ --cov=./ --cov-report=xml --cov-report=term\nelse\n  echo \"[coverage] pytest-cov not found → running tests without coverage\"\n  pytest tests/\nfi'"
+   :cwd (join "services/py" service) :shell True))
 
 (defn-cmd coverage-python-services []
-  (run-dirs SERVICES_PY "echo 'Generating coverage in $PWD...' && python -m pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term" :shell True))
+  (run-dirs SERVICES_PY "echo 'Generating coverage in $PWD...' && python -m pipenv run bash -lc '\nset -e\nif python - <<\"PY\"\nimport importlib.util, sys\nsys.exit(0 if importlib.util.find_spec(\"pytest_cov\") else 1)\nPY\nthen\n  echo \"[coverage] pytest-cov found → using coverage flags\"\n  pytest tests/ --cov=./ --cov-report=xml --cov-report=term\nelse\n  echo \"[coverage] pytest-cov not found → running tests without coverage\"\n  pytest tests/\nfi'" :shell True))
 
 (defn-cmd coverage-shared-python []
-  (sh "python -m pipenv run pytest tests/ --cov=./ --cov-report=xml --cov-report=term" :cwd "shared/py" :shell True))
+  (sh
+   "python -m pipenv run bash -lc '\nset -e\nif python - <<\"PY\"\nimport importlib.util, sys\nsys.exit(0 if importlib.util.find_spec(\"pytest_cov\") else 1)\nPY\nthen\n  echo \"[coverage] pytest-cov found → using coverage flags\"\n  pytest tests/ --cov=./ --cov-report=xml --cov-report=term\nelse\n  echo \"[coverage] pytest-cov not found → running tests without coverage\"\n  pytest tests/\nfi'"
+   :cwd "shared/py" :shell True))
 
 (defn-cmd coverage-python []
   (coverage-python-services)
@@ -299,45 +305,65 @@
 ;; JavaScript helpers ---------------------------------------------------------
 (defn-cmd lint-js-service [service]
   (print (.format "Linting JS service: {}" service))
-  (sh "npx --yes eslint ." :cwd (join "services/js" service) :shell True))
+  (if (has-pnpm)
+      (sh "pnpm exec eslint ." :cwd (join "services/js" service) :shell True)
+      (sh "npx --yes eslint ." :cwd (join "services/js" service) :shell True)))
 
 (defn-cmd lint-js []
-  (run-dirs SERVICES_JS "npx --yes eslint ." :shell True))
+  (if (has-pnpm)
+      (run-dirs SERVICES_JS "pnpm exec eslint ." :shell True)
+      (run-dirs SERVICES_JS "npx --yes eslint ." :shell True)))
 
 (defn-cmd format-js []
-  (run-dirs SERVICES_JS "npx --yes prettier --write ." :shell True))
+  (if (has-pnpm)
+      (run-dirs SERVICES_JS "pnpm exec prettier --write ." :shell True)
+      (run-dirs SERVICES_JS "npx --yes prettier --write ." :shell True)))
 
 (defn-cmd setup-shared-js []
   (print (.format "installing shared dependencies"))
-  (sh "npm install"  :shell True)
+  (if (has-pnpm)
+      (sh "pnpm install" :shell True)
+      (sh "npm install"  :shell True))
   )
 (defn-cmd setup-js-service [service]
   (print (.format "Setting up JS service: {}" service))
   (setup-shared-js)
-  (sh "npm install" :cwd (join "services/js" service) :shell True))
+  (if (has-pnpm)
+      (sh "pnpm install" :cwd (join "services/js" service) :shell True)
+      (sh "npm install" :cwd (join "services/js" service) :shell True)))
 
 (defn-cmd setup-js []
   (print "Setting up JavaScript services...")
   (setup-shared-js)
-  (run-dirs SERVICES_JS "npm install" :shell True))
+  (if (has-pnpm)
+      (run-dirs SERVICES_JS "pnpm install" :shell True)
+      (run-dirs SERVICES_JS "npm install" :shell True)))
 
 (defn-cmd test-js-service [service]
 
   (print (.format "Running tests for JS service: {}" service))
-  (sh "npm test" :cwd (join "services/js" service) :shell True))
+  (if (has-pnpm)
+      (sh "pnpm test" :cwd (join "services/js" service) :shell True)
+      (sh "npm test" :cwd (join "services/js" service) :shell True)))
 
 (defn-cmd test-js-services []
-  (run-dirs SERVICES_JS "echo 'Running tests in $PWD...' && npm test" :shell True))
+  (if (has-pnpm)
+      (run-dirs SERVICES_JS "echo 'Running tests in $PWD...' && pnpm test" :shell True)
+      (run-dirs SERVICES_JS "echo 'Running tests in $PWD...' && npm test" :shell True)))
 
 (defn-cmd test-js []
   (test-js-services))
 
 (defn-cmd coverage-js-service [service]
   (print (.format "Running coverage for JS service: {}" service))
-  (sh "npm run coverage && npx c8 report -r lcov" :cwd (join "services/js" service) :shell True))
+  (if (has-pnpm)
+      (sh "pnpm run coverage && pnpm exec c8 report -r lcov" :cwd (join "services/js" service) :shell True)
+      (sh "npm run coverage && npx c8 report -r lcov" :cwd (join "services/js" service) :shell True)))
 
 (defn-cmd coverage-js-services []
-  (run-dirs SERVICES_JS "npm run coverage && npx c8 report -r lcov" :shell True))
+  (if (has-pnpm)
+      (run-dirs SERVICES_JS "pnpm run coverage && pnpm exec c8 report -r lcov" :shell True)
+      (run-dirs SERVICES_JS "npm run coverage && npx c8 report -r lcov" :shell True)))
 
 (defn-cmd coverage-js []
   (coverage-js-services))
@@ -352,26 +378,39 @@
 
 (defn-cmd lint-ts-service [service]
   (print (.format "Linting TS service: {}" service))
-  (sh "npm run lint" :cwd (join "services/ts" service) :shell True))
+  (if (has-pnpm)
+      (sh "pnpm run lint" :cwd (join "services/ts" service) :shell True)
+      (sh "npm run lint" :cwd (join "services/ts" service) :shell True)))
 
 (defn-cmd lint-ts []
   (for [d SERVICES_TS]
        (when (isfile (join d "package.json"))
-         (sh "npm run lint" :cwd d :shell True)))
+         (if (has-pnpm)
+             (sh "pnpm run lint" :cwd d :shell True)
+             (sh "npm run lint" :cwd d :shell True))))
   (for [d SHARED_TS]
        (when (isfile (join d "package.json"))
-         (sh "npm run lint" :cwd d :shell True))))
+         (if (has-pnpm)
+             (sh "pnpm run lint" :cwd d :shell True)
+             (sh "npm run lint" :cwd d :shell True)))))
 
 (defn-cmd format-ts []
-  (run-dirs SERVICES_TS "npx --yes @biomejs/biome format --write"  :shell True)
-  (run-dirs SHARED_TS "npx --yes @biomejs/biome format --write"  :shell True))
+  (if (has-pnpm)
+      (do
+        (run-dirs SERVICES_TS "pnpm exec @biomejs/biome format --write"  :shell True)
+        (run-dirs SHARED_TS "pnpm exec @biomejs/biome format --write"  :shell True))
+      (do
+        (run-dirs SERVICES_TS "npx --yes @biomejs/biome format --write"  :shell True)
+        (run-dirs SHARED_TS "npx --yes @biomejs/biome format --write"  :shell True))))
 
 (defn-cmd typecheck-ts []
   (setv svc (or (os.environ.get "service") (os.environ.get "SERVICE")))
   (defn run [path]
     (if (and (isfile (join path "tsconfig.json"))
              (isdir (join path "node_modules")))
-        (sh "npx tsc --noEmit" :cwd path :shell True)
+        (if (has-pnpm)
+            (sh "pnpm exec tsc --noEmit" :cwd path :shell True)
+            (sh "npx tsc --noEmit" :cwd path :shell True))
         (print (.format "Skipping typecheck for {}" path))))
   (if svc
       (run (join "services/ts" svc))
@@ -382,37 +421,56 @@
 (defn-cmd setup-ts-service [service]
   (print (.format "Setting up TS service: {}" service))
   (setup-shared-js)
-  (sh "npm install " :cwd (join "services/ts" service) :shell True))
+  (if (has-pnpm)
+      (sh "pnpm install" :cwd (join "services/ts" service) :shell True)
+      (sh "npm install" :cwd (join "services/ts" service) :shell True)))
 
 (defn-cmd setup-ts []
   (print "Setting up TypeScript services...")
   (setup-shared-js)
-  (run-dirs SERVICES_TS "npm install" :shell True)
-  (run-dirs SHARED_TS "npm install" :shell True))
+  (if (has-pnpm)
+      (do
+        (run-dirs SERVICES_TS "pnpm install" :shell True)
+        (run-dirs SHARED_TS "pnpm install" :shell True))
+      (do
+        (run-dirs SERVICES_TS "npm install" :shell True)
+        (run-dirs SHARED_TS "npm install" :shell True))))
 
 (defn-cmd test-ts-service [service]
   (print (.format "Running tests for TS service: {}" service))
 
   (setup-shared-js)
-  (sh "npm test" :cwd (join "services/ts" service) :shell True))
+  (if (has-pnpm)
+      (sh "pnpm test" :cwd (join "services/ts" service) :shell True)
+      (sh "npm test" :cwd (join "services/ts" service) :shell True)))
 
 (defn-cmd test-ts-services []
-  (run-dirs SERVICES_TS "echo 'Running tests in $PWD...' && npm test" :shell True))
+  (if (has-pnpm)
+      (run-dirs SERVICES_TS "echo 'Running tests in $PWD...' && pnpm test" :shell True)
+      (run-dirs SERVICES_TS "echo 'Running tests in $PWD...' && npm test" :shell True)))
 
 (defn-cmd test-ts []
   (test-ts-services)
-  (run-dirs SHARED_TS "echo 'Running tests in $PWD...' && npm test" :shell True))
+  (if (has-pnpm)
+      (run-dirs SHARED_TS "echo 'Running tests in $PWD...' && pnpm test" :shell True)
+      (run-dirs SHARED_TS "echo 'Running tests in $PWD...' && npm test" :shell True)))
 
 (defn-cmd coverage-ts-service [service]
   (print (.format "Running coverage for TS service: {}" service))
-  (sh "npm run coverage && npx c8 report -r lcov" :cwd (join "services/ts" service) :shell True))
+  (if (has-pnpm)
+      (sh "pnpm run coverage && pnpm exec c8 report -r lcov" :cwd (join "services/ts" service) :shell True)
+      (sh "npm run coverage && npx c8 report -r lcov" :cwd (join "services/ts" service) :shell True)))
 
 (defn-cmd coverage-ts-services []
-  (run-dirs SERVICES_TS "npm run coverage && npx c8 report -r lcov" :shell True))
+  (if (has-pnpm)
+      (run-dirs SERVICES_TS "pnpm run coverage && pnpm exec c8 report -r lcov" :shell True)
+      (run-dirs SERVICES_TS "npm run coverage && npx c8 report -r lcov" :shell True)))
 
 (defn-cmd coverage-ts []
   (coverage-ts-services)
-  (run-dirs SHARED_TS "npm run coverage && npx c8 report -r lcov" :shell True))
+  (if (has-pnpm)
+      (run-dirs SHARED_TS "pnpm run coverage && pnpm exec c8 report -r lcov" :shell True)
+      (run-dirs SHARED_TS "npm run coverage && npx c8 report -r lcov" :shell True)))
 
 (defn-cmd clean-ts []
   (run-dirs SERVICES_TS "npm run clean >/dev/null" :shell True)
@@ -421,10 +479,14 @@
 (defn-cmd build-ts []
   (print "Transpiling TS to JS... (if we had any shared ts modules)")
 
-  (sh "npm run build" :cwd "./shared/ts/" :shell True)
+  (if (has-pnpm)
+      (sh "pnpm run build" :cwd "./shared/ts/" :shell True)
+      (sh "npm run build" :cwd "./shared/ts/" :shell True))
   (for [d SERVICES_TS]
        (when (isfile (join d "node_modules/.bin/tsc"))
-         (sh "npm run build" :cwd d :shell True)))
+         (if (has-pnpm)
+             (sh "pnpm run build" :cwd d :shell True)
+             (sh "npm run build" :cwd d :shell True))))
   )
 
 ;; Sibilant ------------------------------------------------------------------
@@ -464,7 +526,9 @@
   (lint-ts))
 
 (defn-cmd lint-topics []
-  (sh ["npx" "tsx" "scripts/lint-topics.ts"]))
+  (if (has-pnpm)
+      (sh "pnpm exec tsx scripts/lint-topics.ts" :shell True)
+      (sh ["npx" "tsx" "scripts/lint-topics.ts"])) )
 
 (defn-cmd test []
   (test-python)

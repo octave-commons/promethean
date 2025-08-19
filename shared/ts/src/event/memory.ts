@@ -1,231 +1,283 @@
+// In-memory EventBus implementation that conforms to ./types
 import {
-  EventBus,
-  EventRecord,
-  EventStore,
-  CursorStore,
-  PublishOptions,
-  CursorPosition,
-  Ack,
-  Millis,
-  UUID,
-} from "./types";
+    EventBus,
+    EventRecord,
+    PublishOptions,
+    SubscribeOptions,
+    DeliveryContext,
+    CursorPosition,
+    EventStore,
+    CursorStore,
+    Ack,
+    UUID,
+} from './types';
 
-const now = () => Date.now();
-// NOTE: use a proper uuidv7 lib in prod. Placeholder monotonic-ish ULID-like id:
-let _ctr = 0;
-const uuidv7 = (): UUID =>
-  `${Date.now().toString(16)}-${(_ctr++)
-    .toString(16)
-    .padStart(6, "0")}-${Math.random().toString(16).slice(2, 10)}`;
+type GroupKey = string; // `${topic}::${group}`
+const gkey = (t: string, g: string) => `${t}::${g}`;
 
-export class InMemoryEventStore implements EventStore {
-  private byTopic = new Map<string, EventRecord[]>();
-  async insert<T>(e: EventRecord<T>): Promise<void> {
-    const arr = this.byTopic.get(e.topic) ?? [];
-    arr.push(e);
-    this.byTopic.set(e.topic, arr);
-  }
-  async scan(
-    topic: string,
-    params: { afterId?: UUID; ts?: Millis; limit?: number },
-  ): Promise<EventRecord[]> {
-    const arr = this.byTopic.get(topic) ?? [];
-    let startIdx = 0;
-    if (params.afterId) {
-      const i = arr.findIndex((x) => x.id === params.afterId);
-      startIdx = i >= 0 ? i + 1 : 0;
-    } else if (params.ts) {
-      startIdx = arr.findIndex((x) => x.ts >= params.ts!);
-      if (startIdx < 0) startIdx = arr.length;
+class InMemoryStore implements EventStore {
+    private store = new Map<string, EventRecord[]>(); // topic -> events
+
+    private events(topic: string) {
+        let arr = this.store.get(topic);
+        if (!arr) {
+            arr = [];
+            this.store.set(topic, arr);
+        }
+        return arr;
     }
-    const slice = arr.slice(
-      startIdx,
-      params.limit ? startIdx + params.limit : undefined,
-    );
-    return slice;
-  }
+
+    async insert<T>(e: EventRecord<T>): Promise<void> {
+        this.events(e.topic).push(e as any);
+    }
+
+    async scan(topic: string, params: { afterId?: UUID; ts?: number; limit?: number }): Promise<EventRecord[]> {
+        const evs = this.events(topic);
+        let startIndex = 0;
+        if (params.afterId) {
+            const idx = evs.findIndex((e) => e.id === params.afterId);
+            startIndex = idx >= 0 ? idx + 1 : 0;
+        } else if (params.ts) {
+            const idx = evs.findIndex((e) => e.ts >= (params.ts as number));
+            startIndex = idx >= 0 ? idx : evs.length; // if none >= ts, start at end
+        }
+        const end = Math.min(evs.length, startIndex + (params.limit ?? 1000));
+        return evs.slice(startIndex, end);
+    }
+
+    async latestByKey(topic: string, keys: string[]): Promise<Record<string, EventRecord | undefined>> {
+        const evs = this.events(topic);
+        const out: Record<string, EventRecord | undefined> = {};
+        for (const k of keys) {
+            // last event with matching key
+            for (let i = evs.length - 1; i >= 0; i--) {
+                const e = evs[i];
+                if (e.key === k) {
+                    out[k] = e;
+                    break;
+                }
+            }
+            if (!(k in out)) out[k] = undefined;
+        }
+        return out;
+    }
 }
 
-export class InMemoryCursorStore implements CursorStore {
-  private map = new Map<string, CursorPosition>();
-  key(t: string, g: string) {
-    return `${t}::${g}`;
-  }
-  async get(topic: string, group: string) {
-    return this.map.get(this.key(topic, group)) ?? null;
-  }
-  async set(topic: string, group: string, cursor: CursorPosition) {
-    this.map.set(this.key(topic, group), cursor);
-  }
+class InMemoryCursorStore implements CursorStore {
+    private cursors = new Map<GroupKey, CursorPosition>();
+    get(topic: string, group: string): Promise<CursorPosition | null> {
+        return Promise.resolve(this.cursors.get(gkey(topic, group)) ?? null);
+    }
+    set(topic: string, group: string, cursor: CursorPosition): Promise<void> {
+        this.cursors.set(gkey(topic, group), { ...cursor });
+        return Promise.resolve();
+    }
 }
 
-type Sub = {
-  topic: string;
-  group: string;
-  handler: (e: EventRecord, ctx: any) => Promise<void>;
-  opts: any;
-  stopped: boolean;
-  inflight: number;
-  timer?: any;
-  kicking: boolean;
-};
+type Handler = (e: EventRecord, ctx: DeliveryContext) => Promise<void> | void;
+
+class Subscription {
+    topic: string;
+    group: string;
+    handler: Handler;
+    manualAck: boolean;
+    retryDelayMs: number;
+    maxAttempts: number;
+    active = true;
+    draining = false;
+    inFlightId?: string;
+    attemptById = new Map<string, number>();
+    retryTimer?: NodeJS.Timeout;
+
+    constructor(topic: string, group: string, handler: Handler, opts: SubscribeOptions) {
+        this.topic = topic;
+        this.group = group;
+        this.handler = handler;
+        this.manualAck = !!opts.manualAck;
+        this.retryDelayMs = opts.ackTimeoutMs ?? 10;
+        this.maxAttempts = opts.maxAttempts ?? 5;
+    }
+}
 
 export class InMemoryEventBus implements EventBus {
-  private store: EventStore;
-  private cursors: CursorStore;
-  private subs: Set<Sub> = new Set();
+    private store: EventStore;
+    private cursors: CursorStore;
+    private subs = new Map<GroupKey, Subscription>();
+    private nextId = 1;
 
-  constructor(
-    store: EventStore = new InMemoryEventStore(),
-    cursors: CursorStore = new InMemoryCursorStore(),
-  ) {
-    this.store = store;
-    this.cursors = cursors;
-  }
-
-  async publish<T>(
-    topic: string,
-    payload: T,
-    opts: PublishOptions = {},
-  ): Promise<EventRecord<T>> {
-    const rec: EventRecord<T> = {
-      id: opts.id ?? uuidv7(),
-      sid: opts.sid,
-      ts: opts.ts ?? now(),
-      topic,
-      key: opts.key,
-      headers: opts.headers,
-      payload,
-      caused_by: opts.caused_by,
-      tags: opts.tags,
-    };
-    await this.store.insert(rec);
-    // kick all subs on this topic
-    for (const sub of this.subs) if (sub.topic === topic) this.kick(sub);
-    return rec;
-  }
-
-  async subscribe(
-    topic: string,
-    group: string,
-    handler: Sub["handler"],
-    opts: any = {},
-  ): Promise<() => Promise<void>> {
-    const sub: Sub = {
-      topic,
-      group,
-      handler,
-      opts,
-      stopped: false,
-      inflight: 0,
-      kicking: false,
-    };
-    this.subs.add(sub);
-    this.kick(sub);
-    return async () => {
-      sub.stopped = true;
-      this.subs.delete(sub);
-      if (sub.timer) clearTimeout(sub.timer);
-    };
-  }
-
-  private async kick(sub: Sub) {
-    if (sub.stopped || sub.kicking || sub.inflight > 0) return;
-    sub.kicking = true;
-    try {
-      const {
-        batchSize = 100,
-        maxInFlight = 1000,
-        maxAttempts = 5,
-        from = "latest",
-        ts,
-        afterId,
-        filter,
-        manualAck = false,
-      } = sub.opts;
-
-      let cursor = await this.cursors.get(sub.topic, sub.group);
-      // initialize cursor
-      if (!cursor) {
-        if (from === "latest") {
-          // scan last one to set baseline; no delivery
-          const scan = await this.store.scan(sub.topic, { ts: 0 });
-          const last = scan[scan.length - 1];
-          cursor = { topic: sub.topic, lastId: last?.id, lastTs: last?.ts };
-        } else if (from === "earliest") {
-          cursor = { topic: sub.topic };
-        } else if (from === "ts") {
-          cursor = { topic: sub.topic, lastTs: ts };
-        } else if (from === "afterId") {
-          cursor = { topic: sub.topic, lastId: afterId };
-        } else {
-          cursor = { topic: sub.topic };
-        }
-        await this.cursors.set(sub.topic, sub.group, cursor);
-      }
-
-      const batch = await this.store.scan(sub.topic, {
-        afterId: cursor.lastId,
-        ts: cursor.lastTs,
-        limit: batchSize,
-      });
-      const deliver = filter ? batch.filter(filter) : batch;
-
-      if (deliver.length === 0) {
-        // poll again soon
-        sub.timer = setTimeout(() => this.kick(sub), 50);
-        return;
-      }
-
-      for (const e of deliver) {
-        if (sub.stopped) break;
-        if (sub.inflight >= maxInFlight) break;
-
-        sub.inflight++;
-        const ctx = { attempt: 1, maxAttempts: maxAttempts, cursor };
-        // fire-and-forget; ack immediately on success unless manualAck
-        (async () => {
-          try {
-            await sub.handler(e, ctx);
-            if (!manualAck) {
-              await this.ack(e.topic, sub.group, e.id);
-            }
-          } catch (err) {
-            // basic NACK: do nothing (consumer can reprocess on next kick)
-            await this.nack(e.topic, sub.group, e.id, (err as Error)?.message);
-          } finally {
-            sub.inflight--;
-            if (sub.inflight === 0) this.kick(sub);
-          }
-        })();
-      }
-    } finally {
-      sub.kicking = false;
+    constructor(store?: EventStore, cursors?: CursorStore) {
+        this.store = store ?? new InMemoryStore();
+        this.cursors = cursors ?? new InMemoryCursorStore();
     }
-  }
 
-  async ack(topic: string, group: string, id: UUID): Promise<Ack> {
-    const cursor = (await this.cursors.get(topic, group)) ?? { topic };
-    // NOTE: we assume ascending (ts,id) order; real store should verify monotonicity
-    cursor.lastId = id;
-    await this.cursors.set(topic, group, cursor);
-    return { id, ok: true };
-  }
+    private async ensureCursor(
+        topic: string,
+        group: string,
+        from: SubscribeOptions['from'] = 'latest',
+        ts?: number,
+        afterId?: UUID,
+    ): Promise<CursorPosition> {
+        const cur = await this.cursors.get(topic, group);
+        if (cur) return cur;
+        let lastId: UUID | undefined;
+        if (from === 'latest') {
+            const tail = await this.store.scan(topic, { limit: 1, afterId: undefined });
+            if (tail.length) lastId = tail[tail.length - 1].id;
+        } else if (from === 'afterId' && afterId) {
+            lastId = afterId;
+        } else if (from === 'ts' && ts) {
+            const head = await this.store.scan(topic, { ts, limit: 1 });
+            if (head.length) {
+                // start before the first >= ts
+                const before = await this.store.scan(topic, {
+                    afterId: undefined,
+                    ts: undefined,
+                    limit: 0,
+                });
+                // simpler: set no lastId and drain logic will find first >= ts
+                lastId = undefined;
+            }
+        }
+        const pos: CursorPosition = { topic, lastId, lastTs: undefined };
+        await this.cursors.set(topic, group, pos);
+        return pos;
+    }
 
-  async nack(
-    topic: string,
-    group: string,
-    id: UUID,
-    reason?: string,
-  ): Promise<Ack> {
-    // In-memory bus just leaves cursor unchanged; event will be re-delivered on next kick
-    return { id, ok: true, err: reason };
-  }
+    async publish<T>(topic: string, payload: T, opts: PublishOptions = {}): Promise<EventRecord<T>> {
+        const rec: EventRecord<T> = {
+            id: opts.id ?? String(this.nextId++),
+            sid: opts.sid,
+            ts: opts.ts ?? Date.now(),
+            topic,
+            key: opts.key,
+            headers: opts.headers,
+            payload,
+            caused_by: opts.caused_by,
+            tags: opts.tags,
+        };
+        await this.store.insert(rec);
+        // Nudge subs for this topic
+        for (const sub of this.subs.values()) if (sub.topic === topic) this.drain(sub);
+        return rec;
+    }
 
-  getCursor(topic: string, group: string) {
-    return this.cursors.get(topic, group);
-  }
-  setCursor(topic: string, group: string, cursor: CursorPosition) {
-    return this.cursors.set(topic, group, cursor);
-  }
+    async subscribe(
+        topic: string,
+        group: string,
+        handler: Handler,
+        opts: Omit<SubscribeOptions, 'group'> = {},
+    ): Promise<() => Promise<void>> {
+        const key = gkey(topic, group);
+        if (this.subs.has(key)) throw new Error(`Group already subscribed: ${key}`);
+        await this.ensureCursor(topic, group, opts.from, opts.ts, opts.afterId);
+        const sub = new Subscription(topic, group, handler, {
+            group,
+            ...opts,
+        } as SubscribeOptions);
+        this.subs.set(key, sub);
+        this.drain(sub);
+        return async () => {
+            sub.active = false;
+            if (sub.retryTimer) clearTimeout(sub.retryTimer);
+            this.subs.delete(key);
+        };
+    }
+
+    async ack(topic: string, group: string, id: UUID): Promise<Ack> {
+        const key = gkey(topic, group);
+        const cur = (await this.cursors.get(topic, group)) ?? { topic };
+        cur.lastId = id;
+        await this.cursors.set(topic, group, cur as CursorPosition);
+        const sub = this.subs.get(key);
+        if (sub && sub.manualAck && sub.inFlightId === id) {
+            sub.inFlightId = undefined;
+            this.drain(sub);
+        }
+        return { id, ok: true };
+    }
+
+    async nack(topic: string, group: string, id: UUID): Promise<Ack> {
+        const sub = this.subs.get(gkey(topic, group));
+        if (sub) {
+            // drop inFlight marker, schedule retry
+            if (sub.inFlightId === id) sub.inFlightId = undefined;
+            if (sub.retryTimer) clearTimeout(sub.retryTimer);
+            sub.retryTimer = setTimeout(() => {
+                sub.retryTimer = undefined;
+                this.drain(sub);
+            }, sub.retryDelayMs);
+        }
+        return { id, ok: true };
+    }
+
+    async getCursor(topic: string, group: string): Promise<CursorPosition | null> {
+        return this.cursors.get(topic, group);
+    }
+
+    async setCursor(topic: string, group: string, cursor: CursorPosition): Promise<void> {
+        await this.cursors.set(topic, group, cursor);
+    }
+
+    // Core draining loop; delivers a single event per turn unless auto-ack
+    private async drain(sub: Subscription): Promise<void> {
+        if (!sub.active || sub.draining) return;
+        sub.draining = true;
+        try {
+            // Pause if waiting for manual ack
+            if (sub.manualAck && sub.inFlightId) return;
+
+            const cur = (await this.cursors.get(sub.topic, sub.group))!;
+            const afterId = cur?.lastId;
+            const batch = await this.store.scan(sub.topic, {
+                afterId,
+                limit: 1,
+            });
+            if (!batch.length) return; // nothing to do
+            const next = batch[0];
+
+            // delivery context
+            const attempt = (sub.attemptById.get(next.id) ?? 0) + 1;
+            sub.attemptById.set(next.id, attempt);
+            const ctx: DeliveryContext = {
+                attempt,
+                maxAttempts: sub.maxAttempts,
+                cursor: cur,
+            };
+
+            try {
+                await Promise.resolve(sub.handler(next, ctx));
+            } catch (_err) {
+                // schedule retry; don't advance cursor
+                if (attempt < sub.maxAttempts) {
+                    if (sub.retryTimer) clearTimeout(sub.retryTimer);
+                    sub.retryTimer = setTimeout(() => {
+                        sub.retryTimer = undefined;
+                        this.drain(sub);
+                    }, sub.retryDelayMs);
+                }
+                return;
+            }
+
+            if (sub.manualAck) {
+                // wait for external ack
+                sub.inFlightId = next.id;
+                return;
+            }
+            // auto-ack path: advance cursor and loop
+            await this.ack(sub.topic, sub.group, next.id);
+            // tail recurse via re-entry
+            return this.drain(sub);
+        } finally {
+            sub.draining = false;
+            // opportunistic kick if more work queued
+            const cur = await this.cursors.get(sub.topic, sub.group);
+            const batch = await this.store.scan(sub.topic, {
+                afterId: cur?.lastId,
+                limit: 1,
+            });
+            if (sub.active && !sub.draining && batch.length && (!sub.manualAck || !sub.inFlightId)) {
+                queueMicrotask(() => this.drain(sub));
+            }
+        }
+    }
 }

@@ -228,7 +228,8 @@ Keep these secrets close  to your chest, and be responsible with your use of the
 ### Sibilant, JavaScript & TypeScript
 
 * Used in: `agents/duck/`, `services/io/`
-* Compiled using: `scripts/build-js.sh` or `node ./scripts/compile.js`
+* Package manager: prefer `pnpm` (Make targets auto-detect and fall back to `npm`)
+* Compiled using: `pnpm run build` (or `make build`)
 * Shared macros/modules: `services/core-js/kit/`
 * Future support planned for TypeScript transpilation from Sibilant
 * Contributors may submit raw JS or TS modules—Sibilant is preferred but not mandatory

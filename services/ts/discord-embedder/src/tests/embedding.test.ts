@@ -1,38 +1,28 @@
 import test from 'ava';
 import { RemoteEmbeddingFunction } from '../embedding.js';
 
-// @ts-ignore
-import { start as startBroker, stop as stopBroker } from '../../../../js/broker/index.js';
-import { BrokerClient } from '@shared/js/brokerClient.js';
-
-test('requests embeddings via broker', async (t) => {
-	const broker = await startBroker(0);
-	const port = broker.address().port;
-	const worker = new BrokerClient({
-		url: `ws://127.0.0.1:${port}`,
-		id: 'embed-worker',
-	});
-	await worker.connect();
-	worker.onTaskReceived(async (task: any) => {
-		worker.ack(task.id);
-		const items = task.payload.items || [];
+class MockBrokerClient {
+	handlers: Record<string, ((e: any) => void)[]> = {};
+	socket: { close: () => void } = { close: () => {} };
+	async connect() {
+		return;
+	}
+	subscribe(topic: string, cb: (e: any) => void) {
+		if (!this.handlers[topic]) this.handlers[topic] = [];
+		this.handlers[topic].push(cb);
+	}
+	enqueue(queue: string, payload: any) {
+		if (queue !== 'embedding.generate') return;
+		const items = payload.items || [];
 		const embeddings = items.map((_: unknown, i: number) => [i]);
-		await worker.publish(
-			'embedding.result',
-			{ embeddings },
-			{
-				replyTo: task.payload.replyTo,
-				correlationId: task.id,
-			},
-		);
-		worker.ready(task.queue);
-	});
-	worker.ready('embedding.generate');
-	process.env.BROKER_URL = `ws://127.0.0.1:${port}`;
-	const fn = new RemoteEmbeddingFunction();
+		const ev = { replyTo: payload.replyTo, payload: { embeddings } };
+		for (const cb of this.handlers['embedding.result'] || []) cb(ev);
+	}
+}
+
+test('requests embeddings via mocked broker', async (t) => {
+	const mock = new MockBrokerClient();
+	const fn = new RemoteEmbeddingFunction(undefined, undefined, undefined, mock as any);
 	const result = await fn.generate(['a', 'b']);
 	t.deepEqual(result, [[0], [1]]);
-	fn.broker.socket?.close();
-	worker.socket?.close();
-	await stopBroker(broker);
 });

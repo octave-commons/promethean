@@ -1,7 +1,8 @@
-import { tsToLisp } from "./ts2lisp";
+import test from 'ava';
+import { tsToLisp } from './ts2lisp';
 
-test("transpiles TypeScript to Lisp", async () => {
-  const src = "const x: number = 1 + 1;";
-  const { lisp } = await tsToLisp(src);
-  expect(lisp).toContain("(+ 1 1)");
+test('transpiles TypeScript to Lisp', async (t) => {
+    const src = 'const x: number = 1 + 2;';
+    const { lisp } = await tsToLisp(src);
+    t.true(lisp.includes('(+ 1 2)'));
 });

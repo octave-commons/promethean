@@ -1,50 +1,55 @@
+import test from 'ava';
 import { createAgentWorld } from './world';
-import { defineAgentComponents } from './components';
 import { enqueueUtterance } from './helpers/enqueueUtterance';
 import { OrchestratorSystem } from './systems/orchestrator';
 
-describe('agent-ecs double buffer semantics', () => {
-  function makePlayer() {
+function makePlayer() {
     let playing = false;
+    const calls = { play: 0, stop: 0, pause: 0, unpause: 0 };
     return {
-      play: jest.fn((_: any) => {
-        playing = true;
-      }),
-      stop: jest.fn((_: boolean) => {
-        playing = false;
-      }),
-      pause: jest.fn((_: boolean) => {
-        playing = false;
-      }),
-      unpause: jest.fn(() => {
-        playing = true;
-      }),
-      isPlaying: jest.fn(() => playing),
+        play: (_: any) => {
+            calls.play++;
+            playing = true;
+        },
+        stop: (_: boolean) => {
+            calls.stop++;
+            playing = false;
+        },
+        pause: (_: boolean) => {
+            calls.pause++;
+            playing = false;
+        },
+        unpause: () => {
+            calls.unpause++;
+            playing = true;
+        },
+        isPlaying: () => playing,
+        __calls: calls,
     };
-  }
+}
 
-  test('enqueueUtterance appends and is visible to next tick (also readable immediately)', async () => {
+test('agent-ecs: enqueueUtterance visibility across ticks', async (t) => {
     const player = makePlayer();
     const { w, agent, C } = createAgentWorld(player);
 
     const pq0 = w.get(agent, C.PlaybackQ)!;
-    expect(pq0.items).toEqual([]);
+    t.deepEqual(pq0.items, []);
 
     // enqueue one utterance (begins a tick internally but does not end it)
     enqueueUtterance(w, agent, C, { factory: async () => ({}) });
 
     // still in same frame: prev is updated for out-of-tick write, so it is readable
     const pqPrev = w.get(agent, C.PlaybackQ)!;
-    expect(pqPrev.items.length).toBe(1);
+    t.is(pqPrev.items.length, 1);
 
     // swap buffers
     w.endTick();
 
     const pqNext = w.get(agent, C.PlaybackQ)!;
-    expect(pqNext.items.length).toBe(1);
-  });
+    t.is(pqNext.items.length, 1);
+});
 
-  test('SpeechArbiter picks next audio and marks utterance playing', async () => {
+test('agent-ecs: arbiter picks audio and marks playing', async (t) => {
     const player = makePlayer();
     const { w, agent, C, tick } = createAgentWorld(player);
 
@@ -54,7 +59,7 @@ describe('agent-ecs double buffer semantics', () => {
 
     let pq = w.get(agent, C.PlaybackQ)!;
     const [eid] = pq.items;
-    expect(eid).toBeDefined();
+    t.truthy(eid);
 
     // run systems once: arbiter should pick and call play
     await tick(0);
@@ -62,21 +67,21 @@ describe('agent-ecs double buffer semantics', () => {
     await new Promise((r) => setTimeout(r, 0));
 
     pq = w.get(agent, C.PlaybackQ)!;
-    expect(pq.items).toEqual([]); // dequeued
+    t.deepEqual(pq.items, []); // dequeued
 
     const utt = w.get(eid, C.Utterance)!;
-    expect(utt.status).toBe('playing');
-    expect(player.play).toHaveBeenCalledTimes(1);
-  });
+    t.is(utt.status, 'playing');
+    t.is((player as any).__calls.play, 1);
+});
 
-  test('Orchestrator clears TranscriptFinal via next-buffer write', async () => {
+test('agent-ecs: orchestrator clears TranscriptFinal and enqueues', async (t) => {
     const player = makePlayer();
     const { w, agent, C } = createAgentWorld(player);
 
     // Prepare an orchestrator and mock bus
     const calls: any[] = [];
     const bus = {
-      enqueue: jest.fn((topic: string, msg: any) => calls.push({ topic, msg })),
+        enqueue: (topic: string, msg: any) => calls.push({ topic, msg }),
     } as any;
     const getContext = async (_text: string) => [{ role: 'user' as const, content: 'hi' }];
     const systemPrompt = () => 'test';
@@ -95,8 +100,7 @@ describe('agent-ecs double buffer semantics', () => {
 
     // It should clear text and enqueue an LLM request
     const tf = w.get(agent, C.TranscriptFinal)!;
-    expect(tf.text).toBe('');
-    expect(bus.enqueue).toHaveBeenCalledTimes(1);
-    expect(calls[0].topic).toBe('llm.generate');
-  });
+    t.is(tf.text, '');
+    t.is(calls.length, 1);
+    t.is(calls[0].topic, 'llm.generate');
 });

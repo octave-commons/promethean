@@ -1,14 +1,15 @@
-import { runLisp } from "./driver";
+import test from 'ava';
+import { runLisp } from './driver';
 
-test("basic arithmetic", () => {
-  expect(runLisp("(+ 2 40)")).toBe(42);
+test('lisp: basic arithmetic', (t) => {
+    t.is(runLisp('(+ 2 40)'), 42);
 });
 
-test("macro expansion", () => {
-  const src = `
+test('lisp: macro expansion', (t) => {
+    const src = `
     (defmacro twice (x)
       \`(+ ,x ,x))
     (twice 21)
   `;
-  expect(runLisp(src)).toBe(42);
+    t.is(runLisp(src), 42);
 });
