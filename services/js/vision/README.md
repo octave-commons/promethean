@@ -9,7 +9,7 @@ publishing `vision-capture` events with a base64-encoded image payload.
 
 ## Usage
 
-Install dependencies and start the service (pnpm preferred):
+Install dependencies and start the service (pnpm required):
 
 ```bash
 pnpm install

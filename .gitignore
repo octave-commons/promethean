@@ -37,24 +37,24 @@ services/py/whisper_stream_ws/coverage.xml
 
 shared/py/.coverage
 
-# Allow model download helpers
-!services/py/tts/models/download.sh
-!services/py/tts/models/README.md
-!services/py/stt/whisper-npu/download.sh
-!services/py/stt/whisper-npu/README_LOCAL.md
-!agents/duck/scripts/download_chroma_data.sh
 
 .infio_json_db/
-.chromadb/
+**/.chromadb/
 
 patch.sh
 
 frames/
 
-output.mp4
+**/*.mp4
+
 
 
 # Ignore Smart Environment folder
 .smart-env
 
 coverage/
+
+catalog.org
+
+.scratch/
+**/hack.*

@@ -1,12 +1,15 @@
 import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { AgentInnerState } from './types.js';
 import { getCurrentDateTime } from './get-current-date-time.js';
-export const defaultPrompt = readFileSync('./defaultPrompt.txt', {
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+export const defaultPrompt = readFileSync(path.resolve(__dirname, '../defaultPrompt.txt'), {
     encoding: 'utf8',
 });
 
 export const defaultState = JSON.parse(
-    readFileSync('./state.json', {
+    readFileSync(path.resolve(__dirname, '../state.json'), {
         encoding: 'utf8',
     }),
 );

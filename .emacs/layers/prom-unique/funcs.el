@@ -179,7 +179,7 @@ Otherwise, fallback to default `RET` behavior."
     (cond
      ;; If not on a list line or not at end of line → fallback
      ((or (null m) (not at-eol))
-      (call-interactively (default-value 'newline-and-indent)))
+      (call-interactively #'newline-and-indent))
      ;; Empty item → exit list
      ((prom/list--empty-item-p)
       (delete-region bol eol)
