@@ -1,15 +1,7 @@
 import test from 'ava';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import * as Module from 'module';
 import { EventEmitter } from 'events';
-
-const ModuleAny = Module as any;
-const originalLoad = ModuleAny._load;
-ModuleAny._load = function (request: string, parent: any, isMain: boolean) {
-    if (request.includes('canvas')) return {};
-    return originalLoad(request, parent, isMain);
-};
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // dynamic imports for broker server and client

@@ -11,6 +11,9 @@ import json
 import os
 import threading
 from dataclasses import dataclass
+import time
+import os
+import signal
 from typing import Optional
 
 from websockets.sync.client import connect
@@ -38,10 +41,18 @@ class HeartbeatClient:
     pid: int = os.getpid()
     name: str = os.environ.get("PM2_PROCESS_NAME", "")
     interval: float = 3.0
+    max_misses: int = int(os.environ.get("HEARTBEAT_MAX_MISSES", 5))
+    fatal_on_miss: bool = os.environ.get("HEARTBEAT_FATAL_ON_MISS", "true").lower() in (
+        "1",
+        "true",
+        "yes",
+    )
 
     _thread: Optional[threading.Thread] = None
     _stop: threading.Event = threading.Event()
     _ws: Optional[object] = None
+    _misses: int = 0
+    _last_ok: float = 0.0
 
     def _ensure(self) -> None:
         if self._ws and getattr(self._ws, "open", False):
@@ -64,14 +75,25 @@ class HeartbeatClient:
             },
         }
         self._ws.send(json.dumps(msg))
+        # mark success
+        self._misses = 0
+        self._last_ok = time.time()
 
     def _run(self) -> None:
         while not self._stop.is_set():
             try:
                 self.send_once()
             except Exception:
-                # Swallow errors to keep heartbeat loop alive.
-                pass
+                # record miss
+                self._misses += 1
+                if self.fatal_on_miss and self._misses >= self.max_misses:
+                    try:
+                        # Attempt graceful exit first
+                        os.kill(os.getpid(), signal.SIGTERM)
+                    except Exception:
+                        pass
+                    # Fallback hard exit
+                    os._exit(1)
             self._stop.wait(self.interval)
 
     def start(self) -> None:

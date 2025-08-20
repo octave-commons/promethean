@@ -28,7 +28,7 @@ cp -r vault-config/.obsidian .obsidian
 Keep documentation aligned with the current services by generating placeholder files:
 
 ```bash
-npm run build:docs
+pnpm run build:docs
 ```
 
 This creates `docs/services/<service>/AGENTS.md` entries linking back to their implementations.

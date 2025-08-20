@@ -67,6 +67,10 @@ make setup-js-service-io
 
 > 🧠 Codex: Always prefer service-specific `setup-*` targets when working on a particular module. Do not invoke the full `make setup-quick` unless you're debugging install issues across the whole system.
 
+JS/TS package manager: Use pnpm for all JavaScript/TypeScript packages. npm frequently leads to EACCES/permission errors in this repo and is blocked. Install pnpm (e.g., `corepack enable && corepack prepare pnpm@latest --activate`) and avoid npm fallbacks in Make targets.
+
+Corepack enforcement: The root `package.json` sets `"packageManager": "pnpm@9"` and a `preinstall` script that exits if you are not using pnpm. Local agents must run `pnpm install`; `npm install` will fail with clear instructions.
+
 ---
 
 ## 🚥 CI Verification
@@ -228,7 +232,7 @@ Keep these secrets close  to your chest, and be responsible with your use of the
 ### Sibilant, JavaScript & TypeScript
 
 * Used in: `agents/duck/`, `services/io/`
-* Package manager: prefer `pnpm` (Make targets auto-detect and fall back to `npm`)
+* Package manager: use `pnpm` (required). npm/yarn are not supported. Corepack is enforced via `packageManager: pnpm@9` and a `preinstall` guard blocks non‑pnpm installs. If a Make target falls back to npm, install pnpm and re-run.
 * Compiled using: `pnpm run build` (or `make build`)
 * Shared macros/modules: `services/core-js/kit/`
 * Future support planned for TypeScript transpilation from Sibilant

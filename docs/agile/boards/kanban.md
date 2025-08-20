@@ -226,12 +226,18 @@ kanban-plugin: board
 
 - [ ] Find music that triggered copyright mute on twitch for analysis
 - [ ] redefine all existing lambdas with high order functions
+- [ ] expose a swagger api for custom gpt
+- [ ] implement defun in compiler/lisp
+- [ ] [[Mock broker]]
+- [ ] Fully convert js/ts projects to pnpm
+- [ ] implement classes in compiler/lisp
+- [ ] Replace all python properly with hy
+- [ ] LSP server for home brew lisp
 
 
 ## Accepted
 
 - [ ] [[description.md|description]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #todo
-- [ ] [[describe_github_branching_workflow_md.md|describe github branching workflow md]] #framework-core #agent-thinking
 - [ ] [[clean_up_notes_into_design_docs_md.md|clean up notes into design docs md]] #framework-core #agent-thinking
 - [ ] [[write_end_to_end_tests_md_md.md|write end to end tests md md]] #framework-core #todo
 - [ ] [[discord_link_indexer_md.md|discord link indexer md]] #framework-core #prompt-refinement
@@ -269,13 +275,13 @@ kanban-plugin: board
 
 ## Breakdown (8)
 
-- [ ] [[Decouple Audio Processing Logic From Discord|Split out audio processing logic to a seperate service without changing the current behavior in cephalon.md]] #framework-core #breakdown
-- [ ] [[seperate discord commands from the actions they perform]]
 - [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|Refactor Speech interuption system ]] #framework-core #breakdown
+- [ ] [[describe_github_branching_workflow_md.md|describe github branching workflow md]] #framework-core #agent-thinking
 
 
 ## Ready (13)
 
+- [ ] [[Decouple Audio Processing Logic From Discord|Split out audio processing logic to a seperate service without changing the current behavior in cephalon.md]] #framework-core #breakdown
 
 
 ## Todo (8)
@@ -284,6 +290,7 @@ kanban-plugin: board
 
 ## In Progress (4)
 
+- [ ] [[seperate discord commands from the actions they perform]]
 - [ ] [[breakdown cephalon voice commands file using ecs]]
 
 
