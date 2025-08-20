@@ -67,6 +67,9 @@
     "ava": {
         "files": [
             "dist/tests/**/*.js"
+        ],
+        "nodeArguments": [
+            "--enable-source-maps"
         ]
     }
 }

@@ -51,7 +51,7 @@ Passive system — no execution required. Mounted automatically via Obsidian.
 To sync with system structure:
 
 ```bash
-npm run build:docs  # optional sync or generate script
+pnpm run build:docs  # optional sync or generate script
 ````
 
 Board automation tasks are run via Makefile targets such as `make kanban-from-tasks`.
@@ -72,4 +72,3 @@ To browse:
 ## Tags
 
 #agent #docs #epistemic #framework-core #codex-input #knowledge-substrate
-

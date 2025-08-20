@@ -6,7 +6,7 @@ Built with Node.js and TypeScript.
 ## Setup
 
 ```bash
-npm install
+pnpm install
 ```
 
 ## Usage
@@ -14,7 +14,7 @@ npm install
 Run in development mode:
 
 ```bash
-npm run start:dev
+pnpm run start:dev
 ```
 
 #hashtags: #discord #service #promethean

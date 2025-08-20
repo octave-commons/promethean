@@ -4,6 +4,7 @@ from functools import lru_cache
 from typing import List
 
 from shared.py.service_template import start_service
+from shared.py.heartbeat_client import HeartbeatClient
 from drivers import get_driver
 
 
@@ -42,6 +43,10 @@ async def handle_task(task, client):
 
 
 async def main():
+    # start heartbeat reporting for this service; exit if broker unavailable
+    hb = HeartbeatClient(name=os.environ.get("PM2_PROCESS_NAME", "embedding"))
+    hb.start()
+
     await start_service(
         id="embedding",
         queues=["embedding.generate"],

@@ -10,7 +10,7 @@ The CLI can:
 
 ## Install / Build
 
-From the repo root (pnpm preferred):
+From the repo root (pnpm required):
 
 ```bash
 pnpm -C shared/ts run build
@@ -90,4 +90,3 @@ Transpiles TypeScript to JS (in-memory) and converts to Lisp.
 - The Lisp compiler is intentionally minimal; feature coverage is limited.
 - When using `run`, imported helpers are provided via dynamic `import()`; paths should be relative to your CWD (e.g., `./runtime.js`).
 - For programmatic use, import from `shared/ts/src/compiler/lisp/driver.ts` (`compileLispToJS`, `runLisp`).
-
