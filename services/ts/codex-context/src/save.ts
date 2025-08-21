@@ -2,6 +2,7 @@ import { mkdirp } from 'mkdirp';
 import fs from 'fs/promises';
 import path from 'path';
 import { format } from 'date-fns';
+import { createLogger } from './logger.js';
 
 type SaveArgs = {
     baseDir?: string;
@@ -12,6 +13,7 @@ type SaveArgs = {
 };
 
 export async function persistArtifact(args: SaveArgs) {
+    const log = createLogger('codex-context', { component: 'persistence' });
     const baseDir = args.baseDir || path.join(process.cwd(), 'docs', 'codex-context');
     const dir = path.join(baseDir, 'requests');
     await mkdirp(dir);
@@ -20,6 +22,7 @@ export async function persistArtifact(args: SaveArgs) {
     const fp = path.join(dir, `${ts}.md`);
     const md = renderMarkdown(args, ts);
     await fs.writeFile(fp, md, 'utf8');
+    log.info('artifact.written', { file: fp, bytes: Buffer.byteLength(md, 'utf8') });
     await ensureIndex(baseDir);
     return fp;
 }
@@ -68,5 +71,7 @@ async function ensureIndex(baseDir: string) {
         const content = `# Codex Context Artifacts\n\n- [[architecture/codex-context.md|Architecture Overview]]\n- Requests: see [[codex-context/requests|codex-context/requests]]\n`;
         await mkdirp(path.dirname(index));
         await fs.writeFile(index, content, 'utf8');
+        const log = createLogger('codex-context', { component: 'persistence' });
+        log.info('index.created', { file: index });
     }
 }
