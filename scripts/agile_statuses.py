@@ -1,12 +1,10 @@
 """Common agile status definitions shared by kanban utilities."""
 
 STATUS_ORDER = [
+    "#rejected",
     "#ice-box",
     "#incoming",
-    "#rejected",
     "#accepted",
-    "#prompt-refinement",
-    "#agent-thinking",
     "#breakdown",
     "#blocked",
     "#ready",
@@ -14,6 +12,7 @@ STATUS_ORDER = [
     "#in-progress",
     "#in-review",
     "#done",
+    "#archive",
 ]
 
 STATUS_SET = set(STATUS_ORDER)

@@ -8,26 +8,26 @@ import { createCanvas, loadImage } from 'canvas';
  * @returns Annotated PNG as Buffer.
  */
 export async function annotateImage(
-	inputBuffer: Buffer,
-	timestamp: string = '',
-	description: string = '',
+    inputBuffer: Buffer,
+    timestamp: string = '',
+    description: string = '',
 ): Promise<Buffer> {
-	const img = await loadImage(inputBuffer);
-	const canvas = createCanvas(img.width, img.height);
-	const ctx = canvas.getContext('2d');
+    const img = await loadImage(inputBuffer);
+    const canvas = createCanvas(img.width, img.height);
+    const ctx = canvas.getContext('2d');
 
-	// Draw original image
-	ctx.drawImage(img, 0, 0);
+    // Draw original image
+    ctx.drawImage(img, 0, 0);
 
-	// Setup annotation style
-	ctx.font = 'bold 18px sans-serif';
-	ctx.fillStyle = 'rgba(0,0,0,0.6)';
-	ctx.fillRect(0, 0, canvas.width, 50);
+    // Setup annotation style
+    ctx.font = 'bold 18px sans-serif';
+    ctx.fillStyle = 'rgba(0,0,0,0.6)';
+    ctx.fillRect(0, 0, canvas.width, 50);
 
-	ctx.fillStyle = 'white';
-	ctx.textBaseline = 'top';
-	ctx.fillText(timestamp, 10, 5);
-	ctx.fillText(description, 10, 25);
+    ctx.fillStyle = 'white';
+    ctx.textBaseline = 'top';
+    ctx.fillText(timestamp, 10, 5);
+    ctx.fillText(description, 10, 25);
 
-	return canvas.toBuffer('image/png');
+    return canvas.toBuffer('image/png');
 }

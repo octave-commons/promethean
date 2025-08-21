@@ -11,6 +11,11 @@ numpy = "*"
 uvicorn = "*"
 torchaudio = "*"
 websockets = "*"
+nvidia-cusparselt-cu12 = "*"
+nvidia-cusparse-cu12 = "*"
+nvidia-cublas-cu12 = "*"
+nvidia-cuda-runtime-cu12 = "*"
+nvidia-cudnn-cu12 = "*"
 
 [dev-packages]
 pytest = "*"

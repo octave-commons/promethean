@@ -1,8 +1,8 @@
 **/node_modules/**
 node_modules/
 dist/
-!shared/js/prom-lib/dist/intention/
-!shared/js/prom-lib/dist/intention/**
+!shared/ts/prom-lib/dist/intention/
+!shared/ts/prom-lib/dist/intention/**
 data/
 pulbic/
 .env
@@ -54,7 +54,7 @@ frames/
 output.mp4
 
 
-
-
 # Ignore Smart Environment folder
 .smart-env
+
+coverage/

@@ -10,8 +10,8 @@ On shutdown the service marks all heartbeats from its current session as killed 
 ## API
 
 - Broker topic `heartbeat`
-  - Services publish `{ pid: number, name: string }` messages to this topic.
-  - Heartbeats exceeding instance limits are ignored.
+    - Services publish `{ pid: number, name: string }` messages to this topic.
+    - Heartbeats exceeding instance limits are ignored.
 
 ## Environment
 
@@ -25,8 +25,8 @@ On shutdown the service marks all heartbeats from its current session as killed 
 ## Development
 
 ```
-npm install
-npm test
+pnpm install
+pnpm test
 ```
 
 ⚠️ Killing processes requires appropriate permissions. Use with care.

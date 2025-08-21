@@ -4,11 +4,11 @@
 
 ### Overview
 
-Layer 6 maps to Circuit 6: [Oneiric](Oneriric.md). It explores imaginative and hypothetical spaces.
+Layer 6 maps to Circuit 6: [[Oneriric.md|Oneiric]]. It explores imaginative and hypothetical spaces.
 
 ### Related Services and Agents
 
-- [Vision service](../../../services/js/vision/)
-- [Duck agent](../../../agents/duck/)
+- [[vision|Vision service]]
+- [[duck|Duck agent]]
 
 #hashtags: #design #layer6

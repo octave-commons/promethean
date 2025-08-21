@@ -39,7 +39,7 @@ The site will be available at `http://localhost:5000` when running locally.
 
 ## Kanban
 
-Project progress is tracked using a [kanban board](kanban/board.md). See [project details](kanban/project.md) for more information.
+Project progress is tracked using a [[board.md|kanban board]]. See [[project.md|project details]] for more information.
 
 ## License
 

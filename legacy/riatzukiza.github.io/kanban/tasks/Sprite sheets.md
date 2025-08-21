@@ -1,11 +1,11 @@
 # Description
 
-The current implementation of [sprites](sprites.md) does not support sprite sheets, only individual [sprites](sprites.md). To animate them would require switching between different textures which may hurt performance
+The current implementation of [[sprites.md]] does not support sprite sheets, only individual [[sprites.md]]. To animate them would require switching between different textures which may hurt performance
 ## Related Epics
-- [Graphics](Graphics.md)
+- [[Graphics.md]]
 ## Requirements
 
-- There is an implementation of [sprites](sprites.md) with a new shader that allows for a single image sprite sheet
+- There is an implementation of [[sprites.md]] with a new shader that allows for a single image sprite sheet
 - The performance of the implementation is better than implementing animations alternating between textures
 - There is a benchmark that demsonstrates this
 
@@ -19,7 +19,7 @@ The current implementation of [sprites](sprites.md) does not support sprite shee
 
 {{BlockedBy}}
 
-- Can't be worked on till this task is [done](../done.md)
+- Can't be worked on till this task is [[done.md]]
 - blocking task
 - blocking task
 
@@ -27,6 +27,6 @@ The current implementation of [sprites](sprites.md) does not support sprite shee
 
 {{Blocks}}
 
-- This task cannot be [done](../done.md) until this one is [done](../done.md).
+- This task cannot be [[done.md]] until this one is [[done.md]].
 - neither can this one
 - or this one

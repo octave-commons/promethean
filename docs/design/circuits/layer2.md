@@ -4,11 +4,11 @@
 
 ### Overview
 
-Layer 2 maps to Circuit 2: [Dorian](Dorian.md). It governs access, trust, and social bonding within the system.
+Layer 2 maps to Circuit 2: [[Dorian.md]]. It governs access, trust, and social bonding within the system.
 
 ### Related Services and Agents
 
-- [Proxy service](../../../services/js/proxy/)
-- [Duck agent](../../../agents/duck/)
+- [[proxy|Proxy service]]
+- [[duck|Duck agent]]
 
 #hashtags: #design #layer2
