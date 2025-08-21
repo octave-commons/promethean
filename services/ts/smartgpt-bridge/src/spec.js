@@ -118,6 +118,15 @@ export function spec() {
         jsonSchemaDialect: 'https://json-schema.org/draft/2020-12/schema',
         servers: [{ url: baseUrl }],
         security,
+        tags: [
+            { name: 'Agent', description: 'Start/monitor background Codex agents' },
+            { name: 'Search', description: 'Code/document search utilities' },
+            { name: 'System', description: 'Service metadata and docs' },
+            { name: 'Files', description: 'File browsing and stacktrace tools' },
+            { name: 'Indexer', description: 'Index maintenance and status' },
+            { name: 'Symbols', description: 'TypeScript/JS symbol index and lookup' },
+            { name: 'Exec', description: 'Run commands (disabled by default)' },
+        ],
         components: {
             securitySchemes,
             schemas: {
@@ -143,11 +152,271 @@ export function spec() {
             },
         },
         paths: {
-            '/grep': { post: { summary: 'Regex search across files' } },
-            '/openapi.json': { get: { summary: 'OpenAPI spec' } },
+            '/grep': { post: { summary: 'Regex search across files', tags: ['Search'] } },
+            '/search': {
+                post: {
+                    summary: 'Semantic search',
+                    tags: ['Search'],
+                    requestBody: {
+                        required: true,
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    required: ['q'],
+                                    properties: {
+                                        q: { type: 'string' },
+                                        n: { type: 'integer', default: 8 },
+                                    },
+                                },
+                                examples: {
+                                    simple: { value: { q: 'find agent routes', n: 8 } },
+                                },
+                            },
+                        },
+                    },
+                    responses: {
+                        200: {
+                            description: 'OK',
+                            content: { 'application/json': { schema: { type: 'object' } } },
+                        },
+                    },
+                },
+            },
+            '/files/list': {
+                get: {
+                    summary: 'List directory',
+                    tags: ['Files'],
+                    parameters: [
+                        {
+                            in: 'query',
+                            name: 'path',
+                            required: false,
+                            schema: { type: 'string', default: '.' },
+                        },
+                        {
+                            in: 'query',
+                            name: 'hidden',
+                            required: false,
+                            schema: { type: 'boolean', default: false },
+                        },
+                        {
+                            in: 'query',
+                            name: 'type',
+                            required: false,
+                            schema: { type: 'string', enum: ['file', 'dir'] },
+                        },
+                    ],
+                    responses: {
+                        200: {
+                            description: 'OK',
+                            content: { 'application/json': { schema: { type: 'object' } } },
+                        },
+                    },
+                },
+            },
+            '/files/view': {
+                get: {
+                    summary: 'View file with context',
+                    tags: ['Files'],
+                    parameters: [
+                        { in: 'query', name: 'path', required: true, schema: { type: 'string' } },
+                        {
+                            in: 'query',
+                            name: 'line',
+                            required: false,
+                            schema: { type: 'integer', default: 1 },
+                        },
+                        {
+                            in: 'query',
+                            name: 'context',
+                            required: false,
+                            schema: { type: 'integer', default: 25 },
+                        },
+                    ],
+                    responses: {
+                        200: {
+                            description: 'OK',
+                            content: { 'application/json': { schema: { type: 'object' } } },
+                        },
+                        404: { description: 'Not found' },
+                    },
+                },
+            },
+            '/stacktrace/locate': {
+                post: {
+                    summary: 'Locate stack trace frames in repo',
+                    tags: ['Files'],
+                    requestBody: {
+                        required: true,
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        text: { type: 'string' },
+                                        context: { type: 'integer', default: 25 },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    responses: {
+                        200: {
+                            description: 'OK',
+                            content: { 'application/json': { schema: { type: 'object' } } },
+                        },
+                    },
+                },
+            },
+            '/reindex': { post: { summary: 'Reindex all files', tags: ['Indexer'] } },
+            '/files/reindex': {
+                post: {
+                    summary: 'Reindex subset of files by glob',
+                    tags: ['Indexer'],
+                    requestBody: {
+                        required: true,
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    required: ['path'],
+                                    properties: {
+                                        path: {
+                                            oneOf: [
+                                                { type: 'string' },
+                                                { type: 'array', items: { type: 'string' } },
+                                            ],
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    responses: { 200: { description: 'OK' } },
+                },
+            },
+            '/indexer/status': { get: { summary: 'Indexer status', tags: ['Indexer'] } },
+            '/indexer/index': {
+                post: {
+                    summary: 'Index single file',
+                    tags: ['Indexer'],
+                    requestBody: {
+                        required: true,
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    required: ['path'],
+                                    properties: { path: { type: 'string' } },
+                                },
+                            },
+                        },
+                    },
+                    responses: { 200: { description: 'OK' } },
+                },
+            },
+            '/indexer/remove': {
+                post: {
+                    summary: 'Remove file from index',
+                    tags: ['Indexer'],
+                    requestBody: {
+                        required: true,
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    required: ['path'],
+                                    properties: { path: { type: 'string' } },
+                                },
+                            },
+                        },
+                    },
+                    responses: { 200: { description: 'OK' } },
+                },
+            },
+            '/indexer/reset': { post: { summary: 'Reset index and bootstrap', tags: ['Indexer'] } },
+            '/symbols/index': {
+                post: {
+                    summary: 'Build TS/JS symbol index',
+                    tags: ['Symbols'],
+                    requestBody: {
+                        required: false,
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    properties: {
+                                        paths: { type: 'array', items: { type: 'string' } },
+                                        exclude: { type: 'array', items: { type: 'string' } },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    responses: { 200: { description: 'OK' } },
+                },
+            },
+            '/symbols/find': {
+                post: {
+                    summary: 'Find symbols',
+                    tags: ['Symbols'],
+                    requestBody: {
+                        required: true,
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    required: ['query'],
+                                    properties: {
+                                        query: { type: 'string' },
+                                        kind: { type: 'string' },
+                                        path: { type: 'string' },
+                                        limit: { type: 'integer' },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    responses: { 200: { description: 'OK' } },
+                },
+            },
+            '/exec/run': {
+                post: {
+                    summary: 'Run a command (if enabled)',
+                    tags: ['Exec'],
+                    requestBody: {
+                        required: true,
+                        content: {
+                            'application/json': {
+                                schema: {
+                                    type: 'object',
+                                    required: ['command'],
+                                    properties: {
+                                        command: { type: 'string' },
+                                        cwd: { type: 'string' },
+                                        env: {
+                                            type: 'object',
+                                            additionalProperties: { type: 'string' },
+                                        },
+                                        timeoutMs: { type: 'integer' },
+                                        tty: { type: 'boolean' },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    responses: {
+                        200: { description: 'OK' },
+                        403: { description: 'Exec disabled' },
+                    },
+                },
+            },
+            '/openapi.json': { get: { summary: 'OpenAPI spec', tags: ['System'] } },
             '/agent/start': {
                 post: {
                     summary: 'Start a new agent process',
+                    tags: ['Agent'],
                     description:
                         'Launches a Codex CLI task under the AgentSupervisor. Optionally sandbox with nsjail and bypass Codex approvals.',
                     requestBody: {
@@ -209,6 +478,7 @@ export function spec() {
             '/agent/status': {
                 get: {
                     summary: 'Get agent status by query param id',
+                    tags: ['Agent'],
                     description: 'Returns metadata for a previously started agent.',
                     parameters: [
                         { in: 'query', name: 'id', required: true, schema: { type: 'string' } },
@@ -252,6 +522,7 @@ export function spec() {
             '/agent/status/{id}': {
                 get: {
                     summary: 'Get agent status by path id',
+                    tags: ['Agent'],
                     description: 'Same as /agent/status, but using a path parameter.',
                     parameters: [
                         { in: 'path', name: 'id', required: true, schema: { type: 'string' } },
@@ -279,6 +550,7 @@ export function spec() {
             '/agent/list': {
                 get: {
                     summary: 'List running agents',
+                    tags: ['Agent'],
                     description: 'Returns IDs and sandbox mode for agents known to the supervisor.',
                     responses: {
                         200: {
@@ -305,6 +577,7 @@ export function spec() {
             '/agent/logs': {
                 get: {
                     summary: 'Get agent logs (tail bytes)',
+                    tags: ['Agent'],
                     description: 'Reads the trailing portion of the in-memory log buffer.',
                     parameters: [
                         { in: 'query', name: 'id', required: true, schema: { type: 'string' } },
@@ -347,6 +620,7 @@ export function spec() {
             '/agent/tail': {
                 get: {
                     summary: 'Tail agent logs (bytes)',
+                    tags: ['Agent'],
                     description: 'Alias for /agent/logs; returns the last N bytes of log.',
                     parameters: [
                         { in: 'query', name: 'id', required: true, schema: { type: 'string' } },
@@ -380,6 +654,7 @@ export function spec() {
             '/agent/stream': {
                 get: {
                     summary: 'Stream agent logs via SSE',
+                    tags: ['Agent'],
                     description:
                         'Server-Sent Events stream. Emits an initial replay event and subsequent data events as the process writes output.',
                     parameters: [
@@ -397,6 +672,7 @@ export function spec() {
             '/agent/send': {
                 post: {
                     summary: 'Send input to agent stdin',
+                    tags: ['Agent'],
                     description: 'Writes a line to the PTY (appends a newline).',
                     requestBody: {
                         required: true,
@@ -431,6 +707,7 @@ export function spec() {
             '/agent/kill': {
                 post: {
                     summary: 'Kill an agent process',
+                    tags: ['Agent'],
                     description:
                         'Sends SIGTERM to the PTY child (or SIGKILL in older legacy path).',
                     requestBody: {
@@ -461,6 +738,7 @@ export function spec() {
             '/agent/interrupt': {
                 post: {
                     summary: 'Send interrupt (Ctrl-C) to agent',
+                    tags: ['Agent'],
                     description: 'Emulates Ctrl-C by writing \u0003 to the PTY.',
                     requestBody: {
                         required: true,
@@ -490,6 +768,7 @@ export function spec() {
             '/agent/resume': {
                 post: {
                     summary: 'Resume a paused agent (not supported)',
+                    tags: ['Agent'],
                     description: 'Not supported by PTY supervisor; returns not_supported.',
                     requestBody: {
                         required: true,

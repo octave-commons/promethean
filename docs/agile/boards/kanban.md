@@ -20,7 +20,7 @@ kanban-plugin: board
 - [ ] [[Curate code from personal repository]]
 - [ ] [[Add codex layer to emacs]]
 - [ ] Set up proper openai custom gpt compatable oauth login flow
-- [ ] Stablize board automation scripts and process
+- [ ] [[stabilize-kanban-scripts.md|Stabilize board automation scripts and process]]
 - [ ] Add make commands to gpt bridge
 
 
