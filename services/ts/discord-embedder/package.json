@@ -27,6 +27,7 @@
 	"author": "Amish Shah <amishshah.2k@gmail.com>",
 	"license": "UNLICENSE",
 	"dependencies": {
+		"@shared/ts": "file:../../../shared/ts",
 		"@discordjs/voice": "^0.18.0",
 		"chromadb": "^3.0.9",
 		"discord.js": "^14.17.3",

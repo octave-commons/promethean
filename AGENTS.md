@@ -67,6 +67,10 @@ make setup-js-service-io
 
 > 🧠 Codex: Always prefer service-specific `setup-*` targets when working on a particular module. Do not invoke the full `make setup-quick` unless you're debugging install issues across the whole system.
 
+JS/TS package manager: Use pnpm for all JavaScript/TypeScript packages. npm frequently leads to EACCES/permission errors in this repo and is blocked. Install pnpm (e.g., `corepack enable && corepack prepare pnpm@latest --activate`) and avoid npm fallbacks in Make targets.
+
+Corepack enforcement: The root `package.json` sets `"packageManager": "pnpm@9"` and a `preinstall` script that exits if you are not using pnpm. Local agents must run `pnpm install`; `npm install` will fail with clear instructions.
+
 ---
 
 ## 🚥 CI Verification
@@ -224,16 +228,18 @@ Keep these secrets close  to your chest, and be responsible with your use of the
 * Testing: `pytest`
 * Logging: `log.debug()` preferred
 * Contributors unfamiliar with Hy may write modules in Python directly
+* Canonical broker client: `shared.py.broker_client.BrokerClient`. Publish heartbeats via `shared.py.service_template` (preferred) or `shared.py.heartbeat_broker`. Do not use separate heartbeat WebSocket clients.
 
 ### Sibilant, JavaScript & TypeScript
 
 * Used in: `agents/duck/`, `services/io/`
-* Package manager: prefer `pnpm` (Make targets auto-detect and fall back to `npm`)
+* Package manager: use `pnpm` (required). npm/yarn are not supported. Corepack is enforced via `packageManager: pnpm@9` and a `preinstall` guard blocks non‑pnpm installs. If a Make target falls back to npm, install pnpm and re-run.
 * Compiled using: `pnpm run build` (or `make build`)
 * Shared macros/modules: `services/core-js/kit/`
 * Future support planned for TypeScript transpilation from Sibilant
 * Contributors may submit raw JS or TS modules—Sibilant is preferred but not mandatory
 * If a module evolves entirely into JS or TS, it will be respected as-is if quality is maintained
+* Canonical broker client: `@shared/js/brokerClient.js`. Heartbeats: `shared/js/heartbeat` wrapper publishes via the same broker connection.
 
 ### Makefile Driven Workflow
 All development and board automation tasks should use the root `Makefile` targets for consistency.

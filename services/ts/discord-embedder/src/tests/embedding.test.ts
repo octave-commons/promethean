@@ -1,5 +1,5 @@
 import test from 'ava';
-import { RemoteEmbeddingFunction } from '../embedding.js';
+import { RemoteEmbeddingFunction } from '@shared/ts/dist/embeddings/remote.js';
 
 class MockBrokerClient {
 	handlers: Record<string, ((e: any) => void)[]> = {};

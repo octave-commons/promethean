@@ -80,6 +80,10 @@
 (defn has-uv [] (not (= (shutil.which "uv") None)))
 (defn has-pnpm [] (not (= (shutil.which "pnpm") None)))
 
+(defn require-pnpm []
+  (print "ERROR: pnpm is required for JS/TS tasks. Install via: corepack enable && corepack prepare pnpm@latest --activate, then re-run with pnpm.")
+  (sys.exit 1))
+
 (defn venv-site-packages [svc-dir]
   ;; glob .venv/lib/python*/site-packages
   (let [pattern (join svc-dir ".venv" "lib" "python*" "site-packages")
@@ -307,49 +311,49 @@
   (print (.format "Linting JS service: {}" service))
   (if (has-pnpm)
       (sh "pnpm exec eslint ." :cwd (join "services/js" service) :shell True)
-      (sh "npx --yes eslint ." :cwd (join "services/js" service) :shell True)))
+      (require-pnpm)))
 
 (defn-cmd lint-js []
   (if (has-pnpm)
       (run-dirs SERVICES_JS "pnpm exec eslint ." :shell True)
-      (run-dirs SERVICES_JS "npx --yes eslint ." :shell True)))
+      (require-pnpm)))
 
 (defn-cmd format-js []
   (if (has-pnpm)
       (run-dirs SERVICES_JS "pnpm exec prettier --write ." :shell True)
-      (run-dirs SERVICES_JS "npx --yes prettier --write ." :shell True)))
+      (require-pnpm)))
 
 (defn-cmd setup-shared-js []
   (print (.format "installing shared dependencies"))
   (if (has-pnpm)
       (sh "pnpm install" :shell True)
-      (sh "npm install"  :shell True))
+      (require-pnpm))
   )
 (defn-cmd setup-js-service [service]
   (print (.format "Setting up JS service: {}" service))
   (setup-shared-js)
   (if (has-pnpm)
       (sh "pnpm install" :cwd (join "services/js" service) :shell True)
-      (sh "npm install" :cwd (join "services/js" service) :shell True)))
+      (require-pnpm)))
 
 (defn-cmd setup-js []
   (print "Setting up JavaScript services...")
   (setup-shared-js)
   (if (has-pnpm)
       (run-dirs SERVICES_JS "pnpm install" :shell True)
-      (run-dirs SERVICES_JS "npm install" :shell True)))
+      (require-pnpm)))
 
 (defn-cmd test-js-service [service]
 
   (print (.format "Running tests for JS service: {}" service))
   (if (has-pnpm)
       (sh "pnpm test" :cwd (join "services/js" service) :shell True)
-      (sh "npm test" :cwd (join "services/js" service) :shell True)))
+      (require-pnpm)))
 
 (defn-cmd test-js-services []
   (if (has-pnpm)
       (run-dirs SERVICES_JS "echo 'Running tests in $PWD...' && pnpm test" :shell True)
-      (run-dirs SERVICES_JS "echo 'Running tests in $PWD...' && npm test" :shell True)))
+      (require-pnpm)))
 
 (defn-cmd test-js []
   (test-js-services))
@@ -358,12 +362,12 @@
   (print (.format "Running coverage for JS service: {}" service))
   (if (has-pnpm)
       (sh "pnpm run coverage && pnpm exec c8 report -r lcov" :cwd (join "services/js" service) :shell True)
-      (sh "npm run coverage && npx c8 report -r lcov" :cwd (join "services/js" service) :shell True)))
+      (require-pnpm)))
 
 (defn-cmd coverage-js-services []
   (if (has-pnpm)
       (run-dirs SERVICES_JS "pnpm run coverage && pnpm exec c8 report -r lcov" :shell True)
-      (run-dirs SERVICES_JS "npm run coverage && npx c8 report -r lcov" :shell True)))
+      (require-pnpm)))
 
 (defn-cmd coverage-js []
   (coverage-js-services))
@@ -380,28 +384,26 @@
   (print (.format "Linting TS service: {}" service))
   (if (has-pnpm)
       (sh "pnpm run lint" :cwd (join "services/ts" service) :shell True)
-      (sh "npm run lint" :cwd (join "services/ts" service) :shell True)))
+      (require-pnpm)))
 
 (defn-cmd lint-ts []
   (for [d SERVICES_TS]
        (when (isfile (join d "package.json"))
          (if (has-pnpm)
              (sh "pnpm run lint" :cwd d :shell True)
-             (sh "npm run lint" :cwd d :shell True))))
+             (require-pnpm))))
   (for [d SHARED_TS]
        (when (isfile (join d "package.json"))
          (if (has-pnpm)
              (sh "pnpm run lint" :cwd d :shell True)
-             (sh "npm run lint" :cwd d :shell True)))))
+             (require-pnpm)))))
 
 (defn-cmd format-ts []
   (if (has-pnpm)
       (do
         (run-dirs SERVICES_TS "pnpm exec @biomejs/biome format --write"  :shell True)
         (run-dirs SHARED_TS "pnpm exec @biomejs/biome format --write"  :shell True))
-      (do
-        (run-dirs SERVICES_TS "npx --yes @biomejs/biome format --write"  :shell True)
-        (run-dirs SHARED_TS "npx --yes @biomejs/biome format --write"  :shell True))))
+      (require-pnpm)))
 
 (defn-cmd typecheck-ts []
   (setv svc (or (os.environ.get "service") (os.environ.get "SERVICE")))
@@ -410,7 +412,7 @@
              (isdir (join path "node_modules")))
         (if (has-pnpm)
             (sh "pnpm exec tsc --noEmit" :cwd path :shell True)
-            (sh "npx tsc --noEmit" :cwd path :shell True))
+            (require-pnpm))
         (print (.format "Skipping typecheck for {}" path))))
   (if svc
       (run (join "services/ts" svc))
@@ -423,7 +425,7 @@
   (setup-shared-js)
   (if (has-pnpm)
       (sh "pnpm install" :cwd (join "services/ts" service) :shell True)
-      (sh "npm install" :cwd (join "services/ts" service) :shell True)))
+      (require-pnpm)))
 
 (defn-cmd setup-ts []
   (print "Setting up TypeScript services...")
@@ -432,9 +434,7 @@
       (do
         (run-dirs SERVICES_TS "pnpm install" :shell True)
         (run-dirs SHARED_TS "pnpm install" :shell True))
-      (do
-        (run-dirs SERVICES_TS "npm install" :shell True)
-        (run-dirs SHARED_TS "npm install" :shell True))))
+      (require-pnpm)))
 
 (defn-cmd test-ts-service [service]
   (print (.format "Running tests for TS service: {}" service))
@@ -442,51 +442,54 @@
   (setup-shared-js)
   (if (has-pnpm)
       (sh "pnpm test" :cwd (join "services/ts" service) :shell True)
-      (sh "npm test" :cwd (join "services/ts" service) :shell True)))
+      (require-pnpm)))
 
 (defn-cmd test-ts-services []
   (if (has-pnpm)
       (run-dirs SERVICES_TS "echo 'Running tests in $PWD...' && pnpm test" :shell True)
-      (run-dirs SERVICES_TS "echo 'Running tests in $PWD...' && npm test" :shell True)))
+      (require-pnpm)))
 
 (defn-cmd test-ts []
   (test-ts-services)
   (if (has-pnpm)
       (run-dirs SHARED_TS "echo 'Running tests in $PWD...' && pnpm test" :shell True)
-      (run-dirs SHARED_TS "echo 'Running tests in $PWD...' && npm test" :shell True)))
+      (require-pnpm)))
 
 (defn-cmd coverage-ts-service [service]
   (print (.format "Running coverage for TS service: {}" service))
   (if (has-pnpm)
       (sh "pnpm run coverage && pnpm exec c8 report -r lcov" :cwd (join "services/ts" service) :shell True)
-      (sh "npm run coverage && npx c8 report -r lcov" :cwd (join "services/ts" service) :shell True)))
+      (require-pnpm)))
 
 (defn-cmd coverage-ts-services []
   (if (has-pnpm)
       (run-dirs SERVICES_TS "pnpm run coverage && pnpm exec c8 report -r lcov" :shell True)
-      (run-dirs SERVICES_TS "npm run coverage && npx c8 report -r lcov" :shell True)))
+      (require-pnpm)))
 
 (defn-cmd coverage-ts []
   (coverage-ts-services)
   (if (has-pnpm)
       (run-dirs SHARED_TS "pnpm run coverage && pnpm exec c8 report -r lcov" :shell True)
-      (run-dirs SHARED_TS "npm run coverage && npx c8 report -r lcov" :shell True)))
+      (require-pnpm)))
 
 (defn-cmd clean-ts []
-  (run-dirs SERVICES_TS "npm run clean >/dev/null" :shell True)
-  (run-dirs SHARED_TS "npm run clean >/dev/null" :shell True))
+  (if (has-pnpm)
+      (do
+        (run-dirs SERVICES_TS "pnpm run clean >/dev/null || true" :shell True)
+        (run-dirs SHARED_TS "pnpm run clean >/dev/null || true" :shell True))
+      (require-pnpm)))
 
 (defn-cmd build-ts []
   (print "Transpiling TS to JS... (if we had any shared ts modules)")
 
   (if (has-pnpm)
       (sh "pnpm run build" :cwd "./shared/ts/" :shell True)
-      (sh "npm run build" :cwd "./shared/ts/" :shell True))
+      (require-pnpm))
   (for [d SERVICES_TS]
        (when (isfile (join d "node_modules/.bin/tsc"))
          (if (has-pnpm)
              (sh "pnpm run build" :cwd d :shell True)
-             (sh "npm run build" :cwd d :shell True))))
+             (require-pnpm))))
   )
 
 ;; Sibilant ------------------------------------------------------------------
@@ -498,7 +501,9 @@
 
 (defn-cmd setup-sibilant-service [service]
   (print (.format "Setting up Sibilant service: {}" service))
-  (sh "npx sibilant --install" :cwd (join "services" service) :shell True))
+  (if (has-pnpm)
+      (sh "pnpm dlx sibilant --install" :cwd (join "services" service) :shell True)
+      (require-pnpm)))
 
 ;; Hy ------------------------------------------------------------------------
 (defn-cmd setup-hy []

@@ -1,5 +1,5 @@
 import { ChromaClient } from 'chromadb';
-import { RemoteEmbeddingFunction } from './embedding';
+import { RemoteEmbeddingFunction } from '@shared/ts/dist/embeddings/remote.js';
 import { MongoClient, ObjectId, Collection } from 'mongodb';
 import { AGENT_NAME } from '@shared/js/env.js';
 import { HeartbeatClient } from '@shared/js/heartbeat/index.js';

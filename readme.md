@@ -63,16 +63,24 @@ any service command returns an error.
 Always install into a virtual environment (`pipenv shell` or one created with
 `python -m venv`) to avoid modifying your system Python packages.
 
-### Node (pnpm preferred)
+### Node (pnpm required)
+
+Use pnpm for all JavaScript/TypeScript packages. npm is intentionally blocked in this repo and will fail with a preinstall guard (EACCES/permission errors are common with npm here).
 
 ```bash
-pnpm install  # falls back to npm via Make targets
+# Ensure pnpm is available (Corepack)
+corepack enable && corepack prepare pnpm@latest --activate
+
+# Install workspace deps
+pnpm install
 ```
 
-Install PM2 globally if it isn't already available:
+Install PM2 globally (pnpm only):
 
 ```bash
-pnpm add -g pm2 || npm install -g pm2
+pnpm add -g pm2
+
+Note: The repository sets `"packageManager": "pnpm@9"` and a `preinstall` script that exits when not using pnpm. If `npm install` is attempted, it will fail with a clear error message and instructions to enable Corepack and rerun with pnpm.
 ```
 
 The service management targets `make start`, `make start-tts` and
