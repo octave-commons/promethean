@@ -32,5 +32,8 @@
         "tsx": "^4.20.3",
         "typescript": "^5.9.2"
     },
-    "license": "GPL-3.0-only"
+    "license": "GPL-3.0-only",
+    "volta": {
+        "node": "22.18.0"
+    }
 }

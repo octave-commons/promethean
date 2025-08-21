@@ -58,3 +58,6 @@ catalog.org
 
 .scratch/
 **/hack.*
+.volta/
+
+.envrc

@@ -228,6 +228,7 @@ Keep these secrets close  to your chest, and be responsible with your use of the
 * Testing: `pytest`
 * Logging: `log.debug()` preferred
 * Contributors unfamiliar with Hy may write modules in Python directly
+* Canonical broker client: `shared.py.broker_client.BrokerClient`. Publish heartbeats via `shared.py.service_template` (preferred) or `shared.py.heartbeat_broker`. Do not use separate heartbeat WebSocket clients.
 
 ### Sibilant, JavaScript & TypeScript
 
@@ -238,6 +239,7 @@ Keep these secrets close  to your chest, and be responsible with your use of the
 * Future support planned for TypeScript transpilation from Sibilant
 * Contributors may submit raw JS or TS modules—Sibilant is preferred but not mandatory
 * If a module evolves entirely into JS or TS, it will be respected as-is if quality is maintained
+* Canonical broker client: `@shared/js/brokerClient.js`. Heartbeats: `shared/js/heartbeat` wrapper publishes via the same broker connection.
 
 ### Makefile Driven Workflow
 All development and board automation tasks should use the root `Makefile` targets for consistency.

@@ -9,7 +9,7 @@ repos:
             files: ^orphaned-files-report\.md$
           - id: enforce-wiki-links
             name: Enforce Wikilinks
-            entry: python scripts/hashtags_to_kanban.py --check --write --wikilinks
+            entry: python scripts/kanban/hashtags_to_kanban.py --check --write --wikilinks
             language: system
             pass_filenames: false
 
