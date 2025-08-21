@@ -13,12 +13,31 @@ function defaultExcludes() {
     return env.length ? env : ['node_modules/**', '.git/**', 'dist/**', 'build/**', '.obsidian/**'];
 }
 
+export function isInsideRoot(ROOT_PATH, abs) {
+    const root = path.resolve(ROOT_PATH);
+    const target = path.resolve(abs);
+    return target === root || target.startsWith(root + path.sep);
+}
+
+export function normalizeToRoot(ROOT_PATH, p = '.') {
+    const abs = path.resolve(path.isAbsolute(p) ? p : path.join(ROOT_PATH, p));
+    if (!isInsideRoot(ROOT_PATH, abs)) throw new Error('path outside root');
+    return abs;
+}
+
 export async function resolvePath(ROOT_PATH, p) {
     if (!p) return null;
-    const abs = path.isAbsolute(p) ? p : path.join(ROOT_PATH, p);
+    let abs;
     try {
-        const st = await fs.stat(abs);
-        if (st.isFile()) return abs;
+        abs = normalizeToRoot(ROOT_PATH, p);
+    } catch {
+        abs = null;
+    }
+    try {
+        if (abs) {
+            const st = await fs.stat(abs);
+            if (st.isFile()) return abs;
+        }
     } catch {}
     // fuzzy by basename
     const base = path.basename(p);
@@ -39,7 +58,7 @@ export async function resolvePath(ROOT_PATH, p) {
             bestScore = score;
         }
     }
-    return path.join(ROOT_PATH, best);
+    return normalizeToRoot(ROOT_PATH, best);
 }
 
 function suffixScore(a, b) {
@@ -53,14 +72,15 @@ function suffixScore(a, b) {
 export async function viewFile(ROOT_PATH, relOrFuzzy, line = 1, context = 25) {
     const abs = await resolvePath(ROOT_PATH, relOrFuzzy);
     if (!abs) throw new Error('file not found');
-    const raw = await fs.readFile(abs, 'utf8');
+    const safeAbs = normalizeToRoot(ROOT_PATH, abs);
+    const raw = await fs.readFile(safeAbs, 'utf8');
     const lines = raw.split(/\r?\n/);
     const L = Math.max(1, Math.min(lines.length, Number(line) || 1));
     const ctx = Math.max(0, Number(context) || 0);
     const start = Math.max(1, L - ctx);
     const end = Math.min(lines.length, L + ctx);
     return {
-        path: path.relative(ROOT_PATH, abs),
+        path: path.relative(ROOT_PATH, safeAbs),
         totalLines: lines.length,
         startLine: start,
         endLine: end,
@@ -116,18 +136,10 @@ async function safeView(ROOT_PATH, file, line, context) {
     }
 }
 
-function isInsideRoot(ROOT_PATH, abs) {
-    const root = path.resolve(ROOT_PATH);
-    const target = path.resolve(abs);
-    return target === root || target.startsWith(root + path.sep);
-}
-
 export async function listDirectory(ROOT_PATH, rel = '.', options = {}) {
     const includeHidden = Boolean(options.includeHidden);
     const type = options.type; // 'file' | 'dir' | undefined
-    const absBase = path.isAbsolute(rel) ? rel : path.join(ROOT_PATH, rel || '.');
-    const abs = path.resolve(absBase);
-    if (!isInsideRoot(ROOT_PATH, abs)) throw new Error('path outside root');
+    const abs = normalizeToRoot(ROOT_PATH, rel || '.');
     const st = await fs.stat(abs).catch(() => null);
     if (!st || !st.isDirectory()) throw new Error('not a directory');
     const dirents = await fs.readdir(abs, { withFileTypes: true });
