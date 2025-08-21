@@ -1,14 +1,5 @@
 import test from 'ava';
-import Module from 'module';
-
-const ModuleAny = Module as any;
-const originalLoad = ModuleAny._load;
-ModuleAny._load = function (request: string, parent: any, isMain: boolean) {
-    if (request.includes('canvas')) return {};
-    return originalLoad(request, parent, isMain);
-};
-
-const { VoiceSession } = await import('../../src/voice-session.js');
+const { VoiceSession } = await import('../voice-session.js');
 
 function makeGuild(id: string): any {
     return { id, voiceAdapterCreator: () => ({}) };

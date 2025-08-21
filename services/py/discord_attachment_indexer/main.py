@@ -14,7 +14,7 @@ import discord
 # sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../"))
 from shared.py import settings
 from shared.py.mongodb import discord_message_collection, discord_channel_collection
-from shared.py.heartbeat_client import HeartbeatClient
+from shared.py.heartbeat_broker import start_broker_heartbeat
 from shared.py.utils.discord import (
     fetch_channel_history,
     shuffle_array,
@@ -27,13 +27,8 @@ intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 intents.message_content = True
 
-hb = HeartbeatClient()
-try:
-    hb.send_once()
-except Exception as exc:
-    print(f"failed to register heartbeat: {exc}")
-    sys.exit(1)
-hb.start()
+_hb_started = False
+_hb_ctx = None
 
 
 def format_attachment(attachment: discord.Attachment) -> dict:
@@ -80,6 +75,18 @@ async def index_channel(channel: discord.TextChannel) -> None:
 
 @client.event
 async def on_ready():
+    global _hb_started, _hb_ctx
+    if not _hb_started:
+        try:
+            _hb_ctx = await start_broker_heartbeat(
+                service_id=os.environ.get(
+                    "PM2_PROCESS_NAME", "discord_attachment_indexer"
+                )
+            )
+            _hb_started = True
+        except Exception as e:
+            print(f"[discord_attachment_indexer] failed to start broker heartbeat: {e}")
+
     print("hola")
     while True:
         for channel in shuffle_array(list(client.get_all_channels())):

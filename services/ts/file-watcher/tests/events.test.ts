@@ -25,7 +25,7 @@ test('emits board change events', async (t) => {
     });
     await fs.writeFile(boardPath, 'changed');
     await new Promise((r) => setTimeout(r, 200));
-    await watcher.close();
+    (await watcher).close();
     t.true(events.some((e) => e.type === EVENTS.board));
 });
 
@@ -49,6 +49,6 @@ test('emits task add and change events', async (t) => {
     await new Promise((r) => setTimeout(r, 300));
     await fs.appendFile(taskFile, 'bar');
     await new Promise((r) => setTimeout(r, 300));
-    await watcher.close();
+    (await watcher).close();
     t.true(events.some((e) => e.type === EVENTS.add));
 });

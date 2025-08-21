@@ -1,7 +1,7 @@
 import test from 'ava';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { RemoteEmbeddingFunction } from '../embedding.js';
+import { RemoteEmbeddingFunction } from '@shared/ts/dist/embeddings/remote.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // dynamic imports for broker server and client

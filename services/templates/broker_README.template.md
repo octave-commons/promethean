@@ -41,6 +41,6 @@ If a Redis server is available (configured via `REDIS_URL` or default `redis://1
 ## Development
 
 ```
-npm install
+pnpm install
 npm test
 ```
