@@ -2,7 +2,7 @@ The old algae was pretty slow once it got bigger, I am pretty sure I could optim
 
 ## Acceptance criteria
 
-- Algae is hosted as a [project](../project.md) on portfolio website
+- Algae is hosted as a [[project.md]] on portfolio website
 ## Tasks
 - [ ] Move code 
 - [ ] update requires

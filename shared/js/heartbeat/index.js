@@ -5,7 +5,7 @@
  * to the broker on a fixed interval. Uses the `ws` WebSocket implementation
  * available in the repository.
  */
-import WebSocket from "ws";
+import { BrokerClient } from "@shared/js/brokerClient.js";
 
 const BROKER_PORT = process.env.BROKER_PORT || 7000;
 
@@ -23,32 +23,24 @@ export class HeartbeatClient {
     this.interval = interval;
     this.onHeartbeat = onHeartbeat;
     this._timer = null;
-    this._ws = null;
+    this._broker = null;
     if (!this.name) {
       throw new Error("name required for HeartbeatClient");
     }
   }
 
   async _ensure() {
-    if (this._ws && this._ws.readyState === this._ws.OPEN) return;
-    this._ws = new WebSocket(this.url);
-    await new Promise((resolve, reject) => {
-      this._ws.once("open", resolve);
-      this._ws.once("error", reject);
-    });
+    if (this._broker) return;
+    this._broker = new BrokerClient({ url: this.url });
+    await this._broker.connect();
   }
 
   async sendOnce() {
     await this._ensure();
-    this._ws.send(
-      JSON.stringify({
-        action: "publish",
-        message: {
-          type: "heartbeat",
-          payload: { pid: this.pid, name: this.name },
-        },
-      }),
-    );
+    await this._broker.publish("heartbeat", {
+      pid: this.pid,
+      name: this.name,
+    });
     if (this.onHeartbeat) this.onHeartbeat({ pid: this.pid, name: this.name });
   }
 
@@ -65,11 +57,11 @@ export class HeartbeatClient {
       clearInterval(this._timer);
       this._timer = null;
     }
-    if (this._ws) {
+    if (this._broker) {
       try {
-        this._ws.close();
+        this._broker.socket?.close();
       } catch {}
-      this._ws = null;
+      this._broker = null;
     }
   }
 }

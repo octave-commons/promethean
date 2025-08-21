@@ -228,7 +228,8 @@ Keep these secrets close  to your chest, and be responsible with your use of the
 ### Sibilant, JavaScript & TypeScript
 
 * Used in: `agents/duck/`, `services/io/`
-* Compiled using: `scripts/build-js.sh` or `node ./scripts/compile.js`
+* Package manager: prefer `pnpm` (Make targets auto-detect and fall back to `npm`)
+* Compiled using: `pnpm run build` (or `make build`)
 * Shared macros/modules: `services/core-js/kit/`
 * Future support planned for TypeScript transpilation from Sibilant
 * Contributors may submit raw JS or TS modules—Sibilant is preferred but not mandatory
@@ -366,7 +367,7 @@ Additionally, ensure that:
 * All new code is covered by tests
 * Documentation is updated in `/docs/` as needed
 * Migration plans are followed for any structural changes
-* [test workflows](.github/workflows/) all use `make` targets for consistency
+* [[workflows|test workflows]] all use `make` targets for consistency
 
 ---
 
@@ -381,7 +382,7 @@ Additionally, ensure that:
 ## 📚 Documentation Standards
 
 * Markdown only
-* Use Wikilinks in your Obsidian workflow, but ensure they are converted to regular markdown links for compatibility. Use `#hashtags` to support the Obsidian graph view.
+* Use Wikilinks in your Obsidian workflow. Use `#hashtags` to support the Obsidian graph view.
 * Code paths must be written like: `services/cephalon/langstream.py`
 * All new modules must have a doc stub in `/docs/`
 * See `docs/vault-config-readme.md` for tips on configuring Obsidian to export
@@ -440,7 +441,7 @@ rules:
 }
 ```
 
-Example permission files live in `agents/*/config/permissions.yaml`. For background reasoning see [docs/notes/math/aionian-pulse-rhythm-model.md](docs/notes/math/aionian-pulse-rhythm-model.md).
+Example permission files live in `agents/*/config/permissions.yaml`. For background reasoning see [[aionian-pulse-rhythm-model.md|docs/notes/math/aionian-pulse-rhythm-model.md]].
 
 ---
 
@@ -480,4 +481,4 @@ agents:
 #hashtags: #guidelines #promethean
 
 ## Extra
-[Hy macros cheatsheet](./docs/hy-macros-cheatsheet.md)
+[[hy-macros-cheatsheet.md|Hy macros cheatsheet]]

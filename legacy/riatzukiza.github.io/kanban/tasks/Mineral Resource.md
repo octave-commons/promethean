@@ -2,8 +2,8 @@
 
 Rocks can be harvested for construction materials, resulting in their eventual destruction.
 ## Related Epics
-- [Game Mechanics](Game%20Mechanics.md)
-- [resource mechanics](resource%20mechanics.md)
+- [[Game Mechanics.md]]
+- [[resource mechanics.md]]
 
 ## Requirements
 
@@ -18,7 +18,7 @@ Rocks can be harvested for construction materials, resulting in their eventual d
 
 ## Blocked by 
 
-- [unit system](unit%20system.md)
-- [resource mechanics](resource%20mechanics.md)
-- [Round trip path finding](Round%20trip%20path%20finding.md)
-- [Layered Vector Field System](Layered%20Vector%20Field%20System.md)
+- [[unit system.md]]
+- [[resource mechanics.md]]
+- [[Round trip path finding.md]]
+- [[Layered Vector Field System.md]]

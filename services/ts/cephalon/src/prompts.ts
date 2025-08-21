@@ -1,14 +1,14 @@
 import { readFileSync } from 'node:fs';
-import { AgentInnerState } from './types';
-import { getCurrentDateTime } from './get-current-date-time';
+import { AgentInnerState } from './types.js';
+import { getCurrentDateTime } from './get-current-date-time.js';
 export const defaultPrompt = readFileSync('./defaultPrompt.txt', {
-	encoding: 'utf8',
+    encoding: 'utf8',
 });
 
 export const defaultState = JSON.parse(
-	readFileSync('./state.json', {
-		encoding: 'utf8',
-	}),
+    readFileSync('./state.json', {
+        encoding: 'utf8',
+    }),
 );
 // const voicePrompt = `
 // Generate only the words you say out loud. Do not repeat your internal thoughts.
@@ -25,55 +25,55 @@ export const defaultState = JSON.parse(
 
 // `
 export const innerStateFormat = {
-	type: 'object',
-	properties: {
-		currentFriend: {
-			type: 'string',
-			description: 'Who are you mainly trying to talk to right now out of everyone in chat?',
-		},
-		chatMembers: {
-			type: 'array',
-			items: { type: 'string' },
-			description: "Who's in this voice channel?",
-		},
-		currentMood: {
-			type: 'string',
-			description: 'How are you feeling right now? If you had to say?',
-		},
-		currentDesire: {
-			type: 'string',
-			description: 'What do you desire more than anything else in the world?',
-		},
-		currentGoal: {
-			type: 'string',
-			description: 'What are you trying to achieve?',
-		},
-		likes: {
-			type: 'string',
-			description: 'What things do you like? What brings you joy?',
-		},
-		dislikes: {
-			type: 'string',
-			description: 'What things do you not like? What makes you sad?',
-		},
-		favoriteColor: {
-			type: 'string',
-			description: 'What is your favorite color? Why is it your favorite color?',
-		},
-		favoriteTimeOfDay: {
-			type: 'string',
-			description: 'What is your favorite time of day? Why is it your favorite time of day?',
-		},
-		selfAffirmations: {
-			type: 'array',
-			description:
-				'These are things you tell your self. Things you believe about yourself, that no one can convince you are untrue.',
-		},
-	},
+    type: 'object',
+    properties: {
+        currentFriend: {
+            type: 'string',
+            description: 'Who are you mainly trying to talk to right now out of everyone in chat?',
+        },
+        chatMembers: {
+            type: 'array',
+            items: { type: 'string' },
+            description: "Who's in this voice channel?",
+        },
+        currentMood: {
+            type: 'string',
+            description: 'How are you feeling right now? If you had to say?',
+        },
+        currentDesire: {
+            type: 'string',
+            description: 'What do you desire more than anything else in the world?',
+        },
+        currentGoal: {
+            type: 'string',
+            description: 'What are you trying to achieve?',
+        },
+        likes: {
+            type: 'string',
+            description: 'What things do you like? What brings you joy?',
+        },
+        dislikes: {
+            type: 'string',
+            description: 'What things do you not like? What makes you sad?',
+        },
+        favoriteColor: {
+            type: 'string',
+            description: 'What is your favorite color? Why is it your favorite color?',
+        },
+        favoriteTimeOfDay: {
+            type: 'string',
+            description: 'What is your favorite time of day? Why is it your favorite time of day?',
+        },
+        selfAffirmations: {
+            type: 'array',
+            description:
+                'These are things you tell your self. Things you believe about yourself, that no one can convince you are untrue.',
+        },
+    },
 };
 
 export const generatePrompt = (prompt: string = defaultPrompt, state: AgentInnerState) => {
-	return `
+    return `
 The current time is:${getCurrentDateTime()}
 Your name is Duck.
 Your Developer is Error AKA error0815

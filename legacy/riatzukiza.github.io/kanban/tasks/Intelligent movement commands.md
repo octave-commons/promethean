@@ -1,5 +1,5 @@
 # Epic
-One of the core mechanics in an rts game is the ability to issue movement commands. The way we do that in this game will be a little different than how it is usually [done](../done.md).
+One of the core mechanics in an rts game is the ability to issue movement commands. The way we do that in this game will be a little different than how it is usually [[done.md]].
 I'm thinking that you can select a group of units, and you issue a series of way points, then a ghost ant quickly traverses the field until it reaches that point, up to a limit.
 If the point can be reached with the existing field with in the traversal limit, that path is is used ontop of the noise to reach it.
 
@@ -13,14 +13,14 @@ We want a game that is as fast paced as starcraft, but as expansdive as civiliza
 
 Man this is going to be a lot of work.
 ## Related Epics
-- [Game Mechanics](Game%20Mechanics.md)
-- [Game AI](Game%20AI.md)
+- [[Game Mechanics.md]]
+- [[Game AI.md]]
 ## Requirements
 
 - User can issue general move commands.
 - user is notified if there are expected to be complications on the route
 - User can set multiple waypoints
-- A set of path vectors are generated for [each](../../docs/Pools/Dynamic/each.md) waypoint
+- A set of path vectors are generated for [[each.md]] waypoint
 - Agents are still influenced by changing in the underlying field that generated the waypoint
 - User is informed if the path has been updated
 - User is informed if the path has become blocked based on complicating factors unknown at the time of path generation
@@ -37,10 +37,10 @@ Man this is going to be a lot of work.
 ## Blocked by 
 
 - [[Movement waypoints]]
-- [unit system](unit%20system.md)
-- [Round trip path finding](Round%20trip%20path%20finding.md)
-- [Order queues](Order%20queues.md)
-- [ground tiles](ground%20tiles.md)
-- [elevation](elevation.md)
+- [[unit system.md]]
+- [[Round trip path finding.md]]
+- [[Order queues.md]]
+- [[ground tiles.md]]
+- [[elevation.md]]
 
 #epic #GameAI

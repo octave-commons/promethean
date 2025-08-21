@@ -33,4 +33,4 @@ make lint
 make format
 ```
 
-Run these commands only for the services affected by your changes. Skipping unrelated services keeps development fast and mirrors the expectations in [../AGENTS.md](../AGENTS.md).
+Run these commands only for the services affected by your changes. Skipping unrelated services keeps development fast and mirrors the expectations in [[AGENTS.md|../AGENTS.md]].

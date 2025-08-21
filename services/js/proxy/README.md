@@ -16,6 +16,6 @@ Requests with the following prefixes are proxied by default:
 ## Development
 
 ```
-npm install
-npm test
+pnpm install
+pnpm test
 ```
