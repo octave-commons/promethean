@@ -25,7 +25,7 @@ On shutdown the service marks all heartbeats from its current session as killed 
 ## Development
 
 ```
-npm install
+pnpm install
 npm test
 ```
 

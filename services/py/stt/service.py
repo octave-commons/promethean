@@ -6,7 +6,6 @@ import asyncio
 import base64
 
 from shared.py.service_template import start_service
-from shared.py.heartbeat_client import HeartbeatClient
 from shared.py.speech.wisper_stt import transcribe_pcm
 
 
@@ -24,15 +23,6 @@ async def process_task(client, task):
 
 
 async def main():
-    hb = HeartbeatClient()
-    try:
-        hb.send_once()
-    except (
-        Exception
-    ) as exc:  # pragma: no cover - heartbeat failures shouldn't crash service
-        raise RuntimeError("heartbeat registration failed") from exc
-    hb.start()
-
     client_holder = {}
 
     async def handle_task(task, client):
@@ -44,10 +34,7 @@ async def main():
         handle_task=handle_task,
     )
 
-    try:
-        await asyncio.Event().wait()
-    finally:
-        hb.stop()
+    await asyncio.Event().wait()
 
 
 if __name__ == "__main__":

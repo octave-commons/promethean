@@ -38,12 +38,46 @@ export class Transcriber extends EventEmitter {
 
     constructor(options: TranscriberOptions = {}) {
         super();
-        this.broker =
-            options.broker ||
-            new BrokerClient({
-                url: options.brokerUrl || process.env.BROKER_URL || 'ws://localhost:7000',
-                id: 'cephalon-transcriber',
+        if (options.broker) {
+            this.broker = options.broker;
+            this.#ready = Promise.resolve();
+            this.broker.subscribe('stt.transcribed', (event: any) => {
+                const { payload } = event || {};
+                const data = this.#pending.shift();
+                if (!data) return;
+                const { startTime, speaker } = data;
+                const text = payload?.text || '';
+                const endTime = Date.now();
+                const chunk: TranscriptChunk = {
+                    startTime,
+                    speaker,
+                    text,
+                    endTime,
+                };
+                this.emit('transcriptChunk', chunk);
+                this.emit('transcriptEnd', {
+                    startTime,
+                    speaker,
+                    originalTranscript: text,
+                    user: speaker.user,
+                    userName: speaker.user.username,
+                    transcript: text,
+                    endTime,
+                });
             });
+            return;
+        }
+        if (process.env.DISABLE_BROKER === '1') {
+            // Minimal no-op broker for tests that don't exercise transcription
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            this.broker = { enqueue() {}, subscribe() {}, connect: async () => {} } as any;
+            this.#ready = Promise.resolve();
+            return;
+        }
+        this.broker = new BrokerClient({
+            url: options.brokerUrl || process.env.BROKER_URL || 'ws://localhost:7000',
+            id: 'cephalon-transcriber',
+        });
         this.#ready = this.broker
             .connect()
             .then(() => {

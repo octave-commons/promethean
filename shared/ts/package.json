@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "body-parser": "^1.20.2",
+        "chromadb": "^3.0.14",
         "express": "^4.19.2",
         "mongodb": "^6.18.0",
         "prom-client": "^15.1.0",

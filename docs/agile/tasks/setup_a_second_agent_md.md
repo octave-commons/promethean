@@ -43,4 +43,4 @@ Nothing
 ## 🔍 Relevant Links
 
 - [kanban](../boards/kanban.md)
-#incoming
+#ice-box

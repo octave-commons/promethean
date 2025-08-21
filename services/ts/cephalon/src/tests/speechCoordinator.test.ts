@@ -1,6 +1,6 @@
 import test from 'ava';
 import EventEmitter from 'events';
-import { SpeechArbiter, TurnManager, Utterance } from '../agent/speechCoordinator';
+import { SpeechArbiter, TurnManager, Utterance } from '../agent/speechCoordinator.js';
 
 class FakePlayer extends EventEmitter {
     play() {
@@ -16,10 +16,10 @@ test('arbiter drops stale utterances', async (t) => {
     const player = new FakePlayer() as any;
     const arb = new SpeechArbiter(player);
     const turn = new TurnManager();
-    turn.on('turn', (id) => arb.setTurnId(id));
+    turn.on('turn', (id: number) => arb.setTurnId(id));
     turn.bump('start');
     const played: string[] = [];
-    arb.on('play-start', (u) => played.push(u!.id));
+    arb.on('play-start', (u: Utterance | null) => played.push(u!.id));
     const oldU: Utterance = {
         id: 'old',
         turnId: 0,
@@ -45,7 +45,7 @@ test('arbiter prioritizes higher priority', async (t) => {
     const arb = new SpeechArbiter(player);
     arb.setTurnId(1);
     const played: string[] = [];
-    arb.on('play-start', (u) => played.push(u!.id));
+    arb.on('play-start', (u: Utterance | null) => played.push(u!.id));
     const low: Utterance = {
         id: 'low',
         turnId: 1,

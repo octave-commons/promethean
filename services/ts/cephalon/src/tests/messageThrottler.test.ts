@@ -1,4 +1,5 @@
 import test from 'ava';
+process.env.DISABLE_AUDIO = '1';
 import { AIAgent } from '../agent.js';
 import type { Bot } from '../bot.js';
 import type { ContextManager } from '../contextManager.js';
@@ -26,4 +27,6 @@ test('throttles tick interval based on messages', async (t) => {
     t.true((agent as any).tickInterval > 100);
     client.socket?.close();
     await stopBroker(broker);
+    // stop audio player to let AVA exit cleanly
+    if ((agent as any).audioPlayer?.stop) (agent as any).audioPlayer.stop(true);
 });
