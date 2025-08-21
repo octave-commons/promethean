@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SmartGPT Bridge Dashboard</title>
-    <link rel="stylesheet" href="/dashboard/styles.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='7' fill='%2306b6d4'/%3E%3C/svg%3E" />
   </head>
   <body>
     <header>
@@ -26,80 +27,9 @@
     </section>
 
     <main>
-      <section>
-        <h2>Indexer</h2>
-        <div id="indexer-status" class="mono small">loading…</div>
-        <div class="row">
-          <button id="btn-reindex-all">Reindex All</button>
-          <input id="glob-input" placeholder="glob(s), e.g. services/**\/*.ts" />
-          <button id="btn-reindex-glob">Reindex Glob</button>
-        </div>
-      </section>
-
-      <section>
-        <h2>Semantic Search</h2>
-        <div class="row">
-          <input id="search-q" placeholder="query" />
-          <input id="search-n" type="number" min="1" max="32" value="8" />
-          <button id="btn-search">Search</button>
-        </div>
-        <div id="search-results" class="results"></div>
-      </section>
-
-      <section>
-        <h2>Agents</h2>
-        <div class="row">
-          <input id="agent-prompt" placeholder="prompt (optional)" />
-          <label class="chk"><input id="agent-tty" type="checkbox" checked /> TTY</label>
-          <label class="chk"><input id="agent-pty" type="checkbox" /> PTY</label>
-          <button id="btn-agent-start">Start</button>
-          <button id="btn-agents-refresh">Refresh List</button>
-        </div>
-        <div id="agents-list" class="list"></div>
-      </section>
-
-      <section>
-        <h2>Active Sessions</h2>
-        <div id="agent-sessions" class="sessions"></div>
-      </section>
+      <api-docs base="."></api-docs>
     </main>
 
-    <template id="result-item">
-      <div class="card">
-        <div class="path"></div>
-        <pre class="snippet"></pre>
-      </div>
-    </template>
-
-    <template id="agent-item">
-      <div class="row card agent-item">
-        <div class="grow">
-          <div class="mono small id"></div>
-          <div class="small muted meta"></div>
-        </div>
-        <button class="watch">Watch</button>
-        <button class="unwatch" style="display:none">Unwatch</button>
-      </div>
-    </template>
-
-    <template id="session-panel">
-      <div class="panel">
-        <div class="row head">
-          <div class="mono small title"></div>
-          <div class="spacer"></div>
-          <button class="close">Close</button>
-        </div>
-        <div class="row">
-          <input class="stdin" placeholder="stdin…" />
-          <button class="send">Send</button>
-          <button class="interrupt">Interrupt</button>
-          <button class="resume">Resume</button>
-          <button class="kill">Kill</button>
-        </div>
-        <pre class="logs"></pre>
-      </div>
-    </template>
-
-    <script src="/dashboard/main.js" type="module"></script>
+    <script src="/main.js" type="module"></script>
   </body>
   </html>

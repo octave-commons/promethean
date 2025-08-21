@@ -13,8 +13,11 @@
         "package.json",
         "pnpm-workspace.yaml",
         "readme.md",
-        "agents/README.md",
         "bridge/__init__.py",
+        "agents/README.md",
+        "hack/hack.js",
+        "hack/hack.py",
+        "dev/pm2Helpers.js",
         "docs/AGENTS.md",
         "docs/Identify and resolve a service client apparently connecting repeatedly to broker with new session ids.md",
         "docs/MIGRATION_PLAN.md",
@@ -40,11 +43,9 @@
         "docs/shared-py-speech-whisper-stream.md",
         "docs/tts-app-hy.md",
         "docs/untested-code.md",
-        "hack/hack.js",
-        "hack/hack.py",
-        "dev/pm2Helpers.js",
         "pseudo/AGENT.md",
         "run/setup_codex_dev_env.sh",
+        "shared/permissions.yaml",
         "scripts/README.md",
         "scripts/__init__.py",
         "scripts/add_tags_ollama.py",
@@ -65,6 +66,7 @@
         "scripts/ollama_json_test.py",
         "scripts/original_demo.py",
         "scripts/populate_task_ollama.py",
+        "scripts/prom.js",
         "scripts/run-hy-tests.js",
         "scripts/run-python-tests.js",
         "scripts/simulate.js",
@@ -78,7 +80,6 @@
         "scripts/tts_request.py",
         "scripts/vision_request.py",
         "scripts/whisper_test.py",
-        "shared/permissions.yaml",
         "site/README.md",
         "tests/brokerClient.test.js",
         "tests/intention.test.js",
@@ -91,9 +92,6 @@
         "tests/tokenBucket.test.js",
         "unique/2025.07.28.18.07.20.md",
         "vault-config/README.md",
-        "agents/duck/README.md",
-        "agents/duck/ecosystem.config.js",
-        "agents/templates/README.md",
         "bridge/events/__init__.py",
         "bridge/events/events.json",
         "bridge/events/events.md",
@@ -103,7 +101,22 @@
         "bridge/protocols/permission-schema.md",
         "bridge/protocols/stt-ws-request-v1.json",
         "bridge/protocols/stt-ws-response-v1.json",
+        "agents/duck/README.md",
+        "agents/duck/ecosystem.config.js",
+        "agents/templates/README.md",
+        "legacy/lithp/README.md",
+        "legacy/lithp/package.json",
+        "legacy/lithp/sibilant.js",
+        "legacy/riatzukiza.github.io/Tasks Plugin - Review and check your Statuses 2024-12-18 14-28-29.md",
+        "legacy/riatzukiza.github.io/_Index_of_portfolio.md",
+        "legacy/riatzukiza.github.io/_Index_of_riatzukiza.github.io.md",
+        "legacy/riatzukiza.github.io/ecosystem.config.js",
+        "legacy/riatzukiza.github.io/list.js",
+        "legacy/riatzukiza.github.io/package-lock.json",
+        "legacy/riatzukiza.github.io/package.json",
+        "legacy/riatzukiza.github.io/readme.md",
         "docs/Daily/2025-08-21.md",
+        "docs/agents/AGENTS-taxonomy.md",
         "docs/agents/README.md",
         "docs/agile/AGENTS.md",
         "docs/agile/Process.md",
@@ -130,6 +143,8 @@
         "docs/prompts/AGENTS.md",
         "docs/prompts/chat-gpt-promethean-project.md",
         "docs/prompts/simulate-github-actions-workflow.md",
+        "docs/reports/README.md",
+        "docs/reports/contradictions.md",
         "docs/research/BuildingTheFields.md",
         "docs/research/github_projects_api.md",
         "docs/scripts/flip_alias.md",
@@ -139,19 +154,18 @@
         "docs/security/answers.md",
         "docs/security/quizes.md",
         "docs/shared/README.md",
-        "docs/services/README.md",
         "docs/site/markdown_graph_frontend.md",
         "docs/templates/README.md",
         "docs/templates/README.template.md",
         "docs/templates/file.doc.template.md",
         "docs/templates/service-template.md",
         "docs/templates/service.README.template.md",
+        "docs/services/README.md",
+        "docs/services/smartgpt-bridge-dashboard.md",
+        "docs/services/smartgpt-bridge.md",
         "docs/tools/lisp-cli.md",
         "docs/vault-config/README.md",
         "docs/vault-config/example board.md",
-        "legacy/lithp/README.md",
-        "legacy/lithp/package.json",
-        "legacy/lithp/sibilant.js",
         "docs/unique/2025.07.28.11.07.04 Autohotkey.md",
         "docs/unique/2025.07.28.11.07.18 Lisp DSL.md",
         "docs/unique/2025.07.28.11.07.38 komorebic-group-window-hack.md",
@@ -282,31 +296,7 @@
         "docs/unique/ripple-propagation-demo.md",
         "docs/unique/sibilant-metacompiler-overview.md",
         "docs/unique/template-based-compilation.md",
-        "legacy/riatzukiza.github.io/Tasks Plugin - Review and check your Statuses 2024-12-18 14-28-29.md",
-        "legacy/riatzukiza.github.io/_Index_of_portfolio.md",
-        "legacy/riatzukiza.github.io/_Index_of_riatzukiza.github.io.md",
-        "legacy/riatzukiza.github.io/ecosystem.config.js",
-        "legacy/riatzukiza.github.io/list.js",
-        "legacy/riatzukiza.github.io/package-lock.json",
-        "legacy/riatzukiza.github.io/package.json",
-        "legacy/riatzukiza.github.io/readme.md",
         "pseudo/templates/README.md",
-        "docs/notes/2025.08.12.13.19.53.md",
-        "docs/notes/2025.08.12.13.51.10.md",
-        "docs/notes/2025.08.12.18.54.06.md",
-        "docs/notes/2025.08.13.14.00.55.md",
-        "docs/notes/2025.08.15.13.11.27.md",
-        "docs/notes/2025.08.16.13.01.55.md",
-        "docs/notes/2025.08.16.14.44.28.md",
-        "docs/notes/2025.08.17.19.23.39.md",
-        "docs/notes/2025.08.18.12.24.42.md",
-        "docs/notes/2025.08.19.10.07.18.md",
-        "docs/notes/2025.08.19.12.42.50.md",
-        "docs/notes/2025.08.19.15.16.43.md",
-        "docs/notes/2025.08.19.18.40.01.md",
-        "docs/notes/2025.08.19.19.00.17.md",
-        "docs/notes/2025.08.21.13.11.45.md",
-        "docs/notes/2025.08.21.14.35.23.md",
         "services/templates/README.md",
         "services/templates/board-updater_README.template.md",
         "services/templates/broker_README.template.md",
@@ -325,16 +315,22 @@
         "services/templates/tts_README.template.md",
         "services/templates/vision_README.template.md",
         "services/templates/voice_README.template.md",
-        "scripts/kanban/README.md",
-        "scripts/kanban/agile_statuses.py",
-        "scripts/kanban/github_board_sync.py",
-        "scripts/kanban/hashtags_to_kanban.py",
-        "scripts/kanban/kanban_to_hashtags.py",
-        "scripts/kanban/normalize_statuses.py",
-        "scripts/kanban/pending_count.ts",
-        "scripts/kanban/tasks_from_unique.py",
-        "scripts/kanban/wip-sheriff.ts",
-        "scripts/templates/README.md",
+        "docs/notes/2025.08.12.13.19.53.md",
+        "docs/notes/2025.08.12.13.51.10.md",
+        "docs/notes/2025.08.12.18.54.06.md",
+        "docs/notes/2025.08.13.14.00.55.md",
+        "docs/notes/2025.08.15.13.11.27.md",
+        "docs/notes/2025.08.16.13.01.55.md",
+        "docs/notes/2025.08.16.14.44.28.md",
+        "docs/notes/2025.08.17.19.23.39.md",
+        "docs/notes/2025.08.18.12.24.42.md",
+        "docs/notes/2025.08.19.10.07.18.md",
+        "docs/notes/2025.08.19.12.42.50.md",
+        "docs/notes/2025.08.19.15.16.43.md",
+        "docs/notes/2025.08.19.18.40.01.md",
+        "docs/notes/2025.08.19.19.00.17.md",
+        "docs/notes/2025.08.21.13.11.45.md",
+        "docs/notes/2025.08.21.14.35.23.md",
         "shared/js/brokerClient.d.ts",
         "shared/js/brokerClient.js",
         "shared/js/env.d.ts",
@@ -358,13 +354,23 @@
         "shared/py/permissions.py",
         "shared/py/service_template.py",
         "shared/py/settings.py",
+        "shared/templates/README.md",
+        "shared/ts/package.json",
+        "shared/ts/tsconfig.json",
+        "scripts/kanban/README.md",
+        "scripts/kanban/agile_statuses.py",
+        "scripts/kanban/github_board_sync.py",
+        "scripts/kanban/hashtags_to_kanban.py",
+        "scripts/kanban/kanban_to_hashtags.py",
+        "scripts/kanban/normalize_statuses.py",
+        "scripts/kanban/pending_count.ts",
+        "scripts/kanban/tasks_from_unique.py",
+        "scripts/kanban/wip-sheriff.ts",
+        "scripts/templates/README.md",
         "tests/e2e/AGENTS.md",
         "tests/e2e/test_discord_dialog.py",
         "tests/e2e/test_service_endpoints.py",
         "tests/e2e/test_vision_service.py",
-        "shared/ts/package.json",
-        "shared/ts/tsconfig.json",
-        "shared/templates/README.md",
         "tests/integration/AGENTS.md",
         "tests/integration/test_markdown_graph_embedding.py",
         "tests/integration/test_stt_llm_tts.py",
@@ -386,6 +392,57 @@
         "agents/duck/scripts/run_embedder.sh",
         "agents/duck/scripts/run_vision.sh",
         "agents/templates/config/permissions.yaml",
+        "legacy/lithp/docs/docs.json",
+        "legacy/lithp/docs/docs.txt",
+        "legacy/lithp/lib/browser.js",
+        "legacy/lithp/lib/cli.js",
+        "legacy/lithp/lib/colors.js",
+        "legacy/lithp/lib/docs.js",
+        "legacy/lithp/lib/helpers.js",
+        "legacy/lithp/lib/macros.js",
+        "legacy/lithp/lib/node.js",
+        "legacy/lithp/lib/options.js",
+        "legacy/lithp/lib/output-formatter.js",
+        "legacy/lithp/lib/parser.js",
+        "legacy/lithp/lib/precompiled-macros.js",
+        "legacy/lithp/lib/pretty-printer.js",
+        "legacy/lithp/lib/repl.js",
+        "legacy/lithp/lib/require-and-include.js",
+        "legacy/lithp/lib/restructurer.js",
+        "legacy/lithp/lib/sibilant.js",
+        "legacy/lithp/lib/sourcemap.js",
+        "legacy/lithp/lib/transpiler.js",
+        "legacy/riatzukiza.github.io/Chats/New Chat.md",
+        "legacy/riatzukiza.github.io/Chats/_Index_of_Chats.md",
+        "legacy/riatzukiza.github.io/docs/_Index_of_docs.md",
+        "legacy/riatzukiza.github.io/docs/readme.md",
+        "legacy/riatzukiza.github.io/hack/camera.js",
+        "legacy/riatzukiza.github.io/hack/multiple-sprites.js",
+        "legacy/riatzukiza.github.io/hack/panning-camera.js",
+        "legacy/riatzukiza.github.io/hack/print-range-bst.js",
+        "legacy/riatzukiza.github.io/hack/red-black.js",
+        "legacy/riatzukiza.github.io/hack/sprite-shader.js",
+        "legacy/riatzukiza.github.io/kanban/_Index_of_kanban.md",
+        "legacy/riatzukiza.github.io/kanban/board.md",
+        "legacy/riatzukiza.github.io/kanban/done.md",
+        "legacy/riatzukiza.github.io/kanban/process.md",
+        "legacy/riatzukiza.github.io/kanban/project.md",
+        "legacy/riatzukiza.github.io/notes/_Index_of_notes.md",
+        "legacy/riatzukiza.github.io/server/app.js",
+        "legacy/riatzukiza.github.io/server/index.js",
+        "legacy/riatzukiza.github.io/server/server.js",
+        "legacy/riatzukiza.github.io/server/static-files.js",
+        "legacy/riatzukiza.github.io/templates/index.js",
+        "docs/agents/board-manager/AGENTS.md",
+        "docs/agents/codex-cli/AGENTS.md",
+        "docs/agents/codex-gui/AGENTS.md",
+        "docs/agents/developer/AGENTS.md",
+        "docs/agents/duck/AGENTS.md",
+        "docs/agents/embedding-agents/AGENTS.md",
+        "docs/agents/infrastructure/AGENTS.md",
+        "docs/agents/pythagoras/AGENTS.md",
+        "docs/agents/residents/AGENTS.md",
+        "docs/agents/synthesis-agent/AGENTS.md",
         "docs/agile/boards/Refactor speech interuption system to be more inteligent, using audio data to decide if interupted.md",
         "docs/agile/boards/agents.md",
         "docs/agile/boards/automatically-generated-tasks.md",
@@ -394,6 +451,7 @@
         "docs/agile/boards/test.md",
         "docs/agile/templates/README.md",
         "docs/agile/templates/task.stub.template.md",
+        "docs/design/templates/README.md",
         "docs/design/circuits/Aionian.md",
         "docs/design/circuits/Anankean.md",
         "docs/design/circuits/Dorian.md",
@@ -411,7 +469,11 @@
         "docs/design/circuits/layer7.md",
         "docs/design/circuits/layer8.md",
         "docs/design/circuits/overview.md",
-        "docs/design/templates/README.md",
+        "docs/journal/templates/README.md",
+        "docs/prompts/agents/README.md",
+        "docs/prompts/history/README.md",
+        "docs/prompts/meta/README.md",
+        "docs/prompts/scratch/README.md",
         "docs/agile/tasks/Add codex layer to emacs.md",
         "docs/agile/tasks/Add git commands to gpt bridge.md",
         "docs/agile/tasks/Curate code from personal repository.md",
@@ -606,22 +668,17 @@
         "docs/agile/tasks/write_meaningful_tests_for_cephalon_md_md.md",
         "docs/agile/tasks/write_simple_ecosystem_declaration_library_for_new_md_md.md",
         "docs/agile/tasks/write_vault_config_readme_md_for_obsidian_vault_on_md.md",
-        "docs/journal/templates/README.md",
-        "docs/prompts/agents/README.md",
-        "docs/prompts/history/README.md",
-        "docs/prompts/meta/README.md",
-        "docs/prompts/scratch/README.md",
         "docs/prompts/seed/README.md",
         "docs/prompts/templates/README.md",
         "docs/research/templates/README.md",
+        "docs/services/broker/AGENTS.md",
+        "docs/services/broker/index.md",
+        "docs/shared/ts/embeddings-versioning.md",
         "docs/shared/py/heartbeat_broker.md",
         "docs/shared/py/heartbeat_client.md",
         "docs/shared/py/mongodb.md",
         "docs/shared/py/service_template.md",
         "docs/shared/py/settings.md",
-        "docs/shared/ts/embeddings-versioning.md",
-        "docs/services/broker/AGENTS.md",
-        "docs/services/broker/index.md",
         "docs/services/cephalon/AGENTS.md",
         "docs/services/discord-attachment-embedder/AGENTS.md",
         "docs/services/discord-attachment-embedder/main.md",
@@ -653,30 +710,10 @@
         "docs/services/stt/whisper_demo.md",
         "docs/services/tts/AGENTS.md",
         "docs/services/tts/app.md",
+        "docs/services/voice/AGENTS.md",
         "docs/services/vision/AGENTS.md",
         "docs/services/vision/index.md",
-        "docs/services/voice/AGENTS.md",
         "docs/tests/e2e/service-endpoints.md",
-        "legacy/lithp/docs/docs.json",
-        "legacy/lithp/docs/docs.txt",
-        "legacy/lithp/lib/browser.js",
-        "legacy/lithp/lib/cli.js",
-        "legacy/lithp/lib/colors.js",
-        "legacy/lithp/lib/docs.js",
-        "legacy/lithp/lib/helpers.js",
-        "legacy/lithp/lib/macros.js",
-        "legacy/lithp/lib/node.js",
-        "legacy/lithp/lib/options.js",
-        "legacy/lithp/lib/output-formatter.js",
-        "legacy/lithp/lib/parser.js",
-        "legacy/lithp/lib/precompiled-macros.js",
-        "legacy/lithp/lib/pretty-printer.js",
-        "legacy/lithp/lib/repl.js",
-        "legacy/lithp/lib/require-and-include.js",
-        "legacy/lithp/lib/restructurer.js",
-        "legacy/lithp/lib/sibilant.js",
-        "legacy/lithp/lib/sourcemap.js",
-        "legacy/lithp/lib/transpiler.js",
         "docs/unique/chunks/diagrams.md",
         "docs/unique/chunks/dsl.md",
         "docs/unique/chunks/js.md",
@@ -688,31 +725,10 @@
         "docs/unique/chunks/tooling.md",
         "docs/unique/chunks/wm.md",
         "docs/unique/templates/README.md",
-        "legacy/riatzukiza.github.io/Chats/New Chat.md",
-        "legacy/riatzukiza.github.io/Chats/_Index_of_Chats.md",
-        "legacy/riatzukiza.github.io/docs/_Index_of_docs.md",
-        "legacy/riatzukiza.github.io/docs/readme.md",
-        "legacy/riatzukiza.github.io/hack/camera.js",
-        "legacy/riatzukiza.github.io/hack/multiple-sprites.js",
-        "legacy/riatzukiza.github.io/hack/panning-camera.js",
-        "legacy/riatzukiza.github.io/hack/print-range-bst.js",
-        "legacy/riatzukiza.github.io/hack/red-black.js",
-        "legacy/riatzukiza.github.io/hack/sprite-shader.js",
-        "legacy/riatzukiza.github.io/kanban/_Index_of_kanban.md",
-        "legacy/riatzukiza.github.io/kanban/board.md",
-        "legacy/riatzukiza.github.io/kanban/done.md",
-        "legacy/riatzukiza.github.io/kanban/process.md",
-        "legacy/riatzukiza.github.io/kanban/project.md",
-        "legacy/riatzukiza.github.io/notes/_Index_of_notes.md",
-        "legacy/riatzukiza.github.io/server/app.js",
-        "legacy/riatzukiza.github.io/server/index.js",
-        "legacy/riatzukiza.github.io/server/server.js",
-        "legacy/riatzukiza.github.io/server/static-files.js",
-        "legacy/riatzukiza.github.io/templates/index.js",
         "services/hy/discord_attachment_embedder/README.md",
         "services/hy/discord_attachment_embedder/main.py",
-        "services/hy/discord_attachment_indexer/README.md",
         "services/hy/discord_indexer/README.md",
+        "services/hy/discord_attachment_indexer/README.md",
         "services/hy/stt/README.md",
         "services/hy/stt/run.sh",
         "services/hy/stt/whisper_demo.py",
@@ -725,6 +741,7 @@
         "services/js/broker/index.js",
         "services/js/broker/package-lock.json",
         "services/js/broker/package.json",
+        "services/js/event-gateway/index.ts",
         "services/js/eidolon-field/README.md",
         "services/js/eidolon-field/ecosystem.config.js",
         "services/js/eidolon-field/ecosystem.dependencies.js",
@@ -732,7 +749,6 @@
         "services/js/eidolon-field/index.js",
         "services/js/eidolon-field/package-lock.json",
         "services/js/eidolon-field/package.json",
-        "services/js/event-gateway/index.ts",
         "services/js/event-hub/evolve.ts",
         "services/js/health/README.md",
         "services/js/health/ecosystem.config.js",
@@ -963,13 +979,13 @@
         "shared/js/heartbeat/package-lock.json",
         "shared/js/heartbeat/package.json",
         "shared/js/server/index.js",
+        "shared/py/models/__init__.py",
+        "shared/py/models/forward_tacotron_ie.py",
+        "shared/py/models/mel2wave_ie.py",
         "services/ts/auth-service/README.md",
         "services/ts/auth-service/ecosystem.config.js",
         "services/ts/auth-service/package.json",
         "services/ts/auth-service/tsconfig.json",
-        "shared/py/models/__init__.py",
-        "shared/py/models/forward_tacotron_ie.py",
-        "shared/py/models/mel2wave_ie.py",
         "shared/py/speech/service_clients.py",
         "shared/py/speech/spell_checker.py",
         "shared/py/speech/stt.py",
@@ -1002,75 +1018,6 @@
         "shared/py/utils/wav_processing.py",
         "shared/py/utils/websocket.py",
         "shared/ts/scripts/patch-imports.js",
-        "docs/agents/duck/scripts/discord_indexer_run.md",
-        "docs/agents/duck/scripts/download_chroma_data.md",
-        "docs/agents/duck/scripts/duck_cephalon_run.md",
-        "docs/agents/duck/scripts/duck_embedder_run.md",
-        "docs/design/circuits/templates/README.md",
-        "docs/shared/py/utils/gui.md",
-        "docs/shared/py/utils/wav_processing.md",
-        "docs/shared/ts/prom-lib/compiler.md",
-        "docs/services/cephalon/scripts/patch-imports.md",
-        "docs/services/cephalon/src/agent.md",
-        "docs/services/cephalon/src/bot.md",
-        "docs/services/cephalon/src/collectionManager.md",
-        "docs/services/cephalon/src/collections.md",
-        "docs/services/cephalon/src/contextManager.md",
-        "docs/services/cephalon/src/converter.md",
-        "docs/services/cephalon/src/embedding.md",
-        "docs/services/cephalon/src/index.md",
-        "docs/services/cephalon/src/messageThrottler.md",
-        "docs/services/cephalon/src/speaker.md",
-        "docs/services/cephalon/src/transcriber.md",
-        "docs/services/cephalon/src/util.md",
-        "docs/services/cephalon/src/voice-recorder.md",
-        "docs/services/cephalon/src/voice-session.md",
-        "docs/services/cephalon/src/voice-synth.md",
-        "docs/services/cephalon/tests/bot.test.md",
-        "docs/services/cephalon/tests/converter.md",
-        "docs/services/cephalon/tests/messageThrottler.test.md",
-        "docs/services/cephalon/tests/test.md",
-        "docs/services/cephalon/tests/voice_session.test.md",
-        "docs/services/discord-attachment-embedder/tests/test_embedder.md",
-        "docs/services/discord-attachment-indexer/tests/test_discord_attachment_indexer.md",
-        "docs/services/discord-embedder/src/converter.md",
-        "docs/services/discord-embedder/src/embedding.md",
-        "docs/services/discord-embedder/src/index.md",
-        "docs/services/discord-embedder/tests/converter.md",
-        "docs/services/discord-embedder/tests/embedding.test.md",
-        "docs/services/discord-embedder/tests/test.md",
-        "docs/services/embedding-service/drivers/__init__.md",
-        "docs/services/embedding-service/drivers/base.md",
-        "docs/services/embedding-service/drivers/naive_driver.md",
-        "docs/services/embedding-service/drivers/ollama_driver.md",
-        "docs/services/embedding-service/drivers/transformers_driver.md",
-        "docs/services/embedding-service/tests/test_service.md",
-        "docs/services/heartbeat/tests/client.test.md",
-        "docs/services/heartbeat/tests/heartbeat.test.md",
-        "docs/services/stt/whisper-npu-py/audio.md",
-        "docs/services/stt/whisper-npu-py/beam_decoder.md",
-        "docs/services/stt/whisper-npu-py/cache.md",
-        "docs/services/stt/whisper-npu-py/config.md",
-        "docs/services/stt/whisper-npu-py/decoder.md",
-        "docs/services/stt/whisper-npu-py/inspect_whisper_io.md",
-        "docs/services/stt/whisper-npu-py/models.md",
-        "docs/services/stt/whisper-npu-py/post_processing.md",
-        "docs/services/stt/whisper-npu-py/whisper.md",
-        "docs/services/stt/whisper-npu-py/whisper_streamer.md",
-        "docs/services/stt/whisper_npu/__init__.md",
-        "docs/services/stt/whisper_npu/audio.md",
-        "docs/services/stt/whisper_npu/config.md",
-        "docs/services/stt/whisper_npu/decoder.md",
-        "docs/services/stt/whisper_npu/models.md",
-        "docs/services/stt/whisper_npu/post_processing.md",
-        "docs/services/voice/src/index.md",
-        "docs/services/voice/src/speaker.md",
-        "docs/services/voice/src/transcriber.md",
-        "docs/services/voice/src/voice-recorder.md",
-        "docs/services/voice/src/voice-session.md",
-        "docs/services/voice/src/voice-synth.md",
-        "docs/services/voice/tests/playback.test.md",
-        "docs/services/voice/tests/speaker.test.md",
         "legacy/riatzukiza.github.io/docs/Obstacles/_Index_of_Obstacles.md",
         "legacy/riatzukiza.github.io/docs/Pools/_Index_of_Pools.md",
         "legacy/riatzukiza.github.io/docs/Shared/_Index_of_Shared.md",
@@ -1078,6 +1025,20 @@
         "legacy/riatzukiza.github.io/kanban/templates/Epic.md",
         "legacy/riatzukiza.github.io/kanban/templates/New Task.md",
         "legacy/riatzukiza.github.io/kanban/templates/_Index_of_templates.md",
+        "legacy/riatzukiza.github.io/notes/unique/2025-01-10-08.21.29-graph-traversal.md",
+        "legacy/riatzukiza.github.io/notes/unique/2025-01-10-11.17.32-a-star-priority-queue.md",
+        "legacy/riatzukiza.github.io/notes/unique/2025-01-10-11.29.34-empty.md",
+        "legacy/riatzukiza.github.io/notes/unique/2025-01-10-11.43.23-a-star-tilemap.md",
+        "legacy/riatzukiza.github.io/notes/unique/2025-01-18-07.39.28-math-pow-example.md",
+        "legacy/riatzukiza.github.io/notes/unique/2025-01-18-07.51.13-threaded-chunk-loader.md",
+        "legacy/riatzukiza.github.io/notes/unique/2025-01-18-08.12.36-javascript-proxies.md",
+        "legacy/riatzukiza.github.io/notes/unique/2025-05-21-06.07.10-brain-dump-triage-process.md",
+        "legacy/riatzukiza.github.io/notes/unique/2025-05-21-06.07.23-triage-checklist.md",
+        "legacy/riatzukiza.github.io/notes/unique/2025-05-21-06.35.12-project-workflow-ice-box.md",
+        "legacy/riatzukiza.github.io/notes/unique/2025-05-22-09.00.02-board-flow-ice-box.md",
+        "legacy/riatzukiza.github.io/notes/unique/2025-05-22-09.11.08-profile-memory-system.md",
+        "legacy/riatzukiza.github.io/notes/unique/On proxy overhead.md",
+        "legacy/riatzukiza.github.io/notes/unique/_Index_of_unique.md",
         "legacy/riatzukiza.github.io/notes/daily/2024-12-24.md",
         "legacy/riatzukiza.github.io/notes/daily/2024-12-27.md",
         "legacy/riatzukiza.github.io/notes/daily/2025-01-02.md",
@@ -1129,20 +1090,6 @@
         "legacy/riatzukiza.github.io/notes/daily/2025-07-24.md",
         "legacy/riatzukiza.github.io/notes/daily/2025-07-27.md",
         "legacy/riatzukiza.github.io/notes/daily/_Index_of_daily.md",
-        "legacy/riatzukiza.github.io/notes/unique/2025-01-10-08.21.29-graph-traversal.md",
-        "legacy/riatzukiza.github.io/notes/unique/2025-01-10-11.17.32-a-star-priority-queue.md",
-        "legacy/riatzukiza.github.io/notes/unique/2025-01-10-11.29.34-empty.md",
-        "legacy/riatzukiza.github.io/notes/unique/2025-01-10-11.43.23-a-star-tilemap.md",
-        "legacy/riatzukiza.github.io/notes/unique/2025-01-18-07.39.28-math-pow-example.md",
-        "legacy/riatzukiza.github.io/notes/unique/2025-01-18-07.51.13-threaded-chunk-loader.md",
-        "legacy/riatzukiza.github.io/notes/unique/2025-01-18-08.12.36-javascript-proxies.md",
-        "legacy/riatzukiza.github.io/notes/unique/2025-05-21-06.07.10-brain-dump-triage-process.md",
-        "legacy/riatzukiza.github.io/notes/unique/2025-05-21-06.07.23-triage-checklist.md",
-        "legacy/riatzukiza.github.io/notes/unique/2025-05-21-06.35.12-project-workflow-ice-box.md",
-        "legacy/riatzukiza.github.io/notes/unique/2025-05-22-09.00.02-board-flow-ice-box.md",
-        "legacy/riatzukiza.github.io/notes/unique/2025-05-22-09.11.08-profile-memory-system.md",
-        "legacy/riatzukiza.github.io/notes/unique/On proxy overhead.md",
-        "legacy/riatzukiza.github.io/notes/unique/_Index_of_unique.md",
         "legacy/riatzukiza.github.io/kanban/tasks/3d gravity using babylon.md",
         "legacy/riatzukiza.github.io/kanban/tasks/Abstractions.md",
         "legacy/riatzukiza.github.io/kanban/tasks/Add A star to Obstacles.md",
@@ -1289,13 +1236,6 @@
         "legacy/lithp/public/javascripts/sibilant.info.js",
         "legacy/riatzukiza.github.io/static/lib/metadata.json",
         "legacy/riatzukiza.github.io/static/lib/search-index.json",
-        "legacy/riatzukiza.github.io/templates/projects/colliding-particles.js",
-        "legacy/riatzukiza.github.io/templates/projects/crash-landed.js",
-        "legacy/riatzukiza.github.io/templates/projects/fluid.js",
-        "legacy/riatzukiza.github.io/templates/projects/index.js",
-        "legacy/riatzukiza.github.io/templates/projects/obstacles.js",
-        "legacy/riatzukiza.github.io/templates/projects/red-black-tree-visualization.js",
-        "legacy/riatzukiza.github.io/templates/projects/simple-gravity.js",
         "legacy/riatzukiza.github.io/static/shared/andy.js",
         "legacy/riatzukiza.github.io/static/shared/database.js",
         "legacy/riatzukiza.github.io/static/shared/dom.js",
@@ -1313,9 +1253,85 @@
         "legacy/riatzukiza.github.io/static/shared/utils.js",
         "legacy/riatzukiza.github.io/static/shared/vectors.js",
         "legacy/riatzukiza.github.io/static/shared/worker.js",
+        "legacy/riatzukiza.github.io/templates/projects/colliding-particles.js",
+        "legacy/riatzukiza.github.io/templates/projects/crash-landed.js",
+        "legacy/riatzukiza.github.io/templates/projects/fluid.js",
+        "legacy/riatzukiza.github.io/templates/projects/index.js",
+        "legacy/riatzukiza.github.io/templates/projects/obstacles.js",
+        "legacy/riatzukiza.github.io/templates/projects/red-black-tree-visualization.js",
+        "legacy/riatzukiza.github.io/templates/projects/simple-gravity.js",
+        "docs/agents/duck/scripts/discord_indexer_run.md",
+        "docs/agents/duck/scripts/download_chroma_data.md",
+        "docs/agents/duck/scripts/duck_cephalon_run.md",
+        "docs/agents/duck/scripts/duck_embedder_run.md",
+        "docs/design/circuits/templates/README.md",
+        "docs/shared/ts/prom-lib/compiler.md",
+        "docs/shared/py/utils/gui.md",
+        "docs/shared/py/utils/wav_processing.md",
+        "docs/services/cephalon/scripts/patch-imports.md",
+        "docs/services/cephalon/src/agent.md",
+        "docs/services/cephalon/src/bot.md",
+        "docs/services/cephalon/src/collectionManager.md",
+        "docs/services/cephalon/src/collections.md",
+        "docs/services/cephalon/src/contextManager.md",
+        "docs/services/cephalon/src/converter.md",
+        "docs/services/cephalon/src/embedding.md",
+        "docs/services/cephalon/src/index.md",
+        "docs/services/cephalon/src/messageThrottler.md",
+        "docs/services/cephalon/src/speaker.md",
+        "docs/services/cephalon/src/transcriber.md",
+        "docs/services/cephalon/src/util.md",
+        "docs/services/cephalon/src/voice-recorder.md",
+        "docs/services/cephalon/src/voice-session.md",
+        "docs/services/cephalon/src/voice-synth.md",
+        "docs/services/cephalon/tests/bot.test.md",
+        "docs/services/cephalon/tests/converter.md",
+        "docs/services/cephalon/tests/messageThrottler.test.md",
+        "docs/services/cephalon/tests/test.md",
+        "docs/services/cephalon/tests/voice_session.test.md",
+        "docs/services/discord-attachment-embedder/tests/test_embedder.md",
+        "docs/services/discord-attachment-indexer/tests/test_discord_attachment_indexer.md",
+        "docs/services/discord-embedder/src/converter.md",
+        "docs/services/discord-embedder/src/embedding.md",
+        "docs/services/discord-embedder/src/index.md",
+        "docs/services/discord-embedder/tests/converter.md",
+        "docs/services/discord-embedder/tests/embedding.test.md",
+        "docs/services/discord-embedder/tests/test.md",
+        "docs/services/embedding-service/drivers/__init__.md",
+        "docs/services/embedding-service/drivers/base.md",
+        "docs/services/embedding-service/drivers/naive_driver.md",
+        "docs/services/embedding-service/drivers/ollama_driver.md",
+        "docs/services/embedding-service/drivers/transformers_driver.md",
+        "docs/services/embedding-service/tests/test_service.md",
+        "docs/services/heartbeat/tests/client.test.md",
+        "docs/services/heartbeat/tests/heartbeat.test.md",
+        "docs/services/stt/whisper-npu-py/audio.md",
+        "docs/services/stt/whisper-npu-py/beam_decoder.md",
+        "docs/services/stt/whisper-npu-py/cache.md",
+        "docs/services/stt/whisper-npu-py/config.md",
+        "docs/services/stt/whisper-npu-py/decoder.md",
+        "docs/services/stt/whisper-npu-py/inspect_whisper_io.md",
+        "docs/services/stt/whisper-npu-py/models.md",
+        "docs/services/stt/whisper-npu-py/post_processing.md",
+        "docs/services/stt/whisper-npu-py/whisper.md",
+        "docs/services/stt/whisper-npu-py/whisper_streamer.md",
+        "docs/services/stt/whisper_npu/__init__.md",
+        "docs/services/stt/whisper_npu/audio.md",
+        "docs/services/stt/whisper_npu/config.md",
+        "docs/services/stt/whisper_npu/decoder.md",
+        "docs/services/stt/whisper_npu/models.md",
+        "docs/services/stt/whisper_npu/post_processing.md",
+        "docs/services/voice/src/index.md",
+        "docs/services/voice/src/speaker.md",
+        "docs/services/voice/src/transcriber.md",
+        "docs/services/voice/src/voice-recorder.md",
+        "docs/services/voice/src/voice-session.md",
+        "docs/services/voice/src/voice-synth.md",
+        "docs/services/voice/tests/playback.test.md",
+        "docs/services/voice/tests/speaker.test.md",
         "services/hy/discord_attachment_embedder/tests/test_embedder.py",
-        "services/hy/discord_attachment_indexer/tests/test_discord_attachment_indexer.py",
         "services/hy/discord_indexer/tests/test_discord_indexer.py",
+        "services/hy/discord_attachment_indexer/tests/test_discord_attachment_indexer.py",
         "services/hy/stt/tests/stt_unit_test.py",
         "services/hy/tts/tests/test_tts_websocket.py",
         "services/js/broker/tests/broker.test.js",
@@ -1445,10 +1461,14 @@
         "services/ts/smartgpt-bridge/src/indexerState.js",
         "services/ts/smartgpt-bridge/src/logger.js",
         "services/ts/smartgpt-bridge/src/remoteEmbedding.js",
+        "services/ts/smartgpt-bridge/src/rg.js",
         "services/ts/smartgpt-bridge/src/spec.js",
         "services/ts/smartgpt-bridge/src/store.js",
         "services/ts/smartgpt-bridge/src/symbols.js",
         "services/ts/voice/scripts/patch-imports.js",
+        "services/ts/voice/tests/dummy.test.ts",
+        "services/ts/voice/tests/playback.test.ts",
+        "services/ts/voice/tests/speaker.test.ts",
         "services/ts/voice/src/ambient.d.ts",
         "services/ts/voice/src/index.ts",
         "services/ts/voice/src/speaker.ts",
@@ -1456,9 +1476,6 @@
         "services/ts/voice/src/voice-recorder.ts",
         "services/ts/voice/src/voice-session.ts",
         "services/ts/voice/src/voice-synth.ts",
-        "services/ts/voice/tests/dummy.test.ts",
-        "services/ts/voice/tests/playback.test.ts",
-        "services/ts/voice/tests/speaker.test.ts",
         "services/ts/auth-service/src/index.ts",
         "services/ts/auth-service/src/keys.ts",
         "shared/ts/src/agent-ecs/agent-ecs.doublebuffer.test.ts",
@@ -1533,10 +1550,6 @@
         "shared/ts/src/ws/client.ts",
         "shared/ts/src/ws/server.rate.ts",
         "shared/ts/src/ws/server.ts",
-        "docs/github/issues/riatzukiza/promethean/Issue - 274.md",
-        "docs/github/issues/riatzukiza/promethean/Issue - 309.md",
-        "docs/github/pull_requests/riatzukiza/promethean/Pull Request - 274.md",
-        "docs/github/pull_requests/riatzukiza/promethean/Pull Request - 309.md",
         "legacy/riatzukiza.github.io/docs/Crash-Landed/systems/Ant-dot.md",
         "legacy/riatzukiza.github.io/docs/Crash-Landed/systems/Ant-dots.md",
         "legacy/riatzukiza.github.io/docs/Crash-Landed/systems/Time-limit.md",
@@ -1595,8 +1608,6 @@
         "legacy/riatzukiza.github.io/static/bundles/obstacles/settings.js",
         "legacy/riatzukiza.github.io/static/bundles/obstacles/strings.js",
         "legacy/riatzukiza.github.io/static/bundles/red-black-tree-visualization/main.js",
-        "legacy/riatzukiza.github.io/static/bundles/tests/main.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/main.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/andy.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/dom.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/ecs.js",
@@ -1614,6 +1625,8 @@
         "legacy/riatzukiza.github.io/static/bundles/shared/vector.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/vectors.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/worker.js",
+        "legacy/riatzukiza.github.io/static/bundles/tests/main.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/main.js",
         "legacy/riatzukiza.github.io/static/client/colliding-particles/config.js",
         "legacy/riatzukiza.github.io/static/client/colliding-particles/data.js",
         "legacy/riatzukiza.github.io/static/client/colliding-particles/ecs.js",
@@ -1665,8 +1678,6 @@
         "legacy/riatzukiza.github.io/static/lib/scripts/pixi.js",
         "legacy/riatzukiza.github.io/static/lib/scripts/tinycolor.js",
         "legacy/riatzukiza.github.io/static/lib/scripts/webpage.js",
-        "legacy/riatzukiza.github.io/static/sprites/Cute_Fantasy_Free/read_me.txt",
-        "legacy/riatzukiza.github.io/static/sprites/Small-8-Direction-Characters_by_AxulArt/license.txt",
         "legacy/riatzukiza.github.io/static/shared/data-structures/array.js",
         "legacy/riatzukiza.github.io/static/shared/data-structures/contrib.js",
         "legacy/riatzukiza.github.io/static/shared/data-structures/group.js",
@@ -1697,13 +1708,17 @@
         "legacy/riatzukiza.github.io/static/shared/workers/inline-worker.js",
         "legacy/riatzukiza.github.io/static/shared/workers/thread.js",
         "legacy/riatzukiza.github.io/static/shared/workers/web-worker.js",
+        "legacy/riatzukiza.github.io/static/sprites/Cute_Fantasy_Free/read_me.txt",
+        "legacy/riatzukiza.github.io/static/sprites/Small-8-Direction-Characters_by_AxulArt/license.txt",
+        "docs/github/issues/riatzukiza/promethean/Issue - 274.md",
+        "docs/github/issues/riatzukiza/promethean/Issue - 309.md",
+        "docs/github/pull_requests/riatzukiza/promethean/Pull Request - 274.md",
+        "docs/github/pull_requests/riatzukiza/promethean/Pull Request - 309.md",
         "services/ts/cephalon/src/agent/index.ts",
         "services/ts/cephalon/src/agent/innerState.ts",
         "services/ts/cephalon/src/agent/speech.ts",
         "services/ts/cephalon/src/agent/speechCoordinator.ts",
         "services/ts/cephalon/src/agent/voiceContent.ts",
-        "services/ts/cephalon/src/audioProcessing/spectrogram.ts",
-        "services/ts/cephalon/src/audioProcessing/waveform.ts",
         "services/ts/cephalon/src/actions/join-voice.scope.ts",
         "services/ts/cephalon/src/actions/join-voice.ts",
         "services/ts/cephalon/src/actions/leave-voice.scope.ts",
@@ -1714,6 +1729,8 @@
         "services/ts/cephalon/src/actions/start-dialog.scope.ts",
         "services/ts/cephalon/src/actions/transcribe-speaker.scope.ts",
         "services/ts/cephalon/src/actions/tts.scope.ts",
+        "services/ts/cephalon/src/audioProcessing/spectrogram.ts",
+        "services/ts/cephalon/src/audioProcessing/waveform.ts",
         "services/ts/cephalon/src/bot/registerCommands.ts",
         "services/ts/cephalon/src/commands/begin-recording.ts",
         "services/ts/cephalon/src/commands/begin-transcribing.ts",
@@ -1735,7 +1752,6 @@
         "services/ts/cephalon/src/store/events.ts",
         "services/ts/cephalon/src/store/reducer.ts",
         "services/ts/cephalon/src/store/storeInstance.ts",
-        "services/ts/cephalon/src/types/wav-decoder.d.ts",
         "services/ts/cephalon/src/tests/actions.leave-voice.test.ts",
         "services/ts/cephalon/src/tests/actions.ping.test.ts",
         "services/ts/cephalon/src/tests/bot.test.ts",
@@ -1754,7 +1770,9 @@
         "services/ts/cephalon/src/tests/tickrate.test.ts",
         "services/ts/cephalon/src/tests/transcriber.test.ts",
         "services/ts/cephalon/src/tests/voice_session.test.ts",
+        "services/ts/cephalon/src/types/wav-decoder.d.ts",
         "services/ts/codex-context/docs/codex-context/index.md",
+        "services/ts/codex-context/src/types/openai.ts",
         "services/ts/codex-context/src/tests/api.compat.test.js",
         "services/ts/codex-context/src/tests/api.compat.test.ts",
         "services/ts/codex-context/src/tests/finish_reason.test.ts",
@@ -1767,10 +1785,10 @@
         "services/ts/codex-context/src/tests/retriever.auth.test.ts",
         "services/ts/codex-context/src/tests/stream.test.ts",
         "services/ts/codex-context/src/tests/validation.test.ts",
-        "services/ts/codex-context/src/types/openai.ts",
         "services/ts/discord-embedder/src/tests/converter.ts",
         "services/ts/discord-embedder/src/tests/embedding.test.ts",
         "services/ts/discord-embedder/src/tests/test.ts",
+        "services/ts/smartgpt-bridge/public/wc/components.js",
         "services/ts/smartgpt-bridge/src/routes/agent.js",
         "services/ts/smartgpt-bridge/src/routes/exec.js",
         "services/ts/smartgpt-bridge/src/routes/files.js",
@@ -1843,9 +1861,9 @@
         "shared/ts/src/worker/zero/snapshot.ts",
         "shared/ts/src/worker/zero/struct.test.ts",
         "shared/ts/src/worker/zero/struct.ts",
+        "legacy/riatzukiza.github.io/docs/DataStructures/Fields/Sparse/equation.md",
         "legacy/riatzukiza.github.io/docs/Crash-Landed/entities/trail-segment/spawn-trail-segment.md",
         "legacy/riatzukiza.github.io/docs/Crash-Landed/systems/ant-trails/Trail-vector.md",
-        "legacy/riatzukiza.github.io/docs/DataStructures/Fields/Sparse/equation.md",
         "legacy/riatzukiza.github.io/docs/Obstacles/entities/trail-segment/_Index_of_trail-segment.md",
         "legacy/riatzukiza.github.io/docs/Obstacles/entities/trail-segment/spawn-trail-segment.md",
         "legacy/riatzukiza.github.io/docs/Obstacles/systems/ant-trails/Trail-vector.md",
@@ -1926,6 +1944,15 @@
         "legacy/riatzukiza.github.io/static/bundles/obstacles/events/simple-collision.js",
         "legacy/riatzukiza.github.io/static/bundles/obstacles/events/static-object-collision.js",
         "legacy/riatzukiza.github.io/static/bundles/obstacles/events/tick.js",
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/array.js",
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/contrib.js",
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/group.js",
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/linked-list.js",
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/list.js",
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/old-list.js",
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/pooled.js",
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/spawnable.js",
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/table.js",
         "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ant-dot.js",
         "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ant-life-timer.js",
         "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ant-sprites.js",
@@ -1937,23 +1964,6 @@
         "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/timer.js",
         "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/trail-dots.js",
         "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/velocity.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/base-weights.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/generate-main-road.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/possible-state.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/probabilities.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/super-position.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/terrain-module.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/tile-setup.js",
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/array.js",
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/contrib.js",
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/group.js",
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/linked-list.js",
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/list.js",
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/old-list.js",
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/pooled.js",
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/spawnable.js",
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/table.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/ecs/component-system.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/ecs/component.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/ecs/entity-group.js",
@@ -1971,6 +1981,14 @@
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/position.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/rendering.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/velocity.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/base-weights.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/generate-main-road.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/possible-state.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/probabilities.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/super-position.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/terrain-module.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/tile-setup.js",
         "legacy/riatzukiza.github.io/static/client/colliding-particles/data-types/Group-id.js",
         "legacy/riatzukiza.github.io/static/client/colliding-particles/data-types/barycenter.js",
         "legacy/riatzukiza.github.io/static/client/colliding-particles/data-types/binary-tree-node.js",
@@ -2084,16 +2102,16 @@
         "legacy/riatzukiza.github.io/static/client/obstacles/systems/velocity.js",
         "legacy/riatzukiza.github.io/static/client/simple-gravity/data-types/data-type.js",
         "legacy/riatzukiza.github.io/static/client/simple-gravity/data-types/vector-2d.js",
+        "legacy/riatzukiza.github.io/static/client/simple-gravity/typed-arrays/composite.js",
+        "legacy/riatzukiza.github.io/static/client/simple-gravity/typed-arrays/double-buffered.js",
+        "legacy/riatzukiza.github.io/static/client/simple-gravity/typed-arrays/dynamic-double-buffer.js",
+        "legacy/riatzukiza.github.io/static/client/simple-gravity/typed-arrays/vector-2d.js",
         "legacy/riatzukiza.github.io/static/client/simple-gravity/pseudo/buffers.js",
         "legacy/riatzukiza.github.io/static/client/simple-gravity/pseudo/component-store.js",
         "legacy/riatzukiza.github.io/static/client/simple-gravity/pseudo/data-types.js",
         "legacy/riatzukiza.github.io/static/client/simple-gravity/pseudo/hack.js",
         "legacy/riatzukiza.github.io/static/client/simple-gravity/pseudo/systems.js",
         "legacy/riatzukiza.github.io/static/client/simple-gravity/pseudo/typed-arrays.js",
-        "legacy/riatzukiza.github.io/static/client/simple-gravity/typed-arrays/composite.js",
-        "legacy/riatzukiza.github.io/static/client/simple-gravity/typed-arrays/double-buffered.js",
-        "legacy/riatzukiza.github.io/static/client/simple-gravity/typed-arrays/dynamic-double-buffer.js",
-        "legacy/riatzukiza.github.io/static/client/simple-gravity/typed-arrays/vector-2d.js",
         "legacy/riatzukiza.github.io/static/client/simple-gravity/workers/adder.js",
         "legacy/riatzukiza.github.io/static/client/simple-gravity/workers/attractors.js",
         "legacy/riatzukiza.github.io/static/client/simple-gravity/workers/collision-detection.js",
@@ -2102,7 +2120,6 @@
         "legacy/riatzukiza.github.io/static/client/simple-gravity/workers/movement.js",
         "legacy/riatzukiza.github.io/static/client/simple-gravity/workers/noise.js",
         "legacy/riatzukiza.github.io/static/client/simple-gravity/workers/slow-attractors.js",
-        "legacy/riatzukiza.github.io/static/sprites/mystic-woods/characters/README.txt",
         "legacy/riatzukiza.github.io/static/shared/data-structures/fields/sparse.js",
         "legacy/riatzukiza.github.io/static/shared/data-structures/fields/wrapped.js",
         "legacy/riatzukiza.github.io/static/shared/data-structures/maps/matrix.js",
@@ -2142,6 +2159,7 @@
         "legacy/riatzukiza.github.io/static/shared/systems/rendering/sprite-atlas.js",
         "legacy/riatzukiza.github.io/static/shared/systems/rendering/sprite.js",
         "legacy/riatzukiza.github.io/static/shared/systems/rendering/vertex.js",
+        "legacy/riatzukiza.github.io/static/sprites/mystic-woods/characters/README.txt",
         "services/ts/cephalon/src/store/effects/voice.ts",
         "services/ts/codex-context/docs/codex-context/requests/2025.08.21.11.37.59.md",
         "services/ts/codex-context/docs/codex-context/requests/2025.08.21.11.38.07.md",
@@ -2165,8 +2183,10 @@
         "services/ts/codex-context/docs/codex-context/requests/2025.08.21.14.24.22.md",
         "services/ts/codex-context/docs/codex-context/requests/2025.08.21.14.24.23.md",
         "services/ts/codex-context/docs/codex-context/requests/2025.08.21.14.24.56.md",
-        "services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean/bootstrap.json",
-        "services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean_services_ts_smartgpt-bridge_services_ts_smartgpt-bridge_tests_tmp_inc1/bootstrap.json",
+        "services/ts/codex-context/docs/codex-context/requests/2025.08.21.16.10.41.md",
+        "services/ts/codex-context/docs/codex-context/requests/2025.08.21.16.11.06.md",
+        "services/ts/smartgpt-bridge/docs/agile/tasks/dashboard-grep-defaults.md",
+        "services/ts/smartgpt-bridge/docs/agile/tasks/stabilize-kanban-scripts.md",
         "services/ts/smartgpt-bridge/logs/agents/-Xnx-F-JBH7OPBvm1UTuD/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/0KvXXiE7VY1Ug4MlO5Kdc/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/10IAYIsP5MdEZCobLhL5a/meta.json",
@@ -2255,9 +2275,12 @@
         "services/ts/smartgpt-bridge/logs/agents/wiwYOIae2Qqy303seU3pn/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/xI7w_157oYPKe3CgR_YbG/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/z4hgiySx3ZC0zV4WzhNtS/meta.json",
+        "services/ts/smartgpt-bridge/logs/agents/z5rrSHSS5D7ThyuR66PKT/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/zUB2ITV92vDaQeZHbZAmE/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/zrVD7wYpyKcQBEQtjKyd6/meta.json",
-        "services/ts/smartgpt-bridge/logs/agents/z5rrSHSS5D7ThyuR66PKT/meta.json",
+        "services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean/bootstrap.json",
+        "services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean_services_ts_smartgpt-bridge_services_ts_smartgpt-bridge_tests_tmp_inc1/bootstrap.json",
+        "services/ts/smartgpt-bridge/tests/unit/snapshots/grep.test.js.md",
         "legacy/riatzukiza.github.io/docs/Crash-Landed/systems/ant-trails/Trail-segment/apply.md",
         "legacy/riatzukiza.github.io/docs/Obstacles/systems/ant-trails/Trail-segment/_Index_of_Trail-segment.md",
         "legacy/riatzukiza.github.io/docs/Obstacles/systems/ant-trails/Trail-segment/apply.md",
@@ -2286,18 +2309,6 @@
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/world-gen/modules/fields.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/world-gen/modules/roads.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/world-gen/modules/testing.js",
-        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/ant-dot.js",
-        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/ant-life-timer.js",
-        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/ant-panel.js",
-        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/ant-trails.js",
-        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/trail-dots.js",
-        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/trail-panel.js",
-        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/trail-segments.js",
-        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/trail-view.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/exclusions.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/fields.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/testing.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/fields/sparse.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/fields/wrapped.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/maps/matrix.js",
@@ -2312,6 +2323,14 @@
         "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/trees/bucket-tree.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/trees/red-black-tree.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/trees/trie.js",
+        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/ant-dot.js",
+        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/ant-life-timer.js",
+        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/ant-panel.js",
+        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/ant-trails.js",
+        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/trail-dots.js",
+        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/trail-panel.js",
+        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/trail-segments.js",
+        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/trail-view.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/physics/forces.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/physics/index.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/physics/system.js",
@@ -2324,6 +2343,10 @@
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/rendering/sprite-atlas.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/rendering/sprite.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/rendering/vertex.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/exclusions.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/fields.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/testing.js",
         "legacy/riatzukiza.github.io/static/client/crash-landed/systems/signals/collision.js",
         "legacy/riatzukiza.github.io/static/client/crash-landed/systems/signals/goal.js",
         "legacy/riatzukiza.github.io/static/client/crash-landed/systems/signals/noise.js",
@@ -2350,15 +2373,15 @@
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/world-gen/modules/roads/straight.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/world-gen/modules/roads/turns.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/world-gen/modules/roads/weights.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads/intersections.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads/straight.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads/turns.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads/weights.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/physics/forces/friction.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/physics/forces/gravity.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/physics/forces/gravity.sibilant .js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/physics/forces/index.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/physics/forces/signal-field.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads/intersections.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads/straight.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads/turns.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads/weights.js",
         "legacy/riatzukiza.github.io/static/client/crash-landed/world-gen/modules/roads/intersections.js",
         "legacy/riatzukiza.github.io/static/client/crash-landed/world-gen/modules/roads/straight.js",
         "legacy/riatzukiza.github.io/static/client/crash-landed/world-gen/modules/roads/turns.js",
@@ -2406,8 +2429,8 @@
             "mtimeMs": 1755636002823.753
         },
         "package.json": {
-            "size": 1406,
-            "mtimeMs": 1755718975708.4783
+            "size": 1448,
+            "mtimeMs": 1755811992327.298
         },
         "pnpm-workspace.yaml": {
             "size": 82,
@@ -2417,17 +2440,29 @@
             "size": 41589,
             "mtimeMs": 1755637956218.8782
         },
-        "agents/README.md": {
-            "size": 807,
-            "mtimeMs": 1755623637528.04
-        },
         "bridge/__init__.py": {
             "size": 61,
             "mtimeMs": 1754576321082.778
         },
+        "agents/README.md": {
+            "size": 807,
+            "mtimeMs": 1755623637528.04
+        },
+        "hack/hack.js": {
+            "size": 0,
+            "mtimeMs": 1754763002258.3174
+        },
+        "hack/hack.py": {
+            "size": 1946,
+            "mtimeMs": 1754763002258.342
+        },
+        "dev/pm2Helpers.js": {
+            "size": 1786,
+            "mtimeMs": 1755363569383.999
+        },
         "docs/AGENTS.md": {
-            "size": 2707,
-            "mtimeMs": 1755636002823.753
+            "size": 2730,
+            "mtimeMs": 1755810583649.8115
         },
         "docs/Identify and resolve a service client apparently connecting repeatedly to broker with new session ids.md": {
             "size": 672,
@@ -2525,18 +2560,6 @@
             "size": 683,
             "mtimeMs": 1754576321090.855
         },
-        "hack/hack.js": {
-            "size": 0,
-            "mtimeMs": 1754763002258.3174
-        },
-        "hack/hack.py": {
-            "size": 1946,
-            "mtimeMs": 1754763002258.342
-        },
-        "dev/pm2Helpers.js": {
-            "size": 1786,
-            "mtimeMs": 1755363569383.999
-        },
         "pseudo/AGENT.md": {
             "size": 1128,
             "mtimeMs": 1754576321224.8542
@@ -2544,6 +2567,10 @@
         "run/setup_codex_dev_env.sh": {
             "size": 378,
             "mtimeMs": 1755636738878.538
+        },
+        "shared/permissions.yaml": {
+            "size": 1224,
+            "mtimeMs": 1754790247783.743
         },
         "scripts/README.md": {
             "size": 633,
@@ -2625,6 +2652,10 @@
             "size": 1536,
             "mtimeMs": 1754576321226.2068
         },
+        "scripts/prom.js": {
+            "size": 1931,
+            "mtimeMs": 1755811992339.2979
+        },
         "scripts/run-hy-tests.js": {
             "size": 1321,
             "mtimeMs": 1754576321226.2068
@@ -2677,10 +2708,6 @@
             "size": 513,
             "mtimeMs": 1754576321226.6199
         },
-        "shared/permissions.yaml": {
-            "size": 1224,
-            "mtimeMs": 1754790247783.743
-        },
         "site/README.md": {
             "size": 761,
             "mtimeMs": 1755177251125.9243
@@ -2729,18 +2756,6 @@
             "size": 2146,
             "mtimeMs": 1755177251125.9243
         },
-        "agents/duck/README.md": {
-            "size": 503,
-            "mtimeMs": 1755177251094.9246
-        },
-        "agents/duck/ecosystem.config.js": {
-            "size": 2735,
-            "mtimeMs": 1755488338713.4023
-        },
-        "agents/templates/README.md": {
-            "size": 76,
-            "mtimeMs": 1754576321082.778
-        },
         "bridge/events/__init__.py": {
             "size": 914,
             "mtimeMs": 1754576321082.856
@@ -2777,9 +2792,69 @@
             "size": 220,
             "mtimeMs": 1754576321082.9338
         },
+        "agents/duck/README.md": {
+            "size": 503,
+            "mtimeMs": 1755177251094.9246
+        },
+        "agents/duck/ecosystem.config.js": {
+            "size": 2735,
+            "mtimeMs": 1755488338713.4023
+        },
+        "agents/templates/README.md": {
+            "size": 76,
+            "mtimeMs": 1754576321082.778
+        },
+        "legacy/lithp/README.md": {
+            "size": 1146,
+            "mtimeMs": 1754576321091.8186
+        },
+        "legacy/lithp/package.json": {
+            "size": 992,
+            "mtimeMs": 1754576321093.8547
+        },
+        "legacy/lithp/sibilant.js": {
+            "size": 208687,
+            "mtimeMs": 1754576321096.8547
+        },
+        "legacy/riatzukiza.github.io/Tasks Plugin - Review and check your Statuses 2024-12-18 14-28-29.md": {
+            "size": 11815,
+            "mtimeMs": 1755177251116.9243
+        },
+        "legacy/riatzukiza.github.io/_Index_of_portfolio.md": {
+            "size": 981,
+            "mtimeMs": 1755177251116.9243
+        },
+        "legacy/riatzukiza.github.io/_Index_of_riatzukiza.github.io.md": {
+            "size": 1309,
+            "mtimeMs": 1754576321099.1611
+        },
+        "legacy/riatzukiza.github.io/ecosystem.config.js": {
+            "size": 620,
+            "mtimeMs": 1754576321100.302
+        },
+        "legacy/riatzukiza.github.io/list.js": {
+            "size": 7046,
+            "mtimeMs": 1754576321102.9043
+        },
+        "legacy/riatzukiza.github.io/package-lock.json": {
+            "size": 265831,
+            "mtimeMs": 1754576321103.8547
+        },
+        "legacy/riatzukiza.github.io/package.json": {
+            "size": 2152,
+            "mtimeMs": 1754576321103.8547
+        },
+        "legacy/riatzukiza.github.io/readme.md": {
+            "size": 2321,
+            "mtimeMs": 1755177251124.9243
+        },
         "docs/Daily/2025-08-21.md": {
             "size": 357,
             "mtimeMs": 1755787008845.477
+        },
+        "docs/agents/AGENTS-taxonomy.md": {
+            "size": 1946,
+            "mtimeMs": 1755808040962.629
         },
         "docs/agents/README.md": {
             "size": 396,
@@ -2885,6 +2960,14 @@
             "size": 1757,
             "mtimeMs": 1754576321088.7266
         },
+        "docs/reports/README.md": {
+            "size": 606,
+            "mtimeMs": 1755808547498.4707
+        },
+        "docs/reports/contradictions.md": {
+            "size": 5492,
+            "mtimeMs": 1755811024463.6562
+        },
         "docs/research/BuildingTheFields.md": {
             "size": 27904,
             "mtimeMs": 1754576321088.7266
@@ -2921,10 +3004,6 @@
             "size": 467,
             "mtimeMs": 1754881380761.6482
         },
-        "docs/services/README.md": {
-            "size": 560,
-            "mtimeMs": 1754763002251.7976
-        },
         "docs/site/markdown_graph_frontend.md": {
             "size": 159,
             "mtimeMs": 1754763002252.5005
@@ -2949,6 +3028,18 @@
             "size": 184,
             "mtimeMs": 1754576321090.3079
         },
+        "docs/services/README.md": {
+            "size": 560,
+            "mtimeMs": 1754763002251.7976
+        },
+        "docs/services/smartgpt-bridge-dashboard.md": {
+            "size": 1874,
+            "mtimeMs": 1755808428612.795
+        },
+        "docs/services/smartgpt-bridge.md": {
+            "size": 552,
+            "mtimeMs": 1755808881607.1182
+        },
         "docs/tools/lisp-cli.md": {
             "size": 2324,
             "mtimeMs": 1755636002823.753
@@ -2960,18 +3051,6 @@
         "docs/vault-config/example board.md": {
             "size": 351,
             "mtimeMs": 1755177251115.9246
-        },
-        "legacy/lithp/README.md": {
-            "size": 1146,
-            "mtimeMs": 1754576321091.8186
-        },
-        "legacy/lithp/package.json": {
-            "size": 992,
-            "mtimeMs": 1754576321093.8547
-        },
-        "legacy/lithp/sibilant.js": {
-            "size": 208687,
-            "mtimeMs": 1754576321096.8547
         },
         "docs/unique/2025.07.28.11.07.04 Autohotkey.md": {
             "size": 3183,
@@ -3493,105 +3572,9 @@
             "size": 2830,
             "mtimeMs": 1754763002257.2188
         },
-        "legacy/riatzukiza.github.io/Tasks Plugin - Review and check your Statuses 2024-12-18 14-28-29.md": {
-            "size": 11815,
-            "mtimeMs": 1755177251116.9243
-        },
-        "legacy/riatzukiza.github.io/_Index_of_portfolio.md": {
-            "size": 981,
-            "mtimeMs": 1755177251116.9243
-        },
-        "legacy/riatzukiza.github.io/_Index_of_riatzukiza.github.io.md": {
-            "size": 1309,
-            "mtimeMs": 1754576321099.1611
-        },
-        "legacy/riatzukiza.github.io/ecosystem.config.js": {
-            "size": 620,
-            "mtimeMs": 1754576321100.302
-        },
-        "legacy/riatzukiza.github.io/list.js": {
-            "size": 7046,
-            "mtimeMs": 1754576321102.9043
-        },
-        "legacy/riatzukiza.github.io/package-lock.json": {
-            "size": 265831,
-            "mtimeMs": 1754576321103.8547
-        },
-        "legacy/riatzukiza.github.io/package.json": {
-            "size": 2152,
-            "mtimeMs": 1754576321103.8547
-        },
-        "legacy/riatzukiza.github.io/readme.md": {
-            "size": 2321,
-            "mtimeMs": 1755177251124.9243
-        },
         "pseudo/templates/README.md": {
             "size": 76,
             "mtimeMs": 1754576321225.977
-        },
-        "docs/notes/2025.08.12.13.19.53.md": {
-            "size": 5801,
-            "mtimeMs": 1755177251114.9246
-        },
-        "docs/notes/2025.08.12.13.51.10.md": {
-            "size": 11811,
-            "mtimeMs": 1755177251114.9246
-        },
-        "docs/notes/2025.08.12.18.54.06.md": {
-            "size": 18948,
-            "mtimeMs": 1755177251114.9246
-        },
-        "docs/notes/2025.08.13.14.00.55.md": {
-            "size": 3340,
-            "mtimeMs": 1755177251115.9246
-        },
-        "docs/notes/2025.08.15.13.11.27.md": {
-            "size": 70287,
-            "mtimeMs": 1755363569388.999
-        },
-        "docs/notes/2025.08.16.13.01.55.md": {
-            "size": 2893,
-            "mtimeMs": 1755367972906.7988
-        },
-        "docs/notes/2025.08.16.14.44.28.md": {
-            "size": 0,
-            "mtimeMs": 1755373469217.047
-        },
-        "docs/notes/2025.08.17.19.23.39.md": {
-            "size": 7634,
-            "mtimeMs": 1755476922716.6333
-        },
-        "docs/notes/2025.08.18.12.24.42.md": {
-            "size": 3820,
-            "mtimeMs": 1755537990520.5217
-        },
-        "docs/notes/2025.08.19.10.07.18.md": {
-            "size": 3576,
-            "mtimeMs": 1755618612404.0159
-        },
-        "docs/notes/2025.08.19.12.42.50.md": {
-            "size": 3,
-            "mtimeMs": 1755636002823.753
-        },
-        "docs/notes/2025.08.19.15.16.43.md": {
-            "size": 9182,
-            "mtimeMs": 1755636002823.753
-        },
-        "docs/notes/2025.08.19.18.40.01.md": {
-            "size": 18139,
-            "mtimeMs": 1755647501570.6172
-        },
-        "docs/notes/2025.08.19.19.00.17.md": {
-            "size": 0,
-            "mtimeMs": 1755648017322.8374
-        },
-        "docs/notes/2025.08.21.13.11.45.md": {
-            "size": 2298,
-            "mtimeMs": 1755799955827.197
-        },
-        "docs/notes/2025.08.21.14.35.23.md": {
-            "size": 4078,
-            "mtimeMs": 1755804957953.7385
         },
         "services/templates/README.md": {
             "size": 203,
@@ -3665,45 +3648,69 @@
             "size": 253,
             "mtimeMs": 1755637925035.2092
         },
-        "scripts/kanban/README.md": {
-            "size": 1131,
-            "mtimeMs": 1755731377313.7378
+        "docs/notes/2025.08.12.13.19.53.md": {
+            "size": 5801,
+            "mtimeMs": 1755177251114.9246
         },
-        "scripts/kanban/agile_statuses.py": {
-            "size": 355,
-            "mtimeMs": 1755731763403.7754
+        "docs/notes/2025.08.12.13.51.10.md": {
+            "size": 11811,
+            "mtimeMs": 1755177251114.9246
         },
-        "scripts/kanban/github_board_sync.py": {
-            "size": 1626,
-            "mtimeMs": 1755731879193.8398
+        "docs/notes/2025.08.12.18.54.06.md": {
+            "size": 18948,
+            "mtimeMs": 1755177251114.9246
         },
-        "scripts/kanban/hashtags_to_kanban.py": {
-            "size": 9069,
-            "mtimeMs": 1755734902626.0798
+        "docs/notes/2025.08.13.14.00.55.md": {
+            "size": 3340,
+            "mtimeMs": 1755177251115.9246
         },
-        "scripts/kanban/kanban_to_hashtags.py": {
-            "size": 7786,
-            "mtimeMs": 1755731633969.7998
+        "docs/notes/2025.08.15.13.11.27.md": {
+            "size": 70287,
+            "mtimeMs": 1755363569388.999
         },
-        "scripts/kanban/normalize_statuses.py": {
-            "size": 7044,
-            "mtimeMs": 1755731843045.1335
+        "docs/notes/2025.08.16.13.01.55.md": {
+            "size": 2893,
+            "mtimeMs": 1755367972906.7988
         },
-        "scripts/kanban/pending_count.ts": {
-            "size": 543,
-            "mtimeMs": 1755734903618.7444
+        "docs/notes/2025.08.16.14.44.28.md": {
+            "size": 0,
+            "mtimeMs": 1755373469217.047
         },
-        "scripts/kanban/tasks_from_unique.py": {
-            "size": 1614,
-            "mtimeMs": 1755731914641.5505
+        "docs/notes/2025.08.17.19.23.39.md": {
+            "size": 7634,
+            "mtimeMs": 1755476922716.6333
         },
-        "scripts/kanban/wip-sheriff.ts": {
-            "size": 7545,
-            "mtimeMs": 1755734903469.7463
+        "docs/notes/2025.08.18.12.24.42.md": {
+            "size": 3820,
+            "mtimeMs": 1755537990520.5217
         },
-        "scripts/templates/README.md": {
-            "size": 78,
-            "mtimeMs": 1754576321226.6199
+        "docs/notes/2025.08.19.10.07.18.md": {
+            "size": 3576,
+            "mtimeMs": 1755618612404.0159
+        },
+        "docs/notes/2025.08.19.12.42.50.md": {
+            "size": 3,
+            "mtimeMs": 1755636002823.753
+        },
+        "docs/notes/2025.08.19.15.16.43.md": {
+            "size": 9182,
+            "mtimeMs": 1755636002823.753
+        },
+        "docs/notes/2025.08.19.18.40.01.md": {
+            "size": 18139,
+            "mtimeMs": 1755647501570.6172
+        },
+        "docs/notes/2025.08.19.19.00.17.md": {
+            "size": 0,
+            "mtimeMs": 1755648017322.8374
+        },
+        "docs/notes/2025.08.21.13.11.45.md": {
+            "size": 2298,
+            "mtimeMs": 1755799955827.197
+        },
+        "docs/notes/2025.08.21.14.35.23.md": {
+            "size": 4078,
+            "mtimeMs": 1755804957953.7385
         },
         "shared/js/brokerClient.d.ts": {
             "size": 516,
@@ -3797,6 +3804,58 @@
             "size": 1133,
             "mtimeMs": 1754576321252.854
         },
+        "shared/templates/README.md": {
+            "size": 76,
+            "mtimeMs": 1754576321256.2712
+        },
+        "shared/ts/package.json": {
+            "size": 1211,
+            "mtimeMs": 1755738593491.2346
+        },
+        "shared/ts/tsconfig.json": {
+            "size": 703,
+            "mtimeMs": 1755629281905.587
+        },
+        "scripts/kanban/README.md": {
+            "size": 1131,
+            "mtimeMs": 1755731377313.7378
+        },
+        "scripts/kanban/agile_statuses.py": {
+            "size": 355,
+            "mtimeMs": 1755731763403.7754
+        },
+        "scripts/kanban/github_board_sync.py": {
+            "size": 1626,
+            "mtimeMs": 1755731879193.8398
+        },
+        "scripts/kanban/hashtags_to_kanban.py": {
+            "size": 9069,
+            "mtimeMs": 1755734902626.0798
+        },
+        "scripts/kanban/kanban_to_hashtags.py": {
+            "size": 7786,
+            "mtimeMs": 1755731633969.7998
+        },
+        "scripts/kanban/normalize_statuses.py": {
+            "size": 7044,
+            "mtimeMs": 1755731843045.1335
+        },
+        "scripts/kanban/pending_count.ts": {
+            "size": 543,
+            "mtimeMs": 1755734903618.7444
+        },
+        "scripts/kanban/tasks_from_unique.py": {
+            "size": 1614,
+            "mtimeMs": 1755731914641.5505
+        },
+        "scripts/kanban/wip-sheriff.ts": {
+            "size": 7545,
+            "mtimeMs": 1755734903469.7463
+        },
+        "scripts/templates/README.md": {
+            "size": 78,
+            "mtimeMs": 1754576321226.6199
+        },
         "tests/e2e/AGENTS.md": {
             "size": 870,
             "mtimeMs": 1754763006224.1733
@@ -3812,18 +3871,6 @@
         "tests/e2e/test_vision_service.py": {
             "size": 1575,
             "mtimeMs": 1754763006224.1733
-        },
-        "shared/ts/package.json": {
-            "size": 1211,
-            "mtimeMs": 1755738593491.2346
-        },
-        "shared/ts/tsconfig.json": {
-            "size": 703,
-            "mtimeMs": 1755629281905.587
-        },
-        "shared/templates/README.md": {
-            "size": 76,
-            "mtimeMs": 1754576321256.2712
         },
         "tests/integration/AGENTS.md": {
             "size": 183,
@@ -3909,6 +3956,210 @@
             "size": 99,
             "mtimeMs": 1754780880949.6228
         },
+        "legacy/lithp/docs/docs.json": {
+            "size": 63345,
+            "mtimeMs": 1754576321091.8186
+        },
+        "legacy/lithp/docs/docs.txt": {
+            "size": 32704,
+            "mtimeMs": 1754576321092.2434
+        },
+        "legacy/lithp/lib/browser.js": {
+            "size": 256341,
+            "mtimeMs": 1754576321092.3694
+        },
+        "legacy/lithp/lib/cli.js": {
+            "size": 4874,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/colors.js": {
+            "size": 3569,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/docs.js": {
+            "size": 3703,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/helpers.js": {
+            "size": 14823,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/macros.js": {
+            "size": 0,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/node.js": {
+            "size": 6941,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/options.js": {
+            "size": 10590,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/output-formatter.js": {
+            "size": 841,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/parser.js": {
+            "size": 3195,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/precompiled-macros.js": {
+            "size": 174971,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/pretty-printer.js": {
+            "size": 7682,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/repl.js": {
+            "size": 4157,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/require-and-include.js": {
+            "size": 1679,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/restructurer.js": {
+            "size": 4897,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/sibilant.js": {
+            "size": 234301,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/sourcemap.js": {
+            "size": 1261,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/transpiler.js": {
+            "size": 7208,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/riatzukiza.github.io/Chats/New Chat.md": {
+            "size": 4709,
+            "mtimeMs": 1754576321099.0774
+        },
+        "legacy/riatzukiza.github.io/Chats/_Index_of_Chats.md": {
+            "size": 161,
+            "mtimeMs": 1754576321099.1611
+        },
+        "legacy/riatzukiza.github.io/docs/_Index_of_docs.md": {
+            "size": 395,
+            "mtimeMs": 1755177251117.9243
+        },
+        "legacy/riatzukiza.github.io/docs/readme.md": {
+            "size": 85,
+            "mtimeMs": 1755177251117.9243
+        },
+        "legacy/riatzukiza.github.io/hack/camera.js": {
+            "size": 4052,
+            "mtimeMs": 1754576321100.3948
+        },
+        "legacy/riatzukiza.github.io/hack/multiple-sprites.js": {
+            "size": 7604,
+            "mtimeMs": 1754576321100.3948
+        },
+        "legacy/riatzukiza.github.io/hack/panning-camera.js": {
+            "size": 6304,
+            "mtimeMs": 1754576321100.3948
+        },
+        "legacy/riatzukiza.github.io/hack/print-range-bst.js": {
+            "size": 1353,
+            "mtimeMs": 1754576321100.3948
+        },
+        "legacy/riatzukiza.github.io/hack/red-black.js": {
+            "size": 7923,
+            "mtimeMs": 1754576321100.3948
+        },
+        "legacy/riatzukiza.github.io/hack/sprite-shader.js": {
+            "size": 3207,
+            "mtimeMs": 1754576321100.3948
+        },
+        "legacy/riatzukiza.github.io/kanban/_Index_of_kanban.md": {
+            "size": 346,
+            "mtimeMs": 1754576321100.6562
+        },
+        "legacy/riatzukiza.github.io/kanban/board.md": {
+            "size": 10320,
+            "mtimeMs": 1755177251118.9243
+        },
+        "legacy/riatzukiza.github.io/kanban/done.md": {
+            "size": 7458,
+            "mtimeMs": 1755177251118.9243
+        },
+        "legacy/riatzukiza.github.io/kanban/process.md": {
+            "size": 3145,
+            "mtimeMs": 1755177251118.9243
+        },
+        "legacy/riatzukiza.github.io/kanban/project.md": {
+            "size": 734,
+            "mtimeMs": 1755177251118.9243
+        },
+        "legacy/riatzukiza.github.io/notes/_Index_of_notes.md": {
+            "size": 233,
+            "mtimeMs": 1754576321102.9043
+        },
+        "legacy/riatzukiza.github.io/server/app.js": {
+            "size": 1013,
+            "mtimeMs": 1754576321104.6877
+        },
+        "legacy/riatzukiza.github.io/server/index.js": {
+            "size": 450,
+            "mtimeMs": 1754576321104.73
+        },
+        "legacy/riatzukiza.github.io/server/server.js": {
+            "size": 863,
+            "mtimeMs": 1754576321104.73
+        },
+        "legacy/riatzukiza.github.io/server/static-files.js": {
+            "size": 2518,
+            "mtimeMs": 1754576321104.73
+        },
+        "legacy/riatzukiza.github.io/templates/index.js": {
+            "size": 4546,
+            "mtimeMs": 1754576321223.4438
+        },
+        "docs/agents/board-manager/AGENTS.md": {
+            "size": 939,
+            "mtimeMs": 1755810446181.6519
+        },
+        "docs/agents/codex-cli/AGENTS.md": {
+            "size": 809,
+            "mtimeMs": 1755810519744.5564
+        },
+        "docs/agents/codex-gui/AGENTS.md": {
+            "size": 777,
+            "mtimeMs": 1755810519745.5564
+        },
+        "docs/agents/developer/AGENTS.md": {
+            "size": 629,
+            "mtimeMs": 1755807787578.6584
+        },
+        "docs/agents/duck/AGENTS.md": {
+            "size": 892,
+            "mtimeMs": 1755810581034.842
+        },
+        "docs/agents/embedding-agents/AGENTS.md": {
+            "size": 667,
+            "mtimeMs": 1755808204389.7173
+        },
+        "docs/agents/infrastructure/AGENTS.md": {
+            "size": 625,
+            "mtimeMs": 1755807787579.552
+        },
+        "docs/agents/pythagoras/AGENTS.md": {
+            "size": 486,
+            "mtimeMs": 1755807787582.5352
+        },
+        "docs/agents/residents/AGENTS.md": {
+            "size": 616,
+            "mtimeMs": 1755810581037.7498
+        },
+        "docs/agents/synthesis-agent/AGENTS.md": {
+            "size": 767,
+            "mtimeMs": 1755808204389.7173
+        },
         "docs/agile/boards/Refactor speech interuption system to be more inteligent, using audio data to decide if interupted.md": {
             "size": 0,
             "mtimeMs": 1755541061861.004
@@ -3926,8 +4177,8 @@
             "mtimeMs": 1754576321083.9873
         },
         "docs/agile/boards/kanban.md": {
-            "size": 49185,
-            "mtimeMs": 1755794309612.7861
+            "size": 49218,
+            "mtimeMs": 1755811349104.7537
         },
         "docs/agile/boards/test.md": {
             "size": 6332,
@@ -3940,6 +4191,10 @@
         "docs/agile/templates/task.stub.template.md": {
             "size": 348,
             "mtimeMs": 1755790900960.123
+        },
+        "docs/design/templates/README.md": {
+            "size": 86,
+            "mtimeMs": 1754576321086.3433
         },
         "docs/design/circuits/Aionian.md": {
             "size": 4119,
@@ -4009,9 +4264,25 @@
             "size": 4595,
             "mtimeMs": 1754576321086.3433
         },
-        "docs/design/templates/README.md": {
-            "size": 86,
-            "mtimeMs": 1754576321086.3433
+        "docs/journal/templates/README.md": {
+            "size": 88,
+            "mtimeMs": 1754576321087.0325
+        },
+        "docs/prompts/agents/README.md": {
+            "size": 230,
+            "mtimeMs": 1754576321088.6692
+        },
+        "docs/prompts/history/README.md": {
+            "size": 177,
+            "mtimeMs": 1754576321088.6692
+        },
+        "docs/prompts/meta/README.md": {
+            "size": 174,
+            "mtimeMs": 1754576321088.7266
+        },
+        "docs/prompts/scratch/README.md": {
+            "size": 176,
+            "mtimeMs": 1754576321088.7266
         },
         "docs/agile/tasks/Add codex layer to emacs.md": {
             "size": 440,
@@ -4789,26 +5060,6 @@
             "size": 671,
             "mtimeMs": 1755735103018.9592
         },
-        "docs/journal/templates/README.md": {
-            "size": 88,
-            "mtimeMs": 1754576321087.0325
-        },
-        "docs/prompts/agents/README.md": {
-            "size": 230,
-            "mtimeMs": 1754576321088.6692
-        },
-        "docs/prompts/history/README.md": {
-            "size": 177,
-            "mtimeMs": 1754576321088.6692
-        },
-        "docs/prompts/meta/README.md": {
-            "size": 174,
-            "mtimeMs": 1754576321088.7266
-        },
-        "docs/prompts/scratch/README.md": {
-            "size": 176,
-            "mtimeMs": 1754576321088.7266
-        },
         "docs/prompts/seed/README.md": {
             "size": 177,
             "mtimeMs": 1754576321088.7266
@@ -4820,6 +5071,18 @@
         "docs/research/templates/README.md": {
             "size": 90,
             "mtimeMs": 1754576321089.0083
+        },
+        "docs/services/broker/AGENTS.md": {
+            "size": 128,
+            "mtimeMs": 1754892975206.3352
+        },
+        "docs/services/broker/index.md": {
+            "size": 488,
+            "mtimeMs": 1754772669820.2512
+        },
+        "docs/shared/ts/embeddings-versioning.md": {
+            "size": 258,
+            "mtimeMs": 1755185115692.836
         },
         "docs/shared/py/heartbeat_broker.md": {
             "size": 930,
@@ -4840,18 +5103,6 @@
         "docs/shared/py/settings.md": {
             "size": 272,
             "mtimeMs": 1754576321090.2249
-        },
-        "docs/shared/ts/embeddings-versioning.md": {
-            "size": 258,
-            "mtimeMs": 1755185115692.836
-        },
-        "docs/services/broker/AGENTS.md": {
-            "size": 128,
-            "mtimeMs": 1754892975206.3352
-        },
-        "docs/services/broker/index.md": {
-            "size": 488,
-            "mtimeMs": 1754772669820.2512
         },
         "docs/services/cephalon/AGENTS.md": {
             "size": 1020,
@@ -4977,6 +5228,10 @@
             "size": 769,
             "mtimeMs": 1755729897382.5508
         },
+        "docs/services/voice/AGENTS.md": {
+            "size": 125,
+            "mtimeMs": 1754892975211.1824
+        },
         "docs/services/vision/AGENTS.md": {
             "size": 128,
             "mtimeMs": 1754892975210.9988
@@ -4985,93 +5240,9 @@
             "size": 383,
             "mtimeMs": 1754763002252.2915
         },
-        "docs/services/voice/AGENTS.md": {
-            "size": 125,
-            "mtimeMs": 1754892975211.1824
-        },
         "docs/tests/e2e/service-endpoints.md": {
             "size": 724,
             "mtimeMs": 1754764362947.3477
-        },
-        "legacy/lithp/docs/docs.json": {
-            "size": 63345,
-            "mtimeMs": 1754576321091.8186
-        },
-        "legacy/lithp/docs/docs.txt": {
-            "size": 32704,
-            "mtimeMs": 1754576321092.2434
-        },
-        "legacy/lithp/lib/browser.js": {
-            "size": 256341,
-            "mtimeMs": 1754576321092.3694
-        },
-        "legacy/lithp/lib/cli.js": {
-            "size": 4874,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/colors.js": {
-            "size": 3569,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/docs.js": {
-            "size": 3703,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/helpers.js": {
-            "size": 14823,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/macros.js": {
-            "size": 0,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/node.js": {
-            "size": 6941,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/options.js": {
-            "size": 10590,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/output-formatter.js": {
-            "size": 841,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/parser.js": {
-            "size": 3195,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/precompiled-macros.js": {
-            "size": 174971,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/pretty-printer.js": {
-            "size": 7682,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/repl.js": {
-            "size": 4157,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/require-and-include.js": {
-            "size": 1679,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/restructurer.js": {
-            "size": 4897,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/sibilant.js": {
-            "size": 234301,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/sourcemap.js": {
-            "size": 1261,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/transpiler.js": {
-            "size": 7208,
-            "mtimeMs": 1754576321092.8909
         },
         "docs/unique/chunks/diagrams.md": {
             "size": 209,
@@ -5117,90 +5288,6 @@
             "size": 86,
             "mtimeMs": 1754576321090.855
         },
-        "legacy/riatzukiza.github.io/Chats/New Chat.md": {
-            "size": 4709,
-            "mtimeMs": 1754576321099.0774
-        },
-        "legacy/riatzukiza.github.io/Chats/_Index_of_Chats.md": {
-            "size": 161,
-            "mtimeMs": 1754576321099.1611
-        },
-        "legacy/riatzukiza.github.io/docs/_Index_of_docs.md": {
-            "size": 395,
-            "mtimeMs": 1755177251117.9243
-        },
-        "legacy/riatzukiza.github.io/docs/readme.md": {
-            "size": 85,
-            "mtimeMs": 1755177251117.9243
-        },
-        "legacy/riatzukiza.github.io/hack/camera.js": {
-            "size": 4052,
-            "mtimeMs": 1754576321100.3948
-        },
-        "legacy/riatzukiza.github.io/hack/multiple-sprites.js": {
-            "size": 7604,
-            "mtimeMs": 1754576321100.3948
-        },
-        "legacy/riatzukiza.github.io/hack/panning-camera.js": {
-            "size": 6304,
-            "mtimeMs": 1754576321100.3948
-        },
-        "legacy/riatzukiza.github.io/hack/print-range-bst.js": {
-            "size": 1353,
-            "mtimeMs": 1754576321100.3948
-        },
-        "legacy/riatzukiza.github.io/hack/red-black.js": {
-            "size": 7923,
-            "mtimeMs": 1754576321100.3948
-        },
-        "legacy/riatzukiza.github.io/hack/sprite-shader.js": {
-            "size": 3207,
-            "mtimeMs": 1754576321100.3948
-        },
-        "legacy/riatzukiza.github.io/kanban/_Index_of_kanban.md": {
-            "size": 346,
-            "mtimeMs": 1754576321100.6562
-        },
-        "legacy/riatzukiza.github.io/kanban/board.md": {
-            "size": 10320,
-            "mtimeMs": 1755177251118.9243
-        },
-        "legacy/riatzukiza.github.io/kanban/done.md": {
-            "size": 7458,
-            "mtimeMs": 1755177251118.9243
-        },
-        "legacy/riatzukiza.github.io/kanban/process.md": {
-            "size": 3145,
-            "mtimeMs": 1755177251118.9243
-        },
-        "legacy/riatzukiza.github.io/kanban/project.md": {
-            "size": 734,
-            "mtimeMs": 1755177251118.9243
-        },
-        "legacy/riatzukiza.github.io/notes/_Index_of_notes.md": {
-            "size": 233,
-            "mtimeMs": 1754576321102.9043
-        },
-        "legacy/riatzukiza.github.io/server/app.js": {
-            "size": 1013,
-            "mtimeMs": 1754576321104.6877
-        },
-        "legacy/riatzukiza.github.io/server/index.js": {
-            "size": 450,
-            "mtimeMs": 1754576321104.73
-        },
-        "legacy/riatzukiza.github.io/server/server.js": {
-            "size": 863,
-            "mtimeMs": 1754576321104.73
-        },
-        "legacy/riatzukiza.github.io/server/static-files.js": {
-            "size": 2518,
-            "mtimeMs": 1754576321104.73
-        },
-        "legacy/riatzukiza.github.io/templates/index.js": {
-            "size": 4546,
-            "mtimeMs": 1754576321223.4438
-        },
         "services/hy/discord_attachment_embedder/README.md": {
             "size": 412,
             "mtimeMs": 1754576321227.0203
@@ -5209,13 +5296,13 @@
             "size": 2408,
             "mtimeMs": 1754576321227.0203
         },
-        "services/hy/discord_attachment_indexer/README.md": {
-            "size": 303,
-            "mtimeMs": 1754576321227.778
-        },
         "services/hy/discord_indexer/README.md": {
             "size": 267,
             "mtimeMs": 1754576321228.234
+        },
+        "services/hy/discord_attachment_indexer/README.md": {
+            "size": 303,
+            "mtimeMs": 1754576321227.778
         },
         "services/hy/stt/README.md": {
             "size": 226,
@@ -5265,6 +5352,10 @@
             "size": 508,
             "mtimeMs": 1755538633293.942
         },
+        "services/js/event-gateway/index.ts": {
+            "size": 1187,
+            "mtimeMs": 1755538634889.93
+        },
         "services/js/eidolon-field/README.md": {
             "size": 217,
             "mtimeMs": 1754763002288.7532
@@ -5292,10 +5383,6 @@
         "services/js/eidolon-field/package.json": {
             "size": 418,
             "mtimeMs": 1755538634142.9355
-        },
-        "services/js/event-gateway/index.ts": {
-            "size": 1187,
-            "mtimeMs": 1755538634889.93
         },
         "services/js/event-hub/evolve.ts": {
             "size": 2362,
@@ -6217,6 +6304,18 @@
             "size": 1495,
             "mtimeMs": 1754576321252.5757
         },
+        "shared/py/models/__init__.py": {
+            "size": 0,
+            "mtimeMs": 1754763006209.149
+        },
+        "shared/py/models/forward_tacotron_ie.py": {
+            "size": 15984,
+            "mtimeMs": 1754763006209.1921
+        },
+        "shared/py/models/mel2wave_ie.py": {
+            "size": 14080,
+            "mtimeMs": 1754763006209.1921
+        },
         "services/ts/auth-service/README.md": {
             "size": 1073,
             "mtimeMs": 1755733562715.6248
@@ -6232,18 +6331,6 @@
         "services/ts/auth-service/tsconfig.json": {
             "size": 614,
             "mtimeMs": 1755734903015.7522
-        },
-        "shared/py/models/__init__.py": {
-            "size": 0,
-            "mtimeMs": 1754763006209.149
-        },
-        "shared/py/models/forward_tacotron_ie.py": {
-            "size": 15984,
-            "mtimeMs": 1754763006209.1921
-        },
-        "shared/py/models/mel2wave_ie.py": {
-            "size": 14080,
-            "mtimeMs": 1754763006209.1921
         },
         "shared/py/speech/service_clients.py": {
             "size": 2233,
@@ -6373,282 +6460,6 @@
             "size": 1203,
             "mtimeMs": 1755185115697.836
         },
-        "docs/agents/duck/scripts/discord_indexer_run.md": {
-            "size": 823,
-            "mtimeMs": 1754576321083.292
-        },
-        "docs/agents/duck/scripts/download_chroma_data.md": {
-            "size": 558,
-            "mtimeMs": 1754576321083.3237
-        },
-        "docs/agents/duck/scripts/duck_cephalon_run.md": {
-            "size": 629,
-            "mtimeMs": 1754576321083.3237
-        },
-        "docs/agents/duck/scripts/duck_embedder_run.md": {
-            "size": 555,
-            "mtimeMs": 1754576321083.3237
-        },
-        "docs/design/circuits/templates/README.md": {
-            "size": 104,
-            "mtimeMs": 1754576321086.3433
-        },
-        "docs/shared/py/utils/gui.md": {
-            "size": 181,
-            "mtimeMs": 1754576321090.2249
-        },
-        "docs/shared/py/utils/wav_processing.md": {
-            "size": 215,
-            "mtimeMs": 1754576321090.2654
-        },
-        "docs/shared/ts/prom-lib/compiler.md": {
-            "size": 272,
-            "mtimeMs": 1754881380762.2515
-        },
-        "docs/services/cephalon/scripts/patch-imports.md": {
-            "size": 202,
-            "mtimeMs": 1754576321089.125
-        },
-        "docs/services/cephalon/src/agent.md": {
-            "size": 287,
-            "mtimeMs": 1754576321089.125
-        },
-        "docs/services/cephalon/src/bot.md": {
-            "size": 341,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/collectionManager.md": {
-            "size": 207,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/collections.md": {
-            "size": 177,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/contextManager.md": {
-            "size": 236,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/converter.md": {
-            "size": 217,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/embedding.md": {
-            "size": 258,
-            "mtimeMs": 1754845972303.3992
-        },
-        "docs/services/cephalon/src/index.md": {
-            "size": 411,
-            "mtimeMs": 1754766495241.5173
-        },
-        "docs/services/cephalon/src/messageThrottler.md": {
-            "size": 310,
-            "mtimeMs": 1754845972303.3992
-        },
-        "docs/services/cephalon/src/speaker.md": {
-            "size": 271,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/transcriber.md": {
-            "size": 260,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/util.md": {
-            "size": 150,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/voice-recorder.md": {
-            "size": 260,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/voice-session.md": {
-            "size": 391,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/voice-synth.md": {
-            "size": 195,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/tests/bot.test.md": {
-            "size": 176,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/tests/converter.md": {
-            "size": 256,
-            "mtimeMs": 1754576321089.3225
-        },
-        "docs/services/cephalon/tests/messageThrottler.test.md": {
-            "size": 295,
-            "mtimeMs": 1754766495241.5173
-        },
-        "docs/services/cephalon/tests/test.md": {
-            "size": 167,
-            "mtimeMs": 1754576321089.3225
-        },
-        "docs/services/cephalon/tests/voice_session.test.md": {
-            "size": 225,
-            "mtimeMs": 1754576321089.3225
-        },
-        "docs/services/discord-attachment-embedder/tests/test_embedder.md": {
-            "size": 376,
-            "mtimeMs": 1754576321089.3782
-        },
-        "docs/services/discord-attachment-indexer/tests/test_discord_attachment_indexer.md": {
-            "size": 380,
-            "mtimeMs": 1754576321089.421
-        },
-        "docs/services/discord-embedder/src/converter.md": {
-            "size": 198,
-            "mtimeMs": 1754576321089.4492
-        },
-        "docs/services/discord-embedder/src/embedding.md": {
-            "size": 293,
-            "mtimeMs": 1754848367670.2705
-        },
-        "docs/services/discord-embedder/src/index.md": {
-            "size": 308,
-            "mtimeMs": 1754576321089.468
-        },
-        "docs/services/discord-embedder/tests/converter.md": {
-            "size": 179,
-            "mtimeMs": 1754576321089.468
-        },
-        "docs/services/discord-embedder/tests/embedding.test.md": {
-            "size": 314,
-            "mtimeMs": 1754848367670.4963
-        },
-        "docs/services/discord-embedder/tests/test.md": {
-            "size": 175,
-            "mtimeMs": 1754576321089.5134
-        },
-        "docs/services/embedding-service/drivers/__init__.md": {
-            "size": 322,
-            "mtimeMs": 1754576321089.5654
-        },
-        "docs/services/embedding-service/drivers/base.md": {
-            "size": 436,
-            "mtimeMs": 1754576321089.5823
-        },
-        "docs/services/embedding-service/drivers/naive_driver.md": {
-            "size": 343,
-            "mtimeMs": 1754576321089.5823
-        },
-        "docs/services/embedding-service/drivers/ollama_driver.md": {
-            "size": 338,
-            "mtimeMs": 1754576321089.5823
-        },
-        "docs/services/embedding-service/drivers/transformers_driver.md": {
-            "size": 380,
-            "mtimeMs": 1754576321089.5823
-        },
-        "docs/services/embedding-service/tests/test_service.md": {
-            "size": 296,
-            "mtimeMs": 1754763002251.9834
-        },
-        "docs/services/heartbeat/tests/client.test.md": {
-            "size": 327,
-            "mtimeMs": 1754764362947.3477
-        },
-        "docs/services/heartbeat/tests/heartbeat.test.md": {
-            "size": 425,
-            "mtimeMs": 1754764362947.3477
-        },
-        "docs/services/stt/whisper-npu-py/audio.md": {
-            "size": 262,
-            "mtimeMs": 1754576321089.8093
-        },
-        "docs/services/stt/whisper-npu-py/beam_decoder.md": {
-            "size": 193,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper-npu-py/cache.md": {
-            "size": 249,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper-npu-py/config.md": {
-            "size": 208,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper-npu-py/decoder.md": {
-            "size": 278,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper-npu-py/inspect_whisper_io.md": {
-            "size": 184,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper-npu-py/models.md": {
-            "size": 264,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper-npu-py/post_processing.md": {
-            "size": 283,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper-npu-py/whisper.md": {
-            "size": 205,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper-npu-py/whisper_streamer.md": {
-            "size": 195,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper_npu/__init__.md": {
-            "size": 227,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper_npu/audio.md": {
-            "size": 253,
-            "mtimeMs": 1754576321089.9492
-        },
-        "docs/services/stt/whisper_npu/config.md": {
-            "size": 265,
-            "mtimeMs": 1754576321089.9492
-        },
-        "docs/services/stt/whisper_npu/decoder.md": {
-            "size": 297,
-            "mtimeMs": 1754576321089.9492
-        },
-        "docs/services/stt/whisper_npu/models.md": {
-            "size": 276,
-            "mtimeMs": 1754576321089.9492
-        },
-        "docs/services/stt/whisper_npu/post_processing.md": {
-            "size": 333,
-            "mtimeMs": 1754576321089.9492
-        },
-        "docs/services/voice/src/index.md": {
-            "size": 280,
-            "mtimeMs": 1754576321090.0513
-        },
-        "docs/services/voice/src/speaker.md": {
-            "size": 329,
-            "mtimeMs": 1754576321090.07
-        },
-        "docs/services/voice/src/transcriber.md": {
-            "size": 285,
-            "mtimeMs": 1754576321090.07
-        },
-        "docs/services/voice/src/voice-recorder.md": {
-            "size": 281,
-            "mtimeMs": 1754576321090.07
-        },
-        "docs/services/voice/src/voice-session.md": {
-            "size": 327,
-            "mtimeMs": 1754576321090.07
-        },
-        "docs/services/voice/src/voice-synth.md": {
-            "size": 287,
-            "mtimeMs": 1754576321090.07
-        },
-        "docs/services/voice/tests/playback.test.md": {
-            "size": 265,
-            "mtimeMs": 1754576321090.07
-        },
-        "docs/services/voice/tests/speaker.test.md": {
-            "size": 257,
-            "mtimeMs": 1754576321090.142
-        },
         "legacy/riatzukiza.github.io/docs/Obstacles/_Index_of_Obstacles.md": {
             "size": 179,
             "mtimeMs": 1755177251116.9243
@@ -6676,6 +6487,62 @@
         "legacy/riatzukiza.github.io/kanban/templates/_Index_of_templates.md": {
             "size": 162,
             "mtimeMs": 1755177251123.9243
+        },
+        "legacy/riatzukiza.github.io/notes/unique/2025-01-10-08.21.29-graph-traversal.md": {
+            "size": 11166,
+            "mtimeMs": 1754771839492.6772
+        },
+        "legacy/riatzukiza.github.io/notes/unique/2025-01-10-11.17.32-a-star-priority-queue.md": {
+            "size": 11676,
+            "mtimeMs": 1754771839492.6772
+        },
+        "legacy/riatzukiza.github.io/notes/unique/2025-01-10-11.29.34-empty.md": {
+            "size": 0,
+            "mtimeMs": 1754771839492.6772
+        },
+        "legacy/riatzukiza.github.io/notes/unique/2025-01-10-11.43.23-a-star-tilemap.md": {
+            "size": 4521,
+            "mtimeMs": 1754771839492.6772
+        },
+        "legacy/riatzukiza.github.io/notes/unique/2025-01-18-07.39.28-math-pow-example.md": {
+            "size": 24,
+            "mtimeMs": 1754771839492.6772
+        },
+        "legacy/riatzukiza.github.io/notes/unique/2025-01-18-07.51.13-threaded-chunk-loader.md": {
+            "size": 512,
+            "mtimeMs": 1754771839492.6772
+        },
+        "legacy/riatzukiza.github.io/notes/unique/2025-01-18-08.12.36-javascript-proxies.md": {
+            "size": 4567,
+            "mtimeMs": 1754771839492.6772
+        },
+        "legacy/riatzukiza.github.io/notes/unique/2025-05-21-06.07.10-brain-dump-triage-process.md": {
+            "size": 2634,
+            "mtimeMs": 1754771839492.6772
+        },
+        "legacy/riatzukiza.github.io/notes/unique/2025-05-21-06.07.23-triage-checklist.md": {
+            "size": 1548,
+            "mtimeMs": 1754771839492.6772
+        },
+        "legacy/riatzukiza.github.io/notes/unique/2025-05-21-06.35.12-project-workflow-ice-box.md": {
+            "size": 2792,
+            "mtimeMs": 1754771839492.6772
+        },
+        "legacy/riatzukiza.github.io/notes/unique/2025-05-22-09.00.02-board-flow-ice-box.md": {
+            "size": 2678,
+            "mtimeMs": 1754771839492.6772
+        },
+        "legacy/riatzukiza.github.io/notes/unique/2025-05-22-09.11.08-profile-memory-system.md": {
+            "size": 97571,
+            "mtimeMs": 1755177251124.9243
+        },
+        "legacy/riatzukiza.github.io/notes/unique/On proxy overhead.md": {
+            "size": 3309,
+            "mtimeMs": 1754576321103.6448
+        },
+        "legacy/riatzukiza.github.io/notes/unique/_Index_of_unique.md": {
+            "size": 720,
+            "mtimeMs": 1755177251124.9243
         },
         "legacy/riatzukiza.github.io/notes/daily/2024-12-24.md": {
             "size": 531,
@@ -6880,62 +6747,6 @@
         "legacy/riatzukiza.github.io/notes/daily/_Index_of_daily.md": {
             "size": 2082,
             "mtimeMs": 1754576321102.9988
-        },
-        "legacy/riatzukiza.github.io/notes/unique/2025-01-10-08.21.29-graph-traversal.md": {
-            "size": 11166,
-            "mtimeMs": 1754771839492.6772
-        },
-        "legacy/riatzukiza.github.io/notes/unique/2025-01-10-11.17.32-a-star-priority-queue.md": {
-            "size": 11676,
-            "mtimeMs": 1754771839492.6772
-        },
-        "legacy/riatzukiza.github.io/notes/unique/2025-01-10-11.29.34-empty.md": {
-            "size": 0,
-            "mtimeMs": 1754771839492.6772
-        },
-        "legacy/riatzukiza.github.io/notes/unique/2025-01-10-11.43.23-a-star-tilemap.md": {
-            "size": 4521,
-            "mtimeMs": 1754771839492.6772
-        },
-        "legacy/riatzukiza.github.io/notes/unique/2025-01-18-07.39.28-math-pow-example.md": {
-            "size": 24,
-            "mtimeMs": 1754771839492.6772
-        },
-        "legacy/riatzukiza.github.io/notes/unique/2025-01-18-07.51.13-threaded-chunk-loader.md": {
-            "size": 512,
-            "mtimeMs": 1754771839492.6772
-        },
-        "legacy/riatzukiza.github.io/notes/unique/2025-01-18-08.12.36-javascript-proxies.md": {
-            "size": 4567,
-            "mtimeMs": 1754771839492.6772
-        },
-        "legacy/riatzukiza.github.io/notes/unique/2025-05-21-06.07.10-brain-dump-triage-process.md": {
-            "size": 2634,
-            "mtimeMs": 1754771839492.6772
-        },
-        "legacy/riatzukiza.github.io/notes/unique/2025-05-21-06.07.23-triage-checklist.md": {
-            "size": 1548,
-            "mtimeMs": 1754771839492.6772
-        },
-        "legacy/riatzukiza.github.io/notes/unique/2025-05-21-06.35.12-project-workflow-ice-box.md": {
-            "size": 2792,
-            "mtimeMs": 1754771839492.6772
-        },
-        "legacy/riatzukiza.github.io/notes/unique/2025-05-22-09.00.02-board-flow-ice-box.md": {
-            "size": 2678,
-            "mtimeMs": 1754771839492.6772
-        },
-        "legacy/riatzukiza.github.io/notes/unique/2025-05-22-09.11.08-profile-memory-system.md": {
-            "size": 97571,
-            "mtimeMs": 1755177251124.9243
-        },
-        "legacy/riatzukiza.github.io/notes/unique/On proxy overhead.md": {
-            "size": 3309,
-            "mtimeMs": 1754576321103.6448
-        },
-        "legacy/riatzukiza.github.io/notes/unique/_Index_of_unique.md": {
-            "size": 720,
-            "mtimeMs": 1755177251124.9243
         },
         "legacy/riatzukiza.github.io/kanban/tasks/3d gravity using babylon.md": {
             "size": 625,
@@ -7521,34 +7332,6 @@
             "size": 271145,
             "mtimeMs": 1754576321215.8542
         },
-        "legacy/riatzukiza.github.io/templates/projects/colliding-particles.js": {
-            "size": 1806,
-            "mtimeMs": 1754576321223.9836
-        },
-        "legacy/riatzukiza.github.io/templates/projects/crash-landed.js": {
-            "size": 1799,
-            "mtimeMs": 1754576321224.0059
-        },
-        "legacy/riatzukiza.github.io/templates/projects/fluid.js": {
-            "size": 1792,
-            "mtimeMs": 1754576321224.0059
-        },
-        "legacy/riatzukiza.github.io/templates/projects/index.js": {
-            "size": 4546,
-            "mtimeMs": 1754576321224.0059
-        },
-        "legacy/riatzukiza.github.io/templates/projects/obstacles.js": {
-            "size": 1219,
-            "mtimeMs": 1754576321224.0059
-        },
-        "legacy/riatzukiza.github.io/templates/projects/red-black-tree-visualization.js": {
-            "size": 844,
-            "mtimeMs": 1754576321224.0059
-        },
-        "legacy/riatzukiza.github.io/templates/projects/simple-gravity.js": {
-            "size": 1801,
-            "mtimeMs": 1754576321224.0059
-        },
         "legacy/riatzukiza.github.io/static/shared/andy.js": {
             "size": 977,
             "mtimeMs": 1754576321217.8542
@@ -7617,17 +7400,321 @@
             "size": 4797,
             "mtimeMs": 1754576321220.0562
         },
+        "legacy/riatzukiza.github.io/templates/projects/colliding-particles.js": {
+            "size": 1806,
+            "mtimeMs": 1754576321223.9836
+        },
+        "legacy/riatzukiza.github.io/templates/projects/crash-landed.js": {
+            "size": 1799,
+            "mtimeMs": 1754576321224.0059
+        },
+        "legacy/riatzukiza.github.io/templates/projects/fluid.js": {
+            "size": 1792,
+            "mtimeMs": 1754576321224.0059
+        },
+        "legacy/riatzukiza.github.io/templates/projects/index.js": {
+            "size": 4546,
+            "mtimeMs": 1754576321224.0059
+        },
+        "legacy/riatzukiza.github.io/templates/projects/obstacles.js": {
+            "size": 1219,
+            "mtimeMs": 1754576321224.0059
+        },
+        "legacy/riatzukiza.github.io/templates/projects/red-black-tree-visualization.js": {
+            "size": 844,
+            "mtimeMs": 1754576321224.0059
+        },
+        "legacy/riatzukiza.github.io/templates/projects/simple-gravity.js": {
+            "size": 1801,
+            "mtimeMs": 1754576321224.0059
+        },
+        "docs/agents/duck/scripts/discord_indexer_run.md": {
+            "size": 823,
+            "mtimeMs": 1754576321083.292
+        },
+        "docs/agents/duck/scripts/download_chroma_data.md": {
+            "size": 558,
+            "mtimeMs": 1754576321083.3237
+        },
+        "docs/agents/duck/scripts/duck_cephalon_run.md": {
+            "size": 629,
+            "mtimeMs": 1754576321083.3237
+        },
+        "docs/agents/duck/scripts/duck_embedder_run.md": {
+            "size": 555,
+            "mtimeMs": 1754576321083.3237
+        },
+        "docs/design/circuits/templates/README.md": {
+            "size": 104,
+            "mtimeMs": 1754576321086.3433
+        },
+        "docs/shared/ts/prom-lib/compiler.md": {
+            "size": 272,
+            "mtimeMs": 1754881380762.2515
+        },
+        "docs/shared/py/utils/gui.md": {
+            "size": 181,
+            "mtimeMs": 1754576321090.2249
+        },
+        "docs/shared/py/utils/wav_processing.md": {
+            "size": 215,
+            "mtimeMs": 1754576321090.2654
+        },
+        "docs/services/cephalon/scripts/patch-imports.md": {
+            "size": 202,
+            "mtimeMs": 1754576321089.125
+        },
+        "docs/services/cephalon/src/agent.md": {
+            "size": 287,
+            "mtimeMs": 1754576321089.125
+        },
+        "docs/services/cephalon/src/bot.md": {
+            "size": 341,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/collectionManager.md": {
+            "size": 207,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/collections.md": {
+            "size": 177,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/contextManager.md": {
+            "size": 236,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/converter.md": {
+            "size": 217,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/embedding.md": {
+            "size": 258,
+            "mtimeMs": 1754845972303.3992
+        },
+        "docs/services/cephalon/src/index.md": {
+            "size": 411,
+            "mtimeMs": 1754766495241.5173
+        },
+        "docs/services/cephalon/src/messageThrottler.md": {
+            "size": 310,
+            "mtimeMs": 1754845972303.3992
+        },
+        "docs/services/cephalon/src/speaker.md": {
+            "size": 271,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/transcriber.md": {
+            "size": 260,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/util.md": {
+            "size": 150,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/voice-recorder.md": {
+            "size": 260,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/voice-session.md": {
+            "size": 391,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/voice-synth.md": {
+            "size": 195,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/tests/bot.test.md": {
+            "size": 176,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/tests/converter.md": {
+            "size": 256,
+            "mtimeMs": 1754576321089.3225
+        },
+        "docs/services/cephalon/tests/messageThrottler.test.md": {
+            "size": 295,
+            "mtimeMs": 1754766495241.5173
+        },
+        "docs/services/cephalon/tests/test.md": {
+            "size": 167,
+            "mtimeMs": 1754576321089.3225
+        },
+        "docs/services/cephalon/tests/voice_session.test.md": {
+            "size": 225,
+            "mtimeMs": 1754576321089.3225
+        },
+        "docs/services/discord-attachment-embedder/tests/test_embedder.md": {
+            "size": 376,
+            "mtimeMs": 1754576321089.3782
+        },
+        "docs/services/discord-attachment-indexer/tests/test_discord_attachment_indexer.md": {
+            "size": 380,
+            "mtimeMs": 1754576321089.421
+        },
+        "docs/services/discord-embedder/src/converter.md": {
+            "size": 198,
+            "mtimeMs": 1754576321089.4492
+        },
+        "docs/services/discord-embedder/src/embedding.md": {
+            "size": 293,
+            "mtimeMs": 1754848367670.2705
+        },
+        "docs/services/discord-embedder/src/index.md": {
+            "size": 308,
+            "mtimeMs": 1754576321089.468
+        },
+        "docs/services/discord-embedder/tests/converter.md": {
+            "size": 179,
+            "mtimeMs": 1754576321089.468
+        },
+        "docs/services/discord-embedder/tests/embedding.test.md": {
+            "size": 314,
+            "mtimeMs": 1754848367670.4963
+        },
+        "docs/services/discord-embedder/tests/test.md": {
+            "size": 175,
+            "mtimeMs": 1754576321089.5134
+        },
+        "docs/services/embedding-service/drivers/__init__.md": {
+            "size": 322,
+            "mtimeMs": 1754576321089.5654
+        },
+        "docs/services/embedding-service/drivers/base.md": {
+            "size": 436,
+            "mtimeMs": 1754576321089.5823
+        },
+        "docs/services/embedding-service/drivers/naive_driver.md": {
+            "size": 343,
+            "mtimeMs": 1754576321089.5823
+        },
+        "docs/services/embedding-service/drivers/ollama_driver.md": {
+            "size": 338,
+            "mtimeMs": 1754576321089.5823
+        },
+        "docs/services/embedding-service/drivers/transformers_driver.md": {
+            "size": 380,
+            "mtimeMs": 1754576321089.5823
+        },
+        "docs/services/embedding-service/tests/test_service.md": {
+            "size": 296,
+            "mtimeMs": 1754763002251.9834
+        },
+        "docs/services/heartbeat/tests/client.test.md": {
+            "size": 327,
+            "mtimeMs": 1754764362947.3477
+        },
+        "docs/services/heartbeat/tests/heartbeat.test.md": {
+            "size": 425,
+            "mtimeMs": 1754764362947.3477
+        },
+        "docs/services/stt/whisper-npu-py/audio.md": {
+            "size": 262,
+            "mtimeMs": 1754576321089.8093
+        },
+        "docs/services/stt/whisper-npu-py/beam_decoder.md": {
+            "size": 193,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper-npu-py/cache.md": {
+            "size": 249,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper-npu-py/config.md": {
+            "size": 208,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper-npu-py/decoder.md": {
+            "size": 278,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper-npu-py/inspect_whisper_io.md": {
+            "size": 184,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper-npu-py/models.md": {
+            "size": 264,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper-npu-py/post_processing.md": {
+            "size": 283,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper-npu-py/whisper.md": {
+            "size": 205,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper-npu-py/whisper_streamer.md": {
+            "size": 195,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper_npu/__init__.md": {
+            "size": 227,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper_npu/audio.md": {
+            "size": 253,
+            "mtimeMs": 1754576321089.9492
+        },
+        "docs/services/stt/whisper_npu/config.md": {
+            "size": 265,
+            "mtimeMs": 1754576321089.9492
+        },
+        "docs/services/stt/whisper_npu/decoder.md": {
+            "size": 297,
+            "mtimeMs": 1754576321089.9492
+        },
+        "docs/services/stt/whisper_npu/models.md": {
+            "size": 276,
+            "mtimeMs": 1754576321089.9492
+        },
+        "docs/services/stt/whisper_npu/post_processing.md": {
+            "size": 333,
+            "mtimeMs": 1754576321089.9492
+        },
+        "docs/services/voice/src/index.md": {
+            "size": 280,
+            "mtimeMs": 1754576321090.0513
+        },
+        "docs/services/voice/src/speaker.md": {
+            "size": 329,
+            "mtimeMs": 1754576321090.07
+        },
+        "docs/services/voice/src/transcriber.md": {
+            "size": 285,
+            "mtimeMs": 1754576321090.07
+        },
+        "docs/services/voice/src/voice-recorder.md": {
+            "size": 281,
+            "mtimeMs": 1754576321090.07
+        },
+        "docs/services/voice/src/voice-session.md": {
+            "size": 327,
+            "mtimeMs": 1754576321090.07
+        },
+        "docs/services/voice/src/voice-synth.md": {
+            "size": 287,
+            "mtimeMs": 1754576321090.07
+        },
+        "docs/services/voice/tests/playback.test.md": {
+            "size": 265,
+            "mtimeMs": 1754576321090.07
+        },
+        "docs/services/voice/tests/speaker.test.md": {
+            "size": 257,
+            "mtimeMs": 1754576321090.142
+        },
         "services/hy/discord_attachment_embedder/tests/test_embedder.py": {
             "size": 1944,
             "mtimeMs": 1754576321227.0203
         },
-        "services/hy/discord_attachment_indexer/tests/test_discord_attachment_indexer.py": {
-            "size": 4337,
-            "mtimeMs": 1754576321227.778
-        },
         "services/hy/discord_indexer/tests/test_discord_indexer.py": {
             "size": 4554,
             "mtimeMs": 1754576321228.234
+        },
+        "services/hy/discord_attachment_indexer/tests/test_discord_attachment_indexer.py": {
+            "size": 4337,
+            "mtimeMs": 1754576321227.778
         },
         "services/hy/stt/tests/stt_unit_test.py": {
             "size": 1279,
@@ -8082,8 +8169,8 @@
             "mtimeMs": 1755707094693.228
         },
         "services/ts/smartgpt-bridge/public/main.js": {
-            "size": 10968,
-            "mtimeMs": 1755734903114.751
+            "size": 1877,
+            "mtimeMs": 1755811992396.2976
         },
         "services/ts/smartgpt-bridge/src/agent.js": {
             "size": 18527,
@@ -8126,8 +8213,8 @@
             "mtimeMs": 1755797482990.5327
         },
         "services/ts/smartgpt-bridge/src/grep.js": {
-            "size": 2286,
-            "mtimeMs": 1755797482990.6562
+            "size": 32,
+            "mtimeMs": 1755808881607.1182
         },
         "services/ts/smartgpt-bridge/src/indexer.js": {
             "size": 20099,
@@ -8145,9 +8232,13 @@
             "size": 2419,
             "mtimeMs": 1755734903343.748
         },
+        "services/ts/smartgpt-bridge/src/rg.js": {
+            "size": 2914,
+            "mtimeMs": 1755808881607.1182
+        },
         "services/ts/smartgpt-bridge/src/spec.js": {
-            "size": 22121,
-            "mtimeMs": 1755807024810.3955
+            "size": 34050,
+            "mtimeMs": 1755811992230.2986
         },
         "services/ts/smartgpt-bridge/src/store.js": {
             "size": 2207,
@@ -8160,6 +8251,18 @@
         "services/ts/voice/scripts/patch-imports.js": {
             "size": 1078,
             "mtimeMs": 1755629282466.5793
+        },
+        "services/ts/voice/tests/dummy.test.ts": {
+            "size": 72,
+            "mtimeMs": 1755629282476.5793
+        },
+        "services/ts/voice/tests/playback.test.ts": {
+            "size": 1474,
+            "mtimeMs": 1755629282473.5793
+        },
+        "services/ts/voice/tests/speaker.test.ts": {
+            "size": 969,
+            "mtimeMs": 1755629282690.5764
         },
         "services/ts/voice/src/ambient.d.ts": {
             "size": 22,
@@ -8188,18 +8291,6 @@
         "services/ts/voice/src/voice-synth.ts": {
             "size": 3447,
             "mtimeMs": 1755629282147.5837
-        },
-        "services/ts/voice/tests/dummy.test.ts": {
-            "size": 72,
-            "mtimeMs": 1755629282476.5793
-        },
-        "services/ts/voice/tests/playback.test.ts": {
-            "size": 1474,
-            "mtimeMs": 1755629282473.5793
-        },
-        "services/ts/voice/tests/speaker.test.ts": {
-            "size": 969,
-            "mtimeMs": 1755629282690.5764
         },
         "services/ts/auth-service/src/index.ts": {
             "size": 4742,
@@ -8497,22 +8588,6 @@
             "size": 6378,
             "mtimeMs": 1755185115701.621
         },
-        "docs/github/issues/riatzukiza/promethean/Issue - 274.md": {
-            "size": 5108,
-            "mtimeMs": 1754858913151.4915
-        },
-        "docs/github/issues/riatzukiza/promethean/Issue - 309.md": {
-            "size": 729,
-            "mtimeMs": 1754763002250.2603
-        },
-        "docs/github/pull_requests/riatzukiza/promethean/Pull Request - 274.md": {
-            "size": 5134,
-            "mtimeMs": 1754858913151.4915
-        },
-        "docs/github/pull_requests/riatzukiza/promethean/Pull Request - 309.md": {
-            "size": 755,
-            "mtimeMs": 1754763002250.4246
-        },
         "legacy/riatzukiza.github.io/docs/Crash-Landed/systems/Ant-dot.md": {
             "size": 184,
             "mtimeMs": 1754576321099.561
@@ -8745,14 +8820,6 @@
             "size": 336164,
             "mtimeMs": 1754576321161.8545
         },
-        "legacy/riatzukiza.github.io/static/bundles/tests/main.js": {
-            "size": 336070,
-            "mtimeMs": 1754576321182.8545
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/main.js": {
-            "size": 332102,
-            "mtimeMs": 1754576321182.8545
-        },
         "legacy/riatzukiza.github.io/static/bundles/shared/andy.js": {
             "size": 581141,
             "mtimeMs": 1754576321162.8545
@@ -8820,6 +8887,14 @@
         "legacy/riatzukiza.github.io/static/bundles/shared/worker.js": {
             "size": 355416,
             "mtimeMs": 1754576321181.8545
+        },
+        "legacy/riatzukiza.github.io/static/bundles/tests/main.js": {
+            "size": 336070,
+            "mtimeMs": 1754576321182.8545
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/main.js": {
+            "size": 332102,
+            "mtimeMs": 1754576321182.8545
         },
         "legacy/riatzukiza.github.io/static/client/colliding-particles/config.js": {
             "size": 2101,
@@ -9025,14 +9100,6 @@
             "size": 47290,
             "mtimeMs": 1754576321214.8542
         },
-        "legacy/riatzukiza.github.io/static/sprites/Cute_Fantasy_Free/read_me.txt": {
-            "size": 493,
-            "mtimeMs": 1754576321220.8416
-        },
-        "legacy/riatzukiza.github.io/static/sprites/Small-8-Direction-Characters_by_AxulArt/license.txt": {
-            "size": 556,
-            "mtimeMs": 1754576321221.8965
-        },
         "legacy/riatzukiza.github.io/static/shared/data-structures/array.js": {
             "size": 1106,
             "mtimeMs": 1754576321218.5588
@@ -9153,6 +9220,30 @@
             "size": 2573,
             "mtimeMs": 1754576321220.3716
         },
+        "legacy/riatzukiza.github.io/static/sprites/Cute_Fantasy_Free/read_me.txt": {
+            "size": 493,
+            "mtimeMs": 1754576321220.8416
+        },
+        "legacy/riatzukiza.github.io/static/sprites/Small-8-Direction-Characters_by_AxulArt/license.txt": {
+            "size": 556,
+            "mtimeMs": 1754576321221.8965
+        },
+        "docs/github/issues/riatzukiza/promethean/Issue - 274.md": {
+            "size": 5108,
+            "mtimeMs": 1754858913151.4915
+        },
+        "docs/github/issues/riatzukiza/promethean/Issue - 309.md": {
+            "size": 729,
+            "mtimeMs": 1754763002250.2603
+        },
+        "docs/github/pull_requests/riatzukiza/promethean/Pull Request - 274.md": {
+            "size": 5134,
+            "mtimeMs": 1754858913151.4915
+        },
+        "docs/github/pull_requests/riatzukiza/promethean/Pull Request - 309.md": {
+            "size": 755,
+            "mtimeMs": 1754763002250.4246
+        },
         "services/ts/cephalon/src/agent/index.ts": {
             "size": 13660,
             "mtimeMs": 1755707094968.2266
@@ -9172,14 +9263,6 @@
         "services/ts/cephalon/src/agent/voiceContent.ts": {
             "size": 3393,
             "mtimeMs": 1755707094866.227
-        },
-        "services/ts/cephalon/src/audioProcessing/spectrogram.ts": {
-            "size": 1249,
-            "mtimeMs": 1755629282376.5806
-        },
-        "services/ts/cephalon/src/audioProcessing/waveform.ts": {
-            "size": 1958,
-            "mtimeMs": 1755629282709.5762
         },
         "services/ts/cephalon/src/actions/join-voice.scope.ts": {
             "size": 2382,
@@ -9220,6 +9303,14 @@
         "services/ts/cephalon/src/actions/tts.scope.ts": {
             "size": 836,
             "mtimeMs": 1755629282504.5789
+        },
+        "services/ts/cephalon/src/audioProcessing/spectrogram.ts": {
+            "size": 1249,
+            "mtimeMs": 1755629282376.5806
+        },
+        "services/ts/cephalon/src/audioProcessing/waveform.ts": {
+            "size": 1958,
+            "mtimeMs": 1755629282709.5762
         },
         "services/ts/cephalon/src/bot/registerCommands.ts": {
             "size": 1803,
@@ -9305,10 +9396,6 @@
             "size": 248,
             "mtimeMs": 1755628340533.1606
         },
-        "services/ts/cephalon/src/types/wav-decoder.d.ts": {
-            "size": 174,
-            "mtimeMs": 1755629282770.5754
-        },
         "services/ts/cephalon/src/tests/actions.leave-voice.test.ts": {
             "size": 1042,
             "mtimeMs": 1755629282666.577
@@ -9381,9 +9468,17 @@
             "size": 607,
             "mtimeMs": 1755636002824.753
         },
+        "services/ts/cephalon/src/types/wav-decoder.d.ts": {
+            "size": 174,
+            "mtimeMs": 1755629282770.5754
+        },
         "services/ts/codex-context/docs/codex-context/index.md": {
             "size": 151,
             "mtimeMs": 1755794279486.4597
+        },
+        "services/ts/codex-context/src/types/openai.ts": {
+            "size": 1378,
+            "mtimeMs": 1755804098078.9072
         },
         "services/ts/codex-context/src/tests/api.compat.test.js": {
             "size": 1608,
@@ -9433,10 +9528,6 @@
             "size": 934,
             "mtimeMs": 1755807024635.3975
         },
-        "services/ts/codex-context/src/types/openai.ts": {
-            "size": 1378,
-            "mtimeMs": 1755804098078.9072
-        },
         "services/ts/discord-embedder/src/tests/converter.ts": {
             "size": 226,
             "mtimeMs": 1755629282227.5825
@@ -9448,6 +9539,10 @@
         "services/ts/discord-embedder/src/tests/test.ts": {
             "size": 73,
             "mtimeMs": 1755629282795.5752
+        },
+        "services/ts/smartgpt-bridge/public/wc/components.js": {
+            "size": 23120,
+            "mtimeMs": 1755811992319.494
         },
         "services/ts/smartgpt-bridge/src/routes/agent.js": {
             "size": 6336,
@@ -9602,8 +9697,8 @@
             "mtimeMs": 1755707094786.2275
         },
         "services/ts/smartgpt-bridge/tests/unit/grep.test.js": {
-            "size": 752,
-            "mtimeMs": 1755707094519.229
+            "size": 2726,
+            "mtimeMs": 1755808881607.1182
         },
         "services/ts/smartgpt-bridge/tests/unit/indexer.branches.test.js": {
             "size": 3476,
@@ -9737,6 +9832,10 @@
             "size": 9742,
             "mtimeMs": 1755185115701.408
         },
+        "legacy/riatzukiza.github.io/docs/DataStructures/Fields/Sparse/equation.md": {
+            "size": 254,
+            "mtimeMs": 1754576321099.696
+        },
         "legacy/riatzukiza.github.io/docs/Crash-Landed/entities/trail-segment/spawn-trail-segment.md": {
             "size": 230,
             "mtimeMs": 1754576321099.561
@@ -9744,10 +9843,6 @@
         "legacy/riatzukiza.github.io/docs/Crash-Landed/systems/ant-trails/Trail-vector.md": {
             "size": 261,
             "mtimeMs": 1754576321099.6487
-        },
-        "legacy/riatzukiza.github.io/docs/DataStructures/Fields/Sparse/equation.md": {
-            "size": 254,
-            "mtimeMs": 1754576321099.696
         },
         "legacy/riatzukiza.github.io/docs/Obstacles/entities/trail-segment/_Index_of_trail-segment.md": {
             "size": 160,
@@ -10069,6 +10164,42 @@
             "size": 334352,
             "mtimeMs": 1754576321158.3784
         },
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/array.js": {
+            "size": 331736,
+            "mtimeMs": 1754576321163.8545
+        },
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/contrib.js": {
+            "size": 346124,
+            "mtimeMs": 1754576321163.8545
+        },
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/group.js": {
+            "size": 336546,
+            "mtimeMs": 1754576321165.4343
+        },
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/linked-list.js": {
+            "size": 339690,
+            "mtimeMs": 1754576321165.4343
+        },
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/list.js": {
+            "size": 337402,
+            "mtimeMs": 1754576321165.4343
+        },
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/old-list.js": {
+            "size": 336455,
+            "mtimeMs": 1754576321166.358
+        },
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/pooled.js": {
+            "size": 333955,
+            "mtimeMs": 1754576321166.358
+        },
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/spawnable.js": {
+            "size": 333432,
+            "mtimeMs": 1754576321166.358
+        },
+        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/table.js": {
+            "size": 333844,
+            "mtimeMs": 1754576321166.358
+        },
         "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ant-dot.js": {
             "size": 1444,
             "mtimeMs": 1754576321158.8545
@@ -10112,74 +10243,6 @@
         "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/velocity.js": {
             "size": 332696,
             "mtimeMs": 1754576321160.8545
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/base-weights.js": {
-            "size": 333006,
-            "mtimeMs": 1754576321183.7407
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/generate-main-road.js": {
-            "size": 1700,
-            "mtimeMs": 1754576321183.8762
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules.js": {
-            "size": 331169,
-            "mtimeMs": 1754576321183.8762
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/possible-state.js": {
-            "size": 333820,
-            "mtimeMs": 1754576321184.539
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/probabilities.js": {
-            "size": 341910,
-            "mtimeMs": 1754576321184.539
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/super-position.js": {
-            "size": 337633,
-            "mtimeMs": 1754576321184.539
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/terrain-module.js": {
-            "size": 334393,
-            "mtimeMs": 1754576321184.8542
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/tile-setup.js": {
-            "size": 3339,
-            "mtimeMs": 1754576321184.8542
-        },
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/array.js": {
-            "size": 331736,
-            "mtimeMs": 1754576321163.8545
-        },
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/contrib.js": {
-            "size": 346124,
-            "mtimeMs": 1754576321163.8545
-        },
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/group.js": {
-            "size": 336546,
-            "mtimeMs": 1754576321165.4343
-        },
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/linked-list.js": {
-            "size": 339690,
-            "mtimeMs": 1754576321165.4343
-        },
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/list.js": {
-            "size": 337402,
-            "mtimeMs": 1754576321165.4343
-        },
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/old-list.js": {
-            "size": 336455,
-            "mtimeMs": 1754576321166.358
-        },
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/pooled.js": {
-            "size": 333955,
-            "mtimeMs": 1754576321166.358
-        },
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/spawnable.js": {
-            "size": 333432,
-            "mtimeMs": 1754576321166.358
-        },
-        "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/table.js": {
-            "size": 333844,
-            "mtimeMs": 1754576321166.358
         },
         "legacy/riatzukiza.github.io/static/bundles/shared/ecs/component-system.js": {
             "size": 343741,
@@ -10248,6 +10311,38 @@
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/velocity.js": {
             "size": 335129,
             "mtimeMs": 1754576321173.8545
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/base-weights.js": {
+            "size": 333006,
+            "mtimeMs": 1754576321183.7407
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/generate-main-road.js": {
+            "size": 1700,
+            "mtimeMs": 1754576321183.8762
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules.js": {
+            "size": 331169,
+            "mtimeMs": 1754576321183.8762
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/possible-state.js": {
+            "size": 333820,
+            "mtimeMs": 1754576321184.539
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/probabilities.js": {
+            "size": 341910,
+            "mtimeMs": 1754576321184.539
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/super-position.js": {
+            "size": 337633,
+            "mtimeMs": 1754576321184.539
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/terrain-module.js": {
+            "size": 334393,
+            "mtimeMs": 1754576321184.8542
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/tile-setup.js": {
+            "size": 3339,
+            "mtimeMs": 1754576321184.8542
         },
         "legacy/riatzukiza.github.io/static/client/colliding-particles/data-types/Group-id.js": {
             "size": 526,
@@ -10701,6 +10796,22 @@
             "size": 1930,
             "mtimeMs": 1754576321188.8787
         },
+        "legacy/riatzukiza.github.io/static/client/simple-gravity/typed-arrays/composite.js": {
+            "size": 1670,
+            "mtimeMs": 1754576321188.938
+        },
+        "legacy/riatzukiza.github.io/static/client/simple-gravity/typed-arrays/double-buffered.js": {
+            "size": 1468,
+            "mtimeMs": 1754576321189.0684
+        },
+        "legacy/riatzukiza.github.io/static/client/simple-gravity/typed-arrays/dynamic-double-buffer.js": {
+            "size": 1397,
+            "mtimeMs": 1754576321189.0684
+        },
+        "legacy/riatzukiza.github.io/static/client/simple-gravity/typed-arrays/vector-2d.js": {
+            "size": 928,
+            "mtimeMs": 1754576321189.0684
+        },
         "legacy/riatzukiza.github.io/static/client/simple-gravity/pseudo/buffers.js": {
             "size": 1007,
             "mtimeMs": 1754576321188.8787
@@ -10724,22 +10835,6 @@
         "legacy/riatzukiza.github.io/static/client/simple-gravity/pseudo/typed-arrays.js": {
             "size": 1400,
             "mtimeMs": 1754576321188.938
-        },
-        "legacy/riatzukiza.github.io/static/client/simple-gravity/typed-arrays/composite.js": {
-            "size": 1670,
-            "mtimeMs": 1754576321188.938
-        },
-        "legacy/riatzukiza.github.io/static/client/simple-gravity/typed-arrays/double-buffered.js": {
-            "size": 1468,
-            "mtimeMs": 1754576321189.0684
-        },
-        "legacy/riatzukiza.github.io/static/client/simple-gravity/typed-arrays/dynamic-double-buffer.js": {
-            "size": 1397,
-            "mtimeMs": 1754576321189.0684
-        },
-        "legacy/riatzukiza.github.io/static/client/simple-gravity/typed-arrays/vector-2d.js": {
-            "size": 928,
-            "mtimeMs": 1754576321189.0684
         },
         "legacy/riatzukiza.github.io/static/client/simple-gravity/workers/adder.js": {
             "size": 0,
@@ -10772,10 +10867,6 @@
         "legacy/riatzukiza.github.io/static/client/simple-gravity/workers/slow-attractors.js": {
             "size": 3542,
             "mtimeMs": 1754576321189.1323
-        },
-        "legacy/riatzukiza.github.io/static/sprites/mystic-woods/characters/README.txt": {
-            "size": 319,
-            "mtimeMs": 1754576321222.0164
         },
         "legacy/riatzukiza.github.io/static/shared/data-structures/fields/sparse.js": {
             "size": 3230,
@@ -10933,6 +11024,10 @@
             "size": 1363,
             "mtimeMs": 1754576321220.0562
         },
+        "legacy/riatzukiza.github.io/static/sprites/mystic-woods/characters/README.txt": {
+            "size": 319,
+            "mtimeMs": 1754576321222.0164
+        },
         "services/ts/cephalon/src/store/effects/voice.ts": {
             "size": 1759,
             "mtimeMs": 1755629282529.5786
@@ -11025,13 +11120,21 @@
             "size": 87224,
             "mtimeMs": 1755804296999.8252
         },
-        "services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean/bootstrap.json": {
-            "size": 500982,
-            "mtimeMs": 1755807024607.7266
+        "services/ts/codex-context/docs/codex-context/requests/2025.08.21.16.10.41.md": {
+            "size": 73318,
+            "mtimeMs": 1755810641366.138
         },
-        "services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean_services_ts_smartgpt-bridge_services_ts_smartgpt-bridge_tests_tmp_inc1/bootstrap.json": {
-            "size": 681,
-            "mtimeMs": 1755734903079.7515
+        "services/ts/codex-context/docs/codex-context/requests/2025.08.21.16.11.06.md": {
+            "size": 81003,
+            "mtimeMs": 1755810666846.8406
+        },
+        "services/ts/smartgpt-bridge/docs/agile/tasks/dashboard-grep-defaults.md": {
+            "size": 1607,
+            "mtimeMs": 1755809586137.2485
+        },
+        "services/ts/smartgpt-bridge/docs/agile/tasks/stabilize-kanban-scripts.md": {
+            "size": 1578,
+            "mtimeMs": 1755810576746.7463
         },
         "services/ts/smartgpt-bridge/logs/agents/-Xnx-F-JBH7OPBvm1UTuD/meta.json": {
             "size": 447,
@@ -11385,6 +11488,10 @@
             "size": 427,
             "mtimeMs": 1755734903408.7473
         },
+        "services/ts/smartgpt-bridge/logs/agents/z5rrSHSS5D7ThyuR66PKT/meta.json": {
+            "size": 447,
+            "mtimeMs": 1755734903204.7498
+        },
         "services/ts/smartgpt-bridge/logs/agents/zUB2ITV92vDaQeZHbZAmE/meta.json": {
             "size": 447,
             "mtimeMs": 1755734903194.75
@@ -11393,9 +11500,17 @@
             "size": 447,
             "mtimeMs": 1755734903067.7517
         },
-        "services/ts/smartgpt-bridge/logs/agents/z5rrSHSS5D7ThyuR66PKT/meta.json": {
-            "size": 447,
-            "mtimeMs": 1755734903204.7498
+        "services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean/bootstrap.json": {
+            "size": 504128,
+            "mtimeMs": 1755811992367.2979
+        },
+        "services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean_services_ts_smartgpt-bridge_services_ts_smartgpt-bridge_tests_tmp_inc1/bootstrap.json": {
+            "size": 681,
+            "mtimeMs": 1755734903079.7515
+        },
+        "services/ts/smartgpt-bridge/tests/unit/snapshots/grep.test.js.md": {
+            "size": 434,
+            "mtimeMs": 1755808881608.5195
         },
         "legacy/riatzukiza.github.io/docs/Crash-Landed/systems/ant-trails/Trail-segment/apply.md": {
             "size": 119,
@@ -11509,54 +11624,6 @@
             "size": 330648,
             "mtimeMs": 1754576321130.2
         },
-        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/ant-dot.js": {
-            "size": 331538,
-            "mtimeMs": 1754576321160.3347
-        },
-        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/ant-life-timer.js": {
-            "size": 334028,
-            "mtimeMs": 1754576321160.6023
-        },
-        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/ant-panel.js": {
-            "size": 331233,
-            "mtimeMs": 1754576321160.6023
-        },
-        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/ant-trails.js": {
-            "size": 332107,
-            "mtimeMs": 1754576321160.6023
-        },
-        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/trail-dots.js": {
-            "size": 332858,
-            "mtimeMs": 1754576321160.6023
-        },
-        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/trail-panel.js": {
-            "size": 332726,
-            "mtimeMs": 1754576321160.6023
-        },
-        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/trail-segments.js": {
-            "size": 335285,
-            "mtimeMs": 1754576321160.6023
-        },
-        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/trail-view.js": {
-            "size": 750,
-            "mtimeMs": 1754576321160.6023
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/exclusions.js": {
-            "size": 333070,
-            "mtimeMs": 1754576321183.8762
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/fields.js": {
-            "size": 331743,
-            "mtimeMs": 1754576321184.1372
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads.js": {
-            "size": 331292,
-            "mtimeMs": 1754576321184.1372
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/testing.js": {
-            "size": 330652,
-            "mtimeMs": 1754576321184.539
-        },
         "legacy/riatzukiza.github.io/static/bundles/shared/data-structures/fields/sparse.js": {
             "size": 333648,
             "mtimeMs": 1754576321163.8545
@@ -11613,6 +11680,38 @@
             "size": 334581,
             "mtimeMs": 1754576321167.3948
         },
+        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/ant-dot.js": {
+            "size": 331538,
+            "mtimeMs": 1754576321160.3347
+        },
+        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/ant-life-timer.js": {
+            "size": 334028,
+            "mtimeMs": 1754576321160.6023
+        },
+        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/ant-panel.js": {
+            "size": 331233,
+            "mtimeMs": 1754576321160.6023
+        },
+        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/ant-trails.js": {
+            "size": 332107,
+            "mtimeMs": 1754576321160.6023
+        },
+        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/trail-dots.js": {
+            "size": 332858,
+            "mtimeMs": 1754576321160.6023
+        },
+        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/trail-panel.js": {
+            "size": 332726,
+            "mtimeMs": 1754576321160.6023
+        },
+        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/trail-segments.js": {
+            "size": 335285,
+            "mtimeMs": 1754576321160.6023
+        },
+        "legacy/riatzukiza.github.io/static/bundles/obstacles/systems/ants/trail-view.js": {
+            "size": 750,
+            "mtimeMs": 1754576321160.6023
+        },
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/physics/forces.js": {
             "size": 331054,
             "mtimeMs": 1754576321171.9565
@@ -11660,6 +11759,22 @@
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/rendering/vertex.js": {
             "size": 333914,
             "mtimeMs": 1754576321173.8545
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/exclusions.js": {
+            "size": 333070,
+            "mtimeMs": 1754576321183.8762
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/fields.js": {
+            "size": 331743,
+            "mtimeMs": 1754576321184.1372
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads.js": {
+            "size": 331292,
+            "mtimeMs": 1754576321184.1372
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/testing.js": {
+            "size": 330652,
+            "mtimeMs": 1754576321184.539
         },
         "legacy/riatzukiza.github.io/static/client/crash-landed/systems/signals/collision.js": {
             "size": 359,
@@ -11765,22 +11880,6 @@
             "size": 330849,
             "mtimeMs": 1754576321130.2
         },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads/intersections.js": {
-            "size": 331203,
-            "mtimeMs": 1754576321184.1372
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads/straight.js": {
-            "size": 332942,
-            "mtimeMs": 1754576321184.539
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads/turns.js": {
-            "size": 331710,
-            "mtimeMs": 1754576321184.539
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads/weights.js": {
-            "size": 330853,
-            "mtimeMs": 1754576321184.539
-        },
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/physics/forces/friction.js": {
             "size": 331500,
             "mtimeMs": 1754576321172.2004
@@ -11800,6 +11899,22 @@
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/physics/forces/signal-field.js": {
             "size": 332816,
             "mtimeMs": 1754576321172.325
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads/intersections.js": {
+            "size": 331203,
+            "mtimeMs": 1754576321184.1372
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads/straight.js": {
+            "size": 332942,
+            "mtimeMs": 1754576321184.539
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads/turns.js": {
+            "size": 331710,
+            "mtimeMs": 1754576321184.539
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads/weights.js": {
+            "size": 330853,
+            "mtimeMs": 1754576321184.539
         },
         "legacy/riatzukiza.github.io/static/client/crash-landed/world-gen/modules/roads/intersections.js": {
             "size": 1780,
@@ -11851,6 +11966,6 @@
         }
     },
     "startedAt": 1755798176417,
-    "finishedAt": 1755807026187,
+    "finishedAt": 1755811993709,
     "rootPath": "/home/err/devel/promethean"
 }
