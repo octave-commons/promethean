@@ -1,6 +1,10 @@
 # Description
 
-Describe your task
+The GPT bridge should be able to run:
+- status
+- patch
+- add
+- commit
 
 ## Requirements/Definition of done
 
@@ -17,6 +21,3 @@ Describe your task
 
 You might find [this] useful while working on this task
 
-## Comments
-
-Useful for agents to engage in append only conversations about this task.
