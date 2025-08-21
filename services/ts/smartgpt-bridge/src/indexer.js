@@ -4,6 +4,7 @@ import fg from 'fast-glob';
 import { ChromaClient } from 'chromadb';
 import { RemoteEmbeddingFunction } from './remoteEmbedding.js';
 import { logger } from './logger.js';
+import { loadBootstrapState, saveBootstrapState, deleteBootstrapState } from './indexerState.js';
 
 let CHROMA = null; // lazily created to avoid holding open handles during import
 let EMBEDDING_FACTORY = null; // optional override for tests
@@ -41,6 +42,27 @@ function splitCSV(s) {
 function defaultExcludes() {
     const env = splitCSV(process.env.EXCLUDE_GLOBS);
     return env.length ? env : ['node_modules/**', '.git/**', 'dist/**', 'build/**', '.obsidian/**'];
+}
+
+// Enumerate files + capture quick stats used for incremental comparisons
+async function scanFiles(rootPath) {
+    const include = ['**/*.{md,txt,js,ts,jsx,tsx,py,go,rs,json,yml,yaml,sh}'];
+    const files = await fg(include, {
+        cwd: rootPath,
+        ignore: defaultExcludes(),
+        onlyFiles: true,
+        dot: false,
+    });
+    const fileInfo = {};
+    for (const rel of files) {
+        try {
+            const st = await fs.stat(path.join(rootPath, rel));
+            fileInfo[rel] = { size: Number(st.size), mtimeMs: Number(st.mtimeMs) };
+        } catch {
+            // file could disappear between listing and stat; skip
+        }
+    }
+    return { files, fileInfo };
 }
 
 // Chunk by ~2000 chars with 200 overlap; track line numbers.
@@ -153,6 +175,8 @@ class IndexerManager {
         this.errors = [];
         this.rootPath = null;
         this._draining = false;
+        this.bootstrap = null; // { fileList: string[], cursor: number }
+        this.state = null; // last persisted state
     }
     status() {
         return {
@@ -163,21 +187,96 @@ class IndexerManager {
             startedAt: this.startedAt,
             finishedAt: this.finishedAt,
             lastError: this.errors[this.errors.length - 1] || null,
+            bootstrap: this.bootstrap
+                ? {
+                      total: this.bootstrap.fileList.length,
+                      cursor: this.bootstrap.cursor,
+                      remaining: Math.max(
+                          0,
+                          this.bootstrap.fileList.length - this.bootstrap.cursor,
+                      ),
+                  }
+                : null,
         };
+    }
+    isBusy() {
+        return this.active || this._draining || this.queue.length > 0;
+    }
+    async resetAndBootstrap(rootPath) {
+        if (this.isBusy()) throw new Error('Indexer is busy');
+        this.mode = 'bootstrap';
+        this.queue = [];
+        this.active = false;
+        this.startedAt = null;
+        this.finishedAt = null;
+        this.processedFiles = 0;
+        this.errors = [];
+        this.rootPath = null;
+        this._draining = false;
+        this.bootstrap = null;
+        this.state = null;
+        await deleteBootstrapState(rootPath);
+        await this.ensureBootstrap(rootPath);
+        return { ok: true };
     }
     async ensureBootstrap(rootPath) {
         if (this.rootPath) return; // already initialized
         this.rootPath = rootPath;
         this.startedAt = Date.now();
-        // schedule all files with delay between files
-        const include = ['**/*.{md,txt,js,ts,jsx,tsx,py,go,rs,json,yml,yaml,sh}'];
-        const files = await fg(include, {
-            cwd: rootPath,
-            ignore: defaultExcludes(),
-            onlyFiles: true,
-            dot: false,
-        });
+        // Try resuming previous bootstrap state
+        const prev = await loadBootstrapState(rootPath);
+        this.state = prev;
+        if (prev && prev.mode === 'bootstrap' && Array.isArray(prev.fileList)) {
+            this.mode = 'bootstrap';
+            this.bootstrap = { fileList: prev.fileList, cursor: Number(prev.cursor || 0) };
+            // Append any newly discovered files to the end of the bootstrap list
+            try {
+                const { files: now } = await scanFiles(rootPath);
+                const known = new Set(this.bootstrap.fileList);
+                const add = now.filter((f) => !known.has(f));
+                if (add.length) {
+                    this.bootstrap.fileList.push(...add);
+                    await saveBootstrapState(this.rootPath, {
+                        mode: 'bootstrap',
+                        cursor: this.bootstrap.cursor,
+                        fileList: this.bootstrap.fileList,
+                        startedAt: this.startedAt,
+                        fileInfo: prev.fileInfo || {},
+                    });
+                }
+            } catch {}
+            const remaining = this.bootstrap.fileList.slice(this.bootstrap.cursor);
+            logger.info('indexer bootstrap resumed', {
+                total: this.bootstrap.fileList.length,
+                cursor: this.bootstrap.cursor,
+                remaining: remaining.length,
+                rootPath,
+            });
+            this.enqueueFiles(remaining);
+            this._drain();
+            return;
+        }
+        if (prev && prev.mode === 'indexed') {
+            // Completed previously; run incremental scan and enqueue changes
+            this.mode = 'indexed';
+            this.bootstrap = null;
+            this.finishedAt = prev.finishedAt || null;
+            logger.info('indexer incremental scan starting', { rootPath });
+            await this._scheduleIncremental(prev);
+            return;
+        }
+        // Fresh bootstrap: schedule all files with delay between files and create state
+        const { files, fileInfo } = await scanFiles(rootPath);
         logger.info('indexer bootstrap discovered files', { count: files.length, rootPath });
+        this.mode = 'bootstrap';
+        this.bootstrap = { fileList: files, cursor: 0 };
+        await saveBootstrapState(rootPath, {
+            mode: 'bootstrap',
+            cursor: 0,
+            fileList: files,
+            startedAt: this.startedAt,
+            fileInfo,
+        });
         this.enqueueFiles(files);
         this._drain();
     }
@@ -201,16 +300,58 @@ class IndexerManager {
             try {
                 await indexFile(this.rootPath, rel);
                 this.processedFiles++;
+                // If this item corresponds to current bootstrap cursor, advance and persist
+                if (
+                    this.mode === 'bootstrap' &&
+                    this.bootstrap &&
+                    this.bootstrap.fileList[this.bootstrap.cursor] === rel
+                ) {
+                    this.bootstrap.cursor++;
+                    await saveBootstrapState(this.rootPath, {
+                        mode: 'bootstrap',
+                        cursor: this.bootstrap.cursor,
+                        fileList: this.bootstrap.fileList,
+                        startedAt: this.startedAt,
+                    });
+                }
             } catch (e) {
                 this.errors.push(String(e?.message || e));
                 logger.error('index queue error', { err: e, path: rel });
+                // On error during bootstrap, skip forward to avoid being stuck
+                if (
+                    this.mode === 'bootstrap' &&
+                    this.bootstrap &&
+                    this.bootstrap.fileList[this.bootstrap.cursor] === rel
+                ) {
+                    this.bootstrap.cursor++;
+                    await saveBootstrapState(this.rootPath, {
+                        mode: 'bootstrap',
+                        cursor: this.bootstrap.cursor,
+                        fileList: this.bootstrap.fileList,
+                        startedAt: this.startedAt,
+                    });
+                }
             }
             if (this.queue.length) await new Promise((r) => setTimeout(r, delayMs));
         }
         this.active = false;
         this.finishedAt = Date.now();
         this._draining = false;
-        if (this.mode === 'bootstrap') this.mode = 'indexed';
+        if (this.mode === 'bootstrap') {
+            // If finished processing bootstrap files, mark complete
+            if (this.bootstrap && this.bootstrap.cursor >= this.bootstrap.fileList.length) {
+                this.mode = 'indexed';
+                const { files, fileInfo } = await scanFiles(this.rootPath);
+                await saveBootstrapState(this.rootPath, {
+                    mode: 'indexed',
+                    cursor: this.bootstrap.cursor,
+                    fileList: files,
+                    fileInfo,
+                    startedAt: this.startedAt,
+                    finishedAt: this.finishedAt,
+                });
+            }
+        }
         logger.info('indexer drain complete', {
             processedFiles: this.processedFiles,
             errors: this.errors.length,
@@ -251,6 +392,54 @@ class IndexerManager {
     }
     async removeFile(rel) {
         return await removeFileFromIndex(this.rootPath, rel);
+    }
+
+    async _scheduleIncremental(prev) {
+        const { files: currentFiles, fileInfo: currentInfo } = await scanFiles(this.rootPath);
+        const prevInfo = prev?.fileInfo || {};
+        const prevSet = new Set(Object.keys(prevInfo));
+        const curSet = new Set(currentFiles);
+        const toIndex = [];
+        for (const f of currentFiles) {
+            const cur = currentInfo[f];
+            const p = prevInfo[f];
+            if (!p) {
+                toIndex.push(f);
+            } else if (p.size !== cur.size || p.mtimeMs !== cur.mtimeMs) {
+                toIndex.push(f);
+            }
+        }
+        const toRemove = [];
+        for (const f of prevSet) if (!curSet.has(f)) toRemove.push(f);
+        if (toRemove.length) {
+            for (const rel of toRemove) {
+                try {
+                    await this.removeFile(rel);
+                } catch (e) {
+                    logger.warn('incremental remove failed', { path: rel, err: e });
+                }
+            }
+        }
+        if (toIndex.length) {
+            logger.info('indexer incremental changes', {
+                new_or_changed: toIndex.length,
+                removed: toRemove.length,
+            });
+            this.enqueueFiles(toIndex);
+            this._drain();
+        } else if (toRemove.length) {
+            logger.info('indexer incremental removed only', { removed: toRemove.length });
+        } else {
+            logger.info('indexer incremental no changes');
+        }
+        await saveBootstrapState(this.rootPath, {
+            mode: 'indexed',
+            cursor: prev?.cursor || 0,
+            fileList: currentFiles,
+            fileInfo: currentInfo,
+            startedAt: prev?.startedAt || this.startedAt,
+            finishedAt: Date.now(),
+        });
     }
 }
 

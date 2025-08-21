@@ -2,7 +2,9 @@ import { spawn } from 'child_process';
 
 const MAX_BYTES = Number(process.env.EXEC_MAX_OUTPUT_BYTES || 2 * 1024 * 1024);
 const USE_SHELL = /^true$/i.test(process.env.EXEC_SHELL || 'false');
+const REPO_ROOT = process.env.REPO_ROOT;
 
+// return exec({cwd,shell:'/usr/bin/bash'})`${command}`
 const DANGER_PATTERNS = [
     /rm\s+-rf\s+\/(?!home)/i,
     /\bDROP\s+DATABASE\b/i,
@@ -20,83 +22,44 @@ function ringPush(buf, chunk) {
     if (combined.length <= MAX_BYTES) return combined;
     return combined.subarray(combined.length - MAX_BYTES);
 }
+import { execa } from 'execa';
 
 export async function runCommand({
     command,
-    cwd = process.cwd(),
-    env = {},
-    timeoutMs = 10 * 60 * 1000,
+    cwd = REPO_ROOT,
+    timeoutMs = 10 * 60_000,
     tty = false,
-}) {
-    if (!command || typeof command !== 'string') {
-        return { ok: false, error: 'Missing command' };
-    }
-    const danger = matchDanger(command);
-    if (danger) return { ok: false, error: `Blocked by guard: ${danger}` };
-
-    const start = Date.now();
-    let stdout = Buffer.alloc(0);
-    let stderr = Buffer.alloc(0);
-
-    const child = (() => {
-        if (tty) {
-            // Allocate a pty using 'script'; run command via shell
-            const cmd = ['-lc', command].join(' ');
-            return spawn('script', ['-qfec', `bash -lc ${JSON.stringify(command)}`, '/dev/null'], {
-                cwd,
-                env: { ...process.env, CI: '1', GIT_TERMINAL_PROMPT: '0', ...env },
-                stdio: ['ignore', 'pipe', 'pipe'],
-                shell: false,
-            });
-        }
-        // Non-tty: use bash -lc for consistent behavior
-        return spawn('bash', ['-lc', command], {
+} = {}) {
+    try {
+        const subprocess = execa(command, {
             cwd,
-            env: { ...process.env, CI: '1', GIT_TERMINAL_PROMPT: '0', ...env },
-            stdio: ['ignore', 'pipe', 'pipe'],
-            shell: USE_SHELL,
+            timeout: timeoutMs,
+            shell: true,
+            stdio: tty ? 'inherit' : 'pipe',
         });
-    })();
 
-    let timer = null;
-    const done = new Promise((resolve) => {
-        child.stdout.on('data', (d) => {
-            stdout = ringPush(stdout, d);
-        });
-        child.stderr.on('data', (d) => {
-            stderr = ringPush(stderr, d);
-        });
-        child.on('error', (err) => {
-            clearTimeout(timer);
-            resolve({
-                ok: false,
-                error: String(err?.message || err),
-                stdout: stdout.toString('utf8'),
-                stderr: stderr.toString('utf8'),
-                durationMs: Date.now() - start,
-            });
-        });
-        child.on('exit', (code, signal) => {
-            clearTimeout(timer);
-            resolve({
-                ok: true,
-                exitCode: code,
-                signal,
-                stdout: stdout.toString('utf8'),
-                stderr: stderr.toString('utf8'),
-                durationMs: Date.now() - start,
-                truncated: stdout.length >= MAX_BYTES || stderr.length >= MAX_BYTES,
-            });
-        });
-    });
+        const result = await subprocess;
 
-    if (timeoutMs && timeoutMs > 0) {
-        timer = setTimeout(() => {
-            try {
-                child.kill('SIGKILL');
-            } catch {}
-        }, timeoutMs);
+        return {
+            ok: true,
+            exitCode: 0,
+            signal: null,
+            stdout: result.stdout ?? '',
+            stderr: result.stderr ?? '',
+            durationMs: result.timedOut ? timeoutMs : result.durationMilliseconds ?? 0,
+            truncated: false,
+            error: '',
+        };
+    } catch (err) {
+        return {
+            ok: false,
+            exitCode: err.exitCode ?? 1,
+            signal: err.signal ?? null,
+            stdout: err.stdout ?? '',
+            stderr: err.stderr ?? err.message,
+            durationMs: err.timedOut ? timeoutMs : 0,
+            truncated: false,
+            error: err.message ?? 'Execution failed',
+        };
     }
-
-    return await done;
 }

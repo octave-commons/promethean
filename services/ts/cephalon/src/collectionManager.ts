@@ -1,5 +1,5 @@
 import { Collection as ChromaCollection, ChromaClient } from 'chromadb';
-import { RemoteEmbeddingFunction } from './embedding.js';
+import { RemoteEmbeddingFunction } from '@shared/ts/dist/embeddings/remote.js';
 import { Collection, MongoClient, ObjectId, OptionalUnlessRequiredId, WithId } from 'mongodb';
 import { AGENT_NAME } from '../../../../shared/js/env.js';
 const chromaClient = new ChromaClient();

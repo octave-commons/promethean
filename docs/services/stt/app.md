@@ -5,6 +5,10 @@
 **Description**: FastAPI application providing HTTP and WebSocket speech-to-text
 APIs. Supports raw PCM transcription and real-time streaming.
 
+Note: The runtime STT worker uses `shared.py.service_template` with a
+broker-tied heartbeat to report liveness. Do not use a separate heartbeat
+client.
+
 ### Endpoints
 
 - `POST /transcribe_pcm` – accepts 16‑bit PCM audio in the request body with
@@ -24,4 +28,3 @@ APIs. Supports raw PCM transcription and real-time streaming.
 
 ## Dependents
 - None
-

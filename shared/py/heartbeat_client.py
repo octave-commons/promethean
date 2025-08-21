@@ -17,6 +17,7 @@ import signal
 from typing import Optional
 
 from websockets.sync.client import connect
+import warnings
 
 BROKER_PORT = os.environ.get("BROKER_PORT", 7000)
 
@@ -53,6 +54,15 @@ class HeartbeatClient:
     _ws: Optional[object] = None
     _misses: int = 0
     _last_ok: float = 0.0
+
+    def __post_init__(self):
+        warnings.warn(
+            "shared.py.heartbeat_client.HeartbeatClient is deprecated. "
+            "Publish 'heartbeat' via shared.py.service_template (preferred) or "
+            "use shared.py.heartbeat_broker.start_broker_heartbeat().",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     def _ensure(self) -> None:
         if self._ws and getattr(self._ws, "open", False):

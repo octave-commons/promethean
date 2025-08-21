@@ -3,14 +3,40 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { reindexAll, reindexSubset, search, indexerManager } from './indexer.js';
 import { grep } from './grep.js';
-import { viewFile, locateStacktrace } from './files.js';
+import { viewFile, locateStacktrace, listDirectory } from './files.js';
 import { symbolsIndex, symbolsFind } from './symbols.js';
-import { supervisor } from './agent.js';
+import { supervisor, ptySupervisor, restoreAgentsFromStore } from './agent.js';
 import { logger } from './logger.js';
 import { runCommand } from './exec.js';
+import { createAuth } from './auth.js';
+
+import { configDotenv } from 'dotenv';
+// Avoid loading local .env during tests to prevent auth/test conflicts
+if ((process.env.NODE_ENV || '').toLowerCase() !== 'test') {
+    try {
+        configDotenv();
+    } catch {}
+}
 
 export function spec() {
     const baseUrl = process.env.PUBLIC_BASE_URL || `http://localhost:${process.env.PORT || 3210}`;
+    const authEnabled = String(process.env.AUTH_ENABLED || 'false').toLowerCase() === 'true';
+    const authMode = (process.env.AUTH_MODE || 'static').toLowerCase();
+    const bearerFormat = authMode === 'jwt' ? 'JWT' : 'Opaque';
+    const security = authEnabled ? [{ bearerAuth: [] }] : [];
+    const securitySchemes = authEnabled
+        ? {
+              bearerAuth: {
+                  type: 'http',
+                  scheme: 'bearer',
+                  bearerFormat,
+                  description:
+                      authMode === 'jwt'
+                          ? 'Send JWT via Authorization: Bearer <token>'
+                          : 'Send static token via Authorization: Bearer <token>',
+              },
+          }
+        : undefined;
     return {
         openapi: '3.1.0',
         info: {
@@ -21,6 +47,7 @@ export function spec() {
         },
         jsonSchemaDialect: 'https://json-schema.org/draft/2020-12/schema',
         servers: [{ url: baseUrl }],
+        security,
         tags: [
             { name: 'files' },
             { name: 'grep' },
@@ -30,8 +57,102 @@ export function spec() {
             { name: 'exec' },
             { name: 'index' },
             { name: 'search' },
+            { name: 'auth' },
         ],
         paths: {
+            '/files/list': {
+                get: {
+                    operationId: 'filesList',
+                    tags: ['files'],
+                    summary: 'List directory contents (one level)',
+                    parameters: [
+                        { name: 'path', in: 'query', required: false, schema: { type: 'string' } },
+                        {
+                            name: 'hidden',
+                            in: 'query',
+                            required: false,
+                            schema: { type: 'boolean' },
+                        },
+                        {
+                            name: 'type',
+                            in: 'query',
+                            required: false,
+                            schema: { type: 'string', enum: ['file', 'dir'] },
+                        },
+                    ],
+                    responses: {
+                        200: {
+                            description: 'OK',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            ok: { type: 'boolean' },
+                                            base: { type: 'string' },
+                                            entries: {
+                                                type: 'array',
+                                                items: {
+                                                    type: 'object',
+                                                    properties: {
+                                                        name: { type: 'string' },
+                                                        path: { type: 'string' },
+                                                        type: {
+                                                            type: 'string',
+                                                            enum: ['file', 'dir', 'other'],
+                                                        },
+                                                        size: { type: ['integer', 'null'] },
+                                                        mtimeMs: { type: ['number', 'null'] },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        400: {
+                            description: 'Bad Request',
+                            content: {
+                                'application/json': {
+                                    schema: { $ref: '#/components/schemas/Error' },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            '/auth/me': {
+                get: {
+                    operationId: 'authMe',
+                    tags: ['auth'],
+                    summary: 'Auth status check',
+                    responses: {
+                        200: {
+                            description: 'OK',
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            ok: { type: 'boolean' },
+                                            auth: { type: 'boolean' },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                        401: {
+                            description: 'Unauthorized',
+                            content: {
+                                'application/json': {
+                                    schema: { $ref: '#/components/schemas/Error' },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
             '/exec/run': {
                 post: {
                     operationId: 'execRun',
@@ -233,6 +354,29 @@ export function spec() {
                             description: 'OK',
                             content: {
                                 'application/json': { schema: { $ref: '#/components/schemas/Ok' } },
+                            },
+                        },
+                    },
+                },
+            },
+            '/indexer/reset': {
+                post: {
+                    operationId: 'indexerReset',
+                    tags: ['index'],
+                    summary: 'Reset indexer state and restart bootstrap (if idle)',
+                    responses: {
+                        200: {
+                            description: 'OK',
+                            content: {
+                                'application/json': { schema: { $ref: '#/components/schemas/Ok' } },
+                            },
+                        },
+                        409: {
+                            description: 'Conflict (busy)',
+                            content: {
+                                'application/json': {
+                                    schema: { $ref: '#/components/schemas/Error' },
+                                },
                             },
                         },
                     },
@@ -707,6 +851,7 @@ export function spec() {
             },
         },
         components: {
+            securitySchemes,
             schemas: {
                 Ok: { type: 'object', properties: { ok: { type: 'boolean' } }, required: ['ok'] },
                 Error: {
@@ -1021,16 +1166,34 @@ export function buildApp(ROOT_PATH) {
 
     app.get('/openapi.json', (_req, res) => res.json(spec()));
 
+    // Serve static dashboard assets under /dashboard
+    try {
+        const __dirname = path.dirname(fileURLToPath(import.meta.url));
+        const publicDir = path.join(__dirname, '../public');
+        app.use('/dashboard', express.static(publicDir));
+    } catch {}
+
+    // Auth: mount endpoints and, if enabled, protect subsequent routes
+    const auth = createAuth();
+    auth.mount(app);
+    if (auth.enabled) app.use(auth.requireAuth);
+
     // Initialize bootstrap indexer state for this ROOT_PATH
     // Skip during tests or when explicitly disabled to avoid hanging open handles
-    const bootstrapAllowed =
-        (process.env.NODE_ENV || '').toLowerCase() !== 'test' &&
-        String(process.env.BOOTSTRAP_ON_START || 'true') !== 'false';
-    if (bootstrapAllowed) {
-        indexerManager
-            .ensureBootstrap(ROOT_PATH)
-            .catch((e) => logger.error('bootstrap init failed', { err: e }));
-    }
+    // const bootstrapAllowed = (process.env.NODE_ENV || '').toLowerCase() !== 'test';
+    // if (bootstrapAllowed) {
+    //     indexerManager
+    //         .ensureBootstrap(ROOT_PATH)
+    //         .catch((e) => logger.error('bootstrap init failed', { err: e }));
+    // }
+
+    // Restore agent history from disk so we don't lose track across restarts
+    // const restoreAllowed =
+    //     (process.env.NODE_ENV || '').toLowerCase() !== 'test' &&
+    //     String(process.env.AGENT_RESTORE_ON_START || 'true') !== 'false';
+    // if (restoreAllowed) {
+    //     restoreAgentsFromStore().catch((e) => logger.error('agent restore failed', { err: e }));
+    // }
 
     // Indexing / Search
     app.post('/reindex', async (req, res) => {
@@ -1081,6 +1244,16 @@ export function buildApp(ROOT_PATH) {
             res.status(500).json({ ok: false, error: String(e?.message || e) });
         }
     });
+    app.post('/indexer/reset', async (_req, res) => {
+        try {
+            if (indexerManager.isBusy())
+                return res.status(409).json({ ok: false, error: 'Indexer busy' });
+            await indexerManager.resetAndBootstrap(ROOT_PATH);
+            res.json({ ok: true });
+        } catch (e) {
+            res.status(500).json({ ok: false, error: String(e?.message || e) });
+        }
+    });
     app.post('/search', async (req, res) => {
         try {
             const { q, n } = req.body || {};
@@ -1112,6 +1285,18 @@ export function buildApp(ROOT_PATH) {
     });
 
     // Files / Stacktrace
+    app.get('/files/list', async (req, res) => {
+        try {
+            const rel = String(req.query?.path || '.');
+            const includeHidden = String(req.query?.hidden || 'false').toLowerCase() === 'true';
+            const type = req.query?.type ? String(req.query.type) : undefined; // 'file' | 'dir'
+            const out = await listDirectory(ROOT_PATH, rel, { includeHidden, type });
+            res.json(out);
+        } catch (e) {
+            logger.warn('files/list error', { err: e });
+            res.status(400).json({ ok: false, error: String(e?.message || e) });
+        }
+    });
     app.get('/files/view', async (req, res) => {
         try {
             const p = req.query?.path;
@@ -1220,6 +1405,102 @@ export function buildApp(ROOT_PATH) {
         res.json({ ok });
     });
 
+    // PTY Agent
+    app.post('/pty/start', async (req, res) => {
+        try {
+            const { prompt, cwd, env, cols, rows } = req.body || {};
+            const out = await ptySupervisor.start({ prompt, cwd, env, cols, rows });
+            res.json({ ok: true, ...out });
+        } catch (e) {
+            logger.error('pty/start error', { err: e });
+            res.status(500).json({ ok: false, error: String(e?.message || e) });
+        }
+    });
+    app.get('/pty/status', (req, res) => {
+        const id = String(req.query?.id || '');
+        const st = ptySupervisor.status(id);
+        if (!st) return res.status(404).json({ ok: false, error: 'not found' });
+        res.json({ ok: true, status: st });
+    });
+    app.get('/pty/list', (_req, res) => res.json({ ok: true, agents: ptySupervisor.list() }));
+    app.get('/pty/logs', (req, res) => {
+        const id = String(req.query?.id || '');
+        const since = Number(req.query?.since || 0);
+        const logs = ptySupervisor.logs(id, since);
+        if (!logs) return res.status(404).json({ ok: false, error: 'not found' });
+        res.json({ ok: true, total: logs.total, chunk: logs.chunk });
+    });
+    app.get('/pty/tail', (req, res) => {
+        const id = String(req.query?.id || '');
+        const bytes = Number(req.query?.bytes || 8192);
+        const logs = ptySupervisor.tail(id, bytes);
+        if (!logs) return res.status(404).json({ ok: false, error: 'not found' });
+        res.json({ ok: true, total: logs.total, chunk: logs.chunk });
+    });
+    app.get('/pty/stream', (req, res) => {
+        const id = String(req.query?.id || '');
+        if (!id) return res.status(400).end();
+        ptySupervisor.stream(id, res);
+    });
+    app.post('/pty/send', (req, res) => {
+        const { id, input } = req.body || {};
+        if (!id) return res.status(400).json({ ok: false, error: 'missing id' });
+        const ok = ptySupervisor.send(String(id), String(input ?? ''));
+        res.json({ ok });
+    });
+    app.post('/pty/write', (req, res) => {
+        const { id, input } = req.body || {};
+        if (!id) return res.status(400).json({ ok: false, error: 'missing id' });
+        const ok = ptySupervisor.write(String(id), String(input ?? ''));
+        res.json({ ok });
+    });
+    app.post('/pty/resize', (req, res) => {
+        const { id, cols, rows } = req.body || {};
+        if (!id) return res.status(400).json({ ok: false, error: 'missing id' });
+        const ok = ptySupervisor.resize(String(id), Number(cols || 0), Number(rows || 0));
+        res.json({ ok });
+    });
+    app.post('/pty/interrupt', (req, res) => {
+        const { id } = req.body || {};
+        const ok = ptySupervisor.interrupt(String(id || ''));
+        res.json({ ok });
+    });
+    app.post('/pty/kill', (req, res) => {
+        const { id, force } = req.body || {};
+        const ok = ptySupervisor.kill(String(id || ''), Boolean(force));
+        res.json({ ok });
+    });
+    app.post('/pty/resume', (req, res) => {
+        const { id } = req.body || {};
+        const ok = ptySupervisor.resume(String(id || ''));
+        res.json({ ok });
+    });
+
+    app.post('/exec/run', async (req, res) => {
+        try {
+            const execEnabled =
+                String(process.env.EXEC_ENABLED || 'false').toLowerCase() === 'true';
+            if (!execEnabled) {
+                return res.status(403).json({ ok: false, error: 'exec disabled' });
+            }
+
+            const { command, cwd, env, timeoutMs, tty } = req.body || {};
+            console.log({ command, cwd, env, timeoutMs, tty });
+            if (!command) return res.status(400).json({ ok: false, error: "Missing 'command'" });
+            const out = await runCommand({
+                command: String(command),
+                cwd: cwd ? String(cwd) : ROOT_PATH,
+                env,
+                timeoutMs: Number(timeoutMs || 600000),
+                tty: Boolean(tty),
+            });
+            res.json(out.ok ? out : { ok: false, ...out });
+        } catch (e) {
+            logger.error('exec/run error', { err: e });
+            res.status(500).json({ ok: false, error: String(e?.message || e) });
+        }
+    });
+
     return app;
 }
 
@@ -1261,20 +1542,3 @@ if (shouldStart) {
     process.on('uncaughtException', (err) => logger.error('uncaughtException', { err }));
 }
 // Exec
-app.post('/exec/run', async (req, res) => {
-    try {
-        const { command, cwd, env, timeoutMs, tty } = req.body || {};
-        if (!command) return res.status(400).json({ ok: false, error: "Missing 'command'" });
-        const out = await runCommand({
-            command: String(command),
-            cwd: cwd ? String(cwd) : ROOT_PATH,
-            env,
-            timeoutMs: Number(timeoutMs || 600000),
-            tty: Boolean(tty),
-        });
-        res.json(out.ok ? out : { ok: false, ...out });
-    } catch (e) {
-        logger.error('exec/run error', { err: e });
-        res.status(500).json({ ok: false, error: String(e?.message || e) });
-    }
-});

@@ -4,7 +4,6 @@ import io
 import sys
 
 print(sys.path)
-from shared.py.heartbeat_client import HeartbeatClient
 from shared.py.service_template import start_service
 from shared.py.utils import websocket_endpoint
 
@@ -18,18 +17,12 @@ from transformers import FastSpeech2ConformerTokenizer, FastSpeech2ConformerWith
 nltk.download("averaged_perceptron_tagger_eng")
 
 app = FastAPI()
-hb = HeartbeatClient()
 broker = None
 
 
 @app.on_event("startup")
 async def startup_event():
     global broker
-    try:
-        hb.send_once()
-    except Exception as exc:
-        raise RuntimeError("heartbeat registration failed") from exc
-    hb.start()
 
     async def handle_task(task):
         payload = task.get("payload", {})
@@ -53,7 +46,7 @@ async def startup_event():
 
 @app.on_event("shutdown")
 def shutdown_event():
-    hb.stop()
+    pass
 
 
 # Load the model and processor

@@ -115,3 +115,49 @@ async function safeView(ROOT_PATH, file, line, context) {
         return null;
     }
 }
+
+function isInsideRoot(ROOT_PATH, abs) {
+    const root = path.resolve(ROOT_PATH);
+    const target = path.resolve(abs);
+    return target === root || target.startsWith(root + path.sep);
+}
+
+export async function listDirectory(ROOT_PATH, rel = '.', options = {}) {
+    const includeHidden = Boolean(options.includeHidden);
+    const type = options.type; // 'file' | 'dir' | undefined
+    const absBase = path.isAbsolute(rel) ? rel : path.join(ROOT_PATH, rel || '.');
+    const abs = path.resolve(absBase);
+    if (!isInsideRoot(ROOT_PATH, abs)) throw new Error('path outside root');
+    const st = await fs.stat(abs).catch(() => null);
+    if (!st || !st.isDirectory()) throw new Error('not a directory');
+    const dirents = await fs.readdir(abs, { withFileTypes: true });
+    const out = [];
+    for (const d of dirents) {
+        if (!includeHidden && d.name.startsWith('.')) continue;
+        const isDir = d.isDirectory();
+        const isFile = d.isFile();
+        if (type === 'dir' && !isDir) continue;
+        if (type === 'file' && !isFile) continue;
+        const childAbs = path.join(abs, d.name);
+        let size = null;
+        let mtimeMs = null;
+        try {
+            const s = await fs.stat(childAbs);
+            size = isFile ? s.size : null;
+            mtimeMs = s.mtimeMs;
+        } catch {}
+        out.push({
+            name: d.name,
+            path: path.relative(ROOT_PATH, childAbs),
+            type: isDir ? 'dir' : isFile ? 'file' : 'other',
+            size,
+            mtimeMs,
+        });
+    }
+    // Sort: directories first, then alphabetical
+    out.sort((a, b) => {
+        if (a.type !== b.type) return a.type === 'dir' ? -1 : 1;
+        return a.name.localeCompare(b.name);
+    });
+    return { ok: true, base: path.relative(ROOT_PATH, abs) || '.', entries: out };
+}
