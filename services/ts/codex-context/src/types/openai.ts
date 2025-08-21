@@ -12,6 +12,7 @@ export type ChatCompletionsRequest = {
     max_tokens?: number;
     stream?: boolean;
     stop?: string | string[] | null;
+    session_id?: string;
 };
 
 export type ChatChoice = {
@@ -43,6 +44,7 @@ export type CompletionsRequest = {
     max_tokens?: number;
     stream?: boolean;
     stop?: string | string[] | null;
+    session_id?: string;
 };
 
 export type CompletionsResponse = {
