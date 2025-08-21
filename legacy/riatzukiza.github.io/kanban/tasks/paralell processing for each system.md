@@ -2,7 +2,7 @@
 
 This task may be a bit harder than the others.
 
-In theory [each](../../docs/Pools/Dynamic/each.md) system should be able to work totally independently if given the previous state of the system.
+In theory [[each.md]] system should be able to work totally independently if given the previous state of the system.
 
 Right now though, only the current state is stored and everything is updated in place.
 

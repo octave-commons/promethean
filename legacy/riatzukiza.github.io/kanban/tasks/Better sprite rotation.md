@@ -1,9 +1,9 @@
 # Description
 
-The current implementation of sprite rotations uses trig, I was getting frustrated and wwanted somthing that "worked", and I wasn't understanding the matrix code. The current version of [sprites](sprites.md) has artifacts around the edges if the image has pixels close to the edge.
+The current implementation of sprite rotations uses trig, I was getting frustrated and wwanted somthing that "worked", and I wasn't understanding the matrix code. The current version of [[sprites.md]] has artifacts around the edges if the image has pixels close to the edge.
 
 ## Related Epics
-- [Graphics](Graphics.md)
+- [[Graphics.md]]
 ## Requirements
 
 - Uses rotation matrix
@@ -13,12 +13,12 @@ The current implementation of sprite rotations uses trig, I was getting frustrat
 
 - [ ] Write new shader 
 - [ ] Writer new component system
-- [ ] Write a new [project](../project.md) that spawns a lot of [sprites](sprites.md) to compare the performance of the current implementation, the old implementation, and the new implementation.
+- [ ] Write a new [[project.md]] that spawns a lot of [[sprites.md]] to compare the performance of the current implementation, the old implementation, and the new implementation.
 ## Blocked by 
 
 {{BlockedBy}}
 
-- Can't be worked on till this task is [done](../done.md)
+- Can't be worked on till this task is [[done.md]]
 - blocking task
 - blocking task
 
@@ -26,6 +26,6 @@ The current implementation of sprite rotations uses trig, I was getting frustrat
 
 {{Blocks}}
 
-- This task cannot be [done](../done.md) until this one is [done](../done.md).
+- This task cannot be [[done.md]] until this one is [[done.md]].
 - neither can this one
 - or this one

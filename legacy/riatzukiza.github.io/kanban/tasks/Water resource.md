@@ -2,8 +2,8 @@
 
 Water can be harvested for construction materials and unit production, water is removed from the tile as a result of harvesting
 ## Related Epics
-- [Game Mechanics](Game%20Mechanics.md)
-- [resource mechanics](resource%20mechanics.md)
+- [[Game Mechanics.md]]
+- [[resource mechanics.md]]
 
 ## Requirements
 
@@ -18,8 +18,8 @@ Water can be harvested for construction materials and unit production, water is 
 
 ## Blocked by 
 
-- [unit system](unit%20system.md)
-- [resource mechanics](resource%20mechanics.md)
-- [Round trip path finding](Round%20trip%20path%20finding.md)
-- [Layered Vector Field System](Layered%20Vector%20Field%20System.md)
-- [ground tiles](ground%20tiles.md)
+- [[unit system.md]]
+- [[resource mechanics.md]]
+- [[Round trip path finding.md]]
+- [[Layered Vector Field System.md]]
+- [[ground tiles.md]]

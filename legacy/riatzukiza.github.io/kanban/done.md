@@ -62,8 +62,8 @@ the button continues to work. it is possible that more complex features later on
 ## Update 12 12 24
 
 I have added signal trail entities, I have to add them to the reset button and test.
-The signal trails already have to [despawn](../docs/Pools/Dynamic/despawn.md) a lot so I am figuring this will go smoothly.
-I should keep the entity groups in a list so I can write a function to [despawn](../docs/Pools/Dynamic/despawn.md) all of them every time I add a new one
+The signal trails already have to [[despawn.md]] a lot so I am figuring this will go smoothly.
+I should keep the entity groups in a list so I can write a function to [[despawn.md]] all of them every time I add a new one
 so I don't always have to remember to add them to the reset button.
 
 # Trail Entities
@@ -72,7 +72,7 @@ The signal field code has the most tech debt of all the systems.
 I want to be able to visualize the  trails agents leave behind.
 The agents should be able to live longer than their trail.
 When a trail has reached its max size, the oldest trail segment
-should [despawn](../docs/Pools/Dynamic/despawn.md) and contribute nothing to the win/loose field update.
+should [[despawn.md]] and contribute nothing to the win/loose field update.
 
 ## Requirements
 
@@ -88,7 +88,7 @@ We are going to start by breaking down the huge ass field function.
 It is probably multiple systems.
 It is currently where the trails are tracked, and they are outside of the ECS.
 Agents will get a new component: Trail
-The trail system will create a new entity for [each](../docs/Pools/Dynamic/each.md) tick of movement at the location of the agent.
+The trail system will create a new entity for [[each.md]] tick of movement at the location of the agent.
 The Trail segment will have: 
 - position component
 - dot component
@@ -102,7 +102,7 @@ The signal expires if the current tick is placement time + max-trai-length.
 When expired the trail segment entity despawns.
 If the agent succeeds, all non expired signal vectors are applied to the signal field.
 If the agent fails, all non expired signal vectors are applied inversely to the signal field.
-All trail segments associated with an agent that has succeeded or failed [despawn](../docs/Pools/Dynamic/despawn.md) 
+All trail segments associated with an agent that has succeeded or failed [[despawn.md]] 
 after they are applied.
 
 ## Update 12-11-24
@@ -116,23 +116,23 @@ as it exists largely outside of the entity component framework.
 
 The new interfaces have been created, most of them at least. There may be more, but we are starting here.
 
-- [Timer](../docs/Obstacles/systems/Timer.md)
-- [Ant-dot](../docs/Obstacles/systems/Ant-dot.md)
-- Ant-life-[Timer](../docs/Obstacles/systems/Timer.md)
+- [[Timer.md]]
+- [[Ant-dot.md]]
+- Ant-life-[[Timer.md]]
 - Ant-trails
 - Trail Dots
 - Trail segments
 
 #### Timer
 
-The [Timer](../docs/Obstacles/systems/Timer.md) type is initialize with a duration and a callback.
-When the duration has been reached, the callback is called and the [Timer](../docs/Obstacles/systems/Timer.md) is flagged as deactivated.
-The call back can reset or [despawn](../docs/Pools/Dynamic/despawn.md) the [Timer](../docs/Obstacles/systems/Timer.md).
+The [[Timer.md]] type is initialize with a duration and a callback.
+When the duration has been reached, the callback is called and the [[Timer.md]] is flagged as deactivated.
+The call back can reset or [[despawn.md]] the [[Timer.md]].
 
 The ant life and trail life components are durived from this.
 
 #### Ant life
-The ant life [Timer](../docs/Obstacles/systems/Timer.md) sets the entity back to [spawn](../docs/Pools/Dynamic/spawn.md), increases the loose count, and resets the [Timer](../docs/Obstacles/systems/Timer.md).
+The ant life [[Timer.md]] sets the entity back to [[spawn.md]], increases the loose count, and resets the [[Timer.md]].
 
 #### Trail segment
 The trail life component encapsulates a vector, and its call back despawns the vector.
@@ -173,12 +173,12 @@ I will comment further at the end of the day, trying not to leave the update for
 
 ## Stand down 12-11-24
 
-This is basicly [ready](ready.md), it's a little slower now with the rendered trails, but that can be another task.
+This is basicly [[ready.md]], it's a little slower now with the rendered trails, but that can be another task.
 The simulation should run faster if the trails are able to be turned off.
 TUrning them off in the config file will be pretty easy.
 Having a button to turn them on and off may be harder.
 
-Setting this to [ready](ready.md) for review
+Setting this to [[ready.md]] for review
 
 ## 12 12 24
 

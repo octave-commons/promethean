@@ -21,7 +21,7 @@ Some spots need to be easier to walk on, others need to be very hard to walk on.
 ## Blockers
 
 - camera
-  - While not really a blocker, I would prefer to have a camera [ready](ready.md) before this.
+  - While not really a blocker, I would prefer to have a camera [[ready.md]] before this.
 
 ## Progress
 

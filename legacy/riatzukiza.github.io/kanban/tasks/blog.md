@@ -2,11 +2,11 @@
 
 Add a blog page to the website
 ## Related Epics
-- [Website Design](Website%20Design.md)
+- [[Website Design.md]]
 ## Requirements
 
 - nav button for blog directs you to a list of all pages currently hosted on the blog
-- [each](../../docs/Pools/Dynamic/each.md) element on the main blog page shows you a blurb from the blog post
+- [[each.md]] element on the main blog page shows you a blurb from the blog post
 - clicking the element on the main blog page brings you to the full blog article
 
 ## Tasks 

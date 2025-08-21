@@ -13,7 +13,7 @@ Repository.
 - [Bad Actors](#bad-actors)
 
 ## Code of Conduct
-The project has a [Code of Conduct](./CODE_OF_CONDUCT.md) that *all*
+The project has a [[CODE_OF_CONDUCT.md|Code of Conduct]] that *all*
 contributors are expected to follow. This code describes the *minimum* behavior
 expectations for all contributors.
 
@@ -24,7 +24,7 @@ intended, above all else, to help establish a culture within the project that
 allows anyone and everyone who wants to contribute to feel safe doing so.
 
 Should any individual act in any way that is considered in violation of the
-[Code of Conduct](./CODE_OF_CONDUCT.md), corrective actions will be taken. It is
+[[CODE_OF_CONDUCT.md|Code of Conduct]], corrective actions will be taken. It is
 possible, however, for any individual to *act* in such a manner that is not in
 violation of the strict letter of the Code of Conduct guidelines while still
 going completely against the spirit of what that Code is intended to accomplish.
@@ -36,7 +36,7 @@ goal.
 
 ## Bad Actors
 All contributors to tacitly agree to abide by both the letter and
-spirit of the [Code of Conduct](./CODE_OF_CONDUCT.md). Failure, or
+spirit of the [[CODE_OF_CONDUCT.md|Code of Conduct]]. Failure, or
 unwillingness, to do so will result in contributions being respectfully
 declined.
 

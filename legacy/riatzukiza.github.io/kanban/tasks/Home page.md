@@ -16,4 +16,4 @@ Basicly everything on my resume must be in some way present on this website.
 
 ## Review
 
-I have a color pallette I am working from, and a basic layout of the home page. I started working on the [project](../project.md) page next. I need to have stuff to show off  on the website to use it.
+I have a color pallette I am working from, and a basic layout of the home page. I started working on the [[project.md]] page next. I need to have stuff to show off  on the website to use it.

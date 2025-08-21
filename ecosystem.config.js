@@ -17,6 +17,7 @@ import duck from "./agents/duck/ecosystem.config.js";
 import svc_embed from "./services/py/embedding_service/ecosystem.config.js";
 import svc_tts from "./services/py/tts/ecosystem.config.js";
 import svc_stt from "./services/py/stt/ecosystem.config.js";
+
 import svc_filewatch from "./services/ts/file-watcher/ecosystem.config.js";
 import svc_vision from "./services/js/vision/ecosystem.config.js";
 import svc_llm from "./services/ts/llm/ecosystem.config.js";

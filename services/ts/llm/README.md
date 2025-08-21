@@ -2,10 +2,10 @@
 
 This service exposes a simple HTTP endpoint that proxies requests to the local LLM via the `ollama` library.
 
-Start the service:
+Start the service (pnpm preferred):
 
 ```bash
-npm start
+pnpm start
 ```
 
 POST `/generate` with JSON containing `prompt`, `context` and optional `format` to receive the generated reply.

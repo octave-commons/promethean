@@ -6,6 +6,6 @@ There are several entity groups with different properties and their own signal f
 
 ## Requirements
 
-- [each](../../docs/Pools/Dynamic/each.md) faction has a food source/goal
-- [each](../../docs/Pools/Dynamic/each.md) faction has it's own set of hyper parameters
-- [each](../../docs/Pools/Dynamic/each.md) faction has its own signal/noise fields
+- [[each.md]] faction has a food source/goal
+- [[each.md]] faction has it's own set of hyper parameters
+- [[each.md]] faction has its own signal/noise fields

@@ -6,7 +6,7 @@ If I move the simulation to the backend, and have the frontend just render a str
 
 The browser can afford to miss a few frames or packets,
 as it will not actually affect the simulation. It will only
-affect the rendering [process](../process.md).
+affect the rendering [[process.md]].
 This could be a neat chance to play around with webrtc udp like sockets.
 It may be a bit more than we should fit into a single task though.
 The first pass on this will be straightforward using a technology we are very familar with, socket.io
@@ -25,4 +25,4 @@ The first pass on this will be straightforward using a technology we are very fa
 
   - Realizing after adding a toggle for the trail dots that rendering was not what was slowing the sim down
 We have decided to move this out of the todo backlog, as it will not be as much of a value add as we'd 
-have liked. The simulation needs more [Optimizations](tasks/Optimizations.md), and we don't currently have a place to host such an intensive backend.
+have liked. The simulation needs more [[Optimizations.md]], and we don't currently have a place to host such an intensive backend.
