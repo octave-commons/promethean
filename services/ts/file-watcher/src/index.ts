@@ -1,7 +1,10 @@
 import { join } from 'path';
-import BrokerClient from '@shared/js/brokerClient.js';
+import { BrokerClient } from '@shared/js/brokerClient.js';
 import { createBoardWatcher } from './board-watcher.js';
 import { createTasksWatcher } from './tasks-watcher.js';
+import { createRepoWatcher } from './repo-watcher.js';
+import { configDotenv } from 'dotenv';
+configDotenv();
 
 export interface FileWatcherOptions {
     repoRoot?: string;
@@ -11,10 +14,15 @@ export interface FileWatcherOptions {
 
 const defaultRepoRoot = process.env.REPO_ROOT || '';
 
-export function startFileWatcher(options: FileWatcherOptions = {}) {
+export async function startFileWatcher(options: FileWatcherOptions = {}) {
     const repoRoot = options.repoRoot ?? defaultRepoRoot;
     const boardPath = join(repoRoot, 'docs', 'agile', 'boards', 'kanban.md');
     const tasksPath = join(repoRoot, 'docs', 'agile', 'tasks');
+    const bridgeUrl = process.env.SMARTGPT_BRIDGE_URL || 'http://127.0.0.1:3210';
+    const authToken =
+        process.env.SMARTGPT_BRIDGE_TOKEN ||
+        process.env.BRIDGE_AUTH_TOKEN ||
+        process.env.AUTH_TOKEN;
 
     const broker = options.publish
         ? undefined
@@ -35,12 +43,18 @@ export function startFileWatcher(options: FileWatcherOptions = {}) {
         tasksPath,
         publish,
     });
+    const repoWatcher = await createRepoWatcher({
+        repoRoot,
+        bridgeUrl,
+        authToken: authToken ?? '',
+    });
 
     return {
         boardWatcher,
         tasksWatcher,
+        repoWatcher,
         async close() {
-            await Promise.all([boardWatcher.close(), tasksWatcher.close()]);
+            await Promise.all([boardWatcher.close(), tasksWatcher.close(), repoWatcher.close()]);
             (broker as any)?.socket?.close?.();
         },
     };

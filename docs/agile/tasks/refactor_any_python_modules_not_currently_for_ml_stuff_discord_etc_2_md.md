@@ -51,4 +51,4 @@ The aim is to reduce Python’s footprint in the system, improve performance, an
 
 If you want, I can also make you a **mermaid diagram** showing how Python gets pushed to the very edges of the architecture, leaving the central pipeline purely in JS/TS/Sibilant/Hy.
 That would make the migration path visually clear.
-#todo
+#ice-box
