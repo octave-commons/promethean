@@ -14,7 +14,7 @@ export function registerSymbolsRoutes(fastify) {
     fastify.post('/symbols/find', async (req, reply) => {
         try {
             const { query, kind, path: p, limit } = req.body || {};
-            const results = await symbolsFind(ROOT_PATH, { query, kind, path: p, limit });
+            const results = await symbolsFind(query, { kind, path: p, limit });
             reply.send({ ok: true, results });
         } catch (e) {
             reply.code(400).send({ ok: false, error: String(e?.message || e) });

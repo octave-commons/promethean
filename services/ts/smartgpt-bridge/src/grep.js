@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import fg from 'fast-glob';
+import { normalizeToRoot, isInsideRoot } from './files.js';
 
 function splitCSV(s) {
     return (s || '')
@@ -29,17 +30,25 @@ export async function grep(ROOT_PATH, opts) {
     } catch (e) {
         throw new Error('Invalid regex: ' + e.message);
     }
-    const files = await fg(paths, { cwd: ROOT_PATH, ignore: exclude, onlyFiles: true, dot: false });
+    const files = await fg(paths, {
+        cwd: ROOT_PATH,
+        ignore: exclude,
+        onlyFiles: true,
+        dot: false,
+        absolute: true,
+    });
     const out = [];
-    for (const rel of files) {
+    for (const abs of files) {
+        if (!isInsideRoot(ROOT_PATH, abs)) continue;
         if (out.length >= maxMatches) break;
-        const abs = path.join(ROOT_PATH, rel);
         let text = '';
         try {
-            text = await fs.readFile(abs, 'utf8');
+            const safeAbs = normalizeToRoot(ROOT_PATH, abs);
+            text = await fs.readFile(safeAbs, 'utf8');
         } catch {
             continue;
         }
+        const rel = path.relative(ROOT_PATH, abs);
         const lines = text.split(/\r?\n/);
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];

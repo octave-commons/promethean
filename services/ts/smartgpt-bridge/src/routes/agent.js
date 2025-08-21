@@ -6,7 +6,14 @@ export function registerAgentRoutes(fastify) {
     fastify.post('/agent/start', async (req, reply) => {
         try {
             const { prompt, args, cwd, env, auto, tty } = req.body || {};
-            const out = supervisor.start({ prompt, args, cwd: cwd || ROOT_PATH, env, auto, tty });
+            const out = supervisor.start({
+                prompt,
+                args,
+                cwd: cwd || ROOT_PATH,
+                env,
+                auto,
+                tty,
+            });
             reply.send({ ok: true, ...out });
         } catch (e) {
             reply.code(500).send({ ok: false, error: String(e?.message || e) });
@@ -53,7 +60,8 @@ export function registerAgentRoutes(fastify) {
 
     fastify.post('/agent/send', async (req, reply) => {
         const { id, input } = req.body || {};
-        const ok = supervisor.send(String(id || ''), String(input || ''));
+        if (!id) return reply.code(400).send({ ok: false, error: 'missing id' });
+        const ok = supervisor.send(String(id), String(input || ''));
         reply.send({ ok });
     });
 
