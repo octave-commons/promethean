@@ -1,4 +1,5 @@
 import nodeFetch from 'node-fetch';
+import { createLogger } from './logger.js';
 
 export type SearchHit = {
     path: string;
@@ -39,6 +40,7 @@ export interface Retriever {
 
 export class SmartGptrRetriever implements Retriever {
     private fetcher: (url: string, init?: any) => Promise<any>;
+    private log = createLogger('codex-context', { component: 'retriever' });
     constructor(
         private baseUrl: string,
         private token?: string,
@@ -60,6 +62,7 @@ export class SmartGptrRetriever implements Retriever {
         const n = opts.n ?? 6;
         const headers = this.headers();
         const out: RetrieverResult = { search: [] };
+        const t0 = process.hrtime.bigint();
         try {
             const s = await this.fetcher(`${base}/search`, {
                 method: 'POST',
@@ -74,9 +77,19 @@ export class SmartGptrRetriever implements Retriever {
                 startLine: Number(r.startLine || r.metadata?.startLine || 1) || undefined,
                 endLine: Number(r.endLine || r.metadata?.endLine || 1) || undefined,
             }));
+            const t1 = process.hrtime.bigint();
+            this.log.info('search.ok', {
+                hits: out.search.length,
+                ms: Number((t1 - t0) / 1000000n),
+            });
         } catch (e) {
             // Swallow and proceed; no context available
+            const t1 = process.hrtime.bigint();
             out.search = [];
+            this.log.warn('search.error', {
+                ms: Number((t1 - t0) / 1000000n),
+                err: String((e as any)?.message || e),
+            });
         }
         // Best-effort symbols
         try {
@@ -95,7 +108,10 @@ export class SmartGptrRetriever implements Retriever {
                 endLine: s.endLine ? Number(s.endLine) : undefined,
                 signature: s.signature ? String(s.signature) : undefined,
             }));
-        } catch {}
+            this.log.debug('symbols.ok', { count: out.symbols ? out.symbols.length : 0 });
+        } catch (e) {
+            this.log.debug('symbols.skip', { err: String((e as any)?.message || e) });
+        }
         // Best-effort grep
         try {
             const resp = await this.fetcher(`${base}/grep`, {
@@ -117,7 +133,10 @@ export class SmartGptrRetriever implements Retriever {
                 startLine: g.startLine ? Number(g.startLine) : undefined,
                 endLine: g.endLine ? Number(g.endLine) : undefined,
             }));
-        } catch {}
+            this.log.debug('grep.ok', { count: out.grep ? out.grep.length : 0 });
+        } catch (e) {
+            this.log.debug('grep.skip', { err: String((e as any)?.message || e) });
+        }
         return out;
     }
 }

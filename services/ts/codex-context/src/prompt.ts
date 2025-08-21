@@ -10,10 +10,15 @@ export type AugmentedPrompt = {
     finalMessages: ChatMessage[];
 };
 
+function estimateTokens(text: string) {
+    // Heuristic fallback when backend usage isn't available; ~4 chars per token
+    return Math.max(1, Math.floor(text.length / 4));
+}
+
 export function buildAugmentedPrompt(
     messages: ChatMessage[],
     retrieved: RetrieverResult,
-    opts?: { preserveSystem?: boolean },
+    opts?: { preserveSystem?: boolean; maxContextTokens?: number },
 ): AugmentedPrompt {
     const lastUser = [...messages].reverse().find((m) => m.role === 'user');
     const systemMsg = messages.find((m) => m.role === 'system')?.content || null;
@@ -21,13 +26,19 @@ export function buildAugmentedPrompt(
 
     const citations: Array<{ path: string; startLine?: number; endLine?: number }> = [];
     const ctxLines: string[] = [];
-    for (const hit of retrieved.search.slice(0, 8)) {
+    const maxCtx = opts?.maxContextTokens ?? Number(process.env.MAX_CONTEXT_TOKENS || 1024);
+    let ctxTokenCount = 0;
+    for (const hit of retrieved.search.slice(0, 32)) {
         citations.push({ path: hit.path, startLine: hit.startLine, endLine: hit.endLine });
         const header = `- ${hit.path}${
             hit.startLine ? `:${hit.startLine}-${hit.endLine ?? hit.startLine}` : ''
         }`;
         const text = (hit.snippet || hit.text || '').trim();
-        ctxLines.push(`${header}\n${indent(text, 2)}`);
+        const block = `${header}\n${indent(text, 2)}`;
+        const add = estimateTokens(block);
+        if (ctxTokenCount + add > maxCtx) break;
+        ctxTokenCount += add;
+        ctxLines.push(block);
     }
     const contextBlock = ctxLines.length
         ? ['Context:', '----------', ...ctxLines].join('\n')
