@@ -1,5 +1,3 @@
-import { spawn } from 'child_process';
-
 const MAX_BYTES = Number(process.env.EXEC_MAX_OUTPUT_BYTES || 2 * 1024 * 1024);
 const USE_SHELL = /^true$/i.test(process.env.EXEC_SHELL || 'false');
 const REPO_ROOT = process.env.REPO_ROOT;
@@ -23,16 +21,37 @@ function ringPush(buf, chunk) {
     return combined.subarray(combined.length - MAX_BYTES);
 }
 import { execa } from 'execa';
+import { normalizeToRoot } from './files.js';
 
 export async function runCommand({
     command,
     cwd = REPO_ROOT,
+    repoRoot = REPO_ROOT,
     timeoutMs = 10 * 60_000,
     tty = false,
 } = {}) {
     try {
+        if (matchDanger(command)) {
+            return {
+                ok: false,
+                error: 'blocked by guard',
+                exitCode: null,
+                signal: null,
+            };
+        }
+        let safeCwd;
+        try {
+            safeCwd = normalizeToRoot(repoRoot, cwd);
+        } catch {
+            return {
+                ok: false,
+                error: 'cwd outside root',
+                exitCode: null,
+                signal: null,
+            };
+        }
         const subprocess = execa(command, {
-            cwd,
+            cwd: safeCwd,
             timeout: timeoutMs,
             shell: true,
             stdio: tty ? 'inherit' : 'pipe',
