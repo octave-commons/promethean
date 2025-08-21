@@ -183,6 +183,19 @@ startService({
 
 Both helpers connect a `BrokerClient`, subscribe to topics, pull tasks from queues, and dispatch them to your handlers. Each returns the broker instance for further publishing or cleanup.
 
+### Directory scaffolding
+
+Copy an appropriate template directory when starting a new service:
+
+- `services/ts/templates/service` – baseline TypeScript service. **Always start here for TypeScript services.**
+- `services/py/templates/service` – baseline Python service.
+
+Example:
+
+```bash
+cp -r services/ts/templates/service services/ts/my-service
+```
+
 ---
 
 # Environment variables
