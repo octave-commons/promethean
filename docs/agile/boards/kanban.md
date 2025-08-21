@@ -224,8 +224,8 @@ kanban-plugin: board
 
 ## Incoming
 
-- [ ] Find music that triggered copyright mute on twitch for analysis #incoming
-- [ ] redefine all existing lambdas with high order functions #incoming
+- [ ] [[Find music that triggered copyright mute on twitch for analysis incoming]]
+- [ ] [[redefine all existing lambdas with high order functions incoming]]
 - [ ] expose a swagger api for custom gpt #incoming
 - [ ] implement defun in compiler/lisp #incoming
 - [ ] [[Mock broker]] #incoming
