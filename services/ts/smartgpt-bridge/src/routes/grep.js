@@ -10,6 +10,7 @@ export function registerGrepRoutes(fastify) {
                 flags: body.flags || 'g',
                 paths: body.paths || ['**/*.{ts,tsx,js,jsx,py,go,rs,md,txt,json,yml,yaml,sh}'],
                 maxMatches: Number(body.maxMatches || 200),
+                context: Number(body.context || 2),
             });
             reply.send({ ok: true, results });
         } catch (e) {

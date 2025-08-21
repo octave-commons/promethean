@@ -2,6 +2,7 @@ import ts from 'typescript';
 import path from 'path';
 import fs from 'fs/promises';
 import fg from 'fast-glob';
+import { normalizeToRoot, isInsideRoot } from './files.js';
 
 let SYMBOL_INDEX = []; // array of { path, name, kind, startLine, endLine, signature? }
 
@@ -93,19 +94,24 @@ export async function symbolsIndex(ROOT_PATH, opts = {}) {
         ignore: exclude,
         onlyFiles: true,
         dot: false,
+        absolute: true,
     });
-    for (const rel of files) {
-        const abs = path.join(ROOT_PATH, rel);
+    let count = 0;
+    for (const abs of files) {
+        if (!isInsideRoot(ROOT_PATH, abs)) continue;
         let text = '';
         try {
-            text = await fs.readFile(abs, 'utf8');
+            const safeAbs = normalizeToRoot(ROOT_PATH, abs);
+            text = await fs.readFile(safeAbs, 'utf8');
         } catch {
             continue;
         }
+        const rel = path.relative(ROOT_PATH, abs);
         const sf = ts.createSourceFile(abs, text, ts.ScriptTarget.Latest, true);
         walk(sf, rel);
+        count++;
     }
-    return { files: files.length, symbols: SYMBOL_INDEX.length, builtAt: Date.now() };
+    return { files: count, symbols: SYMBOL_INDEX.length, builtAt: Date.now() };
 }
 
 export async function symbolsFind(query, opts = {}) {
