@@ -8,8 +8,12 @@ export function registerFilesRoutes(fastify) {
         const dir = String(q.path || '.');
         const hidden = String(q.hidden || 'false').toLowerCase() === 'true';
         const type = q.type ? String(q.type) : undefined;
-        const out = await listDirectory(ROOT_PATH, dir, { hidden, type });
-        reply.send(out);
+        try {
+            const out = await listDirectory(ROOT_PATH, dir, { hidden, type });
+            reply.send(out);
+        } catch (e) {
+            reply.code(400).send({ ok: false, error: String(e?.message || e) });
+        }
     });
 
     fastify.get('/files/view', async (req, reply) => {
