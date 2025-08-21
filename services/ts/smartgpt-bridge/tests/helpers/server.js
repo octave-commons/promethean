@@ -13,6 +13,7 @@ function makeClient(app) {
             this.path = path;
             this._query = {};
             this._body = undefined;
+            this._headers = {};
         }
         query(obj) {
             this._query = obj || {};
@@ -22,12 +23,16 @@ function makeClient(app) {
             this._body = obj;
             return this;
         }
+        set(key, value) {
+            this._headers[key] = value;
+            return this;
+        }
         async expect(code) {
             const res = await app.inject({
                 method: this.method,
                 url: u(this.path, this._query),
                 payload: this._body,
-                headers: { 'content-type': 'application/json' },
+                headers: { 'content-type': 'application/json', ...this._headers },
             });
             const status = res.statusCode;
             let body;
