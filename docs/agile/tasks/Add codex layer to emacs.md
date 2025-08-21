@@ -16,6 +16,7 @@ Describe your task
 ## Relevent resources
 
 You might find [this] useful while working on this task
+[ChatGPT - Codex CLI layer](https://chatgpt.com/share/68a74365-e284-8004-8911-bb2fb08b1f3e)
 
 ## Comments
 

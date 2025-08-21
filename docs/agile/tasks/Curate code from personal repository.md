@@ -15,7 +15,7 @@ Describe your task
 
 ## Relevent resources
 
-You might find [this] useful while working on this task
+[ChatGPT - Config.toml guide](https://chatgpt.com/share/68a74210-8c1c-8004-9a3f-e41a94ba6ffa)
 
 ## Comments
 

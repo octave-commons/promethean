@@ -15,7 +15,7 @@ Describe your task
 
 ## Relevent resources
 
-You might find [this] useful while working on this task
+[ChatGPT - Codex script tool](https://chatgpt.com/share/68a742cc-3270-8004-9caf-544d42d78166)
 
 ## Comments
 

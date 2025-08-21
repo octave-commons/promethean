@@ -488,3 +488,5 @@ agents:
 
 ## Extra
 [[hy-macros-cheatsheet.md|Hy macros cheatsheet]]
+
+We love dotenv. use it all the time. Make everyone's lives easier.

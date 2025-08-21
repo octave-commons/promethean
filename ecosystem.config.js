@@ -30,6 +30,7 @@ import svc_mdgraph from './services/ts/markdown-graph/ecosystem.config.js';
 import svc_broker from './services/js/broker/ecosystem.config.js';
 import svc_health from './services/js/health/ecosystem.config.js';
 import svc_smartgpt from './services/ts/smartgpt-bridge/ecosystem.config.js';
+import svc_codex_context from './services/ts/codex-context/ecosystem.config.js';
 
 const duckApps = duck.default?.apps ?? duck.apps ?? [];
 const svcMods = [
@@ -46,6 +47,7 @@ const svcMods = [
     svc_broker,
     svc_health,
     svc_smartgpt,
+    svc_codex_context,
 ];
 const serviceApps = svcMods.flatMap((m) => m?.default?.apps ?? m?.apps ?? []);
 

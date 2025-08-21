@@ -1,43 +1,16 @@
-## 🛠️ Description
+# Description
 
+Describe your task
 
----
+## Related Epics
+- [[Import other projects.md]]
+## Requirements/Definition of done
 
-## 🎯 Goals
+- If it doesn't have this, we can't accept it
 
-- Define clear objectives for "Add Ollama formally to pipeline".
+## Tasks 
 
----
-
-## 📦 Requirements
-
-- [ ] Detail requirements.
-
----
-
-## 📋 Subtasks
-
-- [ ] Outline steps to implement.
-
----
-
-## 🔗 Related Epics
-
-#framework-core #discord #cephalon 
-
----
-
-## ⛓️ Blocked By
-
-Nothing
-
-## ⛓️ Blocks
-
-Nothing
-
----
-
-## 🔍 Relevant Links
-
-- [kanban](../boards/kanban.md)
-#ready
+- [ ] Step 1
+- [ ] Step 2
+- [ ] Step 3
+- [ ] Step 4
