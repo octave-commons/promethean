@@ -10,8 +10,10 @@ export function registerExecRoutes(fastify) {
             const { command, cwd, env, timeoutMs, tty } = req.body || {};
             console.log({ command, cwd, env, timeoutMs, tty });
             if (!command) return reply.code(400).send({ ok: false, error: "Missing 'command'" });
-            const out = await runCommand(String(command), {
+            const out = await runCommand({
+                command: String(command),
                 cwd: cwd ? String(cwd) : ROOT_PATH,
+                repoRoot: ROOT_PATH,
                 env,
                 timeoutMs: Number(timeoutMs || 600000),
                 tty: Boolean(tty),
