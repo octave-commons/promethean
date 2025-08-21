@@ -1,19 +1,28 @@
-import test from 'ava';
-import path from 'path';
-import fs from 'fs/promises';
 import { execa } from 'execa';
-import { grep } from '../../src/grep.js';
+import fs from 'fs/promises';
+import { normalizeToRoot } from './files.js';
 
-const ROOT = path.join(process.cwd(), 'tests', 'fixtures');
+function splitCSV(s) {
+    return (s || '')
+        .split(',')
+        .map((x) => x.trim())
+        .filter(Boolean);
+}
+function defaultExcludes() {
+    const env = splitCSV(process.env.EXCLUDE_GLOBS);
+    return env.length ? env : ['node_modules/**', '.git/**', 'dist/**', 'build/**', '.obsidian/**'];
+}
 
-async function runRg(pattern, opts) {
+export async function grep(ROOT_PATH, opts) {
     const {
+        pattern,
         flags = 'g',
-        paths = ['**/*.md'],
-        exclude = [],
+        paths = ['**/*.{ts,tsx,js,jsx,py,go,rs,md,txt,json,yml,yaml,sh}'],
+        exclude = defaultExcludes(),
         maxMatches = 200,
-        context = 1,
+        context = 2,
     } = opts || {};
+    if (!pattern || typeof pattern !== 'string') throw new Error("Missing regex 'pattern'");
     const args = ['--json', '--max-count', String(maxMatches), '-C', String(context)];
     if (flags.includes('i')) args.push('-i');
     exclude.forEach((ex) => args.push('--glob', `!${ex}`));
@@ -31,7 +40,13 @@ async function runRg(pattern, opts) {
     } else {
         args.push('.');
     }
-    const { stdout } = await execa('rg', args, { cwd: ROOT });
+    let stdout;
+    try {
+        ({ stdout } = await execa('rg', args, { cwd: ROOT_PATH }));
+    } catch (err) {
+        const msg = err.stderr || err.message;
+        throw new Error('rg error: ' + msg);
+    }
     const lines = stdout.split(/\r?\n/).filter(Boolean);
     const out = [];
     const cache = new Map();
@@ -43,9 +58,14 @@ async function runRg(pattern, opts) {
             : obj.data.path.text;
         let fileLines = cache.get(relPath);
         if (!fileLines) {
-            const text = await fs.readFile(path.join(ROOT, relPath), 'utf8');
-            fileLines = text.split(/\r?\n/);
-            cache.set(relPath, fileLines);
+            const abs = normalizeToRoot(ROOT_PATH, relPath);
+            try {
+                const text = await fs.readFile(abs, 'utf8');
+                fileLines = text.split(/\r?\n/);
+                cache.set(relPath, fileLines);
+            } catch {
+                continue;
+            }
         }
         const lineNumber = obj.data.line_number;
         const lineText = obj.data.lines.text.replace(/\n$/, '');
@@ -66,14 +86,3 @@ async function runRg(pattern, opts) {
     }
     return out;
 }
-
-test('grep: matches ripgrep output with context and flags', async (t) => {
-    const opts = { pattern: 'heading', flags: 'i', paths: ['**/*.md'], context: 1 };
-    const [results, expected] = await Promise.all([grep(ROOT, opts), runRg(opts.pattern, opts)]);
-    t.deepEqual(results, expected);
-    t.snapshot(results);
-});
-
-test('grep: invalid regex throws error', async (t) => {
-    await t.throwsAsync(() => grep(ROOT, { pattern: '(*invalid', paths: ['**/*.md'] }));
-});
