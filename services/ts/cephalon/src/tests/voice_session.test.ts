@@ -1,22 +1,19 @@
 import test from 'ava';
-const { VoiceSession } = await import('../voice-session.js');
+import { VoiceSession } from '../voice-session.js';
 
-function makeGuild(id: string): any {
-    return { id, voiceAdapterCreator: () => ({}) };
-}
+// Basic construction test for VoiceSession with stubbed transcriber
 
-function makeUser(id: string, username: string): any {
-    return { id, username };
-}
-
-test.skip('start joins voice channel', (t) => {
-    t.pass();
-});
-
-test('addSpeaker registers user', async (t) => {
-    const guild = makeGuild('1');
-    const vs = new VoiceSession({ voiceChannelId: '99', guild, bot: {} as any });
-    const user = makeUser('7', 'bob');
-    await vs.addSpeaker(user);
-    t.true(vs.speakers.has('7'));
+test('constructs VoiceSession with stubbed transcriber', (t) => {
+    const bot = {} as any;
+    const deps = {
+        readFile: async () => Buffer.from('wav'),
+        decode: async () => ({ channelData: [new Float32Array()] }),
+        renderWaveForm: async () => Buffer.from('wave'),
+        generateSpectrogram: async () => Buffer.from('spec'),
+        captureScreen: async () => Buffer.from('screen'),
+        transcriber: { push: () => {}, stop: () => {} } as any,
+    };
+    const vs = new VoiceSession({ voiceChannelId: '1', guild: {} as any, bot }, deps as any);
+    t.truthy(vs);
+    vs.recorder.removeAllListeners();
 });

@@ -5,7 +5,8 @@
         "preinstall": "node -e \"const ua = process.env.npm_config_user_agent || ''; if (!ua.includes('pnpm')) { console.error('\\nERROR: pnpm is required for this repo. npm/yarn are not supported and often fail with EACCES permission errors.\\nInstall via: corepack enable && corepack prepare pnpm@latest --activate\\nThen re-run: pnpm install\\n'); process.exit(1); }\"",
         "test": "ava tests/*.test.js",
         "coverage": "c8 ava tests/*.test.js",
-        "build:docs": "node scripts/generate-service-docs.js"
+        "build:docs": "node scripts/generate-service-docs.js",
+        "prom": "node ./scripts/prom.js"
     },
     "dependencies": {
         "@shared/js": "file:shared/js",

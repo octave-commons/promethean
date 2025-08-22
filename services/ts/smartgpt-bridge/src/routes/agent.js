@@ -1,20 +1,43 @@
-import { supervisor, ptySupervisor } from '../agent.js';
+import path from 'path';
+import { AgentSupervisor as NewAgentSupervisor } from '../agentSupervisor.js';
+
+// Maintain separate supervisors for different sandbox modes, and a registry mapping id->supervisor
+const SUPS = new Map();
+const DEFAULT_KEY = 'default';
+const NSJAIL_KEY = 'nsjail';
+const AGENT_INDEX = new Map(); // id -> key
+
+function getSup(fastify, key) {
+    const k = key === 'nsjail' ? NSJAIL_KEY : DEFAULT_KEY;
+    if (SUPS.has(k)) return SUPS.get(k);
+    const ROOT_PATH = fastify.ROOT_PATH;
+    const logDir = path.join(path.dirname(new URL(import.meta.url).pathname), '../logs/agents');
+    const sup = new NewAgentSupervisor({
+        cwd: ROOT_PATH,
+        logDir,
+        sandbox: k === NSJAIL_KEY ? 'nsjail' : false,
+    });
+    SUPS.set(k, sup);
+    return sup;
+}
 
 export function registerAgentRoutes(fastify) {
     const ROOT_PATH = fastify.ROOT_PATH;
 
     fastify.post('/agent/start', async (req, reply) => {
         try {
-            const { prompt, args, cwd, env, auto, tty } = req.body || {};
-            const out = supervisor.start({
+            const { prompt, cwd, env, bypassApprovals, sandbox, tty } = req.body || {};
+            const mode = sandbox === 'nsjail' ? 'nsjail' : 'default';
+            const sup = getSup(fastify, mode);
+            const id = sup.start({
                 prompt,
-                args,
-                cwd: cwd || ROOT_PATH,
                 env,
-                auto,
-                tty,
+                bypassApprovals: Boolean(bypassApprovals),
+                tty: tty !== false,
             });
-            reply.send({ ok: true, ...out });
+            AGENT_INDEX.set(id, mode);
+            const status = sup.status(id) || {};
+            reply.send({ ok: true, ...status });
         } catch (e) {
             reply.code(500).send({ ok: false, error: String(e?.message || e) });
         }
@@ -22,27 +45,62 @@ export function registerAgentRoutes(fastify) {
 
     fastify.get('/agent/status', async (req, reply) => {
         const id = String(req.query?.id || '');
-        const status = supervisor.status(id);
+        const key = AGENT_INDEX.get(id);
+        const sup = key ? getSup(fastify, key) : null;
+        let status = sup ? sup.status(id) : null;
+        if (!status) {
+            // Try both supervisors if not indexed
+            status = getSup(fastify, 'default').status(id) || getSup(fastify, 'nsjail').status(id);
+        }
+        if (!status) return reply.code(404).send({ ok: false, error: 'not found' });
+        reply.send({ ok: true, status });
+    });
+
+    // Convenience alias with path param
+    fastify.get('/agent/status/:id', async (req, reply) => {
+        const id = String(req.params?.id || '');
+        const key = AGENT_INDEX.get(id);
+        const sup = key ? getSup(fastify, key) : null;
+        let status = sup ? sup.status(id) : null;
+        if (!status) {
+            status = getSup(fastify, 'default').status(id) || getSup(fastify, 'nsjail').status(id);
+        }
         if (!status) return reply.code(404).send({ ok: false, error: 'not found' });
         reply.send({ ok: true, status });
     });
 
     fastify.get('/agent/list', async (_req, reply) => {
-        reply.send({ ok: true, agents: supervisor.list() });
+        // Combine lists is minimal since new supervisor doesn't expose list; derive from index
+        const agents = Array.from(AGENT_INDEX.entries()).map(([id, key]) => ({ id, sandbox: key }));
+        reply.send({ ok: true, agents });
     });
 
     fastify.get('/agent/logs', async (req, reply) => {
         const id = String(req.query?.id || '');
-        const since = Number(req.query?.since || 0);
-        const r = supervisor.logs(id, since);
+        const key = AGENT_INDEX.get(id) || 'default';
+        const sup = getSup(fastify, key);
+        let r;
+        try {
+            const text = sup.logs(id, Number(req.query?.bytes || 8192));
+            r = { total: text.length, chunk: text };
+        } catch {
+            r = null;
+        }
         if (!r) return reply.code(404).send({ ok: false, error: 'not found' });
         reply.send({ ok: true, ...r });
     });
 
     fastify.get('/agent/tail', async (req, reply) => {
         const id = String(req.query?.id || '');
-        const bytes = Number(req.query?.bytes || 8192);
-        const r = supervisor.tail(id, bytes);
+        const key = AGENT_INDEX.get(id) || 'default';
+        const sup = getSup(fastify, key);
+        let r;
+        try {
+            const text = sup.logs(id, Number(req.query?.bytes || 8192));
+            r = { total: text.length, chunk: text };
+        } catch {
+            r = null;
+        }
         if (!r) return reply.code(404).send({ ok: false, error: 'not found' });
         reply.send({ ok: true, ...r });
     });
@@ -55,31 +113,54 @@ export function registerAgentRoutes(fastify) {
             'Cache-Control': 'no-cache',
             Connection: 'keep-alive',
         });
-        supervisor.stream(id, reply.raw);
+        const key = AGENT_INDEX.get(id) || 'default';
+        const sup = getSup(fastify, key);
+        // Replay last chunk and subscribe to live
+        try {
+            const chunk = sup.logs(id, 2048);
+            reply.raw.write(`event: replay\ndata: ${JSON.stringify({ text: chunk })}\n\n`);
+        } catch {}
+        sup.on(id, (data) => {
+            reply.raw.write(`event: data\ndata: ${JSON.stringify({ text: String(data) })}\n\n`);
+        });
     });
 
     fastify.post('/agent/send', async (req, reply) => {
         const { id, input } = req.body || {};
         if (!id) return reply.code(400).send({ ok: false, error: 'missing id' });
-        const ok = supervisor.send(String(id), String(input || ''));
-        reply.send({ ok });
+        const key = AGENT_INDEX.get(String(id)) || 'default';
+        const sup = getSup(fastify, key);
+        try {
+            sup.send(String(id), String(input || ''));
+            reply.send({ ok: true });
+        } catch (e) {
+            reply.send({ ok: false, error: String(e?.message || e) });
+        }
     });
 
     fastify.post('/agent/interrupt', async (req, reply) => {
         const { id } = req.body || {};
-        const ok = supervisor.interrupt(String(id || ''));
-        reply.send({ ok });
+        // Interrupt not implemented in new supervisor; emulate by sending Ctrl-C
+        const key = AGENT_INDEX.get(String(id)) || 'default';
+        const sup = getSup(fastify, key);
+        try {
+            sup.send(String(id), '\u0003');
+            reply.send({ ok: true });
+        } catch {
+            reply.send({ ok: false });
+        }
     });
 
     fastify.post('/agent/kill', async (req, reply) => {
-        const { id, force } = req.body || {};
-        const ok = supervisor.kill(String(id || ''), Boolean(force));
+        const { id } = req.body || {};
+        const key = AGENT_INDEX.get(String(id)) || 'default';
+        const sup = getSup(fastify, key);
+        const ok = sup.kill(String(id || ''));
         reply.send({ ok });
     });
 
     fastify.post('/agent/resume', async (req, reply) => {
-        const { id } = req.body || {};
-        const ok = supervisor.resume(String(id || ''));
-        reply.send({ ok });
+        // resume not supported by new supervisor; noop
+        reply.send({ ok: false, error: 'not_supported' });
     });
 }
