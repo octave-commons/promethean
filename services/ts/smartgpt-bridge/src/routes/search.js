@@ -4,6 +4,7 @@ import { dualSinkRegistry } from '../utils/DualSinkRegistry.js';
 export function registerSearchRoutes(fastify) {
     const ROOT_PATH = fastify.ROOT_PATH;
     fastify.post('/search', {
+        preHandler: [fastify.authUser, fastify.requirePolicy('read', 'search')],
         schema: {
             summary: 'Semantic search via Chroma',
             operationId: 'semanticSearch',
@@ -41,6 +42,7 @@ export function registerSearchRoutes(fastify) {
     });
 
     fastify.post('/search/web', {
+        preHandler: [fastify.authUser, fastify.requirePolicy('search', 'bridge_searches')],
         schema: {
             operationId: 'webSearch',
             tags: ['Search'],
