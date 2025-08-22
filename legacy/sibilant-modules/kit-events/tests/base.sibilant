@@ -1,0 +1,5 @@
+(include "../src/index")
+
+(var emitter ((create Event-emitter)))
+(.on emitter 'event (aprint "has fired"))
+(.emit emitter 'event 'value)

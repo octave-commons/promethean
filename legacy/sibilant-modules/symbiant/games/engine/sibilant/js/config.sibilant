@@ -1,0 +1,33 @@
+(const dim      [window.innerWidth, window.innerHeight])
+(const size 1)
+(set module.exports
+     'size size
+     'angle-zoom 15
+     'noise-z 30
+     'field-force 85.6
+     'dimensions dim
+     'columns (Math.ceil (/ (first dim) size))
+     'rows (Math.ceil (/ (second dim) size))
+     'decay 12.1
+     'maxLength 99
+     'ant-limit 1000
+     'max-in-decay 20
+     'max-trail 999
+     'min-trail 10
+     'print-collision-event false
+     'decay-on-collision false
+     'options-amplitude 10
+     'limit-decay false
+     'ant-influence 50
+     'friction  2
+     'collision-static 1
+     'spawn-static 1
+     'spawn-rate 1000
+     'home-location [300, 200]
+     'target-location [700, 900]
+     'track-trail true
+     'vary-noise-with-time true
+     'reward-winners true
+     'punish-loosers false
+     'game-speed 1
+     )

@@ -1,0 +1,27 @@
+
+(var velocity-unit : 16,
+
+     UP   : -50, DOWN  : 50,
+     LEFT : -50, RIGHT : 50)
+
+(def bind-player-velocity-key ([key d s])
+
+     (var velocity (.get game.systems Velocity player)
+          collision (.get game.systems Collision player)
+          )
+
+
+     (.on Keyboard [key 'down]
+          (->
+
+           (var vd (get velocity d))
+           (print "pressed" key velocity)
+           (unless ()(set  velocity d (+ vd (* s velocity-unit))))
+           false)))
+
+(var bind-player-velocity-keys (fmap bind-player-velocity-key))
+(bind-player-velocity-keys
+ [["w" 'yd UP]
+  ["s" 'yd DOWN]
+  ["d" 'xd RIGHT]
+  ["a" 'xd LEFT]])

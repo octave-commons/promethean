@@ -1,0 +1,6 @@
+(def-type Message
+    (init (sender recipiant))
+  (mth respond (value)
+       (.respond this.sender (extend this value )))
+  (mth send ()
+       (.send this.recipiant (create-instance this))))

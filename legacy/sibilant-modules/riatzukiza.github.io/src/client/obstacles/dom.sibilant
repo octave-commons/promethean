@@ -1,0 +1,127 @@
+(namespace obstacles)
+
+(import rendering  "/client/obstacles/rendering.js")
+(import vector-pool trail-pool "/shared/vectors.js")
+(import Physics "/shared/systems/physics.js")
+(import Dot "/shared/systems/rendering/dot.js")
+(import summate "/shared/math/math.js")
+(import View-panel Property-view "/client/obstacles/systems/property-view.js")
+(import config "/client/obstacles/config.js")
+
+(import  game "/client/obstacles/game.js")
+
+(import ants rocks plants trail-segments "/client/obstacles/entities.js")
+
+(def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
+
+(macro sum-of (reducable ...keys)
+       `(.reduce @reducable  (=> ( sum el) (+ sum (or (get el ...@keys) 0))) 0))
+
+(const game-view (dom (.div .id "game-view" .className "panel"
+                            .style (lit ("background-color" "sandyBrown"))
+                            rendering.context.canvas)))
+(const get-stats (->
+
+                  
+
+                  (const get-total-ant-mass (-> (display-decimal (sum-of ants.group 'physical-properties 'mass) 2)))
+                  (const get-ant-count (-> ants.size))
+                  (const get-wins (-> (sum-of ants.group 'ant-life 'win-count)))
+                  (const get-losses (-> (sum-of ants.group 'ant-life 'loose-count)))
+                  (const wins (get-wins))
+                  (const losses (get-losses))
+
+                  [(dom (.div "Ants"))
+                   (dom (.div "count:" get-ant-count))
+                   (dom (.div "latency:" game.ticker.average-latency))
+                   (dom (.div "fps:" game.ticker.average-fps))
+                   (dom (.div "target fps:" game.ticker.fps))
+                   (dom (.div "total mass:" get-total-ant-mass))
+                   (dom (.div "wins:" (display-decimal wins)))
+                   (dom (.div "losses:" (display-decimal losses)))
+                   (dom (.div "win/loss:" (display-decimal (/ wins losses))))]))
+
+(const stats (dom (.div .className "panel" get-stats)))
+
+(const get-vector-bucket-count (-> vector-pool.buckets.length))
+(const get-trail-bucket-count (-> trail-pool.buckets.length))
+
+(const pools-view
+       (dom (.div .className "panel" (.h3 "Pools")
+                  (.div "vector buckets" get-vector-bucket-count)
+                  (.div "trail buckets" get-trail-bucket-count))))
+
+
+(const reset-button (dom (.button .onclick (->
+
+                                            
+                                            (.clear rocks)
+                                            (.clear ants)
+                                            (.clear plants)
+                                            ;; These get cleared when the ant clears it's ant trail component.
+                                            (.clear trail-segments)
+                                            (each (get (.get-by-symbol game.systems Physics.symbol) 'forces) (force)
+                                                  (.reset f))
+                                            ) "Reset")))
+
+(const input-field (=> (label initial-input type f)
+                       (dom (.div .className "panel"
+                                  .style (lit (width "49%"))
+                                  label (.input .value initial-input
+                                                .type (or type "number")
+                                                .onchange f)))))
+(const number-input (=> (label initial-input f) (input-field label initial-input "number" f)))
+(const config-number-input
+       (=> (label )
+           (number-input label (get config label)
+                         (=> (event)
+                             (set config label event.target.value)))))
+
+(const settings-panel (dom (.div .className "panel"
+                                 (config-number-input 'angle-zoom )
+                                 (config-number-input 'noise-z )
+                                 (config-number-input 'field-force )
+                                 (config-number-input 'decay )
+                                 (config-number-input 'max-length )
+                                 (config-number-input 'trail-result-duration )
+                                 (config-number-input 'growth-rate )
+                                 (config-number-input 'plant-mass-limit )
+                                 (config-number-input 'max-in-decay )
+                                 (config-number-input 'trail-limit )
+                                 (config-number-input 'ant-life )
+                                 (config-number-input 'ant-influence )
+                                 (config-number-input 'trail-resolution )
+                                 (config-number-input 'stationary-resistance-coefficiant ))))
+(const debug-view
+       (dom (.div .id "debug-view" .className "panel"
+                  .style (lit (height (+  (second config.dimensions)"px"))
+                              (width (+ (Math.round (- (* window.innerWidth 0.2) 42)) "px"))
+                              ("overflow-y" "scroll"))
+                  (.div (.b "stats")
+                        reset-button
+                        stats
+                        pools-view)
+                  (.div settings-panel))))
+
+
+
+
+
+(var container (dom (.div .id "container"
+                          game-view
+                          debug-view
+                          )))
+(export container)
+(export game-view)
+(export debug-view)
+(def start-interface ()
+  (with-dom Document-body (.div .id 'frame container))
+  (on game.events 'tick (t)
+
+      (when (= (mod t config.ui-polling-rate) 0)
+        (.render stats)
+        (.render pools-view))))
+
+(export start-interface)
+
+

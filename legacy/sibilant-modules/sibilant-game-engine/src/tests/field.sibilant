@@ -1,0 +1,74 @@
+
+(namespace engine-tests)
+(include "kit/header"
+         "kit-html/src/dom")
+
+(import-namespace kit)
+(import-namespace dom)
+(include "../inc/electron")
+
+(assign module.filename (Path.join (process.cwd) "./tests/dot.sibilant"))
+
+(require! (lit Game) "../js/game"
+          (lit Rendering) "../js/systems/rendering/rendering"
+          (lit Dot) "../js/systems/rendering/dot"
+          (lit Position) "../js/systems/position"
+          (lit Physics) "../js/systems/physics"
+          (lit Velocity) "../js/systems/velocity"
+          (lit Scalar) "../js/math/scalar"
+
+          (lit Tree-map) "tree-kit"
+          )
+
+
+(const rendering (.load Rendering
+                        (lit (size (.sub Scalar  (window.size) 8))
+                             (limit 100)
+                             (blend true))))
+
+(.resize rendering (.sub Scalar  (window.size) 4))
+
+(const stage (dom (.div .id 'stage )))
+(const container (dom (.div .id "container" rendering.context.canvas)))
+(with-dom Document-root (.div .id 'frame container))
+
+(var active-game-systems [Dot Position Physics Velocity])
+(const game ((create Game) rendering active-game-systems))
+
+(.use game Dot)
+
+(.start game)
+
+(def entity (aspects ) (.spawn game.ent aspects ))
+(def vector2d (x y) [x y])
+
+(var dot (entity active-game-systems))
+
+(def Tree-map.get ((dots args))
+     (get (.find this (dots args)) 'value))
+(def memoize (f)
+     (var cache ((create Tree-map)))
+     (=> ((dots args))
+         (remember cache args
+                   (f (dots args)))))
+
+(var rgba (memoize (=> (r g b a) (lit r g b a))))
+(set (.get game.systems Dot dot)
+     'color (rgba 255 0 0 255)
+     )
+
+
+
+(set (.get game.systems Position dot )
+     'x 500
+     'y 200
+     'z 1000)
+
+(set (.get game.systems Physics dot)
+     'scale 10
+     'mass 10
+     'forces [])
+
+(set (.get game.systems Velocity dot)
+     'xd 10
+     'yd 10)

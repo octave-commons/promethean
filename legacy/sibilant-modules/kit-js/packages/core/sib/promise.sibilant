@@ -1,0 +1,8 @@
+(def plift (f)
+  "create a promise returning function from a node callback accepting functions"
+  (promised ((dots args))
+            (apply f [
+                   (dots args)
+                   (=> (err data) (if err (reject err) (resolve data))) ])))
+
+(export plift )

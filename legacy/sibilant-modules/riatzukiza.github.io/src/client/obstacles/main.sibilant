@@ -1,0 +1,25 @@
+(namespace obstacles)
+
+(import  game active-game-systems "./game.js")
+
+(import Collision "/shared/systems/collision.js")
+(import config "./config.js")
+(import entities "./entities.js")
+(import start-interface "./dom.js")
+
+(.set-bounds Collision (first config.dimensions) (second config.dimensions)
+             500
+             1000)
+
+(.start game)
+
+(import "./events/ant-collision.js")
+(import "./events/ant-found-plant.js")
+(import "./events/collision.js")
+(import "./events/plant-colliding-with-spawn.js")
+(import "./events/static-object-collision.js")
+(import "./events/tick.js")
+(import "./events/simple-collision.js")
+
+(start-interface)
+

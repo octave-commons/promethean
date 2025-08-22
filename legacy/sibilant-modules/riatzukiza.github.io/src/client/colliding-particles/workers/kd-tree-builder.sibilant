@@ -1,0 +1,19 @@
+
+(meta "import '/bundles/external.js'")
+
+(import Vector-2D-array "../typed-arrays/vector-2d.js")
+(import Kd-tree "../typed-arrays/kd-tree.sibilant")
+
+(import Parent-system "../system.sibilant")
+
+(def-lit-macro def-async (name args ..body)
+  ["async "  name  `(parenthetic (comma ...@args.contents)) `(curly (do-block ...@body))])
+
+(define Kd-tree-builder Parent-system
+  (data-types [Vector-2D-array  Kd-tree])
+  (def-async update (args [ positions  kd-tree])
+    (.construct-tree kd-tree positions.data)
+    (return null)))
+
+
+(.start Kd-tree-builder)

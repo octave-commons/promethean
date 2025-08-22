@@ -1,0 +1,30 @@
+(namespace tree-kit)
+(def-interface Tree-map (value parent (*children (new Map)))
+
+  (extend Tree)
+
+  (def-generic add (key (tree this) (*children tree.*children))
+    (var node (or (*children.get key) ((create tree) undefined tree)))
+    (assign node.key key)
+    node)
+
+  (def-generic delete (seq (tree this) )
+
+    ;; don't need r keys, the nodes should retain their key.
+    (var node (.find tree seq)
+         rkeys (.reverse seq))
+
+    (each rkeys (k)
+          (.delete node.parent.*children k)
+          (assign node node.parent)))
+
+  (def-generic *find (seq (node (this.tree.*children.get (first seq))))
+
+    (if node (.find node (rest seq)) false))
+
+  (def-generic *insert (seq *children (tree this) (node (.add tree (first seq))))
+
+    (*children.set (first seq) node )
+    node))
+
+(export Tree-map)

@@ -1,0 +1,20 @@
+(require! 'fs)
+
+(def plift (f)
+  (=> ((dots args))
+      (make-promise
+       (.apply f this [ (dots args)
+                        (=> (err data)
+                            (if err (reject err) (resolve data))) ])))) 
+(var stat (plift fs.stat)
+     mkdir (plift fs.mkdir)
+     rmdir (plift fs.rmdir)
+     read-file (plift fs.read-file)
+     write-file (plift fs.write-file )
+     readdir (plift fs.readdir))
+
+(def is-dir  (c) (= c.symbol Directory.symbol ))
+
+(var *directory? (=> (stats) (.is-directory stats)))
+
+(def fill-sub-dir ([p sub-path] seg) [ (catch (then-do p (mkdir sub-path))) (Path.join sub-path seg) ])

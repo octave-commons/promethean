@@ -1,0 +1,45 @@
+
+(macro easy-on (emitter event ...body) `(on @emitter @event (@event) ...@body))
+
+(def identity (a) a)
+
+(def-curried set-value (v o) (assign o.value v))
+
+(def-curried reduce-promise (f a) (.reduce a f [(Promise.resolve) ""]))
+
+(macro chain-promise (p ...rest)
+       (if (empty? rest)
+           p
+           `(then-do @p (chain-promise ...@rest))))
+
+(macro let* (vars ...body)
+       "introduce scoped variables via nested lexical closures"
+
+       (if (> (length vars.contents) 1)
+           `(let (@(first vars.contents))
+              (let* (...@(rest vars.contents)) ...@body))
+           `(let (@(first vars.contents)) ...@body)))
+
+(def-promised timeout (t)
+  (set-timeout success t))
+
+(def once-then ( event  emitter)
+  (print "once then" event emitter)
+  (make-promise (.once emitter event success )))
+
+(macro generic (name def args ...body)
+       `(...@(get def 'contents) @name
+            (...@(functor (content-of args) .map (arg)
+
+                          (if (expression? arg)
+                              `(default @(first (get arg 'contents)) @(second (get arg 'contents)))
+                              (or (brace? arg)
+                                  (bracket? arg))
+
+                              `(default [...@(map arg.contents (a) `(default @a (get this (quote @a))))] [
+                                 ...@(.map arg.contents
+                                           (lambda (varname)
+                                             `(get this (quote @varname)))) ])
+
+                              `(default @arg (get this (quote @arg))))))
+            ...@body))

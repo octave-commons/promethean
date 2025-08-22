@@ -1,0 +1,18 @@
+
+(var green (color 0 255 0) yellow (color 255  255  0))
+
+(var despawned (fpipe .despawn))
+
+
+(const rendering (.load Rendering
+                        (lit (size (.sub Scalar  (window.size) 8))
+                             (limit 100)
+                             (blend true))))
+
+(.resize rendering (.sub Scalar  (window.size) 4))
+
+(assign rendering.background-color
+        (lit (r 0)
+             (g 0)
+             (b 0)
+             (a 150)))

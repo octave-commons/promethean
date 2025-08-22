@@ -1,0 +1,38 @@
+(namespace tree-tests)
+
+(include "kit/header")
+(import-namespace kit)
+
+
+;; (include "./src/index")
+;; (import-namespace tree-kit)
+
+(require! (lit Tree-map) "./index.js")
+
+(require! 'assert)
+
+(let* ((tree ((create Tree-map)))
+       (node (.insert tree ['a 'b])))
+
+  (assert (= node (.find tree ['a 'b])) "node returned by insert is not the same as find returns")
+
+  (assert (.has tree ['a 'b]) "`has` method fails")
+
+  (assert (not (.has tree ['a 'x])) "tree appears to contain values that were never inserted")
+
+  (let  ((nodes (new Set [node (dots (.map [['a 'x] ['a 'b] ['a 'c] ['a 'r 'z 'n]] (#-> tree.insert)))]))
+         (found-nodes (new Set [node ])))
+
+    (.each tree (#-> found-nodes.add))
+
+    ;; (and (.every found-nodes (#-> nodes.includes))
+    ;;      (.every nodes (#-> found-nodes.includes))
+    ;;      )
+
+    (.deep-equal assert  found-nodes nodes "test for method `each` failed")))
+
+
+
+
+
+(print "all tests pass!")

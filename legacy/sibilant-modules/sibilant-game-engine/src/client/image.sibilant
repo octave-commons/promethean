@@ -1,0 +1,38 @@
+(require! jimp "jimp")
+
+(def-interface Pixel (x y image (tuple (array-of 4 (get image.bitmap.data   (+ (image.get-pixel-index x y)  i)))))
+  (gett r (first this.tuple))
+  (gett g (second this.tuple))
+  (gett b (third this.tuple))
+  (gett a (fourth this.tuple)))
+
+
+(def-interface Image
+
+  (image
+   (pixel-map ((create Matrix-map) [image.bitmap.width image.bitmap.height])))
+
+
+  (gett bitmap this.image.bitmap.data)
+
+  (gett create (=> (image) ((create this) image)))
+
+  (def load (path)
+       (pipe (.read jimp path)
+             (.then Image.create)))
+  (def load-list ((dots paths))
+       (pipe (fmap   (#-> jimp.read) paths)
+             Promise.all
+             (.then (fmap Image.create))))
+
+  (def-generic get ([x y] bitmap)
+    (var self this)
+    (remember self.pixel-map [x y] ((create Pixel) x y this.image)))
+
+  (def-generic scan (f image bitmap)
+    (for (x 0) (> x image.width) (++ x)
+         (for (y 0) (> y image.width) (++ y)
+              (f (.get this [x y]) [x y] this)))))
+
+(export Image)
+(export Pixel)

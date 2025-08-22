@@ -1,0 +1,132 @@
+(when testing?
+
+
+  (let ((file-system ((create File-system) ".")))
+
+    (pipe (.resolve Promise)
+          (p-test   "should get files that exist with in this project from the project root"
+                    (.find file-system "." )
+                    (.then (aprint "found current directory")))
+
+          (p-test "should find files that are not the current directory"
+
+                  (scoped
+
+                   (def is.true? (v) (not (not v)) )
+                   (def-curried fevery (f a)
+                     (.every a f))
+
+                   (def all-true (a)
+                     (pipe (Promise.all a)
+                           (.then (fevery is.true? ) )))
+                   (all-true [
+                             (.find file-system 'js)
+                             (.find file-system 'sib)
+
+                             (.find file-system 'tests)
+
+                             ])))
+
+          (p-test "should resolve .. properly"
+
+                  (.find file-system "../kit")
+                  (then node (if (= node.path "/home/aaron/devel/groups/mine/kit")
+                                 node
+                                 (throw (new Error "didn't properly resolve .."))))
+                  )
+
+          (p-test "file created by an insert should be empty"
+                  (.insert file-system "./empty.txt")
+
+                  (.then  get-value-of)
+                  (.then (cond is.empty?
+                               (aprint "inserted successfully")
+                               (athrow Range-error "inserted file is not empty")) )) 
+
+          (p-test  "should create a file if it doesn't exist, and fill it with the second argument"
+                   (.set file-system "./hello.txt" "hello world")
+
+                   (.then (aprint "checking value of setted file"))
+                   (.then  get-value-of )
+
+                   (.then (cond (R.pipe R.to-string
+                                        (R.equals "hello world" ))
+                                (aprint "setted successfuly")
+                                (athrow  Type-error "setted value is not correct")) ))
+
+          (p-test "find always returns the same node for the same file"
+                  (.all Promise
+                        [
+                        (.find file-system "./sib/index.sibilant")
+                        (.find file-system "./sib/index.sibilant")
+                        ])
+                  (.then (cond (R.apply R.equals )
+                               (aprint "files are the same")
+                               (athrow Error "found files are not the same"))))
+
+
+
+          ;; inserted directory should be empty
+          ;; we can't *insert* directories well using this structure, we could make somthing happen, but
+          ;; I think it'd be unnessisary and unuseful.
+
+          ;; (then-do (pipe (.insert file-system "./empty-dir" Directory)
+          ;;                (then node node.keys)
+
+          ;;                (then keys (if (empty? keys)
+          ;;                               (print "directory inserted successfully")
+          ;;                               (throw (new Range-error "inserted directory should be empty"))))))
+          (p-test  "watch events for the same file, consistantly return the same node"
+
+                   (.set file-system "./hello.txt" "hello world")
+
+                   (then-do (.watch file-system "./hello.txt"))
+
+                   (then node (Promise.resolve [(once-then "add" node) node]))
+
+                   (.then (cond (R.apply R.equals)
+                                (aprint "same node for watcher" )
+                                (athrow  Error "once then did not return the right node"))))
+
+          (p-test  "Changing the value of a file node, will trigger a change event on the file system"
+
+                   (.watch file-system "./hello.txt")
+
+                   (.then  ((R.curry once-then) 'add))
+
+                   (then node
+
+                         (.on node 'change (aprint "a file changed"))
+
+
+                         (then-do (timeout 1000) (assign node.value "more hello, and now you know"))
+
+
+                         (Promise.race [
+                                       (then-do (timeout 5000)
+                                                (throw (new Error "took too long, assuming that change event will not fire")))
+
+                                       (once-then "change" node)
+                                       ]))
+
+                   (.then (aprint "file change event successfully fired")))
+          (p-test "can create file systems with any path"
+                  (let ((sib-fs ((create File-system) "./sib/"))
+                        (js-fs ((create File-system) "./js/")))
+                    (pipe (.watch sib-fs "." ))) 
+)
+          ;; (p-test "Empty directories will be created along a path if they do not exist when inserting a file."
+          ;;         k 1)
+
+          ;; (p-test "Directories are itteratable"
+          ;;         (.then (.get file-system ".")  (feach  (aprint "lookin at a dir")) ))
+
+
+          ;; (p-test "Directories can be mapped"
+          ;;         (.get file-system ".")
+          ;;         (.then (fmap get-path  ))
+          ;;         (.then (cond (R.all is.string))))
+          ;;(p-test "Elements can be gotten relative to a given directory")
+          (.then (aprint "file system unit tests succeeded"))
+
+          (.catch (aprint "failed filesystem unit tests")))))

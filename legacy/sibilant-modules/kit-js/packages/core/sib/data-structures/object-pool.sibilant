@@ -1,0 +1,92 @@
+
+
+
+;; This is, what I think to be, the simplest possible implementation of an object pool that works.
+;; There are many other ways to do it which yeild better performance, and more flexibility,
+;; but I felt that to discuss these, before discussing an object pool in its simplest form,
+;; would only lead to confusion.
+
+;; An object pool, most simply, consists of the following:
+
+;; A group of objects which are members of the pool,
+;; A group of objects which are members of the pool, that are available for use by other systems
+;; A group of objects which are members of the pool, that are currently in use by other systems.
+
+
+;; Object pools also have a size, which can be either fixed, or variable, this implementation provides a fixed
+;; size because this was simplest to implement.
+
+;; I have also provided two additional variables which serve as a convenience.
+
+;; An interface object, which will serve as the prototype for all members of the pool,
+;; and an array which can be passed which only needs to exist during instantiating,
+;; because arrays are initially simpler to define, and can be iterated upon to add to other collections.
+
+;; You will notice that I have refer ed to a group, rather than a map, collection, or set.
+
+;; in this context, a group refers to a type of collection which acts as an ordered set.
+;; This is just what I called this, you may also call it an ordered set.
+
+(include "../../header")
+(import-namespace kit)
+
+(require! (lit Group) "./group")
+
+(var *assign-id (=> (m k) (assign  m.id k) m))
+(macro array-of (size ...body)
+       `(collect array []
+                 (do-times @size (.push array (scoped ...@body)))))
+
+
+
+(def-interface Object-pool (size
+                            (*interface null)
+                            (*array (array-of size (Object.create *interface)))
+
+                            (*members (Group.from *array))
+
+                            (*available (Group.from *array))
+
+                            (*in-use (.create Group )))
+
+
+  (init (.each *array *assign-id))
+
+  (pools (new Map))
+
+  (gett free this.*available.size)
+  (gett used this.*in-use.size)
+  (gett total this.*members.size)
+
+  (def-generic clear (size *interface *array *in-use)
+    (each *in-use (o)
+          (.clear o))
+    (.init this size *interface *array))
+
+  (def-generic aquire ( *available *members *in-use )
+    "remove an object from the collection of available ones,
+adding it to the collection of objects currently in use,
+and return it to the caller."
+    (collect  member (.pop *available)
+
+              ;; (sprint *available
+              ;;         this.*members
+              ;;         member)
+
+              (.add *in-use member)))
+
+  (def-generic release (obj *available *members *in-use)
+    "take an object that is a member of this pool, and remove it
+from the collection of in use objects, and adding it to the collection of
+available ones, for later use"
+
+    (.remove *in-use obj)
+    (.add *available obj)))
+
+(export Object-pool)
+(comment "test"
+         (let ((i 0) (pool ((create Object-pool) 1000 {})))
+
+           (print pool)
+           (print "aquired value" (.aquire pool))))
+

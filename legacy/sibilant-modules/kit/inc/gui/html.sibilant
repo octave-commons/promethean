@@ -1,0 +1,70 @@
+
+(include "./defs")
+(include "./promise")
+(namespace html)
+
+(import-namespace defs)
+(import-namespace core)
+(import-namespace promise)
+
+(macro logged (name args ...body)
+       `(def @name @args
+             (var args-vals [...arguments])
+             (print "executing" (quote @name))
+             (print "with arguments" args-vals)
+             (try (do
+                      (var results (scoped ...@body))
+                      (print "results" (quote @name)  results)
+                      (return results))
+                  (do
+                      (print "Error executing" (quote @name))
+                      (throw e)))))
+
+(macro markup (...elements)
+
+       (def no-attrs (attrs inner)
+         (inner.unshift attrs)
+         (wrap-in-quotes ""))
+
+       (def attrs? (attrs inner)
+         (ternary (or (brace? attrs) (literal? attrs))
+                  (attributes attrs)
+                  (no-attrs attrs inner)))
+
+       (def attributes (obj)
+            `(.reduce @obj (=> (value ele key) (+ value " " key "=" (wrap-in-quotes ele))) ""))
+
+       (def dynamic-tag (contents)
+         `(pipe (Promise.resolve (scoped ...@(rest contents)))))
+
+       (def parse-tag (contents)
+         (if (= (get (first contents 0) 'token) "dyn")
+             (dynamic-tag contents)
+             (element ...contents)))
+
+
+
+       (def traverse (x)
+         (if  (expression? x)
+              (parse-tag x.contents)
+
+              (or (string-literal? x) (literal? x))
+              `(write @x)))
+
+       (def element (tagname attrs ...inner)
+         (var attr-string (attrs? attrs inner)
+              opening-tag (wrap-in-quotes (+ "<" tagname.token ))
+              closing-tag (wrap-in-quotes (+ "</" tagname.token ">")))
+
+         `(do-promise
+             (write @opening-tag)
+            (if (not (= @attr-string "")) (write @attr-string))
+           (write ">")
+           ...@(inner.map traverse)
+           (write @closing-tag)))
+
+       (elements.map (=> (e i) (element ...e.contents))))
+
+(macro html ( ...body)
+       `(markup (html ...@body)))
+

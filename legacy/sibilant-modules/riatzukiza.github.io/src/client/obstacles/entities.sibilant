@@ -1,0 +1,40 @@
+(namespace vector-ants)
+
+(set global 'mixin mixin 'create create)
+
+
+(import rocks spawn-rock rock-gen-step "/client/obstacles/entities/rocks.js")
+(import ants spawn-ant clear-ants "/client/obstacles/entities/ants.js")
+(import plants spawn-plant "/client/obstacles/entities/plants.js")
+(import trail-segments spawn-ant-trail-segment "/client/obstacles/entities/trail-segments.js")
+(import home home-pos "/client/obstacles/entities/home.js")
+(import config "/client/obstacles/config.js")
+
+(var clear (#->  .clear))
+
+(var next-spawn-time 0)
+
+(var next-spawn (=> (game)
+                    (incr-by next-spawn-time game.ticker.elapsed)
+                    (when (and (> next-spawn-time (/ 1000 config.spawn-rate))
+                               (<= ants.group.size config.ant-limit))
+                      (spawn-ant [home-pos.x home-pos.y] home)
+                      (assign next-spawn-time 0))))
+
+(export next-spawn)
+
+(export rock-gen-step)
+(export spawn-rock)
+(export spawn-plant)
+(export spawn-ant)
+
+(export ants)
+(export plants)
+(export rocks)
+
+(export home)
+(export home-pos)
+
+(export clear-ants)
+(export trail-segments)
+(export spawn-ant-trail-segment)

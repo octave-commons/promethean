@@ -1,0 +1,45 @@
+
+(include "kit-interface/header")
+(import-namespace interface)
+
+
+(require! (lit Component System) "../ecs/component"
+          (lit Position) "./position")
+
+(define Velocity-interface Component
+  (gett displacement  this.data)
+
+  (gett xd (first this.displacement))
+  (gett yd (second this.displacement))
+
+  (sett xd v (set this.data 0 v))
+  (sett yd v (set this.data 1 v))
+
+  (gett pos (.get this.system.process.systems Position this.entity))
+  (def accelerate ([v1,v2])
+       (incr-by this.xd v1)
+       (incr-by this.yd v2)
+       this
+       )
+  )
+(export Velocity-interface)
+
+(define Velocity System
+
+  (interface Velocity-interface)
+
+  (def *update-component (m)
+
+       (var p m.pos [xd yd] m.data)
+
+       (assign m.moved false)
+       (unless (and (= xd 0)
+                    (= yd 0))
+         (assign m.moved true)
+
+         (.emit this.game.events 'move m)
+         (set p
+              'x (+ p.x (* xd (/ this.game.ticker.elapsed 1000)))
+              'y (+ p.y (* yd (/ this.game.ticker.elapsed 1000)))))))
+
+(export Velocity)

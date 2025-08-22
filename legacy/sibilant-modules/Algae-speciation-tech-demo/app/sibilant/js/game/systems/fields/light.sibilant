@@ -1,0 +1,25 @@
+
+(define-system Light Field-system true)
+
+(describe Light (influences [ Sun ]))
+
+
+(describe Light.Component
+
+          (gamma 0.5)
+
+          (gett r (percent-to-color (Math.pow (* 3 this.value) this.gamma)))
+
+          (gett g (percent-to-color (Math.pow (* 2 this.value) this.gamma)))
+
+          (gett b (+ 60 (percent-to-color (Math.pow this.value this.gamma))))
+
+          (gett a (percent-to-color 0.2)))
+
+(def-generic Light.Component.update (tick x y influences gain loss field value max neiborhood)
+
+
+  ;; influences are additive, each new influence increases the value of this field.
+
+  (.set field x y (* 1 (summate influences))))
+

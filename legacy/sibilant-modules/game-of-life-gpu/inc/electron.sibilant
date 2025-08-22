@@ -1,0 +1,19 @@
+
+(require! Path "path")
+
+
+(meta
+ (when (defined? process.versions.electron)
+   (print "defining macro require for electron context")
+   (def macros.require (name)
+        `(let ((*require global.require)
+               (path (global.require "path"))
+               (name @name))
+
+           (var module-path (path.dirname module.filename))
+           (print "requiring" name "from" module-path)
+           (*require (if (= (first name) ".")
+                         (path.join module-path name)
+                       name
+                       )))))
+ null)

@@ -1,0 +1,26 @@
+(import Interface "/shared/kit/interface/index.js")
+
+(const max-mass (* 8 1024))
+(const spawn-area (* max-mass 2))
+
+(define config Interface
+
+  (spawn-area spawn-area)
+  ( spawn-width spawn-area)
+  ( spawn-height spawn-area)
+
+  ( particle-count (* 512))
+  ( max-mass max-mass)
+
+  ( gravitational-constant 0.00000000000003191)
+  ( min-dist 512)
+  ( max-objects 256)
+  ( max-levels 64)
+
+  ( min-mass 512)
+
+  ( particle-render-size 512)
+  (actual-maximum-mass (Math.pow max-mass 3))
+  (cached dimensions [(Math.round (* 0.8 window.innerWidth)), (Math.round (- window.innerHeight 3))]))
+
+(export config)
