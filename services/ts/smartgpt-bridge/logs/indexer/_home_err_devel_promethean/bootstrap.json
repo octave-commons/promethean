@@ -106,24 +106,14 @@
         "bridge/protocols/permission-schema.md",
         "bridge/protocols/stt-ws-request-v1.json",
         "bridge/protocols/stt-ws-response-v1.json",
-        "legacy/lithp/README.md",
-        "legacy/lithp/package.json",
-        "legacy/lithp/sibilant.js",
-        "legacy/riatzukiza.github.io/Tasks Plugin - Review and check your Statuses 2024-12-18 14-28-29.md",
-        "legacy/riatzukiza.github.io/_Index_of_portfolio.md",
-        "legacy/riatzukiza.github.io/_Index_of_riatzukiza.github.io.md",
-        "legacy/riatzukiza.github.io/ecosystem.config.js",
-        "legacy/riatzukiza.github.io/list.js",
-        "legacy/riatzukiza.github.io/package-lock.json",
-        "legacy/riatzukiza.github.io/package.json",
-        "legacy/riatzukiza.github.io/readme.md",
         "docs/Daily/2025-08-21.md",
         "docs/agents/AGENTS-taxonomy.md",
         "docs/agents/README.md",
-        "docs/architecture/codex-context.md",
         "docs/agile/AGENTS.md",
         "docs/agile/Process.md",
+        "docs/architecture/codex-context.md",
         "docs/benchmarks/tts_ws_benchmark.md",
+        "docs/ci/pipeline_simulation_issues.md",
         "docs/chats/2025-08-03_03-07-18_ChatGPT_Promethean - Eidolon Layer 1 Design....md",
         "docs/chats/2025-08-03_03-45-37_ChatGPT_Promethean - Building Promethean Architecture...(1).md",
         "docs/chats/2025-08-03_03-45-37_ChatGPT_Promethean - Building Promethean Architecture....md",
@@ -131,7 +121,6 @@
         "docs/chats/2025-08-03_03-57-36_ChatGPT_Promethean - Voice logic split analysis....md",
         "docs/chats/2025-08-03_03-57-58_ChatGPT_Promethean - Using NPU in Docker....md",
         "docs/chats/2025-08-03_03-58-19_ChatGPT_Promethean - Vision models and multiple images....md",
-        "docs/ci/pipeline_simulation_issues.md",
         "docs/design/Daimoi.md",
         "docs/design/Eidolon Fields.md",
         "docs/design/Field Node Lifecycle.md",
@@ -168,6 +157,8 @@
         "docs/templates/service-template.md",
         "docs/templates/service.README.template.md",
         "docs/tools/lisp-cli.md",
+        "docs/vault-config/README.md",
+        "docs/vault-config/example board.md",
         "docs/unique/2025.07.28.11.07.04 Autohotkey.md",
         "docs/unique/2025.07.28.11.07.18 Lisp DSL.md",
         "docs/unique/2025.07.28.11.07.38 komorebic-group-window-hack.md",
@@ -298,9 +289,34 @@
         "docs/unique/ripple-propagation-demo.md",
         "docs/unique/sibilant-metacompiler-overview.md",
         "docs/unique/template-based-compilation.md",
-        "docs/vault-config/README.md",
-        "docs/vault-config/example board.md",
+        "legacy/lithp/README.md",
+        "legacy/lithp/package.json",
+        "legacy/lithp/sibilant.js",
+        "legacy/riatzukiza.github.io/Tasks Plugin - Review and check your Statuses 2024-12-18 14-28-29.md",
+        "legacy/riatzukiza.github.io/_Index_of_portfolio.md",
+        "legacy/riatzukiza.github.io/_Index_of_riatzukiza.github.io.md",
+        "legacy/riatzukiza.github.io/ecosystem.config.js",
+        "legacy/riatzukiza.github.io/list.js",
+        "legacy/riatzukiza.github.io/package-lock.json",
+        "legacy/riatzukiza.github.io/package.json",
+        "legacy/riatzukiza.github.io/readme.md",
         "pseudo/templates/README.md",
+        "docs/notes/2025.08.12.13.19.53.md",
+        "docs/notes/2025.08.12.13.51.10.md",
+        "docs/notes/2025.08.12.18.54.06.md",
+        "docs/notes/2025.08.13.14.00.55.md",
+        "docs/notes/2025.08.15.13.11.27.md",
+        "docs/notes/2025.08.16.13.01.55.md",
+        "docs/notes/2025.08.16.14.44.28.md",
+        "docs/notes/2025.08.17.19.23.39.md",
+        "docs/notes/2025.08.18.12.24.42.md",
+        "docs/notes/2025.08.19.10.07.18.md",
+        "docs/notes/2025.08.19.12.42.50.md",
+        "docs/notes/2025.08.19.15.16.43.md",
+        "docs/notes/2025.08.19.18.40.01.md",
+        "docs/notes/2025.08.19.19.00.17.md",
+        "docs/notes/2025.08.21.13.11.45.md",
+        "docs/notes/2025.08.21.14.35.23.md",
         "services/templates/README.md",
         "services/templates/board-updater_README.template.md",
         "services/templates/broker_README.template.md",
@@ -319,22 +335,6 @@
         "services/templates/tts_README.template.md",
         "services/templates/vision_README.template.md",
         "services/templates/voice_README.template.md",
-        "docs/notes/2025.08.12.13.19.53.md",
-        "docs/notes/2025.08.12.13.51.10.md",
-        "docs/notes/2025.08.12.18.54.06.md",
-        "docs/notes/2025.08.13.14.00.55.md",
-        "docs/notes/2025.08.15.13.11.27.md",
-        "docs/notes/2025.08.16.13.01.55.md",
-        "docs/notes/2025.08.16.14.44.28.md",
-        "docs/notes/2025.08.17.19.23.39.md",
-        "docs/notes/2025.08.18.12.24.42.md",
-        "docs/notes/2025.08.19.10.07.18.md",
-        "docs/notes/2025.08.19.12.42.50.md",
-        "docs/notes/2025.08.19.15.16.43.md",
-        "docs/notes/2025.08.19.18.40.01.md",
-        "docs/notes/2025.08.19.19.00.17.md",
-        "docs/notes/2025.08.21.13.11.45.md",
-        "docs/notes/2025.08.21.14.35.23.md",
         "shared/js/brokerClient.d.ts",
         "shared/js/brokerClient.js",
         "shared/js/env.d.ts",
@@ -396,47 +396,6 @@
         "agents/duck/scripts/run_embedder.sh",
         "agents/duck/scripts/run_vision.sh",
         "agents/templates/config/permissions.yaml",
-        "legacy/lithp/docs/docs.json",
-        "legacy/lithp/docs/docs.txt",
-        "legacy/lithp/lib/browser.js",
-        "legacy/lithp/lib/cli.js",
-        "legacy/lithp/lib/colors.js",
-        "legacy/lithp/lib/docs.js",
-        "legacy/lithp/lib/helpers.js",
-        "legacy/lithp/lib/macros.js",
-        "legacy/lithp/lib/node.js",
-        "legacy/lithp/lib/options.js",
-        "legacy/lithp/lib/output-formatter.js",
-        "legacy/lithp/lib/parser.js",
-        "legacy/lithp/lib/precompiled-macros.js",
-        "legacy/lithp/lib/pretty-printer.js",
-        "legacy/lithp/lib/repl.js",
-        "legacy/lithp/lib/require-and-include.js",
-        "legacy/lithp/lib/restructurer.js",
-        "legacy/lithp/lib/sibilant.js",
-        "legacy/lithp/lib/sourcemap.js",
-        "legacy/lithp/lib/transpiler.js",
-        "legacy/riatzukiza.github.io/Chats/New Chat.md",
-        "legacy/riatzukiza.github.io/Chats/_Index_of_Chats.md",
-        "legacy/riatzukiza.github.io/docs/_Index_of_docs.md",
-        "legacy/riatzukiza.github.io/docs/readme.md",
-        "legacy/riatzukiza.github.io/hack/camera.js",
-        "legacy/riatzukiza.github.io/hack/multiple-sprites.js",
-        "legacy/riatzukiza.github.io/hack/panning-camera.js",
-        "legacy/riatzukiza.github.io/hack/print-range-bst.js",
-        "legacy/riatzukiza.github.io/hack/red-black.js",
-        "legacy/riatzukiza.github.io/hack/sprite-shader.js",
-        "legacy/riatzukiza.github.io/kanban/_Index_of_kanban.md",
-        "legacy/riatzukiza.github.io/kanban/board.md",
-        "legacy/riatzukiza.github.io/kanban/done.md",
-        "legacy/riatzukiza.github.io/kanban/process.md",
-        "legacy/riatzukiza.github.io/kanban/project.md",
-        "legacy/riatzukiza.github.io/notes/_Index_of_notes.md",
-        "legacy/riatzukiza.github.io/server/app.js",
-        "legacy/riatzukiza.github.io/server/index.js",
-        "legacy/riatzukiza.github.io/server/server.js",
-        "legacy/riatzukiza.github.io/server/static-files.js",
-        "legacy/riatzukiza.github.io/templates/index.js",
         "docs/agents/board-manager/AGENTS.md",
         "docs/agents/codex-cli/AGENTS.md",
         "docs/agents/codex-gui/AGENTS.md",
@@ -477,6 +436,12 @@
         "docs/prompts/agents/README.md",
         "docs/prompts/history/README.md",
         "docs/prompts/meta/README.md",
+        "docs/prompts/scratch/README.md",
+        "docs/prompts/seed/README.md",
+        "docs/prompts/templates/README.md",
+        "docs/research/templates/README.md",
+        "docs/services/broker/AGENTS.md",
+        "docs/services/broker/index.md",
         "docs/agile/tasks/Add codex layer to emacs.md",
         "docs/agile/tasks/Add git commands to gpt bridge.md",
         "docs/agile/tasks/Curate code from personal repository.md",
@@ -671,12 +636,6 @@
         "docs/agile/tasks/write_meaningful_tests_for_cephalon_md_md.md",
         "docs/agile/tasks/write_simple_ecosystem_declaration_library_for_new_md_md.md",
         "docs/agile/tasks/write_vault_config_readme_md_for_obsidian_vault_on_md.md",
-        "docs/prompts/scratch/README.md",
-        "docs/prompts/seed/README.md",
-        "docs/prompts/templates/README.md",
-        "docs/research/templates/README.md",
-        "docs/services/broker/AGENTS.md",
-        "docs/services/broker/index.md",
         "docs/services/cephalon/AGENTS.md",
         "docs/services/discord-attachment-embedder/AGENTS.md",
         "docs/services/discord-attachment-embedder/main.md",
@@ -729,6 +688,47 @@
         "docs/unique/chunks/tooling.md",
         "docs/unique/chunks/wm.md",
         "docs/unique/templates/README.md",
+        "legacy/lithp/docs/docs.json",
+        "legacy/lithp/docs/docs.txt",
+        "legacy/lithp/lib/browser.js",
+        "legacy/lithp/lib/cli.js",
+        "legacy/lithp/lib/colors.js",
+        "legacy/lithp/lib/docs.js",
+        "legacy/lithp/lib/helpers.js",
+        "legacy/lithp/lib/macros.js",
+        "legacy/lithp/lib/node.js",
+        "legacy/lithp/lib/options.js",
+        "legacy/lithp/lib/output-formatter.js",
+        "legacy/lithp/lib/parser.js",
+        "legacy/lithp/lib/precompiled-macros.js",
+        "legacy/lithp/lib/pretty-printer.js",
+        "legacy/lithp/lib/repl.js",
+        "legacy/lithp/lib/require-and-include.js",
+        "legacy/lithp/lib/restructurer.js",
+        "legacy/lithp/lib/sibilant.js",
+        "legacy/lithp/lib/sourcemap.js",
+        "legacy/lithp/lib/transpiler.js",
+        "legacy/riatzukiza.github.io/Chats/New Chat.md",
+        "legacy/riatzukiza.github.io/Chats/_Index_of_Chats.md",
+        "legacy/riatzukiza.github.io/docs/_Index_of_docs.md",
+        "legacy/riatzukiza.github.io/docs/readme.md",
+        "legacy/riatzukiza.github.io/hack/camera.js",
+        "legacy/riatzukiza.github.io/hack/multiple-sprites.js",
+        "legacy/riatzukiza.github.io/hack/panning-camera.js",
+        "legacy/riatzukiza.github.io/hack/print-range-bst.js",
+        "legacy/riatzukiza.github.io/hack/red-black.js",
+        "legacy/riatzukiza.github.io/hack/sprite-shader.js",
+        "legacy/riatzukiza.github.io/kanban/_Index_of_kanban.md",
+        "legacy/riatzukiza.github.io/kanban/board.md",
+        "legacy/riatzukiza.github.io/kanban/done.md",
+        "legacy/riatzukiza.github.io/kanban/process.md",
+        "legacy/riatzukiza.github.io/kanban/project.md",
+        "legacy/riatzukiza.github.io/notes/_Index_of_notes.md",
+        "legacy/riatzukiza.github.io/server/app.js",
+        "legacy/riatzukiza.github.io/server/index.js",
+        "legacy/riatzukiza.github.io/server/server.js",
+        "legacy/riatzukiza.github.io/server/static-files.js",
+        "legacy/riatzukiza.github.io/templates/index.js",
         "services/hy/discord_attachment_embedder/README.md",
         "services/hy/discord_attachment_embedder/main.py",
         "services/hy/discord_attachment_indexer/README.md",
@@ -783,6 +783,102 @@
         "services/js/vision/package-lock.json",
         "services/js/vision/package.json",
         "services/js/vision/run.sh",
+        "docs/notes/chats/eidolon-layer-1-design.md",
+        "docs/notes/chats/gemma3-thinking-model.md",
+        "docs/notes/chats/promethean-architecture-overview.md",
+        "docs/notes/chats/using-npu-in-docker.md",
+        "docs/notes/chats/vision-models-multiple-images.md",
+        "docs/notes/chats/voice-logic-split-analysis.md",
+        "docs/notes/diagrams/circuit-weight-visualizations.md",
+        "docs/notes/diagrams/daimo-node-charge-interaction.md",
+        "docs/notes/diagrams/event-bus-projections-diagrams.md",
+        "docs/notes/diagrams/field-node-lifecycle-additional-diagrams.md",
+        "docs/notes/diagrams/full-system-overview-diagrams.md",
+        "docs/notes/diagrams/layer1-uptime-diagrams.md",
+        "docs/notes/diagrams/multi-circuit-node-propagation.md",
+        "docs/notes/diagrams/node-growth-and-death-conditions.md",
+        "docs/notes/diagrams/node-type-summary-map.md",
+        "docs/notes/diagrams/node-type-topology-map.md",
+        "docs/notes/diagrams/smoke-waves-infinite-depth.md",
+        "docs/notes/diagrams/state-diagram-node-lifecycle.md",
+        "docs/notes/diagrams/synchronicity-waves-and-web.md",
+        "docs/notes/dsl/compiler-kit-foundations.md",
+        "docs/notes/dsl/cross-language-runtime-messaging.md",
+        "docs/notes/dsl/embedded-lisp-dialects.md",
+        "docs/notes/dsl/interop-and-source-maps.md",
+        "docs/notes/dsl/lisp-frontend-compiler-kit.md",
+        "docs/notes/dsl/mystery-lisp-investigation.md",
+        "docs/notes/dsl/polyglot-repl-interface.md",
+        "docs/notes/dsl/polytarget-interface-dsl.md",
+        "docs/notes/dsl/promethean-state-format.md",
+        "docs/notes/dsl/prompt-compiler-dsl.md",
+        "docs/notes/dsl/prompt-scripting-dsl.md",
+        "docs/notes/dsl/recursive-prompt-construction.md",
+        "docs/notes/dsl/runtime-and-prompt-macro-dsl.md",
+        "docs/notes/dsl/sibilant-cross-target-macros.md",
+        "docs/notes/dsl/sibilant-meta-namespace-dispatch.md",
+        "docs/notes/dsl/sibilant-metacompiler-overview.md",
+        "docs/notes/dsl/template-based-compilation.md",
+        "docs/notes/dsl/ts-to-lisp.md",
+        "docs/notes/dsl/universal-lisp-interface.md",
+        "docs/notes/js/archetype-ecs.md",
+        "docs/notes/js/ecs-offload-workers.md",
+        "docs/notes/js/ecs-scheduler-and-prefabs.md",
+        "docs/notes/js/graph-ds.md",
+        "docs/notes/js/typed-struct-compiler.md",
+        "docs/notes/js/zero-copy-snapshots-and-workers.md",
+        "docs/notes/math/advanced-field-math.md",
+        "docs/notes/math/aionian-circuit-math.md",
+        "docs/notes/math/aionian-feedback-oscillator.md",
+        "docs/notes/math/aionian-pulse-rhythm-model.md",
+        "docs/notes/math/eidolon-field-math-foundations.md",
+        "docs/notes/math/eidolon-field-math.md",
+        "docs/notes/math/field-dynamics-math-blocks.md",
+        "docs/notes/math/field-interaction-equations.md",
+        "docs/notes/math/homeostasis-and-decay-models.md",
+        "docs/notes/math/symbolic-gravity-models.md",
+        "docs/notes/ops/model-upgrade-processing.md",
+        "docs/notes/services/broker-outbox-acl-ops.md",
+        "docs/notes/services/partitions-schema-registry-projector.md",
+        "docs/notes/services/schema-evolution-dlq-changefeed.md",
+        "docs/notes/services/state-snapshots-transactional-projector-timetravel-devharness.md",
+        "docs/notes/shared/event-bus-mvp.md",
+        "docs/notes/simulation/annotated-fragment-heartbeat-demo.md",
+        "docs/notes/simulation/fragment-injection-simulation.md",
+        "docs/notes/simulation/heartbeat-fragment-flow.md",
+        "docs/notes/simulation/ripple-propagation-demo.md",
+        "docs/notes/simulation/ripple-propagation-flow.md",
+        "docs/notes/templates/README.md",
+        "docs/notes/tooling/obsidian-ignore-node-modules-regex.md",
+        "docs/notes/tooling/pm2-ecosystem-patterns.md",
+        "docs/notes/wm/autohotkey-i3-emulation.md",
+        "docs/notes/wm/autohotkey-i3layer-scripts.md",
+        "docs/notes/wm/design-goals-01.md",
+        "docs/notes/wm/design-goals-02.md",
+        "docs/notes/wm/design-goals-03.md",
+        "docs/notes/wm/design-goals-04.md",
+        "docs/notes/wm/design-goals-05.md",
+        "docs/notes/wm/design-goals-06.md",
+        "docs/notes/wm/design-goals-07.md",
+        "docs/notes/wm/design-goals-08.md",
+        "docs/notes/wm/design-goals-09.md",
+        "docs/notes/wm/design-goals-10.md",
+        "docs/notes/wm/design-goals-11.md",
+        "docs/notes/wm/design-goals-12.md",
+        "docs/notes/wm/design-goals-13.md",
+        "docs/notes/wm/design-goals-14.md",
+        "docs/notes/wm/design-goals-15.md",
+        "docs/notes/wm/design-goals-16.md",
+        "docs/notes/wm/design-goals-17.md",
+        "docs/notes/wm/design-goals-18.md",
+        "docs/notes/wm/design-goals-19.md",
+        "docs/notes/wm/design-goals-20.md",
+        "docs/notes/wm/design-goals-21.md",
+        "docs/notes/wm/design-goals-22.md",
+        "docs/notes/wm/lisp-window-manager-dsl.md",
+        "docs/notes/wm/nesting-window-containers-windows.md",
+        "docs/notes/wm/typescript-group-manager-komorebi.md",
+        "docs/notes/wm/windows-npu-tiling-strategy.md",
         "services/py/discord_attachment_embedder/README.md",
         "services/py/discord_attachment_embedder/ecosystem.config.js",
         "services/py/discord_attachment_embedder/ecosystem.dependencies.js",
@@ -877,108 +973,8 @@
         "services/ts/voice/package-lock.json",
         "services/ts/voice/package.json",
         "services/ts/voice/tsconfig.json",
-        "docs/notes/chats/eidolon-layer-1-design.md",
-        "docs/notes/chats/gemma3-thinking-model.md",
-        "docs/notes/chats/promethean-architecture-overview.md",
-        "docs/notes/chats/using-npu-in-docker.md",
-        "docs/notes/chats/vision-models-multiple-images.md",
-        "docs/notes/chats/voice-logic-split-analysis.md",
         "services/py/discord_indexer/README.md",
         "services/py/discord_indexer/main.py",
-        "docs/notes/diagrams/circuit-weight-visualizations.md",
-        "docs/notes/diagrams/daimo-node-charge-interaction.md",
-        "docs/notes/diagrams/event-bus-projections-diagrams.md",
-        "docs/notes/diagrams/field-node-lifecycle-additional-diagrams.md",
-        "docs/notes/diagrams/full-system-overview-diagrams.md",
-        "docs/notes/diagrams/layer1-uptime-diagrams.md",
-        "docs/notes/diagrams/multi-circuit-node-propagation.md",
-        "docs/notes/diagrams/node-growth-and-death-conditions.md",
-        "docs/notes/diagrams/node-type-summary-map.md",
-        "docs/notes/diagrams/node-type-topology-map.md",
-        "docs/notes/diagrams/smoke-waves-infinite-depth.md",
-        "docs/notes/diagrams/state-diagram-node-lifecycle.md",
-        "docs/notes/diagrams/synchronicity-waves-and-web.md",
-        "docs/notes/dsl/compiler-kit-foundations.md",
-        "docs/notes/dsl/cross-language-runtime-messaging.md",
-        "docs/notes/dsl/embedded-lisp-dialects.md",
-        "docs/notes/dsl/interop-and-source-maps.md",
-        "docs/notes/dsl/lisp-frontend-compiler-kit.md",
-        "docs/notes/dsl/mystery-lisp-investigation.md",
-        "docs/notes/dsl/polyglot-repl-interface.md",
-        "docs/notes/dsl/polytarget-interface-dsl.md",
-        "docs/notes/dsl/promethean-state-format.md",
-        "docs/notes/dsl/prompt-compiler-dsl.md",
-        "docs/notes/dsl/prompt-scripting-dsl.md",
-        "docs/notes/dsl/recursive-prompt-construction.md",
-        "docs/notes/dsl/runtime-and-prompt-macro-dsl.md",
-        "docs/notes/dsl/sibilant-cross-target-macros.md",
-        "docs/notes/dsl/sibilant-meta-namespace-dispatch.md",
-        "docs/notes/dsl/sibilant-metacompiler-overview.md",
-        "docs/notes/dsl/template-based-compilation.md",
-        "docs/notes/dsl/ts-to-lisp.md",
-        "docs/notes/dsl/universal-lisp-interface.md",
-        "docs/notes/js/archetype-ecs.md",
-        "docs/notes/js/ecs-offload-workers.md",
-        "docs/notes/js/ecs-scheduler-and-prefabs.md",
-        "docs/notes/js/graph-ds.md",
-        "docs/notes/js/typed-struct-compiler.md",
-        "docs/notes/js/zero-copy-snapshots-and-workers.md",
-        "docs/notes/math/advanced-field-math.md",
-        "docs/notes/math/aionian-circuit-math.md",
-        "docs/notes/math/aionian-feedback-oscillator.md",
-        "docs/notes/math/aionian-pulse-rhythm-model.md",
-        "docs/notes/math/eidolon-field-math-foundations.md",
-        "docs/notes/math/eidolon-field-math.md",
-        "docs/notes/math/field-dynamics-math-blocks.md",
-        "docs/notes/math/field-interaction-equations.md",
-        "docs/notes/math/homeostasis-and-decay-models.md",
-        "docs/notes/math/symbolic-gravity-models.md",
-        "docs/notes/ops/model-upgrade-processing.md",
-        "services/ts/auth-service/README.md",
-        "services/ts/auth-service/ecosystem.config.js",
-        "services/ts/auth-service/package.json",
-        "services/ts/auth-service/tsconfig.json",
-        "docs/notes/services/broker-outbox-acl-ops.md",
-        "docs/notes/services/partitions-schema-registry-projector.md",
-        "docs/notes/services/schema-evolution-dlq-changefeed.md",
-        "docs/notes/services/state-snapshots-transactional-projector-timetravel-devharness.md",
-        "docs/notes/shared/event-bus-mvp.md",
-        "docs/notes/simulation/annotated-fragment-heartbeat-demo.md",
-        "docs/notes/simulation/fragment-injection-simulation.md",
-        "docs/notes/simulation/heartbeat-fragment-flow.md",
-        "docs/notes/simulation/ripple-propagation-demo.md",
-        "docs/notes/simulation/ripple-propagation-flow.md",
-        "docs/notes/templates/README.md",
-        "docs/notes/tooling/obsidian-ignore-node-modules-regex.md",
-        "docs/notes/tooling/pm2-ecosystem-patterns.md",
-        "docs/notes/wm/autohotkey-i3-emulation.md",
-        "docs/notes/wm/autohotkey-i3layer-scripts.md",
-        "docs/notes/wm/design-goals-01.md",
-        "docs/notes/wm/design-goals-02.md",
-        "docs/notes/wm/design-goals-03.md",
-        "docs/notes/wm/design-goals-04.md",
-        "docs/notes/wm/design-goals-05.md",
-        "docs/notes/wm/design-goals-06.md",
-        "docs/notes/wm/design-goals-07.md",
-        "docs/notes/wm/design-goals-08.md",
-        "docs/notes/wm/design-goals-09.md",
-        "docs/notes/wm/design-goals-10.md",
-        "docs/notes/wm/design-goals-11.md",
-        "docs/notes/wm/design-goals-12.md",
-        "docs/notes/wm/design-goals-13.md",
-        "docs/notes/wm/design-goals-14.md",
-        "docs/notes/wm/design-goals-15.md",
-        "docs/notes/wm/design-goals-16.md",
-        "docs/notes/wm/design-goals-17.md",
-        "docs/notes/wm/design-goals-18.md",
-        "docs/notes/wm/design-goals-19.md",
-        "docs/notes/wm/design-goals-20.md",
-        "docs/notes/wm/design-goals-21.md",
-        "docs/notes/wm/design-goals-22.md",
-        "docs/notes/wm/lisp-window-manager-dsl.md",
-        "docs/notes/wm/nesting-window-containers-windows.md",
-        "docs/notes/wm/typescript-group-manager-komorebi.md",
-        "docs/notes/wm/windows-npu-tiling-strategy.md",
         "shared/js/embeddings/versioning.js",
         "shared/js/embeddings/versioning.test.js",
         "shared/js/embeddings/versioning.ts",
@@ -987,6 +983,10 @@
         "shared/js/heartbeat/package-lock.json",
         "shared/js/heartbeat/package.json",
         "shared/js/server/index.js",
+        "services/ts/auth-service/README.md",
+        "services/ts/auth-service/ecosystem.config.js",
+        "services/ts/auth-service/package.json",
+        "services/ts/auth-service/tsconfig.json",
         "shared/py/models/__init__.py",
         "shared/py/models/forward_tacotron_ie.py",
         "shared/py/models/mel2wave_ie.py",
@@ -1022,6 +1022,75 @@
         "shared/py/utils/wav_processing.py",
         "shared/py/utils/websocket.py",
         "shared/ts/scripts/patch-imports.js",
+        "docs/agents/duck/scripts/discord_indexer_run.md",
+        "docs/agents/duck/scripts/download_chroma_data.md",
+        "docs/agents/duck/scripts/duck_cephalon_run.md",
+        "docs/agents/duck/scripts/duck_embedder_run.md",
+        "docs/design/circuits/templates/README.md",
+        "docs/services/cephalon/scripts/patch-imports.md",
+        "docs/services/cephalon/src/agent.md",
+        "docs/services/cephalon/src/bot.md",
+        "docs/services/cephalon/src/collectionManager.md",
+        "docs/services/cephalon/src/collections.md",
+        "docs/services/cephalon/src/contextManager.md",
+        "docs/services/cephalon/src/converter.md",
+        "docs/services/cephalon/src/embedding.md",
+        "docs/services/cephalon/src/index.md",
+        "docs/services/cephalon/src/messageThrottler.md",
+        "docs/services/cephalon/src/speaker.md",
+        "docs/services/cephalon/src/transcriber.md",
+        "docs/services/cephalon/src/util.md",
+        "docs/services/cephalon/src/voice-recorder.md",
+        "docs/services/cephalon/src/voice-session.md",
+        "docs/services/cephalon/src/voice-synth.md",
+        "docs/services/cephalon/tests/bot.test.md",
+        "docs/services/cephalon/tests/converter.md",
+        "docs/services/cephalon/tests/messageThrottler.test.md",
+        "docs/services/cephalon/tests/test.md",
+        "docs/services/cephalon/tests/voice_session.test.md",
+        "docs/services/discord-attachment-embedder/tests/test_embedder.md",
+        "docs/services/discord-attachment-indexer/tests/test_discord_attachment_indexer.md",
+        "docs/services/discord-embedder/src/converter.md",
+        "docs/services/discord-embedder/src/embedding.md",
+        "docs/services/discord-embedder/src/index.md",
+        "docs/services/discord-embedder/tests/converter.md",
+        "docs/services/discord-embedder/tests/embedding.test.md",
+        "docs/services/discord-embedder/tests/test.md",
+        "docs/services/embedding-service/drivers/__init__.md",
+        "docs/services/embedding-service/drivers/base.md",
+        "docs/services/embedding-service/drivers/naive_driver.md",
+        "docs/services/embedding-service/drivers/ollama_driver.md",
+        "docs/services/embedding-service/drivers/transformers_driver.md",
+        "docs/services/embedding-service/tests/test_service.md",
+        "docs/services/heartbeat/tests/client.test.md",
+        "docs/services/heartbeat/tests/heartbeat.test.md",
+        "docs/services/stt/whisper-npu-py/audio.md",
+        "docs/services/stt/whisper-npu-py/beam_decoder.md",
+        "docs/services/stt/whisper-npu-py/cache.md",
+        "docs/services/stt/whisper-npu-py/config.md",
+        "docs/services/stt/whisper-npu-py/decoder.md",
+        "docs/services/stt/whisper-npu-py/inspect_whisper_io.md",
+        "docs/services/stt/whisper-npu-py/models.md",
+        "docs/services/stt/whisper-npu-py/post_processing.md",
+        "docs/services/stt/whisper-npu-py/whisper.md",
+        "docs/services/stt/whisper-npu-py/whisper_streamer.md",
+        "docs/services/stt/whisper_npu/__init__.md",
+        "docs/services/stt/whisper_npu/audio.md",
+        "docs/services/stt/whisper_npu/config.md",
+        "docs/services/stt/whisper_npu/decoder.md",
+        "docs/services/stt/whisper_npu/models.md",
+        "docs/services/stt/whisper_npu/post_processing.md",
+        "docs/services/voice/src/index.md",
+        "docs/services/voice/src/speaker.md",
+        "docs/services/voice/src/transcriber.md",
+        "docs/services/voice/src/voice-recorder.md",
+        "docs/services/voice/src/voice-session.md",
+        "docs/services/voice/src/voice-synth.md",
+        "docs/services/voice/tests/playback.test.md",
+        "docs/services/voice/tests/speaker.test.md",
+        "docs/shared/py/utils/gui.md",
+        "docs/shared/py/utils/wav_processing.md",
+        "docs/shared/ts/prom-lib/compiler.md",
         "legacy/riatzukiza.github.io/docs/Obstacles/_Index_of_Obstacles.md",
         "legacy/riatzukiza.github.io/docs/Pools/_Index_of_Pools.md",
         "legacy/riatzukiza.github.io/docs/Shared/_Index_of_Shared.md",
@@ -1231,6 +1300,8 @@
         "legacy/riatzukiza.github.io/notes/unique/On proxy overhead.md",
         "legacy/riatzukiza.github.io/notes/unique/_Index_of_unique.md",
         "legacy/riatzukiza.github.io/static/bundles/external.js",
+        "legacy/riatzukiza.github.io/static/lib/metadata.json",
+        "legacy/riatzukiza.github.io/static/lib/search-index.json",
         "legacy/lithp/public/javascripts/browser.js",
         "legacy/lithp/public/javascripts/jquery-2.1.4.js",
         "legacy/lithp/public/javascripts/jquery-2.1.4.min.js",
@@ -1238,8 +1309,6 @@
         "legacy/lithp/public/javascripts/jquery.js",
         "legacy/lithp/public/javascripts/jquery.scrollNav.min.js",
         "legacy/lithp/public/javascripts/sibilant.info.js",
-        "legacy/riatzukiza.github.io/static/lib/metadata.json",
-        "legacy/riatzukiza.github.io/static/lib/search-index.json",
         "legacy/riatzukiza.github.io/static/shared/andy.js",
         "legacy/riatzukiza.github.io/static/shared/database.js",
         "legacy/riatzukiza.github.io/static/shared/dom.js",
@@ -1264,75 +1333,6 @@
         "legacy/riatzukiza.github.io/templates/projects/obstacles.js",
         "legacy/riatzukiza.github.io/templates/projects/red-black-tree-visualization.js",
         "legacy/riatzukiza.github.io/templates/projects/simple-gravity.js",
-        "docs/agents/duck/scripts/discord_indexer_run.md",
-        "docs/agents/duck/scripts/download_chroma_data.md",
-        "docs/agents/duck/scripts/duck_cephalon_run.md",
-        "docs/agents/duck/scripts/duck_embedder_run.md",
-        "docs/design/circuits/templates/README.md",
-        "docs/services/cephalon/scripts/patch-imports.md",
-        "docs/services/cephalon/src/agent.md",
-        "docs/services/cephalon/src/bot.md",
-        "docs/services/cephalon/src/collectionManager.md",
-        "docs/services/cephalon/src/collections.md",
-        "docs/services/cephalon/src/contextManager.md",
-        "docs/services/cephalon/src/converter.md",
-        "docs/services/cephalon/src/embedding.md",
-        "docs/services/cephalon/src/index.md",
-        "docs/services/cephalon/src/messageThrottler.md",
-        "docs/services/cephalon/src/speaker.md",
-        "docs/services/cephalon/src/transcriber.md",
-        "docs/services/cephalon/src/util.md",
-        "docs/services/cephalon/src/voice-recorder.md",
-        "docs/services/cephalon/src/voice-session.md",
-        "docs/services/cephalon/src/voice-synth.md",
-        "docs/services/cephalon/tests/bot.test.md",
-        "docs/services/cephalon/tests/converter.md",
-        "docs/services/cephalon/tests/messageThrottler.test.md",
-        "docs/services/cephalon/tests/test.md",
-        "docs/services/cephalon/tests/voice_session.test.md",
-        "docs/services/discord-attachment-embedder/tests/test_embedder.md",
-        "docs/services/discord-attachment-indexer/tests/test_discord_attachment_indexer.md",
-        "docs/services/discord-embedder/src/converter.md",
-        "docs/services/discord-embedder/src/embedding.md",
-        "docs/services/discord-embedder/src/index.md",
-        "docs/services/discord-embedder/tests/converter.md",
-        "docs/services/discord-embedder/tests/embedding.test.md",
-        "docs/services/discord-embedder/tests/test.md",
-        "docs/services/embedding-service/drivers/__init__.md",
-        "docs/services/embedding-service/drivers/base.md",
-        "docs/services/embedding-service/drivers/naive_driver.md",
-        "docs/services/embedding-service/drivers/ollama_driver.md",
-        "docs/services/embedding-service/drivers/transformers_driver.md",
-        "docs/services/embedding-service/tests/test_service.md",
-        "docs/services/heartbeat/tests/client.test.md",
-        "docs/services/heartbeat/tests/heartbeat.test.md",
-        "docs/services/stt/whisper-npu-py/audio.md",
-        "docs/services/stt/whisper-npu-py/beam_decoder.md",
-        "docs/services/stt/whisper-npu-py/cache.md",
-        "docs/services/stt/whisper-npu-py/config.md",
-        "docs/services/stt/whisper-npu-py/decoder.md",
-        "docs/services/stt/whisper-npu-py/inspect_whisper_io.md",
-        "docs/services/stt/whisper-npu-py/models.md",
-        "docs/services/stt/whisper-npu-py/post_processing.md",
-        "docs/services/stt/whisper-npu-py/whisper.md",
-        "docs/services/stt/whisper-npu-py/whisper_streamer.md",
-        "docs/services/stt/whisper_npu/__init__.md",
-        "docs/services/stt/whisper_npu/audio.md",
-        "docs/services/stt/whisper_npu/config.md",
-        "docs/services/stt/whisper_npu/decoder.md",
-        "docs/services/stt/whisper_npu/models.md",
-        "docs/services/stt/whisper_npu/post_processing.md",
-        "docs/services/voice/src/index.md",
-        "docs/services/voice/src/speaker.md",
-        "docs/services/voice/src/transcriber.md",
-        "docs/services/voice/src/voice-recorder.md",
-        "docs/services/voice/src/voice-session.md",
-        "docs/services/voice/src/voice-synth.md",
-        "docs/services/voice/tests/playback.test.md",
-        "docs/services/voice/tests/speaker.test.md",
-        "docs/shared/py/utils/gui.md",
-        "docs/shared/py/utils/wav_processing.md",
-        "docs/shared/ts/prom-lib/compiler.md",
         "services/hy/discord_attachment_embedder/tests/test_embedder.py",
         "services/hy/discord_attachment_indexer/tests/test_discord_attachment_indexer.py",
         "services/hy/discord_indexer/tests/test_discord_indexer.py",
@@ -1347,6 +1347,11 @@
         "services/js/proxy/tests/proxy.test.js",
         "services/js/vision/tests/capture.test.js",
         "services/js/vision/tests/websocket.test.js",
+        "docs/notes/diagrams/templates/README.md",
+        "docs/notes/dsl/templates/README.md",
+        "docs/notes/math/templates/README.md",
+        "docs/notes/simulation/templates/README.md",
+        "docs/notes/wm/templates/README.md",
         "services/py/discord_attachment_embedder/tests/test_embedder.py",
         "services/py/discord_attachment_indexer/tests/test_discord_attachment_indexer.py",
         "services/py/embedding_service/drivers/__init__.py",
@@ -1355,6 +1360,8 @@
         "services/py/embedding_service/drivers/ollama_driver.py",
         "services/py/embedding_service/drivers/transformers_driver.py",
         "services/py/embedding_service/tests/test_service.py",
+        "services/py/templates/service/README.md",
+        "services/py/templates/service/service.py",
         "services/py/stt/tests/test_service.py",
         "services/py/stt/whisper-npu/README.md",
         "services/py/stt/whisper-npu-py/audio.py",
@@ -1375,8 +1382,6 @@
         "services/py/stt/whisper_npu/decoder.py",
         "services/py/stt/whisper_npu/models.py",
         "services/py/stt/whisper_npu/post_processing.py",
-        "services/py/templates/service/README.md",
-        "services/py/templates/service/service.py",
         "services/py/tts/tests/test_tts_websocket.py",
         "services/ts/cephalon/scripts/patch-imports.js",
         "services/ts/codex-context/scripts/patch-imports.js",
@@ -1405,9 +1410,6 @@
         "services/ts/kanban-processor/src/index.ts",
         "services/ts/kanban-processor/tests/queue.test.ts",
         "services/ts/llm/src/index.js",
-        "services/ts/llm/tests/basic.test.js",
-        "services/ts/llm/tests/template.test.js",
-        "services/ts/llm/tests/websocket.test.js",
         "services/ts/cephalon/src/agent.ts",
         "services/ts/cephalon/src/annotate-image.ts",
         "services/ts/cephalon/src/bot.ts",
@@ -1429,6 +1431,9 @@
         "services/ts/cephalon/src/voice-recorder.ts",
         "services/ts/cephalon/src/voice-session.ts",
         "services/ts/cephalon/src/voice-synth.ts",
+        "services/ts/llm/tests/basic.test.js",
+        "services/ts/llm/tests/template.test.js",
+        "services/ts/llm/tests/websocket.test.js",
         "services/ts/llm-bridge/src/index.js",
         "services/ts/llm-bridge/tests/adapter.smoke.test.js",
         "services/ts/markdown-graph/scripts/patch-imports.js",
@@ -1483,13 +1488,8 @@
         "services/ts/voice/tests/playback.test.ts",
         "services/ts/voice/tests/speaker.test.ts",
         "services/py/discord_indexer/tests/test_discord_indexer.py",
-        "docs/notes/diagrams/templates/README.md",
-        "docs/notes/dsl/templates/README.md",
-        "docs/notes/math/templates/README.md",
         "services/ts/auth-service/src/index.ts",
         "services/ts/auth-service/src/keys.ts",
-        "docs/notes/simulation/templates/README.md",
-        "docs/notes/wm/templates/README.md",
         "shared/ts/src/agent-ecs/agent-ecs.doublebuffer.test.ts",
         "shared/ts/src/agent-ecs/bus.ts",
         "shared/ts/src/agent-ecs/components.ts",
@@ -1555,13 +1555,19 @@
         "shared/ts/src/schema/topics.ts",
         "shared/ts/src/schema/upcast.ts",
         "shared/ts/src/snapshots/api.ts",
+        "shared/ts/src/tests/cephalon-transform.test.ts",
         "shared/ts/src/tests/dev.harness.int.test.ts",
+        "shared/ts/src/tests/transformer.test.ts",
         "shared/ts/src/timetravel/examples.ts",
         "shared/ts/src/timetravel/reconstruct.ts",
         "shared/ts/src/types/brokerClient.d.ts",
         "shared/ts/src/ws/client.ts",
         "shared/ts/src/ws/server.rate.ts",
         "shared/ts/src/ws/server.ts",
+        "docs/github/issues/riatzukiza/promethean/Issue - 274.md",
+        "docs/github/issues/riatzukiza/promethean/Issue - 309.md",
+        "docs/github/pull_requests/riatzukiza/promethean/Pull Request - 274.md",
+        "docs/github/pull_requests/riatzukiza/promethean/Pull Request - 309.md",
         "legacy/riatzukiza.github.io/docs/Crash-Landed/systems/Ant-dot.md",
         "legacy/riatzukiza.github.io/docs/Crash-Landed/systems/Ant-dots.md",
         "legacy/riatzukiza.github.io/docs/Crash-Landed/systems/Time-limit.md",
@@ -1572,7 +1578,6 @@
         "legacy/riatzukiza.github.io/docs/Obstacles/systems/Time-limit.md",
         "legacy/riatzukiza.github.io/docs/Obstacles/systems/Timer.md",
         "legacy/riatzukiza.github.io/docs/Obstacles/systems/_Index_of_systems.md",
-        "legacy/riatzukiza.github.io/docs/Shared/Grid/Grid-view.md",
         "legacy/riatzukiza.github.io/docs/Pools/Dynamic/_Index_of_Dynamic.md",
         "legacy/riatzukiza.github.io/docs/Pools/Dynamic/adjust.md",
         "legacy/riatzukiza.github.io/docs/Pools/Dynamic/aquire.md",
@@ -1583,6 +1588,7 @@
         "legacy/riatzukiza.github.io/docs/Pools/Dynamic/register.md",
         "legacy/riatzukiza.github.io/docs/Pools/Dynamic/release.md",
         "legacy/riatzukiza.github.io/docs/Pools/Dynamic/spawn.md",
+        "legacy/riatzukiza.github.io/docs/Shared/Grid/Grid-view.md",
         "legacy/riatzukiza.github.io/docs/Shared/datastructures/_Index_of_datastructures.md",
         "legacy/riatzukiza.github.io/docs/Shared/ecs/ComponentSystem.md",
         "legacy/riatzukiza.github.io/docs/Shared/ecs/_Index_of_ecs.md",
@@ -1722,10 +1728,6 @@
         "legacy/riatzukiza.github.io/static/shared/workers/web-worker.js",
         "legacy/riatzukiza.github.io/static/sprites/Cute_Fantasy_Free/read_me.txt",
         "legacy/riatzukiza.github.io/static/sprites/Small-8-Direction-Characters_by_AxulArt/license.txt",
-        "docs/github/issues/riatzukiza/promethean/Issue - 274.md",
-        "docs/github/issues/riatzukiza/promethean/Issue - 309.md",
-        "docs/github/pull_requests/riatzukiza/promethean/Pull Request - 274.md",
-        "docs/github/pull_requests/riatzukiza/promethean/Pull Request - 309.md",
         "services/py/templates/service/tests/test_service.py",
         "services/ts/cephalon/docs/graph/cephalon-knowledge.md",
         "services/ts/codex-context/docs/codex-context/index.md",
@@ -1773,9 +1775,9 @@
         "services/ts/cephalon/src/commands/start-dialog.ts",
         "services/ts/cephalon/src/commands/stop-recording.ts",
         "services/ts/cephalon/src/commands/tts.ts",
+        "services/ts/cephalon/docs/reports/code-review-cephalon.md",
         "services/ts/cephalon/src/desktop/desktopAudioCapture.ts",
         "services/ts/cephalon/src/desktop/desktopLoop.ts",
-        "services/ts/cephalon/docs/reports/code-review-cephalon.md",
         "services/ts/cephalon/src/events/transcriptEnd.ts",
         "services/ts/cephalon/src/factories/logger.ts",
         "services/ts/cephalon/src/factories/policy.ts",
@@ -1859,8 +1861,6 @@
         "shared/ts/src/agent-ecs/systems/speechArbiter.ts",
         "shared/ts/src/agent-ecs/systems/turn.ts",
         "shared/ts/src/agent-ecs/systems/vad.ts",
-        "shared/ts/src/examples/process/projector.ts",
-        "shared/ts/src/examples/process/types.ts",
         "shared/ts/src/compiler/lisp/driver.test.ts",
         "shared/ts/src/compiler/lisp/driver.ts",
         "shared/ts/src/compiler/lisp/expand.ts",
@@ -1874,11 +1874,20 @@
         "shared/ts/src/compiler/lisp/to-expr.ts",
         "shared/ts/src/compiler/lisp/ts2lisp.test.ts",
         "shared/ts/src/compiler/lisp/ts2lisp.ts",
+        "shared/ts/src/examples/process/projector.ts",
+        "shared/ts/src/examples/process/types.ts",
+        "shared/ts/src/tests/fixtures/cephalon.after.ts",
+        "shared/ts/src/tests/fixtures/cephalon.before.ts",
+        "shared/ts/src/tests/fixtures/desktopAudioCapture.after.ts",
+        "shared/ts/src/tests/fixtures/desktopAudioCapture.before.ts",
+        "shared/ts/src/tests/fixtures/spectrogram.after.ts",
+        "shared/ts/src/tests/fixtures/spectrogram.before.ts",
         "shared/ts/src/worker/zero/layout.ts",
         "shared/ts/src/worker/zero/snapshot.test.ts",
         "shared/ts/src/worker/zero/snapshot.ts",
         "shared/ts/src/worker/zero/struct.test.ts",
         "shared/ts/src/worker/zero/struct.ts",
+        "shared/ts/src/compiler/transform/transformer.ts",
         "legacy/riatzukiza.github.io/docs/Crash-Landed/entities/trail-segment/spawn-trail-segment.md",
         "legacy/riatzukiza.github.io/docs/Crash-Landed/systems/ant-trails/Trail-vector.md",
         "legacy/riatzukiza.github.io/docs/DataStructures/Fields/Sparse/equation.md",
@@ -1889,10 +1898,10 @@
         "legacy/riatzukiza.github.io/docs/Shared/Grid/Grid-chunk/get.md",
         "legacy/riatzukiza.github.io/docs/Shared/datastructures/trees/_Index_of_trees.md",
         "legacy/riatzukiza.github.io/docs/Shared/datastructures/trees/binary-search-tree.md",
-        "legacy/riatzukiza.github.io/docs/Shared/ecs/ComponentSystem/_Index_of_ComponentSystem.md",
-        "legacy/riatzukiza.github.io/docs/Shared/ecs/ComponentSystem/register.md",
         "legacy/riatzukiza.github.io/docs/Shared/ecs/Component/_Index_of_Component.md",
         "legacy/riatzukiza.github.io/docs/Shared/ecs/Component/register.md",
+        "legacy/riatzukiza.github.io/docs/Shared/ecs/ComponentSystem/_Index_of_ComponentSystem.md",
+        "legacy/riatzukiza.github.io/docs/Shared/ecs/ComponentSystem/register.md",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/dom/dom-node.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/dom/entity-panel.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/dom/rocks.js",
@@ -2263,8 +2272,8 @@
         "services/ts/smartgpt-bridge/logs/agents/U4cLdvBwAhL6wMcjZrvgk/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/VWUEKCG4XE2GHo5q4vtYL/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/Y288cnz7va3AmPGH7jKht/meta.json",
-        "services/ts/smartgpt-bridge/logs/agents/Y3hBq5_Ibvn_O6P4wbe0W/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/YyRQLWT8aUoMeJshNhZdO/meta.json",
+        "services/ts/smartgpt-bridge/logs/agents/Y3hBq5_Ibvn_O6P4wbe0W/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/Z6Xtb_yBZIELaXvMDkVrn/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/Z81btuLI3oY7XZkMvFm4T/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/ZkTa2Y4kO93EhbScYQUsT/meta.json",
@@ -2314,6 +2323,9 @@
         "legacy/riatzukiza.github.io/docs/Shared/datastructures/trees/binary-search-tree/remove.md",
         "legacy/riatzukiza.github.io/docs/Shared/datastructures/trees/binary-searchtree/_Index_of_binary-searchtree.md",
         "legacy/riatzukiza.github.io/docs/Shared/datastructures/trees/binary-searchtree/search.md",
+        "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/signals/collision.js",
+        "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/signals/goal.js",
+        "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/signals/noise.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/ants/ant-dot.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/ants/ant-life-timer.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/ants/ant-panel.js",
@@ -2322,14 +2334,11 @@
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/ants/trail-panel.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/ants/trail-segments.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/ants/trail-view.js",
-        "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/signals/collision.js",
-        "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/signals/goal.js",
-        "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/signals/noise.js",
+        "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/tiles/grass.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/sprites/basic-props.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/sprites/cliff.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/sprites/floor.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/sprites/player.js",
-        "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/tiles/grass.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/world-gen/modules/exclusions.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/world-gen/modules/fields.js",
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/world-gen/modules/roads.js",
@@ -2359,6 +2368,10 @@
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/physics/forces.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/physics/index.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/physics/system.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/exclusions.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/fields.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads.js",
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/testing.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/rendering/dot.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/rendering/gl-sprites.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/rendering/layer.js",
@@ -2368,10 +2381,6 @@
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/rendering/sprite-atlas.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/rendering/sprite.js",
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/rendering/vertex.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/exclusions.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/fields.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads.js",
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/testing.js",
         "legacy/riatzukiza.github.io/static/client/crash-landed/systems/signals/collision.js",
         "legacy/riatzukiza.github.io/static/client/crash-landed/systems/signals/goal.js",
         "legacy/riatzukiza.github.io/static/client/crash-landed/systems/signals/noise.js",
@@ -2836,50 +2845,6 @@
             "size": 220,
             "mtimeMs": 1754576321082.9338
         },
-        "legacy/lithp/README.md": {
-            "size": 1146,
-            "mtimeMs": 1754576321091.8186
-        },
-        "legacy/lithp/package.json": {
-            "size": 992,
-            "mtimeMs": 1754576321093.8547
-        },
-        "legacy/lithp/sibilant.js": {
-            "size": 208687,
-            "mtimeMs": 1754576321096.8547
-        },
-        "legacy/riatzukiza.github.io/Tasks Plugin - Review and check your Statuses 2024-12-18 14-28-29.md": {
-            "size": 11815,
-            "mtimeMs": 1755177251116.9243
-        },
-        "legacy/riatzukiza.github.io/_Index_of_portfolio.md": {
-            "size": 981,
-            "mtimeMs": 1755177251116.9243
-        },
-        "legacy/riatzukiza.github.io/_Index_of_riatzukiza.github.io.md": {
-            "size": 1309,
-            "mtimeMs": 1754576321099.1611
-        },
-        "legacy/riatzukiza.github.io/ecosystem.config.js": {
-            "size": 620,
-            "mtimeMs": 1754576321100.302
-        },
-        "legacy/riatzukiza.github.io/list.js": {
-            "size": 7046,
-            "mtimeMs": 1754576321102.9043
-        },
-        "legacy/riatzukiza.github.io/package-lock.json": {
-            "size": 265831,
-            "mtimeMs": 1754576321103.8547
-        },
-        "legacy/riatzukiza.github.io/package.json": {
-            "size": 2152,
-            "mtimeMs": 1754576321103.8547
-        },
-        "legacy/riatzukiza.github.io/readme.md": {
-            "size": 2321,
-            "mtimeMs": 1755177251124.9243
-        },
         "docs/Daily/2025-08-21.md": {
             "size": 357,
             "mtimeMs": 1755787008845.477
@@ -2892,10 +2857,6 @@
             "size": 396,
             "mtimeMs": 1754763002245.2188
         },
-        "docs/architecture/codex-context.md": {
-            "size": 1863,
-            "mtimeMs": 1755794240694.495
-        },
         "docs/agile/AGENTS.md": {
             "size": 3859,
             "mtimeMs": 1754892975111.032
@@ -2904,9 +2865,17 @@
             "size": 4742,
             "mtimeMs": 1754576321083.3994
         },
+        "docs/architecture/codex-context.md": {
+            "size": 1863,
+            "mtimeMs": 1755794240694.495
+        },
         "docs/benchmarks/tts_ws_benchmark.md": {
             "size": 288,
             "mtimeMs": 1754576321084.2803
+        },
+        "docs/ci/pipeline_simulation_issues.md": {
+            "size": 1719,
+            "mtimeMs": 1754576321084.855
         },
         "docs/chats/2025-08-03_03-07-18_ChatGPT_Promethean - Eidolon Layer 1 Design....md": {
             "size": 101040,
@@ -2935,10 +2904,6 @@
         "docs/chats/2025-08-03_03-58-19_ChatGPT_Promethean - Vision models and multiple images....md": {
             "size": 142661,
             "mtimeMs": 1754892975190.971
-        },
-        "docs/ci/pipeline_simulation_issues.md": {
-            "size": 1719,
-            "mtimeMs": 1754576321084.855
         },
         "docs/design/Daimoi.md": {
             "size": 4945,
@@ -3083,6 +3048,14 @@
         "docs/tools/lisp-cli.md": {
             "size": 2324,
             "mtimeMs": 1755636002823.753
+        },
+        "docs/vault-config/README.md": {
+            "size": 2476,
+            "mtimeMs": 1755637943316.015
+        },
+        "docs/vault-config/example board.md": {
+            "size": 351,
+            "mtimeMs": 1755177251115.9246
         },
         "docs/unique/2025.07.28.11.07.04 Autohotkey.md": {
             "size": 3183,
@@ -3604,17 +3577,117 @@
             "size": 2830,
             "mtimeMs": 1754763002257.2188
         },
-        "docs/vault-config/README.md": {
-            "size": 2476,
-            "mtimeMs": 1755637943316.015
+        "legacy/lithp/README.md": {
+            "size": 1146,
+            "mtimeMs": 1754576321091.8186
         },
-        "docs/vault-config/example board.md": {
-            "size": 351,
-            "mtimeMs": 1755177251115.9246
+        "legacy/lithp/package.json": {
+            "size": 992,
+            "mtimeMs": 1754576321093.8547
+        },
+        "legacy/lithp/sibilant.js": {
+            "size": 208687,
+            "mtimeMs": 1754576321096.8547
+        },
+        "legacy/riatzukiza.github.io/Tasks Plugin - Review and check your Statuses 2024-12-18 14-28-29.md": {
+            "size": 11815,
+            "mtimeMs": 1755177251116.9243
+        },
+        "legacy/riatzukiza.github.io/_Index_of_portfolio.md": {
+            "size": 981,
+            "mtimeMs": 1755177251116.9243
+        },
+        "legacy/riatzukiza.github.io/_Index_of_riatzukiza.github.io.md": {
+            "size": 1309,
+            "mtimeMs": 1754576321099.1611
+        },
+        "legacy/riatzukiza.github.io/ecosystem.config.js": {
+            "size": 620,
+            "mtimeMs": 1754576321100.302
+        },
+        "legacy/riatzukiza.github.io/list.js": {
+            "size": 7046,
+            "mtimeMs": 1754576321102.9043
+        },
+        "legacy/riatzukiza.github.io/package-lock.json": {
+            "size": 265831,
+            "mtimeMs": 1754576321103.8547
+        },
+        "legacy/riatzukiza.github.io/package.json": {
+            "size": 2152,
+            "mtimeMs": 1754576321103.8547
+        },
+        "legacy/riatzukiza.github.io/readme.md": {
+            "size": 2321,
+            "mtimeMs": 1755177251124.9243
         },
         "pseudo/templates/README.md": {
             "size": 76,
             "mtimeMs": 1754576321225.977
+        },
+        "docs/notes/2025.08.12.13.19.53.md": {
+            "size": 5801,
+            "mtimeMs": 1755177251114.9246
+        },
+        "docs/notes/2025.08.12.13.51.10.md": {
+            "size": 11811,
+            "mtimeMs": 1755177251114.9246
+        },
+        "docs/notes/2025.08.12.18.54.06.md": {
+            "size": 18948,
+            "mtimeMs": 1755177251114.9246
+        },
+        "docs/notes/2025.08.13.14.00.55.md": {
+            "size": 3340,
+            "mtimeMs": 1755177251115.9246
+        },
+        "docs/notes/2025.08.15.13.11.27.md": {
+            "size": 70287,
+            "mtimeMs": 1755363569388.999
+        },
+        "docs/notes/2025.08.16.13.01.55.md": {
+            "size": 2893,
+            "mtimeMs": 1755367972906.7988
+        },
+        "docs/notes/2025.08.16.14.44.28.md": {
+            "size": 0,
+            "mtimeMs": 1755373469217.047
+        },
+        "docs/notes/2025.08.17.19.23.39.md": {
+            "size": 7634,
+            "mtimeMs": 1755476922716.6333
+        },
+        "docs/notes/2025.08.18.12.24.42.md": {
+            "size": 3820,
+            "mtimeMs": 1755537990520.5217
+        },
+        "docs/notes/2025.08.19.10.07.18.md": {
+            "size": 3576,
+            "mtimeMs": 1755618612404.0159
+        },
+        "docs/notes/2025.08.19.12.42.50.md": {
+            "size": 3,
+            "mtimeMs": 1755636002823.753
+        },
+        "docs/notes/2025.08.19.15.16.43.md": {
+            "size": 9182,
+            "mtimeMs": 1755636002823.753
+        },
+        "docs/notes/2025.08.19.18.40.01.md": {
+            "size": 18139,
+            "mtimeMs": 1755647501570.6172
+        },
+        "docs/notes/2025.08.19.19.00.17.md": {
+            "size": 0,
+            "mtimeMs": 1755648017322.8374
+        },
+        "docs/notes/2025.08.21.13.11.45.md": {
+            "size": 2298,
+            "mtimeMs": 1755799955827.197
+        },
+        "docs/notes/2025.08.21.14.35.23.md": {
+            "size": 4078,
+            "mtimeMs": 1755804957953.7385
         },
         "services/templates/README.md": {
             "size": 203,
@@ -3688,77 +3761,13 @@
             "size": 253,
             "mtimeMs": 1755637925035.2092
         },
-        "docs/notes/2025.08.12.13.19.53.md": {
-            "size": 5801,
-            "mtimeMs": 1755177251114.9246
-        },
-        "docs/notes/2025.08.12.13.51.10.md": {
-            "size": 11811,
-            "mtimeMs": 1755177251114.9246
-        },
-        "docs/notes/2025.08.12.18.54.06.md": {
-            "size": 18948,
-            "mtimeMs": 1755177251114.9246
-        },
-        "docs/notes/2025.08.13.14.00.55.md": {
-            "size": 3340,
-            "mtimeMs": 1755177251115.9246
-        },
-        "docs/notes/2025.08.15.13.11.27.md": {
-            "size": 70287,
-            "mtimeMs": 1755363569388.999
-        },
-        "docs/notes/2025.08.16.13.01.55.md": {
-            "size": 2893,
-            "mtimeMs": 1755367972906.7988
-        },
-        "docs/notes/2025.08.16.14.44.28.md": {
-            "size": 0,
-            "mtimeMs": 1755373469217.047
-        },
-        "docs/notes/2025.08.17.19.23.39.md": {
-            "size": 7634,
-            "mtimeMs": 1755476922716.6333
-        },
-        "docs/notes/2025.08.18.12.24.42.md": {
-            "size": 3820,
-            "mtimeMs": 1755537990520.5217
-        },
-        "docs/notes/2025.08.19.10.07.18.md": {
-            "size": 3576,
-            "mtimeMs": 1755618612404.0159
-        },
-        "docs/notes/2025.08.19.12.42.50.md": {
-            "size": 3,
-            "mtimeMs": 1755636002823.753
-        },
-        "docs/notes/2025.08.19.15.16.43.md": {
-            "size": 9182,
-            "mtimeMs": 1755636002823.753
-        },
-        "docs/notes/2025.08.19.18.40.01.md": {
-            "size": 18139,
-            "mtimeMs": 1755647501570.6172
-        },
-        "docs/notes/2025.08.19.19.00.17.md": {
-            "size": 0,
-            "mtimeMs": 1755648017322.8374
-        },
-        "docs/notes/2025.08.21.13.11.45.md": {
-            "size": 2298,
-            "mtimeMs": 1755799955827.197
-        },
-        "docs/notes/2025.08.21.14.35.23.md": {
-            "size": 4078,
-            "mtimeMs": 1755804957953.7385
-        },
         "shared/js/brokerClient.d.ts": {
             "size": 516,
             "mtimeMs": 1754847719114.0012
         },
         "shared/js/brokerClient.js": {
-            "size": 1935,
-            "mtimeMs": 1755822025529.2954
+            "size": 2221,
+            "mtimeMs": 1755822194179.2988
         },
         "shared/js/env.d.ts": {
             "size": 94,
@@ -3996,170 +4005,6 @@
             "size": 99,
             "mtimeMs": 1754780880949.6228
         },
-        "legacy/lithp/docs/docs.json": {
-            "size": 63345,
-            "mtimeMs": 1754576321091.8186
-        },
-        "legacy/lithp/docs/docs.txt": {
-            "size": 32704,
-            "mtimeMs": 1754576321092.2434
-        },
-        "legacy/lithp/lib/browser.js": {
-            "size": 256341,
-            "mtimeMs": 1754576321092.3694
-        },
-        "legacy/lithp/lib/cli.js": {
-            "size": 4874,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/colors.js": {
-            "size": 3569,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/docs.js": {
-            "size": 3703,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/helpers.js": {
-            "size": 14823,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/macros.js": {
-            "size": 0,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/node.js": {
-            "size": 6941,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/options.js": {
-            "size": 10590,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/output-formatter.js": {
-            "size": 841,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/parser.js": {
-            "size": 3195,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/precompiled-macros.js": {
-            "size": 174971,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/pretty-printer.js": {
-            "size": 7682,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/repl.js": {
-            "size": 4157,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/require-and-include.js": {
-            "size": 1679,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/restructurer.js": {
-            "size": 4897,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/sibilant.js": {
-            "size": 234301,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/sourcemap.js": {
-            "size": 1261,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/lithp/lib/transpiler.js": {
-            "size": 7208,
-            "mtimeMs": 1754576321092.8909
-        },
-        "legacy/riatzukiza.github.io/Chats/New Chat.md": {
-            "size": 4709,
-            "mtimeMs": 1754576321099.0774
-        },
-        "legacy/riatzukiza.github.io/Chats/_Index_of_Chats.md": {
-            "size": 161,
-            "mtimeMs": 1754576321099.1611
-        },
-        "legacy/riatzukiza.github.io/docs/_Index_of_docs.md": {
-            "size": 395,
-            "mtimeMs": 1755177251117.9243
-        },
-        "legacy/riatzukiza.github.io/docs/readme.md": {
-            "size": 85,
-            "mtimeMs": 1755177251117.9243
-        },
-        "legacy/riatzukiza.github.io/hack/camera.js": {
-            "size": 4052,
-            "mtimeMs": 1754576321100.3948
-        },
-        "legacy/riatzukiza.github.io/hack/multiple-sprites.js": {
-            "size": 7604,
-            "mtimeMs": 1754576321100.3948
-        },
-        "legacy/riatzukiza.github.io/hack/panning-camera.js": {
-            "size": 6304,
-            "mtimeMs": 1754576321100.3948
-        },
-        "legacy/riatzukiza.github.io/hack/print-range-bst.js": {
-            "size": 1353,
-            "mtimeMs": 1754576321100.3948
-        },
-        "legacy/riatzukiza.github.io/hack/red-black.js": {
-            "size": 7923,
-            "mtimeMs": 1754576321100.3948
-        },
-        "legacy/riatzukiza.github.io/hack/sprite-shader.js": {
-            "size": 3207,
-            "mtimeMs": 1754576321100.3948
-        },
-        "legacy/riatzukiza.github.io/kanban/_Index_of_kanban.md": {
-            "size": 346,
-            "mtimeMs": 1754576321100.6562
-        },
-        "legacy/riatzukiza.github.io/kanban/board.md": {
-            "size": 10320,
-            "mtimeMs": 1755177251118.9243
-        },
-        "legacy/riatzukiza.github.io/kanban/done.md": {
-            "size": 7458,
-            "mtimeMs": 1755177251118.9243
-        },
-        "legacy/riatzukiza.github.io/kanban/process.md": {
-            "size": 3145,
-            "mtimeMs": 1755177251118.9243
-        },
-        "legacy/riatzukiza.github.io/kanban/project.md": {
-            "size": 734,
-            "mtimeMs": 1755177251118.9243
-        },
-        "legacy/riatzukiza.github.io/notes/_Index_of_notes.md": {
-            "size": 233,
-            "mtimeMs": 1754576321102.9043
-        },
-        "legacy/riatzukiza.github.io/server/app.js": {
-            "size": 1013,
-            "mtimeMs": 1754576321104.6877
-        },
-        "legacy/riatzukiza.github.io/server/index.js": {
-            "size": 450,
-            "mtimeMs": 1754576321104.73
-        },
-        "legacy/riatzukiza.github.io/server/server.js": {
-            "size": 863,
-            "mtimeMs": 1754576321104.73
-        },
-        "legacy/riatzukiza.github.io/server/static-files.js": {
-            "size": 2518,
-            "mtimeMs": 1754576321104.73
-        },
-        "legacy/riatzukiza.github.io/templates/index.js": {
-            "size": 4546,
-            "mtimeMs": 1754576321223.4438
-        },
         "docs/agents/board-manager/AGENTS.md": {
             "size": 939,
             "mtimeMs": 1755810446181.6519
@@ -4319,6 +4164,30 @@
         "docs/prompts/meta/README.md": {
             "size": 174,
             "mtimeMs": 1754576321088.7266
+        },
+        "docs/prompts/scratch/README.md": {
+            "size": 176,
+            "mtimeMs": 1754576321088.7266
+        },
+        "docs/prompts/seed/README.md": {
+            "size": 177,
+            "mtimeMs": 1754576321088.7266
+        },
+        "docs/prompts/templates/README.md": {
+            "size": 208,
+            "mtimeMs": 1754576321088.7266
+        },
+        "docs/research/templates/README.md": {
+            "size": 90,
+            "mtimeMs": 1754576321089.0083
+        },
+        "docs/services/broker/AGENTS.md": {
+            "size": 128,
+            "mtimeMs": 1754892975206.3352
+        },
+        "docs/services/broker/index.md": {
+            "size": 488,
+            "mtimeMs": 1754772669820.2512
         },
         "docs/agile/tasks/Add codex layer to emacs.md": {
             "size": 440,
@@ -5096,30 +4965,6 @@
             "size": 671,
             "mtimeMs": 1755735103018.9592
         },
-        "docs/prompts/scratch/README.md": {
-            "size": 176,
-            "mtimeMs": 1754576321088.7266
-        },
-        "docs/prompts/seed/README.md": {
-            "size": 177,
-            "mtimeMs": 1754576321088.7266
-        },
-        "docs/prompts/templates/README.md": {
-            "size": 208,
-            "mtimeMs": 1754576321088.7266
-        },
-        "docs/research/templates/README.md": {
-            "size": 90,
-            "mtimeMs": 1754576321089.0083
-        },
-        "docs/services/broker/AGENTS.md": {
-            "size": 128,
-            "mtimeMs": 1754892975206.3352
-        },
-        "docs/services/broker/index.md": {
-            "size": 488,
-            "mtimeMs": 1754772669820.2512
-        },
         "docs/services/cephalon/AGENTS.md": {
             "size": 1020,
             "mtimeMs": 1755623081519.1536
@@ -5327,6 +5172,170 @@
         "docs/unique/templates/README.md": {
             "size": 86,
             "mtimeMs": 1754576321090.855
+        },
+        "legacy/lithp/docs/docs.json": {
+            "size": 63345,
+            "mtimeMs": 1754576321091.8186
+        },
+        "legacy/lithp/docs/docs.txt": {
+            "size": 32704,
+            "mtimeMs": 1754576321092.2434
+        },
+        "legacy/lithp/lib/browser.js": {
+            "size": 256341,
+            "mtimeMs": 1754576321092.3694
+        },
+        "legacy/lithp/lib/cli.js": {
+            "size": 4874,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/colors.js": {
+            "size": 3569,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/docs.js": {
+            "size": 3703,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/helpers.js": {
+            "size": 14823,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/macros.js": {
+            "size": 0,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/node.js": {
+            "size": 6941,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/options.js": {
+            "size": 10590,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/output-formatter.js": {
+            "size": 841,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/parser.js": {
+            "size": 3195,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/precompiled-macros.js": {
+            "size": 174971,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/pretty-printer.js": {
+            "size": 7682,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/repl.js": {
+            "size": 4157,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/require-and-include.js": {
+            "size": 1679,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/restructurer.js": {
+            "size": 4897,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/sibilant.js": {
+            "size": 234301,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/sourcemap.js": {
+            "size": 1261,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/lithp/lib/transpiler.js": {
+            "size": 7208,
+            "mtimeMs": 1754576321092.8909
+        },
+        "legacy/riatzukiza.github.io/Chats/New Chat.md": {
+            "size": 4709,
+            "mtimeMs": 1754576321099.0774
+        },
+        "legacy/riatzukiza.github.io/Chats/_Index_of_Chats.md": {
+            "size": 161,
+            "mtimeMs": 1754576321099.1611
+        },
+        "legacy/riatzukiza.github.io/docs/_Index_of_docs.md": {
+            "size": 395,
+            "mtimeMs": 1755177251117.9243
+        },
+        "legacy/riatzukiza.github.io/docs/readme.md": {
+            "size": 85,
+            "mtimeMs": 1755177251117.9243
+        },
+        "legacy/riatzukiza.github.io/hack/camera.js": {
+            "size": 4052,
+            "mtimeMs": 1754576321100.3948
+        },
+        "legacy/riatzukiza.github.io/hack/multiple-sprites.js": {
+            "size": 7604,
+            "mtimeMs": 1754576321100.3948
+        },
+        "legacy/riatzukiza.github.io/hack/panning-camera.js": {
+            "size": 6304,
+            "mtimeMs": 1754576321100.3948
+        },
+        "legacy/riatzukiza.github.io/hack/print-range-bst.js": {
+            "size": 1353,
+            "mtimeMs": 1754576321100.3948
+        },
+        "legacy/riatzukiza.github.io/hack/red-black.js": {
+            "size": 7923,
+            "mtimeMs": 1754576321100.3948
+        },
+        "legacy/riatzukiza.github.io/hack/sprite-shader.js": {
+            "size": 3207,
+            "mtimeMs": 1754576321100.3948
+        },
+        "legacy/riatzukiza.github.io/kanban/_Index_of_kanban.md": {
+            "size": 346,
+            "mtimeMs": 1754576321100.6562
+        },
+        "legacy/riatzukiza.github.io/kanban/board.md": {
+            "size": 10320,
+            "mtimeMs": 1755177251118.9243
+        },
+        "legacy/riatzukiza.github.io/kanban/done.md": {
+            "size": 7458,
+            "mtimeMs": 1755177251118.9243
+        },
+        "legacy/riatzukiza.github.io/kanban/process.md": {
+            "size": 3145,
+            "mtimeMs": 1755177251118.9243
+        },
+        "legacy/riatzukiza.github.io/kanban/project.md": {
+            "size": 734,
+            "mtimeMs": 1755177251118.9243
+        },
+        "legacy/riatzukiza.github.io/notes/_Index_of_notes.md": {
+            "size": 233,
+            "mtimeMs": 1754576321102.9043
+        },
+        "legacy/riatzukiza.github.io/server/app.js": {
+            "size": 1013,
+            "mtimeMs": 1754576321104.6877
+        },
+        "legacy/riatzukiza.github.io/server/index.js": {
+            "size": 450,
+            "mtimeMs": 1754576321104.73
+        },
+        "legacy/riatzukiza.github.io/server/server.js": {
+            "size": 863,
+            "mtimeMs": 1754576321104.73
+        },
+        "legacy/riatzukiza.github.io/server/static-files.js": {
+            "size": 2518,
+            "mtimeMs": 1754576321104.73
+        },
+        "legacy/riatzukiza.github.io/templates/index.js": {
+            "size": 4546,
+            "mtimeMs": 1754576321223.4438
         },
         "services/hy/discord_attachment_embedder/README.md": {
             "size": 412,
@@ -5543,6 +5552,390 @@
         "services/js/vision/run.sh": {
             "size": 90,
             "mtimeMs": 1755623780929.403
+        },
+        "docs/notes/chats/eidolon-layer-1-design.md": {
+            "size": 1515,
+            "mtimeMs": 1754763002250.4246
+        },
+        "docs/notes/chats/gemma3-thinking-model.md": {
+            "size": 676,
+            "mtimeMs": 1754576321087.0935
+        },
+        "docs/notes/chats/promethean-architecture-overview.md": {
+            "size": 871,
+            "mtimeMs": 1754576321087.0935
+        },
+        "docs/notes/chats/using-npu-in-docker.md": {
+            "size": 737,
+            "mtimeMs": 1754576321087.0935
+        },
+        "docs/notes/chats/vision-models-multiple-images.md": {
+            "size": 809,
+            "mtimeMs": 1754576321087.0935
+        },
+        "docs/notes/chats/voice-logic-split-analysis.md": {
+            "size": 716,
+            "mtimeMs": 1754576321087.0935
+        },
+        "docs/notes/diagrams/circuit-weight-visualizations.md": {
+            "size": 3697,
+            "mtimeMs": 1754576321087.0935
+        },
+        "docs/notes/diagrams/daimo-node-charge-interaction.md": {
+            "size": 470,
+            "mtimeMs": 1754778341050.631
+        },
+        "docs/notes/diagrams/event-bus-projections-diagrams.md": {
+            "size": 3508,
+            "mtimeMs": 1754892975195.892
+        },
+        "docs/notes/diagrams/field-node-lifecycle-additional-diagrams.md": {
+            "size": 424,
+            "mtimeMs": 1754892975196.108
+        },
+        "docs/notes/diagrams/full-system-overview-diagrams.md": {
+            "size": 4544,
+            "mtimeMs": 1754576321087.2007
+        },
+        "docs/notes/diagrams/layer1-uptime-diagrams.md": {
+            "size": 3676,
+            "mtimeMs": 1754576321087.2007
+        },
+        "docs/notes/diagrams/multi-circuit-node-propagation.md": {
+            "size": 565,
+            "mtimeMs": 1754778341050.631
+        },
+        "docs/notes/diagrams/node-growth-and-death-conditions.md": {
+            "size": 525,
+            "mtimeMs": 1754778341051.9155
+        },
+        "docs/notes/diagrams/node-type-summary-map.md": {
+            "size": 314,
+            "mtimeMs": 1754778341051.9155
+        },
+        "docs/notes/diagrams/node-type-topology-map.md": {
+            "size": 2357,
+            "mtimeMs": 1754576321087.2007
+        },
+        "docs/notes/diagrams/smoke-waves-infinite-depth.md": {
+            "size": 504,
+            "mtimeMs": 1754763002250.4246
+        },
+        "docs/notes/diagrams/state-diagram-node-lifecycle.md": {
+            "size": 1039,
+            "mtimeMs": 1754576321087.2007
+        },
+        "docs/notes/diagrams/synchronicity-waves-and-web.md": {
+            "size": 2062,
+            "mtimeMs": 1754892975196.7307
+        },
+        "docs/notes/dsl/compiler-kit-foundations.md": {
+            "size": 386,
+            "mtimeMs": 1754763002250.4246
+        },
+        "docs/notes/dsl/cross-language-runtime-messaging.md": {
+            "size": 502,
+            "mtimeMs": 1754576321087.2007
+        },
+        "docs/notes/dsl/embedded-lisp-dialects.md": {
+            "size": 436,
+            "mtimeMs": 1754576321087.393
+        },
+        "docs/notes/dsl/interop-and-source-maps.md": {
+            "size": 746,
+            "mtimeMs": 1754763002250.4246
+        },
+        "docs/notes/dsl/lisp-frontend-compiler-kit.md": {
+            "size": 446,
+            "mtimeMs": 1754763002250.4246
+        },
+        "docs/notes/dsl/mystery-lisp-investigation.md": {
+            "size": 472,
+            "mtimeMs": 1754576321087.393
+        },
+        "docs/notes/dsl/polyglot-repl-interface.md": {
+            "size": 482,
+            "mtimeMs": 1754576321087.393
+        },
+        "docs/notes/dsl/polytarget-interface-dsl.md": {
+            "size": 457,
+            "mtimeMs": 1754576321087.393
+        },
+        "docs/notes/dsl/promethean-state-format.md": {
+            "size": 430,
+            "mtimeMs": 1754576321087.393
+        },
+        "docs/notes/dsl/prompt-compiler-dsl.md": {
+            "size": 437,
+            "mtimeMs": 1754576321087.393
+        },
+        "docs/notes/dsl/prompt-scripting-dsl.md": {
+            "size": 427,
+            "mtimeMs": 1754576321087.393
+        },
+        "docs/notes/dsl/recursive-prompt-construction.md": {
+            "size": 464,
+            "mtimeMs": 1754576321087.393
+        },
+        "docs/notes/dsl/runtime-and-prompt-macro-dsl.md": {
+            "size": 422,
+            "mtimeMs": 1754576321087.393
+        },
+        "docs/notes/dsl/sibilant-cross-target-macros.md": {
+            "size": 475,
+            "mtimeMs": 1754576321087.393
+        },
+        "docs/notes/dsl/sibilant-meta-namespace-dispatch.md": {
+            "size": 454,
+            "mtimeMs": 1754576321087.393
+        },
+        "docs/notes/dsl/sibilant-metacompiler-overview.md": {
+            "size": 469,
+            "mtimeMs": 1754576321087.393
+        },
+        "docs/notes/dsl/template-based-compilation.md": {
+            "size": 506,
+            "mtimeMs": 1754576321087.393
+        },
+        "docs/notes/dsl/ts-to-lisp.md": {
+            "size": 314,
+            "mtimeMs": 1754892975197.46
+        },
+        "docs/notes/dsl/universal-lisp-interface.md": {
+            "size": 511,
+            "mtimeMs": 1754576321087.393
+        },
+        "docs/notes/js/archetype-ecs.md": {
+            "size": 721,
+            "mtimeMs": 1754763002250.8054
+        },
+        "docs/notes/js/ecs-offload-workers.md": {
+            "size": 520,
+            "mtimeMs": 1754763002250.8533
+        },
+        "docs/notes/js/ecs-scheduler-and-prefabs.md": {
+            "size": 502,
+            "mtimeMs": 1754763002250.8533
+        },
+        "docs/notes/js/graph-ds.md": {
+            "size": 592,
+            "mtimeMs": 1754763002250.8533
+        },
+        "docs/notes/js/typed-struct-compiler.md": {
+            "size": 1092,
+            "mtimeMs": 1754892975198.2305
+        },
+        "docs/notes/js/zero-copy-snapshots-and-workers.md": {
+            "size": 496,
+            "mtimeMs": 1754763002250.8533
+        },
+        "docs/notes/math/advanced-field-math.md": {
+            "size": 3099,
+            "mtimeMs": 1754576321087.393
+        },
+        "docs/notes/math/aionian-circuit-math.md": {
+            "size": 878,
+            "mtimeMs": 1754763002250.8533
+        },
+        "docs/notes/math/aionian-feedback-oscillator.md": {
+            "size": 3193,
+            "mtimeMs": 1754576321087.6504
+        },
+        "docs/notes/math/aionian-pulse-rhythm-model.md": {
+            "size": 3000,
+            "mtimeMs": 1754576321087.6504
+        },
+        "docs/notes/math/eidolon-field-math-foundations.md": {
+            "size": 1030,
+            "mtimeMs": 1754763002250.8533
+        },
+        "docs/notes/math/eidolon-field-math.md": {
+            "size": 2983,
+            "mtimeMs": 1754576321087.6504
+        },
+        "docs/notes/math/field-dynamics-math-blocks.md": {
+            "size": 787,
+            "mtimeMs": 1754763002250.8533
+        },
+        "docs/notes/math/field-interaction-equations.md": {
+            "size": 1299,
+            "mtimeMs": 1754763002250.8533
+        },
+        "docs/notes/math/homeostasis-and-decay-models.md": {
+            "size": 1262,
+            "mtimeMs": 1754763002250.8533
+        },
+        "docs/notes/math/symbolic-gravity-models.md": {
+            "size": 3269,
+            "mtimeMs": 1754576321087.6504
+        },
+        "docs/notes/ops/model-upgrade-processing.md": {
+            "size": 3164,
+            "mtimeMs": 1754763002251.273
+        },
+        "docs/notes/services/broker-outbox-acl-ops.md": {
+            "size": 532,
+            "mtimeMs": 1754763002251.3457
+        },
+        "docs/notes/services/partitions-schema-registry-projector.md": {
+            "size": 641,
+            "mtimeMs": 1754763002251.3884
+        },
+        "docs/notes/services/schema-evolution-dlq-changefeed.md": {
+            "size": 561,
+            "mtimeMs": 1754763002251.3884
+        },
+        "docs/notes/services/state-snapshots-transactional-projector-timetravel-devharness.md": {
+            "size": 567,
+            "mtimeMs": 1754763002251.3884
+        },
+        "docs/notes/shared/event-bus-mvp.md": {
+            "size": 17853,
+            "mtimeMs": 1754763002251.521
+        },
+        "docs/notes/simulation/annotated-fragment-heartbeat-demo.md": {
+            "size": 1058,
+            "mtimeMs": 1754763002251.521
+        },
+        "docs/notes/simulation/fragment-injection-simulation.md": {
+            "size": 1562,
+            "mtimeMs": 1754576321087.6504
+        },
+        "docs/notes/simulation/heartbeat-fragment-flow.md": {
+            "size": 1976,
+            "mtimeMs": 1754576321087.8203
+        },
+        "docs/notes/simulation/ripple-propagation-demo.md": {
+            "size": 558,
+            "mtimeMs": 1754763002251.521
+        },
+        "docs/notes/simulation/ripple-propagation-flow.md": {
+            "size": 2533,
+            "mtimeMs": 1754576321087.8203
+        },
+        "docs/notes/templates/README.md": {
+            "size": 84,
+            "mtimeMs": 1754576321087.8203
+        },
+        "docs/notes/tooling/obsidian-ignore-node-modules-regex.md": {
+            "size": 289,
+            "mtimeMs": 1754763002251.7573
+        },
+        "docs/notes/tooling/pm2-ecosystem-patterns.md": {
+            "size": 520,
+            "mtimeMs": 1754763002251.7976
+        },
+        "docs/notes/wm/autohotkey-i3-emulation.md": {
+            "size": 650,
+            "mtimeMs": 1754576321087.8203
+        },
+        "docs/notes/wm/autohotkey-i3layer-scripts.md": {
+            "size": 492,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-01.md": {
+            "size": 4869,
+            "mtimeMs": 1754858913151.4915
+        },
+        "docs/notes/wm/design-goals-02.md": {
+            "size": 3339,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-03.md": {
+            "size": 4779,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-04.md": {
+            "size": 4819,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-05.md": {
+            "size": 4471,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-06.md": {
+            "size": 4493,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-07.md": {
+            "size": 5829,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-08.md": {
+            "size": 3867,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-09.md": {
+            "size": 3357,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-10.md": {
+            "size": 3055,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-11.md": {
+            "size": 2973,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-12.md": {
+            "size": 3982,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-13.md": {
+            "size": 7282,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-14.md": {
+            "size": 4626,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-15.md": {
+            "size": 3622,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-16.md": {
+            "size": 4985,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-17.md": {
+            "size": 4293,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-18.md": {
+            "size": 4528,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-19.md": {
+            "size": 4973,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-20.md": {
+            "size": 4007,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-21.md": {
+            "size": 3082,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/design-goals-22.md": {
+            "size": 3094,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/lisp-window-manager-dsl.md": {
+            "size": 472,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/nesting-window-containers-windows.md": {
+            "size": 504,
+            "mtimeMs": 1754576321087.918
+        },
+        "docs/notes/wm/typescript-group-manager-komorebi.md": {
+            "size": 441,
+            "mtimeMs": 1754892975204.5688
+        },
+        "docs/notes/wm/windows-npu-tiling-strategy.md": {
+            "size": 445,
+            "mtimeMs": 1754576321087.918
         },
         "services/py/discord_attachment_embedder/README.md": {
             "size": 422,
@@ -5920,30 +6313,6 @@
             "size": 1654,
             "mtimeMs": 1755629282440.5798
         },
-        "docs/notes/chats/eidolon-layer-1-design.md": {
-            "size": 1515,
-            "mtimeMs": 1754763002250.4246
-        },
-        "docs/notes/chats/gemma3-thinking-model.md": {
-            "size": 676,
-            "mtimeMs": 1754576321087.0935
-        },
-        "docs/notes/chats/promethean-architecture-overview.md": {
-            "size": 871,
-            "mtimeMs": 1754576321087.0935
-        },
-        "docs/notes/chats/using-npu-in-docker.md": {
-            "size": 737,
-            "mtimeMs": 1754576321087.0935
-        },
-        "docs/notes/chats/vision-models-multiple-images.md": {
-            "size": 809,
-            "mtimeMs": 1754576321087.0935
-        },
-        "docs/notes/chats/voice-logic-split-analysis.md": {
-            "size": 716,
-            "mtimeMs": 1754576321087.0935
-        },
         "services/py/discord_indexer/README.md": {
             "size": 503,
             "mtimeMs": 1755729884408.7007
@@ -5951,382 +6320,6 @@
         "services/py/discord_indexer/main.py": {
             "size": 3746,
             "mtimeMs": 1755729333668.4465
-        },
-        "docs/notes/diagrams/circuit-weight-visualizations.md": {
-            "size": 3697,
-            "mtimeMs": 1754576321087.0935
-        },
-        "docs/notes/diagrams/daimo-node-charge-interaction.md": {
-            "size": 470,
-            "mtimeMs": 1754778341050.631
-        },
-        "docs/notes/diagrams/event-bus-projections-diagrams.md": {
-            "size": 3508,
-            "mtimeMs": 1754892975195.892
-        },
-        "docs/notes/diagrams/field-node-lifecycle-additional-diagrams.md": {
-            "size": 424,
-            "mtimeMs": 1754892975196.108
-        },
-        "docs/notes/diagrams/full-system-overview-diagrams.md": {
-            "size": 4544,
-            "mtimeMs": 1754576321087.2007
-        },
-        "docs/notes/diagrams/layer1-uptime-diagrams.md": {
-            "size": 3676,
-            "mtimeMs": 1754576321087.2007
-        },
-        "docs/notes/diagrams/multi-circuit-node-propagation.md": {
-            "size": 565,
-            "mtimeMs": 1754778341050.631
-        },
-        "docs/notes/diagrams/node-growth-and-death-conditions.md": {
-            "size": 525,
-            "mtimeMs": 1754778341051.9155
-        },
-        "docs/notes/diagrams/node-type-summary-map.md": {
-            "size": 314,
-            "mtimeMs": 1754778341051.9155
-        },
-        "docs/notes/diagrams/node-type-topology-map.md": {
-            "size": 2357,
-            "mtimeMs": 1754576321087.2007
-        },
-        "docs/notes/diagrams/smoke-waves-infinite-depth.md": {
-            "size": 504,
-            "mtimeMs": 1754763002250.4246
-        },
-        "docs/notes/diagrams/state-diagram-node-lifecycle.md": {
-            "size": 1039,
-            "mtimeMs": 1754576321087.2007
-        },
-        "docs/notes/diagrams/synchronicity-waves-and-web.md": {
-            "size": 2062,
-            "mtimeMs": 1754892975196.7307
-        },
-        "docs/notes/dsl/compiler-kit-foundations.md": {
-            "size": 386,
-            "mtimeMs": 1754763002250.4246
-        },
-        "docs/notes/dsl/cross-language-runtime-messaging.md": {
-            "size": 502,
-            "mtimeMs": 1754576321087.2007
-        },
-        "docs/notes/dsl/embedded-lisp-dialects.md": {
-            "size": 436,
-            "mtimeMs": 1754576321087.393
-        },
-        "docs/notes/dsl/interop-and-source-maps.md": {
-            "size": 746,
-            "mtimeMs": 1754763002250.4246
-        },
-        "docs/notes/dsl/lisp-frontend-compiler-kit.md": {
-            "size": 446,
-            "mtimeMs": 1754763002250.4246
-        },
-        "docs/notes/dsl/mystery-lisp-investigation.md": {
-            "size": 472,
-            "mtimeMs": 1754576321087.393
-        },
-        "docs/notes/dsl/polyglot-repl-interface.md": {
-            "size": 482,
-            "mtimeMs": 1754576321087.393
-        },
-        "docs/notes/dsl/polytarget-interface-dsl.md": {
-            "size": 457,
-            "mtimeMs": 1754576321087.393
-        },
-        "docs/notes/dsl/promethean-state-format.md": {
-            "size": 430,
-            "mtimeMs": 1754576321087.393
-        },
-        "docs/notes/dsl/prompt-compiler-dsl.md": {
-            "size": 437,
-            "mtimeMs": 1754576321087.393
-        },
-        "docs/notes/dsl/prompt-scripting-dsl.md": {
-            "size": 427,
-            "mtimeMs": 1754576321087.393
-        },
-        "docs/notes/dsl/recursive-prompt-construction.md": {
-            "size": 464,
-            "mtimeMs": 1754576321087.393
-        },
-        "docs/notes/dsl/runtime-and-prompt-macro-dsl.md": {
-            "size": 422,
-            "mtimeMs": 1754576321087.393
-        },
-        "docs/notes/dsl/sibilant-cross-target-macros.md": {
-            "size": 475,
-            "mtimeMs": 1754576321087.393
-        },
-        "docs/notes/dsl/sibilant-meta-namespace-dispatch.md": {
-            "size": 454,
-            "mtimeMs": 1754576321087.393
-        },
-        "docs/notes/dsl/sibilant-metacompiler-overview.md": {
-            "size": 469,
-            "mtimeMs": 1754576321087.393
-        },
-        "docs/notes/dsl/template-based-compilation.md": {
-            "size": 506,
-            "mtimeMs": 1754576321087.393
-        },
-        "docs/notes/dsl/ts-to-lisp.md": {
-            "size": 314,
-            "mtimeMs": 1754892975197.46
-        },
-        "docs/notes/dsl/universal-lisp-interface.md": {
-            "size": 511,
-            "mtimeMs": 1754576321087.393
-        },
-        "docs/notes/js/archetype-ecs.md": {
-            "size": 721,
-            "mtimeMs": 1754763002250.8054
-        },
-        "docs/notes/js/ecs-offload-workers.md": {
-            "size": 520,
-            "mtimeMs": 1754763002250.8533
-        },
-        "docs/notes/js/ecs-scheduler-and-prefabs.md": {
-            "size": 502,
-            "mtimeMs": 1754763002250.8533
-        },
-        "docs/notes/js/graph-ds.md": {
-            "size": 592,
-            "mtimeMs": 1754763002250.8533
-        },
-        "docs/notes/js/typed-struct-compiler.md": {
-            "size": 1092,
-            "mtimeMs": 1754892975198.2305
-        },
-        "docs/notes/js/zero-copy-snapshots-and-workers.md": {
-            "size": 496,
-            "mtimeMs": 1754763002250.8533
-        },
-        "docs/notes/math/advanced-field-math.md": {
-            "size": 3099,
-            "mtimeMs": 1754576321087.393
-        },
-        "docs/notes/math/aionian-circuit-math.md": {
-            "size": 878,
-            "mtimeMs": 1754763002250.8533
-        },
-        "docs/notes/math/aionian-feedback-oscillator.md": {
-            "size": 3193,
-            "mtimeMs": 1754576321087.6504
-        },
-        "docs/notes/math/aionian-pulse-rhythm-model.md": {
-            "size": 3000,
-            "mtimeMs": 1754576321087.6504
-        },
-        "docs/notes/math/eidolon-field-math-foundations.md": {
-            "size": 1030,
-            "mtimeMs": 1754763002250.8533
-        },
-        "docs/notes/math/eidolon-field-math.md": {
-            "size": 2983,
-            "mtimeMs": 1754576321087.6504
-        },
-        "docs/notes/math/field-dynamics-math-blocks.md": {
-            "size": 787,
-            "mtimeMs": 1754763002250.8533
-        },
-        "docs/notes/math/field-interaction-equations.md": {
-            "size": 1299,
-            "mtimeMs": 1754763002250.8533
-        },
-        "docs/notes/math/homeostasis-and-decay-models.md": {
-            "size": 1262,
-            "mtimeMs": 1754763002250.8533
-        },
-        "docs/notes/math/symbolic-gravity-models.md": {
-            "size": 3269,
-            "mtimeMs": 1754576321087.6504
-        },
-        "docs/notes/ops/model-upgrade-processing.md": {
-            "size": 3164,
-            "mtimeMs": 1754763002251.273
-        },
-        "services/ts/auth-service/README.md": {
-            "size": 1073,
-            "mtimeMs": 1755733562715.6248
-        },
-        "services/ts/auth-service/ecosystem.config.js": {
-            "size": 721,
-            "mtimeMs": 1755734903077.7515
-        },
-        "services/ts/auth-service/package.json": {
-            "size": 746,
-            "mtimeMs": 1755734903477.7463
-        },
-        "services/ts/auth-service/tsconfig.json": {
-            "size": 614,
-            "mtimeMs": 1755734903015.7522
-        },
-        "docs/notes/services/broker-outbox-acl-ops.md": {
-            "size": 532,
-            "mtimeMs": 1754763002251.3457
-        },
-        "docs/notes/services/partitions-schema-registry-projector.md": {
-            "size": 641,
-            "mtimeMs": 1754763002251.3884
-        },
-        "docs/notes/services/schema-evolution-dlq-changefeed.md": {
-            "size": 561,
-            "mtimeMs": 1754763002251.3884
-        },
-        "docs/notes/services/state-snapshots-transactional-projector-timetravel-devharness.md": {
-            "size": 567,
-            "mtimeMs": 1754763002251.3884
-        },
-        "docs/notes/shared/event-bus-mvp.md": {
-            "size": 17853,
-            "mtimeMs": 1754763002251.521
-        },
-        "docs/notes/simulation/annotated-fragment-heartbeat-demo.md": {
-            "size": 1058,
-            "mtimeMs": 1754763002251.521
-        },
-        "docs/notes/simulation/fragment-injection-simulation.md": {
-            "size": 1562,
-            "mtimeMs": 1754576321087.6504
-        },
-        "docs/notes/simulation/heartbeat-fragment-flow.md": {
-            "size": 1976,
-            "mtimeMs": 1754576321087.8203
-        },
-        "docs/notes/simulation/ripple-propagation-demo.md": {
-            "size": 558,
-            "mtimeMs": 1754763002251.521
-        },
-        "docs/notes/simulation/ripple-propagation-flow.md": {
-            "size": 2533,
-            "mtimeMs": 1754576321087.8203
-        },
-        "docs/notes/templates/README.md": {
-            "size": 84,
-            "mtimeMs": 1754576321087.8203
-        },
-        "docs/notes/tooling/obsidian-ignore-node-modules-regex.md": {
-            "size": 289,
-            "mtimeMs": 1754763002251.7573
-        },
-        "docs/notes/tooling/pm2-ecosystem-patterns.md": {
-            "size": 520,
-            "mtimeMs": 1754763002251.7976
-        },
-        "docs/notes/wm/autohotkey-i3-emulation.md": {
-            "size": 650,
-            "mtimeMs": 1754576321087.8203
-        },
-        "docs/notes/wm/autohotkey-i3layer-scripts.md": {
-            "size": 492,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-01.md": {
-            "size": 4869,
-            "mtimeMs": 1754858913151.4915
-        },
-        "docs/notes/wm/design-goals-02.md": {
-            "size": 3339,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-03.md": {
-            "size": 4779,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-04.md": {
-            "size": 4819,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-05.md": {
-            "size": 4471,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-06.md": {
-            "size": 4493,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-07.md": {
-            "size": 5829,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-08.md": {
-            "size": 3867,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-09.md": {
-            "size": 3357,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-10.md": {
-            "size": 3055,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-11.md": {
-            "size": 2973,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-12.md": {
-            "size": 3982,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-13.md": {
-            "size": 7282,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-14.md": {
-            "size": 4626,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-15.md": {
-            "size": 3622,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-16.md": {
-            "size": 4985,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-17.md": {
-            "size": 4293,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-18.md": {
-            "size": 4528,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-19.md": {
-            "size": 4973,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-20.md": {
-            "size": 4007,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-21.md": {
-            "size": 3082,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/design-goals-22.md": {
-            "size": 3094,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/lisp-window-manager-dsl.md": {
-            "size": 472,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/nesting-window-containers-windows.md": {
-            "size": 504,
-            "mtimeMs": 1754576321087.918
-        },
-        "docs/notes/wm/typescript-group-manager-komorebi.md": {
-            "size": 441,
-            "mtimeMs": 1754892975204.5688
-        },
-        "docs/notes/wm/windows-npu-tiling-strategy.md": {
-            "size": 445,
-            "mtimeMs": 1754576321087.918
         },
         "shared/js/embeddings/versioning.js": {
             "size": 355,
@@ -6359,6 +6352,22 @@
         "shared/js/server/index.js": {
             "size": 1495,
             "mtimeMs": 1754576321252.5757
+        },
+        "services/ts/auth-service/README.md": {
+            "size": 1073,
+            "mtimeMs": 1755733562715.6248
+        },
+        "services/ts/auth-service/ecosystem.config.js": {
+            "size": 721,
+            "mtimeMs": 1755734903077.7515
+        },
+        "services/ts/auth-service/package.json": {
+            "size": 746,
+            "mtimeMs": 1755734903477.7463
+        },
+        "services/ts/auth-service/tsconfig.json": {
+            "size": 614,
+            "mtimeMs": 1755734903015.7522
         },
         "shared/py/models/__init__.py": {
             "size": 0,
@@ -6499,6 +6508,282 @@
         "shared/ts/scripts/patch-imports.js": {
             "size": 1203,
             "mtimeMs": 1755185115697.836
+        },
+        "docs/agents/duck/scripts/discord_indexer_run.md": {
+            "size": 823,
+            "mtimeMs": 1754576321083.292
+        },
+        "docs/agents/duck/scripts/download_chroma_data.md": {
+            "size": 558,
+            "mtimeMs": 1754576321083.3237
+        },
+        "docs/agents/duck/scripts/duck_cephalon_run.md": {
+            "size": 629,
+            "mtimeMs": 1754576321083.3237
+        },
+        "docs/agents/duck/scripts/duck_embedder_run.md": {
+            "size": 555,
+            "mtimeMs": 1754576321083.3237
+        },
+        "docs/design/circuits/templates/README.md": {
+            "size": 104,
+            "mtimeMs": 1754576321086.3433
+        },
+        "docs/services/cephalon/scripts/patch-imports.md": {
+            "size": 202,
+            "mtimeMs": 1754576321089.125
+        },
+        "docs/services/cephalon/src/agent.md": {
+            "size": 287,
+            "mtimeMs": 1754576321089.125
+        },
+        "docs/services/cephalon/src/bot.md": {
+            "size": 341,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/collectionManager.md": {
+            "size": 207,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/collections.md": {
+            "size": 177,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/contextManager.md": {
+            "size": 236,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/converter.md": {
+            "size": 217,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/embedding.md": {
+            "size": 258,
+            "mtimeMs": 1754845972303.3992
+        },
+        "docs/services/cephalon/src/index.md": {
+            "size": 411,
+            "mtimeMs": 1754766495241.5173
+        },
+        "docs/services/cephalon/src/messageThrottler.md": {
+            "size": 310,
+            "mtimeMs": 1754845972303.3992
+        },
+        "docs/services/cephalon/src/speaker.md": {
+            "size": 271,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/transcriber.md": {
+            "size": 260,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/util.md": {
+            "size": 150,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/voice-recorder.md": {
+            "size": 260,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/voice-session.md": {
+            "size": 391,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/src/voice-synth.md": {
+            "size": 195,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/tests/bot.test.md": {
+            "size": 176,
+            "mtimeMs": 1754576321089.166
+        },
+        "docs/services/cephalon/tests/converter.md": {
+            "size": 256,
+            "mtimeMs": 1754576321089.3225
+        },
+        "docs/services/cephalon/tests/messageThrottler.test.md": {
+            "size": 295,
+            "mtimeMs": 1754766495241.5173
+        },
+        "docs/services/cephalon/tests/test.md": {
+            "size": 167,
+            "mtimeMs": 1754576321089.3225
+        },
+        "docs/services/cephalon/tests/voice_session.test.md": {
+            "size": 225,
+            "mtimeMs": 1754576321089.3225
+        },
+        "docs/services/discord-attachment-embedder/tests/test_embedder.md": {
+            "size": 376,
+            "mtimeMs": 1754576321089.3782
+        },
+        "docs/services/discord-attachment-indexer/tests/test_discord_attachment_indexer.md": {
+            "size": 380,
+            "mtimeMs": 1754576321089.421
+        },
+        "docs/services/discord-embedder/src/converter.md": {
+            "size": 198,
+            "mtimeMs": 1754576321089.4492
+        },
+        "docs/services/discord-embedder/src/embedding.md": {
+            "size": 293,
+            "mtimeMs": 1754848367670.2705
+        },
+        "docs/services/discord-embedder/src/index.md": {
+            "size": 308,
+            "mtimeMs": 1754576321089.468
+        },
+        "docs/services/discord-embedder/tests/converter.md": {
+            "size": 179,
+            "mtimeMs": 1754576321089.468
+        },
+        "docs/services/discord-embedder/tests/embedding.test.md": {
+            "size": 314,
+            "mtimeMs": 1754848367670.4963
+        },
+        "docs/services/discord-embedder/tests/test.md": {
+            "size": 175,
+            "mtimeMs": 1754576321089.5134
+        },
+        "docs/services/embedding-service/drivers/__init__.md": {
+            "size": 322,
+            "mtimeMs": 1754576321089.5654
+        },
+        "docs/services/embedding-service/drivers/base.md": {
+            "size": 436,
+            "mtimeMs": 1754576321089.5823
+        },
+        "docs/services/embedding-service/drivers/naive_driver.md": {
+            "size": 343,
+            "mtimeMs": 1754576321089.5823
+        },
+        "docs/services/embedding-service/drivers/ollama_driver.md": {
+            "size": 338,
+            "mtimeMs": 1754576321089.5823
+        },
+        "docs/services/embedding-service/drivers/transformers_driver.md": {
+            "size": 380,
+            "mtimeMs": 1754576321089.5823
+        },
+        "docs/services/embedding-service/tests/test_service.md": {
+            "size": 296,
+            "mtimeMs": 1754763002251.9834
+        },
+        "docs/services/heartbeat/tests/client.test.md": {
+            "size": 327,
+            "mtimeMs": 1754764362947.3477
+        },
+        "docs/services/heartbeat/tests/heartbeat.test.md": {
+            "size": 425,
+            "mtimeMs": 1754764362947.3477
+        },
+        "docs/services/stt/whisper-npu-py/audio.md": {
+            "size": 262,
+            "mtimeMs": 1754576321089.8093
+        },
+        "docs/services/stt/whisper-npu-py/beam_decoder.md": {
+            "size": 193,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper-npu-py/cache.md": {
+            "size": 249,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper-npu-py/config.md": {
+            "size": 208,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper-npu-py/decoder.md": {
+            "size": 278,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper-npu-py/inspect_whisper_io.md": {
+            "size": 184,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper-npu-py/models.md": {
+            "size": 264,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper-npu-py/post_processing.md": {
+            "size": 283,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper-npu-py/whisper.md": {
+            "size": 205,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper-npu-py/whisper_streamer.md": {
+            "size": 195,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper_npu/__init__.md": {
+            "size": 227,
+            "mtimeMs": 1754576321089.8289
+        },
+        "docs/services/stt/whisper_npu/audio.md": {
+            "size": 253,
+            "mtimeMs": 1754576321089.9492
+        },
+        "docs/services/stt/whisper_npu/config.md": {
+            "size": 265,
+            "mtimeMs": 1754576321089.9492
+        },
+        "docs/services/stt/whisper_npu/decoder.md": {
+            "size": 297,
+            "mtimeMs": 1754576321089.9492
+        },
+        "docs/services/stt/whisper_npu/models.md": {
+            "size": 276,
+            "mtimeMs": 1754576321089.9492
+        },
+        "docs/services/stt/whisper_npu/post_processing.md": {
+            "size": 333,
+            "mtimeMs": 1754576321089.9492
+        },
+        "docs/services/voice/src/index.md": {
+            "size": 280,
+            "mtimeMs": 1754576321090.0513
+        },
+        "docs/services/voice/src/speaker.md": {
+            "size": 329,
+            "mtimeMs": 1754576321090.07
+        },
+        "docs/services/voice/src/transcriber.md": {
+            "size": 285,
+            "mtimeMs": 1754576321090.07
+        },
+        "docs/services/voice/src/voice-recorder.md": {
+            "size": 281,
+            "mtimeMs": 1754576321090.07
+        },
+        "docs/services/voice/src/voice-session.md": {
+            "size": 327,
+            "mtimeMs": 1754576321090.07
+        },
+        "docs/services/voice/src/voice-synth.md": {
+            "size": 287,
+            "mtimeMs": 1754576321090.07
+        },
+        "docs/services/voice/tests/playback.test.md": {
+            "size": 265,
+            "mtimeMs": 1754576321090.07
+        },
+        "docs/services/voice/tests/speaker.test.md": {
+            "size": 257,
+            "mtimeMs": 1754576321090.142
+        },
+        "docs/shared/py/utils/gui.md": {
+            "size": 181,
+            "mtimeMs": 1754576321090.2249
+        },
+        "docs/shared/py/utils/wav_processing.md": {
+            "size": 215,
+            "mtimeMs": 1754576321090.2654
+        },
+        "docs/shared/ts/prom-lib/compiler.md": {
+            "size": 272,
+            "mtimeMs": 1754881380762.2515
         },
         "legacy/riatzukiza.github.io/docs/Obstacles/_Index_of_Obstacles.md": {
             "size": 179,
@@ -7336,6 +7621,14 @@
             "size": 10227619,
             "mtimeMs": 1754576321154.8545
         },
+        "legacy/riatzukiza.github.io/static/lib/metadata.json": {
+            "size": 36204,
+            "mtimeMs": 1754576321213.9404
+        },
+        "legacy/riatzukiza.github.io/static/lib/search-index.json": {
+            "size": 271145,
+            "mtimeMs": 1754576321215.8542
+        },
         "legacy/lithp/public/javascripts/browser.js": {
             "size": 256341,
             "mtimeMs": 1754576321092.3694
@@ -7363,14 +7656,6 @@
         "legacy/lithp/public/javascripts/sibilant.info.js": {
             "size": 1836,
             "mtimeMs": 1754576321095.8547
-        },
-        "legacy/riatzukiza.github.io/static/lib/metadata.json": {
-            "size": 36204,
-            "mtimeMs": 1754576321213.9404
-        },
-        "legacy/riatzukiza.github.io/static/lib/search-index.json": {
-            "size": 271145,
-            "mtimeMs": 1754576321215.8542
         },
         "legacy/riatzukiza.github.io/static/shared/andy.js": {
             "size": 977,
@@ -7468,282 +7753,6 @@
             "size": 1801,
             "mtimeMs": 1754576321224.0059
         },
-        "docs/agents/duck/scripts/discord_indexer_run.md": {
-            "size": 823,
-            "mtimeMs": 1754576321083.292
-        },
-        "docs/agents/duck/scripts/download_chroma_data.md": {
-            "size": 558,
-            "mtimeMs": 1754576321083.3237
-        },
-        "docs/agents/duck/scripts/duck_cephalon_run.md": {
-            "size": 629,
-            "mtimeMs": 1754576321083.3237
-        },
-        "docs/agents/duck/scripts/duck_embedder_run.md": {
-            "size": 555,
-            "mtimeMs": 1754576321083.3237
-        },
-        "docs/design/circuits/templates/README.md": {
-            "size": 104,
-            "mtimeMs": 1754576321086.3433
-        },
-        "docs/services/cephalon/scripts/patch-imports.md": {
-            "size": 202,
-            "mtimeMs": 1754576321089.125
-        },
-        "docs/services/cephalon/src/agent.md": {
-            "size": 287,
-            "mtimeMs": 1754576321089.125
-        },
-        "docs/services/cephalon/src/bot.md": {
-            "size": 341,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/collectionManager.md": {
-            "size": 207,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/collections.md": {
-            "size": 177,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/contextManager.md": {
-            "size": 236,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/converter.md": {
-            "size": 217,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/embedding.md": {
-            "size": 258,
-            "mtimeMs": 1754845972303.3992
-        },
-        "docs/services/cephalon/src/index.md": {
-            "size": 411,
-            "mtimeMs": 1754766495241.5173
-        },
-        "docs/services/cephalon/src/messageThrottler.md": {
-            "size": 310,
-            "mtimeMs": 1754845972303.3992
-        },
-        "docs/services/cephalon/src/speaker.md": {
-            "size": 271,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/transcriber.md": {
-            "size": 260,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/util.md": {
-            "size": 150,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/voice-recorder.md": {
-            "size": 260,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/voice-session.md": {
-            "size": 391,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/src/voice-synth.md": {
-            "size": 195,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/tests/bot.test.md": {
-            "size": 176,
-            "mtimeMs": 1754576321089.166
-        },
-        "docs/services/cephalon/tests/converter.md": {
-            "size": 256,
-            "mtimeMs": 1754576321089.3225
-        },
-        "docs/services/cephalon/tests/messageThrottler.test.md": {
-            "size": 295,
-            "mtimeMs": 1754766495241.5173
-        },
-        "docs/services/cephalon/tests/test.md": {
-            "size": 167,
-            "mtimeMs": 1754576321089.3225
-        },
-        "docs/services/cephalon/tests/voice_session.test.md": {
-            "size": 225,
-            "mtimeMs": 1754576321089.3225
-        },
-        "docs/services/discord-attachment-embedder/tests/test_embedder.md": {
-            "size": 376,
-            "mtimeMs": 1754576321089.3782
-        },
-        "docs/services/discord-attachment-indexer/tests/test_discord_attachment_indexer.md": {
-            "size": 380,
-            "mtimeMs": 1754576321089.421
-        },
-        "docs/services/discord-embedder/src/converter.md": {
-            "size": 198,
-            "mtimeMs": 1754576321089.4492
-        },
-        "docs/services/discord-embedder/src/embedding.md": {
-            "size": 293,
-            "mtimeMs": 1754848367670.2705
-        },
-        "docs/services/discord-embedder/src/index.md": {
-            "size": 308,
-            "mtimeMs": 1754576321089.468
-        },
-        "docs/services/discord-embedder/tests/converter.md": {
-            "size": 179,
-            "mtimeMs": 1754576321089.468
-        },
-        "docs/services/discord-embedder/tests/embedding.test.md": {
-            "size": 314,
-            "mtimeMs": 1754848367670.4963
-        },
-        "docs/services/discord-embedder/tests/test.md": {
-            "size": 175,
-            "mtimeMs": 1754576321089.5134
-        },
-        "docs/services/embedding-service/drivers/__init__.md": {
-            "size": 322,
-            "mtimeMs": 1754576321089.5654
-        },
-        "docs/services/embedding-service/drivers/base.md": {
-            "size": 436,
-            "mtimeMs": 1754576321089.5823
-        },
-        "docs/services/embedding-service/drivers/naive_driver.md": {
-            "size": 343,
-            "mtimeMs": 1754576321089.5823
-        },
-        "docs/services/embedding-service/drivers/ollama_driver.md": {
-            "size": 338,
-            "mtimeMs": 1754576321089.5823
-        },
-        "docs/services/embedding-service/drivers/transformers_driver.md": {
-            "size": 380,
-            "mtimeMs": 1754576321089.5823
-        },
-        "docs/services/embedding-service/tests/test_service.md": {
-            "size": 296,
-            "mtimeMs": 1754763002251.9834
-        },
-        "docs/services/heartbeat/tests/client.test.md": {
-            "size": 327,
-            "mtimeMs": 1754764362947.3477
-        },
-        "docs/services/heartbeat/tests/heartbeat.test.md": {
-            "size": 425,
-            "mtimeMs": 1754764362947.3477
-        },
-        "docs/services/stt/whisper-npu-py/audio.md": {
-            "size": 262,
-            "mtimeMs": 1754576321089.8093
-        },
-        "docs/services/stt/whisper-npu-py/beam_decoder.md": {
-            "size": 193,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper-npu-py/cache.md": {
-            "size": 249,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper-npu-py/config.md": {
-            "size": 208,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper-npu-py/decoder.md": {
-            "size": 278,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper-npu-py/inspect_whisper_io.md": {
-            "size": 184,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper-npu-py/models.md": {
-            "size": 264,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper-npu-py/post_processing.md": {
-            "size": 283,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper-npu-py/whisper.md": {
-            "size": 205,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper-npu-py/whisper_streamer.md": {
-            "size": 195,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper_npu/__init__.md": {
-            "size": 227,
-            "mtimeMs": 1754576321089.8289
-        },
-        "docs/services/stt/whisper_npu/audio.md": {
-            "size": 253,
-            "mtimeMs": 1754576321089.9492
-        },
-        "docs/services/stt/whisper_npu/config.md": {
-            "size": 265,
-            "mtimeMs": 1754576321089.9492
-        },
-        "docs/services/stt/whisper_npu/decoder.md": {
-            "size": 297,
-            "mtimeMs": 1754576321089.9492
-        },
-        "docs/services/stt/whisper_npu/models.md": {
-            "size": 276,
-            "mtimeMs": 1754576321089.9492
-        },
-        "docs/services/stt/whisper_npu/post_processing.md": {
-            "size": 333,
-            "mtimeMs": 1754576321089.9492
-        },
-        "docs/services/voice/src/index.md": {
-            "size": 280,
-            "mtimeMs": 1754576321090.0513
-        },
-        "docs/services/voice/src/speaker.md": {
-            "size": 329,
-            "mtimeMs": 1754576321090.07
-        },
-        "docs/services/voice/src/transcriber.md": {
-            "size": 285,
-            "mtimeMs": 1754576321090.07
-        },
-        "docs/services/voice/src/voice-recorder.md": {
-            "size": 281,
-            "mtimeMs": 1754576321090.07
-        },
-        "docs/services/voice/src/voice-session.md": {
-            "size": 327,
-            "mtimeMs": 1754576321090.07
-        },
-        "docs/services/voice/src/voice-synth.md": {
-            "size": 287,
-            "mtimeMs": 1754576321090.07
-        },
-        "docs/services/voice/tests/playback.test.md": {
-            "size": 265,
-            "mtimeMs": 1754576321090.07
-        },
-        "docs/services/voice/tests/speaker.test.md": {
-            "size": 257,
-            "mtimeMs": 1754576321090.142
-        },
-        "docs/shared/py/utils/gui.md": {
-            "size": 181,
-            "mtimeMs": 1754576321090.2249
-        },
-        "docs/shared/py/utils/wav_processing.md": {
-            "size": 215,
-            "mtimeMs": 1754576321090.2654
-        },
-        "docs/shared/ts/prom-lib/compiler.md": {
-            "size": 272,
-            "mtimeMs": 1754881380762.2515
-        },
         "services/hy/discord_attachment_embedder/tests/test_embedder.py": {
             "size": 1944,
             "mtimeMs": 1754576321227.0203
@@ -7800,6 +7809,26 @@
             "size": 751,
             "mtimeMs": 1755538640460.889
         },
+        "docs/notes/diagrams/templates/README.md": {
+            "size": 102,
+            "mtimeMs": 1754576321087.2007
+        },
+        "docs/notes/dsl/templates/README.md": {
+            "size": 92,
+            "mtimeMs": 1754576321087.393
+        },
+        "docs/notes/math/templates/README.md": {
+            "size": 94,
+            "mtimeMs": 1754576321087.6504
+        },
+        "docs/notes/simulation/templates/README.md": {
+            "size": 106,
+            "mtimeMs": 1754576321087.8203
+        },
+        "docs/notes/wm/templates/README.md": {
+            "size": 90,
+            "mtimeMs": 1754576321087.918
+        },
         "services/py/discord_attachment_embedder/tests/test_embedder.py": {
             "size": 2823,
             "mtimeMs": 1754881680238.5042
@@ -7831,6 +7860,14 @@
         "services/py/embedding_service/tests/test_service.py": {
             "size": 1007,
             "mtimeMs": 1754763002292.595
+        },
+        "services/py/templates/service/README.md": {
+            "size": 282,
+            "mtimeMs": 1755812018513.474
+        },
+        "services/py/templates/service/service.py": {
+            "size": 129,
+            "mtimeMs": 1755812018513.474
         },
         "services/py/stt/tests/test_service.py": {
             "size": 1326,
@@ -7911,14 +7948,6 @@
         "services/py/stt/whisper_npu/post_processing.py": {
             "size": 4005,
             "mtimeMs": 1754576321243.6611
-        },
-        "services/py/templates/service/README.md": {
-            "size": 282,
-            "mtimeMs": 1755812018513.474
-        },
-        "services/py/templates/service/service.py": {
-            "size": 129,
-            "mtimeMs": 1755812018513.474
         },
         "services/py/tts/tests/test_tts_websocket.py": {
             "size": 3556,
@@ -8032,18 +8061,6 @@
             "size": 2155,
             "mtimeMs": 1755629282813.575
         },
-        "services/ts/llm/tests/basic.test.js": {
-            "size": 375,
-            "mtimeMs": 1755629281872.5872
-        },
-        "services/ts/llm/tests/template.test.js": {
-            "size": 655,
-            "mtimeMs": 1755629281941.5864
-        },
-        "services/ts/llm/tests/websocket.test.js": {
-            "size": 885,
-            "mtimeMs": 1755629282471.5793
-        },
         "services/ts/cephalon/src/agent.ts": {
             "size": 34,
             "mtimeMs": 1755629282492.579
@@ -8127,6 +8144,18 @@
         "services/ts/cephalon/src/voice-synth.ts": {
             "size": 3464,
             "mtimeMs": 1755629282689.5764
+        },
+        "services/ts/llm/tests/basic.test.js": {
+            "size": 375,
+            "mtimeMs": 1755629281872.5872
+        },
+        "services/ts/llm/tests/template.test.js": {
+            "size": 655,
+            "mtimeMs": 1755629281941.5864
+        },
+        "services/ts/llm/tests/websocket.test.js": {
+            "size": 885,
+            "mtimeMs": 1755629282471.5793
         },
         "services/ts/llm-bridge/src/index.js": {
             "size": 2793,
@@ -8344,18 +8373,6 @@
             "size": 4554,
             "mtimeMs": 1754881680239.5042
         },
-        "docs/notes/diagrams/templates/README.md": {
-            "size": 102,
-            "mtimeMs": 1754576321087.2007
-        },
-        "docs/notes/dsl/templates/README.md": {
-            "size": 92,
-            "mtimeMs": 1754576321087.393
-        },
-        "docs/notes/math/templates/README.md": {
-            "size": 94,
-            "mtimeMs": 1754576321087.6504
-        },
         "services/ts/auth-service/src/index.ts": {
             "size": 4742,
             "mtimeMs": 1755736060374.366
@@ -8363,14 +8380,6 @@
         "services/ts/auth-service/src/keys.ts": {
             "size": 4229,
             "mtimeMs": 1755786323119.8306
-        },
-        "docs/notes/simulation/templates/README.md": {
-            "size": 106,
-            "mtimeMs": 1754576321087.8203
-        },
-        "docs/notes/wm/templates/README.md": {
-            "size": 90,
-            "mtimeMs": 1754576321087.918
         },
         "shared/ts/src/agent-ecs/agent-ecs.doublebuffer.test.ts": {
             "size": 3338,
@@ -8632,9 +8641,17 @@
             "size": 2522,
             "mtimeMs": 1755185115701.2156
         },
+        "shared/ts/src/tests/cephalon-transform.test.ts": {
+            "size": 1104,
+            "mtimeMs": 1755830225468.2664
+        },
         "shared/ts/src/tests/dev.harness.int.test.ts": {
             "size": 821,
-            "mtimeMs": 1755629282285.3357
+            "mtimeMs": 1755827032595.559
+        },
+        "shared/ts/src/tests/transformer.test.ts": {
+            "size": 5280,
+            "mtimeMs": 1755828021253.9302
         },
         "shared/ts/src/timetravel/examples.ts": {
             "size": 339,
@@ -8659,6 +8676,22 @@
         "shared/ts/src/ws/server.ts": {
             "size": 6378,
             "mtimeMs": 1755185115701.621
+        },
+        "docs/github/issues/riatzukiza/promethean/Issue - 274.md": {
+            "size": 5108,
+            "mtimeMs": 1754858913151.4915
+        },
+        "docs/github/issues/riatzukiza/promethean/Issue - 309.md": {
+            "size": 729,
+            "mtimeMs": 1754763002250.2603
+        },
+        "docs/github/pull_requests/riatzukiza/promethean/Pull Request - 274.md": {
+            "size": 5134,
+            "mtimeMs": 1754858913151.4915
+        },
+        "docs/github/pull_requests/riatzukiza/promethean/Pull Request - 309.md": {
+            "size": 755,
+            "mtimeMs": 1754763002250.4246
         },
         "legacy/riatzukiza.github.io/docs/Crash-Landed/systems/Ant-dot.md": {
             "size": 184,
@@ -8700,10 +8733,6 @@
             "size": 198,
             "mtimeMs": 1755177251117.9243
         },
-        "legacy/riatzukiza.github.io/docs/Shared/Grid/Grid-view.md": {
-            "size": 441,
-            "mtimeMs": 1754858913153.7002
-        },
         "legacy/riatzukiza.github.io/docs/Pools/Dynamic/_Index_of_Dynamic.md": {
             "size": 265,
             "mtimeMs": 1755177251117.9243
@@ -8743,6 +8772,10 @@
         "legacy/riatzukiza.github.io/docs/Pools/Dynamic/spawn.md": {
             "size": 134,
             "mtimeMs": 1755177251117.9243
+        },
+        "legacy/riatzukiza.github.io/docs/Shared/Grid/Grid-view.md": {
+            "size": 441,
+            "mtimeMs": 1754858913153.7002
         },
         "legacy/riatzukiza.github.io/docs/Shared/datastructures/_Index_of_datastructures.md": {
             "size": 202,
@@ -9300,22 +9333,6 @@
             "size": 556,
             "mtimeMs": 1754576321221.8965
         },
-        "docs/github/issues/riatzukiza/promethean/Issue - 274.md": {
-            "size": 5108,
-            "mtimeMs": 1754858913151.4915
-        },
-        "docs/github/issues/riatzukiza/promethean/Issue - 309.md": {
-            "size": 729,
-            "mtimeMs": 1754763002250.2603
-        },
-        "docs/github/pull_requests/riatzukiza/promethean/Pull Request - 274.md": {
-            "size": 5134,
-            "mtimeMs": 1754858913151.4915
-        },
-        "docs/github/pull_requests/riatzukiza/promethean/Pull Request - 309.md": {
-            "size": 755,
-            "mtimeMs": 1754763002250.4246
-        },
         "services/py/templates/service/tests/test_service.py": {
             "size": 40,
             "mtimeMs": 1755812018513.9155
@@ -9421,8 +9438,8 @@
             "mtimeMs": 1755629282770.5754
         },
         "services/ts/cephalon/src/actions/start-dialog.scope.ts": {
-            "size": 7071,
-            "mtimeMs": 1755814544993.6536
+            "size": 7072,
+            "mtimeMs": 1755822194131.7024
         },
         "services/ts/cephalon/src/actions/transcribe-speaker.scope.ts": {
             "size": 1156,
@@ -9504,6 +9521,10 @@
             "size": 960,
             "mtimeMs": 1755629282214.5828
         },
+        "services/ts/cephalon/docs/reports/code-review-cephalon.md": {
+            "size": 0,
+            "mtimeMs": 1755813410589.3215
+        },
         "services/ts/cephalon/src/desktop/desktopAudioCapture.ts": {
             "size": 2059,
             "mtimeMs": 1755629282455.5796
@@ -9511,10 +9532,6 @@
         "services/ts/cephalon/src/desktop/desktopLoop.ts": {
             "size": 2859,
             "mtimeMs": 1755629282157.5835
-        },
-        "services/ts/cephalon/docs/reports/code-review-cephalon.md": {
-            "size": 0,
-            "mtimeMs": 1755813410589.3215
         },
         "services/ts/cephalon/src/events/transcriptEnd.ts": {
             "size": 30,
@@ -9597,8 +9614,8 @@
             "mtimeMs": 1755636002824.753
         },
         "services/ts/cephalon/src/tests/messageThrottler.test.ts": {
-            "size": 1612,
-            "mtimeMs": 1755817481740.482
+            "size": 1589,
+            "mtimeMs": 1755822194173.299
         },
         "services/ts/cephalon/src/tests/speechCoordinator.test.ts": {
             "size": 2025,
@@ -9848,14 +9865,6 @@
             "size": 1151,
             "mtimeMs": 1755488338822.4006
         },
-        "shared/ts/src/examples/process/projector.ts": {
-            "size": 1399,
-            "mtimeMs": 1755185115700.4932
-        },
-        "shared/ts/src/examples/process/types.ts": {
-            "size": 375,
-            "mtimeMs": 1755185115700.5315
-        },
         "shared/ts/src/compiler/lisp/driver.test.ts": {
             "size": 293,
             "mtimeMs": 1755629282594.578
@@ -9908,6 +9917,38 @@
             "size": 4146,
             "mtimeMs": 1755629282795.5752
         },
+        "shared/ts/src/examples/process/projector.ts": {
+            "size": 1399,
+            "mtimeMs": 1755185115700.4932
+        },
+        "shared/ts/src/examples/process/types.ts": {
+            "size": 375,
+            "mtimeMs": 1755185115700.5315
+        },
+        "shared/ts/src/tests/fixtures/cephalon.after.ts": {
+            "size": 3476,
+            "mtimeMs": 1755828021287.9302
+        },
+        "shared/ts/src/tests/fixtures/cephalon.before.ts": {
+            "size": 3464,
+            "mtimeMs": 1755827321403.235
+        },
+        "shared/ts/src/tests/fixtures/desktopAudioCapture.after.ts": {
+            "size": 760,
+            "mtimeMs": 1755828021240.9304
+        },
+        "shared/ts/src/tests/fixtures/desktopAudioCapture.before.ts": {
+            "size": 750,
+            "mtimeMs": 1755828021272.9302
+        },
+        "shared/ts/src/tests/fixtures/spectrogram.after.ts": {
+            "size": 837,
+            "mtimeMs": 1755828021271.9302
+        },
+        "shared/ts/src/tests/fixtures/spectrogram.before.ts": {
+            "size": 827,
+            "mtimeMs": 1755828021228.9304
+        },
         "shared/ts/src/worker/zero/layout.ts": {
             "size": 1951,
             "mtimeMs": 1755185115701.408
@@ -9927,6 +9968,10 @@
         "shared/ts/src/worker/zero/struct.ts": {
             "size": 9742,
             "mtimeMs": 1755185115701.408
+        },
+        "shared/ts/src/compiler/transform/transformer.ts": {
+            "size": 2136,
+            "mtimeMs": 1755830382087.727
         },
         "legacy/riatzukiza.github.io/docs/Crash-Landed/entities/trail-segment/spawn-trail-segment.md": {
             "size": 230,
@@ -9968,14 +10013,6 @@
             "size": 131,
             "mtimeMs": 1754858913153.8179
         },
-        "legacy/riatzukiza.github.io/docs/Shared/ecs/ComponentSystem/_Index_of_ComponentSystem.md": {
-            "size": 149,
-            "mtimeMs": 1755177251117.9243
-        },
-        "legacy/riatzukiza.github.io/docs/Shared/ecs/ComponentSystem/register.md": {
-            "size": 849,
-            "mtimeMs": 1754858913154.0903
-        },
         "legacy/riatzukiza.github.io/docs/Shared/ecs/Component/_Index_of_Component.md": {
             "size": 149,
             "mtimeMs": 1755177251117.9243
@@ -9983,6 +10020,14 @@
         "legacy/riatzukiza.github.io/docs/Shared/ecs/Component/register.md": {
             "size": 169,
             "mtimeMs": 1754858913154.0188
+        },
+        "legacy/riatzukiza.github.io/docs/Shared/ecs/ComponentSystem/_Index_of_ComponentSystem.md": {
+            "size": 149,
+            "mtimeMs": 1755177251117.9243
+        },
+        "legacy/riatzukiza.github.io/docs/Shared/ecs/ComponentSystem/register.md": {
+            "size": 849,
+            "mtimeMs": 1754858913154.0903
         },
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/dom/dom-node.js": {
             "size": 1086,
@@ -11245,12 +11290,12 @@
             "mtimeMs": 1755810576746.7463
         },
         "services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean/bootstrap.json": {
-            "size": 505273,
-            "mtimeMs": 1755812001066.6223
+            "size": 453788,
+            "mtimeMs": 1755830225488.3555
         },
         "services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean_services_ts_smartgpt-bridge_services_ts_smartgpt-bridge_tests_tmp_inc1/bootstrap.json": {
-            "size": 517,
-            "mtimeMs": 1755815674724.6912
+            "size": 578,
+            "mtimeMs": 1755822194278.2979
         },
         "services/ts/smartgpt-bridge/logs/agents/-Xnx-F-JBH7OPBvm1UTuD/meta.json": {
             "size": 447,
@@ -11317,8 +11362,8 @@
             "mtimeMs": 1755734903151.7505
         },
         "services/ts/smartgpt-bridge/logs/agents/9bmwqyFYSvOwY7lhHrlkK/meta.json": {
-            "size": 306,
-            "mtimeMs": 1755815674656.6914
+            "size": 339,
+            "mtimeMs": 1755822194163.299
         },
         "services/ts/smartgpt-bridge/logs/agents/B8yeQ4oxGyipVxN80ZeyQ/meta.json": {
             "size": 447,
@@ -11369,8 +11414,8 @@
             "mtimeMs": 1755734903033.752
         },
         "services/ts/smartgpt-bridge/logs/agents/Jg6HO9SYqVFVv9Udw7RZk/meta.json": {
-            "size": 386,
-            "mtimeMs": 1755815674658.6914
+            "size": 427,
+            "mtimeMs": 1755822194188.2988
         },
         "services/ts/smartgpt-bridge/logs/agents/JxSDj0QinmzX8vCZe-IpZ/meta.json": {
             "size": 427,
@@ -11464,13 +11509,13 @@
             "size": 512,
             "mtimeMs": 1755734903181.7502
         },
-        "services/ts/smartgpt-bridge/logs/agents/Y3hBq5_Ibvn_O6P4wbe0W/meta.json": {
-            "size": 402,
-            "mtimeMs": 1755815675349.689
-        },
         "services/ts/smartgpt-bridge/logs/agents/YyRQLWT8aUoMeJshNhZdO/meta.json": {
             "size": 339,
             "mtimeMs": 1755734903086.7515
+        },
+        "services/ts/smartgpt-bridge/logs/agents/Y3hBq5_Ibvn_O6P4wbe0W/meta.json": {
+            "size": 447,
+            "mtimeMs": 1755822194283.2979
         },
         "services/ts/smartgpt-bridge/logs/agents/Z6Xtb_yBZIELaXvMDkVrn/meta.json": {
             "size": 359,
@@ -11497,8 +11542,8 @@
             "mtimeMs": 1755734903507.7458
         },
         "services/ts/smartgpt-bridge/logs/agents/_nuoA6Qxlf_RJYhgNErz4/meta.json": {
-            "size": 322,
-            "mtimeMs": 1755815675346.6892
+            "size": 359,
+            "mtimeMs": 1755822194013.3008
         },
         "services/ts/smartgpt-bridge/logs/agents/a5GFE1Jk7kfI5OolOH9io/meta.json": {
             "size": 447,
@@ -11668,6 +11713,18 @@
             "size": 235,
             "mtimeMs": 1754858913153.9434
         },
+        "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/signals/collision.js": {
+            "size": 330648,
+            "mtimeMs": 1754576321124.8547
+        },
+        "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/signals/goal.js": {
+            "size": 332110,
+            "mtimeMs": 1754576321125.9758
+        },
+        "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/signals/noise.js": {
+            "size": 331858,
+            "mtimeMs": 1754576321125.9758
+        },
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/ants/ant-dot.js": {
             "size": 1837,
             "mtimeMs": 1754576321123.273
@@ -11700,17 +11757,9 @@
             "size": 753,
             "mtimeMs": 1754576321123.3262
         },
-        "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/signals/collision.js": {
-            "size": 330648,
-            "mtimeMs": 1754576321124.8547
-        },
-        "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/signals/goal.js": {
-            "size": 332110,
-            "mtimeMs": 1754576321125.9758
-        },
-        "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/signals/noise.js": {
-            "size": 331858,
-            "mtimeMs": 1754576321125.9758
+        "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/tiles/grass.js": {
+            "size": 559,
+            "mtimeMs": 1754576321126.6301
         },
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/sprites/basic-props.js": {
             "size": 332127,
@@ -11726,10 +11775,6 @@
         },
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/sprites/player.js": {
             "size": 332401,
-            "mtimeMs": 1754576321126.6301
-        },
-        "legacy/riatzukiza.github.io/static/bundles/crash-landed/systems/tiles/grass.js": {
-            "size": 559,
             "mtimeMs": 1754576321126.6301
         },
         "legacy/riatzukiza.github.io/static/bundles/crash-landed/world-gen/modules/exclusions.js": {
@@ -11848,6 +11893,22 @@
             "size": 335709,
             "mtimeMs": 1754576321172.325
         },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/exclusions.js": {
+            "size": 333070,
+            "mtimeMs": 1754576321183.8762
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/fields.js": {
+            "size": 331743,
+            "mtimeMs": 1754576321184.1372
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads.js": {
+            "size": 331292,
+            "mtimeMs": 1754576321184.1372
+        },
+        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/testing.js": {
+            "size": 330652,
+            "mtimeMs": 1754576321184.539
+        },
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/rendering/dot.js": {
             "size": 337211,
             "mtimeMs": 1754576321172.8545
@@ -11883,22 +11944,6 @@
         "legacy/riatzukiza.github.io/static/bundles/shared/systems/rendering/vertex.js": {
             "size": 333914,
             "mtimeMs": 1754576321173.8545
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/exclusions.js": {
-            "size": 333070,
-            "mtimeMs": 1754576321183.8762
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/fields.js": {
-            "size": 331743,
-            "mtimeMs": 1754576321184.1372
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/roads.js": {
-            "size": 331292,
-            "mtimeMs": 1754576321184.1372
-        },
-        "legacy/riatzukiza.github.io/static/bundles/world-gen-worker/world-gen/modules/testing.js": {
-            "size": 330652,
-            "mtimeMs": 1754576321184.539
         },
         "legacy/riatzukiza.github.io/static/client/crash-landed/systems/signals/collision.js": {
             "size": 359,
@@ -12086,6 +12131,6 @@
         }
     },
     "startedAt": 1755798176417,
-    "finishedAt": 1755822062509,
+    "finishedAt": 1755830591831,
     "rootPath": "/home/err/devel/promethean"
 }
