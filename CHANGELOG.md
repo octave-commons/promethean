@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated `capture_channel.test.ts` and `voice_session.test.ts` to inject stubbed transcriber.
 - Updated `messageThrottler.test.ts` to clean up broker, sockets, and audio players explicitly.
 - Fixed compile issues in `voice-session.ts` (optional `voiceSynth`, `renderWaveForm` args, `Float32Array` → `Buffer`).
+- Chroma search route now records queries using the `DualSink`.
 
 ### Removed
 
