@@ -1,131 +1,3 @@
-(require macros [ define-service-list defn-cmd ])
-
-(import shutil [which])
-(import util [sh run-dirs])
-(import dotenv [load-dotenv])
-(import os.path [isdir isfile join basename])
-(import shutil [copyfile])
-
-(import shutil)
-(import platform)
-(import glob)
-(import os)
-(import sys)
-
-(load-dotenv)
-
-(defmacro def [name value] `(setv ~name ~value))
-
-(defmacro unless [ cond #* body] `(when (not ~cond) ~@body))
-
-(setv TORCH-FLAVOR (or (os.environ.get "PROMETHEAN_TORCH")
-                       (if (gpu-present) "cu129" "cpu")))
-;; Choose which requirements.in to compile
-(setv REQS-IN (if (= TORCH-FLAVOR "cpu") "requirements.cpu.in" "requirements.gpu.in"))
-
-;; ---------- UV helpers (repo-local .venv like node_modules) ----------
-
-(setv GPU_SERVICES #{"stt" "tts"})   ; only these may use GPU wheels
-
-;; Allow override; default to cu129 per current PyTorch page
-(setv TORCH_CHANNEL (or (os.environ.get "PROMETHEAN_TORCH_CHANNEL") "cu129"))
-(setv TORCH_INDEX (.format "https://download.pytorch.org/whl/{}" TORCH_CHANNEL))
-   ; only these Python services are allowed to use GPUs
-
-
-(setv commands {})
-
-;; -----------------------------------------------------------------------------
-;; Service List Definitions
-;; -----------------------------------------------------------------------------
-
-
-(define-service-list SERVICES_HY "services/hy" (not (in  "templates" path)))
-(define-service-list SERVICES_PY "services/py" (not (in  "templates" path)))
-(define-service-list SERVICES_JS "services/js" (not (in  "templates" path)))
-(define-service-list SERVICES_TS "services/ts" (not (in  "templates" path)))
-(define-service-list SHARED_TS   "shared/ts"   (not (in  "templates" path)))
-
-(defn define-patterns [#* groups]
-      (lfor [lang commands] groups
-            [action fn] commands
-            [(+ action "-" lang "-service-") fn]))
-
-(defn svc-name [svc-dir] (basename svc-dir))
-
-(defn svc-name [svc-dir] (basename svc-dir))
-
-(defn lockfile-for [d]
-  (if (= (reqs-file-for d) "requirements.gpu.in")
-      "requirements.gpu.lock"
-      "requirements.cpu.lock"))
-
-
-(defn gpu-present []
-  (or (isfile "/dev/nvidiactl")
-      (= 0 (os.system "nvidia-smi >/dev/null 2>&1"))))
-
-;; PROMETHEAN_TORCH env wins: "cpu" or "cu129" (or any cuXX)
-
-
-(defn reqs-file-for [svc-dir]
-  (if (and (= TORCH-FLAVOR "cu129") (in (svc-name svc-dir) GPU_SERVICES))
-      "requirements.gpu.in"
-      "requirements.cpu.in"))
-
-
-(defn has-file* [d f] (isfile (join d f)))
-(defn has-uv [] (not (= (shutil.which "uv") None)))
-(defn has-pnpm [] (not (= (shutil.which "pnpm") None)))
-
-(defn require-pnpm []
-  (print "ERROR: pnpm is required for JS/TS tasks. Install via: corepack enable && corepack prepare pnpm@latest --activate, then re-run with pnpm.")
-  (sys.exit 1))
-
-(defn venv-site-packages [svc-dir]
-  ;; glob .venv/lib/python*/site-packages
-  (let [pattern (join svc-dir ".venv" "lib" "python*" "site-packages")
-       hits (glob.glob pattern)]
-       (if hits (get hits 0) None)))
-
-(defn uv-venv [d]
-  (sh "UV_VENV_IN_PROJECT=1 uv venv" :cwd d :shell True))
-(defn uv-compile [d]
-  (let [infile (reqs-file-for d)
-       lockf  (lockfile-for d)]
-       (if (= infile "requirements.gpu.in")
-           (sh (.format
-                "UV_VENV_IN_PROJECT=1 uv pip compile --index {} {} -o {} --index-strategy unsafe-best-match"
-                TORCH_INDEX infile lockf)
-               :cwd d :shell True)
-           (sh (.format
-                "UV_VENV_IN_PROJECT=1 uv pip compile --emit-index-url {} -o {}"
-                infile lockf)
-               :cwd d :shell True))))
-
-(defn uv-sync [d]
-  (let [lockf (lockfile-for d)]
-       (sh (.format "UV_VENV_IN_PROJECT=1 uv pip sync {}" lockf) :cwd d :shell True)))
-
-(defn inject-sitecustomize-into-venv [svc-dir]
-  (let [src (join svc-dir "sitecustomize.py")
-       dst-base (venv-site-packages svc-dir)]
-       (when (and dst-base (isfile src))
-         (copyfile src (join dst-base "sitecustomize.py"))
-         (print "sitecustomize →" dst-base))))
-
-(defn gpu-build? [svc-dir]
-  (= (reqs-file-for svc-dir) "requirements.gpu.in"))
-
-(defn cuda-probe [svc-dir]
-  (when (gpu-build? svc-dir)
-    (sh
-     "UV_VENV_IN_PROJECT=1 uv run python - <<'PY'\nimport ctypes, sys\nlibs=('libcusparseLt.so.0','libcusparse.so.12','libcublasLt.so.12','libcublas.so.12','libcudnn.so.9')\nok=True\nfor n in libs:\n  try:\n    ctypes.CDLL(n); print('OK', n)\n  except OSError as e:\n    ok=False; print('MISS', n, '->', e)\nsys.exit(0 if ok else 1)\nPY"
-     :cwd svc-dir :shell True)))
-
-(defn has-eslint-config [d]
-  (> (+ (len (glob.glob (join d ".eslintrc*")))
-        (len (glob.glob (join d "eslint.config.*")))) 0))
 
 (defn-cmd setup-python-services []
   (print "Setting up Python services (uv preferred)...")
@@ -139,6 +11,7 @@
            (do
             (print "uv not found → falling back to pipenv in" d)
             (sh "python -m pipenv sync --dev" :cwd d :shell True)))))
+
 
 ;; Python helpers --------------------------------------------------------------
 (defn-cmd setup-pipenv []
@@ -163,25 +36,12 @@
 (defn-cmd setup-shared-python []
   (sh ["python" "-m" "pipenv" "install" "--dev"] :cwd "shared/py"))
 (defn-cmd lock-python-cpu []
-  (global TORCH-FLAVOR REQS-IN TORCH_CHANNEL TORCH_INDEX)
   (os.environ.__setitem__ "PROMETHEAN_TORCH" "cpu")
-  (setv TORCH-FLAVOR "cpu")
-  (setv REQS-IN "requirements.cpu.in")
-
-  (setv TORCH_CHANNEL "cpu")
-  (setv TORCH_INDEX (.format "https://download.pytorch.org/whl/{}" TORCH_CHANNEL))
   (for [d SERVICES_PY] (uv-compile d))
   (uv-compile "./shared/py"))
 
 (defn-cmd lock-python-gpu []
-  (global TORCH-FLAVOR REQS-IN TORCH_CHANNEL TORCH_INDEX)
   (os.environ.__setitem__ "PROMETHEAN_TORCH" "cu129")  ; or your default
-
-  (setv TORCH-FLAVOR "cu129")
-  (setv REQS-IN "requirements.gpu.in")
-  (setv TORCH_CHANNEL "cu129")
-  (setv TORCH_INDEX (.format "https://download.pytorch.org/whl/{}" TORCH_CHANNEL))
-
   (for [d SERVICES_PY] (uv-compile d))
   (uv-compile "./shared/py"))
 
@@ -738,34 +598,3 @@
         (.write f "$(COMMANDS):\n\t@hy Makefile.hy $@\n\n")
         (.write f rules)
         (.write f "\n")))
-
-
-(setv exceptions [])
-
-
-(defn main []
-  (if (< (len sys.argv) 2)
-      (do (print "No command provided") (sys.exit 1))
-      (let [cmd (get sys.argv 1)]
-           (if (in cmd commands)
-               ((get commands cmd))
-               (do
-                (setv handled False)
-                (for [[prefix func] patterns]
-                     (when (.startswith cmd prefix)
-                       (func (.replace cmd prefix "" 1))
-                       (setv handled True)
-                       (break)))
-                 (unless handled
-                   (print (.format "Unknown command: {}" cmd))
-                   (sys.exit 1))))
-           (when (> (len exceptions) 0)
-             (print "commands failed:" #* (lfor [name e] exceptions name))
-             (.exit sys 1)
-
-             )
-           )))
-
-(when (= __name__ "__main__")
-  (main))
-
