@@ -1,10 +1,12 @@
-import { getLogCollection } from './index.js';
+import { dualSinkRegistry } from '../utils/DualSinkRegistry.js';
 
 export async function cleanupChromaLogs(
     days = Number(process.env.LOG_TTL_DAYS || 30),
     max = Number(process.env.LOG_MAX_CHROMA || 100000),
 ) {
-    const col = await getLogCollection();
+    const sink = dualSinkRegistry.get('bridge_logs');
+    await sink.init();
+    const col = sink.getCollection();
     if (!col) return { deleted: 0 };
     let deleted = 0;
     const cutoff = new Date(Date.now() - days * 86400 * 1000).toISOString();

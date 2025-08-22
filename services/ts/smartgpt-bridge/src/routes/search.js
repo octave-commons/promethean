@@ -1,4 +1,5 @@
 import { search } from '../indexer.js';
+import { dualSinkRegistry } from '../utils/DualSinkRegistry.js';
 
 export function registerSearchRoutes(fastify) {
     const ROOT_PATH = fastify.ROOT_PATH;
@@ -38,4 +39,61 @@ export function registerSearchRoutes(fastify) {
             }
         },
     });
+
+    fastify.post('/search/web', {
+        schema: {
+            operationId: 'webSearch',
+            tags: ['Search'],
+            body: {
+                type: 'object',
+                required: ['q'],
+                properties: {
+                    q: { type: 'string' },
+                    limit: { type: 'integer', default: 5 },
+                },
+            },
+        },
+        handler: async (req) => {
+            const { q, limit } = req.body || {};
+            const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(
+                q,
+            )}&format=json&no_redirect=1&no_html=1`;
+            const res = await fetch(url);
+            const data = await res.json();
+            const results = extractResults(data).slice(0, limit || 5);
+            const sink = dualSinkRegistry.get('bridge_searches');
+            await sink.add({ query: q, results });
+            return { results };
+        },
+    });
+}
+
+function extractResults(data) {
+    const results = [];
+    if (data?.Results) {
+        for (const r of data.Results) {
+            if (r.Text && r.FirstURL)
+                results.push({ title: r.Text, url: r.FirstURL, snippet: r.Text });
+        }
+    }
+    if (data?.RelatedTopics) {
+        for (const item of data.RelatedTopics) {
+            if (item.Topics) {
+                for (const sub of item.Topics) {
+                    if (sub.Text && sub.FirstURL)
+                        results.push({ title: sub.Text, url: sub.FirstURL, snippet: sub.Text });
+                }
+            } else if (item.Text && item.FirstURL) {
+                results.push({ title: item.Text, url: item.FirstURL, snippet: item.Text });
+            }
+        }
+    }
+    if (data?.AbstractURL && data?.AbstractText) {
+        results.push({
+            title: data.Heading || data.AbstractURL,
+            url: data.AbstractURL,
+            snippet: data.AbstractText,
+        });
+    }
+    return results;
 }
