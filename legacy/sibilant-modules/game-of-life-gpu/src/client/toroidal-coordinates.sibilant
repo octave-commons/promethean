@@ -1,0 +1,59 @@
+
+(reload "./modules/tensors/dl-utils"
+        "./modules/tensors/image")
+(var tau (* Math.PI 2))
+
+
+(import-namespace async)
+(import-namespace kit)
+(import-namespace interface)
+(import-namespace dl)
+
+
+(var W window.inner-width
+     H window.inner-height)
+
+
+(var running? true)
+
+(var dim [ W H])
+
+(var coords ((create Toroid) dim))
+(var sun-pos (lit (x (/  W 2)) (y  (/  H 2))))
+
+(var p (dl.variable (coords.point [0 0])))
+
+
+(var I (.scalar dl 0.9)
+     c (.scalar dl 1))
+(var state (dl.variable (coords.inverse-square I c p)))
+
+(def calculate-state () (coords.inverse-square I c p))
+
+(def-tidy move ()
+  (assign sun-pos.x (- sun-pos.x 1)
+          sun-pos.y (- sun-pos.y 1))
+
+  (.assign p (coords.point [sun-pos.x sun-pos.y ] )))
+
+(var tick (#-> (dl.next-frame )
+               (then-do (cleanly  (move) (.assign state (calculate-state)))
+                        (print "tick")
+                        (.render field)
+                        (tick))))
+(.print state)
+(var field null)
+
+(def window.onload ()
+     (var white (rgb 255 255 255))
+
+     (var canvas (.create-element document 'canvas))
+     (.append-child document.body canvas)
+
+     (set canvas 'height  H 'width W)
+
+     (assign field (colored canvas white dim state))
+     (tick)
+     (set document.body.style
+          'margin 0
+          'padding 0))

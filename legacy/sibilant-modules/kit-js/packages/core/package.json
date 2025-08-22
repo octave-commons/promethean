@@ -1,0 +1,24 @@
+{
+    "name": "kit-lang-core",
+    "author":"Aaron Beavers",
+    "version": "1.3.0",
+    "description": "",
+    "main": "index.js",
+    "directories": {
+        "test": "tests"
+    },
+    "dependencies": {
+        "ramda": "^0.23.0",
+        "source-map-support": "*",
+        "sibilant":"*"
+    },
+    "devDependencies": {
+        "mocha":"*",
+        "chai":"*"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC"
+}

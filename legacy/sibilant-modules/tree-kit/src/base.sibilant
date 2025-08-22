@@ -1,0 +1,42 @@
+(namespace tree-kit)
+(def-interface Tree ()
+
+  (value null)
+  (parent null)
+
+  (def-generic branch? (value) (= null value))
+  (def-generic leaf? (value) (not (= null value)))
+
+
+  (def-generic descend (seq f (tree this))
+    (if (empty? seq)
+        tree
+        (f tree seq)))
+
+  (def-generic delete (seq))
+
+  (def-generic find (seq (tree this))
+    (if (empty? seq)
+        tree
+        (.*find tree seq)))
+
+  (def-generic has (seq (tree this))
+    (if (.find tree seq) true false))
+
+  (def-generic insert (seq  (tree this) )
+
+    (if (empty? seq)
+        tree
+
+        (let ((node (.*insert tree seq)))
+          (.insert node (rest seq)))))
+
+  (def-generic set (seq value (tree this))
+    (set (.insert tree  seq) 'value value))
+
+  (def-generic each (f (condition this.leaf?) *children)
+    (each *children (node k)
+          (if (condition node)
+              (f node k)
+              (.each node f condition )))))
+(export Tree)

@@ -1,0 +1,21 @@
+(include "kit/macros")
+
+(import-namespace kit)
+
+(include "kit/header")
+
+;; (include "./inc/generic"
+;;          ;;"./inc/async"
+;;          )
+(include "./inc/misc")
+
+;; (var curry R.curry)
+
+;; (macro then-pipe (p ...funcs)
+;;        `(pipe @p
+;;               ...@(.map funcs (=> (e) `(.then @e)))))
+
+(macro fpipe (...body) `(=> ($fpipe) (pipe $fpipe ...@body)))
+
+
+(meta (include "./meta") null)

@@ -1,0 +1,72 @@
+(def Object.prototype.resolve (v)
+  (Promise.resolve v))
+;; need many perspectives on directories.
+;; A directory is likely to be either a list of directories, or a tree.
+;; Thats right, this is just a cacheing mechanisim, to make accessing elements more efficiant.
+(type Path-tree
+
+      (init ((root (process.cwd))
+             (trie ((create Hashed-trie )))
+             (_root ((create Directory) root))
+             (tree this)))
+      (generic each (fluent mth) (*type f _root trie tree)
+               (each _root (name)
+                     (.then (.get tree name *type) )
+                     ))
+
+      (gmth *seq (path root tree)
+            "generate pathing data for tree operations."
+
+            (let full-path (Path.join root path))
+            (let seq (.filter (.split full-path  "/") (=> (string) (not (= string "")))))
+
+            (literal full-path seq))
+
+      (gmth *add (seq *type instance trie)
+
+            "adds a value to the tree using its types symbol"
+
+            (trie.insert seq (p-map ([*type.symbol] instance)) trie ))
+
+      (gmth *get (pathing-data *type trie tree )
+
+            "This method will call get method of the given type and add its value to the trie using the *add method"
+
+            (let (literal full-path seq) pathing-data)
+
+            (then (*type.get full-path ) instance
+                  (tree.*add seq *type instance)))
+
+      (gmth get (path *type trie root tree (pathing-data (tree.*seq path)) (node (trie.get pathing-data.seq)))
+
+            "locate a node in the Path tree, if it is part of the tree, then we just return a promise for it.
+if it is not already a part of the tree, then we attempt to locate thep"
+
+            (if node (.resolve *type node) (tree.*get  pathing-data *type trie tree )))
+
+      (gmth make (path *type trie tree (pathing-data (tree.*seq path)))
+
+            "gets a node of the given type from the tree making it if it does not exist"
+
+            (pipe (tree.get path *type trie tree pathing-data)
+                  (catch  (*type.make path))
+                  (then instance (tree.*add path *type instance trie))))
+
+      (gmth insert (path data *type trie (tree this) (pathing-data (tree.*seq path)))
+
+            "gets a node of the given type from the tree, filling in all absent values along the path and
+creating a complex type at the end if it does not exist"
+
+            (pipe (tree.get path *type trie tree pathing-data)
+                  (catch  (trie.follow-to pathing-data.seq add-if-not-exists))
+                  (then instance (tree.*add path *type instance trie))))
+
+      (gmth clear (path)
+            "clears the tree of nodes starting at a branch indexed by the given path.
+Use this method to manage the memory of the application. Since other methods will still grab the content of their
+files regardless, you can call this as often as you like."
+            )
+
+      (gmth delete (path)))
+
+(export Path-tree)

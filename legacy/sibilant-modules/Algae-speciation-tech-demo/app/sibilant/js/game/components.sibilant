@@ -1,0 +1,89 @@
+(macro percent-of (container)
+       `(/ (get @container 'value) (get @container 'max)))
+(macro include-module (path)
+       `(include (+ @path "/index")))
+(macro component-of (e comp)
+       `(get @e (get @comp 'symbol)))
+(macro require-components (ent vars ...body)
+       `(let (...@(.map vars.contents (=> (v) `(@v (component-of @ent @v)))))
+          ...@body))
+
+(macro sprint (val) `(print (quote @val) @val))
+(def last-of (arr)
+  (last arr))
+
+(include-module "./components/templates")
+
+
+(include "./components/natural-healing")
+
+;; life needs calories to exist, if this number hits zero, bad things happen.
+;; in the near term, this means it dies, but it may instaed start to damage its
+;; self to gain more calories until it looses all ofits health
+
+;; (the flesh of the organisim is its self a source of calories.)
+
+
+(include "./components/containers"
+         "./components/absorbers.sibilant"
+         "./components/mitosis")
+
+
+
+(type Decaying)
+(describe Decaying
+
+          (init (entity ))
+          (def-generic update (entity decaying delta)
+            (require-components
+             entity
+             (Hydration
+              Nutriants)
+             ;;(print "decaying" Hydration Nutriants)
+             (when (and (<= Hydration.value 0)
+                      (<= Nutriants.value 0))
+               ;;(print "completely decayed")
+                 (.remove entity)))))
+
+(type Field-emitter )
+(describe Field-emitter
+
+          (kernel (.mult (kernel 3 3
+                           [
+                           [ 1 1 1 ]
+                           [ 1 4 1 ]
+                           [ 1 1 1 ]
+                           ]) (/ 1 12)))
+
+          (Field null)
+          (Container null)
+
+          (init (entity Field  (neiborhood (moore entity.x entity.y Field.field))))
+
+          (def-generic update (entity neiborhood kernel Container)
+            ;; the idea of an absorber I think could be generalized beyond an association with calories and this game specifically,
+            ;; but right now it'll be faster to toss it in here, since all the ones I will be needing will use these actively.
+
+            ;; I think if a distinction gets made, the kind that uses calories shall be called `active absorbers`
+
+            (let* (( comp (get entity Container.symbol))
+                   (current (get comp 'value))
+                   (emitted (.convolve kernel neiborhood)))
+
+              (each kernel (v x y)
+                    (let (( r (+ (.get neiborhood x y) v)))
+                      (.set neiborhood x y (ternary (> r 0 ) r 0))))
+
+              (.remove comp emitted))))
+
+(specify Nutriant-emitter (extend Field-emitter))
+(describe Nutriant-emitter
+          (Container Nutriants)
+          (Field Silt))
+(specify Water-emitter (extend Field-emitter))
+(describe Water-emitter
+
+          (doc "water decreases the amount of calories burned when performing an action")
+
+          (Container Hydration)
+          (Field Water))

@@ -1,0 +1,38 @@
+(var Base-schema (new Schema))
+(var users (.create schemas.user "users" db))
+
+(var creds (lit (email "foobar@bazzle.com"),
+                (password "bigBlackBootyButtholes"),
+                (username "likesBlackDick")))
+
+(macro def-schema (name ))
+
+(var User-text (pipe schemas.Auto-id
+                     (.fields (lit (uid ["int"])
+                                   (title ["varchar(128)"])
+                                   (text ["text"])))
+                     (.constraints ["FOREIGN KEY (uid) REFERENCES users"])))
+
+(def foreign-key (column-name, table-name)
+  ("FOREIGN KEY (" column-name ") REFERENCES " table-name))
+(def-interface Table-system ()
+
+  (extend Schema)
+
+  (def-generic *create-table (name)
+    (.create name db)))
+
+(def-interface User-system (name)
+  (extend schemas.user))
+
+(def-interface Hierarchical-text-system (name )
+
+  (schema (pipe User-text (.fields (lit (parent ["int"])))))
+
+  (def-generic *create-table (name)
+    (pipe this.schema
+          (.constraints  [(foreign-key "parent" name)])
+          (.create name db)))
+
+  (init (set this '*table  (.*create-table this name))))
+

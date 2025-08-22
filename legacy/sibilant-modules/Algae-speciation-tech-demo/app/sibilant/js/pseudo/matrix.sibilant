@@ -1,0 +1,114 @@
+
+
+(import-namespace kit)
+
+
+(def Array.prototype.each (f)
+  (this.for-each f) this)
+
+(def Set.prototype.each (f)
+  (this.for-each f) this)
+
+(macro collect (name value ...body)
+       (print "compling collection thing")
+       `(do-block (var @name @value) ...@body @name))
+
+(type Matrix (init ((array [])  width height (matrix array)))
+
+      )
+(def-generic Matrix.size (height width) (*  width height))
+
+
+(def-generic Matrix.get-index (x y width)
+  (+ (* x width) y ))
+
+(def-generic Matrix.get (x y  width height array)
+
+  (assign x (mod (+ x width) width))
+  (assign y (mod (+ y height) height))
+  (get array (+ (* x width) y ))
+  )
+
+(def-generic Matrix.set (x y value width height array)
+  (assign x (mod (+ x width) width))
+  (assign y (mod (+ y height) height))
+  (set array (+ (* x width) y ) value))
+
+(def-generic Matrix.add-to-cell (x y value height width array)
+  (var i (+ (* x width) y ))
+  (set array i (+ (get array i) value)))
+
+(def-generic Matrix.add ())
+(def-generic Matrix.scalar-multiply ())
+(def-generic! Matrix.submatrix  (x y nw nh (matrix this))
+  (loop
+     (collect r ((create Matrix) [] nw nh))
+     (for ( i 0) (< i nw) (++ i))
+     (for ( j 0) (< j nh) (++ j)
+          (.set r  i j (.get matrix (+ i x) (+ j y))))))
+
+(def-generic Matrix.convolve-sub  (B x y (h B.height) (w B.width)) (var m 0)
+             (this.each-in-sub
+              x y h w
+              (=> (val i j x y)
+                  (assign m (+ m (* (.get this x y)
+                                    (.get B x y)))))) m)
+
+(def-generic! Matrix.each-in-sub  (x y sw sh f width height)
+  (loop
+     (collect r this)
+     (for ( i 0) (< i sw) (++ i))
+     (for ( j 0) (< j sh) (++ j)
+          (f  (.get this (+ i x) (+ j y)) i j x y))))
+
+(def-generic! Matrix.each  (f (matrix this) width height )
+  (loop
+     (collect r this)
+     (for ( x 0) (< x width) (++ x))
+     (for ( y 0) (< y height) (++ y)
+          (f (.get matrix x y) x y matrix))))
+
+(def-generic Matrix.dmap (f (matrix this) width height)
+  (.map matrix f matrix width height matrix))
+
+(def-generic! Matrix.map (f (matrix this) width height
+                            (result ((create Matrix) [] width height)))
+
+  (loop (collect r result)
+     (.each matrix )
+     (=> (v x y matrix)
+         (r.set x y (or (f v x y matrix) 0)))))
+
+(def-generic Matrix.transit (target f (matrix this) height width)
+  (.map matrix f matrix height width target))
+
+(def-generic! Matrix.convolve-sub  (B offx offy  (width B.width) (height B.height))
+  (loop
+     (collect m 0)
+     (for ( x 0) (< x width) (++ x))
+     (for ( y 0) (< y height) (++ y))
+     (assign m (+ m (* (.get this (+ x offx) (+ y offy)) (.get B x y)))))               )
+(def-generic! Matrix.convolve  (B (A this) height width)
+  (loop
+     (collect m 0)
+     (for ( x 0) (< x width) (++ x))
+     (for ( y 0) (< y height) (++ y))
+     (assign m (+ m (* (.get A x y) (.get B x y))))))
+
+(def-generic! Matrix.dot-product (B (A this))
+  (loop
+     (if (= A.width B.height))
+     (collect m (Matrix (A.height B.width)))
+     (for ( r 0) (< r A.width) (++ r))
+     (for ( c 0) (< c B.height) (++ c)
+          (.set m r c 0))
+     (for ( i 0) (< i A.height) (++ i)
+          (.add-to-cell
+           m r c
+
+           (* (.get A r i)
+              (.get self i c))))))
+
+
+
+(export Matrix)

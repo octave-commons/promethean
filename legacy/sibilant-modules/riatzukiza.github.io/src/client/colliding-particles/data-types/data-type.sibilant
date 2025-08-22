@@ -1,0 +1,32 @@
+(import Spawnable "/shared/data-structures/spawnable.js")
+(macro define-property (obj key ..body)
+       `(Object.define-property @obj @key (lit ...@body))
+       )
+(define Data-type Spawnable
+  (keys [])
+  (init (id array ))
+  (gett index (* this.size this.id))
+
+  (gett size this.keys.length)
+  (gett bytes (* this.size Float-64-array.BYTES_PER_ELEMENT))
+
+  (def clear () (for-of! key this.keys (set this key 0))
+       null)
+
+  (def buffer (length )
+    (new Shared-array-buffer
+         (* length
+            this.bytes
+            )))
+
+  (def build ()
+    (each this.keys (key i)
+          (define-property this key
+            (def get ()
+              (get this.array.current-state.array
+                   (+ this.index i)))
+            (def set (value)
+              (set this.array.next-state.array
+                   (+ this.index i)
+                   value))))))
+(export Data-type)

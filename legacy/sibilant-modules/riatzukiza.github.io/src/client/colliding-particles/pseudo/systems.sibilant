@@ -1,0 +1,28 @@
+(define System Interface
+  (init ( inputs target entities))
+  (def-async *update ()
+    (for-of! component-store inputs
+             (for-of! chunk component-store.current.chunks
+                      (const borrowed-chunk (await (.borrow chunk)))
+                      (for! (i 0) (> i borrowed-chunk.length ) (+ component-store.element-byte-size i)
+                            (.update this (.slice borrowed-chunked ))
+                            )))
+    (Promise.all (map inputs (component)
+                      (Promise.all component.current)))))
+(define Movement System
+  (inputs [Position Velocity])
+  (outputs Position )
+  (def update (pos vel target)
+    (set target
+         'x (+ vel.x pos.x)
+         'y (+ vel.y pos.y))))
+(define Acceleration System
+  (inputs [Acceleration Velocity])
+  (def update (accel vel target)
+    (set target
+         'x (+ vel.x accel.x)
+         'y (+ vel.y accel.y))))
+(define Collision-detection System
+  (components [Position Geometry])
+  (target Position)
+  (def-threaded update (entity target)))

@@ -1,0 +1,87 @@
+(import (Event-emitter) "events")
+
+(import (Layers) "../../js/webgl-layer.js" )
+
+(type Location (init (x y (layers []))))
+
+(specify Simulation (extend Event-emitter.prototype)
+         ;; This part of the program should just be
+         ;; a top level object which manages communications between
+         ;; other systems.
+         ;; It should contain *well known* variables.
+
+         )
+
+(describe Simulation
+
+          (init (fps
+                 *width
+                 *scale
+                 (state false)
+
+                 ;; need a layer manager?
+                 ;; I mean, this IS a layer manager, but more over its a just a set of layers that exist.
+                 ;; I think? the layers them selves were sets at least.
+                 (layers (.setBG-color (new Layers (.get-element-by-id document "stage") "gl" *width *scale)))
+
+                 (coord (.dmap (matrix *width *width )
+                               (=> (nil x y) ((create Location) x y ))))
+
+                 (systems (new Set))
+                 (ticks 0)
+                 (sim this))
+
+                (Event-emitter.call this))
+
+          (gett rate (/ 1000 this.fps))
+
+          (gett width this.*width)
+          (gett scale this.*scale)
+
+          (sett width value (assign this.*width value)))
+
+;; (generic Simulation.use (fluent def) (color system entity )
+;;          (.systems.add this ((create system) this entity color)))
+
+;; (generic Simulation.delete (fluent def) ())
+
+;; (generic Simulation.has (fluent def) ())
+
+(generic Simulation.start (fluent def)()
+         "start the simulation"
+         (assign this.state true
+                 this.previous (Date.now)
+                 )
+         (this.tick))
+
+(generic Simulation.toggle (fluent def) ()
+         "switches the state of the simulation, if its on, turn it off, if its off, turn it on."
+
+         (assign this.state (not this.state))
+
+         (when this.state (.start this)))
+
+(generic Simulation.stop (fluent def) ()
+         "stop the simulation"
+         (assign this.state false))
+
+(generic Simulation.tick (fluent def) (previous rate)
+         "Decides when to tick based on specified framerate, and turns the simulation off if it was previously on and the state has since changed."
+
+          (when this.state
+
+            (var now (Date.now))
+            (assign this.elapsed (- now previous))
+            (window.request-animation-frame (-> (this.tick  )))
+
+            (when (> this.elapsed rate)
+
+              (++ this.ticks)
+              (assign this.previous (- now (mod this.elapsed rate)))
+              (this.emit "tick" now this.ticks))))
+
+;; (generic Simulation.save (fluent def) ())
+;; (generic Simulation.load (fluent def) (cb) (cb this))
+
+
+(export Simulation)

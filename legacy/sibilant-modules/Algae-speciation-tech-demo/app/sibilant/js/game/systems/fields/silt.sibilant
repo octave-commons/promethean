@@ -1,0 +1,41 @@
+(define-field Silt true)
+(describe Silt
+
+          (influences [Water])
+          (gmth randomize (field) (randomize-field field)))
+
+
+
+(describe Silt.Component
+
+          (init (x y (neiborhood (moore x y this.field)))
+                )
+          (gett r (percent-to-color  this.value))
+          (gett g (percent-to-color (* 0.7 this.value)))
+
+          (gett b (percent-to-color (* 0.4 this.value)))
+          (gett a (percent-to-color 0.3 ))
+
+          (gmth update (tick x y field value  neiborhood influences)
+
+                ;; disapative field, each influence affects the rate at which
+                ;; the field spreads in a given area.
+                (var [water] influences)
+
+                (var average-silt (*convolve  average-kernel neiborhood) )
+                (var average-water (*convolve  average-kernel (get (.get Water x y) 'neiborhood)))
+
+                (var water-influence (additive-smooth 1 average-water water)
+                     saturation (additive-smooth 1 average-silt value))
+
+                (var net (* value    saturation water-influence ))
+
+                ;; u(s + a /  s + b)(s + c / s + d)
+                (when (> net Silt.max) (assign Silt.max net))
+
+
+
+                (.set field x y net)))
+
+
+(.randomize Silt)

@@ -1,0 +1,14 @@
+
+(generic Object.prototype.keys (def)
+         ((object this))
+         (Object.keys object))
+
+(generic Object.prototype.each (def)
+         (f (object this))
+
+         (each (object.keys) (k i) (f (get object k) k object))
+
+         object)
+(generic Array.prototype.each (def) (f (array this))
+         (.for-each array f)
+         this)

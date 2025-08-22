@@ -1,0 +1,137 @@
+
+(import Spawnable "/shared/data-structures/spawnable.js")
+(import base-weights "./base-weights.js")
+
+(import Super-position-distrobution
+        Expected-likelyhood-given-current-state
+        Current-distrobution "./probabilities.js")
+(import Terrain-module "./terrain-module.js")
+(import Possible-state "./possible-state.js")
+(import summate "/shared/math/math.js")
+
+(def calculate-entropy (weights)
+  (const sum-of-weights (summate weights))
+  (const sum-of-log-weights
+         (reduce weights 0 (sum weight)
+                 (+ sum (* weight (Math.log weight)))))
+  (- (Math.log sum-of-weights)
+     (/ sum-of-log-weights sum-of-weights)))
+
+(define Super-position Spawnable
+  (init (cell (possible-states
+               (map Terrain-module.modules (chunk-type)
+                    (.spawn Possible-state
+                            this
+                            chunk-type)))))
+
+
+  (gett state this.cell.type)
+  (sett state v (assign this.cell.type v))
+
+  (gett weights
+        (map this.valid-states (state)
+             state.weight))
+  (gett total-weight (summate this.weights))
+  (gett entropy
+        (const e (calculate-entropy (if this.weights.length
+                                        this.weights
+                                        [
+                                         (+ (* 1 (Math.random)) Current-distrobution.grass)
+                                         (+ (* 1 (Math.random)) Current-distrobution.stone)
+                                         (+ (* 1 (Math.random)) Current-distrobution.flowery-grass)])))
+        (if (isNaN e)
+            (throw (new Error "entropy is NaN")))
+        e)
+  
+  (cached probability-distrobution (.spawn Super-position-distrobution this))
+  (cached edges
+        (const tile this.cell)
+        [tile.north
+         tile.south
+         tile.east
+         tile.west
+         tile.north-east
+         tile.north-west
+         tile.south-east
+         tile.south-west]
+        )
+  (cached neighbors (map this.edges (neighbor)
+                         neighbor.super-position))
+  (gett valid-states (.get-valid-states this))
+  (gett collapsed-neighbors
+        (filter this.neighbors (super-position)
+                super-position.state))
+
+  (gett uncollapsed-neighbors
+        (sort (filter this.neighbors (super-position)
+                      (not super-position.state)) (a b)
+                      (-  a.entropy b.entropy)))
+
+  (def clear ()
+    ;; (clear-cache this weights)
+    ;; (clear-cache this total-weight)
+    ;; (clear-cache this entropy)
+    (clear-cache this probability-distrobution)
+    (clear-cache this neighbors)
+    (each this.possible-states (state)
+          (.despawn state))
+    (set this 'cell null
+         'possible-states null))
+
+  (def get-valid-states () (filter this.possible-states (state) (.is-valid? state this.cell)))
+  (def get-likelyhood-of-state (tile-type)
+    ;; (print "calculating likelyhood of state" tile-type this.total-weight)
+    (/  (reduce this.valid-states 0 (type-weight state)
+                (if (= state.collapsed-state tile-type)
+                    (+ type-weight state.weight)
+                    type-weight))
+        this.total-weight))
+  (def-generic collapse ( (depth 0) (max-depth 3) (overlap 2)  cell )
+    (if! this.state (return ))
+    (assign this.state
+            (if (= this.valid-states.length 1)
+                (get (first this.valid-states) 'collapsed-state)
+
+                (= this.valid-states.length 0)
+                (.sample Expected-likelyhood-given-current-state)
+                (or (>= depth max-depth)
+                    (not this.collapsed-neighbors.length))
+                (.sample this.probability-distrobution)
+
+                (do (const temp [])
+                    (var new-state null)
+                  (const neighbors this.uncollapsed-neighbors)
+                  (const new-depth (+ depth 1))
+                  (for-of! neighbor neighbors
+                           (.push temp neighbor)
+                           (.collapse neighbor new-depth max-depth overlap)
+                           (if! (= this.valid-states.length 1)
+                                (assign new-state  (get (first this.valid-states)
+                                                        'state))
+                                break)
+                           (if! (= this.valid-states.length 0)
+                                (assign neighbor.state null)))
+
+                  
+                  (const r (if (not new-state)
+                               (.sample this.probability-distrobution)
+                               new-state))
+                  (if! (not (< new-depth overlap))
+                       (for-of! neighbor temp
+                                (assign neighbor.state null)))
+                  (return r))))
+    (if (< depth overlap)
+        (incr (get Current-distrobution (+ this.state 'Instances)))))
+
+  ;; (def calculate-entropy ()
+  ;;   (assign  this.total-weight
+  ;;            (reduce this.valid-states 0 (weight state)
+  ;;                    (+ weight (.calculate-weight state)))))
+
+
+  ;; (def eliminate-invalid-states ()
+  ;;   (unless this.validated?
+  ;;     (assign this.possible-states (.get-valid-states this))
+  ;;     (assign this.validated? true)))
+  )
+(export Super-position)

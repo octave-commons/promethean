@@ -1,0 +1,41 @@
+
+(type Inode
+
+      (init ( name parent stats))
+
+      (getter path ()
+              (return (ternary this.parent
+                               (Path.join this.parent.path this.name)
+                               this.name)))
+
+      (setter path (value) (assign this.name value) (move this.path))
+
+      (gmth stat (path) (stat path))
+      (gmth is-file (path) (then (stat path) stats (.is-file stats)))
+      (gmth is-directory (path) (then (stat path) stats (.is-directory stats)))
+
+      (gmth get (name (path (Path.join this.path name)) )
+            (pipe (stat path)
+                  (then stats
+                        (if (stats.is-directory)
+                            ((create Directory)  name this stats)
+
+                            (stats.is-file)
+                            ((create File) name this stats)
+
+                            (throw (new Error "There is a file, but it is neither a directory or a 'file'"))))))
+
+
+      (gmth find (name  (inode this) )
+            (inode.get name this.path this))
+
+      (gmth remove (name parent path (inode this) (target (join path name)))
+            (inode.delete target))
+
+      (gmth add (name parent path (inode this) (target (join path name)))
+            (inode.make target))
+
+      (gmth set (name parent value path (inode this) (target (join path name)))
+            (inode.insert target value)))
+
+(export Inode)

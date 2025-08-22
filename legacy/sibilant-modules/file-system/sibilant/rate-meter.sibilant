@@ -1,0 +1,28 @@
+
+
+(type String )
+(describe String (init (path)))
+(type Timer)
+
+(describe Rate-meter
+          (last (Date.now))
+          (init (emitter event (callback (.bind this.update this))))
+
+          (gmth start (emitter event  (timer this) (callback (-> (.update timer))))
+
+                 
+
+                (set timer '*running true 'callback callback)
+                ;;(.on emitter event callback)
+                (.on emitter event ))
+
+          (gmth stop (emitter event callback )
+                (set timer '*running false)
+                (.remove-listeners emitter 'event callback))
+          (gmth restart ())
+          (gmth update () (set timer 'last (Date.now))))
+
+
+
+(def defer (f args)
+  (=> ((dots args))))

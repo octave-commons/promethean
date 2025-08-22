@@ -1,0 +1,39 @@
+
+(import  Dot "/shared/systems/rendering/dot.js")
+(import Physics "/shared/systems/physics.js")
+(import Collision "/shared/systems/collision.js")
+
+(import Position "../systems/position.js")
+(import Velocity "../systems/velocity.js")
+(import game active-game-systems "../game.js")
+(import config "../config.js")
+(import rgba "../colors.js")
+
+
+(def entity (aspects ) (.spawn game.ent aspects ))
+(var home (entity [Dot Position Physics Collision]))
+(var home-pos (.get game.systems Position home))
+
+
+(set (.get game.systems Dot home)
+     'color (rgba 0 255 0 255))
+
+(set (.get game.systems Position home )
+     'x (first config.home-location)
+     'y (second config.home-location)
+     'z 1)
+
+
+(set (.get game.systems Physics home)
+     'scale 5
+     'mass 1
+     'forces [])
+
+(set (.get game.systems Collision home)
+     'name 'home)
+(set home 'name 'home)
+
+(export home)
+(export home-pos)
+
+

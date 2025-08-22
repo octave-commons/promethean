@@ -1,0 +1,16 @@
+{
+  "name": "@kit/kit",
+  "version": "1.0.0",
+  "description": "A tool kit for pretending you can write javascript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "keywords": [
+    "lisp",
+    "sibilant",
+    "language"
+  ],
+  "author": "Aaron Beavers",
+  "license": "ISC"
+}

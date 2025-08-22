@@ -1,0 +1,41 @@
+(specify Future-collection (extend Future)
+         (generic each (mth) (callback promise)
+                  (then promise collection
+                        (.each collection callback)))
+
+         (generic map (mth) ( callback promise all)
+                  (print "mapping collection from the futureeee")
+                  (then promise collection
+                        (log-pretty "????" collection)
+                        (all (.map collection callback))))
+
+         (generic reduce (mth) (callback initial-value promise )
+                  "resolves a future for a collection, when all values of the collection"
+                  (print "reducing" )
+                  (pipe (.resolve Future-collection promise)
+
+                        (then collection
+                               (.all Promise [initial-value collection]))
+
+                        (then [initial-value collection]
+                              (.reduce collection callback initial-value))))
+
+         (generic map-all (mth) (callback collection )
+                  "map over the resolution of all members of a collection"
+                  (.all Future-collection (.map collection callback)))
+
+         (generic resolve (mth) (collection (self this))
+                  "resolve a collection, and all of its members"
+                  (print "resolving" collection)
+                  ((create self)
+                   (.then (.resolve Promise collection) self.all)))
+
+         (generic reduce-all (mth)  (callback init collection)
+                  "given a collection, return a promise for its reduction."
+                  (.reduce collection (=> (promise x k)
+                                          (comment (.then promise (partial-end callback )))
+                                          (then promise result (callback result x k collection)))
+                           (.resolve Promise (or init null)))))
+
+(assign exports.Collection Future-collection)
+

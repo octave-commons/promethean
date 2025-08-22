@@ -1,0 +1,8 @@
+(include "../../macros.sibilant")
+(import-namespace kit)
+(require! (lit create extend partially-apply-after mixin )
+          "../util")
+
+(include "./matrix.sibilant"
+         "./matrix-view.sibilant"
+         "./kernel.sibilant")

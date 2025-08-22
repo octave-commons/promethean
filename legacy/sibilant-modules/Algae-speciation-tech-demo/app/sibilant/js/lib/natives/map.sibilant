@@ -1,0 +1,3 @@
+(def Map.prototype.each (f)
+  (.for-each this f)
+  this)

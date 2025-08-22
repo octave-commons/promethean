@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Introduced `CHANGELOG.md` to track project changes.
+- Auto-generated OpenAPI spec for SmartGPT Bridge via Fastify swagger.
 
 ### Changed
 - Refactored `VoiceSession` to accept a stubbed `Transcriber` for testability.
@@ -21,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 - Skipped tests depending on removed/deprecated classes.
+- Removed hand-written OpenAPI spec in SmartGPT Bridge.
 
 ## [0.0.1] - Initial
 - Project scaffolding.

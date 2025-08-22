@@ -1,0 +1,17 @@
+(def-interface Sibilant ()
+
+  (*forms (new Map))
+
+  (def-generic compile
+      (string
+
+       *forms
+
+       (form (remember *forms string (.then (.resolve Promise string) sibilant))))
+
+    (.then form (fpipe (get 'js) (+ "\n")))))
+
+(def-interface Sibilant.File ())
+(def-interface Sibilant.Dir ())
+(def-interface Sibilant.Server ())
+(def-interface Sibilant.Socket ())

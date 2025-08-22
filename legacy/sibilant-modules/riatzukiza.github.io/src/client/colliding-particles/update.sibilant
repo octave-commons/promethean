@@ -1,0 +1,41 @@
+(import Grouping-system Elastic-deflection-system "./workers.sibilant")
+(import config "./config.sibilant")
+(def get-bounds (positions)
+  (var min-x 0 min-y 0 max-x 0 max-y 0)
+  (for-of! p positions.data
+           (if (< p.x min-x) (assign min-x p.x))
+           (if (< p.y min-y) (assign min-y p.y))
+
+           (if (> p.x max-x) (assign max-x p.x))
+           (if (> p.y max-y) (assign max-y p.y)))
+  (return [min-x min-y max-x max-y]))
+
+(def-async update (systems particles vertices)
+
+  (.step systems)
+  (const bounds (get-bounds particles.pos))
+  (set Grouping-system 'args (lit bounds))
+  (set Elastic-deflection-system 'args (lit bounds))
+
+  (await (.update systems))
+
+  (for-of! p particles.pos.data
+           (const v (get particles.vel.data p.id))
+           (const phys (get particles.phys.data p.id))
+           (set (get vertices p.id 'color)
+                'r (Math.min 255 (+ 75 (* 255 (- 1 (/ phys.mass config.actual-maximum-mass)))))
+                'b (Math.min 255 (+ 50 (Math.abs (Math.round (* 2 v.x)))))
+                'g (Math.min 255 (+ 50 (Math.abs (Math.round (* 2 v.y))))))
+
+           (set (get vertices p.id 'point)
+                'x p.x
+                'y p.y)
+           (set (get vertices p.id )
+                'intensity (Math.sqrt phys.mass)
+                'size phys.scale
+                )
+           )
+  (return null)
+  )
+
+(export update)

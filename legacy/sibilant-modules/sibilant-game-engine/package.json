@@ -1,0 +1,27 @@
+{
+    "name": "sibilant-game-engine",
+    "author": "Aaron Beavers",
+    "version": "0.2.1",
+    "dependencies": {
+        "jimp": "0.2.27",
+        "js-beautify": "^1.7.5",
+        "kit": "riatzukiza/kit.git",
+        "kit-actor": "riatzukiza/kit-actor.git",
+        "kit-async": "riatzukiza/kit-async.git",
+        "kit-events": "riatzukiza/kit-events.git",
+        "kit-file-system": "riatzukiza/kit-file-system.git",
+        "kit-html": "riatzukiza/kit-html.git",
+        "kit-http": "riatzukiza/kit-http.git",
+        "kit-interface": "riatzukiza/kit-interface.git",
+        "kit-repl": "riatzukiza/kit-repl.git",
+        "mathjs": "*",
+        "mousetrap": "*",
+        "react": "^16.3.1",
+        "source-map-support": "^0.4.11",
+        "tree-kit": "git+https://github.com/riatzukiza/tree-kit.git",
+        "webgl": "git+https://bitbucket.org/kettlelogic/andy_webgl.git"
+    },
+    "devDependencies": {
+        "@timohausmann/quadtree-js": "^1.2.5"
+    }
+}

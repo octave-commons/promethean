@@ -1,0 +1,31 @@
+
+
+(specify Matrix-view (extend Matrix)
+
+
+         )
+(describe Matrix-view
+
+          (offset [0 0])
+
+          (init ( *matrix width height offset ))
+          )
+
+(def-generic Matrix-view.get-index
+    (([x y] [0 0])
+     ([offx offy] this.offset)
+     (width (+ this.width this.*matrix.width))) "
+Locate the index of an element with an offset, and a limit on width and height.
+"
+     ;;(print "offseted index" x y offx offy width this.width this.*matrix)
+
+     (+ (* (+ x offx) width) (+ y offy) ))
+
+(def-generic Matrix-view.get (x y  width height ([offx offy] this.offset))
+  "retrieve an element of a matrix by its x and y coordinates "
+
+  (.get this.*matrix (+ x offx) (+ y offy)))
+
+(def-generic Matrix-view.set (x y value width height ([offx offy] this.offset))
+  "change the value of an array using 2d coordinates."
+  (.set this.*matrix (+ x offx) (+ y offy) value))

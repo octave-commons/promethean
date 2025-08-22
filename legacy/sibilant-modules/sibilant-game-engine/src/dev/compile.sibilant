@@ -1,0 +1,78 @@
+(namespace dev)
+
+(import-namespace markup)
+(import-namespace interface)
+(import-namespace async)
+
+(var compiler (.spawn Compiler))
+(require! (lit (js beautify))  "js-beautify"
+          ;;'browserify
+          )
+
+(.on compiler 'error (aprint "compiler:error"))
+
+(def js-target-path (src-path) (+ (strip-sibilant-extension src-path) ".js"))
+(def strip-sibilant-extension (path)
+     (Path.join
+      (Path.dirname path)
+      (Path.basename path ".sibilant")))
+(def-async compile-all-modules ()
+  (await (.each src.client (=> (file)
+                               (compile-module file  js.client))))
+  (print "done compiling modules")
+  )
+
+(def compile (src js)
+  (var p (Promise.resolve))
+  (.each src (=> (file) (assign p (then-do p (compile-module file  js))))))
+
+(var bundles (new Map))
+(def-async bundle (file dest)
+  (print "bundling client file" file.path)
+
+  (var bundle (remember bundles file.rel
+                        (var b (browserify))
+
+                        (.require b file.path (lit (expose file.rel)))
+                        (.exclude b "webgl")
+                        b
+                        ))
+
+  (each bundles (b k) (.exclude b file.rel))
+
+
+  (var dest-file (await (.insert dest file.rel)))
+  (var reader (.bundle bundle))
+  (var writer dest-file.write-stream)
+
+  (await (make-promise
+          (.on reader 'error fail)
+          (.on writer 'finish success)
+          (.on writer 'error fail)
+          (.pipe reader writer)))
+  (print "bundled" dest-file.path))
+
+(def-async compile-module (file dest)
+
+  (print "compiling source file" file.path)
+  (var lisp (await file.string))
+  (var js (await (.send compiler (+ "(meta (assign sibilant.dir \"" (Path.dirname file.path) "\" ) null)"
+                                    lisp))))
+  (await (.send compiler "(meta (assign sibilant.dir \".\") null)"))
+  (var dest-path (+  (strip-sibilant-extension file.rel ) ".js"))
+  (await (.insert dest dest-path ))
+  (print "saving" dest-path)
+
+  (await (.set dest dest-path (beautify js)))
+  (print "saved" dest-path))
+
+(def-async compile-html (file dest)
+
+  (print "template file built, compiling html" file.path)
+
+  (var js (await file.string))
+  (var result (eval js))
+  (var dest-file (await (.insert dest (+ (Path.join
+                                          (Path.dirname file.rel)
+                                          (Path.basename file.rel ".js")) ".html"))))
+  (.render result dest-file.write-stream))

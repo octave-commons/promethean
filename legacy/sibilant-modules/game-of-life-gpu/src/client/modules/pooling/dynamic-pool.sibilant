@@ -1,0 +1,56 @@
+
+(include "kit-interface/header")
+(import-namespace interface)
+(require! (lit Object-pool) "./object-pool"
+          (lit List ) "../data-structures/list")
+
+(define Dynamic-pool Interface
+  (bucket-size 256)
+  (init (interface bucket-size (buckets  (List.of ((create Object-pool) this.bucket-size interface)))))
+
+  (gett current this.buckets.head.item)
+  (gett size (sum-of this.buckets free-space))
+
+  (def-generic grow ( buckets  bucket-size (self this))
+    (collect new-pool ((create Object-pool) bucket-size this.interface)
+             (.unshift buckets new-pool)))
+
+  (def-generic adjust (buckets)
+    (var p (.rotate-until buckets (#-> (get 'free) (> 0))))
+    (ternary p p (.grow this)))
+
+  (def-generic aquire ( buckets )
+    (collect object (if this.current.free
+                        (.aquire this.current)
+                        (pipe this .adjust .aquire ))
+             (assign object.bucket this.current)))
+
+  (def-generic release (object buckets )
+    (.release object.bucket object))
+
+  (def-generic clear (buckets)
+
+    (var self this)
+
+    (.each buckets (#-> (get '*in-use) (.each (#-> self.despawn)))))
+
+  (def spawn ((dots args))
+
+    "aquire an object from the systems pool, and initialize it."
+
+    (collect r (pipe this .aquire)
+             (.init r (dots args))))
+
+  (def despawn (obj)
+    "remove an object from the system, and release it back into the pool."
+
+    (.clear obj)
+    (.release this obj))
+
+  (def register (interface)
+
+    "Associate an interface with a system,and add the system to the collection of all active systems."
+
+    (assign interface.pool this)))
+
+(export Dynamic-pool)

@@ -1,0 +1,26 @@
+(var lisp-fragment ""
+     waiting-for-lisp false
+     paren-depth 0)
+
+(def accumulate-lisp (msg)
+  (incr-by lisp-fragment msg)
+  (.for-each (msg.split "")
+             (=> (char)
+                 (if (= char "(")
+                     (++ paren-depth)
+                     (= char ")")
+                     (-- paren-depth))))
+  (assign waiting-for-lisp ( > paren-depth 0))
+  (unless  waiting-for-lisp
+    (try (print (.eval-string Sibilant-context lisp-fragment))
+         (do (print "failed to evaluate lisp")
+             (print e)))
+    (assign lisp-fragment "")))
+
+(def interpret-message (msg)
+  (if (not waiting-for-lisp)
+      (if (= (first msg) "(") (accumulate-lisp msg)
+          (when current-channel
+            (.send-message current-channel msg)
+            (.prompt rl)))
+      (accumulate-lisp msg)))

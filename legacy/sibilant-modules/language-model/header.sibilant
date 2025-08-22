@@ -1,0 +1,37 @@
+(namespace language-model)
+(include "./mine/kit/macros")
+
+(import-namespace kit)
+
+(include "./mine/kit/header")
+
+(require! (lit Event-emitter) 'events 'url 'http)
+(var models (new Map))
+
+(include "./inc/generic"
+         "./inc/async"
+
+         "./inc/misc"
+
+         "./mine/interface/header"
+         )
+
+
+(def Map.prototype.each (f)
+  (.for-each this f)
+  this)
+(def Array.prototype.each (f)
+  (.for-each this f)
+  this)
+
+
+(import-namespace interface)
+
+(include "./inc/string-stream.sibilant"
+
+         "./mine/kit/sib/data-structures/templates/tree"
+
+         "./mine/kit/sib/data-structures/tree-map"
+
+         )
+(include "./services/file-system/index.sibilant")

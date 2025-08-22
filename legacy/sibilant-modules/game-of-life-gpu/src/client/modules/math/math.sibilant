@@ -1,0 +1,55 @@
+(macro area-has (diameter spot center area cond)
+       `(scoped (var true? false)
+                (area  @area @spot @center @diameter
+                       (when @cond (assign true? true)))
+
+                true?))
+
+(macro random-sign  ( ) `(if (< (Math.random) 0.5) -1 1))
+
+(macro random-signed (max)
+       `(scoped
+         (var rand (random-float 0 @max))
+         (- @max (/ rand 2))))
+
+(macro random-int ( min max) `(+ (Math.floor (* (Math.random) (- @max @min))) @min))
+
+(macro random-float ( min max) `(+ (* (Math.random) (- @max @min)) @min))
+
+(macro random-bit () `(Math.round (Math.random)))
+
+(macro ** (n x) `(Math.pow @n @x))
+
+(var tau (* Math.PI 2))
+(export tau)
+
+(def euclidian-distance (x y a b)
+     (Math.sqrt (+ (Math.pow (- x a) 2) (Math.pow (- y b) 2))))
+
+(export euclidian-distance)
+
+(def product-of (a) (.reduce a (=> (value e) (* value e)) 1))
+(export product-of)
+
+(def random-ubyte () (random-int 0 255))
+(export random-ubyte)
+
+(def square (dim f)
+
+     (var lim (Math.round (/ dim 2)))
+
+     (for ( i (- 0 lim)) (<= i lim) (++ i)
+          (for ( j (- 0 lim)) (<= j lim) (++ j)
+               (f i j))) null)
+(export square)
+
+(def inverse-square (rate c pos (lit x y) )
+     (/ rate (+ c (Math.pow (euclidian-distance x y pos.x pos.y) 2))))
+(export inverse-square)
+
+(def add (a b) (+ a b))
+(export add)
+
+(def summate (a) (.reduce a add 0))
+(export summate)
+

@@ -1,0 +1,71 @@
+
+(include "kit-interface/header")
+
+(import-namespace interface)
+(require! (lit Component System) "../ecs/component"
+          (lit Velocity) "../systems/velocity"
+          (lit Position) "../systems/position")
+
+(define Physical-properties Component
+  (gett mass this.data.mass)
+  (gett scale this.data.scale)
+  (gett volume this.scale)
+
+  (gett height this.data.height)
+  (gett width this.data.width)
+
+  (gett density (/ this.mass this.volume))
+
+  (gett speed this.data.speed)
+  (gett velocity (.get this.system.process.systems Velocity this.entity))
+  (gett forces this.data.forces)
+
+  (gett position (.get this.system.process.systems Position this.entity))
+  (gett location this.position))
+(export Physical-properties)
+
+(define Physics System
+  (interface Physical-properties)
+  (*forces [])
+
+  (def-generic register-force (F *forces)
+    (print "registering force" F)
+    ((create F) this))
+
+  (def-generic register (forces)
+    (assign this.*forces (.map forces (=> (F) (.register-force this F forces)))))
+
+  (gett forces this.*forces)
+
+  (def *update-component (c)
+    (.each c.forces (#-> (.apply c)))))
+
+(export Physics)
+(require! (lit Collision) "./collision")
+
+(define Physics.Force Interface
+  (init (physics))
+  (def build ()
+       (unless (= this.name 'Physics.Force)
+         (.push Physics.forces this)))
+
+  (def-generic apply (physical-properties)
+    (throw (new (Error "force does not have an applicator.")))))
+
+(define Gravity Physics.Force
+  (def apply (c)
+    (var v c.velocity)
+    (var collision (.get c.system.process.systems Collision c.entity))
+    (unless collision.colliding (incr-by v.yd 9.8))))
+(export Gravity)
+
+(define Friction Physics.Force
+  (def apply (c)
+       (var v c.velocity)
+       (var collision (.get c.system.process.systems Collision c.entity))
+       (unless collision.colliding
+         (incr-by v.xd (* -1 (/ v.xd 32)))
+         (incr-by v.yd (* -1 (/ v.yd 32))))))
+
+(export Friction)
+
