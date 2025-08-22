@@ -2,11 +2,13 @@ import { dualSinkRegistry } from '../utils/DualSinkRegistry.js';
 
 export function registerSinkRoutes(app) {
     app.get('/sinks/list', {
+        preHandler: [app.authUser, app.requirePolicy('read', 'sinks')],
         schema: { operationId: 'listSinks', tags: ['Sinks'] },
         handler: async () => ({ sinks: dualSinkRegistry.list() }),
     });
 
     app.post('/sinks/:name/query', {
+        preHandler: [app.authUser, app.requirePolicy('read', (req) => req.params.name)],
         schema: {
             summary: 'Query sink in Mongo (structured filter)',
             operationId: 'querySink',
@@ -29,6 +31,7 @@ export function registerSinkRoutes(app) {
     });
 
     app.post('/sinks/:name/search', {
+        preHandler: [app.authUser, app.requirePolicy('read', (req) => req.params.name)],
         schema: {
             summary: 'Semantic search in sink (Chroma)',
             operationId: 'searchSink',
