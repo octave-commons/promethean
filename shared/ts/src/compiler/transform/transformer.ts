@@ -89,7 +89,8 @@ export function makeTransformer(before: string, after: string) {
                         if (rule.after.length === 1) {
                             return rule.after[0];
                         } else if (rule.after.length > 1) {
-                            return ts.factory.createBlock(rule.after as ts.Statement[], true);
+                            // handled at parent level
+                            return rule.after as unknown as ts.Node;
                         } else {
                             return ts.factory.createEmptyStatement();
                         }
@@ -97,7 +98,21 @@ export function makeTransformer(before: string, after: string) {
                 }
                 return ts.visitEachChild(node, visit, context);
             };
-            return (node: ts.SourceFile) => ts.visitEachChild(node, visit, context);
+
+            const fileVisitor = (sf: ts.SourceFile): ts.SourceFile => {
+                const newStatements: ts.Statement[] = [];
+                sf.statements.forEach((stmt) => {
+                    const replaced = visit(stmt);
+                    if (Array.isArray(replaced)) {
+                        newStatements.push(...(replaced as ts.Statement[]));
+                    } else if (replaced) {
+                        newStatements.push(replaced as ts.Statement);
+                    }
+                });
+                return ts.factory.updateSourceFile(sf, newStatements);
+            };
+
+            return fileVisitor;
         };
 
         const result = ts.transform(src, [transformer]);
