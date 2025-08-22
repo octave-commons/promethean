@@ -20,6 +20,8 @@
         "execa": "^9.6.0",
         "fast-glob": "^3.3.2",
         "fastify": "^4.28.1",
+        "@fastify/swagger": "^8.15.0",
+        "@fastify/swagger-ui": "^1.10.2",
         "jose": "^5.10.0",
         "jsonwebtoken": "^9.0.2",
         "nanoid": "^5.0.7",
