@@ -6,9 +6,76 @@ import { OrchestratorSystem } from '@shared/ts/dist/agent-ecs/systems/orchestrat
 import type { Bot } from '../bot.js';
 import type { FinalTranscript } from '../transcriber.js';
 import { defaultPrompt } from '../prompts.js';
+import { enqueueUtterance } from '@shared/ts/dist/agent-ecs/helpers/enqueueUtterance.js';
+import { classifyPause, estimatePauseDuration, seperateSpeechFromThought, splitSentances } from '../tokenizers.js';
+import { sleep } from '../util.js';
+import { CollectionManager } from '../collectionManager.js';
+import { AGENT_NAME } from '@shared/js/env.js';
 
 export type StartDialogInput = { bot: Bot };
 export type StartDialogOutput = { started: boolean };
+
+export async function storeAgentMessage(
+    bot: Bot,
+    text: string,
+    is_transcript = true,
+    startTime = Date.now(),
+    endTime = Date.now(),
+) {
+    const messages = bot.context.getCollection('agent_messages') as CollectionManager<'text', 'createdAt'>;
+    return messages.addEntry({
+        text,
+        createdAt: Date.now(),
+        metadata: {
+            startTime,
+            endTime,
+            is_transcript,
+            author: bot.applicationId,
+            agentMessage: true,
+            userName: AGENT_NAME,
+            channel: bot.currentVoiceSession?.voiceChannelId,
+            recipient: bot.applicationId,
+            createdAt: Date.now(),
+        },
+    });
+}
+async function processAgentMessage(bot: Bot, content: string) {
+    const texts = seperateSpeechFromThought(content);
+    const sentences: { type: string; text: string }[] = texts.flatMap(
+        ({ text, type }: { text: string; type: string }) =>
+            splitSentances(text).map((sentance: string) => ({ text: sentance, type })),
+    );
+    console.log({ sentences });
+    const finishedSentences = [] as { type: string; text: string }[];
+
+    const startTime = Date.now();
+    for (let sentence of sentences) {
+        if (sentence.type === 'thought') {
+            const kind = classifyPause(sentence.text);
+            const ms = estimatePauseDuration(sentence.text);
+            console.log(`[Pause] (${kind}) "${sentence.text}" → sleeping ${ms}ms`);
+            // TODO: Implement an enqueuePause
+            await sleep(ms);
+            continue;
+        }
+        console.log(sentence);
+
+        const { w, agent, C } = bot.agentWorld as { w: any; agent: number; C: any };
+        enqueueUtterance(w, agent, C, {
+            id: `${Date.now()}-${randomUUID()}`,
+            group: 'agent-speech',
+            priority: 1,
+            bargeIn: 'pause',
+            factory: async () => bot.currentVoiceSession.makeResourceFromText(sentence),
+        });
+
+        finishedSentences.push(sentence);
+    }
+
+    const endTime = Date.now();
+
+    await storeAgentMessage(bot, finishedSentences.map(({ text }) => text).join(' '), true, startTime, endTime);
+}
 
 export async function runStartDialog({ bot }: StartDialogInput): Promise<StartDialogOutput> {
     if (!bot.currentVoiceSession) return { started: false };
@@ -70,6 +137,15 @@ export async function runStartDialog({ bot }: StartDialogInput): Promise<StartDi
                 w.set(e, C.Utterance, { ...u, status: 'done' });
             }
         }
+    });
+
+    bot.bus?.subscribe('agent.llm.result', (res: any) => {
+        if (!bot.agentWorld) return;
+        const { w, agent, C } = bot.agentWorld;
+        const text = res?.text ?? res?.reply ?? '';
+        console.log('llm response', text);
+        if (!text) return;
+        processAgentMessage(bot, text);
     });
 
     // Seed current members and track joins/leaves
