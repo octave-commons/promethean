@@ -28,7 +28,7 @@ export function resetEmbeddingCache() {
     EMBEDDING_INSTANCE_KEY = null;
 }
 
-function getChroma() {
+export function getChroma() {
     if (!CHROMA) CHROMA = new ChromaClient();
     return CHROMA;
 }

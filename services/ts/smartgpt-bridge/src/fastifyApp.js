@@ -17,10 +17,13 @@ import { registerGrepRoutes } from './routes/grep.js';
 import { registerSymbolsRoutes } from './routes/symbols.js';
 import { registerAgentRoutes } from './routes/agent.js';
 import { registerExecRoutes } from './routes/exec.js';
+import { registerLogRoutes } from './routes/logs.js';
+import { mongoChromaLogger } from './logging/index.js';
 
 export function buildFastifyApp(ROOT_PATH) {
     const app = Fastify({ logger: false, trustProxy: true });
     app.decorate('ROOT_PATH', ROOT_PATH);
+    app.register(mongoChromaLogger);
 
     const baseUrl = process.env.PUBLIC_BASE_URL || `http://localhost:${process.env.PORT || 3210}`;
     const authEnabled = String(process.env.AUTH_ENABLED || 'false').toLowerCase() === 'true';
@@ -80,6 +83,7 @@ export function buildFastifyApp(ROOT_PATH) {
         registerIndexerRoutes(f);
         registerAgentRoutes(f);
         registerExecRoutes(f);
+        registerLogRoutes(f);
     });
 
     // Initialize indexer bootstrap/incremental state unless in test
