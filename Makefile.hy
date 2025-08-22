@@ -32,11 +32,11 @@
 ;; -----------------------------------------------------------------------------
 
 
-(define-service-list SERVICES_HY "services/hy")
-(define-service-list SERVICES_PY "services/py")
-(define-service-list SERVICES_JS "services/js")
-(define-service-list SERVICES_TS "services/ts")
-(define-service-list SHARED_TS "shared/ts")
+(define-service-list SERVICES_HY "services/hy" (in path "template"))
+(define-service-list SERVICES_PY "services/py" (in path "template"))
+(define-service-list SERVICES_JS "services/js" (in path "template"))
+(define-service-list SERVICES_TS "services/ts" (in path "template"))
+(define-service-list SHARED_TS "shared/ts" (in path "template"))
 (setv commands {})
 (import os.path [basename])
 (setv GPU_SERVICES #{"stt" "tts"})   ; only these Python services are allowed to use GPUs

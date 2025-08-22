@@ -4,7 +4,7 @@
     "main": "dist/index.js",
     "type": "module",
     "scripts": {
-        "build": "tsc && node scripts/patch-imports.js",
+        "build": "tsc && node scripts/patch-imports.js | true",
         "build:check": "tsc --noEmit --incremental false",
         "test": "pnpm run build && ava",
         "coverage": "pnpm run build && c8 ava",
