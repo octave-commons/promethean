@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Introduced `CHANGELOG.md` to track project changes.
 - Auto-generated OpenAPI spec for SmartGPT Bridge via Fastify swagger.
+- TTL log retention for SmartGPT Bridge with MongoDB and Chroma cleanup.
 
 ### Changed
 - Refactored `VoiceSession` to accept a stubbed `Transcriber` for testability.
