@@ -1,0 +1,16 @@
+
+(def rgb (r g b ) (lit  r g b ))
+ 
+(def-tidy create-grayscale-image (t) (.mul (field t) (.scalar dl 255 "float32")))
+(def-tidy random-grayscale (w h) (pipe (bit-field w h) create-grayscale-image))
+
+(def-tidy grayscale-to-rgba (imgs) (.tile imgs [1 1 1 4]))
+(def-tidy grayscale-to-rgb (imgs) (.tile imgs [1 1 1 3]))
+
+(fn uint8c (arr) (.from Uint8ClampedArray arr))
+
+(def-async image (t)
+  (new Image-data (uint8c (await t.data()))
+       (second t.shape) ;; width
+       (third t.shape) ;; height
+       ))

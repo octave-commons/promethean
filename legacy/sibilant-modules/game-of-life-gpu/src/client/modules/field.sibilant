@@ -1,0 +1,55 @@
+(include "kit/header")
+(include "kit-interface/header")
+
+(include "../../../inc/dl")
+
+(import-namespace kit)
+(import-namespace interface)
+(import-namespace dl)
+
+(def-tidy imageify (state)
+  (.state reshape [(* H W) ]))
+(def-tidy grayscale-to-rgba (images)
+  (.concat images))
+
+(define Field Interface
+
+  (init (  canvas (shape [0 0]) (state (dl.ones shape))
+
+                  ( image-data (new Image-data  (first shape) (second shape)))
+           (ctx (.get-context canvas "2d"))
+           ))
+
+  (def-generic render (canvas   state shape image-data ctx)
+
+    (if! (not running?) (return false))
+
+    (var [height width] shape)
+
+    (then (.data state) d
+          ;;(var img (new Image-data  (Uint8ClampedArray.from d) (second shape)(first shape)))
+
+          (var j 0 k 0)
+          (for! (i 0) (< i (* width height)) (++ i)
+                (assign j (* i 4))
+                (.*render-cell this (get d i) j image-data))
+
+          (.put-image-data ctx image-data 0 0))))
+
+(define Colored Field
+
+  (init (canvas color shape state) (.call Field.init this canvas shape state))
+
+  (def *render-cell (a j image-data )
+       ;;(unless (= a 0)(print "setting cell" j a))
+       (assign a (Math.min 1 (Math.pow a 2)))
+       (set image-data.data
+            j       (Math.round (* this.color.r a))
+            (+ j 1) (Math.round (* this.color.g a))
+            (+ j 2) (Math.round (* this.color.b a))
+            (+ j 3) 255)))
+(var colored (create Colored))
+
+(export Field)
+(export Colored)
+(export colored)

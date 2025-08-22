@@ -2,14 +2,14 @@ import Fastify from 'fastify';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import fastifyStatic from '@fastify/static';
+import swagger from '@fastify/swagger';
+import swaggerUi from '@fastify/swagger-ui';
 
 import { indexerManager } from './indexer.js';
 import { restoreAgentsFromStore } from './agent.js';
 import { createFastifyAuth } from './fastifyAuth.js';
-import { spec } from './spec.js';
 
 // Route plugins
-import { registerOpenApiRoutes } from './routes/openapi.js';
 import { registerFilesRoutes } from './routes/files.js';
 import { registerSearchRoutes } from './routes/search.js';
 import { registerIndexerRoutes } from './routes/indexer.js';
@@ -19,8 +19,36 @@ import { registerAgentRoutes } from './routes/agent.js';
 import { registerExecRoutes } from './routes/exec.js';
 
 export function buildFastifyApp(ROOT_PATH) {
-    const app = Fastify({ logger: false });
+    const app = Fastify({ logger: false, trustProxy: true });
     app.decorate('ROOT_PATH', ROOT_PATH);
+
+    const baseUrl = process.env.PUBLIC_BASE_URL || `http://localhost:${process.env.PORT || 3210}`;
+    const authEnabled = String(process.env.AUTH_ENABLED || 'false').toLowerCase() === 'true';
+
+    const swaggerOpts = {
+        openapi: {
+            openapi: '3.1.0',
+            info: { title: 'Promethean SmartGPT Bridge', version: '1.0.0' },
+            servers: [{ url: baseUrl }],
+        },
+    };
+    if (authEnabled) {
+        swaggerOpts.openapi.components = {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    bearerFormat: 'JWT',
+                },
+            },
+        };
+        swaggerOpts.openapi.security = [{ bearerAuth: [] }];
+    }
+
+    app.register(swagger, swaggerOpts);
+    app.register(swaggerUi, { routePrefix: '/docs' });
+
+    app.get('/openapi.json', async (_req, rep) => rep.type('application/json').send(app.swagger()));
 
     // Serve static dashboard from /public at root
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -34,11 +62,6 @@ export function buildFastifyApp(ROOT_PATH) {
     app.get('/dashboard', async (_req, reply) => {
         reply.header('Cache-Control', 'no-cache');
         return reply.sendFile('index.html');
-    });
-
-    // /openapi.json is public
-    app.register(async (f) => {
-        registerOpenApiRoutes(f, { spec });
     });
 
     // Auth: mount /auth/me, and protect subsequent scopes

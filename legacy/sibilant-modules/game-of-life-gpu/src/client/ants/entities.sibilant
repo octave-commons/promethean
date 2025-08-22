@@ -1,0 +1,10 @@
+(var ants [])
+(def create-ant ([x y])
+     (var ant (entity physics-dot
+                      [(position x y)
+                       (dot 255 0 0 255)
+                       (velocity 0 0)
+                       (physics 10 10 [])
+                       (collision 'dynamic)]))
+     (.push ants ant)
+     ant)

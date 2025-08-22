@@ -1,0 +1,26 @@
+
+
+
+(define Vector2D Data-type
+  (keys ['x 'y])
+  (def set-angle (angle)
+    (const length (.get-length this))
+    (assign this.x (* (Math.cos angle) length))
+    (assign this.y (* (Math.sin angle) length))
+    (if (or (isNaN this.x) (isNaN this.y))
+        (throw (new Error "Vector parameter is NaN")))
+    )
+  (def set-length (length)
+    (const angle (.get-angle this))
+    (assign this.x (* (Math.cos angle) length))
+    (assign this.y (* (Math.sin angle) length))
+    (if (or (isNaN this.x) (isNaN this.y))
+        (throw (new Error "Vector parameter is NaN")))
+    this)
+  (def add-to (v)
+    (incr-by this.x v.x)
+    (incr-by this.y v.y)
+    (if (or (isNaN this.x) (isNaN this.y))
+        (throw (new Error "Vector parameter is NaN")))
+    )
+  )

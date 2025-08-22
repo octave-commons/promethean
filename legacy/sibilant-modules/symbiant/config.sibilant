@@ -1,0 +1,12 @@
+
+(pipe program
+      (.option "-p, --port [number || process.env.PORT || 8002]")
+      (.parse process.argv))
+
+(var port (or program.port process.env.PORT 8002)
+     app (express)
+
+     server (http.Server app)
+     io (socket-io server))
+
+(server.listen port)

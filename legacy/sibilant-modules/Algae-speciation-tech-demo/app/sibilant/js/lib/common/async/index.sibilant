@@ -1,0 +1,26 @@
+
+
+(include "../../deps")
+
+(import-namespace defs)
+(import-namespace js)
+
+(const (literal create extend mixin) (require "../util"))
+
+(const Node-promise Promise)
+
+
+(macro node-back (args ...body)
+       (print "hi")
+       `(=> (err ...@(get args "contents"))
+            (if err (fail err) ...@body)))
+
+(macro proxy (name property)
+       `(mth @name ((dots args))
+             ((get this (quote @property) @name) (dots args))))
+
+(include "./future"
+         "./collection"
+         "./array"
+         "./object"
+         )

@@ -1,0 +1,51 @@
+
+(include "kit-interface/header")
+
+(import-namespace interface)
+(require! (lit Dynamic-pool) "../pooling/dynamic-pool"
+          R "ramda")
+
+(def spawn-component  (entity systems) (#-> systems.get (.spawn  entity)))
+
+(def component-list  (entity) (R.map (spawn-component entity)))
+
+(def remove (entity) (#-> (get 'system) (.clear entity)))
+
+(var clear (#->  .clear))
+
+(define Entity Interface
+
+  (doc "used as a key to retrieve related components from different systems.")
+
+  (init (system id aspects (components (component-list this))))
+  (gett entity this)
+
+  (def-generic despawn (entity components )
+    (.each entitiy.components (remove entity))
+    (assign entity.id null))
+
+  (def spawn (  aspects system) (.spawn system aspects )))
+
+(export Entity)
+
+(define Entity-system Interface
+  (current-id 0)
+  (init (process (pool ((create Dynamic-pool) Entity 256))))
+  (gett game this.process)
+
+  (def clear () (.clear this.pool))
+
+  (def spawn (aspects ) (.spawn this.pool this (incr this.current-id) aspects )))
+
+(export Entity-system)
+
+(define Entity-group Interface
+
+  (init (name aspects system (group ((create Group)))))
+
+  (def clear (group) (.each group clear))
+
+  (def-generic spawn ( aspects system group)
+    (collect e (.spawn system aspects )
+             (.add group e))))
+(export Entity-group)

@@ -1,0 +1,31 @@
+(macro in (  o k) [k " in " o])
+
+(macro lit (...body) `(literal ...@(.map body global.lit-macros )))
+
+(macro class  (name super-class body)
+       "create an es6 style class."
+       ["class " name
+                 ...(if body (interleave " " [" extends" super-class ]) [])
+                 " "
+                 `(curly ...@(.map (get (or body super-class)
+                                        "contents") global.lit-macros ))])
+
+(macro loose-var (...body)
+       (bulk-map body (=> (name value )
+                          (if (.includes name.token ".")
+                              `(assign @name @value)
+                              `(var @name @value)))))
+
+
+(macro def-pipe (name args ...body)
+       `(def @name ($value ...@(get args 'contents))
+          (pipe $value ...@body)))
+
+(macro def-let (name args let-args ...body)
+       `(def @name @args
+          (let @let-args ...@body)))
+
+(macro list-of (size ...body)
+       `(let ((array []))
+          (do-times @size
+            (array.push (scoped ...@body))) array))

@@ -1,0 +1,25 @@
+
+(include "kit/header")
+(import-namespace kit)
+(namespace language-model)
+(require! (lit Model Storage))
+(def-interface Conceptual-graph ()
+
+  (extend Probability-tree)
+
+  )
+
+
+(def-interface Concept-model (name)
+
+  (extend Model)
+
+  (Graph Conceptual-graph)
+
+  (init (.call Model.init this))
+
+  (def spawn (name)
+    ;; this will need to change, and have an object pool instead.
+    ((create Concept-model) name)))
+
+

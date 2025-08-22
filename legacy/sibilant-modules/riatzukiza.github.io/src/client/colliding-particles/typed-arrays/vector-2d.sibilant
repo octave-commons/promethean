@@ -1,0 +1,15 @@
+(import Double-buffered-array "./double-buffered.js")
+(import Vector2D "../data-types/vector-2d.js")
+
+(define Vector-2D-array Double-buffered-array
+  (data-type Vector2D)
+
+  (def add-to (vector-2d-array)
+    (for-of! v this.data
+             (const v2 (get vector-2d-array 'data v.id ))
+
+             (assign v.x (+ v.x v2.x))
+             (assign v.y (+ v.y v2.y)))
+    this))
+
+(export Vector-2D-array)

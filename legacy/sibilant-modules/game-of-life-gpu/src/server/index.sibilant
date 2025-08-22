@@ -1,0 +1,6 @@
+(require! srv "./server")
+
+(assign module.exports srv)
+
+
+(.start srv.server)

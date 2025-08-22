@@ -1,0 +1,78 @@
+(include "kit/header")
+(import-namespace kit)
+
+
+(include "kit-interface/header")
+(import-namespace interface)
+(reload "../../../../inc/misc.sibilant")
+
+(def-lit-macro def-curried (name args ...body) `(property @name (R.curry (lambda @args ...@body))))
+
+(require! (lit Component System) "../ecs/component"
+          (lit Physics) "./physics"
+          (lit Position) "./position"
+          (lit Velocity) "./velocity")
+
+
+
+(define Collision-bounds Component
+  (gett dimensions this.data.area)
+  (gett dim this.dimensions)
+  (gett type this.data.type)
+
+  (gett scale (/ this.physics.scale 2))
+  (gett physics (.get this.system.process.systems Physics this.entity))
+
+  (gett min-bounds
+        (var height   this.scale
+             width this.scale)
+
+        (var (lit x y) this.pos)
+
+        (lit  (x (- x width))
+              (y (- y height))))
+
+  (gett max-bounds
+
+        (var height   this.scale
+             width this.scale)
+
+        (var (lit x y) this.pos)
+
+        (lit (x  (+ x width))
+             (y (+ y height))))
+
+  (gett position (.get this.system.process.systems Position this.entity ))
+  (gett pos this.position)
+  (gett velocity (.get this.system.process.systems Velocity this.entity)))
+
+(export Collision-bounds)
+
+(define Collision System
+  (interface Collision-bounds)
+
+  (def-curried *check  (c c*)
+    (unless (or  c*.checked (= c c*) (= c.type 'static))
+
+      ;; shape of bounding box for non rotated rectangles.
+
+      (var d [(- c*.min-bounds.x c.max-bounds.x)
+              (- c*.min-bounds.y c.max-bounds.y)
+              (- c.min-bounds.x c*.max-bounds.x)
+              (- c.min-bounds.y c*.max-bounds.y)])
+
+      (var [d1x d1y d2x d2y] d)
+
+      (set c 'colliding false)
+      (unless (or (>= d1x 0) (>= d1y 0) (>= d2x 0) (>= d2y 0))
+        (set c 'colliding true)
+        (.emit c.system.game.events "collision"
+               [c c* d]))))
+
+  (def *update-component (c)
+    (unless (or (= c.type 'static)
+                c.colliding)
+      (.each c.system.components
+             (.*check this c))
+      (set c 'checked true))))
+(export Collision)

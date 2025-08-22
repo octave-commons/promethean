@@ -1,0 +1,14 @@
+(require! (lit Document-node Document-root Document-body) "../modules/dom")
+(import-namespace dom)
+
+(var wrap Document-node.wrap)
+
+(var stage (dom (.div .id 'stage )))
+
+
+(var container
+     (dom
+      (.div .id "container"
+            rendering.context.canvas)))
+(with-dom Document-root
+          (.div .id 'frame container))

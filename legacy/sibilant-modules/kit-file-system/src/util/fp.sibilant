@@ -1,0 +1,33 @@
+
+(var bi-curry (R.curry-n 2 ))
+(var _ R._)
+
+;; (var *discover-type (cond (R.pipe R.head directory?)
+;;                           (R.pipe (nth 1) (create Directory))
+;;                           (R.pipe (nth 1) (create File))))
+;; (var *discover-node (bi-curry (R.unapply (R.pipe (.set *tree seq) *discover-type) )))
+
+
+
+
+;; Be you, the app that uses this app is the test for the app
+
+(def-lit-macro def-curried (name args ...body)
+  `(property @name (R.curry (lambda @args ...@body))))
+
+(def-curried feach (f a)
+  (.each a f))
+
+(def-curried fmap (f a) (.map a f))
+
+(def identity (a) a)
+
+(def-curried set-value (v o) (assign o.value v))
+
+(macro let* (vars ...body)
+       "introduce scoped variables via nested lexical closures"
+
+       (if (> (length vars.contents) 1)
+           `(let (@(first vars.contents))
+              (let* (...@(rest vars.contents)) ...@body))
+           `(let (@(first vars.contents)) ...@body)))

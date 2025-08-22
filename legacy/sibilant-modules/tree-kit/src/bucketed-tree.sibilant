@@ -1,0 +1,8 @@
+
+(def-interface Bucketed-tree
+    ((value [])
+     parent
+     (*children ((create Ordered-map))))
+  (extend Tree-map))
+
+(export Bucketed-tree)

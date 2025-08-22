@@ -1,0 +1,106 @@
+
+;; (var curry R.curry)
+
+;; (macro then-pipe (p ...funcs)
+;;        `(pipe @p
+;;               ...@(.map funcs (=> (e) `(.then @e)))))
+(macro fpipe (...body)
+       `(=> ($fpipe)
+            (pipe $fpipe ...@body)))
+(meta
+
+ (print '(var init-form   (fpipe (get 'contents)
+                           first
+                           (get  'token)
+                           (=  "init"))))
+
+ (var init-form   (fpipe (get 'contents)
+                         first
+                         (get  'token)
+                         (=  "init")))
+
+
+ (var not-init (fpipe init-form not ))
+
+
+ ;;(var find-init-form (fpipe (.find  init-form) (or {contents []}) (get 'contents) rest))
+
+ (var find-init-form (fpipe (.find  init-form)
+                            (or {contents []})
+                            (get 'contents)
+                            rest))
+
+ (def create-interface (name args body)
+
+   (let ((init-body `(init @ args ...@(find-init-form body)))
+
+         (lit-args (.filter body not-init)))
+
+     `(.define Interface (quote @name) (lit @init-body ...@lit-args))))
+
+
+
+ (def macros.create-interface (name args body)
+
+   (let ((init-body `(init @ args ...@(find-init-form body)))
+
+         (lit-args (.filter body not-init)))
+
+     `(.define Interface
+               (quote @name)
+               (lit @init-body ...@lit-args))))
+
+ (def-lit-macro def-interface (name args ...body)
+   `(property @name (create-interface @name @args @body)))
+
+ (def macros.def-interface (name args ...body)
+   `(loose-var @name @(.create-interface macros name args body)))
+
+ null)
+
+(var Interface {})
+
+
+(describe Interface
+
+          ( *symbols {})
+          ( *types {})
+
+          (init (name
+                 *obj
+                 (*types {})
+                 (*symbols {})))
+
+          (def-generic define
+              (name
+
+               *obj *types *symbols
+
+               ( *shares (or *obj.borrows *obj.shares []))
+               ( *ext (or *obj.extend {}))
+               ( *build *obj.build))
+
+
+            (if (in  *symbols name)
+
+                (mixin *obj (get *types (get *symbols name)))
+                (.create this name *obj)))
+
+          (def-generic create
+
+              (name
+
+               *obj *types *symbols
+
+               (*shares (or *obj.borrows *obj.shares []))
+               (*ext (or *obj.extend {}))
+               (*build *obj.build)
+               (*symbol (Symbol name)))
+
+            (collect m (extend  *ext (mixin  [ (lit name (symbol *symbol)) (dots *shares) ] *obj))
+
+                     (set *symbols name *symbol)
+                     (set *types  *symbol m)
+
+                     (if *build (.build m )))))
+

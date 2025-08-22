@@ -1,0 +1,14 @@
+
+(var physics-dot : [ Position, Dot,  Velocity,  Physics, Collision],)
+
+(var Player-dot [(position 0 0)
+                 (dot 0 10 255 255)
+                 (velocity 0 0 )
+                 (physics 10 32 [Gravity Friction])
+                 (collision 'dynamic)])
+
+
+
+(var player (entity physics-dot Player-dot)
+
+     floor (array-of 20 ((aprint "spawning floor") (entity physics-dot (floor-tile i 20)))))

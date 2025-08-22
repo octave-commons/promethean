@@ -1,0 +1,19 @@
+(specify File (extend Inode)
+         (getter string () (return (read-file this.path "utf8")))
+         (setter string (data) (return (pipe (Promise.resolve data)
+                                             (then str (write-file this.path  str)))))
+
+         (getter contents () (return (read-file this.path)))
+         (setter contents (data) (return (write-file this.path data))))
+
+(generic File.delete (def) (path) (unlink path))
+
+(generic File.insert (def) (path contents)
+         (then-do (write-file path contents)
+                  ((create File) path)))
+
+(generic File.make (def) (path)
+         (then-do (write-file path "")
+                  ((create File) path)))
+
+(export File)

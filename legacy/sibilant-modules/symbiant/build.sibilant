@@ -1,0 +1,127 @@
+"use strict"
+(include "./deps")
+(import-namespace defs)
+(import-namespace js)
+
+(const R (require "ramda"))
+(macro import (thing from)
+       `(const (literal ...@(content-of thing)) (require @from)))
+
+(import (create extend mixin curry) "./lib/util")
+(import (File Directory) "./lib/file-system")
+
+(def conditional (value pred action (dots rest))
+  "A functional conditional operator. Immediately evaluates its arguements."
+  (if action
+      (if (pred value) (action value)
+
+          (conditional value (dots rest)))
+
+      pred (pred value)
+
+      value))
+
+(def cond (pred action (dots rest))
+  "A lazy application of a functional conditional operator.
+Waits for a value to be given to it before applying its functional arguements"
+  (=> (value) (conditional value pred action (dots rest))))
+(var {Sibilant} (require "./lib/sibilant"))
+(var strip-sib (R.replace  "/sibilant/" "/")
+     change-ext (R.replace ".sibilant" ".js"))
+
+(var translate-path (R.compose strip-sib change-ext))
+
+(var get-string (R.prop "string"))
+(var transpile (R.invoker 0 "transpile"))
+(var from-file Sibilant.from-file)
+(var save-file (R.invoker 1 (quote save-file)))
+(var build (R.pipe translate-path
+                      from-file
+                      transpile
+                      save-file
+                      ))
+(def bulk-bundle (dir bundle)
+  (print "bulk add on" dir.path)
+  (each  dir (name)
+         (then (.find dir name) node
+               (unless (= name "includes")
+                 (if (= node.symbol Directory.symbol)
+                     (bulk-bundle node bundle)
+                     (do
+                      (print "adding" node.path "to bundle")
+                      (bundle.add node.path)))))))
+(var is-dir-symbol (R.equals Directory.symbol))
+(var symbol-of (R.prop "symbol"))
+(var is-dir (R.pipe symbol-of is-dir-symbol))
+(var traverse (R.invoker 1 "traverse"))
+(var has (R.invoker 1 "has"))
+
+(var find (curry (=> (list k) (.find list k))))
+(var then (curry (=> (p f) (.then p f))))
+(var get-child (curry (=> (children name) (children.get name))))
+(var set-child (curry (=> (children name data) (children.set name data))))
+
+(var value-of (R.prop "value"))
+(var name-of (R.prop "name"))
+(var same-symbol-as (R.eq-props "symbol" ))
+(var value-is-same-type (=> (branch-type )))
+
+(type Cache
+      (init ( value branch-type leaf-type (children (new Map))))
+      (generic has (mth) (name children)
+               (.has children name))
+      (generic get (mth) (k value children)
+               (if (.has children k)
+                   (.get children k)
+
+                   (then (.find value k) sub-value
+                         (let node ((create this) sub-value))
+                         (.set children k node) node)))
+
+      (generic each (mth) ( f value children)
+               (.each value (=> (name) (.then (this.get name) f) )))
+
+      (generic filter-each (mth) ( filter (callback (=> (x) x)) dir (node this))
+               (.each node (cond filter callback) dir))
+
+      (generic filtered-traverse (mth) ( filter (callback (=> (x) x)) dir (node this))
+               (.each this (cond (R.pipe value-of name-of (same-symbol-as branch-type))
+                                 (traverse callback) callback)))
+
+      (generic traverse (mth) ( callback branch-type leaf-type)
+               (.each this (cond (R.pipe value-of name-of (same-symbol-as branch-type))
+                                 (traverse callback) callback))))
+
+
+(comment (let d ((create Cache) ((create Directory) ".") Directory File))
+         (let ignored (R.either (R.equals ".git") (R.equals "node_modules")))
+         (pipe d
+               ;;(.filter-r (R.compose R.not ignored name-of value-of) (aprint "file thing?"))
+               (.traverse  (aprint "dir"))
+               (.catch  (aprint "failed to traverse"))))
+
+(let add (R.invoker 1 "add"))
+
+(def add-game (game)
+  "sets up the middleware and build tools for a game's directory"
+
+  (var bundle (browserify)
+       js-path (Path.join __dirname "games/" game.name "/js"))
+
+  ;;(var dir ((create Directory) js-path))
+
+  (add-routes game.name bundle)
+
+  (pipe (Promise.resolve (auto-compile game.name bundle))
+        (then-do (.traverse
+                  game
+                  (R.path ["value" "path"])
+                  (add R.__ bundle)
+                  ))))
+(specify FS-cache (extend Cache)
+         (property leaf-type File)
+         (property branch-type Directory)
+         (property create (R.pipe (create Directory)(create Cache))))
+
+
+(let games (.create FS-cache "./games"))

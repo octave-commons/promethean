@@ -1,0 +1,42 @@
+
+(specify File (extend FS-node))
+
+(describe File
+
+
+          (gett value (read-file this.path))
+          (sett value v (then (Promise.resolve v) v
+                              (write-file this.path v)))
+
+          (gett string (read-file this.path "utf8"))
+          (sett string s (then (Promise.resolve s) s
+                               (write-file this.path  s)))
+
+          (def-generic get-value (path)
+            (read-file path))
+
+          (def-generic set-value ( (value "") path)
+            (then-do (write-file  path value) this))
+
+          ;; (gett bandwidth )
+          ;; (gett latency )
+          ;; (gett size )
+          ;; (gett stats )
+
+          ;; (gett creation-time )
+          ;; (gett last-modified )
+          ;; (gett permissions )
+          ;; (gett owner )
+          ;; (gett parent )
+
+
+          (gett read-stream (.get-read-stream this))
+          (gett write-stream (.get-write-stream this))
+
+          (gmth get-read-stream (path) (fs.create-read-stream path))
+          (gmth get-write-stream (path) (fs.create-write-stream path))
+
+
+          (gmth write ())
+          (gmth read ())
+          (gmth pipe ()))

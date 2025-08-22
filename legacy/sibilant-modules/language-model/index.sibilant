@@ -1,0 +1,19 @@
+(macro globals (...names) `(mixin  (lit ...@names) global))
+(include "kit/header")
+(def Map.prototype.each (f)
+  (.for-each this f)
+  this)
+(import-namespace kit)
+
+(require! (lit create extend mixin cond ) "kit/js/util"
+          (lit Interface) "./lib/interface")
+
+(globals create extend mixin cond Interface)
+
+(require! (lit Model Storage) "./lib/model"
+          (lit Probability-tree) "./lib/probability-tree")
+
+(export Storage)
+(export Model)
+(export Probability-tree)
+

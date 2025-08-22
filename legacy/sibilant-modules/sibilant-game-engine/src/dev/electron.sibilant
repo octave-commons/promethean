@@ -1,0 +1,44 @@
+(include "kit/header")
+(include "kit-interface/header")
+(include "kit-actor/header")
+
+(import-namespace kit)
+(import-namespace interface)
+
+(require! 'electron
+          'child_process)
+(def-async event (emitter name)
+  (make-promise
+   (.once emitter 'name success)
+   (.once emitter 'error fail)))
+
+(def-async send (data process)
+  (make-promise
+   (.send process data success)))
+
+(define Child-process Actor
+  (init (name args (process (.spawn child_process name args)))
+        (.call Actor.init this )
+        (.on process 'message (#-> (this.emit 'message))))
+
+  (def-async *send (data process) (send data process))
+
+  (def-async kill (signal process)
+    (.kill process signal)
+    (event process 'exit))
+
+  (def-generic restart ()
+    (await (.kill this ))
+    (.init this))
+
+  (def-generic spawn (name args) ((create this) name args)))
+
+(define Electron Child-process
+
+  (init (path)
+        (.call Child-process.init this (require "electron")
+               [path]))
+
+  (def spawn (path) ((create this) path)))
+
+(export Electron)

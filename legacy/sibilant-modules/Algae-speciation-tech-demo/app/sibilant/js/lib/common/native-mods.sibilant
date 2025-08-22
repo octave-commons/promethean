@@ -1,0 +1,15 @@
+(import-namespace kit)
+
+(def Object.prototype.map (f)
+  (var r {})
+  (.each this (=> (v k) (set r k (f v k))))
+  r)
+
+(def Object.prototype.keys ()
+  (Object.keys this))
+
+(def Object.prototype.each (f)
+
+  (each (.keys this) (k) (f (get this k) k))
+
+  this)

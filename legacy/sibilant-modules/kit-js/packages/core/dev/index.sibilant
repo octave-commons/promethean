@@ -1,0 +1,12 @@
+(include "../macros.sibilant")
+(import-namespace kit)
+(require! R "ramda")
+
+(include "../inc/core/fp")
+
+(require! (lit create extend mixin conditional cond partially-apply-after ) "../js/util")
+
+(include "../inc/shell")
+(import-namespace shell)
+
+

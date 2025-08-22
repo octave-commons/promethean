@@ -1,0 +1,71 @@
+
+
+(require! R "ramda")
+
+(include "kit/inc/shell"
+         "kit/header")
+
+(include "kit-interface/header" )
+(import-namespace interface)
+
+(import-namespace kit)
+(import-namespace shell)
+
+(var * R.__)
+
+(require! {spawn} "child_process"
+          "readline"
+          "fs")
+(macro with-net-server (config ...body)
+       `(pipe net (.create-server (=> (socket) ...@body))
+              (.listen @config)))
+
+(var electron-process (spawn "electron" [(.resolve require "../js/electron-init.js")] { stdio [null null null "ipc"] })
+
+     rl (readline.create-interface
+         {
+         input process.stdin
+         output process.stdout
+         })
+     rl-ready false)
+
+(.on electron-process 'exit process.exit)
+(electron-process.stdout.pipe process.stdout)
+(electron-process.stderr.pipe process.stderr)
+
+(require! "net")
+
+
+(include "kit-repl/header")
+(var Reader repl.Reader)
+
+(define Remote-eval-socket Interface
+  (init (socket (validator ((create Reader)))))
+
+  (def-generic send (d validator)
+    (.send validator d))
+
+  (def-generic start ( validator socket)
+    (on validator 'message (d)
+        (.write socket d)) this)
+
+  (def-generic stop (validator socket)
+    (print "stoping eval socket")
+    (.remove-all-listeners validator 'message)))
+
+(var remote-eval-socket (create Remote-eval-socket))
+
+(with-net-server 8120
+  (var app (.start (remote-eval-socket socket))
+       send (#-> app.send)
+       stop (#-> app.stop)
+       prompt (-> (.prompt rl)))
+
+  (.on rl 'line send)
+  (.on app.validator 'message prompt)
+  (.on socket 'error (aprint "REPL server socket error:"))
+
+  (.once socket 'end stop)
+  (.once socket 'close (aprint "server socket closed"))
+  (.once socket 'end (-> (.remove-listener rl 'line send)
+                         (.remove-listener app.validator 'message prompt))))

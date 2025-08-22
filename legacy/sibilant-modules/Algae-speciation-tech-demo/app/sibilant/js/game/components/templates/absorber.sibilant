@@ -1,0 +1,37 @@
+(type Absorber )
+
+(describe Absorber
+
+          (kernel (.mult (kernel 3 3
+                           [
+                           [ 1 1 1 ]
+                           [ 1 4 1 ]
+                           [ 1 1 1 ]
+                           ]) (/ 1 12)))
+
+          (cost 0.00001)
+          (Field null)
+          (Container null)
+
+          (init (entity Field  (neiborhood (moore entity.x entity.y Field.field))))
+
+          (def-generic update (entity neiborhood kernel cost Container)
+            ;; the idea of an absorber I think could be generalized beyond an association with calories and this game specifically,
+            ;; but right now it'll be faster to toss it in here, since all the ones I will be needing will use these actively.
+
+            ;; I think if a distinction gets made, the kind that uses calories shall be called `active absorbers`
+
+            (let* (( container (get entity Container.symbol))
+                   (current (get container 'value)))
+
+              (if (< current container.max )
+                  (let (( calories (get entity Calories.symbol))
+                        (absorbed (.convolve kernel neiborhood)))
+
+                    (each kernel (v x y)
+                          (let (( r (- (.get neiborhood x y) v)))
+                            (.set neiborhood x y (ternary (> r 0 ) r 0))))
+
+                    (.add container absorbed)
+
+                    (.remove calories (* absorbed cost)))))))

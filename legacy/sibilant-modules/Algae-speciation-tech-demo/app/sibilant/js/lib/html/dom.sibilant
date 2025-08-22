@@ -1,0 +1,42 @@
+
+
+(specify DOM-node (extend Event-emitter.prototype))
+
+(describe DOM-node
+          (init (tag-name
+                 attributes
+                 children
+
+                 (*parent document.body))
+
+                (.call Event-emitter this)))
+
+(macro dom (root)
+       `(xml dom-node @root))
+(macro with-dom (parent root)
+       `(pipe (dom @root)
+              (.render @parent)))
+
+(print document.append-child)
+
+(def-generic DOM-node.render (*parent attributes tag-name *node children)
+
+  (when *node
+    (print "clearing an old node" *node *parent)
+    (.remove *node))
+
+  (assign parent (if (= parent.symbol DOM-node.symbol)
+                     parent.*parent
+                     parent
+                     ))
+
+  (assign this.*node (document.create-element tag-name))
+  (.append-child *parent this.*node)
+
+  (each attributes (a k) (set this.*node k a))
+
+  (pipe children
+        (each  (c) (if c.render
+                       (do (print "encountered renderable child" c this.*node *parent)
+                           (.render c this.*node))
+                       (.append-child this.*node (.create-text-node document c))))) this)
