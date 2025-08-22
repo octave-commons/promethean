@@ -1,4 +1,5 @@
 import querystring from 'querystring';
+import openapi from '../openapi.v1.json' assert { type: 'json' };
 
 function proxy(fastify, method, urlBuilder, payloadBuilder) {
     return async function (req, reply) {
@@ -16,6 +17,9 @@ function proxy(fastify, method, urlBuilder, payloadBuilder) {
 }
 
 export function registerV1Routes(fastify) {
+    fastify.get('/v1/openapi.json', async (_req, reply) => {
+        reply.type('application/json').send(openapi);
+    });
     // Files
     fastify.get(
         '/v1/files',
