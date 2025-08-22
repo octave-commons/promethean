@@ -18,6 +18,8 @@
 
 (defmacro unless [ cond #* body] `(when (not ~cond) ~@body))
 
+(defn gpu-present [] (or (isfile "/dev/nvidiactl") (= 0 (os.system "nvidia-smi >/dev/null 2>&1"))))
+
 (setv TORCH-FLAVOR (or (os.environ.get "PROMETHEAN_TORCH")
                        (if (gpu-present) "cu129" "cpu")))
 ;; Choose which requirements.in to compile
@@ -61,9 +63,7 @@
       "requirements.cpu.lock"))
 
 
-(defn gpu-present []
-  (or (isfile "/dev/nvidiactl")
-      (= 0 (os.system "nvidia-smi >/dev/null 2>&1"))))
+
 
 ;; PROMETHEAN_TORCH env wins: "cpu" or "cu129" (or any cuXX)
 
