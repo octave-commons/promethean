@@ -20,7 +20,8 @@ function defaultIgnored(pathRel: string) {
         pathRel.includes('/build/') ||
         pathRel.startsWith('build/') ||
         pathRel.includes('/.obsidian/') ||
-        pathRel.startsWith('.obsidian/')
+        pathRel.startsWith('.obsidian/') ||
+        pathRel.startsWith('.')
     );
 }
 
