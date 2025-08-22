@@ -26,17 +26,22 @@
           `(when (not ~cond)
              ~@body
              ))
+(defn lockfile-for [d]
+  (if (= (reqs-file-for d) "requirements.gpu.in")
+      "requirements.gpu.lock"
+      "requirements.cpu.lock"))
+
 
 ;; -----------------------------------------------------------------------------
 ;; Service List Definitions
 ;; -----------------------------------------------------------------------------
 
 
-(define-service-list SERVICES_HY "services/hy" (in path "template"))
-(define-service-list SERVICES_PY "services/py" (in path "template"))
-(define-service-list SERVICES_JS "services/js" (in path "template"))
-(define-service-list SERVICES_TS "services/ts" (in path "template"))
-(define-service-list SHARED_TS "shared/ts" (in path "template"))
+(define-service-list SERVICES_HY "services/hy" (not (in  "templates" path)))
+(define-service-list SERVICES_PY "services/py" (not (in  "templates" path)))
+(define-service-list SERVICES_JS "services/js" (not (in  "templates" path)))
+(define-service-list SERVICES_TS "services/ts" (not (in  "templates" path)))
+(define-service-list SHARED_TS   "shared/ts"   (not (in  "templates" path)))
 (setv commands {})
 (import os.path [basename])
 (setv GPU_SERVICES #{"stt" "tts"})   ; only these Python services are allowed to use GPUs
@@ -128,7 +133,9 @@
 
 
 (defn uv-sync [d]
-  (sh "UV_VENV_IN_PROJECT=1 uv pip sync requirements.lock" :cwd d :shell True))
+  (let [lockf (lockfile-for d)]
+       (sh (.format "UV_VENV_IN_PROJECT=1 uv pip sync {}" lockf) :cwd d :shell True)))
+
 
 ;; (defn inject-sitecustomize-into-venv [svc-dir]
 ;;   (let [src (join svc-dir "sitecustomize.py")
@@ -195,6 +202,15 @@
 
 (defn-cmd setup-shared-python []
   (sh ["python" "-m" "pipenv" "install" "--dev"] :cwd "shared/py"))
+(defn-cmd lock-python-cpu []
+  (os.environ.__setitem__ "PROMETHEAN_TORCH" "cpu")
+  (for [d SERVICES_PY] (uv-compile d))
+  (uv-compile "./shared/py"))
+
+(defn-cmd lock-python-gpu []
+  (os.environ.__setitem__ "PROMETHEAN_TORCH" "cu129")  ; or your default
+  (for [d SERVICES_PY] (uv-compile d))
+  (uv-compile "./shared/py"))
 
 (defn-cmd setup-shared-python-quick []
   (setv d "./shared/py/")
@@ -202,7 +218,7 @@
       (do
        (uv-venv d)
        ;; quick path = trust existing lock if present; else compile it
-       (if (has-file* d "requirements.lock")
+       (if (has-file* d (lockfile-for d))
            (uv-sync d)
            (do (uv-compile d) (uv-sync d)))
         (inject-sitecustomize-into-venv d))
@@ -218,7 +234,7 @@
            (do
             (uv-venv d)
             ;; quick path = trust existing lock if present; else compile it
-            (if (has-file* d "requirements.lock")
+            (if (has-file* d (lockfile-for d))
                 (uv-sync d)
                 (do (uv-compile d) (uv-sync d)))
              (inject-sitecustomize-into-venv d))
@@ -779,3 +795,4 @@
 
 (when (= __name__ "__main__")
   (main))
+

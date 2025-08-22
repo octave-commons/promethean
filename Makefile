@@ -7,6 +7,8 @@ COMMANDS := \
   generate-python-services-requirements \
   generate-requirements-service \
   setup-shared-python \
+  lock-python-cpu \
+  lock-python-gpu \
   setup-shared-python-quick \
   setup-python-services-quick \
   setup-python \
@@ -76,6 +78,8 @@ COMMANDS := \
   setup-quick \
   install \
   install-gha-artifacts \
+  probe-python-service \
+  probe-python-services \
   system-deps \
   install-mongodb \
   start \
@@ -96,6 +100,8 @@ COMMANDS := \
 
 .PHONY: \
   $(COMMANDS) \
+  uv-setup-python-service- \
+  probe-python-service- \
   setup-python-service- \
   setup-quick-service-python-service- \
   setup-quick-shared-python-service- \
@@ -129,6 +135,12 @@ COMMANDS := \
   generate-requirements--service-
 
 $(COMMANDS):
+	@hy Makefile.hy $@
+
+uv-setup-python-service-%:
+	@hy Makefile.hy $@
+
+probe-python-service-%:
 	@hy Makefile.hy $@
 
 setup-python-service-%:
