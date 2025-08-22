@@ -20,7 +20,19 @@ export function isInsideRoot(ROOT_PATH, abs) {
 }
 
 export function normalizeToRoot(ROOT_PATH, p = '.') {
-    const abs = path.resolve(path.isAbsolute(p) ? p : path.join(ROOT_PATH, p));
+    // Treat leading '/' as relative to the repository root rather than the filesystem root.
+    // Also treat empty string or '/' as the root directory itself.
+    if (!p || p === '/') p = '.';
+    let abs;
+    if (path.isAbsolute(p)) {
+        if (p.startsWith(ROOT_PATH)) {
+            abs = path.resolve(p);
+        } else {
+            abs = path.resolve(ROOT_PATH, p.slice(1));
+        }
+    } else {
+        abs = path.resolve(ROOT_PATH, p);
+    }
     if (!isInsideRoot(ROOT_PATH, abs)) throw new Error('path outside root');
     return abs;
 }
