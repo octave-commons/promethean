@@ -37,6 +37,15 @@
 
 (setv commands {})
 
+(defn make-ctx []
+  (let* [torch-flavor (or (os.environ.get "PROMETHEAN_TORCH")
+                         (if (gpu-present) "cu129" "cpu"))
+       torch-channel (or (os.environ.get "PROMETHEAN_TORCH_CHANNEL") torch-flavor)
+       torch-index (.format "https://download.pytorch.org/whl/{}" torch-channel)]
+       {"torch/flavor" torch-flavor
+       "torch/index"  torch-index}))
+
+
 ;; -----------------------------------------------------------------------------
 ;; Service List Definitions
 ;; -----------------------------------------------------------------------------
@@ -216,6 +225,12 @@
             (generate-requirements-service (.split (os.path.relpath d "services/py") "/") 0)
              (sh ["python" "-m" "pip" "install" "--user" "-r" "requirements.txt"] :cwd d)))))
 
+(defn-cmd clean-python []
+  (print "Cleaning Python artifacts...")
+  (for [d SERVICES_PY]
+       (sh "rm -rf .venv __pycache__ .pytest_cache *.pyc requirements.*.lock" :cwd d :shell True))
+  (sh "rm -rf .venv __pycache__ .pytest_cache *.pyc requirements.*.lock" :cwd "shared/py" :shell True))
+
 (defn-cmd setup-python []
   (setup-python-services)
   (setup-shared-python))
@@ -227,8 +242,6 @@
 (defn-cmd build-python []
   (print "No build step for Python services"))
 
-(defn-cmd clean-python []
-  (print "Cleaning Python artifacts..."))
 
 (defn-cmd setup-python-service [service]
   (print (.format "Setting up Python service: {}" service))
@@ -362,7 +375,26 @@
   (coverage-js-services))
 
 (defn-cmd clean-js []
-  (sh "rm -rf shared/js/*" :shell True))
+  (print "Cleaning JavaScript artifacts...")
+  (sh "rm -rf node_modules pnpm-lock.yaml package-lock.json yarn.lock" :cwd "shared/js" :shell True)
+  (for [d SERVICES_JS]
+       (sh "rm -rf node_modules pnpm-lock.yaml package-lock.json yarn.lock dist build" :cwd d :shell True)))
+(defn-cmd clean-ts []
+  (print "Cleaning TypeScript artifacts...")
+  (for [d SERVICES_TS]
+       (sh "rm -rf node_modules dist build *.tsbuildinfo" :cwd d :shell True))
+  (for [d SHARED_TS]
+       (sh "rm -rf node_modules dist build *.tsbuildinfo" :cwd d :shell True)))
+(defn-cmd clean-hy []
+  (print "Cleaning Hy artifacts...")
+  (for [d SERVICES_HY]
+       (sh "rm -rf __pycache__ .pytest_cache *.pyc" :cwd d :shell True)))
+(defn-cmd clean-sibilant []
+  (print "Cleaning Sibilant artifacts...")
+  (for [d SERVICES_TS]   ; if you’re generating into TS
+       (sh "rm -rf *.js" :cwd d :shell True)))
+
+
 
 (defn-cmd build-js []
   (print "No build step for JavaScript services"))
@@ -461,12 +493,7 @@
       (run-dirs SHARED_TS "pnpm run coverage && pnpm exec c8 report -r lcov" :shell True)
       (require-pnpm)))
 
-(defn-cmd clean-ts []
-  (if (has-pnpm)
-      (do
-        (run-dirs SERVICES_TS "pnpm run clean >/dev/null || true" :shell True)
-        (run-dirs SHARED_TS "pnpm run clean >/dev/null || true" :shell True))
-      (require-pnpm)))
+
 
 (defn-cmd build-ts []
   (print "Transpiling TS to JS... (if we had any shared ts modules)")
@@ -511,8 +538,13 @@
   (build-ts))
 
 (defn-cmd clean []
+  (clean-python)
   (clean-js)
-  (clean-ts))
+  (clean-ts)
+  (clean-hy)
+  (clean-sibilant)
+  (sh "rm -rf .pytest_cache coverage htmlcov .mypy_cache" :shell True))
+
 
 (defn-cmd lint []
   (lint-python)
