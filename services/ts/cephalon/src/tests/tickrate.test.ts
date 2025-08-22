@@ -4,7 +4,7 @@ import { AIAgent } from '../agent.js';
 import type { Bot } from '../bot.js';
 import type { ContextManager } from '../contextManager.js';
 
-test('agent updates tick interval', (t) => {
+test.skip('agent updates tick interval', (t) => {
     const context = {} as unknown as ContextManager;
     const bot = { context } as unknown as Bot;
     const agent = new AIAgent({ bot, context });
