@@ -8,4 +8,4 @@ corepack enable pnpm
 pip install pytest flake8 black pre-commit hy dotenv
 pre-commit install
 make setup-pipenv
-make setup
+PROMETHEAN_TORCH="cpu" make install
