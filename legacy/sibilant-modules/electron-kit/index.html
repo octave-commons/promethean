@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>A game engine</title>
+    <style>
+        .panel {
+            float: left;
+            border-style: solid;
+            border-width: 1px;
+        }
+        
+        .bordered {
+            border-style: solid;
+            border-width: 1px;
+        }
+    </style>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+</head>
+
+<body>
+
+</body>
+<script>
+    if (typeof module === 'object') {
+        window.module = module;
+        module = undefined;
+    }
+</script>
+
+<script>
+    if (window.module) module = window.module;
+</script>
+<script>
+    // You can also require other files to run in this process
+    require("sibilant");
+    //require('./js/index.js')
+    require("./js/client.js")
+</script>
+
+
+
+</html>

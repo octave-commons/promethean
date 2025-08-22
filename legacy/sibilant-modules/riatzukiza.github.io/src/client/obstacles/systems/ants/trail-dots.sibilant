@@ -1,0 +1,69 @@
+(namespace obstacles)
+(import Dot-interface Dot "/shared/systems/rendering/dot.js")
+(import rgba "/client/obstacles/colors.js")
+
+(const base-color (rgba 20 20 125 255))
+
+(define Trail-dot Dot-interface
+  (*color base-color)
+  (changed? true)
+  (gett color this.*color)
+  (sett color c
+        (assign this.changed? true)
+        (assign this.*color c))
+  (def *clear () (.call Dot-interface.*clear this)(assign this.color base-color))
+  (def register ()
+    (.call Dot-interface.register this)
+
+    (set this.vertex.color
+          'r base-color.r
+          'g base-color.g
+          'b base-color.b
+          'a 0)
+
+    (set this.vertex
+         'size 1)
+    )
+  )
+(export Trail-dot)
+
+(define Trail-dots Dot
+  (max-verts 300000)
+  (interface Trail-dot)
+
+  (def register ()
+    (.call this.proto.register this)
+    (assign this.visible? true)
+    )
+  (def toggle-visibility ()
+    (if this.visible?
+        (do
+         (assign this.verts.render? false)
+         (each this.components (c)
+                  (assign c.vertex.color.a 0))
+            (assign this.visible? false))
+        (do
+         (assign this.verts.render? true)
+         (assign this.visible? true))))
+
+  (def *update-all (...args)
+    (if this.visible? (.call this.proto.*update-all this ...args)))
+
+  (def *update-component (dot)
+    (set dot.vertex.color
+         'a (Math.round
+             (Math.max 0 (* 255 (/ dot.entity.trail-segment.remaining-time dot.entity.trail-segment.duration))))
+         ;; 'a 255
+         )
+    (if! dot.changed?
+        (set dot.vertex.color
+             'r dot.color.r
+             'g dot.color.g
+             'b dot.color.b)
+        (assign this.changed? false)
+        )
+    null
+    )
+
+  )
+(export Trail-dots)

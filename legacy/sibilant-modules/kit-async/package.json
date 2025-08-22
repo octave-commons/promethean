@@ -1,0 +1,12 @@
+{
+  "name": "@kit-js/async",
+  "version": "1.0.4",
+  "main": "index.js",
+  "author": "Aaron Beavers <foamy125@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "@kit-js/core": "^1.3.1",
+    "@kit-js/interface": "^2.0.4"
+  }
+}

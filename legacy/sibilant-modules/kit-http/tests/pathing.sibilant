@@ -1,0 +1,24 @@
+(include "kit/header")
+(import-namespace kit)
+(require! 'sibilant)
+
+(include "kit-events/header")
+(include "../src/index")
+
+(include "../meta")
+(import-namespace http)
+
+(var PORT 8000)
+(require! (lit File-system) "kit-file-system")
+
+(var static-dir (.load File-system "./static"))
+
+(define static-files Http.Middle-ware)
+(.init static-files)
+
+(.use static-files "/"
+      (async (=> ((lit request response route remainder))
+                 (var file (await (.find static-dir remainder)))
+                 (if (file.is-dir?) (.end response "directory")
+                   (.pipe file.read-stream res)))))
+

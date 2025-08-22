@@ -1,0 +1,40 @@
+;; https://github.com/fireice-uk/xmr-stak/releasel .
+(namespace repl)
+
+(include "kit/header")
+(import-namespace kit)
+
+
+(include "kit-interface/header")
+
+(import-namespace interface )
+
+(include "kit-actor/header")
+(import-namespace actor)
+
+(include "kit-events/header")
+(import-namespace events)
+
+(require! (lit inspect) 'util
+          'vm)
+
+
+(var id 0)
+(def-curried run-in ( string )
+  (.run-in-this-context vm  string (lit (filename ("kit" (incr id))))))
+
+
+
+(define Evaluator Actor
+
+  (init () (.call Actor.init this))
+
+  (def-generic spawn () ((create this)))
+  (def-generic *send (js context)
+
+    (pipe (Promise.resolve js)
+          (.then  run-in)
+          (.then (=> (result) (.emit this 'message ['result result])))
+          (.catch (=> (err) (.emit this 'message ['error err]))))))
+
+(export Evaluator)

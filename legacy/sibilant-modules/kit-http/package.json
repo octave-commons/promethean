@@ -1,0 +1,18 @@
+{
+    "name": "@kit-js/http",
+    "version": "1.2.3",
+    "author": "Aaron Beavers",
+    "main": "./index.js",
+    "scripts": {
+        "compile": "sibilant ./src/index.sibilant -o .",
+        "clean": "rm -r node_modules",
+        "clean-install": "npm run clean;npm install;",
+        "publish": "npm run compile;git add .;git commit -m 'new version published';git push origin master;"
+    },
+    "dependencies": {
+        "@kit-js/async": "*",
+        "@kit-js/collections": "*",
+        "@kit-js/core": "*",
+        "@kit-js/interface": "*"
+    }
+}

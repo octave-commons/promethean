@@ -1,0 +1,88 @@
+
+(include "kit-interface/header")
+(import-namespace interface)
+
+(define Ordered-map Interface
+  (init ((*members (new Map)) ;; {a:5,b:6,c:10}
+
+         (*key-pointers (new Map)) ;; {a:0,b:1,c:2}
+
+         (*keys [])   ;; [ 'a 'b 'c ]
+         (*values []) ;; [ 5 6 10 ]
+         ))
+
+  (def-generic has (key [*members])
+
+    (.has *members key))
+
+  (def-generic get (key [*members _ *keys])
+    (.get *members key))
+
+  (def-generic each (callback *values)
+     (.each *values callback)
+     this)
+
+
+  (def-generic map (callback [*members _ *keys *values])
+    (collect r ((create Ordered-map))
+             (each *keys (k)
+                   (.set r k (f (get *members k) k r)))))
+
+  (def-generic delete (key [*members *key-pointers *keys *values])
+    (var i (get *key-pointers key))
+
+    (.delete *members key )
+    (.delete *key-pointers key)
+    (delete *keys i)
+    (delete *values i))
+
+  (def-generic push ([key value] [*members *key-pointers *keys *values])
+    (remember *members key
+
+              (.push *keys key)
+              (.set *key-pointers (.push *values value))
+
+
+              value))
+
+  (def-generic pop ([*members *key-pointers *keys *values])
+    (var key (.pop *keys)
+         value (.pop *values))
+
+    (.pop *key-pointers)
+    (.delete  members key)
+
+    value)
+
+  (def-generic shift ([*members *key-pointers *keys *values])
+    (var key (.shift *keys)
+         value (.shift *values))
+
+    (.shift *key-pointers)
+    (.delete *members key)
+
+    value)
+
+  (def-generic unshift ([ key value] [*members *key-pointers *keys *values])
+    (remember *members key
+
+              (.unshift *keys key)
+              (.set *key-pointers (.unshift *values value))
+
+              value))
+
+  (def-generic set (key value [*members *key-pointers *keys *values])
+    (if (.has *members key)
+
+        (let ((i (get *key-pointers key)))
+          (set *values i value)
+          (.set *members key value))
+
+        (do (.push *keys key)
+            (.set *key-pointers (.push *values value))
+
+          (.set *members key value)
+
+          value))))
+
+(export Ordered-map)

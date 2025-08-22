@@ -1,0 +1,95 @@
+
+
+(require! Andy "./andy"
+          utils "./utils")
+(var Gl {})
+
+(var (lit Buffer Program Shader Attribute Type Context Uniform) Andy.Gl
+     (lit Blend-mode) Andy.Color)
+(assign global.Program Program)
+
+(def Gl.shader (type-name string context)
+  (new Andy.Gl.Shader (get Andy.Gl.Shader type-name) string))
+
+(def Gl.buffer (*members context)
+  (pipe (new Andy.Gl.Buffer  context.ARRAY_BUFFER, context.DYNAMIC_DRAW)
+        (.bind)
+        (.data *members.data)
+        (.unbind)))
+
+(def Gl.context (dimensions blend)
+  (pipe (new Andy.Context)
+        (.make-current)
+        (.resize (dots dimensions))
+        (.clear-color 0 0 0 0)
+        (.blend blend)
+        (.clear)))
+
+(def Gl.uniform (type-name var-name value)
+  (new (get Andy.Gl.Uniform type-name) var-name value))
+
+;; (assign Gl.shaders
+;;         (lit
+;;          (vert (shader 'vertex (vert-shader)))
+;;          (frag (shader 'frag fragment-shader-string))))
+;; (new Andy.Gl.Uniform.Sampler 0 (* 32 32))
+
+(var uniforms (lit (res (Gl.uniform 'Vector2 "Resolution" (window.size)))
+                   (scale (Gl.uniform 'Float "Scale" 1.0))))
+(export uniforms)
+
+(def Gl.program (vert frag context)
+  (new Andy.Gl.Program
+       (Gl.shader 'vertex vert context)
+       (Gl.shader 'fragment frag context)))
+
+(def def-glsl (out-type name in-types (dots body))
+
+     (collect shader (.join [out-type name "(" (.join in-types ",") ")" "{\n"
+                                      (dots body)
+                                      "}"] " ")
+              ))
+
+(def vert-shader ()
+     ("#version 300 es
+in vec3 a_point;
+in vec4 a_color;
+in float a_size;
+
+out highp vec4 vColor;
+
+uniform vec2  u_Resolution;
+uniform float u_Scale;"
+
+      (def-glsl "vec4" "clipspace_coordinate" ["vec3 xyz", "float scale", "vec2 res"]
+        "return vec4( (xyz * vec3(1.0,1.0,1.0) * scale) /"
+
+        "(vec3(res,1.0)) * 1.98 - 0.99, 1.0) * vec4( 1.0,-1.0,1.0,1.0 ); ")
+
+      (def-glsl "void" 'main ["void"]
+
+        ("gl_Position  = clipspace_coordinate( a_point, u_Scale, u_Resolution );
+              gl_PointSize = a_size;
+//size * z
+// so that the closer the vertex is (the larger z is), the larger the vertex will be relative to its physical size
+
+
+              vColor       = a_color; "))))
+
+(var fragment-shader-string ("#version 300 es
+precision mediump float;
+
+in  vec4 vColor;
+out vec4 FragColor;
+
+void main(void)
+{
+ FragColor = vColor;
+           }"))
+
+(export vert-shader)
+(export fragment-shader-string)
+
+(export Gl)
+
+(export Andy)

@@ -1,0 +1,46 @@
+
+(macro in (  o k) [k " in " o])
+
+(macro sprint (...args) `(print ...@(Array.bind args (=> (a) [`(quote @a) a]))))
+
+(macro set-globals (...body) `(mixin (lit ...@body) global))
+
+(macro fluently (...body) `(scoped ...@body))
+
+(macro accumulate (name ...body) `(assign @name (pipe @name ...@body)))
+
+(def-lit-macro def-curried (name args ...body) `(property @name (R.curry (lambda @args ...@body))))
+
+(def-lit-macro define (name parent ...body)
+  `(property @name
+             (.define @parent (quote @name)
+                      (lit ...@body))))
+
+
+
+(macro remember (m k ...body)
+       `(if (.has @m @k)
+            (.get @m @k)
+          (do (var r (scoped ...@body))
+              (.set @m @k r) r)))
+
+(macro collect (name value ...body)
+       `(.call (lambda (@name) ...@body @name) this @value))
+
+(macro array-of (size ...body)
+       `(collect array []
+                 (do-times @size (.push array (scoped ...@body)) array)))
+
+(macro fourth (a) `(get @a 3))
+
+(def-lit-macro gett-tuple (name ...keys)
+  `(gett @name [...@(.map keys (=> (k) `(get this @k)))]))
+
+(def Array.prototype.each (f)
+     (.for-each this f)
+     this)
+(def Object.prototype.each (f)
+     (pipe (Object.keys this)
+           (.for-each (=> (k) (f (get this k) k)))
+           )
+     )

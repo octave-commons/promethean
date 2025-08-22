@@ -1,0 +1,10 @@
+(namespace ecs)
+(macro def-entity (name args ...body)
+       `(def @name @args
+             (var entity (.spawn game.ent [...@(.map body (#-> (get 'contents) first))]))
+
+             ...@(.map body (=> ((lit (contents [component (dots props)])))
+                                `(set (.get game.systems @component entity)
+
+                                      ...@props)))
+             entity))

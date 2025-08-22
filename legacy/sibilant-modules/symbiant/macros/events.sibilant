@@ -1,0 +1,14 @@
+(macro event (method emitter  event args ...body)
+       `(pipe  @emitter
+               (@method (quote @event) (=> @args ...@body))
+               (.once "error"
+
+                      (=> (err)
+                          (print "error on" (quote @event)
+                                 "of" (quote @emitter)
+                                 "given" (quote @args))
+                          (print err)))))
+(macro on (emitter event args ...body)
+       `(event .on @emitter @event @args ...@body))
+(macro once (emitter event args ...body)
+       `(event .once @emitter @event @args ...@body))

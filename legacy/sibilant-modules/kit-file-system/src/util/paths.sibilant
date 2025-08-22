@@ -1,0 +1,4 @@
+
+(var not-single-dot (=> (token) (not (= token ".")))
+     find-value (=> (seq *tree) (get (.find *tree seq) 'value))
+     tokenize (fpipe  (.split  "/") (.filter  not-single-dot)))

@@ -1,0 +1,32 @@
+(require! R "ramda" "assert" (lit cond create extend mixin) "kit/js/util")
+(var testing? true)
+
+(include "../inc/util.sibilant")
+
+
+(def-curried fmap (f a) (.map a f))
+(var is (lit (def string (v) (string? v))))
+
+(def is.empty? (value)
+  (empty? value))
+
+(def athrow (err-type message)
+  (-> (new err-type message)))
+
+(def get-value-of (o) (.get-value o))
+
+(macro p-test (promise  message ...body)
+
+       `(.then (then-do @promise
+                  (var message @message)
+                  (print  message)
+                  (pipe  ...@body) )
+               (aprint "")))
+(include "./tree-map"
+         "./file-system"
+
+         ;;"../tests/file-system.sibilant"
+         )
+
+(export File-system)
+(export File)

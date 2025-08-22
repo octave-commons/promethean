@@ -1,0 +1,33 @@
+
+(include "kit-interface/header")
+(import-namespace interface)
+
+(require! (lit Ordered-map) "./ordered-map")
+
+(def-interface Ordered-bucket-map ((*buckets ((create Ordered-map))))
+
+  (def-generic set (k v *buckets )
+
+    ;; This is breaking if a duplicate entry is attempted to be added from Bucket-tree
+
+    (if (.has *buckets k)
+
+        (pipe *buckets (.get  k) (.push v))
+
+      ;; changing `v` to an array fixed the first problem but introduced a new one,
+      ;; now the operations on the tree expect the elements of the child to contain valid sub trees
+
+      (.push *buckets [k [v]])))
+
+  (def-generic get (k value *buckets)
+    (.get *buckets k))
+
+  (def-generic each (f *buckets)
+    (.each *buckets f))
+  (def-generic map (f *buckets)
+    (.map *buckets f))
+  (def-generic delete ([k value]))
+
+  )
+
+(export Ordered-bucket-map)

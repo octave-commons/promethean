@@ -1,0 +1,43 @@
+
+(macro  reciprocal (n) `(/ 1 @n))
+(type Container)
+(describe Container
+          (max 100)
+
+          (init (entity max (value max) (delta { positive 0 negative 0 }) ))
+
+          (def-generic add (v )
+            (incr-by this.delta.positive v))
+
+          (def-generic remove (v)
+            (incr-by this.delta.negative v))
+
+          (def-generic full? (value max)
+            (> value max))
+
+          (def-generic empty? (value)
+            (< value 0))
+
+          (def-generic update (entity max value delta (container this))
+            (if (.full? container )
+
+                (let* ((percent-full (percent-of container))
+                       (multiplier (reciprocal (- (percent-of container) 1)))
+                       (new-value (- (+ value (* multiplier delta.positive)) delta.negative)))
+
+                  ;; (sprint percent-full)
+                  ;; (sprint multiplier)
+                  ;; (sprint new-value)
+                  ;; (sprint container)
+
+                  (assign container.value new-value))
+
+                (.empty? container )
+                (assign container.value 0)
+
+                (let ((new-value (- (+ value delta.positive) delta.negative)))
+                  (assign container.value new-value)))
+
+            (set container.delta
+                 'positive 0
+                 'negative 0)))

@@ -1,0 +1,26 @@
+(import config "./config.js")
+(import entities "./entities.js")
+
+(var settings (Quick-settings.create 800 0 "settings 1"))
+
+(.addRange settings "Options amplitude" 1 100 config.options-amplitude 0.01 (=> (val) (assign config.options-amplitude val)))
+(.addRange settings "Angle Zoom" 1 99 config.angle-zoom 1 (=> (val) (assign config.angle-zoom (/ val config.options-amplitude ))))
+(.addRange settings "Noise Z" 1 99 config.noise-z 1 (=> (val) (assign config.noise-z (/ val config.options-amplitude ))))
+(.addRange settings "Noise Force" 1 99 config.field-force 0.1 (=> (val) (assign config.field-force (/ val config.options-amplitude ))))
+(.addRange settings "Signal Decay" 0 20 config.decay 0.01 (=> (val) (assign config.decay (/ val config.options-amplitude))))
+(.addRange settings "Max P Vector Length"  0 999 config.max-length 0.1 (=> (val) (assign config.max-length (/ val config.options-amplitude ))))
+(.addRange settings "Max Trail" 10 9999 config.max-trail 1(=> (val) (assign config.max-trail val)))
+(.addRange settings "Min Trail" 10 99 config.min-trail 1 (=> (val) (assign config.min-trail val)))
+
+(.add-boolean settings "Decay on collision"  config.decay-on-collision (=> (val) (assign config.decay-on-collision val)))
+(.add-boolean settings "Limit the number of decay blocks per cycle"   config.limit-decay (=> (val) (assign config.limit-decay val)))
+
+(.addRange settings "Ant Influence" 0 99 config.ant-influence 1 (=> (val) (assign config.ant-influence val)))
+(.addRange settings "friction" 1 10 config.friction 1 (=> (val) (assign config.friction val)))
+(.addRange settings "Collision Static" 0 99 config.collision-static 1 (=> (val) (assign config.collision-static val)))
+(.addRange settings "Spawn Static" 0 99 config.spawn-static 1 (=> (val) (assign config.spawn-static val)))
+(.addRange settings "Spawn Rate" 1 10 config.spawn-rate 1 (=> (val) (assign config.spawn-rate val)))
+(.addRange settings "Game speed" 0.1 5 config.game-speed 0.1 (=> (val) (assign config.game-speed val)))
+(.add-button settings "Clear ants" entities.clear-ants)
+
+(export settings)

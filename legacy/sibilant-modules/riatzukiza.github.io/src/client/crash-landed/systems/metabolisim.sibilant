@@ -1,0 +1,81 @@
+(import System Component "/shared/ecs.js")
+(import List "/shared/data-structures/list.js")
+(define Needs Component
+  (calories-stored 2000) ;; negative calories 
+  (calories-max 5000)
+  (hunger-threshold 1000) ;; the point where the agent begins looking for food.
+  (satiated-threshold 2000) ;; the point where the agent stops looking for food. (for now)
+  (rest (* 48 60 )) ;; 1 tick = 1 minute ;; rest is tracked in ticks
+  (max-rest (* 48 60 ))
+  (total-sleep-deprivation-threshold (* 24 60 ))
+  (partial-sleep-deprivation-threshold (* 40 60 ))
+  (starvation-threshold 500) ;; thought of like stored fat
+  (health 1000)
+  (def eat (item)
+    (assign this.calories-stored (Math.min (+ this.calories-stored
+                                         item.calories)
+                                      this.calories-max))
+
+    (print "mmmm food" this item)
+    (.remove item.container.objects item.entity)
+    (.despawn item.unit.group item.unit)
+    )
+  (is-resting? false)
+  (gett rest-efficiency 1) ;; will be changed after we add beds etc.
+
+  (gett is-hungry? (> this.hunger-threshold this.calories-stored))
+  (gett is-starving? (> this.starvation-threshold this.calories-stored))
+
+  (gett is-tired? this.partially-sleep-deprived)
+  (gett is-sleep-deprived? this.totally-sleep-deprived)
+
+  (gett is-dieing? (or this.is-starving?
+                       this.is-sleep-deprived?))
+  (gett partially-sleep-deprived (> this.partial-sleep-deprivation-threshold
+                                    this.rest))
+  (gett totally-sleep-deprived (> this.total-sleep-deprivation-threshold
+                                  this.rest))
+  (gett hunger-efficiency-modifier
+        (/
+         this.hunger-threshold
+         (Math.max this.calories-stored
+                   (* 5 this.starvation-threshold)
+                   )))
+  (gett sleep-efficiency-modifier
+        (/ this.partial-sleep-deprivation-threshold
+           (Math.max this.rest
+                     (* 2 this.total-sleep-deprivation-threshold))))
+  ;; starting effiency would be 40hrs / 48 hrs
+  (gett activity-level (if this.is-resting? 1 4))
+  (gett metabolic-efficiency
+        ;; calories burned per unit of work
+        ;; one unit of work is 1 tile of unmodified movement
+        ;; base move speed is 1 tile per tick
+        ;; or one action cycle (like eating)
+        ;; assuming constant
+        (* this.activity-level
+           this.sleep-efficiency-modifier
+           this.hunger-efficiency-modifier))
+  ;; unit starts to die if hunger gets below this amount
+
+  ;; negative rest means sleep debt
+  ;; sleep debt decreases metabolic efficiency
+  )
+(export Needs)
+(define Metabolisim System
+  (Component Needs)
+  (def *update-component (c)
+    (if c.is-resting?
+        (do (incr-by c.rest c.rest-efficiency)
+         (if (>= c.rest c.max-rest)
+             (assign c.is-resting? false)))
+        (decr c.rest))
+    (assign c.calories-stored (- c.calories-stored c.metabolic-efficiency))
+    (if c.is-dieing?
+        (assign c.health (- c.health (* 0.1 c.metabolic-efficiency))))
+    (if (<= c.health 0)
+        (print "I died")
+        ;; dead
+        )
+    ))
+(export Metabolisim)

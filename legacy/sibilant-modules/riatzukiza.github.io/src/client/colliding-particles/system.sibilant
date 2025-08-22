@@ -1,0 +1,57 @@
+(import Spawnable "/shared/data-structures/spawnable.js")
+(import Thread "/shared/worker.js")
+
+(define Threaded-system Spawnable
+  (data [])
+  (args {})
+  (init (url data args ))
+  (gett buffers
+        (map this.data ((lit current-state next-state))
+             [current-state.buffer next-state.buffer]))
+
+  (def start ()
+    (assign this.thread (.spawn Thread this.url))
+    (.start this.thread))
+
+  (def update () (.send this.thread (lit (args this.args) (buffers this.buffers)))))
+
+(export Threaded-system)
+
+(define Parent-system Spawnable
+  (data-types [])
+  (init () (.start this))
+  (def-generic *update (args buffers data)
+    (if (not data)
+        (assign this.data (map buffers ([b1 b2] i)
+                               (.from-buffers (get this.data-types i) b1 b2)))
+        (do (for-of! data this.data
+                     (.step data))
+            null))
+    (then (.update this args this.data) data
+
+          (.send this data)))
+  (def start ()
+    (const handle-message (=> (args buffers) (.*update this args buffers)))
+    (def self.onmessage (e)
+      (const buffers e.data.buffers)
+      (const args e.data.args)
+      (handle-message args buffers)))
+
+  (def send (data)
+    (.post-message self data))
+  )
+(export Parent-system)
+
+(define Systems-manager Spawnable
+  (systems [])
+  (data [])
+  (init (systems data) (each systems (system) (.init system)))
+
+  (def-generic start (systems)
+    (each systems (system) (.start system)))
+
+  (def step () (each this.data (data) (.step data)))
+
+  (def update () (Promise.all (map this.systems (system) (.update system)))))
+
+(export Systems-manager)

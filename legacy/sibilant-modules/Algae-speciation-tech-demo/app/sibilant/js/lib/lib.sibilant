@@ -1,0 +1,48 @@
+(include "./natives/array.sibilant"
+         "./natives/map.sibilant"
+         ;;"./natives/set.sibilant"
+         )
+
+(include "./common/promise-writer" )
+(include "./math")
+(include "./html/element"
+         "./html/dom")
+
+
+
+(include"./collection/matrix/matrix.sibilant"
+        "./collection/matrix/matrix-view.sibilant"
+        "./collection/matrix/kernel.sibilant"
+        )
+
+
+
+(var matrix (create Matrix))
+(var matrix-view (create Matrix-view))
+
+(include "./state-space.sibilant")
+
+(var set-value (R.curry (=> (value entity) (assign entity.value value))))
+(var curry R.curry)
+(var (lit ( not fnot) (pipe fpipe) equals) R)
+
+;;(include "./field.sibilant")
+
+(def Object.prototype.each (f)
+  (each (Object.keys this) (k)
+        (f (get this k) k)))
+(set global
+     'create create
+     'extend extend
+     'mixin mixin)
+
+(var green (color 0 255 0) yellow (color 255  255  0))
+
+(def memoize (f)
+
+  "create a memoized version of any function. A memoized function will return
+previously calculated results from a cache if the arguments given to it are the same"
+
+  (var m {})
+
+  (cond R.has R.prop (=> ((dots args)) (f.apply this args))))

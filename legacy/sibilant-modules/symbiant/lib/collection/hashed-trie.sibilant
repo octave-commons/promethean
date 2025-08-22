@@ -1,0 +1,208 @@
+(include "../../deps")
+
+
+
+(import-namespace defs)
+(import-namespace js)
+
+(const (literal create extend mixin)
+       (require "../util"))
+
+(def either (left right value)
+  (if value (left value) (right value)))
+(def conditional (value pred action (dots rest))
+  "A functional conditional operator. Immediately evaluates its arguements."
+  (if action
+      (if (pred value) (action value)
+
+          (conditional value (dots rest)))
+
+      pred (pred value)
+
+      value))
+(def cond (pred action (dots rest))
+  "A lazy application of a functional conditional operator.
+Waits for a value to be given to it before applying its functional arguements"
+  (=> (value) (conditional value pred action (dots rest))))
+
+
+
+(generic Object.prototype.keys (def)
+         ((object this))
+         (Object.keys object))
+
+(generic Object.prototype.each (def)
+         (f (object this))
+
+         (each (object.keys) (k i) (f (get object k) k object))
+
+         object)
+(generic Array.prototype.each (def) (f (array this))
+         (.for-each array f)
+         this)
+
+
+(generic Object.prototype.merge (def)
+         (subject (target this))
+
+         (each subject (value key)
+               (comment "thing")
+               (set target key value)) target)
+(type Hashed-trie
+      (init ((token "")
+             (prefix null)
+             (depth 0)
+             (tokens [])
+             (suffixes [])
+             (indexes (Object.create null))
+             (_has-data false)))
+
+
+      (generic *in-set (mth) (suffixes indexes)
+               "private method. create a locator function that will return the value of a key.
+This method is called from add-child in the situation that the requested member passed the membership test."
+            (=> (k) (get suffixes (get indexes k))))
+
+      (generic *not-in-set (mth)
+               (tokens
+                suffixes
+                indexes
+                (node this)
+                (*type Hashed-trie) depth)
+               "private method. create a locator function that will create and add its requested value.
+This method is called from add-child in the situation that the requested member failed the membership test."
+            (=> (k)
+
+                (.push tokens k)
+                (.push suffixes ((create *type) k node (+ 1 depth)))
+
+                (set indexes k (- suffixes.length 1))
+
+
+                (last suffixes)))
+
+      (generic add-child (mth)
+
+               (k (*type Hashed-trie) (node this)
+                  *in-set
+                  *not-in-set
+                  tokens
+                  suffixes
+                  indexes
+                  depth)
+
+               "add a child if it does not already exist at the given key. Does not perform value
+assignment, the node will be marked as empty or valueless"
+
+
+               (if (get indexes k)
+
+                   ((*in-set suffixes indexes) k)
+
+                   ((*not-in-set tokens suffixes
+                                 indexes node *type
+                                 depth) k)) )
+      (gmth *mark ()
+            (assign this._has-data true)
+            this)
+
+      (gmth set-child (k value (trie this) (node (trie.add k)))
+            "add a node if it doesn't already exist at the immediate index given,
+mark it as having a value, then populate it with the property members of the given value."
+            (node._mark)
+            (node.merge value))
+
+      (gmth get-child (k indexes suffixes (s (get suffixes (get indexes k))))
+            "get the immediate child indexed by token k, throws an error if the child is not found"
+            (if (undefined? s)
+                (throw (new Error (+ k " is not defined on trie"))) s))
+
+      (gmth has-child (k suffixes indexes)
+            "return true if the node contains an immediate child at the given index k"
+            (defined? (get suffixes (get indexes key))))
+
+      (gmth remove-child (key (trie this) tokens suffixes indexes)
+            "remove an immediate child from the trie."
+
+            (var index (get indexes key))
+
+            (if index
+                (do (delete (get tokens index))
+                    (delete (get suffixes index))
+                  (delete indexes key))
+                (throw (new Error "Attempted to remove a non existant key in trie"))))
+
+      (gmth has (seq (node this))
+            "return true if the trie contains a value indexed by the given token sequence"
+            (.every seq (cond node.has
+                              (-> (assign node (node.get key)) true)
+                              (-> false))))
+
+      (gmth traverse (f suffixes depth)
+            "call a function for every node of the trie"
+            (each suffixes (branch k)
+                  ;;(print "traversing" branch k)
+                  (var token (get branch.prefix.tokens k))
+                  (f branch depth )
+                  (branch.traverse f branch.suffixes )))
+
+      (gmth each (f suffixes traverse)
+            "call a function for every valued node of the trie"
+            (traverse (=> (node depth)
+                          (if node.*has-data
+                              (f node depth))) suffixes))
+
+      (gmth map ())
+      (gmth reduce ())
+
+
+      (gmth add ())
+      (gmth set ())
+      (gmth has ())
+
+
+      (gmth reduce-seq (seq f (trie this))
+            (seq.reduce f trie))
+
+      (gmth follow-branch (seq f (trie this))
+            (.reduce-seq trie seq (=> (curr v) (f (.get-child curr v) v))))
+
+      (gmth bind-prefix (seq f (args []) (leaf-key (.pop seq)))
+
+            (let prefix (Object.create (f seq (dots args) leaf-key)))
+            (set prefix 'leaf-key leaf-key) prefix)
+
+      ;; like the way this function looks a lot.
+      ;; This to me is an example of good code.
+      (gmth insert (seq data (trie this) *type)
+
+            "recursively inserts nodes at each point in the tree along
+a given sequence, adding a data value to the last and marking it as containing
+data we care about"
+
+            (print "inserting" seq data)
+            (let add-node (=> (node v k) (print "node"  node v k) (.add-child node v *type)))
+
+            (let node (trie.reduce-seq seq add-node))
+            (mixin data node)
+            (node._mark))
+
+      ;; This didn't have an arguement before, if it behaves differently than before
+      ;; it is because of this change.
+      ;; Must test this behavior
+
+      (gmth find (seq  (trie this))
+            (trie.follow-branch seq (=> (x) x)))
+
+      (gmth get ())
+
+      (gmth remove (seq (trie this))
+            (let node (trie.find seq))
+            (let index (get node.prefix.indexes node.token) )
+            (delete (get node.prefix.suffixes index))
+            (delete (get node.prefix.tokens index))
+            (delete (get node.prefix.indexes node.token)) node))
+
+
+
+(export Hashed-trie)

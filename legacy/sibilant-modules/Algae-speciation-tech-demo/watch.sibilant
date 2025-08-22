@@ -1,0 +1,15 @@
+(require! 'fs 'chokidar
+
+          Path 'path)
+(const apps-path "./apps/")
+(fs.readdir apps-path
+            (=> (err file-name)
+
+                (var dir (Path.join apps-path file-name))
+
+                (var watcher (.watch chokidar dir))
+
+                (on watcher 'change (path stats)
+                    )
+                ))
+
