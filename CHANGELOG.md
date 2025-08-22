@@ -12,6 +12,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Policy-based access control with user and role management for SmartGPT Bridge.
+- Directory tree endpoint for SmartGPT Bridge file API.
+
+### Fixed
+- SmartGPT Bridge file actions now treat leading '/' as the repository root.
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
@@ -30,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated `capture_channel.test.ts` and `voice_session.test.ts` to inject stubbed transcriber.
 - Updated `messageThrottler.test.ts` to clean up broker, sockets, and audio players explicitly.
 - Fixed compile issues in `voice-session.ts` (optional `voiceSynth`, `renderWaveForm` args, `Float32Array` → `Buffer`).
+- Chroma search route now records queries using the `DualSink`.
 
 ### Removed
 
