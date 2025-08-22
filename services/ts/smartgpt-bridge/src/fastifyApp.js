@@ -8,6 +8,7 @@ import swaggerUi from '@fastify/swagger-ui';
 import { indexerManager } from './indexer.js';
 import { restoreAgentsFromStore } from './agent.js';
 import { createFastifyAuth } from './fastifyAuth.js';
+import { registerSinks } from './sinks.js';
 
 // Route plugins
 import { registerFilesRoutes } from './routes/files.js';
@@ -17,10 +18,11 @@ import { registerGrepRoutes } from './routes/grep.js';
 import { registerSymbolsRoutes } from './routes/symbols.js';
 import { registerAgentRoutes } from './routes/agent.js';
 import { registerExecRoutes } from './routes/exec.js';
-import { registerLogRoutes } from './routes/logs.js';
+import { registerSinkRoutes } from './routes/sinks.js';
 import { mongoChromaLogger } from './logging/index.js';
 
 export function buildFastifyApp(ROOT_PATH) {
+    registerSinks();
     const app = Fastify({ logger: false, trustProxy: true });
     app.decorate('ROOT_PATH', ROOT_PATH);
     app.register(mongoChromaLogger);
@@ -83,7 +85,7 @@ export function buildFastifyApp(ROOT_PATH) {
         registerIndexerRoutes(f);
         registerAgentRoutes(f);
         registerExecRoutes(f);
-        registerLogRoutes(f);
+        registerSinkRoutes(f);
     });
 
     // Initialize indexer bootstrap/incremental state unless in test
