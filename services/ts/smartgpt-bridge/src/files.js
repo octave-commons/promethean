@@ -20,7 +20,19 @@ export function isInsideRoot(ROOT_PATH, abs) {
 }
 
 export function normalizeToRoot(ROOT_PATH, p = '.') {
-    const abs = path.resolve(path.isAbsolute(p) ? p : path.join(ROOT_PATH, p));
+    // Treat leading '/' as relative to the repository root rather than the filesystem root.
+    // Also treat empty string or '/' as the root directory itself.
+    if (!p || p === '/') p = '.';
+    let abs;
+    if (path.isAbsolute(p)) {
+        if (p.startsWith(ROOT_PATH)) {
+            abs = path.resolve(p);
+        } else {
+            abs = path.resolve(ROOT_PATH, p.slice(1));
+        }
+    } else {
+        abs = path.resolve(ROOT_PATH, p);
+    }
     if (!isInsideRoot(ROOT_PATH, abs)) throw new Error('path outside root');
     return abs;
 }
@@ -172,4 +184,61 @@ export async function listDirectory(ROOT_PATH, rel = '.', options = {}) {
         return a.name.localeCompare(b.name);
     });
     return { ok: true, base: path.relative(ROOT_PATH, abs) || '.', entries: out };
+}
+
+export async function treeDirectory(ROOT_PATH, rel = '.', options = {}) {
+    const includeHidden = Boolean(options.includeHidden);
+    const depth = Number(options.depth || 1);
+    const abs = normalizeToRoot(ROOT_PATH, rel || '.');
+    const st = await fs.stat(abs).catch(() => null);
+    if (!st || !st.isDirectory()) throw new Error('not a directory');
+
+    async function walk(dir, remaining) {
+        const dirents = await fs.readdir(dir, { withFileTypes: true });
+        const children = [];
+        for (const d of dirents) {
+            if (!includeHidden && d.name.startsWith('.')) continue;
+            const childAbs = path.join(dir, d.name);
+            const relPath = path.relative(ROOT_PATH, childAbs);
+            if (d.isDirectory()) {
+                const child = {
+                    name: d.name,
+                    path: relPath,
+                    type: 'dir',
+                };
+                if (remaining > 0) {
+                    child.children = await walk(childAbs, remaining - 1);
+                }
+                children.push(child);
+            } else if (d.isFile()) {
+                let size = null;
+                let mtimeMs = null;
+                try {
+                    const s = await fs.stat(childAbs);
+                    size = s.size;
+                    mtimeMs = s.mtimeMs;
+                } catch {}
+                children.push({
+                    name: d.name,
+                    path: relPath,
+                    type: 'file',
+                    size,
+                    mtimeMs,
+                });
+            }
+        }
+        children.sort((a, b) => {
+            if (a.type !== b.type) return a.type === 'dir' ? -1 : 1;
+            return a.name.localeCompare(b.name);
+        });
+        return children;
+    }
+
+    const tree = {
+        name: path.basename(abs) || '.',
+        path: path.relative(ROOT_PATH, abs) || '.',
+        type: 'dir',
+        children: await walk(abs, depth - 1),
+    };
+    return { ok: true, base: tree.path, tree };
 }

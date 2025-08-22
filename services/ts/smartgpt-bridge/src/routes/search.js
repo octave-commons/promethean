@@ -34,6 +34,8 @@ export function registerSearchRoutes(fastify) {
                 const { q, n } = req.body || {};
                 if (!q) return reply.code(400).send({ ok: false, error: "Missing 'q'" });
                 const results = await search(ROOT_PATH, q, n ?? 8);
+                const sink = dualSinkRegistry.get('bridge_searches');
+                await sink.add({ query: q, results, service: 'chroma' });
                 reply.send({ ok: true, results });
             } catch (e) {
                 reply.code(500).send({ ok: false, error: String(e?.message || e) });

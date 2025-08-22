@@ -1,4 +1,4 @@
-import { listDirectory, viewFile, locateStacktrace } from '../files.js';
+import { listDirectory, viewFile, locateStacktrace, treeDirectory } from '../files.js';
 
 export function registerFilesRoutes(fastify) {
     const ROOT_PATH = fastify.ROOT_PATH;
@@ -46,6 +46,47 @@ export function registerFilesRoutes(fastify) {
             const type = q.type ? String(q.type) : undefined;
             try {
                 const out = await listDirectory(ROOT_PATH, dir, { hidden, type });
+                reply.send(out);
+            } catch (e) {
+                reply.code(400).send({ ok: false, error: String(e?.message || e) });
+            }
+        },
+    });
+
+    fastify.get('/files/tree', {
+        schema: {
+            summary: 'Return directory tree',
+            operationId: 'treeFiles',
+            tags: ['Files'],
+            querystring: {
+                type: 'object',
+                properties: {
+                    path: { type: 'string', default: '.' },
+                    depth: { type: 'integer', default: 1 },
+                    hidden: { type: 'boolean', default: false },
+                },
+            },
+            response: {
+                200: {
+                    type: 'object',
+                    properties: {
+                        ok: { type: 'boolean' },
+                        base: { type: 'string' },
+                        tree: { type: 'object' },
+                    },
+                },
+            },
+        },
+        handler: async (req, reply) => {
+            const q = req.query || {};
+            const dir = String(q.path || '.');
+            const depth = Number(q.depth || 1);
+            const hidden = String(q.hidden || 'false').toLowerCase() === 'true';
+            try {
+                const out = await treeDirectory(ROOT_PATH, dir, {
+                    depth,
+                    includeHidden: hidden,
+                });
                 reply.send(out);
             } catch (e) {
                 reply.code(400).send({ ok: false, error: String(e?.message || e) });
