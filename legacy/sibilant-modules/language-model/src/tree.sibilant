@@ -1,0 +1,89 @@
+(include "kit/header")
+(import-namespace kit)
+
+(def-interface Tree ()
+
+  (value null)
+  (parent null)
+  (depth 0)
+
+  (traverse-branches? true)
+
+  (def-generic branch? (value) (= null value))
+  (def-generic leaf? (value) (not (= null value)))
+
+
+  (def-generic descend (seq f (tree this))
+    (if (empty? seq)
+        tree
+        (f tree seq)))
+
+  (def-generic delete (seq))
+
+  (def-generic find (seq (tree this))
+    (if (empty? seq)
+        tree
+        (.*find tree seq)))
+
+  (def-generic has (seq (tree this))
+    (if (.find tree seq) true false))
+
+  (def-generic insert (seq  *insert )
+
+    (if (empty? seq)
+        tree
+        (.insert (.*insert this seq) (rest seq))))
+
+  (def-generic set (seq value (tree this))
+    (set (.insert tree  seq) 'value value))
+
+  (def-generic add (key  )
+    (or (.get this.*children key) ((create this) this.*children this)))
+
+
+  (def-generic each (f traverse-branches?  *children )
+
+
+    (if traverse-branches?
+
+        (each *children  (node k)
+              (f node k)
+              (.each node f true ))
+
+        (each *children (node k)
+              (if (leaf? node)
+                  (f node k)
+                  (.each node f false ))))))
+(export Tree)
+
+(def-interface Tree-map (value parent (*children (new Map)))
+
+  (extend Tree)
+
+  (def-generic delete (seq (tree this) )
+
+    (var node (.find tree seq)
+         rkeys (.reverse seq))
+
+    (each rkeys (k)
+          (.delete node.parent.*children k)
+          (assign node node.parent)))
+
+  (gett *find (=> (seq)
+
+                  (var node (*children.get (first seq)))
+
+                  (if node (.find node (rest seq)) false)))
+
+
+  (gett *insert (=> (seq   )
+                    (var node (.add tree (first seq)))
+                    (var name (first seq))
+
+                    (assign node.name name
+                            node.seq seq)
+
+                    (.set this.*children  name node )
+                    node)))
+
+(export Tree-map)

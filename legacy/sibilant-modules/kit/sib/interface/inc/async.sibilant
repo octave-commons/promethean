@@ -1,0 +1,12 @@
+(macro async-let (args ...body)
+       `(pipe (Promise.all [...@(.map args.contents (=> (e) (second e.contents)))])
+              (then [...@(.map args.contents (=> (e) (first e.contents)))]
+                    ...@body)))
+(macro async-let* (args ...body)
+       (if (> args.contents.length 1)
+           `(async-let (@(first args.contents))
+              (async-let* (...@(rest args.contents))
+                          ...@body))
+           `(async-let (@(first args.contents))
+
+              ...@body)))

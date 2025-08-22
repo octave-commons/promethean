@@ -1,0 +1,37 @@
+(describe Directory
+          (def-generic set (path value ( type File ) ))
+
+          (def-generic get  (k fs path) (fs.find (Path.join path k)))
+
+          (def-generic insert (path ( type File ) ))
+
+          (def-generic each (f children)
+            (.then children (feach  f)))
+
+          (def-generic map (f children)
+            (.then children (fmap f)))
+
+          (def-generic recursive-remove (path )
+            (pipe this
+                  (.each (cond is.file (fpipe .delete) is.dir  (fpipe .recursive-remove)))
+                  (.then (fpipe .remove))))
+
+          (def-generic remove-empty-directory (path)
+            (rmdir path))
+
+          (def-generic remove (path (recursive? false))
+            (if recursive?
+                (.recursive-remove this path)
+                (.remove-empty-directory this path)))
+
+          (gett sub-system ((create File-system) this.path))
+
+
+          (gett keys (readdir this.path))
+
+          (gett get-child (=> (d) (.get this d)))
+
+          (gett children 
+                (pipe this.keys
+                      (.then (fpipe (.map this.get-child)
+                                    Promise.all)))))

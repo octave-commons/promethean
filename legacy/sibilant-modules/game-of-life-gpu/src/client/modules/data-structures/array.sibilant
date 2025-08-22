@@ -1,0 +1,28 @@
+(meta
+ (assign Array.prototype.bind
+         (def Array.bind (a f)
+              (.reduce a (=> (r e i)
+                             (each (f e i) (x)
+                                   (.push r x)) r) []))))
+
+(def Array.transform (f a (default r a))
+     (collect r r (each a (e i) (set r i (f e i)))))
+
+(assign Array.prototype.bind
+        (def Array.bind (a f)
+             (.reduce a (=> (r e i)
+                            (each (f e i) (x)
+                                  (.push r x)) r) [])))
+
+
+
+(def Array.prototype.each (f)
+     (.for-each this f)
+     this)
+
+(def Array.prototype.bind (f)
+     (collect r [] (pipe this (each (a) (.push r (f a))))))
+
+(def Map.prototype.each (f)
+     (.for-each this f)
+     this)

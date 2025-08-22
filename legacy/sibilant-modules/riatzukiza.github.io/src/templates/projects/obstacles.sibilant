@@ -1,0 +1,26 @@
+(html (.head
+       (.style "
+        .panel {
+            float: left;
+            border-style: solid;
+            border-width: 1px;
+        }
+        .bordered {
+            border-style: solid;
+            border-width: 1px;
+        }
+img {
+position:absolute;
+}
+
+")
+       (.script .src "https://cdn.jsdelivr.net/quicksettings/3.0/quicksettings.min.js"))
+
+
+
+      (.body (.img .id "ant-texture".src "/ant.png" .hidden "true")
+       (.img .id "rock-texture".src "/rock.png" .hidden "true"))
+
+      (.script .src "/client/obstacles/main.js" .type 'module)
+
+      )

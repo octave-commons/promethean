@@ -1,0 +1,8 @@
+(def-interface String-stream (*stream)
+  (def-generic accumulate (*stream)
+    (make-promise
+     (var r "")
+     (on  *stream 'data (chunk)
+          (incr-by r chunk))
+     (once *stream 'end ()
+           (success r)))))

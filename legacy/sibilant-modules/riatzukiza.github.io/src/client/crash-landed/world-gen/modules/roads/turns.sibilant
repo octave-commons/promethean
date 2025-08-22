@@ -1,0 +1,57 @@
+
+(import Terrain-module "../../terrain-module.js")
+(import turn-weight "./weights.js")
+
+
+(const north-east-turn (.create Terrain-module turn-weight
+                                'grass 'grass 'grass
+                                'grass 'stone 'stone
+                                'grass 'stone 'grass))
+(export north-east-turn)
+
+
+(const north-west-turn (.create Terrain-module turn-weight 
+                                'grass 'grass 'grass
+                                'stone 'stone 'grass
+                                'grass 'stone 'grass))
+(export north-west-turn)
+
+
+
+(const south-west-turn (.create Terrain-module  turn-weight
+                                'grass 'stone 'grass
+                                'stone 'stone 'grass
+                                'grass 'grass 'grass))
+(export south-west-turn)
+
+
+
+(const south-east-turn (.create Terrain-module turn-weight
+                                'grass 'stone 'grass
+                                'grass 'stone 'stone
+                                'grass 'grass 'grass))
+(export south-east-turn)
+
+
+
+
+
+(const wide-north-east-turn (.create Terrain-module  turn-weight
+                                     'stone 'stone 'stone
+                                     'stone 'grass 'grass
+                                     'stone 'grass 'grass))
+
+
+
+(const wide-north-west-turn (.create Terrain-module  turn-weight
+                             'stone 'stone 'stone
+                             'grass 'grass 'stone
+                             'grass 'grass 'stone))
+
+
+
+(const wide-south-west-turn (.create Terrain-module turn-weight
+                                     'grass 'grass 'stone
+                                     'grass 'grass 'stone
+                                     'stone 'stone 'stone))
+

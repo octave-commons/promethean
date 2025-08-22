@@ -1,0 +1,34 @@
+(meta "import '/bundles/external.js'")
+
+(import Vector "/shared/vectors.js")
+(import Vector-2D-phase-space "../typed-arrays/vector-2d.js")
+(const bounds [1000000,1000000])
+
+(def self.onmessage (e)
+
+  (const [[vb1 vb2] [pb1 pb2] [ab1 ab2]] e.data.buffers)
+
+  (const velocities (.from-buffers Vector-2D-phase-space vb1 vb2))
+  (const positions (.from-buffers Vector-2D-phase-space pb1 pb2))
+  (const attractors (.from-buffers Vector-2D-phase-space ab1 ab2))
+
+  (for-of! pos positions.data
+
+           (const v (get velocities.data pos.id))
+           (const a (get attractors.data pos.id))
+
+           (const p* (.spawn Vector v.x v.y))
+           (.add-to p* a)
+
+           (.add-to pos p*)
+           (.despawn p*))
+  ;; (.add-to positions velocities)
+  (.post-message self [[vb1 pb1] [vb2 pb2]])
+
+
+  ;; (.pause Atomics)
+  ;; (.wait Atomics (new Big-int64-array vb2))
+
+  (.despawn velocities)
+  (.despawn positions)
+  )

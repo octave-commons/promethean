@@ -1,0 +1,45 @@
+(include "./index")
+(comment Assignments/////////////////////////////////////////////////////////////////////////////)
+
+(comment this!)
+(this! a)
+(comment let)
+(let x y)
+(comment const)
+(const a x)
+(comment assignment)
+(assignment var x y)
+
+(comment ////////////////////////////////////////////////////////////////////////////////////////)
+
+(comment comma)
+(comma a b c d)
+
+(comment statement)
+(statement if (> a b c) (a) (b) (c))
+
+(comment parenthetic)
+(parenthetic foo bar baz)
+
+(comment curly )
+(curly (foo) (bar) (baz))
+
+(comment block )
+(block (a) (b) (c))
+
+(comment state)
+(state if (> a b c) (a) (b) (c))
+
+(comment litterals///////////////////////////////////////////////////////////////////////////////)
+
+(let lit (literal (property x x) (property x x) (method name (a b c) (a))))
+(let (literal x y z) (literal (property x "") (property y "") ))
+
+(type y (method init (a) ))
+
+(specify x (extend y) (property a "") (method init ((assignment! foobar "")) (a)))
+
+(comment )
+
+(function x (a b c)
+          (call a))

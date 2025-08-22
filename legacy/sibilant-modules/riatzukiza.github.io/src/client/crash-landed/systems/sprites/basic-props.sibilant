@@ -1,0 +1,35 @@
+(import Animated-sprite Sprite-atlas "/shared/systems/rendering/sprite-atlas.js")
+(const sprite-image (.get-element-by-id document "props-sprite"))
+
+
+(define Props-sprite Animated-sprite
+  (*column 4)
+  (*row 3)
+  (gett container this.entity.item-interface.container)
+  (gett visible? this.container.visible?)
+  (gett explored? this.container.explored?)
+  (gett alpha (if this.visible? 1
+                  this.explored? 0.8
+                  0))
+  ;; (alpha 1)
+
+  (def select-tile (x y)
+    (if (>= x this.width) (throw (new RangeError "Column selection out of range")))
+    (if (>= y this.height) (throw (new RangeError "Row selection out of range")))
+    (assign this.column x)
+    (assign this.row y)))
+(export Props-sprite)
+
+(define Props-sprites Sprite-atlas
+  (max-sprites 100000)
+  (Component Props-sprite)
+
+  (frame-dimensions [ 16 16 ])
+  ;; how many frames vertically
+  (height 12)
+  ;; how many frames horizontally
+  (width 7)
+  (img sprite-image))
+
+
+(export Props-sprites)

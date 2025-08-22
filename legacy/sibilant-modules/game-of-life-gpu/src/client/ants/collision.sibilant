@@ -1,0 +1,30 @@
+(on (.remove-all-listeners game.events 'collision)
+
+    'collision ([c c* d])
+
+    (var [d1x d1y d2x d2y] : d,
+
+         max : (Math.max.apply null d)
+         min : (Math.min.apply null d))
+
+
+    (var physics (.get game.systems Physics c.entity))
+
+
+    (when (= c.type 'dynamic)
+
+
+      (when (or (= d1x max)
+                (= d2x max))
+        (set c.pos 'x (+ c.pos.x
+                         (if (= d1x max) -1 1)
+                         (* max (if (= d1x max) 1 -1))))
+
+        (set c.velocity.xd 0))
+
+      (when (or (= d1y max)
+                (= d2y max))
+        (set c.pos 'y (+ c.pos.y
+                         (if (= d1y max) -1 1)
+                         (* max (if (= d1y max) 1 -1))))
+        (set c.velocity.yd 0))))

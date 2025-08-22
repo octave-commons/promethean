@@ -1,0 +1,20 @@
+
+(require! (lit Matrix  Matrix-view Kernel ) "kit/js/matrix"
+          (lit Tree Tree-map) "tree-kit")
+
+(export Matrix)
+(export Matrix-view)
+(export kernel)
+
+(var matrix (create Matrix))
+(export matrix)
+
+(var kernel (create Kernel))
+(export kernel)
+
+(var matrix-view (create Matrix-view))
+(export matrix-view)
+
+(var tree-map (create Tree-map))
+(export tree-map)
+

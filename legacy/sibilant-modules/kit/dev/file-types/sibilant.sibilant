@@ -1,0 +1,10 @@
+
+(specify Sibilant-file (extend File))
+
+(describe Sibilant-file
+
+          (def-generic compile (  string)
+            (pipe string (.then  transpile-sibilant)))
+
+          (def-generic eval (string)
+            (pipe string (.then eval-string  ))))

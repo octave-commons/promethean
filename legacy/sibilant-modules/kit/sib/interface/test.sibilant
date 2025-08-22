@@ -1,0 +1,17 @@
+(include "./header")
+(import-namespace kit)
+
+(require! "assert")
+
+(assert.equal (quote (def-interface Foobar () (def baz ())))
+               "var Foobar = Interface.define(\"Foobar\", { 
+  init(  ){ 
+    
+      
+      return this;
+    
+   },
+  baz(  ){ 
+    
+   }
+ });")

@@ -1,0 +1,52 @@
+
+(define-system Sun Field-system   )
+(describe Sun.Component
+          (y-skew 2.4 )
+          (x-skew 1.1)
+          (rate 100)
+          (dampening 100)
+          (mid (/ Sun.width 2))
+          (gamma 0.9)
+          (max 0)
+
+          (gett r
+                ;; (if (negative?  this.time-of-day)
+                ;;     (percent-to-color  (Math.abs this.time-of-day))
+                ;;     255)
+                (percent-to-color (Math.pow (* 3 this.value) this.gamma)))
+
+          (gett g (percent-to-color (Math.pow (* 2 this.value) this.gamma)))
+
+          (gett b (+ 60 (percent-to-color (Math.pow this.value this.gamma))))
+
+          (gett a (percent-to-color 0.2)))
+
+(def-memoized solar-intensity (x y rate dampening mid x-skew y-skew)
+  (inverse-square rate     ;;(Math.abs (* rate (/  mid (+ 1 (Math.abs (- mid x))))))
+                  dampening
+
+                  (lit
+
+                   (x (/ mid x-skew))
+                   (y (/ mid y-skew)))
+
+                  (lit (x (/ x x-skew)) (y (/ y y-skew)))))
+
+(def-generic Sun.Component.update  (tick x y rate dampening y-skew x-skew mid field)
+
+  (var value (solar-intensity x y rate dampening mid x-skew y-skew ))
+  (when (> value Sun.max )
+    (print "new max sun value")
+    (assign Sun.max value))
+
+  (.set field
+
+        (+ tick x)
+        (+ y (Math.round (* 50 (Math.sin (/ tick 10000)))))
+
+        value))
+
+(print (pipe Sun.components
+             (.filter  (=> (c) (> c.value 1)))
+             (.map (=> (c) [c.x c.y c.value]))))
+

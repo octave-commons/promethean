@@ -1,0 +1,126 @@
+
+(define-field Water true)
+(describe Water
+          (influences [Heat])
+
+
+          (gain 100)
+
+          (max 0)
+
+          (total 0)
+
+          )
+
+(describe Water.Component
+
+          (init (x y (neiborhood (moore x y this.field))))
+
+
+          (gamma 1)
+
+          (gett b (percent-to-color (Math.pow (/ this.value this.max) this.gamma)))
+
+          (g 1)
+          (r 1)
+
+          (gett a (percent-to-color 0.2))
+
+
+          (gmth update (tick x y field value  neiborhood influences)
+
+                (var [heat] influences)
+
+                ;; (var mass value)
+                ;; (var t1 (/ heat (* mass specific-heat)))
+
+
+
+                (var average-water (*convolve  average-kernel neiborhood)
+                     average-heat (*convolve  average-kernel (get (.get Heat x y) 'neiborhood)))
+
+                ;; if the heat here is higher than the average surrounding heat,
+                ;; then this water should move away
+                ;; This means there will be a larger than 1 heat influence.
+
+                ;; if the heat here is less than the average surrounding heat,
+                ;; then the nearby water will be moving here.
+                ;;(/    (+ 1 average-heat) (+ 1 heat) )
+
+                (var heat-influence (additive-smooth 1 average-heat heat))
+
+                ;; if the average water content here is higher than the surrounding
+                ;; water content, the tendency should be to move away from this spot
+                ;; this means that if this cell is a higher concentration of water
+                ;; than average to its surroundings, this
+                ;; value should be less than 1
+                ;; (/    (+ 1 average-water) (+ 1 value))
+
+                (var saturation (additive-smooth 1 average-water value))
+
+                ;;(var t2 (*  heat heat-influence))
+
+
+                (var net (* value    saturation heat-influence ))
+
+                ;; These are a few other formulas I tried for disapation.
+                ;; They don't match this situation, they are designed to increase,
+                ;; they are for calculating pressure, but this field required
+                ;; knowledge of the available mass in an area.
+
+                ;; (var net (* value (** e (* (/ -2400 8.145) (- (/ 1 t2) (/ 1 heat))))))
+
+                ;; (var net (* value (** e (* (/ -50 3) heat-influence) )))
+
+                ;; (var net (* value (** e (* (/ -50 3) (- (/ 1 t2) (/ 1 t1))) )))
+
+                (when (> net Water.max)
+                  ;;(print "max water is now" net)
+                  (assign Water.max net))
+
+                ;; (.set Heat.field x y t2)
+
+
+                (.set field x y net)))
+
+
+
+(var specific-heat 4.186)
+(var dHvap 2257 )
+(var R* 8.3145)
+(var coriolis-kernel
+     (.mult (kernel 3 3
+                    [
+
+                    [ 1 1 1 ]
+                    [ 1 1 1 ]
+                    [ 1 1 1 ]
+
+                    ])
+
+            (/ 1 9)))
+
+
+
+(print systems)
+
+(each systems (s) (.populate s))
+
+(print Water)
+(var sum 0)
+(.transit Water.field
+          (=> (v x y )
+              (var r (Math.random))
+              ;; (.set Water.field x y r )
+              ;; (.set-state Water.field x y r)
+              r))
+
+(.update Water.field)
+(.transit Water.field (=> (v x y ) v))
+(.update Water.field)
+
+(var sum 0)
+
+(each Water.field (v) (incr-by sum v))
+
+(print "total water" sum)

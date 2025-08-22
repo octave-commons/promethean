@@ -1,0 +1,10 @@
+(define Game-system Interface
+  (init ((buffers [])))
+  (def send (args)
+    )
+  (def update (args)
+    (.send this (lit args (buffers (map this.buffers (data)
+                                        [data.current-state.buffer
+                                         data.next-state.buffer]))))))
+(define Threaded-game-system Game-system
+  )

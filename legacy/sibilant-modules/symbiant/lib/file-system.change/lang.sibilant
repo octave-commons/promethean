@@ -1,0 +1,29 @@
+(namespace file-system)
+(include "./macros")
+
+(import-namespace defs)
+
+(import-namespace js)
+
+(macro root (name method ...body)
+       `(element (pipe ((create Directory) @name)
+                       @method)
+                 ...@body))
+
+(macro dependency ( ...body)
+       `(dependencies.push (...@body)))
+
+(macro dir (name method ...body)
+       `(element (pipe here (...@(get method "contents") @name))
+                 ...@body))
+
+(macro element (method ...body)
+       `(a-let ((here @method)
+                (dependencies []))
+               ...@body
+               (Future.Array.all dependencies)))
+
+(macro file (name method ...body)
+       `(element (pipe ((create File) (join here.path @name))
+                       @method)
+                 ...@body))

@@ -1,0 +1,26 @@
+(require! config "./config"
+          entities "./entities"
+          )
+(var settings-1 (Quick-settings.create 800 0 "settings 1"))
+(var settings-2 (Quick-settings.create 1000 0 "settings 2"))
+(var settings-3 (Quick-settings.create 1200 0 "settings 3"))
+(.addRange settings-1 "Options amplitude" 1 100 config.options-amplitude 0.01 (=> (val) (assign config.options-amplitude val)))
+(.addRange settings-1 "Angle Zoom" 1 99 config.angle-zoom 1 (=> (val) (assign config.angle-zoom (/ val config.options-amplitude ))))
+(.addRange settings-1 "Noise Z" 1 99 config.noise-z 1 (=> (val) (assign config.noise-z (/ val config.options-amplitude ))))
+(.addRange settings-1 "Noise Force" 1 99 config.field-force 0.1 (=> (val) (assign config.field-force (/ val config.options-amplitude ))))
+(.addRange settings-1 "Signal Decay" 0 99 config.decay 0.1 (=> (val) (assign config.decay (/ val config.options-amplitude))))
+(.addRange settings-1 "Max P Vector Length"  0 99 config.max-length 0.1 (=> (val) (assign config.max-length (/ val config.options-amplitude ))))
+(.addRange settings-1 "Max Trail" 10 999 config.max-trail 1(=> (val) (assign config.max-trail val)))
+(.addRange settings-1 "Min Trail" 10 99 config.min-trail 1 (=> (val) (assign config.min-trail val)))
+
+(.add-boolean settings-2 "Decay on collision"  config.decay-on-collision (=> (val) (assign config.decay-on-collision val)))
+(.add-boolean settings-2 "Limit the number of decay blocks per cycle"   config.limit-decay (=> (val) (assign config.limit-decay val)))
+
+(.addRange settings-3 "Ant Influence" 0 99 config.ant-influence 1 (=> (val) (assign config.ant-influence val)))
+(.addRange settings-3 "friction" 2 128 config.friction 1 (=> (val) (assign config.friction val)))
+(.addRange settings-3 "Collision Static" 0 99 config.collision-static 1 (=> (val) (assign config.collision-static val)))
+(.addRange settings-3 "Spawn Static" 0 99 config.spawn-static 1 (=> (val) (assign config.spawn-static val)))
+(.addRange settings-3 "Spawn Rate" 1 999 config.spawn-rate 0.01 (=> (val) (assign config.spawn-rate val)))
+(.addRange settings-3 "Game speed" 0.1 5 config.game-speed 0.1 (=> (val) (assign config.game-speed val)))
+(.add-button settings-3 "Clear ants" entities.clear-ants)
+

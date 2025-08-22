@@ -1,0 +1,29 @@
+(include
+ "./macros/case"
+ "./macros/comparison"
+ "./macros/flow-control"
+ "./macros/hash"
+ "./macros/lambda"
+ "./macros/lists"
+ "./macros/loops"
+ "./macros/macros"
+ "./macros/math"
+ "./macros/misc"
+ "./macros/pipe"
+ "./macros/predicates"
+ "./macros/regex"
+ "./macros/switch"
+ "./macros/variables"
+ )
+(macro add-to-module-lookup (path)
+       `(scoped (require! 'path)
+                (var p "/"
+                     inc @(or path (process.cwd)))
+                (assign module.paths [
+                        ...module.paths
+                        ...(.map (.split inc path.sep)
+                                 (lambda (el)
+                                   (var r (path.join p "node_modules"))
+                                   (assign p (path.join p el)) r))
+                        (path.join inc "node_modules")
+                        ])))

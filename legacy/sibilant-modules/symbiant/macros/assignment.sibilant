@@ -1,0 +1,14 @@
+;;(namespace assignment)
+(macro where (...vars)
+       (vars.map (=> (v) `(var ...@v.contents))))
+
+(macro import (what from)
+       (var name (+"./" what.token ".js"))
+       (if from
+           `(var @what (get (require @from) (quote @what)))
+           `(var @what (get (require (quote @name)) (quote @what)))))
+
+(macro global (...vars)
+       (pipe vars
+             destructure
+             (map (# (pair) [(as-statement ["global."(first pair) " = " (second pair)]) "\n" ]))))

@@ -1,0 +1,52 @@
+(namespace vector-ants)
+
+(import Game "/shared/game.js")
+(import Dot "/shared/systems/rendering/dot.js")
+(import Sprites "/shared/systems/rendering/gl-sprites.js")
+(import Position "./systems/position.js")
+(import Velocity "./systems/velocity.js")
+(import Physics "/shared/systems/physics.js")
+(import Collision "/shared/systems/collision.js")
+(import rendering "./rendering.js")
+(import View-panel "./systems/property-view.js")
+(import Ant-dots "./systems/ants/ant-dot.js")
+(import Ant-trails "./systems/ants/ant-trails.js")
+(import Ant-life-timer "./systems/ants/ant-life-timer.js")
+(import Trail-dots "./systems/ants/trail-dots.js")
+(import Ant-panel "./systems/ants/ant-panel.js")
+(import Trails-panel "./systems/ants/trail-panel.js")
+(import Decaying-trails "./systems/ants/trail-segments.js")
+(import Ant-sprites "./systems/ant-sprites.js")
+(import Rock-sprites "./systems/rock-sprites.js")
+(import config "./config.js")
+
+(assign Position.wraps? true)
+(var active-game-systems
+     [
+      Decaying-trails
+      Ant-life-timer
+      Dot
+      Trail-dots
+      Ant-dots
+      Ant-panel
+      Trails-panel
+      Rock-sprites
+      Ant-sprites
+      Ant-trails
+      Physics
+      Velocity
+      Position
+      Collision
+      ])
+
+(var game ((create Game)
+           config
+           rendering
+           active-game-systems
+           config.game-speed))
+
+
+
+(export game)
+(export active-game-systems)
+

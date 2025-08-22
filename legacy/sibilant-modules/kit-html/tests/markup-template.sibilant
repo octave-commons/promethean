@@ -1,0 +1,12 @@
+(include "../index")
+(import-namespace kit)
+(include "../inc/macros")
+(import-namespace markup)
+(require! 'fs)
+
+(def-markup-template hello (name)
+  (.div .id (+ name "-container")
+        (.h1 "Hello," name)))
+
+(with-markup-to-stream process.stdout
+  (.html (.body (hello "Aaron"))))

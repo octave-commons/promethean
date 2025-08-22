@@ -1,0 +1,24 @@
+(namespace obstacles)
+
+(import Dot-interface Dot "/shared/systems/rendering/dot.js")
+(import rgba "/client/obstacles/colors.js")
+
+(const views (new Map))
+
+(def-lit-macro doc-string (title args ...doc-nodes)
+  `(property doc-string (doc-string @title @args ...@doc-nodes) ))
+
+(define Ant-dot Dot-interface
+  (doc-string "Obstacles.systems.Ant-dot" "entity system"
+              "A component for rendering ants as red dots."
+              "Inhereits from Dot-interface (/shared/systems/rendering/dot.js)")
+  (color (rgba 255 255 255 255)))
+
+(export Ant-dot)
+
+(define Ant-dots Dot
+  (interface Ant-dot)
+  (doc-string "Obstacles.systems.Ant-dots" "entity system"
+              "A component for rendering ants as red dots"))
+(export Ant-dots)
+

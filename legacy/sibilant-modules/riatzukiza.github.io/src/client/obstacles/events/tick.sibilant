@@ -1,0 +1,55 @@
+(import Velocity "/shared/systems/velocity.js")
+(import Position "/shared/systems/position.js")
+(import game "../game.js")
+(import config "../config.js")
+(import Physics "/shared/systems/physics/system.js")
+(import create-particle-updater "/shared/field.js")
+(import next-spawn spawn-ant ants home home-pos  plants rocks
+        spawn-plant spawn-rock rock-gen-step "../entities.js")
+(import random-location "../location.js")
+
+(const update-particle (create-particle-updater config game))
+
+
+
+(on game.events 'tick ()
+    (next-spawn game)
+    (if (and (= (mod game.ticker.ticks 5) 0)
+             (> config.rocks rocks.size))
+        (rock-gen-step ))
+
+    (if (and (= (mod game.ticker.ticks 5) 2)
+             (> config.starting-plants plants.size))
+        (spawn-plant (random-location)
+                     (random-float config.plant-mass-limit)))
+
+    (if (mod game.ticker.ticks 50)
+        (plants.group.each (=> (plant)
+                               (var physics (.get game.systems Physics plant))
+                               (if (>= 0 physics.mass)
+                                   (do (.despawn plants plant))
+                                   (do
+                                    (const x (+ physics.mass (* (Math.random) 10 config.growthRate)))
+                                    (set physics 'mass x)
+                                    (set physics 'scale x)
+
+                                     (when (> physics.mass config.plantMassLimit)
+
+                                       (const x (/ physics.mass 2))
+
+                                       (set physics 'mass x)
+                                       (set physics 'scale x)
+
+                                       (const plant* (spawn-plant [(+ (random-signed physics.scale) physics.position.x)
+                                                                   (+ (random-signed physics.scale) physics.position.y)]
+                                                                  physics.mass))
+                                       (const physics* (.get game.systems Physics plant*))
+                                       (const vx (random-signed config.spawn-static) )
+                                       (const vy (random-signed config.spawn-static))
+                                       (.accelerate physics.velocity [vx vy])
+                                       (.accelerate physics*.velocity [(* -1 vx) (* -1 vy)])
+                                       ;; (spawn-plant [(+ (random-signed (* config.spawn-static physics.scale)) physics.position.x)
+                                       ;;               (+ (random-signed (* config.spawn-static physics.scale)) physics.position.y)]
+                                       ;;              physics.mass)
+                                       )))
+                               null))))

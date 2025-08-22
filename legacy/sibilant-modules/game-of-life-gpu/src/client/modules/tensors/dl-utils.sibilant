@@ -1,0 +1,99 @@
+
+(include "kit/header"
+         "kit-interface/header"
+         "../../../../inc/async.sibilant")
+
+
+(import-namespace async)
+(import-namespace kit)
+(import-namespace interface)
+
+(include "../../../../inc/misc.sibilant")
+;;(include "./field.sibilant")
+
+;; (include "kit-html/src/dom")
+;; (import-namespace dom)
+
+(include "../../../../inc/dl")
+(import-namespace dl)
+
+(require! dl 'deeplearn
+          m 'mathjs)
+
+(var zero (dl.scalar 0))
+
+(def-tidy field ([w h]) ( dl.cast ( dl.zeros  [1 w h 1]) "float32"))
+
+(def-tidy bit-field (t ) (.greater t (.scalar dl 0.5 "float32")))
+(def-tidy random-bit-field (w h) (bit-field (dl.random-uniform [w h])))
+
+(def-tidy rotate (t theta)
+  (.mat-mul t (.tensor2d dl [[(Math.cos theta) (* -1 (Math.sin theta))]
+                             [(Math.sin theta) (Math.cos theta)]])))
+
+
+(def-tidy norm (t n) (.norm t "euclidean" n))
+
+(def-tidy mod-tensor (t m)
+
+  (var q (.div t m))
+
+  (var r (.sub q (dl.where (dl.greater q (dl.scalar 0))
+                           (.floor q)
+                           (.ceil q))))
+
+  (.mul r m))
+
+(def-tidy coordinate-grid ([ j i] *point)
+  (var r [])
+
+  (for! (x 0) (< x i) (++ x)
+        (var r* (set r x []))
+        (for! (y 0) (< y j) (++ y)
+              (.push r* (*point [x y] [i j]))))
+
+  (.reshape (.tensor dl r) [1 i j 2]))
+
+(def-tidy point-tensor ([x y] [i j]  *point) (.tensor dl (*point [x y] [i j])))
+
+
+(def-tidy distance-matrix (p plane *point)
+
+  (.norm  (.add plane p ) "euclidean" 3))
+
+(def-tidy inverse-square-matrix (I c p plane *point)
+  (.div  I (.add c (.square (distance-matrix  p plane *point)))))
+
+(define coord-types Interface
+
+  (def toroid ([x y] [i j])
+       (var theta (* (/ x i) tau)
+            phi (* (/ y j) tau)
+
+            u (* (m.cos theta) (m.sin theta))
+            v (* (m.sin phi) (m.cos phi))
+            c 1 a 1)
+       [(* (+ c (* a (m.sin phi)))
+           (m.cos theta))
+        (* (+ c (* a (m.cos phi)))
+           (m.sin theta))])
+
+  (def cartesian ([x y] [i j]) [(/ (mod (- x 1) i) i) (/ (mod (- y 1) j) j)]))
+
+(define Coordinate-system Interface
+
+  (init (dim (plane (.grid this dim))))
+
+  (def-generic distances (p plane *type) (distance-matrix p plane *type))
+
+  (def-generic inverse-square (I c p plane *type)
+    (inverse-square-matrix I c p plane *type))
+
+  (def-generic grid (dim *type) (coordinate-grid dim *type))
+  (def-generic point (p dim *type) (point-tensor p dim *type)))
+
+(define Toroid Coordinate-system
+  (*type coord-types.toroid))
+
+(define Cartesian Coordinate-system
+  (*type coord-types.cartesian))
