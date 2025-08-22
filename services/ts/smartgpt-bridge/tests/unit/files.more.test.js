@@ -1,6 +1,6 @@
 import test from 'ava';
 import path from 'path';
-import { locateStacktrace, resolvePath, viewFile } from '../../src/files.js';
+import { locateStacktrace, resolvePath, viewFile, normalizeToRoot } from '../../src/files.js';
 
 const ROOT = path.join(process.cwd(), 'tests', 'fixtures');
 
@@ -32,4 +32,15 @@ test('resolvePath returns null for non-existent', async (t) => {
 
 test('viewFile throws when file missing', async (t) => {
     await t.throwsAsync(() => viewFile(ROOT, 'nope.txt', 1, 1));
+});
+
+test('normalizeToRoot treats leading slash as repo root', (t) => {
+    const p1 = normalizeToRoot(process.cwd(), 'tests/fixtures/readme.md');
+    const p2 = normalizeToRoot(process.cwd(), '/tests/fixtures/readme.md');
+    t.is(p1, p2);
+});
+
+test('normalizeToRoot resolves "/" to repo root', (t) => {
+    const p = normalizeToRoot(process.cwd(), '/');
+    t.is(p, path.resolve(process.cwd()));
 });
