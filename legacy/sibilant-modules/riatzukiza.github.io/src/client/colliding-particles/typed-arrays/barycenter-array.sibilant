@@ -1,0 +1,8 @@
+
+(import Double-buffered-array "./double-buffered.js")
+(import Barycenter "../data-types/barycenter.js")
+
+(define Barycenter-array Double-buffered-array
+  (data-type Barycenter))
+
+(export Barycenter-array)

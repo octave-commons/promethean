@@ -1,0 +1,3 @@
+(var socket (io.connect "http://localhost"))
+(on socket "change"
+    (.reload location))

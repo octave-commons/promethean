@@ -1,0 +1,75 @@
+(include "kit/header"
+         "kit-interface/header"
+         "../../inc/async")
+
+
+
+(import-namespace async)
+(import-namespace kit)
+(import-namespace interface)
+
+
+(include "../../inc/misc.sibilant")
+;;(include "./field.sibilant")
+
+;; (include "kit-html/src/dom")
+;; (import-namespace dom)
+
+(include "../../inc/dl")
+(import-namespace dl)
+
+(require! dl 'deeplearn
+          m 'mathjs)
+
+(var running? true)
+
+
+(def rgb (r g b ) (lit  r g b ))
+
+
+(var kernel (pipe (dl.tensor2d [[1 1 1]
+                                [1 0 1]
+                                [1 1 1]])
+                  (dl.reshape [3 3 1 1])))
+
+(def window.onload ()
+
+     (var W window.inner-width H window.inner-height)
+     (set document.body.style
+          'margin 0
+          'padding 0)
+
+     (var state0-tensor (.greater (dl.random-uniform [H W])
+                                  (.scalar dl 0.5 "float32")))
+     (var state (dl.variable ( dl.cast ( dl.reshape  state0-tensor [1 H W 1])
+                                       "float32")))
+
+     (def-tidy next-generation ()
+       (var neighbors (dl.conv2d state kernel [1 1 1 1] "same"))
+       (var survive (dl.logical-and (dl.equal state (dl.scalar 1 "float32"))
+                                    (dl.equal neighbors (dl.scalar 2 "float32")))
+            born (dl.equal neighbors (dl.scalar 3 "float32")))
+
+       (dl.cast (dl.logical-or survive born)
+                "float32"))
+
+     (def-tidy step () (state.assign (next-generation)))
+
+     (var black (rgb 0 0 0 ))
+     (var red (rgb 255 0 0))
+
+     (var canvas (.create-element document 'canvas))
+     (.append-child document.body canvas)
+
+     (set canvas 'height  H 'width W)
+
+     (var game-field (colored canvas red [W H] state))
+
+     (def-async start ()
+       (await (dl.next-frame))
+
+       (if! (not running?) (return false))
+       (.render game-field canvas (step))
+       (start))
+
+     (start))

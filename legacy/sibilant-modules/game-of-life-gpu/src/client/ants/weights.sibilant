@@ -1,0 +1,12 @@
+
+(require! tf "@tensorflow/tfjs")
+
+(var weights (tf.variable (tf.random-uniform (.map (window.size) (#-> (/ 32))))))
+
+(pipe (weights.data)
+      (.then (=> (d)
+                 (for! (i 0) (> i (/ (first (window.size) ) 32)) (++ i)
+                       (for! (j 0) (> j (/ (second (window.size) ) 32)) (++ j)
+                             (entity [Position Dot Physics]
+                                     [(position (* i 32) (* j 32))
+                                      (dot 0 255 0)]))))))

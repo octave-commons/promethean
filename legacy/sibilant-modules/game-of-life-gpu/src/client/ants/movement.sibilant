@@ -1,0 +1,31 @@
+
+(require! (lit Matrix-view Matrix) "./modules/data-structures/contrib")
+
+(def-async random-move (ent)
+
+  (var velocity (.get game.systems Velocity ent )
+       pos (.get game.systems Position ent))
+
+  (var w (await (.data weights)))
+  (var m [])
+  (for! (i -1) (< i 2) (++ i)
+        (for! (j -1) (< j 2) (++ j)
+              (var rel [i j])
+              (var k ( Matrix-view.get-index
+                       [(Math.round (/ pos.x 32)) (Math.round (/ pos.y 32))]
+                       rel
+                       (+ (/ (second (window.size)) 32) 3)
+                       ))
+              (.push m [rel (get w k)])))
+  (var k ( Matrix.get-index
+           [(Math.round (/ pos.x 32)) (Math.round (/ pos.y 32))]
+           (second (window.size))))
+  (set w k (+ 0.001 (get w k)))
+  (.accelerate velocity (.reduce m (=> ([xv yv] [[i j] *w])
+                                       [(or (+ xv (* i *w)) 0)
+                                        (or (+ yv (* j *w)) 0)])
+                                 [0 0])))
+(def-async move-ants ()
+  (await (Promise.all (.map ants random-move)))
+  (weights.assign (tf.tidy (-> (.sub weights (.scalar tf 0.00001)))))
+  )

@@ -1,0 +1,33 @@
+{
+    "name": "symbiants",
+    "version": "0.0.4",
+    "description": "webgl",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron ./open-electron.js",
+        "repl": "sibilant -x main.sibilant"
+    },
+    "repository": {
+        "type": "",
+        "url": ""
+    },
+    "author": "",
+    "license": "",
+    "bugs": {
+        "url": ""
+    },
+    "homepage": "",
+    "dependencies": {
+        "chokidar": "^1.6.1",
+        "jquery": "^3.1.1",
+        "ramda": "^0.22.1",
+        "source-map-support": "^0.4.11",
+        "webgl": "https://bitbucket.org/kettlelogic/andy_webgl.git",
+        "kit": "https://bitbucket.org/kettlelogic/kit.git",
+        "sibilant": "https://bitbucket.org/kettlelogic/sibilant.git"
+    },
+    "devDependencies": {
+        "electron": "*",
+        "electron-winstaller": "^2.5.2"
+    }
+}

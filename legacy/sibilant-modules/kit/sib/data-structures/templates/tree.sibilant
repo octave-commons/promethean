@@ -1,0 +1,58 @@
+(type Tree )
+
+(describe Tree
+
+          (value null)
+          (parent null)
+          (depth 0)
+
+          (traverse-branches? true)
+
+          (def-generic branch? (value) (= null value))
+          (def-generic leaf? (value) (not (= null value)))
+
+
+          (def-generic descend (seq f (tree this))
+            (if (empty? seq)
+                tree
+                (f tree seq)))
+
+          (def-generic find (seq (tree this))
+            (if (empty? seq)
+                tree
+                (.*find tree seq)))
+
+          (def-generic has (seq (tree this))
+            (if (.find tree seq) true false))
+
+          (def-generic insert (seq  (tree this) )
+
+            (if (empty? seq)
+                tree
+
+                (let ((node (.*insert tree seq)))
+
+                  (assign node.depth (+ 1 tree.depth))
+                  (.insert node (rest seq)))))
+
+          (def-generic set (seq value (tree this))
+            (set (.insert tree  seq) 'value value))
+
+          (def-generic add (key (tree this) (*children tree.*children))
+            (or (*children.get key) ((create tree) undefined tree)))
+
+
+          (def-generic each (f traverse-branches? leaf? *children )
+
+            (def preorder-traverse (node k)
+              (f node k)
+              (.each node f))
+
+            (if traverse-branches?
+
+                (.each *children preorder-traverse true leaf? *children)
+
+                (each *children (node k)
+                      (if (leaf? node)
+                          (f node k)
+                          (.each node f false leaf *children))))))

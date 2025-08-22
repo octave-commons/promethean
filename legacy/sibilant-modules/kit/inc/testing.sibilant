@@ -1,0 +1,60 @@
+(namespace testing-tools)
+(import-namespace kit)
+
+(macro let* (args ...body)
+       (print "args" args)
+       (if (and (defined? args.contents) (> args.contents.length 1))
+           `(let (@(first args.contents))
+              (let* (...@(rest args.contents)) ...@body))
+           `(let (@(first args.contents)) ...@body)))
+(comment (let* ((foo "") (bar (+ foo "bazz")))
+           (print "hi")))
+(macro athrow (...messages)
+       `(=> (err)
+            (print ...@messages)
+            (throw err)))
+(macro let-lambda (args vars ...body)
+       `(=> @args
+            (let @vars ...@body)))
+
+(macro let-thunk (vars ...body)
+       `(-> (let @vars ...@body)))
+(macro log-rejection (p ...messages)
+       `(.catch @p (athrow (.repeat ";;" depth) ...@messages)))
+(macro log-success (p ...messages)
+       `(.then @p (=> (value) (print (.repeat ";;" depth) ...@messages) value)))
+(macro does (message ...body)
+       `(assign promise
+                (pipe promise
+                      (log-success  "? does" (.join names "") @message )
+
+                      (then-do promise ...@body)
+
+                      (log-success (+ ". "  (.join names "")) "does"  @message )
+
+                      (log-rejection (+ "! " (.join names "")) "doesn't"  @message  ))))
+
+(macro p-let (variables))
+(macro where ( *v *n ...body)
+       `(@*v (@*n ...@body))
+       )
+(comment (where .then let-thunk
+                ((name (quote @name))
+                 (names [(dots (or names [])) name])
+                 (promise (Promise.resolve)))
+                ...@body))
+(comment (let-thunk ((foo "bar"))
+                    (print foo)))
+(comment (pipe (.resolve Promise)
+       (where .then let-thunk ((foo "bar")))))
+(macro describe (name ...body)
+       `(pipe
+          (.resolve Promise)
+          (log-success  "starting tests for" (quote @name))
+          (then-do (let* ((name (quote @name))
+                          (names [(dots (or names [])) name])
+                          (promise (Promise.resolve))
+                          (depth names.length))
+                     ...@body))
+          (log-success  "all tests succeeded for" (quote @name) )
+          (log-rejection  "a test has failed for" (quote @name))))

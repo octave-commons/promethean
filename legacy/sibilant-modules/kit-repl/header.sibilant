@@ -1,0 +1,2 @@
+(require! repl "@kit-js/repl/js/repl")
+(var REPL repl.REPL)

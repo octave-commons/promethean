@@ -1,0 +1,32 @@
+
+(macro gene (ent value)
+       `(get @ent (quote genetics) (quote @value)))
+
+(macro mutate (ent values)
+       (map (content-of values) (value)
+            `(assign (get @ent (quote genetics) (quote @value))
+                     (+ (get @ent (quote genetics) (quote @value))
+                        (random-signed (get @ent (quote genetics) (quote mutation-factor)))))))
+
+(macro collide (ent ...body) `(if (or (not @ent) (= @ent empty) (= @ent 0))
+                                  (do ...@body)))
+
+(macro genetics (assigner ...props)
+       `(@assigner genetics (p-map ...@(map props (p)
+
+                                            (if (literal? p) `( @p (random-float 0 0.5))
+                                                `( @(first (content-of p))
+                                                    @(second (content-of p))))))))
+(macro if-valid-move (ent ...body )
+       `(when (or (not @ent) (= @ent empty) (= @ent 0)) ...@body))
+
+
+(macro each-valid-move (ent space ...rest)
+
+       `(adjacent @space w @ent
+
+                  (var ent (.get collision x y))
+
+                  (if-valid-move
+                   ent
+                   ...@rest)))

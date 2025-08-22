@@ -1,0 +1,47 @@
+
+
+(def-interface Style-sheet ()
+
+  (def-generic render (stream classes )
+    (.write stream (.join (.map classes  Style-class.parse ) "\n"))))
+
+(def-interface Style-class ()
+
+  (def parse ([name elements])
+    (+ name " {\n"
+       (.join (.map elements (=> ([name value]) ("\t" name ":" value ";"))) "\n")
+       "\n}\n"))
+
+  (def-generic render (stream [name elements])
+    (.write stream (.parse this [name elements]))))
+
+(meta (macro css-class (name ...body)
+             `[@name [...@(.map body (=> ((lit (contents [key value])))
+                                         `[(quote @(get key 'token)) @value]))]])
+
+      (macro with-css (stream ...elements)
+             `(.render Style-sheet @stream [ ...@(.map elements (=> ((lit (contents [name (dots body)])))
+                                                                    `(css-class @name ...@body)
+                                                                    ))])))
+;; (macro with-css (stream ...elements)
+;;        `(.render Style-sheet @stream
+;;                  [ ...@(.map elements
+;;                              (=> ((lit (contents [name (dots body)])))
+;;                                  `[name [...@(.map body (=> ()))]]))]))
+
+;; (.render Style-class process.stdout
+;;          [".taco"
+;;           [["width" "50px"]
+
+;;            ["width" "50px"]]])
+
+(.render Style-sheet process.stdout
+         [[ ".taco" [ ["width" "50px"] ["width" "50px"] ] ]
+          [ ".taco" [ ["width" "50px"] ["width" "50px"] ] ]]
+         )
+
+;; (with-css process.stdout
+
+;;   ".taco" [ ["width" "50px"] ["width" "50px"] ]
+;;   ".taco" [ ["width" "50px"] ["width" "50px"] ]
+;;   )

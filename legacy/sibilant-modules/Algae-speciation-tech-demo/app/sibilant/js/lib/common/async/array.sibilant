@@ -1,0 +1,38 @@
+(const (literal List) (require "../collection/list"))
+
+(specify Future-array (extend Future-collection)
+         ;; NOTE for the following two functions I would like
+         ;; to figure a more generic method over arbitrary collection
+         ;; types.
+         ;; I can't series un ordered types. This means that these functions do not apply
+         ;; to all collection types
+
+         ;; create a promise for the resolution of a map over
+         ;; a given collection
+
+         (generic bind (mth) (callback promise)
+                  (then (.resolve Future-array promise )
+                        collection
+                        (List.bind callback collection []))
+                  )
+         (generic map-all-serial (mth) (callback collection )
+                  (.reduce-all Future-array collection
+                               (=> (result element key)
+                                   (pipe (Promise.resolve (callback element key collection))
+                                         (then element (result.push element) result))) []))
+
+         ;; map over all values of a promised collection
+         (generic map-serial (mth) (callback promise )
+                  (.reduce Future-array (=> (result element key)
+                                         (pipe (Promise.resolve (callback element key collection))
+                                               (then element (result.push element) result)))
+                           []
+                           promise))
+
+         (gmth resolve (value )
+               ((create Future-array) (then (.resolve Promise value) a
+                                            (Promise.all a))))
+         (generic all (mth) (array )
+                  ((create Future-array)
+                   (Promise.all array))))
+(assign exports.Array Future-array)

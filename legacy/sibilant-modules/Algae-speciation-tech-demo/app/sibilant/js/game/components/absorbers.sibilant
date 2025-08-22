@@ -1,0 +1,23 @@
+
+;; (doc "vitamins decrease the amount of damage done to an entity when they burn calories")
+
+(specify Nutriant-absorber (extend Absorber))
+(describe Nutriant-absorber
+          (Container Nutriants)
+          (Field Silt))
+
+(specify Photoreceptor (extend Absorber))
+(describe Photoreceptor
+          (Container Calories)
+          (Field Light)
+          (def-generic update (entity neiborhood kernel cost Container)
+            (.update Absorber entity neiborhood kernel cost Container)))
+
+
+(specify Water-absorbtion (extend Absorber))
+(describe Water-absorbtion
+
+          (doc "water decreases the amount of calories burned when performing an action")
+
+          (Container Hydration)
+          (Field Water))

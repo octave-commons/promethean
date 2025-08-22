@@ -1,0 +1,9 @@
+(namespace async)
+(import-namespace core)
+
+(macro def-async (name args ...body)
+       ["async function " @name "(" (interleave (content-of args) ",")")" "{\n"
+
+        (indent (apply ^do body))
+        "\n}"])
+(macro await (value) ["await " value])

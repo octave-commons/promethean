@@ -1,0 +1,105 @@
+;; Pheremons is a weight matrix.
+;; Every value in it is a floating point number from 0 to 1.
+;; The values of this matrix influence the decisions of the ants.
+;; Pheremons decay by a fixed amount every tick of the simulation unless
+;; an ant has recently traversed that location.
+;; The result of this is that long paths do not live as long,
+;; so the ants will tend towards the shortest path.
+
+
+
+(include"./state-space")
+(include"./math")
+(require! complement "./../../js/color.js")
+
+
+(var colors [])
+
+(fn decay-positive (x y v decay color)
+    "brings a positive weight closer to zero, "
+    (- v  decay ))
+
+(def combine (old addi ) (Math.round (+ old addi)))
+
+(fn decay-negative (x y v decay color)
+
+    "brings a positive weight closer to zero, "
+
+    (+ v  decay ))
+(generic each-in-area (fn) (matrix pos f (size 3) (rad (Math.floor (/ size 2))))
+         "apply a function to every element in a kernel of the weight matrix.
+Values are not changed unless done so explicitly by the function as a side effect."
+         (.each-in-sub matrix
+                       (- pos.x rad)
+                       (- pos.y rad)
+                       size size (=> (v i j x y ) (f v i j (+ x i) (+ y j)))))
+
+
+(macro area (space el-name center size ...body)
+       `(each-in-area @space @center
+                      (=> (@el-name i j x y)
+                          ...@body) @size ))
+;; I think that weights could be a class of entity if I could pull out a bit more of their behavior from the pheremones type.
+(type Weight
+      (init (x y entity))
+      (gett weight (.get weights x y))
+      (gett color (if (>= this.weight 0 )
+                      entity.color
+                      (complement entity.color)))
+      (gett r this.color.red )
+      (gett g this.color.green)
+      (gett b this.color.blue)
+
+      (gett a (Math.abs (* 160 this.weight)) ))
+(def add-mixing-layer (entity weights )
+  (var layer (.get sim.layers))
+
+  (assign weights.layer layer)
+  (each weights (w x y)
+        (.add layer ((create Weight) x y entity)))
+  (.move-up layer))
+
+(def decay  (coord v decay )
+      (var (literal x y) coord)
+      (if (< decay (Math.abs v))
+          (if (> v 0) (- v decay)
+              (< v 0) (+ v decay))
+          (do 0)))
+;; used to index non-empty runs of data in an array
+(def memoize (f)
+  (var cache (.map (new Array f.length) (-> (new Map))))
+  (=> ((dots args)) (if (.every cache (=> (cache i) (cache.has (get args i)))))))
+(type Pheremones
+      (property id 0)
+      (init (color decay (decaying { waiting [] marked (new Set) })
+                   (weights ((create State-space) sim.width sim.width)) id (last-update 0))
+            (++ Pheremones.id)
+            ;;(add-mixing-layer this weights  )
+            )
+
+      (gmth update (decaying id (dec this.decay) weights)
+            (var debt ( - sim.ticks this.last-update))
+            (assign this.last-update sim.ticks)
+            (assign this.decaying.waiting
+                    (.filter decaying.waiting
+                             (=> (coord)
+                                 (var w (decay coord  (get coord.layers id) (* debt dec)))
+                                 (set coord.layers id w)
+                                 (weights.set coord.x coord.y w)
+
+                                 (if (<= w 0)
+                                     (do (.delete decaying.marked coord) false) true)))))
+      (gmth emit  (pos weights rate (r 5 ) decaying id)
+            (area weights.state w pos r
+                  (var coord (.get world.coord x y))
+                  (unless (.has decaying.marked coord)
+                    (.add decaying.marked coord)
+                    (.push decaying.waiting coord)
+                    (set coord.layers id w))
+
+                  (if (< w 1)
+                      (do (incr-by (get coord.layers id)
+                                   (/ rate (+ 1 (Math.pow (euclidian-distance x y pos.x pos.y) 2)))))))))
+
+
+(export Pheremones)

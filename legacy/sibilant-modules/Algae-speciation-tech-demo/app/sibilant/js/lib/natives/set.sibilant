@@ -1,0 +1,49 @@
+
+(macro maybe-of (set el cond ...body)
+       `(all-of! @set @el
+                 (when @cond ...@body)))
+
+(macro def-proto (thing method args ...body)
+       `(set (get @thing (quote prototype))
+             (quote @method)
+             (lambda @args ...@body)))
+
+
+(macro all-must ( set v cond)
+       `(scoped
+         (loop (all-of! @set @v)
+
+            (if (not @cond))
+
+            (return false))
+
+         (return true)))
+
+(macro have (set el) `(.has @set @el))
+
+
+
+(def-proto Set is-superset (subset)
+
+  (all-must (have this elem)))
+
+(def-proto Set union (set-b)
+  (loop
+    (collect union (new Set this))
+    (all-of! set-b elem (.add union elem))))
+
+
+
+(def-proto Set intersection (set-b)
+  (loop (collect intersection (new Set))
+        (maybe-of set-b elem (.has this elem))
+        (.add intersection elem)))
+
+(def-proto Set difference (set-b)
+  (loop (collect difference (new Set this))
+        (all-of! set-b elem (print elem))
+        (.delete difference elem)))
+
+(def-proto Set to-array ()
+  [(dots this)]
+  )

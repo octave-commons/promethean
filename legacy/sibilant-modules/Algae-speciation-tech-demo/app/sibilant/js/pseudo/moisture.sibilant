@@ -1,0 +1,19 @@
+
+(type Moisture-component
+      (init (x y))
+
+      (gett value (.get Moisture.state-space this.x this.y))
+      (gett state-space Moisture.state-space)
+
+      (gett a (* this.value 255 (.get Moisture.state-space
+                                      this.x
+                                      this.y
+
+                                      ))))
+(var Moisture ((create Field) Moisture-component))
+(print Moisture)
+
+(.populate-layer Moisture)
+(.transit Moisture.state-space (=> (v x y) (Math.random)))
+(.update Moisture.state-space)
+(.transit Moisture.state-space (=> (v x y) v))

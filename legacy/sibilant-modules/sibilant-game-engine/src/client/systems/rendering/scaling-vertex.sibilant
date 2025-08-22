@@ -1,0 +1,18 @@
+
+(include "kit-interface/header")
+(import-namespace interface)
+
+(require! (lit Renderable) "./renderable"
+          (lit Andy) "../../gl")
+
+
+(define Scaling-vertex Renderable
+
+  (init (layer))
+
+  (def clear ())
+
+  (structure (new Andy.Gl.Type.Composite
+                  (lit (point Andy.Type.Vector3)
+                       (color Andy.Color.RGBA)
+                       (size Andy.Type.float)))))

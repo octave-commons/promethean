@@ -1,0 +1,34 @@
+
+{
+  "name": "file-system",
+  "version": "0.0.4",
+  "description": "code I use to manage the file system, including several related data structures",
+  "main": "main.js",
+
+  "scripts": {
+      "repl" : "sibilant -x main.sibilant",
+      "update-modules":"sh ./install.sh"
+  },
+
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "author": "",
+  "license": "",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "dependencies": {
+    "chokidar": "^1.6.1",
+    "ramda": "^0.22.1",
+    "source-map-support": "^0.4.11",
+    "webgl": "https://bitbucket.org/kettlelogic/andy_webgl.git",
+    "kit": "https://bitbucket.org/kettlelogic/kit.git",
+    "sibilant": "https://bitbucket.org/kettlelogic/sibilant.git"
+  },
+  "devDependencies": {
+    "electron": "*"
+  }
+}

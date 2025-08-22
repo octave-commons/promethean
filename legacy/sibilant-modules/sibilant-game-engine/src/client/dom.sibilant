@@ -1,0 +1,6 @@
+
+(include "kit-html/src/dom")
+(import-namespace dom)
+(export Document-node)
+(export Document-body)
+(export Document-root)

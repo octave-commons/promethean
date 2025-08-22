@@ -1,0 +1,55 @@
+
+(meta "import '/bundles/external.js'")
+
+(import Vector "/shared/vectors.js")
+(import Spawnable "/shared/data-structures/spawnable.js")
+(import Physics-array "../typed-arrays/physics-array.js")
+(import Group-id-array "../typed-arrays/group-id-array.js")
+(import Vector-2D-array "../typed-arrays/vector-2d.js")
+(import Kd-tree "../typed-arrays/kd-tree.sibilant")
+(import Threaded-system "../system.sibilant")
+
+(import config "../config.js")
+(const (lit gravitational-constant ) config)
+
+(import Parent-system "../system.sibilant")
+
+(def-lit-macro def-async (name args ..body)
+  ["async "  name  `(parenthetic (comma ...@args.contents)) `(curly (do-block ...@body))])
+
+(define Deflection-group-system Threaded-system
+  (url "/client/colliding-particles/workers/local-attractor-system.js")
+  (data []))
+
+
+
+
+(const threads [])
+(for! (i 0) (> config.collision-group-count i) (incr i)
+      (const thread (.spawn Deflection-group-system))
+      (assign thread.url (+ "/client/colliding-particles/workers/kd-deflection.js?gid=" i))
+      (.start thread)
+      (.push threads thread))
+
+(define Elastic-deflection-system Parent-system
+  (data-types [
+             Vector-2D-array
+             Vector-2D-array
+             Physics-array
+             Kd-tree
+             Vector-2D-array
+             Vector-2D-array
+             ])
+
+  (def-async update ((lit bounds) [ positions velocities phys kd-tree deflections corrections ])
+    (Promise.all (map threads (thread i)
+                      (assign thread.args (lit (collision-group-id i) bounds))
+                      (assign thread.data [
+                              positions velocities phys
+
+                              kd-tree
+
+                              deflections corrections ])
+                      (.update thread)))))
+
+(.start Elastic-deflection-system )

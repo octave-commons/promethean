@@ -1,0 +1,32 @@
+(namespace dev)
+(import-namespace markup)
+
+(macro def-markup (name args body)
+       `(def @name @args (markup @body)))
+
+
+
+(def portfolio-piece (name)
+     (markup (.article (.iframe .height 256 .width 256 .src ("./" name ".html")
+                         .style "display:block;")
+                (.section .style "text-align:center;width:256px"
+                          (.a .href ("/html/" name ".html")
+                              (pipe name (.replace (regex "-" "g") " ")))))))
+(macro controller (...body) `(markup (.script (scoped ...@body))))
+
+(html
+ (.head (.title "Welcome to the Error Log")
+        (.script .src "/js/bundle.js")
+        (controller))
+ (.body
+  (.header .style "text-align:center;" (.h1 "Error log") )
+
+  (.section .style "display:flex;flex-wrap:wrap;margin:auto;width:80%;"
+
+            (portfolio-piece "game-of-life")
+            (portfolio-piece "side-scroller")
+            (portfolio-piece "simple-sun")
+
+            (portfolio-piece "toroidal-coordinates")
+
+            )))

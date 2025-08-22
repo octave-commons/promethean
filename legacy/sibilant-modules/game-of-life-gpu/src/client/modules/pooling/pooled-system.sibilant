@@ -1,0 +1,52 @@
+
+(include "kit-interface/header")
+
+(import-namespace interface)
+
+(require! (lit Object-pool) "./object-pool")
+
+(define  Pooled-system  Interface
+  (init (limit
+         interface
+         (*pool ((create Object-pool) limit interface)))
+        (.register this interface)
+        )
+
+  (limit 10000)
+
+
+  (systems (new Map))
+
+  (def-generic clear (*pooled)
+    (.each *pooled (feach despawned))
+    (.clear *pooled))
+
+  (def spawn ((dots args))
+
+       "aquire an object from the systems pool, and initialize it."
+
+       (collect r (pipe this.*pool (.aquire))
+                (.init r (dots args))))
+
+  (def despawn (obj)
+       "remove an object from the system, and release it back into the pool."
+
+       (.clear obj)
+       (pipe this.*pool
+             (.release obj)))
+
+  (def register (interface)
+
+       "Associate an interface with a system,and add the system to the collection of all active systems."
+
+       (assign interface.system this)
+
+       (.set this.systems this this))
+
+  (def update ()
+
+       "update every active member of the system"
+
+       (each this.*pool.*in-use (member)
+             (.update member))))
+(export Pooled-system)

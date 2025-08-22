@@ -1,0 +1,17 @@
+
+(specify Directory (extend FS-node))
+
+(describe Directory
+
+
+          (def-generic set (path value ( type File ) ))
+          (def-generic get ())
+          (def-generic insert (path ( type File ) ))
+
+          (def-generic each (f))
+          (def-generic map (f))
+
+
+          (gett keys (readdir this.path))
+          (gett children (pipe this.keys
+                               (.then (fmap (=> (k) (Path.join this.path k)))))))
