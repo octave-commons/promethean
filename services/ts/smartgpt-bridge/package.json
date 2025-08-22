@@ -26,7 +26,9 @@
         "jsonwebtoken": "^9.0.2",
         "nanoid": "^5.0.7",
         "node-pty": "^1.0.0",
-        "typescript": "^5.6.2"
+        "typescript": "^5.6.2",
+        "mongoose": "^8.8.0",
+        "uuid": "^9.0.1"
     },
     "devDependencies": {
         "ava": "^6.1.3",
