@@ -1,0 +1,101 @@
+(macro set-globals (...body)
+       `(mixin (lit ...@body) global))
+
+(include "kit/header")
+(import-namespace kit)
+
+
+(require! 'fs 'sibilant 'readline)
+
+(include "kit-repl/header")
+(import-namespace repl)
+
+(include "kit-interface/header" )
+(import-namespace interface)
+
+
+
+(require! Path 'path)
+;; (require! List "../js/list.js"
+;;           'assert)
+
+(set-globals (R (require 'ramda))
+             sibilant
+             process
+             module
+             exports
+             (def require (path)
+               (print "requiring" path)
+               (require (if (= (first path) ".")
+                            (do (print "local file" path)
+                                (Path.join "./sib" path))
+                            (do (print "node_module file")
+                                path))))
+             create extend mixin conditional cond partially-apply-after)
+
+(def-curried append-line (path d)
+  (append-file path (+ d "\n")))
+
+(def-curried append-file (path d)
+  (make-promise
+   (.append-file fs path d (=> (e) (if e (fail e) (success))))))
+
+(var history-file-path "./history.sibilant")
+
+(var identity (=> (a) a))
+
+(define String-reader Interface
+  (init (stream (actor ((create Actor)))))
+  (gett string (.exaust this))
+
+  (def-generic each (f stream actor)
+    (make-promise
+     (pipe stream
+           (.on  'data (#-> (+ "") (tap f) actor.send))
+           (.on 'end success))))
+
+  (def-generic map (f stream actor)
+    (.on stream 'data (#-> (+ "") f actor.send)))
+
+  (def-generic exaust (stream)
+    (var d "")
+    (make-promise (.each this (=> (chunk) (incr-by d chunk))))))
+
+
+(require! (lit Evaluator) "./evaluator")
+
+(require! 'net)
+(var socket (.connect net 8120))
+;;(macro print (...))
+(var app (.start ((create REPL))))
+
+(def aprint ((dots argsa))
+  (=> ((dots argsb) )
+      (alert (dots argsa) (dots argsb))))
+(def-generic eval-string (sibilant-string name)
+
+  (print "compiling sibilant" sibilant-string)
+
+  (var js (get (sibilant sibilant-string) 'js))
+
+  (print "evaluating js" js)
+
+  (++ eval-index)
+  (vm.run-in-this-context   js (+ name ":" eval-index)))
+
+
+(.on socket 'data (#-> (+ "") app.send))
+(.on socket 'end (aprint "client socket ended"))
+(.on socket 'close (aprint "client socket  closed"))
+(.on socket 'error (aprint "REPL client socket error"))
+
+(pipe app
+      (tap (get repl.Reader.symbol)
+           (.on 'message (R.pipe (append-line history-file-path)
+                                 (#-> (.catch (aprint "failed to append history"))))))
+      (tap (get repl.Compiler.symbol)
+           (.on 'message (R.pipe (append-line "./history.js")
+                                 (#-> (.catch (aprint "failed to append history"))))))
+      (.on  'result (aprint "result:"))
+      (.on  'error (=> (e) (print "client error" e)(throw e)))
+      (.on  'log (aprint "log:")))

@@ -1,0 +1,41 @@
+(include"./pheremons")
+(include"./entity")
+(include"./ant")
+(include"./state-space")
+
+(var yellow { red 255 green 255 blue 0 })
+
+(type Colony
+
+      (property id 1)
+      (property colonies (new Set) )
+
+      (init (name nest color (goals (new Set))  (ants (new Set) )
+
+                  stats collision
+
+                  (weights ((create State-space) 120 120))
+
+                  display (decay 0.1) colonies) 
+
+            (.add colonies this))
+
+      (generic serialize (mth) (ants)
+               (map (.to-array ants) (ant) (.serialize ant)))
+      (generic save (mth) () ((create File)))
+      (generic load (mth) ())
+
+      (generic spawn (fluent mth) (count  nest collision)
+
+               (print "spawning ants at nest" nest)
+               (area collision spot nest count (.spawn.call Ant this x y)))
+
+      (generic move (mth) (ants weights display color nest)
+
+               "Process the movement of ever ant in a set of ants, updating weights along the way."
+
+               (.each ants (=> (ant) (.move ant )))
+
+               (display.set nest.x nest.y  yellow)))
+
+(export Colony )

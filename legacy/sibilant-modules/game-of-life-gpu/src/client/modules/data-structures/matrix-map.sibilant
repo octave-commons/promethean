@@ -1,0 +1,25 @@
+(include "kit-interface/header")
+(import-namespace interface)
+
+(require! (lit Matrix) "./contrib")
+
+(def-interface Matrix-map (dim (array []))
+  (extend Matrix)
+
+  (def get ([x y]) (.call Matrix.get this x y))
+  (def set ([x y] v) (.call Matrix.get this x y v))
+  (def has ([x y]) (if (.get this [x y]) true false))
+
+  (gett width (first this.dim))
+  (gett height (second this.dim))
+
+  (def-generic each  (f width height )
+    "standard itterative operator, accepts a function and applies it to every
+element of the matrix"
+    (var r this)
+    (loop
+     (for-up-to i width )
+     (for-up-to j height
+                (f (.get r [i j]) [i j] r))) r))
+
+(export Matrix-map)

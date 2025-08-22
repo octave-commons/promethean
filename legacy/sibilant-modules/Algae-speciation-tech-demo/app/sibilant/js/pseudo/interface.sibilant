@@ -1,0 +1,14 @@
+;; (include "./macros/jquery")
+
+;; (import-namespace jquery)
+
+;; (import-namespace defs)
+;; (import-namespace js)
+(type Game-map
+      (init ())
+      )
+
+(def interface (sim C)
+
+  )
+(export interface)

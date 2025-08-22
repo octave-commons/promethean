@@ -1,0 +1,29 @@
+
+
+
+(def position (x y) (lit x y))
+
+(def velocity (xd yd) [xd yd])
+
+(def dot (r g b a)
+     (lit r g b a))
+
+(def physics (mass scale forces)
+     (lit mass scale forces
+          (falling false)))
+
+(def sprite (image frame-count scale dim)
+     (lit image frame-count scale dim))
+
+(def collision (type)
+     (lit type))
+
+(def entity (aspects data)
+     (.spawn game.ent aspects data))
+
+(def floor-tile (x y)
+     [(position  (* x 32)  (* y 32))
+      (dot 255 255 10 255)
+      (velocity 0 0)
+      (physics 10 32 [])
+      (collision 'static)])

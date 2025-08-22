@@ -1,0 +1,87 @@
+
+(def promise-all-calls (obj method  (dots args))
+  (.all Promise (.map args (=> (a) (.apply (get obj method) obj a)))))
+
+(def sibilant-path (path) (+ path ".sibilant"))
+(def js-path (path) (+ path ".js"))
+
+(var watch-node (R.invoker 0 'watch))
+
+(specify Project-file-system (extend Event-emitter.prototype))
+
+(def-description Project-file-system
+
+    (init (.call Event-emitter this))
+
+    (root
+     (sib ((create File-system) (Path.join root "sib")))
+     (js ((create File-system) (Path.join root "js")) ))
+
+  (gett project this)
+
+  (def-generic resolve-path (pre path root )
+    (pipe (Path.relative root pre  path )
+          (.split ".")
+          first))
+
+
+
+
+  (def-generic find (path sib js )
+
+    (pipe (Promise.all [
+                       (.find sib (sibilant-path path))
+                       (.find js (js-path path))
+                       ])
+
+          (.then (create Project-pair))))
+
+  (def-generic find-from (pre node project)
+    (pipe project
+          (.find  (.resolve-path projec pre node.path))))
+
+  (def-generic find-from-sib (node project)
+    (.find-from project 'sib node project))
+
+
+
+  (def-generic insert (path  [sib js])
+    (Promise.all [
+                 (.insert sib (sibilant-path path))
+                 (.insert js (js-path path))
+                 ]))
+  (def-generic insert-from (pre node project)
+    (pipe project
+          (.insert  (.resolve-path project pre node.path))))
+
+
+
+
+  (def-generic *add-when-added ([sib js])
+
+    (async-let ((sib-node (.watch sib "."))
+                (js-node (.watch sib ".")))
+
+      (on sib-node 'add (c) (.insert-from project  c.path c))
+      (on js-node 'add (c) (.insert-from project  c.path c))))
+  (def-generic watch ([sib js])
+
+    (async-let ((sib-node (.watch sib "."))
+                (js-node (.watch js ".")))
+
+      (on sib-node 'all (c) )
+      (on js-node 'all (c) )))
+  (def-generic on (e f [sib js])
+    ;; there appears to be a pattern here where we are performing similar
+    ;; actions on objects in a pairing configuration
+    (.on sib e f)
+
+    (.on js e f))
+
+  (def-generic compile-on-sibilant-change (sib project)
+
+    (async-let ((node (.watch sib ".")))
+      (.*add-when-added project)
+
+      (.on node 'change   (fpipe .compile) ))))
+

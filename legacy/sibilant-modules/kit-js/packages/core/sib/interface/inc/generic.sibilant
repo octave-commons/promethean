@@ -1,0 +1,40 @@
+(meta
+ (namespace kit)
+ (def flatten-squares (forms,f)
+   (collect r [ ]
+            (each (content-of forms)  (form1)
+                  (if (bracketed? form)
+                      (each (content-of form) (form2))))))
+
+ (def  macros.init (args ...body)
+   `(def-generic init   @args (set this ...@(content-of args)) this)) 
+
+ (def make-default-pair (form)
+   `(default @(first (content-of form)) @(second (content-of form))))
+
+ (def default-this (a) `(default @a (get this (quote @a))))
+
+ (def get-this-var (varname) `(get this (quote @varname)))
+
+ (def default-destructured (form)
+   `(default [...@(.map (content-of form) generic-arguments)]
+             [ ...@(.map (content-of form) get-this-var) ]))
+
+ (def generic-arguments (form)
+
+   (if (expression? form) (make-default-pair form)
+
+       (or (brace? form) (bracket? form))
+
+       (default-destructured form)
+
+       (default-this form)))
+
+ (def global.generic (name def args body)
+   (print "generic")
+
+   `(...@(content-of def) @name (...@(.map (content-of args)  generic-arguments)) ...@body))
+ (macro generic (name def args ...body)
+        (global.generic name def args body))) 
+
+

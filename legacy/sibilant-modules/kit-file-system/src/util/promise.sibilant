@@ -1,0 +1,12 @@
+
+(def-curried reduce-promise (f a) (.reduce a f [(Promise.resolve) ""]))
+(macro chain-promise (p ...rest)
+       (if (empty? rest)
+           p
+           `(then-do @p (chain-promise ...@rest))))
+
+(def-promised timeout (t)
+  (set-timeout success t))
+
+(def once-then ( event  emitter)
+  (make-promise (.once emitter event success )))

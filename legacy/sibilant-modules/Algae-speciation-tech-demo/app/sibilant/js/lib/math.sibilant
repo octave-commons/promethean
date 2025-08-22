@@ -1,0 +1,8 @@
+(include "./math/geometry.sibilant"
+         "./math/random.sibilant"
+         )
+
+(macro ** (n x) `(Math.pow @n @x))
+
+(def add (a b) (+ a b))
+(def summate (a) (.reduce a add 0))

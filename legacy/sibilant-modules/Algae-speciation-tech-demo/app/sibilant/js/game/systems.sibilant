@@ -1,0 +1,82 @@
+(var systems [])
+(var System {})
+
+(var e Math.E)
+
+(def create-instance-of (type (dots args))
+  ((create type) (dots args)))
+
+;; (macro define-system (name type args ...properties)
+;;        (var system-handle `(get System (quote @name)))
+;;        `(var @name (assign @system-handle
+;;                            (if @system-handle @system-handle
+
+;;                                (.init.call (Object.create (extend @type (lit ...@properties))) { } (quote @name) (dots @args))
+
+;;                                (mixin  (lit ...@properties) @type)))))
+
+
+(macro define-system (name type  ...args)
+       `(var @name (create-instance-of @type (quote @name) ...@args)))
+
+(macro define-field (name ...args)
+       `(define-system @name  Field-system ...@ args))
+
+
+
+(def moore (x y field) ((create Matrix-view) field 3 3 [ (- x 1) (- y 1) ]))
+(var count-kernel (kernel 3 3
+                          [
+
+                          [ 1 1 1 ]
+                          [ 1 1 1 ]
+                          [ 1 1 1 ]
+
+                          ]))
+(def identity ()
+  (matrix 3 3
+          [
+
+          1 1 1
+          1 1 1
+          1 1 1
+
+          ]))
+(var average-kernel (.mult count-kernel (/ 1 9)))
+
+
+(macro alias (name object) `(gett @name (get @object (quote @name))))
+
+(var additive-smooth (memoize (lambda (s a b) (/    (+ s a) (+ s b)))))
+
+(def additive-smooth  (s a b)
+  (/ (+ s a) (+ s b)))
+
+(def *convolve (A B)
+  (.convolve A B))
+
+(def percent-to-color (percentage)
+  (*  percentage 255))
+
+(def inverse-square (rate c pos (lit x y) )
+     (/ rate
+        (+ c
+           (Math.pow
+            (euclidian-distance x y pos.x pos.y) 2))))
+
+(macro positive? (value)
+       `(> @value 0))
+
+(macro negative? (value)
+       `(< @value 0))
+
+(include "./systems/fields/sun"
+         "./systems/fields/heat"
+         "./systems/fields/light"
+         "./systems/fields/simple-water"
+         "./systems/fields/silt"
+         "./systems/collision"
+         )
+
+
+

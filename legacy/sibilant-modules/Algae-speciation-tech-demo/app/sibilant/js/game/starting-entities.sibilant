@@ -1,0 +1,55 @@
+(def bulk-spawn-entity (T args)
+  (each args (a) (create-instance-of T (dots a))))
+
+(def clear-entities ()
+  (each entities (e) (.remove e)))
+
+(def update-game (ticks)
+  "Gets called every tick of the game, and for every system of the process,
+we update its state, and recaculate the values of the current major field."
+
+  (if (empty? entities) (initialize-game))
+
+  (var current-system (get systems (mod ticks systems.length) ))
+
+  ;;(print "starting update" sim.elapsed ticks current-system)
+
+  ;;(refresh-fields)
+
+
+  ;;(update-off-beat-fields current-system ticks)
+
+  (update-on-beat-field current-system ticks)
+
+  (refresh-fields)
+
+  (update-entities)
+
+  (refresh-fields)
+
+  (display-stats Water )
+  ;; (display-stats Heat)
+
+
+  (update-display ))
+
+
+
+
+
+(def initialize-game ()
+
+  (clear-entities)
+
+  (each systems (s) (.randomize s))
+
+  (bulk-spawn-entity Algae
+                     [
+
+                     [ 20 50 ]
+                     [ 10 50 ]
+
+
+                     ])  )
+
+(initialize-game)

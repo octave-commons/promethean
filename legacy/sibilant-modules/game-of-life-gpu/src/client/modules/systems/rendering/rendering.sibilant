@@ -1,0 +1,67 @@
+
+(include "kit-interface/header")
+(import-namespace interface)
+
+(require! (lit Layer) "./layer"
+          (lit Pooled-system) "../../pooling/pooled-system"
+          (lit Gl) "../../gl"
+          (lit Scalar) "../../math/scalar")
+
+
+
+(var bound (#-> .bind )
+     clear (#-> .clear )
+     rendered (#-> .render)
+
+     unbound (#-> .unbind)
+     disabled (#-> .disable)
+
+     enabled (#-> .enable))
+
+
+
+(define Rendering Pooled-system
+
+  (init
+   ((dimensions (window.size))
+    (limit 100)
+    (blend true )
+    (context (Gl.context dimensions blend))
+    (layers []))
+
+
+   (set this.interface
+        'context context
+        'rendering this)
+
+   (.enable context.gl context.gl.BLEND)
+
+   (.blend-equation context.gl context.gl.FUNC_ADD)
+
+   (.blend-func-separate context.gl
+                         context.gl.SRC_ALPHA
+                         context.gl.ONE_MINUS_SRC_ALPHA
+                         context.gl.ONE
+                         context.gl.ONE_MINUS_SRC_ALPHA)
+
+   (.call Pooled-system.init this limit))
+
+  (interface Layer)
+
+  (sett background-color (lit r g b a)
+        (pipe this.context
+              .make-current
+              (.clear-color  (dots (.div Scalar [r g b a] 255)))))
+
+
+  (def-generic resize ([ width height] context)
+    (.resize context width height))
+
+  (def load ((lit dimensions limit blend))
+       ((create Rendering ) dimensions limit blend))
+
+  (def-generic update (layers context)
+    "render each visible dot to the screen"
+    (.each layers rendered)))
+
+(export Rendering)

@@ -1,0 +1,28 @@
+
+(include "../../macros.sibilant")
+(import-namespace kit)
+(include "../../inc/vm")
+
+(def-interface Sibilant ())
+
+(def-interface Context ()
+  (def eval ()))
+
+(def-interface Module ()
+  (def compile ()))
+
+(def-interface Stream ()
+  )
+
+
+(def-interface File-system (root (*fs ((create File-system) path)))
+  (def find ())
+  (def delete ())
+  (def move ())
+  (def watch ())
+  )
+
+(def-interface File ()
+  (gett)
+  )
+(def-interface Directory ())

@@ -1,0 +1,110 @@
+(def parse (path)
+  (let ((parsed-url (.parse url path )))
+    (mixin parsed-url
+           (lit (sequence (.split parsed-url.pathname "/"))))))
+
+(def-curried handle-router-error (res e)
+
+  (.write-head res 500)
+  (.end res e.message))
+(macro route-handler (...body)
+       `(=> (req res route)
+            (.catch (.resolve Promise (scoped ...@body))
+                    (handle-router-error res)))) 
+
+(macro def-route (path ...body)
+       "sugar for adding a route."
+
+       `(.add  app @path (=> (req res route) ...@body)))
+
+
+(def-interface Http ())
+
+(def-interface Http.Router
+    (port Message
+          (*dispatch (create Message))
+          (*tree ((create Tree-map)))
+          (server (.create-server http (=> (req res) (*dispatch req res this))))
+          (started? false))
+
+  (def use (path middle-ware)
+
+    "mount a router to a point in this one."
+
+    (.add this path
+          (route-handler
+           (*dispatch req res router
+                      (parse route.path)))))
+
+  (def-generic add (path handler *tree)
+    "introduce a new routing node to the tree."
+    (.set  *tree (get (parse path) 'sequence) handler)
+    this)
+
+  (def-generic start (server port started?)
+    (unless started? (.listen server port) (assign this.started? true)))
+
+  (def-generic find (sequence *tree )
+    "locate a route given an array of keys"
+
+    (let* ((s (first sequence))
+           (child (.get *tree.*children s)))
+
+      (print "finding" sequence s child)
+      (if child
+          (.find Http.Router (rest sequence) child)
+
+          ((create Http.Router.Route) sequence *tree))))
+
+  (def-generic stop ()))
+
+(def-interface Http.Router.Route
+    ( sequence
+      tree
+
+      (path (pipe sequence (.join "/"))))
+  
+
+  (gett remainder this.sequence)
+  (gett value this.tree.value))
+
+;; I've done some neat tricks here I think, I should talk about it a bit more.
+
+;; The more complex this hierarchy becomes, the harder it will be to prevent name collisions.
+;; Do you remember how you use to write code?
+
+(def-interface Http.Router.Message (req res *router (path-data (parse req.url))
+                                        (route (.find *router path-data.sequence )))
+  (init (.handle-incoming-message this ))
+
+  ;; doesn't belong here.
+  (def-generic lift-request (req path-data)
+    (mixin  (lit path-data) req))
+
+  (def-generic error-status (e res path-data)
+
+    (assign res.status-code 500)
+
+    (.write res (+ (.stringify JSON path-data null "\t") "\n"))
+
+    (.end res ("Error:" e.message)))
+
+  (def-generic handle-incoming-message
+      (req
+       res
+       handle-behaved-message
+       path-data
+       route
+       lift-request)
+
+    (print "incoming message" route.value)
+
+    (try (if (not route.value)
+             (do (.write-head res 404)
+                 (print "wasn't found")
+                 (.end res "resource not found"))
+             (function? route.value)
+             (.value route (lift-request req path-data) res route))
+
+         (.error-status this e))))
+

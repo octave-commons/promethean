@@ -1,0 +1,34 @@
+(namespace server)
+
+(include "kit/header"
+         "kit-http/header"
+         "kit-interface/header")
+
+(import-namespace kit)
+(import-namespace http)
+(import-namespace interface)
+
+(require!
+ (lit File-system) "kit-file-system"
+ (lit serve-static-files) "./static-files")
+
+(var static-dir (.load File-system "./"))
+
+(var app ((create Http.Middle-ware)))
+
+(define js Interface
+
+  (client (.load File-system "./client"))
+  (bundles (.load File-system "./bundles")))
+
+(define html Interface
+  (files (.load File-system "./html")))
+
+
+(.use app "/html" (serve-static-files html.files))
+
+(.use app "/js" (serve-static-files js.client))
+
+(.use app "/bundles" (serve-static-files js.bundles))
+
+(assign module.exports app)
