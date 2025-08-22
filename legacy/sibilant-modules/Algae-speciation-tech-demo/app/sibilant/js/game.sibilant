@@ -1,0 +1,10 @@
+
+
+(include "./game/systems.sibilant")
+
+(each systems (s) (.populate s))
+(var entities [])
+;;(include "./gl/gl.sibilant")
+
+(include "./game/components.sibilant")
+(include "./game/entities")

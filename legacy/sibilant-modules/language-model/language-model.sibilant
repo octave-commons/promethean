@@ -1,0 +1,62 @@
+(namespace language-model)
+
+(include "./header")
+
+
+
+
+
+
+(var jamr ((create File-system) "./groups/mine/Jamr/texts/"))
+(var m ((create Model)))
+
+(alias-macro loop compose)
+
+
+(var parsed (#-> (.replace (regex "([.,!?])" "g") " $1 ")
+                 (.split  (regex "\\s+"))))
+
+
+(def next-gram (gram t)
+  (.add m gram)
+  [(dots (rest gram)) t])
+
+(def train (string m)
+  (var gram [null null null null])
+  (.reduce  (parsed string) next-gram))
+
+(def-interface Random-stream (m (grams [])
+                                 (out))
+
+
+  (def read (m grams out)
+    (.random (.given m gram))))
+
+(def generate-random-phrase (n m)
+  (var gram [ ])
+  (var out [])
+  (do-times n
+    (var t (.random (.given m gram)))
+    (assign gram [(dots (rest gram)) (last t.seq)])
+    (.push out (last t.seq)))
+  (.join out " "))
+;; (do-times 10 (.add m ['a 'b 'c 'd]))
+
+;; (do-times 30 (.add m ['a 'b 'c 'z]))
+;; (do-times 30 (.add m ['a 'b 'd 'z]))
+
+;; (do-times 30 (.add m ['a 'b 'd 'q]))
+
+;; (do-times 30 (.add m ['a 'b 'd 'w]))
+
+;; (do-times 30 (.add m ['a 'r 'c 'z]))
+;; (var m* (.given m ['a 'b]))
+;; (print m*)
+;; (get (.random m*) 'likelyhood)
+;; (print (.likelyhood m ['a 'r 'c 'z]))
+;; (print (.random m))
+;; (var t true)
+;; (assign t false)
+
+
+;; (print m)

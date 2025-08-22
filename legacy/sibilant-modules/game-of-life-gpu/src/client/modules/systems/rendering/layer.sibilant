@@ -1,0 +1,77 @@
+(include "kit-interface/header")
+(import-namespace interface)
+
+(require! (lit Object-pool) "../../pooling/object-pool"
+          (lit Pooled-system) "../../pooling/pooled-system"
+          (lit Renderable) "./renderable"
+          (lit Gl) "../../gl")
+
+(var bound (#-> .bind )
+     clear (#-> .clear )
+     rendered (#-> .render)
+
+     unbound (#-> .unbind)
+     disabled (#-> .disable)
+
+     enabled (#-> .enable))
+
+
+(define Layer  Pooled-system
+
+  (init (limit
+         (interface Renderable)
+         (uniform [])
+         (shaders [])
+         context
+         (program (Gl.program (first shaders) (second shaders) context))
+         (*members (interface.structure.Array limit))
+         (buffer (Gl.buffer *members context)))
+        (print "creating layer" *members)
+
+
+        (.call Pooled-system.init this
+               limit
+               interface
+               ((create Object-pool) limit interface *members))
+
+        (.push this.rendering.layers this))
+
+
+
+  (def spawn () (pipe this.*pool (.aquire)))
+
+  (def despawn (o) (pipe this.*pool (.release o)))
+
+  (def-generic clear (buffer *members context)
+
+    (pipe buffer .bind (.data *members.data) .unbind))
+
+  (def-generic enable (buffer uniform program context)
+
+    (.bind buffer)
+
+    (.enable program)
+    (.each uniform enabled)
+    (.enable-gl-attributes this.interface.structure))
+
+  (def-generic disable (buffer uniform program)
+
+    (.disable program)
+
+
+    (.unbind buffer))
+
+  (def-generic draw (context)
+
+    (unless (= this.*pool.used 0)
+      (.draw context context.POINTS  (- this.*pool.size this.*pool.used ) this.*pool.used)))
+
+  (def-generic render ()
+
+    (.clear this)
+    (.enable this)
+
+    (.draw this )
+
+    (.disable this)))
+(export Layer)

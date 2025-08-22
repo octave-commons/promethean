@@ -1,0 +1,78 @@
+(require! List "../js/list.js"
+          (lit Group) "./group"
+          'assert)
+
+;; Also known (to me) as an ordered set, a group is a data structure which provides an interface for
+;; adding and removing elements from it, and an operation to check if a value is a member of the group set.
+
+;; A group therefore consists of two parts, a list, and a membership mapping, between member values, and their
+;; the nodes which contain them.
+
+(def-interface Group
+    ((*list ((create List)))
+     (*members (new Map)))
+
+  (gett size this.*list.length)
+  (gett length this.*list.length)
+
+  (def create ()
+    "create an empty group instance"
+    ((create this) (dots arguments)))
+
+  (def of ((dots items))
+    "create a new group instance with a variable number
+of arguements,regardless of the number or type of arguements.
+See the native `Array.of` static method."
+
+    (var list (List.from items))
+    ((create this) list))
+
+  (def-generic from (items (fn (=> (a) a)))
+    "create a new group instance from an array like, or iterable object."
+    ((create this) (List.from (.map (Array.from items) fn))))
+
+  (def-generic pop (*list *members)
+    "remove and return the element last in the groups ordering."
+    (collect item (.pop *list)
+
+             (.delete *members item)))
+
+  (def-generic push (value)
+    "Add an element to the end of the groups ordering.")
+
+  (def-generic each (f *list)
+    "Call the given function on every element of the group, returning the group which is being itterated on"
+    (.each *list f)
+    this)
+
+  (def-generic add (member *list *members)
+    "Add an value to the group, unless the group already has that member."
+    (unless ( *members.has member)
+      (collect node (.node *list member)
+
+               (.set *members member node)
+               (.push-node *list node))))
+
+  (def-generic has (member *members)
+    "Check if the group has the given member, returning true if yes, and false if no."
+    (.has *members member))
+
+  (def-generic remove (member *list *members)
+    "Remove a specific member from the group."
+    (collect node (.get *members member)
+             (when node
+               (.remove-node *list node)
+               (.delete *members member)))))
+
+(let ((group ((create Group)))
+      (test-data (.map (new Array 10) (=> (nil i) {value i}))))
+
+  (.add group (first test-data))
+
+  (assert (= group.*list.length 1) "length of list was not changed after addition")
+  (assert (.has group (first test-data)) "method `has` does not accurately detect membership")
+
+  (.remove group (first test-data))
+  (assert (= group.*list.length 0) "length of list was not changed after removal")
+
+  (print "all group tests pass."))

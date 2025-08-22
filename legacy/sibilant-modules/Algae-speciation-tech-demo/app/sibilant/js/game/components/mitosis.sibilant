@@ -1,0 +1,129 @@
+
+(percent-of {value 50 max 100 })
+
+
+
+
+(def prob-prod (arr)
+  (.reduce arr (=> (v comp) (* v (percent-of comp))) 1))
+
+
+(def reduce-until  (matrix cond f value)
+
+  (var break? false)
+  (loop
+     (for-up-to x matrix.width
+                (if! break? break))
+     (for-up-to y matrix.height
+
+                (var cell (.get matrix x y))
+                (assign value (f value cell x y matrix))
+
+                (if! (cond value cell x y matrix)
+                     (assign break? true) break)))
+  value)
+
+
+(def decide (random) (=> ([counter]) (>= counter random)))
+
+(def increment-counter ([counter ] p x y) [(+ counter p) x y])
+
+(def select-random-location (matrix)
+
+  (var total (.convolve count-kernel matrix)
+       prob (.map  matrix (=> (v) (/ v total))))
+
+  (rest (reduce-until prob (decide (Math.random)) increment-counter [0 0 0 ])))
+
+
+(var conditional-probability prob-prod)
+
+(type Probability-space )
+(describe Probability-space
+
+          (init (matrix))
+
+          (gett total (.convolve count-kernel this.matrix))
+          (gett prob (.map  this.matrix (=> (v) (/ v this.total))))
+
+          (def-generic get-total (matrix)
+            (.convolve count-kernel matrix))
+
+          (def-generic get-probability-matrix (matrix (total (.get-total Probability-space matrix)))
+            (.map  matrix (=> (v) (/ v total))))
+
+          (def joint (probs)
+            (.reduce probs mult (identity)))
+
+          (def-generic random-location (prob)
+
+            (rest (reduce-until prob (decide (Math.random)) increment-counter [0 0 0 ]))))
+
+;; needs more descriptive name
+(def find (ent-coord-part c)
+  (mod (+ ent-coord-part -1 (if (<= c 0) (+ c 100) c)) 100))
+
+
+(def-curried local-joint-probability (entity prob field )
+  (let (( location (get (.get field entity.x entity.y) 'neiborhood)))
+    (.mult prob location)))
+
+(def mult ( a b) (.mult a b))
+
+(def-curried local-joint-of (arr entity)
+  (.reduce arr (local-joint-probability entity) (identity)))
+
+(def random-neighbor (entity kernels probability-space)
+  (pipe (local-joint-of kernels entity)
+        (Probability-space.get-probability-matrix)
+        (Probability-space.random-location)))
+
+(type Mitosis )
+(describe Mitosis
+
+          (init (entity (probability-space ((create Probability-space) ))))
+
+          (def-generic divide (entity probability-space (loc (random-neighbor entity [Water Light Silt] probability-space)))
+
+            "attempt to create a new instance of the entity at a near by location"
+
+            (require-components
+
+             entity
+
+             (Health
+              Hydration
+              Calories
+              Nutriants)
+
+             (.remove Hydration (/ Hydration.value 2))
+             (.remove Nutriants (/ Hydration.value 2))
+             (.remove Calories (/ Hydration.value 2))
+
+             (create-instance-of Algae (find entity.x (first loc)) (find entity.y (second loc)))))
+
+          ;; find out what that closed system thing is in thermodynamics, there should be an example of it some where in the junk.
+
+          (def-generic update (entity probability-space divide)
+
+            "choose randomly a cell to divide into, biased against total amount of available resources in all locations around the cell"
+
+            (require-components
+             entity
+
+             (Health
+              Hydration
+              Calories
+              Nutriants)
+
+             ;;(print Health Nutriants Calories Hydration)
+
+             (let ((chance-to-divide (prob-prod [Health Hydration Calories Nutriants]))
+                   (random (Math.random)))
+
+               ;; (print "chance to divide" chance-to-divide)
+
+               (if (>  (* 0.5 chance-to-divide) random)
+
+                   (divide entity  probability-space))))))
+

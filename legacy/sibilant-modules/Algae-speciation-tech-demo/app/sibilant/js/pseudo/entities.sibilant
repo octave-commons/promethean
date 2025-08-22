@@ -1,0 +1,96 @@
+(specify Inanimate-object (extend Entity)
+         (property durability))
+
+(def-component-container Inanimate-object
+    (durability
+     weight
+     size
+
+     ;; size of somthing will determine how easy it is to get around, and how easily (if its a living thing) it can get around other things
+     ;; size is used in place of collision
+
+
+     ))
+(def-component-container Hole
+    (depth
+     ))
+
+(def-component-container Water-body
+    (
+     volume
+     temperature
+     depth
+     ))
+
+
+(def-component-container Digestion
+
+    (available-nutriants ;; materials necessary for healing.
+     max-nutriants
+
+     hydration ;; makes digestion more efficient, fewer nutrients, calories, and catalysts are used the more hydrated
+     max-hydration
+
+     calories ;; fuel nessisary to produce energy
+     max-calories
+
+     available-catalyst ;; determines how much damage is done when burning calories for energy, can be obtained by eating
+     max-catalyst
+     ))
+
+(def-component-container Life-form
+    (
+     digestion
+     health ;; how much damage can it take?
+     body-temp
+     behavioral-traits ;; how does it interact with its environment?
+     ))
+
+;; what is different about a trait that it deserves a language level construct?
+;; I think traits have names.
+
+(def-component-container Attack-trait
+    (
+     name
+     size
+     energy-cost
+     damage-value
+     attack-speed
+     range
+     multiplier ;; traits have multipliers that determine cost of the trait as values change
+     ))
+
+(def-component-container Defense-trait
+    (name
+     ))
+
+;; Animals, plants, and so on are units
+;; Before creating a language construct for them, I need to know what seperates a
+;; unit from other component containers
+
+(def-component-container Animal
+    (life-form
+
+     attack ;; how much damage can it do?
+     attack-traits ;; what does it use to do damage? Determines attack value
+
+     defense ;; how much damage done is damage taken?
+     defense-traits ;; How does it defend its self? determines defense value
+
+     speed ;; how quickly does it move?
+     movement-traits ;; determines speed, and how it moves.
+
+     diet ;;what it can eat
+     sight ;;how far it can see
+     sex ;; does it have a penis?
+     tiredness
+     libido ;; I think that this and aggression are both behavioral traits
+     aggression
+     ))
+(def-component-container Plant
+    (
+     life-form
+     defense
+     diet ;; in plants this is usually a color range for intercepting light
+     ))
+

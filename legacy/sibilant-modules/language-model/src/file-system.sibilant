@@ -1,0 +1,299 @@
+
+(include "../../mine/kit/header")
+(import-namespace kit)
+
+(require!
+ (lit cond create extend mixin) "kit/js/util"
+
+ R 'ramda
+
+ (lit Event-emitter) 'events
+ (lit Tree-map) "./tree"
+
+ Path 'path)
+
+(require!
+ 'assert
+ 'chokidar
+ 'fs)
+(macro generic (name def args ...body)
+       `(...@(content-of def) @name
+            (...@(functor (content-of args) .map (arg)
+
+                          (if (expression? arg)
+                              `(default @(first (content-of arg)) @(second (content-of arg)))
+                              (or (brace? arg)
+                                  (bracket? arg))
+                              `(default @arg [...@(map arg.contents (varname) `(get this (quote @varname)))])
+                              `(default @arg (get this (quote @arg))))))
+            ...@body))
+
+(var testing? true)
+
+
+(macro easy-on (emitter event ...body) `(on @emitter @event (@event) ...@body))
+
+(def identity (a) a)
+
+(def-curried set-value (v o) (assign o.value v))
+
+(def-curried reduce-promise (f a) (.reduce a f [(Promise.resolve) ""]))
+
+(macro chain-promise (p ...rest)
+       (if (empty? rest)
+           p
+           `(then-do @p (chain-promise ...@rest))))
+
+(macro let* (vars ...body)
+       "introduce scoped variables via nested lexical closures"
+
+       (if (> (length vars.contents) 1)
+           `(let (@(first vars.contents))
+              (let* (...@(rest vars.contents)) ...@body))
+           `(let (@(first vars.contents)) ...@body)))
+
+(def-promised timeout (t)
+  (set-timeout success t))
+
+(def once-then ( event  emitter)
+  (make-promise (.once emitter event success )))
+
+
+(def-curried fmap (f a) (.map a f))
+(var is (lit (def string (v) (string? v))))
+
+(def is.empty? (value)
+  (empty? value))
+
+(def athrow (err-type message)
+  (-> (new err-type message)))
+
+(def get-value-of (o) (.get-value o))
+
+
+(specify FS-node (extend Event-emitter.prototype))
+
+(def-description FS-node (path fs)
+
+  (init  (.call Event-emitter this))
+  (gett stats (stat this.path))
+
+  (gett name (Path.basename this.path))
+
+  (def-generic watch ( path fs)
+    (.watch fs path)))
+
+(specify File (extend FS-node))
+
+(describe File
+
+
+          (gett value (read-file this.path))
+          (sett value v (then (Promise.resolve v) v
+                              (write-file this.path v)))
+
+          (gett string (read-file this.path "utf8"))
+          (sett string s (then (Promise.resolve s) s
+                               (write-file this.path  s)))
+
+          (def-generic get-value (path)
+            (read-file path))
+
+          (def-generic set-value ( (value "") path)
+            (then-do (write-file  path value) this))
+
+          ;; (gett bandwidth )
+          ;; (gett latency )
+          ;; (gett size )
+          ;; (gett stats )
+
+          ;; (gett creation-time )
+          ;; (gett last-modified )
+          ;; (gett permissions )
+          ;; (gett owner )
+          ;; (gett parent )
+
+
+          (gett read-stream (.get-read-stream this))
+          (gett write-stream (.get-write-stream this))
+
+          (gmth get-read-stream (path) (fs.create-read-stream path))
+          (gmth get-write-stream (path) (fs.create-write-stream path))
+
+
+          (gmth write ())
+          (gmth read ())
+          (gmth pipe ()))
+
+(specify Directory (extend FS-node))
+
+(describe Directory
+          (def-generic set (path value ( type File ) ))
+
+          (def-generic get  (k fs path) (fs.find (Path.join path k)))
+
+          (def-generic insert (path ( type File ) ))
+
+          (def-generic each (f children)
+            (.then children (feach  f)))
+
+          (def-generic map (f children)
+            (.then children (fmap f)))
+
+          (def-generic recursive-remove (path )
+            (pipe this
+                  (.each (cond is.file (fpipe .delete) is.dir  (fpipe .recursive-remove)))
+                  (.then (fpipe .remove))))
+
+          (def-generic remove-empty-directory (path)
+            (rmdir path))
+
+          (def-generic remove (path (recursive? false))
+            (if recursive?
+                (.recursive-remove this path)
+                (.remove-empty-directory this path)))
+
+          (gett sub-system ((create File-system) this.path))
+
+
+          (gett keys (readdir this.path))
+
+          (gett get-child (=> (d) (.get this d)))
+
+          (gett children 
+                (pipe this.keys
+                      (.then (fpipe (.map this.get-child)
+                                    Promise.all)))))
+
+
+(def-curried feach (f a)
+  (.each a f))
+
+(def plift (f)
+  (promised ((dots args))
+            (.apply f this [ (dots args) (=> (err data) (if err (reject err) (resolve data))) ])))
+
+(var stat (plift fs.stat)
+     mkdir (plift fs.mkdir)
+     rmdir (plift fs.rmdir)
+     read-file (plift fs.read-file)
+     write-file (plift fs.write-file )
+     readdir (plift fs.readdir))
+
+(def fill-sub-dir ([p sub-path] seg) [ (catch (then-do p (mkdir sub-path))) (Path.join sub-path seg) ])
+
+
+(var *directory? (=> (stats) (.is-directory stats)))
+
+(var emit (R.invoker 2 "emit"))
+
+(var bi-curry (R.curry-n 2 ))
+(var _ R._)
+
+;; (var *discover-type (cond (R.pipe R.head directory?)
+;;                           (R.pipe (nth 1) (create Directory))
+;;                           (R.pipe (nth 1) (create File))))
+;; (var *discover-node (bi-curry (R.unapply (R.pipe (.set *tree seq) *discover-type) )))
+
+
+(macro fpipe (...body)
+       `(=> ($fpipe)
+            (pipe $fpipe ...@body)))
+
+(var not-single-dot (=> (token) (not (= token ".")))
+     find-value (=> (seq *tree) (get (.find *tree seq) 'value))
+     tokenize (fpipe  (.split  "/") (.filter  not-single-dot)))
+
+;; Be you, the app that uses this app is the test for the app
+
+(def-lit-macro def-curried (name args ...body)
+  `(property @name (R.curry (lambda @args ...@body))))
+
+(specify File-system (extend Event-emitter.prototype))
+
+(def is-dir  (c) (= c.symbol Directory.symbol ))
+(describe File-system
+
+          (root ".")
+
+          (init (root (*tree ((create Tree-map) ))))
+
+          (def-curried *discover-node  (path seq *tree  fs stats)
+            (.set *tree seq
+                  (if (.is-directory stats)
+                      ( (create Directory) path fs)
+                      ( (create File) path fs))))
+
+          (def *find-absolute-path (path root)
+            (Path.resolve  root path))
+
+          (def-generic find
+              (path
+
+               [ *tree  root ]
+               [ *discover-node *find-absolute-path ]
+
+               ;; need to fix generic to let me do these inside of arrays.
+
+               (rel-path (*find-absolute-path path root))
+
+               (seq (tokenize rel-path ))
+               (node (find-value seq *tree))
+
+               (fs this))
+
+
+            (if node
+                (.resolve Promise node)
+                (.then (stat rel-path)
+                       (*discover-node rel-path seq *tree fs))))
+
+          (def-generic watch
+              (path
+               opts
+               [root]
+               [ *find-absolute-path ]
+               (rel-path (*find-absolute-path path root))
+               (fs this))
+
+            (async-let ((node (.find fs path )))
+
+              (pipe chokidar
+                    (.watch  node.path)
+                    (on  'all (event-name changed-path stats)
+
+                         (async-let ((changed-node (.find fs (Path.relative root changed-path ) )))
+
+                           (.emit node event-name changed-node))))
+              node))
+
+          (def-generic insert (path [root ] [ *find-absolute-path ]
+                                    ( type File )
+
+                                    (rel-path (*find-absolute-path path root))
+                                    (fs this))
+            (catch (.find fs path)
+
+              (let* ((seq (tokenize path))
+                     (file-name (.pop seq)))
+
+                (pipe seq
+                      (.reduce  fill-sub-dir [(Promise.resolve) "./"])
+                      first
+                      (then-do (.set-value ((create type) path fs)  ))))))
+
+          (def-generic set (path v ( type File ) (fs this))
+
+            (async-let  ((node (.insert fs path [] [] type fs)))
+              (.set-value node v)))
+          (def-generic delete (path))
+
+          (def-generic each (f)
+            (def-curried itterate (f file)
+              (if (is-dir file)
+                  (.each file (itterate f))
+                  (f file)))
+
+
+            (.then (.find this ".") (itterate f))))
+(export File-system)

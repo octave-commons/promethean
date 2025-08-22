@@ -1,0 +1,98 @@
+
+(specify Entity (extend Event-emitter.prototype))
+
+(describe Entity
+
+          (layer (.get sim.layers))
+
+          (init (x y components)
+
+                (if (not (.has Collision [x y]))
+                    (do (.set Collision [x y] this)
+
+                     (.add  this.layer this)
+                     (.push entities this)
+
+                     (assign this.components
+                             (pipe components (.map (=> (T) (set this T.symbol (create-instance-of T this)))))) 
+
+                      (set this 'spawned? true))
+                    (do (set this 'spawned? false))))
+
+          (mth move ([x y]) (.move Collision [x y] this))
+
+          (gmth remove ((entity this) layer)
+                (assign entities (R.without [entity] entities))
+                (.delete Collision [this.x this.y])
+                (.delete layer entity))
+
+          (gmth update (components)
+                (each components (comp)
+
+
+                      (.update comp))))
+
+
+(specify Algae (extend Entity))
+
+(describe Algae
+
+          (r 0)
+          (g 255)
+          (b 0)
+
+          (a 255)
+
+          (init (x y components)
+                (.call Entity.init this  x y components)
+                (on this "death" (entity)
+
+                    (.remove entity)
+
+                    (require-components
+                     entity
+
+                     (Hydration
+                      Calories
+                      Nutriants)
+                     ;;(print Health Nutriants Calories Hydration)
+
+                     (set entity 'r 128 'g 100 'b 80)
+
+                     (assign entity.components
+                             [
+                             Hydration
+                             ;;Calories
+                             Nutriants
+                             Nutriant-emitter
+                             Water-emitter
+                             Decaying
+
+                             ])
+                     (.call Entity.init entity ))))
+
+          (components
+
+           [
+           Health
+           Water-absorbtion
+           Photoreceptor
+           Nutriant-absorber
+
+            Mitosis
+
+           ;; ;; base life form stuff
+
+           (create-instance-of Nutriants this)
+           Calories
+
+           ;; Hydration reduces the amount of energy required to perform most actions.
+           ;; resulting in less damage taken
+
+           Hydration
+
+
+           Natural-healing
+
+           ]))
+(print entities.length)

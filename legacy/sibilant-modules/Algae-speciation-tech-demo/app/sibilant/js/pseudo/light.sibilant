@@ -1,0 +1,43 @@
+;;(var Lighting-component (new Vertex))
+(type Lighting-component
+
+      (init (x y))
+
+      (property r 255)
+      (property g 255)
+      (property b 255)
+
+      (gett intensity (.get Lighting.state-space this.x this.y))
+      (gett state-space Lighting.state-space)
+
+      (alias rate Lighting)
+      (alias dampening Lighting)
+      (alias y-skew Lighting)
+      (alias mid Lighting)
+
+      (gett a (* this.intensity 255)))
+
+(def-generic Lighting-component.update  (ticks x y rate dampening y-skew mid state-space)
+  (.set state-space (+ ticks x) y
+        (inverse-square rate
+                        dampening
+
+                        { x mid y (/ mid y-skew) }
+
+                        x (/ y y-skew))))
+
+
+(var Lighting ((create Field) Lighting-component))
+
+(.populate-layer Lighting)
+(print Lighting.components)
+
+(set Lighting
+     'y-skew 10
+     "rate" 1000
+     "dampening" 1500
+     "mid" (/ Lighting.state-space.width 2))
+
+
+
+

@@ -1,0 +1,52 @@
+
+(include "kit-interface/header")
+(import-namespace interface)
+
+
+(require! (lit Component System) "../../ecs/component"
+
+          (lit Physics) "../physics"
+          (lit Vertex) "./vertex"
+
+          (lit Position) "../position"
+          (lit uniforms vert-shader fragment-shader-string) "../../gl")
+
+(def vertex-layer (limit game)
+     (.spawn game.rendering limit Vertex
+             [ uniforms.res uniforms.scale]
+             [(vert-shader) fragment-shader-string]))
+
+(define Dot-interface Component
+
+  (gett color this.data)
+  (gett pos (.get this.system.process.systems Position this.entity))
+  (gett scale (get (.get this.system.process.systems Physics this.entity) 'scale))
+  (gett vertex this.data.vertex))
+(export Dot-interface)
+
+(define Dot System
+  (def register ()
+       (assign this.verts (vertex-layer 100000 this.game)))
+
+  (interface Dot-interface)
+
+  (def spawn (entity data)
+       (assign data.vertex (.spawn this.verts))
+       (var c (.call System.spawn this entity data))
+       c)
+
+  (def *update-component (dot)
+       (set dot.vertex.point
+            'x dot.pos.x
+            'y dot.pos.y
+
+            'z 0)
+       (set dot.vertex
+            'size dot.scale)
+       (set dot.vertex.color
+            'r dot.color.r
+            'g dot.color.g
+            'b dot.color.b
+            'a dot.color.a)))
+
+(export Dot)

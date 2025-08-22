@@ -1,0 +1,38 @@
+
+(include "kit/header")
+(import-namespace kit)
+(require! (lit Tree-map) "./tree"
+
+          (lit create extend mixin cond ) "kit/js/util"
+          )
+
+(alias-macro loop compose)
+
+(def-interface Probability-tree (value parent (*children (new Map)))
+
+  (extend Tree-map)
+
+  (gett token this.name)
+  (def *insert (seq t)
+
+    (if (empty? seq)
+        tree
+
+        (.insert (.*insert this seq ) (rest seq))))
+
+  (def insert (seq t)
+    (.call Tree-map.insert this seq)
+    (.*insert this seq t))
+
+  (gett likelyhood (/  this.count this.*model.total))
+
+  (def trace-from (seq)
+    (var node (.insert this seq))
+    (if (and (not (= null node))
+             (defined? node))
+
+        (until (= node null)
+               (f node seq)
+               (assign node node.parent)
+               (assign seq (rest seq))))))
+(export Probability-tree)

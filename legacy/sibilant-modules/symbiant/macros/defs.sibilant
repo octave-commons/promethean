@@ -1,0 +1,98 @@
+(namespace defs)
+(import-namespace core)
+(macro condition (cond a ...rest)
+       `(ternary @cond @a @(if (> rest.length 1)
+                               `(condition ...@rest)
+                               (= rest.length 1)
+                               rest
+                               'false)))
+(include "./predicates")
+
+;; An alias for console logs
+(macro print (...args) `(console.log ...@args))
+
+;; Creates a string that starts and ends with \"
+(macro wrap-in-quotes (...str) `(+ "\"" ...@str "\""))
+
+;; I don't know if I actually use this one any where.
+
+(macro import (what from)
+       (var name (+"./" what.token ".js"))
+       (if from
+           `(var @what (get (require @from) (quote @what)))
+           `(var @what (get (require (quote @name)) (quote @what)))))
+
+;; Create a function that is exported as a part of the current module.
+(macro public (name args ...rest) `(var @name (set exports (quote @name) (# @args ...@rest))))
+
+;; Define a function that is curried with the given name and arguments
+(macro curried (name args ...body) `(var @name (curry (# @args ...@body))))
+
+;; ES6 style arrow function.
+
+(macro => (args ...body)
+       ["(" ...(interleave ", "args.contents) ") => {\n\t"  (indent (apply ^do body)) "\n}"])
+
+;; es6 style ... operator
+(macro dots (...contents) ["..." contents])
+
+;; don't like these
+(alias-macro dots spread-op)
+(alias-macro dots rest-param)
+
+;;(macro &spread (x) ["..." x])
+
+;;(macro &rest (x) ["..." x])
+
+;;(macro const ( ...pairs))
+
+;; asyncronous printing utility
+(macro aprint (...a)
+  '(=> ((rest-param b))
+    (console.log ...@(spread-op a) (spread-op b))))
+
+
+;; Utility for creating promises
+(macro make-promise (...body)
+       `(new Promise (=> (success fail)
+                         (var resolve success
+                              reject fail)
+                         ...@body)))
+
+;; add one to a variable
+;;(macro increment (n) `(assign @n (+ 1 @n)))
+;;(alias-macro increment ++)
+
+;; remove one from a variable
+(macro decrement (n) `(assign @n (- 1 @n)))
+(alias-macro increment --)
+
+;; Define a lambda that returns a promise.
+(macro promised (args ...body) `(=> @args (make-promise ...@body)))
+(alias-macro promised -->)
+
+;; Define a named function that returns a promise.
+(macro def-promised (name args ...body)
+       `(function @name @args (make-promise ...@body)))
+
+(macro not-implemented (args ) `(# @args (throw (new Error "not implemented"))))
+
+(macro >> (f ...args) `(.bind @f this ...@args))
+
+(macro += (handle value) [handle " += " value])
+
+;; Define a lambda that returns "this"
+(macro fluent (args ...body) `(# @args ...@body this))
+
+;;(var module (ternary (not module) {exports {}} module))
+;;(var exports module.exports)
+
+;; arrow thunk.
+(macro -> (...body) `(=> () ...@body))
+
+;; helper for itteration.
+(macro for-each (item of collection ...body) `(.for-each @collection (=> @item ...body)) )
+
+
+(macro do-block (...body) (indent (apply ^do body)))
+

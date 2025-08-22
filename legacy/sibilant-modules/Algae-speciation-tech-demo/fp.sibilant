@@ -1,0 +1,25 @@
+
+(def either (left right value)
+  (if value (left value) (right value)))
+
+(def conditional (value pred action (dots rest))
+  "A functional conditional operator. Immediately evaluates its arguements."
+  (if action
+      (if (pred value) (action value)
+
+          (conditional value (dots rest)))
+
+      pred (pred value)
+
+      value))
+
+(def cond (pred action (dots rest))
+  "A lazy application of a functional conditional operator.
+Waits for a value to be given to it before applying its functional arguements"
+  (=> (value) (conditional value pred action (dots rest))))
+
+(def partially-apply-after (f (dots args))
+  (lambda ((dots rest-args))
+    (f (dots rest-args) (dots args))))
+
+(var to-string (R.invoker 0 "toString"))

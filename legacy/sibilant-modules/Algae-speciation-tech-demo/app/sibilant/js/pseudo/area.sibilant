@@ -1,0 +1,17 @@
+(macro area (space el-name center size ...body)
+       `(each-in-area @space @center
+                      (=> (@el-name i j x y)
+                          ...@body) @size ))
+
+(macro adjacent (matrix value-name center ...body)
+       `(area @matrix @value-name @center 3 ...@body))
+
+
+(generic each-in-area (fn) (matrix pos f (size 3) (rad (Math.floor (/ size 2))))
+         "apply a function to every element in a kernel of the weight matrix.
+Values are not changed unless done so explicitly by the function as a side effect."
+         (.each-in-sub matrix
+                       (- pos.x rad)
+                       (- pos.y rad)
+                       size size (=> (v i j x y ) (f v i j (+ x i) (+ y j)))))
+(export each-in-area)

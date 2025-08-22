@@ -1,0 +1,81 @@
+(namespace speciation-main)
+
+(require! R "ramda")
+
+(include "./node_modules/kit/macros"
+         "./node_modules/kit/inc/shell")
+
+(import-namespace kit)
+(import-namespace shell)
+
+(include "./fp")
+
+(require! {spawn} "child_process"
+          "readline"
+          "fs")
+
+(var electron-process (spawn "npm" ["start"] { stdio [null null null "ipc"] })
+
+     rl (readline.create-interface
+         {
+         input process.stdin
+         output process.stdout
+         })
+     rl-ready false)
+
+(electron-process.stdout.pipe process.stdout)
+(electron-process.stderr.pipe process.stderr)
+
+;; (var parens {
+;;      open 0
+;;      close 0
+;;      }
+;;      lisp-fragment "")
+
+;; (def build-message (line)
+;;   (each (.split line "") (char)
+;;         (if (= char "(")
+;;             (++ parens.open)
+;;             (= char ")")
+;;             (++ parens.close))))
+
+(require! "net")
+
+(def start-readline (socket)
+  (print "client connected to repl")
+  (.resume rl)
+
+  (.pipe socket process.stdout)
+
+  (on socket "close"  ()
+
+      (print "readline closed")
+
+      (.remove-all-listeners rl "line")
+      (.pause rl))
+
+  (def handle-line (msg)
+    (socket.write (+ msg "\n")))
+
+  (.on rl "line" handle-line))
+
+(macro var-pipe (name ...pipe-body)
+       `(var @name (pipe ...@pipe-body)))
+(var-pipe readline-server net
+
+          (.create-server start-readline)
+          (.listen  8120))
+;; (var readline-server (pipe net
+;;                            (.create-server start-readline)
+;;                            (.listen  8120)))
+
+;; (on (.watch chokidar "./apps/") "all" (event path stats))
+
+
+(unless rl-ready
+
+  (assign rl-ready true)
+
+  (print "readline done loading"))
+
+

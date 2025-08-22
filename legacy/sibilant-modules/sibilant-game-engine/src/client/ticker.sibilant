@@ -1,0 +1,46 @@
+
+(include "kit-interface/header")
+ 
+(import-namespace interface)
+(require! (lit Event-emitter) "kit-events")
+
+(define Ticker Interface
+
+  (state false)
+  (ticks 0)
+
+  (gett rate (/ 1000 this.fps))
+
+  (init (fps (events ((create Event-emitter)))))
+
+  (def-generic update (previous rate)
+
+    (when this.state
+
+      (var now (Date.now))
+
+      (assign this.elapsed (- now previous))
+
+      (window.request-animation-frame (-> (this.update  )))
+
+      (when (> this.elapsed rate)
+
+        (++ this.ticks)
+
+        (assign this.previous now)
+
+        (this.events.emit 'tick now this))) this)
+
+  (def start ()
+
+       (set this
+            'state true
+            'previous (Date.now))
+
+       (this.update))
+
+  (def stop ()
+       (assign this.state false)
+       this))
+
+(export Ticker)
