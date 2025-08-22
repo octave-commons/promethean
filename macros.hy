@@ -13,6 +13,13 @@
                        p)))
 
 
+(defmacro defn-lazy-service-list [fn-name root-dir #* f]
+          `(defn ~fn-name []
+             (lfor p (filter (fn [path] ~@f)
+                             (sorted (glob.glob (+ ~root-dir "/*"))))
+                   :if (isdir p)
+                   p)))
+
 
 
 (defmacro defn-cmd [name args #* body]
