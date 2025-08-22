@@ -17,6 +17,7 @@ test('uploads saved waveform, spectrogram, and screenshot to configured channel'
         renderWaveForm: async () => Buffer.from('wave'),
         generateSpectrogram: async () => Buffer.from('spec'),
         captureScreen: async () => Buffer.from('screen'),
+        transcriber: { push: () => {}, stop: () => {} } as any,
     };
     const vs = new VoiceSession({ voiceChannelId: '1', guild: {} as any, bot }, deps as any);
 
@@ -27,7 +28,9 @@ test('uploads saved waveform, spectrogram, and screenshot to configured channel'
         };
     });
 
+    // Simulate a saved recording event so the handler is exercised
     vs.recorder.emit('saved', { filename: 'test.wav', userId: 'u', saveTime: 0 });
+
     await done;
 
     t.is(sent.files.length, 4);
@@ -35,4 +38,7 @@ test('uploads saved waveform, spectrogram, and screenshot to configured channel'
     t.deepEqual(sent.files[1].name, 'waveform-0.png');
     t.deepEqual(sent.files[2].name, 'spectrogram-0.png');
     t.deepEqual(sent.files[3].name, 'screencap-0.png');
+
+    // Ensure cleanup
+    vs.recorder.removeAllListeners();
 });

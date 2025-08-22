@@ -1,43 +1,22 @@
-## 🛠️ Description
+# Description
 
-Placeholder task stub generated from kanban board.
+Describe your task
 
----
+## Requirements/Definition of done
 
-## 🎯 Goals
+- If it doesn't have this, we can't accept it
 
-- What are we trying to accomplish?
+## Tasks 
 
----
+- [ ] Step 1
+- [ ] Step 2
+- [ ] Step 3
+- [ ] Step 4
 
-## 📦 Requirements
+## Relevent resources
 
-- [ ] Detail requirements.
+You might find [this] useful while working on this task
 
----
+## Comments
 
-## 📋 Subtasks
-
-- [ ] Outline steps to implement.
-
----
-
-## 🔗 Related Epics
-
-#framework-core
-
----
-
-## ⛓️ Blocked By
-
-Nothing
-
-## ⛓️ Blocks
-
-Nothing
-
----
-
-## 🔍 Relevant Links
-
-- [[kanban.md]]
+Useful for agents to engage in append only conversations about this task.

@@ -13,6 +13,7 @@
         "test:coverage": "c8 -r text -r text-summary -r lcov -r html ava"
     },
     "dependencies": {
+        "@fastify/static": "^7.0.4",
         "@shared/ts": "file:../../../shared/ts",
         "chromadb": "^1.8.1",
         "dotenv": "^17.2.1",
@@ -22,6 +23,7 @@
         "jose": "^5.10.0",
         "jsonwebtoken": "^9.0.2",
         "nanoid": "^5.0.7",
+        "node-pty": "^1.0.0",
         "typescript": "^5.6.2"
     },
     "devDependencies": {

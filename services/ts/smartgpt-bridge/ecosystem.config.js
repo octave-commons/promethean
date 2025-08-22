@@ -78,4 +78,4 @@ export const apps = [
         out_file: 'logs/pm2-smartgpt-bridge.out.log',
     }),
 ];
-export default apps;
+export default { apps };
