@@ -1,24 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import { initMongo, Log } from '../logModel.js';
-import { getChroma } from '../indexer.js';
-
-let CHROMA_COLLECTION = null;
-export async function getLogCollection() {
-    if (CHROMA_COLLECTION) return CHROMA_COLLECTION;
-    try {
-        const col = await getChroma().getOrCreateCollection({
-            name: 'bridge_logs',
-            metadata: { type: 'logs' },
-        });
-        CHROMA_COLLECTION = col;
-    } catch {
-        CHROMA_COLLECTION = null;
-    }
-    return CHROMA_COLLECTION;
-}
+import { dualSinkRegistry } from '../utils/DualSinkRegistry.js';
 
 export async function mongoChromaLogger(app) {
-    const collection = await getLogCollection().catch(() => null);
+    const logSink = dualSinkRegistry.get('bridge_logs');
 
     app.addHook('onRequest', async (req) => {
         req.requestId = uuidv4();
@@ -34,34 +18,12 @@ export async function mongoChromaLogger(app) {
             statusCode: reply.statusCode,
             request: { query: req.query, params: req.params, body: req.body },
             response: safeParse(reply.payload),
-            createdAt: new Date(),
             latencyMs,
             service: 'smartgpt-bridge',
             operationId: reply.context?.schema?.operationId,
         };
         try {
-            const mongo = await initMongo();
-            if (mongo) await Log.create(entry);
-        } catch {}
-        try {
-            const col = collection || (await getLogCollection());
-            await col?.add({
-                ids: [entry.requestId],
-                documents: [JSON.stringify(entry)],
-                metadatas: [
-                    {
-                        requestId: entry.requestId,
-                        path: entry.path,
-                        method: entry.method,
-                        statusCode: entry.statusCode,
-                        hasError: false,
-                        createdAt: entry.createdAt.toISOString(),
-                        latencyMs: entry.latencyMs,
-                        service: entry.service,
-                        operationId: entry.operationId,
-                    },
-                ],
-            });
+            await logSink.add(entry);
         } catch {}
     });
 
@@ -74,34 +36,12 @@ export async function mongoChromaLogger(app) {
             statusCode: reply.statusCode,
             request: { query: req.query, params: req.params, body: req.body },
             error: error.message,
-            createdAt: new Date(),
             latencyMs,
             service: 'smartgpt-bridge',
             operationId: reply.context?.schema?.operationId,
         };
         try {
-            const mongo = await initMongo();
-            if (mongo) await Log.create(entry);
-        } catch {}
-        try {
-            const col = collection || (await getLogCollection());
-            await col?.add({
-                ids: [entry.requestId],
-                documents: [JSON.stringify(entry)],
-                metadatas: [
-                    {
-                        requestId: entry.requestId,
-                        path: entry.path,
-                        method: entry.method,
-                        statusCode: entry.statusCode,
-                        hasError: true,
-                        createdAt: entry.createdAt.toISOString(),
-                        latencyMs: entry.latencyMs,
-                        service: entry.service,
-                        operationId: entry.operationId,
-                    },
-                ],
-            });
+            await logSink.add(entry);
         } catch {}
     });
 }

@@ -1,0 +1,54 @@
+import { dualSinkRegistry } from '../utils/DualSinkRegistry.js';
+
+export function registerSinkRoutes(app) {
+    app.get('/sinks/list', {
+        schema: { operationId: 'listSinks', tags: ['Sinks'] },
+        handler: async () => ({ sinks: dualSinkRegistry.list() }),
+    });
+
+    app.post('/sinks/:name/query', {
+        schema: {
+            summary: 'Query sink in Mongo (structured filter)',
+            operationId: 'querySink',
+            tags: ['Sinks'],
+            body: {
+                type: 'object',
+                properties: {
+                    filter: { type: 'object' },
+                    limit: { type: 'integer', default: 100 },
+                },
+            },
+        },
+        handler: async (req) => {
+            const { name } = req.params;
+            const { filter, limit } = req.body || {};
+            const sink = dualSinkRegistry.get(name);
+            const results = await sink.queryMongo(filter || {}, limit || 100);
+            return { results };
+        },
+    });
+
+    app.post('/sinks/:name/search', {
+        schema: {
+            summary: 'Semantic search in sink (Chroma)',
+            operationId: 'searchSink',
+            tags: ['Sinks'],
+            body: {
+                type: 'object',
+                required: ['q'],
+                properties: {
+                    q: { type: 'string' },
+                    n: { type: 'integer', default: 10 },
+                    where: { type: 'object' },
+                },
+            },
+        },
+        handler: async (req) => {
+            const { name } = req.params;
+            const { q, n, where } = req.body || {};
+            const sink = dualSinkRegistry.get(name);
+            const results = await sink.searchChroma(q, n || 10, where || {});
+            return { results };
+        },
+    });
+}
