@@ -7,8 +7,8 @@ import swaggerUi from '@fastify/swagger-ui';
 
 import { indexerManager } from './indexer.js';
 import { restoreAgentsFromStore } from './agent.js';
-import { createFastifyAuth } from './fastifyAuth.js';
 import { registerSinks } from './sinks.js';
+import { registerRbac } from './rbac.js';
 
 // Route plugins
 import { registerFilesRoutes } from './routes/files.js';
@@ -19,6 +19,9 @@ import { registerSymbolsRoutes } from './routes/symbols.js';
 import { registerAgentRoutes } from './routes/agent.js';
 import { registerExecRoutes } from './routes/exec.js';
 import { registerSinkRoutes } from './routes/sinks.js';
+import { registerUserRoutes } from './routes/users.js';
+import { registerPolicyRoutes } from './routes/policies.js';
+import { registerBootstrapRoutes } from './routes/bootstrap.js';
 import { mongoChromaLogger } from './logging/index.js';
 
 export function buildFastifyApp(ROOT_PATH) {
@@ -40,14 +43,14 @@ export function buildFastifyApp(ROOT_PATH) {
     if (authEnabled) {
         swaggerOpts.openapi.components = {
             securitySchemes: {
-                bearerAuth: {
-                    type: 'http',
-                    scheme: 'bearer',
-                    bearerFormat: 'JWT',
+                apiKey: {
+                    type: 'apiKey',
+                    name: 'x-pi-token',
+                    in: 'header',
                 },
             },
         };
-        swaggerOpts.openapi.security = [{ bearerAuth: [] }];
+        swaggerOpts.openapi.security = [{ apiKey: [] }];
     }
 
     app.register(swagger, swaggerOpts);
@@ -69,15 +72,12 @@ export function buildFastifyApp(ROOT_PATH) {
         return reply.sendFile('index.html');
     });
 
-    // Auth: mount /auth/me, and protect subsequent scopes
-    const auth = createFastifyAuth();
-    app.register(async (f) => {
-        auth.registerRoutes(f);
-    });
+    registerRbac(app);
+    registerBootstrapRoutes(app);
 
     // Protected routes
     app.register(async (f) => {
-        if (auth.enabled) f.addHook('onRequest', auth.preHandler);
+        if (authEnabled) f.addHook('onRequest', f.authUser);
         registerFilesRoutes(f);
         registerGrepRoutes(f);
         registerSymbolsRoutes(f);
@@ -86,6 +86,8 @@ export function buildFastifyApp(ROOT_PATH) {
         registerAgentRoutes(f);
         registerExecRoutes(f);
         registerSinkRoutes(f);
+        registerUserRoutes(f);
+        registerPolicyRoutes(f);
     });
 
     // Initialize indexer bootstrap/incremental state unless in test
