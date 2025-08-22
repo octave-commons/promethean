@@ -76,7 +76,7 @@ joblib==1.5.1
     # via
     #   -r requirements.gpu.in
     #   nltk
-markupsafe==3.0.1
+markupsafe==3.0.2
     # via jinja2
 more-itertools==10.7.0
     # via
