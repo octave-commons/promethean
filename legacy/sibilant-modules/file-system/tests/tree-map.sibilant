@@ -1,0 +1,43 @@
+(when testing?
+  (print "running tests for tree map")
+  (let ((tree ((create Tree-map)))
+        (seq ["a" "b" "c" "d"]))
+
+    (print "testing default values")
+    (assert (= tree.value null) "default value not equal null")
+    (assert (= tree.parent null) "default parent is not null")
+
+    (print "testing find method")
+
+    (it  "should find its self when given an empty sequence"
+         (= (.find tree []) tree))
+
+    (it  "should return false when trying to find a sequence that has never been inserted"
+         (not (.find tree seq)))
+
+    (print "testing insert method")
+    (it "should be the same value returned by `find`, given the same sequence"
+        (= (.insert tree seq) (.find tree seq))
+        )
+
+    ;;(assert (.has tree seq) "`has` method of a tree should return true when given a sequence that was previously inserted")
+    (it  "the value contained by a node that was only inserted, should be undefined"
+         (undefined? (get (.find tree seq) 'value) ))
+
+
+    (print "testing each method")
+    (it  "should keep track of branches well."
+         (.insert tree ["a" "b" "c" "q"])
+         (let ((leaves 0)
+               (branches 0))
+
+           (each tree (node)
+                 (if (.branch? node)
+                     (++ branches)
+                     (++ leaves)))
+
+           (and (= leaves 2) (= branches 3))))
+
+    (each tree (node k ) (print (.repeat "-" node.depth) k node.value node.depth))
+
+    (print "all tests pass!")))

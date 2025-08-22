@@ -1,0 +1,20 @@
+(namespace server)
+
+(include "kit/header"
+         "kit-http/header")
+
+(import-namespace kit)
+(import-namespace http)
+
+(require! app "./app")
+
+(var PORT (or process.env.PORT 8000))
+
+(var server ((create Http.Server) PORT))
+
+(.use server app)
+
+(export server)
+(export app)
+(export PORT)
+

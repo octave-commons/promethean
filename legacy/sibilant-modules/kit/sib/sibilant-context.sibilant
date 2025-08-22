@@ -1,0 +1,52 @@
+(include "../macros.sibilant")
+(import-namespace kit)
+(include "../inc/vm")
+
+(require! 'sibilant 'vm 'fs
+          (lit create extend partially-apply-after mixin ) "../js/util"
+
+          (lit plift) "./promise")
+
+
+(export create-context)
+
+
+
+(var transpile-sibilant  (fpipe (sibilant sibilant-string)
+
+                                (get  "js"))
+
+     read-file (plift fs.read-file)
+
+     context (create-context))
+(export transpile-sibilant)
+
+
+(generic eval-file (def-promised) (path *context name)
+         (print "path" path)
+
+         (pipe (read-file path "utf8")
+               (.then (partially-apply-after eval-string name))))
+
+(def-generic eval-string (sibilant-string *context name )
+  (vm.run-in-context   *context name))
+
+(def-generic eval-stream ())
+
+(type Sibilant-context
+
+      (init ((*context (create-context))))
+
+      (property name "kit")
+      (property *context context)
+      (property *sibilant sibilant)
+      eval-string
+      eval-file
+      eval-stream)
+
+(export Sibilant-context)
+
+(mixin Sibilant-context exports)
+
+(assign context.Sibilant-context Sibilant-context)
+

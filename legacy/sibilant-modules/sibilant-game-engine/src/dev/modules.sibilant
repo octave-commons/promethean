@@ -1,0 +1,66 @@
+(namespace dev)
+(require! 'crypto)
+
+(macro fluently (...body) `(scoped ...@body this))
+
+
+(def sha256 (str)
+     (var hash (.create-hash crypto "sha256"))
+     (.update hash str)
+     (.digest hash "hex"))
+
+(var stringify JSON.stringify)
+(define Merkle Interface)
+
+(define Merkle.Node Interface
+  (init (hash))
+  (def-generic verify (data hash)
+       (= hash (sha256 data)))
+  )
+
+(define Merkle.Leaf Merkle.Node)
+(define Merkle.Branch Merkle.Node)
+
+(define Merkle.Tree Interface
+  (init (root))
+
+  (def-generic hash (keys children values)
+       )
+  (def insert (path)
+       (var key (first path))
+       (var remainder (rest path))
+       (.push this.keys key)
+       (if! (empty?  remainder)
+            (.push )
+            )
+       )
+  (def set (path data))
+  (def remove (path))
+  (def each (f))
+  (def check (path data)))
+
+(define Modules Interface
+
+  (js (new Map))
+  (src (new Map))
+  (watched (new Map ))
+
+  (def-generic watch (path src js watched)
+
+    (.load this path)
+
+    (remember watched path
+              (watch sys "." 'change
+                     (compile-module file (.get js path)))))
+
+  (def-generic load-one (path src js)
+    (fluently
+     (remember js  name (.load File-system name))
+     (remember src name (.load File-system (Path.join "src" name)))))
+
+  (def-generic load-many (paths) (.each paths (#-> this.load-one)))
+
+  (def-generic load (name)
+    (ternary (array? name)
+             (.load-many this name )
+             (.load-one this name))))

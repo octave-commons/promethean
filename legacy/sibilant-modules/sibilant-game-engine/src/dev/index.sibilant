@@ -1,0 +1,6 @@
+(namespace dev)
+
+(include "./header" "./compile"
+         "./modules")
+
+(.watch Modules ['client 'templates 'tests 'dev 'server])

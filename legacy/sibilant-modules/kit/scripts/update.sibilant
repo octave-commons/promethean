@@ -1,0 +1,64 @@
+(include "./macros")
+
+(import-namespace kit)
+
+(include "./inc/shell")
+
+(import-namespace shell)
+
+(require! Path "path")
+(macro -> (...body) ["() => " body])
+
+(macro chain-promise (...body) `(pipe (.resolve Promise ) ...@(.map body (=> (e) `(.then  (-> @e))))))
+
+(macro dired-shell (path ...body)
+       `(shell ...@(map body (b) `(cd [@path] ";" ...@(get b 'contents)))))
+
+(def update-git (path)
+
+  (dired-shell
+   path
+   (git add ".")
+   (git commit "-m"  ["'update triggered from down stream repl repo'"])
+   (git push)))
+
+(def update-npm (path name)
+  (dired-shell
+   path
+   (rm "-r" (if name
+                (Path.join "./node_modules" name)
+                (Path.join "./node_modules" )))
+   (npm install)))
+
+(def compile-project-sib (path)
+  (.then (shell (sibilant  (Path.join path "./sib/*.sibilant" ) 
+                     "-o"
+
+                     (Path.join path "./js")
+                     ))
+         (aprint "done compiling" path)))
+
+
+(var file-system-path"~/devel/groups/mine/file-system"
+     kit-path "~/devel/groups/mine/kit")
+
+
+
+(.on process 'warning (aprint "WARNING"))
+(def update-kit ()
+  (chain-promise
+
+   (compile-project-sib file-system-path)
+   (compile-project-sib kit-path)
+   (dired-shell file-system-path (sibilant [(Path.join file-system-path "index.sibilant") ] "-o"  ".") )
+
+   (update-git file-system-path)
+   (update-git kit-path)
+
+   (update-npm kit-path)
+   (update-npm file-system-path)
+
+   (compile-project-sib ".")))
+
+(then-do (update-kit )
+         (include "./watch.sibilant"))

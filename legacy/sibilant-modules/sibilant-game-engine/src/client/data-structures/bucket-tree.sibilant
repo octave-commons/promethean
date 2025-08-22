@@ -1,0 +1,12 @@
+(include "kit-interface/header")
+(import-namespace interface)
+(require! (lit Tree-map) "./contrib"
+          (lit Ordered-map) "./ordered-map")
+
+(define Bucketed-tree Tree-map
+  (init ((value [])
+         parent
+         (*children ((create Ordered-map)))))
+  )
+
+(export Bucketed-tree)

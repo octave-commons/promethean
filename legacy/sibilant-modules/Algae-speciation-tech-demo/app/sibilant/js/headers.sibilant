@@ -1,0 +1,27 @@
+
+(include "./meta/macros")
+
+
+(require! $  "jquery/dist/jquery.min.js"
+
+          (lit  Event-emitter ) "events"
+          (lit Buffer Program Shader Attribute Type Context Uniform) "webgl/lib/webgl/gl.js"
+          (lit Blend-mode) "webgl/lib/math/color.js"
+          )
+(var (lit ubyte) Type)
+
+(macro in? (a b)
+       ["("  b " in " a " )"])
+
+
+
+(macro def-memoized (name args ...body)
+
+       `(def @name @args ...@body)
+       ;;`(var @name (memoize (lambda @args ...@body)))
+       )
+
+(include "./lib/lib")
+(var dom-node (create DOM-node))
+
+(include "./simulation.sibilant")

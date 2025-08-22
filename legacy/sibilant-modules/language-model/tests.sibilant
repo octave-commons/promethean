@@ -1,0 +1,84 @@
+(include "kit/header")
+(include "./src/interface/header")
+
+(import-namespace interface)
+(import-namespace kit)
+(require! (lit Model Probability-tree Storage) "./index")
+
+
+(require! (lit create  ) "kit/js/util"
+          (lit Interface) "./lib/interface"
+          (lit File-system) "./lib/file-system"
+          (lit Tree-map) "./lib/tree")
+
+(var parsed (#-> (.replace (regex "([.,!?])" "g") " $1 ")
+                 (.split  (regex "\\s+"))))
+
+(pipe (scoped
+       (var m ((create Model)))
+
+       (.train m 2 ['a 'a 'b 'b 'c 'd 'a' 'b 't 'g 'g 't 'a 'a 'g'r't'y'w'r'q'g'd'f'q'a'f'h'e'a])
+
+       (.train m 2 ['a 'a 'b 'b 'c 'd 'a' 'b 't 'g 'g 't 'a 'a 'g'r't'y'w'r'q'g'd'f'q'a'f'h'e'a])
+
+       (.train m 2 ['a 'a 'b 'b 'c 'd 'a' 'b 't 'g 'g 't 'a 'a 'g'r't'y'w'r'q'g'd'f'q'a'f'h'e'a])
+       (.train m 2 ['d'f'g'h'r'w'g'h'j'q'w'f'a'g'a'g'r't'y'h's'f's'q'w'e'r'q'w'er'we'q't's'f'q'f'a'f'a'g'h'w'e'd'f'g'w'f'w'd'a'q'w'e'r'tq'w'e'r't'q't])
+
+
+       (print "random string" (.generate-random-phrase m 50 ))
+
+       (var t (.random m)
+            *t (.random m))
+
+       (print "a random node t" t.seq)
+       (print "a random node *t" *t.seq)
+       (print "count of t" t.count)
+       (print "count of *t" *t.count)
+
+       (print "likelyhood of t" t.likelyhood)
+       (print "likelyhood of *t" *t.likelyhood)
+       (print "degrading value of t for m")
+       (.degrade m (get  t 'seq))
+
+       (print "count of t" t.count)
+       (print "count of *t" *t.count)
+       (print "likelyhood of t" t.likelyhood)
+       (print "likelyhood of *t" *t.likelyhood)
+       (print t.likelyhood)
+       (pipe (.save Storage "./models" m)
+             (.then (aprint "saved"))
+             (then-do (.load Storage "./models"))
+             (.then (aprint "loaded"))
+             (then m
+
+                   (print "random string" (.generate-random-phrase m 50 ))
+
+                   (var t (.random m)
+                        *t (.random m))
+
+                   (print "a random node t" t.seq)
+
+                   (print "a random node *t" *t.seq)
+                   (print "likelyhood of t" t.likelyhood)
+                   (print "likelyhood of *t" *t.likelyhood)
+
+                   (print "count of t" t.count)
+                   (print "count of *t" *t.count)
+                   (print "total in m" m.total)
+
+                   (print "degrading value of t for m")
+                   (.degrade m (get  t 'seq))
+
+                   (print "likelyhood of t" t.likelyhood)
+                   (print "likelyhood of *t" *t.likelyhood)
+
+                   (print "count of t" t.count)
+                   (print "count of *t" *t.count)
+
+                   (print "total in m" m.total)
+
+                   (print t.likelyhood)
+
+                   )))
+      (.catch (aprint "failiure")))
+

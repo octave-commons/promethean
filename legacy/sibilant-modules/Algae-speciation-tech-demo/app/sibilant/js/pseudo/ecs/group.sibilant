@@ -1,0 +1,56 @@
+
+(specify Entity-group (extend Entity)
+         (property groups (new Set))
+
+         (init (entity-type (entities (new Set)) groups)
+               (.add groups this))
+
+         )
+(def-generic Entity-group.serialize  (entities)
+         (map (.to-array entities) (ent)
+              (.serialize ent)))
+
+(def-generic Entity-group.add  (ent entities)
+         (assign ent.group this)
+         (.add entities ent))
+
+(def-generic Entity-group.clear ()
+  "remove every entity in this group, resulting in an empty group."
+  (each this (ent)
+        (.delete this ent)))
+
+(def-generic Entity-group.clear-all (groups)
+  "remove all entities from all groups."
+
+  (each groups (group)
+        (.clear group)))
+
+
+(def-generic Entity-group.has  (ent entities)
+         (.has entities ent))
+
+(def-generic Entity-group.delete  (ent entities)
+         (.delete entities ent)
+         (.delete ent)
+         )
+
+(def-generic Entity-group.remove  (ent entities)
+         (assign ent.group null)
+         (.delete entities ent))
+
+(def-generic Entity-group.each  (f entities)
+         (.each entities f) this)
+
+(generic Entity-group.spawn (fluent def) (x y color entity-type)
+
+         (var ent (.spawn entity-type  x y color ))
+
+         (when ent
+           (assign ent.group this)
+           (this.add ent) ent))
+
+(def-generic Entity-group.update  (entities)
+         (each entities (ent) (.update ent)))
+
+
+(export Entity-group)

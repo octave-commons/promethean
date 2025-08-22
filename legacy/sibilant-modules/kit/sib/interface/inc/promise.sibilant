@@ -1,0 +1,181 @@
+
+
+;;(var Promise (require "bluebird"))
+;;(require "../../js/lib/natives/object.js")
+
+
+;;take a function that does not return a promise,
+;;and return one that does.
+(def p-lift (f)
+  (=> ( x i a)
+      (pipe (Promise.resolve x)
+            (.then  (=> (x) (f x i a))))))
+
+
+;;given an array of values a and a function f,
+;;return a promise for an array of
+;;the resolved values of f called for each x in a
+(def map-promise-paralell (a f)
+  (Promise.all (a.map (p-lift f))))
+
+;;given an array of values a, a function f, and a starting value
+;;return a promise for the reduction of a given f.
+(def reduce-all (a f init)
+  (a.reduce (=> (promise x k)
+                (promise.then (=> (result)
+                                  (f result x k a))))
+            (Promise.resolve (or init null))))
+;;(reduce-all test-arr ())
+
+(def map-promise-serial (a f)
+  (reduce-all
+   a (=> (res-arr x k)
+         (pipe (Promise.resolve (f x k a))
+               (.then (=> (x)
+                          (res-arr.push x)
+                          res-arr)))) []))
+
+;;given an array of functions, sequentially call them on a promised value
+(def chain-promise (value funcs )
+  ;;(print "chaining")
+  (funcs.reduce (=> (result f i) (result.then f))
+                (Promise.resolve value)))
+
+(macro do-promise ( ...statements)
+       (print "expanding do promise")
+       `(chain-promise null [...@(statements.map
+                                  (=> (s)
+                                      `(=> (future) ...@s)))] ))
+
+;;A pvar is going to be tricky.
+;;how do I create an empty variable, then do some asyncronous stuff, then assign a value to that variable,
+;;with out creating any closures that will prevent the variable from being accessable from with in the scope it was created in?
+(comment (macro def-async (name args defs ...body)
+        (print "args" ...arguments)
+        (if (not (empty? defs.contents))
+            (do
+             (print "defs was not empty")
+             (assign exp-defs
+              (defs.contents.map
+                  (=> (def)
+                      (print "mapin def" def)
+                      (if (not (empty? def.contents))
+                          (do
+
+                           (var name (first def.contents)
+                                args (second def.contents)
+                                other-defs (third def.contents)
+                                def-body (.slice (get def 'contents) 3))
+
+                           (print "still mapin def" name args other-defs def-body)
+
+                            `(def-async @name @args @other-defs ...@def-body))))))
+              `(var @name (# @args
+                             ...@exp-defs
+                             (do-promise ...@body))))
+            (do
+             (print "defs was empty")
+             `(var @name (# @args
+                            (do-promise ...@body)))))))
+
+(curried node-promise-wrapper (func args)
+         (make-promise (func ...args (# (err value) (if err (success value) (fail err))))))
+
+
+(def key-value-object (pair (default result {}))
+  (.reduce pair (=> (result [k v])
+                    (set result k v)
+                    result)))
+
+(def key-value-pair (object)
+  (map (Object.keys object) (k)
+       (then (get object k) value
+             [k value])))
+
+(def-interface Future (promise (value null))
+
+  (gett contents this.promise)
+
+  (def-generic resolve (value) ((create this) (.resolve Promise value)))
+
+  (def-generic then (on-success on-fail)
+        (.then this.promise
+               (=> (value)
+                   (assign this.value value)
+                   (on-success value))
+               on-fail))
+
+  (def lift (f)
+       (=> ((dots args))
+           ((create this)
+
+            (make-promise
+             (f (dots args)
+                (node-back (value)
+                           (success value)))))))
+
+  (def-generic catch (on-fail) (.catch this.promise on-fail)))
+
+
+(def-lit-macro generic (name type args ...body)
+  `(generic @name @type @args ...@body))
+
+(def-interface Future-collection (promise (value null))
+  (extend Future)
+  (def-generic fm ())
+
+  (def-generic each  (callback promise)
+           (then promise collection
+                 (.each collection callback)))
+
+  (def-generic map  (callback promise all)
+           (then promise collection
+                 (all (.map collection callback))))
+
+  (def-generic reduce  (callback initial-value promise (interface this))
+    (then (interface.resolve promise) collection
+          (.reduce collection
+                   (=> (r el) (then r result (callback result el)))
+                   (.resolve Promise initial-value))))
+
+  (def-generic reduce-all  (callback collection)
+           (collection.reduce (=> (promise x k)
+                                  (then promise result (callback result x k collection)))
+
+                              (Promise.resolve (or init null)))))
+
+
+(def-interface Future-array (promise (value null))
+  (extend Future-collection)
+  ;; NOTE for the following two functions I would like to figure a more generic method over arbitrary collection
+  ;; types.
+  ;; I can't series un ordered types. This means that these functions do not apply
+  ;; to all collection types
+
+  ;; create a promise for the resolution of a map over
+  ;; a given collection
+  (def-generic map-all-serial  (callback collection interface)
+    (.reduce-all interface collection
+                 (=> (result element key)
+                     (pipe (Promise.resolve (callback element key collection))
+                           (then element (result.push element) result))) []))
+
+  ;; map over all values of a promised collection
+  (def-generic map-serial (callback promise (interface this))
+    (.reduce interface (=> (result element key)
+                           (pipe (Promise.resolve (callback element key collection))
+                                 (then element (result.push element) result)))
+             []
+             promise))
+  (def all (array) (Promise.all array)))
+
+(def-interface Future-object (promise (value null))
+  (extend Future-collection)
+  (def all (object)
+    (then (.all Future-array (key-value-pair object))
+          pair (key-value-object pair))))
+
+(export Future)
+(export Collection)
+(export Array)
+(export Object)

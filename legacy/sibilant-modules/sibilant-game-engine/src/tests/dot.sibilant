@@ -1,0 +1,67 @@
+(namespace engine-tests)
+(include "kit/header"
+         "kit-html/src/dom")
+
+(include "../inc/ecs")
+(namespace ecs)
+
+(import-namespace kit)
+(import-namespace dom)
+
+(include "../inc/electron"
+         "../inc/docs")
+
+(assign module.filename (Path.join (process.cwd) "./tests/dot.sibilant"))
+
+(require! (lit Game) "../js/game"
+          (lit Rendering) "../js/systems/rendering/rendering"
+          (lit Dot) "../js/systems/rendering/dot"
+          (lit Position) "../js/systems/position"
+          (lit Physics) "../js/systems/physics"
+          (lit Scalar) "../js/math/scalar")
+
+(doc-string "tests.rendering-notes"
+
+            "
+
+            rendering and rendering context
+            I have been thinking about rebranding the rendering object, or at least
+            abstracting away from it through composition, to refer to it as a graphics system.
+
+            I'd also like to integrate it more neatly into the concept of a game.
+            It'd be cool if it were more like: "
+            (example (with-dom Document-root game))
+            "I think I can do that if I add a `render()` method to the game object, that produces a document node."
+            )
+
+
+(const rendering (.load Rendering (lit (size (.sub Scalar  (window.size) 8)) (limit 100) (blend true))))
+
+(.resize rendering (.sub Scalar  (window.size) 4))
+
+(const stage (dom (.div .id 'stage)))
+(const container (dom (.div .id "container" rendering.context.canvas)))
+
+(with-dom Document-root (.div .id 'frame container))
+;; end rendering context
+
+(var game ((create Game) rendering [Physics   Position   Dot]))
+
+(.start game)
+
+(include "../inc/misc.sibilant")
+
+(var rgba (memoize (=> (r g b a) (lit r g b a))))
+
+(def entity (aspects data) (.spawn game.ent aspects data))
+
+(def coordinate (x y) (lit x y))
+
+(def-entity simple-dot (x y z)
+  (Dot 'color (rgba 255 0 0 255))
+  (Position 'x x 'y y 'z z)
+  (Physics 'scale 5 'mass 10 'forces []))
+
+
+(var dot (simple-dot 10 10 10))
+(print dot)

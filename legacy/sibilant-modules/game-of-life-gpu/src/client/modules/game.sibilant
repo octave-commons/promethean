@@ -1,0 +1,53 @@
+
+(include "kit-interface/header")
+(import-namespace interface)
+
+(require! (lit Entity-system) "./ecs/entity"
+          (lit Event-emitter) "kit-events"
+          (lit Ticker) "./ticker"
+          (lit Ordered-map) "./data-structures/ordered-map")
+
+(define Game Interface
+
+  (init (rendering
+         (system-types [])
+         (game-speed 1)
+         (entities ((create Entity-system) this) )
+         (events ((create Event-emitter)))
+         (ticker ((create Ticker) (* game-speed 60) events))
+         (systems ((create Ordered-map))))
+
+        (var get-system-by-symbol systems.get)
+
+        (def systems.get (interface ent)
+             (var sys (get-system-by-symbol.call systems interface.symbol))
+
+             (if ent (.get sys ent)
+               sys))
+
+        (.each system-types (=> (s) (print "creating system" s)
+                                (.push systems [s.symbol ((create s) this)])))
+        (print "done creating systems" this.systems)
+
+        (.push this.systems [rendering.symbol rendering]))
+
+  (gett ent this.entities)
+
+  (def-generic start (systems events ticker rendering)
+
+    (.stop this)
+    (.start ticker)
+
+    (on events 'tick (t) (.each systems (#-> (.update )))))
+
+  (def-generic stop (ticker events)
+    (.stop ticker)
+    (.remove-all-listeners events 'tick))
+
+  (def-generic clear (systems entities events ticker)
+    (.stop ticker)
+    (.clear entities )
+    (.remove-all-listeners events)
+    (.each systems (#-> .clear))))
+
+(export Game)

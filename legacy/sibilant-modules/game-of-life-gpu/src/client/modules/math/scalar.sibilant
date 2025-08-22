@@ -1,0 +1,14 @@
+(include "kit/header"
+         "kit-interface/header")
+(import-namespace kit)
+(import-namespace interface)
+
+(def-interface Scalar (value)
+  (def-generic mul (array value)
+    (.map array (#-> (* value))))
+  (def-generic div (array value)
+    (.map array (#-> (/ value))))
+  (def-generic sub (array value)
+    (.map array (#-> (- value)))))
+
+(export Scalar)

@@ -1,0 +1,18 @@
+{
+    "core":"git@github.com:riatzukiza/kit.git",
+    "interface":"git@github.com:riatzukiza/kit-interface.git",
+
+    "actor":"git@github.com:riatzukiza/kit-actor.git",
+
+    "repl":"git@github.com:riatzukiza/kit-repl.git",
+
+    "events":"git@github.com:riatzukiza/kit-events.git",
+
+    "file-system":"git@github.com:riatzukiza/kit-file-system.git",
+    "http":"git@github.com:riatzukiza/kit-http.git",
+
+    "html":"git@github.com:riatzukiza/kit-html.git",
+
+    "trees":"git@github.com:riatzukiza/tree-kit.git",
+
+}

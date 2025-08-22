@@ -1,0 +1,32 @@
+(type Fertility-component
+
+      (init (x y))
+
+
+      (gett value (.get Fertility.state-space this.x this.y))
+      (gett state-space Fertility.state-space)
+
+      (gett a (* this.value 255 (.get Lighting.state-space
+                                      this.x
+                                      this.y
+
+                                      )))
+      )
+(set Fertility-component
+
+     'r 60
+     'g 150
+     'b 60
+     )
+
+
+(def-generic Fertility-component.update (ticks x y value state-space)
+  (.set state-space x y value))
+
+(var Fertility ((create Field) Fertility-component))
+(print Fertility)
+
+(.populate-layer Fertility)
+(.transit Fertility.state-space (=> (v x y) (Math.random)))
+(.update Fertility.state-space)
+(.transit Fertility.state-space (=> (v x y) v))

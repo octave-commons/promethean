@@ -1,0 +1,73 @@
+(include "kit-interface/header")
+(import-namespace interface)
+
+(require! (lit Component System) "../../ecs/component"
+
+          (lit Physics) "../physics"
+          (lit Vertex) "./vertex"
+
+          (lit Position) "../position"
+          (lit Gl ) "../../gl"
+          (lit read-file-sync) fs)
+
+(def read-file (path)
+     (read-file-sync path "utf8"))
+(macro read-shader (path)
+       (require! 'fs)
+       (print "loading shader" path.token)
+       ["`" (fs.read-file-sync (eval path.token) "utf8") "`"])
+(def load-shader (path)
+     ()
+     )
+
+
+(define uniforms Interface
+  (res (Gl.uniform 'Vector2 "Resolution" (window.size)))
+  (scale (Gl.uniform 'Float "Scale" 1.0)))
+
+(define shaders Interface
+
+  (vert (read-shader "./shaders/scaling.vert"))
+
+  (frag (read-shader "./shaders/scaling.frag")))
+
+
+(def vertex-layer (limit game)
+     (.spawn game.rendering limit Vertex
+             [ uniforms.res uniforms.scale]
+             [shaders.vert shaders.frag]))
+
+(define Dot-interface Component
+
+  (color {r 0 g 0 b 0 a 0})
+
+  (gett pos (.get this.system.process.systems Position this.entity))
+  (gett scale (get (.get this.system.process.systems Physics this.entity) 'scale)))
+
+(export Dot-interface)
+
+(define Dot System
+  (def register () (assign this.verts (vertex-layer 100000 this.game)))
+
+  (interface Dot-interface)
+
+  (def spawn (entity )
+       (var c (.call System.spawn this entity ))
+       (assign c.vertex (.spawn this.verts))
+       c)
+
+  (def *update-component (dot)
+       (set dot.vertex.point
+            'x dot.pos.x
+            'y dot.pos.y
+
+            'z dot.pos.z)
+       (set dot.vertex
+            'size dot.scale)
+       (set dot.vertex.color
+            'r dot.color.r
+            'g dot.color.g
+            'b dot.color.b
+            'a dot.color.a)))
+
+(export Dot)

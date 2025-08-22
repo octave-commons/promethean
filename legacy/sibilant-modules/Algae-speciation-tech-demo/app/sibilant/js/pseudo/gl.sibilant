@@ -1,0 +1,32 @@
+
+(require! (lit Buffer Program Shader Attribute Type Context Uniform) "../../../../internal-dependencies/andy_webgl/lib/webgl/gl.js"
+          (lit clamp rand round ) "../../../../internal-dependencies/andy_webgl/lib/math/math"
+          Timestep "../../../../internal-dependencies/andy_webgl/lib/timestep.js")
+
+
+(require! "fs")
+(def read-file (path)
+  (fs.read-file-sync path "utf-8"))
+
+(def window.size () [window.inner-width window.inner-height])
+
+(var (lit ubyte float Vector3) Type)
+
+(var Color (new Type.Composite (lit (r ubyte) (g ubyte) (b ubyte) (a ubyte)))
+     Vertex (new Type.Composite (lit (point Vector3) (color Color))))
+
+(var time (new Timestep 30 (-> (render))))
+
+(var Scalar (new Type.Composite (lit (value float) (vertex Vertex))))
+(describe Scalar
+          (gett intensity this.value)
+          (sett intensity v (assign this.value v))
+          )
+(assign Scalar (mixin (lit
+
+                       (gett intensity this.value)
+                       (sett intensity v (assign this.value v))) Scalar))
+
+(var scalar-field (matrix h w (.Array Scalar (* h w))))
+
+(var Solar-lighting )

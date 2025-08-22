@@ -1,0 +1,118 @@
+(macro xml ( element-function root)
+       `(@element-function ...@(let ((name `(quote @(first (content-of (first (content-of root))))))
+                                     (elements (rest root.contents))
+                                     (attributes-list [])
+                                     (values []))
+
+
+                                 (while (> elements.length 0)
+                                   (let ((el (.shift elements)))
+
+                                     (if (dotted? el)
+                                         (do (.push attributes-list el)
+                                             (.push attributes-list (.shift elements)))
+
+                                         (and (expression? el)
+                                              (dotted? (first el.contents)))
+                                         (.push values `(xml @element-function  @el))
+
+                                         (.push values el))))
+
+
+                                 [ name  `(hash ...@attributes-list)  `[...@values] ])))
+
+(macro dom (root) `(xml create-document-node @root))
+
+(macro with-dom (parent root)
+       `(pipe (dom @root)
+              (.render @parent)))
+
+(def-curried render-children ( *parent c i a)
+  (if (undefined? c) null
+
+      c.render (.render c *parent)
+
+      (array? c) (.each c (render-children *parent))
+
+      (string? c) (.append-child *parent.*node (.create-text-node document c))
+
+      (number? c) (.append-child *parent.*node (.create-text-node document (+ "" c)))
+
+      (function? c) (render-children *parent (c *parent))
+
+      (instance-of? Element c) (let ((node (.wrap Document-node c *parent.*node)))
+                                 (set a i node)
+                                 (render-children *parent  node i a))
+
+      (.append-child *parent.*node c)))
+
+(def-interface Document-node
+    (tag-name
+     attributes
+     (*children [])
+     *parent
+
+     (*node (document.create-element tag-name)))
+
+  (extend Event-emitter.prototype)
+
+  (init (.call Event-emitter this))
+
+  (gett children this.*children)
+
+  (def-generic render (*parent attributes tag-name *node children)
+
+    ;;(when *node (.remove this *node *parent))
+    (assign *node.innerHTML "")
+    ;; The first time the parent is right, the next time the parent is somthing else.
+    (assign this.*parent *parent)
+
+    (.append-child *parent.*node *node)
+
+    (each attributes (a k) (set *node k a))
+
+    (pipe children (.each  (render-children this)))
+    (.emit this 'render )
+
+    this)
+
+  (def wrap (*node *parent)
+    ((create Document-node) *node.tag-name {} [] *parent *node))
+
+  (def-generic append (node children)
+    (.push children node)
+    this)
+
+  (def-generic prepend (node children)
+    (assign this.children [node children]))
+
+  (def-generic remove (*node *parent)
+
+    (.remove *node)
+
+    (.filter *parent.children (=> (c) (not (= *node c))))
+    (.emit *parent 'remove *node)
+    this))
+
+(export Document-node)
+
+(def-interface Document-root ()
+  (extend Document-node)
+
+  (gett *parent this)
+  (tag-name "body")
+  (*node document.body)
+  (*children []))
+
+(export Document-root)
+
+
+
+(var create-document-node (create Document-node))
+
+
+(print document.append-child)
+
+
+
+

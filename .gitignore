@@ -63,3 +63,4 @@ catalog.org
 .envrc
 
 *.snap
+services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean/bootstrap.json

@@ -1,0 +1,27 @@
+(meta (require! (lit File-system) "kit-file-system"
+                Path 'path)
+
+      (var docs (.load File-system "./docs"))
+
+      (namespace docs)
+
+      (def macros.example (...body)
+           `(+ "```js\n"
+               ...@(.map body (=> (el) `(+ (quote @el) "\n")))
+               "\n```"))
+
+      (var eval-ast-node (#-> transpile (get 'contents) (output-formatter) eval ))
+
+      (def macros.doc-string (title args ...doc-nodes)
+           (var title-string (eval-ast-node title)
+                arg-string (eval-ast-node args)
+                doc-string (.join (.map doc-nodes eval-ast-node) "\n"))
+           (print "doc string" doc-string)
+
+           (.set docs (+ (.replace title-string (regex "\\." "g") "/" ) ".md")
+                 (.join [ ("# " title-string)
+                          "## arguments"
+                          arg-string
+                          "## description"
+                          doc-string] "\n\n"))
+           null))

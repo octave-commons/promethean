@@ -1,0 +1,55 @@
+
+(include "kit-interface/header")
+
+(import-namespace interface)
+(require! (lit Dynamic-pool) "../pooling/dynamic-pool")
+
+(define Entity Interface
+  (doc "used as a key to retrieve related components from different systems.")
+  (init (system
+         id
+         aspects
+         data
+         (components
+          (.map data (=> (d i)
+                         (.spawn (.get system.process.systems
+                                       (get aspects i ))
+                                 this
+                                 d))))))
+
+  (def clear () (.each this.components (=> (c) (.clear c.system this)))
+       (assign this.id null))
+
+  (def spawn ( data aspects system) (.spawn system aspects data)))
+
+(export Entity)
+
+(define Entity-system Interface
+  (current-id 0)
+  (init (process (pool ((create Dynamic-pool) Entity 256))))
+  (gett game this.process)
+
+  (def clear () (.clear this.pool))
+
+  (def spawn (aspects data)
+       (.spawn this.pool this (incr this.current-id) aspects data))
+  ;; (def define (name (lit aspects ))
+  ;;   ((create Entity-group)
+  ;;    name
+  ;;    aspects
+  ;;    )
+  ;;   )
+  )
+(export Entity-system)
+
+(define Entity-group Interface
+
+  (init (name aspects system (group ((create Group)))))
+
+  (def clear ()
+       (each group (e) (.clear e)))
+
+  (def-generic spawn (data aspects system group)
+    (collect e (.spawn system aspects data)
+             (.add group e))))
+(export Entity-group)
