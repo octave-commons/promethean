@@ -22,6 +22,7 @@ import { registerSinkRoutes } from './routes/sinks.js';
 import { registerUserRoutes } from './routes/users.js';
 import { registerPolicyRoutes } from './routes/policies.js';
 import { registerBootstrapRoutes } from './routes/bootstrap.js';
+import { registerV1Routes } from './routes/v1.js';
 import { mongoChromaLogger } from './logging/index.js';
 
 export function buildFastifyApp(ROOT_PATH) {
@@ -88,6 +89,7 @@ export function buildFastifyApp(ROOT_PATH) {
         registerSinkRoutes(f);
         registerUserRoutes(f);
         registerPolicyRoutes(f);
+        registerV1Routes(f);
     });
 
     // Initialize indexer bootstrap/incremental state unless in test
