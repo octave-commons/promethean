@@ -501,3 +501,35 @@ agents:
 
 ## Extra
 [[hy-macros-cheatsheet.md|Hy macros cheatsheet]]
+
+We love dotenv. use it all the time. Make everyone's lives easier.
+
+## Changelog Updates
+
+All future agents must record notable changes in `CHANGELOG.md` following [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format. This ensures continuity and shared context across contributors.
+
+
+### Changelog Entry Checklist
+When making a notable change, add an entry under the correct section in `CHANGELOG.md`:
+
+- **Added** – for new features.
+- **Changed** – for changes in existing functionality.
+- **Deprecated** – for features soon-to-be removed.
+- **Removed** – for features removed.
+- **Fixed** – for any bug fixes.
+- **Security** – in case of vulnerabilities.
+
+Follow the format:
+```markdown
+## [Unreleased]
+
+### Added
+- Short description of the new feature.
+
+### Changed
+- Short description of the change.
+
+### Fixed
+- Short description of the bug fix.
+```
+

@@ -1,6 +1,7 @@
 import Fastify from 'fastify';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fastifyStatic from '@fastify/static';
 
 import { indexerManager } from './indexer.js';
 import { restoreAgentsFromStore } from './agent.js';
@@ -20,6 +21,20 @@ import { registerExecRoutes } from './routes/exec.js';
 export function buildFastifyApp(ROOT_PATH) {
     const app = Fastify({ logger: false });
     app.decorate('ROOT_PATH', ROOT_PATH);
+
+    // Serve static dashboard from /public at root
+    const __dirname = path.dirname(fileURLToPath(import.meta.url));
+    app.register(fastifyStatic, {
+        root: path.join(__dirname, '../public'),
+        prefix: '/',
+        // index.html served at '/'
+    });
+
+    // Convenience alias to open dashboard explicitly
+    app.get('/dashboard', async (_req, reply) => {
+        reply.header('Cache-Control', 'no-cache');
+        return reply.sendFile('index.html');
+    });
 
     // /openapi.json is public
     app.register(async (f) => {
