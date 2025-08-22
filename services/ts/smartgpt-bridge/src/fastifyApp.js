@@ -19,7 +19,7 @@ import { registerAgentRoutes } from './routes/agent.js';
 import { registerExecRoutes } from './routes/exec.js';
 
 export function buildFastifyApp(ROOT_PATH) {
-    const app = Fastify({ logger: false });
+    const app = Fastify({ logger: false, trustProxy: true });
     app.decorate('ROOT_PATH', ROOT_PATH);
 
     const baseUrl = process.env.PUBLIC_BASE_URL || `http://localhost:${process.env.PORT || 3210}`;
@@ -48,19 +48,7 @@ export function buildFastifyApp(ROOT_PATH) {
     app.register(swagger, swaggerOpts);
     app.register(swaggerUi, { routePrefix: '/docs' });
 
-    app.get(
-        '/openapi.json',
-        {
-            schema: {
-                summary: 'OpenAPI spec',
-                operationId: 'getOpenApiSpec',
-                tags: ['System'],
-                security: [],
-                response: { 200: { type: 'object' } },
-            },
-        },
-        async (_req, rep) => rep.type('application/json').send(app.swagger()),
-    );
+    app.get('/openapi.json', async (_req, rep) => rep.type('application/json').send(app.swagger()));
 
     // Serve static dashboard from /public at root
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
