@@ -58,7 +58,6 @@ kanban-plugin: board
 
 ## Breakdown (8)
 
-- [ ] [[OpenAI compatable api]]
 - [ ] [[Ensure openapi specs are automaticly updated when an endpoint is changed]]
 - [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
 - [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
@@ -90,6 +89,7 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[OpenAI compatable api]]
 - [ ] [[discord_image_attachment_indexer_md.md|discord image attachment indexer md]] #framework-core #discord #images #attachments #indexing #memory #done
 - [ ] [[clearly_seperate_service_dependency_files_md.md|clearly seperate service dependency files md]] #devops #cicd #done
 - [ ] [[add_obsidian_to_gitignore_md_md.md|Add .obsidian to .gitignore]] #framework-core #done
