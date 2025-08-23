@@ -17,6 +17,9 @@ class FakeCollection {
     async upsert() {
         /* no-op */
     }
+    async add() {
+        /* no-op */
+    }
 }
 
 class FakeChroma {
@@ -48,6 +51,10 @@ test.after.always(() => {
     resetChroma();
     setEmbeddingFactory(null);
     setChromaClient({
-        getOrCreateCollection: async () => ({ query: async () => ({}), upsert: async () => {} }),
+        getOrCreateCollection: async () => ({
+            query: async () => ({}),
+            upsert: async () => {},
+            add: async () => {},
+        }),
     });
 });

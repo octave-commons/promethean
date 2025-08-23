@@ -10,12 +10,14 @@ test.serial('exec requires auth when enabled and allows with token', async (t) =
         AUTH_MODE: process.env.AUTH_MODE,
         AUTH_TOKENS: process.env.AUTH_TOKENS,
         EXEC_ENABLED: process.env.EXEC_ENABLED,
+        EXEC_SHELL: process.env.EXEC_SHELL,
     };
     try {
         process.env.AUTH_ENABLED = 'true';
         process.env.AUTH_MODE = 'static';
         process.env.AUTH_TOKENS = 'secret-token';
         process.env.EXEC_ENABLED = 'true';
+        process.env.EXEC_SHELL = 'true';
 
         await withServer(ROOT, async (req) => {
             // Missing token blocked
@@ -44,5 +46,6 @@ test.serial('exec requires auth when enabled and allows with token', async (t) =
         process.env.AUTH_MODE = prev.AUTH_MODE;
         process.env.AUTH_TOKENS = prev.AUTH_TOKENS;
         process.env.EXEC_ENABLED = prev.EXEC_ENABLED;
+        process.env.EXEC_SHELL = prev.EXEC_SHELL;
     }
 });

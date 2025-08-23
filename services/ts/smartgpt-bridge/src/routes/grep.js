@@ -2,35 +2,22 @@ import { grep } from '../grep.js';
 
 export function registerGrepRoutes(fastify) {
     const ROOT_PATH = fastify.ROOT_PATH;
+
     fastify.post('/grep', {
         schema: {
             summary: 'Search repository files via ripgrep',
             operationId: 'grepFiles',
             tags: ['Search'],
-            body: {
-                $id: 'GrepRequest',
-                type: 'object',
-                required: ['pattern'],
-                properties: {
-                    pattern: { type: 'string' },
-                    flags: { type: 'string', default: 'g' },
-                    paths: {
-                        type: 'array',
-                        items: { type: 'string' },
-                        default: ['**/*.{ts,tsx,js,jsx,py,go,rs,md,txt,json,yml,yaml,sh}'],
-                    },
-                    maxMatches: { type: 'integer', default: 200 },
-                    context: { type: 'integer', default: 2 },
-                },
-            },
+            body: { $ref: 'GrepRequest#' },
             response: {
                 200: {
                     $id: 'GrepResponse',
                     type: 'object',
                     properties: {
                         ok: { type: 'boolean' },
-                        results: { type: 'array', items: { type: 'object' } },
+                        results: { type: 'array', items: { $ref: 'GrepResult#' } },
                     },
+                    additionalProperties: false,
                 },
             },
         },

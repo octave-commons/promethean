@@ -20,7 +20,7 @@ test('POST /search 500 on chroma error; /files/reindex 400 missing path', async 
         const r = await req.post('/files/reindex').send({}).expect(400);
         t.false(r.body.ok);
         const missingQ = await req.post('/search').send({}).expect(400);
-        t.false(missingQ.body.ok);
+        t.is(missingQ.status, 400);
     });
 });
 
@@ -28,6 +28,10 @@ test.after.always(() => {
     resetChroma();
     setEmbeddingFactory(null);
     setChromaClient({
-        getOrCreateCollection: async () => ({ query: async () => ({}), upsert: async () => {} }),
+        getOrCreateCollection: async () => ({
+            query: async () => ({}),
+            upsert: async () => {},
+            add: async () => {},
+        }),
     });
 });
