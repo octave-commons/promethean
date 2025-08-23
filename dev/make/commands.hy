@@ -88,7 +88,10 @@
   (print "No build step for Python services"))
 
 (defn-cmd clean-python []
-  (print "Cleaning Python artifacts..."))
+  (print "Cleaning Python artifacts (git-aware)...")
+  (for [d SERVICES_PY]
+    (safe-rm-globs d [".venv" "__pycache__" ".pytest_cache" "*.pyc" "requirements.*.lock"]))
+  (safe-rm-globs "shared/py" [".venv" "__pycache__" ".pytest_cache" "*.pyc" "requirements.*.lock"]))
 
 (defn-cmd setup-python-service [service]
   (print (.format "Setting up Python service: {}" service))
@@ -222,7 +225,10 @@
   (coverage-js-services))
 
 (defn-cmd clean-js []
-  (sh "rm -rf shared/js/*" :shell True))
+  (print "Cleaning JavaScript artifacts (git-aware)...")
+  (safe-rm-globs "shared/js" ["node_modules" "dist" "build" ".turbo" ".parcel-cache" ".rollup.cache"])
+  (for [d SERVICES_JS]
+    (safe-rm-globs d ["node_modules" "dist" "build" ".turbo" ".parcel-cache" ".rollup.cache"])))
 
 (defn-cmd build-js []
   (print "No build step for JavaScript services"))
@@ -322,11 +328,14 @@
       (require-pnpm)))
 
 (defn-cmd clean-ts []
-  (if (has-pnpm)
-      (do
-        (run-dirs SERVICES_TS "pnpm run clean >/dev/null || true" :shell True)
-        (run-dirs SHARED_TS "pnpm run clean >/dev/null || true" :shell True))
-      (require-pnpm)))
+  (print "Cleaning TypeScript artifacts (git-aware)...")
+  ;; Only remove ignored stuff; never touch tracked files like ecosystem.config.js
+  (for [d SERVICES_TS]
+    (safe-rm-globs d ["node_modules" "dist" "build" "*.tsbuildinfo" ".turbo" ".parcel-cache" ".rollup.cache"]))
+  ;; shared TS
+  (for [d SHARED_TS]
+    (safe-rm-globs d ["node_modules" "dist" "build" "*.tsbuildinfo" ".turbo" ".parcel-cache" ".rollup.cache"]))
+  )
 
 (defn-cmd build-ts []
   (print "Transpiling TS to JS... (if we had any shared ts modules)")
@@ -372,7 +381,13 @@
 
 (defn-cmd clean []
   (clean-js)
-  (clean-ts))
+  (clean-ts)
+  (clean-python))
+
+(defn-cmd distclean []
+  (print "[distclean] Removing ignored files repo-wide via git clean -fdX")
+  (sh "git clean -fdX" :shell True)
+  (print "[distclean] Done. Tracked files untouched."))
 
 (defn-cmd lint []
   (lint-python)
