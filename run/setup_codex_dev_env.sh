@@ -9,3 +9,4 @@ pip install pytest flake8 black pre-commit hy dotenv
 pre-commit install
 make setup-pipenv
 PROMETHEAN_TORCH="cpu" make install
+make build

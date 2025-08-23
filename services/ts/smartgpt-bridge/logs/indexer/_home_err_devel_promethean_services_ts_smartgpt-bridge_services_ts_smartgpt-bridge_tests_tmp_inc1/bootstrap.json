@@ -5,18 +5,18 @@
     "fileInfo": {
         "b.txt": {
             "size": 14,
-            "mtimeMs": 1755815674715.6912
+            "mtimeMs": 1755913027876.2212
         },
         "c.md": {
             "size": 9,
-            "mtimeMs": 1755815674677.6914
+            "mtimeMs": 1755913027828.2842
         },
         "d.txt": {
             "size": 5,
-            "mtimeMs": 1755815674716.6912
+            "mtimeMs": 1755913027877.2212
         }
     },
-    "startedAt": 1755815674680,
-    "finishedAt": 1755815674724,
+    "startedAt": 1755913027829,
+    "finishedAt": 1755913027900,
     "rootPath": "/home/err/devel/promethean/services/ts/smartgpt-bridge/services/ts/smartgpt-bridge/tests/tmp/inc1"
 }
