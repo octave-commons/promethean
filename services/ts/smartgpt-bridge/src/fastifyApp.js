@@ -208,6 +208,7 @@ export function buildFastifyApp(ROOT_PATH) {
     );
 
     // Mount v1 routes with new auth scoped to /v1
+
     app.register(
         async (v1Scope) => {
             const v1Auth = createFastifyAuth();
