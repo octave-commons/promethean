@@ -35,9 +35,9 @@ test.before(() => {
     }));
 });
 
-test('POST /search returns stubbed results without external services', async (t) => {
+test('POST /v0/search returns stubbed results without external services', async (t) => {
     await withServer(ROOT, async (req) => {
-        const res = await req.post('/search').send({ q: 'readme', n: 1 }).expect(200);
+        const res = await req.post('/v0/search').send({ q: 'readme', n: 1 }).expect(200);
         t.true(res.body.ok);
         t.is(res.body.results.length, 1);
         t.is(res.body.results[0].path, 'readme.md');

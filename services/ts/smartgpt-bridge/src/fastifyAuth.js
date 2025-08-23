@@ -1,5 +1,8 @@
 import crypto from 'crypto';
 import { createRemoteJWKSet, jwtVerify, decodeProtectedHeader } from 'jose';
+import { initMongo } from './mongo.js';
+import { User } from './models/User.js';
+import { logger } from './logger.js';
 
 function parseCookies(req) {
     const header = req.headers?.cookie;
@@ -126,9 +129,31 @@ export function createFastifyAuth() {
         return payload;
     }
 
+    // Discover apiKey header names from the OpenAPI spec registered on this scope.
+    function getApiKeyHeaderNames(req) {
+        try {
+            const spec = typeof req.server.swagger === 'function' ? req.server.swagger() : null;
+            const schemes = spec?.components?.securitySchemes || {};
+            const names = [];
+            for (const [_k, v] of Object.entries(schemes)) {
+                if (v && v.type === 'apiKey' && v.in === 'header' && v.name)
+                    names.push(String(v.name).toLowerCase());
+            }
+            return names;
+        } catch {
+            return [];
+        }
+    }
+
     function getToken(req) {
         const auth = req.headers?.authorization || '';
         if (auth.toLowerCase().startsWith('bearer ')) return auth.slice(7).trim();
+        // Consult OpenAPI spec for apiKey header names
+        const apiKeyHeaders = getApiKeyHeaderNames(req);
+        for (const h of apiKeyHeaders) {
+            const val = req.headers?.[h];
+            if (val) return String(val);
+        }
         const cookies = parseCookies(req);
         if (cookies[cookieName]) return cookies[cookieName];
         return null;
@@ -158,7 +183,7 @@ export function createFastifyAuth() {
     const misconfigured = (reply) =>
         reply.code(500).send({ ok: false, error: 'auth misconfigured' });
 
-    // Build a verifier once based on mode
+    // Build a verifier once based on mode. Returns { user, reason }.
     let verifyToken;
     if (mode === 'static') {
         // timingSafeEqual requires equal-length Buffers; normalize safely
@@ -167,10 +192,10 @@ export function createFastifyAuth() {
             const tokBuf = Buffer.from(String(token));
             for (const b of staticBufs) {
                 if (b.length === tokBuf.length && timingSafeEqual(b, tokBuf)) {
-                    return { sub: 'static', mode: 'static' };
+                    return { user: { sub: 'static', mode: 'static' } };
                 }
             }
-            return null;
+            return { user: null, reason: 'static_no_match' };
         };
     } else if (mode === 'jwt') {
         verifyToken = async (token) => {
@@ -182,7 +207,7 @@ export function createFastifyAuth() {
                         iss: jwtIssuer,
                         aud: jwtAudience,
                     });
-                    return payload;
+                    return { user: payload };
                 } catch (err) {
                     if (/missing jwks/i.test(String(err?.message)) && jwtSecret) {
                         const { payload } = await jwtVerify(String(token), key, {
@@ -190,21 +215,27 @@ export function createFastifyAuth() {
                             iss: jwtIssuer,
                             aud: jwtAudience,
                         });
-                        return payload;
+                        return { user: payload };
+                    }
+                    const msg = String(err?.message || err);
+                    if (
+                        /(unauthorized|bad signature|expired|not active|iss|aud|malformed|bad header|bad payload|unsupported alg)/i.test(
+                            msg,
+                        )
+                    ) {
+                        return { user: null, reason: msg };
                     }
                     throw err;
                 }
             } catch (e) {
-                // Bubble up for uniform 401 mapping below
                 const msg = String(e?.message || e);
                 if (
                     /(unauthorized|bad signature|expired|not active|iss|aud|malformed|bad header|bad payload|unsupported alg)/i.test(
                         msg,
                     )
                 ) {
-                    return null;
+                    return { user: null, reason: msg };
                 }
-                // Anything else (e.g., key fetch issues) becomes 500 in handler
                 throw e;
             }
         };
@@ -220,14 +251,55 @@ export function createFastifyAuth() {
         if (!verifyToken) return misconfigured(reply);
 
         const token = getToken(req);
-        if (!token) return unauthorized(reply);
+        if (!token) {
+            logger.audit('auth_unauthorized', {
+                reason: 'missing_token',
+                mode,
+                path: req.raw?.url || req.url,
+                method: req.method,
+                ip: req.ip,
+                xff: req.headers['x-forwarded-for'],
+                ua: req.headers['user-agent'],
+            });
+            return unauthorized(reply);
+        }
 
         try {
-            const user = await verifyToken(token);
-            if (!user) return unauthorized(reply);
-            req.user = user;
+            // Consolidation: accept API keys as bearer tokens (single token flow)
+            try {
+                await initMongo();
+                const user = await User.findOne({ apiKey: token });
+                if (user) {
+                    req.user = user;
+                    return;
+                }
+            } catch {}
+
+            const vr = await verifyToken(token);
+            if (!vr || !vr.user) {
+                logger.audit('auth_unauthorized', {
+                    reason: vr?.reason || 'invalid_token',
+                    mode,
+                    path: req.raw?.url || req.url,
+                    method: req.method,
+                    ip: req.ip,
+                    xff: req.headers['x-forwarded-for'],
+                    ua: req.headers['user-agent'],
+                });
+                return unauthorized(reply);
+            }
+            req.user = vr.user;
             return;
-        } catch {
+        } catch (e) {
+            logger.audit('auth_misconfigured', {
+                reason: String(e?.message || e),
+                mode,
+                path: req.raw?.url || req.url,
+                method: req.method,
+                ip: req.ip,
+                xff: req.headers['x-forwarded-for'],
+                ua: req.headers['user-agent'],
+            });
             return misconfigured(reply);
         }
     }
@@ -236,11 +308,45 @@ export function createFastifyAuth() {
         fastify.get('/auth/me', async (req, reply) => {
             if (!enabled) return reply.send({ ok: true, auth: false, cookie: cookieName });
             const t = getToken(req);
-            if (!t) return reply.code(401).send({ ok: false, error: 'unauthorized' });
+            if (!t) {
+                logger.audit('auth_me_unauthorized', {
+                    reason: 'missing_token',
+                    mode,
+                    path: req.raw?.url || req.url,
+                    method: req.method,
+                    ip: req.ip,
+                    xff: req.headers['x-forwarded-for'],
+                    ua: req.headers['user-agent'],
+                });
+                return reply.code(401).send({ ok: false, error: 'unauthorized' });
+            }
             try {
+                // Accept API key as bearer for me-check too
+                try {
+                    await initMongo();
+                    const user = await User.findOne({ apiKey: t });
+                    if (user)
+                        return reply.send({
+                            ok: true,
+                            auth: true,
+                            mode: 'apiKey',
+                            cookie: cookieName,
+                        });
+                } catch {}
                 if (mode === 'static') {
                     const ok = staticTokens.some((x) => timingSafeEqual(x, t));
-                    if (!ok) return reply.code(401).send({ ok: false, error: 'unauthorized' });
+                    if (!ok) {
+                        logger.audit('auth_me_unauthorized', {
+                            reason: 'static_no_match',
+                            mode,
+                            path: req.raw?.url || req.url,
+                            method: req.method,
+                            ip: req.ip,
+                            xff: req.headers['x-forwarded-for'],
+                            ua: req.headers['user-agent'],
+                        });
+                        return reply.code(401).send({ ok: false, error: 'unauthorized' });
+                    }
                     return reply.send({ ok: true, auth: true, mode: 'static', cookie: cookieName });
                 }
                 if (mode === 'jwt') {
@@ -263,11 +369,38 @@ export function createFastifyAuth() {
                                 cookie: cookieName,
                             });
                         }
+                        logger.audit('auth_me_unauthorized', {
+                            reason: msg || 'invalid_token',
+                            mode,
+                            path: req.raw?.url || req.url,
+                            method: req.method,
+                            ip: req.ip,
+                            xff: req.headers['x-forwarded-for'],
+                            ua: req.headers['user-agent'],
+                        });
                         throw err;
                     }
                 }
+                logger.audit('auth_me_misconfigured', {
+                    reason: 'unknown_mode',
+                    mode,
+                    path: req.raw?.url || req.url,
+                    method: req.method,
+                    ip: req.ip,
+                    xff: req.headers['x-forwarded-for'],
+                    ua: req.headers['user-agent'],
+                });
                 return reply.code(500).send({ ok: false, error: 'auth misconfigured' });
             } catch {
+                logger.audit('auth_me_unauthorized', {
+                    reason: 'invalid_token',
+                    mode,
+                    path: req.raw?.url || req.url,
+                    method: req.method,
+                    ip: req.ip,
+                    xff: req.headers['x-forwarded-for'],
+                    ua: req.headers['user-agent'],
+                });
                 return reply.code(401).send({ ok: false, error: 'unauthorized' });
             }
         });

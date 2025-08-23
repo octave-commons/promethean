@@ -45,8 +45,17 @@ npm start
 # http://0.0.0.0:3210/dashboard     # alias to index.html
 ```
 
-## Auth (OAuth/JWT)
-- Disabled by default. Enable protection with env vars.
+## API Versions
+
+- `/v0/*`: legacy endpoints (migrated from root). Backwards-compatible behavior but now under a `v0` prefix.
+- `/v1/*`: consolidated endpoints with enriched contracts and RBAC preHandlers.
+
+ Both versions now support a single-token flow: you can pass your API key as a bearer token and it will authorize + satisfy RBAC.
+
+## Auth (single-token)
+- Disabled by default. Enable protection with env vars. One token is enough:
+  - Use `Authorization: Bearer <user.apiKey>` for simplest flow, or
+  - Use a JWT via the settings below.
 
 Quick start (static bearer token):
 ```bash
@@ -55,8 +64,9 @@ export AUTH_MODE=static
 export AUTH_TOKENS=supersecret1,supersecret2   # comma-separated
 ```
 Then call APIs with `Authorization: Bearer supersecret1` or set a cookie `smartgpt_auth=supersecret1`.
+You can also use `Authorization: Bearer <user.apiKey>` to authenticate with your stored user.
 
-JWT (HS256) verification:
+JWT (HS256/JWKS) verification:
 ```bash
 export AUTH_ENABLED=true
 export AUTH_MODE=jwt
@@ -67,30 +77,32 @@ export AUTH_JWT_AUDIENCE=promethean-smartgpt-bridge
 ```
 
 Notes:
-- `/openapi.json` and `/auth/me` are always accessible; all other routes are protected when auth is enabled.
+- `/openapi.json` is always accessible. `/auth/me` requires a valid token when auth is enabled.
 - For full OIDC with JWKS, terminate at your identity proxy (e.g., oauth2-proxy) and forward an ID/JWT token; the bridge will validate it as a bearer.
+- RBAC on `/v1/*` uses user roles. When using JWTs, include a `roles` array in the payload if you want RBAC to succeed without an API key.
+- The authorization layer reads the active OpenAPI `securitySchemes` to discover header names (e.g., `apiKey` in header). If the spec defines an apiKey in header, that header is accepted as the credential source in addition to `Authorization: Bearer ...` and cookies.
 
-## Key endpoints
-- `POST /reindex` — full Chroma index
-- `POST /files/reindex` — subset index by glob(s)
-- `GET  /indexer/status` — queue mode, progress, bootstrap cursor
-- `POST /indexer/reset` — reset saved state and restart bootstrap (when idle)
-- `POST /search` — semantic search
-- `POST /grep` — regex search
-- `GET  /files/view?path=<rel-or-fuzzy>&line=123&context=25`
-- `POST /stacktrace/locate` — parse stack trace → snippets
-- `POST /symbols/index` — build TS/JS symbol index
-- `POST /symbols/find` — symbol lookup
-- `POST /agent/start` — start codex with super-prompt
-- `GET  /agent/stream?id=…` — live SSE logs
-- `GET  /agent/status?id=…`, `GET /agent/logs?id=…&since=0`
-- `POST /agent/send`, `/agent/interrupt`, `/agent/kill`, `/agent/resume`
+## Key endpoints (v0)
+- `POST /v0/reindex` — full Chroma index
+- `POST /v0/files/reindex` — subset index by glob(s)
+- `GET  /v0/indexer/status` — queue mode, progress, bootstrap cursor
+- `POST /v0/indexer/reset` — reset saved state and restart bootstrap (when idle)
+- `POST /v0/search` — semantic search
+- `POST /v0/grep` — regex search
+- `GET  /v0/files/view?path=<rel-or-fuzzy>&line=123&context=25`
+- `POST /v0/stacktrace/locate` — parse stack trace → snippets
+- `POST /v0/symbols/index` — build TS/JS symbol index
+- `POST /v0/symbols/find` — symbol lookup
+- `POST /v0/agent/start` — start codex with super-prompt
+- `GET  /v0/agent/stream?id=…` — live SSE logs
+- `GET  /v0/agent/status?id=…`, `GET /v0/agent/logs?id=…&since=0`
+- `POST /v0/agent/send`, `/v0/agent/interrupt`, `/v0/agent/kill`, `/v0/agent/resume`
 
 ### Agent API (for AI)
 
 Use these endpoints to launch and supervise Codex CLI tasks. Prefer sandboxing when running with approvals bypass.
 
-- `POST /agent/start`
+- `POST /v0/agent/start`
   - Purpose: Start a new Codex process under the PTY-based AgentSupervisor.
   - Request fields:
     - `prompt` string: The Codex command/prompt to execute.
@@ -101,15 +113,17 @@ Use these endpoints to launch and supervise Codex CLI tasks. Prefer sandboxing w
   - Examples:
     ```bash
     # Simple run
-    curl -sX POST localhost:3210/agent/start \
+    curl -sX POST localhost:3210/v0/agent/start \
       -H 'content-type: application/json' \
+      -H 'authorization: Bearer <user.apiKey>' \
       -d '{
         "prompt": "ls -la"
       }'
 
     # Codex bypass mode, sandboxed in nsjail
-    curl -sX POST localhost:3210/agent/start \
+    curl -sX POST localhost:3210/v0/agent/start \
       -H 'content-type: application/json' \
+      -H 'authorization: Bearer <user.apiKey>' \
       -d '{
         "prompt": "npm run build",
         "bypassApprovals": true,
@@ -129,38 +143,39 @@ Use these endpoints to launch and supervise Codex CLI tasks. Prefer sandboxing w
     }
     ```
 
-- `GET /agent/status?id=…` or `/agent/status/{id}`
+- `GET /v0/agent/status?id=…` or `/v0/agent/status/{id}`
   - Purpose: Inspect agent metadata.
   - Returns: prompt, startedAt, exited flag, sandbox mode, bypass flag, logfile.
   - Example:
     ```bash
-    curl -s localhost:3210/agent/status/agent_nX9z...
+    curl -s -H 'authorization: Bearer <user.apiKey>' localhost:3210/v0/agent/status/agent_nX9z...
     ```
 
-- `GET /agent/stream?id=…`
+- `GET /v0/agent/stream?id=…`
   - Purpose: Live log stream via Server-Sent Events (SSE).
   - Emits an initial `replay` event with recent buffer, then `data` events as the process writes output.
   - Example:
     ```bash
-    curl -N 'localhost:3210/agent/stream?id=agent_nX9z...'
+    curl -N -H 'authorization: Bearer <user.apiKey>' 'localhost:3210/v0/agent/stream?id=agent_nX9z...'
     ```
 
-- `GET /agent/logs?id=…&bytes=8192` and `GET /agent/tail?id=…&bytes=8192`
+- `GET /v0/agent/logs?id=…&bytes=8192` and `GET /v0/agent/tail?id=…&bytes=8192`
   - Purpose: Fetch last N bytes of the log buffer.
 
-- `POST /agent/send`
+- `POST /v0/agent/send`
   - Purpose: Write a line to the PTY (appends newline).
   - Example:
     ```bash
-    curl -sX POST localhost:3210/agent/send \
+    curl -sX POST localhost:3210/v0/agent/send \
       -H 'content-type: application/json' \
+      -H 'authorization: Bearer <user.apiKey>' \
       -d '{"id":"agent_nX9z...","input":"y"}'
     ```
 
-- `POST /agent/interrupt`
+- `POST /v0/agent/interrupt`
   - Purpose: Emulate Ctrl-C (sends `\u0003` to PTY).
 
-- `POST /agent/kill`
+- `POST /v0/agent/kill`
   - Purpose: Terminate the agent process.
 
 Security notes for AI
@@ -180,6 +195,26 @@ Security notes for AI
 node-pty is lazy‑loaded; install when needed:
 ```bash
 pnpm add node-pty
+```
+
+## Logging
+
+Configure structured logging via environment variables:
+
+- `LOG_LEVEL`: one of `error`, `warn`, `info` (default), `debug`, `trace`.
+- `LOG_JSON`: set to `true` to emit JSON lines.
+- `LOG_FILE`: path to append logs (optional). When set, logs are written to both file and console.
+
+Security auditing
+- All unauthorized attempts are always logged at an audit level, regardless of `LOG_LEVEL`.
+- Entries include timestamp, method, path, IP (`req.ip` and `x-forwarded-for`), user-agent, mode, and the exact rejection reason when available.
+- RBAC rejections (403) are also audited with user/roles, action, and resource.
+
+Examples
+```bash
+export LOG_LEVEL=debug
+export LOG_JSON=true
+export LOG_FILE=./logs/bridge.log
 ```
 
 ## Dashboard

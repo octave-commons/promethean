@@ -4,10 +4,10 @@ import { withServer } from '../helpers/server.js';
 
 const ROOT = path.join(process.cwd(), 'tests', 'fixtures');
 
-test('GET /files/view returns snippet', async (t) => {
+test('GET /v0/files/view returns snippet', async (t) => {
     await withServer(ROOT, async (req) => {
         const res = await req
-            .get('/files/view')
+            .get('/v0/files/view')
             .query({ path: 'readme.md', line: 3, context: 1 })
             .expect(200);
         t.true(res.body.ok);
@@ -20,7 +20,7 @@ test('POST /grep returns match and respects flags', async (t) => {
     await withServer(ROOT, async (req) => {
         // Case-sensitive should fail for 'heading'
         const resCase = await req
-            .post('/grep')
+            .post('/v0/grep')
             .send({ pattern: 'heading', flags: 'g', paths: ['**/*.md'], context: 1 })
             .expect(200);
         t.true(resCase.body.ok);
@@ -29,7 +29,7 @@ test('POST /grep returns match and respects flags', async (t) => {
 
         // Case-insensitive should succeed
         const res = await req
-            .post('/grep')
+            .post('/v0/grep')
             .send({ pattern: 'heading', flags: 'i', paths: ['**/*.md'], context: 1 })
             .expect(200);
         t.true(res.body.ok);
@@ -48,7 +48,7 @@ test('POST /stacktrace/locate resolves file:line:col', async (t) => {
     const trace = `${path.join(ROOT, 'hello.ts')}:2:10`;
     await withServer(ROOT, async (req) => {
         const res = await req
-            .post('/stacktrace/locate')
+            .post('/v0/stacktrace/locate')
             .send({ text: trace, context: 1 })
             .expect(200);
         t.true(res.body.ok);
@@ -61,11 +61,11 @@ test('POST /stacktrace/locate resolves file:line:col', async (t) => {
 test('POST /grep invalid or missing pattern returns 400', async (t) => {
     await withServer(ROOT, async (req) => {
         const badRx = await req
-            .post('/grep')
+            .post('/v0/grep')
             .send({ pattern: '(*invalid', paths: ['**/*.md'] })
             .expect(400);
         t.false(badRx.body.ok);
-        const missing = await req.post('/grep').send({}).expect(400);
+        const missing = await req.post('/v0/grep').send({}).expect(400);
         t.regex(missing.body.message || '', /pattern/);
     });
 });
@@ -73,7 +73,7 @@ test('POST /grep invalid or missing pattern returns 400', async (t) => {
 test('GET /files/view with missing file returns 404', async (t) => {
     await withServer(ROOT, async (req) => {
         const res = await req
-            .get('/files/view')
+            .get('/v0/files/view')
             .query({ path: 'nope.md', line: 1, context: 1 })
             .expect(404);
         t.false(res.body.ok);
