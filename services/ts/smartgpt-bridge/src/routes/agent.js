@@ -75,6 +75,11 @@ export function registerAgentRoutes(fastify) {
                 const status = sup.status(id) || {};
                 reply.send({ ok: true, ...status });
             } catch (e) {
+                const name = e?.name || '';
+                const msg = String(e?.message || e || '');
+                if (name === 'PTY_UNAVAILABLE' || msg.includes('PTY_UNAVAILABLE')) {
+                    return reply.code(503).send({ ok: false, error: 'pty_unavailable' });
+                }
                 reply.code(500).send({ ok: false, error: String(e?.message || e) });
             }
         },

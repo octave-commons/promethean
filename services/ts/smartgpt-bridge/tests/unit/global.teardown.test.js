@@ -1,5 +1,6 @@
 import test from 'ava';
 import { resetChroma, setEmbeddingFactory, setChromaClient } from '../../src/indexer.js';
+import { cleanupMongo } from '../../src/mongo.js';
 
 test('teardown placeholder', (t) => {
     t.pass();
@@ -19,5 +20,8 @@ test.after.always('global teardown', () => {
                 upsert: async () => {},
             }),
         });
+    } catch {}
+    try {
+        cleanupMongo();
     } catch {}
 });
