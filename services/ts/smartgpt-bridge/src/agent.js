@@ -272,6 +272,11 @@ export const supervisor = new AgentSupervisor();
 // --- PTY-backed supervisor using node-pty (lazy loaded) ---
 let PTY_LIB = null;
 async function getPtyLib() {
+    if (process.env.NODE_PTY_DISABLED === '1') {
+        const err = new Error('PTY_UNAVAILABLE');
+        err.name = 'PTY_UNAVAILABLE';
+        throw err;
+    }
     if (PTY_LIB) return PTY_LIB;
     try {
         const mod = await import('node-pty');
@@ -279,9 +284,9 @@ async function getPtyLib() {
         PTY_LIB = mod.default || mod;
         return PTY_LIB;
     } catch (e) {
-        throw new Error(
-            'node-pty is not installed. Run pnpm add node-pty inside services/ts/smartgpt-bridge.',
-        );
+        const err = new Error('PTY_UNAVAILABLE');
+        err.name = 'PTY_UNAVAILABLE';
+        throw err;
     }
 }
 

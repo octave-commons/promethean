@@ -56,6 +56,10 @@ function makeClient(app) {
 
 export const withServer = async (root, fn) => {
     process.env.NODE_ENV = 'test';
+    // Avoid native addon crashes in CI/local when ABI mismatches
+    if (!process.env.NODE_PTY_DISABLED) process.env.NODE_PTY_DISABLED = '1';
+    // Use in-memory Mongo by default for tests
+    if (!process.env.MONGODB_URI) process.env.MONGODB_URI = 'memory';
     const app = buildFastifyApp(root);
     await app.ready();
     try {
