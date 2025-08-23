@@ -1,5 +1,6 @@
 import path from 'path';
 import { AgentSupervisor as NewAgentSupervisor } from '../agentSupervisor.js';
+import { supervisor as defaultSupervisor } from '../agent.js';
 
 // Maintain separate supervisors for different sandbox modes, and a registry mapping id->supervisor
 const SUPS = new Map();
@@ -10,6 +11,12 @@ const AGENT_INDEX = new Map(); // id -> key
 function getSup(fastify, key) {
     const k = key === 'nsjail' ? NSJAIL_KEY : DEFAULT_KEY;
     if (SUPS.has(k)) return SUPS.get(k);
+    // Use the long-lived supervisor from agent.js for the default sandbox so
+    // tests can easily stub its methods without wrestling with new instances.
+    if (k === DEFAULT_KEY) {
+        SUPS.set(k, defaultSupervisor);
+        return defaultSupervisor;
+    }
     const ROOT_PATH = fastify.ROOT_PATH;
     const logDir = path.join(path.dirname(new URL(import.meta.url).pathname), '../logs/agents');
     const sup = new NewAgentSupervisor({
@@ -301,8 +308,13 @@ export function registerAgentRoutes(fastify) {
                 const chunk = sup.logs(id, 2048);
                 reply.raw.write(`event: replay\ndata: ${JSON.stringify({ text: chunk })}\n\n`);
             } catch {}
-            sup.on(id, (data) => {
+            const handler = (data) =>
                 reply.raw.write(`event: data\ndata: ${JSON.stringify({ text: String(data) })}\n\n`);
+            sup.on(id, handler);
+            req.raw.on('close', () => {
+                try {
+                    sup.off(id, handler);
+                } catch {}
             });
         },
     });
@@ -314,7 +326,6 @@ export function registerAgentRoutes(fastify) {
             tags: ['Agent'],
             body: {
                 type: 'object',
-                required: ['id', 'input'],
                 properties: { id: { type: 'string' }, input: { type: 'string' } },
             },
             response: {
@@ -351,8 +362,8 @@ export function registerAgentRoutes(fastify) {
             const key = AGENT_INDEX.get(String(id)) || 'default';
             const sup = getSup(fastify, key);
             try {
-                sup.send(String(id), '\u0003');
-                reply.send({ ok: true });
+                const ok = sup.send(String(id), '\u0003');
+                reply.send({ ok: Boolean(ok) });
             } catch {
                 reply.send({ ok: false });
             }
@@ -390,7 +401,15 @@ export function registerAgentRoutes(fastify) {
             },
         },
         handler: async (req, reply) => {
-            reply.send({ ok: false, error: 'not_supported' });
+            const { id } = req.body || {};
+            const key = AGENT_INDEX.get(String(id)) || 'default';
+            const sup = getSup(fastify, key);
+            try {
+                const ok = sup.resume(String(id || ''));
+                reply.send({ ok });
+            } catch (e) {
+                reply.send({ ok: false, error: String(e?.message || e) });
+            }
         },
     });
 }
