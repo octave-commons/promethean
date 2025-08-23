@@ -14,7 +14,7 @@ test('GET /openapi.json includes servers, schemas, and paths', async (t) => {
             t.truthy(res.body.components?.schemas?.GrepRequest);
             t.true(Array.isArray(res.body.servers));
             t.is(res.body.servers[0].url, process.env.PUBLIC_BASE_URL);
-            t.truthy(res.body.paths?.['/grep']?.post);
+            t.truthy(res.body.paths?.['/v0/grep']?.post);
         });
     } finally {
         if (prev === undefined) delete process.env.PUBLIC_BASE_URL;
