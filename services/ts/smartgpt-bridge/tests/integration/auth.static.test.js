@@ -8,7 +8,7 @@ test.serial('auth disabled by default allows access', async (t) => {
     delete process.env.AUTH_ENABLED;
     await withServer(ROOT, async (req) => {
         const res = await req
-            .get('/files/view')
+            .get('/v0/files/view')
             .query({ path: 'readme.md', line: 1, context: 1 })
             .expect(200);
         t.true(res.body.ok);
@@ -28,12 +28,12 @@ test.serial('auth static token blocks/permits access', async (t) => {
 
         await withServer(ROOT, async (req) => {
             await req
-                .get('/files/view')
+                .get('/v0/files/view')
                 .query({ path: 'readme.md', line: 1, context: 1 })
                 .expect(401);
 
             const ok = await req
-                .get('/files/view')
+                .get('/v0/files/view')
                 .set('Authorization', 'Bearer secret-token')
                 .query({ path: 'readme.md', line: 1, context: 1 })
                 .expect(200);

@@ -12,11 +12,11 @@
 
 (defconst promethean--keywords
   '("def" "defun" "lambda" "let" "let*" "if" "cond" "case" "match" "fn"
-    "import" "export" "module" "macro" "quote" "quasiquote" "unquote" "splice")
+    "import" "export" "module" "macro" "quote" "quasiquote" "unquote" "splice" "include" )
   "Reserved special forms and keywords.")
 
 (defconst promethean--builtins
-  '("+" "-" "*" "/" "=" "not" "and" "or" "car" "cdr" "cons" "list" "map" "reduce")
+  '("+" "-" "*" "/" "=" "not" "and" "or" "car" "cdr" "cons" "list" "map" "reduce" "pipe")
   "Core built-ins/operators.")
 
 ;; ─────────────────────────────────────────────────────────────────────────────

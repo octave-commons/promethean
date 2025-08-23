@@ -22,12 +22,12 @@ class FakeChroma {
     }
 }
 
-test('POST /reindex returns 200 with stubbed chroma', async (t) => {
+test('POST /v0/reindex returns 200 with stubbed chroma', async (t) => {
     const col = new CollectingCollection();
     setChromaClient(new FakeChroma(col));
     setEmbeddingFactory(async () => ({ generate: async () => [] }));
     await withServer(ROOT, async (req) => {
-        const res = await req.post('/reindex').send({ limit: 1 }).expect(200);
+        const res = await req.post('/v0/reindex').send({ limit: 1 }).expect(200);
         t.true(res.body.ok);
     });
 });

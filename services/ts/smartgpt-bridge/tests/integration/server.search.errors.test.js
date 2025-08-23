@@ -11,15 +11,15 @@ class ThrowingChroma {
     }
 }
 
-test('POST /search 500 on chroma error; /files/reindex 400 missing path', async (t) => {
+test('POST /v0/search 500 on chroma error; /v0/files/reindex 400 missing path', async (t) => {
     setChromaClient(new ThrowingChroma());
     setEmbeddingFactory(async () => ({ generate: async () => [] }));
     await withServer(ROOT, async (req) => {
-        const s = await req.post('/search').send({ q: 'x' }).expect(500);
+        const s = await req.post('/v0/search').send({ q: 'x' }).expect(500);
         t.false(s.body.ok);
-        const r = await req.post('/files/reindex').send({}).expect(400);
+        const r = await req.post('/v0/files/reindex').send({}).expect(400);
         t.false(r.body.ok);
-        const missingQ = await req.post('/search').send({}).expect(400);
+        const missingQ = await req.post('/v0/search').send({}).expect(400);
         t.is(missingQ.status, 400);
     });
 });

@@ -86,7 +86,11 @@ export async function registerV1Routes(app) {
                     },
                 },
             },
-            handler: proxy(v1, 'GET', (req) => `/files/list?${querystring.stringify(req.query)}`),
+            handler: proxy(
+                v1,
+                'GET',
+                (req) => `/v0/files/list?${querystring.stringify(req.query)}`,
+            ),
         });
 
         v1.get('/files/*', {
