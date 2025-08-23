@@ -136,6 +136,9 @@ export function createFastifyAuth() {
 
     async function preHandler(req, reply) {
         if (!enabled) return;
+        const url = req.url || '';
+        const publicDocs = /^true$/i.test(process.env.OPENAPI_PUBLIC || 'false');
+        if (publicDocs && (url === '/openapi.json' || url.startsWith('/docs'))) return;
         const token = getToken(req);
         if (!token) return reply.code(401).send({ ok: false, error: 'unauthorized' });
         try {

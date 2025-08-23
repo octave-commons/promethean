@@ -66,7 +66,7 @@ test('POST /grep invalid or missing pattern returns 400', async (t) => {
             .expect(400);
         t.false(badRx.body.ok);
         const missing = await req.post('/grep').send({}).expect(400);
-        t.false(missing.body.ok);
+        t.regex(missing.body.message || '', /pattern/);
     });
 });
 

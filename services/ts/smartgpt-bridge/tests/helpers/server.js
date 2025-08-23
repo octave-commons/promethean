@@ -1,4 +1,5 @@
 import { buildFastifyApp } from '../../src/fastifyApp.js';
+import { cleanupMongo } from '../../src/mongo.js';
 
 function makeClient(app) {
     const u = (path, query) => {
@@ -61,11 +62,15 @@ export const withServer = async (root, fn) => {
     // Use in-memory Mongo by default for tests
     if (!process.env.MONGODB_URI) process.env.MONGODB_URI = 'memory';
     const app = buildFastifyApp(root);
+    // Stub RBAC hooks so tests don't require seeded users/policies
+    app.authUser = async () => ({ id: 'test' });
+    app.requirePolicy = () => async () => {};
     await app.ready();
     try {
         const client = makeClient(app);
         return await fn(client);
     } finally {
         await app.close();
+        await cleanupMongo();
     }
 };
