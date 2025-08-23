@@ -1,9 +1,13 @@
-import express from 'express';
+import express, { Application } from 'express';
 import bodyParser from 'body-parser';
 import { MongoClient } from 'mongodb';
 import { GraphDB } from './graph.js';
 
-export async function createApp(mongoUrl: string, repoPath: string, coldStart = false) {
+export async function createApp(
+    mongoUrl: string,
+    repoPath: string,
+    coldStart = false,
+): Promise<Application> {
     const client = new MongoClient(mongoUrl);
     await client.connect();
     const db = new GraphDB(client, repoPath);
@@ -36,7 +40,7 @@ export async function createApp(mongoUrl: string, repoPath: string, coldStart = 
 }
 
 export async function handleTask(
-    app: express.Express,
+    app: Application,
     task: { payload?: { path?: string; content?: string } },
 ) {
     const payload = task?.payload || {};
