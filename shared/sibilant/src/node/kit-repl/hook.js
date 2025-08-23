@@ -1,10 +1,9 @@
-module.exports = function(obj) {
-
+module.exports = function (obj) {
     if (obj.hook || obj.unhook) {
         throw new Error('Object already has properties hook and/or unhook');
     }
 
-    obj.hook = function(_meth_name, _fn, _is_async) {
+    obj.hook = function (_meth_name, _fn, _is_async) {
         var self = this,
             meth_ref;
 
@@ -19,12 +18,12 @@ module.exports = function(obj) {
         }
 
         // Reference default method
-        meth_ref = (self.unhook.methods[_meth_name] = self[_meth_name]);
+        meth_ref = self.unhook.methods[_meth_name] = self[_meth_name];
 
-        self[_meth_name] = function() {
+        self[_meth_name] = function () {
             var args = Array.prototype.slice.call(arguments);
 
-            // Our hook should take the same number of arguments 
+            // Our hook should take the same number of arguments
             // as the original method so we must fill with undefined
             // optional args not provided in the call
             while (args.length < meth_ref.length) {
@@ -32,11 +31,11 @@ module.exports = function(obj) {
             }
 
             // Last argument is always original method call
-            args.push(function() {
+            args.push(function () {
                 var args = arguments;
 
                 if (_is_async) {
-                    process.nextTick(function() {
+                    process.nextTick(function () {
                         meth_ref.apply(self, args);
                     });
                 } else {
@@ -48,7 +47,7 @@ module.exports = function(obj) {
         };
     };
 
-    obj.unhook = function(_meth_name) {
+    obj.unhook = function (_meth_name) {
         var self = this,
             ref = self.unhook.methods[_meth_name];
 

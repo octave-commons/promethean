@@ -1,6 +1,0 @@
-; shared/sibilant/prom/evolve.sib (pseudo)
-(defn upcast->latest [topic e]
-  (.toLatest up topic e schema-reg))
-
-(defmacro dual-write! [bus topic payload]
-  `(.publish ~bus ~topic ~payload {:headers {"x-source" "sib"}}))

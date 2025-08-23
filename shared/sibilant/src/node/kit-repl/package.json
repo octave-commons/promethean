@@ -9,7 +9,7 @@
         "@kit-js/core": "^1.3.1",
         "@kit-js/interface": "^2.0.4",
         "sibilant": "git+https://github.com/riatzukiza/lithp.git",
-        "kit-actor":"git+https://github.com/riatzukiza/kit-actor.git"
+        "kit-actor": "git+https://github.com/riatzukiza/kit-actor.git"
     },
     "devDependencies": {},
     "scripts": {

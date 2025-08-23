@@ -22,6 +22,8 @@ kanban-plugin: board
 - [ ] Set up proper openai custom gpt compatable oauth login flow
 - [ ] [[stabilize-kanban-scripts.md|Stabilize board automation scripts and process]]
 - [ ] Add make commands to gpt bridge
+- [ ] Add tool calls to codex context
+- [ ] MVP local LLM chat interface with tool calls connected to gpt bridge
 
 
 ## Accepted
@@ -80,16 +82,16 @@ kanban-plugin: board
 
 ## In Review (8)
 
-- [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids.md|identify and resolve a service client apparently connecting repeatedly to broker with new session ids]] #in-review
-- [ ] [[create_base_readme_md_templates_for_each_service_md.md|create base readme md templates for each service]] #doc-this #framework-core #ritual #in-review
-- [ ] [[update_cephalon_to_use_custom_embedding_function_md_md.md|Update cephalon to use custom embedding function]] #framework-core #cephalon #discord #embedding #typescript #in-review
-- [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push md]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
 
 
 ## Done
 
+- [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push md]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
+- [ ] [[create_base_readme_md_templates_for_each_service_md.md|create base readme md templates for each service]] #doc-this #framework-core #ritual #in-review
+- [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids.md|identify and resolve a service client apparently connecting repeatedly to broker with new session ids]] #in-review
 - [ ] [[OpenAI compatable api]]
+- [ ] [[update_cephalon_to_use_custom_embedding_function_md_md.md|Update cephalon to use custom embedding function]] #framework-core #cephalon #discord #embedding #typescript #in-review
 - [ ] [[discord_image_attachment_indexer_md.md|discord image attachment indexer md]] #framework-core #discord #images #attachments #indexing #memory #done
 - [ ] [[clearly_seperate_service_dependency_files_md.md|clearly seperate service dependency files md]] #devops #cicd #done
 - [ ] [[add_obsidian_to_gitignore_md_md.md|Add .obsidian to .gitignore]] #framework-core #done
