@@ -25,7 +25,7 @@ import svc_vision from './services/js/vision/ecosystem.config.js';
 import svc_llm from './services/ts/llm/ecosystem.config.js';
 import svc_heartbeat from './services/js/heartbeat/ecosystem.config.js';
 import svc_proxy from './services/js/proxy/ecosystem.config.js';
-import svc_eidolon from './services/js/eidolon-field/ecosystem.config.js';
+// import svc_eidolon from './services/js/eidolon-field/ecosystem.config.js';
 import svc_mdgraph from './services/ts/markdown-graph/ecosystem.config.js';
 import svc_broker from './services/js/broker/ecosystem.config.js';
 import svc_health from './services/js/health/ecosystem.config.js';
@@ -42,7 +42,7 @@ const svcMods = [
     svc_llm,
     svc_heartbeat,
     svc_proxy,
-    svc_eidolon,
+    // svc_eidolon,
     svc_mdgraph,
     svc_broker,
     svc_health,
