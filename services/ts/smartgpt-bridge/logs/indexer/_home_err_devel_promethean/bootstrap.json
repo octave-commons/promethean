@@ -48,6 +48,7 @@
         "pseudo/AGENT.md",
         "run/setup_codex_dev_env.sh",
         "shared/permissions.yaml",
+        "site/README.md",
         "scripts/README.md",
         "scripts/__init__.py",
         "scripts/add_tags_ollama.py",
@@ -82,7 +83,6 @@
         "scripts/tts_request.py",
         "scripts/vision_request.py",
         "scripts/whisper_test.py",
-        "site/README.md",
         "tests/brokerClient.test.js",
         "tests/intention.test.js",
         "tests/portfolio.test.js",
@@ -189,6 +189,7 @@
         "docs/tools/lisp-cli.md",
         "docs/vault-config/README.md",
         "docs/vault-config/example board.md",
+        "pseudo/templates/README.md",
         "docs/unique/2025.07.28.11.07.04 Autohotkey.md",
         "docs/unique/2025.07.28.11.07.18 Lisp DSL.md",
         "docs/unique/2025.07.28.11.07.38 komorebic-group-window-hack.md",
@@ -322,7 +323,6 @@
         "docs/unique/ripple-propagation-demo.md",
         "docs/unique/sibilant-metacompiler-overview.md",
         "docs/unique/template-based-compilation.md",
-        "pseudo/templates/README.md",
         "services/templates/README.md",
         "services/templates/board-updater_README.template.md",
         "services/templates/broker_README.template.md",
@@ -345,7 +345,6 @@
         "shared/js/brokerClient.js",
         "shared/js/env.d.ts",
         "shared/js/env.js",
-        "shared/js/package-lock.json",
         "shared/js/package.json",
         "shared/js/permissionGate.d.ts",
         "shared/js/permissionGate.js",
@@ -884,7 +883,6 @@
         "services/js/broker/ecosystem.dependencies.js",
         "services/js/broker/eslint.config.js",
         "services/js/broker/index.js",
-        "services/js/broker/package-lock.json",
         "services/js/broker/package.json",
         "services/js/event-gateway/index.ts",
         "services/js/event-hub/evolve.ts",
@@ -893,28 +891,32 @@
         "services/js/health/ecosystem.dependencies.js",
         "services/js/health/eslint.config.js",
         "services/js/health/index.js",
-        "services/js/health/package-lock.json",
         "services/js/health/package.json",
         "services/js/heartbeat/README.md",
         "services/js/heartbeat/ecosystem.config.js",
         "services/js/heartbeat/ecosystem.dependencies.js",
         "services/js/heartbeat/eslint.config.js",
         "services/js/heartbeat/index.js",
-        "services/js/heartbeat/package-lock.json",
         "services/js/heartbeat/package.json",
+        "legacy/sibilant-modules/symbiant/build.js",
+        "legacy/sibilant-modules/symbiant/codepen.js",
+        "legacy/sibilant-modules/symbiant/ecosystem.config.js",
+        "legacy/sibilant-modules/symbiant/exec.js",
+        "legacy/sibilant-modules/symbiant/index.js",
+        "legacy/sibilant-modules/symbiant/package-lock.json",
+        "legacy/sibilant-modules/symbiant/package.json",
+        "legacy/sibilant-modules/symbiant/readme.md",
         "services/js/proxy/README.md",
         "services/js/proxy/ecosystem.config.js",
         "services/js/proxy/ecosystem.dependencies.js",
         "services/js/proxy/eslint.config.js",
         "services/js/proxy/index.js",
-        "services/js/proxy/package-lock.json",
         "services/js/proxy/package.json",
         "services/js/vision/README.md",
         "services/js/vision/ecosystem.config.js",
         "services/js/vision/ecosystem.dependencies.js",
         "services/js/vision/eslint.config.js",
         "services/js/vision/index.js",
-        "services/js/vision/package-lock.json",
         "services/js/vision/package.json",
         "services/js/vision/run.sh",
         "services/py/discord_attachment_embedder/README.md",
@@ -957,8 +959,6 @@
         "services/py/tts/sitecustomize.py",
         "services/ts/cephalon/biome.json",
         "services/ts/cephalon/defaultPrompt.txt",
-        "services/ts/cephalon/ecosystem.config.js",
-        "services/ts/cephalon/ecosystem.dependencies.js",
         "services/ts/cephalon/package-lock.json",
         "services/ts/cephalon/package.json",
         "services/ts/cephalon/readme.md",
@@ -966,22 +966,17 @@
         "services/ts/cephalon/tsconfig.eslint.json",
         "services/ts/cephalon/tsconfig.json",
         "services/ts/codex-context/README.md",
-        "services/ts/codex-context/ecosystem.config.js",
         "services/ts/codex-context/package.json",
         "services/ts/codex-context/tsconfig.json",
         "services/ts/codex-orchestrator/README.md",
         "services/ts/codex-orchestrator/package.json",
         "services/ts/codex-orchestrator/tsconfig.json",
         "services/ts/discord-embedder/README.md",
-        "services/ts/discord-embedder/ecosystem.config.js",
-        "services/ts/discord-embedder/ecosystem.dependencies.js",
         "services/ts/discord-embedder/package-lock.json",
         "services/ts/discord-embedder/package.json",
         "services/ts/discord-embedder/tsconfig.eslint.json",
         "services/ts/discord-embedder/tsconfig.json",
         "services/ts/file-watcher/README.md",
-        "services/ts/file-watcher/ecosystem.config.js",
-        "services/ts/file-watcher/ecosystem.dependencies.js",
         "services/ts/file-watcher/package-lock.json",
         "services/ts/file-watcher/package.json",
         "services/ts/file-watcher/run.sh",
@@ -992,25 +987,17 @@
         "services/ts/llm-bridge/package-lock.json",
         "services/ts/llm-bridge/package.json",
         "services/ts/kanban-processor/README.md",
-        "services/ts/kanban-processor/ecosystem.config.js",
-        "services/ts/kanban-processor/ecosystem.dependencies.js",
         "services/ts/kanban-processor/package-lock.json",
         "services/ts/kanban-processor/package.json",
         "services/ts/kanban-processor/tsconfig.eslint.json",
         "services/ts/kanban-processor/tsconfig.json",
         "services/ts/llm/README.md",
-        "services/ts/llm/ecosystem.config.js",
-        "services/ts/llm/ecosystem.dependencies.js",
         "services/ts/llm/package.json",
         "services/ts/llm/run.sh",
         "services/ts/markdown-graph/biome.json",
-        "services/ts/markdown-graph/ecosystem.config.js",
-        "services/ts/markdown-graph/ecosystem.dependencies.js",
         "services/ts/markdown-graph/package-lock.json",
         "services/ts/markdown-graph/package.json",
         "services/ts/markdown-graph/tsconfig.json",
-        "services/ts/reasoner/ecosystem.config.js",
-        "services/ts/reasoner/ecosystem.dependencies.js",
         "services/ts/reasoner/package.json",
         "services/ts/reasoner/tsconfig.json",
         "services/ts/smart-env-lite/README.md",
@@ -1021,8 +1008,6 @@
         "services/ts/smartgpt-bridge/ecosystem.config.js",
         "services/ts/smartgpt-bridge/package.json",
         "services/ts/voice/README.md",
-        "services/ts/voice/ecosystem.config.js",
-        "services/ts/voice/ecosystem.dependencies.js",
         "services/ts/voice/package-lock.json",
         "services/ts/voice/package.json",
         "services/ts/voice/tsconfig.json",
@@ -1151,8 +1136,6 @@
         "legacy/sibilant-modules/electron-kit/js/electron-init.js",
         "legacy/sibilant-modules/electron-kit/js/evaluator.js",
         "legacy/sibilant-modules/electron-kit/js/server.js",
-        "legacy/sibilant-modules/Algae-speciation-tech-demo/app/list.js",
-        "legacy/sibilant-modules/Algae-speciation-tech-demo/app/util.js",
         "legacy/sibilant-modules/game-of-life-gpu/bundles/antity.js",
         "legacy/sibilant-modules/game-of-life-gpu/bundles/ants.js",
         "legacy/sibilant-modules/game-of-life-gpu/bundles/dependencies.js",
@@ -1320,7 +1303,6 @@
         "services/py/embedding_service/drivers/transformers_driver.py",
         "services/py/embedding_service/tests/test_service.py",
         "services/py/stt/tests/test_service.py",
-        "services/py/stt/whisper-npu/README.md",
         "services/py/stt/whisper-npu-py/audio.py",
         "services/py/stt/whisper-npu-py/beam_decoder.py",
         "services/py/stt/whisper-npu-py/cache.py",
@@ -1333,6 +1315,7 @@
         "services/py/stt/whisper-npu-py/readme.md",
         "services/py/stt/whisper-npu-py/whisper.py",
         "services/py/stt/whisper-npu-py/whisper_streamer.py",
+        "services/py/stt/whisper-npu/README.md",
         "services/py/stt/whisper_npu/__init__.py",
         "services/py/stt/whisper_npu/audio.py",
         "services/py/stt/whisper_npu/config.py",
@@ -1361,6 +1344,41 @@
         "legacy/sibilant-modules/symbiant/lib/sibilant.js",
         "legacy/sibilant-modules/symbiant/lib/util.js",
         "services/py/tts/tests/test_tts_websocket.py",
+        "services/js/broker/tests/broker.test.js",
+        "services/js/eidolon-field/tests/tick.test.js",
+        "legacy/sibilant-modules/language-model/lib/file-system.js",
+        "legacy/sibilant-modules/language-model/lib/interface.js",
+        "legacy/sibilant-modules/language-model/lib/model.js",
+        "legacy/sibilant-modules/language-model/lib/probability-tree.js",
+        "legacy/sibilant-modules/language-model/lib/tree.js",
+        "legacy/sibilant-modules/language-model/models/counts.json",
+        "legacy/sibilant-modules/language-model/models/sequences.json",
+        "services/js/health/tests/health.test.js",
+        "services/js/heartbeat/tests/client.test.js",
+        "services/js/heartbeat/tests/heartbeat.test.js",
+        "services/js/heartbeat/tests/lifecycle.test.js",
+        "legacy/sibilant-modules/symbiant/k8s/README.md",
+        "legacy/sibilant-modules/symbiant/k8s/deployment.yaml",
+        "legacy/sibilant-modules/symbiant/k8s/pv-svc.yaml",
+        "legacy/sibilant-modules/symbiant/lib/array.js",
+        "legacy/sibilant-modules/symbiant/lib/collection.js",
+        "legacy/sibilant-modules/symbiant/lib/deps.js",
+        "legacy/sibilant-modules/symbiant/lib/directory.js",
+        "legacy/sibilant-modules/symbiant/lib/file.js",
+        "legacy/sibilant-modules/symbiant/lib/future.js",
+        "legacy/sibilant-modules/symbiant/lib/game.js",
+        "legacy/sibilant-modules/symbiant/lib/hashed-trie.js",
+        "legacy/sibilant-modules/symbiant/lib/index.js",
+        "legacy/sibilant-modules/symbiant/lib/javascript.js",
+        "legacy/sibilant-modules/symbiant/lib/list.js",
+        "legacy/sibilant-modules/symbiant/lib/module.js",
+        "legacy/sibilant-modules/symbiant/lib/object.js",
+        "legacy/sibilant-modules/symbiant/lib/refresh.js",
+        "legacy/sibilant-modules/symbiant/lib/sibilant.js",
+        "legacy/sibilant-modules/symbiant/lib/util.js",
+        "services/js/proxy/tests/proxy.test.js",
+        "services/js/vision/tests/capture.test.js",
+        "services/js/vision/tests/websocket.test.js",
         "services/ts/cephalon/scripts/patch-imports.js",
         "services/ts/codex-context/scripts/patch-imports.js",
         "services/ts/codex-context/src/backend.ts",
@@ -2073,6 +2091,7 @@
         "shared/ts/src/worker/zero/snapshot.ts",
         "shared/ts/src/worker/zero/struct.test.ts",
         "shared/ts/src/worker/zero/struct.ts",
+        "shared/ts/src/compiler/transform/transformer.ts",
         "legacy/sibilant-modules/Algae-speciation-tech-demo/app/js/ecs/entity-group.js",
         "legacy/sibilant-modules/Algae-speciation-tech-demo/app/js/ecs/entity.js",
         "legacy/sibilant-modules/Algae-speciation-tech-demo/app/js/ecs/group.js",
@@ -2422,8 +2441,8 @@
         "services/ts/smartgpt-bridge/logs/agents/QU02-bEbcDc7oJz3Fdbex/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/QVGDu24-40Yx_DpK9KpqU/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/QqfHT8ppyFWUGvjyVPJOT/meta.json",
-        "services/ts/smartgpt-bridge/logs/agents/Qs59VX7CUI4UqVjOq7B7C/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/QunP6BbLAlNg6v3NZ12h-/meta.json",
+        "services/ts/smartgpt-bridge/logs/agents/Qs59VX7CUI4UqVjOq7B7C/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/RVm5XMb8zj9NtOqNdPFQN/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/RcNOZuOtgYQefHyTRcK3v/meta.json",
         "services/ts/smartgpt-bridge/logs/agents/RnrjPQGmMY3fLqVJwzMP2/meta.json",
@@ -2922,7 +2941,6 @@
         "legacy/sibilant-modules/Algae-speciation-tech-demo/app/sibilant/js/lib/collection/linked-lists/list.js",
         "legacy/sibilant-modules/Algae-speciation-tech-demo/app/sibilant/js/lib/collection/matrix/matrix.js",
         "legacy/sibilant-modules/Algae-speciation-tech-demo/app/sibilant/js/lib/collection/trees/hashed-trie.js",
-        "legacy/sibilant-modules/Algae-speciation-tech-demo/app/sibilant/js/lib/common/async/index.js",
         "legacy/sibilant-modules/Algae-speciation-tech-demo/app/sibilant/js/lib/common/collection/hashed-trie.js",
         "legacy/sibilant-modules/Algae-speciation-tech-demo/app/sibilant/js/lib/common/collection/list.js",
         "legacy/sibilant-modules/riatzukiza.github.io/static/bundles/crash-landed/world-gen/modules/roads/crossings.js",
@@ -3132,6 +3150,10 @@
             "size": 1224,
             "mtimeMs": 1754790247783.743
         },
+        "site/README.md": {
+            "size": 761,
+            "mtimeMs": 1755177251125.9243
+        },
         "scripts/README.md": {
             "size": 633,
             "mtimeMs": 1755731364472.8306
@@ -3267,10 +3289,6 @@
         "scripts/whisper_test.py": {
             "size": 513,
             "mtimeMs": 1754576321226.6199
-        },
-        "site/README.md": {
-            "size": 761,
-            "mtimeMs": 1755177251125.9243
         },
         "tests/brokerClient.test.js": {
             "size": 1549,
@@ -3695,6 +3713,10 @@
         "docs/vault-config/example board.md": {
             "size": 351,
             "mtimeMs": 1755177251115.9246
+        },
+        "pseudo/templates/README.md": {
+            "size": 76,
+            "mtimeMs": 1754576321225.977
         },
         "docs/unique/2025.07.28.11.07.04 Autohotkey.md": {
             "size": 3183,
@@ -4227,10 +4249,6 @@
         "docs/unique/template-based-compilation.md": {
             "size": 2830,
             "mtimeMs": 1754763002257.2188
-        },
-        "pseudo/templates/README.md": {
-            "size": 76,
-            "mtimeMs": 1754576321225.977
         },
         "services/templates/README.md": {
             "size": 203,
@@ -6548,6 +6566,38 @@
             "size": 636,
             "mtimeMs": 1755538637814.9084
         },
+        "legacy/sibilant-modules/symbiant/build.js": {
+            "size": 4576,
+            "mtimeMs": 1755875140842.6838
+        },
+        "legacy/sibilant-modules/symbiant/codepen.js": {
+            "size": 6268,
+            "mtimeMs": 1755875140842.6838
+        },
+        "legacy/sibilant-modules/symbiant/ecosystem.config.js": {
+            "size": 765,
+            "mtimeMs": 1755875140842.6838
+        },
+        "legacy/sibilant-modules/symbiant/exec.js": {
+            "size": 837,
+            "mtimeMs": 1755875140842.6838
+        },
+        "legacy/sibilant-modules/symbiant/index.js": {
+            "size": 5037,
+            "mtimeMs": 1755875140844.693
+        },
+        "legacy/sibilant-modules/symbiant/package-lock.json": {
+            "size": 468188,
+            "mtimeMs": 1755875140851.6929
+        },
+        "legacy/sibilant-modules/symbiant/package.json": {
+            "size": 1396,
+            "mtimeMs": 1755875140851.6929
+        },
+        "legacy/sibilant-modules/symbiant/readme.md": {
+            "size": 1770,
+            "mtimeMs": 1755875140851.6929
+        },
         "services/js/proxy/README.md": {
             "size": 463,
             "mtimeMs": 1755623789230.2522
@@ -7544,14 +7594,6 @@
             "size": 4860,
             "mtimeMs": 1755875140469.1042
         },
-        "legacy/sibilant-modules/Algae-speciation-tech-demo/app/list.js": {
-            "size": 5343,
-            "mtimeMs": 1755875140460.5188
-        },
-        "legacy/sibilant-modules/Algae-speciation-tech-demo/app/util.js": {
-            "size": 2820,
-            "mtimeMs": 1755875140465.211
-        },
         "legacy/sibilant-modules/game-of-life-gpu/bundles/antity.js": {
             "size": 0,
             "mtimeMs": 1755875140471.9429
@@ -8220,10 +8262,6 @@
             "size": 1326,
             "mtimeMs": 1754763002293.4507
         },
-        "services/py/stt/whisper-npu/README.md": {
-            "size": 39548,
-            "mtimeMs": 1754587586962.5552
-        },
         "services/py/stt/whisper-npu-py/audio.py": {
             "size": 6116,
             "mtimeMs": 1754576321242.632
@@ -8271,6 +8309,10 @@
         "services/py/stt/whisper-npu-py/whisper_streamer.py": {
             "size": 2765,
             "mtimeMs": 1754576321242.632
+        },
+        "services/py/stt/whisper-npu/README.md": {
+            "size": 39548,
+            "mtimeMs": 1754587586962.5552
         },
         "services/py/stt/whisper_npu/__init__.py": {
             "size": 639,
@@ -8383,6 +8425,146 @@
         "services/py/tts/tests/test_tts_websocket.py": {
             "size": 3556,
             "mtimeMs": 1754763006194.2925
+        },
+        "services/js/broker/tests/broker.test.js": {
+            "size": 4030,
+            "mtimeMs": 1755538633339.9414
+        },
+        "services/js/eidolon-field/tests/tick.test.js": {
+            "size": 936,
+            "mtimeMs": 1755538634167.9353
+        },
+        "legacy/sibilant-modules/language-model/lib/file-system.js": {
+            "size": 10769,
+            "mtimeMs": 1755875140668.3645
+        },
+        "legacy/sibilant-modules/language-model/lib/interface.js": {
+            "size": 1936,
+            "mtimeMs": 1755875140668.4304
+        },
+        "legacy/sibilant-modules/language-model/lib/model.js": {
+            "size": 9754,
+            "mtimeMs": 1755875140668.4304
+        },
+        "legacy/sibilant-modules/language-model/lib/probability-tree.js": {
+            "size": 2874,
+            "mtimeMs": 1755875140668.4304
+        },
+        "legacy/sibilant-modules/language-model/lib/tree.js": {
+            "size": 4609,
+            "mtimeMs": 1755875140668.4304
+        },
+        "legacy/sibilant-modules/language-model/models/counts.json": {
+            "size": 131,
+            "mtimeMs": 1755875140668.4304
+        },
+        "legacy/sibilant-modules/language-model/models/sequences.json": {
+            "size": 663,
+            "mtimeMs": 1755875140668.6296
+        },
+        "services/js/health/tests/health.test.js": {
+            "size": 1591,
+            "mtimeMs": 1755538636716.9165
+        },
+        "services/js/heartbeat/tests/client.test.js": {
+            "size": 2446,
+            "mtimeMs": 1755538637849.9082
+        },
+        "services/js/heartbeat/tests/heartbeat.test.js": {
+            "size": 5976,
+            "mtimeMs": 1755538637865.908
+        },
+        "services/js/heartbeat/tests/lifecycle.test.js": {
+            "size": 1139,
+            "mtimeMs": 1755538637872.908
+        },
+        "legacy/sibilant-modules/symbiant/k8s/README.md": {
+            "size": 248,
+            "mtimeMs": 1755875140848.693
+        },
+        "legacy/sibilant-modules/symbiant/k8s/deployment.yaml": {
+            "size": 851,
+            "mtimeMs": 1755875140848.693
+        },
+        "legacy/sibilant-modules/symbiant/k8s/pv-svc.yaml": {
+            "size": 431,
+            "mtimeMs": 1755875140848.693
+        },
+        "legacy/sibilant-modules/symbiant/lib/array.js": {
+            "size": 0,
+            "mtimeMs": 1755875140848.693
+        },
+        "legacy/sibilant-modules/symbiant/lib/collection.js": {
+            "size": 0,
+            "mtimeMs": 1755875140849.7498
+        },
+        "legacy/sibilant-modules/symbiant/lib/deps.js": {
+            "size": 0,
+            "mtimeMs": 1755875140849.9504
+        },
+        "legacy/sibilant-modules/symbiant/lib/directory.js": {
+            "size": 0,
+            "mtimeMs": 1755875140849.9504
+        },
+        "legacy/sibilant-modules/symbiant/lib/file.js": {
+            "size": 0,
+            "mtimeMs": 1755875140850.3796
+        },
+        "legacy/sibilant-modules/symbiant/lib/future.js": {
+            "size": 0,
+            "mtimeMs": 1755875140850.6824
+        },
+        "legacy/sibilant-modules/symbiant/lib/game.js": {
+            "size": 0,
+            "mtimeMs": 1755875140850.6824
+        },
+        "legacy/sibilant-modules/symbiant/lib/hashed-trie.js": {
+            "size": 0,
+            "mtimeMs": 1755875140850.6824
+        },
+        "legacy/sibilant-modules/symbiant/lib/index.js": {
+            "size": 0,
+            "mtimeMs": 1755875140850.6824
+        },
+        "legacy/sibilant-modules/symbiant/lib/javascript.js": {
+            "size": 1103,
+            "mtimeMs": 1755875140850.6824
+        },
+        "legacy/sibilant-modules/symbiant/lib/list.js": {
+            "size": 0,
+            "mtimeMs": 1755875140850.6824
+        },
+        "legacy/sibilant-modules/symbiant/lib/module.js": {
+            "size": 2622,
+            "mtimeMs": 1755875140850.6824
+        },
+        "legacy/sibilant-modules/symbiant/lib/object.js": {
+            "size": 0,
+            "mtimeMs": 1755875140850.6824
+        },
+        "legacy/sibilant-modules/symbiant/lib/refresh.js": {
+            "size": 98,
+            "mtimeMs": 1755875140850.6824
+        },
+        "legacy/sibilant-modules/symbiant/lib/sibilant.js": {
+            "size": 1519,
+            "mtimeMs": 1755875140850.6824
+        },
+        "legacy/sibilant-modules/symbiant/lib/util.js": {
+            "size": 2787,
+            "mtimeMs": 1755875140850.6824
+        },
+        "services/js/proxy/tests/proxy.test.js": {
+            "size": 1451,
+            "mtimeMs": 1755538639699.8945
+        },
+        "services/js/vision/tests/capture.test.js": {
+            "size": 457,
+            "mtimeMs": 1755538640456.889
+        },
+        "services/js/vision/tests/websocket.test.js": {
+            "size": 751,
+            "mtimeMs": 1755538640460.889
         },
         "services/ts/cephalon/scripts/patch-imports.js": {
             "size": 1103,
@@ -11232,6 +11414,10 @@
             "size": 9742,
             "mtimeMs": 1755185115701.408
         },
+        "shared/ts/src/compiler/transform/transformer.ts": {
+            "size": 5312,
+            "mtimeMs": 1755832096852.6184
+        },
         "legacy/sibilant-modules/Algae-speciation-tech-demo/app/js/ecs/entity-group.js": {
             "size": 1217,
             "mtimeMs": 1755875140459.6228
@@ -12628,12 +12814,12 @@
             "size": 447,
             "mtimeMs": 1755734903479.7463
         },
-        "services/ts/smartgpt-bridge/logs/agents/Qs59VX7CUI4UqVjOq7B7C/meta.json": {
-            "size": 339,
-            "mtimeMs": 1755734903164.7502
-        },
         "services/ts/smartgpt-bridge/logs/agents/QunP6BbLAlNg6v3NZ12h-/meta.json": {
             "size": 447,
+            "mtimeMs": 1755734903164.7502
+        },
+        "services/ts/smartgpt-bridge/logs/agents/Qs59VX7CUI4UqVjOq7B7C/meta.json": {
+            "size": 339,
             "mtimeMs": 1755734903164.7502
         },
         "services/ts/smartgpt-bridge/logs/agents/RVm5XMb8zj9NtOqNdPFQN/meta.json": {
@@ -14627,10 +14813,6 @@
         "legacy/sibilant-modules/Algae-speciation-tech-demo/app/sibilant/js/lib/collection/trees/hashed-trie.js": {
             "size": 8164,
             "mtimeMs": 1755875140462.7874
-        },
-        "legacy/sibilant-modules/Algae-speciation-tech-demo/app/sibilant/js/lib/common/async/index.js": {
-            "size": 5179,
-            "mtimeMs": 1755875140463.056
         },
         "legacy/sibilant-modules/Algae-speciation-tech-demo/app/sibilant/js/lib/common/collection/hashed-trie.js": {
             "size": 8164,
