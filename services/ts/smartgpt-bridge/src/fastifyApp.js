@@ -105,6 +105,22 @@ export function buildFastifyApp(ROOT_PATH) {
         additionalProperties: false,
     });
 
+    // New: child node without `children`
+    app.addSchema({
+        $id: 'FileTreeNodeChild',
+        type: 'object',
+        required: ['name', 'path', 'type'],
+        properties: {
+            name: { type: 'string' },
+            path: { type: 'string' },
+            type: { type: 'string', enum: ['dir', 'file'] },
+            size: { type: ['integer', 'null'] },
+            mtimeMs: { type: ['number', 'null'] },
+        },
+        additionalProperties: false,
+    });
+
+    // Main node: children use the non-recursive child
     app.addSchema({
         $id: 'FileTreeNode',
         type: 'object',
@@ -115,7 +131,10 @@ export function buildFastifyApp(ROOT_PATH) {
             type: { type: 'string', enum: ['dir', 'file'] },
             size: { type: ['integer', 'null'] },
             mtimeMs: { type: ['number', 'null'] },
-            children: { type: 'array', items: { $ref: 'FileTreeNode#' } },
+            children: {
+                type: 'array',
+                items: { $ref: 'FileTreeNodeChild#' },
+            },
         },
         additionalProperties: false,
     });
@@ -166,6 +185,8 @@ export function buildFastifyApp(ROOT_PATH) {
             bearerAuth: {
                 type: 'http',
                 scheme: 'bearer',
+
+                name: 'x-pi-token',
             },
         };
         swaggerOpts.openapi.security = [{ bearerAuth: [] }];

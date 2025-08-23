@@ -134,47 +134,101 @@ export function createFastifyAuth() {
         return null;
     }
 
-    async function preHandler(req, reply) {
-        if (!enabled) return;
-        const url = req.url || '';
-        const publicDocs = /^true$/i.test(process.env.OPENAPI_PUBLIC || 'false');
-        if (publicDocs && (url === '/openapi.json' || url.startsWith('/docs'))) return;
-        const token = getToken(req);
-        if (!token) return reply.code(401).send({ ok: false, error: 'unauthorized' });
-        try {
-            if (mode === 'static') {
-                const ok = staticTokens.some((t) => timingSafeEqual(t, token));
-                if (!ok) return reply.code(401).send({ ok: false, error: 'unauthorized' });
-                req.user = { sub: 'static', mode: 'static' };
-                return;
+    // fastifyAuth.js (inside createFastifyAuth)
+    const OPENAPI_PUBLIC = /^true$/i.test(process.env.OPENAPI_PUBLIC || 'false');
+    const PUBLIC_PATHS = new Set(['/openapi.json', '/v1/openapi.json']);
+    const PUBLIC_PREFIXES = ['/docs', '/v1/docs'];
+
+    const isPublicPath = (req) => {
+        if (!OPENAPI_PUBLIC) return false;
+        // req.raw.url includes query; normalize to pathname for matching
+        const pathname = (() => {
+            try {
+                return new URL(req.raw.url, 'http://local').pathname;
+            } catch {
+                return req.url || '';
             }
-            if (mode === 'jwt') {
-                let payload;
+        })();
+        if (PUBLIC_PATHS.has(pathname)) return true;
+        return PUBLIC_PREFIXES.some((p) => pathname.startsWith(p));
+    };
+
+    const unauthorized = (reply) => reply.code(401).send({ ok: false, error: 'unauthorized' });
+
+    const misconfigured = (reply) =>
+        reply.code(500).send({ ok: false, error: 'auth misconfigured' });
+
+    // Build a verifier once based on mode
+    let verifyToken;
+    if (mode === 'static') {
+        // timingSafeEqual requires equal-length Buffers; normalize safely
+        const staticBufs = staticTokens.map((t) => Buffer.from(String(t)));
+        verifyToken = async (token) => {
+            const tokBuf = Buffer.from(String(token));
+            for (const b of staticBufs) {
+                if (b.length === tokBuf.length && timingSafeEqual(b, tokBuf)) {
+                    return { sub: 'static', mode: 'static' };
+                }
+            }
+            return null;
+        };
+    } else if (mode === 'jwt') {
+        verifyToken = async (token) => {
+            try {
+                // Prefer JWKS; fallback to HS* if keys missing but secret provided
                 try {
-                    payload = await verifyJwtAny(token);
+                    const { payload } = await jwtVerify(String(token), getJwks(), {
+                        algorithms: allowedAsym,
+                        iss: jwtIssuer,
+                        aud: jwtAudience,
+                    });
+                    return payload;
                 } catch (err) {
-                    const msg = String(err?.message || err);
-                    if (/missing jwks/.test(msg) && jwtSecret)
-                        payload = await verifyJwtHS(token, jwtSecret, {
+                    if (/missing jwks/i.test(String(err?.message)) && jwtSecret) {
+                        const { payload } = await jwtVerify(String(token), key, {
+                            algorithms: ['HS256', 'HS384', 'HS512'],
                             iss: jwtIssuer,
                             aud: jwtAudience,
                         });
-                    else throw err;
+                        return payload;
+                    }
+                    throw err;
                 }
-                req.user = payload;
-                return;
+            } catch (e) {
+                // Bubble up for uniform 401 mapping below
+                const msg = String(e?.message || e);
+                if (
+                    /(unauthorized|bad signature|expired|not active|iss|aud|malformed|bad header|bad payload|unsupported alg)/i.test(
+                        msg,
+                    )
+                ) {
+                    return null;
+                }
+                // Anything else (e.g., key fetch issues) becomes 500 in handler
+                throw e;
             }
-            return reply.code(500).send({ ok: false, error: 'auth misconfigured' });
-        } catch (e) {
-            const msg = String(e?.message || e);
-            if (
-                /(unauthorized|bad signature|expired|not active|iss|aud|malformed|bad header|bad payload|unsupported alg)/i.test(
-                    msg,
-                )
-            ) {
-                return reply.code(401).send({ ok: false, error: 'unauthorized' });
-            }
-            return reply.code(500).send({ ok: false, error: 'auth misconfigured' });
+        };
+    } else {
+        // Unknown mode — fail closed
+        verifyToken = null;
+    }
+
+    async function preHandler(req, reply) {
+        if (!enabled) return; // auth off
+        if (isPublicPath(req)) return; // allowlisted docs
+
+        if (!verifyToken) return misconfigured(reply);
+
+        const token = getToken(req);
+        if (!token) return unauthorized(reply);
+
+        try {
+            const user = await verifyToken(token);
+            if (!user) return unauthorized(reply);
+            req.user = user;
+            return;
+        } catch {
+            return misconfigured(reply);
         }
     }
 
