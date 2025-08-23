@@ -44,8 +44,15 @@ export async function grep(ROOT_PATH, opts) {
     try {
         ({ stdout } = await execa('rg', args, { cwd: ROOT_PATH }));
     } catch (err) {
-        const msg = err.stderr || err.message;
-        throw new Error('rg error: ' + msg);
+        // rg exits with code 1 when no matches are found. In that case the
+        // stdout still contains a JSON summary which we can treat as an empty
+        // result set.
+        if (err.exitCode === 1 && err.stdout) {
+            stdout = err.stdout;
+        } else {
+            const msg = err.stderr || err.message;
+            throw new Error('rg error: ' + msg);
+        }
     }
     const lines = stdout.split(/\r?\n/).filter(Boolean);
     const out = [];
