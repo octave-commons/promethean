@@ -6,24 +6,12 @@ import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import ajvformats from 'ajv-formats';
 import { createFastifyAuth } from './fastifyAuth.js';
+import { registerV0Routes } from './routes/v0.js';
 
 import { indexerManager } from './indexer.js';
 import { restoreAgentsFromStore } from './agent.js';
 import { registerSinks } from './sinks.js';
 import { registerRbac } from './rbac.js';
-
-// Route plugins
-import { registerFilesRoutes } from './routes/files.js';
-import { registerSearchRoutes } from './routes/search.js';
-import { registerIndexerRoutes } from './routes/indexer.js';
-import { registerGrepRoutes } from './routes/grep.js';
-import { registerSymbolsRoutes } from './routes/symbols.js';
-import { registerAgentRoutes } from './routes/agent.js';
-import { registerExecRoutes } from './routes/exec.js';
-import { registerSinkRoutes } from './routes/sinks.js';
-import { registerUserRoutes } from './routes/users.js';
-import { registerPolicyRoutes } from './routes/policies.js';
-import { registerBootstrapRoutes } from './routes/bootstrap.js';
 import { registerV1Routes } from './routes/v1.js';
 import { mongoChromaLogger } from './logging/index.js';
 
@@ -158,11 +146,9 @@ export function buildFastifyApp(ROOT_PATH) {
     });
 
     const baseUrl = process.env.PUBLIC_BASE_URL || `http://localhost:${process.env.PORT || 3210}`;
+    // Register new-auth helper endpoint at root for dashboard compatibility
     const auth = createFastifyAuth();
-    if (auth.enabled) {
-        app.addHook('onRequest', auth.preHandler);
-    }
-    auth.registerRoutes(app);
+    auth.registerRoutes(app); // adds /auth/me; protection handled inside
 
     const schemas = {
         GrepRequest: app.getSchema('GrepRequest'),
@@ -212,22 +198,24 @@ export function buildFastifyApp(ROOT_PATH) {
     });
 
     registerRbac(app);
-    registerBootstrapRoutes(app);
 
-    app.register(registerV1Routes, { prefix: '/v1' });
-    // Main application routes
-    app.register(async (f) => {
-        registerFilesRoutes(f);
-        registerGrepRoutes(f);
-        registerSymbolsRoutes(f);
-        registerSearchRoutes(f);
-        registerIndexerRoutes(f);
-        registerAgentRoutes(f);
-        registerExecRoutes(f);
-        registerSinkRoutes(f);
-        registerUserRoutes(f);
-        registerPolicyRoutes(f);
-    });
+    // Mount legacy routes under /v0 with old auth scoped inside
+    app.register(
+        async (v0) => {
+            await registerV0Routes(v0);
+        },
+        { prefix: '/v0' },
+    );
+
+    // Mount v1 routes with new auth scoped to /v1
+    app.register(
+        async (v1Scope) => {
+            const v1Auth = createFastifyAuth();
+            if (v1Auth.enabled) v1Scope.addHook('onRequest', v1Auth.preHandler);
+            await registerV1Routes(v1Scope);
+        },
+        { prefix: '/v1' },
+    );
 
     // Initialize indexer bootstrap/incremental state unless in test
     if ((process.env.NODE_ENV || '').toLowerCase() !== 'test') {

@@ -9,7 +9,7 @@ test.serial('POST /exec/run returns 403 when EXEC_ENABLED is false', async (t) =
     try {
         delete process.env.EXEC_ENABLED;
         await withServer(ROOT, async (req) => {
-            const res = await req.post('/exec/run').send({ command: 'echo hello' }).expect(403);
+            const res = await req.post('/v0/exec/run').send({ command: 'echo hello' }).expect(403);
             t.false(res.body.ok);
             t.regex(res.body.error || '', /exec disabled/i);
         });

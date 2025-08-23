@@ -9,7 +9,10 @@ test.serial('exec run blocks cwd outside root', async (t) => {
     try {
         process.env.EXEC_ENABLED = 'true';
         await withServer(ROOT, async (req) => {
-            const res = await req.post('/exec/run').send({ command: 'pwd', cwd: '/' }).expect(200);
+            const res = await req
+                .post('/v0/exec/run')
+                .send({ command: 'pwd', cwd: '/' })
+                .expect(200);
             t.false(res.body.ok);
             t.regex(res.body.error || '', /cwd outside root/i);
         });
