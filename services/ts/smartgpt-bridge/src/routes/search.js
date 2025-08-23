@@ -24,8 +24,9 @@ export function registerSearchRoutes(fastify) {
                     type: 'object',
                     properties: {
                         ok: { type: 'boolean' },
-                        results: { type: 'array', items: { type: 'object' } },
+                        results: { type: 'array', items: { $ref: 'SearchResult#' } },
                     },
+                    additionalProperties: false,
                 },
             },
         },

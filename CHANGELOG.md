@@ -22,6 +22,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - SmartGPT Bridge file actions now treat leading '/' as the repository root.
 - Clean tasks now remove only git-ignored files and protect critical configs like `ecosystem.config.js`.
+- Exec runner now honors `EXEC_SHELL`, validates `cwd` against the repo root, and reports accurate duration.
+- OpenAPI docs obey `OPENAPI_PUBLIC`, staying private when auth is enabled unless explicitly exposed.
+- Grep endpoint requires a regex pattern and returns validation errors for missing fields.
+- SSE agent log streaming cleans up listeners on disconnect to avoid leaks.
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 

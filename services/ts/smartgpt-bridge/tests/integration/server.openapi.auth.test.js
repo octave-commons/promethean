@@ -8,9 +8,11 @@ test.serial('openapi shows bearer security when auth enabled', async (t) => {
     const prev = {
         AUTH_ENABLED: process.env.AUTH_ENABLED,
         AUTH_MODE: process.env.AUTH_MODE,
+        OPENAPI_PUBLIC: process.env.OPENAPI_PUBLIC,
     };
     process.env.AUTH_ENABLED = 'true';
     process.env.AUTH_MODE = 'static';
+    process.env.OPENAPI_PUBLIC = 'true';
     try {
         await withServer(ROOT, async (req) => {
             const res = await req.get('/openapi.json').expect(200);
@@ -21,6 +23,7 @@ test.serial('openapi shows bearer security when auth enabled', async (t) => {
     } finally {
         process.env.AUTH_ENABLED = prev.AUTH_ENABLED;
         process.env.AUTH_MODE = prev.AUTH_MODE;
+        process.env.OPENAPI_PUBLIC = prev.OPENAPI_PUBLIC;
     }
 });
 
