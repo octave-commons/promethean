@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import fastifyStatic from '@fastify/static';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
+import ajvformats from 'ajv-formats';
 
 import { indexerManager } from './indexer.js';
 import { restoreAgentsFromStore } from './agent.js';
@@ -22,11 +23,19 @@ import { registerSinkRoutes } from './routes/sinks.js';
 import { registerUserRoutes } from './routes/users.js';
 import { registerPolicyRoutes } from './routes/policies.js';
 import { registerBootstrapRoutes } from './routes/bootstrap.js';
+import { registerV1Routes } from './routes/v1.js';
 import { mongoChromaLogger } from './logging/index.js';
 
 export function buildFastifyApp(ROOT_PATH) {
     registerSinks();
-    const app = Fastify({ logger: false, trustProxy: true });
+    const app = Fastify({
+        logger: false,
+        trustProxy: true,
+        ajv: {
+            customOptions: { allowUnionTypes: true },
+            plugins: [ajvformats],
+        },
+    });
     app.decorate('ROOT_PATH', ROOT_PATH);
     app.register(mongoChromaLogger);
 
@@ -75,6 +84,7 @@ export function buildFastifyApp(ROOT_PATH) {
     registerRbac(app);
     registerBootstrapRoutes(app);
 
+    app.register(registerV1Routes, { prefix: '/v1' });
     // Protected routes
     app.register(async (f) => {
         if (authEnabled) f.addHook('onRequest', f.authUser);

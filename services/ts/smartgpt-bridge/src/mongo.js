@@ -10,7 +10,7 @@ export async function initMongo() {
             await mongoose.connect(uri);
             connected = true;
         } catch {
-            return null;
+            throw new Error('could not connect to mongo');
         }
     }
     return mongoose;
