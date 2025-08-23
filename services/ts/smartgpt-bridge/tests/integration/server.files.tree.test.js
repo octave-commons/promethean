@@ -4,9 +4,9 @@ import { withServer } from '../helpers/server.js';
 
 const ROOT = path.join(process.cwd(), 'tests', 'fixtures');
 
-test('GET /files/tree returns nested directory tree', async (t) => {
+test('GET /v0/files/tree returns nested directory tree', async (t) => {
     await withServer(ROOT, async (req) => {
-        const res = await req.get('/files/tree').query({ path: '.', depth: 2 }).expect(200);
+        const res = await req.get('/v0/files/tree').query({ path: '.', depth: 2 }).expect(200);
         t.true(res.body.ok);
         t.is(res.body.base, '.');
         const tree = res.body.tree;

@@ -21,24 +21,27 @@ test('agent endpoints success paths via stubbed supervisor', async (t) => {
     s.stub(defaultSupervisor, 'resume').returns(false);
     try {
         await withServer(ROOT, async (req) => {
-            const st = await req.post('/agent/start').send({ prompt: 'hello' }).expect(200);
+            const st = await req.post('/v0/agent/start').send({ prompt: 'hello' }).expect(200);
             t.true(st.body.ok);
             const send = await req
-                .post('/agent/send')
+                .post('/v0/agent/send')
                 .send({ id: 'S1', input: 'ping' })
                 .expect(200);
             t.true(send.body.ok);
-            const intr = await req.post('/agent/interrupt').send({ id: 'S1' }).expect(200);
+            const intr = await req.post('/v0/agent/interrupt').send({ id: 'S1' }).expect(200);
             t.true(intr.body.ok);
-            const kill = await req.post('/agent/kill').send({ id: 'S1', force: true }).expect(200);
+            const kill = await req
+                .post('/v0/agent/kill')
+                .send({ id: 'S1', force: true })
+                .expect(200);
             t.true(kill.body.ok);
-            const resm = await req.post('/agent/resume').send({ id: 'S1' }).expect(200);
+            const resm = await req.post('/v0/agent/resume').send({ id: 'S1' }).expect(200);
             t.false(resm.body.ok);
-            const logs = await req.get('/agent/logs').query({ id: 'S1', since: 0 }).expect(200);
+            const logs = await req.get('/v0/agent/logs').query({ id: 'S1', since: 0 }).expect(200);
             t.true(logs.body.ok);
-            const status = await req.get('/agent/status').query({ id: 'S1' }).expect(200);
+            const status = await req.get('/v0/agent/status').query({ id: 'S1' }).expect(200);
             t.true(status.body.ok);
-            const list = await req.get('/agent/list').expect(200);
+            const list = await req.get('/v0/agent/list').expect(200);
             t.true(list.body.ok);
         });
     } finally {

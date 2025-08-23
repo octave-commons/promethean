@@ -21,11 +21,11 @@ test.serial('exec requires auth when enabled and allows with token', async (t) =
 
         await withServer(ROOT, async (req) => {
             // Missing token blocked
-            await req.post('/exec/run').send({ command: 'echo hello' }).expect(401);
+            await req.post('/v0/exec/run').send({ command: 'echo hello' }).expect(401);
 
             // With token succeeds
             const ok = await req
-                .post('/exec/run')
+                .post('/v0/exec/run')
                 .set('Authorization', 'Bearer secret-token')
                 .send({ command: 'echo hello' })
                 .expect(200);
@@ -34,7 +34,7 @@ test.serial('exec requires auth when enabled and allows with token', async (t) =
 
             // Guard blocks dangerous command
             const blocked = await req
-                .post('/exec/run')
+                .post('/v0/exec/run')
                 .set('Authorization', 'Bearer secret-token')
                 .send({ command: 'rm -rf /tmp' })
                 .expect(200);

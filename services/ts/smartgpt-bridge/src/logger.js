@@ -35,6 +35,17 @@ function format(level, msg, meta) {
     return line;
 }
 
+function doWrite(line) {
+    if (stream) {
+        try {
+            stream.write(line + '\n');
+        } catch {}
+    }
+    try {
+        console.log(line);
+    } catch {}
+}
+
 function write(level, msg, meta = {}) {
     if (!should(level)) return;
     const line = format(level, msg, meta) + '\n';
@@ -56,4 +67,9 @@ export const logger = {
     error: (msg, meta) => write('error', msg, meta),
     debug: (msg, meta) => write('debug', msg, meta),
     trace: (msg, meta) => write('trace', msg, meta),
+    // Always-on audit logs (bypass level filtering). Use for security events.
+    audit: (msg, meta = {}) => {
+        const line = format('audit', msg, meta);
+        doWrite(line);
+    },
 };
