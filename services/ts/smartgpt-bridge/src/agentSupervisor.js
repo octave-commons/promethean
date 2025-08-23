@@ -158,6 +158,14 @@ export class AgentSupervisor {
         this.subscribers[id].push(handler);
     }
 
+    off(id, handler) {
+        const list = this.subscribers?.[id];
+        if (!list) return;
+        const idx = list.indexOf(handler);
+        if (idx >= 0) list.splice(idx, 1);
+        if (list.length === 0) delete this.subscribers[id];
+    }
+
     emit(id, data) {
         if (!this.subscribers || !this.subscribers[id]) return;
         for (const fn of this.subscribers[id]) fn(data);
