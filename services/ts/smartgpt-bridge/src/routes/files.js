@@ -72,8 +72,9 @@ export function registerFilesRoutes(fastify) {
                     properties: {
                         ok: { type: 'boolean' },
                         base: { type: 'string' },
-                        tree: { type: 'object' },
+                        tree: { $ref: 'FileTreeNode#' },
                     },
+                    additionalProperties: false,
                 },
             },
         },
@@ -159,8 +160,9 @@ export function registerFilesRoutes(fastify) {
                     type: 'object',
                     properties: {
                         ok: { type: 'boolean' },
-                        results: { type: 'array', items: { type: 'object' } },
+                        results: { type: 'array', items: { $ref: 'StacktraceResult#' } },
                     },
+                    additionalProperties: false,
                 },
             },
         },

@@ -1,5 +1,3 @@
-const MAX_BYTES = Number(process.env.EXEC_MAX_OUTPUT_BYTES || 2 * 1024 * 1024);
-const USE_SHELL = /^true$/i.test(process.env.EXEC_SHELL || 'false');
 const REPO_ROOT = process.env.REPO_ROOT;
 
 // return exec({cwd,shell:'/usr/bin/bash'})`${command}`
@@ -13,15 +11,9 @@ const DANGER_PATTERNS = [
 function matchDanger(s) {
     return DANGER_PATTERNS.find((rx) => rx.test(s));
 }
-
-function ringPush(buf, chunk) {
-    const slice = Buffer.isBuffer(chunk) ? chunk : Buffer.from(String(chunk));
-    const combined = Buffer.concat([buf, slice]);
-    if (combined.length <= MAX_BYTES) return combined;
-    return combined.subarray(combined.length - MAX_BYTES);
-}
 import { execa } from 'execa';
-import { normalizeToRoot } from './files.js';
+import path from 'path';
+import { isInsideRoot } from './files.js';
 
 export async function runCommand({
     command,
@@ -30,6 +22,8 @@ export async function runCommand({
     timeoutMs = 10 * 60_000,
     tty = false,
 } = {}) {
+    const t0 = Date.now();
+    const useShell = /^true$/i.test(process.env.EXEC_SHELL || 'false');
     try {
         if (matchDanger(command)) {
             return {
@@ -39,9 +33,12 @@ export async function runCommand({
                 signal: null,
             };
         }
+        const base = repoRoot || process.env.REPO_ROOT || process.cwd();
         let safeCwd;
         try {
-            safeCwd = normalizeToRoot(repoRoot, cwd);
+            const abs = path.isAbsolute(cwd) ? path.resolve(cwd) : path.resolve(base, cwd);
+            if (!isInsideRoot(base, abs)) throw new Error('cwd outside root');
+            safeCwd = abs;
         } catch {
             return {
                 ok: false,
@@ -53,11 +50,12 @@ export async function runCommand({
         const subprocess = execa(command, {
             cwd: safeCwd,
             timeout: timeoutMs,
-            shell: true,
+            shell: useShell,
             stdio: tty ? 'inherit' : 'pipe',
         });
 
         const result = await subprocess;
+        const durationMs = Date.now() - t0;
 
         return {
             ok: true,
@@ -65,18 +63,19 @@ export async function runCommand({
             signal: null,
             stdout: result.stdout ?? '',
             stderr: result.stderr ?? '',
-            durationMs: result.timedOut ? timeoutMs : result.durationMilliseconds ?? 0,
+            durationMs,
             truncated: false,
             error: '',
         };
     } catch (err) {
+        const durationMs = Date.now() - t0;
         return {
             ok: false,
             exitCode: err.exitCode ?? 1,
             signal: err.signal ?? null,
             stdout: err.stdout ?? '',
             stderr: err.stderr ?? err.message,
-            durationMs: err.timedOut ? timeoutMs : 0,
+            durationMs: err.timedOut ? timeoutMs : durationMs,
             truncated: false,
             error: err.message ?? 'Execution failed',
         };

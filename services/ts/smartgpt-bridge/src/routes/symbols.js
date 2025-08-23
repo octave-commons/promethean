@@ -29,7 +29,9 @@ export function registerSymbolsRoutes(fastify) {
             try {
                 const { paths, exclude } = req.body || {};
                 const info = await symbolsIndex(ROOT_PATH, { paths, exclude });
-                reply.send({ ok: true, indexed: info, info });
+                // `symbolsIndex` returns an object with counts; expose the totals
+                // explicitly to match the declared response schema.
+                reply.send({ ok: true, indexed: info.files, info: info.symbols });
             } catch (e) {
                 reply.code(500).send({ ok: false, error: String(e?.message || e) });
             }
@@ -55,8 +57,9 @@ export function registerSymbolsRoutes(fastify) {
                     type: 'object',
                     properties: {
                         ok: { type: 'boolean' },
-                        results: { type: 'array', items: { type: 'object' } },
+                        results: { type: 'array', items: { $ref: 'SymbolResult#' } },
                     },
+                    additionalProperties: false,
                 },
             },
         },
