@@ -1,28 +1,73 @@
-import querystring from 'querystring';
+import path from 'path';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
+import { listDirectory, viewFile } from '../files.js';
+import { grep } from '../grep.js';
+import { indexerManager, search as semanticSearch } from '../indexer.js';
 import { dualSinkRegistry } from '../utils/DualSinkRegistry.js';
+import { AgentSupervisor as NewAgentSupervisor } from '../agentSupervisor.js';
+import { supervisor as defaultSupervisor } from '../agent.js';
 
-/** internal helper to proxy into existing internal endpoints while keeping v1 contracts here */
-function proxy(fastify, method, urlBuilder, payloadBuilder) {
-    return async function (req, reply) {
-        const url = typeof urlBuilder === 'function' ? urlBuilder(req) : urlBuilder;
-        const payload = payloadBuilder ? payloadBuilder(req) : req.body;
-        const res = await fastify.inject({ method, url, payload, headers: req.headers });
-        reply.code(res.statusCode);
-        for (const [k, v] of Object.entries(res.headers)) reply.header(k, v);
-        try {
-            reply.send(res.json());
-        } catch {
-            reply.send(res.payload);
+// ---------------------------------------------------------------------------
+// Agent supervisor helpers (mirrors logic from routes/agent.js)
+// ---------------------------------------------------------------------------
+const SUPS = new Map();
+const DEFAULT_KEY = 'default';
+const NSJAIL_KEY = 'nsjail';
+const AGENT_INDEX = new Map();
+
+function getSup(fastify, key) {
+    const k = key === 'nsjail' ? NSJAIL_KEY : DEFAULT_KEY;
+    if (SUPS.has(k)) return SUPS.get(k);
+    if (k === DEFAULT_KEY) {
+        SUPS.set(k, defaultSupervisor);
+        return defaultSupervisor;
+    }
+    const ROOT_PATH = fastify.ROOT_PATH;
+    const logDir = path.join(path.dirname(new URL(import.meta.url).pathname), '../logs/agents');
+    const sup = new NewAgentSupervisor({
+        cwd: ROOT_PATH,
+        logDir,
+        sandbox: k === NSJAIL_KEY ? 'nsjail' : false,
+    });
+    SUPS.set(k, sup);
+    return sup;
+}
+
+// DuckDuckGo result normaliser (lifted from routes/search.js)
+function extractResults(data) {
+    const results = [];
+    if (data?.Results) {
+        for (const r of data.Results) {
+            if (r.Text && r.FirstURL)
+                results.push({ title: r.Text, url: r.FirstURL, snippet: r.Text });
         }
-    };
+    }
+    if (data?.RelatedTopics) {
+        for (const item of data.RelatedTopics) {
+            if (item.Topics) {
+                for (const sub of item.Topics) {
+                    if (sub.Text && sub.FirstURL)
+                        results.push({ title: sub.Text, url: sub.FirstURL, snippet: sub.Text });
+                }
+            } else if (item.Text && item.FirstURL) {
+                results.push({ title: item.Text, url: item.FirstURL, snippet: item.Text });
+            }
+        }
+    }
+    if (data?.AbstractURL && data?.AbstractText) {
+        results.push({
+            title: data.Heading || data.AbstractURL,
+            url: data.AbstractURL,
+            snippet: data.AbstractText,
+        });
+    }
+    return results;
 }
 
 export async function registerV1Routes(app) {
-    // Everything defined in here will be reachable under /v1 because of the prefix in fastifyApp.js
     await app.register(async function v1(v1) {
-        // Swagger JUST for v1 (encapsulation keeps it scoped)
+        const ROOT_PATH = v1.ROOT_PATH;
 
         const baseUrl =
             process.env.PUBLIC_BASE_URL || `http://localhost:${process.env.PORT || 3210}`;
@@ -51,11 +96,10 @@ export async function registerV1Routes(app) {
         await v1.register(swagger, swaggerOpts);
 
         await v1.register(swaggerUi, {
-            routePrefix: '/docs', // -> /v1/docs
+            routePrefix: '/docs',
             uiConfig: { docExpansion: 'list' },
         });
 
-        // expose the generated v1 spec
         v1.get('/openapi.json', { schema: { hide: true } }, async (_req, reply) => {
             reply.type('application/json').send(v1.swagger());
         });
@@ -86,11 +130,16 @@ export async function registerV1Routes(app) {
                     },
                 },
             },
-            handler: proxy(
-                v1,
-                'GET',
-                (req) => `/v0/files/list?${querystring.stringify(req.query)}`,
-            ),
+            async handler(req, reply) {
+                try {
+                    const q = req.query || {};
+                    const dir = q.path || '.';
+                    const out = await listDirectory(ROOT_PATH, dir);
+                    reply.send(out);
+                } catch (e) {
+                    reply.code(400).send({ ok: false, error: String(e?.message || e) });
+                }
+            },
         });
 
         v1.get('/files/*', {
@@ -105,12 +154,16 @@ export async function registerV1Routes(app) {
                     required: ['*'],
                 },
             },
-            handler: proxy(
-                v1,
-                'GET',
-                (req) =>
-                    `/files/view?${querystring.stringify({ ...req.query, path: req.params['*'] })}`,
-            ),
+            async handler(req, reply) {
+                try {
+                    const p = req.params['*'];
+                    const { line, context } = req.query || {};
+                    const info = await viewFile(ROOT_PATH, p, line, context);
+                    reply.send({ ok: true, ...info });
+                } catch (e) {
+                    reply.code(404).send({ ok: false, error: String(e?.message || e) });
+                }
+            },
         });
 
         v1.post('/files/reindex', {
@@ -124,7 +177,16 @@ export async function registerV1Routes(app) {
                     properties: { path: { type: 'string' } },
                 },
             },
-            handler: proxy(v1, 'POST', '/files/reindex'),
+            async handler(req, reply) {
+                try {
+                    const globs = req.body?.path;
+                    if (!globs) return reply.code(400).send({ ok: false, error: "Missing 'path'" });
+                    const r = await indexerManager.scheduleReindexSubset(globs);
+                    reply.send(r);
+                } catch (e) {
+                    reply.code(500).send({ ok: false, error: String(e?.message || e) });
+                }
+            },
         });
 
         // ------------------------------------------------------------------
@@ -146,7 +208,21 @@ export async function registerV1Routes(app) {
                     },
                 },
             },
-            handler: proxy(v1, 'POST', '/grep'),
+            async handler(req, reply) {
+                try {
+                    const body = req.body || {};
+                    const results = await grep(ROOT_PATH, {
+                        pattern: body.pattern,
+                        flags: body.flags || 'g',
+                        paths: body.path ? [body.path] : undefined,
+                        maxMatches: Number(body.maxMatches || 200),
+                        context: Number(body.context || 2),
+                    });
+                    reply.send({ ok: true, results });
+                } catch (e) {
+                    reply.code(400).send({ ok: false, error: String(e?.message || e) });
+                }
+            },
         });
 
         v1.post('/search/semantic', {
@@ -173,7 +249,18 @@ export async function registerV1Routes(app) {
                     },
                 },
             },
-            handler: proxy(v1, 'POST', '/search'),
+            async handler(req, reply) {
+                try {
+                    const { q, n } = req.body || {};
+                    if (!q) return reply.code(400).send({ ok: false, error: "Missing 'q'" });
+                    const results = await semanticSearch(ROOT_PATH, q, n || 10);
+                    const sink = dualSinkRegistry.get('bridge_searches');
+                    await sink.add({ query: q, results, service: 'chroma' });
+                    reply.send({ results });
+                } catch (e) {
+                    reply.code(500).send({ ok: false, error: String(e?.message || e) });
+                }
+            },
         });
 
         v1.post('/search/web', {
@@ -193,11 +280,22 @@ export async function registerV1Routes(app) {
                     },
                 },
             },
-            handler: proxy(v1, 'POST', '/search/web'),
+            async handler(req) {
+                const { q, n, lang, site } = req.body || {};
+                const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(
+                    q,
+                )}&format=json&no_redirect=1&no_html=1${
+                    lang ? `&kl=${encodeURIComponent(lang)}` : ''
+                }${site ? `&site=${encodeURIComponent(site)}` : ''}`;
+                const res = await fetch(url);
+                const data = await res.json();
+                const results = extractResults(data).slice(0, n || 10);
+                return { results };
+            },
         });
 
         // ------------------------------------------------------------------
-        // Sinks (your concrete example, with schema)
+        // Sinks
         // ------------------------------------------------------------------
         v1.get('/sinks', {
             preHandler: [v1.authUser, v1.requirePolicy('read', () => 'sinks')],
@@ -215,7 +313,9 @@ export async function registerV1Routes(app) {
                     },
                 },
             },
-            handler: proxy(v1, 'GET', '/sinks/list'),
+            async handler() {
+                return { ok: true, sinks: dualSinkRegistry.list() };
+            },
         });
 
         v1.post('/sinks/:name/search', {
@@ -277,7 +377,9 @@ export async function registerV1Routes(app) {
                     },
                 },
             },
-            handler: proxy(v1, 'GET', '/indexer/status'),
+            async handler() {
+                return { ok: true, status: indexerManager.status() };
+            },
         });
 
         v1.post('/indexer', {
@@ -312,21 +414,33 @@ export async function registerV1Routes(app) {
                 },
             },
             async handler(req, reply) {
-                const { op, path } = req.body || {};
-                let url;
-                if (op === 'index') url = '/indexer/index';
-                else if (op === 'remove') url = '/indexer/remove';
-                else if (op === 'reset') url = '/indexer/reset';
-                else if (op === 'reindex') url = path ? '/files/reindex' : '/reindex';
-                else return reply.code(400).send({ ok: false, error: 'invalid op' });
-                const payload = path ? { path } : {};
-                const res = await v1.inject({ method: 'POST', url, payload, headers: req.headers });
-                reply.code(res.statusCode);
-                for (const [k, v] of Object.entries(res.headers)) reply.header(k, v);
+                const { op, path: p } = req.body || {};
                 try {
-                    reply.send(res.json());
-                } catch {
-                    reply.send(res.payload);
+                    if (op === 'index') {
+                        if (!p) return reply.code(400).send({ ok: false, error: 'missing path' });
+                        const r = await indexerManager.scheduleIndexFile(String(p));
+                        return reply.send(r);
+                    } else if (op === 'remove') {
+                        if (!p) return reply.code(400).send({ ok: false, error: 'missing path' });
+                        const r = await indexerManager.removeFile(String(p));
+                        return reply.send(r);
+                    } else if (op === 'reset') {
+                        if (indexerManager.isBusy())
+                            return reply.code(409).send({ ok: false, error: 'Indexer busy' });
+                        await indexerManager.resetAndBootstrap(ROOT_PATH);
+                        return reply.send({ ok: true });
+                    } else if (op === 'reindex') {
+                        if (p) {
+                            const r = await indexerManager.scheduleReindexSubset(p);
+                            return reply.send(r);
+                        } else {
+                            const r = await indexerManager.scheduleReindexAll();
+                            return reply.send(r);
+                        }
+                    }
+                    return reply.code(400).send({ ok: false, error: 'invalid op' });
+                } catch (e) {
+                    reply.code(500).send({ ok: false, error: String(e?.message || e) });
                 }
             },
         });
@@ -350,7 +464,13 @@ export async function registerV1Routes(app) {
                     },
                 },
             },
-            handler: proxy(v1, 'GET', '/agent/list'),
+            async handler() {
+                const agents = Array.from(AGENT_INDEX.entries()).map(([id, key]) => ({
+                    id,
+                    sandbox: key,
+                }));
+                return { ok: true, agents };
+            },
         });
 
         v1.post('/agents', {
@@ -362,8 +482,6 @@ export async function registerV1Routes(app) {
                 body: {
                     type: 'object',
                     description: 'Parameters used to start an agent instance',
-                    // Keep it generic but valid for OpenAPI generators:
-                    // declare an object with no fixed fields, but at least one key.
                     properties: {},
                     additionalProperties: true,
                     minProperties: 1,
@@ -378,7 +496,27 @@ export async function registerV1Routes(app) {
                     },
                 },
             },
-            handler: proxy(v1, 'POST', '/agent/start'),
+            async handler(req, reply) {
+                try {
+                    const { prompt, cwd, env, bypassApprovals, sandbox, tty } = req.body || {};
+                    const mode = sandbox === 'nsjail' ? 'nsjail' : 'default';
+                    const sup = getSup(v1, mode);
+                    const id = sup.start({
+                        prompt,
+                        env,
+                        bypassApprovals: Boolean(bypassApprovals),
+                        tty: tty !== false,
+                    });
+                    AGENT_INDEX.set(id, mode);
+                    const status = sup.status(id) || {};
+                    reply.send({ ok: true, ...status });
+                } catch (e) {
+                    const msg = String(e?.message || e || '');
+                    if (msg.includes('PTY_UNAVAILABLE'))
+                        return reply.code(503).send({ ok: false, error: 'pty_unavailable' });
+                    reply.code(500).send({ ok: false, error: msg });
+                }
+            },
         });
 
         v1.get('/agents/:id', {
@@ -403,7 +541,17 @@ export async function registerV1Routes(app) {
                     },
                 },
             },
-            handler: proxy(v1, 'GET', (req) => `/agent/status/${req.params.id}`),
+            async handler(req, reply) {
+                const id = String(req.params.id);
+                const key = AGENT_INDEX.get(id);
+                const sup = key ? getSup(v1, key) : null;
+                let status = sup ? sup.status(id) : null;
+                if (!status) {
+                    status = getSup(v1, 'default').status(id) || getSup(v1, 'nsjail').status(id);
+                }
+                if (!status) return reply.code(404).send({ ok: false, error: 'not found' });
+                reply.send({ ok: true, status });
+            },
         });
 
         v1.get('/agents/:id/logs', {
@@ -429,12 +577,19 @@ export async function registerV1Routes(app) {
                     },
                 },
             },
-            handler: proxy(
-                v1,
-                'GET',
-                (req) =>
-                    `/agent/logs?${querystring.stringify({ ...req.query, id: req.params.id })}`,
-            ),
+            async handler(req, reply) {
+                const id = String(req.params.id);
+                const key = AGENT_INDEX.get(id) || 'default';
+                const sup = getSup(v1, key);
+                let r;
+                try {
+                    r = sup.tail(id, Number(req.query?.tail || 500));
+                } catch {
+                    r = null;
+                }
+                if (!r) return reply.code(404).send({ ok: false, error: 'not found' });
+                reply.send({ ok: true, ...r });
+            },
         });
 
         v1.get('/agents/:id/stream', {
@@ -450,10 +605,28 @@ export async function registerV1Routes(app) {
                 },
             },
             async handler(req, reply) {
-                reply.redirect(
-                    307,
-                    `/agent/stream?${querystring.stringify({ id: req.params.id })}`,
-                );
+                const id = String(req.params.id);
+                const key = AGENT_INDEX.get(id) || 'default';
+                const sup = getSup(v1, key);
+                reply.raw.writeHead(200, {
+                    'Content-Type': 'text/event-stream',
+                    'Cache-Control': 'no-cache',
+                    Connection: 'keep-alive',
+                });
+                try {
+                    const chunk = sup.tail(id, 2048).chunk;
+                    reply.raw.write(`event: replay\ndata: ${JSON.stringify({ text: chunk })}\n\n`);
+                } catch {}
+                const handler = (data) =>
+                    reply.raw.write(
+                        `event: data\ndata: ${JSON.stringify({ text: String(data) })}\n\n`,
+                    );
+                sup.on(id, handler);
+                req.raw.on('close', () => {
+                    try {
+                        sup.off(id, handler);
+                    } catch {}
+                });
             },
         });
 
@@ -499,24 +672,26 @@ export async function registerV1Routes(app) {
             },
             async handler(req, reply) {
                 const { op, input } = req.body || {};
-                let url;
-                if (op === 'send') url = '/agent/send';
-                else if (op === 'interrupt') url = '/agent/interrupt';
-                else if (op === 'resume') url = '/agent/resume';
-                else if (op === 'kill') url = '/agent/kill';
-                else return reply.code(400).send({ ok: false, error: 'invalid op' });
-                const res = await v1.inject({
-                    method: 'POST',
-                    url,
-                    payload: { id: req.params.id, input },
-                    headers: req.headers,
-                });
-                reply.code(res.statusCode);
-                for (const [k, v] of Object.entries(res.headers)) reply.header(k, v);
+                const id = String(req.params.id);
+                const key = AGENT_INDEX.get(id) || 'default';
+                const sup = getSup(v1, key);
                 try {
-                    reply.send(res.json());
-                } catch {
-                    reply.send(res.payload);
+                    if (op === 'send') {
+                        sup.send(id, String(input || ''));
+                        return reply.send({ ok: true });
+                    } else if (op === 'interrupt') {
+                        const ok = sup.send(id, '\u0003');
+                        return reply.send({ ok: Boolean(ok) });
+                    } else if (op === 'resume') {
+                        const ok = sup.resume(id);
+                        return reply.send({ ok });
+                    } else if (op === 'kill') {
+                        const ok = sup.kill(id);
+                        return reply.send({ ok });
+                    }
+                    return reply.code(400).send({ ok: false, error: 'invalid op' });
+                } catch (e) {
+                    reply.send({ ok: false, error: String(e?.message || e) });
                 }
             },
         });
