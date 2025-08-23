@@ -1,4 +1,4 @@
-import pty from 'node-pty';
+import { getPty, PtyUnavailableError } from './lib/pty.js';
 import { nanoid } from 'nanoid';
 import fs from 'fs';
 import path from 'path';
@@ -76,6 +76,10 @@ export class AgentSupervisor {
             ];
         }
 
+        const pty = getPty();
+        if (!pty) {
+            throw new PtyUnavailableError();
+        }
         const proc = pty.spawn(cmd, args, {
             cwd: this.cwd,
             cols: 80,
