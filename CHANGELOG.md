@@ -16,10 +16,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Directory tree endpoint for SmartGPT Bridge file API.
 - v1 router exposing consolidated SmartGPT Bridge endpoints.
 - OpenAPI spec for `/v1` served at `/v1/openapi.json` with consolidated operations.
+- `distclean` target to remove ignored files via `git clean -fdX`.
 
 ### Fixed
 
 - SmartGPT Bridge file actions now treat leading '/' as the repository root.
+- Clean tasks now remove only git-ignored files and protect critical configs like `ecosystem.config.js`.
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
