@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Application } from 'express';
 import { Client, GatewayIntentBits, User } from 'discord.js';
 import { VoiceSession } from './voice-session';
 import { HeartbeatClient } from '../../../../shared/js/heartbeat/index.js';
@@ -8,7 +8,7 @@ export function createVoiceService(token: string = process.env.DISCORD_TOKEN || 
         throw new Error('DISCORD_TOKEN env required');
     }
 
-    const app = express();
+    const app: Application = express();
     app.use(express.json());
 
     const client = new Client({
