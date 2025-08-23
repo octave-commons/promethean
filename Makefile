@@ -67,6 +67,7 @@ COMMANDS := \
   compile-hy \
   build \
   clean \
+  distclean \
   lint \
   lint-topics \
   test \
