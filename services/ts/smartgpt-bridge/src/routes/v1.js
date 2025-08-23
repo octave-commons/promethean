@@ -2,20 +2,38 @@ import querystring from 'querystring';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import { dualSinkRegistry } from '../utils/DualSinkRegistry.js';
+import { listDirectory } from '../files.js';
+import fetch from 'node-fetch';
 
 /** internal helper to proxy into existing internal endpoints while keeping v1 contracts here */
-function proxy(fastify, method, urlBuilder, payloadBuilder) {
+function proxy(_fastify, method, urlBuilder, payloadBuilder) {
     return async function (req, reply) {
-        const url = typeof urlBuilder === 'function' ? urlBuilder(req) : urlBuilder;
+        const urlPath = typeof urlBuilder === 'function' ? urlBuilder(req) : urlBuilder;
         const payload = payloadBuilder ? payloadBuilder(req) : req.body;
-        const res = await fastify.inject({ method, url, payload, headers: req.headers });
-        reply.code(res.statusCode);
-        for (const [k, v] of Object.entries(res.headers)) reply.header(k, v);
-        try {
-            reply.send(res.json());
-        } catch {
-            reply.send(res.payload);
+        const baseUrl =
+            process.env.PUBLIC_BASE_URL || `http://localhost:${process.env.PORT || 3210}`;
+        const url = baseUrl.replace(/\/$/, '') + urlPath;
+        const fetchOpts = {
+            method,
+            headers: { ...req.headers },
+        };
+        if (payload && method !== 'GET') {
+            fetchOpts.body = typeof payload === 'string' ? payload : JSON.stringify(payload);
+            if (!fetchOpts.headers['content-type']) {
+                fetchOpts.headers['content-type'] = 'application/json';
+            }
         }
+        const res = await fetch(url, fetchOpts);
+        reply.code(res.status);
+        for (const [k, v] of res.headers.entries()) reply.header(k, v);
+        let data;
+        const contentType = res.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+            data = await res.json();
+        } else {
+            data = await res.text();
+        }
+        reply.send(data);
     };
 }
 
@@ -66,31 +84,102 @@ export async function registerV1Routes(app) {
         v1.get('/files', {
             preHandler: [v1.authUser, v1.requirePolicy('read', () => 'files')],
             schema: {
-                summary: 'List files',
+                summary: 'List files in a directory or tree',
                 operationId: 'listFiles',
                 tags: ['Files'],
                 querystring: {
                     type: 'object',
                     properties: {
-                        path: { type: 'string' },
+                        path: { type: 'string', default: '.' },
+                        hidden: { type: 'boolean', default: false },
+                        type: { type: 'string', enum: ['file', 'dir'] },
                         depth: { type: 'integer', minimum: 0, default: 2 },
+                        tree: { type: 'boolean', default: false },
                     },
                 },
                 response: {
                     200: {
-                        type: 'object',
-                        properties: {
-                            ok: { type: 'boolean' },
-                            entries: { type: 'array', items: { type: 'object' } },
-                        },
+                        oneOf: [
+                            {
+                                type: 'object',
+                                properties: {
+                                    ok: { type: 'boolean' },
+                                    base: { type: 'string' },
+                                    entries: {
+                                        type: 'array',
+                                        items: {
+                                            type: 'object',
+                                            properties: {
+                                                name: { type: 'string' },
+                                                path: { type: 'string' },
+                                                type: { type: 'string' },
+                                                size: { type: ['integer', 'null'] },
+                                                mtimeMs: { type: ['number', 'null'] },
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                            {
+                                type: 'object',
+                                properties: {
+                                    ok: { type: 'boolean' },
+                                    base: { type: 'string' },
+                                    tree: { type: 'array', items: { type: 'object' } },
+                                },
+                            },
+                        ],
                     },
                 },
             },
-            handler: proxy(
-                v1,
-                'GET',
-                (req) => `/v0/files/list?${querystring.stringify(req.query)}`,
-            ),
+            async handler(req, reply) {
+                const q = req.query || {};
+                const dir = String(q.path || '.');
+                const hidden = String(q.hidden || 'false').toLowerCase() === 'true';
+                const type = q.type ? String(q.type) : undefined;
+                const depth = typeof q.depth === 'number' ? q.depth : Number(q.depth || 2);
+                const wantTree = String(q.tree || 'false').toLowerCase() === 'true';
+                try {
+                    const ROOT_PATH = process.env.ROOT_PATH || process.cwd();
+                    const { treeDirectory } = await import('../files.js');
+                    if (wantTree) {
+                        const treeResult = await treeDirectory(ROOT_PATH, dir, {
+                            includeHidden: hidden,
+                            depth,
+                            type,
+                        });
+                        reply.send(treeResult);
+                    } else {
+                        // flat recursive listing up to depth
+                        const treeResult = await treeDirectory(ROOT_PATH, dir, {
+                            includeHidden: hidden,
+                            depth,
+                            type,
+                        });
+                        const flat = [];
+                        function walkFlat(node) {
+                            if (node.path !== undefined && node.type !== undefined) {
+                                // skip root node if it's "."
+                                if (node.path !== '.' && node.path !== '')
+                                    flat.push({
+                                        name: node.name,
+                                        path: node.path,
+                                        type: node.type,
+                                        size: node.size ?? null,
+                                        mtimeMs: node.mtimeMs ?? null,
+                                    });
+                            }
+                            if (Array.isArray(node.children)) {
+                                for (const child of node.children) walkFlat(child);
+                            }
+                        }
+                        walkFlat(treeResult.tree);
+                        reply.send({ ok: true, base: treeResult.base, entries: flat });
+                    }
+                } catch (e) {
+                    reply.code(400).send({ ok: false, error: String(e?.message || e) });
+                }
+            },
         });
 
         v1.get('/files/*', {
