@@ -35,6 +35,9 @@
     },
     "license": "GPL-3.0-only",
     "volta": {
-        "node": "20.19.4"
+        "node": "22.18.0"
+    },
+    "bin": {
+        "apply_patch": "./scripts/apply_patch.js"
     }
 }
