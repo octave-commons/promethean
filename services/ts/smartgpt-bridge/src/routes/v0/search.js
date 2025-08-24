@@ -1,5 +1,5 @@
-import { search } from '../indexer.js';
-import { dualSinkRegistry } from '../utils/DualSinkRegistry.js';
+import { search } from '../../indexer.js';
+import { dualSinkRegistry } from '../../utils/DualSinkRegistry.js';
 
 export function registerSearchRoutes(fastify) {
     const ROOT_PATH = fastify.ROOT_PATH;

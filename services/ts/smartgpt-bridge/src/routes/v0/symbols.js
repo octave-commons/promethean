@@ -1,4 +1,4 @@
-import { symbolsIndex, symbolsFind } from '../symbols.js';
+import { symbolsIndex, symbolsFind } from '../../symbols.js';
 
 export function registerSymbolsRoutes(fastify) {
     const ROOT_PATH = fastify.ROOT_PATH;
