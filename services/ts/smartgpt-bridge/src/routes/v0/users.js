@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { User } from '../models/User.js';
+import { User } from '../../models/User.js';
 
 export function registerUserRoutes(app) {
     app.post('/users/create', {

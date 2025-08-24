@@ -1,6 +1,6 @@
 import path from 'path';
-import { AgentSupervisor as NewAgentSupervisor } from '../agentSupervisor.js';
-import { supervisor as defaultSupervisor } from '../agent.js';
+import { AgentSupervisor as NewAgentSupervisor } from '../../agentSupervisor.js';
+import { supervisor as defaultSupervisor } from '../../agent.js';
 
 // Maintain separate supervisors for different sandbox modes, and a registry mapping id->supervisor
 const SUPS = new Map();
@@ -18,7 +18,7 @@ function getSup(fastify, key) {
         return defaultSupervisor;
     }
     const ROOT_PATH = fastify.ROOT_PATH;
-    const logDir = path.join(path.dirname(new URL(import.meta.url).pathname), '../logs/agents');
+    const logDir = path.join(path.dirname(new URL(import.meta.url).pathname), '../../logs/agents');
     const sup = new NewAgentSupervisor({
         cwd: ROOT_PATH,
         logDir,

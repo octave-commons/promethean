@@ -1,4 +1,4 @@
-import { Policy } from '../models/Policy.js';
+import { Policy } from '../../models/Policy.js';
 
 export function registerPolicyRoutes(app) {
     app.get('/policies/list', {
