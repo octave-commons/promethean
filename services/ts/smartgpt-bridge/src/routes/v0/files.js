@@ -1,4 +1,4 @@
-import { listDirectory, viewFile, locateStacktrace, treeDirectory } from '../files.js';
+import { listDirectory, viewFile, locateStacktrace, treeDirectory } from '../../files.js';
 
 export function registerFilesRoutes(fastify) {
     const ROOT_PATH = fastify.ROOT_PATH;
