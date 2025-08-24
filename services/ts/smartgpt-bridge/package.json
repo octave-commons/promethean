@@ -21,6 +21,7 @@
         "ajv-formats": "^3.0.1",
         "chromadb": "^1.8.1",
         "dotenv": "^17.2.1",
+        "duckduckgo-search": "^1.0.7",
         "execa": "^9.6.0",
         "fast-glob": "^3.3.2",
         "fastify": "^4.28.1",
