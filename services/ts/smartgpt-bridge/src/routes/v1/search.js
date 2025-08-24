@@ -1,6 +1,10 @@
-import { proxy } from './proxy.js';
+import { grep } from '../../grep.js';
 
 export function registerSearchRoutes(v1) {
+    const ROOT_PATH = v1.ROOT_PATH;
+    // ------------------------------------------------------------------
+    // Search
+    // ------------------------------------------------------------------
     v1.post('/search/code', {
         preHandler: [v1.authUser, v1.requirePolicy('read', () => 'code')],
         schema: {
@@ -17,7 +21,21 @@ export function registerSearchRoutes(v1) {
                 },
             },
         },
-        handler: proxy(v1, 'POST', '/grep'),
+        async handler(req, reply) {
+            try {
+                const body = req.body || {};
+                const results = await grep(ROOT_PATH, {
+                    pattern: body.pattern,
+                    flags: body.flags || 'g',
+                    paths: body.path ? [body.path] : undefined,
+                    maxMatches: Number(body.maxMatches || 200),
+                    context: Number(body.context || 2),
+                });
+                reply.send({ ok: true, results });
+            } catch (e) {
+                reply.code(400).send({ ok: false, error: String(e?.message || e) });
+            }
+        },
     });
 
     v1.post('/search/semantic', {
@@ -44,7 +62,18 @@ export function registerSearchRoutes(v1) {
                 },
             },
         },
-        handler: proxy(v1, 'POST', '/search'),
+        async handler(req, reply) {
+            try {
+                const { q, n } = req.body || {};
+                if (!q) return reply.code(400).send({ ok: false, error: "Missing 'q'" });
+                const results = await semanticSearch(ROOT_PATH, q, n || 10);
+                const sink = dualSinkRegistry.get('bridge_searches');
+                await sink.add({ query: q, results, service: 'chroma' });
+                reply.send({ results });
+            } catch (e) {
+                reply.code(500).send({ ok: false, error: String(e?.message || e) });
+            }
+        },
     });
 
     v1.post('/search/web', {
@@ -64,6 +93,22 @@ export function registerSearchRoutes(v1) {
                 },
             },
         },
-        handler: proxy(v1, 'POST', '/search/web'),
+        async handler(req) {
+            const { q, n, lang, site } = req.body || {};
+            // Compose query with optional site filter
+            let query = q;
+            if (site) query = `site:${site} ${q}`;
+            const opts = {};
+            if (lang) opts.region = lang;
+            const results = await ddgSearch(query, { maxResults: n || 10, ...opts });
+            // ddgSearch returns an array of {title, url, description}
+            return {
+                results: results.map((r) => ({
+                    title: r.title,
+                    url: r.url,
+                    snippet: r.description || r.snippet || '',
+                })),
+            };
+        },
     });
 }
