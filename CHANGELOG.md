@@ -17,10 +17,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - v1 router exposing consolidated SmartGPT Bridge endpoints.
 - OpenAPI spec for `/v1` served at `/v1/openapi.json` with consolidated operations.
 - `distclean` target to remove ignored files via `git clean -fdX`.
+- MCP server and stdio wrapper exposing `search.query` over WebSocket and CLI.
+- Frontend visualization for the markdown link graph using ForceGraph.
+- Simple web chat interface for the LLM service with HTTP and WebSocket endpoints.
+- File explorer UI for SmartGPT Bridge dashboard using file endpoints.
 
 ### Changed
+
 - Organized SmartGPT Bridge routes into versioned directories.
 - Discord embedder migrated to shared DualStore and ContextStore for unified persistence.
+- Kanban processor now persists via shared DualStore and ContextStore.
+- Markdown Graph service now uses shared DualStore and ContextStore for persistence.
 
 ### Fixed
 
