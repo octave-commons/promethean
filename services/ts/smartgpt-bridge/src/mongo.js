@@ -1,3 +1,6 @@
+/**
+ * @deprecated Persistence now uses @shared/ts/persistence/DualStore.
+ */
 import mongoose from 'mongoose';
 
 let connected = false;

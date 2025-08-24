@@ -1,3 +1,6 @@
+/**
+ * @deprecated Use DualStoreManager from @shared/ts/persistence/dualStore instead.
+ */
 import mongoose from 'mongoose';
 import { getChroma } from '../indexer.js';
 import { initMongo } from '../mongo.js';

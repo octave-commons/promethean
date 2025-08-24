@@ -533,3 +533,8 @@ Follow the format:
 - Short description of the bug fix.
 ```
 
+
+## Shared Persistence
+
+Persistence is handled via shared module: @shared/ts/persistence/DualStore
+
