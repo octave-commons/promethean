@@ -1,10 +1,18 @@
 import express from 'express';
+import http from 'http';
+import { WebSocketServer } from 'ws';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import ollama from 'ollama';
 
 export const MODEL = process.env.LLM_MODEL || 'gemma3:latest';
 
 export const app = express();
 app.use(express.json({ limit: '500mb' }));
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, '../public')));
 
 let callOllamaFn = async ({ prompt, context, format }, retry = 0) => {
     try {
@@ -49,7 +57,17 @@ export async function handleTask(task) {
     }
 }
 
-export async function start() {
+app.post('/generate', async (req, res) => {
+    const { prompt, context = [], format = null } = req.body || {};
+    try {
+        const reply = await callOllamaFn({ prompt, context, format });
+        res.json({ reply });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+export async function start(port = Number(process.env.LLM_PORT) || 8888) {
     try {
         const { startService } = await import('../../../../shared/js/serviceTemplate.js');
         broker = await startService({
@@ -60,10 +78,32 @@ export async function start() {
     } catch (err) {
         console.error('Failed to initialize broker', err);
     }
-    const { HeartbeatClient } = await import('../../../../shared/js/heartbeat/index.js');
-    const hb = new HeartbeatClient({ name: process.env.name || 'llm' });
-    await hb.sendOnce();
-    hb.start();
+    try {
+        const { HeartbeatClient } = await import('../../../../shared/js/heartbeat/index.js');
+        const hb = new HeartbeatClient({ name: process.env.name || 'llm' });
+        await hb.sendOnce();
+        hb.start();
+    } catch (err) {
+        console.error('Failed to initialize heartbeat', err);
+    }
+
+    const server = http.createServer(app);
+    const wss = new WebSocketServer({ server, path: '/generate' });
+    wss.on('connection', (ws) => {
+        ws.on('message', async (data) => {
+            try {
+                const { prompt, context = [], format = null } = JSON.parse(data.toString());
+                const reply = await callOllamaFn({ prompt, context, format });
+                ws.send(JSON.stringify({ reply }));
+            } catch (err) {
+                ws.send(JSON.stringify({ error: err.message }));
+            }
+        });
+    });
+
+    return new Promise((resolve) => {
+        const s = server.listen(port, () => resolve(s));
+    });
 }
 
 if (process.env.NODE_ENV !== 'test') {
