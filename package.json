@@ -6,11 +6,15 @@
         "test": "ava tests/*.test.js",
         "coverage": "c8 ava tests/*.test.js",
         "build:docs": "node scripts/generate-service-docs.js",
-        "prom": "node ./scripts/prom.js",
-        "health:node-abi": "node -p \"process.versions.node + ' ABI ' + process.versions.modules\""
+        "health:node-abi": "node -p \"process.versions.node + ' ABI ' + process.versions.modules\"",
+        "prepare": "chmod +x ./bin/promethean.js"
+    },
+    "bin": {
+        "prom": "./bin/promethean.js"
     },
     "dependencies": {
         "@shared/js": "file:shared/js",
+        "@shared/sibilant": "file:shared/sibilant",
         "adm-zip": "^0.5.16",
         "dotenv": "^17.2.1",
         "mongodb": "^6.18.0",

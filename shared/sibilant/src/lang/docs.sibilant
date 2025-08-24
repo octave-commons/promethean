@@ -14,10 +14,10 @@
      (delete sibilant.docs.last-doc))
 
 (def docs.tags ()
-     (var tags (|> docs.definitions (pluck 'tags) flatten)
+     (var tags (pipe docs.definitions (pluck 'tags) flatten)
           counts {})
      (each tag tags
-           (set counts tag (|> counts (get tag) (or 0) (+ 1))))
+           (set counts tag (pipe counts (get tag) (or 0) (+ 1))))
      counts)
 
 
@@ -25,7 +25,7 @@
 
 
 (def docs.text ()
-     (|> docs.definitions
+     (pipe docs.definitions
          (.sort (#(a b)
                   (.locale-compare
                    (prettify a.name false)
@@ -36,7 +36,7 @@
                   "name: " definition.type " " definition.namespace "/" (prettify definition.name) "\n"
                   "description: " definition.doc-string "\n"
                   (if definition.references
-                      ("references:\n  " (|> definition.references
+                      ("references:\n  " (pipe definition.references
                                              (.map (#-> transpile output-formatter eval))
                                              (.join "\n  ")
                                              (concat "\n")))
@@ -46,19 +46,19 @@
                       ("tags: " (join definition.tags ", ") "\n")
                       "")
 
-                  "arguments: " (|> definition.definition.contents third prettify) "\n"
+                  "arguments: " (pipe definition.definition.contents third prettify) "\n"
                   
-                  "examples: \n" (|> definition.examples (or [])
+                  "examples: \n" (pipe definition.examples (or [])
                                      (.map (#> (concat
                                                 (prettify #0 true) "\n"
-                                                (|> #0 transpile output-formatter))))
+                                                (pipe #0 transpile output-formatter))))
                                      (.join "\n\n"))
                   "\n\n")))
          join))
 
 (def docs.text-no-color ()
      (require! strip-ansi "strip-ansi")
-     (|> (docs.text)
+     (pipe (docs.text)
          strip-ansi))
 
 (def docs.json ()
@@ -74,12 +74,12 @@
           references (if definition.references
                          (definition.references.map (#-> (get 'token) (.slice 1 -1)))
                          [])
-          arguments (|> definition.definition.contents
+          arguments (pipe definition.definition.contents
                         third
                         (get 'contents)
                         (.map (#-> (prettify false))))
           definition (prettify definition.definition false)
-          examples (|> definition.examples (or [])
+          examples (pipe definition.examples (or [])
                        (.map (#>
                               { javascript (pipe #0 transpile output-formatter)
                                 sibilant (prettify #0 false) })))

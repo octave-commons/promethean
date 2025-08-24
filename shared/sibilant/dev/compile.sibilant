@@ -41,6 +41,14 @@
 (def send-to-evaluator (code file-name)
   (.send evaluator (lit (code code) (file-name file-name))))
 
+;; automatically inject baseline headers into every compilation unit
+(def baseline-headers
+  (+
+   "(include \"./shared/sibilant/headers/core.sibilant\")"
+   "(include \"./shared/sibilant/headers/interface.sibilant\")"
+   "(include \"./shared/sibilant/headers/async.sibilant\")"
+   ))
+
 (include "./bundle-shared.sibilant"
          "./bundle.sibilant"
          "./bundle-external.sibilant"

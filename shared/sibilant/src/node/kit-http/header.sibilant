@@ -1,3 +1,0 @@
-(require! Http "@kit-js/http/index.js")
-(var (lit Router) Http)
-(include "./meta")

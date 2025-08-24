@@ -29,16 +29,15 @@
       (set sibilant 'dir 'browser)
 
       (def sibilant.initialize () false)
-      
       (def eval-code (js)
            ((new Function js)))
 
       (def sibilant.include (url)
-           (|> url $.get (.done (#-> sibilize eval-code))))
+           (pipe url $.get (.done (#-> sibilize eval-code))))
 
       (when (function? $)
             ($ (#>
-                (|> "script[type=\"application/sibilant\"][src]"
+                (pipe "script[type=\"application/sibilant\"][src]"
                     $
                     (.map (#> this.src))
                     $.make-array
