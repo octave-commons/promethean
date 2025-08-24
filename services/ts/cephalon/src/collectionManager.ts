@@ -1,3 +1,6 @@
+/**
+ * @deprecated Use DualStoreManager from @shared/ts/persistence/dualStore instead.
+ */
 import { Collection as ChromaCollection, ChromaClient } from 'chromadb';
 import { RemoteEmbeddingFunction } from '@shared/ts/dist/embeddings/remote.js';
 import { Collection, MongoClient, ObjectId, OptionalUnlessRequiredId, WithId } from 'mongodb';
