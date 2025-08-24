@@ -1,4 +1,7 @@
 import { grep } from '../../grep.js';
+import { search as semanticSearch } from '../../indexer.js';
+import { contextStore } from '../../sinks.js';
+// import { search as ddgSearch } from 'duckduckgo-search';
 
 export function registerSearchRoutes(v1) {
     const ROOT_PATH = v1.ROOT_PATH;
@@ -67,8 +70,14 @@ export function registerSearchRoutes(v1) {
                 const { q, n } = req.body || {};
                 if (!q) return reply.code(400).send({ ok: false, error: "Missing 'q'" });
                 const results = await semanticSearch(ROOT_PATH, q, n || 10);
-                const sink = dualSinkRegistry.get('bridge_searches');
-                await sink.add({ query: q, results, service: 'chroma' });
+                try {
+                    const store = contextStore.getCollection('bridge_searches');
+                    await store.addEntry({
+                        text: JSON.stringify({ query: q, results, service: 'chroma' }),
+                        timestamp: Date.now(),
+                        metadata: { query: q, resultCount: results.length, service: 'chroma' },
+                    });
+                } catch {}
                 reply.send({ results });
             } catch (e) {
                 reply.code(500).send({ ok: false, error: String(e?.message || e) });
