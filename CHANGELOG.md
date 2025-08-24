@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - v1 router exposing consolidated SmartGPT Bridge endpoints.
 - OpenAPI spec for `/v1` served at `/v1/openapi.json` with consolidated operations.
 - `distclean` target to remove ignored files via `git clean -fdX`.
+- MCP server and stdio wrapper exposing `search.query` over WebSocket and CLI.
 
 ### Changed
 - Organized SmartGPT Bridge routes into versioned directories.
