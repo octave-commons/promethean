@@ -1,12 +1,12 @@
 import test from 'ava';
 import { resetChroma, setEmbeddingFactory, setChromaClient } from '../../src/indexer.js';
-import { cleanupMongo } from '../../src/mongo.js';
+import { getMongoClient } from '@shared/ts/dist/persistence/clients.js';
 
 test('teardown placeholder', (t) => {
     t.pass();
 });
 
-test.after.always('global teardown', () => {
+test.after.always('global teardown', async () => {
     try {
         resetChroma();
     } catch {}
@@ -22,6 +22,7 @@ test.after.always('global teardown', () => {
         });
     } catch {}
     try {
-        cleanupMongo();
+        const mongo = await getMongoClient();
+        await mongo.close();
     } catch {}
 });

@@ -1,5 +1,5 @@
 import { proxy } from './proxy.js';
-import { dualSinkRegistry } from '../../utils/DualSinkRegistry.js';
+import { contextStore } from '../../sinks.js';
 
 export function registerSinkRoutes(v1) {
     // ------------------------------------------------------------------
@@ -22,7 +22,7 @@ export function registerSinkRoutes(v1) {
             },
         },
         async handler() {
-            return { ok: true, sinks: dualSinkRegistry.list() };
+            return { ok: true, sinks: Array.from(contextStore.collections.keys()) };
         },
     });
 
@@ -58,8 +58,12 @@ export function registerSinkRoutes(v1) {
         async handler(req) {
             const { name } = req.params;
             const { q, n, where } = req.body || {};
-            const sink = dualSinkRegistry.get(name);
-            const results = await sink.searchChroma(q, n || 10, where || {});
+            const store = contextStore.getCollection(name);
+            const results = await store.chromaCollection.query({
+                queryTexts: [q],
+                nResults: n || 10,
+                where: where || {},
+            });
             return { results };
         },
     });
