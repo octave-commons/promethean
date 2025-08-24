@@ -1,3 +1,0 @@
-(namespace kit )
-
-(include "./inc/macros")

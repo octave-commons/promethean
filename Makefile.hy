@@ -472,12 +472,9 @@
       (sh "pnpm install" :cwd (join "services/js" service) :shell True)
       (require-pnpm)))
 
-(defn-cmd setup-js []
+(defn-cmd setup-ts/js []
   (print "Setting up JavaScript services...")
-  (setup-shared-js)
-  (if (has-pnpm)
-      (run-dirs SERVICES_JS "pnpm install" :shell True)
-      (require-pnpm)))
+  (sh "pnpm install" :shell True))
 
 (defn-cmd test-js-service [service]
 
@@ -701,6 +698,7 @@
   (format-js)
   (format-ts))
 
+
 (defn-cmd coverage []
   (coverage-python)
   (coverage-js)
@@ -709,8 +707,7 @@
 (defn-cmd setup []
   (print "Setting up all services...")
   (setup-python)
-  (setup-js)
-  (setup-ts)
+  (setup-ts/js)
   (setup-hy)
   (setup-sibilant)
   (when (not (shutil.which "pm2"))
@@ -720,8 +717,7 @@
 (defn-cmd setup-quick []
   (print "Quick setup using requirements.txt files...")
   (setup-python-quick)
-  (setup-js)
-  (setup-ts)
+  (setup-ts/js)
   (setup-hy)
   (setup-sibilant)
   (when (not (shutil.which "pm2"))

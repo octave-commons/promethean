@@ -31,6 +31,9 @@
                                    lisp))))
    (await (.send compiler "(meta (assign sibilant.dir \".\") null)"))
 
+   ;; NEW: send compiled code to evaluator with real file name
+   (await (send-to-evaluator js file.path))
+
    (var dest-path (+  (strip-sibilant-extension file.rel ) ".js"))
 
    (await (.insert dest dest-path ))

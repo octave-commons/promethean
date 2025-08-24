@@ -1,3 +1,0 @@
-(specify Javascript-file (extend File))
-(def-description Javascript-file (path fs)
-  (def-generic eval (path)))
