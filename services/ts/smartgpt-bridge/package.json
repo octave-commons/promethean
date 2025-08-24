@@ -11,6 +11,8 @@
         "test": "ava",
         "test:watch": "ava -w",
         "build": "echo nope",
+        "lint": "pnpm exec biome lint . || true",
+        "format": "pnpm exec biome format --write .",
         "test:coverage": "c8 -r text -r text-summary -r lcov -r html ava"
     },
     "dependencies": {
@@ -39,6 +41,7 @@
         "ava": "^6.1.3",
         "c8": "^9.1.0",
         "mongodb-memory-server": "^10.2.0",
-        "sinon": "^17.0.1"
+        "sinon": "^17.0.1",
+        "@biomejs/biome": "^2.1.4"
     }
 }
