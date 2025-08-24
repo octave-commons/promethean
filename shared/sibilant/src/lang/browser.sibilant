@@ -1,4 +1,4 @@
-(source-mapping-url "../maps/browser.map")
+(source-mapping-url "../browser.map")
 
 (set this 'sibilant
      (scoped
@@ -20,7 +20,7 @@
                "./docs"
                "./require-and-include")
 
-      (var package (include "../package.son"))
+      (var package (include "../../package.son"))
       (def sibilant.package-info package)
 
       (def sibilant.version-string ()
