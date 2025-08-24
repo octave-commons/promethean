@@ -2,6 +2,9 @@ import { proxy } from './proxy.js';
 import { dualSinkRegistry } from '../../utils/DualSinkRegistry.js';
 
 export function registerSinkRoutes(v1) {
+    // ------------------------------------------------------------------
+    // Sinks
+    // ------------------------------------------------------------------
     v1.get('/sinks', {
         preHandler: [v1.authUser, v1.requirePolicy('read', () => 'sinks')],
         schema: {
@@ -18,7 +21,9 @@ export function registerSinkRoutes(v1) {
                 },
             },
         },
-        handler: proxy(v1, 'GET', '/sinks/list'),
+        async handler() {
+            return { ok: true, sinks: dualSinkRegistry.list() };
+        },
     });
 
     v1.post('/sinks/:name/search', {

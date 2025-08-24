@@ -12,14 +12,16 @@ export function registerIndexerRoutes(v1) {
                     type: 'object',
                     properties: {
                         ok: { type: 'boolean' },
-                        status: { type: 'string' },
+                        status: { type: 'object', additionalProperties: true },
                         lastIndexedAt: { type: 'string', format: 'date-time', nullable: true },
                         stats: { type: 'object', additionalProperties: true, nullable: true },
                     },
                 },
             },
         },
-        handler: proxy(v1, 'GET', '/indexer/status'),
+        async handler() {
+            return { ok: true, status: indexerManager.status() };
+        },
     });
 
     v1.post('/indexer', {
@@ -54,21 +56,33 @@ export function registerIndexerRoutes(v1) {
             },
         },
         async handler(req, reply) {
-            const { op, path } = req.body || {};
-            let url;
-            if (op === 'index') url = '/indexer/index';
-            else if (op === 'remove') url = '/indexer/remove';
-            else if (op === 'reset') url = '/indexer/reset';
-            else if (op === 'reindex') url = path ? '/files/reindex' : '/reindex';
-            else return reply.code(400).send({ ok: false, error: 'invalid op' });
-            const payload = path ? { path } : {};
-            const res = await v1.inject({ method: 'POST', url, payload, headers: req.headers });
-            reply.code(res.statusCode);
-            for (const [k, v] of Object.entries(res.headers)) reply.header(k, v);
+            const { op, path: p } = req.body || {};
             try {
-                reply.send(res.json());
-            } catch {
-                reply.send(res.payload);
+                if (op === 'index') {
+                    if (!p) return reply.code(400).send({ ok: false, error: 'missing path' });
+                    const r = await indexerManager.scheduleIndexFile(String(p));
+                    return reply.send(r);
+                } else if (op === 'remove') {
+                    if (!p) return reply.code(400).send({ ok: false, error: 'missing path' });
+                    const r = await indexerManager.removeFile(String(p));
+                    return reply.send(r);
+                } else if (op === 'reset') {
+                    if (indexerManager.isBusy())
+                        return reply.code(409).send({ ok: false, error: 'Indexer busy' });
+                    await indexerManager.resetAndBootstrap(ROOT_PATH);
+                    return reply.send({ ok: true });
+                } else if (op === 'reindex') {
+                    if (p) {
+                        const r = await indexerManager.scheduleReindexSubset(p);
+                        return reply.send(r);
+                    } else {
+                        const r = await indexerManager.scheduleReindexAll();
+                        return reply.send(r);
+                    }
+                }
+                return reply.code(400).send({ ok: false, error: 'invalid op' });
+            } catch (e) {
+                reply.code(500).send({ ok: false, error: String(e?.message || e) });
             }
         },
     });
