@@ -4,7 +4,7 @@ try {
     ({ AGENT_NAME } = await import('@shared/js/env.js'));
 } catch {}
 import { choice } from '../util.js';
-import { CollectionManager } from '../collectionManager.js';
+import { DualStoreManager as CollectionManager } from '@shared/ts/dist/persistence/dualStore.js';
 import { innerStateFormat } from '../prompts.js';
 import type { AgentInnerState } from '../types.js';
 import type { AIAgent } from './index.js';
