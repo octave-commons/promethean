@@ -3,7 +3,7 @@ try {
     ({ AGENT_NAME } = await import('../../../../../shared/js/env.js'));
 } catch {}
 import { splitSentances, seperateSpeechFromThought, classifyPause, estimatePauseDuration } from '../tokenizers.js';
-import { CollectionManager } from '../collectionManager.js';
+import { DualStoreManager as CollectionManager } from '@shared/ts/dist/persistence/dualStore.js';
 import { sleep } from '../util.js';
 import type { AIAgent } from './index.js';
 import { createAudioResource, StreamType } from '@discordjs/voice';
