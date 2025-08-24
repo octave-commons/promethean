@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - Organized SmartGPT Bridge routes into versioned directories.
+- Discord embedder migrated to shared DualStore and ContextStore for unified persistence.
 
 ### Fixed
 
