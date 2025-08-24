@@ -3,7 +3,7 @@ import type { Bot } from '../bot.js';
 import { VoiceSession } from '../voice-session.js';
 import { makeLogger, type Logger } from '../factories/logger.js';
 import { makePolicy, type PolicyChecker } from '../factories/policy.js';
-import { CollectionManager } from '../collectionManager.js';
+import { DualStoreManager as CollectionManager } from '@shared/ts/dist/persistence/dualStore.js';
 import type { FinalTranscript } from '../transcriber.js';
 
 export type JoinVoiceScope = {
