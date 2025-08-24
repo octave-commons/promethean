@@ -15,8 +15,8 @@ import { registerRbac } from './rbac.js';
 import { registerV1Routes } from './routes/v1/index.js';
 import { mongoChromaLogger } from './logging/index.js';
 
-export function buildFastifyApp(ROOT_PATH) {
-    registerSinks();
+export async function buildFastifyApp(ROOT_PATH) {
+    await registerSinks();
     const app = Fastify({
         logger: false,
         trustProxy: true,
