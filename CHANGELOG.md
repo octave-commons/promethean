@@ -19,7 +19,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - `distclean` target to remove ignored files via `git clean -fdX`.
 
 ### Changed
+
 - Organized SmartGPT Bridge routes into versioned directories.
+- SmartGPT Bridge now uses shared DualStore and ContextStore for persistence.
 
 ### Fixed
 
