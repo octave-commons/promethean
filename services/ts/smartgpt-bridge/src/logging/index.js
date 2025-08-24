@@ -1,8 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
-import { dualSinkRegistry } from '../utils/DualSinkRegistry.js';
+import { contextStore } from '../sinks.js';
 
 export async function mongoChromaLogger(app) {
-    const logSink = dualSinkRegistry.get('bridge_logs');
+    let logStore;
+    try {
+        logStore = contextStore.getCollection('bridge_logs');
+    } catch {
+        return; // sink not available
+    }
 
     app.addHook('onRequest', async (req) => {
         req.requestId = uuidv4();
@@ -23,7 +28,18 @@ export async function mongoChromaLogger(app) {
             operationId: reply.context?.schema?.operationId,
         };
         try {
-            await logSink.add(entry);
+            await logStore.addEntry({
+                text: JSON.stringify(entry),
+                timestamp: Date.now(),
+                metadata: {
+                    path: entry.path,
+                    method: entry.method,
+                    statusCode: entry.statusCode,
+                    hasError: !!entry.error,
+                    service: entry.service,
+                    operationId: entry.operationId,
+                },
+            });
         } catch {}
     });
 
@@ -41,7 +57,18 @@ export async function mongoChromaLogger(app) {
             operationId: reply.context?.schema?.operationId,
         };
         try {
-            await logSink.add(entry);
+            await logStore.addEntry({
+                text: JSON.stringify(entry),
+                timestamp: Date.now(),
+                metadata: {
+                    path: entry.path,
+                    method: entry.method,
+                    statusCode: entry.statusCode,
+                    hasError: !!entry.error,
+                    service: entry.service,
+                    operationId: entry.operationId,
+                },
+            });
         } catch {}
     });
 }

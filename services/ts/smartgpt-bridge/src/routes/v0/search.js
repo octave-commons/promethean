@@ -1,5 +1,5 @@
 import { search } from '../../indexer.js';
-import { dualSinkRegistry } from '../../utils/DualSinkRegistry.js';
+import { contextStore } from '../../sinks.js';
 
 export function registerSearchRoutes(fastify) {
     const ROOT_PATH = fastify.ROOT_PATH;
@@ -35,8 +35,14 @@ export function registerSearchRoutes(fastify) {
                 const { q, n } = req.body || {};
                 if (!q) return reply.code(400).send({ ok: false, error: "Missing 'q'" });
                 const results = await search(ROOT_PATH, q, n ?? 8);
-                const sink = dualSinkRegistry.get('bridge_searches');
-                await sink.add({ query: q, results, service: 'chroma' });
+                try {
+                    const store = contextStore.getCollection('bridge_searches');
+                    await store.addEntry({
+                        text: JSON.stringify({ query: q, results, service: 'chroma' }),
+                        timestamp: Date.now(),
+                        metadata: { query: q, resultCount: results.length, service: 'chroma' },
+                    });
+                } catch {}
                 reply.send({ ok: true, results });
             } catch (e) {
                 reply.code(500).send({ ok: false, error: String(e?.message || e) });
@@ -66,8 +72,14 @@ export function registerSearchRoutes(fastify) {
             const res = await fetch(url);
             const data = await res.json();
             const results = extractResults(data).slice(0, limit || 5);
-            const sink = dualSinkRegistry.get('bridge_searches');
-            await sink.add({ query: q, results });
+            try {
+                const store = contextStore.getCollection('bridge_searches');
+                await store.addEntry({
+                    text: JSON.stringify({ query: q, results }),
+                    timestamp: Date.now(),
+                    metadata: { query: q, resultCount: results.length },
+                });
+            } catch {}
             return { results };
         },
     });
