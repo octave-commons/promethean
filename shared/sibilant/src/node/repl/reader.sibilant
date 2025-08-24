@@ -1,32 +1,21 @@
 (namespace repl)
 
-(include "kit/header")
-(import-namespace kit)
+;; Updated to use consolidated headers
+(include "../../../headers/core.sibilant")
+(include "../../../headers/interface.sibilant")
+(include "../../../headers/async.sibilant")
 
-(include "../meta")
-(import-namespace meta)
+(load "../../../headers/actor.sibilant")
+(load "../../../headers/events.sibilant")
 
-
-
-(load "kit-actor/header")
-
-(load "kit-events/header")
-
-(load "kit-interface/header")
-(import-namespace interface )
-
-(def scanning? (parser) (not (or parser.in-quote parser.comment)))
+(def scanning? (parser)
+  (not (or parser.in-quote parser.comment)))
 
 (var readers
      (lit
       ("\"" (lambda (c) (assign this.in-quote (not this.in-quote)) c))
-      (";" (lambda (c) (if this.in-quote c
-                           (do (assign this.comment true)
-                               "")) ))))
-
-(macro reader-macro (name ...body)
-       `(set readers @name
-             (lambda (char) ...@body)))
+      (";"  (lambda (c) (if this.in-quote c
+                            (do (assign this.comment true) "")) ))))
 
 (macro validator (name ...body)
        `(reader-macro @name
@@ -34,18 +23,16 @@
                           (do ...@body char)
                         char)))
 
+(validator "(" (incr this.parens))
+(validator ")" (decr this.parens))
 
-(validator "("   (incr this.parens) )
-(validator ")"   (decr this.parens) )
+(validator "[" (incr this.square-braces))
+(validator "]" (decr this.square-braces))
 
-(validator "["   (incr this.square-braces))
-(validator "]"   (decr this.square-braces))
-
-(validator "{"   (incr this.curly-braces))
-(validator "}"   (decr this.curly-braces))
+(validator "{" (incr this.curly-braces))
+(validator "}" (decr this.curly-braces))
 
 (define Reader Actor
-
   (init ((fragment [])
          (parens 0)
          (square-braces 0)
@@ -57,44 +44,6 @@
 
   (def spawn (compiler)
     (remember this.parsers compiler
-              (.start ((create Parser)))))
-
-  (def-generic *send (string fragment)
-
-    (var lines (.split string "\n"))
-
-    (each lines (line)
-          (var looping true i 0)
-          (var chars (.split line ""))
-
-          (assign this.comment false)
-
-          (while (and looping (not this.comment))
-            (var char (get chars (incr i)))
-
-            (if (get readers char)
-                (assign char (.call (get readers char ) this char chars i)))
-
-            (when looping
-
-              (.push this.fragment char)
-
-              (when (and (not this.parens)
-                         (not this.curly-braces)
-                         (not this.square-braces))
-
-                (var s (pipe (.join this.fragment "")
-                             .trim ))
-
-                (if (not (= s.length 0))
-                    (.emit this 'message s))
-
-                (assign this.fragment []))
-
-              (if (>= i chars.length)
-                  (assign looping false))))
-          (.push this.fragment "\n"))))
-
-
+              (.start ((create Parser))))))
 
 (export Reader)
