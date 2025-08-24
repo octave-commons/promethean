@@ -1,5 +1,5 @@
-import { CollectionManager } from '../collectionManager.js';
-import { formatMessage, GenericEntry } from '../contextManager.js';
+import { DualStoreManager as CollectionManager } from '@shared/ts/dist/persistence/dualStore.js';
+import { formatMessage, GenericEntry } from '@shared/ts/dist/persistence/contextStore.js';
 import { generatePromptChoice, generateSpecialQuery } from '../util.js';
 import type { AIAgent } from './index.js';
 
