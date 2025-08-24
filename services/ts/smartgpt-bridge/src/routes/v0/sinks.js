@@ -1,4 +1,4 @@
-import { dualSinkRegistry } from '../utils/DualSinkRegistry.js';
+import { dualSinkRegistry } from '../../utils/DualSinkRegistry.js';
 
 export function registerSinkRoutes(app) {
     app.get('/sinks/list', {
