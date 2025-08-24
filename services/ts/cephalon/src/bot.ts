@@ -9,7 +9,7 @@ import {
 } from 'discord.js';
 import { EventEmitter } from 'events';
 import { DESKTOP_CAPTURE_CHANNEL_ID } from '@shared/js/env.js';
-import { ContextManager } from './contextManager.js';
+import { ContextStore as ContextManager } from '@shared/ts/dist/persistence/contextStore.js';
 import { createAgentWorld } from '@shared/ts/dist/agent-ecs/world.js';
 import { enqueueUtterance } from '@shared/ts/dist/agent-ecs/helpers/enqueueUtterance.js';
 import { pushVisionFrame } from '@shared/ts/dist/agent-ecs/helpers/pushVision.js';

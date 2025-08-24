@@ -9,7 +9,7 @@ import { defaultPrompt } from '../prompts.js';
 import { enqueueUtterance } from '@shared/ts/dist/agent-ecs/helpers/enqueueUtterance.js';
 import { classifyPause, estimatePauseDuration, seperateSpeechFromThought, splitSentances } from '../tokenizers.js';
 import { sleep } from '../util.js';
-import { CollectionManager } from '../collectionManager.js';
+import { DualStoreManager as CollectionManager } from '@shared/ts/dist/persistence/dualStore.js';
 import { AGENT_NAME } from '@shared/js/env.js';
 
 export type StartDialogInput = { bot: Bot };
