@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import fg from 'fast-glob';
+import { loadGitIgnore } from './gitignore-util.js';
 
 function splitCSV(s) {
     return (s || '')
@@ -148,21 +149,25 @@ async function safeView(ROOT_PATH, file, line, context) {
     }
 }
 
-export async function listDirectory(ROOT_PATH, rel = '.', options = {}) {
+// List directory entries with filtering and sorting
+export async function listDirectory(ROOT_PATH, rel, options = {}) {
     const includeHidden = Boolean(options.includeHidden);
     const type = options.type; // 'file' | 'dir' | undefined
     const abs = normalizeToRoot(ROOT_PATH, rel || '.');
     const st = await fs.stat(abs).catch(() => null);
     if (!st || !st.isDirectory()) throw new Error('not a directory');
+    const ig = await loadGitIgnore(ROOT_PATH, abs);
     const dirents = await fs.readdir(abs, { withFileTypes: true });
     const out = [];
     for (const d of dirents) {
         if (!includeHidden && d.name.startsWith('.')) continue;
+        const childAbs = path.join(abs, d.name);
+        const relPath = path.relative(ROOT_PATH, childAbs);
+        if (ig.ignores(relPath)) continue;
         const isDir = d.isDirectory();
         const isFile = d.isFile();
         if (type === 'dir' && !isDir) continue;
         if (type === 'file' && !isFile) continue;
-        const childAbs = path.join(abs, d.name);
         let size = null;
         let mtimeMs = null;
         try {
@@ -172,7 +177,7 @@ export async function listDirectory(ROOT_PATH, rel = '.', options = {}) {
         } catch {}
         out.push({
             name: d.name,
-            path: path.relative(ROOT_PATH, childAbs),
+            path: relPath,
             type: isDir ? 'dir' : isFile ? 'file' : 'other',
             size,
             mtimeMs,
@@ -186,12 +191,14 @@ export async function listDirectory(ROOT_PATH, rel = '.', options = {}) {
     return { ok: true, base: path.relative(ROOT_PATH, abs) || '.', entries: out };
 }
 
-export async function treeDirectory(ROOT_PATH, rel = '.', options = {}) {
+// Recursively walk directory tree up to a given depth
+export async function treeDirectory(ROOT_PATH, rel, options = {}) {
     const includeHidden = Boolean(options.includeHidden);
     const depth = Number(options.depth || 1);
     const abs = normalizeToRoot(ROOT_PATH, rel || '.');
     const st = await fs.stat(abs).catch(() => null);
     if (!st || !st.isDirectory()) throw new Error('not a directory');
+    const ig = await loadGitIgnore(ROOT_PATH, abs);
 
     async function walk(dir, remaining) {
         const dirents = await fs.readdir(dir, { withFileTypes: true });
@@ -200,6 +207,7 @@ export async function treeDirectory(ROOT_PATH, rel = '.', options = {}) {
             if (!includeHidden && d.name.startsWith('.')) continue;
             const childAbs = path.join(dir, d.name);
             const relPath = path.relative(ROOT_PATH, childAbs);
+            if (ig.ignores(relPath)) continue;
             if (d.isDirectory()) {
                 const child = {
                     name: d.name,

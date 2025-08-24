@@ -6,13 +6,13 @@ import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import ajvformats from 'ajv-formats';
 import { createFastifyAuth } from './fastifyAuth.js';
-import { registerV0Routes } from './routes/v0.js';
+import { registerV0Routes } from './routes/v0/index.js';
 
 import { indexerManager } from './indexer.js';
 import { restoreAgentsFromStore } from './agent.js';
 import { registerSinks } from './sinks.js';
 import { registerRbac } from './rbac.js';
-import { registerV1Routes } from './routes/v1.js';
+import { registerV1Routes } from './routes/v1/index.js';
 import { mongoChromaLogger } from './logging/index.js';
 
 export function buildFastifyApp(ROOT_PATH) {
@@ -126,6 +126,11 @@ export function buildFastifyApp(ROOT_PATH) {
         },
         additionalProperties: false,
     });
+    app.addHook('preValidation', (req, _reply, done) => {
+        const rp = req.params;
+        if (rp?.path && !rp['*']) rp['*'] = rp.path;
+        done();
+    });
 
     app.addSchema({
         $id: 'StacktraceResult',
@@ -208,6 +213,7 @@ export function buildFastifyApp(ROOT_PATH) {
     );
 
     // Mount v1 routes with new auth scoped to /v1
+
     app.register(
         async (v1Scope) => {
             const v1Auth = createFastifyAuth();
