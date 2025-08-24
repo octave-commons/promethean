@@ -1,21 +1,16 @@
 (namespace repl)
 
-(include "kit/header")
-(import-namespace kit)
-
-(include "kit-interface/header")
-(import-namespace interface )
-
-(include "kit-actor/header")
-(import-namespace actor)
-
-(include "kit-events/header")
-(import-namespace events)
+;; Updated to use consolidated headers
+(include "../../../headers/core.sibilant")
+(include "../../../headers/interface.sibilant")
+(include "../../../headers/async.sibilant")
+(load "../../../headers/actor.sibilant")
+(load "../../../headers/events.sibilant")
 
 (require! (lit inspect) 'util
           'vm)
 
-;; Instead of anonymous incremental ids, we now support real file names
+;; Evaluator now supports file-aware execution
 (def-curried run-in (string file-name)
   (.run-in-this-context vm string (lit (filename file-name))))
 

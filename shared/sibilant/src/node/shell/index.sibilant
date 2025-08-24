@@ -1,26 +1,21 @@
+(namespace shell)
 
-(macro set-globals (...body)
-       `(mixin (lit ...@body) global))
-(include "kit/header")
-(import-namespace kit)
-
+;; Updated to use consolidated headers
+(include "../../../headers/core.sibilant")
+(include "../../../headers/interface.sibilant")
+(include "../../../headers/async.sibilant")
+(include "../../../headers/repl.sibilant")
 
 (require! 'fs 'sibilant 'readline)
 
-(include "kit-repl/header")
 (import-namespace repl)
 
+(.include sibilant "../../../headers/core.sibilant")
+(.include sibilant "./meta")
+(.include sibilant "../../../headers/interface.sibilant")
 
-(.include sibilant "kit/header" )
-(.include sibilant (.resolve require "./meta"))
-(.include sibilant "kit-interface/header")
-
-(set module 'filename (pipe (process.cwd) ))
-
-(when (.exists-sync fs "./.sibilant/meta.sibilant")
-  (.include sibilant "./.sibilant/meta"))
-
-(require! Path 'path)
+(macro set-globals (...body)
+       `(mixin (lit ...@body) global))
 
 (set-globals (sibilant (require 'sibilant))
              (R (require 'ramda))
@@ -28,53 +23,47 @@
              module
              exports
              (def require (module-path)
-               (require (if (= (first module-path) ".")
-                            (.join Path (process.cwd) module-path)
-                            module-path)))
-             create extend mixin conditional cond partially-apply-after)
-
-(def-curried append-line (path d)
-  (append-file path (+ d "\n")))
+               (if (.starts-with module-path ".")
+                   (require (Path.resolve (Path.dirname __filename)
+                                          module-path))
+                   (require module-path))))
 
 (def-curried append-file (path d)
   (make-promise
-   (.append-file fs path d (=> (e) (if e (fail e) (success))))))
+   (.append-file fs path d (=> (e)
+                               (if e (fail e)
+                                   (success))))))
 
 (var history-file-path "./history.sibilant")
 
-(def read-history (actor) (print "reading history"))
+(def read-history (actor)
+  (print "reading history"))
 
-(var identity (=> (a) a))
-
-(def-curried pipe-stream-to-actor ( f actor)
+(def-curried pipe-stream-to-actor (f actor)
   (make-promise
-   (pipe (.create-read-stream fs history-file-path)
-         (.on  'data (#-> (+ "") (tap f) actor.send))
-         (.on  'end success)
-         (.on  'error fail))))
+   (var reader (.create-read-stream fs f)
+        writer actor.write-stream)
+   (.pipe reader writer)))
 
 (var Reader repl.Reader)
-
 
 (let ((repl (.start ((create repl.REPL))))
       (rl (readline.create-interface
            (lit (input process.stdin)
                 (output process.stdout)
-                (prompt "#>")))))
+                (prompt "#>") ))))
 
   (pipe (.send repl "(init-shell)")
-        (.catch (aprint "failed to meta packages"))
-        (.then (->
-                (var reader (get repl Reader.symbol))
+        (.catch (aprint "failed to meta packages")))
 
-                (.on rl 'line (#-> repl.send))
-                ;;(.on reader 'message (append-line history-file-path))
+  (.on rl 'line (#-> repl.send))
+  ;;(.on reader 'message (append-line history-file-path))
 
-                (.on repl 'result (#-> rl.prompt))
-                (print "ready for input")
-                (.prompt rl)
+  (.on repl 'result (#-> rl.prompt))
+  (print "ready for input")
+  (.prompt rl)
 
-                (pipe repl
-                      (.on  'result (aprint "result:"))
-                      (.on  'error (aprint "error:"))
-                      (.on  'log (aprint "log:")))))))
+  (pipe repl
+        (.on 'result (aprint "result:"))
+        (.on 'error (aprint "error:"))
+        (.on 'log (aprint "log:"))))
