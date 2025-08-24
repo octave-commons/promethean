@@ -1,51 +1,42 @@
-import { Collection, ObjectId } from 'mongodb';
 import { Collection as ChromaCollection } from 'chromadb';
-import { RemoteEmbeddingFunction } from '@shared/ts/embeddings/remote';
-import { getMongoClient, getChromaClient } from './clients';
-import { DualEntry } from './types';
+
+import { RemoteEmbeddingFunction } from '../embeddings/remote.js';
+import { Collection, OptionalUnlessRequiredId, WithId } from 'mongodb';
+import { AGENT_NAME } from '@shared/js/env.js';
 import { randomUUID } from 'crypto';
-import { AGENT_NAME } from '@shared/js/env';
+import { DualStoreEntry, AliasDoc } from './types.js';
+import { getChromaClient, getMongoClient } from './clients.js';
 
-type AliasDoc = {
-    _id: string;
-    target: string;
-    embed?: { driver: string; fn: string; dims: number; version: string };
-};
-
-export class DualStore<T = any> {
+export class DualStoreManager<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> {
     name: string;
-    chroma: ChromaCollection;
-    mongo: Collection<DualEntry<T>>;
-    textKey: string;
-    timeKey: string;
+    chromaCollection: ChromaCollection;
+    mongoCollection: Collection<DualStoreEntry<TextKey, TimeKey>>;
+    textKey: TextKey;
+    timeStampKey: TimeKey;
 
-    private constructor(
+    constructor(
         name: string,
-        chroma: ChromaCollection,
-        mongo: Collection<DualEntry<T>>,
-        textKey: string,
-        timeKey: string,
+        chromaCollection: ChromaCollection,
+        mongoCollection: Collection<DualStoreEntry<TextKey, TimeKey>>,
+        textKey: TextKey,
+        timeStampKey: TimeKey,
     ) {
         this.name = name;
-        this.chroma = chroma;
-        this.mongo = mongo;
+        this.chromaCollection = chromaCollection;
+        this.mongoCollection = mongoCollection;
         this.textKey = textKey;
-        this.timeKey = timeKey;
+        this.timeStampKey = timeStampKey;
     }
 
-    /**
-     * Factory method:
-     * - Resolves collection aliases (Mongo: collection_aliases).
-     * - Selects embedding function from alias or env.
-     * - Creates both Mongo + Chroma collections.
-     */
-    static async create<T>(
+    static async create<TTextKey extends string = 'text', TTimeKey extends string = 'createdAt'>(
         name: string,
-        textKey: string = 'text',
-        timeKey: string = 'createdAt',
-    ): Promise<DualStore<T>> {
+        textKey: TTextKey,
+        timeStampKey: TTimeKey,
+    ) {
+        const chromaClient = await getChromaClient();
+        const mongoClient = await getMongoClient();
         const family = `${AGENT_NAME}_${name}`;
-        const db = (await getMongoClient()).db('database');
+        const db = mongoClient.db('database');
         const aliases = db.collection<AliasDoc>('collection_aliases');
         const alias = await aliases.findOne({ _id: family });
 
@@ -59,93 +50,83 @@ export class DualStore<T = any> {
                   fn: process.env.EMBEDDING_FUNCTION || 'nomic-embed-text',
               });
 
-        const chroma = await (
-            await getChromaClient()
-        ).getOrCreateCollection({
+        const chromaCollection = await chromaClient.getOrCreateCollection({
             name: alias?.target || family,
             embeddingFunction: embeddingFn,
         });
 
-        const mongo = db.collection<DualEntry<T>>(family);
+        const mongoCollection = db.collection<DualStoreEntry<TTextKey, TTimeKey>>(family);
 
-        return new DualStore(family, chroma, mongo, textKey, timeKey);
+        return new DualStoreManager(family, chromaCollection, mongoCollection, textKey, timeStampKey);
     }
 
-    /**
-     * Insert into both Mongo + Chroma.
-     * - Generates UUID if missing.
-     * - Adds timestamp if missing.
-     * - Merges metadata with timestamp.
-     */
-    async insert(doc: DualEntry<T>) {
-        const id = doc.id ?? randomUUID();
-        doc.id = id;
+    // AddEntry method:
+    async addEntry(entry: DualStoreEntry<TextKey, TimeKey>) {
+        const id = entry.id ?? randomUUID();
+        entry.id = id;
 
-        if (!doc[this.timeKey]) {
-            (doc as any)[this.timeKey] = Date.now();
+        if (!entry[this.timeStampKey]) {
+            entry[this.timeStampKey] = Date.now() as DualStoreEntry<TextKey, TimeKey>[TimeKey];
         }
 
-        if (!doc.metadata) doc.metadata = {};
-        doc.metadata[this.timeKey] = (doc as any)[this.timeKey];
+        if (!entry.metadata) entry.metadata = {};
+        entry.metadata[this.timeStampKey] = entry[this.timeStampKey];
 
-        await this.chroma.add({
+        // console.log("Adding entry to collection", this.name, entry);
+
+        await this.chromaCollection.add({
             ids: [id],
-            documents: [doc[this.textKey]],
-            metadatas: [doc.metadata],
+            documents: [entry[this.textKey]],
+            metadatas: [entry.metadata],
         });
 
-        await this.mongo.insertOne({
-            id: doc.id,
-            [this.textKey]: doc[this.textKey],
-            [this.timeKey]: doc[this.timeKey],
-            metadata: doc.metadata,
-            createdAt: new Date(),
-        } as any);
-
-        return id;
-    }
-
-    /**
-     * Fetch most recent Mongo entries.
-     */
-    async getMostRecent(
-        limit = 10,
-        filter: any = { [this.textKey]: { $nin: [null, ''], $not: /^\s*$/ } },
-        sorter: any = { [this.timeKey]: -1 },
-    ) {
-        return (await this.mongo.find(filter).sort(sorter).limit(limit).toArray()).map((entry: any) => ({
+        await this.mongoCollection.insertOne({
             id: entry.id,
-            text: entry[this.textKey],
-            timestamp: new Date(entry[this.timeKey]).getTime(),
+            [this.textKey]: entry[this.textKey],
+            [this.timeStampKey]: entry[this.timeStampKey],
             metadata: entry.metadata,
-        }));
+        } as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>);
     }
 
-    /**
-     * Fetch most relevant docs from Chroma.
-     * Deduplicates by text, normalizes to (id, text, metadata, timestamp).
-     */
-    async getMostRelevant(querys: string[], limit = 5) {
-        if (!querys || querys.length === 0) return [];
+    async getMostRecent(
+        limit: number = 10,
+        mongoFilter: any = { [this.textKey]: { $nin: [null, ''], $not: /^\s*$/ } },
+        sorter: any = { [this.timeStampKey]: -1 },
+    ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
+        // console.log("Getting most recent entries from collection", this.name, "with limit", limit);
+        return (await this.mongoCollection.find(mongoFilter).sort(sorter).limit(limit).toArray()).map(
+            (entry: WithId<DualStoreEntry<TextKey, TimeKey>>) => ({
+                id: entry.id,
+                text: (entry as Record<TextKey, any>)[this.textKey],
+                timestamp: new Date((entry as Record<TimeKey, any>)[this.timeStampKey]).getTime(),
+                metadata: entry.metadata,
+            }),
+        ) as DualStoreEntry<'text', 'timestamp'>[];
+    }
+    async getMostRelevant(queryTexts: string[], limit: number): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
+        // console.log("Getting most relevant entries from collection", this.name, "for queries", queryTexts, "with limit", limit);
+        if (!queryTexts || queryTexts.length === 0) return Promise.resolve([]);
 
-        const res = await this.chroma.query({ queryTexts: querys, nResults: limit });
-        const ids = res.ids.flat(2);
-        const docs = res.documents.flat(2);
-        const metas = res.metadatas.flat(2);
-
-        const unique = new Set<string>();
-        return docs
+        const queryResult = await this.chromaCollection.query({
+            queryTexts,
+            nResults: limit,
+        });
+        const uniqueThoughts = new Set();
+        const ids = queryResult.ids.flat(2);
+        const meta = queryResult.metadatas.flat(2);
+        return queryResult.documents
+            .flat(2)
             .map((doc, i) => ({
                 id: ids[i],
                 text: doc,
-                metadata: metas[i],
-                timestamp: metas[i]?.timeStamp || metas[i]?.[this.timeKey] || Date.now(),
+                metadata: meta[i],
+                timestamp: meta[i]?.timeStamp || meta[i]?.[this.timeStampKey] || Date.now(),
             }))
             .filter((doc) => {
-                if (!doc.text) return false;
-                if (unique.has(doc.text)) return false;
-                unique.add(doc.text);
+                if (!doc.text) return false; // filter out undefined text
+                if (uniqueThoughts.has(doc.text)) return false; // filter out duplicates
+                uniqueThoughts.add(doc.text);
                 return true;
-            });
+            }) as DualStoreEntry<'text', 'timestamp'>[];
     }
 }

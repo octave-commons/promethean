@@ -1,7 +1,0 @@
-
-(var games ((create Directory) "./games"))
-(print "games" games)
-
-(pipe (.each games add-game)
-      (.then (aprint "all games loaded"))
-      (.catch  (aprint "failed to set up all the games")))

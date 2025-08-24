@@ -1,6 +1,0 @@
-(import Data-type "./data-type.js")
-
-(define Group-id Data-type
-  (keys ['group-id]))
-
-(export Group-id)

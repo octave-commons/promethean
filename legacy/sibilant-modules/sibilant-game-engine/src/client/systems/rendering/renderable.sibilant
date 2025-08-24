@@ -1,7 +1,0 @@
-(include "kit-interface/header")
-(import-namespace interface)
-
-(define Renderable Interface
-  (init ( layer structure)))
-
-(export Renderable)

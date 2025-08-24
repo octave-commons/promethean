@@ -1,8 +1,0 @@
-(include "kit/macros")
-(include "kit/header")
-
-(import-namespace kit)
-(include "./sib/util.sibilant")
-
-(include "./sibilant/index.sibilant")
-(include "./tests/file-system.sibilant")

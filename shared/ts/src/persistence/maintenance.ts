@@ -1,16 +1,25 @@
-import { getmongoclient, getchromaclient } from './clients';
+import { getMongoClient, getChromaClient } from './clients';
 
-export async function cleanupmongo(collectionname: string, maxagedays = 30) {
-    const db = (await getmongoclient()).db('database');
-    const cutoff = new date(date.now() - maxagedays * 24 * 60 * 60 * 1000);
-    return db.collection(collectionname).deletemany({ createdat: { $lt: cutoff } });
+/**
+ * Cleanup old Mongo entries by age.
+ */
+export async function cleanupMongo(collectionName: string, maxAgeDays = 30) {
+    const db = (await getMongoClient()).db('database');
+    const cutoff = new Date(Date.now() - maxAgeDays * 24 * 60 * 60 * 1000);
+    return db.collection(collectionName).deleteMany({ createdAt: { $lt: cutoff } });
 }
 
-export async function cleanupchroma(collectionname: string, maxsize = 10000) {
-    const chroma = await getchromaclient();
-    const col = await chroma.getorcreatecollection({ name: collectionname });
+/**
+ * Cleanup Chroma collections by max size.
+ * (Deletes oldest entries when size exceeds maxSize)
+ */
+export async function cleanupChroma(collectionName: string, maxSize = 10000) {
+    const chroma = await getChromaClient();
+    const col = await chroma.getOrCreateCollection({ name: collectionName });
+
     const count = await col.count();
-    if (count > maxsize) {
-        // todo: implement removal policy (e.g. delete oldest entries)
+    if (count > maxSize) {
+        // TODO: implement removal policy (e.g. delete oldest first)
+        console.warn(`[DualStore] Chroma collection "${collectionName}" exceeds ${maxSize} entries`);
     }
 }
