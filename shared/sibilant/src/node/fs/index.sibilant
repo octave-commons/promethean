@@ -1,24 +1,19 @@
-(include "kit/header")
+(include "../../../headers/core.sibilant")
 (import-namespace kit)
 
-(macro load (...paths)
-       `(include ...@paths))
+(macro load (...paths) `(include ...@paths))
 
-(macro def-curried (name args ...body)
-       `(loose-var @name (R.curry (lambda @args ...@body)) ))
 
-(require!
- (lit cond create extend mixin) "kit/js/util"
+(import (Trie) "../../common/data-structures/trees/trie")
+(import R 'ramda)
+(import Path 'path)
+(import assert 'assert)
+(import chokidar 'chokidar)
 
- R 'ramda
+(const Tree-map Trie)
 
- Path 'path
-
- 'assert 'chokidar 'fs
- (lit Tree-map) "tree-kit")
-
-(include "kit-interface/header")
-(include "kit-events/header")
+(include "../../../headers/interface")
+(include "../../../header/events")
 
 (include "./interfaces/node.sibilant")
 (include "./interfaces/file.sibilant")
