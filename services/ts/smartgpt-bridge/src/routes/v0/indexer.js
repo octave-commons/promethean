@@ -1,4 +1,4 @@
-import { indexerManager } from '../indexer.js';
+import { indexerManager } from '../../indexer.js';
 
 export function registerIndexerRoutes(fastify) {
     const ROOT_PATH = fastify.ROOT_PATH;
