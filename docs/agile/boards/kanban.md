@@ -36,6 +36,7 @@ kanban-plugin: board
 - [ ] context service
 - [ ] audio processing service
 - [ ] File writing gpt store
+- [ ] File explorer
 
 
 ## Accepted
@@ -75,20 +76,20 @@ kanban-plugin: board
 - [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
 - [ ] [[Mock broker]] #incoming
 - [ ] [[Finish work on gptbridge agent integration]]
-- [ ] [[Add codex layer to emacs]]
 - [ ] [[Curate code from personal repository]]
 - [ ] Set up proper openai custom gpt compatable oauth login flow
-- [ ] [[Design Ollama Model file for use with codex cli]]
 - [ ] unify dual source(mongo/chroma) interface across all code surfaces
 
 
 ## Ready (13)
 
 - [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
+- [ ] [[Design Ollama Model file for use with codex cli 1]]
 
 
 ## Todo (8)
 
+- [ ] [[Agent Tasks Persistence Migration to DualStore]]
 
 
 ## In Progress (4)
@@ -177,6 +178,7 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] [[Add codex layer to emacs]]
 - [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|Refactor Speech interuption system ]] #framework-core #breakdown
 - [ ] [[write_end_to_end_tests_md_md.md|write end to end tests md md]] #framework-core #accepted
 - [ ] [[describe_github_branching_workflow_md.md|describe github branching workflow md]] #framework-core #agent-thinking #breakdown
