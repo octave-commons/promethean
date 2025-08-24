@@ -1,5 +1,5 @@
-import { DualStore } from './dualStore';
-import { DualEntry } from './types';
+import { DualStore } from './dualStore.js';
+import { DualEntry } from './types.js';
 import { Message } from 'ollama';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
