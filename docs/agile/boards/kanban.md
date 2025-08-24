@@ -9,21 +9,33 @@ kanban-plugin: board
 - [ ] [[Find music that triggered copyright mute on twitch for analysis incoming]]
 - [ ] [[redefine all existing lambdas with high order functions incoming]]
 - [ ] implement defun in compiler/lisp #incoming
-- [ ] [[Mock broker]] #incoming
-- [ ] [[Fully convert js ts projects to pnpm incoming]]
 - [ ] [[implement classes in compiler lisp incoming]]
 - [ ] Replace all python properly with hy #incoming
 - [ ] LSP server for home brew lisp #incoming
-- [ ] finish moving the smartgpt bridge to fastify
-- [ ] [[Add git commands to gpt bridge]]
-- [ ] [[Design Ollama Model file for use with codex cli]]
-- [ ] [[Curate code from personal repository]]
-- [ ] [[Add codex layer to emacs]]
-- [ ] Set up proper openai custom gpt compatable oauth login flow
 - [ ] [[stabilize-kanban-scripts.md|Stabilize board automation scripts and process]]
-- [ ] Add make commands to gpt bridge
 - [ ] Add tool calls to codex context
 - [ ] MVP local LLM chat interface with tool calls connected to gpt bridge
+- [ ] breakdown "Make"file
+- [ ] flatten sibilant src folders
+- [ ] create a generic markdown helper module
+- [ ] convert smartgpt bridge to ts
+- [ ] setup new service generator
+- [ ] dockerize the system
+- [ ] move discord scraper to ts
+- [ ] database migration system
+- [ ] task generator system
+- [ ] connect bluesky
+- [ ] connect reddit
+- [ ] connect wikipedia
+- [ ] Webcrawler
+- [ ] lisp ecosystem files
+- [ ] lisp package files
+- [ ] python <-> js interop
+- [ ] filesystem service
+- [ ] search service
+- [ ] context service
+- [ ] audio processing service
+- [ ] File writing gpt store
 
 
 ## Accepted
@@ -60,14 +72,19 @@ kanban-plugin: board
 
 ## Breakdown (8)
 
-- [ ] [[Ensure openapi specs are automaticly updated when an endpoint is changed]]
-- [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
 - [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
+- [ ] [[Mock broker]] #incoming
 - [ ] [[Finish work on gptbridge agent integration]]
+- [ ] [[Add codex layer to emacs]]
+- [ ] [[Curate code from personal repository]]
+- [ ] Set up proper openai custom gpt compatable oauth login flow
+- [ ] [[Design Ollama Model file for use with codex cli]]
+- [ ] unify dual source(mongo/chroma) interface across all code surfaces
 
 
 ## Ready (13)
 
+- [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
 
 
 ## Todo (8)
@@ -87,6 +104,9 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] finish moving the smartgpt bridge to fastify
+- [ ] [[Fully convert js ts projects to pnpm incoming]]
+- [ ] [[Ensure openapi specs are automaticly updated when an endpoint is changed]]
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push md]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
 - [ ] [[create_base_readme_md_templates_for_each_service_md.md|create base readme md templates for each service]] #doc-this #framework-core #ritual #in-review
 - [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids.md|identify and resolve a service client apparently connecting repeatedly to broker with new session ids]] #in-review
@@ -380,6 +400,7 @@ kanban-plugin: board
 
 ## Archive
 
+- [ ] [[Add git commands to gpt bridge]]
 - [ ] [[add_unit_tests_for_gui_helpers_md_md.md|Add unit tests for GUI helpers]] #codex-task #testing #archive
 - [ ] [[build_tiny_web_page_that_uses_promclient_in_the_br_md.md|Build tiny web page that uses `PromClient` in the browser to show live `process.state` (optional)]] #archive
 - [ ] [[create_permission_gating_layer_codex_task_md.md|Create permission gating layer #codex-task]] #codex-task #archive
