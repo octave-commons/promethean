@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - OpenAPI spec for `/v1` served at `/v1/openapi.json` with consolidated operations.
 - `distclean` target to remove ignored files via `git clean -fdX`.
 - Simple web chat interface for the LLM service with HTTP and WebSocket endpoints.
+- File explorer UI for SmartGPT Bridge dashboard using file endpoints.
 
 ### Changed
 
