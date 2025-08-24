@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import { getChroma } from '../indexer.js';
 import { initMongo } from '../mongo.js';
+import { RemoteEmbeddingFunction } from '@shared/ts/dist/embeddings/remote.js';
 
 export class DualSink {
     constructor(name, schema, metadataBuilder) {
@@ -18,6 +19,10 @@ export class DualSink {
         this.collection = await chroma.getOrCreateCollection({
             name: this.name,
             metadata: { type: this.name },
+            embeddingFunction: RemoteEmbeddingFunction.fromConfig({
+                driver: process.env.EMBEDDING_DRIVER || 'ollama',
+                fn: process.env.EMBEDDING_FUNCTION || 'nomic-embed-text',
+            }),
         });
     }
 

@@ -7,6 +7,8 @@ import { indexerManager, search as semanticSearch } from '../indexer.js';
 import { dualSinkRegistry } from '../utils/DualSinkRegistry.js';
 import { AgentSupervisor as NewAgentSupervisor } from '../agentSupervisor.js';
 import { supervisor as defaultSupervisor } from '../agent.js';
+import { search } from 'duckduckgo-search';
+const ddgSearch = search;
 
 // Agent supervisor helpers (mirrors logic from routes/agent.js)
 const SUPS = new Map();
@@ -34,6 +36,7 @@ function getSup(fastify, key) {
 
 // DuckDuckGo result normaliser (lifted from routes/search.js)
 function extractResults(data) {
+    console.log(data);
     const results = [];
     if (data?.Results) {
         for (const r of data.Results) {
@@ -62,8 +65,6 @@ function extractResults(data) {
     }
     return results;
 }
-import { AgentSupervisor as NewAgentSupervisor } from '../agentSupervisor.js';
-import { supervisor as defaultSupervisor } from '../agent.js';
 
 export async function registerV1Routes(app) {
     await app.register(async function v1(v1) {
@@ -106,67 +107,26 @@ export async function registerV1Routes(app) {
 
         // ------------------------------------------------------------------
         // Files
-        // ------------------------------------------------------------------
-        v1.get('/files', {
-            preHandler: [v1.authUser, v1.requirePolicy('read', () => 'files')],
-            schema: {
-                summary: 'List files in a directory or tree',
-                operationId: 'listFiles',
-                tags: ['Files'],
-                querystring: {
-                    type: 'object',
-                    properties: {
-                        path: { type: 'string', default: '.' },
-                        hidden: { type: 'boolean', default: false },
-                        type: { type: 'string', enum: ['file', 'dir'] },
-                        depth: { type: 'integer', minimum: 0, default: 2 },
-                        tree: { type: 'boolean', default: false },
-                    },
-                },
-                response: {
-                    200: {
-                        oneOf: [
-                            {
-                                type: 'object',
-                                properties: {
-                                    ok: { type: 'boolean' },
-                                    base: { type: 'string' },
-                                    entries: {
-                                        type: 'array',
-                                        items: {
-                                            type: 'object',
-                                            properties: {
-                                                name: { type: 'string' },
-                                                path: { type: 'string' },
-                                                type: { type: 'string' },
-                                                size: { type: ['integer', 'null'] },
-                                                mtimeMs: { type: ['number', 'null'] },
-                                            },
-                                        },
-                                    },
-                                },
-                            },
-                            {
-                                type: 'object',
-                                properties: {
-                                    ok: { type: 'boolean' },
-                                    base: { type: 'string' },
-                                    tree: { type: 'array', items: { type: 'object' } },
-                                },
-                            },
-                        ],
-                    },
-                },
-            },
-            async handler(req, reply) {
-                const q = req.query || {};
-                const dir = String(q.path || '.');
-                const hidden = String(q.hidden || 'false').toLowerCase() === 'true';
-                const type = q.type ? String(q.type) : undefined;
-                const depth = typeof q.depth === 'number' ? q.depth : Number(q.depth || 2);
-                const wantTree = String(q.tree || 'false').toLowerCase() === 'true';
-                try {
-                    const ROOT_PATH = process.env.ROOT_PATH || process.cwd();
+        // Unified handler for /files and /files/*
+        async function filesHandler(req, reply) {
+            const q = req.query || {};
+            // Prefer path param if present, else use ?path= query
+            const p = req.params && (req.params['*'] || req.params.path);
+            const dir = p || String(q.path || '.');
+            const hidden = String(q.hidden || 'false').toLowerCase() === 'true';
+            const type = q.type ? String(q.type) : undefined;
+            const depth = typeof q.depth === 'number' ? q.depth : Number(q.depth || 2);
+            const wantTree = String(q.tree || 'false').toLowerCase() === 'true';
+            const hasLineOrContext = q.line !== undefined || q.context !== undefined;
+            const ROOT_PATH = process.env.ROOT_PATH || process.cwd();
+            try {
+                if (hasLineOrContext || (p && !wantTree && !q.type && !q.hidden && !q.depth)) {
+                    // View file
+                    const { viewFile } = await import('../files.js');
+                    const info = await viewFile(ROOT_PATH, dir, q.line, q.context);
+                    reply.send({ ok: true, ...info });
+                } else {
+                    // Directory listing or tree
                     const { treeDirectory } = await import('../files.js');
                     if (wantTree) {
                         const treeResult = await treeDirectory(ROOT_PATH, dir, {
@@ -174,9 +134,12 @@ export async function registerV1Routes(app) {
                             depth,
                             type,
                         });
-                        reply.send(treeResult);
+                        reply.send({
+                            ok: true,
+                            base: treeResult.base,
+                            tree: treeResult.tree,
+                        });
                     } else {
-                        // flat recursive listing up to depth
                         const treeResult = await treeDirectory(ROOT_PATH, dir, {
                             includeHidden: hidden,
                             depth,
@@ -185,7 +148,6 @@ export async function registerV1Routes(app) {
                         const flat = [];
                         function walkFlat(node) {
                             if (node.path !== undefined && node.type !== undefined) {
-                                // skip root node if it's "."
                                 if (node.path !== '.' && node.path !== '')
                                     flat.push({
                                         name: node.name,
@@ -202,34 +164,60 @@ export async function registerV1Routes(app) {
                         walkFlat(treeResult.tree);
                         reply.send({ ok: true, base: treeResult.base, entries: flat });
                     }
-                } catch (e) {
-                    reply.code(400).send({ ok: false, error: String(e?.message || e) });
                 }
+            } catch (e) {
+                reply.code(400).send({ ok: false, error: String(e?.message || e) });
+            }
+        }
+        // ------------------------------------------------------------------
+        v1.get('/files', {
+            preHandler: [v1.authUser, v1.requirePolicy('read', () => 'files')],
+            schema: {
+                summary: 'List files, tree, or view file',
+                operationId: 'files',
+                tags: ['Files'],
+                querystring: {
+                    type: 'object',
+                    properties: {
+                        path: { type: 'string', default: '.' },
+                        hidden: { type: 'boolean', default: false },
+                        type: { type: 'string', enum: ['file', 'dir'] },
+                        depth: { type: 'integer', minimum: 0, default: 2 },
+                        tree: { type: 'boolean', default: false },
+                        line: { type: 'integer', minimum: 1 },
+                        context: { type: 'integer', minimum: 0, default: 25 },
+                    },
+                },
             },
+            handler: filesHandler,
         });
 
         v1.get('/files/*', {
             preHandler: [v1.authUser, v1.requirePolicy('read', () => 'files')],
             schema: {
-                summary: 'View file',
-                operationId: 'viewFile',
+                summary: 'List files, tree, or view file',
+                operationId: 'files',
                 tags: ['Files'],
                 params: {
                     type: 'object',
-                    properties: { '*': { type: 'string' } },
-                    required: ['*'],
+                    properties: {
+                        '*': { type: 'string' },
+                    },
+                },
+                querystring: {
+                    type: 'object',
+                    properties: {
+                        path: { type: 'string', default: '.' },
+                        hidden: { type: 'boolean', default: false },
+                        type: { type: 'string', enum: ['file', 'dir'] },
+                        depth: { type: 'integer', minimum: 0, default: 2 },
+                        tree: { type: 'boolean', default: false },
+                        line: { type: 'integer', minimum: 1 },
+                        context: { type: 'integer', minimum: 0, default: 25 },
+                    },
                 },
             },
-            async handler(req, reply) {
-                try {
-                    const p = req.params['*'];
-                    const { line, context } = req.query || {};
-                    const info = await viewFile(ROOT_PATH, p, line, context);
-                    reply.send({ ok: true, ...info });
-                } catch (e) {
-                    reply.code(404).send({ ok: false, error: String(e?.message || e) });
-                }
-            },
+            handler: filesHandler,
         });
 
         v1.post('/files/reindex', {
@@ -348,15 +336,20 @@ export async function registerV1Routes(app) {
             },
             async handler(req) {
                 const { q, n, lang, site } = req.body || {};
-                const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(
-                    q,
-                )}&format=json&no_redirect=1&no_html=1${
-                    lang ? `&kl=${encodeURIComponent(lang)}` : ''
-                }${site ? `&site=${encodeURIComponent(site)}` : ''}`;
-                const res = await fetch(url);
-                const data = await res.json();
-                const results = extractResults(data).slice(0, n || 10);
-                return { results };
+                // Compose query with optional site filter
+                let query = q;
+                if (site) query = `site:${site} ${q}`;
+                const opts = {};
+                if (lang) opts.region = lang;
+                const results = await ddgSearch(query, { maxResults: n || 10, ...opts });
+                // ddgSearch returns an array of {title, url, description}
+                return {
+                    results: results.map((r) => ({
+                        title: r.title,
+                        url: r.url,
+                        snippet: r.description || r.snippet || '',
+                    })),
+                };
             },
         });
 
@@ -436,7 +429,7 @@ export async function registerV1Routes(app) {
                         type: 'object',
                         properties: {
                             ok: { type: 'boolean' },
-                            status: { type: 'string' },
+                            status: { type: 'object', additionalProperties: true },
                             lastIndexedAt: { type: 'string', format: 'date-time', nullable: true },
                             stats: { type: 'object', additionalProperties: true, nullable: true },
                         },

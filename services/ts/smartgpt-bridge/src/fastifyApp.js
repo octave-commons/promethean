@@ -126,6 +126,11 @@ export function buildFastifyApp(ROOT_PATH) {
         },
         additionalProperties: false,
     });
+    app.addHook('preValidation', (req, _reply, done) => {
+        const rp = req.params;
+        if (rp?.path && !rp['*']) rp['*'] = rp.path;
+        done();
+    });
 
     app.addSchema({
         $id: 'StacktraceResult',
