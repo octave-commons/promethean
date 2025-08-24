@@ -4,9 +4,12 @@ import request from 'supertest';
 import { promises as fs } from 'fs';
 import { join } from 'path';
 import { tmpdir } from 'os';
+import { spawn } from 'child_process';
+import { getMongoClient } from '@shared/ts/dist/persistence/clients.js';
 import { createApp, handleTask } from '../src/index.js';
 
 test('cold start and update', async (t) => {
+    t.timeout(60000);
     const repo = await fs.mkdtemp(join(tmpdir(), 'mg-'));
     await fs.mkdir(join(repo, 'docs'), { recursive: true });
     await fs.writeFile(join(repo, 'readme.md'), `[One](docs/one.md) #root`);
@@ -14,7 +17,11 @@ test('cold start and update', async (t) => {
     await fs.writeFile(join(repo, 'docs', 'two.md'), `#tag2`);
 
     const mongod = await MongoMemoryServer.create();
-    const app = await createApp(mongod.getUri(), repo, true);
+    process.env.MONGODB_URI = mongod.getUri();
+    process.env.CHROMA_URL = 'http://127.0.0.1:8000';
+    const chroma = spawn('chroma', ['run', '--host', '127.0.0.1', '--port', '8000']);
+    await new Promise((r) => setTimeout(r, 1000));
+    const app = await createApp(repo, true);
     const server = app.listen();
     const agent = request.agent(server);
 
@@ -32,6 +39,7 @@ test('cold start and update', async (t) => {
     t.deepEqual(links2.body.links, ['docs/one.md']);
 
     await new Promise<void>((resolve) => server.close(() => resolve())).catch(() => {});
-    await (app.locals.mongoClient as any).close();
+    await (await getMongoClient()).close();
+    chroma.kill();
     await mongod.stop();
 });

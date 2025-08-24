@@ -1,6 +1,11 @@
 import os
 import sys
 import importlib
+import os
+import sys
+
+# Ensure repository root is on the path so `shared` can be imported
+sys.path.append(os.getcwd())
 
 import pytest
 
