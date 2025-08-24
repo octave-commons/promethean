@@ -1,30 +1,16 @@
 (namespace repl)
 
-(include "kit/header")
-(import-namespace kit)
-
-(include "../meta")
-
-(import-namespace meta)
-
-(include "kit-interface/header")
-
-(import-namespace interface )
-
-(include "kit-actor/header")
-(import-namespace actor)
-
-(include "kit-events/header")
-(import-namespace events)
-
-(var curry R.curry)
-
-(def assign-handlers (layer))
+;; Updated to use consolidated headers
+(include "../../../headers/core.sibilant")
+(include "../../../headers/interface.sibilant")
+(include "../../../headers/async.sibilant")
+(load "../../../headers/actor.sibilant")
+(load "../../../headers/events.sibilant")
 
 (define Layer Actor
-
-  (init ( types (members (.map types (=> (t) ((create t))))))
-        (each types (t i) (set this t.symbol (get members i)))
+  (init (types (members (.map types (=> (t) ((create t)))))) 
+        (each types (t i) 
+          (set this t.symbol (get members i)))
         (.call Actor.init this))
 
   (gett assign-handlers
@@ -39,18 +25,12 @@
     (.send (first members) d))
 
   (def-generic start (members)
-
     (fluently
-
-     (var last (last members)
-          inner (.slice members 0 -1))
-
-     (.for-each inner this.assign-handlers)
-
-     (bubble  last this 'message )))
+      (var last (last members)
+           inner (.slice members 0 -1))
+      (.for-each inner this.assign-handlers)
+      (bubble last this 'message )))
 
   (def of (types) (extend this (lit types))))
 
 (export Layer)
-
-
