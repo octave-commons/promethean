@@ -1,3 +1,0 @@
-(include "kit/inc/shell")
-(import-namespace shell)
-(shell (npm run compile) (git add ".") (git commit ["-m" "'compiled'"]) (git push github master))

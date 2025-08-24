@@ -12,18 +12,18 @@
 (add-to-module-lookup (process.cwd))
 
 (def sibilant.relative-dir-and-file (file-name)
-     (|> [ (path.dirname file-name) file-name ]
+     (pipe [ (path.dirname file-name) file-name ]
          (.map (#> (path.relative (process.cwd) #0)))))
 (var relative-dir-and-file sibilant.relative-dir-and-file)
 
 (def sibilant.record-dependency (from to)
      (default (get sibilant.dependencies from) [])
-     (|> sibilant.dependencies
+     (pipe sibilant.dependencies
          (get from)
          (.push to)))
 
 (def sibilant.flat-dependencies ()
-     (|> sibilant.dependencies
+     (pipe sibilant.dependencies
          values
          flatten))
 
@@ -40,11 +40,14 @@
      (default map: false,
               quote-keys: json)
 
+     (var relative-dir null
+          relative-file null)
+
      (when (and (exists? file)
                 (not (exists? source)))
-           (var [relative-dir relative-file] (relative-dir-and-file file))
+           (assign [relative-dir relative-file] (relative-dir-and-file file))
            (assign source (or (get sibilant.source-cache relative-file)
-                              (|> file
+                              (pipe file
                                   (fs.read-file-sync 'utf8)
                                   sibilant.strip-shebang))))
 
@@ -58,7 +61,32 @@
         (when quote-keys
               (set sibilant 'quote-hash-keys true))
 
-        (var ast (|> source parse restructure)
+        (var ast (pipe (+
+
+                              ;; "(include \"@shared/sibilant/headers/async.sibilant\")"
+
+                              ;; "(include \"@shared/sibilant/headers/core.sibilant\")"
+                              ;; "(import-namespace kit)"
+
+                              ;; "(include \"@shared/sibilant/headers/interface.sibilant\")"
+                              ;; "(import-namespace interface)"
+
+                              ;; "(include \"@shared/sibilant/inc/litteral.sibilant\")"
+                              ;; "(include \"@shared/sibilant/inc/docs.sibilant\")"
+                              ;; "(include \"@shared/sibilant/inc/misc.sibilant\")"
+                              ;; "(include \"@shared/sibilant/inc/generators.sibilant\")"
+                              ;; "(include \"@shared/sibilant/inc/rand.sibilant\")"
+
+                              ;; "(import-namespace rand)"
+                              ;; "(import-namespace misc)"
+                              ;; "(import-namespace generators)"
+                              ;; "(import-namespace async)"
+                              ;; "(import-namespace docs)"
+
+                              ;; (if relative-file (+ "(meta (assign sibilant.dir \"" relative-dir "\" ) null)") "")
+                              source
+                              ;; (if relative-file "(meta (assign sibilant.dir \".\") null)" "")
+                              ) parse restructure)
              output (transpile ast)
              sourcemap (when map (*sourcemapper output))
              js (output-formatter output)
@@ -77,7 +105,7 @@
      (with-file file-name
 
                 (#>
-                 (var source (|> file-name
+                 (var source (pipe file-name
                                  (fs.read-file-sync 'utf8)
                                  sibilant.strip-shebang)
 
@@ -85,7 +113,7 @@
 
                  (set sibilant.source-cache relative-file source)
 
-                 (|> source parse restructure transpile))))
+                 (pipe source parse restructure transpile))))
 
 (def with-file (file-name fn)
      (if file-name
@@ -102,24 +130,23 @@
 
 (set require.extensions ".sibilant"
      (#(module filename)
-       (|> (sibilant {file filename})
+       (pipe (sibilant {file filename})
            (get 'js)
            (module._compile filename))))
 
 (set require.extensions ".son"
      (#(module filename)
-       (var content (|> (sibilant { file: filename,
+       (var content (pipe (sibilant { file: filename,
                                     json: true })
                         (get 'js))
             json (try (JSON.parse content)
                       (do (console.error "could not parse:\n" content)
                           (throw e))))
-       
        (set module 'exports json)))
 
 
 (def sibilant.package-info ()
-     (|> **dirname
+     (pipe **dirname
          (concat "/../package.json")
          (fs.read-file-sync 'utf8)
          JSON.parse))
@@ -135,7 +162,8 @@
            (assign file (concat file ".sibilant")))
 
      (when (match-regex? file "^\\.\\.?/")
-           (assign file (path.resolve sibilant.dir file)))
+       (assign file (path.resolve sibilant.dir file)))
+     (console.log "including" file)
 
      (var resolved-file
           (try (require.resolve file)
@@ -143,5 +171,5 @@
 
      (sibilant.record-dependency sibilant.file file)
 
-     (|> (sibilant {file resolved-file})
+     (pipe (sibilant {file resolved-file})
          (get 'output)))
