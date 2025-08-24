@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import { User } from '../models/User.js';
+import { User } from '../../models/User.js';
 
 function requireLocal(req, reply, done) {
     const ip = req.ip;

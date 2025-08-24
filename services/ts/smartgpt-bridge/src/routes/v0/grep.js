@@ -1,4 +1,4 @@
-import { grep } from '../grep.js';
+import { grep } from '../../grep.js';
 
 export function registerGrepRoutes(fastify) {
     const ROOT_PATH = fastify.ROOT_PATH;
