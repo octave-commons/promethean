@@ -5,6 +5,7 @@ import { registerSearchRoutes } from './search.js';
 import { registerSinkRoutes } from './sinks.js';
 import { registerIndexerRoutes } from './indexer.js';
 import { registerAgentRoutes } from './agents.js';
+import { registerExecRoutes } from './exec.js';
 
 export async function registerV1Routes(app) {
     // Everything defined here will be reachable under /v1 because of the prefix in fastifyApp.js
@@ -51,5 +52,6 @@ export async function registerV1Routes(app) {
         registerSinkRoutes(v1);
         registerIndexerRoutes(v1);
         registerAgentRoutes(v1);
+        registerExecRoutes(v1);
     });
 }

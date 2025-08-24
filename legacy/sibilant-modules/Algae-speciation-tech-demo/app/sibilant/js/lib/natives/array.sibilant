@@ -1,7 +1,0 @@
-(def Array.prototype.each (f)
-  (.for-each this f)
-  this)
-(def Array.prototype.bind (f)
-  (collect r [] (pipe this (each (a) (.push r (f a))))))
-
-(comment (.bind [[ 1 2 3 ] [ 4 5 6 ]] (=> (a) a))) ;; [ 1 2 3 4 5 6 ]

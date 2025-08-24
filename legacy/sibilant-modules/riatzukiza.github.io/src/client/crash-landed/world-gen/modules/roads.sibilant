@@ -1,7 +1,0 @@
-(import horizontal-road "./roads/straight.js")
-(import north-east-turn "./roads/turns.js")
-(import intersections "./roads/intersections.js")
-
-(export horizontal-road)
-(export north-east-turn)
-(export intersections)

@@ -1,88 +1,103 @@
-import { DualStore } from './dualStore.js';
-import { DualEntry } from './types.js';
 import { Message } from 'ollama';
+import { DualStoreManager } from './dualStore.js';
+
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
-
+import { DualStoreEntry } from './types.js';
 TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo('en-US');
+export const formatMessage = (m: DualStoreEntry<'text', 'timestamp'>): string =>
+    `${m.metadata?.userName === 'Duck' ? 'You' : m.metadata.userName} ${
+        m.metadata.isThought ? 'thought' : 'said'
+    } (${timeAgo.format(new Date(m.timestamp).getTime())}): ${m.text}`;
+
+export type GenericEntry = DualStoreEntry<'text', 'timestamp'>;
 
 export class ContextStore {
-    stores: Map<string, DualStore>;
-
+    collections: Map<string, DualStoreManager<string, string>>;
     constructor() {
-        this.stores = new Map();
+        this.collections = new Map();
     }
-
-    async createCollection(name: string, textKey: string, timeKey: string) {
-        if (this.stores.has(name)) throw new Error(`Collection ${name} already exists`);
-        const store = await DualStore.create(name, textKey, timeKey);
-        this.stores.set(name, store);
-        return store;
+    async createCollection(
+        name: string,
+        textKey: string,
+        timeStampKey: string,
+    ): Promise<DualStoreManager<string, string>> {
+        if (this.collections.has(name)) {
+            throw new Error(`Collection ${name} already exists`);
+        }
+        const collectionManager = await DualStoreManager.create<string, string>(name, textKey, timeStampKey);
+        this.collections.set(name, collectionManager);
+        return collectionManager;
     }
-
-    getCollection(name: string) {
-        if (!this.stores.has(name)) throw new Error(`Collection ${name} does not exist`);
-        return this.stores.get(name)!;
-    }
-
-    async getAllRelatedDocuments(querys: string[], limit = 100): Promise<DualEntry[]> {
+    async getAllRelatedDocuments(
+        querys: string[],
+        limit: number = 100,
+    ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
+        console.log('Getting related documents for querys:', querys.length, 'with limit:', limit);
         const results = [];
-        for (const store of this.stores.values()) {
-            results.push(await store.getMostRelevant(querys, limit));
+        for (const collection of this.collections.values()) {
+            results.push(await collection.getMostRelevant(querys, limit));
         }
         return results.flat();
     }
-
-    async getLatestDocuments(limit = 100): Promise<DualEntry[]> {
-        const results = [];
-        for (const store of this.stores.values()) {
-            results.push(await store.getMostRecent(limit));
+    async getLatestDocuments(limit: number = 100): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
+        const result = [];
+        for (const collection of this.collections.values()) {
+            result.push(await collection.getMostRecent(limit));
         }
-        return results.flat();
+        console.log('Getting latest documents from collections:', this.collections.size);
+        return result.flat();
     }
-
+    getCollection(name: string): DualStoreManager<string, string> {
+        if (!this.collections.has(name)) throw new Error(`Collection ${name} does not exist`);
+        console.log('Getting collection:', name);
+        return this.collections.get(name) as DualStoreManager<string, string>;
+    }
     async compileContext(
         texts: string[] = [],
-        recentLimit = 10,
-        queryLimit = 5,
-        limit = 20,
+        recentLimit: number = 10, // how many recent documents to include
+        queryLimit: number = 5, // how many of the recent documents to use in the query
+        limit: number = 20, // how many documents to return in total
         formatAssistantMessages = false,
     ): Promise<Message[]> {
+        console.log('Compiling context with texts:', texts.length, 'and limit:', limit);
         const latest = await this.getLatestDocuments(recentLimit);
-        const query = [...texts, ...latest.map((d) => d.text)].slice(-queryLimit);
+        const query = [...texts, ...latest.map((doc) => doc.text)].slice(-queryLimit);
         const related = await this.getAllRelatedDocuments(query, limit);
+        const uniqueThoughts = new Set<string>();
+        return Promise.all([related, latest]).then(([relatedDocs, latestDocs]) => {
+            let results = [...relatedDocs, ...latestDocs]
+                .filter((doc) => {
+                    if (!doc.text) return false; // filter out undefined text
+                    if (uniqueThoughts.has(doc.text)) return false; // filter out duplicates
+                    if (!doc.metadata) return false;
+                    uniqueThoughts.add(doc.text);
+                    return true;
+                })
+                .sort(
+                    (a: GenericEntry, b: GenericEntry) =>
+                        new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime(),
+                );
+            console.log("You won't believe this but... the results are this long:", results.length);
+            console.log('The limit was', limit);
+            if (results.length > limit * this.collections.size * 2) {
+                results = results.slice(-(limit * this.collections.size * 2));
+            }
 
-        const unique = new Set<string>();
+            // for(let r of results) {
+            //     console.log(r)
+            // }
 
-        let results = [...related, ...latest]
-            .filter((d) => {
-                if (!d.text) return false;
-                if (unique.has(d.text)) return false;
-                if (!d.metadata) return false;
-                unique.add(d.text);
-                return true;
-            })
-            .sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-
-        if (results.length > limit * this.stores.size * 2) {
-            results = results.slice(-(limit * this.stores.size * 2));
-        }
-
-        return results.map((m) => ({
-            role: m.metadata?.userName === 'Duck' ? (m.metadata?.isThought ? 'system' : 'assistant') : 'user',
-            content:
-                m.metadata?.userName === 'Duck'
-                    ? formatAssistantMessages
-                        ? this.formatMessage(m)
-                        : m.text
-                    : this.formatMessage(m),
-        }));
-    }
-
-    private formatMessage(m: DualEntry): string {
-        return `${m.metadata?.userName === 'Duck' ? 'You' : m.metadata.userName} ${
-            m.metadata?.isThought ? 'thought' : 'said'
-        } (${timeAgo.format(new Date(m.timestamp).getTime())}): ${m.text}`;
+            return results.map((m: DualStoreEntry<'text', 'timestamp'>) => ({
+                role: m.metadata?.userName === 'Duck' ? (m.metadata?.isThought ? 'system' : 'assistant') : 'user',
+                content:
+                    m.metadata?.userName === 'Duck'
+                        ? formatAssistantMessages
+                            ? formatMessage(m)
+                            : m.text
+                        : formatMessage(m),
+            }));
+        });
     }
 }

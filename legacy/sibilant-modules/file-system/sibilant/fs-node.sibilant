@@ -1,9 +1,0 @@
-(specify FS-node (extend Event-emitter.prototype))
-
-(def-description FS-node (path fs)
-
-  (init  (.call Event-emitter this))
-  (gett stats (stat this.path))
-
-  (def-generic watch ( path fs)
-    (.watch fs path)))

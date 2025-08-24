@@ -1,0 +1,46 @@
+(namespace repl)
+
+(include "kit/header")
+(import-namespace kit)
+
+(include "kit-interface/header")
+(import-namespace interface )
+
+(include "kit-actor/header")
+(import-namespace actor)
+
+(include "kit-events/header")
+(import-namespace events)
+
+(require! (lit inspect) 'util
+          'vm)
+
+;; Instead of anonymous incremental ids, we now support real file names
+(def-curried run-in (string file-name)
+  (.run-in-this-context vm string (lit (filename file-name))))
+
+(define Evaluator Actor
+
+  (init () (.call Actor.init this))
+
+  (def-generic spawn () ((create this)))
+
+  ;; *send now accepts js plus optional metadata (file-name)
+  (def-generic *send (js context)
+    (pipe (Promise.resolve js)
+          (.then (=> (data)
+                      (var code (if (object? data)
+                                    (get data 'code)
+                                    data))
+                      (var fname (if (object? data)
+                                     (get data 'file-name)
+                                     "<eval>"))
+                      (run-in code fname)))
+          (.then (=> (result)
+                     (.emit this 'message ['result result]))
+                 result)
+          (.catch (=> (err)
+                      (.emit this 'message ['error err])
+                      (throw err))))))
+
+(export Evaluator)

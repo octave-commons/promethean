@@ -1,3 +1,0 @@
-;; (var stage (dom (.div .id 'stage )))
-;; (var container (dom (.div .id "container" rendering.context.canvas)))
-;; (with-dom Document-root (.div .id 'frame container))

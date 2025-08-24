@@ -13,11 +13,14 @@
 (const main-bundles (new Map))
 (const lib-bundles (new Map))
 (const bundles (new Map))
+
 (macro try! (...body)
        (const last (.pop body))
        ["try " `(block ...@(interleave ";\n" body)) last])
+
 (macro catch! (...body)
        ["catch(e) " `(block ...@(interleave ";\n" body))])
+
 (macro then-once (emitter event-name)
        `(new Promise (=> (resolve reject)
                          (once @emitter @event-name (data)
@@ -33,6 +36,11 @@
   (Path.join
    (Path.dirname path)
    (Path.basename path ".sibilant")))
+
+;; patched: when sending to evaluator, wrap with { code, file-name }
+(def send-to-evaluator (code file-name)
+  (.send evaluator (lit (code code) (file-name file-name))))
+
 (include "./bundle-shared.sibilant"
          "./bundle.sibilant"
          "./bundle-external.sibilant"
@@ -40,8 +48,3 @@
          "./compile-module.sibilant"
          "./compile-client-module.sibilant"
          )
-
-
-
-
-

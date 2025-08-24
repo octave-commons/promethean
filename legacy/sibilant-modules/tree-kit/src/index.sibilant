@@ -1,9 +1,0 @@
-(namespace tree-kit)
-(include "kit/header")
-(import-namespace kit)
-
-(include "interface/header")
-(import-namespace interface)
-
-(include "./base" "./map")
-
