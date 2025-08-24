@@ -1,6 +1,6 @@
 (unless process.env.DISABLE_SOURCE_MAPS
         (pipe "source-map-support" require .install))
-(source-mapping-url "../maps/sibilant.map")
+(source-mapping-url "../sibilant.map")
 
 (include "./node"
          "./pretty-printer"

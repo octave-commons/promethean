@@ -20,7 +20,7 @@
   (each args (file)
     (var fullPath (Path.resolve file))
     (var code (.read-file-sync fs fullPath "utf8"))
-    (sibilant.run code (lit (filename file))))))
+    (sibilant.run code (lit (filename file)))))
 
 (def cli.repl (args)
   ;; use our in-repo repl implementation
@@ -33,6 +33,6 @@
         "compile" (cli.compile (rest args))
         "run" (cli.run (rest args))
         "repl" (cli.repl (rest args))
-        (cli.run args)))))
+        (cli.run args))))
 
 (cli.main cli.args)
