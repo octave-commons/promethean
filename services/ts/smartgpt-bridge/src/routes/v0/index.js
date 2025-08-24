@@ -3,18 +3,18 @@ import crypto from 'crypto';
 import { createRemoteJWKSet, jwtVerify, decodeProtectedHeader } from 'jose';
 
 // Route modules (legacy)
-import { registerFilesRoutes } from '../routes/files.js';
-import { registerSearchRoutes } from '../routes/search.js';
-import { registerIndexerRoutes } from '../routes/indexer.js';
-import { registerGrepRoutes } from '../routes/grep.js';
-import { registerSymbolsRoutes } from '../routes/symbols.js';
-import { registerAgentRoutes } from '../routes/agent.js';
-import { registerExecRoutes } from '../routes/exec.js';
-import { registerSinkRoutes } from '../routes/sinks.js';
-import { registerUserRoutes } from '../routes/users.js';
-import { registerPolicyRoutes } from '../routes/policies.js';
-import { logger } from '../logger.js';
-import { registerBootstrapRoutes } from '../routes/bootstrap.js';
+import { registerFilesRoutes } from './files.js';
+import { registerSearchRoutes } from './search.js';
+import { registerIndexerRoutes } from './indexer.js';
+import { registerGrepRoutes } from './grep.js';
+import { registerSymbolsRoutes } from './symbols.js';
+import { registerAgentRoutes } from './agent.js';
+import { registerExecRoutes } from './exec.js';
+import { registerSinkRoutes } from './sinks.js';
+import { registerUserRoutes } from './users.js';
+import { registerPolicyRoutes } from './policies.js';
+import { logger } from '../../logger.js';
+import { registerBootstrapRoutes } from './bootstrap.js';
 
 function parseCookies(req) {
     const header = req.headers?.cookie;
@@ -139,8 +139,8 @@ export async function registerV0Routes(app) {
         try {
             // Accept API key as bearer to avoid dual tokens
             try {
-                const { initMongo } = await import('../mongo.js');
-                const { User } = await import('../models/User.js');
+                const { initMongo } = await import('../../mongo.js');
+                const { User } = await import('../../models/User.js');
                 await initMongo();
                 const user = await User.findOne({ apiKey: token });
                 if (user) {

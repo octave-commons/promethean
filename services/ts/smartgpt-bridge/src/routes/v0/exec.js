@@ -1,4 +1,4 @@
-import { runCommand } from '../exec.js';
+import { runCommand } from '../../exec.js';
 
 export function registerExecRoutes(fastify) {
     const ROOT_PATH = fastify.ROOT_PATH;
