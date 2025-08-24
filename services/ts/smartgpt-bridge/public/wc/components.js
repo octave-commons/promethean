@@ -19,7 +19,11 @@ function resolveRef(spec, schema) {
 }
 
 class ApiResponseViewer extends LitElement {
-    static properties = { data: { state: true }, text: { state: true }, status: { state: true } };
+    static properties = {
+        data: { state: true },
+        text: { state: true },
+        status: { state: true },
+    };
     static styles = css`
         .resp {
             background: #0e0e0e;
@@ -651,3 +655,120 @@ class ApiDocs extends LitElement {
     }
 }
 customElements.define('api-docs', ApiDocs);
+
+class FileExplorer extends LitElement {
+    static properties = {
+        path: { state: true },
+        entries: { state: true },
+        selected: { state: true },
+        snippet: { state: true },
+    };
+    static styles = css`
+        .explorer {
+            margin-bottom: 20px;
+        }
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        li {
+            margin: 2px 0;
+        }
+        .entry {
+            background: none;
+            border: none;
+            color: #4fc3f7;
+            cursor: pointer;
+            font: inherit;
+            text-align: left;
+        }
+        .entry:hover {
+            text-decoration: underline;
+        }
+        .snippet {
+            background: #0e0e0e;
+            color: #ddd;
+            padding: 8px;
+            border-radius: 6px;
+            white-space: pre;
+            overflow-x: auto;
+            max-height: 400px;
+        }
+    `;
+    constructor() {
+        super();
+        this.path = '.';
+        this.entries = [];
+        this.selected = null;
+        this.snippet = '';
+    }
+    connectedCallback() {
+        super.connectedCallback();
+        this.load();
+    }
+    async load() {
+        try {
+            const res = await fetch(`/v0/files/list?path=${encodeURIComponent(this.path)}`, {
+                headers: getAuthHeaders(),
+            });
+            const js = await res.json();
+            this.entries = js.entries || [];
+            this.selected = null;
+            this.snippet = '';
+        } catch {
+            this.entries = [];
+        }
+    }
+    async open(entry) {
+        if (entry.type === 'dir') {
+            this.path = entry.path;
+            await this.load();
+        } else {
+            try {
+                const res = await fetch(`/v0/files/view?path=${encodeURIComponent(entry.path)}`, {
+                    headers: getAuthHeaders(),
+                });
+                const js = await res.json();
+                this.selected = entry;
+                this.snippet = js.snippet || '';
+            } catch {
+                this.selected = null;
+                this.snippet = '';
+            }
+        }
+    }
+    goUp() {
+        if (this.path === '.' || !this.path) return;
+        const parts = this.path.split('/').filter(Boolean);
+        parts.pop();
+        this.path = parts.length ? parts.join('/') : '.';
+        this.load();
+    }
+    render() {
+        return html`
+            <div class="explorer">
+                <div class="toolbar">
+                    <button @click=${() => this.goUp()}>Up</button>
+                    <span>${this.path}</span>
+                </div>
+                <ul>
+                    ${this.entries.map(
+                        (e) =>
+                            html`<li>
+                                <button class="entry" @click=${() => this.open(e)}>
+                                    ${e.type === 'dir' ? '📁' : '📄'} ${e.name}
+                                </button>
+                            </li>`,
+                    )}
+                </ul>
+                ${this.snippet ? html`<pre class="snippet">${this.snippet}</pre>` : ''}
+            </div>
+        `;
+    }
+}
+customElements.define('file-explorer', FileExplorer);
