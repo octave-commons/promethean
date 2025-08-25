@@ -11,6 +11,7 @@
     "license": "GPL-3.0-only",
     "dependencies": {
         "cardinal": "^2.1.1",
+        "ramda": "^0.31.3",
         "source-map": "^0.7.6",
         "source-map-support": "^0.5.21"
     },

@@ -87,7 +87,7 @@
           (get (pipe cli-options.docs first sibilant (get 'js)))
           call
           console.log))
-(.include sibilant (path.join **dirname "../../headers/core.sibilant"))
+(.include sibilant (path.join **dirname "../../headers/core"))
 (each input-file (or cli-options.file [])
       (var input-path (if (match-regex? input-file "^\\/")
                           input-file

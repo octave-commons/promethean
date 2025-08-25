@@ -1,3 +1,4 @@
 (namespace kit)
+(import-namespace core)
 (include "../inc/macros")
 

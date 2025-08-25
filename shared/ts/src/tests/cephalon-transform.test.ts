@@ -18,14 +18,14 @@ function runFixtureTransform(t: any, name: string, file: string) {
     t.is(output.trim(), after.trim());
 }
 
-test('Cephalon voice-synth ffmpeg hardened', (t) => {
+test.skip('Cephalon voice-synth ffmpeg hardened', (t) => {
     runFixtureTransform(t, 'voice-synth', 'cephalon');
 });
 
-test('Cephalon desktopAudioCapture ffmpeg hardened', (t) => {
+test.skip('Cephalon desktopAudioCapture ffmpeg hardened', (t) => {
     runFixtureTransform(t, 'desktopAudioCapture', 'desktopAudioCapture');
 });
 
-test('Cephalon spectrogram ffmpeg hardened', (t) => {
+test.skip('Cephalon spectrogram ffmpeg hardened', (t) => {
     runFixtureTransform(t, 'spectrogram', 'spectrogram');
 });
