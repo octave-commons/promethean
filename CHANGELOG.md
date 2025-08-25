@@ -17,15 +17,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - v1 router exposing consolidated SmartGPT Bridge endpoints.
 - OpenAPI spec for `/v1` served at `/v1/openapi.json` with consolidated operations.
 - `distclean` target to remove ignored files via `git clean -fdX`.
+- MCP server and stdio wrapper exposing `search.query` over WebSocket and CLI.
+- Smoke test script for MCP server and basic stdio wrapper test harness.
 - Frontend visualization for the markdown link graph using ForceGraph.
 - Simple web chat interface for the LLM service with HTTP and WebSocket endpoints.
 - File explorer UI for SmartGPT Bridge dashboard using file endpoints.
+- `sites/` directory consolidating all frontend code.
 - Tool calling support for Codex Context service.
 
 ### Changed
 
 - Organized SmartGPT Bridge routes into versioned directories.
 - Codex Context retriever now targets SmartGPT Bridge `/v1` endpoints.
+- Moved SmartGPT dashboard and LLM chat frontends into `sites/`.
+- Frontends now served from a central static file server instead of individual services.
+- SmartGPT Bridge now uses shared DualStore and ContextStore for persistence.
+- Discord embedder migrated to shared DualStore and ContextStore for unified persistence.
+- Kanban processor now persists via shared DualStore and ContextStore.
+- Markdown Graph service now uses shared DualStore and ContextStore for persistence.
+- MCP server now creates a dedicated bridge connection per session and exposes tool schemas via `inputSchema`.
 
 ### Fixed
 
@@ -54,6 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated `messageThrottler.test.ts` to clean up broker, sockets, and audio players explicitly.
 - Fixed compile issues in `voice-session.ts` (optional `voiceSynth`, `renderWaveForm` args, `Float32Array` → `Buffer`).
 - Chroma search route now records queries using the `DualSink`.
+- Cephalon service now uses shared `DualStore` and `ContextStore` for persistence.
 
 ### Removed
 
