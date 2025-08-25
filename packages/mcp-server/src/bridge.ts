@@ -24,7 +24,11 @@ export class Bridge extends EventEmitter {
     }
 
     send(msg: BridgeMessage) {
-        this.ws.send(JSON.stringify(msg));
+        if (this.ws.readyState === this.ws.OPEN) {
+            this.ws.send(JSON.stringify(msg));
+        } else {
+            this.ws.once('open', () => this.ws.send(JSON.stringify(msg)));
+        }
     }
 
     close() {
@@ -32,18 +36,7 @@ export class Bridge extends EventEmitter {
     }
 }
 
-let singleton: Bridge | null = null;
-export function getBridge(): Bridge {
-    if (!singleton) {
-        const url = process.env.SMARTGPT_BRIDGE_URL || 'ws://localhost:8091';
-        singleton = new Bridge(url);
-    }
-    return singleton;
-}
-
-export function resetBridge() {
-    if (singleton) {
-        singleton.close();
-        singleton = null;
-    }
+export function createBridge(url?: string): Bridge {
+    const target = url || process.env.SMARTGPT_BRIDGE_URL || 'ws://localhost:8091';
+    return new Bridge(target);
 }

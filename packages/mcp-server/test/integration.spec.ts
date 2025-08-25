@@ -3,7 +3,6 @@ import WebSocket, { WebSocketServer, RawData } from 'ws';
 import { startServer } from '../src/index.js';
 import { once } from 'events';
 import type { AddressInfo } from 'net';
-import { resetBridge } from '../src/bridge.js';
 
 async function createMockBridge() {
     const wss = new WebSocketServer({ port: 0 });
@@ -57,7 +56,6 @@ test.skip('tools/call streams progress and result', async (t) => {
         await closed;
         await server.close();
         await new Promise((res) => bridge.wss.close(res));
-        resetBridge();
     }
 });
 
@@ -88,6 +86,5 @@ test.skip('tools/cancel forwards cancel frame', async (t) => {
         await closed;
         await server.close();
         await new Promise((res) => bridge.wss.close(res));
-        resetBridge();
     }
 });
