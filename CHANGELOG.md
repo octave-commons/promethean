@@ -41,6 +41,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Markdown Graph service now uses shared DualStore and ContextStore for persistence.
 - MCP server now creates a dedicated bridge connection per session and exposes tool schemas via `inputSchema`.
 
+- Proxy service now serves frontend files directly, removing the need for a separate static server.
+
 ### Fixed
 
 - SmartGPT Bridge file actions now treat leading '/' as the repository root.
@@ -49,6 +51,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - OpenAPI docs obey `OPENAPI_PUBLIC`, staying private when auth is enabled unless explicitly exposed.
 - Grep endpoint requires a regex pattern and returns validation errors for missing fields.
 - SSE agent log streaming cleans up listeners on disconnect to avoid leaks.
+
+### Removed
+
+- Deprecated `scripts/serve-sites.js` static file server.
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
