@@ -1,17 +1,16 @@
 # Description
 
-Describe your task
+I've written a lot of code over the years that I want to be a part of this system.
+Not even nessisarily to run it, though that would be nice.
+Just having it in the repo gives my system context
 
 ## Requirements/Definition of done
 
-- If it doesn't have this, we can't accept it
+- List of the repos we think are valuable
 
 ## Tasks 
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+- [ ] Look through old code for gems
 
 ## Relevent resources
 
