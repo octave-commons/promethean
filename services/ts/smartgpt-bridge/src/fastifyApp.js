@@ -188,10 +188,10 @@ export function buildFastifyApp(ROOT_PATH) {
 
     app.get('/openapi.json', async (_req, rep) => rep.type('application/json').send(app.swagger()));
 
-    // Serve static dashboard from /public at root
+    // Serve static dashboard from sites/smartgpt-dashboard at repo root
     const __dirname = path.dirname(fileURLToPath(import.meta.url));
     app.register(fastifyStatic, {
-        root: path.join(__dirname, '../public'),
+        root: path.join(__dirname, '../../../../sites/smartgpt-dashboard'),
         prefix: '/',
         // index.html served at '/'
     });

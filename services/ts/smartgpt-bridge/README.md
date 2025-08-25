@@ -10,6 +10,7 @@ One service, one `/openapi.json`, many powers:
 - ✅ Tailscale Funnel friendly
 
 ## Env
+
 ```bash
 export ROOT_PATH=/home/err/devel/promethean           # repo/docs root
 export AGENT_NAME=Duck                                 # used for collection family prefix
@@ -37,11 +38,12 @@ export AGENT_RESTORE_ON_START=true             # load past agents as historical 
 ```
 
 ## Run
+
 ```bash
 npm i
 npm start
 # http://0.0.0.0:3210/openapi.json
-# http://0.0.0.0:3210/              # built-in dashboard (served from /public)
+# http://0.0.0.0:3210/              # built-in dashboard (served from sites/smartgpt-dashboard)
 # http://0.0.0.0:3210/dashboard     # alias to index.html
 ```
 
@@ -50,23 +52,27 @@ npm start
 - `/v0/*`: legacy endpoints (migrated from root). Backwards-compatible behavior but now under a `v0` prefix.
 - `/v1/*`: consolidated endpoints with enriched contracts and RBAC preHandlers.
 
- Both versions now support a single-token flow: you can pass your API key as a bearer token and it will authorize + satisfy RBAC.
+Both versions now support a single-token flow: you can pass your API key as a bearer token and it will authorize + satisfy RBAC.
 
 ## Auth (single-token)
+
 - Disabled by default. Enable protection with env vars. One token is enough:
-  - Use `Authorization: Bearer <user.apiKey>` for simplest flow, or
-  - Use a JWT via the settings below.
+    - Use `Authorization: Bearer <user.apiKey>` for simplest flow, or
+    - Use a JWT via the settings below.
 
 Quick start (static bearer token):
+
 ```bash
 export AUTH_ENABLED=true
 export AUTH_MODE=static
 export AUTH_TOKENS=supersecret1,supersecret2   # comma-separated
 ```
+
 Then call APIs with `Authorization: Bearer supersecret1` or set a cookie `smartgpt_auth=supersecret1`.
 You can also use `Authorization: Bearer <user.apiKey>` to authenticate with your stored user.
 
 JWT (HS256/JWKS) verification:
+
 ```bash
 export AUTH_ENABLED=true
 export AUTH_MODE=jwt
@@ -77,12 +83,14 @@ export AUTH_JWT_AUDIENCE=promethean-smartgpt-bridge
 ```
 
 Notes:
+
 - `/openapi.json` is always accessible. `/auth/me` requires a valid token when auth is enabled.
 - For full OIDC with JWKS, terminate at your identity proxy (e.g., oauth2-proxy) and forward an ID/JWT token; the bridge will validate it as a bearer.
 - RBAC on `/v1/*` uses user roles. When using JWTs, include a `roles` array in the payload if you want RBAC to succeed without an API key.
 - The authorization layer reads the active OpenAPI `securitySchemes` to discover header names (e.g., `apiKey` in header). If the spec defines an apiKey in header, that header is accepted as the credential source in addition to `Authorization: Bearer ...` and cookies.
 
 ## Key endpoints (v0)
+
 - `POST /v0/reindex` — full Chroma index
 - `POST /v0/files/reindex` — subset index by glob(s)
 - `GET  /v0/indexer/status` — queue mode, progress, bootstrap cursor
@@ -103,87 +111,91 @@ Notes:
 Use these endpoints to launch and supervise Codex CLI tasks. Prefer sandboxing when running with approvals bypass.
 
 - `POST /v0/agent/start`
-  - Purpose: Start a new Codex process under the PTY-based AgentSupervisor.
-  - Request fields:
-    - `prompt` string: The Codex command/prompt to execute.
-    - `bypassApprovals` boolean (default false): Run with `--dangerously-bypass-approvals`.
-    - `sandbox` enum [false, "nsjail"] (default false): Kernel-level isolation using `sandbox.cfg` when set to `"nsjail"`.
-    - `tty` boolean (default true): Run under a pseudo-terminal (PTY).
-    - `env` object: Extra environment variables.
-  - Examples:
-    ```bash
-    # Simple run
-    curl -sX POST localhost:3210/v0/agent/start \
-      -H 'content-type: application/json' \
-      -H 'authorization: Bearer <user.apiKey>' \
-      -d '{
-        "prompt": "ls -la"
-      }'
+    - Purpose: Start a new Codex process under the PTY-based AgentSupervisor.
+    - Request fields:
+        - `prompt` string: The Codex command/prompt to execute.
+        - `bypassApprovals` boolean (default false): Run with `--dangerously-bypass-approvals`.
+        - `sandbox` enum [false, "nsjail"] (default false): Kernel-level isolation using `sandbox.cfg` when set to `"nsjail"`.
+        - `tty` boolean (default true): Run under a pseudo-terminal (PTY).
+        - `env` object: Extra environment variables.
+    - Examples:
 
-    # Codex bypass mode, sandboxed in nsjail
-    curl -sX POST localhost:3210/v0/agent/start \
-      -H 'content-type: application/json' \
-      -H 'authorization: Bearer <user.apiKey>' \
-      -d '{
-        "prompt": "npm run build",
-        "bypassApprovals": true,
-        "sandbox": "nsjail"
-      }'
-    ```
-  - Response (success):
-    ```json
-    {
-      "ok": true,
-      "id": "agent_nX9z...",
-      "prompt": "npm run build",
-      "startedAt": 1724201823456,
-      "sandbox": "nsjail",
-      "bypassApprovals": true,
-      "logfile": ".logs/agent_nX9z.log"
-    }
-    ```
+        ```bash
+        # Simple run
+        curl -sX POST localhost:3210/v0/agent/start \
+          -H 'content-type: application/json' \
+          -H 'authorization: Bearer <user.apiKey>' \
+          -d '{
+            "prompt": "ls -la"
+          }'
+
+        # Codex bypass mode, sandboxed in nsjail
+        curl -sX POST localhost:3210/v0/agent/start \
+          -H 'content-type: application/json' \
+          -H 'authorization: Bearer <user.apiKey>' \
+          -d '{
+            "prompt": "npm run build",
+            "bypassApprovals": true,
+            "sandbox": "nsjail"
+          }'
+        ```
+
+    - Response (success):
+        ```json
+        {
+            "ok": true,
+            "id": "agent_nX9z...",
+            "prompt": "npm run build",
+            "startedAt": 1724201823456,
+            "sandbox": "nsjail",
+            "bypassApprovals": true,
+            "logfile": ".logs/agent_nX9z.log"
+        }
+        ```
 
 - `GET /v0/agent/status?id=…` or `/v0/agent/status/{id}`
-  - Purpose: Inspect agent metadata.
-  - Returns: prompt, startedAt, exited flag, sandbox mode, bypass flag, logfile.
-  - Example:
-    ```bash
-    curl -s -H 'authorization: Bearer <user.apiKey>' localhost:3210/v0/agent/status/agent_nX9z...
-    ```
+    - Purpose: Inspect agent metadata.
+    - Returns: prompt, startedAt, exited flag, sandbox mode, bypass flag, logfile.
+    - Example:
+        ```bash
+        curl -s -H 'authorization: Bearer <user.apiKey>' localhost:3210/v0/agent/status/agent_nX9z...
+        ```
 
 - `GET /v0/agent/stream?id=…`
-  - Purpose: Live log stream via Server-Sent Events (SSE).
-  - Emits an initial `replay` event with recent buffer, then `data` events as the process writes output.
-  - Example:
-    ```bash
-    curl -N -H 'authorization: Bearer <user.apiKey>' 'localhost:3210/v0/agent/stream?id=agent_nX9z...'
-    ```
+    - Purpose: Live log stream via Server-Sent Events (SSE).
+    - Emits an initial `replay` event with recent buffer, then `data` events as the process writes output.
+    - Example:
+        ```bash
+        curl -N -H 'authorization: Bearer <user.apiKey>' 'localhost:3210/v0/agent/stream?id=agent_nX9z...'
+        ```
 
 - `GET /v0/agent/logs?id=…&bytes=8192` and `GET /v0/agent/tail?id=…&bytes=8192`
-  - Purpose: Fetch last N bytes of the log buffer.
+    - Purpose: Fetch last N bytes of the log buffer.
 
 - `POST /v0/agent/send`
-  - Purpose: Write a line to the PTY (appends newline).
-  - Example:
-    ```bash
-    curl -sX POST localhost:3210/v0/agent/send \
-      -H 'content-type: application/json' \
-      -H 'authorization: Bearer <user.apiKey>' \
-      -d '{"id":"agent_nX9z...","input":"y"}'
-    ```
+    - Purpose: Write a line to the PTY (appends newline).
+    - Example:
+        ```bash
+        curl -sX POST localhost:3210/v0/agent/send \
+          -H 'content-type: application/json' \
+          -H 'authorization: Bearer <user.apiKey>' \
+          -d '{"id":"agent_nX9z...","input":"y"}'
+        ```
 
 - `POST /v0/agent/interrupt`
-  - Purpose: Emulate Ctrl-C (sends `\u0003` to PTY).
+    - Purpose: Emulate Ctrl-C (sends `\u0003` to PTY).
 
 - `POST /v0/agent/kill`
-  - Purpose: Terminate the agent process.
+    - Purpose: Terminate the agent process.
 
 Security notes for AI
+
 - Only set `bypassApprovals: true` when `sandbox: "nsjail"` is available.
 - The jail runs under `/sandbox` with resource limits (see `sandbox.cfg`).
 - If `nsjail` is not present, run with sandbox=false and approvals enabled (default).
 
 ### PTY Agent (node-pty)
+
 - `POST /pty/start` — start codex in a real PTY (cols/rows optional)
 - `GET  /pty/stream?id=…` — live SSE logs
 - `GET  /pty/status?id=…`, `GET /pty/logs?id=…&since=0`, `GET /pty/tail?id=…&bytes=8192`
@@ -193,6 +205,7 @@ Security notes for AI
 - `POST /pty/interrupt`, `/pty/kill`, `/pty/resume`
 
 node-pty is lazy‑loaded; install when needed:
+
 ```bash
 pnpm add node-pty
 ```
@@ -206,11 +219,13 @@ Configure structured logging via environment variables:
 - `LOG_FILE`: path to append logs (optional). When set, logs are written to both file and console.
 
 Security auditing
+
 - All unauthorized attempts are always logged at an audit level, regardless of `LOG_LEVEL`.
 - Entries include timestamp, method, path, IP (`req.ip` and `x-forwarded-for`), user-agent, mode, and the exact rejection reason when available.
 - RBAC rejections (403) are also audited with user/roles, action, and resource.
 
 Examples
+
 ```bash
 export LOG_LEVEL=debug
 export LOG_JSON=true
@@ -220,6 +235,7 @@ export LOG_FILE=./logs/bridge.log
 ## Dashboard
 
 Visit `/dashboard` for a lightweight UI to:
+
 - Monitor indexer status and trigger re-indexing
 - Run semantic search and view snippet context
 - Start agents and stream logs (SSE when auth disabled; polling when enabled)
@@ -241,6 +257,7 @@ If auth is enabled, paste a bearer token in the token box and Save. The UI store
 - To force a full rebuild, delete the corresponding `bootstrap.json` and restart.
 
 ## Funnel for Custom GPT
+
 ```bash
 sudo tailscale funnel 3210
 # Import: https://<your>.ts.net/openapi.json
