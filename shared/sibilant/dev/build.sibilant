@@ -1,57 +1,73 @@
-
-(namespace dev)
-
-(include "./header"
-         "./compile")
-
-(macro html (...body) `(markup (.html ...@body)))
-
+(namespace build)
+;; (include "../headers/core")
 (import-namespace kit)
-(import-namespace interface)
+(print "yo")
+;; (include "../headers/async.sibilant")
 (import-namespace async)
-(import-namespace markup)
 
-(require! (lit read-file-sync) 'fs)
+(import-default lith "./dist/lang/sibilant.js")
+(import mirror-with-handler "@shared/ts/dist/fs/mirrorWrite.js")
+(import dirname "path")
+(import promises "fs")
+(const write-file promises.writeFile)
+;; (.include lith "./headers/core.sibilant")
 
-(const package-json (JSON.parse (read-file-sync "./package.json")))
-(const dependencies (Object.keys package-json.dependencies))
+(def inject-headers (source relative-file)
+  (+
 
-(define src Interface
-  (inc (.load File-system "./inc"))
-  (client (.load File-system "./src/client"))
-  (shared (.load File-system "./src/shared"))
-  (server (.load File-system "./src/server"))
 
-  (templates (.load File-system "./src/templates")))
+   "(namespace hack)"
+   "(include \"@shared/sibilant/headers/core.sibilant\")"
+   "(import-namespace kit)"
 
-(define js Interface
+   "(include \"@shared/sibilant/headers/interface.sibilant\")"
+   "(import-namespace interface)"
 
-  (client (.load File-system "./static/client"))
-  (shared (.load File-system "./static/shared"))
-  (server (.load File-system "./server"))
+   "(include \"@shared/sibilant/inc/litteral.sibilant\")"
+   "(import-namespace rand)"
+   "(include \"@shared/sibilant/inc/docs.sibilant\")"
+   "(import-namespace docs)"
+   "(include \"@shared/sibilant/inc/misc.sibilant\")"
+   "(import-namespace misc)"
+   "(include \"@shared/sibilant/inc/generators.sibilant\")"
+   "(import-namespace generators)"
+   "(include \"@shared/sibilant/inc/rand.sibilant\")"
+   "(import-namespace async)"
 
-  (templates (.load File-system "./templates"))
+   (if relative-file (+ "(meta (assign sibilant.dir \"" (dirname  ("./src/" relative-file))  "\" ) null)") "")
+   source
+   (if relative-file "(meta (assign sibilant.dir \".\") null)" "")
+   )
+  )
+(def-async transpile (file)
+  (print file.rel-path)
+  (const source (await (.text file)))
+  (try (when (= (.to-lower-case file.ext) ".sibilant")
+        (const (lit js map) (lith (inject-headers  source file.src-path)
+                                  (lit  (map:true)
+                                       ;; (file file.src-path)
+                                       )))
+        (const out-rel (.replace file.rel-path ".sibilant" ".js"))
+        (lit (path out-rel) (content js) (encoding "utf8"))
+        ;; (pipe (write-file  (+ "./dist/" out-rel ".map") (.to-string map)
 
-  (bundles (.load File-system "./static/bundles"))
-  (shared-bundles (.load File-system "./static/bundles/shared")))
+        ;;                    (lit (encoding "utf8")))
+        ;;       (.catch (aprint "failed to write sourcemap"))
+        ;;       (then-do (lit (path out-rel) (content js) (encoding "utf8"))))
+        )
+       (print e))
+  (if! (.ends-with file.ext ".draft")
+       (return "skip"))
+  (return "copy"))
 
-(define html Interface
-  (files (.load File-system "./static")))
+(const mirror-config (lit (concurrency 16)
+                          (over-write "if-newer")
+                          (hash-compoare true)
+                          (delete-extra "files")
+                          (dry-run true)
+                          (delete-filter (=> (*abs rel) (not (.starts-with rel ".cache/"))))
+                          (predicate (=> (*abs d) (not (and d.is-directory
+                                                            (or (= d.name "node_modules")
+                                                                (= d.name ".git"))))))))
+(await (mirror-with-handler "./src" "./dist" transpile mirror-config))
 
-(def-async main ()
-  ;; LISP program files
-  (await (each src.server (file) (compile-module file js.server)))
-
-  (await (bundle-external))
-
-  ;: LISP modules
-  (await (each src.shared (file) (compile-client-module file js.shared)))
-  (await (each src.client (file) (compile-client-module file js.client)))
-
-  ;; LISP HTML Templates
-  (await (each src.templates (file) (compile-module file js.templates)))
-
-  ;; HTML
-  (await (each js.templates (file) (compile-html file html.files))))
-
-(.then (main) (-> (print "waiting for changes") null))
