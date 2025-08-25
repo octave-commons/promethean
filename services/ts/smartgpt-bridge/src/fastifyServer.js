@@ -8,7 +8,7 @@ try {
 
 const PORT = Number(process.env.PORT || 3210);
 const ROOT_PATH = process.env.ROOT_PATH || process.cwd();
-const app = buildFastifyApp(ROOT_PATH);
+const app = await buildFastifyApp(ROOT_PATH);
 scheduleChromaCleanup();
 
 app.listen({ port: PORT, host: '0.0.0.0' })

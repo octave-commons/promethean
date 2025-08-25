@@ -1,5 +1,7 @@
 import { buildFastifyApp } from '../../src/fastifyApp.js';
-import { cleanupMongo } from '../../src/mongo.js';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import sinon from 'sinon';
+import * as persistenceClients from '@shared/ts/dist/persistence/clients.js';
 
 function makeClient(app) {
     const u = (path, query) => {
@@ -60,8 +62,24 @@ export const withServer = async (root, fn) => {
     // Avoid native addon crashes in CI/local when ABI mismatches
     if (!process.env.NODE_PTY_DISABLED) process.env.NODE_PTY_DISABLED = '1';
     // Use in-memory Mongo by default for tests
-    if (!process.env.MONGODB_URI) process.env.MONGODB_URI = 'memory';
-    const app = buildFastifyApp(root);
+    let mms;
+    if (!process.env.MONGODB_URI || process.env.MONGODB_URI === 'memory') {
+        mms = await MongoMemoryServer.create();
+        process.env.MONGODB_URI = mms.getUri();
+    }
+
+    const fakeChroma = {
+        getOrCreateCollection: async () => ({
+            add: async () => {},
+            query: async () => ({ ids: [], documents: [], metadatas: [] }),
+            count: async () => 0,
+            get: async () => ({ ids: [] }),
+            delete: async () => {},
+        }),
+    };
+    const chromaStub = sinon.stub(persistenceClients, 'getChromaClient').resolves(fakeChroma);
+
+    const app = await buildFastifyApp(root);
     // Stub RBAC hooks so tests don't require seeded users/policies
     app.authUser = async () => ({ id: 'test' });
     app.requirePolicy = () => async () => {};
@@ -71,6 +89,9 @@ export const withServer = async (root, fn) => {
         return await fn(client);
     } finally {
         await app.close();
-        await cleanupMongo();
+        chromaStub.restore();
+        if (mms) await mms.stop();
+        const mongo = await persistenceClients.getMongoClient();
+        await mongo.close();
     }
 };
