@@ -1,3 +1,5 @@
+Note: Consolidated here → ../notes/math/eidolon-field-math-foundations.md
+
 Excellent—let’s start layering in some math to express the **Eidolon Field**, **Daimoi**, and **Field Node mechanics**. I’ll structure this into self-contained math blocks, each ready to drop into a note and render in Obsidian’s LaTeX-style markdown (with `$$`).
 
 Let’s begin with core constructs:

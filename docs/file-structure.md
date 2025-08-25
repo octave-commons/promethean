@@ -4,11 +4,11 @@ This is the formalized layout for the **Promethean Framework** monorepo.
 
 It is designed for:
 
-* Modular cognitive system design
-* Multi-agent support (e.g. Duck)
-* Root `ecosystem.config.js` starts shared services like STT and TTS
-* Language-flexible implementation (Hy/Python and Sibilant/JS/TS)
-* Integrated documentation and dataset pipelines
+- Modular cognitive system design
+- Multi-agent support (e.g. Duck)
+- Root `ecosystem.config.js` starts shared services like STT and TTS
+- Language-flexible implementation (Hy/Python and Sibilant/JS/TS)
+- Integrated documentation and dataset pipelines
 
 ---
 
@@ -89,10 +89,10 @@ It is designed for:
 │   ├── MIGRATION_PLAN.md
 │   └── READMEs, notes, specs
 │
-├── site/            ← Public-facing site (from riatzukiza.github.io)
-│   ├── assets/
-│   ├── index.html
-│   └── blog/
+├── sites/           ← Frontend code (dashboards, chat UIs) served by shared file server
+│   ├── smartgpt-dashboard/
+│   ├── llm-chat/
+│   └── markdown-graph/
 │
 ├── .obsidian/       ← User-local vault config (ignored by git)
 ├── vault-config/    ← Example Obsidian setup with required plugins
@@ -107,24 +107,24 @@ It is designed for:
 
 ## 🧩 Design Principles
 
-* Vault sits at root to link code, notes, and kanban seamlessly
-* Core services should be swappable and agent-agnostic
-* Protocol layer defines how services interoperate across languages
-* Language diversity is expected—use what works, don’t fight it
-* `shared/` holds reusable libraries, organized by language
-* JS/TS shared logic is split into `common/`, `client/`, `server/` to manage scope
-* Lisp-like code (Hy, Sibilant) transpiles into `py/`, `js/`; always import from those
-* Services only run processes; shared code never lives under `services/`
+- Vault sits at root to link code, notes, and kanban seamlessly
+- Core services should be swappable and agent-agnostic
+- Protocol layer defines how services interoperate across languages
+- Language diversity is expected—use what works, don’t fight it
+- `shared/` holds reusable libraries, organized by language
+- JS/TS shared logic is split into `common/`, `client/`, `server/` to manage scope
+- Lisp-like code (Hy, Sibilant) transpiles into `py/`, `js/`; always import from those
+- Services only run processes; shared code never lives under `services/`
 
 ---
 
 ## ✅ Notes for Codex
 
-* All service logic must live in `services/`
-* All prompt/memory config belongs in `agents/{name}/`
-* `AGENTS.md` governs repo structure and allowed operations
-* Model files must go in `models/`, not `services/`
-* Only import from `shared/py/` or `shared/js/` at runtime
+- All service logic must live in `services/`
+- All prompt/memory config belongs in `agents/{name}/`
+- `AGENTS.md` governs repo structure and allowed operations
+- Model files must go in `models/`, not `services/`
+- Only import from `shared/py/` or `shared/js/` at runtime
 
 ---
 

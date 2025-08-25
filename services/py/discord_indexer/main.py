@@ -13,22 +13,24 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../"))
 import asyncio
 import random
 from typing import List
+
 import discord
+
 from shared.py import settings
 from shared.py.mongodb import discord_message_collection, discord_channel_collection
-from shared.py.heartbeat_client import HeartbeatClient
+from shared.py.heartbeat_broker import start_broker_heartbeat
+from shared.py.utils.discord import (
+    fetch_channel_history,
+    shuffle_array,
+    update_cursor,
+)
 
 intents = discord.Intents.default()
 client = discord.Client(intents=intents)
 intents.message_content = True
 
-hb = HeartbeatClient()
-try:
-    hb.send_once()
-except Exception as exc:
-    print(f"failed to register heartbeat: {exc}")
-    sys.exit(1)
-hb.start()
+_hb_started = False
+_hb_ctx = None
 
 
 def format_message(message):
@@ -53,24 +55,6 @@ def format_message(message):
     }
 
 
-def setup_channel(channel_id) -> None:
-    """
-    Setup a channel for indexing.
-    """
-    print(f"Setting up channel {channel_id}")
-    return discord_channel_collection.insert_one({"id": channel_id, "cursor": None})
-
-
-def update_cursor(message: discord.Message) -> None:
-    """
-    Update the cursor for a channel.
-    """
-    print(f"Updating cursor for channel {message.channel.id} to {message.id}")
-    return discord_channel_collection.update_one(
-        {"id": message.channel.id}, {"$set": {"cursor": message.id}}
-    )
-
-
 def index_message(message: discord.Message) -> None:
     """
     Index a message only if it has not already been added to mongo.
@@ -84,81 +68,39 @@ def index_message(message: discord.Message) -> None:
         print(message_record)
 
 
-def find_channel_record(channel_id):
-    """
-    Find the record for a channel, creating one if missing.
-    """
-    print(f"Finding channel record for {channel_id}")
-    record = discord_channel_collection.find_one({"id": channel_id})
-    if record is None:
-        print(f"No record found for {channel_id}")
-        setup_channel(channel_id)
-        record = discord_channel_collection.find_one({"id": channel_id})
-    else:
-        print(f"Found channel record for {channel_id}")
-    print(f"Channel record: {record}")
-    return record
-
-
-async def fetch_history(
-    channel: discord.TextChannel, cursor: int | None
-) -> List[discord.Message]:
-    """Retrieve channel history handling cursors and errors."""
-    history_kwargs = {"limit": 200, "oldest_first": True}
-    if cursor is None:
-        print(f"No cursor found for {channel.id}")
-    else:
-        print(f"Cursor found for {channel} {cursor}")
-        history_kwargs["after"] = channel.get_partial_message(cursor)
-    try:
-        return [message async for message in channel.history(**history_kwargs)]
-    except Exception as e:
-        print(f"Error getting history for {channel.id}")
-        print(e)
-        if cursor is None:
-            discord_channel_collection.update_one(
-                {"id": channel.id}, {"$set": {"is_valid": False}}
-            )
-        return []
-
-
-async def next_messages(channel: discord.TextChannel) -> List[discord.Message]:
-    """
-    Get the next batch of messages in a channel.
-    """
-    channel_record = find_channel_record(channel.id)
-    print(f"Cursor: {channel_record['cursor']}")
-    print(f"Getting history for {channel_record}")
-    if not channel_record.get("is_valid", True):
-        print(f"Channel {channel_record['id']} is not valid")
-        return []
-    return await fetch_history(channel, channel_record["cursor"])
-
-
 async def index_channel(channel: discord.TextChannel) -> None:
     """
     Index all messages in a channel.
     """
     print(f"Indexing channel {channel}")
-    messages = await next_messages(channel)
+    messages = await fetch_channel_history(
+        channel, discord_channel_collection, "cursor"
+    )
     newest_message = None
     for message in messages:
         await asyncio.sleep(0.1)
         index_message(message)
         newest_message = message
     if newest_message is not None:
-        update_cursor(newest_message)
-    print(f"Newest message: {newest_message}")
-
-
-def shuffle_array(array):
-    """Shuffle an array in place."""
-    random.shuffle(array)
-    return array
+        update_cursor(
+            discord_channel_collection, channel.id, newest_message.id, "cursor"
+        )
+    return print(f"Newest message: {newest_message}")
 
 
 @client.event
 async def on_ready():
+    global _hb_started, _hb_ctx
+    if not _hb_started:
+        # Start broker-tied heartbeat once the loop is running
+        try:
+            _hb_ctx = await start_broker_heartbeat(
+                service_id=os.environ.get("PM2_PROCESS_NAME", "discord_indexer")
+            )
+            _hb_started = True
+        except Exception as e:
+            print(f"[discord_indexer] failed to start broker heartbeat: {e}")
+
     while True:
         for channel in shuffle_array(list(client.get_all_channels())):
             if isinstance(channel, discord.TextChannel):

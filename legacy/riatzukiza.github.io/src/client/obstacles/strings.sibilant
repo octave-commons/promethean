@@ -1,3 +1,0 @@
-(namespace obstacles)
-(def-generic display-decimal (d (n 6)) (/ (Math.round (* (Math.pow 10 n) d)) (Math.pow 10 n)))
-(export display-decimal)

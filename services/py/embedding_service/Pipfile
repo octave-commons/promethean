@@ -9,6 +9,7 @@ uvicorn = "*"
 requests = "*"
 sentence-transformers = "*"
 Pillow = "*"
+websockets = "*"
 
 [dev-packages]
 
