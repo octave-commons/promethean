@@ -13,19 +13,14 @@ if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
 }
 
 const apps = [
-  defineApp(
-    "stt",
-    "pipenv",
-      ["run", "python", "-m", "service"],
-    {
-      cwd: __dirname,
-      watch: [__dirname],
-      env: {
-        FLASK_APP: "app.py",
-        FLASK_ENV: "production",
-      },
+  defineApp("stt", "uv", ["run", "python", "-m", "service"], {
+    cwd: __dirname,
+    watch: [__dirname],
+    env: {
+      FLASK_APP: "app.py",
+      FLASK_ENV: "production",
     },
-  ),
+  }),
 ];
 
 const allApps = !process.env.PROMETHEAN_ROOT_ECOSYSTEM

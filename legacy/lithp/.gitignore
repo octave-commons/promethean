@@ -1,7 +1,0 @@
-package-lock.json
-public/.sass-cache
-tmp/*
-*.swp
-node_modules
-.sass-cache
-.#*

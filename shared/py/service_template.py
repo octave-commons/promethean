@@ -1,6 +1,7 @@
 # shared/py/service_template.py
 
 import asyncio
+import os
 from shared.py.broker_client import BrokerClient
 
 
@@ -10,6 +11,7 @@ async def start_service(
     topics=None,
     handle_event=lambda event, client: None,
     handle_task=lambda task, client: None,
+    enable_heartbeat: bool = True,
 ):
     queues = queues or []
     topics = topics or []
@@ -17,6 +19,24 @@ async def start_service(
     client = BrokerClient(client_id=id)
     await client.connect()
     print(f"[{id}] connected to broker")
+
+    # Start broker-tied heartbeat loop so if the broker connection drops,
+    # heartbeats stop and the heartbeat service can reap this process.
+    hb_task = None
+    if enable_heartbeat:
+
+        async def heartbeat_loop():
+            name = os.environ.get("PM2_PROCESS_NAME", id)
+            pid = os.getpid()
+            interval = float(os.environ.get("HEARTBEAT_INTERVAL", "3"))
+            while True:
+                try:
+                    await client.publish("heartbeat", {"pid": pid, "name": name})
+                except Exception as e:
+                    print(f"[{id}] heartbeat publish failed: {e}")
+                await asyncio.sleep(interval)
+
+        hb_task = asyncio.create_task(heartbeat_loop())
 
     # Subscribe to topics
     for topic in topics:

@@ -16,7 +16,6 @@ export function defineApp(name, script, args = [], opts = {}) {
     exec_mode = "fork",
   } = opts;
 
-
   const out = {
     name,
     script,
@@ -44,39 +43,28 @@ export function defineApp(name, script, args = [], opts = {}) {
     },
   };
 
-  if (script === "pipenv") {
-    out.interpreter = "none"
-
+  if (script === "uv") {
+    out.interpreter = "none";
   }
-  return out
+  return out;
 }
 
 defineApp.HEARTBEAT_PORT = 5005;
 defineApp.PYTHONPATH = path.resolve(__dirname, "..");
 
 export function definePythonService(name, serviceDir, opts = {}) {
-  return defineApp(
-    name,
-    "pipenv",
-    ["run", "python", "-m", "main"],
-    {
-      "interpreter": "none",
-      cwd: serviceDir,
-      ...opts,
-    }
-  );
+  return defineApp(name, "uv", ["run", "python", "-m", "main"], {
+    interpreter: "none",
+    cwd: serviceDir,
+    ...opts,
+  });
 }
 
 export function defineNodeService(name, serviceDir, opts = {}) {
-  return defineApp(
-    name,
-    ".",
-    [],
-    {
-      cwd: serviceDir,
-      ...opts,
-    }
-  );
+  return defineApp(name, ".", [], {
+    cwd: serviceDir,
+    ...opts,
+  });
 }
 
 export function defineAgent(name, appDefs, opts = {}) {

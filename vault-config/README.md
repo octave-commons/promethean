@@ -22,13 +22,13 @@ options in **Settings → Files & Links**:
 
 * **Automatically update internal links** – keeps link paths tidy when files are
   moved.
-* **Use [wikilinks](wikilinks.md)** – preferred inside the vault for graph navigation.
+* **Use [[wikilinks.md]]** – preferred inside the vault for graph navigation.
 * **Default location for new attachments → Same folder as current file** – avoids
   absolute paths.
 
 Then, install the optional **Markdown Format Converter** plugin and run the
 `Convert all to Markdown` command before committing docs. This converts
-`[wikilinks](wikilinks.md)` to standard `[text](link.md)` syntax so everything renders on
+`[[wikilinks.md]]` to standard `[[link.md|text]]` syntax so everything renders on
 GitHub without broken links.
 
 For automated formatting, the repository includes a `.markdownlint.yml`
@@ -40,7 +40,7 @@ is also compatible if you prefer JS-based tooling.
 
 ## Automated Wikilink Conversion
 
-A small script `scripts/convert_wikilinks.py` converts `[wikilinks](wikilinks.md)` to standard markdown links. The repository provides a `.pre-commit-config.yaml` that runs this script automatically before each commit.
+A small script `scripts/convert_wikilinks.py` converts `[[wikilinks.md]]` to standard markdown links. The repository provides a `.pre-commit-config.yaml` that runs this script automatically before each commit.
 
 Install the `pre-commit` tool and enable the hook:
 

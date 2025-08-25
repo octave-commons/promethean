@@ -1,0 +1,17 @@
+Auth: Migrate services to JWT-based auth
+
+Goal: Replace ad hoc/static tokens with OAuth2 client_credentials + JWT across internal HTTP endpoints.
+
+Scope (initial wave):
+- SmartGPT Bridge: require Bearer JWT; verify scopes: `indexer:write`, `indexer:remove`, `search:read`.
+- File Watcher: request token and attach Authorization header.
+- Heartbeat service (JS): if any HTTP endpoints exposed later, protect; otherwise, skip.
+- Cephalon HTTP endpoints (if any) + internal bridges.
+- Broker (WS): evaluate minimal token on connect (optional phase 2).
+
+Exit Criteria:
+- Services accept/verify JWT; file-watcher and bridge communicate successfully.
+- Docs updated to remove static token guidance.
+
+#incoming #auth #migration #services
+

@@ -149,6 +149,6 @@ erDiagram
   }
 ```
 
-Related: [unique/index](../../unique/index.md)
+Related: [[index.md|unique/index]]
 
 #tags: #diagrams #broker #streaming

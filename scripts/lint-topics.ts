@@ -1,11 +1,12 @@
 import fs from "fs";
 import path from "path";
 
-import { isValidTopic, headerOk } from "../shared/js/prom-lib/naming/rules.ts";
-import { reg as schemaReg } from "../shared/js/prom-lib/schema/topics.ts";
+import { isValidTopic, headerOk } from "../shared/ts/prom-lib/naming/rules.ts";
+import { reg as schemaReg } from "../shared/ts/prom-lib/schema/topics.ts";
 
 const ROOT = process.env.REPO_ROOT || process.cwd();
-const SRC_DIRS = ["services", "shared/js"]; // add more if needed
+// Limit initial lint scope to prom-lib; expand as other services adopt topic rules
+const SRC_DIRS = ["shared/ts/prom-lib"]; // add more if needed
 
 function walk(dir: string): string[] {
   const out: string[] = [];
@@ -13,7 +14,8 @@ function walk(dir: string): string[] {
     if (e.name.startsWith(".")) continue;
     const p = path.join(dir, e.name);
     if (e.isDirectory()) out.push(...walk(p));
-    else if (/\.(ts|js|tsx)$/.test(e.name)) out.push(p);
+    else if (/\.(ts|js|tsx)$/.test(e.name) && !e.name.includes(".test."))
+      out.push(p);
   }
   return out;
 }

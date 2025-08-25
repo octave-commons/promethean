@@ -1,18 +1,21 @@
 # Auto-generated Makefile. DO NOT EDIT MANUALLY.
 
 COMMANDS := \
+  refresh \
   setup-python-services \
   setup-pipenv \
   generate-python-shared-requirements \
   generate-python-services-requirements \
   generate-requirements-service \
   setup-shared-python \
+  lock-python-cpu \
+  lock-python-gpu \
   setup-shared-python-quick \
   setup-python-services-quick \
+  clean-python \
   setup-python \
   setup-python-quick \
   build-python \
-  clean-python \
   setup-python-service \
   test-python-service \
   test-python-services \
@@ -42,6 +45,9 @@ COMMANDS := \
   coverage-js-services \
   coverage-js \
   clean-js \
+  clean-ts \
+  clean-hy \
+  clean-sibilant \
   build-js \
   lint-ts-service \
   lint-ts \
@@ -55,7 +61,6 @@ COMMANDS := \
   coverage-ts-service \
   coverage-ts-services \
   coverage-ts \
-  clean-ts \
   build-ts \
   build-sibilant \
   setup-sibilant \
@@ -65,7 +70,9 @@ COMMANDS := \
   compile-hy \
   build \
   clean \
+  distclean \
   lint \
+  lint-topics \
   test \
   test-integration \
   test-e2e \
@@ -75,6 +82,8 @@ COMMANDS := \
   setup-quick \
   install \
   install-gha-artifacts \
+  probe-python-service \
+  probe-python-services \
   system-deps \
   install-mongodb \
   start \
@@ -95,6 +104,8 @@ COMMANDS := \
 
 .PHONY: \
   $(COMMANDS) \
+  uv-setup-python-service- \
+  probe-python-service- \
   setup-python-service- \
   setup-quick-service-python-service- \
   setup-quick-shared-python-service- \
@@ -128,6 +139,12 @@ COMMANDS := \
   generate-requirements--service-
 
 $(COMMANDS):
+	@hy Makefile.hy $@
+
+uv-setup-python-service-%:
+	@hy Makefile.hy $@
+
+probe-python-service-%:
 	@hy Makefile.hy $@
 
 setup-python-service-%:
