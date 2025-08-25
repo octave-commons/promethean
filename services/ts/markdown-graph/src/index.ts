@@ -1,23 +1,15 @@
 import express, { Application } from 'express';
 import bodyParser from 'body-parser';
-import { MongoClient } from 'mongodb';
 import { GraphDB } from './graph.js';
 
-export async function createApp(
-    mongoUrl: string,
-    repoPath: string,
-    coldStart = false,
-): Promise<Application> {
-    const client = new MongoClient(mongoUrl);
-    await client.connect();
-    const db = new GraphDB(client, repoPath);
+export async function createApp(repoPath: string, coldStart = false): Promise<Application> {
+    const db = await GraphDB.create(repoPath);
     if (coldStart) {
         await db.coldStart();
     }
     const app = express();
     app.use(bodyParser.json());
     app.locals.graph = db;
-    app.locals.mongoClient = client;
 
     app.post('/update', async (req, res) => {
         const { path, content } = req.body as { path: string; content: string };
@@ -53,9 +45,8 @@ export async function handleTask(
 
 export async function start() {
     const repo = process.env.REPO_PATH || '.';
-    const url = process.env.MONGODB_URI || 'mongodb://localhost:27017';
     const cold = process.env.COLD_START === '1';
-    const app = await createApp(url, repo, cold);
+    const app = await createApp(repo, cold);
     try {
         const { startService } = await import(
             /* @ts-ignore */ '../../../../shared/js/serviceTemplate.js'
