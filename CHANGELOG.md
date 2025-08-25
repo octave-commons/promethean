@@ -21,11 +21,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Frontend visualization for the markdown link graph using ForceGraph.
 - Simple web chat interface for the LLM service with HTTP and WebSocket endpoints.
 - File explorer UI for SmartGPT Bridge dashboard using file endpoints.
+- `sites/` directory consolidating all frontend code.
 - Tool calling support for Codex Context service.
 
 ### Changed
 
 - Organized SmartGPT Bridge routes into versioned directories.
+- Moved SmartGPT dashboard and LLM chat frontends into `sites/`.
+- Frontends now served from a central static file server instead of individual services.
 - SmartGPT Bridge now uses shared DualStore and ContextStore for persistence.
 - Discord embedder migrated to shared DualStore and ContextStore for unified persistence.
 - Kanban processor now persists via shared DualStore and ContextStore.

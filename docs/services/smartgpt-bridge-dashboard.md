@@ -16,25 +16,27 @@ The dashboard at `/` is now generated from the live OpenAPI spec exposed by the 
 ## Usage
 
 1. Start the service:
-   - `pnpm -C services/ts/smartgpt-bridge start`
-2. Open the dashboard:
-   - http://localhost:3210/
-3. (Optional) Paste your bearer token and click Save to enable protected routes.
-4. Browse the endpoint cards and submit requests.
-   - Use the filter box or tag picker to narrow what you see.
-   - Click the star to favorite frequently used endpoints.
+    - `pnpm -C services/ts/smartgpt-bridge start`
+2. Serve frontends:
+    - `pnpm serve:sites`
+3. Open the dashboard:
+    - http://localhost:4500/smartgpt-dashboard/
+4. (Optional) Paste your bearer token and click Save to enable protected routes.
+5. Browse the endpoint cards and submit requests.
+    - Use the filter box or tag picker to narrow what you see.
+    - Click the star to favorite frequently used endpoints.
 
 ## Notes
 
 - Agent endpoints (e.g., `/agent/start`) provide request/response examples in the OpenAPI; the dashboard shows those fields by default.
 - SSE streaming endpoints display response headers but not a live stream yet; for live logs, use the existing `/agent/stream` with curl or your browser.
-  - The dashboard now renders live SSE output for endpoints that advertise `text/event-stream` in the spec.
+    - The dashboard now renders live SSE output for endpoints that advertise `text/event-stream` in the spec.
 
 ## Contributing
 
 The dashboard is implemented as Web Components (Lit) in:
 
-- `services/ts/smartgpt-bridge/public/wc/components.js`
-- `services/ts/smartgpt-bridge/public/index.html`
+- `sites/smartgpt-dashboard/wc/components.js`
+- `sites/smartgpt-dashboard/index.html`
 
 Keep the OpenAPI spec (`src/spec.js`) accurate—UI updates automatically.
