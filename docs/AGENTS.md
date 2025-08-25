@@ -4,7 +4,7 @@
 
 The `docs/` directory is the Promethean system's knowledge substrate and memory layer. It serves as both a human-facing vault (via Obsidian) and an AI-readable semantic map of the system’s structure, intentions, and ongoing development.
 
-This is not passive documentation — it is an active *epistemic interface* through which Codex, agent-mode, Duck, and the user collaboratively build, refine, and evolve the system.
+This is not passive documentation — it is an active *epistemic interface* through which Codex, agent-mode, resident agents (e.g. Duck), and the user collaboratively build, refine, and evolve the system.
 
 ## Responsibilities
 
@@ -51,7 +51,7 @@ Passive system — no execution required. Mounted automatically via Obsidian.
 To sync with system structure:
 
 ```bash
-npm run build:docs  # optional sync or generate script
+pnpm run build:docs  # optional sync or generate script
 ````
 
 Board automation tasks are run via Makefile targets such as `make kanban-from-tasks`.
@@ -72,4 +72,3 @@ To browse:
 ## Tags
 
 #agent #docs #epistemic #framework-core #codex-input #knowledge-substrate
-

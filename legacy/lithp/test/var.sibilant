@@ -1,5 +1,0 @@
-(def alert-hello (planet-name)
-  (var message (concat "hello " planet-name))
-    message)
-
-(var foo (concat "hi " "there"))

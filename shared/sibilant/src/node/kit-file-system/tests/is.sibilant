@@ -1,0 +1,13 @@
+(include "../src/index")
+(var sys (.load File-system "./") )
+
+(pipe (.find sys "./readme.md")
+      (.then (#-> (tap .is-file?  (assert "readme.md indicated it was not a file, it is."))
+                  (tap  .is-dir? not (assert "readme.md indicated it was a directory, it is not."))))
+      (.then (aprint "is-*? methods pass on type `File`")))
+
+(pipe (.find sys "./")
+      (.then (#-> (tap  .is-file? not (assert "project root (\"./\")indicated it was not a file, it is."))
+                  (tap  .is-dir? (assert "project root (\"./\") indicated it was a directory, it is not."))))
+      (.then (aprint "is-*? methods pass on type `Directory`")))
+(assert (not (.is-file?)))

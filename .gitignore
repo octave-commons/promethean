@@ -1,8 +1,8 @@
 **/node_modules/**
 node_modules/
 dist/
-!shared/js/prom-lib/dist/intention/
-!shared/js/prom-lib/dist/intention/**
+!shared/ts/prom-lib/dist/intention/
+!shared/ts/prom-lib/dist/intention/**
 data/
 pulbic/
 .env
@@ -37,24 +37,38 @@ services/py/whisper_stream_ws/coverage.xml
 
 shared/py/.coverage
 
-# Allow model download helpers
-!services/py/tts/models/download.sh
-!services/py/tts/models/README.md
-!services/py/stt/whisper-npu/download.sh
-!services/py/stt/whisper-npu/README_LOCAL.md
-!agents/duck/scripts/download_chroma_data.sh
 
 .infio_json_db/
-.chromadb/
+**/.chromadb/
 
 patch.sh
 
 frames/
 
-output.mp4
-
+**/*.mp4
 
 
 
 # Ignore Smart Environment folder
 .smart-env
+
+coverage/
+
+catalog.org
+
+.scratch/
+**/hack.*
+.volta/
+
+.envrc
+
+*.snap
+services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean/bootstrap.json
+
+.cache/
+
+services/ts/smartgpt-bridge/logs/agents/
+
+services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean_services_ts_smartgpt-bridge_services_ts_smartgpt-bridge_tests_tmp_inc1/bootstrap.json
+
+/.cache/

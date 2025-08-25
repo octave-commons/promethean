@@ -66,6 +66,6 @@ graph TD
     S2 --> S3
 ```
 
-Related: [smoke-waves-infinite-depth](smoke-waves-infinite-depth.md) [unique/index](../../unique/index.md)
+Related: [[smoke-waves-infinite-depth.md]] [[index.md|unique/index]]
 
 #tags: #diagrams #metaphor #synchronicity

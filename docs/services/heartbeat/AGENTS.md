@@ -4,9 +4,13 @@
 
 TODO: Add service description.
 
+## Broker Usage
+
+This client now relies on `@shared/js/brokerClient.js` for publishing heartbeats; avoid direct `WebSocket` use.
+
 ## Paths
 
-- [services/js/heartbeat](../../../services/js/heartbeat)
+- [[heartbeat|services/js/heartbeat]]
 
 ## Tags
 

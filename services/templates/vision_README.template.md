@@ -12,8 +12,8 @@ publishing `vision-capture` events with a base64-encoded image payload.
 Install dependencies and start the service:
 
 ```bash
-npm install
-npm start
+pnpm install
+pnpm start
 ```
 
 #hashtags: #vision #service #promethean
