@@ -2,7 +2,10 @@ import { spawn } from 'child_process';
 import { dirname, join, resolve } from 'path';
 import { readFile, writeFile } from 'fs/promises';
 import crypto from 'crypto';
-import { MongoClient, Collection } from 'mongodb';
+import { ContextStore } from '@shared/ts/dist/persistence/contextStore.js';
+import { DualStoreManager } from '@shared/ts/dist/persistence/dualStore.js';
+import { getMongoClient } from '@shared/ts/dist/persistence/clients.js';
+import type { MongoClient } from 'mongodb';
 // @ts-ignore
 import { BrokerClient } from '@shared/js/brokerClient.js';
 
@@ -133,13 +136,19 @@ async function writeBoardFile(path: string, lines: string[], modified: boolean) 
 async function projectState(
     cards: KanbanCard[],
     previous: Record<string, KanbanCard>,
-    mongo: Collection<any>,
     publish: (type: string, payload: any) => void,
+    store: DualStoreManager<string, string> | null,
 ): Promise<Record<string, KanbanCard>> {
     const current: Record<string, KanbanCard> = {};
     for (const card of cards) {
         current[card.id] = card;
-        await mongo.updateOne({ id: card.id }, { $set: card }, { upsert: true });
+        if (store) {
+            await store.mongoCollection.updateOne(
+                { id: card.id } as any,
+                { $set: card as any },
+                { upsert: true },
+            );
+        }
         const prev = previous[card.id];
         if (!prev) {
             publish(EVENTS.cardCreated, card);
@@ -175,10 +184,20 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
     const tasksPath = join(repoRoot, 'docs', 'agile', 'tasks');
     const boardDir = dirname(boardPath);
 
-    const agentName = process.env.AGENT_NAME || '';
-    const mongoClient = new MongoClient(process.env.MONGODB_URI || 'mongodb://localhost:27017');
-    mongoClient.connect().catch((err) => console.error('mongo connect failed', err));
-    const mongoCollection = mongoClient.db('database').collection(`${agentName}_kanban`);
+    const ctx = new ContextStore();
+    let kanbanStore: DualStoreManager<string, string> | null = null;
+    let mongoClient: MongoClient | null = null;
+    if (process.env.NODE_ENV !== 'test') {
+        getMongoClient()
+            .then((client) => {
+                mongoClient = client;
+                return ctx.createCollection('kanban', 'title', 'updatedAt');
+            })
+            .then((store: DualStoreManager<string, string>) => {
+                kanbanStore = store;
+            })
+            .catch((err: unknown) => console.error('dual store init failed', err));
+    }
 
     const brokerUrl = process.env.BROKER_URL || 'ws://localhost:7000';
     const broker = new BrokerClient({ url: brokerUrl, id: 'kanban-processor' });
@@ -203,12 +222,7 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
             const lines = await loadBoard(boardPath);
             const parsed = await parseBoard(lines, boardDir, tasksPath);
             await writeBoardFile(boardPath, parsed.lines, parsed.modified);
-            previousState = await projectState(
-                parsed.cards,
-                previousState,
-                mongoCollection,
-                publish,
-            );
+            previousState = await projectState(parsed.cards, previousState, publish, kanbanStore);
         } catch (err) {
             console.error('processKanban failed', err);
         } finally {
@@ -229,12 +243,7 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
             const lines = boardText.split(/\r?\n/);
             const parsed = await parseBoard(lines, boardDir, tasksPath);
             await writeBoardFile(boardPath, parsed.lines, true);
-            previousState = await projectState(
-                parsed.cards,
-                previousState,
-                mongoCollection,
-                publish,
-            );
+            previousState = await projectState(parsed.cards, previousState, publish, kanbanStore);
         } catch (err) {
             console.error('updateBoard failed', err);
         }
@@ -270,7 +279,7 @@ export function startKanbanProcessor(repoRoot = defaultRepoRoot) {
         async close() {
             broker.socket?.close();
             try {
-                await mongoClient.close();
+                await mongoClient?.close();
             } catch (err) {
                 console.error('mongo close failed', err);
             }
