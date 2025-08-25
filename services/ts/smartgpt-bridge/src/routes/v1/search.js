@@ -60,7 +60,30 @@ export function registerSearchRoutes(v1) {
                 200: {
                     type: 'object',
                     properties: {
-                        results: { type: 'array', items: { type: 'object' } },
+                        results: {
+                            type: 'array',
+                            items: {
+                                type: 'object',
+                                properties: {
+                                    id: { type: 'string' },
+                                    path: { type: 'string' },
+                                    chunkIndex: { type: 'integer' },
+                                    startLine: { type: 'integer' },
+                                    endLine: { type: 'integer' },
+                                    score: { type: 'number' },
+                                    text: { type: 'string' },
+                                },
+                                required: [
+                                    'id',
+                                    'path',
+                                    'chunkIndex',
+                                    'startLine',
+                                    'endLine',
+                                    'score',
+                                    'text',
+                                ],
+                            },
+                        },
                     },
                 },
             },
@@ -78,6 +101,7 @@ export function registerSearchRoutes(v1) {
                         metadata: { query: q, resultCount: results.length, service: 'chroma' },
                     });
                 } catch {}
+                console.log(results);
                 reply.send({ results });
             } catch (e) {
                 reply.code(500).send({ ok: false, error: String(e?.message || e) });
