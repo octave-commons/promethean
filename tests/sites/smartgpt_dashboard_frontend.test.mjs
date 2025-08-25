@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import http from 'node:http';
-import { startSitesServer } from '../../scripts/serve-sites.js';
 
 process.env.NODE_ENV = 'test';
 const { start: startProxy, stop: stopProxy } = await import('../../services/js/proxy/index.js');
@@ -26,18 +25,15 @@ test('SmartGPT dashboard served and proxied via proxy service', async () => {
     const proxy = await startProxy(0, { '/bridge': `http://127.0.0.1:${bridgePort}` });
     await new Promise((resolve) => proxy.on('listening', resolve));
     const proxyPort = proxy.address().port;
-    const siteServer = await startSitesServer(0, `http://127.0.0.1:${proxyPort}`);
-    const sitePort = siteServer.address().port;
 
-    const page = await fetch(`http://127.0.0.1:${sitePort}/smartgpt-dashboard/`);
+    const page = await fetch(`http://127.0.0.1:${proxyPort}/smartgpt-dashboard/`);
     const text = await page.text();
     assert.ok(text.includes('SmartGPT Bridge'));
 
-    const res = await fetch(`http://127.0.0.1:${sitePort}/bridge/auth/me`);
+    const res = await fetch(`http://127.0.0.1:${proxyPort}/bridge/auth/me`);
     const data = await res.json();
     assert.equal(data.auth, true);
 
-    siteServer.close();
     await stopProxy();
     await new Promise((resolve) => bridge.close(resolve));
 });
