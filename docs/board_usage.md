@@ -1,7 +1,7 @@
 # Kanban Board Usage Guide
 
 This page explains how to work with the Promethean Kanban board located at
-[`docs/agile/boards/kanban.md`](agile/boards/kanban.md). The board is designed
+[[kanban.md|`docs/agile/boards/kanban.md`]]. The board is designed
 for the Obsidian Kanban plugin but renders fine on GitHub.
 
 ## Adding and linking tasks
@@ -19,11 +19,11 @@ The board manager agent checks this linkage and can create stubs when needed.
 ## Typical workflow
 
 The board columns map to the stages in
-[`docs/agile/Process.md`](agile/Process.md). A common flow is:
+[[Process.md|`docs/agile/Process.md`]]. A common flow is:
 
 `Ice Box → Accepted → Breakdown → Ready → To Do → In Progress → In Review → Done`
 
-Refer to [`docs/agile/AGENTS.md`](agile/AGENTS.md) for details on how the board
+Refer to [[AGENTS.md|`docs/agile/AGENTS.md`]] for details on how the board
 manager enforces this process.
 
 ## WIP limits
@@ -39,5 +39,5 @@ manually. Moving cards beyond the limit will highlight the column in Obsidian.
 - When a task is complete, ensure its file links to resulting code or docs before
   moving it to **Done**.
 
-See [`docs/board_sync.md`](board_sync.md) for information about syncing with a
+See [[board_sync.md|`docs/board_sync.md`]] for information about syncing with a
 GitHub Projects board.

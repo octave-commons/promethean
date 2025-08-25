@@ -1,100 +1,100 @@
-import { CollectionManager } from '@shared/ts/collectionManager';
-import { formatMessage, GenericEntry } from '@shared/ts/contextManager';
-import { generatePromptChoice, generateSpecialQuery } from '../util';
-import type { AIAgent } from './index';
+import { DualStoreManager as CollectionManager } from '@shared/ts/dist/persistence/dualStore.js';
+import { formatMessage, GenericEntry } from '@shared/ts/dist/persistence/contextStore.js';
+import { generatePromptChoice, generateSpecialQuery } from '../util.js';
+import type { AIAgent } from './index.js';
 
 export async function generateVoiceContentFromSinglePrompt(this: AIAgent) {
-	let content = '';
-	let counter = 0;
-	const context = await this.context.compileContext([this.prompt], this.historyLimit, 5, 5, true);
-	const text = context.map((m) => m.content).join('\n');
+    let content = '';
+    let counter = 0;
+    const context = await this.context.compileContext([this.prompt], this.historyLimit, 5, 5, true);
+    const text = context.map((m: { content: string }) => m.content).join('\n');
 
-	while (!content && counter < 5) {
-		content = (await this.generateResponse({
-			specialQuery: `
+    while (!content && counter < 5) {
+        content = (await this.generateResponse({
+            specialQuery: `
 This is  a transcript of a conversation you and I have been having using a voice channel.
 ${text}
 `,
-			context: [],
-		})) as string;
-		counter++;
-	}
+            context: [],
+        })) as string;
+        counter++;
+    }
 
-	return content;
+    return content;
 }
 
 export async function generateVoiceContentWithFormattedLatestmessage(this: AIAgent) {
-	let content = '';
-	let counter = 0;
-	const userCollection = this.contextManager.getCollection('transcripts') as CollectionManager<'text', 'createdAt'>;
-	const latestUserMessage = (await userCollection.getMostRecent(1))[0] as GenericEntry;
-	const context = (await this.context.compileContext([this.prompt], this.historyLimit)).filter(
-		(m) => m.content !== latestUserMessage?.text,
-	);
+    let content = '';
+    let counter = 0;
+    const userCollection = this.contextManager.getCollection('transcripts') as CollectionManager<'text', 'createdAt'>;
+    const latestUserMessage = (await userCollection.getMostRecent(1))[0] as GenericEntry;
+    const context = (await this.context.compileContext([this.prompt], this.historyLimit)).filter(
+        (m: { content: string }) => m.content !== latestUserMessage?.text,
+    );
 
-	context.push({
-		role: 'user',
-		content: formatMessage(latestUserMessage),
-	});
+    context.push({
+        role: 'user',
+        content: formatMessage(latestUserMessage),
+    });
 
-	while (!content && counter < 5) {
-		content = (await this.generateResponse({
-			context,
-		})) as string;
-		counter++;
-	}
+    while (!content && counter < 5) {
+        content = (await this.generateResponse({
+            context,
+        })) as string;
+        counter++;
+    }
 
-	return content;
+    return content;
 }
 
 export async function generateVoiceContentWithChoicePrompt(this: AIAgent) {
-	let content = '';
-	let counter = 0;
-	const context = await this.context.compileContext([this.prompt], this.historyLimit);
-	while (!content && counter < 5) {
-		content = (await this.generateResponse({
-			specialQuery: ` ${generatePromptChoice()} `,
-			context,
-		})) as string;
-		counter++;
-	}
+    let content = '';
+    let counter = 0;
+    const context = await this.context.compileContext([this.prompt], this.historyLimit);
+    while (!content && counter < 5) {
+        content = (await this.generateResponse({
+            specialQuery: ` ${generatePromptChoice()} `,
+            context,
+        })) as string;
+        counter++;
+    }
 
-	return content;
+    return content;
 }
 
 export async function generateVoiceContentWithSpecialQuery(this: AIAgent) {
-	let content = '';
-	let counter = 0;
-	const userCollection = this.contextManager.getCollection('transcripts') as CollectionManager<'text', 'createdAt'>;
-	const latestUserMessage = (await userCollection.getMostRecent(1))[0] as GenericEntry;
-	const context = (await this.context.compileContext([this.prompt], this.historyLimit)).filter(
-		(m) => m.content !== latestUserMessage?.text,
-	);
-	while (!content && counter < 5) {
-		content = (await this.generateResponse({
-			specialQuery: generateSpecialQuery(latestUserMessage, generatePromptChoice()),
-			context,
-		})) as string;
-		counter++;
-	}
+    let content = '';
+    let counter = 0;
+    const userCollection = this.contextManager.getCollection('transcripts') as CollectionManager<'text', 'createdAt'>;
+    const latestUserMessage = (await userCollection.getMostRecent(1))[0] as GenericEntry;
+    const context = (await this.context.compileContext([this.prompt], this.historyLimit)).filter(
+        (m: { content: string }) => m.content !== latestUserMessage?.text,
+    );
+    while (!content && counter < 5) {
+        content = (await this.generateResponse({
+            specialQuery: generateSpecialQuery(latestUserMessage, generatePromptChoice()),
+            context,
+        })) as string;
+        counter++;
+    }
 
-	return content;
+    return content;
 }
 
 export async function generateVoiceContentWithoutSpecialQuery(this: AIAgent) {
-	let content = '';
-	let counter = 0;
-	const context = await this.context.compileContext([this.prompt], this.historyLimit);
-	while (!content && counter < 5) {
-		content = (await this.generateResponse({
-			context,
-		})) as string;
-		counter++;
-	}
+    let content = '';
+    let counter = 0;
+    const context = await this.context.compileContext([this.prompt], this.historyLimit);
+    while (!content && counter < 5) {
+        content = (await this.generateResponse({
+            context,
+        })) as string;
+        counter++;
+    }
 
-	return content;
+    return content;
 }
 
 export async function generateVoiceContent(this: AIAgent) {
-	return this.generateVoiceContentWithChoicePrompt();
+    return this.generateVoiceContentWithChoicePrompt();
 }

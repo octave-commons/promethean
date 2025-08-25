@@ -1,100 +1,102 @@
-import { ChromaClient } from 'chromadb';
-import { RemoteEmbeddingFunction } from './embedding';
-import { MongoClient, ObjectId, Collection } from 'mongodb';
-import { AGENT_NAME } from '../../../../shared/js/env.js';
-import { HeartbeatClient } from '../../../../shared/js/heartbeat/index.js';
+import { ObjectId, Collection } from 'mongodb';
+import { AGENT_NAME } from '@shared/js/env.js';
+import { HeartbeatClient } from '@shared/js/heartbeat/index.js';
+import { ContextStore } from '@shared/ts/persistence/contextStore.js';
+import { DualStoreManager } from '@shared/ts/persistence/dualStore.js';
+import { getMongoClient } from '@shared/ts/persistence/clients.js';
 
-const chromaClient = new ChromaClient();
-
-type MessageMetaData = {
-	timeStamp: number;
-	userName: string;
-};
-
-type ChromaQuery = {
-	ids: string[];
-	documents: string[];
-	metadatas: MessageMetaData[];
-};
-
-type DiscordMessage = {
+// Schema for raw discord messages awaiting embedding
+interface DiscordMessage {
 	_id: ObjectId;
-	id?: number;
-	recipient: number;
-	startTime?: number;
-	endTime?: number;
-
 	created_at: number;
 	author: number;
 	channel: number;
 	channel_name: string;
 	author_name: string;
 	content: string | null;
-	is_embedded?: boolean;
-};
+	embedding_status?: Record<string, 'processing' | 'done' | 'error'>;
+}
 
-const MONGO_CONNECTION_STRING = process.env.MONGODB_URI || `mongodb://localhost`;
+const EMBED_VERSION = process.env.EMBED_VERSION || new Date().toISOString().slice(0, 10);
+const EMBEDDING_DRIVER = process.env.EMBEDDING_DRIVER || 'ollama';
+const EMBEDDING_FUNCTION = process.env.EMBEDDING_FUNCTION || 'nomic-embed-text';
+const EMBED_DIMS = Number(process.env.EMBED_DIMS || 768);
 
 (async () => {
 	const hb = new HeartbeatClient();
-	try {
-		await hb.sendOnce();
-	} catch (err) {
-		console.error('failed to register heartbeat', err);
-		process.exit(1);
-	}
+	await hb.sendOnce().catch(() => process.exit(1));
 	hb.start();
-	const mongoClient = new MongoClient(MONGO_CONNECTION_STRING);
-	try {
-		await mongoClient.connect();
-		console.log('MongoDB connected successfully');
-	} catch (error) {
-		console.error('Error connecting to MongoDB:', error);
-		return;
-	}
 
+	const mongoClient = await getMongoClient();
 	const db = mongoClient.db('database');
-	const collectionName = `${AGENT_NAME}_discord_messages`;
-	const discordMessagesCollection: Collection<DiscordMessage> = db.collection(collectionName);
 
-	const chromaCollection = await chromaClient.getOrCreateCollection({
-		name: collectionName,
-		embeddingFunction: new RemoteEmbeddingFunction(),
+	const family = `${AGENT_NAME}_discord_messages`;
+	const discordMessagesCollection: Collection<DiscordMessage> = db.collection(family);
+
+	// dual store + context manager
+	const ctxStore = new ContextStore();
+	const store = (await ctxStore.createCollection('discord_messages', 'content', 'created_at')) as DualStoreManager<
+		'content',
+		'created_at'
+	>;
+
+	await discordMessagesCollection.createIndex({
+		[`embedding_status.${EMBED_VERSION}`]: 1,
+		content: 1,
 	});
 
 	while (true) {
 		await new Promise((res) => setTimeout(res, 1000));
+
 		const messages = (await discordMessagesCollection
 			.find({
-				has_meta_data: { $exists: false },
-				content: { $ne: null },
+				[`embedding_status.${EMBED_VERSION}`]: { $ne: 'done' },
+				content: { $nin: [null, ''], $not: /^\s*$/ },
 			})
 			.limit(100)
-			.toArray()) as Array<Omit<DiscordMessage, 'content'> & { content: string }>;
+			.toArray()) as Array<DiscordMessage & { content: string }>;
 
 		if (messages.length === 0) {
-			console.log('No new messages, sleeping 1 minute');
-			await new Promise((res) => setTimeout(res, 60000));
+			console.log(`[${family}] No pending for version ${EMBED_VERSION}. Sleeping 1 minute…`);
+			await new Promise((res) => setTimeout(res, 60_000));
 			continue;
 		}
 
-		console.log('embedding', messages.length, 'messages and transcripts');
+		const ids = messages.map((m) => m._id);
+		console.log(`Embedding ${messages.length} messages → ${store.name}`);
 
-		const chromaQuery: ChromaQuery = {
-			ids: messages.map((msg) => msg._id.toHexString()),
-			documents: messages.map((msg) => msg.content),
-			metadatas: messages.map((msg) => ({
-				timeStamp: msg?.startTime || msg.created_at,
-				userName: msg.author_name,
-			})),
-		};
-
-		await chromaCollection.upsert(chromaQuery);
-		// Mark these messages as embedded
-		const messageIds = messages.map((msg) => msg._id);
 		await discordMessagesCollection.updateMany(
-			{ _id: { $in: messageIds } },
-			{ $set: { is_embedded: true, embedding_has_time_stamp: true, has_meta_data: true } },
+			{ _id: { $in: ids } },
+			{ $set: { [`embedding_status.${EMBED_VERSION}`]: 'processing' } },
 		);
+
+		try {
+			for (const m of messages) {
+				await store.addEntry({
+					id: m._id.toHexString(),
+					content: m.content,
+					created_at: m.created_at,
+					metadata: {
+						timeStamp: m.created_at,
+						userName: m.author_name,
+						version: EMBED_VERSION,
+						driver: EMBEDDING_DRIVER,
+						fn: EMBEDDING_FUNCTION,
+						dims: EMBED_DIMS,
+					},
+				});
+			}
+
+			await discordMessagesCollection.updateMany(
+				{ _id: { $in: ids } },
+				{ $set: { [`embedding_status.${EMBED_VERSION}`]: 'done' } },
+			);
+		} catch (e) {
+			console.error('Upsert failed', e);
+			await discordMessagesCollection.updateMany(
+				{ _id: { $in: ids } },
+				{ $set: { [`embedding_status.${EMBED_VERSION}`]: 'error' } },
+			);
+		}
 	}
 })();

@@ -3,6 +3,6 @@
   "version": "0.0.1",
   "type": "module",
   "dependencies": {
-    "ws": "^8.0.0"
+    "ws": "^8.18.3"
   }
 }

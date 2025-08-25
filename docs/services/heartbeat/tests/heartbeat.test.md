@@ -6,12 +6,12 @@
 
 ## Dependencies
 - ava
-- supertest
 - mongodb-memory-server
 - mongodb
 - child_process
 - path
 - url
+- ws
 
 ## Dependents
 - None

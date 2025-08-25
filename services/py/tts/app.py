@@ -1,48 +1,55 @@
 from fastapi import FastAPI, Form, Response, WebSocket
+import base64
 import io
 import sys
 
 print(sys.path)
-from shared.py.heartbeat_client import HeartbeatClient
+from shared.py.service_template import start_service
 from shared.py.utils import websocket_endpoint
-
-from safetensors.torch import load_file
 
 import soundfile as sf
 
 import nltk
-import soundfile as sf
 import torch
 import numpy as np
-import os
 from transformers import FastSpeech2ConformerTokenizer, FastSpeech2ConformerWithHifiGan
 
 nltk.download("averaged_perceptron_tagger_eng")
 
 app = FastAPI()
-hb = HeartbeatClient()
+broker = None
 
 
 @app.on_event("startup")
 async def startup_event():
+    global broker
+
+    async def handle_task(task):
+        payload = task.get("payload", {})
+        text = payload.get("text")
+        if not text:
+            return
+        audio = synthesize(text)
+        buf = io.BytesIO()
+        sf.write(buf, audio, samplerate=22050, format="WAV")
+        audio_b64 = base64.b64encode(buf.getvalue()).decode("utf-8")
+        await broker.publish("tts-output", {"audio": audio_b64})
+
     try:
-        hb.send_once()
-    except Exception as exc:
-        raise RuntimeError("heartbeat registration failed") from exc
-    hb.start()
+        broker = await start_service(
+            id="tts", queues=["tts.speak"], handle_task=handle_task
+        )
+    except Exception as e:
+        print(f"[tts] broker connection failed: {e}")
+        broker = None
 
 
 @app.on_event("shutdown")
 def shutdown_event():
-    hb.stop()
+    pass
 
 
 # Load the model and processor
-from transformers import (
-    FastSpeech2ConformerTokenizer,
-    FastSpeech2ConformerWithHifiGan,
-)
-import torch
 
 # Ensure GPU usage
 device = "cuda" if torch.cuda.is_available() else "cpu"

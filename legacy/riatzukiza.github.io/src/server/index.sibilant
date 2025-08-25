@@ -1,7 +1,0 @@
-(require! srv "./server")
-
-(assign module.exports srv)
-(print "Ready mas")
-
-
-(.start srv.server)

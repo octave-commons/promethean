@@ -19,6 +19,10 @@
 		"allowArbitraryExtensions": true,
 		"module": "ESNext",
 		"moduleResolution": "Bundler",
+		"baseUrl": ".",
+		"paths": {
+			"@shared/ts/*": ["../../../shared/ts/dist/*"]
+		},
 		"resolveJsonModule": true,
 		"resolvePackageJsonExports": true,
 		"resolvePackageJsonImports": true,
@@ -48,6 +52,6 @@
 		// Completeness
 		"skipLibCheck": true
 	},
-	"include": ["src/**/*.ts", "src/**/*.d.ts", "tests/**/*.ts"],
+	"include": ["src/**/*.ts"],
 	"exclude": ["node_modules"]
 }

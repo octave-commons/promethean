@@ -2,11 +2,19 @@
 
 **Path**: `shared/py/heartbeat_client.py`
 
-Lightweight client for sending periodic PID heartbeats to a monitoring service.
+Deprecated: use the canonical broker-tied heartbeat instead.
+
+Use `shared.py.service_template` (preferred) or `shared.py.heartbeat_broker` to
+publish heartbeats via the same broker connection used for tasks. This ensures
+heartbeats stop when the broker is unavailable so the heartbeat service can
+reap stale processes.
 
 ## Dependencies
 - json
-- urllib.request
+- os
+- threading
+- websockets
 
 ## Notes
-- Runs in a background thread when `start()` is called.
+- This module now emits a `DeprecationWarning` upon construction.
+- Runs in a background thread when `start()` is called (legacy behavior).

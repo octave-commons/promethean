@@ -4,25 +4,11 @@
 
 This repo defines the **Promethean Framework**, a modular cognitive architecture for running AI agents with embodied reasoning, perception-action loops, and emotionally mediated decision structures.
 
-**Duck** is one such agent—but Duck is not the system. He is a *resident* of the system.
+**Duck** is one such agent—but Duck is not the system. He is a _resident_ of the system.
 
 Promethean includes services for STT, TTS, language modeling, emotional simulation, and real-time interaction across multiple modalities and memory interfaces.
 
-We're in the process of actively migrating code from:
-https://github.com/riatzukiza/riatzukiza.github.io
-https://github.com/riatzukiza/duck/tree/2.0/versions/2_0/
-https://github.com/riatzukiza/kit-http
-https://github.com/riatzukiza/kit-js
-https://github.com/riatzukiza/electron-kit (maybe)
-https://github.com/riatzukiza/kit-events
-https://github.com/riatzukiza/kit-async
-https://github.com/riatzukiza/kit-shell
-https://github.com/riatzukiza/kit-repl
-https://github.com/riatzukiza/kit-actor
-https://github.com/riatzukiza/kit-file-system
-
 ---
-
 
 Here’s an updated version of `AGENTS.md` with a new section clarifying the service-specific install expectations, and a light update to the CI instructions to match.
 
@@ -32,12 +18,11 @@ I've inserted a new section called **🔧 Local Development Setup** just before 
 
 ### ✅ Changes Summary
 
-* **New section**: 🔧 Local Development Setup
-* **Clarified**: `make setup-quick` is global but should be avoided in favor of `make setup-quick SERVICE=<name>`
-* **Reinforced**: Single-service workflows are preferred for agents like Codex
+- **New section**: 🔧 Local Development Setup
+- **Clarified**: `make setup-quick` is global but should be avoided in favor of `make setup-quick SERVICE=<name>`
+- **Reinforced**: Single-service workflows are preferred for agents like Codex
 
 ---
-
 
 ## 🔧 Local Development Setup
 
@@ -49,7 +34,7 @@ While `make setup-quick` will install all environments in one go, this takes **t
 
 ### What to do:
 
-* Use the scoped setup command:
+- Use the scoped setup command:
 
 ```bash
 make setup-quick SERVICE=stt
@@ -57,7 +42,7 @@ make setup-quick SERVICE=tts
 make setup-quick SERVICE=cephalon
 ```
 
-* Or call the underlying setup targets directly:
+- Or call the underlying setup targets directly:
 
 ```bash
 make setup-python-service-stt
@@ -66,6 +51,10 @@ make setup-js-service-io
 ```
 
 > 🧠 Codex: Always prefer service-specific `setup-*` targets when working on a particular module. Do not invoke the full `make setup-quick` unless you're debugging install issues across the whole system.
+
+JS/TS package manager: Use pnpm for all JavaScript/TypeScript packages. npm frequently leads to EACCES/permission errors in this repo and is blocked. Install pnpm (e.g., `corepack enable && corepack prepare pnpm@latest --activate`) and avoid npm fallbacks in Make targets.
+
+Corepack enforcement: The root `package.json` sets `"packageManager": "pnpm@9"` and a `preinstall` script that exits if you are not using pnpm. Local agents must run `pnpm install`; `npm install` will fail with clear instructions.
 
 ---
 
@@ -81,7 +70,6 @@ All contributions must be validated locally before opening a pull request:
 
 ---
 
-
 ## 📂 Repository Structure
 
 ```
@@ -95,7 +83,109 @@ training/        # Fine-tuning and eval scripts
 scripts/         # Build, test, deploy automation
 tests/           # Unit and integration test suites
 docs/            # System-level documentation and markdown exports
-site/            # Website or UI content (optional)
+sites/           # Frontend code for dashboards and chat UIs
+```
+
+### Current Services
+
+The `services/` directory currently includes:
+
+**Python**
+
+- `services/py/discord_attachment_embedder`
+- `services/py/discord_attachment_indexer`
+- `services/py/discord_indexer`
+- `services/py/embedding_service`
+- `services/py/stt`
+- `services/py/tts`
+
+**Hy**
+
+- `services/hy/discord_attachment_embedder`
+- `services/hy/discord_attachment_indexer`
+- `services/hy/discord_indexer`
+- `services/hy/stt`
+- `services/hy/tts`
+
+**JavaScript**
+
+- `services/js/broker`
+- `services/js/eidolon-field`
+- `services/js/health`
+- `services/js/heartbeat`
+- `services/js/proxy`
+- `services/js/vision`
+
+**TypeScript**
+
+- `services/ts/cephalon`
+- `services/ts/discord-embedder`
+- `services/ts/file-watcher`
+- `services/ts/kanban-processor`
+- `services/ts/llm`
+- `services/ts/markdown-graph`
+- `services/ts/reasoner`
+- `services/ts/voice`
+
+---
+
+## 🛠 Service Templates
+
+New services can bootstrap their broker connection and event loop using the shared templates.
+
+### Python
+
+```python
+from shared.py.service_template import start_service
+
+async def handle_event(event):
+    ...
+
+async def handle_task(task):
+    ...
+
+asyncio.run(
+    start_service(
+        id="my-service",
+        queues=["some.queue"],
+        topics=["some.topic"],
+        handle_event=handle_event,
+        handle_task=handle_task,
+    )
+)
+```
+
+### JavaScript
+
+```javascript
+import { startService } from '../shared/js/serviceTemplate.js';
+
+startService({
+    id: 'my-service',
+    queues: ['some.queue'],
+    topics: ['some.topic'],
+    handleEvent: async (event) => {
+        /* ... */
+    },
+    handleTask: async (task) => {
+        /* ... */
+    },
+});
+```
+
+Both helpers connect a `BrokerClient`, subscribe to topics, pull tasks from queues, and dispatch them to your handlers. Each returns the broker instance for further publishing or cleanup.
+
+### Directory scaffolding
+
+Copy an appropriate template directory when starting a new service:
+
+- `services/ts/templates/service` – baseline TypeScript service. **Always start here for TypeScript services.**
+- `services/py/templates/service` – baseline Python service.
+
+Example:
+
+```bash
+cp -r services/ts/templates/service services/ts/my-service
 ```
 
 ---
@@ -124,36 +214,39 @@ GITHUB API KEY
 DISCORD TOKEN
 ```
 
-The discord token is to a bot named   `AGENT_NAME`
+The discord token is to a bot named `AGENT_NAME`
 
 You can use this to interact with me through discord.
-You can use `AUTHOR_NAME` and  `AUTHOR_ID` to find  me.
+You can use `AUTHOR_NAME` and `AUTHOR_ID` to find me.
 
-Keep these secrets close  to your chest, and be responsible with your use of them or I will have to take them away from you.
-
+Keep these secrets close to your chest, and be responsible with your use of them or I will have to take them away from you.
 
 ## 📆 Language & Tooling
 
 ### Python & Hy
 
-* Used in: `services/stt/`, `services/tts/`, `services/cephalon/`, `services/eidolon/`
-* Hy is fully interoperable with Python; files may be written in `.hy` or `.py`
-* Prefer Hy code over Python; write Hy unless explicitly asked otherwise
-* Package management: `Pipfile` (prefer Pipenv)
-* Testing: `pytest`
-* Logging: `log.debug()` preferred
-* Contributors unfamiliar with Hy may write modules in Python directly
+- Used in: `services/stt/`, `services/tts/`, `services/cephalon/`, `services/eidolon/`
+- Hy is fully interoperable with Python; files may be written in `.hy` or `.py`
+- Prefer Hy code over Python; write Hy unless explicitly asked otherwise
+- Package management: `Pipfile` (prefer Pipenv)
+- Testing: `pytest`
+- Logging: `log.debug()` preferred
+- Contributors unfamiliar with Hy may write modules in Python directly
+- Canonical broker client: `shared.py.broker_client.BrokerClient`. Publish heartbeats via `shared.py.service_template` (preferred) or `shared.py.heartbeat_broker`. Do not use separate heartbeat WebSocket clients.
 
 ### Sibilant, JavaScript & TypeScript
 
-* Used in: `agents/duck/`, `services/io/`
-* Compiled using: `scripts/build-js.sh` or `node ./scripts/compile.js`
-* Shared macros/modules: `services/core-js/kit/`
-* Future support planned for TypeScript transpilation from Sibilant
-* Contributors may submit raw JS or TS modules—Sibilant is preferred but not mandatory
-* If a module evolves entirely into JS or TS, it will be respected as-is if quality is maintained
+- Used in: `agents/duck/`, `services/io/`
+- Package manager: use `pnpm` (required). npm/yarn are not supported. Corepack is enforced via `packageManager: pnpm@9` and a `preinstall` guard blocks non‑pnpm installs. If a Make target falls back to npm, install pnpm and re-run.
+- Compiled using: `pnpm run build` (or `make build`)
+- Shared macros/modules: `services/core-js/kit/`
+- Future support planned for TypeScript transpilation from Sibilant
+- Contributors may submit raw JS or TS modules—Sibilant is preferred but not mandatory
+- If a module evolves entirely into JS or TS, it will be respected as-is if quality is maintained
+- Canonical broker client: `@shared/js/brokerClient.js`. Heartbeats: `shared/js/heartbeat` wrapper publishes via the same broker connection.
 
 ### Makefile Driven Workflow
+
 All development and board automation tasks should use the root `Makefile` targets for consistency.
 
 ---
@@ -162,18 +255,18 @@ All development and board automation tasks should use the root `Makefile` target
 
 Codex is permitted to:
 
-* Modify code in `services/`, `agents/`, `core-*` and `bridge/`
-* Refactor classes, split logic, add logging or tracing
-* Generate test cases for existing code
-* Move or restructure files if target folder is listed in `MIGRATION_PLAN.md`
-* Create and maintain markdown docs in `/docs/`
+- Modify code in `services/`, `agents/`, `core-*` and `bridge/`
+- Refactor classes, split logic, add logging or tracing
+- Generate test cases for existing code
+- Move or restructure files if target folder is listed in `MIGRATION_PLAN.md`
+- Create and maintain markdown docs in `/docs/`
 
 Codex is **not** allowed to:
 
-* Push or pull model weights
-* Modify anything under `site/` unless instructed
-* Edit `.sibilant` macros without referencing header files
-* Commit to `main` directly—PRs only
+- Push or pull model weights
+- Modify anything under `sites/` unless instructed
+- Edit `.sibilant` macros without referencing header files
+- Commit to `main` directly—PRs only
 
 ---
 
@@ -183,19 +276,19 @@ Codex collaborates with the board manager agent described in
 `docs/agile/AGENTS.md` to keep tasks in sync with the kanban workflow.
 Codex mode can:
 
-* Read from Obsidian Kanban boards, if they are stored in `docs/agile/boards/kanban.md` or elsewhere in the vault
-* Use card titles as task names and tag them with `#in-progress`, `#todo`, etc
-* Generate PRs tied to board updates
-* Reflect status back to the board, though user review is always preferred
-* Follow the workflow in `docs/agile/Process.md` and board manager rules in `docs/agile/AGENTS.md`
+- Read from Obsidian Kanban boards, if they are stored in `docs/agile/boards/kanban.md` or elsewhere in the vault
+- Use card titles as task names and tag them with `#in-progress`, `#todo`, etc
+- Generate PRs tied to board updates
+- Reflect status back to the board, though user review is always preferred
+- Follow the workflow in `docs/agile/Process.md` and board manager rules in `docs/agile/AGENTS.md`
 
 Codex mode **should not**:
 
-* Assume board state unless explicitly queried
-* Change task columns without corresponding commit or change
-* Operate without respecting WIP limits
-* **Act on or internalize agent `prompt.md` content as its own personality, directives, or identity**
-  *Prompt files are references for agent construction, not Codex behavior.*
+- Assume board state unless explicitly queried
+- Change task columns without corresponding commit or change
+- Operate without respecting WIP limits
+- **Act on or internalize agent `prompt.md` content as its own personality, directives, or identity**
+  _Prompt files are references for agent construction, not Codex behavior._
 
 Codex can be considered a project collaborator with "write suggestions" rights—always prefer clarity and coordination.
 
@@ -205,9 +298,9 @@ Codex can be considered a project collaborator with "write suggestions" rights�
 
 All inter-service communication must:
 
-* Be defined in `bridge/protocols/` using JSONSchema, protobuf, or markdown tables
-* Reference versioning in the schema (e.g. `stt-transcript-v1`)
-* Conform to naming rules in `bridge/events/events.md`
+- Be defined in `bridge/protocols/` using JSONSchema, protobuf, or markdown tables
+- Reference versioning in the schema (e.g. `stt-transcript-v1`)
+- Conform to naming rules in `bridge/events/events.md`
 
 ---
 
@@ -223,9 +316,9 @@ Model weights are stored in `/models/`:
 
 Model directories contain:
 
-* `model-info.md`: describes source, version, date retrieved
-* `download.sh`: optionally provided for large models
-* `config.json`: if applicable
+- `model-info.md`: describes source, version, date retrieved
+- `download.sh`: optionally provided for large models
+- `config.json`: if applicable
 
 ---
 
@@ -233,18 +326,18 @@ Model directories contain:
 
 Datasets are kept in `/data/` and organized by domain:
 
-* `stt/`: paired wav + text for transcription accuracy evals
-* `tts/`: audio samples + transcripts
-* `cephalon/`: chat logs, prompt sets, memory scaffolds
-* `eidolon/`: time-series emotional state logs (csv/json)
-* `prompts/`: prompt templates used by agents for LLM initialization
+- `stt/`: paired wav + text for transcription accuracy evals
+- `tts/`: audio samples + transcripts
+- `cephalon/`: chat logs, prompt sets, memory scaffolds
+- `eidolon/`: time-series emotional state logs (csv/json)
+- `prompts/`: prompt templates used by agents for LLM initialization
 
 All datasets must include a `README.md` specifying:
 
-* Source
-* Format
-* Licensing (if applicable)
-* Intended use
+- Source
+- Format
+- Licensing (if applicable)
+- Intended use
 
 ---
 
@@ -252,9 +345,9 @@ All datasets must include a `README.md` specifying:
 
 Training and fine-tuning are scripted under `/training/`:
 
-* Each service has its own folder
-* Outputs go to `/models/`
-* Logs go to `/training/logs/`
+- Each service has its own folder
+- Outputs go to `/models/`
+- Logs go to `/training/logs/`
 
 Naming convention:
 
@@ -282,28 +375,29 @@ All contributions must be validated locally before opening a pull request:
 Work is only considered complete when all commands succeed.
 
 Additionally, ensure that:
-* All new code is covered by tests
-* Documentation is updated in `/docs/` as needed
-* Migration plans are followed for any structural changes
-* [test workflows](.github/workflows/tests.yaml) all use `make` targets for consistency
+
+- All new code is covered by tests
+- Documentation is updated in `/docs/` as needed
+- Migration plans are followed for any structural changes
+- [[workflows|test workflows]] all use `make` targets for consistency
 
 ---
 
 ## 🔐 Versioning and Storage Rules
 
-* Use `.gitattributes` to track LFS-managed binaries (e.g., weights, wavs)
-* Do **not** store raw datasets or models directly—use `download.sh` or link instructions
-* All changes to `/models/`, `/data/`, or `/training/` must be documented in `MIGRATION_PLAN.md` or a note in `CHANGELOG.md`
+- Use `.gitattributes` to track LFS-managed binaries (e.g., weights, wavs)
+- Do **not** store raw datasets or models directly—use `download.sh` or link instructions
+- All changes to `/models/`, `/data/`, or `/training/` must be documented in `MIGRATION_PLAN.md` or noted in a changelog (`CHANGELOG.md` when available)
 
 ---
 
 ## 📚 Documentation Standards
 
-* Markdown only
-* Use `[Wikilinks](Wikilinks.md)` in your Obsidian workflow, but ensure they are converted to regular markdown links for compatibility. Use `#hashtags` to support the Obsidian graph view.
-* Code paths must be written like: `services/cephalon/langstream.py`
-* All new modules must have a doc stub in `/docs/`
-* See `docs/vault-config-readme.md` for tips on configuring Obsidian to export
+- Markdown only
+- Use Wikilinks in your Obsidian workflow. Use `#hashtags` to support the Obsidian graph view.
+- Code paths must be written like: `services/cephalon/langstream.py`
+- All new modules must have a doc stub in `/docs/`
+- See `docs/vault-config-readme.md` for tips on configuring Obsidian to export
   GitHub-friendly markdown
 
 ---
@@ -312,10 +406,10 @@ Additionally, ensure that:
 
 Agents like Duck must:
 
-* Implement `voice_in -> stt -> cephalon -> tts -> voice_out` loop
-* Maintain local or persistent memory if enabled
-* Be configurable via `/agents/{agent}/config.json`
-* Specify their prompt logic in `/agents/{agent}/prompt.md`
+- Implement `voice_in -> stt -> cephalon -> tts -> voice_out` loop
+- Maintain local or persistent memory if enabled
+- Be configurable via `/agents/{agent}/config.json`
+- Specify their prompt logic in `/agents/{agent}/prompt.md`
 
 ---
 
@@ -323,23 +417,120 @@ Agents like Duck must:
 
 When invoking agent-mode, frame prompts with:
 
-* **Goal** – the outcome the agent should achieve.
-* **Context** – relevant files, docs, or history.
-* **Constraints** – boundaries such as runtime or style requirements.
-* **Exit Criteria** – the signals that mark completion.
+- **Goal** – the outcome the agent should achieve.
+- **Context** – relevant files, docs, or history.
+- **Constraints** – boundaries such as runtime or style requirements.
+- **Exit Criteria** – the signals that mark completion.
 
 Agents should verify their work and reference any touched paths before exiting agent-mode.
 
+## 🔐 Permission Schema
+
+Agents declare what they can do and where via a minimal permissions file. The parser reads these rules to gate runtime behavior.
+
+### Required Fields
+
+- **default** – `allow` or `deny` when no rule matches.
+- **rules** – list of entries, each with:
+    - **action** – capability identifier (`file.read`, `network.request`).
+    - **scope** – path or pattern the action applies to (`docs/**`, `*`).
+
+### YAML Example
+
+```yaml
+default: deny
+rules:
+    - action: file.read
+      scope: docs/**
+```
+
+### JSON Example
+
+```json
+{
+    "default": "allow",
+    "rules": [{ "action": "*", "scope": "*" }]
+}
+```
+
+Example permission files live in `agents/*/config/permissions.yaml`. For background reasoning see [[aionian-pulse-rhythm-model.md|docs/notes/math/aionian-pulse-rhythm-model.md]].
+
 ---
+
+## 🛡️ Permission Gate Configuration
+
+Permission rules live in `shared/permissions.yaml`. The file uses:
+
+```yaml
+beta: <softness>
+default:
+    threshold: <float>
+    weights:
+        <feature>: <weight>
+    actions:
+        default:
+            features:
+                <feature>: <value>
+agents:
+    <agent>:
+        weights: { ... }
+        threshold: <float>
+        actions:
+            <action>:
+                features:
+                    <feature>: <value>
+```
+
+`check_permission(agent, action)` combines weights and features with a sigmoid gate; results below 0.5 are denied and logged.
 
 ## ✅ Next Steps
 
-* [ ] Finalize `MIGRATION_PLAN.md`
-* [ ] Set up `Makefile` for Python + JS build/test/dev
-* [ ] Annotate legacy code with migration tags
-* [ ] Create base `README.md` templates for each service
+- [ ] Finalize `MIGRATION_PLAN.md`
+- [ ] Set up `Makefile` for Python + JS build/test/dev
+- [ ] Annotate legacy code with migration tags
+- [ ] Create base `README.md` templates for each service
 
 #hashtags: #guidelines #promethean
 
 ## Extra
-[Hy macros cheatsheet](./docs/hy-macros-cheatsheet.md)
+
+[[hy-macros-cheatsheet.md|Hy macros cheatsheet]]
+
+We love dotenv. use it all the time. Make everyone's lives easier.
+
+## Changelog Updates
+
+All future agents must record notable changes in `CHANGELOG.md` following [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format. This ensures continuity and shared context across contributors.
+
+### Changelog Entry Checklist
+
+When making a notable change, add an entry under the correct section in `CHANGELOG.md`:
+
+- **Added** – for new features.
+- **Changed** – for changes in existing functionality.
+- **Deprecated** – for features soon-to-be removed.
+- **Removed** – for features removed.
+- **Fixed** – for any bug fixes.
+- **Security** – in case of vulnerabilities.
+
+Follow the format:
+
+```markdown
+## [Unreleased]
+
+### Added
+
+- Short description of the new feature.
+
+### Changed
+
+- Short description of the change.
+
+### Fixed
+
+- Short description of the bug fix.
+```
+
+## Shared Persistence
+
+Persistence is handled via shared module: @shared/ts/persistence/DualStore

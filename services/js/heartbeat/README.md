@@ -10,12 +10,8 @@ On shutdown the service marks all heartbeats from its current session as killed 
 ## API
 
 - Broker topic `heartbeat`
-  - Services publish `{ pid: number, name: string }` messages to this topic.
-  - Heartbeats exceeding instance limits are ignored.
-- `GET /heartbeats`
-  - Returns an array of all known heartbeats with their last-seen metrics.
-
-Visiting the service root (`/`) serves a simple dashboard that polls `/heartbeats` and lists active processes.
+    - Services publish `{ pid: number, name: string }` messages to this topic.
+    - Heartbeats exceeding instance limits are ignored.
 
 ## Environment
 
@@ -29,8 +25,8 @@ Visiting the service root (`/`) serves a simple dashboard that polls `/heartbeat
 ## Development
 
 ```
-npm install
-npm test
+pnpm install
+pnpm test
 ```
 
 ⚠️ Killing processes requires appropriate permissions. Use with care.

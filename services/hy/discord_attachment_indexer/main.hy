@@ -8,20 +8,41 @@
 ((. sys.path insert) 0 ((. os.path join) ((. os.path dirname) __file__) "../../../"))
 (import shared.py [settings])
 (import shared.py.mongodb [discord_message_collection discord_channel_collection])
+(import shared.py.utils.discord [fetch_channel_history shuffle_array update_cursor])
+
 (setv AGENT_NAME ((. os.environ get) "AGENT_NAME" "duck"))
 (print f"Discord attachment indexer running for {AGENT_NAME}")
 (setv intents ((. discord.Intents default)))
 (setv client (discord.Client :intents intents))
 (setv intents.message_content True)
-(defn (annotate format_attachment dict) [(annotate attachment discord.Attachment)] (return {"id" attachment.id  "filename" attachment.filename  "size" attachment.size  "url" attachment.url  "content_type" attachment.content_type}))
-(defn (annotate index_attachments None) [(annotate message discord.Message)] (setv attachments (lfor a message.attachments (format_attachment a))) (when (not attachments) (return)) (print f"Indexing attachments for message {message.id}: {(lfor a attachments (get a "filename"))}") (discord_message_collection.update_one {"id" message.id} {"$set" {"attachments" attachments}}))
-(defn (annotate setup_channel None) [channel_id] (print f"Setting up channel {channel_id}") (discord_channel_collection.insert_one {"id" channel_id  "attachment_cursor" None}))
-(defn (annotate update_attachment_cursor None) [(annotate message discord.Message)] (print f"Updating attachment cursor for channel {(. message.channel id)} to {message.id}") (discord_channel_collection.update_one {"id" (. message.channel id)} {"$set" {"attachment_cursor" message.id}}))
-(defn find_channel_record [channel_id] (print f"Finding channel record for {channel_id}") (setv record (discord_channel_collection.find_one {"id" channel_id})) (when (is record None) (setup_channel channel_id) (setv record (discord_channel_collection.find_one {"id" channel_id}))) (when (not-in "attachment_cursor" record) (discord_channel_collection.update_one {"id" channel_id} {"$set" {"attachment_cursor" None}}) (setv (get record "attachment_cursor") None)) (print f"Channel record: {record}") (return record))
-(defn :async (annotate next_messages (get List discord.Message)) [(annotate channel discord.TextChannel)] (setv channel_record (find_channel_record channel.id)) (when (not (channel_record.get "is_valid" True)) (return [])) (setv cursor (channel_record.get "attachment_cursor")) (try (if (is cursor None) (do (return (lfor :async message (channel.history :limit 200 :oldest_first True) message))) (do (return (lfor :async message (channel.history :limit 200 :oldest_first True :after (channel.get_partial_message cursor)) message)))) (except [e Exception] (print f"Error getting history for {(get channel_record "id")}") (print e) (discord_channel_collection.update_one {"id" (get channel_record "id")} {"$set" {"is_valid" False}}) (return []))))
-(defn :async (annotate index_channel None) [(annotate channel discord.TextChannel)] (setv newest_message None) (for [message (await (next_messages channel))] (await (asyncio.sleep 0.1)) (setv newest_message message) (index_attachments message)) (when (is-not newest_message None) (update_attachment_cursor newest_message)))
-(defn shuffle_array [array] (random.shuffle array) (return array))
-(defn :async [client.event] on_ready [] (while True (for [channel (shuffle_array (list (client.get_all_channels)))] (when (isinstance channel discord.TextChannel) (setv random_sleep (random.randint 1 10)) (await (asyncio.sleep random_sleep)) (await (index_channel channel))))))
-(defn :async [client.event] on_message [message] (index_attachments message))
-(client.run settings.DISCORD_TOKEN)
 
+(defn (annotate format_attachment dict) [(annotate attachment discord.Attachment)]
+  (return {"id" attachment.id  "filename" attachment.filename  "size" attachment.size  "url" attachment.url  "content_type" attachment.content_type}))
+
+(defn (annotate index_attachments None) [(annotate message discord.Message)]
+  (setv attachments (lfor a message.attachments (format_attachment a)))
+  (when (not attachments) (return))
+  (print f"Indexing attachments for message {message.id}: {(lfor a attachments (get a "filename"))}")
+  (discord_message_collection.update_one {"id" message.id} {"$set" {"attachments" attachments}}))
+
+(defn :async (annotate index_channel None) [(annotate channel discord.TextChannel)]
+  (setv newest_message None)
+  (for [message (await (fetch_channel_history channel discord_channel_collection "attachment_cursor"))]
+    (await (asyncio.sleep 0.1))
+    (setv newest_message message)
+    (index_attachments message))
+  (when (is-not newest_message None)
+    (update_cursor discord_channel_collection channel.id newest_message.id "attachment_cursor")))
+
+(defn :async [client.event] on_ready []
+  (while True
+    (for [channel (shuffle_array (list (client.get_all_channels)))]
+      (when (isinstance channel discord.TextChannel)
+        (setv random_sleep (random.randint 1 10))
+        (await (asyncio.sleep random_sleep))
+        (await (index_channel channel))))))
+
+(defn :async [client.event] on_message [message]
+  (index_attachments message))
+
+(client.run settings.DISCORD_TOKEN)
