@@ -9,6 +9,7 @@ const defaultRoutes = {
     '/stt': 'http://127.0.0.1:5002',
     '/vision': 'http://127.0.0.1:9999',
     '/llm': 'http://127.0.0.1:8888',
+    '/bridge': 'http://127.0.0.1:3210',
 };
 
 function applyRoutes(routes) {
