@@ -1,7 +1,5 @@
 import Fastify from 'fastify';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import fastifyStatic from '@fastify/static';
+// Frontend assets are served by a standalone file server under `sites/`
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import ajvformats from 'ajv-formats';
@@ -187,20 +185,6 @@ export function buildFastifyApp(ROOT_PATH) {
     app.register(swaggerUi, { routePrefix: '/docs' });
 
     app.get('/openapi.json', async (_req, rep) => rep.type('application/json').send(app.swagger()));
-
-    // Serve static dashboard from sites/smartgpt-dashboard at repo root
-    const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    app.register(fastifyStatic, {
-        root: path.join(__dirname, '../../../../sites/smartgpt-dashboard'),
-        prefix: '/',
-        // index.html served at '/'
-    });
-
-    // Convenience alias to open dashboard explicitly
-    app.get('/dashboard', async (_req, reply) => {
-        reply.header('Cache-Control', 'no-cache');
-        return reply.sendFile('index.html');
-    });
 
     registerRbac(app);
 
