@@ -72,14 +72,10 @@ export async function start(port = Number(process.env.LLM_PORT) || 8888) {
     } catch (err) {
         console.error('Failed to initialize broker', err);
     }
-    try {
-        const { HeartbeatClient } = await import('../../../../shared/js/heartbeat/index.js');
-        const hb = new HeartbeatClient({ name: process.env.name || 'llm' });
-        await hb.sendOnce();
-        hb.start();
-    } catch (err) {
-        console.error('Failed to initialize heartbeat', err);
-    }
+    const { HeartbeatClient } = await import('../../../../shared/js/heartbeat/index.js');
+    const hb = new HeartbeatClient({ name: process.env.name || 'llm' });
+    await hb.sendOnce();
+    hb.start();
 
     const server = http.createServer(app);
     const wss = new WebSocketServer({ server, path: '/generate' });

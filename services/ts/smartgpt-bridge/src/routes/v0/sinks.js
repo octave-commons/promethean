@@ -1,10 +1,10 @@
-import { dualSinkRegistry } from '../../utils/DualSinkRegistry.js';
+import { contextStore } from '../../sinks.js';
 
 export function registerSinkRoutes(app) {
     app.get('/sinks/list', {
         preHandler: [app.authUser, app.requirePolicy('read', 'sinks')],
         schema: { operationId: 'listSinks', tags: ['Sinks'] },
-        handler: async () => ({ sinks: dualSinkRegistry.list() }),
+        handler: async () => ({ sinks: Array.from(contextStore.collections.keys()) }),
     });
 
     app.post('/sinks/:name/query', {
@@ -24,8 +24,12 @@ export function registerSinkRoutes(app) {
         handler: async (req) => {
             const { name } = req.params;
             const { filter, limit } = req.body || {};
-            const sink = dualSinkRegistry.get(name);
-            const results = await sink.queryMongo(filter || {}, limit || 100);
+            const store = contextStore.getCollection(name);
+            const results = await store.mongoCollection
+                .find(filter || {})
+                .sort({ timestamp: -1 })
+                .limit(limit || 100)
+                .toArray();
             return { results };
         },
     });
@@ -49,8 +53,12 @@ export function registerSinkRoutes(app) {
         handler: async (req) => {
             const { name } = req.params;
             const { q, n, where } = req.body || {};
-            const sink = dualSinkRegistry.get(name);
-            const results = await sink.searchChroma(q, n || 10, where || {});
+            const store = contextStore.getCollection(name);
+            const results = await store.chromaCollection.query({
+                queryTexts: [q],
+                nResults: n || 10,
+                where: where || {},
+            });
             return { results };
         },
     });

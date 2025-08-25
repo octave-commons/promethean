@@ -14,7 +14,7 @@ const { BrokerClient } = clientModule;
 
 const { AIAgent } = await import('../agent/index.js');
 const { LLMService } = await import('../llm-service.js');
-const { ContextManager } = await import('../contextManager.js');
+const { ContextStore: ContextManager } = await import('@shared/ts/dist/persistence/contextStore.js');
 
 class StubBot extends EventEmitter {
     applicationId = 'app';
