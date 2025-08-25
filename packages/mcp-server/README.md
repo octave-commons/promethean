@@ -23,5 +23,5 @@ pnpm -F mcp-server dev
 ### Example
 
 ```bash
-node scripts/mcp-call.js tools/call search.query '{"query":"hello"}'
+pnpm -F mcp-server smoke tools/call search.query '{"query":"hello"}'
 ```
