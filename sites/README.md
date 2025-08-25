@@ -14,3 +14,4 @@ All network requests from these frontends are routed through the proxy service a
 
 - LLM Chat calls `/llm/*` which the proxy forwards to the LLM service.
 - SmartGPT Dashboard calls `/bridge/*` which the proxy forwards to the SmartGPT Bridge service.
+

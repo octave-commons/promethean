@@ -35,7 +35,6 @@ export function startSitesServer(
             });
             return;
         }
-
         let filePath = join(root, decodeURIComponent(url.pathname));
         try {
             const st = await stat(filePath);

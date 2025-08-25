@@ -1,6 +1,6 @@
 import { Message } from 'ollama';
 import { Bot } from './bot.js';
-import { ContextManager } from './contextManager.js';
+import { ContextStore as ContextManager } from '@shared/ts/dist/persistence/contextStore.js';
 import { LLMService } from './llm-service.js';
 
 export type FormatProperty = {
