@@ -10,9 +10,14 @@ print("Using device:", device)
 
 # Load small model
 processor = WhisperProcessor.from_pretrained("openai/whisper-tiny")
+# The 2024 Transformers release deprecated relying on ``forced_decoder_ids``
+# defaults for Whisper.  Explicitly set the generation task and language to
+# avoid warnings and make behaviour deterministic.
 model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-tiny").to(
     device
 )
+model.generation_config.task = "transcribe"
+model.generation_config.language = "en"
 
 
 def resample_waveform(
