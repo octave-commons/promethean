@@ -5,14 +5,14 @@
     "type": "module",
     "description": "CustomGPT ↔ Promethean bridge: Chroma search, files/grep/stacktrace, TS symbols, and background agent supervisor. Funnel-ready.",
     "scripts": {
-        "start": "node src/fastifyServer.js",
-        "reindex": "node src/cli-reindex.js",
-        "symbols": "node src/cli-symbols.js",
+        "start": "node dist/fastifyServer.js",
+        "reindex": "node dist/cli-reindex.js",
+        "symbols": "node dist/cli-symbols.js",
         "test": "ava",
         "test:watch": "ava -w",
-        "build": "echo nope",
-        "lint": "pnpm exec biome lint . || true",
-        "format": "pnpm exec biome format --write .",
+        "build": "tsc -p tsconfig.json",
+        "lint": "pnpm exec biome lint tests/unit tests/integration tests/system tests/helpers || true",
+        "format": "pnpm exec biome format --write src tests/unit tests/integration tests/system tests/helpers",
         "test:coverage": "c8 -r text -r text-summary -r lcov -r html ava"
     },
     "dependencies": {
@@ -41,6 +41,7 @@
         "c8": "^9.1.0",
         "mongodb-memory-server": "^10.2.0",
         "sinon": "^17.0.1",
-        "@biomejs/biome": "^2.1.4"
+        "@biomejs/biome": "^2.1.4",
+        "tsx": "^4.19.0"
     }
 }
