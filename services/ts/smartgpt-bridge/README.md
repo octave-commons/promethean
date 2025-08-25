@@ -43,8 +43,8 @@ export AGENT_RESTORE_ON_START=true             # load past agents as historical 
 npm i
 npm start
 # http://0.0.0.0:3210/openapi.json
-# http://0.0.0.0:3210/              # built-in dashboard (served from sites/smartgpt-dashboard)
-# http://0.0.0.0:3210/dashboard     # alias to index.html
+# Dashboard now served via `pnpm serve:sites`:
+#   http://localhost:4500/smartgpt-dashboard/
 ```
 
 ## API Versions
@@ -234,7 +234,7 @@ export LOG_FILE=./logs/bridge.log
 
 ## Dashboard
 
-Visit `/dashboard` for a lightweight UI to:
+Use the dashboard at `http://localhost:4500/smartgpt-dashboard/` to:
 
 - Monitor indexer status and trigger re-indexing
 - Run semantic search and view snippet context

@@ -1,18 +1,12 @@
 import express from 'express';
 import http from 'http';
 import { WebSocketServer } from 'ws';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import ollama from 'ollama';
 
 export const MODEL = process.env.LLM_MODEL || 'gemma3:latest';
 
 export const app = express();
 app.use(express.json({ limit: '500mb' }));
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname, '../../../../sites/llm-chat')));
 
 let callOllamaFn = async ({ prompt, context, format }, retry = 0) => {
     try {
