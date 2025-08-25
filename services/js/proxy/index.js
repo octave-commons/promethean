@@ -1,8 +1,21 @@
 import express from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import { Server as SocketIOServer } from 'socket.io';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
 export const app = express();
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const sitesDir = join(__dirname, '..', '..', '..', 'sites');
+
+app.use(
+    express.static(sitesDir, {
+        setHeaders: (res) => {
+            res.set('Cache-Control', 'no-cache');
+        },
+    }),
+);
 
 const defaultRoutes = {
     '/tts': 'http://127.0.0.1:5001',
