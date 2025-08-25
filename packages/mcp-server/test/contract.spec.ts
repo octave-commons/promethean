@@ -3,7 +3,6 @@ import WebSocket, { WebSocketServer, RawData } from 'ws';
 import { startServer } from '../src/index.js';
 import { once } from 'events';
 import type { AddressInfo } from 'net';
-import { resetBridge } from '../src/bridge.js';
 
 async function createMockBridge() {
     const wss = new WebSocketServer({ port: 0 });
@@ -20,7 +19,7 @@ async function createMockBridge() {
     return { wss, port };
 }
 
-test.skip('initialize advertises search.query tool', async (t) => {
+test('initialize advertises search.query tool', async (t) => {
     const bridge = await createMockBridge();
     process.env.SMARTGPT_BRIDGE_URL = `ws://localhost:${bridge.port}`;
     const server = await startServer({ port: 0 });
@@ -30,10 +29,10 @@ test.skip('initialize advertises search.query tool', async (t) => {
     const [raw] = await once(client, 'message');
     const msg = JSON.parse(raw.toString());
     t.is(msg.result.capabilities.tools[0].name, 'search.query');
+    t.truthy(msg.result.capabilities.tools[0].inputSchema);
     const closed = once(client, 'close');
     client.close();
     await closed;
     await server.close();
     await new Promise((res) => bridge.wss.close(res));
-    resetBridge();
 });
