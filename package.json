@@ -7,8 +7,7 @@
         "coverage": "c8 ava tests/*.test.js",
         "build:docs": "node scripts/generate-service-docs.js",
         "health:node-abi": "node -p \"process.versions.node + ' ABI ' + process.versions.modules\"",
-        "prepare": "chmod +x ./bin/promethean.js",
-        "serve:sites": "node scripts/serve-sites.js"
+        "prepare": "chmod +x ./bin/promethean.js"
     },
     "bin": {
         "prom": "./bin/promethean.js"
