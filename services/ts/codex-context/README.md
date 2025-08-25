@@ -16,7 +16,7 @@ OpenAI-compatible API that enriches prompts with Promethean repo context via Sma
 - `LLM_MODEL` (default `gemma3:latest`)
 - `BACKEND_DRIVER` (default `ollama`; set to `ollama-openai` to use Ollama's OpenAI-compatible API)
 - `OLLAMA_OPENAI_BASE` (default `http://127.0.0.1:11434/v1` when using `ollama-openai`)
-- `SMARTGPT_URL` (default `http://127.0.0.1:3210`)
+- `SMARTGPT_URL` (default `http://127.0.0.1:3210/v1`)
 - `SMARTGPT_TOKEN` (bearer token for SmartGPT authentication)
 - `DOCS_DIR` (optional, default `docs/codex-context`)
 - `CC_LOG_LEVEL` (debug|info|warn|error; default `info`)

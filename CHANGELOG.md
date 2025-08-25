@@ -28,6 +28,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Organized SmartGPT Bridge routes into versioned directories.
+- Codex Context retriever now targets SmartGPT Bridge `/v1` endpoints.
 - Moved SmartGPT dashboard and LLM chat frontends into `sites/`.
 - Frontends now served from a central static file server instead of individual services.
 - SmartGPT Bridge now uses shared DualStore and ContextStore for persistence.
