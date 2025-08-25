@@ -19,6 +19,7 @@
         "@shared/ts": "file:shared/ts",
         "adm-zip": "^0.5.16",
         "dotenv": "^17.2.1",
+        "http-proxy": "^1.18.1",
         "mongodb": "^6.18.0",
         "pm2": "^6.0.8",
         "ws": "^8.18.3",

@@ -12,7 +12,8 @@ form.addEventListener('submit', async (e) => {
     appendMessage('user', content);
     input.value = '';
     context.push({ role: 'user', content });
-    const res = await fetch('/generate', {
+    const res = await fetch('/llm/generate', {
+
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt, context }),
