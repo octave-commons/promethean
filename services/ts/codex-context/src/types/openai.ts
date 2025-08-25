@@ -1,6 +1,6 @@
 export type ChatMessage = {
     role: 'system' | 'user' | 'assistant' | 'tool' | 'function';
-    content: string;
+    content: string | any;
     name?: string;
 };
 
@@ -13,6 +13,8 @@ export type ChatCompletionsRequest = {
     stream?: boolean;
     stop?: string | string[] | null;
     session_id?: string;
+    tools?: any[];
+    tool_choice?: any;
 };
 
 export type ChatChoice = {
