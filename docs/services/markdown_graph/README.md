@@ -1,6 +1,6 @@
 # Markdown Graph Service
 
-Maintains a graph of markdown links and `#hashtags` in a MongoDB database.
+Maintains a graph of markdown links and `#hashtags` using the shared DualStore (MongoDB + Chroma) and ContextStore.
 
 ### Task Queue
 
