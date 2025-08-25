@@ -16,7 +16,6 @@
         "test:coverage": "c8 -r text -r text-summary -r lcov -r html ava"
     },
     "dependencies": {
-        "@fastify/static": "^7.0.4",
         "@fastify/swagger": "^8.15.0",
         "@fastify/swagger-ui": "^1.10.2",
         "@shared/ts": "file:../../../shared/ts",

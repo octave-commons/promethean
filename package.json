@@ -7,7 +7,8 @@
         "coverage": "c8 ava tests/*.test.js",
         "build:docs": "node scripts/generate-service-docs.js",
         "health:node-abi": "node -p \"process.versions.node + ' ABI ' + process.versions.modules\"",
-        "prepare": "chmod +x ./bin/promethean.js"
+        "prepare": "chmod +x ./bin/promethean.js",
+        "serve:sites": "node scripts/serve-sites.js"
     },
     "bin": {
         "prom": "./bin/promethean.js"
@@ -17,6 +18,7 @@
         "@shared/sibilant": "file:shared/sibilant",
         "adm-zip": "^0.5.16",
         "dotenv": "^17.2.1",
+        "http-proxy": "^1.18.1",
         "mongodb": "^6.18.0",
         "pm2": "^6.0.8",
         "ws": "^8.18.3",
