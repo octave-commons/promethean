@@ -1,5 +1,5 @@
 import test from 'ava';
-import { createSupervisor } from '../../src/agent.js';
+import { createSupervisor } from '../../src/agent.ts';
 
 function makeProc() {
     const listeners = {};
@@ -20,11 +20,9 @@ function makeProc() {
             listeners[`p_${ev}`] = cb;
         },
         emit(type, data) {
-            if (type === 'stdout' && listeners['o_data'])
-                listeners['o_data'](Buffer.from(String(data)));
-            if (type === 'stderr' && listeners['e_data'])
-                listeners['e_data'](Buffer.from(String(data)));
-            if (type === 'exit' && listeners['p_exit']) listeners['p_exit'](0, null);
+            if (type === 'stdout' && listeners.o_data) listeners.o_data(Buffer.from(String(data)));
+            if (type === 'stderr' && listeners.e_data) listeners.e_data(Buffer.from(String(data)));
+            if (type === 'exit' && listeners.p_exit) listeners.p_exit(0, null);
         },
     };
 }

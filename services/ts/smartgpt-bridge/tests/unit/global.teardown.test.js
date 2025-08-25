@@ -1,5 +1,5 @@
 import test from 'ava';
-import { resetChroma, setEmbeddingFactory, setChromaClient } from '../../src/indexer.js';
+import { resetChroma, setEmbeddingFactory, setChromaClient } from '../../src/indexer.ts';
 import { getMongoClient } from '@shared/ts/dist/persistence/clients.js';
 
 test('teardown placeholder', (t) => {

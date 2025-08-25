@@ -1,4 +1,4 @@
-import { buildFastifyApp } from '../../src/fastifyApp.js';
+import { buildFastifyApp } from '../../src/fastifyApp.ts';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import sinon from 'sinon';
 import * as persistenceClients from '@shared/ts/dist/persistence/clients.js';
