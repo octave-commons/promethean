@@ -1,7 +1,7 @@
 ## 🛠️ Task: Migrate portfolio client code to Promethean
 
 Move the legacy portfolio web client from `riatzukiza.github.io` into
-the Promethean monorepo under `site/`. This keeps the project’s demo
+the Promethean monorepo under `sites/`. This keeps the project’s demo
 pages available and ensures the build pipeline works from inside the
 new repository.
 
@@ -10,7 +10,7 @@ new repository.
 ## 🎯 Goals
 
 - Preserve the existing portfolio site as part of Promethean
-- Ensure the client code builds and serves from `/site/`
+- Ensure the client code builds and serves from `/sites/`
 - Reference the old repo history for attribution
 
 ---
@@ -19,9 +19,9 @@ new repository.
 
 - [ ] Access the `riatzukiza.github.io` repository
 - [ ] Link original repo for reference: <https://github.com/riatzukiza/riatzukiza.github.io>
-- [ ] Copy HTML/CSS/JS assets into `site/portfolio/`
+- [ ] Copy HTML/CSS/JS assets into `sites/portfolio/`
 - [ ] Update asset paths and links for the new layout
-- [ ] Document build steps in `site/README.md`
+- [ ] Document build steps in `sites/README.md`
 
 ---
 
@@ -29,7 +29,7 @@ new repository.
 
 - [ ] Clone or download the old repository
 - [ ] Identify which pages and assets to keep
-- [ ] Move selected files under `site/portfolio/`
+- [ ] Move selected files under `sites/portfolio/`
 - [ ] Add build or serve command to `package.json` or `Makefile`
 - [ ] Reference [../MIGRATION_PLAN.md](../MIGRATION_PLAN.md.md) for context
 - [ ] Decide whether to import history via submodule or direct copy
@@ -60,4 +60,4 @@ new repository.
 
 - Should the portfolio be maintained as a submodule or migrated directly?
 - Do we need a static build step or can GitHub Pages handle raw files?
-#accepted
+  #accepted
