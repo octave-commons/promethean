@@ -31,7 +31,10 @@ export function createApp(deps: AppDeps = {}) {
     const log = createLogger('codex-context');
     const sessions: Map<string, any[]> = new Map();
 
-    const SMARTGPT_URL = process.env.SMARTGPT_URL || 'http://127.0.0.1:3210';
+    const rawBridgeUrl = process.env.SMARTGPT_URL || 'http://127.0.0.1:3210';
+    const SMARTGPT_URL = rawBridgeUrl.endsWith('/v1')
+        ? rawBridgeUrl
+        : `${rawBridgeUrl.replace(/\/$/, '')}/v1`;
     const SMARTGPT_TOKEN = process.env.SMARTGPT_TOKEN || process.env.SMARTGPT_BEARER;
     const retriever = deps.retriever || new SmartGptrRetriever(SMARTGPT_URL, SMARTGPT_TOKEN);
     const MODEL = deps.backendModel || process.env.LLM_MODEL || 'gemma3:latest';
