@@ -44,13 +44,14 @@
        `(set @namespace (quote @to) (get @namespace (quote @from))))
 
 (macro compile-macro (name args ...body)
-       `(|> (get sibilant.macros.namespaces (quote @(get sibilant.macros.search-path 0)))
+       `(pipe (get sibilant.macros.namespaces (quote @(get sibilant.macros.search-path 0)))
             (set (quote @name)
                  (lambda @{ name name
                             body body
                             args args
                             node this }))))
 
+;; (meta (include "../../headers/core"))
 (alias-macro macro macro-prior)
 (alias-macro alias-macro alias-macro-prior)
 

@@ -10,6 +10,7 @@
  "./loops.sibilant"
  "./scope.sibilant"
  "./es-modules.sibilant"
+ "./async.sibilant"
  )
 
 (macro transpile-name (name)
