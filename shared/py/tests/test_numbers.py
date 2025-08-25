@@ -22,3 +22,9 @@ def test_normalize_money_and_ordinal():
 def test_decimal_number():
     text = "Pi is 3.14"
     assert normalize_numbers(text) == "Pi is three point fourteen"
+
+
+def test_plural_dollars_and_cents():
+    text = "He found $2.01 on the street."
+    expected = "He found two dollars, one cent on the street."
+    assert normalize_numbers(text) == expected

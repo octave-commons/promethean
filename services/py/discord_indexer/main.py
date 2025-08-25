@@ -12,7 +12,6 @@ import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../"))
 import asyncio
 import random
-import traceback
 from typing import List
 
 import discord
@@ -39,11 +38,8 @@ def format_message(message):
     author = message.author
     if hasattr(channel, "name"):
         channel_name = channel.name
-        _hy_anon_var_1 = None
     else:
-
         channel_name = f"DM from {channel.recipient.name}"
-        _hy_anon_var_1 = None
     return {
         "id": message.id,
         "recipient": settings.DISCORD_CLIENT_USER_ID,
@@ -66,11 +62,10 @@ def index_message(message: discord.Message) -> None:
     message_record = discord_message_collection.find_one({"id": message.id})
     if message_record is None:
         print(f"Indexing message {message.id} {message.content}")
-        _hy_anon_var_2 = discord_message_collection.insert_one(format_message(message))
+        discord_message_collection.insert_one(format_message(message))
     else:
         print(f"Message {message.id} already indexed")
-        _hy_anon_var_2 = print(message_record)
-    return _hy_anon_var_2
+        print(message_record)
 
 
 async def index_channel(channel: discord.TextChannel) -> None:
@@ -112,15 +107,13 @@ async def on_ready():
                 print(f"Indexing channel {channel}")
                 random_sleep = random.randint(1, 10)
                 await asyncio.sleep(random_sleep)
-                _hy_anon_var_8 = await index_channel(channel)
-            else:
-                _hy_anon_var_8 = None
+                await index_channel(channel)
 
 
 @client.event
 async def on_message(message):
     print(message)
-    return index_message(message)
+    index_message(message)
 
 
 client.run(settings.DISCORD_TOKEN)

@@ -138,6 +138,19 @@ def test_index_message(monkeypatch):
 
 
 @pytest.mark.asyncio
+async def test_next_messages_with_cursor(monkeypatch):
+    mod = load_indexer(monkeypatch)
+    chan = FakeChannel(10, [])
+    messages = [FakeMessage(i, f"m{i}", chan, FakeUser(9, "x")) for i in range(4)]
+    chan._messages = messages
+    ch_coll = mod.discord_channel_collection
+    # cursor points to the first message
+    ch_coll.insert_one({"id": 10, "cursor": messages[0].id})
+    result = await mod.next_messages(chan)
+    assert [m.id for m in result] == [m.id for m in messages[1:]]
+
+
+@pytest.mark.asyncio
 async def test_index_channel(monkeypatch):
     mod = load_indexer(monkeypatch)
     chan = FakeChannel(10, [])
