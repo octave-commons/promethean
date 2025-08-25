@@ -61,32 +61,7 @@
         (when quote-keys
               (set sibilant 'quote-hash-keys true))
 
-        (var ast (pipe (+
-
-                              ;; "(include \"@shared/sibilant/headers/async.sibilant\")"
-
-                              ;; "(include \"@shared/sibilant/headers/core.sibilant\")"
-                              ;; "(import-namespace kit)"
-
-                              ;; "(include \"@shared/sibilant/headers/interface.sibilant\")"
-                              ;; "(import-namespace interface)"
-
-                              ;; "(include \"@shared/sibilant/inc/litteral.sibilant\")"
-                              ;; "(include \"@shared/sibilant/inc/docs.sibilant\")"
-                              ;; "(include \"@shared/sibilant/inc/misc.sibilant\")"
-                              ;; "(include \"@shared/sibilant/inc/generators.sibilant\")"
-                              ;; "(include \"@shared/sibilant/inc/rand.sibilant\")"
-
-                              ;; "(import-namespace rand)"
-                              ;; "(import-namespace misc)"
-                              ;; "(import-namespace generators)"
-                              ;; "(import-namespace async)"
-                              ;; "(import-namespace docs)"
-
-                              ;; (if relative-file (+ "(meta (assign sibilant.dir \"" relative-dir "\" ) null)") "")
-                              source
-                              ;; (if relative-file "(meta (assign sibilant.dir \".\") null)" "")
-                              ) parse restructure)
+        (var ast (pipe source parse restructure)
              output (transpile ast)
              sourcemap (when map (*sourcemapper output))
              js (output-formatter output)
@@ -163,7 +138,6 @@
 
      (when (match-regex? file "^\\.\\.?/")
        (assign file (path.resolve sibilant.dir file)))
-     (console.log "including" file)
 
      (var resolved-file
           (try (require.resolve file)
