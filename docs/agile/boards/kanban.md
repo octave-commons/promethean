@@ -32,6 +32,7 @@ kanban-plugin: board
 - [ ] search service
 - [ ] audio processing service
 - [ ] File writing gpt store
+- [ ] File explorer
 
 ## Accepted
 
@@ -69,6 +70,9 @@ kanban-plugin: board
 - [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
 - [ ] [[Mock broker]] #incoming
 - [ ] [[Finish work on gptbridge agent integration]]
+- [ ] [[Curate code from personal repository]]
+- [ ] Set up proper openai custom gpt compatable oauth login flow
+- [ ] unify dual source(mongo/chroma) interface across all code surfaces
 - [ ] Create broker services that can handle all the same tasks as the gpt bridge
 - [ ] Webcrawler
 - [ ] context service
