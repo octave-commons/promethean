@@ -17,12 +17,14 @@ The dashboard at `/` is now generated from the live OpenAPI spec exposed by the 
 
 1. Start the service:
     - `pnpm -C services/ts/smartgpt-bridge start`
-2. Serve frontends:
+2. Start the proxy service:
+    - `pnpm -C services/js/proxy start`
+3. Serve frontends:
     - `pnpm serve:sites`
-3. Open the dashboard:
+4. Open the dashboard:
     - http://localhost:4500/smartgpt-dashboard/
-4. (Optional) Paste your bearer token and click Save to enable protected routes.
-5. Browse the endpoint cards and submit requests.
+5. (Optional) Paste your bearer token and click Save to enable protected routes.
+6. Browse the endpoint cards and submit requests.
     - Use the filter box or tag picker to narrow what you see.
     - Click the star to favorite frequently used endpoints.
 
