@@ -20,10 +20,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Frontend visualization for the markdown link graph using ForceGraph.
 - Simple web chat interface for the LLM service with HTTP and WebSocket endpoints.
 - File explorer UI for SmartGPT Bridge dashboard using file endpoints.
+- `sites/` directory consolidating all frontend code.
 
 ### Changed
 
 - Organized SmartGPT Bridge routes into versioned directories.
+- Moved SmartGPT dashboard and LLM chat frontends into `sites/`.
 
 ### Fixed
 
