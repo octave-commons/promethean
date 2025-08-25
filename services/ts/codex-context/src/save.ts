@@ -10,6 +10,7 @@ type SaveArgs = {
     augmentedSystem: string;
     citations: Array<{ path: string; startLine?: number; endLine?: number }>;
     responseText: string;
+    toolCalls?: any;
 };
 
 export async function persistArtifact(args: SaveArgs) {
@@ -37,6 +38,9 @@ function renderMarkdown(args: SaveArgs, ts: string) {
                 }`,
         )
         .join('\n');
+    const toolCalls = args.toolCalls
+        ? `\n## Tool Calls\n\n\`\`\`json\n${JSON.stringify(args.toolCalls, null, 2)}\n\`\`\`\n`
+        : '';
     return `# Codex Context Request ${ts}
 
 ## Request
@@ -54,7 +58,7 @@ ${args.augmentedSystem}
 ## Citations
 
 ${cites || '(none)'}
-
+${toolCalls}
 ## Response (excerpt)
 
 \`\`\`
