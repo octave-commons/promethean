@@ -1,6 +1,6 @@
 import type { WebSocket, RawData } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
-import { getBridge, BridgeMessage } from './bridge.js';
+import { createBridge, BridgeMessage } from './bridge.js';
 import { tools } from './tools/index.js';
 import { createSender } from './backpressure.js';
 import { trackCall } from './metrics.js';
@@ -11,7 +11,7 @@ interface Pending {
 }
 
 export function attachRouter(ws: WebSocket, sessionId: string) {
-    const bridge = getBridge();
+    const bridge = createBridge();
     const send = createSender(ws, Number(process.env.MCP_MAX_BUFFER || 1 << 20));
     const pending = new Map<string, Pending>();
 
@@ -77,5 +77,6 @@ export function attachRouter(ws: WebSocket, sessionId: string) {
 
     ws.on('close', () => {
         bridge.removeAllListeners('message');
+        bridge.close();
     });
 }
