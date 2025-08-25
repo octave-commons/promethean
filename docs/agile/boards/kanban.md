@@ -1,7 +1,5 @@
 ---
-
 kanban-plugin: board
-
 ---
 
 ## Incoming
@@ -27,17 +25,13 @@ kanban-plugin: board
 - [ ] connect bluesky
 - [ ] connect reddit
 - [ ] connect wikipedia
-- [ ] Webcrawler
 - [ ] lisp ecosystem files
 - [ ] lisp package files
 - [ ] python <-> js interop
 - [ ] filesystem service
 - [ ] search service
-- [ ] context service
 - [ ] audio processing service
 - [ ] File writing gpt store
-- [ ] File explorer
-
 
 ## Accepted
 
@@ -66,45 +60,41 @@ kanban-plugin: board
 - [ ] [[discord_image_awareness_md_md.md|discord image awareness.md]] #framework-core #ollama-integration #multimodal-context #accepted
 - [ ] [[finish_whisper_npu_system_md_md.md|finish whisper NPU system.md]] #framework-core #performance-optimization #npu-integration #accepted
 - [ ] [[update_makefile_to_have_commands_specific_for_agents_md.md|Update Makefile to have commands specific for agents]] #devops #accepted
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md.md|Migrating relevant modules from \`riatzukiza.github.io\` to \`/site/\` and \`/docs/\`]] #accepted
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md.md|Migrating relevant modules from \`riatzukiza.github.io\` to \`/sites/\` and \`/docs/\`]] #accepted
 - [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md.md|Migrate server side sibilant libs to Promethean architecture.]] #accepted
 - [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
-
 
 ## Breakdown (8)
 
 - [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
 - [ ] [[Mock broker]] #incoming
 - [ ] [[Finish work on gptbridge agent integration]]
-- [ ] [[Curate code from personal repository]]
-- [ ] Set up proper openai custom gpt compatable oauth login flow
-- [ ] unify dual source(mongo/chroma) interface across all code surfaces
-
+- [ ] Create broker services that can handle all the same tasks as the gpt bridge
+- [ ] Webcrawler
+- [ ] context service
 
 ## Ready (13)
 
 - [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
 - [ ] [[Design Ollama Model file for use with codex cli 1]]
-
+- [ ] [[Curate code from personal repository]]
 
 ## Todo (8)
 
 - [ ] [[Agent Tasks Persistence Migration to DualStore]]
-
 
 ## In Progress (4)
 
 - [ ] [[seperate discord commands from the actions they perform]] #in-progress
 - [ ] [[breakdown cephalon voice commands file using ecs]] #in-progress
 
-
 ## In Review (8)
 
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
 
-
 ## Done
 
+- [ ] File explorer
 - [ ] finish moving the smartgpt bridge to fastify
 - [ ] [[Fully convert js ts projects to pnpm incoming]]
 - [ ] [[Ensure openapi specs are automaticly updated when an endpoint is changed]]
@@ -175,11 +165,11 @@ kanban-plugin: board
 - [ ] [[document_board_usage_guidelines_1_md.md|Document board usage guidelines]] #framework-core #done
 - [ ] [[start_eidolon_md_md.md|Start Eidolon]] #framework-core #done
 
-
 ## Ice Box
 
+- [ ] Set up proper openai custom gpt compatable oauth login flow
 - [ ] [[Add codex layer to emacs]]
-- [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|Refactor Speech interuption system ]] #framework-core #breakdown
+- [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|Refactor Speech interuption system]] #framework-core #breakdown
 - [ ] [[write_end_to_end_tests_md_md.md|write end to end tests md md]] #framework-core #accepted
 - [ ] [[describe_github_branching_workflow_md.md|describe github branching workflow md]] #framework-core #agent-thinking #breakdown
 - [ ] [[setup_a_second_agent_md.md|setup a second agent md]] #framework-core #ice-box
@@ -256,7 +246,6 @@ kanban-plugin: board
 - [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #framework-core #ice-box
 - [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
 
-
 ## Rejected
 
 - [ ] [[add_withdlq_around_risky_consumers_set_maxattempts_md.md|Add **withDLQ** around risky consumers; set `maxAttempts`]] #accepted
@@ -314,7 +303,7 @@ kanban-plugin: board
 - [ ] [[annotate_legacy_code_with_migration_tags_md.md|Annotate legacy code with migration tags]] #framework-core #rejected
 - [ ] [[add_startchangelogprojector_for_any_compaction_lik_md.md|Add \*\*startChangelogProjector\*\* for any compaction-like topic you want live-queryable]] #rejected
 - [ ] [[detect_contradictions_in_memory_codex_task_md.md|Detect contradictions in memory #codex-task]] #codex-task #rejected
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md.md|Migrating relevant modules from `riatzukiza.github.io` to `/site/` and `/docs/`]] #rejected
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md.md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #rejected
 - [ ] [[register_v_1_schema_for_any_evolving_topic_and_wri_md.md|Register **v+1** schema for any evolving topic and write minimal **upcaster**]] #rejected
 - [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md.md|Migrate server side sibilant libs to Promethean architecture.]] #rejected
 - [ ] [[implement_pause_resume_ops_on_gateway_md.md|Implement `PAUSE/RESUME` ops on gateway]] #rejected
@@ -399,7 +388,6 @@ kanban-plugin: board
 - [ ] [[launch_replayapi_on_8083_test_replay_and_export_nd_md.md|Launch \`ReplayAPI\` on \`:8083\`; test \`/replay\` and \`/export?ndjson\=1\`]] #rejected
 - [ ] [[enable_compactor_for_process_state_process_state_s_md.md|Enable compactor for \`process.state\` → \`process.state.snapshot\`]] #rejected
 
-
 ## Archive
 
 - [ ] [[Add git commands to gpt bridge]]
@@ -437,16 +425,17 @@ kanban-plugin: board
 - [ ] [[add_unit_tests_for_gui_helpers_md_md.md|Add unit tests for GUI helpers]] #codex-task #testing #archive
 - [ ] [[build_tiny_web_page_that_uses_promclient_in_the_br_md.md|Build tiny web page that uses `PromClient` in the browser to show live `process.state` (optional)]] #archive
 
-
-***
+---
 
 ## Archive
 
 - [ ] [[clean_up_notes_into_design_docs_md.md|clean up notes into design docs md]] #framework-core #agent-thinking #accepted
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md.md|Migrating relevant modules from `riatzukiza.github.io` to `/site/` and `/docs/`]] #accepted
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md.md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #accepted
 
 %% kanban:settings
+
 ```
 {"kanban-plugin":"board","list-collapse":[false,true,false,false,false,false,false,false,false,false,true,false,false],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
+
 %%
