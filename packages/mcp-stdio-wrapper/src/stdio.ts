@@ -18,6 +18,11 @@ ws.on('open', () => {
     ws.on('message', (data) => {
         process.stdout.write(data.toString() + '\n');
     });
+    ws.on('close', () => rl.close());
 });
 
 ws.on('close', () => process.exit(0));
+ws.on('error', (err) => {
+    console.error('WS error', err);
+    process.exit(1);
+});
