@@ -31,7 +31,10 @@ export function createApp(deps: AppDeps = {}) {
     const log = createLogger('codex-context');
     const sessions: Map<string, any[]> = new Map();
 
-    const SMARTGPT_URL = process.env.SMARTGPT_URL || 'http://127.0.0.1:3210';
+    const rawBridgeUrl = process.env.SMARTGPT_URL || 'http://127.0.0.1:3210';
+    const SMARTGPT_URL = rawBridgeUrl.endsWith('/v1')
+        ? rawBridgeUrl
+        : `${rawBridgeUrl.replace(/\/$/, '')}/v1`;
     const SMARTGPT_TOKEN = process.env.SMARTGPT_TOKEN || process.env.SMARTGPT_BEARER;
     const retriever = deps.retriever || new SmartGptrRetriever(SMARTGPT_URL, SMARTGPT_TOKEN);
     const MODEL = deps.backendModel || process.env.LLM_MODEL || 'gemma3:latest';
@@ -102,8 +105,8 @@ export function createApp(deps: AppDeps = {}) {
             if (!VALID_ROLES.has(m.role)) {
                 return `Invalid role in messages[${i}]: ${m.role}`;
             }
-            if (typeof m.content !== 'string') {
-                return `messages[${i}].content must be string`;
+            if (typeof m.content !== 'string' && typeof m.content !== 'object') {
+                return `messages[${i}].content must be string or object`;
             }
         }
         return null;
@@ -227,7 +230,8 @@ export function createApp(deps: AppDeps = {}) {
             sessionId && sessions.get(sessionId) ? [...(sessions.get(sessionId) as any[])] : [];
         const mergedMessages = prior.length ? [...prior, ...body.messages] : body.messages;
 
-        const q = (mergedMessages[mergedMessages.length - 1]?.content as string) || '';
+        const lastContent = mergedMessages[mergedMessages.length - 1]?.content;
+        const q = typeof lastContent === 'string' ? lastContent : '';
         const t0 = process.hrtime.bigint();
         span.debug('retriever.start', { q_len: q.length });
         const retrieved = await retriever.retrieve(q);
@@ -246,7 +250,10 @@ export function createApp(deps: AppDeps = {}) {
         });
         const t2 = process.hrtime.bigint();
         const genCfg = parseGenParams(body);
-        const chatRes: any = await (backend as any).chat(aug.finalMessages, genCfg);
+        const chatRes: any = await (backend as any).chat(aug.finalMessages, genCfg, {
+            tools: (body as any)?.tools,
+            tool_choice: (body as any)?.tool_choice,
+        });
         const text = typeof chatRes === 'string' ? chatRes : chatRes?.text ?? '';
         const t3 = process.hrtime.bigint();
         span.info('backend.ok', {
@@ -255,7 +262,9 @@ export function createApp(deps: AppDeps = {}) {
             out_len: text.length,
         });
 
-        const promptJoined = aug.finalMessages.map((m) => m.content).join('\n');
+        const promptJoined = aug.finalMessages
+            .map((m) => (typeof m.content === 'string' ? m.content : JSON.stringify(m.content)))
+            .join('\n');
         const usage: Usage = {
             prompt_tokens:
                 (typeof chatRes === 'object' && chatRes?.usage?.prompt_tokens) ||
@@ -277,6 +286,9 @@ export function createApp(deps: AppDeps = {}) {
             } catch {}
         }
 
+        const toolCalls =
+            chatRes?.raw?.message?.tool_calls || chatRes?.raw?.choices?.[0]?.message?.tool_calls;
+
         const out: ChatCompletionsResponse & { retrieval_context?: any } = {
             id: `chatcmpl_${Date.now()}`,
             object: 'chat.completion',
@@ -296,6 +308,8 @@ export function createApp(deps: AppDeps = {}) {
             },
         };
 
+        if (toolCalls) (out.choices[0].message as any).tool_calls = toolCalls;
+
         try {
             const t4 = process.hrtime.bigint();
             await persistArtifact({
@@ -304,6 +318,7 @@ export function createApp(deps: AppDeps = {}) {
                 augmentedSystem: aug.finalSystemPrompt,
                 citations: aug.citations,
                 responseText: text,
+                toolCalls,
             });
             const t5 = process.hrtime.bigint();
             span.info('persist.ok', { ms: Number((t5 - t4) / 1000000n) });
@@ -404,7 +419,9 @@ export function createApp(deps: AppDeps = {}) {
             out_len: text.length,
         });
 
-        const promptJoined = aug.finalMessages.map((m) => m.content).join('\n');
+        const promptJoined = aug.finalMessages
+            .map((m) => (typeof m.content === 'string' ? m.content : JSON.stringify(m.content)))
+            .join('\n');
         const usage: Usage = {
             prompt_tokens:
                 (typeof chatRes === 'object' && chatRes?.usage?.prompt_tokens) ||

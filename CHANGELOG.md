@@ -20,10 +20,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Frontend visualization for the markdown link graph using ForceGraph.
 - Simple web chat interface for the LLM service with HTTP and WebSocket endpoints.
 - File explorer UI for SmartGPT Bridge dashboard using file endpoints.
+- Tool calling support for Codex Context service.
 
 ### Changed
 
 - Organized SmartGPT Bridge routes into versioned directories.
+- Codex Context retriever now targets SmartGPT Bridge `/v1` endpoints.
 
 ### Fixed
 

@@ -58,13 +58,14 @@ export class SmartGptrRetriever implements Retriever {
     }
 
     async retrieve(query: string, opts: Partial<RetrieverOptions> = {}): Promise<RetrieverResult> {
-        const base = opts.baseUrl || this.baseUrl;
+        const rawBase = (opts.baseUrl || this.baseUrl || '').replace(/\/$/, '');
+        const base = rawBase.endsWith('/v1') ? rawBase : `${rawBase}/v1`;
         const n = opts.n ?? 6;
         const headers = this.headers();
         const out: RetrieverResult = { search: [] };
         const t0 = process.hrtime.bigint();
         try {
-            const s = await this.fetcher(`${base}/search`, {
+            const s = await this.fetcher(`${base}/search/semantic`, {
                 method: 'POST',
                 headers,
                 body: JSON.stringify({ q: query, n }),
@@ -114,7 +115,7 @@ export class SmartGptrRetriever implements Retriever {
         }
         // Best-effort grep
         try {
-            const resp = await this.fetcher(`${base}/grep`, {
+            const resp = await this.fetcher(`${base}/search/code`, {
                 method: 'POST',
                 headers,
                 body: JSON.stringify({
