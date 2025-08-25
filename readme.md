@@ -20,7 +20,13 @@ Promethean is a modular cognitive architecture for building embodied AI agents. 
 into small services that handle speech-to-text, text-to-speech, memory, and higher level reasoning.
 Agents such as **Duck** combine these services to create an interactive assistant with emotional state and memory.
 
-Frontend code for dashboards and web UIs lives in the `sites/` directory.
+Frontend code for dashboards and web UIs lives in the `sites/` directory and is served by a simple static server:
+
+```bash
+pnpm serve:sites
+```
+
+Then open `http://localhost:4500/<site>/` in your browser.
 
 ## Setup
 

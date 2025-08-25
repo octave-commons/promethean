@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Organized SmartGPT Bridge routes into versioned directories.
 - Moved SmartGPT dashboard and LLM chat frontends into `sites/`.
+- Frontends now served from a central static file server instead of individual services.
 
 ### Fixed
 

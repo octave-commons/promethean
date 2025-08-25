@@ -89,7 +89,7 @@ It is designed for:
 │   ├── MIGRATION_PLAN.md
 │   └── READMEs, notes, specs
 │
-├── sites/           ← Frontend code (dashboards, chat UIs)
+├── sites/           ← Frontend code (dashboards, chat UIs) served by shared file server
 │   ├── smartgpt-dashboard/
 │   ├── llm-chat/
 │   └── markdown-graph/
