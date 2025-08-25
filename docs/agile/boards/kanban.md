@@ -32,10 +32,8 @@ kanban-plugin: board
 - [ ] python <-> js interop
 - [ ] filesystem service
 - [ ] search service
-- [ ] context service
 - [ ] audio processing service
 - [ ] File writing gpt store
-- [ ] File explorer
 
 
 ## Accepted
@@ -77,6 +75,7 @@ kanban-plugin: board
 - [ ] [[Finish work on gptbridge agent integration]]
 - [ ] Create broker services that can handle all the same tasks as the gpt bridge
 - [ ] Webcrawler
+- [ ] context service
 
 
 ## Ready (13)
@@ -104,6 +103,7 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] File explorer
 - [ ] finish moving the smartgpt bridge to fastify
 - [ ] [[Fully convert js ts projects to pnpm incoming]]
 - [ ] [[Ensure openapi specs are automaticly updated when an endpoint is changed]]
