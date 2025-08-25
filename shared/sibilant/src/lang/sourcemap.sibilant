@@ -14,7 +14,7 @@
        (or (string? node) (number? node)) (node.to-string)))
 
 (def sourcemapper (untranspiled-node)
-     (|> untranspiled-node transpile *sourcemapper))
+     (pipe untranspiled-node transpile *sourcemapper))
 
 (def *sourcemapper (transpiled-node)
      (var source-nodes (source-map transpiled-node)
