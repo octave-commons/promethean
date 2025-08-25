@@ -25,7 +25,8 @@ async function refreshAuth() {
     const pill = byId('auth-indicator');
     try {
         const headers = auth.token ? { Authorization: `Bearer ${auth.token}` } : {};
-        const res = await fetch('/auth/me', { headers });
+        const res = await fetch('/bridge/auth/me', { headers });
+
         const js = await res.json().catch(() => ({}));
         if (js && js.cookie) authCookieName = js.cookie;
         pill.classList.remove('ok', 'bad', 'warn');
