@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - v1 router exposing consolidated SmartGPT Bridge endpoints.
 - OpenAPI spec for `/v1` served at `/v1/openapi.json` with consolidated operations.
 - `distclean` target to remove ignored files via `git clean -fdX`.
+- MCP server and stdio wrapper exposing `search.query` over WebSocket and CLI.
 - Frontend visualization for the markdown link graph using ForceGraph.
 - Simple web chat interface for the LLM service with HTTP and WebSocket endpoints.
 - File explorer UI for SmartGPT Bridge dashboard using file endpoints.
@@ -24,6 +25,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Organized SmartGPT Bridge routes into versioned directories.
+- SmartGPT Bridge now uses shared DualStore and ContextStore for persistence.
+- Discord embedder migrated to shared DualStore and ContextStore for unified persistence.
+- Kanban processor now persists via shared DualStore and ContextStore.
+- Markdown Graph service now uses shared DualStore and ContextStore for persistence.
 
 ### Fixed
 
@@ -52,6 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated `messageThrottler.test.ts` to clean up broker, sockets, and audio players explicitly.
 - Fixed compile issues in `voice-session.ts` (optional `voiceSynth`, `renderWaveForm` args, `Float32Array` → `Buffer`).
 - Chroma search route now records queries using the `DualSink`.
+- Cephalon service now uses shared `DualStore` and `ContextStore` for persistence.
 
 ### Removed
 

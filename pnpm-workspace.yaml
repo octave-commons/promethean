@@ -3,3 +3,4 @@ packages:
     - services/ts/*
     - shared/ts
     - shared/js
+    - packages/*

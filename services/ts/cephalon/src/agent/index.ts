@@ -15,7 +15,7 @@ import EventEmitter from 'events';
 import { DesktopCaptureManager, DesktopCaptureData } from '../desktop/desktopLoop.js';
 import { Bot } from '../bot.js';
 import { LLMService } from '../llm-service.js';
-import { ContextManager } from '../contextManager.js';
+import { ContextStore as ContextManager } from '@shared/ts/dist/persistence/contextStore.js';
 import { AgentInnerState, AgentOptions, GenerateResponseOptions } from '../types.js';
 import { defaultPrompt, defaultState, generatePrompt } from '../prompts.js';
 import { sleep } from '../util.js';
@@ -164,16 +164,16 @@ export class AIAgent extends EventEmitter {
         format,
         prompt = this.prompt,
     }: GenerateResponseOptions): Promise<string | object> {
-        if (!context) context = await this.context.compileContext([prompt], this.historyLimit);
+        const ctx = context ?? (await this.context.compileContext([prompt], this.historyLimit));
         if (format && !specialQuery) throw new Error('most specify special query if specifying a format.');
         if (format) specialQuery += ' ' + 'Please respond with valid JSON.';
         if (specialQuery)
-            context.push({
+            ctx.push({
                 role: 'user',
                 content: specialQuery,
             });
-        console.log("You won't believe how big this context is...", context.length);
-        const lastMessage: Message = context.pop() as Message;
+        console.log("You won't believe how big this context is...", ctx.length);
+        const lastMessage: Message = ctx.pop() as Message;
 
         lastMessage.images = await Promise.all(
             this.desktop.frames.flatMap(({ screen, audio: { waveForm, spectrogram } }: DesktopCaptureData) => [
@@ -183,11 +183,11 @@ export class AIAgent extends EventEmitter {
             ]),
         );
 
-        context.push(lastMessage);
+        ctx.push(lastMessage);
 
         return this.llm.generate({
             prompt: generatePrompt(prompt, this.innerState),
-            context,
+            context: ctx,
             ...(format ? { format } : {}),
         });
     }
