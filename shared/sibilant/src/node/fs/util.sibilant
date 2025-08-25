@@ -1,0 +1,30 @@
+
+(var testing? true)
+
+
+(macro easy-on (emitter event ...body) `(on @emitter @event (@event) ...@body))
+
+
+
+
+(var is (lit (def string (v) (string? v))
+             (def empty (value)
+               (empty? value))))
+
+
+
+(def athrow (err-type message)
+  (-> (new err-type message)))
+
+(def get-value-of (o) (.get-value o))
+
+
+
+(macro =-> (...body) `(=> ($pipe) (pipe $pipe ...@body)))
+
+(var emit (R.invoker 2 "emit"))
+
+(include "./util/fp.sibilant"
+         "./util/fs.sibilant"
+         "./util/paths.sibilant"
+         "./util/promise.sibilant")

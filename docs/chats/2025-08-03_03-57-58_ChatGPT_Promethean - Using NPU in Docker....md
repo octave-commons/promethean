@@ -371,7 +371,8 @@ When this still won’t work
 Let me know your exact CPU model (e.g. Intel Core Ultra 7 155H) and Windows version—I can share a quick compatibility check or driver link for you.undefined
 
 ## User
-Ok, I know I can do it on windows naitively... I've been thinking that... you can still run windows programs from the WSL bash... it just might get confusing in cases where I am running the same commands (node/python) on windows as I am for linux jobs. It should work though right? Being explicit and calling python.exe should make it run inside of windows, even if I am in wsl bash?
+Ok, I know I can do it on windows naitively...
+I've been thinking that... you can still run windows programs from the WSL bash... it just might get confusing in cases where I am running the same commands (node/python) on windows as I am for linux jobs. It should work though right? Being explicit and calling python.exe should make it run inside of windows, even if I am in wsl bash?
 
 ## ChatGPT
 Absolutely — **you can call Windows executables like `python.exe` from WSL bash**, and they run as real native Windows apps. That includes Intel OpenVINO installations that target the NPU. Here's how it works and what to expect:

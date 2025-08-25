@@ -1,3 +1,0 @@
-(define Bounding-box Data-type
-  (keys ['min-x 'min-y 'max-x 'max-y])
-  )

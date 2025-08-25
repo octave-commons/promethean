@@ -6,7 +6,7 @@ TODO: Add service description.
 
 ## Paths
 
-- [services/ts/discord-embedder](../../../services/ts/discord-embedder)
+- [[discord-embedder|services/ts/discord-embedder]]
 
 ## Tags
 

@@ -5,7 +5,7 @@ This service exposes a simple HTTP endpoint that proxies requests to the local L
 Start the service:
 
 ```bash
-npm start
+pnpm start
 ```
 
 POST `/generate` with JSON containing `prompt`, `context` and optional `format` to receive the generated reply.

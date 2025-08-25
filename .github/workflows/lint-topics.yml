@@ -1,0 +1,22 @@
+name: Topic and Schema Lints
+on:
+    pull_request:
+    push:
+        branches: [main]
+
+jobs:
+    lint-topics:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '20'
+            - name: Enable Corepack and pnpm
+              run: |
+                  corepack enable
+                  corepack prepare pnpm@latest --activate
+            - name: Install dependencies (pnpm)
+              run: pnpm install
+            - name: Topic/Schema lints
+              run: make lint-topics

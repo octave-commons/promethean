@@ -11,7 +11,7 @@ states, enforcing WIP limits, and prompting Codex when a card carries the
 
 ## 📚 Operating Context
 
-- The board structure and flow logic are defined in [process.md](Process.md).
+- The board structure and flow logic are defined in [[Process.md|process.md]].
 - Tasks must live in `agile/tasks/` as individual files.
 - Tasks must be linked from the board before they can move to **Ready** or beyond.
 - Board items that are not yet linked to task files are considered incomplete.

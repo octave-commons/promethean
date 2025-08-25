@@ -1,10 +1,10 @@
 export default [
-  {
-    files: ["**/*.js"],
-    languageOptions: {
-      ecmaVersion: 2020,
-      sourceType: "module",
+    {
+        files: ['**/*.js'],
+        languageOptions: {
+            ecmaVersion: 2020,
+            sourceType: 'module',
+        },
+        rules: {},
     },
-    rules: {},
-  },
 ];
