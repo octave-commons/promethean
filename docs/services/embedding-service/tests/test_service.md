@@ -2,10 +2,11 @@
 
 **Path**: `services/py/embedding_service/tests/test_service.py`
 
-**Description**: Exercises the `/embed` endpoint with the naive driver to confirm that embeddings are generated and returned.
+**Description**: Ensures the task handler publishes embeddings using the naive
+driver when a task is received.
 
 ## Dependencies
-- fastapi.testclient
+- pytest
 - services/py/embedding_service/main
 - pathlib
 - sys

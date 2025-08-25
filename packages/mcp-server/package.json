@@ -1,0 +1,30 @@
+{
+    "name": "mcp-server",
+    "version": "0.0.1",
+    "type": "module",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsx src/index.ts",
+        "test": "pnpm build && ava dist/test/**/*.js",
+        "lint": "eslint .",
+        "format": "eslint . --fix",
+        "smoke": "tsx scripts/mcp-call.ts"
+    },
+    "dependencies": {
+        "ws": "^8.18.3",
+        "uuid": "^9.0.0",
+        "dotenv": "^17.2.1",
+        "zod": "^3.25.76",
+        "zod-to-json-schema": "^3.23.3"
+    },
+    "devDependencies": {
+        "typescript": "^5.9.2",
+        "ava": "^6.4.1",
+        "c8": "^10.1.3",
+        "eslint": "^9.33.0",
+        "tsx": "^4.20.3",
+        "@types/ws": "^8.5.10",
+        "@types/uuid": "^9.0.7"
+    }
+}

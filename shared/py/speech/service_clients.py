@@ -17,7 +17,7 @@ from scipy.io import wavfile
 
 def send_wav_as_pcm(
     file_path: str | Path,
-    url: str = "http://localhost:5001/transcribe_pcm",
+    url: str = "http://localhost:8080/stt/transcribe_pcm",
     query_params: Optional[Dict[str, Any]] = None,
 ) -> str:
     """Send a 16-bit PCM WAV file to the STT service.
@@ -59,7 +59,7 @@ def send_wav_as_pcm(
 def synthesize_text_to_file(
     text: str,
     output_path: str | Path,
-    url: str = "http://localhost:5000/synth_voice",
+    url: str = "http://localhost:8080/tts/synth_voice_pcm",
 ) -> Path:
     """Request speech synthesis and save the audio to ``output_path``.
 

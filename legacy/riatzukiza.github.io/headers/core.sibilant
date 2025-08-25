@@ -1,3 +1,0 @@
-(namespace kit)
-(include "@shared/sibilant/inc/macros.sibilant")
-

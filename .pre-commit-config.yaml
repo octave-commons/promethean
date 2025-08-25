@@ -1,34 +1,41 @@
 repos:
-  - repo: local
-    hooks:
-      - id: wikilink-to-md
-        name: Convert wikilinks
-        entry: python scripts/convert_wikilinks.py
-        language: system
-        files: '\.md$'
-      - id: generate-orphan-docs
-        name: Generate docs for orphaned files
-        entry: python scripts/generate_orphan_docs.py
-        language: system
-        pass_filenames: false
-        files: ^orphaned-files-report\.md$
-  - repo: https://github.com/psf/black
-    rev: 24.4.2
-    hooks:
-      - id: black
-        language_version: python3
-  - repo: https://github.com/pycqa/flake8
-    rev: 7.3.0
-    hooks:
-      - id: flake8
-  - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v9.32.0
-    hooks:
-      - id: eslint
-        types: [javascript, ts, tsx]
-  - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.1.0
-    hooks:
-      - id: prettier
-        types_or: [javascript, ts, tsx, json, yaml]
-        exclude: ^legacy/
+    - repo: local
+      hooks:
+          - id: generate-orphan-docs
+            name: Generate docs for orphaned files
+            entry: python scripts/generate_orphan_docs.py
+            language: system
+            pass_filenames: false
+            files: ^orphaned-files-report\.md$
+          - id: enforce-wiki-links
+            name: Enforce Wikilinks
+            entry: python scripts/kanban/hashtags_to_kanban.py --check --write --wikilinks
+            language: system
+            pass_filenames: false
+          - id: Build
+            name: Build
+            entry: make build
+            language: system
+            pass_filenames: false
+
+    - repo: https://github.com/psf/black
+      rev: 24.4.2
+      hooks:
+          - id: black
+            language_version: python3
+    - repo: https://github.com/pycqa/flake8
+      rev: 7.3.0
+      hooks:
+          - id: flake8
+    - repo: https://github.com/pre-commit/mirrors-eslint
+      rev: v9.32.0
+      hooks:
+          - id: eslint
+            types: [javascript, ts, tsx]
+    - repo: https://github.com/pre-commit/mirrors-prettier
+      rev: v3.1.0
+      hooks:
+          - id: prettier
+            types_or: [javascript, ts, tsx, json, yaml]
+            exclude: ^legacy/
+            args: [--ignore-path=.prettierignore]

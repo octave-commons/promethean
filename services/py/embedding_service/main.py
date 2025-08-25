@@ -1,28 +1,10 @@
+import asyncio
 import os
 from functools import lru_cache
 from typing import List
 
-from fastapi import FastAPI
-from pydantic import BaseModel
-
-from .drivers import get_driver
-
-app = FastAPI()
-
-
-class EmbedItem(BaseModel):
-    type: str
-    data: str
-
-
-class EmbedRequest(BaseModel):
-    items: List[EmbedItem]
-    driver: str | None = None
-    function: str | None = None
-
-
-class EmbedResponse(BaseModel):
-    embeddings: List[List[float]]
+from shared.py.service_template import start_service
+from drivers import get_driver
 
 
 @lru_cache(maxsize=1)
@@ -31,11 +13,41 @@ def _load(driver_name: str, function_name: str):
     return driver.load(function_name)
 
 
-@app.post("/embed", response_model=EmbedResponse)
-def embed(request: EmbedRequest) -> EmbedResponse:
-    driver_name = request.driver or os.environ.get("EMBEDDING_DRIVER", "naive")
-    function_name = request.function or os.environ.get("EMBEDDING_FUNCTION", "simple")
+def _embed(items, driver_name: str, function_name: str) -> List[List[float]]:
     driver = get_driver(driver_name)
     model = _load(driver_name, function_name)
-    embeddings = driver.embed(request.items, function_name, model)
-    return EmbedResponse(embeddings=embeddings)
+    return driver.embed(items, function_name, model)
+
+
+async def handle_task(task, client):
+    print("embedding task recieved:")
+    payload = task.get("payload", {})
+    driver_name = payload.get("driver") or os.environ.get("EMBEDDING_DRIVER", "naive")
+
+    function_name = payload.get("function") or os.environ.get(
+        "EMBEDDING_FUNCTION", "simple"
+    )
+    items = payload.get("items", [])
+    embeddings = _embed(items, driver_name, function_name)
+    reply_to = payload.get("replyTo") or task.get("replyTo")
+    print(driver_name, function_name, reply_to)
+    if reply_to:
+        await client.publish(
+            "embedding.result",
+            {"embeddings": embeddings},
+            replyTo=reply_to,
+            correlationId=task.get("id"),
+        )
+
+
+async def main():
+    await start_service(
+        id="embedding",
+        queues=["embedding.generate"],
+        handle_task=handle_task,
+    )
+    await asyncio.Event().wait()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

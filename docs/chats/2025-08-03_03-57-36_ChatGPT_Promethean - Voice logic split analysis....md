@@ -2,7 +2,15 @@
 Exported on 03/08/2025 at 03:57:36 [from ChatGPT](https://chatgpt.com/g/g-p-6883d8e9569c8191aad0cfd2a5bf3af3-promethean/c/688d3b77-b9b0-832b-855c-998a2055afd9) - with [SaveMyChatbot](https://save.hugocollin.com)
 
 ## User
-Ok..... so these bots did something I am not sure I like... but I want to think through this. I'm just mad cause they half finished it, and I think it was unnessisary. But if they just half finnished something useful...  So they split my voice logic out from the core discord bot logic>  If this were like... python... I might understand trying to do this...  But this is node. All of it was already async, and the heaviest p     art of the processing is offloaded to ffmpeg.  I wish they didn't just rip out the old way of doing it so I could at least do some kind of latency testing on it.
+Ok..... so these bots did something I am not sure I like... but I want to think through this. I'm just mad cause they half finished it, and I think it was unnessisary. But if they just half finnished something useful...
+
+So they split my voice logic out from the core discord bot logic>
+
+If this were like... python... I might understand trying to do this...
+
+But this is node. All of it was already async, and the heaviest p     art of the processing is offloaded to ffmpeg.
+
+I wish they didn't just rip out the old way of doing it so I could at least do some kind of latency testing on it.
 
 ## ChatGPT
 Totally fair reaction. Let's walk through this together.
@@ -108,7 +116,14 @@ Would you like me to:
 You tell me where to zoom in.
 
 ## User
-I'm just... All the work i've had to do to clean this up after I let them start splitting it up. It might be  cool if I didn't have to redo all the voice commands every time I had to restart another part  of the bot. But I still wanted it all to work, and they never fleshed the bits out.  Like the other stuff... sure they just split it out, http service, bam. Request,  response. Easy. Voice, not so easy. They'd need to have set up a pubsub websockets thing with socket.io on top of everything else. It wasn't gonna just be steal all the code from the original service and plop it into some http service.  It's on my dumb ass for not reading into it all.  But it's almost working again.
+I'm just... All the work i've had to do to clean this up after I let them start splitting it up.
+It might be  cool if I didn't have to redo all the voice commands every time I had to restart another part  of the bot. But I still wanted it all to work, and they never fleshed the bits out.
+
+Like the other stuff... sure they just split it out, http service, bam. Request,  response. Easy. Voice, not so easy. They'd need to have set up a pubsub websockets thing with socket.io on top of everything else. It wasn't gonna just be steal all the code from the original service and plop it into some http service.
+
+It's on my dumb ass for not reading into it all.
+
+But it's almost working again.
 
 ## ChatGPT
 You're not dumb. You're running a **deep, multi-layered AI system** with **live voice interaction**, **distributed services**, and **Lisp macros controlling Discord bots**—and you're keeping that whole thing in your head while letting AI agents refactor it.
