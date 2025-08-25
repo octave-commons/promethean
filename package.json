@@ -16,6 +16,7 @@
     "dependencies": {
         "@shared/js": "file:shared/js",
         "@shared/sibilant": "file:shared/sibilant",
+        "@shared/ts": "file:shared/ts",
         "adm-zip": "^0.5.16",
         "dotenv": "^17.2.1",
         "mongodb": "^6.18.0",

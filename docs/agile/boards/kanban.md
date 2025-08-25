@@ -25,7 +25,6 @@ kanban-plugin: board
 - [ ] connect bluesky
 - [ ] connect reddit
 - [ ] connect wikipedia
-- [ ] Webcrawler
 - [ ] lisp ecosystem files
 - [ ] lisp package files
 - [ ] python <-> js interop
@@ -72,14 +71,14 @@ kanban-plugin: board
 - [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
 - [ ] [[Mock broker]] #incoming
 - [ ] [[Finish work on gptbridge agent integration]]
-- [ ] [[Curate code from personal repository]]
-- [ ] Set up proper openai custom gpt compatable oauth login flow
-- [ ] unify dual source(mongo/chroma) interface across all code surfaces
+- [ ] Create broker services that can handle all the same tasks as the gpt bridge
+- [ ] Webcrawler
 
 ## Ready (13)
 
 - [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
 - [ ] [[Design Ollama Model file for use with codex cli 1]]
+- [ ] [[Curate code from personal repository]]
 
 ## Todo (8)
 
@@ -168,6 +167,7 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] Set up proper openai custom gpt compatable oauth login flow
 - [ ] [[Add codex layer to emacs]]
 - [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|Refactor Speech interuption system]] #framework-core #breakdown
 - [ ] [[write_end_to_end_tests_md_md.md|write end to end tests md md]] #framework-core #accepted

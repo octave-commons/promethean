@@ -26,6 +26,7 @@ export interface BackendClient {
     chat(
         messages: ChatMessage[],
         cfg?: Partial<BackendConfig>,
+        opts?: { tools?: any[]; tool_choice?: any },
     ): Promise<
         | string
         | {
@@ -45,6 +46,7 @@ export class OllamaBackend implements BackendClient {
     async chat(
         messages: ChatMessage[],
         cfg: Partial<BackendConfig> = {},
+        opts: { tools?: any[]; tool_choice?: any } = {},
     ): Promise<
         | string
         | {
@@ -56,7 +58,7 @@ export class OllamaBackend implements BackendClient {
         const t0 = process.hrtime.bigint();
         try {
             this.log.debug('chat.start', { model: this.model, msgs: messages.length });
-            const res: any = await (ollama as any).chat({
+            const req: any = {
                 model: this.model,
                 messages: messages.map((m) => ({ role: m.role as any, content: m.content })),
                 options: {
@@ -69,7 +71,10 @@ export class OllamaBackend implements BackendClient {
                           ? [String((cfg as any).stop)]
                           : undefined,
                 },
-            });
+            };
+            if (opts?.tools) req.tools = opts.tools;
+            if (opts?.tool_choice) req.tool_choice = opts.tool_choice;
+            const res: any = await (ollama as any).chat(req);
             const t1 = process.hrtime.bigint();
             const text = res?.message?.content || '';
             const usage = {
@@ -185,6 +190,7 @@ export class OllamaOpenAIBackend implements BackendClient {
     async chat(
         messages: ChatMessage[],
         cfg: Partial<BackendConfig> = {},
+        opts: { tools?: any[]; tool_choice?: any } = {},
     ): Promise<
         | string
         | {
@@ -205,6 +211,8 @@ export class OllamaOpenAIBackend implements BackendClient {
             max_tokens: cfg.max_tokens,
             stop: cfg.stop ?? undefined,
         };
+        if (opts?.tools) (payload as any).tools = opts.tools;
+        if (opts?.tool_choice) (payload as any).tool_choice = opts.tool_choice;
         const headers: Record<string, string> = {
             'content-type': 'application/json',
         };

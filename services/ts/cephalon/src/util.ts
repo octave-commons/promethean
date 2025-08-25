@@ -1,4 +1,4 @@
-import { formatMessage, GenericEntry } from './contextManager.js';
+import { formatMessage, GenericEntry } from '@shared/ts/dist/persistence/contextStore.js';
 
 export function randomInt(max: number) {
     return Math.floor(Math.random() * max);

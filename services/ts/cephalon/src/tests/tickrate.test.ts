@@ -2,7 +2,7 @@ import test from 'ava';
 process.env.DISABLE_AUDIO = '1';
 import { AIAgent } from '../agent.js';
 import type { Bot } from '../bot.js';
-import type { ContextManager } from '../contextManager.js';
+import type { ContextStore as ContextManager } from '@shared/ts/dist/persistence/contextStore.js';
 
 test.skip('agent updates tick interval', (t) => {
     const context = {} as unknown as ContextManager;
