@@ -1,4 +1,4 @@
-(namespace async)
+(namespace kit)
 (import-namespace core)
 (macro async (form) ["async " form])
 
