@@ -5,7 +5,7 @@ import { withServer } from '../helpers/server.js';
 import sinon from 'sinon';
 import { supervisor as defaultSupervisor } from '../../agent.js';
 
-const ROOT = path.join(process.cwd(), 'tests', 'fixtures');
+const ROOT = path.join(process.cwd(), 'src', 'tests', 'fixtures');
 
 test('agent endpoints success paths via stubbed supervisor', async (t) => {
     const s = sinon.createSandbox();

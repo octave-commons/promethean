@@ -16,5 +16,5 @@ test('viewFile: returns correct window around line', async (t) => {
 
 test('resolvePath: fuzzy by basename', async (t) => {
     const p = await resolvePath(ROOT, 'hello.ts');
-    t.true(p.endsWith(path.join('tests', 'fixtures', 'hello.ts')));
+    t.true(p.endsWith(path.join('src', 'tests', 'fixtures', 'hello.ts')));
 });
