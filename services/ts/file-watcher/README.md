@@ -19,9 +19,9 @@ Additionally, the repo watcher:
   SmartGPT bridge (URL configurable via `SMARTGPT_BRIDGE_URL`).
 - On file delete: POSTs `{ path }` to `POST /indexer/remove` on the SmartGPT
   bridge.
- - If auth is enabled on the bridge, include a static bearer token via
-   `SMARTGPT_BRIDGE_TOKEN` (or `BRIDGE_AUTH_TOKEN`/`AUTH_TOKEN`) — requests send
-   `Authorization: Bearer <token>`.
+- If auth is enabled on the bridge, include a static bearer token via
+  `SMARTGPT_BRIDGE_TOKEN` (or `BRIDGE_AUTH_TOKEN`/`AUTH_TOKEN`) — requests send
+  `Authorization: Bearer <token>`.
 
 Environment variables:
 
@@ -32,5 +32,6 @@ Environment variables:
   index/remove requests (default `2000`). Higher values reduce request volume.
 - `SMARTGPT_BRIDGE_TOKEN` (optional) – bearer token for SmartGPT Bridge.
 
-`pnpm start` will compile the TypeScript source before launching.
-Use `pnpm run start:dev` while developing to watch TypeScript files.
+Run the service with `./run.sh` (requires `pnpm`); the script checks for the
+package manager and prints setup instructions if it's missing. Use
+`pnpm run start:dev` during development to watch TypeScript files.
