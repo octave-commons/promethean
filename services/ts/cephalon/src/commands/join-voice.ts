@@ -1,14 +1,16 @@
 import type { ChatInputCommandInteraction, TextChannel } from 'discord.js';
 import type { Bot } from '../bot.js';
-import runJoin from '../actions/join-voice.js';
-import { buildJoinVoiceScope, makeJoinAction } from '../actions/join-voice.scope.js';
+import type { Event } from '../store/events.js';
 
 export const data = {
     name: 'join-voice',
     description: "Join the requester's current voice channel",
 };
 
-export default async function execute(interaction: ChatInputCommandInteraction, ctx: { bot: Bot }) {
+export default async function execute(
+    interaction: ChatInputCommandInteraction,
+    ctx: { bot: Bot; dispatch: (e: Event) => Promise<void> },
+) {
     if (!interaction.inCachedGuild()) {
         await interaction.reply('This command requires a cached guild context.');
         return;
@@ -25,12 +27,12 @@ export default async function execute(interaction: ChatInputCommandInteraction, 
         return;
     }
 
-    const scope = { ...(await buildJoinVoiceScope()), join: makeJoinAction() };
-    const { joined } = await runJoin(scope as any, {
-        bot: ctx.bot,
-        guild: interaction.guild!,
+    await ctx.dispatch({
+        type: 'VOICE/JOIN_REQUESTED',
+        guildId: interaction.guild!.id,
         voiceChannelId: interaction.member.voice.channelId,
-        textChannel,
+        by: interaction.user.id,
+        textChannelId: textChannel?.id,
     });
-    await interaction.editReply(joined ? 'Joined.' : 'Already in a voice session.');
+    await interaction.editReply('Joining voice…');
 }
