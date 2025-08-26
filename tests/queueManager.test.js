@@ -84,6 +84,34 @@ test.serial('heartbeat updates lastSeen', async (t) => {
     queueManager.unregisterWorker(workerId);
 });
 
+test.serial('expired workers are cleaned up and tasks requeued', async (t) => {
+    const ws = createWS();
+    const workerId = 'w5';
+    const queue = 'epsilon';
+
+    queueManager.setHeartbeatConfig({ sweepIntervalMs: 10, expiryMs: 20 });
+    queueManager.ready(ws, workerId, queue);
+    queueManager.enqueue(queue, { value: 3 });
+
+    await new Promise((r) => setTimeout(r, 40));
+
+    const state = queueManager.getState();
+    t.is(state.workers[workerId], undefined);
+    t.is(state.queues[queue], 1);
+
+    const ws2 = createWS();
+    const cleanupId = 'cleanup2';
+    queueManager.ready(ws2, cleanupId, queue);
+    const msg = JSON.parse(ws2.messages[0]);
+    t.truthy(msg.task.id);
+    t.true(queueManager.acknowledge(cleanupId, msg.task.id));
+    queueManager.unregisterWorker(cleanupId);
+
+    queueManager.setHeartbeatConfig({ sweepIntervalMs: 0 });
+});
+
+
+
 test.serial('task timeout requeues and logs', async (t) => {
     const ws = createWS();
     const workerId = 'w-timeout';
@@ -112,6 +140,8 @@ test.serial('rate limit delays dispatch', async (t) => {
     const ws = createWS();
     const workerId = 'w4';
     const queue = 'delta';
+
+    queueManager.setHeartbeatConfig({ sweepIntervalMs: 0 });
 
     queueManager.setRateLimit(50);
     queueManager.ready(ws, workerId, queue);

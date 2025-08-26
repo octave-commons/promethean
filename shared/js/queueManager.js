@@ -1,6 +1,7 @@
 // queueManager.js
 
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
+
 
 const queues = new Map(); // queueName -> [task]
 const workers = new Map(); // workerId -> { ws, queue, active, lastSeen }
@@ -8,6 +9,11 @@ const assignments = new Map(); // workerId -> { task, queue, timeoutId }
 let rateLimitMs = 0; // delay between task dispatches per queue
 const lastDispatch = new Map(); // queue -> timestamp
 let taskTimeoutMs = 10000; // ms before unacked task is requeued
+
+let sweepIntervalMs = Number(process.env.WORKER_SWEEP_INTERVAL_MS) || 30000;
+let workerExpiryMs = Number(process.env.WORKER_EXPIRE_MS) || 60000;
+let sweepHandle = setInterval(sweepExpiredWorkers, sweepIntervalMs);
+sweepHandle.unref();
 
 function ready(ws, workerId, queue) {
     workers.set(workerId, {
@@ -97,6 +103,23 @@ function heartbeat(workerId) {
     }
 }
 
+function sweepExpiredWorkers() {
+    const now = Date.now();
+    for (const [workerId, worker] of workers.entries()) {
+        if (now - worker.lastSeen > workerExpiryMs) {
+            const assignment = assignments.get(workerId);
+            unregisterWorker(workerId);
+            if (assignment) {
+                console.log(
+                    `worker ${workerId} expired, requeued task ${assignment.task.id} on ${assignment.queue}`,
+                );
+            } else {
+                console.log(`worker ${workerId} expired`);
+            }
+        }
+    }
+}
+
 function getState() {
     return {
         queues: Object.fromEntries([...queues.entries()].map(([k, v]) => [k, v.length])),
@@ -123,6 +146,7 @@ export const queueManager = {
     heartbeat,
     getState,
     setRateLimit,
+    setHeartbeatConfig,
     setTaskTimeout,
 };
 
@@ -131,6 +155,21 @@ function setRateLimit(ms) {
     lastDispatch.clear();
 }
 
+function setHeartbeatConfig({ sweepIntervalMs: interval, expiryMs } = {}) {
+    if (interval !== undefined) {
+        clearInterval(sweepHandle);
+        if (Number(interval) > 0) {
+            sweepIntervalMs = Number(interval);
+            sweepHandle = setInterval(sweepExpiredWorkers, sweepIntervalMs);
+            sweepHandle.unref();
+        } else {
+            sweepHandle = null;
+        }
+    }
+    if (expiryMs && Number(expiryMs) > 0) {
+        workerExpiryMs = Number(expiryMs);
+    }
+}
 function setTaskTimeout(ms) {
     taskTimeoutMs = Math.max(1, Number(ms) || 1);
 }
