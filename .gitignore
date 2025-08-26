@@ -72,3 +72,6 @@ services/ts/smartgpt-bridge/logs/agents/
 services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean_services_ts_smartgpt-bridge_services_ts_smartgpt-bridge_tests_tmp_inc1/bootstrap.json
 
 /.cache/
+docs/.makemd/
+
+docs/.space/

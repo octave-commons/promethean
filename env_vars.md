@@ -1,23 +1,26 @@
+./services/ts/llm/src/drivers/index.ts:    const name = process.env.LLM_DRIVER || cfg.driver || 'ollama';
+./services/ts/llm/src/drivers/index.ts:    const model = process.env.LLM_MODEL || cfg.model || 'gemma3:latest';
+./services/ts/llm/src/index.ts:export async function start(port = Number(process.env.LLM_PORT) || 8888) {
+./services/ts/llm/src/index.ts:            id: process.env.name || 'llm',
+./services/ts/llm/src/index.ts:    const hb = new HeartbeatClient({ name: process.env.name || 'llm' });
+./services/ts/llm/src/index.ts:if (process.env.NODE_ENV !== 'test') {
+./services/ts/llm/tests/basic.test.js:    process.env.LLM_DRIVER = 'ollama';
+./services/ts/llm/tests/basic.test.js:    process.env.LLM_MODEL = 'test-model';
+./services/ts/llm/tests/websocket.test.js:    process.env.NODE_ENV = 'test';
+./services/ts/llm/tests/websocket.test.js:    process.env.name = 'llm';
+./services/ts/llm/tests/drivers.test.js:    process.env.LLM_DRIVER = 'ollama';
+./services/ts/llm/tests/drivers.test.js:    process.env.LLM_MODEL = 'test';
+./services/ts/llm/tests/drivers.test.js:    process.env.LLM_DRIVER = 'huggingface';
+./services/ts/llm/tests/drivers.test.js:    process.env.LLM_MODEL = 'test';
 ./package.json:        "preinstall": "node -e \"const ua = process.env.npm_config_user_agent || ''; if (!ua.includes('pnpm')) { console.error('\\nERROR: pnpm is required for this repo. npm/yarn are not supported and often fail with EACCES permission errors.\\nInstall via: corepack enable && corepack prepare pnpm@latest --activate\\nThen re-run: pnpm install\\n'); process.exit(1); }\"",
 ./scripts/flip_alias.ts:  process.env.MONGODB_URI || "mongodb://localhost:27017",
 ./scripts/flip_alias.ts:const family = `${process.env.AGENT_NAME}_discord_messages`;
-./services/ts/llm/src/index.js:export const MODEL = process.env.LLM_MODEL || 'gemma3:latest';
-./services/ts/llm/src/index.js:export async function start(port = Number(process.env.LLM_PORT) || 8888) {
-./services/ts/llm/src/index.js:            id: process.env.name || 'llm',
-./services/ts/llm/src/index.js:    const hb = new HeartbeatClient({ name: process.env.name || 'llm' });
-./services/ts/llm/src/index.js:if (process.env.NODE_ENV !== 'test') {
 ./scripts/kanban/pending_count.ts:const mongo = new MongoClient(process.env.MONGODB_URI || 'mongodb://localhost:27017');
 ./scripts/kanban/pending_count.ts:const family = `${process.env.AGENT_NAME}_discord_messages`;
 ./scripts/kanban/pending_count.ts:const version = process.env.EMBED_VERSION!;
-./services/ts/llm/tests/basic.test.js:    process.env.NODE_ENV = 'test';
-./services/ts/llm/tests/basic.test.js:    process.env.LLM_MODEL = 'test-model';
 ./scripts/serve-sites.js:    port = Number(process.env.SITES_PORT) || 4500,
 ./scripts/serve-sites.js:    proxyUrl = process.env.PROXY_URL || 'http://127.0.0.1:8080',
-./services/ts/llm/tests/websocket.test.js:    process.env.NODE_ENV = 'test';
-./services/ts/llm/tests/websocket.test.js:    process.env.name = 'llm';
 ./scripts/kanban/wip-sheriff.ts:const VAULT = process.env.VAULT_ROOT ?? '.';
-./services/ts/llm/ecosystem.config.js:if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
-./services/ts/llm/ecosystem.config.js:const allApps = !process.env.PROMETHEAN_ROOT_ECOSYSTEM ? [...apps, ...(deps?.apps || [])] : apps;
 ./scripts/strip-file-extensions.ts:const REPO = process.env.REPO_ROOT ?? process.cwd();
 ./scripts/lint-topics.ts:const ROOT = process.env.REPO_ROOT || process.cwd();
 ./services/ts/discord-embedder/src/index.ts:const EMBED_VERSION = process.env.EMBED_VERSION || new Date().toISOString().slice(0, 10);
@@ -470,11 +473,8 @@
 ./services/ts/voice/src/index.ts:    async function start(port: number = parseInt(process.env.PORT || '4000')) {
 ./services/ts/voice/src/index.ts:if (process.env.NODE_ENV !== 'test') {
 ./services/ts/voice/src/transcriber.ts:            port: Number(process.env.PROXY_PORT) || 8080,
-./services/ts/llm-bridge/src/index.js:            id: process.env.name || 'llm-bridge',
-./services/ts/llm-bridge/src/index.js:if (process.env.NODE_ENV !== 'test') {
 ./docs/chats/2025-08-03_03-57-36_ChatGPT_Promethean - Voice logic split analysis....md.bak:if (process.env.LEGACY_VOICE === 'true') {
 ./docs/unique/2025.08.24.18.37.05.md:        model: process.env.LLM_MODEL || "llama3.1:latest", // ensure a model that supports tool use
-./services/ts/llm-bridge/ecosystem.config.js:if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
 ./docs/chats/2025-08-03_03-57-36_ChatGPT_Promethean - Voice logic split analysis....md:if (process.env.LEGACY_VOICE === 'true') {
 ./docs/chats/2025-08-03_03-07-18_ChatGPT_Promethean - Eidolon Layer 1 Design....md.bak:const uri = process.env.MONGO_URI || "mongodb://localhost:27017";
 ./docs/chats/2025-08-03_03-07-18_ChatGPT_Promethean - Eidolon Layer 1 Design....md.bak:const dbName = process.env.DB_NAME || "eidolon_sim";
@@ -531,3 +531,5 @@
 ./shared/sibilant/src/lang/repl.sibilant:     HISTORY-FILE (pipe process.env.SIBILANT-REPL-HISTORY-FILE
 ./shared/sibilant/src/lang/repl.sibilant:                      (or (""process.env.HOME"/.sibilant.history")))
 ./shared/sibilant/src/lang/sibilant.sibilant:(unless process.env.DISABLE_SOURCE_MAPS
+./services/py/llm/main.py:    driver_name = os.environ.get("LLM_DRIVER") or cfg.get("driver", "ollama")
+./services/py/llm/main.py:    model_name = os.environ.get("LLM_MODEL") or cfg.get("model", "gemma3:latest")
