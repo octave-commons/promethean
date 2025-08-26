@@ -17,7 +17,7 @@ async function publish(pid, name) {
     await bc.connect();
     bc.publish('heartbeat', { pid, name });
     await new Promise((r) => setTimeout(r, 50));
-    bc.socket.close();
+    bc.disconnect();
     const client = new MongoClient(process.env.MONGO_URL);
     await client.connect();
     for (let i = 0; i < 10; i++) {
