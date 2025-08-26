@@ -94,6 +94,9 @@ def test_websocket_tts_returns_wav_bytes(monkeypatch):
             "speech.tts": dummy_module,
             "shared.py.speech": dummy_package,
             "shared.py.speech.tts": dummy_module,
+            "shared.py.speech.audio_utils": types.SimpleNamespace(
+                wav_to_base64=lambda audio, sr: ""
+            ),
             "shared.py.service_template": types.SimpleNamespace(
                 start_service=dummy_start_service
             ),
