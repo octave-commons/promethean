@@ -4,9 +4,6 @@ from pathlib import Path
 import sys
 import types
 
-# Ensure the repository root is on sys.path so "scripts" can be imported
-sys.path.append(str(Path(__file__).resolve().parents[2]))
-
 # Provide a lightweight stub for chromadb if it's not installed. This allows
 # the tests to run without pulling in heavy optional dependencies.
 try:  # pragma: no cover - exercised when chromadb is available
