@@ -1,7 +1,4 @@
 import sys
-
-sys.path.append("../../../")
-
 import asyncio
 import base64
 
