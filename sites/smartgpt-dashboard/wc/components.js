@@ -457,15 +457,15 @@ class ApiEndpointCard extends LitElement {
                 this.streamText += t;
                 this.requestUpdate();
             };
-            this._es.onmessage = (ev) => append((ev.data || '') + '\n');
+            this._es.onmessage = (ev) => append(`${ev.data || ''}\n`);
             // also listen for custom events commonly used by bridge
             for (const ev of ['replay', 'data', 'stdout', 'stderr']) {
                 this._es.addEventListener(ev, (e) => {
                     try {
                         const js = JSON.parse(e.data || '{}');
-                        append((js.text || '') + '\n');
+                        append(`${js.text || ''}\n`);
                     } catch {
-                        append((e.data || '') + '\n');
+                        append(`${e.data || ''}\n`);
                     }
                 });
             }
@@ -599,7 +599,7 @@ class ApiDocs extends LitElement {
         const q = (this.q || '').toLowerCase();
         let filtered = q
             ? entries.filter((e) =>
-                  (e.path + ' ' + (e.op.summary || '') + ' ' + e.method).toLowerCase().includes(q),
+                  `${e.path} ${e.op.summary || ''} ${e.method}`.toLowerCase().includes(q),
               )
             : entries;
         if (this.tag && this.tag !== 'All') filtered = filtered.filter((e) => e.tag === this.tag);
@@ -655,120 +655,3 @@ class ApiDocs extends LitElement {
     }
 }
 customElements.define('api-docs', ApiDocs);
-
-class FileExplorer extends LitElement {
-    static properties = {
-        path: { state: true },
-        entries: { state: true },
-        selected: { state: true },
-        snippet: { state: true },
-    };
-    static styles = css`
-        .explorer {
-            margin-bottom: 20px;
-        }
-        .toolbar {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-        ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        li {
-            margin: 2px 0;
-        }
-        .entry {
-            background: none;
-            border: none;
-            color: #4fc3f7;
-            cursor: pointer;
-            font: inherit;
-            text-align: left;
-        }
-        .entry:hover {
-            text-decoration: underline;
-        }
-        .snippet {
-            background: #0e0e0e;
-            color: #ddd;
-            padding: 8px;
-            border-radius: 6px;
-            white-space: pre;
-            overflow-x: auto;
-            max-height: 400px;
-        }
-    `;
-    constructor() {
-        super();
-        this.path = '.';
-        this.entries = [];
-        this.selected = null;
-        this.snippet = '';
-    }
-    connectedCallback() {
-        super.connectedCallback();
-        this.load();
-    }
-    async load() {
-        try {
-            const res = await fetch(`/v0/files/list?path=${encodeURIComponent(this.path)}`, {
-                headers: getAuthHeaders(),
-            });
-            const js = await res.json();
-            this.entries = js.entries || [];
-            this.selected = null;
-            this.snippet = '';
-        } catch {
-            this.entries = [];
-        }
-    }
-    async open(entry) {
-        if (entry.type === 'dir') {
-            this.path = entry.path;
-            await this.load();
-        } else {
-            try {
-                const res = await fetch(`/v0/files/view?path=${encodeURIComponent(entry.path)}`, {
-                    headers: getAuthHeaders(),
-                });
-                const js = await res.json();
-                this.selected = entry;
-                this.snippet = js.snippet || '';
-            } catch {
-                this.selected = null;
-                this.snippet = '';
-            }
-        }
-    }
-    goUp() {
-        if (this.path === '.' || !this.path) return;
-        const parts = this.path.split('/').filter(Boolean);
-        parts.pop();
-        this.path = parts.length ? parts.join('/') : '.';
-        this.load();
-    }
-    render() {
-        return html`
-            <div class="explorer">
-                <div class="toolbar">
-                    <button @click=${() => this.goUp()}>Up</button>
-                    <span>${this.path}</span>
-                </div>
-                <ul>
-                    ${this.entries.map(
-                        (e) =>
-                            html`<li>
-                                <button class="entry" @click=${() => this.open(e)}>
-                                    ${e.type === 'dir' ? '📁' : '📄'} ${e.name}
-                                </button>
-                            </li>`,
-                    )}
-                </ul>
-                ${this.snippet ? html`<pre class="snippet">${this.snippet}</pre>` : ''}
-            </div>
-        `;
-    }
-}
-customElements.define('file-explorer', FileExplorer);

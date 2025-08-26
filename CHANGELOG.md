@@ -33,6 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Basic tool call support in the LLM chat frontend via SmartGPT Bridge.
 - Tests for tool call parsing and invocation in the LLM chat frontend.
 - File explorer UI for SmartGPT Bridge dashboard using file endpoints.
+- TypeScript utilities for repository file exploration with fuzzy search.
 - `sites/` directory consolidating all frontend code.
 - Proxy route `/bridge` through the shared proxy service for SmartGPT Bridge.
 - Tool calling support for Codex Context service.
@@ -74,6 +75,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Codex Context retriever now targets SmartGPT Bridge `/v1` endpoints.
 - Moved SmartGPT dashboard and LLM chat frontends into `sites/`.
 - Frontends now served from a central static file server instead of individual services.
+- SmartGPT Bridge file routes now use shared file explorer utilities, and the dashboard consumes a shared file explorer component.
 - SmartGPT Bridge now uses shared DualStore and ContextStore for persistence.
 - Discord embedder migrated to shared DualStore and ContextStore for unified persistence.
 - STT and TTS services now use shared audio utilities for encoding and decoding.
