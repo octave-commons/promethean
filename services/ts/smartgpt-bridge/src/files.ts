@@ -1,100 +1,41 @@
 // @ts-nocheck
-import fs from 'fs/promises';
-import path from 'path';
-import fg from 'fast-glob';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { listDir, readFile, searchFiles } from '@shared/ts/dist/fs/fileExplorer.js';
+import { buildTree } from '@shared/ts/dist/fs/tree.js';
 import { loadGitIgnore } from './gitignore-util.js';
 
-function splitCSV(s) {
-    return (s || '')
-        .split(',')
-        .map((x) => x.trim())
-        .filter(Boolean);
-}
-function defaultExcludes() {
-    const env = splitCSV(process.env.EXCLUDE_GLOBS);
-    return env.length ? env : ['node_modules/**', '.git/**', 'dist/**', 'build/**', '.obsidian/**'];
-}
-
-export function isInsideRoot(ROOT_PATH, abs) {
-    const root = path.resolve(ROOT_PATH);
-    const target = path.resolve(abs);
-    return target === root || target.startsWith(root + path.sep);
-}
-
-export function normalizeToRoot(ROOT_PATH, p = '.') {
-    // Treat leading '/' as relative to the repository root rather than the filesystem root.
-    // Also treat empty string or '/' as the root directory itself.
-    if (!p || p === '/') p = '.';
-    let abs;
-    if (path.isAbsolute(p)) {
-        if (p.startsWith(ROOT_PATH)) {
-            abs = path.resolve(p);
-        } else {
-            abs = path.resolve(ROOT_PATH, p.slice(1));
-        }
-    } else {
-        abs = path.resolve(ROOT_PATH, p);
-    }
-    if (!isInsideRoot(ROOT_PATH, abs)) throw new Error('path outside root');
+function resolveDir(ROOT_PATH, rel = '.') {
+    const base = path.resolve(ROOT_PATH);
+    const abs = path.resolve(base, rel);
+    if (!abs.startsWith(base)) throw new Error('path outside root');
     return abs;
 }
 
 export async function resolvePath(ROOT_PATH, p) {
     if (!p) return null;
-    let abs;
+    const absCandidate = path.resolve(ROOT_PATH, p);
     try {
-        abs = normalizeToRoot(ROOT_PATH, p);
-    } catch {
-        abs = null;
-    }
-    try {
-        if (abs) {
-            const st = await fs.stat(abs);
-            if (st.isFile()) return abs;
-        }
+        const st = await fs.stat(absCandidate);
+        if (st.isFile()) return absCandidate;
     } catch {}
-    // fuzzy by basename
-    const base = path.basename(p);
-    const matches = await fg([`**/${base}`], {
-        cwd: ROOT_PATH,
-        ignore: defaultExcludes(),
-        onlyFiles: true,
-        dot: false,
-    });
-    if (!matches.length) return null;
-    // pick best by suffix overlap with incoming path
-    let best = matches[0],
-        bestScore = 0;
-    for (const m of matches) {
-        const score = suffixScore(p, m);
-        if (score > bestScore) {
-            best = m;
-            bestScore = score;
-        }
-    }
-    return normalizeToRoot(ROOT_PATH, best);
-}
-
-function suffixScore(a, b) {
-    const aa = a.split(/[\/]+/).reverse();
-    const bb = b.split(/[\/]+/).reverse();
-    let i = 0;
-    while (i < aa.length && i < bb.length && aa[i] === bb[i]) i++;
-    return i;
+    const matches = await searchFiles(ROOT_PATH, p, 1);
+    if (matches.length) return path.resolve(ROOT_PATH, matches[0].relative);
+    return null;
 }
 
 export async function viewFile(ROOT_PATH, relOrFuzzy, line = 1, context = 25) {
     const abs = await resolvePath(ROOT_PATH, relOrFuzzy);
     if (!abs) throw new Error('file not found');
-    const safeAbs = normalizeToRoot(ROOT_PATH, abs);
-    const raw = await fs.readFile(safeAbs, 'utf8');
+    const rel = path.relative(ROOT_PATH, abs);
+    const raw = await readFile(ROOT_PATH, rel);
     const lines = raw.split(/\r?\n/);
     const L = Math.max(1, Math.min(lines.length, Number(line) || 1));
     const ctx = Math.max(0, Number(context) || 0);
     const start = Math.max(1, L - ctx);
     const end = Math.min(lines.length, L + ctx);
     return {
-        path: path.relative(ROOT_PATH, safeAbs),
+        path: rel,
         totalLines: lines.length,
         startLine: start,
         endLine: end,
@@ -115,8 +56,10 @@ export async function locateStacktrace(ROOT_PATH, text, context = 25) {
     for (const key of Object.keys(RX)) {
         const re = RX[key];
         re.lastIndex = 0;
-        let m;
-        while ((m = re.exec(text))) {
+        let m: RegExpExecArray | null;
+        while (true) {
+            m = re.exec(text);
+            if (!m) break;
             const file = m.groups?.file;
             const line = Number(m.groups?.line || 1);
             const col = m.groups?.col ? Number(m.groups.col) : undefined;
@@ -150,41 +93,26 @@ async function safeView(ROOT_PATH, file, line, context) {
     }
 }
 
-// List directory entries with filtering and sorting
 export async function listDirectory(ROOT_PATH, rel, options = {}) {
-    const includeHidden = Boolean(options.includeHidden);
-    const type = options.type; // 'file' | 'dir' | undefined
-    const abs = normalizeToRoot(ROOT_PATH, rel || '.');
-    const st = await fs.stat(abs).catch(() => null);
-    if (!st || !st.isDirectory()) throw new Error('not a directory');
+    const includeHidden = Boolean(options.hidden || options.includeHidden);
+    const type = options.type;
+    const abs = resolveDir(ROOT_PATH, rel || '.');
     const ig = await loadGitIgnore(ROOT_PATH, abs);
-    const dirents = await fs.readdir(abs, { withFileTypes: true });
+    const entries = await listDir(ROOT_PATH, rel || '.', { includeHidden });
     const out = [];
-    for (const d of dirents) {
-        if (!includeHidden && d.name.startsWith('.')) continue;
-        const childAbs = path.join(abs, d.name);
-        const relPath = path.relative(ROOT_PATH, childAbs);
-        if (ig.ignores(relPath)) continue;
-        const isDir = d.isDirectory();
-        const isFile = d.isFile();
-        if (type === 'dir' && !isDir) continue;
-        if (type === 'file' && !isFile) continue;
+    for (const e of entries) {
+        if (ig.ignores(e.relative)) continue;
+        if (type && e.type !== type) continue;
+        const childAbs = path.resolve(ROOT_PATH, e.relative);
         let size = null;
         let mtimeMs = null;
         try {
             const s = await fs.stat(childAbs);
-            size = isFile ? s.size : null;
+            size = e.type === 'file' ? s.size : null;
             mtimeMs = s.mtimeMs;
         } catch {}
-        out.push({
-            name: d.name,
-            path: relPath,
-            type: isDir ? 'dir' : isFile ? 'file' : 'other',
-            size,
-            mtimeMs,
-        });
+        out.push({ name: e.name, path: e.relative, type: e.type, size, mtimeMs });
     }
-    // Sort: directories first, then alphabetical
     out.sort((a, b) => {
         if (a.type !== b.type) return a.type === 'dir' ? -1 : 1;
         return a.name.localeCompare(b.name);
@@ -192,62 +120,27 @@ export async function listDirectory(ROOT_PATH, rel, options = {}) {
     return { ok: true, base: path.relative(ROOT_PATH, abs) || '.', entries: out };
 }
 
-// Recursively walk directory tree up to a given depth
 export async function treeDirectory(ROOT_PATH, rel, options = {}) {
     const includeHidden = Boolean(options.includeHidden);
     const depth = Number(options.depth || 1);
-    const abs = normalizeToRoot(ROOT_PATH, rel || '.');
-    const st = await fs.stat(abs).catch(() => null);
-    if (!st || !st.isDirectory()) throw new Error('not a directory');
+    const abs = resolveDir(ROOT_PATH, rel || '.');
+    const relBase = path.relative(ROOT_PATH, abs) || '.';
     const ig = await loadGitIgnore(ROOT_PATH, abs);
-
-    async function walk(dir, remaining) {
-        const dirents = await fs.readdir(dir, { withFileTypes: true });
-        const children = [];
-        for (const d of dirents) {
-            if (!includeHidden && d.name.startsWith('.')) continue;
-            const childAbs = path.join(dir, d.name);
-            const relPath = path.relative(ROOT_PATH, childAbs);
-            if (ig.ignores(relPath)) continue;
-            if (d.isDirectory()) {
-                const child = {
-                    name: d.name,
-                    path: relPath,
-                    type: 'dir',
-                };
-                if (remaining > 0) {
-                    child.children = await walk(childAbs, remaining - 1);
-                }
-                children.push(child);
-            } else if (d.isFile()) {
-                let size = null;
-                let mtimeMs = null;
-                try {
-                    const s = await fs.stat(childAbs);
-                    size = s.size;
-                    mtimeMs = s.mtimeMs;
-                } catch {}
-                children.push({
-                    name: d.name,
-                    path: relPath,
-                    type: 'file',
-                    size,
-                    mtimeMs,
-                });
-            }
-        }
-        children.sort((a, b) => {
-            if (a.type !== b.type) return a.type === 'dir' ? -1 : 1;
-            return a.name.localeCompare(b.name);
-        });
-        return children;
+    const raw = await buildTree(abs, {
+        includeHidden,
+        maxDepth: depth,
+        predicate: (absPath, dirent) => {
+            const relPath = path.relative(ROOT_PATH, path.join(absPath, dirent.name));
+            return !ig.ignores(relPath);
+        },
+    });
+    function mapNode(node) {
+        const relPath = path.join(relBase, node.relative || '').replace(/\\/g, '/');
+        const base = { name: node.name, path: relPath || '.', type: node.type };
+        if (node.children) base.children = node.children.map(mapNode);
+        if (typeof node.size === 'number') base.size = node.size;
+        if (typeof node.mtimeMs === 'number') base.mtimeMs = node.mtimeMs;
+        return base;
     }
-
-    const tree = {
-        name: path.basename(abs) || '.',
-        path: path.relative(ROOT_PATH, abs) || '.',
-        type: 'dir',
-        children: await walk(abs, depth - 1),
-    };
-    return { ok: true, base: tree.path, tree };
+    return { ok: true, base: relBase, tree: mapNode(raw) };
 }

@@ -1,7 +1,6 @@
 # Auto-generated Makefile. DO NOT EDIT MANUALLY.
 
 COMMANDS := \
-  refresh \
   setup-python-services \
   setup-pipenv \
   generate-python-shared-requirements \
@@ -12,10 +11,10 @@ COMMANDS := \
   lock-python-gpu \
   setup-shared-python-quick \
   setup-python-services-quick \
-  clean-python \
   setup-python \
   setup-python-quick \
   build-python \
+  clean-python \
   setup-python-service \
   test-python-service \
   test-python-services \
@@ -45,9 +44,6 @@ COMMANDS := \
   coverage-js-services \
   coverage-js \
   clean-js \
-  clean-ts \
-  clean-hy \
-  clean-sibilant \
   build-js \
   lint-ts-service \
   lint-ts \
@@ -61,6 +57,7 @@ COMMANDS := \
   coverage-ts-service \
   coverage-ts-services \
   coverage-ts \
+  clean-ts \
   build-ts \
   build-sibilant \
   setup-sibilant \
