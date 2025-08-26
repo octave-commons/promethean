@@ -130,14 +130,6 @@ kanban-plugin: board
 
 ## Todo (21)
 
-- [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
-- [ ] [[implement defun in compiler lisp incoming]]
-- [ ] [[Webcrawler]]
-- [ ] [[discord_image_awareness_md_md.md|discord image awareness md md]] #framework-core #ollama-integration #multimodal-context #accepted
-- [ ] [[Mock broker]] #incoming
-- [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] #framework-core #ollama-integration #stream-automation #accepted
-- [ ] [[implement classes in compiler lisp incoming]]
-- [ ] [[gpt bridge fuzzy lookup should return multiple matches when it is used.]]
 - [ ] [[move discord scraper to ts]]
 - [ ] [[setup new service generator]]
 - [ ] [[harden precommit hooks]]
@@ -153,8 +145,16 @@ kanban-plugin: board
 - [ ] [[ChatGPT export injest with dedupe index and hashes]]
 
 
-## In Progress (8)
+## In Progress (21)
 
+- [ ] [[gpt bridge fuzzy lookup should return multiple matches when it is used.]]
+- [ ] [[implement classes in compiler lisp incoming]]
+- [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] #framework-core #ollama-integration #stream-automation #accepted
+- [ ] [[Mock broker]] #incoming
+- [ ] [[discord_image_awareness_md_md.md|discord image awareness md md]] #framework-core #ollama-integration #multimodal-context #accepted
+- [ ] [[Webcrawler]]
+- [ ] [[implement defun in compiler lisp incoming]]
+- [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
 - [ ] [[set up data migration pipeline and clearly describe conventions]]
 - [ ] [[broker gpt bridge parity plan]]
 - [ ] [[Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #accepted
