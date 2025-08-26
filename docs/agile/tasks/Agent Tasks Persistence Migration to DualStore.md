@@ -86,10 +86,10 @@
 
 ## 🗂 Task 5 — Update Docs
 
-* [ ] Update root `AGENTS.md`: add **Shared Persistence** section.
-* [ ] Add new doc `docs/reports/persistence-migration-checklist.md` (we already drafted this).
-* [ ] Add `docs/reports/persistence-dependency-graph.md` for before/after diagrams.
-* [ ] Ensure diagrams show all services routing through `DualStore`.
+* [x] Update root `AGENTS.md`: add **Shared Persistence** section.
+* [x] Add new doc `docs/reports/persistence-migration-checklist.md` (we already drafted this).
+* [x] Add `docs/reports/persistence-dependency-graph.md` for before/after diagrams.
+* [x] Ensure diagrams show all services routing through `DualStore`.
 
 ✅ Output: Documentation reflects new persistence architecture.
 
