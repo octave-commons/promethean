@@ -1,7 +1,3 @@
-Here’s a full expansion that you can paste into your board. It lines up with your existing broker → service → bridge architecture and makes the WebSocket broker the **canonical API**, with the GPT bridge reduced to a thin load-shedding wrapper.
-
----
-
 # WebSocket Broker API Parity with GPT Bridge
 
 **Owner:** Codex / Agent
@@ -188,7 +184,3 @@ Bring the **WebSocket broker API** up to full parity with the existing **GPT Bri
 ## Comments
 
 Append-only thread for agents to log discovered gaps, schema changes, or overload handling notes.
-
----
-
-Want me to also draft the **side-by-side parity test plan** (cases + expected outputs) so you can drop that directly into CI?
