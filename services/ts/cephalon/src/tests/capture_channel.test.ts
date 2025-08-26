@@ -13,9 +13,7 @@ test('uploads saved waveform, spectrogram, and screenshot to configured channel'
     const bot = { captureChannel: channel } as any;
     const deps = {
         readFile: async () => Buffer.from('wav'),
-        decode: async () => ({ channelData: [new Float32Array()] }),
-        renderWaveForm: async () => Buffer.from('wave'),
-        generateSpectrogram: async () => Buffer.from('spec'),
+        audioService: { generate: async () => ({ waveform: Buffer.from('wave'), spectrogram: Buffer.from('spec') }) } as any,
         captureScreen: async () => Buffer.from('screen'),
         transcriber: { push: () => {}, stop: () => {} } as any,
     };
