@@ -2,7 +2,7 @@
 
 Track services adopting the shared DualStore persistence layer.
 
-- [ ] Cephalon uses DualStore
+- [x] Cephalon uses DualStore
 - [ ] SmartGPT Bridge uses DualStore
 - [ ] Discord-embedder uses DualStore
 - [ ] Kanban Processor uses DualStore
