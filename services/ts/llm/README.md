@@ -4,10 +4,11 @@ This service exposes HTTP and WebSocket endpoints for text generation through pl
 
 ## Usage
 
-Install dependencies and start the service (pnpm required):
+Start the service with `./run.sh` (requires `pnpm`; the script prints setup
+instructions if the package manager is missing):
 
 ```bash
-pnpm start
+./run.sh
 ```
 
 POST `/generate` with JSON containing `prompt`, `context` and optional `format` to receive the generated reply.
@@ -25,8 +26,8 @@ Example `config/config.yml` entry:
 
 ```yaml
 llm:
-  driver: ollama
-  model: gemma3:latest
+    driver: ollama
+    model: gemma3:latest
 ```
 
 For HuggingFace, set `HF_API_TOKEN` for authenticated requests.
