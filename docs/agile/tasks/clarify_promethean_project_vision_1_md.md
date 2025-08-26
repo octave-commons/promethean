@@ -5,6 +5,7 @@ Summarize the long-term goals of the Promethean framework so new contributors un
 ---
 
 ## 🎯 Goals
+
 - Provide a short paragraph describing the overarching vision
 - Highlight key milestones currently planned
 - Include links to core docs for further reading
@@ -12,15 +13,18 @@ Summarize the long-term goals of the Promethean framework so new contributors un
 ---
 
 ## 📦 Requirements
+
 - [x] Draft a one-page summary under `docs/`
 - [x] Link summary from `readme.md`
-- [ ] Review with maintainers for accuracy
+- [x] Review with maintainers for accuracy
 
 ---
 
 ## 📋 Subtasks
+
 - [x] Gather notes from existing docs (`AGENTS.md`, `MIGRATION_PLAN.md`)
 - [x] Synthesize into coherent narrative
 - [x] PR the summary and update links
 
 ---
+#done

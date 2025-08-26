@@ -1,6 +1,6 @@
 import test from 'ava';
 import request from 'supertest';
-import WebSocket from 'ws';
+import { BrokerClient } from '@shared/js/brokerClient.js';
 import os from 'os';
 import { start, stop, reset } from '../index.js';
 import { start as startBroker, stop as stopBroker } from '../../broker/index.js';
@@ -10,16 +10,11 @@ let broker;
 let brokerPort;
 
 async function sendHeartbeat(payload) {
-    const ws = new WebSocket(`ws://127.0.0.1:${brokerPort}`);
-    await new Promise((resolve) => ws.once('open', resolve));
-    ws.send(
-        JSON.stringify({
-            action: 'publish',
-            message: { type: 'heartbeat', payload },
-        }),
-    );
+    const client = new BrokerClient({ url: `ws://127.0.0.1:${brokerPort}` });
+    await client.connect();
+    client.publish('heartbeat', payload);
     await new Promise((r) => setTimeout(r, 50));
-    ws.close();
+    client.socket.close();
 }
 
 test.before(async () => {

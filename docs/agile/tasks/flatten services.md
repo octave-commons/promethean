@@ -1,22 +1,52 @@
-# Description
+## 🛠️ Description
 
-Describe your task
+Reorganize the repository so service directories are flattened, reducing unnecessary nesting and clarifying ownership.
 
-## Requirements/Definition of done
+---
 
-- If it doesn't have this, we can't accept it
+## 🎯 Goals
 
-## Tasks 
+- Simplify service discovery and navigation
+- Align service layout with package and deployment structure
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+---
 
-## Relevent resources
+## 📦 Requirements
 
-You might find [this] useful while working on this task
+- [ ] Proposed flat structure documented
+- [ ] Imports and build scripts updated for new paths
+- [ ] Migration plan for moving existing code
 
-## Comments
+---
 
-Useful for agents to engage in append only conversations about this task.
+## 📋 Subtasks
+
+- [ ] Audit current service directory tree
+- [ ] Draft new flat layout with maintainers
+- [ ] Move or alias services accordingly
+- [ ] Update tooling references and docs
+
+---
+
+## 🔗 Related Epics
+
+#framework-core
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [kanban](../boards/kanban.md)
+
+#framework-core #accepted #breakdown
+

@@ -110,12 +110,39 @@ test.serial('expired workers are cleaned up and tasks requeued', async (t) => {
     queueManager.setHeartbeatConfig({ sweepIntervalMs: 0 });
 });
 
+
+
+test.serial('task timeout requeues and logs', async (t) => {
+    const ws = createWS();
+    const workerId = 'w-timeout';
+    const queue = 'epsilon';
+    const logs = [];
+    const origWarn = console.warn;
+    console.warn = (m) => logs.push(m);
+
+    queueManager.setTaskTimeout(20);
+    queueManager.ready(ws, workerId, queue);
+    const task = queueManager.enqueue(queue, { value: 3 });
+
+    t.is(ws.messages.length, 1);
+    await new Promise((r) => setTimeout(r, 40));
+
+    const state = queueManager.getState();
+    t.is(state.queues[queue], 1);
+    t.true(logs.some((l) => l.includes(`task ${task.id} timed out`)));
+
+    queueManager.unregisterWorker(workerId);
+    queueManager.setTaskTimeout(10000);
+    console.warn = origWarn;
+});
+
 test.serial('rate limit delays dispatch', async (t) => {
     const ws = createWS();
     const workerId = 'w4';
     const queue = 'delta';
 
     queueManager.setHeartbeatConfig({ sweepIntervalMs: 0 });
+
     queueManager.setRateLimit(50);
     queueManager.ready(ws, workerId, queue);
     const first = queueManager.enqueue(queue, { v: 1 });
