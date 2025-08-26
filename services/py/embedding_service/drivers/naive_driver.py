@@ -4,6 +4,11 @@ from typing import List, Any
 from .base import EmbeddingDriver
 
 
+# 256 dimensions map neatly to byte values, offering a simple default size
+# for character-frequency embeddings while remaining lightweight for tests.
+VECTOR_SIZE = 256
+
+
 class NaiveDriver(EmbeddingDriver):
     """Very small embedding driver for testing."""
 
@@ -29,9 +34,15 @@ class NaiveDriver(EmbeddingDriver):
         raise ValueError(f"Unknown naive function {fn}")
 
     def _simple(self, text: str) -> List[float]:
-        vec = [0.0] * 256
+        """Return a normalized character-frequency vector.
+
+        Each character's Unicode code point maps to an index via
+        ``ord(ch) % VECTOR_SIZE``. Counts are accumulated and the vector is
+        L2-normalized to unit length.
+        """
+        vec = [0.0] * VECTOR_SIZE
         for ch in text:
-            vec[ord(ch) % 256] += 1.0
+            vec[ord(ch) % VECTOR_SIZE] += 1.0
         norm = sum(v * v for v in vec) ** 0.5
         return [(v / norm) if norm else 0.0 for v in vec]
 

@@ -241,13 +241,16 @@
 
 (defn-cmd test-python-service [service]
   (print (.format "Running tests for Python service: {}" service))
-  (sh "python -m pipenv run pytest tests/" :cwd (join "services/py" service) :shell True))
+  ;; run tests directly with the system Python environment
+  (sh "if [ -d tests ]; then python -m pytest tests/; else echo 'no tests'; fi" :cwd (join "services/py" service) :shell True))
 
 (defn-cmd test-python-services []
-  (run-dirs SERVICES_PY "echo 'Running tests in $PWD...' && python -m pipenv run pytest tests/" :shell True))
+  ;; execute each service's tests without relying on pipenv
+  (run-dirs SERVICES_PY "echo 'Running tests in $PWD...' && if [ -d tests ]; then python -m pytest tests/; else echo 'no tests'; fi" :shell True))
 
 (defn-cmd test-shared-python []
-  (sh "python -m pipenv run pytest tests/" :cwd "shared/py" :shell True))
+  ;; shared python tests use the same direct invocation
+  (sh "python -m pytest tests/" :cwd "shared/py" :shell True))
 
 (defn-cmd test-python []
   (test-python-services)

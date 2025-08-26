@@ -4,7 +4,7 @@ try {
     ({ AGENT_NAME } = await import('@shared/js/env.js'));
 } catch {}
 import { choice } from '../util.js';
-import { DualStoreManager as CollectionManager } from '@shared/ts/dist/persistence/dualStore.js';
+import { DualStoreManager } from '@shared/ts/dist/persistence/dualStore.js';
 import { innerStateFormat } from '../prompts.js';
 import type { AgentInnerState } from '../types.js';
 import type { AIAgent } from './index.js';
@@ -49,9 +49,9 @@ export async function think(this: AIAgent): Promise<any> {
         ]),
     })) as string;
 
-    const thoughts = this.context.getCollection('agent_messages') as CollectionManager<'text', 'createdAt'>;
+    const thoughts = this.context.getCollection('agent_messages') as DualStoreManager<'text', 'createdAt'>;
 
-    await thoughts.addEntry({
+    await thoughts.insert({
         text: `You thought to yourself: ${newThought}`,
         createdAt: Date.now(),
         metadata: {
