@@ -1,6 +1,8 @@
 import type { ChatInputCommandInteraction, TextChannel } from 'discord.js';
 import { ChannelType } from 'discord.js';
 import type { Bot } from '../bot.js';
+import runSetCapture from '../actions/set-capture-channel.js';
+import { buildSetCaptureChannelScope } from '../actions/set-capture-channel.scope.js';
 
 export const data = {
     name: 'set-capture-channel',
@@ -16,6 +18,8 @@ export default async function execute(interaction: ChatInputCommandInteraction, 
         await interaction.reply('Channel must be text-based.');
         return;
     }
-    ctx.bot.captureChannel = channel as TextChannel;
-    await interaction.reply(`Capture channel set to ${channel.id}`);
+    await interaction.deferReply({ ephemeral: true });
+    const scope = await buildSetCaptureChannelScope();
+    await runSetCapture(scope, { bot: ctx.bot, channel: channel as TextChannel, by: interaction.user.id });
+    await interaction.editReply(`Capture channel set to ${channel.id}`);
 }
