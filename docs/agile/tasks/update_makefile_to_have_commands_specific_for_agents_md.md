@@ -51,4 +51,4 @@ Nothing
 - [write simple ecosystem declaration library for new agents](write%20simple%20ecosystem%20declaration%20library%20for%20new%20agents.md)
 
 
-#archive
+#devops #Ready
