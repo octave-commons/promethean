@@ -97,6 +97,7 @@ COMMANDS := \
   docker-down \
   generate-python-requirements \
   generate-requirements \
+  refresh \
   generate-makefile
 
 .PHONY: \
