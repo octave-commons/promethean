@@ -151,6 +151,10 @@ During **Prompt Refinement** and **Agent Thinking**, the user and the agent talk
 through rough ideas until they can be broken down into actionable work. The agent
 suggests board movements based on metadata and helps enforce WIP limits.
 
+### Task File Checklist
+
+Each task in `docs/agile/tasks/` must include sections for **Description**, **Goals**, **Requirements**, and **Subtasks** and contain one status hashtag such as `#Todo` or `#InProgress`. Run `make lint-tasks` to validate task files before updating the board.
+
 ---
 
 ## 🏷 Tags
