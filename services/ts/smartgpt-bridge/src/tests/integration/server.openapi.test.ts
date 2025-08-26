@@ -3,7 +3,7 @@ import test from 'ava';
 import path from 'node:path';
 import { withServer } from '../helpers/server.js';
 
-const ROOT = path.join(process.cwd(), 'tests', 'fixtures');
+const ROOT = path.join(process.cwd(), 'src', 'tests', 'fixtures');
 
 test('GET /openapi.json includes servers, schemas, and paths', async (t) => {
     const prev = process.env.PUBLIC_BASE_URL;
