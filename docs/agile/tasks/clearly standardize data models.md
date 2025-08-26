@@ -1,22 +1,52 @@
-# Description
+## 🛠️ Description
 
-We want data models like "User", "Policy", "File", "Directory" and so on to be shareable across services/packages etc
+Define shared data models (e.g., User, Policy, File, Directory) that can be imported across services and languages.
 
-## Requirements/Definition of done
+---
 
-- If it doesn't have this, we can't accept it
+## 🎯 Goals
 
-## Tasks 
+- Provide a single source of truth for core entities
+- Enable consistent serialization and validation
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+---
 
-## Relevent resources
+## 📦 Requirements
 
-You might find [this] useful while working on this task
+- [ ] Canonical schemas published in a shared library
+- [ ] Language bindings for TypeScript and Python
+- [ ] Documentation for versioning and migration
 
-## Comments
+---
 
-Useful for agents to engage in append only conversations about this task.
+## 📋 Subtasks
+
+- [ ] Identify and document required entities
+- [ ] Design schema definitions (e.g., JSON Schema)
+- [ ] Implement library with generated types
+- [ ] Update services to consume shared models
+
+---
+
+## 🔗 Related Epics
+
+#framework-core
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [kanban](../boards/kanban.md)
+
+#framework-core #accepted #breakdown
+
