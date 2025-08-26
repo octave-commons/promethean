@@ -37,6 +37,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - `sites/` directory consolidating all frontend code.
 - Proxy route `/bridge` through the shared proxy service for SmartGPT Bridge.
 - Tool calling support for Codex Context service.
+- Image attachments captured, stored, and retrieved for multimodal prompting with cleanup.
 - OAuth Authorization Code flow with PKCE for the auth-service, enabling OpenAI Custom GPT logins.
 - Template for building Discord bots in TypeScript based on the Cephalon service.
 - Tests validating bridge event mappings for identifiers and protocols.
@@ -99,6 +100,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Grep endpoint requires a regex pattern and returns validation errors for missing fields.
 - SSE agent log streaming cleans up listeners on disconnect to avoid leaks.
 - Python tests run without pipenv isolation.
+- DualStore skips image embeddings when the configured function only supports text.
 - Added missing `next_messages` helper for discord indexer tests.
 - CPU requirements no longer include NVIDIA packages and target PyTorch CPU wheels.
 
