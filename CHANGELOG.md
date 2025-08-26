@@ -58,6 +58,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Expanded `MIGRATION_PLAN.md` with scope, phased timeline, requirements, and owner assignments.
 - Provider-agnostic LLM driver interface with Ollama and HuggingFace implementations.
 - TypeScript LLM service now uses pluggable drivers for Ollama and HuggingFace.
+- Periodic worker sweep in `queueManager` with configurable heartbeat and expiry thresholds.
 - Logging for task timeouts with configurable queueManager requeue tests.
 - Initial scaffolding for broker↔bridge parity tests, including normalizers, runner, and unit tests.
 - Automatic Twitch stream title pipeline using Ollama with Discord transcript context and pluggable storage.
