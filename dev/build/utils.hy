@@ -57,11 +57,24 @@
 (defn gpu-build? [svc-dir]
   (= (reqs-file-for svc-dir) "requirements.gpu.in"))
 
+(defmacro with-uv-env [path & body]
+  `(shell UV_VENV_IN_PROJECT=1 uv run hy << EOF (quote (do ~@body)) EOF :cwd ~path :shell True))
+
+UV_VENV_IN_PROJECT=1 uv run python - <<'PY'\nimport ctypes, sys\nlibs=('libcusparseLt.so.0','libcusparse.so.12','libcublasLt.so.12','libcublas.so.12','libcudnn.so.9')\nok=True\nfor n in libs:\n  try:\n    ctypes.CDLL(n); print('OK', n)\n  except OSError as e:\n    ok=False; print('MISS', n, '->', e)\nsys.exit(0 if ok else 1)\nPY
 (defn cuda-probe [svc-dir]
   (when (gpu-build? svc-dir)
-    (sh
-     "UV_VENV_IN_PROJECT=1 uv run python - <<'PY'\nimport ctypes, sys\nlibs=('libcusparseLt.so.0','libcusparse.so.12','libcublasLt.so.12','libcublas.so.12','libcudnn.so.9')\nok=True\nfor n in libs:\n  try:\n    ctypes.CDLL(n); print('OK', n)\n  except OSError as e:\n    ok=False; print('MISS', n, '->', e)\nsys.exit(0 if ok else 1)\nPY"
-     :cwd svc-dir :shell True)))
+    (with-uv-env svc-dir
+      (import ctypes sys)
+      (setv libs #("libcusparseLt.so.0""libcusparse.so.12","libcublasLt.so.12","libcublas.so.12","libcudnn.so.9")
+            nok True)
+      (for [n libs]
+           (try
+             (ctypes.CDLL n)
+             (print "OK" n)
+             (except OSError e
+               (setv nok False)
+               (print "MISS" n "->" e))))
+      (sys.exit (if nok 0 1)))))
 
 
 
