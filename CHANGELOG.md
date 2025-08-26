@@ -29,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Proxy route `/bridge` through the shared proxy service for SmartGPT Bridge.
 - Tool calling support for Codex Context service.
 - Template for building Discord bots in TypeScript based on the Cephalon service.
+- Tests covering MongoDB connection string construction and collection setup.
 - Audio utility helpers for base64 PCM and WAV conversions.
 - `run_service` helper for Python services simplifying startup and wait loops.
 - STT and embedding services updated to use `run_service`.
