@@ -5,11 +5,12 @@ hashtags: [#vision, #framework, #agents, #cognitive-architecture]
 
 # 🌌 Promethean Project Vision
 
-The **Promethean Framework** is a modular cognitive architecture designed to host a diverse ecosystem of embodied AI agents. Unlike traditional assistants, Promethean emphasizes **embodied reasoning, perception-action loops, and emotionally mediated decision-making**, enabling agents to act as *residents* within a shared environment rather than isolated scripts.
+The **Promethean Framework** is a modular cognitive architecture designed to host a diverse ecosystem of embodied AI agents. Unlike traditional assistants, Promethean emphasizes **embodied reasoning, perception-action loops, and emotionally mediated decision-making**, enabling agents to act as _residents_ within a shared environment rather than isolated scripts.
 
 ---
 
 ## 🎯 Core Principles
+
 - **Modularity** — Break down intelligence into specialized services (speech-to-text, text-to-speech, memory, reasoning, emotion).
 - **Embodiment** — Agents operate as if situated in the world, with continuity of memory, multimodal perception, and action.
 - **Emotion & Affect** — Cognitive processes are influenced by simulated emotional states, producing more adaptive and relatable behavior.
@@ -18,6 +19,7 @@ The **Promethean Framework** is a modular cognitive architecture designed to hos
 ---
 
 ## 🛤️ Long-Term Goals
+
 1. Establish a robust **service ecosystem** for language, perception, and memory.
 2. Support **multiple resident agents** (e.g. Duck, Codex) coexisting with distinct personalities and roles.
 3. Integrate **multimodal interfaces** (speech, text, images, dashboards) into real-time interaction flows.
@@ -27,6 +29,7 @@ The **Promethean Framework** is a modular cognitive architecture designed to hos
 ---
 
 ## 📍 Current Milestones
+
 - Migration of legacy Sibilant/Python code into Hy & TypeScript.
 - Stabilization of service generators and kanban automation scripts.
 - Development of specialized agents (Duck as exemplar).
@@ -36,10 +39,15 @@ The **Promethean Framework** is a modular cognitive architecture designed to hos
 ---
 
 ## 📚 Further Reading
+
 - [[AGENTS.md]] — Overview of agents and modular workflows.
 - [[readme.md]] — Setup, service launching, and ecosystem overview.
 - [[docs/agile/boards/kanban.md]] — Ongoing tasks and planning.
-- MIGRATION_PLAN.md (in progress) — Strategy for unifying legacy code into Promethean.
+- [[MIGRATION_PLAN.md]] — Strategy for unifying legacy code into Promethean.
+
+## 🔄 Review & Governance
+
+This vision is reviewed with core maintainers. Progress and approvals are tracked on [[docs/agile/boards/kanban.md|the Kanban board]] to ensure the README and supporting docs stay in sync.
 
 ---
 
