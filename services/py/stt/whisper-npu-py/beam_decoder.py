@@ -32,7 +32,7 @@ def select_top_k(log_probs, k):
 
 
 mel_chunks = preprocess_audio("../../../longer_recording.wav")
-output_tokens = []
+output_tokens: list[int] = []
 start_time = time.perf_counter()
 start_token = tokenizer.bos_token_id
 max_length = 223  # Max output length for Whisper
