@@ -108,13 +108,6 @@ kanban-plugin: board
 
 ## Ready
 
-- [ ] [[dockerize the system]]
-- [ ] [[lisp package files]]
-- [ ] [[clearly standardize data models]]
-- [ ] [[flatten services]]
-- [ ] [[frontend build tool chain]]
-- [ ] [[LLM service must accept tool calls]]
-- [ ] [[update_makefile_to_have_commands_specific_for_agents_md.md|Update Makefile to have commands specific for agents]] #devops #accepted
 - [ ] [[create a generic markdown helper module]]
 - [ ] [[task generator system]]
 - [ ] [[redefine all existing lambdas with high order functions incoming]]
@@ -125,6 +118,13 @@ kanban-plugin: board
 
 ## Todo (21)
 
+- [ ] [[update_makefile_to_have_commands_specific_for_agents_md.md|Update Makefile to have commands specific for agents]] #devops #accepted
+- [ ] [[LLM service must accept tool calls]]
+- [ ] [[frontend build tool chain]]
+- [ ] [[flatten services]]
+- [ ] [[lisp package files]]
+- [ ] [[clearly standardize data models]]
+- [ ] [[dockerize the system]]
 
 
 ## In Progress (21)
