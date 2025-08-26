@@ -14,7 +14,7 @@ repos:
             pass_filenames: false
           - id: tsc-no-emit
             name: TypeScript compile check
-            entry: pnpm tsc --noEmit
+            entry: make ts-type-check
             language: system
             types_or: [javascript, ts, tsx]
             pass_filenames: false

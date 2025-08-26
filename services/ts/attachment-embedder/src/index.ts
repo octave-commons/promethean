@@ -2,7 +2,30 @@ import { makeDeterministicEmbedder } from '@shared/ts/dist/migrations/embedder';
 import { fileBackedRegistry } from '@shared/ts/dist/platform/provider-registry';
 import { makeChromaWrapper } from '@shared/ts/dist/migrations/chroma';
 
-export async function embedAttachments(evt) {
+// TODO: This is a stub implementation that just embeds the URL of the attachment.
+// In the future we should download the attachment and embed the actual content.
+// For images we can use an image embedding model, for text we can use a text embedding model.
+// For other types we can either skip or use a generic embedding model.
+
+// The function takes an event object with the following structure:
+// {
+//   provider: string; // e.g. 'discord'
+//   tenant: string; // e.g. 'my-server-id'
+//   message_id: string; // e.g. '1234567890'
+//   attachments: Array<{
+//     urn: string; // e.g. 'attachment-urn'
+//     url: string; // e.g. 'https://cdn.discordapp.com/attachments/...'
+//     content_type?: string; // e.g. 'image/png' or 'text/plain'
+//   }>
+// }
+// It returns an object with the namespace and the list of embedded attachment IDs:
+// {
+//   ns: string; // e.g. 'my-chroma-namespace__attachments'
+//   ids: string[]; // e.g. ['discord:my-server-id:attachment:attachment-urn', ...]
+// }
+
+// TODO: Update evt type when we have a common event type
+export async function embedAttachments(evt: any) {
     if (!evt.attachments?.length) return [];
     const reg = fileBackedRegistry();
     const tenantCfg = await reg.get(evt.provider, evt.tenant);
@@ -15,7 +38,10 @@ export async function embedAttachments(evt) {
         prefix: tenantCfg.storage.chroma_ns,
         embeddingDim: dim,
     });
+    //
+    // TODO Use a DualStore for consistancy:
     await chroma.ensureCollection();
+    //TODO: Use the remote embedding function and use a real model.,
     const embedder = makeDeterministicEmbedder({ modelId: model, dim });
     const results: string[] = [];
     for (const a of evt.attachments) {
