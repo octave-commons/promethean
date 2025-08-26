@@ -39,6 +39,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Tests for grammar correction in the shared speech spell checker.
 - Unit tests for Discord utility functions covering channel history and cursor management.
 - Tests for `shared.py.settings` confirming environment defaults and overrides.
+- Expanded `MIGRATION_PLAN.md` with scope, phased timeline, requirements, and owner assignments.
 
 ### Changed
 
