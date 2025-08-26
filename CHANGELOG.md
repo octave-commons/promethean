@@ -70,6 +70,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Configurable timeout for remote embedding requests.
 - `defun` special form in Lisp compiler enabling named functions and recursion.
 
+- Consolidated `sitecustomize.py` into `services/py/shared` and updated STT and TTS to use the shared module.
+
 ### Changed
 
 - Pinned JavaScript dependencies, GitHub Actions, and documented version policy for reproducible builds.
