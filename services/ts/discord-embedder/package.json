@@ -27,8 +27,8 @@
 	"author": "Amish Shah <amishshah.2k@gmail.com>",
 	"license": "UNLICENSE",
 	"dependencies": {
-		"@shared/ts": "file:../../../shared/ts",
 		"@discordjs/voice": "^0.18.0",
+		"@shared/ts": "file:../../../shared/ts",
 		"chromadb": "^3.0.9",
 		"discord.js": "^14.17.3",
 		"dotenv": "^17.2.0",
@@ -42,15 +42,15 @@
 		"ws": "^8.18.3"
 	},
 	"devDependencies": {
-		"@types/node": "^22.10.10",
+		"@types/node": "^22.17.2",
 		"@types/ws": "^8.5.12",
 		"ava": "^6.4.1",
+		"c8": "^9.1.0",
 		"eslint": "^8.57.0",
 		"eslint-config-neon": "^0.1.62",
 		"prettier": "^3.4.2",
 		"rimraf": "^6.0.1",
 		"ts-node": "^10.9.2",
-		"typescript": "5.7.3",
-		"c8": "^9.1.0"
+		"typescript": "5.7.3"
 	}
 }

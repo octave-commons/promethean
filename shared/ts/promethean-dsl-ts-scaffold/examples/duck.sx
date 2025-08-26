@@ -1,0 +1,12 @@
+(agent
+  :id duck
+  :name "Duck"
+  (use discord.bot/v1)
+  (env {:DISCORD_TOKEN (secret :discord/duck)})
+  (perm
+    (fs :read ["/data/**"])
+    (net :egress ["*.discord.com"])
+    (gpu :allow true))
+  (topology
+    (proc :name :discord :service "services/ts/discord" :args {:agent "duck"})
+    (link :from :discord :to :cephalon :via :ws)))
