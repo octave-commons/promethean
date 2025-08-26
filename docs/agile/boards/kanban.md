@@ -20,6 +20,9 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] [[Find music that triggered copyright mute on twitch for analysis incoming]]
+- [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md.md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #framework-core #ice-box
+- [ ] [[evaluate_and_reward_flow_satisfaction_md_md.md|Evaluate and reward flow satisfaction]] #framework-core #ice-box
 - [ ] [[finish_whisper_npu_system_md_md.md|finish whisper npu system md md]] #framework-core #performance-optimization #npu-integration #accepted
 - [ ] [[Design Ollama Model file for use with codex cli 1]]
 - [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|Refactor Speech interuption system]] #framework-core #breakdown
@@ -83,64 +86,59 @@ kanban-plugin: board
 - [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #ice-box
 - [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md.md|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #framework-core #eidolon-support #ice-box
 - [ ] [[annotate_legacy_code_with_migration_tags_md.md|Annotate legacy code with migration tags]] #framework-core #ice-box
-- [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md.md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #framework-core #ice-box
 - [ ] [[run_model_bakeoff_md.md|Run model bakeoff]] #ops #codex-task #ice-box
-- [ ] [[evaluate_and_reward_flow_satisfaction_md_md.md|Evaluate and reward flow satisfaction]] #framework-core #ice-box
 - [ ] [[obsidian_replacement_md.md|obsidian replacement]] #framework-core #ice-box
 - [ ] [[run_model_bakeoff_md.md|Run model bakeoff]] #ops #codex-task #ice-box
-- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #ice-box
 - [ ] [[cache_decay_mechanisim_md_md.md|cache decay mechanisim.md]] #framework-core #ice-box
-- [ ] [[thinking_model_integration_md_md.md|thinking model integration md md]] #framework-core #ice-box
 - [ ] [[Make the system hashtag aware]]
 - [ ] [[tamper monkey script for using templates defined in the vault]]
 - [ ] [[Set up new user roles and policies for the systems]]
-- [ ] [[clearly standardize data models]]
-- [ ] convert current services to packages, then redefine the services using config files
-- [ ] flatten services
-- [ ] [[Phase out proxy in favor of bridge service]]
-- [ ] LLM service must accept tool calls
-- [ ] LLM service must allow streamed responses
+- [ ] [[LLM service must allow streamed responses]]
 
 
 ## Accepted
 
-- [ ] [[audio processing service]]
 - [ ] [[hy - js interop]]
 - [ ] [[lisp ecosystem files]]
 - [ ] [[connect wikipedia]]
-- [ ] [[connect reddit]]
 - [ ] [[connect bluesky]]
+- [ ] [[connect reddit]]
+- [ ] [[thinking_model_integration_md_md.md|thinking model integration md md]] #framework-core #ice-box
+- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #ice-box
+
+
+## Breakdown (13)
+
+- [ ] [[audio processing service]]
+- [ ] [[Phase out proxy in favor of bridge service]]
+- [ ] [[convert current services to packages, then redefine the services using config files]]
 - [ ] [[redefine all existing lambdas with high order functions incoming]]
-- [ ] [[Find music that triggered copyright mute on twitch for analysis incoming]]
 - [ ] [[task generator system]]
 - [ ] [[create a generic markdown helper module]]
-- [ ] [[dockerize the system]]
-- [ ] [[lisp package files]]
-- [ ] [[finish_whisper_npu_system_md_md.md|finish whisper NPU system.md]] #framework-core #performance-optimization #npu-integration #accepted
 - [ ] [[update_makefile_to_have_commands_specific_for_agents_md.md|Update Makefile to have commands specific for agents]] #devops #accepted
-- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ice-box
-- [ ] [[ChatGPT export injest with dedupe index and hashes]]
+- [ ] [[LLM service must accept tool calls]]
 - [ ] [[frontend build tool chain]]
+- [ ] [[flatten services]]
+- [ ] [[clearly standardize data models]]
+- [ ] [[lisp package files]]
+- [ ] [[dockerize the system]]
 
 
-## Breakdown (8)
+## Ready
 
-- [ ] [[harden precommit hooks]]
-- [ ] [[script for getting github action workflow states for a branch]]
-- [ ] [[breakdown Makefile.hy]]
-- [ ] [[add_twitch_chat_integration_md_md.md|Add twitch chat integration.md]] #framework-core #accepted
-- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md.md|Full agent mode (Text chat, selectively join channels, etc]] #framework-core #accepted
-- [ ] [[smart_task_templater_md.md|Smart Task templater]] #framework-core #ice-box
+- [ ] [[ChatGPT export injest with dedupe index and hashes]]
+- [ ] [[finish_whisper_npu_system_md_md.md|finish whisper NPU system.md]] #framework-core #performance-optimization #npu-integration #accepted
+- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ice-box
 - [ ] [[database migration system]]
 - [ ] [[LSP server for home brew lisp incoming]]
-
-
-## Ready (13)
-
+- [ ] [[smart_task_templater_md.md|Smart Task templater]] #framework-core #ice-box
+- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md.md|Full agent mode (Text chat, selectively join channels, etc]] #framework-core #accepted
+- [ ] [[add_twitch_chat_integration_md_md.md|Add twitch chat integration.md]] #framework-core #accepted
+- [ ] [[breakdown Makefile.hy]]
+- [ ] [[script for getting github action workflow states for a branch]]
+- [ ] [[harden precommit hooks]]
 - [ ] [[setup new service generator]]
-- [ ] [[Set up proper openai custom gpt compatable oauth login flow]]
 - [ ] [[move discord scraper to ts]]
-- [ ] [[File explorer]]
 - [ ] [[gpt bridge fuzzy lookup should return multiple matches when it is used.]]
 - [ ] [[implement classes in compiler lisp incoming]]
 - [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] #framework-core #ollama-integration #stream-automation #accepted
@@ -151,19 +149,21 @@ kanban-plugin: board
 - [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
 
 
-## Todo (8)
+## Todo (21)
 
+- [ ] [[File explorer]]
+- [ ] [[Set up proper openai custom gpt compatable oauth login flow]]
 - [ ] [[Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #accepted
 - [ ] [[broker gpt bridge parity plan]]
-- [ ] [[Create broker services that can handle all the same tasks as the gpt bridge]]
 - [ ] [[set up data migration pipeline and clearly describe conventions]]
 - [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
 
 
-## In Progress (4)
+## In Progress (8)
 
 - [ ] [[Replace all python properly with hy incoming]]
 - [ ] [[Agent Tasks Persistence Migration to DualStore]]
+- [ ] [[Create broker services that can handle all the same tasks as the gpt bridge]]
 
 
 ## In Review (8)
@@ -464,6 +464,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false,false,false,false,false,false,true,false,false],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,false,true,false,false],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
