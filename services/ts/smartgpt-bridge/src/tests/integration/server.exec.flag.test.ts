@@ -3,7 +3,7 @@ import test from 'ava';
 import path from 'node:path';
 import { withServer } from '../helpers/server.js';
 
-const ROOT = path.join(process.cwd(), 'tests', 'fixtures');
+const ROOT = path.join(process.cwd(), 'src', 'tests', 'fixtures');
 
 test.serial('POST /exec/run returns 403 when EXEC_ENABLED is false', async (t) => {
     const prev = { EXEC_ENABLED: process.env.EXEC_ENABLED };
