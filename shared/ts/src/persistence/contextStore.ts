@@ -1,9 +1,9 @@
-import { Message } from 'ollama';
+import type { Message } from 'ollama';
 import { DualStoreManager } from './dualStore.js';
 
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
-import { DualStoreEntry } from './types.js';
+import type { DualStoreEntry } from './types.js';
 TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo('en-US');
 export const formatMessage = (m: DualStoreEntry<'text', 'timestamp'>): string =>
@@ -33,11 +33,12 @@ export class ContextStore {
     async getAllRelatedDocuments(
         querys: string[],
         limit: number = 100,
+        where?: Record<string, unknown>,
     ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
         console.log('Getting related documents for querys:', querys.length, 'with limit:', limit);
         const results = [];
         for (const collection of this.collections.values()) {
-            results.push(await collection.getMostRelevant(querys, limit));
+            results.push(await collection.getMostRelevant(querys, limit, where ?? {}));
         }
         return results.flat();
     }
@@ -65,9 +66,12 @@ export class ContextStore {
         const latest = await this.getLatestDocuments(recentLimit);
         const query = [...texts, ...latest.map((doc) => doc.text)].slice(-queryLimit);
         const related = await this.getAllRelatedDocuments(query, limit);
+        const images = await this.getAllRelatedDocuments(query, limit, {
+            type: 'image',
+        });
         const uniqueThoughts = new Set<string>();
-        return Promise.all([related, latest]).then(([relatedDocs, latestDocs]) => {
-            let results = [...relatedDocs, ...latestDocs]
+        return Promise.all([related, latest, images]).then(([relatedDocs, latestDocs, imageDocs]) => {
+            let results = [...relatedDocs.filter((doc) => doc.metadata?.type !== 'image'), ...latestDocs, ...imageDocs]
                 .filter((doc) => {
                     if (!doc.text) return false; // filter out undefined text
                     if (uniqueThoughts.has(doc.text)) return false; // filter out duplicates
@@ -89,15 +93,33 @@ export class ContextStore {
             //     console.log(r)
             // }
 
-            return results.map((m: DualStoreEntry<'text', 'timestamp'>) => ({
-                role: m.metadata?.userName === 'Duck' ? (m.metadata?.isThought ? 'system' : 'assistant') : 'user',
-                content:
-                    m.metadata?.userName === 'Duck'
-                        ? formatAssistantMessages
-                            ? formatMessage(m)
-                            : m.text
-                        : formatMessage(m),
-            }));
+            return results.map((m: DualStoreEntry<'text', 'timestamp'>) =>
+                m.metadata?.type === 'image'
+                    ? {
+                          role:
+                              m.metadata?.userName === 'Duck'
+                                  ? m.metadata?.isThought
+                                      ? 'system'
+                                      : 'assistant'
+                                  : 'user',
+                          content: m.metadata?.caption || '',
+                          images: [m.text],
+                      }
+                    : {
+                          role:
+                              m.metadata?.userName === 'Duck'
+                                  ? m.metadata?.isThought
+                                      ? 'system'
+                                      : 'assistant'
+                                  : 'user',
+                          content:
+                              m.metadata?.userName === 'Duck'
+                                  ? formatAssistantMessages
+                                      ? formatMessage(m)
+                                      : m.text
+                                  : formatMessage(m),
+                      },
+            );
         });
     }
 }
