@@ -13,13 +13,9 @@
         "importHelpers": false,
         "newLine": "lf",
         "noEmitHelpers": true,
-        "outDir": "dist",
-        "baseUrl": ".",
         "removeComments": false,
         "sourceMap": true,
-        "outDir": "dist",
-        "lib": ["ES2022"]
-    },
-    "include": ["./src/**/*.ts"],
-    "exclude": ["node_modules"]
+        "lib": ["ES2022"],
+        "types": ["node", "ava"]
+    }
 }
