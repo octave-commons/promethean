@@ -1,22 +1,52 @@
-# Description
+## 🛠️ Description
 
-Describe your task
+Port the existing Discord scraper to TypeScript to align with the rest of the JS toolchain.
 
-## Requirements/Definition of done
+---
 
-- If it doesn't have this, we can't accept it
+## 🎯 Goals
 
-## Tasks 
+- Maintain current scraping capabilities in a TS implementation.
+- Simplify maintenance by using a single language stack.
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+---
 
-## Relevent resources
+## 📦 Requirements
 
-You might find [this] useful while working on this task
+- [ ] Feature parity with current scraper.
+- [ ] Type-safe interfaces and error handling.
+- [ ] Automated tests verifying Discord interactions.
 
-## Comments
+---
 
-Useful for agents to engage in append only conversations about this task.
+## 📋 Subtasks
+
+- [ ] Review the current scraper and identify core features.
+- [ ] Scaffold a TypeScript project with required dependencies.
+- [ ] Re-implement scraping logic in TS.
+- [ ] Add unit tests for message and attachment collection.
+- [ ] Document how to run the new scraper and remove the old one.
+
+---
+
+## 🔗 Related Epics
+
+#framework-core
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [kanban](../boards/kanban.md)
+
+#accepted

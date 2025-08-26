@@ -1,26 +1,31 @@
 ## 🛠️ Description
 
-I want for discord agents to be able to join channels, leave channels, send messages (In channels and in DMs), etc all automaticly in a sort of "full  agent mode"
-
-I don't want him spamming messages or tts, I want him to be doing things in the background (curating context, guiding other simpler agent flows like the webcrawler )
+Enable "full agent mode" in Discord where agents can join or leave channels, send messages, and run tasks in the background without spamming users.
 
 ---
 
 ## 🎯 Goals
 
-- What are we trying to accomplish?
+- Allow agents to manage channel presence programmatically.
+- Keep interactions context-aware while minimizing noise.
 
 ---
 
 ## 📦 Requirements
 
-- [ ] Detail requirements.
+- [ ] Commands for join/leave/channel switch.
+- [ ] Rate limiting and anti-spam safeguards.
+- [ ] Background context curation and task orchestration.
 
 ---
 
 ## 📋 Subtasks
 
-- [ ] Outline steps to implement.
+- [ ] Define permissions and safety constraints for autonomous actions.
+- [ ] Implement Discord gateway handlers for channel management.
+- [ ] Add message queueing to prevent floods.
+- [ ] Provide hooks for launching auxiliary flows (e.g., webcrawler).
+- [ ] Test end-to-end with a mock guild.
 
 ---
 
@@ -43,4 +48,5 @@ Nothing
 ## 🔍 Relevant Links
 
 - [kanban](../boards/kanban.md)
+
 #accepted
