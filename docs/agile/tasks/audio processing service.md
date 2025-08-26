@@ -1,22 +1,52 @@
-# Description
+## 🛠️ Description
 
-Audio processing is not a stateful thing that needs to be bound up in the cephalon/duck/discord provider stuff
+Isolate audio manipulation (e.g., encoding, normalization, filtering) into a dedicated stateless service rather than embedding logic in agents or providers.
 
-## Requirements/Definition of done
+---
 
-- If it doesn't have this, we can't accept it
+## 🎯 Goals
 
-## Tasks 
+- Provide reusable audio processing pipeline for all agents
+- Simplify service composition by treating audio operations as standalone tasks
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+---
 
-## Relevent resources
+## 📦 Requirements
 
-You might find [this] useful while working on this task
+- [ ] Service accepts raw/encoded audio and returns processed output
+- [ ] Exposes RPC or broker interface for other services
+- [ ] Includes tests covering common transforms
 
-## Comments
+---
 
-Useful for agents to engage in append only conversations about this task.
+## 📋 Subtasks
+
+- [ ] Design service API and message schema
+- [ ] Implement core transforms (normalize, denoise, resample)
+- [ ] Wire service into existing agent audio flow
+- [ ] Write unit tests and usage docs
+
+---
+
+## 🔗 Related Epics
+
+#framework-core
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [kanban](../boards/kanban.md)
+
+#framework-core #accepted #breakdown
+
