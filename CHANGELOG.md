@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Extracted actionable tasks from unique notes into tasks/unique-notes.md
 - Policy-based access control with user and role management for SmartGPT Bridge.
 - Directory tree endpoint for SmartGPT Bridge file API.
 - v1 router exposing consolidated SmartGPT Bridge endpoints.
@@ -27,6 +28,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Tool calling support for Codex Context service.
 - Template for building Discord bots in TypeScript based on the Cephalon service.
 - Unit tests for Discord utility functions covering channel history and cursor management.
+- Tests for `shared.py.settings` confirming environment defaults and overrides.
 
 ### Changed
 
@@ -41,6 +43,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Discord embedder migrated to shared DualStore and ContextStore for unified persistence.
 - Kanban processor now persists via shared DualStore and ContextStore.
 - Markdown Graph service now uses shared DualStore and ContextStore for persistence.
+- DualStoreManager introduces `insert` API (with `addEntry` alias); Cephalon uses DualStore and ContextStore directly.
 - MCP server now creates a dedicated bridge connection per session and exposes tool schemas via `inputSchema`.
 
 - Proxy service now serves frontend files directly, removing the need for a separate static server.
@@ -53,6 +56,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - OpenAPI docs obey `OPENAPI_PUBLIC`, staying private when auth is enabled unless explicitly exposed.
 - Grep endpoint requires a regex pattern and returns validation errors for missing fields.
 - SSE agent log streaming cleans up listeners on disconnect to avoid leaks.
+- Python tests run without pipenv isolation.
+- Added missing `next_messages` helper for discord indexer tests.
 
 ### Removed
 

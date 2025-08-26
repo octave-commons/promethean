@@ -1,0 +1,26 @@
+permissions:
+    contents: read
+name: Shared TS Tests
+on:
+    pull_request:
+    push:
+        branches: [main]
+
+jobs:
+    test-shared-ts:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '20'
+            - name: Enable Corepack and pnpm
+              run: |
+                  corepack enable
+                  corepack prepare pnpm@latest --activate
+            - name: Install workspace deps
+              run: pnpm install
+            - name: Build shared lib
+              run: pnpm --filter @shared/prom-lib build
+            - name: Run shared tests
+              run: pnpm --filter @shared/prom-lib test

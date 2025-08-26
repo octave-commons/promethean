@@ -1,6 +1,8 @@
 ## 🛠️ Description
 
-Placeholder task stub generated from kanban board.
+I want for discord agents to be able to join channels, leave channels, send messages (In channels and in DMs), etc all automaticly in a sort of "full  agent mode"
+
+I don't want him spamming messages or tts, I want him to be doing things in the background (curating context, guiding other simpler agent flows like the webcrawler )
 
 ---
 
