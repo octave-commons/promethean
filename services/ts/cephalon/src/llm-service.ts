@@ -1,6 +1,7 @@
 // @ts-ignore import js module without types
 import { BrokerClient } from '@shared/js/brokerClient.js';
 import { Message } from 'ollama';
+import type { Tool, ToolCall } from '@shared/ts/dist/llm/tools.js';
 
 export type LLMClientOptions = {
     brokerUrl?: string;
@@ -16,8 +17,9 @@ export type LLMRequest = {
 export class LLMService {
     broker: BrokerClient;
     #ready: Promise<void>;
-    #pending: ((reply: string | object) => void)[] = [];
+    #pending: ((reply: any) => void)[] = [];
     #replyTopic: string;
+    tools = new Map<string, { def: Tool; handler: (args: any) => any }>();
 
     constructor(options: LLMClientOptions = {}) {
         const brokerUrl = options.brokerUrl || process.env.BROKER_URL || 'ws://localhost:7000';
@@ -31,10 +33,23 @@ export class LLMService {
         this.#ready = this.broker
             .connect()
             .then(() => {
-                this.broker.subscribe(this.#replyTopic, (event: any) => {
+                this.broker.subscribe(this.#replyTopic, async (event: any) => {
                     const resolve = this.#pending.shift();
                     if (resolve) {
-                        resolve(event.payload.reply);
+                        let reply = event.payload.reply;
+                        if (reply && typeof reply === 'object' && Array.isArray(reply.tool_calls)) {
+                            const call: ToolCall = reply.tool_calls[0];
+                            const tool = this.tools.get(call.function.name);
+                            if (tool) {
+                                try {
+                                    const args = JSON.parse(call.function.arguments || '{}');
+                                    reply = await tool.handler(args);
+                                } catch (err) {
+                                    console.error('Failed to execute tool', err);
+                                }
+                            }
+                        }
+                        resolve(reply);
                     }
                 });
             })
@@ -43,7 +58,7 @@ export class LLMService {
             });
     }
 
-    async generate(opts: LLMRequest): Promise<string | object> {
+    async generate(opts: LLMRequest): Promise<any> {
         await this.#ready;
         return new Promise((resolve) => {
             this.#pending.push(resolve);
@@ -51,8 +66,13 @@ export class LLMService {
                 prompt: opts.prompt,
                 context: opts.context,
                 format: opts.format,
+                tools: Array.from(this.tools.values()).map((t) => t.def),
                 replyTopic: this.#replyTopic,
             });
         });
+    }
+
+    registerTool(def: Tool, handler: (args: any) => any) {
+        this.tools.set(def.function.name, { def, handler });
     }
 }
