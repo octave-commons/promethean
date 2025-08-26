@@ -1,68 +1,68 @@
 name: Python Test Suite
 permissions:
-  contents: read
+    contents: read
 
 on:
-  pull_request:
-  push:
-    branches: [main]
+    pull_request:
+    push:
+        branches: [main]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        service:
-          - stt
-          - tts
-          - discord_indexer
-          - discord_attachment_indexer
-          - discord_attachment_embedder
+    test:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                service:
+                    - stt
+                    - tts
+                    - discord_indexer
+                    - discord_attachment_indexer
+                    - discord_attachment_embedder
 
-    steps:
-      - uses: actions/checkout@v3
+        steps:
+            - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
+            - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
+              with:
+                  python-version: '3.11'
 
-      - name: Install Hy
-        run: python -m pip install hy dotenv mypy
+            - name: Install Hy
+              run: python -m pip install hy dotenv mypy
 
-      - name: Cache pip dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles(format('services/py/{0}/Pipfile.lock', matrix.service)) }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+            - name: Cache pip dependencies
+              uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
+              with:
+                  path: ~/.cache/pip
+                  key: ${{ runner.os }}-pip-${{ hashFiles(format('services/py/{0}/Pipfile.lock', matrix.service)) }}
+                  restore-keys: |
+                      ${{ runner.os }}-pip-
 
-      - name: Cache npm dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
+            - name: Cache npm dependencies
+              uses: actions/cache@0400d5f644dc74513175e3cd8d07132dd4860809 # v4.2.4
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-npm-
 
-      - name: Install dependencies
-        run: make system-deps setup-pipenv setup-python-service-${{ matrix.service }}
+            - name: Install dependencies
+              run: make system-deps setup-pipenv setup-python-service-${{ matrix.service }}
 
-      - name: Run tests
-        run: make test-python-service-${{ matrix.service }}
+            - name: Run tests
+              run: make test-python-service-${{ matrix.service }}
 
-      - name: Generate coverage
-        run: make coverage-python-service-${{ matrix.service }}
+            - name: Generate coverage
+              run: make coverage-python-service-${{ matrix.service }}
 
-      - name: Upload Python coverage
-        uses: actions/upload-artifact@v4
-        with:
-          name: python-coverage-${{ matrix.service }}
-          path: services/py/${{ matrix.service }}/coverage.xml
+            - name: Upload Python coverage
+              uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+              with:
+                  name: python-coverage-${{ matrix.service }}
+                  path: services/py/${{ matrix.service }}/coverage.xml
 
-      # - name: Upload JS coverage
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: js-coverage
-      #     path: coverage
+            # - name: Upload JS coverage
+            #   uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+            #   with:
+            #     name: js-coverage
+            #     path: coverage

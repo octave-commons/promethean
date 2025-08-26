@@ -47,6 +47,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Pinned JavaScript dependencies, GitHub Actions, and documented version policy for reproducible builds.
 - Naive embedding driver now uses configurable `VECTOR_SIZE` constant.
 - Organized SmartGPT Bridge routes into versioned directories.
 - Embedding clients and related utilities now accept structured `{type, data}`
