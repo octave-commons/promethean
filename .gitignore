@@ -2,7 +2,8 @@
 node_modules/
 onnx_model/
 models/
-data/
+data/*
+!data/README.md
 open_vino_modelfp16/
 pulbic/
 .env
