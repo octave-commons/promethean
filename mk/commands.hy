@@ -675,6 +675,13 @@
 (defn-cmd generate-requirements []
   (generate-python-requirements))
 
+(defn-cmd snapshot []
+  (import datetime [datetime])
+  (setv version (.strftime (datetime.now) "%Y.%m.%d"))
+  (sh (.format "git tag -a snapshot-{} -m 'Snapshot {}'" version version) :shell True)
+  (when (os.environ.get "PUSH")
+    (sh (.format "git push origin snapshot-{}" version) :shell True)))
+
 (setv LOCK_CACHE_DIR ".cache")
 (setv LOCK_CACHE_FILE (join LOCK_CACHE_DIR "lock-hashes.json"))
 
@@ -818,9 +825,6 @@
             (+= results [[name True "lock changed"]])))))
     (save-json LOCK_CACHE_FILE cache)
     (summarize results)))
-
-
-
 (setv patterns (define-patterns
                    ["python"
                  [ ["uv-setup" (fn [service]
