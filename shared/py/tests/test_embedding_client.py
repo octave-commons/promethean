@@ -8,7 +8,7 @@ sys.path.insert(
 
 # Stub chromadb EmbeddingFunction to avoid heavy dependency
 chromadb_utils = types.ModuleType("chromadb.utils.embedding_functions")
-chromadb_utils.EmbeddingFunction = object
+setattr(chromadb_utils, "EmbeddingFunction", object)
 sys.modules["chromadb"] = types.ModuleType("chromadb")
 sys.modules["chromadb.utils"] = types.ModuleType("chromadb.utils")
 sys.modules["chromadb.utils.embedding_functions"] = chromadb_utils

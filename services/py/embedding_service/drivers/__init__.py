@@ -1,7 +1,7 @@
 from .base import EmbeddingDriver
 from .naive_driver import NaiveDriver
 
-DRIVERS = {"naive": NaiveDriver()}
+DRIVERS: dict[str, EmbeddingDriver] = {"naive": NaiveDriver()}
 
 try:  # Optional: only register if dependency is available
     from .transformers_driver import TransformersDriver
