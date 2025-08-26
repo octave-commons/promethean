@@ -57,6 +57,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Expanded `MIGRATION_PLAN.md` with scope, phased timeline, requirements, and owner assignments.
 - Provider-agnostic LLM driver interface with Ollama and HuggingFace implementations.
 - TypeScript LLM service now uses pluggable drivers for Ollama and HuggingFace.
+- Logging for task timeouts with configurable queueManager requeue tests.
 - Initial scaffolding for broker↔bridge parity tests, including normalizers, runner, and unit tests.
 - Automatic Twitch stream title pipeline using Ollama with Discord transcript context and pluggable storage.
 - Basic class support in Lisp compiler with `defclass`, `new`, `get`, and `call` forms.
@@ -81,6 +82,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Frontends now served from a central static file server instead of individual services.
 - SmartGPT Bridge file routes now use shared file explorer utilities, and the dashboard consumes a shared file explorer component.
 - SmartGPT Bridge now uses shared DualStore and ContextStore for persistence.
+- Health service tests use shared BrokerClient instead of direct WebSocket connections.
 - Discord embedder migrated to shared DualStore and ContextStore for unified persistence.
 - STT and TTS services now use shared audio utilities for encoding and decoding.
 - Kanban processor now persists via shared DualStore and ContextStore.
