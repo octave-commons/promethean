@@ -1,10 +1,10 @@
 from fastapi import FastAPI, Form, Response, WebSocket
-import base64
 import io
 import sys
 
 print(sys.path)
 from shared.py.service_template import start_service
+from shared.py.speech.audio_utils import wav_to_base64
 from shared.py.utils import websocket_endpoint
 
 import soundfile as sf
@@ -30,9 +30,7 @@ async def startup_event():
         if not text:
             return
         audio = synthesize(text)
-        buf = io.BytesIO()
-        sf.write(buf, audio, samplerate=22050, format="WAV")
-        audio_b64 = base64.b64encode(buf.getvalue()).decode("utf-8")
+        audio_b64 = wav_to_base64(audio, 22050)
         await broker.publish("tts-output", {"audio": audio_b64})
 
     try:
