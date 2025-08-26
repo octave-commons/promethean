@@ -38,6 +38,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - STT and embedding services updated to use `run_service`.
 - Unit tests for ForwardTacotronIE and WaveRNNIE helper functions.
 - Test for GUI parameter defaults in `init_parameters_interactive`.
+- CLI to scaffold Python or TypeScript service templates.
 - Tests for grammar correction in the shared speech spell checker.
 - Unit tests for Discord utility functions covering channel history and cursor management.
 - Tests for `shared.py.settings` confirming environment defaults and overrides.
