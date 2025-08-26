@@ -14,6 +14,10 @@ export class BrokerClient {
         this.socket = null;
         this.handlers = new Map();
         this.onTask = null; // callback(task)
+        this.messageQueue = [];
+        this.reconnectAttempts = 0;
+        this.shouldReconnect = true;
+        this.reconnectTimer = null;
         this.heartbeatInterval = heartbeatInterval;
         this.heartbeatTimer = null;
     }
@@ -21,6 +25,17 @@ export class BrokerClient {
     connect() {
         return new Promise((resolve, reject) => {
             this.socket = new WebSocket(this.url);
+
+            this.socket.on('open', () => {
+                this.reconnectAttempts = 0;
+                this.flushQueue();
+                for (const topic of this.handlers.keys()) {
+                    this.socket.send(JSON.stringify({ action: 'subscribe', topic }));
+                }
+                resolve();
+            });
+
+            this.socket.on('error', reject);
             this.socket.on('open', () => {
                 this.heartbeatTimer = setInterval(() => this.heartbeat(), this.heartbeatInterval);
                 resolve();
@@ -45,17 +60,24 @@ export class BrokerClient {
                     console.warn('Invalid broker message', err);
                 }
             });
+
+            this.socket.on('close', () => {
+                if (!this.shouldReconnect) return;
+                const delay = Math.min(1000 * 2 ** this.reconnectAttempts, 30000);
+                this.reconnectAttempts += 1;
+                this.reconnectTimer = setTimeout(() => this.connect(), delay);
+            });
         });
     }
 
     subscribe(topic, handler) {
-        this.socket.send(JSON.stringify({ action: 'subscribe', topic }));
         this.handlers.set(topic, handler);
+        this.send({ action: 'subscribe', topic });
     }
 
     unsubscribe(topic) {
-        this.socket.send(JSON.stringify({ action: 'unsubscribe', topic }));
         this.handlers.delete(topic);
+        this.send({ action: 'unsubscribe', topic });
     }
 
     publish(type, payload, opts = {}) {
@@ -67,30 +89,54 @@ export class BrokerClient {
             ...opts,
         };
 
-        this.socket.send(JSON.stringify({ action: 'publish', message }));
+        this.send({ action: 'publish', message });
     }
 
     enqueue(queue, task) {
-        this.socket.send(JSON.stringify({ action: 'enqueue', queue, task }));
+        this.send({ action: 'enqueue', queue, task });
     }
 
     ready(queue) {
-        this.socket.send(JSON.stringify({ action: 'ready', queue }));
+        this.send({ action: 'ready', queue });
     }
 
     ack(taskId) {
-        this.socket.send(JSON.stringify({ action: 'ack', taskId }));
+        this.send({ action: 'ack', taskId });
     }
 
     heartbeat() {
-        this.socket.send(JSON.stringify({ action: 'heartbeat' }));
+        this.send({ action: 'heartbeat' });
     }
 
     onTaskReceived(callback) {
         this.onTask = callback;
     }
 
+    send(obj) {
+        const msg = JSON.stringify(obj);
+        if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+            this.socket.send(msg);
+        } else {
+            this.messageQueue.push(msg);
+        }
+    }
+
+    flushQueue() {
+        while (
+            this.messageQueue.length > 0 &&
+            this.socket &&
+            this.socket.readyState === WebSocket.OPEN
+        ) {
+            this.socket.send(this.messageQueue.shift());
+        }
+    }
+
     disconnect() {
+        this.shouldReconnect = false;
+        if (this.reconnectTimer) {
+            clearTimeout(this.reconnectTimer);
+            this.reconnectTimer = null;
+        }
         if (this.heartbeatTimer) {
             clearInterval(this.heartbeatTimer);
             this.heartbeatTimer = null;
