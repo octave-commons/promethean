@@ -69,6 +69,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Realtime Promethean Health Dashboard for monitoring heartbeat metrics.
 - Configurable timeout for remote embedding requests.
 - `defun` special form in Lisp compiler enabling named functions and recursion.
+- Documented API integration details for Reddit, Bluesky, and Wikipedia tasks.
 
 ### Changed
 
