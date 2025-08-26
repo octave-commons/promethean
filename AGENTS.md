@@ -512,36 +512,11 @@ We love dotenv. use it all the time. Make everyone's lives easier.
 
 ## Changelog Updates
 
-All future agents must record notable changes in `CHANGELOG.md` following [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format. This ensures continuity and shared context across contributors.
+We build `CHANGELOG.md` from fragment files using [towncrier](https://towncrier.readthedocs.io/). For every pull request add a fragment under `changelog.d/` named `<PR number>.<type>.md` where `<type>` is one of `added`, `changed`, `deprecated`, `removed`, `fixed`, or `security`.
 
-### Changelog Entry Checklist
+Example: `changelog.d/1234.added.md`
 
-When making a notable change, add an entry under the correct section in `CHANGELOG.md`:
-
-- **Added** – for new features.
-- **Changed** – for changes in existing functionality.
-- **Deprecated** – for features soon-to-be removed.
-- **Removed** – for features removed.
-- **Fixed** – for any bug fixes.
-- **Security** – in case of vulnerabilities.
-
-Follow the format:
-
-```markdown
-## [Unreleased]
-
-### Added
-
-- Short description of the new feature.
-
-### Changed
-
-- Short description of the change.
-
-### Fixed
-
-- Short description of the bug fix.
-```
+During release, run `make build-changelog` to aggregate all fragments into `CHANGELOG.md`. The build step removes processed fragments to keep `changelog.d/` tidy.
 
 ## Shared Persistence
 
