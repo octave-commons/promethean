@@ -1,103 +1,105 @@
 ---
+
 kanban-plugin: board
+
 ---
+
+## 📊 Strategic Graphs
+
+- [ ] [[architecture/project-evolution-timeline.md|Project Evolution Timeline]]
+
 
 ## Incoming
 
 - [ ] [[Find music that triggered copyright mute on twitch for analysis incoming]]
 - [ ] [[redefine all existing lambdas with high order functions incoming]]
-- [ ] implement defun in compiler/lisp #incoming
-- [ ] [[implement classes in compiler lisp incoming]]
-- [ ] Replace all python properly with hy #incoming
-- [ ] LSP server for home brew lisp #incoming
-- [ ] [[stabilize-kanban-scripts.md|Stabilize board automation scripts and process]]
-- [ ] Add tool calls to codex context
-- [ ] MVP local LLM chat interface with tool calls connected to gpt bridge
-- [ ] breakdown "Make"file
-- [ ] flatten sibilant src folders
-- [ ] create a generic markdown helper module
-- [ ] convert smartgpt bridge to ts
-- [ ] setup new service generator
-- [ ] dockerize the system
-- [ ] move discord scraper to ts
+- [ ] [[LSP server for home brew lisp incoming]]
+- [ ] [[flatten sibilant src folders]]
 - [ ] database migration system
-- [ ] task generator system
 - [ ] connect bluesky
 - [ ] connect reddit
 - [ ] connect wikipedia
-- [ ] lisp ecosystem files
-- [ ] lisp package files
+- [ ] [[lisp ecosystem files]]
 - [ ] python <-> js interop
-- [ ] filesystem service
-- [ ] search service
+- [ ] [[docs/reports/persistence-dependency-graph.md|Persistence Migration Graph]]
+- [ ] [[reports/persistence-migration-checklist.md|Persistence Migration Checklist]]
 - [ ] audio processing service
-- [ ] File writing gpt store
-- [ ] File explorer
+- [ ] script for getting github action workflow states for a branch
+
 
 ## Accepted
 
-- [ ] [[discord_link_indexer_md.md|discord link indexer md]] #framework-core #prompt-refinement #accepted
-- [ ] [[clarify_promethean_project_vision_1_md.md|Clarify Promethean project vision]] #framework-core #accepted
-- [ ] [[extract_docs_from_riatzukiza_github_io_md_md.md|Extract docs from riatzukiza.github.io]] #framework-core #accepted
-- [ ] [[extract_site_modules_from_riatzukiza_github_io_md_md.md|Extract site modules from riatzukiza.github.io]] #framework-core #accepted
-- [ ] [[migrate_portfolio_client_code_to_promethean_md.md|Migrate portfolio client code to Promethean]] #framework-core #accepted
-- [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md.md|Migrate server side sibilant libs to Promethean architecture.]] #accepted
-- [ ] [[add_twitch_chat_integration_md_md.md|add twitch chat integration md md]] #framework-core #accepted
-- [ ] [[discord_image_awareness_md_md.md|discord image awareness md md]] #framework-core #ollama-integration #multimodal-context #accepted
-- [ ] [[finish_whisper_npu_system_md_md.md|finish whisper npu system md md]] #framework-core #performance-optimization #npu-integration #accepted
-- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md.md|full agent mode text chat selectively join channels etc md]] #framework-core #accepted
-- [ ] [[setup_code_in_wsl_md.md|setup code in wsl md]] #framework-core #accepted
+- [ ] [[task generator system]]
+- [ ] File writing gpt store
+- [ ] [[gpt bridge fuzzy lookup should return multiple matches when it is used.]]
+- [ ] [[create a generic markdown helper module]]
+- [ ] [[File explorer]]
+- [ ] [[move discord scraper to ts]]
+- [ ] [[breakdown Make file]]
+- [ ] [[architecture/hy-migration-graph.md|Hy Migration Graph]]
+- [ ] [[architecture/persistence-migration-graph.md|DualStore Migration Graph]]
+- [ ] [[dockerize the system]]
+- [ ] [[Add tool calls to codex context]]
 - [ ] [[twitch_stream_title_generator_md_md.md|twitch stream title generator md md]] #framework-core #ollama-integration #stream-automation #accepted
-- [ ] [[migrate_portfolio_client_code_to_promethean_md.md|Migrate portfolio client code to Promethean]] #framework-core #accepted
+- [ ] [[lisp package files]]
 - [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] #framework-core #ollama-integration #stream-automation #accepted
 - [ ] [[add_twitch_chat_integration_md_md.md|Add twitch chat integration.md]] #framework-core #accepted
 - [ ] [[add_withdlq_around_risky_consumers_set_maxattempts_md.md|Add \*\*withDLQ\*\* around risky consumers; set \`maxAttempts\`]] #accepted
-- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md.md|Full agent mode (Text chat, selectively join channels, etc]] #framework-core #accepted
-- [ ] [[clarify_promethean_project_vision_1_md.md|Clarify Promethean project vision]] #framework-core #accepted
-- [ ] [[migrate_portfolio_client_code_to_promethean_md.md|Migrate portfolio client code to Promethean]] #framework-core #accepted
+- [ ] [[context service]]
 - [ ] [[extract_docs_from_riatzukiza_github_io_md_md.md|Extract docs from riatzukiza.github.io]] #framework-core #accepted
-- [ ] [[extract_site_modules_from_riatzukiza_github_io_md_md.md|Extract site modules from riatzukiza.github.io]] #framework-core #accepted
-- [ ] [[description.md|Add file watcher that looks at agent thinking and prompt refinement and runs an LLM on it a few times and asked if it feels like it's ready.md]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #accepted
 - [ ] [[discord_image_awareness_md_md.md|discord image awareness.md]] #framework-core #ollama-integration #multimodal-context #accepted
 - [ ] [[finish_whisper_npu_system_md_md.md|finish whisper NPU system.md]] #framework-core #performance-optimization #npu-integration #accepted
 - [ ] [[update_makefile_to_have_commands_specific_for_agents_md.md|Update Makefile to have commands specific for agents]] #devops #accepted
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md.md|Migrating relevant modules from \`riatzukiza.github.io\` to \`/sites/\` and \`/docs/\`]] #accepted
-- [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md.md|Migrate server side sibilant libs to Promethean architecture.]] #accepted
-- [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
+
 
 ## Breakdown (8)
 
-- [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
-- [ ] [[Mock broker]] #incoming
-- [ ] [[Finish work on gptbridge agent integration]]
-- [ ] [[Curate code from personal repository]]
-- [ ] Set up proper openai custom gpt compatable oauth login flow
-- [ ] unify dual source(mongo/chroma) interface across all code surfaces
-- [ ] Create broker services that can handle all the same tasks as the gpt bridge
-- [ ] Webcrawler
-- [ ] context service
+- [ ] [[MVP local LLM chat interface with tool calls connected to gpt bridge]]
+- [ ] [[Set up proper openai custom gpt compatable oauth login flow]]
+- [ ] [[setup new service generator]]
+- [ ] [[implement defun in compiler lisp incoming]]
+- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md.md|full agent mode text chat selectively join channels etc md]] #framework-core #accepted
+- [ ] [[implement classes in compiler lisp incoming]]
+- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md.md|Full agent mode (Text chat, selectively join channels, etc]] #framework-core #accepted
+
 
 ## Ready (13)
 
+- [ ] [[discord_image_awareness_md_md.md|discord image awareness md md]] #framework-core #ollama-integration #multimodal-context #accepted
+- [ ] [[Mock broker]] #incoming
+- [ ] [[Webcrawler]]
 - [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
-- [ ] [[Design Ollama Model file for use with codex cli 1]]
+- [ ] [[set up data migration pipeline and clearly describe conventions]]
 - [ ] [[Curate code from personal repository]]
+
 
 ## Todo (8)
 
-- [ ] [[Agent Tasks Persistence Migration to DualStore]]
+- [ ] [[docs/architecture/compiler-evolution-graph.md|Lisp Compiler Evolution Graph]]
+- [ ] [[Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #accepted
+- [ ] [[Replace all python properly with hy incoming]]
+- [ ] [[broker gpt bridge parity plan]]
+- [ ] [[Create broker services that can handle all the same tasks as the gpt bridge]]
+- [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
+
 
 ## In Progress (4)
 
-- [ ] [[seperate discord commands from the actions they perform]] #in-progress
-- [ ] [[breakdown cephalon voice commands file using ecs]] #in-progress
+- [ ] [[Agent Tasks Persistence Migration to DualStore]]
+
 
 ## In Review (8)
 
+- [ ] [[clarify_promethean_project_vision_1_md.md|Clarify Promethean project vision]] #framework-core #accepted
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
+- [ ] [[seperate discord commands from the actions they perform]] #in-progress
+- [ ] [[breakdown cephalon voice commands file using ecs]] #in-progress
+
 
 ## Done
 
+- [ ] [[migrate_portfolio_client_code_to_promethean_md.md|Migrate portfolio client code to Promethean]] #framework-core #accepted
+- [ ] [[Finish work on gptbridge agent integration]]
 - [ ] File explorer
 - [ ] finish moving the smartgpt bridge to fastify
 - [ ] [[Fully convert js ts projects to pnpm incoming]]
@@ -169,8 +171,12 @@ kanban-plugin: board
 - [ ] [[document_board_usage_guidelines_1_md.md|Document board usage guidelines]] #framework-core #done
 - [ ] [[start_eidolon_md_md.md|Start Eidolon]] #framework-core #done
 
+
 ## Ice Box
 
+- [ ] [[finish_whisper_npu_system_md_md.md|finish whisper npu system md md]] #framework-core #performance-optimization #npu-integration #accepted
+- [ ] [[extract_docs_from_riatzukiza_github_io_md_md.md|Extract docs from riatzukiza.github.io]] #framework-core #accepted
+- [ ] [[Design Ollama Model file for use with codex cli 1]]
 - [ ] Set up proper openai custom gpt compatable oauth login flow
 - [ ] [[Add codex layer to emacs]]
 - [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|Refactor Speech interuption system]] #framework-core #breakdown
@@ -180,7 +186,7 @@ kanban-plugin: board
 - [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ice-box
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ice-box
 - [ ] [[twitch_discord_general_auto_mod_md_md.md|twitch discord general auto mod md md]] #framework-core #observability #multimodal-context #risk #ice-box
-- [ ] [[description.md|Web frontend for system management.md]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #ice-box
+- [ ] [[Promethean Health Dashboard|Web frontend for system management.md]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #ice-box
 - [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #ice-box
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ML stuff (discord, etc) 2]] #framework-core #language-strategy #performance-optimization #ice-box
 - [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md.md|Add semantic overlays for layer1 through layer8]] #layerX #framework-core #ice-box
@@ -250,8 +256,10 @@ kanban-plugin: board
 - [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #framework-core #ice-box
 - [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
 
+
 ## Rejected
 
+- [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md.md|Migrate server side sibilant libs to Promethean architecture.]] #accepted
 - [ ] [[add_withdlq_around_risky_consumers_set_maxattempts_md.md|Add **withDLQ** around risky consumers; set `maxAttempts`]] #accepted
 - [ ] [[Decouple Audio Processing Logic From Discord|Split out audio processing logic to a seperate service without changing the current behavior in cephalon.md]] #framework-core #ready
 - [ ] [[snapshot_prompts_specs_to_repo_md.md|snapshot prompts specs to repo md]] #rejected
@@ -392,8 +400,15 @@ kanban-plugin: board
 - [ ] [[launch_replayapi_on_8083_test_replay_and_export_nd_md.md|Launch \`ReplayAPI\` on \`:8083\`; test \`/replay\` and \`/export?ndjson\=1\`]] #rejected
 - [ ] [[enable_compactor_for_process_state_process_state_s_md.md|Enable compactor for \`process.state\` → \`process.state.snapshot\`]] #rejected
 
+
 ## Archive
 
+- [ ] [[extract_site_modules_from_riatzukiza_github_io_md_md.md|Extract site modules from riatzukiza.github.io]] #framework-core #accepted
+- [ ] [[migrate_portfolio_client_code_to_promethean_md.md|Migrate portfolio client code to Promethean]] #framework-core #accepted
+- [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md.md|Migrate server side sibilant libs to Promethean architecture.]] #accepted
+- [ ] [[migrate_portfolio_client_code_to_promethean_md.md|Migrate portfolio client code to Promethean]] #framework-core #accepted
+- [ ] [[setup_code_in_wsl_md.md|setup code in wsl md]] #framework-core #accepted
+- [ ] [[discord_link_indexer_md.md|discord link indexer md]] #framework-core #prompt-refinement #accepted
 - [ ] [[Add git commands to gpt bridge]]
 - [ ] [[add_unit_tests_for_gui_helpers_md_md.md|Add unit tests for GUI helpers]] #codex-task #testing #archive
 - [ ] [[build_tiny_web_page_that_uses_promclient_in_the_br_md.md|Build tiny web page that uses `PromClient` in the browser to show live `process.state` (optional)]] #archive
@@ -429,17 +444,17 @@ kanban-plugin: board
 - [ ] [[add_unit_tests_for_gui_helpers_md_md.md|Add unit tests for GUI helpers]] #codex-task #testing #archive
 - [ ] [[build_tiny_web_page_that_uses_promclient_in_the_br_md.md|Build tiny web page that uses `PromClient` in the browser to show live `process.state` (optional)]] #archive
 
----
+
+***
 
 ## Archive
 
 - [ ] [[clean_up_notes_into_design_docs_md.md|clean up notes into design docs md]] #framework-core #agent-thinking #accepted
 - [ ] [[migrating_relevant_modules_from_riatzukiza_github_md.md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #accepted
+- [ ] [[Curate code from personal repository]]
 
 %% kanban:settings
-
 ```
-{"kanban-plugin":"board","list-collapse":[false,true,false,false,false,false,false,false,false,false,true,false,false],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false,false,false,false,false,true,false,false],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
-
 %%
