@@ -1,3 +1,5 @@
+permissions:
+    contents: read
 name: TS Migrations Fixture
 on:
     pull_request:
