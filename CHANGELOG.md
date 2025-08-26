@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Shared Discord service helper for client setup, heartbeat, and channel iteration.
+
 - Command definitions extracted into reusable modules and JSON descriptors for Makefile generation.
 
 - Extracted actionable tasks from unique notes into tasks/unique-notes.md
@@ -22,6 +24,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - `distclean` target to remove ignored files via `git clean -fdX`.
 
 ### Changed
+
+- Discord indexer and attachment indexer services now use the shared Discord service helper for consistent env loading and logging.
 
 - Refined Kanban breakdown tasks with clear goals, requirements, and subtasks.
 - MCP server and stdio wrapper exposing `search.query` over WebSocket and CLI.
