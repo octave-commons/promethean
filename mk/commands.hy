@@ -483,18 +483,18 @@
 (defn-cmd ts-type-check []
   (print "checking shared typescript for type errors...")
   (setv path "./shared/ts/")
-
   (try (if (has-pnpm)
-           (do (sh "tsc --noEmit" :cwd path :shell True))
+           (do (sh "pnpm exec tsc --noEmit" :cwd path :shell True))
            (requir e-pnpm))
        (for [d SERVICES_TS]
             (setv path d)
             (if (has-pnpm)
                 (do (print "checking types in" d)
-                    (sh "tsc --noEmit" :cwd path :shell True))
+                    (sh "pnpm exec tsc --noEmit" :cwd path :shell True))
                 (require-pnpm)))
        (except [e Exception ]
-               (print "TypeScript type check failed in" path "with:" e ))
+               (print "TypeScript type check failed in" path "with:" e )
+               (raise e))
        )
 
   )

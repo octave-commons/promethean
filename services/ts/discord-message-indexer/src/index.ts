@@ -1,6 +1,6 @@
 import { topic, fileBackedRegistry, mongoForTenant } from '@shared/prom-lib';
 
-export async function handleSocialMessageCreated(evt) {
+export async function handleSocialMessageCreated(evt: any) {
     const reg = fileBackedRegistry();
     const tenantCfg = await reg.get(evt.provider, evt.tenant);
     const db = mongoForTenant(evt.tenant, tenantCfg.storage.mongo_db);
