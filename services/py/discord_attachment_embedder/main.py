@@ -9,21 +9,25 @@ from shared.py.embedding_client import EmbeddingServiceClient
 COLLECTION_NAME = os.environ.get("CHROMA_COLLECTION", "discord_attachments")
 
 
-def process_message(message: dict, collection) -> None:
+def process_message(
+    message: dict, collection, embedding_function: EmbeddingServiceClient
+) -> None:
     docs: List[str] = []
     metadatas: List[dict] = []
     ids: List[str] = []
+    items: List[dict] = []
 
     content = message.get("content")
     if content:
         docs.append(content)
         metadatas.append({"type": "text", "message_id": message["id"]})
         ids.append(f"msg-{message['id']}")
+        items.append({"type": "text", "data": content})
 
     for attachment in message.get("attachments", []):
         attachment_type = attachment.get("content_type", "")
         if attachment_type and attachment_type.startswith("image/"):
-            docs.append(f"img:{attachment['url']}")
+            docs.append(attachment["url"])
             metadatas.append(
                 {
                     "type": "image",
@@ -33,12 +37,15 @@ def process_message(message: dict, collection) -> None:
                 }
             )
             ids.append(f"att-{attachment['id']}")
+            items.append({"type": "image_url", "data": attachment["url"]})
 
     if ids:
+        embeddings = embedding_function(items)
         collection.add(
             documents=docs,
             metadatas=metadatas,
             ids=ids,
+            embeddings=embeddings,
         )
 
     # Mark the message as processed even if no embeddings were generated
@@ -50,13 +57,11 @@ def process_message(message: dict, collection) -> None:
 def main() -> None:
     client = chromadb.Client()
     embedding_function = EmbeddingServiceClient()
-    collection = client.get_or_create_collection(
-        COLLECTION_NAME, embedding_function=embedding_function
-    )
+    collection = client.get_or_create_collection(COLLECTION_NAME)
 
     query = {"attachments": {"$exists": True, "$ne": []}, "embedded": {"$ne": True}}
     for message in discord_message_collection.find(query):
-        process_message(message, collection)
+        process_message(message, collection, embedding_function)
 
 
 if __name__ == "__main__":
