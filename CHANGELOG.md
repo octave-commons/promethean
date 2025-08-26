@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Extracted actionable tasks from unique notes into tasks/unique-notes.md
 - Policy-based access control with user and role management for SmartGPT Bridge.
 - Directory tree endpoint for SmartGPT Bridge file API.
 - v1 router exposing consolidated SmartGPT Bridge endpoints.
