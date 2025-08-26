@@ -1,0 +1,20 @@
+{
+    "name": "attachment-embedder",
+    "version": "0.0.1",
+    "type": "module",
+    "main": "./src/index.ts",
+    "scripts": {
+        "start": "node --enable-source-maps --experimental-specifier-resolution=node ./src/index.ts",
+        "test": "ava",
+        "coverage": "c8 ava",
+        "build": "echo 'ts-run direct'",
+        "lint": "pnpm exec @biomejs/biome lint . || true"
+    },
+    "dependencies": {
+        "@shared/prom-lib": "file:../../../shared/ts"
+    },
+    "devDependencies": {
+        "ava": "^6.4.1",
+        "c8": "^9.1.0"
+    }
+}
