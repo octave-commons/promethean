@@ -3,7 +3,7 @@ import test from 'ava';
 import path from 'node:path';
 import { withServer } from '../helpers/server.js';
 
-const ROOT = path.join(process.cwd(), 'tests', 'fixtures');
+const ROOT = path.join(process.cwd(), 'src', 'tests', 'fixtures');
 
 test('GET /v1/files/ returns flat file list', async (t) => {
     await withServer(ROOT, async (req) => {
