@@ -534,3 +534,7 @@ Follow the format:
 ## Shared Persistence
 
 Persistence is handled via shared module: @shared/ts/persistence/DualStore
+
+
+
+## Hashtags are your friend

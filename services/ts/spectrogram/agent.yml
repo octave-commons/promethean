@@ -1,0 +1,8 @@
+agent:
+    id: spectrogram
+    kind: dsp
+    version: 0.1.0
+    inputs:
+        - topic: promethean.p.*.t.*.voice.audio.segment
+    outputs:
+        - topic: promethean.p.*.t.*.voice.audio.spectrogram

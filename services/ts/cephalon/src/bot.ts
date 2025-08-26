@@ -9,7 +9,7 @@ import {
 } from 'discord.js';
 import { EventEmitter } from 'events';
 import { DESKTOP_CAPTURE_CHANNEL_ID } from '@shared/js/env.js';
-import { ContextStore as ContextManager } from '@shared/ts/dist/persistence/contextStore.js';
+import { ContextStore } from '@shared/ts/dist/persistence/contextStore.js';
 import { createAgentWorld } from '@shared/ts/dist/agent-ecs/world.js';
 import { enqueueUtterance } from '@shared/ts/dist/agent-ecs/helpers/enqueueUtterance.js';
 import { pushVisionFrame } from '@shared/ts/dist/agent-ecs/helpers/pushVision.js';
@@ -39,7 +39,7 @@ export class Bot extends EventEmitter {
     client: Client;
     token: string;
     applicationId: string;
-    context: ContextManager = new ContextManager();
+    context: ContextStore = new ContextStore();
     currentVoiceSession?: any;
     captureChannel?: discord.TextChannel;
     desktopChannel?: discord.TextChannel;
