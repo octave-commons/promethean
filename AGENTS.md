@@ -73,6 +73,12 @@ All contributions must be validated locally before opening a pull request:
 
 ---
 
+## 🗂️ Board Process
+
+When modifying files under `docs/agile/boards/` or `docs/agile/tasks/`, consult [`docs/agile/Process.md`](docs/agile/Process.md) for workflow guidelines before making changes.
+
+---
+
 ## 📂 Repository Structure
 
 ```
