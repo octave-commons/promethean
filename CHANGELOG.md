@@ -79,6 +79,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Python tests run without pipenv isolation.
 - Added missing `next_messages` helper for discord indexer tests.
 - CPU requirements no longer include NVIDIA packages and target PyTorch CPU wheels.
+- Cephalon embedding docs now point to the shared remote embedding helper.
 
 ### Removed
 
