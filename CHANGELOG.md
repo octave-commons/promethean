@@ -47,6 +47,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - STT and embedding services updated to use `run_service`.
 - Unit tests for ForwardTacotronIE and WaveRNNIE helper functions.
 - Test for GUI parameter defaults in `init_parameters_interactive`.
+- BrokerClient automatic reconnection with exponential backoff, queued message resend, and `disconnect` method.
 - Configurable heartbeat interval and automatic timer management in `BrokerClient`.
 - ECS voice system splitting legacy session logic into components and event-driven systems.
 - Initial migration contract validators and documentation outlining data migration conventions.

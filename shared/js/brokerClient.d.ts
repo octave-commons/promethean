@@ -5,7 +5,6 @@ export class BrokerClient {
     heartbeatInterval: number;
     constructor(options?: { url?: string; id?: string; heartbeatInterval?: number });
     connect(): Promise<void>;
-    disconnect(): void;
     subscribe(topic: string, handler: (event: any) => void): void;
     unsubscribe(topic: string): void;
     publish(type: string, payload: any, opts?: any): void;
@@ -14,4 +13,5 @@ export class BrokerClient {
     ack(taskId: string): void;
     heartbeat(): void;
     onTaskReceived(callback: (task: any) => void): void;
+    disconnect(): void;
 }

@@ -160,7 +160,7 @@ export async function stop() {
     }
     if (broker) {
         try {
-            broker.socket.close();
+            broker.disconnect();
         } catch {}
         broker = null;
     }
