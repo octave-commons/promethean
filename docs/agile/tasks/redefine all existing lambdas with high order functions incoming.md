@@ -1,26 +1,29 @@
 ## 🛠️ Description
 
-Too many lambda functions used in a code base is a smelll. You're describing isolated reused logic without naming it, the deeper a closure tree goes the less clear what variables are coming from where. 
-
-The simplest way to fix this is to pull them all out, rename them Then  identify the variables it was using from it's surrounding scope. Then write a high order function that accepts those values, and return the function. And bam, and a monad was born.
+Replace ad‑hoc anonymous lambdas with well‑named higher‑order functions to clarify intent and improve reuse.
 
 ---
 
 ## 🎯 Goals
 
-- What are we trying to accomplish?
+- Reduce ambiguous inline lambdas throughout the codebase
+- Establish reusable helpers that capture shared closure logic
 
 ---
 
 ## 📦 Requirements
 
-- [ ] Detail requirements.
+- [ ] Each former lambda extracted into a named function or higher‑order wrapper
+- [ ] Added tests cover behavior of new helpers
 
 ---
 
 ## 📋 Subtasks
 
-- [ ] Outline steps to implement.
+- [ ] Audit modules for deeply nested lambdas
+- [ ] Refactor candidate lambdas into named functions
+- [ ] Create higher‑order utilities where closures are required
+- [ ] Update references and run tests
 
 ---
 
@@ -42,4 +45,7 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [[kanban.md]]
+- [kanban](../boards/kanban.md)
+
+#framework-core #accepted #breakdown
+

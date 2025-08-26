@@ -69,6 +69,13 @@ function listToExpr(x: List): Expr {
             span: x.span!,
         };
     }
+    if (isSym(hd, 'defun')) {
+        const [, nameS, paramsList, ...bodyS] = x.xs;
+        const name = mkName((nameS as Sym).gensym ?? (nameS as Sym).name, nameS.span!);
+        const params = ((paramsList as List).xs as Sym[]).map((s) => mkName(s.gensym ?? s.name, s.span!));
+        const body = bodyS.length === 1 ? toExpr(bodyS[0]) : toExpr(list([sym('begin'), ...bodyS]));
+        return { kind: 'Def', name, params, body, span: x.span! } as Expr;
+    }
     if (isSym(hd, 'fn') || isSym(hd, 'lambda')) {
         const params = ((x.xs[1] as List).xs as Sym[]).map((s) => mkName(s.gensym ?? s.name, s.span!));
         const bodyS = x.xs.slice(2);
