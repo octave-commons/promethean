@@ -20,6 +20,7 @@ Promethean is a modular cognitive architecture for building embodied AI agents. 
 into small services that handle speech-to-text, text-to-speech, memory, and higher level reasoning.
 📖 For a high-level overview, see [docs/vision.md](docs/vision.md).
 📊 For architecture roadmaps and visualizations, see [docs/architecture/index.md](docs/architecture/index.md).
+📦 Data migration conventions and runbooks live under [docs/data](docs/data/contracts/README.md).
 
 ## 📊 Project Evolution Master Graph
 
