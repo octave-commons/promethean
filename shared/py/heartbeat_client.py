@@ -16,7 +16,7 @@ import os
 import signal
 from typing import Optional
 
-from websockets.sync.client import connect
+from websockets.sync.client import ClientConnection, connect
 import warnings
 
 BROKER_PORT = os.environ.get("BROKER_PORT", 7000)
@@ -51,7 +51,7 @@ class HeartbeatClient:
 
     _thread: Optional[threading.Thread] = None
     _stop: threading.Event = threading.Event()
-    _ws: Optional[object] = None
+    _ws: Optional[ClientConnection] = None
     _misses: int = 0
     _last_ok: float = 0.0
 
@@ -84,6 +84,7 @@ class HeartbeatClient:
                 "payload": {"pid": self.pid, "name": self.name},
             },
         }
+        assert self._ws is not None
         self._ws.send(json.dumps(msg))
         # mark success
         self._misses = 0
