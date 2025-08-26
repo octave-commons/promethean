@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "promethean"
+version = "0.0.1"
+description = "Promethean shared modules"
+readme = "readme.md"
+authors = [{name="Promethean"}]
+requires-python = ">=3.8"
+
+[tool.setuptools.packages.find]
+include = ["shared*"]

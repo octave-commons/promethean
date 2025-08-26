@@ -1,6 +1,6 @@
 import { Message } from 'ollama';
 import { Bot } from './bot.js';
-import { ContextStore as ContextManager } from '@shared/ts/dist/persistence/contextStore.js';
+import { ContextStore } from '@shared/ts/dist/persistence/contextStore.js';
 import { LLMService } from './llm-service.js';
 
 export type FormatProperty = {
@@ -34,7 +34,7 @@ export interface AgentOptions {
     historyLimit?: number;
     prompt?: string;
     bot: Bot;
-    context: ContextManager;
+    context: ContextStore;
     llm?: LLMService;
 }
 
