@@ -1,5 +1,3 @@
-Alright, here’s a hard-line plan you can paste into the board. It bans Python source from the repo, moves all existing Python logic to **Hy**, compiles Hy to **`./dist`** (mirroring your TS/Sibilant pattern), and enforces the rule with a pre-commit hook that **rejects** any `.py` in tracked files outside `dist/`.
-
 # Ban Python; Migrate to Hy; Compile to `./dist`
 
 **Owner:** Codex / Agent

@@ -1,6 +1,6 @@
 # Description
 
-Describe your task
+Audio processing is not a stateful thing that needs to be bound up in the cephalon/duck/discord provider stuff
 
 ## Requirements/Definition of done
 

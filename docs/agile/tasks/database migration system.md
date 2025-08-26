@@ -1,6 +1,9 @@
 # Description
 
-We should have a dockerized environment for the tools to run in to make it easier to test and sanity check. Having docker images could make it easier to spin up for the codex online service once they add that feature in
+I think we started this? We must have started this
+this is started. We are not sure where it is exactly. It was started in an agent task execution frenzy
+
+
 
 ## Requirements/Definition of done
 

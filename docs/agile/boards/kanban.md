@@ -7,6 +7,15 @@ kanban-plugin: board
 ## 📊 Strategic Graphs
 
 - [ ] [[architecture/project-evolution-timeline.md|Project Evolution Timeline]]
+- [ ] [[reports/persistence-dependency-graph.md|Persistence Migration Graph]]
+- [ ] [[architecture/compiler-evolution-graph.md|Lisp Compiler Evolution Graph]]
+- [ ] [[architecture/hy-migration-graph.md|Hy Migration Graph]]
+- [ ] [[architecture/persistence-migration-graph.md|DualStore Migration Graph]]
+
+
+## Migration Checklists
+
+- [ ] [[reports/persistence-migration-checklist.md|Persistence Migration Checklist]]
 
 
 ## Incoming
@@ -15,81 +24,70 @@ kanban-plugin: board
 - [ ] [[redefine all existing lambdas with high order functions incoming]]
 - [ ] [[LSP server for home brew lisp incoming]]
 - [ ] [[flatten sibilant src folders]]
-- [ ] database migration system
-- [ ] connect bluesky
-- [ ] connect reddit
-- [ ] connect wikipedia
+- [ ] [[database migration system]]
+- [ ] [[connect bluesky]]
+- [ ] [[connect reddit]]
+- [ ] [[connect wikipedia]]
 - [ ] [[lisp ecosystem files]]
-- [ ] python <-> js interop
-- [ ] [[docs/reports/persistence-dependency-graph.md|Persistence Migration Graph]]
-- [ ] [[reports/persistence-migration-checklist.md|Persistence Migration Checklist]]
-- [ ] audio processing service
-- [ ] script for getting github action workflow states for a branch
+- [ ] [[hy - js interop]]
+- [ ] [[audio processing service]]
+- [ ] [[script for getting github action workflow states for a branch]]
+- [ ] [[harden precommit hooks]]
 
 
 ## Accepted
 
 - [ ] [[task generator system]]
-- [ ] File writing gpt store
-- [ ] [[gpt bridge fuzzy lookup should return multiple matches when it is used.]]
 - [ ] [[create a generic markdown helper module]]
-- [ ] [[File explorer]]
-- [ ] [[move discord scraper to ts]]
-- [ ] [[breakdown Make file]]
-- [ ] [[architecture/hy-migration-graph.md|Hy Migration Graph]]
-- [ ] [[architecture/persistence-migration-graph.md|DualStore Migration Graph]]
 - [ ] [[dockerize the system]]
-- [ ] [[Add tool calls to codex context]]
-- [ ] [[twitch_stream_title_generator_md_md.md|twitch stream title generator md md]] #framework-core #ollama-integration #stream-automation #accepted
 - [ ] [[lisp package files]]
-- [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] #framework-core #ollama-integration #stream-automation #accepted
-- [ ] [[add_twitch_chat_integration_md_md.md|Add twitch chat integration.md]] #framework-core #accepted
-- [ ] [[add_withdlq_around_risky_consumers_set_maxattempts_md.md|Add \*\*withDLQ\*\* around risky consumers; set \`maxAttempts\`]] #accepted
-- [ ] [[context service]]
-- [ ] [[extract_docs_from_riatzukiza_github_io_md_md.md|Extract docs from riatzukiza.github.io]] #framework-core #accepted
-- [ ] [[discord_image_awareness_md_md.md|discord image awareness.md]] #framework-core #ollama-integration #multimodal-context #accepted
 - [ ] [[finish_whisper_npu_system_md_md.md|finish whisper NPU system.md]] #framework-core #performance-optimization #npu-integration #accepted
 - [ ] [[update_makefile_to_have_commands_specific_for_agents_md.md|Update Makefile to have commands specific for agents]] #devops #accepted
 
 
 ## Breakdown (8)
 
-- [ ] [[MVP local LLM chat interface with tool calls connected to gpt bridge]]
+- [ ] [[gpt bridge fuzzy lookup should return multiple matches when it is used.]]
+- [ ] [[File explorer]]
+- [ ] [[move discord scraper to ts]]
 - [ ] [[Set up proper openai custom gpt compatable oauth login flow]]
 - [ ] [[setup new service generator]]
-- [ ] [[implement defun in compiler lisp incoming]]
-- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md.md|full agent mode text chat selectively join channels etc md]] #framework-core #accepted
-- [ ] [[implement classes in compiler lisp incoming]]
+- [ ] [[breakdown Makefile.hy]]
+- [ ] [[add_twitch_chat_integration_md_md.md|Add twitch chat integration.md]] #framework-core #accepted
 - [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md.md|Full agent mode (Text chat, selectively join channels, etc]] #framework-core #accepted
 
 
 ## Ready (13)
 
+- [ ] [[implement classes in compiler lisp incoming]]
+- [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] #framework-core #ollama-integration #stream-automation #accepted
 - [ ] [[discord_image_awareness_md_md.md|discord image awareness md md]] #framework-core #ollama-integration #multimodal-context #accepted
 - [ ] [[Mock broker]] #incoming
 - [ ] [[Webcrawler]]
+- [ ] [[implement defun in compiler lisp incoming]]
 - [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
-- [ ] [[set up data migration pipeline and clearly describe conventions]]
 - [ ] [[Curate code from personal repository]]
 
 
 ## Todo (8)
 
-- [ ] [[docs/architecture/compiler-evolution-graph.md|Lisp Compiler Evolution Graph]]
 - [ ] [[Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #accepted
 - [ ] [[Replace all python properly with hy incoming]]
 - [ ] [[broker gpt bridge parity plan]]
 - [ ] [[Create broker services that can handle all the same tasks as the gpt bridge]]
+- [ ] [[set up data migration pipeline and clearly describe conventions]]
 - [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
 
 
 ## In Progress (4)
 
+- [ ] [[MVP local LLM chat interface with tool calls connected to gpt bridge]]
 - [ ] [[Agent Tasks Persistence Migration to DualStore]]
 
 
 ## In Review (8)
 
+- [ ] [[discord_image_awareness_md_md.md|discord image awareness.md]] #framework-core #ollama-integration #multimodal-context #accepted
 - [ ] [[clarify_promethean_project_vision_1_md.md|Clarify Promethean project vision]] #framework-core #accepted
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
 - [ ] [[seperate discord commands from the actions they perform]] #in-progress
@@ -98,6 +96,7 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[Add tool calls to codex context]]
 - [ ] [[migrate_portfolio_client_code_to_promethean_md.md|Migrate portfolio client code to Promethean]] #framework-core #accepted
 - [ ] [[Finish work on gptbridge agent integration]]
 - [ ] File explorer
@@ -174,6 +173,7 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] [[extract_docs_from_riatzukiza_github_io_md_md.md|Extract docs from riatzukiza.github.io]] #framework-core #accepted
 - [ ] [[finish_whisper_npu_system_md_md.md|finish whisper npu system md md]] #framework-core #performance-optimization #npu-integration #accepted
 - [ ] [[extract_docs_from_riatzukiza_github_io_md_md.md|Extract docs from riatzukiza.github.io]] #framework-core #accepted
 - [ ] [[Design Ollama Model file for use with codex cli 1]]
@@ -403,6 +403,7 @@ kanban-plugin: board
 
 ## Archive
 
+- [ ] [[context service]]
 - [ ] [[extract_site_modules_from_riatzukiza_github_io_md_md.md|Extract site modules from riatzukiza.github.io]] #framework-core #accepted
 - [ ] [[migrate_portfolio_client_code_to_promethean_md.md|Migrate portfolio client code to Promethean]] #framework-core #accepted
 - [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md.md|Migrate server side sibilant libs to Promethean architecture.]] #accepted
@@ -455,6 +456,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false,false,false,false,false,true,false,false],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false,false,false,false,false,false,true,false,false],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
