@@ -9,6 +9,7 @@ sys.path.insert(0, str(BASE_DIR.parents[4]))
 import pytest
 
 from embedding_service.main import handle_task
+from embedding_service.drivers.naive_driver import VECTOR_SIZE
 
 
 class DummyClient:
@@ -34,7 +35,7 @@ def test_handle_task_publishes_embeddings():
     assert client.published
     evt_type, payload, opts = client.published[0]
     assert evt_type == "embedding.result"
-    assert len(payload["embeddings"][0]) == 256
+    assert len(payload["embeddings"][0]) == VECTOR_SIZE
     assert opts["replyTo"] == "reply.queue"
     assert opts["correlationId"] == "1"
 
