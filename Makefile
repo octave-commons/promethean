@@ -95,8 +95,10 @@ COMMANDS := \
   docker-build \
   docker-up \
   docker-down \
+  build-changelog \
   generate-python-requirements \
   generate-requirements \
+  snapshot \
   refresh \
   generate-makefile
 
