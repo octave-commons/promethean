@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 const root = path.join(__dirname, "../../..");
 
 if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
-  defineApp.PYTHONPATH = root;
+  defineApp.PYTHONPATH = [root, path.join(root, "services/py/shared")].join(":");
   defineApp.HEARTBEAT_PORT = 5005;
 }
 
