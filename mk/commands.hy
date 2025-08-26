@@ -655,6 +655,9 @@
 (defn-cmd kanban-to-issues []
   (sh ["python" "scripts/kanban_to_issues.py"]))
 
+(defn-cmd lint-tasks []
+  (sh ["python" "scripts/lint_tasks.py"]))
+
 (defn-cmd simulate-ci []
   (if (os.environ.get "SIMULATE_CI_JOB")
       (sh ["python" "scripts/simulate_ci.py" "--job" (os.environ.get "SIMULATE_CI_JOB")])
