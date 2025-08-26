@@ -1,54 +1,54 @@
 name: JS Lint Suite
 permissions:
-  contents: read
+    contents: read
 
 on:
-  pull_request:
-  push:
-    branches: [main]
+    pull_request:
+    push:
+        branches: [main]
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        service:
-          - vision
-          - heartbeat
+    lint:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                service:
+                    - vision
+                    - heartbeat
 
-    steps:
-      - uses: actions/checkout@v3
+        steps:
+            - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "20"
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '20'
 
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.11"
+            - uses: actions/setup-python@v4
+              with:
+                  python-version: '3.11'
 
-      - name: Install Hy
-        run: python -m pip install hy dotenv
+            - name: Install Hy
+              run: python -m pip install hy dotenv
 
-      - name: Cache pip dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+            - name: Cache pip dependencies
+              uses: actions/cache@v3
+              with:
+                  path: ~/.cache/pip
+                  key: ${{ runner.os }}-pip-${{ hashFiles('Pipfile.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pip-
 
-      - name: Cache npm dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles(format('services/js/{0}/package-lock.json', matrix.service)) }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
+            - name: Cache npm dependencies
+              uses: actions/cache@v3
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-npm-${{ hashFiles(format('services/js/{0}/package-lock.json', matrix.service)) }}
+                  restore-keys: |
+                      ${{ runner.os }}-npm-
 
-      - name: Install dependencies
-        run: make system-deps setup-js-service-${{ matrix.service }} 
+            - name: Install dependencies
+              run: make system-deps setup-js-service-${{ matrix.service }}
 
-      - name: Lint
-        run: make lint-js-service-${{ matrix.service }}
+            - name: Lint
+              run: make lint-js-service-${{ matrix.service }}
