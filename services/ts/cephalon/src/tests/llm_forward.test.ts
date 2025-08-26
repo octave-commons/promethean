@@ -14,11 +14,11 @@ const { BrokerClient } = clientModule;
 
 const { AIAgent } = await import('../agent/index.js');
 const { LLMService } = await import('../llm-service.js');
-const { ContextStore: ContextManager } = await import('@shared/ts/dist/persistence/contextStore.js');
+const { ContextStore } = await import('@shared/ts/dist/persistence/contextStore.js');
 
 class StubBot extends EventEmitter {
     applicationId = 'app';
-    context = new ContextManager();
+    context = new ContextStore();
     currentVoiceSession = undefined;
 }
 
@@ -46,7 +46,7 @@ test('AIAgent forwards prompt to LLM service via broker', async (t) => {
     const llm = new LLMService({ brokerUrl: `ws://127.0.0.1:${port}` });
     const agent = new AIAgent({
         bot: new StubBot() as any,
-        context: new ContextManager(),
+        context: new ContextStore(),
         llm,
     });
 
