@@ -60,10 +60,8 @@ export class RemoteEmbeddingFunction implements EmbeddingFunction {
         return new RemoteEmbeddingFunction(cfg.brokerUrl, cfg.driver, cfg.fn, undefined, cfg.clientIdPrefix);
     }
 
-    async generate(texts: string[]): Promise<number[][]> {
-        const items = texts.map((t) =>
-            t.startsWith('img:') ? { type: 'image_url', data: t.slice(4) } : { type: 'text', data: t },
-        );
+    async generate(texts: Array<string | { type: string; data: string }>): Promise<number[][]> {
+        const items = texts.map((t) => (typeof t === 'string' ? { type: 'text', data: t } : t));
         await this.#ready;
         return new Promise((resolve) => {
             this.#pending.push(resolve);

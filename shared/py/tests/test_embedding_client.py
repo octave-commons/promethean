@@ -43,7 +43,7 @@ def test_embedding_client_builds_payload(monkeypatch):
         function="fn",
     )
 
-    result = client(["hello", "img:https://image"])
+    result = client(["hello", {"type": "image_url", "data": "https://image"}])
 
     assert captured["url"] == "http://test"
     assert captured["json"] == {
