@@ -1,7 +1,10 @@
+import type { Tool } from '@shared/ts/dist/llm/tools.js';
+
 export interface GenerateArgs {
     prompt: string;
     context?: Array<{ role: string; content: string }>;
     format?: any;
+    tools?: Tool[];
 }
 
 export interface LLMDriver {
