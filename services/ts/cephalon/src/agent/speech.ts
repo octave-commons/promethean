@@ -3,7 +3,7 @@ try {
     ({ AGENT_NAME } = await import('../../../../../shared/js/env.js'));
 } catch {}
 import { splitSentances, seperateSpeechFromThought, classifyPause, estimatePauseDuration } from '../tokenizers.js';
-import { DualStoreManager as CollectionManager } from '@shared/ts/dist/persistence/dualStore.js';
+import { DualStoreManager } from '@shared/ts/dist/persistence/dualStore.js';
 import { sleep } from '../util.js';
 import type { AIAgent } from './index.js';
 import { createAudioResource, StreamType } from '@discordjs/voice';
@@ -43,8 +43,8 @@ export async function storeAgentMessage(
     startTime = Date.now(),
     endTime = Date.now(),
 ) {
-    const messages = this.contextManager.getCollection('agent_messages') as CollectionManager<'text', 'createdAt'>;
-    return messages.addEntry({
+    const messages = this.context.getCollection('agent_messages') as DualStoreManager<'text', 'createdAt'>;
+    return messages.insert({
         text,
         createdAt: Date.now(),
         metadata: {
@@ -79,7 +79,10 @@ export async function generateVoiceResponse(this: AIAgent) {
         const texts = seperateSpeechFromThought(content);
         const sentences: { type: string; text: string }[] = texts.flatMap(
             ({ text, type }: { text: string; type: string }) =>
-                splitSentances(text).map((sentance: string) => ({ text: sentance, type })),
+                splitSentances(text).map((sentance: string) => ({
+                    text: sentance,
+                    type,
+                })),
         );
         console.log({ sentences });
         const finishedSentences = [] as { type: string; text: string }[];
