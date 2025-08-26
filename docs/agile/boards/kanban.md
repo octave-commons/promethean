@@ -149,11 +149,9 @@ kanban-plugin: board
 - [ ] [[Mock broker]] #incoming
 - [ ] [[discord_image_awareness_md_md.md|discord image awareness md md]] #framework-core #ollama-integration #multimodal-context #accepted
 - [ ] [[Webcrawler]]
-- [ ] [[implement defun in compiler lisp incoming]]
 - [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
 - [ ] [[set up data migration pipeline and clearly describe conventions]]
 - [ ] [[broker gpt bridge parity plan]]
-- [ ] [[Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #accepted
 - [ ] [[Set up proper openai custom gpt compatable oauth login flow]]
 - [ ] [[File explorer]]
 - [ ] [[Replace all python properly with hy incoming]]
@@ -165,7 +163,9 @@ kanban-plugin: board
 
 - [ ] [[MVP local LLM chat interface with tool calls connected to gpt bridge]]
 - [ ] [[discord_image_awareness_md_md.md|discord image awareness.md]] #framework-core #ollama-integration #multimodal-context #accepted
+- [ ] [[implement defun in compiler lisp incoming]]
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
+- [ ] [[Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #accepted
 - [ ] [[seperate discord commands from the actions they perform]] #in-progress
 - [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
 - [ ] [[breakdown cephalon voice commands file using ecs]] #in-progress

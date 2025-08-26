@@ -8,10 +8,10 @@ test.serial('RemoteEmbeddingFunction: times out when no response', async (t) => 
         EMBEDDING_TIMEOUT_MS: process.env.EMBEDDING_TIMEOUT_MS,
     };
     try {
-        const abs = path.join(process.cwd(), 'tests', 'helpers', 'slowBroker.js');
+        const abs = path.join(process.cwd(), 'dist', 'tests', 'helpers', 'slowBroker.js');
         process.env.SHARED_IMPORT = 'file://' + abs;
         process.env.EMBEDDING_TIMEOUT_MS = '50';
-        const { RemoteEmbeddingFunction } = await import('../../.js');
+        const { RemoteEmbeddingFunction } = await import('../../remoteEmbedding.js');
         const ref = new RemoteEmbeddingFunction(undefined, 'driverX', 'fnY');
         await t.throwsAsync(() => ref.generate(['hello']), {
             message: /embedding timeout/i,
