@@ -1,5 +1,5 @@
 import test from 'ava';
-import { handleTask, setCallOllamaFn, setBroker } from '../src/index.js';
+import { handleTask, setGenerateFn, setBroker } from '../dist/index.js';
 
 test('handleTask publishes reply using broker', async (t) => {
     const messages = [];
@@ -7,7 +7,7 @@ test('handleTask publishes reply using broker', async (t) => {
         publish: (topic, msg) => messages.push({ topic, msg }),
     };
     setBroker(fakeBroker);
-    setCallOllamaFn(async () => 'hi');
+    setGenerateFn(async () => 'hi');
     const task = {
         id: '123',
         payload: {
