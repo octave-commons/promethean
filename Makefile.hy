@@ -614,7 +614,9 @@
 (defn-cmd system-deps []
   (if (os.environ.get "SIMULATE_CI")
       (print "Skipping system dependency installation during CI simulation")
-      (sh "sudo apt-get update && sudo apt-get install -y libsndfile1" :shell True)))
+      (do (sh "sudo apt-get update && sudo apt-get install -y libsndfile1" :shell True)
+          (sh "sudo apt-get install -y ffmpeg" :shell True)
+        (sh "corepack enable && corepack prepare pnpm@latest --activate"))))
 
 (defn-cmd install-mongodb []
   (if (= (platform.system) "Linux")
