@@ -89,24 +89,24 @@ kanban-plugin: board
 - [ ] [[obsidian_replacement_md.md|obsidian replacement]] #framework-core #ice-box
 - [ ] [[run_model_bakeoff_md.md|Run model bakeoff]] #ops #codex-task #ice-box
 - [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #ice-box
-- [ ] [[smart_task_templater_md.md|Smart Task templater]] #framework-core #ice-box
 - [ ] [[cache_decay_mechanisim_md_md.md|cache decay mechanisim.md]] #framework-core #ice-box
 - [ ] [[thinking_model_integration_md_md.md|thinking model integration md md]] #framework-core #ice-box
+- [ ] Make the system hashtag aware
+- [ ] tamper monkey script for using templates defined in the vault
+- [ ] Set up new user roles and policies for the systems
+- [ ] clearly standardize data models
+- [ ] convert current services to packages, then redefine the services using config files
+- [ ] flatten services
 
 
 ## Accepted
 
-- [ ] [[harden precommit hooks]]
-- [ ] [[script for getting github action workflow states for a branch]]
 - [ ] [[audio processing service]]
 - [ ] [[hy - js interop]]
 - [ ] [[lisp ecosystem files]]
 - [ ] [[connect wikipedia]]
 - [ ] [[connect reddit]]
 - [ ] [[connect bluesky]]
-- [ ] [[database migration system]]
-- [ ] [[flatten sibilant src folders]]
-- [ ] [[LSP server for home brew lisp incoming]]
 - [ ] [[redefine all existing lambdas with high order functions incoming]]
 - [ ] [[Find music that triggered copyright mute on twitch for analysis incoming]]
 - [ ] [[task generator system]]
@@ -121,18 +121,23 @@ kanban-plugin: board
 
 ## Breakdown (8)
 
-- [ ] [[gpt bridge fuzzy lookup should return multiple matches when it is used.]]
-- [ ] [[File explorer]]
-- [ ] [[move discord scraper to ts]]
-- [ ] [[Set up proper openai custom gpt compatable oauth login flow]]
-- [ ] [[setup new service generator]]
+- [ ] [[harden precommit hooks]]
+- [ ] [[script for getting github action workflow states for a branch]]
 - [ ] [[breakdown Makefile.hy]]
 - [ ] [[add_twitch_chat_integration_md_md.md|Add twitch chat integration.md]] #framework-core #accepted
 - [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md.md|Full agent mode (Text chat, selectively join channels, etc]] #framework-core #accepted
+- [ ] [[smart_task_templater_md.md|Smart Task templater]] #framework-core #ice-box
+- [ ] [[database migration system]]
+- [ ] [[LSP server for home brew lisp incoming]]
 
 
 ## Ready (13)
 
+- [ ] [[setup new service generator]]
+- [ ] [[Set up proper openai custom gpt compatable oauth login flow]]
+- [ ] [[move discord scraper to ts]]
+- [ ] [[File explorer]]
+- [ ] [[gpt bridge fuzzy lookup should return multiple matches when it is used.]]
 - [ ] [[implement classes in compiler lisp incoming]]
 - [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] #framework-core #ollama-integration #stream-automation #accepted
 - [ ] [[discord_image_awareness_md_md.md|discord image awareness md md]] #framework-core #ollama-integration #multimodal-context #accepted
@@ -247,6 +252,7 @@ kanban-plugin: board
 
 ## Rejected
 
+- [ ] [[flatten sibilant src folders]]
 - [ ] [[snapshot_prompts_specs_to_repo_md_md.md|Snapshot prompts/specs to repo]] #ice-box
 - [ ] [[detect_contradictions_in_memory_md_md.md|Detect contradictions in memory]] #framework-core #ice-box
 - [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md.md|Integrate synthesis-agent pass on \`unique/\` to produce draft docs]] #framework-core #ice-box
