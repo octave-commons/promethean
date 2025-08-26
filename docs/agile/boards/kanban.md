@@ -91,10 +91,10 @@ kanban-plugin: board
 - [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #ice-box
 - [ ] [[cache_decay_mechanisim_md_md.md|cache decay mechanisim.md]] #framework-core #ice-box
 - [ ] [[thinking_model_integration_md_md.md|thinking model integration md md]] #framework-core #ice-box
-- [ ] Make the system hashtag aware
-- [ ] tamper monkey script for using templates defined in the vault
-- [ ] Set up new user roles and policies for the systems
-- [ ] clearly standardize data models
+- [ ] [[Make the system hashtag aware]]
+- [ ] [[tamper monkey script for using templates defined in the vault]]
+- [ ] [[Set up new user roles and policies for the systems]]
+- [ ] [[clearly standardize data models]]
 - [ ] convert current services to packages, then redefine the services using config files
 - [ ] flatten services
 
