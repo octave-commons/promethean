@@ -140,13 +140,11 @@ kanban-plugin: board
 - [ ] [[Webcrawler]]
 - [ ] [[implement defun in compiler lisp incoming]]
 - [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
-- [ ] [[Curate code from personal repository]]
 
 
 ## Todo (8)
 
 - [ ] [[Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #accepted
-- [ ] [[Replace all python properly with hy incoming]]
 - [ ] [[broker gpt bridge parity plan]]
 - [ ] [[Create broker services that can handle all the same tasks as the gpt bridge]]
 - [ ] [[set up data migration pipeline and clearly describe conventions]]
@@ -155,7 +153,9 @@ kanban-plugin: board
 
 ## In Progress (4)
 
+- [ ] [[Curate code from personal repository]]
 - [ ] [[MVP local LLM chat interface with tool calls connected to gpt bridge]]
+- [ ] [[Replace all python properly with hy incoming]]
 - [ ] [[Agent Tasks Persistence Migration to DualStore]]
 
 
