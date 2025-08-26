@@ -12,12 +12,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Command definitions extracted into reusable modules and JSON descriptors for Makefile generation.
+
 - Extracted actionable tasks from unique notes into tasks/unique-notes.md
 - Policy-based access control with user and role management for SmartGPT Bridge.
 - Directory tree endpoint for SmartGPT Bridge file API.
 - v1 router exposing consolidated SmartGPT Bridge endpoints.
 - OpenAPI spec for `/v1` served at `/v1/openapi.json` with consolidated operations.
 - `distclean` target to remove ignored files via `git clean -fdX`.
+
+### Changed
+
+- Refined Kanban breakdown tasks with clear goals, requirements, and subtasks.
 - MCP server and stdio wrapper exposing `search.query` over WebSocket and CLI.
 - Packaging for `shared` modules to enable standard imports.
 - Central `tests/conftest.py` to configure the test environment.
@@ -40,15 +46,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Test for GUI parameter defaults in `init_parameters_interactive`.
 - URL canonicalization and hashing utilities for the web crawler.
 - Basic webcrawler package scaffolding with link extraction.
+- CLI to scaffold Python or TypeScript service templates.
 - Tests for grammar correction in the shared speech spell checker.
 - Unit tests for Discord utility functions covering channel history and cursor management.
 - Tests for `shared.py.settings` confirming environment defaults and overrides.
 - Expanded `MIGRATION_PLAN.md` with scope, phased timeline, requirements, and owner assignments.
 - Provider-agnostic LLM driver interface with Ollama and HuggingFace implementations.
 - TypeScript LLM service now uses pluggable drivers for Ollama and HuggingFace.
+- Basic class support in Lisp compiler with `defclass`, `new`, `get`, and `call` forms.
+- Realtime Promethean Health Dashboard for monitoring heartbeat metrics.
+- Configurable timeout for remote embedding requests.
+- `defun` special form in Lisp compiler enabling named functions and recursion.
 
 ### Changed
 
+- Pre-commit now runs `pnpm tsc --noEmit` and `pytest -q` instead of `make build`; use `pre-commit run --hook-stage manual full-build` or `make build` for full builds.
 - Naive embedding driver now uses configurable `VECTOR_SIZE` constant.
  - Enhanced URL canonicalization helpers to remove tracking parameters and expand scheme denylist.
 - Organized SmartGPT Bridge routes into versioned directories.
@@ -70,6 +82,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - MCP server now creates a dedicated bridge connection per session and exposes tool schemas via `inputSchema`.
 - Proxy service now serves frontend files directly, removing the need for a separate static server.
 - Broker client now uses structured logging and narrower exception handling.
+- Waveform and spectrogram generation delegated to an external audio service injected via `CaptureDeps`.
+- Remote embedding function now surfaces broker connection errors and rejects pending requests on failure.
 
 ### Fixed
 
