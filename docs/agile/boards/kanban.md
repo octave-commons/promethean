@@ -18,6 +18,91 @@ kanban-plugin: board
 - [ ] [[reports/persistence-migration-checklist.md|Persistence Migration Checklist]]
 
 
+## Ice Box
+
+- [ ] [[extract_docs_from_riatzukiza_github_io_md_md.md|Extract docs from riatzukiza.github.io]] #framework-core #accepted
+- [ ] [[finish_whisper_npu_system_md_md.md|finish whisper npu system md md]] #framework-core #performance-optimization #npu-integration #accepted
+- [ ] [[extract_docs_from_riatzukiza_github_io_md_md.md|Extract docs from riatzukiza.github.io]] #framework-core #accepted
+- [ ] [[Design Ollama Model file for use with codex cli 1]]
+- [ ] [[Add codex layer to emacs]]
+- [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|Refactor Speech interuption system]] #framework-core #breakdown
+- [ ] [[write_end_to_end_tests_md_md.md|write end to end tests md md]] #framework-core #accepted
+- [ ] [[describe_github_branching_workflow_md.md|describe github branching workflow md]] #framework-core #agent-thinking #breakdown
+- [ ] [[setup_a_second_agent_md.md|setup a second agent md]] #framework-core #ice-box
+- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ice-box
+- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ice-box
+- [ ] [[twitch_discord_general_auto_mod_md_md.md|twitch discord general auto mod md md]] #framework-core #observability #multimodal-context #risk #ice-box
+- [ ] [[Promethean Health Dashboard|Web frontend for system management.md]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #ice-box
+- [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #ice-box
+- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ML stuff (discord, etc) 2]] #framework-core #language-strategy #performance-optimization #ice-box
+- [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md.md|Add semantic overlays for layer1 through layer8]] #layerX #framework-core #ice-box
+- [ ] [[annotate_legacy_code_with_migration_tags_md.md|Annotate legacy code with migration tags]] #framework-core #ice-box
+- [ ] [[detect_contradictions_in_memory_md_md.md|Detect contradictions in memory]] #framework-core #ice-box
+- [ ] [[evaluate_and_reward_flow_satisfaction_md_md.md|Evaluate and reward flow satisfaction]] #framework-core #ice-box
+- [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
+- [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #framework-core #ice-box
+- [ ] [[identify_ancestral_resonance_patterns_md_md.md|Identify ancestral resonance patterns]] #framework-core #ice-box
+- [ ] [[implement_fragment_ingestion_with_activation_vecto_md.md|Implement fragment ingestion with activation vectors]] #framework-core #ice-box
+- [ ] [[implement_transcendence_cascade_md.md|Implement transcendence cascade]] #framework-core #ice-box
+- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md.md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #ice-box
+- [ ] [[run_bench_subscribe_ts_with_mongo_bus_and_record_p_md.md|Run `bench/subscribe.ts` with Mongo bus and record p50/p99]] #ice-box
+- [ ] [[run_model_bakeoff_md.md|Run model bakeoff]] #ops #codex-task #ice-box
+- [ ] [[schedule_alignment_meeting_with_stakeholders_md_md.md|Schedule alignment meeting with stakeholders]] #framework-core #ice-box
+- [ ] [[smart_task_templater_md.md|Smart Task templater]] #framework-core #ice-box
+- [ ] [[suggest_metaprogramming_updates_md.md|Suggest metaprogramming updates]] #framework-core #ice-box
+- [ ] [[wire_mongoeventstore_mongocursorstore_in_place_of_md.md|Wire MongoEventStore + MongoCursorStore in place of InMemory]] #ice-box
+- [ ] [[write_a_small_cutover_script_to_replay_historical_md.md|Write a small **cutover** script to replay historical events through upcasters into snapshots]] #ice-box
+- [ ] [[add_file_system_to_context_management_system_md_md.md|add file system to context management system md md]] #framework-core #ice-box
+- [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md.md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #framework-core #ice-box
+- [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md.md|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #framework-core #eidolon-support #ice-box
+- [ ] [[cache_decay_mechanisim_md_md.md|cache decay mechanisim md md]] #framework-core #ice-box
+- [ ] [[define_codex_cli_baseg_agent_md_md.md|define codex cli baseg agent md md]] #framework-core #ice-box
+- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #ice-box
+- [ ] [[discord_chat_link_traversal_md_md.md|discord chat link traversal md md]] #framework-core #ice-box
+- [ ] [[obsidian_replacement_md.md|obsidian replacement md]] #framework-core #ice-box
+- [ ] [[reach_100_percent_complete_test_coverage_1_md_md.md|reach 100 percent complete test coverage 1 md md]] #framework-core #ice-box
+- [ ] [[snapshot_prompts_specs_to_repo_md_md.md|snapshot prompts specs to repo md md]] #ice-box
+- [ ] [[thinking_model_integration_md_md.md|thinking model integration md md]] #framework-core #ice-box
+- [ ] [[tool_chain_management_system_md_md.md|tool chain management system md md]] #framework-core #ice-box
+- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md.md|Integrate synthesis-agent pass on \`unique/\` to produce draft docs]] #framework-core #ice-box
+- [ ] [[smart_task_templater_md.md|Smart Task templater]] #framework-core #ice-box
+- [ ] [[evaluate_and_reward_flow_satisfaction_md_md.md|Evaluate and reward flow satisfaction]] #framework-core #ice-box
+- [ ] [[detect_contradictions_in_memory_md_md.md|Detect contradictions in memory]] #framework-core #ice-box
+- [ ] [[cache_decay_mechanisim_md_md.md|cache decay mechanisim.md]] #framework-core #ice-box
+- [ ] [[implement_fragment_ingestion_with_activation_vecto_md.md|Implement fragment ingestion with activation vectors #codex-task]] #framework-core #ice-box
+- [ ] [[run_model_bakeoff_md.md|Run model bakeoff]] #ops #codex-task #ice-box
+- [ ] [[snapshot_prompts_specs_to_repo_md_md.md|Snapshot prompts/specs to repo]] #ice-box
+- [ ] [[obsidian_replacement_md.md|obsidian replacement]] #framework-core #ice-box
+- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance (in memory, on disk, cold storage, so )]] #framework-core #ice-box
+- [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
+- [ ] [[identify_ancestral_resonance_patterns_md_md.md|Identify ancestral resonance patterns]] #framework-core #ice-box
+- [ ] [[implement_fragment_ingestion_with_activation_vecto_md.md|Implement fragment ingestion with activation vectors]] #framework-core #ice-box
+- [ ] [[thinking_model_integration_md_md.md|Thinking Model integration.md]] #framework-core #ice-box
+- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md.md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #ice-box
+- [ ] [[schedule_alignment_meeting_with_stakeholders_md_md.md|Schedule alignment meeting with stakeholders]] #framework-core #ice-box
+- [ ] [[write_a_small_cutover_script_to_replay_historical_md.md|Write a small **cutover** script to replay historical events through upcasters into snapshots]] #ice-box
+- [ ] [[tool_chain_management_system_md_md.md|Tool chain management system.md]] #framework-core #ice-box
+- [ ] [[wire_mongoeventstore_mongocursorstore_in_place_of_md.md|Wire MongoEventStore + MongoCursorStore in place of InMemory]] #ice-box
+- [ ] [[snapshot_prompts_specs_to_repo_md_md.md|Snapshot prompts and specs to repo]] #ice-box
+- [ ] [[run_model_bakeoff_md.md|Run model bakeoff]] #ops #codex-task #ice-box
+- [ ] [[run_bakeoff_see_below_md.md|Run bakeoff (see below)]] #ice-box
+- [ ] [[run_bench_subscribe_ts_with_mongo_bus_and_record_p_md.md|Run `bench/subscribe.ts` with Mongo bus and record p50/p99]] #ice-box
+- [ ] [[reach_100_percent_complete_test_coverage_1_md_md.md|Reach 100 percent complete test coverage 1.md]] #framework-core #ice-box
+- [ ] [[pin_versions_in_configs_promethean_codex_md.md|Pin versions in configs (Promethean + Codex)]] #ice-box
+- [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #ice-box
+- [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md.md|Allow old unnessisary messages to decay from database while retaining index entries ids.md]] #framework-core #eidolon-support #ice-box
+- [ ] [[enable_compactor_for_process_state_process_state_s_md.md|Enable compactor for `process.state` → `process.state.snapshot`]] #ice-box
+- [ ] [[discord_chat_link_traversal_md_md.md|Discord chat link traversal.md]] #framework-core #ice-box
+- [ ] [[define_codex_cli_baseg_agent_md_md.md|Define codex CLI baseg agent.md]] #framework-core #ice-box
+- [ ] [[annotate_legacy_code_with_migration_tags_md.md|Annotate legacy code with migration tags]] #framework-core #ice-box
+- [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md.md|Allow configuration of hyperparameters through discord (context size, spectrogram resolution, interuption threshold]] #framework-core #ice-box
+- [ ] [[add_file_system_to_context_management_system_md_md.md|Add file system to context management system.md]] #framework-core #ice-box
+- [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md.md|Add semantic overlays for layer1 through layer8]] #layerX #framework-core #ice-box
+- [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #ice-box
+- [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #framework-core #ice-box
+- [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
+
+
 ## Incoming
 
 - [ ] [[Find music that triggered copyright mute on twitch for analysis incoming]]
@@ -43,6 +128,7 @@ kanban-plugin: board
 - [ ] [[lisp package files]]
 - [ ] [[finish_whisper_npu_system_md_md.md|finish whisper NPU system.md]] #framework-core #performance-optimization #npu-integration #accepted
 - [ ] [[update_makefile_to_have_commands_specific_for_agents_md.md|Update Makefile to have commands specific for agents]] #devops #accepted
+- [ ] [[ChatGPT export injest with dedupe index and hashes]]
 
 
 ## Breakdown (8)
@@ -169,92 +255,6 @@ kanban-plugin: board
 - [ ] [[create_permission_gating_layer_1_md_md.md|Create permission gating layer]] #framework-core #done
 - [ ] [[document_board_usage_guidelines_1_md.md|Document board usage guidelines]] #framework-core #done
 - [ ] [[start_eidolon_md_md.md|Start Eidolon]] #framework-core #done
-
-
-## Ice Box
-
-- [ ] [[extract_docs_from_riatzukiza_github_io_md_md.md|Extract docs from riatzukiza.github.io]] #framework-core #accepted
-- [ ] [[finish_whisper_npu_system_md_md.md|finish whisper npu system md md]] #framework-core #performance-optimization #npu-integration #accepted
-- [ ] [[extract_docs_from_riatzukiza_github_io_md_md.md|Extract docs from riatzukiza.github.io]] #framework-core #accepted
-- [ ] [[Design Ollama Model file for use with codex cli 1]]
-- [ ] Set up proper openai custom gpt compatable oauth login flow
-- [ ] [[Add codex layer to emacs]]
-- [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|Refactor Speech interuption system]] #framework-core #breakdown
-- [ ] [[write_end_to_end_tests_md_md.md|write end to end tests md md]] #framework-core #accepted
-- [ ] [[describe_github_branching_workflow_md.md|describe github branching workflow md]] #framework-core #agent-thinking #breakdown
-- [ ] [[setup_a_second_agent_md.md|setup a second agent md]] #framework-core #ice-box
-- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ice-box
-- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ice-box
-- [ ] [[twitch_discord_general_auto_mod_md_md.md|twitch discord general auto mod md md]] #framework-core #observability #multimodal-context #risk #ice-box
-- [ ] [[Promethean Health Dashboard|Web frontend for system management.md]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #ice-box
-- [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #ice-box
-- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ML stuff (discord, etc) 2]] #framework-core #language-strategy #performance-optimization #ice-box
-- [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md.md|Add semantic overlays for layer1 through layer8]] #layerX #framework-core #ice-box
-- [ ] [[annotate_legacy_code_with_migration_tags_md.md|Annotate legacy code with migration tags]] #framework-core #ice-box
-- [ ] [[detect_contradictions_in_memory_md_md.md|Detect contradictions in memory]] #framework-core #ice-box
-- [ ] [[evaluate_and_reward_flow_satisfaction_md_md.md|Evaluate and reward flow satisfaction]] #framework-core #ice-box
-- [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
-- [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #framework-core #ice-box
-- [ ] [[identify_ancestral_resonance_patterns_md_md.md|Identify ancestral resonance patterns]] #framework-core #ice-box
-- [ ] [[implement_fragment_ingestion_with_activation_vecto_md.md|Implement fragment ingestion with activation vectors]] #framework-core #ice-box
-- [ ] [[implement_transcendence_cascade_md.md|Implement transcendence cascade]] #framework-core #ice-box
-- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md.md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #ice-box
-- [ ] [[run_bench_subscribe_ts_with_mongo_bus_and_record_p_md.md|Run `bench/subscribe.ts` with Mongo bus and record p50/p99]] #ice-box
-- [ ] [[run_model_bakeoff_md.md|Run model bakeoff]] #ops #codex-task #ice-box
-- [ ] [[schedule_alignment_meeting_with_stakeholders_md_md.md|Schedule alignment meeting with stakeholders]] #framework-core #ice-box
-- [ ] [[smart_task_templater_md.md|Smart Task templater]] #framework-core #ice-box
-- [ ] [[suggest_metaprogramming_updates_md.md|Suggest metaprogramming updates]] #framework-core #ice-box
-- [ ] [[wire_mongoeventstore_mongocursorstore_in_place_of_md.md|Wire MongoEventStore + MongoCursorStore in place of InMemory]] #ice-box
-- [ ] [[write_a_small_cutover_script_to_replay_historical_md.md|Write a small **cutover** script to replay historical events through upcasters into snapshots]] #ice-box
-- [ ] [[add_file_system_to_context_management_system_md_md.md|add file system to context management system md md]] #framework-core #ice-box
-- [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md.md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #framework-core #ice-box
-- [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md.md|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #framework-core #eidolon-support #ice-box
-- [ ] [[cache_decay_mechanisim_md_md.md|cache decay mechanisim md md]] #framework-core #ice-box
-- [ ] [[define_codex_cli_baseg_agent_md_md.md|define codex cli baseg agent md md]] #framework-core #ice-box
-- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #ice-box
-- [ ] [[discord_chat_link_traversal_md_md.md|discord chat link traversal md md]] #framework-core #ice-box
-- [ ] [[obsidian_replacement_md.md|obsidian replacement md]] #framework-core #ice-box
-- [ ] [[reach_100_percent_complete_test_coverage_1_md_md.md|reach 100 percent complete test coverage 1 md md]] #framework-core #ice-box
-- [ ] [[snapshot_prompts_specs_to_repo_md_md.md|snapshot prompts specs to repo md md]] #ice-box
-- [ ] [[thinking_model_integration_md_md.md|thinking model integration md md]] #framework-core #ice-box
-- [ ] [[tool_chain_management_system_md_md.md|tool chain management system md md]] #framework-core #ice-box
-- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md.md|Integrate synthesis-agent pass on \`unique/\` to produce draft docs]] #framework-core #ice-box
-- [ ] [[smart_task_templater_md.md|Smart Task templater]] #framework-core #ice-box
-- [ ] [[evaluate_and_reward_flow_satisfaction_md_md.md|Evaluate and reward flow satisfaction]] #framework-core #ice-box
-- [ ] [[detect_contradictions_in_memory_md_md.md|Detect contradictions in memory]] #framework-core #ice-box
-- [ ] [[cache_decay_mechanisim_md_md.md|cache decay mechanisim.md]] #framework-core #ice-box
-- [ ] [[implement_fragment_ingestion_with_activation_vecto_md.md|Implement fragment ingestion with activation vectors #codex-task]] #framework-core #ice-box
-- [ ] [[run_model_bakeoff_md.md|Run model bakeoff]] #ops #codex-task #ice-box
-- [ ] [[snapshot_prompts_specs_to_repo_md_md.md|Snapshot prompts/specs to repo]] #ice-box
-- [ ] [[obsidian_replacement_md.md|obsidian replacement]] #framework-core #ice-box
-- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance (in memory, on disk, cold storage, so )]] #framework-core #ice-box
-- [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
-- [ ] [[identify_ancestral_resonance_patterns_md_md.md|Identify ancestral resonance patterns]] #framework-core #ice-box
-- [ ] [[implement_fragment_ingestion_with_activation_vecto_md.md|Implement fragment ingestion with activation vectors]] #framework-core #ice-box
-- [ ] [[thinking_model_integration_md_md.md|Thinking Model integration.md]] #framework-core #ice-box
-- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md.md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #ice-box
-- [ ] [[schedule_alignment_meeting_with_stakeholders_md_md.md|Schedule alignment meeting with stakeholders]] #framework-core #ice-box
-- [ ] [[write_a_small_cutover_script_to_replay_historical_md.md|Write a small **cutover** script to replay historical events through upcasters into snapshots]] #ice-box
-- [ ] [[tool_chain_management_system_md_md.md|Tool chain management system.md]] #framework-core #ice-box
-- [ ] [[wire_mongoeventstore_mongocursorstore_in_place_of_md.md|Wire MongoEventStore + MongoCursorStore in place of InMemory]] #ice-box
-- [ ] [[snapshot_prompts_specs_to_repo_md_md.md|Snapshot prompts and specs to repo]] #ice-box
-- [ ] [[run_model_bakeoff_md.md|Run model bakeoff]] #ops #codex-task #ice-box
-- [ ] [[run_bakeoff_see_below_md.md|Run bakeoff (see below)]] #ice-box
-- [ ] [[run_bench_subscribe_ts_with_mongo_bus_and_record_p_md.md|Run `bench/subscribe.ts` with Mongo bus and record p50/p99]] #ice-box
-- [ ] [[reach_100_percent_complete_test_coverage_1_md_md.md|Reach 100 percent complete test coverage 1.md]] #framework-core #ice-box
-- [ ] [[pin_versions_in_configs_promethean_codex_md.md|Pin versions in configs (Promethean + Codex)]] #ice-box
-- [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #ice-box
-- [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md.md|Allow old unnessisary messages to decay from database while retaining index entries ids.md]] #framework-core #eidolon-support #ice-box
-- [ ] [[enable_compactor_for_process_state_process_state_s_md.md|Enable compactor for `process.state` → `process.state.snapshot`]] #ice-box
-- [ ] [[discord_chat_link_traversal_md_md.md|Discord chat link traversal.md]] #framework-core #ice-box
-- [ ] [[define_codex_cli_baseg_agent_md_md.md|Define codex CLI baseg agent.md]] #framework-core #ice-box
-- [ ] [[annotate_legacy_code_with_migration_tags_md.md|Annotate legacy code with migration tags]] #framework-core #ice-box
-- [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md.md|Allow configuration of hyperparameters through discord (context size, spectrogram resolution, interuption threshold]] #framework-core #ice-box
-- [ ] [[add_file_system_to_context_management_system_md_md.md|Add file system to context management system.md]] #framework-core #ice-box
-- [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md.md|Add semantic overlays for layer1 through layer8]] #layerX #framework-core #ice-box
-- [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #ice-box
-- [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #framework-core #ice-box
-- [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
 
 
 ## Rejected
