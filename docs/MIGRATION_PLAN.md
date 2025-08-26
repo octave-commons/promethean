@@ -6,6 +6,57 @@ This document outlines the migration steps from the legacy `duck/` folder and `r
 
 ---
 
+## 📋 Scope
+
+### In Scope
+
+- Migrating legacy `duck/` code and related GitHub Pages site into the monorepo
+- Consolidating service logic under `services/` with shared modules in `shared/`
+- Normalizing documentation and vault structure to match repository layout
+
+### Out of Scope
+
+- Major feature development unrelated to migration
+- Production deployment or scaling concerns beyond verifying basic service parity
+
+## 🏗 Phased Timeline
+
+| Phase                            | Deliverables                                          | Target Date |
+| -------------------------------- | ----------------------------------------------------- | ----------- |
+| Phase 1: Repository Restructure  | Move `duck/` to `agents/duck/`; extract core services | Week 1–2    |
+| Phase 2: Service Extraction      | Refactor shared code and reorganize GitHub Pages site | Week 3–4    |
+| Phase 3: Documentation & Cleanup | Finalize vault setup and remove legacy stubs          | Week 5–6    |
+
+## 📌 Requirements, Dependencies & Risks
+
+| Milestone                       | Dependencies                             | Risks & Mitigation                                  |
+| ------------------------------- | ---------------------------------------- | --------------------------------------------------- |
+| Restructure Duck into `agents/` | Existing `duck/` repo                    | Broken references → run `make test` after each move |
+| Split services by function      | Stable interfaces for STT/TTS/Cephalon   | Service drift → validate with integration tests     |
+| Reorganize GitHub Pages site    | Access to `riatzukiza.github.io` content | Lost assets → back up site before import            |
+| Normalize Obsidian vault        | Obsidian plugin compatibility            | Plugin mismatch → pin versions in `vault-config/`   |
+
+## 🛠 Subtasks & Owners
+
+| Subtask                                                       | Owner       |
+| ------------------------------------------------------------- | ----------- |
+| Draft detailed migration scopes and phased timeline           | @codex      |
+| Validate service extraction plan and shared module boundaries | @riatzukiza |
+| Review documentation updates and vault normalization          | @duck       |
+| Coordinate final cleanup and legacy code removal              | @codex      |
+
+## 🔗 Traceability
+
+- Task file: [[agile/tasks/finalize_migration_plan_md_md_md.md]]
+- Epic: [[agile/boards/epics.md#🛠 Developer Tooling & Build Pipeline]]
+
+## 👥 Stakeholder Review
+
+- Reviewed by: @riatzukiza, @codex
+- Status: Ready for execution ✅
+
+---
+
 ## 🗺️ Migration Goals
 
 - Flatten architecture and consolidate services under `services/`
