@@ -4,19 +4,34 @@ import WebSocket from 'ws';
 import { randomUUID } from 'crypto';
 
 export class BrokerClient {
-    constructor({ url = 'ws://localhost:7000', id = randomUUID() } = {}) {
+    constructor({
+        url = 'ws://localhost:7000',
+        id = randomUUID(),
+        heartbeatInterval = Number(process.env.BROKER_HEARTBEAT_MS) || 30000,
+    } = {}) {
         this.url = url;
         this.id = id;
         this.socket = null;
         this.handlers = new Map();
         this.onTask = null; // callback(task)
+        this.heartbeatInterval = heartbeatInterval;
+        this.heartbeatTimer = null;
     }
 
     connect() {
         return new Promise((resolve, reject) => {
             this.socket = new WebSocket(this.url);
-            this.socket.on('open', resolve);
+            this.socket.on('open', () => {
+                this.heartbeatTimer = setInterval(() => this.heartbeat(), this.heartbeatInterval);
+                resolve();
+            });
             this.socket.on('error', reject);
+            this.socket.on('close', () => {
+                if (this.heartbeatTimer) {
+                    clearInterval(this.heartbeatTimer);
+                    this.heartbeatTimer = null;
+                }
+            });
             this.socket.on('message', (data) => {
                 try {
                     const msg = JSON.parse(data);
@@ -73,5 +88,16 @@ export class BrokerClient {
 
     onTaskReceived(callback) {
         this.onTask = callback;
+    }
+
+    disconnect() {
+        if (this.heartbeatTimer) {
+            clearInterval(this.heartbeatTimer);
+            this.heartbeatTimer = null;
+        }
+        if (this.socket) {
+            this.socket.close();
+            this.socket = null;
+        }
     }
 }
