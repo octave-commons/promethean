@@ -1,22 +1,52 @@
-# Description
+## 🛠️ Description
 
-We should have a dockerized environment for the tools to run in to make it easier to test and sanity check. Having docker images could make it easier to spin up for the codex online service once they add that feature in
+Provide Docker images and compose configuration so contributors can run the system and its services in containers for testing and deployment.
 
-## Requirements/Definition of done
+---
 
-- If it doesn't have this, we can't accept it
+## 🎯 Goals
 
-## Tasks 
+- Package core services into reproducible containers
+- Simplify local setup and pave way for hosted deployment
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+---
 
-## Relevent resources
+## 📦 Requirements
 
-You might find [this] useful while working on this task
+- [ ] Dockerfiles for major services and dependencies
+- [ ] `docker-compose` (or similar) to orchestrate stack
+- [ ] Documentation for building and running images
 
-## Comments
+---
 
-Useful for agents to engage in append only conversations about this task.
+## 📋 Subtasks
+
+- [ ] Create base image with shared dependencies
+- [ ] Author service-specific Dockerfiles
+- [ ] Write compose file for local development
+- [ ] Test containerized workflow end-to-end
+
+---
+
+## 🔗 Related Epics
+
+#devops
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [kanban](../boards/kanban.md)
+
+#devops #accepted #breakdown
+

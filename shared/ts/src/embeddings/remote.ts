@@ -1,7 +1,6 @@
 import type { EmbeddingFunction, EmbeddingFunctionSpace } from 'chromadb';
-// @ts-ignore import js module without types
 import { BrokerClient } from '@shared/js/brokerClient.js';
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 
 export type RemoteEmbeddingOptions = {
     brokerUrl?: string;
@@ -9,6 +8,7 @@ export type RemoteEmbeddingOptions = {
     fn?: string;
     broker?: BrokerClient;
     clientIdPrefix?: string; // e.g., 'cephalon-embed' | 'discord-embed'
+    timeoutMs?: number;
 };
 
 // Shared RemoteEmbeddingFunction that requests vectors via the message broker.
@@ -18,8 +18,12 @@ export class RemoteEmbeddingFunction implements EmbeddingFunction {
     fn: string | undefined;
     broker: BrokerClient;
     #ready: Promise<void>;
-    #pending: ((embeddings: number[][]) => void)[] = [];
+    #pending: {
+        resolve: (embeddings: number[][]) => void;
+        reject: (err: unknown) => void;
+    }[] = [];
     #replyId: string;
+    timeoutMs: number;
 
     constructor(
         brokerUrl = process.env.BROKER_URL || 'ws://localhost:7000',
@@ -27,10 +31,12 @@ export class RemoteEmbeddingFunction implements EmbeddingFunction {
         fn = process.env.EMBEDDING_FUNCTION,
         broker?: BrokerClient,
         clientIdPrefix = 'embed',
+        timeoutMs = Number(process.env.EMBEDDING_TIMEOUT_MS) || 10000,
     ) {
         this.driver = driver;
         this.fn = fn;
         this.#replyId = randomUUID();
+        this.timeoutMs = timeoutMs;
         this.broker =
             broker ||
             new BrokerClient({
@@ -40,14 +46,22 @@ export class RemoteEmbeddingFunction implements EmbeddingFunction {
         this.#ready = this.broker
             .connect()
             .then(() => {
-                this.broker.subscribe('embedding.result', (event: any) => {
-                    if (event.replyTo !== this.#replyId) return;
-                    const resolve = this.#pending.shift();
-                    if (resolve) resolve(event.payload.embeddings);
-                });
+                this.broker.subscribe(
+                    'embedding.result',
+                    (event: { replyTo: string; payload: { embeddings: number[][] } }) => {
+                        if (event.replyTo !== this.#replyId) return;
+                        const pending = this.#pending.shift();
+                        if (pending) pending.resolve(event.payload.embeddings);
+                    },
+                );
             })
             .catch((err: unknown) => {
-                console.error('Failed to connect to broker', err);
+                const error = new Error('Failed to connect to broker', { cause: err });
+                this.#pending.forEach((p) => {
+                    p.reject(error);
+                });
+                this.#pending = [];
+                throw error;
             });
     }
 
@@ -56,15 +70,33 @@ export class RemoteEmbeddingFunction implements EmbeddingFunction {
         fn: string;
         brokerUrl?: string;
         clientIdPrefix?: string;
+        timeoutMs?: number;
     }): RemoteEmbeddingFunction {
-        return new RemoteEmbeddingFunction(cfg.brokerUrl, cfg.driver, cfg.fn, undefined, cfg.clientIdPrefix);
+        return new RemoteEmbeddingFunction(
+            cfg.brokerUrl,
+            cfg.driver,
+            cfg.fn,
+            undefined,
+            cfg.clientIdPrefix,
+            cfg.timeoutMs,
+        );
     }
 
     async generate(texts: Array<string | { type: string; data: string }>): Promise<number[][]> {
         const items = texts.map((t) => (typeof t === 'string' ? { type: 'text', data: t } : t));
         await this.#ready;
-        return new Promise((resolve) => {
-            this.#pending.push(resolve);
+        let pending:
+            | {
+                  resolve: (embeddings: number[][]) => void;
+                  reject: (err: unknown) => void;
+              }
+            | undefined;
+        const requestPromise = new Promise<number[][]>((resolve, reject) => {
+            pending = {
+                resolve: (embeddings) => resolve(embeddings),
+                reject: (err) => reject(err),
+            };
+            this.#pending.push(pending);
             this.broker.enqueue('embedding.generate', {
                 items,
                 driver: this.driver,
@@ -72,6 +104,17 @@ export class RemoteEmbeddingFunction implements EmbeddingFunction {
                 replyTo: this.#replyId,
             });
         });
+        const timeoutPromise = new Promise<number[][]>((_, reject) => {
+            const timeoutId = setTimeout(() => {
+                if (pending) {
+                    const idx = this.#pending.indexOf(pending);
+                    if (idx !== -1) this.#pending.splice(idx, 1);
+                }
+                reject(new Error('Embedding request timed out'));
+            }, this.timeoutMs);
+            requestPromise.finally(() => clearTimeout(timeoutId)).catch(() => {});
+        });
+        return Promise.race([requestPromise, timeoutPromise]);
     }
 
     defaultSpace(): EmbeddingFunctionSpace {

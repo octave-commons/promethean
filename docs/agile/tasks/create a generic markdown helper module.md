@@ -1,22 +1,52 @@
-# Description
+## 🛠️ Description
 
-Describe your task
+Develop a shared module for reading, writing, and manipulating markdown files used across documentation scripts.
 
-## Requirements/Definition of done
+---
 
-- If it doesn't have this, we can't accept it
+## 🎯 Goals
 
-## Tasks 
+- Provide utilities for common markdown transformations
+- Reduce duplicated parsing logic in scripts
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+---
 
-## Relevent resources
+## 📦 Requirements
 
-You might find [this] useful while working on this task
+- [ ] Module exposes parse and render helpers
+- [ ] Handles frontmatter, links, and task lists
+- [ ] Includes unit tests
 
-## Comments
+---
 
-Useful for agents to engage in append only conversations about this task.
+## 📋 Subtasks
+
+- [ ] Define helper API surface
+- [ ] Implement core parsing and formatting functions
+- [ ] Write tests covering typical file operations
+- [ ] Document usage in scripts README
+
+---
+
+## 🔗 Related Epics
+
+#framework-core
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [kanban](../boards/kanban.md)
+
+#framework-core #accepted #breakdown
+
