@@ -1,8 +1,4 @@
-from pathlib import Path
-import sys
-
-sys.path.append(str(Path(__file__).resolve().parent))
-from utils import load_script_module
+from tests.scripts.utils import load_script_module
 
 hk = load_script_module("hashtags_to_kanban")
 
