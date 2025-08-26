@@ -127,7 +127,7 @@ export class DiscordRestProxy {
             body: body ? JSON.stringify(body) : undefined,
         } as any);
         if (res.status === 429) {
-            const retry = Number((await res.json()).retry_after) * 1000 || 1000;
+            const retry = Number(((await res.json()) as any).retry_after) * 1000 || 1000;
             this.limiter.register429(bucket, retry);
             return { ok: false, status: 429, bucket, retry_after_ms: retry };
         }
