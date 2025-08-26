@@ -20,10 +20,15 @@ Promethean is a modular cognitive architecture for building embodied AI agents. 
 into small services that handle speech-to-text, text-to-speech, memory, and higher level reasoning.
 📖 For a high-level overview, see [docs/vision.md](docs/vision.md).
 📊 For architecture roadmaps and visualizations, see [docs/architecture/index.md](docs/architecture/index.md).
+📦 Data migration conventions and runbooks live under [docs/data](docs/data/contracts/README.md).
+
+### Broker Heartbeat
+
+`BrokerClient` sends periodic heartbeats to keep connections alive. Configure the interval in milliseconds with the `BROKER_HEARTBEAT_MS` environment variable (default `30000`).
 
 ## 📊 Project Evolution Master Graph
 
-```mermaid
+````mermaid
 
 graph TD
 
@@ -79,8 +84,7 @@ gantt
 
     Ecosystem + Packages    :crit,    des11, 2025-09-05, 25d
 
-```
-
+````
 
 Activate the environment when developing or running Python services:
 
