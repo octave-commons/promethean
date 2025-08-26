@@ -73,11 +73,14 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
 
         // console.log("Adding entry to collection", this.name, entry);
 
-        await this.chromaCollection.add({
-            ids: [id],
-            documents: [entry[this.textKey]],
-            metadatas: [entry.metadata],
-        });
+        const dualWrite = (process.env.DUAL_WRITE_ENABLED ?? 'true').toLowerCase() !== 'false';
+        if (dualWrite) {
+            await this.chromaCollection.add({
+                ids: [id],
+                documents: [entry[this.textKey]],
+                metadatas: [entry.metadata],
+            });
+        }
 
         await this.mongoCollection.insertOne({
             id: entry.id,
