@@ -1,13 +1,16 @@
 import test from 'ava';
-import { Bot } from '../bot.js';
+import runForward from '../actions/forward-attachments.js';
+import { buildForwardAttachmentsScope } from '../actions/forward-attachments.scope.js';
+import type { Bot } from '../bot.js';
 
 test('forwards image attachments to capture channel', async (t) => {
     let sent: any = null;
-    const bot = new Bot({ token: '', applicationId: '' });
-    bot.captureChannel = {
-        send: async (data: any) => {
-            sent = data;
-        },
+    const bot: Bot = {
+        captureChannel: {
+            send: async (data: any) => {
+                sent = data;
+            },
+        } as any,
     } as any;
     const attachments = new Map([
         [
@@ -28,7 +31,8 @@ test('forwards image attachments to capture channel', async (t) => {
         ],
     ]);
     const message: any = { attachments, author: { bot: false } };
-    await bot.forwardAttachments(message);
+    const scope = await buildForwardAttachmentsScope({ bot });
+    await runForward(scope, { message });
     t.truthy(sent);
     t.is(sent.files.length, 1);
     t.deepEqual(sent.files[0], {
