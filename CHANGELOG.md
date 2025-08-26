@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Proxy route `/bridge` through the shared proxy service for SmartGPT Bridge.
 - Tool calling support for Codex Context service.
 - Template for building Discord bots in TypeScript based on the Cephalon service.
+- Audio utility helpers for base64 PCM and WAV conversions.
 
 ### Changed
 
@@ -38,6 +39,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Frontends now served from a central static file server instead of individual services.
 - SmartGPT Bridge now uses shared DualStore and ContextStore for persistence.
 - Discord embedder migrated to shared DualStore and ContextStore for unified persistence.
+- STT and TTS services now use shared audio utilities for encoding and decoding.
 - Kanban processor now persists via shared DualStore and ContextStore.
 - Markdown Graph service now uses shared DualStore and ContextStore for persistence.
 - MCP server now creates a dedicated bridge connection per session and exposes tool schemas via `inputSchema`.
