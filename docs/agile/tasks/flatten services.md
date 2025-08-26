@@ -48,5 +48,5 @@ Nothing
 
 - [kanban](../boards/kanban.md)
 
-#framework-core #accepted #breakdown
+#framework-core #Ready
 
