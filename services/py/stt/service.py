@@ -1,12 +1,10 @@
 import sys
-
-sys.path.append("../../../")
-
 import asyncio
 import base64
 
 from shared.py.service_template import run_service
 from shared.py.speech.wisper_stt import transcribe_pcm
+
 
 
 async def process_task(client, task):
@@ -18,7 +16,9 @@ async def process_task(client, task):
         print("[stt] task missing 'pcm' field")
         return
     pcm_bytes = base64.b64decode(pcm_b64)
-    text = transcribe_pcm(bytearray(pcm_bytes), sample_rate)
+    from shared.py.speech import wisper_stt as _wisper
+
+    text = _wisper.transcribe_pcm(bytearray(pcm_bytes), sample_rate)
     await client.publish("stt.transcribed", {"text": text}, correlationId=task["id"])
 
 

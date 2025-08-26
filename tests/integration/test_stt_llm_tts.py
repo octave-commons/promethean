@@ -7,8 +7,6 @@ import numpy as np
 import pytest
 from fastapi.testclient import TestClient
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-
 
 def fake_llm(text: str) -> str:
     return f"LLM:{text}"
