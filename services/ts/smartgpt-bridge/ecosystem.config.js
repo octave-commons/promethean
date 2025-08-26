@@ -14,7 +14,7 @@ const __dirname = path.dirname(__filename);
 const __rootpath = path.join(__dirname, '../../..');
 
 export const apps = [
-    defineApp('smartgpt-bridge', 'src/fastifyServer.js', [], {
+    defineApp('smartgpt-bridge', 'dist/fastifyServer.js', [], {
         cwd: __dirname,
 
         time: true,
