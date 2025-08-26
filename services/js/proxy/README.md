@@ -12,10 +12,11 @@ Requests with the following prefixes are proxied by default:
 - `/stt` -> `http://localhost:5002`
 - `/vision` -> `http://localhost:9999`
 - `/llm` -> `http://localhost:8888`
+- `/bridge` -> `http://localhost:3210`
 
 ## Development
 
 ```
-npm install
-npm test
+pnpm install
+pnpm test
 ```

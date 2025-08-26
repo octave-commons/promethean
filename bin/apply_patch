@@ -1,0 +1,3 @@
+#!/usr/bin/env node
+import { main } from "../scripts/apply_patch.mjs";
+await main();

@@ -1,0 +1,59 @@
+beta: 1.0
+default:
+  threshold: 0.5
+  weights:
+    access_level: 1.0
+    trust_level: 1.0
+  actions:
+    default:
+      features:
+        join_voice_channel: 1.0
+        access_level: 1.0
+        trust_level: 1.0
+    join_voice_channel:
+      features:
+        access_level: 1.0
+        trust_level: 1.0
+    leave_voice_channel:
+      features:
+        access_level: 1.0
+        trust_level: 1.0
+    set_capture_channel:
+      features:
+        access_level: 0.0
+        trust_level: 0.0
+    set_desktop_channel:
+      features:
+        access_level: 0.0
+        trust_level: 0.0
+    begin_recording_user:
+      features:
+        access_level: 0.0
+        trust_level: 0.0
+    stop_recording_user:
+      features:
+        access_level: 0.0
+        trust_level: 0.0
+    begin_transcribing_user:
+      features:
+        access_level: 0.0
+        trust_level: 0.0
+    tts:
+      features:
+        access_level: 0.0
+        trust_level: 0.0
+    start_dialog:
+      features:
+        access_level: 0.0
+        trust_level: 0.0
+agents:
+  alice:
+    actions:
+      read:
+        features:
+          access_level: 1.0
+          trust_level: 1.0
+      delete:
+        features:
+          access_level: 0.0
+          trust_level: 0.0

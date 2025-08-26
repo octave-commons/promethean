@@ -2,6 +2,7 @@
 
 import asyncio
 from websockets.asyncio.client import connect
+from websockets.exceptions import ConnectionClosedError
 import json
 import uuid
 
@@ -15,22 +16,29 @@ class BrokerClient:
         self.task_handler = None
 
     async def connect(self):
-        self.ws = await connect(self.url)
+        # Allow large broker messages (audio, embeddings, etc.)
+        # websockets defaults to ~1MiB max; disable the limit here.
+        self.ws = await connect(self.url, max_size=None)
         asyncio.create_task(self._listen())
 
     async def _listen(self):
-        async for msg in self.ws:
-            try:
-                data = json.loads(msg)
-                if data.get("action") == "task-assigned" and self.task_handler:
-                    await self.task_handler(data["task"])
-                elif "event" in data:
-                    event = data["event"]
-                    handler = self.event_handlers.get(event["type"])
-                    if handler:
-                        await handler(event)
-            except Exception as e:
-                print("[broker_client] error processing message:", e)
+        try:
+            async for msg in self.ws:
+                try:
+                    data = json.loads(msg)
+                    if data.get("action") == "task-assigned" and self.task_handler:
+                        await self.task_handler(data["task"])
+                    elif "event" in data:
+                        event = data["event"]
+                        handler = self.event_handlers.get(event["type"])
+                        if handler:
+                            await handler(event)
+                except Exception as e:
+                    print("[broker_client] error processing message:", e)
+        except ConnectionClosedError as e:
+            print("[broker_client] connection closed:", e)
+        except Exception as e:
+            print("[broker_client] listener crashed:", e)
 
     async def subscribe(self, topic, handler):
         await self._send({"action": "subscribe", "topic": topic})

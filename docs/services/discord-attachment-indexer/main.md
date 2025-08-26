@@ -2,7 +2,7 @@
 
 **Path**: `services/py/discord_attachment_indexer/main.py`
 
-**Description**: Discord client that scans channels for new messages, extracts attachment metadata, updates MongoDB records, and maintains per-channel cursors while reporting liveness via `HeartbeatClient`.
+**Description**: Discord client that scans channels for new messages, extracts attachment metadata, updates MongoDB records, and maintains per-channel cursors while reporting liveness via the canonical broker-tied heartbeat.
 
 ## Dependencies
 - hy
@@ -11,7 +11,7 @@
 - random
 - shared.py.settings
 - shared.py.mongodb
-- shared.py.heartbeat_client
+- shared.py.heartbeat_broker
 - typing
 
 ## Dependents
