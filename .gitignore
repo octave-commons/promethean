@@ -4,6 +4,8 @@ dist/
 !shared/ts/prom-lib/dist/intention/
 !shared/ts/prom-lib/dist/intention/**
 data/
+!docs/data/
+!docs/data/**
 pulbic/
 .env
 agents/duck/chroma_data/
