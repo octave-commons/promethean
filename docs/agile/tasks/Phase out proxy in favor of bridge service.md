@@ -1,30 +1,54 @@
-# Description
+## 🛠️ Description
 
-The bridge is the entry way into our system.
-it defines our outward facing API
+Retire the existing proxy layer and expose all external APIs through the broker-driven bridge service.
 
-[err-stealth-16-ai-studio-a1vgg.tailbe888a.ts.net/v1/openapi.json](https://err-stealth-16-ai-studio-a1vgg.tailbe888a.ts.net/v1/openapi.json)
+---
 
-## Requirements/Definition of done
+## 🎯 Goals
 
-- Frontends are exposed through the bridge
-- LLM is exposed through the bridge (by forwarding through the broker)
-	- This means the bridge must be OpenAI compliant
-- STT is exposed through the bridge
-- TTS is exposed through the bridge
-- Frontend access is policy controlled (no unauthorized access)
+- Consolidate public access points into the bridge
+- Ensure bridge speaks OpenAI-compatible API for LLM interactions
 
-## Tasks 
+---
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+## 📦 Requirements
 
-## Relevent resources
+- [ ] Frontends route through bridge for API access
+- [ ] LLM requests forwarded through broker to backend models
+- [ ] STT and TTS endpoints available via bridge
+- [ ] Access controlled via policy rules
 
-You might find [this] useful while working on this task
+---
 
-## Comments
+## 📋 Subtasks
 
-Useful for agents to engage in append only conversations about this task.
+- [ ] Audit current proxy usage
+- [ ] Extend bridge with OpenAI-compatible endpoints
+- [ ] Migrate frontend/LLM/STT/TTS clients to bridge
+- [ ] Remove legacy proxy code
+
+---
+
+## 🔗 Related Epics
+
+#framework-core
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [API spec](https://err-stealth-16-ai-studio-a1vgg.tailbe888a.ts.net/v1/openapi.json)
+- [kanban](../boards/kanban.md)
+
+#framework-core #accepted #breakdown
+

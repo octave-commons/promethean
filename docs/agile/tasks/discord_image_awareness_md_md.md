@@ -1,7 +1,3 @@
-Here’s a refined version that makes it clear this is about **selective Discord image ingestion** into context rather than a brute-force “always pass the latest image” approach:
-
----
-
 ## 🛠️ Description
 
 Enable the system to **ingest and selectively include Discord images** into the context pipeline.
@@ -51,12 +47,6 @@ This allows the “Duck” to have **visual memory** tied to conversational cont
 
 ## 🔗 Related Epics
 
-\#framework-core
-\#ollama-integration
-\#multimodal-context
-
----
-
-If you want, I can also make you a **flow diagram** showing how Discord images move from ingestion → storage → context selection → pipeline, so we can see exactly where the “selective” part happens.
-That’ll help decide where scoring and filtering logic plug in.
-#accepted
+#framework-core
+#ollama-integration
+#multimodal-context
