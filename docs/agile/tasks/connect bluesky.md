@@ -1,22 +1,35 @@
 # Description
 
-Agent provider thingy
+Enable agents to interact with Bluesky using the AT Protocol APIs and app-password authentication.
 
+## Target APIs and Authentication
+
+- **API**: [Bluesky AT Protocol](https://docs.bsky.app/docs/api) via `https://bsky.social/xrpc`
+- **Authentication**: App password exchange for session token (JWT)
+
+## Data Flow & Rate Limiting
+
+- Agent authenticates ➜ session token ➜ Bluesky endpoint ➜ internal broker/storage
+- Monitor `x-ratelimit-*` headers and throttle (~200 requests/minute). Back off when `429` is returned.
 
 ## Requirements/Definition of done
 
-- If it doesn't have this, we can't accept it
+- Authenticated session can publish and read posts
+- Data flows into broker or storage services
+- Rate limit handling prevents API throttling
 
-## Tasks 
+## Tasks
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+- [ ] Create app password and configure credentials
+- [ ] Implement session login and client wrappers
+- [ ] Publish and fetch posts via internal queue
+- [ ] Implement rate limit checks and exponential backoff
+- [ ] Integration tests for posting and retrieval
+- [ ] Unit tests for session refresh and error paths
 
 ## Relevent resources
 
-You might find [this] useful while working on this task
+You might find [Bluesky API docs](https://docs.bsky.app/docs/api) useful while working on this task
 
 ## Comments
 
