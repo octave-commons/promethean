@@ -10,6 +10,7 @@
     },
     "dependencies": {
         "@shared/js": "file:../../../shared/js",
+        "@types/node": "^24.3.0",
         "mongodb": "^6.8.0",
         "pidusage": "^3.0.2",
         "ws": "^8.18.0"
