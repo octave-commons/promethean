@@ -1,24 +1,52 @@
-# Description
+## 🛠️ Description
 
-Makefile.hy is kind of a disaster. We should move away from it, pull out all of it's existing behavior into ./dev/tools.py
+Analyze the existing `Makefile.hy` and break it into clearer, maintainable components.
 
-## Requirements/Definition of done
+---
 
-- All documentation is updated to reflect new build, test, formatting, and so on procedures
-- Make file is no more
-- All behavior previously excuted by Makefile and Makefil.hy are now modularized and accessable from `./dev/tools.hy`
+## 🎯 Goals
 
-## Tasks 
+- Understand responsibilities of each target in `Makefile.hy`.
+- Propose a structure for modularization or documentation.
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+---
 
-## Relevent resources
+## 📦 Requirements
 
-You might find [this] useful while working on this task
+- [ ] Inventory all current targets and dependencies.
+- [ ] Identify redundant or legacy code.
+- [ ] Provide recommendations for splitting or refactoring.
 
-## Comments
+---
 
-Useful for agents to engage in append only conversations about this task.
+## 📋 Subtasks
+
+- [ ] Read through `Makefile.hy` and annotate major sections.
+- [ ] Create a diagram or list of target dependencies.
+- [ ] Suggest modular layout or separate files per language.
+- [ ] Highlight areas needing tests or docs.
+- [ ] Compile findings into a summary document.
+
+---
+
+## 🔗 Related Epics
+
+#framework-core
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [kanban](../boards/kanban.md)
+
+#accepted

@@ -1,22 +1,52 @@
-# Description
+## 🛠️ Description
 
-Describe your task
+Create a generator that scaffolds new services with standard configuration, directory layout, and test stubs.
 
-## Requirements/Definition of done
+---
 
-- If it doesn't have this, we can't accept it
+## 🎯 Goals
 
-## Tasks 
+- Simplify adding services by automating boilerplate.
+- Ensure new services follow repository conventions.
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+---
 
-## Relevent resources
+## 📦 Requirements
 
-You might find [this] useful while working on this task
+- [ ] CLI or Make target to generate a service skeleton.
+- [ ] Support Python, TypeScript, and Hy templates.
+- [ ] Include basic tests and README for the new service.
 
-## Comments
+---
 
-Useful for agents to engage in append only conversations about this task.
+## 📋 Subtasks
+
+- [ ] Identify common files needed for each service type.
+- [ ] Build template files and parameterize names.
+- [ ] Implement generator script and integrate with Makefile.
+- [ ] Add example usage and documentation.
+- [ ] Validate generator by creating a sample service.
+
+---
+
+## 🔗 Related Epics
+
+#framework-core
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [kanban](../boards/kanban.md)
+
+#accepted
