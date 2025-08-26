@@ -26,6 +26,7 @@ Integrate Twitch chat so agents can read and respond to messages during live str
 - [ ] Translate chat messages into broker events.
 - [ ] Enable optional agent responses back to Twitch.
 - [ ] Add tests for message flow and rate limit handling.
+- [ ] Document required environment variables and usage.
 
 ---
 
@@ -49,4 +50,4 @@ Nothing
 
 - [kanban](../boards/kanban.md)
 
-#accepted
+#Breakdown
