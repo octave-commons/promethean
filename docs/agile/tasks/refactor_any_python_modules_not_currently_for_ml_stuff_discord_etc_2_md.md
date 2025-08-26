@@ -1,7 +1,3 @@
-Here’s a refined version that reframes your intent into an actionable, framework-level engineering task:
-
----
-
 ## 🛠️ Description
 
 Minimize Python usage in the Promethean framework by **isolating and containing Python code** to only where it is unavoidable—primarily for machine learning model execution—while moving orchestration, glue code, and non-ML logic to faster, more maintainable languages (JavaScript/TypeScript, Sibilant, Hy, etc.).
@@ -43,12 +39,6 @@ The aim is to reduce Python’s footprint in the system, improve performance, an
 
 ## 🔗 Related Epics
 
-\#framework-core
-\#language-strategy
-\#performance-optimization
-
----
-
-If you want, I can also make you a **mermaid diagram** showing how Python gets pushed to the very edges of the architecture, leaving the central pipeline purely in JS/TS/Sibilant/Hy.
-That would make the migration path visually clear.
-#ice-box
+#framework-core
+#language-strategy
+#performance-optimization
