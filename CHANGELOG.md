@@ -38,6 +38,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - STT and embedding services updated to use `run_service`.
 - Unit tests for ForwardTacotronIE and WaveRNNIE helper functions.
 - Test for GUI parameter defaults in `init_parameters_interactive`.
+- URL canonicalization and hashing utilities for the web crawler.
+- Basic webcrawler package scaffolding with link extraction.
 - Tests for grammar correction in the shared speech spell checker.
 - Unit tests for Discord utility functions covering channel history and cursor management.
 - Tests for `shared.py.settings` confirming environment defaults and overrides.
@@ -48,6 +50,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Naive embedding driver now uses configurable `VECTOR_SIZE` constant.
+ - Enhanced URL canonicalization helpers to remove tracking parameters and expand scheme denylist.
 - Organized SmartGPT Bridge routes into versioned directories.
 - Embedding clients and related utilities now accept structured `{type, data}`
   items instead of using the `img:` prefix.
