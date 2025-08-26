@@ -19,7 +19,9 @@ export async function embedAttachments(evt) {
     const embedder = makeDeterministicEmbedder({ modelId: model, dim });
     const results: string[] = [];
     for (const a of evt.attachments) {
-        const signal = a.content_type?.startsWith('image/') ? `img:${a.url}` : a.url;
+        const signal = a.content_type?.startsWith('image/')
+            ? { type: 'image_url', data: a.url }
+            : { type: 'text', data: a.url };
         const embedding = await embedder.embedOne(signal);
         const id = `${evt.provider}:${evt.tenant}:attachment:${a.urn}`;
         await chroma.upsert([

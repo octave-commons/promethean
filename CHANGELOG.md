@@ -24,21 +24,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Smoke test script for MCP server and basic stdio wrapper test harness.
 - Frontend visualization for the markdown link graph using ForceGraph.
 - Simple web chat interface for the LLM service with HTTP and WebSocket endpoints.
+- Basic tool call support in the LLM chat frontend via SmartGPT Bridge.
+- Tests for tool call parsing and invocation in the LLM chat frontend.
 - File explorer UI for SmartGPT Bridge dashboard using file endpoints.
 - `sites/` directory consolidating all frontend code.
 - Proxy route `/bridge` through the shared proxy service for SmartGPT Bridge.
 - Tool calling support for Codex Context service.
 - Template for building Discord bots in TypeScript based on the Cephalon service.
+- Tests validating bridge event mappings for identifiers and protocols.
+- Tests covering MongoDB connection string construction and collection setup.
+- Audio utility helpers for base64 PCM and WAV conversions.
+- `run_service` helper for Python services simplifying startup and wait loops.
+- STT and embedding services updated to use `run_service`.
 - Unit tests for ForwardTacotronIE and WaveRNNIE helper functions.
 - Test for GUI parameter defaults in `init_parameters_interactive`.
 - Tests for grammar correction in the shared speech spell checker.
 - Unit tests for Discord utility functions covering channel history and cursor management.
 - Tests for `shared.py.settings` confirming environment defaults and overrides.
 - Expanded `MIGRATION_PLAN.md` with scope, phased timeline, requirements, and owner assignments.
+- Provider-agnostic LLM driver interface with Ollama and HuggingFace implementations.
+- TypeScript LLM service now uses pluggable drivers for Ollama and HuggingFace.
 
 ### Changed
 
+- Naive embedding driver now uses configurable `VECTOR_SIZE` constant.
 - Organized SmartGPT Bridge routes into versioned directories.
+- Embedding clients and related utilities now accept structured `{type, data}`
+  items instead of using the `img:` prefix.
 - Moved SmartGPT dashboard and LLM chat frontends into `sites/`.
 - Frontends now served from a central static file server instead of individual services.
 - Frontends communicate with backend services via the central proxy.
@@ -47,6 +59,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Frontends now served from a central static file server instead of individual services.
 - SmartGPT Bridge now uses shared DualStore and ContextStore for persistence.
 - Discord embedder migrated to shared DualStore and ContextStore for unified persistence.
+- STT and TTS services now use shared audio utilities for encoding and decoding.
 - Kanban processor now persists via shared DualStore and ContextStore.
 - Markdown Graph service now uses shared DualStore and ContextStore for persistence.
 - DualStoreManager introduces `insert` API (with `addEntry` alias); Cephalon uses DualStore and ContextStore directly.
@@ -64,6 +77,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - SSE agent log streaming cleans up listeners on disconnect to avoid leaks.
 - Python tests run without pipenv isolation.
 - Added missing `next_messages` helper for discord indexer tests.
+- CPU requirements no longer include NVIDIA packages and target PyTorch CPU wheels.
 
 ### Removed
 

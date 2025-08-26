@@ -4,7 +4,8 @@ import os
 from functools import lru_cache
 from typing import List
 
-from shared.py.service_template import start_service
+from shared.py.service_template import run_service
+# from drivers import get_driver
 from .drivers import get_driver
 
 
@@ -104,14 +105,11 @@ async def handle_task(task, client):
         )
 
 
-async def main():
-    await start_service(
-        id="embedding",
-        queues=["embedding.generate"],
-        handle_task=handle_task,
-    )
-    await asyncio.Event().wait()
-
-
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(
+        run_service(
+            id="embedding",
+            queues=["embedding.generate"],
+            handle_task=handle_task,
+        )
+    )

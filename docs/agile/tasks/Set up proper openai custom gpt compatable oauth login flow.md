@@ -1,23 +1,53 @@
-# Description
+## 🛠️ Description
 
-We want to have a full oauth login flow with redirect urls and the whole 9 so we can get the best possible security when using the custom gpts
+Implement a secure OAuth flow for OpenAI custom GPT integrations, including redirect handling and token management.
 
+---
 
-## Requirements/Definition of done
+## 🎯 Goals
 
-- If it doesn't have this, we can't accept it
+- Allow users to authenticate with OpenAI via OAuth.
+- Ensure minimal scopes and safe token storage.
 
-## Tasks 
+---
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+## 📦 Requirements
 
-## Relevent resources
+- [ ] OAuth client with configurable redirect URI.
+- [ ] Use PKCE or similar protection.
+- [ ] Persist and refresh tokens securely.
+- [ ] Document setup and environment variables.
 
-You might find [this] useful while working on this task
+---
 
-## Comments
+## 📋 Subtasks
 
-Useful for agents to engage in append only conversations about this task.
+- [ ] Research OpenAI OAuth endpoints and required scopes.
+- [ ] Implement authorization request and callback handler.
+- [ ] Store tokens in vault or encrypted config.
+- [ ] Validate flow end-to-end with a demo client.
+- [ ] Write README instructions for configuring the flow.
+
+---
+
+## 🔗 Related Epics
+
+#framework-core
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [kanban](../boards/kanban.md)
+
+#accepted
