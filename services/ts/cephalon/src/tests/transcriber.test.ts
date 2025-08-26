@@ -21,6 +21,7 @@ class DummyBroker extends EventEmitter {
     ack() {}
     heartbeat() {}
     onTaskReceived() {}
+    disconnect() {}
     emitTranscription(text: string) {
         this.emit('event', { payload: { text } });
     }

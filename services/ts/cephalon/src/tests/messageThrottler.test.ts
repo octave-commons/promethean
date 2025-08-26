@@ -31,7 +31,7 @@ test.skip('throttles tick interval based on messages', async (t) => {
     t.true((agent as any).tickInterval > 100);
 
     // Cleanup
-    if (client?.socket?.readyState === 1) client.socket.close();
+    if (client?.socket?.readyState === 1) client.disconnect();
     if (broker) await Promise.race([stopBroker(broker), new Promise((resolve) => setTimeout(resolve, 1000))]);
     if ((agent as any).audioPlayer?.stop) (agent as any).audioPlayer.stop(true);
 });
