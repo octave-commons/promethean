@@ -11,8 +11,6 @@ import { EventEmitter } from 'events';
 import { DESKTOP_CAPTURE_CHANNEL_ID } from '@shared/js/env.js';
 import { ContextStore } from '@shared/ts/dist/persistence/contextStore.js';
 import { createAgentWorld } from '@shared/ts/dist/agent-ecs/world.js';
-import { enqueueUtterance } from '@shared/ts/dist/agent-ecs/helpers/enqueueUtterance.js';
-import { pushVisionFrame } from '@shared/ts/dist/agent-ecs/helpers/pushVision.js';
 import { AgentBus } from '@shared/ts/dist/agent-ecs/bus.js';
 import { BrokerClient } from '@shared/js/brokerClient.js';
 import { checkPermission } from '@shared/js/permissionGate.js';
@@ -20,6 +18,10 @@ import { type Interaction } from './interactions.js';
 import { DesktopCaptureManager } from './desktop/desktopLoop.js';
 import { DualStoreManager } from '@shared/ts/dist/persistence/dualStore.js';
 import { cleanupChroma } from '@shared/ts/dist/persistence/maintenance.js';
+import runForwardAttachments from './actions/forward-attachments.js';
+import { buildForwardAttachmentsScope } from './actions/forward-attachments.scope.js';
+import registerLlmHandler from './actions/register-llm-handler.js';
+import { buildRegisterLlmHandlerScope } from './actions/register-llm-handler.scope.js';
 
 import { registerNewStyleCommands } from './bot/registerCommands.js';
 
@@ -89,6 +91,8 @@ export class Bot extends EventEmitter {
             url: process.env.BROKER_WS_URL || 'ws://localhost:7000',
         });
         this.bus = new AgentBus(broker);
+        const busScope = await buildRegisterLlmHandlerScope(this);
+        registerLlmHandler(busScope);
 
         this.client
             .on(Events.InteractionCreate, async (interaction) => {
@@ -109,24 +113,10 @@ export class Bot extends EventEmitter {
                 }
             })
             .on(Events.MessageCreate, async (message) => {
-                await this.forwardAttachments(message);
+                const scope = await buildForwardAttachmentsScope({ bot: this });
+                await runForwardAttachments(scope, { message });
             })
             .on(Events.Error, console.error);
-
-        this.bus.subscribe('agent.llm.result', (res: any) => {
-            if (!this.agentWorld) return;
-            const { w, agent, C } = this.agentWorld;
-            const text = res?.text ?? res?.reply ?? '';
-            console.log('llm response', text);
-            if (!text) return;
-            enqueueUtterance(w, agent, C, {
-                id: res.corrId ?? res.taskId ?? `${Date.now()}`,
-                group: 'agent-speech',
-                priority: 1,
-                bargeIn: 'pause',
-                factory: async () => this.currentVoiceSession.makeResourceFromText(text),
-            });
-        });
 
         // this.bus.subscribe<TtsResult>('agent.tts.result', async (r) => {
         //     if ( !this.agentWorld) return;
@@ -147,7 +137,6 @@ export class Bot extends EventEmitter {
             ),
         );
     }
-
     async forwardAttachments(message: discord.Message) {
         if (message.author?.bot) return;
         const imageAttachments = [...message.attachments.values()].filter(
@@ -220,4 +209,5 @@ export class Bot extends EventEmitter {
             console.warn('Failed to forward attachments', e);
         }
     }
+
 }

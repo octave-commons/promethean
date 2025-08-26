@@ -13,19 +13,19 @@ Provide a lightweight file explorer for navigating repository contents through t
 
 ## 📦 Requirements
 
-- [ ] Read-only navigation respecting permission rules.
-- [ ] Search functionality with fuzzy matching.
-- [ ] Clear error messages for restricted paths.
+- [x] Read-only navigation respecting permission rules.
+- [x] Search functionality with fuzzy matching.
+- [x] Clear error messages for restricted paths.
 
 ---
 
 ## 📋 Subtasks
 
 - [ ] Outline UX and permission constraints.
-- [ ] Implement backend API for listing and reading files.
+- [x] Implement backend API for listing and reading files.
 - [ ] Add UI component or chat command for navigation.
-- [ ] Include tests covering permission and search cases.
-- [ ] Document usage with examples.
+- [x] Include tests covering permission and search cases.
+- [x] Document usage with examples.
 
 ---
 

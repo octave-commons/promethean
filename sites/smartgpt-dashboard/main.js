@@ -1,5 +1,6 @@
 // Minimal dashboard bootstrap that delegates to <api-docs>
 import '/wc/components.js';
+import '/components/file-explorer.js';
 
 const byId = (id) => document.getElementById(id);
 let authCookieName = 'smartgpt_auth';
@@ -28,7 +29,7 @@ async function refreshAuth() {
         const res = await fetch('/bridge/auth/me', { headers });
 
         const js = await res.json().catch(() => ({}));
-        if (js && js.cookie) authCookieName = js.cookie;
+        if (js?.cookie) authCookieName = js.cookie;
         pill.classList.remove('ok', 'bad', 'warn');
         pill.classList.add(js?.auth ? 'ok' : 'warn');
         pill.textContent = js?.auth ? 'auth: on' : 'auth: off';
