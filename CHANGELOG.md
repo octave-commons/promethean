@@ -70,6 +70,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - SSE agent log streaming cleans up listeners on disconnect to avoid leaks.
 - Python tests run without pipenv isolation.
 - Added missing `next_messages` helper for discord indexer tests.
+- CPU requirements no longer include NVIDIA packages and target PyTorch CPU wheels.
 
 ### Removed
 
