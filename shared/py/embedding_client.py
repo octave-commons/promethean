@@ -1,10 +1,15 @@
 from __future__ import annotations
 
 import os
-from typing import Dict, List, Union
+import time
+import logging
+from typing import Any, Dict, List, Union
 
 import requests
 from chromadb.utils.embedding_functions import EmbeddingFunction
+
+
+logger = logging.getLogger(__name__)
 
 
 class EmbeddingServiceClient(EmbeddingFunction):
@@ -34,7 +39,9 @@ class EmbeddingServiceClient(EmbeddingFunction):
         self.driver = driver or os.environ.get("EMBEDDING_DRIVER")
         self.function = function or os.environ.get("EMBEDDING_FUNCTION")
 
-    def __call__(self, texts: List[Union[str, Dict[str, str]]]) -> List[List[float]]:
+    def __call__(
+        self, texts: List[Union[str, Dict[str, str]]]
+    ) -> List[List[float]] | Dict[str, Any]:
         """Generate embeddings for the provided items.
 
         Each item may be a plain string or a dictionary with ``{"type", "data"}``
@@ -49,6 +56,31 @@ class EmbeddingServiceClient(EmbeddingFunction):
             payload["driver"] = self.driver
         if self.function:
             payload["function"] = self.function
-        response = requests.post(self.url, json=payload, timeout=30)
-        response.raise_for_status()
-        return response.json()["embeddings"]
+
+        for attempt in range(3):
+            try:
+                response = requests.post(self.url, json=payload, timeout=30)
+                response.raise_for_status()
+                try:
+                    data = response.json()
+                except ValueError as e:
+                    logger.exception("Failed to decode embedding service response")
+                    return {"error": "invalid_json", "detail": str(e)}
+                embeddings = data.get("embeddings") if isinstance(data, dict) else None
+                if embeddings is None:
+                    logger.error(
+                        "Embedding service response missing 'embeddings': %s", data
+                    )
+                    return {"error": "missing_embeddings", "detail": data}
+                return embeddings
+            except requests.RequestException as e:
+                logger.warning(
+                    "Embedding request failed (attempt %d/3): %s", attempt + 1, e
+                )
+                if attempt < 2:
+                    time.sleep(2**attempt)
+                else:
+                    logger.exception("Embedding request failed after retries")
+                    return {"error": "request_failed", "detail": str(e)}
+
+        return {"error": "unknown"}

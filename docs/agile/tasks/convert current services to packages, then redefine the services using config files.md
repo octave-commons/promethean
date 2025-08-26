@@ -1,22 +1,52 @@
-# Description
+## 🛠️ Description
 
-Describe your task
+Transition existing services into reusable packages and instantiate concrete services via configuration files.
 
-## Requirements/Definition of done
+---
 
-- If it doesn't have this, we can't accept it
+## 🎯 Goals
 
-## Tasks 
+- Modularize service logic for reuse
+- Enable service composition through declarative configs
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+---
 
-## Relevent resources
+## 📦 Requirements
 
-You might find [this] useful while working on this task
+- [ ] Extract core logic of each service into language-appropriate package
+- [ ] Provide config-driven bootstrap that loads desired modules
+- [ ] Document migration steps for existing services
 
-## Comments
+---
 
-Useful for agents to engage in append only conversations about this task.
+## 📋 Subtasks
+
+- [ ] Audit services and identify shared components
+- [ ] Publish packages for shared logic
+- [ ] Create template config for redefining services
+- [ ] Update build pipeline to consume packages
+
+---
+
+## 🔗 Related Epics
+
+#framework-core
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [kanban](../boards/kanban.md)
+
+#framework-core #accepted #breakdown
+

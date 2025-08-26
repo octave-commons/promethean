@@ -2,7 +2,8 @@ import type { WebSocket } from 'ws';
 
 export class BrokerClient {
     socket: WebSocket | null;
-    constructor(options?: { url?: string; id?: string });
+    heartbeatInterval: number;
+    constructor(options?: { url?: string; id?: string; heartbeatInterval?: number });
     connect(): Promise<void>;
     subscribe(topic: string, handler: (event: any) => void): void;
     unsubscribe(topic: string): void;
