@@ -1,6 +1,8 @@
 import type { ChatInputCommandInteraction, TextChannel } from 'discord.js';
 import { ChannelType } from 'discord.js';
 import type { Bot } from '../bot.js';
+import runSetDesktop from '../actions/set-desktop-channel.js';
+import { buildSetDesktopChannelScope } from '../actions/set-desktop-channel.scope.js';
 
 export const data = {
     name: 'set-desktop-channel',
@@ -16,6 +18,8 @@ export default async function execute(interaction: ChatInputCommandInteraction, 
         await interaction.reply('Channel must be text-based.');
         return;
     }
-    ctx.bot.desktopChannel = channel as TextChannel;
-    await interaction.reply(`Desktop capture channel set to ${channel.id}`);
+    await interaction.deferReply({ ephemeral: true });
+    const scope = await buildSetDesktopChannelScope();
+    await runSetDesktop(scope, { bot: ctx.bot, channel: channel as TextChannel, by: interaction.user.id });
+    await interaction.editReply(`Desktop capture channel set to ${channel.id}`);
 }

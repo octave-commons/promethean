@@ -2,17 +2,20 @@
 import { read } from './reader';
 import { macroexpandAll } from './expand';
 import { toExpr } from './to-expr';
-import { lower } from '../lower';
+import { sym, isList } from './syntax';
 import { emitJS } from '../jsgen';
 
 export function compileLispToJS(src: string, { pretty = false, importNames = [] as string[] } = {}) {
     const forms = read(src);
     const expanded = macroexpandAll(forms);
-    // stitch multiple top-level forms into (begin ...)
-    const program =
-        expanded.length === 1 ? expanded[0] : ({ t: 'list', xs: [{ t: 'sym', name: 'begin' }, ...expanded] } as any);
+    if (expanded.length && isList(expanded[expanded.length - 1], 'defun')) {
+        expanded.push(sym('nil'));
+    }
+    const program = {
+        t: 'list',
+        xs: [{ t: 'sym', name: 'begin' }, ...expanded],
+    } as any;
     const ast = toExpr(program as any);
-    // Generate JS directly from AST (IR is for bytecode backend)
     const js = emitJS(ast, { iife: false, importNames, pretty });
     return { forms, expanded, ast, js };
 }
