@@ -48,6 +48,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Expanded `MIGRATION_PLAN.md` with scope, phased timeline, requirements, and owner assignments.
 - Provider-agnostic LLM driver interface with Ollama and HuggingFace implementations.
 - TypeScript LLM service now uses pluggable drivers for Ollama and HuggingFace.
+- Configurable timeout for remote embedding requests.
 - `defun` special form in Lisp compiler enabling named functions and recursion.
 
 ### Changed
@@ -72,6 +73,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - MCP server now creates a dedicated bridge connection per session and exposes tool schemas via `inputSchema`.
 - Proxy service now serves frontend files directly, removing the need for a separate static server.
 - Broker client now uses structured logging and narrower exception handling.
+- Remote embedding function now surfaces broker connection errors and rejects pending requests on failure.
 
 ### Fixed
 
