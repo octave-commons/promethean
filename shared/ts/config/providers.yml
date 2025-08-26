@@ -1,0 +1,8 @@
+providers:
+    - provider: discord
+      tenant: duck
+      credentials:
+          bot_token: ${DISCORD_TOKEN_DUCK}
+      storage:
+          mongo_db: test
+          chroma_ns: test
