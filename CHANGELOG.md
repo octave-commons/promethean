@@ -23,54 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
-- Refined Kanban breakdown tasks with clear goals, requirements, and subtasks.
-- MCP server and stdio wrapper exposing `search.query` over WebSocket and CLI.
-- Packaging for `shared` modules to enable standard imports.
-- Central `tests/conftest.py` to configure the test environment.
-- Smoke test script for MCP server and basic stdio wrapper test harness.
-- Frontend visualization for the markdown link graph using ForceGraph.
-- Simple web chat interface for the LLM service with HTTP and WebSocket endpoints.
-- Basic tool call support in the LLM chat frontend via SmartGPT Bridge.
-- Tests for tool call parsing and invocation in the LLM chat frontend.
-- File explorer UI for SmartGPT Bridge dashboard using file endpoints.
-- TypeScript utilities for repository file exploration with fuzzy search.
-- `sites/` directory consolidating all frontend code.
-- Proxy route `/bridge` through the shared proxy service for SmartGPT Bridge.
-- Tool calling support for Codex Context service.
-- Image attachments captured, stored, and retrieved for multimodal prompting with cleanup.
-- OAuth Authorization Code flow with PKCE for the auth-service, enabling OpenAI Custom GPT logins.
-- Template for building Discord bots in TypeScript based on the Cephalon service.
-- Tests validating bridge event mappings for identifiers and protocols.
-- Tests covering MongoDB connection string construction and collection setup.
-- Audio utility helpers for base64 PCM and WAV conversions.
-- `run_service` helper for Python services simplifying startup and wait loops.
-- STT and embedding services updated to use `run_service`.
-- Unit tests for ForwardTacotronIE and WaveRNNIE helper functions.
-- Test for GUI parameter defaults in `init_parameters_interactive`.
-- BrokerClient automatic reconnection with exponential backoff, queued message resend, and `disconnect` method.
-- Configurable heartbeat interval and automatic timer management in `BrokerClient`.
-- ECS voice system splitting legacy session logic into components and event-driven systems.
-- Initial migration contract validators and documentation outlining data migration conventions.
-- URL canonicalization and hashing utilities for the web crawler.
-- Basic webcrawler package scaffolding with link extraction.
-- CLI to scaffold Python or TypeScript service templates.
-- Tests for grammar correction in the shared speech spell checker.
-- Unit tests for Discord utility functions covering channel history and cursor management.
-- Tests for `shared.py.settings` confirming environment defaults and overrides.
-- Expanded `MIGRATION_PLAN.md` with scope, phased timeline, requirements, and owner assignments.
-- Provider-agnostic LLM driver interface with Ollama and HuggingFace implementations.
-- TypeScript LLM service now uses pluggable drivers for Ollama and HuggingFace.
-- Documented broker reconnection problem, goals, and acceptance criteria.
-- Periodic worker sweep in `queueManager` with configurable heartbeat and expiry thresholds.
-- Logging for task timeouts with configurable queueManager requeue tests.
-- Initial scaffolding for broker↔bridge parity tests, including normalizers, runner, and unit tests.
-- Automatic Twitch stream title pipeline using Ollama with Discord transcript context and pluggable storage.
-- Basic class support in Lisp compiler with `defclass`, `new`, `get`, and `call` forms.
-- Realtime Promethean Health Dashboard for monitoring heartbeat metrics.
-- Configurable timeout for remote embedding requests.
-- `defun` special form in Lisp compiler enabling named functions and recursion.
-
-### Changed
+- VoiceSynth implementation moved to shared module and imported by Cephalon service.
 
 - Pinned JavaScript dependencies, GitHub Actions, and documented version policy for reproducible builds.
 - Pre-commit now runs `pnpm tsc --noEmit` and `pytest -q` instead of `make build`; use `pre-commit run --hook-stage manual full-build` or `make build` for full builds.
