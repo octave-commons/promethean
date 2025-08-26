@@ -21,6 +21,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - OpenAPI spec for `/v1` served at `/v1/openapi.json` with consolidated operations.
 - `distclean` target to remove ignored files via `git clean -fdX`.
 
+- Tests covering `scripts.add_tags_ollama` tag generation and file processing.
+
 ### Changed
 
 - Refined Kanban breakdown tasks with clear goals, requirements, and subtasks.
@@ -75,7 +77,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Pinned JavaScript dependencies, GitHub Actions, and documented version policy for reproducible builds.
 - Pre-commit now runs `pnpm tsc --noEmit` and `pytest -q` instead of `make build`; use `pre-commit run --hook-stage manual full-build` or `make build` for full builds.
 - Naive embedding driver now uses configurable `VECTOR_SIZE` constant.
- - Enhanced URL canonicalization helpers to remove tracking parameters and expand scheme denylist.
+- Enhanced URL canonicalization helpers to remove tracking parameters and expand scheme denylist.
 - Organized SmartGPT Bridge routes into versioned directories.
 - Embedding clients and related utilities now accept structured `{type, data}`
   items instead of using the `img:` prefix.
