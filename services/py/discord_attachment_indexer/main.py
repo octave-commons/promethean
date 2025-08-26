@@ -1,25 +1,22 @@
-"""
-Scan Discord history for attachments and add their metadata to message documents.
-"""
+"""Scan Discord history for attachments and add their metadata to message documents."""
 
 import hy
 import os
-import sys
 import asyncio
 import random
-from typing import List
 
 import discord
 
 # sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../"))
 from shared.py import settings
-from shared.py.mongodb import discord_message_collection, discord_channel_collection
+from shared.py.mongodb import discord_channel_collection
 from shared.py.heartbeat_broker import start_broker_heartbeat
 from shared.py.utils.discord import (
     fetch_channel_history,
     shuffle_array,
     update_cursor,
 )
+from shared.py.utils.discord_attachment import index_attachments
 
 AGENT_NAME = os.environ.get("AGENT_NAME", "duck")
 print(f"Discord attachment indexer running for {AGENT_NAME}")
@@ -29,31 +26,6 @@ intents.message_content = True
 
 _hb_started = False
 _hb_ctx = None
-
-
-def format_attachment(attachment: discord.Attachment) -> dict:
-    return {
-        "id": attachment.id,
-        "filename": attachment.filename,
-        "size": attachment.size,
-        "url": attachment.url,
-        "content_type": attachment.content_type,
-    }
-
-
-def index_attachments(message: discord.Message) -> None:
-    attachments = [format_attachment(a) for a in message.attachments]
-    if not attachments:
-        return
-        _hy_anon_var_1 = None
-    else:
-        _hy_anon_var_1 = None
-    print(
-        f"Indexing attachments for message {message.id}: {[a['filename'] for a in attachments]}"
-    )
-    return discord_message_collection.update_one(
-        {"id": message.id}, {"$set": {"attachments": attachments}}
-    )
 
 
 async def index_channel(channel: discord.TextChannel) -> None:

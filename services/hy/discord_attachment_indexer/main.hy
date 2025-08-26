@@ -3,12 +3,12 @@
 (import sys)
 (import asyncio)
 (import random)
-(import typing [List])
 (import discord)
 ((. sys.path insert) 0 ((. os.path join) ((. os.path dirname) __file__) "../../../"))
 (import shared.py [settings])
-(import shared.py.mongodb [discord_message_collection discord_channel_collection])
+(import shared.py.mongodb [discord_channel_collection])
 (import shared.py.utils.discord [fetch_channel_history shuffle_array update_cursor])
+(import shared.py.utils.discord_attachment [index_attachments])
 
 (setv AGENT_NAME ((. os.environ get) "AGENT_NAME" "duck"))
 (print f"Discord attachment indexer running for {AGENT_NAME}")
@@ -16,14 +16,6 @@
 (setv client (discord.Client :intents intents))
 (setv intents.message_content True)
 
-(defn (annotate format_attachment dict) [(annotate attachment discord.Attachment)]
-  (return {"id" attachment.id  "filename" attachment.filename  "size" attachment.size  "url" attachment.url  "content_type" attachment.content_type}))
-
-(defn (annotate index_attachments None) [(annotate message discord.Message)]
-  (setv attachments (lfor a message.attachments (format_attachment a)))
-  (when (not attachments) (return))
-  (print f"Indexing attachments for message {message.id}: {(lfor a attachments (get a "filename"))}")
-  (discord_message_collection.update_one {"id" message.id} {"$set" {"attachments" attachments}}))
 
 (defn :async (annotate index_channel None) [(annotate channel discord.TextChannel)]
   (setv newest_message None)
