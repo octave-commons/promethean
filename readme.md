@@ -18,29 +18,69 @@ Choose the config inside `agents/<agent>/` for other agents.
 Set `AGENT_NAME` in your environment before launching agent services to isolate collections and data.
 Promethean is a modular cognitive architecture for building embodied AI agents. It breaks the system
 into small services that handle speech-to-text, text-to-speech, memory, and higher level reasoning.
-Agents such as **Duck** combine these services to create an interactive assistant with emotional state and memory.
+📖 For a high-level overview, see [docs/vision.md](docs/vision.md).
+📊 For architecture roadmaps and visualizations, see [docs/architecture/index.md](docs/architecture/index.md).
 
-Frontend code for dashboards and web UIs lives in the `sites/` directory and is served by a simple static server:
+## 📊 Project Evolution Master Graph
 
-```bash
-pnpm serve:sites
+```mermaid
+
+graph TD
+
+    KanbanBoard[[docs/agile/boards/kanban.md]] --> HyMigration[[docs/architecture/hy-migration-graph.md]]
+
+    KanbanBoard --> DualStoreMigration[[docs/architecture/persistence-migration-graph.md]]
+
+    KanbanBoard --> CompilerEvolution[[docs/architecture/compiler-evolution-graph.md]]
+
+
+
+    HyMigration --> HyChecklist[[docs/reports/hy-migration-checklist.md]]
+
+## 🗓️ Project Evolution Timeline
+
+```mermaid
+
+gantt
+
+    title Promethean Strategic Timeline
+
+    dateFormat  YYYY-MM-DD
+
+    section Hy Migration
+
+    Core Rules + Tooling    :active,  des1, 2025-08-15, 15d
+
+    Service Ports           :crit,    des2, 2025-08-20, 20d
+
+    CI + Docs Enforcement   :crit,    des3, 2025-09-05, 10d
+
+
+
+    section DualStore Migration
+
+    Cephalon + MarkdownGraph:done,    des4, 2025-08-10, 10d
+
+    Bridge + Embedder       :active,  des5, 2025-08-20, 15d
+
+    Kanban Processor        :active,  des6, 2025-08-22, 15d
+
+    Migration Scripts + Docs:crit,    des7, 2025-09-01, 20d
+
+
+
+    section Lisp Compiler Evolution
+
+    Redefine Lambdas        :active,  des8, 2025-08-15, 15d
+
+    Implement Defun         :active,  des9, 2025-08-20, 15d
+
+    Implement Classes       :crit,    des10, 2025-08-25, 20d
+
+    Ecosystem + Packages    :crit,    des11, 2025-09-05, 25d
+
 ```
 
-Then open `http://localhost:4500/<site>/` in your browser.
-
-## Setup
-
-### Python
-
-```bash
-pipenv install
-```
-
-Install additional packages needed for the test suite (including the `discord` library):
-
-```bash
-pip install -r requirements-dev.txt
-```
 
 Activate the environment when developing or running Python services:
 

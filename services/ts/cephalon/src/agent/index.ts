@@ -15,7 +15,7 @@ import EventEmitter from 'events';
 import { DesktopCaptureManager, DesktopCaptureData } from '../desktop/desktopLoop.js';
 import { Bot } from '../bot.js';
 import { LLMService } from '../llm-service.js';
-import { ContextStore as ContextManager } from '@shared/ts/dist/persistence/contextStore.js';
+import { ContextStore } from '@shared/ts/dist/persistence/contextStore.js';
 import { AgentInnerState, AgentOptions, GenerateResponseOptions } from '../types.js';
 import { defaultPrompt, defaultState, generatePrompt } from '../prompts.js';
 import { sleep } from '../util.js';
@@ -78,7 +78,7 @@ export class AIAgent extends EventEmitter {
     audioPlayer: AudioPlayer;
     speechArbiter: SpeechArbiter;
     turnManager: TurnManager;
-    context: ContextManager;
+    context: ContextStore;
     llm: LLMService;
 
     // --- VAD smoothing / hysteresis ---
@@ -106,10 +106,6 @@ export class AIAgent extends EventEmitter {
         this.turnManager = new TurnManager();
         this.turnManager.on('turn', (id: number) => this.speechArbiter.setTurnId(id));
     }
-    get contextManager() {
-        return this.bot.context;
-    }
-
     speak = speakAction;
     storeAgentMessage = storeAgentMessageAction;
     generateVoiceResponse = generateVoiceResponseAction;

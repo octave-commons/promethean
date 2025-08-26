@@ -1,9 +1,4 @@
-import os
-import sys
-
 import hy  # noqa: F401
-
-sys.path.append(os.getcwd())
 
 import util
 from unittest.mock import patch

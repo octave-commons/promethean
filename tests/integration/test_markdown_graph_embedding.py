@@ -1,13 +1,10 @@
 import os
-import sys
 import types
 
 import httpx
 import pytest
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 
 markdown_graph = pytest.importorskip(
