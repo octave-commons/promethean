@@ -14,3 +14,6 @@ providers:
       rate:
           max_concurrent: 8
           bucket_overrides: {}
+      storage:
+          mongo_db: test
+          chroma_ns: test

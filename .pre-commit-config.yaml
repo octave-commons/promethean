@@ -12,11 +12,24 @@ repos:
             entry: python scripts/kanban/hashtags_to_kanban.py --check --write --wikilinks
             language: system
             pass_filenames: false
-          - id: Build
-            name: Build
+          - id: tsc-no-emit
+            name: TypeScript compile check
+            entry: pnpm tsc --noEmit
+            language: system
+            types_or: [javascript, ts, tsx]
+            pass_filenames: false
+          - id: pytest
+            name: Python tests
+            entry: pytest -q
+            language: system
+            types: [python]
+            pass_filenames: false
+          - id: full-build
+            name: Full build
             entry: make build
             language: system
             pass_filenames: false
+            stages: [manual]
 
     - repo: https://github.com/psf/black
       rev: 24.4.2

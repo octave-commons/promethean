@@ -7,7 +7,7 @@
         "lisp": "node dist/cli/lisp.js",
         "test": "pnpm run build && ../../node_modules/.bin/ava",
         "coverage": "pnpm run build && ../../node_modules/.bin/c8 ../../node_modules/.bin/ava",
-        "lint": "pnpm exec biome lint . || true",
+        "lint": "pnpm exec biome lint .",
         "format": "pnpm exec biome format --write .",
         "clean": "rimraf dist"
     },
