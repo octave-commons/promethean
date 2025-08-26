@@ -1,10 +1,10 @@
-import { Collection as ChromaCollection } from 'chromadb';
+import type { Collection as ChromaCollection } from 'chromadb';
 
 import { RemoteEmbeddingFunction } from '../embeddings/remote.js';
-import { Collection, OptionalUnlessRequiredId, WithId } from 'mongodb';
+import type { Collection, OptionalUnlessRequiredId, WithId } from 'mongodb';
 import { AGENT_NAME } from '@shared/js/env.js';
-import { randomUUID } from 'crypto';
-import { DualStoreEntry, AliasDoc } from './types.js';
+import { randomUUID } from 'node:crypto';
+import type { DualStoreEntry, AliasDoc } from './types.js';
 import { getChromaClient, getMongoClient } from './clients.js';
 
 export class DualStoreManager<TextKey extends string = 'text', TimeKey extends string = 'createdAt'> {
@@ -60,8 +60,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         return new DualStoreManager(family, chromaCollection, mongoCollection, textKey, timeStampKey);
     }
 
-    // AddEntry method:
-    async addEntry(entry: DualStoreEntry<TextKey, TimeKey>) {
+    async insert(entry: DualStoreEntry<TextKey, TimeKey>) {
         const id = entry.id ?? randomUUID();
         entry.id = id;
 
@@ -74,11 +73,14 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
 
         // console.log("Adding entry to collection", this.name, entry);
 
-        await this.chromaCollection.add({
-            ids: [id],
-            documents: [entry[this.textKey]],
-            metadatas: [entry.metadata],
-        });
+        const dualWrite = (process.env.DUAL_WRITE_ENABLED ?? 'true').toLowerCase() !== 'false';
+        if (dualWrite) {
+            await this.chromaCollection.add({
+                ids: [id],
+                documents: [entry[this.textKey]],
+                metadatas: [entry.metadata],
+            });
+        }
 
         await this.mongoCollection.insertOne({
             id: entry.id,
@@ -86,6 +88,11 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             [this.timeStampKey]: entry[this.timeStampKey],
             metadata: entry.metadata,
         } as OptionalUnlessRequiredId<DualStoreEntry<TextKey, TimeKey>>);
+    }
+
+    // TODO: remove in future – alias for backwards compatibility
+    async addEntry(entry: DualStoreEntry<TextKey, TimeKey>) {
+        return this.insert(entry);
     }
 
     async getMostRecent(

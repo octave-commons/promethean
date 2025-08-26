@@ -9,7 +9,7 @@ import { defaultPrompt } from '../prompts.js';
 import { enqueueUtterance } from '@shared/ts/dist/agent-ecs/helpers/enqueueUtterance.js';
 import { classifyPause, estimatePauseDuration, seperateSpeechFromThought, splitSentances } from '../tokenizers.js';
 import { sleep } from '../util.js';
-import { DualStoreManager as CollectionManager } from '@shared/ts/dist/persistence/dualStore.js';
+import { DualStoreManager } from '@shared/ts/dist/persistence/dualStore.js';
 import { AGENT_NAME } from '@shared/js/env.js';
 
 export type StartDialogInput = { bot: Bot };
@@ -22,8 +22,8 @@ export async function storeAgentMessage(
     startTime = Date.now(),
     endTime = Date.now(),
 ) {
-    const messages = bot.context.getCollection('agent_messages') as CollectionManager<'text', 'createdAt'>;
-    return messages.addEntry({
+    const messages = bot.context.getCollection('agent_messages') as DualStoreManager<'text', 'createdAt'>;
+    return messages.insert({
         text,
         createdAt: Date.now(),
         metadata: {
@@ -43,7 +43,10 @@ async function processAgentMessage(bot: Bot, content: string) {
     const texts = seperateSpeechFromThought(content);
     const sentences: { type: string; text: string }[] = texts.flatMap(
         ({ text, type }: { text: string; type: string }) =>
-            splitSentances(text).map((sentance: string) => ({ text: sentance, type })),
+            splitSentances(text).map((sentance: string) => ({
+                text: sentance,
+                type,
+            })),
     );
     console.log({ sentences });
     const finishedSentences = [] as { type: string; text: string }[];
@@ -93,7 +96,10 @@ export async function runStartDialog({ bot }: StartDialogInput): Promise<StartDi
             C,
             async (text: string) => {
                 const msgs = await bot.context.compileContext([text]);
-                return msgs.map((m: any) => ({ role: m.role as 'user' | 'assistant' | 'system', content: m.content }));
+                return msgs.map((m: any) => ({
+                    role: m.role as 'user' | 'assistant' | 'system',
+                    content: m.content,
+                }));
             },
             () => defaultPrompt,
         ),
