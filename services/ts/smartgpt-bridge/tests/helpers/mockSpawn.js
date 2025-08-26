@@ -1,7 +1,7 @@
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 
 export function mockSpawnFactory(script = []) {
-    return function mockSpawn(cmd, args, opts) {
+    return function mockSpawn(cmd, _args, _opts) {
         const ee = new EventEmitter();
         const proc = {
             pid: 4242,

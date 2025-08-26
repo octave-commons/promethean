@@ -1,8 +1,8 @@
 import test from 'ava';
-import path from 'path';
-import fs from 'fs/promises';
+import path from 'node:path';
+import fs from 'node:fs/promises';
 import { execa } from 'execa';
-import { grep } from '../../src/grep.js';
+import { grep } from '../../src/grep.ts';
 
 const ROOT = path.join(process.cwd(), 'tests', 'fixtures');
 
@@ -16,7 +16,9 @@ async function runRg(pattern, opts) {
     } = opts || {};
     const args = ['--json', '--max-count', String(maxMatches), '-C', String(context)];
     if (flags.includes('i')) args.push('-i');
-    exclude.forEach((ex) => args.push('--glob', `!${ex}`));
+    exclude.forEach((ex) => {
+        args.push('--glob', `!${ex}`);
+    });
     const searchPaths = [];
     for (const p of paths) {
         if (/[?*{}\[\]]/.test(p)) {
@@ -68,7 +70,12 @@ async function runRg(pattern, opts) {
 }
 
 test('grep: matches ripgrep output with context and flags', async (t) => {
-    const opts = { pattern: 'heading', flags: 'i', paths: ['**/*.md'], context: 1 };
+    const opts = {
+        pattern: 'heading',
+        flags: 'i',
+        paths: ['**/*.md'],
+        context: 1,
+    };
     const [results, expected] = await Promise.all([grep(ROOT, opts), runRg(opts.pattern, opts)]);
     t.deepEqual(results, expected);
     t.snapshot(results);

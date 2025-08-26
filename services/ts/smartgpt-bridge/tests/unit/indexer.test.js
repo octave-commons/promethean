@@ -1,6 +1,6 @@
 import test from 'ava';
-import path from 'path';
-import fs from 'fs/promises';
+import path from 'node:path';
+import fs from 'node:fs/promises';
 import {
     reindexAll,
     reindexSubset,
@@ -8,7 +8,7 @@ import {
     setEmbeddingFactory,
     search,
     resetChroma,
-} from '../../src/indexer.js';
+} from '../../src/indexer.ts';
 
 const ROOT = path.join(process.cwd(), 'tests', 'fixtures');
 
@@ -37,7 +37,9 @@ class FakeChroma {
 
 test.before(() => {
     setChromaClient(new FakeChroma());
-    setEmbeddingFactory(async () => ({ generate: async (texts) => texts.map(() => [0, 0, 0]) }));
+    setEmbeddingFactory(async () => ({
+        generate: async (texts) => texts.map(() => [0, 0, 0]),
+    }));
 });
 
 test('reindexAll processes multiple chunks and calls upsert', async (t) => {
@@ -56,7 +58,10 @@ test.after.always(() => {
     resetChroma();
     setEmbeddingFactory(null);
     setChromaClient({
-        getOrCreateCollection: async () => ({ query: async () => ({}), upsert: async () => {} }),
+        getOrCreateCollection: async () => ({
+            query: async () => ({}),
+            upsert: async () => {},
+        }),
     });
 });
 
