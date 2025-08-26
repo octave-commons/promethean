@@ -1,0 +1,8 @@
+{
+    "collections": {
+        "example": {
+            "embedding_dim": 1536,
+            "embedding_model": "text-embedding-3-small"
+        }
+    }
+}

@@ -7,6 +7,7 @@ Current frontends:
 - `smartgpt-dashboard` – OpenAPI-driven dashboard for SmartGPT Bridge.
 - `llm-chat` – Minimal chat interface for the LLM service with simple tool calls via SmartGPT Bridge.
 - `markdown-graph` – Force-directed visualization of markdown link graphs.
+- `health-dashboard` – Realtime viewer of heartbeat metrics from Promethean services.
 
 Run `pnpm serve:sites` from the repo root and visit `http://localhost:4500/<site>/` to view a frontend. Future agents should place any web UI or dashboard code here.
 
