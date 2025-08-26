@@ -100,6 +100,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - EmbeddingServiceClient now retries failed requests with exponential backoff and returns structured errors when service calls fail.
 - Waveform and spectrogram generation delegated to an external audio service injected via `CaptureDeps`.
 - Remote embedding function now surfaces broker connection errors and rejects pending requests on failure.
+- Python service PM2 configs import shared `ecosystem.dependencies.js` from `services/shared`.
 
 ### Fixed
 
