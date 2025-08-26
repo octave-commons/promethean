@@ -93,7 +93,6 @@ kanban-plugin: board
 - [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md.md|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #framework-core #eidolon-support #ice-box
 - [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #ice-box
 - [ ] [[Add codex layer to emacs]]
-- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ice-box
 
 
 ## Breakdown (13)
@@ -126,7 +125,6 @@ kanban-plugin: board
 
 ## Todo (21)
 
-- [ ] [[move discord scraper to ts]]
 - [ ] [[setup new service generator]]
 - [ ] [[harden precommit hooks]]
 - [ ] [[script for getting github action workflow states for a branch]]
@@ -143,15 +141,15 @@ kanban-plugin: board
 
 ## In Progress (21)
 
+- [ ] [[move discord scraper to ts]]
 - [ ] [[gpt bridge fuzzy lookup should return multiple matches when it is used.]]
-- [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] #framework-core #ollama-integration #stream-automation #accepted
 - [ ] [[Mock broker]] #incoming
 - [ ] [[discord_image_awareness_md_md.md|discord image awareness md md]] #framework-core #ollama-integration #multimodal-context #accepted
-- [ ] [[Webcrawler]]
 - [ ] [[set up data migration pipeline and clearly describe conventions]]
 - [ ] [[broker gpt bridge parity plan]]
 - [ ] [[Set up proper openai custom gpt compatable oauth login flow]]
 - [ ] [[File explorer]]
+- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ice-box
 - [ ] [[Replace all python properly with hy incoming]]
 - [ ] [[Agent Tasks Persistence Migration to DualStore]]
 - [ ] [[Create broker services that can handle all the same tasks as the gpt bridge]]
@@ -159,6 +157,8 @@ kanban-plugin: board
 
 ## In Review (34)
 
+- [ ] [[Webcrawler]]
+- [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] #framework-core #ollama-integration #stream-automation #accepted
 - [ ] [[implement classes in compiler lisp incoming]]
 - [ ] [[MVP local LLM chat interface with tool calls connected to gpt bridge]]
 - [ ] [[discord_image_awareness_md_md.md|discord image awareness.md]] #framework-core #ollama-integration #multimodal-context #accepted
