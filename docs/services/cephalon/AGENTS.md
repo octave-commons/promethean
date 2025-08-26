@@ -34,3 +34,7 @@ Use `@shared/js/brokerClient.js` (or `AgentBus` wrapping it) for all broker comm
 - `begin-recording speaker:@user` / `stop-recording speaker:@user`
 - `begin-transcribing speaker:@user [log:true|false]`
 - `set-capture-channel #channel` / `set-desktop-channel #channel`
+
+## Persistence
+
+Persistence is handled via shared module: @shared/ts/persistence/DualStore
