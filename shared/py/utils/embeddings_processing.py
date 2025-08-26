@@ -1,5 +1,7 @@
 """Embedding utilities such as a minimal PCA implementation."""
 
+from typing import Optional
+
 import numpy as np
 
 
@@ -8,8 +10,8 @@ class PCA:
 
     def __init__(self, n_components: int = 1):
         """Initialise the transformer with ``n_components`` dimensions."""
-        self.mean = None
-        self.eig_vectors = None
+        self.mean: Optional[np.ndarray] = None
+        self.eig_vectors: Optional[np.ndarray] = None
         self.n_components = n_components
 
     def build(self, x: np.ndarray) -> np.ndarray:
@@ -30,12 +32,16 @@ class PCA:
 
     def project(self, x: np.ndarray) -> np.ndarray:
         """Project ``x`` using the fitted components."""
+        if self.mean is None or self.eig_vectors is None:
+            raise ValueError("PCA model has not been fitted")
         xm = x - self.mean
         v = self.eig_vectors[:, : self.n_components]
         return xm.dot(v)
 
     def iproject(self, z: np.ndarray) -> np.ndarray:
         """Inverse transform ``z`` back to the original space."""
+        if self.mean is None or self.eig_vectors is None:
+            raise ValueError("PCA model has not been fitted")
         v = self.eig_vectors[:, : self.n_components]
         x = z * v.T + self.mean
         return x
