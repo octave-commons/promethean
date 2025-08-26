@@ -44,6 +44,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Expanded `MIGRATION_PLAN.md` with scope, phased timeline, requirements, and owner assignments.
 - Provider-agnostic LLM driver interface with Ollama and HuggingFace implementations.
 - TypeScript LLM service now uses pluggable drivers for Ollama and HuggingFace.
+- Initial scaffolding for broker↔bridge parity tests, including normalizers, runner, and unit tests.
 
 ### Changed
 
@@ -79,6 +80,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Python tests run without pipenv isolation.
 - Added missing `next_messages` helper for discord indexer tests.
 - CPU requirements no longer include NVIDIA packages and target PyTorch CPU wheels.
+- Lint and format scripts for `@shared/ts` now invoke the Biome CLI directly.
+- Provider policy test now restricts access for non-whitelisted services.
 
 ### Removed
 
