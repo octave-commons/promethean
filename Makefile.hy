@@ -616,6 +616,9 @@
       (print "Skipping system dependency installation during CI simulation")
       (do (sh "sudo apt-get update && sudo apt-get install -y libsndfile1" :shell True)
           (sh "sudo apt-get install -y ffmpeg" :shell True)
+        (sh "curl -LsSf https://astral.sh/uv/install.sh | sh")
+        (sh "uv install mongodb" :shell True)
+        (sh "curl -fsSL https://ollama.com/install.sh | sh" :shell True)
         (sh "corepack enable && corepack prepare pnpm@latest --activate" :shell True))))
 
 (defn-cmd install-mongodb []
