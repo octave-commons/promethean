@@ -1,57 +1,19 @@
 import os
-from typing import List
 
 import chromadb
 
 from shared.py.mongodb import discord_message_collection
 from shared.py.embedding_client import EmbeddingServiceClient
+from shared.py.discord_attachment_embedder import (
+    process_message as _process_message,
+)
 
 COLLECTION_NAME = os.environ.get("CHROMA_COLLECTION", "discord_attachments")
 
 
-def process_message(
-    message: dict, collection, embedding_function: EmbeddingServiceClient
-) -> None:
-    docs: List[str] = []
-    metadatas: List[dict] = []
-    ids: List[str] = []
-    items: List[dict] = []
-
-    content = message.get("content")
-    if content:
-        docs.append(content)
-        metadatas.append({"type": "text", "message_id": message["id"]})
-        ids.append(f"msg-{message['id']}")
-        items.append({"type": "text", "data": content})
-
-    for attachment in message.get("attachments", []):
-        attachment_type = attachment.get("content_type", "")
-        if attachment_type and attachment_type.startswith("image/"):
-            docs.append(attachment["url"])
-            metadatas.append(
-                {
-                    "type": "image",
-                    "message_id": message["id"],
-                    "attachment_id": attachment["id"],
-                    "filename": attachment.get("filename"),
-                }
-            )
-            ids.append(f"att-{attachment['id']}")
-            items.append({"type": "image_url", "data": attachment["url"]})
-
-    if ids:
-        embeddings = embedding_function(items)
-        collection.add(
-            documents=docs,
-            metadatas=metadatas,
-            ids=ids,
-            embeddings=embeddings,
-        )
-
-    # Mark the message as processed even if no embeddings were generated
-    discord_message_collection.update_one(
-        {"id": message["id"]}, {"$set": {"embedded": True}}
-    )
+def process_message(message: dict, collection, embedding_function) -> None:
+    """Thin wrapper around shared.process_message."""
+    _process_message(message, collection, embedding_function)
 
 
 def main() -> None:
