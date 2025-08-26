@@ -10,7 +10,7 @@ This module centralizes MongoDB and ChromaDB persistence for Promethean services
 import { DualStoreManager } from '@shared/ts/persistence/dualStore.js';
 
 const store = await DualStoreManager.create('my_collection', 'text', 'createdAt');
-await store.addEntry({ text: 'hello', createdAt: Date.now(), metadata: { userName: 'Duck' } });
+await store.insert({ text: 'hello', createdAt: Date.now(), metadata: { userName: 'Duck' } });
 const recent = await store.getMostRecent(5);
 ```
 

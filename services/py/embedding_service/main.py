@@ -4,7 +4,7 @@ from functools import lru_cache
 from typing import List
 
 from shared.py.service_template import start_service
-from drivers import get_driver
+from .drivers import get_driver
 
 
 @lru_cache(maxsize=1)
