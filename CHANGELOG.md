@@ -24,6 +24,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Smoke test script for MCP server and basic stdio wrapper test harness.
 - Frontend visualization for the markdown link graph using ForceGraph.
 - Simple web chat interface for the LLM service with HTTP and WebSocket endpoints.
+- Basic tool call support in the LLM chat frontend via SmartGPT Bridge.
+- Tests for tool call parsing and invocation in the LLM chat frontend.
 - File explorer UI for SmartGPT Bridge dashboard using file endpoints.
 - `sites/` directory consolidating all frontend code.
 - Proxy route `/bridge` through the shared proxy service for SmartGPT Bridge.
