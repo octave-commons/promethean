@@ -1,4 +1,4 @@
-import { DualStoreManager as CollectionManager } from '@shared/ts/dist/persistence/dualStore.js';
+import { DualStoreManager } from '@shared/ts/dist/persistence/dualStore.js';
 import { formatMessage, GenericEntry } from '@shared/ts/dist/persistence/contextStore.js';
 import { generatePromptChoice, generateSpecialQuery } from '../util.js';
 import type { AIAgent } from './index.js';
@@ -26,7 +26,7 @@ ${text}
 export async function generateVoiceContentWithFormattedLatestmessage(this: AIAgent) {
     let content = '';
     let counter = 0;
-    const userCollection = this.contextManager.getCollection('transcripts') as CollectionManager<'text', 'createdAt'>;
+    const userCollection = this.context.getCollection('transcripts') as DualStoreManager<'text', 'createdAt'>;
     const latestUserMessage = (await userCollection.getMostRecent(1))[0] as GenericEntry;
     const context = (await this.context.compileContext([this.prompt], this.historyLimit)).filter(
         (m: { content: string }) => m.content !== latestUserMessage?.text,
@@ -65,7 +65,7 @@ export async function generateVoiceContentWithChoicePrompt(this: AIAgent) {
 export async function generateVoiceContentWithSpecialQuery(this: AIAgent) {
     let content = '';
     let counter = 0;
-    const userCollection = this.contextManager.getCollection('transcripts') as CollectionManager<'text', 'createdAt'>;
+    const userCollection = this.context.getCollection('transcripts') as DualStoreManager<'text', 'createdAt'>;
     const latestUserMessage = (await userCollection.getMostRecent(1))[0] as GenericEntry;
     const context = (await this.context.compileContext([this.prompt], this.historyLimit)).filter(
         (m: { content: string }) => m.content !== latestUserMessage?.text,
