@@ -18,6 +18,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - OpenAPI spec for `/v1` served at `/v1/openapi.json` with consolidated operations.
 - `distclean` target to remove ignored files via `git clean -fdX`.
 - MCP server and stdio wrapper exposing `search.query` over WebSocket and CLI.
+- Packaging for `shared` modules to enable standard imports.
+- Central `tests/conftest.py` to configure the test environment.
 - Smoke test script for MCP server and basic stdio wrapper test harness.
 - Frontend visualization for the markdown link graph using ForceGraph.
 - Simple web chat interface for the LLM service with HTTP and WebSocket endpoints.
@@ -56,6 +58,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Removed
 
 - Deprecated `scripts/serve-sites.js` static file server.
+- Per-file `sys.path.append` hacks in tests in favor of centralized setup.
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 

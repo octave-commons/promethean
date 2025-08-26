@@ -6,8 +6,6 @@ from unittest.mock import patch
 
 # Ensure service directory is importable
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# Ensure shared modules are importable
-sys.path.append("../../../")
 
 
 @pytest.fixture(autouse=True)
