@@ -13,6 +13,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
     mongoCollection: Collection<DualStoreEntry<TextKey, TimeKey>>;
     textKey: TextKey;
     timeStampKey: TimeKey;
+    supportsImages: boolean;
 
     constructor(
         name: string,
@@ -20,12 +21,14 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         mongoCollection: Collection<DualStoreEntry<TextKey, TimeKey>>,
         textKey: TextKey,
         timeStampKey: TimeKey,
+        supportsImages = false,
     ) {
         this.name = name;
         this.chromaCollection = chromaCollection;
         this.mongoCollection = mongoCollection;
         this.textKey = textKey;
         this.timeStampKey = timeStampKey;
+        this.supportsImages = supportsImages;
     }
 
     static async create<TTextKey extends string = 'text', TTimeKey extends string = 'createdAt'>(
@@ -40,6 +43,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         const aliases = db.collection<AliasDoc>('collection_aliases');
         const alias = await aliases.findOne({ _id: family });
 
+        const embedFnName = alias?.embed?.fn || process.env.EMBEDDING_FUNCTION || 'nomic-embed-text';
         const embeddingFn = alias?.embed
             ? RemoteEmbeddingFunction.fromConfig({
                   driver: alias.embed.driver,
@@ -47,7 +51,7 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
               })
             : RemoteEmbeddingFunction.fromConfig({
                   driver: process.env.EMBEDDING_DRIVER || 'ollama',
-                  fn: process.env.EMBEDDING_FUNCTION || 'nomic-embed-text',
+                  fn: embedFnName,
               });
 
         const chromaCollection = await chromaClient.getOrCreateCollection({
@@ -57,7 +61,8 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
 
         const mongoCollection = db.collection<DualStoreEntry<TTextKey, TTimeKey>>(family);
 
-        return new DualStoreManager(family, chromaCollection, mongoCollection, textKey, timeStampKey);
+        const supportsImages = !embedFnName.toLowerCase().includes('text');
+        return new DualStoreManager(family, chromaCollection, mongoCollection, textKey, timeStampKey, supportsImages);
     }
 
     async insert(entry: DualStoreEntry<TextKey, TimeKey>) {
@@ -74,12 +79,17 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
         // console.log("Adding entry to collection", this.name, entry);
 
         const dualWrite = (process.env.DUAL_WRITE_ENABLED ?? 'true').toLowerCase() !== 'false';
-        if (dualWrite) {
-            await this.chromaCollection.add({
-                ids: [id],
-                documents: [entry[this.textKey]],
-                metadatas: [entry.metadata],
-            });
+        const isImage = entry.metadata?.type === 'image';
+        if (dualWrite && (!isImage || this.supportsImages)) {
+            try {
+                await this.chromaCollection.add({
+                    ids: [id],
+                    documents: [entry[this.textKey]],
+                    metadatas: [entry.metadata],
+                });
+            } catch (e) {
+                console.warn('Failed to embed entry', e);
+            }
         }
 
         await this.mongoCollection.insertOne({
@@ -110,14 +120,20 @@ export class DualStoreManager<TextKey extends string = 'text', TimeKey extends s
             }),
         ) as DualStoreEntry<'text', 'timestamp'>[];
     }
-    async getMostRelevant(queryTexts: string[], limit: number): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
+    async getMostRelevant(
+        queryTexts: string[],
+        limit: number,
+        where: Record<string, unknown> = {},
+    ): Promise<DualStoreEntry<'text', 'timestamp'>[]> {
         // console.log("Getting most relevant entries from collection", this.name, "for queries", queryTexts, "with limit", limit);
         if (!queryTexts || queryTexts.length === 0) return Promise.resolve([]);
 
-        const queryResult = await this.chromaCollection.query({
+        const query: Record<string, any> = {
             queryTexts,
             nResults: limit,
-        });
+        };
+        if (where && Object.keys(where).length > 0) query.where = where;
+        const queryResult = await this.chromaCollection.query(query);
         const uniqueThoughts = new Set();
         const ids = queryResult.ids.flat(2);
         const meta = queryResult.metadatas.flat(2);
