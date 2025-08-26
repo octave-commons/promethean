@@ -71,6 +71,8 @@ All contributions must be validated locally before opening a pull request:
 4. Run `make lint` to check code style and formatting.
 5. Run `make format` to auto-format code.
 
+After tests pass, `make snapshot` can tag the current commit (e.g., `snapshot-2024.09.28`) as a lightweight return point without implying a full release. Set `PUSH=1` to push the tag upstream.
+
 ---
 
 ## 🗂️ Board Process
@@ -110,7 +112,6 @@ The `services/` directory currently includes:
 
 **Hy**
 
-- `services/hy/discord_attachment_embedder`
 - `services/hy/discord_attachment_indexer`
 - `services/hy/discord_indexer`
 - `services/hy/stt`
@@ -547,8 +548,6 @@ Follow the format:
 
 Persistence is handled via shared module: @shared/ts/persistence/DualStore
 
-
-
 ## Hashtags are your friend
 
 ## 📝 Architecture Decision Records (ADRs)
@@ -557,8 +556,8 @@ All agents are required to document **architectural decisions** that affect the 
 
 - ADRs live under `docs/architecture/adr/`
 - ADRs must be created for any changes to:
-  - File structure
-  - Agent/service contracts
-  - Core libraries or shared architecture
-  - Protocols or bridge definitions
+    - File structure
+    - Agent/service contracts
+    - Core libraries or shared architecture
+    - Protocols or bridge definitions
 - ADR filenames use a **timestamp-based convention**:

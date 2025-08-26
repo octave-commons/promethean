@@ -21,6 +21,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - OpenAPI spec for `/v1` served at `/v1/openapi.json` with consolidated operations.
 - `distclean` target to remove ignored files via `git clean -fdX`.
 - Tests for router and WebSocket server behaviors in `mcp-server`.
+- `snapshot` target to tag the current commit with a timestamped snapshot.
+- Shared Biome configuration template (`templates/ts/biome.base.json`) for TypeScript services.
 
 ### Changed
 
@@ -39,6 +41,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Proxy route `/bridge` through the shared proxy service for SmartGPT Bridge.
 - Tool calling support for Codex Context service.
 - Image attachments captured, stored, and retrieved for multimodal prompting with cleanup.
+- Markdown Graph service and Discord bot template now extend the shared Biome configuration.
 - OAuth Authorization Code flow with PKCE for the auth-service, enabling OpenAI Custom GPT logins.
 - Template for building Discord bots in TypeScript based on the Cephalon service.
 - Tests validating bridge event mappings for identifiers and protocols.
@@ -76,7 +79,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Pinned JavaScript dependencies, GitHub Actions, and documented version policy for reproducible builds.
 - Pre-commit now runs `pnpm tsc --noEmit` and `pytest -q` instead of `make build`; use `pre-commit run --hook-stage manual full-build` or `make build` for full builds.
 - Naive embedding driver now uses configurable `VECTOR_SIZE` constant.
- - Enhanced URL canonicalization helpers to remove tracking parameters and expand scheme denylist.
+- Enhanced URL canonicalization helpers to remove tracking parameters and expand scheme denylist.
 - Organized SmartGPT Bridge routes into versioned directories.
 - Embedding clients and related utilities now accept structured `{type, data}`
   items instead of using the `img:` prefix.
@@ -101,6 +104,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - EmbeddingServiceClient now retries failed requests with exponential backoff and returns structured errors when service calls fail.
 - Waveform and spectrogram generation delegated to an external audio service injected via `CaptureDeps`.
 - Remote embedding function now surfaces broker connection errors and rejects pending requests on failure.
+- Discord attachment embedder services now share a common embedding routine.
 
 ### Fixed
 
@@ -122,6 +126,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Deprecated `scripts/serve-sites.js` static file server.
 - Per-file `sys.path.append` hacks in tests in favor of centralized setup.
+- Hy variant of the Discord attachment embedder service in favor of shared Python implementation.
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
