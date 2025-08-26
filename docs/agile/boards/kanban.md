@@ -97,6 +97,9 @@ kanban-plugin: board
 - [ ] [[clearly standardize data models]]
 - [ ] convert current services to packages, then redefine the services using config files
 - [ ] flatten services
+- [ ] [[Phase out proxy in favor of bridge service]]
+- [ ] LLM service must accept tool calls
+- [ ] LLM service must allow streamed responses
 
 
 ## Accepted
@@ -117,6 +120,7 @@ kanban-plugin: board
 - [ ] [[update_makefile_to_have_commands_specific_for_agents_md.md|Update Makefile to have commands specific for agents]] #devops #accepted
 - [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ice-box
 - [ ] [[ChatGPT export injest with dedupe index and hashes]]
+- [ ] [[frontend build tool chain]]
 
 
 ## Breakdown (8)
