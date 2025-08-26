@@ -5,8 +5,6 @@ import asyncio
 import httpx
 from fastapi.testclient import TestClient
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-
 graph_module = importlib.import_module("services.py.markdown_graph.graph")
 sys.modules["graph"] = graph_module
 from services.py.markdown_graph.main import create_app
