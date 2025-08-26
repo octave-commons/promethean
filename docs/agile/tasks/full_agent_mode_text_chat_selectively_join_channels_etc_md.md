@@ -25,6 +25,7 @@ Enable "full agent mode" in Discord where agents can join or leave channels, sen
 - [ ] Implement Discord gateway handlers for channel management.
 - [ ] Add message queueing to prevent floods.
 - [ ] Provide hooks for launching auxiliary flows (e.g., webcrawler).
+- [ ] Document permission model and channel policies.
 - [ ] Test end-to-end with a mock guild.
 
 ---
@@ -49,4 +50,4 @@ Nothing
 
 - [kanban](../boards/kanban.md)
 
-#accepted
+#Breakdown
