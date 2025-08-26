@@ -60,6 +60,9 @@ Corepack enforcement: The root `package.json` sets `"packageManager": "pnpm@9"` 
 
 ## 🚥 CI Verification
 
+Pre-commit runs quick checks (`pnpm tsc --noEmit` and `pytest -q`) instead of the full build. Run the full build separately with
+`make build` or via `pre-commit run --hook-stage manual full-build` in CI.
+
 All contributions must be validated locally before opening a pull request:
 
 1. **Run `make setup` for the relevant services only.** Avoid global setup.
@@ -67,6 +70,12 @@ All contributions must be validated locally before opening a pull request:
 3. Run `make build` to ensure all modules compile correctly.
 4. Run `make lint` to check code style and formatting.
 5. Run `make format` to auto-format code.
+
+---
+
+## 🗂️ Board Process
+
+When modifying files under `docs/agile/boards/` or `docs/agile/tasks/`, consult [`docs/agile/Process.md`](docs/agile/Process.md) for workflow guidelines before making changes.
 
 ---
 
@@ -363,6 +372,9 @@ train_cephalon_align_lora.py
 ```
 
 ## 🚥 CI Verification
+
+Pre-commit runs `pnpm tsc --noEmit` and `pytest -q` for fast feedback but skips the full build. Execute `make build` manually or
+use `pre-commit run --hook-stage manual full-build` during CI to compile everything.
 
 All contributions must be validated locally before opening a pull request:
 
