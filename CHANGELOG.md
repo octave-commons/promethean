@@ -57,6 +57,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Pre-commit now runs `pnpm tsc --noEmit` and `pytest -q` instead of `make build`; use `pre-commit run --hook-stage manual full-build` or `make build` for full builds.
 - Naive embedding driver now uses configurable `VECTOR_SIZE` constant.
 - Organized SmartGPT Bridge routes into versioned directories.
 - Embedding clients and related utilities now accept structured `{type, data}`
