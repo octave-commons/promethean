@@ -6,9 +6,9 @@
 (import os.path [isdir basename])
 (import glob)
 
-(defmacro define-service-list [name root-dir]
+(defmacro define-service-list [name root-dir #* f]
           `(setv ~name
-                 (lfor p (sorted (glob.glob (+ ~root-dir "/*")))
+                 (lfor p (filter (fn [path] ~@f)(sorted (glob.glob (+ ~root-dir "/*"))))
                        :if (isdir p)
                        p)))
 

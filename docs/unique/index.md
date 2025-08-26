@@ -2,82 +2,58 @@
 
 These notes were originally captured in `docs/unique` with timestamp filenames. They have been organized into the `docs/notes` folder with descriptive names. Use the links below to navigate each idea note.
 
-- **2025.07.27.21.11.38** → [state-diagram-node-lifecycle](../notes/diagrams/state-diagram-node-lifecycle.md)
-- **2025.07.27.22.26.27** → [node-type-topology-map](../notes/diagrams/node-type-topology-map.md)
-- **2025.07.27.22.27.53** → [field-node-lifecycle-additional-diagrams](../notes/diagrams/field-node-lifecycle-additional-diagrams.md)
-- **2025.07.27.22.31.20** → [circuit-weight-visualizations](../notes/diagrams/circuit-weight-visualizations.md)
-- **2025.07.27.22.37.23** → [eidolon-field-math](../notes/math/eidolon-field-math.md)
-- **2025.07.27.22.43.52** → [fragment-injection-simulation](../notes/simulation/fragment-injection-simulation.md)
-- **2025.07.27.22.44.02** → [advanced-field-math](../notes/math/advanced-field-math.md)
-- **2025.07.27.22.47.05** → [heartbeat-fragment-flow](../notes/simulation/heartbeat-fragment-flow.md)
-- **2025.07.27.22.47.14** → [aionian-feedback-oscillator](../notes/math/aionian-feedback-oscillator.md)
-- **2025.07.27.22.48.23i** → [ripple-propagation-flow](../notes/simulation/ripple-propagation-flow.md)
-- **2025.07.27.22.52.51** → [symbolic-gravity-models](../notes/math/symbolic-gravity-models.md)
-- **2025.07.27.22.53.08** → [full-system-overview-diagrams](../notes/diagrams/full-system-overview-diagrams.md)
-- **2025.07.27.22.57.31** → [aionian-pulse-rhythm-model](../notes/math/aionian-pulse-rhythm-model.md)
-- **2025.07.27.22.57.40** → [layer1-uptime-diagrams](../notes/diagrams/layer1-uptime-diagrams.md)
+## Chunks
 
-- **2025.07.28.11.07.04** → [autohotkey-i3-emulation](../notes/wm/autohotkey-i3-emulation.md)
-- **2025.07.28.11.07.18** → [lisp-window-manager-dsl](../notes/wm/lisp-window-manager-dsl.md)
-- **2025.07.28.11.07.38** → [typescript-group-manager-komorebi](../notes/wm/typescript-group-manager-komorebi.md)
-- **2025.07.28.11.07.40** → [universal-lisp-interface](../notes/dsl/universal-lisp-interface.md)
-- **2025.07.28.11.07.43** → [nesting-window-containers-windows](../notes/wm/nesting-window-containers-windows.md)
-- **2025.07.28.11.07.49** → [embedded-lisp-dialects](../notes/dsl/embedded-lisp-dialects.md)
-- **2025.07.28.11.07.68** → [windows-npu-tiling-strategy](../notes/wm/windows-npu-tiling-strategy.md)
-- **2025.07.28.11.07.93** → [autohotkey-i3layer-scripts](../notes/wm/autohotkey-i3layer-scripts.md)
-- **2025.07.28.12.07.01** → [sibilant-meta-namespace-dispatch](../notes/dsl/sibilant-meta-namespace-dispatch.md)
-- **2025.07.28.12.07.03** → [cross-language-runtime-messaging](../notes/dsl/cross-language-runtime-messaging.md)
-- **2025.07.28.12.07.18** → [recursive-prompt-construction](../notes/dsl/recursive-prompt-construction.md)
-- **2025.07.28.12.07.32** → [sibilant-cross-target-macros](../notes/dsl/sibilant-cross-target-macros.md)
-- **2025.07.28.12.07.48** → [mystery-lisp-investigation](../notes/dsl/mystery-lisp-investigation.md)
-- **sibilant-metacompiler-overview** → [sibilant-metacompiler-overview](../notes/dsl/sibilant-metacompiler-overview.md)
-- **2025.07.28.12.07.79** → [polyglot-repl-interface](../notes/dsl/polyglot-repl-interface.md)
-- **template-based-compilation** → [template-based-compilation](../notes/dsl/template-based-compilation.md)
-- **2025.07.28.13.07.01** → [polytarget-interface-dsl](../notes/dsl/polytarget-interface-dsl.md)
-- **2025.07.28.13.07.07** → [prompt-scripting-dsl](../notes/dsl/prompt-scripting-dsl.md)
-- **2025.07.28.13.07.21** → [promethean-state-format](../notes/dsl/promethean-state-format.md)
-- **2025.07.28.13.07.74** → [runtime-and-prompt-macro-dsl](../notes/dsl/runtime-and-prompt-macro-dsl.md)
-- **2025.07.28.13.07.79** → [prompt-compiler-dsl](../notes/dsl/prompt-compiler-dsl.md)
-- **2025.08.08.15.08.24** → [event-bus-mvp](../notes/shared/event-bus-mvp.md)
-- **2025.08.08.16.08.27** → [model-upgrade-processing](../notes/ops/model-upgrade-processing.md)
+- [[diagrams.md|Diagrams]]
+- [[dsl.md|DSL]]
+- [[js.md|JavaScript]]
+- [[math.md|Math]]
+- [[ops.md|Operations]]
+- [[services.md|Services]]
+- [[shared.md|Shared]]
+- [[simulation.md|Simulation]]
+- [[tooling.md|Tooling]]
+- [[wm.md|Window Management]]
 
 #tags: #unique #index
 
 ## Recent Transfers
 
-- **2025.08.08.22.08.05** → [typed-struct-compiler](../notes/js/typed-struct-compiler.md)
-- ripple-propagation-demo → [ripple-propagation-demo](../notes/simulation/ripple-propagation-demo.md)
-- annotated-fragment-heartbeat-demo → [annotated-fragment-heartbeat-demo](../notes/simulation/annotated-fragment-heartbeat-demo.md)
-- field-interaction-equations → [field-interaction-equations](../notes/math/field-interaction-equations.md)
-- homeostasis-decay-formulas → [homeostasis-and-decay-models](../notes/math/homeostasis-and-decay-models.md)
-- eidolon-field-math-foundations → [eidolon-field-math-foundations](../notes/math/eidolon-field-math-foundations.md)
-- field-dynamics-math-blocks → [field-dynamics-math-blocks](../notes/math/field-dynamics-math-blocks.md)
-- aionian-circuit-math → [aionian-circuit-math](../notes/math/aionian-circuit-math.md)
-- **2025.08.08.21.08.70** → [archetype-ecs](../notes/js/archetype-ecs.md)
-- **2025.08.08.21.08.92** → [graph-ds](../notes/js/graph-ds.md)
-- **2025.08.08.20.08.43** → [event-bus-projections-diagrams](../notes/diagrams/event-bus-projections-diagrams.md)
-- **2025.08.08.22.08.16** → [smoke-waves-infinite-depth](../notes/diagrams/smoke-waves-infinite-depth.md)
-- **2025.08.08.22.08.58** → [interop-and-source-maps](../notes/dsl/interop-and-source-maps.md)
-- **2025.08.08.20.08.31** → [obsidian-ignore-node-modules-regex](../notes/tooling/obsidian-ignore-node-modules-regex.md)
-- **202508071111** → [pm2-ecosystem-patterns](../notes/tooling/pm2-ecosystem-patterns.md)
-- **2025.08.08.19.08.49** → [broker-outbox-acl-ops](../notes/services/broker-outbox-acl-ops.md)
- - **2025.08.08.20.08.52** → [schema-evolution-dlq-changefeed](../notes/services/schema-evolution-dlq-changefeed.md)
- - **2025.08.08.20.08.56** → [partitions-schema-registry-projector](../notes/services/partitions-schema-registry-projector.md)
- - **2025.08.08.20.08.83** → [state-snapshots-transactional-projector-timetravel-devharness](../notes/services/state-snapshots-transactional-projector-timetravel-devharness.md)
- - **2025.08.08.21.08.09** → [ecs-scheduler-and-prefabs](../notes/js/ecs-scheduler-and-prefabs.md)
- - **2025.08.08.21.08.31** → [ecs-offload-workers](../notes/js/ecs-offload-workers.md)
- - **2025.08.08.22.08.39** → [zero-copy-snapshots-and-workers](../notes/js/zero-copy-snapshots-and-workers.md)
- - **2025.08.08.22.08.35** → [synchronicity-waves-and-web](../notes/diagrams/synchronicity-waves-and-web.md)
- - **2025.08.08.22.08.06** → [compiler-kit-foundations](../notes/dsl/compiler-kit-foundations.md)
- - **2025.08.08.22.08.09** → [lisp-frontend-compiler-kit](../notes/dsl/lisp-frontend-compiler-kit.md)
+- **2025.08.08.22.08.05** → [[typed-struct-compiler.md]]
+- ripple-propagation-demo → [[ripple-propagation-demo.md]]
+- annotated-fragment-heartbeat-demo → [[annotated-fragment-heartbeat-demo.md]]
+- field-interaction-equations → [[field-interaction-equations.md]]
+- homeostasis-decay-formulas → [[homeostasis-and-decay-models.md]]
+- eidolon-field-math-foundations → [[eidolon-field-math-foundations.md]]
+- field-dynamics-math-blocks → [[field-dynamics-math-blocks.md]]
+- aionian-circuit-math → [[aionian-circuit-math.md]]
+- **2025.08.08.21.08.70** → [[archetype-ecs.md]]
+- **2025.08.08.21.08.92** → [[graph-ds.md]]
+- **2025.08.08.20.08.43** → [[event-bus-projections-diagrams.md]]
+- **2025.08.08.22.08.16** → [[smoke-waves-infinite-depth.md]]
+- **2025.08.08.22.08.58** → [[interop-and-source-maps.md]]
+- **2025.08.08.20.08.31** → [[obsidian-ignore-node-modules-regex.md]]
+- **202508071111** → [[pm2-ecosystem-patterns.md]]
+- **2025.08.08.19.08.49** → [[broker-outbox-acl-ops.md]]
+- **2025.08.08.20.08.52** → [[schema-evolution-dlq-changefeed.md]]
+- **2025.08.08.20.08.56** → [[partitions-schema-registry-projector.md]]
+- **2025.08.08.20.08.83** → [[state-snapshots-transactional-projector-timetravel-devharness.md]]
+- **2025.08.08.21.08.09** → [[ecs-scheduler-and-prefabs.md]]
+- **2025.08.08.21.08.31** → [[ecs-offload-workers.md]]
+- **2025.08.08.22.08.39** → [[zero-copy-snapshots-and-workers.md]]
+- **2025.08.08.22.08.35** → [[synchronicity-waves-and-web.md]]
+- **2025.08.08.22.08.06** → [[compiler-kit-foundations.md]]
+- **2025.08.08.22.08.09** → [[lisp-frontend-compiler-kit.md]]
+- advanced-node-interaction-diagrams → [[field-node-lifecycle-additional-diagrams.md|field-node-lifecycle – additional diagrams]]
+- **2025.08.08.23.08.92** → [[ts-to-lisp.md]]
 
 ## Stubs for Duplicates
 
 The following `docs/unique` files are now stubs pointing to their curated versions:
 
-- layer-1-uptime-diagrams → [layer1-uptime-diagrams](../notes/diagrams/layer1-uptime-diagrams.md)
-- sibilant-metacompiler-overview → [sibilant-metacompiler-overview](../notes/dsl/sibilant-metacompiler-overview.md)
-- template-based-compilation → [template-based-compilation](../notes/dsl/template-based-compilation.md)
-- comprehensive-system-diagrams → [full-system-overview-diagrams](../notes/diagrams/full-system-overview-diagrams.md)
-- eidolon-node-lifecycle-diagram → [state-diagram-node-lifecycle](../notes/diagrams/state-diagram-node-lifecycle.md)
-- field-node-diagram-outline → [field-node-lifecycle-additional-diagrams](../notes/diagrams/field-node-lifecycle-additional-diagrams.md)
+- layer-1-uptime-diagrams → [[layer1-uptime-diagrams.md]]
+- sibilant-metacompiler-overview → [[sibilant-metacompiler-overview.md]]
+- template-based-compilation → [[template-based-compilation.md]]
+- comprehensive-system-diagrams → [[full-system-overview-diagrams.md]]
+- eidolon-node-lifecycle-diagram → [[state-diagram-node-lifecycle.md]]
+- field-node-diagram-outline → [[field-node-lifecycle-additional-diagrams.md]]

@@ -15,7 +15,7 @@ if (!process.env.PROMETHEAN_ROOT_ECOSYSTEM) {
 const apps = [
   defineApp(
     "tts",
-    "pipenv",
+    "uv",
     ["run", "uvicorn", "--host", "0.0.0.0", "--port", "5001", "app:app"],
     {
       cwd: __dirname,

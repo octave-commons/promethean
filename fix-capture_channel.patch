@@ -1,0 +1,24 @@
+diff --git a/services/ts/cephalon/src/tests/capture_channel.test.ts b/services/ts/cephalon/src/tests/capture_channel.test.ts
+index 1234567..89abcde 100644
+--- a/services/ts/cephalon/src/tests/capture_channel.test.ts
++++ b/services/ts/cephalon/src/tests/capture_channel.test.ts
+@@
+-  const done = new Promise<void>((resolve) => {
+-    (session.bot.captureChannel!.send as any) = async () => {
+-      resolve();
+-    };
+-  });
+-
+-  // Simulate a saved recording event so the handler is exercised
+-  session.recorder.emit("saved", { filename: "fake.wav", saveTime: Date.now() });
+-  return done;
++  const done = new Promise<void>((resolve) => {
++    (session.bot.captureChannel!.send as any) = async () => {
++      resolve();
++    };
++  });
++
++  // Simulate a saved recording event so the handler is exercised
++  session.recorder.emit("saved", { filename: "fake.wav", saveTime: Date.now() });
++
++  return done;

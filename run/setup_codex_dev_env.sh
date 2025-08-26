@@ -1,6 +1,12 @@
 #!/usr/bin/bash
-npm install -g pm2 ava dotenv
-pip install pytest flake8 black pre-commit hy dotenv
+curl -LsSf https://astral.sh/uv/install.sh | sh
 curl -fsSL https://ollama.com/install.sh | sh
+
+npm install --global corepack@latest
+corepack enable pnpm
+
+pip install pytest flake8 black pre-commit hy dotenv
 pre-commit install
 make setup-pipenv
+PROMETHEAN_TORCH="cpu" make install
+make build
