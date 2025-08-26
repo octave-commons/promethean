@@ -67,6 +67,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - MCP server now creates a dedicated bridge connection per session and exposes tool schemas via `inputSchema`.
 - Proxy service now serves frontend files directly, removing the need for a separate static server.
 - Broker client now uses structured logging and narrower exception handling.
+- Waveform and spectrogram generation delegated to an external audio service injected via `CaptureDeps`.
 
 ### Fixed
 
