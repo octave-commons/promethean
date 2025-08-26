@@ -11,7 +11,8 @@
         "start:dev": "node --loader ts-node/esm src/index.ts",
         "build:check": "tsc --noEmit --incremental false",
         "lint": "prettier --cache --check . && eslint . --cache || true",
-        "format": "prettier --cache --write . && eslint . --fix --cache || true"
+        "format": "prettier --cache --write . && eslint . --fix --cache || true",
+        "test": "pnpm run build && node --test test"
     },
     "dependencies": {
         "fastify": "^4.28.1",
