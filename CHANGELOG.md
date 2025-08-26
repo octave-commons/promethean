@@ -21,6 +21,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - OpenAPI spec for `/v1` served at `/v1/openapi.json` with consolidated operations.
 - `distclean` target to remove ignored files via `git clean -fdX`.
 
+- Shared Biome configuration template (`templates/ts/biome.base.json`) for TypeScript services.
+
 ### Changed
 
 - Refined Kanban breakdown tasks with clear goals, requirements, and subtasks.
@@ -38,6 +40,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Proxy route `/bridge` through the shared proxy service for SmartGPT Bridge.
 - Tool calling support for Codex Context service.
 - Image attachments captured, stored, and retrieved for multimodal prompting with cleanup.
+- Markdown Graph service and Discord bot template now extend the shared Biome configuration.
 - OAuth Authorization Code flow with PKCE for the auth-service, enabling OpenAI Custom GPT logins.
 - Template for building Discord bots in TypeScript based on the Cephalon service.
 - Tests validating bridge event mappings for identifiers and protocols.
@@ -75,7 +78,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Pinned JavaScript dependencies, GitHub Actions, and documented version policy for reproducible builds.
 - Pre-commit now runs `pnpm tsc --noEmit` and `pytest -q` instead of `make build`; use `pre-commit run --hook-stage manual full-build` or `make build` for full builds.
 - Naive embedding driver now uses configurable `VECTOR_SIZE` constant.
- - Enhanced URL canonicalization helpers to remove tracking parameters and expand scheme denylist.
+- Enhanced URL canonicalization helpers to remove tracking parameters and expand scheme denylist.
 - Organized SmartGPT Bridge routes into versioned directories.
 - Embedding clients and related utilities now accept structured `{type, data}`
   items instead of using the `img:` prefix.
