@@ -18,6 +18,8 @@ import { BrokerClient } from '@shared/js/brokerClient.js';
 import { checkPermission } from '@shared/js/permissionGate.js';
 import { type Interaction } from './interactions.js';
 import { DesktopCaptureManager } from './desktop/desktopLoop.js';
+import { DualStoreManager } from '@shared/ts/dist/persistence/dualStore.js';
+import { cleanupChroma } from '@shared/ts/dist/persistence/maintenance.js';
 
 import { registerNewStyleCommands } from './bot/registerCommands.js';
 
@@ -147,29 +149,73 @@ export class Bot extends EventEmitter {
     }
 
     async forwardAttachments(message: discord.Message) {
-        if (!this.captureChannel) return;
         if (message.author?.bot) return;
         const imageAttachments = [...message.attachments.values()].filter(
             (att) => att.contentType?.startsWith('image/'),
         );
         if (!imageAttachments.length) return;
+
+        if (process.env.NODE_ENV !== 'test') {
+            let collection: DualStoreManager<'content', 'created_at'> | null = null;
+            try {
+                collection = this.context.getCollection('discord_messages') as DualStoreManager<
+                    'content',
+                    'created_at'
+                >;
+            } catch {
+                try {
+                    collection = (await this.context.createCollection(
+                        'discord_messages',
+                        'content',
+                        'created_at',
+                    )) as DualStoreManager<'content', 'created_at'>;
+                } catch (e) {
+                    console.warn(e);
+                }
+            }
+            if (collection) {
+                for (const att of imageAttachments) {
+                    try {
+                        await collection.insert({
+                            content: att.url,
+                            created_at: message.createdTimestamp,
+                            metadata: {
+                                type: 'image',
+                                messageId: message.id,
+                                channelId: message.channelId,
+                                userId: message.author.id,
+                                userName: message.author.username,
+                                filename: att.name,
+                                contentType: att.contentType,
+                                size: att.size,
+                            },
+                        });
+                    } catch (e) {
+                        console.warn(e);
+                    }
+                }
+                cleanupChroma(collection.name).catch((e) => console.warn(e));
+            }
+        }
+
+        if (this.agentWorld) {
+            const { w, agent, C } = this.agentWorld;
+            for (const att of imageAttachments) {
+                const ref = {
+                    type: 'url' as const,
+                    url: att.url,
+                    ...(att.contentType ? { mime: att.contentType } : {}),
+                };
+                pushVisionFrame(w, agent, C, ref);
+            }
+        }
+        if (!this.captureChannel) return;
         const files = imageAttachments.map((att) => ({
             attachment: att.url,
             name: att.name,
         }));
         try {
             await this.captureChannel.send({ files });
-            if (this.agentWorld) {
-                const { w, agent, C } = this.agentWorld;
-                for (const att of imageAttachments) {
-                    const ref = {
-                        type: 'url' as const,
-                        url: att.url,
-                        ...(att.contentType ? { mime: att.contentType } : {}),
-                    };
-                    pushVisionFrame(w, agent, C, ref);
-                }
-            }
         } catch (e) {
             console.warn('Failed to forward attachments', e);
         }
