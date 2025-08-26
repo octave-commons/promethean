@@ -18,6 +18,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - v1 router exposing consolidated SmartGPT Bridge endpoints.
 - OpenAPI spec for `/v1` served at `/v1/openapi.json` with consolidated operations.
 - `distclean` target to remove ignored files via `git clean -fdX`.
+
+### Changed
+
+- Refined Kanban breakdown tasks with clear goals, requirements, and subtasks.
 - MCP server and stdio wrapper exposing `search.query` over WebSocket and CLI.
 - Packaging for `shared` modules to enable standard imports.
 - Central `tests/conftest.py` to configure the test environment.
