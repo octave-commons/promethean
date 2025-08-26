@@ -668,6 +668,10 @@
 (defn-cmd docker-down []
   (sh ["docker" "compose" "down"]))
 
+(defn-cmd build-changelog []
+  (sh ["pipenv" "run" "towncrier" "build" "--yes"])
+  (safe-rm-globs ["changelog.d/*.md"]))
+
 (defn-cmd generate-python-requirements []
   (generate-python-services-requirements)
   (generate-python-shared-requirements))
