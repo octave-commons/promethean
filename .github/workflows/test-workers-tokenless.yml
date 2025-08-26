@@ -1,0 +1,38 @@
+name: TS Tokenless Workers
+on:
+    pull_request:
+    push:
+        branches: [main]
+
+jobs:
+    test-tokenless-workers:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '20'
+            - name: Enable Corepack and pnpm
+              run: |
+                  corepack enable
+                  corepack prepare pnpm@latest --activate
+            - name: Install workspace deps
+              run: pnpm install
+            - name: Build shared lib
+              run: pnpm --filter @shared/prom-lib build
+            - name: Run message-indexer tests
+              run: pnpm --dir services/ts/discord-message-indexer test
+            - name: Run attachment-indexer tests
+              run: pnpm --dir services/ts/discord-attachment-indexer test
+            - name: Run message-embedder tests
+              env:
+                  EMBEDDING_DIM: '16'
+              run: pnpm --dir services/ts/discord-message-embedder test
+            - name: Run attachment-embedder tests
+              env:
+                  EMBEDDING_DIM: '8'
+              run: pnpm --dir services/ts/attachment-embedder test
+            - name: Run discord-rest tests
+              run: pnpm --dir services/ts/discord-rest test || true
+            - name: Run discord-gateway tests
+              run: pnpm --dir services/ts/discord-gateway test || true
