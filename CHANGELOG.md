@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Extracted actionable tasks from unique notes into tasks/unique-notes.md
 - Policy-based access control with user and role management for SmartGPT Bridge.
 - Directory tree endpoint for SmartGPT Bridge file API.
 - v1 router exposing consolidated SmartGPT Bridge endpoints.
@@ -25,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - `sites/` directory consolidating all frontend code.
 - Proxy route `/bridge` through the shared proxy service for SmartGPT Bridge.
 - Tool calling support for Codex Context service.
+- Template for building Discord bots in TypeScript based on the Cephalon service.
 
 ### Changed
 
@@ -39,6 +41,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Discord embedder migrated to shared DualStore and ContextStore for unified persistence.
 - Kanban processor now persists via shared DualStore and ContextStore.
 - Markdown Graph service now uses shared DualStore and ContextStore for persistence.
+- DualStoreManager introduces `insert` API (with `addEntry` alias); Cephalon uses DualStore and ContextStore directly.
 - MCP server now creates a dedicated bridge connection per session and exposes tool schemas via `inputSchema`.
 
 - Proxy service now serves frontend files directly, removing the need for a separate static server.

@@ -1,14 +1,14 @@
 import test from 'ava';
-import fs from 'fs/promises';
-import path from 'path';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
 import {
     setChromaClient,
     setEmbeddingFactory,
     resetChroma,
     indexerManager,
-} from '../../src/indexer.js';
-import { loadBootstrapState } from '../../src/indexerState.js';
+} from '../../src/indexer.ts';
+import { loadBootstrapState } from '../../src/indexerState.ts';
 
 function delay(ms) {
     return new Promise((r) => setTimeout(r, ms));

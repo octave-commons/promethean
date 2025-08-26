@@ -1,7 +1,7 @@
 import test from 'ava';
 import sinon from 'sinon';
 import { mockSpawnFactory } from '../helpers/mockSpawn.js';
-import { createSupervisor } from '../../src/agent.js';
+import { createSupervisor } from '../../src/agent.ts';
 
 test('agent supervisor: guard pause, resume, then exit', async (t) => {
     // Script emits a dangerous line to trigger guard, then idle, then exit
