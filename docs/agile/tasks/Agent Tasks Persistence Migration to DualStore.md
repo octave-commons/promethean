@@ -63,7 +63,7 @@
 
 ### Markdown Graph
 
-* [ ] Replace raw `MongoClient` with `DualStore`.
+* [x] Replace raw `MongoClient` with `DualStore`.
 * [ ] Add optional embedding for graph queries if needed.
 
 ✅ Output: All services use `DualStore` instead of local clients.
