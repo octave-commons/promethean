@@ -1,0 +1,14 @@
+// @ts-nocheck
+import test from 'ava';
+import path from 'node:path';
+import { withServer } from '../helpers/server.js';
+
+const ROOT = path.join(process.cwd(), 'src', 'tests', 'fixtures');
+
+test('GET /v0/files/view blocks traversal outside root', async (t) => {
+    await withServer(ROOT, async (req) => {
+        const res = await req.get('/v0/files/view').query({ path: '../../etc/passwd' }).expect(404);
+        t.false(res.body.ok);
+        t.truthy(res.body.error);
+    });
+});
