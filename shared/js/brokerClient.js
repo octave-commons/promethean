@@ -4,7 +4,11 @@ import WebSocket from 'ws';
 import { randomUUID } from 'crypto';
 
 export class BrokerClient {
-    constructor({ url = 'ws://localhost:7000', id = randomUUID() } = {}) {
+    constructor({
+        url = 'ws://localhost:7000',
+        id = randomUUID(),
+        heartbeatInterval = Number(process.env.BROKER_HEARTBEAT_MS) || 30000,
+    } = {}) {
         this.url = url;
         this.id = id;
         this.socket = null;
@@ -14,6 +18,8 @@ export class BrokerClient {
         this.reconnectAttempts = 0;
         this.shouldReconnect = true;
         this.reconnectTimer = null;
+        this.heartbeatInterval = heartbeatInterval;
+        this.heartbeatTimer = null;
     }
 
     connect() {
@@ -30,7 +36,17 @@ export class BrokerClient {
             });
 
             this.socket.on('error', reject);
-
+            this.socket.on('open', () => {
+                this.heartbeatTimer = setInterval(() => this.heartbeat(), this.heartbeatInterval);
+                resolve();
+            });
+            this.socket.on('error', reject);
+            this.socket.on('close', () => {
+                if (this.heartbeatTimer) {
+                    clearInterval(this.heartbeatTimer);
+                    this.heartbeatTimer = null;
+                }
+            });
             this.socket.on('message', (data) => {
                 try {
                     const msg = JSON.parse(data);
@@ -121,8 +137,13 @@ export class BrokerClient {
             clearTimeout(this.reconnectTimer);
             this.reconnectTimer = null;
         }
+        if (this.heartbeatTimer) {
+            clearInterval(this.heartbeatTimer);
+            this.heartbeatTimer = null;
+        }
         if (this.socket) {
             this.socket.close();
+            this.socket = null;
         }
     }
 }
