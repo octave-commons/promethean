@@ -1,21 +1,52 @@
-# Description
+## 🛠️ Description
 
+Provide a lightweight file explorer for navigating repository contents through the agent interface.
 
-## Requirements/Definition of done
+---
 
-- If it doesn't have this, we can't accept it
+## 🎯 Goals
 
-## Tasks 
+- Browse directories and open file previews.
+- Search for files by name within allowed scope.
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+---
 
-## Relevent resources
+## 📦 Requirements
 
-You might find [this] useful while working on this task
+- [ ] Read-only navigation respecting permission rules.
+- [ ] Search functionality with fuzzy matching.
+- [ ] Clear error messages for restricted paths.
 
-## Comments
+---
 
-Useful for agents to engage in append only conversations about this task.
+## 📋 Subtasks
+
+- [ ] Outline UX and permission constraints.
+- [ ] Implement backend API for listing and reading files.
+- [ ] Add UI component or chat command for navigation.
+- [ ] Include tests covering permission and search cases.
+- [ ] Document usage with examples.
+
+---
+
+## 🔗 Related Epics
+
+#framework-core
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [kanban](../boards/kanban.md)
+
+#accepted
