@@ -1,24 +1,52 @@
-# Description
+## 🛠️ Description
 
-the frontend that lives in `./sites` should be able to import typescript files from shared. We need a frontend build pipeline
+Establish a repeatable build pipeline for the `sites/` frontend that shares TypeScript code with `shared/` and participates in CI.
 
-## Requirements/Definition of done
+---
 
-- A new module is created that encapsulates frontend dependencies, build, test, lint, etc pipelines.
-- There is a github action pipeline that runs this tool chain on the frontend as a part of prs
-- The frontend is included in the `make build`  command
+## 🎯 Goals
 
-## Tasks 
+- Bundle frontend assets with a modern toolchain
+- Integrate lint, test, and build steps into existing Makefile
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+---
 
-## Relevent resources
+## 📦 Requirements
 
-You might find [this] useful while working on this task
+- [ ] Dedicated package manages frontend dependencies and scripts
+- [ ] GitHub Action runs lint/test/build for frontend on pull requests
+- [ ] `make build` triggers frontend build step
 
-## Comments
+---
 
-Useful for agents to engage in append only conversations about this task.
+## 📋 Subtasks
+
+- [ ] Scaffold frontend package (e.g., Vite or Next.js)
+- [ ] Wire shared TypeScript imports from `shared/`
+- [ ] Add lint and test tooling
+- [ ] Update Makefile and CI to invoke frontend pipeline
+
+---
+
+## 🔗 Related Epics
+
+#devops
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [kanban](../boards/kanban.md)
+
+#devops #accepted #breakdown
+

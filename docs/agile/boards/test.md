@@ -1,7 +1,5 @@
 ---
-
 kanban-plugin: board
-
 ---
 
 ## Ice Box
@@ -82,7 +80,6 @@ kanban-plugin: board
 - [ ] [[Add starter notes - eidolon_fields, cephalon_inner_monologue.md]] #ready
 - [ ] [[Add_unit_tests_for_gui_helpers.md|Add unit tests for GUI helpers]] #ready
 - [ ] [[Auto-generate AGENTS.md stubs from services structure.md]] #ready
-- [ ] [[Clarify Promethean project vision.md]] #ready
 - [ ] [[Clearly seperate service dependency files.md]] #ready
 - [ ] [[Create permission gating layer 1.md]] #ready
 - [ ] [[Define permission schema in AGENTS 1.md|Define permission schema in AGENTS 1.md]] #ready
@@ -116,3 +113,6 @@ kanban-plugin: board
 - [ ] [[Update cephalon to use custom embedding function.md]] #in-review
 - [ ] [[update github actions to use makefile.md|update GitHub Actions to use Makefile]] #in-review
 
+## Done
+
+- [ ] [[Clarify Promethean project vision.md]] #done
