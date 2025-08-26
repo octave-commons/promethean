@@ -10,7 +10,6 @@ import * as tts from '../commands/tts.js';
 import * as startDialog from '../commands/start-dialog.js';
 import * as setCaptureChannel from '../commands/set-capture-channel.js';
 import * as setDesktopChannel from '../commands/set-desktop-channel.js';
-import { store } from '../store/storeInstance.js';
 
 type CommandModule = {
     data: RESTPostAPIChatInputApplicationCommandsJSONBody;
@@ -35,7 +34,7 @@ export function registerNewStyleCommands(BotCtor: typeof Bot) {
         const name = m.data.name;
         BotCtor.interactions.set(name, m.data);
         BotCtor.handlers.set(name, async (bot: Bot, interaction: any) => {
-            const ctx = { bot, dispatch: store.dispatch };
+            const ctx = { bot };
             await m.default(interaction, ctx);
         });
     }
