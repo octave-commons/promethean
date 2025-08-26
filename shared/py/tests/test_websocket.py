@@ -15,8 +15,8 @@ class WebSocketDisconnect(Exception):
     pass
 
 
-fastapi_stub.WebSocket = WebSocket
-fastapi_stub.WebSocketDisconnect = WebSocketDisconnect
+setattr(fastapi_stub, "WebSocket", WebSocket)
+setattr(fastapi_stub, "WebSocketDisconnect", WebSocketDisconnect)
 sys.modules.setdefault("fastapi", fastapi_stub)
 
 from shared.py.utils import websocket as ws_utils

@@ -16,13 +16,15 @@ class EmbeddingServiceClient(EmbeddingFunction):
         driver: str | None = None,
         function: str | None = None,
     ):
-        self.url = url or os.environ.get(
-            "EMBEDDING_SERVICE_URL", "http://localhost:8000/embed"
+        self.url: str = (
+            url
+            if url is not None
+            else os.environ.get("EMBEDDING_SERVICE_URL", "http://localhost:8000/embed")
         )
         self.driver = driver or os.environ.get("EMBEDDING_DRIVER")
         self.function = function or os.environ.get("EMBEDDING_FUNCTION")
 
-    def __call__(self, texts: List[str]) -> List[List[float]]:  # type: ignore[override]
+    def __call__(self, texts: List[str]) -> List[List[float]]:
         items = [
             (
                 {"type": "image_url", "data": t[4:]}
