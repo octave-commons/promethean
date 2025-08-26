@@ -2,7 +2,7 @@ import { fileBackedRegistry } from '@shared/prom-lib';
 import { makeChromaWrapper } from '@shared/prom-lib';
 import { makeDeterministicEmbedder } from '@shared/prom-lib';
 
-export async function embedMessage(evt) {
+export async function embedMessage(evt: any) {
     if (!evt.text || !evt.text.trim()) return null;
     const reg = fileBackedRegistry();
     const tenantCfg = await reg.get(evt.provider, evt.tenant);
