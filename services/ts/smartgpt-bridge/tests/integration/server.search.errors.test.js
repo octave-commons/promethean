@@ -1,7 +1,7 @@
 import test from 'ava';
-import path from 'path';
+import path from 'node:path';
 import { withServer } from '../helpers/server.js';
-import { setChromaClient, setEmbeddingFactory, resetChroma } from '../../src/indexer.js';
+import { setChromaClient, setEmbeddingFactory, resetChroma } from '../../src/indexer.ts';
 
 const ROOT = path.join(process.cwd(), 'tests', 'fixtures');
 

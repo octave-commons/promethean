@@ -13,27 +13,30 @@ function createWS() {
 // If you can add a reset in queueManager, uncomment:
 // test.beforeEach(() => queueManager.reset());
 
-test.serial("ready dispatches queued task and acknowledge clears assignment", (t) => {
-  const ws = createWS();
-  const workerId = "w1";
-  const queue = "alpha";
+test.serial(
+  "ready dispatches queued task and acknowledge clears assignment",
+  (t) => {
+    const ws = createWS();
+    const workerId = "w1";
+    const queue = "alpha";
 
-  queueManager.ready(ws, workerId, queue);
-  const task = queueManager.enqueue(queue, { value: 1 });
+    queueManager.ready(ws, workerId, queue);
+    const task = queueManager.enqueue(queue, { value: 1 });
 
-  t.is(ws.messages.length, 1);
-  const msg = JSON.parse(ws.messages[0]);
-  t.is(msg.action, "task-assigned");
-  t.is(msg.task.id, task.id);
+    t.is(ws.messages.length, 1);
+    const msg = JSON.parse(ws.messages[0]);
+    t.is(msg.action, "task-assigned");
+    t.is(msg.task.id, task.id);
 
-  t.true(queueManager.acknowledge(workerId, task.id));
+    t.true(queueManager.acknowledge(workerId, task.id));
 
-  const state = queueManager.getState();
-  t.is(state.queues[queue], 0);
-  t.is(state.assignments[workerId], undefined);
+    const state = queueManager.getState();
+    t.is(state.queues[queue], 0);
+    t.is(state.assignments[workerId], undefined);
 
-  queueManager.unregisterWorker(workerId);
-});
+    queueManager.unregisterWorker(workerId);
+  },
+);
 
 test.serial("unregisterWorker requeues unacked task", (t) => {
   const ws = createWS();
@@ -84,3 +87,32 @@ test.serial("heartbeat updates lastSeen", async (t) => {
   queueManager.unregisterWorker(workerId);
 });
 
+test.serial("rate limit delays dispatch", async (t) => {
+  const ws = createWS();
+  const workerId = "w4";
+  const queue = "delta";
+
+  queueManager.setRateLimit(50);
+  queueManager.ready(ws, workerId, queue);
+  const first = queueManager.enqueue(queue, { v: 1 });
+  const second = queueManager.enqueue(queue, { v: 2 });
+
+  t.is(ws.messages.length, 1);
+  const msg1 = JSON.parse(ws.messages[0]);
+  t.is(msg1.task.id, first.id);
+
+  const start = Date.now();
+  t.true(queueManager.acknowledge(workerId, msg1.task.id));
+  queueManager.ready(ws, workerId, queue);
+  await new Promise((r) => setTimeout(r, 10));
+  t.is(ws.messages.length, 1);
+
+  await new Promise((r) => setTimeout(r, 60));
+  t.is(ws.messages.length, 2);
+  const msg2 = JSON.parse(ws.messages[1]);
+  t.is(msg2.task.id, second.id);
+  t.true(Date.now() - start >= 50);
+
+  queueManager.unregisterWorker(workerId);
+  queueManager.setRateLimit(0);
+});

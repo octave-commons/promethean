@@ -13,7 +13,7 @@ import logging
 from dataclasses import dataclass
 from typing import Dict, List, Optional
 
-from transformers import PreTrainedTokenizerBase  # type: ignore
+from transformers import PreTrainedTokenizerBase
 from difflib import SequenceMatcher
 
 LOGGER = logging.getLogger(__name__)

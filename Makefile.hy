@@ -296,7 +296,7 @@
   )
 
 (defn-cmd typecheck-python []
-  (sh ["mypy" "services/py" "shared/py/"]) )
+  (sh ["mypy"]))
 
 ;; JavaScript helpers ---------------------------------------------------------
 (defn-cmd lint-js-service [service]

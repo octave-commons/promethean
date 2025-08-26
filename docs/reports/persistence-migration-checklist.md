@@ -9,6 +9,11 @@ tags:
 # 📋 Persistence Migration Checklist
 
 This document tracks the migration of Promethean services from legacy **MongoClient/CollectionManager/DualSink** persistence to the shared **DualStore/ContextStore** module under `shared/ts/persistence/`.
+- [x] Cephalon uses DualStore
+- [ ] SmartGPT Bridge uses DualStore
+- [ ] Discord-embedder uses DualStore
+- [ ] Kanban Processor uses DualStore
+- [ ] Markdown Graph uses DualStore
 
 ---
 

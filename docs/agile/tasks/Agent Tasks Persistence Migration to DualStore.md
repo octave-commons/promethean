@@ -37,9 +37,9 @@
 
 ### Cephalon
 
-* [ ] Replace all imports of `CollectionManager` with `DualStore`.
-* [ ] Replace `ContextManager` with `ContextStore` from shared.
-* [ ] Adjust methods:
+* [x] Replace all imports of `CollectionManager` with `DualStore`.
+* [x] Replace `ContextManager` with `ContextStore` from shared.
+* [x] Adjust methods:
 
   * `addEntry` → `insert`
   * `getMostRecent` → `getMostRecent`

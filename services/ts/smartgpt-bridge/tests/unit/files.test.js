@@ -1,6 +1,6 @@
 import test from 'ava';
-import path from 'path';
-import { viewFile, resolvePath } from '../../src/files.js';
+import path from 'node:path';
+import { viewFile, resolvePath } from '../../src/files.ts';
 
 const ROOT = path.join(process.cwd(), 'tests', 'fixtures');
 
