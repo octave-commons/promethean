@@ -50,8 +50,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Markdown Graph service now uses shared DualStore and ContextStore for persistence.
 - DualStoreManager introduces `insert` API (with `addEntry` alias); Cephalon uses DualStore and ContextStore directly.
 - MCP server now creates a dedicated bridge connection per session and exposes tool schemas via `inputSchema`.
-
 - Proxy service now serves frontend files directly, removing the need for a separate static server.
+- Broker client now uses structured logging and narrower exception handling.
 
 ### Fixed
 
