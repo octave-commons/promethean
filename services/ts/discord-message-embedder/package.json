@@ -11,7 +11,8 @@
         "lint": "pnpm exec @biomejs/biome lint . || true"
     },
     "dependencies": {
-        "@shared/prom-lib": "file:../../../shared/ts"
+        "@shared/prom-lib": "file:../../../shared/ts",
+        "@types/node": "^24.3.0"
     },
     "devDependencies": {
         "ava": "^6.4.1",
