@@ -12,12 +12,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Extracted actionable tasks from unique notes into tasks/unique-notes.md
 - Policy-based access control with user and role management for SmartGPT Bridge.
 - Directory tree endpoint for SmartGPT Bridge file API.
 - v1 router exposing consolidated SmartGPT Bridge endpoints.
 - OpenAPI spec for `/v1` served at `/v1/openapi.json` with consolidated operations.
 - `distclean` target to remove ignored files via `git clean -fdX`.
 - MCP server and stdio wrapper exposing `search.query` over WebSocket and CLI.
+- Packaging for `shared` modules to enable standard imports.
+- Central `tests/conftest.py` to configure the test environment.
 - Smoke test script for MCP server and basic stdio wrapper test harness.
 - Frontend visualization for the markdown link graph using ForceGraph.
 - Simple web chat interface for the LLM service with HTTP and WebSocket endpoints.
@@ -27,9 +30,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Tool calling support for Codex Context service.
 - Template for building Discord bots in TypeScript based on the Cephalon service.
 - Audio utility helpers for base64 PCM and WAV conversions.
+- `run_service` helper for Python services simplifying startup and wait loops.
+- STT and embedding services updated to use `run_service`.
+- Unit tests for ForwardTacotronIE and WaveRNNIE helper functions.
+- Test for GUI parameter defaults in `init_parameters_interactive`.
+- Tests for grammar correction in the shared speech spell checker.
+- Unit tests for Discord utility functions covering channel history and cursor management.
+- Tests for `shared.py.settings` confirming environment defaults and overrides.
 
 ### Changed
 
+- Naive embedding driver now uses configurable `VECTOR_SIZE` constant.
 - Organized SmartGPT Bridge routes into versioned directories.
 - Moved SmartGPT dashboard and LLM chat frontends into `sites/`.
 - Frontends now served from a central static file server instead of individual services.
@@ -42,9 +53,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - STT and TTS services now use shared audio utilities for encoding and decoding.
 - Kanban processor now persists via shared DualStore and ContextStore.
 - Markdown Graph service now uses shared DualStore and ContextStore for persistence.
+- DualStoreManager introduces `insert` API (with `addEntry` alias); Cephalon uses DualStore and ContextStore directly.
 - MCP server now creates a dedicated bridge connection per session and exposes tool schemas via `inputSchema`.
-
 - Proxy service now serves frontend files directly, removing the need for a separate static server.
+- Broker client now uses structured logging and narrower exception handling.
 
 ### Fixed
 
@@ -54,10 +66,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - OpenAPI docs obey `OPENAPI_PUBLIC`, staying private when auth is enabled unless explicitly exposed.
 - Grep endpoint requires a regex pattern and returns validation errors for missing fields.
 - SSE agent log streaming cleans up listeners on disconnect to avoid leaks.
+- Python tests run without pipenv isolation.
+- Added missing `next_messages` helper for discord indexer tests.
 
 ### Removed
 
 - Deprecated `scripts/serve-sites.js` static file server.
+- Per-file `sys.path.append` hacks in tests in favor of centralized setup.
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 

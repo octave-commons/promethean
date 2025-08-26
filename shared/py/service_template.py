@@ -69,13 +69,21 @@ async def start_service(
     return client
 
 
-# Example usage:
-# async def main():
-#     await start_service(
-#         id="stt",
-#         queues=["transcribe.audio"],
-#         topics=["voice.input"],
-#         handle_event=lambda e: print("event:", e),
-#         handle_task=lambda t: print("task:", t),
-#     )
-# asyncio.run(main())
+async def run_service(
+    id,
+    queues=None,
+    topics=None,
+    handle_event=lambda event, client: None,
+    handle_task=lambda task, client: None,
+    enable_heartbeat: bool = True,
+):
+    """Convenience wrapper that starts the service and waits forever."""
+    await start_service(
+        id=id,
+        queues=queues,
+        topics=topics,
+        handle_event=handle_event,
+        handle_task=handle_task,
+        enable_heartbeat=enable_heartbeat,
+    )
+    await asyncio.Event().wait()

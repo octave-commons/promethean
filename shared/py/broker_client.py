@@ -1,10 +1,15 @@
 # shared/py/broker_client.py
 
 import asyncio
+import json
+import logging
+import uuid
+
 from websockets.asyncio.client import connect
 from websockets.exceptions import ConnectionClosedError
-import json
-import uuid
+
+
+logger = logging.getLogger(__name__)
 
 
 class BrokerClient:
@@ -22,23 +27,36 @@ class BrokerClient:
         asyncio.create_task(self._listen())
 
     async def _listen(self):
+        """Listen for broker messages and dispatch them to registered handlers."""
         try:
             async for msg in self.ws:
                 try:
                     data = json.loads(msg)
-                    if data.get("action") == "task-assigned" and self.task_handler:
+                except json.JSONDecodeError:
+                    logger.exception("Failed to decode broker message: %s", msg)
+                    continue
+
+                if data.get("action") == "task-assigned" and self.task_handler:
+                    try:
                         await self.task_handler(data["task"])
-                    elif "event" in data:
-                        event = data["event"]
-                        handler = self.event_handlers.get(event["type"])
-                        if handler:
+                    except Exception:
+                        logger.exception("Error in task handler")
+                elif "event" in data:
+                    event = data["event"]
+                    handler = self.event_handlers.get(event.get("type"))
+                    if handler:
+                        try:
                             await handler(event)
-                except Exception as e:
-                    print("[broker_client] error processing message:", e)
+                        except Exception:
+                            logger.exception(
+                                "Error in event handler for %s", event.get("type")
+                            )
+                else:
+                    logger.warning("Unhandled broker message: %s", data)
         except ConnectionClosedError as e:
-            print("[broker_client] connection closed:", e)
-        except Exception as e:
-            print("[broker_client] listener crashed:", e)
+            logger.warning("[broker_client] connection closed: %s", e)
+        except Exception:
+            logger.exception("[broker_client] listener crashed")
 
     async def subscribe(self, topic, handler):
         await self._send({"action": "subscribe", "topic": topic})
