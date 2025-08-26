@@ -83,6 +83,57 @@ function listToExpr(x: List): Expr {
         return { kind: 'Fun', params, body, span: x.span! };
     }
 
+    if (isSym(hd, 'class')) {
+        const [, nameS, fieldsList, methodsList] = x.xs;
+        const name = mkName((nameS as Sym).name, nameS.span!);
+        const fields = ((fieldsList as List).xs as Sym[]).map((s) => mkName(s.name, s.span!));
+        const methods = (methodsList as List).xs.map((m) => {
+            const [mn, paramsList, ...bodyS] = (m as List).xs;
+            const mname = mkName((mn as Sym).name, mn.span!);
+            const params = ((paramsList as List).xs as Sym[]).map((s) => mkName(s.name, s.span!));
+            const body = bodyS.length === 1 ? toExpr(bodyS[0]) : toExpr(list([sym('begin'), ...bodyS]));
+            return { name: mname, params, body };
+        });
+        return { kind: 'Class', name, fields, methods, span: x.span! };
+    }
+    if (isSym(hd, 'new')) {
+        return {
+            kind: 'New',
+            ctor: toExpr(x.xs[1]),
+            args: x.xs.slice(2).map(toExpr),
+            span: x.span!,
+        };
+    }
+    if (isSym(hd, 'get')) {
+        const [, obj, prop] = x.xs;
+        return {
+            kind: 'Get',
+            obj: toExpr(obj),
+            prop: (prop as Sym).name,
+            span: x.span!,
+        };
+    }
+    if (isSym(hd, 'set')) {
+        const [, obj, prop, value] = x.xs;
+        return {
+            kind: 'Set',
+            obj: toExpr(obj),
+            prop: (prop as Sym).name,
+            value: toExpr(value),
+            span: x.span!,
+        };
+    }
+    if (isSym(hd, 'call')) {
+        const [, obj, method, ...args] = x.xs;
+        return {
+            kind: 'MethodCall',
+            obj: toExpr(obj),
+            method: (method as Sym).name,
+            args: args.map(toExpr),
+            span: x.span!,
+        };
+    }
+
     // infix ops map to Bin/Un, else -> Call
     const binOp = new Set(['+', '-', '*', '/', '%', '<', '>', '<=', '>=', '==', '!=']);
     const unOp = new Set(['not', 'neg']);
