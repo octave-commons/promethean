@@ -1,6 +1,7 @@
 # Description
 
-We should have a dockerized environment for the tools to run in to make it easier to test and sanity check. Having docker images could make it easier to spin up for the codex online service once they add that feature in
+I want an easy way to dump github actions into a document and feed to language models to quickly address workflow issues
+
 
 ## Requirements/Definition of done
 

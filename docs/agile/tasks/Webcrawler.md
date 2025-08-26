@@ -1,5 +1,3 @@
-Here’s a concrete, repo-ready expansion you can paste into the board. It’s opinionated, modular, and slotted to your stack (Fastify, WS, Mongo, Chroma, Ollama/local LLMs, dual-sink).
-
 # Web Crawler Agent → Hyperlink Graph → LLM Summaries/#Tags → Chroma Search (Dual-Sink)
 
 **Owner:** Codex / Agent

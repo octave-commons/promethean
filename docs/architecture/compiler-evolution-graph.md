@@ -1,6 +1,10 @@
 ---
 project: Promethean
-hashtags: [#knowledge-graph, #compiler, #lisp, #evolution]
+tags:
+  - knowledge-graph
+  - compiler
+  - lisp
+  - project-evolution
 ---
 
 # 🧩 Knowledge Graph — Lisp Compiler Evolution

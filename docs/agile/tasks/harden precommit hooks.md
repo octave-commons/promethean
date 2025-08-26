@@ -1,10 +1,14 @@
 # Description
 
-We should have a dockerized environment for the tools to run in to make it easier to test and sanity check. Having docker images could make it easier to spin up for the codex online service once they add that feature in
+
+We want to make it as hard as possible for bad code and bad documentation to be committed to the git repository.
 
 ## Requirements/Definition of done
 
-- If it doesn't have this, we can't accept it
+- regenerate `Makefile` by calling `make generate-makefile`
+- prevent commit with failing tests
+- prevent commit with test coverage under 80%
+- 
 
 ## Tasks 
 
