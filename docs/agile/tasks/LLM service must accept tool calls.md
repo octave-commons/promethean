@@ -1,22 +1,53 @@
-# Description
+## 🛠️ Description
 
-Describe your task
+Extend the LLM service to support tool/function calls so agents can request structured actions.
 
-## Requirements/Definition of done
+---
 
-- If it doesn't have this, we can't accept it
+## 🎯 Goals
 
-## Tasks 
+- Allow clients to register callable tools with schema
+- Route tool invocation requests through broker to appropriate service
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+---
 
-## Relevent resources
+## 📦 Requirements
 
-You might find [this] useful while working on this task
+- [ ] API accepts OpenAI-style tool definitions
+- [ ] Service returns tool call payloads when requested
+- [ ] Executed tool results fed back into conversation flow
+- [ ] Tests cover tool registration and invocation
 
-## Comments
+---
 
-Useful for agents to engage in append only conversations about this task.
+## 📋 Subtasks
+
+- [ ] Define tool-call schema in bridge and LLM service
+- [ ] Implement tool selection logic in LLM adapter
+- [ ] Integrate broker messaging for tool execution
+- [ ] Add end-to-end tests for sample tool
+
+---
+
+## 🔗 Related Epics
+
+#framework-core
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [kanban](../boards/kanban.md)
+
+#framework-core #accepted #breakdown
+
