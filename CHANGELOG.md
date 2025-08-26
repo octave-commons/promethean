@@ -100,6 +100,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - EmbeddingServiceClient now retries failed requests with exponential backoff and returns structured errors when service calls fail.
 - Waveform and spectrogram generation delegated to an external audio service injected via `CaptureDeps`.
 - Remote embedding function now surfaces broker connection errors and rejects pending requests on failure.
+- Discord attachment embedder services now share a common embedding routine.
 
 ### Fixed
 
@@ -121,6 +122,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Deprecated `scripts/serve-sites.js` static file server.
 - Per-file `sys.path.append` hacks in tests in favor of centralized setup.
+- Hy variant of the Discord attachment embedder service in favor of shared Python implementation.
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
