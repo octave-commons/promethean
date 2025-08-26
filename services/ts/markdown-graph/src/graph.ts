@@ -59,24 +59,26 @@ export class GraphDB {
     async updateFile(filePath: string, content: string): Promise<void> {
         const rel = this.rel(filePath);
         await this.links.mongoCollection.deleteMany({ 'metadata.src': rel } as any);
-        await this.hashtags.mongoCollection.deleteMany({ 'metadata.path': rel } as any);
+        await this.hashtags.mongoCollection.deleteMany({
+            'metadata.path': rel,
+        } as any);
 
         const dir = path.dirname(rel);
         for (const link of this.parseLinks(content)) {
             const target = path.normalize(path.join(dir, link));
             const dst = this.rel(target);
-            await this.links.mongoCollection.insertOne({
+            await this.links.insert({
                 text: dst,
                 timestamp: Date.now(),
                 metadata: { src: rel, dst },
-            } as any);
+            });
         }
         for (const tag of this.parseTags(content)) {
-            await this.hashtags.mongoCollection.insertOne({
+            await this.hashtags.insert({
                 text: tag,
                 timestamp: Date.now(),
                 metadata: { path: rel, tag },
-            } as any);
+            });
         }
     }
 

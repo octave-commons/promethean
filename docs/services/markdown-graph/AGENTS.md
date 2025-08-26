@@ -11,3 +11,7 @@ TODO: Add service description.
 ## Tags
 
 #service #ts
+
+## Persistence
+
+Persistence is handled via shared module: @shared/ts/persistence/DualStore
