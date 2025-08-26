@@ -88,6 +88,17 @@ async def index_channel(channel: discord.TextChannel) -> None:
     return print(f"Newest message: {newest_message}")
 
 
+async def next_messages(channel: discord.TextChannel) -> List[discord.Message]:
+    """Return messages after the stored cursor for a channel."""
+    doc = discord_channel_collection.find_one({"id": channel.id})
+    after = None
+    if doc:
+        cursor = doc.get("cursor")
+        if cursor is not None:
+            after = channel.get_partial_message(cursor)
+    return [m async for m in channel.history(limit=200, oldest_first=True, after=after)]
+
+
 @client.event
 async def on_ready():
     global _hb_started, _hb_ctx

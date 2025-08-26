@@ -1,8 +1,6 @@
 from pathlib import Path
-import sys
 
-sys.path.append(str(Path(__file__).resolve().parent))
-from utils import load_script_module
+from tests.scripts.utils import load_script_module
 
 sc = load_script_module("simulate_ci")
 
