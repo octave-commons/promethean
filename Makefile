@@ -98,6 +98,7 @@ COMMANDS := \
   generate-python-requirements \
   generate-requirements \
   snapshot \
+  refresh \
   generate-makefile
 
 .PHONY: \
