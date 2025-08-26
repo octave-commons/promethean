@@ -5,9 +5,9 @@ import path from 'node:path';
 test('RemoteEmbeddingFunction: image url item mapping', async (t) => {
     const prev = process.env.SHARED_IMPORT;
     try {
-        const abs = path.join(process.cwd(), 'tests', 'helpers', 'fakeBroker.js');
+        const abs = path.join(process.cwd(), 'dist', 'tests', 'helpers', 'fakeBroker.js');
         process.env.SHARED_IMPORT = 'file://' + abs;
-        const { RemoteEmbeddingFunction } = await import('../../.js');
+        const { RemoteEmbeddingFunction } = await import('../../remoteEmbedding.js');
         const ref = new RemoteEmbeddingFunction(undefined, 'driverX', 'fnY');
         const out = await ref.generate([{ type: 'image_url', data: 'https://example.com/i.png' }]);
         t.true(Array.isArray(out));
