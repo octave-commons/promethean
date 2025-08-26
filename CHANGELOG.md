@@ -48,6 +48,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Expanded `MIGRATION_PLAN.md` with scope, phased timeline, requirements, and owner assignments.
 - Provider-agnostic LLM driver interface with Ollama and HuggingFace implementations.
 - TypeScript LLM service now uses pluggable drivers for Ollama and HuggingFace.
+- `defun` special form in Lisp compiler enabling named functions and recursion.
 
 ### Changed
 
