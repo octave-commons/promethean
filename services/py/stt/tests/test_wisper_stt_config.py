@@ -1,10 +1,6 @@
 import importlib
 import sys
 import types
-from pathlib import Path
-
-# Ensure repository root is on sys.path so ``shared`` modules are importable
-sys.path.append(str(Path(__file__).resolve().parents[4]))
 
 
 def test_generation_config(monkeypatch):
