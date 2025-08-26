@@ -44,6 +44,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Expanded `MIGRATION_PLAN.md` with scope, phased timeline, requirements, and owner assignments.
 - Provider-agnostic LLM driver interface with Ollama and HuggingFace implementations.
 - TypeScript LLM service now uses pluggable drivers for Ollama and HuggingFace.
+- Logging for task timeouts with configurable queueManager requeue tests.
 
 ### Changed
 
@@ -58,6 +59,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Moved SmartGPT dashboard and LLM chat frontends into `sites/`.
 - Frontends now served from a central static file server instead of individual services.
 - SmartGPT Bridge now uses shared DualStore and ContextStore for persistence.
+- Health service tests use shared BrokerClient instead of direct WebSocket connections.
 - Discord embedder migrated to shared DualStore and ContextStore for unified persistence.
 - STT and TTS services now use shared audio utilities for encoding and decoding.
 - Kanban processor now persists via shared DualStore and ContextStore.
