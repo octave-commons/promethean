@@ -57,6 +57,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Expanded `MIGRATION_PLAN.md` with scope, phased timeline, requirements, and owner assignments.
 - Provider-agnostic LLM driver interface with Ollama and HuggingFace implementations.
 - TypeScript LLM service now uses pluggable drivers for Ollama and HuggingFace.
+- Initial scaffolding for broker↔bridge parity tests, including normalizers, runner, and unit tests.
 - Automatic Twitch stream title pipeline using Ollama with Discord transcript context and pluggable storage.
 - Basic class support in Lisp compiler with `defclass`, `new`, `get`, and `call` forms.
 - Realtime Promethean Health Dashboard for monitoring heartbeat metrics.
@@ -103,6 +104,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - DualStore skips image embeddings when the configured function only supports text.
 - Added missing `next_messages` helper for discord indexer tests.
 - CPU requirements no longer include NVIDIA packages and target PyTorch CPU wheels.
+- Lint and format scripts for `@shared/ts` now invoke the Biome CLI directly.
+- Provider policy test now restricts access for non-whitelisted services.
 
 ### Removed
 
