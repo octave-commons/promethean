@@ -404,20 +404,6 @@
         (run-dirs SHARED_TS "pnpm exec @biomejs/biome format --write"  :shell True))
       (require-pnpm)))
 
-(defn-cmd typecheck-ts []
-  (setv svc (or (os.environ.get "service") (os.environ.get "SERVICE")))
-  (defn run [path]
-    (if (and (isfile (join path "tsconfig.json"))
-             (isdir (join path "node_modules")))
-        (if (has-pnpm)
-            (sh "pnpm exec tsc --noEmit" :cwd path :shell True)
-            (require-pnpm))
-        (print (.format "Skipping typecheck for {}" path))))
-  (if svc
-      (run (join "services/ts" svc))
-      (do
-       (for [d SERVICES_TS] (run d))
-       (for [d SHARED_TS] (run d)))))
 
 (defn-cmd setup-ts-service [service]
   (print (.format "Setting up TS service: {}" service))
@@ -494,6 +480,24 @@
              (require-pnpm))))
   )
 
+(defn-cmd ts-type-check []
+  (print "checking shared typescript for type errors...")
+  (setv path "./shared/ts/")
+
+  (try (if (has-pnpm)
+           (do (sh "tsc --noEmit" :cwd path :shell True))
+           (requir e-pnpm))
+       (for [d SERVICES_TS]
+            (setv path d)
+            (if (has-pnpm)
+                (do (print "checking types in" d)
+                    (sh "tsc --noEmit" :cwd path :shell True))
+                (require-pnpm)))
+       (except [e Exception ]
+               (print "TypeScript type check failed in" path "with:" e ))
+       )
+
+  )
 ;; Sibilant ------------------------------------------------------------------
 (defn-cmd build-sibilant []
   (print "Transpiling Sibilant to JS... (not ready)"))

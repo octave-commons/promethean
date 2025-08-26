@@ -48,7 +48,6 @@ COMMANDS := \
   lint-ts-service \
   lint-ts \
   format-ts \
-  typecheck-ts \
   setup-ts-service \
   setup-ts \
   test-ts-service \
@@ -59,6 +58,7 @@ COMMANDS := \
   coverage-ts \
   clean-ts \
   build-ts \
+  ts-type-check \
   build-sibilant \
   setup-sibilant \
   setup-sibilant-service \

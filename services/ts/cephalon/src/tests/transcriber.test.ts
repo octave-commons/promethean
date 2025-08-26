@@ -8,7 +8,6 @@ class DummyBroker extends EventEmitter {
     lastEnqueue: { queue: string; task: any } | null = null;
     heartbeatInterval = 0;
     async connect() {}
-    disconnect() {}
     subscribe(_topic: string, handler: (event: any) => void) {
         this.on('event', handler);
     }

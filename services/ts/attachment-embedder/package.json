@@ -12,7 +12,8 @@
     },
     "dependencies": {
         "@shared/prom-lib": "file:../../../shared/ts",
-        "@types/node": "^24.3.0"
+        "@types/node": "^24.3.0",
+        "discord.js": "^14.17.3"
     },
     "devDependencies": {
         "ava": "^6.4.1",
