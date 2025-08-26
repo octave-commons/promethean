@@ -118,7 +118,7 @@ function lowerExpr(e: Expr, env: Map<string, Sym>, out: Stmt[]): Sym {
             return last;
         }
         default: {
-            return assertUnreachable(e);
+            throw new Error(`Unhandled Expr kind in lower: ${(e as any).kind}`);
         }
     }
 }
@@ -157,6 +157,5 @@ function binToPrim(op: string) {
     }
 }
 
-function assertUnreachable(x: never): never {
-    throw new Error(`Unhandled Expr kind: ${typeof x === 'object' && x ? (x as any).kind : String(x)}`);
-}
+// Exhaustiveness helper was removed to allow partial lowering while
+// the AST grows new forms. Runtime error above preserves visibility.

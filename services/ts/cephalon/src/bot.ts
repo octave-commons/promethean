@@ -18,6 +18,7 @@ import { type Interaction } from './interactions.js';
 import { DesktopCaptureManager } from './desktop/desktopLoop.js';
 import { DualStoreManager } from '@shared/ts/dist/persistence/dualStore.js';
 import { cleanupChroma } from '@shared/ts/dist/persistence/maintenance.js';
+import { pushVisionFrame } from '@shared/ts/dist/agent-ecs/helpers/pushVision.js';
 import runForwardAttachments from './actions/forward-attachments.js';
 import { buildForwardAttachmentsScope } from './actions/forward-attachments.scope.js';
 import registerLlmHandler from './actions/register-llm-handler.js';
@@ -209,5 +210,4 @@ export class Bot extends EventEmitter {
             console.warn('Failed to forward attachments', e);
         }
     }
-
 }
