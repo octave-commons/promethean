@@ -2,11 +2,13 @@
 
 import { randomUUID } from 'node:crypto';
 
+
 const queues = new Map(); // queueName -> [task]
 const workers = new Map(); // workerId -> { ws, queue, active, lastSeen }
 const assignments = new Map(); // workerId -> { task, queue, timeoutId }
 let rateLimitMs = 0; // delay between task dispatches per queue
 const lastDispatch = new Map(); // queue -> timestamp
+let taskTimeoutMs = 10000; // ms before unacked task is requeued
 
 let sweepIntervalMs = Number(process.env.WORKER_SWEEP_INTERVAL_MS) || 30000;
 let workerExpiryMs = Number(process.env.WORKER_EXPIRE_MS) || 60000;
@@ -64,7 +66,7 @@ function dispatch(queue) {
         assignments.set(workerId, {
             task,
             queue,
-            timeoutId: setTimeout(() => handleTimeout(workerId), 10000),
+            timeoutId: setTimeout(() => handleTimeout(workerId), taskTimeoutMs),
         });
 
         worker.active = false;
@@ -89,6 +91,7 @@ function acknowledge(workerId, taskId) {
 function handleTimeout(workerId) {
     const assignment = assignments.get(workerId);
     if (!assignment) return;
+    console.warn(`task ${assignment.task.id} timed out for ${workerId} on ${assignment.queue}`);
     enqueue(assignment.queue, assignment.task.payload);
     assignments.delete(workerId);
 }
@@ -144,6 +147,7 @@ export const queueManager = {
     getState,
     setRateLimit,
     setHeartbeatConfig,
+    setTaskTimeout,
 };
 
 function setRateLimit(ms) {
@@ -165,4 +169,7 @@ function setHeartbeatConfig({ sweepIntervalMs: interval, expiryMs } = {}) {
     if (expiryMs && Number(expiryMs) > 0) {
         workerExpiryMs = Number(expiryMs);
     }
+}
+function setTaskTimeout(ms) {
+    taskTimeoutMs = Math.max(1, Number(ms) || 1);
 }
