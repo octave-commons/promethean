@@ -85,6 +85,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Enhanced URL canonicalization helpers to remove tracking parameters and expand scheme denylist.
 - Organized SmartGPT Bridge routes into versioned directories.
 - Embedding clients and related utilities now accept structured `{type, data}`
+- Centralized TypeScript service configuration in `services/ts/config` and removed duplicate configs in Cephalon and Discord Embedder.
   items instead of using the `img:` prefix.
 - Moved SmartGPT dashboard and LLM chat frontends into `sites/`.
 - Frontends now served from a central static file server instead of individual services.
