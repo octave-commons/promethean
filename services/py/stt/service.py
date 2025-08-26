@@ -1,7 +1,7 @@
 import sys
 import asyncio
-import base64
 
+from shared.py.speech.audio_utils import pcm_from_base64
 from shared.py.service_template import run_service
 from shared.py.speech.wisper_stt import transcribe_pcm
 
@@ -15,8 +15,9 @@ async def process_task(client, task):
     if pcm_b64 is None:
         print("[stt] task missing 'pcm' field")
         return
-    pcm_bytes = base64.b64decode(pcm_b64)
-    from shared.py.speech import wisper_stt as _wisper
+    pcm_bytes = pcm_from_base64(pcm_b64)
+    text = transcribe_pcm(pcm_bytes, sample_rate)
+    await client.publish("stt.transcribed", {"text": text}, correlationId=task["id"])
 
     text = _wisper.transcribe_pcm(bytearray(pcm_bytes), sample_rate)
     await client.publish("stt.transcribed", {"text": text}, correlationId=task["id"])
