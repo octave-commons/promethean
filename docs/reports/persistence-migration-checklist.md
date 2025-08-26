@@ -1,6 +1,9 @@
 ---
 project: Promethean
-hashtags: [#migration, #persistence, #dualstore]
+tags:  
+- migration  
+- persistence  
+- dualstore
 ---
 
 # 📋 Persistence Migration Checklist

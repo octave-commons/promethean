@@ -1,5 +1,3 @@
-Awesome. Here’s a drop-in **side-by-side parity test plan** you can wire into CI so the **WebSocket Broker** and **GPT Bridge** must behave identically (modulo allowed, explicitly-documented deltas).
-
 # Broker ↔ GPT Bridge Parity Test Plan
 
 **Owner:** Codex / Agent
