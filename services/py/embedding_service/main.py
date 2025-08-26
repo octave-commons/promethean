@@ -20,14 +20,17 @@ def _embed(items, driver_name: str, function_name: str) -> List[List[float]]:
 
 
 async def handle_task(task, client):
+    print("embedding task recieved:")
     payload = task.get("payload", {})
     driver_name = payload.get("driver") or os.environ.get("EMBEDDING_DRIVER", "naive")
+
     function_name = payload.get("function") or os.environ.get(
         "EMBEDDING_FUNCTION", "simple"
     )
     items = payload.get("items", [])
     embeddings = _embed(items, driver_name, function_name)
     reply_to = payload.get("replyTo") or task.get("replyTo")
+    print(driver_name, function_name, reply_to)
     if reply_to:
         await client.publish(
             "embedding.result",

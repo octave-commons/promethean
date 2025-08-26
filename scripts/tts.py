@@ -5,8 +5,7 @@ from openvino import Core
 from lib.models.forward_tacotron_ie import ForwardTacotronIE
 from lib.models.mel2wave_ie import WaveRNNIE
 from time import perf_counter
-from lib.utils.split_sentences import split_sentences
-import re
+from shared.py.utils.split_sentences import split_sentences
 import os
 
 # Setup
@@ -15,15 +14,21 @@ device = "NPU"
 # === Load models ===
 print("loading forward tacotron")
 forward_tacotron = ForwardTacotronIE(
-    os.path.abspath("models/public/forward-tacotron/forward-tacotron-duration-prediction/FP16/forward-tacotron-duration-prediction.xml"),
-    os.path.abspath("models/public/forward-tacotron/forward-tacotron-regression/FP16/forward-tacotron-regression.xml"),
+    os.path.abspath(
+        "models/public/forward-tacotron/forward-tacotron-duration-prediction/FP16/forward-tacotron-duration-prediction.xml"
+    ),
+    os.path.abspath(
+        "models/public/forward-tacotron/forward-tacotron-regression/FP16/forward-tacotron-regression.xml"
+    ),
     core,
     device,
 )
 print("loading wavrnn")
 
 vocoder = WaveRNNIE(
-    os.path.abspath("models/public/wavernn/wavernn-upsampler/FP16/wavernn-upsampler.xml"),
+    os.path.abspath(
+        "models/public/wavernn/wavernn-upsampler/FP16/wavernn-upsampler.xml"
+    ),
     os.path.abspath("models/public/wavernn/wavernn-rnn/FP16/wavernn-rnn.xml"),
     core,
     device=device,
@@ -51,9 +56,9 @@ We need a really really really long sentance without any punctuation marks to te
 print("generating voice audio file")
 chunks = split_sentences(input_text)
 all_audio = []
-time_all_start=perf_counter()
+time_all_start = perf_counter()
 for chunk in chunks:
-    time_chunk_start=perf_counter()
+    time_chunk_start = perf_counter()
     if not chunk:
         continue
     # print(f"Processing chunk: '{chunk}'")
@@ -64,7 +69,9 @@ for chunk in chunks:
     # print(f"Processed chunk in {time_chunk_end - time_chunk_start:.2f} seconds, audio length: {len(audio)} samples")
 final_audio = np.concatenate(all_audio)
 time_all_end = perf_counter()
-print(f"Processed all chunks in {time_all_end - time_all_start:.2f} seconds, total audio length: {len(final_audio)} samples")
+print(
+    f"Processed all chunks in {time_all_end - time_all_start:.2f} seconds, total audio length: {len(final_audio)} samples"
+)
 
 # === Save output ===
 sf.write("output.wav", final_audio, 22050)

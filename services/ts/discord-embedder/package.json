@@ -6,13 +6,13 @@
 	"type": "module",
 	"scripts": {
 		"build": "tsc && node scripts/patch-imports.js",
-		"test": "npm run build && ava",
-		"coverage": "npm run build && c8 ava",
+		"test": "pnpm run build && ava",
+		"coverage": "pnpm run build && c8 ava",
 		"build:check": "tsc --noEmit --incremental false",
-		"deploy": "npm run build && node --env-file=../../.env dist/util/deploy.js",
+		"deploy": "pnpm run build && node --env-file=../../.env dist/util/deploy.js",
 		"lint": "prettier --cache --check . && eslint src --cache",
 		"format": "prettier --cache --write . && eslint src --fix --cache",
-		"start": "npm run build && node --env-file=../../.env dist/index.js",
+		"start": "pnpm run build && node --env-file=../../.env dist/index.js",
 		"start:dev": "node --env-file=../../.env --loader ts-node/esm  src/index.ts"
 	},
 	"keywords": [
@@ -27,6 +27,7 @@
 	"author": "Amish Shah <amishshah.2k@gmail.com>",
 	"license": "UNLICENSE",
 	"dependencies": {
+		"@shared/ts": "file:../../../shared/ts",
 		"@discordjs/voice": "^0.18.0",
 		"chromadb": "^3.0.9",
 		"discord.js": "^14.17.3",
@@ -37,10 +38,12 @@
 		"ollama": "^0.5.16",
 		"pnpm": "^10.13.1",
 		"prism-media": "^2.0.0-alpha.0",
-		"wav": "^1.0.2"
+		"wav": "^1.0.2",
+		"ws": "^8.18.3"
 	},
 	"devDependencies": {
 		"@types/node": "^22.10.10",
+		"@types/ws": "^8.5.12",
 		"ava": "^6.4.1",
 		"eslint": "^8.57.0",
 		"eslint-config-neon": "^0.1.62",

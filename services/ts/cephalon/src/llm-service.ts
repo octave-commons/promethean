@@ -1,69 +1,58 @@
-import WebSocket from 'ws';
+// @ts-ignore import js module without types
+import { BrokerClient } from '@shared/js/brokerClient.js';
 import { Message } from 'ollama';
 
 export type LLMClientOptions = {
-	host: string;
-	port: number;
-	endpoint: string;
+    brokerUrl?: string;
+    broker?: BrokerClient;
 };
 
 export type LLMRequest = {
-	prompt: string;
-	context: Message[];
-	format?: object;
+    prompt: string;
+    context: Message[];
+    format?: object;
 };
 
 export class LLMService {
-	host: string;
-	port: number;
-	endpoint: string;
-	socket: WebSocket | null = null;
+    broker: BrokerClient;
+    #ready: Promise<void>;
+    #pending: ((reply: string | object) => void)[] = [];
+    #replyTopic: string;
 
-	constructor(
-		options: LLMClientOptions = {
-			host: 'localhost',
-			port: Number(process.env.LLM_PORT) || 5003,
-			endpoint: '/generate',
-		},
-	) {
-		this.host = options.host;
-		this.port = options.port;
-		this.endpoint = options.endpoint;
-	}
+    constructor(options: LLMClientOptions = {}) {
+        const brokerUrl = options.brokerUrl || process.env.BROKER_URL || 'ws://localhost:7000';
+        this.#replyTopic = `agent.llm.result`;
+        this.broker =
+            options.broker ||
+            new BrokerClient({
+                url: brokerUrl,
+                id: `cephalon-llm`,
+            });
+        this.#ready = this.broker
+            .connect()
+            .then(() => {
+                this.broker.subscribe(this.#replyTopic, (event: any) => {
+                    const resolve = this.#pending.shift();
+                    if (resolve) {
+                        resolve(event.payload.reply);
+                    }
+                });
+            })
+            .catch((err: unknown) => {
+                console.error('Failed to connect to broker', err);
+            });
+    }
 
-	private connect(): Promise<void> {
-		if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-			return Promise.resolve();
-		}
-		const url = `ws://${this.host}:${this.port}${this.endpoint}`;
-		return new Promise((resolve, reject) => {
-			this.socket = new WebSocket(url);
-			this.socket.on('open', () => resolve());
-			this.socket.on('error', (err) => reject(err));
-		});
-	}
-
-	async generate(opts: LLMRequest): Promise<string | object> {
-		await this.connect();
-		const data = JSON.stringify(opts);
-		return new Promise((resolve, reject) => {
-			if (!this.socket) {
-				reject(new Error('WebSocket not connected'));
-				return;
-			}
-			const handleMessage = (msg: WebSocket.RawData) => {
-				try {
-					const parsed = JSON.parse(msg.toString());
-					this.socket?.off('message', handleMessage);
-					resolve(parsed.reply);
-				} catch (e) {
-					this.socket?.off('message', handleMessage);
-					reject(e);
-				}
-			};
-			this.socket.once('message', handleMessage);
-			this.socket.once('error', reject);
-			this.socket.send(data);
-		});
-	}
+    async generate(opts: LLMRequest): Promise<string | object> {
+        await this.#ready;
+        return new Promise((resolve) => {
+            this.#pending.push(resolve);
+            this.broker.enqueue('llm.generate', {
+                prompt: opts.prompt,
+                context: opts.context,
+                format: opts.format,
+                replyTopic: this.#replyTopic,
+            });
+        });
+    }
 }

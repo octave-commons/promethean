@@ -1,128 +1,104 @@
-import express from "express";
-import ollama from "ollama";
-import { WebSocketServer } from "ws";
+import express from 'express';
+import http from 'http';
+import { WebSocketServer } from 'ws';
+import ollama from 'ollama';
 
-export const MODEL = process.env.LLM_MODEL || "gemma3:latest";
+export const MODEL = process.env.LLM_MODEL || 'gemma3:latest';
 
 export const app = express();
-app.use(express.json({ limit: "500mb" }));
+app.use(express.json({ limit: '500mb' }));
 
 let callOllamaFn = async ({ prompt, context, format }, retry = 0) => {
-  try {
-    const res = await ollama.chat({
-      model: MODEL,
-      messages: [{ role: "system", content: prompt }, ...context],
-      format,
-    });
-    const content = res.message.content;
-    return format ? JSON.parse(content) : content;
-  } catch (err) {
-    if (retry < 5) {
-      await new Promise((r) => setTimeout(r, retry * 1610));
-      return callOllamaFn({ prompt, context, format }, retry + 1);
+    try {
+        for (let c of context) console.log(c);
+        const res = await ollama.chat({
+            model: MODEL,
+            messages: [{ role: 'system', content: prompt }, ...context],
+            format,
+        });
+        const content = res.message.content;
+        return format ? JSON.parse(content) : content;
+    } catch (err) {
+        if (retry < 5) {
+            await new Promise((r) => setTimeout(r, retry * 1610));
+            return callOllamaFn({ prompt, context, format }, retry + 1);
+        }
+        throw err;
     }
-    throw err;
-  }
 };
 
 export function setCallOllamaFn(fn) {
-  callOllamaFn = fn;
+    callOllamaFn = fn;
 }
 
 export async function callOllama(args, retry = 0) {
-  return callOllamaFn(args, retry);
+    return callOllamaFn(args, retry);
 }
-app.post("/generate", async (req, res) => {
-  const { prompt, context, format } = req.body;
-  for (const m of context) {
-    console.log("message:", m.content);
-    if (m.images) {
-      console.log("image data:");
-      for (const imageData of m.images) {
-        console.log(imageData.type);
-        // console.log(imageData.data)
-      }
-      m.images = m.images.map((img) => new Uint8Array(img.data));
-    }
-  }
-  console.log("root prompt", prompt);
-  console.log("format", format || "string");
-  try {
-    const reply = await callOllamaFn({ prompt, context, format });
-    res.json({ reply });
-  } catch (e) {
-    res.status(500).json({ error: e.message });
-  }
-});
 
-export const port = process.env.LLM_PORT || 5003;
-
-let wss;
 let broker;
 
 export function setBroker(b) {
-  broker = b;
+    broker = b;
 }
 
 export async function handleTask(task) {
-  const payload = task?.payload || {};
-  const { prompt, context = [], format = null, replyTopic } = payload;
-  const reply = await callOllamaFn({ prompt, context, format });
-  if (replyTopic && broker) {
-    broker.publish(replyTopic, { reply, taskId: task.id });
-  }
+    const payload = task?.payload || {};
+    const { prompt, context = [], format = null, replyTopic } = payload;
+    const reply = await callOllamaFn({ prompt, context, format });
+    console.log('handling llm task', task);
+    if (replyTopic && broker) {
+        broker.publish(replyTopic, { reply, taskId: task.id });
+    }
 }
 
-export async function start(listenPort = port) {
-  try {
-    const { startService } = await import(
-      "../../../../shared/js/serviceTemplate.js"
-    );
-    broker = await startService({
-      id: process.env.name || "llm",
-      queues: ["llm.generate"],
-      handleTask,
-    });
-  } catch (err) {
-    console.error("Failed to initialize broker", err);
-  }
-  try {
-    const { HeartbeatClient } = await import(
-      "../../../../shared/js/heartbeat/index.js"
-    );
-    const hb = new HeartbeatClient({ name: process.env.name || "llm" });
+app.post('/generate', async (req, res) => {
+    const { prompt, context = [], format = null } = req.body || {};
+    try {
+        const reply = await callOllamaFn({ prompt, context, format });
+        res.json({ reply });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+export async function start(port = Number(process.env.LLM_PORT) || 8888) {
+    try {
+        const { startService } = await import('../../../../shared/js/serviceTemplate.js');
+        broker = await startService({
+            id: process.env.name || 'llm',
+            queues: ['llm.generate'],
+            handleTask,
+        });
+    } catch (err) {
+        console.error('Failed to initialize broker', err);
+    }
+    const { HeartbeatClient } = await import('../../../../shared/js/heartbeat/index.js');
+    const hb = new HeartbeatClient({ name: process.env.name || 'llm' });
     await hb.sendOnce();
     hb.start();
-  } catch {}
-  const server = app.listen(listenPort, () => {
-    console.log(`LLM service listening on ${listenPort}`);
-  });
-  wss = new WebSocketServer({ server, path: "/generate" });
-  wss.on("connection", (ws) => {
-    ws.on("message", async (msg) => {
-      let data;
-      try {
-        data = JSON.parse(msg.toString());
-      } catch {
-        ws.send(JSON.stringify({ error: "invalid json" }));
-        return;
-      }
-      const { prompt, context, format } = data;
-      try {
-        const reply = await callOllamaFn({ prompt, context, format });
 
-        ws.send(JSON.stringify({ reply }));
-      } catch (e) {
-        ws.send(JSON.stringify({ error: e.message }));
-      }
+    const server = http.createServer(app);
+    const wss = new WebSocketServer({ server, path: '/generate' });
+    wss.on('connection', (ws) => {
+        ws.on('message', async (data) => {
+            try {
+                const { prompt, context = [], format = null } = JSON.parse(data.toString());
+                const reply = await callOllamaFn({ prompt, context, format });
+                ws.send(JSON.stringify({ reply }));
+            } catch (err) {
+                ws.send(JSON.stringify({ error: err.message }));
+            }
+        });
     });
-  });
-  return server;
+
+    return new Promise((resolve) => {
+        const s = server.listen(port, () => resolve(s));
+    });
 }
 
-if (process.env.NODE_ENV !== "test") {
-  start().catch((err) => {
-    console.error("Failed to start LLM service", err);
-    process.exit(1);
-  });
+if (process.env.NODE_ENV !== 'test') {
+    start().catch((err) => {
+        console.error('Failed to start LLM service', err);
+        process.exit(1);
+    });
 }

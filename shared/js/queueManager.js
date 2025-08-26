@@ -5,6 +5,8 @@ import { randomUUID } from "crypto";
 const queues = new Map(); // queueName -> [task]
 const workers = new Map(); // workerId -> { ws, queue, active, lastSeen }
 const assignments = new Map(); // workerId -> { task, queue, timeoutId }
+let rateLimitMs = 0; // delay between task dispatches per queue
+const lastDispatch = new Map(); // queue -> timestamp
 
 function ready(ws, workerId, queue) {
   workers.set(workerId, {
@@ -42,6 +44,12 @@ function enqueue(queue, payload) {
 function dispatch(queue) {
   const q = queues.get(queue);
   if (!q || q.length === 0) return;
+  const now = Date.now();
+  const last = lastDispatch.get(queue) || 0;
+  if (rateLimitMs > 0 && now - last < rateLimitMs) {
+    setTimeout(() => dispatch(queue), rateLimitMs - (now - last));
+    return;
+  }
 
   for (const [workerId, worker] of workers.entries()) {
     if (!worker.active || worker.queue !== queue || assignments.has(workerId))
@@ -58,6 +66,7 @@ function dispatch(queue) {
     worker.active = false;
     worker.ws.send(JSON.stringify({ action: "task-assigned", task }));
     console.log(`task ${task.id} dispatched to ${workerId} on ${queue}`);
+    lastDispatch.set(queue, Date.now());
     break;
   }
 }
@@ -116,4 +125,10 @@ export const queueManager = {
   acknowledge,
   heartbeat,
   getState,
+  setRateLimit,
 };
+
+function setRateLimit(ms) {
+  rateLimitMs = Math.max(0, Number(ms) || 0);
+  lastDispatch.clear();
+}

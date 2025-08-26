@@ -1,5 +1,0 @@
-(namespace hack)
-(import-namespace hack)
-(macro //   (...args)
-       `(Math.floor (/ ...@args)))
-(// 1 2)

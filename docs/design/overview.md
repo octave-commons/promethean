@@ -56,14 +56,14 @@ Each circuit provides one dimension of the Eidolon Fields and corresponds to a c
 
 | Layer | Name        | Function                                                       |
 | ----- | ----------- | -------------------------------------------------------------- |
-| 1     | Uptime      | Survival, wakefulness, readiness. System heartbeat and rhythm. |
-| 2     | Permissions | Social bonding, access control, alignment with user values.    |
-| 3     | Logoscope   | Language, logic, symbolic reasoning, internal narrative.       |
-| 4     | Concordance | Alignment heuristics, ethical reflection, social context.      |
-| 5     | Reinforcer  | Self-modifying prompts, behavioral reinforcement.              |
-| 6     | Dreamer     | Imagination, creativity, potential futures.                    |
-| 7     | Architect   | Long-term planning, system reconfiguration, metacognition.     |
-| 8     | Signal      | Transcendence, multi-agent integration, outer-loop awareness.  |
+| 1     | [[layer1.md|Uptime]]      | Survival, wakefulness, readiness. System heartbeat and rhythm. |
+| 2     | [[layer2.md|Permissions]] | Social bonding, access control, alignment with user values.    |
+| 3     | [[layer3.md|Logoscope]]   | Language, logic, symbolic reasoning, internal narrative.       |
+| 4     | [[layer4.md|Concordance]] | Alignment heuristics, ethical reflection, social context.      |
+| 5     | [[layer5.md|Reinforcer]]  | Self-modifying prompts, behavioral reinforcement.              |
+| 6     | [[layer6.md|Dreamer]]     | Imagination, creativity, potential futures.                    |
+| 7     | [[layer7.md|Architect]]   | Long-term planning, system reconfiguration, metacognition.     |
+| 8     | [[layer8.md|Signal]]      | Transcendence, multi-agent integration, outer-loop awareness.  |
 
 Each layer modifies or observes the field differently, with later layers able to reflect upon and reprogram earlier ones. The overall effect is a recursive, self-organizing system of thought.
 
