@@ -1,11 +1,12 @@
 import test from 'ava';
 import express from 'express';
+import { loadModel } from '../dist/index.js';
 
-test('MODEL env variable overrides default', async (t) => {
-    process.env.NODE_ENV = 'test';
+test('loadModel resolves a driver', async (t) => {
+    process.env.LLM_DRIVER = 'ollama';
     process.env.LLM_MODEL = 'test-model';
-    const { MODEL } = await import('../src/index.js');
-    t.is(MODEL, 'test-model');
+    const driver = await loadModel();
+    t.truthy(driver);
 });
 
 test('express app initializes', (t) => {
