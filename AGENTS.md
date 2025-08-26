@@ -60,6 +60,9 @@ Corepack enforcement: The root `package.json` sets `"packageManager": "pnpm@9"` 
 
 ## 🚥 CI Verification
 
+Pre-commit runs quick checks (`pnpm tsc --noEmit` and `pytest -q`) instead of the full build. Run the full build separately with
+`make build` or via `pre-commit run --hook-stage manual full-build` in CI.
+
 All contributions must be validated locally before opening a pull request:
 
 1. **Run `make setup` for the relevant services only.** Avoid global setup.
@@ -363,6 +366,9 @@ train_cephalon_align_lora.py
 ```
 
 ## 🚥 CI Verification
+
+Pre-commit runs `pnpm tsc --noEmit` and `pytest -q` for fast feedback but skips the full build. Execute `make build` manually or
+use `pre-commit run --hook-stage manual full-build` during CI to compile everything.
 
 All contributions must be validated locally before opening a pull request:
 
