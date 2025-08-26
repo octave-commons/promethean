@@ -8,7 +8,7 @@
         "start": "node dist/fastifyServer.js",
         "reindex": "node dist/cli-reindex.js",
         "symbols": "node dist/cli-symbols.js",
-        "test": "ava",
+        "test": "pnpm build && ava",
         "test:watch": "ava -w",
         "build": "tsc -p tsconfig.json",
         "lint": "pnpm exec biome lint tests/unit tests/integration tests/system tests/helpers || true",
