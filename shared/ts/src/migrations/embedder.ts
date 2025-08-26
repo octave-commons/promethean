@@ -6,8 +6,8 @@ export interface EmbedderConfig {
 export interface Embedder {
     readonly modelId: string;
     readonly dim: number;
-    embedOne(text: string): Promise<number[]>;
-    embedMany(texts: string[]): Promise<number[][]>;
+    embedOne(text: string | { type: string; data: string }): Promise<number[]>;
+    embedMany(texts: Array<string | { type: string; data: string }>): Promise<number[][]>;
 }
 
 export function makeDeterministicEmbedder(cfg: EmbedderConfig): Embedder {
@@ -30,13 +30,17 @@ export function makeDeterministicEmbedder(cfg: EmbedderConfig): Embedder {
     return {
         modelId: cfg.modelId,
         dim: cfg.dim,
-        async embedOne(text: string): Promise<number[]> {
-            const v = hashToVec(text, cfg.dim);
+        async embedOne(text: string | { type: string; data: string }): Promise<number[]> {
+            const s = typeof text === 'string' ? text : `${text.type}:${text.data}`;
+            const v = hashToVec(s, cfg.dim);
             assertDim(v, cfg.dim);
             return v;
         },
-        async embedMany(texts: string[]): Promise<number[][]> {
-            const vs = texts.map((t) => hashToVec(t, cfg.dim));
+        async embedMany(texts: Array<string | { type: string; data: string }>): Promise<number[][]> {
+            const vs = texts.map((t) => {
+                const s = typeof t === 'string' ? t : `${t.type}:${t.data}`;
+                return hashToVec(s, cfg.dim);
+            });
             for (const v of vs) assertDim(v, cfg.dim);
             return vs;
         },
