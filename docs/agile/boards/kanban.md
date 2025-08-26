@@ -158,14 +158,14 @@ kanban-plugin: board
 
 ## In Progress (4)
 
-- [ ] [[Curate code from personal repository]]
-- [ ] [[MVP local LLM chat interface with tool calls connected to gpt bridge]]
 - [ ] [[Replace all python properly with hy incoming]]
 - [ ] [[Agent Tasks Persistence Migration to DualStore]]
 
 
 ## In Review (8)
 
+- [ ] [[MVP local LLM chat interface with tool calls connected to gpt bridge]]
+- [ ] [[Curate code from personal repository]]
 - [ ] [[discord_image_awareness_md_md.md|discord image awareness.md]] #framework-core #ollama-integration #multimodal-context #accepted
 - [ ] [[clarify_promethean_project_vision_1_md.md|Clarify Promethean project vision]] #framework-core #accepted
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
