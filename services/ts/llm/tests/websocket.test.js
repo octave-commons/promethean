@@ -1,13 +1,14 @@
 import test from 'ava';
 import { WebSocket } from 'ws';
-import { start, setCallOllamaFn } from '../src/index.js';
+import { start, setGenerateFn } from '../dist/index.js';
 
 let server;
 
 test.before(async () => {
+    process.env.DISABLE_BROKER = '1';
     process.env.NODE_ENV = 'test';
     process.env.name = 'llm';
-    setCallOllamaFn(async () => 'hi');
+    setGenerateFn(async () => 'hi');
     server = await start(0);
 });
 
