@@ -19,8 +19,6 @@ pytest.skip(
     allow_module_level=True,
 )
 
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", ".."))
-
 
 async def start_server(app, port):
     config = uvicorn.Config(app, host="127.0.0.1", port=port, log_level="warning")

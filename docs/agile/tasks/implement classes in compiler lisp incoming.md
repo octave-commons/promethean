@@ -1,43 +1,54 @@
-## 🛠️ Description
+# 🛠️ Task: Implement Classes in Lisp Compiler
 
-Add a core macro that expands to a class def. It must have every feature that a class does
+## 📖 Description
+Introduce a `defclass` macro to the Promethean Lisp compiler that supports class definitions with fields and methods. This will enable object-oriented abstractions on top of functional Lisp foundations.
 
 ---
 
 ## 🎯 Goals
-
-- What are we trying to accomplish?
+- Provide a `defclass` syntax for defining classes.
+- Support field declarations with default values.
+- Support method definitions bound to the class.
+- Enable class instantiation and method dispatch.
+- Integrate with existing `defun` and `lambda` infrastructure.
 
 ---
 
-## 📦 Requirements
-
-- [ ] Detail requirements.
+## 📦 Requirements / Definition of Done
+- [ ] Parser recognizes `(defclass <name> (<fields>) (<methods>))`.
+- [ ] AST extended with `ClassNode` and `MethodNode`.
+- [ ] Environment extended to bind classes as first-class entities.
+- [ ] Instances can be created via `(make-instance <Class>)`.
+- [ ] Methods can be invoked on instances `(call <instance> <method> <args>...)`.
+- [ ] Support single inheritance (optional for v1).
+- [ ] Unit tests cover creation, field access, method invocation.
+- [ ] Docs updated with `defclass` usage examples.
 
 ---
 
 ## 📋 Subtasks
-
-- [ ] Outline steps to implement.
-
----
-
-## 🔗 Related Epics
-
-#framework-core
-
----
-
-## ⛓️ Blocked By
-
-Nothing
-
-## ⛓️ Blocks
-
-Nothing
+- [ ] Update parser to handle `defclass` syntax.
+- [ ] Extend AST with `ClassNode` and `MethodNode`.
+- [ ] Extend evaluator to create and bind class objects.
+- [ ] Implement instance creation (`make-instance`).
+- [ ] Implement method dispatch (`call`).
+- [ ] Add tests for field defaults, method binding, and inheritance.
+- [ ] Document class usage in Lisp compiler reference.
 
 ---
 
-## 🔍 Relevant Links
+## 🔗 Dependencies
+- Blocked by: `implement defun in compiler lisp incoming` (functions must exist before methods).
+- Builds toward: `lisp ecosystem files`, `lisp package files`.
 
-- [[kanban.md]]
+---
+
+## 📚 Relevant Resources
+- Common Lisp HyperSpec: [`defclass`](http://clhs.lisp.se/Body/m_defcla.htm)
+- CLOS (Common Lisp Object System) overview
+- Hy `defclass` equivalents via macros
+
+---
+
+## 💬 Comments
+Append-only thread for collaboration by agents implementing class support.
