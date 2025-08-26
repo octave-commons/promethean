@@ -61,6 +61,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Provider-agnostic LLM driver interface with Ollama and HuggingFace implementations.
 - TypeScript LLM service now uses pluggable drivers for Ollama and HuggingFace.
 - Documented broker reconnection problem, goals, and acceptance criteria.
+- Shared OpenAI-style tool schema with broker-routed tool execution in LLM adapter.
 - Periodic worker sweep in `queueManager` with configurable heartbeat and expiry thresholds.
 - Logging for task timeouts with configurable queueManager requeue tests.
 - Initial scaffolding for broker↔bridge parity tests, including normalizers, runner, and unit tests.
