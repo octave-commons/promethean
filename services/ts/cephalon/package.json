@@ -9,10 +9,10 @@
         "start": "node dist/index.js",
         "test": "pnpm run build && ava",
         "coverage": "pnpm run build && c8 ava",
-        "build:check": "tsc --noEmit --incremental false",
+        "build:check": "tsc --noEmit --incremental false -p .",
         "deploy": "pnpm run build && node --env-file=../../.env dist/util/deploy.js",
-        "lint": "pnpm exec @biomejs/biome lint . || true",
-        "format": "pnpm exec @biomejs/biome format .",
+        "lint": "pnpm exec biome lint --config-path ../config/biome.json .. || true",
+        "format": "pnpm exec biome format --config-path ../config/biome.json ..",
         "start:dev": "node  --loader ts-node/esm  src/index.ts"
     },
     "keywords": [
