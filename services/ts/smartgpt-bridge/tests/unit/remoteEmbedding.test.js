@@ -1,12 +1,12 @@
 import test from 'ava';
-import path from 'path';
+import path from 'node:path';
 
 test('RemoteEmbeddingFunction: generate returns embeddings via fake broker', async (t) => {
     const prev = process.env.SHARED_IMPORT;
     try {
         const abs = path.join(process.cwd(), 'tests', 'helpers', 'fakeBroker.js');
         process.env.SHARED_IMPORT = 'file://' + abs;
-        const mod = await import('../../src/remoteEmbedding.js');
+        const mod = await import('../../src/remoteEmbedding.ts');
         const { RemoteEmbeddingFunction } = mod;
         const ref = new RemoteEmbeddingFunction(undefined, 'driverX', 'fnY');
         const out = await ref.generate(['hello', 'world']);

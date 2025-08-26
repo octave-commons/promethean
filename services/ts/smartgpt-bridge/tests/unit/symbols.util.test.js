@@ -1,6 +1,6 @@
 import test from 'ava';
-import path from 'path';
-import { symbolsIndex, symbolsFind } from '../../src/symbols.js';
+import path from 'node:path';
+import { symbolsIndex, symbolsFind } from '../../src/symbols.ts';
 
 const ROOT = path.join(process.cwd(), 'tests', 'fixtures');
 

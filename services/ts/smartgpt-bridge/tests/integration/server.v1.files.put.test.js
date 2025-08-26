@@ -1,6 +1,6 @@
 import test from 'ava';
-import fs from 'fs/promises';
-import path from 'path';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import { withServer } from '../../helpers/server.js';
 
 const ROOT = path.join(process.cwd(), 'tests', 'fixtures');

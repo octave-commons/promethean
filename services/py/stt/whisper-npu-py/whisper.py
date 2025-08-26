@@ -6,7 +6,7 @@ from models import tokenizer
 from decoder import generate_tokens_for_chunk
 
 mel_chunks = preprocess_audio("../../../longer_recording.wav")
-output_tokens = []
+output_tokens: list[int] = []
 start_time = time.perf_counter()
 
 

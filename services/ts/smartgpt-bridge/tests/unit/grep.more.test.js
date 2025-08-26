@@ -1,6 +1,6 @@
 import test from 'ava';
-import path from 'path';
-import { grep } from '../../src/grep.js';
+import path from 'node:path';
+import { grep } from '../../src/grep.ts';
 
 const ROOT = path.join(process.cwd(), 'tests', 'fixtures');
 

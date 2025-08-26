@@ -4,10 +4,11 @@ import librosa
 import librosa.display
 
 import numpy as np
+import torch
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
 
-from typing import Optional, Union
+from typing import Optional
 
 
 def pad_or_trim_mel(mel, target_length=3000):
@@ -40,11 +41,11 @@ def mel_filters(device, n_mels: int) -> torch.Tensor:
 
 
 def log_mel_spectrogram(
-    audio: Union[str, np.ndarray, torch.Tensor],
+    audio: np.ndarray | torch.Tensor,
     n_mels: int = 80,
     padding: int = 0,
-    device: Optional[Union[str, torch.device]] = None,
-):
+    device: Optional[torch.device | str] = None,
+) -> np.ndarray:
     """
     Compute the log-Mel spectrogram of
 
