@@ -3,7 +3,7 @@ import type { Bot } from '../bot.js';
 import { VoiceSession } from '../voice-session.js';
 import { makeLogger, type Logger } from '../factories/logger.js';
 import { makePolicy, type PolicyChecker } from '../factories/policy.js';
-import { DualStoreManager as CollectionManager } from '@shared/ts/dist/persistence/dualStore.js';
+import { DualStoreManager } from '@shared/ts/dist/persistence/dualStore.js';
 import type { FinalTranscript } from '../transcriber.js';
 
 export type JoinVoiceScope = {
@@ -35,8 +35,8 @@ export function makeJoinAction(): JoinVoiceScope['join'] {
 
         bot.currentVoiceSession = new VoiceSession({ bot, guild, voiceChannelId });
         bot.currentVoiceSession.transcriber.on('transcriptEnd', async (transcript: FinalTranscript) => {
-            const transcripts = bot.context.getCollection('transcripts') as CollectionManager<'text', 'createdAt'>;
-            await transcripts.addEntry({
+            const transcripts = bot.context.getCollection('transcripts') as DualStoreManager<'text', 'createdAt'>;
+            await transcripts.insert({
                 text: transcript.transcript,
                 createdAt: transcript.startTime || Date.now(),
                 metadata: {
