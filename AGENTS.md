@@ -538,3 +538,15 @@ Persistence is handled via shared module: @shared/ts/persistence/DualStore
 
 
 ## Hashtags are your friend
+
+## 📝 Architecture Decision Records (ADRs)
+
+All agents are required to document **architectural decisions** that affect the Promethean system.
+
+- ADRs live under `docs/architecture/adr/`
+- ADRs must be created for any changes to:
+  - File structure
+  - Agent/service contracts
+  - Core libraries or shared architecture
+  - Protocols or bridge definitions
+- ADR filenames use a **timestamp-based convention**:
