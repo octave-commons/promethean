@@ -126,41 +126,40 @@ kanban-plugin: board
 
 ## Ready
 
-- [ ] [[ChatGPT export injest with dedupe index and hashes]]
-- [ ] [[finish_whisper_npu_system_md_md.md|finish whisper NPU system.md]] #framework-core #performance-optimization #npu-integration #accepted
-- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ice-box
-- [ ] [[database migration system]]
-- [ ] [[LSP server for home brew lisp incoming]]
-- [ ] [[smart_task_templater_md.md|Smart Task templater]] #framework-core #ice-box
-- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md.md|Full agent mode (Text chat, selectively join channels, etc]] #framework-core #accepted
-- [ ] [[add_twitch_chat_integration_md_md.md|Add twitch chat integration.md]] #framework-core #accepted
-- [ ] [[breakdown Makefile.hy]]
-- [ ] [[script for getting github action workflow states for a branch]]
-- [ ] [[harden precommit hooks]]
-- [ ] [[setup new service generator]]
-- [ ] [[move discord scraper to ts]]
-- [ ] [[gpt bridge fuzzy lookup should return multiple matches when it is used.]]
-- [ ] [[implement classes in compiler lisp incoming]]
-- [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] #framework-core #ollama-integration #stream-automation #accepted
-- [ ] [[discord_image_awareness_md_md.md|discord image awareness md md]] #framework-core #ollama-integration #multimodal-context #accepted
-- [ ] [[Mock broker]] #incoming
-- [ ] [[Webcrawler]]
-- [ ] [[implement defun in compiler lisp incoming]]
-- [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
 
 
 ## Todo (21)
 
-- [ ] [[File explorer]]
-- [ ] [[Set up proper openai custom gpt compatable oauth login flow]]
-- [ ] [[Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #accepted
-- [ ] [[broker gpt bridge parity plan]]
-- [ ] [[set up data migration pipeline and clearly describe conventions]]
-- [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
+- [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
+- [ ] [[implement defun in compiler lisp incoming]]
+- [ ] [[Webcrawler]]
+- [ ] [[discord_image_awareness_md_md.md|discord image awareness md md]] #framework-core #ollama-integration #multimodal-context #accepted
+- [ ] [[Mock broker]] #incoming
+- [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] #framework-core #ollama-integration #stream-automation #accepted
+- [ ] [[implement classes in compiler lisp incoming]]
+- [ ] [[gpt bridge fuzzy lookup should return multiple matches when it is used.]]
+- [ ] [[move discord scraper to ts]]
+- [ ] [[setup new service generator]]
+- [ ] [[harden precommit hooks]]
+- [ ] [[script for getting github action workflow states for a branch]]
+- [ ] [[breakdown Makefile.hy]]
+- [ ] [[add_twitch_chat_integration_md_md.md|Add twitch chat integration.md]] #framework-core #accepted
+- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md.md|Full agent mode (Text chat, selectively join channels, etc]] #framework-core #accepted
+- [ ] [[smart_task_templater_md.md|Smart Task templater]] #framework-core #ice-box
+- [ ] [[LSP server for home brew lisp incoming]]
+- [ ] [[database migration system]]
+- [ ] [[finish_whisper_npu_system_md_md.md|finish whisper NPU system.md]] #framework-core #performance-optimization #npu-integration #accepted
+- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ice-box
+- [ ] [[ChatGPT export injest with dedupe index and hashes]]
 
 
 ## In Progress (8)
 
+- [ ] [[set up data migration pipeline and clearly describe conventions]]
+- [ ] [[broker gpt bridge parity plan]]
+- [ ] [[Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #accepted
+- [ ] [[Set up proper openai custom gpt compatable oauth login flow]]
+- [ ] [[File explorer]]
 - [ ] [[Replace all python properly with hy incoming]]
 - [ ] [[Agent Tasks Persistence Migration to DualStore]]
 - [ ] [[Create broker services that can handle all the same tasks as the gpt bridge]]
@@ -174,6 +173,7 @@ kanban-plugin: board
 - [ ] [[clarify_promethean_project_vision_1_md.md|Clarify Promethean project vision]] #framework-core #accepted
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
 - [ ] [[seperate discord commands from the actions they perform]] #in-progress
+- [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
 - [ ] [[breakdown cephalon voice commands file using ecs]] #in-progress
 
 
