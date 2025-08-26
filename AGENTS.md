@@ -110,7 +110,6 @@ The `services/` directory currently includes:
 
 **Hy**
 
-- `services/hy/discord_attachment_embedder`
 - `services/hy/discord_attachment_indexer`
 - `services/hy/discord_indexer`
 - `services/hy/stt`
