@@ -36,6 +36,8 @@ function emitExpr(e: Expr): string {
             return `(function(){const ${e.name.text}=${emitExpr(e.value)};return ${emitExpr(e.body)};})()`;
         case 'Fun':
             return `(${e.params.map((p) => p.text).join(',')}=>${emitExpr(e.body)})`;
+        case 'Def':
+            return `function ${e.name.text}(${e.params.map((p) => p.text).join(',')}){return ${emitExpr(e.body)};}`;
         case 'Bin':
             return `(${emitExpr(e.left)}${e.op}${emitExpr(e.right)})`;
         case 'Un':
