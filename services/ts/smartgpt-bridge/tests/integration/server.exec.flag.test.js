@@ -1,5 +1,5 @@
 import test from 'ava';
-import path from 'path';
+import path from 'node:path';
 import { withServer } from '../helpers/server.js';
 
 const ROOT = path.join(process.cwd(), 'tests', 'fixtures');

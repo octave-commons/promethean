@@ -1,8 +1,8 @@
 import test from 'ava';
-import path from 'path';
+import path from 'node:path';
 import { withServer } from '../helpers/server.js';
 import sinon from 'sinon';
-import { supervisor as defaultSupervisor } from '../../src/agent.js';
+import { supervisor as defaultSupervisor } from '../../src/agent.ts';
 
 const ROOT = path.join(process.cwd(), 'tests', 'fixtures');
 

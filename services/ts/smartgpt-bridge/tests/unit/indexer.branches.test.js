@@ -1,6 +1,6 @@
 import test from 'ava';
-import path from 'path';
-import fs from 'fs/promises';
+import path from 'node:path';
+import fs from 'node:fs/promises';
 import {
     embeddingEnvConfig,
     search,
@@ -8,7 +8,7 @@ import {
     setEmbeddingFactory,
     reindexAll,
     resetChroma,
-} from '../../src/indexer.js';
+} from '../../src/indexer.ts';
 
 const ROOT = path.join(process.cwd(), 'tests', 'fixtures');
 
@@ -106,6 +106,9 @@ test.after.always(() => {
     resetChroma();
     setEmbeddingFactory(null);
     setChromaClient({
-        getOrCreateCollection: async () => ({ query: async () => ({}), upsert: async () => {} }),
+        getOrCreateCollection: async () => ({
+            query: async () => ({}),
+            upsert: async () => {},
+        }),
     });
 });

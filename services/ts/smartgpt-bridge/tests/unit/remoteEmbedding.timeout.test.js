@@ -1,5 +1,5 @@
 import test from 'ava';
-import path from 'path';
+import path from 'node:path';
 
 test.serial('RemoteEmbeddingFunction: times out when no response', async (t) => {
     const prev = {
@@ -10,9 +10,11 @@ test.serial('RemoteEmbeddingFunction: times out when no response', async (t) => 
         const abs = path.join(process.cwd(), 'tests', 'helpers', 'slowBroker.js');
         process.env.SHARED_IMPORT = 'file://' + abs;
         process.env.EMBEDDING_TIMEOUT_MS = '50';
-        const { RemoteEmbeddingFunction } = await import('../../src/remoteEmbedding.js');
+        const { RemoteEmbeddingFunction } = await import('../../src/remoteEmbedding.ts');
         const ref = new RemoteEmbeddingFunction(undefined, 'driverX', 'fnY');
-        await t.throwsAsync(() => ref.generate(['hello']), { message: /embedding timeout/i });
+        await t.throwsAsync(() => ref.generate(['hello']), {
+            message: /embedding timeout/i,
+        });
         ref?.dispose?.();
     } finally {
         if (prev.SHARED_IMPORT === undefined) delete process.env.SHARED_IMPORT;
