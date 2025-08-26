@@ -12,32 +12,15 @@ Summarize the long-term goals of the Promethean framework so new contributors un
 ---
 
 ## 📦 Requirements
-- [ ] Draft a one-page summary under `docs/`
-- [ ] Link summary from `readme.md`
+- [x] Draft a one-page summary under `docs/`
+- [x] Link summary from `readme.md`
 - [ ] Review with maintainers for accuracy
 
 ---
 
 ## 📋 Subtasks
-- [ ] Gather notes from existing docs (`AGENTS.md`, `MIGRATION_PLAN.md`)
-- [ ] Synthesize into coherent narrative
-- [ ] PR the summary and update links
+- [x] Gather notes from existing docs (`AGENTS.md`, `MIGRATION_PLAN.md`)
+- [x] Synthesize into coherent narrative
+- [x] PR the summary and update links
 
 ---
-
-## 🔗 Related Epics
-#framework-core
-
----
-
-## ⛓️ Blocked By
-Nothing
-
-## ⛓️ Blocks
-- Helps shape onboarding docs
-
----
-
-## 🔍 Relevant Links
-- [kanban](../boards/kanban.md)
-#accepted
