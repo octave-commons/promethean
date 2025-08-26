@@ -1,13 +1,13 @@
-# embedding.ts
+# remote.ts
 
-**Path**: `services/cephalon/src/embedding.ts`
+**Path**: `shared/ts/src/embeddings/remote.ts`
 
-Embedding function that forwards requests to the embedding service through the
-message broker.
+**Description**: Shared embedding function that forwards requests to the embedding service through the
+message broker. Cephalon modules import this helper when embeddings are required.
 
 ## Dependencies
 - chromadb
 - `@shared/js/brokerClient.js`
 
 ## Dependents
-- `collectionManager.ts`
+- `services/ts/cephalon/src/tests/embedding.test.ts`

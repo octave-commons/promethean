@@ -110,6 +110,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - DualStore skips image embeddings when the configured function only supports text.
 - Added missing `next_messages` helper for discord indexer tests.
 - CPU requirements no longer include NVIDIA packages and target PyTorch CPU wheels.
+- Cephalon embedding docs now point to the shared remote embedding helper.
 - Lint and format scripts for `@shared/ts` now invoke the Biome CLI directly.
 - Provider policy test now restricts access for non-whitelisted services.
 
