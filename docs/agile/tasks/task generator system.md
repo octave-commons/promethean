@@ -1,22 +1,52 @@
-# Description
+## 🛠️ Description
 
-Describe your task
+Create a utility that scaffolds new task files from a template to keep the board organized and consistent.
 
-## Requirements/Definition of done
+---
 
-- If it doesn't have this, we can't accept it
+## 🎯 Goals
 
-## Tasks 
+- Automate task file creation with required metadata
+- Reduce manual effort when adding items to the board
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+---
 
-## Relevent resources
+## 📦 Requirements
 
-You might find [this] useful while working on this task
+- [ ] Command-line script generates markdown from template
+- [ ] Ensures unique filenames and injects status hashtags
+- [ ] Includes minimal tests for generation logic
 
-## Comments
+---
 
-Useful for agents to engage in append only conversations about this task.
+## 📋 Subtasks
+
+- [ ] Define task template parameters
+- [ ] Implement generator script
+- [ ] Integrate with Makefile or npm script
+- [ ] Document usage in docs/agile/README
+
+---
+
+## 🔗 Related Epics
+
+#framework-core
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [kanban](../boards/kanban.md)
+
+#framework-core #accepted #breakdown
+

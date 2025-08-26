@@ -1,22 +1,52 @@
-# Description
+## 🛠️ Description
 
-Describe your task
+Design a package file format for the Lisp components so modules can declare dependencies and be imported consistently.
 
-## Requirements/Definition of done
+---
 
-- If it doesn't have this, we can't accept it
+## 🎯 Goals
 
-## Tasks 
+- Enable reusable Lisp packages within the monorepo
+- Provide metadata for versioning and dependency resolution
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+---
 
-## Relevent resources
+## 📦 Requirements
 
-You might find [this] useful while working on this task
+- [ ] Define package manifest schema
+- [ ] Loader resolves dependencies and loads modules
+- [ ] Unit tests verify package discovery and import
 
-## Comments
+---
 
-Useful for agents to engage in append only conversations about this task.
+## 📋 Subtasks
+
+- [ ] Draft manifest fields (name, version, deps)
+- [ ] Implement loader in Lisp compiler/runtime
+- [ ] Convert existing modules to new package format
+- [ ] Document package usage
+
+---
+
+## 🔗 Related Epics
+
+#framework-core
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+- [kanban](../boards/kanban.md)
+
+#framework-core #accepted #breakdown
+
