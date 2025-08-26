@@ -113,6 +113,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Auto-generated OpenAPI spec for SmartGPT Bridge via Fastify swagger.
 - TTL log retention for SmartGPT Bridge with MongoDB and Chroma cleanup.
 - Generic `DualSink` persistence abstraction with registry and sink endpoints.
+- Store effect to invoke `ping` action without Discord.
 
 ### Changed
 
@@ -122,6 +123,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed compile issues in `voice-session.ts` (optional `voiceSynth`, `renderWaveForm` args, `Float32Array` → `Buffer`).
 - Chroma search route now records queries using the `DualSink`.
 - Cephalon service now uses shared `DualStore` and `ContextStore` for persistence.
+- Cephalon bot business logic moved into scoped actions and effects.
 
 ### Removed
 
