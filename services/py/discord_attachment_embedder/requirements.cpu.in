@@ -1,4 +1,5 @@
--i https://pypi.org/simple
+-i https://download.pytorch.org/whl/cpu
+--extra-index-url https://pypi.org/simple
 annotated-types==0.7.0; python_version >= '3.8'
 anyio==4.10.0; python_version >= '3.9'
 attrs==25.3.0; python_version >= '3.8'
@@ -88,7 +89,7 @@ sympy==1.14.0; python_version >= '3.9'
 tenacity==9.1.2; python_version >= '3.9'
 threadpoolctl==3.6.0; python_version >= '3.9'
 tokenizers==0.21.4; python_version >= '3.9'
-torch==2.7.1; python_full_version >= '3.9.0'
+torch==2.7.1+cpu; python_full_version >= '3.9.0'
 tqdm==4.67.1; python_version >= '3.7'
 transformers==4.55.0; python_full_version >= '3.9.0'
 typer==0.16.0; python_version >= '3.7'
