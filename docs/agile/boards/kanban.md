@@ -125,30 +125,27 @@ kanban-plugin: board
 
 ## Todo (21)
 
-- [ ] [[setup new service generator]]
-- [ ] [[harden precommit hooks]]
-- [ ] [[script for getting github action workflow states for a branch]]
-- [ ] [[breakdown Makefile.hy]]
-- [ ] [[add_twitch_chat_integration_md_md.md|Add twitch chat integration.md]] #framework-core #accepted
-- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md.md|Full agent mode (Text chat, selectively join channels, etc]] #framework-core #accepted
-- [ ] [[smart_task_templater_md.md|Smart Task templater]] #framework-core #ice-box
-- [ ] [[LSP server for home brew lisp incoming]]
-- [ ] [[database migration system]]
-- [ ] [[finish_whisper_npu_system_md_md.md|finish whisper NPU system.md]] #framework-core #performance-optimization #npu-integration #accepted
-- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ice-box
-- [ ] [[ChatGPT export injest with dedupe index and hashes]]
 
 
 ## In Progress (21)
 
+- [ ] [[ChatGPT export injest with dedupe index and hashes]]
+- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ice-box
+- [ ] [[finish_whisper_npu_system_md_md.md|finish whisper NPU system.md]] #framework-core #performance-optimization #npu-integration #accepted
+- [ ] [[database migration system]]
+- [ ] [[LSP server for home brew lisp incoming]]
+- [ ] [[smart_task_templater_md.md|Smart Task templater]] #framework-core #ice-box
+- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md.md|Full agent mode (Text chat, selectively join channels, etc]] #framework-core #accepted
+- [ ] [[add_twitch_chat_integration_md_md.md|Add twitch chat integration.md]] #framework-core #accepted
+- [ ] [[script for getting github action workflow states for a branch]]
+- [ ] [[harden precommit hooks]]
+- [ ] [[breakdown Makefile.hy]]
 - [ ] [[move discord scraper to ts]]
 - [ ] [[gpt bridge fuzzy lookup should return multiple matches when it is used.]]
 - [ ] [[Mock broker]] #incoming
 - [ ] [[discord_image_awareness_md_md.md|discord image awareness md md]] #framework-core #ollama-integration #multimodal-context #accepted
-- [ ] [[set up data migration pipeline and clearly describe conventions]]
 - [ ] [[broker gpt bridge parity plan]]
 - [ ] [[Set up proper openai custom gpt compatable oauth login flow]]
-- [ ] [[File explorer]]
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ice-box
 - [ ] [[Replace all python properly with hy incoming]]
 - [ ] [[Agent Tasks Persistence Migration to DualStore]]
@@ -157,8 +154,11 @@ kanban-plugin: board
 
 ## In Review (34)
 
+- [ ] [[setup new service generator]]
 - [ ] [[Webcrawler]]
+- [ ] [[set up data migration pipeline and clearly describe conventions]]
 - [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] #framework-core #ollama-integration #stream-automation #accepted
+- [ ] [[File explorer]]
 - [ ] [[implement classes in compiler lisp incoming]]
 - [ ] [[MVP local LLM chat interface with tool calls connected to gpt bridge]]
 - [ ] [[discord_image_awareness_md_md.md|discord image awareness.md]] #framework-core #ollama-integration #multimodal-context #accepted

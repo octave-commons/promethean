@@ -237,4 +237,4 @@ it('can inject latency and drop messages', async () => {
 * CI green with network disabled for those suites.
 * Docs + examples merged.
 
-\#tags #promethean #broker #mock #testing #vitest #typescript #di #inmemory #deterministic
+#promethean #broker #mock #testing #vitest #typescript #di #inmemory #deterministic
