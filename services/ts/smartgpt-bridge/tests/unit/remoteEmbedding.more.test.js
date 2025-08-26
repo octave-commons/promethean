@@ -8,7 +8,7 @@ test('RemoteEmbeddingFunction: image url item mapping', async (t) => {
         process.env.SHARED_IMPORT = 'file://' + abs;
         const { RemoteEmbeddingFunction } = await import('../../src/remoteEmbedding.ts');
         const ref = new RemoteEmbeddingFunction(undefined, 'driverX', 'fnY');
-        const out = await ref.generate(['img:https://example.com/i.png']);
+        const out = await ref.generate([{ type: 'image_url', data: 'https://example.com/i.png' }]);
         t.true(Array.isArray(out));
         t.is(out.length, 1);
         t.true(Array.isArray(out[0]));
