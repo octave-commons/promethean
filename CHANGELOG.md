@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - v1 router exposing consolidated SmartGPT Bridge endpoints.
 - OpenAPI spec for `/v1` served at `/v1/openapi.json` with consolidated operations.
 - `distclean` target to remove ignored files via `git clean -fdX`.
+- Task linting script with `lint-tasks` Makefile target for verifying agile task files.
 - Tests for router and WebSocket server behaviors in `mcp-server`.
 - `snapshot` target to tag the current commit with a timestamped snapshot.
 - Shared Biome configuration template (`templates/ts/biome.base.json`) for TypeScript services.
