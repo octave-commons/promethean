@@ -39,6 +39,13 @@ This task is not about strictly defining the scoring model for “relevance,” 
 
 ---
 
+## ✅ Acceptance Criteria
+- Messages beyond the retention threshold are removed from the database.
+- Index entries continue to return valid IDs after cleanup.
+- Retention settings are configurable and documented.
+
+---
+
 ## 📋 Subtasks
 
 * [ ] Create in-memory LRU cache for **Working** tier.
