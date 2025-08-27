@@ -6,6 +6,8 @@ kanban-plugin: board
 
 ## Rejected
 
+- [ ] [migrate_server_side_sibilant_libs_to_promethean_ar_md](../tasks/migrate_server_side_sibilant_libs_to_promethean_ar_md.md) #accepted
+- [ ] [migrating_relevant_modules_from_riatzukiza_github_md](../tasks/migrating_relevant_modules_from_riatzukiza_github_md.md) #accepted
 - [ ] [add_dev_harness_int_test_ts_to_ci_integration_stag_md](../tasks/add_dev_harness_int_test_ts_to_ci_integration_stag_md.md) #rejected
 - [ ] [add_lag_checks_to_ci_smoke_ensure_small_lag_after_md](../tasks/add_lag_checks_to_ci_smoke_ensure_small_lag_after_md.md) #rejected
 - [ ] [add_manualack_to_event_bus_and_re_run_tests_md](../tasks/add_manualack_to_event_bus_and_re_run_tests_md.md) #rejected
@@ -51,6 +53,7 @@ kanban-plugin: board
 - [ ] [write_a_replay_job_that_replays_process_state_snap_md](../tasks/write_a_replay_job_that_replays_process_state_snap_md.md) #rejected
 - [ ] [write_a_smoke_test_client_subscribes_publish_10_ms_md](../tasks/write_a_smoke_test_client_subscribes_publish_10_ms_md.md) #rejected
 
+
 ## Ice Box
 
 - [ ] [add_file_system_to_context_management_system_md_md](../tasks/add_file_system_to_context_management_system_md_md.md) #ice-box
@@ -87,6 +90,7 @@ kanban-plugin: board
 - [ ] [wire_mongoeventstore_mongocursorstore_in_place_of_md](../tasks/wire_mongoeventstore_mongocursorstore_in_place_of_md.md) #ice-box
 - [ ] [write_a_small_cutover_script_to_replay_historical_md](../tasks/write_a_small_cutover_script_to_replay_historical_md.md) #ice-box
 
+
 ## Incoming
 
 - [ ] [Mock broker](../tasks/Mock%20broker.md) #incoming
@@ -119,6 +123,7 @@ kanban-plugin: board
 - [ ] [scripts_group_kanban_remaining](../tasks/scripts_group_kanban_remaining.md) #incoming
 - [ ] [scripts_update_ci_and_refs](../tasks/scripts_update_ci_and_refs.md) #incoming
 
+
 ## Accepted
 
 - [ ] [File explorer](../tasks/File%20explorer.md) #accepted
@@ -132,13 +137,12 @@ kanban-plugin: board
 - [ ] [finish_whisper_npu_system_md_md](../tasks/finish_whisper_npu_system_md_md.md) #accepted
 - [ ] [gpt bridge fuzzy lookup should return multiple matches when it is used.](../tasks/gpt%20bridge%20fuzzy%20lookup%20should%20return%20multiple%20matches%20when%20it%20is%20used..md) #accepted
 - [ ] [migrate_portfolio_client_code_to_promethean_md](../tasks/migrate_portfolio_client_code_to_promethean_md.md) #accepted
-- [ ] [migrate_server_side_sibilant_libs_to_promethean_ar_md](../tasks/migrate_server_side_sibilant_libs_to_promethean_ar_md.md) #accepted
-- [ ] [migrating_relevant_modules_from_riatzukiza_github_md](../tasks/migrating_relevant_modules_from_riatzukiza_github_md.md) #accepted
 - [ ] [move discord scraper to ts](../tasks/move%20discord%20scraper%20to%20ts.md) #accepted
 - [ ] [setup new service generator](../tasks/setup%20new%20service%20generator.md) #accepted
 - [ ] [setup_code_in_wsl_md](../tasks/setup_code_in_wsl_md.md) #accepted
 - [ ] [twitch_stream_title_generator_md_md](../tasks/twitch_stream_title_generator_md_md.md) #accepted
 - [ ] [write_end_to_end_tests_md_md](../tasks/write_end_to_end_tests_md_md.md) #accepted
+
 
 ## Breakdown
 
@@ -152,6 +156,7 @@ kanban-plugin: board
 - [ ] [refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md](../tasks/refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md.md) #breakdown
 - [ ] [script for getting github action workflow states for a branch](../tasks/script%20for%20getting%20github%20action%20workflow%20states%20for%20a%20branch.md) #breakdown
 - [ ] [smart_task_templater_md](../tasks/smart_task_templater_md.md) #breakdown
+
 
 ## Ready
 
@@ -172,6 +177,7 @@ kanban-plugin: board
 - [ ] [redefine all existing lambdas with high order functions incoming](../tasks/redefine%20all%20existing%20lambdas%20with%20high%20order%20functions%20incoming.md) #ready
 - [ ] [task generator system](../tasks/task%20generator%20system.md) #ready
 - [ ] [update_makefile_to_have_commands_specific_for_agents_md](../tasks/update_makefile_to_have_commands_specific_for_agents_md.md) #ready
+
 
 ## Todo
 
@@ -215,16 +221,19 @@ kanban-plugin: board
 - [ ] [set up data migration pipeline and clearly describe conventions](../tasks/set%20up%20data%20migration%20pipeline%20and%20clearly%20describe%20conventions.md) #todo
 - [ ] [tamper monkey script for using templates defined in the vault](../tasks/tamper%20monkey%20script%20for%20using%20templates%20defined%20in%20the%20vault.md) #todo
 
+
 ## In Progress
 
 - [ ] [breakdown cephalon voice commands file using ecs](../tasks/breakdown%20cephalon%20voice%20commands%20file%20using%20ecs.md) #in-progress
 - [ ] [seperate discord commands from the actions they perform](../tasks/seperate%20discord%20commands%20from%20the%20actions%20they%20perform.md) #in-progress
+
 
 ## In Review
 
 - [ ] [identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids](../tasks/identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids.md) #in-review
 - [ ] [setup_services_to_recieve_work_from_the_broker_via_push_md](../tasks/setup_services_to_recieve_work_from_the_broker_via_push_md.md) #in-review
 - [ ] [update_cephalon_to_use_custom_embedding_function_md_md](../tasks/update_cephalon_to_use_custom_embedding_function_md_md.md) #in-review
+
 
 ## Done
 
@@ -258,6 +267,7 @@ kanban-plugin: board
 - [ ] [write_simple_ecosystem_declaration_library_for_new_md_md](../tasks/write_simple_ecosystem_declaration_library_for_new_md_md.md) #done
 - [ ] [write_vault_config_readme_md_for_obsidian_vault_on_md](../tasks/write_vault_config_readme_md_for_obsidian_vault_on_md.md) #done
 
+
 ## Archive
 
 - [ ] [add_unit_tests_for_gui_helpers_md_md](../tasks/add_unit_tests_for_gui_helpers_md_md.md) #archive
@@ -275,6 +285,9 @@ kanban-plugin: board
 - [ ] [send_waveforms_spectrograms_and_dekstop_screenshots_to_discord_for_remote_storage_md_md](../tasks/send_waveforms_spectrograms_and_dekstop_screenshots_to_discord_for_remote_storage_md_md.md) #archive
 - [ ] [set_up_makefile_for_python_js_build_test_dev_md](../tasks/set_up_makefile_for_python_js_build_test_dev_md.md) #archive
 - [ ] [start_eidolon_md_md](../tasks/start_eidolon_md_md.md) #archive
+
+
+
 
 %% kanban:settings
 ```
