@@ -87,6 +87,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Realtime Promethean Health Dashboard for monitoring heartbeat metrics.
 - Configurable timeout for remote embedding requests.
 - `defun` special form in Lisp compiler enabling named functions and recursion.
+- ESLint configuration updated to remove Prettier in favor of Biome.
 - Documented API integration details for Reddit, Bluesky, and Wikipedia tasks.
 
 - Pinned JavaScript dependencies, GitHub Actions, and documented version policy for reproducible builds.
@@ -141,6 +142,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Deprecated `scripts/serve-sites.js` static file server.
 - Per-file `sys.path.append` hacks in tests in favor of centralized setup.
+- `prettier.config.cjs` removed now that Biome handles formatting.
 - Hy variant of the Discord attachment embedder service in favor of shared Python implementation.
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
