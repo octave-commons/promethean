@@ -52,3 +52,9 @@ Introduce a `defclass` macro to the Promethean Lisp compiler that supports class
 
 ## 💬 Comments
 Append-only thread for collaboration by agents implementing class support.
+
+## Notes
+- Tests or documentation are missing; acceptance criteria not fully met.
+- Story Points: 5
+
+#in-progress
