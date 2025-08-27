@@ -2,15 +2,18 @@ import { spawn } from 'node:child_process';
 import EventEmitter from 'node:events';
 import { type IncomingMessage, request } from 'node:http';
 import type { Readable } from 'node:stream';
+
 export type VoiceSynthOptions = {
     host: string;
     endpoint: string;
     port: number;
 };
+
 export class VoiceSynth extends EventEmitter {
     host: string;
     endpoint: string;
     port: number;
+
     constructor(
         options: VoiceSynthOptions = {
             host: 'localhost',
@@ -23,6 +26,7 @@ export class VoiceSynth extends EventEmitter {
         this.endpoint = options.endpoint;
         this.port = options.port;
     }
+
     async generateAndUpsampleVoice(text: string): Promise<{ stream: Readable; cleanup: () => void }> {
         const req = request({
             hostname: this.host,
@@ -79,9 +83,9 @@ export class VoiceSynth extends EventEmitter {
             }).on('error', (e) => reject(e));
         });
     }
+
     async generateVoice(text: string): Promise<IncomingMessage> {
         console.log('generate voice for', text);
-        // Pipe the PCM stream directly
         return new Promise((resolve, reject) => {
             const req = request(
                 {
