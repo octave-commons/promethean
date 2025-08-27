@@ -22,7 +22,10 @@ import re
 from pathlib import Path
 from typing import Iterable, List, Tuple, Optional
 
-from agile_statuses import STATUS_SET as PROJECT_STATUS_SET  # type: ignore
+try:  # Prefer package-relative import
+    from .agile_statuses import STATUS_SET as PROJECT_STATUS_SET  # type: ignore
+except Exception:  # pragma: no cover - fallback for script execution
+    from agile_statuses import STATUS_SET as PROJECT_STATUS_SET  # type: ignore
 
 TASK_DIR = Path("docs/agile/tasks")
 

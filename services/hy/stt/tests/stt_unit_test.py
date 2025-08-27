@@ -1,21 +1,22 @@
-import os
 import sys
 import types
-import pytest
 from unittest.mock import patch
 
-# Ensure service directory is importable
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import pytest
+
+# Service modules are importable via package path
 
 
 @pytest.fixture(autouse=True)
-def stub_wisper_module(monkeypatch):
+def stub_whisper_module(monkeypatch):
     mock_module = types.SimpleNamespace(
         transcribe_pcm=lambda *a, **k: "transcribed text"
     )
-    sys.modules["shared.py.speech.wisper_stt"] = mock_module
+    sys.modules["shared.py.speech.whisper_stt"] = mock_module
+    sys.modules["lib.speech.whisper_stt"] = mock_module
     yield
-    sys.modules.pop("shared.py.speech.wisper_stt", None)
+    sys.modules.pop("shared.py.speech.whisper_stt", None)
+    sys.modules.pop("lib.speech.whisper_stt", None)
 
 
 @pytest.fixture
@@ -34,7 +35,7 @@ def client(monkeypatch):
         "shared.py.heartbeat_client.HeartbeatClient", lambda *a, **k: DummyHB()
     )
 
-    import app
+    from services.hy.stt import app
     from fastapi.testclient import TestClient
 
     return TestClient(app.app)

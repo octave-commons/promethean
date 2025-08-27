@@ -64,7 +64,7 @@ def test_stt_llm_tts_pipeline(monkeypatch):
 
     monkeypatch.setitem(
         sys.modules,
-        "shared.py.speech.wisper_stt",
+        "shared.py.speech.whisper_stt",
         types.SimpleNamespace(transcribe_pcm=lambda *_: "hello world"),
     )
     monkeypatch.setitem(

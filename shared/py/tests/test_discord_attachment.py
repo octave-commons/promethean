@@ -1,9 +1,5 @@
 import importlib
 import os
-import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
 os.environ.setdefault("DISCORD_TOKEN", "token")
 os.environ.setdefault("DEFAULT_CHANNEL", "0")

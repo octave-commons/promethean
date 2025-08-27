@@ -1,10 +1,19 @@
 import fs from "fs";
 import path from "path";
-
-import { isValidTopic, headerOk } from "../shared/ts/prom-lib/naming/rules.ts";
-import { reg as schemaReg } from "../shared/ts/prom-lib/schema/topics.ts";
+import { pathToFileURL } from "url";
 
 const ROOT = process.env.REPO_ROOT || process.cwd();
+const rulesFile = path.join(ROOT, "shared/ts/prom-lib/naming/rules.ts");
+const schemaFile = path.join(ROOT, "shared/ts/prom-lib/schema/topics.ts");
+
+if (!fs.existsSync(rulesFile) || !fs.existsSync(schemaFile)) {
+  console.log("No prom-lib sources found, skipping lint-topics");
+  process.exit(0);
+}
+
+const { isValidTopic, headerOk } = await import(pathToFileURL(rulesFile).href);
+const { reg: schemaReg } = await import(pathToFileURL(schemaFile).href);
+
 // Limit initial lint scope to prom-lib; expand as other services adopt topic rules
 const SRC_DIRS = ["shared/ts/prom-lib"]; // add more if needed
 

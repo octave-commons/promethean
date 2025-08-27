@@ -63,6 +63,14 @@ Corepack enforcement: The root `package.json` sets `"packageManager": "pnpm@9"` 
 Pre-commit runs quick checks (`pnpm tsc --noEmit` and `pytest -q`) instead of the full build. Run the full build separately with
 `make build` or via `pre-commit run --hook-stage manual full-build` in CI.
 
+Before pushing complex changes, manually trigger heavier tests with:
+
+```bash
+pre-commit run --hook-stage manual integration-tests
+```
+
+This runs `make test-integration` and `make test-e2e` to surface cross-module issues.
+
 All contributions must be validated locally before opening a pull request:
 
 1. **Run `make setup` for the relevant services only.** Avoid global setup.
@@ -513,7 +521,7 @@ We love dotenv. use it all the time. Make everyone's lives easier.
 
 ## Changelog Updates
 
-We build `CHANGELOG.md` from fragment files using [towncrier](https://towncrier.readthedocs.io/). For every pull request add a fragment under `changelog.d/` named `<PR number>.<type>.md` where `<type>` is one of `added`, `changed`, `deprecated`, `removed`, `fixed`, or `security`.
+Do not edit `CHANGELOG.md` directly. We build it from fragment files using [towncrier](https://towncrier.readthedocs.io/). For every pull request add a fragment under `changelog.d/` named `<PR number>.<type>.md` where `<type>` is one of `added`, `changed`, `deprecated`, `removed`, `fixed`, or `security`.
 
 Example: `changelog.d/1234.added.md`
 

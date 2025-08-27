@@ -22,7 +22,7 @@ client.
 ## Dependencies
 - fastapi
 - fastapi.responses
-- shared.py.speech.wisper_stt
+- shared.py.speech.whisper_stt
 - shared.py.speech.whisper_stream
 - shared.py.utils
 
