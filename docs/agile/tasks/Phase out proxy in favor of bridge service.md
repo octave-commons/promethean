@@ -50,5 +50,5 @@ Nothing
 - [API spec](https://err-stealth-16-ai-studio-a1vgg.tailbe888a.ts.net/v1/openapi.json)
 - [kanban](../boards/kanban.md)
 
-#framework-core #accepted #breakdown
+#framework-core #Ready
 
