@@ -1,4 +1,5 @@
 ## 🛠️ Description
+**Status:** blocked
 
 Analyze the existing `Makefile.hy` and break it into clearer, maintainable components.
 
@@ -49,4 +50,7 @@ Nothing
 
 - [kanban](../boards/kanban.md)
 
-#Breakdown
+#breakdown
+
+## Blockers
+- No active owner or unclear scope
