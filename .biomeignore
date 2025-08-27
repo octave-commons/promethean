@@ -1,0 +1,7 @@
+node_modules
+coverage
+dist
+services/ts/smartgpt-bridge/src/tests/fixtures/
+shared/sibilant/
+shared/ts/config/providers.yml
+**/biome.json
