@@ -150,25 +150,24 @@ kanban-plugin: board
 - [ ] [[Replace all python properly with hy incoming]]
 - [ ] [[Agent Tasks Persistence Migration to DualStore]]
 - [ ] [[Create broker services that can handle all the same tasks as the gpt bridge]]
+- [ ] [[setup new service generator]] — missing tests and documentation
+- [ ] [[Webcrawler]] — planned; lacks tests and docs
+- [ ] [[set up data migration pipeline and clearly describe conventions]] — pipeline not implemented; no tests or docs
+- [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] — no tests or documentation
+- [ ] [[File explorer]] — missing UI component and test coverage
+- [ ] [[implement classes in compiler lisp incoming]] — feature unimplemented; no tests or docs
+- [ ] [[MVP local LLM chat interface with tool calls connected to gpt bridge]] — interface not implemented; no tests or docs
+- [ ] [[discord_image_awareness_md_md.md|discord image awareness.md]] — images not ingested; no tests or docs
+- [ ] [[implement defun in compiler lisp incoming]] — missing implementation, tests, docs
+- [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push]] — needs shared broker client interface and tests
+- [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] — no version matrix or pins; no tests
+- [ ] [[Promethean Health Dashboard]] — dashboard unimplemented; lacks tests and docs
+- [ ] [[seperate discord commands from the actions they perform]] — refactor incomplete; missing docs and tests
+- [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]] — resiliency changes not implemented; no tests or docs
+- [ ] [[breakdown cephalon voice commands file using ecs]] — still in progress; lacks breakdown, tests, docs
 
 
-## In Review (34)
-
-- [ ] [[setup new service generator]]
-- [ ] [[Webcrawler]]
-- [ ] [[set up data migration pipeline and clearly describe conventions]]
-- [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] #framework-core #ollama-integration #stream-automation #accepted
-- [ ] [[File explorer]]
-- [ ] [[implement classes in compiler lisp incoming]]
-- [ ] [[MVP local LLM chat interface with tool calls connected to gpt bridge]]
-- [ ] [[discord_image_awareness_md_md.md|discord image awareness.md]] #framework-core #ollama-integration #multimodal-context #accepted
-- [ ] [[implement defun in compiler lisp incoming]]
-- [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
-- [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
-- [ ] [[Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #accepted
-- [ ] [[seperate discord commands from the actions they perform]] #in-progress
-- [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
-- [ ] [[breakdown cephalon voice commands file using ecs]] #in-progress
+## In Review (0)
 
 
 ## Done
@@ -177,12 +176,10 @@ kanban-plugin: board
 - [ ] [[Add tool calls to codex context]]
 - [ ] [[migrate_portfolio_client_code_to_promethean_md.md|Migrate portfolio client code to Promethean]] #framework-core #accepted
 - [ ] [[Finish work on gptbridge agent integration]]
-- [ ] File explorer
 - [ ] [[clarify_promethean_project_vision_1_md.md|Clarify Promethean project vision]] #framework-core #accepted
 - [ ] finish moving the smartgpt bridge to fastify
 - [ ] [[Fully convert js ts projects to pnpm incoming]]
 - [ ] [[Ensure openapi specs are automaticly updated when an endpoint is changed]]
-- [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push md]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
 - [ ] [[create_base_readme_md_templates_for_each_service_md.md|create base readme md templates for each service]] #doc-this #framework-core #ritual #in-review
 - [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids.md|identify and resolve a service client apparently connecting repeatedly to broker with new session ids]] #in-review
 - [ ] [[OpenAI compatable api]]
