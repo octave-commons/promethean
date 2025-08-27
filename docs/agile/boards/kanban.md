@@ -108,15 +108,14 @@ kanban-plugin: board
 
 ## Ready
 
+- [ ] [[convert current services to packages, then redefine the services using config files]]
+- [ ] [[audio processing service]]
 - [ ] [[create a generic markdown helper module]]
 - [ ] [[task generator system]]
 - [ ] [[redefine all existing lambdas with high order functions incoming]]
-- [ ] [[convert current services to packages, then redefine the services using config files]]
-- [ ] [[Phase out proxy in favor of bridge service]]
-- [ ] [[audio processing service]]
-
 
 ## Todo (21)
+- [ ] [[Phase out proxy in favor of bridge service]]
 
 - [ ] [[update_makefile_to_have_commands_specific_for_agents_md.md|Update Makefile to have commands specific for agents]] #devops #accepted
 - [ ] [[LLM service must accept tool calls]]
