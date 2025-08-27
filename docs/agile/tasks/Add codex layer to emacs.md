@@ -1,12 +1,18 @@
-# Description
+## 🛠️ Description
 
 Describe your task
 
-## Requirements/Definition of done
+## 📦 Requirements
+- Provide an Emacs layer for interacting with Codex.
+- Include commands to send code and receive responses inside Emacs.
+- Document installation and configuration steps.
 
-- If it doesn't have this, we can't accept it
+## ✅ Acceptance Criteria
+- Emacs layer can initiate Codex prompts from a buffer.
+- Users can execute a command to send the current buffer to Codex and view the reply.
+- Setup instructions enable others to reproduce the integration.
 
-## Tasks 
+## Tasks
 
 - [ ] Step 1
 - [ ] Step 2
@@ -14,10 +20,14 @@ Describe your task
 - [ ] Step 4
 
 ## Relevent resources
-
 You might find [this] useful while working on this task
 [ChatGPT - Codex CLI layer](https://chatgpt.com/share/68a74365-e284-8004-8911-bb2fb08b1f3e)
 
 ## Comments
-
 Useful for agents to engage in append only conversations about this task.
+
+## Story Points
+
+- Estimate: 3
+- Assumptions: Emacs environment can load the Codex integration layer.
+- Dependencies: Existing Codex CLI and Emacs plugin support.

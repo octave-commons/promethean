@@ -1,5 +1,7 @@
 # Board flow
 
+See [task anti-patterns](task-anti-patterns.md) for common mistakes when authoring tasks.
+
 ## 🌐 Updated Kanban Flow Diagram
 
 ```mermaid
@@ -69,8 +71,8 @@ A lightly-formed idea or proposal. We are not yet committed to doing it.
 
 **Transitions:**
 
-* `New -> Accepted`: we've discussed and decided it has value.
-* `New -> Rejected`: it's a duplicate, not feasible, or not relevant.
+- `New -> Accepted`: we've discussed and decided it has value.
+- `New -> Rejected`: it's a duplicate, not feasible, or not relevant.
 
 ### Rejected
 
@@ -99,9 +101,9 @@ Items from here usually return to **Breakdown** once concrete actions emerge.
 We break the idea down into requirements, values, and approaches.
 Outcomes:
 
-* Becomes `Ready`
-* Moves to `Blocked`
-* Gets `Rejected`
+- Becomes `Ready`
+- Moves to `Blocked`
+- Gets `Rejected`
 
 ### Blocked
 
@@ -143,7 +145,6 @@ A board manager agent keeps this flow consistent.
 
 The human contributor has final say on priorities and merges, but the agent maintains board hygiene and surfaces gaps.
 
-
 Codex and the board manager agent participate throughout this flow. The board
 manager keeps tasks synced between the Kanban board and `agile/tasks/`, while
 Codex provides code or documentation when a card carries the `#codex-task` tag.
@@ -151,17 +152,21 @@ During **Prompt Refinement** and **Agent Thinking**, the user and the agent talk
 through rough ideas until they can be broken down into actionable work. The agent
 suggests board movements based on metadata and helps enforce WIP limits.
 
+### Task File Checklist
+
+Each task in `docs/agile/tasks/` must include sections for **Description**, **Goals**, **Requirements**, and **Subtasks** and contain one status hashtag such as `#Todo` or `#InProgress`. Run `make lint-tasks` to validate task files before updating the board.
+
 ---
 
 ## 🏷 Tags
 
-* `#codex-task` → Codex should code/test/doc
-* `#agent-mode` → Discussion-style exploration
-* `#framework-core` → Related to Promethean internals
-* `#agent-specific` → Tied to a named agent (e.g., Duck, Synthesis)
-* `#layer1`, `#layer2` → Tied to Eidolon/Cephalon layers
-* `#doc-this` → Task produces documentation
-* `#rewrite-later` → Placeholder
+- `#codex-task` → Codex should code/test/doc
+- `#agent-mode` → Discussion-style exploration
+- `#framework-core` → Related to Promethean internals
+- `#agent-specific` → Tied to a named agent (e.g., Duck, Synthesis)
+- `#layer1`, `#layer2` → Tied to Eidolon/Cephalon layers
+- `#doc-this` → Task produces documentation
+- `#rewrite-later` → Placeholder
 
 ---
 

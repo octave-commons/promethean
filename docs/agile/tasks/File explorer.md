@@ -49,4 +49,9 @@ Nothing
 
 - [kanban](../boards/kanban.md)
 
-#accepted
+
+## Notes
+- Tests or documentation are missing; acceptance criteria not fully met.
+- Story Points: 5
+
+#in-progress

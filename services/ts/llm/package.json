@@ -14,6 +14,7 @@
     },
     "dependencies": {
         "@huggingface/inference": "^2.1.1",
+        "@shared/ts": "file:../../../shared/ts",
         "@types/node": "^24.3.0",
         "express": "^4.18.2",
         "js-yaml": "^4.1.0",

@@ -91,12 +91,16 @@ COMMANDS := \
   kanban-from-tasks \
   kanban-to-hashtags \
   kanban-to-issues \
+  lint-tasks \
   simulate-ci \
   docker-build \
   docker-up \
   docker-down \
+  build-changelog \
   generate-python-requirements \
   generate-requirements \
+  snapshot \
+  refresh \
   generate-makefile
 
 .PHONY: \
