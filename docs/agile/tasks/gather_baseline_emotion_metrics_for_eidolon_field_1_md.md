@@ -68,4 +68,4 @@ Nothing
 
 - What instrumentation already exists in Eidolon for metric export?
 - How much historical data is needed for a meaningful baseline?
-#ice-box
+#IceBox
