@@ -58,4 +58,4 @@ Generated from [../unique/2025.07.28.18.07.20.md](../unique/2025.07.28.18.07.20.
 
 - Should user feedback be captured explicitly or inferred from message content?
 - Do we need real-time updates to the reward signal or batched summaries?
-#ice-box
+#IceBox
