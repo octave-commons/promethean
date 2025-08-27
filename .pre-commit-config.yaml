@@ -74,6 +74,11 @@ repos:
         entry: python scripts/check_changelog_fragments.py
         language: system
         pass_filenames: false
+      - id: lint-topics
+        name: Topic/Schema lints
+        entry: make lint-topics
+        language: system
+        pass_filenames: false
 
   - repo: https://github.com/psf/black
     rev: 24.4.2
