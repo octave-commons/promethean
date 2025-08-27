@@ -1,15 +1,10 @@
-import os
-import sys
-import importlib
-
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../../"))
-
-import pytest
+"""Tests for ``services.py.discord_indexer.main`` (Hy variant)."""
 
 import asyncio
+import importlib
 
 import discord
+import pytest
 
 
 # Dummy in-memory collection to mimic pymongo behaviour
@@ -110,7 +105,7 @@ def load_indexer(monkeypatch):
         "shared.py.heartbeat_client.HeartbeatClient", lambda *a, **k: DummyHB()
     )
 
-    mod = importlib.import_module("main")
+    mod = importlib.import_module("services.py.discord_indexer.main")
     monkeypatch.setattr(mod, "discord_channel_collection", MemoryCollection())
     monkeypatch.setattr(mod, "discord_message_collection", MemoryCollection())
     return mod

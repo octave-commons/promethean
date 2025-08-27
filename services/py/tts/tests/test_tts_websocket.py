@@ -1,10 +1,18 @@
-import os, sys, types, importlib, wave
+import importlib
+import os
+import sys
+import types
+import wave
 from fastapi.testclient import TestClient
+"""Tests for ``services.py.tts.app`` websocket endpoint."""
+
+import importlib
+import sys
+import types
+import wave
 from unittest.mock import patch
 
-ROOT_DIR = os.path.join(os.path.dirname(__file__), "../../../../")
-sys.path.insert(0, os.path.join(ROOT_DIR, "shared", "py"))
-sys.path.insert(0, ROOT_DIR)
+from fastapi.testclient import TestClient
 
 
 def dummy_write(file, audio, samplerate, format=None, subtype=None):
@@ -32,7 +40,10 @@ def test_websocket_tts_returns_wav_bytes(monkeypatch):
     dummy_package.tts = dummy_module
 
     dummy_sf = types.SimpleNamespace(write=dummy_write)
-    dummy_nltk = types.SimpleNamespace(download=lambda *a, **k: None)
+    dummy_nltk = types.SimpleNamespace(
+        download=lambda *a, **k: None,
+        data=types.SimpleNamespace(find=lambda *a, **k: None),
+    )
 
     class DummyBroker:
         async def publish(self, *a, **k):

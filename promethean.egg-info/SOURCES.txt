@@ -29,7 +29,7 @@ shared/py/speech/stt.py
 shared/py/speech/tts.py
 shared/py/speech/wav.py
 shared/py/speech/whisper_stream.py
-shared/py/speech/wisper_stt.py
+shared/py/speech/whisper_stt.py
 shared/py/speech/tests/test_audio_utils.py
 shared/py/speech/tests/test_spell_checker.py
 shared/py/tests/test_date_tools.py
