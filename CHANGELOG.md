@@ -82,6 +82,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Realtime Promethean Health Dashboard for monitoring heartbeat metrics.
 - Configurable timeout for remote embedding requests.
 - `defun` special form in Lisp compiler enabling named functions and recursion.
+- Documented API integration details for Reddit, Bluesky, and Wikipedia tasks.
 
 - Pinned JavaScript dependencies, GitHub Actions, and documented version policy for reproducible builds.
 - Pre-commit now runs `pnpm tsc --noEmit` and `pytest -q` instead of `make build`; use `pre-commit run --hook-stage manual full-build` or `make build` for full builds.

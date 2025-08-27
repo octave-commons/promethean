@@ -1,27 +1,35 @@
 # Description
 
-Enable agents to query Wikipedia for article summaries and structured data.
+Integrate Wikipedia article lookup using the MediaWiki API for knowledge retrieval.
+
+## Target APIs and Authentication
+
+- **API**: [MediaWiki API](https://www.mediawiki.org/wiki/API:Main_page)
+- **Authentication**: Read requests require no auth but must send a descriptive `User-Agent`; OAuth is optional for high-volume or write operations
+
+## Data Flow & Rate Limiting
+
+- Agent issues search/query ➜ MediaWiki API ➜ parse summary ➜ internal knowledge store or broker
+- Follow Wikimedia guidelines: throttle to ~1 request/second and honor `Retry-After`/`maxlag` responses
 
 ## Requirements/Definition of done
 
-- Use the MediaWiki API to search and fetch article extracts.
-- Handle disambiguation pages and missing articles.
-- Cache results or respect rate limits to avoid throttling.
-- Provide a tool-call interface or endpoint for agents to request summaries.
-- Include unit tests for search and fetch operations.
+- Agents can query and retrieve article summaries
+- Data is routed through broker or storage services
+- Requests respect rate limits and include required headers
 
 ## Tasks
 
-- [ ] Investigate MediaWiki API endpoints for search and page extracts.
-- [ ] Implement a client wrapper for querying and retrieving summary data.
-- [ ] Add a caching layer or polite rate limiting.
-- [ ] Expose a tool call or service endpoint for agent use.
-- [ ] Write tests verifying retrieval of a known article.
-- [ ] Document usage and configuration steps.
+- [ ] Implement client for search and page retrieval
+- [ ] Add User-Agent and optional OAuth credentials
+- [ ] Queue results into knowledge store or broker
+- [ ] Add throttling and `maxlag` handling
+- [ ] Integration tests for search and retrieval
+- [ ] Unit tests for rate-limit/backoff logic
 
 ## Relevant resources
 
-- [MediaWiki API Docs](https://www.mediawiki.org/wiki/API:Main_page)
+You might find [MediaWiki API docs](https://www.mediawiki.org/wiki/API:Main_page) useful while working on this task
 
 ## Comments
 
