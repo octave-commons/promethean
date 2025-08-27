@@ -1,4 +1,5 @@
 # Task: ChatGPT Export Ingest with De‑dup Index & Hashes
+**Status:** blocked
 
 ## Objective
 
@@ -225,3 +226,8 @@ pnpm tsx src/cli.ts --export ~/Downloads/chatgpt-export \
 * [ ] Editing one message in export results in exactly one UPDATED.
 * [ ] Index survives process restarts and supports resuming.
 * [ ] Report artifact written with accurate counts.
+
+## Blockers
+- No active owner or unclear scope
+
+#breakdown
