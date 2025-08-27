@@ -118,13 +118,13 @@ kanban-plugin: board
 
 ## Todo (21)
 
-- [ ] [[update_makefile_to_have_commands_specific_for_agents_md.md|Update Makefile to have commands specific for agents]] #devops #accepted
-- [ ] [[LLM service must accept tool calls]]
-- [ ] [[frontend build tool chain]]
-- [ ] [[flatten services]]
-- [ ] [[lisp package files]]
-- [ ] [[clearly standardize data models]]
-- [ ] [[dockerize the system]]
+- [ ] [[LLM service must accept tool calls]] #feature (1)
+- [ ] [[flatten services]] #refactor (2)
+- [ ] [[update_makefile_to_have_commands_specific_for_agents_md.md|Update Makefile to have commands specific for agents]] #infrastructure (3)
+- [ ] [[frontend build tool chain]] #infrastructure (4)
+- [ ] [[clearly standardize data models]] #refactor (5)
+- [ ] [[dockerize the system]] #infrastructure (6)
+- [ ] [[lisp package files]] #feature (7)
 
 
 ## In Progress (21)
