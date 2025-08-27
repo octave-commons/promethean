@@ -135,6 +135,11 @@ kanban-plugin: board
 - [ ] [[connect wikipedia]]
 - [ ] [[lisp ecosystem files]]
 - [ ] [[hy - js interop]]
+- [ ] [[frontend build tool chain]] (13 pts) — Oversized; refine build pipeline
+- [ ] [[flatten services]] (8 pts) — Oversized; restructure modules
+- [ ] [[lisp package files]] (8 pts) — Oversized; define packaging strategy
+- [ ] [[clearly standardize data models]] (8 pts) — Oversized; ensure cross-service consistency
+- [ ] [[dockerize the system]] (8 pts) — Oversized; plan containerization
 - [ ] [[LSP server for home brew lisp incoming]]
 - [ ] [[Mock broker]] #incoming
 - [ ] [[Replace all python properly with hy incoming]]
@@ -158,6 +163,8 @@ kanban-plugin: board
 ## Todo (21)
 - [ ] [[Phase out proxy in favor of bridge service]]
 
+- [ ] [[LLM service must accept tool calls]] (5 pts) — High priority: enables tool-driven workflows
+- [ ] [[update_makefile_to_have_commands_specific_for_agents_md.md|Update Makefile to have commands specific for agents]] (3 pts) — Medium priority: improves agent development
 - [ ] [[LLM service must accept tool calls]] #feature (1)
 - [ ] [[flatten services]] #refactor (2)
 - [ ] [[update_makefile_to_have_commands_specific_for_agents_md.md|Update Makefile to have commands specific for agents]] #infrastructure (3)
