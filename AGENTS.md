@@ -521,7 +521,7 @@ We love dotenv. use it all the time. Make everyone's lives easier.
 
 ## Changelog Updates
 
-We build `CHANGELOG.md` from fragment files using [towncrier](https://towncrier.readthedocs.io/). For every pull request add a fragment under `changelog.d/` named `<PR number>.<type>.md` where `<type>` is one of `added`, `changed`, `deprecated`, `removed`, `fixed`, or `security`.
+Do not edit `CHANGELOG.md` directly. We build it from fragment files using [towncrier](https://towncrier.readthedocs.io/). For every pull request add a fragment under `changelog.d/` named `<PR number>.<type>.md` where `<type>` is one of `added`, `changed`, `deprecated`, `removed`, `fixed`, or `security`.
 
 Example: `changelog.d/1234.added.md`
 
