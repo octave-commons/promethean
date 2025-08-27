@@ -1,36 +1,81 @@
 ## 🛠️ Description
 
+Merging straight into `main` caused instability. This task documents a
+structured Git branching workflow where features land on `dev`, are
+promoted to `staging`, and finally reach `main` once validated. The
+document also specifies branch naming conventions, merge gates, and CI
+expectations.
 
-It was gettting too chaotic merging everything into main.
+### Branch Naming Conventions
 
-I've been loosely working based off dev -> staging -> main
-But I need to make clear guidelines for when to merge into each.
+- `feature/<summary>` – new features
+- `fix/<summary>` – bug fixes
+- `docs/<summary>` – documentation changes
+- `chore/<summary>` – refactors or maintenance
 
-Cause our test suite/ci are not reliable enough yet.
+### Merge Requirements
 
-Our gold standard for main is  "It worked"
+1. **Feature branch → `dev`**
+   - Rebase on latest `origin/dev`.
+   - `make format lint test` must succeed before opening a PR.
+2. **`dev` → `staging`**
+   - All `dev` CI checks are green.
+   - Run `make build` and any integration tests.
+3. **`staging` → `main`**
+   - Staging has been manually verified.
+   - Full CI suite passes (`make lint test build`).
 
-Our standard for staging is "It should work"
+### CI Expectations
 
-And dev was "I'm working on it."
+- **`dev`**: linting and unit tests.
+- **`staging`**: linting, unit tests, integration tests, and build.
+- **`main`**: full test suite plus manual verification.
+
+### Example Commands
+
+```bash
+# create and push a feature branch
+git checkout -b feature/add-auth
+make format lint test
+git push origin feature/add-auth
+
+# promote through the environments
+git checkout staging
+git merge dev && git push origin staging
+
+git checkout main
+git merge staging && git push origin main
+```
+
+See the [contribution guidelines](../../README.md) for general workflow
+details.
 
 ---
 
 ## 🎯 Goals
 
-- Define clear objectives for "Add Ollama formally to pipeline".
+- Document branch naming conventions.
+- Define merge requirements from `dev` → `staging` → `main`.
+- Clarify CI expectations for each stage.
+- Provide example commands and link to contribution docs.
 
 ---
 
 ## 📦 Requirements
 
-- [ ] Detail requirements.
+- [ ] Branch names follow `<type>/<summary>`.
+- [ ] `make format lint test` passes before merging to `dev`.
+- [ ] `make build` and integration tests run before merging to `staging`.
+- [ ] Full CI suite passes before merging to `main`.
 
 ---
 
 ## 📋 Subtasks
 
-- [ ] Outline steps to implement.
+- [ ] Draft branch naming section.
+- [ ] Document merge gates and CI requirements.
+- [ ] Add example git commands.
+- [ ] Link to contribution docs.
 
 ---
 
@@ -55,3 +100,4 @@ Nothing
 - [kanban](../boards/kanban.md)
 #agent-thinking
 #breakdown
+

@@ -210,4 +210,9 @@ flowchart LR
 ---
 
 tags: #framework-core #observability #eidolon-visualization #dashboard #broker #realtime
-#accepted
+
+## Notes
+- Tests or documentation are missing; acceptance criteria not fully met.
+- Story Points: 8
+
+#in-progress

@@ -1,4 +1,6 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
+
 if command -v pnpm >/dev/null 2>&1; then
   pnpm start
 else

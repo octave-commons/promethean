@@ -1,32 +1,32 @@
-"""
-Scan Discord history for attachments and add their metadata to message documents.
+"""Discord attachment indexing service.
+
+This module scans Discord history for attachments and records their metadata in
+the message documents stored in MongoDB.
 """
 
-import hy
-import os
-import sys
 import asyncio
+import logging
+import os
 import random
-from typing import List
 
 import discord
 
-# sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../"))
 from shared.py import settings
 from shared.py.mongodb import discord_message_collection, discord_channel_collection
 from shared.py.heartbeat_broker import start_broker_heartbeat
-from shared.py.utils.discord import (
-    fetch_channel_history,
-    shuffle_array,
-    update_cursor,
-)
+from shared.py.utils.discord import fetch_channel_history, shuffle_array, update_cursor
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 AGENT_NAME = os.environ.get("AGENT_NAME", "duck")
-print(f"Discord attachment indexer running for {AGENT_NAME}")
-intents = discord.Intents.default()
-client = discord.Client(intents=intents)
-intents.message_content = True
+logger.info("Discord attachment indexer running for %s", AGENT_NAME)
 
+intents = discord.Intents.default()
+intents.message_content = True
+client = discord.Client(intents=intents)
+
+# Heartbeat state guarded to avoid NameError during import/tests
 _hb_started = False
 _hb_ctx = None
 
@@ -44,19 +44,27 @@ def format_attachment(attachment: discord.Attachment) -> dict:
 def index_attachments(message: discord.Message) -> None:
     attachments = [format_attachment(a) for a in message.attachments]
     if not attachments:
-        return
-        _hy_anon_var_1 = None
-    else:
-        _hy_anon_var_1 = None
-    print(
-        f"Indexing attachments for message {message.id}: {[a['filename'] for a in attachments]}"
+        return  # Nothing to index
+
+    logger.info(
+        "Indexing attachments for message %s: %s",
+        message.id,
+        [a["filename"] for a in attachments],
     )
-    return discord_message_collection.update_one(
+    discord_message_collection.update_one(
         {"id": message.id}, {"$set": {"attachments": attachments}}
     )
 
 
 async def index_channel(channel: discord.TextChannel) -> None:
+    """Index all attachments in a channel's history.
+
+    Messages are fetched starting from the last stored ``attachment_cursor``. For
+    each message, any attachments are recorded, and the cursor is updated to the
+    most recent processed message so that subsequent runs resume from the latest
+    point.
+    """
+
     newest_message = None
     for message in await fetch_channel_history(
         channel, discord_channel_collection, "attachment_cursor"
@@ -75,6 +83,14 @@ async def index_channel(channel: discord.TextChannel) -> None:
 
 @client.event
 async def on_ready():
+    """Start heartbeat and iterate through channels indexing attachments.
+
+    When the Discord client becomes ready we establish a broker heartbeat so the
+    service can be monitored. The task then continuously shuffles through all
+    channels and calls :func:`index_channel` for each text channel, sleeping a
+    random amount between iterations to avoid hitting rate limits.
+    """
+
     global _hb_started, _hb_ctx
     if not _hb_started:
         try:
@@ -85,22 +101,28 @@ async def on_ready():
             )
             _hb_started = True
         except Exception as e:
-            print(f"[discord_attachment_indexer] failed to start broker heartbeat: {e}")
+            logger.error(
+                "[discord_attachment_indexer] failed to start broker heartbeat: %s",
+                e,
+            )
 
-    print("hola")
+    logger.info("Attachment indexing loop started")
     while True:
         for channel in shuffle_array(list(client.get_all_channels())):
             if isinstance(channel, discord.TextChannel):
-                random_sleep = random.randint(1, 10)
-                await asyncio.sleep(random_sleep)
-                _hy_anon_var_7 = await index_channel(channel)
-            else:
-                _hy_anon_var_7 = None
+                await asyncio.sleep(random.randint(1, 10))
+                await index_channel(channel)
 
 
-@client.event
-async def on_message(message):
-    return index_attachments(message)
+async def handle_message(message: discord.Message) -> None:
+    index_attachments(message)
 
 
-client.run(settings.DISCORD_TOKEN)
+if __name__ == "__main__":
+    token = os.environ.get("DISCORD_TOKEN")
+    if token:
+        client.run(token)
+    else:
+        logger.warning(
+            "DISCORD_TOKEN not set; not starting discord client (import-only mode)"
+        )

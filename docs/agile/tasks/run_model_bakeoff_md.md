@@ -17,6 +17,13 @@ Execute a comparative evaluation between current and candidate models using a fi
 
 ---
 
+## ✅ Acceptance Criteria
+- Bakeoff script runs and outputs comparison metrics.
+- Results highlight which model meets adoption thresholds.
+- Summary of findings is documented.
+
+---
+
 ## 📋 Subtasks
 - [ ] Script test harness
 - [ ] Summarize results

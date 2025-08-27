@@ -1,22 +1,22 @@
-import tseslint from '@typescript-eslint/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
+import tseslint from "@typescript-eslint/eslint-plugin";
+import tsParser from "@typescript-eslint/parser";
 
 export default [
   {
-    files: ['**/*.{js,ts,mjs}'],
-    ignores: ['node_modules/**', 'dist/**', 'coverage/**'],
+    files: ["**/*.{js,ts,mjs}"],
+    ignores: ["node_modules/**", "dist/**", "coverage/**"],
     languageOptions: {
       parser: tsParser,
     },
     plugins: {
-      '@typescript-eslint': tseslint,
+      "@typescript-eslint": tseslint,
     },
     rules: {},
+    // Biome handles formatting; Prettier config removed
     extends: [
-      'eslint:recommended',
-      'plugin:@typescript-eslint/recommended',
-      'plugin:import/recommended',
-      'prettier', // keeps ESLint from fighting Prettier
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:import/recommended",
     ],
   },
 ];

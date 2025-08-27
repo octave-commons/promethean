@@ -1,5 +1,7 @@
 import importlib
 
+import pytest
+
 
 def reload_settings():
     """Import and reload the settings module to apply environment changes."""
@@ -36,3 +38,15 @@ def test_overrides(monkeypatch):
     assert reloaded.AGENT_NAME == "eagle"
     assert reloaded.MIN_TEMP == 0.5
     assert reloaded.DEFAULT_CHANNEL == "456"
+
+
+def test_default_channel_required(monkeypatch):
+    """DEFAULT_CHANNEL must be provided via the environment."""
+    monkeypatch.delenv("DEFAULT_CHANNEL", raising=False)
+    monkeypatch.delenv("DEFAULT_CHANNEL_NAME", raising=False)
+    monkeypatch.delenv("AGENT_NAME", raising=False)
+    monkeypatch.delenv("MIN_TEMP", raising=False)
+    monkeypatch.setenv("DISCORD_TOKEN", "token")
+
+    with pytest.raises(KeyError):
+        reload_settings()

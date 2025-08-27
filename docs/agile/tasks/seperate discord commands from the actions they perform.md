@@ -460,4 +460,9 @@ export function attachBrokerBridge(store: { dispatch: (e: Event) => Promise<void
 ## 🔍 Relevant Links
 
 * \[\[kanban.md]]
+
+## Notes
+- Tests or documentation are missing; acceptance criteria not fully met.
+- Story Points: 3
+
 #in-progress

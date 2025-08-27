@@ -251,3 +251,9 @@ fix(embeddings): kill-on-disconnect/stall + admission control + heartbeat kill p
 ```
 
 \#tags #embeddings #reliability #heartbeat #watchdog #overload #backpressure #chaos #pm2 #broker #promethean
+
+## Notes
+- Tests or documentation are missing; acceptance criteria not fully met.
+- Story Points: 5
+
+#in-progress
