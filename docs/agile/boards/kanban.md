@@ -108,12 +108,12 @@ kanban-plugin: board
 
 ## Ready
 
-- [ ] [[create a generic markdown helper module]]
-- [ ] [[task generator system]]
-- [ ] [[redefine all existing lambdas with high order functions incoming]]
-- [ ] [[convert current services to packages, then redefine the services using config files]]
-- [ ] [[Phase out proxy in favor of bridge service]]
-- [ ] [[audio processing service]]
+- [ ] [[audio processing service]] (8 pts)
+- [ ] [[Phase out proxy in favor of bridge service]] (5 pts)
+- [ ] [[convert current services to packages, then redefine the services using config files]] (5 pts)
+- [ ] [[task generator system]] (3 pts)
+- [ ] [[create a generic markdown helper module]] (2 pts)
+- [ ] [[redefine all existing lambdas with high order functions incoming]] (1 pt)
 
 
 ## Todo (21)
