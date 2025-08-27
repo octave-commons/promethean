@@ -621,6 +621,9 @@ importers:
                 specifier: ^8.18.3
                 version: 8.18.3
         devDependencies:
+            '@biomejs/biome':
+                specifier: ^2.1.4
+                version: 2.2.2
             '@types/node':
                 specifier: ^22.17.2
                 version: 22.18.0
@@ -633,15 +636,6 @@ importers:
             c8:
                 specifier: ^9.1.0
                 version: 9.1.0
-            eslint:
-                specifier: ^8.57.0
-                version: 8.57.1
-            eslint-config-neon:
-                specifier: ^0.1.62
-                version: 0.1.62(eslint@8.57.1)(svelte@3.59.2)(typescript@5.7.3)
-            prettier:
-                specifier: ^3.4.2
-                version: 3.6.2
             rimraf:
                 specifier: ^6.0.1
                 version: 6.0.1
