@@ -4,6 +4,8 @@ Develop a metric for how "smooth" an interaction feels and use it to
 reinforce the agent. This could combine response latency, emotional
 stability from Eidolon, and user feedback.
 
+Generated from [../unique/2025.07.28.18.07.20.md](../unique/2025.07.28.18.07.20.md)
+
 ---
 
 ## 🎯 Goals
