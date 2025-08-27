@@ -14,6 +14,7 @@ test('handleTask publishes reply using broker', async (t) => {
             prompt: 'hello',
             context: [],
             format: null,
+            tools: [],
             replyTopic: 'topic',
         },
     };

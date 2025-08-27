@@ -19,7 +19,7 @@ test.after.always(() => {
 test('generate via websocket', async (t) => {
     const port = server.address().port;
     const ws = new WebSocket(`ws://127.0.0.1:${port}/generate`);
-    const payload = { prompt: 'hi', context: [], format: null };
+    const payload = { prompt: 'hi', context: [], format: null, tools: [] };
     const response = await new Promise((resolve, reject) => {
         ws.on('open', () => ws.send(JSON.stringify(payload)));
         ws.on('message', (msg) => {
