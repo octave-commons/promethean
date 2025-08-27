@@ -1,33 +1,42 @@
 import test from "ava";
-import { getMemoryBroker } from "@shared/ts/dist/test-utils/broker.js";
+import { WebSocketServer } from "ws";
 import { startKanbanProcessor } from "../src/index.js";
 
 function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-test("enqueues processing tasks for board and file changes (memory broker)", async (t) => {
-  process.env.BROKER_URL = "memory://kanban";
-  const broker = getMemoryBroker("kanban");
+test("enqueues processing tasks for board and file changes", async (t) => {
+  const wss = new WebSocketServer({ port: 0 });
+  const messages: any[] = [];
+  wss.on("connection", (ws) => {
+    ws.on("message", (m) => messages.push(JSON.parse(m.toString())));
+  });
+
+  const port = (wss.address() as any).port;
+  process.env.BROKER_URL = `ws://localhost:${port}`;
   const svc = startKanbanProcessor(process.cwd());
 
-  await wait(50);
-  // Simulate incoming events
-  broker.publish({ type: "file-watcher-board-change" });
-  broker.publish({ type: "file-watcher-task-change" });
   await wait(100);
+  t.truthy(messages.find((m) => m.action === "ready"));
 
-  t.truthy(broker.logs.find((m) => m.action === "ready" && m.data.queue));
+  for (const client of wss.clients) {
+    client.send(
+      JSON.stringify({ event: { type: "file-watcher-board-change" } }),
+    );
+    client.send(
+      JSON.stringify({ event: { type: "file-watcher-task-change" } }),
+    );
+  }
+
+  await wait(100);
   t.truthy(
-    broker.logs.find(
-      (m) => m.action === "enqueue" && m.data.task?.kind === "board",
-    ),
+    messages.find((m) => m.action === "enqueue" && m.task?.kind === "board"),
   );
   t.truthy(
-    broker.logs.find(
-      (m) => m.action === "enqueue" && m.data.task?.kind === "tasks",
-    ),
+    messages.find((m) => m.action === "enqueue" && m.task?.kind === "tasks"),
   );
 
   await svc.close();
+  await new Promise((r) => wss.close(r));
 });

@@ -120,9 +120,15 @@ export async function start(port = process.env.PORT || 5003) {
     }
   };
 
-  if (process.env.NODE_ENV !== "test") {
+  if (
+    process.env.NODE_ENV !== "test" ||
+    process.env.VISION_ENABLE_BROKER_TEST === "1"
+  ) {
     try {
-      broker = new BrokerClient({ id: process.env.name || "vision" });
+      const url =
+        process.env.BROKER_URL ||
+        `ws://127.0.0.1:${process.env.BROKER_PORT || 7000}`;
+      broker = new BrokerClient({ url, id: process.env.name || "vision" });
       await broker.connect();
       broker.onTaskReceived(async (task) => {
         broker.ack(task.id);
