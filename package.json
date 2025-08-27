@@ -28,7 +28,7 @@
         "zod": "3.25.76"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.2.2",
+        "@biomejs/biome": "^2.2.2",
         "@types/jest": "30.0.0",
         "@types/mongodb": "4.0.6",
         "@typescript-eslint/eslint-plugin": "8.39.0",

@@ -42,7 +42,7 @@ importers:
                 version: 3.25.76
         devDependencies:
             '@biomejs/biome':
-                specifier: 2.2.2
+                specifier: ^2.2.2
                 version: 2.2.2
             '@types/jest':
                 specifier: 30.0.0
@@ -441,7 +441,7 @@ importers:
                 version: 8.18.3
         devDependencies:
             '@biomejs/biome':
-                specifier: ^2.1.4
+                specifier: ^2.2.2
                 version: 2.2.2
             '@types/node':
                 specifier: ^22.17.2
@@ -977,7 +977,7 @@ importers:
                 version: 9.0.1
         devDependencies:
             '@biomejs/biome':
-                specifier: ^2.1.4
+                specifier: ^2.2.2
                 version: 2.2.2
             ava:
                 specifier: ^6.1.3
