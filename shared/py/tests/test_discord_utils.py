@@ -30,6 +30,17 @@ def test_get_or_create_channel_record_adds_cursor_field():
     collection.update_one.assert_called_once_with({"id": 1}, {"$set": {"cursor": None}})
 
 
+def test_get_or_create_channel_record_returns_existing():
+    collection = MagicMock()
+    collection.find_one.return_value = {"id": 1, "cursor": 7}
+
+    record = get_or_create_channel_record(collection, 1, "cursor")
+
+    assert record == {"id": 1, "cursor": 7}
+    collection.insert_one.assert_not_called()
+    collection.update_one.assert_not_called()
+
+
 def test_fetch_channel_history_without_cursor():
     messages = ["a", "b"]
     channel = MagicMock()
