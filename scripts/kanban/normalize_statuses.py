@@ -22,28 +22,9 @@ import re
 from pathlib import Path
 from typing import Iterable, List, Tuple, Optional
 
-TASK_DIR = Path("docs/agile/tasks")
+from agile_statuses import STATUS_SET as PROJECT_STATUS_SET  # type: ignore
 
-# Try project statuses; else fallback.
-try:  # pragma: no cover
-    from agile_statuses import STATUS_SET as PROJECT_STATUS_SET  # type: ignore
-except Exception:
-    PROJECT_STATUS_SET = {
-        "#ice-box",
-        "#incoming",
-        "#rejected",
-        "#accepted",
-        "#prompt-refinement",
-        "#agent-thinking",
-        "#breakdown",
-        "#blocked",
-        "#ready",
-        "#todo",
-        "#in-progress",
-        "#in-review",
-        "#document",
-        "#done",
-    }
+TASK_DIR = Path("docs/agile/tasks")
 
 
 def _norm_tag(s: str) -> str:
