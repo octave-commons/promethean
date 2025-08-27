@@ -70,6 +70,10 @@ Each queue represents a task type or target service. Over time, this model will 
 ---
 #in-progress
 
+## Blockers
+- Missing integration tests for push-based task delivery.
+- Shared broker client interface lacks documentation.
+
 ## Comments
 
 This is kind of done. But also kind of not. I am not a fan of *how* many of these services got broker access. It should all be through a shared broker client interface. Anything extra they need, needs to be encapsulated
