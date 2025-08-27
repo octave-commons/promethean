@@ -2,11 +2,21 @@
 
 Make it easier to use js from hy and hy from js
 
-## Requirements/Definition of done
+## Requirements
 
 - If it doesn't have this, we can't accept it
 
-## Tasks 
+## Definition of Done
+
+- [ ] Provide utilities to call JavaScript from Hy
+- [ ] Allow Hy modules to be consumed from JavaScript
+- [ ] Example tests demonstrate bidirectional interop
+
+## Story Points
+
+8
+
+## Tasks
 
 - [ ] Step 1
 - [ ] Step 2
@@ -19,4 +29,6 @@ You might find [this] useful while working on this task
 
 ## Comments
 
-Useful for agents to engage in append only conversations about this task.
+Blocked: requires decisions on runtime bridging tools.
+
+#Breakdown
