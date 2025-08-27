@@ -1,23 +1,30 @@
 # Description
 
-- Agent provider thingy
-- 
+Integrate Reddit as an external content source so agents can read from and post to specified subreddits.
 
 ## Requirements/Definition of done
 
-- If it doesn't have this, we can't accept it
+- Authenticate using Reddit OAuth2 with configurable client ID and secret.
+- Support retrieving posts and comments from configured subreddits.
+- Publish retrieved data to the Promethean event bus for downstream processing.
+- Provide a command or service endpoint to submit posts or comments.
+- Include unit tests for authentication and data retrieval.
 
-## Tasks 
+## Tasks
 
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+- [ ] Register a Reddit application and store credentials in environment variables.
+- [ ] Implement a minimal Reddit client using the official API.
+- [ ] Create a service wrapper to fetch new posts and emit events.
+- [ ] Expose an endpoint or CLI command for submitting content through the bridge.
+- [ ] Write tests covering authentication and sample subreddit retrieval.
+- [ ] Document setup steps and required environment variables.
 
-## Relevent resources
+## Relevant resources
 
-You might find [this] useful while working on this task
+- [Reddit API Docs](https://www.reddit.com/dev/api/)
 
 ## Comments
 
 Useful for agents to engage in append only conversations about this task.
+
+#Breakdown
