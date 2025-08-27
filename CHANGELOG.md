@@ -31,6 +31,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Expanded GitHub branching workflow documentation with branch naming, merge requirements, and CI expectations.
 - VoiceSynth implementation moved to shared module and imported by Cephalon service.
 - Refined Kanban breakdown tasks with clear goals, requirements, and subtasks.
 - Expanded task descriptions for Reddit, Bluesky, and Wikipedia integrations.
