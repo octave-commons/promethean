@@ -46,42 +46,42 @@ kanban-plugin: board
 - [ ] [Write a smoke test: client subscribes, publish 10 msgs, assert all ACKed](../tasks/write_a_smoke_test_client_subscribes_publish_10_ms_md.md) #rejected
 - [ ] [move all testing to individual services md](../tasks/move_all_testing_to_individual_services_md.md) #rejected
 
+## Migration Checklists
+
+- [ ] [[reports/persistence-migration-checklist.md|Persistence Migration Checklist]]
+
 ## Ice Box
 
-- [ ] [Add semantic overlays for layer1 through layer8](../tasks/add_semantic_overlays_for_layer1_through_layer8_md_md.md) #ice-box
-- [ ] [Annotate legacy code with migration tags](../tasks/annotate_legacy_code_with_migration_tags_md.md) #ice-box
-- [ ] [Define permission schema in AGENTS.md](../tasks/define_permission_schema_in_agents_1_md.md) #ice-box
-- [ ] [Design Ollama model file for use with codex CLI](../tasks/design_ollama_model_file_for_use_with_codex_cli.md) #ice-box
-- [ ] [Detect contradictions in memory](../tasks/detect_contradictions_in_memory_md_md.md) #ice-box
-- [ ] [Document-Driven Development for Service Scripts](../tasks/structure_vault_to_mirror_services_agents_docs_md_md.md) #ice-box
-- [ ] [Enable compactor for `process.state` → `process.state.snapshot`](../tasks/enable_compactor_for_process_state_process_state_s_md.md) #ice-box
-- [ ] [Evaluate and reward flow satisfaction](../tasks/evaluate_and_reward_flow_satisfaction.md) #ice-box
-- [ ] [Gather baseline emotion metrics for Eidolon field](../tasks/gather_baseline_emotion_metrics_for_eidolon_field_1_md.md) #ice-box
-- [ ] [Gather open questions about system direction](../tasks/gather_open_questions_about_system_direction_md_md.md) #ice-box
-- [ ] [Identify ancestral resonance patterns](../tasks/identify_ancestral_resonance_patterns_md_md.md) #ice-box
-- [ ] [Implement fragment ingestion with activation vectors](../tasks/implement_fragment_ingestion_with_activation_vecto_md.md) #ice-box
-- [ ] [Implement transcendence cascade](../tasks/implement_transcendence_cascade_md.md) #ice-box
-- [ ] [Integrate synthesis-agent pass on `unique/` to produce draft docs](../tasks/integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md.md) #ice-box
-- [ ] [Run `bench/subscribe.ts` with Mongo bus and record p50/p99](../tasks/run_bench_subscribe_ts_with_mongo_bus_and_record_p_md.md) #ice-box
-- [ ] [Run model bakeoff](../tasks/run_model_bakeoff_md.md) #ice-box
-- [ ] [Schedule alignment meeting with stakeholders](../tasks/schedule_alignment_meeting_with_stakeholders_md_md.md) #ice-box
-- [ ] [Snapshot prompts specs to repo](../tasks/snapshot_prompts_specs_to_repo.md) #ice-box
-- [ ] [Suggest metaprogramming updates](../tasks/suggest_metaprogramming_updates_md.md) #ice-box
-- [ ] [Wire MongoEventStore + MongoCursorStore in place of InMemory](../tasks/wire_mongoeventstore_mongocursorstore_in_place_of_md.md) #ice-box
-- [ ] [Write a small **cutover** script to replay historical events through upcasters into snapshots](../tasks/write_a_small_cutover_script_to_replay_historical_md.md) #ice-box
-- [ ] [add file system to context management system md md](../tasks/add_file_system_to_context_management_system_md_md.md) #ice-box
-- [ ] [allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md](../tasks/allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md.md) #ice-box
-- [ ] [allow old unnessisary messages to decay from database while retaining index entries ids md md](../tasks/allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md.md) #ice-box
-- [ ] [cache decay mechanisim md md](../tasks/cache_decay_mechanisim_md_md.md) #ice-box
-- [ ] [define codex cli baseg agent md md](../tasks/define_codex_cli_baseg_agent_md_md.md) #ice-box
-- [ ] [design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md](../tasks/design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md) #ice-box
-- [ ] [discord chat link traversal md md](../tasks/discord_chat_link_traversal_md_md.md) #ice-box
-- [ ] [obsidian replacement md](../tasks/obsidian_replacement_md.md) #ice-box
-- [ ] [reach 100 percent complete test coverage 1 md md](../tasks/reach_100_percent_complete_test_coverage_1_md_md.md) #ice-box
-- [ ] [setup a second agent md](../tasks/setup_a_second_agent_md.md) #ice-box
-- [ ] [thinking model integration md md](../tasks/thinking_model_integration_md_md.md) #ice-box
-- [ ] [tool chain management system md md](../tasks/tool_chain_management_system_md_md.md) #ice-box
-- [ ] [twitch discord general auto mod md md](../tasks/twitch_discord_general_auto_mod_md_md.md) #ice-box
+- [ ] [[Find music that triggered copyright mute on twitch for analysis incoming]]
+- [ ] [[evaluate_and_reward_flow_satisfaction_md_md.md|Evaluate and reward flow satisfaction]] #framework-core #ice-box
+- [ ] [[finish_whisper_npu_system_md_md.md|finish whisper npu system md md]] #framework-core #performance-optimization #npu-integration #accepted
+- [ ] [[implement_fragment_ingestion_with_activation_vecto_md.md|Implement fragment ingestion with activation vectors]] #framework-core #ice-box
+- [ ] [[schedule_alignment_meeting_with_stakeholders_md_md.md|Schedule alignment meeting with stakeholders]] #framework-core #ice-box
+- [ ] [[write_a_small_cutover_script_to_replay_historical_md.md|Write a small **cutover** script to replay historical events through upcasters into snapshots]] #ice-box
+- [ ] [[define_codex_cli_baseg_agent_md_md.md|define codex cli baseg agent md md]] #framework-core #ice-box
+- [ ] [[discord_chat_link_traversal_md_md.md|discord chat link traversal md md]] #framework-core #ice-box
+- [ ] [[obsidian_replacement_md.md|obsidian replacement md]] #framework-core #ice-box
+- [ ] [[reach_100_percent_complete_test_coverage_1_md_md.md|reach 100 percent complete test coverage 1 md md]] #framework-core #ice-box
+- [ ] [[snapshot_prompts_specs_to_repo_md_md.md|snapshot prompts specs to repo md md]] #ice-box
+- [ ] [[tool_chain_management_system_md_md.md|tool chain management system md md]] #framework-core #ice-box
+- [ ] [[implement_fragment_ingestion_with_activation_vecto_md.md|Implement fragment ingestion with activation vectors #codex-task]] #framework-core #ice-box
+- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance (in memory, on disk, cold storage, so )]] #framework-core #ice-box
+- [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
+- [ ] [[identify_ancestral_resonance_patterns_md_md.md|Identify ancestral resonance patterns]] #framework-core #ice-box
+- [ ] [[implement_fragment_ingestion_with_activation_vecto_md.md|Implement fragment ingestion with activation vectors]] #framework-core #ice-box
+- [ ] [[thinking_model_integration_md_md.md|Thinking Model integration.md]] #framework-core #ice-box
+- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md.md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #ice-box
+- [ ] [[schedule_alignment_meeting_with_stakeholders_md_md.md|Schedule alignment meeting with stakeholders]] #framework-core #ice-box
+- [ ] [[write_a_small_cutover_script_to_replay_historical_md.md|Write a small **cutover** script to replay historical events through upcasters into snapshots]] #ice-box
+- [ ] [[tool_chain_management_system_md_md.md|Tool chain management system.md]] #framework-core #ice-box
+- [ ] [[wire_mongoeventstore_mongocursorstore_in_place_of_md.md|Wire MongoEventStore + MongoCursorStore in place of InMemory]] #rejected
+- [ ] [[snapshot_prompts_specs_to_repo_md_md.md|Snapshot prompts and specs to repo]] #ice-box
+- [ ] [[annotate_legacy_code_with_migration_tags_md.md|Annotate legacy code with migration tags]] #framework-core #ice-box
+- [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md.md|Allow configuration of hyperparameters through discord (context size, spectrogram resolution, interuption threshold]] #framework-core #ice-box
+- [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md.md|Add semantic overlays for layer1 through layer8]] #layerX #framework-core #ice-box
+- [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #ice-box
+- [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #framework-core #ice-box
+- [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
 
 ## Incoming
 
@@ -117,40 +117,21 @@ kanban-plugin: board
 
 ## Accepted
 
-- [ ] [Add **withDLQ** around risky consumers; set `maxAttempts`](../tasks/add_withdlq_around_risky_consumers_set_maxattempts_md.md) #accepted
-- [ ] [Extract docs from riatzukiza.github.io](../tasks/extract_docs_from_riatzukiza_github_io_md_md.md) #accepted
-- [ ] [Extract site modules from riatzukiza.github.io](../tasks/extract_site_modules_from_riatzukiza_github_io_md_md.md) #accepted
-- [ ] [File explorer](../tasks/File%20explorer.md) #accepted
-- [ ] [Migrate portfolio client code to Promethean](../tasks/migrate_portfolio_client_code_to_promethean_md.md) #accepted
-- [ ] [Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`](../tasks/migrating_relevant_modules_from_riatzukiza_github_md.md) #accepted
-- [ ] [Promethean Health Dashboard](../tasks/Promethean%20Health%20Dashboard.md) #accepted
-- [ ] [Set up proper openai custom gpt compatable oauth login flow](../tasks/Set%20up%20proper%20openai%20custom%20gpt%20compatable%20oauth%20login%20flow.md) #accepted
-- [ ] [clean up notes into design docs md](../tasks/clean_up_notes_into_design_docs_md.md) #accepted
-- [ ] [discord link indexer md](../tasks/discord_link_indexer_md.md) #accepted
-- [ ] [finish whisper npu system md md](../tasks/finish_whisper_npu_system_md_md.md) #accepted
-- [ ] [gpt bridge fuzzy lookup should return multiple matches when it is used.](../tasks/gpt%20bridge%20fuzzy%20lookup%20should%20return%20multiple%20matches%20when%20it%20is%20used..md) #accepted
-- [ ] [move discord scraper to ts](../tasks/move%20discord%20scraper%20to%20ts.md) #accepted
-- [ ] [setup code in wsl md](../tasks/setup_code_in_wsl_md.md) #accepted
-- [ ] [setup new service generator](../tasks/setup%20new%20service%20generator.md) #accepted
-- [ ] [twitch stream title generator md md](../tasks/twitch_stream_title_generator_md_md.md) #accepted
-- [ ] [write end to end tests md md](../tasks/write_end_to_end_tests_md_md.md) #accepted
+- [ ] [[LLM service must allow streamed responses]]
+- [ ] [[Set up new user roles and policies for the systems]]
+- [ ] [[tamper monkey script for using templates defined in the vault]]
+- [ ] [[Make the system hashtag aware]]
+- [ ] [[Add codex layer to emacs]]
 
-## Breakdown
+## Breakdown (13)
 
-- [ ] [LLM service must accept tool calls](../tasks/LLM%20service%20must%20accept%20tool%20calls.md) #breakdown
-- [ ] [Phase out proxy in favor of bridge service](../tasks/Phase%20out%20proxy%20in%20favor%20of%20bridge%20service.md) #breakdown
-- [ ] [audio processing service](../tasks/audio%20processing%20service.md) #breakdown
-- [ ] [clearly standardize data models](../tasks/clearly%20standardize%20data%20models.md) #breakdown
-- [ ] [convert current services to packages, then redefine the services using config files](../tasks/convert%20current%20services%20to%20packages%2C%20then%20redefine%20the%20services%20using%20config%20files.md) #breakdown
-- [ ] [create a generic markdown helper module](../tasks/create%20a%20generic%20markdown%20helper%20module.md) #breakdown
-- [ ] [describe github branching workflow md](../tasks/describe_github_branching_workflow_md.md) #breakdown
-- [ ] [dockerize the system](../tasks/dockerize%20the%20system.md) #breakdown
-- [ ] [flatten services](../tasks/flatten%20services.md) #breakdown
-- [ ] [frontend build tool chain](../tasks/frontend%20build%20tool%20chain.md) #breakdown
-- [ ] [lisp package files](../tasks/lisp%20package%20files.md) #breakdown
-- [ ] [redefine all existing lambdas with high order functions incoming](../tasks/redefine%20all%20existing%20lambdas%20with%20high%20order%20functions%20incoming.md) #breakdown
-- [ ] [refactor speech interuption system to be more inteligent using audio data to decide if interupted md md](../tasks/refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md.md) #breakdown
-- [ ] [task generator system](../tasks/task%20generator%20system.md) #breakdown
+- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #ice-box
+- [ ] [[thinking_model_integration_md_md.md|thinking model integration md md]] #framework-core #ice-box
+- [ ] [[connect reddit]]
+- [ ] [[connect bluesky]]
+- [ ] [[connect wikipedia]]
+- [ ] [[lisp ecosystem files]]
+- [ ] [[hy - js interop]]
 
 ## Ready
 
@@ -165,14 +146,29 @@ kanban-plugin: board
 
 ## In Progress
 
-- [ ] [breakdown cephalon voice commands file using ecs](../tasks/breakdown%20cephalon%20voice%20commands%20file%20using%20ecs.md) #in-progress
-- [ ] [seperate discord commands from the actions they perform](../tasks/seperate%20discord%20commands%20from%20the%20actions%20they%20perform.md) #in-progress
-
-## In Review
+## In Progress (21)
 
 - [ ] [Update cephalon to use custom embedding function](../tasks/update_cephalon_to_use_custom_embedding_function_md_md.md) #in-review
 - [ ] [identify and resolve a service client apparently connecting repeatedly to broker with new session ids](../tasks/identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids.md) #in-review
 - [ ] [setup services to recieve work from the broker via push md](../tasks/setup_services_to_recieve_work_from_the_broker_via_push_md.md) #in-review
+
+## In Review (34)
+
+- [ ] [[setup new service generator]]
+- [ ] [[Webcrawler]]
+- [ ] [[set up data migration pipeline and clearly describe conventions]]
+- [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] #framework-core #ollama-integration #stream-automation #accepted
+- [ ] [[File explorer]]
+- [ ] [[implement classes in compiler lisp incoming]]
+- [ ] [[MVP local LLM chat interface with tool calls connected to gpt bridge]]
+- [ ] [[discord_image_awareness_md_md.md|discord image awareness.md]] #framework-core #ollama-integration #multimodal-context #accepted
+- [ ] [[implement defun in compiler lisp incoming]]
+- [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
+- [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
+- [ ] [[Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #accepted
+- [ ] [[seperate discord commands from the actions they perform]] #in-progress
+- [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
+- [ ] [[breakdown cephalon voice commands file using ecs]] #in-progress
 
 ## Done
 
@@ -204,6 +200,65 @@ kanban-plugin: board
 - [ ] [update GitHub Actions to use Makefile](../tasks/update_github_actions_to_use_makefile_md_md.md) #done
 - [ ] [write simple ecosystem declaration library for new agents](../tasks/write_simple_ecosystem_declaration_library_for_new_md_md.md) #done
 
+## Rejected
+
+- [ ] [[enable_compactor_for_process_state_process_state_s_md.md|Enable compactor for `process.state` → `process.state.snapshot`]] #rejected
+- [ ] [[run_bench_subscribe_ts_with_mongo_bus_and_record_p_md.md|Run \`bench/subscribe.ts\` with Mongo bus and record p50/p99]] #rejected
+- [ ] [[flatten sibilant src folders]]
+- [ ] [[write_end_to_end_tests_md_md.md|write end to end tests md md]] #framework-core #accepted
+- [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md.md|Migrate server side sibilant libs to Promethean architecture.]] #rejected
+- [ ] [[add_withdlq_around_risky_consumers_set_maxattempts_md.md|Add **withDLQ** around risky consumers; set `maxAttempts`]] #rejected
+- [ ] [[Decouple Audio Processing Logic From Discord|Split out audio processing logic to a seperate service without changing the current behavior in cephalon.md]] #framework-core #ready
+- [ ] [[snapshot_prompts_specs_to_repo_md.md|snapshot prompts specs to repo md]] #rejected
+- [ ] [[add_startchangelogprojector_for_any_compaction_lik_md.md|Add **startChangelogProjector** for any compaction-like topic you want live-queryable]] #rejected
+- [ ] [[add_ollama_formally_to_pipeline_md_md.md|Add Ollama formally to pipeline]] #rejected
+- [ ] [[add_prometheus_events_counters_in_ws_server_hook_p_md.md|Add Prometheus `events_*` counters in WS server hook points]] #rejected
+- [ ] [[add_ttls_per_topic_via_migration_script_md.md|Add TTLs per topic via migration script]] #rejected
+- [ ] [[add_lag_checks_to_ci_smoke_ensure_small_lag_after_md.md|Add `/lag` checks to CI smoke (ensure small lag after publishing bursts)]] #rejected
+- [ ] [[add_ops_endpoint_to_list_partition_assignments_opt_md.md|Add `/ops` endpoint to list **partition assignments** (optional: dump coordinator state)]] #rejected
+- [ ] [[add_mongodedupe_and_replace_critical_consumers_wit_md.md|Add `MongoDedupe` and replace critical consumers with `subscribeExactlyOnce`]] #rejected
+- [ ] [[add_mongooutbox_to_any_service_that_writes_db_chan_md.md|Add `MongoOutbox` to any service that writes DB changes; swap local app emits → outbox writes]] #rejected
+- [ ] [[add_tokenbucket_to_ws_server_conn_per_topic_md.md|Add `TokenBucket` to WS server (conn + per-topic)]] #rejected
+- [ ] [[add_dev_harness_int_test_ts_to_ci_integration_stag_md.md|Add `dev.harness.int.test.ts` to CI integration stage]] #rejected
+- [ ] [[add_manualack_to_event_bus_and_re_run_tests_md.md|Add `manualAck` to event bus and re-run tests]] #rejected
+- [ ] [[add_process_txn_projector_to_upsert_processes_host_md.md|Add `process.txn` projector to upsert `processes` + `host_stats` atomically]] #rejected
+- [ ] [[add_snapshot_consumer_to_warm_cache_on_boot_md.md|Add snapshot consumer to warm cache on boot]] #rejected
+- [ ] [[add_vault_instructions_to_main_readme_md_md_md.md|Add vault instructions to main README.md]] #framework-core #rejected
+- [ ] [[define_default_scopes_publish_heartbeat_received_s_md.md|Define default scopes: `publish:heartbeat.received`, `subscribe:process.state`]] #rejected
+- [ ] [[deploy_changefeed_for_collections_you_want_mirrore_md.md|Deploy **changefeed** for collections you want mirrored to topics]] #rejected
+- [ ] [[detect_contradictions_in_memory_codex_task_md.md|Detect contradictions in memory #codex-task]] #codex-task #rejected
+- [ ] [[document_etag_semantics_and_cache_headers_for_snap_md.md|Document ETag semantics and cache headers for `/snap/:key`]] #rejected
+- [ ] [[enable_scripts_lint_topics_ts_in_ci_md.md|Enable **scripts/lint-topics.ts** in CI]] #rejected
+- [ ] [[ensure_github_compatible_markdown_settings_are_doc_md.md|Ensure GitHub-compatible markdown settings are documented]] #documentation #rejected
+- [ ] [[ensure_mongo_indexes_key_1_unique_common_query_fie_md.md|Ensure Mongo indexes: `{ _key: 1 } unique` + common query fields]] #rejected
+- [ ] [[evaluate_and_reward_flow_satisfaction_framework_co_md.md|Evaluate and reward flow satisfaction #framework-core]] #framework-core #rejected
+- [ ] [[expose_snapshot_api_for_processes_collection_proce_md.md|Expose **Snapshot API** for `processes` (collection `processes`)]] #rejected
+- [ ] [[expose_metrics_on_an_express_app_and_scrape_with_p_md.md|Expose `/metrics` on an express app and scrape with Prom]] #rejected
+- [ ] [[finalize_stt_workflow_md_md.md|Finalize STT workflow]] #codex-task #testing #rejected
+- [ ] [[identify_ancestral_resonance_patterns_framework_co_md.md|Identify ancestral resonance patterns #framework-core]] #framework-core #rejected
+- [ ] [[implement_pause_resume_ops_on_gateway_md.md|Implement `PAUSE/RESUME` ops on gateway]] #rejected
+- [ ] [[implement_timetravel_processat_processid_t_in_a_sm_md.md|Implement `timetravel.processAt(processId, T)` in a small CLI for debugging]] #rejected
+- [ ] [[implement_transcendence_cascade_framework_core_md.md|Implement transcendence cascade #framework-core]] #framework-core #rejected
+- [ ] [[launch_replayapi_on_8083_test_replay_and_export_nd_md.md|Launch `ReplayAPI` on `:8083`; test `/replay` and `/export?ndjson=1`]] #rejected
+- [ ] [[register_v_1_schema_for_any_evolving_topic_and_wri_md.md|Register **v+1** schema for any evolving topic and write minimal **upcaster**]] #rejected
+- [ ] [[spin_up_ws_gateway_ws_port_8090_ws_token_devtoken_md.md|Spin up WS gateway (`WS_PORT=8090 WS_TOKEN=devtoken node index.js`)]] #rejected
+- [ ] [[suggest_metaprogramming_updates_codex_task_md.md|Suggest metaprogramming updates #codex-task]] #codex-task #rejected
+- [ ] [[summarize_clarified_priorities_for_next_sprint_md_md.md|Summarize clarified priorities for next sprint]] #framework-core #reject #rejected
+- [ ] [[switch_critical_readers_to_subscribenormalized_md.md|Switch critical readers to **subscribeNormalized**]] #rejected
+- [ ] [[switch_gateway_auth_to_jwt_generate_temp_hs256_tok_md.md|Switch gateway auth to JWT; generate temp HS256 token for dev]] #rejected
+- [ ] [[use_subscribepartitioned_for_cpu_heavy_consumers_t_md.md|Use **subscribePartitioned** for CPU-heavy consumers; tune `partitions` (power of 2 is fine)]] #rejected
+- [ ] [[wire_runoutboxdrainer_in_event_hub_md.md|Wire `runOutboxDrainer` in event-hub]] #rejected
+- [ ] [[wrap_event_hub_publish_path_with_withschemavalidat_md.md|Wrap `event-hub` publish path with **withSchemaValidation**; fail fast on bad payloads]] #rejected
+- [ ] [[wrap_writers_with_withdualwrite_md.md|Wrap writers with **withDualWrite**]] #rejected
+- [ ] [[write_a_replay_job_that_replays_process_state_snap_md.md|Write a replay job that replays `process.state.snapshot` to warm the `processes` collection]] #rejected
+- [ ] [[write_a_smoke_test_client_subscribes_publish_10_ms_md.md|Write a smoke test: client subscribes, publish 10 msgs, assert all ACKed]] #rejected
+- [ ] [[move_all_testing_to_individual_services_md.md|move all testing to individual services md]] #Duplicate #rejected
+- [ ] [[annotate_legacy_code_with_migration_tags_md.md|Annotate legacy code with migration tags]] #framework-core #rejected
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md.md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #rejected
+- [ ] [[create_permission_gating_layer_codex_task_md.md|Create permission gating layer #codex-task]] #codex-task #rejected
+- [ ] [[create_permission_gating_layer_framework_core_md.md|Create permission gating layer #framework-core]] #framework-core #rejected
+- [ ] [[write_a_small_cutover_script_to_replay_historical_md.md|Write a small \*\*cutover\*\* script to replay historical events through upcasters into snapshots]] #rejected
+- [ ] [[write_vault_config_readme_md_for_obsidian_vault_on_md.md|Write vault-config README.md for Obsidian vault onboarding]] #framework-core #rejected
 ## Archive
 
 - [ ] [Add unit tests for GUI helpers](../tasks/add_unit_tests_for_gui_helpers_md_md.md) #archive
@@ -221,7 +276,17 @@ kanban-plugin: board
 - [ ] [prevent dangling processes when a process fails due to error or automaticly clean them up 1 md md](../tasks/prevent_dangling_processes_when_a_process_fails_due_to_error_or_automaticly_clean_them_up_1_md_md.md) #archive
 - [ ] [send waveforms spectrograms and dekstop screenshots to discord for remote storage md md](../tasks/send_waveforms_spectrograms_and_dekstop_screenshots_to_discord_for_remote_storage_md_md.md) #archive
 
+---
+
+## Archive
+
+- [ ] [[clean_up_notes_into_design_docs_md.md|clean up notes into design docs md]] #framework-core #agent-thinking #accepted
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md.md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #accepted
+- [ ] [[Curate code from personal repository]]
+- [ ] [[extract_docs_from_riatzukiza_github_io_md_md.md|Extract docs from riatzukiza.github.io]] #framework-core #accepted
+
 %% kanban:settings
+
 ```
 {"kanban-plugin":"board","list-collapse":[false,false,true,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
