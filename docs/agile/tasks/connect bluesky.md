@@ -27,7 +27,22 @@ Enable agents to interact with Bluesky using the AT Protocol APIs and app-passwo
 - [ ] Integration tests for posting and retrieval
 - [ ] Unit tests for session refresh and error paths
 
-## Relevant resources
+## Dependencies
+
+- AT Protocol client library
+- Bluesky developer account
+
+## Rough Scope
+
+- Authenticate with Bluesky using AT Protocol
+- Implement message retrieval and posting
+- Map data into existing messaging schema
+
+## Estimate
+
+- Story points: 3
+
+## Relevent resources
 
 You might find [Bluesky API docs](https://docs.bsky.app/docs/api) useful while working on this task
 
@@ -35,4 +50,4 @@ You might find [Bluesky API docs](https://docs.bsky.app/docs/api) useful while w
 
 Useful for agents to engage in append only conversations about this task.
 
-#Breakdown
+#Ready
