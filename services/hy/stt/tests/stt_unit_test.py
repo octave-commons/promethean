@@ -8,13 +8,15 @@ import pytest
 
 
 @pytest.fixture(autouse=True)
-def stub_wisper_module(monkeypatch):
+def stub_whisper_module(monkeypatch):
     mock_module = types.SimpleNamespace(
         transcribe_pcm=lambda *a, **k: "transcribed text"
     )
-    sys.modules["shared.py.speech.wisper_stt"] = mock_module
+    sys.modules["shared.py.speech.whisper_stt"] = mock_module
+    sys.modules["lib.speech.whisper_stt"] = mock_module
     yield
-    sys.modules.pop("shared.py.speech.wisper_stt", None)
+    sys.modules.pop("shared.py.speech.whisper_stt", None)
+    sys.modules.pop("lib.speech.whisper_stt", None)
 
 
 @pytest.fixture

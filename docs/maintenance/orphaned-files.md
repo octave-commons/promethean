@@ -11,5 +11,5 @@ python scripts/batch_transcribe.py
 ```
 
 The script scans `data/raw-wav/` for WAV files and runs each available
-`transcribe_pcm` implementation (e.g. `shared.py.speech.wisper_stt`).
+`transcribe_pcm` implementation (e.g. `shared.py.speech.whisper_stt`).
 Results are written to `data/transcripts/{model_name}/<basename>.txt`.
