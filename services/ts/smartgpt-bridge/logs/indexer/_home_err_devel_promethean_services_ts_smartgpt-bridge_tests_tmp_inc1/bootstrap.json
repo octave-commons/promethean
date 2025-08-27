@@ -1,22 +1,22 @@
 {
   "mode": "indexed",
-  "cursor": 3,
+  "cursor": 4,
   "fileList": ["b.txt", "c.md", "d.txt"],
   "fileInfo": {
     "b.txt": {
       "size": 14,
-      "mtimeMs": 1756315829280.6619
+      "mtimeMs": 1756316913316.9436
     },
     "c.md": {
       "size": 9,
-      "mtimeMs": 1756315829253.662
+      "mtimeMs": 1756316913272.943
     },
     "d.txt": {
       "size": 5,
-      "mtimeMs": 1756315829280.6619
+      "mtimeMs": 1756316913317.9436
     }
   },
-  "startedAt": 1756315829255,
-  "finishedAt": 1756315829285,
+  "startedAt": 1756316913275,
+  "finishedAt": 1756316913323,
   "rootPath": "/home/err/devel/promethean/services/ts/smartgpt-bridge/tests/tmp/inc1"
 }
