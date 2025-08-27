@@ -26,6 +26,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Shared dependency specifications for Discord indexer services.
 - Centralized Biome configuration at `templates/ts/biome.base.json` referenced by Discord bot template and Markdown Graph service.
 
+- Tests covering `scripts.add_tags_ollama` tag generation and file processing.
+
 ### Changed
 
 - VoiceSynth implementation moved to shared module and imported by Cephalon service.
