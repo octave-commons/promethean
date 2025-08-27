@@ -1,7 +1,5 @@
 ---
-
 kanban-plugin: board
-
 ---
 
 ## 📊 Strategic Graphs
@@ -12,11 +10,9 @@ kanban-plugin: board
 - [ ] [[architecture/hy-migration-graph.md|Hy Migration Graph]]
 - [ ] [[architecture/persistence-migration-graph.md|DualStore Migration Graph]]
 
-
 ## Migration Checklists
 
 - [ ] [[reports/persistence-migration-checklist.md|Persistence Migration Checklist]]
-
 
 ## Ice Box
 
@@ -51,11 +47,10 @@ kanban-plugin: board
 - [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #framework-core #ice-box
 - [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
 
-
 ## Incoming
 
 - [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md.md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #framework-core #ice-box
-- [ ] [[Design Ollama Model file for use with codex cli 1]]
+- [ ] [[Design Ollama Model file for use with codex cli 1]] #breakdown
 - [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|Refactor Speech interuption system]] #framework-core #breakdown
 - [ ] [[identify_ancestral_resonance_patterns_md_md.md|Identify ancestral resonance patterns]] #framework-core #ice-box
 - [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #framework-core #ice-box
@@ -78,7 +73,6 @@ kanban-plugin: board
 - [ ] [[Promethean Health Dashboard|Web frontend for system management.md]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #ice-box
 - [ ] [[setup_a_second_agent_md.md|setup a second agent md]] #framework-core #ice-box
 
-
 ## Accepted
 
 - [ ] [[LLM service must allow streamed responses]]
@@ -94,7 +88,6 @@ kanban-plugin: board
 - [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #ice-box
 - [ ] [[Add codex layer to emacs]]
 
-
 ## Breakdown (13)
 
 - [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #ice-box
@@ -104,7 +97,6 @@ kanban-plugin: board
 - [ ] [[connect wikipedia]]
 - [ ] [[lisp ecosystem files]]
 - [ ] [[hy - js interop]]
-
 
 ## Ready
 
@@ -122,10 +114,7 @@ kanban-plugin: board
 - [ ] [[Phase out proxy in favor of bridge service]]
 - [ ] [[audio processing service]]
 
-
 ## Todo (21)
-
-
 
 ## In Progress (21)
 
@@ -151,7 +140,6 @@ kanban-plugin: board
 - [ ] [[Agent Tasks Persistence Migration to DualStore]]
 - [ ] [[Create broker services that can handle all the same tasks as the gpt bridge]]
 
-
 ## In Review (34)
 
 - [ ] [[setup new service generator]]
@@ -169,7 +157,6 @@ kanban-plugin: board
 - [ ] [[seperate discord commands from the actions they perform]] #in-progress
 - [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
 - [ ] [[breakdown cephalon voice commands file using ecs]] #in-progress
-
 
 ## Done
 
@@ -248,7 +235,6 @@ kanban-plugin: board
 - [ ] [[create_permission_gating_layer_1_md_md.md|Create permission gating layer]] #framework-core #done
 - [ ] [[document_board_usage_guidelines_1_md.md|Document board usage guidelines]] #framework-core #done
 - [ ] [[start_eidolon_md_md.md|Start Eidolon]] #framework-core #done
-
 
 ## Rejected
 
@@ -407,7 +393,6 @@ kanban-plugin: board
 - [ ] [[launch_replayapi_on_8083_test_replay_and_export_nd_md.md|Launch \`ReplayAPI\` on \`:8083\`; test \`/replay\` and \`/export?ndjson\=1\`]] #rejected
 - [ ] [[enable_compactor_for_process_state_process_state_s_md.md|Enable compactor for \`process.state\` → \`process.state.snapshot\`]] #rejected
 
-
 ## Archive
 
 - [ ] [[context service]]
@@ -452,8 +437,7 @@ kanban-plugin: board
 - [ ] [[add_unit_tests_for_gui_helpers_md_md.md|Add unit tests for GUI helpers]] #codex-task #testing #archive
 - [ ] [[build_tiny_web_page_that_uses_promclient_in_the_br_md.md|Build tiny web page that uses `PromClient` in the browser to show live `process.state` (optional)]] #archive
 
-
-***
+---
 
 ## Archive
 
@@ -463,7 +447,9 @@ kanban-plugin: board
 - [ ] [[extract_docs_from_riatzukiza_github_io_md_md.md|Extract docs from riatzukiza.github.io]] #framework-core #accepted
 
 %% kanban:settings
+
 ```
 {"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false,false,false,false,false,false,true,false,false],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
+
 %%
