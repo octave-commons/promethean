@@ -32,6 +32,7 @@ Environment variables:
   index/remove requests (default `2000`). Higher values reduce request volume.
 - `SMARTGPT_BRIDGE_TOKEN` (optional) – bearer token for SmartGPT Bridge.
 
-Run the service with `./run.sh` (requires `pnpm`); the script checks for the
-package manager and prints setup instructions if it's missing. Use
-`pnpm run start:dev` during development to watch TypeScript files.
+Run the service with `./run.sh`, a symlink to the shared `services/ts/run.sh`
+script (requires `pnpm`); the script checks for the package manager and prints
+setup instructions if it's missing. Use `pnpm run start:dev` during development
+to watch TypeScript files.
