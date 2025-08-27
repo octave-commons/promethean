@@ -279,6 +279,11 @@ def main() -> None:
     )
     ap.add_argument("--write", action="store_true", help="Write changes to board")
     ap.add_argument(
+        "--check",
+        action="store_true",
+        help="Exit with error if board differs from generated output",
+    )
+    ap.add_argument(
         "--wikilinks", action="store_true", help="Use wikilinks instead of markdown"
     )
     ap.add_argument(
@@ -300,7 +305,10 @@ def main() -> None:
         encode_urls=args.encode_urls,
     )
 
-    if args.write:
+    existing = args.board.read_text(encoding="utf-8") if args.board.exists() else ""
+    changed = board_text != existing
+
+    if args.write and changed:
         args.board.parent.mkdir(parents=True, exist_ok=True)
         with tempfile.NamedTemporaryFile(
             "w", encoding="utf-8", delete=False, dir=args.board.parent
@@ -308,8 +316,11 @@ def main() -> None:
             tmp.write(board_text)
             tmp_name = tmp.name
         os.replace(tmp_name, args.board)
-    else:
+    elif not args.write:
         print(board_text, end="")
+
+    if args.check and changed:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":
