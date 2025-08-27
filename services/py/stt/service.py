@@ -15,7 +15,7 @@ async def process_task(client, task):
         return
     pcm_bytes = pcm_from_base64(pcm_b64)
     # Import inside the function so tests can monkeypatch sys.modules
-    from shared.py.speech.wisper_stt import transcribe_pcm as _transcribe_pcm
+    from shared.py.speech.whisper_stt import transcribe_pcm as _transcribe_pcm
 
     text = _transcribe_pcm(pcm_bytes, sample_rate)
     await client.publish("stt.transcribed", {"text": text}, correlationId=task["id"])
