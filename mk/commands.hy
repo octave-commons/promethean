@@ -1,7 +1,7 @@
-(require macros [ define-service-list defn-cmd ])
+(require mk.macros [ define-service-list defn-cmd ])
 
 (import shutil [which])
-(import util [sh run-dirs safe-rm-globs])
+(import mk.util [sh run-dirs safe-rm-globs])
 (import dotenv [load-dotenv])
 (import os.path [isdir isfile join basename])
 (import shutil [copyfile])
