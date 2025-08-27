@@ -58,6 +58,11 @@ repos:
         pass_filenames: false
         files: ^tests/fixtures/migrations/
         stages: [manual]
+      - id: secret-scan
+        name: Scan for forbidden tokens
+        entry: bash scripts/ci/secret_scan.sh
+        language: system
+        pass_filenames: false
 
   - repo: https://github.com/psf/black
     rev: 24.4.2
