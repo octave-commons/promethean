@@ -60,4 +60,9 @@ Nothing
 ## 🔍 Relevant Links
 - [kanban](../boards/kanban.md)
 - [pseudo/eidolon-field-scratchpad.lisp](../../pseudo/eidolon-field-scratchpad.lisp)
-#in-review
+#in-progress
+
+## Blockers
+- Embedding service implementation not linked.
+- Unit and integration tests for wrapper and service missing.
+- Documentation for the new embedding workflow is absent.
