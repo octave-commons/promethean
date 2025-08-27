@@ -1,11 +1,5 @@
-import os
-import sys
-import pytest
 import numpy as np
-
-sys.path.insert(
-    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
-)
+import pytest
 
 from shared.py.utils.wav_processing import (
     pad_tensor,

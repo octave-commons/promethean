@@ -1,10 +1,6 @@
-import sys
-from pathlib import Path
+"""Tests for ``scripts.kanban.hashtags_to_kanban``."""
 
-ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / "scripts"))
-
-import kanban.hashtags_to_kanban as hk
+import scripts.kanban.hashtags_to_kanban as hk
 
 
 def test_parse_task_with_status(tmp_path):
