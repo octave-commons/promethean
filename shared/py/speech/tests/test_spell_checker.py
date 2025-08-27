@@ -1,5 +1,7 @@
+import importlib
 import os
 import sys
+
 import pytest
 
 sys.path.insert(
@@ -9,6 +11,10 @@ sys.path.insert(
 from shared.py.speech import spell_checker
 
 
+@pytest.mark.skipif(
+    os.getenv("PROMETHEAN_SKIP_SPELL_MODEL") == "1",
+    reason="Model loading disabled",
+)
 @pytest.mark.parametrize(
     "sentence,expected",
     [
@@ -19,3 +25,10 @@ from shared.py.speech import spell_checker
 )
 def test_correct_returns_expected_sentence(sentence, expected):
     assert spell_checker.correct(sentence) == expected
+
+
+def test_correct_returns_input_when_model_disabled(monkeypatch):
+    monkeypatch.setenv("PROMETHEAN_SKIP_SPELL_MODEL", "1")
+    importlib.reload(spell_checker)
+    sentence = "He don't know nothing"
+    assert spell_checker.correct(sentence) == sentence
