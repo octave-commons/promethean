@@ -1,10 +1,12 @@
-import os, sys, types, importlib, wave
-from fastapi.testclient import TestClient
+"""Tests for ``services.py.tts.app`` websocket endpoint."""
+
+import importlib
+import sys
+import types
+import wave
 from unittest.mock import patch
 
-ROOT_DIR = os.path.join(os.path.dirname(__file__), "../../../../")
-sys.path.insert(0, os.path.join(ROOT_DIR, "shared", "py"))
-sys.path.insert(0, ROOT_DIR)
+from fastapi.testclient import TestClient
 
 
 def dummy_write(file, audio, samplerate, format=None, subtype=None):

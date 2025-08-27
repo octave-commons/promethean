@@ -1,6 +1,6 @@
-from tests.scripts.utils import load_script_module
+"""Tests for ``scripts.convert_wikilinks``."""
 
-cw = load_script_module("convert_wikilinks")
+import scripts.convert_wikilinks as cw
 
 
 def test_convert_wikilinks_replaces_links(tmp_path):
