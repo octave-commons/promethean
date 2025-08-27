@@ -210,4 +210,4 @@ flowchart LR
 ---
 
 tags: #framework-core #observability #eidolon-visualization #dashboard #broker #realtime
-#accepted
+#IceBox

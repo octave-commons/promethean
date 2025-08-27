@@ -48,4 +48,4 @@ Nothing
 
 - [Process](../Process.md)
 - [kanban](../boards/kanban.md)
-#ice-box
+#IceBox

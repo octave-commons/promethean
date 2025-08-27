@@ -48,4 +48,4 @@ Nothing
 
 - [design overview](../../design/overview.md)
 - [kanban](../boards/kanban.md)
-#ice-box
+#IceBox

@@ -232,3 +232,5 @@ chore(versions): pin runtimes, deps, images, models; add pins linter
 * **Hidden installers**: scripts that call `pip install`/`npm i` at runtime undo reproducibility—purge them or freeze.
 
 \#tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain
+
+#IceBox
