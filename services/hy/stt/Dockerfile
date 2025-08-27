@@ -1,14 +1,10 @@
 # syntax=docker/dockerfile:1
-FROM python:3.12-slim
+ARG BASE_IMAGE=base-python-pipenv
+FROM ${BASE_IMAGE}
 
-WORKDIR /app
-
-# Install dependencies
 COPY Pipfile Pipfile.lock ./
-RUN pip install --no-cache-dir pipenv && \
-    pipenv install --deploy --ignore-pipfile
+RUN pipenv install --deploy --ignore-pipfile
 
-# Copy source code
 COPY . .
 
 EXPOSE 5002
