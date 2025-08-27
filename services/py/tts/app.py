@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 import io
+
 import os
 from shared.py.service_template import start_service
 from shared.py.speech.audio_utils import wav_to_base64
@@ -18,6 +19,14 @@ from transformers import (
 TOKENIZER = None
 MODEL = None
 DEVICE = None
+
+def ensure_nltk_data():
+    """Download required NLTK resources if missing."""
+    try:
+        nltk.data.find("taggers/averaged_perceptron_tagger_eng")
+    except LookupError:
+        nltk.download("averaged_perceptron_tagger_eng")
+
 
 
 def init_tts() -> None:
@@ -51,6 +60,8 @@ async def lifespan(app: FastAPI):
 async def startup_event():
     global broker
     init_tts()
+
+    ensure_nltk_data()
 
     async def handle_task(task):
         payload = task.get("payload", {})
