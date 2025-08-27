@@ -16,9 +16,9 @@ process.env.PROMETHEAN_ROOT_ECOSYSTEM = '1';
 import duck from './agents/duck/ecosystem.config.js';
 
 // Services (static imports, no await)
-import svc_embed from './services/hy/embedding_service/ecosystem.config.js';
-import svc_tts from './services/hy/tts/ecosystem.config.js';
-import svc_stt from './services/hy/stt/ecosystem.config.js';
+import svc_embed from './services/py/embedding_service/ecosystem.config.js';
+import svc_tts from './services/py/tts/ecosystem.config.js';
+import svc_stt from './services/py/stt/ecosystem.config.js';
 
 import svc_filewatch from './services/ts/file-watcher/ecosystem.config.js';
 import svc_vision from './services/js/vision/ecosystem.config.js';
