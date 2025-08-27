@@ -1,54 +1,59 @@
 repos:
-    - repo: local
-      hooks:
-          - id: generate-orphan-docs
-            name: Generate docs for orphaned files
-            entry: python scripts/generate_orphan_docs.py
-            language: system
-            pass_filenames: false
-            files: ^orphaned-files-report\.md$
-          - id: enforce-wiki-links
-            name: Enforce Wikilinks
-            entry: python scripts/kanban/hashtags_to_kanban.py --check --write --wikilinks
-            language: system
-            pass_filenames: false
-          - id: tsc-no-emit
-            name: TypeScript compile check
-            entry: make ts-type-check
-            language: system
-            types_or: [javascript, ts, tsx]
-            pass_filenames: false
-          - id: pytest
-            name: Python tests
-            entry: pytest -q
-            language: system
-            types: [python]
-            pass_filenames: false
-          - id: full-build
-            name: Full build
-            entry: make build
-            language: system
-            pass_filenames: false
-            stages: [manual]
+  - repo: local
+    hooks:
+      - id: generate-orphan-docs
+        name: Generate docs for orphaned files
+        entry: python scripts/generate_orphan_docs.py
+        language: system
+        pass_filenames: false
+        files: ^orphaned-files-report\.md$
+      - id: enforce-wiki-links
+        name: Enforce Wikilinks
+        entry: python scripts/kanban/hashtags_to_kanban.py --check --write --wikilinks
+        language: system
+        pass_filenames: false
+      - id: tsc-no-emit
+        name: TypeScript compile check
+        entry: make ts-type-check
+        language: system
+        types_or: [javascript, ts, tsx]
+        pass_filenames: false
+      - id: check-changelog-fragments
+        name: Ensure changelog fragments are numbered
+        entry: python scripts/check_changelog_fragments.py
+        language: system
+        pass_filenames: false
+      - id: pytest
+        name: Python tests
+        entry: pytest -q
+        language: system
+        types: [python]
+        pass_filenames: false
+      - id: full-build
+        name: Full build
+        entry: make build
+        language: system
+        pass_filenames: false
+        stages: [manual]
 
-    - repo: https://github.com/psf/black
-      rev: 24.4.2
-      hooks:
-          - id: black
-            language_version: python3
-    - repo: https://github.com/pycqa/flake8
-      rev: 7.3.0
-      hooks:
-          - id: flake8
-    - repo: https://github.com/pre-commit/mirrors-eslint
-      rev: v9.32.0
-      hooks:
-          - id: eslint
-            types: [javascript, ts, tsx]
-    - repo: https://github.com/pre-commit/mirrors-prettier
-      rev: v3.1.0
-      hooks:
-          - id: prettier
-            types_or: [javascript, ts, tsx, json, yaml]
-            exclude: ^legacy/
-            args: [--ignore-path=.prettierignore]
+  - repo: https://github.com/psf/black
+    rev: 24.4.2
+    hooks:
+      - id: black
+        language_version: python3
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.3.0
+    hooks:
+      - id: flake8
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v9.32.0
+    hooks:
+      - id: eslint
+        types: [javascript, ts, tsx]
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.1.0
+    hooks:
+      - id: prettier
+        types_or: [javascript, ts, tsx, json, yaml]
+        exclude: ^legacy/
+        args: [--ignore-path=.prettierignore]
