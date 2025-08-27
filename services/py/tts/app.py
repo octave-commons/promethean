@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Form, Response, WebSocket
 import io
 import sys
+from contextlib import asynccontextmanager
+import inspect
 
 print(sys.path)
 from shared.py.service_template import start_service
@@ -16,13 +18,10 @@ from transformers import FastSpeech2ConformerTokenizer, FastSpeech2ConformerWith
 
 nltk.download("averaged_perceptron_tagger_eng")
 
-app = FastAPI()
-broker = None
 
-
-@app.on_event("startup")
-async def startup_event():
-    global broker
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    broker = None
 
     async def handle_task(task):
         payload = task.get("payload", {})
@@ -41,10 +40,27 @@ async def startup_event():
         print(f"[tts] broker connection failed: {e}")
         broker = None
 
+    try:
+        yield
+    finally:
+        if broker is not None:
+            try:
+                close = getattr(broker, "close", None)
+                if callable(close):
+                    result = close()
+                    if inspect.isawaitable(result):
+                        await result
+                else:
+                    ws = getattr(broker, "ws", None)
+                    if ws and hasattr(ws, "close"):
+                        result = ws.close()
+                        if inspect.isawaitable(result):
+                            await result
+            except Exception as e:
+                print(f"[tts] broker close failed: {e}")
 
-@app.on_event("shutdown")
-def shutdown_event():
-    pass
+
+app = FastAPI(lifespan=lifespan)
 
 
 # Load the model and processor
