@@ -27,6 +27,11 @@ Transition existing services into reusable packages and instantiate concrete ser
 - [ ] Update build pipeline to consume packages
 
 ---
+## 🧮 Story Points
+
+5
+
+---
 
 ## 🔗 Related Epics
 
@@ -48,5 +53,5 @@ Nothing
 
 - [kanban](../boards/kanban.md)
 
-#framework-core #accepted #breakdown
+#framework-core #Ready
 
