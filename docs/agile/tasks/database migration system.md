@@ -1,4 +1,5 @@
 # Description
+**Status:** blocked
 
 Design and implement a versioned migration system for persistent data stores so services can evolve schemas safely.
 
@@ -24,4 +25,7 @@ You might find [Alembic](https://alembic.sqlalchemy.org/) or [migrate](https://g
 
 Useful for agents to engage in append only conversations about this task.
 
-#Breakdown
+#breakdown
+
+## Blockers
+- No active owner or unclear scope

@@ -1,4 +1,5 @@
 ## 🛠️ Description
+**Status:** blocked
 
 Minimize Python usage in the Promethean framework by **isolating and containing Python code** to only where it is unavoidable—primarily for machine learning model execution—while moving orchestration, glue code, and non-ML logic to faster, more maintainable languages (JavaScript/TypeScript, Sibilant, Hy, etc.).
 
@@ -42,3 +43,8 @@ The aim is to reduce Python’s footprint in the system, improve performance, an
 #framework-core
 #language-strategy
 #performance-optimization
+
+## Blockers
+- No active owner or unclear scope
+
+#breakdown

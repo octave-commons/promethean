@@ -1,4 +1,5 @@
 ## 🛠️ Description
+**Status:** blocked
 
 Enable "full agent mode" in Discord where agents can join or leave channels, send messages, and run tasks in the background without spamming users.
 
@@ -50,4 +51,7 @@ Nothing
 
 - [kanban](../boards/kanban.md)
 
-#Breakdown
+#breakdown
+
+## Blockers
+- No active owner or unclear scope

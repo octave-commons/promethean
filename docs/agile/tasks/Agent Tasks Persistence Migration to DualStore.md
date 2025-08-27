@@ -1,5 +1,6 @@
 
 ## 🗂 Task 1 — Setup Shared Persistence Module
+**Status:** blocked
 
 * [ ] Create directory `shared/ts/persistence/`.
 * [ ] Add:
@@ -118,3 +119,8 @@
 * Obsidian diagrams show unified architecture.
 
 ---
+
+## Blockers
+- No active owner or unclear scope
+
+#breakdown

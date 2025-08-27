@@ -1,4 +1,5 @@
 ## 🛠️ Description
+**Status:** blocked
 
 Implement a secure OAuth flow for OpenAI custom GPT integrations, including redirect handling and token management.
 
@@ -51,3 +52,8 @@ Nothing
 - [kanban](../boards/kanban.md)
 
 #accepted
+
+## Blockers
+- No active owner or unclear scope
+
+#breakdown
