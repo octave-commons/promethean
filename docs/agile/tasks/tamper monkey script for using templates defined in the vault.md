@@ -1,16 +1,22 @@
-# Description
+## 🛠️ Description
 
 I want to be able to use templates from the vault to ask for things like:
 
 Work on {task from board}
 
-Like basicly auto complete, turn the chat interfaces into little ide's with auto complete that are aware of the structure of my vault and able to upload/download files super easy peasy.
+Basically auto complete, turn the chat interfaces into little IDEs with auto complete that are aware of the structure of my vault and able to upload/download files super easy peasy.
 
 As long as we don't use the scripts to send the message, we are gucci
 
-## Requirements/Definition of done
+## 📦 Requirements
+- Tampermonkey script loads templates from the vault.
+- Chat interfaces offer autocomplete for tasks using those templates.
+- Support simple upload and download interactions with the vault.
 
-- If it doesn't have this, we can't accept it
+## ✅ Acceptance Criteria
+- Typing a task phrase suggests a corresponding template.
+- Selected template inserts content into the chat input.
+- Files can be uploaded from and saved to the vault through the script.
 
 ## Tasks
 
@@ -20,11 +26,9 @@ As long as we don't use the scripts to send the message, we are gucci
 - [ ] Step 4
 
 ## Relevent resources
-
 You might find [this] useful while working on this task
 
 ## Comments
-
 Useful for agents to engage in append only conversations about this task.
 
 ## Story Points
