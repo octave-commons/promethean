@@ -1,8 +1,6 @@
 from fastapi import FastAPI, Form, Response, WebSocket
 import io
-import sys
 
-print(sys.path)
 from shared.py.service_template import start_service
 from shared.py.speech.audio_utils import wav_to_base64
 from shared.py.utils import websocket_endpoint
@@ -14,7 +12,14 @@ import torch
 import numpy as np
 from transformers import FastSpeech2ConformerTokenizer, FastSpeech2ConformerWithHifiGan
 
-nltk.download("averaged_perceptron_tagger_eng")
+
+def ensure_nltk_data():
+    """Download required NLTK resources if missing."""
+    try:
+        nltk.data.find("taggers/averaged_perceptron_tagger_eng")
+    except LookupError:
+        nltk.download("averaged_perceptron_tagger_eng")
+
 
 app = FastAPI()
 broker = None
@@ -23,6 +28,8 @@ broker = None
 @app.on_event("startup")
 async def startup_event():
     global broker
+
+    ensure_nltk_data()
 
     async def handle_task(task):
         payload = task.get("payload", {})

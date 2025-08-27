@@ -1,4 +1,8 @@
-import os, sys, types, importlib, wave
+import importlib
+import os
+import sys
+import types
+import wave
 from fastapi.testclient import TestClient
 from unittest.mock import patch
 
@@ -32,7 +36,10 @@ def test_websocket_tts_returns_wav_bytes(monkeypatch):
     dummy_package.tts = dummy_module
 
     dummy_sf = types.SimpleNamespace(write=dummy_write)
-    dummy_nltk = types.SimpleNamespace(download=lambda *a, **k: None)
+    dummy_nltk = types.SimpleNamespace(
+        download=lambda *a, **k: None,
+        data=types.SimpleNamespace(find=lambda *a, **k: None),
+    )
 
     class DummyBroker:
         async def publish(self, *a, **k):
