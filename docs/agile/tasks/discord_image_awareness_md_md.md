@@ -50,9 +50,14 @@ This allows the “Duck” to have **visual memory** tied to conversational cont
 
 #framework-core
 #ollama-integration
-#multimodal-context
 
 ## Blockers
 - No active owner or unclear scope
 
 #breakdown
+
+## Notes
+- Tests or documentation are missing; acceptance criteria not fully met.
+- Story Points: 5
+
+#in-progress

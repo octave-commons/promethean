@@ -290,3 +290,9 @@ CDC_ENABLED=false
 Append-only thread: record domain-specific deny-lists, prompt tweaks, and any integrity anomalies (# of orphans, dim mismatches, etc).
 
 \#tags #promethean #agent #crawler #hyperlink-graph #summarization #tags #obsidian #chroma #mongodb #dual-sink #fastify #ollama #qwen #readability #robots #search #observability
+
+## Notes
+- Tests or documentation are missing; acceptance criteria not fully met.
+- Story Points: 8
+
+#in-progress
