@@ -38,7 +38,28 @@ Nothing
 
 ---
 
+## Dependencies
+
+- Core reasoning modules
+- Training data for thinking model
+
+---
+
+## Rough Scope
+
+- Define interfaces between existing agents and thinking model
+- Prototype integration path for inference and feedback
+- Evaluate performance impacts
+
+---
+
+## Estimate
+
+- Story points: 5
+
+---
+
 ## 🔍 Relevant Links
 
 - [kanban](../boards/kanban.md)
-#ice-box
+#Breakdown
