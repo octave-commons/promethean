@@ -12,6 +12,7 @@ export class BrokerClient {
     this.url = url;
     this.id = id;
     this.socket = null;
+    this._memory = null; // { ns, broker }
     this.handlers = new Map();
     this.onTask = null; // callback(task)
     this.messageQueue = [];
@@ -24,6 +25,17 @@ export class BrokerClient {
 
   connect() {
     return new Promise((resolve, reject) => {
+      if (this.url.startsWith("memory://")) {
+        // Lazy import memory broker for tests
+        const ns = this.url.slice("memory://".length) || "default";
+        import("@shared/ts/dist/test-utils/broker.js")
+          .then((m) => {
+            this._memory = { ns, broker: m.getMemoryBroker(ns) };
+            resolve();
+          })
+          .catch(reject);
+        return;
+      }
       this.socket = new WebSocket(this.url);
 
       this.socket.once("open", () => {
@@ -113,11 +125,61 @@ export class BrokerClient {
 
   send(obj) {
     const msg = JSON.stringify(obj);
+    if (this._memory) {
+      try {
+        this.#memoryDispatch(obj);
+      } catch (e) {
+        // swallow
+      }
+      return;
+    }
     if (this.socket && this.socket.readyState === WebSocket.OPEN) {
       this.socket.send(msg);
     } else {
       this.messageQueue.push(msg);
     }
+  }
+
+  #memoryDispatch(obj) {
+    const a = obj.action;
+    if (!this._memory) return;
+    const broker = this._memory.broker;
+    if (a === "subscribe") {
+      broker.subscribe(this.#memoryClient(), obj.topic);
+    } else if (a === "unsubscribe") {
+      broker.unsubscribe(this.#memoryClient(), obj.topic);
+    } else if (a === "publish") {
+      const m = obj.message || {};
+      broker.publish({
+        type: m.type,
+        payload: m.payload,
+        source: m.source || this.id,
+        timestamp: m.timestamp,
+        correlationId: m.correlationId,
+        replyTo: m.replyTo,
+      });
+    } else if (a === "enqueue") {
+      broker.enqueue(obj.queue, obj.task);
+    } else if (a === "ready") {
+      broker.readyWorker(obj.queue, {
+        id: this.id,
+        assign: (task) => this.onTask && this.onTask(task),
+      });
+    } else if (a === "ack") {
+      broker.record("ack", { taskId: obj.taskId, client: this.id });
+    } else if (a === "heartbeat") {
+      broker.record("heartbeat", { client: this.id });
+    }
+  }
+
+  #memoryClient() {
+    return {
+      id: this.id,
+      onEvent: (evt) => {
+        const handler = this.handlers.get(evt.type);
+        if (handler) handler(evt);
+      },
+    };
   }
 
   flushQueue() {

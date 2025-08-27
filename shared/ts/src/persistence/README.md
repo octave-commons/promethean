@@ -29,3 +29,27 @@ const compiled = await ctx.compileContext(['hi']);
 ## Maintenance
 
 Background cleanup helpers live in `maintenance.ts` and can be reused by services for periodic trimming of large collections.
+
+## Testing without Network
+
+Unit tests can avoid real MongoDB/ChromaDB by overriding the shared clients:
+
+```ts
+import {
+  __setMongoClientForTests,
+  __setChromaClientForTests,
+  __resetPersistenceClientsForTests,
+} from '@shared/ts/dist/persistence/clients.js';
+
+class FakeMongoClient { /* minimal connect/db/collection/close */ }
+class FakeChromaClient { /* minimal getOrCreateCollection */ }
+
+__setMongoClientForTests(new FakeMongoClient());
+__setChromaClientForTests(new FakeChromaClient());
+
+// ... run code under test ...
+
+__resetPersistenceClientsForTests();
+```
+
+These hooks are intended for tests only.
