@@ -58,4 +58,4 @@ welp, guess we'll see
 
 - How should conflicting outputs from Cephalon and Eidolon be resolved?
 - What user-facing cue toggles the cascade mode?
-#ice-box
+#IceBox
