@@ -1,5 +1,6 @@
 ## 🛠️ Description
 
+Refactor the speech interruption system to analyze incoming audio data so the agent only stops speaking when the user intentionally interrupts.
 The current speech interruption detection in Discord conversations is unreliable.  
 Sometimes the agent stops speaking too quickly, while other times it fails to pause when a user begins talking.  
 We need smarter audio-based heuristics so the agent reacts consistently.
@@ -8,6 +9,8 @@ We need smarter audio-based heuristics so the agent reacts consistently.
 
 ## 🎯 Goals
 
+- Reduce accidental interruptions caused by background noise.
+- Allow the user to break in quickly when needed.
 - Use real-time audio energy/VAD thresholds to decide when a user intends to interrupt.
 - Stop or pause TTS output within 200 ms of a valid interruption.
 - Ignore background noise or echoes that fall below the interruption threshold.
@@ -19,6 +22,10 @@ We need smarter audio-based heuristics so the agent reacts consistently.
 
 ## 📦 Requirements
 
+- [ ] Interruption detection uses audio energy or similar metrics rather than fixed timers.
+- [ ] Sensitivity thresholds are configurable.
+- [ ] Unit tests cover interruption, no-interruption, and noise scenarios.
+- [ ] Documentation explains how the new logic works and how to tune it.
 - [ ] Interruption detection latency is **≤ 200 ms** from user speech onset.
 - [ ] Valid interruption detection accuracy ≥ **95 %** with false-positive rate < **5 %**.
 - [ ] TTS resumes or hands off control within **500 ms** after interruption is handled.
@@ -31,6 +38,12 @@ We need smarter audio-based heuristics so the agent reacts consistently.
 
 ## 📋 Subtasks
 
+- [ ] Audit existing interruption logic and document current behavior.
+- [ ] Collect representative audio samples for noise, silence, and user speech.
+- [ ] Implement audio-metric based interruption detection.
+- [ ] Expose configuration options for thresholds and windows.
+- [ ] Write unit/integration tests for typical scenarios.
+- [ ] Update docs describing interruption workflow.
 - [ ] Collect sample conversation audio to calibrate energy/VAD thresholds.
 - [ ] Implement threshold-based interruption check in the speech loop.
 - [ ] Abort or pause active TTS when threshold is crossed.
@@ -62,4 +75,6 @@ Nothing
 ## 🔍 Relevant Links
 
 - [kanban](../boards/kanban.md)
+
 #breakdown
+
