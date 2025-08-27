@@ -23,7 +23,7 @@ class DummyClient:
 
 def test_process_task_publishes_transcription(monkeypatch):
     stub = types.SimpleNamespace(transcribe_pcm=lambda data, sr: "hello world")
-    monkeypatch.setitem(sys.modules, "shared.py.speech.wisper_stt", stub)
+    monkeypatch.setitem(sys.modules, "shared.py.speech.whisper_stt", stub)
     client = DummyClient()
     pcm = base64.b64encode(b"abc").decode()
     task = {"id": "123", "payload": {"pcm": pcm, "sample_rate": 16000}}
@@ -36,7 +36,7 @@ def test_process_task_publishes_transcription(monkeypatch):
 def test_process_task_missing_pcm(monkeypatch):
     monkeypatch.setitem(
         sys.modules,
-        "shared.py.speech.wisper_stt",
+        "shared.py.speech.whisper_stt",
         types.SimpleNamespace(transcribe_pcm=lambda *a, **k: ""),
     )
     client = DummyClient()
