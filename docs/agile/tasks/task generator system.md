@@ -27,6 +27,11 @@ Create a utility that scaffolds new task files from a template to keep the board
 - [ ] Document usage in docs/agile/README
 
 ---
+## 🧮 Story Points
+
+2
+
+---
 
 ## 🔗 Related Epics
 
