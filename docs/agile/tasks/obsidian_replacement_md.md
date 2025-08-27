@@ -16,6 +16,13 @@ I can do better than this lag monster
 
 ---
 
+## ✅ Acceptance Criteria
+- Prototype loads notes with lower latency than Obsidian.
+- Users can create, edit, and link notes.
+- Migration path from existing vault is documented.
+
+---
+
 ## 📋 Subtasks
 
 - [ ] Outline steps to implement.
