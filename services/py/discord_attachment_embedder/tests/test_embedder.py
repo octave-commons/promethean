@@ -12,7 +12,9 @@ class FakeCollection:
     def __init__(self):
         self.docs: list[str] = []
 
-    def add(self, documents, metadatas, ids):  # noqa: D401 - simple stub
+    def add(
+        self, documents, metadatas, ids, embeddings=None
+    ):  # noqa: D401 - simple stub
         self.docs.extend(documents)
 
     def count(self) -> int:
@@ -91,12 +93,15 @@ def test_process_message(monkeypatch):
     }
     mem = MemoryCollection([message])
     monkeypatch.setattr(mod, "discord_message_collection", mem)
+    shared_mod = importlib.import_module("shared.py.discord_attachment_embedder")
+    monkeypatch.setattr(shared_mod, "discord_message_collection", mem)
     client = chromadb.Client()
 
+    embedding_fn = EmbeddingFn()
     collection = client.get_or_create_collection(
-        "test", embedding_function=EmbeddingFn()
+        "test", embedding_function=embedding_fn
     )
-    mod.process_message(message, collection)
+    mod.process_message(message, collection, embedding_fn)
     assert collection.count() == 2
     assert mem.docs[0].get("embedded") is True
 
@@ -116,11 +121,14 @@ def test_process_message_no_image(monkeypatch):
     }
     mem = MemoryCollection([message])
     monkeypatch.setattr(mod, "discord_message_collection", mem)
+    shared_mod = importlib.import_module("shared.py.discord_attachment_embedder")
+    monkeypatch.setattr(shared_mod, "discord_message_collection", mem)
     client = chromadb.Client()
 
+    embedding_fn = EmbeddingFn()
     collection = client.get_or_create_collection(
-        "test-no-image", embedding_function=EmbeddingFn()
+        "test-no-image", embedding_function=embedding_fn
     )
-    mod.process_message(message, collection)
+    mod.process_message(message, collection, embedding_fn)
     assert collection.count() == 0
     assert mem.docs[0].get("embedded") is True

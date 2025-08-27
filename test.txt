@@ -1,0 +1,607 @@
+Running tests in $PWD...
+no tests
+Running tests in $PWD...
+============================= test session starts ==============================
+platform linux -- Python 3.12.1, pytest-8.4.1, pluggy-1.6.0
+rootdir: /home/err/devel/promethean
+configfile: pyproject.toml
+plugins: typeguard-4.4.4, hypothesis-6.136.6, anyio-4.9.0, asyncio-1.1.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 2 items
+
+tests/test_embedder.py ..                                                [100%]
+
+============================== 2 passed in 0.13s ===============================
+Running tests in $PWD...
+============================= test session starts ==============================
+platform linux -- Python 3.12.1, pytest-8.4.1, pluggy-1.6.0
+rootdir: /home/err/devel/promethean
+configfile: pyproject.toml
+plugins: typeguard-4.4.4, hypothesis-6.136.6, anyio-4.9.0, asyncio-1.1.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 2 items
+
+tests/test_discord_attachment_indexer.py FF                              [100%]
+
+=================================== FAILURES ===================================
+____________________________ test_index_attachments ____________________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x76dea0c7f2c0>
+
+    def test_index_attachments(monkeypatch):
+>       mod = load_indexer(monkeypatch)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_discord_attachment_indexer.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_discord_attachment_indexer.py:127: in load_indexer
+    mod = importlib.import_module("main")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/err/.pyenv/versions/3.12.1/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+<frozen importlib._bootstrap_external>:994: in exec_module
+    ???
+<frozen importlib._bootstrap>:488: in _call_with_frames_removed
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Discord attachment indexing service.
+    
+    This module scans Discord history for attachments and records their metadata in
+    the message documents stored in MongoDB.
+    """
+    
+    import asyncio
+    import logging
+    import os
+    import random
+    
+    import discord
+    
+    from shared.py import settings
+    from shared.py.mongodb import discord_message_collection, discord_channel_collection
+    from shared.py.heartbeat_broker import start_broker_heartbeat
+    from shared.py.utils.discord import fetch_channel_history, shuffle_array, update_cursor
+    
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
+    
+    AGENT_NAME = os.environ.get("AGENT_NAME", "duck")
+    logger.info("Discord attachment indexer running for %s", AGENT_NAME)
+    
+    intents = discord.Intents.default()
+    intents.message_content = True
+    client = discord.Client(intents=intents)
+    
+    
+    def format_attachment(attachment: discord.Attachment) -> dict:
+        return {
+            "id": attachment.id,
+            "filename": attachment.filename,
+            "size": attachment.size,
+            "url": attachment.url,
+            "content_type": attachment.content_type,
+        }
+    
+    
+    def index_attachments(message: discord.Message) -> None:
+        attachments = [format_attachment(a) for a in message.attachments]
+        if not attachments:
+            return  # Nothing to index
+    
+        logger.info(
+            "Indexing attachments for message %s: %s",
+            message.id,
+            [a["filename"] for a in attachments],
+        )
+        discord_message_collection.update_one(
+            {"id": message.id}, {"$set": {"attachments": attachments}}
+        )
+    
+    
+    async def index_channel(channel: discord.TextChannel) -> None:
+        """Index all attachments in a channel's history.
+    
+        Messages are fetched starting from the last stored ``attachment_cursor``. For
+        each message, any attachments are recorded, and the cursor is updated to the
+        most recent processed message so that subsequent runs resume from the latest
+        point.
+        """
+    
+        newest_message = None
+        for message in await fetch_channel_history(
+            channel, discord_channel_collection, "attachment_cursor"
+        ):
+            await asyncio.sleep(0.1)
+            newest_message = message
+            index_attachments(message)
+        if newest_message is not None:
+            update_cursor(
+                discord_channel_collection,
+                channel.id,
+                newest_message.id,
+                "attachment_cursor",
+            )
+    
+    
+    @client.event
+    async def on_ready():
+        """Start heartbeat and iterate through channels indexing attachments.
+    
+        When the Discord client becomes ready we establish a broker heartbeat so the
+        service can be monitored. The task then continuously shuffles through all
+        channels and calls :func:`index_channel` for each text channel, sleeping a
+        random amount between iterations to avoid hitting rate limits.
+        """
+    
+        global _hb_started, _hb_ctx
+        if not _hb_started:
+            try:
+                _hb_ctx = await start_broker_heartbeat(
+                    service_id=os.environ.get(
+                        "PM2_PROCESS_NAME", "discord_attachment_indexer"
+                    )
+                )
+                _hb_started = True
+            except Exception as e:
+                logger.error(
+                    "[discord_attachment_indexer] failed to start broker heartbeat: %s",
+                    e,
+                )
+    
+        logger.info("Attachment indexing loop started")
+        while True:
+            for channel in shuffle_array(list(client.get_all_channels())):
+                if isinstance(channel, discord.TextChannel):
+                    await asyncio.sleep(random.randint(1, 10))
+                    await index_channel(channel)
+    
+    
+    async def handle_message(message: discord.Message) -> None:
+        index_attachments(message)
+    
+    
+>   run_discord_service(
+    ^^^^^^^^^^^^^^^^^^^
+        service_name="discord_attachment_indexer",
+        channel_handler=handle_channel,
+        message_handler=handle_message,
+    )
+E   NameError: name 'run_discord_service' is not defined
+
+main.py:117: NameError
+______________________________ test_index_channel ______________________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x76de9d4987d0>
+
+    @pytest.mark.asyncio
+    async def test_index_channel(monkeypatch):
+>       mod = load_indexer(monkeypatch)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_discord_attachment_indexer.py:151: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_discord_attachment_indexer.py:127: in load_indexer
+    mod = importlib.import_module("main")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/home/err/.pyenv/versions/3.12.1/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<frozen importlib._bootstrap>:1387: in _gcd_import
+    ???
+<frozen importlib._bootstrap>:1360: in _find_and_load
+    ???
+<frozen importlib._bootstrap>:1331: in _find_and_load_unlocked
+    ???
+<frozen importlib._bootstrap>:935: in _load_unlocked
+    ???
+<frozen importlib._bootstrap_external>:994: in exec_module
+    ???
+<frozen importlib._bootstrap>:488: in _call_with_frames_removed
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    """Discord attachment indexing service.
+    
+    This module scans Discord history for attachments and records their metadata in
+    the message documents stored in MongoDB.
+    """
+    
+    import asyncio
+    import logging
+    import os
+    import random
+    
+    import discord
+    
+    from shared.py import settings
+    from shared.py.mongodb import discord_message_collection, discord_channel_collection
+    from shared.py.heartbeat_broker import start_broker_heartbeat
+    from shared.py.utils.discord import fetch_channel_history, shuffle_array, update_cursor
+    
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
+    
+    AGENT_NAME = os.environ.get("AGENT_NAME", "duck")
+    logger.info("Discord attachment indexer running for %s", AGENT_NAME)
+    
+    intents = discord.Intents.default()
+    intents.message_content = True
+    client = discord.Client(intents=intents)
+    
+    
+    def format_attachment(attachment: discord.Attachment) -> dict:
+        return {
+            "id": attachment.id,
+            "filename": attachment.filename,
+            "size": attachment.size,
+            "url": attachment.url,
+            "content_type": attachment.content_type,
+        }
+    
+    
+    def index_attachments(message: discord.Message) -> None:
+        attachments = [format_attachment(a) for a in message.attachments]
+        if not attachments:
+            return  # Nothing to index
+    
+        logger.info(
+            "Indexing attachments for message %s: %s",
+            message.id,
+            [a["filename"] for a in attachments],
+        )
+        discord_message_collection.update_one(
+            {"id": message.id}, {"$set": {"attachments": attachments}}
+        )
+    
+    
+    async def index_channel(channel: discord.TextChannel) -> None:
+        """Index all attachments in a channel's history.
+    
+        Messages are fetched starting from the last stored ``attachment_cursor``. For
+        each message, any attachments are recorded, and the cursor is updated to the
+        most recent processed message so that subsequent runs resume from the latest
+        point.
+        """
+    
+        newest_message = None
+        for message in await fetch_channel_history(
+            channel, discord_channel_collection, "attachment_cursor"
+        ):
+            await asyncio.sleep(0.1)
+            newest_message = message
+            index_attachments(message)
+        if newest_message is not None:
+            update_cursor(
+                discord_channel_collection,
+                channel.id,
+                newest_message.id,
+                "attachment_cursor",
+            )
+    
+    
+    @client.event
+    async def on_ready():
+        """Start heartbeat and iterate through channels indexing attachments.
+    
+        When the Discord client becomes ready we establish a broker heartbeat so the
+        service can be monitored. The task then continuously shuffles through all
+        channels and calls :func:`index_channel` for each text channel, sleeping a
+        random amount between iterations to avoid hitting rate limits.
+        """
+    
+        global _hb_started, _hb_ctx
+        if not _hb_started:
+            try:
+                _hb_ctx = await start_broker_heartbeat(
+                    service_id=os.environ.get(
+                        "PM2_PROCESS_NAME", "discord_attachment_indexer"
+                    )
+                )
+                _hb_started = True
+            except Exception as e:
+                logger.error(
+                    "[discord_attachment_indexer] failed to start broker heartbeat: %s",
+                    e,
+                )
+    
+        logger.info("Attachment indexing loop started")
+        while True:
+            for channel in shuffle_array(list(client.get_all_channels())):
+                if isinstance(channel, discord.TextChannel):
+                    await asyncio.sleep(random.randint(1, 10))
+                    await index_channel(channel)
+    
+    
+    async def handle_message(message: discord.Message) -> None:
+        index_attachments(message)
+    
+    
+>   run_discord_service(
+    ^^^^^^^^^^^^^^^^^^^
+        service_name="discord_attachment_indexer",
+        channel_handler=handle_channel,
+        message_handler=handle_message,
+    )
+E   NameError: name 'run_discord_service' is not defined
+
+main.py:117: NameError
+=============================== warnings summary ===============================
+../../../../../.local/lib/python3.12/site-packages/discord/player.py:29
+  /home/err/.local/lib/python3.12/site-packages/discord/player.py:29: DeprecationWarning: 'audioop' is deprecated and slated for removal in Python 3.13
+    import audioop
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_discord_attachment_indexer.py::test_index_attachments - Nam...
+FAILED tests/test_discord_attachment_indexer.py::test_index_channel - NameErr...
+========================= 2 failed, 1 warning in 0.65s =========================
+============================= test session starts ==============================
+platform linux -- Python 3.12.1, pytest-8.4.1, pluggy-1.6.0
+rootdir: /home/err/devel/promethean
+configfile: pyproject.toml
+plugins: typeguard-4.4.4, hypothesis-6.136.6, anyio-4.9.0, asyncio-1.1.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 62 items
+
+tests/test_date_tools.py .......                                         [ 11%]
+tests/test_discord_utils.py ........                                     [ 24%]
+tests/test_embedding_client.py ....                                      [ 30%]
+tests/test_gui.py .                                                      [ 32%]
+tests/test_heartbeat_broker.py .                                         [ 33%]
+tests/test_heartbeat_client.py .                                         [ 35%]
+tests/test_mongodb.py .                                                  [ 37%]
+tests/test_numbers.py ....                                               [ 43%]
+tests/test_pca.py .                                                      [ 45%]
+tests/test_permissions.py ..                                             [ 48%]
+tests/test_service_clients.py ..                                         [ 51%]
+tests/test_service_template.py .                                         [ 53%]
+tests/test_settings.py ..                                                [ 56%]
+tests/test_speech_utils.py ......                                        [ 66%]
+tests/test_split_sentences.py ....                                       [ 72%]
+tests/test_text_preprocessing.py ....                                    [ 79%]
+tests/test_tts_models.py ....                                            [ 85%]
+tests/test_wav_processing.py ....                                        [ 91%]
+tests/test_websocket.py ...                                              [ 96%]
+tests/test_whisper_stream.py ..                                          [100%]
+
+=============================== warnings summary ===============================
+../../../../.local/lib/python3.12/site-packages/discord/player.py:29
+  /home/err/.local/lib/python3.12/site-packages/discord/player.py:29: DeprecationWarning: 'audioop' is deprecated and slated for removal in Python 3.13
+    import audioop
+
+shared/py/tests/test_heartbeat_client.py::test_send_once
+  <string>:14: DeprecationWarning: shared.py.heartbeat_client.HeartbeatClient is deprecated. Publish 'heartbeat' via shared.py.service_template (preferred) or use shared.py.heartbeat_broker.start_broker_heartbeat().
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 62 passed, 2 warnings in 2.39s ========================
+Running tests in $PWD...
+============================= test session starts ==============================
+platform linux -- Python 3.12.1, pytest-8.4.1, pluggy-1.6.0
+rootdir: /home/err/devel/promethean
+configfile: pyproject.toml
+plugins: typeguard-4.4.4, hypothesis-6.136.6, anyio-4.9.0, asyncio-1.1.0
+asyncio: mode=Mode.STRICT, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 0 items
+
+============================ no tests ran in 0.24s =============================
+Running tests in $PWD...
+
+> broker-service@0.0.1 test /home/err/devel/promethean/services/js/broker
+> ava
+
+
+client connected 00a2f5c0-d72a-447c-81d2-ab164ed9232a
+client connected 7cfaf734-6e6b-434e-8d45-f82a4e985482
+client 7cfaf734-6e6b-434e-8d45-f82a4e985482 ready on jobs
+task f1191118-3b87-41b6-a25a-fd059518c461 dispatched to 7cfaf734-6e6b-434e-8d45-f82a4e985482 on jobs
+client 00a2f5c0-d72a-447c-81d2-ab164ed9232a enqueued task on jobs
+task f1191118-3b87-41b6-a25a-fd059518c461 acknowledged by 7cfaf734-6e6b-434e-8d45-f82a4e985482 on jobs
+client 00a2f5c0-d72a-447c-81d2-ab164ed9232a enqueued task on jobs
+task d2abab36-3788-4267-ad87-db10a5306875 dispatched to 7cfaf734-6e6b-434e-8d45-f82a4e985482 on jobs
+  ✔ dispatches tasks to ready workers
+client 7cfaf734-6e6b-434e-8d45-f82a4e985482 ready on jobs
+client disconnected 7cfaf734-6e6b-434e-8d45-f82a4e985482
+client disconnected 00a2f5c0-d72a-447c-81d2-ab164ed9232a
+client connected 9fee6f4e-19af-42a7-b631-b8b42972375f
+client connected 9e678c43-ccba-4756-bb85-d1392293ac7b
+client 9fee6f4e-19af-42a7-b631-b8b42972375f subscribed greet
+client 9e678c43-ccba-4756-bb85-d1392293ac7b published greet
+  ✔ routes published messages to subscribers
+client disconnected 9e678c43-ccba-4756-bb85-d1392293ac7b
+client disconnected 9fee6f4e-19af-42a7-b631-b8b42972375f
+client connected c0f4236f-99a9-45be-853d-8410a2978757
+client connected 61ec5a9f-cc76-43f7-a5b5-3006aed6436c
+client c0f4236f-99a9-45be-853d-8410a2978757 subscribed ping
+client c0f4236f-99a9-45be-853d-8410a2978757 unsubscribed ping
+client 61ec5a9f-cc76-43f7-a5b5-3006aed6436c published ping
+  ✔ unsubscribe stops delivery (206ms)
+client disconnected 61ec5a9f-cc76-43f7-a5b5-3006aed6436c
+client disconnected c0f4236f-99a9-45be-853d-8410a2978757
+client connected c8db0243-c038-43b3-bb4c-a522cf5f1b65
+client connected 32ad98d0-cc03-4415-96aa-1dfc1f12adc0
+client c8db0243-c038-43b3-bb4c-a522cf5f1b65 subscribed ask
+client 32ad98d0-cc03-4415-96aa-1dfc1f12adc0 published ask
+  ✔ forwards correlation and replyTo
+client disconnected 32ad98d0-cc03-4415-96aa-1dfc1f12adc0
+client disconnected c8db0243-c038-43b3-bb4c-a522cf5f1b65
+  ─
+
+  4 tests passed
+Running tests in $PWD...
+
+> eidolon-field@0.0.1 test /home/err/devel/promethean/services/js/eidolon-field
+> ava
+
+
+  ✔ service ticks on interval and persists field (777ms)
+  ─
+
+  1 test passed
+Running tests in $PWD...
+ WARN  Unsupported engine: wanted: {"node":"20.19.4"} (current: {"node":"v22.18.0","pnpm":"9.0.0"})
+
+> @ test /home/err/devel/promethean
+> ava tests/*.test.js
+
+
+  ✔ llmChat › parseToolCall returns tool object for valid JSON
+  ✔ llmChat › parseToolCall returns null for invalid JSON
+  ✔ llmChat › callTool returns error for unknown tool
+  ✔ llmChat › callTool invokes fetch with correct spec
+task ecb5f6a6-dc6e-4aa8-a027-707e496b53ff dispatched to w1 on alpha
+  ✔ queueManager › ready dispatches queued task and acknowledge clears assignment
+  ✔ queueManager › unregisterWorker requeues unacked task
+task ecb5f6a6-dc6e-4aa8-a027-707e496b53ff acknowledged by w1 on alpha
+task 2b17738c-91ae-41b0-82ff-6b35fa04de96 dispatched to w2 on beta
+task 0c7da13e-fb9a-4e74-9e1a-0fadd442683a dispatched to cleanup on beta
+task 0c7da13e-fb9a-4e74-9e1a-0fadd442683a acknowledged by cleanup on beta
+  ✔ queueManager › heartbeat updates lastSeen
+task ca5a341f-0777-4cd0-a6c2-4df63b379ee7 dispatched to w5 on epsilon
+  ✔ intention › extractCode strips fences
+  ✔ intention › extractCode splits on triple-dash
+  ✔ intention › RouterLLM falls back to next provider on failure
+  ✔ intention › RouterLLM throws when no providers
+  ✔ intention › RouterLLM throws when all providers fail
+  ✔ taskQueue › enqueue, pull, and ack workflow
+  ✔ taskQueue › fail requeues task by default
+  ✔ taskQueue › fail without requeue drops task
+  ✔ taskQueue › fail returns false when task not inflight
+  ✔ taskQueue › fail requeues task when original queue removed
+  ✔ taskQueue › list returns empty array for unknown queue
+  ✔ taskQueue › pull returns null when queue empty
+  ✔ taskQueue › allQueues returns all active queues
+  ✔ taskQueue › ack returns false when task not inflight
+  ✔ taskQueue › pull increments attempts and tracks worker
+worker w5 expired, requeued task ca5a341f-0777-4cd0-a6c2-4df63b379ee7 on epsilon
+task 02cde806-a354-43ec-b96b-c1d4f37f35bb dispatched to cleanup2 on epsilon
+  ✔ queueManager › expired workers are cleaned up and tasks requeued
+task 02cde806-a354-43ec-b96b-c1d4f37f35bb acknowledged by cleanup2 on epsilon
+task f102b34a-fd9f-4e4c-80c7-8fc36f782222 dispatched to w-timeout on epsilon
+  ✔ portfolio › portfolio projects build without console errors
+    ℹ portfolio directory missing: ENOENT: no such file or directory, scandir '/home/err/devel/promethean/site/portfolio'
+[replay] on :0
+  ✔ queueManager › task timeout requeues and logs
+task 43cb5706-f768-4945-9ab1-76840855ee2a dispatched to w4 on delta
+task 43cb5706-f768-4945-9ab1-76840855ee2a acknowledged by w4 on delta
+  ✔ replayApi › Replay API returns events and NDJSON
+  ✔ brokerClient › BrokerClient sends messages and handles callbacks
+task 4f0b0620-b39d-41a3-adab-d1b23bc1b9f8 dispatched to w4 on delta
+  ✔ queueManager › rate limit delays dispatch
+  ✔ tokenBucket › TokenBucket limits and refills (1.1s)
+  ✔ brokerClient › BrokerClient reconnects and flushes queue (1.5s)
+  ─
+
+  30 tests passed
+Running tests in $PWD...
+ WARN  Unsupported engine: wanted: {"node":"20.19.4"} (current: {"node":"v22.18.0","pnpm":"9.0.0"})
+
+> @ test /home/err/devel/promethean
+> ava tests/*.test.js
+
+
+task 22c45132-ae4b-4d74-9594-5b4117e47a38 dispatched to w1 on alpha
+task 22c45132-ae4b-4d74-9594-5b4117e47a38 acknowledged by w1 on alpha
+task 66650909-e72c-4d85-bb71-7ffbc0d39a2e dispatched to w2 on beta
+task 19d27313-0218-4203-8c03-71d18d5db857 dispatched to cleanup on beta
+task 19d27313-0218-4203-8c03-71d18d5db857 acknowledged by cleanup on beta
+  ✔ queueManager › ready dispatches queued task and acknowledge clears assignment
+  ✔ queueManager › unregisterWorker requeues unacked task
+  ✔ queueManager › heartbeat updates lastSeen
+task 19a66ad5-c45b-44f0-a656-f5ef3fad830d dispatched to w5 on epsilon
+  ✔ intention › extractCode strips fences
+  ✔ intention › extractCode splits on triple-dash
+  ✔ intention › RouterLLM falls back to next provider on failure
+  ✔ intention › RouterLLM throws when no providers
+  ✔ intention › RouterLLM throws when all providers fail
+worker w5 expired, requeued task 19a66ad5-c45b-44f0-a656-f5ef3fad830d on epsilon
+task 23955686-3b71-494f-b062-7f6d841f0167 dispatched to cleanup2 on epsilon
+  ✔ queueManager › expired workers are cleaned up and tasks requeued
+task 23955686-3b71-494f-b062-7f6d841f0167 acknowledged by cleanup2 on epsilon
+task fc05e7f8-5587-486a-b357-470254a90678 dispatched to w-timeout on epsilon
+  ✔ taskQueue › enqueue, pull, and ack workflow
+  ✔ taskQueue › fail requeues task by default
+  ✔ taskQueue › fail without requeue drops task
+  ✔ taskQueue › fail returns false when task not inflight
+  ✔ taskQueue › fail requeues task when original queue removed
+  ✔ taskQueue › list returns empty array for unknown queue
+  ✔ taskQueue › pull returns null when queue empty
+  ✔ taskQueue › allQueues returns all active queues
+  ✔ taskQueue › ack returns false when task not inflight
+  ✔ taskQueue › pull increments attempts and tracks worker
+  ✔ llmChat › parseToolCall returns tool object for valid JSON
+  ✔ llmChat › parseToolCall returns null for invalid JSON
+  ✔ llmChat › callTool returns error for unknown tool
+  ✔ llmChat › callTool invokes fetch with correct spec
+  ✔ brokerClient › BrokerClient sends messages and handles callbacks
+  ✔ queueManager › task timeout requeues and logs
+task f95db088-6b97-48a4-93d3-0231940587d3 dispatched to w4 on delta
+task f95db088-6b97-48a4-93d3-0231940587d3 acknowledged by w4 on delta
+[replay] on :0
+  ✔ portfolio › portfolio projects build without console errors
+    ℹ portfolio directory missing: ENOENT: no such file or directory, scandir '/home/err/devel/promethean/site/portfolio'
+  ✔ replayApi › Replay API returns events and NDJSON
+task 4e166eb1-7be1-4c08-b6c1-83b896e79401 dispatched to w4 on delta
+  ✔ queueManager › rate limit delays dispatch
+  ✔ tokenBucket › TokenBucket limits and refills (1.1s)
+  ✔ brokerClient › BrokerClient reconnects and flushes queue (1.5s)
+  ─
+
+  30 tests passed
+Running tests in $PWD...
+
+> health-service@0.0.1 test /home/err/devel/promethean/services/js/health
+> ava
+
+
+client connected c1655b82-422d-417f-a449-6abbb3d9579e
+client c1655b82-422d-417f-a449-6abbb3d9579e subscribed heartbeat
+client connected ac68a2c6-634c-4cd6-ad53-9292a943b196
+client ac68a2c6-634c-4cd6-ad53-9292a943b196 published heartbeat
+  ✔ returns aggregated metrics
+client disconnected ac68a2c6-634c-4cd6-ad53-9292a943b196
+client connected 3af4694e-b466-44ae-9c1b-f7c8f3f71819
+client 3af4694e-b466-44ae-9c1b-f7c8f3f71819 published heartbeat
+  ✔ reports critical when load high
+client disconnected 3af4694e-b466-44ae-9c1b-f7c8f3f71819
+client disconnected c1655b82-422d-417f-a449-6abbb3d9579e
+
+  ✘ Timed out while running tests
+
+  Failed to exit when running tests/health.test.js
+
+  ─
+
+  2 tests passed
+ ELIFECYCLE  Test failed. See above for more details.
+Running tests in $PWD...
+
+> attachment-embedder@0.0.1 test /home/err/devel/promethean/services/ts/attachment-embedder
+> ava
+
+
+  ✘ Couldn’t find any files to test
+
+ ELIFECYCLE  Test failed. See above for more details.
+Running in services/py/__pycache__: echo 'Running tests in $PWD...' && if [ -d tests ]; then python -m pytest tests/; else echo 'no tests'; fi
+Running in services/py/discord_attachment_embedder: echo 'Running tests in $PWD...' && if [ -d tests ]; then python -m pytest tests/; else echo 'no tests'; fi
+Running in services/py/discord_attachment_indexer: echo 'Running tests in $PWD...' && if [ -d tests ]; then python -m pytest tests/; else echo 'no tests'; fi
+Running in shared/py: python -m pytest tests/
+Running in services/hy/discord_attachment_embedder: echo 'Running tests in $PWD...' && hy -m pytest tests/
+Running in services/js/broker: echo 'Running tests in $PWD...' && pnpm test
+Running in services/js/eidolon-field: echo 'Running tests in $PWD...' && pnpm test
+Running in services/js/event-gateway: echo 'Running tests in $PWD...' && pnpm test
+Running in services/js/event-hub: echo 'Running tests in $PWD...' && pnpm test
+Running in services/js/health: echo 'Running tests in $PWD...' && pnpm test
+Running in services/ts/attachment-embedder: echo 'Running tests in $PWD...' && pnpm test
+commands failed: test-python-services test-hy-services test-js-services test-ts-services test-ts
+make: *** [Makefile:143: test] Error 1

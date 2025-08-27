@@ -71,6 +71,8 @@ All contributions must be validated locally before opening a pull request:
 4. Run `make lint` to check code style and formatting.
 5. Run `make format` to auto-format code.
 
+After tests pass, `make snapshot` can tag the current commit (e.g., `snapshot-2024.09.28`) as a lightweight return point without implying a full release. Set `PUSH=1` to push the tag upstream.
+
 ---
 
 ## 🗂️ Board Process
@@ -110,7 +112,6 @@ The `services/` directory currently includes:
 
 **Hy**
 
-- `services/hy/discord_attachment_embedder`
 - `services/hy/discord_attachment_indexer`
 - `services/hy/discord_indexer`
 - `services/hy/stt`
@@ -512,42 +513,15 @@ We love dotenv. use it all the time. Make everyone's lives easier.
 
 ## Changelog Updates
 
-All future agents must record notable changes in `CHANGELOG.md` following [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format. This ensures continuity and shared context across contributors.
+We build `CHANGELOG.md` from fragment files using [towncrier](https://towncrier.readthedocs.io/). For every pull request add a fragment under `changelog.d/` named `<PR number>.<type>.md` where `<type>` is one of `added`, `changed`, `deprecated`, `removed`, `fixed`, or `security`.
 
-### Changelog Entry Checklist
+Example: `changelog.d/1234.added.md`
 
-When making a notable change, add an entry under the correct section in `CHANGELOG.md`:
-
-- **Added** – for new features.
-- **Changed** – for changes in existing functionality.
-- **Deprecated** – for features soon-to-be removed.
-- **Removed** – for features removed.
-- **Fixed** – for any bug fixes.
-- **Security** – in case of vulnerabilities.
-
-Follow the format:
-
-```markdown
-## [Unreleased]
-
-### Added
-
-- Short description of the new feature.
-
-### Changed
-
-- Short description of the change.
-
-### Fixed
-
-- Short description of the bug fix.
-```
+During release, run `make build-changelog` to aggregate all fragments into `CHANGELOG.md`. The build step removes processed fragments to keep `changelog.d/` tidy.
 
 ## Shared Persistence
 
 Persistence is handled via shared module: @shared/ts/persistence/DualStore
-
-
 
 ## Hashtags are your friend
 
@@ -557,8 +531,8 @@ All agents are required to document **architectural decisions** that affect the 
 
 - ADRs live under `docs/architecture/adr/`
 - ADRs must be created for any changes to:
-  - File structure
-  - Agent/service contracts
-  - Core libraries or shared architecture
-  - Protocols or bridge definitions
+    - File structure
+    - Agent/service contracts
+    - Core libraries or shared architecture
+    - Protocols or bridge definitions
 - ADR filenames use a **timestamp-based convention**:

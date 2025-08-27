@@ -4,6 +4,7 @@ import express from 'express';
 import http from 'http';
 import { WebSocketServer } from 'ws';
 import { loadDriver, LLMDriver } from './drivers/index.js';
+import type { Tool } from '@shared/ts/dist/llm/tools.js';
 
 export const app: Express = express();
 app.use(express.json({ limit: '500mb' }));
@@ -16,16 +17,21 @@ export async function loadModel(): Promise<LLMDriver> {
 }
 
 let generateFn = async (
-    { prompt, context = [], format }: { prompt: string; context?: any[]; format?: any },
+    {
+        prompt,
+        context = [],
+        format,
+        tools = [],
+    }: { prompt: string; context?: any[]; format?: any; tools?: Tool[] },
     retry = 0,
 ): Promise<any> => {
     try {
         const d = await loadModel();
-        return await d.generate({ prompt, context, format });
+        return await d.generate({ prompt, context, format, tools });
     } catch (err) {
         if (retry < 5) {
             await new Promise((r) => setTimeout(r, retry * 1610));
-            return generateFn({ prompt, context, format }, retry + 1);
+            return generateFn({ prompt, context, format, tools }, retry + 1);
         }
         throw err;
     }
@@ -35,7 +41,10 @@ export function setGenerateFn(fn: typeof generateFn) {
     generateFn = fn;
 }
 
-export async function generate(args: { prompt: string; context?: any[]; format?: any }, retry = 0) {
+export async function generate(
+    args: { prompt: string; context?: any[]; format?: any; tools?: Tool[] },
+    retry = 0,
+) {
     return generateFn(args, retry);
 }
 
@@ -47,8 +56,8 @@ export function setBroker(b: any) {
 
 export async function handleTask(task: any) {
     const payload = task?.payload || {};
-    const { prompt, context = [], format = null, replyTopic } = payload;
-    const reply = await generateFn({ prompt, context, format });
+    const { prompt, context = [], format = null, tools = [], replyTopic } = payload;
+    const reply = await generateFn({ prompt, context, format, tools });
     console.log('handling llm task', task);
     if (replyTopic && broker) {
         broker.publish(replyTopic, { reply, taskId: task.id });
@@ -56,9 +65,9 @@ export async function handleTask(task: any) {
 }
 
 app.post('/generate', async (req: Request, res: Response) => {
-    const { prompt, context = [], format = null } = req.body || {};
+    const { prompt, context = [], format = null, tools = [] } = req.body || {};
     try {
-        const reply = await generateFn({ prompt, context, format });
+        const reply = await generateFn({ prompt, context, format, tools });
         res.json({ reply });
     } catch (err: any) {
         res.status(500).json({ error: err.message });
@@ -90,8 +99,10 @@ export async function start(port = Number(process.env.LLM_PORT) || 8888) {
     wss.on('connection', (ws: WebSocket) => {
         ws.on('message', async (data: any) => {
             try {
-                const { prompt, context = [], format = null } = JSON.parse(data.toString());
-                const reply = await generateFn({ prompt, context, format });
+                const { prompt, context = [], format = null, tools = [] } = JSON.parse(
+                    data.toString(),
+                );
+                const reply = await generateFn({ prompt, context, format, tools });
                 ws.send(JSON.stringify({ reply }));
             } catch (err: any) {
                 ws.send(JSON.stringify({ error: err.message }));

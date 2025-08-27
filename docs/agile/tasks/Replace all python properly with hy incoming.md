@@ -1,7 +1,7 @@
 # Ban Python; Migrate to Hy; Compile to `./dist`
 
 **Owner:** Codex / Agent
-**Status:** Planned
+**Status:** continue coding
 **Labels:** #architecture #lang #hy #python-ban #build #ci #tooling #promethean
 
 ---
@@ -236,3 +236,5 @@ Append-only thread for agents. Note blockers, weird Hy interop, or macro decisio
 * **Performance:** Hy compiles to Python AST; runtime perf should be on par with equivalent Python once compiled.
 
 \#tags #promethean #hy #lisp #python #build #ci #git #precommit #policy #docs
+
+#in-progress

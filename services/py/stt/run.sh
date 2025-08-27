@@ -1,2 +1,2 @@
 #!/usr/bin/bash
-pipenv run python service.py
+PYTHONPATH="$(dirname "$0")/../shared:${PYTHONPATH}" pipenv run python service.py

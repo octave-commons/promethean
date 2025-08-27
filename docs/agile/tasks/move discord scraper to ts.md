@@ -1,4 +1,5 @@
 ## 🛠️ Description
+**Status:** blocked
 
 Port the existing Discord scraper to TypeScript to align with the rest of the JS toolchain.
 
@@ -50,3 +51,8 @@ Nothing
 - [kanban](../boards/kanban.md)
 
 #accepted
+
+## Blockers
+- No active owner or unclear scope
+
+#breakdown

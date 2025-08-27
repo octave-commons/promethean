@@ -1,41 +1,48 @@
+import importlib.util
+import sys
 from pathlib import Path
 
-from tests.scripts.utils import load_script_module
 
-kh = load_script_module("kanban_to_hashtags")
-
-
-def test_parse_board(tmp_path):
-    board = tmp_path / "kanban.md"
-    tasks_dir = tmp_path / ".." / "tasks"
-    tasks_dir.mkdir(parents=True)
-    (tasks_dir / "a.md").write_text("content", encoding="utf-8")
-    (tasks_dir / "b.md").write_text("content", encoding="utf-8")
-    board.write_text(
-        "\n".join(
-            [
-                "## Todo",
-                "- [ ] [A](../tasks/a.md)",
-                "## In Progress",
-                "- [ ] [B](../tasks/b.md)",
-            ]
-        ),
-        encoding="utf-8",
-    )
-    mapping = kh.parse_board(board)
-    assert mapping[(tasks_dir / "a.md").resolve()] == "#todo"
-    assert mapping[(tasks_dir / "b.md").resolve()] == "#in-progress"
+MODULE_DIR = Path(__file__).resolve().parents[2] / "scripts" / "kanban"
+sys.path.insert(0, str(MODULE_DIR))
+spec = importlib.util.spec_from_file_location(
+    "kanban_to_hashtags", MODULE_DIR / "kanban_to_hashtags.py"
+)
+kh = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+spec.loader.exec_module(kh)
 
 
-def test_update_tasks(tmp_path):
+def test_header_to_status_normalization():
+    assert kh.header_to_status("🔥 In Progress (3)") == "#in-progress"
+
+
+def test_sync_board_and_tasks(tmp_path, monkeypatch):
     board = tmp_path / "kanban.md"
     tasks_dir = tmp_path / "tasks"
     tasks_dir.mkdir()
     task = tasks_dir / "a.md"
-    original = "First line with #todo inside\nSecond line\n#todo\n"
-    task.write_text(original, encoding="utf-8")
-    board.write_text("## Done\n- [ ] [A](tasks/a.md)\n", encoding="utf-8")
-    kh.update_tasks(board)
-    updated = task.read_text(encoding="utf-8")
-    assert updated.splitlines()[:-1] == original.splitlines()[:-1]
-    assert updated.splitlines()[-1] == "#done"
+    task.write_text("first\n#todo\n", encoding="utf-8")
+    board.write_text(
+        "\n".join(
+            [
+                "## 🔥 In Progress",
+                "- [ ] [A](tasks/a.md) #todo",
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(kh, "TASK_DIR", tasks_dir)
+
+    original_board = board.read_text(encoding="utf-8")
+    changed = kh.sync_board_and_tasks(board, write=False, update_tasks=True)
+
+    assert changed is True
+    assert board.read_text(encoding="utf-8") == original_board
+    assert task.read_text(encoding="utf-8").splitlines()[-1] == "#in-progress"
+
+    kh.sync_board_and_tasks(board, write=True, update_tasks=False)
+    updated_board = board.read_text(encoding="utf-8")
+    assert "- [ ] [A](tasks/a.md) #in-progress" in updated_board.splitlines()
+    assert "#todo" not in updated_board
