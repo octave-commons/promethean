@@ -1,7 +1,7 @@
 # Broker ↔ GPT Bridge Parity Test Plan
 
 **Owner:** Codex / Agent
-**Status:** Planned
+**Status:** needs review
 **Labels:** #broker #gptbridge #testing #parity #ws #http #ci #observability #promethean
 
 ---
@@ -311,3 +311,5 @@ test(parity): add broker↔bridge parity suites + normalizers + CI gate
 ```
 
 \#tags #broker #gptbridge #parity #ws #http #testing #ci #observability #promethean
+
+#in-review

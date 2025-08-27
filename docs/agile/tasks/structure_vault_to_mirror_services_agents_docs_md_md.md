@@ -1,4 +1,5 @@
 ## 🛠️ Task: Document-Driven Development for Service Scripts
+**Status:** blocked
 
 We are following a **document-driven development** process.  
 This means **each program file must have a corresponding documentation file** that fully describes its behavior, purpose, and relationships—*before or alongside implementation*.
@@ -71,3 +72,8 @@ Nothing
 - [doc-template](doc-template.md)
 - [docdrivendev-principles](docdrivendev-principles.md)
 #ice-box
+
+## Blockers
+- No active owner or unclear scope
+
+#breakdown
