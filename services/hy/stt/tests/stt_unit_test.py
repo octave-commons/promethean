@@ -1,11 +1,10 @@
-import os
 import sys
 import types
-import pytest
 from unittest.mock import patch
 
-# Ensure service directory is importable
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import pytest
+
+# Service modules are importable via package path
 
 
 @pytest.fixture(autouse=True)
@@ -34,7 +33,7 @@ def client(monkeypatch):
         "shared.py.heartbeat_client.HeartbeatClient", lambda *a, **k: DummyHB()
     )
 
-    import app
+    from services.hy.stt import app
     from fastapi.testclient import TestClient
 
     return TestClient(app.app)

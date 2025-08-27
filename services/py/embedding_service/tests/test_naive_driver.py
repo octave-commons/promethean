@@ -1,11 +1,6 @@
-import sys
-from pathlib import Path
+"""Tests for ``services.py.embedding_service.drivers.naive_driver``."""
 
-BASE_DIR = Path(__file__).resolve()
-sys.path.insert(0, str(BASE_DIR.parents[2]))
-sys.path.insert(0, str(BASE_DIR.parents[4]))
-
-from embedding_service.drivers import naive_driver
+from services.py.embedding_service.drivers import naive_driver
 
 
 def test_simple_embedding_uses_vector_size():

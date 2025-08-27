@@ -1,14 +1,7 @@
-import sys
+"""Tests for ``scripts.kanban.agile_statuses`` and related modules."""
 
-from tests.scripts.utils import load_script_module, SCRIPTS_DIR
-
-KANBAN_DIR = SCRIPTS_DIR / "kanban"
-if str(KANBAN_DIR) not in sys.path:
-    sys.path.insert(0, str(KANBAN_DIR))
-
-agile = load_script_module("kanban/agile_statuses")
-sys.modules["agile_statuses"] = agile
-normalize = load_script_module("kanban/normalize_statuses")
+from scripts.kanban import agile_statuses as agile
+from scripts.kanban import normalize_statuses as normalize
 
 
 def test_status_order_is_unique_and_matches_set():

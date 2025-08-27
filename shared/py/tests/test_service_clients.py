@@ -1,14 +1,7 @@
-import os
-import sys
 from unittest.mock import MagicMock, patch
 
 import numpy as np
 from scipy.io import wavfile
-
-# Ensure repository root on sys.path
-sys.path.insert(
-    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
-)
 
 from shared.py.speech.service_clients import (
     send_wav_as_pcm,

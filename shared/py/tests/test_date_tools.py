@@ -1,11 +1,4 @@
-import os
-import sys
 from datetime import datetime, timezone, timedelta
-
-# Add repository root to sys.path
-sys.path.insert(
-    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
-)
 
 from shared.py.date_tools import time_ago
 
