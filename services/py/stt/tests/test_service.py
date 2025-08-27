@@ -1,16 +1,13 @@
-import os, sys
+"""Tests for ``services.py.stt.service``."""
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-sys.path.insert(
-    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../.."))
-)
 import asyncio
-
 import base64
+import sys
 import types
+
 import pytest
 
-from service import process_task
+from services.py.stt.service import process_task
 
 
 class DummyClient:

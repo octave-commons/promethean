@@ -1,12 +1,7 @@
-import os
 import sys
 import types
 import time
 import requests
-
-sys.path.insert(
-    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
-)
 
 # Stub chromadb EmbeddingFunction to avoid heavy dependency
 chromadb_utils = types.ModuleType("chromadb.utils.embedding_functions")

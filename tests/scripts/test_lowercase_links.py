@@ -1,6 +1,4 @@
-from tests.scripts.utils import load_script_module
-
-ll = load_script_module("lowercase_links")
+import scripts.lowercase_links as ll
 
 
 def test_process_file_renames_dirs_and_links(tmp_path):

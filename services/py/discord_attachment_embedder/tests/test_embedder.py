@@ -1,11 +1,10 @@
-import sys
-from pathlib import Path
+"""Tests for ``services.py.discord_attachment_embedder.main``."""
+
 import importlib
-import pytest
+import sys
 import types
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-sys.path.insert(0, str(Path(__file__).resolve().parents[4]))
+import pytest
 
 
 class FakeCollection:
@@ -78,7 +77,7 @@ def test_process_message(monkeypatch):
     monkeypatch.setitem(
         sys.modules, "shared.py.embedding_client", fake_embedding_client
     )
-    mod = importlib.import_module("main")
+    mod = importlib.import_module("services.py.discord_attachment_embedder.main")
     message = {
         "id": 1,
         "content": "this is my pet cat fluffy",
