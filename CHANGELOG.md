@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - OpenAPI spec for `/v1` served at `/v1/openapi.json` with consolidated operations.
 - `distclean` target to remove ignored files via `git clean -fdX`.
 - `snapshot` target to tag the current commit with a timestamped snapshot.
+- Root Biome configuration and package scripts for linting and formatting.
 
 ### Changed
 
