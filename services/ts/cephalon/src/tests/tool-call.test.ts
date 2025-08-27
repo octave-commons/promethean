@@ -3,10 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-// dynamic imports for broker server and client
-// @ts-ignore dynamic import of JS modules
-const brokerModule = await import(path.resolve(__dirname, '../../../../js/broker/index.js'));
-const { start: startBroker, stop: stopBroker } = brokerModule;
+// Use memory broker via BrokerClient
 // @ts-ignore dynamic import of JS modules
 const clientModule = await import('@shared/js/brokerClient.js');
 const { BrokerClient } = clientModule;
@@ -18,11 +15,10 @@ if (process.env.SKIP_NETWORK_TESTS === '1') {
 } else {
     test('LLMService routes tool calls through broker', async (t) => {
         process.env.NO_SCREENSHOT = '1';
-        const broker = await startBroker(0);
-        const port = broker.address().port;
+        process.env.BROKER_URL = 'memory://llm-tools';
         let received: any = null;
         const worker = new BrokerClient({
-            url: `ws://127.0.0.1:${port}`,
+            url: process.env.BROKER_URL,
             id: 'llm-worker',
         });
         await worker.connect();
@@ -47,7 +43,7 @@ if (process.env.SKIP_NETWORK_TESTS === '1') {
         });
         await worker.ready('llm.generate');
 
-        const llm = new LLMService({ brokerUrl: `ws://127.0.0.1:${port}` });
+        const llm = new LLMService({ brokerUrl: process.env.BROKER_URL });
         llm.registerTool(
             {
                 type: 'function',
@@ -68,6 +64,5 @@ if (process.env.SKIP_NETWORK_TESTS === '1') {
         t.truthy(received.tools[0]);
 
         worker.socket?.close();
-        await stopBroker(broker);
     });
 }
