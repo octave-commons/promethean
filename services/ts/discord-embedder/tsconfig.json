@@ -1,13 +1,13 @@
 {
-    "extends": "../../../config/tsconfig.base.json",
-    "compilerOptions": {
-        "outDir": "dist",
-        "rootDir": "src",
-        "module": "ESNext",
-        "moduleResolution": "Bundler",
-        "allowArbitraryExtensions": true,
-        "types": ["node"]
-    },
-    "include": ["src/**/*.ts"],
-    "exclude": ["node_modules"]
+  "extends": "../../../config/tsconfig.service.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowArbitraryExtensions": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

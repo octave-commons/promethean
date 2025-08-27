@@ -329,7 +329,7 @@ importers:
 
   services/ts/attachment-embedder:
     dependencies:
-      "@shared/prom-lib":
+      "@shared/ts":
         specifier: file:../../../shared/ts
         version: link:../../../shared/ts
       "@types/node":
@@ -912,6 +912,8 @@ importers:
       c8:
         specifier: ^9.1.0
         version: 9.1.0
+
+  services/ts/scripts: {}
 
   services/ts/smartgpt-bridge:
     dependencies:
@@ -14728,7 +14730,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.1)
+      follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -16936,7 +16938,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.4.1)
+      follow-redirects: 1.15.11(debug@4.3.7)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug

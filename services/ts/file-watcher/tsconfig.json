@@ -1,9 +1,11 @@
 {
   "extends": "../../../config/tsconfig.service.json",
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "tests/**/*.ts",
-    "../../../shared/ts/src/types/**/*.d.ts"
-  ]
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2022"
+  },
+  "include": ["src/**/*.ts"]
 }

@@ -5,13 +5,13 @@
   "main": "./src/index.ts",
   "scripts": {
     "start": "node --enable-source-maps --experimental-specifier-resolution=node ./src/index.ts",
-    "test": "ava",
-    "coverage": "c8 ava",
-    "build": "echo 'ts-run direct'",
-    "lint": "pnpm exec @biomejs/biome lint . || true"
+    "test": "pnpm build && ava --config ../../../config/ava.config.mjs",
+    "coverage": "pnpm build && c8 ava",
+    "build": "tsc",
+    "lint": "pnpm exec @biomejs/biome lint ."
   },
   "dependencies": {
-    "@shared/prom-lib": "file:../../../shared/ts",
+    "@shared/ts": "file:../../../shared/ts",
     "@types/node": "^24.3.0",
     "discord.js": "^14.17.3"
   },
@@ -20,14 +20,5 @@
     "c8": "^9.1.0",
     "tsx": "^4.20.3",
     "@biomejs/biome": "^2.2.2"
-  },
-  "ava": {
-    "extensions": [
-      "ts",
-      "js"
-    ],
-    "nodeArguments": [
-      "--import=tsx"
-    ]
   }
 }
