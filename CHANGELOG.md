@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - `snapshot` target to tag the current commit with a timestamped snapshot.
 - Shared Biome configuration template (`templates/ts/biome.base.json`) for TypeScript services.
 - Shared dependency specifications for Discord indexer services.
+- Centralized Biome configuration at `templates/ts/biome.base.json` referenced by Discord bot template and Markdown Graph service.
 
 ### Changed
 
