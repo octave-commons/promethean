@@ -1,11 +1,12 @@
 import test from "ava";
-import path from "path";
-import { fileURLToPath } from "url";
-import { RemoteEmbeddingFunction } from "@shared/ts/dist/embeddings/remote.js";
+// import path from "path";
+// import { fileURLToPath } from "url";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+// const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // Use memory broker via BrokerClient
 // @ts-ignore dynamic import of JS modules
+
+import { RemoteEmbeddingFunction } from "@shared/ts/dist/embeddings/remote.js";
 const clientModule = await import("@shared/js/brokerClient.js");
 const { BrokerClient } = clientModule;
 
