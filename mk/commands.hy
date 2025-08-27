@@ -47,7 +47,6 @@
 (define-service-list SERVICES_PY "services/py" (not (in  "templates" path)))
 (define-service-list SERVICES_JS "services/js" (not (in  "templates" path)))
 (define-service-list SERVICES_TS "services/ts" (not (in  "templates" path)))
-(define-service-list SHARED_TS   "shared/ts"   (not (in  "templates" path)))
 
 (defn define-patterns [#* groups]
       (lfor [lang commands] groups
