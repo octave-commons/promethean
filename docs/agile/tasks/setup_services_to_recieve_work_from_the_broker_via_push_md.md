@@ -68,7 +68,7 @@ Each queue represents a task type or target service. Over time, this model will 
 #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode
 
 ---
-#in-review
+#in-progress
 
 ## Comments
 
