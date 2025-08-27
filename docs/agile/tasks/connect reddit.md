@@ -27,7 +27,22 @@ Integrate Reddit so agents can read and post subreddit content using the Reddit 
 - [ ] Integration test covering happy path and 429 handling
 - [ ] Unit tests for data mapping and error cases
 
-## Relevant resources
+## Dependencies
+
+- Reddit API access and credentials
+- OAuth2 authentication library
+
+## Rough Scope
+
+- Set up API client with OAuth2 flow
+- Implement fetch and post operations for target subreddits
+- Integrate results with existing context pipeline
+
+## Estimate
+
+- Story points: 3
+
+## Relevent resources
 
 You might find [Reddit API docs](https://www.reddit.com/dev/api) useful while working on this task
 
@@ -35,4 +50,4 @@ You might find [Reddit API docs](https://www.reddit.com/dev/api) useful while wo
 
 Useful for agents to engage in append only conversations about this task.
 
-#Breakdown
+#Ready
