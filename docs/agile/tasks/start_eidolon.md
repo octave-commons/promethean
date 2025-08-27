@@ -1,6 +1,9 @@
 ## 🛠️ Task: Start Eidolon
 
-Bootstrap the **Eidolon** service that manages emotional state simulation and reward calculations. Set up a minimal Python package under `services/eidolon/` with a command-line entry point and README to enable future development of the field mechanics.
+Bootstrap the **Eidolon** service that manages emotion-state tracking and
+reward calculations. This task sets up a minimal Python package under
+`services/eidolon/` with a command-line entry point and README so future tasks
+can iterate on the underlying field mechanics.
 
 ---
 
@@ -17,7 +20,7 @@ Bootstrap the **Eidolon** service that manages emotional state simulation and re
 ## 📦 Requirements
 
 - [ ] Create package structure `services/eidolon/` with `__init__.py` and `main.py`
-- [ ] Implement a basic event loop that prints "Eidolon running" when executed
+- [ ] Implement a minimal `EidolonState` class with a simple update loop that prints "Eidolon running"
 - [ ] Add a placeholder config file `services/eidolon/config.json`
 - [ ] Include a `README.md` describing how to run the service with Python
 - [ ] Implement a minimal `EidolonState` class with a simple update loop
