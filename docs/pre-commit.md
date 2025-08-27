@@ -32,3 +32,10 @@ git ls-files -z | xargs -0 pre-commit run --files
 
 The CI workflow runs the same command to verify that committed files pass
 the configured hooks.
+
+## Changelog fragments
+
+A custom hook blocks commits that modify `CHANGELOG.md` directly or add
+multiple fragments for the same pull request in `changelog.d/`. Run
+`pre-commit run --files changelog.d/<fragment>.md` after creating a
+changelog entry to ensure the check passes.
