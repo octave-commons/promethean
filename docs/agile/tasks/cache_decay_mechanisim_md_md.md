@@ -16,6 +16,13 @@ Placeholder task stub generated from kanban board.
 
 ---
 
+## ✅ Acceptance Criteria
+- Cache entries expire according to the decay schedule.
+- Decay timing is configurable.
+- Tests demonstrate expired entries are removed.
+
+---
+
 ## 📋 Subtasks
 
 - [ ] Outline steps to implement.
