@@ -1,3 +1,4 @@
+// integration
 import test from "ava";
 import { WebSocket } from "ws";
 import { start, setCaptureFn, stop } from "../index.js";

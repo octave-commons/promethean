@@ -1,6 +1,6 @@
 (import json)
 (import os.path [isfile])
-(import util [sh])
+(import mk.util [sh])
 (import sys)
 
 (import mk.commands [load])

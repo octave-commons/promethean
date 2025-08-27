@@ -1,3 +1,4 @@
+// integration: exercises real ws server
 import test from 'ava';
 import { WebSocketServer } from 'ws';
 import { BrokerClient } from '@shared/js/brokerClient.js';
