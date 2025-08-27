@@ -8,11 +8,12 @@ export class OllamaDriver implements LLMDriver {
         this.model = model;
     }
 
-    async generate({ prompt, context = [], format }: GenerateArgs) {
+    async generate({ prompt, context = [], format, tools = [] }: GenerateArgs) {
         const res = await ollama.chat({
             model: this.model,
             messages: [{ role: 'system', content: prompt }, ...context],
             format,
+            tools,
         });
         const content = res.message.content;
         return format ? JSON.parse(content) : content;

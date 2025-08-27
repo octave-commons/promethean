@@ -8,7 +8,7 @@ test('loads ollama driver and generates', async (t) => {
     const orig = ollama.chat;
     ollama.chat = async () => ({ message: { content: 'hello' } });
     const driver = await loadDriver();
-    const res = await driver.generate({ prompt: 'hi', context: [], format: null });
+    const res = await driver.generate({ prompt: 'hi', context: [], format: null, tools: [] });
     t.is(res, 'hello');
     ollama.chat = orig;
 });
@@ -19,7 +19,7 @@ test('loads huggingface driver and generates', async (t) => {
     const driver = await loadDriver();
     const orig = driver.client;
     driver.client = { textGeneration: async () => ({ generated_text: 'hi' }) };
-    const res = await driver.generate({ prompt: 'hi', context: [], format: null });
+    const res = await driver.generate({ prompt: 'hi', context: [], format: null, tools: [] });
     t.is(res, 'hi');
     driver.client = orig;
 });

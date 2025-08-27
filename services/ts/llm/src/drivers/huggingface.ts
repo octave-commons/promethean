@@ -10,7 +10,7 @@ export class HuggingFaceDriver implements LLMDriver {
         this.client = new HfInference(process.env.HF_API_TOKEN);
     }
 
-    async generate({ prompt, context = [], format }: GenerateArgs) {
+    async generate({ prompt, context = [], format, tools = [] }: GenerateArgs) {
         const input = [{ role: 'system', content: prompt }, ...context]
             .map((m) => `${m.role}: ${m.content}`)
             .join('\n');
