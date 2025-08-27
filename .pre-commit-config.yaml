@@ -30,11 +30,33 @@ repos:
         language: system
         pass_filenames: false
         stages: [manual]
-      - id: integration-tests
-        name: Integration and E2E tests
-        entry: make test-integration && make test-e2e
+      - id: test-js-services
+        name: Run JS service tests
+        entry: pnpm test
         language: system
         pass_filenames: false
+        files: ^services/js/
+        stages: [manual]
+      - id: test-ts-services
+        name: Run TS service tests
+        entry: pnpm test
+        language: system
+        pass_filenames: false
+        files: ^services/ts/
+        stages: [manual]
+      - id: test-shared
+        name: Run shared library tests
+        entry: pnpm test
+        language: system
+        pass_filenames: false
+        files: ^shared/
+        stages: [manual]
+      - id: test-migrations
+        name: Run migration fixture tests
+        entry: pnpm test
+        language: system
+        pass_filenames: false
+        files: ^tests/fixtures/migrations/
         stages: [manual]
 
   - repo: https://github.com/psf/black
