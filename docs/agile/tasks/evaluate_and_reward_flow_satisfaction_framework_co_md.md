@@ -18,6 +18,8 @@ Generated from [../unique/2025.07.28.18.07.20.md](../unique/2025.07.28.18.07.20.
 - [ ] TODO
 
 ---
+# Reason for rejection
 
+Duplicate of [[evaluate_and_reward_flow_satisfaction_md_md.md|Evaluate and reward flow satisfaction]].
 
 #rejected

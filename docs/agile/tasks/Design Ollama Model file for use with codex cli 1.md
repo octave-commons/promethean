@@ -15,3 +15,9 @@ Having a preconfigured pre prompted model could help agents perform better as co
 - [ ] Select a range of hyper parameters to test each prompt with
 - [ ] Write a report on the outcome
 
+## Reason for rejection
+
+Duplicate of [[Design Ollama Model file for use with codex cli.md|Design Ollama Model file for use with codex cli]].
+
+#rejected
+

@@ -55,14 +55,12 @@ kanban-plugin: board
 ## Incoming
 
 - [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md.md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #framework-core #ice-box
-- [ ] [[Design Ollama Model file for use with codex cli 1]]
 - [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|Refactor Speech interuption system]] #framework-core #breakdown
 - [ ] [[identify_ancestral_resonance_patterns_md_md.md|Identify ancestral resonance patterns]] #framework-core #ice-box
 - [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #framework-core #ice-box
 - [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
 - [ ] [[add_file_system_to_context_management_system_md_md.md|Add file system to context management system.md]] #framework-core #ice-box
 - [ ] [[implement_transcendence_cascade_md.md|Implement transcendence cascade]] #framework-core #ice-box
-- [ ] [[evaluate_and_reward_flow_satisfaction_md_md.md|Evaluate and reward flow satisfaction]] #framework-core #ice-box
 - [ ] [[define_codex_cli_baseg_agent_md_md.md|Define codex CLI baseg agent.md]] #framework-core #ice-box
 - [ ] [[discord_chat_link_traversal_md_md.md|Discord chat link traversal.md]] #framework-core #ice-box
 - [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md.md|Allow old unnessisary messages to decay from database while retaining index entries ids.md]] #framework-core #eidolon-support #ice-box
@@ -86,9 +84,7 @@ kanban-plugin: board
 - [ ] [[tamper monkey script for using templates defined in the vault]]
 - [ ] [[Make the system hashtag aware]]
 - [ ] [[cache_decay_mechanisim_md_md.md|cache decay mechanisim.md]] #framework-core #ice-box
-- [ ] [[run_model_bakeoff_md.md|Run model bakeoff]] #ops #codex-task #ice-box
 - [ ] [[obsidian_replacement_md.md|obsidian replacement]] #framework-core #ice-box
-- [ ] [[run_model_bakeoff_md.md|Run model bakeoff]] #ops #codex-task #ice-box
 - [ ] [[annotate_legacy_code_with_migration_tags_md.md|Annotate legacy code with migration tags]] #framework-core #ice-box
 - [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md.md|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #framework-core #eidolon-support #ice-box
 - [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #ice-box
@@ -255,7 +251,8 @@ kanban-plugin: board
 - [ ] [[enable_compactor_for_process_state_process_state_s_md.md|Enable compactor for `process.state` → `process.state.snapshot`]] #ice-box
 - [ ] [[pin_versions_in_configs_promethean_codex_md.md|Pin versions in configs (Promethean + Codex)]] #ice-box
 - [ ] [[run_bench_subscribe_ts_with_mongo_bus_and_record_p_md.md|Run `bench/subscribe.ts` with Mongo bus and record p50/p99]] #ice-box
-- [ ] [[run_bakeoff_see_below_md.md|Run bakeoff (see below)]] #ice-box
+- [ ] [[run_bakeoff_see_below_md.md|Run bakeoff (see below)]] #rejected (duplicate of run_model_bakeoff_md.md)
+- [ ] [[Design Ollama Model file for use with codex cli 1]] #rejected (duplicate of Design Ollama Model file for use with codex cli)
 - [ ] [[flatten sibilant src folders]]
 - [ ] [[snapshot_prompts_specs_to_repo_md_md.md|Snapshot prompts/specs to repo]] #ice-box
 - [ ] [[detect_contradictions_in_memory_md_md.md|Detect contradictions in memory]] #framework-core #ice-box
@@ -292,7 +289,7 @@ kanban-plugin: board
 - [ ] [[enable_scripts_lint_topics_ts_in_ci_md.md|Enable **scripts/lint-topics.ts** in CI]] #rejected
 - [ ] [[ensure_github_compatible_markdown_settings_are_doc_md.md|Ensure GitHub-compatible markdown settings are documented]] #documentation #rejected
 - [ ] [[ensure_mongo_indexes_key_1_unique_common_query_fie_md.md|Ensure Mongo indexes: `{ _key: 1 } unique` + common query fields]] #rejected
-- [ ] [[evaluate_and_reward_flow_satisfaction_framework_co_md.md|Evaluate and reward flow satisfaction #framework-core]] #framework-core #rejected
+- [ ] [[evaluate_and_reward_flow_satisfaction_framework_co_md.md|Evaluate and reward flow satisfaction #framework-core]] #framework-core #rejected (duplicate of evaluate_and_reward_flow_satisfaction_md_md.md)
 - [ ] [[expose_snapshot_api_for_processes_collection_proce_md.md|Expose **Snapshot API** for `processes` (collection `processes`)]] #rejected
 - [ ] [[expose_metrics_on_an_express_app_and_scrape_with_p_md.md|Expose `/metrics` on an express app and scrape with Prom]] #rejected
 - [ ] [[finalize_stt_workflow_md_md.md|Finalize STT workflow]] #codex-task #testing #rejected
@@ -352,7 +349,6 @@ kanban-plugin: board
 - [ ] [[ensure_mongo_indexes_key_1_unique_common_query_fie_md.md|Ensure Mongo indexes: `{ _key: 1 } unique` + common query fields]] #rejected
 - [ ] [[implement_transcendence_cascade_framework_core_md.md|Implement transcendence cascade #framework-core]] #framework-core #rejected
 - [ ] [[expose_snapshot_api_for_processes_collection_proce_md.md|Expose **Snapshot API** for `processes` (collection `processes`)]] #rejected
-- [ ] [[evaluate_and_reward_flow_satisfaction_framework_co_md.md|Evaluate and reward flow satisfaction #framework-core]] #framework-core #rejected
 - [ ] [[identify_ancestral_resonance_patterns_framework_co_md.md|Identify ancestral resonance patterns #framework-core]] #framework-core #rejected
 - [ ] [[launch_replayapi_on_8083_test_replay_and_export_nd_md.md|Launch `ReplayAPI` on `:8083`; test `/replay` and `/export?ndjson=1`]] #rejected
 - [ ] [[write_a_replay_job_that_replays_process_state_snap_md.md|Write a replay job that replays `process.state.snapshot` to warm the `processes` collection]] #rejected
@@ -391,7 +387,6 @@ kanban-plugin: board
 - [ ] [[add_mongodedupe_and_replace_critical_consumers_wit_md.md|Add \`MongoDedupe\` and replace critical consumers with \`subscribeExactlyOnce\`]] #rejected
 - [ ] [[document_etag_semantics_and_cache_headers_for_snap_md.md|Document ETag semantics and cache headers for \`/snap/:key\`]] #rejected
 - [ ] [[enable_scripts_lint_topics_ts_in_ci_md.md|Enable \*\*scripts/lint-topics.ts\*\* in CI]] #rejected
-- [ ] [[evaluate_and_reward_flow_satisfaction_framework_co_md.md|Evaluate and reward flow satisfaction #framework-core]] #framework-core #rejected
 - [ ] [[move_all_testing_to_individual_services_md.md|Move all testing to individual services]] #Duplicate #rejected
 - [ ] [[summarize_clarified_priorities_for_next_sprint_md_md.md|Summarize clarified priorities for next sprint]] #framework-core #reject #rejected
 - [ ] [[implement_pause_resume_ops_on_gateway_md.md|Implement \`PAUSE/RESUME\` ops on gateway]] #rejected
@@ -424,7 +419,6 @@ kanban-plugin: board
 - [ ] [[document_board_sync_workflow_md_md.md|Document board sync workflow]] #framework-core #archive
 - [ ] [[obsidian_kanban_github_project_board_mirror_system_md_md.md|Obsidian Kanban Github Project Board Mirror system]] #framework-core #archive
 - [ ] [[pin_versions_in_configs_promethean_codex_md.md|Pin versions in configs (Promethean + Codex)]] #archive
-- [ ] [[run_bakeoff_see_below_md.md|Run bakeoff (see below)]] #archive
 - [ ] [[set_up_makefile_for_python_js_build_test_dev_md.md|Set up Makefile for Python + JS build test dev]] #cicd #buildtools #devtools #devops #archive
 - [ ] [[start_eidolon_md_md.md|Start Eidolon]] #framework-core #archive
 - [ ] [[update_makefile_to_have_commands_specific_for_agents_md.md|Update Makefile to have commands specific for agents]] #devops #archive
@@ -445,7 +439,6 @@ kanban-plugin: board
 - [ ] [[prevent_dangling_processes_when_a_process_fails_due_to_error_or_automaticly_clean_them_up_1_md_md.md|Prevent dangling processes when a process fails due to error, or automaticly clean them up 1.md]] #framework-core #resources #process-management #aionian #archive
 - [ ] [[make_discord_channel_aware_contextualizer_md_md.md|Make discord channel aware contextualizer.md]] #framework-core #archive
 - [ ] [[obsidian_kanban_github_project_board_mirror_system_md_md.md|Obsidian Kanban Github Project Board Mirror system]] #framework-core #archive
-- [ ] [[run_bakeoff_see_below_md.md|Run bakeoff (see below)]] #archive
 - [ ] [[pin_versions_in_configs_promethean_codex_md.md|Pin versions in configs (Promethean + Codex)]] #archive
 - [ ] [[build_tiny_web_page_that_uses_promclient_in_the_br_md.md|Build tiny web page that uses \`PromClient\` in the browser to show live \`process.state\` (optional)]] #archive
 - [ ] [[create_permission_gating_layer_codex_task_md.md|Create permission gating layer #codex-task]] #codex-task #archive
