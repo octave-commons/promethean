@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 
+- Clarified audio-interruption task goals with measurable requirements and concrete subtasks.
 - Refined Kanban breakdown tasks with clear goals, requirements, and subtasks.
 - MCP server and stdio wrapper exposing `search.query` over WebSocket and CLI.
 - Packaging for `shared` modules to enable standard imports.
