@@ -202,3 +202,9 @@ feat(migrations): isolate test DBs and enforce migration contracts
 ```
 
 \#tags #promethean #mongodb #chroma #migration #contracts #testing #ci #safety #idempotent
+
+## Notes
+- Tests or documentation are missing; acceptance criteria not fully met.
+- Story Points: 8
+
+#in-progress

@@ -13,6 +13,7 @@ pytest-asyncio = "*"
 numpy = "*"
 uvicorn = "*"
 websockets = "*"
+towncrier = "*"
 
 [requires]
 python_version = "3.12"

@@ -1,18 +1,9 @@
 {
+    "extends": "../../../config/tsconfig.base.json",
     "compilerOptions": {
-        "target": "ES2022",
-        "module": "NodeNext",
-        "moduleResolution": "NodeNext",
         "outDir": "dist",
         "rootDir": "src",
-        "strict": true,
-        "sourceMap": true,
-        "inlineSources": true,
-        "esModuleInterop": false,
-        "allowSyntheticDefaultImports": true,
-        "resolveJsonModule": true,
-        "types": ["node", "ava"], // <-- add "ava"
-        "skipLibCheck": true
+        "types": ["node"]
     },
     "include": ["src/**/*"],
     "exclude": ["dist"]

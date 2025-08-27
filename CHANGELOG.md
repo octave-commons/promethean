@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Shared Discord service helper for client setup, heartbeat, and channel iteration.
+
 - Command definitions extracted into reusable modules and JSON descriptors for Makefile generation.
 
 - Extracted actionable tasks from unique notes into tasks/unique-notes.md
@@ -20,10 +22,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - v1 router exposing consolidated SmartGPT Bridge endpoints.
 - OpenAPI spec for `/v1` served at `/v1/openapi.json` with consolidated operations.
 - `distclean` target to remove ignored files via `git clean -fdX`.
+- Unit test validating MongoDB connection string and agent-specific collections.
+- Task linting script with `lint-tasks` Makefile target for verifying agile task files.
+- Tests for router and WebSocket server behaviors in `mcp-server`.
+- `snapshot` target to tag the current commit with a timestamped snapshot.
+- Root Biome configuration and package scripts for linting and formatting.
+- Shared Biome configuration template (`templates/ts/biome.base.json`) for TypeScript services.
+- Shared dependency specifications for Discord indexer services.
+- Centralized Biome configuration at `templates/ts/biome.base.json` referenced by Discord bot template and Markdown Graph service.
+
+- Tests covering `scripts.add_tags_ollama` tag generation and file processing.
 
 ### Changed
 
+- Discord indexer and attachment indexer services now use the shared Discord service helper for consistent env loading and logging.
+
+- Expanded GitHub branching workflow documentation with branch naming, merge requirements, and CI expectations.
+- VoiceSynth implementation moved to shared module and imported by Cephalon service.
+- Clarified audio-interruption task goals with measurable requirements and concrete subtasks.
 - Refined Kanban breakdown tasks with clear goals, requirements, and subtasks.
+- Expanded task descriptions for Reddit, Bluesky, and Wikipedia integrations.
 - MCP server and stdio wrapper exposing `search.query` over WebSocket and CLI.
 - Packaging for `shared` modules to enable standard imports.
 - Central `tests/conftest.py` to configure the test environment.
@@ -38,6 +56,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Proxy route `/bridge` through the shared proxy service for SmartGPT Bridge.
 - Tool calling support for Codex Context service.
 - Image attachments captured, stored, and retrieved for multimodal prompting with cleanup.
+- Defined interruption‑threshold configuration task with measurable goals and
+  concrete implementation steps.
+- Markdown Graph service and Discord bot template now extend the shared Biome configuration.
 - OAuth Authorization Code flow with PKCE for the auth-service, enabling OpenAI Custom GPT logins.
 - Template for building Discord bots in TypeScript based on the Cephalon service.
 - Tests validating bridge event mappings for identifiers and protocols.
@@ -61,6 +82,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Provider-agnostic LLM driver interface with Ollama and HuggingFace implementations.
 - TypeScript LLM service now uses pluggable drivers for Ollama and HuggingFace.
 - Documented broker reconnection problem, goals, and acceptance criteria.
+- Shared OpenAI-style tool schema with broker-routed tool execution in LLM adapter.
 - Periodic worker sweep in `queueManager` with configurable heartbeat and expiry thresholds.
 - Logging for task timeouts with configurable queueManager requeue tests.
 - Initial scaffolding for broker↔bridge parity tests, including normalizers, runner, and unit tests.
@@ -69,17 +91,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Realtime Promethean Health Dashboard for monitoring heartbeat metrics.
 - Configurable timeout for remote embedding requests.
 - `defun` special form in Lisp compiler enabling named functions and recursion.
-
 - Discord attachment helpers moved to a shared module with consolidated tests.
 
 ### Changed
 
+- ESLint configuration updated to remove Prettier in favor of Biome.
+- Documented API integration details for Reddit, Bluesky, and Wikipedia tasks.
 - Pinned JavaScript dependencies, GitHub Actions, and documented version policy for reproducible builds.
 - Pre-commit now runs `pnpm tsc --noEmit` and `pytest -q` instead of `make build`; use `pre-commit run --hook-stage manual full-build` or `make build` for full builds.
 - Naive embedding driver now uses configurable `VECTOR_SIZE` constant.
- - Enhanced URL canonicalization helpers to remove tracking parameters and expand scheme denylist.
+- Enhanced URL canonicalization helpers to remove tracking parameters and expand scheme denylist.
 - Organized SmartGPT Bridge routes into versioned directories.
 - Embedding clients and related utilities now accept structured `{type, data}`
+- Centralized TypeScript service configuration in `services/ts/config` and removed duplicate configs in Cephalon and Discord Embedder.
   items instead of using the `img:` prefix.
 - Moved SmartGPT dashboard and LLM chat frontends into `sites/`.
 - Frontends now served from a central static file server instead of individual services.
@@ -102,6 +126,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - EmbeddingServiceClient now retries failed requests with exponential backoff and returns structured errors when service calls fail.
 - Waveform and spectrogram generation delegated to an external audio service injected via `CaptureDeps`.
 - Remote embedding function now surfaces broker connection errors and rejects pending requests on failure.
+- Updated Biome schema references to version 2.2.2.
+- Discord attachment embedder services now share a common embedding routine.
+- Python service PM2 configs import shared `ecosystem.dependencies.js` from `services/shared`.
 
 ### Fixed
 
@@ -123,6 +150,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Deprecated `scripts/serve-sites.js` static file server.
 - Per-file `sys.path.append` hacks in tests in favor of centralized setup.
+- `prettier.config.cjs` removed now that Biome handles formatting.
+- Hy variant of the Discord attachment embedder service in favor of shared Python implementation.
 
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 

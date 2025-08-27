@@ -27,6 +27,13 @@ execution.
 
 ---
 
+## ✅ Acceptance Criteria
+- Root `AGENTS.md` contains a permission schema section.
+- YAML and JSON examples illustrate read-only and full-access agents.
+- Sample config files for both roles exist under `agents/*/config/`.
+
+---
+
 ## 📋 Subtasks
 
 - [ ] Draft schema description inside `AGENTS.md`
