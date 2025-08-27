@@ -146,6 +146,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Cephalon embedding docs now point to the shared remote embedding helper.
 - Lint and format scripts for `@shared/ts` now invoke the Biome CLI directly.
 - Provider policy test now restricts access for non-whitelisted services.
+- Consolidated duplicate `patch-imports.js` scripts into shared `services/ts/scripts` and updated service builds.
 
 ### Removed
 
