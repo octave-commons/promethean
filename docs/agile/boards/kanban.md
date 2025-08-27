@@ -55,7 +55,6 @@ kanban-plugin: board
 ## Incoming
 
 - [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md.md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #framework-core #ice-box
-- [ ] [[Design Ollama Model file for use with codex cli 1]]
 - [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|Refactor Speech interuption system]] #framework-core #breakdown
 - [ ] [[identify_ancestral_resonance_patterns_md_md.md|Identify ancestral resonance patterns]] #framework-core #ice-box
 - [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #framework-core #ice-box
@@ -97,6 +96,7 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
+- [ ] [[Design Ollama Model file for use with codex cli 1]] #breakdown
 - [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #ice-box
 - [ ] [[thinking_model_integration_md_md.md|thinking model integration md md]] #framework-core #ice-box
 - [ ] [[connect reddit]]
