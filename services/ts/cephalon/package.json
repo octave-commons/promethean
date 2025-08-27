@@ -7,8 +7,8 @@
     "scripts": {
         "build": "tsc -p .",
         "start": "node dist/index.js",
-        "test": "pnpm run build && ava",
-        "coverage": "pnpm run build && c8 ava",
+        "test": "pnpm run build && ava --config ../../../shared/ts/ava.config.mjs --node-arguments='--enable-source-maps'",
+        "coverage": "pnpm run build && c8 ava --config ../../../shared/ts/ava.config.mjs --node-arguments='--enable-source-maps'",
         "build:check": "tsc --noEmit --incremental false -p .",
         "deploy": "pnpm run build && node --env-file=../../.env dist/util/deploy.js",
         "lint": "pnpm exec biome lint --config-path ../config/biome.json .. || true",
@@ -63,13 +63,5 @@
         "source-map-support": "^0.5.21",
         "ts-node": "^10.9.2",
         "typescript": "5.7.3"
-    },
-    "ava": {
-        "files": [
-            "dist/tests/**/*.js"
-        ],
-        "nodeArguments": [
-            "--enable-source-maps"
-        ]
     }
 }
