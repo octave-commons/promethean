@@ -1,4 +1,5 @@
 ## 🛠️ Description
+**Status:** blocked
 
 Automate the creation of new task files using a command-line script or Obsidian Templater so every Kanban card has a properly formatted markdown stub.
 
@@ -50,4 +51,7 @@ Nothing
 
 - [kanban](../boards/kanban.md)
 
-#Breakdown
+#breakdown
+
+## Blockers
+- No active owner or unclear scope

@@ -36,6 +36,7 @@ const DOING = (argv.get('doing') ?? 'Breakdown,In Progress,Todo,In Review')
     .split(',')
     .map((s) => s.trim());
 const SAFE_LEFT = argv.get('safe-left') ?? 'Accepted';
+const DRY_RUN = argv.get('dry-run') === 'true' || (!WRITE && argv.get('dry-run') !== 'false');
 // Keep exactly what's after the settings marker so we can round-trip it.
 function splitKanbanSettings(md: string): { content: string; footer: string } {
     const start = md.search(/^\s*%%\s*kanban:settings\b/m);
@@ -222,4 +223,33 @@ function renderBoard(lanes: Board, preamble: string, footer: string): string {
     const doingIdxs = DOING.map((name) => laneIndex.get(laneName(name))).filter(
         (i): i is number => i != null,
     );
+
+    // Log lane usage and rebalance if over capacity
+    for (const [i, lane] of lanes.entries()) {
+        const usage = laneUsage(lane);
+        const cap = lane.capacity ?? null;
+        console.log(`${lane.title}: ${usage}${cap != null ? '/' + cap : ''}`);
+        if (doingIdxs.includes(i)) {
+            const effCap = cap ?? DEFAULT_CAP;
+            if (effCap != null && usage > effCap) {
+                const need = usage - effCap;
+                const victims = pickVictims(lane, need);
+                const destIdx = nearestSafeLeft(lanes, i);
+                const destLane = lanes[destIdx];
+                lane.cards = lane.cards.filter((c) => !victims.includes(c));
+                destLane.cards.unshift(...victims);
+                for (const v of victims) {
+                    console.log(`moving "${v.title}" from ${lane.title} -> ${destLane.title}`);
+                }
+            }
+        }
+    }
+
+    const rendered = renderBoard(lanes, preamble, footer);
+    if (WRITE) {
+        await fs.writeFile(BOARD_PATH, rendered);
+    }
+    if (DRY_RUN) {
+        console.log(rendered);
+    }
 })();

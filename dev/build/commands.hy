@@ -508,6 +508,7 @@
       (sh ["python" "scripts/simulate_ci.py"])) )
 
 (defn-cmd docker-build []
+  (sh ["docker" "build" "-f" "services/docker/base-python-pipenv.Dockerfile" "-t" "base-python-pipenv" "services/docker"])
   (sh ["docker" "compose" "build"]))
 
 (defn-cmd docker-up []

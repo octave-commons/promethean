@@ -3,6 +3,7 @@ Here’s the refined version, keeping it focused on **NPU-accelerated transcript
 ---
 
 ## 🛠️ Description
+**Status:** blocked
 
 Offload **speech-to-text transcription** from the CPU/GPU to the **Intel NPU** to free up processor cycles for other system components.
 This will involve adapting the current transcription pipeline (likely Whisper or similar model) to run efficiently on the NPU via **OpenVINO** or compatible inference runtime.
@@ -54,3 +55,8 @@ The goal is to maintain or improve transcription speed and accuracy while signif
 If you want, I can also make you a **mermaid diagram** showing the current CPU-bound STT flow vs. the new NPU-accelerated flow so we can see where the changes happen and how fallbacks work.
 That’ll make it easier to slot into the Promethean pipeline.
 #accepted
+
+## Blockers
+- No active owner or unclear scope
+
+#breakdown

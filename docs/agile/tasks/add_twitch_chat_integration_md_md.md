@@ -1,4 +1,5 @@
 ## 🛠️ Description
+**Status:** blocked
 
 Integrate Twitch chat so agents can read and respond to messages during live streams.
 
@@ -50,4 +51,7 @@ Nothing
 
 - [kanban](../boards/kanban.md)
 
-#Breakdown
+#breakdown
+
+## Blockers
+- No active owner or unclear scope

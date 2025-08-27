@@ -4,8 +4,9 @@ This service exposes HTTP and WebSocket endpoints for text generation through pl
 
 ## Usage
 
-Start the service with `./run.sh` (requires `pnpm`; the script prints setup
-instructions if the package manager is missing):
+Start the service with `./run.sh`, a symlink to the shared `services/ts/run.sh`
+script (requires `pnpm`; the script prints setup instructions if the package
+manager is missing):
 
 ```bash
 ./run.sh

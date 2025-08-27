@@ -7,7 +7,9 @@
         "coverage": "c8 ava tests/*.test.js",
         "build:docs": "node scripts/generate-service-docs.js",
         "health:node-abi": "node -p \"process.versions.node + ' ABI ' + process.versions.modules\"",
-        "prepare": "chmod +x ./bin/promethean.js"
+        "prepare": "chmod +x ./bin/promethean.js",
+        "lint": "biome lint --config-path=biome.json .",
+        "format": "biome format --config-path=biome.json --write ."
     },
     "bin": {
         "prom": "./bin/promethean.js"
@@ -26,7 +28,7 @@
         "zod": "3.25.76"
     },
     "devDependencies": {
-        "@biomejs/biome": "2.2.2",
+        "@biomejs/biome": "^2.2.2",
         "@types/jest": "30.0.0",
         "@types/mongodb": "4.0.6",
         "@typescript-eslint/eslint-plugin": "8.39.0",
