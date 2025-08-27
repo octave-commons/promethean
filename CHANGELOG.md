@@ -12,6 +12,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Shared Discord service helper for client setup, heartbeat, and channel iteration.
+
 - Command definitions extracted into reusable modules and JSON descriptors for Makefile generation.
 
 - Extracted actionable tasks from unique notes into tasks/unique-notes.md
@@ -31,6 +33,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Tests covering `scripts.add_tags_ollama` tag generation and file processing.
 
 ### Changed
+
+- Discord indexer and attachment indexer services now use the shared Discord service helper for consistent env loading and logging.
 
 - Expanded GitHub branching workflow documentation with branch naming, merge requirements, and CI expectations.
 - VoiceSynth implementation moved to shared module and imported by Cephalon service.
