@@ -3,32 +3,17 @@ Scan Discord history for attachments and add their metadata to message documents
 """
 
 import hy
-import os
-import sys
 import asyncio
 import random
-from typing import List
+import logging
 
 import discord
 
-# sys.path.insert(0, os.path.join(os.path.dirname(__file__), "../../../"))
-from shared.py import settings
 from shared.py.mongodb import discord_message_collection, discord_channel_collection
-from shared.py.heartbeat_broker import start_broker_heartbeat
-from shared.py.utils.discord import (
-    fetch_channel_history,
-    shuffle_array,
-    update_cursor,
-)
+from shared.py.utils.discord import fetch_channel_history, update_cursor
+from shared.py.discord_service import run_discord_service
 
-AGENT_NAME = os.environ.get("AGENT_NAME", "duck")
-print(f"Discord attachment indexer running for {AGENT_NAME}")
-intents = discord.Intents.default()
-client = discord.Client(intents=intents)
-intents.message_content = True
-
-_hb_started = False
-_hb_ctx = None
+logger = logging.getLogger("discord_attachment_indexer")
 
 
 def format_attachment(attachment: discord.Attachment) -> dict:
@@ -45,13 +30,12 @@ def index_attachments(message: discord.Message) -> None:
     attachments = [format_attachment(a) for a in message.attachments]
     if not attachments:
         return
-        _hy_anon_var_1 = None
-    else:
-        _hy_anon_var_1 = None
-    print(
-        f"Indexing attachments for message {message.id}: {[a['filename'] for a in attachments]}"
+    logger.info(
+        "Indexing attachments for message %s: %s",
+        message.id,
+        [a["filename"] for a in attachments],
     )
-    return discord_message_collection.update_one(
+    discord_message_collection.update_one(
         {"id": message.id}, {"$set": {"attachments": attachments}}
     )
 
@@ -73,34 +57,18 @@ async def index_channel(channel: discord.TextChannel) -> None:
         )
 
 
-@client.event
-async def on_ready():
-    global _hb_started, _hb_ctx
-    if not _hb_started:
-        try:
-            _hb_ctx = await start_broker_heartbeat(
-                service_id=os.environ.get(
-                    "PM2_PROCESS_NAME", "discord_attachment_indexer"
-                )
-            )
-            _hb_started = True
-        except Exception as e:
-            print(f"[discord_attachment_indexer] failed to start broker heartbeat: {e}")
-
-    print("hola")
-    while True:
-        for channel in shuffle_array(list(client.get_all_channels())):
-            if isinstance(channel, discord.TextChannel):
-                random_sleep = random.randint(1, 10)
-                await asyncio.sleep(random_sleep)
-                _hy_anon_var_7 = await index_channel(channel)
-            else:
-                _hy_anon_var_7 = None
+async def handle_channel(channel: discord.TextChannel) -> None:
+    random_sleep = random.randint(1, 10)
+    await asyncio.sleep(random_sleep)
+    await index_channel(channel)
 
 
-@client.event
-async def on_message(message):
-    return index_attachments(message)
+async def handle_message(message: discord.Message) -> None:
+    index_attachments(message)
 
 
-client.run(settings.DISCORD_TOKEN)
+run_discord_service(
+    service_name="discord_attachment_indexer",
+    channel_handler=handle_channel,
+    message_handler=handle_message,
+)
