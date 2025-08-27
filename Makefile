@@ -91,6 +91,7 @@ COMMANDS := \
   kanban-from-tasks \
   kanban-to-hashtags \
   kanban-to-issues \
+  lint-tasks \
   simulate-ci \
   docker-build \
   docker-up \
