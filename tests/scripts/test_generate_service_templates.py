@@ -3,10 +3,7 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
-from tests.scripts.utils import load_script_module
-
-
-gst = load_script_module("generate_service_templates")
+import scripts.generate_service_templates as gst
 
 
 def test_python_scaffold_compiles(tmp_path: Path) -> None:
