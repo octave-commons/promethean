@@ -104,12 +104,28 @@ kanban-plugin: board
 
 ## Prompt Refinement (6)
 
-- [ ] [Web frontend for system management](docs/agile/Tasks/Web%20frontend%20for%20system%20management.md) #accepted
-- [ ] [Split out audio processing logic to a seperate service without changing the current behavior in cephalon](docs/agile/Tasks/Split%20out%20audio%20processing%20logic%20to%20a%20seperate%20service%20without%20changing%20the%20current%20behavior%20in%20cephalon.md) #accepted
-- [ ] [Refactor speech interuption system to be more inteligent, using audio data to decide if interupted](docs/agile/Tasks/Refactor%20speech%20interuption%20system%20to%20be%20more%20inteligent,%20using%20audio%20data%20to%20decide%20if%20interupted.md) #accepted
-- [ ] [Make discord channel aware contextualizer](docs/agile/Tasks/Make%20discord%20channel%20aware%20contextualizer.md) #accepted
-- [ ] [Build data structures for Eidolon field](docs/agile/Tasks/Build%20data%20structures%20for%20Eidolon%20field.md) #accepted
-- [ ] [Add file watcher that looks at agent thinking and prompt refinement and runs an LLM on it a few times and asked if it feels like it's ready](Add%20file%20watcher%20that%20looks%20at%20agent%20thinking%20and%20prompt%20refinement%20and%20runs%20an%20LLM%20on%20it%20a%20few%20times%20and%20asked%20if%20it%20feels%20like%20it's%20ready.md) #accepted
+- [ ] [[evaluate_and_reward_flow_satisfaction_md_md.md|Evaluate and reward flow satisfaction]] #framework-core #ice-box — Value: Medium
+- [ ] [[finish_whisper_npu_system_md_md.md|finish whisper npu system md md]] #framework-core #performance-optimization #npu-integration #accepted — Value: High
+- [ ] [[implement_fragment_ingestion_with_activation_vecto_md.md|Implement fragment ingestion with activation vectors]] #framework-core #ice-box #codex-task — Value: Medium
+- [ ] [[schedule_alignment_meeting_with_stakeholders_md_md.md|Schedule alignment meeting with stakeholders]] #framework-core #ice-box — Value: Low
+- [ ] [[write_a_small_cutover_script_to_replay_historical_md.md|Write a small **cutover** script to replay historical events through upcasters into snapshots]] #ice-box — Value: Medium
+- [ ] [[define_codex_cli_baseg_agent_md_md.md|define codex cli baseg agent md md]] #framework-core #ice-box — Value: Medium
+- [ ] [[discord_chat_link_traversal_md_md.md|discord chat link traversal md md]] #framework-core #ice-box — Value: Low
+- [ ] [[obsidian_replacement_md.md|obsidian replacement md]] #framework-core #ice-box — Value: Low
+- [ ] [[reach_100_percent_complete_test_coverage_1_md_md.md|reach 100 percent complete test coverage 1 md md]] #framework-core #ice-box — Value: High
+- [ ] [[snapshot_prompts_specs_to_repo_md_md.md|snapshot prompts specs to repo md md]] #ice-box — Value: Low
+- [ ] [[tool_chain_management_system_md_md.md|tool chain management system md md]] #framework-core #ice-box — Value: Medium
+- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance (in memory, on disk, cold storage, so )]] #framework-core #ice-box — Value: Medium
+- [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box — Value: Medium
+- [ ] [[identify_ancestral_resonance_patterns_md_md.md|Identify ancestral resonance patterns]] #framework-core #ice-box — Value: Low
+- [ ] [[thinking_model_integration_md_md.md|Thinking Model integration.md]] #framework-core #ice-box — Value: Medium
+- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md.md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #ice-box — Value: Medium
+- [ ] [[wire_mongoeventstore_mongocursorstore_in_place_of_md.md|Wire MongoEventStore + MongoCursorStore in place of InMemory]] #ice-box — Value: Medium
+- [ ] [[annotate_legacy_code_with_migration_tags_md.md|Annotate legacy code with migration tags]] #framework-core #ice-box — Value: Medium
+- [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md.md|Allow configuration of hyperparameters through discord (context size, spectrogram resolution, interuption threshold]] #framework-core #ice-box — Value: Medium
+- [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md.md|Add semantic overlays for layer1 through layer8]] #layerX #framework-core #ice-box — Value: Low
+- [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #ice-box — Value: Medium
+- [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #framework-core #ice-box — Value: Low
 
 ## Agent Thinking (10)
 
@@ -137,7 +153,6 @@ kanban-plugin: board
 - [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #ice-box
 - [ ] [[reach_100_percent_complete_test_coverage_1_md_md.md|Reach 100 percent complete test coverage 1.md]] #framework-core #ice-box
 - [ ] [[run_model_bakeoff_md.md|Run model bakeoff]] #ops #codex-task #ice-box
-- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md.md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #ice-box
 - [ ] [[detect_contradictions_in_memory_md_md.md|Detect contradictions in memory]] #framework-core #ice-box
 - [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md.md|Add semantic overlays for layer1 through layer8]] #layerX #framework-core #ice-box
 - [ ] [[smart_task_templater_md.md|Smart Task templater]] #framework-core #ice-box
@@ -340,20 +355,16 @@ kanban-plugin: board
 
 ## Rejected
 
+- [ ] Find music that triggered copyright mute on twitch for analysis incoming — Archived: Low value
 - [ ] [[enable_compactor_for_process_state_process_state_s_md.md|Enable compactor for `process.state` → `process.state.snapshot`]] #ice-box
 - [ ] [[pin_versions_in_configs_promethean_codex_md.md|Pin versions in configs (Promethean + Codex)]] #ice-box
-- [ ] [[run_bench_subscribe_ts_with_mongo_bus_and_record_p_md.md|Run `bench/subscribe.ts` with Mongo bus and record p50/p99]] #ice-box
-- [ ] [[run_bakeoff_see_below_md.md|Run bakeoff (see below)]] #rejected (duplicate of run_model_bakeoff_md.md)
-- [ ] [[Design Ollama Model file for use with codex cli 1]] #rejected (duplicate of Design Ollama Model file for use with codex cli)
+- [ ] [[run_bakeoff_see_below_md.md|Run bakeoff (see below)]] #ice-box
 - [ ] [[flatten sibilant src folders]]
-- [ ] [[snapshot_prompts_specs_to_repo_md_md.md|Snapshot prompts/specs to repo]] #ice-box
 - [ ] [[detect_contradictions_in_memory_md_md.md|Detect contradictions in memory]] #framework-core #ice-box
-- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md.md|Integrate synthesis-agent pass on \`unique/\` to produce draft docs]] #framework-core #ice-box
 - [ ] [[write_end_to_end_tests_md_md.md|write end to end tests md md]] #framework-core #accepted
 - [ ] [[add_file_system_to_context_management_system_md_md.md|add file system to context management system md md]] #framework-core #ice-box
 - [ ] [[cache_decay_mechanisim_md_md.md|cache decay mechanisim md md]] #framework-core #ice-box
 - [ ] [[suggest_metaprogramming_updates_md.md|Suggest metaprogramming updates]] #framework-core #ice-box
-- [ ] [[wire_mongoeventstore_mongocursorstore_in_place_of_md.md|Wire MongoEventStore + MongoCursorStore in place of InMemory]] #ice-box
 - [ ] [[run_bench_subscribe_ts_with_mongo_bus_and_record_p_md.md|Run `bench/subscribe.ts` with Mongo bus and record p50/p99]] #ice-box
 - [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md.md|Migrate server side sibilant libs to Promethean architecture.]] #accepted
 - [ ] [[add_withdlq_around_risky_consumers_set_maxattempts_md.md|Add **withDLQ** around risky consumers; set `maxAttempts`]] #accepted
@@ -458,17 +469,14 @@ kanban-plugin: board
 - [ ] [[wrap_writers_with_withdualwrite_md.md|Wrap writers with **withDualWrite**]] #rejected
 - [ ] [[wire_runoutboxdrainer_in_event_hub_md.md|Wire \`runOutboxDrainer\` in event-hub]] #rejected
 - [ ] [[define_default_scopes_publish_heartbeat_received_s_md.md|Define default scopes: \`publish:heartbeat.received\`, \`subscribe:process.state\`]] #rejected
-- [ ] [[run_bench_subscribe_ts_with_mongo_bus_and_record_p_md.md|Run \`bench/subscribe.ts\` with Mongo bus and record p50/p99]] #rejected
 - [ ] [[expose_metrics_on_an_express_app_and_scrape_with_p_md.md|Expose \`/metrics\` on an express app and scrape with Prom]] #rejected
 - [ ] [[write_a_replay_job_that_replays_process_state_snap_md.md|Write a replay job that replays \`process.state.snapshot\` to warm the \`processes\` collection]] #rejected
 - [ ] [[wrap_writers_with_withdualwrite_md.md|Wrap writers with \*\*withDualWrite\*\*]] #rejected
 - [ ] [[write_a_smoke_test_client_subscribes_publish_10_ms_md.md|Write a smoke test: client subscribes, publish 10 msgs, assert all ACKed]] #rejected
 - [ ] [[identify_ancestral_resonance_patterns_framework_co_md.md|Identify ancestral resonance patterns #framework-core]] #framework-core #rejected
-- [ ] [[write_a_small_cutover_script_to_replay_historical_md.md|Write a small \*\*cutover\*\* script to replay historical events through upcasters into snapshots]] #rejected
 - [ ] [[write_a_smoke_test_client_subscribes_publish_10_ms_md.md|Write a smoke test: client subscribes, publish 10 msgs, assert all ACKed]] #rejected
 - [ ] [[wrap_event_hub_publish_path_with_withschemavalidat_md.md|Wrap \`event-hub\` publish path with \*\*withSchemaValidation\*\*; fail fast on bad payloads]] #rejected
 - [ ] [[switch_gateway_auth_to_jwt_generate_temp_hs256_tok_md.md|Switch gateway auth to JWT; generate temp HS256 token for dev]] #rejected
-- [ ] [[wire_mongoeventstore_mongocursorstore_in_place_of_md.md|Wire MongoEventStore + MongoCursorStore in place of InMemory]] #rejected
 - [ ] [[add_process_txn_projector_to_upsert_processes_host_md.md|Add \`process.txn\` projector to upsert \`processes\` + \`host\_stats\` atomically]] #rejected
 - [ ] [[spin_up_ws_gateway_ws_port_8090_ws_token_devtoken_md.md|Spin up WS gateway (\`WS\_PORT\=8090 WS\_TOKEN\=devtoken node index.js\`)]] #rejected
 - [ ] [[add_dev_harness_int_test_ts_to_ci_integration_stag_md.md|Add \`dev.harness.int.test.ts\` to CI integration stage]] #rejected
