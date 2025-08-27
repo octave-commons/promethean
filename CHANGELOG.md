@@ -38,6 +38,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Proxy route `/bridge` through the shared proxy service for SmartGPT Bridge.
 - Tool calling support for Codex Context service.
 - Image attachments captured, stored, and retrieved for multimodal prompting with cleanup.
+- Defined interruption‑threshold configuration task with measurable goals and
+  concrete implementation steps.
 - OAuth Authorization Code flow with PKCE for the auth-service, enabling OpenAI Custom GPT logins.
 - Template for building Discord bots in TypeScript based on the Cephalon service.
 - Tests validating bridge event mappings for identifiers and protocols.
