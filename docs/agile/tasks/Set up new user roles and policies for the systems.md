@@ -11,7 +11,7 @@ We want it to be more than "yes" or "no" we want levels of approval like "yes", 
 
 - If it doesn't have this, we can't accept it
 
-## Tasks 
+## Tasks
 
 - [ ] Step 1
 - [ ] Step 2
@@ -25,3 +25,9 @@ You might find [this] useful while working on this task
 ## Comments
 
 Useful for agents to engage in append only conversations about this task.
+
+## Story Points
+
+- Estimate: 5
+- Assumptions: Existing auth framework can be extended for granular roles.
+- Dependencies: Permission schema design and configuration interface.

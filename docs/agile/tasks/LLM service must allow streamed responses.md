@@ -6,7 +6,7 @@ Describe your task
 
 - If it doesn't have this, we can't accept it
 
-## Tasks 
+## Tasks
 
 - [ ] Step 1
 - [ ] Step 2
@@ -20,3 +20,9 @@ You might find [this] useful while working on this task
 ## Comments
 
 Useful for agents to engage in append only conversations about this task.
+
+## Story Points
+
+- Estimate: 5
+- Assumptions: Underlying LLM and transport layer support streaming responses.
+- Dependencies: Streaming protocol implementation and client compatibility.
