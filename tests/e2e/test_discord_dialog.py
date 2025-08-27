@@ -51,7 +51,7 @@ def fake_llm(text: str) -> str:
 async def test_discord_dialog_flow(monkeypatch):
     monkeypatch.setitem(
         sys.modules,
-        "shared.py.speech.wisper_stt",
+        "shared.py.speech.whisper_stt",
         types.SimpleNamespace(transcribe_pcm=stub_transcribe_pcm),
     )
     dummy_module = types.SimpleNamespace(generate_voice=stub_generate_voice)

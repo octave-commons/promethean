@@ -60,6 +60,6 @@ def test_generation_config(monkeypatch):
     dummy_numpy.clip = lambda arr, a, b: arr
     monkeypatch.setitem(sys.modules, "numpy", dummy_numpy)
 
-    module = importlib.import_module("shared.py.speech.wisper_stt")
+    module = importlib.import_module("shared.py.speech.whisper_stt")
     assert module.model.generation_config.task == "transcribe"
     assert module.model.generation_config.language == "en"
