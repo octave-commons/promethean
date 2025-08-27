@@ -1,28 +1,35 @@
 # Description
 
-Establish connectivity with Bluesky's AT Protocol so agents can read and publish posts.
+Enable agents to interact with Bluesky using the AT Protocol APIs and app-password authentication.
+
+## Target APIs and Authentication
+
+- **API**: [Bluesky AT Protocol](https://docs.bsky.app/docs/api) via `https://bsky.social/xrpc`
+- **Authentication**: App password exchange for session token (JWT)
+
+## Data Flow & Rate Limiting
+
+- Agent authenticates ➜ session token ➜ Bluesky endpoint ➜ internal broker/storage
+- Monitor `x-ratelimit-*` headers and throttle (~200 requests/minute). Back off when `429` is returned.
 
 ## Requirements/Definition of done
 
-- Authenticate using a Bluesky app password without exposing credentials.
-- Retrieve the latest posts for a configured account or feed.
-- Publish posts or replies through the bridge service.
-- Handle rate limits and error responses gracefully.
-- Include unit tests covering posting and retrieval.
+- Authenticated session can publish and read posts
+- Data flows into broker or storage services
+- Rate limit handling prevents API throttling
 
 ## Tasks
 
-- [ ] Create a Bluesky developer account and generate an app password.
-- [ ] Add a client using `@atproto/api` or HTTP calls to interact with the service.
-- [ ] Implement fetching of the home timeline and posting actions.
-- [ ] Expose configuration via environment variables and document them.
-- [ ] Write tests exercising posting and retrieval features.
-- [ ] Provide a README section describing the Bluesky integration.
+- [ ] Create app password and configure credentials
+- [ ] Implement session login and client wrappers
+- [ ] Publish and fetch posts via internal queue
+- [ ] Implement rate limit checks and exponential backoff
+- [ ] Integration tests for posting and retrieval
+- [ ] Unit tests for session refresh and error paths
 
 ## Relevant resources
 
-- [Bluesky AT Protocol Docs](https://atproto.com)
-- [bluesky-social/atproto GitHub](https://github.com/bluesky-social/atproto)
+You might find [Bluesky API docs](https://docs.bsky.app/docs/api) useful while working on this task
 
 ## Comments
 
