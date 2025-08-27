@@ -30,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Shared Biome configuration template (`templates/ts/biome.base.json`) for TypeScript services.
 - Shared dependency specifications for Discord indexer services.
 - Centralized Biome configuration at `templates/ts/biome.base.json` referenced by Discord bot template and Markdown Graph service.
+- Base Dockerfile for Python Pipenv services and minimal service Dockerfiles extending it.
 
 - Tests covering `scripts.add_tags_ollama` tag generation and file processing.
 
@@ -59,6 +60,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Defined interruption‑threshold configuration task with measurable goals and
   concrete implementation steps.
 - Markdown Graph service and Discord bot template now extend the shared Biome configuration.
+- `docker-build` now builds a shared base image before service images.
 - OAuth Authorization Code flow with PKCE for the auth-service, enabling OpenAI Custom GPT logins.
 - Template for building Discord bots in TypeScript based on the Cephalon service.
 - Tests validating bridge event mappings for identifiers and protocols.
