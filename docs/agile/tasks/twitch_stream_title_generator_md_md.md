@@ -53,4 +53,9 @@ The goal is for the system to produce engaging, accurate, and relevant stream ti
 
 If you want, I can also make you a **mermaid diagram** showing how the context flows from Discord transcripts → Ollama → storage → stream platform so we can see where it sits in the pipeline.
 That would make expansion easier later.
-#accepted
+
+## Notes
+- Tests or documentation are missing; acceptance criteria not fully met.
+- Story Points: 3
+
+#in-progress
