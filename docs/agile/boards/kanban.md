@@ -148,57 +148,122 @@ kanban-plugin: board
 
 ## In Progress (21)
 
-- [ ] [Update cephalon to use custom embedding function](../tasks/update_cephalon_to_use_custom_embedding_function_md_md.md) #in-review
-- [ ] [identify and resolve a service client apparently connecting repeatedly to broker with new session ids](../tasks/identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids.md) #in-review
-- [ ] [setup services to recieve work from the broker via push md](../tasks/setup_services_to_recieve_work_from_the_broker_via_push_md.md) #in-review
+- [ ] [[ChatGPT export injest with dedupe index and hashes]]
+- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ice-box
+- [ ] [[finish_whisper_npu_system_md_md.md|finish whisper NPU system.md]] #framework-core #performance-optimization #npu-integration #accepted
+- [ ] [[database migration system]]
+- [ ] [[LSP server for home brew lisp incoming]]
+- [ ] [[smart_task_templater_md.md|Smart Task templater]] #framework-core #ice-box
+- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md.md|Full agent mode (Text chat, selectively join channels, etc]] #framework-core #accepted
+- [ ] [[add_twitch_chat_integration_md_md.md|Add twitch chat integration.md]] #framework-core #accepted
+- [ ] [[script for getting github action workflow states for a branch]]
+- [ ] [[harden precommit hooks]]
+- [ ] [[breakdown Makefile.hy]]
+- [ ] [[move discord scraper to ts]]
+- [ ] [[gpt bridge fuzzy lookup should return multiple matches when it is used.]]
+- [ ] [[Mock broker]] #incoming
+- [ ] [[discord_image_awareness_md_md.md|discord image awareness md md]] #framework-core #ollama-integration #multimodal-context #accepted
+- [ ] [[broker gpt bridge parity plan]]
+- [ ] [[Set up proper openai custom gpt compatable oauth login flow]]
+- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ice-box
+- [ ] [[Replace all python properly with hy incoming]]
+- [ ] [[Agent Tasks Persistence Migration to DualStore]]
+- [ ] [[Create broker services that can handle all the same tasks as the gpt bridge]]
+- [ ] [[setup new service generator]] — missing tests and documentation
+- [ ] [[Webcrawler]] — planned; lacks tests and docs
+- [ ] [[set up data migration pipeline and clearly describe conventions]] — pipeline not implemented; no tests or docs
+- [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] — no tests or documentation
+- [ ] [[File explorer]] — missing UI component and test coverage
+- [ ] [[implement classes in compiler lisp incoming]] — feature unimplemented; no tests or docs
+- [ ] [[MVP local LLM chat interface with tool calls connected to gpt bridge]] — interface not implemented; no tests or docs
+- [ ] [[discord_image_awareness_md_md.md|discord image awareness.md]] — images not ingested; no tests or docs
+- [ ] [[implement defun in compiler lisp incoming]] — missing implementation, tests, docs
+- [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push]] — needs shared broker client interface and tests
+- [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] — no version matrix or pins; no tests
+- [ ] [[Promethean Health Dashboard]] — dashboard unimplemented; lacks tests and docs
+- [ ] [[seperate discord commands from the actions they perform]] — refactor incomplete; missing docs and tests
+- [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]] — resiliency changes not implemented; no tests or docs
+- [ ] [[breakdown cephalon voice commands file using ecs]] — still in progress; lacks breakdown, tests, docs
 
-## In Review (34)
 
-- [ ] [[setup new service generator]]
-- [ ] [[Webcrawler]]
-- [ ] [[set up data migration pipeline and clearly describe conventions]]
-- [ ] [[twitch_stream_title_generator_md_md.md|Twitch stream title generator.md]] #framework-core #ollama-integration #stream-automation #accepted
-- [ ] [[File explorer]]
-- [ ] [[implement classes in compiler lisp incoming]]
-- [ ] [[MVP local LLM chat interface with tool calls connected to gpt bridge]]
-- [ ] [[discord_image_awareness_md_md.md|discord image awareness.md]] #framework-core #ollama-integration #multimodal-context #accepted
-- [ ] [[implement defun in compiler lisp incoming]]
-- [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-review
-- [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #accepted
-- [ ] [[Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #accepted
-- [ ] [[seperate discord commands from the actions they perform]] #in-progress
-- [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]]
-- [ ] [[breakdown cephalon voice commands file using ecs]] #in-progress
+## In Review (0)
+
 
 ## Done
 
-- [ ] [Add .obsidian to .gitignore](../tasks/add_obsidian_to_gitignore_md_md.md) #done
-- [ ] [Add STT service tests](../tasks/add_stt_service_tests_md.md) #done
-- [ ] [Add starter notes - eidolon_fields, cephalon_inner_monologue](../tasks/add_starter_notes_-_eidolon_fields_cephalon_inner_monologue_1_md.md) #done
-- [ ] [Add unit tests for date_tools.py](../tasks/add_unit_tests_for_date_tools_py_md.md) #done
-- [ ] [Add unit tests for wav_processing](../tasks/add_unit_tests_for_wav_processing_md.md) #done
-- [ ] [Auto-generate AGENTS.md stubs from services structure](../tasks/auto-generate_agents_md_stubs_from_services_structure_md_md.md) #done
-- [ ] [Build data structures for Eidolon field](../tasks/build_data_structures_for_eidolon_field_md_md.md) #done
-- [ ] [Build data structures for Eidolon field #codex-task](../tasks/build_data_structures_for_eidolon_field_codex_task_md.md) #done
-- [ ] [Clarify Promethean project vision](../tasks/clarify_promethean_project_vision_1_md.md) #done
-- [ ] [Create permission gating layer](../tasks/create_permission_gating_layer.md) #done
-- [ ] [Create vault-config .obsidian with Kanban and minimal vault setup](../tasks/create_vault-config_obsidian_with_kanban_and_minimal_vault_setup_1_md_md.md) #done
-- [ ] [Determine PM2 configuration for agents](../tasks/determine_pm2_configuration_for_agents_1_md.md) #done
-- [ ] [Document board usage guidelines](../tasks/document_board_usage_guidelines_1_md.md) #done
-- [ ] [Document local testing setup](../tasks/document_local_testing_setup_md_md.md) #done
-- [ ] [Fix Makefile test target](../tasks/fix_makefile_test_target_md.md) #done
-- [ ] [Mirror shared utils with language-specific doc folders](../tasks/mirror_shared_utils_with_language-specific_doc_folders_md_md.md) #done
-- [ ] [Research GitHub Projects board API](../tasks/research_github_projects_board_api_md.md) #done
-- [ ] [Start Eidolon](../tasks/start_eidolon.md) #done
-- [ ] [Write board sync script](../tasks/write_board_sync_script_md_md.md) #done
-- [ ] [Write meaningful tests for Cephalon](../tasks/write_meaningful_tests_for_cephalon_md_md.md) #done
-- [ ] [Write vault-config README.md for Obsidian vault onboarding](../tasks/write_vault_config_readme_md_for_obsidian_vault_on_md.md) #done
-- [ ] [clearly seperate service dependency files md](../tasks/clearly_seperate_service_dependency_files_md.md) #done
-- [ ] [discord image attachment indexer md](../tasks/discord_image_attachment_indexer_md.md) #done
-- [ ] [make seperate execution pathways 1 md md](../tasks/make_seperate_execution_pathways_1_md_md.md) #done
-- [ ] [seperate all testing pipelines in GitHub Actions](../tasks/separate_all_testing_pipelines_in_github_actions_md.md) #done
-- [ ] [update GitHub Actions to use Makefile](../tasks/update_github_actions_to_use_makefile_md_md.md) #done
-- [ ] [write simple ecosystem declaration library for new agents](../tasks/write_simple_ecosystem_declaration_library_for_new_md_md.md) #done
+- [ ] [[Curate code from personal repository]]
+- [ ] [[Add tool calls to codex context]]
+- [ ] [[migrate_portfolio_client_code_to_promethean_md.md|Migrate portfolio client code to Promethean]] #framework-core #accepted
+- [ ] [[Finish work on gptbridge agent integration]]
+- [ ] [[clarify_promethean_project_vision_1_md.md|Clarify Promethean project vision]] #framework-core #accepted
+- [ ] finish moving the smartgpt bridge to fastify
+- [ ] [[Fully convert js ts projects to pnpm incoming]]
+- [ ] [[Ensure openapi specs are automaticly updated when an endpoint is changed]]
+- [ ] [[create_base_readme_md_templates_for_each_service_md.md|create base readme md templates for each service]] #doc-this #framework-core #ritual #in-review
+- [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids.md|identify and resolve a service client apparently connecting repeatedly to broker with new session ids]] #in-review
+- [ ] [[OpenAI compatable api]]
+- [ ] [[update_cephalon_to_use_custom_embedding_function_md_md.md|Update cephalon to use custom embedding function]] #framework-core #cephalon #discord #embedding #typescript #in-review
+- [ ] [[discord_image_attachment_indexer_md.md|discord image attachment indexer md]] #framework-core #discord #images #attachments #indexing #memory #done
+- [ ] [[clearly_seperate_service_dependency_files_md.md|clearly seperate service dependency files md]] #devops #cicd #done
+- [ ] [[add_obsidian_to_gitignore_md_md.md|Add .obsidian to .gitignore]] #framework-core #done
+- [ ] [[add_stt_service_tests_md.md|Add STT service tests]] #codex-task #testing #done
+- [ ] [[add_starter_notes_-_eidolon_fields_cephalon_inner_monologue_1_md.md|Add starter notes - eidolon_fields, cephalon_inner_monologue]] #framework-core #done
+- [ ] [[add_unit_tests_for_date_tools_py_md.md|Add unit tests for date_tools.py]] #codex-task #testing #done
+- [ ] [[add_unit_tests_for_wav_processing_md.md|Add unit tests for wav_processing]] #codex-task #testing #done
+- [ ] [[auto-generate_agents_md_stubs_from_services_structure_md_md.md|Auto-generate AGENTS.md stubs from services structure]] #framework-core #done
+- [ ] [[build_data_structures_for_eidolon_field_md_md.md|Build data structures for Eidolon field]] #framework-core #done
+- [ ] [[build_data_structures_for_eidolon_field_codex_task_md.md|Build data structures for Eidolon field #codex-task]] #codex-task #done
+- [ ] [[create_permission_gating_layer_1_md_md.md|Create permission gating layer]] #framework-core #done
+- [ ] [[create_permission_gating_layer_framework_core_md.md|Create permission gating layer #framework-core]] #framework-core #done
+- [ ] [[create_vault-config_obsidian_with_kanban_and_minimal_vault_setup_1_md_md.md|Create vault-config .obsidian with Kanban and minimal vault setup]] #framework-core #done
+- [ ] [[determine_pm2_configuration_for_agents_1_md.md|Determine PM2 configuration for agents]] #framework-core #done
+- [ ] [[document_board_usage_guidelines_1_md.md|Document board usage guidelines]] #framework-core #done
+- [ ] [[document_local_testing_setup_md_md.md|Document local testing setup]] #codex-task #testing #done
+- [ ] [[fix_makefile_test_target_md.md|Fix Makefile test target]] #codex-task #testing #done
+- [ ] [[mirror_shared_utils_with_language-specific_doc_folders_md_md.md|Mirror shared utils with language-specific doc folders]] #framework-core #done
+- [ ] [[research_github_projects_board_api_md.md|Research GitHub Projects board API]] #framework-core #done
+- [ ] [[write_board_sync_script_md_md.md|Write board sync script]] #framework-core #done
+- [ ] [[write_meaningful_tests_for_cephalon_md_md.md|Write meaningful tests for Cephalon]] #codex-task #testing #done
+- [ ] [[write_vault_config_readme_md_for_obsidian_vault_on_md.md|Write vault-config README.md for Obsidian vault onboarding]] #framework-core #done
+- [ ] [[create_permission_gating_layer_1_md.md|create permission gating layer 1 md]] #done
+- [ ] [[make_seperate_execution_pathways_1_md_md.md|make seperate execution pathways 1 md md]] #framework-core #done
+- [ ] [[separate_all_testing_pipelines_in_github_actions_md.md|seperate all testing pipelines in GitHub Actions]] #cicd #framework-core #done
+- [ ] [[start_eidolon_md.md|start eidolon md]] #done
+- [ ] [[update_github_actions_to_use_makefile_md_md.md|update GitHub Actions to use Makefile]] #cicd #devops #framework-core #done
+- [ ] [[write_simple_ecosystem_declaration_library_for_new_md_md.md|write simple ecosystem declaration library for new agents]] #framework-core #done
+- [ ] [[write_vault_config_readme_md_for_obsidian_vault_on_md.md|Write \`vault-config/README.md\` for Obsidian vault onboarding]] #framework-core #done
+- [ ] [[document_local_testing_setup_md_md.md|Document local testing setup]] #codex-task #testing #done
+- [ ] [[add_obsidian_to_gitignore_md_md.md|Add .obsidian to .gitignore]] #framework-core #done
+- [ ] [[auto-generate_agents_md_stubs_from_services_structure_md_md.md|Auto-generate AGENTS.md stubs from services structure]] #framework-core #done
+- [ ] [[build_data_structures_for_eidolon_field_md_md.md|Build data structures for Eidolon field]] #framework-core #done
+- [ ] [[build_data_structures_for_eidolon_field_codex_task_md.md|Build data structures for Eidolon field #codex-task]] #codex-task #done
+- [ ] [[set_up_makefile_for_python_js_build_test_dev_md.md|Set up Makefile for Python + JS build test dev]] #cicd #buildtools #devtools #devops #done
+- [ ] [[separate_all_testing_pipelines_in_github_actions_md.md|Separate all testing pipelines in GitHub Actions]] #cicd #framework-core #done
+- [ ] [[fix_makefile_test_target_md.md|Fix Makefile test target]] #codex-task #testing #done
+- [ ] [[create_permission_gating_layer_framework_core_md.md|Create permission gating layer #framework-core]] #framework-core #done
+- [ ] [[write_simple_ecosystem_declaration_library_for_new_md_md.md|write simple ecosystem declaration library for new agents]] #framework-core #done
+- [ ] [[determine_pm2_configuration_for_agents_1_md.md|Determine PM2 configuration for agents]] #framework-core #done
+- [ ] [[mirror_shared_utils_with_language-specific_doc_folders_md_md.md|Mirror shared utils with language-specific doc folders]] #framework-core #done
+- [ ] [[write_board_sync_script_md_md.md|Write board sync script]] #framework-core #done
+- [ ] [[fix_makefile_test_target_md.md|Fix Makefile test target]] #codex-task #testing #done
+- [ ] [[add_unit_tests_for_wav_processing_md.md|Add unit tests for wav_processing]] #codex-task #testing #done
+- [ ] [[document_board_usage_guidelines_1_md.md|Document board usage guidelines]] #framework-core #done
+- [ ] [[add_stt_service_tests_md.md|Add STT service tests]] #codex-task #testing #done
+- [ ] [[create_permission_gating_layer_1_md_md.md|Create permission gating layer]] #framework-core #done
+- [ ] [[add_starter_notes_-_eidolon_fields_cephalon_inner_monologue_1_md.md|Add starter notes - eidolon_fields, cephalon_inner_monologue]] #framework-core #done
+- [ ] [[add_unit_tests_for_date_tools_py_md.md|Add unit tests for date_tools.py]] #codex-task #testing #done
+- [ ] [[write_meaningful_tests_for_cephalon_md_md.md|Write meaningful tests for Cephalon]] #codex-task #testing #done
+- [ ] [[create_vault-config_obsidian_with_kanban_and_minimal_vault_setup_1_md_md.md|Create vault-config .obsidian with Kanban and minimal vault setup]] #framework-core #done
+- [ ] [[separate_all_testing_pipelines_in_github_actions_md.md|seperate all testing pipelines in GitHub Actions]] #cicd #framework-core #done
+- [ ] [[update_github_actions_to_use_makefile_md_md.md|update GitHub Actions to use Makefile]] #cicd #devops #framework-core #done
+- [ ] [[make_seperate_execution_pathways_1_md_md.md|Make seperate execution pathways 1.md]] #framework-core #done
+- [ ] [[add_unit_tests_for_wav_processing_md.md|Add unit tests for wav\_processing]] #codex-task #testing #done
+- [ ] [[add_stt_service_tests_md.md|Add STT service tests]] #codex-task #testing #done
+- [ ] [[add_unit_tests_for_date_tools_py_md.md|Add unit tests for date\_tools.py]] #codex-task #testing #done
+- [ ] [[add_starter_notes_-_eidolon_fields_cephalon_inner_monologue_1_md.md|Add starter notes - eidolon\_fields, cephalon\_inner\_monologue]] #framework-core #done
+- [ ] [[create_permission_gating_layer_1_md_md.md|Create permission gating layer]] #framework-core #done
+- [ ] [[document_board_usage_guidelines_1_md.md|Document board usage guidelines]] #framework-core #done
+- [ ] [[start_eidolon_md_md.md|Start Eidolon]] #framework-core #done
 
 ## Rejected
 
