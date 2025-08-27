@@ -1,3 +1,1 @@
-{
-    "extends": ["../../../templates/ts/biome.base.json"]
-}
+../../../templates/ts/biome.base.json
