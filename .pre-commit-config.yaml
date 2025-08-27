@@ -69,6 +69,11 @@ repos:
         language: system
         files: ^(changelog\.d/|CHANGELOG\.md$)
         pass_filenames: false
+      - id: check-changelog-fragments
+        name: Ensure changelog fragments are numbered
+        entry: python scripts/check_changelog_fragments.py
+        language: system
+        pass_filenames: false
 
   - repo: https://github.com/psf/black
     rev: 24.4.2
