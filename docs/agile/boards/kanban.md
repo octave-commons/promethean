@@ -93,6 +93,28 @@ kanban-plugin: board
 
 ## Incoming
 
+- [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md.md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #framework-core #ice-box
+- [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|Refactor Speech interuption system]] #framework-core #breakdown
+- [ ] [[identify_ancestral_resonance_patterns_md_md.md|Identify ancestral resonance patterns]] #framework-core #ice-box
+- [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #framework-core #ice-box
+- [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
+- [ ] [[add_file_system_to_context_management_system_md_md.md|Add file system to context management system.md]] #framework-core #ice-box
+- [ ] [[implement_transcendence_cascade_md.md|Implement transcendence cascade]] #framework-core #ice-box
+- [ ] [[evaluate_and_reward_flow_satisfaction_md_md.md|Evaluate and reward flow satisfaction]] #framework-core #ice-box
+- [ ] [[define_codex_cli_baseg_agent_md_md.md|Define codex CLI baseg agent.md]] #framework-core #ice-box
+- [ ] [[discord_chat_link_traversal_md_md.md|Discord chat link traversal.md]] #framework-core #ice-box
+- [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md.md|Allow old unnessisary messages to decay from database while retaining index entries ids.md]] #framework-core #eidolon-support #ice-box
+- [ ] [[pin_versions_in_configs_md.md|Pin versions in configs]] #ops #codex-task #ice-box
+- [ ] [[reach_100_percent_complete_test_coverage_1_md_md.md|Reach 100 percent complete test coverage 1.md]] #framework-core #ice-box
+- [ ] [[run_model_bakeoff_md.md|Run model bakeoff]] #ops #codex-task #ice-box
+- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md.md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #ice-box
+- [ ] [[detect_contradictions_in_memory_md_md.md|Detect contradictions in memory]] #framework-core #ice-box
+- [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md.md|Add semantic overlays for layer1 through layer8]] #layerX #framework-core #ice-box
+- [ ] [[smart_task_templater_md.md|Smart Task templater]] #framework-core #ice-box
+- [ ] [[describe_github_branching_workflow_md.md|describe github branching workflow md]] #framework-core #agent-thinking #breakdown
+- [ ] [[twitch_discord_general_auto_mod_md_md.md|twitch discord general auto mod md md]] #framework-core #observability #multimodal-context #risk #ice-box
+- [ ] [[Promethean Health Dashboard|Web frontend for system management.md]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #ice-box
+- [ ] [[setup_a_second_agent_md.md|setup a second agent md]] #framework-core #ice-box
 - [ ] [Mock broker](../tasks/Mock%20broker.md) #incoming
 - [ ] [auth_ci_and_load_tests](../tasks/auth_ci_and_load_tests.md) #incoming
 - [ ] [auth_key_rotation_and_bootstrap](../tasks/auth_key_rotation_and_bootstrap.md) #incoming
@@ -146,6 +168,14 @@ kanban-plugin: board
 
 ## Breakdown
 
+- [ ] [[Design Ollama Model file for use with codex cli 1]] #breakdown
+- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #ice-box
+- [ ] [[thinking_model_integration_md_md.md|thinking model integration md md]] #framework-core #ice-box
+- [ ] [[connect reddit]]
+- [ ] [[connect bluesky]]
+- [ ] [[connect wikipedia]]
+- [ ] [[lisp ecosystem files]]
+- [ ] [[hy - js interop]]
 - [ ] [LSP server for home brew lisp incoming](../tasks/LSP%20server%20for%20home%20brew%20lisp%20incoming.md) #breakdown
 - [ ] [add_twitch_chat_integration_md_md](../tasks/add_twitch_chat_integration_md_md.md) #breakdown
 - [ ] [breakdown Makefile.hy](../tasks/breakdown%20Makefile.hy.md) #breakdown
