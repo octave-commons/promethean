@@ -1,4 +1,4 @@
-import { getMongoClient, getChromaClient } from './clients';
+import { getMongoClient, getChromaClient } from './clients.js';
 
 /**
  * Cleanup old Mongo entries by age.

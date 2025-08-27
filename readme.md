@@ -140,6 +140,22 @@ The service management targets `make start`, `make start-tts` and
 `make start-stt` require PM2. You can install it globally as shown above or add
 it as a project dependency.
 
+### Testing (JS/TS)
+
+Run JavaScript/TypeScript tests with AVA, split by type:
+
+- Unit tests: `pnpm run test:unit`
+- Integration tests: `pnpm run test:integration`
+- E2E tests: `pnpm run:e2e` (alias for `test:e2e`)
+
+Conventions used to classify tests:
+- Unit: all tests excluding files or directories containing `integration`, `e2e`, or `system`.
+- Integration: tests with filenames containing `.integration.` or under an `integration/` directory.
+- E2E: tests with filenames containing `.e2e.` or under `e2e/` or `system/` directories.
+
+TypeScript packages are built first (`pnpm -r run build`) so tests can execute from `dist/`.
+Packages using Node’s built-in test runner (e.g., `auth-service`) expose `test:unit` locally and are not run by AVA.
+
 ### MongoDB
 
 Some services (for example `heartbeat`) require a running MongoDB instance.

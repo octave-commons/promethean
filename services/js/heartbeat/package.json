@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "SKIP_NETWORK_TESTS=1 ava --config ../../../config/ava.config.mjs",
-    "coverage": "SKIP_NETWORK_TESTS=1 c8 ava --config ../../../config/ava.config.mjs",
+    "test": "ava --config ../../../config/ava.config.mjs",
+    "coverage": "c8 ava --config ../../../config/ava.config.mjs",
     "lint": "eslint -c ../eslint.config.js ."
   },
   "dependencies": {

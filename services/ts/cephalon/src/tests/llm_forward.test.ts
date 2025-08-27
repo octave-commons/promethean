@@ -4,10 +4,7 @@ import { fileURLToPath } from 'url';
 import { EventEmitter } from 'events';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-// dynamic imports for broker server and client
-// @ts-ignore dynamic import of JS modules
-const brokerModule = await import(path.resolve(__dirname, '../../../../js/broker/index.js'));
-const { start: startBroker, stop: stopBroker } = brokerModule;
+// Use memory broker via BrokerClient
 // @ts-ignore dynamic import of JS modules
 const clientModule = await import('@shared/js/brokerClient.js');
 const { BrokerClient } = clientModule;
@@ -25,10 +22,9 @@ class StubBot extends EventEmitter {
 test('AIAgent forwards prompt to LLM service via broker', async (t) => {
     process.env.NO_SCREENSHOT = '1';
     let received: any = null;
-    const broker = await startBroker(0);
-    const port = broker.address().port;
+    process.env.BROKER_URL = 'memory://llm';
     const worker = new BrokerClient({
-        url: `ws://127.0.0.1:${port}`,
+        url: process.env.BROKER_URL,
         id: 'llm-worker',
     });
     await worker.connect();
@@ -43,7 +39,7 @@ test('AIAgent forwards prompt to LLM service via broker', async (t) => {
     });
     await worker.ready('llm.generate');
 
-    const llm = new LLMService({ brokerUrl: `ws://127.0.0.1:${port}` });
+    const llm = new LLMService({ brokerUrl: process.env.BROKER_URL });
     const agent = new AIAgent({
         bot: new StubBot() as any,
         context: new ContextStore(),
@@ -58,5 +54,4 @@ test('AIAgent forwards prompt to LLM service via broker', async (t) => {
     t.deepEqual(received.tools, []);
 
     worker.socket?.close();
-    await stopBroker(broker);
 });
