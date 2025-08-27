@@ -1,24 +1,34 @@
 ## 🛠️ Description
 
-Sometimes it's too easy to interupt the agent, and other times it won't trigger at all. the interuption   logic is brittle
+The current speech interruption detection in Discord conversations is unreliable.  
+Sometimes the agent stops speaking too quickly, while other times it fails to pause when a user begins talking.  
+We need smarter audio-based heuristics so the agent reacts consistently.
 
 ---
 
 ## 🎯 Goals
 
-- Define clear objectives for "Add Ollama formally to pipeline".
+- Improve accuracy of detecting when a user is speaking.
+- Prevent premature interruptions of the agent's own speech.
+- Allow configurable sensitivity for different environments.
 
 ---
 
 ## 📦 Requirements
 
-- [ ] Detail requirements.
+- [ ] Audit current interruption logic in audio processing service.
+- [ ] Incorporate amplitude or spectral analysis to distinguish speech from silence.
+- [ ] Expose configuration knobs for interruption sensitivity.
+- [ ] Document new behavior and parameters.
 
 ---
 
 ## 📋 Subtasks
 
-- [ ] Outline steps to implement.
+- [ ] Identify where interruption hooks exist in the Discord audio pipeline.
+- [ ] Prototype improved detection using audio signal metrics.
+- [ ] Add tests for successful and failed interruption cases.
+- [ ] Update docs and examples for configuring thresholds.
 
 ---
 
