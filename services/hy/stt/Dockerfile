@@ -2,6 +2,7 @@
 ARG BASE_IMAGE=base-python-pipenv
 FROM ${BASE_IMAGE}
 
+# Install dependencies
 COPY Pipfile Pipfile.lock ./
 RUN pipenv install --deploy --ignore-pipfile
 

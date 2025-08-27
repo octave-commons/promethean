@@ -1,16 +1,6 @@
-import importlib.util
-import sys
-from pathlib import Path
+"""Tests for ``scripts.kanban.kanban_to_hashtags``."""
 
-
-MODULE_DIR = Path(__file__).resolve().parents[2] / "scripts" / "kanban"
-sys.path.insert(0, str(MODULE_DIR))
-spec = importlib.util.spec_from_file_location(
-    "kanban_to_hashtags", MODULE_DIR / "kanban_to_hashtags.py"
-)
-kh = importlib.util.module_from_spec(spec)
-assert spec.loader is not None
-spec.loader.exec_module(kh)
+from scripts.kanban import kanban_to_hashtags as kh
 
 
 def test_header_to_status_normalization():

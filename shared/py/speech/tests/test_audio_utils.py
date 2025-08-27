@@ -1,14 +1,7 @@
 import base64
 import io
-import os
-import sys
-
 import numpy as np
 import soundfile as sf
-
-sys.path.insert(
-    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../.."))
-)
 
 from shared.py.speech.audio_utils import pcm_from_base64, wav_to_base64
 

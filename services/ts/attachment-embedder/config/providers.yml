@@ -1,0 +1,7 @@
+providers:
+  - provider: discord
+    tenant: duck
+    credentials: {}
+    storage:
+      mongo_db: test
+      chroma_ns: discord__duck

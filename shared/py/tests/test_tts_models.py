@@ -6,17 +6,10 @@ modules and instantiate the classes.
 """
 
 import importlib
-import os
 import sys
 import types
 
 import pytest
-
-
-# Ensure repository root on path
-sys.path.insert(
-    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
-)
 
 
 def load_tts_modules():

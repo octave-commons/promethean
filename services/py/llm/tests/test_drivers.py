@@ -1,15 +1,10 @@
 import os
-import sys
-from pathlib import Path
+
 import pytest
 
-BASE_DIR = Path(__file__).resolve()
-sys.path.insert(0, str(BASE_DIR.parents[2]))
-sys.path.insert(0, str(BASE_DIR.parents[4]))
-
-from llm.main import load_model
-from llm.drivers.ollama_driver import OllamaDriver
-from llm.drivers.huggingface_driver import HuggingFaceDriver
+from services.py.llm.drivers.huggingface_driver import HuggingFaceDriver
+from services.py.llm.drivers.ollama_driver import OllamaDriver
+from services.py.llm.main import load_model
 
 
 def test_load_ollama_driver():
