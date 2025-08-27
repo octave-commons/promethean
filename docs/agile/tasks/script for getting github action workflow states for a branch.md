@@ -1,4 +1,5 @@
 # Description
+**Status:** blocked
 
 Create a script that fetches GitHub Actions workflow runs for a given branch and outputs their status so they can be reviewed or fed to language models.
 
@@ -24,4 +25,7 @@ You might find [GitHub's Actions API](https://docs.github.com/en/rest/actions) u
 
 Useful for agents to engage in append only conversations about this task.
 
-#Breakdown
+#breakdown
+
+## Blockers
+- No active owner or unclear scope

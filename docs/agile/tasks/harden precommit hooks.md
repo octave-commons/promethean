@@ -1,4 +1,5 @@
 # Description
+**Status:** blocked
 
 We want to make it as hard as possible for bad code and bad documentation to be committed to the git repository.
 
@@ -24,4 +25,7 @@ You might find [this](https://pre-commit.com/) useful while working on this task
 
 Useful for agents to engage in append only conversations about this task.
 
-#Breakdown
+#breakdown
+
+## Blockers
+- No active owner or unclear scope

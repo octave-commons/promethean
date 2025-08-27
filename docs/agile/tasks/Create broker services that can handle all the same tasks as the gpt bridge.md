@@ -1,7 +1,7 @@
 # WebSocket Broker API Parity with GPT Bridge
 
 **Owner:** Codex / Agent
-**Status:** Planned
+**Status:** continue coding
 **Labels:** #broker #ws #api #gptbridge #parity #promethean #ops
 
 ---
@@ -184,3 +184,5 @@ Bring the **WebSocket broker API** up to full parity with the existing **GPT Bri
 ## Comments
 
 Append-only thread for agents to log discovered gaps, schema changes, or overload handling notes.
+
+#in-progress
