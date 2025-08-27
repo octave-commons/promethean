@@ -50,6 +50,8 @@ kanban-plugin: board
 - [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #framework-core #eidolon #Dorian #layer2 #ice-box
 - [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #framework-core #ice-box
 - [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #framework-core #ice-box
+- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ice-box
+- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ice-box
 
 
 ## Incoming
@@ -95,7 +97,7 @@ kanban-plugin: board
 - [ ] [[Add codex layer to emacs]]
 
 
-## Breakdown (13)
+## Breakdown (17)
 
 - [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #ice-box
 - [ ] [[thinking_model_integration_md_md.md|thinking model integration md md]] #framework-core #ice-box
@@ -104,6 +106,16 @@ kanban-plugin: board
 - [ ] [[connect wikipedia]]
 - [ ] [[lisp ecosystem files]]
 - [ ] [[hy - js interop]]
+- [ ] [[LSP server for home brew lisp incoming]]
+- [ ] [[Mock broker]] #incoming
+- [ ] [[Replace all python properly with hy incoming]]
+- [ ] [[breakdown Makefile.hy]]
+- [ ] [[move discord scraper to ts]]
+- [ ] [[gpt bridge fuzzy lookup should return multiple matches when it is used.]]
+- [ ] [[broker gpt bridge parity plan]]
+- [ ] [[Set up proper openai custom gpt compatable oauth login flow]]
+- [ ] [[Agent Tasks Persistence Migration to DualStore]]
+- [ ] [[Create broker services that can handle all the same tasks as the gpt bridge]]
 
 
 ## Ready
@@ -127,29 +139,15 @@ kanban-plugin: board
 - [ ] [[dockerize the system]]
 
 
-## In Progress (21)
+## In Progress (7)
 
 - [ ] [[ChatGPT export injest with dedupe index and hashes]]
-- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md.md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ice-box
 - [ ] [[finish_whisper_npu_system_md_md.md|finish whisper NPU system.md]] #framework-core #performance-optimization #npu-integration #accepted
 - [ ] [[database migration system]]
-- [ ] [[LSP server for home brew lisp incoming]]
-- [ ] [[smart_task_templater_md.md|Smart Task templater]] #framework-core #ice-box
 - [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md.md|Full agent mode (Text chat, selectively join channels, etc]] #framework-core #accepted
 - [ ] [[add_twitch_chat_integration_md_md.md|Add twitch chat integration.md]] #framework-core #accepted
 - [ ] [[script for getting github action workflow states for a branch]]
 - [ ] [[harden precommit hooks]]
-- [ ] [[breakdown Makefile.hy]]
-- [ ] [[move discord scraper to ts]]
-- [ ] [[gpt bridge fuzzy lookup should return multiple matches when it is used.]]
-- [ ] [[Mock broker]] #incoming
-- [ ] [[discord_image_awareness_md_md.md|discord image awareness md md]] #framework-core #ollama-integration #multimodal-context #accepted
-- [ ] [[broker gpt bridge parity plan]]
-- [ ] [[Set up proper openai custom gpt compatable oauth login flow]]
-- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ice-box
-- [ ] [[Replace all python properly with hy incoming]]
-- [ ] [[Agent Tasks Persistence Migration to DualStore]]
-- [ ] [[Create broker services that can handle all the same tasks as the gpt bridge]]
 
 
 ## In Review (34)
