@@ -1,22 +1,28 @@
-import torch
-import time
+import logging
 import librosa
 import librosa.display
-
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
 import torch.nn.functional as F
-import matplotlib.pyplot as plt
 
 from typing import Optional
 
 
 def pad_or_trim_mel(mel, target_length=3000):
     if mel.shape[1] > target_length:
-        print(f"Trimming mel from {mel.shape[1]} frames to {target_length} frames.")
+        logging.info(
+            "Trimming mel from %d frames to %d frames.",
+            mel.shape[1],
+            target_length,
+        )
         mel = mel[:, :target_length]
     elif mel.shape[1] < target_length:
-        print(f"Padding mel from {mel.shape[1]} frames to {target_length} frames.")
+        logging.info(
+            "Padding mel from %d frames to %d frames.",
+            mel.shape[1],
+            target_length,
+        )
         pad_width = target_length - mel.shape[1]
         mel = np.pad(mel, ((0, 0), (0, pad_width)), mode="constant", constant_values=0)
     return mel
@@ -88,9 +94,7 @@ def log_mel_spectrogram(
     return log_spec.numpy()
 
 
-def audio_to_mel(
-    audio: np.ndarray, sample_rate=16000, n_fft=400, hop_length=160, n_mels=80
-):
+def audio_to_mel(audio: np.ndarray, n_fft=400, hop_length=160, n_mels=80):
     return log_mel_spectrogram(audio)
 
 
@@ -128,8 +132,12 @@ def chunk_waveform_with_overlap(
         chunk_wave = waveform[start:end]
 
         if len(chunk_wave) < chunk_size:
-            print(
-                f"Warning: Chunk from {start} to {end} has only {len(chunk_wave)} samples, padding to {chunk_size} samples."
+            logging.warning(
+                "Warning: Chunk from %d to %d has only %d samples, padding to %d samples.",
+                start,
+                end,
+                len(chunk_wave),
+                chunk_size,
             )
             pad_width = chunk_size - len(chunk_wave)
             chunk_wave = np.pad(chunk_wave, (0, pad_width), mode="constant")
@@ -137,8 +145,9 @@ def chunk_waveform_with_overlap(
         chunks.append(chunk_wave)
 
         if end >= total_samples:
-            print(
-                f"Reached end of waveform at sample {end}. No more chunks can be created."
+            logging.warning(
+                "Reached end of waveform at sample %d. No more chunks can be created.",
+                end,
             )
             break
 
@@ -165,7 +174,7 @@ def plot_waveform_and_mel_chunks(chunk, mel, sr, hop_length=256):
     librosa.display.specshow(
         mel_db, sr=sr, hop_length=hop_length, x_axis="time", y_axis="mel"
     )
-    plt.title(f"Chunk  - Mel Spectrogram")
+    plt.title("Chunk  - Mel Spectrogram")
     plt.colorbar(format="%+2.0f dB")
     plt.tight_layout()
     plt.show()
@@ -180,9 +189,9 @@ def preprocess_audio(audio_path: str):
     waveform_chunks = chunk_waveform_with_overlap(waveform, sample_rate=sr)
     mel_chunks = []
     for chunk in waveform_chunks:
-        mel = audio_to_mel(chunk, sample_rate=sr)
+        mel = audio_to_mel(chunk)
         # plot_waveform_and_mel_chunks(chunk,mel, sr, hop_length=160)
         mel_chunks.append(mel)  # Ensure each mel is 3000 frames
         # mel_chunks.append(pad_or_trim_mel(mel))  # Ensure each mel is 3000 frames
-    print(f"Processed {len(mel_chunks)} chunks of mel spectrograms.")
+    logging.info("Processed %d chunks of mel spectrograms.", len(mel_chunks))
     return mel_chunks
