@@ -5,6 +5,7 @@ available ``transcribe_pcm`` implementations from ``shared.py.speech``.
 
 Outputs are written to ``data/transcripts/{model_name}/<basename>.txt``.
 """
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -30,11 +31,11 @@ def discover_transcribers() -> Dict[str, Transcriber]:
     transcribers: Dict[str, Transcriber] = {}
 
     try:
-        from shared.py.speech.wisper_stt import transcribe_pcm as whisper_transcribe
+        from shared.py.speech.whisper_stt import transcribe_pcm as whisper_transcribe
 
-        transcribers["wisper_stt"] = whisper_transcribe
+        transcribers["whisper_stt"] = whisper_transcribe
     except Exception as exc:  # pragma: no cover - best effort discovery
-        print(f"Skipping wisper_stt: {exc}")
+        print(f"Skipping whisper_stt: {exc}")
 
     try:
         from shared.py.speech.stt import transcribe_pcm as base_transcribe
@@ -46,7 +47,9 @@ def discover_transcribers() -> Dict[str, Transcriber]:
     return transcribers
 
 
-def transcribe_file(path: Path, transcribers: Dict[str, Transcriber], out_root: Path) -> None:
+def transcribe_file(
+    path: Path, transcribers: Dict[str, Transcriber], out_root: Path
+) -> None:
     """Transcribe ``path`` with each ``transcriber`` and save outputs."""
     with wave.open(str(path), "rb") as wf:
         pcm = wf.readframes(wf.getnframes())

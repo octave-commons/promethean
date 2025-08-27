@@ -31,7 +31,7 @@ def _ensure_model_loaded():
     # avoid warnings and make behaviour deterministic.
     m.generation_config.task = "transcribe"
     m.generation_config.language = "en"
-    globals()["model"] = m
+    model = m
 
 
 # Initialize immediately in normal environments so defaults are set and
