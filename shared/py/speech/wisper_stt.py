@@ -33,6 +33,7 @@ def _ensure_model_loaded():
     m.generation_config.language = "en"
     globals()["model"] = m
 
+
 # Initialize immediately in normal environments so defaults are set and
 # tests that import the module can validate generation config.
 try:
@@ -42,6 +43,7 @@ except Exception:
     pass
 finally:
     if model is None:
+
         class _GenCfg:
             task = "transcribe"
             language = "en"
