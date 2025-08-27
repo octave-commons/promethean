@@ -16,6 +16,13 @@ Placeholder task stub generated from kanban board.
 
 ---
 
+## ✅ Acceptance Criteria
+- Sample legacy files contain migration tags.
+- Guidelines for tag format are documented.
+- Documentation references how to apply the tags.
+
+---
+
 ## 📋 Subtasks
 
 - [ ] Outline steps to implement.

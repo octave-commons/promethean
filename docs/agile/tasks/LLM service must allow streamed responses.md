@@ -1,22 +1,25 @@
-# Description
+## 🛠️ Description
 
 Describe your task
 
-## Requirements/Definition of done
+## 📦 Requirements
+- Add streaming endpoint to the LLM service for partial responses.
+- Update client libraries to consume streamed tokens.
+- Document how to enable and use the streaming API.
 
-- If it doesn't have this, we can't accept it
+## ✅ Acceptance Criteria
+- Clients receive incremental outputs from the LLM service.
+- Example integration demonstrates a streaming completion.
+- Documentation covers streaming usage.
 
-## Tasks 
-
+## Tasks
 - [ ] Step 1
 - [ ] Step 2
 - [ ] Step 3
 - [ ] Step 4
 
 ## Relevent resources
-
 You might find [this] useful while working on this task
 
 ## Comments
-
 Useful for agents to engage in append only conversations about this task.
