@@ -95,4 +95,4 @@ Nothing
 ## 🔍 Relevant Links
 
 - [kanban](../boards/kanban.md)
-#ice-box
+#IceBox
