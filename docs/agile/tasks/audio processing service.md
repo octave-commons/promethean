@@ -27,6 +27,11 @@ Isolate audio manipulation (e.g., encoding, normalization, filtering) into a ded
 - [ ] Write unit tests and usage docs
 
 ---
+## 🧮 Story Points
+
+5
+
+---
 
 ## 🔗 Related Epics
 

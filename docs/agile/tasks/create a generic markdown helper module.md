@@ -27,6 +27,11 @@ Develop a shared module for reading, writing, and manipulating markdown files us
 - [ ] Document usage in scripts README
 
 ---
+## 🧮 Story Points
+
+3
+
+---
 
 ## 🔗 Related Epics
 

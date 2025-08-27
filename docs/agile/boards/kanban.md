@@ -154,58 +154,14 @@ kanban-plugin: board
 
 ## Ready
 
-- [ ] [Add Ollama formally to pipeline](../tasks/decouple_from_ollama_md.md) #ready
-- [ ] [Migrate server side sibilant libs to promethean architecture](../tasks/migrate_server_side_sibilant_libs_to_promethean_architecture_md.md) #ready
-- [ ] [Migrating relevant modules from riatzukiza.github.io to -site- and -docs-](../tasks/migrating_relevant_modules_from_riatzukiza_github_io_to_-site-_and_-docs-_md.md) #ready
+- [ ] [[convert current services to packages, then redefine the services using config files]]
+- [ ] [[audio processing service]]
+- [ ] [[create a generic markdown helper module]]
+- [ ] [[task generator system]]
+- [ ] [[redefine all existing lambdas with high order functions incoming]]
 
-## Todo
-
-- [ ] [Add codex layer to emacs](../tasks/Add%20codex%20layer%20to%20emacs.md) #todo
-- [ ] [Add git commands to gpt bridge](../tasks/Add%20git%20commands%20to%20gpt%20bridge.md) #todo
-- [ ] [Add tool calls to codex context](../tasks/Add%20tool%20calls%20to%20codex%20context.md) #todo
-- [ ] [Agent Tasks Persistence Migration to DualStore](../tasks/Agent%20Tasks%20Persistence%20Migration%20to%20DualStore.md) #todo
-- [ ] [ChatGPT export injest with dedupe index and hashes](../tasks/ChatGPT%20export%20injest%20with%20dedupe%20index%20and%20hashes.md) #todo
-- [ ] [Create broker services that can handle all the same tasks as the gpt bridge](../tasks/Create%20broker%20services%20that%20can%20handle%20all%20the%20same%20tasks%20as%20the%20gpt%20bridge.md) #todo
-- [ ] [Curate code from personal repository](../tasks/Curate%20code%20from%20personal%20repository.md) #todo
-- [ ] [Decouple Audio Processing Logic From Discord](../tasks/Decouple%20Audio%20Processing%20Logic%20From%20Discord.md) #todo
-- [ ] [Ensure openapi specs are automaticly updated when an endpoint is changed](../tasks/Ensure%20openapi%20specs%20are%20automaticly%20updated%20when%20an%20endpoint%20is%20changed.md) #todo
-- [ ] [Find music that triggered copyright mute on twitch for analysis incoming](../tasks/Find%20music%20that%20triggered%20copyright%20mute%20on%20twitch%20for%20analysis%20incoming.md) #todo
-- [ ] [Finish work on gptbridge agent integration](../tasks/Finish%20work%20on%20gptbridge%20agent%20integration.md) #todo
-- [ ] [Fully convert js ts projects to pnpm incoming](../tasks/Fully%20convert%20js%20ts%20projects%20to%20pnpm%20incoming.md) #todo
-- [ ] [LLM service must allow streamed responses](../tasks/LLM%20service%20must%20allow%20streamed%20responses.md) #todo
-- [ ] [LSP server for home brew lisp incoming](../tasks/LSP%20server%20for%20home%20brew%20lisp%20incoming.md) #todo
-- [ ] [MVP local LLM chat interface with tool calls connected to gpt bridge](../tasks/MVP%20local%20LLM%20chat%20interface%20with%20tool%20calls%20connected%20to%20gpt%20bridge.md) #todo
-- [ ] [Make the system hashtag aware](../tasks/Make%20the%20system%20hashtag%20aware.md) #todo
-- [ ] [OpenAI compatable api](../tasks/OpenAI%20compatable%20api.md) #todo
-- [ ] [Replace all python properly with hy incoming](../tasks/Replace%20all%20python%20properly%20with%20hy%20incoming.md) #todo
-- [ ] [Set up new user roles and policies for the systems](../tasks/Set%20up%20new%20user%20roles%20and%20policies%20for%20the%20systems.md) #todo
-- [ ] [Webcrawler](../tasks/Webcrawler.md) #todo
-- [ ] [[[Finalize `MIGRATION_PLAN.md`]]](../tasks/finalize_migration_plan_md_md_md.md) #todo
-- [ ] [add twitch chat integration md md](../tasks/add_twitch_chat_integration_md_md.md) #todo
-- [ ] [breakdown Makefile.hy](../tasks/breakdown%20Makefile.hy.md) #todo
-- [ ] [broker gpt bridge parity plan](../tasks/broker%20gpt%20bridge%20parity%20plan.md) #todo
-- [ ] [connect bluesky](../tasks/connect%20bluesky.md) #todo
-- [ ] [connect reddit](../tasks/connect%20reddit.md) #todo
-- [ ] [connect wikipedia](../tasks/connect%20wikipedia.md) #todo
-- [ ] [context service](../tasks/context%20service.md) #todo
-- [ ] [convert smartgpt bridge to ts](../tasks/convert%20smartgpt%20bridge%20to%20ts.md) #todo
-- [ ] [database migration system](../tasks/database%20migration%20system.md) #todo
-- [ ] [discord image awareness md md](../tasks/discord_image_awareness_md_md.md) #todo
-- [ ] [flatten sibilant src folders](../tasks/flatten%20sibilant%20src%20folders.md) #todo
-- [ ] [full agent mode text chat selectively join channels etc md](../tasks/full_agent_mode_text_chat_selectively_join_channels_etc_md.md) #todo
-- [ ] [harden precommit hooks](../tasks/harden%20precommit%20hooks.md) #todo
-- [ ] [hy - js interop](../tasks/hy%20-%20js%20interop.md) #todo
-- [ ] [implement classes in compiler lisp incoming](../tasks/implement%20classes%20in%20compiler%20lisp%20incoming.md) #todo
-- [ ] [implement defun in compiler lisp incoming](../tasks/implement%20defun%20in%20compiler%20lisp%20incoming.md) #todo
-- [ ] [kanban-processor](../tasks/kanban-processor.md) #todo
-- [ ] [lisp ecosystem files](../tasks/lisp%20ecosystem%20files.md) #todo
-- [ ] [periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming](../tasks/periodicly%20the%20embedding%20service%20will%20get%20disconnected%20from%20the%20broker%20and%20not%20die%2C%20blocking%20other%20processes%20who%20require%20embeddings.%20incoming.md) #todo
-- [ ] [pin versions in configs md](../tasks/pin_versions_in_configs_md.md) #todo
-- [ ] [refactor any python modules not currently for ml stuff discord etc 2 md](../tasks/refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md.md) #todo
-- [ ] [script for getting github action workflow states for a branch](../tasks/script%20for%20getting%20github%20action%20workflow%20states%20for%20a%20branch.md) #todo
-- [ ] [set up data migration pipeline and clearly describe conventions](../tasks/set%20up%20data%20migration%20pipeline%20and%20clearly%20describe%20conventions.md) #todo
-- [ ] [smart task templater md](../tasks/smart_task_templater_md.md) #todo
-- [ ] [tamper monkey script for using templates defined in the vault](../tasks/tamper%20monkey%20script%20for%20using%20templates%20defined%20in%20the%20vault.md) #todo
+## Todo (21)
+- [ ] [[Phase out proxy in favor of bridge service]]
 
 ## In Progress
 
