@@ -13,12 +13,14 @@ Integrate Wikipedia article lookup using the MediaWiki API for knowledge retriev
 - Follow Wikimedia guidelines: throttle to ~1 request/second and honor `Retry-After`/`maxlag` responses
 
 ## Requirements/Definition of done
+## Requirements
 
 - Agents can query and retrieve article summaries
 - Data is routed through broker or storage services
 - Requests respect rate limits and include required headers
 
 ## Tasks
+## Definition of Done
 
 - [ ] Implement client for search and page retrieval
 - [ ] Add User-Agent and optional OAuth credentials
@@ -26,6 +28,20 @@ Integrate Wikipedia article lookup using the MediaWiki API for knowledge retriev
 - [ ] Add throttling and `maxlag` handling
 - [ ] Integration tests for search and retrieval
 - [ ] Unit tests for rate-limit/backoff logic
+- [ ] Wikipedia API can be queried for article summaries
+- [ ] Retrieved content stored or returned in expected format
+- [ ] Unit test verifies lookup of a sample article
+
+## Story Points
+
+5
+
+## Tasks
+
+- [ ] Step 1
+- [ ] Step 2
+- [ ] Step 3
+- [ ] Step 4
 
 ## Dependencies
 
@@ -49,5 +65,9 @@ You might find [MediaWiki API docs](https://www.mediawiki.org/wiki/API:Main_page
 ## Comments
 
 Useful for agents to engage in append only conversations about this task.
+
+#Ready
+
+No blockers.
 
 #Ready

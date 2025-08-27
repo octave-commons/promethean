@@ -2,9 +2,19 @@
 
 Describe your task
 
-## Requirements/Definition of done
+## Requirements
 
 - If it doesn't have this, we can't accept it
+
+## Definition of Done
+
+- [ ] Inventory existing Lisp ecosystem files in the repository
+- [ ] Map files to the intended modular structure
+- [ ] Documentation describes where each file lives and why
+
+## Story Points
+
+8
 
 ## Tasks
 
@@ -34,6 +44,6 @@ You might find [this] useful while working on this task
 
 ## Comments
 
-Useful for agents to engage in append only conversations about this task.
+Blocked: needs clarity on target file organization.
 
-#Ready
+#Breakdown
