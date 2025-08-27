@@ -1,9 +1,13 @@
+"""Scan Discord history for attachments and add their metadata to message documents."""
+
+
+
 """Discord attachment indexing service.
 
 This module scans Discord history for attachments and records their metadata in
 the message documents stored in MongoDB.
 """
-
+import hy
 import asyncio
 import logging
 import os
@@ -12,9 +16,14 @@ import random
 import discord
 
 from shared.py import settings
-from shared.py.mongodb import discord_message_collection, discord_channel_collection
+from shared.py.mongodb import discord_channel_collection
 from shared.py.heartbeat_broker import start_broker_heartbeat
-from shared.py.utils.discord import fetch_channel_history, shuffle_array, update_cursor
+from shared.py.utils.discord import (
+    fetch_channel_history,
+    shuffle_array,
+    update_cursor,
+)
+from shared.py.utils.discord_attachment import index_attachments
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
