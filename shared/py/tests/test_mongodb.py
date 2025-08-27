@@ -1,3 +1,5 @@
+"""Tests for the :mod:`shared.py.mongodb` module."""
+
 import importlib
 import sys
 import types
@@ -5,6 +7,8 @@ from unittest.mock import MagicMock, patch
 
 
 def test_get_database_builds_connection_string_and_collections():
+    """Ensure the database connection string and collection names are correct."""
+
     settings_stub = types.ModuleType("settings")
     settings_stub.MONGODB_HOST_NAME = "testhost"
     settings_stub.MONGODB_ADMIN_DATABASE_NAME = "admin_db"
@@ -14,7 +18,7 @@ def test_get_database_builds_connection_string_and_collections():
     db_mock = MagicMock()
     collections = {}
 
-    def getitem(name):
+    def getitem(name: str) -> MagicMock:
         coll = MagicMock(name=name)
         collections[name] = coll
         return coll
@@ -25,9 +29,8 @@ def test_get_database_builds_connection_string_and_collections():
     pymongo_stub = types.ModuleType("pymongo")
     pymongo_stub.MongoClient = MagicMock(return_value=client_mock)
 
-    with patch.dict(
-        sys.modules, {"shared.py.settings": settings_stub, "pymongo": pymongo_stub}
-    ):
+    modules = {"shared.py.settings": settings_stub, "pymongo": pymongo_stub}
+    with patch.dict(sys.modules, modules):
         from shared.py import mongodb
 
         importlib.reload(mongodb)
