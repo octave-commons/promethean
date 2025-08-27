@@ -1,8 +1,8 @@
-from fastapi import FastAPI, Form, Response, WebSocket
+from contextlib import asynccontextmanager
 import io
-import sys
+import logging
 
-print(sys.path)
+from fastapi import FastAPI, Form, Response, WebSocket
 from shared.py.service_template import start_service
 from shared.py.speech.audio_utils import wav_to_base64
 from shared.py.utils import websocket_endpoint
@@ -12,46 +12,53 @@ import soundfile as sf
 import nltk
 import torch
 import numpy as np
-from transformers import FastSpeech2ConformerTokenizer, FastSpeech2ConformerWithHifiGan
+from transformers import (
+    FastSpeech2ConformerTokenizer,
+    FastSpeech2ConformerWithHifiGan,
+)
+
+logger = logging.getLogger(__name__)
 
 nltk.download("averaged_perceptron_tagger_eng")
 
-app = FastAPI()
-broker = None
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Connect to the message broker on startup and clean up on shutdown."""
 
-@app.on_event("startup")
-async def startup_event():
-    global broker
-
-    async def handle_task(task):
+    async def handle_task(task, client):
+        """Publish synthesized audio for tasks received from the broker."""
         payload = task.get("payload", {})
         text = payload.get("text")
         if not text:
             return
         audio = synthesize(text)
         audio_b64 = wav_to_base64(audio, 22050)
-        await broker.publish("tts-output", {"audio": audio_b64})
+        await client.publish("tts-output", {"audio": audio_b64})
 
+    broker = None
     try:
         broker = await start_service(
             id="tts", queues=["tts.speak"], handle_task=handle_task
         )
     except Exception as e:
-        print(f"[tts] broker connection failed: {e}")
-        broker = None
+        logger.exception("Broker connection failed: %s", e)
+
+    try:
+        yield
+    finally:
+        if broker and getattr(broker, "ws", None):
+            await broker.ws.close()
 
 
-@app.on_event("shutdown")
-def shutdown_event():
-    pass
+app = FastAPI(lifespan=lifespan)
 
 
 # Load the model and processor
 
 # Ensure GPU usage
 device = "cuda" if torch.cuda.is_available() else "cpu"
-print("Running on device", device)
+logger.debug("Running on device %s", device)
 
 tokenizer = FastSpeech2ConformerTokenizer.from_pretrained(
     "espnet/fastspeech2_conformer"
