@@ -104,8 +104,7 @@ kanban-plugin: board
 - [ ] [[Make the system hashtag aware]]
 - [ ] [[Add codex layer to emacs]]
 
-
-## Breakdown (17)
+## Breakdown (13)
 
 - [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #breakdown — Improves memory efficiency by aging data across storage tiers.
 - [ ] [[thinking_model_integration_md_md.md|thinking model integration md md]] #framework-core #breakdown — Unifies cognitive flows with decision processes but needs clearer specification.
@@ -162,8 +161,7 @@ kanban-plugin: board
 - [ ] [[dockerize the system]] #infrastructure (6)
 - [ ] [[lisp package files]] #feature (7)
 
-
-## In Progress (7)
+## In Progress (21)
 
 - [ ] [[ChatGPT export injest with dedupe index and hashes]]
 - [ ] [[finish_whisper_npu_system_md_md.md|finish whisper NPU system.md]] #framework-core #performance-optimization #npu-integration #accepted
@@ -173,8 +171,7 @@ kanban-plugin: board
 - [ ] [[script for getting github action workflow states for a branch]]
 - [ ] [[harden precommit hooks]]
 
-
-## In Review (0)
+## In Review (34)
 
 
 ## Done
@@ -255,63 +252,17 @@ kanban-plugin: board
 
 ## Rejected
 
-- [ ] [[enable_compactor_for_process_state_process_state_s_md.md|Enable compactor for `process.state` → `process.state.snapshot`]] #rejected
-- [ ] [[run_bench_subscribe_ts_with_mongo_bus_and_record_p_md.md|Run \`bench/subscribe.ts\` with Mongo bus and record p50/p99]] #rejected
-- [ ] [[flatten sibilant src folders]]
-- [ ] [[write_end_to_end_tests_md_md.md|write end to end tests md md]] #framework-core #accepted
-- [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md.md|Migrate server side sibilant libs to Promethean architecture.]] #rejected
-- [ ] [[add_withdlq_around_risky_consumers_set_maxattempts_md.md|Add **withDLQ** around risky consumers; set `maxAttempts`]] #rejected
-- [ ] [[Decouple Audio Processing Logic From Discord|Split out audio processing logic to a seperate service without changing the current behavior in cephalon.md]] #framework-core #ready
-- [ ] [[snapshot_prompts_specs_to_repo_md.md|snapshot prompts specs to repo md]] #rejected
-- [ ] [[add_startchangelogprojector_for_any_compaction_lik_md.md|Add **startChangelogProjector** for any compaction-like topic you want live-queryable]] #rejected
-- [ ] [[add_ollama_formally_to_pipeline_md_md.md|Add Ollama formally to pipeline]] #rejected
-- [ ] [[add_prometheus_events_counters_in_ws_server_hook_p_md.md|Add Prometheus `events_*` counters in WS server hook points]] #rejected
-- [ ] [[add_ttls_per_topic_via_migration_script_md.md|Add TTLs per topic via migration script]] #rejected
-- [ ] [[add_lag_checks_to_ci_smoke_ensure_small_lag_after_md.md|Add `/lag` checks to CI smoke (ensure small lag after publishing bursts)]] #rejected
-- [ ] [[add_ops_endpoint_to_list_partition_assignments_opt_md.md|Add `/ops` endpoint to list **partition assignments** (optional: dump coordinator state)]] #rejected
-- [ ] [[add_mongodedupe_and_replace_critical_consumers_wit_md.md|Add `MongoDedupe` and replace critical consumers with `subscribeExactlyOnce`]] #rejected
-- [ ] [[add_mongooutbox_to_any_service_that_writes_db_chan_md.md|Add `MongoOutbox` to any service that writes DB changes; swap local app emits → outbox writes]] #rejected
-- [ ] [[add_tokenbucket_to_ws_server_conn_per_topic_md.md|Add `TokenBucket` to WS server (conn + per-topic)]] #rejected
-- [ ] [[add_dev_harness_int_test_ts_to_ci_integration_stag_md.md|Add `dev.harness.int.test.ts` to CI integration stage]] #rejected
-- [ ] [[add_manualack_to_event_bus_and_re_run_tests_md.md|Add `manualAck` to event bus and re-run tests]] #rejected
-- [ ] [[add_process_txn_projector_to_upsert_processes_host_md.md|Add `process.txn` projector to upsert `processes` + `host_stats` atomically]] #rejected
-- [ ] [[add_snapshot_consumer_to_warm_cache_on_boot_md.md|Add snapshot consumer to warm cache on boot]] #rejected
-- [ ] [[add_vault_instructions_to_main_readme_md_md_md.md|Add vault instructions to main README.md]] #framework-core #rejected
-- [ ] [[define_default_scopes_publish_heartbeat_received_s_md.md|Define default scopes: `publish:heartbeat.received`, `subscribe:process.state`]] #rejected
-- [ ] [[deploy_changefeed_for_collections_you_want_mirrore_md.md|Deploy **changefeed** for collections you want mirrored to topics]] #rejected
-- [ ] [[detect_contradictions_in_memory_codex_task_md.md|Detect contradictions in memory #codex-task]] #codex-task #rejected
-- [ ] [[document_etag_semantics_and_cache_headers_for_snap_md.md|Document ETag semantics and cache headers for `/snap/:key`]] #rejected
-- [ ] [[enable_scripts_lint_topics_ts_in_ci_md.md|Enable **scripts/lint-topics.ts** in CI]] #rejected
-- [ ] [[ensure_github_compatible_markdown_settings_are_doc_md.md|Ensure GitHub-compatible markdown settings are documented]] #documentation #rejected
-- [ ] [[ensure_mongo_indexes_key_1_unique_common_query_fie_md.md|Ensure Mongo indexes: `{ _key: 1 } unique` + common query fields]] #rejected
-- [ ] [[evaluate_and_reward_flow_satisfaction_framework_co_md.md|Evaluate and reward flow satisfaction #framework-core]] #framework-core #rejected
-- [ ] [[expose_snapshot_api_for_processes_collection_proce_md.md|Expose **Snapshot API** for `processes` (collection `processes`)]] #rejected
-- [ ] [[expose_metrics_on_an_express_app_and_scrape_with_p_md.md|Expose `/metrics` on an express app and scrape with Prom]] #rejected
-- [ ] [[finalize_stt_workflow_md_md.md|Finalize STT workflow]] #codex-task #testing #rejected
-- [ ] [[identify_ancestral_resonance_patterns_framework_co_md.md|Identify ancestral resonance patterns #framework-core]] #framework-core #rejected
-- [ ] [[implement_pause_resume_ops_on_gateway_md.md|Implement `PAUSE/RESUME` ops on gateway]] #rejected
-- [ ] [[implement_timetravel_processat_processid_t_in_a_sm_md.md|Implement `timetravel.processAt(processId, T)` in a small CLI for debugging]] #rejected
-- [ ] [[implement_transcendence_cascade_framework_core_md.md|Implement transcendence cascade #framework-core]] #framework-core #rejected
-- [ ] [[launch_replayapi_on_8083_test_replay_and_export_nd_md.md|Launch `ReplayAPI` on `:8083`; test `/replay` and `/export?ndjson=1`]] #rejected
-- [ ] [[register_v_1_schema_for_any_evolving_topic_and_wri_md.md|Register **v+1** schema for any evolving topic and write minimal **upcaster**]] #rejected
-- [ ] [[spin_up_ws_gateway_ws_port_8090_ws_token_devtoken_md.md|Spin up WS gateway (`WS_PORT=8090 WS_TOKEN=devtoken node index.js`)]] #rejected
-- [ ] [[suggest_metaprogramming_updates_codex_task_md.md|Suggest metaprogramming updates #codex-task]] #codex-task #rejected
-- [ ] [[summarize_clarified_priorities_for_next_sprint_md_md.md|Summarize clarified priorities for next sprint]] #framework-core #reject #rejected
-- [ ] [[switch_critical_readers_to_subscribenormalized_md.md|Switch critical readers to **subscribeNormalized**]] #rejected
-- [ ] [[switch_gateway_auth_to_jwt_generate_temp_hs256_tok_md.md|Switch gateway auth to JWT; generate temp HS256 token for dev]] #rejected
-- [ ] [[use_subscribepartitioned_for_cpu_heavy_consumers_t_md.md|Use **subscribePartitioned** for CPU-heavy consumers; tune `partitions` (power of 2 is fine)]] #rejected
-- [ ] [[wire_runoutboxdrainer_in_event_hub_md.md|Wire `runOutboxDrainer` in event-hub]] #rejected
-- [ ] [[wrap_event_hub_publish_path_with_withschemavalidat_md.md|Wrap `event-hub` publish path with **withSchemaValidation**; fail fast on bad payloads]] #rejected
-- [ ] [[wrap_writers_with_withdualwrite_md.md|Wrap writers with **withDualWrite**]] #rejected
-- [ ] [[write_a_replay_job_that_replays_process_state_snap_md.md|Write a replay job that replays `process.state.snapshot` to warm the `processes` collection]] #rejected
-- [ ] [[write_a_smoke_test_client_subscribes_publish_10_ms_md.md|Write a smoke test: client subscribes, publish 10 msgs, assert all ACKed]] #rejected
-- [ ] [[move_all_testing_to_individual_services_md.md|move all testing to individual services md]] #Duplicate #rejected
-- [ ] [[annotate_legacy_code_with_migration_tags_md.md|Annotate legacy code with migration tags]] #framework-core #rejected
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md.md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #rejected
-- [ ] [[create_permission_gating_layer_codex_task_md.md|Create permission gating layer #codex-task]] #codex-task #rejected
-- [ ] [[create_permission_gating_layer_framework_core_md.md|Create permission gating layer #framework-core]] #framework-core #rejected
-- [ ] [[write_a_small_cutover_script_to_replay_historical_md.md|Write a small \*\*cutover\*\* script to replay historical events through upcasters into snapshots]] #rejected
-- [ ] [[write_vault_config_readme_md_for_obsidian_vault_on_md.md|Write vault-config README.md for Obsidian vault onboarding]] #framework-core #rejected
+- [ ] [[add_startchangelogprojector_for_any_compaction_lik_md.md|Add **startChangelogProjector** for any compaction-like topic you want live-queryable]] — out of scope for current roadmap #rejected
+- [ ] [[add_ollama_formally_to_pipeline_md_md.md|Add Ollama formally to pipeline]] — duplicate of existing pipeline tasks #rejected
+- [ ] [[add_prometheus_events_counters_in_ws_server_hook_p_md.md|Add Prometheus `events_*` counters in WS server hook points]] — superseded by centralized metrics #rejected
+- [ ] [[enable_compactor_for_process_state_process_state_s_md.md|Enable compactor for `process.state` → `process.state.snapshot`]] — infeasible with current storage design #rejected
+- [ ] [[add_ttls_per_topic_via_migration_script_md.md|Add TTLs per topic via migration script]] — performance trade-offs unacceptable #rejected
+- [ ] [[add_lag_checks_to_ci_smoke_ensure_small_lag_after_md.md|Add `/lag` checks to CI smoke (ensure small lag after publishing bursts)]] — covered by existing CI metrics #rejected
+- [ ] [[add_ops_endpoint_to_list_partition_assignments_opt_md.md|Add `/ops` endpoint to list **partition assignments** (optional: dump coordinator state)]] — monitoring tools already provide this #rejected
+- [ ] [[add_mongodedupe_and_replace_critical_consumers_wit_md.md|Add `MongoDedupe` and replace critical consumers with `subscribeExactlyOnce`]] — added complexity with little gain #rejected
+- [ ] [[add_mongooutbox_to_any_service_that_writes_db_chan_md.md|Add `MongoOutbox` to any service that writes DB changes; swap local app emits → outbox writes]] — architecture shift too disruptive #rejected
+- [ ] [[add_tokenbucket_to_ws_server_conn_per_topic_md.md|Add `TokenBucket` to WS server (conn + per-topic)]] — current traffic doesn't require throttling #rejected
+
 ## Archive
 
 - [ ] [Add unit tests for GUI helpers](../tasks/add_unit_tests_for_gui_helpers_md_md.md) #archive
