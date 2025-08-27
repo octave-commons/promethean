@@ -1,9 +1,9 @@
 {
-    "extends": "../config/tsconfig.service.json",
-    "include": [
-        "src/**/*.ts",
-        "src/**/*.d.ts",
-        "tests/**/*.ts",
-        "../../../shared/ts/src/types/**/*.d.ts"
-    ]
+  "extends": "../../../config/tsconfig.service.json",
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "tests/**/*.ts",
+    "../../../shared/ts/src/types/**/*.d.ts"
+  ]
 }
