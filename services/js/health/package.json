@@ -6,7 +6,8 @@
     "scripts": {
         "start": "node index.js",
         "test": "ava",
-        "coverage": "c8 ava"
+        "coverage": "c8 ava",
+        "lint": "eslint -c ../eslint.config.js ."
     },
     "dependencies": {
         "@shared/js": "file:../../../shared/js",

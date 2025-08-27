@@ -48,5 +48,5 @@ Nothing
 
 - [kanban](../boards/kanban.md)
 
-#devops #accepted #breakdown
+#devops #Ready
 

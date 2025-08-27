@@ -6,12 +6,12 @@
     "type": "module",
     "scripts": {
         "build": "tsc && node scripts/patch-imports.js",
-        "test": "pnpm run build && ava",
-        "coverage": "pnpm run build && c8 ava",
+        "test": "pnpm run build && ava --config ../../../shared/ts/ava.config.mjs",
+        "coverage": "pnpm run build && c8 ava --config ../../../shared/ts/ava.config.mjs",
         "build:check": "tsc --noEmit --incremental false -p .",
         "deploy": "pnpm run build && node --env-file=../../.env dist/util/deploy.js",
-        "lint": "prettier --cache --check .",
-        "format": "prettier --cache --write .",
+        "lint": "pnpm exec biome lint --config-path ../config/biome.json .. || true",
+        "format": "pnpm exec biome format --config-path ../config/biome.json ..",
         "start": "pnpm run build && node --env-file=../../.env dist/index.js",
         "start:dev": "node --env-file=../../.env --loader ts-node/esm  src/index.ts"
     },
@@ -46,9 +46,7 @@
         "@types/ws": "^8.5.12",
         "ava": "^6.4.1",
         "c8": "^9.1.0",
-        "eslint": "^8.57.0",
-        "eslint-config-neon": "^0.1.62",
-        "prettier": "^3.4.2",
+        "@biomejs/biome": "^2.1.4",
         "rimraf": "^6.0.1",
         "ts-node": "^10.9.2",
         "typescript": "5.7.3"

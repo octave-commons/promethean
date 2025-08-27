@@ -1,4 +1,5 @@
 ## 🛠️ Description
+**Status:** blocked
 
 Update the GPT bridge fuzzy lookup so it returns multiple potential matches instead of only the first result.
 
@@ -51,3 +52,8 @@ Nothing
 - [kanban](../boards/kanban.md)
 
 #accepted
+
+## Blockers
+- No active owner or unclear scope
+
+#breakdown

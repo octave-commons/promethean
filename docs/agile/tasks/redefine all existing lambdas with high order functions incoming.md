@@ -26,6 +26,11 @@ Replace ad‑hoc anonymous lambdas with well‑named higher‑order functions to
 - [ ] Update references and run tests
 
 ---
+## 🧮 Story Points
+
+5
+
+---
 
 ## 🔗 Related Epics
 
@@ -47,5 +52,5 @@ Nothing
 
 - [kanban](../boards/kanban.md)
 
-#framework-core #accepted #breakdown
+#framework-core #Ready
 

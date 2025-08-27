@@ -242,11 +242,11 @@
 (defn-cmd test-python-service [service]
   (print (.format "Running tests for Python service: {}" service))
   ;; run tests directly with the system Python environment
-  (sh "if [ -d tests ]; then python -m pytest tests/; else echo 'no tests'; fi" :cwd (join "services/py" service) :shell True))
+  (sh "if [ -d tests ]; then SKIP_NETWORK_TESTS=1 python -m pytest tests/; else echo 'no tests'; fi" :cwd (join "services/py" service) :shell True))
 
 (defn-cmd test-python-services []
   ;; execute each service's tests without relying on pipenv
-  (run-dirs SERVICES_PY "echo 'Running tests in $PWD...' && if [ -d tests ]; then python -m pytest tests/; else echo 'no tests'; fi" :shell True))
+  (run-dirs SERVICES_PY "echo 'Running tests in $PWD...' && if [ -d tests ]; then SKIP_NETWORK_TESTS=1 python -m pytest tests/; else echo 'no tests'; fi" :shell True))
 
 (defn-cmd test-shared-python []
   ;; shared python tests use the same direct invocation
@@ -342,12 +342,13 @@
 
   (print (.format "Running tests for JS service: {}" service))
   (if (has-pnpm)
-      (sh "pnpm test" :cwd (join "services/js" service) :shell True)
+      ;; In CI/sandboxes, network listeners may be blocked. Allow JS tests to opt-out.
+      (sh "SKIP_NETWORK_TESTS=1 pnpm test" :cwd (join "services/js" service) :shell True)
       (require-pnpm)))
 
 (defn-cmd test-js-services []
   (if (has-pnpm)
-      (run-dirs SERVICES_JS "echo 'Running tests in $PWD...' && pnpm test" :shell True)
+      (run-dirs SERVICES_JS "echo 'Running tests in $PWD...' && SKIP_NETWORK_TESTS=1 pnpm test" :shell True)
       (require-pnpm)))
 
 (defn-cmd test-js []
@@ -653,12 +654,16 @@
 (defn-cmd kanban-to-issues []
   (sh ["python" "scripts/kanban_to_issues.py"]))
 
+(defn-cmd lint-tasks []
+  (sh ["python" "scripts/lint_tasks.py"]))
+
 (defn-cmd simulate-ci []
   (if (os.environ.get "SIMULATE_CI_JOB")
       (sh ["python" "scripts/simulate_ci.py" "--job" (os.environ.get "SIMULATE_CI_JOB")])
       (sh ["python" "scripts/simulate_ci.py"])) )
 
 (defn-cmd docker-build []
+  (sh ["docker" "build" "-f" "services/docker/base-python-pipenv.Dockerfile" "-t" "base-python-pipenv" "services/docker"])
   (sh ["docker" "compose" "build"]))
 
 (defn-cmd docker-up []

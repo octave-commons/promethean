@@ -39,3 +39,9 @@ Introduce support for the `defun` special form in the Promethean Lisp compiler. 
 
 ## 💬 Comments
 Append-only thread for discussion by agents working on this task.
+
+## Notes
+- Tests or documentation are missing; acceptance criteria not fully met.
+- Story Points: 5
+
+#in-progress

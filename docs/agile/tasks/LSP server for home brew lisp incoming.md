@@ -1,4 +1,5 @@
 # Description
+**Status:** blocked
 
 Create a Language Server Protocol (LSP) server for the home-brew Lisp to provide editor features such as completion and diagnostics.
 
@@ -25,4 +26,7 @@ You might find [the LSP specification](https://microsoft.github.io/language-serv
 
 Useful for agents to engage in append only conversations about this task.
 
-#Breakdown
+#breakdown
+
+## Blockers
+- No active owner or unclear scope

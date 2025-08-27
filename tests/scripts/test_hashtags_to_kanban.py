@@ -1,6 +1,10 @@
-from tests.scripts.utils import load_script_module
+import sys
+from pathlib import Path
 
-hk = load_script_module("hashtags_to_kanban")
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+import kanban.hashtags_to_kanban as hk
 
 
 def test_parse_task_with_status(tmp_path):
@@ -31,10 +35,19 @@ def test_build_board_groups_by_status(tmp_path):
     t2 = tmp_path / "b.md"
     t2.write_text("## 🛠️ Task: Beta\n#in-progress\n", encoding="utf-8")
     tasks = hk.collect_tasks(tmp_path)
-    board = hk.build_board(tasks)
+    board = hk.build_board(
+        tasks,
+        unlinked={},
+        settings_block=None,
+        header_labels={},
+        wikilinks=True,
+        encode_urls=False,
+    )
+    assert "kanban-plugin: board" in board
     assert "## Todo" in board
     assert "## In Progress" in board
     todo_section = board.split("## Todo")[1].split("##")[0]
-    assert "[Alpha]" in todo_section
+    assert "[[a.md|Alpha]]" in todo_section
     in_progress_section = board.split("## In Progress")[1].split("##")[0]
-    assert "[Beta]" in in_progress_section
+    assert "[[b.md|Beta]]" in in_progress_section
+    assert "%% kanban:settings" in board
