@@ -1,8 +1,6 @@
 from pathlib import Path
 
-from tests.scripts.utils import load_script_module
-
-sc = load_script_module("simulate_ci")
+import scripts.simulate_ci as sc
 
 
 def test_collect_jobs(tmp_path):

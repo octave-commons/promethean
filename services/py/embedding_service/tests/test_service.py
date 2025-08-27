@@ -1,15 +1,11 @@
-import asyncio
-import sys
-from pathlib import Path
+"""Tests for ``services.py.embedding_service``."""
 
-BASE_DIR = Path(__file__).resolve()
-sys.path.insert(0, str(BASE_DIR.parents[2]))
-sys.path.insert(0, str(BASE_DIR.parents[4]))
+import asyncio
 
 import pytest
 
-from embedding_service.main import handle_task
-from embedding_service.drivers.naive_driver import VECTOR_SIZE
+from services.py.embedding_service.drivers.naive_driver import VECTOR_SIZE
+from services.py.embedding_service.main import handle_task
 
 
 class DummyClient:

@@ -1,16 +1,10 @@
 """Tests for :mod:`scripts.add_tags_ollama`."""
 
-"""Tests for :mod:`scripts.add_tags_ollama`."""
-
-"""Tests for :mod:`scripts.add_tags_ollama`."""
-
+import shutil
 import subprocess
 import types
-import shutil
 
-from tests.scripts.utils import load_script_module
-
-add_tags = load_script_module("add_tags_ollama")
+import scripts.add_tags_ollama as add_tags
 
 
 def test_generate_tags_success(monkeypatch):
