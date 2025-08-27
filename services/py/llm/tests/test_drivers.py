@@ -21,6 +21,8 @@ def test_load_ollama_driver():
 
 
 def test_load_huggingface_driver():
+    if os.environ.get("SKIP_NETWORK_TESTS") == "1":
+        pytest.skip("network tests skipped in sandbox/CI")
     pytest.importorskip("torch")
     os.environ["LLM_DRIVER"] = "huggingface"
     os.environ["LLM_MODEL"] = "sshleifer/tiny-gpt2"

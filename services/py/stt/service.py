@@ -3,7 +3,6 @@ import asyncio
 
 from shared.py.speech.audio_utils import pcm_from_base64
 from shared.py.service_template import run_service
-from shared.py.speech.wisper_stt import transcribe_pcm
 
 
 
@@ -16,10 +15,9 @@ async def process_task(client, task):
         print("[stt] task missing 'pcm' field")
         return
     pcm_bytes = pcm_from_base64(pcm_b64)
-    text = transcribe_pcm(pcm_bytes, sample_rate)
-    await client.publish("stt.transcribed", {"text": text}, correlationId=task["id"])
-
-    text = _wisper.transcribe_pcm(bytearray(pcm_bytes), sample_rate)
+    # Import inside the function so tests can monkeypatch sys.modules
+    from shared.py.speech.wisper_stt import transcribe_pcm as _transcribe_pcm
+    text = _transcribe_pcm(pcm_bytes, sample_rate)
     await client.publish("stt.transcribed", {"text": text}, correlationId=task["id"])
 
 
