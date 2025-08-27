@@ -12,7 +12,10 @@
     "build:check": "tsc --noEmit --incremental false",
     "lint": "prettier --cache --check . && eslint . --cache || true",
     "format": "prettier --cache --write . && eslint . --fix --cache || true",
-    "test": "pnpm run build && node --test test/*.test.mjs"
+    "test": "pnpm run test:unit",
+    "test:unit": "pnpm run build && node --test \"test/**/*.test.mjs\"",
+    "test:integration": "node -e \"console.log('no integration tests for auth-service')\"",
+    "test:e2e": "node -e \"console.log('no e2e tests for auth-service')\""
   },
   "dependencies": {
     "fastify": "^4.28.1",

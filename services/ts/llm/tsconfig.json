@@ -1,11 +1,11 @@
 {
-    "$schema": "https://json.schemastore.org/tsconfig.json",
-    "extends": "../../../tsconfig.base.json",
-    "compilerOptions": {
-        "outDir": "dist",
-        "baseUrl": "."
-    },
+  "$schema": "https://json.schemastore.org/tsconfig.json",
+  "extends": "../../../config/tsconfig.service.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "baseUrl": "."
+  },
 
-    "include": ["./src/**/*.ts"],
-    "exclude": ["node_modules"]
+  "include": ["./src/**/*.ts"],
+  "exclude": ["node_modules"]
 }
