@@ -1,12 +1,17 @@
-import importlib
-import os
-import sys
+"""Tests for lightweight initialization of TTS models.
+
+The real OpenVINO and NumPy dependencies are heavy and not required for these
+unit tests.  We therefore stub just the minimal pieces needed to import the
+modules and instantiate the classes.
+"""
+
 import importlib
 import os
 import sys
 import types
 
 import pytest
+
 
 # Ensure repository root on path
 sys.path.insert(
@@ -15,15 +20,17 @@ sys.path.insert(
 
 
 def load_tts_modules():
-    """Import TTS models with heavy deps stubbed."""
-    # Keep references to real modules
+    """Import TTS modules with OpenVINO and NumPy stubbed."""
+
+    # Preserve references to the actual modules so we can restore them after
+    # importing the code under test.
     real_np = importlib.import_module("numpy")
-    try:
+    try:  # pragma: no cover - openvino might not be installed
         real_ov = importlib.import_module("openvino")
-    except Exception:  # pragma: no cover - openvino may not be installed
+    except Exception:  # pragma: no cover
         real_ov = None
 
-    # Minimal numpy stub using real numpy functions
+    # --- NumPy stub -----------------------------------------------------
     dummy_np = types.ModuleType("numpy")
     for attr in [
         "array",
@@ -38,14 +45,15 @@ def load_tts_modules():
         "copy",
         "float32",
         "ones",
+        "ndarray",
     ]:
         setattr(dummy_np, attr, getattr(real_np, attr))
     sys.modules["numpy"] = dummy_np
 
-    # Minimal OpenVINO stub
+    # --- OpenVINO stub --------------------------------------------------
     dummy_ov = types.ModuleType("openvino")
     dummy_ov.PartialShape = lambda shape: shape
-    dummy_ov.set_batch = lambda model, b: None
+    dummy_ov.set_batch = lambda model, _b: None
 
     class DummyLayout:
         def __init__(self, _):
@@ -54,17 +62,18 @@ def load_tts_modules():
     dummy_ov.Layout = DummyLayout
     sys.modules["openvino"] = dummy_ov
 
+    # Import modules under test while stubs are in place
     forward = importlib.import_module("shared.py.models.forward_tacotron_ie")
     wave = importlib.import_module("shared.py.models.mel2wave_ie")
 
-    # Restore real modules for other tests
+    # Restore real modules for the rest of the test suite
     sys.modules["numpy"] = real_np
     if real_ov is not None:
         sys.modules["openvino"] = real_ov
     else:
         sys.modules.pop("openvino", None)
 
-    # Reload utilities that may have been imported with stubbed numpy
+    # Reload utilities that may have imported the stubbed numpy
     import shared.py.utils.wav_processing as wav_processing
 
     importlib.reload(wav_processing)
