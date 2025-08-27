@@ -161,7 +161,10 @@ export class BrokerClient {
     } else if (a === "enqueue") {
       broker.enqueue(obj.queue, obj.task);
     } else if (a === "ready") {
-      broker.readyWorker(obj.queue, { id: this.id, assign: (task) => this.onTask && this.onTask(task) });
+      broker.readyWorker(obj.queue, {
+        id: this.id,
+        assign: (task) => this.onTask && this.onTask(task),
+      });
     } else if (a === "ack") {
       broker.record("ack", { taskId: obj.taskId, client: this.id });
     } else if (a === "heartbeat") {
