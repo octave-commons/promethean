@@ -621,6 +621,9 @@ importers:
                 specifier: ^8.18.3
                 version: 8.18.3
         devDependencies:
+            '@biomejs/biome':
+                specifier: ^2.1.4
+                version: 2.2.2
             '@types/node':
                 specifier: ^22.17.2
                 version: 22.18.0
@@ -633,15 +636,6 @@ importers:
             c8:
                 specifier: ^9.1.0
                 version: 9.1.0
-            eslint:
-                specifier: ^8.57.0
-                version: 8.57.1
-            eslint-config-neon:
-                specifier: ^0.1.62
-                version: 0.1.62(eslint@8.57.1)(svelte@3.59.2)(typescript@5.7.3)
-            prettier:
-                specifier: ^3.4.2
-                version: 3.6.2
             rimraf:
                 specifier: ^6.0.1
                 version: 6.0.1
@@ -14721,13 +14715,7 @@ snapshots:
             '@fastify/error': 3.4.1
             fastq: 1.19.1
 
-        axios@1.11.0:
-            dependencies:
-                follow-redirects: 1.15.11(debug@4.3.7)
-                form-data: 4.0.4
-                proxy-from-env: 1.1.0
-            transitivePeerDependencies:
-                - debug
+    axe-core@4.10.3: {}
 
     axios@1.11.0:
         dependencies:
@@ -16924,13 +16912,17 @@ snapshots:
         transitivePeerDependencies:
             - supports-color
 
-        http-proxy@1.18.1:
-            dependencies:
-                eventemitter3: 4.0.7
-                follow-redirects: 1.15.11(debug@4.3.7)
-                requires-port: 1.0.0
-            transitivePeerDependencies:
-                - debug
+    http-proxy-middleware@2.0.9(@types/express@4.17.23):
+        dependencies:
+            '@types/http-proxy': 1.17.16
+            http-proxy: 1.18.1
+            is-glob: 4.0.3
+            is-plain-obj: 3.0.0
+            micromatch: 4.0.8
+        optionalDependencies:
+            '@types/express': 4.17.23
+        transitivePeerDependencies:
+            - debug
 
     http-proxy@1.18.1:
         dependencies:
