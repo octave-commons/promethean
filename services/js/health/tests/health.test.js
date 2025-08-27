@@ -19,8 +19,11 @@ async function sendHeartbeat(payload) {
   await client.connect();
   client.publish("heartbeat", payload);
   await new Promise((r) => setTimeout(r, 50));
-  // Ensure we don’t schedule reconnect timers that keep the process alive.
-  client.disconnect();
+  // Ensure we don't leave behind reconnect timers or open sockets.
+  await new Promise((resolve) => {
+    client.socket.once("close", resolve);
+    client.disconnect();
+  });
 }
 
 test.before(async () => {
