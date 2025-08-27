@@ -1,4 +1,5 @@
 ## 🛠️ Description
+**Status:** blocked
 
 Enable the system to **ingest and selectively include Discord images** into the context pipeline.
 Currently, image handling is limited to a single “moving frame” model, where only the latest image passes through the system. This change will allow **multiple relevant images** to be retained, filtered, and passed selectively based on context needs.
@@ -50,3 +51,8 @@ This allows the “Duck” to have **visual memory** tied to conversational cont
 #framework-core
 #ollama-integration
 #multimodal-context
+
+## Blockers
+- No active owner or unclear scope
+
+#breakdown
