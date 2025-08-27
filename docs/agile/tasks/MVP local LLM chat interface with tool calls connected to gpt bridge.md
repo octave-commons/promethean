@@ -232,3 +232,9 @@ feat(agent): Pythagoras-mirror via WS with OpenAPI-driven tools (/v1 smartgpt-br
 ```
 
 \#tags #promethean #pythagoras #ws #llm-worker #smartgpt-bridge #openapi #tool-calling #testing #docs
+
+## Notes
+- Tests or documentation are missing; acceptance criteria not fully met.
+- Story Points: 8
+
+#in-progress
