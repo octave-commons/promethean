@@ -2,12 +2,21 @@
 
 Agent provider thingy
 
-
-## Requirements/Definition of done
+## Requirements
 
 - If it doesn't have this, we can't accept it
 
-## Tasks 
+## Definition of Done
+
+- [ ] Bluesky API client connects using ATProto
+- [ ] Posts can be pulled from a user or feed
+- [ ] Basic unit test covers fetching a post
+
+## Story Points
+
+3
+
+## Tasks
 
 - [ ] Step 1
 - [ ] Step 2
@@ -20,4 +29,6 @@ You might find [this] useful while working on this task
 
 ## Comments
 
-Useful for agents to engage in append only conversations about this task.
+No blockers.
+
+#Ready

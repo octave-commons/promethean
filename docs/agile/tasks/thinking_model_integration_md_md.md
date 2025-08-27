@@ -22,6 +22,18 @@ Placeholder task stub generated from kanban board.
 
 ---
 
+## ✅ Definition of Done
+
+- [ ] Integration points with existing agent pipeline are documented
+- [ ] API surface for the thinking model is defined and reviewed
+- [ ] Prototype demonstrates model hook executing within a test agent
+
+## 🧮 Story Points
+
+8
+
+---
+
 ## 🔗 Related Epics
 
 #framework-core
@@ -30,7 +42,7 @@ Placeholder task stub generated from kanban board.
 
 ## ⛓️ Blocked By
 
-Nothing
+- Awaiting selection of underlying thinking model and alignment with architecture
 
 ## ⛓️ Blocks
 
@@ -41,4 +53,4 @@ Nothing
 ## 🔍 Relevant Links
 
 - [kanban](../boards/kanban.md)
-#ice-box
+#Breakdown
