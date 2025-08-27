@@ -1,11 +1,8 @@
 from openvino.runtime import Core
 import numpy as np
 import torch
-
-core = Core()
-
-import numpy as np
 import librosa
+from transformers import WhisperTokenizer
 
 
 def audio_to_mel(
@@ -35,10 +32,6 @@ def audio_to_mel(
     # Normalize like Whisper expects
     mel = (mel - mel.mean()) / (mel.std() + 1e-5)
     return mel.astype(np.float32)
-
-
-from openvino.runtime import Core
-import numpy as np
 
 
 class WhisperStreamer:
@@ -75,8 +68,6 @@ class WhisperStreamer:
 
         return self.tokenizer.decode(tokens[1:-1])
 
-
-from transformers import WhisperTokenizer
 
 tokenizer = WhisperTokenizer.from_pretrained("openai/whisper-medium")
 input_ids = torch.tensor([[tokenizer.bos_token_id]])
