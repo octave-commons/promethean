@@ -207,12 +207,12 @@ def encode_path(file_path: str, *, encode: bool) -> str:
 
 def build_board(
     tasks: Dict[str, List[Tuple[str, Path]]],
-    unlinked: Dict[str, List[str]],
-    settings_block: str | None,
-    header_labels: Dict[str, str],
+    unlinked: Dict[str, List[str]] | None = None,
+    settings_block: str | None = None,
+    header_labels: Dict[str, str] | None = None,
     *,
-    wikilinks: bool,
-    encode_urls: bool,
+    wikilinks: bool = False,
+    encode_urls: bool = False,
 ) -> str:
     """
     Render board. For each status column:
@@ -220,6 +220,11 @@ def build_board(
       2) Unlinked bullets (preserved from current board if not linked)
     Then append kanban settings block (existing or default).
     """
+    if unlinked is None:
+        unlinked = {}
+    if header_labels is None:
+        header_labels = {}
+
     linked_slugs_per_status: Dict[str, set[str]] = {
         status: {_slugify(title) for title, _ in items}
         for status, items in tasks.items()
@@ -254,3 +259,58 @@ def build_board(
             if _slugify(title) in seen_slugs:
                 continue
             lines.append(f"- [ ] {title} {status}")
+        lines.append("")
+
+    block = settings_block or DEFAULT_KANBAN_SETTINGS_BLOCK
+    lines.append(block.rstrip("\n"))
+
+    return "\n".join(lines) + "\n"
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(
+        description="Generate kanban board from task status hashtags."
+    )
+    ap.add_argument(
+        "--tasks", type=Path, default=TASK_DIR, help="Directory containing task files"
+    )
+    ap.add_argument(
+        "--board", type=Path, default=BOARD_PATH, help="Output kanban board path"
+    )
+    ap.add_argument("--write", action="store_true", help="Write changes to board")
+    ap.add_argument(
+        "--wikilinks", action="store_true", help="Use wikilinks instead of markdown"
+    )
+    ap.add_argument(
+        "--encode-urls", action="store_true", help="URL-encode markdown links"
+    )
+    args = ap.parse_args()
+
+    tasks = collect_tasks(args.tasks)
+    unlinked = parse_unlinked_from_board(args.board)
+    header_labels = extract_header_labels(args.board)
+    settings_block = extract_settings_block(args.board)
+
+    board_text = build_board(
+        tasks,
+        unlinked,
+        settings_block=settings_block,
+        header_labels=header_labels,
+        wikilinks=args.wikilinks,
+        encode_urls=args.encode_urls,
+    )
+
+    if args.write:
+        args.board.parent.mkdir(parents=True, exist_ok=True)
+        with tempfile.NamedTemporaryFile(
+            "w", encoding="utf-8", delete=False, dir=args.board.parent
+        ) as tmp:
+            tmp.write(board_text)
+            tmp_name = tmp.name
+        os.replace(tmp_name, args.board)
+    else:
+        print(board_text, end="")
+
+
+if __name__ == "__main__":
+    main()
