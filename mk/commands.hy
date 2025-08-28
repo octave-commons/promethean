@@ -44,9 +44,10 @@
 
 
 (define-service-list SERVICES_HY "services/hy" (not (in  "templates" path)))
-(define-service-list SERVICES_PY "services/py" (not (in  "templates" path)))
+(define-service-list SERVICES_PY "services/py" (and (not (in  "templates" path)) (not (in "shared" path))))
 (define-service-list SERVICES_JS "services/js" (not (in  "templates" path)))
 (define-service-list SERVICES_TS "services/ts" (not (in  "templates" path)))
+(define-service-list SHARED_TS "shared" (and (= (basename path) "ts") (isdir path)))
 
 (defn define-patterns [#* groups]
       (lfor [lang commands] groups
@@ -99,13 +100,15 @@
                 TORCH_INDEX infile lockf)
                :cwd d :shell True)
            (sh (.format
-                "UV_VENV_IN_PROJECT=1 uv pip compile --emit-index-url {} -o {}"
-                infile lockf)
+                "UV_VENV_IN_PROJECT=1 uv pip compile --index {} {} -o {} --index-strategy unsafe-best-match"
+                TORCH_INDEX infile lockf)
                :cwd d :shell True))))
 
 (defn uv-sync [d]
   (let [lockf (lockfile-for d)]
-       (sh (.format "UV_VENV_IN_PROJECT=1 uv pip sync {}" lockf) :cwd d :shell True)))
+       (if (or (= lockf "requirements.gpu.lock") (= lockf "requirements.cpu.lock"))
+           (sh (.format "UV_VENV_IN_PROJECT=1 uv pip sync {} --index {} --index-strategy unsafe-best-match" lockf TORCH_INDEX) :cwd d :shell True)
+           (sh (.format "UV_VENV_IN_PROJECT=1 uv pip sync {}" lockf) :cwd d :shell True))))
 
 (defn inject-sitecustomize-into-venv [svc-dir]
   (let [src (join svc-dir "sitecustomize.py")
@@ -201,7 +204,12 @@
         (sh ["python" "-m" "pip" "install" "--user" "-r" "requirements.txt"] :cwd d))))
 
 (defn-cmd setup-python-services-quick []
+  (global TORCH-FLAVOR REQS-IN TORCH_CHANNEL TORCH_INDEX)
   (print "Quick Python setup (uv preferred)...")
+  (setv TORCH-FLAVOR (or (os.environ.get "PROMETHEAN_TORCH")
+                         (if (gpu-present) "cu129" "cpu")))
+  (setv TORCH_CHANNEL TORCH-FLAVOR)
+  (setv TORCH_INDEX (.format "https://download.pytorch.org/whl/{}" TORCH_CHANNEL))
   (for [d SERVICES_PY]
        (if (has-uv)
            (do
@@ -230,8 +238,8 @@
 (defn-cmd clean-python []
   (print "Cleaning Python artifacts (git-aware)...")
   (for [d SERVICES_PY]
-    (safe-rm-globs d [".venv" "__pycache__" ".pytest_cache" "*.pyc" "requirements.*.lock"]))
-  (safe-rm-globs "shared/py" [".venv" "__pycache__" ".pytest_cache" "*.pyc" "requirements.*.lock"]))
+    (safe-rm-globs d [".venv" "__pycache__" ".pytest_cache" "*.pyc"]))
+  (safe-rm-globs "shared/py" [".venv" "__pycache__" ".pytest_cache" "*.pyc"]))
 
 (defn-cmd setup-python-service [service]
   (print (.format "Setting up Python service: {}" service))
@@ -584,8 +592,15 @@
 (defn-cmd setup-quick []
   (print "Quick setup using requirements.txt files...")
   (setup-python-quick)
-  (setup-js)
-  (setup-ts)
+  ;; Use pnpm workspace for efficient install
+  (print "Installing all workspace dependencies...")
+  (if (has-pnpm)
+      (do
+        ;; Install all workspace deps at once
+        (sh "pnpm install" :shell True)
+        ;; Build shared TS to create bin files
+        (sh "pnpm -r --filter @shared/ts run build" :shell True))
+      (require-pnpm))
   (setup-hy)
   (setup-sibilant)
   (when (not (shutil.which "pm2"))
