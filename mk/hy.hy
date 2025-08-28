@@ -1,4 +1,4 @@
-
+(require mk.macros [defn-cmd])
 (defn-cmd setup-hy []
   (print "Setting up Hy services..."))
 
