@@ -33,13 +33,12 @@
 
 (defn safe-rm-rf [path]
   (let [bn (fs/file-name path)]
-    (when (contains? protect-files bn)
+    (if (contains? protect-files bn)
       (println (str "[protect] skip " path))
-      (return))
-    (if (git-ignored? path)
-      (do (println (str "[rm] " path))
-          (fs/delete-tree path))
-      (println (str "[skip] not ignored by git: " path)))))
+      (if (git-ignored? path)
+        (do (println (str "[rm] " path))
+            (fs/delete-tree path))
+        (println (str "[skip] not ignored by git: " path))))))
 
 (defn safe-rm-globs [root globs]
   (doseq [g globs

@@ -39,6 +39,7 @@
        (map str)
        (filter fs/directory?)
        (remove #(str/includes? % "/templates"))
+       (remove #(str/includes? % "/shared"))
        (sort)))
 
 (def services-hy (list-services "services/hy"))
