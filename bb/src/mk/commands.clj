@@ -46,7 +46,7 @@
     (u/sh! "python -m pipenv run pytest tests/e2e || true" {:shell true})
     (u/sh! "pytest tests/e2e || true" {:shell true})))
 
-(defn format []
+(defn format-code []
   (py/format-python)
   (js/format-js)
   (js/format-ts))
