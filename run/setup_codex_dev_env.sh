@@ -6,21 +6,6 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 curl -fsSL https://ollama.com/install.sh | sh
 
 
-if [[ "${EUID:-$(id -u)}" -ne 0 ]]; then
-  SUDO="sudo"
-else
-  SUDO=""
-fi
-
-echo "==> Updating apt and installing base deps..."
-$SUDO apt-get update -y
-$SUDO apt-get install -y \
-  git curl wget unzip zip gpg ca-certificates rlwrap build-essential \
-  openjdk-21-jdk
-
-echo "==> Java:"
-java -version || true
-
 
 ############################################
 # Clojure CLI (clj / clojure)
