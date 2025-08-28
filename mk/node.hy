@@ -1,4 +1,4 @@
-
+(require mk.macros [defn-cmd])
 ;; JavaScript helpers ---------------------------------------------------------
 (defn-cmd lint-js-service [service]
   (print (.format "Linting JS service: {}" service))
