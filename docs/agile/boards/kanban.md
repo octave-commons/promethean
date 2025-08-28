@@ -6,6 +6,7 @@ kanban-plugin: board
 
 ## Rejected
 
+- [ ] [[universal package manager]]
 - [ ] [[detect_contradictions_in_memory_md_md.md|Detect contradictions in memory]] #todo
 - [ ] [[implement_transcendence_cascade_md.md|Implement transcendence cascade]] #todo
 - [ ] [[identify_ancestral_resonance_patterns_md_md.md|Identify ancestral resonance patterns]] #todo
@@ -76,8 +77,8 @@ kanban-plugin: board
 - [ ] [[rewrite build tools with bb]]
 - [ ] [[consolidate all configs into ` config` as `.edn` files]]
 - [ ] [[CI passses]]
-- [ ] codex action build file contextualizer.
-- [ ] universal package manager
+- [ ] [[codex action build file contextualizer.]]
+- [ ] [[integrate sonarqube into devops]]
 
 
 ## Accepted
