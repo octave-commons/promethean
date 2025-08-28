@@ -69,8 +69,15 @@
 (defn setup-quick []
   (println "Quick setup using requirements.txt files...")
   (py/setup-python-quick)
-  (js/setup-js)
-  (js/setup-ts)
+  ;; Use pnpm workspace for efficient install
+  (println "Installing all workspace dependencies...")
+  (if (u/has-pnpm?)
+    (do
+      ;; Install all workspace deps at once
+      (u/sh! "pnpm install" {:shell true})
+      ;; Build shared TS to create bin files
+      (u/sh! "pnpm -r --filter @shared/ts run build" {:shell true}))
+    (u/require-pnpm))
   (hy/setup-hy)
   (println "[note] sibilant setup not ported; skipping")
   (when-not (u/has-cmd? "pm2")

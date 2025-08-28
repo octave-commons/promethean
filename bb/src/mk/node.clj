@@ -172,11 +172,15 @@
   (doseq [d cfg/shared-ts]
     (u/safe-rm-globs d ["node_modules" "dist" "build" "*.tsbuildinfo" ".turbo" ".parcel-cache" ".rollup.cache"])) )
 
-(defn build-ts []
-  (println "Transpiling TS to JS... (if we had any shared ts modules)")
+(defn build-shared-ts []
+  (println "Building shared TypeScript (for bin symlinks)...")
   (if (u/has-pnpm?)
     (u/sh! "pnpm run build" {:dir "./shared/ts/" :shell true})
-    (u/require-pnpm))
+    (u/require-pnpm)))
+
+(defn build-ts []
+  (println "Transpiling TS to JS... (if we had any shared ts modules)")
+  (build-shared-ts)
   (doseq [d cfg/services-ts]
     (when (fs/exists? (fs/path d "node_modules/.bin/tsc"))
       (if (u/has-pnpm?)
