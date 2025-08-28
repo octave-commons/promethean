@@ -15,7 +15,7 @@ tmpdir="$(mktemp -d)"
 pushd "$tmpdir" >/dev/null
 curl -L -O https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
 chmod +x linux-install.sh
-$SUDO ./linux-install.sh
+sudo ./linux-install.sh
 popd >/dev/null
 rm -rf "$tmpdir"
 
@@ -26,7 +26,7 @@ clojure -Sdescribe | sed -n '1,12p' || true
 # Babashka (bb)
 ############################################
 echo "==> Installing Babashka..."
-$SUDO bash < <(curl -s https://raw.githubusercontent.com/babashka/babashka/master/install)
+sudo bash < <(curl -s https://raw.githubusercontent.com/babashka/babashka/master/install)
 bb --version || true
 
 npm install --global corepack@latest
