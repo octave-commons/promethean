@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-source "$HOME/.promethean/mcp/.env"
+source "$HOME/devel/promethean/.env"
 # Only keep host.docker.internal if you truly need it on Linux.
 exec docker run -i --rm \
      --add-host host.docker.internal:host-gateway \
