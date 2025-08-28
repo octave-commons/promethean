@@ -9,7 +9,7 @@
   test             {:doc "Run tests for all languages" :task (mk.commands/test)}
   test-integration {:doc "Run integration tests" :task (mk.commands/test-integration)}
   test-e2e         {:doc "Run e2e tests (best-effort)" :task (mk.commands/test-e2e)}
-  format           {:doc "Format py/js/ts" :task (mk.commands/format)}
+  format           {:doc "Format py/js/ts" :task (mk.commands/format-code)}
   coverage         {:doc "Coverage across languages" :task (mk.commands/coverage)}
   setup            {:doc "Setup all services" :task (mk.commands/setup)}
   setup-quick      {:doc "Quick setup (scoped recommended)" :task (mk.commands/setup-quick)}
