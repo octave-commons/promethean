@@ -1,4 +1,4 @@
-
+(require mk.macros [defn-cmd])
 ;; Sibilant ------------------------------------------------------------------
 (defn-cmd build-sibilant []
   (print "Transpiling Sibilant to JS... (not ready)"))
