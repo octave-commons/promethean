@@ -1,16 +1,17 @@
-version: '3.8'
 services:
-  tts:
-    build: ./services/py/tts
-    ports:
-      - "5001:5001"
-  stt:
-    build: ./services/py/stt
-    ports:
-      - "5002:5002"
-  vision:
-    build: ./services/js/vision
+  sonarqube:
+    image: sonarqube:24.12.0.100206-community
+    container_name: sonarqube
+    ports: ["9000:9000"]
     environment:
-      - PORT=9999
-    ports:
-      - "9999:9999"
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_extensions:/opt/sonarqube/extensions
+    restart: unless-stopped
+
+volumes:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_extensions:

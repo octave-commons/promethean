@@ -1,5 +1,5 @@
 import test from 'ava';
-import { MarkdownTask } from '../markdown/task';
+import { MarkdownTask } from '../markdown/task.js';
 
 const TASK_WITH_ID = `# Title\n\nSome text here. #todo #framework-core\n\n id: 1234-aaaa\n`;
 

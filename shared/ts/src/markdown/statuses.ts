@@ -16,8 +16,8 @@ export const STATUS_ORDER = [
 export const STATUS_SET = new Set(STATUS_ORDER);
 
 export function headerToStatus(header: string): string {
-    // strip trailing parenthetical and trim
-    let h = header.replace(/\s*\(.*\)$/, '').trim();
+    // strip trailing parenthetical (allow trailing spaces) and trim
+    let h = header.replace(/\s*\(.*\)\s*$/, '').trim();
     // remove leading non-alphanumerics
     h = h.replace(/^[^A-Za-z0-9]+/, '');
     const norm = h.replace(/\s+/g, '-').toLowerCase();

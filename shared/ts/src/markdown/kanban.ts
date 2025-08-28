@@ -99,7 +99,8 @@ function stringifyAttrs(attrs: Attrs): string | null {
 
 function extractIdFromHtml(htmlValue?: string): string | null {
     if (!htmlValue) return null;
-    const m = RegExp(/id:\s*([a-f0-9-]{8,})/i).exec(htmlValue);
+    // Relaxed: allow common id chars (letters, digits, dash, underscore, dot, colon)
+    const m = /id:\s*([A-Za-z0-9._:-]+)/.exec(htmlValue);
     return m ? m[1] : null;
 }
 
@@ -344,7 +345,14 @@ export class MarkdownBoard {
         let rawText = '';
         const paragraph = (li.children || []).find((c: any) => c.type === 'paragraph');
         if (paragraph) {
-            rawText = toString(paragraph).trim();
+            // Build text from paragraph child text nodes to avoid losing raw tokens
+            const pieces: string[] = [];
+            for (const ch of paragraph.children || []) {
+                if (typeof (ch as any).value === 'string') pieces.push(String((ch as any).value));
+            }
+            rawText = pieces.join('').trim();
+            // If the id HTML comment was parsed inline inside the paragraph, strip it from the text
+            rawText = rawText.replace(/<!--\s*id:[^>]*-->/g, '').trim();
         }
 
         // capture an explicit ID if we have an HTML id comment anywhere in LI

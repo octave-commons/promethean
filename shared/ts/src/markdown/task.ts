@@ -105,28 +105,20 @@ export class MarkdownTask {
     }
 
     ensureStatus(status: string) {
-        // remove existing status tokens from the end of the file and ensure one exists
+        // Remove any status tokens anywhere, and ensure the last line is the status.
         const md = unified().use(remarkStringify).stringify(this.tree);
         const lines = md.split(/\r?\n/);
-        // find last line having any status token and replace
-        const hasStatus = (s: string) => s.split(/\s+/).some((tok) => STATUS_SET.has(tok));
-        let replaced = false;
-        for (let i = lines.length - 1; i >= 0; i--) {
-            const toks = lines[i].trim().split(/\s+/);
-            if (toks.some((t) => STATUS_SET.has(t))) {
-                const filtered = toks.filter((t) => !STATUS_SET.has(t));
-                lines[i] = `${filtered.join(' ').trim()} ${status}`.trim();
-                replaced = true;
-                break;
+        for (let i = 0; i < lines.length; i++) {
+            const toks = lines[i].trim().split(/\s+/).filter(Boolean);
+            const filtered = toks.filter((t) => !STATUS_SET.has(t));
+            if (filtered.length !== toks.length) {
+                lines[i] = filtered.join(' ').trim();
             }
         }
-        if (!replaced) {
-            if (lines.length && lines[lines.length - 1].trim() === '') {
-                lines[lines.length - 1] = status;
-            } else {
-                lines.push(status);
-            }
-        }
+        // Trim trailing blanks
+        while (lines.length && lines[lines.length - 1].trim() === '') lines.pop();
+        // Append status as final line
+        lines.push(status);
         // reparse into tree to keep round-trip consistent
         const next = unified().use(remarkParse).use(remarkGfm).parse(lines.join('\n'));
         (this as any).tree = next;
