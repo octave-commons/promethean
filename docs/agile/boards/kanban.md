@@ -6,6 +6,7 @@ kanban-plugin: board
 
 ## Rejected
 
+- [ ] [[detect_contradictions_in_memory_md_md.md|Detect contradictions in memory]] #todo
 - [ ] [[implement_transcendence_cascade_md.md|Implement transcendence cascade]] #todo
 - [ ] [[identify_ancestral_resonance_patterns_md_md.md|Identify ancestral resonance patterns]] #todo
 - [ ] [[annotate_legacy_code_with_migration_tags_md.md|Annotate legacy code with migration tags]] #ice-box
@@ -72,6 +73,11 @@ kanban-plugin: board
 
 ## Incoming
 
+- [ ] [[rewrite build tools with bb]]
+- [ ] [[consolidate all configs into ` config` as `.edn` files]]
+- [ ] [[CI passses]]
+- [ ] codex action build file contextualizer.
+- [ ] universal package manager
 
 
 ## Accepted
@@ -81,7 +87,6 @@ kanban-plugin: board
 - [ ] [[cephalon_context_window_from_collections.md|cephalon context window from collections]] #incoming
 - [ ] [[cephalon_backfill_conversation_history.md|cephalon backfill conversation history]] #incoming
 - [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md.md|Migrate server side sibilant libs to Promethean architecture.]] #accepted
-- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md.md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #accepted
 - [ ] [[clean_up_notes_into_design_docs_md.md|clean up notes into design docs md]] #accepted
 - [ ] [[ecs_component_schemas_core.md|ecs component schemas core]] #incoming
 - [ ] [[ecs_migration_path_docs.md|ecs migration path docs]] #incoming
@@ -102,7 +107,7 @@ kanban-plugin: board
 - [ ] [[write_end_to_end_tests_md_md.md|write end to end tests md md]] #accepted
 
 
-## Breakdown
+## Breakdown (13)
 
 - [ ] [[cephalon_event_schema_updates.md|cephalon event schema updates]] #incoming
 - [ ] [[design_ollama_model_file_for_use_with_codex_cli.md|Design Ollama model file for use with codex CLI]] #ice-box
@@ -115,6 +120,9 @@ kanban-plugin: board
 
 ## Ready
 
+- [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md.md|Add semantic overlays for layer1 through layer8]] #todo
+- [ ] [[Add git commands to gpt bridge.md|Add git commands to gpt bridge]] #todo
+- [ ] [[Add codex layer to emacs.md|Add codex layer to emacs]] #todo
 - [ ] [[smart_task_templater_md.md|smart task templater md]] #breakdown
 - [ ] [[cephalon_store_user_transcripts_unified.md|cephalon store user transcripts unified]] #incoming
 - [ ] [[script for getting github action workflow states for a branch.md|script for getting github action workflow states for a branch]] #breakdown
@@ -140,16 +148,11 @@ kanban-plugin: board
 - [ ] [[Agent Tasks Persistence Migration to DualStore.md|Agent Tasks Persistence Migration to DualStore]] #breakdown
 
 
-## Todo
+## Todo (21)
 
-- [ ] [[Add codex layer to emacs.md|Add codex layer to emacs]] #todo
-- [ ] [[Add git commands to gpt bridge.md|Add git commands to gpt bridge]] #todo
-- [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md.md|Add semantic overlays for layer1 through layer8]] #todo
-- [ ] [[Curate code from personal repository.md|Curate code from personal repository]] #todo
-- [ ] [[Decouple Audio Processing Logic From Discord.md|Decouple Audio Processing Logic From Discord]] #todo
-- [ ] [[detect_contradictions_in_memory_md_md.md|Detect contradictions in memory]] #todo
 - [ ] [[evaluate_and_reward_flow_satisfaction.md|Evaluate and reward flow satisfaction]] #todo
 - [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md.md|Gather baseline emotion metrics for Eidolon field]] #todo
+- [ ] [[discord_image_awareness_md_md.md|discord image awareness md md]] #in-progress
 - [ ] [[gather_open_questions_about_system_direction_md_md.md|Gather open questions about system direction]] #todo
 - [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md.md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #todo
 - [ ] [[LLM service must accept tool calls.md|LLM service must accept tool calls]] #todo
@@ -193,7 +196,7 @@ kanban-plugin: board
 - [ ] [[twitch_discord_general_auto_mod_md_md.md|twitch discord general auto mod md md]] #todo
 
 
-## In Progress
+## In Progress (8)
 
 - [ ] [[Create broker services that can handle all the same tasks as the gpt bridge.md|Create broker services that can handle all the same tasks as the gpt bridge]] #in-progress
 - [ ] [[File explorer.md|File explorer]] #in-progress
@@ -203,24 +206,22 @@ kanban-plugin: board
 - [ ] [[OpenAI compatable api.md|OpenAI compatable api]] #todo
 - [ ] [[Phase out proxy in favor of bridge service.md|Phase out proxy in favor of bridge service]] #todo
 - [ ] [[Webcrawler.md|Webcrawler]] #in-progress
-- [ ] [[discord_image_awareness_md_md.md|discord image awareness md md]] #in-progress
 - [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids.md|identify and resolve a service client apparently connecting repeatedly to broker with new session ids]] #in-progress
 - [ ] [[implement classes in compiler lisp incoming.md|implement classes in compiler lisp incoming]] #in-progress
-- [ ] [[implement defun in compiler lisp incoming.md|implement defun in compiler lisp incoming]] #in-progress
-- [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming.md|periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]] #in-progress
-- [ ] [[pin_versions_in_configs_md.md|pin versions in configs md]] #in-progress
 - [ ] [[seperate discord commands from the actions they perform.md|seperate discord commands from the actions they perform]] #in-progress
 - [ ] [[set up data migration pipeline and clearly describe conventions.md|set up data migration pipeline and clearly describe conventions]] #in-progress
-- [ ] [[setup new service generator.md|setup new service generator]] #in-progress
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md.md|setup services to recieve work from the broker via push md]] #in-progress
-- [ ] [[twitch_stream_title_generator_md_md.md|twitch stream title generator md md]] #in-progress
 
 
-## In Review
+## In Review (8)
 
 - [ ] [[Mock broker.md|Mock broker]] #in-review
 - [ ] [[broker gpt bridge parity plan.md|broker gpt bridge parity plan]] #in-review
-- [ ] [[update_cephalon_to_use_custom_embedding_function_md_md.md|Update cephalon to use custom embedding function]] #in-progress
+- [ ] [[implement defun in compiler lisp incoming.md|implement defun in compiler lisp incoming]] #in-progress
+- [ ] [[pin_versions_in_configs_md.md|pin versions in configs md]] #in-progress
+- [ ] [[setup new service generator.md|setup new service generator]] #in-progress
+- [ ] [[twitch_stream_title_generator_md_md.md|twitch stream title generator md md]] #in-progress
+- [ ] [[periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming.md|periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]] #in-progress
 
 
 ## Done
@@ -228,6 +229,7 @@ kanban-plugin: board
 - [ ] [[add_file_system_to_context_management_system_md_md.md|add file system to context management system md md]] #todo
 - [ ] [[Ensure openapi specs are automaticly updated when an endpoint is changed.md|Ensure openapi specs are automaticly updated when an endpoint is changed]] #todo
 - [ ] [[add_obsidian_to_gitignore_md_md.md|Add .obsidian to .gitignore]] #done
+- [ ] [[update_cephalon_to_use_custom_embedding_function_md_md.md|Update cephalon to use custom embedding function]] #in-progress
 - [ ] [[add_stt_service_tests_md.md|Add STT service tests]] #done
 - [ ] [[add_starter_notes_-_eidolon_fields_cephalon_inner_monologue_1_md.md|Add starter notes - eidolon_fields, cephalon_inner_monologue]] #done
 - [ ] [[add_unit_tests_for_date_tools_py_md.md|Add unit tests for date_tools.py]] #done
@@ -258,6 +260,9 @@ kanban-plugin: board
 
 ## Archive
 
+- [ ] [[Decouple Audio Processing Logic From Discord.md|Decouple Audio Processing Logic From Discord]] #todo
+- [ ] [[Curate code from personal repository.md|Curate code from personal repository]] #todo
+- [ ] [[migrating_relevant_modules_from_riatzukiza_github_md.md|Migrating relevant modules from `riatzukiza.github.io` to `/sites/` and `/docs/`]] #accepted
 - [ ] [[migrate_portfolio_client_code_to_promethean_md.md|Migrate portfolio client code to Promethean]] #accepted
 - [ ] [[Add tool calls to codex context.md|Add tool calls to codex context]] #todo
 - [ ] [[Finish work on gptbridge agent integration.md|Finish work on gptbridge agent integration]] #todo
@@ -285,6 +290,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,false,false,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"agile/templates/task.stub.template.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
