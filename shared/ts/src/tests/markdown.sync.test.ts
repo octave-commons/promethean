@@ -1,8 +1,8 @@
 import test from 'ava';
 import { promises as fs } from 'fs';
 import { join } from 'path';
-import { MarkdownBoard } from 'markdown/kanban';
-import { syncBoardStatuses } from 'markdown/sync';
+import { MarkdownBoard } from '../markdown/kanban';
+import { syncBoardStatuses } from '../markdown/sync';
 
 const BOARD_MD = `---\nkanban-plugin: board\n---\n\n## Todo\n- [ ] Fix login flow <!-- id: 1111-aaaa -->\n- [ ] [[existing.md|Existing Task]] #ready <!-- id: 2222-bbbb -->\n\n## In Progress\n- [ ] Working item #todo <!-- id: 3333-cccc -->\n`;
 

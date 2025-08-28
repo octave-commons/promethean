@@ -1,5 +1,5 @@
 import test from 'ava';
-import { headerToStatus, STATUS_ORDER, STATUS_SET } from 'markdown/statuses';
+import { headerToStatus, STATUS_ORDER, STATUS_SET } from '../markdown/statuses';
 
 test('headerToStatus normalizes headers to status hashtag', (t) => {
     t.is(headerToStatus('Todo'), '#todo');
