@@ -1,43 +1,7 @@
-(defn venv-site-packages [svc-dir]
-  ;; glob .venv/lib/python*/site-packages
-  (let [pattern (join svc-dir ".venv" "lib" "python*" "site-packages")
-       hits (glob.glob pattern)]
-       (if hits (get hits 0) None)))
+(require mk.macros [defn-cmd])
+(import mk.configs [SERVICES-PY])
+(import mk.util [uv-env uv-compile ])
 
-(defn uv-venv [d]
-  (sh "UV_VENV_IN_PROJECT=1 uv venv" :cwd d :shell True))
-(defn uv-compile [d]
-  (let [infile (reqs-file-for d)
-       lockf  (lockfile-for d)]
-       (if (= infile "requirements.gpu.in")
-           (sh (.format
-                "UV_VENV_IN_PROJECT=1 uv pip compile --index {} {} -o {} --index-strategy unsafe-best-match"
-                TORCH_INDEX infile lockf)
-               :cwd d :shell True)
-           (sh (.format
-                "UV_VENV_IN_PROJECT=1 uv pip compile --emit-index-url {} -o {}"
-                infile lockf)
-               :cwd d :shell True))))
-
-(defn uv-sync [d]
-  (let [lockf (lockfile-for d)]
-       (sh (.format "UV_VENV_IN_PROJECT=1 uv pip sync {}" lockf) :cwd d :shell True)))
-
-(defn inject-sitecustomize-into-venv [svc-dir]
-  (let [src (join svc-dir "sitecustomize.py")
-       dst-base (venv-site-packages svc-dir)]
-       (when (and dst-base (isfile src))
-         (copyfile src (join dst-base "sitecustomize.py"))
-         (print "sitecustomize →" dst-base))))
-
-(defn gpu-build? [svc-dir]
-  (= (reqs-file-for svc-dir) "requirements.gpu.in"))
-
-(defn cuda-probe [svc-dir]
-  (when (gpu-build? svc-dir)
-    (sh
-     "UV_VENV_IN_PROJECT=1 uv run python - <<'PY'\nimport ctypes, sys\nlibs=('libcusparseLt.so.0','libcusparse.so.12','libcublasLt.so.12','libcublas.so.12','libcudnn.so.9')\nok=True\nfor n in libs:\n  try:\n    ctypes.CDLL(n); print('OK', n)\n  except OSError as e:\n    ok=False; print('MISS', n, '->', e)\nsys.exit(0 if ok else 1)\nPY"
-     :cwd svc-dir :shell True)))
 
 (defn-cmd setup-python-services []
   (print "Setting up Python services (uv preferred)...")
@@ -75,25 +39,12 @@
 (defn-cmd setup-shared-python []
   (sh ["python" "-m" "pipenv" "install" "--dev"] :cwd "shared/py"))
 (defn-cmd lock-python-cpu []
-  (global TORCH-FLAVOR REQS-IN TORCH_CHANNEL TORCH_INDEX)
   (os.environ.__setitem__ "PROMETHEAN_TORCH" "cpu")
-  (setv TORCH-FLAVOR "cpu")
-  (setv REQS-IN "requirements.cpu.in")
-
-  (setv TORCH_CHANNEL "cpu")
-  (setv TORCH_INDEX (.format "https://download.pytorch.org/whl/{}" TORCH_CHANNEL))
   (for [d SERVICES_PY] (uv-compile d))
   (uv-compile "./shared/py"))
 
 (defn-cmd lock-python-gpu []
-  (global TORCH-FLAVOR REQS-IN TORCH_CHANNEL TORCH_INDEX)
   (os.environ.__setitem__ "PROMETHEAN_TORCH" "cu129")  ; or your default
-
-  (setv TORCH-FLAVOR "cu129")
-  (setv REQS-IN "requirements.gpu.in")
-  (setv TORCH_CHANNEL "cu129")
-  (setv TORCH_INDEX (.format "https://download.pytorch.org/whl/{}" TORCH_CHANNEL))
-
   (for [d SERVICES_PY] (uv-compile d))
   (uv-compile "./shared/py"))
 
@@ -195,8 +146,14 @@
 
 (defn-cmd format-python []
   (sh ["black" "services/py" "shared/py/"])
-  (sh ["black"  "shared/py/"])
-  )
+  (sh ["black"  "shared/py/"]))
 
 (defn-cmd typecheck-python []
   (sh ["mypy"]))
+
+(defn-cmd generate-python-requirements []
+  (generate-python-services-requirements)
+  (generate-python-shared-requirements))
+
+(defn-cmd generate-requirements []
+  (generate-python-requirements))
