@@ -1,0 +1,14 @@
+[build-system]
+
+[project]
+name = "shared-core"
+version = "0.0.1"
+description = "Promethean shared core utilities with minimal base dependencies"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.8",
+    "python-dotenv>=1.0",
+    "pyyaml>=6.0"
+]
+

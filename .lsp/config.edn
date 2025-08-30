@@ -1,0 +1,2 @@
+{:source-paths ["bb/src"]
+ :source-paths-ignore-regex ["resources.*" "target.*" "node_modules.*" "dist.*" "build.*" "\\.direnv.*" "\\.venv.*" "\\.cache.*"]}

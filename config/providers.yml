@@ -1,16 +1,16 @@
 providers:
-    - provider: discord
-      tenant: duck
-      credentials:
-          bot_token: ${DISCORD_TOKEN_DUCK}
-          app_id: '123456789012345678'
-      allow:
-          spaces: ['111111111111111111']
-          users: ['*']
-          kinds: ['message', 'attachment']
-      storage:
-          mongo_db: 'promethean_discord_duck'
-          chroma_ns: 'discord__duck'
-      rate:
-          max_concurrent: 8
-          bucket_overrides: {}
+  - provider: discord
+    tenant: duck
+    credentials:
+      bot_token: ${DISCORD_TOKEN_DUCK}
+      app_id: "123456789012345678"
+    allow:
+      spaces: ["111111111111111111"]
+      users: ["*"]
+      kinds: ["message", "attachment"]
+    storage:
+      mongo_db: "promethean_discord_duck"
+      chroma_ns: "discord__duck"
+    rate:
+      max_concurrent: 8
+      bucket_overrides: {}

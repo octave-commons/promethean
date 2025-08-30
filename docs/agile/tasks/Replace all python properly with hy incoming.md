@@ -237,4 +237,4 @@ Append-only thread for agents. Note blockers, weird Hy interop, or macro decisio
 
 \#tags #promethean #hy #lisp #python #build #ci #git #precommit #policy #docs
 
-#in-progress
+#todo

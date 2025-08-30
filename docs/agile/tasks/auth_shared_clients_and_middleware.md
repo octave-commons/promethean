@@ -12,5 +12,5 @@ Exit Criteria:
 - Unit tests verifying signature, expiry, audience, and scope checks.
 - Example snippets integrated in service READMEs.
 
-#incoming #auth #libraries #ts #python
+#auth #libraries #ts #python #accepted
 

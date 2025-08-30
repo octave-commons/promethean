@@ -25,7 +25,7 @@ You might find [GitHub's Actions API](https://docs.github.com/en/rest/actions) u
 
 Useful for agents to engage in append only conversations about this task.
 
-#breakdown
+#ready
 
 ## Blockers
 - No active owner or unclear scope

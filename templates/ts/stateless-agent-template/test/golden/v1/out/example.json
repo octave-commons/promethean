@@ -1,16 +1,16 @@
 {
-    "id": "AUTO",
-    "ts": "AUTO",
-    "src": "your-agent",
-    "dst": "promethean.p.discord.t.duck.voice.audio.something",
-    "provider": "discord",
-    "tenant": "duck",
-    "intent": "voice.audio.something",
-    "corr": "47b1af93-7800-4c19-9719-88dca76a9fd9",
-    "payload": {
-        "session_id": "s123",
-        "segment_id": "seg001",
-        "result_path": "/var/promethean/tmp/s123_seg001.bin",
-        "idempotency_key": "s123:seg001"
-    }
+  "id": "AUTO",
+  "ts": "AUTO",
+  "src": "your-agent",
+  "dst": "promethean.p.discord.t.duck.voice.audio.something",
+  "provider": "discord",
+  "tenant": "duck",
+  "intent": "voice.audio.something",
+  "corr": "47b1af93-7800-4c19-9719-88dca76a9fd9",
+  "payload": {
+    "session_id": "s123",
+    "segment_id": "seg001",
+    "result_path": "/var/promethean/tmp/s123_seg001.bin",
+    "idempotency_key": "s123:seg001"
+  }
 }

@@ -47,4 +47,4 @@ Nothing
 ## 🔍 Relevant Links
 
 - [kanban](../boards/kanban.md)
-  #ready
+#archive

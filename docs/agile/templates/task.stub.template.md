@@ -1,22 +1,49 @@
-# Description
+---
+task-id: TASK-{{YYYYMMDD-hhmmss}}-{{rand4}}
+title: "<verb> <thing> <qualifier>"
+state: New
+prev:
+txn: "{{ISO8601}}-{{rand4}}"
+owner: err
+priority: p3
+size: m
+epic: EPC-000
+depends_on: []
+labels: ["board:auto", "lang:ts"]
+due:
+links: []
+artifacts: []
+rationale: "<why this matters in 1–4 sentences>"
+proposed_transitions: ["New->Accepted","Accepted->Breakdown"]
+tags:
+  - task/TASK-{{YYYYMMDD-hhmmss}}-{{rand4}}
+  - board/kanban
+  - state/New
+  - owner/err
+  - priority/p3
+  - epic/EPC-000
+---
 
-Describe your task
+## Context
+- What changed?
+- Where?
+- Why now?
 
-## Requirements/Definition of done
+## Inputs / Artifacts
+- (link or path)
 
-- If it doesn't have this, we can't accept it
+## Definition of Done
+- [ ] test X passes
+- [ ] doc Y updated
+- [ ] PR merged: <link>
 
-## Tasks 
-
-- [ ] Step 1
-- [ ] Step 2
-- [ ] Step 3
-- [ ] Step 4
+## Plan
+1. …
+2. …
 
 ## Relevent resources
 
 You might find [this] useful while working on this task
 
-## Comments
-
-Useful for agents to engage in append only conversations about this task.
+## Notes
+- …

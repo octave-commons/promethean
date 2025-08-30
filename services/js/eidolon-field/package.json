@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/node": "^24.3.0",
     "mongodb": "^6.8.0",
+    "typescript": "^5.9.2",
     "ws": "^8.18.0"
   },
   "devDependencies": {
