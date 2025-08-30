@@ -25,7 +25,7 @@ You might find [Alembic](https://alembic.sqlalchemy.org/) or [migrate](https://g
 
 Useful for agents to engage in append only conversations about this task.
 
-#breakdown
+#ready
 
 ## Blockers
 - No active owner or unclear scope

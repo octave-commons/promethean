@@ -1,6 +1,9 @@
 {
   "name": "@shared/js",
   "type": "module",
+  "exports": {
+    "./*": "./*"
+  },
   "dependencies": {
     "@types/estree": "^1.0.5",
     "acorn": "^8.11.3",

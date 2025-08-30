@@ -1,0 +1,20 @@
+{
+  "extends": "../../../config/tsconfig.service.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "paths": {
+      "@shared/js/*": ["../../js/*"],
+      "@promethean/persistence": ["../persistence/dist/index"],
+      "@promethean/persistence/*": ["../persistence/dist/*"],
+      "@promethean/agent-ecs": ["../agent-ecs/dist/index"],
+      "@promethean/agent-ecs/*": ["../agent-ecs/dist/*"],
+      "@promethean/llm": ["../llm/dist/index"],
+      "@promethean/llm/*": ["../llm/dist/*"]
+    },
+    "types": ["node"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["dist"]
+}

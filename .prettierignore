@@ -1,1 +1,10 @@
 services/ts/smartgpt-bridge/tests/fixtures/broken.ts
+# generated logs & artifacts
+shared/ts/smartgpt-bridge/logs/**
+**/dist/**
+**/build/**
+**/coverage/**
+# intentionally bad fixture in shared tree
+shared/ts/smartgpt-bridge/src/tests/fixtures/broken.ts
+# avoid npm artifacts (pnpm enforced)
+**/package-lock.json

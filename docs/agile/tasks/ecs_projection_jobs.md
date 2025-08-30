@@ -14,4 +14,4 @@ Exit Criteria:
 - Scripts/processes under `services/ts/cephalon/scripts/` or a shared service.
 - Verified indexes and query latencies.
 
-#incoming #ecs #projections #compaction
+#ecs #projections #compaction #ready

@@ -1,1 +1,0 @@
-{"version":3,"file":"board-watcher.d.ts","sourceRoot":"","sources":["board-watcher.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,MAAM,UAAU,CAAC;AAGhC,MAAM,WAAW,mBAAmB;IAChC,SAAS,EAAE,MAAM,CAAC;IAClB,OAAO,EAAE,CAAC,IAAI,EAAE,MAAM,EAAE,OAAO,EAAE,GAAG,KAAK,IAAI,CAAC;CACjD;AAED,wBAAgB,kBAAkB,CAAC,EAAE,SAAS,EAAE,OAAO,EAAE,EAAE,mBAAmB,sBAM7E"}

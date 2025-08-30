@@ -230,4 +230,4 @@ pnpm tsx src/cli.ts --export ~/Downloads/chatgpt-export \
 ## Blockers
 - No active owner or unclear scope
 
-#breakdown
+#ready

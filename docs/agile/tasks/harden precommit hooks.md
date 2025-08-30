@@ -25,7 +25,7 @@ You might find [this](https://pre-commit.com/) useful while working on this task
 
 Useful for agents to engage in append only conversations about this task.
 
-#breakdown
+#ready
 
 ## Blockers
 - No active owner or unclear scope

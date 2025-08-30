@@ -11,4 +11,4 @@ Scope:
 Exit Criteria:
 - Backfill script present in `services/ts/cephalon/scripts/` and documented; safe to run.
 
-#incoming #cephalon #backfill #context
+#cephalon #backfill #context #accepted

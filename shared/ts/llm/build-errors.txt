@@ -1,0 +1,14 @@
+../agent build: src/policy.test.ts(2,28): error TS2307: Cannot find module '../agent/policy.js' or its corresponding type declarations.
+../effects build: src/rest.test.ts(2,29): error TS2307: Cannot find module '../effects/rest.js' or its corresponding type declarations.
+. build: src/drivers/index.ts(4,18): error TS7016: Could not find a declaration file for module 'js-yaml'. '/home/err/devel/promethean/node_modules/.pnpm/js-yaml@4.1.0/node_modules/js-yaml/dist/js-yaml.mjs' implicitly has an 'any' type.
+. build: src/index.ts(88,9): error TS7016: Could not find a declaration file for module '../../../../shared/js/serviceTemplate.js'. '/home/err/devel/promethean/shared/js/serviceTemplate.js' implicitly has an 'any' type.
+../platform build: src/provider-registry.test.ts(3,36): error TS2307: Cannot find module '../platform/provider-registry.js' or its corresponding type declarations.
+../platform build: src/topic.test.ts(2,23): error TS2307: Cannot find module '../platform/topic.js' or its corresponding type declarations.
+../platform build: src/urn.test.ts(2,32): error TS2307: Cannot find module '../platform/urn.js' or its corresponding type declarations.
+../tests build: src/fixtures/cephalon.after.ts(1,47): error TS2307: Cannot find module '../../voice-synth.js' or its corresponding type declarations.
+../tests build: src/fixtures/cephalon.before.ts(1,47): error TS2307: Cannot find module '../../voice-synth.js' or its corresponding type declarations.
+ ERROR  @promethean/agent@0.0.1 build: `tsc`
+ ERROR  @promethean/effects@0.0.1 build: `tsc`
+ ERROR  @promethean/llm@0.0.1 build: `tsc`
+ ERROR  @promethean/platform@0.0.1 build: `tsc`
+ ERROR  @promethean/tests@0.0.1 build: `tsc`

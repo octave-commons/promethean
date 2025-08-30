@@ -31,3 +31,4 @@ Useful for agents to engage in append only conversations about this task.
 - Estimate: 3
 - Assumptions: Emacs environment can load the Codex integration layer.
 - Dependencies: Existing Codex CLI and Emacs plugin support.
+#ready

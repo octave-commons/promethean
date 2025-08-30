@@ -13,4 +13,4 @@ Exit Criteria:
 - LLM reply text stored in `agent_messages` on each response.
 - Unit test simulating `agent.llm.result` that asserts Mongo insert and Chroma add.
 
-#incoming #cephalon #persistence #agent_messages
+#cephalon #persistence #agent_messages #accepted

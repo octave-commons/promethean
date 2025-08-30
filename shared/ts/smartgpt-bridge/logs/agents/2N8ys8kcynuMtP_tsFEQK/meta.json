@@ -1,0 +1,13 @@
+{
+  "id": "2N8ys8kcynuMtP_tsFEQK",
+  "mode": "agent",
+  "cmd": "codex",
+  "args": ["exec", "--full-auto", "--cd", "/home/err/devel/promethean"],
+  "cwd": "/home/err/devel/promethean",
+  "startedAt": 1756318826530,
+  "prompt": "",
+  "exited": true,
+  "code": 0,
+  "signal": null,
+  "finishedAt": 1756318826534
+}

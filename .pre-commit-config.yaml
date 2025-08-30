@@ -14,7 +14,7 @@ repos:
       #   pass_filenames: false
       - id: tsc-no-emit
         name: TypeScript compile check
-        entry: make ts-type-check
+        entry: pnpm exec tsc -p tsconfig.json --noEmit
         language: system
         types_or: [javascript, ts, tsx]
         pass_filenames: false
@@ -78,8 +78,14 @@ repos:
         pass_filenames: false
       - id: lint-topics
         name: Topic/Schema lints
-        entry: make lint-topics
+        entry: pnpm exec tsx scripts/lint-topics.ts
         language: system
+        pass_filenames: false
+      - id: check-requirements-includes
+        name: Check requirements includes
+        entry: python scripts/ci/check_requirements_includes.py
+        language: system
+        files: ^services/.*requirements.*\.in$
         pass_filenames: false
 
   - repo: https://github.com/psf/black
@@ -107,5 +113,16 @@ repos:
     rev: v1.11.1
     hooks:
       - id: mypy
-        additional_dependencies: [mypy, types-requests]
+        additional_dependencies:
+          - mypy
+          - types-requests
+          - numpy
+          - types-PyYAML
+          - types-setuptools
+          - pydantic>=2
+          - pytest
+          - pydantic-settings>=2
+          - types-tqdm
+          - types-Pillow
         args: ["--config-file", "mypy.ini"]
+        pass_filenames: false

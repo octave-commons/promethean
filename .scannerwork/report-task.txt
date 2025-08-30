@@ -2,5 +2,5 @@ projectKey=hacks
 serverUrl=http://localhost:9000
 serverVersion=25.8.0.112029
 dashboardUrl=http://localhost:9000/dashboard?id=hacks
-ceTaskId=9ec37a7a-6e5c-4387-b19d-27c766ccd397
-ceTaskUrl=http://localhost:9000/api/ce/task?id=9ec37a7a-6e5c-4387-b19d-27c766ccd397
+ceTaskId=e7fdcbe8-9055-44fb-af9e-7dcdf3e056b7
+ceTaskUrl=http://localhost:9000/api/ce/task?id=e7fdcbe8-9055-44fb-af9e-7dcdf3e056b7

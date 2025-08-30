@@ -10,5 +10,5 @@ Scope:
 Exit Criteria:
 - CI green with new structure; no broken references.
 
-#incoming #scripts #ci #organization
+#scripts #ci #organization #accepted
 

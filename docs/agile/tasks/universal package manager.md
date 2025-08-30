@@ -21,7 +21,7 @@ You might find [this](https://github.com/replit/upm?tab=readme-ov-file) useful w
 
 Useful for agents to engage in append only conversations about this task.
 
-#rejected 
+#rejected
 
 # Reason for rejection
 

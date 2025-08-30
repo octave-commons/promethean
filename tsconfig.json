@@ -1,0 +1,119 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./shared/ts/agent"
+    },
+    {
+      "path": "./shared/ts/agent-ecs"
+    },
+    {
+      "path": "./shared/ts/changefeed"
+    },
+    {
+      "path": "./shared/ts/cli"
+    },
+    {
+      "path": "./shared/ts/compaction"
+    },
+    {
+      "path": "./shared/ts/compiler"
+    },
+    {
+      "path": "./shared/ts/contracts"
+    },
+    {
+      "path": "./shared/ts/dev"
+    },
+    {
+      "path": "./shared/ts/dlq"
+    },
+    {
+      "path": "./shared/ts/ds"
+    },
+    {
+      "path": "./shared/ts/effects"
+    },
+    {
+      "path": "./shared/ts/embeddings"
+    },
+    {
+      "path": "./shared/ts/event"
+    },
+    {
+      "path": "./shared/ts/examples"
+    },
+    {
+      "path": "./shared/ts/fs"
+    },
+    {
+      "path": "./shared/ts/http"
+    },
+    {
+      "path": "./shared/ts/intention"
+    },
+    {
+      "path": "./shared/ts/llm"
+    },
+    {
+      "path": "./shared/ts/markdown"
+    },
+    {
+      "path": "./shared/ts/metrics"
+    },
+    {
+      "path": "./shared/ts/migrations"
+    },
+    {
+      "path": "./shared/ts/naming"
+    },
+    {
+      "path": "./shared/ts/parity"
+    },
+    {
+      "path": "./shared/ts/persistence"
+    },
+    {
+      "path": "./shared/ts/platform"
+    },
+    {
+      "path": "./shared/ts/projectors"
+    },
+    {
+      "path": "./shared/ts/providers"
+    },
+    {
+      "path": "./shared/ts/rate"
+    },
+    {
+      "path": "./shared/ts/schema"
+    },
+    {
+      "path": "./shared/ts/snapshots"
+    },
+    {
+      "path": "./shared/ts/stream"
+    },
+    {
+      "path": "./shared/ts/test-utils"
+    },
+    {
+      "path": "./shared/ts/tests"
+    },
+    {
+      "path": "./shared/ts/timetravel"
+    },
+    {
+      "path": "./shared/ts/types"
+    },
+    {
+      "path": "./shared/ts/web"
+    },
+    {
+      "path": "./shared/ts/worker"
+    },
+    {
+      "path": "./shared/ts/ws"
+    }
+  ]
+}

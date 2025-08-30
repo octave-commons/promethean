@@ -1,0 +1,7 @@
+# Use modular packages with specific extras
+-e ../../../packages/shared-web[fastapi]
+-e ../../../packages/shared-hf[embeddings]
+-e ../../../packages/shared-core[io]
+
+# Use constraints for version pinning
+-c ../../../constraints.txt
