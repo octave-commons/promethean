@@ -1,0 +1,24 @@
+{
+  "extends": "../../../config/tsconfig.service.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "@shared/js/*": ["../../js/*"],
+      "@promethean/persistence": ["../persistence/dist/index"],
+      "@promethean/persistence/*": ["../persistence/dist/*"],
+      "@promethean/fs": ["../fs/dist/index"],
+      "@promethean/fs/*": ["../fs/dist/*"],
+      "@promethean/embeddings": ["../embeddings/dist/index"],
+      "@promethean/embeddings/*": ["../embeddings/dist/*"]
+    },
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
+  },
+  "include": ["./src/**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "./src/tests/fixtures/**/*.ts",
+    "./src/tests/fixtures/broken.ts"
+  ]
+}

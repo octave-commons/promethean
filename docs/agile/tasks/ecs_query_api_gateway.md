@@ -10,4 +10,4 @@ Endpoints (examples):
 Exit Criteria:
 - Service scaffolding + 2–3 endpoints with tests.
 
-#incoming #ecs #api #mongo
+#ecs #api #mongo #accepted

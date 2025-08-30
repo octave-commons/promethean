@@ -26,7 +26,7 @@ You might find [the LSP specification](https://microsoft.github.io/language-serv
 
 Useful for agents to engage in append only conversations about this task.
 
-#breakdown
+#ready
 
 ## Blockers
 - No active owner or unclear scope

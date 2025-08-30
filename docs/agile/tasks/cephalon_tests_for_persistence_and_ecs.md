@@ -11,4 +11,4 @@ Scope:
 Exit Criteria:
 - Tests pass and fail if persistence calls are removed.
 
-#incoming #cephalon #tests #persistence #ecs
+#cephalon #tests #persistence #ecs #ready

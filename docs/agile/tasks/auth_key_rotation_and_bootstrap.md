@@ -11,5 +11,5 @@ Scope:
 Exit Criteria:
 - Rotation works without downtime; old tokens valid until expiry; new tokens issued with new kid.
 
-#incoming #auth #security #rotation
+#auth #security #rotation #ready
 

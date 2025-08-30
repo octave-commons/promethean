@@ -1,12 +1,12 @@
 {
-    "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
-    "formatter": {
-        "lineWidth": 80,
-        "indentWidth": 4
-    },
-    "linter": {
-        "rules": {
-            "recommended": true
-        }
+  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
+  "formatter": {
+    "lineWidth": 80,
+    "indentWidth": 4
+  },
+  "linter": {
+    "rules": {
+      "recommended": true
     }
+  }
 }

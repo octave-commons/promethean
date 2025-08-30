@@ -13,5 +13,5 @@ Scope:
 Exit Criteria:
 - Consistent CLI ergonomics across scripts, with help messages.
 
-#incoming #scripts #cli #dx
+#scripts #cli #dx #accepted
 

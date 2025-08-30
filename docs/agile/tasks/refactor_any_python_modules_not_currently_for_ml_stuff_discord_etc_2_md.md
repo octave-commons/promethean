@@ -47,4 +47,4 @@ The aim is to reduce Python’s footprint in the system, improve performance, an
 ## Blockers
 - No active owner or unclear scope
 
-#breakdown
+#ready

@@ -1,10 +1,10 @@
 agent:
-    id: vad-chunker
-    kind: dsp
-    version: 0.1.0
-    binds: { provider: '*', tenants: ['*'] }
-    inputs:
-        - topic: promethean.p.*.t.*.voice.audio.pcm
-    outputs:
-        - topic: promethean.p.*.t.*.voice.audio.segment
-    capabilities: []
+  id: vad-chunker
+  kind: dsp
+  version: 0.1.0
+  binds: { provider: "*", tenants: ["*"] }
+  inputs:
+    - topic: promethean.p.*.t.*.voice.audio.pcm
+  outputs:
+    - topic: promethean.p.*.t.*.voice.audio.segment
+  capabilities: []

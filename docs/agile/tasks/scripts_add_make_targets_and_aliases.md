@@ -14,5 +14,5 @@ Scope:
 Exit Criteria:
 - Targets exist and work from repo root; CI can call them.
 
-#incoming #scripts #make #dx
+#scripts #make #dx #accepted
 

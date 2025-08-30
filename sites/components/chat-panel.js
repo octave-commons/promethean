@@ -8,7 +8,7 @@
 // - Leader-ish keys: `Ctrl+Enter` send, `Alt+[ / Alt+]` adjust K, `Alt+.` focus composer
 // - No frameworks, no external deps
 
-const TEMPLATE = document.createElement('template');
+const TEMPLATE = document.createElement("template");
 TEMPLATE.innerHTML = `
   <style>
     :host { display: grid; grid-template-rows: auto 1fr auto; height: 100%; font: 13px/1.4 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial; color: var(--fg, #e6e6e6); background: var(--bg, #0f1115); }
@@ -57,317 +57,335 @@ TEMPLATE.innerHTML = `
 `;
 
 function escapeHtml(s) {
-    return s.replace(
-        /[&<>\"]/g,
-        (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c],
-    );
+  return s.replace(
+    /[&<>\"]/g,
+    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
+  );
 }
 
 // Very small, safe-ish markdown renderer (subset): code fences, inline code, **bold**, *italic*, links
 function renderMarkdown(src) {
-    let s = escapeHtml(src);
-    // fenced code blocks ```lang\n...\n```
-    s = s.replace(
-        /```(\w+)?\n([\s\S]*?)```/g,
-        (m, lang, body) => `<pre><code data-lang="${lang || ''}">${body}</code></pre>`,
-    );
-    // inline code
-    s = s.replace(/`([^`]+)`/g, (m, code) => `<code>${code}</code>`);
-    // bold & italic (order matters)
-    s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-    s = s.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-    // links [text](url)
-    s = s.replace(
-        /\[([^\]]+)\]\((https?:[^\)\s]+)\)/g,
-        '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>',
-    );
-    // simple lists
-    s = s.replace(
-        /^(?:-\s.*(?:\n|$))+?/gm,
-        (block) =>
-            `<ul>` +
-            block
-                .trim()
-                .split(/\n/)
-                .map((li) => `<li>${li.replace(/^-[\s]*/, '')}</li>`)
-                .join('') +
-            `</ul>`,
-    );
-    s = s.replace(
-        /^(?:\d+\.\s.*(?:\n|$))+?/gm,
-        (block) =>
-            `<ol>` +
-            block
-                .trim()
-                .split(/\n/)
-                .map((li) => `<li>${li.replace(/^\d+\.[\s]*/, '')}</li>`)
-                .join('') +
-            `</ol>`,
-    );
-    // blockquote
-    s = s.replace(/(^|\n)>(.*)/g, (m, _a, rest) => `\n<blockquote>${rest.trim()}</blockquote>`);
-    // paragraphs / line breaks
-    s = s.replace(/\n\n+/g, '</p><p>');
-    s = `<p>${s}</p>`;
-    return s;
+  let s = escapeHtml(src);
+  // fenced code blocks ```lang\n...\n```
+  s = s.replace(
+    /```(\w+)?\n([\s\S]*?)```/g,
+    (m, lang, body) =>
+      `<pre><code data-lang="${lang || ""}">${body}</code></pre>`,
+  );
+  // inline code
+  s = s.replace(/`([^`]+)`/g, (m, code) => `<code>${code}</code>`);
+  // bold & italic (order matters)
+  s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  s = s.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+  // links [text](url)
+  s = s.replace(
+    /\[([^\]]+)\]\((https?:[^\)\s]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>',
+  );
+  // simple lists
+  s = s.replace(
+    /^(?:-\s.*(?:\n|$))+?/gm,
+    (block) =>
+      `<ul>` +
+      block
+        .trim()
+        .split(/\n/)
+        .map((li) => `<li>${li.replace(/^-[\s]*/, "")}</li>`)
+        .join("") +
+      `</ul>`,
+  );
+  s = s.replace(
+    /^(?:\d+\.\s.*(?:\n|$))+?/gm,
+    (block) =>
+      `<ol>` +
+      block
+        .trim()
+        .split(/\n/)
+        .map((li) => `<li>${li.replace(/^\d+\.[\s]*/, "")}</li>`)
+        .join("") +
+      `</ol>`,
+  );
+  // blockquote
+  s = s.replace(
+    /(^|\n)>(.*)/g,
+    (m, _a, rest) => `\n<blockquote>${rest.trim()}</blockquote>`,
+  );
+  // paragraphs / line breaks
+  s = s.replace(/\n\n+/g, "</p><p>");
+  s = `<p>${s}</p>`;
+  return s;
 }
 
 export class ChatPanel extends HTMLElement {
-    static get observedAttributes() {
-        return ['endpoint'];
+  static get observedAttributes() {
+    return ["endpoint"];
+  }
+  /** @type {Array<{id:string, role:'user'|'assistant'|'system'|'tool', content:string}>} */
+  #messages = [];
+  /** @type {Array<{id:string, kind:string, title:string, selected:boolean, tokens?:number, meta?:any, payload:{text:string, citation?:string}}>} */
+  #chips = [];
+  #shadow;
+  #composer;
+  #msgsEl;
+  #ctxEl;
+  #meterBar;
+  #sending = false;
+  #endpoint = "/v1/chat";
+
+  constructor() {
+    super();
+    this.#shadow = this.attachShadow({ mode: "open" });
+    this.#shadow.appendChild(TEMPLATE.content.cloneNode(true));
+    this.#composer = this.#shadow.querySelector(".composer");
+    this.#msgsEl = this.#shadow.querySelector("main");
+    this.#ctxEl = this.#shadow.querySelector(".context");
+    this.#meterBar = this.#shadow.querySelector(".meter > div");
+
+    this.#shadow
+      .querySelector(".send")
+      .addEventListener("click", () => this.send());
+    this.#shadow
+      .querySelector(".clear")
+      .addEventListener("click", () => this.clear());
+
+    this.#composer.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        this.send();
+      }
+      if (e.altKey && e.key === ".") {
+        e.preventDefault();
+        this.#composer.focus();
+      }
+      if (e.altKey && (e.key === "[" || e.key === "]")) {
+        e.preventDefault();
+        this.dispatchEvent(
+          new CustomEvent("adjust-k", {
+            detail: { dir: e.key === "]" ? +1 : -1 },
+          }),
+        );
+      }
+    });
+
+    // Optional global bus wiring
+    if (window.bus) {
+      window.bus.on?.("SEARCH_RESULTS", (e) =>
+        this.setChips([...(this.#chips || []), ...e.items]),
+      );
+      window.bus.on?.("RAG_RESULTS", (e) =>
+        this.setChips([...(this.#chips || []), ...e.items]),
+      );
+      window.bus.on?.("FILES_PIN", (e) =>
+        this.setChips([...(this.#chips || []), e.chip]),
+      );
+      window.bus.on?.("CHAT_RESPONSE", (e) =>
+        this.appendMessage({ role: "assistant", content: e.msg }),
+      );
     }
-    /** @type {Array<{id:string, role:'user'|'assistant'|'system'|'tool', content:string}>} */
-    #messages = [];
-    /** @type {Array<{id:string, kind:string, title:string, selected:boolean, tokens?:number, meta?:any, payload:{text:string, citation?:string}}>} */
-    #chips = [];
-    #shadow;
-    #composer;
-    #msgsEl;
-    #ctxEl;
-    #meterBar;
-    #sending = false;
-    #endpoint = '/v1/chat';
 
-    constructor() {
-        super();
-        this.#shadow = this.attachShadow({ mode: 'open' });
-        this.#shadow.appendChild(TEMPLATE.content.cloneNode(true));
-        this.#composer = this.#shadow.querySelector('.composer');
-        this.#msgsEl = this.#shadow.querySelector('main');
-        this.#ctxEl = this.#shadow.querySelector('.context');
-        this.#meterBar = this.#shadow.querySelector('.meter > div');
+    // Initial render
+    this.render();
+  }
 
-        this.#shadow.querySelector('.send').addEventListener('click', () => this.send());
-        this.#shadow.querySelector('.clear').addEventListener('click', () => this.clear());
+  attributeChangedCallback(name, _o, v) {
+    if (name === "endpoint" && v) this.#endpoint = v;
+  }
 
-        this.#composer.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-                e.preventDefault();
-                this.send();
+  // Public API
+  setChips(chips) {
+    this.#chips = this.#dedupeById(chips);
+    this.renderContext();
+  }
+  getChips() {
+    return this.#chips;
+  }
+  setBudgetUsage(pct) {
+    this.#meterBar.style.width = `${Math.max(0, Math.min(100, pct))}%`;
+  }
+  setMessages(list) {
+    this.#messages = list;
+    this.renderMessages();
+  }
+  appendMessage(msg) {
+    this.#messages.push({ id: crypto.randomUUID(), ...msg });
+    this.renderMessages(true);
+  }
+
+  clear() {
+    this.#messages = [];
+    this.renderMessages();
+  }
+
+  // UI rendering
+  render() {
+    this.renderContext();
+    this.renderMessages();
+  }
+
+  renderContext() {
+    const el = this.#ctxEl;
+    el.innerHTML = "";
+    const chips = this.#chips || [];
+    for (const c of chips) {
+      const chip = document.createElement("div");
+      chip.className = "chip";
+      chip.dataset.off = (!c.selected).toString();
+      chip.title = c.meta?.subtitle || "";
+      const id = document.createElement("span");
+      id.className = "id";
+      id.textContent = `#${c.id}`;
+      const title = document.createElement("span");
+      title.textContent = c.title;
+      const meta = document.createElement("span");
+      meta.className = "meta";
+      meta.textContent = c.tokens ? `${c.tokens}` : "";
+      const btn = document.createElement("button");
+      btn.innerHTML = c.selected ? "✕" : "✓";
+      btn.title = c.selected ? "Disable" : "Enable";
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        c.selected = !c.selected;
+        chip.dataset.off = (!c.selected).toString();
+        btn.innerHTML = c.selected ? "✕" : "✓";
+        this.dispatchEvent(
+          new CustomEvent("chip-toggle", {
+            detail: { id: c.id, selected: c.selected },
+          }),
+        );
+      });
+      chip.addEventListener("click", () => this.previewChip(c));
+      chip.append(id, title, meta, btn);
+      el.appendChild(chip);
+    }
+  }
+
+  renderMessages(scroll = false) {
+    const wrap = this.#msgsEl;
+    wrap.innerHTML = "";
+    for (const m of this.#messages) {
+      const card = document.createElement("div");
+      card.className = `msg ${m.role}`;
+      const role = document.createElement("div");
+      role.className = "role";
+      role.textContent = m.role;
+      const md = document.createElement("div");
+      md.className = "md";
+      md.innerHTML = renderMarkdown(m.content || "");
+      card.append(role, md);
+      wrap.appendChild(card);
+    }
+    if (scroll)
+      wrap.lastElementChild?.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+  }
+
+  // UX helpers
+  previewChip(chip) {
+    const preview = `**${chip.title}**\n\n${
+      chip.payload?.text?.slice(0, 1200) || ""
+    }${(chip.payload?.text?.length || 0) > 1200 ? "\n…" : ""}`;
+    this.dispatchEvent(new CustomEvent("chip-preview", { detail: { chip } }));
+    // Optionally append as a transient system message preview
+    // this.appendMessage({ role:'system', content: preview });
+  }
+
+  // Compose full payload for /v1/chat; real selection/packing happens outside, but we include chips for transparency.
+  buildChatRequest(userText) {
+    const messages = [
+      ...this.#messages.filter((m) => m.role !== "system" && m.role !== "tool"),
+      { role: "user", content: userText },
+    ];
+    const context_preview = (this.#chips || [])
+      .filter((c) => c.selected)
+      .map((c) => ({
+        id: c.id,
+        kind: c.kind,
+        title: c.title,
+        tokens: c.tokens,
+        citation: c.payload?.citation,
+      }));
+    return { messages, context_preview };
+  }
+
+  async send() {
+    if (this.#sending) return;
+    const text = this.#composer.value.trim();
+    if (!text) return;
+    this.#sending = true;
+    this.#shadow.querySelector(".send").disabled = true;
+    this.appendMessage({ role: "user", content: text });
+    this.#composer.value = "";
+
+    try {
+      const payload = this.buildChatRequest(text);
+      const res = await fetch(this.#endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ stream: true, ...payload }),
+      });
+      if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);
+
+      // streaming decode
+      const reader = res.body.getReader();
+      const dec = new TextDecoder();
+      let assistantId = crypto.randomUUID();
+      let acc = "";
+      this.#messages.push({ id: assistantId, role: "assistant", content: "" });
+      this.renderMessages(true);
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        acc += dec.decode(value, { stream: true });
+        // Expect either raw text stream or SSE lines beginning with 'data:'
+        const chunks = acc.split(/\n\n/);
+        acc = chunks.pop() || "";
+        for (const ch of chunks) {
+          const line = ch.trim();
+          let delta = "";
+          if (line.startsWith("data:")) {
+            const data = line.slice(5).trim();
+            if (data === "[DONE]") continue;
+            try {
+              const j = JSON.parse(data);
+              delta = j.delta || j.text || "";
+              this.dispatchEvent(new CustomEvent("trace", { detail: j }));
+            } catch {
+              delta = data;
             }
-            if (e.altKey && e.key === '.') {
-                e.preventDefault();
-                this.#composer.focus();
-            }
-            if (e.altKey && (e.key === '[' || e.key === ']')) {
-                e.preventDefault();
-                this.dispatchEvent(
-                    new CustomEvent('adjust-k', { detail: { dir: e.key === ']' ? +1 : -1 } }),
-                );
-            }
-        });
-
-        // Optional global bus wiring
-        if (window.bus) {
-            window.bus.on?.('SEARCH_RESULTS', (e) =>
-                this.setChips([...(this.#chips || []), ...e.items]),
-            );
-            window.bus.on?.('RAG_RESULTS', (e) =>
-                this.setChips([...(this.#chips || []), ...e.items]),
-            );
-            window.bus.on?.('FILES_PIN', (e) => this.setChips([...(this.#chips || []), e.chip]));
-            window.bus.on?.('CHAT_RESPONSE', (e) =>
-                this.appendMessage({ role: 'assistant', content: e.msg }),
-            );
+          } else {
+            delta = line;
+          }
+          this.#appendToAssistant(assistantId, delta);
         }
+      }
+      // flush tail
+      if (acc) this.#appendToAssistant(assistantId, acc);
+    } catch (err) {
+      console.error(err);
+      this.appendMessage({ role: "system", content: `Error: ${err.message}` });
+    } finally {
+      this.#sending = false;
+      this.#shadow.querySelector(".send").disabled = false;
+    }
+  }
 
-        // Initial render
-        this.render();
+  #appendToAssistant(id, delta) {
+    const idx = this.#messages.findIndex((m) => m.id === id);
+    if (idx >= 0) {
+      this.#messages[idx].content += delta;
+      this.renderMessages(true);
     }
+  }
 
-    attributeChangedCallback(name, _o, v) {
-        if (name === 'endpoint' && v) this.#endpoint = v;
-    }
-
-    // Public API
-    setChips(chips) {
-        this.#chips = this.#dedupeById(chips);
-        this.renderContext();
-    }
-    getChips() {
-        return this.#chips;
-    }
-    setBudgetUsage(pct) {
-        this.#meterBar.style.width = `${Math.max(0, Math.min(100, pct))}%`;
-    }
-    setMessages(list) {
-        this.#messages = list;
-        this.renderMessages();
-    }
-    appendMessage(msg) {
-        this.#messages.push({ id: crypto.randomUUID(), ...msg });
-        this.renderMessages(true);
-    }
-
-    clear() {
-        this.#messages = [];
-        this.renderMessages();
-    }
-
-    // UI rendering
-    render() {
-        this.renderContext();
-        this.renderMessages();
-    }
-
-    renderContext() {
-        const el = this.#ctxEl;
-        el.innerHTML = '';
-        const chips = this.#chips || [];
-        for (const c of chips) {
-            const chip = document.createElement('div');
-            chip.className = 'chip';
-            chip.dataset.off = (!c.selected).toString();
-            chip.title = c.meta?.subtitle || '';
-            const id = document.createElement('span');
-            id.className = 'id';
-            id.textContent = `#${c.id}`;
-            const title = document.createElement('span');
-            title.textContent = c.title;
-            const meta = document.createElement('span');
-            meta.className = 'meta';
-            meta.textContent = c.tokens ? `${c.tokens}` : '';
-            const btn = document.createElement('button');
-            btn.innerHTML = c.selected ? '✕' : '✓';
-            btn.title = c.selected ? 'Disable' : 'Enable';
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                c.selected = !c.selected;
-                chip.dataset.off = (!c.selected).toString();
-                btn.innerHTML = c.selected ? '✕' : '✓';
-                this.dispatchEvent(
-                    new CustomEvent('chip-toggle', { detail: { id: c.id, selected: c.selected } }),
-                );
-            });
-            chip.addEventListener('click', () => this.previewChip(c));
-            chip.append(id, title, meta, btn);
-            el.appendChild(chip);
-        }
-    }
-
-    renderMessages(scroll = false) {
-        const wrap = this.#msgsEl;
-        wrap.innerHTML = '';
-        for (const m of this.#messages) {
-            const card = document.createElement('div');
-            card.className = `msg ${m.role}`;
-            const role = document.createElement('div');
-            role.className = 'role';
-            role.textContent = m.role;
-            const md = document.createElement('div');
-            md.className = 'md';
-            md.innerHTML = renderMarkdown(m.content || '');
-            card.append(role, md);
-            wrap.appendChild(card);
-        }
-        if (scroll) wrap.lastElementChild?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-    }
-
-    // UX helpers
-    previewChip(chip) {
-        const preview = `**${chip.title}**\n\n${chip.payload?.text?.slice(0, 1200) || ''}${
-            (chip.payload?.text?.length || 0) > 1200 ? '\n…' : ''
-        }`;
-        this.dispatchEvent(new CustomEvent('chip-preview', { detail: { chip } }));
-        // Optionally append as a transient system message preview
-        // this.appendMessage({ role:'system', content: preview });
-    }
-
-    // Compose full payload for /v1/chat; real selection/packing happens outside, but we include chips for transparency.
-    buildChatRequest(userText) {
-        const messages = [
-            ...this.#messages.filter((m) => m.role !== 'system' && m.role !== 'tool'),
-            { role: 'user', content: userText },
-        ];
-        const context_preview = (this.#chips || [])
-            .filter((c) => c.selected)
-            .map((c) => ({
-                id: c.id,
-                kind: c.kind,
-                title: c.title,
-                tokens: c.tokens,
-                citation: c.payload?.citation,
-            }));
-        return { messages, context_preview };
-    }
-
-    async send() {
-        if (this.#sending) return;
-        const text = this.#composer.value.trim();
-        if (!text) return;
-        this.#sending = true;
-        this.#shadow.querySelector('.send').disabled = true;
-        this.appendMessage({ role: 'user', content: text });
-        this.#composer.value = '';
-
-        try {
-            const payload = this.buildChatRequest(text);
-            const res = await fetch(this.#endpoint, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ stream: true, ...payload }),
-            });
-            if (!res.ok || !res.body) throw new Error(`HTTP ${res.status}`);
-
-            // streaming decode
-            const reader = res.body.getReader();
-            const dec = new TextDecoder();
-            let assistantId = crypto.randomUUID();
-            let acc = '';
-            this.#messages.push({ id: assistantId, role: 'assistant', content: '' });
-            this.renderMessages(true);
-
-            while (true) {
-                const { value, done } = await reader.read();
-                if (done) break;
-                acc += dec.decode(value, { stream: true });
-                // Expect either raw text stream or SSE lines beginning with 'data:'
-                const chunks = acc.split(/\n\n/);
-                acc = chunks.pop() || '';
-                for (const ch of chunks) {
-                    const line = ch.trim();
-                    let delta = '';
-                    if (line.startsWith('data:')) {
-                        const data = line.slice(5).trim();
-                        if (data === '[DONE]') continue;
-                        try {
-                            const j = JSON.parse(data);
-                            delta = j.delta || j.text || '';
-                            this.dispatchEvent(new CustomEvent('trace', { detail: j }));
-                        } catch {
-                            delta = data;
-                        }
-                    } else {
-                        delta = line;
-                    }
-                    this.#appendToAssistant(assistantId, delta);
-                }
-            }
-            // flush tail
-            if (acc) this.#appendToAssistant(assistantId, acc);
-        } catch (err) {
-            console.error(err);
-            this.appendMessage({ role: 'system', content: `Error: ${err.message}` });
-        } finally {
-            this.#sending = false;
-            this.#shadow.querySelector('.send').disabled = false;
-        }
-    }
-
-    #appendToAssistant(id, delta) {
-        const idx = this.#messages.findIndex((m) => m.id === id);
-        if (idx >= 0) {
-            this.#messages[idx].content += delta;
-            this.renderMessages(true);
-        }
-    }
-
-    // util
-    #dedupeById(list) {
-        const m = new Map();
-        for (const x of list || []) if (!m.has(x.id)) m.set(x.id, x);
-        return [...m.values()];
-    }
+  // util
+  #dedupeById(list) {
+    const m = new Map();
+    for (const x of list || []) if (!m.has(x.id)) m.set(x.id, x);
+    return [...m.values()];
+  }
 }
 
-customElements.define('chat-panel', ChatPanel);
+customElements.define("chat-panel", ChatPanel);

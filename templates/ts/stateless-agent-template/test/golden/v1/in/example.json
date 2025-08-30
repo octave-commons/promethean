@@ -1,19 +1,19 @@
 {
-    "id": "47b1af93-7800-4c19-9719-88dca76a9fd9",
-    "ts": "2025-08-26T00:10:47.511873Z",
-    "src": "test",
-    "dst": "promethean.p.discord.t.duck.voice.audio.segment",
-    "provider": "discord",
-    "tenant": "duck",
-    "intent": "voice.audio.segment",
-    "payload": {
-        "session_id": "s123",
-        "segment_id": "seg001",
-        "data_path": "/tmp/in.bin",
-        "format": {
-            "rate_hz": 48000,
-            "channels": 1,
-            "codec": "pcm_s16le"
-        }
+  "id": "47b1af93-7800-4c19-9719-88dca76a9fd9",
+  "ts": "2025-08-26T00:10:47.511873Z",
+  "src": "test",
+  "dst": "promethean.p.discord.t.duck.voice.audio.segment",
+  "provider": "discord",
+  "tenant": "duck",
+  "intent": "voice.audio.segment",
+  "payload": {
+    "session_id": "s123",
+    "segment_id": "seg001",
+    "data_path": "/tmp/in.bin",
+    "format": {
+      "rate_hz": 48000,
+      "channels": 1,
+      "codec": "pcm_s16le"
     }
+  }
 }

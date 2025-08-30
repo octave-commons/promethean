@@ -1,0 +1,27 @@
+{
+  "name": "@promethean/attachment-embedder",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "start": "node --enable-source-maps --experimental-specifier-resolution=node ./src/index.ts",
+    "test": "pnpm build && ava --config ../../../config/ava.config.mjs tests/smoke.test.js",
+    "coverage": "pnpm build && c8 ava",
+    "build": "tsc",
+    "lint": "pnpm exec @biomejs/biome lint ."
+  },
+  "dependencies": {
+    "@shared/ts": "file:../../../shared/ts",
+    "@types/node": "^24.3.0",
+    "discord.js": "^14.17.3",
+    "typescript": "^5.9.2",
+    "@promethean/migrations": "file:../migrations",
+    "@promethean/platform": "file:../platform"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.2",
+    "ava": "^6.4.1",
+    "c8": "^9.1.0",
+    "tsx": "^4.20.3"
+  }
+}

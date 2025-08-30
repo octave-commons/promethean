@@ -1,0 +1,6 @@
+
+[build-system]
+
+[project]
+name = "prom_audio"
+version = "0.0.1"

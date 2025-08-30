@@ -1,0 +1,4 @@
+[build-system]
+
+[project]
+name = "prom_discord"

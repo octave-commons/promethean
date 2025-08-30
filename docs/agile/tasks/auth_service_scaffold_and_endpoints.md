@@ -17,5 +17,5 @@ Exit Criteria:
 - Service starts locally, issues + verifies tokens (via JWKS) end-to-end.
 - Basic tests for token issuance, expiration, invalid secret, and JWKS fetch.
 
-#incoming #auth #oauth #service
+#auth #oauth #service #accepted
 

@@ -1,0 +1,19 @@
+{
+  "id": "a5GFE1Jk7kfI5OolOH9io",
+  "mode": "agent",
+  "cmd": "codex",
+  "args": [
+    "exec",
+    "--full-auto",
+    "--cd",
+    "/home/err/devel/promethean/services/ts/smartgpt-bridge",
+    "noop"
+  ],
+  "cwd": "/home/err/devel/promethean/services/ts/smartgpt-bridge",
+  "startedAt": 1755730024582,
+  "prompt": "noop",
+  "exited": true,
+  "code": 0,
+  "signal": null,
+  "finishedAt": 1755730024583
+}

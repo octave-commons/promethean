@@ -14,4 +14,4 @@ Scope:
 Exit Criteria:
 - Schemas documented and referenced by publishers/subscribers.
 
-#incoming #cephalon #events #schemas
+#cephalon #events #schemas #breakdown

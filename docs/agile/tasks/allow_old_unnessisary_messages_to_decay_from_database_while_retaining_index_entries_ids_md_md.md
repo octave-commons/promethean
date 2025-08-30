@@ -68,3 +68,4 @@ This task is not about strictly defining the scoring model for “relevance,” 
 If you want, I can also give you a **mermaid diagram showing the memory tier flow**—Working ↔ Recent ↔ Important—with promotion/demotion paths, which will help when we wire it into the Eidolon field loop.
 That would make it much easier to see where scoring and eviction logic plug in.
 #IceBox
+#todo
