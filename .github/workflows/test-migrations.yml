@@ -1,33 +1,33 @@
 permissions:
-  contents: read
+    contents: read
 name: TS Migrations Fixture
 on:
-  pull_request:
-  push:
-    branches: [main]
+    pull_request:
+    push:
+        branches: [main]
 
 jobs:
-  test-migrations:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: "20"
-      - name: Enable Corepack and pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-      - name: Install workspace deps
-        run: pnpm install
-      - name: Build shared lib
-        run: pnpm --filter @shared/prom-lib build
-      - name: Dry-run backfill with fixture
-        env:
-          MIGRATION_DRY_RUN: "true"
-          MIGRATION_FIXTURE_JSON: tests/fixtures/migrations/messages.json
-          EMBEDDING_MODEL: deterministic:v1
-          EMBEDDING_DIM: "1536"
-          CHROMA_URL: http://localhost:65535 # unused by stub
-          CHROMA_COLLECTION_PREFIX: prom_
-        run: node services/ts/migrations/backfill.js --collection messages
+    test-migrations:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+            - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+              with:
+                  node-version: '20'
+            - name: Enable Corepack and pnpm
+              run: |
+                  corepack enable
+                  corepack prepare pnpm@latest --activate
+            - name: Install workspace deps
+              run: pnpm install
+            - name: Build shared lib
+              run: pnpm --filter @shared/prom-lib build
+            - name: Dry-run backfill with fixture
+              env:
+                  MIGRATION_DRY_RUN: 'true'
+                  MIGRATION_FIXTURE_JSON: tests/fixtures/migrations/messages.json
+                  EMBEDDING_MODEL: deterministic:v1
+                  EMBEDDING_DIM: '1536'
+                  CHROMA_URL: http://localhost:65535 # unused by stub
+                  CHROMA_COLLECTION_PREFIX: prom_
+              run: node services/ts/migrations/backfill.js --collection messages
