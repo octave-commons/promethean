@@ -10,6 +10,35 @@ services:
       - sonarqube_logs:/opt/sonarqube/logs
       - sonarqube_extensions:/opt/sonarqube/extensions
     restart: unless-stopped
+  ollama:
+    image: ollama/ollama:0.11.3
+    restart: unless-stopped
+    ports: ["127.0.0.1:11434:11434"]
+    volumes:
+      - /usr/share/ollama/.ollama/models:/root/.ollama/models
+    environment:
+      OLLAMA_HOST: "0.0.0.0:11434"
+      OLLAMA_DEBUG: "INFO"
+      OLLAMA_LLM_LIBRARY: "cublas"
+    deploy: {}
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "bash",
+          "-lc",
+          "curl -fsS http://127.0.0.1:11434/api/tags >/dev/null && nvidia-smi >/dev/null 2>&1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    runtime: nvidia # or: add 'deploy.resources.reservations.devices' in newer Compose
+    # For newer Compose spec, prefer:
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - capabilities: ["gpu"]
 
 volumes:
   sonarqube_data:
