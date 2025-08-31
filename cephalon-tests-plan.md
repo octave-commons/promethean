@@ -1,3 +1,0 @@
-# Cephalon test plan
-
-#incoming
