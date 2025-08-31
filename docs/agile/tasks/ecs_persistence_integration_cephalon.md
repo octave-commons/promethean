@@ -14,4 +14,4 @@ Exit Criteria:
 - Conversation flows produce Mongo upserts for components.
 - On restart, context is reconstructed from persisted components.
 
-#ecs #cephalon #mongo #ready
+#incoming #ecs #cephalon #mongo

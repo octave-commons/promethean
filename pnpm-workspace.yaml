@@ -1,5 +1,6 @@
 packages:
-  - "shared/js/*"
-  - "services/js/*"
-  - "shared/ts/*"
-  - "services/ts/*"
+    - services/js/*
+    - services/ts/*
+    - shared/ts
+    - shared/js
+    - packages/*

@@ -13,5 +13,5 @@ Exit Criteria:
 - All audio utilities live under `scripts/audio/` and run from repo root.
 - README exists with prerequisites and sample commands.
 
-#scripts #audio #organization #accepted
+#incoming #scripts #audio #organization
 

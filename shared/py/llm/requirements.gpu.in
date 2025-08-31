@@ -1,5 +1,0 @@
-# LLM service dependencies (GPU variant)
-pyyaml>=6.0.0
-transformers>=4.0.0
-torch>=2.0.0
-ollama>=0.1.0

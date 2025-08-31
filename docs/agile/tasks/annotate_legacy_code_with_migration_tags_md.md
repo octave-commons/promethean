@@ -48,4 +48,4 @@ Nothing
 ## 🔍 Relevant Links
 
 - [kanban](../boards/kanban.md)
-#rejected
+#ice-box

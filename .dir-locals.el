@@ -18,10 +18,10 @@
                                     (org-mode :dir "docs/unique" :ext ".org")
                                     (text-mode :dir "docs/text" :ext ".txt")
                                     (js-mode :dir "pseudo/dev" :ext ".js")
-                                    (typescript-ts-mode :dir "pseudo/dev" :ext ".ts")))
+                                    (typescript-ts-mode :dir "pseudo/dev" :ext ".ts"))))))
 
          (lsp-enable-file-watchers . t)      ;; keep watchers on, but…
          (lsp-file-watch-threshold . 1500)   ;; avoid nag; tune if needed
-         (eval . (promethean-lsp-append-gitignore-to-ignored-dirs))
+         ;; (eval . (promethean-lsp-append-gitignore-to-ignored-dirs))
 
          )))

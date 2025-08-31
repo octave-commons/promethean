@@ -46,4 +46,7 @@ Nothing
 ## 🔍 Relevant Links
 - [kanban](../boards/kanban.md)
 #IceBox
-#todo
+<<<<<<< HEAD
+#ready
+=======
+>>>>>>> origin/dev/yoga

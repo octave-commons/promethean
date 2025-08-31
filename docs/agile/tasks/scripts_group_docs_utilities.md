@@ -17,5 +17,5 @@ Exit Criteria:
 - All docs utilities live under `scripts/docs/` and run from repo root.
 - README exists with usage and env notes.
 
-#scripts #docs #organization #accepted
+#incoming #scripts #docs #organization
 

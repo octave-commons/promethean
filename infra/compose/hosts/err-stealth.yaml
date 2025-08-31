@@ -1,0 +1,11 @@
+
+version: "3.9"
+
+services:
+  model-server:
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      - OPENVINO_DEVICE_ORDER=NPU,GPU,CPU
+    devices:
+      - /dev/dri:/dev/dri

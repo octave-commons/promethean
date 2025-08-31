@@ -1,19 +1,19 @@
 {
-  "compilerOptions": {
-    "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "outDir": "dist",
-    "rootDir": "src",
-    "strict": true,
-    "sourceMap": true,
-    "inlineSources": true,
-    "esModuleInterop": false,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "types": ["node", "ava"],
-    "skipLibCheck": true
-  },
-  "include": ["src/**/*"],
-  "exclude": ["dist"]
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "outDir": "dist",
+        "rootDir": "src",
+        "strict": true,
+        "sourceMap": true,
+        "inlineSources": true,
+        "esModuleInterop": false,
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
+        "types": ["node", "ava"],
+        "skipLibCheck": true
+    },
+    "include": ["src/**/*"],
+    "exclude": ["dist"]
 }

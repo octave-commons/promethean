@@ -1,1 +1,0 @@
-"""Discord indexer service."""

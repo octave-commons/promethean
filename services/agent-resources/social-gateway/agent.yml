@@ -1,14 +1,14 @@
 # services/ts/social-gateway/agent.yml (one per provider)
 agent:
-  id: discord-gateway
-  kind: provider-access
-  version: 0.1.0
-  binds: { provider: "discord", tenants: ["duck", "backup-duck"] }
-  inputs:
-    - topic: promethean.p.discord.t.*.control.(start|stop|presence)
-  outputs:
-    - topic: promethean.p.discord.t.*.events.*
-    - topic: promethean.p.discord.t.*.health
-  capabilities:
-    - provider.gateway.connect: { provider: "discord" }
-    - provider.rest.call: { provider: "discord" }
+    id: discord-gateway
+    kind: provider-access
+    version: 0.1.0
+    binds: { provider: 'discord', tenants: ['duck', 'backup-duck'] }
+    inputs:
+        - topic: promethean.p.discord.t.*.control.(start|stop|presence)
+    outputs:
+        - topic: promethean.p.discord.t.*.events.*
+        - topic: promethean.p.discord.t.*.health
+    capabilities:
+        - provider.gateway.connect: { provider: 'discord' }
+        - provider.rest.call: { provider: 'discord' }

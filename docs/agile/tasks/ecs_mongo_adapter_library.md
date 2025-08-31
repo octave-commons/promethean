@@ -15,4 +15,4 @@ Exit Criteria:
 - Unit tests: component set/remove triggers Mongo upsert/delete.
 - Works with existing components (Turn, Utterance, TranscriptFinal, VAD).
 
-#ecs #mongo #orm #accepted
+#incoming #ecs #mongo #orm

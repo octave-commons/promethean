@@ -43,7 +43,7 @@ The **Promethean Framework** is a modular cognitive architecture designed to hos
 - [[AGENTS.md]] — Overview of agents and modular workflows.
 - [[readme.md]] — Setup, service launching, and ecosystem overview.
 - [[docs/agile/boards/kanban.md]] — Ongoing tasks and planning.
-- [[MIGRATION_PLAN.md]] — Strategy for unifying legacy code into Promethean.
+- [[migration_plan]] — Strategy for unifying legacy code into Promethean.
 
 ## 🔄 Review & Governance
 
