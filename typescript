@@ -1,169 +1,0 @@
-Script started on 2025-08-20 10:02:03-05:00 [TERM="xterm-256color" TTY="/dev/pts/0" COLUMNS="317" LINES="25"]
-[?2004h]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ whereis script
-[?2004lscript: /usr/bin/script /usr/share/man/man1/script.1.gz
-[?2004h]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ whereis scriptsystemctl --user restart synergy synergy-ui.service whereis script[K^C[?2004l[?2004h[?2004l
-[?2004h]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ script --help
-[?2004l
-Usage:
- script [options] [file]
-
-Make a typescript of a terminal session.
-
-Options:
- -I, --log-in <file>           log stdin to file
- -O, --log-out <file>          log stdout to file (default)
- -B, --log-io <file>           log stdin and stdout to file
-
- -T, --log-timing <file>       log timing information to file
- -t[<file>], --timing[=<file>] deprecated alias to -T (default file is stderr)
- -m, --logging-format <name>   force to 'classic' or 'advanced' format
-
- -a, --append                  append to the log file
- -c, --command <command>       run command rather than interactive shell
- -e, --return                  return exit code of the child process
- -f, --flush                   run flush after each write
-     --force                   use output file even when it is a link
- -E, --echo <when>             echo input in session (auto, always or never)
- -o, --output-limit <size>     terminate if output files exceed size
- -q, --quiet                   be quiet
-
- -h, --help                    display this help
- -V, --version                 display version
-
-For more details see script(1).
-[?2004h]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [K]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ d /home/err/devel/promethean/services/ts/smartgpt-bridge/
-[?2004ld: command not found
-[?2004h]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ [H[2J]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean[00m$ cd /home/err/devel/promethean/services/ts/smartgpt-bridge/
-[?2004l[?2004h]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean/services/ts/smartgpt-bridge[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean/services/ts/smartgpt-bridge[00m$ [H[2J]0;err@err-Stealth-16-AI-Studio-A1VGG: ~/devel/promethean/services/ts/smartgpt-bridge[01;32merr@err-Stealth-16-AI-Studio-A1VGG[00m:[01;34m~/devel/promethean/services/ts/smartgpt-bridge[00m$ pnpm run test
-[?2004l
-> promethean-smartgpt-bridge@1.0.0 test /home/err/devel/promethean/services/ts/smartgpt-bridge
-> ava
-
-
-  [32m✔[39m unit [90m[2m›[22m[39m remoteEmbedding [90m[2m›[22m[39m RemoteEmbeddingFunction: generate returns embeddings via fake broker
-  [32m✔[39m unit [90m[2m›[22m[39m grep.more [90m[2m›[22m[39m grep: maxMatches limits results
-  [32m✔[39m system [90m[2m›[22m[39m agent.supervisor [90m[2m›[22m[39m agent supervisor: guard pause, resume, then exit
-  [32m✔[39m unit [90m[2m›[22m[39m agent.more [90m[2m›[22m[39m AgentSupervisor: send/interrupt/kill after exit return false; logs and list
-  [32m✔[39m unit [90m[2m›[22m[39m agent.more [90m[2m›[22m[39m AgentSupervisor: SSE stream subscribes and cleans up
-  [32m✔[39m unit [90m[2m›[22m[39m grep [90m[2m›[22m[39m grep: invalid regex throws 400-level error
-  [32m✔[39m unit [90m[2m›[22m[39m indexer.branches [90m[2m›[22m[39m embedding env config uses env defaults (no broker)
-  [32m✔[39m unit [90m[2m›[22m[39m indexer.branches [90m[2m›[22m[39m search handles empty result shape via fallbacks
-  [32m✔[39m unit [90m[2m›[22m[39m indexer.branches [90m[2m›[22m[39m search sets undefined score when distance not a number
-  [32m✔[39m unit [90m[2m›[22m[39m grep [90m[2m›[22m[39m grep: finds heading with context and flags
-  [32m✔[39m unit [90m[2m›[22m[39m indexer.branches [90m[2m›[22m[39m reindexAll honors EXCLUDE_GLOBS
-  [32m✔[39m unit [90m[2m›[22m[39m files.more [90m[2m›[22m[39m locateStacktrace: Go file:line unresolved
-  [32m✔[39m unit [90m[2m›[22m[39m files.more [90m[2m›[22m[39m resolvePath returns null for non-existent
-  [32m✔[39m unit [90m[2m›[22m[39m files.more [90m[2m›[22m[39m viewFile throws when file missing
-  [32m✔[39m unit [90m[2m›[22m[39m files.more [90m[2m›[22m[39m locateStacktrace: Python File:line unresolved
-  [32m✔[39m unit [90m[2m›[22m[39m remoteEmbedding.more [90m[2m›[22m[39m RemoteEmbeddingFunction: image url item mapping
-  [32m✔[39m unit [90m[2m›[22m[39m files [90m[2m›[22m[39m resolvePath: fuzzy by basename
-  [32m✔[39m unit [90m[2m›[22m[39m files.more [90m[2m›[22m[39m locateStacktrace: Node style with function (nodeB)
-  [32m✔[39m unit [90m[2m›[22m[39m files [90m[2m›[22m[39m viewFile: returns correct window around line
-  [32m✔[39m unit [90m[2m›[22m[39m indexer [90m[2m›[22m[39m search returns shaped results from fake client
-  [32m✔[39m unit [90m[2m›[22m[39m indexer [90m[2m›[22m[39m reindexSubset forwards include globs
-  [32m✔[39m unit [90m[2m›[22m[39m indexer [90m[2m›[22m[39m reindexAll processes multiple chunks and calls upsert
-  [32m✔[39m unit [90m[2m›[22m[39m global.teardown [90m[2m›[22m[39m teardown placeholder
-  [32m✔[39m unit [90m[2m›[22m[39m symbols.util [90m[2m›[22m[39m symbols: tolerates broken TS file without crashing
-  [32m✔[39m unit [90m[2m›[22m[39m symbols.util [90m[2m›[22m[39m symbols: indexes small TS fixtures and finds Greeter class
-
-  [1mUncaught exception in tests/integration/server.agent.stubs.test.js[22m
-
-  ReferenceError: app is not defined
-
-  [90mReferenceError: app is not defined[39m
-  [90m    at file:///home/err/devel/promethean/services/ts/smartgpt-bridge/src/server.js:438:3[39m
-  [90m    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)[39m
-  [90m    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26)[39m
-  [90m    at async run (file:///home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1/node_modules/ava/lib/worker/base.js:252:3)[39m
-  [90m    at async file:///home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1/node_modules/ava/lib/worker/base.js:289:2[39m
-
-  [1mUncaught exception in tests/integration/server.openapi.test.js[22m
-
-  ReferenceError: app is not defined
-
-  [90mReferenceError: app is not defined[39m
-  [90m    at file:///home/err/devel/promethean/services/ts/smartgpt-bridge/src/server.js:438:3[39m
-  [90m    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)[39m
-  [90m    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26)[39m
-  [90m    at async run (file:///home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1/node_modules/ava/lib/worker/base.js:252:3)[39m
-  [90m    at async file:///home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1/node_modules/ava/lib/worker/base.js:289:2[39m
-
-  [31m✘ tests/integration/server.agent.stubs.test.js exited with a non-zero exit code: 1[39m
-  [31m✘ tests/integration/server.openapi.test.js exited with a non-zero exit code: 1[39m
-
-  [1mUncaught exception in tests/integration/server.agent.test.js[22m
-
-  ReferenceError: app is not defined
-
-  [90mReferenceError: app is not defined[39m
-  [90m    at file:///home/err/devel/promethean/services/ts/smartgpt-bridge/src/server.js:438:3[39m
-  [90m    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)[39m
-  [90m    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26)[39m
-  [90m    at async run (file:///home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1/node_modules/ava/lib/worker/base.js:252:3)[39m
-  [90m    at async file:///home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1/node_modules/ava/lib/worker/base.js:289:2[39m
-
-  [31m✘ tests/integration/server.agent.test.js exited with a non-zero exit code: 1[39m
-
-  [1mUncaught exception in tests/integration/server.search.test.js[22m
-
-  ReferenceError: app is not defined
-
-  [90mReferenceError: app is not defined[39m
-  [90m    at file:///home/err/devel/promethean/services/ts/smartgpt-bridge/src/server.js:438:3[39m
-  [90m    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)[39m
-  [90m    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26)[39m
-  [90m    at async run (file:///home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1/node_modules/ava/lib/worker/base.js:252:3)[39m
-  [90m    at async file:///home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1/node_modules/ava/lib/worker/base.js:289:2[39m
-
-  [31m✘ tests/integration/server.search.test.js exited with a non-zero exit code: 1[39m
-
-  [1mUncaught exception in tests/integration/server.search.errors.test.js[22m
-
-  ReferenceError: app is not defined
-
-  [90mReferenceError: app is not defined[39m
-  [90m    at file:///home/err/devel/promethean/services/ts/smartgpt-bridge/src/server.js:438:3[39m
-  [90m    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)[39m
-  [90m    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26)[39m
-  [90m    at async run (file:///home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1/node_modules/ava/lib/worker/base.js:252:3)[39m
-  [90m    at async file:///home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1/node_modules/ava/lib/worker/base.js:289:2[39m
-
-  [31m✘ tests/integration/server.search.errors.test.js exited with a non-zero exit code: 1[39m
-
-  [1mUncaught exception in tests/integration/server.reindex.success.test.js[22m
-
-  ReferenceError: app is not defined
-
-  [90mReferenceError: app is not defined[39m
-  [90m    at file:///home/err/devel/promethean/services/ts/smartgpt-bridge/src/server.js:438:3[39m
-  [90m    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)[39m
-  [90m    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26)[39m
-  [90m    at async run (file:///home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1/node_modules/ava/lib/worker/base.js:252:3)[39m
-  [90m    at async file:///home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1/node_modules/ava/lib/worker/base.js:289:2[39m
-
-  [1mUncaught exception in tests/integration/server.files.test.js[22m
-
-  ReferenceError: app is not defined
-
-  [90mReferenceError: app is not defined[39m
-  [90m    at file:///home/err/devel/promethean/services/ts/smartgpt-bridge/src/server.js:438:3[39m
-  [90m    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)[39m
-  [90m    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26)[39m
-  [90m    at async run (file:///home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1/node_modules/ava/lib/worker/base.js:252:3)[39m
-  [90m    at async file:///home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1/node_modules/ava/lib/worker/base.js:289:2[39m
-
-  [31m✘ tests/integration/server.reindex.success.test.js exited with a non-zero exit code: 1[39m
-
-  [1mUncaught exception in tests/integration/server.symbols.test.js[22m
-
-  ReferenceError: app is not defined
-
-  [90mReferenceError: app is not defined[39m
-  [90m    at file:///home/err/devel/promethean/services/ts/smartgpt-bridge/src/server.js:438:3[39m
-  [90m    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)[39m
-  [90m    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26)[39m
-  [90m    at async run (file:///home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1/node_modules/ava/lib/worker/base.js:252:3)[39m
-  [90m    at async file:///home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1/node_modules/ava/lib/worker/base.js:289:2[39m
-
-  [31m✘ tests/integration/server.files.test.js exited with a non-zero exit code: 1[39m
-  [31m✘ tests/integration/server.symbols.test.j

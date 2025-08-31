@@ -1,7 +1,0 @@
-# Minimal requirements for discord indexer
-discord.py>=2.3.0
-pymongo>=4.0.0
-python-dotenv>=1.0.0
-
-# Use constraints for version pinning
--c ../../../constraints.txt

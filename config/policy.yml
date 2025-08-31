@@ -1,0 +1,4 @@
+reconcile:
+  source_of_truth: "task"       # "task" | "board"  (this CLI implements "task")
+  write_patches: true
+  open_pr_on_conflict: false

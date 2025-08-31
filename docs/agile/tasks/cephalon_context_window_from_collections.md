@@ -12,4 +12,4 @@ Exit Criteria:
 - LLM requests include recent conversation and relevant memories from collections.
 - Unit test stubbing `ContextManager` to validate callback invocation.
 
-#cephalon #context #llm #accepted
+#incoming #cephalon #context #llm

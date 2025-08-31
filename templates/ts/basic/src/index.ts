@@ -1,1 +1,1 @@
-console.log("Hello from TypeScript service template");
+console.log('Hello from TypeScript service template');

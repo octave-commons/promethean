@@ -1,27 +1,22 @@
 #!/usr/bin/env node
-import fs from "node:fs/promises";
-import path from "node:path";
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
 const REPO = process.env.REPO_ROOT ?? process.cwd();
-const TASKS_DIR = path.join(REPO, "docs/agile/tasks");
-const BOARD_PATH = path.join(REPO, "docs/agile/boards/kanban.md");
+const TASKS_DIR = path.join(REPO, 'docs/agile/tasks');
+const BOARD_PATH = path.join(REPO, 'docs/agile/boards/kanban.md');
 
 const args = new Map<string, string | true>(
   process.argv.slice(2).map((a) => {
     const m = a.match(/^--([^=]+)(?:=(.*))?$/);
-    return m ? [m[1], m[2] ?? true] : ["_", a];
+    return m ? [m[1], m[2] ?? true] : ['_', a];
   }) as any,
 );
-const APPLY = args.has("apply"); // --apply to write changes
-const RM = args.has("rm"); // --rm to remove true dupes
-const VERBOSE = args.has("verbose");
+const APPLY = args.has('apply'); // --apply to write changes
+const RM = args.has('rm'); // --rm to remove true dupes
+const VERBOSE = args.has('verbose');
 
-type Plan = {
-  from: string;
-  to: string;
-  reason: string;
-  action: "rename" | "delete";
-};
+type Plan = { from: string; to: string; reason: string; action: 'rename' | 'delete' };
 type LinkEdit = { file: string; changes: number };
 
 function log(...x: any[]) {
@@ -31,18 +26,18 @@ function log(...x: any[]) {
 // --- helpers ---------------------------------------------------------------
 
 function collapseMdExt(name: string): string {
-  return name.replace(/(\.md)+$/i, ".md");
+  return name.replace(/(\.md)+$/i, '.md');
 }
 
 function slugify(title: string): string {
   // keep digits/letters/underscore/hyphen; collapse runs; lower-case
   const base = title
-    .replace(/\s+/g, "_")
-    .replace(/[^a-zA-Z0-9_\-]/g, "_")
-    .replace(/_+/g, "_")
-    .replace(/^_+|_+$/g, "")
+    .replace(/\s+/g, '_')
+    .replace(/[^a-zA-Z0-9_\-]/g, '_')
+    .replace(/_+/g, '_')
+    .replace(/^_+|_+$/g, '')
     .toLowerCase();
-  return base || "untitled";
+  return base || 'untitled';
 }
 
 function extractWikiTitle(line: string): string[] {
@@ -57,11 +52,8 @@ function extractWikiTitle(line: string): string[] {
 function splitKanbanSettings(md: string): { content: string; footer: string } {
   const start = md.search(/^\s*%%\s*kanban:settings\b/m);
   if (start >= 0)
-    return {
-      content: md.slice(0, start).replace(/\s+$/, ""),
-      footer: md.slice(start),
-    };
-  return { content: md.replace(/\s+$/, ""), footer: "" };
+    return { content: md.slice(0, start).replace(/\s+$/, ''), footer: md.slice(start) };
+  return { content: md.replace(/\s+$/, ''), footer: '' };
 }
 
 function stripFenceBlocks(md: string): string[] {
@@ -90,7 +82,7 @@ async function listTaskFiles(): Promise<string[]> {
 
 async function readTitleFor(file: string): Promise<string | null> {
   try {
-    const txt = await fs.readFile(file, "utf8");
+    const txt = await fs.readFile(file, 'utf8');
     // prefer explicit title from first wiki heading or frontmatter 'title:'
     const m1 = txt.match(/^\s*title:\s*["']?(.+?)["']?\s*$/im);
     if (m1) return m1[1].trim();
@@ -116,7 +108,7 @@ async function plan(): Promise<{
     const base0 = path.basename(file);
     const collapsed = collapseMdExt(base0);
     const title = await readTitleFor(file);
-    const slug = slugify(title ?? path.basename(collapsed, ".md"));
+    const slug = slugify(title ?? path.basename(collapsed, '.md'));
     const target = `${slug}.md`;
     const from = file;
     const to = path.join(TASKS_DIR, target);
@@ -126,14 +118,14 @@ async function plan(): Promise<{
       moves.push({
         from,
         to: path.join(TASKS_DIR, collapsed),
-        reason: "collapse .md chain",
-        action: "rename",
+        reason: 'collapse .md chain',
+        action: 'rename',
       });
     }
 
     // plan canonical rename
     if (path.basename(collapsed) !== target) {
-      moves.push({ from, to, reason: "canonicalize name", action: "rename" });
+      moves.push({ from, to, reason: 'canonicalize name', action: 'rename' });
     }
 
     // track for dupes
@@ -154,14 +146,14 @@ async function plan(): Promise<{
       const bodies = await Promise.all(
         group.map(async (g) => ({
           f: g,
-          b: await fs.readFile(g, "utf8").catch(() => ""),
+          b: await fs.readFile(g, 'utf8').catch(() => ''),
           st: await fs.stat(g).catch(() => null),
         })),
       );
       // compare content equality ignoring trailing whitespace
       const byNorm = new Map<string, { f: string; st: any }[]>();
       for (const { f, b, st } of bodies) {
-        const norm = b.replace(/\s+$/g, "");
+        const norm = b.replace(/\s+$/g, '');
         (byNorm.get(norm) ?? byNorm.set(norm, []).get(norm)!).push({ f, st });
       }
       // if all equal, delete all but newest
@@ -175,7 +167,7 @@ async function plan(): Promise<{
             from: d.f,
             to: keep.f,
             reason: `duplicate of ${path.basename(keep.f)}`,
-            action: "delete",
+            action: 'delete',
           });
       }
       // else leave as conflict to manually merge
@@ -196,10 +188,7 @@ async function plan(): Promise<{
 
 // --- link updates (board + tasks) -----------------------------------------
 
-async function updateLinks(
-  files: string[],
-  renameMap: Map<string, string>,
-): Promise<LinkEdit[]> {
+async function updateLinks(files: string[], renameMap: Map<string, string>): Promise<LinkEdit[]> {
   const edits: LinkEdit[] = [];
   const candidates = [BOARD_PATH, ...files]; // board + all tasks
   for (const file of candidates) {
@@ -208,11 +197,9 @@ async function updateLinks(
       .then(() => true)
       .catch(() => false);
     if (!exists) continue;
-    const orig = await fs.readFile(file, "utf8");
+    const orig = await fs.readFile(file, 'utf8');
     const { content, footer } =
-      file === BOARD_PATH
-        ? splitKanbanSettings(orig)
-        : { content: orig, footer: "" };
+      file === BOARD_PATH ? splitKanbanSettings(orig) : { content: orig, footer: '' };
     const lines = stripFenceBlocks(content);
     const inFence = inCodeFenceTracker();
 
@@ -224,12 +211,11 @@ async function updateLinks(
         if (links.length === 0) return line;
         let newline = line;
         for (const raw of links) {
-          const [fileOrTitle, alias] = raw.split("|");
+          const [fileOrTitle, alias] = raw.split('|');
           const base = collapseMdExt(fileOrTitle.trim());
           const basename = path.basename(base).toLowerCase();
-          const canon = basename.endsWith(".md") ? basename : basename + ".md";
-          const newName =
-            renameMap.get(canon) || renameMap.get(basename) || null;
+          const canon = basename.endsWith('.md') ? basename : basename + '.md';
+          const newName = renameMap.get(canon) || renameMap.get(basename) || null;
           if (newName && newName !== canon) {
             const newRaw = alias ? `${newName}|${alias}` : `${newName}`;
             newline = newline.replace(`[[${raw}]]`, `[[${newRaw}]]`);
@@ -238,18 +224,14 @@ async function updateLinks(
         }
         return newline;
       })
-      .join("\n");
+      .join('\n');
 
     if (changed > 0) {
       edits.push({ file, changes: changed });
       if (APPLY) {
-        const text = footer
-          ? out.endsWith("\n")
-            ? out + footer
-            : out + "\n" + footer
-          : out;
-        const tmp = file + ".tmp";
-        await fs.writeFile(tmp, text, "utf8");
+        const text = footer ? (out.endsWith('\n') ? out + footer : out + '\n' + footer) : out;
+        const tmp = file + '.tmp';
+        await fs.writeFile(tmp, text, 'utf8');
         await fs.rename(tmp, file);
       }
     }
@@ -271,41 +253,27 @@ async function updateLinks(
   }
 
   // Report
-  console.log(`Dry-run: ${!APPLY ? "yes" : "no"}   (--apply to write)`);
-  console.log(
-    `Remove exact dupes: ${
-      RM ? "yes" : "no"
-    }   (--rm to delete truly identical files)`,
-  );
-  console.log("");
+  console.log(`Dry-run: ${!APPLY ? 'yes' : 'no'}   (--apply to write)`);
+  console.log(`Remove exact dupes: ${RM ? 'yes' : 'no'}   (--rm to delete truly identical files)`);
+  console.log('');
 
-  if (
-    moves.length === 0 &&
-    deletes.length === 0 &&
-    Object.keys(conflicts).length === 0
-  ) {
-    console.log("No filename fixes needed. ✅");
+  if (moves.length === 0 && deletes.length === 0 && Object.keys(conflicts).length === 0) {
+    console.log('No filename fixes needed. ✅');
     process.exit(0);
   }
 
   if (moves.length) {
-    console.log("Planned renames:");
+    console.log('Planned renames:');
     for (const m of moves)
-      console.log(
-        `  • ${path.basename(m.from)}  →  ${path.basename(m.to)}   (${
-          m.reason
-        })`,
-      );
+      console.log(`  • ${path.basename(m.from)}  →  ${path.basename(m.to)}   (${m.reason})`);
   }
   if (deletes.length) {
-    console.log("\nPlanned deletes (exact dupes):");
+    console.log('\nPlanned deletes (exact dupes):');
     for (const d of deletes)
-      console.log(
-        `  • delete ${path.basename(d.from)}   (kept: ${path.basename(d.to)})`,
-      );
+      console.log(`  • delete ${path.basename(d.from)}   (kept: ${path.basename(d.to)})`);
   }
   if (Object.keys(conflicts).length) {
-    console.log("\nConflicts (different contents map to same canonical):");
+    console.log('\nConflicts (different contents map to same canonical):');
     for (const [canon, group] of Object.entries(conflicts)) {
       console.log(`  • ${canon}:`);
       group.forEach((g) => console.log(`      - ${path.basename(g)}`));
@@ -316,11 +284,11 @@ async function updateLinks(
   if (APPLY) {
     for (const d of deletes) await fs.unlink(d.from).catch(() => {});
     for (const m of moves) {
-      if (m.action === "rename") {
+      if (m.action === 'rename') {
         // ensure target dir exists
         await fs.rename(m.from, m.to).catch(async (e) => {
           // if target exists and is same file, ignore; else bubble
-          if (e && (e as any).code === "EEXIST") return;
+          if (e && (e as any).code === 'EEXIST') return;
           throw e;
         });
       }
@@ -331,12 +299,10 @@ async function updateLinks(
   const taskFiles = await listTaskFiles();
   const edits = await updateLinks(taskFiles, renameMap);
   if (edits.length) {
-    console.log("\nLink updates:");
+    console.log('\nLink updates:');
     for (const e of edits)
-      console.log(
-        `  • ${path.relative(REPO, e.file)}  (+${e.changes} changes)`,
-      );
+      console.log(`  • ${path.relative(REPO, e.file)}  (+${e.changes} changes)`);
   }
 
-  console.log("\nDone.");
+  console.log('\nDone.');
 })();

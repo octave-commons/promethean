@@ -30,9 +30,7 @@ from models.forward_tacotron_ie import ForwardTacotronIE
 from models.mel2wave_ie import WaveRNNIE, MelGANIE
 from utils.gui import init_parameters_interactive
 
-log.basicConfig(
-    format="[ %(levelname)s ] %(message)s", level=log.DEBUG, stream=sys.stdout
-)
+log.basicConfig(format='[ %(levelname)s ] %(message)s', level=log.DEBUG, stream=sys.stdout)
 
 
 def save_wav(x, path):
@@ -47,148 +45,79 @@ def save_wav(x, path):
 
 def build_argparser():
     parser = ArgumentParser(add_help=False)
-    args = parser.add_argument_group("Options")
-    args.add_argument(
-        "-h",
-        "--help",
-        action="help",
-        default=SUPPRESS,
-        help="Show this help message and exit.",
-    )
-    args.add_argument(
-        "-m_duration",
-        "--model_duration",
-        help="Required. Path to ForwardTacotron`s duration prediction part (*.xml format).",
-        required=True,
-        type=str,
-    )
-    args.add_argument(
-        "-m_forward",
-        "--model_forward",
-        help="Required. Path to ForwardTacotron`s mel-spectrogram regression part (*.xml format).",
-        required=True,
-        type=str,
-    )
-    args.add_argument(
-        "-i",
-        "--input",
-        help="Required. Text or path to the input file.",
-        required=True,
-        type=str,
-        nargs="*",
-    )
-    args.add_argument(
-        "-o",
-        "--out",
-        help="Optional. Path to an output .wav file",
-        default="out.wav",
-        type=str,
-    )
+    args = parser.add_argument_group('Options')
+    args.add_argument('-h', '--help', action='help', default=SUPPRESS, help='Show this help message and exit.')
+    args.add_argument("-m_duration", "--model_duration",
+                      help="Required. Path to ForwardTacotron`s duration prediction part (*.xml format).",
+                      required=True, type=str)
+    args.add_argument("-m_forward", "--model_forward",
+                      help="Required. Path to ForwardTacotron`s mel-spectrogram regression part (*.xml format).",
+                      required=True, type=str)
+    args.add_argument("-i", "--input", help="Required. Text or path to the input file.", required=True,
+                      type=str, nargs='*')
+    args.add_argument("-o", "--out", help="Optional. Path to an output .wav file", default='out.wav',
+                      type=str)
 
-    args.add_argument(
-        "-d",
-        "--device",
-        help="Optional. Specify the target device to infer on; CPU, GPU or HETERO is "
-        "acceptable. The demo will look for a suitable plugin for device specified. "
-        "Default value is CPU",
-        default="CPU",
-        type=str,
-    )
+    args.add_argument("-d", "--device",
+                      help="Optional. Specify the target device to infer on; CPU, GPU or HETERO is "
+                           "acceptable. The demo will look for a suitable plugin for device specified. "
+                           "Default value is CPU",
+                      default="CPU", type=str)
 
-    args.add_argument(
-        "-m_upsample",
-        "--model_upsample",
-        help="Path to WaveRNN`s part for mel-spectrogram upsampling "
-        "by time axis (*.xml format).",
-        default=None,
-        required=False,
-        type=str,
-    )
-    args.add_argument(
-        "-m_rnn",
-        "--model_rnn",
-        help="Path to WaveRNN`s part for waveform autoregression (*.xml format).",
-        default=None,
-        required=False,
-        type=str,
-    )
-    args.add_argument(
-        "--upsampler_width",
-        default=-1,
-        help="Width for reshaping of the model_upsample in WaveRNN vocoder. "
-        "If -1 then no reshape. Do not use with FP16 model.",
-        required=False,
-        type=int,
-    )
+    args.add_argument("-m_upsample", "--model_upsample",
+                      help="Path to WaveRNN`s part for mel-spectrogram upsampling "
+                           "by time axis (*.xml format).",
+                      default=None, required=False, type=str)
+    args.add_argument("-m_rnn", "--model_rnn",
+                      help="Path to WaveRNN`s part for waveform autoregression (*.xml format).",
+                      default=None, required=False, type=str)
+    args.add_argument("--upsampler_width", default=-1,
+                      help="Width for reshaping of the model_upsample in WaveRNN vocoder. "
+                           "If -1 then no reshape. Do not use with FP16 model.",
+                      required=False,
+                      type=int)
 
-    args.add_argument(
-        "-m_melgan",
-        "--model_melgan",
-        help="Path to model of the MelGAN (*.xml format).",
-        default=None,
-        required=False,
-        type=str,
-    )
+    args.add_argument("-m_melgan", "--model_melgan",
+                      help="Path to model of the MelGAN (*.xml format).",
+                      default=None, required=False,
+                      type=str)
 
-    args.add_argument(
-        "-s_id",
-        "--speaker_id",
-        help="Ordinal number of the speaker in embeddings array for multi-speaker model. "
-        "If -1 then activates the multi-speaker TTS model parameters selection window.",
-        default=19,
-        required=False,
-        type=int,
-    )
+    args.add_argument("-s_id", "--speaker_id",
+                      help="Ordinal number of the speaker in embeddings array for multi-speaker model. "
+                           "If -1 then activates the multi-speaker TTS model parameters selection window.",
+                      default=19, required=False,
+                      type=int)
 
-    args.add_argument(
-        "-a",
-        "--alpha",
-        help="Coefficient for controlling of the speech time (inversely proportional to speed).",
-        default=1.0,
-        required=False,
-        type=float,
-    )
+    args.add_argument("-a", "--alpha",
+                      help="Coefficient for controlling of the speech time (inversely proportional to speed).",
+                      default=1.0, required=False,
+                      type=float)
 
     return parser
 
 
 def is_correct_args(args):
-    if not (
-        (
-            args.model_melgan is None
-            and args.model_rnn is not None
-            and args.model_upsample is not None
-        )
-        or (
-            args.model_melgan is not None
-            and args.model_rnn is None
-            and args.model_upsample is None
-        )
-    ):
-        log.error(
-            "Can not use m_rnn and m_upsample with m_melgan. Define m_melgan or [m_rnn, m_upsample]"
-        )
+    if not ((args.model_melgan is None and args.model_rnn is not None and args.model_upsample is not None) or
+            (args.model_melgan is not None and args.model_rnn is None and args.model_upsample is None)):
+        log.error('Can not use m_rnn and m_upsample with m_melgan. Define m_melgan or [m_rnn, m_upsample]')
         return False
     if args.alpha < 0.5 or args.alpha > 2.0:
-        log.error("Can not use time coefficient less than 0.5 or greater than 2.0")
+        log.error('Can not use time coefficient less than 0.5 or greater than 2.0')
         return False
     if args.speaker_id < -1 or args.speaker_id > 39:
-        log.error(
-            "Mistake in the range of args.speaker_id. Speaker_id should be -1 (GUI regime) or in range [0,39]"
-        )
+        log.error('Mistake in the range of args.speaker_id. Speaker_id should be -1 (GUI regime) or in range [0,39]')
         return False
 
     return True
-
 
 def parse_input(input):
     if not input:
         return
     sentences = []
     for text in input:
-        if text.endswith(".txt"):
+        if text.endswith('.txt'):
             try:
-                with open(text, "r", encoding="utf8") as f:
+                with open(text, 'r', encoding='utf8') as f:
                     sentences += f.readlines()
                 continue
             except OSError:
@@ -203,24 +132,17 @@ def main():
     if not is_correct_args(args):
         return 1
 
-    log.info("OpenVINO Runtime")
-    log.info("\tbuild: {}".format(get_version()))
+    log.info('OpenVINO Runtime')
+    log.info('\tbuild: {}'.format(get_version()))
     core = Core()
 
     if args.model_melgan is not None:
         vocoder = MelGANIE(args.model_melgan, core, device=args.device)
     else:
-        vocoder = WaveRNNIE(
-            args.model_upsample,
-            args.model_rnn,
-            core,
-            device=args.device,
-            upsampler_width=args.upsampler_width,
-        )
+        vocoder = WaveRNNIE(args.model_upsample, args.model_rnn, core, device=args.device,
+                            upsampler_width=args.upsampler_width)
 
-    forward_tacotron = ForwardTacotronIE(
-        args.model_duration, args.model_forward, core, args.device, verbose=False
-    )
+    forward_tacotron = ForwardTacotronIE(args.model_duration, args.model_forward, core, args.device, verbose=False)
 
     audio_res = np.array([], dtype=np.int16)
 
@@ -229,13 +151,10 @@ def main():
         if args.speaker_id == -1:
             interactive_parameter = init_parameters_interactive(args)
             args.alpha = 1.0 / interactive_parameter["speed"]
-            speaker_emb = forward_tacotron.get_pca_speaker_embedding(
-                interactive_parameter["gender"], interactive_parameter["style"]
-            )
+            speaker_emb = forward_tacotron.get_pca_speaker_embedding(interactive_parameter["gender"],
+                                                                     interactive_parameter["style"])
         else:
-            speaker_emb = [
-                forward_tacotron.get_speaker_embeddings()[args.speaker_id, :]
-            ]
+            speaker_emb = [forward_tacotron.get_speaker_embeddings()[args.speaker_id, :]]
 
     len_th = 80
 
@@ -254,10 +173,10 @@ def main():
         if len(line) > len_th:
             texts = []
             prev_begin = 0
-            delimiters = ".!?;:,"
+            delimiters = '.!?;:,'
             for i, c in enumerate(line):
                 if (c in delimiters and i - prev_begin > len_th) or i == len(line) - 1:
-                    texts.append(line[prev_begin : i + 1])
+                    texts.append(line[prev_begin:i + 1])
                     prev_begin = i + 1
         else:
             texts = [line]
@@ -265,9 +184,7 @@ def main():
         print(texts)
         for text in tqdm(texts):
             time_s = perf_counter()
-            mel = forward_tacotron.forward(
-                text, alpha=args.alpha, speaker_emb=speaker_emb
-            )
+            mel = forward_tacotron.forward(text, alpha=args.alpha, speaker_emb=speaker_emb)
             time_forward += perf_counter() - time_s
 
             time_s = perf_counter()
@@ -285,5 +202,5 @@ def main():
     save_wav(audio_res, args.out)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     sys.exit(main() or 0)

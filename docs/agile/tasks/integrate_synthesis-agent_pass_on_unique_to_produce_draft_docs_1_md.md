@@ -46,7 +46,10 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [Process](../Process.md)
+- [process](process.md)
 - [kanban](../boards/kanban.md)
 #IceBox
-#todo
+<<<<<<< HEAD
+#ready
+=======
+>>>>>>> origin/dev/yoga

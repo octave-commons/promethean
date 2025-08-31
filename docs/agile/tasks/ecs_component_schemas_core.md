@@ -14,4 +14,4 @@ Deliverables:
 Exit Criteria:
 - Schemas published and referenced by adapter & services.
 
-#ecs #schemas #conversation #accepted
+#incoming #ecs #schemas #conversation

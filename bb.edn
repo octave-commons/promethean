@@ -1,9 +1,6 @@
-{:paths ["." "mk" "test"]
-
- ;; :paths ["bb/src"]
+{:paths ["bb/src"]
  :tasks
  {;; Root tasks
-  :requires ([mk.commands ])
   build            {:doc "Build all languages" :task (mk.commands/build)}
   clean            {:doc "Clean all artifacts" :task (mk.commands/clean)}
   distclean        {:doc "git clean -fdX for ignored files" :task (mk.commands/distclean)}
@@ -29,76 +26,75 @@
   lint-tasks       {:doc "Lint mk tasks" :task (mk.commands/lint-tasks)}
   simulate-ci      {:doc "Simulate CI locally" :task (mk.commands/simulate-ci)}
   snapshot         {:doc "Create tag snapshot-YYYY.MM.DD (PUSH=1 to push)" :task (mk.commands/snapshot)}
-  pre-commit-install {:doc "Install pre-commit hooks" :task (mk.commands/pre-commit-install)}
-  pre-commit-run {:doc "Install pre-commit hooks" :task (mk.commands/pre-commit-run)}
-  pre-commit-run-changed {:doc "Install pre-commit hooks" :task (mk.commands/pre-commit-run-changed)}
-  pre-commit-update {:doc "Install pre-commit hooks" :task (mk.commands/pre-commit-update)}
-  :gen-mcp {:doc "Generate all MCP configs from mk/mcp.edn (or $BB_MCP_CFG)"
-            :requires ([mk.mcp :as m])
-            :task (m/-main)}
 
-;; Language-specific tasks (mirroring Hy names)
+  ;; Language-specific tasks (mirroring Hy names)
   ;; Python
-  ;; setup-python-services     mk.python/setup-python-services
-  ;; setup-pipenv              mk.python/setup-pipenv
-  ;; generate-python-shared-requirements mk.python/generate-python-shared-requirements
-  ;; generate-python-services-requirements mk.python/generate-python-services-requirements
-  ;; generate-requirements-service mk.python/generate-requirements-service
-  ;; setup-shared-python       mk.python/setup-shared-python
-  ;; lock-python-cpu           mk.python/lock-python-cpu
-  ;; lock-python-gpu           mk.python/lock-python-gpu
-  ;; setup-shared-python-quick mk.python/setup-shared-python-quick
-  ;; setup-python-services-quick mk.python/setup-python-services-quick
-  ;; setup-python              mk.python/setup-python
-  ;; setup-python-quick        mk.python/setup-python-quick
-  ;; build-python              mk.python/build-python
-  ;; clean-python              mk.python/clean-python
-  ;; setup-python-service      mk.python/setup-python-service
-  ;; test-python-service       mk.python/test-python-service
-  ;; test-python-services      mk.python/test-python-services
-  ;; test-shared-python        mk.python/test-shared-python
-  ;; test-python               mk.python/test-python
-  ;; coverage-python-service   mk.python/coverage-python-service
-  ;; coverage-python-services  mk.python/coverage-python-services
-  ;; coverage-shared-python    mk.python/coverage-shared-python
-  ;; coverage-python           mk.python/coverage-python
-  ;; lint-python-service       mk.python/lint-python-service
-  ;; lint-python               mk.python/lint-python
-  ;; format-python             mk.python/format-python
-  ;; typecheck-python          mk.python/typecheck-python
-  ;; generate-python-requirements mk.python/generate-python-requirements
-  ;; generate-requirements     mk.python/generate-requirements
+  setup-python-services     mk.python/setup-python-services
+  setup-pipenv              mk.python/setup-pipenv
+  generate-python-shared-requirements mk.python/generate-python-shared-requirements
+  generate-python-services-requirements mk.python/generate-python-services-requirements
+  generate-requirements-service mk.python/generate-requirements-service
+  setup-shared-python       mk.python/setup-shared-python
+  lock-python-cpu           mk.python/lock-python-cpu
+  lock-python-gpu           mk.python/lock-python-gpu
+  setup-shared-python-quick mk.python/setup-shared-python-quick
+  setup-python-services-quick mk.python/setup-python-services-quick
+  setup-python              mk.python/setup-python
+  setup-python-quick        mk.python/setup-python-quick
+  build-python              mk.python/build-python
+  clean-python              mk.python/clean-python
+  setup-python-service      mk.python/setup-python-service
+  test-python-service       mk.python/test-python-service
+  test-python-services      mk.python/test-python-services
+  test-shared-python        mk.python/test-shared-python
+  test-python               mk.python/test-python
+  coverage-python-service   mk.python/coverage-python-service
+  coverage-python-services  mk.python/coverage-python-services
+  coverage-shared-python    mk.python/coverage-shared-python
+  coverage-python           mk.python/coverage-python
+  lint-python-service       mk.python/lint-python-service
+  lint-python               mk.python/lint-python
+  format-python             mk.python/format-python
+  typecheck-python          mk.python/typecheck-python
+  generate-python-requirements mk.python/generate-python-requirements
+  generate-requirements     mk.python/generate-requirements
 
-  ;; ;; JS/TS
-  ;; lint-js-service           mk.node/lint-js-service
-  ;; lint-js                   mk.node/lint-js
-  ;; format-js                 mk.node/format-js
-  ;; setup-shared-js           mk.node/setup-shared-js
-  ;; setup-js-service          mk.node/setup-js-service
-  ;; setup-js                  mk.node/setup-js
-  ;; test-js-service           mk.node/test-js-service
-  ;; test-js-services          mk.node/test-js-services
-  ;; test-js                   mk.node/test-js
-  ;; coverage-js-service       mk.node/coverage-js-service
-  ;; coverage-js-services      mk.node/coverage-js-services
-  ;; coverage-js               mk.node/coverage-js
-  ;; clean-js                  mk.node/clean-js
-  ;; build-js                  mk.node/build-js
-  ;; lint-ts-service           mk.node/lint-ts-service
-  ;; lint-ts                   mk.node/lint-ts
-  ;; format-ts                 mk.node/format-ts
-  ;; setup-ts-service          mk.node/setup-ts-service
-  ;; setup-ts                  mk.node/setup-ts
-  ;; test-ts-service           mk.node/test-ts-service
-  ;; test-ts-services          mk.node/test-ts-services
-  ;; test-ts                   mk.node/test-ts
-  ;; coverage-ts-service       mk.node/coverage-ts-service
-  ;; coverage-ts-services      mk.node/coverage-ts-services
-  ;; coverage-ts               mk.node/coverage-ts
-  ;; clean-ts                  mk.node/clean-ts
-  ;; build-ts                  mk.node/build-ts
-  ;; ts-type-check             mk.node/ts-type-check
+  ;; JS/TS
+  lint-js-service           mk.node/lint-js-service
+  lint-js                   mk.node/lint-js
+  format-js                 mk.node/format-js
+  setup-shared-js           mk.node/setup-shared-js
+  setup-js-service          mk.node/setup-js-service
+  setup-js                  mk.node/setup-js
+  test-js-service           mk.node/test-js-service
+  test-js-services          mk.node/test-js-services
+  test-js                   mk.node/test-js
+  coverage-js-service       mk.node/coverage-js-service
+  coverage-js-services      mk.node/coverage-js-services
+  coverage-js               mk.node/coverage-js
+  clean-js                  mk.node/clean-js
+  build-js                  mk.node/build-js
+  lint-ts-service           mk.node/lint-ts-service
+  lint-ts                   mk.node/lint-ts
+  format-ts                 mk.node/format-ts
+  setup-ts-service          mk.node/setup-ts-service
+  setup-ts                  mk.node/setup-ts
+  test-ts-service           mk.node/test-ts-service
+  test-ts-services          mk.node/test-ts-services
+  test-ts                   mk.node/test-ts
+  coverage-ts-service       mk.node/coverage-ts-service
+  coverage-ts-services      mk.node/coverage-ts-services
+  coverage-ts               mk.node/coverage-ts
+  clean-ts                  mk.node/clean-ts
+  build-ts                  mk.node/build-ts
+  ts-type-check             mk.node/ts-type-check
 
-  ;; Hy (deprecated) — intentionally removed
-  }}
+  ;; Hy
+  setup-hy                  mk.hy/setup-hy
+  setup-hy-service          mk.hy/setup-hy-service
+  compile-hy                mk.hy/compile-hy
+  test-hy-service           mk.hy/test-hy-service
+  test-hy-services          mk.hy/test-hy-services
+  test-hy                   mk.hy/test-hy}
+}
 

@@ -9,5 +9,5 @@ Scope:
 Exit Criteria:
 - Indexing scripts live under `scripts/indexing/` with a clear README.
 
-#scripts #indexing #organization #accepted
+#incoming #scripts #indexing #organization
 

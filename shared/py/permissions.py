@@ -1,9 +1,39 @@
-"""Back-compat shim for permissions module.
+"""Permission gating layer (Dorian).
 
-Re-exports from core.permissions to satisfy legacy imports:
-  `from shared.py.permissions import PermissionLayer, PermissionRule, check_permission`
+This module provides a simple in-memory permission layer used by the
+Promethean framework to check whether a given action is allowed. It
+represents the beginnings of Circuit 2: Dorian, which governs access and
+trust boundaries.
 """
 
-from .core.permissions import PermissionLayer, PermissionRule, check_permission
+from dataclasses import dataclass, field
+from typing import Dict
 
-__all__ = ["PermissionLayer", "PermissionRule", "check_permission"]
+
+@dataclass
+class PermissionRule:
+    """Represents a single permission rule for an action."""
+
+    action: str
+    allowed: bool
+
+
+@dataclass
+class PermissionLayer:
+    """In-memory permission store with default-allow semantics."""
+
+    rules: Dict[str, PermissionRule] = field(default_factory=dict)
+
+    def set_rule(self, action: str, allowed: bool) -> None:
+        """Add or update a permission rule."""
+
+        self.rules[action] = PermissionRule(action, allowed)
+
+    def check(self, action: str) -> bool:
+        """Return True if the action is permitted.
+
+        If no rule exists for the action, the layer defaults to allowing it.
+        """
+
+        rule = self.rules.get(action)
+        return rule.allowed if rule else True

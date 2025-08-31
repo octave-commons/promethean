@@ -31,4 +31,7 @@ Capture existing prompt and specification documents into the repository so they 
 - [kanban](../boards/kanban.md)
 
 #IceBox
-#todo
+<<<<<<< HEAD
+#ready
+=======
+>>>>>>> origin/dev/yoga
