@@ -1,7 +1,17 @@
 // @ts-ignore import js module without types
 import { BrokerClient } from "@promethean/legacy/brokerClient.js";
 import { Message } from "ollama";
-import type { Tool, ToolCall } from "@promethean/llm/tools.js";
+// Local minimal type copies to avoid cross-package type emission dependency
+type Tool = {
+  type: 'function';
+  function: { name: string; description?: string; parameters: Record<string, any> };
+};
+
+type ToolCall = {
+  id?: string;
+  type: 'function';
+  function: { name: string; arguments: string };
+};
 
 export type LLMClientOptions = {
   brokerUrl?: string;

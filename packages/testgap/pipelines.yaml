@@ -1,0 +1,73 @@
+pipelines:
+  - name: test-gap
+    steps:
+      # (Optional) upstream: run your tests to produce lcov.info
+      # - id: tg-run-tests
+      #   shell: "pnpm -w test -- --coverage"   # or your workspace runner
+      #   outputs: ["coverage/lcov.info", "packages/**/coverage/lcov.info"]
+
+      - id: tg-exports
+        shell: "pnpm --filter @promethean/testgap tg:01-scan-exports --root packages --out .cache/testgap/exports.json"
+        inputs:
+          - "packages/**/package.json"
+          - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+        outputs:
+          - ".cache/testgap/exports.json"
+
+      - id: tg-coverage
+        # deps: ["tg-run-tests"]
+        shell: "pnpm --filter @promethean/testgap tg:02-read-coverage --lcov-globs \"{coverage/lcov.info,packages/**/coverage/lcov.info}\" --out .cache/testgap/coverage.json"
+        inputs:
+          - "coverage/lcov.info"
+          - "packages/**/coverage/lcov.info"
+        outputs:
+          - ".cache/testgap/coverage.json"
+
+      - id: tg-map
+        deps: ["tg-exports","tg-coverage"]
+        shell: "pnpm --filter @promethean/testgap tg:03-map-gaps --exports .cache/testgap/exports.json --coverage .cache/testgap/coverage.json --min-lines 3 --out .cache/testgap/gaps.json"
+        inputs:
+          - ".cache/testgap/exports.json"
+          - ".cache/testgap/coverage.json"
+        outputs:
+          - ".cache/testgap/gaps.json"
+      - id: tg-gate
+        deps: ["tg-map"]
+        shell: "pnpm --filter @promethean/testgap tg:08-gate --gaps .cache/testgap/gaps.json --out .cache/testgap/gate.json --threshold 0.70 --metric symbols"
+        inputs: [".cache/testgap/gaps.json"]
+        outputs: [".cache/testgap/gate.json"]
+
+      - id: tg-cookbook
+        deps: ["tg-map"]
+        shell: "pnpm --filter @promethean/testgap tg:04-cookbook-cross --recipes docs/cookbook/**/*.md --out .cache/testgap/cookbook.json"
+        inputs:
+          - "docs/cookbook/**/*.md"
+        outputs:
+          - ".cache/testgap/cookbook.json"
+
+      - id: tg-plan
+        deps: ["tg-cookbook"]
+        shell: "pnpm --filter @promethean/testgap tg:05-plan --gaps .cache/testgap/gaps.json --cookbook .cache/testgap/cookbook.json --out .cache/testgap/plans.json --model qwen3:4b --threshold 0.5 --max-per-pkg 15"
+        env:
+          OLLAMA_URL: "${OLLAMA_URL}"
+        inputs:
+          - ".cache/testgap/gaps.json"
+          - ".cache/testgap/cookbook.json"
+        outputs:
+          - ".cache/testgap/plans.json"
+
+      - id: tg-write
+        deps: ["tg-plan"]
+        shell: "pnpm --filter @promethean/testgap tg:06-write --plans .cache/testgap/plans.json --out docs/agile/tasks/test-gaps"
+        inputs:
+          - ".cache/testgap/plans.json"
+        outputs:
+          - "docs/agile/tasks/test-gaps/*.md"
+
+      - id: tg-report
+        deps: ["tg-map"]
+        shell: "pnpm --filter @promethean/testgap tg:07-report --gaps .cache/testgap/gaps.json --out docs/agile/reports/test-gaps"
+        inputs:
+          - ".cache/testgap/gaps.json"
+        outputs:
+          - "docs/agile/reports/test-gaps/*.md"

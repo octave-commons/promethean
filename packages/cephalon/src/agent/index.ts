@@ -18,7 +18,6 @@ import {
 } from "../desktop/desktopLoop.js";
 import { Bot } from "../bot.js";
 import { LLMService } from "../llm-service.js";
-import { ContextStore } from "@promethean/persistence/contextStore.js";
 import {
   AgentInnerState,
   AgentOptions,
@@ -85,7 +84,7 @@ export class AIAgent extends EventEmitter {
   audioPlayer: AudioPlayer;
   speechArbiter: SpeechArbiter;
   turnManager: TurnManager;
-  context: ContextStore;
+  context: any;
   llm: LLMService;
 
   // --- VAD smoothing / hysteresis ---

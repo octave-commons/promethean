@@ -1,7 +1,7 @@
 import "source-map-support/register.js";
 import { Bot } from "./bot.js";
-import { AGENT_NAME } from "@shared/js/env.js";
-import { HeartbeatClient } from "@shared/js/heartbeat/index.js";
+import { AGENT_NAME } from "@promethean/legacy/env.js";
+import { HeartbeatClient } from "@promethean/legacy/heartbeat/index.js";
 
 async function main() {
   console.log("Starting", AGENT_NAME, "Cephalon");

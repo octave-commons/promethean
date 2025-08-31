@@ -24,11 +24,11 @@ test('syncBoardStatuses tags cards with column status and updates/creates tasks'
     // After sync, cards in Todo have #todo, In Progress have #in-progress
     const todo = board.listCards('Todo');
     const ip = board.listCards('In Progress');
-    t.true(todo.every((c) => c.tags.includes('todo')));
-    t.true(ip.every((c) => c.tags.includes('in-progress')));
+    t.true(todo.every((c: any) => c.tags.includes('todo')));
+    t.true(ip.every((c: any) => c.tags.includes('in-progress')));
 
     // Missing task for "Fix login flow" should be created and linked
-    const createdCard = todo.find((c) => c.id === '1111-aaaa')!;
+    const createdCard = todo.find((c: any) => c.id === '1111-aaaa')!;
     t.truthy(createdCard.links && createdCard.links.length > 0);
     const createdFile = createdCard.links[0].split('|')[0];
     const createdPath = join(tasksDir, createdFile);
