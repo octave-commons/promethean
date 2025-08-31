@@ -1,6 +1,0 @@
-(import Ticker "@shared/sibilant/dist/ticker.js")
-(const ticker (.spawn Ticker))
-
-
-(on ticker 'tick (tick) (print tick "ticks"))
-(.start ticker)
