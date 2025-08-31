@@ -75,3 +75,108 @@ pipelines:
         shell: "pnpm --filter @promethean/codemods mods:04-verify:after --stage after --test \"pnpm -w -r test\""
         inputs: [".cache/codemods/run-apply.json"]
         outputs: ["docs/agile/tasks/codemods/verify-after.md", "docs/agile/tasks/codemods/VERIFY.md"]
+  - name: semver-guard
+    steps:
+      - id: sv-snapshot
+        shell: "pnpm --filter @promethean/semverguard sv:01-snapshot --root packages --tsconfig ./tsconfig.json --out .cache/semverguard/snapshot.json"
+        inputs:
+          - "packages/**/package.json"
+          - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+        outputs: [".cache/semverguard/snapshot.json"]
+
+      - id: sv-diff
+        deps: ["sv-snapshot"]
+        shell: "pnpm --filter @promethean/semverguard sv:02-diff --current .cache/semverguard/snapshot.json --baseline git:origin/main:.cache/semverguard/snapshot.json --out .cache/semverguard/diff.json"
+        inputs: [".cache/semverguard/snapshot.json"]
+        outputs: [".cache/semverguard/diff.json"]
+
+      - id: sv-plan
+        deps: ["sv-diff"]
+        shell: "pnpm --filter @promethean/semverguard sv:03-plan --diff .cache/semverguard/diff.json --out .cache/semverguard/plans.json --model qwen3:4b"
+        inputs: [".cache/semverguard/diff.json"]
+        outputs: [".cache/semverguard/plans.json"]
+
+      - id: sv-write
+        deps: ["sv-plan"]
+        shell: "pnpm --filter @promethean/semverguard sv:04-write --plans .cache/semverguard/plans.json --out docs/agile/tasks/semver"
+        inputs: [".cache/semverguard/plans.json"]
+        outputs: ["docs/agile/tasks/semver/*.md"]
+
+      - id: sv-pr
+        deps: ["sv-write"]
+        shell: "pnpm --filter @promethean/semverguard sv:05-pr --plans .cache/semverguard/plans.json --root packages --mode prepare --update-dependents true --dep-range preserve"
+        inputs:
+          - ".cache/semverguard/plans.json"
+          - "packages/**/package.json"
+        outputs:
+          - ".cache/semverguard/pr/summary.json"
+  - name: board-review
+    steps:
+      - id: br-fm
+        shell: "pnpm --filter @promethean/boardrev br:01-fm"
+        inputs: ["docs/agile/tasks/**/*.md"]
+        outputs: ["docs/agile/tasks/**/*.md"] # FM updates in-place
+      - id: br-prompts
+        deps: ["br-fm"]
+        shell: "pnpm --filter @promethean/boardrev br:02-prompts --process docs/agile/Process.md --out .cache/boardrev/prompts.json"
+        inputs: ["docs/agile/Process.md"]
+        outputs: [".cache/boardrev/prompts.json"]
+      - id: br-index
+        deps: ["br-fm"]
+        shell: "pnpm --filter @promethean/boardrev br:03-index --globs \"{README.md,docs/**/*.md,packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}}\""
+        inputs:
+          - "README.md"
+          - "docs/**/*.md"
+          - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+        outputs:
+          - ".cache/boardrev/repo-index.json"
+          - ".cache/boardrev/repo-embeddings.json"
+      - id: br-match
+        deps: ["br-prompts","br-index"]
+        shell: "pnpm --filter @promethean/boardrev br:04-match --tasks docs/agile/tasks --k 8"
+        inputs:
+          - "docs/agile/tasks/**/*.md"
+          - ".cache/boardrev/repo-index.json"
+          - ".cache/boardrev/repo-embeddings.json"
+        outputs: [".cache/boardrev/context.json"]
+      - id: br-eval
+        deps: ["br-match"]
+        shell: "pnpm --filter @promethean/boardrev br:05-eval --model qwen3:4b"
+        inputs:
+          - ".cache/boardrev/prompts.json"
+          - ".cache/boardrev/context.json"
+        outputs: [".cache/boardrev/evals.json"]
+      - id: br-report
+        deps: ["br-eval"]
+        shell: "pnpm --filter @promethean/boardrev br:06-report --outDir docs/agile/reports"
+        inputs: [".cache/boardrev/evals.json"]
+        outputs: ["docs/agile/reports/*.md"]
+  - name: sonar
+    steps:
+      - id: sonar-scan
+        cwd: .
+        shell: "sonar-scanner"          # expects sonar-project.properties in repo OR env overrides
+        env:
+          SONAR_HOST_URL: "${SONAR_HOST_URL}"
+          SONAR_TOKEN: "${SONAR_TOKEN}"
+          SONAR_PROJECT_KEY: "${SONAR_PROJECT_KEY}"
+        inputs:
+          - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+          - "sonar-project.properties"
+        outputs:
+          - ".cache/sonar/scan.touch"   # marker file we create after scan
+      - id: sonar-fetch
+        deps: ["sonar-scan"]
+        shell: "pnpm --filter @promethean/sonarflow sonar:fetch --project ${SONAR_PROJECT_KEY} --out .cache/sonar/issues.json"
+        inputs: []
+        outputs: [".cache/sonar/issues.json"]
+      - id: sonar-plan
+        deps: ["sonar-fetch"]
+        shell: "pnpm --filter @promethean/sonarflow sonar:plan --in .cache/sonar/issues.json --out .cache/sonar/plans.json --group-by rule+prefix --prefix-depth 2 --min-group 2 --model qwen3:4b"
+        inputs: [".cache/sonar/issues.json"]
+        outputs: [".cache/sonar/plans.json"]
+      - id: sonar-write
+        deps: ["sonar-plan"]
+        shell: "pnpm --filter @promethean/sonarflow sonar:write --in .cache/sonar/plans.json --out docs/agile/tasks/sonar"
+        inputs: [".cache/sonar/plans.json"]
+        outputs: ["docs/agile/tasks/sonar/*.md"]

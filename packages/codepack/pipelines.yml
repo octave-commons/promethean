@@ -1,0 +1,81 @@
+pipelines:
+  - name: codepack
+    steps:
+      # 1) Extract code blocks + surrounding context from docs (and optionally READMEs)
+      - id: code-extract
+        shell: >
+          pnpm --filter @promethean/codepack
+          code:01-extract
+          --roots docs packages
+          --out .cache/codepack/blocks.json
+          --max-context-lines 12
+        inputs:
+          - "docs/**/*.md"
+          - "README.md"
+        outputs:
+          - ".cache/codepack/blocks.json"
+
+      # 2) Embed all blocks
+      - id: code-embed
+        deps: ["code-extract"]
+        shell: >
+          pnpm --filter @promethean/codepack
+          code:02-embed
+          --in .cache/codepack/blocks.json
+          --out .cache/codepack/embeddings.json
+          --model nomic-embed-text:latest
+        env:
+          OLLAMA_URL: "${OLLAMA_URL}"
+        inputs:
+          - ".cache/codepack/blocks.json"
+        outputs:
+          - ".cache/codepack/embeddings.json"
+
+      # 3) Identify similar blocks (clustering / top-k nearest)
+      - id: code-cluster
+        deps: ["code-embed"]
+        shell: >
+          pnpm --filter @promethean/codepack
+          code:03-cluster
+          --embeddings .cache/codepack/embeddings.json
+          --min-sim 0.83
+          --min-size 2
+          --out .cache/codepack/clusters.json
+        inputs:
+          - ".cache/codepack/embeddings.json"
+        outputs:
+          - ".cache/codepack/clusters.json"
+
+      # 4) Plan folder paths + filenames + README per cluster (LLM)
+      - id: code-plan
+        deps: ["code-cluster"]
+        shell: >
+          pnpm --filter @promethean/codepack
+          code:04-plan
+          --blocks .cache/codepack/blocks.json
+          --clusters .cache/codepack/clusters.json
+          --model qwen3:4b
+          --out .cache/codepack/plan.json
+        env:
+          OLLAMA_URL: "${OLLAMA_URL}"
+        inputs:
+          - ".cache/codepack/blocks.json"
+          - ".cache/codepack/clusters.json"
+        outputs:
+          - ".cache/codepack/plan.json"
+
+      # 5) Materialize file tree under ./pseudo from the plan
+      - id: code-generate
+        deps: ["code-plan"]
+        shell: >
+          pnpm --filter @promethean/codepack
+          code:05-generate
+          --plan .cache/codepack/plan.json
+          --base pseudo
+          --overwrite false
+          --readme true
+        inputs:
+          - ".cache/codepack/plan.json"
+        outputs:
+          - "pseudo/**"
+          - ".cache/codepack/generate.touch"

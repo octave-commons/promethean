@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import * as path from "path";
 import { promises as fs } from "fs";
-import globby from "globby";
+import { globby } from "globby";
 import { parseArgs, ollamaEmbed, writeText } from "./utils.js";
 import type { RepoDoc, Embeddings } from "./types.js";
 

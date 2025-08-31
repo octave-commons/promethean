@@ -4,7 +4,7 @@ import { startHttpPublisher } from '@promethean/http/publish.js';
 import { startProcessProjector } from '@promethean/examples/process/projector.js';
 
 export interface Harness {
-    bus: InMemoryEventBus;
+    bus: any;
     stop(): Promise<void>;
 }
 

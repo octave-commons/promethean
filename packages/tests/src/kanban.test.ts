@@ -17,7 +17,7 @@ test('loads board and parses columns', async (t) => {
     const board = await MarkdownBoard.load(sampleMarkdown);
     const columns = board.listColumns();
     t.deepEqual(
-        columns.map((c) => c.name),
+        columns.map((c: any) => c.name),
         ['Todo', 'Doing'],
     );
 });
@@ -47,14 +47,14 @@ test('adds and removes columns', async (t) => {
     t.true(
         board
             .listColumns()
-            .map((c) => c.name)
+            .map((c: any) => c.name)
             .includes('Review'),
     );
     board.removeColumn('Todo');
     t.false(
         board
             .listColumns()
-            .map((c) => c.name)
+            .map((c: any) => c.name)
             .includes('Todo'),
     );
 });
@@ -63,20 +63,20 @@ test('adds, removes, moves, and updates cards', async (t) => {
     const board = await MarkdownBoard.load(sampleMarkdown);
     const newId = board.addCard('Todo', { text: 'New card', tags: ['new'] });
     let todoCards = board.listCards('Todo');
-    t.true(todoCards.some((c) => c.id === newId));
+    t.true(todoCards.some((c: any) => c.id === newId));
 
     board.removeCard('Todo', newId);
     todoCards = board.listCards('Todo');
-    t.false(todoCards.some((c) => c.id === newId));
+    t.false(todoCards.some((c: any) => c.id === newId));
 
     // Move card
     board.moveCard('9999-cccc', 'Doing', 'Todo');
-    t.true(board.listCards('Todo').some((c) => c.id === '9999-cccc'));
-    t.false(board.listCards('Doing').some((c) => c.id === '9999-cccc'));
+    t.true(board.listCards('Todo').some((c: any) => c.id === '9999-cccc'));
+    t.false(board.listCards('Doing').some((c: any) => c.id === '9999-cccc'));
 
     // Update card
     board.updateCard('1234-aaaa', { text: 'Updated', done: true, tags: ['updated'] });
-    const updated = board.listCards('Todo').find((c) => c.id === '1234-aaaa');
+    const updated = board.listCards('Todo').find((c: any) => c.id === '1234-aaaa');
     t.is(updated?.text, 'Updated');
     t.true(updated?.done);
     t.true(updated?.tags.includes('updated'));

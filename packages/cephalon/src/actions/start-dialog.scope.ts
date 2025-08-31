@@ -14,8 +14,7 @@ import {
   splitSentances,
 } from "../tokenizers.js";
 import { sleep } from "../util.js";
-import { DualStoreManager } from "@promethean/persistence/dualStore.js";
-import { AGENT_NAME } from "@shared/js/env.js";
+import { AGENT_NAME } from "@promethean/legacy/env.js";
 
 export type StartDialogInput = { bot: Bot };
 export type StartDialogOutput = { started: boolean };
@@ -27,9 +26,7 @@ export async function storeAgentMessage(
   startTime = Date.now(),
   endTime = Date.now(),
 ) {
-  const messages = bot.context.getCollection(
-    "agent_messages",
-  ) as DualStoreManager<"text", "createdAt">;
+  const messages = bot.context.getCollection("agent_messages") as any;
   return messages.insert({
     text,
     createdAt: Date.now(),

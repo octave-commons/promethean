@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-import globby from "globby";
+import { globby } from "globby";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
@@ -46,7 +46,7 @@ export async function ollamaEmbed(model: string, text: string): Promise<number[]
     body: JSON.stringify({ model, prompt: text })
   });
   if (!res.ok) throw new Error(`ollama embeddings ${res.status}`);
-  const data = await res.json();
+  const data: any = await res.json();
   return data.embedding as number[];
 }
 
@@ -56,7 +56,7 @@ export async function ollamaJSON(model: string, prompt: string): Promise<any> {
     body: JSON.stringify({ model, prompt, stream: false, options: { temperature: 0 }, format: "json" })
   });
   if (!res.ok) throw new Error(`ollama ${res.status}`);
-  const data = await res.json();
+  const data: any = await res.json();
   const raw = typeof data.response === "string" ? data.response : JSON.stringify(data.response);
   return JSON.parse(raw.replace(/```json\s*/g,"").replace(/```\s*$/g,"").trim());
 }

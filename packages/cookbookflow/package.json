@@ -1,0 +1,38 @@
+{
+  "name": "@promethean/cookbookflow",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "cb:01-scan": "dist/01-scan.js",
+    "cb:02-embed-classify": "dist/02-embed-classify.js",
+    "cb:03-group": "dist/03-group.js",
+    "cb:04-plan": "dist/04-plan.js",
+    "cb:05-materialize": "dist/05-materialize.js",
+    "cb:06-exec": "dist/06-exec.js",
+    "cb:07-verify": "dist/07-verify.js",
+    "cb:08-report": "dist/08-report.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "cb:01-scan": "tsx src/01-scan.ts",
+    "cb:02-embed-classify": "tsx src/02-embed-classify.ts",
+    "cb:03-group": "tsx src/03-group.ts",
+    "cb:04-plan": "tsx src/04-plan.ts",
+    "cb:05-materialize": "tsx src/05-materialize.ts",
+    "cb:06-exec": "tsx src/06-exec.ts",
+    "cb:07-verify": "tsx src/07-verify.ts",
+    "cb:08-report": "tsx src/08-report.ts",
+    "cb:all": "pnpm cb:01-scan && pnpm cb:02-embed-classify && pnpm cb:03-group && pnpm cb:04-plan && pnpm cb:05-materialize && pnpm cb:06-exec && pnpm cb:07-verify && pnpm cb:08-report"
+  },
+  "dependencies": {
+    "globby": "^14.0.2",
+    "gray-matter": "^4.0.3",
+    "yaml": "^2.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.4"
+  }
+}

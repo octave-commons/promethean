@@ -4,8 +4,8 @@ import {
     runChatStreamBoth,
     runEmbedBoth,
     compareErrors,
-    ParityClients,
 } from '@promethean/parity/runner.js';
+import type { ParityClients } from '@promethean/parity/runner.js';
 
 const clients: ParityClients = {
     broker: {

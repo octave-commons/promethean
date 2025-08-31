@@ -30,7 +30,7 @@ test('kanban: addCard/removeCard works', async (t) => {
     const md = `\n## Todo\n- [ ] A <!-- id: aa-1 -->\n`;
     const board = await MarkdownBoard.load(md);
     const id = board.addCard('Todo', { text: 'B' });
-    t.true(board.listCards('Todo').some((c) => c.id === id));
+    t.true(board.listCards('Todo').some((c: any) => c.id === id));
     board.removeCard('Todo', id);
-    t.false(board.listCards('Todo').some((c) => c.id === id));
+    t.false(board.listCards('Todo').some((c: any) => c.id === id));
 });

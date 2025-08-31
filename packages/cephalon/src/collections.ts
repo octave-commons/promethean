@@ -1,17 +1,6 @@
-import { DualStoreManager } from "@promethean/persistence/dualStore.js";
-import { AGENT_NAME } from "@shared/js/env.js";
+import { AGENT_NAME } from "@promethean/legacy/env.js";
 
-export const discordMessages = await DualStoreManager.create<
-  "content",
-  "created_at"
->(`${AGENT_NAME}_discord_messages`, "content", "created_at");
-export const thoughts = await DualStoreManager.create<"text", "createdAt">(
-  "thoughts",
-  "text",
-  "createdAt",
-);
-export const transcripts = await DualStoreManager.create<"text", "createdAt">(
-  "transcripts",
-  "text",
-  "createdAt",
-);
+import { DualStoreManager as Dual } from '@promethean/persistence/dualStore.js';
+export const discordMessages = await (Dual as any).create(`${AGENT_NAME}_discord_messages`, 'content', 'created_at');
+export const thoughts = await (Dual as any).create('thoughts', 'text', 'createdAt');
+export const transcripts = await (Dual as any).create('transcripts', 'text', 'createdAt');

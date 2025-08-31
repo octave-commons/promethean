@@ -1,10 +1,9 @@
 import { writeFile } from "fs/promises";
 let AGENT_NAME = "Agent";
 try {
-  ({ AGENT_NAME } = await import("@shared/js/env.js"));
+  ({ AGENT_NAME } = await import("@promethean/legacy/env.js"));
 } catch {}
 import { choice } from "../util.js";
-import { DualStoreManager } from "@promethean/persistence/dualStore.js";
 import { innerStateFormat } from "../prompts.js";
 import type { AgentInnerState } from "../types.js";
 import type { AIAgent } from "./index.js";
@@ -49,9 +48,7 @@ export async function think(this: AIAgent): Promise<any> {
     ]),
   })) as string;
 
-  const thoughts = this.context.getCollection(
-    "agent_messages",
-  ) as DualStoreManager<"text", "createdAt">;
+  const thoughts = this.context.getCollection("agent_messages") as any;
 
   await thoughts.insert({
     text: `You thought to yourself: ${newThought}`,

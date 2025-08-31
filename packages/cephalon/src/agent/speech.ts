@@ -1,6 +1,6 @@
 let AGENT_NAME = "Agent";
 try {
-  ({ AGENT_NAME } = await import("@shared/js/env.js"));
+  ({ AGENT_NAME } = await import("@promethean/legacy/env.js"));
 } catch {}
 import {
   splitSentances,
@@ -8,7 +8,6 @@ import {
   classifyPause,
   estimatePauseDuration,
 } from "../tokenizers.js";
-import { DualStoreManager } from "@promethean/persistence/dualStore.js";
 import { sleep } from "../util.js";
 import type { AIAgent } from "./index.js";
 import { createAudioResource, StreamType } from "@discordjs/voice";
@@ -49,9 +48,7 @@ export async function storeAgentMessage(
   startTime = Date.now(),
   endTime = Date.now(),
 ) {
-  const messages = this.context.getCollection(
-    "agent_messages",
-  ) as DualStoreManager<"text", "createdAt">;
+  const messages = this.context.getCollection("agent_messages") as any;
   return messages.insert({
     text,
     createdAt: Date.now(),

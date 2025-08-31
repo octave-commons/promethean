@@ -1,4 +1,4 @@
-import { checkPermission } from "@shared/js/permissionGate.js";
+import { checkPermission } from "@promethean/legacy/permissionGate.js";
 
 export class NotAllowedError extends Error {
   constructor(message: string) {

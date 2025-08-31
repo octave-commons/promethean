@@ -1,8 +1,4 @@
-import { DualStoreManager } from "@promethean/persistence/dualStore.js";
-import {
-  formatMessage,
-  GenericEntry,
-} from "@promethean/persistence/contextStore.js";
+import { formatMessage } from "@promethean/persistence/contextStore.js";
 import { generatePromptChoice, generateSpecialQuery } from "../util.js";
 import type { AIAgent } from "./index.js";
 
@@ -37,12 +33,8 @@ export async function generateVoiceContentWithFormattedLatestmessage(
 ) {
   let content = "";
   let counter = 0;
-  const userCollection = this.context.getCollection(
-    "transcripts",
-  ) as DualStoreManager<"text", "createdAt">;
-  const latestUserMessage = (
-    await userCollection.getMostRecent(1)
-  )[0] as GenericEntry;
+  const userCollection = this.context.getCollection('transcripts') as any;
+  const latestUserMessage = (await userCollection.getMostRecent(1))[0] as any;
   const context = (
     await this.context.compileContext([this.prompt], this.historyLimit)
   ).filter((m: { content: string }) => m.content !== latestUserMessage?.text);
@@ -83,12 +75,8 @@ export async function generateVoiceContentWithChoicePrompt(this: AIAgent) {
 export async function generateVoiceContentWithSpecialQuery(this: AIAgent) {
   let content = "";
   let counter = 0;
-  const userCollection = this.context.getCollection(
-    "transcripts",
-  ) as DualStoreManager<"text", "createdAt">;
-  const latestUserMessage = (
-    await userCollection.getMostRecent(1)
-  )[0] as GenericEntry;
+  const userCollection = this.context.getCollection('transcripts') as any;
+  const latestUserMessage = (await userCollection.getMostRecent(1))[0] as any;
   const context = (
     await this.context.compileContext([this.prompt], this.historyLimit)
   ).filter((m: { content: string }) => m.content !== latestUserMessage?.text);
