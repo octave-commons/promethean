@@ -83,3 +83,4 @@ services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean_services_ts_
 docs/.makemd/
 
 docs/.space/
+context.mdb

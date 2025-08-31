@@ -1,0 +1,102 @@
+version: "3.9"
+
+networks:
+  prom-net: { driver: bridge }
+
+volumes:
+  ollama-data:
+  qdrant-data:
+
+services:
+  nginx:
+    build:
+      context: ../../
+      dockerfile: images/nginx.docker
+    image: promethean/nginx:local
+    depends_on:
+      - api-gateway
+    ports:
+      - "80:80"            # only exposed host port
+    networks: [prom-net]
+
+  ollama:
+    image: ollama/ollama:latest
+    restart: unless-stopped
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    volumes:
+      - ollama-data:/root/.ollama
+    # Optional NVIDIA GPU:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+    networks: [prom-net]
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    restart: unless-stopped
+    volumes:
+      - qdrant-data:/qdrant/storage
+    networks: [prom-net]
+
+  tor:
+    image: dperson/torproxy
+    restart: unless-stopped
+    networks: [prom-net]
+
+  privoxy:
+    image: vimagick/privoxy
+    restart: unless-stopped
+    environment:
+      - FORWARD_SOCKS5=tor:9050
+    networks: [prom-net]
+    depends_on: [tor]
+
+  crawler:
+    build:
+      context: ../../
+      dockerfile: images/ts-service.docker
+    image: promethean/crawler:local
+    working_dir: /app
+    volumes:
+      - ../../services/ts/crawler:/app
+    command: ["node", "--enable-source-maps", "dist/main.js"]
+    environment:
+      - HTTP_PROXY=http://privoxy:8118
+      - HTTPS_PROXY=http://privoxy:8118
+      - NO_PROXY=nginx,api-gateway,qdrant,ollama,embeddings,localhost,127.0.0.1
+    networks: [prom-net]
+    depends_on: [privoxy]
+
+  embeddings:
+    build:
+      context: ../../
+      dockerfile: images/ts-service.docker
+    image: promethean/embeddings:local
+    working_dir: /app
+    volumes:
+      - ../../services/ts/embeddings:/app
+    command: ["node", "--enable-source-maps", "dist/server.js"]
+    environment:
+      - MODEL_ID=${MODEL_ID:-Xenova/nomic-embed-text-v1.5}
+      # Alternative CLIP: "Xenova/clip-vit-large-patch14"
+    networks: [prom-net]
+
+  api-gateway:
+    build:
+      context: ../../
+      dockerfile: images/ts-service.docker
+    image: promethean/api-gateway:local
+    working_dir: /app
+    volumes:
+      - ../../services/ts/api-gateway:/app
+    command: ["node", "--enable-source-maps", "dist/server.js"]
+    environment:
+      - UPSTREAM_OLLAMA=http://ollama:11434
+      - UPSTREAM_QDRANT=http://qdrant:6333
+      - UPSTREAM_CRAWLER=http://crawler:3000
+      - UPSTREAM_EMBEDDINGS=http://embeddings:7070
+    depends_on: [ollama, qdrant]
+    networks: [prom-net]

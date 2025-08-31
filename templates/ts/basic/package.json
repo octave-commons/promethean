@@ -14,7 +14,7 @@
         "format": "prettier --cache --write . && eslint . --fix --cache || true"
     },
     "dependencies": {
-        "@shared/js": "file:../../../shared/js"
+        "@promethean/legacy": "workspace:*"
     },
     "devDependencies": {
         "@types/node": "^22.10.10",

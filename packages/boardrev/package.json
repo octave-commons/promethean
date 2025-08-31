@@ -1,0 +1,34 @@
+{
+  "name": "@promethean/boardrev",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "boardrev-ensure-fm": "dist/01-ensure-fm.js",
+    "boardrev-process-prompts": "dist/02-process-prompts.js",
+    "boardrev-index-repo": "dist/03-index-repo.js",
+    "boardrev-match-context": "dist/04-match-context.js",
+    "boardrev-evaluate": "dist/05-evaluate.js",
+    "boardrev-report": "dist/06-report.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "br:01-fm": "tsx src/01-ensure-fm.ts",
+    "br:02-prompts": "tsx src/02-process-prompts.ts",
+    "br:03-index": "tsx src/03-index-repo.ts",
+    "br:04-match": "tsx src/04-match-context.ts",
+    "br:05-eval": "tsx src/05-evaluate.ts",
+    "br:06-report": "tsx src/06-report.ts",
+    "br:all": "pnpm br:01-fm && pnpm br:02-prompts && pnpm br:03-index && pnpm br:04-match && pnpm br:05-eval && pnpm br:06-report"
+  },
+  "dependencies": {
+    "globby": "^14.0.2",
+    "gray-matter": "^4.0.3",
+    "yaml": "^2.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.4"
+  }
+}

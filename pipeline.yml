@@ -1,0 +1,77 @@
+pipelines:
+  - name: docs
+    steps:
+      - id: symdocs-scan
+        cwd: .
+        shell: "pnpm --filter @promethean/symdocs symdocs:01-scan --root packages --tsconfig ./tsconfig.json"
+        inputs: ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"]
+        outputs: [".cache/symdocs/symbols.json"]
+      - id: symdocs-docs
+        deps: ["symdocs-scan"]
+        shell: "pnpm --filter @promethean/symdocs symdocs:02-docs --model qwen3:4b"
+        inputs: [".cache/symdocs/symbols.json"]
+        outputs: [".cache/symdocs/docs.json"]
+      - id: symdocs-write
+        deps: ["symdocs-docs"]
+        shell: "pnpm --filter @promethean/symdocs symdocs:03-write --out docs/packages --granularity module"
+        inputs: [".cache/symdocs/docs.json"]
+        outputs: ["docs/packages/**/**/*.md"]
+      - id: symdocs-graph
+        deps: ["symdocs-scan"]
+        shell: "pnpm --filter @promethean/symdocs symdocs:04-graph"
+        inputs: ["packages/**/package.json", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"]
+        outputs: ["docs/packages/README.md", "docs/packages/**/README.md"]
+
+  - name: simtasks
+    steps:
+      - id: simtasks-scan
+        shell: "pnpm --filter @promethean/simtasks sim:01-scan --root packages --tsconfig ./tsconfig.json"
+        inputs: ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"]
+        outputs: [".cache/simtasks/functions.json"]
+      - id: simtasks-embed
+        deps: ["simtasks-scan"]
+        shell: "pnpm --filter @promethean/simtasks sim:02-embed --embed-model nomic-embed-text:latest"
+        inputs: [".cache/simtasks/functions.json"]
+        outputs: [".cache/simtasks/embeddings.json"]
+      - id: simtasks-cluster
+        deps: ["simtasks-embed"]
+        shell: "pnpm --filter @promethean/simtasks sim:03-cluster --sim-threshold 0.86 --k 12 --min-size 2"
+        inputs: [".cache/simtasks/embeddings.json"]
+        outputs: [".cache/simtasks/clusters.json"]
+      - id: simtasks-plan
+        deps: ["simtasks-cluster"]
+        shell: "pnpm --filter @promethean/simtasks sim:04-plan --model qwen3:4b --base-dir packages"
+        inputs: [".cache/simtasks/clusters.json"]
+        outputs: [".cache/simtasks/plans.json"]
+      - id: simtasks-write
+        deps: ["simtasks-plan"]
+        shell: "pnpm --filter @promethean/simtasks sim:05-write --out docs/agile/tasks"
+        inputs: [".cache/simtasks/plans.json"]
+        outputs: ["docs/agile/tasks/*.md"]
+
+  - name: codemods
+    steps:
+      - id: mods-spec
+        shell: "pnpm --filter @promethean/codemods mods:01-spec --tsconfig ./tsconfig.json"
+        inputs: [".cache/simtasks/{functions,clusters,plans}.json"]
+        outputs: [".cache/codemods/specs.json"]
+      - id: mods-generate
+        deps: ["mods-spec"]
+        shell: "pnpm --filter @promethean/codemods mods:02-generate"
+        inputs: [".cache/codemods/specs.json"]
+        outputs: ["codemods/**/transform.ts"]
+      - id: mods-dry-run
+        deps: ["mods-generate"]
+        shell: "pnpm --filter @promethean/codemods mods:03-dry-run --root packages --report docs/agile/tasks/codemods --specs .cache/codemods/specs.json --delete-duplicates true"
+        inputs: ["codemods/**/transform.ts", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"]
+        outputs: ["docs/agile/tasks/codemods/*.md"]
+      - id: mods-apply
+        deps: ["mods-dry-run"]
+        shell: "pnpm --filter @promethean/codemods mods:03-apply --root packages --report docs/agile/tasks/codemods --specs .cache/codemods/specs.json --delete-duplicates true"
+        inputs: ["codemods/**/transform.ts"]
+        outputs: [".cache/codemods/run-apply.json"]
+      - id: mods-verify
+        deps: ["mods-apply"]
+        shell: "pnpm --filter @promethean/codemods mods:04-verify:after --stage after --test \"pnpm -w -r test\""
+        inputs: [".cache/codemods/run-apply.json"]
+        outputs: ["docs/agile/tasks/codemods/verify-after.md", "docs/agile/tasks/codemods/VERIFY.md"]

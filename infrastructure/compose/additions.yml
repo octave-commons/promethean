@@ -1,0 +1,24 @@
+services:
+  edge:
+    # ...
+    depends_on:
+      - ollama
+      - vllm-qwen3-8b
+      - vllm-qwen25-coder-7b
+      - vllm-gemma-2b
+      - tei-nomic
+      - clip-vit
+      - whisper-faster-openai
+      - ovms-npu
+      - web           # <— add
+
+  web:
+    build:
+      context: .
+      dockerfile: ./images/web.docker
+      args:
+        APP_DIR: services/ts/webapp
+    image: promethean-web:latest
+    container_name: web
+    networks: [ prom-net ]
+    restart: unless-stopped
