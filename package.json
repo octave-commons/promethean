@@ -1,6 +1,7 @@
 {
   "type": "module",
   "packageManager": "pnpm@9.0.0",
+  "name": "promethean",
   "scripts": {
     "generate_mcp_configs": "bb ./mk/mcp-compile.clj ./config/mcp_servers.edn ~/.codex/config.toml ~/.config/mcp/config.json ~/.config/Code/User/mcp.json",
     "preinstall": "node -e \"const ua = process.env.npm_config_user_agent || ''; if (!ua.includes('pnpm')) { console.error('\\nERROR: pnpm is required for this repo. npm/yarn are not supported and often fail with EACCES permission errors.\\nInstall via: corepack enable && corepack prepare pnpm@latest --activate\\nThen re-run: pnpm install\\n'); process.exit(1); }\"",
@@ -20,14 +21,18 @@
     "prom": "./bin/promethean.js"
   },
   "dependencies": {
-    "@shared/js": "file:shared/js",
+    "@promethean/legacy": "workspace:*",
     "@shared/sibilant": "file:shared/sibilant",
-    "@shared/ts": "file:shared/ts",
+    "@types/node": "^24.3.0",
     "adm-zip": "0.5.16",
     "dotenv": "17.2.1",
+    "gray-matter": "^4.0.3",
     "http-proxy": "1.18.1",
     "mongodb": "6.18.0",
     "pm2": "6.0.8",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.0.0",
     "ws": "8.18.3",
     "yaml": "2.8.1",
     "zod": "3.25.76"

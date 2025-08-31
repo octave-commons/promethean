@@ -1,5 +1,5 @@
 import { load } from 'cheerio';
-import { canonicalUrl, isUrlAllowed } from '@shared/ts';
+import { canonicalUrl, isUrlAllowed } from '@promethean/web';
 
 export interface CrawlResult {
     url: string;
