@@ -1,0 +1,39 @@
+{
+  "name": "@promethean/testgap",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "tg:01-scan-exports": "dist/01-scan-exports.js",
+    "tg:02-read-coverage": "dist/02-read-coverage.js",
+    "tg:03-map-gaps": "dist/03-map-gaps.js",
+    "tg:04-cookbook-cross": "dist/04-cookbook-cross.js",
+    "tg:05-plan": "dist/05-plan.js",
+    "tg:06-write": "dist/06-write.js",
+   "tg:07-report": "dist/07-report.js",
+    "tg:08-gate": "dist/08-gate.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "tg:01-scan-exports": "tsx src/01-scan-exports.ts",
+    "tg:02-read-coverage": "tsx src/02-read-coverage.ts",
+    "tg:03-map-gaps": "tsx src/03-map-gaps.ts",
+    "tg:04-cookbook-cross": "tsx src/04-cookbook-cross.ts",
+    "tg:05-plan": "tsx src/05-plan.ts",
+    "tg:06-write": "tsx src/06-write.ts",
+    "tg:07-report": "tsx src/07-report.ts",
+   "tg:08-gate": "tsx src/08-gate.ts",
+    "tg:all": "pnpm tg:01-scan-exports && pnpm tg:02-read-coverage && pnpm tg:03-map-gaps && pnpm tg:04-cookbook-cross && pnpm tg:05-plan && pnpm tg:06-write && pnpm tg:07-report"
+  },
+  "dependencies": {
+    "globby": "^14.0.2",
+    "gray-matter": "^4.0.3",
+    "ts-morph": "^22.0.0",
+    "yaml": "^2.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.4"
+  }
+}

@@ -1,32 +1,35 @@
-pipelines:
   - name: semver-guard
     steps:
-      # 1) create/refresh current snapshot
       - id: sv-snapshot
         shell: "pnpm --filter @promethean/semverguard sv:01-snapshot --root packages --tsconfig ./tsconfig.json --out .cache/semverguard/snapshot.json"
         inputs:
           - "packages/**/package.json"
           - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
-        outputs:
-          - ".cache/semverguard/snapshot.json"
+        outputs: [".cache/semverguard/snapshot.json"]
 
-      # 2) diff against baseline (option A: a committed file on main)
       - id: sv-diff
         deps: ["sv-snapshot"]
         shell: "pnpm --filter @promethean/semverguard sv:02-diff --current .cache/semverguard/snapshot.json --baseline git:origin/main:.cache/semverguard/snapshot.json --out .cache/semverguard/diff.json"
         inputs: [".cache/semverguard/snapshot.json"]
         outputs: [".cache/semverguard/diff.json"]
 
-      # 3) plan tasks (LLM short)
       - id: sv-plan
         deps: ["sv-diff"]
         shell: "pnpm --filter @promethean/semverguard sv:03-plan --diff .cache/semverguard/diff.json --out .cache/semverguard/plans.json --model qwen3:4b"
         inputs: [".cache/semverguard/diff.json"]
         outputs: [".cache/semverguard/plans.json"]
 
-      # 4) write task files
       - id: sv-write
         deps: ["sv-plan"]
         shell: "pnpm --filter @promethean/semverguard sv:04-write --plans .cache/semverguard/plans.json --out docs/agile/tasks/semver"
         inputs: [".cache/semverguard/plans.json"]
         outputs: ["docs/agile/tasks/semver/*.md"]
+
+      - id: sv-pr
+        deps: ["sv-write"]
+        shell: "pnpm --filter @promethean/semverguard sv:05-pr --plans .cache/semverguard/plans.json --root packages --mode prepare --update-dependents true --dep-range preserve"
+        inputs:
+          - ".cache/semverguard/plans.json"
+          - "packages/**/package.json"
+        outputs:
+          - ".cache/semverguard/pr/summary.json"

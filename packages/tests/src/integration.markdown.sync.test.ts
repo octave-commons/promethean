@@ -25,11 +25,11 @@ test('integration: end-to-end board sync creates/updates task files and persists
     // Verify tags on cards align with columns
     const todo = board.listCards('Todo');
     const ip = board.listCards('In Progress');
-    t.true(todo.every((c) => c.tags.includes('todo')));
-    t.true(ip.every((c) => c.tags.includes('in-progress')));
+    t.true(todo.every((c: any) => c.tags.includes('todo')));
+    t.true(ip.every((c: any) => c.tags.includes('in-progress')));
 
     // Missing task for first Todo should be created and linked
-    const createdCard = todo.find((c) => c.id === '1111-aaaa')!;
+    const createdCard = todo.find((c: any) => c.id === '1111-aaaa')!;
     t.truthy(createdCard.links && createdCard.links.length > 0);
     const createdFile = createdCard.links[0].split('|')[0];
     const createdPath = join(tasksDir, createdFile);
@@ -47,7 +47,7 @@ test('integration: end-to-end board sync creates/updates task files and persists
     await fs.writeFile(boardPath, outMd, 'utf8');
     const reloaded = await MarkdownBoard.load(await fs.readFile(boardPath, 'utf8'));
     // State should be preserved after reload
-    t.true(reloaded.listCards('Todo').every((c) => c.tags.includes('todo')));
+    t.true(reloaded.listCards('Todo').every((c: any) => c.tags.includes('todo')));
 });
 
 test('integration: second sync is idempotent with no further content changes', async (t) => {

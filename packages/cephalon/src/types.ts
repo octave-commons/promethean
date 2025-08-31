@@ -1,6 +1,6 @@
 import { Message } from "ollama";
 import { Bot } from "./bot.js";
-import { ContextStore } from "@promethean/persistence/contextStore.js";
+// avoid compile-time type coupling to ContextStore
 import { LLMService } from "./llm-service.js";
 
 export type FormatProperty = {
@@ -34,7 +34,7 @@ export interface AgentOptions {
   historyLimit?: number;
   prompt?: string;
   bot: Bot;
-  context: ContextStore;
+  context: any;
   llm?: LLMService;
 }
 

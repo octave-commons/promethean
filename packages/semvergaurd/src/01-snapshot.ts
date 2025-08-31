@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import * as path from "path";
 import { promises as fs } from "fs";
-import globby from "globby";
+import { globby } from "globby";
 import { Project } from "ts-morph";
 import { parseArgs, writeJSON, hashSignature } from "./utils.js";
 import type { WorkspaceSnapshot, PkgSnapshot, ApiItem, FnSig, ClassSig, MemberSig } from "./types.js";
@@ -32,7 +32,7 @@ async function main() {
 
     // include src/lib files
     const files = await globby([`${pkgRoot.replace(/\\/g,"/")}/**/*.{ts,tsx,js,jsx}`, "!**/node_modules/**", "!**/dist/**", "!**/build/**"]);
-    files.forEach(f => project.addSourceFileAtPathIfExists(f));
+    files.forEach((f: string) => project.addSourceFileAtPathIfExists(f));
 
     const exports: Record<string, ApiItem> = {};
 

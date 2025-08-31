@@ -25,7 +25,7 @@ export async function ollamaJSON(model: string, prompt: string) {
     body: JSON.stringify({ model, prompt, stream: false, options: { temperature: 0 }, format: "json" })
   });
   if (!res.ok) throw new Error(`ollama ${res.status}`);
-  const data = await res.json();
+  const data: any = await res.json();
   const raw = typeof data.response === "string" ? data.response : JSON.stringify(data.response);
   return JSON.parse(raw.replace(/```json\s*/g,"").replace(/```\s*$/g,"").trim());
 }

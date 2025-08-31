@@ -1,8 +1,8 @@
-import type { ComponentType } from '@promethean/ds/ecs.js';
+// loosen typing to avoid cross-package type coupling
 import { CompLayout, Snap, allocColumns, canUseSAB, isChanged } from './layout';
 type Transferable = ArrayBuffer | SharedArrayBuffer;
 
-export type ComponentRef = Pick<ComponentType<any>, 'id'>;
+export type ComponentRef = any;
 
 export interface WorldLike {
     iter(query: any): IterableIterator<[number, ...any[]]>;

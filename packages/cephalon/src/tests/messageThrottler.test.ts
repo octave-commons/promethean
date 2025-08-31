@@ -2,7 +2,7 @@ import test from "ava";
 process.env.DISABLE_AUDIO = "1";
 import { AIAgent } from "../agent.js";
 import type { Bot } from "../bot.js";
-import type { ContextStore } from "@promethean/persistence/contextStore.js";
+// avoid compile-time coupling to ContextStore type
 import { initMessageThrottler } from "../messageThrottler.js";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -15,7 +15,7 @@ const brokerModule = await import(
 const { start: startBroker, stop: stopBroker } = brokerModule;
 
 test.skip("throttles tick interval based on messages", async (t) => {
-  const context = {} as unknown as ContextStore;
+  const context = {} as any;
   const bot = { context } as unknown as Bot;
   const agent = new AIAgent({ bot, context });
   const broker = await startBroker(0);
