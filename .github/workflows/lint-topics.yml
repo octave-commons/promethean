@@ -1,22 +1,22 @@
 name: Topic and Schema Lints
 on:
-  pull_request:
-  push:
-    branches: [main]
+    pull_request:
+    push:
+        branches: [main]
 
 jobs:
-  lint-topics:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: "20"
-      - name: Enable Corepack and pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-      - name: Install dependencies (pnpm)
-        run: pnpm install
-      - name: Topic/Schema lints
-        run: make lint-topics
+    lint-topics:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+            - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+              with:
+                  node-version: '20'
+            - name: Enable Corepack and pnpm
+              run: |
+                  corepack enable
+                  corepack prepare pnpm@latest --activate
+            - name: Install dependencies (pnpm)
+              run: pnpm install
+            - name: Topic/Schema lints
+              run: make lint-topics

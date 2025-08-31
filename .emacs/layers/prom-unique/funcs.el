@@ -104,6 +104,41 @@ With prefix arg ASK-HEADER, insert a header."
   (interactive "P")
   (prom/open-unique-for-mode (if (fboundp 'js-ts-mode) 'js-ts-mode 'js-mode) ask-header))
 
+;;;###autoload
+(defun prom/open-unique-bash (&optional ask-header)
+  (interactive "P")
+  (prom/open-unique-for-mode 'bash-ts-mode ask-header))
+
+;;;###autoload
+(defun prom/open-unique-elisp (&optional ask-header)
+  (interactive "P")
+  (prom/open-unique-for-mode 'elisp-mode ask-header))
+
+;;;###autoload
+(defun prom/open-unique-python (&optional ask-header)
+  (interactive "P")
+  (prom/open-unique-for-mode 'python-mode ask-header))
+
+;;;###autoload
+(defun prom/open-unique-rust (&optional ask-header)
+  (interactive "P")
+  (prom/open-unique-for-mode 'rust-mode ask-header))
+
+;;;###autoload
+(defun prom/open-unique-clj (&optional ask-header)
+  (interactive "P")
+  (prom/open-unique-for-mode 'clojure-mode ask-header))
+
+;;;###autoload
+(defun prom/open-unique-html (&optional ask-header)
+  (interactive "P")
+  (prom/open-unique-for-mode 'html-mode ask-header))
+
+;;;###autoload
+(defun prom/open-unique-css (&optional ask-header)
+  (interactive "P")
+  (prom/open-unique-for-mode 'css-mode ask-header))
+
 ;; ---------- List continuation (fallback) ----------
 (defun prom/list--empty-item-p ()
   "Return non-nil if current line is a list item with no content (only marker, optional checkbox, spaces)."
