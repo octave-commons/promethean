@@ -8,16 +8,23 @@ const args = parseArgs({
   "--blocks": ".cache/codepack/blocks.json",
   "--names": ".cache/codepack/names.json",
   "--out": "out/code_groups",
-  "--dry-run": "false"
+  "--dry-run": "false",
 });
 
 function safeJoin(...parts: string[]) {
-  const p = path.join(...parts).replace(/\\/g,"/");
+  const p = path.join(...parts).replace(/\\/g, "/");
   if (p.includes("..")) throw new Error("refusing to write paths with ..");
   return p;
 }
 
-async function exists(p:string) { try { await fs.stat(p); return true; } catch { return false; } }
+async function exists(p: string) {
+  try {
+    await fs.stat(p);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 async function main() {
   const blocksPath = path.resolve(args["--blocks"]);
@@ -25,10 +32,12 @@ async function main() {
   const outRoot = path.resolve(args["--out"]);
   const dry = args["--dry-run"] === "true";
 
-  const { blocks }: BlockManifest = JSON.parse(await fs.readFile(blocksPath,"utf-8"));
-  const plan: NamePlan = JSON.parse(await fs.readFile(namesPath,"utf-8"));
+  const { blocks }: BlockManifest = JSON.parse(
+    await fs.readFile(blocksPath, "utf-8"),
+  );
+  const plan: NamePlan = JSON.parse(await fs.readFile(namesPath, "utf-8"));
 
-  const byId = new Map(blocks.map(b => [b.id, b]));
+  const byId = new Map(blocks.map((b) => [b.id, b]));
 
   for (const group of plan.groups) {
     const dirAbs = safeJoin(outRoot, group.dir);
@@ -49,13 +58,15 @@ async function main() {
 
       // if multiple ids to same filename, concatenate with clear separators
       const parts: string[] = [];
-      for (let i=0;i<ids.length;i++) {
+      for (let i = 0; i < ids.length; i++) {
         const b = byId.get(ids[i]);
         if (!b) continue;
         const header = [
           `/* source: ${b.relPath}:${b.startLine}-${b.endLine} */`,
           b.hintedName ? `/* hinted: ${b.hintedName} */` : "",
-        ].filter(Boolean).join("\n");
+        ]
+          .filter(Boolean)
+          .join("\n");
         parts.push(`${header}\n${b.code.trim()}\n`);
       }
       const content = parts.join("\n/* --- next-part --- */\n\n");
@@ -71,11 +82,15 @@ async function main() {
         outPath = path.join(dir, `${base}-${i}${ext}`);
       }
 
-      if (dry) console.log(`[dry] write ${path.relative(process.cwd(), outPath)}`);
+      if (dry)
+        console.log(`[dry] write ${path.relative(process.cwd(), outPath)}`);
       else await fs.writeFile(outPath, content, "utf-8");
     }
   }
 
   console.log(`materialized -> ${path.relative(process.cwd(), outRoot)}`);
 }
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
