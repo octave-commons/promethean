@@ -9,11 +9,13 @@ import type { BlockManifest, CodeBlock } from "./types.js";
 const args = parseArgs({
   "--dir": "docs/unique",
   "--ext": ".md,.mdx,.txt",
-  "--out": ".cache/codepack/blocks.json"
+  "--out": ".cache/codepack/blocks.json",
 });
 
 const ROOT = path.resolve(args["--dir"]);
-const EXTS = new Set(args["--ext"].split(",").map(s=>s.trim().toLowerCase()));
+const EXTS = new Set(
+  args["--ext"].split(",").map((s) => s.trim().toLowerCase()),
+);
 const OUT = path.resolve(args["--out"]);
 
 async function main() {
@@ -38,7 +40,7 @@ async function main() {
         code: b.value,
         contextBefore: b.beforeText,
         contextAfter: b.afterText,
-        hintedName: detectFilenameHint(b)
+        hintedName: detectFilenameHint(b),
       });
     });
   }
@@ -46,6 +48,14 @@ async function main() {
   await fs.mkdir(path.dirname(OUT), { recursive: true });
   const manifest: BlockManifest = { blocks };
   await fs.writeFile(OUT, JSON.stringify(manifest, null, 2), "utf-8");
-  console.log(`extracted ${blocks.length} code blocks -> ${path.relative(process.cwd(), OUT)}`);
+  console.log(
+    `extracted ${blocks.length} code blocks -> ${path.relative(
+      process.cwd(),
+      OUT,
+    )}`,
+  );
 }
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
