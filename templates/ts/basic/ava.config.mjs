@@ -1,3 +1,3 @@
 export default {
-  files: ["dist/tests/**/*.js"],
+    files: ['dist/tests/**/*.js'],
 };

@@ -12,4 +12,4 @@ Exit Criteria:
 - User transcripts reliably stored in `transcripts` for both flows.
 - Test exercising both scopes with a fake transcript and asserting Mongo insert.
 
-#cephalon #transcripts #persistence #ready
+#incoming #cephalon #transcripts #persistence

@@ -1,6 +1,5 @@
-"""Shared Python utilities for the Promethean framework.
+"""Shared Python utilities for the Promethean framework."""
 
-Keep imports lazy; avoid eager submodule imports at package load time.
-"""
+from .permissions import PermissionLayer, PermissionRule
 
-__all__ = []
+__all__ = ["PermissionLayer", "PermissionRule"]

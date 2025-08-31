@@ -51,7 +51,7 @@ Nothing
 
 - [kanban](../boards/kanban.md)
 
-#ready
+#breakdown
 
 ## Blockers
 - No active owner or unclear scope

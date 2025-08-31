@@ -10,5 +10,5 @@ Scope:
 Exit Criteria:
 - All Kanban scripts consolidated; README accurate; sample commands tested.
 
-#scripts #kanban #organization #accepted
+#incoming #scripts #kanban #organization
 

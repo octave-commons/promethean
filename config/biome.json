@@ -1,11 +1,11 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
-  "files": {
-    "includes": ["src/**", "tests/**"]
-  },
-  "linter": {
-    "rules": {
-      "recommended": false
+    "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
+    "files": {
+        "includes": ["src/**", "tests/**"]
+    },
+    "linter": {
+        "rules": {
+            "recommended": false
+        }
     }
-  }
 }

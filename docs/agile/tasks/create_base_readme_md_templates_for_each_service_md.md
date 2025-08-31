@@ -11,7 +11,7 @@ Most directories currently lack a README, so we need to create them using a comm
 
 ## 🧩 Related Concepts
 - [process_board_flow](../process_board_flow.md)
-- [AGENTS.md](../AGENTS.md)
+- [agents.md](agile/agents.md)
 - [service directory conventions](../service%20directory%20conventions.md)
 - #doc-this #framework-core #ritual
 
@@ -30,7 +30,7 @@ Most directories currently lack a README, so we need to create them using a comm
 - [ ] Create `services/tts/README.md`
 
 ## 🔗 Links
-- [AGENTS.md](../AGENTS.md)
+- [agents.md](agile/agents.md)
 
 
 

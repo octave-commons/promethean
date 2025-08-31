@@ -13,5 +13,5 @@ Scope:
 Exit Criteria:
 - Each folder has a concise README with clear commands and prerequisites.
 
-#scripts #docs #ready
+#incoming #scripts #docs
 

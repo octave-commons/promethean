@@ -1,21 +1,21 @@
 {
-  "name": "lith",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "GPL-3.0-only",
-  "dependencies": {
-    "cardinal": "^2.1.1",
-    "ramda": "^0.31.3",
-    "source-map": "^0.7.6",
-    "source-map-support": "^0.5.21"
-  },
-  "bin": {
-    "lith": "./bin/lith.js"
-  }
+    "name": "lith",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "GPL-3.0-only",
+    "dependencies": {
+        "cardinal": "^2.1.1",
+        "ramda": "^0.31.3",
+        "source-map": "^0.7.6",
+        "source-map-support": "^0.5.21"
+    },
+    "bin": {
+        "lith": "./bin/lith.js"
+    }
 }

@@ -1,24 +1,23 @@
 ;;; packages.el --- Promethean Layer for Lisp-like DSLs -*- lexical-binding: t -*-
 
-(defconst promethean-packages '(mcp lsp-mode))
-
+(defconst promethean-packages
+  '(
+    smartparens
+    rainbow-delimiters
+    company
+    promethean-hy-mode
+    promethean-sibilant-mode
+    promethean-lisp-mode
+    ))
 (defvar promethean--layer-dir
   (file-name-directory (or load-file-name buffer-file-name)))
-(defun promethean/post-init-lsp-mode ())
-(defun promethean/pre-init-mcp ()
-  (setq mcp-auto-start t))
-
-(defun promethean/post-init-mcp ()
-  (load "~/devel/promethean/config/mcp-servers.el"))
 
 (add-to-list 'load-path promethean--layer-dir)
 
 (defun promethean/init-promethean-lisp-mode ()
   (load (expand-file-name "promethean-lisp-mode.el" promethean--layer-dir)))
-
 (defun promethean/init-promethean-hy-mode ()
   (load (expand-file-name "hy.el" promethean--layer-dir)))
-
 (defun promethean/init-promethean-sibilant-mode ()
   (load (expand-file-name "sibilant.el" promethean--layer-dir)))
 
@@ -46,7 +45,3 @@
       :modes hy-mode)
     (add-to-list 'flycheck-checkers 'hy))
   )
-
-
-
-(provide 'promethean)

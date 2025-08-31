@@ -4,7 +4,7 @@
 
 ### Overview
 
-Layer 7 maps to Circuit 7: [[Metisean.md]]. It orchestrates long-term planning and system reconfiguration.
+Layer 7 maps to Circuit 7: [[metisean]]. It orchestrates long-term planning and system reconfiguration.
 
 ### Related Services and Agents
 

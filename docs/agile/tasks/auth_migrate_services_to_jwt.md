@@ -13,5 +13,5 @@ Exit Criteria:
 - Services accept/verify JWT; file-watcher and bridge communicate successfully.
 - Docs updated to remove static token guidance.
 
-#auth #migration #services #ready
+#incoming #auth #migration #services
 

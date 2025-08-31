@@ -52,4 +52,7 @@ Nothing
 
 
 #devops #Ready
-#todo
+<<<<<<< HEAD
+#ready
+=======
+>>>>>>> origin/dev/yoga

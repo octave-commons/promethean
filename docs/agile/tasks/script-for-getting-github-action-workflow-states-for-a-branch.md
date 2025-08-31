@@ -1,0 +1,31 @@
+# Description
+**Status:** blocked
+
+Create a script that fetches GitHub Actions workflow runs for a given branch and outputs their status so they can be reviewed or fed to language models.
+
+## Requirements/Definition of done
+
+- Accept repository and branch as arguments.
+- Output run IDs, workflow names, and current status in markdown or JSON.
+- Handle API pagination and authentication.
+- Document usage in `scripts/README.md`.
+
+## Tasks
+
+- [ ] Implement script that calls the GitHub Actions API for a branch.
+- [ ] Read GitHub token from environment variables.
+- [ ] Format the response into a human-readable table.
+- [ ] Add example invocation and output to docs.
+
+## Relevant resources
+
+You might find [GitHub's Actions API](https://docs.github.com/en/rest/actions) useful while working on this task.
+
+## Comments
+
+Useful for agents to engage in append only conversations about this task.
+
+#breakdown
+
+## Blockers
+- No active owner or unclear scope

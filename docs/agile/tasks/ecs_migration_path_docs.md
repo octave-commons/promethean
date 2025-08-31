@@ -10,4 +10,4 @@ Content:
 Exit Criteria:
 - Markdown doc published under `docs/ecs/migration.md` with cross-links from service READMEs.
 
-#ecs #migration #docs #accepted
+#incoming #ecs #migration #docs

@@ -60,7 +60,7 @@ Nothing
 ## 🔍 Relevant Links
 - [kanban](../boards/kanban.md)
 - [pseudo/eidolon-field-scratchpad.lisp](../../pseudo/eidolon-field-scratchpad.lisp)
-#done
+#in-progress
 
 ## Blockers
 - Embedding service implementation not linked.

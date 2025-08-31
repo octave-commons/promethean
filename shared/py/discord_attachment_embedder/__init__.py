@@ -1,1 +1,0 @@
-"""Discord attachment embedder service."""

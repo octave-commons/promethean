@@ -1,0 +1,17 @@
+board_file: docs/agile/boards/kanban.md
+
+columns:                # state -> column heading text in the md file
+  IceBox:         "🧊 Ice Box"
+  New:            "💭 New"
+  Accepted:       "✅ Accepted"
+  Breakdown:      "🧩 Breakdown"
+  PromptRefine:   "🔍 Prompt Refinement"
+  AgentThinking:  "🤔 Agent Thinking"
+  Blocked:        "🚧 Blocked"
+  Ready:          "🛠 Ready"
+  Todo:           "🟢 To Do"
+  InProgress:     "🟡 In Progress"
+  InReview:       "🔍 In Review"
+  Document:       "📚 Document"
+  Done:           "✅ Done"
+  Rejected:       "❌ Rejected"

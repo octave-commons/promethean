@@ -27,7 +27,7 @@ Start an agent with:
 pm2 start duck.ecosystem.js
 ```
 
-See [[MIGRATION_PLAN.md|MIGRATION_PLAN.md]] for pending decisions around
+See [[migration_plan|MIGRATION_PLAN.md]] for pending decisions around
 global PM2 configuration and Makefile integration. In the interim, Makefile
 `start` and `stop` targets should call `pm2 start <agent>.ecosystem.js` and
 `pm2 delete <agent>` respectively.

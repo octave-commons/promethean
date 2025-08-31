@@ -1,44 +1,44 @@
-import fs from "fs";
-import path from "path";
+import fs from 'fs';
+import path from 'path';
 
 // Directories
-const docsDir = path.resolve(__dirname, "../docs/architecture");
-const siteDir = path.resolve(__dirname, "../sites/roadmap");
-const outFile = path.join(siteDir, "index.html");
+const docsDir = path.resolve(__dirname, '../docs/architecture');
+const siteDir = path.resolve(__dirname, '../sites/roadmap');
+const outFile = path.join(siteDir, 'index.html');
 
 // Ensure output dir exists
 if (!fs.existsSync(siteDir)) {
-  fs.mkdirSync(siteDir, { recursive: true });
+    fs.mkdirSync(siteDir, { recursive: true });
 }
 
 // Collect markdown files
-const files = fs.readdirSync(docsDir).filter((f) => f.endsWith(".md"));
+const files = fs.readdirSync(docsDir).filter((f) => f.endsWith('.md'));
 
 // Extract Mermaid blocks + headings
 function extractMermaid(content: string): string[] {
-  const regex = /```mermaid([\s\S]*?)```/g;
-  const blocks: string[] = [];
-  let match;
-  while ((match = regex.exec(content)) !== null) {
-    blocks.push(match[1]);
-  }
-  return blocks;
+    const regex = /```mermaid([\s\S]*?)```/g;
+    const blocks: string[] = [];
+    let match;
+    while ((match = regex.exec(content)) !== null) {
+        blocks.push(match[1]);
+    }
+    return blocks;
 }
 
 // Build sections from docs
-let sections = "";
+let sections = '';
 for (const file of files) {
-  const filePath = path.join(docsDir, file);
-  const content = fs.readFileSync(filePath, "utf-8");
-  const title = (content.match(/^#\s+(.*)/m) || [null, file])[1];
-  const blocks = extractMermaid(content);
-  if (blocks.length > 0) {
-    sections += `<section><h2>${title}</h2>`;
-    blocks.forEach((b, i) => {
-      sections += `<div class="mermaid">${b}</div>`;
-    });
-    sections += `</section>`;
-  }
+    const filePath = path.join(docsDir, file);
+    const content = fs.readFileSync(filePath, 'utf-8');
+    const title = (content.match(/^#\s+(.*)/m) || [null, file])[1];
+    const blocks = extractMermaid(content);
+    if (blocks.length > 0) {
+        sections += `<section><h2>${title}</h2>`;
+        blocks.forEach((b, i) => {
+            sections += `<div class="mermaid">${b}</div>`;
+        });
+        sections += `</section>`;
+    }
 }
 
 // HTML template
@@ -65,5 +65,5 @@ const html = `<!DOCTYPE html>
 </html>`;
 
 // Write output
-fs.writeFileSync(outFile, html, "utf-8");
+fs.writeFileSync(outFile, html, 'utf-8');
 console.log(`✅ Roadmap site generated at ${outFile}`);
