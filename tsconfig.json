@@ -2,118 +2,118 @@
   "files": [],
   "references": [
     {
-      "path": "./shared/ts/agent"
+      "path": "./packages/agent"
     },
     {
-      "path": "./shared/ts/agent-ecs"
+      "path": "./packages/agent-ecs"
     },
     {
-      "path": "./shared/ts/changefeed"
+      "path": "./packages/changefeed"
     },
     {
-      "path": "./shared/ts/cli"
+      "path": "./packages/cli"
     },
     {
-      "path": "./shared/ts/compaction"
+      "path": "./packages/compaction"
     },
     {
-      "path": "./shared/ts/compiler"
+      "path": "./packages/compiler"
     },
     {
-      "path": "./shared/ts/contracts"
+      "path": "./packages/contracts"
     },
     {
-      "path": "./shared/ts/dev"
+      "path": "./packages/dev"
     },
     {
-      "path": "./shared/ts/dlq"
+      "path": "./packages/dlq"
     },
     {
-      "path": "./shared/ts/ds"
+      "path": "./packages/ds"
     },
     {
-      "path": "./shared/ts/effects"
+      "path": "./packages/effects"
     },
     {
-      "path": "./shared/ts/embeddings"
+      "path": "./packages/embeddings"
     },
     {
-      "path": "./shared/ts/event"
+      "path": "./packages/event"
     },
     {
-      "path": "./shared/ts/examples"
+      "path": "./packages/examples"
     },
     {
-      "path": "./shared/ts/fs"
+      "path": "./packages/fs"
     },
     {
-      "path": "./shared/ts/http"
+      "path": "./packages/http"
     },
     {
-      "path": "./shared/ts/intention"
+      "path": "./packages/intention"
     },
     {
-      "path": "./shared/ts/llm"
+      "path": "./packages/llm"
     },
     {
-      "path": "./shared/ts/markdown"
+      "path": "./packages/markdown"
     },
     {
-      "path": "./shared/ts/metrics"
+      "path": "./packages/metrics"
     },
     {
-      "path": "./shared/ts/migrations"
+      "path": "./packages/migrations"
     },
     {
-      "path": "./shared/ts/naming"
+      "path": "./packages/naming"
     },
     {
-      "path": "./shared/ts/parity"
+      "path": "./packages/parity"
     },
     {
-      "path": "./shared/ts/persistence"
+      "path": "./packages/persistence"
     },
     {
-      "path": "./shared/ts/platform"
+      "path": "./packages/platform"
     },
     {
-      "path": "./shared/ts/projectors"
+      "path": "./packages/projectors"
     },
     {
-      "path": "./shared/ts/providers"
+      "path": "./packages/providers"
     },
     {
-      "path": "./shared/ts/rate"
+      "path": "./packages/rate"
     },
     {
-      "path": "./shared/ts/schema"
+      "path": "./packages/schema"
     },
     {
-      "path": "./shared/ts/snapshots"
+      "path": "./packages/snapshots"
     },
     {
-      "path": "./shared/ts/stream"
+      "path": "./packages/stream"
     },
     {
-      "path": "./shared/ts/test-utils"
+      "path": "./packages/test-utils"
     },
     {
-      "path": "./shared/ts/tests"
+      "path": "./packages/tests"
     },
     {
-      "path": "./shared/ts/timetravel"
+      "path": "./packages/timetravel"
     },
     {
-      "path": "./shared/ts/types"
+      "path": "./packages/types"
     },
     {
-      "path": "./shared/ts/web"
+      "path": "./packages/web"
     },
     {
-      "path": "./shared/ts/worker"
+      "path": "./packages/worker"
     },
     {
-      "path": "./shared/ts/ws"
+      "path": "./packages/ws"
     }
   ]
 }

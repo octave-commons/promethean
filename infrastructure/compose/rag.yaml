@@ -1,0 +1,36 @@
+version: "3.9"
+networks: { prom-net: { external: true } }
+
+services:
+  pg:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: rag
+      POSTGRES_USER: rag
+      POSTGRES_PASSWORD: ragpass
+    volumes:
+      - ./infra/db/init:/docker-entrypoint-initdb.d
+      - pg_data:/var/lib/postgresql/data
+    networks: [ prom-net ]
+
+  # REST facade to PG for the UI (read-only anon)
+  postgrest:
+    image: postgrest/postgrest:v12.2.3
+    environment:
+      PGRST_DB_URI: postgres://rag:ragpass@pg:5432/rag
+      PGRST_DB_SCHEMA: public
+      PGRST_DB_ANON_ROLE: web_anon
+      PGRST_OPENAPI_MODE: follow-privileges
+      PGRST_SERVER_PORT: 3000
+    depends_on: [ pg ]
+    networks: [ prom-net ]
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks: [ prom-net ]
+
+volumes:
+  pg_data: {}
+  qdrant_data: {}

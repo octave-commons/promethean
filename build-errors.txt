@@ -1,0 +1,104 @@
+packages/sonarflow build: src/02-fetch.ts(39,13): error TS18046: 'data' is of type 'unknown'.
+packages/sonarflow build: src/02-fetch.ts(40,22): error TS18046: 'data' is of type 'unknown'.
+packages/sonarflow build: src/03-plan.ts(24,22): error TS18046: 'data' is of type 'unknown'.
+packages/sonarflow build: src/03-plan.ts(24,51): error TS18046: 'data' is of type 'unknown'.
+packages/sonarflow build: src/03-plan.ts(24,82): error TS18046: 'data' is of type 'unknown'.
+packages/schema build: src/dualwrite.ts(4,36): error TS2709: Cannot use namespace 'EventBus' as a type.
+packages/schema build: src/dualwrite.ts(4,68): error TS2709: Cannot use namespace 'EventBus' as a type.
+packages/schema build: src/dualwrite.ts(7,59): error TS2709: Cannot use namespace 'PublishOptions' as a type.
+packages/schema build: src/dualwrite.ts(7,89): error TS2709: Cannot use namespace 'EventRecord' as a type.
+packages/schema build: src/normalize.ts(7,10): error TS2709: Cannot use namespace 'EventBus' as a type.
+packages/schema build: src/normalize.ts(12,18): error TS2709: Cannot use namespace 'EventRecord' as a type.
+packages/schema build: src/upcast.ts(4,28): error TS2709: Cannot use namespace 'EventRecord' as a type.
+packages/schema build: src/upcast.ts(4,44): error TS2709: Cannot use namespace 'EventRecord' as a type.
+packages/schema build: src/upcast.ts(17,32): error TS2709: Cannot use namespace 'EventRecord' as a type.
+packages/schema build: src/upcast.ts(17,67): error TS2709: Cannot use namespace 'EventRecord' as a type.
+packages/timetravel build: src/examples.ts(4,40): error TS2709: Cannot use namespace 'MongoEventStore' as a type.
+packages/timetravel build: src/reconstruct.ts(9,32): error TS2709: Cannot use namespace 'EventRecord' as a type.
+packages/timetravel build: src/reconstruct.ts(13,53): error TS2709: Cannot use namespace 'MongoEventStore' as a type.
+packages/timetravel build: src/reconstruct.ts(31,48): error TS2709: Cannot use namespace 'EventRecord' as a type.
+packages/ws build: src/server.ts(2,39): error TS7016: Could not find a declaration file for module '@promethean/event/types.js'. '/home/err/devel/promethean/packages/event/dist/types.js' implicitly has an 'any' type.
+packages/ws build: src/server.ts(35,47): error TS2709: Cannot use namespace 'TokenBucket' as a type.
+packages/ws build: src/server.ts(109,28): error TS7006: Parameter 'e' implicitly has an 'any' type.
+packages/ws build: src/server.ts(109,31): error TS7006: Parameter 'ctx' implicitly has an 'any' type.
+packages/worker build: src/zero/snapshot.ts(1,36): error TS7016: Could not find a declaration file for module '@promethean/ds/ecs.js'. '/home/err/devel/promethean/packages/ds/dist/ecs.js' implicitly has an 'any' type.
+packages/webcrawler build: src/index.ts(2,44): error TS2307: Cannot find module '@promeathean/web' or its corresponding type declarations.
+packages/dev build: src/harness.ts(1,34): error TS7016: Could not find a declaration file for module '@promethean/event/memory.js'. '/home/err/devel/promethean/packages/event/dist/memory.js' implicitly has an 'any' type.
+packages/dev build: src/harness.ts(2,32): error TS7016: Could not find a declaration file for module '@promethean/ws/server.js'. '/home/err/devel/promethean/packages/ws/dist/server.js' implicitly has an 'any' type.
+packages/persistence build: src/dualStore.ts(5,28): error TS2307: Cannot find module '@shared/js/env.js' or its corresponding type declarations.
+packages/discord-embedder build: src/index.ts(2,28): error TS2307: Cannot find module '@shared/js/env.js' or its corresponding type declarations.
+packages/discord-embedder build: src/index.ts(3,33): error TS2307: Cannot find module '@shared/js/heartbeat/index.js' or its corresponding type declarations.
+packages/discord-embedder build: src/index.ts(8,8): error TS7016: Could not find a declaration file for module '@promethean/persistence'. '/home/err/devel/promethean/packages/persistence/dist/index.js' implicitly has an 'any' type.
+packages/test-utils build: src/persistence.ts(5,8): error TS7016: Could not find a declaration file for module '@promethean/persistence/clients.js'. '/home/err/devel/promethean/packages/persistence/dist/clients.js' implicitly has an 'any' type.
+packages/tests build: src/cephalon-transform.test.ts(9,51): error TS7016: Could not find a declaration file for module '@promethean/compiler/transform/transformer.js'. '/home/err/devel/promethean/packages/compiler/dist/transform/transformer.js' implicitly has an 'any' type.
+packages/tests build: src/dev.harness.int.test.ts(2,30): error TS7016: Could not find a declaration file for module '@promethean/dev/harness.js'. '/home/err/devel/promethean/packages/dev/dist/harness.js' implicitly has an 'any' type.
+packages/tests build: src/fileExplorer.test.ts(5,48): error TS7016: Could not find a declaration file for module '@promethean/fs/fileExplorer.js'. '/home/err/devel/promethean/packages/fs/dist/fileExplorer.js' implicitly has an 'any' type.
+packages/tests build: src/fileExplorer.test.ts(19,26): error TS7006: Parameter 'i' implicitly has an 'any' type.
+packages/tests build: src/fileExplorer.test.ts(20,26): error TS7006: Parameter 'i' implicitly has an 'any' type.
+packages/tests build: src/fileExplorer.test.ts(33,26): error TS7006: Parameter 'r' implicitly has an 'any' type.
+packages/tests build: src/integration.markdown.sync.test.ts(5,31): error TS7016: Could not find a declaration file for module '@promethean/markdown/kanban.js'. '/home/err/devel/promethean/packages/markdown/dist/kanban.js' implicitly has an 'any' type.
+packages/tests build: src/integration.markdown.sync.test.ts(6,35): error TS7016: Could not find a declaration file for module '@promethean/markdown/sync.js'. '/home/err/devel/promethean/packages/markdown/dist/sync.js' implicitly has an 'any' type.
+packages/tests build: src/integration.markdown.sync.test.ts(28,24): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/integration.markdown.sync.test.ts(29,22): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/integration.markdown.sync.test.ts(32,36): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/integration.markdown.sync.test.ts(50,46): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/kanban.test.ts(2,31): error TS7016: Could not find a declaration file for module '@promethean/markdown/kanban.js'. '/home/err/devel/promethean/packages/markdown/dist/kanban.js' implicitly has an 'any' type.
+packages/tests build: src/kanban.test.ts(20,22): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/kanban.test.ts(50,19): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/kanban.test.ts(57,19): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/kanban.test.ts(66,28): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/kanban.test.ts(70,29): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/kanban.test.ts(74,42): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/kanban.test.ts(75,44): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/kanban.test.ts(79,51): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/markdown.kanban.helpers.test.ts(2,31): error TS7016: Could not find a declaration file for module '@promethean/markdown/kanban.js'. '/home/err/devel/promethean/packages/markdown/dist/kanban.js' implicitly has an 'any' type.
+packages/tests build: src/markdown.kanban.helpers.test.ts(33,42): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/markdown.kanban.helpers.test.ts(35,43): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/markdown.statuses.test.ts(2,58): error TS7016: Could not find a declaration file for module '@promethean/markdown/statuses.js'. '/home/err/devel/promethean/packages/markdown/dist/statuses.js' implicitly has an 'any' type.
+packages/tests build: src/markdown.sync.helpers.test.ts(5,31): error TS7016: Could not find a declaration file for module '@promethean/markdown/kanban.js'. '/home/err/devel/promethean/packages/markdown/dist/kanban.js' implicitly has an 'any' type.
+packages/tests build: src/markdown.sync.helpers.test.ts(19,8): error TS7016: Could not find a declaration file for module '@promethean/markdown/sync.js'. '/home/err/devel/promethean/packages/markdown/dist/sync.js' implicitly has an 'any' type.
+packages/tests build: src/markdown.sync.test.ts(5,31): error TS7016: Could not find a declaration file for module '@promethean/markdown/kanban.js'. '/home/err/devel/promethean/packages/markdown/dist/kanban.js' implicitly has an 'any' type.
+packages/tests build: src/markdown.sync.test.ts(6,35): error TS7016: Could not find a declaration file for module '@promethean/markdown/sync.js'. '/home/err/devel/promethean/packages/markdown/dist/sync.js' implicitly has an 'any' type.
+packages/tests build: src/markdown.sync.test.ts(27,24): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/markdown.sync.test.ts(28,22): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/markdown.sync.test.ts(31,36): error TS7006: Parameter 'c' implicitly has an 'any' type.
+packages/tests build: src/markdown.task.test.ts(2,30): error TS7016: Could not find a declaration file for module '@promethean/markdown/task.js'. '/home/err/devel/promethean/packages/markdown/dist/task.js' implicitly has an 'any' type.
+packages/tests build: src/parity/normalizers.test.ts(2,80): error TS7016: Could not find a declaration file for module '@promethean/parity/normalizers.js'. '/home/err/devel/promethean/packages/parity/dist/normalizers.js' implicitly has an 'any' type.
+packages/tests build: src/parity/runner.test.ts(8,8): error TS7016: Could not find a declaration file for module '@promethean/parity/runner.js'. '/home/err/devel/promethean/packages/parity/dist/runner.js' implicitly has an 'any' type.
+packages/tests build: src/stream-title.test.ts(10,8): error TS7016: Could not find a declaration file for module '@promethean/stream/title.js'. '/home/err/devel/promethean/packages/stream/dist/title.js' implicitly has an 'any' type.
+packages/tests build: src/transformer.test.ts(2,51): error TS7016: Could not find a declaration file for module '@promethean/compiler/transform/transformer.js'. '/home/err/devel/promethean/packages/compiler/dist/transform/transformer.js' implicitly has an 'any' type.
+packages/tests build: src/url.test.ts(2,53): error TS7016: Could not find a declaration file for module '@promethean/web/url.js'. '/home/err/devel/promethean/packages/web/dist/url.js' implicitly has an 'any' type.
+packages/cephalon build: src/actions/start-dialog.scope.ts(5,36): error TS7016: Could not find a declaration file for module '@promethean/agent-ecs/systems/orchestrator.js'. '/home/err/devel/promethean/packages/agent-ecs/dist/systems/orchestrator.js' implicitly has an 'any' type.
+packages/cephalon build: src/actions/start-dialog.scope.ts(17,1): error TS6133: 'DualStoreManager' is declared but its value is never read.
+packages/cephalon build: src/actions/start-dialog.scope.ts(18,28): error TS2307: Cannot find module '@shared/js/env.js' or its corresponding type declarations.
+packages/cephalon build: src/actions/start-dialog.scope.ts(32,8): error TS2709: Cannot use namespace 'DualStoreManager' as a type.
+packages/cephalon build: src/agent/index.ts(21,1): error TS6133: 'ContextStore' is declared but its value is never read.
+packages/cephalon build: src/agent/index.ts(88,12): error TS2709: Cannot use namespace 'ContextStore' as a type.
+packages/cephalon build: src/agent/innerState.ts(4,34): error TS2307: Cannot find module '@shared/js/env.js' or its corresponding type declarations.
+packages/cephalon build: src/agent/innerState.ts(7,1): error TS6133: 'DualStoreManager' is declared but its value is never read.
+packages/cephalon build: src/agent/innerState.ts(54,8): error TS2709: Cannot use namespace 'DualStoreManager' as a type.
+packages/cephalon build: src/agent/speech.ts(3,34): error TS2307: Cannot find module '@shared/js/env.js' or its corresponding type declarations.
+packages/cephalon build: src/agent/speech.ts(11,1): error TS6133: 'DualStoreManager' is declared but its value is never read.
+packages/cephalon build: src/agent/speech.ts(54,8): error TS2709: Cannot use namespace 'DualStoreManager' as a type.
+packages/cephalon build: src/agent/voiceContent.ts(1,1): error TS6133: 'DualStoreManager' is declared but its value is never read.
+packages/cephalon build: src/agent/voiceContent.ts(4,3): error TS6133: 'GenericEntry' is declared but its value is never read.
+packages/cephalon build: src/agent/voiceContent.ts(42,8): error TS2709: Cannot use namespace 'DualStoreManager' as a type.
+packages/cephalon build: src/agent/voiceContent.ts(45,11): error TS2709: Cannot use namespace 'GenericEntry' as a type.
+packages/cephalon build: src/agent/voiceContent.ts(88,8): error TS2709: Cannot use namespace 'DualStoreManager' as a type.
+packages/cephalon build: src/agent/voiceContent.ts(91,11): error TS2709: Cannot use namespace 'GenericEntry' as a type.
+packages/cephalon build: src/collections.ts(2,28): error TS2307: Cannot find module '@shared/js/env.js' or its corresponding type declarations.
+packages/cephalon build: src/collections.ts(4,38): error TS2347: Untyped function calls may not accept type arguments.
+packages/cephalon build: src/collections.ts(8,31): error TS2347: Untyped function calls may not accept type arguments.
+packages/cephalon build: src/collections.ts(13,34): error TS2347: Untyped function calls may not accept type arguments.
+packages/cephalon build: src/factories/policy.ts(1,33): error TS2307: Cannot find module '@shared/js/permissionGate.js' or its corresponding type declarations.
+packages/cephalon build: src/index.ts(3,28): error TS2307: Cannot find module '@shared/js/env.js' or its corresponding type declarations.
+packages/cephalon build: src/index.ts(4,33): error TS2307: Cannot find module '@shared/js/heartbeat/index.js' or its corresponding type declarations.
+packages/cephalon build: src/llm-service.ts(4,37): error TS7016: Could not find a declaration file for module '@promethean/llm/tools.js'. '/home/err/devel/promethean/packages/llm/dist/tools.js' implicitly has an 'any' type.
+packages/cephalon build: src/tests/messageThrottler.test.ts(5,1): error TS6133: 'ContextStore' is declared but its value is never read.
+packages/cephalon build: src/tests/messageThrottler.test.ts(18,36): error TS2709: Cannot use namespace 'ContextStore' as a type.
+packages/cephalon build: src/tests/tickrate.test.ts(5,1): error TS6133: 'ContextStore' is declared but its value is never read.
+packages/cephalon build: src/tests/tickrate.test.ts(8,36): error TS2709: Cannot use namespace 'ContextStore' as a type.
+packages/cephalon build: src/types.ts(3,1): error TS6133: 'ContextStore' is declared but its value is never read.
+packages/cephalon build: src/types.ts(37,12): error TS2709: Cannot use namespace 'ContextStore' as a type.
+packages/cephalon build: src/util.ts(3,3): error TS6133: 'GenericEntry' is declared but its value is never read.
+packages/cephalon build: src/util.ts(34,22): error TS2709: Cannot use namespace 'GenericEntry' as a type.
