@@ -1,5 +1,0 @@
-# Template agent can only read docs.
-default: deny
-rules:
-  - action: file.read
-    scope: docs/**

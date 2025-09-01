@@ -1,0 +1,120 @@
+{
+  "extends": "./config/tsconfig.base.json",
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/agent"
+    },
+    {
+      "path": "./packages/agent-ecs"
+    },
+    {
+      "path": "./packages/changefeed"
+    },
+    {
+      "path": "./packages/cli"
+    },
+    {
+      "path": "./packages/compaction"
+    },
+    {
+      "path": "./packages/compiler"
+    },
+    {
+      "path": "./packages/contracts"
+    },
+    {
+      "path": "./packages/dev"
+    },
+    {
+      "path": "./packages/dlq"
+    },
+    {
+      "path": "./packages/ds"
+    },
+    {
+      "path": "./packages/effects"
+    },
+    {
+      "path": "./packages/embeddings"
+    },
+    {
+      "path": "./packages/event"
+    },
+    {
+      "path": "./packages/examples"
+    },
+    {
+      "path": "./packages/fs"
+    },
+    {
+      "path": "./packages/http"
+    },
+    {
+      "path": "./packages/intention"
+    },
+    {
+      "path": "./packages/llm"
+    },
+    {
+      "path": "./packages/markdown"
+    },
+    {
+      "path": "./packages/metrics"
+    },
+    {
+      "path": "./packages/migrations"
+    },
+    {
+      "path": "./packages/naming"
+    },
+    {
+      "path": "./packages/parity"
+    },
+    {
+      "path": "./packages/persistence"
+    },
+    {
+      "path": "./packages/platform"
+    },
+    {
+      "path": "./packages/projectors"
+    },
+    {
+      "path": "./packages/providers"
+    },
+    {
+      "path": "./packages/rate"
+    },
+    {
+      "path": "./packages/schema"
+    },
+    {
+      "path": "./packages/snapshots"
+    },
+    {
+      "path": "./packages/stream"
+    },
+    {
+      "path": "./packages/test-utils"
+    },
+    {
+      "path": "./packages/tests"
+    },
+    {
+      "path": "./packages/timetravel"
+    },
+    {
+      "path": "./packages/types"
+    },
+    {
+      "path": "./packages/web"
+    },
+    {
+      "path": "./packages/worker"
+    },
+    {
+      "path": "./packages/ws"
+    }
+  ]
+}

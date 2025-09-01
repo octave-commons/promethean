@@ -22,6 +22,7 @@ agents/duck/chroma_data/
 
 /node_modules/__pycache__/
 **/__pycache__/
+**/.venv/
 
 /node_modules/
 agents/duck/.tokens
@@ -82,3 +83,4 @@ services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean_services_ts_
 docs/.makemd/
 
 docs/.space/
+context.mdb

@@ -1,0 +1,33 @@
+{
+    "name": "ts-providers",
+    "root": "shared/ts/providers",
+    "sourceRoot": "shared/ts/providers/src",
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "tsc -b"
+            },
+            "outputs": ["{projectRoot}/dist"]
+        },
+        "typecheck": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "tsc -p tsconfig.json --noEmit"
+            }
+        },
+        "test": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "ava"
+            }
+        },
+        "lint": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "eslint ."
+            }
+        }
+    },
+    "tags": ["scope:shared-ts"]
+}

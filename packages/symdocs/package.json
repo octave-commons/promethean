@@ -1,0 +1,29 @@
+{
+  "name": "@promethean/symdocs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "symdocs-scan": "dist/01-scan.js",
+    "symdocs-docs": "dist/02-docs.js",
+    "symdocs-write": "dist/03-write.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "symdocs:01-scan": "tsx src/01-scan.ts --root packages --tsconfig tsconfig.json",
+    "symdocs:02-docs": "tsx src/02-docs.ts --model qwen3:4b",
+    "symdocs:03-write": "tsx src/03-write.ts --out docs/packages",
+   "symdocs:04-graph": "tsx src/04-graph.ts --root packages --out docs/packages --include-imports true --respect-manifest true --render-domain-graphs true --domain-depth 1 --rdeps-table true --max-rdeps-list 12",
+    "symdocs:all": "pnpm symdocs:01-scan && pnpm symdocs:02-docs && pnpm symdocs:03-write"
+  },
+  "dependencies": {
+    "@types/node": "^24.3.0",
+    "gray-matter": "^4.0.3",
+    "typescript": "^5.5.4",
+    "yaml": "^2.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2"
+  }
+}

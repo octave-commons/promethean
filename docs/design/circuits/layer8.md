@@ -4,7 +4,7 @@
 
 ### Overview
 
-Layer 8 maps to Circuit 8: [[Anankean.md]]. It integrates Promethean with external systems and broader networks.
+Layer 8 maps to Circuit 8: [[anankean]]. It integrates Promethean with external systems and broader networks.
 
 ### Related Services and Agents
 

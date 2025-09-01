@@ -1,0 +1,42 @@
+pipelines:
+  - name: board-review
+    steps:
+      - id: br-fm
+        shell: "pnpm --filter @promethean/boardrev br:01-fm"
+        inputs: ["docs/agile/tasks/**/*.md"]
+        outputs: ["docs/agile/tasks/**/*.md"] # FM updates in-place
+      - id: br-prompts
+        deps: ["br-fm"]
+        shell: "pnpm --filter @promethean/boardrev br:02-prompts --process docs/agile/Process.md --out .cache/boardrev/prompts.json"
+        inputs: ["docs/agile/Process.md"]
+        outputs: [".cache/boardrev/prompts.json"]
+      - id: br-index
+        deps: ["br-fm"]
+        shell: "pnpm --filter @promethean/boardrev br:03-index --globs \"{README.md,docs/**/*.md,packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}}\""
+        inputs:
+          - "README.md"
+          - "docs/**/*.md"
+          - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+        outputs:
+          - ".cache/boardrev/repo-index.json"
+          - ".cache/boardrev/repo-embeddings.json"
+      - id: br-match
+        deps: ["br-prompts","br-index"]
+        shell: "pnpm --filter @promethean/boardrev br:04-match --tasks docs/agile/tasks --k 8"
+        inputs:
+          - "docs/agile/tasks/**/*.md"
+          - ".cache/boardrev/repo-index.json"
+          - ".cache/boardrev/repo-embeddings.json"
+        outputs: [".cache/boardrev/context.json"]
+      - id: br-eval
+        deps: ["br-match"]
+        shell: "pnpm --filter @promethean/boardrev br:05-eval --model qwen3:4b"
+        inputs:
+          - ".cache/boardrev/prompts.json"
+          - ".cache/boardrev/context.json"
+        outputs: [".cache/boardrev/evals.json"]
+      - id: br-report
+        deps: ["br-eval"]
+        shell: "pnpm --filter @promethean/boardrev br:06-report --outDir docs/agile/reports"
+        inputs: [".cache/boardrev/evals.json"]
+        outputs: ["docs/agile/reports/*.md"]

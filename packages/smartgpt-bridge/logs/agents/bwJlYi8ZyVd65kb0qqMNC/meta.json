@@ -1,0 +1,9 @@
+{
+  "id": "bwJlYi8ZyVd65kb0qqMNC",
+  "mode": "agent",
+  "cmd": "/home/err/.local/share/pnpm/codex",
+  "args": ["exec", "--full-auto", "--cd", "/home/err/devel/promethean"],
+  "cwd": "/home/err/devel/promethean",
+  "startedAt": 1756339807065,
+  "prompt": ""
+}

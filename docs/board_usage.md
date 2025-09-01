@@ -23,7 +23,7 @@ The board columns map to the stages in
 
 `Ice Box → Accepted → Breakdown → Ready → To Do → In Progress → In Review → Done`
 
-Refer to [[AGENTS.md|`docs/agile/AGENTS.md`]] for details on how the board
+Refer to [[agile/agents|`docs/agile/AGENTS.md`]] for details on how the board
 manager enforces this process.
 
 ## WIP limits

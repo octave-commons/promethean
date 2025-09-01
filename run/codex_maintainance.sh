@@ -1,3 +1,2 @@
-#!/usr/bin/bash 
-make refresh
-make build
+#!/usr/bin/bash
+echo "nothing to do right now."

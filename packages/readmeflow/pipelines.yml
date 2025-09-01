@@ -1,0 +1,36 @@
+pipelines:
+  - name: readmes
+    steps:
+      - id: rm-scan
+        shell: "pnpm --filter @promethean/readmeflow rm:01-scan --root packages --out .cache/readmes/scan.json"
+        inputs:
+          - "packages/**/package.json"
+          - "packages/**/tsconfig.json"
+        outputs:
+          - ".cache/readmes/scan.json"
+
+      - id: rm-outline
+        deps: ["rm-scan"]
+        shell: "pnpm --filter @promethean/readmeflow rm:02-outline --scan .cache/readmes/scan.json --out .cache/readmes/outlines.json --model qwen3:4b"
+        env:
+          OLLAMA_URL: "${OLLAMA_URL}"
+        inputs:
+          - ".cache/readmes/scan.json"
+        outputs:
+          - ".cache/readmes/outlines.json"
+
+      - id: rm-write
+        deps: ["rm-outline"]
+        shell: "pnpm --filter @promethean/readmeflow rm:03-write --scan .cache/readmes/scan.json --outlines .cache/readmes/outlines.json --mermaid true"
+        inputs:
+          - ".cache/readmes/outlines.json"
+        outputs:
+          - "packages/**/README.md"
+
+      - id: rm-verify
+        deps: ["rm-write"]
+        shell: "pnpm --filter @promethean/readmeflow rm:04-verify --root packages --out docs/agile/reports/readmes"
+        inputs:
+          - "packages/**/README.md"
+        outputs:
+          - "docs/agile/reports/readmes/*.md"
