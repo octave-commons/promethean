@@ -2,10 +2,10 @@ export type BuildError = {
   file: string;
   line: number;
   col: number;
-  code: string;           // TS2345
+  code: string; // TS2345
   message: string;
-  frame: string;          // code frame
-  key: string;            // `${code}|${file}|${line}`
+  frame: string; // code frame
+  key: string; // `${code}|${file}|${line}`
 };
 
 export type ErrorList = {
@@ -36,11 +36,20 @@ export type Attempt = {
   commitSha?: string;
   pushed?: boolean;
   prUrl?: string;
+  // rollback
+  regressed?: boolean; // after > before
+  rolledBack?: boolean; // worktree restored after regression
 };
 
 export type Summary = {
   iteratedAt: string;
   tsconfig: string;
   maxCycles: number;
-  items: Array<{ key: string; resolved: boolean; attempts: number; lastSnippet?: string; branch?: string }>;
+  items: Array<{
+    key: string;
+    resolved: boolean;
+    attempts: number;
+    lastSnippet?: string;
+    branch?: string;
+  }>;
 };
