@@ -350,9 +350,8 @@ pipelines:
         shell: >
           pnpm --filter @promethean/docops
           doc:01-fm-ensure
-          --root docs/unique
-          --out .cache/docops/frontmatters.json
-          --model qwen3:4b
+          --dir docs/unique
+          --gen-model qwen3:4b
         env:
           OLLAMA_URL: "${OLLAMA_URL}"
         inputs:
@@ -366,11 +365,7 @@ pipelines:
         shell: >
           pnpm --filter @promethean/docops
           doc:02-chunk-embed
-          --root docs/unique
-          --in .cache/docops/frontmatters.json
-          --chunks .cache/docops/chunks.json
-          --embeddings .cache/docops/embeddings.json
-          --tokenizer cl100k
+          --dir docs/unique
           --embed-model nomic-embed-text:latest
         env:
           OLLAMA_URL: "${OLLAMA_URL}"
