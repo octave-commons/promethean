@@ -1,0 +1,37 @@
+agent:
+  id: your-agent
+  kind: stateless-worker
+  version: 0.1.0
+  binds: { provider: "*", tenants: ["*"] }
+  inputs:
+    - topic: promethean.p.*.t.*.voice.audio.segment
+      payload: { $ref: "#/schemas/Input" }
+  outputs:
+    - topic: promethean.p.*.t.*.voice.audio.something
+      payload: { $ref: "#/schemas/Output" }
+  durability: stateless
+  idempotency_key: "{session_id}:{segment_id}"
+  health:
+    interval_sec: 10
+schemas:
+  Input:
+    type: object
+    required: [session_id, segment_id, data_path]
+    properties:
+      session_id: { type: string }
+      segment_id: { type: string }
+      data_path: { type: string }
+      format:
+        type: object
+        properties:
+          rate_hz: { type: number }
+          channels: { type: number }
+          codec: { type: string }
+  Output:
+    type: object
+    required: [session_id, segment_id, result_path]
+    properties:
+      session_id: { type: string }
+      segment_id: { type: string }
+      result_path: { type: string }
+      idempotency_key: { type: string }

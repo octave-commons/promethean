@@ -1,6 +1,2 @@
 packages:
-    - services/js/*
-    - services/ts/*
-    - shared/ts
-    - shared/js
-    - packages/*
+  - packages/*
