@@ -17,5 +17,6 @@
         "sourceMap": true,
         "lib": ["ES2022"],
         "types": ["node", "ava"]
-    }
+    },
+    "exclude": ["**/src/tests/fixtures/**"]
 }

@@ -1,6 +1,6 @@
 import { configDotenv } from 'dotenv';
 configDotenv();
-import express from 'express';
+import express, { type Express } from 'express';
 import bodyParser from 'body-parser';
 import { SmartGptrRetriever } from './retriever.js';
 import { buildAugmentedPrompt } from './prompt.js';
@@ -24,7 +24,7 @@ export type AppDeps = {
     docsDir?: string;
 };
 
-export function createApp(deps: AppDeps = {}) {
+export function createApp(deps: AppDeps = {}): Express {
     const app = express();
     app.use(bodyParser.json({ limit: '50mb' }));
 
