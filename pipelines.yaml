@@ -3,7 +3,7 @@ pipelines:
     steps:
       - id: symdocs-scan
         cwd: .
-        shell: "pnpm --filter @promethean/symdocs symdocs:01-scan --root packages --tsconfig ./tsconfig.json"
+        shell: "pnpm --filter @promethean/symdocs symdocs:01-scan --root packages --tsconfig ./config/tsconfig.base.json"
         inputs: ["packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"]
         outputs: [".cache/symdocs/symbols.json"]
       - id: symdocs-docs
@@ -343,3 +343,135 @@ pipelines:
           - ".cache/testgap/gaps.json"
         outputs:
           - "docs/agile/reports/test-gaps/*.md"
+  - name: docops
+    steps:
+      # a) Ensure / complete front matter (filename/description/tags/uuid)
+      - id: doc-fm
+        shell: >
+          pnpm --filter @promethean/docops
+          doc:01-fm-ensure
+          --root docs/unique
+          --out .cache/docops/frontmatters.json
+          --model qwen3:4b
+        env:
+          OLLAMA_URL: "${OLLAMA_URL}"
+        inputs:
+          - "docs/unique/**/*.md"
+        outputs:
+          - ".cache/docops/frontmatters.json"
+
+      # b) Chunk + embed (language-aware tokenizer) and build index
+      - id: doc-index
+        deps: ["doc-fm"]
+        shell: >
+          pnpm --filter @promethean/docops
+          doc:02-chunk-embed
+          --root docs/unique
+          --in .cache/docops/frontmatters.json
+          --chunks .cache/docops/chunks.json
+          --embeddings .cache/docops/embeddings.json
+          --tokenizer cl100k
+          --embed-model nomic-embed-text:latest
+        env:
+          OLLAMA_URL: "${OLLAMA_URL}"
+        inputs:
+          - "docs/unique/**/*.md"
+          - ".cache/docops/frontmatters.json"
+        outputs:
+          - ".cache/docops/chunks.json"
+          - ".cache/docops/embeddings.json"
+
+      # c) Cross-document similarity queries (cache per-chunk results)
+      - id: doc-similarity
+        deps: ["doc-index"]
+        shell: >
+          pnpm --filter @promethean/docops
+          doc:03-similarity
+          --chunks .cache/docops/chunks.json
+          --embeddings .cache/docops/embeddings.json
+          --out .cache/docops/queries.json
+        inputs:
+          - ".cache/docops/chunks.json"
+          - ".cache/docops/embeddings.json"
+        outputs:
+          - ".cache/docops/queries.json"
+
+      # d) Compute related-doc scores (doc↔doc)
+      - id: doc-related
+        deps: ["doc-similarity"]
+        shell: >
+          pnpm --filter @promethean/docops
+          doc:04-related
+          --queries .cache/docops/queries.json
+          --frontmatter .cache/docops/frontmatters.json
+          --threshold 0.62
+          --out .cache/docops/related.json
+        inputs:
+          - ".cache/docops/queries.json"
+          - ".cache/docops/frontmatters.json"
+        outputs:
+          - ".cache/docops/related.json"
+
+      # e) High-scoring references (chunk-level, with line/col)
+      - id: doc-references
+        deps: ["doc-similarity"]
+        shell: >
+          pnpm --filter @promethean/docops
+          doc:05-references
+          --queries .cache/docops/queries.json
+          --chunks .cache/docops/chunks.json
+          --ref-threshold 0.75
+          --out .cache/docops/references.json
+        inputs:
+          - ".cache/docops/queries.json"
+          - ".cache/docops/chunks.json"
+        outputs:
+          - ".cache/docops/references.json"
+
+      # f) Apply FM updates (add related & references into FM only)
+      - id: doc-apply-fm
+        deps: ["doc-related", "doc-references"]
+        shell: >
+          pnpm --filter @promethean/docops
+          doc:06-apply-frontmatter
+          --root docs/unique
+          --frontmatter .cache/docops/frontmatters.json
+          --related .cache/docops/related.json
+          --references .cache/docops/references.json
+        inputs:
+          - ".cache/docops/frontmatters.json"
+          - ".cache/docops/related.json"
+          - ".cache/docops/references.json"
+        outputs:
+          - ".cache/docops/applied-fm.touch"
+
+      # g) Footer writer (markdown links with line anchors)
+      - id: doc-footer
+        deps: ["doc-apply-fm"]
+        shell: >
+          pnpm --filter @promethean/docops
+          doc:07-write-footer
+          --root docs/unique
+          --references .cache/docops/references.json
+          --related .cache/docops/related.json
+          --style obsidian
+        inputs:
+          - ".cache/docops/references.json"
+          - ".cache/docops/related.json"
+          - "docs/unique/**/*.md"
+        outputs:
+          - ".cache/docops/footer.touch"
+
+      # h) Optional rename pass (based on generated titles)
+      - id: doc-rename
+        deps: ["doc-apply-fm"]
+        shell: >
+          pnpm --filter @promethean/docops
+          doc:08-rename
+          --root docs/unique
+          --frontmatter .cache/docops/frontmatters.json
+          --out .cache/docops/renames.json
+        inputs:
+          - ".cache/docops/frontmatters.json"
+        outputs:
+          - ".cache/docops/renames.json"
