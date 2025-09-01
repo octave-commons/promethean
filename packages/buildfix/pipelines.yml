@@ -18,6 +18,13 @@ pipelines:
           --out .cache/buildfix
           --model qwen3:4b
           --max-cycles 5
+          --git per-error
+          --commit-on always
+          --branch-prefix buildfix
+          --remote origin
+          --push false
+          --use-gh false
+          --rollback-on-regress true
         env:
           OLLAMA_URL: "${OLLAMA_URL}"
         inputs:
