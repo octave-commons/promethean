@@ -6,8 +6,11 @@ import {
     generateAndStoreTitle,
     watchContextAndGenerate,
     MemoryTitleStore,
-    type TitleContextSource,
 } from '@promethean/stream/title.js';
+
+interface TitleContextSource {
+    fetch(): Promise<Message[]>;
+}
 
 const message: Message = {
     role: 'user',
