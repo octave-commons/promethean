@@ -38,91 +38,7 @@ related_to_uuid:
   - 49d1e1e5-5d13-4955-8f6f-7676434ec462
   - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
   - 59b5670f-36d3-4d34-8985-f3144b15347a
-references:
-  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-    line: 210
-    col: 1
-    score: 0.85
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 201
-    col: 1
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 201
-    col: 3
-    score: 1
-  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
-    line: 546
-    col: 1
-    score: 1
-  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
-    line: 546
-    col: 3
-    score: 1
-  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
-    line: 126
-    col: 1
-    score: 1
-  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
-    line: 126
-    col: 3
-    score: 1
-  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
-    line: 110
-    col: 1
-    score: 1
-  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
-    line: 110
-    col: 3
-    score: 1
-  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
-    line: 201
-    col: 1
-    score: 1
-  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
-    line: 201
-    col: 3
-    score: 1
-  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
-    line: 246
-    col: 1
-    score: 1
-  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
-    line: 246
-    col: 3
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 117
-    col: 1
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 117
-    col: 3
-    score: 1
-  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
-    line: 116
-    col: 1
-    score: 1
-  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
-    line: 116
-    col: 3
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 14
-    col: 1
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 14
-    col: 3
-    score: 1
-  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-    line: 222
-    col: 1
-    score: 1
-  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-    line: 222
-    col: 3
-    score: 1
+references: []
 ---
 Hell yes — if you want to replicate the feel of i3wm’s hotkey-driven control over windows **on Windows**, then **AutoHotkey** is the closest you're going to get. Think of it as the *keyboard daemon of your dreams* — and pairing it with `komorebic` or even raw WinAPI gives you serious power.
 
@@ -243,8 +159,7 @@ Let me know and we can:
 
 You want the real i3 vibes? AHK + Komorebi + your own logic daemon is the only way there on Windows.
 
-Want me to sketch a full i3 keybind layer with workspaces, layout presets, and group cycling in AHK next?
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+Want me to sketch a full i3 keybind layer with workspaces, layout presets, and group cycling in AHK next?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
 - [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
@@ -257,27 +172,6 @@ Want me to sketch a full i3 keybind layer with workspaces, layout presets, and g
 - [EidolonField](eidolonfield.md)
 - [field-node-diagram-outline](field-node-diagram-outline.md)
 - [Reawakening Duck](reawakening-duck.md)
-
 ## Sources
-- [lisp-dsl-for-window-management — L210](lisp-dsl-for-window-management.md#L210) (line 210, col 1, score 0.85)
-- [komorebi-group-window-hack — L201](komorebi-group-window-hack.md#L201) (line 201, col 1, score 1)
-- [komorebi-group-window-hack — L201](komorebi-group-window-hack.md#L201) (line 201, col 3, score 1)
-- [Lisp-Compiler-Integration — L546](lisp-compiler-integration.md#L546) (line 546, col 1, score 1)
-- [Lisp-Compiler-Integration — L546](lisp-compiler-integration.md#L546) (line 546, col 3, score 1)
-- [sibilant-meta-string-templating-runtime — L126](sibilant-meta-string-templating-runtime.md#L126) (line 126, col 1, score 1)
-- [sibilant-meta-string-templating-runtime — L126](sibilant-meta-string-templating-runtime.md#L126) (line 126, col 3, score 1)
-- [template-based-compilation — L110](template-based-compilation.md#L110) (line 110, col 1, score 1)
-- [template-based-compilation — L110](template-based-compilation.md#L110) (line 110, col 3, score 1)
-- [2d-sandbox-field — L201](2d-sandbox-field.md#L201) (line 201, col 1, score 1)
-- [2d-sandbox-field — L201](2d-sandbox-field.md#L201) (line 201, col 3, score 1)
-- [EidolonField — L246](eidolonfield.md#L246) (line 246, col 1, score 1)
-- [EidolonField — L246](eidolonfield.md#L246) (line 246, col 3, score 1)
-- [field-node-diagram-outline — L117](field-node-diagram-outline.md#L117) (line 117, col 1, score 1)
-- [field-node-diagram-outline — L117](field-node-diagram-outline.md#L117) (line 117, col 3, score 1)
-- [Reawakening Duck — L116](reawakening-duck.md#L116) (line 116, col 1, score 1)
-- [Reawakening Duck — L116](reawakening-duck.md#L116) (line 116, col 3, score 1)
-- [Window Management — L14](chunks/window-management.md#L14) (line 14, col 1, score 1)
-- [Window Management — L14](chunks/window-management.md#L14) (line 14, col 3, score 1)
-- [lisp-dsl-for-window-management — L222](lisp-dsl-for-window-management.md#L222) (line 222, col 1, score 1)
-- [lisp-dsl-for-window-management — L222](lisp-dsl-for-window-management.md#L222) (line 222, col 3, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

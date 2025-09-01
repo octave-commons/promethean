@@ -21,39 +21,7 @@ related_to_uuid:
   - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
   - 618198f4-cfad-4677-9df6-0640d8a97bae
   - d3e7db72-2e07-4dae-8920-0e07c499a1e5
-references:
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 1
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 3
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 1
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 3
-    score: 1
+references: []
 ---
 Yes. Do it with a tiny wrapper script + a clean keybinding. This gives you a prompt, grabs the *current* workspace, sanitizes the filename, and saves the layout JSON.
 
@@ -139,20 +107,11 @@ bindsym $mod+Ctrl+F5 exec --no-startup-id ~/.local/bin/i3-save-layout
 * Write a companion `i3-load-layout` that lists `layouts/*.json` in rofi and runs `append_layout` on the selected file.
 * Hy version later if you want to keep the tools Lisp‑centric; for i3 IPC shells, Bash is the path of least friction.
 
-Does this fit your flow, or do you want the rofi‑picker loader too?
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+Does this fit your flow, or do you want the rofi‑picker loader too?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
 - [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
 - [balanced-bst](balanced-bst.md)
-
 ## Sources
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

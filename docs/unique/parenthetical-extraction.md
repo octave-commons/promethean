@@ -26,43 +26,7 @@ related_to_uuid:
   - c710dc93-9fec-471b-bdee-bedbd360c67f
   - 5e8b2388-022b-46cf-952c-36ae9b8f0037
   - 49d1e1e5-5d13-4955-8f6f-7676434ec462
-references:
-  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
-    line: 50
-    col: 1
-    score: 0.87
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 157
-    col: 1
-    score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 157
-    col: 3
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 114
-    col: 1
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 114
-    col: 3
-    score: 1
-  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
-    line: 215
-    col: 1
-    score: 0.86
-  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
-    line: 215
-    col: 3
-    score: 0.86
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 210
-    col: 1
-    score: 0.86
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 210
-    col: 3
-    score: 0.86
+references: []
 ---
 
 # Extract parens
@@ -93,8 +57,7 @@ const x = "I have a thing with a paren in it. (it's here.)"
 console.log(extractParentheticals(x));
 }
 
-```
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+```<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [Eidolon-Field-Optimization](eidolon-field-optimization.md)
 - [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
@@ -102,15 +65,6 @@ console.log(extractParentheticals(x));
 - [2d-sandbox-field](2d-sandbox-field.md)
 - [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
 - [EidolonField](eidolonfield.md)
-
 ## Sources
-- [Eidolon-Field-Optimization — L50](eidolon-field-optimization.md#L50) (line 50, col 1, score 0.87)
-- [homeostasis-decay-formulas — L157](homeostasis-decay-formulas.md#L157) (line 157, col 1, score 1)
-- [homeostasis-decay-formulas — L157](homeostasis-decay-formulas.md#L157) (line 157, col 3, score 1)
-- [ripple-propagation-demo — L114](ripple-propagation-demo.md#L114) (line 114, col 1, score 1)
-- [ripple-propagation-demo — L114](ripple-propagation-demo.md#L114) (line 114, col 3, score 1)
-- [2d-sandbox-field — L215](2d-sandbox-field.md#L215) (line 215, col 1, score 0.86)
-- [2d-sandbox-field — L215](2d-sandbox-field.md#L215) (line 215, col 3, score 0.86)
-- [Eidolon Field Abstract Model — L210](eidolon-field-abstract-model.md#L210) (line 210, col 1, score 0.86)
-- [Eidolon Field Abstract Model — L210](eidolon-field-abstract-model.md#L210) (line 210, col 3, score 0.86)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

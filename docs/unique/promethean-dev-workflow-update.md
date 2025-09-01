@@ -35,71 +35,7 @@ related_to_uuid:
   - 618198f4-cfad-4677-9df6-0640d8a97bae
   - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
   - d3e7db72-2e07-4dae-8920-0e07c499a1e5
-references:
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 612
-    col: 1
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 612
-    col: 3
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 205
-    col: 1
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 205
-    col: 3
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 171
-    col: 1
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 171
-    col: 3
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 159
-    col: 1
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 159
-    col: 3
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 1
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 3
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 1
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 3
-    score: 1
+references: []
 ---
 I think that may be the last remaining issue with typescript set ups and test setups... otherwise I think all my test suites are actually working... amazing.
 
@@ -157,8 +93,7 @@ I know I can, I know it works in the original repo.
 
 If they have a working example, then they can work on it.
 
-you need to get that stuff you wre doing in the portfolio into lithp, then change all the extensions.
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+you need to get that stuff you wre doing in the portfolio into lithp, then change all the extensions.<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
 - [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
@@ -168,22 +103,6 @@ you need to get that stuff you wre doing in the portfolio into lithp, then chang
 - [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
 - [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
 - [balanced-bst](balanced-bst.md)
-
 ## Sources
-- [compiler-kit-foundations — L612](compiler-kit-foundations.md#L612) (line 612, col 1, score 1)
-- [compiler-kit-foundations — L612](compiler-kit-foundations.md#L612) (line 612, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L205](cross-language-runtime-polymorphism.md#L205) (line 205, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L205](cross-language-runtime-polymorphism.md#L205) (line 205, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L171](cross-target-macro-system-in-sibilant.md#L171) (line 171, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L171](cross-target-macro-system-in-sibilant.md#L171) (line 171, col 3, score 1)
-- [polyglot-repl-interface-layer — L159](polyglot-repl-interface-layer.md#L159) (line 159, col 1, score 1)
-- [polyglot-repl-interface-layer — L159](polyglot-repl-interface-layer.md#L159) (line 159, col 3, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

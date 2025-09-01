@@ -38,87 +38,7 @@ related_to_uuid:
   - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
   - 618198f4-cfad-4677-9df6-0640d8a97bae
   - d3e7db72-2e07-4dae-8920-0e07c499a1e5
-references:
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 60
-    col: 1
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 60
-    col: 3
-    score: 1
-  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
-    line: 184
-    col: 1
-    score: 1
-  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
-    line: 184
-    col: 3
-    score: 1
-  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
-    line: 201
-    col: 1
-    score: 1
-  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
-    line: 201
-    col: 3
-    score: 1
-  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
-    line: 246
-    col: 1
-    score: 1
-  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
-    line: 246
-    col: 3
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 117
-    col: 1
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 117
-    col: 3
-    score: 1
-  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
-    line: 165
-    col: 1
-    score: 1
-  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
-    line: 165
-    col: 3
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 1
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 3
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 1
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 3
-    score: 1
+references: []
 ---
 ## Project: Reawakening Duck
 
@@ -230,8 +150,7 @@ Make Duck functional, expressive, and integrated again. That means:
 ---
 
 #tags  
-#duck #promethean #eidolon #voiceai #multimodal #ai-agents #project-planning
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+#duck #promethean #eidolon #voiceai #multimodal #ai-agents #project-planning<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
 - [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
@@ -244,26 +163,6 @@ Make Duck functional, expressive, and integrated again. That means:
 - [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
 - [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
 - [balanced-bst](balanced-bst.md)
-
 ## Sources
-- [Duck's Attractor States — L60](ducks-attractor-states.md#L60) (line 60, col 1, score 1)
-- [Duck's Attractor States — L60](ducks-attractor-states.md#L60) (line 60, col 3, score 1)
-- [Recursive Prompt Construction Engine — L184](recursive-prompt-construction-engine.md#L184) (line 184, col 1, score 1)
-- [Recursive Prompt Construction Engine — L184](recursive-prompt-construction-engine.md#L184) (line 184, col 3, score 1)
-- [2d-sandbox-field — L201](2d-sandbox-field.md#L201) (line 201, col 1, score 1)
-- [2d-sandbox-field — L201](2d-sandbox-field.md#L201) (line 201, col 3, score 1)
-- [EidolonField — L246](eidolonfield.md#L246) (line 246, col 1, score 1)
-- [EidolonField — L246](eidolonfield.md#L246) (line 246, col 3, score 1)
-- [field-node-diagram-outline — L117](field-node-diagram-outline.md#L117) (line 117, col 1, score 1)
-- [field-node-diagram-outline — L117](field-node-diagram-outline.md#L117) (line 117, col 3, score 1)
-- [sibilant-macro-targets — L165](sibilant-macro-targets.md#L165) (line 165, col 1, score 1)
-- [sibilant-macro-targets — L165](sibilant-macro-targets.md#L165) (line 165, col 3, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

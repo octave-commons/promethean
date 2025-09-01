@@ -1,7 +1,9 @@
-import { promises as fs } from "fs";
-import * as path from "path";
+// packages/docops/src/04-relations.ts
+import { promises as fs } from "node:fs";
+import * as path from "node:path";
 import matter from "gray-matter";
-import { parseArgs, readJSON } from "./utils";
+import { openDB } from "./db";
+import { parseArgs } from "./utils";
 import type { Chunk, Front, QueryHit } from "./types";
 
 const args = parseArgs({
@@ -13,80 +15,150 @@ const args = parseArgs({
 const ROOT = path.resolve(args["--docs-dir"]);
 const DOC_THRESHOLD = Number(args["--doc-threshold"]);
 const REF_THRESHOLD = Number(args["--ref-threshold"]);
-const CACHE = path.join(process.cwd(), ".cache/docs-pipeline");
-const CHUNK_CACHE = path.join(CACHE, "chunks.json");
-const QUERY_CACHE = path.join(CACHE, "queries.json");
-const DOCS_MAP = path.join(CACHE, "docs-by-uuid.json");
 
-async function listAllMarkdown(root: string): Promise<string[]> {
-  const out: string[] = [];
-  async function walk(dir: string) {
-    const ents = await fs.readdir(dir, { withFileTypes: true });
-    for (const ent of ents) {
-      const p = path.join(dir, ent.name);
-      if (ent.isDirectory()) await walk(p);
-      else out.push(p);
-    }
-  }
-  await walk(root);
-  return out.filter((p) => /\.(md|mdx|txt)$/i.test(p));
-}
+type DocInfo = { path: string; title: string };
+type DocPairs = Map<string, Map<string, number>>;
+type Ref = { uuid: string; line: number; col: number; score?: number };
 
-async function main() {
-  const files = await listAllMarkdown(ROOT);
-  const chunksByDoc: Record<string, Chunk[]> = await readJSON(CHUNK_CACHE, {});
-  const queryCache: Record<string, QueryHit[]> = await readJSON(QUERY_CACHE, {});
-  const docsByUuid: Record<string, { path: string; title: string }> = await readJSON(DOCS_MAP, {});
-  const docPairs: Record<string, Record<string, number>> = {};
+(async () => {
 
-  function addPair(a: string, b: string, score: number) {
-    if (!docPairs[a]) docPairs[a] = {};
-    docPairs[a][b] = Math.max(docPairs[a][b] ?? 0, score);
-  }
+const db = await openDB();
+const docsKV = db.docs;     // uuid -> { path, title }
+const chunksKV = db.chunks; // uuid -> readonly Chunk[]
+const qhitsKV = db.root.sublevel<string, readonly QueryHit[]>("q", { valueEncoding: "json" });
 
-  // aggregate doc-to-doc by best chunk similarity
-  for (const [docUuid, chunks] of Object.entries(chunksByDoc)) {
-    for (const ch of chunks) {
-      const hits = queryCache[ch.id] || [];
-      for (const h of hits) addPair(docUuid, h.docUuid, h.score);
-    }
-  }
+const uniq = (xs: readonly string[] = []) => Array.from(new Set(xs.filter(Boolean)));
 
-  for (const f of files) {
-    const raw = await fs.readFile(f, "utf-8");
-    const gm = matter(raw);
-    const fm = (gm.data || {}) as Front;
-    if (!fm.uuid) continue;
+const collectEntries = <K extends string, V>(
+  it: AsyncIterable<[K, V]>
+): Promise<readonly [K, V][]> => {
+  const out: Array<readonly [K, V]> = [];
+  return (async () => {
+    for await (const e of it) out.push(e as readonly [K, V]);
+    return out as unknown as readonly [K, V][];
+  })();
+};
 
-    // related
-    const peers = Object.entries(docPairs[fm.uuid] ?? {})
-      .filter(([, score]) => score >= DOC_THRESHOLD)
-      .sort((a, b) => b[1] - a[1]);
-    fm.related_to_uuid = Array.from(new Set([...(fm.related_to_uuid ?? []), ...peers.map(([u]) => u)]));
-    fm.related_to_title = Array.from(
-      new Set([
-        ...(fm.related_to_title ?? []),
-        ...peers.map(([u]) => docsByUuid[u]?.title ?? u),
-      ])
+const toPairs = (uuid: string, chunks: readonly Chunk[]) =>
+  Promise.all(
+    chunks.map((c) =>
+      qhitsKV
+        .get(c.id)
+        .then((hs) => ((hs ?? []) as readonly QueryHit[]))
+        .catch(() => [] as readonly QueryHit[])
+        .then((hs) => hs.map((h) => [uuid, h.docUuid, h.score ?? 0] as const))
+    )
+  ).then((arrs) => arrs.flat() as ReadonlyArray<readonly [string, string, number]>);
+
+const buildDocPairs = (
+  entries: ReadonlyArray<readonly [string, readonly Chunk[]]>
+): Promise<DocPairs> =>
+  Promise.all(entries.map(([uuid, cs]) => toPairs(uuid, cs)))
+    .then((all) => all.flat())
+    .then((pairs) =>
+      pairs.reduce<DocPairs>((acc, [a, b, score]) => {
+        if (a === b) return acc;
+        const m = acc.get(a) ?? new Map<string, number>();
+        m.set(b, Math.max(m.get(b) ?? 0, score));
+        acc.set(a, m);
+        return acc;
+      }, new Map())
     );
 
-    // references (top chunk hits above threshold)
-    const myChunks = chunksByDoc[fm.uuid] ?? [];
-    const acc = new Map<string, { uuid: string; line: number; col: number; score?: number }>();
-    for (const ch of myChunks) {
-      for (const h of (queryCache[ch.id] || []).filter((x) => x.score >= REF_THRESHOLD)) {
-        const k = `${h.docUuid}:${h.startLine}:${h.startCol}`;
-        if (!acc.has(k)) acc.set(k, { uuid: h.docUuid, line: h.startLine, col: h.startCol, score: Math.round(h.score * 100) / 100 });
-      }
-    }
-    const refs = Array.from(acc.values());
-    fm.references = refs;
+const refsForDoc = (
+  uuid: string,
+  chunks: readonly Chunk[],
+  threshold: number
+): Promise<Ref[]> =>
+  Promise.all(
+    chunks.map((c) =>
+      qhitsKV
+        .get(c.id)
+        .then((hs) => ((hs ?? []) as readonly QueryHit[]))
+        .catch(() => [] as readonly QueryHit[])
+        .then((hs) =>
+          hs
+            .filter((h) => (h.score ?? 0) >= threshold)
+            .map((h) => ({
+              uuid: h.docUuid,
+              line: h.startLine,
+              col: (h as any).startCol ?? 0,
+              score: Math.round((h.score ?? 0) * 100) / 100,
+            }))
+        )
+    )
+  )
+    .then((arrs) => arrs.flat())
+    .then((list) => {
+      // dedupe by (uuid:line:col)
+      const dedup = list.reduce((m, r) => m.set(`${r.uuid}:${r.line}:${r.col}`, r), new Map<string, Ref>());
+      return Array.from(dedup.values()); // mutable array to satisfy Front.references type
+    });
 
-    // write FM only (body unchanged)
-    const out = matter.stringify(gm.content, fm, { language: "yaml" });
-    await fs.writeFile(f, out, "utf-8");
-  }
+const peersForDoc = (
+  uuid: string,
+  docPairs: DocPairs,
+  docsByUuid: ReadonlyMap<string, DocInfo>,
+  threshold: number
+) => {
+  const peers = Array.from((docPairs.get(uuid) ?? new Map()).entries())
+    .filter(([, s]) => s >= threshold)
+    .sort((a, b) => b[1] - a[1]);
+  const related_to_uuid = uniq(peers.map(([u]) => u));
+  const related_to_title = uniq(peers.map(([u]) => docsByUuid.get(u)?.title ?? u));
+  return { related_to_uuid, related_to_title } as const;
+};
 
-  console.log("04-relations: done.");
-}
-main().catch((e) => { console.error(e); process.exit(1); });
+const writeFM = (fpath: string, fm: Front) =>
+  fs
+    .readFile(fpath, "utf8")
+    .then((raw) => {
+      const gm = matter(raw);
+      const out = matter.stringify(gm.content, fm, { language: "yaml" });
+      return fs.writeFile(fpath, out, "utf8");
+    });
+
+const processDoc = (
+  entry: readonly [string, DocInfo],
+  chunksMap: ReadonlyMap<string, readonly Chunk[]>,
+  docsByUuid: ReadonlyMap<string, DocInfo>,
+  docPairs: DocPairs
+) => {
+  const [uuid, info] = entry;
+  const chunks = (chunksMap.get(uuid) ?? []) as readonly Chunk[];
+  const fpath = info.path;
+
+  return fs
+    .readFile(fpath, "utf8")
+    .then((raw) => {
+      const gm = matter(raw);
+      const fm = (gm.data || {}) as Front;
+      const peers = peersForDoc(uuid, docPairs, docsByUuid, DOC_THRESHOLD);
+      return refsForDoc(uuid, chunks, REF_THRESHOLD).then((refs) => {
+        const next: Front = {
+          ...fm,
+          related_to_uuid: uniq([...(fm.related_to_uuid ?? []), ...peers.related_to_uuid]),
+          related_to_title: uniq([...(fm.related_to_title ?? []), ...peers.related_to_title]),
+          references: Array.from(refs), // ensure mutable array type
+        };
+        return writeFM(fpath, next);
+      });
+    });
+};
+
+collectEntries(docsKV.iterator())
+  .then((docsEntries) =>
+    collectEntries(chunksKV.iterator()).then((chunksEntries) =>
+      buildDocPairs(chunksEntries).then((docPairs) => {
+        const docsByUuid = new Map<string, DocInfo>(docsEntries as [string, DocInfo][]);
+        const chunksMap = new Map<string, readonly Chunk[]>(chunksEntries as [string, readonly Chunk[]][]);
+        return Promise.all(docsEntries.map((e) => processDoc(e, chunksMap, docsByUuid, docPairs)));
+      })
+    )
+  )
+  .then(() => console.log("04-relations: done."))
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+})()
