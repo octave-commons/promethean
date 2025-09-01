@@ -1,0 +1,50 @@
+{
+  "name": "@promethean/smartgpt-bridge",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "CustomGPT ↔ Promethean bridge: Chroma search, files/grep/stacktrace, TS symbols, and background agent supervisor. Funnel-ready.",
+  "scripts": {
+    "start": "node dist/fastifyServer.js",
+    "reindex": "node dist/cli-reindex.js",
+    "symbols": "node dist/cli-symbols.js",
+    "test": "pnpm build && ava --config ../../../config/ava.config.mjs",
+    "test:watch": "ava -w",
+    "build": "tsc -p tsconfig.json",
+    "lint": "pnpm exec biome lint tests/unit tests/integration tests/system tests/helpers || true",
+    "format": "pnpm exec biome format --write src tests/unit tests/integration tests/system tests/helpers",
+    "test:coverage": "c8 -r text -r text-summary -r lcov -r html ava"
+  },
+  "dependencies": {
+    "@fastify/swagger": "^8.15.0",
+    "@fastify/swagger-ui": "^1.10.2",
+    "@promethean/fs": "file:../fs",
+    "@promethean/embeddings": "file:../embeddings",
+    "@promethean/persistence": "file:../persistence",
+    "@types/node": "^24.3.0",
+    "ajv-formats": "^3.0.1",
+    "chromadb": "^1.8.1",
+    "dotenv": "^17.2.1",
+    "duckduckgo-search": "^1.0.7",
+    "execa": "^9.6.0",
+    "fast-glob": "^3.3.2",
+    "fastify": "^4.28.1",
+    "ignore": "^7.0.5",
+    "jose": "^5.10.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.8.0",
+    "nanoid": "^5.0.7",
+    "node-fetch": "^3.3.2",
+    "node-pty": "^1.0.0",
+    "typescript": "^5.9.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.2",
+    "ava": "^6.1.3",
+    "c8": "^9.1.0",
+    "mongodb-memory-server": "^10.2.0",
+    "sinon": "^17.0.1",
+    "tsx": "^4.19.0"
+  }
+}

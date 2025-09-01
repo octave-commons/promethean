@@ -1,3 +1,0 @@
-# Duck has unrestricted access.
-default: allow
-rules: []

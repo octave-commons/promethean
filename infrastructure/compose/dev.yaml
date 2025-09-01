@@ -1,0 +1,11 @@
+
+version: "3.9"
+
+services:
+  model-server:
+    image: ghcr.io/you/model-server:dev
+    volumes:
+      - ./../..:/workspace:rw
+    environment:
+      - LOG_LEVEL=debug
+      - POWER_MODE=AC

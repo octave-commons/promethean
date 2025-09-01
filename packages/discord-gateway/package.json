@@ -1,0 +1,24 @@
+{
+  "name": "@promethean/discord-gateway",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "start": "node --enable-source-maps --experimental-specifier-resolution=node ./src/index.ts",
+    "test": "ava",
+    "coverage": "c8 ava",
+    "build": "echo 'ts-run direct'",
+    "lint": "pnpm exec @biomejs/biome lint . || true"
+  },
+  "dependencies": {
+    "@promethean/platform": "workspace:*",
+    "@promethean/event": "workspace:*",
+    "@promethean/providers": "workspace:*",
+    "@types/node": "^24.3.0",
+    "typescript": "^5.9.2"
+  },
+  "devDependencies": {
+    "ava": "^6.4.1",
+    "c8": "^9.1.0"
+  }
+}

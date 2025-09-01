@@ -1,0 +1,27 @@
+{
+ "name": "@promethean/sonarflow",
+ "version": "0.1.0",
+ "private": true,
+ "type": "module",
+ "bin": {
+  "sonarflow-fetch": "dist/02-fetch.js",
+  "sonarflow-plan": "dist/03-plan.js",
+  "sonarflow-write": "dist/04-write.js"
+ },
+ "scripts": {
+  "build": "tsc -p tsconfig.json",
+  "sonar:fetch": "tsx src/02-fetch.ts",
+  "sonar:plan": "tsx src/03-plan.ts",
+  "sonar:write": "tsx src/04-write.ts",
+  "sonar:all": "pnpm sonar:fetch && pnpm sonar:plan && pnpm sonar:write"
+ },
+ "dependencies": {
+  "gray-matter": "^4.0.3",
+  "yaml": "^2.5.0",
+  "zod": "^3.23.8"
+ },
+ "devDependencies": {
+  "tsx": "^4.19.2",
+  "typescript": "^5.5.4"
+ }
+}

@@ -52,3 +52,7 @@ Nothing
 
 
 #devops #Ready
+<<<<<<< HEAD
+#ready
+=======
+>>>>>>> origin/dev/yoga

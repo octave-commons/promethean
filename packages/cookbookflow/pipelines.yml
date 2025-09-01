@@ -1,0 +1,71 @@
+pipelines:
+  - name: cookbook
+    steps:
+      - id: cb-scan
+        shell: "pnpm --filter @promethean/cookbookflow cb:01-scan --roots docs examples packages --out .cache/cookbook/blocks.json"
+        inputs:
+          - "docs/**/*.md"
+          - "examples/**/*"
+          - "packages/**/README.md"
+        outputs:
+          - ".cache/cookbook/blocks.json"
+
+      - id: cb-classify
+        deps: ["cb-scan"]
+        shell: "pnpm --filter @promethean/cookbookflow cb:02-embed-classify --in .cache/cookbook/blocks.json --out .cache/cookbook/classes.json --embed-model nomic-embed-text:latest --llm qwen3:4b"
+        env:
+          OLLAMA_URL: "${OLLAMA_URL}"
+        inputs:
+          - ".cache/cookbook/blocks.json"
+        outputs:
+          - ".cache/cookbook/classes.json"
+
+      - id: cb-group
+        deps: ["cb-classify"]
+        shell: "pnpm --filter @promethean/cookbookflow cb:03-group --in .cache/cookbook/classes.json --out .cache/cookbook/groups.json --min-sim 0.82 --max-size 12"
+        inputs:
+          - ".cache/cookbook/classes.json"
+        outputs:
+          - ".cache/cookbook/groups.json"
+
+      - id: cb-plan
+        deps: ["cb-group"]
+        shell: "pnpm --filter @promethean/cookbookflow cb:04-plan --scan .cache/cookbook/blocks.json --classes .cache/cookbook/classes.json --groups .cache/cookbook/groups.json --out .cache/cookbook/plan.json --llm qwen3:4b"
+        env:
+          OLLAMA_URL: "${OLLAMA_URL}"
+        inputs:
+          - ".cache/cookbook/groups.json"
+        outputs:
+          - ".cache/cookbook/plan.json"
+
+      - id: cb-write
+        deps: ["cb-plan"]
+        shell: "pnpm --filter @promethean/cookbookflow cb:05-materialize --plan .cache/cookbook/plan.json --out docs/cookbook"
+        inputs:
+          - ".cache/cookbook/plan.json"
+        outputs:
+          - "docs/cookbook/**/*.md"
+
+      - id: cb-exec
+        deps: ["cb-write"]
+        shell: "pnpm --filter @promethean/cookbookflow cb:06-exec --root docs/cookbook --out .cache/cookbook/run-results.json"
+        inputs:
+          - "docs/cookbook/**/*.md"
+        outputs:
+          - ".cache/cookbook/run-results.json"
+
+      - id: cb-verify
+        deps: ["cb-exec"]
+        shell: "pnpm --filter @promethean/cookbookflow cb:07-verify --runs .cache/cookbook/run-results.json --out .cache/cookbook/verify.json --accept false"
+        inputs:
+          - ".cache/cookbook/run-results.json"
+        outputs:
+          - ".cache/cookbook/verify.json"
+
+      - id: cb-report
+        deps: ["cb-verify"]
+        shell: "pnpm --filter @promethean/cookbookflow cb:08-report --runs .cache/cookbook/run-results.json --verify .cache/cookbook/verify.json --out docs/agile/reports/cookbook"
+        inputs:
+          - ".cache/cookbook/verify.json"
+        outputs:
+          - "docs/agile/reports/cookbook/*.md"

@@ -4,7 +4,7 @@
 
 ### Overview
 
-Layer 1 maps to Circuit 1: [[Aionian.md]]. It safeguards basic execution by maintaining heartbeat and system liveness.
+Layer 1 maps to Circuit 1: [[aionian]]. It safeguards basic execution by maintaining heartbeat and system liveness.
 
 ### Related Services and Agents
 
