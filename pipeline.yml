@@ -19,7 +19,11 @@ pipelines:
       - id: symdocs-graph
         deps: ["symdocs-scan"]
         shell: "pnpm --filter @promethean/symdocs symdocs:04-graph"
-        inputs: ["packages/**/package.json", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"]
+        inputs:
+          [
+            "packages/**/package.json",
+            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}",
+          ]
         outputs: ["docs/packages/README.md", "docs/packages/**/README.md"]
 
   - name: simtasks
@@ -63,7 +67,11 @@ pipelines:
       - id: mods-dry-run
         deps: ["mods-generate"]
         shell: "pnpm --filter @promethean/codemods mods:03-dry-run --root packages --report docs/agile/tasks/codemods --specs .cache/codemods/specs.json --delete-duplicates true"
-        inputs: ["codemods/**/transform.ts", "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"]
+        inputs:
+          [
+            "codemods/**/transform.ts",
+            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}",
+          ]
         outputs: ["docs/agile/tasks/codemods/*.md"]
       - id: mods-apply
         deps: ["mods-dry-run"]
@@ -72,9 +80,13 @@ pipelines:
         outputs: [".cache/codemods/run-apply.json"]
       - id: mods-verify
         deps: ["mods-apply"]
-        shell: "pnpm --filter @promethean/codemods mods:04-verify:after --stage after --test \"pnpm -w -r test\""
+        shell: 'pnpm --filter @promethean/codemods mods:04-verify:after --stage after --test "pnpm -w -r test"'
         inputs: [".cache/codemods/run-apply.json"]
-        outputs: ["docs/agile/tasks/codemods/verify-after.md", "docs/agile/tasks/codemods/VERIFY.md"]
+        outputs:
+          [
+            "docs/agile/tasks/codemods/verify-after.md",
+            "docs/agile/tasks/codemods/VERIFY.md",
+          ]
   - name: semver-guard
     steps:
       - id: sv-snapshot
@@ -123,7 +135,7 @@ pipelines:
         outputs: [".cache/boardrev/prompts.json"]
       - id: br-index
         deps: ["br-fm"]
-        shell: "pnpm --filter @promethean/boardrev br:03-index --globs \"{README.md,docs/**/*.md,packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}}\""
+        shell: 'pnpm --filter @promethean/boardrev br:03-index --globs "{README.md,docs/**/*.md,packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}}"'
         inputs:
           - "README.md"
           - "docs/**/*.md"
@@ -132,7 +144,7 @@ pipelines:
           - ".cache/boardrev/repo-index.json"
           - ".cache/boardrev/repo-embeddings.json"
       - id: br-match
-        deps: ["br-prompts","br-index"]
+        deps: ["br-prompts", "br-index"]
         shell: "pnpm --filter @promethean/boardrev br:04-match --tasks docs/agile/tasks --k 8"
         inputs:
           - "docs/agile/tasks/**/*.md"
@@ -155,7 +167,7 @@ pipelines:
     steps:
       - id: sonar-scan
         cwd: .
-        shell: "sonar-scanner"          # expects sonar-project.properties in repo OR env overrides
+        shell: "sonar-scanner" # expects sonar-project.properties in repo OR env overrides
         env:
           SONAR_HOST_URL: "${SONAR_HOST_URL}"
           SONAR_TOKEN: "${SONAR_TOKEN}"
@@ -164,7 +176,7 @@ pipelines:
           - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
           - "sonar-project.properties"
         outputs:
-          - ".cache/sonar/scan.touch"   # marker file we create after scan
+          - ".cache/sonar/scan.touch" # marker file we create after scan
       - id: sonar-fetch
         deps: ["sonar-scan"]
         shell: "pnpm --filter @promethean/sonarflow sonar:fetch --project ${SONAR_PROJECT_KEY} --out .cache/sonar/issues.json"
@@ -180,3 +192,154 @@ pipelines:
         shell: "pnpm --filter @promethean/sonarflow sonar:write --in .cache/sonar/plans.json --out docs/agile/tasks/sonar"
         inputs: [".cache/sonar/plans.json"]
         outputs: ["docs/agile/tasks/sonar/*.md"]
+  - name: readmes
+    steps:
+      - id: rm-scan
+        shell: "pnpm --filter @promethean/readmeflow rm:01-scan --root packages --out .cache/readmes/scan.json"
+        inputs:
+          - "packages/**/package.json"
+          - "packages/**/tsconfig.json"
+        outputs:
+          - ".cache/readmes/scan.json"
+
+      - id: rm-outline
+        deps: ["rm-scan"]
+        shell: "pnpm --filter @promethean/readmeflow rm:02-outline --scan .cache/readmes/scan.json --out .cache/readmes/outlines.json --model qwen3:4b"
+        env:
+          OLLAMA_URL: "${OLLAMA_URL}"
+        inputs:
+          - ".cache/readmes/scan.json"
+        outputs:
+          - ".cache/readmes/outlines.json"
+
+      - id: rm-write
+        deps: ["rm-outline"]
+        shell: "pnpm --filter @promethean/readmeflow rm:03-write --scan .cache/readmes/scan.json --outlines .cache/readmes/outlines.json --mermaid true"
+        inputs:
+          - ".cache/readmes/outlines.json"
+        outputs:
+          - "packages/**/README.md"
+
+      - id: rm-verify
+        deps: ["rm-write"]
+        shell: "pnpm --filter @promethean/readmeflow rm:04-verify --root packages --out docs/agile/reports/readmes"
+        inputs:
+          - "packages/**/README.md"
+        outputs:
+          - "docs/agile/reports/readmes/*.md"
+  - name: buildfix
+    steps:
+      - id: bf-errors
+        shell: "pnpm --filter @promethean/buildfix bf:01-errors --tsconfig tsconfig.json --out .cache/buildfix/errors.json"
+        inputs:
+          - "tsconfig.json"
+          - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+        outputs:
+          - ".cache/buildfix/errors.json"
+
+      - id: bf-iterate
+        deps: ["bf-errors"]
+        shell: >
+          pnpm --filter @promethean/buildfix
+          bf:02-iterate
+          --errors .cache/buildfix/errors.json
+          --out .cache/buildfix
+          --model qwen3:4b
+          --max-cycles 5
+          --git per-error
+          --commit-on always
+          --branch-prefix buildfix
+          --remote origin
+          --push false
+          --use-gh false
+          --rollback-on-regress true
+        env:
+          OLLAMA_URL: "${OLLAMA_URL}"
+        inputs:
+          - ".cache/buildfix/errors.json"
+          - "tsconfig.json"
+          - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+        outputs:
+          - ".cache/buildfix/summary.json"
+          - ".cache/buildfix/history/**"
+          - ".cache/buildfix/snippets/**"
+
+      - id: bf-report
+        deps: ["bf-iterate"]
+        shell: "pnpm --filter @promethean/buildfix bf:03-report --summary .cache/buildfix/summary.json --history-root .cache/buildfix/history --out docs/agile/reports/buildfix"
+        inputs:
+          - ".cache/buildfix/summary.json"
+        outputs:
+          - "docs/agile/reports/buildfix/*.md"
+  - name: test-gap
+    steps:
+      # (Optional) upstream: run your tests to produce lcov.info
+      # - id: tg-run-tests
+      #   shell: "pnpm -w test -- --coverage"   # or your workspace runner
+      #   outputs: ["coverage/lcov.info", "packages/**/coverage/lcov.info"]
+
+      - id: tg-exports
+        shell: "pnpm --filter @promethean/testgap tg:01-scan-exports --root packages --out .cache/testgap/exports.json"
+        inputs:
+          - "packages/**/package.json"
+          - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+        outputs:
+          - ".cache/testgap/exports.json"
+
+      - id: tg-coverage
+        # deps: ["tg-run-tests"]
+        shell: 'pnpm --filter @promethean/testgap tg:02-read-coverage --lcov-globs "{coverage/lcov.info,packages/**/coverage/lcov.info}" --out .cache/testgap/coverage.json'
+        inputs:
+          - "coverage/lcov.info"
+          - "packages/**/coverage/lcov.info"
+        outputs:
+          - ".cache/testgap/coverage.json"
+
+      - id: tg-map
+        deps: ["tg-exports", "tg-coverage"]
+        shell: "pnpm --filter @promethean/testgap tg:03-map-gaps --exports .cache/testgap/exports.json --coverage .cache/testgap/coverage.json --min-lines 3 --out .cache/testgap/gaps.json"
+        inputs:
+          - ".cache/testgap/exports.json"
+          - ".cache/testgap/coverage.json"
+        outputs:
+          - ".cache/testgap/gaps.json"
+      - id: tg-gate
+        deps: ["tg-map"]
+        shell: "pnpm --filter @promethean/testgap tg:08-gate --gaps .cache/testgap/gaps.json --out .cache/testgap/gate.json --threshold 0.70 --metric symbols"
+        inputs: [".cache/testgap/gaps.json"]
+        outputs: [".cache/testgap/gate.json"]
+
+      - id: tg-cookbook
+        deps: ["tg-map"]
+        shell: "pnpm --filter @promethean/testgap tg:04-cookbook-cross --recipes docs/cookbook/**/*.md --out .cache/testgap/cookbook.json"
+        inputs:
+          - "docs/cookbook/**/*.md"
+        outputs:
+          - ".cache/testgap/cookbook.json"
+
+      - id: tg-plan
+        deps: ["tg-cookbook"]
+        shell: "pnpm --filter @promethean/testgap tg:05-plan --gaps .cache/testgap/gaps.json --cookbook .cache/testgap/cookbook.json --out .cache/testgap/plans.json --model qwen3:4b --threshold 0.5 --max-per-pkg 15"
+        env:
+          OLLAMA_URL: "${OLLAMA_URL}"
+        inputs:
+          - ".cache/testgap/gaps.json"
+          - ".cache/testgap/cookbook.json"
+        outputs:
+          - ".cache/testgap/plans.json"
+
+      - id: tg-write
+        deps: ["tg-plan"]
+        shell: "pnpm --filter @promethean/testgap tg:06-write --plans .cache/testgap/plans.json --out docs/agile/tasks/test-gaps"
+        inputs:
+          - ".cache/testgap/plans.json"
+        outputs:
+          - "docs/agile/tasks/test-gaps/*.md"
+
+      - id: tg-report
+        deps: ["tg-map"]
+        shell: "pnpm --filter @promethean/testgap tg:07-report --gaps .cache/testgap/gaps.json --out docs/agile/reports/test-gaps"
+        inputs:
+          - ".cache/testgap/gaps.json"
+        outputs:
+          - "docs/agile/reports/test-gaps/*.md"
