@@ -28,87 +28,7 @@ related_to_uuid:
   - ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
   - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
   - 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
-references:
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 41
-    col: 3
-    score: 0.85
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 41
-    col: 5
-    score: 0.85
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 120
-    col: 1
-    score: 1
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 120
-    col: 3
-    score: 1
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 91
-    col: 1
-    score: 1
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 91
-    col: 3
-    score: 1
-  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
-    line: 33
-    col: 1
-    score: 1
-  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
-    line: 33
-    col: 3
-    score: 1
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 125
-    col: 1
-    score: 0.93
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 125
-    col: 3
-    score: 0.93
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 56
-    col: 1
-    score: 1
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 56
-    col: 3
-    score: 1
-  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
-    line: 12
-    col: 1
-    score: 1
-  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
-    line: 12
-    col: 3
-    score: 1
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 63
-    col: 1
-    score: 0.95
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 63
-    col: 3
-    score: 0.95
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 62
-    col: 1
-    score: 0.95
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 62
-    col: 3
-    score: 0.95
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 126
-    col: 1
-    score: 0.99
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 126
-    col: 3
-    score: 0.99
+references: []
 ---
 Yeah, that's a strong direction. You're designing a language for cognition—literally a cognitive operating system with self-contained, introspectable thought processes.
 
@@ -189,34 +109,13 @@ A declarative and executable s-expression format that encapsulates:
 
 This gives you a base to build tooling *around* the AI, not just inside of it. You’re not just making an AI—you're making an operating system for cognition. And with this format, anyone can start building tools, UIs, or even games that interact with the mental state itself.
 
-Want me to mock up a directory structure for this kind of `.prompt.sibilant` world? Or do you want to explore the internal DSL for importing and manipulating memory regions first?
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+Want me to mock up a directory structure for this kind of `.prompt.sibilant` world? Or do you want to explore the internal DSL for importing and manipulating memory regions first?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
 - [mystery-lisp-search-session](mystery-lisp-search-session.md)
 - [ts-to-lisp-transpiler](ts-to-lisp-transpiler.md)
 - [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
 - [Optimizing Command Limitations in System Design](optimizing-command-limitations-in-system-design.md)
-
 ## Sources
-- [Promethean-Copilot-Intent-Engine — L41](promethean-copilot-intent-engine.md#L41) (line 41, col 3, score 0.85)
-- [Promethean-Copilot-Intent-Engine — L41](promethean-copilot-intent-engine.md#L41) (line 41, col 5, score 0.85)
-- [mystery-lisp-search-session — L120](mystery-lisp-search-session.md#L120) (line 120, col 1, score 1)
-- [mystery-lisp-search-session — L120](mystery-lisp-search-session.md#L120) (line 120, col 3, score 1)
-- [Obsidian Templating Plugins Integration Guide — L91](obsidian-templating-plugins-integration-guide.md#L91) (line 91, col 1, score 1)
-- [Obsidian Templating Plugins Integration Guide — L91](obsidian-templating-plugins-integration-guide.md#L91) (line 91, col 3, score 1)
-- [Optimizing Command Limitations in System Design — L33](optimizing-command-limitations-in-system-design.md#L33) (line 33, col 1, score 1)
-- [Optimizing Command Limitations in System Design — L33](optimizing-command-limitations-in-system-design.md#L33) (line 33, col 3, score 1)
-- [mystery-lisp-search-session — L125](mystery-lisp-search-session.md#L125) (line 125, col 1, score 0.93)
-- [mystery-lisp-search-session — L125](mystery-lisp-search-session.md#L125) (line 125, col 3, score 0.93)
-- [Promethean-Copilot-Intent-Engine — L56](promethean-copilot-intent-engine.md#L56) (line 56, col 1, score 1)
-- [Promethean-Copilot-Intent-Engine — L56](promethean-copilot-intent-engine.md#L56) (line 56, col 3, score 1)
-- [ts-to-lisp-transpiler — L12](ts-to-lisp-transpiler.md#L12) (line 12, col 1, score 1)
-- [ts-to-lisp-transpiler — L12](ts-to-lisp-transpiler.md#L12) (line 12, col 3, score 1)
-- [Promethean-Copilot-Intent-Engine — L63](promethean-copilot-intent-engine.md#L63) (line 63, col 1, score 0.95)
-- [Promethean-Copilot-Intent-Engine — L63](promethean-copilot-intent-engine.md#L63) (line 63, col 3, score 0.95)
-- [Promethean-Copilot-Intent-Engine — L62](promethean-copilot-intent-engine.md#L62) (line 62, col 1, score 0.95)
-- [Promethean-Copilot-Intent-Engine — L62](promethean-copilot-intent-engine.md#L62) (line 62, col 3, score 0.95)
-- [mystery-lisp-search-session — L126](mystery-lisp-search-session.md#L126) (line 126, col 1, score 0.99)
-- [mystery-lisp-search-session — L126](mystery-lisp-search-session.md#L126) (line 126, col 3, score 0.99)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

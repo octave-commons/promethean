@@ -40,79 +40,7 @@ related_to_uuid:
   - d144aa62-348c-4e5d-ae8f-38084c67ceca
   - 618198f4-cfad-4677-9df6-0640d8a97bae
   - d3e7db72-2e07-4dae-8920-0e07c499a1e5
-references:
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 134
-    col: 1
-    score: 1
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 134
-    col: 3
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 403
-    col: 1
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 403
-    col: 3
-    score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 281
-    col: 1
-    score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 281
-    col: 3
-    score: 1
-  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
-    line: 361
-    col: 1
-    score: 1
-  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
-    line: 361
-    col: 3
-    score: 1
-  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-    line: 439
-    col: 1
-    score: 1
-  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-    line: 439
-    col: 3
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 1
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 3
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 1
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 3
-    score: 1
+references: []
 ---
 Absolutely. Here’s a **fully-local, air-gapped** revision: no SaaS hooks, no tokens, no phone-home where we can disable it. Models served from a **local `/models`** volume; TEI/Haystack run **offline**. If you haven’t cached models yet, drop them into `./infra/models/**` before starting.
 
@@ -401,8 +329,7 @@ curl -s http://localhost/haystack/pipelines/query/run \
 
 Want me to spit out a **one-shot script** that validates all mounted model dirs exist (and fails fast) before boot? Or trim the stack further (e.g., drop Portainer/code-server if you want zero optional surfaces)?
 
-\#infrastructure #airgapped #selfhosted #docker #docker-compose #rag #search #observability #security
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+\#infrastructure #airgapped #selfhosted #docker #docker-compose #rag #search #observability #security<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [i3-bluetooth-setup](i3-bluetooth-setup.md)
 - [Prometheus Observability Stack](prometheus-observability-stack.md)
@@ -413,24 +340,6 @@ Want me to spit out a **one-shot script** that validates all mounted model dirs 
 - [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
 - [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
 - [balanced-bst](balanced-bst.md)
-
 ## Sources
-- [Model Selection for Lightweight Conversational Tasks — L134](model-selection-for-lightweight-conversational-tasks.md#L134) (line 134, col 1, score 1)
-- [Model Selection for Lightweight Conversational Tasks — L134](model-selection-for-lightweight-conversational-tasks.md#L134) (line 134, col 3, score 1)
-- [AI-Centric OS with MCP Layer — L403](ai-centric-os-with-mcp-layer.md#L403) (line 403, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L403](ai-centric-os-with-mcp-layer.md#L403) (line 403, col 3, score 1)
-- [Migrate to Provider-Tenant Architecture — L281](migrate-to-provider-tenant-architecture.md#L281) (line 281, col 1, score 1)
-- [Migrate to Provider-Tenant Architecture — L281](migrate-to-provider-tenant-architecture.md#L281) (line 281, col 3, score 1)
-- [observability-infrastructure-setup — L361](observability-infrastructure-setup.md#L361) (line 361, col 1, score 1)
-- [observability-infrastructure-setup — L361](observability-infrastructure-setup.md#L361) (line 361, col 3, score 1)
-- [Promethean Full-Stack Docker Setup — L439](promethean-full-stack-docker-setup.md#L439) (line 439, col 1, score 1)
-- [Promethean Full-Stack Docker Setup — L439](promethean-full-stack-docker-setup.md#L439) (line 439, col 3, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

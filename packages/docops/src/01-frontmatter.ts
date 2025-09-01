@@ -1,11 +1,12 @@
-import { promises as fs } from "fs";
-import * as path from "path";
+// packages/docops/src/01-frontmatter.ts
+import { promises as fs } from "node:fs";
+import * as path from "node:path";
 import matter from "gray-matter";
 import { z } from "zod";
+import ollama from "ollama";
+import { openDB } from "./db";
 import { parseArgs, listFilesRec, randomUUID } from "./utils";
 import type { Front } from "./types";
-
-const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
 const args = parseArgs({
   "--dir": "docs/unique",
@@ -25,65 +26,124 @@ const GenSchema = z.object({
   tags: z.array(z.string()).min(1),
 });
 
-async function ollamaGenerateJSON(model: string, prompt: string): Promise<any> {
-  const res = await fetch(`${OLLAMA_URL}/api/generate`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ model, prompt, stream: false, options: { temperature: 0 }, format: "json" }),
-  });
-  const data = await res.json();
-  const raw = typeof data.response === "string" ? data.response : JSON.stringify(data.response);
-  const cleaned = raw.replace(/```json\s*/g, "").replace(/```\s*$/g, "").trim();
-  return JSON.parse(cleaned);
-}
+(async () => {
 
-async function main() {
-  const files = await listFilesRec(ROOT, EXTS);
-  for (const f of files) {
-    const originalName = path.basename(f);
-    const raw = await fs.readFile(f, "utf-8");
-    const gm = matter(raw);
-    const fm: Front = (gm.data || {}) as Front;
+const db = await openDB();
+const frontKV = db.root.sublevel<string, Front>("front", { valueEncoding: "json" });
+const docsKV = db.docs; // from db.ts — { path, title }
 
-    let changed = false;
-    if (!fm.uuid) { fm.uuid = randomUUID(); changed = true; }
-    if (!fm.created_at) { fm.created_at = originalName; changed = true; }
+const uniq = (xs: readonly string[] | undefined) =>
+  Array.from(new Set((xs ?? []).map((s) => s.trim()).filter(Boolean)));
 
-    const missing: Array<keyof z.infer<typeof GenSchema>> = [];
-    if (!fm.filename) missing.push("filename");
-    if (!fm.description) missing.push("description");
-    if (!fm.tags || fm.tags.length === 0) missing.push("tags");
+const deriveFilename = (fpath: string) => path.parse(fpath).name;
 
-    if (missing.length) {
-      const preview = gm.content.slice(0, 4000);
-      let current: Partial<z.infer<typeof GenSchema>> = {};
-      for (let round = 0; round < 3 && missing.length; round++) {
-        const ask = [...missing];
-        const sys = `Return ONLY JSON with keys: ${ask.join(", ")}. filename: human title (no ext), description: 1-3 sentences, tags: 3-12 keywords.`;
-        const payload = `SYSTEM:\n${sys}\n\nUSER:\nPath: ${f}\nExisting: ${JSON.stringify({ filename: fm.filename ?? null, description: fm.description ?? null, tags: fm.tags ?? null })}\nPreview:\n${preview}`;
-        let obj: any;
-        try { obj = await ollamaGenerateJSON(GEN_MODEL, payload); } catch { break; }
-        const shape: any = {};
-        if (ask.includes("filename")) shape.filename = z.string().min(1);
-        if (ask.includes("description")) shape.description = z.string().min(1);
-        if (ask.includes("tags")) shape.tags = z.array(z.string()).min(1);
-        const Partial = z.object(shape);
-        const parsed = Partial.safeParse(obj);
-        if (parsed.success) {
-          current = { ...current, ...parsed.data };
-          for (const k of ask) if ((current as any)[k]) missing.splice(missing.indexOf(k), 1);
-        }
-      }
-      if (!fm.filename && current.filename) { fm.filename = current.filename; changed = true; }
-      if (!fm.description && current.description) { fm.description = current.description; changed = true; }
-      if ((!fm.tags || fm.tags.length === 0) && current.tags) { fm.tags = Array.from(new Set(current.tags)); changed = true; }
-    }
+const buildPrompt = (fpath: string, fm: Front, preview: string) =>
+  [
+    "SYSTEM:",
+    "Return ONLY strict JSON with keys exactly: filename, description, tags.",
+    "filename: short human title (no extension).",
+    "description: 1–3 sentences.",
+    "tags: 3–12 concise keywords.",
+    "",
+    "USER:",
+    `Path: ${fpath}`,
+    `Existing: ${JSON.stringify({
+      filename: fm.filename ?? null,
+      description: fm.description ?? null,
+      tags: fm.tags ?? null,
+    })}`,
+    "Preview:",
+    preview,
+  ].join("\n");
 
-    if (changed && !DRY) {
-      const out = matter.stringify(gm.content, fm, { language: "yaml" });
-      await fs.writeFile(f, out, "utf-8");
-    }
+const parseModelJSON = (s: string) => {
+  const cleaned = s.replace(/```json\s*/gi, "").replace(/```\s*$/gi, "").trim();
+  try {
+    return JSON.parse(cleaned);
+  } catch {
+    return null;
   }
-  console.log("01-frontmatter: done.");
-}
-main().catch((e) => { console.error(e); process.exit(1); });
+};
+
+const askModel = (model: string, prompt: string) =>
+  ollama
+    .generate({ model, prompt, stream: false, format: "json", options: { temperature: 0 } })
+    .then((res) => (typeof res.response === "string" ? res.response : JSON.stringify(res.response)))
+    .then(parseModelJSON);
+
+const ensureBaseFront = (fpath: string, fm: Front): Front => {
+  const baseName = path.basename(fpath);
+  return Object.freeze<Front>({
+    ...fm,
+    uuid: fm.uuid ?? randomUUID(),
+    created_at: fm.created_at ?? baseName,
+  });
+};
+
+const mergeFront = (base: Front, gen: Partial<z.infer<typeof GenSchema>>, fpath: string): Front => {
+  const filename = base.filename ?? gen.filename ?? deriveFilename(fpath);
+  const description = base.description ?? gen.description ?? "";
+  const tags = base.tags && base.tags.length ? base.tags : uniq(gen.tags);
+  return Object.freeze<Front>({ ...base, filename, description, tags });
+};
+
+const validateGen = (obj: unknown) => {
+  const p = GenSchema.safeParse(obj);
+  return p.success ? p.data : null;
+};
+
+const writeFrontmatter = (fpath: string, content: string, fm: Front) =>
+  DRY
+    ? Promise.resolve()
+    : fs.writeFile(fpath, matter.stringify(content, fm, { language: "yaml" }), "utf8");
+
+const persistKV = (uuid: string, fpath: string, fm: Front) =>
+  Promise.all([
+    frontKV.put(uuid, fm),
+    docsKV.put(uuid, { path: fpath, title: fm.filename ?? deriveFilename(fpath) }),
+  ]).then(() => undefined);
+
+const processFile = (fpath: string) =>
+  fs
+    .readFile(fpath, "utf8")
+    .then((raw) => {
+      const gm = matter(raw);
+      const base = ensureBaseFront(fpath, (gm.data || {}) as Front);
+      const hasAll =
+        Boolean(base.filename) && Boolean(base.description) && Boolean(base.tags && base.tags.length);
+
+      const preview = gm.content.slice(0, 4000);
+
+      // Single-shot model call; fallback to derived values on failure
+      const genP = hasAll
+        ? Promise.resolve<Partial<z.infer<typeof GenSchema>>>({})
+        : askModel(GEN_MODEL, buildPrompt(fpath, base, preview)).then((obj) => {
+            const valid = validateGen(obj);
+            return valid ?? {};
+          });
+
+      return genP.then((gen) => {
+        const next = mergeFront(base, gen, fpath);
+
+        // Only write if anything actually changed
+        const changed =
+          next.uuid !== (gm.data as Front)?.uuid ||
+          next.created_at !== (gm.data as Front)?.created_at ||
+          next.filename !== (gm.data as Front)?.filename ||
+          next.description !== (gm.data as Front)?.description ||
+          JSON.stringify(uniq(next.tags)) !== JSON.stringify(uniq((gm.data as Front)?.tags));
+
+        return (changed ? writeFrontmatter(fpath, gm.content, next) : Promise.resolve())
+          .then(() => persistKV(next.uuid!, fpath, next))
+          .then(() => undefined);
+      });
+    });
+
+listFilesRec(ROOT, EXTS)
+  .then((files) => Promise.all(files.map(processFile)))
+  .then(() => console.log("01-frontmatter: done."))
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+})()

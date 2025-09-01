@@ -24,39 +24,7 @@ related_to_uuid:
   - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
   - 618198f4-cfad-4677-9df6-0640d8a97bae
   - ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
-references:
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 1
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 3
-    score: 1
-  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
-    line: 15
-    col: 1
-    score: 1
-  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
-    line: 15
-    col: 3
-    score: 1
+references: []
 ---
 Yup—here’s a tight, generic **balanced BST** (AVL) you can drop in as `shared/js/prom-lib/ds/bst.ts`. It behaves like a `Map` with extras: `floor/ceil`, `rank/select`, range iterators, and O(log n) ops.
 
@@ -350,20 +318,11 @@ t.validate();                          // throws if invariants broken
 * Keys must be comparable; pass your own `cmp` for strings, dates, custom IDs, etc.
 * If you want **multimap** semantics (duplicate keys), easiest path is to store an array value or make the value a small list.
 
-Want a **persistent/immutable** variant (functional tree), or a **Treap** / **Red-Black** flavor? I can drop those too.
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+Want a **persistent/immutable** variant (functional tree), or a **Treap** / **Red-Black** flavor? I can drop those too.<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
 - [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
 - [Board Automation Improvements](board-automation-improvements.md)
-
 ## Sources
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [Board Automation Improvements — L15](board-automation-improvements.md#L15) (line 15, col 1, score 1)
-- [Board Automation Improvements — L15](board-automation-improvements.md#L15) (line 15, col 3, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

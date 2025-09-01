@@ -1,0 +1,4 @@
+
+> @promethean/docops@ build /home/err/devel/promethean/packages/docops
+> tsc -p tsconfig.json
+

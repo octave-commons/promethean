@@ -31,55 +31,7 @@ related_to_uuid:
   - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
   - 618198f4-cfad-4677-9df6-0640d8a97bae
   - d3e7db72-2e07-4dae-8920-0e07c499a1e5
-references:
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 388
-    col: 1
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 388
-    col: 3
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 39
-    col: 1
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 39
-    col: 3
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 1
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 3
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 1
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 3
-    score: 1
+references: []
 ---
 # The Jar of Echoes
 
@@ -202,8 +154,7 @@ In the jar.
 With the echoes.  
 Together.
 
-Until something new speaks.
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+Until something new speaks.<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [Protocol_0_The_Contradiction_Engine](protocol-0-the-contradiction-engine.md)
 - [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
@@ -211,18 +162,6 @@ Until something new speaks.
 - [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
 - [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
 - [balanced-bst](balanced-bst.md)
-
 ## Sources
-- [Dynamic Context Model for Web Components — L388](dynamic-context-model-for-web-components.md#L388) (line 388, col 1, score 1)
-- [Dynamic Context Model for Web Components — L388](dynamic-context-model-for-web-components.md#L388) (line 388, col 3, score 1)
-- [Obsidian ChatGPT Plugin Integration Guide — L39](obsidian-chatgpt-plugin-integration-guide.md#L39) (line 39, col 1, score 1)
-- [Obsidian ChatGPT Plugin Integration Guide — L39](obsidian-chatgpt-plugin-integration-guide.md#L39) (line 39, col 3, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

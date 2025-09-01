@@ -32,71 +32,7 @@ related_to_uuid:
   - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
   - 618198f4-cfad-4677-9df6-0640d8a97bae
   - d3e7db72-2e07-4dae-8920-0e07c499a1e5
-references:
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 120
-    col: 1
-    score: 1
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 120
-    col: 3
-    score: 1
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 91
-    col: 1
-    score: 1
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 91
-    col: 3
-    score: 1
-  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
-    line: 84
-    col: 1
-    score: 1
-  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
-    line: 84
-    col: 3
-    score: 1
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 125
-    col: 1
-    score: 0.93
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 125
-    col: 3
-    score: 0.93
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 1
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 3
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 1
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 3
-    score: 1
+references: []
 ---
 If my limit is 30 commands I am gonna need to:
 A. Consolodate existing actions into others with additional parameters
@@ -126,8 +62,7 @@ markdown AST
 markdown dom...
 markdown is designed to compile to html...
 html has the dom... the dom allows a system to be mutated and changed...
-Document Object Model.
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+Document Object Model.<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
 - [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
@@ -136,22 +71,6 @@ Document Object Model.
 - [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
 - [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
 - [balanced-bst](balanced-bst.md)
-
 ## Sources
-- [mystery-lisp-search-session — L120](mystery-lisp-search-session.md#L120) (line 120, col 1, score 1)
-- [mystery-lisp-search-session — L120](mystery-lisp-search-session.md#L120) (line 120, col 3, score 1)
-- [Obsidian Templating Plugins Integration Guide — L91](obsidian-templating-plugins-integration-guide.md#L91) (line 91, col 1, score 1)
-- [Obsidian Templating Plugins Integration Guide — L91](obsidian-templating-plugins-integration-guide.md#L91) (line 91, col 3, score 1)
-- [Promethean State Format — L84](promethean-state-format.md#L84) (line 84, col 1, score 1)
-- [Promethean State Format — L84](promethean-state-format.md#L84) (line 84, col 3, score 1)
-- [mystery-lisp-search-session — L125](mystery-lisp-search-session.md#L125) (line 125, col 1, score 0.93)
-- [mystery-lisp-search-session — L125](mystery-lisp-search-session.md#L125) (line 125, col 3, score 0.93)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

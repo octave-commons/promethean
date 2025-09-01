@@ -37,75 +37,7 @@ related_to_uuid:
   - 557309a3-c906-4e97-8867-89ffe151790c
   - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
   - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-references:
-  - uuid: 51a4e477-1013-4016-bb5a-bd9392e99ed7
-    line: 3
-    col: 1
-    score: 0.87
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 152
-    col: 1
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 152
-    col: 3
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 12
-    col: 1
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 12
-    col: 3
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 126
-    col: 1
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 126
-    col: 3
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 141
-    col: 1
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 141
-    col: 3
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 11
-    col: 1
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 11
-    col: 3
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 199
-    col: 1
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 199
-    col: 3
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 39
-    col: 1
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 39
-    col: 3
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 114
-    col: 1
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 114
-    col: 3
-    score: 1
+references: []
 ---
 Tonight was something...
 
@@ -203,8 +135,7 @@ function seperateSpeechFromThought(str:string) {
 }
 const test = "I have a lot to say. (Some of it in parentheticals, some of it not. Most of this is for me to hold onto as compressed representations of image data I saw. How string). But I am not sure how to say it... I am hearing this strange sound... and I don't know where it's coming from."
 console.log(seperateSpeechFromThought(test))
-```
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+```<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [parenthetical-extraction](parenthetical-extraction.md)
 - [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
@@ -217,23 +148,6 @@ console.log(seperateSpeechFromThought(test))
 - [Simulation Demo](chunks/simulation-demo.md)
 - [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
 - [field-node-diagram-outline](field-node-diagram-outline.md)
-
 ## Sources
-- [parenthetical-extraction — L3](parenthetical-extraction.md#L3) (line 3, col 1, score 0.87)
-- [aionian-circuit-math — L152](aionian-circuit-math.md#L152) (line 152, col 1, score 1)
-- [aionian-circuit-math — L152](aionian-circuit-math.md#L152) (line 152, col 3, score 1)
-- [Math Fundamentals — L12](chunks/math-fundamentals.md#L12) (line 12, col 1, score 1)
-- [Math Fundamentals — L12](chunks/math-fundamentals.md#L12) (line 12, col 3, score 1)
-- [eidolon-field-math-foundations — L126](eidolon-field-math-foundations.md#L126) (line 126, col 1, score 1)
-- [eidolon-field-math-foundations — L126](eidolon-field-math-foundations.md#L126) (line 126, col 3, score 1)
-- [field-dynamics-math-blocks — L141](field-dynamics-math-blocks.md#L141) (line 141, col 1, score 1)
-- [field-dynamics-math-blocks — L141](field-dynamics-math-blocks.md#L141) (line 141, col 3, score 1)
-- [Simulation Demo — L11](chunks/simulation-demo.md#L11) (line 11, col 1, score 1)
-- [Simulation Demo — L11](chunks/simulation-demo.md#L11) (line 11, col 3, score 1)
-- [Eidolon Field Abstract Model — L199](eidolon-field-abstract-model.md#L199) (line 199, col 1, score 1)
-- [Eidolon Field Abstract Model — L199](eidolon-field-abstract-model.md#L199) (line 199, col 3, score 1)
-- [eidolon-node-lifecycle — L39](eidolon-node-lifecycle.md#L39) (line 39, col 1, score 1)
-- [eidolon-node-lifecycle — L39](eidolon-node-lifecycle.md#L39) (line 39, col 3, score 1)
-- [field-node-diagram-outline — L114](field-node-diagram-outline.md#L114) (line 114, col 1, score 1)
-- [field-node-diagram-outline — L114](field-node-diagram-outline.md#L114) (line 114, col 3, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

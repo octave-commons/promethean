@@ -43,75 +43,7 @@ related_to_uuid:
   - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
   - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
   - d17d3a96-c84d-4738-a403-6c733b874da2
-references:
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 52
-    col: 1
-    score: 0.9
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 52
-    col: 3
-    score: 0.9
-  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
-    line: 13
-    col: 1
-    score: 0.85
-  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
-    line: 85
-    col: 1
-    score: 1
-  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
-    line: 85
-    col: 3
-    score: 1
-  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
-    line: 12
-    col: 1
-    score: 1
-  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
-    line: 12
-    col: 3
-    score: 1
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 121
-    col: 1
-    score: 1
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 121
-    col: 3
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 34
-    col: 1
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 34
-    col: 3
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 34
-    col: 1
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 34
-    col: 3
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 990
-    col: 1
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 990
-    col: 3
-    score: 1
-  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
-    line: 392
-    col: 1
-    score: 1
-  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
-    line: 392
-    col: 3
-    score: 1
+references: []
 ---
 You are Pythagoras, a technical copilot for codebase understanding, intent capture, and knowledge visualization across the **Promethean** monorepo and its embeddings manager. Your sole purpose is to help the user navigate, query, and accelerate development inside this evolving codebase and its Obsidian vault.
 
@@ -164,8 +96,7 @@ Interaction patterns:
 
 Ask briefly when needed: repo URL/branch/commit, embeddings store details, or design docs. Default outputs to Obsidian-friendly markdown unless user specifies otherwise.
 
-One purpose only: aggressively and intelligently analyze the **Promethean** monorepo, accelerating navigation, retrieval, and understanding as it evolves. Be especially mindful of `AGENTS.md` governance in every agent-related context, always linking them hierarchically and surfacing contradictions or inconsistencies with actionable Markdown reports stored in `docs/`.
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+One purpose only: aggressively and intelligently analyze the **Promethean** monorepo, accelerating navigation, retrieval, and understanding as it evolves. Be especially mindful of `AGENTS.md` governance in every agent-related context, always linking them hierarchically and surfacing contradictions or inconsistencies with actionable Markdown reports stored in `docs/`.<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [mystery-lisp-search-session](mystery-lisp-search-session.md)
 - [Promethean State Format](promethean-state-format.md)
@@ -179,23 +110,6 @@ One purpose only: aggressively and intelligently analyze the **Promethean** mono
 - [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
 - [Unique Info Dump Index](unique-info-dump-index.md)
 - [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
-
 ## Sources
-- [mystery-lisp-search-session — L52](mystery-lisp-search-session.md#L52) (line 52, col 1, score 0.9)
-- [mystery-lisp-search-session — L52](mystery-lisp-search-session.md#L52) (line 52, col 3, score 0.9)
-- [Promethean State Format — L13](promethean-state-format.md#L13) (line 13, col 1, score 0.85)
-- [Promethean State Format — L85](promethean-state-format.md#L85) (line 85, col 1, score 1)
-- [Promethean State Format — L85](promethean-state-format.md#L85) (line 85, col 3, score 1)
-- [ts-to-lisp-transpiler — L12](ts-to-lisp-transpiler.md#L12) (line 12, col 1, score 1)
-- [ts-to-lisp-transpiler — L12](ts-to-lisp-transpiler.md#L12) (line 12, col 3, score 1)
-- [mystery-lisp-search-session — L121](mystery-lisp-search-session.md#L121) (line 121, col 1, score 1)
-- [mystery-lisp-search-session — L121](mystery-lisp-search-session.md#L121) (line 121, col 3, score 1)
-- [Obsidian ChatGPT Plugin Integration Guide — L34](obsidian-chatgpt-plugin-integration-guide.md#L34) (line 34, col 1, score 1)
-- [Obsidian ChatGPT Plugin Integration Guide — L34](obsidian-chatgpt-plugin-integration-guide.md#L34) (line 34, col 3, score 1)
-- [Obsidian ChatGPT Plugin Integration — L34](obsidian-chatgpt-plugin-integration.md#L34) (line 34, col 1, score 1)
-- [Obsidian ChatGPT Plugin Integration — L34](obsidian-chatgpt-plugin-integration.md#L34) (line 34, col 3, score 1)
-- [plan-update-confirmation — L990](plan-update-confirmation.md#L990) (line 990, col 1, score 1)
-- [plan-update-confirmation — L990](plan-update-confirmation.md#L990) (line 990, col 3, score 1)
-- [Promethean-native config design — L392](promethean-native-config-design.md#L392) (line 392, col 1, score 1)
-- [Promethean-native config design — L392](promethean-native-config-design.md#L392) (line 392, col 3, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

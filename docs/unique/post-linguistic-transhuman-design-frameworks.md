@@ -35,71 +35,7 @@ related_to_uuid:
   - 618198f4-cfad-4677-9df6-0640d8a97bae
   - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
   - d3e7db72-2e07-4dae-8920-0e07c499a1e5
-references:
-  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
-    line: 55
-    col: 1
-    score: 1
-  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
-    line: 55
-    col: 3
-    score: 1
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 182
-    col: 1
-    score: 1
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 182
-    col: 3
-    score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 278
-    col: 1
-    score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 278
-    col: 3
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 576
-    col: 1
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 576
-    col: 3
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 1
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 3
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 1
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 3
-    score: 1
+references: []
 ---
 Understood. I’ll begin exploring speculative architectures, philosophies, and design principles that reach toward a future not yet imagined — one that is emergent, desirable, and emotionally resonant, yet still grounded in your cognitive, creative, and technological capacities.
 
@@ -187,8 +123,7 @@ In conclusion, moving toward futures not fully captured by language requires tha
     
 - Afrofuturist notion of the “Emotional Engine” – empathy and healing as kinetic forces for change.
     
-- Afrofuturism’s call for “ancestral intelligence” and a future that is _“accountable, embodied, culturally rooted and morally urgent”_.
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+- Afrofuturism’s call for “ancestral intelligence” and a future that is _“accountable, embodied, culturally rooted and morally urgent”_.<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [shared-package-layout-clarification](shared-package-layout-clarification.md)
 - [i3-config-validation-methods](i3-config-validation-methods.md)
@@ -198,22 +133,6 @@ In conclusion, moving toward futures not fully captured by language requires tha
 - [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
 - [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
 - [balanced-bst](balanced-bst.md)
-
 ## Sources
-- [i3-config-validation-methods — L55](i3-config-validation-methods.md#L55) (line 55, col 1, score 1)
-- [i3-config-validation-methods — L55](i3-config-validation-methods.md#L55) (line 55, col 3, score 1)
-- [Local-Only-LLM-Workflow — L182](local-only-llm-workflow.md#L182) (line 182, col 1, score 1)
-- [Local-Only-LLM-Workflow — L182](local-only-llm-workflow.md#L182) (line 182, col 3, score 1)
-- [Migrate to Provider-Tenant Architecture — L278](migrate-to-provider-tenant-architecture.md#L278) (line 278, col 1, score 1)
-- [Migrate to Provider-Tenant Architecture — L278](migrate-to-provider-tenant-architecture.md#L278) (line 278, col 3, score 1)
-- [Promethean Infrastructure Setup — L576](promethean-infrastructure-setup.md#L576) (line 576, col 1, score 1)
-- [Promethean Infrastructure Setup — L576](promethean-infrastructure-setup.md#L576) (line 576, col 3, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

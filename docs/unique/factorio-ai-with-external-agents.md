@@ -32,71 +32,7 @@ related_to_uuid:
   - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
   - 618198f4-cfad-4677-9df6-0640d8a97bae
   - d3e7db72-2e07-4dae-8920-0e07c499a1e5
-references:
-  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
-    line: 152
-    col: 1
-    score: 1
-  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
-    line: 152
-    col: 3
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 102
-    col: 1
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 102
-    col: 3
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 138
-    col: 1
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 138
-    col: 3
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 88
-    col: 1
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 88
-    col: 3
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 1
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 3
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 1
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 3
-    score: 1
+references: []
 ---
 Hell yes. “AI in Factorio” is totally doable—just don’t get hung up on *ML inside the mod*. The sane way is: **Lua does environment + actions; an external agent (your JS brain) does the “AI.”** Here’s a practical map.
 
@@ -239,8 +175,7 @@ Pick one and a **mode** (slow-roll / ask-first / build).
 If you say “**ask-first + RCON**,” I’ll ship the **exact control.lua** + a tiny **Node client** you can run today.
 
 \#hashtags
-\#factorio #lua #ai-agents #promethean #systems-design #obsidian #adhd-ops
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+\#factorio #lua #ai-agents #promethean #systems-design #obsidian #adhd-ops<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
 - [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
@@ -250,22 +185,6 @@ If you say “**ask-first + RCON**,” I’ll ship the **exact control.lua** + a
 - [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
 - [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
 - [balanced-bst](balanced-bst.md)
-
 ## Sources
-- [Event Bus Projections Architecture — L152](event-bus-projections-architecture.md#L152) (line 152, col 1, score 1)
-- [Event Bus Projections Architecture — L152](event-bus-projections-architecture.md#L152) (line 152, col 3, score 1)
-- [field-node-diagram-outline — L102](field-node-diagram-outline.md#L102) (line 102, col 1, score 1)
-- [field-node-diagram-outline — L102](field-node-diagram-outline.md#L102) (line 102, col 3, score 1)
-- [field-node-diagram-set — L138](field-node-diagram-set.md#L138) (line 138, col 1, score 1)
-- [field-node-diagram-set — L138](field-node-diagram-set.md#L138) (line 138, col 3, score 1)
-- [field-node-diagram-visualizations — L88](field-node-diagram-visualizations.md#L88) (line 88, col 1, score 1)
-- [field-node-diagram-visualizations — L88](field-node-diagram-visualizations.md#L88) (line 88, col 3, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

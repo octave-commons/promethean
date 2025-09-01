@@ -1,3 +1,26 @@
+---
+uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+created_at: 2025.09.01.10.58.21.md
+filename: Functional Embedding Pipeline Refactor
+description: >-
+  This refactor isolates I/O operations at the edges of the system, ensuring
+  pure mappers and reducers handle core logic. It introduces safe caching via
+  content-hash compatibility and bounds concurrency to prevent Ollama overload.
+  The design maintains output consistency while improving error resilience
+  through doc-level error handling.
+tags:
+  - functional
+  - caching
+  - concurrency
+  - embeddings
+  - io-boundary
+  - pure-functions
+  - error-handling
+  - type-safety
+related_to_uuid: []
+related_to_title: []
+references: []
+---
 you’ve got way too much state mutation and IO mixed into control flow. here’s a functional pass that:
 
 * isolates IO at the edges
@@ -306,4 +329,9 @@ main().catch((e) => {
 
 if you want to go even more functional, we can make the “runner” pass in *all* side-effectors (`readFile`, `postEmbed`, `writeJSON`) as injected deps and test the whole pipeline with pure data. but this is already a big step up without over-engineering.
 
-\#refactor #functional #typescript #ollama #embeddings #docs-pipeline
+\#refactor #functional #typescript #ollama #embeddings #docs-pipeline<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

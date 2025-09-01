@@ -20,6 +20,9 @@ tags:
   - semantic versioning
   - cross-document similarity
   - cache
+related_to_uuid: []
+related_to_title: []
+references: []
 ---
 here’s the high-level snapshot of what we’ve built together, plus how it all fits.
 
@@ -177,4 +180,9 @@ pnpm --filter @promethean/semverguard sv:05-pr --mode prepare   # or --mode git 
 * Semverguard: option to **group PRs** by scope (one PR per area), and CI job to **fail** on uncommitted snapshot deltas.
 * Docops: optional **Obsidian-safe FM size cap** with overflow to a sidecar JSON index.
 
-If you want, I can generate a one-pager README for each package or a top-level “how it all works” doc linking to every CLI and cache file.
+If you want, I can generate a one-pager README for each package or a top-level “how it all works” doc linking to every CLI and cache file.<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

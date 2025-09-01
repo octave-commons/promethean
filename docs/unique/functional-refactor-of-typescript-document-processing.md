@@ -1,3 +1,20 @@
+---
+uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+created_at: 2025.09.01.10.55.22.md
+filename: Functional Refactor of TypeScript Document Processing
+description: >-
+  This TypeScript program refactors document processing into a functional style
+  using pure functions, immutability, and asynchronous operations. It processes
+  markdown files by extracting front matter, splitting into chunks, and
+  generating embeddings while maintaining cache efficiency.
+tags:
+  - typescript
+  - functional-programming
+  - embeddings
+related_to_uuid: []
+related_to_title: []
+references: []
+---
 Here is a direct refactor of the provided TypeScript program into a more functional style using functional programming techniques such as mapping, immutability, and pure functions. The refactor avoids mutation, prefers data transformations, and composes smaller functions, while still handling asynchronous operations as needed for file IO and API calls.[1][2][3]
 
 ## Functional Refactor
@@ -136,4 +153,9 @@ This approach makes the code more testable, maintainable, and readable by clearl
 [17](https://itnext.io/enforce-immutability-with-typescript-to-boost-refactor-process-70055dac5d52)
 [18](https://nodejs.org/api/fs.html)
 [19](https://www.linkedin.com/pulse/migrating-scripts-from-imperative-javascript-python-guest-pivovar-vp7be)
-[20](https://www.reddit.com/r/learnjavascript/comments/snn4s0/askjs_please_help_me_understand_why_the/)
+[20](https://www.reddit.com/r/learnjavascript/comments/snn4s0/askjs_please_help_me_understand_why_the/)<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
