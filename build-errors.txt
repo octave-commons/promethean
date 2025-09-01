@@ -9,7 +9,6 @@ packages/buildfix build: src/utilts.ts(87,22): error TS18046: 'data' is of type 
 packages/buildfix build: src/utilts.ts(87,51): error TS18046: 'data' is of type 'unknown'.
 packages/buildfix build: src/utilts.ts(87,82): error TS18046: 'data' is of type 'unknown'.
 packages/cookbookflow build: src/01-scan.ts(2,24): error TS2307: Cannot find module 'globby' or its corresponding type declarations.
-packages/cookbookflow build: src/04-plan.ts(75,11): error TS2322: Type '{ code: string; title: string; problem: string; runtime: string; difficulty: "easy" | "medium" | "hard"; estimated_time: string; ingredients: string[]; steps: string[]; code_lang: string; see_also: string[]; tags: string[]; uuid: `${string}-${string}-${string}-${string}-${string}`; task: string; } | { ...; }' is not assignable to type 'PlanRecipe'.
 packages/cookbookflow build: src/06-exec.ts(4,24): error TS2307: Cannot find module 'globby' or its corresponding type declarations.
 packages/testgap build: src/01-scan-exports.ts(4,20): error TS2307: Cannot find module 'globby' or its corresponding type declarations.
 packages/testgap build: src/01-scan-exports.ts(5,25): error TS2307: Cannot find module 'ts-morph' or its corresponding type declarations.
@@ -22,9 +21,3 @@ packages/testgap build: src/utils.ts(24,22): error TS18046: 'data' is of type 'u
 packages/testgap build: src/utils.ts(24,51): error TS18046: 'data' is of type 'unknown'.
 packages/testgap build: src/utils.ts(24,82): error TS18046: 'data' is of type 'unknown'.
 packages/tests build: src/parity/runner.test.ts(10,16): error TS2709: Cannot use namespace 'ParityClients' as a type.
-packages/tests build: src/stream-title.test.ts(53,19): error TS2709: Cannot use namespace 'TitleContextSource' as a type.
-packages/tests build: src/stream-title.test.ts(72,19): error TS2709: Cannot use namespace 'TitleContextSource' as a type.
-packages/cephalon build: src/llm-service.ts(4,1): error TS6192: All imports in import declaration are unused.
-packages/cephalon build: src/llm-service.ts(22,34): error TS2709: Cannot use namespace 'Tool' as a type.
-packages/cephalon build: src/llm-service.ts(46,27): error TS2709: Cannot use namespace 'ToolCall' as a type.
-packages/cephalon build: src/llm-service.ts(80,21): error TS2709: Cannot use namespace 'Tool' as a type.
