@@ -47,7 +47,7 @@ git checkout main
 git merge staging && git push origin main
 ```
 
-See the [contribution guidelines](../../README.md) for general workflow
+See the [contribution guidelines](readme.md) for general workflow
 details.
 
 ---

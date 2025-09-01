@@ -1,0 +1,10 @@
+{:vscode-settings
+ {"editor.fontFamily" "JetBrains Mono"
+  "editor.fontSize" 14
+  "files.trimTrailingWhitespace" true
+  "terminal.integrated.scrollback" 5000}
+
+ :settings-targets
+ [{:path "~/.config/Code/User/settings.json"}
+  {:path "~/.config/VSCodium/User/settings.json"}
+  {:path "~/.codium/windsurf/User/settings.json"}]}

@@ -19,7 +19,7 @@ is based on the "Dorian Permission Gate" equations in our math notes.
 - [ ] Implement gate logic as a Python module (`shared/py/permission_gate.py`)
 - [ ] Support weight/threshold config via YAML
 - [ ] Expose a simple `check_permission(agent, action)` API
-- [ ] Document schema expectations in [AGENTS.md](../../AGENTS.md)
+- [ ] Document schema expectations in [agents.md](agile/agents.md)
 
 ---
 

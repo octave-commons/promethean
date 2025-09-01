@@ -4,7 +4,7 @@
 
 ### Overview
 
-Layer 6 maps to Circuit 6: [[Oneriric.md|Oneiric]]. It explores imaginative and hypothetical spaces.
+Layer 6 maps to Circuit 6: [[oneriric|Oneiric]]. It explores imaginative and hypothetical spaces.
 
 ### Related Services and Agents
 

@@ -1,0 +1,31 @@
+{
+ "name": "@promethean/semverguard",
+ "version": "0.1.0",
+ "private": true,
+ "type": "module",
+ "bin": {
+  "semver-snapshot": "dist/01-snapshot.js",
+  "semver-diff": "dist/02-diff.js",
+  "semver-plan": "dist/03-plan.js",
+  "semver-write": "dist/04-write.js"
+ },
+ "scripts": {
+  "build": "tsc -p tsconfig.json",
+  "sv:01-snapshot": "tsx src/01-snapshot.ts",
+  "sv:02-diff": "tsx src/02-diff.ts",
+  "sv:03-plan": "tsx src/03-plan.ts",
+  "sv:04-write": "tsx src/04-write.ts",
+  "sv:all": "pnpm sv:01-snapshot && pnpm sv:02-diff && pnpm sv:03-plan && pnpm sv:04-write"
+ },
+ "dependencies": {
+  "globby": "^14.0.2",
+  "gray-matter": "^4.0.3",
+  "ts-morph": "^22.0.0",
+  "yaml": "^2.5.0",
+  "zod": "^3.23.8"
+ },
+ "devDependencies": {
+  "tsx": "^4.19.2",
+  "typescript": "^5.5.4"
+ }
+}

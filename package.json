@@ -1,6 +1,7 @@
 {
   "type": "module",
   "packageManager": "pnpm@9.0.0",
+  "name": "promethean",
   "scripts": {
     "generate_mcp_configs": "bb ./mk/mcp-compile.clj ./config/mcp_servers.edn ~/.codex/config.toml ~/.config/mcp/config.json ~/.config/Code/User/mcp.json",
     "preinstall": "node -e \"const ua = process.env.npm_config_user_agent || ''; if (!ua.includes('pnpm')) { console.error('\\nERROR: pnpm is required for this repo. npm/yarn are not supported and often fail with EACCES permission errors.\\nInstall via: corepack enable && corepack prepare pnpm@latest --activate\\nThen re-run: pnpm install\\n'); process.exit(1); }\"",
@@ -14,20 +15,32 @@
     "health:node-abi": "node -p \"process.versions.node + ' ABI ' + process.versions.modules\"",
     "prepare": "chmod +x ./bin/promethean.js",
     "lint": "biome lint --config-path=biome.json .",
-    "format": "biome format --config-path=biome.json --write ."
+    "format": "biome format --config-path=biome.json --write .",
+    "doc:01-frontmatter": "tsx packages/docops/src/01-frontmatter.ts --dir docs/unique --gen-model qwen3:4b",
+    "doc:02-embed": "tsx packages/docops/src/02-embed.ts --dir docs/unique",
+    "doc:03-query": "tsx packages/docops/src/03-query.ts",
+    "doc:04-relate": "tsx packages/docops/src/04-relations.ts --docs-dir docs/unique --doc-threshold 0.78 --ref-threshold 0.85",
+    "doc:05-footers": "tsx packages/docops/src/05-footers.ts --dir docs/unique --anchor-style block",
+    "doc:06-rename": "tsx packages/docops/src/06-rename.ts --dir docs/unique",
+    "doc:all": "pnpm doc:01-frontmatter && pnpm doc:02-embed && pnpm doc:03-query && pnpm doc:04-relate && pnpm doc:05-footers && pnpm doc:06-rename"
   },
   "bin": {
     "prom": "./bin/promethean.js"
   },
   "dependencies": {
-    "@shared/js": "file:shared/js",
+    "@promethean/legacy": "workspace:*",
     "@shared/sibilant": "file:shared/sibilant",
-    "@shared/ts": "file:shared/ts",
+    "@promethean/piper": "file:packages/piper",
+    "@types/node": "^24.3.0",
     "adm-zip": "0.5.16",
     "dotenv": "17.2.1",
+    "gray-matter": "^4.0.3",
     "http-proxy": "1.18.1",
     "mongodb": "6.18.0",
     "pm2": "6.0.8",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.0.0",
     "ws": "8.18.3",
     "yaml": "2.8.1",
     "zod": "3.25.76"

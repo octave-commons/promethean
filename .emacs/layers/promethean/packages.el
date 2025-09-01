@@ -45,7 +45,3 @@
       :modes hy-mode)
     (add-to-list 'flycheck-checkers 'hy))
   )
-
-
-
-(provide 'promethean)

@@ -1,0 +1,22 @@
+{
+  "name": "@promethean/codepack",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "code:01-extract": "tsx src/01-extract.ts --dir docs/unique",
+    "code:02-embed": "tsx src/02-embed.ts",
+    "code:03-cluster": "tsx src/03-cluster.ts --sim-threshold 0.82 --k 8",
+    "code:04-name": "tsx src/04-name.ts --gen-model qwen3:4b",
+    "code:05-materialize": "tsx src/05-materialize.ts --out out/code_groups",
+    "code:all": "pnpm code:01-extract && pnpm code:02-embed && pnpm code:03-cluster && pnpm code:04-name && pnpm code:05-materialize"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.4",
+    "unist-util-visit": "^5.0.0",
+    "yaml": "^2.5.0",
+    "zod": "^3.23.8"
+  }
+}

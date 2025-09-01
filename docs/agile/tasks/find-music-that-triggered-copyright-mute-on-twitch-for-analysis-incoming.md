@@ -1,0 +1,48 @@
+## 🛠️ Description
+
+The videos have the title of the track in there. Just get rid of those ones.
+
+---
+
+## 🎯 Goals
+
+- What are we trying to accomplish?
+
+---
+
+## 📦 Requirements
+
+- [ ] Detail requirements.
+
+---
+
+## 📋 Subtasks
+
+- [ ] Outline steps to implement.
+
+---
+
+## 🔗 Related Epics
+
+#framework-core
+
+---
+
+## ⛓️ Blocked By
+
+Nothing
+
+## ⛓️ Blocks
+
+Nothing
+
+---
+
+## 🔍 Relevant Links
+
+<<<<<<< HEAD:docs/agile/tasks/find-music-that-triggered-copyright-mute-on-twitch-for-analysis-incoming.md
+- [[kanban]]
+#rejected
+=======
+- [[kanban.md]]
+>>>>>>> origin/dev/yoga:docs/agile/tasks/Find music that triggered copyright mute on twitch for analysis incoming.md

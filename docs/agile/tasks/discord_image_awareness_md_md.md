@@ -60,4 +60,8 @@ This allows the “Duck” to have **visual memory** tied to conversational cont
 - Tests or documentation are missing; acceptance criteria not fully met.
 - Story Points: 5
 
+<<<<<<< HEAD
+#ready
+=======
 #in-progress
+>>>>>>> origin/dev/yoga

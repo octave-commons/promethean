@@ -1,0 +1,29 @@
+
+version: "3.9"
+
+services:
+  model-server:
+    image: ghcr.io/you/model-server:dev
+    container_name: model-server
+    ports: ["8080:8080"]
+    environment:
+      - POWER_MODE=AC
+      - LOG_LEVEL=info
+      # Budgets & concurrency (override per host/env as needed)
+      - EXEC_NVIDIA_BUDGET_MB=11000
+      - EXEC_NVIDIA_CONCURRENCY=1
+      - EXEC_IGPU_BUDGET_MB=3000
+      - EXEC_IGPU_CONCURRENCY=3
+      - EXEC_NPU_BUDGET_MB=512
+      - EXEC_NPU_CONCURRENCY=6
+      - EXEC_CPU_BUDGET_MB=16000
+      - EXEC_CPU_CONCURRENCY=8
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/healthz"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev
+    restart: unless-stopped

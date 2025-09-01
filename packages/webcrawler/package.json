@@ -10,7 +10,7 @@
     "format": "pnpm exec biome format --write ."
   },
   "dependencies": {
-    "@shared/ts": "file:../../shared/ts",
+    "@promethean/web": "file:../web",
     "cheerio": "^1.0.0-rc.12"
   },
   "devDependencies": {
