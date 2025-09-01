@@ -86,7 +86,7 @@ pipelines:
 
       # f) Apply FM updates (add related & references into FM only)
       - id: doc-apply-fm
-        deps: ["doc-related","do-references"]
+        deps: ["doc-related", "doc-references"]
         shell: >
           pnpm --filter @promethean/docops
           doc:06-apply-frontmatter

@@ -23,6 +23,7 @@
   "dependencies": {
     "@promethean/legacy": "workspace:*",
     "@shared/sibilant": "file:shared/sibilant",
+    "@promethean/piper": "file:packages/piper",
     "@types/node": "^24.3.0",
     "adm-zip": "0.5.16",
     "dotenv": "17.2.1",

@@ -28,9 +28,6 @@
         "test:markdown": "pnpm run build && ava --config ../../config/ava.config.mjs dist/tests/markdown.*.test.js",
         "format": "pnpm exec biome format --write ."
     },
-    "bin": {
-        "prom-lisp": "dist/cli/lisp.js"
-    },
     "module": "dist/index.js",
     "dependencies": {
         "@types/javascript-time-ago": "^2.5.0",

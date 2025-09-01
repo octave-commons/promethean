@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc && node scripts/patch-imports.js",
+    "build": "tsc",
     "build:check": "tsc --noEmit --incremental false",
     "test": "pnpm run build && ava --config ../../../config/ava.config.mjs dist/tests",
     "coverage": "pnpm run build && c8 ava",
