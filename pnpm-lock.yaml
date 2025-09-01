@@ -10,6 +10,9 @@ importers:
       "@promethean/legacy":
         specifier: workspace:*
         version: link:packages/legacy
+      "@promethean/piper":
+        specifier: file:packages/piper
+        version: file:packages/piper
       "@shared/sibilant":
         specifier: file:shared/sibilant
         version: lith@file:shared/sibilant
@@ -3587,6 +3590,9 @@ importers:
 
   packages/piper:
     dependencies:
+      "@promethean/piper":
+        specifier: "link:"
+        version: "link:"
       chokidar:
         specifier: ^3.6.0
         version: 3.6.0
@@ -6909,6 +6915,10 @@ packages:
 
   "@promethean/persistence@file:packages/persistence":
     resolution: { directory: packages/persistence, type: directory }
+    hasBin: true
+
+  "@promethean/piper@file:packages/piper":
+    resolution: { directory: packages/piper, type: directory }
     hasBin: true
 
   "@promethean/test-utils@file:packages/test-utils":
@@ -17573,6 +17583,14 @@ snapshots:
       - socks
       - supports-color
       - utf-8-validate
+
+  "@promethean/piper@file:packages/piper":
+    dependencies:
+      "@promethean/piper": "link:"
+      chokidar: 3.6.0
+      globby: 14.1.0
+      yaml: 2.8.1
+      zod: 3.25.76
 
   "@promethean/test-utils@file:packages/test-utils(socks@2.8.7)":
     dependencies:

@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc && node ../scripts/patch-imports.js",
+    "build": "tsc",
     "prestart": "pnpm run build",
     "start": "node dist/index.js",
     "start:dev": "node --loader ts-node/esm src/index.ts",

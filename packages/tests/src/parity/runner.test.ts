@@ -1,13 +1,7 @@
 import test from 'ava';
-import {
-    runChatBoth,
-    runChatStreamBoth,
-    runEmbedBoth,
-    compareErrors,
-} from '@promethean/parity/runner.js';
-import type { ParityClients } from '@promethean/parity/runner.js';
+import { runChatBoth, runChatStreamBoth, runEmbedBoth, compareErrors } from '@promethean/parity/runner.js';
 
-const clients: ParityClients = {
+const clients = {
     broker: {
         async chat() {
             return { text: 'b', usage: {}, finish_reason: 'done' };

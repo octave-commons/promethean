@@ -1,22 +1,24 @@
 {
- "name": "@promethean/piper",
- "version": "0.1.0",
- "private": true,
- "type": "module",
- "bin": {
-  "piper": "dist/index.js"
- },
- "scripts": {
-  "build": "tsc -p tsconfig.json"
- },
- "dependencies": {
-  "chokidar": "^3.6.0",
-  "globby": "^14.0.2",
-  "yaml": "^2.5.0",
-  "zod": "^3.23.8"
- },
- "devDependencies": {
-  "tsx": "^4.19.2",
-  "typescript": "^5.5.4"
- }
+  "name": "@promethean/piper",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "piper": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepare": "pnpm run build"
+  },
+  "dependencies": {
+    "@promethean/piper": "link:",
+    "chokidar": "^3.6.0",
+    "globby": "^14.0.2",
+    "yaml": "^2.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.4"
+  }
 }
