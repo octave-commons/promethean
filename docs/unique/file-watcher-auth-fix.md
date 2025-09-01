@@ -16,11 +16,7 @@ related_to_title:
   - plan-update-confirmation
 related_to_uuid:
   - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-references:
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 637
-    col: 1
-    score: 0.9
+references: []
 ---
 We just updated the filewatcher to use the new auth-service, and we have some type errors. Please fix them, and confirm they are fixed by running pnpm build.
 
@@ -86,11 +82,9 @@ Errors  Files
      3  src/repo-watcher.ts:2
      1  src/token-client.ts:45
  ELIFECYCLE  Command failed with exit code 2.
-err@err-Stealth-16-AI-Studio-A1VGG:~/devel/promethean/services/ts/file-watcher$  w
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+err@err-Stealth-16-AI-Studio-A1VGG:~/devel/promethean/services/ts/file-watcher$  w<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [plan-update-confirmation](plan-update-confirmation.md)
-
 ## Sources
-- [plan-update-confirmation — L637](plan-update-confirmation.md#L637) (line 637, col 1, score 0.9)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -1,6 +1,8 @@
 {
   "name": "@promethean/docops",
+  "type": "module",
   "scripts": {
+    "build": "tsc -p tsconfig.json",
     "doc:01-frontmatter": "tsx ./src/01-frontmatter.ts --dir docs/unique --gen-model qwen3:4b",
     "doc:02-embed": "tsx ./src/02-embed.ts --dir docs/unique",
     "doc:03-query": "tsx ./src/03-query.ts",
@@ -10,7 +12,13 @@
     "doc:all": "pnpm doc:01-frontmatter && pnpm doc:02-embed && pnpm doc:03-query && pnpm doc:04-relate && pnpm doc:05-footers && pnpm doc:06-rename"
   },
   "dependencies": {
+    "@chroma-core/ollama": "^0.1.7",
+    "@types/level": "^8.0.0",
+    "abstract-level": "^3.1.0",
+    "chromadb": "^3.0.14",
     "gray-matter": "^4.0.3",
+    "level": "^10.0.0",
+    "ollama": "^0.5.17",
     "remark-parse": "^11.0.0",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.0.0",

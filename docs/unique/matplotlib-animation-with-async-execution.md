@@ -30,47 +30,7 @@ related_to_uuid:
   - 93d2ba51-8689-49ee-94e2-296092e48058
   - f2d83a77-7f86-4c56-8538-1350167a0c6c
   - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-references:
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 5
-    col: 1
-    score: 0.92
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 1
-    col: 1
-    score: 0.88
-  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
-    line: 134
-    col: 1
-    score: 1
-  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
-    line: 134
-    col: 3
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 156
-    col: 1
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 156
-    col: 3
-    score: 1
-  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-    line: 136
-    col: 1
-    score: 1
-  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-    line: 136
-    col: 3
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 386
-    col: 1
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 386
-    col: 3
-    score: 1
+references: []
 ---
 Yep—totally doable. Two good paths:
 
@@ -136,8 +96,7 @@ You can still reuse your exact animation code; just swap the block language to `
 * If `PillowWriter` is slow, try writing **PNG frames** and stitching with `ffmpeg` outside Emacs (even less UI blocking).
 * On `ob-async`, remember: **no `:session`**. If you need long-lived state, prefer the Jupyter route.
 
-Want me to convert your current smoke‑symbols block to a `jupyter-python` version verbatim?
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+Want me to convert your current smoke‑symbols block to a `jupyter-python` version verbatim?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
 - [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
@@ -145,16 +104,6 @@ Want me to convert your current smoke‑symbols block to a `jupyter-python` vers
 - [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
 - [aionian-circuit-math](aionian-circuit-math.md)
 - [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-
 ## Sources
-- [Canonical Org-Babel Matplotlib Animation Template — L5](canonical-org-babel-matplotlib-animation-template.md#L5) (line 5, col 1, score 0.92)
-- [Canonical Org-Babel Matplotlib Animation Template — L1](canonical-org-babel-matplotlib-animation-template.md#L1) (line 1, col 1, score 0.88)
-- [Agent Tasks: Persistence Migration to DualStore — L134](agent-tasks-persistence-migration-to-dualstore.md#L134) (line 134, col 1, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L134](agent-tasks-persistence-migration-to-dualstore.md#L134) (line 134, col 3, score 1)
-- [aionian-circuit-math — L156](aionian-circuit-math.md#L156) (line 156, col 1, score 1)
-- [aionian-circuit-math — L156](aionian-circuit-math.md#L156) (line 156, col 3, score 1)
-- [Board Walk – 2025-08-11 — L136](board-walk-2025-08-11.md#L136) (line 136, col 1, score 1)
-- [Board Walk – 2025-08-11 — L136](board-walk-2025-08-11.md#L136) (line 136, col 3, score 1)
-- [Dynamic Context Model for Web Components — L386](dynamic-context-model-for-web-components.md#L386) (line 386, col 1, score 1)
-- [Dynamic Context Model for Web Components — L386](dynamic-context-model-for-web-components.md#L386) (line 386, col 3, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

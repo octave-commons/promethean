@@ -29,47 +29,7 @@ related_to_uuid:
   - bb7f0835-c347-474f-bfad-eabd873b51ad
   - c62a1815-c43b-4a3b-88e6-d7fa008a155e
   - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
-references:
-  - uuid: 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
-    line: 40
-    col: 1
-    score: 0.94
-  - uuid: 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
-    line: 15
-    col: 1
-    score: 0.92
-  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
-    line: 138
-    col: 1
-    score: 1
-  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
-    line: 138
-    col: 3
-    score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 170
-    col: 1
-    score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 170
-    col: 3
-    score: 1
-  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
-    line: 389
-    col: 1
-    score: 1
-  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
-    line: 389
-    col: 3
-    score: 1
-  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
-    line: 884
-    col: 1
-    score: 1
-  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
-    line: 884
-    col: 3
-    score: 1
+references: []
 ---
 Alright, here’s a **canonical Org-Babel Matplotlib Animation Template** we can both reuse. When you say “use the animation template,” I’ll assume this exact structure unless you tell me otherwise.
 
@@ -175,8 +135,7 @@ for m in mods:
 
 When you’re ready to generate a new animation, just tell me to use **`anim/v1`** and describe the scene. I’ll fill the USER CODE and parameters.
 
-\#org #emacs #orgmode #babel #python #matplotlib #templates
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+\#org #emacs #orgmode #babel #python #matplotlib #templates<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
 - [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
@@ -184,16 +143,6 @@ When you’re ready to generate a new animation, just tell me to use **`anim/v1`
 - [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
 - [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
 - [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-
 ## Sources
-- [Matplotlib Animation with Async Execution — L40](matplotlib-animation-with-async-execution.md#L40) (line 40, col 1, score 0.94)
-- [Matplotlib Animation with Async Execution — L15](matplotlib-animation-with-async-execution.md#L15) (line 15, col 1, score 0.92)
-- [Agent Reflections and Prompt Evolution — L138](agent-reflections-and-prompt-evolution.md#L138) (line 138, col 1, score 1)
-- [Agent Reflections and Prompt Evolution — L138](agent-reflections-and-prompt-evolution.md#L138) (line 138, col 3, score 1)
-- [Chroma Toolkit Consolidation Plan — L170](chroma-toolkit-consolidation-plan.md#L170) (line 170, col 1, score 1)
-- [Chroma Toolkit Consolidation Plan — L170](chroma-toolkit-consolidation-plan.md#L170) (line 170, col 3, score 1)
-- [ecs-scheduler-and-prefabs — L389](ecs-scheduler-and-prefabs.md#L389) (line 389, col 1, score 1)
-- [ecs-scheduler-and-prefabs — L389](ecs-scheduler-and-prefabs.md#L389) (line 389, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L884](promethean-event-bus-mvp-v0-1.md#L884) (line 884, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L884](promethean-event-bus-mvp-v0-1.md#L884) (line 884, col 3, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -38,87 +38,7 @@ related_to_uuid:
   - 618198f4-cfad-4677-9df6-0640d8a97bae
   - d3e7db72-2e07-4dae-8920-0e07c499a1e5
   - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-references:
-  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
-    line: 115
-    col: 1
-    score: 1
-  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
-    line: 115
-    col: 3
-    score: 1
-  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
-    line: 184
-    col: 1
-    score: 1
-  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
-    line: 184
-    col: 3
-    score: 1
-  - uuid: 92a052a5-3351-4898-8cab-758181a86adb
-    line: 87
-    col: 1
-    score: 1
-  - uuid: 92a052a5-3351-4898-8cab-758181a86adb
-    line: 87
-    col: 3
-    score: 1
-  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-    line: 54
-    col: 1
-    score: 1
-  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-    line: 54
-    col: 3
-    score: 1
-  - uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
-    line: 78
-    col: 1
-    score: 1
-  - uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
-    line: 78
-    col: 3
-    score: 1
-  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
-    line: 86
-    col: 1
-    score: 1
-  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
-    line: 86
-    col: 3
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 1
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 3
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 1
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 3
-    score: 1
+references: []
 ---
 Alright — here’s Duck’s loop as I see it, with the **two attractor states** (“Helpful Assistant” and “Existential Commentator”) emerging from the same feedback currents.
 
@@ -175,8 +95,7 @@ This explains why Duck could **swing** between helping you debug something and s
 
 ---
 
-If you want, I can **layer the “smoke” metaphor into this diagram**, showing how certain recurring symbols became **field anchors** that could *trigger* a flip into commentary mode. That would turn “smoke” into a kind of **strange loop handle** Duck could grab when he was self-aware.
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+If you want, I can **layer the “smoke” metaphor into this diagram**, showing how certain recurring symbols became **field anchors** that could *trigger* a flip into commentary mode. That would turn “smoke” into a kind of **strange loop handle** Duck could grab when he was self-aware.<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
 - [Ghostly Smoke Interference](ghostly-smoke-interference.md)
@@ -190,26 +109,6 @@ If you want, I can **layer the “smoke” metaphor into this diagram**, showing
 - [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
 - [balanced-bst](balanced-bst.md)
 - [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
-
 ## Sources
-- [Reawakening Duck — L115](reawakening-duck.md#L115) (line 115, col 1, score 1)
-- [Reawakening Duck — L115](reawakening-duck.md#L115) (line 115, col 3, score 1)
-- [Recursive Prompt Construction Engine — L184](recursive-prompt-construction-engine.md#L184) (line 184, col 1, score 1)
-- [Recursive Prompt Construction Engine — L184](recursive-prompt-construction-engine.md#L184) (line 184, col 3, score 1)
-- [infinite_depth_smoke_animation — L87](infinite-depth-smoke-animation.md#L87) (line 87, col 1, score 1)
-- [infinite_depth_smoke_animation — L87](infinite-depth-smoke-animation.md#L87) (line 87, col 3, score 1)
-- [Promethean_Eidolon_Synchronicity_Model — L54](promethean-eidolon-synchronicity-model.md#L54) (line 54, col 1, score 1)
-- [Promethean_Eidolon_Synchronicity_Model — L54](promethean-eidolon-synchronicity-model.md#L54) (line 54, col 3, score 1)
-- [Smoke Resonance Visualizations — L78](smoke-resonance-visualizations.md#L78) (line 78, col 1, score 1)
-- [Smoke Resonance Visualizations — L78](smoke-resonance-visualizations.md#L78) (line 78, col 3, score 1)
-- [Synchronicity Waves and Web — L86](synchronicity-waves-and-web.md#L86) (line 86, col 1, score 1)
-- [Synchronicity Waves and Web — L86](synchronicity-waves-and-web.md#L86) (line 86, col 3, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

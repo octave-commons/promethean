@@ -20,6 +20,9 @@ tags:
   - riskmap
   - docs
   - pipeline
+related_to_uuid: []
+related_to_title: []
+references: []
 ---
 love that. treat repos like dataflows and CLIs like transforms. here are high-leverage pipelines we can bolt on next (all idempotent, marker-safe, cached under `.cache/<pkg>`):
 
@@ -107,4 +110,9 @@ flowchart LR
 * **apidiff** (fast win): reuse `@promethean/symdocs` scan output; add `03-diff.ts` (compare against saved baseline in `.cache/apidiff/<pkg>.json`) and `05-write.ts` for a per-package report + semver recommendation.
 * **codemods** (pairs nicely with `simtasks`): add `simtasks:06-codemods` to synthesize ts-morph transforms from a plan and emit runnable codemods with a dry-run CLI.
 
-pick 2 and I’ll spin the files. if you want, we can also add a tiny **runner** (`pipelines.json` → runs steps with change detection) so new steps slot in without touching existing scripts.
+pick 2 and I’ll spin the files. if you want, we can also add a tiny **runner** (`pipelines.json` → runs steps with change detection) so new steps slot in without touching existing scripts.<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

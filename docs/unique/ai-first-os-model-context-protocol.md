@@ -21,39 +21,7 @@ related_to_uuid:
   - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
   - d3e7db72-2e07-4dae-8920-0e07c499a1e5
   - ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
-references:
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 1
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 3
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 1
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 3
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 300
-    col: 1
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 300
-    col: 3
-    score: 1
-  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
-    line: 15
-    col: 1
-    score: 1
-  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
-    line: 15
-    col: 3
-    score: 1
+references: []
 ---
 Now... lets see... what next...
 
@@ -61,20 +29,11 @@ We need a model context protocol thingy that makes all of this accessable...
 
 We are making an AI first operating system.
 
-What tools would that have?
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+What tools would that have?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
 - [balanced-bst](balanced-bst.md)
 - [Board Automation Improvements](board-automation-improvements.md)
-
 ## Sources
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
-- [balanced-bst — L300](balanced-bst.md#L300) (line 300, col 1, score 1)
-- [balanced-bst — L300](balanced-bst.md#L300) (line 300, col 3, score 1)
-- [Board Automation Improvements — L15](board-automation-improvements.md#L15) (line 15, col 1, score 1)
-- [Board Automation Improvements — L15](board-automation-improvements.md#L15) (line 15, col 3, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

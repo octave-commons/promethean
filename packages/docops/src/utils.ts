@@ -1,11 +1,12 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-import matter from "gray-matter";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
 import * as yaml from "yaml";
-import type { Chunk, Front } from "./types";
+import { once } from "node:events";
+import { Chunk, Front } from "./types";
+import { createWriteStream } from "node:fs";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
@@ -266,9 +267,6 @@ export function injectAnchors(
   }
   return lines.join("\n");
 }
-// packages/docops/src/utils.ts
-import { createWriteStream, promises as fs } from "node:fs";
-import { once } from "node:events";
 
 // Replacer that avoids cycles, BigInt, gigantic strings, and serializes typed arrays sanely.
 export function safeReplacer() {
