@@ -84,3 +84,10 @@ docs/.makemd/
 
 docs/.space/
 context.mdb
+packages/smartgpt-bridge/logs/
+
+packages/smartgpt-bridge/services/ts/smartgpt-bridge/tests/tmp/
+
+packages/codex-context/docs/codex-context/
+
+*.tsbuildinfo
