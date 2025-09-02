@@ -81,7 +81,7 @@ async function main() {
       clusterId: c.id,
       title: plan.title,
       summary: plan.summary,
-      canonical: { path: plan.canonicalPath, name: plan.canonicalName, params: undefined },
+      canonical: { path: plan.canonicalPath, name: plan.canonicalName },
       duplicates: dups.map(d => ({
         id: d.id, package: d.pkgName, file: d.fileRel, name: d.name, kind: d.kind, exported: d.exported
       }))
