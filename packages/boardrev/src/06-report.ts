@@ -12,10 +12,10 @@ const args = parseArgs({
 });
 
 async function main() {
-  const evals: { evals: EvalItem[] } = JSON.parse(await fs.readFile(path.resolve(args["--evals"]), "utf-8"));
-  await fs.mkdir(path.resolve(args["--outDir"]), { recursive: true });
+  const evals: { evals: EvalItem[] } = JSON.parse(await fs.readFile(path.resolve(args["--evals"]!), "utf-8"));
+  await fs.mkdir(path.resolve(args["--outDir"]!), { recursive: true });
   const ts = new Date().toISOString().replace(/[:.]/g, "-");
-  const out = path.join(args["--outDir"], `board-${ts}.md`);
+  const out = path.join(args["--outDir"]!, `board-${ts}.md`);
 
   // group by inferred status
   const groups = new Map<string, EvalItem[]>();
@@ -79,7 +79,7 @@ async function main() {
   ].join("\n");
 
   await writeText(out, md);
-  await writeText(path.join(args["--outDir"], "README.md"), `# Board Reports\n\n- [Latest](${path.basename(out)})\n`);
+  await writeText(path.join(args["--outDir"]!, "README.md"), `# Board Reports\n\n- [Latest](${path.basename(out)})\n`);
   console.log(`boardrev: wrote report → ${path.relative(process.cwd(), out)}`);
 }
 
