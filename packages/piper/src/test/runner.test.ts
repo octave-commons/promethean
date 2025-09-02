@@ -2,9 +2,9 @@ import test from "ava";
 import * as fs from "fs/promises";
 import * as path from "path";
 import YAML from "yaml";
-import { runPipeline } from "../dist/runner.js";
+import { runPipeline } from "../runner.js";
 
-async function withTmp(fn) {
+async function withTmp(fn: { (dir: any): Promise<void>; (arg0: string): any }) {
   const dir = path.join(
     process.cwd(),
     "test-tmp",

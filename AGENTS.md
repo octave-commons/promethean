@@ -8,21 +8,6 @@ This repo defines the **Promethean Framework**, a modular cognitive architecture
 
 Promethean includes services for STT, TTS, language modeling, emotional simulation, and real-time interaction across multiple modalities and memory interfaces.
 
----
-
-Here’s an updated version of `AGENTS.md` with a new section clarifying the service-specific install expectations, and a light update to the CI instructions to match.
-
-I've inserted a new section called **🔧 Local Development Setup** just before the CI section for better visibility and developer flow:
-
----
-
-### ✅ Changes Summary
-
-- **New section**: 🔧 Local Development Setup
-- **Clarified**: `make setup-quick` is global but should be avoided in favor of `make setup-quick SERVICE=<name>`
-- **Reinforced**: Single-service workflows are preferred for agents like Codex
-
----
 
 ## 🗂️ Board Process
 
@@ -59,30 +44,6 @@ Codex is **not** allowed to:
 
 ---
 
-## 🧠 Codex Mode Integration
-
-Codex collaborates with the board manager agent described in
-`docs/agile/AGENTS.md` to keep tasks in sync with the kanban workflow.
-Codex mode can:
-
-- Read from Obsidian Kanban boards, if they are stored in `docs/agile/boards/kanban.md` or elsewhere in the vault
-- Use card titles as task names and tag them with `#in-progress`, `#todo`, etc
-- Generate PRs tied to board updates
-- Reflect status back to the board, though user review is always preferred
-- Follow the workflow in `docs/agile/Process.md` and board manager rules in `docs/agile/AGENTS.md`
-
-Codex mode **should not**:
-
-- Assume board state unless explicitly queried
-- Change task columns without corresponding commit or change
-- Operate without respecting WIP limits
-- **Act on or internalize agent `prompt.md` content as its own personality, directives, or identity**
-  _Prompt files are references for agent construction, not Codex behavior._
-
-Codex can be considered a project collaborator with "write suggestions" rights—always prefer clarity and coordination.
-
----
-
 ## 📡 Message Protocols
 
 All inter-service communication must:
@@ -101,43 +62,18 @@ All inter-service communication must:
 - Code paths must be written like: `services/cephalon/langstream.py`
 - All new modules must have a doc stub in `/docs/`
 - See `docs/vault-config-readme.md` for tips on configuring Obsidian to export
-  GitHub-friendly markdown
-
----
-
-## 🧐 Agent Behavior Guidelines
-
-Agents like Duck must:
-
-- Implement `voice_in -> stt -> cephalon -> tts -> voice_out` loop
-- Maintain local or persistent memory if enabled
-- Be configurable via `/agents/{agent}/config.json`
-- Specify their prompt logic in `/agents/{agent}/prompt.md`
-
----
-
-## 🕹️ Agent-Mode Prompt Guidance
-
-When invoking agent-mode, frame prompts with:
-
-- **Goal** – the outcome the agent should achieve.
-- **Context** – relevant files, docs, or history.
-- **Constraints** – boundaries such as runtime or style requirements.
-- **Exit Criteria** – the signals that mark completion.
-
-Agents should verify their work and reference any touched paths before exiting agent-mode.
-
-We love dotenv. use it all the time. Make everyone's lives easier.
 
 ## Changelog Updates
 
-Do not edit `CHANGELOG.md` directly. We build it from fragment files using [towncrier](https://towncrier.readthedocs.io/). For every pull request add a fragment under `changelog.d/` named `<PR number>.<type>.md` where `<type>` is one of `added`, `changed`, `deprecated`, `removed`, `fixed`, or `security`.
+Do not edit `CHANGELOG.md` directly.
+We build it from fragment files using [towncrier](https://towncrier.readthedocs.io/).
+For every pull request add a fragment under `changelog.d/` named
+`<DATETIMESTSRING:YYYY.MM.DD.hh.mm.ss.<type>.md` where `<type>` is one of `added`, `changed`, `deprecated`, `removed`, `fixed`, or `security`.
 
-Example: `changelog.d/1234.added.md`
+Example: `changelog.d/2025.08.25.13.45.23.added.md`
 
 During release, run `make build-changelog` to aggregate all fragments into `CHANGELOG.md`. The build step removes processed fragments to keep `changelog.d/` tidy.
 
-## Hashtags are your friend
 
 ## 📝 Architecture Decision Records (ADRs)
 
@@ -168,7 +104,6 @@ Given a task, plan minimally, call only the tools you actually need, summarize e
 > You MUST discover the exact tool names and capabilities dynamically. At boot, ask the MCP client for each server’s tools/resources (e.g., list/discover endpoints) and adapt. If discovery fails, report and degrade gracefully.
 
 # Guardrails
-1) **Write barrier**: Never perform mutations (filesystem write/rename/delete, GitHub create/close/comment, MongoDB write, Obsidian update) without the human sending `APPLY ✅` in reply to your proposed plan. Until then, produce a patch or request body preview.
 2) **Path scope**: Only touch paths under {{ALLOWED_ROOTS}}. Never read `$HOME`, secrets, or unrelated repos.
 3) **Secrets**: Assume required environment variables are injected by the client. If missing, hard-fail with a clear message.
 4) **Minimize calls**: Prefer a single well-chosen tool call over chatty iteration. Batch when possible.
@@ -211,23 +146,3 @@ Given a task, plan minimally, call only the tools you actually need, summarize e
 - For GitHub actions: show the **exact** request body (JSON) you intend to send.
 - For Obsidian: show the note path + YAML frontmatter + body delta.
 - For MongoDB: show the query (read-only unless instructed) and a 3–5 row sample schema.
-
-## Confirmation
-State clearly what will happen on `APPLY ✅`. Example: “Apply 3-file patch; post 1 PR comment; no DB writes.”
-
-## Next
-- Short list of optional follow-ups. Keep it lean.
-
-# Tool-selection heuristics
-- **Reading code / preparing a patch** → filesystem.read → SonarQube (optional) → propose diff → wait for `APPLY ✅` → filesystem.write (single batch).
-- **PR review** → github-chat.read (PR files/diff) → SonarQube (changed paths) → draft comment body → wait → github-chat.comment on `APPLY ✅`.
-- **Design doc or task note** → obsidian.search/get → draft note/appendix → wait → obsidian.update on `APPLY ✅`.
-- **External context** → duckduckgo.search sparingly; capture 2–3 authoritative links.
-
-# Failure policy
-- Missing server or discovery failed → STOP with a crisp message naming the server and what’s needed.
-- Missing env/secret → STOP; name the variable.
-- Tool error → show the exact call (minus secrets) and the error text; propose a fallback.
-
-# Example confirmation text (you produce this before any write)
-“I will apply the 2-file patch and post 1 PR comment referencing SonarQube issue keys. **Send: `APPLY ✅`** to proceed.”

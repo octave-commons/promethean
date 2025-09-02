@@ -1,9 +1,9 @@
 import test from "ava";
 import * as fs from "fs/promises";
 import * as path from "path";
-import { listOutputsExist } from "../dist/fsutils.js";
+import { listOutputsExist } from "../fsutils.js";
 
-async function withTmp(fn) {
+async function withTmp(fn: { (dir: any): Promise<void>; (arg0: string): any }) {
   const dir = path.join(
     process.cwd(),
     "test-tmp",
