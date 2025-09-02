@@ -91,3 +91,7 @@ packages/smartgpt-bridge/services/ts/smartgpt-bridge/tests/tmp/
 packages/codex-context/docs/codex-context/
 
 *.tsbuildinfo
+
+build-errors.txt
+
+test-errors.txt
