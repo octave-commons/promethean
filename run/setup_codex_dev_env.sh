@@ -32,4 +32,8 @@ set -euo pipefail
 # corepack enable pnpm
 
 # pre-commit install
-pnpm install --no-lockfile
+corepack enable
+corepack prepare pnpm@9.0.0 --activate
+pnpm -v
+pnpm install --reporter=ndjson --no-frozen-lockfile
+pnpm --filter @promethean/piper run build
