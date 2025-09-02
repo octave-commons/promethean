@@ -25,7 +25,7 @@ export function decodeB64(s: string): string {
 }
 
 // Turn DSL ops into a safe ESM snippet.
-export async function dslToSnippet(ops: OpT[], rootDir: string): Promise<string> {
+export async function dslToSnippet(ops: OpT[]): Promise<string> {
   const hdr = `import { SyntaxKind } from "ts-morph";
 export async function apply(project){
   const by = (p)=>project.getSourceFile(p) || project.getSourceFiles().find(f=>f.getFilePath().endsWith(p));
@@ -105,7 +105,7 @@ export async function apply(project){
 export async function materializeSnippet(plan: Plan, outPath: string): Promise<void> {
   let code = "";
   if (plan.snippet_b64) code = decodeB64(plan.snippet_b64);
-  else if (plan.dsl && plan.dsl.length) code = await dslToSnippet(plan.dsl, process.cwd());
+  else if (plan.dsl && plan.dsl.length) code = await dslToSnippet(plan.dsl);
   else throw new Error("plan has neither snippet_b64 nor dsl");
   await fs.mkdir(path.dirname(outPath), { recursive: true });
   await fs.writeFile(outPath, code, "utf-8");
