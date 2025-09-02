@@ -4,7 +4,6 @@
   "name": "promethean",
   "scripts": {
     "generate_mcp_configs": "bb ./mk/mcp-compile.clj ./config/mcp_servers.edn ~/.codex/config.toml ~/.config/mcp/config.json ~/.config/Code/User/mcp.json",
-    "preinstall": "node -e \"const ua = process.env.npm_config_user_agent || ''; if (!ua.includes('pnpm')) { console.error('\\nERROR: pnpm is required for this repo. npm/yarn are not supported and often fail with EACCES permission errors.\\nInstall via: corepack enable && corepack prepare pnpm@latest --activate\\nThen re-run: pnpm install\\n'); process.exit(1); }\"",
     "test": "pnpm run test:unit",
     "test:unit": "pnpm -r run build && ava --config ./config/ava.config.mjs \"services/**/dist/**/*.test.js\" \"services/**/dist/**/tests/**/*.js\" \"packages/**/dist/**/*.test.js\" \"packages/**/dist/**/test/**/*.js\" \"packages/**/dist/**/tests/**/*.js\" \"shared/**/dist/**/*.test.js\" \"shared/**/dist/**/tests/**/*.js\" \"templates/**/dist/**/test/**/*.js\" \"templates/**/dist/**/tests/**/*.js\" \"services/**/tests/**/*.js\" \"packages/**/tests/**/*.js\" \"shared/**/tests/**/*.js\" \"templates/**/tests/**/*.js\" \"tests/**/*.js\" \"!**/*integration*.*\" \"!**/*e2e*.*\" \"!**/integration/**\" \"!**/e2e/**\" \"!**/system/**\"",
     "test:integration": "pnpm -r run build && ava --config ./config/ava.config.mjs \"services/**/dist/**/*integration*.js\" \"services/**/dist/**/integration/**/*.js\" \"packages/**/dist/**/*integration*.js\" \"packages/**/dist/**/integration/**/*.js\" \"shared/**/dist/**/*integration*.js\" \"shared/**/dist/**/integration/**/*.js\" \"templates/**/dist/**/*integration*.js\" \"templates/**/dist/**/integration/**/*.js\" \"services/**/tests/**/*integration*.js\" \"services/**/tests/**/integration/**/*.js\" \"packages/**/tests/**/*integration*.js\" \"packages/**/tests/**/integration/**/*.js\" \"shared/**/tests/**/*integration*.js\" \"shared/**/tests/**/integration/**/*.js\" \"templates/**/tests/**/*integration*.js\" \"templates/**/tests/**/integration/**/*.js\" \"tests/**/*integration*.js\" \"tests/**/integration/**/*.js\"",
@@ -22,7 +21,8 @@
     "doc:04-relate": "tsx packages/docops/src/04-relations.ts --docs-dir docs/unique --doc-threshold 0.78 --ref-threshold 0.85",
     "doc:05-footers": "tsx packages/docops/src/05-footers.ts --dir docs/unique --anchor-style block",
     "doc:06-rename": "tsx packages/docops/src/06-rename.ts --dir docs/unique",
-    "doc:all": "pnpm doc:01-frontmatter && pnpm doc:02-embed && pnpm doc:03-query && pnpm doc:04-relate && pnpm doc:05-footers && pnpm doc:06-rename"
+    "doc:all": "pnpm doc:01-frontmatter && pnpm doc:02-embed && pnpm doc:03-query && pnpm doc:04-relate && pnpm doc:05-footers && pnpm doc:06-rename",
+    "postinstall": "pnpm --filter @promethean/piper run build"
   },
   "bin": {
     "prom": "./bin/promethean.js"
