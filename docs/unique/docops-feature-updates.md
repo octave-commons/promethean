@@ -1,0 +1,243 @@
+---
+uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+created_at: docops-feature-updates.md
+filename: Docops Feature Updates
+description: >-
+  Introducing new batch processing for Ollama operations and parameter-specific
+  caching to enhance efficiency and performance in document handling workflows.
+tags:
+  - batch processing
+  - Ollama
+  - caching
+  - document workflows
+related_to_uuid: []
+related_to_title: []
+references: []
+---
+
+---
+uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2 ^ref-2792d448-3-0
+created_at: 2025.09.01.16.36.15.md
+filename: Docops Feature Updates
+description: >-
+  Introducing new batch processing for Ollama operations and parameter-specific
+  caching to enhance efficiency and performance in document handling workflows.
+tags:
+  - batch processing ^ref-2792d448-10-0
+  - Ollama ^ref-2792d448-11-0
+  - caching ^ref-2792d448-12-0
+  - document workflows ^ref-2792d448-13-0
+related_to_uuid: []
+related_to_title: []
+references: []
+---
+# Docops new features
+- ensure all ollama ops are batched ^ref-2792d448-19-0
+- Cache per parameters? ^ref-2792d448-20-0
+
+# Observations
+- If I have a unique doc buffer open in emacs, and I save it after it's moved the doc, ^ref-2792d448-23-0
+emacs saves a new doc with the original name without objection.
+This results in two files having the same UUID
+
+- If I have a buffer with unsaved changes open in emacs, it creates a file with a name like /home/err/devel/promethean/docs/unique/.#2025.09.01.16.36.15.md ^ref-2792d448-27-0
+  - It crashes if it sees this ^ref-2792d448-28-0
+  - I often have unique docs open ^ref-2792d448-29-0
+- The original [program](../../scripts/process-unique.ts) still works the way it was intended, but had the opposite issue of having reference section explode in size. ^ref-2792d448-30-0
+  - It's ref threshold was the same<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Docops Feature Updates](docops-feature-updates-3.md)
+- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
+- [Diagrams](chunks/diagrams.md)
+- [DSL](chunks/dsl.md)
+- [Math Fundamentals](chunks/math-fundamentals.md)
+- [Operations](chunks/operations.md)
+- [Shared](chunks/shared.md)
+- [Simulation Demo](chunks/simulation-demo.md)
+- [Window Management](chunks/window-management.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [Creative Moments](creative-moments.md)
+- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [Prometheus Observability Stack](prometheus-observability-stack.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [Refactor Frontmatter Processing](refactor-frontmatter-processing.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [Promethean Documentation Pipeline Overview](promethean-documentation-pipeline-overview.md)
+- [aionian-circuit-math](aionian-circuit-math.md)
+- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
+- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
+- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
+- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
+- [refactor-relations](refactor-relations.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [Obsidian ChatGPT Plugin Integration Guide](obsidian-chatgpt-plugin-integration-guide.md)
+- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
+- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [Promethean-native config design](promethean-native-config-design.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [Promethean Pipelines](promethean-pipelines.md)
+- [Promethean Pipelines: Local TypeScript-First Workflow](promethean-pipelines-local-typescript-first-workflow.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
+- [file-watcher-auth-fix](file-watcher-auth-fix.md)
+- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
+- [unique-templates](templates/unique-templates.md)
+- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
+- [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
+- [Model Upgrade Calm-Down Guide](model-upgrade-calm-down-guide.md)
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
+- [field-interaction-equations](field-interaction-equations.md)
+- [sibilant-macro-targets](sibilant-macro-targets.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [Protocol_0_The_Contradiction_Engine](protocol-0-the-contradiction-engine.md)
+- [Vectorial Exception Descent](vectorial-exception-descent.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [plan-update-confirmation](plan-update-confirmation.md)
+- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
+- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Pipeline Enhancements](pipeline-enhancements.md)
+- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [Duck's Attractor States](ducks-attractor-states.md)
+- [schema-evolution-workflow](schema-evolution-workflow.md)
+- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
+- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
+- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
+- [pm2-orchestration-patterns](pm2-orchestration-patterns.md)
+## Sources
+- [Promethean Documentation Pipeline Overview — L114](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-114-0) (line 114, col 0, score 0.7)
+- [Functional Embedding Pipeline Refactor — L309](functional-embedding-pipeline-refactor.md#^ref-a4a25141-309-0) (line 309, col 0, score 0.67)
+- [Layer1SurvivabilityEnvelope — L99](layer1survivabilityenvelope.md#^ref-64a9f9f9-99-0) (line 99, col 0, score 0.64)
+- [Agent Tasks: Persistence Migration to DualStore — L8](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-8-0) (line 8, col 0, score 0.64)
+- [Promethean Documentation Pipeline Overview — L15](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-15-0) (line 15, col 0, score 0.58)
+- [Promethean Documentation Pipeline Overview — L155](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-155-0) (line 155, col 0, score 0.64)
+- [Promethean Pipelines — L8](promethean-pipelines.md#^ref-8b8e6103-8-0) (line 8, col 0, score 0.63)
+- [Local-Only-LLM-Workflow — L28](local-only-llm-workflow.md#^ref-9a8ab57e-28-0) (line 28, col 0, score 0.68)
+- [Agent Tasks: Persistence Migration to DualStore — L12](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-12-0) (line 12, col 0, score 0.63)
+- [Local-Offline-Model-Deployment-Strategy — L80](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-80-0) (line 80, col 0, score 0.63)
+- [Promethean Pipelines: Local TypeScript-First Workflow — L3](promethean-pipelines-local-typescript-first-workflow.md#^ref-6b63edca-3-0) (line 3, col 0, score 0.63)
+- [Performance-Optimized-Polyglot-Bridge — L10](performance-optimized-polyglot-bridge.md#^ref-f5579967-10-0) (line 10, col 0, score 0.66)
+- [Docops Feature Updates — L2](docops-feature-updates-3.md#^ref-cdbd21ee-2-0) (line 2, col 0, score 1)
+- [Event Bus MVP — L99](event-bus-mvp.md#^ref-534fe91d-99-0) (line 99, col 0, score 0.63)
+- [Performance-Optimized-Polyglot-Bridge — L416](performance-optimized-polyglot-bridge.md#^ref-f5579967-416-0) (line 416, col 0, score 0.62)
+- [Performance-Optimized-Polyglot-Bridge — L425](performance-optimized-polyglot-bridge.md#^ref-f5579967-425-0) (line 425, col 0, score 0.62)
+- [prom-lib-rate-limiters-and-replay-api — L348](prom-lib-rate-limiters-and-replay-api.md#^ref-aee4718b-348-0) (line 348, col 0, score 0.61)
+- [State Snapshots API and Transactional Projector — L130](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-130-0) (line 130, col 0, score 0.61)
+- [Chroma-Embedding-Refactor — L106](chroma-embedding-refactor.md#^ref-8b256935-106-0) (line 106, col 0, score 0.6)
+- [Promethean Pipelines — L20](promethean-pipelines.md#^ref-8b8e6103-20-0) (line 20, col 0, score 0.59)
+- [Local-Offline-Model-Deployment-Strategy — L76](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-76-0) (line 76, col 0, score 0.76)
+- [Prometheus Observability Stack — L495](prometheus-observability-stack.md#^ref-e90b5a16-495-0) (line 495, col 0, score 0.7)
+- [TypeScript Patch for Tool Calling Support — L172](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-172-0) (line 172, col 0, score 0.7)
+- [Refactor Frontmatter Processing — L3](refactor-frontmatter-processing.md#^ref-cfbdca2f-3-0) (line 3, col 0, score 0.81)
+- [TypeScript Patch for Tool Calling Support — L173](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-173-0) (line 173, col 0, score 0.69)
+- [TypeScript Patch for Tool Calling Support — L264](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-264-0) (line 264, col 0, score 0.68)
+- [TypeScript Patch for Tool Calling Support — L354](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-354-0) (line 354, col 0, score 0.68)
+- [Agent Tasks: Persistence Migration to DualStore — L157](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-157-0) (line 157, col 0, score 0.73)
+- [Local-Only-LLM-Workflow — L159](local-only-llm-workflow.md#^ref-9a8ab57e-159-0) (line 159, col 0, score 0.74)
+- [Dynamic Context Model for Web Components — L315](dynamic-context-model-for-web-components.md#^ref-f7702bf8-315-0) (line 315, col 0, score 0.67)
+- [Functional Embedding Pipeline Refactor — L5](functional-embedding-pipeline-refactor.md#^ref-a4a25141-5-0) (line 5, col 0, score 0.66)
+- [Chroma-Embedding-Refactor — L297](chroma-embedding-refactor.md#^ref-8b256935-297-0) (line 297, col 0, score 0.62)
+- [Promethean Documentation Pipeline Overview — L6](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-6-0) (line 6, col 0, score 0.62)
+- [Docops Feature Updates — L3](docops-feature-updates-3.md#^ref-cdbd21ee-3-0) (line 3, col 0, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L14](performance-optimized-polyglot-bridge.md#^ref-f5579967-14-0) (line 14, col 0, score 0.68)
+- [Local-First Intention→Code Loop with Free Models — L121](local-first-intention-code-loop-with-free-models.md#^ref-871490c7-121-0) (line 121, col 0, score 0.66)
+- [markdown-to-org-transpiler — L291](markdown-to-org-transpiler.md#^ref-ab54cdd8-291-0) (line 291, col 0, score 0.68)
+- [polymorphic-meta-programming-engine — L146](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-146-0) (line 146, col 0, score 0.67)
+- [refactor-relations — L10](refactor-relations.md#^ref-41ce0216-10-0) (line 10, col 0, score 0.6)
+- [Obsidian ChatGPT Plugin Integration Guide — L18](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-18-0) (line 18, col 0, score 0.64)
+- [Obsidian ChatGPT Plugin Integration — L18](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-18-0) (line 18, col 0, score 0.64)
+- [Obsidian Templating Plugins Integration Guide — L18](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-18-0) (line 18, col 0, score 0.64)
+- [RAG UI Panel with Qdrant and PostgREST — L330](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-330-0) (line 330, col 0, score 0.59)
+- [Promethean-native config design — L32](promethean-native-config-design.md#^ref-ab748541-32-0) (line 32, col 0, score 0.64)
+- [Promethean-native config design — L33](promethean-native-config-design.md#^ref-ab748541-33-0) (line 33, col 0, score 0.64)
+- [Functional Embedding Pipeline Refactor — L6](functional-embedding-pipeline-refactor.md#^ref-a4a25141-6-0) (line 6, col 0, score 0.71)
+- [Performance-Optimized-Polyglot-Bridge — L418](performance-optimized-polyglot-bridge.md#^ref-f5579967-418-0) (line 418, col 0, score 0.66)
+- [Functional Embedding Pipeline Refactor — L24](functional-embedding-pipeline-refactor.md#^ref-a4a25141-24-0) (line 24, col 0, score 0.64)
+- [State Snapshots API and Transactional Projector — L321](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-321-0) (line 321, col 0, score 0.62)
+- [Cross-Language Runtime Polymorphism — L121](cross-language-runtime-polymorphism.md#^ref-c34c36a6-121-0) (line 121, col 0, score 0.56)
+- [Docops Feature Updates — L6](docops-feature-updates-3.md#^ref-cdbd21ee-6-0) (line 6, col 0, score 1)
+- [Docops Feature Updates — L10](docops-feature-updates-3.md#^ref-cdbd21ee-10-0) (line 10, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L31](functional-embedding-pipeline-refactor.md#^ref-a4a25141-31-0) (line 31, col 0, score 0.59)
+- [Docops Feature Updates — L12](docops-feature-updates-3.md#^ref-cdbd21ee-12-0) (line 12, col 0, score 1)
+- [Chroma-Embedding-Refactor — L111](chroma-embedding-refactor.md#^ref-8b256935-111-0) (line 111, col 0, score 0.57)
+- [Matplotlib Animation with Async Execution — L29](matplotlib-animation-with-async-execution.md#^ref-687439f9-29-0) (line 29, col 0, score 0.59)
+- [unique-templates — L3](templates/unique-templates.md#^ref-c26f0044-3-0) (line 3, col 0, score 0.62)
+- [Pure TypeScript Search Microservice — L468](pure-typescript-search-microservice.md#^ref-d17d3a96-468-0) (line 468, col 0, score 0.56)
+- [file-watcher-auth-fix — L32](file-watcher-auth-fix.md#^ref-9044701b-32-0) (line 32, col 0, score 0.62)
+- [Docops Feature Updates — L11](docops-feature-updates-3.md#^ref-cdbd21ee-11-0) (line 11, col 0, score 1)
+- [Prompt_Folder_Bootstrap — L145](prompt-folder-bootstrap.md#^ref-bd4f0976-145-0) (line 145, col 0, score 0.58)
+- [Unique Info Dump Index — L52](unique-info-dump-index.md#^ref-30ec3ba6-52-0) (line 52, col 0, score 0.58)
+- [Functional Embedding Pipeline Refactor — L26](functional-embedding-pipeline-refactor.md#^ref-a4a25141-26-0) (line 26, col 0, score 0.58)
+- [Prometheus Observability Stack — L7](prometheus-observability-stack.md#^ref-e90b5a16-7-0) (line 7, col 0, score 0.58)
+- [plan-update-confirmation — L983](plan-update-confirmation.md#^ref-b22d79c6-983-0) (line 983, col 0, score 0.53)
+- [plan-update-confirmation — L982](plan-update-confirmation.md#^ref-b22d79c6-982-0) (line 982, col 0, score 0.49)
+- [plan-update-confirmation — L975](plan-update-confirmation.md#^ref-b22d79c6-975-0) (line 975, col 0, score 0.43)
+- [plan-update-confirmation — L797](plan-update-confirmation.md#^ref-b22d79c6-797-0) (line 797, col 0, score 0.41)
+- [Promethean Agent DSL TS Scaffold — L290](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-290-0) (line 290, col 0, score 0.41)
+- [Pure TypeScript Search Microservice — L496](pure-typescript-search-microservice.md#^ref-d17d3a96-496-0) (line 496, col 0, score 0.38)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L175](ollama-llm-provider-for-pseudo-code-transpiler.md#^ref-b362e12e-175-0) (line 175, col 0, score 0.34)
+- [ParticleSimulationWithCanvasAndFFmpeg — L281](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-281-0) (line 281, col 0, score 0.34)
+- [Per-Domain Policy System for JS Crawler — L498](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-498-0) (line 498, col 0, score 0.34)
+- [Performance-Optimized-Polyglot-Bridge — L449](performance-optimized-polyglot-bridge.md#^ref-f5579967-449-0) (line 449, col 0, score 0.34)
+- [pm2-orchestration-patterns — L247](pm2-orchestration-patterns.md#^ref-51932e7b-247-0) (line 247, col 0, score 0.34)
+- [Layer1SurvivabilityEnvelope — L77](layer1survivabilityenvelope.md#^ref-64a9f9f9-77-0) (line 77, col 0, score 0.65)
+- [Exception Layer Analysis — L60](exception-layer-analysis.md#^ref-21d5cc09-60-0) (line 60, col 0, score 0.63)
+- [aionian-circuit-math — L99](aionian-circuit-math.md#^ref-f2d83a77-99-0) (line 99, col 0, score 0.62)
+- [AI-Centric OS with MCP Layer — L34](ai-centric-os-with-mcp-layer.md#^ref-0f1f8cc1-34-0) (line 34, col 0, score 0.61)
+- [Vectorial Exception Descent — L110](vectorial-exception-descent.md#^ref-d771154e-110-0) (line 110, col 0, score 0.59)
+- [universal-intention-code-fabric — L26](universal-intention-code-fabric.md#^ref-c14edce7-26-0) (line 26, col 0, score 0.59)
+- [plan-update-confirmation — L900](plan-update-confirmation.md#^ref-b22d79c6-900-0) (line 900, col 0, score 0.59)
+- [aionian-circuit-math — L110](aionian-circuit-math.md#^ref-f2d83a77-110-0) (line 110, col 0, score 0.59)
+- [i3-bluetooth-setup — L27](i3-bluetooth-setup.md#^ref-5e408692-27-0) (line 27, col 0, score 0.58)
+- [Agent Tasks: Persistence Migration to DualStore — L120](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-120-0) (line 120, col 0, score 0.66)
+- [Migrate to Provider-Tenant Architecture — L255](migrate-to-provider-tenant-architecture.md#^ref-54382370-255-0) (line 255, col 0, score 0.61)
+- [Promethean Event Bus MVP v0.1 — L104](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-104-0) (line 104, col 0, score 0.61)
+- [sibilant-macro-targets — L12](sibilant-macro-targets.md#^ref-c5c9a5c6-12-0) (line 12, col 0, score 0.6)
+- [Pipeline Enhancements — L3](pipeline-enhancements.md#^ref-e2135d9f-3-0) (line 3, col 0, score 0.58)
+- [Agent Tasks: Persistence Migration to DualStore — L93](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-93-0) (line 93, col 0, score 0.58)
+- [Docops Feature Updates — L13](docops-feature-updates-3.md#^ref-cdbd21ee-13-0) (line 13, col 0, score 0.94)
+- [Docops Feature Updates — L14](docops-feature-updates-3.md#^ref-cdbd21ee-14-0) (line 14, col 0, score 1)
+- [Promethean Agent Config DSL — L103](promethean-agent-config-dsl.md#^ref-2c00ce45-103-0) (line 103, col 0, score 0.63)
+- [Chroma-Embedding-Refactor — L7](chroma-embedding-refactor.md#^ref-8b256935-7-0) (line 7, col 0, score 0.6)
+- [Model Upgrade Calm-Down Guide — L42](model-upgrade-calm-down-guide.md#^ref-db74343f-42-0) (line 42, col 0, score 0.61)
+- [Performance-Optimized-Polyglot-Bridge — L432](performance-optimized-polyglot-bridge.md#^ref-f5579967-432-0) (line 432, col 0, score 0.6)
+- [Language-Agnostic Mirror System — L30](language-agnostic-mirror-system.md#^ref-d2b3628c-30-0) (line 30, col 0, score 0.6)
+- [ecs-scheduler-and-prefabs — L7](ecs-scheduler-and-prefabs.md#^ref-c62a1815-7-0) (line 7, col 0, score 0.59)
+- [System Scheduler with Resource-Aware DAG — L5](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-5-0) (line 5, col 0, score 0.59)
+- [Protocol_0_The_Contradiction_Engine — L28](protocol-0-the-contradiction-engine.md#^ref-9a93a756-28-0) (line 28, col 0, score 0.6)
+- [Promethean-native config design — L62](promethean-native-config-design.md#^ref-ab748541-62-0) (line 62, col 0, score 0.59)
+- [Promethean Agent DSL TS Scaffold — L817](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-817-0) (line 817, col 0, score 0.59)
+- [Lispy Macros with syntax-rules — L217](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-217-0) (line 217, col 0, score 0.59)
+- [Lispy Macros with syntax-rules — L389](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-389-0) (line 389, col 0, score 0.59)
+- [aionian-circuit-math — L45](aionian-circuit-math.md#^ref-f2d83a77-45-0) (line 45, col 0, score 0.7)
+- [field-interaction-equations — L41](field-interaction-equations.md#^ref-b09141b7-41-0) (line 41, col 0, score 0.6)
+- [field-dynamics-math-blocks — L89](field-dynamics-math-blocks.md#^ref-7cfc230d-89-0) (line 89, col 0, score 0.6)
+- [Duck's Attractor States — L47](ducks-attractor-states.md#^ref-13951643-47-0) (line 47, col 0, score 0.58)
+- [Model Upgrade Calm-Down Guide — L43](model-upgrade-calm-down-guide.md#^ref-db74343f-43-0) (line 43, col 0, score 0.57)
+- [Model Upgrade Calm-Down Guide — L41](model-upgrade-calm-down-guide.md#^ref-db74343f-41-0) (line 41, col 0, score 0.57)
+- [schema-evolution-workflow — L465](schema-evolution-workflow.md#^ref-d8059b6a-465-0) (line 465, col 0, score 0.56)
+- [Diagrams — L50](chunks/diagrams.md#^ref-45cd25b5-50-0) (line 50, col 0, score 1)
+- [DSL — L44](chunks/dsl.md#^ref-e87bc036-44-0) (line 44, col 0, score 1)
+- [Math Fundamentals — L43](chunks/math-fundamentals.md#^ref-c6e87433-43-0) (line 43, col 0, score 1)
+- [Operations — L15](chunks/operations.md#^ref-f1add613-15-0) (line 15, col 0, score 1)
+- [Shared — L31](chunks/shared.md#^ref-623a55f7-31-0) (line 31, col 0, score 1)
+- [Simulation Demo — L34](chunks/simulation-demo.md#^ref-557309a3-34-0) (line 34, col 0, score 1)
+- [Window Management — L38](chunks/window-management.md#^ref-9e8ae388-38-0) (line 38, col 0, score 1)
+- [compiler-kit-foundations — L651](compiler-kit-foundations.md#^ref-01b21543-651-0) (line 651, col 0, score 1)
+- [Creative Moments — L15](creative-moments.md#^ref-10d98225-15-0) (line 15, col 0, score 1)
+- [Cross-Language Runtime Polymorphism — L263](cross-language-runtime-polymorphism.md#^ref-c34c36a6-263-0) (line 263, col 0, score 1)
+- [Cross-Target Macro System in Sibilant — L219](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-219-0) (line 219, col 0, score 1)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
