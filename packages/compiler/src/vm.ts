@@ -1,4 +1,4 @@
-import type { Module, Fun, Stmt, Rhs } from './ir';
+import type { Module, Fun, Stmt, Rhs } from './ir.js';
 
 export type OpCode =
     | ['LIT', number | string | boolean | null]

@@ -1,5 +1,5 @@
-import type { Expr } from './ast';
-import { gensym, type Module, type Fun, type Stmt, type Sym, type Rhs, type Val } from './ir';
+import type { Expr } from './ast.js';
+import { gensym, type Module, type Fun, type Stmt, type Sym, type Rhs, type Val } from './ir.js';
 
 export function lower(ast: Expr): Module {
     const env: Map<string, Sym> = new Map();
