@@ -5,7 +5,6 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "prepare": "pnpm run build",
     "test": "ava --timeout=60s \"test/**/*.js\""
   },
   "dependencies": {
