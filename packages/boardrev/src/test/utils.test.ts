@@ -1,5 +1,5 @@
 import test from "ava";
-import { parseArgs, cosine } from "../src/utils.js";
+import { parseArgs, cosine } from "../utils.js";
 
 test("parseArgs merges defaults and argv", t => {
   const prev = process.argv;
