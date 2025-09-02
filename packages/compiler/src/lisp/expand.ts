@@ -1,5 +1,5 @@
-import { S, List, Sym, isList, isSym, list, sym } from './syntax';
-import { MacroEnv, installCoreMacros } from './macros';
+import { S, List, Sym, isList, isSym, list, sym } from './syntax.js';
+import { MacroEnv, installCoreMacros } from './macros.js';
 
 export function macroexpandAll(forms: S[], user?: (m: MacroEnv) => void): S[] {
     const M = new MacroEnv();

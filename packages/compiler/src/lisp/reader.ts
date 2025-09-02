@@ -1,4 +1,4 @@
-import { Span, S, Sym, List, Nil, num, str, bool, sym, list, nil } from './syntax';
+import { Span, S, Sym, List, Nil, num, str, bool, sym, list, nil } from './syntax.js';
 
 type Tok =
     | { k: 'id'; s: string; sp: Span }

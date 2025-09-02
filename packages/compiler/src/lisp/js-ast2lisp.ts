@@ -1,5 +1,5 @@
 import type * as EST from 'estree';
-import { S, Sym, Num, Str, Bool, Nil, List, sym, num, str, bool, list, nil } from './syntax';
+import { S, Sym, Num, Str, Bool, Nil, List, sym, num, str, bool, list, nil } from './syntax.js';
 
 export interface Js2LispOptions {
     // When true, try to fold "let v; v = EXPR;" into one (let ((v EXPR)) ...)

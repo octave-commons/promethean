@@ -1,4 +1,4 @@
-import type { Expr } from './ast';
+import type { Expr } from './ast.js';
 
 interface Options {
     iife: boolean;

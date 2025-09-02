@@ -1,5 +1,5 @@
-import { estreeProgramToLisp, type Js2LispOptions } from './js-ast2lisp';
-import { printS } from './print';
+import { estreeProgramToLisp, type Js2LispOptions } from './js-ast2lisp.js';
+import { printS } from './print.js';
 
 export async function jsToLisp(src: string, opts: Js2LispOptions & { tryAcorn?: boolean } = {}) {
     let Program: any = null;
