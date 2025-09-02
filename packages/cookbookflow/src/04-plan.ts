@@ -28,16 +28,18 @@ const RecipeSchema = z.object({
 });
 
 async function main() {
-  const scan = JSON.parse(await fs.readFile(path.resolve(args["--scan"]), "utf-8")) as ScanOutput;
-  const classes = JSON.parse(await fs.readFile(path.resolve(args["--classes"]), "utf-8")) as ClassesFile;
-  const groups = JSON.parse(await fs.readFile(path.resolve(args["--groups"]), "utf-8")) as GroupsFile;
+    const scan = JSON.parse(await fs.readFile(path.resolve(args["--scan"] ?? ""), "utf-8")) as ScanOutput;
+    const classes = JSON.parse(await fs.readFile(path.resolve(args["--classes"] ?? ""), "utf-8")) as ClassesFile;
+    const groups = JSON.parse(await fs.readFile(path.resolve(args["--groups"] ?? ""), "utf-8")) as GroupsFile;
 
   const byId = new Map(scan.blocks.map(b => [b.id, b]));
   const outGroups: Record<string, PlanRecipe[]> = {};
 
-  for (const g of groups.groups) {
-    const sample = byId.get(g.blockIds[0])!;
-    const meta = classes.classes[g.blockIds[0]];
+    for (const g of groups.groups) {
+      const sampleId = g.blockIds[0];
+      if (!sampleId) continue;
+      const sample = byId.get(sampleId)!;
+      const meta = classes.classes[sampleId]!;
     const sys = [
       "You produce runnable, task-oriented cookbook recipes.",
       "Return ONLY JSON with keys:",
@@ -50,7 +52,7 @@ async function main() {
 
     let obj: any;
     try {
-      obj = await ollamaJSON(args["--llm"], `SYSTEM:\n${sys}\n\nUSER:\nTASK=${meta.task}\nRUNTIME=${meta.runtime}\nLANG=${meta.language}\n\nEXAMPLES:\n${exemplars}`);
+        obj = await ollamaJSON(args["--llm"] ?? "", `SYSTEM:\n${sys}\n\nUSER:\nTASK=${meta.task}\nRUNTIME=${meta.runtime}\nLANG=${meta.language}\n\nEXAMPLES:\n${exemplars}`);
     } catch {
       obj = {
         title: `${meta.language} ${meta.task} recipe`,
@@ -81,12 +83,13 @@ async function main() {
           tags: [meta.task]
         } satisfies z.infer<typeof RecipeSchema>);
 
-    const pr: PlanRecipe = { uuid: uuid(), task: meta.task, ...recipe };
-    (outGroups[g.key] ||= []).push(pr);
+      const pr: PlanRecipe = { uuid: uuid(), task: meta.task, ...recipe };
+      (outGroups[g.key] ??= []).push(pr);
   }
 
-  const plan: PlanFile = { plannedAt: new Date().toISOString(), groups: outGroups };
-  await writeJSON(path.resolve(args["--out"]), plan);
-  console.log(`cookbook: planned ${Object.values(outGroups).reduce((a,b)=>a+b.length,0)} recipes → ${args["--out"]}`);
+    const plan: PlanFile = { plannedAt: new Date().toISOString(), groups: outGroups };
+    const outPath = args["--out"] ?? ".cache/cookbook/plan.json";
+    await writeJSON(path.resolve(outPath), plan);
+    console.log(`cookbook: planned ${Object.values(outGroups).reduce((a,b)=>a+b.length,0)} recipes → ${outPath}`);
 }
 main().catch(e => { console.error(e); process.exit(1); });

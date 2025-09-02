@@ -13,7 +13,8 @@ const args = parseArgs({
 });
 
 async function main() {
-  const files = await globby([`${args["--root"].replace(/\\/g,"/")}/**/*.md`]);
+    const root = args["--root"] ?? "";
+    const files = await globby([`${root.replace(/\\/g,"/")}/**/*.md`]);
   const results: RunResultsFile["results"] = [];
 
   for (const f of files) {
@@ -22,11 +23,11 @@ async function main() {
     const body = gm.content;
 
     // pick the first code fence as the runnable snippet
-    const m = body.match(/```(\w+)?[^\n]*\n([\s\S]*?)```/);
-    if (!m) { results.push({ recipePath: f, ok: false, stdoutPreview: "", stderrPreview: "no code block found", exitCode: null }); continue; }
+      const m = body.match(/```(\w+)?[^\n]*\n([\s\S]*?)```/);
+      if (!m) { results.push({ recipePath: f, ok: false, stdoutPreview: "", stderrPreview: "no code block found", exitCode: null }); continue; }
 
-    const lang = (m[1]||"").toLowerCase();
-    const code = m[2];
+      const lang = (m[1] ?? "").toLowerCase();
+      const code = m[2] ?? "";
 
     // crude sandbox: create a temp dir under .cache/cookbook/run/<slug>
     const runDir = path.join(".cache/cookbook/run", path.basename(f, ".md"));
@@ -50,7 +51,7 @@ async function main() {
       continue;
     }
 
-    const r = await execShell(cmd, process.cwd());
+      const r = await execShell(cmd, process.cwd());
     const stdoutHash = sha1(r.stdout || "");
     const stderrHash = sha1(r.stderr || "");
     results.push({
@@ -64,8 +65,9 @@ async function main() {
     });
   }
 
-  const out: RunResultsFile = { ranAt: new Date().toISOString(), results };
-  await writeJSON(path.resolve(args["--out"]), out);
-  console.log(`cookbook: executed ${results.length} recipe(s) → ${args["--out"]}`);
+    const out: RunResultsFile = { ranAt: new Date().toISOString(), results };
+    const outPath = args["--out"] ?? ".cache/cookbook/run-results.json";
+    await writeJSON(path.resolve(outPath), out);
+    console.log(`cookbook: executed ${results.length} recipe(s) → ${outPath}`);
 }
 main().catch(e => { console.error(e); process.exit(1); });

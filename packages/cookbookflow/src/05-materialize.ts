@@ -43,12 +43,12 @@ function render(recipe: any) {
 }
 
 async function main() {
-  const plan = JSON.parse(await fs.readFile(path.resolve(args["--plan"]), "utf-8")) as PlanFile;
-  const OUT = path.resolve(args["--out"]); await fs.mkdir(OUT, { recursive: true });
+    const plan = JSON.parse(await fs.readFile(path.resolve(args["--plan"] ?? ""), "utf-8")) as PlanFile;
+    const OUT = path.resolve(args["--out"] ?? "docs/cookbook"); await fs.mkdir(OUT, { recursive: true });
 
   let count = 0;
-  for (const [key, recs] of Object.entries(plan.groups)) {
-    for (const r of recs) {
+    for (const recs of Object.values(plan.groups)) {
+      for (const r of recs) {
       const dir = path.join(OUT, r.task);
       await fs.mkdir(dir, { recursive: true });
       const fname = `${slug(r.title)}.md`;
@@ -63,6 +63,6 @@ async function main() {
       count++;
     }
   }
-  console.log(`cookbook: wrote ${count} recipe(s) to ${args["--out"]}`);
+    console.log(`cookbook: wrote ${count} recipe(s) to ${args["--out"] ?? "docs/cookbook"}`);
 }
 main().catch(e => { console.error(e); process.exit(1); });

@@ -5,9 +5,16 @@ import { exec as _exec } from "child_process";
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
 export function parseArgs(def: Record<string, string>) {
-  const out = { ...def }; const a = process.argv.slice(2);
-  for (let i=0;i<a.length;i++){ const k=a[i]; if(!k.startsWith("--")) continue;
-    const v=a[i+1] && !a[i+1].startsWith("--") ? a[++i] : "true"; out[k]=v; }
+  const out: Record<string, string> = { ...def };
+  const a = process.argv.slice(2);
+  for (let i = 0; i < a.length; i++) {
+    const k = a[i];
+    if (!k || !k.startsWith("--")) continue;
+    const next = a[i + 1];
+    const v = next && !next.startsWith("--") ? next : "true";
+    if (next && !next.startsWith("--")) i++;
+    out[k] = v;
+  }
   return out;
 }
 export async function readMaybe(p: string) { try { return await fs.readFile(p, "utf-8"); } catch { return undefined; } }
@@ -38,7 +45,20 @@ export async function ollamaJSON(model: string, prompt: string): Promise<any> {
   const raw = typeof response === "string" ? response : JSON.stringify(response);
   return JSON.parse(String(raw).replace(/```json\s*/g,"").replace(/```\s*$/g,"").trim());
 }
-export function cosine(a: number[], b: number[]) { let dot=0, na=0, nb=0, n=Math.min(a.length,b.length); for (let i=0;i<n;i++){ dot+=a[i]*b[i]; na+=a[i]*a[i]; nb+=b[i]*b[i]; } return !na||!nb?0:dot/(Math.sqrt(na)*Math.sqrt(nb)); }
+export function cosine(a: number[], b: number[]) {
+  let dot = 0,
+    na = 0,
+    nb = 0;
+  const n = Math.min(a.length, b.length);
+  for (let i = 0; i < n; i++) {
+    const ai = a[i]!;
+    const bi = b[i]!;
+    dot += ai * bi;
+    na += ai * ai;
+    nb += bi * bi;
+  }
+  return !na || !nb ? 0 : dot / (Math.sqrt(na) * Math.sqrt(nb));
+}
 
 export async function execShell(cmd: string, cwd: string) {
   return new Promise<{ code: number|null; stdout: string; stderr: string }>((resolve) => {

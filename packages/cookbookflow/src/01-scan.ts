@@ -16,18 +16,18 @@ function* mdCodeBlocks(md: string): Generator<{lang:string, code:string, header:
   let m; while ( (m = fence.exec(md)) ) {
     const before = md.slice(0, m.index);
     const header = (before.match(/(?:^|\n)#{1,6}\s+[^\n]+$/m)?.[0] ?? "").trim();
-    yield { lang: (m[1]||"").toLowerCase(), code: m[2], header };
+      yield { lang: (m[1] ?? "").toLowerCase(), code: m[2] ?? "", header };
   }
 }
 
 async function main() {
-  const roots = args["--roots"].split(/\s+/).filter(Boolean);
+  const roots = (args["--roots"] ?? "").split(/\s+/).filter(Boolean);
   const files = await globby([
     ...roots.map(r => `${r.replace(/\\/g,"/")}/**/*.{md,mdx}`),
     "examples/**/*.{ts,tsx,js,jsx,sh,bash}"
   ], { dot: false });
 
-  const maxCtx = Number(args["--max-context"]);
+  const maxCtx = Number(args["--max-context"] ?? 0);
   const blocks: CodeBlock[] = [];
 
   for (const f of files) {
@@ -44,7 +44,8 @@ async function main() {
   }
 
   const out: ScanOutput = { createdAt: new Date().toISOString(), blocks };
-  await writeJSON(path.resolve(args["--out"]), out);
-  console.log(`cookbook: scanned ${blocks.length} block(s) → ${args["--out"]}`);
+  const outPath = args["--out"] ?? ".cache/cookbook/blocks.json";
+  await writeJSON(path.resolve(outPath), out);
+  console.log(`cookbook: scanned ${blocks.length} block(s) → ${outPath}`);
 }
 main().catch(e => { console.error(e); process.exit(1); });
