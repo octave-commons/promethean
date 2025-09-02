@@ -1,5 +1,5 @@
 import test from "ava";
-import { handleSocialMessageCreated } from "../src/index.js";
+import { handleSocialMessageCreated } from "../index.js";
 
 test("indexes attachments for provider+tenant", async (t) => {
   process.env.DISCORD_TOKEN_DUCK = "test";
@@ -16,5 +16,10 @@ test("indexes attachments for provider+tenant", async (t) => {
     tenant: "duck",
   });
   t.is(out.length, 2);
-  t.true(out.every((a) => a.provider === "discord" && a.tenant === "duck"));
+  t.true(
+    out.every(
+      (a: { provider: string; tenant: string }) =>
+        a.provider === "discord" && a.tenant === "duck",
+    ),
+  );
 });
