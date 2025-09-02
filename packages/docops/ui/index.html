@@ -1,0 +1,84 @@
+<!doctype html>
+<meta charset="utf-8"/>
+<title>DocOps – Preview & Run</title>
+<style>
+body { font-family: system-ui, sans-serif; margin: 16px; }
+section { margin-bottom: 16px; }
+label { display: inline-block; min-width: 140px; }
+input[type=number] { width: 100px; }
+code, pre { background: #f6f6f6; padding: 8px; border-radius: 6px; display:block; white-space: pre-wrap; }
+button { padding: 6px 12px; }
+select { min-width: 420px; }
+#layout { display: flex; gap: 16px; align-items: flex-start; }
+#sidebar { flex: 0 0 320px; position: sticky; top: 12px; align-self: flex-start; }
+#content { flex: 1 1 auto; min-width: 0; }
+.file-note { color:#666; display:block; margin-top:6px; }
+</style>
+<h1>DocOps – Preview & Run</h1>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<div id="layout">
+  <aside id="sidebar">
+    <section>
+      <h2>File Explorer</h2>
+      <file-tree id="fileTree"></file-tree>
+      <small class="file-note">Tip: Click a file name to render its Markdown.</small>
+      <small class="file-note">Checked files are used for pipeline/step runs.</small>
+    </section>
+  </aside>
+  <main id="content">
+    <section>
+      <div>
+        <label>Docs dir</label>
+        <input id="dir" value="" style="width: 360px"/>
+      </div>
+      <div>
+        <label>Collection</label>
+        <input id="collection" value="" style="width: 240px"/>
+      </div>
+      <div>
+        <label>Doc threshold</label>
+        <input id="docT" type="number" step="0.01" value="0.78"/>
+        <label>Ref threshold</label>
+        <input id="refT" type="number" step="0.01" value="0.85"/>
+      </div>
+      <div>
+        <label>Docs</label>
+        <select id="doclist"></select>
+        <button id="refresh">Refresh</button>
+      </div>
+      <div style="margin-top:8px;">
+        <button id="preview">Preview Frontmatter</button>
+        <button id="run">Run Pipeline</button>
+      </div>
+    </section>
+    <section>
+      <h2>Render Markdown</h2>
+      <div style="margin-bottom:8px;">
+        <button id="renderMd">Render Selected File</button>
+        <small>Pick a file in the File Explorer, or click a name to render instantly.</small>
+      </div>
+      <div id="mdInfo" style="margin:6px 0;color:#555;"></div>
+      <div id="mdRender" style="border:1px solid #ddd; border-radius:6px; padding:12px; max-height: 520px; overflow:auto;"></div>
+    </section>
+    <section>
+      <h3>Preview</h3>
+      <pre id="out">(no preview)</pre>
+    </section>
+    <section>
+      <h3>Logs</h3>
+      <div id="progressRow"><progress id="overallProgress" value="0" max="100"></progress> <span id="progressText"></span></div>
+      <pre id="logs" style="max-height: 320px; overflow: auto">(no logs)</pre>
+    </section>
+    <section>
+      <h2>Steps</h2>
+      <docops-step step="frontmatter" title="01 Frontmatter" fields="genModel"></docops-step>
+      <docops-step step="embed" title="02 Embed" fields="collection,embedModel"></docops-step>
+      <docops-step step="query" title="03 Query" fields="collection,embedModel,k,force"></docops-step>
+      <docops-step step="relations" title="04 Relations" fields="docT,refT"></docops-step>
+      <docops-step step="footers" title="05 Footers" fields="anchorStyle"></docops-step>
+      <docops-step step="rename" title="06 Rename" fields=""></docops-step>
+    </section>
+  </main>
+</div>
+<script type="module" src="main.js"></script>
