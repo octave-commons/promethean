@@ -7,6 +7,7 @@ import * as yaml from "yaml";
 import { once } from "node:events";
 import { Chunk, Front } from "./types";
 import { createWriteStream } from "node:fs";
+import { randomUUID as nodeRandomUUID } from "node:crypto";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
@@ -40,13 +41,16 @@ export async function listFilesRec(
     }
   }
   await walk(root);
-  return out.filter((p) => exts.has(path.extname(p).toLowerCase()));
+  return (
+    out
+      // exclude Emacs lockfiles like .#file.md which can cause crashes
+      .filter((p) => !path.basename(p).startsWith(".#"))
+      .filter((p) => exts.has(path.extname(p).toLowerCase()))
+  );
 }
 
 export function randomUUID(): string {
-  return (
-    (globalThis as any).crypto?.randomUUID?.() ?? require("crypto").randomUUID()
-  );
+  return (globalThis as any).crypto?.randomUUID?.() ?? nodeRandomUUID();
 }
 
 export function slugify(s: string): string {

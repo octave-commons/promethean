@@ -1,10 +1,7 @@
 **/node_modules/**
 node_modules/
-onnx_model/
-models/
 data/*
 !data/README.md
-open_vino_modelfp16/
 dist/
 !shared/ts/prom-lib/dist/intention/
 !shared/ts/prom-lib/dist/intention/**

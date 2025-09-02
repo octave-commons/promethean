@@ -1,0 +1,100 @@
+;;; packages.el --- llm layer packages file for Spacemacs.
+;;
+;; Copyright (c) 2012-2025 Sylvain Benner & Contributors
+;;
+;; Author: err <err@err-Stealth-16-AI-Studio-A1VGG>
+;; URL: https://github.com/syl20bnr/spacemacs
+;;
+;; This file is not part of GNU Emacs.
+;;
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;;; Commentary:
+
+;; See the Spacemacs documentation and FAQs for instructions on how to implement
+;; a new layer:
+;;
+;;   SPC h SPC layers RET
+;;
+;;
+;; Briefly, each package to be installed or configured by this layer should be
+;; added to `llm-packages'. Then, for each package PACKAGE:
+;;
+;; - If PACKAGE is not referenced by any other Spacemacs layer, define a
+;;   function `llm/init-PACKAGE' to load and initialize the package.
+
+;; - Otherwise, PACKAGE is already referenced by another Spacemacs layer, so
+;;   define the functions `llm/pre-init-PACKAGE' and/or
+;;   `llm/post-init-PACKAGE' to customize the package as it is loaded.
+
+;;; Code:
+
+;;; packages.el --- llm layer packages  -*- lexical-binding: t; -*-
+
+(defconst llm-packages
+  '(
+    gptel
+    (mcp :location (recipe :fetcher github :repo "lizqwerscott/mcp.el"))
+    ;; gptel-mcp requires Emacs 30+; we load it conditionally.
+    (gptel-mcp :location (recipe :fetcher github :repo "lizqwerscott/gptel-mcp.el"))
+    ;; optional helper for quick lookups
+    (gptel-quick :location (recipe :fetcher github :repo "karthink/gptel-quick"))
+    ))
+
+(defun llm/init-gptel ()
+  (use-package gptel
+    :defer t
+    :init
+    ;; Local-first defaults: Ollama on localhost
+    (setq gptel-default-mode 'org-mode)
+    (setq gptel-backend
+          (gptel-make-ollama "ollama"
+            :host "http://localhost:11434"
+            :models '("qwen2.5-coder:7b" "llama3.2:3b" "qwen2.5:7b")))
+    :config
+    ;; Helper: send region if active, else whole buffer
+    (defun llm/gptel-send-region-or-buffer ()
+      "Send active region to GPTel, else the whole buffer."
+      (interactive)
+      (if (use-region-p)
+          (gptel-send (region-beginning) (region-end))
+        (gptel-send (point-min) (point-max))))))
+
+(defun llm/init-mcp ()
+  (use-package mcp
+    :defer t
+    :init
+    ;; Optional: autostart servers once after init (see config.el for list)
+    (defun llm/mcp-autostart ()
+      (when (fboundp 'mcp-hub-start-all-server)
+        (mcp-hub-start-all-server)))
+    (add-hook 'after-init-hook #'llm/mcp-autostart)))
+
+(defun llm/init-gptel-mcp ()
+  ;; Only load bridge on Emacs 30+, otherwise skip cleanly.
+  (when (>= emacs-major-version 30)
+    (use-package gptel-mcp
+      :after (gptel mcp)
+      :commands (gptel-mcp-dispatch)
+      :init
+      ;; nothing required
+      :config
+      ;; Also bind a convenience key in gptel buffers
+      (with-eval-after-load 'gptel
+        (define-key gptel-mode-map (kbd "C-c m") #'gptel-mcp-dispatch)))))
+
+(defun llm/init-gptel-quick ()
+  (use-package gptel-quick
+    :after gptel
+    :commands (gptel-quick)))

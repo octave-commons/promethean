@@ -1,0 +1,22 @@
+{
+  "mode": "indexed",
+  "cursor": 4,
+  "fileList": ["b.txt", "c.md", "d.txt"],
+  "fileInfo": {
+    "b.txt": {
+      "size": 14,
+      "mtimeMs": 1756840400162.7446
+    },
+    "c.md": {
+      "size": 9,
+      "mtimeMs": 1756840400124.745
+    },
+    "d.txt": {
+      "size": 5,
+      "mtimeMs": 1756840400163.7446
+    }
+  },
+  "startedAt": 1756840400133,
+  "finishedAt": 1756840400173,
+  "rootPath": "/home/err/devel/promethean/packages/smartgpt-bridge/services/ts/smartgpt-bridge/tests/tmp/inc1"
+}
