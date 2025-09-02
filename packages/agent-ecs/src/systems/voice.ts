@@ -1,6 +1,6 @@
 // loose typing to avoid cross-package type coupling
 import type { defineAgentComponents } from '../components';
-import { enqueueUtterance } from '../helpers/enqueueUtterance';
+import { enqueueUtterance } from '../helpers/enqueueUtterance.js';
 
 type Deps = {
     joinVoiceChannel: (opts: any) => any;
@@ -51,7 +51,7 @@ export function VoiceSystem(
             id: `${Date.now()}`,
             group: 'agent-speech',
             factory: async () => {
-                const { stream, cleanup } = await deps.tts(e.message);
+                const { stream } = await deps.tts(e.message);
                 const res = deps.createAudioResource(stream);
                 // cleanup after playback via player events if needed
                 return res;

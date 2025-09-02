@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import * as path from "path";
-import { promises as fs } from "fs";
 import { parseArgs, tsc, codeFrame, writeJSON } from "./utils.js";
 import type { ErrorList, BuildError } from "./types.js";
 
@@ -10,7 +9,7 @@ const args = parseArgs({
 });
 
 async function main() {
-  const tsconfig = path.resolve(args["--tsconfig"]);
+  const tsconfig = path.resolve(args["--tsconfig"]!);
   const { diags } = await tsc(tsconfig);
 
   const errors: BuildError[] = [];
@@ -22,7 +21,7 @@ async function main() {
   }
 
   const out: ErrorList = { createdAt: new Date().toISOString(), tsconfig, errors };
-  await writeJSON(path.resolve(args["--out"]), out);
+  await writeJSON(path.resolve(args["--out"]!), out);
   console.log(`buildfix: collected ${errors.length} error(s) → ${args["--out"]}`);
 }
 
