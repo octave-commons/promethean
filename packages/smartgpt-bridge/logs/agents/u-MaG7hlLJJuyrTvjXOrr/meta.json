@@ -1,9 +1,0 @@
-{
-  "id": "u-MaG7hlLJJuyrTvjXOrr",
-  "mode": "agent",
-  "cmd": "codex",
-  "args": ["exec", "--full-auto", "--cd", "/home/err/devel/promethean", "noop"],
-  "cwd": "/home/err/devel/promethean",
-  "startedAt": 1756316295051,
-  "prompt": "noop"
-}
