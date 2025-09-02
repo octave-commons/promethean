@@ -1,8 +1,8 @@
-import { Diag, assert } from './common';
-import type { Tok } from './lexer';
-import { lex } from './lexer';
-import type { Expr, Name } from './ast';
-import { name as mkName } from './ast';
+import { Diag, assert } from './common.js';
+import type { Tok } from './lexer.js';
+import { lex } from './lexer.js';
+import type { Expr, Name } from './ast.js';
+import { name as mkName } from './ast.js';
 
 type Nud = () => Expr;
 type Led = (left: Expr) => Expr;

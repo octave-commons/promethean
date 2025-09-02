@@ -1,4 +1,4 @@
-import { Span } from './common';
+import type { Span } from './common.js';
 
 export type TokKind = 'id' | 'num' | 'str' | 'op' | 'punct' | 'kw' | 'eof';
 

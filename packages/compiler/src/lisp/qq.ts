@@ -1,4 +1,4 @@
-import { S, List, Sym, Nil, isList, isSym, list, sym, nil } from './syntax';
+import { S, List, Sym, Nil, isList, isSym, list, sym, nil } from './syntax.js';
 
 export function qq(expr: S, env: Record<string, S>): S {
     // (quasiquote x) expands with , and ,@ substitutions from env
