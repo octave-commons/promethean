@@ -38,7 +38,7 @@ test('voice system joins and leaves', (t) => {
     const bus = makeBus();
     let destroyed = false;
     VoiceSystem(w, agent, C, bus, {
-        joinVoiceChannel: (e: any) => ({
+        joinVoiceChannel: () => ({
             subscribe: (_p: any) => {},
             destroy: () => {
                 destroyed = true;
