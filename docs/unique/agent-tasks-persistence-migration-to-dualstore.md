@@ -514,10 +514,6 @@ references:
     line: 207
     col: 0
     score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 59
-    col: 0
-    score: 1
   - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
     line: 1100
     col: 0
@@ -1018,10 +1014,6 @@ references:
     line: 222
     col: 0
     score: 1
-  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
-    line: 131
-    col: 0
-    score: 1
   - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
     line: 416
     col: 0
@@ -1202,10 +1194,6 @@ references:
     line: 412
     col: 0
     score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 159
-    col: 0
-    score: 1
   - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
     line: 95
     col: 0
@@ -1368,10 +1356,6 @@ references:
     score: 0.86
   - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
     line: 149
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 288
     col: 0
     score: 1
   - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
@@ -1954,10 +1938,6 @@ references:
     line: 104
     col: 0
     score: 1
-  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
-    line: 45
-    col: 0
-    score: 1
   - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
     line: 411
     col: 0
@@ -2250,14 +2230,6 @@ references:
     line: 172
     col: 0
     score: 1
-  - uuid: b3555ede-324a-4d24-a885-b0721e74babf
-    line: 73
-    col: 0
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 162
-    col: 0
-    score: 1
   - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
     line: 612
     col: 0
@@ -2320,10 +2292,6 @@ references:
     score: 1
   - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
     line: 744
-    col: 0
-    score: 1
-  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
-    line: 47
     col: 0
     score: 1
   - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
@@ -3514,10 +3482,6 @@ references:
     line: 190
     col: 0
     score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 558
-    col: 0
-    score: 1
   - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
     line: 34
     col: 0
@@ -4552,10 +4516,6 @@ references:
     score: 1
   - uuid: c0392040-16a2-41e8-bd54-75110319e3c0
     line: 69
-    col: 0
-    score: 1
-  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
-    line: 613
     col: 0
     score: 1
   - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
@@ -7120,10 +7080,6 @@ references:
     score: 0.98
   - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
     line: 791
-    col: 0
-    score: 0.98
-  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
-    line: 372
     col: 0
     score: 0.98
   - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
@@ -18614,10 +18570,6 @@ references:
     line: 321
     col: 0
     score: 1
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 751
-    col: 0
-    score: 1
   - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
     line: 1120
     col: 0
@@ -21241,7 +21193,7 @@ references:
   - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
     line: 958
     col: 0
-    score: 1
+    score: 0.98
   - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
     line: 234
     col: 0
@@ -23318,10 +23270,6 @@ references:
     line: 483
     col: 0
     score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 1339
-    col: 0
-    score: 1
   - uuid: 54382370-1931-4a19-a634-46735708a9ea
     line: 1126
     col: 0
@@ -23348,10 +23296,6 @@ references:
     score: 1
   - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
     line: 484
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 1340
     col: 0
     score: 1
   - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
@@ -28486,6 +28430,10 @@ references:
     line: 377
     col: 0
     score: 0.95
+  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
+    line: 45
+    col: 0
+    score: 1
   - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
     line: 406
     col: 0
@@ -28612,6 +28560,82 @@ references:
     score: 1
   - uuid: 557309a3-c906-4e97-8867-89ffe151790c
     line: 378
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 412
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 261
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 90
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 157
+    col: 0
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 149
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 110
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 95
+    col: 0
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 28
+    col: 0
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 25
+    col: 0
+    score: 1
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 61
+    col: 0
+    score: 1
+  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
+    line: 18
+    col: 0
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 21
+    col: 0
+    score: 1
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 51
+    col: 0
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 67
+    col: 0
+    score: 1
+  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
+    line: 31
+    col: 0
+    score: 1
+  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
+    line: 17
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 99
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 46
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 10
     col: 0
     score: 1
 ---
@@ -28834,7 +28858,7 @@ references:
 - [Promethean Documentation Pipeline Overview](promethean-documentation-pipeline-overview.md)
 - [Admin Dashboard for User Management](admin-dashboard-for-user-management.md)
 - [Window Management](chunks/window-management.md)
-- [Docops Feature Updates](docops-feature-updates-3.md)
+- [Docops Feature Updates](docops-feature-updates-2.md)
 - [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
 - [Pipeline Enhancements](pipeline-enhancements.md)
 - [Operations](chunks/operations.md)
@@ -28851,7 +28875,7 @@ references:
 - [MindfulRobotIntegration](mindfulrobotintegration.md)
 - [aionian-circuit-math](aionian-circuit-math.md)
 - [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
-- [AGENTS.md](agents-md-3.md)
+- [AGENTS.md](agents-md-2.md)
 - [Mongo Outbox Implementation](mongo-outbox-implementation.md)
 - [template-based-compilation](template-based-compilation.md)
 - [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
@@ -28915,7 +28939,7 @@ references:
 - [Window Management — L73](chunks/window-management.md#^ref-9e8ae388-73-0) (line 73, col 0, score 1)
 - [Creative Moments — L43](creative-moments.md#^ref-10d98225-43-0) (line 43, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L104](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-104-0) (line 104, col 0, score 1)
-- [Docops Feature Updates — L44](docops-feature-updates-3.md#^ref-cdbd21ee-44-0) (line 44, col 0, score 1)
+- [Docops Feature Updates — L44](docops-feature-updates-2.md#^ref-cdbd21ee-44-0) (line 44, col 0, score 1)
 - [Docops Feature Updates — L75](docops-feature-updates.md#^ref-2792d448-75-0) (line 75, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L48](duckduckgosearchpipeline.md#^ref-e979c50f-48-0) (line 48, col 0, score 1)
 - [Duck's Attractor States — L127](ducks-attractor-states.md#^ref-13951643-127-0) (line 127, col 0, score 1)
@@ -28932,7 +28956,6 @@ references:
 - [Obsidian ChatGPT Plugin Integration Guide — L137](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-137-0) (line 137, col 0, score 1)
 - [Obsidian ChatGPT Plugin Integration — L138](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-138-0) (line 138, col 0, score 1)
 - [Obsidian Templating Plugins Integration Guide — L207](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-207-0) (line 207, col 0, score 1)
-- [Pipeline Enhancements — L59](pipeline-enhancements.md#^ref-e2135d9f-59-0) (line 59, col 0, score 1)
 - [plan-update-confirmation — L1100](plan-update-confirmation.md#^ref-b22d79c6-1100-0) (line 1100, col 0, score 1)
 - [polyglot-repl-interface-layer — L230](polyglot-repl-interface-layer.md#^ref-9c79206d-230-0) (line 230, col 0, score 1)
 - [Post-Linguistic Transhuman Design Frameworks — L125](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-125-0) (line 125, col 0, score 1)
@@ -29058,9 +29081,8 @@ references:
 - [Creative Moments — L51](creative-moments.md#^ref-10d98225-51-0) (line 51, col 0, score 1)
 - [Prometheus Observability Stack — L541](prometheus-observability-stack.md#^ref-e90b5a16-541-0) (line 541, col 0, score 1)
 - [Prompt_Folder_Bootstrap — L222](prompt-folder-bootstrap.md#^ref-bd4f0976-222-0) (line 222, col 0, score 1)
-- [Reawakening Duck — L131](reawakening-duck.md#^ref-59b5670f-131-0) (line 131, col 0, score 1)
 - [typed-struct-compiler — L416](typed-struct-compiler.md#^ref-78eeedf7-416-0) (line 416, col 0, score 1)
-- [Docops Feature Updates — L20](docops-feature-updates-3.md#^ref-cdbd21ee-20-0) (line 20, col 0, score 1)
+- [Docops Feature Updates — L20](docops-feature-updates-2.md#^ref-cdbd21ee-20-0) (line 20, col 0, score 1)
 - [Docops Feature Updates — L37](docops-feature-updates.md#^ref-2792d448-37-0) (line 37, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L59](duckduckgosearchpipeline.md#^ref-e979c50f-59-0) (line 59, col 0, score 1)
 - [Duck's Attractor States — L103](ducks-attractor-states.md#^ref-13951643-103-0) (line 103, col 0, score 1)
@@ -29104,7 +29126,6 @@ references:
 - [Fnord Tracer Protocol — L274](fnord-tracer-protocol.md#^ref-fc21f824-274-0) (line 274, col 0, score 1)
 - [Functional Embedding Pipeline Refactor — L327](functional-embedding-pipeline-refactor.md#^ref-a4a25141-327-0) (line 327, col 0, score 1)
 - [graph-ds — L412](graph-ds.md#^ref-6620e2f2-412-0) (line 412, col 0, score 1)
-- [heartbeat-fragment-demo — L159](heartbeat-fragment-demo.md#^ref-dd00677a-159-0) (line 159, col 0, score 1)
 - [Ice Box Reorganization — L95](ice-box-reorganization.md#^ref-291c7d91-95-0) (line 95, col 0, score 1)
 - [Performance-Optimized-Polyglot-Bridge — L483](performance-optimized-polyglot-bridge.md#^ref-f5579967-483-0) (line 483, col 0, score 1)
 - [Pipeline Enhancements — L11](pipeline-enhancements.md#^ref-e2135d9f-11-0) (line 11, col 0, score 1)
@@ -29130,7 +29151,7 @@ references:
 - [Window Management — L49](chunks/window-management.md#^ref-9e8ae388-49-0) (line 49, col 0, score 1)
 - [Creative Moments — L18](creative-moments.md#^ref-10d98225-18-0) (line 18, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L77](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-77-0) (line 77, col 0, score 1)
-- [Docops Feature Updates — L39](docops-feature-updates-3.md#^ref-cdbd21ee-39-0) (line 39, col 0, score 1)
+- [Docops Feature Updates — L39](docops-feature-updates-2.md#^ref-cdbd21ee-39-0) (line 39, col 0, score 1)
 - [Docops Feature Updates — L67](docops-feature-updates.md#^ref-2792d448-67-0) (line 67, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L22](duckduckgosearchpipeline.md#^ref-e979c50f-22-0) (line 22, col 0, score 1)
 - [Duck's Attractor States — L107](ducks-attractor-states.md#^ref-13951643-107-0) (line 107, col 0, score 1)
@@ -29146,7 +29167,6 @@ references:
 - [Canonical Org-Babel Matplotlib Animation Template — L3270](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-3270-0) (line 3270, col 0, score 0.86)
 - [eidolon-field-math-foundations — L7381](eidolon-field-math-foundations.md#^ref-008f2ac0-7381-0) (line 7381, col 0, score 0.86)
 - [field-node-diagram-visualizations — L149](field-node-diagram-visualizations.md#^ref-e9b27b06-149-0) (line 149, col 0, score 1)
-- [Fnord Tracer Protocol — L288](fnord-tracer-protocol.md#^ref-fc21f824-288-0) (line 288, col 0, score 1)
 - [Functional Embedding Pipeline Refactor — L415](functional-embedding-pipeline-refactor.md#^ref-a4a25141-415-0) (line 415, col 0, score 1)
 - [graph-ds — L417](graph-ds.md#^ref-6620e2f2-417-0) (line 417, col 0, score 1)
 - [heartbeat-fragment-demo — L177](heartbeat-fragment-demo.md#^ref-dd00677a-177-0) (line 177, col 0, score 1)
@@ -29167,7 +29187,7 @@ references:
 - [Prometheus Observability Stack — L512](prometheus-observability-stack.md#^ref-e90b5a16-512-0) (line 512, col 0, score 1)
 - [Creative Moments — L40](creative-moments.md#^ref-10d98225-40-0) (line 40, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L108](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-108-0) (line 108, col 0, score 1)
-- [Docops Feature Updates — L60](docops-feature-updates-3.md#^ref-cdbd21ee-60-0) (line 60, col 0, score 1)
+- [Docops Feature Updates — L60](docops-feature-updates-2.md#^ref-cdbd21ee-60-0) (line 60, col 0, score 1)
 - [Docops Feature Updates — L89](docops-feature-updates.md#^ref-2792d448-89-0) (line 89, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L45](duckduckgosearchpipeline.md#^ref-e979c50f-45-0) (line 45, col 0, score 1)
 - [Duck's Attractor States — L126](ducks-attractor-states.md#^ref-13951643-126-0) (line 126, col 0, score 1)
@@ -29204,7 +29224,7 @@ references:
 - [promethean-requirements — L89](promethean-requirements.md#^ref-95205cd3-89-0) (line 89, col 0, score 1)
 - [Promethean State Format — L197](promethean-state-format.md#^ref-23df6ddb-197-0) (line 197, col 0, score 1)
 - [Services — L61](chunks/services.md#^ref-75ea4a6a-61-0) (line 61, col 0, score 1)
-- [Docops Feature Updates — L37](docops-feature-updates-3.md#^ref-cdbd21ee-37-0) (line 37, col 0, score 1)
+- [Docops Feature Updates — L37](docops-feature-updates-2.md#^ref-cdbd21ee-37-0) (line 37, col 0, score 1)
 - [Docops Feature Updates — L59](docops-feature-updates.md#^ref-2792d448-59-0) (line 59, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L34](duckduckgosearchpipeline.md#^ref-e979c50f-34-0) (line 34, col 0, score 1)
 - [Duck's Attractor States — L117](ducks-attractor-states.md#^ref-13951643-117-0) (line 117, col 0, score 1)
@@ -29244,7 +29264,7 @@ references:
 - [Window Management — L53](chunks/window-management.md#^ref-9e8ae388-53-0) (line 53, col 0, score 1)
 - [Creative Moments — L33](creative-moments.md#^ref-10d98225-33-0) (line 33, col 0, score 1)
 - [Tooling — L41](chunks/tooling.md#^ref-6cb4943e-41-0) (line 41, col 0, score 1)
-- [Docops Feature Updates — L48](docops-feature-updates-3.md#^ref-cdbd21ee-48-0) (line 48, col 0, score 1)
+- [Docops Feature Updates — L48](docops-feature-updates-2.md#^ref-cdbd21ee-48-0) (line 48, col 0, score 1)
 - [Docops Feature Updates — L79](docops-feature-updates.md#^ref-2792d448-79-0) (line 79, col 0, score 1)
 - [eidolon-node-lifecycle — L69](eidolon-node-lifecycle.md#^ref-938eca9c-69-0) (line 69, col 0, score 1)
 - [field-node-diagram-outline — L158](field-node-diagram-outline.md#^ref-1f32c94a-158-0) (line 158, col 0, score 1)
@@ -29292,7 +29312,6 @@ references:
 - [unique-templates — L12](templates/unique-templates.md#^ref-c26f0044-12-0) (line 12, col 0, score 1)
 - [The Jar of Echoes — L139](the-jar-of-echoes.md#^ref-18138627-139-0) (line 139, col 0, score 1)
 - [Tracing the Signal — L104](tracing-the-signal.md#^ref-c3cd4f65-104-0) (line 104, col 0, score 1)
-- [ts-to-lisp-transpiler — L45](ts-to-lisp-transpiler.md#^ref-ba11486b-45-0) (line 45, col 0, score 1)
 - [typed-struct-compiler — L411](typed-struct-compiler.md#^ref-78eeedf7-411-0) (line 411, col 0, score 1)
 - [TypeScript Patch for Tool Calling Support — L566](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-566-0) (line 566, col 0, score 1)
 - [Unique Concepts — L10](unique-concepts.md#^ref-ed6f3fc9-10-0) (line 10, col 0, score 1)
@@ -29366,8 +29385,6 @@ references:
 - [sibilant-macro-targets — L266](sibilant-macro-targets.md#^ref-c5c9a5c6-266-0) (line 266, col 0, score 1)
 - [Pure TypeScript Search Microservice — L635](pure-typescript-search-microservice.md#^ref-d17d3a96-635-0) (line 635, col 0, score 1)
 - [Reawakening Duck — L172](reawakening-duck.md#^ref-59b5670f-172-0) (line 172, col 0, score 1)
-- [Redirecting Standard Error — L73](redirecting-standard-error.md#^ref-b3555ede-73-0) (line 73, col 0, score 1)
-- [ripple-propagation-demo — L162](ripple-propagation-demo.md#^ref-8430617b-162-0) (line 162, col 0, score 1)
 - [schema-evolution-workflow — L612](schema-evolution-workflow.md#^ref-d8059b6a-612-0) (line 612, col 0, score 1)
 - [Self-Agency in AI Interaction — L94](self-agency-in-ai-interaction.md#^ref-49a9a860-94-0) (line 94, col 0, score 1)
 - [sibilant-macro-targets — L246](sibilant-macro-targets.md#^ref-c5c9a5c6-246-0) (line 246, col 0, score 1)
@@ -29384,7 +29401,6 @@ references:
 - [DuckDuckGoSearchPipeline — L52](duckduckgosearchpipeline.md#^ref-e979c50f-52-0) (line 52, col 0, score 1)
 - [Promethean_Eidolon_Synchronicity_Model — L120](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-120-0) (line 120, col 0, score 1)
 - [Promethean Infrastructure Setup — L744](promethean-infrastructure-setup.md#^ref-6deed6ac-744-0) (line 744, col 0, score 1)
-- [Promethean Notes — L47](promethean-notes.md#^ref-1c4046b5-47-0) (line 47, col 0, score 1)
 - [Promethean Pipelines — L183](promethean-pipelines.md#^ref-8b8e6103-183-0) (line 183, col 0, score 1)
 - [promethean-requirements — L58](promethean-requirements.md#^ref-95205cd3-58-0) (line 58, col 0, score 1)
 - [Promethean Workflow Optimization — L42](promethean-workflow-optimization.md#^ref-d614d983-42-0) (line 42, col 0, score 1)
@@ -29682,7 +29698,6 @@ references:
 - [Obsidian ChatGPT Plugin Integration — L119](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-119-0) (line 119, col 0, score 1)
 - [obsidian-ignore-node-modules-regex — L124](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-124-0) (line 124, col 0, score 1)
 - [Obsidian Templating Plugins Integration Guide — L190](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-190-0) (line 190, col 0, score 1)
-- [Per-Domain Policy System for JS Crawler — L558](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-558-0) (line 558, col 0, score 1)
 - [Pipeline Enhancements — L34](pipeline-enhancements.md#^ref-e2135d9f-34-0) (line 34, col 0, score 1)
 - [plan-update-confirmation — L1084](plan-update-confirmation.md#^ref-b22d79c6-1084-0) (line 1084, col 0, score 1)
 - [Promethean Dev Workflow Update — L110](promethean-dev-workflow-update.md#^ref-03a5578f-110-0) (line 110, col 0, score 1)
@@ -29942,7 +29957,6 @@ references:
 - [Migrate to Provider-Tenant Architecture — L404](migrate-to-provider-tenant-architecture.md#^ref-54382370-404-0) (line 404, col 0, score 1)
 - [Promethean Documentation Pipeline Overview — L228](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-228-0) (line 228, col 0, score 1)
 - [Promethean Documentation Update — L69](promethean-documentation-update.md#^ref-c0392040-69-0) (line 69, col 0, score 1)
-- [Prometheus Observability Stack — L613](prometheus-observability-stack.md#^ref-e90b5a16-613-0) (line 613, col 0, score 1)
 - [Prompt_Folder_Bootstrap — L298](prompt-folder-bootstrap.md#^ref-bd4f0976-298-0) (line 298, col 0, score 1)
 - [Provider-Agnostic Chat Panel Implementation — L334](provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-334-0) (line 334, col 0, score 1)
 - [Pure TypeScript Search Microservice — L684](pure-typescript-search-microservice.md#^ref-d17d3a96-684-0) (line 684, col 0, score 1)
@@ -30134,7 +30148,7 @@ references:
 - [Agent Reflections and Prompt Evolution — L237](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-237-0) (line 237, col 0, score 1)
 - [Operations — L73](chunks/operations.md#^ref-f1add613-73-0) (line 73, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L170](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-170-0) (line 170, col 0, score 1)
-- [Docops Feature Updates — L67](docops-feature-updates-3.md#^ref-cdbd21ee-67-0) (line 67, col 0, score 1)
+- [Docops Feature Updates — L67](docops-feature-updates-2.md#^ref-cdbd21ee-67-0) (line 67, col 0, score 1)
 - [Docops Feature Updates — L96](docops-feature-updates.md#^ref-2792d448-96-0) (line 96, col 0, score 1)
 - [Duck's Self-Referential Perceptual Loop — L139](ducks-self-referential-perceptual-loop.md#^ref-71726f04-139-0) (line 139, col 0, score 1)
 - [Dynamic Context Model for Web Components — L548](dynamic-context-model-for-web-components.md#^ref-f7702bf8-548-0) (line 548, col 0, score 1)
@@ -30386,7 +30400,7 @@ references:
 - [Ice Box Reorganization — L378](ice-box-reorganization.md#^ref-291c7d91-378-0) (line 378, col 0, score 1)
 - [Dynamic Context Model for Web Components — L1128](dynamic-context-model-for-web-components.md#^ref-f7702bf8-1128-0) (line 1128, col 0, score 1)
 - [Promethean Pipelines — L267](promethean-pipelines.md#^ref-8b8e6103-267-0) (line 267, col 0, score 1)
-- [Docops Feature Updates — L97](docops-feature-updates-3.md#^ref-cdbd21ee-97-0) (line 97, col 0, score 1)
+- [Docops Feature Updates — L97](docops-feature-updates-2.md#^ref-cdbd21ee-97-0) (line 97, col 0, score 1)
 - [Pipeline Enhancements — L95](pipeline-enhancements.md#^ref-e2135d9f-95-0) (line 95, col 0, score 1)
 - [Promethean Documentation Pipeline Overview — L479](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-479-0) (line 479, col 0, score 1)
 - [Performance-Optimized-Polyglot-Bridge — L647](performance-optimized-polyglot-bridge.md#^ref-f5579967-647-0) (line 647, col 0, score 1)
@@ -30401,7 +30415,7 @@ references:
 - [Per-Domain Policy System for JS Crawler — L638](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-638-0) (line 638, col 0, score 0.95)
 - [Performance-Optimized-Polyglot-Bridge — L889](performance-optimized-polyglot-bridge.md#^ref-f5579967-889-0) (line 889, col 0, score 0.95)
 - [schema-evolution-workflow — L761](schema-evolution-workflow.md#^ref-d8059b6a-761-0) (line 761, col 0, score 1)
-- [Docops Feature Updates — L142](docops-feature-updates-3.md#^ref-cdbd21ee-142-0) (line 142, col 0, score 1)
+- [Docops Feature Updates — L142](docops-feature-updates-2.md#^ref-cdbd21ee-142-0) (line 142, col 0, score 1)
 - [Docops Feature Updates — L199](docops-feature-updates.md#^ref-2792d448-199-0) (line 199, col 0, score 1)
 - [Layer1SurvivabilityEnvelope — L541](layer1survivabilityenvelope.md#^ref-64a9f9f9-541-0) (line 541, col 0, score 1)
 - [Migrate to Provider-Tenant Architecture — L1016](migrate-to-provider-tenant-architecture.md#^ref-54382370-1016-0) (line 1016, col 0, score 1)
@@ -30584,7 +30598,6 @@ references:
 - [ParticleSimulationWithCanvasAndFFmpeg — L556](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-556-0) (line 556, col 0, score 0.98)
 - [field-dynamics-math-blocks — L602](field-dynamics-math-blocks.md#^ref-7cfc230d-602-0) (line 602, col 0, score 0.98)
 - [Prometheus Observability Stack — L791](prometheus-observability-stack.md#^ref-e90b5a16-791-0) (line 791, col 0, score 0.98)
-- [Ice Box Reorganization — L372](ice-box-reorganization.md#^ref-291c7d91-372-0) (line 372, col 0, score 0.98)
 - [Promethean-Copilot-Intent-Engine — L202](promethean-copilot-intent-engine.md#^ref-ae24a280-202-0) (line 202, col 0, score 1)
 - [Promethean Dev Workflow Update — L348](promethean-dev-workflow-update.md#^ref-03a5578f-348-0) (line 348, col 0, score 1)
 - [plan-update-confirmation — L1609](plan-update-confirmation.md#^ref-b22d79c6-1609-0) (line 1609, col 0, score 1)
@@ -30816,7 +30829,7 @@ references:
 - [Promethean Infrastructure Setup — L1061](promethean-infrastructure-setup.md#^ref-6deed6ac-1061-0) (line 1061, col 0, score 0.98)
 - [Factorio AI with External Agents — L461](factorio-ai-with-external-agents.md#^ref-a4d90289-461-0) (line 461, col 0, score 0.98)
 - [Promethean Workflow Optimization — L139](promethean-workflow-optimization.md#^ref-d614d983-139-0) (line 139, col 0, score 0.98)
-- [Docops Feature Updates — L83](docops-feature-updates-3.md#^ref-cdbd21ee-83-0) (line 83, col 0, score 0.98)
+- [Docops Feature Updates — L83](docops-feature-updates-2.md#^ref-cdbd21ee-83-0) (line 83, col 0, score 0.98)
 - [Docops Feature Updates — L129](docops-feature-updates.md#^ref-2792d448-129-0) (line 129, col 0, score 0.98)
 - [Promethean Pipelines — L546](promethean-pipelines.md#^ref-8b8e6103-546-0) (line 546, col 0, score 0.99)
 - [plan-update-confirmation — L1313](plan-update-confirmation.md#^ref-b22d79c6-1313-0) (line 1313, col 0, score 0.99)
@@ -30970,7 +30983,7 @@ references:
 - [Redirecting Standard Error — L284](redirecting-standard-error.md#^ref-b3555ede-284-0) (line 284, col 0, score 1)
 - [ripple-propagation-demo — L518](ripple-propagation-demo.md#^ref-8430617b-518-0) (line 518, col 0, score 1)
 - [Pipeline Enhancements — L93](pipeline-enhancements.md#^ref-e2135d9f-93-0) (line 93, col 0, score 1)
-- [Docops Feature Updates — L132](docops-feature-updates-3.md#^ref-cdbd21ee-132-0) (line 132, col 0, score 1)
+- [Docops Feature Updates — L132](docops-feature-updates-2.md#^ref-cdbd21ee-132-0) (line 132, col 0, score 1)
 - [Docops Feature Updates — L190](docops-feature-updates.md#^ref-2792d448-190-0) (line 190, col 0, score 1)
 - [TypeScript Patch for Tool Calling Support — L685](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-685-0) (line 685, col 0, score 0.97)
 - [Unique Info Dump Index — L558](unique-info-dump-index.md#^ref-30ec3ba6-558-0) (line 558, col 0, score 0.97)
@@ -31918,7 +31931,7 @@ references:
 - [Promethean Dev Workflow Update — L3502](promethean-dev-workflow-update.md#^ref-03a5578f-3502-0) (line 3502, col 0, score 0.97)
 - [Agent Reflections and Prompt Evolution — L345](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-345-0) (line 345, col 0, score 1)
 - [Dynamic Context Model for Web Components — L837](dynamic-context-model-for-web-components.md#^ref-f7702bf8-837-0) (line 837, col 0, score 1)
-- [Docops Feature Updates — L157](docops-feature-updates-3.md#^ref-cdbd21ee-157-0) (line 157, col 0, score 1)
+- [Docops Feature Updates — L157](docops-feature-updates-2.md#^ref-cdbd21ee-157-0) (line 157, col 0, score 1)
 - [Docops Feature Updates — L214](docops-feature-updates.md#^ref-2792d448-214-0) (line 214, col 0, score 1)
 - [Layer1SurvivabilityEnvelope — L542](layer1survivabilityenvelope.md#^ref-64a9f9f9-542-0) (line 542, col 0, score 1)
 - [Promethean Notes — L152](promethean-notes.md#^ref-1c4046b5-152-0) (line 152, col 0, score 0.96)
@@ -31972,7 +31985,7 @@ references:
 - [schema-evolution-workflow — L759](schema-evolution-workflow.md#^ref-d8059b6a-759-0) (line 759, col 0, score 1)
 - [api-gateway-versioning — L300](api-gateway-versioning.md#^ref-0580dcd3-300-0) (line 300, col 0, score 0.99)
 - [Migrate to Provider-Tenant Architecture — L632](migrate-to-provider-tenant-architecture.md#^ref-54382370-632-0) (line 632, col 0, score 0.99)
-- [AGENTS.md — L335](agents-md-3.md#^ref-d5b16703-335-0) (line 335, col 0, score 0.96)
+- [AGENTS.md — L335](agents-md-2.md#^ref-d5b16703-335-0) (line 335, col 0, score 0.96)
 - [Unique Info Dump Index — L582](unique-info-dump-index.md#^ref-30ec3ba6-582-0) (line 582, col 0, score 0.96)
 - [api-gateway-versioning — L316](api-gateway-versioning.md#^ref-0580dcd3-316-0) (line 316, col 0, score 0.96)
 - [ParticleSimulationWithCanvasAndFFmpeg — L402](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-402-0) (line 402, col 0, score 0.98)
@@ -32035,12 +32048,12 @@ references:
 - [Promethean Chat Activity Report — L627](promethean-chat-activity-report.md#^ref-18344cf9-627-0) (line 627, col 0, score 0.89)
 - [Promethean Dev Workflow Update — L1309](promethean-dev-workflow-update.md#^ref-03a5578f-1309-0) (line 1309, col 0, score 0.89)
 - [Migrate to Provider-Tenant Architecture — L1048](migrate-to-provider-tenant-architecture.md#^ref-54382370-1048-0) (line 1048, col 0, score 1)
-- [Docops Feature Updates — L100](docops-feature-updates-3.md#^ref-cdbd21ee-100-0) (line 100, col 0, score 0.99)
+- [Docops Feature Updates — L100](docops-feature-updates-2.md#^ref-cdbd21ee-100-0) (line 100, col 0, score 0.99)
 - [Layer1SurvivabilityEnvelope — L472](layer1survivabilityenvelope.md#^ref-64a9f9f9-472-0) (line 472, col 0, score 0.96)
-- [Docops Feature Updates — L138](docops-feature-updates-3.md#^ref-cdbd21ee-138-0) (line 138, col 0, score 0.96)
+- [Docops Feature Updates — L138](docops-feature-updates-2.md#^ref-cdbd21ee-138-0) (line 138, col 0, score 0.96)
 - [Canonical Org-Babel Matplotlib Animation Template — L382](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-382-0) (line 382, col 0, score 0.95)
 - [field-interaction-equations — L428](field-interaction-equations.md#^ref-b09141b7-428-0) (line 428, col 0, score 0.95)
-- [Docops Feature Updates — L106](docops-feature-updates-3.md#^ref-cdbd21ee-106-0) (line 106, col 0, score 0.95)
+- [Docops Feature Updates — L106](docops-feature-updates-2.md#^ref-cdbd21ee-106-0) (line 106, col 0, score 0.95)
 - [The Jar of Echoes — L1850](the-jar-of-echoes.md#^ref-18138627-1850-0) (line 1850, col 0, score 0.95)
 - [Promethean Documentation Pipeline Overview — L545](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-545-0) (line 545, col 0, score 0.94)
 - [TypeScript Patch for Tool Calling Support — L814](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-814-0) (line 814, col 0, score 0.94)
@@ -32054,7 +32067,7 @@ references:
 - [The Jar of Echoes — L496](the-jar-of-echoes.md#^ref-18138627-496-0) (line 496, col 0, score 0.99)
 - [Promethean Documentation Pipeline Overview — L635](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-635-0) (line 635, col 0, score 1)
 - [Admin Dashboard for User Management — L193](admin-dashboard-for-user-management.md#^ref-2901a3e9-193-0) (line 193, col 0, score 1)
-- [Docops Feature Updates — L136](docops-feature-updates-3.md#^ref-cdbd21ee-136-0) (line 136, col 0, score 1)
+- [Docops Feature Updates — L136](docops-feature-updates-2.md#^ref-cdbd21ee-136-0) (line 136, col 0, score 1)
 - [Docops Feature Updates — L193](docops-feature-updates.md#^ref-2792d448-193-0) (line 193, col 0, score 1)
 - [Canonical Org-Babel Matplotlib Animation Template — L2506](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-2506-0) (line 2506, col 0, score 0.93)
 - [Promethean Documentation Pipeline Overview — L489](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-489-0) (line 489, col 0, score 0.93)
@@ -32188,7 +32201,7 @@ references:
 - [Model Upgrade Calm-Down Guide — L329](model-upgrade-calm-down-guide.md#^ref-db74343f-329-0) (line 329, col 0, score 1)
 - [Promethean-Copilot-Intent-Engine — L356](promethean-copilot-intent-engine.md#^ref-ae24a280-356-0) (line 356, col 0, score 1)
 - [Agent Reflections and Prompt Evolution — L377](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-377-0) (line 377, col 0, score 1)
-- [Docops Feature Updates — L121](docops-feature-updates-3.md#^ref-cdbd21ee-121-0) (line 121, col 0, score 0.99)
+- [Docops Feature Updates — L121](docops-feature-updates-2.md#^ref-cdbd21ee-121-0) (line 121, col 0, score 0.99)
 - [Docops Feature Updates — L179](docops-feature-updates.md#^ref-2792d448-179-0) (line 179, col 0, score 0.99)
 - [Unique Info Dump Index — L334](unique-info-dump-index.md#^ref-30ec3ba6-334-0) (line 334, col 0, score 0.99)
 - [Migrate to Provider-Tenant Architecture — L667](migrate-to-provider-tenant-architecture.md#^ref-54382370-667-0) (line 667, col 0, score 0.99)
@@ -32291,7 +32304,7 @@ references:
 - [plan-update-confirmation — L1186](plan-update-confirmation.md#^ref-b22d79c6-1186-0) (line 1186, col 0, score 1)
 - [Promethean Workflow Optimization — L131](promethean-workflow-optimization.md#^ref-d614d983-131-0) (line 131, col 0, score 1)
 - [Redirecting Standard Error — L141](redirecting-standard-error.md#^ref-b3555ede-141-0) (line 141, col 0, score 1)
-- [Docops Feature Updates — L84](docops-feature-updates-3.md#^ref-cdbd21ee-84-0) (line 84, col 0, score 0.98)
+- [Docops Feature Updates — L84](docops-feature-updates-2.md#^ref-cdbd21ee-84-0) (line 84, col 0, score 0.98)
 - [Docops Feature Updates — L130](docops-feature-updates.md#^ref-2792d448-130-0) (line 130, col 0, score 0.98)
 - [Prometheus Observability Stack — L779](prometheus-observability-stack.md#^ref-e90b5a16-779-0) (line 779, col 0, score 0.98)
 - [Promethean Documentation Pipeline Overview — L540](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-540-0) (line 540, col 0, score 0.98)
@@ -32300,7 +32313,7 @@ references:
 - [Promethean Workflow Optimization — L132](promethean-workflow-optimization.md#^ref-d614d983-132-0) (line 132, col 0, score 1)
 - [Redirecting Standard Error — L142](redirecting-standard-error.md#^ref-b3555ede-142-0) (line 142, col 0, score 1)
 - [Prometheus Observability Stack — L780](prometheus-observability-stack.md#^ref-e90b5a16-780-0) (line 780, col 0, score 0.98)
-- [Docops Feature Updates — L85](docops-feature-updates-3.md#^ref-cdbd21ee-85-0) (line 85, col 0, score 0.98)
+- [Docops Feature Updates — L85](docops-feature-updates-2.md#^ref-cdbd21ee-85-0) (line 85, col 0, score 0.98)
 - [Docops Feature Updates — L131](docops-feature-updates.md#^ref-2792d448-131-0) (line 131, col 0, score 0.98)
 - [Promethean Documentation Pipeline Overview — L541](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-541-0) (line 541, col 0, score 0.98)
 - [Math Fundamentals — L151](chunks/math-fundamentals.md#^ref-c6e87433-151-0) (line 151, col 0, score 0.96)
@@ -33457,7 +33470,6 @@ references:
 - [obsidian-ignore-node-modules-regex — L363](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-363-0) (line 363, col 0, score 1)
 - [Obsidian Templating Plugins Integration Guide — L531](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-531-0) (line 531, col 0, score 1)
 - [Optimizing Command Limitations in System Design — L321](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-321-0) (line 321, col 0, score 1)
-- [ParticleSimulationWithCanvasAndFFmpeg — L751](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-751-0) (line 751, col 0, score 1)
 - [Per-Domain Policy System for JS Crawler — L1120](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-1120-0) (line 1120, col 0, score 1)
 - [Promethean State Format — L503](promethean-state-format.md#^ref-23df6ddb-503-0) (line 503, col 0, score 1)
 - [Prometheus Observability Stack — L1028](prometheus-observability-stack.md#^ref-e90b5a16-1028-0) (line 1028, col 0, score 1)
@@ -34113,7 +34125,7 @@ references:
 - [Redirecting Standard Error — L259](redirecting-standard-error.md#^ref-b3555ede-259-0) (line 259, col 0, score 1)
 - [Chroma Toolkit Consolidation Plan — L736](chroma-toolkit-consolidation-plan.md#^ref-5020e892-736-0) (line 736, col 0, score 0.98)
 - [Fnord Tracer Protocol — L674](fnord-tracer-protocol.md#^ref-fc21f824-674-0) (line 674, col 0, score 0.98)
-- [Chroma Toolkit Consolidation Plan — L958](chroma-toolkit-consolidation-plan.md#^ref-5020e892-958-0) (line 958, col 0, score 1)
+- [Chroma Toolkit Consolidation Plan — L958](chroma-toolkit-consolidation-plan.md#^ref-5020e892-958-0) (line 958, col 0, score 0.98)
 - [Diagrams — L234](chunks/diagrams.md#^ref-45cd25b5-234-0) (line 234, col 0, score 1)
 - [Eidolon Field Abstract Model — L736](eidolon-field-abstract-model.md#^ref-5e8b2388-736-0) (line 736, col 0, score 1)
 - [eidolon-node-lifecycle — L223](eidolon-node-lifecycle.md#^ref-938eca9c-223-0) (line 223, col 0, score 1)
@@ -34633,7 +34645,6 @@ references:
 - [windows-tiling-with-autohotkey — L542](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-542-0) (line 542, col 0, score 0.98)
 - [Chroma Toolkit Consolidation Plan — L807](chroma-toolkit-consolidation-plan.md#^ref-5020e892-807-0) (line 807, col 0, score 1)
 - [Diagrams — L483](chunks/diagrams.md#^ref-45cd25b5-483-0) (line 483, col 0, score 1)
-- [Dynamic Context Model for Web Components — L1339](dynamic-context-model-for-web-components.md#^ref-f7702bf8-1339-0) (line 1339, col 0, score 1)
 - [Migrate to Provider-Tenant Architecture — L1126](migrate-to-provider-tenant-architecture.md#^ref-54382370-1126-0) (line 1126, col 0, score 1)
 - [Per-Domain Policy System for JS Crawler — L1043](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-1043-0) (line 1043, col 0, score 1)
 - [plan-update-confirmation — L1931](plan-update-confirmation.md#^ref-b22d79c6-1931-0) (line 1931, col 0, score 1)
@@ -34641,7 +34652,6 @@ references:
 - [Prometheus Observability Stack — L907](prometheus-observability-stack.md#^ref-e90b5a16-907-0) (line 907, col 0, score 1)
 - [Chroma Toolkit Consolidation Plan — L808](chroma-toolkit-consolidation-plan.md#^ref-5020e892-808-0) (line 808, col 0, score 1)
 - [Diagrams — L484](chunks/diagrams.md#^ref-45cd25b5-484-0) (line 484, col 0, score 1)
-- [Dynamic Context Model for Web Components — L1340](dynamic-context-model-for-web-components.md#^ref-f7702bf8-1340-0) (line 1340, col 0, score 1)
 - [JavaScript — L376](chunks/javascript.md#^ref-c1618c66-376-0) (line 376, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L484](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-484-0) (line 484, col 0, score 1)
 - [Duck's Self-Referential Perceptual Loop — L170](ducks-self-referential-perceptual-loop.md#^ref-71726f04-170-0) (line 170, col 0, score 1)
@@ -35925,6 +35935,7 @@ references:
 - [field-node-diagram-visualizations — L596](field-node-diagram-visualizations.md#^ref-e9b27b06-596-0) (line 596, col 0, score 1)
 - [Admin Dashboard for User Management — L223](admin-dashboard-for-user-management.md#^ref-2901a3e9-223-0) (line 223, col 0, score 0.95)
 - [Services — L377](chunks/services.md#^ref-75ea4a6a-377-0) (line 377, col 0, score 0.95)
+- [ts-to-lisp-transpiler — L45](ts-to-lisp-transpiler.md#^ref-ba11486b-45-0) (line 45, col 0, score 1)
 - [Optimizing Command Limitations in System Design — L406](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-406-0) (line 406, col 0, score 1)
 - [Promethean-Copilot-Intent-Engine — L787](promethean-copilot-intent-engine.md#^ref-ae24a280-787-0) (line 787, col 0, score 1)
 - [Promethean Data Sync Protocol — L169](promethean-data-sync-protocol.md#^ref-9fab9e76-169-0) (line 169, col 0, score 1)
@@ -35957,4 +35968,23 @@ references:
 - [Services — L437](chunks/services.md#^ref-75ea4a6a-437-0) (line 437, col 0, score 1)
 - [Shared — L367](chunks/shared.md#^ref-623a55f7-367-0) (line 367, col 0, score 1)
 - [Simulation Demo — L378](chunks/simulation-demo.md#^ref-557309a3-378-0) (line 378, col 0, score 1)
+- [Dynamic Context Model for Web Components — L412](dynamic-context-model-for-web-components.md#^ref-f7702bf8-412-0) (line 412, col 0, score 1)
+- [Eidolon Field Abstract Model — L261](eidolon-field-abstract-model.md#^ref-5e8b2388-261-0) (line 261, col 0, score 1)
+- [eidolon-node-lifecycle — L90](eidolon-node-lifecycle.md#^ref-938eca9c-90-0) (line 90, col 0, score 1)
+- [Factorio AI with External Agents — L157](factorio-ai-with-external-agents.md#^ref-a4d90289-157-0) (line 157, col 0, score 1)
+- [field-interaction-equations — L149](field-interaction-equations.md#^ref-b09141b7-149-0) (line 149, col 0, score 1)
+- [field-node-diagram-outline — L110](field-node-diagram-outline.md#^ref-1f32c94a-110-0) (line 110, col 0, score 1)
+- [field-node-diagram-visualizations — L95](field-node-diagram-visualizations.md#^ref-e9b27b06-95-0) (line 95, col 0, score 1)
+- [Diagrams — L28](chunks/diagrams.md#^ref-45cd25b5-28-0) (line 28, col 0, score 1)
+- [JavaScript — L25](chunks/javascript.md#^ref-c1618c66-25-0) (line 25, col 0, score 1)
+- [Math Fundamentals — L61](chunks/math-fundamentals.md#^ref-c6e87433-61-0) (line 61, col 0, score 1)
+- [Operations — L18](chunks/operations.md#^ref-f1add613-18-0) (line 18, col 0, score 1)
+- [Services — L21](chunks/services.md#^ref-75ea4a6a-21-0) (line 21, col 0, score 1)
+- [Shared — L51](chunks/shared.md#^ref-623a55f7-51-0) (line 51, col 0, score 1)
+- [Simulation Demo — L67](chunks/simulation-demo.md#^ref-557309a3-67-0) (line 67, col 0, score 1)
+- [Tooling — L31](chunks/tooling.md#^ref-6cb4943e-31-0) (line 31, col 0, score 1)
+- [Window Management — L17](chunks/window-management.md#^ref-9e8ae388-17-0) (line 17, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L99](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-99-0) (line 99, col 0, score 1)
+- [Docops Feature Updates — L46](docops-feature-updates.md#^ref-2792d448-46-0) (line 46, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L10](duckduckgosearchpipeline.md#^ref-e979c50f-10-0) (line 10, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

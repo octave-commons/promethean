@@ -17,6 +17,7 @@ tags:
   - field
   - coupling
 related_to_title:
+  - api-gateway-versioning
   - Chroma Toolkit Consolidation Plan
   - Diagrams
   - DSL
@@ -25,13 +26,13 @@ related_to_title:
   - Operations
   - Services
   - Shared
+  - AI-First-OS-Model-Context-Protocol
   - Board Automation Improvements
   - balanced-bst
   - Post-Linguistic Transhuman Design Frameworks
   - Unique Info Dump Index
   - Promethean Chat Activity Report
   - TypeScript Patch for Tool Calling Support
-  - AI-First-OS-Model-Context-Protocol
   - AGENTS.md
   - schema-evolution-workflow
   - Optimizing Command Limitations in System Design
@@ -52,7 +53,6 @@ related_to_title:
   - Promethean-Copilot-Intent-Engine
   - Promethean Infrastructure Setup
   - Promethean State Format
-  - api-gateway-versioning
   - Prometheus Observability Stack
   - Tooling
   - Performance-Optimized-Polyglot-Bridge
@@ -118,6 +118,7 @@ related_to_title:
   - Cross-Language Runtime Polymorphism
   - polymorphic-meta-programming-engine
 related_to_uuid:
+  - 0580dcd3-533d-4834-8a2f-eae3771960a9
   - 5020e892-8f18-443a-b707-6d0f3efcfe22
   - 45cd25b5-ed36-49ab-82c8-10d0903e34db
   - e87bc036-1570-419e-a558-f45b9c0db698
@@ -126,13 +127,13 @@ related_to_uuid:
   - f1add613-656e-4bec-b52b-193fd78c4642
   - 75ea4a6a-8270-488d-9d37-799c288e5f70
   - 623a55f7-685c-486b-abaf-469da1bbbb69
+  - 618198f4-cfad-4677-9df6-0640d8a97bae
   - ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
   - d3e7db72-2e07-4dae-8920-0e07c499a1e5
   - 6bcff92c-4224-453d-9993-1be8d37d47c3
   - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
   - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
   - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-  - 618198f4-cfad-4677-9df6-0640d8a97bae
   - bb90903a-4723-44f7-850e-a71415ef6224
   - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
   - 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
@@ -154,7 +155,6 @@ related_to_uuid:
   - ae24a280-678e-4c0b-8cc4-56667fa04172
   - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
   - 23df6ddb-05cf-4639-8201-f8291f8a6026
-  - 0580dcd3-533d-4834-8a2f-eae3771960a9
   - e90b5a16-d58f-424d-bd36-70e9bd2861ad
   - 6cb4943e-8267-4e27-8618-2ce0a464d173
   - f5579967-762d-4cfd-851e-4f71b4cb77a1
@@ -782,7 +782,7 @@ references:
   - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
     line: 313
     col: 0
-    score: 0.96
+    score: 0.98
   - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
     line: 314
     col: 0
@@ -1034,7 +1034,7 @@ references:
   - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
     line: 26
     col: 0
-    score: 0.99
+    score: 0.98
   - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
     line: 313
     col: 0
@@ -1110,7 +1110,7 @@ references:
   - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
     line: 315
     col: 0
-    score: 0.97
+    score: 0.96
   - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
     line: 318
     col: 0
@@ -1130,7 +1130,7 @@ references:
   - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
     line: 142
     col: 0
-    score: 0.98
+    score: 1
   - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
     line: 167
     col: 0
@@ -1442,7 +1442,7 @@ references:
   - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
     line: 345
     col: 0
-    score: 0.96
+    score: 1
   - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
     line: 3034
     col: 0
@@ -1755,10 +1755,6 @@ references:
     line: 201
     col: 0
     score: 1
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 344
-    col: 0
-    score: 0.96
   - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
     line: 1374
     col: 0
@@ -1896,10 +1892,6 @@ references:
     col: 0
     score: 0.97
   - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 60
-    col: 0
-    score: 0.97
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
     line: 240
     col: 0
     score: 0.97
@@ -1924,6 +1916,10 @@ references:
     col: 0
     score: 0.99
   - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 60
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
     line: 244
     col: 0
     score: 0.97
@@ -1931,6 +1927,10 @@ references:
     line: 159
     col: 0
     score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 344
+    col: 0
+    score: 0.96
   - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
     line: 2251
     col: 0
@@ -2903,6 +2903,854 @@ references:
     line: 1
     col: 0
     score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 19
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 45
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 26
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 47
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 98
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 99
+    col: 0
+    score: 0.97
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 191
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 22
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 14
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 67
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 13
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 17
+    col: 0
+    score: 0.97
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 97
+    col: 0
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 46
+    col: 0
+    score: 0.99
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 187
+    col: 0
+    score: 0.99
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 190
+    col: 0
+    score: 0.98
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 185
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 92
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 84
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 63
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 18
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 36
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 49
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 62
+    col: 0
+    score: 0.98
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 192
+    col: 0
+    score: 0.99
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 184
+    col: 0
+    score: 0.98
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 186
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 66
+    col: 0
+    score: 0.97
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 101
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 88
+    col: 0
+    score: 0.97
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 102
+    col: 0
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 87
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 72
+    col: 0
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 93
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 95
+    col: 0
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 96
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 16
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 86
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 61
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 24
+    col: 0
+    score: 0.97
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 39
+    col: 0
+    score: 0.96
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 65
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 25
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 21
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 64
+    col: 0
+    score: 0.98
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 182
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 20
+    col: 0
+    score: 0.97
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 181
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 498
+    col: 0
+    score: 0.99
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 317
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 439
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 494
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 516
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 389
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 476
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 414
+    col: 0
+    score: 0.99
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 188
+    col: 0
+    score: 0.97
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 189
+    col: 0
+    score: 0.97
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 183
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 100
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 53
+    col: 0
+    score: 0.96
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 68
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 31
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 80
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 85
+    col: 0
+    score: 0.97
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 82
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 56
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 37
+    col: 0
+    score: 0.98
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 572
+    col: 0
+    score: 0.98
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 568
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 78
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 59
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 89
+    col: 0
+    score: 0.98
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 180
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 40
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 15
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 94
+    col: 0
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 76
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 54
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 77
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 461
+    col: 0
+    score: 0.99
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 456
+    col: 0
+    score: 0.96
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 353
+    col: 0
+    score: 0.98
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 604
+    col: 0
+    score: 0.95
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 164
+    col: 0
+    score: 0.95
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 52
+    col: 0
+    score: 0.98
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 143
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 23
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 74
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 38
+    col: 0
+    score: 0.97
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 71
+    col: 0
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 75
+    col: 0
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 91
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 83
+    col: 0
+    score: 0.97
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 69
+    col: 0
+    score: 0.97
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 29
+    col: 0
+    score: 0.96
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 90
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 466
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 356
+    col: 0
+    score: 0.97
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 417
+    col: 0
+    score: 0.96
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 510
+    col: 0
+    score: 0.95
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 589
+    col: 0
+    score: 0.97
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 258
+    col: 0
+    score: 0.97
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 5316
+    col: 0
+    score: 0.97
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 4103
+    col: 0
+    score: 0.94
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 3367
+    col: 0
+    score: 0.94
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 4566
+    col: 0
+    score: 0.94
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 3148
+    col: 0
+    score: 0.93
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 4899
+    col: 0
+    score: 0.93
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 3449
+    col: 0
+    score: 0.93
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 910
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 911
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 913
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 916
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 1190
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 2086
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 2013
+    col: 0
+    score: 0.93
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 972
+    col: 0
+    score: 0.92
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 2028
+    col: 0
+    score: 0.91
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 3792
+    col: 0
+    score: 0.94
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 5473
+    col: 0
+    score: 0.94
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 3932
+    col: 0
+    score: 0.94
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 754
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 651
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 656
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 757
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 758
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 759
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 761
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 762
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 763
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 792
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 764
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 899
+    col: 0
+    score: 0.99
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 765
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 663
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 669
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 808
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 3257
+    col: 0
+    score: 0.93
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 2692
+    col: 0
+    score: 0.92
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 3277
+    col: 0
+    score: 0.92
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 3522
+    col: 0
+    score: 0.91
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 2752
+    col: 0
+    score: 0.9
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 2988
+    col: 0
+    score: 0.9
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 2938
+    col: 0
+    score: 0.9
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 814
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 691
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 692
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 694
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 695
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 696
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 697
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 699
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 701
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 4188
+    col: 0
+    score: 0.96
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 5222
+    col: 0
+    score: 0.94
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 4199
+    col: 0
+    score: 0.93
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 5895
+    col: 0
+    score: 0.97
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 752
+    col: 0
+    score: 0.97
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 867
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 868
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 869
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 870
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 901
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 902
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 905
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 907
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 613
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 683
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 684
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 685
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 686
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 687
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 688
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 689
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 690
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 672
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 680
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 681
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 854
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 859
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 746
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 533
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 539
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 446
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 847
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 851
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 802
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 804
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 3327
+    col: 0
+    score: 0.97
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 109
+    col: 0
+    score: 0.94
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 5296
+    col: 0
+    score: 0.91
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 5231
+    col: 0
+    score: 0.9
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 4409
+    col: 0
+    score: 0.9
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 1884
+    col: 0
+    score: 0.9
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 5259
+    col: 0
+    score: 0.89
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 832
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 834
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 835
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 839
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 655
+    col: 0
+    score: 0.97
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 892
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 169
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 2109
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 881
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 2135
+    col: 0
+    score: 0.97
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 923
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 924
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 930
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 5627
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 5619
+    col: 0
+    score: 0.97
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 932
+    col: 0
+    score: 1
 ---
 Note: Consolidated here → ../notes/math/aionian-circuit-math.md ^ref-f2d83a77-1-0
 
@@ -3052,6 +3900,7 @@ Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../n
 
 #tags: #math #theory<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
+- [api-gateway-versioning](api-gateway-versioning.md)
 - [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
 - [Diagrams](chunks/diagrams.md)
 - [DSL](chunks/dsl.md)
@@ -3060,13 +3909,13 @@ Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../n
 - [Operations](chunks/operations.md)
 - [Services](chunks/services.md)
 - [Shared](chunks/shared.md)
+- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
 - [Board Automation Improvements](board-automation-improvements.md)
 - [balanced-bst](balanced-bst.md)
 - [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
 - [Unique Info Dump Index](unique-info-dump-index.md)
 - [Promethean Chat Activity Report](promethean-chat-activity-report.md)
 - [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
-- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
 - [AGENTS.md](agents-md.md)
 - [schema-evolution-workflow](schema-evolution-workflow.md)
 - [Optimizing Command Limitations in System Design](optimizing-command-limitations-in-system-design.md)
@@ -3077,7 +3926,7 @@ Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../n
 - [Promethean Data Sync Protocol](promethean-data-sync-protocol.md)
 - [Promethean Documentation Pipeline Overview](promethean-documentation-pipeline-overview.md)
 - [Promethean Documentation Update](promethean-documentation-update.md)
-- [AGENTS.md](agents-md-3.md)
+- [AGENTS.md](agents-md-2.md)
 - [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
 - [Simulation Demo](chunks/simulation-demo.md)
 - [Creative Moments](creative-moments.md)
@@ -3088,7 +3937,6 @@ Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../n
 - [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
 - [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
 - [Promethean State Format](promethean-state-format.md)
-- [api-gateway-versioning](api-gateway-versioning.md)
 - [Prometheus Observability Stack](prometheus-observability-stack.md)
 - [Tooling](chunks/tooling.md)
 - [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
@@ -3098,7 +3946,7 @@ Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../n
 - [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
 - [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
 - [Window Management](chunks/window-management.md)
-- [Promethean Documentation Update](promethean-documentation-update-3.md)
+- [Promethean Documentation Update](promethean-documentation-update-2.md)
 - [polyglot-repl-interface-layer](polyglot-repl-interface-layer.md)
 - [Git Commit Optimization for Code Reviews](git-commit-optimization-for-code-reviews.md)
 - [run-step-api](run-step-api.md)
@@ -3126,7 +3974,7 @@ Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../n
 - [Admin Dashboard for User Management](admin-dashboard-for-user-management.md)
 - [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
 - [ChatGPT Custom Prompts](chatgpt-custom-prompts.md)
-- [Docops Feature Updates](docops-feature-updates-3.md)
+- [Docops Feature Updates](docops-feature-updates-2.md)
 - [typed-struct-compiler](typed-struct-compiler.md)
 - [Unique Concepts](unique-concepts.md)
 - [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
@@ -3253,7 +4101,7 @@ Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../n
 - [Board Automation Improvements — L12](board-automation-improvements.md#^ref-ac60a1d6-12-0) (line 12, col 0, score 1)
 - [Board Walk – 2025-08-11 — L135](board-walk-2025-08-11.md#^ref-7aa1eb92-135-0) (line 135, col 0, score 1)
 - [Board Walk – 2025-08-11 — L138](board-walk-2025-08-11.md#^ref-7aa1eb92-138-0) (line 138, col 0, score 1)
-- [Promethean Documentation Update — L35](promethean-documentation-update-3.md#^ref-de34f84b-35-0) (line 35, col 0, score 1)
+- [Promethean Documentation Update — L35](promethean-documentation-update-2.md#^ref-de34f84b-35-0) (line 35, col 0, score 1)
 - [Admin Dashboard for User Management — L45](admin-dashboard-for-user-management.md#^ref-2901a3e9-45-0) (line 45, col 0, score 1)
 - [TypeScript Patch for Tool Calling Support — L560](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-560-0) (line 560, col 0, score 1)
 - [Agent Reflections and Prompt Evolution — L187](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-187-0) (line 187, col 0, score 1)
@@ -3287,7 +4135,7 @@ Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../n
 - [Promethean-Copilot-Intent-Engine — L125](promethean-copilot-intent-engine.md#^ref-ae24a280-125-0) (line 125, col 0, score 1)
 - [Promethean State Format — L165](promethean-state-format.md#^ref-23df6ddb-165-0) (line 165, col 0, score 1)
 - [Tooling — L41](chunks/tooling.md#^ref-6cb4943e-41-0) (line 41, col 0, score 1)
-- [Docops Feature Updates — L48](docops-feature-updates-3.md#^ref-cdbd21ee-48-0) (line 48, col 0, score 1)
+- [Docops Feature Updates — L48](docops-feature-updates-2.md#^ref-cdbd21ee-48-0) (line 48, col 0, score 1)
 - [Docops Feature Updates — L79](docops-feature-updates.md#^ref-2792d448-79-0) (line 79, col 0, score 1)
 - [eidolon-node-lifecycle — L69](eidolon-node-lifecycle.md#^ref-938eca9c-69-0) (line 69, col 0, score 1)
 - [field-node-diagram-outline — L158](field-node-diagram-outline.md#^ref-1f32c94a-158-0) (line 158, col 0, score 1)
@@ -3296,12 +4144,12 @@ Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../n
 - [Functional Embedding Pipeline Refactor — L410](functional-embedding-pipeline-refactor.md#^ref-a4a25141-410-0) (line 410, col 0, score 1)
 - [Functional Refactor of TypeScript Document Processing — L228](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-228-0) (line 228, col 0, score 1)
 - [Board Walk – 2025-08-11 — L259](board-walk-2025-08-11.md#^ref-7aa1eb92-259-0) (line 259, col 0, score 0.96)
-- [api-gateway-versioning — L313](api-gateway-versioning.md#^ref-0580dcd3-313-0) (line 313, col 0, score 0.96)
+- [api-gateway-versioning — L313](api-gateway-versioning.md#^ref-0580dcd3-313-0) (line 313, col 0, score 0.98)
 - [api-gateway-versioning — L314](api-gateway-versioning.md#^ref-0580dcd3-314-0) (line 314, col 0, score 1)
 - [api-gateway-versioning — L342](api-gateway-versioning.md#^ref-0580dcd3-342-0) (line 342, col 0, score 0.98)
 - [api-gateway-versioning — L299](api-gateway-versioning.md#^ref-0580dcd3-299-0) (line 299, col 0, score 0.96)
 - [Git Commit Optimization for Code Reviews — L168](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-168-0) (line 168, col 0, score 0.96)
-- [Promethean Documentation Update — L44](promethean-documentation-update-3.md#^ref-de34f84b-44-0) (line 44, col 0, score 1)
+- [Promethean Documentation Update — L44](promethean-documentation-update-2.md#^ref-de34f84b-44-0) (line 44, col 0, score 1)
 - [run-step-api — L1035](run-step-api.md#^ref-15d25922-1035-0) (line 1035, col 0, score 1)
 - [Self-Improving Documentation Tool — L31](self-improving-documentation-tool.md#^ref-5c307293-31-0) (line 31, col 0, score 1)
 - [balanced-bst — L306](balanced-bst.md#^ref-d3e7db72-306-0) (line 306, col 0, score 1)
@@ -3341,8 +4189,8 @@ Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../n
 - [balanced-bst — L311](balanced-bst.md#^ref-d3e7db72-311-0) (line 311, col 0, score 1)
 - [Board Walk – 2025-08-11 — L165](board-walk-2025-08-11.md#^ref-7aa1eb92-165-0) (line 165, col 0, score 1)
 - [AI-First-OS-Model-Context-Protocol — L226](ai-first-os-model-context-protocol.md#^ref-618198f4-226-0) (line 226, col 0, score 0.98)
-- [AGENTS.md — L332](agents-md-3.md#^ref-d5b16703-332-0) (line 332, col 0, score 0.98)
-- [AGENTS.md — L333](agents-md-3.md#^ref-d5b16703-333-0) (line 333, col 0, score 0.99)
+- [AGENTS.md — L332](agents-md-2.md#^ref-d5b16703-332-0) (line 332, col 0, score 0.98)
+- [AGENTS.md — L333](agents-md-2.md#^ref-d5b16703-333-0) (line 333, col 0, score 0.99)
 - [AI-First-OS-Model-Context-Protocol — L184](ai-first-os-model-context-protocol.md#^ref-618198f4-184-0) (line 184, col 0, score 0.98)
 - [AGENTS.md — L264](agents-md.md#^ref-bb90903a-264-0) (line 264, col 0, score 0.99)
 - [Board Automation Improvements — L25](board-automation-improvements.md#^ref-ac60a1d6-25-0) (line 25, col 0, score 0.99)
@@ -3359,7 +4207,7 @@ Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../n
 - [Promethean Infrastructure Setup — L1306](promethean-infrastructure-setup.md#^ref-6deed6ac-1306-0) (line 1306, col 0, score 1)
 - [Prometheus Observability Stack — L829](prometheus-observability-stack.md#^ref-e90b5a16-829-0) (line 829, col 0, score 1)
 - [Pure TypeScript Search Microservice — L1022](pure-typescript-search-microservice.md#^ref-d17d3a96-1022-0) (line 1022, col 0, score 1)
-- [Board Automation Improvements — L26](board-automation-improvements.md#^ref-ac60a1d6-26-0) (line 26, col 0, score 0.99)
+- [Board Automation Improvements — L26](board-automation-improvements.md#^ref-ac60a1d6-26-0) (line 26, col 0, score 0.98)
 - [balanced-bst — L313](balanced-bst.md#^ref-d3e7db72-313-0) (line 313, col 0, score 0.99)
 - [Promethean Infrastructure Setup — L1352](promethean-infrastructure-setup.md#^ref-6deed6ac-1352-0) (line 1352, col 0, score 0.99)
 - [Prometheus Observability Stack — L1103](prometheus-observability-stack.md#^ref-e90b5a16-1103-0) (line 1103, col 0, score 0.99)
@@ -3371,19 +4219,19 @@ Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../n
 - [schema-evolution-workflow — L1285](schema-evolution-workflow.md#^ref-d8059b6a-1285-0) (line 1285, col 0, score 0.99)
 - [sibilant-macro-targets — L716](sibilant-macro-targets.md#^ref-c5c9a5c6-716-0) (line 716, col 0, score 0.99)
 - [Git Commit Optimization for Code Reviews — L167](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-167-0) (line 167, col 0, score 0.98)
-- [Promethean Documentation Update — L43](promethean-documentation-update-3.md#^ref-de34f84b-43-0) (line 43, col 0, score 0.98)
+- [Promethean Documentation Update — L43](promethean-documentation-update-2.md#^ref-de34f84b-43-0) (line 43, col 0, score 0.98)
 - [run-step-api — L1034](run-step-api.md#^ref-15d25922-1034-0) (line 1034, col 0, score 0.98)
 - [AGENTS.md — L270](agents-md.md#^ref-bb90903a-270-0) (line 270, col 0, score 0.97)
 - [AGENTS.md — L258](agents-md.md#^ref-bb90903a-258-0) (line 258, col 0, score 0.98)
 - [AI-First-OS-Model-Context-Protocol — L134](ai-first-os-model-context-protocol.md#^ref-618198f4-134-0) (line 134, col 0, score 0.98)
 - [Canonical Org-Babel Matplotlib Animation Template — L1509](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-1509-0) (line 1509, col 0, score 0.98)
 - [api-gateway-versioning — L341](api-gateway-versioning.md#^ref-0580dcd3-341-0) (line 341, col 0, score 0.97)
-- [api-gateway-versioning — L315](api-gateway-versioning.md#^ref-0580dcd3-315-0) (line 315, col 0, score 0.97)
+- [api-gateway-versioning — L315](api-gateway-versioning.md#^ref-0580dcd3-315-0) (line 315, col 0, score 0.96)
 - [api-gateway-versioning — L318](api-gateway-versioning.md#^ref-0580dcd3-318-0) (line 318, col 0, score 1)
 - [api-gateway-versioning — L319](api-gateway-versioning.md#^ref-0580dcd3-319-0) (line 319, col 0, score 0.97)
-- [AGENTS.md — L337](agents-md-3.md#^ref-d5b16703-337-0) (line 337, col 0, score 1)
+- [AGENTS.md — L337](agents-md-2.md#^ref-d5b16703-337-0) (line 337, col 0, score 1)
 - [Chroma Toolkit Consolidation Plan — L466](chroma-toolkit-consolidation-plan.md#^ref-5020e892-466-0) (line 466, col 0, score 1)
-- [AI-First-OS-Model-Context-Protocol — L142](ai-first-os-model-context-protocol.md#^ref-618198f4-142-0) (line 142, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L142](ai-first-os-model-context-protocol.md#^ref-618198f4-142-0) (line 142, col 0, score 1)
 - [Board Walk – 2025-08-11 — L167](board-walk-2025-08-11.md#^ref-7aa1eb92-167-0) (line 167, col 0, score 0.99)
 - [JavaScript — L144](chunks/javascript.md#^ref-c1618c66-144-0) (line 144, col 0, score 0.98)
 - [Unique Info Dump Index — L417](unique-info-dump-index.md#^ref-30ec3ba6-417-0) (line 417, col 0, score 0.98)
@@ -3461,7 +4309,7 @@ Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../n
 - [Promethean Dev Workflow Update — L1603](promethean-dev-workflow-update.md#^ref-03a5578f-1603-0) (line 1603, col 0, score 0.97)
 - [Promethean Documentation Update — L792](promethean-documentation-update.txt#^ref-0b872af2-792-0) (line 792, col 0, score 0.97)
 - [AGENTS.md — L205](agents-md.md#^ref-bb90903a-205-0) (line 205, col 0, score 0.97)
-- [api-gateway-versioning — L345](api-gateway-versioning.md#^ref-0580dcd3-345-0) (line 345, col 0, score 0.96)
+- [api-gateway-versioning — L345](api-gateway-versioning.md#^ref-0580dcd3-345-0) (line 345, col 0, score 1)
 - [Canonical Org-Babel Matplotlib Animation Template — L3034](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-3034-0) (line 3034, col 0, score 0.97)
 - [Creative Moments — L1955](creative-moments.md#^ref-10d98225-1955-0) (line 1955, col 0, score 0.97)
 - [Duck's Attractor States — L4495](ducks-attractor-states.md#^ref-13951643-4495-0) (line 4495, col 0, score 0.97)
@@ -3540,7 +4388,6 @@ Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../n
 - [Creative Moments — L1858](creative-moments.md#^ref-10d98225-1858-0) (line 1858, col 0, score 0.97)
 - [Duck's Attractor States — L2833](ducks-attractor-states.md#^ref-13951643-2833-0) (line 2833, col 0, score 0.97)
 - [AGENTS.md — L201](agents-md.md#^ref-bb90903a-201-0) (line 201, col 0, score 1)
-- [api-gateway-versioning — L344](api-gateway-versioning.md#^ref-0580dcd3-344-0) (line 344, col 0, score 0.96)
 - [Canonical Org-Babel Matplotlib Animation Template — L1374](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-1374-0) (line 1374, col 0, score 0.97)
 - [Creative Moments — L659](creative-moments.md#^ref-10d98225-659-0) (line 659, col 0, score 0.97)
 - [Duck's Attractor States — L1401](ducks-attractor-states.md#^ref-13951643-1401-0) (line 1401, col 0, score 0.97)
@@ -3575,15 +4422,16 @@ Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../n
 - [Duck's Attractor States — L3195](ducks-attractor-states.md#^ref-13951643-3195-0) (line 3195, col 0, score 0.97)
 - [eidolon-field-math-foundations — L7551](eidolon-field-math-foundations.md#^ref-008f2ac0-7551-0) (line 7551, col 0, score 0.97)
 - [Duck's Attractor States — L3235](ducks-attractor-states.md#^ref-13951643-3235-0) (line 3235, col 0, score 0.97)
-- [AI-First-OS-Model-Context-Protocol — L60](ai-first-os-model-context-protocol.md#^ref-618198f4-60-0) (line 60, col 0, score 0.97)
 - [AI-First-OS-Model-Context-Protocol — L240](ai-first-os-model-context-protocol.md#^ref-618198f4-240-0) (line 240, col 0, score 0.97)
 - [AI-First-OS-Model-Context-Protocol — L157](ai-first-os-model-context-protocol.md#^ref-618198f4-157-0) (line 157, col 0, score 0.97)
 - [AI-First-OS-Model-Context-Protocol — L237](ai-first-os-model-context-protocol.md#^ref-618198f4-237-0) (line 237, col 0, score 0.98)
 - [AI-First-OS-Model-Context-Protocol — L197](ai-first-os-model-context-protocol.md#^ref-618198f4-197-0) (line 197, col 0, score 0.97)
 - [AI-First-OS-Model-Context-Protocol — L195](ai-first-os-model-context-protocol.md#^ref-618198f4-195-0) (line 195, col 0, score 1)
 - [AI-First-OS-Model-Context-Protocol — L200](ai-first-os-model-context-protocol.md#^ref-618198f4-200-0) (line 200, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L60](ai-first-os-model-context-protocol.md#^ref-618198f4-60-0) (line 60, col 0, score 0.98)
 - [AI-First-OS-Model-Context-Protocol — L244](ai-first-os-model-context-protocol.md#^ref-618198f4-244-0) (line 244, col 0, score 0.97)
 - [AI-First-OS-Model-Context-Protocol — L159](ai-first-os-model-context-protocol.md#^ref-618198f4-159-0) (line 159, col 0, score 0.98)
+- [api-gateway-versioning — L344](api-gateway-versioning.md#^ref-0580dcd3-344-0) (line 344, col 0, score 0.96)
 - [Canonical Org-Babel Matplotlib Animation Template — L2251](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-2251-0) (line 2251, col 0, score 0.96)
 - [Creative Moments — L1642](creative-moments.md#^ref-10d98225-1642-0) (line 1642, col 0, score 0.96)
 - [Duck's Attractor States — L1848](ducks-attractor-states.md#^ref-13951643-1848-0) (line 1848, col 0, score 0.96)
@@ -3827,4 +4675,216 @@ Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../n
 - [balanced-bst — L389](balanced-bst.md#^ref-d3e7db72-389-0) (line 389, col 0, score 0.98)
 - [Duck's Attractor States — L3213](ducks-attractor-states.md#^ref-13951643-3213-0) (line 3213, col 0, score 0.98)
 - [Performance-Optimized-Polyglot-Bridge — L1](performance-optimized-polyglot-bridge.md#^ref-f5579967-1-0) (line 1, col 0, score 1)
+- [AI-First-OS-Model-Context-Protocol — L19](ai-first-os-model-context-protocol.md#^ref-618198f4-19-0) (line 19, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L45](ai-first-os-model-context-protocol.md#^ref-618198f4-45-0) (line 45, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L26](ai-first-os-model-context-protocol.md#^ref-618198f4-26-0) (line 26, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L47](ai-first-os-model-context-protocol.md#^ref-618198f4-47-0) (line 47, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L98](ai-first-os-model-context-protocol.md#^ref-618198f4-98-0) (line 98, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L99](ai-first-os-model-context-protocol.md#^ref-618198f4-99-0) (line 99, col 0, score 0.97)
+- [AGENTS.md — L191](agents-md.md#^ref-bb90903a-191-0) (line 191, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L22](ai-first-os-model-context-protocol.md#^ref-618198f4-22-0) (line 22, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#^ref-618198f4-14-0) (line 14, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L67](ai-first-os-model-context-protocol.md#^ref-618198f4-67-0) (line 67, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L13](ai-first-os-model-context-protocol.md#^ref-618198f4-13-0) (line 13, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L17](ai-first-os-model-context-protocol.md#^ref-618198f4-17-0) (line 17, col 0, score 0.97)
+- [AI-First-OS-Model-Context-Protocol — L97](ai-first-os-model-context-protocol.md#^ref-618198f4-97-0) (line 97, col 0, score 1)
+- [AI-First-OS-Model-Context-Protocol — L46](ai-first-os-model-context-protocol.md#^ref-618198f4-46-0) (line 46, col 0, score 0.99)
+- [AGENTS.md — L187](agents-md.md#^ref-bb90903a-187-0) (line 187, col 0, score 0.99)
+- [AGENTS.md — L190](agents-md.md#^ref-bb90903a-190-0) (line 190, col 0, score 0.98)
+- [AGENTS.md — L185](agents-md.md#^ref-bb90903a-185-0) (line 185, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L92](ai-first-os-model-context-protocol.md#^ref-618198f4-92-0) (line 92, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L84](ai-first-os-model-context-protocol.md#^ref-618198f4-84-0) (line 84, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L63](ai-first-os-model-context-protocol.md#^ref-618198f4-63-0) (line 63, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L18](ai-first-os-model-context-protocol.md#^ref-618198f4-18-0) (line 18, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L36](ai-first-os-model-context-protocol.md#^ref-618198f4-36-0) (line 36, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L49](ai-first-os-model-context-protocol.md#^ref-618198f4-49-0) (line 49, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L62](ai-first-os-model-context-protocol.md#^ref-618198f4-62-0) (line 62, col 0, score 0.98)
+- [AGENTS.md — L192](agents-md.md#^ref-bb90903a-192-0) (line 192, col 0, score 0.99)
+- [AGENTS.md — L184](agents-md.md#^ref-bb90903a-184-0) (line 184, col 0, score 0.98)
+- [AGENTS.md — L186](agents-md.md#^ref-bb90903a-186-0) (line 186, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L66](ai-first-os-model-context-protocol.md#^ref-618198f4-66-0) (line 66, col 0, score 0.97)
+- [AI-First-OS-Model-Context-Protocol — L101](ai-first-os-model-context-protocol.md#^ref-618198f4-101-0) (line 101, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L88](ai-first-os-model-context-protocol.md#^ref-618198f4-88-0) (line 88, col 0, score 0.97)
+- [AI-First-OS-Model-Context-Protocol — L102](ai-first-os-model-context-protocol.md#^ref-618198f4-102-0) (line 102, col 0, score 1)
+- [AI-First-OS-Model-Context-Protocol — L87](ai-first-os-model-context-protocol.md#^ref-618198f4-87-0) (line 87, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L72](ai-first-os-model-context-protocol.md#^ref-618198f4-72-0) (line 72, col 0, score 1)
+- [AI-First-OS-Model-Context-Protocol — L93](ai-first-os-model-context-protocol.md#^ref-618198f4-93-0) (line 93, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L95](ai-first-os-model-context-protocol.md#^ref-618198f4-95-0) (line 95, col 0, score 1)
+- [AI-First-OS-Model-Context-Protocol — L96](ai-first-os-model-context-protocol.md#^ref-618198f4-96-0) (line 96, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L16](ai-first-os-model-context-protocol.md#^ref-618198f4-16-0) (line 16, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L86](ai-first-os-model-context-protocol.md#^ref-618198f4-86-0) (line 86, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L61](ai-first-os-model-context-protocol.md#^ref-618198f4-61-0) (line 61, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L24](ai-first-os-model-context-protocol.md#^ref-618198f4-24-0) (line 24, col 0, score 0.97)
+- [AI-First-OS-Model-Context-Protocol — L39](ai-first-os-model-context-protocol.md#^ref-618198f4-39-0) (line 39, col 0, score 0.96)
+- [AI-First-OS-Model-Context-Protocol — L65](ai-first-os-model-context-protocol.md#^ref-618198f4-65-0) (line 65, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L25](ai-first-os-model-context-protocol.md#^ref-618198f4-25-0) (line 25, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L21](ai-first-os-model-context-protocol.md#^ref-618198f4-21-0) (line 21, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L64](ai-first-os-model-context-protocol.md#^ref-618198f4-64-0) (line 64, col 0, score 0.98)
+- [AGENTS.md — L182](agents-md.md#^ref-bb90903a-182-0) (line 182, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L20](ai-first-os-model-context-protocol.md#^ref-618198f4-20-0) (line 20, col 0, score 0.97)
+- [AGENTS.md — L181](agents-md.md#^ref-bb90903a-181-0) (line 181, col 0, score 0.98)
+- [api-gateway-versioning — L498](api-gateway-versioning.md#^ref-0580dcd3-498-0) (line 498, col 0, score 0.99)
+- [api-gateway-versioning — L317](api-gateway-versioning.md#^ref-0580dcd3-317-0) (line 317, col 0, score 0.98)
+- [api-gateway-versioning — L439](api-gateway-versioning.md#^ref-0580dcd3-439-0) (line 439, col 0, score 0.98)
+- [api-gateway-versioning — L494](api-gateway-versioning.md#^ref-0580dcd3-494-0) (line 494, col 0, score 1)
+- [api-gateway-versioning — L516](api-gateway-versioning.md#^ref-0580dcd3-516-0) (line 516, col 0, score 0.98)
+- [api-gateway-versioning — L389](api-gateway-versioning.md#^ref-0580dcd3-389-0) (line 389, col 0, score 0.98)
+- [api-gateway-versioning — L476](api-gateway-versioning.md#^ref-0580dcd3-476-0) (line 476, col 0, score 0.98)
+- [api-gateway-versioning — L414](api-gateway-versioning.md#^ref-0580dcd3-414-0) (line 414, col 0, score 0.99)
+- [AGENTS.md — L188](agents-md.md#^ref-bb90903a-188-0) (line 188, col 0, score 0.97)
+- [AGENTS.md — L189](agents-md.md#^ref-bb90903a-189-0) (line 189, col 0, score 0.97)
+- [AGENTS.md — L183](agents-md.md#^ref-bb90903a-183-0) (line 183, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L100](ai-first-os-model-context-protocol.md#^ref-618198f4-100-0) (line 100, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L53](ai-first-os-model-context-protocol.md#^ref-618198f4-53-0) (line 53, col 0, score 0.96)
+- [AI-First-OS-Model-Context-Protocol — L68](ai-first-os-model-context-protocol.md#^ref-618198f4-68-0) (line 68, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L31](ai-first-os-model-context-protocol.md#^ref-618198f4-31-0) (line 31, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L80](ai-first-os-model-context-protocol.md#^ref-618198f4-80-0) (line 80, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L85](ai-first-os-model-context-protocol.md#^ref-618198f4-85-0) (line 85, col 0, score 0.97)
+- [AI-First-OS-Model-Context-Protocol — L82](ai-first-os-model-context-protocol.md#^ref-618198f4-82-0) (line 82, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L56](ai-first-os-model-context-protocol.md#^ref-618198f4-56-0) (line 56, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L37](ai-first-os-model-context-protocol.md#^ref-618198f4-37-0) (line 37, col 0, score 0.98)
+- [balanced-bst — L572](balanced-bst.md#^ref-d3e7db72-572-0) (line 572, col 0, score 0.98)
+- [Board Walk – 2025-08-11 — L568](board-walk-2025-08-11.md#^ref-7aa1eb92-568-0) (line 568, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L78](ai-first-os-model-context-protocol.md#^ref-618198f4-78-0) (line 78, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L59](ai-first-os-model-context-protocol.md#^ref-618198f4-59-0) (line 59, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L89](ai-first-os-model-context-protocol.md#^ref-618198f4-89-0) (line 89, col 0, score 0.98)
+- [AGENTS.md — L180](agents-md.md#^ref-bb90903a-180-0) (line 180, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L40](ai-first-os-model-context-protocol.md#^ref-618198f4-40-0) (line 40, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L15](ai-first-os-model-context-protocol.md#^ref-618198f4-15-0) (line 15, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L94](ai-first-os-model-context-protocol.md#^ref-618198f4-94-0) (line 94, col 0, score 1)
+- [AI-First-OS-Model-Context-Protocol — L76](ai-first-os-model-context-protocol.md#^ref-618198f4-76-0) (line 76, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L54](ai-first-os-model-context-protocol.md#^ref-618198f4-54-0) (line 54, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L77](ai-first-os-model-context-protocol.md#^ref-618198f4-77-0) (line 77, col 0, score 1)
+- [api-gateway-versioning — L461](api-gateway-versioning.md#^ref-0580dcd3-461-0) (line 461, col 0, score 0.99)
+- [api-gateway-versioning — L456](api-gateway-versioning.md#^ref-0580dcd3-456-0) (line 456, col 0, score 0.96)
+- [api-gateway-versioning — L353](api-gateway-versioning.md#^ref-0580dcd3-353-0) (line 353, col 0, score 0.98)
+- [balanced-bst — L604](balanced-bst.md#^ref-d3e7db72-604-0) (line 604, col 0, score 0.95)
+- [Board Automation Improvements — L164](board-automation-improvements.md#^ref-ac60a1d6-164-0) (line 164, col 0, score 0.95)
+- [AI-First-OS-Model-Context-Protocol — L52](ai-first-os-model-context-protocol.md#^ref-618198f4-52-0) (line 52, col 0, score 0.98)
+- [Board Automation Improvements — L143](board-automation-improvements.md#^ref-ac60a1d6-143-0) (line 143, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L23](ai-first-os-model-context-protocol.md#^ref-618198f4-23-0) (line 23, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L74](ai-first-os-model-context-protocol.md#^ref-618198f4-74-0) (line 74, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L38](ai-first-os-model-context-protocol.md#^ref-618198f4-38-0) (line 38, col 0, score 0.97)
+- [AI-First-OS-Model-Context-Protocol — L71](ai-first-os-model-context-protocol.md#^ref-618198f4-71-0) (line 71, col 0, score 1)
+- [AI-First-OS-Model-Context-Protocol — L75](ai-first-os-model-context-protocol.md#^ref-618198f4-75-0) (line 75, col 0, score 1)
+- [AI-First-OS-Model-Context-Protocol — L91](ai-first-os-model-context-protocol.md#^ref-618198f4-91-0) (line 91, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L83](ai-first-os-model-context-protocol.md#^ref-618198f4-83-0) (line 83, col 0, score 0.97)
+- [AI-First-OS-Model-Context-Protocol — L69](ai-first-os-model-context-protocol.md#^ref-618198f4-69-0) (line 69, col 0, score 0.97)
+- [AI-First-OS-Model-Context-Protocol — L29](ai-first-os-model-context-protocol.md#^ref-618198f4-29-0) (line 29, col 0, score 0.96)
+- [AI-First-OS-Model-Context-Protocol — L90](ai-first-os-model-context-protocol.md#^ref-618198f4-90-0) (line 90, col 0, score 0.98)
+- [api-gateway-versioning — L466](api-gateway-versioning.md#^ref-0580dcd3-466-0) (line 466, col 0, score 0.98)
+- [api-gateway-versioning — L356](api-gateway-versioning.md#^ref-0580dcd3-356-0) (line 356, col 0, score 0.97)
+- [api-gateway-versioning — L417](api-gateway-versioning.md#^ref-0580dcd3-417-0) (line 417, col 0, score 0.96)
+- [balanced-bst — L510](balanced-bst.md#^ref-d3e7db72-510-0) (line 510, col 0, score 0.95)
+- [balanced-bst — L589](balanced-bst.md#^ref-d3e7db72-589-0) (line 589, col 0, score 0.97)
+- [Board Automation Improvements — L258](board-automation-improvements.md#^ref-ac60a1d6-258-0) (line 258, col 0, score 0.97)
+- [api-gateway-versioning — L5316](api-gateway-versioning.md#^ref-0580dcd3-5316-0) (line 5316, col 0, score 0.97)
+- [api-gateway-versioning — L4103](api-gateway-versioning.md#^ref-0580dcd3-4103-0) (line 4103, col 0, score 0.94)
+- [api-gateway-versioning — L3367](api-gateway-versioning.md#^ref-0580dcd3-3367-0) (line 3367, col 0, score 0.94)
+- [api-gateway-versioning — L4566](api-gateway-versioning.md#^ref-0580dcd3-4566-0) (line 4566, col 0, score 0.94)
+- [api-gateway-versioning — L3148](api-gateway-versioning.md#^ref-0580dcd3-3148-0) (line 3148, col 0, score 0.93)
+- [api-gateway-versioning — L4899](api-gateway-versioning.md#^ref-0580dcd3-4899-0) (line 4899, col 0, score 0.93)
+- [api-gateway-versioning — L3449](api-gateway-versioning.md#^ref-0580dcd3-3449-0) (line 3449, col 0, score 0.93)
+- [api-gateway-versioning — L910](api-gateway-versioning.md#^ref-0580dcd3-910-0) (line 910, col 0, score 1)
+- [api-gateway-versioning — L911](api-gateway-versioning.md#^ref-0580dcd3-911-0) (line 911, col 0, score 1)
+- [api-gateway-versioning — L913](api-gateway-versioning.md#^ref-0580dcd3-913-0) (line 913, col 0, score 1)
+- [api-gateway-versioning — L916](api-gateway-versioning.md#^ref-0580dcd3-916-0) (line 916, col 0, score 1)
+- [api-gateway-versioning — L1190](api-gateway-versioning.md#^ref-0580dcd3-1190-0) (line 1190, col 0, score 1)
+- [api-gateway-versioning — L2086](api-gateway-versioning.md#^ref-0580dcd3-2086-0) (line 2086, col 0, score 1)
+- [api-gateway-versioning — L2013](api-gateway-versioning.md#^ref-0580dcd3-2013-0) (line 2013, col 0, score 0.93)
+- [api-gateway-versioning — L972](api-gateway-versioning.md#^ref-0580dcd3-972-0) (line 972, col 0, score 0.92)
+- [api-gateway-versioning — L2028](api-gateway-versioning.md#^ref-0580dcd3-2028-0) (line 2028, col 0, score 0.91)
+- [api-gateway-versioning — L3792](api-gateway-versioning.md#^ref-0580dcd3-3792-0) (line 3792, col 0, score 0.94)
+- [api-gateway-versioning — L5473](api-gateway-versioning.md#^ref-0580dcd3-5473-0) (line 5473, col 0, score 0.94)
+- [api-gateway-versioning — L3932](api-gateway-versioning.md#^ref-0580dcd3-3932-0) (line 3932, col 0, score 0.94)
+- [api-gateway-versioning — L754](api-gateway-versioning.md#^ref-0580dcd3-754-0) (line 754, col 0, score 0.98)
+- [api-gateway-versioning — L651](api-gateway-versioning.md#^ref-0580dcd3-651-0) (line 651, col 0, score 1)
+- [api-gateway-versioning — L656](api-gateway-versioning.md#^ref-0580dcd3-656-0) (line 656, col 0, score 1)
+- [api-gateway-versioning — L757](api-gateway-versioning.md#^ref-0580dcd3-757-0) (line 757, col 0, score 1)
+- [api-gateway-versioning — L758](api-gateway-versioning.md#^ref-0580dcd3-758-0) (line 758, col 0, score 1)
+- [api-gateway-versioning — L759](api-gateway-versioning.md#^ref-0580dcd3-759-0) (line 759, col 0, score 1)
+- [api-gateway-versioning — L761](api-gateway-versioning.md#^ref-0580dcd3-761-0) (line 761, col 0, score 1)
+- [api-gateway-versioning — L762](api-gateway-versioning.md#^ref-0580dcd3-762-0) (line 762, col 0, score 1)
+- [api-gateway-versioning — L763](api-gateway-versioning.md#^ref-0580dcd3-763-0) (line 763, col 0, score 1)
+- [api-gateway-versioning — L792](api-gateway-versioning.md#^ref-0580dcd3-792-0) (line 792, col 0, score 0.98)
+- [api-gateway-versioning — L764](api-gateway-versioning.md#^ref-0580dcd3-764-0) (line 764, col 0, score 1)
+- [api-gateway-versioning — L899](api-gateway-versioning.md#^ref-0580dcd3-899-0) (line 899, col 0, score 0.99)
+- [api-gateway-versioning — L765](api-gateway-versioning.md#^ref-0580dcd3-765-0) (line 765, col 0, score 1)
+- [api-gateway-versioning — L663](api-gateway-versioning.md#^ref-0580dcd3-663-0) (line 663, col 0, score 1)
+- [api-gateway-versioning — L669](api-gateway-versioning.md#^ref-0580dcd3-669-0) (line 669, col 0, score 1)
+- [api-gateway-versioning — L808](api-gateway-versioning.md#^ref-0580dcd3-808-0) (line 808, col 0, score 1)
+- [api-gateway-versioning — L3257](api-gateway-versioning.md#^ref-0580dcd3-3257-0) (line 3257, col 0, score 0.93)
+- [api-gateway-versioning — L2692](api-gateway-versioning.md#^ref-0580dcd3-2692-0) (line 2692, col 0, score 0.92)
+- [api-gateway-versioning — L3277](api-gateway-versioning.md#^ref-0580dcd3-3277-0) (line 3277, col 0, score 0.92)
+- [api-gateway-versioning — L3522](api-gateway-versioning.md#^ref-0580dcd3-3522-0) (line 3522, col 0, score 0.91)
+- [api-gateway-versioning — L2752](api-gateway-versioning.md#^ref-0580dcd3-2752-0) (line 2752, col 0, score 0.9)
+- [api-gateway-versioning — L2988](api-gateway-versioning.md#^ref-0580dcd3-2988-0) (line 2988, col 0, score 0.9)
+- [api-gateway-versioning — L2938](api-gateway-versioning.md#^ref-0580dcd3-2938-0) (line 2938, col 0, score 0.9)
+- [api-gateway-versioning — L814](api-gateway-versioning.md#^ref-0580dcd3-814-0) (line 814, col 0, score 1)
+- [api-gateway-versioning — L691](api-gateway-versioning.md#^ref-0580dcd3-691-0) (line 691, col 0, score 1)
+- [api-gateway-versioning — L692](api-gateway-versioning.md#^ref-0580dcd3-692-0) (line 692, col 0, score 1)
+- [api-gateway-versioning — L694](api-gateway-versioning.md#^ref-0580dcd3-694-0) (line 694, col 0, score 1)
+- [api-gateway-versioning — L695](api-gateway-versioning.md#^ref-0580dcd3-695-0) (line 695, col 0, score 1)
+- [api-gateway-versioning — L696](api-gateway-versioning.md#^ref-0580dcd3-696-0) (line 696, col 0, score 0.98)
+- [api-gateway-versioning — L697](api-gateway-versioning.md#^ref-0580dcd3-697-0) (line 697, col 0, score 1)
+- [api-gateway-versioning — L699](api-gateway-versioning.md#^ref-0580dcd3-699-0) (line 699, col 0, score 1)
+- [api-gateway-versioning — L701](api-gateway-versioning.md#^ref-0580dcd3-701-0) (line 701, col 0, score 1)
+- [api-gateway-versioning — L4188](api-gateway-versioning.md#^ref-0580dcd3-4188-0) (line 4188, col 0, score 0.96)
+- [api-gateway-versioning — L5222](api-gateway-versioning.md#^ref-0580dcd3-5222-0) (line 5222, col 0, score 0.94)
+- [api-gateway-versioning — L4199](api-gateway-versioning.md#^ref-0580dcd3-4199-0) (line 4199, col 0, score 0.93)
+- [api-gateway-versioning — L5895](api-gateway-versioning.md#^ref-0580dcd3-5895-0) (line 5895, col 0, score 0.97)
+- [api-gateway-versioning — L752](api-gateway-versioning.md#^ref-0580dcd3-752-0) (line 752, col 0, score 0.97)
+- [api-gateway-versioning — L867](api-gateway-versioning.md#^ref-0580dcd3-867-0) (line 867, col 0, score 1)
+- [api-gateway-versioning — L868](api-gateway-versioning.md#^ref-0580dcd3-868-0) (line 868, col 0, score 1)
+- [api-gateway-versioning — L869](api-gateway-versioning.md#^ref-0580dcd3-869-0) (line 869, col 0, score 1)
+- [api-gateway-versioning — L870](api-gateway-versioning.md#^ref-0580dcd3-870-0) (line 870, col 0, score 1)
+- [api-gateway-versioning — L901](api-gateway-versioning.md#^ref-0580dcd3-901-0) (line 901, col 0, score 1)
+- [api-gateway-versioning — L902](api-gateway-versioning.md#^ref-0580dcd3-902-0) (line 902, col 0, score 1)
+- [api-gateway-versioning — L905](api-gateway-versioning.md#^ref-0580dcd3-905-0) (line 905, col 0, score 1)
+- [api-gateway-versioning — L907](api-gateway-versioning.md#^ref-0580dcd3-907-0) (line 907, col 0, score 1)
+- [api-gateway-versioning — L613](api-gateway-versioning.md#^ref-0580dcd3-613-0) (line 613, col 0, score 1)
+- [api-gateway-versioning — L683](api-gateway-versioning.md#^ref-0580dcd3-683-0) (line 683, col 0, score 1)
+- [api-gateway-versioning — L684](api-gateway-versioning.md#^ref-0580dcd3-684-0) (line 684, col 0, score 1)
+- [api-gateway-versioning — L685](api-gateway-versioning.md#^ref-0580dcd3-685-0) (line 685, col 0, score 1)
+- [api-gateway-versioning — L686](api-gateway-versioning.md#^ref-0580dcd3-686-0) (line 686, col 0, score 1)
+- [api-gateway-versioning — L687](api-gateway-versioning.md#^ref-0580dcd3-687-0) (line 687, col 0, score 1)
+- [api-gateway-versioning — L688](api-gateway-versioning.md#^ref-0580dcd3-688-0) (line 688, col 0, score 1)
+- [api-gateway-versioning — L689](api-gateway-versioning.md#^ref-0580dcd3-689-0) (line 689, col 0, score 1)
+- [api-gateway-versioning — L690](api-gateway-versioning.md#^ref-0580dcd3-690-0) (line 690, col 0, score 1)
+- [api-gateway-versioning — L672](api-gateway-versioning.md#^ref-0580dcd3-672-0) (line 672, col 0, score 1)
+- [api-gateway-versioning — L680](api-gateway-versioning.md#^ref-0580dcd3-680-0) (line 680, col 0, score 1)
+- [api-gateway-versioning — L681](api-gateway-versioning.md#^ref-0580dcd3-681-0) (line 681, col 0, score 1)
+- [api-gateway-versioning — L854](api-gateway-versioning.md#^ref-0580dcd3-854-0) (line 854, col 0, score 1)
+- [api-gateway-versioning — L859](api-gateway-versioning.md#^ref-0580dcd3-859-0) (line 859, col 0, score 1)
+- [api-gateway-versioning — L746](api-gateway-versioning.md#^ref-0580dcd3-746-0) (line 746, col 0, score 0.98)
+- [api-gateway-versioning — L533](api-gateway-versioning.md#^ref-0580dcd3-533-0) (line 533, col 0, score 1)
+- [api-gateway-versioning — L539](api-gateway-versioning.md#^ref-0580dcd3-539-0) (line 539, col 0, score 1)
+- [api-gateway-versioning — L446](api-gateway-versioning.md#^ref-0580dcd3-446-0) (line 446, col 0, score 1)
+- [api-gateway-versioning — L847](api-gateway-versioning.md#^ref-0580dcd3-847-0) (line 847, col 0, score 1)
+- [api-gateway-versioning — L851](api-gateway-versioning.md#^ref-0580dcd3-851-0) (line 851, col 0, score 1)
+- [api-gateway-versioning — L802](api-gateway-versioning.md#^ref-0580dcd3-802-0) (line 802, col 0, score 1)
+- [api-gateway-versioning — L804](api-gateway-versioning.md#^ref-0580dcd3-804-0) (line 804, col 0, score 1)
+- [api-gateway-versioning — L3327](api-gateway-versioning.md#^ref-0580dcd3-3327-0) (line 3327, col 0, score 0.97)
+- [AI-First-OS-Model-Context-Protocol — L109](ai-first-os-model-context-protocol.md#^ref-618198f4-109-0) (line 109, col 0, score 0.94)
+- [api-gateway-versioning — L5296](api-gateway-versioning.md#^ref-0580dcd3-5296-0) (line 5296, col 0, score 0.91)
+- [api-gateway-versioning — L5231](api-gateway-versioning.md#^ref-0580dcd3-5231-0) (line 5231, col 0, score 0.9)
+- [api-gateway-versioning — L4409](api-gateway-versioning.md#^ref-0580dcd3-4409-0) (line 4409, col 0, score 0.9)
+- [api-gateway-versioning — L1884](api-gateway-versioning.md#^ref-0580dcd3-1884-0) (line 1884, col 0, score 0.9)
+- [api-gateway-versioning — L5259](api-gateway-versioning.md#^ref-0580dcd3-5259-0) (line 5259, col 0, score 0.89)
+- [api-gateway-versioning — L832](api-gateway-versioning.md#^ref-0580dcd3-832-0) (line 832, col 0, score 1)
+- [api-gateway-versioning — L834](api-gateway-versioning.md#^ref-0580dcd3-834-0) (line 834, col 0, score 1)
+- [api-gateway-versioning — L835](api-gateway-versioning.md#^ref-0580dcd3-835-0) (line 835, col 0, score 1)
+- [api-gateway-versioning — L839](api-gateway-versioning.md#^ref-0580dcd3-839-0) (line 839, col 0, score 1)
+- [api-gateway-versioning — L655](api-gateway-versioning.md#^ref-0580dcd3-655-0) (line 655, col 0, score 0.97)
+- [api-gateway-versioning — L892](api-gateway-versioning.md#^ref-0580dcd3-892-0) (line 892, col 0, score 0.99)
+- [AI-First-OS-Model-Context-Protocol — L169](ai-first-os-model-context-protocol.md#^ref-618198f4-169-0) (line 169, col 0, score 0.98)
+- [api-gateway-versioning — L2109](api-gateway-versioning.md#^ref-0580dcd3-2109-0) (line 2109, col 0, score 0.98)
+- [api-gateway-versioning — L881](api-gateway-versioning.md#^ref-0580dcd3-881-0) (line 881, col 0, score 0.98)
+- [api-gateway-versioning — L2135](api-gateway-versioning.md#^ref-0580dcd3-2135-0) (line 2135, col 0, score 0.97)
+- [api-gateway-versioning — L923](api-gateway-versioning.md#^ref-0580dcd3-923-0) (line 923, col 0, score 1)
+- [api-gateway-versioning — L924](api-gateway-versioning.md#^ref-0580dcd3-924-0) (line 924, col 0, score 1)
+- [api-gateway-versioning — L930](api-gateway-versioning.md#^ref-0580dcd3-930-0) (line 930, col 0, score 1)
+- [api-gateway-versioning — L5627](api-gateway-versioning.md#^ref-0580dcd3-5627-0) (line 5627, col 0, score 0.98)
+- [api-gateway-versioning — L5619](api-gateway-versioning.md#^ref-0580dcd3-5619-0) (line 5619, col 0, score 0.97)
+- [api-gateway-versioning — L932](api-gateway-versioning.md#^ref-0580dcd3-932-0) (line 932, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

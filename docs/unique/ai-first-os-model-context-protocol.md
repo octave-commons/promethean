@@ -378,10 +378,6 @@ references:
     line: 135
     col: 0
     score: 1
-  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-    line: 138
-    col: 0
-    score: 1
   - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
     line: 600
     col: 0
@@ -532,10 +528,6 @@ references:
     score: 0.97
   - uuid: 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
     line: 166
-    col: 0
-    score: 0.97
-  - uuid: de34f84b-270b-4f16-92a8-a681a869b823
-    line: 42
     col: 0
     score: 0.97
   - uuid: 15d25922-0de6-414f-b7d1-e50e2a57b33a
@@ -1311,10 +1303,6 @@ references:
     col: 0
     score: 0.97
   - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 211
-    col: 0
-    score: 0.98
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
     line: 213
     col: 0
     score: 0.98
@@ -1714,10 +1702,6 @@ references:
     line: 3749
     col: 0
     score: 0.96
-  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
-    line: 232
-    col: 0
-    score: 0.94
   - uuid: bb90903a-4723-44f7-850e-a71415ef6224
     line: 235
     col: 0
@@ -2190,6 +2174,10 @@ references:
     line: 1491
     col: 0
     score: 0.96
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 232
+    col: 0
+    score: 0.94
   - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
     line: 468
     col: 0
@@ -2536,6 +2524,10 @@ references:
     score: 0.95
   - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
     line: 229
+    col: 0
+    score: 0.98
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 211
     col: 0
     score: 0.98
   - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
@@ -2946,6 +2938,10 @@ references:
     line: 432
     col: 0
     score: 0.95
+  - uuid: de34f84b-270b-4f16-92a8-a681a869b823
+    line: 42
+    col: 0
+    score: 0.97
   - uuid: bb90903a-4723-44f7-850e-a71415ef6224
     line: 233
     col: 0
@@ -3686,7 +3682,7 @@ What tools would that have?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 - [Board Automation Improvements](board-automation-improvements.md)
 - [Board Walk – 2025-08-11](board-walk-2025-08-11.md)
 - [Git Commit Optimization for Code Reviews](git-commit-optimization-for-code-reviews.md)
-- [Promethean Documentation Update](promethean-documentation-update-3.md)
+- [Promethean Documentation Update](promethean-documentation-update-2.md)
 - [run-step-api](run-step-api.md)
 - [Self-Improving Documentation Tool](self-improving-documentation-tool.md)
 - [AGENTS.md](agents-md.md)
@@ -3771,9 +3767,9 @@ What tools would that have?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 - [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
 - [ripple-propagation-demo](ripple-propagation-demo.md)
 - [Promethean Pipelines](promethean-pipelines.md)
-- [AGENTS.md](agents-md-3.md)
+- [AGENTS.md](agents-md-2.md)
 - [Tracing the Signal](tracing-the-signal.md)
-- [Docops Feature Updates](docops-feature-updates-3.md)
+- [Docops Feature Updates](docops-feature-updates-2.md)
 - [Promethean Workflow Optimization](promethean-workflow-optimization.md)
 - [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
 - [Obsidian ChatGPT Plugin Integration Guide](obsidian-chatgpt-plugin-integration-guide.md)
@@ -3822,7 +3818,6 @@ What tools would that have?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 - [balanced-bst — L299](balanced-bst.md#^ref-d3e7db72-299-0) (line 299, col 0, score 1)
 - [Board Automation Improvements — L12](board-automation-improvements.md#^ref-ac60a1d6-12-0) (line 12, col 0, score 1)
 - [Board Walk – 2025-08-11 — L135](board-walk-2025-08-11.md#^ref-7aa1eb92-135-0) (line 135, col 0, score 1)
-- [Board Walk – 2025-08-11 — L138](board-walk-2025-08-11.md#^ref-7aa1eb92-138-0) (line 138, col 0, score 1)
 - [Pure TypeScript Search Microservice — L600](pure-typescript-search-microservice.md#^ref-d17d3a96-600-0) (line 600, col 0, score 1)
 - [schema-evolution-workflow — L583](schema-evolution-workflow.md#^ref-d8059b6a-583-0) (line 583, col 0, score 1)
 - [Stateful Partitions and Rebalancing — L610](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-610-0) (line 610, col 0, score 1)
@@ -3853,7 +3848,7 @@ What tools would that have?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 - [AGENTS.md — L191](agents-md.md#^ref-bb90903a-191-0) (line 191, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L198](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-198-0) (line 198, col 0, score 0.99)
 - [aionian-circuit-math — L167](aionian-circuit-math.md#^ref-f2d83a77-167-0) (line 167, col 0, score 0.99)
-- [AGENTS.md — L331](agents-md-3.md#^ref-d5b16703-331-0) (line 331, col 0, score 0.99)
+- [AGENTS.md — L331](agents-md-2.md#^ref-d5b16703-331-0) (line 331, col 0, score 0.99)
 - [Diagrams — L427](chunks/diagrams.md#^ref-45cd25b5-427-0) (line 427, col 0, score 0.99)
 - [DSL — L442](chunks/dsl.md#^ref-e87bc036-442-0) (line 442, col 0, score 0.99)
 - [api-gateway-versioning — L294](api-gateway-versioning.md#^ref-0580dcd3-294-0) (line 294, col 0, score 0.97)
@@ -3861,7 +3856,6 @@ What tools would that have?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 - [Board Automation Improvements — L29](board-automation-improvements.md#^ref-ac60a1d6-29-0) (line 29, col 0, score 0.97)
 - [Board Walk – 2025-08-11 — L158](board-walk-2025-08-11.md#^ref-7aa1eb92-158-0) (line 158, col 0, score 0.97)
 - [Git Commit Optimization for Code Reviews — L166](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-166-0) (line 166, col 0, score 0.97)
-- [Promethean Documentation Update — L42](promethean-documentation-update-3.md#^ref-de34f84b-42-0) (line 42, col 0, score 0.97)
 - [run-step-api — L1033](run-step-api.md#^ref-15d25922-1033-0) (line 1033, col 0, score 0.97)
 - [Self-Improving Documentation Tool — L29](self-improving-documentation-tool.md#^ref-5c307293-29-0) (line 29, col 0, score 1)
 - [ParticleSimulationWithCanvasAndFFmpeg — L907](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-907-0) (line 907, col 0, score 0.93)
@@ -4055,7 +4049,6 @@ What tools would that have?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 - [api-gateway-versioning — L308](api-gateway-versioning.md#^ref-0580dcd3-308-0) (line 308, col 0, score 0.97)
 - [balanced-bst — L333](balanced-bst.md#^ref-d3e7db72-333-0) (line 333, col 0, score 0.97)
 - [eidolon-field-math-foundations — L3096](eidolon-field-math-foundations.md#^ref-008f2ac0-3096-0) (line 3096, col 0, score 0.97)
-- [aionian-circuit-math — L211](aionian-circuit-math.md#^ref-f2d83a77-211-0) (line 211, col 0, score 0.98)
 - [aionian-circuit-math — L213](aionian-circuit-math.md#^ref-f2d83a77-213-0) (line 213, col 0, score 0.98)
 - [aionian-circuit-math — L219](aionian-circuit-math.md#^ref-f2d83a77-219-0) (line 219, col 0, score 1)
 - [aionian-circuit-math — L220](aionian-circuit-math.md#^ref-f2d83a77-220-0) (line 220, col 0, score 0.98)
@@ -4156,7 +4149,6 @@ What tools would that have?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 - [Creative Moments — L1121](creative-moments.md#^ref-10d98225-1121-0) (line 1121, col 0, score 0.98)
 - [Promethean Dev Workflow Update — L3765](promethean-dev-workflow-update.md#^ref-03a5578f-3765-0) (line 3765, col 0, score 0.97)
 - [Promethean Dev Workflow Update — L3749](promethean-dev-workflow-update.md#^ref-03a5578f-3749-0) (line 3749, col 0, score 0.96)
-- [AGENTS.md — L232](agents-md.md#^ref-bb90903a-232-0) (line 232, col 0, score 0.94)
 - [AGENTS.md — L235](agents-md.md#^ref-bb90903a-235-0) (line 235, col 0, score 0.98)
 - [Canonical Org-Babel Matplotlib Animation Template — L2073](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-2073-0) (line 2073, col 0, score 0.95)
 - [TypeScript Patch for Tool Calling Support — L1193](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-1193-0) (line 1193, col 0, score 1)
@@ -4275,6 +4267,7 @@ What tools would that have?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 - [eidolon-field-math-foundations — L1689](eidolon-field-math-foundations.md#^ref-008f2ac0-1689-0) (line 1689, col 0, score 0.96)
 - [The Jar of Echoes — L1598](the-jar-of-echoes.md#^ref-18138627-1598-0) (line 1598, col 0, score 0.96)
 - [windows-tiling-with-autohotkey — L1491](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-1491-0) (line 1491, col 0, score 0.96)
+- [AGENTS.md — L232](agents-md.md#^ref-bb90903a-232-0) (line 232, col 0, score 0.94)
 - [field-interaction-equations — L468](field-interaction-equations.md#^ref-b09141b7-468-0) (line 468, col 0, score 0.95)
 - [field-dynamics-math-blocks — L544](field-dynamics-math-blocks.md#^ref-7cfc230d-544-0) (line 544, col 0, score 0.95)
 - [eidolon-field-math-foundations — L384](eidolon-field-math-foundations.md#^ref-008f2ac0-384-0) (line 384, col 0, score 0.95)
@@ -4287,11 +4280,11 @@ What tools would that have?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 - [eidolon-field-math-foundations — L2834](eidolon-field-math-foundations.md#^ref-008f2ac0-2834-0) (line 2834, col 0, score 0.96)
 - [eidolon-field-math-foundations — L2850](eidolon-field-math-foundations.md#^ref-008f2ac0-2850-0) (line 2850, col 0, score 0.97)
 - [AGENTS.md — L258](agents-md.md#^ref-bb90903a-258-0) (line 258, col 0, score 1)
-- [AGENTS.md — L333](agents-md-3.md#^ref-d5b16703-333-0) (line 333, col 0, score 0.98)
+- [AGENTS.md — L333](agents-md-2.md#^ref-d5b16703-333-0) (line 333, col 0, score 0.98)
 - [AGENTS.md — L264](agents-md.md#^ref-bb90903a-264-0) (line 264, col 0, score 0.98)
 - [AGENTS.md — L270](agents-md.md#^ref-bb90903a-270-0) (line 270, col 0, score 0.98)
 - [aionian-circuit-math — L169](aionian-circuit-math.md#^ref-f2d83a77-169-0) (line 169, col 0, score 0.98)
-- [AGENTS.md — L332](agents-md-3.md#^ref-d5b16703-332-0) (line 332, col 0, score 0.98)
+- [AGENTS.md — L332](agents-md-2.md#^ref-d5b16703-332-0) (line 332, col 0, score 0.98)
 - [aionian-circuit-math — L171](aionian-circuit-math.md#^ref-f2d83a77-171-0) (line 171, col 0, score 0.98)
 - [balanced-bst — L368](balanced-bst.md#^ref-d3e7db72-368-0) (line 368, col 0, score 0.99)
 - [Pipeline Enhancements — L73](pipeline-enhancements.md#^ref-e2135d9f-73-0) (line 73, col 0, score 0.98)
@@ -4362,6 +4355,7 @@ What tools would that have?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 - [Promethean Dev Workflow Update — L1237](promethean-dev-workflow-update.md#^ref-03a5578f-1237-0) (line 1237, col 0, score 0.97)
 - [AGENTS.md — L202](agents-md.md#^ref-bb90903a-202-0) (line 202, col 0, score 0.95)
 - [aionian-circuit-math — L229](aionian-circuit-math.md#^ref-f2d83a77-229-0) (line 229, col 0, score 0.98)
+- [aionian-circuit-math — L211](aionian-circuit-math.md#^ref-f2d83a77-211-0) (line 211, col 0, score 0.98)
 - [aionian-circuit-math — L227](aionian-circuit-math.md#^ref-f2d83a77-227-0) (line 227, col 0, score 0.97)
 - [aionian-circuit-math — L247](aionian-circuit-math.md#^ref-f2d83a77-247-0) (line 247, col 0, score 0.97)
 - [aionian-circuit-math — L230](aionian-circuit-math.md#^ref-f2d83a77-230-0) (line 230, col 0, score 1)
@@ -4395,9 +4389,9 @@ What tools would that have?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 - [Agent Tasks: Persistence Migration to DualStore — L515](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-515-0) (line 515, col 0, score 1)
 - [Chroma Toolkit Consolidation Plan — L465](chroma-toolkit-consolidation-plan.md#^ref-5020e892-465-0) (line 465, col 0, score 1)
 - [schema-evolution-workflow — L759](schema-evolution-workflow.md#^ref-d8059b6a-759-0) (line 759, col 0, score 1)
-- [AGENTS.md — L335](agents-md-3.md#^ref-d5b16703-335-0) (line 335, col 0, score 0.95)
+- [AGENTS.md — L335](agents-md-2.md#^ref-d5b16703-335-0) (line 335, col 0, score 0.95)
 - [api-gateway-versioning — L300](api-gateway-versioning.md#^ref-0580dcd3-300-0) (line 300, col 0, score 0.96)
-- [AGENTS.md — L336](agents-md-3.md#^ref-d5b16703-336-0) (line 336, col 0, score 0.96)
+- [AGENTS.md — L336](agents-md-2.md#^ref-d5b16703-336-0) (line 336, col 0, score 0.96)
 - [api-gateway-versioning — L316](api-gateway-versioning.md#^ref-0580dcd3-316-0) (line 316, col 0, score 0.95)
 - [Migrate to Provider-Tenant Architecture — L632](migrate-to-provider-tenant-architecture.md#^ref-54382370-632-0) (line 632, col 0, score 0.96)
 - [Canonical Org-Babel Matplotlib Animation Template — L1375](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-1375-0) (line 1375, col 0, score 0.95)
@@ -4464,13 +4458,14 @@ What tools would that have?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 - [windows-tiling-with-autohotkey — L2966](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-2966-0) (line 2966, col 0, score 0.95)
 - [Dynamic Context Model for Web Components — L672](dynamic-context-model-for-web-components.md#^ref-f7702bf8-672-0) (line 672, col 0, score 0.97)
 - [field-interaction-equations — L432](field-interaction-equations.md#^ref-b09141b7-432-0) (line 432, col 0, score 0.95)
+- [Promethean Documentation Update — L42](promethean-documentation-update-2.md#^ref-de34f84b-42-0) (line 42, col 0, score 0.97)
 - [AGENTS.md — L233](agents-md.md#^ref-bb90903a-233-0) (line 233, col 0, score 0.96)
 - [Board Walk – 2025-08-11 — L142](board-walk-2025-08-11.md#^ref-7aa1eb92-142-0) (line 142, col 0, score 0.99)
 - [Duck's Attractor States — L2357](ducks-attractor-states.md#^ref-13951643-2357-0) (line 2357, col 0, score 0.96)
 - [Promethean Dev Workflow Update — L2082](promethean-dev-workflow-update.md#^ref-03a5578f-2082-0) (line 2082, col 0, score 0.96)
 - [Promethean Dev Workflow Update — L2150](promethean-dev-workflow-update.md#^ref-03a5578f-2150-0) (line 2150, col 0, score 1)
 - [windows-tiling-with-autohotkey — L3103](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-3103-0) (line 3103, col 0, score 1)
-- [Docops Feature Updates — L152](docops-feature-updates-3.md#^ref-cdbd21ee-152-0) (line 152, col 0, score 0.97)
+- [Docops Feature Updates — L152](docops-feature-updates-2.md#^ref-cdbd21ee-152-0) (line 152, col 0, score 0.97)
 - [Docops Feature Updates — L209](docops-feature-updates.md#^ref-2792d448-209-0) (line 209, col 0, score 0.97)
 - [field-dynamics-math-blocks — L511](field-dynamics-math-blocks.md#^ref-7cfc230d-511-0) (line 511, col 0, score 0.97)
 - [eidolon-field-math-foundations — L3379](eidolon-field-math-foundations.md#^ref-008f2ac0-3379-0) (line 3379, col 0, score 0.96)

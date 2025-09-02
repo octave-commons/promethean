@@ -421,7 +421,7 @@ references:
   - uuid: d5b16703-d7f7-438a-9a75-3ae4589b177b
     line: 323
     col: 0
-    score: 0.93
+    score: 1
   - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
     line: 343
     col: 0
@@ -786,10 +786,6 @@ references:
     line: 164
     col: 0
     score: 0.96
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 32
-    col: 0
-    score: 0.97
   - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
     line: 54
     col: 0
@@ -1502,6 +1498,10 @@ references:
     line: 285
     col: 0
     score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 32
+    col: 0
+    score: 0.97
   - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
     line: 198
     col: 0
@@ -2749,7 +2749,7 @@ If you want, I’ll collapse this into your repo’s `docs/AGENTS.md` with your 
 - [api-gateway-versioning](api-gateway-versioning.md)
 - [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
 - [Board Walk – 2025-08-11](board-walk-2025-08-11.md)
-- [AGENTS.md](agents-md-3.md)
+- [AGENTS.md](agents-md-2.md)
 - [Promethean Chat Activity Report](promethean-chat-activity-report.md)
 - [schema-evolution-workflow](schema-evolution-workflow.md)
 - [aionian-circuit-math](aionian-circuit-math.md)
@@ -2824,12 +2824,12 @@ If you want, I’ll collapse this into your repo’s `docs/AGENTS.md` with your 
 - [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
 - [polyglot-repl-interface-layer](polyglot-repl-interface-layer.md)
 ## Sources
-- [AGENTS.md — L9](agents-md-3.md#^ref-d5b16703-9-0) (line 9, col 0, score 0.95)
-- [AGENTS.md — L11](agents-md-3.md#^ref-d5b16703-11-0) (line 11, col 0, score 0.96)
-- [AGENTS.md — L13](agents-md-3.md#^ref-d5b16703-13-0) (line 13, col 0, score 0.96)
-- [AGENTS.md — L178](agents-md-3.md#^ref-d5b16703-178-0) (line 178, col 0, score 0.95)
+- [AGENTS.md — L9](agents-md-2.md#^ref-d5b16703-9-0) (line 9, col 0, score 0.95)
+- [AGENTS.md — L11](agents-md-2.md#^ref-d5b16703-11-0) (line 11, col 0, score 0.96)
+- [AGENTS.md — L13](agents-md-2.md#^ref-d5b16703-13-0) (line 13, col 0, score 0.96)
+- [AGENTS.md — L178](agents-md-2.md#^ref-d5b16703-178-0) (line 178, col 0, score 0.95)
 - [Prometheus Observability Stack — L483](prometheus-observability-stack.md#^ref-e90b5a16-483-0) (line 483, col 0, score 0.86)
-- [AGENTS.md — L201](agents-md-3.md#^ref-d5b16703-201-0) (line 201, col 0, score 0.85)
+- [AGENTS.md — L201](agents-md-2.md#^ref-d5b16703-201-0) (line 201, col 0, score 0.85)
 - [eidolon-node-lifecycle — L57](eidolon-node-lifecycle.md#^ref-938eca9c-57-0) (line 57, col 0, score 1)
 - [i3-bluetooth-setup — L124](i3-bluetooth-setup.md#^ref-5e408692-124-0) (line 124, col 0, score 1)
 - [Ice Box Reorganization — L81](ice-box-reorganization.md#^ref-291c7d91-81-0) (line 81, col 0, score 1)
@@ -2886,19 +2886,19 @@ If you want, I’ll collapse this into your repo’s `docs/AGENTS.md` with your 
 - [Promethean Data Sync Protocol — L39](promethean-data-sync-protocol.md#^ref-9fab9e76-39-0) (line 39, col 0, score 1)
 - [Promethean Documentation Pipeline Overview — L168](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-168-0) (line 168, col 0, score 1)
 - [Promethean Documentation Update — L40](promethean-documentation-update.md#^ref-c0392040-40-0) (line 40, col 0, score 1)
-- [AGENTS.md — L323](agents-md-3.md#^ref-d5b16703-323-0) (line 323, col 0, score 0.93)
+- [AGENTS.md — L323](agents-md-2.md#^ref-d5b16703-323-0) (line 323, col 0, score 1)
 - [api-gateway-versioning — L343](api-gateway-versioning.md#^ref-0580dcd3-343-0) (line 343, col 0, score 0.95)
 - [AI-First-OS-Model-Context-Protocol — L237](ai-first-os-model-context-protocol.md#^ref-618198f4-237-0) (line 237, col 0, score 0.94)
 - [aionian-circuit-math — L218](aionian-circuit-math.md#^ref-f2d83a77-218-0) (line 218, col 0, score 0.9)
-- [AGENTS.md — L329](agents-md-3.md#^ref-d5b16703-329-0) (line 329, col 0, score 0.94)
-- [AGENTS.md — L324](agents-md-3.md#^ref-d5b16703-324-0) (line 324, col 0, score 0.94)
+- [AGENTS.md — L329](agents-md-2.md#^ref-d5b16703-329-0) (line 329, col 0, score 0.94)
+- [AGENTS.md — L324](agents-md-2.md#^ref-d5b16703-324-0) (line 324, col 0, score 0.94)
 - [api-gateway-versioning — L334](api-gateway-versioning.md#^ref-0580dcd3-334-0) (line 334, col 0, score 0.94)
 - [aionian-circuit-math — L174](aionian-circuit-math.md#^ref-f2d83a77-174-0) (line 174, col 0, score 0.92)
-- [AGENTS.md — L325](agents-md-3.md#^ref-d5b16703-325-0) (line 325, col 0, score 0.94)
-- [AGENTS.md — L326](agents-md-3.md#^ref-d5b16703-326-0) (line 326, col 0, score 1)
+- [AGENTS.md — L325](agents-md-2.md#^ref-d5b16703-325-0) (line 325, col 0, score 0.94)
+- [AGENTS.md — L326](agents-md-2.md#^ref-d5b16703-326-0) (line 326, col 0, score 1)
 - [api-gateway-versioning — L315](api-gateway-versioning.md#^ref-0580dcd3-315-0) (line 315, col 0, score 0.9)
-- [AGENTS.md — L327](agents-md-3.md#^ref-d5b16703-327-0) (line 327, col 0, score 0.93)
-- [AGENTS.md — L328](agents-md-3.md#^ref-d5b16703-328-0) (line 328, col 0, score 0.92)
+- [AGENTS.md — L327](agents-md-2.md#^ref-d5b16703-327-0) (line 327, col 0, score 0.93)
+- [AGENTS.md — L328](agents-md-2.md#^ref-d5b16703-328-0) (line 328, col 0, score 0.92)
 - [AI-First-OS-Model-Context-Protocol — L157](ai-first-os-model-context-protocol.md#^ref-618198f4-157-0) (line 157, col 0, score 0.92)
 - [aionian-circuit-math — L225](aionian-circuit-math.md#^ref-f2d83a77-225-0) (line 225, col 0, score 0.92)
 - [AI-First-OS-Model-Context-Protocol — L197](ai-first-os-model-context-protocol.md#^ref-618198f4-197-0) (line 197, col 0, score 0.94)
@@ -2929,7 +2929,7 @@ If you want, I’ll collapse this into your repo’s `docs/AGENTS.md` with your 
 - [Board Automation Improvements — L28](board-automation-improvements.md#^ref-ac60a1d6-28-0) (line 28, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L198](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-198-0) (line 198, col 0, score 0.99)
 - [aionian-circuit-math — L167](aionian-circuit-math.md#^ref-f2d83a77-167-0) (line 167, col 0, score 0.99)
-- [AGENTS.md — L331](agents-md-3.md#^ref-d5b16703-331-0) (line 331, col 0, score 0.99)
+- [AGENTS.md — L331](agents-md-2.md#^ref-d5b16703-331-0) (line 331, col 0, score 0.99)
 - [Diagrams — L427](chunks/diagrams.md#^ref-45cd25b5-427-0) (line 427, col 0, score 0.99)
 - [DSL — L442](chunks/dsl.md#^ref-e87bc036-442-0) (line 442, col 0, score 0.99)
 - [AI-First-OS-Model-Context-Protocol — L64](ai-first-os-model-context-protocol.md#^ref-618198f4-64-0) (line 64, col 0, score 0.96)
@@ -2978,7 +2978,6 @@ If you want, I’ll collapse this into your repo’s `docs/AGENTS.md` with your 
 - [AI-First-OS-Model-Context-Protocol — L303](ai-first-os-model-context-protocol.md#^ref-618198f4-303-0) (line 303, col 0, score 0.97)
 - [AI-First-OS-Model-Context-Protocol — L31](ai-first-os-model-context-protocol.md#^ref-618198f4-31-0) (line 31, col 0, score 0.98)
 - [AI-First-OS-Model-Context-Protocol — L164](ai-first-os-model-context-protocol.md#^ref-618198f4-164-0) (line 164, col 0, score 0.96)
-- [AI-First-OS-Model-Context-Protocol — L32](ai-first-os-model-context-protocol.md#^ref-618198f4-32-0) (line 32, col 0, score 0.97)
 - [AI-First-OS-Model-Context-Protocol — L54](ai-first-os-model-context-protocol.md#^ref-618198f4-54-0) (line 54, col 0, score 0.97)
 - [AI-First-OS-Model-Context-Protocol — L51](ai-first-os-model-context-protocol.md#^ref-618198f4-51-0) (line 51, col 0, score 0.97)
 - [AI-First-OS-Model-Context-Protocol — L62](ai-first-os-model-context-protocol.md#^ref-618198f4-62-0) (line 62, col 0, score 0.97)
@@ -3157,6 +3156,7 @@ If you want, I’ll collapse this into your repo’s `docs/AGENTS.md` with your 
 - [Duck's Attractor States — L2630](ducks-attractor-states.md#^ref-13951643-2630-0) (line 2630, col 0, score 0.97)
 - [eidolon-field-math-foundations — L3000](eidolon-field-math-foundations.md#^ref-008f2ac0-3000-0) (line 3000, col 0, score 0.97)
 - [AI-First-OS-Model-Context-Protocol — L285](ai-first-os-model-context-protocol.md#^ref-618198f4-285-0) (line 285, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L32](ai-first-os-model-context-protocol.md#^ref-618198f4-32-0) (line 32, col 0, score 0.97)
 - [AI-First-OS-Model-Context-Protocol — L198](ai-first-os-model-context-protocol.md#^ref-618198f4-198-0) (line 198, col 0, score 0.97)
 - [AI-First-OS-Model-Context-Protocol — L80](ai-first-os-model-context-protocol.md#^ref-618198f4-80-0) (line 80, col 0, score 0.97)
 - [Duck's Attractor States — L1256](ducks-attractor-states.md#^ref-13951643-1256-0) (line 1256, col 0, score 1)
@@ -3345,9 +3345,9 @@ If you want, I’ll collapse this into your repo’s `docs/AGENTS.md` with your 
 - [Board Walk – 2025-08-11 — L166](board-walk-2025-08-11.md#^ref-7aa1eb92-166-0) (line 166, col 0, score 0.99)
 - [Board Walk – 2025-08-11 — L183](board-walk-2025-08-11.md#^ref-7aa1eb92-183-0) (line 183, col 0, score 0.98)
 - [AI-First-OS-Model-Context-Protocol — L134](ai-first-os-model-context-protocol.md#^ref-618198f4-134-0) (line 134, col 0, score 0.99)
-- [AGENTS.md — L333](agents-md-3.md#^ref-d5b16703-333-0) (line 333, col 0, score 0.99)
+- [AGENTS.md — L333](agents-md-2.md#^ref-d5b16703-333-0) (line 333, col 0, score 0.99)
 - [aionian-circuit-math — L169](aionian-circuit-math.md#^ref-f2d83a77-169-0) (line 169, col 0, score 0.99)
-- [AGENTS.md — L332](agents-md-3.md#^ref-d5b16703-332-0) (line 332, col 0, score 0.99)
+- [AGENTS.md — L332](agents-md-2.md#^ref-d5b16703-332-0) (line 332, col 0, score 0.99)
 - [aionian-circuit-math — L171](aionian-circuit-math.md#^ref-f2d83a77-171-0) (line 171, col 0, score 0.99)
 - [AI-First-OS-Model-Context-Protocol — L184](ai-first-os-model-context-protocol.md#^ref-618198f4-184-0) (line 184, col 0, score 0.99)
 - [balanced-bst — L368](balanced-bst.md#^ref-d3e7db72-368-0) (line 368, col 0, score 0.97)
