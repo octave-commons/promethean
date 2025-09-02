@@ -12,9 +12,267 @@ tags:
   - type-errors
   - patch-imports
   - build-ts
-related_to_title: []
-related_to_uuid: []
-references: []
+related_to_title:
+  - Synchronicity Waves and Web
+  - prom-lib-rate-limiters-and-replay-api
+  - Promethean Web UI Setup
+  - observability-infrastructure-setup
+  - Language-Agnostic Mirror System
+  - Promethean Agent DSL TS Scaffold
+  - Promethean Full-Stack Docker Setup
+  - 'Promethean Pipelines: Local TypeScript-First Workflow'
+  - Lispy Macros with syntax-rules
+  - ecs-offload-workers
+  - RAG UI Panel with Qdrant and PostgREST
+  - sibilant-metacompiler-overview
+  - Vectorial Exception Descent
+  - i3-layout-saver
+  - js-to-lisp-reverse-compiler
+  - Sibilant Meta-Prompt DSL
+  - Promethean-native config design
+  - Chroma-Embedding-Refactor
+  - universal-intention-code-fabric
+  - heartbeat-simulation-snippets
+  - Shared Package Structure
+  - Voice Access Layer Design
+  - shared-package-layout-clarification
+  - Cross-Target Macro System in Sibilant
+  - Cross-Language Runtime Polymorphism
+  - refactor-relations
+  - mystery-lisp-search-session
+  - compiler-kit-foundations
+  - lisp-dsl-for-window-management
+  - Promethean Event Bus MVP v0.1
+  - Duck's Attractor States
+  - windows-tiling-with-autohotkey
+  - Promethean Dev Workflow Update
+  - Canonical Org-Babel Matplotlib Animation Template
+  - Recursive Prompt Construction Engine
+  - eidolon-field-math-foundations
+  - prompt-programming-language-lisp
+  - AI-First-OS-Model-Context-Protocol
+  - AGENTS.md
+  - Universal Lisp Interface
+  - typed-struct-compiler
+  - set-assignment-in-lisp-ast
+  - Local-Offline-Model-Deployment-Strategy
+  - aionian-circuit-math
+  - Dynamic Context Model for Web Components
+  - System Scheduler with Resource-Aware DAG
+  - Promethean-Copilot-Intent-Engine
+  - Provider-Agnostic Chat Panel Implementation
+  - Matplotlib Animation with Async Execution
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - Event Bus Projections Architecture
+  - Local-Only-LLM-Workflow
+  - Smoke Resonance Visualizations
+  - Promethean Agent Config DSL
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - i3-config-validation-methods
+  - EidolonField
+  - Local-First Intention→Code Loop with Free Models
+  - Ghostly Smoke Interference
+  - Eidolon-Field-Optimization
+  - Refactor Frontmatter Processing
+  - Promethean Pipelines
+  - Prometheus Observability Stack
+  - layer-1-uptime-diagrams
+  - Prompt_Folder_Bootstrap
+  - ecs-scheduler-and-prefabs
+  - plan-update-confirmation
+  - Promethean Notes
+  - Promethean Chat Activity Report
+  - Promethean Documentation Update
+  - Promethean Documentation Pipeline Overview
+  - The Jar of Echoes
+  - template-based-compilation
+related_to_uuid:
+  - 91295f3a-a2af-4050-a2b8-4777ea70c32c
+  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - 5158f742-4a3b-466e-bfc3-d83517b64200
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - 6b63edca-7637-4fb0-bc85-d498c31cc46e
+  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
+  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
+  - 31f0166e-4631-45fa-aecd-b44e9a13f497
+  - 58191024-d04a-4520-8aae-a18be7b94263
+  - af5d2824-faad-476c-a389-e912d9bc672c
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - 8b256935-02f6-4da2-a406-bf6b8415276f
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - 23e221e9-d4fa-4106-8458-06db2595085f
+  - 66a72fc3-4153-41fc-84bd-d6164967a6ff
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - 36c8882a-badc-4e18-838d-2c54d7038141
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - 41ce0216-f8cc-4eed-8d9a-fcc25be21425
+  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
+  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - 03a5578f-d689-45db-95e9-11300e5eee6f
+  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - d41a06d1-613e-4440-80b7-4553fc694285
+  - 618198f4-cfad-4677-9df6-0640d8a97bae
+  - bb90903a-4723-44f7-850e-a71415ef6224
+  - b01856b4-999f-418d-8009-ade49b00eb0f
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - c5fba0a0-9196-468d-a0f3-51c99e987263
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - f2d83a77-7f86-4c56-8538-1350167a0c6c
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - ba244286-4e84-425b-8bf6-b80c4eb783fc
+  - ae24a280-678e-4c0b-8cc4-56667fa04172
+  - 43bfe9dd-d433-42ca-9777-f4c40eaba791
+  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
+  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - d28090ac-f746-4958-aab5-ed1315382c04
+  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
+  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
+  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+  - cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
+  - 8b8e6103-30a4-4d66-b5f2-87db1612b587
+  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
+  - 4127189a-e0ab-436f-8571-cc852b8e9add
+  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - 1c4046b5-742d-4004-aec6-b47251fef5d6
+  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+  - 0b872af2-4197-46f3-b631-afb4e6135585
+  - 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+  - 18138627-a348-4fbb-b447-410dfb400564
+  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+references:
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 211
+    col: 0
+    score: 0.85
+  - uuid: 41ce0216-f8cc-4eed-8d9a-fcc25be21425
+    line: 10
+    col: 0
+    score: 0.85
+  - uuid: 23e221e9-d4fa-4106-8458-06db2595085f
+    line: 80
+    col: 0
+    score: 0.86
+  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+    line: 106
+    col: 0
+    score: 0.85
+  - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
+    line: 289
+    col: 0
+    score: 0.87
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 343
+    col: 0
+    score: 0.87
+  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
+    line: 11
+    col: 0
+    score: 1
+  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
+    line: 39
+    col: 0
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 440
+    col: 0
+    score: 0.86
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 504
+    col: 0
+    score: 0.9
+  - uuid: 6b63edca-7637-4fb0-bc85-d498c31cc46e
+    line: 220
+    col: 0
+    score: 0.89
+  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+    line: 375
+    col: 0
+    score: 0.89
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 427
+    col: 0
+    score: 0.88
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 349
+    col: 0
+    score: 0.86
+  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
+    line: 52
+    col: 0
+    score: 0.88
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 95
+    col: 0
+    score: 0.87
+  - uuid: 31f0166e-4631-45fa-aecd-b44e9a13f497
+    line: 79
+    col: 0
+    score: 0.87
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 306
+    col: 0
+    score: 0.99
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 120
+    col: 0
+    score: 0.87
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 305
+    col: 0
+    score: 0.87
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 388
+    col: 0
+    score: 0.86
+  - uuid: 5158f742-4a3b-466e-bfc3-d83517b64200
+    line: 818
+    col: 0
+    score: 0.9
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 416
+    col: 0
+    score: 0.86
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 280
+    col: 0
+    score: 0.86
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 161
+    col: 0
+    score: 0.86
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 148
+    col: 0
+    score: 0.86
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 348
+    col: 0
+    score: 0.91
+  - uuid: 66a72fc3-4153-41fc-84bd-d6164967a6ff
+    line: 185
+    col: 0
+    score: 0.85
 ---
 We just updated the filewatcher to use the new auth-service, and we have some type errors. Please fix them, and confirm they are fixed by running pnpm build. ^ref-9044701b-1-0
 
@@ -94,200 +352,106 @@ Errors  Files
  ELIFECYCLE  Command failed with exit code 2.
 err@err-Stealth-16-AI-Studio-A1VGG:~/devel/promethean/services/ts/file-watcher$  w<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [plan-update-confirmation](plan-update-confirmation.md)
-- [Promethean Documentation Pipeline Overview](promethean-documentation-pipeline-overview.md)
-- [shared-package-layout-clarification](shared-package-layout-clarification.md)
-- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
-- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
-- [Promethean Web UI Setup](promethean-web-ui-setup.md)
+- [Synchronicity Waves and Web](synchronicity-waves-and-web.md)
 - [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
-- [Refactor Frontmatter Processing](refactor-frontmatter-processing.md)
-- [universal-intention-code-fabric](universal-intention-code-fabric.md)
-- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
-- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
-- [Reawakening Duck](reawakening-duck.md)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
-- [parenthetical-extraction](parenthetical-extraction.md)
-- [Simple Log Example](simple-log-example.md)
-- [graph-ds](graph-ds.md)
-- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
-- [smart-chatgpt-thingy](smart-chatgpt-thingy.md)
-- [Shared Package Structure](shared-package-structure.md)
-- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
-- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
-- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
-- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
-- [api-gateway-versioning](api-gateway-versioning.md)
-- [promethean-requirements](promethean-requirements.md)
-- [refactor-relations](refactor-relations.md)
+- [Promethean Web UI Setup](promethean-web-ui-setup.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
 - [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
-- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
-- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
-- [infinite_depth_smoke_animation](infinite-depth-smoke-animation.md)
-- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
-- [Promethean-native config design](promethean-native-config-design.md)
-- [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
-- [ecs-offload-workers](ecs-offload-workers.md)
-- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [Promethean Pipelines: Local TypeScript-First Workflow](promethean-pipelines-local-typescript-first-workflow.md)
-- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
-- [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
-- [Prometheus Observability Stack](prometheus-observability-stack.md)
-- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
-- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [Model Upgrade Calm-Down Guide](model-upgrade-calm-down-guide.md)
-- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
-- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
-- [Voice Access Layer Design](voice-access-layer-design.md)
-- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
-- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
 - [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
-- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
-- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
-- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
-- [field-interaction-equations](field-interaction-equations.md)
-- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
+- [Promethean Pipelines: Local TypeScript-First Workflow](promethean-pipelines-local-typescript-first-workflow.md)
+- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
+- [ecs-offload-workers](ecs-offload-workers.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
+- [Vectorial Exception Descent](vectorial-exception-descent.md)
+- [i3-layout-saver](i3-layout-saver.md)
+- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+- [Promethean-native config design](promethean-native-config-design.md)
+- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
+- [Shared Package Structure](shared-package-structure.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [shared-package-layout-clarification](shared-package-layout-clarification.md)
+- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
+- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
+- [refactor-relations](refactor-relations.md)
+- [mystery-lisp-search-session](mystery-lisp-search-session.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+- [Duck's Attractor States](ducks-attractor-states.md)
+- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
+- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
+- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
+- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
+- [AGENTS.md](agents-md.md)
 - [Universal Lisp Interface](universal-lisp-interface.md)
-- [Exception Layer Analysis](exception-layer-analysis.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [aionian-circuit-math](aionian-circuit-math.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
+- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
+- [Provider-Agnostic Chat Panel Implementation](provider-agnostic-chat-panel-implementation.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [Smoke Resonance Visualizations](smoke-resonance-visualizations.md)
+- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [i3-config-validation-methods](i3-config-validation-methods.md)
+- [EidolonField](eidolonfield.md)
+- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
+- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
+- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
+- [Refactor Frontmatter Processing](refactor-frontmatter-processing.md)
+- [Promethean Pipelines](promethean-pipelines.md)
+- [Prometheus Observability Stack](prometheus-observability-stack.md)
+- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
+- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [plan-update-confirmation](plan-update-confirmation.md)
+- [Promethean Notes](promethean-notes.md)
+- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
+- [Promethean Documentation Update](promethean-documentation-update.txt)
+- [Promethean Documentation Pipeline Overview](promethean-documentation-pipeline-overview.md)
+- [The Jar of Echoes](the-jar-of-echoes.md)
+- [template-based-compilation](template-based-compilation.md)
 ## Sources
-- [plan-update-confirmation — L986](plan-update-confirmation.md#^ref-b22d79c6-986-0) (line 986, col 0, score 0.69)
-- [plan-update-confirmation — L637](plan-update-confirmation.md#^ref-b22d79c6-637-0) (line 637, col 0, score 0.9)
-- [plan-update-confirmation — L812](plan-update-confirmation.md#^ref-b22d79c6-812-0) (line 812, col 0, score 0.59)
-- [plan-update-confirmation — L827](plan-update-confirmation.md#^ref-b22d79c6-827-0) (line 827, col 0, score 0.66)
-- [Chroma Toolkit Consolidation Plan — L146](chroma-toolkit-consolidation-plan.md#^ref-5020e892-146-0) (line 146, col 0, score 0.59)
-- [plan-update-confirmation — L640](plan-update-confirmation.md#^ref-b22d79c6-640-0) (line 640, col 0, score 0.6)
-- [plan-update-confirmation — L760](plan-update-confirmation.md#^ref-b22d79c6-760-0) (line 760, col 0, score 0.63)
-- [plan-update-confirmation — L863](plan-update-confirmation.md#^ref-b22d79c6-863-0) (line 863, col 0, score 0.62)
-- [Exception Layer Analysis — L11](exception-layer-analysis.md#^ref-21d5cc09-11-0) (line 11, col 0, score 0.58)
-- [plan-update-confirmation — L650](plan-update-confirmation.md#^ref-b22d79c6-650-0) (line 650, col 0, score 0.57)
-- [plan-update-confirmation — L662](plan-update-confirmation.md#^ref-b22d79c6-662-0) (line 662, col 0, score 0.57)
-- [plan-update-confirmation — L674](plan-update-confirmation.md#^ref-b22d79c6-674-0) (line 674, col 0, score 0.57)
-- [plan-update-confirmation — L809](plan-update-confirmation.md#^ref-b22d79c6-809-0) (line 809, col 0, score 0.57)
-- [WebSocket Gateway Implementation — L52](websocket-gateway-implementation.md#^ref-e811123d-52-0) (line 52, col 0, score 0.61)
-- [prom-lib-rate-limiters-and-replay-api — L256](prom-lib-rate-limiters-and-replay-api.md#^ref-aee4718b-256-0) (line 256, col 0, score 0.7)
-- [Reawakening Duck — L43](reawakening-duck.md#^ref-59b5670f-43-0) (line 43, col 0, score 0.68)
-- [Promethean Infrastructure Setup — L542](promethean-infrastructure-setup.md#^ref-6deed6ac-542-0) (line 542, col 0, score 0.6)
-- [Prompt_Folder_Bootstrap — L145](prompt-folder-bootstrap.md#^ref-bd4f0976-145-0) (line 145, col 0, score 0.63)
-- [Prompt_Folder_Bootstrap — L171](prompt-folder-bootstrap.md#^ref-bd4f0976-171-0) (line 171, col 0, score 0.63)
-- [TypeScript Patch for Tool Calling Support — L104](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-104-0) (line 104, col 0, score 0.61)
-- [Local-Only-LLM-Workflow — L130](local-only-llm-workflow.md#^ref-9a8ab57e-130-0) (line 130, col 0, score 0.61)
-- [Pure TypeScript Search Microservice — L96](pure-typescript-search-microservice.md#^ref-d17d3a96-96-0) (line 96, col 0, score 0.61)
-- [Dynamic Context Model for Web Components — L165](dynamic-context-model-for-web-components.md#^ref-f7702bf8-165-0) (line 165, col 0, score 0.61)
-- [universal-intention-code-fabric — L382](universal-intention-code-fabric.md#^ref-c14edce7-382-0) (line 382, col 0, score 0.67)
-- [plan-update-confirmation — L680](plan-update-confirmation.md#^ref-b22d79c6-680-0) (line 680, col 0, score 0.65)
-- [Promethean-native config design — L90](promethean-native-config-design.md#^ref-ab748541-90-0) (line 90, col 0, score 0.63)
-- [Functional Embedding Pipeline Refactor — L26](functional-embedding-pipeline-refactor.md#^ref-a4a25141-26-0) (line 26, col 0, score 0.61)
-- [universal-intention-code-fabric — L395](universal-intention-code-fabric.md#^ref-c14edce7-395-0) (line 395, col 0, score 0.69)
-- [plan-update-confirmation — L900](plan-update-confirmation.md#^ref-b22d79c6-900-0) (line 900, col 0, score 0.61)
-- [Promethean Infrastructure Setup — L287](promethean-infrastructure-setup.md#^ref-6deed6ac-287-0) (line 287, col 0, score 0.72)
-- [Promethean Agent DSL TS Scaffold — L716](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-716-0) (line 716, col 0, score 0.59)
-- [plan-update-confirmation — L136](plan-update-confirmation.md#^ref-b22d79c6-136-0) (line 136, col 0, score 0.68)
-- [shared-package-layout-clarification — L4](shared-package-layout-clarification.md#^ref-36c8882a-4-0) (line 4, col 0, score 0.64)
-- [plan-update-confirmation — L152](plan-update-confirmation.md#^ref-b22d79c6-152-0) (line 152, col 0, score 0.64)
-- [plan-update-confirmation — L236](plan-update-confirmation.md#^ref-b22d79c6-236-0) (line 236, col 0, score 0.64)
-- [universal-intention-code-fabric — L26](universal-intention-code-fabric.md#^ref-c14edce7-26-0) (line 26, col 0, score 0.64)
-- [ecs-offload-workers — L7](ecs-offload-workers.md#^ref-6498b9d7-7-0) (line 7, col 0, score 0.61)
-- [Agent Tasks: Persistence Migration to DualStore — L84](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-84-0) (line 84, col 0, score 0.61)
-- [field-interaction-equations — L132](field-interaction-equations.md#^ref-b09141b7-132-0) (line 132, col 0, score 0.61)
-- [TypeScript Patch for Tool Calling Support — L181](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-181-0) (line 181, col 0, score 0.61)
-- [TypeScript Patch for Tool Calling Support — L271](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-271-0) (line 271, col 0, score 0.61)
-- [Promethean Documentation Pipeline Overview — L119](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-119-0) (line 119, col 0, score 0.73)
-- [shared-package-layout-clarification — L145](shared-package-layout-clarification.md#^ref-36c8882a-145-0) (line 145, col 0, score 0.72)
-- [Promethean Web UI Setup — L238](promethean-web-ui-setup.md#^ref-bc5172ca-238-0) (line 238, col 0, score 0.7)
-- [Pure TypeScript Search Microservice — L73](pure-typescript-search-microservice.md#^ref-d17d3a96-73-0) (line 73, col 0, score 0.69)
-- [Promethean Infrastructure Setup — L33](promethean-infrastructure-setup.md#^ref-6deed6ac-33-0) (line 33, col 0, score 0.65)
-- [shared-package-layout-clarification — L161](shared-package-layout-clarification.md#^ref-36c8882a-161-0) (line 161, col 0, score 0.65)
-- [Promethean Pipelines: Local TypeScript-First Workflow — L253](promethean-pipelines-local-typescript-first-workflow.md#^ref-6b63edca-253-0) (line 253, col 0, score 0.62)
-- [Promethean Pipelines: Local TypeScript-First Workflow — L3](promethean-pipelines-local-typescript-first-workflow.md#^ref-6b63edca-3-0) (line 3, col 0, score 0.62)
-- [Prometheus Observability Stack — L7](prometheus-observability-stack.md#^ref-e90b5a16-7-0) (line 7, col 0, score 0.62)
-- [Dynamic Context Model for Web Components — L196](dynamic-context-model-for-web-components.md#^ref-f7702bf8-196-0) (line 196, col 0, score 0.62)
-- [Model Upgrade Calm-Down Guide — L60](model-upgrade-calm-down-guide.md#^ref-db74343f-60-0) (line 60, col 0, score 0.62)
-- [Prometheus Observability Stack — L500](prometheus-observability-stack.md#^ref-e90b5a16-500-0) (line 500, col 0, score 0.62)
-- [Voice Access Layer Design — L302](voice-access-layer-design.md#^ref-543ed9b3-302-0) (line 302, col 0, score 0.61)
-- [Promethean Full-Stack Docker Setup — L3](promethean-full-stack-docker-setup.md#^ref-2c2b48ca-3-0) (line 3, col 0, score 0.61)
-- [Shared Package Structure — L147](shared-package-structure.md#^ref-66a72fc3-147-0) (line 147, col 0, score 0.61)
-- [Pure TypeScript Search Microservice — L112](pure-typescript-search-microservice.md#^ref-d17d3a96-112-0) (line 112, col 0, score 0.65)
-- [Promethean Infrastructure Setup — L335](promethean-infrastructure-setup.md#^ref-6deed6ac-335-0) (line 335, col 0, score 0.64)
-- [api-gateway-versioning — L79](api-gateway-versioning.md#^ref-0580dcd3-79-0) (line 79, col 0, score 0.63)
-- [api-gateway-versioning — L51](api-gateway-versioning.md#^ref-0580dcd3-51-0) (line 51, col 0, score 0.64)
-- [Language-Agnostic Mirror System — L471](language-agnostic-mirror-system.md#^ref-d2b3628c-471-0) (line 471, col 0, score 0.64)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L107](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-107-0) (line 107, col 0, score 0.63)
-- [shared-package-layout-clarification — L47](shared-package-layout-clarification.md#^ref-36c8882a-47-0) (line 47, col 0, score 0.63)
-- [Per-Domain Policy System for JS Crawler — L117](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-117-0) (line 117, col 0, score 0.63)
-- [ecs-offload-workers — L149](ecs-offload-workers.md#^ref-6498b9d7-149-0) (line 149, col 0, score 0.63)
-- [plan-update-confirmation — L667](plan-update-confirmation.md#^ref-b22d79c6-667-0) (line 667, col 0, score 0.66)
-- [plan-update-confirmation — L655](plan-update-confirmation.md#^ref-b22d79c6-655-0) (line 655, col 0, score 0.66)
-- [plan-update-confirmation — L643](plan-update-confirmation.md#^ref-b22d79c6-643-0) (line 643, col 0, score 0.66)
-- [plan-update-confirmation — L694](plan-update-confirmation.md#^ref-b22d79c6-694-0) (line 694, col 0, score 0.65)
-- [plan-update-confirmation — L767](plan-update-confirmation.md#^ref-b22d79c6-767-0) (line 767, col 0, score 0.66)
-- [plan-update-confirmation — L717](plan-update-confirmation.md#^ref-b22d79c6-717-0) (line 717, col 0, score 0.65)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L223](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-223-0) (line 223, col 0, score 0.61)
-- [Promethean Agent DSL TS Scaffold — L588](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-588-0) (line 588, col 0, score 0.64)
-- [plan-update-confirmation — L948](plan-update-confirmation.md#^ref-b22d79c6-948-0) (line 948, col 0, score 0.63)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L489](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-489-0) (line 489, col 0, score 0.61)
-- [Voice Access Layer Design — L183](voice-access-layer-design.md#^ref-543ed9b3-183-0) (line 183, col 0, score 0.61)
-- [Promethean Agent Config DSL — L19](promethean-agent-config-dsl.md#^ref-2c00ce45-19-0) (line 19, col 0, score 0.62)
-- [Stateful Partitions and Rebalancing — L351](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-351-0) (line 351, col 0, score 0.62)
-- [Migrate to Provider-Tenant Architecture — L3](migrate-to-provider-tenant-architecture.md#^ref-54382370-3-0) (line 3, col 0, score 0.62)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L412](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-412-0) (line 412, col 0, score 0.62)
-- [Promethean Event Bus MVP v0.1 — L188](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-188-0) (line 188, col 0, score 0.62)
-- [polymorphic-meta-programming-engine — L99](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-99-0) (line 99, col 0, score 0.62)
-- [Model Upgrade Calm-Down Guide — L41](model-upgrade-calm-down-guide.md#^ref-db74343f-41-0) (line 41, col 0, score 0.62)
-- [Migrate to Provider-Tenant Architecture — L261](migrate-to-provider-tenant-architecture.md#^ref-54382370-261-0) (line 261, col 0, score 0.62)
-- [Chroma Toolkit Consolidation Plan — L137](chroma-toolkit-consolidation-plan.md#^ref-5020e892-137-0) (line 137, col 0, score 0.61)
-- [Mongo Outbox Implementation — L222](mongo-outbox-implementation.md#^ref-9c1acd1e-222-0) (line 222, col 0, score 0.61)
-- [Promethean Event Bus MVP v0.1 — L259](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-259-0) (line 259, col 0, score 0.61)
-- [shared-package-layout-clarification — L156](shared-package-layout-clarification.md#^ref-36c8882a-156-0) (line 156, col 0, score 0.7)
-- [Shared Package Structure — L148](shared-package-structure.md#^ref-66a72fc3-148-0) (line 148, col 0, score 0.65)
-- [Agent Tasks: Persistence Migration to DualStore — L43](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-43-0) (line 43, col 0, score 0.64)
-- [shared-package-layout-clarification — L1](shared-package-layout-clarification.md#^ref-36c8882a-1-0) (line 1, col 0, score 0.64)
-- [shared-package-layout-clarification — L128](shared-package-layout-clarification.md#^ref-36c8882a-128-0) (line 128, col 0, score 0.63)
-- [Canonical Org-Babel Matplotlib Animation Template — L87](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-87-0) (line 87, col 0, score 0.63)
-- [Agent Tasks: Persistence Migration to DualStore — L111](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-111-0) (line 111, col 0, score 0.62)
-- [RAG UI Panel with Qdrant and PostgREST — L131](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-131-0) (line 131, col 0, score 0.62)
-- [Local-First Intention→Code Loop with Free Models — L100](local-first-intention-code-loop-with-free-models.md#^ref-871490c7-100-0) (line 100, col 0, score 0.62)
-- [set-assignment-in-lisp-ast — L56](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-56-0) (line 56, col 0, score 0.61)
-- [shared-package-layout-clarification — L155](shared-package-layout-clarification.md#^ref-36c8882a-155-0) (line 155, col 0, score 0.69)
-- [graph-ds — L320](graph-ds.md#^ref-6620e2f2-320-0) (line 320, col 0, score 0.66)
-- [obsidian-ignore-node-modules-regex — L12](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-12-0) (line 12, col 0, score 0.63)
-- [Shared Package Structure — L51](shared-package-structure.md#^ref-66a72fc3-51-0) (line 51, col 0, score 0.62)
-- [Functional Refactor of TypeScript Document Processing — L5](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-5-0) (line 5, col 0, score 0.62)
-- [obsidian-ignore-node-modules-regex — L6](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-6-0) (line 6, col 0, score 0.62)
-- [obsidian-ignore-node-modules-regex — L42](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-42-0) (line 42, col 0, score 0.61)
-- [Chroma-Embedding-Refactor — L111](chroma-embedding-refactor.md#^ref-8b256935-111-0) (line 111, col 0, score 0.61)
-- [Chroma Toolkit Consolidation Plan — L124](chroma-toolkit-consolidation-plan.md#^ref-5020e892-124-0) (line 124, col 0, score 0.61)
-- [Promethean Infrastructure Setup — L224](promethean-infrastructure-setup.md#^ref-6deed6ac-224-0) (line 224, col 0, score 0.6)
-- [Universal Lisp Interface — L61](universal-lisp-interface.md#^ref-b01856b4-61-0) (line 61, col 0, score 0.6)
-- [Chroma-Embedding-Refactor — L282](chroma-embedding-refactor.md#^ref-8b256935-282-0) (line 282, col 0, score 0.6)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L345](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-345-0) (line 345, col 0, score 0.68)
-- [Promethean Infrastructure Setup — L415](promethean-infrastructure-setup.md#^ref-6deed6ac-415-0) (line 415, col 0, score 0.68)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L7](ollama-llm-provider-for-pseudo-code-transpiler.md#^ref-b362e12e-7-0) (line 7, col 0, score 0.68)
-- [State Snapshots API and Transactional Projector — L93](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-93-0) (line 93, col 0, score 0.66)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L194](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-194-0) (line 194, col 0, score 0.66)
-- [Promethean Web UI Setup — L351](promethean-web-ui-setup.md#^ref-bc5172ca-351-0) (line 351, col 0, score 0.66)
-- [universal-intention-code-fabric — L252](universal-intention-code-fabric.md#^ref-c14edce7-252-0) (line 252, col 0, score 0.66)
-- [Chroma-Embedding-Refactor — L66](chroma-embedding-refactor.md#^ref-8b256935-66-0) (line 66, col 0, score 0.66)
-- [zero-copy-snapshots-and-workers — L202](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-202-0) (line 202, col 0, score 0.65)
-- [Promethean Agent DSL TS Scaffold — L606](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-606-0) (line 606, col 0, score 0.65)
-- [prom-lib-rate-limiters-and-replay-api — L226](prom-lib-rate-limiters-and-replay-api.md#^ref-aee4718b-226-0) (line 226, col 0, score 0.65)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L130](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-130-0) (line 130, col 0, score 0.65)
-- [plan-update-confirmation — L682](plan-update-confirmation.md#^ref-b22d79c6-682-0) (line 682, col 0, score 0.78)
-- [Promethean Agent DSL TS Scaffold — L817](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-817-0) (line 817, col 0, score 0.7)
-- [Refactor Frontmatter Processing — L11](refactor-frontmatter-processing.md#^ref-cfbdca2f-11-0) (line 11, col 0, score 0.69)
-- [Promethean-Copilot-Intent-Engine — L33](promethean-copilot-intent-engine.md#^ref-ae24a280-33-0) (line 33, col 0, score 0.68)
-- [parenthetical-extraction — L3](parenthetical-extraction.md#^ref-51a4e477-3-0) (line 3, col 0, score 0.67)
-- [Simple Log Example — L1](simple-log-example.md#^ref-0490eee7-1-0) (line 1, col 0, score 0.67)
-- [smart-chatgpt-thingy — L10](smart-chatgpt-thingy.md#^ref-2facccf8-10-0) (line 10, col 0, score 0.66)
-- [plan-update-confirmation — L219](plan-update-confirmation.md#^ref-b22d79c6-219-0) (line 219, col 0, score 0.65)
-- [plan-update-confirmation — L303](plan-update-confirmation.md#^ref-b22d79c6-303-0) (line 303, col 0, score 0.65)
-- [plan-update-confirmation — L623](plan-update-confirmation.md#^ref-b22d79c6-623-0) (line 623, col 0, score 0.64)
-- [promethean-requirements — L4](promethean-requirements.md#^ref-95205cd3-4-0) (line 4, col 0, score 0.64)
-- [refactor-relations — L10](refactor-relations.md#^ref-41ce0216-10-0) (line 10, col 0, score 0.64)
-- [Ghostly Smoke Interference — L39](ghostly-smoke-interference.md#^ref-b6ae7dfa-39-0) (line 39, col 0, score 0.63)
-- [infinite_depth_smoke_animation — L7](infinite-depth-smoke-animation.md#^ref-92a052a5-7-0) (line 7, col 0, score 0.63)
+- [Cross-Language Runtime Polymorphism — L211](cross-language-runtime-polymorphism.md#^ref-c34c36a6-211-0) (line 211, col 0, score 0.85)
+- [refactor-relations — L10](refactor-relations.md#^ref-41ce0216-10-0) (line 10, col 0, score 0.85)
+- [heartbeat-simulation-snippets — L80](heartbeat-simulation-snippets.md#^ref-23e221e9-80-0) (line 80, col 0, score 0.86)
+- [mystery-lisp-search-session — L106](mystery-lisp-search-session.md#^ref-513dc4c7-106-0) (line 106, col 0, score 0.85)
+- [Chroma-Embedding-Refactor — L289](chroma-embedding-refactor.md#^ref-8b256935-289-0) (line 289, col 0, score 0.87)
+- [js-to-lisp-reverse-compiler — L343](js-to-lisp-reverse-compiler.md#^ref-58191024-343-0) (line 343, col 0, score 0.87)
+- [Synchronicity Waves and Web — L11](synchronicity-waves-and-web.md#^ref-91295f3a-11-0) (line 11, col 0, score 1)
+- [Synchronicity Waves and Web — L39](synchronicity-waves-and-web.md#^ref-91295f3a-39-0) (line 39, col 0, score 1)
+- [Promethean Web UI Setup — L440](promethean-web-ui-setup.md#^ref-bc5172ca-440-0) (line 440, col 0, score 0.86)
+- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.9)
+- [Promethean Pipelines: Local TypeScript-First Workflow — L220](promethean-pipelines-local-typescript-first-workflow.md#^ref-6b63edca-220-0) (line 220, col 0, score 0.89)
+- [Lispy Macros with syntax-rules — L375](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-375-0) (line 375, col 0, score 0.89)
+- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.88)
+- [RAG UI Panel with Qdrant and PostgREST — L349](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0) (line 349, col 0, score 0.86)
+- [sibilant-metacompiler-overview — L52](sibilant-metacompiler-overview.md#^ref-61d4086b-52-0) (line 52, col 0, score 0.88)
+- [Vectorial Exception Descent — L95](vectorial-exception-descent.md#^ref-d771154e-95-0) (line 95, col 0, score 0.87)
+- [i3-layout-saver — L79](i3-layout-saver.md#^ref-31f0166e-79-0) (line 79, col 0, score 0.87)
+- [prom-lib-rate-limiters-and-replay-api — L306](prom-lib-rate-limiters-and-replay-api.md#^ref-aee4718b-306-0) (line 306, col 0, score 0.99)
+- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.87)
+- [Promethean-native config design — L305](promethean-native-config-design.md#^ref-ab748541-305-0) (line 305, col 0, score 0.87)
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.86)
+- [Promethean Agent DSL TS Scaffold — L818](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-818-0) (line 818, col 0, score 0.9)
+- [Promethean Full-Stack Docker Setup — L416](promethean-full-stack-docker-setup.md#^ref-2c2b48ca-416-0) (line 416, col 0, score 0.86)
+- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.86)
+- [shared-package-layout-clarification — L161](shared-package-layout-clarification.md#^ref-36c8882a-161-0) (line 161, col 0, score 0.86)
+- [Cross-Target Macro System in Sibilant — L148](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-148-0) (line 148, col 0, score 0.86)
+- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.91)
+- [Shared Package Structure — L185](shared-package-structure.md#^ref-66a72fc3-185-0) (line 185, col 0, score 0.85)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

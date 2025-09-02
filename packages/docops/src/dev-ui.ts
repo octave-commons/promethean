@@ -130,6 +130,65 @@ app.get("/api/preview", async (req, reply) => {
   }
 });
 
+// Text search over Chroma collection, returns best match per document
+app.get("/api/search", async (req, reply) => {
+  try {
+    const q = (req.query || {}) as any;
+    const query = String(q.q || "").trim();
+    if (!query) return reply.send({ items: [] });
+    const collection = q.collection || COLLECTION;
+    const k = Math.max(1, Math.min(100, Number(q.k || "10") | 0));
+
+    const { ChromaClient } = await import("chromadb");
+    const { OllamaEmbeddingFunction } = await import("@chroma-core/ollama");
+    const { OLLAMA_URL } = await import("./utils");
+    const embedModel = "nomic-embed-text:latest";
+
+    const client = new ChromaClient({});
+    const embedder = new OllamaEmbeddingFunction({
+      model: embedModel,
+      url: OLLAMA_URL,
+    });
+    const coll = await client.getOrCreateCollection({
+      name: collection,
+      metadata: { embed_model: embedModel, "hnsw:space": "cosine" },
+      embeddingFunction: embedder,
+    });
+
+    const res: any = await coll.query({ queryTexts: [query], nResults: k });
+    const ids: string[] = res.ids?.[0] || [];
+    const dists: number[] = res.distances?.[0] || [];
+    const metas: any[] = res.metadatas?.[0] || [];
+
+    // Group by docUuid and take best (highest similarity) per doc
+    const byDoc = new Map<
+      string,
+      { docUuid: string; title: string; path: string; score: number }
+    >();
+    for (let i = 0; i < ids.length; i++) {
+      const m = metas[i] || {};
+      const docUuid = m.docUuid || m.docuuid || m.uuid || "";
+      const pathMeta = m.path || m.file || m.docPath || "";
+      const title = m.title || path.basename(pathMeta) || docUuid || ids[i];
+      const dist = Number(dists[i] ?? 1);
+      const score = Math.max(0, Math.min(1, 1 - dist)); // cosine similarity
+      if (!docUuid) continue;
+      const prev = byDoc.get(docUuid);
+      if (!prev || score > prev.score)
+        byDoc.set(docUuid, { docUuid, title, path: pathMeta, score });
+    }
+
+    const items = Array.from(byDoc.values())
+      .sort((a, b) => b.score - a.score)
+      .slice(0, k);
+    reply.header("content-type", "application/json");
+    return reply.send({ items });
+  } catch (e: any) {
+    reply.code(500);
+    return reply.send({ error: e?.message || String(e) });
+  }
+});
+
 app.get("/api/read", async (req, reply) => {
   try {
     const q = (req.query || {}) as any;
@@ -149,19 +208,154 @@ app.get("/api/read", async (req, reply) => {
   }
 });
 
-function sseInit(reply: any) {
-  reply.raw.setHeader("Content-Type", "text/event-stream");
-  reply.raw.setHeader("Cache-Control", "no-cache");
-  reply.raw.setHeader("Connection", "keep-alive");
-  // hijack to take over the underlying stream
-  reply.hijack();
-  return (line: string) =>
-    reply.raw.write(`data: ${String(line).replace(/\n/g, "\\n")}\n\n`);
-}
+// Return chunks for a given file or uuid
+app.get("/api/chunks", async (req, reply) => {
+  try {
+    const q = (req.query || {}) as any;
+    const dir = path.resolve(q.dir || ROOT);
+    const wantFile = q.file ? path.resolve(q.file) : undefined;
+    let uuid: string | undefined = (q.uuid || undefined) as string | undefined;
 
-function log(line: (s: string) => void, s: string) {
-  line(s);
-}
+    const db = await dbPromise;
+    if (!uuid && wantFile) {
+      for await (const [u, info] of db.docs.iterator()) {
+        const p = (info as any)?.path as string | undefined;
+        if (p && path.resolve(p) === wantFile) {
+          uuid = u;
+          break;
+        }
+      }
+    }
+    if (!uuid) throw new Error("Missing uuid or file");
+
+    const raw = (await db.chunks.get(uuid).catch(() => [])) as any;
+    const chunks = Array.isArray(raw) ? raw : [];
+    reply.header("content-type", "application/json");
+    return reply.send({ uuid, items: chunks });
+  } catch (e: any) {
+    reply.code(400);
+    return reply.send({ error: e?.message || String(e) });
+  }
+});
+
+// Return precomputed query hits for a chunk id, enriched with titles/paths
+app.get("/api/chunk-hits", async (req, reply) => {
+  try {
+    const q = (req.query || {}) as any;
+    const id = String(q.id || "");
+    if (!id) throw new Error("Missing id");
+    const db = await dbPromise;
+    const qhitsKV = db.root.sublevel<string, readonly any[]>("q", {
+      valueEncoding: "json",
+    });
+    const raw = (await qhitsKV.get(id).catch(() => [])) as any;
+    const hits = Array.isArray(raw) ? raw : [];
+    // Enrich with doc title/path
+    const docs: Record<string, { title?: string; path?: string }> = {};
+    for await (const [u, info] of db.docs.iterator()) {
+      docs[u] = { title: (info as any)?.title, path: (info as any)?.path };
+    }
+    const items = hits.map((h: any) => ({
+      docUuid: h.docUuid,
+      score: h.score,
+      startLine: h.startLine,
+      startCol: h.startCol,
+      title: docs[h.docUuid]?.title || h.docUuid,
+      path: docs[h.docUuid]?.path || "",
+    }));
+    reply.header("content-type", "application/json");
+    return reply.send({ id, items });
+  } catch (e: any) {
+    reply.code(400);
+    return reply.send({ error: e?.message || String(e) });
+  }
+});
+
+import { sseInit, log } from "./lib/sse";
+
+// Pipeline status per document
+app.get("/api/status", async (req, reply) => {
+  try {
+    const q = (req.query || {}) as any;
+    const dir = path.resolve(q.dir || ROOT);
+    const db = await dbPromise;
+    const docs: Array<{ uuid: string; path: string; title: string }> = [];
+    for await (const [uuid, info] of db.docs.iterator()) {
+      const d = info as { path: string; title: string };
+      if (!d?.path) continue;
+      const abs = path.resolve(d.path);
+      if (!abs.startsWith(dir)) continue;
+      if (!/\.(md|mdx|txt)$/i.test(abs)) continue;
+      docs.push({ uuid, path: d.path, title: d.title });
+    }
+    // helpers
+    const chunksKV = db.chunks;
+    const fpKV = db.fp;
+    const qhitsKV = db.root.sublevel<string, readonly any[]>("q", {
+      valueEncoding: "json",
+    });
+
+    async function docStatus(d: { uuid: string; path: string; title: string }) {
+      const abs = path.resolve(d.path);
+      let frontmatterDone = false;
+      let relationsPresent = false;
+      let relationsRelated = 0;
+      let relationsRefs = 0;
+      let footersPresent = false;
+      try {
+        const raw = await fs.readFile(abs, "utf8");
+        const gm = (await import("gray-matter")).default(raw);
+        const fm = (gm.data || {}) as any;
+        frontmatterDone = !!fm.uuid;
+        relationsPresent =
+          "related_to_uuid" in fm ||
+          "references" in fm ||
+          "related_to_title" in fm;
+        relationsRelated = Array.isArray(fm.related_to_uuid)
+          ? fm.related_to_uuid.length
+          : 0;
+        relationsRefs = Array.isArray(fm.references) ? fm.references.length : 0;
+        footersPresent =
+          /<!--\s*GENERATED-SECTIONS:DO-NOT-EDIT-BELOW\s*-->/.test(raw);
+      } catch {}
+      const chunks = (await chunksKV.get(d.uuid).catch(() => [])) as any;
+      const chunkArr = Array.isArray(chunks) ? (chunks as any[]) : [];
+      let fpCount = 0,
+        qCount = 0;
+      for (const c of chunkArr) {
+        try {
+          await fpKV.get(c.id);
+          fpCount++;
+        } catch {}
+        try {
+          const hs = await qhitsKV.get(c.id);
+          if (Array.isArray(hs)) qCount++;
+        } catch {}
+      }
+      return {
+        uuid: d.uuid,
+        path: d.path,
+        title: d.title,
+        frontmatter: { done: frontmatterDone },
+        embed: { chunks: chunkArr.length, fingerprints: fpCount },
+        query: { withHits: qCount, of: chunkArr.length },
+        relations: {
+          present: relationsPresent,
+          related: relationsRelated,
+          refs: relationsRefs,
+        },
+        footers: { present: footersPresent },
+      };
+    }
+
+    const items = await Promise.all(docs.map(docStatus));
+    reply.header("content-type", "application/json");
+    return reply.send({ items });
+  } catch (e: any) {
+    reply.code(500);
+    return reply.send({ error: e?.message || String(e) });
+  }
+});
 
 app.get("/api/run", async (req, reply) => {
   const q = (req.query || {}) as any;
@@ -173,20 +367,9 @@ app.get("/api/run", async (req, reply) => {
   line(`Starting pipeline in ${dir}`);
   try {
     const db = await dbPromise;
-    const { ChromaClient } = await import("chromadb");
-    const { OllamaEmbeddingFunction } = await import("@chroma-core/ollama");
-    const { OLLAMA_URL } = await import("./utils");
-    const client = new ChromaClient({});
+    const { getChromaCollection } = await import("./lib/chroma");
     const embedModel = "nomic-embed-text:latest";
-    const embedder = new OllamaEmbeddingFunction({
-      model: embedModel,
-      url: OLLAMA_URL,
-    });
-    const coll = await client.getOrCreateCollection({
-      name: collection,
-      metadata: { embed_model: embedModel, "hnsw:space": "cosine" },
-      embeddingFunction: embedder,
-    });
+    const { coll } = await getChromaCollection({ collection, embedModel });
 
     line(
       "PROGRESS " + JSON.stringify({ step: "frontmatter", index: 1, of: 6 }),
@@ -303,19 +486,8 @@ app.get("/api/run-step", async (req, reply) => {
     const needColl = step === "embed" || step === "query";
     let coll: any = null;
     if (needColl) {
-      const { ChromaClient } = await import("chromadb");
-      const { OllamaEmbeddingFunction } = await import("@chroma-core/ollama");
-      const { OLLAMA_URL } = await import("./utils");
-      const client = new ChromaClient({});
-      const embedder = new OllamaEmbeddingFunction({
-        model: embedModel,
-        url: OLLAMA_URL,
-      });
-      coll = await client.getOrCreateCollection({
-        name: collection,
-        metadata: { embed_model: embedModel, "hnsw:space": "cosine" },
-        embeddingFunction: embedder,
-      });
+      const { getChromaCollection } = await import("./lib/chroma");
+      coll = (await getChromaCollection({ collection, embedModel })).coll;
     }
 
     switch (step) {
