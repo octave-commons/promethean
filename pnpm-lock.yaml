@@ -361,6 +361,9 @@ importers:
 
   packages/boardrev:
     dependencies:
+      ava:
+        specifier: ^6.4.1
+        version: 6.4.1
       globby:
         specifier: ^14.0.2
         version: 14.1.0
@@ -14279,7 +14282,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.1)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -16434,7 +16437,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.1)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug

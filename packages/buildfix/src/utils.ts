@@ -1,7 +1,7 @@
 import { exec as _exec } from "child_process";
 import { promises as fs } from "fs";
 import * as path from "path";
-import { fileURLToPath, pathToFileURL } from "url";
+import { pathToFileURL } from "url";
 import { Project } from "ts-morph";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
@@ -10,9 +10,9 @@ export function parseArgs(def: Record<string, string>) {
   const out = { ...def };
   const a = process.argv.slice(2);
   for (let i = 0; i < a.length; i++) {
-    const k = a[i];
+    const k = a[i]!;
     if (!k.startsWith("--")) continue;
-    const v = a[i + 1] && !a[i + 1].startsWith("--") ? a[++i] : "true";
+    const v = a[i + 1] !== undefined && !a[i + 1]!.startsWith("--") ? a[++i]! : "true";
     out[k] = v;
   }
   return out;
@@ -58,13 +58,13 @@ export function parseTsc(text: string) {
   }> = [];
   let m: RegExpExecArray | null;
   while ((m = re.exec(text))) {
-    items.push({
-      file: m[1],
-      line: Number(m[2]),
-      col: Number(m[3]),
-      code: m[4],
-      message: m[5].trim(),
-    });
+      items.push({
+        file: m[1]!,
+        line: Number(m[2]!),
+        col: Number(m[3]!),
+        code: m[4]!,
+        message: m[5]!.trim(),
+      });
   }
   return items;
 }

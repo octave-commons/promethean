@@ -1,4 +1,3 @@
-import * as path from "path";
 import type { History } from "../types.js";
 
 export function buildPrompt(err: {file:string; line:number; col:number; code:string; message:string; frame:string; key:string}, history: History){

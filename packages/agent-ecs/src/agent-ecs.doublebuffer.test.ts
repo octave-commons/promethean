@@ -1,7 +1,7 @@
 import test from 'ava';
-import { createAgentWorld } from './world';
-import { enqueueUtterance } from './helpers/enqueueUtterance';
-import { OrchestratorSystem } from './systems/orchestrator';
+import { createAgentWorld } from './world.js';
+import { enqueueUtterance } from './helpers/enqueueUtterance.js';
+import { OrchestratorSystem } from './systems/orchestrator.js';
 
 function makePlayer() {
     let playing = false;
