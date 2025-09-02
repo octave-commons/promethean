@@ -1,6 +1,6 @@
 import test from 'ava';
-import { createAgentWorld } from './world';
-import { VoiceSystem } from './systems/voice';
+import { createAgentWorld } from './world.js';
+import { VoiceSystem } from './systems/voice.js';
 
 function makePlayer() {
     let subscribed: any = null;
@@ -38,7 +38,7 @@ test('voice system joins and leaves', (t) => {
     const bus = makeBus();
     let destroyed = false;
     VoiceSystem(w, agent, C, bus, {
-        joinVoiceChannel: () => ({
+        joinVoiceChannel: (_e: any) => ({
             subscribe: (_p: any) => {},
             destroy: () => {
                 destroyed = true;
