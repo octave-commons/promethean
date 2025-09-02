@@ -1,9 +1,16 @@
-import test from "ava";
+import test, { ExecutionContext } from "ava";
 import * as fs from "fs/promises";
 import * as path from "path";
-import { fingerprintFromGlobs, stepFingerprint } from "../dist/hash.js";
+import { fingerprintFromGlobs, stepFingerprint } from "../hash.js";
 
-async function withTmp(t, fn) {
+async function withTmp(
+  _t: ExecutionContext<unknown>,
+  fn: {
+    (dir: any): Promise<void>;
+    (dir: any): Promise<void>;
+    (arg0: string): any;
+  },
+) {
   const dir = path.join(
     process.cwd(),
     "test-tmp",
