@@ -15,7 +15,7 @@ const args = parseArgs({
 });
 
 async function main() {
-  const files = await globby(args["--globs"].split(",").map(s => s.trim()));
+  const files = await globby(args["--globs"]!.split(",").map(s => s.trim()));
   const maxB = Number(args["--max-bytes"]), maxL = Number(args["--max-lines"]);
   const index: RepoDoc[] = [];
   const embeddings: Embeddings = {};
@@ -33,12 +33,12 @@ async function main() {
     const key = d.path;
     if (!embeddings[key]) {
       const text = `PATH: ${d.path}\nKIND: ${d.kind}\n---\n${d.excerpt}`;
-      embeddings[key] = await ollamaEmbed(args["--embed-model"], text);
+      embeddings[key] = await ollamaEmbed(args["--embed-model"]!, text);
     }
   }
 
-  await writeText(path.resolve(args["--out-index"]), JSON.stringify({ docs: index }, null, 2));
-  await writeText(path.resolve(args["--out-emb"]), JSON.stringify(embeddings));
+  await writeText(path.resolve(args["--out-index"]!), JSON.stringify({ docs: index }, null, 2));
+  await writeText(path.resolve(args["--out-emb"]!), JSON.stringify(embeddings));
   console.log(`boardrev: indexed ${index.length} repo docs`);
 }
 
