@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 // packages/docops/src/01-frontmatter.ts
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
@@ -8,17 +9,13 @@ import { openDB } from "./db";
 import { parseArgs, listFilesRec, randomUUID } from "./utils";
 import type { Front } from "./types";
 
-const args = parseArgs({
-  "--dir": "docs/unique",
-  "--ext": ".md,.mdx,.txt",
-  "--gen-model": "qwen3:4b",
-  "--dry-run": "false",
-});
-
-const ROOT = path.resolve(args["--dir"]);
-const EXTS = new Set(args["--ext"].split(",").map((s) => s.trim().toLowerCase()));
-const GEN_MODEL = args["--gen-model"];
-const DRY = args["--dry-run"] === "true";
+export type FrontmatterOptions = {
+  dir: string;
+  exts?: string[];
+  genModel: string;
+  dryRun?: boolean;
+  files?: string[]; // absolute or relative paths; if provided, limit to this set
+};
 
 const GenSchema = z.object({
   filename: z.string().min(1),
@@ -26,9 +23,17 @@ const GenSchema = z.object({
   tags: z.array(z.string()).min(1),
 });
 
-(async () => {
+import type { DBs } from "./db";
 
-const db = await openDB();
+export async function runFrontmatter(
+  opts: FrontmatterOptions,
+  db: DBs,
+  onProgress?: (p: { step: 'frontmatter'; done: number; total: number; message?: string }) => void
+) {
+const ROOT = path.resolve(opts.dir);
+const EXTS = new Set((opts.exts ?? [".md", ".mdx", ".txt"]).map((s) => s.trim().toLowerCase()));
+const GEN_MODEL = opts.genModel;
+const DRY = Boolean(opts.dryRun);
 const frontKV = db.root.sublevel<string, Front>("front", { valueEncoding: "json" });
 const docsKV = db.docs; // from db.ts — { path, title }
 
@@ -139,11 +144,40 @@ const processFile = (fpath: string) =>
       });
     });
 
-listFilesRec(ROOT, EXTS)
-  .then((files) => Promise.all(files.map(processFile)))
-  .then(() => console.log("01-frontmatter: done."))
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
+let files = await listFilesRec(ROOT, EXTS);
+if (opts.files && opts.files.length) {
+  const wanted = new Set(opts.files.map(p => path.resolve(p)));
+  files = files.filter(f => wanted.has(path.resolve(f)));
+}
+let done = 0;
+for (const f of files) {
+  await processFile(f);
+  done++;
+  onProgress?.({ step: 'frontmatter', done, total: files.length });
+}
+}
+
+// CLI entry (ESM-safe)
+import { pathToFileURL } from "node:url";
+const isDirect = !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
+if (isDirect) {
+  const args = parseArgs({
+    "--dir": "docs/unique",
+    "--ext": ".md,.mdx,.txt",
+    "--gen-model": "qwen3:4b",
+    "--dry-run": "false",
   });
-})()
+  const db = await openDB();
+  runFrontmatter({
+    dir: args["--dir"],
+    exts: args["--ext"].split(","),
+    genModel: args["--gen-model"],
+    dryRun: args["--dry-run"] === "true",
+  }, db)
+    .then(() => console.log("01-frontmatter: done."))
+    .catch((e) => {
+      console.error(e);
+      process.exit(1);
+    })
+    .finally(async () => { try { await db.root.close(); } catch {} });
+}

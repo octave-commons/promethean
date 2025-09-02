@@ -12,20 +12,8 @@ tags:
   - pause classification
   - duration estimation
   - parentheticals
-related_to_title:
-  - Eidolon-Field-Optimization
-  - homeostasis-decay-formulas
-  - ripple-propagation-demo
-  - 2d-sandbox-field
-  - Eidolon Field Abstract Model
-  - EidolonField
-related_to_uuid:
-  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
-  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-  - 8430617b-80a2-4cc9-8288-9a74cb57990b
-  - c710dc93-9fec-471b-bdee-bedbd360c67f
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
+related_to_title: []
+related_to_uuid: []
 references: []
 ---
 
@@ -65,6 +53,43 @@ console.log(extractParentheticals(x));
 - [2d-sandbox-field](2d-sandbox-field.md)
 - [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
 - [EidolonField](eidolonfield.md)
+- [infinite_depth_smoke_animation](infinite-depth-smoke-animation.md)
+- [Simple Log Example](simple-log-example.md)
+- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
+- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
+- [smart-chatgpt-thingy](smart-chatgpt-thingy.md)
+- [SentenceProcessing](sentenceprocessing.md)
+- [refactor-relations](refactor-relations.md)
+- [Refactor Frontmatter Processing](refactor-frontmatter-processing.md)
+- [seperate-speech-from-thought](seperate-speech-from-thought.md)
+- [file-watcher-auth-fix](file-watcher-auth-fix.md)
+- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
+- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
 ## Sources
-- _None_
+- [Eidolon-Field-Optimization — L50](eidolon-field-optimization.md#^ref-40e05c14-50-0) (line 50, col 0, score 0.8)
+- [SentenceProcessing — L29](sentenceprocessing.md#^ref-681a4ab2-29-0) (line 29, col 0, score 0.7)
+- [seperate-speech-from-thought — L2](seperate-speech-from-thought.md#^ref-8ef6b79b-2-0) (line 2, col 0, score 0.7)
+- [SentenceProcessing — L1](sentenceprocessing.md#^ref-681a4ab2-1-0) (line 1, col 0, score 0.68)
+- [js-to-lisp-reverse-compiler — L13](js-to-lisp-reverse-compiler.md#^ref-58191024-13-0) (line 13, col 0, score 0.64)
+- [Lisp-Compiler-Integration — L188](lisp-compiler-integration.md#^ref-cfee6d36-188-0) (line 188, col 0, score 0.66)
+- [compiler-kit-foundations — L166](compiler-kit-foundations.md#^ref-01b21543-166-0) (line 166, col 0, score 0.64)
+- [Local-First Intention→Code Loop with Free Models — L127](local-first-intention-code-loop-with-free-models.md#^ref-871490c7-127-0) (line 127, col 0, score 0.65)
+- [Language-Agnostic Mirror System — L273](language-agnostic-mirror-system.md#^ref-d2b3628c-273-0) (line 273, col 0, score 0.64)
+- [Refactor Frontmatter Processing — L11](refactor-frontmatter-processing.md#^ref-cfbdca2f-11-0) (line 11, col 0, score 0.71)
+- [universal-intention-code-fabric — L277](universal-intention-code-fabric.md#^ref-c14edce7-277-0) (line 277, col 0, score 0.63)
+- [Eidolon-Field-Optimization — L32](eidolon-field-optimization.md#^ref-40e05c14-32-0) (line 32, col 0, score 0.63)
+- [infinite_depth_smoke_animation — L7](infinite-depth-smoke-animation.md#^ref-92a052a5-7-0) (line 7, col 0, score 0.7)
+- [Simple Log Example — L1](simple-log-example.md#^ref-0490eee7-1-0) (line 1, col 0, score 0.79)
+- [Promethean Agent DSL TS Scaffold — L817](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-817-0) (line 817, col 0, score 0.78)
+- [Ghostly Smoke Interference — L39](ghostly-smoke-interference.md#^ref-b6ae7dfa-39-0) (line 39, col 0, score 0.67)
+- [smart-chatgpt-thingy — L10](smart-chatgpt-thingy.md#^ref-2facccf8-10-0) (line 10, col 0, score 0.72)
+- [refactor-relations — L10](refactor-relations.md#^ref-41ce0216-10-0) (line 10, col 0, score 0.68)
+- [ripple-propagation-demo — L52](ripple-propagation-demo.md#^ref-8430617b-52-0) (line 52, col 0, score 0.69)
+- [ripple-propagation-demo — L36](ripple-propagation-demo.md#^ref-8430617b-36-0) (line 36, col 0, score 0.68)
+- [file-watcher-auth-fix — L32](file-watcher-auth-fix.md#^ref-9044701b-32-0) (line 32, col 0, score 0.67)
+- [ripple-propagation-demo — L23](ripple-propagation-demo.md#^ref-8430617b-23-0) (line 23, col 0, score 0.67)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
