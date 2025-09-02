@@ -10,7 +10,7 @@ const args = parseArgs({
   "--root": "docs/cookbook",
   "--out": ".cache/cookbook/run-results.json",
   "--timeout": "0"
-});
+} as const);
 
 async function main() {
   const files = await globby([`${args["--root"].replace(/\\/g,"/")}/**/*.md`]);
@@ -25,8 +25,8 @@ async function main() {
     const m = body.match(/```(\w+)?[^\n]*\n([\s\S]*?)```/);
     if (!m) { results.push({ recipePath: f, ok: false, stdoutPreview: "", stderrPreview: "no code block found", exitCode: null }); continue; }
 
-    const lang = (m[1]||"").toLowerCase();
-    const code = m[2];
+      const lang = (m[1]||"").toLowerCase();
+      const code = m[2] ?? "";
 
     // crude sandbox: create a temp dir under .cache/cookbook/run/<slug>
     const runDir = path.join(".cache/cookbook/run", path.basename(f, ".md"));

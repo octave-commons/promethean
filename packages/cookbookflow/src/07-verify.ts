@@ -28,7 +28,10 @@ async function main() {
       await fs.writeFile(r.recipePath, final, "utf-8");
     }
 
-    items.push({ recipePath: r.recipePath, expected, actual, ok: !!actual && !!expected && expected === actual && r.ok });
+    const item: VerifyItem = { recipePath: r.recipePath, ok: !!actual && !!expected && expected === actual && r.ok };
+    if (expected !== undefined) item.expected = expected;
+    if (actual !== undefined) item.actual = actual;
+    items.push(item);
   }
 
   const out: VerifyFile = { verifiedAt: new Date().toISOString(), items };
