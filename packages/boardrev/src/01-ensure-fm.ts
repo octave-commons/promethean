@@ -30,7 +30,7 @@ async function main() {
 
     const title = fm.title ?? inferTitle(gm.content) ?? slug(path.basename(f, ".md")).replace(/-/g, " ");
     const payload: TaskFM = {
-      uuid: fm.uuid ?? randomUUID(),
+      uuid: fm.uuid ?? await randomUUID(),
       title,
       status: normStatus(fm.status ?? args["--default-status"]!),
       priority: (fm.priority as any) ?? args["--default-priority"]!,
