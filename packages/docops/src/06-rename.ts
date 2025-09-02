@@ -22,15 +22,22 @@ async function listAllMarkdown(root: string): Promise<string[]> {
   await walk(root);
   return out.filter((p) => /\.(md|mdx|txt)$/i.test(p));
 }
-async function exists(p: string) { try { await fs.stat(p); return true; } catch { return false; } }
+async function exists(p: string) {
+  try {
+    await fs.stat(p);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 export async function runRename(opts: RenameOptions) {
   ROOT = path.resolve(opts.dir);
   DRY = Boolean(opts.dryRun);
   let files = await listAllMarkdown(ROOT);
   if (opts.files && opts.files.length) {
-    const wanted = new Set(opts.files.map(p => path.resolve(p)));
-    files = files.filter(f => wanted.has(path.resolve(f)));
+    const wanted = new Set(opts.files.map((p) => path.resolve(p)));
+    files = files.filter((f) => wanted.has(path.resolve(f)));
   }
   for (const f of files) {
     const raw = await fs.readFile(f, "utf-8");
@@ -50,15 +57,22 @@ export async function runRename(opts: RenameOptions) {
       i++;
     }
     if (DRY) console.log(`Would rename: ${f} -> ${target}`);
-    else { await fs.rename(f, target); }
+    else {
+      await fs.rename(f, target);
+    }
   }
   console.log("06-rename: done.");
 }
 // CLI
 import { pathToFileURL } from "node:url";
-const isDirect = !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
+const isDirect =
+  !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
 if (isDirect) {
   const args = parseArgs({ "--dir": "docs/unique", "--dry-run": "false" });
-  runRename({ dir: args["--dir"], dryRun: args["--dry-run"] === "true" })
-    .catch((e) => { console.error(e); process.exit(1); });
+  runRename({ dir: args["--dir"], dryRun: args["--dry-run"] === "true" }).catch(
+    (e) => {
+      console.error(e);
+      process.exit(1);
+    },
+  );
 }
