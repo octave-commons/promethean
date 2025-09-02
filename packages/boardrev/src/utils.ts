@@ -7,13 +7,22 @@ export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 export function parseArgs(defaults: Record<string,string>) {
   const out = { ...defaults };
   const a = process.argv.slice(2);
-  for (let i=0;i<a.length;i++){
-    const k=a[i]; if(!k.startsWith("--")) continue;
-    const v=a[i+1] && !a[i+1].startsWith("--") ? a[++i] : "true";
-    out[k]=v;
+  for (let i = 0; i < a.length; i++) {
+    const k = a[i]!; if (!k.startsWith("--")) continue;
+    const next = a[i + 1];
+    const v = next && !next.startsWith("--") ? a[++i]! : "true";
+    out[k] = v;
+  export function parseArgs(defaults: Record<string,string>) {
+    const out: Record<string,string> = { ...defaults };
+    const a = process.argv.slice(2);
+    for (let i=0;i<a.length;i++){
+      const k = a[i]!;
+      if(!k.startsWith("--")) continue;
+      const v = a[i+1] && !a[i+1]!.startsWith("--") ? a[++i]! : "true";
+      out[k] = v;
+    }
+    return out;
   }
-  return out;
-}
 
 export async function listTaskFiles(dir: string) {
   return globby([`${dir.replace(/\\/g,"/")}/**/*.md`, "!**/README.md"]);
@@ -61,8 +70,14 @@ export async function ollamaJSON(model: string, prompt: string): Promise<any> {
   return JSON.parse(raw.replace(/```json\s*/g,"").replace(/```\s*$/g,"").trim());
 }
 
-export function cosine(a: number[], b: number[]) {
-  let dot=0, na=0, nb=0, n=Math.min(a.length,b.length);
-  for (let i=0;i<n;i++){ dot+=a[i]*b[i]; na+=a[i]*a[i]; nb+=b[i]*b[i]; }
-  return !na||!nb ? 0 : dot/(Math.sqrt(na)*Math.sqrt(nb));
-}
+  export function cosine(a: number[], b: number[]) {
+    let dot=0, na=0, nb=0, n=Math.min(a.length,b.length);
+    for (let i=0;i<n;i++){
+      const ai = a[i]!;
+      const bi = b[i]!;
+      dot+=ai*bi;
+      na+=ai*ai;
+      nb+=bi*bi;
+    }
+    return !na||!nb ? 0 : dot/(Math.sqrt(na)*Math.sqrt(nb));
+  }
