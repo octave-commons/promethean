@@ -8,11 +8,17 @@ const args = parseArgs({
   "--in": ".cache/codemods/specs.json",
   "--outDir": "codemods" // relative to repo root
 });
-function parseArgs(defaults: Record<string,string>) {
+
+function parseArgs<T extends Record<string, string>>(defaults: T): T {
   const out = { ...defaults };
   const a = process.argv.slice(2);
-  for (let i=0;i<a.length;i++){ const k=a[i]; if(!k.startsWith("--")) continue;
-    const v=a[i+1] && !a[i+1].startsWith("--") ? a[++i] : "true"; out[k]=v; }
+  for (let i = 0; i < a.length; i++) {
+    const k = a[i];
+    if (!k?.startsWith("--")) continue;
+    const next = a[i + 1];
+    const v = next && !next.startsWith("--") ? (i++, next) : "true";
+    out[k as keyof T] = v as T[keyof T];
+  }
   return out;
 }
 
