@@ -15,12 +15,12 @@ const args = parseArgs({
 });
 
 async function main() {
-  const tasksDir = path.resolve(args["--tasks"]);
+    const tasksDir = path.resolve(args["--tasks"]!);
   const files = await listTaskFiles(tasksDir);
 
-  const index: { docs: RepoDoc[] } = JSON.parse(await fs.readFile(path.resolve(args["--index"]), "utf-8"));
-  const repoEmb: Embeddings = JSON.parse(await fs.readFile(path.resolve(args["--emb"]), "utf-8"));
-  const k = Number(args["--k"]);
+    const index: { docs: RepoDoc[] } = JSON.parse(await fs.readFile(path.resolve(args["--index"]!), "utf-8"));
+    const repoEmb: Embeddings = JSON.parse(await fs.readFile(path.resolve(args["--emb"]!), "utf-8"));
+    const k = Number(args["--k"]);
 
   const out: TaskContext[] = [];
 
@@ -32,7 +32,7 @@ async function main() {
       `STATUS: ${gm.data?.status ?? ""}  PRIORITY: ${gm.data?.priority ?? ""}`,
       gm.content
     ].join("\n");
-    const vec = await ollamaEmbed(args["--embed-model"], text);
+      const vec = await ollamaEmbed(args["--embed-model"]!, text);
 
     const scored = index.docs.map(d => ({
       path: d.path, kind: d.kind, excerpt: d.excerpt,
@@ -42,12 +42,14 @@ async function main() {
     .sort((a,b)=>b.score-a.score)
     .slice(0, k);
 
-    const links = Array.from(raw.matchAll(/\[[^\]]*?\]\(([^)]+)\)/g)).map(m => m[1]);
+      const links = Array.from(raw.matchAll(/\[[^\]]*?\]\(([^)]+)\)/g))
+        .map(m => m[1])
+        .filter((s): s is string => typeof s === "string");
 
-    out.push({ taskFile: f.replace(/\\/g,"/"), hits: scored, links });
+      out.push({ taskFile: f.replace(/\\/g,"/"), hits: scored, links });
   }
 
-  await writeText(path.resolve(args["--out"]), JSON.stringify({ contexts: out }, null, 2));
+    await writeText(path.resolve(args["--out"]!), JSON.stringify({ contexts: out }, null, 2));
   console.log(`boardrev: matched context for ${out.length} task(s)`);
 }
 
