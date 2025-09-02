@@ -24,23 +24,33 @@ const ROOT = path.resolve(args["--dir"]);
 const DOC_THRESHOLD = Number(args["--doc-threshold"]);
 const REF_THRESHOLD = Number(args["--ref-threshold"]);
 const DEBUG = args["--debug"] === "true";
-const dbg = (...xs: any[]) => { if (DEBUG) console.log("[preview]", ...xs); };
+const dbg = (...xs: any[]) => {
+  if (DEBUG) console.log("[preview]", ...xs);
+};
 
-const isDocFile = (p: string) => /\.(md|mdx|txt)$/i.test(p) && p.startsWith(ROOT);
-const uniq = (xs: readonly string[] = []) => Array.from(new Set(xs.filter(Boolean)));
+const isDocFile = (p: string) =>
+  /\.(md|mdx|txt)$/i.test(p) && p.startsWith(ROOT);
+const uniq = (xs: readonly string[] = []) =>
+  Array.from(new Set(xs.filter(Boolean)));
 const round2 = (n?: number) => (n == null ? n : Math.round(n * 100) / 100);
 
-export async function computePreview(frontPathOrUuid: { uuid?: string; file?: string }, opts: {
-  dir: string;
-  docThreshold: number;
-  refThreshold: number;
-  debug?: boolean;
-}, db?: DBs) {
+export async function computePreview(
+  frontPathOrUuid: { uuid?: string; file?: string },
+  opts: {
+    dir: string;
+    docThreshold: number;
+    refThreshold: number;
+    debug?: boolean;
+  },
+  db?: DBs,
+) {
   const created = !db;
   const mydb = db ?? (await openDB());
   const docsKV = mydb.docs;
   const chunksKV = mydb.chunks;
-  const qhitsKV = mydb.root.sublevel<string, readonly QueryHit[]>("q", { valueEncoding: "json" });
+  const qhitsKV = mydb.root.sublevel<string, readonly QueryHit[]>("q", {
+    valueEncoding: "json",
+  });
 
   const docs: Array<[string, DocInfo]> = [];
   for await (const [u, info] of docsKV.iterator()) {
@@ -54,7 +64,9 @@ export async function computePreview(frontPathOrUuid: { uuid?: string; file?: st
   let uuid = (frontPathOrUuid.uuid || "").trim();
   if (!uuid) {
     const f = path.resolve(frontPathOrUuid.file || "");
-    const found = docs.find(([, info]) => path.resolve((info as DocInfo).path) === f);
+    const found = docs.find(
+      ([, info]) => path.resolve((info as DocInfo).path) === f,
+    );
     if (!found) throw new Error(`File not found in scope: ${f}`);
     uuid = found[0];
   }
@@ -67,7 +79,9 @@ export async function computePreview(frontPathOrUuid: { uuid?: string; file?: st
   const maxScore = new Map<string, number>();
   const refsAcc = new Map<string, Ref>();
   for (const c of chunks) {
-    const hits = (await qhitsKV.get(c.id).catch(() => [])) as readonly QueryHit[];
+    const hits = (await qhitsKV
+      .get(c.id)
+      .catch(() => [])) as readonly QueryHit[];
     for (const h of hits) {
       if (!allowed.has(h.docUuid)) continue;
       const s = h.score ?? 0;
@@ -77,12 +91,13 @@ export async function computePreview(frontPathOrUuid: { uuid?: string; file?: st
       // references above threshold
       if (s >= opts.refThreshold) {
         const k = `${h.docUuid}:${h.startLine}:${(h as any).startCol ?? 0}`;
-        if (!refsAcc.has(k)) refsAcc.set(k, {
-          uuid: h.docUuid,
-          line: h.startLine,
-          col: (h as any).startCol ?? 0,
-          score: round2(s),
-        });
+        if (!refsAcc.has(k))
+          refsAcc.set(k, {
+            uuid: h.docUuid,
+            line: h.startLine,
+            col: (h as any).startCol ?? 0,
+            score: round2(s),
+          });
       }
     }
   }
@@ -102,32 +117,47 @@ export async function computePreview(frontPathOrUuid: { uuid?: string; file?: st
   const out: Front = {
     ...fm,
     related_to_uuid: uniq([...(fm.related_to_uuid ?? []), ...related_to_uuid]),
-    related_to_title: uniq([...(fm.related_to_title ?? []), ...related_to_title]),
+    related_to_title: uniq([
+      ...(fm.related_to_title ?? []),
+      ...related_to_title,
+    ]),
     references: references,
   };
   if (opts.debug) {
-    dbg('preview-target', { uuid, path: info.path, chunks: chunks.length });
-    dbg('peers', peers.slice(0, 5));
-    dbg('refs', references.length);
+    dbg("preview-target", { uuid, path: info.path, chunks: chunks.length });
+    dbg("peers", peers.slice(0, 5));
+    dbg("refs", references.length);
   }
   const result = { uuid, path: info.path, title: info.title, front: out };
-  if (created) { try { await mydb.root.close(); } catch {} }
+  if (created) {
+    try {
+      await mydb.root.close();
+    } catch {}
+  }
   return result;
 }
 
 async function main() {
   // ESM-safe check for direct execution
-  const isDirect = !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
+  const isDirect =
+    !!process.argv[1] &&
+    pathToFileURL(process.argv[1]).href === import.meta.url;
   if (!isDirect) return;
   const uuid = args["--uuid"] || undefined;
   const file = args["--file"] || undefined;
-  const res = await computePreview({ uuid, file }, {
-    dir: ROOT,
-    docThreshold: DOC_THRESHOLD,
-    refThreshold: REF_THRESHOLD,
-    debug: DEBUG,
-  });
+  const res = await computePreview(
+    { uuid, file },
+    {
+      dir: ROOT,
+      docThreshold: DOC_THRESHOLD,
+      refThreshold: REF_THRESHOLD,
+      debug: DEBUG,
+    },
+  );
   console.log(JSON.stringify(res, null, 2));
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

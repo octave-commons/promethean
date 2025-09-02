@@ -3,15 +3,20 @@
  * Walk all workspace packages, read their package.json, find "bin" entries,
  * and chmod +x each target. Cross-platform (no shx), minimal deps.
  */
-const { promises: fs } = require('fs');
-const path = require('path');
+const { promises: fs } = require("fs");
+const path = require("path");
 
 async function readJSON(p) {
-  return JSON.parse(await fs.readFile(p, 'utf8'));
+  return JSON.parse(await fs.readFile(p, "utf8"));
 }
 
 async function exists(p) {
-  try { await fs.access(p); return true; } catch { return false; }
+  try {
+    await fs.access(p);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 async function chmodX(p) {
@@ -24,14 +29,12 @@ async function chmodX(p) {
 }
 
 async function fixPackage(pkgDir) {
-  const pkgPath = path.join(pkgDir, 'package.json');
+  const pkgPath = path.join(pkgDir, "package.json");
   if (!(await exists(pkgPath))) return;
   const pkg = await readJSON(pkgPath);
   if (!pkg.bin) return;
 
-  const bins = typeof pkg.bin === 'string'
-    ? [pkg.bin]
-    : Object.values(pkg.bin);
+  const bins = typeof pkg.bin === "string" ? [pkg.bin] : Object.values(pkg.bin);
 
   for (const rel of bins) {
     const abs = path.join(pkgDir, rel);
@@ -52,7 +55,7 @@ async function main() {
   // Works because pnpm writes a lockfile with importers, but we avoid parsing it.
   // Simpler: walk ./packages/* (adjust if your layout differs).
   const root = process.cwd();
-  const pkgsRoot = path.join(root, 'packages');
+  const pkgsRoot = path.join(root, "packages");
   if (!(await exists(pkgsRoot))) return;
 
   const entries = await fs.readdir(pkgsRoot, { withFileTypes: true });
@@ -63,7 +66,7 @@ async function main() {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
