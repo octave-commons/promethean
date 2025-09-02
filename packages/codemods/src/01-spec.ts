@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import { promises as fs } from "fs";
 import * as path from "path";
 import { Project } from "ts-morph";
 import { readJSON, writeJSON } from "./utils.js";
@@ -79,7 +78,6 @@ async function main() {
     skipAddingFilesFromTsConfig: true,
   });
 
-  const byId = new Map(scanData.functions.map((f) => [f.id, f]));
   const specs: ModSpec[] = [];
 
   // Helper: get param names for a function name in a file
@@ -134,6 +132,10 @@ async function main() {
         kind: d.kind,
         exported: d.exported,
       })),
+      canonical: { path: plan.canonicalPath, name: plan.canonicalName },
+      duplicates: dups.map(d => ({
+        id: d.id, package: d.pkgName, file: d.fileRel, name: d.name, kind: d.kind, exported: d.exported
+      }))
     };
 
     // try to load canonical + duplicates to extract params
