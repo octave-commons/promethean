@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "bin": {
-    "piper": "bin/index.js"
+    "piper": "bin/piper.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
