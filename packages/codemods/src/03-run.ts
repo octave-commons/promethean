@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import { promises as fs } from "fs";
-import * as path from "path";
+import { promises as fs } from "node:fs";
+import * as path from "node:path";
 import { Project, SyntaxKind } from "ts-morph";
 import { diffLines } from "diff";
 import { listCodeFiles, relFromRepo } from "./utils.js";
@@ -13,6 +13,8 @@ const args = parseArgs({
   "--specs": ".cache/codemods/specs.json",
   "--delete-duplicates": "true"
 });
+// biome-ignore lint/style/noNonNullAssertion: argument is required with default
+const specsPath = args["--specs"]!;
 function parseArgs(defaults: Record<string,string>) {
   const out = { ...defaults };
   const a = process.argv.slice(2);
@@ -29,6 +31,7 @@ async function loadTransforms(modsDir: string) {
     const id = d.name;
     const js = path.join(modsDir, id, "transform.js");
     const ts = path.join(modsDir, id, "transform.ts");
+    // biome-ignore lint/suspicious/noExplicitAny: transforms may export any shape
     let mod: any;
     try { mod = await import(pathToFileURL(js).href); }
     catch { mod = await import(pathToFileURL(ts).href); }
@@ -36,7 +39,7 @@ async function loadTransforms(modsDir: string) {
   }
   return loaders;
 }
-import { pathToFileURL } from "url";
+import { pathToFileURL } from "node:url";
 
 type SpecsFile = {
   specs: Array<{
@@ -63,7 +66,7 @@ async function main() {
     skipAddingFilesFromTsConfig: true
   });
   const files = await listCodeFiles(ROOT);
-  files.forEach((f: string) => project.addSourceFileAtPathIfExists(f));
+  files.forEach((f: string) => { project.addSourceFileAtPathIfExists(f); });
 
   const summary: string[] = [];
   const deletionsWanted = new Set<string>(); // abs paths
@@ -86,6 +89,7 @@ async function main() {
 
       if (MODE === "dry") {
         const diffs = diffLines(before, after);
+        // biome-ignore lint/suspicious/noExplicitAny: diff library lacks types for parts
         const pretty = diffs.map((part: any) => {
           const prefix = part.added ? "+" : part.removed ? "-" : " ";
           return part.value.split("\n").map((line: string) => prefix + line).join("\n");
@@ -105,7 +109,7 @@ async function main() {
 
   // Candidate deletions (files that now have no meaningful statements)
   if (DELETE) {
-    const specs: SpecsFile = JSON.parse(await fs.readFile(path.resolve(args["--specs"]), "utf-8"));
+    const specs: SpecsFile = JSON.parse(await fs.readFile(path.resolve(specsPath), "utf-8"));
     for (const s of specs.specs) {
       for (const dup of s.duplicates) {
         const abs = path.resolve(dup.file);
@@ -140,13 +144,13 @@ async function main() {
     "",
     ...summary,
     "",
-    DELETE ? "## Duplicate files " + (MODE === "dry" ? "that would be deleted" : "deleted") : "",
+    DELETE ? `## Duplicate files ${MODE === "dry" ? "that would be deleted" : "deleted"}` : "",
     DELETE ? (deletionsDone.length
       ? deletionsDone.map(p => `- ${p}`).join("\n")
       : (Array.from(deletionsWanted).length ? Array.from(deletionsWanted).map(a => `- ${relFromRepo(a)}`).join("\n") : "_None_")) : ""
   ].filter(Boolean).join("\n");
 
-  await fs.writeFile(path.join(REPORT_ROOT, `README.md`), index + "\n", "utf-8");
+  await fs.writeFile(path.join(REPORT_ROOT, `README.md`), `${index}\n`, "utf-8");
 
   if (MODE === "apply") {
     await project.save();
