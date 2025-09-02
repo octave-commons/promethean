@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import * as path from "path";
+import { randomUUID as nodeRandomUUID } from "node:crypto";
 import matter from "gray-matter";
 import { parseArgs, listTaskFiles, readMaybe, writeText, normStatus, slug } from "./utils.js";
 import type { TaskFM } from "./types.js";
@@ -11,12 +12,11 @@ const args = parseArgs({
 });
 
 function randomUUID() {
-  // @ts-ignore
-  return globalThis.crypto?.randomUUID?.() ?? (await import("crypto")).randomUUID();
+  return globalThis.crypto?.randomUUID?.() ?? nodeRandomUUID();
 }
 
 async function main() {
-  const dir = path.resolve(args["--dir"]);
+  const dir = path.resolve(args["--dir"]!);
   const files = await listTaskFiles(dir);
   let updated = 0;
 
@@ -32,11 +32,11 @@ async function main() {
     const payload: TaskFM = {
       uuid: fm.uuid ?? randomUUID(),
       title,
-      status: normStatus(fm.status ?? args["--default-status"]),
-      priority: (fm.priority as any) ?? args["--default-priority"],
+      status: normStatus(fm.status ?? args["--default-status"]!),
+      priority: (fm.priority as any) ?? args["--default-priority"]!,
       labels: Array.isArray(fm.labels) ? fm.labels : [],
       created_at: fm.created_at ?? new Date().toISOString(),
-      assignee: fm.assignee ?? undefined
+      ...(fm.assignee ? { assignee: fm.assignee } : {})
     };
 
     const final = matter.stringify(gm.content.trimStart() + "\n", payload, { language: "yaml" });
@@ -48,7 +48,7 @@ async function main() {
 
 function inferTitle(body: string) {
   const m = body.match(/^\s*#\s+(.+)$/m);
-  return m ? m[1].trim() : undefined;
+  return m?.[1]?.trim();
 }
 
 main().catch(e => { console.error(e); process.exit(1); });
