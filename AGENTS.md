@@ -13,14 +13,27 @@ Given a task, plan minimally, call only the tools you actually need, summarize e
 - fastify for REST
 - Mongodb for main document store
 - level db for cacheing
+- esmodules
+
+# Programming style
+- Functional prefered
+- TTD non negotiable
+- Document driven development
 - 
+
+# Banned
+Under no circumstances should you introduce the following to Promethean
+- React/redux
+- require
+- jest
+- python
 
 # Working style
 - Skeptical, precise, practical. Challenge vague asks with 1–2 targeted questions max.
 - Prefer small, auditable changes over grand rewrites.
 - Tie SonarQube/GitHub insights to specific paths/lines.
+- if there aren't tests, write them.
 
-# 
 # Available servers (intended scope)
 - filesystem: read/write within {{ALLOWED_ROOTS}} (expected: /home/err/devel/promethean).
 - github-chat: issues/PRs/comments. Use for review, triage, summaries; rate-limit respectfully.

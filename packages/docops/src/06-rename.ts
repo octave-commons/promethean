@@ -2,26 +2,13 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 import matter from "gray-matter";
-import { parseArgs, slugify, extnamePrefer } from "./utils";
+import { parseArgs, slugify, extnamePrefer, listFilesRec } from "./utils";
 import type { Front } from "./types";
 
 export type RenameOptions = { dir: string; dryRun?: boolean; files?: string[] };
 let ROOT = path.resolve("docs/unique");
 let DRY = false;
 
-async function listAllMarkdown(root: string): Promise<string[]> {
-  const out: string[] = [];
-  async function walk(dir: string) {
-    const ents = await fs.readdir(dir, { withFileTypes: true });
-    for (const ent of ents) {
-      const p = path.join(dir, ent.name);
-      if (ent.isDirectory()) await walk(p);
-      else out.push(p);
-    }
-  }
-  await walk(root);
-  return out.filter((p) => /\.(md|mdx|txt)$/i.test(p));
-}
 async function exists(p: string) {
   try {
     await fs.stat(p);
@@ -34,7 +21,7 @@ async function exists(p: string) {
 export async function runRename(opts: RenameOptions) {
   ROOT = path.resolve(opts.dir);
   DRY = Boolean(opts.dryRun);
-  let files = await listAllMarkdown(ROOT);
+  let files = await listFilesRec(ROOT, new Set([".md", ".mdx", ".txt"]));
   if (opts.files && opts.files.length) {
     const wanted = new Set(opts.files.map((p) => path.resolve(p)));
     files = files.filter((f) => wanted.has(path.resolve(f)));

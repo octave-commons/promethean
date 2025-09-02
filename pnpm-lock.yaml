@@ -1619,6 +1619,9 @@ importers:
       abstract-level:
         specifier: ^3.1.0
         version: 3.1.0
+      ava:
+        specifier: ^6.4.1
+        version: 6.4.1
       chromadb:
         specifier: ^3.0.14
         version: 3.0.14
@@ -3658,6 +3661,9 @@ importers:
 
   packages/piper:
     dependencies:
+      "@promethean/level-cache":
+        specifier: link:../level-cache
+        version: link:../level-cache
       "@promethean/piper":
         specifier: "link:"
         version: "link:"
@@ -3674,6 +3680,9 @@ importers:
         specifier: ^3.23.8
         version: 3.25.76
     devDependencies:
+      ava:
+        specifier: ^6.4.1
+        version: 6.4.1
       tsx:
         specifier: ^4.19.2
         version: 4.20.3
@@ -17936,6 +17945,7 @@ snapshots:
 
   "@promethean/piper@file:packages/piper":
     dependencies:
+      "@promethean/level-cache": link:../level-cache
       "@promethean/piper": "link:"
       chokidar: 3.6.0
       globby: 14.1.0
@@ -19012,7 +19022,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.1)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -21167,7 +21177,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.1)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug

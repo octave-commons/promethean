@@ -18,9 +18,365 @@ tags:
   - Zod
   - Orval
   - dependency analysis
-related_to_uuid: []
-related_to_title: []
-references: []
+related_to_uuid:
+  - 6bcff92c-4224-453d-9993-1be8d37d47c3
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+  - c5fba0a0-9196-468d-a0f3-51c99e987263
+  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - 9e8ae388-767a-4ea8-9f2e-88801291d947
+  - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
+  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+  - 31f0166e-4631-45fa-aecd-b44e9a13f497
+  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - 36c8882a-badc-4e18-838d-2c54d7038141
+  - ba244286-4e84-425b-8bf6-b80c4eb783fc
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
+  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
+  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
+  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
+  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
+  - 8b256935-02f6-4da2-a406-bf6b8415276f
+  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+  - cfee6d36-b9f5-4587-885a-cdfddb4f054e
+  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - d28090ac-f746-4958-aab5-ed1315382c04
+  - 5158f742-4a3b-466e-bfc3-d83517b64200
+  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+  - 66a72fc3-4153-41fc-84bd-d6164967a6ff
+  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+  - af5d2824-faad-476c-a389-e912d9bc672c
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - 23e221e9-d4fa-4106-8458-06db2595085f
+  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - 21d5cc09-b005-4ede-8f69-00b4b0794540
+  - 4127189a-e0ab-436f-8571-cc852b8e9add
+  - b51e19b4-1326-4311-9798-33e972bf626c
+  - 58191024-d04a-4520-8aae-a18be7b94263
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+  - 43bfe9dd-d433-42ca-9777-f4c40eaba791
+  - d17d3a96-c84d-4738-a403-6c733b874da2
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - 80d4d883-59f9-401b-8699-7a2723148b1e
+  - d41a06d1-613e-4440-80b7-4553fc694285
+  - a4a25141-6380-40b9-9cd7-b554b246b303
+  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - 681a4ab2-8fef-4833-a09d-bceb62d114da
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
+  - 51932e7b-4237-4756-bcae-8be6d535d0d1
+  - 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+  - b01856b4-999f-418d-8009-ade49b00eb0f
+  - 91295f3a-a2af-4050-a2b8-4777ea70c32c
+  - c26f0044-26fe-4c43-8ab0-fc4690723e3c
+  - c3cd4f65-2bb3-4fca-a32e-2ac667e03f40
+  - ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
+  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
+related_to_title:
+  - Post-Linguistic Transhuman Design Frameworks
+  - Promethean Web UI Setup
+  - set-assignment-in-lisp-ast
+  - Debugging Broker Connections and Agent Behavior
+  - Duck's Attractor States
+  - Duck's Self-Referential Perceptual Loop
+  - Dynamic Context Model for Web Components
+  - Creative Moments
+  - Window Management
+  - DuckDuckGoSearchPipeline
+  - Eidolon Field Abstract Model
+  - eidolon-node-lifecycle
+  - i3-layout-saver
+  - file-watcher-auth-fix
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - Language-Agnostic Mirror System
+  - Ghostly Smoke Interference
+  - ecs-offload-workers
+  - shared-package-layout-clarification
+  - System Scheduler with Resource-Aware DAG
+  - Cross-Target Macro System in Sibilant
+  - observability-infrastructure-setup
+  - Promethean Full-Stack Docker Setup
+  - ecs-scheduler-and-prefabs
+  - WebSocket Gateway Implementation
+  - Event Bus Projections Architecture
+  - Promethean Agent Config DSL
+  - EidolonField
+  - Matplotlib Animation with Async Execution
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - universal-intention-code-fabric
+  - sibilant-metacompiler-overview
+  - Vectorial Exception Descent
+  - Chroma-Embedding-Refactor
+  - Promethean Event Bus MVP v0.1
+  - Lispy Macros with syntax-rules
+  - Lisp-Compiler-Integration
+  - prom-lib-rate-limiters-and-replay-api
+  - Promethean-native config design
+  - Voice Access Layer Design
+  - i3-config-validation-methods
+  - Promethean Agent DSL TS Scaffold
+  - template-based-compilation
+  - Shared Package Structure
+  - mystery-lisp-search-session
+  - Sibilant Meta-Prompt DSL
+  - RAG UI Panel with Qdrant and PostgREST
+  - heartbeat-simulation-snippets
+  - Eidolon-Field-Optimization
+  - Mongo Outbox Implementation
+  - Exception Layer Analysis
+  - layer-1-uptime-diagrams
+  - promethean-system-diagrams
+  - js-to-lisp-reverse-compiler
+  - Recursive Prompt Construction Engine
+  - Provider-Agnostic Chat Panel Implementation
+  - Pure TypeScript Search Microservice
+  - Promethean Infrastructure Setup
+  - Local-Offline-Model-Deployment-Strategy
+  - Refactor 05-footers.ts
+  - prompt-programming-language-lisp
+  - Functional Embedding Pipeline Refactor
+  - Layer1SurvivabilityEnvelope
+  - Local-Only-LLM-Workflow
+  - Prometheus Observability Stack
+  - Cross-Language Runtime Polymorphism
+  - SentenceProcessing
+  - Event Bus MVP
+  - compiler-kit-foundations
+  - State Snapshots API and Transactional Projector
+  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
+  - pm2-orchestration-patterns
+  - Promethean Documentation Pipeline Overview
+  - Universal Lisp Interface
+  - Synchronicity Waves and Web
+  - unique-templates
+  - Tracing the Signal
+  - ts-to-lisp-transpiler
+  - windows-tiling-with-autohotkey
+  - typed-struct-compiler
+  - TypeScript Patch for Tool Calling Support
+  - Unique Concepts
+  - Unique Info Dump Index
+  - polymorphic-meta-programming-engine
+references:
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 376
+    col: 0
+    score: 0.87
+  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
+    line: 148
+    col: 0
+    score: 0.9
+  - uuid: 31f0166e-4631-45fa-aecd-b44e9a13f497
+    line: 79
+    col: 0
+    score: 0.89
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 374
+    col: 0
+    score: 0.87
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 205
+    col: 0
+    score: 0.87
+  - uuid: 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+    line: 44
+    col: 0
+    score: 0.87
+  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
+    line: 279
+    col: 0
+    score: 0.87
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 400
+    col: 0
+    score: 0.86
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 388
+    col: 0
+    score: 0.86
+  - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
+    line: 289
+    col: 0
+    score: 0.86
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 305
+    col: 0
+    score: 0.86
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 28
+    col: 0
+    score: 0.85
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 630
+    col: 0
+    score: 0.87
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 427
+    col: 0
+    score: 0.85
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 440
+    col: 0
+    score: 0.86
+  - uuid: 9044701b-03c9-4a30-92c4-46b1bd66c11e
+    line: 32
+    col: 0
+    score: 0.86
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 504
+    col: 0
+    score: 0.85
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 161
+    col: 0
+    score: 0.88
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 348
+    col: 0
+    score: 0.87
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 416
+    col: 0
+    score: 0.87
+  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
+    line: 52
+    col: 0
+    score: 0.86
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 95
+    col: 0
+    score: 0.86
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 972
+    col: 0
+    score: 0.85
+  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+    line: 375
+    col: 0
+    score: 0.86
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 306
+    col: 0
+    score: 0.86
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 280
+    col: 0
+    score: 0.86
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 490
+    col: 0
+    score: 0.89
+  - uuid: 5158f742-4a3b-466e-bfc3-d83517b64200
+    line: 818
+    col: 0
+    score: 0.85
+  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
+    line: 84
+    col: 0
+    score: 0.9
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 60
+    col: 0
+    score: 0.9
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 128
+    col: 0
+    score: 0.9
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 61
+    col: 0
+    score: 0.9
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 163
+    col: 0
+    score: 0.9
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 124
+    col: 0
+    score: 0.9
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 481
+    col: 0
+    score: 0.9
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 260
+    col: 0
+    score: 0.9
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 100
+    col: 0
+    score: 0.9
+  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+    line: 40
+    col: 0
+    score: 0.89
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 148
+    col: 0
+    score: 0.87
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 111
+    col: 0
+    score: 0.86
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 521
+    col: 0
+    score: 0.86
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 1
+    col: 0
+    score: 1
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 3
+    col: 0
+    score: 1
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 9
+    col: 0
+    score: 1
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 49
+    col: 0
+    score: 0.88
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 61
+    col: 0
+    score: 0.87
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 15
+    col: 0
+    score: 1
 ---
 Love this question. Here are a bunch of *plug-and-play* pipelines we can add in the same style as your `symdocs` one—zero SaaS, all local, TypeScript-first. I kept each to a few clear steps so they’re composable. ^ref-6b63edca-1-0
 
@@ -279,311 +635,136 @@ flowchart LR
 
 If you want, I can scaffold any of these (scripts + pnpm targets) and slot them into your repo layout exactly where you prefer (`tools/*`, `images/*`, `docs/*`, `packages/*`).<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [2d-sandbox-field](2d-sandbox-field.md)
-- [Admin Dashboard for User Management](admin-dashboard-for-user-management.md)
-- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
-- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
-- [Promethean Documentation Pipeline Overview](promethean-documentation-pipeline-overview.md)
-- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
-- [field-node-diagram-outline](field-node-diagram-outline.md)
-- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
-- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
-- [EidolonField](eidolonfield.md)
-- [Event Bus MVP](event-bus-mvp.md)
-- [Exception Layer Analysis](exception-layer-analysis.md)
-- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
-- [field-interaction-equations](field-interaction-equations.md)
-- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
-- [Simulation Demo](chunks/simulation-demo.md)
-- [Window Management](chunks/window-management.md)
-- [compiler-kit-foundations](compiler-kit-foundations.md)
-- [Creative Moments](creative-moments.md)
-- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
-- [Diagrams](chunks/diagrams.md)
-- [DSL](chunks/dsl.md)
-- [Math Fundamentals](chunks/math-fundamentals.md)
-- [Operations](chunks/operations.md)
-- [Shared](chunks/shared.md)
-- [Prometheus Observability Stack](prometheus-observability-stack.md)
-- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
-- [Shared Package Structure](shared-package-structure.md)
-- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
+- [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
 - [Promethean Web UI Setup](promethean-web-ui-setup.md)
-- [promethean-system-diagrams](promethean-system-diagrams.md)
-- [Promethean Workflow Optimization](promethean-workflow-optimization.md)
-- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
-- [Protocol_0_The_Contradiction_Engine](protocol-0-the-contradiction-engine.md)
-- [Provider-Agnostic Chat Panel Implementation](provider-agnostic-chat-panel-implementation.md)
-- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
-- [shared-package-layout-clarification](shared-package-layout-clarification.md)
-- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
-- [ripple-propagation-demo](ripple-propagation-demo.md)
-- [schema-evolution-workflow](schema-evolution-workflow.md)
-- [Self-Agency in AI Interaction](self-agency-in-ai-interaction.md)
 - [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
-- [sibilant-macro-targets](sibilant-macro-targets.md)
-- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
-- [ecs-offload-workers](ecs-offload-workers.md)
-- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
-- [Tooling](chunks/tooling.md)
 - [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
-- [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
-- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
-- [i3-bluetooth-setup](i3-bluetooth-setup.md)
-- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
-- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [api-gateway-versioning](api-gateway-versioning.md)
-- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
-- [Optimizing Command Limitations in System Design](optimizing-command-limitations-in-system-design.md)
-- [archetype-ecs](archetype-ecs.md)
-- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
-- [Promethean Pipelines](promethean-pipelines.md)
-- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
-- [observability-infrastructure-setup](observability-infrastructure-setup.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
-- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
 - [Duck's Attractor States](ducks-attractor-states.md)
-- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
-- [Promethean-native config design](promethean-native-config-design.md)
-- [Smoke Resonance Visualizations](smoke-resonance-visualizations.md)
-- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
-- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
-- [plan-update-confirmation](plan-update-confirmation.md)
-- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
-- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
-- [Model Upgrade Calm-Down Guide](model-upgrade-calm-down-guide.md)
-- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
-- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
-- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
-- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
-- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
-- [Universal Lisp Interface](universal-lisp-interface.md)
-- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
-- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
-- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
-- [universal-intention-code-fabric](universal-intention-code-fabric.md)
-- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
-- [The Jar of Echoes](the-jar-of-echoes.md)
-- [Vectorial Exception Descent](vectorial-exception-descent.md)
-- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [promethean-requirements](promethean-requirements.md)
-- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
 - [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
-- [Tracing the Signal](tracing-the-signal.md)
-- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [Creative Moments](creative-moments.md)
+- [Window Management](chunks/window-management.md)
+- [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
 - [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
+- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
+- [i3-layout-saver](i3-layout-saver.md)
 - [file-watcher-auth-fix](file-watcher-auth-fix.md)
-- [Unique Info Dump Index](unique-info-dump-index.md)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
+- [ecs-offload-workers](ecs-offload-workers.md)
+- [shared-package-layout-clarification](shared-package-layout-clarification.md)
+- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
+- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
 - [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
+- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
+- [EidolonField](eidolonfield.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
+- [Vectorial Exception Descent](vectorial-exception-descent.md)
+- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
+- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
+- [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
+- [Promethean-native config design](promethean-native-config-design.md)
 - [Voice Access Layer Design](voice-access-layer-design.md)
+- [i3-config-validation-methods](i3-config-validation-methods.md)
+- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
+- [template-based-compilation](template-based-compilation.md)
+- [Shared Package Structure](shared-package-structure.md)
+- [mystery-lisp-search-session](mystery-lisp-search-session.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
+- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
+- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
+- [promethean-system-diagrams](promethean-system-diagrams.md)
+- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
 - [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
-- [Simple Log Example](simple-log-example.md)
+- [Provider-Agnostic Chat Panel Implementation](provider-agnostic-chat-panel-implementation.md)
+- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [Refactor 05-footers.ts](refactor-05-footers-ts.md)
+- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [Prometheus Observability Stack](prometheus-observability-stack.md)
+- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
+- [SentenceProcessing](sentenceprocessing.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
+- [pm2-orchestration-patterns](pm2-orchestration-patterns.md)
+- [Promethean Documentation Pipeline Overview](promethean-documentation-pipeline-overview.md)
+- [Universal Lisp Interface](universal-lisp-interface.md)
+- [Synchronicity Waves and Web](synchronicity-waves-and-web.md)
+- [unique-templates](templates/unique-templates.md)
+- [Tracing the Signal](tracing-the-signal.md)
+- [ts-to-lisp-transpiler](ts-to-lisp-transpiler.md)
+- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [Unique Concepts](unique-concepts.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
 ## Sources
-- [Promethean Documentation Pipeline Overview — L163](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-163-0) (line 163, col 0, score 0.74)
-- [Promethean Event Bus MVP v0.1 — L941](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-941-0) (line 941, col 0, score 0.74)
-- [AI-Centric OS with MCP Layer — L1](ai-centric-os-with-mcp-layer.md#^ref-0f1f8cc1-1-0) (line 1, col 0, score 0.69)
-- [Functional Embedding Pipeline Refactor — L309](functional-embedding-pipeline-refactor.md#^ref-a4a25141-309-0) (line 309, col 0, score 0.68)
-- [Promethean Pipelines — L1](promethean-pipelines.md#^ref-8b8e6103-1-0) (line 1, col 0, score 0.65)
-- [Promethean Documentation Pipeline Overview — L114](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-114-0) (line 114, col 0, score 0.66)
-- [Local-Only-LLM-Workflow — L1](local-only-llm-workflow.md#^ref-9a8ab57e-1-0) (line 1, col 0, score 0.67)
-- [Local-Offline-Model-Deployment-Strategy — L1](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-1-0) (line 1, col 0, score 0.67)
-- [Promethean-native config design — L3](promethean-native-config-design.md#^ref-ab748541-3-0) (line 3, col 0, score 0.66)
-- [Promethean-native config design — L380](promethean-native-config-design.md#^ref-ab748541-380-0) (line 380, col 0, score 0.72)
-- [WebSocket Gateway Implementation — L628](websocket-gateway-implementation.md#^ref-e811123d-628-0) (line 628, col 0, score 0.66)
-- [Promethean Agent DSL TS Scaffold — L1](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-1-0) (line 1, col 0, score 0.69)
-- [Promethean Documentation Pipeline Overview — L6](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-6-0) (line 6, col 0, score 0.69)
-- [RAG UI Panel with Qdrant and PostgREST — L330](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-330-0) (line 330, col 0, score 0.67)
-- [Promethean Pipelines — L58](promethean-pipelines.md#^ref-8b8e6103-58-0) (line 58, col 0, score 0.76)
-- [Promethean-Copilot-Intent-Engine — L7](promethean-copilot-intent-engine.md#^ref-ae24a280-7-0) (line 7, col 0, score 0.67)
-- [Promethean Documentation Pipeline Overview — L78](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-78-0) (line 78, col 0, score 0.82)
-- [Promethean-Copilot-Intent-Engine — L9](promethean-copilot-intent-engine.md#^ref-ae24a280-9-0) (line 9, col 0, score 0.63)
-- [field-node-diagram-visualizations — L5](field-node-diagram-visualizations.md#^ref-e9b27b06-5-0) (line 5, col 0, score 0.66)
-- [Promethean-Copilot-Intent-Engine — L26](promethean-copilot-intent-engine.md#^ref-ae24a280-26-0) (line 26, col 0, score 0.66)
-- [api-gateway-versioning — L79](api-gateway-versioning.md#^ref-0580dcd3-79-0) (line 79, col 0, score 0.65)
-- [Promethean Documentation Pipeline Overview — L119](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-119-0) (line 119, col 0, score 0.66)
-- [Promethean Infrastructure Setup — L93](promethean-infrastructure-setup.md#^ref-6deed6ac-93-0) (line 93, col 0, score 0.6)
-- [api-gateway-versioning — L270](api-gateway-versioning.md#^ref-0580dcd3-270-0) (line 270, col 0, score 0.69)
-- [api-gateway-versioning — L51](api-gateway-versioning.md#^ref-0580dcd3-51-0) (line 51, col 0, score 0.68)
-- [AI-Centric OS with MCP Layer — L185](ai-centric-os-with-mcp-layer.md#^ref-0f1f8cc1-185-0) (line 185, col 0, score 0.63)
-- [api-gateway-versioning — L1](api-gateway-versioning.md#^ref-0580dcd3-1-0) (line 1, col 0, score 0.66)
-- [Prometheus Observability Stack — L7](prometheus-observability-stack.md#^ref-e90b5a16-7-0) (line 7, col 0, score 0.61)
-- [shared-package-layout-clarification — L145](shared-package-layout-clarification.md#^ref-36c8882a-145-0) (line 145, col 0, score 0.66)
-- [Pure TypeScript Search Microservice — L14](pure-typescript-search-microservice.md#^ref-d17d3a96-14-0) (line 14, col 0, score 0.66)
-- [Local-Offline-Model-Deployment-Strategy — L255](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-255-0) (line 255, col 0, score 0.6)
-- [Local-Offline-Model-Deployment-Strategy — L156](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-156-0) (line 156, col 0, score 0.59)
-- [observability-infrastructure-setup — L189](observability-infrastructure-setup.md#^ref-b4e64f8c-189-0) (line 189, col 0, score 0.62)
-- [Universal Lisp Interface — L61](universal-lisp-interface.md#^ref-b01856b4-61-0) (line 61, col 0, score 0.65)
-- [RAG UI Panel with Qdrant and PostgREST — L140](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-140-0) (line 140, col 0, score 0.65)
-- [Dynamic Context Model for Web Components — L311](dynamic-context-model-for-web-components.md#^ref-f7702bf8-311-0) (line 311, col 0, score 0.65)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L389](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-389-0) (line 389, col 0, score 0.6)
-- [Promethean Documentation Pipeline Overview — L15](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-15-0) (line 15, col 0, score 0.64)
-- [Per-Domain Policy System for JS Crawler — L27](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-27-0) (line 27, col 0, score 0.65)
-- [AI-Centric OS with MCP Layer — L42](ai-centric-os-with-mcp-layer.md#^ref-0f1f8cc1-42-0) (line 42, col 0, score 0.64)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L9](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-9-0) (line 9, col 0, score 0.64)
-- [Chroma-Embedding-Refactor — L111](chroma-embedding-refactor.md#^ref-8b256935-111-0) (line 111, col 0, score 0.63)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L107](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-107-0) (line 107, col 0, score 0.63)
-- [Per-Domain Policy System for JS Crawler — L117](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-117-0) (line 117, col 0, score 0.63)
-- [AI-Centric OS with MCP Layer — L8](ai-centric-os-with-mcp-layer.md#^ref-0f1f8cc1-8-0) (line 8, col 0, score 0.61)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L223](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-223-0) (line 223, col 0, score 0.63)
-- [Language-Agnostic Mirror System — L507](language-agnostic-mirror-system.md#^ref-d2b3628c-507-0) (line 507, col 0, score 0.63)
-- [polymorphic-meta-programming-engine — L50](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-50-0) (line 50, col 0, score 0.65)
-- [Promethean Infrastructure Setup — L287](promethean-infrastructure-setup.md#^ref-6deed6ac-287-0) (line 287, col 0, score 0.64)
-- [Promethean Pipelines — L16](promethean-pipelines.md#^ref-8b8e6103-16-0) (line 16, col 0, score 0.64)
-- [Performance-Optimized-Polyglot-Bridge — L170](performance-optimized-polyglot-bridge.md#^ref-f5579967-170-0) (line 170, col 0, score 0.6)
-- [Performance-Optimized-Polyglot-Bridge — L22](performance-optimized-polyglot-bridge.md#^ref-f5579967-22-0) (line 22, col 0, score 0.63)
-- [Canonical Org-Babel Matplotlib Animation Template — L5](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-5-0) (line 5, col 0, score 0.63)
-- [plan-update-confirmation — L650](plan-update-confirmation.md#^ref-b22d79c6-650-0) (line 650, col 0, score 0.69)
-- [plan-update-confirmation — L662](plan-update-confirmation.md#^ref-b22d79c6-662-0) (line 662, col 0, score 0.69)
-- [plan-update-confirmation — L674](plan-update-confirmation.md#^ref-b22d79c6-674-0) (line 674, col 0, score 0.69)
-- [Promethean Pipelines — L14](promethean-pipelines.md#^ref-8b8e6103-14-0) (line 14, col 0, score 0.66)
-- [Promethean Infrastructure Setup — L392](promethean-infrastructure-setup.md#^ref-6deed6ac-392-0) (line 392, col 0, score 0.66)
-- [ecs-offload-workers — L15](ecs-offload-workers.md#^ref-6498b9d7-15-0) (line 15, col 0, score 0.66)
-- [shared-package-layout-clarification — L47](shared-package-layout-clarification.md#^ref-36c8882a-47-0) (line 47, col 0, score 0.65)
-- [Promethean Infrastructure Setup — L33](promethean-infrastructure-setup.md#^ref-6deed6ac-33-0) (line 33, col 0, score 0.65)
-- [Shared Package Structure — L64](shared-package-structure.md#^ref-66a72fc3-64-0) (line 64, col 0, score 0.65)
-- [ecs-scheduler-and-prefabs — L7](ecs-scheduler-and-prefabs.md#^ref-c62a1815-7-0) (line 7, col 0, score 0.61)
-- [System Scheduler with Resource-Aware DAG — L5](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-5-0) (line 5, col 0, score 0.61)
-- [Promethean Agent DSL TS Scaffold — L97](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-97-0) (line 97, col 0, score 0.65)
-- [shared-package-layout-clarification — L84](shared-package-layout-clarification.md#^ref-36c8882a-84-0) (line 84, col 0, score 0.65)
-- [WebSocket Gateway Implementation — L447](websocket-gateway-implementation.md#^ref-e811123d-447-0) (line 447, col 0, score 0.64)
-- [Promethean Pipelines — L85](promethean-pipelines.md#^ref-8b8e6103-85-0) (line 85, col 0, score 0.62)
-- [Promethean Pipelines — L26](promethean-pipelines.md#^ref-8b8e6103-26-0) (line 26, col 0, score 0.69)
-- [Promethean Pipelines — L28](promethean-pipelines.md#^ref-8b8e6103-28-0) (line 28, col 0, score 0.66)
-- [plan-update-confirmation — L202](plan-update-confirmation.md#^ref-b22d79c6-202-0) (line 202, col 0, score 0.63)
-- [plan-update-confirmation — L286](plan-update-confirmation.md#^ref-b22d79c6-286-0) (line 286, col 0, score 0.63)
-- [Promethean Agent DSL TS Scaffold — L3](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-3-0) (line 3, col 0, score 0.62)
-- [promethean-requirements — L1](promethean-requirements.md#^ref-95205cd3-1-0) (line 1, col 0, score 0.62)
-- [Model Selection for Lightweight Conversational Tasks — L90](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-90-0) (line 90, col 0, score 0.62)
-- [Promethean Agent Config DSL — L19](promethean-agent-config-dsl.md#^ref-2c00ce45-19-0) (line 19, col 0, score 0.59)
-- [file-watcher-auth-fix — L32](file-watcher-auth-fix.md#^ref-9044701b-32-0) (line 32, col 0, score 0.61)
-- [Prompt_Folder_Bootstrap — L145](prompt-folder-bootstrap.md#^ref-bd4f0976-145-0) (line 145, col 0, score 0.58)
-- [Promethean Agent Config DSL — L195](promethean-agent-config-dsl.md#^ref-2c00ce45-195-0) (line 195, col 0, score 0.59)
-- [Promethean Full-Stack Docker Setup — L3](promethean-full-stack-docker-setup.md#^ref-2c2b48ca-3-0) (line 3, col 0, score 0.59)
-- [Model Selection for Lightweight Conversational Tasks — L79](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-79-0) (line 79, col 0, score 0.59)
-- [Universal Lisp Interface — L178](universal-lisp-interface.md#^ref-b01856b4-178-0) (line 178, col 0, score 0.59)
-- [Voice Access Layer Design — L255](voice-access-layer-design.md#^ref-543ed9b3-255-0) (line 255, col 0, score 0.58)
-- [Recursive Prompt Construction Engine — L41](recursive-prompt-construction-engine.md#^ref-babdb9eb-41-0) (line 41, col 0, score 0.58)
-- [Simple Log Example — L1](simple-log-example.md#^ref-0490eee7-1-0) (line 1, col 0, score 0.58)
-- [Promethean Web UI Setup — L563](promethean-web-ui-setup.md#^ref-bc5172ca-563-0) (line 563, col 0, score 0.65)
-- [shared-package-layout-clarification — L11](shared-package-layout-clarification.md#^ref-36c8882a-11-0) (line 11, col 0, score 0.61)
-- [Promethean Pipelines — L7](promethean-pipelines.md#^ref-8b8e6103-7-0) (line 7, col 0, score 0.6)
-- [observability-infrastructure-setup — L138](observability-infrastructure-setup.md#^ref-b4e64f8c-138-0) (line 138, col 0, score 0.6)
-- [Pure TypeScript Search Microservice — L62](pure-typescript-search-microservice.md#^ref-d17d3a96-62-0) (line 62, col 0, score 0.6)
-- [Promethean Pipelines — L5](promethean-pipelines.md#^ref-8b8e6103-5-0) (line 5, col 0, score 0.6)
-- [observability-infrastructure-setup — L267](observability-infrastructure-setup.md#^ref-b4e64f8c-267-0) (line 267, col 0, score 0.59)
-- [plan-update-confirmation — L585](plan-update-confirmation.md#^ref-b22d79c6-585-0) (line 585, col 0, score 0.62)
-- [AI-Centric OS with MCP Layer — L279](ai-centric-os-with-mcp-layer.md#^ref-0f1f8cc1-279-0) (line 279, col 0, score 0.61)
-- [Unique Info Dump Index — L15](unique-info-dump-index.md#^ref-30ec3ba6-15-0) (line 15, col 0, score 0.6)
-- [Functional Embedding Pipeline Refactor — L9](functional-embedding-pipeline-refactor.md#^ref-a4a25141-9-0) (line 9, col 0, score 0.74)
-- [Eidolon-Field-Optimization — L24](eidolon-field-optimization.md#^ref-40e05c14-24-0) (line 24, col 0, score 0.68)
-- [Eidolon-Field-Optimization — L17](eidolon-field-optimization.md#^ref-40e05c14-17-0) (line 17, col 0, score 0.65)
-- [Eidolon-Field-Optimization — L14](eidolon-field-optimization.md#^ref-40e05c14-14-0) (line 14, col 0, score 0.64)
-- [Cross-Language Runtime Polymorphism — L129](cross-language-runtime-polymorphism.md#^ref-c34c36a6-129-0) (line 129, col 0, score 0.64)
-- [The Jar of Echoes — L9](the-jar-of-echoes.md#^ref-18138627-9-0) (line 9, col 0, score 0.63)
-- [Vectorial Exception Descent — L1](vectorial-exception-descent.md#^ref-d771154e-1-0) (line 1, col 0, score 0.63)
-- [Prompt_Folder_Bootstrap — L161](prompt-folder-bootstrap.md#^ref-bd4f0976-161-0) (line 161, col 0, score 0.62)
-- [Duck's Self-Referential Perceptual Loop — L4](ducks-self-referential-perceptual-loop.md#^ref-71726f04-4-0) (line 4, col 0, score 0.61)
-- [field-dynamics-math-blocks — L15](field-dynamics-math-blocks.md#^ref-7cfc230d-15-0) (line 15, col 0, score 0.61)
-- [Tracing the Signal — L38](tracing-the-signal.md#^ref-c3cd4f65-38-0) (line 38, col 0, score 0.61)
-- [Duck's Self-Referential Perceptual Loop — L15](ducks-self-referential-perceptual-loop.md#^ref-71726f04-15-0) (line 15, col 0, score 0.61)
-- [Layer1SurvivabilityEnvelope — L71](layer1survivabilityenvelope.md#^ref-64a9f9f9-71-0) (line 71, col 0, score 0.61)
-- [Eidolon Field Abstract Model — L59](eidolon-field-abstract-model.md#^ref-5e8b2388-59-0) (line 59, col 0, score 0.61)
-- [field-node-diagram-outline — L9](field-node-diagram-outline.md#^ref-1f32c94a-9-0) (line 9, col 0, score 0.6)
-- [Promethean Event Bus MVP v0.1 — L832](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-832-0) (line 832, col 0, score 0.8)
-- [archetype-ecs — L423](archetype-ecs.md#^ref-8f4c1e86-423-0) (line 423, col 0, score 0.77)
-- [Event Bus Projections Architecture — L5](event-bus-projections-architecture.md#^ref-cf6b9b17-5-0) (line 5, col 0, score 0.77)
-- [Language-Agnostic Mirror System — L11](language-agnostic-mirror-system.md#^ref-d2b3628c-11-0) (line 11, col 0, score 0.77)
-- [Promethean Infrastructure Setup — L501](promethean-infrastructure-setup.md#^ref-6deed6ac-501-0) (line 501, col 0, score 0.76)
-- [ecs-scheduler-and-prefabs — L352](ecs-scheduler-and-prefabs.md#^ref-c62a1815-352-0) (line 352, col 0, score 0.75)
-- [System Scheduler with Resource-Aware DAG — L350](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-350-0) (line 350, col 0, score 0.75)
-- [RAG UI Panel with Qdrant and PostgREST — L336](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-336-0) (line 336, col 0, score 0.75)
-- [Promethean Web UI Setup — L581](promethean-web-ui-setup.md#^ref-bc5172ca-581-0) (line 581, col 0, score 0.74)
-- [Duck's Attractor States — L5](ducks-attractor-states.md#^ref-13951643-5-0) (line 5, col 0, score 0.73)
-- [Ghostly Smoke Interference — L11](ghostly-smoke-interference.md#^ref-b6ae7dfa-11-0) (line 11, col 0, score 0.73)
-- [Event Bus Projections Architecture — L67](event-bus-projections-architecture.md#^ref-cf6b9b17-67-0) (line 67, col 0, score 0.7)
-- [Smoke Resonance Visualizations — L57](smoke-resonance-visualizations.md#^ref-ac9d3ac5-57-0) (line 57, col 0, score 0.7)
-- [Promethean Agent Config DSL — L239](promethean-agent-config-dsl.md#^ref-2c00ce45-239-0) (line 239, col 0, score 0.69)
-- [Model Upgrade Calm-Down Guide — L58](model-upgrade-calm-down-guide.md#^ref-db74343f-58-0) (line 58, col 0, score 0.67)
-- [Promethean-native config design — L362](promethean-native-config-design.md#^ref-ab748541-362-0) (line 362, col 0, score 0.67)
-- [Promethean-Copilot-Intent-Engine — L33](promethean-copilot-intent-engine.md#^ref-ae24a280-33-0) (line 33, col 0, score 0.66)
-- [Promethean-Copilot-Intent-Engine — L50](promethean-copilot-intent-engine.md#^ref-ae24a280-50-0) (line 50, col 0, score 0.66)
-- [api-gateway-versioning — L280](api-gateway-versioning.md#^ref-0580dcd3-280-0) (line 280, col 0, score 0.65)
-- [Model Upgrade Calm-Down Guide — L30](model-upgrade-calm-down-guide.md#^ref-db74343f-30-0) (line 30, col 0, score 0.65)
-- [AI-Centric OS with MCP Layer — L395](ai-centric-os-with-mcp-layer.md#^ref-0f1f8cc1-395-0) (line 395, col 0, score 0.65)
-- [shared-package-layout-clarification — L1](shared-package-layout-clarification.md#^ref-36c8882a-1-0) (line 1, col 0, score 0.64)
-- [universal-intention-code-fabric — L383](universal-intention-code-fabric.md#^ref-c14edce7-383-0) (line 383, col 0, score 0.64)
-- [promethean-system-diagrams — L207](promethean-system-diagrams.md#^ref-b51e19b4-207-0) (line 207, col 0, score 1)
-- [Promethean Web UI Setup — L633](promethean-web-ui-setup.md#^ref-bc5172ca-633-0) (line 633, col 0, score 1)
-- [Promethean Workflow Optimization — L20](promethean-workflow-optimization.md#^ref-d614d983-20-0) (line 20, col 0, score 1)
-- [Prometheus Observability Stack — L543](prometheus-observability-stack.md#^ref-e90b5a16-543-0) (line 543, col 0, score 1)
-- [Prompt_Folder_Bootstrap — L216](prompt-folder-bootstrap.md#^ref-bd4f0976-216-0) (line 216, col 0, score 1)
-- [prompt-programming-language-lisp — L116](prompt-programming-language-lisp.md#^ref-d41a06d1-116-0) (line 116, col 0, score 1)
-- [Protocol_0_The_Contradiction_Engine — L156](protocol-0-the-contradiction-engine.md#^ref-9a93a756-156-0) (line 156, col 0, score 1)
-- [Provider-Agnostic Chat Panel Implementation — L238](provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-238-0) (line 238, col 0, score 1)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L445](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-445-0) (line 445, col 0, score 1)
-- [Shared Package Structure — L195](shared-package-structure.md#^ref-66a72fc3-195-0) (line 195, col 0, score 1)
-- [eidolon-node-lifecycle — L63](eidolon-node-lifecycle.md#^ref-938eca9c-63-0) (line 63, col 0, score 1)
-- [EidolonField — L269](eidolonfield.md#^ref-49d1e1e5-269-0) (line 269, col 0, score 1)
-- [Event Bus MVP — L566](event-bus-mvp.md#^ref-534fe91d-566-0) (line 566, col 0, score 1)
-- [Event Bus Projections Architecture — L185](event-bus-projections-architecture.md#^ref-cf6b9b17-185-0) (line 185, col 0, score 1)
-- [Exception Layer Analysis — L165](exception-layer-analysis.md#^ref-21d5cc09-165-0) (line 165, col 0, score 1)
-- [Factorio AI with External Agents — L160](factorio-ai-with-external-agents.md#^ref-a4d90289-160-0) (line 160, col 0, score 1)
-- [field-dynamics-math-blocks — L165](field-dynamics-math-blocks.md#^ref-7cfc230d-165-0) (line 165, col 0, score 1)
-- [field-interaction-equations — L184](field-interaction-equations.md#^ref-b09141b7-184-0) (line 184, col 0, score 1)
-- [field-node-diagram-outline — L132](field-node-diagram-outline.md#^ref-1f32c94a-132-0) (line 132, col 0, score 1)
-- [Simulation Demo — L32](chunks/simulation-demo.md#^ref-557309a3-32-0) (line 32, col 0, score 1)
-- [Tooling — L26](chunks/tooling.md#^ref-6cb4943e-26-0) (line 26, col 0, score 1)
-- [Window Management — L36](chunks/window-management.md#^ref-9e8ae388-36-0) (line 36, col 0, score 1)
-- [compiler-kit-foundations — L639](compiler-kit-foundations.md#^ref-01b21543-639-0) (line 639, col 0, score 1)
-- [Creative Moments — L10](creative-moments.md#^ref-10d98225-10-0) (line 10, col 0, score 1)
-- [Cross-Language Runtime Polymorphism — L258](cross-language-runtime-polymorphism.md#^ref-c34c36a6-258-0) (line 258, col 0, score 1)
-- [Cross-Target Macro System in Sibilant — L215](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-215-0) (line 215, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L50](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-50-0) (line 50, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L16](duckduckgosearchpipeline.md#^ref-e979c50f-16-0) (line 16, col 0, score 1)
-- [Pure TypeScript Search Microservice — L538](pure-typescript-search-microservice.md#^ref-d17d3a96-538-0) (line 538, col 0, score 1)
-- [RAG UI Panel with Qdrant and PostgREST — L374](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-374-0) (line 374, col 0, score 1)
-- [ripple-propagation-demo — L120](ripple-propagation-demo.md#^ref-8430617b-120-0) (line 120, col 0, score 1)
-- [schema-evolution-workflow — L502](schema-evolution-workflow.md#^ref-d8059b6a-502-0) (line 502, col 0, score 1)
-- [Self-Agency in AI Interaction — L53](self-agency-in-ai-interaction.md#^ref-49a9a860-53-0) (line 53, col 0, score 1)
-- [set-assignment-in-lisp-ast — L161](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-161-0) (line 161, col 0, score 1)
-- [shared-package-layout-clarification — L185](shared-package-layout-clarification.md#^ref-36c8882a-185-0) (line 185, col 0, score 1)
-- [Shared Package Structure — L181](shared-package-structure.md#^ref-66a72fc3-181-0) (line 181, col 0, score 1)
-- [sibilant-macro-targets — L173](sibilant-macro-targets.md#^ref-c5c9a5c6-173-0) (line 173, col 0, score 1)
-- [Sibilant Meta-Prompt DSL — L194](sibilant-meta-prompt-dsl.md#^ref-af5d2824-194-0) (line 194, col 0, score 1)
-- [api-gateway-versioning — L320](api-gateway-versioning.md#^ref-0580dcd3-320-0) (line 320, col 0, score 0.83)
-- [Optimizing Command Limitations in System Design — L52](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-52-0) (line 52, col 0, score 0.83)
-- [Promethean Infrastructure Setup — L628](promethean-infrastructure-setup.md#^ref-6deed6ac-628-0) (line 628, col 0, score 0.83)
-- [archetype-ecs — L470](archetype-ecs.md#^ref-8f4c1e86-470-0) (line 470, col 0, score 0.75)
-- [Dynamic Context Model for Web Components — L382](dynamic-context-model-for-web-components.md#^ref-f7702bf8-382-0) (line 382, col 0, score 0.75)
-- [ecs-offload-workers — L456](ecs-offload-workers.md#^ref-6498b9d7-456-0) (line 456, col 0, score 0.75)
-- [ecs-scheduler-and-prefabs — L390](ecs-scheduler-and-prefabs.md#^ref-c62a1815-390-0) (line 390, col 0, score 0.75)
-- [eidolon-field-math-foundations — L125](eidolon-field-math-foundations.md#^ref-008f2ac0-125-0) (line 125, col 0, score 0.75)
-- [Mongo Outbox Implementation — L572](mongo-outbox-implementation.md#^ref-9c1acd1e-572-0) (line 572, col 0, score 0.75)
-- [observability-infrastructure-setup — L360](observability-infrastructure-setup.md#^ref-b4e64f8c-360-0) (line 360, col 0, score 0.75)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L163](ollama-llm-provider-for-pseudo-code-transpiler.md#^ref-b362e12e-163-0) (line 163, col 0, score 0.75)
-- [Agent Tasks: Persistence Migration to DualStore — L135](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-135-0) (line 135, col 0, score 1)
-- [ecs-offload-workers — L481](ecs-offload-workers.md#^ref-6498b9d7-481-0) (line 481, col 0, score 1)
-- [ecs-scheduler-and-prefabs — L418](ecs-scheduler-and-prefabs.md#^ref-c62a1815-418-0) (line 418, col 0, score 1)
-- [eidolon-node-lifecycle — L49](eidolon-node-lifecycle.md#^ref-938eca9c-49-0) (line 49, col 0, score 1)
-- [Event Bus MVP — L545](event-bus-mvp.md#^ref-534fe91d-545-0) (line 545, col 0, score 1)
-- [Event Bus Projections Architecture — L148](event-bus-projections-architecture.md#^ref-cf6b9b17-148-0) (line 148, col 0, score 1)
-- [Fnord Tracer Protocol — L242](fnord-tracer-protocol.md#^ref-fc21f824-242-0) (line 242, col 0, score 1)
-- [i3-bluetooth-setup — L104](i3-bluetooth-setup.md#^ref-5e408692-104-0) (line 104, col 0, score 1)
-- [layer-1-uptime-diagrams — L173](layer-1-uptime-diagrams.md#^ref-4127189a-173-0) (line 173, col 0, score 1)
-- [Local-First Intention→Code Loop with Free Models — L147](local-first-intention-code-loop-with-free-models.md#^ref-871490c7-147-0) (line 147, col 0, score 1)
-- [Diagrams — L50](chunks/diagrams.md#^ref-45cd25b5-50-0) (line 50, col 0, score 1)
-- [DSL — L44](chunks/dsl.md#^ref-e87bc036-44-0) (line 44, col 0, score 1)
-- [Math Fundamentals — L43](chunks/math-fundamentals.md#^ref-c6e87433-43-0) (line 43, col 0, score 1)
-- [Operations — L15](chunks/operations.md#^ref-f1add613-15-0) (line 15, col 0, score 1)
-- [Shared — L31](chunks/shared.md#^ref-623a55f7-31-0) (line 31, col 0, score 1)
-- [Simulation Demo — L34](chunks/simulation-demo.md#^ref-557309a3-34-0) (line 34, col 0, score 1)
-- [Window Management — L38](chunks/window-management.md#^ref-9e8ae388-38-0) (line 38, col 0, score 1)
-- [compiler-kit-foundations — L651](compiler-kit-foundations.md#^ref-01b21543-651-0) (line 651, col 0, score 1)
-- [Creative Moments — L15](creative-moments.md#^ref-10d98225-15-0) (line 15, col 0, score 1)
-- [Cross-Language Runtime Polymorphism — L263](cross-language-runtime-polymorphism.md#^ref-c34c36a6-263-0) (line 263, col 0, score 1)
-- [Cross-Target Macro System in Sibilant — L219](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-219-0) (line 219, col 0, score 1)
+- [ecs-scheduler-and-prefabs — L376](ecs-scheduler-and-prefabs.md#^ref-c62a1815-376-0) (line 376, col 0, score 0.87)
+- [set-assignment-in-lisp-ast — L148](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0) (line 148, col 0, score 0.9)
+- [i3-layout-saver — L79](i3-layout-saver.md#^ref-31f0166e-79-0) (line 79, col 0, score 0.89)
+- [System Scheduler with Resource-Aware DAG — L374](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-374-0) (line 374, col 0, score 0.87)
+- [EidolonField — L205](eidolonfield.md#^ref-49d1e1e5-205-0) (line 205, col 0, score 0.87)
+- [Matplotlib Animation with Async Execution — L44](matplotlib-animation-with-async-execution.md#^ref-687439f9-44-0) (line 44, col 0, score 0.87)
+- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.87)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L400](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-400-0) (line 400, col 0, score 0.86)
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.86)
+- [Chroma-Embedding-Refactor — L289](chroma-embedding-refactor.md#^ref-8b256935-289-0) (line 289, col 0, score 0.86)
+- [Promethean-native config design — L305](promethean-native-config-design.md#^ref-ab748541-305-0) (line 305, col 0, score 0.86)
+- [i3-config-validation-methods — L28](i3-config-validation-methods.md#^ref-d28090ac-28-0) (line 28, col 0, score 0.85)
+- [WebSocket Gateway Implementation — L630](websocket-gateway-implementation.md#^ref-e811123d-630-0) (line 630, col 0, score 0.87)
+- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.85)
+- [Promethean Web UI Setup — L440](promethean-web-ui-setup.md#^ref-bc5172ca-440-0) (line 440, col 0, score 0.86)
+- [file-watcher-auth-fix — L32](file-watcher-auth-fix.md#^ref-9044701b-32-0) (line 32, col 0, score 0.86)
+- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.85)
+- [shared-package-layout-clarification — L161](shared-package-layout-clarification.md#^ref-36c8882a-161-0) (line 161, col 0, score 0.88)
+- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.87)
+- [Promethean Full-Stack Docker Setup — L416](promethean-full-stack-docker-setup.md#^ref-2c2b48ca-416-0) (line 416, col 0, score 0.87)
+- [sibilant-metacompiler-overview — L52](sibilant-metacompiler-overview.md#^ref-61d4086b-52-0) (line 52, col 0, score 0.86)
+- [Vectorial Exception Descent — L95](vectorial-exception-descent.md#^ref-d771154e-95-0) (line 95, col 0, score 0.86)
+- [Promethean Event Bus MVP v0.1 — L972](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-972-0) (line 972, col 0, score 0.85)
+- [Lispy Macros with syntax-rules — L375](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-375-0) (line 375, col 0, score 0.86)
+- [prom-lib-rate-limiters-and-replay-api — L306](prom-lib-rate-limiters-and-replay-api.md#^ref-aee4718b-306-0) (line 306, col 0, score 0.86)
+- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.86)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L490](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-490-0) (line 490, col 0, score 0.89)
+- [Promethean Agent DSL TS Scaffold — L818](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-818-0) (line 818, col 0, score 0.85)
+- [Window Management — L84](chunks/window-management.md#^ref-9e8ae388-84-0) (line 84, col 0, score 0.9)
+- [Creative Moments — L60](creative-moments.md#^ref-10d98225-60-0) (line 60, col 0, score 0.9)
+- [Debugging Broker Connections and Agent Behavior — L128](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-128-0) (line 128, col 0, score 0.9)
+- [DuckDuckGoSearchPipeline — L61](duckduckgosearchpipeline.md#^ref-e979c50f-61-0) (line 61, col 0, score 0.9)
+- [Duck's Attractor States — L163](ducks-attractor-states.md#^ref-13951643-163-0) (line 163, col 0, score 0.9)
+- [Duck's Self-Referential Perceptual Loop — L124](ducks-self-referential-perceptual-loop.md#^ref-71726f04-124-0) (line 124, col 0, score 0.9)
+- [Dynamic Context Model for Web Components — L481](dynamic-context-model-for-web-components.md#^ref-f7702bf8-481-0) (line 481, col 0, score 0.9)
+- [Eidolon Field Abstract Model — L260](eidolon-field-abstract-model.md#^ref-5e8b2388-260-0) (line 260, col 0, score 0.9)
+- [eidolon-node-lifecycle — L100](eidolon-node-lifecycle.md#^ref-938eca9c-100-0) (line 100, col 0, score 0.9)
+- [Ghostly Smoke Interference — L40](ghostly-smoke-interference.md#^ref-b6ae7dfa-40-0) (line 40, col 0, score 0.89)
+- [Cross-Target Macro System in Sibilant — L148](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-148-0) (line 148, col 0, score 0.87)
+- [Event Bus Projections Architecture — L111](event-bus-projections-architecture.md#^ref-cf6b9b17-111-0) (line 111, col 0, score 0.86)
+- [Lisp-Compiler-Integration — L521](lisp-compiler-integration.md#^ref-cfee6d36-521-0) (line 521, col 0, score 0.86)
+- [Post-Linguistic Transhuman Design Frameworks — L1](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-1-0) (line 1, col 0, score 1)
+- [Post-Linguistic Transhuman Design Frameworks — L3](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-3-0) (line 3, col 0, score 1)
+- [Post-Linguistic Transhuman Design Frameworks — L9](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-9-0) (line 9, col 0, score 1)
+- [Post-Linguistic Transhuman Design Frameworks — L49](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-49-0) (line 49, col 0, score 0.88)
+- [Post-Linguistic Transhuman Design Frameworks — L61](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-61-0) (line 61, col 0, score 0.87)
+- [Post-Linguistic Transhuman Design Frameworks — L15](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-15-0) (line 15, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

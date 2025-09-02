@@ -61,6 +61,39 @@ select { min-width: 420px; }
       <div id="mdInfo" style="margin:6px 0;color:#555;"></div>
       <div id="mdRender" style="border:1px solid #ddd; border-radius:6px; padding:12px; max-height: 520px; overflow:auto;"></div>
     </section>
+
+    <section>
+      <h2>Search</h2>
+      <div class="row" style="margin-bottom:8px;">
+        <label for="searchTerm">Query</label>
+        <input id="searchTerm" placeholder="Search (semantic)" style="width:360px" />
+        <label for="searchK" style="margin-left:12px;">Top K</label>
+        <input id="searchK" type="number" value="10" min="1" max="50" style="width:80px"/>
+        <button id="searchBtn" style="margin-left:8px;">Search</button>
+      </div>
+      <div id="searchResults" style="border:1px solid #ddd; border-radius:6px; padding:8px; max-height: 300px; overflow:auto; font-size: 14px;">
+        <em>Enter a query to search the collection.</em>
+      </div>
+    </section>
+
+    <section>
+      <h2>Chunks</h2>
+      <div style="display:flex; gap:12px; align-items:stretch;">
+        <div style="flex:0 0 360px; border:1px solid #ddd; border-radius:6px; padding:8px; max-height: 360px; overflow:auto;">
+          <div style="font-weight:600; margin-bottom:6px;">Chunks in file</div>
+          <div id="chunksList"><em>Select a file to load chunks.</em></div>
+        </div>
+        <div style="flex:1 1 auto; min-width:0;">
+          <div id="chunkMeta" style="color:#555; margin-bottom:6px;"></div>
+          <pre id="chunkText" style="max-height:180px; overflow:auto; background:#f6f6f6; padding:8px; border-radius:6px;">(no chunk)</pre>
+          <div style="margin-top:8px; border:1px solid #ddd; border-radius:6px; padding:8px; max-height: 240px; overflow:auto;">
+            <div style="font-weight:600; margin-bottom:6px;">Related hits</div>
+            <div id="chunkHits"><em>No chunk selected.</em></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section>
       <h3>Preview</h3>
       <pre id="out">(no preview)</pre>
@@ -69,6 +102,20 @@ select { min-width: 420px; }
       <h3>Logs</h3>
       <div id="progressRow"><progress id="overallProgress" value="0" max="100"></progress> <span id="progressText"></span></div>
       <pre id="logs" style="max-height: 320px; overflow: auto">(no logs)</pre>
+    </section>
+
+    <section>
+      <h2>Pipeline Status</h2>
+      <div style="margin-bottom:6px; display:flex; gap:12px; align-items:center;">
+        <button id="statusRefresh">Refresh Status</button>
+        <label style="display:inline-flex; align-items:center; gap:6px;">
+          <input id="statusOnlyIncomplete" type="checkbox" />
+          Show only incomplete
+        </label>
+      </div>
+      <div id="statusTable" style="border:1px solid #ddd; border-radius:6px; padding:8px; max-height: 360px; overflow:auto; font-size: 14px;">
+        <em>Click Refresh Status to load per-file step coverage.</em>
+      </div>
     </section>
     <section>
       <h2>Steps</h2>

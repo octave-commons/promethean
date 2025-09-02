@@ -92,7 +92,6 @@ export const openLevelCache = async <T = unknown>(
           : { v: op.value };
       return { type: "put" as const, key: k, value: env };
     });
-    // @ts-expect-error level typings accept this structure
     await db.batch(mapped);
   };
 
@@ -225,7 +224,6 @@ function bindView<T>(
           : { v: op.value };
       return { type: "put" as const, key: k, value: env };
     });
-    // @ts-expect-error level typings accept this
     await db.batch(mapped);
   };
 
