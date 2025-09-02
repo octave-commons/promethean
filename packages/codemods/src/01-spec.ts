@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import { promises as fs } from "fs";
 import * as path from "path";
 import { Project } from "ts-morph";
 import { readJSON, writeJSON } from "./utils.js";
