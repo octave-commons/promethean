@@ -81,3 +81,5 @@ docs/.makemd/
 
 docs/.space/
 context.mdb
+**/*.tsbuildinfo
+**/tsconfig.tsbuildinfo
