@@ -1,5 +1,5 @@
-import { S, List, Sym, list, sym, isList, isSym, gensym } from './syntax';
-import { qq } from './qq';
+import { S, List, Sym, list, sym, isList, isSym, gensym } from './syntax.js';
+import { qq } from './qq.js';
 
 export type MacroFn = (form: List, expand: (x: S) => S) => S;
 export class MacroEnv {
