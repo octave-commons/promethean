@@ -32,4 +32,4 @@ set -euo pipefail
 # corepack enable pnpm
 
 # pre-commit install
-pnpm install
+pnpm install --no-lockfile
