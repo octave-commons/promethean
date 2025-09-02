@@ -1,19 +1,14 @@
 // loose typing to avoid cross-package type coupling
 import type { defineAgentComponents } from '../components';
 
-// If the user keeps speaking for at least this long while we're paused,
-// escalate to a hard stop of the current utterance.
-const STOP_AFTER_MS = 1000; // tune: 700–1200ms feels natural
-
 type BargeState = { speakingSince: number | null; paused: boolean };
 
 export function SpeechArbiterSystem(w: any, C: ReturnType<typeof import('../components').defineAgentComponents>) {
-    const { Turn, PlaybackQ, AudioRef, Utterance, AudioRes, VAD, Policy } = C as ReturnType<
+    const { Turn, PlaybackQ, AudioRef, Utterance, AudioRes, Policy } = C as ReturnType<
         typeof defineAgentComponents
     >;
 
     const qAgent = w.makeQuery({ all: [Turn, PlaybackQ, AudioRef, Policy] });
-    const qVAD = w.makeQuery({ all: [VAD] });
     const qAllUtter = w.makeQuery({ all: [Utterance] });
 
     // per-agent transient state, no component needed
@@ -26,11 +21,6 @@ export function SpeechArbiterSystem(w: any, C: ReturnType<typeof import('../comp
         }
         return s;
     };
-
-    function userSpeaking(): boolean {
-        for (const [, get] of w.iter(qVAD)) if (get(VAD)?.active) return true;
-        return false;
-    }
 
     return async function run(_dt: number) {
         for (const [agent, get] of w.iter(qAgent)) {

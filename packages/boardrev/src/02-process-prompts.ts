@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import * as path from "path";
-import { promises as fs } from "fs";
 import { parseArgs, writeText, readMaybe, slug } from "./utils.js";
 import type { PromptChunk } from "./types.js";
 
@@ -11,11 +10,11 @@ const args = parseArgs({
 });
 
 async function main() {
-  const p = path.resolve(args["--process"]);
+  const p = path.resolve(args["--process"]!);
   const raw = await readMaybe(p);
   const chunks: PromptChunk[] = raw ? sliceByHeading(raw, Number(args["--min-level"])) : defaultPrompts();
-  await writeText(path.resolve(args["--out"]), JSON.stringify({ prompts: chunks }, null, 2));
-  console.log(`boardrev: prompts → ${args["--out"]} (${chunks.length})`);
+  await writeText(path.resolve(args["--out"]!), JSON.stringify({ prompts: chunks }, null, 2));
+  console.log(`boardrev: prompts → ${args["--out"]!} (${chunks.length})`);
 }
 
 function sliceByHeading(md: string, minLevel: number): PromptChunk[] {
@@ -28,11 +27,11 @@ function sliceByHeading(md: string, minLevel: number): PromptChunk[] {
   for (const line of lines) {
     const m = line.match(/^(#{1,6})\s+(.*)$/);
     if (m) {
-      const level = m[1].length;
-      if (level >= minLevel) { flush(); cur = { heading: m[2].trim(), buf: [] }; continue; }
+      const level = m[1]?.length ?? 0;
+      if (level >= minLevel) { flush(); cur = { heading: (m[2] ?? "").trim(), buf: [] }; continue; }
     }
     if (!cur) { cur = { heading: "general", buf: [] }; }
-    cur.buf.push(line);
+    cur!.buf.push(line);
   }
   flush();
   return out;
