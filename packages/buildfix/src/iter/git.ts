@@ -1,5 +1,3 @@
-import * as path from "path";
-import { promises as fs } from "fs";
 import { git, isGitRepo, sanitizeBranch } from "../utils.js";
 
 export async function ensureBranch(branch: string) {
