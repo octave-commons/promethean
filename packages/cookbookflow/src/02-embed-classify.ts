@@ -9,7 +9,7 @@ const args = parseArgs({
   "--out": ".cache/cookbook/classes.json",
   "--embed-model": "nomic-embed-text:latest",
   "--llm": "qwen3:4b"
-});
+} as const);
 
 async function main() {
   const scan = JSON.parse(await fs.readFile(path.resolve(args["--in"]), "utf-8")) as ScanOutput;
