@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-import { Project, SourceFile, SyntaxKind } from "ts-morph";
+import { SourceFile, SyntaxKind } from "ts-morph";
 import { globby } from "globby";
 
 export async function readJSON<T>(p: string, fallback: T): Promise<T> {

@@ -8,7 +8,7 @@ import type { PlanFile } from "./types.js";
 const args = parseArgs({
   "--plan": ".cache/cookbook/plan.json",
   "--out": "docs/cookbook"
-});
+} as const);
 
 const START="<!-- COOKBOOK:BEGIN -->";
 const END="<!-- COOKBOOK:END -->";
@@ -47,7 +47,7 @@ async function main() {
   const OUT = path.resolve(args["--out"]); await fs.mkdir(OUT, { recursive: true });
 
   let count = 0;
-  for (const [key, recs] of Object.entries(plan.groups)) {
+  for (const recs of Object.values(plan.groups)) {
     for (const r of recs) {
       const dir = path.join(OUT, r.task);
       await fs.mkdir(dir, { recursive: true });

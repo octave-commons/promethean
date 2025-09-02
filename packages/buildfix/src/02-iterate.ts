@@ -50,17 +50,17 @@ function makeBranch(err: any) {
 }
 
 async function main() {
-  const errors = await readJSON<ErrorList>(path.resolve(args["--errors"]));
+  const errors = await readJSON<ErrorList>(path.resolve(args["--errors"]!));
   if (!errors) throw new Error("errors.json not found");
   const tsconfig = args["--tsconfig"] || errors.tsconfig;
   const onlyCode = (args["--only-code"] || "").trim();
   const onlyFile = (args["--only-file"] || "").trim();
   const maxCycles = Number(args["--max-cycles"]);
-  const OUT = path.resolve(args["--out"]);
+  const OUT = path.resolve(args["--out"]!);
 
   const useGit = args["--git"] !== "off" && (await isGitRepo());
   const commitOn = (args["--commit-on"] as "always" | "success") || "always";
-  const remote = args["--remote"];
+  const remote = args["--remote"]!;
   const push = args["--push"] === "true";
   const useGh = args["--use-gh"] === "true";
   const doRollback = args["--rollback-on-regress"] === "true";
@@ -110,7 +110,7 @@ async function main() {
       // 1) Plan
       let plan;
       try {
-        plan = await requestPlan(args["--model"], err, history);
+          plan = await requestPlan(args["--model"]!, err, history);
       } catch (e) {
         console.error(`✖ plan failed for ${err.key}:`, e);
         break;
@@ -145,7 +145,7 @@ async function main() {
           await rollbackWorktree();
           rolledBack = true;
           // recompute to keep history consistent with tree
-          const { r: re, present: rePresent } = await buildAndJudge(
+          const { r: re } = await buildAndJudge(
             tsconfig,
             err.key,
           );
@@ -191,11 +191,14 @@ async function main() {
         const sha = await commitIfChanges(title);
         if (sha) {
           att.commitSha = sha;
-          att.branch = branch;
+          if (branch) att.branch = branch;
           if (push && branch) {
-            att.pushed = await pushBranch(branch, remote);
-            if (att.pushed && useGh)
-              att.prUrl = await createPR(branch, title, bodyPath);
+            const b = branch!;
+            att.pushed = await pushBranch(b, remote);
+            if (att.pushed && useGh) {
+              const pr = await createPR(b, title, bodyPath);
+              if (pr) att.prUrl = pr;
+            }
           }
         }
       }
@@ -210,13 +213,15 @@ async function main() {
       }
     }
 
-    summary.items.push({
+    const item: Summary["items"][number] = {
       key: err.key,
       resolved,
       attempts: history.attempts.length,
-      lastSnippet: history.attempts.at(-1)?.snippetPath,
-      branch,
-    });
+    };
+    const last = history.attempts.at(-1)?.snippetPath;
+    if (last) item.lastSnippet = last;
+    if (branch) item.branch = branch;
+    summary.items.push(item);
   }
 
   await writeJSON(path.join(OUT, "summary.json"), summary);
