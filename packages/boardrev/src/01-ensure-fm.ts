@@ -10,13 +10,13 @@ const args = parseArgs({
   "--default-status": "todo"
 });
 
-function randomUUID() {
+async function randomUUID() {
   // @ts-ignore
   return globalThis.crypto?.randomUUID?.() ?? (await import("crypto")).randomUUID();
 }
 
 async function main() {
-  const dir = path.resolve(args["--dir"]);
+  const dir = path.resolve(args["--dir"]!);
   const files = await listTaskFiles(dir);
   let updated = 0;
 
@@ -30,13 +30,13 @@ async function main() {
 
     const title = fm.title ?? inferTitle(gm.content) ?? slug(path.basename(f, ".md")).replace(/-/g, " ");
     const payload: TaskFM = {
-      uuid: fm.uuid ?? randomUUID(),
+      uuid: fm.uuid ?? await randomUUID(),
       title,
-      status: normStatus(fm.status ?? args["--default-status"]),
-      priority: (fm.priority as any) ?? args["--default-priority"],
+      status: normStatus(fm.status ?? args["--default-status"]!),
+      priority: (fm.priority as any) ?? args["--default-priority"]!,
       labels: Array.isArray(fm.labels) ? fm.labels : [],
       created_at: fm.created_at ?? new Date().toISOString(),
-      assignee: fm.assignee ?? undefined
+      ...(fm.assignee ? { assignee: fm.assignee } : {})
     };
 
     const final = matter.stringify(gm.content.trimStart() + "\n", payload, { language: "yaml" });
@@ -48,7 +48,7 @@ async function main() {
 
 function inferTitle(body: string) {
   const m = body.match(/^\s*#\s+(.+)$/m);
-  return m ? m[1].trim() : undefined;
+  return m && m[1] ? m[1].trim() : undefined;
 }
 
 main().catch(e => { console.error(e); process.exit(1); });
