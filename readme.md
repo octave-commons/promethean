@@ -83,38 +83,13 @@ gantt
     Implement Classes       :crit,    des10, 2025-08-25, 20d
 
     Ecosystem + Packages    :crit,    des11, 2025-09-05, 25d
-
-````
-
-Activate the environment when developing or running Python services:
-
-```bash
-pipenv shell
 ```
+
 
 #### Quick Setup
 
-Generate pinned `requirements.txt` files and install from them if you prefer a
-standard virtual environment:
-
 ```bash
-make generate-requirements
-python -m venv .venv && source .venv/bin/activate
-make setup-quick SERVICE=<name>
 ```
-
-This skips `pipenv` and installs dependencies for a single service using the
-generated requirement files. Use `SERVICE=stt` or `SERVICE=cephalon` for example.
-Running `make setup-quick` without specifying a service installs all services and
-is much slower.
-
-Makefile targets for Python, JavaScript and TypeScript iterate over their
-respective service directories using a shared helper.
-Missing services are skipped with a message, and the overall target fails if
-any service command returns an error.
-
-Always install into a virtual environment (`pipenv shell` or one created with
-`python -m venv`) to avoid modifying your system Python packages.
 
 ### Node (pnpm required)
 

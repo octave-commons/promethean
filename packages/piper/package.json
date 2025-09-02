@@ -8,16 +8,19 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "prepare": "pnpm run build"
+    "prepare": "pnpm run build",
+    "test": "ava --timeout=60s \"test/**/*.js\""
   },
   "dependencies": {
     "@promethean/piper": "link:",
+    "@promethean/level-cache": "link:../level-cache",
     "chokidar": "^3.6.0",
     "globby": "^14.0.2",
     "yaml": "^2.5.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "ava": "^6.4.1",
     "tsx": "^4.19.2",
     "typescript": "^5.5.4"
   }
