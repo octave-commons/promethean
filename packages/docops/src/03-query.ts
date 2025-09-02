@@ -6,6 +6,7 @@ import type { DBs } from "./db";
 import type { Chunk, QueryHit } from "./types";
 import { ChromaClient } from "chromadb";
 import { OllamaEmbeddingFunction } from "@chroma-core/ollama";
+import * as Path from "path";
 
 export type QueryOptions = {
   embedModel: string;
@@ -14,6 +15,7 @@ export type QueryOptions = {
   force?: boolean;
   debug?: boolean;
   files?: string[]; // optional list of file paths to limit
+  qBatch?: number; // batch size for query embeddings fetch/query
 };
 
 let __DBG = false;
@@ -87,64 +89,86 @@ export async function runQuery(
   let selectedUuids: Set<string> | null = null;
   if (opts.files && opts.files.length) {
     selectedUuids = new Set<string>();
-    const wanted = new Set(opts.files.map((p) => require("path").resolve(p)));
+    const wanted = new Set(opts.files.map((p) => Path.resolve(p)));
     for await (const [uuid, info] of db.docs.iterator()) {
       const p = (info as any)?.path as string | undefined;
-      if (p && wanted.has(require("path").resolve(p))) selectedUuids.add(uuid);
+      if (p && wanted.has(Path.resolve(p))) selectedUuids.add(uuid);
     }
   }
 
   // Build id->chunk map and count total chunks for progress
   const byId = new Map<string, Chunk>();
   let total = 0;
+  const allCandidates: Chunk[] = [];
   for await (const [, value] of db.chunks.iterator()) {
     const cs = (value as readonly Chunk[]) ?? [];
     const filtered = selectedUuids
       ? cs.filter((c) => selectedUuids!.has(c.docUuid))
       : cs;
     total += filtered.length;
-    for (const c of filtered) byId.set(c.id, c);
+    for (const c of filtered) {
+      byId.set(c.id, c);
+      allCandidates.push(c);
+    }
+  }
+
+  // Pre-filter: remove ones with cached hits unless force
+  const candidates: Chunk[] = [];
+  for (const q of allCandidates) {
+    if (!opts.force) {
+      try {
+        await qhits.get(q.id);
+        continue; // has cache
+      } catch {}
+    }
+    candidates.push(q);
   }
 
   let computed = 0,
-    skipped = 0,
+    skipped = allCandidates.length - candidates.length,
     totalHits = 0;
   const hist = new Array(11).fill(0);
 
-  let processed = 0;
-  for await (const [, value] of db.chunks.iterator()) {
-    const csAll = (value as readonly Chunk[]) ?? Object.freeze<Chunk[]>([]);
-    const cs = selectedUuids
-      ? csAll.filter((c) => selectedUuids!.has(c.docUuid))
-      : csAll;
-    for (const q of cs) {
-      if (!opts.force) {
-        try {
-          await qhits.get(q.id);
-          skipped++;
-          continue;
-        } catch {}
+  const BATCH = Math.max(1, Number(opts.qBatch ?? 16) | 0) || 16;
+  for (let i = 0; i < candidates.length; i += BATCH) {
+    const group = candidates.slice(i, i + BATCH);
+    onProgress?.({
+      step: "query",
+      done: Math.min(total, i + group.length),
+      total,
+    });
+
+    const ids = group.map((q) => q.id);
+    const got = await coll.get({ ids, include: ["embeddings"] });
+    const embs = (got.embeddings || []) as Array<number[] | null>;
+
+    // Build queryEmbeddings and mapping index -> chunk
+    const qEmbeddings: number[][] = [];
+    const qChunks: Chunk[] = [];
+    for (let j = 0; j < group.length; j++) {
+      const e = (embs[j] ?? null) as number[] | null;
+      if (e && Array.isArray(e) && e.length) {
+        qEmbeddings.push(e);
+        qChunks.push(group[j]);
       }
-      processed++;
-      onProgress?.({ step: "query", done: processed, total });
+    }
+    if (!qEmbeddings.length) continue;
 
-      const got = await coll.get({ ids: [q.id], include: ["embeddings"] });
-      const emb = (got.embeddings?.[0] ?? null) as number[] | null;
-      if (!emb) continue;
+    const res: any = await coll.query({
+      queryEmbeddings: qEmbeddings,
+      nResults: (opts.k ?? 16) + 24, // small padding beyond k
+    });
+    const allIds = (res.ids || []) as string[][];
+    const allDists = (res.distances || []) as number[][];
 
-      const res = await coll.query({
-        queryEmbeddings: [emb],
-        nResults: (opts.k ?? 16) + 32,
-        where: { docUuid: { $ne: q.docUuid } },
-      });
-
-      const ids = (res.ids?.[0] ?? []) as string[];
-      const dists = (res.distances?.[0] ?? []) as number[];
+    for (let j = 0; j < qChunks.length; j++) {
+      const q = qChunks[j];
+      const idsJ = (allIds[j] || []) as string[];
+      const distsJ = (allDists[j] || []) as number[];
       const hits = Object.freeze(
-        mapHits(ids, dists, byId, q.docUuid, opts.k ?? 16),
+        mapHits(idsJ, distsJ, byId, q.docUuid, opts.k ?? 16),
       );
       await qhits.put(q.id, hits);
-
       computed++;
       totalHits += hits.length;
       if (__DBG && hits.length) {

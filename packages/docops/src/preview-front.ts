@@ -74,16 +74,41 @@ export async function computePreview(
   if (!info) throw new Error(`UUID not found in scope: ${uuid}`);
 
   // get chunks for this doc
-  const chunks = (await chunksKV.get(uuid).catch(() => [])) as readonly Chunk[];
+  const rawChunks = (await chunksKV.get(uuid).catch(() => [])) as any;
+  const chunks = Array.isArray(rawChunks)
+    ? (rawChunks as readonly Chunk[])
+    : ([] as readonly Chunk[]);
   // compute doc-to-doc max scores
   const maxScore = new Map<string, number>();
   const refsAcc = new Map<string, Ref>();
   for (const c of chunks) {
-    const hits = (await qhitsKV
-      .get(c.id)
-      .catch(() => [])) as readonly QueryHit[];
+    const raw = (await qhitsKV.get(c.id).catch(() => [])) as any;
+    const hits = Array.isArray(raw)
+      ? (raw as readonly QueryHit[])
+      : ([] as readonly QueryHit[]);
     for (const h of hits) {
       if (!allowed.has(h.docUuid)) continue;
+      // Filter exact text matches for references (skip if target chunk text equals source text)
+      // Attempt to parse target chunk id as `${uuid}:${index}` and compare
+      const hid: string = String((h as any).id || "");
+      if (hid.includes(":")) {
+        const [tUuid, idxStr] = hid.split(":");
+        const idx = Number(idxStr);
+        if (tUuid && Number.isFinite(idx)) {
+          try {
+            const tChunks = (await chunksKV
+              .get(tUuid)
+              .catch(() => [])) as readonly Chunk[];
+            const tChunk = Array.isArray(tChunks) ? tChunks[idx] : undefined;
+            if (
+              tChunk &&
+              (tChunk.text || "").trim() === (c.text || "").trim()
+            ) {
+              continue; // skip exact text matches
+            }
+          } catch {}
+        }
+      }
       const s = h.score ?? 0;
       // peers aggregation
       const prev = maxScore.get(h.docUuid) ?? 0;

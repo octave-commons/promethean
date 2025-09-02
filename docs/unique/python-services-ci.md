@@ -12,9 +12,57 @@ tags:
   - Services
   - CI
   - Testing
-related_to_title: []
-related_to_uuid: []
-references: []
+related_to_title:
+  - Chroma Toolkit Consolidation Plan
+  - Migrate to Provider-Tenant Architecture
+  - Canonical Org-Babel Matplotlib Animation Template
+  - eidolon-field-math-foundations
+  - Duck's Attractor States
+  - Promethean Dev Workflow Update
+related_to_uuid:
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 03a5578f-d689-45db-95e9-11300e5eee6f
+references:
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 6
+    col: 0
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 89
+    col: 0
+    score: 0.9
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 72
+    col: 0
+    score: 0.9
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 122
+    col: 0
+    score: 0.9
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 109
+    col: 0
+    score: 0.89
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 137
+    col: 0
+    score: 0.89
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 88
+    col: 0
+    score: 0.89
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 124
+    col: 0
+    score: 0.89
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 111
+    col: 0
+    score: 0.88
 ---
 ```yaml
 name: Python Services CI
@@ -52,31 +100,20 @@ jobs:
           python -m pytest --maxfail=1 --disable-warnings -q
 ```<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
-- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
-- [balanced-bst](balanced-bst.md)
-- [pm2-orchestration-patterns](pm2-orchestration-patterns.md)
-- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
-- [universal-intention-code-fabric](universal-intention-code-fabric.md)
-- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
-- [Simple Log Example](simple-log-example.md)
-- [Universal Lisp Interface](universal-lisp-interface.md)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
-- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
 - [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [Duck's Attractor States](ducks-attractor-states.md)
+- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
 ## Sources
-- [pm2-orchestration-patterns — L81](pm2-orchestration-patterns.md#^ref-51932e7b-81-0) (line 81, col 0, score 0.67)
-- [sibilant-meta-string-templating-runtime — L25](sibilant-meta-string-templating-runtime.md#^ref-2aafc801-25-0) (line 25, col 0, score 0.67)
-- [universal-intention-code-fabric — L405](universal-intention-code-fabric.md#^ref-c14edce7-405-0) (line 405, col 0, score 0.64)
-- [Local-Offline-Model-Deployment-Strategy — L217](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-217-0) (line 217, col 0, score 0.64)
-- [AI-Centric OS with MCP Layer — L185](ai-centric-os-with-mcp-layer.md#^ref-0f1f8cc1-185-0) (line 185, col 0, score 0.64)
-- [Simple Log Example — L1](simple-log-example.md#^ref-0490eee7-1-0) (line 1, col 0, score 0.64)
-- [sibilant-meta-string-templating-runtime — L35](sibilant-meta-string-templating-runtime.md#^ref-2aafc801-35-0) (line 35, col 0, score 0.64)
-- [Universal Lisp Interface — L178](universal-lisp-interface.md#^ref-b01856b4-178-0) (line 178, col 0, score 0.64)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L492](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-492-0) (line 492, col 0, score 0.64)
-- [universal-intention-code-fabric — L248](universal-intention-code-fabric.md#^ref-c14edce7-248-0) (line 248, col 0, score 0.64)
-- [polymorphic-meta-programming-engine — L86](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-86-0) (line 86, col 0, score 0.64)
-- [pm2-orchestration-patterns — L26](pm2-orchestration-patterns.md#^ref-51932e7b-26-0) (line 26, col 0, score 0.64)
-- [Canonical Org-Babel Matplotlib Animation Template — L5](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-5-0) (line 5, col 0, score 0.64)
-- [Canonical Org-Babel Matplotlib Animation Template — L73](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-73-0) (line 73, col 0, score 0.64)
+- [Chroma Toolkit Consolidation Plan — L6](chroma-toolkit-consolidation-plan.md#^ref-5020e892-6-0) (line 6, col 0, score 1)
+- [Chroma Toolkit Consolidation Plan — L89](chroma-toolkit-consolidation-plan.md#^ref-5020e892-89-0) (line 89, col 0, score 0.9)
+- [Chroma Toolkit Consolidation Plan — L72](chroma-toolkit-consolidation-plan.md#^ref-5020e892-72-0) (line 72, col 0, score 0.9)
+- [Chroma Toolkit Consolidation Plan — L122](chroma-toolkit-consolidation-plan.md#^ref-5020e892-122-0) (line 122, col 0, score 0.9)
+- [Chroma Toolkit Consolidation Plan — L109](chroma-toolkit-consolidation-plan.md#^ref-5020e892-109-0) (line 109, col 0, score 0.89)
+- [Chroma Toolkit Consolidation Plan — L137](chroma-toolkit-consolidation-plan.md#^ref-5020e892-137-0) (line 137, col 0, score 0.89)
+- [Chroma Toolkit Consolidation Plan — L88](chroma-toolkit-consolidation-plan.md#^ref-5020e892-88-0) (line 88, col 0, score 0.89)
+- [Chroma Toolkit Consolidation Plan — L124](chroma-toolkit-consolidation-plan.md#^ref-5020e892-124-0) (line 124, col 0, score 0.89)
+- [Migrate to Provider-Tenant Architecture — L111](migrate-to-provider-tenant-architecture.md#^ref-54382370-111-0) (line 111, col 0, score 0.88)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

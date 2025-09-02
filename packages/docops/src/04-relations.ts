@@ -99,6 +99,7 @@ export async function runRelations(
     chunks: readonly Chunk[],
     threshold: number,
     allowed: ReadonlySet<string>,
+    chunksMap: ReadonlyMap<string, readonly Chunk[]>,
   ): Promise<Ref[]> =>
     Promise.all(
       chunks.map((c) =>
@@ -110,6 +111,17 @@ export async function runRelations(
             hs
               .filter((h) => allowed.has(h.docUuid))
               .filter((h) => (h.score ?? 0) >= threshold)
+              // filter exact text matches: if target chunk text equals source chunk text, drop
+              .filter((h) => {
+                const id = String((h as any).id || "");
+                const [tUuid, idxStr] = id.split(":");
+                const idx = Number(idxStr);
+                if (!tUuid || !Number.isFinite(idx)) return true;
+                const tChunks = chunksMap.get(tUuid) || [];
+                const tChunk = tChunks[idx];
+                if (!tChunk) return true;
+                return (tChunk.text || "").trim() !== (c.text || "").trim();
+              })
               .map((h) => ({
                 uuid: h.docUuid,
                 line: h.startLine,
@@ -169,7 +181,7 @@ export async function runRelations(
       const gm = matter(raw);
       const fm = (gm.data || {}) as Front;
       const peers = peersForDoc(uuid, docPairs, docsByUuid, DOC_THRESHOLD);
-      return refsForDoc(uuid, chunks, REF_THRESHOLD, allowed).then(
+      return refsForDoc(uuid, chunks, REF_THRESHOLD, allowed, chunksMap).then(
         (newRefs) => {
           // Rebuild sections every run: no merge with previous frontmatter
           const refs = Array.from(newRefs);

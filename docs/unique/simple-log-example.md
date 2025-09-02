@@ -8,50 +8,80 @@ tags:
   - console
   - log
 related_to_title:
-  - parenthetical-extraction
-  - Eidolon-Field-Optimization
-  - file-watcher-auth-fix
-  - Refactor Frontmatter Processing
+  - api-gateway-versioning
+  - Promethean Infrastructure Setup
+  - mystery-lisp-search-session
+  - 2d-sandbox-field
+  - Interop and Source Maps
+  - Promethean Event Bus MVP v0.1
+  - Pure TypeScript Search Microservice
+  - compiler-kit-foundations
+  - heartbeat-fragment-demo
+  - Local-Offline-Model-Deployment-Strategy
+  - RAG UI Panel with Qdrant and PostgREST
 related_to_uuid:
-  - 51a4e477-1013-4016-bb5a-bd9392e99ed7
-  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
-  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
-  - cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
-references: []
+  - 0580dcd3-533d-4834-8a2f-eae3771960a9
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+  - c710dc93-9fec-471b-bdee-bedbd360c67f
+  - cdfac40c-00e4-458f-96a7-4c37d0278731
+  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+  - d17d3a96-c84d-4738-a403-6c733b874da2
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - dd00677a-2280-45a7-91af-0728b21af3ad
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+references:
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 46
+    col: 0
+    score: 0.94
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 79
+    col: 0
+    score: 0.95
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 270
+    col: 0
+    score: 0.94
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 50
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 272
+    col: 0
+    score: 0.94
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 52
+    col: 0
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 207
+    col: 0
+    score: 0.97
 ---
 ```ts
 console.log("what?")
 ```<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
-- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
-- [balanced-bst](balanced-bst.md)
-- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
-- [parenthetical-extraction](parenthetical-extraction.md)
-- [smart-chatgpt-thingy](smart-chatgpt-thingy.md)
-- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
-- [SentenceProcessing](sentenceprocessing.md)
-- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
-- [Refactor Frontmatter Processing](refactor-frontmatter-processing.md)
-- [refactor-relations](refactor-relations.md)
-- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
-- [file-watcher-auth-fix](file-watcher-auth-fix.md)
-- [infinite_depth_smoke_animation](infinite-depth-smoke-animation.md)
-- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
-- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [api-gateway-versioning](api-gateway-versioning.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+- [mystery-lisp-search-session](mystery-lisp-search-session.md)
+- [2d-sandbox-field](2d-sandbox-field.md)
+- [Interop and Source Maps](interop-and-source-maps.md)
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
 ## Sources
-- [Promethean Agent DSL TS Scaffold — L817](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-817-0) (line 817, col 0, score 0.83)
-- [parenthetical-extraction — L3](parenthetical-extraction.md#^ref-51a4e477-3-0) (line 3, col 0, score 0.79)
-- [smart-chatgpt-thingy — L10](smart-chatgpt-thingy.md#^ref-2facccf8-10-0) (line 10, col 0, score 0.76)
-- [Ghostly Smoke Interference — L39](ghostly-smoke-interference.md#^ref-b6ae7dfa-39-0) (line 39, col 0, score 0.72)
-- [SentenceProcessing — L29](sentenceprocessing.md#^ref-681a4ab2-29-0) (line 29, col 0, score 0.72)
-- [Eidolon-Field-Optimization — L50](eidolon-field-optimization.md#^ref-40e05c14-50-0) (line 50, col 0, score 0.71)
-- [Refactor Frontmatter Processing — L11](refactor-frontmatter-processing.md#^ref-cfbdca2f-11-0) (line 11, col 0, score 0.7)
-- [refactor-relations — L10](refactor-relations.md#^ref-41ce0216-10-0) (line 10, col 0, score 0.67)
-- [Recursive Prompt Construction Engine — L41](recursive-prompt-construction-engine.md#^ref-babdb9eb-41-0) (line 41, col 0, score 0.68)
-- [file-watcher-auth-fix — L32](file-watcher-auth-fix.md#^ref-9044701b-32-0) (line 32, col 0, score 0.67)
-- [AI-Centric OS with MCP Layer — L397](ai-centric-os-with-mcp-layer.md#^ref-0f1f8cc1-397-0) (line 397, col 0, score 0.67)
-- [infinite_depth_smoke_animation — L7](infinite-depth-smoke-animation.md#^ref-92a052a5-7-0) (line 7, col 0, score 0.66)
-- [Factorio AI with External Agents — L150](factorio-ai-with-external-agents.md#^ref-a4d90289-150-0) (line 150, col 0, score 0.66)
-- [Fnord Tracer Protocol — L253](fnord-tracer-protocol.md#^ref-fc21f824-253-0) (line 253, col 0, score 0.66)
+- [api-gateway-versioning — L46](api-gateway-versioning.md#^ref-0580dcd3-46-0) (line 46, col 0, score 0.94)
+- [api-gateway-versioning — L79](api-gateway-versioning.md#^ref-0580dcd3-79-0) (line 79, col 0, score 0.95)
+- [api-gateway-versioning — L270](api-gateway-versioning.md#^ref-0580dcd3-270-0) (line 270, col 0, score 0.94)
+- [api-gateway-versioning — L50](api-gateway-versioning.md#^ref-0580dcd3-50-0) (line 50, col 0, score 1)
+- [api-gateway-versioning — L272](api-gateway-versioning.md#^ref-0580dcd3-272-0) (line 272, col 0, score 0.94)
+- [api-gateway-versioning — L52](api-gateway-versioning.md#^ref-0580dcd3-52-0) (line 52, col 0, score 1)
+- [Promethean Infrastructure Setup — L207](promethean-infrastructure-setup.md#^ref-6deed6ac-207-0) (line 207, col 0, score 0.97)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

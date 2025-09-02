@@ -59,7 +59,14 @@ class DocOpsStep extends HTMLElement {
     const es = new EventSource('/api/run-step?' + params.toString());
     const log = this.shadowRoot.getElementById('log');
     log.textContent = '';
-    es.onmessage = (ev)=>{ log.textContent += ev.data + '\n'; log.scrollTop = log.scrollHeight; };
+    es.onmessage = (ev)=>{ 
+      const line = ev.data || '';
+      log.textContent += line + '\n'; 
+      log.scrollTop = log.scrollHeight; 
+      if (step === 'rename' && /completed/i.test(line)) {
+        try { window.dispatchEvent(new CustomEvent('docops:fs-changed')); } catch {}
+      }
+    };
     es.onerror = ()=> es.close();
   }
 }
