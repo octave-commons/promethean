@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { pathToFileURL } from 'node:url';
 
 import { compileLispToJS, runLisp } from '@promethean/compiler/lisp/driver.js';
 import { jsToLisp } from '@promethean/compiler/lisp/js2lisp.js';
@@ -95,8 +95,9 @@ async function cmdRun(args: Argv) {
     const importSpecs = args.filter((a) => a.startsWith('--import'));
     // remove all --import entries and their values if split form used
     for (let i = 0; i < args.length; ) {
-        if (args[i] === '--import') args.splice(i, 2);
-        else if (args[i].startsWith('--import=')) args.splice(i, 1);
+        const arg = args[i];
+        if (arg === '--import') args.splice(i, 2);
+        else if (arg?.startsWith('--import=')) args.splice(i, 1);
         else i++;
     }
     const file = args.shift();
