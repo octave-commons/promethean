@@ -1,12 +1,11 @@
 /* eslint-disable no-console */
 import * as path from "path";
-import { promises as fs } from "fs";
 import { parseArgs, tsc, codeFrame, writeJSON } from "./utils.js";
 import type { ErrorList, BuildError } from "./types.js";
 
 const args = parseArgs({
   "--tsconfig": "tsconfig.json",
-  "--out": ".cache/buildfix/errors.json"
+  "--out": ".cache/buildfix/errors.json",
 });
 
 async function main() {

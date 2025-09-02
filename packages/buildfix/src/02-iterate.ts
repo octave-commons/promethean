@@ -145,10 +145,7 @@ async function main() {
           await rollbackWorktree();
           rolledBack = true;
           // recompute to keep history consistent with tree
-          const { r: re, present: rePresent } = await buildAndJudge(
-            tsconfig,
-            err.key,
-          );
+          const { r: re } = await buildAndJudge(tsconfig, err.key);
           // replace "after" snapshot with the post-rollback state
           (after as any).diags = re.diags;
         } else {
@@ -191,11 +188,15 @@ async function main() {
         const sha = await commitIfChanges(title);
         if (sha) {
           att.commitSha = sha;
-          att.branch = branch;
-          if (push && branch) {
-            att.pushed = await pushBranch(branch, remote);
-            if (att.pushed && useGh)
-              att.prUrl = await createPR(branch, title, bodyPath);
+          if (branch) {
+            att.branch = branch;
+              if (push) {
+                att.pushed = await pushBranch(branch, remote);
+                if (att.pushed && useGh) {
+                  const pr = await createPR(branch, title, bodyPath);
+                  if (pr) att.prUrl = pr;
+                }
+              }
           }
         }
       }
@@ -210,12 +211,13 @@ async function main() {
       }
     }
 
+    const lastSnippet = history.attempts.at(-1)?.snippetPath;
     summary.items.push({
       key: err.key,
       resolved,
       attempts: history.attempts.length,
-      lastSnippet: history.attempts.at(-1)?.snippetPath,
-      branch,
+      ...(lastSnippet ? { lastSnippet } : {}),
+      ...(branch ? { branch } : {}),
     });
   }
 
