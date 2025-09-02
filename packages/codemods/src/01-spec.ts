@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import { promises as fs } from "fs";
 import * as path from "path";
 import { Project } from "ts-morph";
 import { readJSON, writeJSON } from "./utils.js";
@@ -13,14 +12,14 @@ const args = parseArgs({
   "--tsconfig": "tsconfig.json"
 });
 
-function parseArgs(defaults: Record<string,string>) {
-  const out = { ...defaults };
+function parseArgs<T extends Record<string, string>>(defaults: T): T {
+  const out: T = { ...defaults };
   const a = process.argv.slice(2);
-  for (let i=0;i<a.length;i++){
-    const k=a[i];
-    if(!k.startsWith("--")) continue;
-    const v=a[i+1] && !a[i+1].startsWith("--") ? a[++i] : "true";
-    out[k]=v;
+  for (let i = 0; i < a.length; i++) {
+    const k = a[i];
+    if (!k?.startsWith("--")) continue;
+    const v = a[i + 1] && !a[i + 1]?.startsWith("--") ? a[++i]! : "true";
+    out[k as keyof T] = v;
   }
   return out;
 }
