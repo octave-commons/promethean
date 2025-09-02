@@ -9,15 +9,9 @@ tags:
   - lisp
   - text-processing
   - speech-extraction
-related_to_title:
-  - archetype-ecs
-related_to_uuid:
-  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-references:
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 7
-    col: 0
-    score: 1
+related_to_title: []
+related_to_uuid: []
+references: []
 ---
 
 ```lisp
@@ -34,7 +28,7 @@ references:
 )
 ```<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [archetype-ecs](archetype-ecs.md)
+- _None_
 ## Sources
-- [archetype-ecs — L7](archetype-ecs.md#^ref-8f4c1e86-7-0) (line 7, col 0, score 1)
+- _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

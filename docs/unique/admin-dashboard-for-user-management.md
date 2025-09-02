@@ -400,10 +400,6 @@ references:
     line: 148
     col: 0
     score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 60
-    col: 0
-    score: 1
   - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
     line: 39
     col: 0
@@ -602,10 +598,6 @@ references:
     score: 1
   - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
     line: 154
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 175
     col: 0
     score: 1
   - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
@@ -1524,10 +1516,6 @@ references:
     line: 191
     col: 0
     score: 1
-  - uuid: 86a691ec-ca1f-4350-824c-0ded1f8ebe70
-    line: 121
-    col: 0
-    score: 1
   - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
     line: 160
     col: 0
@@ -1736,10 +1724,6 @@ references:
     line: 84
     col: 0
     score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 134
-    col: 0
-    score: 1
   - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
     line: 142
     col: 0
@@ -1878,10 +1862,6 @@ references:
     score: 1
   - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
     line: 49
-    col: 0
-    score: 1
-  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
-    line: 52
     col: 0
     score: 1
   - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
@@ -2086,10 +2066,6 @@ references:
     score: 1
   - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
     line: 159
-    col: 0
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 423
     col: 0
     score: 1
   - uuid: 5e408692-0e74-400e-a617-84247c7353ad
@@ -3240,10 +3216,6 @@ references:
     line: 43
     col: 0
     score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 132
-    col: 0
-    score: 1
   - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
     line: 115
     col: 0
@@ -3254,10 +3226,6 @@ references:
     score: 1
   - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
     line: 265
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 207
     col: 0
     score: 1
   - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
@@ -3960,10 +3928,6 @@ references:
     line: 206
     col: 0
     score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 231
-    col: 0
-    score: 1
   - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
     line: 179
     col: 0
@@ -4174,10 +4138,6 @@ references:
     score: 1
   - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
     line: 131
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 132
     col: 0
     score: 1
   - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
@@ -10748,10 +10708,6 @@ references:
     line: 609
     col: 0
     score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 426
-    col: 0
-    score: 1
   - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
     line: 393
     col: 0
@@ -12252,10 +12208,6 @@ references:
     line: 269
     col: 0
     score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 765
-    col: 0
-    score: 1
   - uuid: 54382370-1931-4a19-a634-46735708a9ea
     line: 1417
     col: 0
@@ -12282,10 +12234,6 @@ references:
     score: 1
   - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
     line: 270
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 766
     col: 0
     score: 1
   - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
@@ -12316,10 +12264,6 @@ references:
     line: 271
     col: 0
     score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 767
-    col: 0
-    score: 1
   - uuid: 54382370-1931-4a19-a634-46735708a9ea
     line: 1419
     col: 0
@@ -12346,10 +12290,6 @@ references:
     score: 1
   - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
     line: 272
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 768
     col: 0
     score: 1
   - uuid: 54382370-1931-4a19-a634-46735708a9ea
@@ -16852,7 +16792,7 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Promethean Documentation Update](promethean-documentation-update.md)
 - [Window Management](chunks/window-management.md)
 - [Tooling](chunks/tooling.md)
-- [Docops Feature Updates](docops-feature-updates-3.md)
+- [Docops Feature Updates](docops-feature-updates-2.md)
 - [Board Walk – 2025-08-11](board-walk-2025-08-11.md)
 - [Board Automation Improvements](board-automation-improvements.md)
 - [Pipeline Enhancements](pipeline-enhancements.md)
@@ -16905,7 +16845,6 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [OpenAPI Validation Report — L47](openapi-validation-report.md#^ref-5c152b08-47-0) (line 47, col 0, score 1)
 - [Optimizing Command Limitations in System Design — L82](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-82-0) (line 82, col 0, score 1)
 - [Post-Linguistic Transhuman Design Frameworks — L148](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-148-0) (line 148, col 0, score 1)
-- [Promethean Chat Activity Report — L60](promethean-chat-activity-report.md#^ref-18344cf9-60-0) (line 60, col 0, score 1)
 - [Promethean Data Sync Protocol — L39](promethean-data-sync-protocol.md#^ref-9fab9e76-39-0) (line 39, col 0, score 1)
 - [Promethean Documentation Pipeline Overview — L168](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-168-0) (line 168, col 0, score 1)
 - [Promethean Documentation Update — L40](promethean-documentation-update.md#^ref-c0392040-40-0) (line 40, col 0, score 1)
@@ -16956,7 +16895,6 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Duck's Self-Referential Perceptual Loop — L78](ducks-self-referential-perceptual-loop.md#^ref-71726f04-78-0) (line 78, col 0, score 1)
 - [Factorio AI with External Agents — L176](factorio-ai-with-external-agents.md#^ref-a4d90289-176-0) (line 176, col 0, score 1)
 - [field-node-diagram-outline — L154](field-node-diagram-outline.md#^ref-1f32c94a-154-0) (line 154, col 0, score 1)
-- [field-node-diagram-set — L175](field-node-diagram-set.md#^ref-22b989d5-175-0) (line 175, col 0, score 1)
 - [field-node-diagram-visualizations — L123](field-node-diagram-visualizations.md#^ref-e9b27b06-123-0) (line 123, col 0, score 1)
 - [Fnord Tracer Protocol — L274](fnord-tracer-protocol.md#^ref-fc21f824-274-0) (line 274, col 0, score 1)
 - [Functional Embedding Pipeline Refactor — L327](functional-embedding-pipeline-refactor.md#^ref-a4a25141-327-0) (line 327, col 0, score 1)
@@ -17003,7 +16941,7 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Unique Concepts — L10](unique-concepts.md#^ref-ed6f3fc9-10-0) (line 10, col 0, score 1)
 - [Unique Info Dump Index — L144](unique-info-dump-index.md#^ref-30ec3ba6-144-0) (line 144, col 0, score 1)
 - [Tooling — L41](chunks/tooling.md#^ref-6cb4943e-41-0) (line 41, col 0, score 1)
-- [Docops Feature Updates — L48](docops-feature-updates-3.md#^ref-cdbd21ee-48-0) (line 48, col 0, score 1)
+- [Docops Feature Updates — L48](docops-feature-updates-2.md#^ref-cdbd21ee-48-0) (line 48, col 0, score 1)
 - [Docops Feature Updates — L79](docops-feature-updates.md#^ref-2792d448-79-0) (line 79, col 0, score 1)
 - [eidolon-node-lifecycle — L69](eidolon-node-lifecycle.md#^ref-938eca9c-69-0) (line 69, col 0, score 1)
 - [field-node-diagram-outline — L158](field-node-diagram-outline.md#^ref-1f32c94a-158-0) (line 158, col 0, score 1)
@@ -17186,7 +17124,6 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [heartbeat-fragment-demo — L217](heartbeat-fragment-demo.md#^ref-dd00677a-217-0) (line 217, col 0, score 1)
 - [i3-bluetooth-setup — L226](i3-bluetooth-setup.md#^ref-5e408692-226-0) (line 226, col 0, score 1)
 - [Ice Box Reorganization — L191](ice-box-reorganization.md#^ref-291c7d91-191-0) (line 191, col 0, score 1)
-- [Mathematical Samplers — L121](mathematical-samplers.md#^ref-86a691ec-121-0) (line 121, col 0, score 1)
 - [Obsidian Templating Plugins Integration Guide — L160](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-160-0) (line 160, col 0, score 1)
 - [Optimizing Command Limitations in System Design — L75](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-75-0) (line 75, col 0, score 1)
 - [Per-Domain Policy System for JS Crawler — L601](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-601-0) (line 601, col 0, score 1)
@@ -17234,12 +17171,11 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Prompt_Folder_Bootstrap — L222](prompt-folder-bootstrap.md#^ref-bd4f0976-222-0) (line 222, col 0, score 1)
 - [Reawakening Duck — L131](reawakening-duck.md#^ref-59b5670f-131-0) (line 131, col 0, score 1)
 - [typed-struct-compiler — L416](typed-struct-compiler.md#^ref-78eeedf7-416-0) (line 416, col 0, score 1)
-- [Docops Feature Updates — L20](docops-feature-updates-3.md#^ref-cdbd21ee-20-0) (line 20, col 0, score 1)
+- [Docops Feature Updates — L20](docops-feature-updates-2.md#^ref-cdbd21ee-20-0) (line 20, col 0, score 1)
 - [Docops Feature Updates — L37](docops-feature-updates.md#^ref-2792d448-37-0) (line 37, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L59](duckduckgosearchpipeline.md#^ref-e979c50f-59-0) (line 59, col 0, score 1)
 - [Duck's Attractor States — L103](ducks-attractor-states.md#^ref-13951643-103-0) (line 103, col 0, score 1)
 - [Duck's Self-Referential Perceptual Loop — L84](ducks-self-referential-perceptual-loop.md#^ref-71726f04-84-0) (line 84, col 0, score 1)
-- [Post-Linguistic Transhuman Design Frameworks — L134](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-134-0) (line 134, col 0, score 1)
 - [heartbeat-fragment-demo — L142](heartbeat-fragment-demo.md#^ref-dd00677a-142-0) (line 142, col 0, score 1)
 - [Factorio AI with External Agents — L193](factorio-ai-with-external-agents.md#^ref-a4d90289-193-0) (line 193, col 0, score 1)
 - [field-dynamics-math-blocks — L183](field-dynamics-math-blocks.md#^ref-7cfc230d-183-0) (line 183, col 0, score 1)
@@ -17275,7 +17211,6 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Promethean Documentation Pipeline Overview — L176](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-176-0) (line 176, col 0, score 1)
 - [Promethean Documentation Update — L50](promethean-documentation-update.md#^ref-c0392040-50-0) (line 50, col 0, score 1)
 - [Promethean Documentation Update — L49](promethean-documentation-update.txt#^ref-0b872af2-49-0) (line 49, col 0, score 1)
-- [Promethean Notes — L52](promethean-notes.md#^ref-1c4046b5-52-0) (line 52, col 0, score 1)
 - [Promethean Pipelines — L122](promethean-pipelines.md#^ref-8b8e6103-122-0) (line 122, col 0, score 1)
 - [promethean-requirements — L63](promethean-requirements.md#^ref-95205cd3-63-0) (line 63, col 0, score 1)
 - [Promethean State Format — L136](promethean-state-format.md#^ref-23df6ddb-136-0) (line 136, col 0, score 1)
@@ -17302,7 +17237,7 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Window Management — L49](chunks/window-management.md#^ref-9e8ae388-49-0) (line 49, col 0, score 1)
 - [Creative Moments — L18](creative-moments.md#^ref-10d98225-18-0) (line 18, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L77](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-77-0) (line 77, col 0, score 1)
-- [Docops Feature Updates — L39](docops-feature-updates-3.md#^ref-cdbd21ee-39-0) (line 39, col 0, score 1)
+- [Docops Feature Updates — L39](docops-feature-updates-2.md#^ref-cdbd21ee-39-0) (line 39, col 0, score 1)
 - [Docops Feature Updates — L67](docops-feature-updates.md#^ref-2792d448-67-0) (line 67, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L22](duckduckgosearchpipeline.md#^ref-e979c50f-22-0) (line 22, col 0, score 1)
 - [Duck's Attractor States — L107](ducks-attractor-states.md#^ref-13951643-107-0) (line 107, col 0, score 1)
@@ -17327,7 +17262,6 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Fnord Tracer Protocol — L279](fnord-tracer-protocol.md#^ref-fc21f824-279-0) (line 279, col 0, score 1)
 - [Functional Embedding Pipeline Refactor — L335](functional-embedding-pipeline-refactor.md#^ref-a4a25141-335-0) (line 335, col 0, score 1)
 - [Functional Refactor of TypeScript Document Processing — L159](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-159-0) (line 159, col 0, score 1)
-- [graph-ds — L423](graph-ds.md#^ref-6620e2f2-423-0) (line 423, col 0, score 1)
 - [i3-bluetooth-setup — L158](i3-bluetooth-setup.md#^ref-5e408692-158-0) (line 158, col 0, score 1)
 - [Ice Box Reorganization — L103](ice-box-reorganization.md#^ref-291c7d91-103-0) (line 103, col 0, score 1)
 - [komorebi-group-window-hack — L253](komorebi-group-window-hack.md#^ref-dd89372d-253-0) (line 253, col 0, score 1)
@@ -17374,7 +17308,7 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [field-dynamics-math-blocks — L212](field-dynamics-math-blocks.md#^ref-7cfc230d-212-0) (line 212, col 0, score 1)
 - [field-interaction-equations — L226](field-interaction-equations.md#^ref-b09141b7-226-0) (line 226, col 0, score 1)
 - [Services — L61](chunks/services.md#^ref-75ea4a6a-61-0) (line 61, col 0, score 1)
-- [Docops Feature Updates — L37](docops-feature-updates-3.md#^ref-cdbd21ee-37-0) (line 37, col 0, score 1)
+- [Docops Feature Updates — L37](docops-feature-updates-2.md#^ref-cdbd21ee-37-0) (line 37, col 0, score 1)
 - [Docops Feature Updates — L59](docops-feature-updates.md#^ref-2792d448-59-0) (line 59, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L34](duckduckgosearchpipeline.md#^ref-e979c50f-34-0) (line 34, col 0, score 1)
 - [Duck's Attractor States — L117](ducks-attractor-states.md#^ref-13951643-117-0) (line 117, col 0, score 1)
@@ -17566,7 +17500,7 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Prometheus Observability Stack — L512](prometheus-observability-stack.md#^ref-e90b5a16-512-0) (line 512, col 0, score 1)
 - [Creative Moments — L40](creative-moments.md#^ref-10d98225-40-0) (line 40, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L108](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-108-0) (line 108, col 0, score 1)
-- [Docops Feature Updates — L60](docops-feature-updates-3.md#^ref-cdbd21ee-60-0) (line 60, col 0, score 1)
+- [Docops Feature Updates — L60](docops-feature-updates-2.md#^ref-cdbd21ee-60-0) (line 60, col 0, score 1)
 - [Docops Feature Updates — L89](docops-feature-updates.md#^ref-2792d448-89-0) (line 89, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L45](duckduckgosearchpipeline.md#^ref-e979c50f-45-0) (line 45, col 0, score 1)
 - [Duck's Attractor States — L126](ducks-attractor-states.md#^ref-13951643-126-0) (line 126, col 0, score 1)
@@ -17615,11 +17549,9 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [ripple-propagation-demo — L155](ripple-propagation-demo.md#^ref-8430617b-155-0) (line 155, col 0, score 1)
 - [schema-evolution-workflow — L621](schema-evolution-workflow.md#^ref-d8059b6a-621-0) (line 621, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L43](duckduckgosearchpipeline.md#^ref-e979c50f-43-0) (line 43, col 0, score 1)
-- [Duck's Attractor States — L132](ducks-attractor-states.md#^ref-13951643-132-0) (line 132, col 0, score 1)
 - [Duck's Self-Referential Perceptual Loop — L115](ducks-self-referential-perceptual-loop.md#^ref-71726f04-115-0) (line 115, col 0, score 1)
 - [Dynamic Context Model for Web Components — L499](dynamic-context-model-for-web-components.md#^ref-f7702bf8-499-0) (line 499, col 0, score 1)
 - [eidolon-field-math-foundations — L265](eidolon-field-math-foundations.md#^ref-008f2ac0-265-0) (line 265, col 0, score 1)
-- [Factorio AI with External Agents — L207](factorio-ai-with-external-agents.md#^ref-a4d90289-207-0) (line 207, col 0, score 1)
 - [Functional Refactor of TypeScript Document Processing — L242](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-242-0) (line 242, col 0, score 1)
 - [Migrate to Provider-Tenant Architecture — L390](migrate-to-provider-tenant-architecture.md#^ref-54382370-390-0) (line 390, col 0, score 1)
 - [Mindful Prioritization — L40](mindful-prioritization.md#^ref-40185d05-40-0) (line 40, col 0, score 1)
@@ -17649,7 +17581,7 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Window Management — L73](chunks/window-management.md#^ref-9e8ae388-73-0) (line 73, col 0, score 1)
 - [Creative Moments — L43](creative-moments.md#^ref-10d98225-43-0) (line 43, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L104](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-104-0) (line 104, col 0, score 1)
-- [Docops Feature Updates — L44](docops-feature-updates-3.md#^ref-cdbd21ee-44-0) (line 44, col 0, score 1)
+- [Docops Feature Updates — L44](docops-feature-updates-2.md#^ref-cdbd21ee-44-0) (line 44, col 0, score 1)
 - [Docops Feature Updates — L75](docops-feature-updates.md#^ref-2792d448-75-0) (line 75, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L48](duckduckgosearchpipeline.md#^ref-e979c50f-48-0) (line 48, col 0, score 1)
 - [Duck's Attractor States — L127](ducks-attractor-states.md#^ref-13951643-127-0) (line 127, col 0, score 1)
@@ -17795,7 +17727,6 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [field-dynamics-math-blocks — L240](field-dynamics-math-blocks.md#^ref-7cfc230d-240-0) (line 240, col 0, score 1)
 - [field-interaction-equations — L248](field-interaction-equations.md#^ref-b09141b7-248-0) (line 248, col 0, score 1)
 - [field-node-diagram-outline — L206](field-node-diagram-outline.md#^ref-1f32c94a-206-0) (line 206, col 0, score 1)
-- [field-node-diagram-set — L231](field-node-diagram-set.md#^ref-22b989d5-231-0) (line 231, col 0, score 1)
 - [field-node-diagram-visualizations — L179](field-node-diagram-visualizations.md#^ref-e9b27b06-179-0) (line 179, col 0, score 1)
 - [Fnord Tracer Protocol — L379](fnord-tracer-protocol.md#^ref-fc21f824-379-0) (line 379, col 0, score 1)
 - [Functional Embedding Pipeline Refactor — L423](functional-embedding-pipeline-refactor.md#^ref-a4a25141-423-0) (line 423, col 0, score 1)
@@ -17849,7 +17780,6 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Model Upgrade Calm-Down Guide — L124](model-upgrade-calm-down-guide.md#^ref-db74343f-124-0) (line 124, col 0, score 1)
 - [NPU Voice Code and Sensory Integration — L75](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-75-0) (line 75, col 0, score 1)
 - [Obsidian ChatGPT Plugin Integration Guide — L131](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-131-0) (line 131, col 0, score 1)
-- [Obsidian ChatGPT Plugin Integration — L132](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-132-0) (line 132, col 0, score 1)
 - [obsidian-ignore-node-modules-regex — L164](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-164-0) (line 164, col 0, score 1)
 - [Obsidian Task Generation — L74](obsidian-task-generation.md#^ref-9b694a91-74-0) (line 74, col 0, score 1)
 - [Obsidian Templating Plugins Integration Guide — L205](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-205-0) (line 205, col 0, score 1)
@@ -18265,7 +18195,7 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [ripple-propagation-demo — L559](ripple-propagation-demo.md#^ref-8430617b-559-0) (line 559, col 0, score 0.95)
 - [Promethean Documentation Pipeline Overview — L635](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-635-0) (line 635, col 0, score 1)
 - [Agent Tasks: Persistence Migration to DualStore — L529](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-529-0) (line 529, col 0, score 1)
-- [Docops Feature Updates — L136](docops-feature-updates-3.md#^ref-cdbd21ee-136-0) (line 136, col 0, score 1)
+- [Docops Feature Updates — L136](docops-feature-updates-2.md#^ref-cdbd21ee-136-0) (line 136, col 0, score 1)
 - [Docops Feature Updates — L193](docops-feature-updates.md#^ref-2792d448-193-0) (line 193, col 0, score 1)
 - [Canonical Org-Babel Matplotlib Animation Template — L2506](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-2506-0) (line 2506, col 0, score 0.93)
 - [Promethean Documentation Pipeline Overview — L489](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-489-0) (line 489, col 0, score 0.93)
@@ -18322,7 +18252,7 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [typed-struct-compiler — L711](typed-struct-compiler.md#^ref-78eeedf7-711-0) (line 711, col 0, score 0.97)
 - [Pipeline Enhancements — L92](pipeline-enhancements.md#^ref-e2135d9f-92-0) (line 92, col 0, score 1)
 - [Migrate to Provider-Tenant Architecture — L1046](migrate-to-provider-tenant-architecture.md#^ref-54382370-1046-0) (line 1046, col 0, score 1)
-- [Docops Feature Updates — L131](docops-feature-updates-3.md#^ref-cdbd21ee-131-0) (line 131, col 0, score 1)
+- [Docops Feature Updates — L131](docops-feature-updates-2.md#^ref-cdbd21ee-131-0) (line 131, col 0, score 1)
 - [Docops Feature Updates — L189](docops-feature-updates.md#^ref-2792d448-189-0) (line 189, col 0, score 1)
 - [windows-tiling-with-autohotkey — L346](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-346-0) (line 346, col 0, score 0.99)
 - [Eidolon Field Abstract Model — L577](eidolon-field-abstract-model.md#^ref-5e8b2388-577-0) (line 577, col 0, score 0.99)
@@ -18441,7 +18371,7 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Pipeline Enhancements — L85](pipeline-enhancements.md#^ref-e2135d9f-85-0) (line 85, col 0, score 1)
 - [Performance-Optimized-Polyglot-Bridge — L854](performance-optimized-polyglot-bridge.md#^ref-f5579967-854-0) (line 854, col 0, score 1)
 - [Eidolon Field Abstract Model — L448](eidolon-field-abstract-model.md#^ref-5e8b2388-448-0) (line 448, col 0, score 1)
-- [Docops Feature Updates — L111](docops-feature-updates-3.md#^ref-cdbd21ee-111-0) (line 111, col 0, score 0.98)
+- [Docops Feature Updates — L111](docops-feature-updates-2.md#^ref-cdbd21ee-111-0) (line 111, col 0, score 0.98)
 - [Docops Feature Updates — L169](docops-feature-updates.md#^ref-2792d448-169-0) (line 169, col 0, score 0.98)
 - [Promethean Pipelines — L406](promethean-pipelines.md#^ref-8b8e6103-406-0) (line 406, col 0, score 1)
 - [Reawakening Duck — L287](reawakening-duck.md#^ref-59b5670f-287-0) (line 287, col 0, score 1)
@@ -18556,7 +18486,7 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [field-node-diagram-set — L505](field-node-diagram-set.md#^ref-22b989d5-505-0) (line 505, col 0, score 1)
 - [field-node-diagram-visualizations — L378](field-node-diagram-visualizations.md#^ref-e9b27b06-378-0) (line 378, col 0, score 1)
 - [Performance-Optimized-Polyglot-Bridge — L649](performance-optimized-polyglot-bridge.md#^ref-f5579967-649-0) (line 649, col 0, score 0.99)
-- [Docops Feature Updates — L88](docops-feature-updates-3.md#^ref-cdbd21ee-88-0) (line 88, col 0, score 0.99)
+- [Docops Feature Updates — L88](docops-feature-updates-2.md#^ref-cdbd21ee-88-0) (line 88, col 0, score 0.99)
 - [Docops Feature Updates — L134](docops-feature-updates.md#^ref-2792d448-134-0) (line 134, col 0, score 0.99)
 - [Functional Embedding Pipeline Refactor — L463](functional-embedding-pipeline-refactor.md#^ref-a4a25141-463-0) (line 463, col 0, score 0.99)
 - [Provider-Agnostic Chat Panel Implementation — L437](provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-437-0) (line 437, col 0, score 0.99)
@@ -18807,7 +18737,7 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Promethean Pipelines — L238](promethean-pipelines.md#^ref-8b8e6103-238-0) (line 238, col 0, score 1)
 - [TypeScript Patch for Tool Calling Support — L842](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-842-0) (line 842, col 0, score 1)
 - [plan-update-confirmation — L1295](plan-update-confirmation.md#^ref-b22d79c6-1295-0) (line 1295, col 0, score 1)
-- [Docops Feature Updates — L128](docops-feature-updates-3.md#^ref-cdbd21ee-128-0) (line 128, col 0, score 1)
+- [Docops Feature Updates — L128](docops-feature-updates-2.md#^ref-cdbd21ee-128-0) (line 128, col 0, score 1)
 - [Docops Feature Updates — L186](docops-feature-updates.md#^ref-2792d448-186-0) (line 186, col 0, score 1)
 - [Obsidian ChatGPT Plugin Integration Guide — L214](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-214-0) (line 214, col 0, score 0.98)
 - [Obsidian ChatGPT Plugin Integration — L213](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-213-0) (line 213, col 0, score 0.98)
@@ -18932,7 +18862,7 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Reawakening Duck — L334](reawakening-duck.md#^ref-59b5670f-334-0) (line 334, col 0, score 0.98)
 - [Functional Embedding Pipeline Refactor — L541](functional-embedding-pipeline-refactor.md#^ref-a4a25141-541-0) (line 541, col 0, score 0.97)
 - [Promethean-Copilot-Intent-Engine — L397](promethean-copilot-intent-engine.md#^ref-ae24a280-397-0) (line 397, col 0, score 0.97)
-- [Docops Feature Updates — L132](docops-feature-updates-3.md#^ref-cdbd21ee-132-0) (line 132, col 0, score 0.97)
+- [Docops Feature Updates — L132](docops-feature-updates-2.md#^ref-cdbd21ee-132-0) (line 132, col 0, score 0.97)
 - [Docops Feature Updates — L190](docops-feature-updates.md#^ref-2792d448-190-0) (line 190, col 0, score 0.97)
 - [Promethean Documentation Pipeline Overview — L449](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-449-0) (line 449, col 0, score 0.97)
 - [Optimizing Command Limitations in System Design — L191](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-191-0) (line 191, col 0, score 1)
@@ -19039,7 +18969,7 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [The Jar of Echoes — L475](the-jar-of-echoes.md#^ref-18138627-475-0) (line 475, col 0, score 0.99)
 - [Promethean Documentation Pipeline Overview — L683](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-683-0) (line 683, col 0, score 0.98)
 - [TypeScript Patch for Tool Calling Support — L812](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-812-0) (line 812, col 0, score 0.98)
-- [Docops Feature Updates — L81](docops-feature-updates-3.md#^ref-cdbd21ee-81-0) (line 81, col 0, score 0.98)
+- [Docops Feature Updates — L81](docops-feature-updates-2.md#^ref-cdbd21ee-81-0) (line 81, col 0, score 0.98)
 - [Docops Feature Updates — L126](docops-feature-updates.md#^ref-2792d448-126-0) (line 126, col 0, score 0.98)
 - [obsidian-ignore-node-modules-regex — L267](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-267-0) (line 267, col 0, score 1)
 - [Agent Tasks: Persistence Migration to DualStore — L512](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-512-0) (line 512, col 0, score 1)
@@ -19397,7 +19327,7 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [i3-bluetooth-setup — L339](i3-bluetooth-setup.md#^ref-5e408692-339-0) (line 339, col 0, score 1)
 - [Ice Box Reorganization — L394](ice-box-reorganization.md#^ref-291c7d91-394-0) (line 394, col 0, score 1)
 - [Self-Agency in AI Interaction — L182](self-agency-in-ai-interaction.md#^ref-49a9a860-182-0) (line 182, col 0, score 1)
-- [Docops Feature Updates — L156](docops-feature-updates-3.md#^ref-cdbd21ee-156-0) (line 156, col 0, score 1)
+- [Docops Feature Updates — L156](docops-feature-updates-2.md#^ref-cdbd21ee-156-0) (line 156, col 0, score 1)
 - [Docops Feature Updates — L213](docops-feature-updates.md#^ref-2792d448-213-0) (line 213, col 0, score 1)
 - [Promethean-Copilot-Intent-Engine — L473](promethean-copilot-intent-engine.md#^ref-ae24a280-473-0) (line 473, col 0, score 1)
 - [Promethean Pipelines — L508](promethean-pipelines.md#^ref-8b8e6103-508-0) (line 508, col 0, score 1)
@@ -19492,7 +19422,6 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Duck's Attractor States — L1907](ducks-attractor-states.md#^ref-13951643-1907-0) (line 1907, col 0, score 0.93)
 - [eidolon-field-math-foundations — L3596](eidolon-field-math-foundations.md#^ref-008f2ac0-3596-0) (line 3596, col 0, score 0.93)
 - [Model Selection for Lightweight Conversational Tasks — L609](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-609-0) (line 609, col 0, score 1)
-- [Obsidian ChatGPT Plugin Integration Guide — L426](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-426-0) (line 426, col 0, score 1)
 - [Obsidian ChatGPT Plugin Integration — L393](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-393-0) (line 393, col 0, score 1)
 - [obsidian-ignore-node-modules-regex — L545](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-545-0) (line 545, col 0, score 1)
 - [Obsidian Templating Plugins Integration Guide — L485](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-485-0) (line 485, col 0, score 1)
@@ -19868,7 +19797,6 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Post-Linguistic Transhuman Design Frameworks — L384](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-384-0) (line 384, col 0, score 1)
 - [JavaScript — L268](chunks/javascript.md#^ref-c1618c66-268-0) (line 268, col 0, score 1)
 - [Tooling — L269](chunks/tooling.md#^ref-6cb4943e-269-0) (line 269, col 0, score 1)
-- [eidolon-field-math-foundations — L765](eidolon-field-math-foundations.md#^ref-008f2ac0-765-0) (line 765, col 0, score 1)
 - [Migrate to Provider-Tenant Architecture — L1417](migrate-to-provider-tenant-architecture.md#^ref-54382370-1417-0) (line 1417, col 0, score 1)
 - [obsidian-ignore-node-modules-regex — L556](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-556-0) (line 556, col 0, score 1)
 - [ParticleSimulationWithCanvasAndFFmpeg — L783](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-783-0) (line 783, col 0, score 1)
@@ -19876,7 +19804,6 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [polyglot-repl-interface-layer — L666](polyglot-repl-interface-layer.md#^ref-9c79206d-666-0) (line 666, col 0, score 1)
 - [JavaScript — L269](chunks/javascript.md#^ref-c1618c66-269-0) (line 269, col 0, score 1)
 - [Tooling — L270](chunks/tooling.md#^ref-6cb4943e-270-0) (line 270, col 0, score 1)
-- [eidolon-field-math-foundations — L766](eidolon-field-math-foundations.md#^ref-008f2ac0-766-0) (line 766, col 0, score 1)
 - [obsidian-ignore-node-modules-regex — L557](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-557-0) (line 557, col 0, score 1)
 - [ParticleSimulationWithCanvasAndFFmpeg — L784](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-784-0) (line 784, col 0, score 1)
 - [Per-Domain Policy System for JS Crawler — L1060](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-1060-0) (line 1060, col 0, score 1)
@@ -19884,7 +19811,6 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Post-Linguistic Transhuman Design Frameworks — L386](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-386-0) (line 386, col 0, score 1)
 - [JavaScript — L270](chunks/javascript.md#^ref-c1618c66-270-0) (line 270, col 0, score 1)
 - [Tooling — L271](chunks/tooling.md#^ref-6cb4943e-271-0) (line 271, col 0, score 1)
-- [eidolon-field-math-foundations — L767](eidolon-field-math-foundations.md#^ref-008f2ac0-767-0) (line 767, col 0, score 1)
 - [Migrate to Provider-Tenant Architecture — L1419](migrate-to-provider-tenant-architecture.md#^ref-54382370-1419-0) (line 1419, col 0, score 1)
 - [obsidian-ignore-node-modules-regex — L558](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-558-0) (line 558, col 0, score 1)
 - [ParticleSimulationWithCanvasAndFFmpeg — L785](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-785-0) (line 785, col 0, score 1)
@@ -19892,7 +19818,6 @@ an admin dashboard for easily creating new users and defining policies ^ref-2901
 - [Performance-Optimized-Polyglot-Bridge — L1001](performance-optimized-polyglot-bridge.md#^ref-f5579967-1001-0) (line 1001, col 0, score 1)
 - [JavaScript — L271](chunks/javascript.md#^ref-c1618c66-271-0) (line 271, col 0, score 1)
 - [Tooling — L272](chunks/tooling.md#^ref-6cb4943e-272-0) (line 272, col 0, score 1)
-- [eidolon-field-math-foundations — L768](eidolon-field-math-foundations.md#^ref-008f2ac0-768-0) (line 768, col 0, score 1)
 - [Migrate to Provider-Tenant Architecture — L1420](migrate-to-provider-tenant-architecture.md#^ref-54382370-1420-0) (line 1420, col 0, score 1)
 - [obsidian-ignore-node-modules-regex — L559](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-559-0) (line 559, col 0, score 1)
 - [ParticleSimulationWithCanvasAndFFmpeg — L786](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-786-0) (line 786, col 0, score 1)

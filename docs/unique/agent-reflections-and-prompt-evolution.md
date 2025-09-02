@@ -787,10 +787,6 @@ references:
     line: 40
     col: 0
     score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 53
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 33
     col: 0
@@ -1621,10 +1617,6 @@ references:
     score: 1
   - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
     line: 84
-    col: 0
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 134
     col: 0
     score: 1
   - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
@@ -2569,10 +2561,6 @@ references:
     score: 1
   - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
     line: 146
-    col: 0
-    score: 1
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 63
     col: 0
     score: 1
   - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
@@ -4047,10 +4035,6 @@ references:
     line: 96
     col: 0
     score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 139
-    col: 0
-    score: 1
   - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
     line: 548
     col: 0
@@ -4331,10 +4315,6 @@ references:
     line: 181
     col: 0
     score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 99
-    col: 0
-    score: 1
   - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
     line: 298
     col: 0
@@ -4365,10 +4345,6 @@ references:
     score: 1
   - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
     line: 621
-    col: 0
-    score: 1
-  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-    line: 238
     col: 0
     score: 1
   - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
@@ -8403,10 +8379,6 @@ references:
     line: 121
     col: 0
     score: 0.97
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 344
-    col: 0
-    score: 0.97
   - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
     line: 1636
     col: 0
@@ -10947,10 +10919,6 @@ references:
     line: 527
     col: 0
     score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 315
-    col: 0
-    score: 1
   - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
     line: 258
     col: 0
@@ -12389,10 +12357,6 @@ references:
     score: 1
   - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
     line: 364
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 855
     col: 0
     score: 1
   - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
@@ -16444,7 +16408,7 @@ You will prompt me, too.
 - [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
 - [DSL](chunks/dsl.md)
 - [Obsidian Task Generation](obsidian-task-generation.md)
-- [Docops Feature Updates](docops-feature-updates-3.md)
+- [Docops Feature Updates](docops-feature-updates-2.md)
 - [Docops Feature Updates](docops-feature-updates.md)
 - [Operations](chunks/operations.md)
 - [Shared](chunks/shared.md)
@@ -16495,7 +16459,7 @@ You will prompt me, too.
 - [Universal Lisp Interface](universal-lisp-interface.md)
 - [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
 - [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
-- [AGENTS.md](agents-md-3.md)
+- [AGENTS.md](agents-md-2.md)
 - [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
 ## Sources
 - [Recursive Prompt Construction Engine — L147](recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0) (line 147, col 0, score 1)
@@ -16628,7 +16592,6 @@ You will prompt me, too.
 - [Operations — L36](chunks/operations.md#^ref-f1add613-36-0) (line 36, col 0, score 1)
 - [Simulation Demo — L46](chunks/simulation-demo.md#^ref-557309a3-46-0) (line 46, col 0, score 1)
 - [Tooling — L40](chunks/tooling.md#^ref-6cb4943e-40-0) (line 40, col 0, score 1)
-- [Window Management — L53](chunks/window-management.md#^ref-9e8ae388-53-0) (line 53, col 0, score 1)
 - [Creative Moments — L33](creative-moments.md#^ref-10d98225-33-0) (line 33, col 0, score 1)
 - [Performance-Optimized-Polyglot-Bridge — L483](performance-optimized-polyglot-bridge.md#^ref-f5579967-483-0) (line 483, col 0, score 1)
 - [Pipeline Enhancements — L11](pipeline-enhancements.md#^ref-e2135d9f-11-0) (line 11, col 0, score 1)
@@ -16671,7 +16634,7 @@ You will prompt me, too.
 - [Optimizing Command Limitations in System Design — L125](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-125-0) (line 125, col 0, score 1)
 - [plan-update-confirmation — L1054](plan-update-confirmation.md#^ref-b22d79c6-1054-0) (line 1054, col 0, score 1)
 - [Tooling — L41](chunks/tooling.md#^ref-6cb4943e-41-0) (line 41, col 0, score 1)
-- [Docops Feature Updates — L48](docops-feature-updates-3.md#^ref-cdbd21ee-48-0) (line 48, col 0, score 1)
+- [Docops Feature Updates — L48](docops-feature-updates-2.md#^ref-cdbd21ee-48-0) (line 48, col 0, score 1)
 - [Docops Feature Updates — L79](docops-feature-updates.md#^ref-2792d448-79-0) (line 79, col 0, score 1)
 - [eidolon-node-lifecycle — L69](eidolon-node-lifecycle.md#^ref-938eca9c-69-0) (line 69, col 0, score 1)
 - [field-node-diagram-outline — L158](field-node-diagram-outline.md#^ref-1f32c94a-158-0) (line 158, col 0, score 1)
@@ -16738,7 +16701,7 @@ You will prompt me, too.
 - [Window Management — L73](chunks/window-management.md#^ref-9e8ae388-73-0) (line 73, col 0, score 1)
 - [Creative Moments — L43](creative-moments.md#^ref-10d98225-43-0) (line 43, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L104](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-104-0) (line 104, col 0, score 1)
-- [Docops Feature Updates — L44](docops-feature-updates-3.md#^ref-cdbd21ee-44-0) (line 44, col 0, score 1)
+- [Docops Feature Updates — L44](docops-feature-updates-2.md#^ref-cdbd21ee-44-0) (line 44, col 0, score 1)
 - [Docops Feature Updates — L75](docops-feature-updates.md#^ref-2792d448-75-0) (line 75, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L48](duckduckgosearchpipeline.md#^ref-e979c50f-48-0) (line 48, col 0, score 1)
 - [Duck's Attractor States — L127](ducks-attractor-states.md#^ref-13951643-127-0) (line 127, col 0, score 1)
@@ -16785,7 +16748,7 @@ You will prompt me, too.
 - [Window Management — L49](chunks/window-management.md#^ref-9e8ae388-49-0) (line 49, col 0, score 1)
 - [Creative Moments — L18](creative-moments.md#^ref-10d98225-18-0) (line 18, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L77](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-77-0) (line 77, col 0, score 1)
-- [Docops Feature Updates — L39](docops-feature-updates-3.md#^ref-cdbd21ee-39-0) (line 39, col 0, score 1)
+- [Docops Feature Updates — L39](docops-feature-updates-2.md#^ref-cdbd21ee-39-0) (line 39, col 0, score 1)
 - [Docops Feature Updates — L67](docops-feature-updates.md#^ref-2792d448-67-0) (line 67, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L22](duckduckgosearchpipeline.md#^ref-e979c50f-22-0) (line 22, col 0, score 1)
 - [Duck's Attractor States — L107](ducks-attractor-states.md#^ref-13951643-107-0) (line 107, col 0, score 1)
@@ -16832,12 +16795,11 @@ You will prompt me, too.
 - [Prompt_Folder_Bootstrap — L222](prompt-folder-bootstrap.md#^ref-bd4f0976-222-0) (line 222, col 0, score 1)
 - [Reawakening Duck — L131](reawakening-duck.md#^ref-59b5670f-131-0) (line 131, col 0, score 1)
 - [typed-struct-compiler — L416](typed-struct-compiler.md#^ref-78eeedf7-416-0) (line 416, col 0, score 1)
-- [Docops Feature Updates — L20](docops-feature-updates-3.md#^ref-cdbd21ee-20-0) (line 20, col 0, score 1)
+- [Docops Feature Updates — L20](docops-feature-updates-2.md#^ref-cdbd21ee-20-0) (line 20, col 0, score 1)
 - [Docops Feature Updates — L37](docops-feature-updates.md#^ref-2792d448-37-0) (line 37, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L59](duckduckgosearchpipeline.md#^ref-e979c50f-59-0) (line 59, col 0, score 1)
 - [Duck's Attractor States — L103](ducks-attractor-states.md#^ref-13951643-103-0) (line 103, col 0, score 1)
 - [Duck's Self-Referential Perceptual Loop — L84](ducks-self-referential-perceptual-loop.md#^ref-71726f04-84-0) (line 84, col 0, score 1)
-- [Post-Linguistic Transhuman Design Frameworks — L134](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-134-0) (line 134, col 0, score 1)
 - [TypeScript Patch for Tool Calling Support — L572](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-572-0) (line 572, col 0, score 1)
 - [eidolon-field-math-foundations — L2563](eidolon-field-math-foundations.md#^ref-008f2ac0-2563-0) (line 2563, col 0, score 0.93)
 - [Duck's Attractor States — L2162](ducks-attractor-states.md#^ref-13951643-2162-0) (line 2162, col 0, score 0.92)
@@ -17074,7 +17036,6 @@ You will prompt me, too.
 - [obsidian-ignore-node-modules-regex — L145](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-145-0) (line 145, col 0, score 1)
 - [Obsidian Task Generation — L47](obsidian-task-generation.md#^ref-9b694a91-47-0) (line 47, col 0, score 1)
 - [Obsidian Templating Plugins Integration Guide — L146](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-146-0) (line 146, col 0, score 1)
-- [OpenAPI Validation Report — L63](openapi-validation-report.md#^ref-5c152b08-63-0) (line 63, col 0, score 1)
 - [Optimizing Command Limitations in System Design — L72](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-72-0) (line 72, col 0, score 1)
 - [Promethean Notes — L36](promethean-notes.md#^ref-1c4046b5-36-0) (line 36, col 0, score 1)
 - [promethean-requirements — L49](promethean-requirements.md#^ref-95205cd3-49-0) (line 49, col 0, score 1)
@@ -17112,7 +17073,7 @@ You will prompt me, too.
 - [Protocol_0_The_Contradiction_Engine — L188](protocol-0-the-contradiction-engine.md#^ref-9a93a756-188-0) (line 188, col 0, score 1)
 - [Provider-Agnostic Chat Panel Implementation — L323](provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-323-0) (line 323, col 0, score 1)
 - [Services — L61](chunks/services.md#^ref-75ea4a6a-61-0) (line 61, col 0, score 1)
-- [Docops Feature Updates — L37](docops-feature-updates-3.md#^ref-cdbd21ee-37-0) (line 37, col 0, score 1)
+- [Docops Feature Updates — L37](docops-feature-updates-2.md#^ref-cdbd21ee-37-0) (line 37, col 0, score 1)
 - [Docops Feature Updates — L59](docops-feature-updates.md#^ref-2792d448-59-0) (line 59, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L34](duckduckgosearchpipeline.md#^ref-e979c50f-34-0) (line 34, col 0, score 1)
 - [Duck's Attractor States — L117](ducks-attractor-states.md#^ref-13951643-117-0) (line 117, col 0, score 1)
@@ -17318,7 +17279,7 @@ You will prompt me, too.
 - [Prometheus Observability Stack — L512](prometheus-observability-stack.md#^ref-e90b5a16-512-0) (line 512, col 0, score 1)
 - [Creative Moments — L40](creative-moments.md#^ref-10d98225-40-0) (line 40, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L108](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-108-0) (line 108, col 0, score 1)
-- [Docops Feature Updates — L60](docops-feature-updates-3.md#^ref-cdbd21ee-60-0) (line 60, col 0, score 1)
+- [Docops Feature Updates — L60](docops-feature-updates-2.md#^ref-cdbd21ee-60-0) (line 60, col 0, score 1)
 - [Docops Feature Updates — L89](docops-feature-updates.md#^ref-2792d448-89-0) (line 89, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L45](duckduckgosearchpipeline.md#^ref-e979c50f-45-0) (line 45, col 0, score 1)
 - [Duck's Attractor States — L126](ducks-attractor-states.md#^ref-13951643-126-0) (line 126, col 0, score 1)
@@ -17441,9 +17402,8 @@ You will prompt me, too.
 - [Agent Tasks: Persistence Migration to DualStore — L267](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-267-0) (line 267, col 0, score 1)
 - [Operations — L73](chunks/operations.md#^ref-f1add613-73-0) (line 73, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L170](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-170-0) (line 170, col 0, score 1)
-- [Docops Feature Updates — L67](docops-feature-updates-3.md#^ref-cdbd21ee-67-0) (line 67, col 0, score 1)
+- [Docops Feature Updates — L67](docops-feature-updates-2.md#^ref-cdbd21ee-67-0) (line 67, col 0, score 1)
 - [Docops Feature Updates — L96](docops-feature-updates.md#^ref-2792d448-96-0) (line 96, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L139](ducks-self-referential-perceptual-loop.md#^ref-71726f04-139-0) (line 139, col 0, score 1)
 - [Dynamic Context Model for Web Components — L548](dynamic-context-model-for-web-components.md#^ref-f7702bf8-548-0) (line 548, col 0, score 1)
 - [Fnord Tracer Protocol — L349](fnord-tracer-protocol.md#^ref-fc21f824-349-0) (line 349, col 0, score 1)
 - [Functional Refactor of TypeScript Document Processing — L213](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-213-0) (line 213, col 0, score 1)
@@ -17514,7 +17474,6 @@ You will prompt me, too.
 - [Migrate to Provider-Tenant Architecture — L343](migrate-to-provider-tenant-architecture.md#^ref-54382370-343-0) (line 343, col 0, score 1)
 - [Model Selection for Lightweight Conversational Tasks — L170](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-170-0) (line 170, col 0, score 1)
 - [Model Upgrade Calm-Down Guide — L181](model-upgrade-calm-down-guide.md#^ref-db74343f-181-0) (line 181, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L99](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-99-0) (line 99, col 0, score 1)
 - [ParticleSimulationWithCanvasAndFFmpeg — L298](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-298-0) (line 298, col 0, score 1)
 - [Performance-Optimized-Polyglot-Bridge — L479](performance-optimized-polyglot-bridge.md#^ref-f5579967-479-0) (line 479, col 0, score 1)
 - [plan-update-confirmation — L1147](plan-update-confirmation.md#^ref-b22d79c6-1147-0) (line 1147, col 0, score 1)
@@ -17523,7 +17482,6 @@ You will prompt me, too.
 - [Promethean Infrastructure Setup — L738](promethean-infrastructure-setup.md#^ref-6deed6ac-738-0) (line 738, col 0, score 1)
 - [Promethean Workflow Optimization — L95](promethean-workflow-optimization.md#^ref-d614d983-95-0) (line 95, col 0, score 1)
 - [Prometheus Observability Stack — L621](prometheus-observability-stack.md#^ref-e90b5a16-621-0) (line 621, col 0, score 1)
-- [Protocol_0_The_Contradiction_Engine — L238](protocol-0-the-contradiction-engine.md#^ref-9a93a756-238-0) (line 238, col 0, score 1)
 - [Provider-Agnostic Chat Panel Implementation — L344](provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-344-0) (line 344, col 0, score 1)
 - [Pure TypeScript Search Microservice — L640](pure-typescript-search-microservice.md#^ref-d17d3a96-640-0) (line 640, col 0, score 1)
 - [Reawakening Duck — L232](reawakening-duck.md#^ref-59b5670f-232-0) (line 232, col 0, score 1)
@@ -18055,7 +18013,7 @@ You will prompt me, too.
 - [Layer1SurvivabilityEnvelope — L412](layer1survivabilityenvelope.md#^ref-64a9f9f9-412-0) (line 412, col 0, score 0.99)
 - [Functional Embedding Pipeline Refactor — L503](functional-embedding-pipeline-refactor.md#^ref-a4a25141-503-0) (line 503, col 0, score 0.99)
 - [Functional Embedding Pipeline Refactor — L463](functional-embedding-pipeline-refactor.md#^ref-a4a25141-463-0) (line 463, col 0, score 0.99)
-- [Docops Feature Updates — L144](docops-feature-updates-3.md#^ref-cdbd21ee-144-0) (line 144, col 0, score 1)
+- [Docops Feature Updates — L144](docops-feature-updates-2.md#^ref-cdbd21ee-144-0) (line 144, col 0, score 1)
 - [Docops Feature Updates — L201](docops-feature-updates.md#^ref-2792d448-201-0) (line 201, col 0, score 1)
 - [Dynamic Context Model for Web Components — L1015](dynamic-context-model-for-web-components.md#^ref-f7702bf8-1015-0) (line 1015, col 0, score 1)
 - [Functional Refactor of TypeScript Document Processing — L330](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-330-0) (line 330, col 0, score 1)
@@ -18088,7 +18046,7 @@ You will prompt me, too.
 - [Prompt_Folder_Bootstrap — L499](prompt-folder-bootstrap.md#^ref-bd4f0976-499-0) (line 499, col 0, score 1)
 - [Model Upgrade Calm-Down Guide — L375](model-upgrade-calm-down-guide.md#^ref-db74343f-375-0) (line 375, col 0, score 1)
 - [homeostasis-decay-formulas — L393](homeostasis-decay-formulas.md#^ref-37b5d236-393-0) (line 393, col 0, score 1)
-- [Docops Feature Updates — L129](docops-feature-updates-3.md#^ref-cdbd21ee-129-0) (line 129, col 0, score 1)
+- [Docops Feature Updates — L129](docops-feature-updates-2.md#^ref-cdbd21ee-129-0) (line 129, col 0, score 1)
 - [Docops Feature Updates — L187](docops-feature-updates.md#^ref-2792d448-187-0) (line 187, col 0, score 1)
 - [Model Selection for Lightweight Conversational Tasks — L528](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-528-0) (line 528, col 0, score 1)
 - [field-interaction-equations — L563](field-interaction-equations.md#^ref-b09141b7-563-0) (line 563, col 0, score 0.97)
@@ -18257,7 +18215,7 @@ You will prompt me, too.
 - [sibilant-macro-targets — L489](sibilant-macro-targets.md#^ref-c5c9a5c6-489-0) (line 489, col 0, score 0.98)
 - [Dynamic Context Model for Web Components — L650](dynamic-context-model-for-web-components.md#^ref-f7702bf8-650-0) (line 650, col 0, score 0.98)
 - [Layer1SurvivabilityEnvelope — L522](layer1survivabilityenvelope.md#^ref-64a9f9f9-522-0) (line 522, col 0, score 0.98)
-- [Docops Feature Updates — L107](docops-feature-updates-3.md#^ref-cdbd21ee-107-0) (line 107, col 0, score 0.98)
+- [Docops Feature Updates — L107](docops-feature-updates-2.md#^ref-cdbd21ee-107-0) (line 107, col 0, score 0.98)
 - [Docops Feature Updates — L165](docops-feature-updates.md#^ref-2792d448-165-0) (line 165, col 0, score 0.98)
 - [Promethean Chat Activity Report — L176](promethean-chat-activity-report.md#^ref-18344cf9-176-0) (line 176, col 0, score 0.98)
 - [Eidolon Field Abstract Model — L641](eidolon-field-abstract-model.md#^ref-5e8b2388-641-0) (line 641, col 0, score 1)
@@ -18285,7 +18243,7 @@ You will prompt me, too.
 - [field-dynamics-math-blocks — L555](field-dynamics-math-blocks.md#^ref-7cfc230d-555-0) (line 555, col 0, score 1)
 - [field-node-diagram-outline — L338](field-node-diagram-outline.md#^ref-1f32c94a-338-0) (line 338, col 0, score 1)
 - [Prompt_Folder_Bootstrap — L609](prompt-folder-bootstrap.md#^ref-bd4f0976-609-0) (line 609, col 0, score 1)
-- [Docops Feature Updates — L124](docops-feature-updates-3.md#^ref-cdbd21ee-124-0) (line 124, col 0, score 1)
+- [Docops Feature Updates — L124](docops-feature-updates-2.md#^ref-cdbd21ee-124-0) (line 124, col 0, score 1)
 - [Docops Feature Updates — L182](docops-feature-updates.md#^ref-2792d448-182-0) (line 182, col 0, score 1)
 - [Dynamic Context Model for Web Components — L1124](dynamic-context-model-for-web-components.md#^ref-f7702bf8-1124-0) (line 1124, col 0, score 1)
 - [Reawakening Duck — L366](reawakening-duck.md#^ref-59b5670f-366-0) (line 366, col 0, score 1)
@@ -18306,7 +18264,7 @@ You will prompt me, too.
 - [Agent Tasks: Persistence Migration to DualStore — L509](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-509-0) (line 509, col 0, score 1)
 - [Dynamic Context Model for Web Components — L837](dynamic-context-model-for-web-components.md#^ref-f7702bf8-837-0) (line 837, col 0, score 1)
 - [Layer1SurvivabilityEnvelope — L542](layer1survivabilityenvelope.md#^ref-64a9f9f9-542-0) (line 542, col 0, score 1)
-- [Docops Feature Updates — L157](docops-feature-updates-3.md#^ref-cdbd21ee-157-0) (line 157, col 0, score 1)
+- [Docops Feature Updates — L157](docops-feature-updates-2.md#^ref-cdbd21ee-157-0) (line 157, col 0, score 1)
 - [Docops Feature Updates — L214](docops-feature-updates.md#^ref-2792d448-214-0) (line 214, col 0, score 1)
 - [plan-update-confirmation — L1483](plan-update-confirmation.md#^ref-b22d79c6-1483-0) (line 1483, col 0, score 0.96)
 - [Promethean Notes — L152](promethean-notes.md#^ref-1c4046b5-152-0) (line 152, col 0, score 0.96)
@@ -18527,12 +18485,11 @@ You will prompt me, too.
 - [Agent Tasks: Persistence Migration to DualStore — L547](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-547-0) (line 547, col 0, score 1)
 - [Unique Info Dump Index — L334](unique-info-dump-index.md#^ref-30ec3ba6-334-0) (line 334, col 0, score 0.99)
 - [Migrate to Provider-Tenant Architecture — L667](migrate-to-provider-tenant-architecture.md#^ref-54382370-667-0) (line 667, col 0, score 0.99)
-- [Docops Feature Updates — L121](docops-feature-updates-3.md#^ref-cdbd21ee-121-0) (line 121, col 0, score 0.99)
+- [Docops Feature Updates — L121](docops-feature-updates-2.md#^ref-cdbd21ee-121-0) (line 121, col 0, score 0.99)
 - [Docops Feature Updates — L179](docops-feature-updates.md#^ref-2792d448-179-0) (line 179, col 0, score 0.99)
 - [field-node-diagram-visualizations — L231](field-node-diagram-visualizations.md#^ref-e9b27b06-231-0) (line 231, col 0, score 0.99)
 - [Admin Dashboard for User Management — L477](admin-dashboard-for-user-management.md#^ref-2901a3e9-477-0) (line 477, col 0, score 0.97)
 - [DuckDuckGoSearchPipeline — L121](duckduckgosearchpipeline.md#^ref-e979c50f-121-0) (line 121, col 0, score 0.97)
-- [Duck's Self-Referential Perceptual Loop — L344](ducks-self-referential-perceptual-loop.md#^ref-71726f04-344-0) (line 344, col 0, score 0.97)
 - [Dynamic Context Model for Web Components — L1636](dynamic-context-model-for-web-components.md#^ref-f7702bf8-1636-0) (line 1636, col 0, score 0.97)
 - [Debugging Broker Connections and Agent Behavior — L282](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-282-0) (line 282, col 0, score 1)
 - [Prompt_Folder_Bootstrap — L341](prompt-folder-bootstrap.md#^ref-bd4f0976-341-0) (line 341, col 0, score 1)
@@ -19007,7 +18964,7 @@ You will prompt me, too.
 - [Promethean Dev Workflow Update — L260](promethean-dev-workflow-update.md#^ref-03a5578f-260-0) (line 260, col 0, score 1)
 - [field-interaction-equations — L578](field-interaction-equations.md#^ref-b09141b7-578-0) (line 578, col 0, score 1)
 - [Prompt_Folder_Bootstrap — L522](prompt-folder-bootstrap.md#^ref-bd4f0976-522-0) (line 522, col 0, score 1)
-- [Docops Feature Updates — L113](docops-feature-updates-3.md#^ref-cdbd21ee-113-0) (line 113, col 0, score 0.98)
+- [Docops Feature Updates — L113](docops-feature-updates-2.md#^ref-cdbd21ee-113-0) (line 113, col 0, score 0.98)
 - [Docops Feature Updates — L171](docops-feature-updates.md#^ref-2792d448-171-0) (line 171, col 0, score 0.98)
 - [Dynamic Context Model for Web Components — L627](dynamic-context-model-for-web-components.md#^ref-f7702bf8-627-0) (line 627, col 0, score 0.97)
 - [Debugging Broker Connections and Agent Behavior — L179](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-179-0) (line 179, col 0, score 0.97)
@@ -19168,7 +19125,6 @@ You will prompt me, too.
 - [The Jar of Echoes — L339](the-jar-of-echoes.md#^ref-18138627-339-0) (line 339, col 0, score 1)
 - [The Jar of Echoes — L2650](the-jar-of-echoes.md#^ref-18138627-2650-0) (line 2650, col 0, score 0.98)
 - [Duck's Attractor States — L527](ducks-attractor-states.md#^ref-13951643-527-0) (line 527, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L315](ducks-self-referential-perceptual-loop.md#^ref-71726f04-315-0) (line 315, col 0, score 1)
 - [Obsidian ChatGPT Plugin Integration Guide — L258](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-258-0) (line 258, col 0, score 1)
 - [Obsidian ChatGPT Plugin Integration — L257](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-257-0) (line 257, col 0, score 1)
 - [Obsidian Templating Plugins Integration Guide — L421](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-421-0) (line 421, col 0, score 1)
@@ -19529,7 +19485,6 @@ You will prompt me, too.
 - [Smoke Resonance Visualizations — L436](smoke-resonance-visualizations.md#^ref-ac9d3ac5-436-0) (line 436, col 0, score 1)
 - [DSL — L395](chunks/dsl.md#^ref-e87bc036-395-0) (line 395, col 0, score 1)
 - [Duck's Self-Referential Perceptual Loop — L364](ducks-self-referential-perceptual-loop.md#^ref-71726f04-364-0) (line 364, col 0, score 1)
-- [field-dynamics-math-blocks — L855](field-dynamics-math-blocks.md#^ref-7cfc230d-855-0) (line 855, col 0, score 1)
 - [field-node-diagram-set — L270](field-node-diagram-set.md#^ref-22b989d5-270-0) (line 270, col 0, score 1)
 - [Functional Embedding Pipeline Refactor — L712](functional-embedding-pipeline-refactor.md#^ref-a4a25141-712-0) (line 712, col 0, score 1)
 - [graph-ds — L935](graph-ds.md#^ref-6620e2f2-935-0) (line 935, col 0, score 1)

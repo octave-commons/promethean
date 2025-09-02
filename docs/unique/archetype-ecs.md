@@ -27,6 +27,7 @@ related_to_title:
   - Ice Box Reorganization
   - komorebi-group-window-hack
   - Layer1SurvivabilityEnvelope
+  - file-watcher-auth-fix
   - Agent Reflections and Prompt Evolution
   - ChatGPT Custom Prompts
   - Chroma Toolkit Consolidation Plan
@@ -52,17 +53,29 @@ related_to_title:
   - ecs-scheduler-and-prefabs
   - System Scheduler with Resource-Aware DAG
   - shared-package-layout-clarification
+  - Language-Agnostic Mirror System
+  - SentenceProcessing
+  - Mongo Outbox Implementation
+  - Lispy Macros with syntax-rules
+  - observability-infrastructure-setup
+  - Recursive Prompt Construction Engine
   - windows-tiling-with-autohotkey
+  - polymorphic-meta-programming-engine
+  - Promethean Web UI Setup
+  - promethean-system-diagrams
+  - universal-intention-code-fabric
+  - Refactor 05-footers.ts
+  - Promethean Full-Stack Docker Setup
+  - Matplotlib Animation with Async Execution
   - AI-Centric OS with MCP Layer
   - WebSocket Gateway Implementation
-  - observability-infrastructure-setup
+  - Promethean-native config design
+  - Local-First Intention→Code Loop with Free Models
   - TypeScript Patch for Tool Calling Support
   - Stateful Partitions and Rebalancing
   - 'Agent Tasks: Persistence Migration to DualStore'
   - plan-update-confirmation
   - Dynamic Context Model for Web Components
-  - SentenceProcessing
-  - Language-Agnostic Mirror System
   - homeostasis-decay-formulas
 related_to_uuid:
   - 8ef6b79b-cc45-478e-bf3b-3d766da472c5
@@ -78,6 +91,7 @@ related_to_uuid:
   - 291c7d91-da8c-486c-9bc0-bd2254536e2d
   - dd89372d-10de-42a9-8c96-6bc13ea36d02
   - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
   - bb7f0835-c347-474f-bfad-eabd873b51ad
   - 930054b3-ba95-4acf-bb92-0e3ead25ed0b
   - 5020e892-8f18-443a-b707-6d0f3efcfe22
@@ -103,17 +117,29 @@ related_to_uuid:
   - c62a1815-c43b-4a3b-88e6-d7fa008a155e
   - ba244286-4e84-425b-8bf6-b80c4eb783fc
   - 36c8882a-badc-4e18-838d-2c54d7038141
+  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - 681a4ab2-8fef-4833-a09d-bceb62d114da
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
   - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+  - b51e19b4-1326-4311-9798-33e972bf626c
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - 80d4d883-59f9-401b-8699-7a2723148b1e
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
   - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
   - e811123d-5841-4e52-bf8c-978f26db4230
-  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
   - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
   - 4330e8f0-5f46-4235-918b-39b6b93fa561
   - 93d2ba51-8689-49ee-94e2-296092e48058
   - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
   - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - 681a4ab2-8fef-4833-a09d-bceb62d114da
-  - d2b3628c-6cad-4664-8551-94ef8280851d
   - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
 references:
   - uuid: 8ef6b79b-cc45-478e-bf3b-3d766da472c5
@@ -278,6 +304,18 @@ references:
     score: 0.87
   - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
     line: 285
+    col: 0
+    score: 0.85
+  - uuid: 9044701b-03c9-4a30-92c4-46b1bd66c11e
+    line: 32
+    col: 0
+    score: 1
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 504
+    col: 0
+    score: 0.85
+  - uuid: 681a4ab2-8fef-4833-a09d-bceb62d114da
+    line: 30
     col: 0
     score: 0.85
 ---
@@ -751,6 +789,7 @@ Want me to wire a **system scheduler** that uses the Graph you already have (wit
 - [Ice Box Reorganization](ice-box-reorganization.md)
 - [komorebi-group-window-hack](komorebi-group-window-hack.md)
 - [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [file-watcher-auth-fix](file-watcher-auth-fix.md)
 - [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
 - [ChatGPT Custom Prompts](chatgpt-custom-prompts.md)
 - [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
@@ -776,17 +815,29 @@ Want me to wire a **system scheduler** that uses the Graph you already have (wit
 - [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
 - [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
 - [shared-package-layout-clarification](shared-package-layout-clarification.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [SentenceProcessing](sentenceprocessing.md)
+- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
+- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
+- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
 - [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
+- [Promethean Web UI Setup](promethean-web-ui-setup.md)
+- [promethean-system-diagrams](promethean-system-diagrams.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [Refactor 05-footers.ts](refactor-05-footers-ts.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
 - [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
 - [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
-- [observability-infrastructure-setup](observability-infrastructure-setup.md)
+- [Promethean-native config design](promethean-native-config-design.md)
+- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
 - [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
 - [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
 - [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
 - [plan-update-confirmation](plan-update-confirmation.md)
 - [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [SentenceProcessing](sentenceprocessing.md)
-- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
 - [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
 ## Sources
 - [seperate-speech-from-thought — L2](seperate-speech-from-thought.md#^ref-8ef6b79b-2-0) (line 2, col 0, score 1)
@@ -830,4 +881,7 @@ Want me to wire a **system scheduler** that uses the Graph you already have (wit
 - [ecs-scheduler-and-prefabs — L247](ecs-scheduler-and-prefabs.md#^ref-c62a1815-247-0) (line 247, col 0, score 0.87)
 - [System Scheduler with Resource-Aware DAG — L245](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-245-0) (line 245, col 0, score 0.87)
 - [Chroma-Embedding-Refactor — L285](chroma-embedding-refactor.md#^ref-8b256935-285-0) (line 285, col 0, score 0.85)
+- [file-watcher-auth-fix — L32](file-watcher-auth-fix.md#^ref-9044701b-32-0) (line 32, col 0, score 1)
+- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.85)
+- [SentenceProcessing — L30](sentenceprocessing.md#^ref-681a4ab2-30-0) (line 30, col 0, score 0.85)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

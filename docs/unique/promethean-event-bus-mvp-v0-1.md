@@ -22,6 +22,16 @@ tags:
   - backpressure
 related_to_title:
   - obsidian-ignore-node-modules-regex
+  - DSL
+  - Math Fundamentals
+  - Operations
+  - Shared
+  - Simulation Demo
+  - Creative Moments
+  - Docops Feature Updates
+  - Debugging Broker Connections and Agent Behavior
+  - Tooling
+  - Window Management
   - Smoke Resonance Visualizations
   - Stateful Partitions and Rebalancing
   - Tracing the Signal
@@ -31,7 +41,6 @@ related_to_title:
   - Unique Concepts
   - zero-copy-snapshots-and-workers
   - Canonical Org-Babel Matplotlib Animation Template
-  - Docops Feature Updates
   - field-node-diagram-outline
   - field-node-diagram-set
   - field-node-diagram-visualizations
@@ -47,139 +56,110 @@ related_to_title:
   - ChatGPT Custom Prompts
   - Chroma Toolkit Consolidation Plan
   - Diagrams
-  - DSL
   - JavaScript
-  - Math Fundamentals
-  - Operations
   - Services
-  - Shared
-  - Simulation Demo
-  - i3-config-validation-methods
   - Unique Info Dump Index
-  - Creative Moments
   - Duck's Attractor States
   - eidolon-field-math-foundations
-  - Promethean-native config design
-  - RAG UI Panel with Qdrant and PostgREST
-  - State Snapshots API and Transactional Projector
-  - universal-intention-code-fabric
-  - System Scheduler with Resource-Aware DAG
-  - Vectorial Exception Descent
-  - set-assignment-in-lisp-ast
-  - Recursive Prompt Construction Engine
-  - prompt-programming-language-lisp
-  - Lisp-Compiler-Integration
-  - Cross-Target Macro System in Sibilant
-  - ecs-scheduler-and-prefabs
-  - Interop and Source Maps
+  - Performance-Optimized-Polyglot-Bridge
   - Event Bus MVP
-  - Factorio AI with External Agents
-  - Promethean Infrastructure Setup
-  - ParticleSimulationWithCanvasAndFFmpeg
-  - schema-evolution-workflow
-  - Pure TypeScript Search Microservice
-  - Chroma-Embedding-Refactor
-  - Universal Lisp Interface
-  - layer-1-uptime-diagrams
-  - ecs-offload-workers
-  - sibilant-meta-string-templating-runtime
-  - Prompt_Folder_Bootstrap
-  - Promethean State Format
-  - Protocol_0_The_Contradiction_Engine
-  - Promethean Pipelines
-  - ripple-propagation-demo
-  - Reawakening Duck
-  - sibilant-macro-targets
-  - sibilant-metacompiler-overview
-  - compiler-kit-foundations
   - Migrate to Provider-Tenant Architecture
-  - Promethean-Copilot-Intent-Engine
-  - Debugging Broker Connections and Agent Behavior
-  - Post-Linguistic Transhuman Design Frameworks
+  - polyglot-repl-interface-layer
+  - sibilant-macro-targets
+  - universal-intention-code-fabric
   - Dynamic Context Model for Web Components
-  - Model Selection for Lightweight Conversational Tasks
-  - shared-package-layout-clarification
-  - WebSocket Gateway Implementation
-  - heartbeat-simulation-snippets
-  - Promethean Documentation Pipeline Overview
-  - js-to-lisp-reverse-compiler
-  - lisp-dsl-for-window-management
-  - Promethean Full-Stack Docker Setup
-  - Language-Agnostic Mirror System
-  - observability-infrastructure-setup
-  - Cross-Language Runtime Polymorphism
+  - Duck's Self-Referential Perceptual Loop
   - Eidolon Field Abstract Model
-  - Sibilant Meta-Prompt DSL
-  - Event Bus Projections Architecture
-  - Voice Access Layer Design
-  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
-  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - Factorio AI with External Agents
+  - eidolon-node-lifecycle
+  - windows-tiling-with-autohotkey
+  - polymorphic-meta-programming-engine
+  - observability-infrastructure-setup
+  - Local-Only-LLM-Workflow
+  - Shared Package Structure
+  - prom-lib-rate-limiters-and-replay-api
   - homeostasis-decay-formulas
-  - Model Upgrade Calm-Down Guide
-  - Obsidian Templating Plugins Integration Guide
-  - Obsidian ChatGPT Plugin Integration
-  - MindfulRobotIntegration
+  - Board Walk – 2025-08-11
+  - WebSocket Gateway Implementation
+  - Promethean Dev Workflow Update
+  - Promethean Notes
+  - The Jar of Echoes
+  - Promethean Documentation Update
+  - Promethean_Eidolon_Synchronicity_Model
+  - Model Selection for Lightweight Conversational Tasks
+  - Self-Agency in AI Interaction
+  - Promethean Full-Stack Docker Setup
+  - balanced-bst
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - template-based-compilation
+  - Sibilant Meta-Prompt DSL
+  - Promethean-native config design
+  - Recursive Prompt Construction Engine
+  - RAG UI Panel with Qdrant and PostgREST
+  - Voice Access Layer Design
+  - Vectorial Exception Descent
+  - file-watcher-auth-fix
+  - promethean-system-diagrams
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - ripple-propagation-demo
+  - compiler-kit-foundations
+  - SentenceProcessing
+  - layer-1-uptime-diagrams
+  - mystery-lisp-search-session
+  - Mongo Outbox Implementation
+  - EidolonField
+  - Language-Agnostic Mirror System
+  - Cross-Target Macro System in Sibilant
+  - aionian-circuit-math
+  - Pure TypeScript Search Microservice
+  - field-interaction-equations
+  - Promethean Agent Config DSL
+  - Lispy Macros with syntax-rules
+  - shared-package-layout-clarification
+  - ecs-scheduler-and-prefabs
+  - Event Bus Projections Architecture
+  - Promethean-Copilot-Intent-Engine
+  - Per-Domain Policy System for JS Crawler
+  - Post-Linguistic Transhuman Design Frameworks
+  - Promethean Chat Activity Report
+  - plan-update-confirmation
+  - Provider-Agnostic Chat Panel Implementation
+  - Pipeline Enhancements
+  - Universal Lisp Interface
+  - 'Promethean Pipelines: Local TypeScript-First Workflow'
+  - pm2-orchestration-patterns
+  - prompt-programming-language-lisp
+  - Local-Offline-Model-Deployment-Strategy
+  - Matplotlib Animation with Async Execution
+  - State Snapshots API and Transactional Projector
+  - markdown-to-org-transpiler
+  - schema-evolution-workflow
+  - Cross-Language Runtime Polymorphism
+  - js-to-lisp-reverse-compiler
   - NPU Voice Code and Sensory Integration
+  - Promethean Infrastructure Setup
+  - Functional Refactor of TypeScript Document Processing
+  - ParticleSimulationWithCanvasAndFFmpeg
+  - Optimizing Command Limitations in System Design
+  - Obsidian ChatGPT Plugin Integration
+  - Obsidian Templating Plugins Integration Guide
+  - Obsidian ChatGPT Plugin Integration Guide
   - Obsidian Task Generation
   - OpenAPI Validation Report
-  - Local-First Intention→Code Loop with Free Models
-  - field-interaction-equations
-  - Promethean_Eidolon_Synchronicity_Model
-  - promethean-system-diagrams
-  - markdown-to-org-transpiler
-  - prom-lib-rate-limiters-and-replay-api
-  - Local-Only-LLM-Workflow
-  - mystery-lisp-search-session
-  - template-based-compilation
-  - i3-layout-saver
-  - Tooling
-  - EidolonField
-  - Promethean Agent Config DSL
-  - Local-Offline-Model-Deployment-Strategy
-  - field-dynamics-math-blocks
-  - Promethean Web UI Setup
-  - Shared Package Structure
-  - smart-chatgpt-thingy
-  - Exception Layer Analysis
-  - 'Agent Tasks: Persistence Migration to DualStore'
-  - 2d-sandbox-field
-  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
-  - Mongo Outbox Implementation
-  - polymorphic-meta-programming-engine
-  - Functional Refactor of TypeScript Document Processing
-  - The Jar of Echoes
-  - windows-tiling-with-autohotkey
-  - Promethean Dev Workflow Update
-  - Matplotlib Animation with Async Execution
-  - file-watcher-auth-fix
-  - Lispy Macros with syntax-rules
-  - 'Promethean Pipelines: Local TypeScript-First Workflow'
-  - Board Walk – 2025-08-11
-  - pm2-orchestration-patterns
-  - Window Management
-  - Ghostly Smoke Interference
-  - balanced-bst
-  - Refactor 05-footers.ts
-  - Refactor Frontmatter Processing
-  - refactor-relations
-  - Promethean Agent DSL TS Scaffold
-  - Eidolon-Field-Optimization
-  - Performance-Optimized-Polyglot-Bridge
-  - Per-Domain Policy System for JS Crawler
-  - Optimizing Command Limitations in System Design
-  - Mathematical Samplers
-  - aionian-circuit-math
-  - Provider-Agnostic Chat Panel Implementation
-  - SentenceProcessing
-  - api-gateway-versioning
-  - Redirecting Standard Error
-  - Self-Agency in AI Interaction
-  - Promethean Chat Activity Report
-  - Promethean Notes
-  - Promethean Documentation Update
-  - Prometheus Observability Stack
+  - Mathematics Sampler
 related_to_uuid:
   - ffb9b2a9-744d-4a53-9565-130fceae0832
+  - e87bc036-1570-419e-a558-f45b9c0db698
+  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+  - f1add613-656e-4bec-b52b-193fd78c4642
+  - 623a55f7-685c-486b-abaf-469da1bbbb69
+  - 557309a3-c906-4e97-8867-89ffe151790c
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - 2792d448-c3b5-4050-93dd-93768529d99c
+  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+  - 6cb4943e-8267-4e27-8618-2ce0a464d173
+  - 9e8ae388-767a-4ea8-9f2e-88801291d947
+  - cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
   - ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
   - 4330e8f0-5f46-4235-918b-39b6b93fa561
   - c3cd4f65-2bb3-4fca-a32e-2ac667e03f40
@@ -189,7 +169,6 @@ related_to_uuid:
   - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
   - 62bec6f0-4e13-4f38-aca4-72c84ba02367
   - 1b1338fc-bb4d-41df-828f-e219cc9442eb
-  - 2792d448-c3b5-4050-93dd-93768529d99c
   - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
   - 22b989d5-f4aa-4880-8632-709c21830f83
   - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
@@ -205,137 +184,97 @@ related_to_uuid:
   - 930054b3-ba95-4acf-bb92-0e3ead25ed0b
   - 5020e892-8f18-443a-b707-6d0f3efcfe22
   - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - e87bc036-1570-419e-a558-f45b9c0db698
   - c1618c66-f73a-4e04-9bfa-ef38755f7acc
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-  - f1add613-656e-4bec-b52b-193fd78c4642
   - 75ea4a6a-8270-488d-9d37-799c288e5f70
-  - 623a55f7-685c-486b-abaf-469da1bbbb69
-  - 557309a3-c906-4e97-8867-89ffe151790c
-  - d28090ac-f746-4958-aab5-ed1315382c04
   - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - 10d98225-12e0-4212-8e15-88b57cf7bee5
   - 13951643-1741-46bb-89dc-1beebb122633
   - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - ab748541-020e-4a7e-b07d-28173bd5bea2
-  - e1056831-ae0c-460b-95fa-4cf09b3398c6
-  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
-  - c14edce7-0656-45b2-aaf3-51f042451b7d
-  - ba244286-4e84-425b-8bf6-b80c4eb783fc
-  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
-  - c5fba0a0-9196-468d-a0f3-51c99e987263
-  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
-  - d41a06d1-613e-4440-80b7-4553fc694285
-  - cfee6d36-b9f5-4587-885a-cdfddb4f054e
-  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
-  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
-  - cdfac40c-00e4-458f-96a7-4c37d0278731
+  - f5579967-762d-4cfd-851e-4f71b4cb77a1
   - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
-  - a4d90289-798d-44a0-a8e8-a055ae12fb52
-  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-  - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-  - d17d3a96-c84d-4738-a403-6c733b874da2
-  - 8b256935-02f6-4da2-a406-bf6b8415276f
-  - b01856b4-999f-418d-8009-ade49b00eb0f
-  - 4127189a-e0ab-436f-8571-cc852b8e9add
-  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
-  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-  - 23df6ddb-05cf-4639-8201-f8291f8a6026
-  - 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-  - 8b8e6103-30a4-4d66-b5f2-87db1612b587
-  - 8430617b-80a2-4cc9-8288-9a74cb57990b
-  - 59b5670f-36d3-4d34-8985-f3144b15347a
-  - c5c9a5c6-427d-4864-8084-c083cd55faa0
-  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
-  - 01b21543-7e03-4129-8fe4-b6306be69dee
   - 54382370-1931-4a19-a634-46735708a9ea
-  - ae24a280-678e-4c0b-8cc4-56667fa04172
-  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-  - 6bcff92c-4224-453d-9993-1be8d37d47c3
+  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+  - c5c9a5c6-427d-4864-8084-c083cd55faa0
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
   - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - d144aa62-348c-4e5d-ae8f-38084c67ceca
-  - 36c8882a-badc-4e18-838d-2c54d7038141
-  - e811123d-5841-4e52-bf8c-978f26db4230
-  - 23e221e9-d4fa-4106-8458-06db2595085f
-  - 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
-  - 58191024-d04a-4520-8aae-a18be7b94263
-  - c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-  - d2b3628c-6cad-4664-8551-94ef8280851d
-  - b4e64f8c-4dc9-4941-a877-646c5ada068e
-  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
   - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - af5d2824-faad-476c-a389-e912d9bc672c
-  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
-  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
-  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - a4d90289-798d-44a0-a8e8-a055ae12fb52
+  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
+  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - 66a72fc3-4153-41fc-84bd-d6164967a6ff
+  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
   - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-  - db74343f-8f84-43a3-adb2-499c6f00be1c
-  - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-  - ca8e1399-77bf-4f77-82a3-3f703b68706d
-  - 5f65dfa5-dc97-4a6c-ad93-c45c1312e156
+  - 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - 03a5578f-d689-45db-95e9-11300e5eee6f
+  - 1c4046b5-742d-4004-aec6-b47251fef5d6
+  - 18138627-a348-4fbb-b447-410dfb400564
+  - 0b872af2-4197-46f3-b631-afb4e6135585
+  - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - 49a9a860-944c-467a-b532-4f99186a8593
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - d3e7db72-2e07-4dae-8920-0e07c499a1e5
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+  - af5d2824-faad-476c-a389-e912d9bc672c
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
+  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
+  - b51e19b4-1326-4311-9798-33e972bf626c
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - 8430617b-80a2-4cc9-8288-9a74cb57990b
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - 681a4ab2-8fef-4833-a09d-bceb62d114da
+  - 4127189a-e0ab-436f-8571-cc852b8e9add
+  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
+  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - f2d83a77-7f86-4c56-8538-1350167a0c6c
+  - d17d3a96-c84d-4738-a403-6c733b874da2
+  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
+  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
+  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+  - 36c8882a-badc-4e18-838d-2c54d7038141
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
+  - ae24a280-678e-4c0b-8cc4-56667fa04172
+  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
+  - 6bcff92c-4224-453d-9993-1be8d37d47c3
+  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - 43bfe9dd-d433-42ca-9777-f4c40eaba791
+  - e2135d9f-c69d-47ee-9b17-0b05e98dc748
+  - b01856b4-999f-418d-8009-ade49b00eb0f
+  - 6b63edca-7637-4fb0-bc85-d498c31cc46e
+  - 51932e7b-4237-4756-bcae-8be6d535d0d1
+  - d41a06d1-613e-4440-80b7-4553fc694285
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+  - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+  - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - 58191024-d04a-4520-8aae-a18be7b94263
   - 5a02283e-4281-4930-9ca7-e27849de11bd
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - 1cfae310-35dc-49c2-98f1-b186da25d84b
+  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+  - 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+  - ca8e1399-77bf-4f77-82a3-3f703b68706d
+  - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+  - 1d3d6c3a-039e-4b96-93c1-95854945e248
   - 9b694a91-dec5-4708-9462-3f71000ba925
   - 5c152b08-6b69-4bb8-a1a7-66745789c169
-  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-  - b51e19b4-1326-4311-9798-33e972bf626c
-  - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
-  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
-  - 31f0166e-4631-45fa-aecd-b44e9a13f497
-  - 6cb4943e-8267-4e27-8618-2ce0a464d173
-  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
-  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
-  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - bc5172ca-7a09-42ad-b418-8e42bb14d089
-  - 66a72fc3-4153-41fc-84bd-d6164967a6ff
-  - 2facccf8-69cf-4a7d-b24b-de966ec70283
-  - 21d5cc09-b005-4ede-8f69-00b4b0794540
-  - 93d2ba51-8689-49ee-94e2-296092e48058
-  - c710dc93-9fec-471b-bdee-bedbd360c67f
-  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
-  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
-  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
-  - 1cfae310-35dc-49c2-98f1-b186da25d84b
-  - 18138627-a348-4fbb-b447-410dfb400564
-  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
-  - 03a5578f-d689-45db-95e9-11300e5eee6f
-  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
-  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
-  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
-  - 6b63edca-7637-4fb0-bc85-d498c31cc46e
-  - 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-  - 51932e7b-4237-4756-bcae-8be6d535d0d1
-  - 9e8ae388-767a-4ea8-9f2e-88801291d947
-  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
-  - d3e7db72-2e07-4dae-8920-0e07c499a1e5
-  - 80d4d883-59f9-401b-8699-7a2723148b1e
-  - cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
-  - 41ce0216-f8cc-4eed-8d9a-fcc25be21425
-  - 5158f742-4a3b-466e-bfc3-d83517b64200
-  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
-  - f5579967-762d-4cfd-851e-4f71b4cb77a1
-  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
-  - 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
-  - 86a691ec-ca1f-4350-824c-0ded1f8ebe70
-  - f2d83a77-7f86-4c56-8538-1350167a0c6c
-  - 43bfe9dd-d433-42ca-9777-f4c40eaba791
-  - 681a4ab2-8fef-4833-a09d-bceb62d114da
-  - 0580dcd3-533d-4834-8a2f-eae3771960a9
-  - b3555ede-324a-4d24-a885-b0721e74babf
-  - 49a9a860-944c-467a-b532-4f99186a8593
-  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-  - 1c4046b5-742d-4004-aec6-b47251fef5d6
-  - 0b872af2-4197-46f3-b631-afb4e6135585
-  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
+  - b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
 references:
   - uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
     line: 483
@@ -513,764 +452,256 @@ references:
     line: 287
     col: 0
     score: 0.85
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 497
-    col: 0
-    score: 0.94
-  - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
-    line: 232
-    col: 0
-    score: 0.87
-  - uuid: 66a72fc3-4153-41fc-84bd-d6164967a6ff
-    line: 185
-    col: 0
-    score: 0.86
-  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
-    line: 303
-    col: 0
-    score: 1
-  - uuid: 31f0166e-4631-45fa-aecd-b44e9a13f497
-    line: 79
-    col: 0
-    score: 0.89
-  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
-    line: 161
-    col: 0
-    score: 0.86
-  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
-    line: 348
-    col: 0
-    score: 0.87
-  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
-    line: 400
-    col: 0
-    score: 0.9
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 272
-    col: 0
-    score: 0.9
-  - uuid: 23e221e9-d4fa-4106-8458-06db2595085f
-    line: 80
-    col: 0
-    score: 0.87
-  - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
-    line: 289
-    col: 0
-    score: 0.85
-  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
-    line: 504
-    col: 0
-    score: 0.91
-  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
-    line: 630
-    col: 0
-    score: 0.91
-  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
-    line: 521
-    col: 0
-    score: 0.95
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 280
-    col: 0
-    score: 0.9
-  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
-    line: 279
-    col: 0
-    score: 0.88
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 349
-    col: 0
-    score: 0.87
-  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
-    line: 105
-    col: 0
-    score: 0.88
-  - uuid: d41a06d1-613e-4440-80b7-4553fc694285
-    line: 56
-    col: 0
-    score: 0.9
-  - uuid: 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
-    line: 44
-    col: 0
-    score: 0.86
   - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
     line: 388
     col: 0
-    score: 0.87
-  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
-    line: 440
-    col: 0
-    score: 0.88
-  - uuid: 18138627-a348-4fbb-b447-410dfb400564
-    line: 3331
-    col: 0
-    score: 0.87
-  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
-    line: 3587
-    col: 0
-    score: 0.86
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 4198
-    col: 0
-    score: 0.86
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 7034
-    col: 0
-    score: 0.86
-  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 3943
-    col: 0
-    score: 0.86
-  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
-    line: 4269
-    col: 0
-    score: 0.86
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 758
-    col: 0
-    score: 0.86
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 1050
-    col: 0
-    score: 0.86
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 120
-    col: 0
-    score: 0.89
-  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
-    line: 305
-    col: 0
-    score: 0.89
-  - uuid: 2facccf8-69cf-4a7d-b24b-de966ec70283
-    line: 11
-    col: 0
-    score: 0.88
-  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
-    line: 28
-    col: 0
-    score: 0.85
-  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
-    line: 306
-    col: 0
-    score: 0.87
-  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
-    line: 524
-    col: 0
-    score: 0.89
-  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-    line: 185
-    col: 0
-    score: 0.88
-  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-    line: 416
-    col: 0
-    score: 0.88
+    score: 0.91
   - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
     line: 190
     col: 0
-    score: 0.86
-  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
-    line: 147
-    col: 0
-    score: 1
-  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 52
-    col: 0
-    score: 0.91
-  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
-    line: 92
+    score: 0.9
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 348
     col: 0
     score: 0.86
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 682
-    col: 0
-    score: 0.9
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 763
-    col: 0
-    score: 0.9
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 353
-    col: 0
-    score: 0.9
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 717
-    col: 0
-    score: 0.9
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 552
-    col: 0
-    score: 0.9
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 663
-    col: 0
-    score: 0.9
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 306
-    col: 0
-    score: 0.9
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 609
-    col: 0
-    score: 0.9
-  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-    line: 296
-    col: 0
-    score: 0.9
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 107
-    col: 0
-    score: 0.9
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 452
-    col: 0
-    score: 0.9
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 297
-    col: 0
-    score: 0.9
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 2870
-    col: 0
-    score: 0.9
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 461
-    col: 0
-    score: 0.9
-  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
-    line: 598
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 129
     col: 0
     score: 0.89
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 397
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 307
+    col: 0
+    score: 0.88
+  - uuid: 66a72fc3-4153-41fc-84bd-d6164967a6ff
+    line: 188
     col: 0
     score: 0.89
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 1447
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 417
     col: 0
-    score: 0.89
+    score: 0.85
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 631
+    col: 0
+    score: 0.85
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 3021
+    line: 4245
     col: 0
-    score: 0.89
-  - uuid: b51e19b4-1326-4311-9798-33e972bf626c
-    line: 169
-    col: 0
-    score: 0.89
-  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
-    line: 63
-    col: 0
-    score: 0.86
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    score: 0.9
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
     line: 151
     col: 0
-    score: 0.87
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 427
-    col: 0
-    score: 0.85
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 320
-    col: 0
-    score: 0.87
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 183
-    col: 0
-    score: 0.87
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 250
-    col: 0
-    score: 0.87
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 177
-    col: 0
-    score: 0.87
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 191
-    col: 0
-    score: 0.87
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 149
-    col: 0
-    score: 0.87
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 366
-    col: 0
-    score: 0.87
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 382
-    col: 0
-    score: 0.87
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 220
-    col: 0
-    score: 0.87
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 349
-    col: 0
-    score: 0.87
-  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
-    line: 609
-    col: 0
-    score: 0.86
-  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
-    line: 150
-    col: 0
-    score: 0.85
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 333
-    col: 0
-    score: 0.91
-  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
-    line: 793
-    col: 0
-    score: 0.89
-  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
-    line: 602
-    col: 0
-    score: 0.91
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 250
-    col: 0
-    score: 0.91
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 170
-    col: 0
-    score: 0.88
-  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-    line: 1037
-    col: 0
-    score: 0.88
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 770
-    col: 0
-    score: 0.88
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 830
-    col: 0
-    score: 0.9
-  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
-    line: 490
-    col: 0
-    score: 0.85
-  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
-    line: 44
-    col: 0
-    score: 0.89
-  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
-    line: 111
-    col: 0
-    score: 0.9
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 106
-    col: 0
-    score: 0.85
-  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
-    line: 95
-    col: 0
-    score: 0.86
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 385
-    col: 0
-    score: 0.86
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 1039
-    col: 0
-    score: 0.86
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 924
-    col: 0
-    score: 0.86
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 129
-    col: 0
-    score: 0.86
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 486
-    col: 0
-    score: 0.86
-  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
-    line: 376
-    col: 0
     score: 0.9
   - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 336
-    col: 0
-    score: 0.86
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 167
-    col: 0
-    score: 0.86
-  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
-    line: 129
-    col: 0
-    score: 0.88
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 148
-    col: 0
-    score: 0.94
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 211
+    line: 519
     col: 0
     score: 0.9
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 147
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 6385
     col: 0
-    score: 0.88
-  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
-    line: 343
+    score: 0.9
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 7157
     col: 0
-    score: 0.86
-  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
-    line: 375
+    score: 0.9
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 4144
     col: 0
-    score: 0.86
-  - uuid: 51932e7b-4237-4756-bcae-8be6d535d0d1
-    line: 217
-    col: 0
-    score: 0.86
+    score: 0.9
   - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 341
-    col: 0
-    score: 0.93
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 543
-    col: 0
-    score: 0.93
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 966
-    col: 0
-    score: 0.93
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 522
-    col: 0
-    score: 0.93
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 514
-    col: 0
-    score: 0.93
-  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-    line: 933
-    col: 0
-    score: 0.93
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 416
-    col: 0
-    score: 0.93
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 884
-    col: 0
-    score: 0.93
-  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
-    line: 588
-    col: 0
-    score: 0.93
-  - uuid: 9044701b-03c9-4a30-92c4-46b1bd66c11e
-    line: 32
-    col: 0
-    score: 0.86
-  - uuid: 6b63edca-7637-4fb0-bc85-d498c31cc46e
-    line: 220
-    col: 0
-    score: 0.85
-  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
-    line: 148
-    col: 0
-    score: 0.9
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 374
-    col: 0
-    score: 0.93
-  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
-    line: 187
-    col: 0
-    score: 0.87
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 673
-    col: 0
-    score: 0.88
-  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
-    line: 780
-    col: 0
-    score: 0.88
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 735
-    col: 0
-    score: 0.88
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 135
-    col: 0
-    score: 0.87
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 940
-    col: 0
-    score: 0.87
-  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
-    line: 205
-    col: 0
-    score: 0.86
-  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
-    line: 180
-    col: 0
-    score: 0.92
-  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
-    line: 149
-    col: 0
-    score: 0.92
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 274
-    col: 0
-    score: 0.92
-  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-    line: 205
-    col: 0
-    score: 0.92
-  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
-    line: 190
-    col: 0
-    score: 0.92
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 185
-    col: 0
-    score: 0.92
-  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-    line: 618
-    col: 0
-    score: 0.92
-  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
-    line: 223
-    col: 0
-    score: 0.92
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 588
-    col: 0
-    score: 0.91
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
     line: 263
     col: 0
-    score: 0.91
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 425
+    score: 0.9
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 225
     col: 0
-    score: 0.91
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 1516
+    score: 0.9
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 5019
     col: 0
-    score: 0.91
+    score: 0.9
   - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 953
+    line: 27109
     col: 0
-    score: 0.91
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 1428
+    score: 0.9
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 14207
     col: 0
-    score: 0.91
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 753
+    score: 0.9
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 15778
     col: 0
-    score: 0.91
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 470
+    score: 0.88
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 14666
     col: 0
-    score: 0.91
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 645
-    col: 0
-    score: 0.91
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 2879
+    score: 0.88
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 2310
     col: 0
     score: 0.86
   - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 4713
+    line: 24484
+    col: 0
+    score: 0.86
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 9646
+    col: 0
+    score: 0.86
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 10713
     col: 0
     score: 0.86
   - uuid: 18138627-a348-4fbb-b447-410dfb400564
-    line: 3896
+    line: 21636
     col: 0
     score: 0.86
-  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
-    line: 4545
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 1890
     col: 0
-    score: 0.86
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 6374
-    col: 0
-    score: 0.86
-  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 4842
-    col: 0
-    score: 0.86
-  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
-    line: 4076
-    col: 0
-    score: 0.86
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 4512
-    col: 0
-    score: 0.86
-  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
-    line: 599
-    col: 0
-    score: 0.85
-  - uuid: 930054b3-ba95-4acf-bb92-0e3ead25ed0b
-    line: 153
-    col: 0
-    score: 0.85
+    score: 0.94
   - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 888
+    line: 6581
     col: 0
-    score: 0.85
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 422
-    col: 0
-    score: 0.85
+    score: 0.93
   - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 347
+    line: 1551
     col: 0
-    score: 0.85
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 405
+    score: 0.93
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 3518
     col: 0
-    score: 0.85
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 265
+    score: 0.93
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 4150
     col: 0
-    score: 0.85
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 140
+    score: 0.93
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 3224
     col: 0
-    score: 0.85
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 317
+    score: 0.93
+  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
+    line: 1960
     col: 0
-    score: 0.85
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 297
+    score: 0.93
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 2576
     col: 0
-    score: 0.85
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 240
-    col: 0
-    score: 0.85
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 363
-    col: 0
-    score: 0.85
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 170
-    col: 0
-    score: 0.9
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 310
-    col: 0
-    score: 0.9
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 462
-    col: 0
-    score: 0.9
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 240
-    col: 0
-    score: 0.9
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 231
-    col: 0
-    score: 0.9
-  - uuid: 5f65dfa5-dc97-4a6c-ad93-c45c1312e156
-    line: 42
-    col: 0
-    score: 0.9
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 98
-    col: 0
-    score: 0.9
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 48
-    col: 0
-    score: 0.9
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 107
-    col: 0
-    score: 0.9
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 141
-    col: 0
-    score: 0.9
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 51
-    col: 0
-    score: 0.9
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 183
-    col: 0
-    score: 0.9
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 67
-    col: 0
-    score: 0.9
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 344
-    col: 0
-    score: 0.9
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 3
-    col: 0
-    score: 0.89
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 61
-    col: 0
-    score: 0.89
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 166
-    col: 0
-    score: 0.89
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 161
-    col: 0
-    score: 0.89
+    score: 0.93
   - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 474
+    line: 4241
+    col: 0
+    score: 0.85
+  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
+    line: 1656
+    col: 0
+    score: 0.85
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 1493
+    col: 0
+    score: 0.85
+  - uuid: 49a9a860-944c-467a-b532-4f99186a8593
+    line: 1970
+    col: 0
+    score: 0.85
+  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
+    line: 1986
+    col: 0
+    score: 0.85
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 1467
+    col: 0
+    score: 0.85
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+    line: 2476
+    col: 0
+    score: 0.85
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 3072
+    col: 0
+    score: 0.85
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 1375
     col: 0
     score: 0.89
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 249
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 1058
     col: 0
     score: 0.89
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 204
-    col: 0
-    score: 0.89
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 212
-    col: 0
-    score: 0.89
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 163
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 1484
     col: 0
     score: 0.89
   - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 178
+    line: 1066
+    col: 0
+    score: 0.89
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 1148
     col: 0
     score: 0.89
   - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 204
+    line: 281
+    col: 0
+    score: 0.89
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 832
+    col: 0
+    score: 0.89
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 1203
+    col: 0
+    score: 0.89
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 970
     col: 0
     score: 0.89
   - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 3
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 6
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 11
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
     line: 15
+    col: 0
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 51
+    col: 0
+    score: 1
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 88
+    col: 0
+    score: 1
+  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
+    line: 94
+    col: 0
+    score: 1
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 74
+    col: 0
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 75
+    col: 0
+    score: 1
+  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
+    line: 38
+    col: 0
+    score: 1
+  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
+    line: 54
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 51
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 81
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 29
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 45
     col: 0
     score: 1
 ---
@@ -2245,7 +1676,7 @@ bus.subscribe({ topic: 'heartbeat.received', group: 'monitor', from: { kind: 'la
 ```
 
 ## Sibilant helpers (DSL sprinkles)
-
+ ^ref-fe7193a2-972-0
 ```lisp
 (defn mk-env [topic payload &optional key headers]
   {:type "PUBLISH" :topic topic :key key :headers headers :payload payload})
@@ -2273,6 +1704,7 @@ bus.subscribe({ topic: 'heartbeat.received', group: 'monitor', from: { kind: 'la
 ^ref-fe7193a2-865-0
 ^ref-fe7193a2-972-0
 ``` ^ref-fe7193a2-888-0
+^ref-fe7193a2-973-0
  ^ref-fe7193a2-889-0
 ^ref-fe7193a2-832-0 ^ref-fe7193a2-890-0 ^ref-fe7193a2-940-0
 ## ENV & Config ^ref-fe7193a2-941-0
@@ -2331,6 +1763,17 @@ flowchart LR ^ref-fe7193a2-901-0
     ``<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
+- [DSL](chunks/dsl.md)
+- [Math Fundamentals](chunks/math-fundamentals.md)
+- [Operations](chunks/operations.md)
+- [Shared](chunks/shared.md)
+- [Simulation Demo](chunks/simulation-demo.md)
+- [Creative Moments](creative-moments.md)
+- [Docops Feature Updates](docops-feature-updates.md)
+- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
+- [Tooling](chunks/tooling.md)
+- [Window Management](chunks/window-management.md)
+- [Docops Feature Updates](docops-feature-updates-2.md)
 - [Smoke Resonance Visualizations](smoke-resonance-visualizations.md)
 - [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
 - [Tracing the Signal](tracing-the-signal.md)
@@ -2340,7 +1783,6 @@ flowchart LR ^ref-fe7193a2-901-0
 - [Unique Concepts](unique-concepts.md)
 - [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
 - [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [Docops Feature Updates](docops-feature-updates.md)
 - [field-node-diagram-outline](field-node-diagram-outline.md)
 - [field-node-diagram-set](field-node-diagram-set.md)
 - [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
@@ -2356,137 +1798,97 @@ flowchart LR ^ref-fe7193a2-901-0
 - [ChatGPT Custom Prompts](chatgpt-custom-prompts.md)
 - [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
 - [Diagrams](chunks/diagrams.md)
-- [DSL](chunks/dsl.md)
 - [JavaScript](chunks/javascript.md)
-- [Math Fundamentals](chunks/math-fundamentals.md)
-- [Operations](chunks/operations.md)
 - [Services](chunks/services.md)
-- [Shared](chunks/shared.md)
-- [Simulation Demo](chunks/simulation-demo.md)
-- [i3-config-validation-methods](i3-config-validation-methods.md)
 - [Unique Info Dump Index](unique-info-dump-index.md)
-- [Creative Moments](creative-moments.md)
 - [Duck's Attractor States](ducks-attractor-states.md)
 - [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [Promethean-native config design](promethean-native-config-design.md)
-- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
-- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
-- [universal-intention-code-fabric](universal-intention-code-fabric.md)
-- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
-- [Vectorial Exception Descent](vectorial-exception-descent.md)
-- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
-- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
-- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
-- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
-- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
-- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
-- [Interop and Source Maps](interop-and-source-maps.md)
+- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
 - [Event Bus MVP](event-bus-mvp.md)
-- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
-- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
-- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
-- [schema-evolution-workflow](schema-evolution-workflow.md)
-- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
-- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
-- [Universal Lisp Interface](universal-lisp-interface.md)
-- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
-- [ecs-offload-workers](ecs-offload-workers.md)
-- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
-- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
-- [Promethean State Format](promethean-state-format.md)
-- [Protocol_0_The_Contradiction_Engine](protocol-0-the-contradiction-engine.md)
-- [Promethean Pipelines](promethean-pipelines.md)
-- [ripple-propagation-demo](ripple-propagation-demo.md)
-- [Reawakening Duck](reawakening-duck.md)
-- [sibilant-macro-targets](sibilant-macro-targets.md)
-- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
-- [compiler-kit-foundations](compiler-kit-foundations.md)
 - [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
-- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
-- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
-- [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
+- [polyglot-repl-interface-layer](polyglot-repl-interface-layer.md)
+- [sibilant-macro-targets](sibilant-macro-targets.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
 - [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
-- [shared-package-layout-clarification](shared-package-layout-clarification.md)
-- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
-- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
-- [Promethean Documentation Pipeline Overview](promethean-documentation-pipeline-overview.md)
-- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
-- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
-- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
-- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
-- [observability-infrastructure-setup](observability-infrastructure-setup.md)
-- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
+- [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
 - [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
-- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
-- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
-- [Voice Access Layer Design](voice-access-layer-design.md)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
-- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
+- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
+- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [Shared Package Structure](shared-package-structure.md)
+- [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
 - [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
-- [Model Upgrade Calm-Down Guide](model-upgrade-calm-down-guide.md)
-- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
-- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
-- [MindfulRobotIntegration](mindfulrobotintegration.md)
+- [Board Walk – 2025-08-11](board-walk-2025-08-11.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
+- [Promethean Notes](promethean-notes.md)
+- [The Jar of Echoes](the-jar-of-echoes.md)
+- [Promethean Documentation Update](promethean-documentation-update.txt)
+- [Promethean_Eidolon_Synchronicity_Model](promethean-eidolon-synchronicity-model.md)
+- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
+- [Self-Agency in AI Interaction](self-agency-in-ai-interaction.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [balanced-bst](balanced-bst.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [template-based-compilation](template-based-compilation.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+- [Promethean-native config design](promethean-native-config-design.md)
+- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [Vectorial Exception Descent](vectorial-exception-descent.md)
+- [file-watcher-auth-fix](file-watcher-auth-fix.md)
+- [promethean-system-diagrams](promethean-system-diagrams.md)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [ripple-propagation-demo](ripple-propagation-demo.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [SentenceProcessing](sentenceprocessing.md)
+- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
+- [mystery-lisp-search-session](mystery-lisp-search-session.md)
+- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
+- [EidolonField](eidolonfield.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
+- [aionian-circuit-math](aionian-circuit-math.md)
+- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
+- [field-interaction-equations](field-interaction-equations.md)
+- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
+- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
+- [shared-package-layout-clarification](shared-package-layout-clarification.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
+- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
+- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
+- [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
+- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
+- [plan-update-confirmation](plan-update-confirmation.md)
+- [Provider-Agnostic Chat Panel Implementation](provider-agnostic-chat-panel-implementation.md)
+- [Pipeline Enhancements](pipeline-enhancements.md)
+- [Universal Lisp Interface](universal-lisp-interface.md)
+- [Promethean Pipelines: Local TypeScript-First Workflow](promethean-pipelines-local-typescript-first-workflow.md)
+- [pm2-orchestration-patterns](pm2-orchestration-patterns.md)
+- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
+- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
+- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
+- [schema-evolution-workflow](schema-evolution-workflow.md)
+- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
+- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
 - [NPU Voice Code and Sensory Integration](npu-voice-code-and-sensory-integration.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
+- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
+- [Optimizing Command Limitations in System Design](optimizing-command-limitations-in-system-design.md)
+- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
+- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
+- [Obsidian ChatGPT Plugin Integration Guide](obsidian-chatgpt-plugin-integration-guide.md)
 - [Obsidian Task Generation](obsidian-task-generation.md)
 - [OpenAPI Validation Report](openapi-validation-report.md)
-- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [field-interaction-equations](field-interaction-equations.md)
-- [Promethean_Eidolon_Synchronicity_Model](promethean-eidolon-synchronicity-model.md)
-- [promethean-system-diagrams](promethean-system-diagrams.md)
-- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
-- [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
-- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
-- [mystery-lisp-search-session](mystery-lisp-search-session.md)
-- [template-based-compilation](template-based-compilation.md)
-- [i3-layout-saver](i3-layout-saver.md)
-- [Tooling](chunks/tooling.md)
-- [EidolonField](eidolonfield.md)
-- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
-- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
-- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
-- [Promethean Web UI Setup](promethean-web-ui-setup.md)
-- [Shared Package Structure](shared-package-structure.md)
-- [smart-chatgpt-thingy](smart-chatgpt-thingy.md)
-- [Exception Layer Analysis](exception-layer-analysis.md)
-- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
-- [2d-sandbox-field](2d-sandbox-field.md)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
-- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
-- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
-- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
-- [The Jar of Echoes](the-jar-of-echoes.md)
-- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
-- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
-- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
-- [file-watcher-auth-fix](file-watcher-auth-fix.md)
-- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
-- [Promethean Pipelines: Local TypeScript-First Workflow](promethean-pipelines-local-typescript-first-workflow.md)
-- [Board Walk – 2025-08-11](board-walk-2025-08-11.md)
-- [pm2-orchestration-patterns](pm2-orchestration-patterns.md)
-- [Window Management](chunks/window-management.md)
-- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
-- [balanced-bst](balanced-bst.md)
-- [Refactor 05-footers.ts](refactor-05-footers-ts.md)
-- [Refactor Frontmatter Processing](refactor-frontmatter-processing.md)
-- [refactor-relations](refactor-relations.md)
-- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
-- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
-- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
-- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
-- [Optimizing Command Limitations in System Design](optimizing-command-limitations-in-system-design.md)
-- [Mathematical Samplers](mathematical-samplers.md)
-- [aionian-circuit-math](aionian-circuit-math.md)
-- [Provider-Agnostic Chat Panel Implementation](provider-agnostic-chat-panel-implementation.md)
-- [SentenceProcessing](sentenceprocessing.md)
-- [api-gateway-versioning](api-gateway-versioning.md)
-- [Redirecting Standard Error](redirecting-standard-error.md)
-- [Self-Agency in AI Interaction](self-agency-in-ai-interaction.md)
-- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
-- [Promethean Notes](promethean-notes.md)
-- [Promethean Documentation Update](promethean-documentation-update.txt)
-- [Prometheus Observability Stack](prometheus-observability-stack.md)
+- [Mathematics Sampler](mathematics-sampler.md)
 ## Sources
 - [Smoke Resonance Visualizations — L483](smoke-resonance-visualizations.md#^ref-ac9d3ac5-483-0) (line 483, col 0, score 1)
 - [Stateful Partitions and Rebalancing — L1321](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-1321-0) (line 1321, col 0, score 1)
@@ -2532,194 +1934,67 @@ flowchart LR ^ref-fe7193a2-901-0
 - [Board Walk – 2025-08-11 — L127](board-walk-2025-08-11.md#^ref-7aa1eb92-127-0) (line 127, col 0, score 0.86)
 - [WebSocket Gateway Implementation — L318](websocket-gateway-implementation.md#^ref-e811123d-318-0) (line 318, col 0, score 0.86)
 - [Event Bus MVP — L287](event-bus-mvp.md#^ref-534fe91d-287-0) (line 287, col 0, score 0.85)
-- [Interop and Source Maps — L497](interop-and-source-maps.md#^ref-cdfac40c-497-0) (line 497, col 0, score 0.94)
-- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.87)
-- [Shared Package Structure — L185](shared-package-structure.md#^ref-66a72fc3-185-0) (line 185, col 0, score 0.86)
-- [State Snapshots API and Transactional Projector — L303](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0) (line 303, col 0, score 1)
-- [i3-layout-saver — L79](i3-layout-saver.md#^ref-31f0166e-79-0) (line 79, col 0, score 0.89)
-- [shared-package-layout-clarification — L161](shared-package-layout-clarification.md#^ref-36c8882a-161-0) (line 161, col 0, score 0.86)
-- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.87)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L400](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-400-0) (line 400, col 0, score 0.9)
-- [markdown-to-org-transpiler — L272](markdown-to-org-transpiler.md#^ref-ab54cdd8-272-0) (line 272, col 0, score 0.9)
-- [heartbeat-simulation-snippets — L80](heartbeat-simulation-snippets.md#^ref-23e221e9-80-0) (line 80, col 0, score 0.87)
-- [Chroma-Embedding-Refactor — L289](chroma-embedding-refactor.md#^ref-8b256935-289-0) (line 289, col 0, score 0.85)
-- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.91)
-- [WebSocket Gateway Implementation — L630](websocket-gateway-implementation.md#^ref-e811123d-630-0) (line 630, col 0, score 0.91)
-- [Lisp-Compiler-Integration — L521](lisp-compiler-integration.md#^ref-cfee6d36-521-0) (line 521, col 0, score 0.95)
-- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.9)
-- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.88)
-- [RAG UI Panel with Qdrant and PostgREST — L349](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0) (line 349, col 0, score 0.87)
-- [Local-First Intention→Code Loop with Free Models — L105](local-first-intention-code-loop-with-free-models.md#^ref-871490c7-105-0) (line 105, col 0, score 0.88)
-- [prompt-programming-language-lisp — L56](prompt-programming-language-lisp.md#^ref-d41a06d1-56-0) (line 56, col 0, score 0.9)
-- [Matplotlib Animation with Async Execution — L44](matplotlib-animation-with-async-execution.md#^ref-687439f9-44-0) (line 44, col 0, score 0.86)
-- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.87)
-- [Promethean Web UI Setup — L440](promethean-web-ui-setup.md#^ref-bc5172ca-440-0) (line 440, col 0, score 0.88)
-- [The Jar of Echoes — L3331](the-jar-of-echoes.md#^ref-18138627-3331-0) (line 3331, col 0, score 0.87)
-- [windows-tiling-with-autohotkey — L3587](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-3587-0) (line 3587, col 0, score 0.86)
-- [Duck's Attractor States — L4198](ducks-attractor-states.md#^ref-13951643-4198-0) (line 4198, col 0, score 0.86)
-- [eidolon-field-math-foundations — L7034](eidolon-field-math-foundations.md#^ref-008f2ac0-7034-0) (line 7034, col 0, score 0.86)
-- [Promethean Dev Workflow Update — L3943](promethean-dev-workflow-update.md#^ref-03a5578f-3943-0) (line 3943, col 0, score 0.86)
-- [windows-tiling-with-autohotkey — L4269](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-4269-0) (line 4269, col 0, score 0.86)
-- [Canonical Org-Babel Matplotlib Animation Template — L758](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-758-0) (line 758, col 0, score 0.86)
-- [Duck's Attractor States — L1050](ducks-attractor-states.md#^ref-13951643-1050-0) (line 1050, col 0, score 0.86)
-- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.89)
-- [Promethean-native config design — L305](promethean-native-config-design.md#^ref-ab748541-305-0) (line 305, col 0, score 0.89)
-- [smart-chatgpt-thingy — L11](smart-chatgpt-thingy.md#^ref-2facccf8-11-0) (line 11, col 0, score 0.88)
-- [i3-config-validation-methods — L28](i3-config-validation-methods.md#^ref-d28090ac-28-0) (line 28, col 0, score 0.85)
-- [prom-lib-rate-limiters-and-replay-api — L306](prom-lib-rate-limiters-and-replay-api.md#^ref-aee4718b-306-0) (line 306, col 0, score 0.87)
-- [Event Bus MVP — L524](event-bus-mvp.md#^ref-534fe91d-524-0) (line 524, col 0, score 0.89)
-- [lisp-dsl-for-window-management — L185](lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0) (line 185, col 0, score 0.88)
-- [Promethean Full-Stack Docker Setup — L416](promethean-full-stack-docker-setup.md#^ref-2c2b48ca-416-0) (line 416, col 0, score 0.88)
-- [polymorphic-meta-programming-engine — L190](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-190-0) (line 190, col 0, score 0.86)
-- [Recursive Prompt Construction Engine — L147](recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0) (line 147, col 0, score 1)
-- [sibilant-metacompiler-overview — L52](sibilant-metacompiler-overview.md#^ref-61d4086b-52-0) (line 52, col 0, score 0.91)
-- [sibilant-meta-string-templating-runtime — L92](sibilant-meta-string-templating-runtime.md#^ref-2aafc801-92-0) (line 92, col 0, score 0.86)
-- [eidolon-field-math-foundations — L682](eidolon-field-math-foundations.md#^ref-008f2ac0-682-0) (line 682, col 0, score 0.9)
-- [graph-ds — L763](graph-ds.md#^ref-6620e2f2-763-0) (line 763, col 0, score 0.9)
-- [heartbeat-fragment-demo — L353](heartbeat-fragment-demo.md#^ref-dd00677a-353-0) (line 353, col 0, score 0.9)
-- [homeostasis-decay-formulas — L717](homeostasis-decay-formulas.md#^ref-37b5d236-717-0) (line 717, col 0, score 0.9)
-- [komorebi-group-window-hack — L552](komorebi-group-window-hack.md#^ref-dd89372d-552-0) (line 552, col 0, score 0.9)
-- [Migrate to Provider-Tenant Architecture — L663](migrate-to-provider-tenant-architecture.md#^ref-54382370-663-0) (line 663, col 0, score 0.9)
-- [obsidian-ignore-node-modules-regex — L306](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-306-0) (line 306, col 0, score 0.9)
-- [Promethean-Copilot-Intent-Engine — L609](promethean-copilot-intent-engine.md#^ref-ae24a280-609-0) (line 609, col 0, score 0.9)
-- [Promethean_Eidolon_Synchronicity_Model — L296](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-296-0) (line 296, col 0, score 0.9)
-- [Docops Feature Updates — L107](docops-feature-updates.md#^ref-2792d448-107-0) (line 107, col 0, score 0.9)
-- [Eidolon Field Abstract Model — L452](eidolon-field-abstract-model.md#^ref-5e8b2388-452-0) (line 452, col 0, score 0.9)
-- [Model Selection for Lightweight Conversational Tasks — L297](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-297-0) (line 297, col 0, score 0.9)
-- [eidolon-field-math-foundations — L2870](eidolon-field-math-foundations.md#^ref-008f2ac0-2870-0) (line 2870, col 0, score 0.9)
-- [field-interaction-equations — L461](field-interaction-equations.md#^ref-b09141b7-461-0) (line 461, col 0, score 0.9)
-- [Promethean Documentation Pipeline Overview — L598](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-598-0) (line 598, col 0, score 0.89)
-- [Model Selection for Lightweight Conversational Tasks — L397](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-397-0) (line 397, col 0, score 0.89)
-- [Creative Moments — L1447](creative-moments.md#^ref-10d98225-1447-0) (line 1447, col 0, score 0.89)
-- [Duck's Attractor States — L3021](ducks-attractor-states.md#^ref-13951643-3021-0) (line 3021, col 0, score 0.89)
-- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.89)
-- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.86)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L151](ollama-llm-provider-for-pseudo-code-transpiler.md#^ref-b362e12e-151-0) (line 151, col 0, score 0.87)
-- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.85)
-- [Eidolon Field Abstract Model — L320](eidolon-field-abstract-model.md#^ref-5e8b2388-320-0) (line 320, col 0, score 0.87)
-- [eidolon-field-math-foundations — L183](eidolon-field-math-foundations.md#^ref-008f2ac0-183-0) (line 183, col 0, score 0.87)
-- [Factorio AI with External Agents — L250](factorio-ai-with-external-agents.md#^ref-a4d90289-250-0) (line 250, col 0, score 0.87)
-- [field-dynamics-math-blocks — L177](field-dynamics-math-blocks.md#^ref-7cfc230d-177-0) (line 177, col 0, score 0.87)
-- [field-interaction-equations — L191](field-interaction-equations.md#^ref-b09141b7-191-0) (line 191, col 0, score 0.87)
-- [field-node-diagram-outline — L149](field-node-diagram-outline.md#^ref-1f32c94a-149-0) (line 149, col 0, score 0.87)
-- [Fnord Tracer Protocol — L366](fnord-tracer-protocol.md#^ref-fc21f824-366-0) (line 366, col 0, score 0.87)
-- [Functional Embedding Pipeline Refactor — L382](functional-embedding-pipeline-refactor.md#^ref-a4a25141-382-0) (line 382, col 0, score 0.87)
-- [Functional Refactor of TypeScript Document Processing — L220](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-220-0) (line 220, col 0, score 0.87)
-- [Factorio AI with External Agents — L349](factorio-ai-with-external-agents.md#^ref-a4d90289-349-0) (line 349, col 0, score 0.87)
-- [Mongo Outbox Implementation — L609](mongo-outbox-implementation.md#^ref-9c1acd1e-609-0) (line 609, col 0, score 0.86)
-- [2d-sandbox-field — L150](2d-sandbox-field.md#^ref-c710dc93-150-0) (line 150, col 0, score 0.85)
-- [Factorio AI with External Agents — L333](factorio-ai-with-external-agents.md#^ref-a4d90289-333-0) (line 333, col 0, score 0.91)
-- [Stateful Partitions and Rebalancing — L793](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-793-0) (line 793, col 0, score 0.89)
-- [Promethean Documentation Pipeline Overview — L602](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-602-0) (line 602, col 0, score 0.91)
-- [i3-bluetooth-setup — L250](i3-bluetooth-setup.md#^ref-5e408692-250-0) (line 250, col 0, score 0.91)
-- [Services — L170](chunks/services.md#^ref-75ea4a6a-170-0) (line 170, col 0, score 0.88)
-- [schema-evolution-workflow — L1037](schema-evolution-workflow.md#^ref-d8059b6a-1037-0) (line 1037, col 0, score 0.88)
-- [Unique Info Dump Index — L770](unique-info-dump-index.md#^ref-30ec3ba6-770-0) (line 770, col 0, score 0.88)
-- [Migrate to Provider-Tenant Architecture — L830](migrate-to-provider-tenant-architecture.md#^ref-54382370-830-0) (line 830, col 0, score 0.9)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L490](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-490-0) (line 490, col 0, score 0.85)
-- [template-based-compilation — L44](template-based-compilation.md#^ref-f8877e5e-44-0) (line 44, col 0, score 0.89)
-- [Event Bus Projections Architecture — L111](event-bus-projections-architecture.md#^ref-cf6b9b17-111-0) (line 111, col 0, score 0.9)
-- [mystery-lisp-search-session — L106](mystery-lisp-search-session.md#^ref-513dc4c7-106-0) (line 106, col 0, score 0.85)
-- [Vectorial Exception Descent — L95](vectorial-exception-descent.md#^ref-d771154e-95-0) (line 95, col 0, score 0.86)
-- [Promethean-Copilot-Intent-Engine — L385](promethean-copilot-intent-engine.md#^ref-ae24a280-385-0) (line 385, col 0, score 0.86)
-- [Migrate to Provider-Tenant Architecture — L1039](migrate-to-provider-tenant-architecture.md#^ref-54382370-1039-0) (line 1039, col 0, score 0.86)
-- [Pure TypeScript Search Microservice — L924](pure-typescript-search-microservice.md#^ref-d17d3a96-924-0) (line 924, col 0, score 0.86)
-- [Services — L129](chunks/services.md#^ref-75ea4a6a-129-0) (line 129, col 0, score 0.86)
-- [Unique Info Dump Index — L486](unique-info-dump-index.md#^ref-30ec3ba6-486-0) (line 486, col 0, score 0.86)
-- [ecs-scheduler-and-prefabs — L376](ecs-scheduler-and-prefabs.md#^ref-c62a1815-376-0) (line 376, col 0, score 0.9)
-- [Dynamic Context Model for Web Components — L336](dynamic-context-model-for-web-components.md#^ref-f7702bf8-336-0) (line 336, col 0, score 0.86)
-- [Chroma Toolkit Consolidation Plan — L167](chroma-toolkit-consolidation-plan.md#^ref-5020e892-167-0) (line 167, col 0, score 0.86)
-- [layer-1-uptime-diagrams — L129](layer-1-uptime-diagrams.md#^ref-4127189a-129-0) (line 129, col 0, score 0.88)
-- [Cross-Target Macro System in Sibilant — L148](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-148-0) (line 148, col 0, score 0.94)
-- [Cross-Language Runtime Polymorphism — L211](cross-language-runtime-polymorphism.md#^ref-c34c36a6-211-0) (line 211, col 0, score 0.9)
-- [Local-Only-LLM-Workflow — L147](local-only-llm-workflow.md#^ref-9a8ab57e-147-0) (line 147, col 0, score 0.88)
-- [js-to-lisp-reverse-compiler — L343](js-to-lisp-reverse-compiler.md#^ref-58191024-343-0) (line 343, col 0, score 0.86)
-- [Lispy Macros with syntax-rules — L375](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-375-0) (line 375, col 0, score 0.86)
-- [pm2-orchestration-patterns — L217](pm2-orchestration-patterns.md#^ref-51932e7b-217-0) (line 217, col 0, score 0.86)
-- [Factorio AI with External Agents — L341](factorio-ai-with-external-agents.md#^ref-a4d90289-341-0) (line 341, col 0, score 0.93)
-- [graph-ds — L543](graph-ds.md#^ref-6620e2f2-543-0) (line 543, col 0, score 0.93)
-- [Promethean Infrastructure Setup — L966](promethean-infrastructure-setup.md#^ref-6deed6ac-966-0) (line 966, col 0, score 0.93)
-- [zero-copy-snapshots-and-workers — L522](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-522-0) (line 522, col 0, score 0.93)
-- [ParticleSimulationWithCanvasAndFFmpeg — L514](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-514-0) (line 514, col 0, score 0.93)
-- [schema-evolution-workflow — L933](schema-evolution-workflow.md#^ref-d8059b6a-933-0) (line 933, col 0, score 0.93)
-- [komorebi-group-window-hack — L416](komorebi-group-window-hack.md#^ref-dd89372d-416-0) (line 416, col 0, score 0.93)
-- [Pure TypeScript Search Microservice — L884](pure-typescript-search-microservice.md#^ref-d17d3a96-884-0) (line 884, col 0, score 0.93)
-- [typed-struct-compiler — L588](typed-struct-compiler.md#^ref-78eeedf7-588-0) (line 588, col 0, score 0.93)
-- [file-watcher-auth-fix — L32](file-watcher-auth-fix.md#^ref-9044701b-32-0) (line 32, col 0, score 0.86)
-- [Promethean Pipelines: Local TypeScript-First Workflow — L220](promethean-pipelines-local-typescript-first-workflow.md#^ref-6b63edca-220-0) (line 220, col 0, score 0.85)
-- [set-assignment-in-lisp-ast — L148](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0) (line 148, col 0, score 0.9)
-- [System Scheduler with Resource-Aware DAG — L374](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-374-0) (line 374, col 0, score 0.93)
-- [Universal Lisp Interface — L187](universal-lisp-interface.md#^ref-b01856b4-187-0) (line 187, col 0, score 0.87)
-- [Fnord Tracer Protocol — L673](fnord-tracer-protocol.md#^ref-fc21f824-673-0) (line 673, col 0, score 0.88)
-- [Agent Tasks: Persistence Migration to DualStore — L780](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-780-0) (line 780, col 0, score 0.88)
-- [Chroma Toolkit Consolidation Plan — L735](chroma-toolkit-consolidation-plan.md#^ref-5020e892-735-0) (line 735, col 0, score 0.88)
-- [Diagrams — L135](chunks/diagrams.md#^ref-45cd25b5-135-0) (line 135, col 0, score 0.87)
-- [Chroma Toolkit Consolidation Plan — L940](chroma-toolkit-consolidation-plan.md#^ref-5020e892-940-0) (line 940, col 0, score 0.87)
-- [EidolonField — L205](eidolonfield.md#^ref-49d1e1e5-205-0) (line 205, col 0, score 0.86)
-- [Promethean Pipelines — L180](promethean-pipelines.md#^ref-8b8e6103-180-0) (line 180, col 0, score 0.92)
-- [Promethean State Format — L149](promethean-state-format.md#^ref-23df6ddb-149-0) (line 149, col 0, score 0.92)
-- [Prompt_Folder_Bootstrap — L274](prompt-folder-bootstrap.md#^ref-bd4f0976-274-0) (line 274, col 0, score 0.92)
-- [Protocol_0_The_Contradiction_Engine — L205](protocol-0-the-contradiction-engine.md#^ref-9a93a756-205-0) (line 205, col 0, score 0.92)
-- [Reawakening Duck — L190](reawakening-duck.md#^ref-59b5670f-190-0) (line 190, col 0, score 0.92)
-- [ripple-propagation-demo — L185](ripple-propagation-demo.md#^ref-8430617b-185-0) (line 185, col 0, score 0.92)
-- [schema-evolution-workflow — L618](schema-evolution-workflow.md#^ref-d8059b6a-618-0) (line 618, col 0, score 0.92)
-- [sibilant-macro-targets — L223](sibilant-macro-targets.md#^ref-c5c9a5c6-223-0) (line 223, col 0, score 0.92)
-- [compiler-kit-foundations — L588](compiler-kit-foundations.md#^ref-01b21543-588-0) (line 588, col 0, score 0.91)
-- [Services — L263](chunks/services.md#^ref-75ea4a6a-263-0) (line 263, col 0, score 0.91)
-- [Debugging Broker Connections and Agent Behavior — L425](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-425-0) (line 425, col 0, score 0.91)
-- [Dynamic Context Model for Web Components — L1516](dynamic-context-model-for-web-components.md#^ref-f7702bf8-1516-0) (line 1516, col 0, score 0.91)
-- [eidolon-field-math-foundations — L953](eidolon-field-math-foundations.md#^ref-008f2ac0-953-0) (line 953, col 0, score 0.91)
-- [Migrate to Provider-Tenant Architecture — L1428](migrate-to-provider-tenant-architecture.md#^ref-54382370-1428-0) (line 1428, col 0, score 0.91)
-- [Model Selection for Lightweight Conversational Tasks — L753](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-753-0) (line 753, col 0, score 0.91)
-- [Post-Linguistic Transhuman Design Frameworks — L470](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-470-0) (line 470, col 0, score 0.91)
-- [Promethean-Copilot-Intent-Engine — L645](promethean-copilot-intent-engine.md#^ref-ae24a280-645-0) (line 645, col 0, score 0.91)
-- [Canonical Org-Babel Matplotlib Animation Template — L2879](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-2879-0) (line 2879, col 0, score 0.86)
-- [Promethean Dev Workflow Update — L4713](promethean-dev-workflow-update.md#^ref-03a5578f-4713-0) (line 4713, col 0, score 0.86)
-- [The Jar of Echoes — L3896](the-jar-of-echoes.md#^ref-18138627-3896-0) (line 3896, col 0, score 0.86)
-- [windows-tiling-with-autohotkey — L4545](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-4545-0) (line 4545, col 0, score 0.86)
-- [eidolon-field-math-foundations — L6374](eidolon-field-math-foundations.md#^ref-008f2ac0-6374-0) (line 6374, col 0, score 0.86)
-- [Promethean Dev Workflow Update — L4842](promethean-dev-workflow-update.md#^ref-03a5578f-4842-0) (line 4842, col 0, score 0.86)
-- [windows-tiling-with-autohotkey — L4076](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-4076-0) (line 4076, col 0, score 0.86)
-- [eidolon-field-math-foundations — L4512](eidolon-field-math-foundations.md#^ref-008f2ac0-4512-0) (line 4512, col 0, score 0.86)
-- [Agent Reflections and Prompt Evolution — L599](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-599-0) (line 599, col 0, score 0.85)
-- [ChatGPT Custom Prompts — L153](chatgpt-custom-prompts.md#^ref-930054b3-153-0) (line 153, col 0, score 0.85)
-- [Chroma Toolkit Consolidation Plan — L888](chroma-toolkit-consolidation-plan.md#^ref-5020e892-888-0) (line 888, col 0, score 0.85)
-- [Diagrams — L422](chunks/diagrams.md#^ref-45cd25b5-422-0) (line 422, col 0, score 0.85)
-- [DSL — L347](chunks/dsl.md#^ref-e87bc036-347-0) (line 347, col 0, score 0.85)
-- [JavaScript — L405](chunks/javascript.md#^ref-c1618c66-405-0) (line 405, col 0, score 0.85)
-- [Math Fundamentals — L265](chunks/math-fundamentals.md#^ref-c6e87433-265-0) (line 265, col 0, score 0.85)
-- [Operations — L140](chunks/operations.md#^ref-f1add613-140-0) (line 140, col 0, score 0.85)
-- [Shared — L317](chunks/shared.md#^ref-623a55f7-317-0) (line 317, col 0, score 0.85)
-- [Simulation Demo — L297](chunks/simulation-demo.md#^ref-557309a3-297-0) (line 297, col 0, score 0.85)
-- [Tooling — L240](chunks/tooling.md#^ref-6cb4943e-240-0) (line 240, col 0, score 0.85)
-- [Window Management — L363](chunks/window-management.md#^ref-9e8ae388-363-0) (line 363, col 0, score 0.85)
-- [field-node-diagram-visualizations — L170](field-node-diagram-visualizations.md#^ref-e9b27b06-170-0) (line 170, col 0, score 0.9)
-- [Fnord Tracer Protocol — L310](fnord-tracer-protocol.md#^ref-fc21f824-310-0) (line 310, col 0, score 0.9)
-- [graph-ds — L462](graph-ds.md#^ref-6620e2f2-462-0) (line 462, col 0, score 0.9)
-- [homeostasis-decay-formulas — L240](homeostasis-decay-formulas.md#^ref-37b5d236-240-0) (line 240, col 0, score 0.9)
-- [Layer1SurvivabilityEnvelope — L231](layer1survivabilityenvelope.md#^ref-64a9f9f9-231-0) (line 231, col 0, score 0.9)
-- [MindfulRobotIntegration — L42](mindfulrobotintegration.md#^ref-5f65dfa5-42-0) (line 42, col 0, score 0.9)
-- [Model Upgrade Calm-Down Guide — L98](model-upgrade-calm-down-guide.md#^ref-db74343f-98-0) (line 98, col 0, score 0.9)
-- [NPU Voice Code and Sensory Integration — L48](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-48-0) (line 48, col 0, score 0.9)
-- [Obsidian ChatGPT Plugin Integration — L107](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-107-0) (line 107, col 0, score 0.9)
-- [obsidian-ignore-node-modules-regex — L141](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-141-0) (line 141, col 0, score 0.9)
-- [Obsidian Task Generation — L51](obsidian-task-generation.md#^ref-9b694a91-51-0) (line 51, col 0, score 0.9)
-- [Obsidian Templating Plugins Integration Guide — L183](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-183-0) (line 183, col 0, score 0.9)
-- [OpenAPI Validation Report — L67](openapi-validation-report.md#^ref-5c152b08-67-0) (line 67, col 0, score 0.9)
-- [ParticleSimulationWithCanvasAndFFmpeg — L344](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-344-0) (line 344, col 0, score 0.9)
-- [Tooling — L3](chunks/tooling.md#^ref-6cb4943e-3-0) (line 3, col 0, score 0.89)
-- [Simulation Demo — L61](chunks/simulation-demo.md#^ref-557309a3-61-0) (line 61, col 0, score 0.89)
-- [Debugging Broker Connections and Agent Behavior — L166](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-166-0) (line 166, col 0, score 0.89)
-- [Duck's Attractor States — L161](ducks-attractor-states.md#^ref-13951643-161-0) (line 161, col 0, score 0.89)
-- [Dynamic Context Model for Web Components — L474](dynamic-context-model-for-web-components.md#^ref-f7702bf8-474-0) (line 474, col 0, score 0.89)
-- [Factorio AI with External Agents — L249](factorio-ai-with-external-agents.md#^ref-a4d90289-249-0) (line 249, col 0, score 0.89)
-- [field-dynamics-math-blocks — L204](field-dynamics-math-blocks.md#^ref-7cfc230d-204-0) (line 204, col 0, score 0.89)
-- [field-interaction-equations — L212](field-interaction-equations.md#^ref-b09141b7-212-0) (line 212, col 0, score 0.89)
-- [field-node-diagram-outline — L163](field-node-diagram-outline.md#^ref-1f32c94a-163-0) (line 163, col 0, score 0.89)
-- [heartbeat-fragment-demo — L178](heartbeat-fragment-demo.md#^ref-dd00677a-178-0) (line 178, col 0, score 0.89)
-- [i3-bluetooth-setup — L204](i3-bluetooth-setup.md#^ref-5e408692-204-0) (line 204, col 0, score 0.89)
-- [obsidian-ignore-node-modules-regex — L3](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-3-0) (line 3, col 0, score 1)
-- [obsidian-ignore-node-modules-regex — L6](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-6-0) (line 6, col 0, score 1)
-- [obsidian-ignore-node-modules-regex — L11](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-11-0) (line 11, col 0, score 1)
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.91)
+- [polymorphic-meta-programming-engine — L190](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-190-0) (line 190, col 0, score 0.9)
+- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.86)
+- [Local-Only-LLM-Workflow — L129](local-only-llm-workflow.md#^ref-9a8ab57e-129-0) (line 129, col 0, score 0.89)
+- [prom-lib-rate-limiters-and-replay-api — L307](prom-lib-rate-limiters-and-replay-api.md#^ref-aee4718b-307-0) (line 307, col 0, score 0.88)
+- [Shared Package Structure — L188](shared-package-structure.md#^ref-66a72fc3-188-0) (line 188, col 0, score 0.89)
+- [Promethean Full-Stack Docker Setup — L417](promethean-full-stack-docker-setup.md#^ref-2c2b48ca-417-0) (line 417, col 0, score 0.85)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 0.85)
+- [Duck's Attractor States — L4245](ducks-attractor-states.md#^ref-13951643-4245-0) (line 4245, col 0, score 0.9)
+- [Duck's Self-Referential Perceptual Loop — L151](ducks-self-referential-perceptual-loop.md#^ref-71726f04-151-0) (line 151, col 0, score 0.9)
+- [Dynamic Context Model for Web Components — L519](dynamic-context-model-for-web-components.md#^ref-f7702bf8-519-0) (line 519, col 0, score 0.9)
+- [Eidolon Field Abstract Model — L6385](eidolon-field-abstract-model.md#^ref-5e8b2388-6385-0) (line 6385, col 0, score 0.9)
+- [eidolon-field-math-foundations — L7157](eidolon-field-math-foundations.md#^ref-008f2ac0-7157-0) (line 7157, col 0, score 0.9)
+- [eidolon-node-lifecycle — L4144](eidolon-node-lifecycle.md#^ref-938eca9c-4144-0) (line 4144, col 0, score 0.9)
+- [Factorio AI with External Agents — L263](factorio-ai-with-external-agents.md#^ref-a4d90289-263-0) (line 263, col 0, score 0.9)
+- [field-node-diagram-outline — L225](field-node-diagram-outline.md#^ref-1f32c94a-225-0) (line 225, col 0, score 0.9)
+- [field-node-diagram-set — L5019](field-node-diagram-set.md#^ref-22b989d5-5019-0) (line 5019, col 0, score 0.9)
+- [eidolon-field-math-foundations — L27109](eidolon-field-math-foundations.md#^ref-008f2ac0-27109-0) (line 27109, col 0, score 0.9)
+- [windows-tiling-with-autohotkey — L14207](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-14207-0) (line 14207, col 0, score 0.9)
+- [eidolon-field-math-foundations — L15778](eidolon-field-math-foundations.md#^ref-008f2ac0-15778-0) (line 15778, col 0, score 0.88)
+- [Duck's Attractor States — L14666](ducks-attractor-states.md#^ref-13951643-14666-0) (line 14666, col 0, score 0.88)
+- [graph-ds — L2310](graph-ds.md#^ref-6620e2f2-2310-0) (line 2310, col 0, score 0.86)
+- [Promethean Dev Workflow Update — L24484](promethean-dev-workflow-update.md#^ref-03a5578f-24484-0) (line 24484, col 0, score 0.86)
+- [Promethean Documentation Update — L9646](promethean-documentation-update.txt#^ref-0b872af2-9646-0) (line 9646, col 0, score 0.86)
+- [Promethean Notes — L10713](promethean-notes.md#^ref-1c4046b5-10713-0) (line 10713, col 0, score 0.86)
+- [The Jar of Echoes — L21636](the-jar-of-echoes.md#^ref-18138627-21636-0) (line 21636, col 0, score 0.86)
+- [Performance-Optimized-Polyglot-Bridge — L1890](performance-optimized-polyglot-bridge.md#^ref-f5579967-1890-0) (line 1890, col 0, score 0.94)
+- [Chroma Toolkit Consolidation Plan — L6581](chroma-toolkit-consolidation-plan.md#^ref-5020e892-6581-0) (line 6581, col 0, score 0.93)
+- [DSL — L1551](chunks/dsl.md#^ref-e87bc036-1551-0) (line 1551, col 0, score 0.93)
+- [Migrate to Provider-Tenant Architecture — L3518](migrate-to-provider-tenant-architecture.md#^ref-54382370-3518-0) (line 3518, col 0, score 0.93)
+- [polyglot-repl-interface-layer — L4150](polyglot-repl-interface-layer.md#^ref-9c79206d-4150-0) (line 4150, col 0, score 0.93)
+- [sibilant-macro-targets — L3224](sibilant-macro-targets.md#^ref-c5c9a5c6-3224-0) (line 3224, col 0, score 0.93)
+- [ts-to-lisp-transpiler — L1960](ts-to-lisp-transpiler.md#^ref-ba11486b-1960-0) (line 1960, col 0, score 0.93)
+- [Unique Info Dump Index — L2576](unique-info-dump-index.md#^ref-30ec3ba6-2576-0) (line 2576, col 0, score 0.93)
+- [Dynamic Context Model for Web Components — L4241](dynamic-context-model-for-web-components.md#^ref-f7702bf8-4241-0) (line 4241, col 0, score 0.85)
+- [Model Selection for Lightweight Conversational Tasks — L1656](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-1656-0) (line 1656, col 0, score 0.85)
+- [Promethean_Eidolon_Synchronicity_Model — L1493](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-1493-0) (line 1493, col 0, score 0.85)
+- [Self-Agency in AI Interaction — L1970](self-agency-in-ai-interaction.md#^ref-49a9a860-1970-0) (line 1970, col 0, score 0.85)
+- [typed-struct-compiler — L1986](typed-struct-compiler.md#^ref-78eeedf7-1986-0) (line 1986, col 0, score 0.85)
+- [Promethean_Eidolon_Synchronicity_Model — L1467](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-1467-0) (line 1467, col 0, score 0.85)
+- [TypeScript Patch for Tool Calling Support — L2476](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-2476-0) (line 2476, col 0, score 0.85)
+- [Fnord Tracer Protocol — L3072](fnord-tracer-protocol.md#^ref-fc21f824-3072-0) (line 3072, col 0, score 0.85)
+- [Fnord Tracer Protocol — L1375](fnord-tracer-protocol.md#^ref-fc21f824-1375-0) (line 1375, col 0, score 0.89)
+- [Functional Embedding Pipeline Refactor — L1058](functional-embedding-pipeline-refactor.md#^ref-a4a25141-1058-0) (line 1058, col 0, score 0.89)
+- [graph-ds — L1484](graph-ds.md#^ref-6620e2f2-1484-0) (line 1484, col 0, score 0.89)
+- [heartbeat-fragment-demo — L1066](heartbeat-fragment-demo.md#^ref-dd00677a-1066-0) (line 1066, col 0, score 0.89)
+- [homeostasis-decay-formulas — L1148](homeostasis-decay-formulas.md#^ref-37b5d236-1148-0) (line 1148, col 0, score 0.89)
+- [i3-bluetooth-setup — L281](i3-bluetooth-setup.md#^ref-5e408692-281-0) (line 281, col 0, score 0.89)
+- [Ice Box Reorganization — L832](ice-box-reorganization.md#^ref-291c7d91-832-0) (line 832, col 0, score 0.89)
+- [komorebi-group-window-hack — L1203](komorebi-group-window-hack.md#^ref-dd89372d-1203-0) (line 1203, col 0, score 0.89)
+- [Layer1SurvivabilityEnvelope — L970](layer1survivabilityenvelope.md#^ref-64a9f9f9-970-0) (line 970, col 0, score 0.89)
 - [obsidian-ignore-node-modules-regex — L15](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-15-0) (line 15, col 0, score 1)
+- [DSL — L51](chunks/dsl.md#^ref-e87bc036-51-0) (line 51, col 0, score 1)
+- [Math Fundamentals — L88](chunks/math-fundamentals.md#^ref-c6e87433-88-0) (line 88, col 0, score 1)
+- [Operations — L94](chunks/operations.md#^ref-f1add613-94-0) (line 94, col 0, score 1)
+- [Shared — L74](chunks/shared.md#^ref-623a55f7-74-0) (line 74, col 0, score 1)
+- [Simulation Demo — L75](chunks/simulation-demo.md#^ref-557309a3-75-0) (line 75, col 0, score 1)
+- [Tooling — L38](chunks/tooling.md#^ref-6cb4943e-38-0) (line 38, col 0, score 1)
+- [Window Management — L54](chunks/window-management.md#^ref-9e8ae388-54-0) (line 54, col 0, score 1)
+- [Creative Moments — L51](creative-moments.md#^ref-10d98225-51-0) (line 51, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L81](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-81-0) (line 81, col 0, score 1)
+- [Docops Feature Updates — L29](docops-feature-updates-2.md#^ref-cdbd21ee-29-0) (line 29, col 0, score 1)
+- [Docops Feature Updates — L45](docops-feature-updates.md#^ref-2792d448-45-0) (line 45, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -67,6 +67,7 @@ related_to_title:
   - Promethean State Format
   - Debugging Broker Connections and Agent Behavior
   - graph-ds
+  - Promethean Documentation Overview
   - Promethean Infrastructure Setup
   - field-node-diagram-set
   - field-node-diagram-visualizations
@@ -74,6 +75,9 @@ related_to_title:
   - Dynamic Context Model for Web Components
   - Prometheus Observability Stack
   - plan-update-confirmation
+  - Provider-Agnostic Chat Panel Implementation
+  - Pipeline Enhancements
+  - Protocol_0_The_Contradiction_Engine
   - Prompt_Folder_Bootstrap
   - Agent Reflections and Prompt Evolution
   - Migrate to Provider-Tenant Architecture
@@ -147,6 +151,7 @@ related_to_uuid:
   - 23df6ddb-05cf-4639-8201-f8291f8a6026
   - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
   - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - 9413237f-2537-4bbf-8768-db6180970e36
   - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
   - 22b989d5-f4aa-4880-8632-709c21830f83
   - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
@@ -154,6 +159,9 @@ related_to_uuid:
   - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
   - e90b5a16-d58f-424d-bd36-70e9bd2861ad
   - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - 43bfe9dd-d433-42ca-9777-f4c40eaba791
+  - e2135d9f-c69d-47ee-9b17-0b05e98dc748
+  - 9a93a756-6d33-45d1-aca9-51b74f2b33d2
   - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
   - bb7f0835-c347-474f-bfad-eabd873b51ad
   - 54382370-1931-4a19-a634-46735708a9ea
@@ -281,10 +289,6 @@ references:
     score: 1
   - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
     line: 152
-    col: 0
-    score: 1
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 286
     col: 0
     score: 1
   - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
@@ -625,10 +629,6 @@ references:
     score: 0.98
   - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
     line: 163
-    col: 0
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 310
     col: 0
     score: 1
   - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
@@ -2471,6 +2471,350 @@ references:
     line: 1684
     col: 0
     score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 618
+    col: 0
+    score: 0.91
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 406
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 301
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 433
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 519
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 375
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 534
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 370
+    col: 0
+    score: 0.96
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 538
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 501
+    col: 0
+    score: 0.97
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 569
+    col: 0
+    score: 0.99
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 565
+    col: 0
+    score: 0.99
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 570
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 572
+    col: 0
+    score: 0.93
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 568
+    col: 0
+    score: 0.93
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 571
+    col: 0
+    score: 0.98
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 576
+    col: 0
+    score: 0.99
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 572
+    col: 0
+    score: 0.99
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 306
+    col: 0
+    score: 0.91
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 421
+    col: 0
+    score: 0.99
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 354
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 355
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 356
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 357
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 358
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 360
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 603
+    col: 0
+    score: 0.96
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 422
+    col: 0
+    score: 0.92
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 604
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 605
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 608
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 599
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 561
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 670
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 559
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 671
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 560
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 672
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 675
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 568
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 681
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 317
+    col: 0
+    score: 0.98
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 350
+    col: 0
+    score: 0.97
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 687
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 688
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 690
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 691
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 693
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 648
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 653
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 578
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 581
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 585
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 586
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 588
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 603
+    col: 0
+    score: 0.99
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 388
+    col: 0
+    score: 0.94
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 591
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 592
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 695
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 696
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 697
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 702
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 703
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 719
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 640
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 712
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 651
+    col: 0
+    score: 1
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 495
+    col: 0
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 459
+    col: 0
+    score: 1
+  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
+    line: 27
+    col: 0
+    score: 1
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 1002
+    col: 0
+    score: 1
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 171
+    col: 0
+    score: 1
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 112
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 24
+    col: 0
+    score: 1
+  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
+    line: 143
+    col: 0
+    score: 1
+  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
+    line: 241
+    col: 0
+    score: 1
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 163
+    col: 0
+    score: 1
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 113
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 32
+    col: 0
+    score: 1
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 73
+    col: 0
+    score: 1
+  - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
+    line: 25
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 64
+    col: 0
+    score: 1
+  - uuid: 9413237f-2537-4bbf-8768-db6180970e36
+    line: 8
+    col: 0
+    score: 1
+  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+    line: 181
+    col: 0
+    score: 1
+  - uuid: c0392040-16a2-41e8-bd54-75110319e3c0
+    line: 8
+    col: 0
+    score: 1
 ---
 1. Doing lanes, sure. Prompt Refinement, Agent Thinking, Breakdown, are all doing in the sense that I am working on writing them and planning. But there is no code happening for them (ideally, with the AI in the mix and how fast I can work now, some of this may have gotten done) ^ref-ac60a1d6-1-0
 2. WIP per lane is set by the `# Title (n)` ^ref-ac60a1d6-2-0
@@ -2491,7 +2835,7 @@ Automation of the board needs some serious work. A lot of these automaticly gene
 - [Math Fundamentals](chunks/math-fundamentals.md)
 - [field-interaction-equations](field-interaction-equations.md)
 - [Git Commit Optimization for Code Reviews](git-commit-optimization-for-code-reviews.md)
-- [Promethean Documentation Update](promethean-documentation-update-3.md)
+- [Promethean Documentation Update](promethean-documentation-update-2.md)
 - [run-step-api](run-step-api.md)
 - [Self-Improving Documentation Tool](self-improving-documentation-tool.md)
 - [The Jar of Echoes](the-jar-of-echoes.md)
@@ -2538,6 +2882,7 @@ Automation of the board needs some serious work. A lot of these automaticly gene
 - [Promethean State Format](promethean-state-format.md)
 - [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
 - [graph-ds](graph-ds.md)
+- [Promethean Documentation Overview](promethean-documentation-overview.md)
 - [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
 - [field-node-diagram-set](field-node-diagram-set.md)
 - [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
@@ -2545,11 +2890,14 @@ Automation of the board needs some serious work. A lot of these automaticly gene
 - [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
 - [Prometheus Observability Stack](prometheus-observability-stack.md)
 - [plan-update-confirmation](plan-update-confirmation.md)
+- [Provider-Agnostic Chat Panel Implementation](provider-agnostic-chat-panel-implementation.md)
+- [Pipeline Enhancements](pipeline-enhancements.md)
+- [Protocol_0_The_Contradiction_Engine](protocol-0-the-contradiction-engine.md)
 - [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
 - [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
 - [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
 - [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
-- [AGENTS.md](agents-md-3.md)
+- [AGENTS.md](agents-md-2.md)
 - [Diagrams](chunks/diagrams.md)
 - [Model Upgrade Calm-Down Guide](model-upgrade-calm-down-guide.md)
 - [komorebi-group-window-hack](komorebi-group-window-hack.md)
@@ -2590,7 +2938,6 @@ Automation of the board needs some serious work. A lot of these automaticly gene
 - [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#^ref-618198f4-11-0) (line 11, col 0, score 1)
 - [aionian-circuit-math — L151](aionian-circuit-math.md#^ref-f2d83a77-151-0) (line 151, col 0, score 1)
 - [aionian-circuit-math — L152](aionian-circuit-math.md#^ref-f2d83a77-152-0) (line 152, col 0, score 1)
-- [api-gateway-versioning — L286](api-gateway-versioning.md#^ref-0580dcd3-286-0) (line 286, col 0, score 1)
 - [api-gateway-versioning — L288](api-gateway-versioning.md#^ref-0580dcd3-288-0) (line 288, col 0, score 1)
 - [balanced-bst — L299](balanced-bst.md#^ref-d3e7db72-299-0) (line 299, col 0, score 1)
 - [Board Walk – 2025-08-11 — L135](board-walk-2025-08-11.md#^ref-7aa1eb92-135-0) (line 135, col 0, score 1)
@@ -2676,7 +3023,6 @@ Automation of the board needs some serious work. A lot of these automaticly gene
 - [aionian-circuit-math — L291](aionian-circuit-math.md#^ref-f2d83a77-291-0) (line 291, col 0, score 0.98)
 - [balanced-bst — L365](balanced-bst.md#^ref-d3e7db72-365-0) (line 365, col 0, score 0.98)
 - [aionian-circuit-math — L163](aionian-circuit-math.md#^ref-f2d83a77-163-0) (line 163, col 0, score 1)
-- [balanced-bst — L310](balanced-bst.md#^ref-d3e7db72-310-0) (line 310, col 0, score 1)
 - [Board Walk – 2025-08-11 — L164](board-walk-2025-08-11.md#^ref-7aa1eb92-164-0) (line 164, col 0, score 1)
 - [i3-bluetooth-setup — L247](i3-bluetooth-setup.md#^ref-5e408692-247-0) (line 247, col 0, score 1)
 - [Dynamic Context Model for Web Components — L1705](dynamic-context-model-for-web-components.md#^ref-f7702bf8-1705-0) (line 1705, col 0, score 0.99)
@@ -2688,9 +3034,9 @@ Automation of the board needs some serious work. A lot of these automaticly gene
 - [aionian-circuit-math — L164](aionian-circuit-math.md#^ref-f2d83a77-164-0) (line 164, col 0, score 1)
 - [AI-First-OS-Model-Context-Protocol — L226](ai-first-os-model-context-protocol.md#^ref-618198f4-226-0) (line 226, col 0, score 0.98)
 - [aionian-circuit-math — L169](aionian-circuit-math.md#^ref-f2d83a77-169-0) (line 169, col 0, score 0.98)
-- [AGENTS.md — L332](agents-md-3.md#^ref-d5b16703-332-0) (line 332, col 0, score 0.98)
+- [AGENTS.md — L332](agents-md-2.md#^ref-d5b16703-332-0) (line 332, col 0, score 0.98)
 - [aionian-circuit-math — L171](aionian-circuit-math.md#^ref-f2d83a77-171-0) (line 171, col 0, score 0.98)
-- [AGENTS.md — L333](agents-md-3.md#^ref-d5b16703-333-0) (line 333, col 0, score 0.98)
+- [AGENTS.md — L333](agents-md-2.md#^ref-d5b16703-333-0) (line 333, col 0, score 0.98)
 - [balanced-bst — L312](balanced-bst.md#^ref-d3e7db72-312-0) (line 312, col 0, score 0.99)
 - [Board Walk – 2025-08-11 — L166](board-walk-2025-08-11.md#^ref-7aa1eb92-166-0) (line 166, col 0, score 0.99)
 - [aionian-circuit-math — L165](aionian-circuit-math.md#^ref-f2d83a77-165-0) (line 165, col 0, score 0.99)
@@ -2723,7 +3069,7 @@ Automation of the board needs some serious work. A lot of these automaticly gene
 - [AGENTS.md — L191](agents-md.md#^ref-bb90903a-191-0) (line 191, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L198](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-198-0) (line 198, col 0, score 0.99)
 - [aionian-circuit-math — L167](aionian-circuit-math.md#^ref-f2d83a77-167-0) (line 167, col 0, score 0.99)
-- [AGENTS.md — L331](agents-md-3.md#^ref-d5b16703-331-0) (line 331, col 0, score 0.99)
+- [AGENTS.md — L331](agents-md-2.md#^ref-d5b16703-331-0) (line 331, col 0, score 0.99)
 - [Diagrams — L427](chunks/diagrams.md#^ref-45cd25b5-427-0) (line 427, col 0, score 0.99)
 - [DSL — L442](chunks/dsl.md#^ref-e87bc036-442-0) (line 442, col 0, score 0.99)
 - [AI-First-OS-Model-Context-Protocol — L16](ai-first-os-model-context-protocol.md#^ref-618198f4-16-0) (line 16, col 0, score 1)
@@ -2731,7 +3077,7 @@ Automation of the board needs some serious work. A lot of these automaticly gene
 - [balanced-bst — L317](balanced-bst.md#^ref-d3e7db72-317-0) (line 317, col 0, score 1)
 - [Board Walk – 2025-08-11 — L158](board-walk-2025-08-11.md#^ref-7aa1eb92-158-0) (line 158, col 0, score 1)
 - [Git Commit Optimization for Code Reviews — L166](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-166-0) (line 166, col 0, score 1)
-- [Promethean Documentation Update — L42](promethean-documentation-update-3.md#^ref-de34f84b-42-0) (line 42, col 0, score 1)
+- [Promethean Documentation Update — L42](promethean-documentation-update-2.md#^ref-de34f84b-42-0) (line 42, col 0, score 1)
 - [run-step-api — L1033](run-step-api.md#^ref-15d25922-1033-0) (line 1033, col 0, score 1)
 - [Self-Improving Documentation Tool — L29](self-improving-documentation-tool.md#^ref-5c307293-29-0) (line 29, col 0, score 1)
 - [Promethean Dev Workflow Update — L842](promethean-dev-workflow-update.md#^ref-03a5578f-842-0) (line 842, col 0, score 1)
@@ -3137,4 +3483,90 @@ Automation of the board needs some serious work. A lot of these automaticly gene
 - [Promethean Dev Workflow Update — L5410](promethean-dev-workflow-update.md#^ref-03a5578f-5410-0) (line 5410, col 0, score 1)
 - [Promethean Documentation Update — L1488](promethean-documentation-update.txt#^ref-0b872af2-1488-0) (line 1488, col 0, score 1)
 - [Promethean Notes — L1684](promethean-notes.md#^ref-1c4046b5-1684-0) (line 1684, col 0, score 1)
+- [balanced-bst — L618](balanced-bst.md#^ref-d3e7db72-618-0) (line 618, col 0, score 0.91)
+- [Board Walk – 2025-08-11 — L406](board-walk-2025-08-11.md#^ref-7aa1eb92-406-0) (line 406, col 0, score 1)
+- [Board Walk – 2025-08-11 — L301](board-walk-2025-08-11.md#^ref-7aa1eb92-301-0) (line 301, col 0, score 1)
+- [balanced-bst — L433](balanced-bst.md#^ref-d3e7db72-433-0) (line 433, col 0, score 1)
+- [Board Walk – 2025-08-11 — L519](board-walk-2025-08-11.md#^ref-7aa1eb92-519-0) (line 519, col 0, score 1)
+- [Board Walk – 2025-08-11 — L375](board-walk-2025-08-11.md#^ref-7aa1eb92-375-0) (line 375, col 0, score 1)
+- [Board Walk – 2025-08-11 — L534](board-walk-2025-08-11.md#^ref-7aa1eb92-534-0) (line 534, col 0, score 1)
+- [Board Walk – 2025-08-11 — L370](board-walk-2025-08-11.md#^ref-7aa1eb92-370-0) (line 370, col 0, score 0.96)
+- [Board Walk – 2025-08-11 — L538](board-walk-2025-08-11.md#^ref-7aa1eb92-538-0) (line 538, col 0, score 1)
+- [Board Walk – 2025-08-11 — L501](board-walk-2025-08-11.md#^ref-7aa1eb92-501-0) (line 501, col 0, score 0.97)
+- [balanced-bst — L569](balanced-bst.md#^ref-d3e7db72-569-0) (line 569, col 0, score 0.99)
+- [Board Walk – 2025-08-11 — L565](board-walk-2025-08-11.md#^ref-7aa1eb92-565-0) (line 565, col 0, score 0.99)
+- [balanced-bst — L570](balanced-bst.md#^ref-d3e7db72-570-0) (line 570, col 0, score 1)
+- [balanced-bst — L572](balanced-bst.md#^ref-d3e7db72-572-0) (line 572, col 0, score 0.93)
+- [Board Walk – 2025-08-11 — L568](board-walk-2025-08-11.md#^ref-7aa1eb92-568-0) (line 568, col 0, score 0.93)
+- [Board Walk – 2025-08-11 — L571](board-walk-2025-08-11.md#^ref-7aa1eb92-571-0) (line 571, col 0, score 0.98)
+- [balanced-bst — L576](balanced-bst.md#^ref-d3e7db72-576-0) (line 576, col 0, score 0.99)
+- [Board Walk – 2025-08-11 — L572](board-walk-2025-08-11.md#^ref-7aa1eb92-572-0) (line 572, col 0, score 0.99)
+- [Board Walk – 2025-08-11 — L306](board-walk-2025-08-11.md#^ref-7aa1eb92-306-0) (line 306, col 0, score 0.91)
+- [balanced-bst — L421](balanced-bst.md#^ref-d3e7db72-421-0) (line 421, col 0, score 0.99)
+- [Board Walk – 2025-08-11 — L354](board-walk-2025-08-11.md#^ref-7aa1eb92-354-0) (line 354, col 0, score 1)
+- [Board Walk – 2025-08-11 — L355](board-walk-2025-08-11.md#^ref-7aa1eb92-355-0) (line 355, col 0, score 1)
+- [Board Walk – 2025-08-11 — L356](board-walk-2025-08-11.md#^ref-7aa1eb92-356-0) (line 356, col 0, score 1)
+- [Board Walk – 2025-08-11 — L357](board-walk-2025-08-11.md#^ref-7aa1eb92-357-0) (line 357, col 0, score 1)
+- [Board Walk – 2025-08-11 — L358](board-walk-2025-08-11.md#^ref-7aa1eb92-358-0) (line 358, col 0, score 1)
+- [Board Walk – 2025-08-11 — L360](board-walk-2025-08-11.md#^ref-7aa1eb92-360-0) (line 360, col 0, score 1)
+- [Board Walk – 2025-08-11 — L603](board-walk-2025-08-11.md#^ref-7aa1eb92-603-0) (line 603, col 0, score 0.96)
+- [balanced-bst — L422](balanced-bst.md#^ref-d3e7db72-422-0) (line 422, col 0, score 0.92)
+- [balanced-bst — L604](balanced-bst.md#^ref-d3e7db72-604-0) (line 604, col 0, score 1)
+- [balanced-bst — L605](balanced-bst.md#^ref-d3e7db72-605-0) (line 605, col 0, score 1)
+- [balanced-bst — L608](balanced-bst.md#^ref-d3e7db72-608-0) (line 608, col 0, score 1)
+- [balanced-bst — L599](balanced-bst.md#^ref-d3e7db72-599-0) (line 599, col 0, score 1)
+- [Board Walk – 2025-08-11 — L561](board-walk-2025-08-11.md#^ref-7aa1eb92-561-0) (line 561, col 0, score 1)
+- [Board Walk – 2025-08-11 — L670](board-walk-2025-08-11.md#^ref-7aa1eb92-670-0) (line 670, col 0, score 1)
+- [balanced-bst — L559](balanced-bst.md#^ref-d3e7db72-559-0) (line 559, col 0, score 1)
+- [Board Walk – 2025-08-11 — L671](board-walk-2025-08-11.md#^ref-7aa1eb92-671-0) (line 671, col 0, score 1)
+- [balanced-bst — L560](balanced-bst.md#^ref-d3e7db72-560-0) (line 560, col 0, score 1)
+- [Board Walk – 2025-08-11 — L672](board-walk-2025-08-11.md#^ref-7aa1eb92-672-0) (line 672, col 0, score 1)
+- [Board Walk – 2025-08-11 — L675](board-walk-2025-08-11.md#^ref-7aa1eb92-675-0) (line 675, col 0, score 1)
+- [balanced-bst — L568](balanced-bst.md#^ref-d3e7db72-568-0) (line 568, col 0, score 1)
+- [Board Walk – 2025-08-11 — L681](board-walk-2025-08-11.md#^ref-7aa1eb92-681-0) (line 681, col 0, score 1)
+- [api-gateway-versioning — L317](api-gateway-versioning.md#^ref-0580dcd3-317-0) (line 317, col 0, score 0.98)
+- [aionian-circuit-math — L350](aionian-circuit-math.md#^ref-f2d83a77-350-0) (line 350, col 0, score 0.97)
+- [Board Walk – 2025-08-11 — L687](board-walk-2025-08-11.md#^ref-7aa1eb92-687-0) (line 687, col 0, score 1)
+- [Board Walk – 2025-08-11 — L688](board-walk-2025-08-11.md#^ref-7aa1eb92-688-0) (line 688, col 0, score 1)
+- [Board Walk – 2025-08-11 — L690](board-walk-2025-08-11.md#^ref-7aa1eb92-690-0) (line 690, col 0, score 1)
+- [Board Walk – 2025-08-11 — L691](board-walk-2025-08-11.md#^ref-7aa1eb92-691-0) (line 691, col 0, score 1)
+- [Board Walk – 2025-08-11 — L693](board-walk-2025-08-11.md#^ref-7aa1eb92-693-0) (line 693, col 0, score 1)
+- [Board Walk – 2025-08-11 — L648](board-walk-2025-08-11.md#^ref-7aa1eb92-648-0) (line 648, col 0, score 1)
+- [Board Walk – 2025-08-11 — L653](board-walk-2025-08-11.md#^ref-7aa1eb92-653-0) (line 653, col 0, score 1)
+- [balanced-bst — L578](balanced-bst.md#^ref-d3e7db72-578-0) (line 578, col 0, score 1)
+- [balanced-bst — L581](balanced-bst.md#^ref-d3e7db72-581-0) (line 581, col 0, score 1)
+- [balanced-bst — L585](balanced-bst.md#^ref-d3e7db72-585-0) (line 585, col 0, score 1)
+- [balanced-bst — L586](balanced-bst.md#^ref-d3e7db72-586-0) (line 586, col 0, score 1)
+- [balanced-bst — L588](balanced-bst.md#^ref-d3e7db72-588-0) (line 588, col 0, score 1)
+- [balanced-bst — L603](balanced-bst.md#^ref-d3e7db72-603-0) (line 603, col 0, score 0.99)
+- [api-gateway-versioning — L388](api-gateway-versioning.md#^ref-0580dcd3-388-0) (line 388, col 0, score 0.94)
+- [balanced-bst — L591](balanced-bst.md#^ref-d3e7db72-591-0) (line 591, col 0, score 1)
+- [balanced-bst — L592](balanced-bst.md#^ref-d3e7db72-592-0) (line 592, col 0, score 1)
+- [Board Walk – 2025-08-11 — L695](board-walk-2025-08-11.md#^ref-7aa1eb92-695-0) (line 695, col 0, score 1)
+- [Board Walk – 2025-08-11 — L696](board-walk-2025-08-11.md#^ref-7aa1eb92-696-0) (line 696, col 0, score 1)
+- [Board Walk – 2025-08-11 — L697](board-walk-2025-08-11.md#^ref-7aa1eb92-697-0) (line 697, col 0, score 1)
+- [Board Walk – 2025-08-11 — L702](board-walk-2025-08-11.md#^ref-7aa1eb92-702-0) (line 702, col 0, score 1)
+- [Board Walk – 2025-08-11 — L703](board-walk-2025-08-11.md#^ref-7aa1eb92-703-0) (line 703, col 0, score 1)
+- [Board Walk – 2025-08-11 — L719](board-walk-2025-08-11.md#^ref-7aa1eb92-719-0) (line 719, col 0, score 1)
+- [balanced-bst — L640](balanced-bst.md#^ref-d3e7db72-640-0) (line 640, col 0, score 1)
+- [Board Walk – 2025-08-11 — L712](board-walk-2025-08-11.md#^ref-7aa1eb92-712-0) (line 712, col 0, score 1)
+- [balanced-bst — L651](balanced-bst.md#^ref-d3e7db72-651-0) (line 651, col 0, score 1)
+- [Per-Domain Policy System for JS Crawler — L495](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-495-0) (line 495, col 0, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L459](performance-optimized-polyglot-bridge.md#^ref-f5579967-459-0) (line 459, col 0, score 1)
+- [Pipeline Enhancements — L27](pipeline-enhancements.md#^ref-e2135d9f-27-0) (line 27, col 0, score 1)
+- [plan-update-confirmation — L1002](plan-update-confirmation.md#^ref-b22d79c6-1002-0) (line 1002, col 0, score 1)
+- [polyglot-repl-interface-layer — L171](polyglot-repl-interface-layer.md#^ref-9c79206d-171-0) (line 171, col 0, score 1)
+- [Post-Linguistic Transhuman Design Frameworks — L112](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-112-0) (line 112, col 0, score 1)
+- [Promethean Chat Activity Report — L24](promethean-chat-activity-report.md#^ref-18344cf9-24-0) (line 24, col 0, score 1)
+- [Protocol_0_The_Contradiction_Engine — L143](protocol-0-the-contradiction-engine.md#^ref-9a93a756-143-0) (line 143, col 0, score 1)
+- [Provider-Agnostic Chat Panel Implementation — L241](provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-241-0) (line 241, col 0, score 1)
+- [polyglot-repl-interface-layer — L163](polyglot-repl-interface-layer.md#^ref-9c79206d-163-0) (line 163, col 0, score 1)
+- [Post-Linguistic Transhuman Design Frameworks — L113](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-113-0) (line 113, col 0, score 1)
+- [Promethean Chat Activity Report — L32](promethean-chat-activity-report.md#^ref-18344cf9-32-0) (line 32, col 0, score 1)
+- [Promethean-Copilot-Intent-Engine — L73](promethean-copilot-intent-engine.md#^ref-ae24a280-73-0) (line 73, col 0, score 1)
+- [Promethean Data Sync Protocol — L25](promethean-data-sync-protocol.md#^ref-9fab9e76-25-0) (line 25, col 0, score 1)
+- [Promethean Dev Workflow Update — L64](promethean-dev-workflow-update.md#^ref-03a5578f-64-0) (line 64, col 0, score 1)
+- [Promethean Documentation Overview — L8](promethean-documentation-overview.md#^ref-9413237f-8-0) (line 8, col 0, score 1)
+- [Promethean Documentation Pipeline Overview — L181](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-181-0) (line 181, col 0, score 1)
+- [Promethean Documentation Update — L8](promethean-documentation-update.md#^ref-c0392040-8-0) (line 8, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

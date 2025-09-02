@@ -12,84 +12,202 @@ tags:
   - step-trigger
   - realtime
 related_to_uuid:
-  - de34f84b-270b-4f16-92a8-a681a869b823
-  - 0580dcd3-533d-4834-8a2f-eae3771960a9
-  - 618198f4-cfad-4677-9df6-0640d8a97bae
-  - 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-  - 5c307293-04cb-4478-ba2c-4cd85dbec260
-  - 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
-  - d3e7db72-2e07-4dae-8920-0e07c499a1e5
-  - ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
   - 13951643-1741-46bb-89dc-1beebb122633
   - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
   - 03a5578f-d689-45db-95e9-11300e5eee6f
   - 0b872af2-4197-46f3-b631-afb4e6135585
+  - 18138627-a348-4fbb-b447-410dfb400564
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
+  - 91295f3a-a2af-4050-a2b8-4777ea70c32c
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
+  - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
+  - 5c307293-04cb-4478-ba2c-4cd85dbec260
+  - 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
+  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
+  - a4a25141-6380-40b9-9cd7-b554b246b303
+  - 22b989d5-f4aa-4880-8632-709c21830f83
+  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - 1cfae310-35dc-49c2-98f1-b186da25d84b
   - 1c4046b5-742d-4004-aec6-b47251fef5d6
   - 0f6f8f38-98d0-438f-9601-58f478acc0b7
-  - 18138627-a348-4fbb-b447-410dfb400564
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - 9a93a756-6d33-45d1-aca9-51b74f2b33d2
+  - 43bfe9dd-d433-42ca-9777-f4c40eaba791
+  - 4330e8f0-5f46-4235-918b-39b6b93fa561
+  - 59b5670f-36d3-4d34-8985-f3144b15347a
+  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - d17d3a96-c84d-4738-a403-6c733b874da2
+  - 8b8e6103-30a4-4d66-b5f2-87db1612b587
+  - de34f84b-270b-4f16-92a8-a681a869b823
+  - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+  - 95205cd3-c3d5-4047-9c33-9c5ca2b49597
+  - d614d983-7795-491f-9437-09f3a43f72cf
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
+  - 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
+  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+  - a4d90289-798d-44a0-a8e8-a055ae12fb52
+  - 23df6ddb-05cf-4639-8201-f8291f8a6026
+  - b3555ede-324a-4d24-a885-b0721e74babf
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+  - 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
+  - c0392040-16a2-41e8-bd54-75110319e3c0
+  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - 9e8ae388-767a-4ea8-9f2e-88801291d947
+  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+  - ae24a280-678e-4c0b-8cc4-56667fa04172
+  - e87bc036-1570-419e-a558-f45b9c0db698
+  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
+  - f1add613-656e-4bec-b52b-193fd78c4642
+  - 75ea4a6a-8270-488d-9d37-799c288e5f70
+  - 623a55f7-685c-486b-abaf-469da1bbbb69
+  - cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+  - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
+  - 2792d448-c3b5-4050-93dd-93768529d99c
+  - 6cb4943e-8267-4e27-8618-2ce0a464d173
+  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+  - 6bcff92c-4224-453d-9993-1be8d37d47c3
+  - 9413237f-2537-4bbf-8768-db6180970e36
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - db74343f-8f84-43a3-adb2-499c6f00be1c
+  - f5579967-762d-4cfd-851e-4f71b4cb77a1
+  - dd00677a-2280-45a7-91af-0728b21af3ad
+  - 8430617b-80a2-4cc9-8288-9a74cb57990b
+  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
+  - ffb9b2a9-744d-4a53-9565-130fceae0832
+  - 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+  - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+  - 5c152b08-6b69-4bb8-a1a7-66745789c169
+  - 9b694a91-dec5-4708-9462-3f71000ba925
+  - b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
+  - 49a9a860-944c-467a-b532-4f99186a8593
+  - 0580dcd3-533d-4834-8a2f-eae3771960a9
   - f2d83a77-7f86-4c56-8538-1350167a0c6c
-  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
-  - 10d98225-12e0-4212-8e15-88b57cf7bee5
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 1cfae310-35dc-49c2-98f1-b186da25d84b
+  - 557309a3-c906-4e97-8867-89ffe151790c
+  - 618198f4-cfad-4677-9df6-0640d8a97bae
+  - 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+  - d3e7db72-2e07-4dae-8920-0e07c499a1e5
+  - ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
+  - e2135d9f-c69d-47ee-9b17-0b05e98dc748
+  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
   - b9540809-7346-41ac-9980-b25ed268616c
   - 9fd881b6-cd3b-446d-820c-09a590f68f36
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
   - 8b256935-02f6-4da2-a406-bf6b8415276f
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
 related_to_title:
-  - Promethean Documentation Update
-  - api-gateway-versioning
-  - AI-First-OS-Model-Context-Protocol
-  - Board Walk – 2025-08-11
-  - Self-Improving Documentation Tool
-  - Git Commit Optimization for Code Reviews
-  - balanced-bst
-  - Board Automation Improvements
   - Duck's Attractor States
   - Promethean Chat Activity Report
   - Promethean Dev Workflow Update
+  - Promethean Documentation Update
+  - The Jar of Echoes
+  - eidolon-field-math-foundations
+  - Smoke Resonance Visualizations
+  - Synchronicity Waves and Web
+  - Creative Moments
+  - Dynamic Context Model for Web Components
+  - Duck's Self-Referential Perceptual Loop
+  - Promethean_Eidolon_Synchronicity_Model
+  - ParticleSimulationWithCanvasAndFFmpeg
+  - Diagrams
+  - Self-Improving Documentation Tool
+  - Git Commit Optimization for Code Reviews
+  - Prometheus Observability Stack
+  - Functional Embedding Pipeline Refactor
+  - field-node-diagram-set
+  - field-node-diagram-visualizations
+  - Fnord Tracer Protocol
+  - Functional Refactor of TypeScript Document Processing
   - Promethean Notes
   - windows-tiling-with-autohotkey
-  - The Jar of Echoes
+  - Promethean Infrastructure Setup
+  - Protocol_0_The_Contradiction_Engine
+  - Provider-Agnostic Chat Panel Implementation
+  - Stateful Partitions and Rebalancing
+  - Reawakening Duck
+  - Prompt_Folder_Bootstrap
+  - field-dynamics-math-blocks
+  - Pure TypeScript Search Microservice
+  - Promethean Pipelines
+  - schema-evolution-workflow
+  - promethean-requirements
+  - Promethean Workflow Optimization
+  - zero-copy-snapshots-and-workers
+  - Promethean Documentation Pipeline Overview
+  - field-interaction-equations
+  - Debugging Broker Connections and Agent Behavior
+  - Factorio AI with External Agents
+  - Promethean State Format
+  - Redirecting Standard Error
+  - typed-struct-compiler
+  - field-node-diagram-outline
+  - Promethean Data Sync Protocol
+  - plan-update-confirmation
+  - Window Management
+  - polyglot-repl-interface-layer
+  - Promethean-Copilot-Intent-Engine
+  - DSL
+  - JavaScript
+  - Operations
+  - Services
+  - Shared
+  - Docops Feature Updates
+  - DuckDuckGoSearchPipeline
+  - Eidolon Field Abstract Model
+  - Tooling
+  - eidolon-node-lifecycle
+  - Post-Linguistic Transhuman Design Frameworks
+  - Promethean Documentation Overview
+  - Migrate to Provider-Tenant Architecture
+  - Model Upgrade Calm-Down Guide
+  - Performance-Optimized-Polyglot-Bridge
+  - heartbeat-fragment-demo
+  - ripple-propagation-demo
+  - Ice Box Reorganization
+  - obsidian-ignore-node-modules-regex
+  - Optimizing Command Limitations in System Design
+  - Obsidian Templating Plugins Integration Guide
+  - OpenAPI Validation Report
+  - Obsidian Task Generation
+  - Mathematics Sampler
+  - Self-Agency in AI Interaction
+  - api-gateway-versioning
   - aionian-circuit-math
-  - Canonical Org-Babel Matplotlib Animation Template
-  - Creative Moments
-  - eidolon-field-math-foundations
-  - Functional Refactor of TypeScript Document Processing
+  - Simulation Demo
+  - AI-First-OS-Model-Context-Protocol
+  - Board Walk – 2025-08-11
+  - balanced-bst
+  - Board Automation Improvements
+  - Per-Domain Policy System for JS Crawler
+  - Pipeline Enhancements
+  - Layer1SurvivabilityEnvelope
+  - graph-ds
+  - homeostasis-decay-formulas
+  - Math Fundamentals
+  - Chroma Toolkit Consolidation Plan
+  - TypeScript Patch for Tool Calling Support
   - chroma-distance-metric-fix
+  - Unique Info Dump Index
+  - Unique Concepts
   - Chroma-Embedding-Refactor
+  - Model Selection for Lightweight Conversational Tasks
 references:
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 3586
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 2076
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 4641
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 2148
-    col: 0
-    score: 1
-  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 5540
-    col: 0
-    score: 1
-  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
-    line: 1853
-    col: 0
-    score: 1
-  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
-    line: 2049
-    col: 0
-    score: 1
-  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
-    line: 5405
-    col: 0
-    score: 1
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
     line: 4642
     col: 0
@@ -122,38 +240,6 @@ references:
     line: 4621
     col: 0
     score: 0.98
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 4643
-    col: 0
-    score: 1
-  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 1996
-    col: 0
-    score: 0.95
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 3398
-    col: 0
-    score: 0.95
-  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 2511
-    col: 0
-    score: 0.95
-  - uuid: 18138627-a348-4fbb-b447-410dfb400564
-    line: 2927
-    col: 0
-    score: 0.95
-  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
-    line: 3658
-    col: 0
-    score: 0.95
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 915
-    col: 0
-    score: 0.95
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 1173
-    col: 0
-    score: 0.95
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
     line: 4644
     col: 0
@@ -214,6 +300,98 @@ references:
     line: 10
     col: 0
     score: 0.93
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 133
+    col: 0
+    score: 1
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 147
+    col: 0
+    score: 1
+  - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
+    line: 92
+    col: 0
+    score: 1
+  - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
+    line: 99
+    col: 0
+    score: 1
+  - uuid: 9413237f-2537-4bbf-8768-db6180970e36
+    line: 85
+    col: 0
+    score: 1
+  - uuid: c0392040-16a2-41e8-bd54-75110319e3c0
+    line: 92
+    col: 0
+    score: 1
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 101
+    col: 0
+    score: 1
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 132
+    col: 0
+    score: 1
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 136
+    col: 0
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 757
+    col: 0
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 777
+    col: 0
+    score: 1
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 103
+    col: 0
+    score: 1
+  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
+    line: 161
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 201
+    col: 0
+    score: 1
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 70
+    col: 0
+    score: 1
+  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
+    line: 192
+    col: 0
+    score: 1
+  - uuid: 95205cd3-c3d5-4047-9c33-9c5ca2b49597
+    line: 113
+    col: 0
+    score: 1
+  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
+    line: 160
+    col: 0
+    score: 1
+  - uuid: d614d983-7795-491f-9437-09f3a43f72cf
+    line: 71
+    col: 0
+    score: 1
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 604
+    col: 0
+    score: 1
+  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+    line: 277
+    col: 0
+    score: 1
+  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
+    line: 225
+    col: 0
+    score: 1
+  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
+    line: 323
+    col: 0
+    score: 1
   - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
     line: 11
     col: 0
@@ -246,190 +424,1138 @@ references:
     line: 135
     col: 0
     score: 1
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 252
-    col: 0
-    score: 1
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 253
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 109
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 110
-    col: 0
-    score: 1
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 204
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 205
+    line: 22148
     col: 0
     score: 1
   - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 274
+    line: 26563
     col: 0
     score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 20101
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 23312
+    col: 0
+    score: 0.98
   - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 275
+    line: 10174
     col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 255
+    score: 0.98
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 14715
+    col: 0
+    score: 0.98
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 12317
+    col: 0
+    score: 0.98
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 14301
     col: 0
     score: 1
   - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
     line: 256
     col: 0
     score: 1
-  - uuid: de34f84b-270b-4f16-92a8-a681a869b823
-    line: 37
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 14778
     col: 0
     score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 585
+    line: 14241
     col: 0
-    score: 1
+    score: 0.99
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 1283
+    line: 23314
     col: 0
-    score: 1
-  - uuid: 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
-    line: 163
+    score: 0.99
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 10176
     col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 610
-    col: 0
-    score: 1
+    score: 0.99
   - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 1487
+    line: 12320
     col: 0
-    score: 1
-  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
-    line: 591
-    col: 0
-    score: 1
-  - uuid: 5c307293-04cb-4478-ba2c-4cd85dbec260
-    line: 26
-    col: 0
-    score: 1
-  - uuid: 18138627-a348-4fbb-b447-410dfb400564
-    line: 1198
-    col: 0
-    score: 1
+    score: 0.99
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 596
+    line: 14273
     col: 0
-    score: 1
+    score: 0.99
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 1294
+    line: 17787
     col: 0
-    score: 1
-  - uuid: 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
-    line: 164
+    score: 0.99
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 14756
+    col: 0
+    score: 0.99
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 13212
+    col: 0
+    score: 0.99
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 14304
+    col: 0
+    score: 0.98
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 23371
+    col: 0
+    score: 0.98
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 259
+    col: 0
+    score: 0.98
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 14305
+    col: 0
+    score: 0.97
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 23372
+    col: 0
+    score: 0.97
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 260
+    col: 0
+    score: 0.97
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 14781
+    col: 0
+    score: 0.97
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 6005
+    col: 0
+    score: 0.99
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 3591
+    col: 0
+    score: 0.99
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 2984
+    col: 0
+    score: 0.99
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 3509
+    col: 0
+    score: 0.99
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 2432
+    col: 0
+    score: 0.99
+  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
+    line: 1334
+    col: 0
+    score: 0.99
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 2979
+    col: 0
+    score: 0.99
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 2822
+    col: 0
+    score: 0.99
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 2682
+    col: 0
+    score: 0.99
+  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
+    line: 2178
+    col: 0
+    score: 0.99
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 14175
     col: 0
     score: 1
   - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 621
+    line: 14614
     col: 0
     score: 1
   - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 1498
+    line: 26613
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 23246
     col: 0
     score: 1
   - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
-    line: 571
+    line: 13057
     col: 0
     score: 1
   - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
-    line: 602
+    line: 140
     col: 0
     score: 1
-  - uuid: 5c307293-04cb-4478-ba2c-4cd85dbec260
-    line: 27
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 24916
     col: 0
     score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 14308
+    col: 0
+    score: 0.99
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 23247
+    col: 0
+    score: 0.99
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 14303
+    col: 0
+    score: 0.99
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 23370
+    col: 0
+    score: 0.99
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 258
+    col: 0
+    score: 0.99
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 169
+    col: 0
+    score: 0.98
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 275
+    col: 0
+    score: 0.98
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 14289
+    col: 0
+    score: 0.96
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 23356
+    col: 0
+    score: 0.96
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 26743
+    col: 0
+    score: 0.96
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 14311
+    col: 0
+    score: 0.99
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 5958
+    col: 0
+    score: 0.99
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 265
+    col: 0
+    score: 0.99
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 14291
+    col: 0
+    score: 0.99
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 23358
+    col: 0
+    score: 0.99
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 14312
+    col: 0
+    score: 0.99
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 5959
+    col: 0
+    score: 0.99
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 391
+    col: 0
+    score: 0.99
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 761
+    col: 0
+    score: 0.99
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 734
+    col: 0
+    score: 0.99
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 733
+    col: 0
+    score: 0.99
+  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
+    line: 362
+    col: 0
+    score: 0.99
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 507
+    col: 0
+    score: 0.99
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 450
+    col: 0
+    score: 0.99
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 441
+    col: 0
+    score: 0.99
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 14183
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 14622
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 26621
+    col: 0
+    score: 1
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 13068
+    col: 0
+    score: 1
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 14073
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 18111
+    col: 0
+    score: 1
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 1960
+    col: 0
+    score: 1
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 1597
+    col: 0
+    score: 1
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 14256
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 8287
+    col: 0
+    score: 0.98
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 10656
+    col: 0
+    score: 0.98
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 4556
+    col: 0
+    score: 0.98
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 8480
+    col: 0
+    score: 0.98
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 4539
+    col: 0
+    score: 0.97
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 10128
+    col: 0
+    score: 0.97
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 9544
+    col: 0
+    score: 0.97
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 12737
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 8647
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 17324
+    col: 0
+    score: 1
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 3764
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 14187
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 20691
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 8612
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 18419
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 8648
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 11822
+    col: 0
+    score: 0.99
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 17514
+    col: 0
+    score: 0.99
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 19467
+    col: 0
+    score: 0.98
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 14523
+    col: 0
+    score: 0.98
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 6324
+    col: 0
+    score: 0.98
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 2416
+    col: 0
+    score: 1
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 2440
+    col: 0
+    score: 1
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 6191
+    col: 0
+    score: 1
+  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
+    line: 1984
+    col: 0
+    score: 1
+  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
+    line: 2155
+    col: 0
+    score: 1
+  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
+    line: 1610
+    col: 0
+    score: 1
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 2584
+    col: 0
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 3437
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 16612
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 21695
+    col: 0
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 2791
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 13168
+    col: 0
+    score: 0.99
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 10786
+    col: 0
+    score: 0.99
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 7371
+    col: 0
+    score: 0.99
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 3728
+    col: 0
+    score: 0.99
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 9384
+    col: 0
+    score: 0.99
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 6190
+    col: 0
+    score: 0.99
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 2792
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 5648
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 5909
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 5819
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 10691
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 4868
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 2785
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 4465
+    col: 0
+    score: 1
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 4482
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 14624
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 8123
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 5310
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 14293
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 14771
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 25591
+    col: 0
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 2249
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 2537
+    col: 0
+    score: 1
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 4795
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 5309
+    col: 0
+    score: 1
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 1777
+    col: 0
+    score: 1
+  - uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
+    line: 1276
+    col: 0
+    score: 1
+  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
+    line: 1768
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 10072
+    col: 0
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 2250
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 2538
+    col: 0
+    score: 1
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 4796
+    col: 0
+    score: 1
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 5824
+    col: 0
+    score: 1
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 1778
+    col: 0
+    score: 1
+  - uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
+    line: 1277
+    col: 0
+    score: 1
+  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
+    line: 1769
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 10073
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 6162
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 5052
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 3183
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 3078
+    col: 0
+    score: 1
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 2815
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 7875
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 5053
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 3184
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 3079
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 6163
+    col: 0
+    score: 1
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 2816
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 7876
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 5054
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 7877
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 3185
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 3080
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 6164
+    col: 0
+    score: 1
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 2817
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 6258
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 7878
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 3186
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 3081
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 6165
+    col: 0
+    score: 1
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 2818
+    col: 0
+    score: 1
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 6156
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 6259
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 2970
+    col: 0
+    score: 0.99
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 1852
+    col: 0
+    score: 0.99
+  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+    line: 1882
+    col: 0
+    score: 0.98
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+    line: 3456
+    col: 0
+    score: 0.98
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 3800
+    col: 0
+    score: 0.98
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 4565
+    col: 0
+    score: 0.98
   - uuid: 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
-    line: 165
+    line: 182
+    col: 0
+    score: 0.96
+  - uuid: de34f84b-270b-4f16-92a8-a681a869b823
+    line: 49
+    col: 0
+    score: 0.96
+  - uuid: 5c307293-04cb-4478-ba2c-4cd85dbec260
+    line: 56
+    col: 0
+    score: 0.96
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 773
+    col: 0
+    score: 0.95
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 903
+    col: 0
+    score: 0.95
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 809
+    col: 0
+    score: 0.95
+  - uuid: 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
+    line: 181
+    col: 0
+    score: 0.96
+  - uuid: de34f84b-270b-4f16-92a8-a681a869b823
+    line: 48
+    col: 0
+    score: 0.96
+  - uuid: 5c307293-04cb-4478-ba2c-4cd85dbec260
+    line: 55
+    col: 0
+    score: 0.96
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 13527
+    col: 0
+    score: 0.94
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 17339
+    col: 0
+    score: 0.94
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 643
+    col: 0
+    score: 0.99
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 686
+    col: 0
+    score: 0.99
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 497
+    col: 0
+    score: 0.99
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 286
+    col: 0
+    score: 0.99
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 285
+    col: 0
+    score: 0.99
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 762
+    col: 0
+    score: 0.99
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 322
+    col: 0
+    score: 0.99
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 353
+    col: 0
+    score: 0.99
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 419
+    col: 0
+    score: 0.99
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 352
+    col: 0
+    score: 0.99
+  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
+    line: 812
+    col: 0
+    score: 0.94
+  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
+    line: 150
+    col: 0
+    score: 0.94
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 468
+    col: 0
+    score: 0.94
+  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
+    line: 160
+    col: 0
+    score: 0.94
+  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+    line: 223
+    col: 0
+    score: 0.94
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 1098
+    col: 0
+    score: 0.94
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 1293
+    col: 0
+    score: 0.94
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 1136
+    col: 0
+    score: 0.94
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 8687
+    col: 0
+    score: 0.98
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 4588
     col: 0
     score: 1
   - uuid: de34f84b-270b-4f16-92a8-a681a869b823
-    line: 41
+    line: 55
     col: 0
-    score: 1
+    score: 0.98
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 157
+    col: 0
+    score: 0.98
   - uuid: 5c307293-04cb-4478-ba2c-4cd85dbec260
-    line: 28
-    col: 0
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 16
-    col: 0
-    score: 1
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 294
-    col: 0
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 317
-    col: 0
-    score: 1
-  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
-    line: 29
-    col: 0
-    score: 1
-  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-    line: 158
-    col: 0
-    score: 1
-  - uuid: 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
-    line: 166
-    col: 0
-    score: 1
-  - uuid: de34f84b-270b-4f16-92a8-a681a869b823
-    line: 42
-    col: 0
-    score: 1
-  - uuid: 5c307293-04cb-4478-ba2c-4cd85dbec260
-    line: 29
-    col: 0
-    score: 1
-  - uuid: 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
-    line: 167
+    line: 104
     col: 0
     score: 0.98
   - uuid: de34f84b-270b-4f16-92a8-a681a869b823
-    line: 43
+    line: 64
     col: 0
     score: 0.98
   - uuid: 5c307293-04cb-4478-ba2c-4cd85dbec260
-    line: 30
+    line: 96
     col: 0
     score: 0.98
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 168
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 7938
     col: 0
-    score: 1
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 299
+    score: 0.96
+  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
+    line: 1042
     col: 0
-    score: 1
-  - uuid: 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
-    line: 168
+    score: 0.94
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+    line: 1148
     col: 0
-    score: 1
+    score: 0.94
+  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+    line: 528
+    col: 0
+    score: 0.94
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 402
+    col: 0
+    score: 0.94
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 495
+    col: 0
+    score: 0.94
+  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
+    line: 1104
+    col: 0
+    score: 0.94
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 4516
+    col: 0
+    score: 0.99
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 4234
+    col: 0
+    score: 0.98
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 4737
+    col: 0
+    score: 0.95
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 4519
+    col: 0
+    score: 0.99
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 10286
+    col: 0
+    score: 0.98
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 4662
+    col: 0
+    score: 0.98
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 4860
+    col: 0
+    score: 0.98
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 7803
+    col: 0
+    score: 0.98
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 4731
+    col: 0
+    score: 0.98
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 8948
+    col: 0
+    score: 0.98
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 3886
+    col: 0
+    score: 0.97
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 5746
+    col: 0
+    score: 0.97
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 9178
+    col: 0
+    score: 0.97
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 4575
+    col: 0
+    score: 0.97
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 3845
+    col: 0
+    score: 0.97
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 5259
+    col: 0
+    score: 0.97
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 16336
+    col: 0
+    score: 0.99
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 17254
+    col: 0
+    score: 0.99
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 3537
+    col: 0
+    score: 0.98
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 2817
+    col: 0
+    score: 0.98
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 2532
+    col: 0
+    score: 0.98
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 156
+    col: 0
+    score: 0.98
   - uuid: de34f84b-270b-4f16-92a8-a681a869b823
-    line: 44
+    line: 71
     col: 0
-    score: 1
+    score: 0.98
   - uuid: 5c307293-04cb-4478-ba2c-4cd85dbec260
-    line: 31
+    line: 103
     col: 0
-    score: 1
+    score: 0.98
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 1337
+    col: 0
+    score: 0.98
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 4285
+    col: 0
+    score: 0.98
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 2744
+    col: 0
+    score: 0.98
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 1594
+    col: 0
+    score: 0.96
+  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
+    line: 1055
+    col: 0
+    score: 0.95
+  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
+    line: 2454
+    col: 0
+    score: 0.95
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 1627
+    col: 0
+    score: 0.95
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 3577
+    col: 0
+    score: 0.95
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 17968
+    col: 0
+    score: 0.97
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 14793
+    col: 0
+    score: 0.96
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 1700
+    col: 0
+    score: 0.96
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 3366
+    col: 0
+    score: 0.96
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 2146
+    col: 0
+    score: 0.96
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 5661
+    col: 0
+    score: 0.96
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 4675
+    col: 0
+    score: 0.96
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 4828
+    col: 0
+    score: 0.98
+  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
+    line: 1048
+    col: 0
+    score: 0.99
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 508
+    col: 0
+    score: 0.99
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 887
+    col: 0
+    score: 0.99
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 519
+    col: 0
+    score: 0.99
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 935
+    col: 0
+    score: 0.99
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 1610
+    col: 0
+    score: 0.99
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 1671
+    col: 0
+    score: 0.99
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 935
+    col: 0
+    score: 0.99
+  - uuid: 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
+    line: 230
+    col: 0
+    score: 0.99
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 8251
+    col: 0
+    score: 0.98
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 8622
+    col: 0
+    score: 0.98
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 7545
+    col: 0
+    score: 0.98
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 6916
+    col: 0
+    score: 0.98
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 6494
+    col: 0
+    score: 0.98
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 4664
+    col: 0
+    score: 0.98
+  - uuid: 5c307293-04cb-4478-ba2c-4cd85dbec260
+    line: 74
+    col: 0
+    score: 0.98
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 8240
+    col: 0
+    score: 0.98
+  - uuid: 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
+    line: 231
+    col: 0
+    score: 0.99
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 3697
+    col: 0
+    score: 0.98
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 7690
+    col: 0
+    score: 0.98
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 14437
+    col: 0
+    score: 0.98
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 7001
+    col: 0
+    score: 0.98
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 4032
+    col: 0
+    score: 0.98
 ---
 
     - No subprocesses are spawned; it calls the pipeline JS directly
@@ -1455,38 +2581,106 @@ Testing & Linting
 
 If you want, I can save this as docs/docops-pipeline.md, add a concise developer README underpackages/docops/README.md, and link from AGENTS.md.<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Promethean Documentation Update](promethean-documentation-update-3.md)
-- [api-gateway-versioning](api-gateway-versioning.md)
-- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
-- [Board Walk – 2025-08-11](board-walk-2025-08-11.md)
-- [Self-Improving Documentation Tool](self-improving-documentation-tool.md)
-- [Git Commit Optimization for Code Reviews](git-commit-optimization-for-code-reviews.md)
-- [balanced-bst](balanced-bst.md)
-- [Board Automation Improvements](board-automation-improvements.md)
 - [Duck's Attractor States](ducks-attractor-states.md)
 - [Promethean Chat Activity Report](promethean-chat-activity-report.md)
 - [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
 - [Promethean Documentation Update](promethean-documentation-update.txt)
+- [The Jar of Echoes](the-jar-of-echoes.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [Smoke Resonance Visualizations](smoke-resonance-visualizations.md)
+- [Synchronicity Waves and Web](synchronicity-waves-and-web.md)
+- [Creative Moments](creative-moments.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
+- [Promethean_Eidolon_Synchronicity_Model](promethean-eidolon-synchronicity-model.md)
+- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
+- [Diagrams](chunks/diagrams.md)
+- [Self-Improving Documentation Tool](self-improving-documentation-tool.md)
+- [Git Commit Optimization for Code Reviews](git-commit-optimization-for-code-reviews.md)
+- [Prometheus Observability Stack](prometheus-observability-stack.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
 - [Promethean Notes](promethean-notes.md)
 - [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
-- [The Jar of Echoes](the-jar-of-echoes.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+- [Protocol_0_The_Contradiction_Engine](protocol-0-the-contradiction-engine.md)
+- [Provider-Agnostic Chat Panel Implementation](provider-agnostic-chat-panel-implementation.md)
+- [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
+- [Reawakening Duck](reawakening-duck.md)
+- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
+- [Promethean Pipelines](promethean-pipelines.md)
+- [Promethean Documentation Update](promethean-documentation-update-2.md)
+- [schema-evolution-workflow](schema-evolution-workflow.md)
+- [promethean-requirements](promethean-requirements.md)
+- [Promethean Workflow Optimization](promethean-workflow-optimization.md)
+- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
+- [Promethean Documentation Pipeline Overview](promethean-documentation-pipeline-overview.md)
+- [field-interaction-equations](field-interaction-equations.md)
+- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
+- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
+- [Promethean State Format](promethean-state-format.md)
+- [Redirecting Standard Error](redirecting-standard-error.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [Promethean Data Sync Protocol](promethean-data-sync-protocol.md)
+- [Promethean Documentation Update](promethean-documentation-update.md)
+- [plan-update-confirmation](plan-update-confirmation.md)
+- [Window Management](chunks/window-management.md)
+- [polyglot-repl-interface-layer](polyglot-repl-interface-layer.md)
+- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
+- [DSL](chunks/dsl.md)
+- [JavaScript](chunks/javascript.md)
+- [Operations](chunks/operations.md)
+- [Services](chunks/services.md)
+- [Shared](chunks/shared.md)
+- [Docops Feature Updates](docops-feature-updates-2.md)
+- [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
+- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
+- [Docops Feature Updates](docops-feature-updates.md)
+- [Tooling](chunks/tooling.md)
+- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
+- [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
+- [Promethean Documentation Overview](promethean-documentation-overview.md)
+- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
+- [Model Upgrade Calm-Down Guide](model-upgrade-calm-down-guide.md)
+- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [ripple-propagation-demo](ripple-propagation-demo.md)
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
+- [Optimizing Command Limitations in System Design](optimizing-command-limitations-in-system-design.md)
+- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
+- [OpenAPI Validation Report](openapi-validation-report.md)
+- [Obsidian Task Generation](obsidian-task-generation.md)
+- [Mathematics Sampler](mathematics-sampler.md)
+- [Self-Agency in AI Interaction](self-agency-in-ai-interaction.md)
+- [api-gateway-versioning](api-gateway-versioning.md)
 - [aionian-circuit-math](aionian-circuit-math.md)
-- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [Creative Moments](creative-moments.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
-- [chroma-distance-metric-fix](chroma-distance-metric-fix-2.md)
+- [Simulation Demo](chunks/simulation-demo.md)
+- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
+- [Board Walk – 2025-08-11](board-walk-2025-08-11.md)
+- [balanced-bst](balanced-bst.md)
+- [Board Automation Improvements](board-automation-improvements.md)
+- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
+- [Pipeline Enhancements](pipeline-enhancements.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [graph-ds](graph-ds.md)
+- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
+- [Math Fundamentals](chunks/math-fundamentals.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [chroma-distance-metric-fix](chroma-distance-metric-fix-3.md)
 - [chroma-distance-metric-fix](chroma-distance-metric-fix.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [Unique Concepts](unique-concepts.md)
 - [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
+- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
 ## Sources
-- [Canonical Org-Babel Matplotlib Animation Template — L3586](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-3586-0) (line 3586, col 0, score 1)
-- [Creative Moments — L2076](creative-moments.md#^ref-10d98225-2076-0) (line 2076, col 0, score 1)
-- [Duck's Attractor States — L4641](ducks-attractor-states.md#^ref-13951643-4641-0) (line 4641, col 0, score 1)
-- [Promethean Chat Activity Report — L2148](promethean-chat-activity-report.md#^ref-18344cf9-2148-0) (line 2148, col 0, score 1)
-- [Promethean Dev Workflow Update — L5540](promethean-dev-workflow-update.md#^ref-03a5578f-5540-0) (line 5540, col 0, score 1)
-- [Promethean Documentation Update — L1853](promethean-documentation-update.txt#^ref-0b872af2-1853-0) (line 1853, col 0, score 1)
-- [Promethean Notes — L2049](promethean-notes.md#^ref-1c4046b5-2049-0) (line 2049, col 0, score 1)
-- [windows-tiling-with-autohotkey — L5405](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-5405-0) (line 5405, col 0, score 1)
 - [Duck's Attractor States — L4642](ducks-attractor-states.md#^ref-13951643-4642-0) (line 4642, col 0, score 1)
 - [Promethean Chat Activity Report — L2149](promethean-chat-activity-report.md#^ref-18344cf9-2149-0) (line 2149, col 0, score 1)
 - [Promethean Dev Workflow Update — L5541](promethean-dev-workflow-update.md#^ref-03a5578f-5541-0) (line 5541, col 0, score 1)
@@ -1495,14 +2689,6 @@ If you want, I can save this as docs/docops-pipeline.md, add a concise developer
 - [The Jar of Echoes — L4631](the-jar-of-echoes.md#^ref-18138627-4631-0) (line 4631, col 0, score 1)
 - [windows-tiling-with-autohotkey — L5406](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-5406-0) (line 5406, col 0, score 1)
 - [Duck's Attractor States — L4621](ducks-attractor-states.md#^ref-13951643-4621-0) (line 4621, col 0, score 0.98)
-- [Duck's Attractor States — L4643](ducks-attractor-states.md#^ref-13951643-4643-0) (line 4643, col 0, score 1)
-- [Promethean Dev Workflow Update — L1996](promethean-dev-workflow-update.md#^ref-03a5578f-1996-0) (line 1996, col 0, score 0.95)
-- [eidolon-field-math-foundations — L3398](eidolon-field-math-foundations.md#^ref-008f2ac0-3398-0) (line 3398, col 0, score 0.95)
-- [Promethean Dev Workflow Update — L2511](promethean-dev-workflow-update.md#^ref-03a5578f-2511-0) (line 2511, col 0, score 0.95)
-- [The Jar of Echoes — L2927](the-jar-of-echoes.md#^ref-18138627-2927-0) (line 2927, col 0, score 0.95)
-- [windows-tiling-with-autohotkey — L3658](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-3658-0) (line 3658, col 0, score 0.95)
-- [Canonical Org-Babel Matplotlib Animation Template — L915](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-915-0) (line 915, col 0, score 0.95)
-- [Duck's Attractor States — L1173](ducks-attractor-states.md#^ref-13951643-1173-0) (line 1173, col 0, score 0.95)
 - [Duck's Attractor States — L4644](ducks-attractor-states.md#^ref-13951643-4644-0) (line 4644, col 0, score 1)
 - [Duck's Attractor States — L809](ducks-attractor-states.md#^ref-13951643-809-0) (line 809, col 0, score 0.98)
 - [Promethean Dev Workflow Update — L694](promethean-dev-workflow-update.md#^ref-03a5578f-694-0) (line 694, col 0, score 0.98)
@@ -1512,12 +2698,35 @@ If you want, I can save this as docs/docops-pipeline.md, add a concise developer
 - [The Jar of Echoes — L1179](the-jar-of-echoes.md#^ref-18138627-1179-0) (line 1179, col 0, score 0.97)
 - [Promethean Notes — L965](promethean-notes.md#^ref-1c4046b5-965-0) (line 965, col 0, score 0.96)
 - [The Jar of Echoes — L1093](the-jar-of-echoes.md#^ref-18138627-1093-0) (line 1093, col 0, score 0.96)
-- [chroma-distance-metric-fix — L47](chroma-distance-metric-fix-2.md#^ref-b9540809-47-0) (line 47, col 0, score 0.88)
+- [chroma-distance-metric-fix — L47](chroma-distance-metric-fix-3.md#^ref-b9540809-47-0) (line 47, col 0, score 0.88)
 - [chroma-distance-metric-fix — L48](chroma-distance-metric-fix.md#^ref-9fd881b6-48-0) (line 48, col 0, score 0.88)
-- [chroma-distance-metric-fix — L11](chroma-distance-metric-fix-2.md#^ref-b9540809-11-0) (line 11, col 0, score 0.95)
+- [chroma-distance-metric-fix — L11](chroma-distance-metric-fix-3.md#^ref-b9540809-11-0) (line 11, col 0, score 0.95)
 - [chroma-distance-metric-fix — L11](chroma-distance-metric-fix.md#^ref-9fd881b6-11-0) (line 11, col 0, score 0.95)
-- [chroma-distance-metric-fix — L10](chroma-distance-metric-fix-2.md#^ref-b9540809-10-0) (line 10, col 0, score 0.93)
+- [chroma-distance-metric-fix — L10](chroma-distance-metric-fix-3.md#^ref-b9540809-10-0) (line 10, col 0, score 0.93)
 - [chroma-distance-metric-fix — L10](chroma-distance-metric-fix.md#^ref-9fd881b6-10-0) (line 10, col 0, score 0.93)
+- [Promethean-Copilot-Intent-Engine — L133](promethean-copilot-intent-engine.md#^ref-ae24a280-133-0) (line 133, col 0, score 1)
+- [Promethean-Copilot-Intent-Engine — L147](promethean-copilot-intent-engine.md#^ref-ae24a280-147-0) (line 147, col 0, score 1)
+- [Promethean Data Sync Protocol — L92](promethean-data-sync-protocol.md#^ref-9fab9e76-92-0) (line 92, col 0, score 1)
+- [Promethean Data Sync Protocol — L99](promethean-data-sync-protocol.md#^ref-9fab9e76-99-0) (line 99, col 0, score 1)
+- [Promethean Documentation Overview — L85](promethean-documentation-overview.md#^ref-9413237f-85-0) (line 85, col 0, score 1)
+- [Promethean Documentation Update — L92](promethean-documentation-update.md#^ref-c0392040-92-0) (line 92, col 0, score 1)
+- [Promethean Documentation Update — L101](promethean-documentation-update.txt#^ref-0b872af2-101-0) (line 101, col 0, score 1)
+- [Promethean_Eidolon_Synchronicity_Model — L132](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-132-0) (line 132, col 0, score 1)
+- [Promethean_Eidolon_Synchronicity_Model — L136](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-136-0) (line 136, col 0, score 1)
+- [Promethean Infrastructure Setup — L757](promethean-infrastructure-setup.md#^ref-6deed6ac-757-0) (line 757, col 0, score 1)
+- [Promethean Infrastructure Setup — L777](promethean-infrastructure-setup.md#^ref-6deed6ac-777-0) (line 777, col 0, score 1)
+- [Promethean Notes — L103](promethean-notes.md#^ref-1c4046b5-103-0) (line 103, col 0, score 1)
+- [Promethean Pipelines — L161](promethean-pipelines.md#^ref-8b8e6103-161-0) (line 161, col 0, score 1)
+- [eidolon-field-math-foundations — L201](eidolon-field-math-foundations.md#^ref-008f2ac0-201-0) (line 201, col 0, score 1)
+- [Promethean Notes — L70](promethean-notes.md#^ref-1c4046b5-70-0) (line 70, col 0, score 1)
+- [Promethean Pipelines — L192](promethean-pipelines.md#^ref-8b8e6103-192-0) (line 192, col 0, score 1)
+- [promethean-requirements — L113](promethean-requirements.md#^ref-95205cd3-113-0) (line 113, col 0, score 1)
+- [Promethean State Format — L160](promethean-state-format.md#^ref-23df6ddb-160-0) (line 160, col 0, score 1)
+- [Promethean Workflow Optimization — L71](promethean-workflow-optimization.md#^ref-d614d983-71-0) (line 71, col 0, score 1)
+- [Prometheus Observability Stack — L604](prometheus-observability-stack.md#^ref-e90b5a16-604-0) (line 604, col 0, score 1)
+- [Prompt_Folder_Bootstrap — L277](prompt-folder-bootstrap.md#^ref-bd4f0976-277-0) (line 277, col 0, score 1)
+- [Protocol_0_The_Contradiction_Engine — L225](protocol-0-the-contradiction-engine.md#^ref-9a93a756-225-0) (line 225, col 0, score 1)
+- [Provider-Agnostic Chat Panel Implementation — L323](provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-323-0) (line 323, col 0, score 1)
 - [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#^ref-618198f4-11-0) (line 11, col 0, score 1)
 - [aionian-circuit-math — L151](aionian-circuit-math.md#^ref-f2d83a77-151-0) (line 151, col 0, score 1)
 - [aionian-circuit-math — L152](aionian-circuit-math.md#^ref-f2d83a77-152-0) (line 152, col 0, score 1)
@@ -1526,50 +2735,287 @@ If you want, I can save this as docs/docops-pipeline.md, add a concise developer
 - [balanced-bst — L299](balanced-bst.md#^ref-d3e7db72-299-0) (line 299, col 0, score 1)
 - [Board Automation Improvements — L12](board-automation-improvements.md#^ref-ac60a1d6-12-0) (line 12, col 0, score 1)
 - [Board Walk – 2025-08-11 — L135](board-walk-2025-08-11.md#^ref-7aa1eb92-135-0) (line 135, col 0, score 1)
-- [Canonical Org-Babel Matplotlib Animation Template — L252](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-252-0) (line 252, col 0, score 1)
-- [Canonical Org-Babel Matplotlib Animation Template — L253](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-253-0) (line 253, col 0, score 1)
-- [Creative Moments — L109](creative-moments.md#^ref-10d98225-109-0) (line 109, col 0, score 1)
-- [Creative Moments — L110](creative-moments.md#^ref-10d98225-110-0) (line 110, col 0, score 1)
-- [Duck's Attractor States — L204](ducks-attractor-states.md#^ref-13951643-204-0) (line 204, col 0, score 1)
-- [Duck's Attractor States — L205](ducks-attractor-states.md#^ref-13951643-205-0) (line 205, col 0, score 1)
-- [eidolon-field-math-foundations — L274](eidolon-field-math-foundations.md#^ref-008f2ac0-274-0) (line 274, col 0, score 1)
-- [eidolon-field-math-foundations — L275](eidolon-field-math-foundations.md#^ref-008f2ac0-275-0) (line 275, col 0, score 1)
-- [Functional Refactor of TypeScript Document Processing — L255](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-255-0) (line 255, col 0, score 1)
+- [Duck's Attractor States — L22148](ducks-attractor-states.md#^ref-13951643-22148-0) (line 22148, col 0, score 1)
+- [eidolon-field-math-foundations — L26563](eidolon-field-math-foundations.md#^ref-008f2ac0-26563-0) (line 26563, col 0, score 1)
+- [The Jar of Echoes — L20101](the-jar-of-echoes.md#^ref-18138627-20101-0) (line 20101, col 0, score 1)
+- [Duck's Attractor States — L23312](ducks-attractor-states.md#^ref-13951643-23312-0) (line 23312, col 0, score 0.98)
+- [eidolon-field-math-foundations — L10174](eidolon-field-math-foundations.md#^ref-008f2ac0-10174-0) (line 10174, col 0, score 0.98)
+- [Promethean Chat Activity Report — L14715](promethean-chat-activity-report.md#^ref-18344cf9-14715-0) (line 14715, col 0, score 0.98)
+- [Promethean Dev Workflow Update — L12317](promethean-dev-workflow-update.md#^ref-03a5578f-12317-0) (line 12317, col 0, score 0.98)
+- [Creative Moments — L14301](creative-moments.md#^ref-10d98225-14301-0) (line 14301, col 0, score 1)
 - [Functional Refactor of TypeScript Document Processing — L256](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-256-0) (line 256, col 0, score 1)
-- [Promethean Documentation Update — L37](promethean-documentation-update-3.md#^ref-de34f84b-37-0) (line 37, col 0, score 1)
-- [Creative Moments — L585](creative-moments.md#^ref-10d98225-585-0) (line 585, col 0, score 1)
-- [Duck's Attractor States — L1283](ducks-attractor-states.md#^ref-13951643-1283-0) (line 1283, col 0, score 1)
-- [Git Commit Optimization for Code Reviews — L163](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-163-0) (line 163, col 0, score 1)
-- [Promethean Chat Activity Report — L610](promethean-chat-activity-report.md#^ref-18344cf9-610-0) (line 610, col 0, score 1)
-- [Promethean Dev Workflow Update — L1487](promethean-dev-workflow-update.md#^ref-03a5578f-1487-0) (line 1487, col 0, score 1)
-- [Promethean Notes — L591](promethean-notes.md#^ref-1c4046b5-591-0) (line 591, col 0, score 1)
-- [Self-Improving Documentation Tool — L26](self-improving-documentation-tool.md#^ref-5c307293-26-0) (line 26, col 0, score 1)
-- [The Jar of Echoes — L1198](the-jar-of-echoes.md#^ref-18138627-1198-0) (line 1198, col 0, score 1)
-- [Creative Moments — L596](creative-moments.md#^ref-10d98225-596-0) (line 596, col 0, score 1)
-- [Duck's Attractor States — L1294](ducks-attractor-states.md#^ref-13951643-1294-0) (line 1294, col 0, score 1)
-- [Git Commit Optimization for Code Reviews — L164](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-164-0) (line 164, col 0, score 1)
-- [Promethean Chat Activity Report — L621](promethean-chat-activity-report.md#^ref-18344cf9-621-0) (line 621, col 0, score 1)
-- [Promethean Dev Workflow Update — L1498](promethean-dev-workflow-update.md#^ref-03a5578f-1498-0) (line 1498, col 0, score 1)
-- [Promethean Documentation Update — L571](promethean-documentation-update.txt#^ref-0b872af2-571-0) (line 571, col 0, score 1)
-- [Promethean Notes — L602](promethean-notes.md#^ref-1c4046b5-602-0) (line 602, col 0, score 1)
-- [Self-Improving Documentation Tool — L27](self-improving-documentation-tool.md#^ref-5c307293-27-0) (line 27, col 0, score 1)
-- [Git Commit Optimization for Code Reviews — L165](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-165-0) (line 165, col 0, score 1)
-- [Promethean Documentation Update — L41](promethean-documentation-update-3.md#^ref-de34f84b-41-0) (line 41, col 0, score 1)
-- [Self-Improving Documentation Tool — L28](self-improving-documentation-tool.md#^ref-5c307293-28-0) (line 28, col 0, score 1)
-- [AI-First-OS-Model-Context-Protocol — L16](ai-first-os-model-context-protocol.md#^ref-618198f4-16-0) (line 16, col 0, score 1)
-- [api-gateway-versioning — L294](api-gateway-versioning.md#^ref-0580dcd3-294-0) (line 294, col 0, score 1)
-- [balanced-bst — L317](balanced-bst.md#^ref-d3e7db72-317-0) (line 317, col 0, score 1)
-- [Board Automation Improvements — L29](board-automation-improvements.md#^ref-ac60a1d6-29-0) (line 29, col 0, score 1)
-- [Board Walk – 2025-08-11 — L158](board-walk-2025-08-11.md#^ref-7aa1eb92-158-0) (line 158, col 0, score 1)
-- [Git Commit Optimization for Code Reviews — L166](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-166-0) (line 166, col 0, score 1)
-- [Promethean Documentation Update — L42](promethean-documentation-update-3.md#^ref-de34f84b-42-0) (line 42, col 0, score 1)
-- [Self-Improving Documentation Tool — L29](self-improving-documentation-tool.md#^ref-5c307293-29-0) (line 29, col 0, score 1)
-- [Git Commit Optimization for Code Reviews — L167](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-167-0) (line 167, col 0, score 0.98)
-- [Promethean Documentation Update — L43](promethean-documentation-update-3.md#^ref-de34f84b-43-0) (line 43, col 0, score 0.98)
-- [Self-Improving Documentation Tool — L30](self-improving-documentation-tool.md#^ref-5c307293-30-0) (line 30, col 0, score 0.98)
-- [aionian-circuit-math — L168](aionian-circuit-math.md#^ref-f2d83a77-168-0) (line 168, col 0, score 1)
-- [api-gateway-versioning — L299](api-gateway-versioning.md#^ref-0580dcd3-299-0) (line 299, col 0, score 1)
-- [Git Commit Optimization for Code Reviews — L168](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-168-0) (line 168, col 0, score 1)
-- [Promethean Documentation Update — L44](promethean-documentation-update-3.md#^ref-de34f84b-44-0) (line 44, col 0, score 1)
-- [Self-Improving Documentation Tool — L31](self-improving-documentation-tool.md#^ref-5c307293-31-0) (line 31, col 0, score 1)
+- [Promethean Chat Activity Report — L14778](promethean-chat-activity-report.md#^ref-18344cf9-14778-0) (line 14778, col 0, score 1)
+- [Creative Moments — L14241](creative-moments.md#^ref-10d98225-14241-0) (line 14241, col 0, score 0.99)
+- [Duck's Attractor States — L23314](ducks-attractor-states.md#^ref-13951643-23314-0) (line 23314, col 0, score 0.99)
+- [eidolon-field-math-foundations — L10176](eidolon-field-math-foundations.md#^ref-008f2ac0-10176-0) (line 10176, col 0, score 0.99)
+- [Promethean Dev Workflow Update — L12320](promethean-dev-workflow-update.md#^ref-03a5578f-12320-0) (line 12320, col 0, score 0.99)
+- [Creative Moments — L14273](creative-moments.md#^ref-10d98225-14273-0) (line 14273, col 0, score 0.99)
+- [Duck's Attractor States — L17787](ducks-attractor-states.md#^ref-13951643-17787-0) (line 17787, col 0, score 0.99)
+- [Promethean Chat Activity Report — L14756](promethean-chat-activity-report.md#^ref-18344cf9-14756-0) (line 14756, col 0, score 0.99)
+- [Promethean Documentation Update — L13212](promethean-documentation-update.txt#^ref-0b872af2-13212-0) (line 13212, col 0, score 0.99)
+- [Creative Moments — L14304](creative-moments.md#^ref-10d98225-14304-0) (line 14304, col 0, score 0.98)
+- [Duck's Attractor States — L23371](ducks-attractor-states.md#^ref-13951643-23371-0) (line 23371, col 0, score 0.98)
+- [Functional Refactor of TypeScript Document Processing — L259](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-259-0) (line 259, col 0, score 0.98)
+- [Creative Moments — L14305](creative-moments.md#^ref-10d98225-14305-0) (line 14305, col 0, score 0.97)
+- [Duck's Attractor States — L23372](ducks-attractor-states.md#^ref-13951643-23372-0) (line 23372, col 0, score 0.97)
+- [Functional Refactor of TypeScript Document Processing — L260](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-260-0) (line 260, col 0, score 0.97)
+- [Promethean Chat Activity Report — L14781](promethean-chat-activity-report.md#^ref-18344cf9-14781-0) (line 14781, col 0, score 0.97)
+- [Chroma Toolkit Consolidation Plan — L6005](chroma-toolkit-consolidation-plan.md#^ref-5020e892-6005-0) (line 6005, col 0, score 0.99)
+- [Diagrams — L3591](chunks/diagrams.md#^ref-45cd25b5-3591-0) (line 3591, col 0, score 0.99)
+- [DSL — L2984](chunks/dsl.md#^ref-e87bc036-2984-0) (line 2984, col 0, score 0.99)
+- [JavaScript — L3509](chunks/javascript.md#^ref-c1618c66-3509-0) (line 3509, col 0, score 0.99)
+- [Math Fundamentals — L2432](chunks/math-fundamentals.md#^ref-c6e87433-2432-0) (line 2432, col 0, score 0.99)
+- [Operations — L1334](chunks/operations.md#^ref-f1add613-1334-0) (line 1334, col 0, score 0.99)
+- [Services — L2979](chunks/services.md#^ref-75ea4a6a-2979-0) (line 2979, col 0, score 0.99)
+- [Shared — L2822](chunks/shared.md#^ref-623a55f7-2822-0) (line 2822, col 0, score 0.99)
+- [Simulation Demo — L2682](chunks/simulation-demo.md#^ref-557309a3-2682-0) (line 2682, col 0, score 0.99)
+- [Tooling — L2178](chunks/tooling.md#^ref-6cb4943e-2178-0) (line 2178, col 0, score 0.99)
+- [Creative Moments — L14175](creative-moments.md#^ref-10d98225-14175-0) (line 14175, col 0, score 1)
+- [Promethean Chat Activity Report — L14614](promethean-chat-activity-report.md#^ref-18344cf9-14614-0) (line 14614, col 0, score 1)
+- [Promethean Dev Workflow Update — L26613](promethean-dev-workflow-update.md#^ref-03a5578f-26613-0) (line 26613, col 0, score 1)
+- [Duck's Attractor States — L23246](ducks-attractor-states.md#^ref-13951643-23246-0) (line 23246, col 0, score 1)
+- [Promethean Documentation Update — L13057](promethean-documentation-update.txt#^ref-0b872af2-13057-0) (line 13057, col 0, score 1)
+- [Promethean Notes — L140](promethean-notes.md#^ref-1c4046b5-140-0) (line 140, col 0, score 1)
+- [windows-tiling-with-autohotkey — L24916](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-24916-0) (line 24916, col 0, score 1)
+- [Creative Moments — L14308](creative-moments.md#^ref-10d98225-14308-0) (line 14308, col 0, score 0.99)
+- [Duck's Attractor States — L23247](ducks-attractor-states.md#^ref-13951643-23247-0) (line 23247, col 0, score 0.99)
+- [Creative Moments — L14303](creative-moments.md#^ref-10d98225-14303-0) (line 14303, col 0, score 0.99)
+- [Duck's Attractor States — L23370](ducks-attractor-states.md#^ref-13951643-23370-0) (line 23370, col 0, score 0.99)
+- [Functional Refactor of TypeScript Document Processing — L258](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-258-0) (line 258, col 0, score 0.99)
+- [Creative Moments — L169](creative-moments.md#^ref-10d98225-169-0) (line 169, col 0, score 0.98)
+- [Functional Refactor of TypeScript Document Processing — L275](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-275-0) (line 275, col 0, score 0.98)
+- [Creative Moments — L14289](creative-moments.md#^ref-10d98225-14289-0) (line 14289, col 0, score 0.96)
+- [Duck's Attractor States — L23356](ducks-attractor-states.md#^ref-13951643-23356-0) (line 23356, col 0, score 0.96)
+- [Promethean Dev Workflow Update — L26743](promethean-dev-workflow-update.md#^ref-03a5578f-26743-0) (line 26743, col 0, score 0.96)
+- [Creative Moments — L14311](creative-moments.md#^ref-10d98225-14311-0) (line 14311, col 0, score 0.99)
+- [Duck's Attractor States — L5958](ducks-attractor-states.md#^ref-13951643-5958-0) (line 5958, col 0, score 0.99)
+- [Functional Refactor of TypeScript Document Processing — L265](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-265-0) (line 265, col 0, score 0.99)
+- [Creative Moments — L14291](creative-moments.md#^ref-10d98225-14291-0) (line 14291, col 0, score 0.99)
+- [Duck's Attractor States — L23358](ducks-attractor-states.md#^ref-13951643-23358-0) (line 23358, col 0, score 0.99)
+- [Creative Moments — L14312](creative-moments.md#^ref-10d98225-14312-0) (line 14312, col 0, score 0.99)
+- [Duck's Attractor States — L5959](ducks-attractor-states.md#^ref-13951643-5959-0) (line 5959, col 0, score 0.99)
+- [Diagrams — L391](chunks/diagrams.md#^ref-45cd25b5-391-0) (line 391, col 0, score 0.99)
+- [DSL — L761](chunks/dsl.md#^ref-e87bc036-761-0) (line 761, col 0, score 0.99)
+- [JavaScript — L734](chunks/javascript.md#^ref-c1618c66-734-0) (line 734, col 0, score 0.99)
+- [Math Fundamentals — L733](chunks/math-fundamentals.md#^ref-c6e87433-733-0) (line 733, col 0, score 0.99)
+- [Operations — L362](chunks/operations.md#^ref-f1add613-362-0) (line 362, col 0, score 0.99)
+- [Services — L507](chunks/services.md#^ref-75ea4a6a-507-0) (line 507, col 0, score 0.99)
+- [Shared — L450](chunks/shared.md#^ref-623a55f7-450-0) (line 450, col 0, score 0.99)
+- [Simulation Demo — L441](chunks/simulation-demo.md#^ref-557309a3-441-0) (line 441, col 0, score 0.99)
+- [Creative Moments — L14183](creative-moments.md#^ref-10d98225-14183-0) (line 14183, col 0, score 1)
+- [Promethean Chat Activity Report — L14622](promethean-chat-activity-report.md#^ref-18344cf9-14622-0) (line 14622, col 0, score 1)
+- [Promethean Dev Workflow Update — L26621](promethean-dev-workflow-update.md#^ref-03a5578f-26621-0) (line 26621, col 0, score 1)
+- [Promethean Documentation Update — L13068](promethean-documentation-update.txt#^ref-0b872af2-13068-0) (line 13068, col 0, score 1)
+- [Promethean Notes — L14073](promethean-notes.md#^ref-1c4046b5-14073-0) (line 14073, col 0, score 1)
+- [The Jar of Echoes — L18111](the-jar-of-echoes.md#^ref-18138627-18111-0) (line 18111, col 0, score 1)
+- [graph-ds — L1960](graph-ds.md#^ref-6620e2f2-1960-0) (line 1960, col 0, score 1)
+- [ParticleSimulationWithCanvasAndFFmpeg — L1597](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-1597-0) (line 1597, col 0, score 1)
+- [windows-tiling-with-autohotkey — L14256](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-14256-0) (line 14256, col 0, score 1)
+- [Duck's Attractor States — L8287](ducks-attractor-states.md#^ref-13951643-8287-0) (line 8287, col 0, score 0.98)
+- [eidolon-field-math-foundations — L10656](eidolon-field-math-foundations.md#^ref-008f2ac0-10656-0) (line 10656, col 0, score 0.98)
+- [The Jar of Echoes — L4556](the-jar-of-echoes.md#^ref-18138627-4556-0) (line 4556, col 0, score 0.98)
+- [windows-tiling-with-autohotkey — L8480](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-8480-0) (line 8480, col 0, score 0.98)
+- [Duck's Attractor States — L4539](ducks-attractor-states.md#^ref-13951643-4539-0) (line 4539, col 0, score 0.97)
+- [The Jar of Echoes — L10128](the-jar-of-echoes.md#^ref-18138627-10128-0) (line 10128, col 0, score 0.97)
+- [eidolon-field-math-foundations — L9544](eidolon-field-math-foundations.md#^ref-008f2ac0-9544-0) (line 9544, col 0, score 0.97)
+- [Promethean Dev Workflow Update — L12737](promethean-dev-workflow-update.md#^ref-03a5578f-12737-0) (line 12737, col 0, score 1)
+- [Promethean Chat Activity Report — L8647](promethean-chat-activity-report.md#^ref-18344cf9-8647-0) (line 8647, col 0, score 1)
+- [The Jar of Echoes — L17324](the-jar-of-echoes.md#^ref-18138627-17324-0) (line 17324, col 0, score 1)
+- [homeostasis-decay-formulas — L3764](homeostasis-decay-formulas.md#^ref-37b5d236-3764-0) (line 3764, col 0, score 1)
+- [Promethean Dev Workflow Update — L14187](promethean-dev-workflow-update.md#^ref-03a5578f-14187-0) (line 14187, col 0, score 1)
+- [Duck's Attractor States — L20691](ducks-attractor-states.md#^ref-13951643-20691-0) (line 20691, col 0, score 1)
+- [Promethean Chat Activity Report — L8612](promethean-chat-activity-report.md#^ref-18344cf9-8612-0) (line 8612, col 0, score 1)
+- [eidolon-field-math-foundations — L18419](eidolon-field-math-foundations.md#^ref-008f2ac0-18419-0) (line 18419, col 0, score 1)
+- [Promethean Chat Activity Report — L8648](promethean-chat-activity-report.md#^ref-18344cf9-8648-0) (line 8648, col 0, score 1)
+- [The Jar of Echoes — L11822](the-jar-of-echoes.md#^ref-18138627-11822-0) (line 11822, col 0, score 0.99)
+- [windows-tiling-with-autohotkey — L17514](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-17514-0) (line 17514, col 0, score 0.99)
+- [eidolon-field-math-foundations — L19467](eidolon-field-math-foundations.md#^ref-008f2ac0-19467-0) (line 19467, col 0, score 0.98)
+- [The Jar of Echoes — L14523](the-jar-of-echoes.md#^ref-18138627-14523-0) (line 14523, col 0, score 0.98)
+- [Dynamic Context Model for Web Components — L6324](dynamic-context-model-for-web-components.md#^ref-f7702bf8-6324-0) (line 6324, col 0, score 0.98)
+- [Layer1SurvivabilityEnvelope — L2416](layer1survivabilityenvelope.md#^ref-64a9f9f9-2416-0) (line 2416, col 0, score 1)
+- [ParticleSimulationWithCanvasAndFFmpeg — L2440](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-2440-0) (line 2440, col 0, score 1)
+- [plan-update-confirmation — L6191](plan-update-confirmation.md#^ref-b22d79c6-6191-0) (line 6191, col 0, score 1)
+- [Promethean Pipelines — L1984](promethean-pipelines.md#^ref-8b8e6103-1984-0) (line 1984, col 0, score 1)
+- [zero-copy-snapshots-and-workers — L2155](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-2155-0) (line 2155, col 0, score 1)
+- [Promethean State Format — L1610](promethean-state-format.md#^ref-23df6ddb-1610-0) (line 1610, col 0, score 1)
+- [Ice Box Reorganization — L2584](ice-box-reorganization.md#^ref-291c7d91-2584-0) (line 2584, col 0, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L3437](performance-optimized-polyglot-bridge.md#^ref-f5579967-3437-0) (line 3437, col 0, score 1)
+- [The Jar of Echoes — L16612](the-jar-of-echoes.md#^ref-18138627-16612-0) (line 16612, col 0, score 1)
+- [eidolon-field-math-foundations — L21695](eidolon-field-math-foundations.md#^ref-008f2ac0-21695-0) (line 21695, col 0, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L2791](performance-optimized-polyglot-bridge.md#^ref-f5579967-2791-0) (line 2791, col 0, score 1)
+- [eidolon-field-math-foundations — L13168](eidolon-field-math-foundations.md#^ref-008f2ac0-13168-0) (line 13168, col 0, score 0.99)
+- [Duck's Attractor States — L10786](ducks-attractor-states.md#^ref-13951643-10786-0) (line 10786, col 0, score 0.99)
+- [Functional Refactor of TypeScript Document Processing — L7371](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-7371-0) (line 7371, col 0, score 0.99)
+- [Creative Moments — L3728](creative-moments.md#^ref-10d98225-3728-0) (line 3728, col 0, score 0.99)
+- [eidolon-field-math-foundations — L9384](eidolon-field-math-foundations.md#^ref-008f2ac0-9384-0) (line 9384, col 0, score 0.99)
+- [Promethean Dev Workflow Update — L6190](promethean-dev-workflow-update.md#^ref-03a5578f-6190-0) (line 6190, col 0, score 0.99)
+- [Performance-Optimized-Polyglot-Bridge — L2792](performance-optimized-polyglot-bridge.md#^ref-f5579967-2792-0) (line 2792, col 0, score 1)
+- [Creative Moments — L5648](creative-moments.md#^ref-10d98225-5648-0) (line 5648, col 0, score 1)
+- [Promethean Dev Workflow Update — L5909](promethean-dev-workflow-update.md#^ref-03a5578f-5909-0) (line 5909, col 0, score 1)
+- [The Jar of Echoes — L5819](the-jar-of-echoes.md#^ref-18138627-5819-0) (line 5819, col 0, score 1)
+- [eidolon-field-math-foundations — L10691](eidolon-field-math-foundations.md#^ref-008f2ac0-10691-0) (line 10691, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L4868](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-4868-0) (line 4868, col 0, score 1)
+- [Promethean Chat Activity Report — L2785](promethean-chat-activity-report.md#^ref-18344cf9-2785-0) (line 2785, col 0, score 1)
+- [Creative Moments — L4465](creative-moments.md#^ref-10d98225-4465-0) (line 4465, col 0, score 1)
+- [Promethean Notes — L4482](promethean-notes.md#^ref-1c4046b5-4482-0) (line 4482, col 0, score 1)
+- [eidolon-field-math-foundations — L14624](eidolon-field-math-foundations.md#^ref-008f2ac0-14624-0) (line 14624, col 0, score 1)
+- [The Jar of Echoes — L8123](the-jar-of-echoes.md#^ref-18138627-8123-0) (line 8123, col 0, score 1)
+- [Promethean Dev Workflow Update — L5310](promethean-dev-workflow-update.md#^ref-03a5578f-5310-0) (line 5310, col 0, score 1)
+- [Creative Moments — L14293](creative-moments.md#^ref-10d98225-14293-0) (line 14293, col 0, score 1)
+- [Promethean Chat Activity Report — L14771](promethean-chat-activity-report.md#^ref-18344cf9-14771-0) (line 14771, col 0, score 1)
+- [Promethean Dev Workflow Update — L25591](promethean-dev-workflow-update.md#^ref-03a5578f-25591-0) (line 25591, col 0, score 1)
+- [Diagrams — L2249](chunks/diagrams.md#^ref-45cd25b5-2249-0) (line 2249, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L2537](ducks-self-referential-perceptual-loop.md#^ref-71726f04-2537-0) (line 2537, col 0, score 1)
+- [ParticleSimulationWithCanvasAndFFmpeg — L4795](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-4795-0) (line 4795, col 0, score 1)
+- [Promethean Dev Workflow Update — L5309](promethean-dev-workflow-update.md#^ref-03a5578f-5309-0) (line 5309, col 0, score 1)
+- [Promethean_Eidolon_Synchronicity_Model — L1777](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-1777-0) (line 1777, col 0, score 1)
+- [Smoke Resonance Visualizations — L1276](smoke-resonance-visualizations.md#^ref-ac9d3ac5-1276-0) (line 1276, col 0, score 1)
+- [Synchronicity Waves and Web — L1768](synchronicity-waves-and-web.md#^ref-91295f3a-1768-0) (line 1768, col 0, score 1)
+- [The Jar of Echoes — L10072](the-jar-of-echoes.md#^ref-18138627-10072-0) (line 10072, col 0, score 1)
+- [Diagrams — L2250](chunks/diagrams.md#^ref-45cd25b5-2250-0) (line 2250, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L2538](ducks-self-referential-perceptual-loop.md#^ref-71726f04-2538-0) (line 2538, col 0, score 1)
+- [ParticleSimulationWithCanvasAndFFmpeg — L4796](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-4796-0) (line 4796, col 0, score 1)
+- [plan-update-confirmation — L5824](plan-update-confirmation.md#^ref-b22d79c6-5824-0) (line 5824, col 0, score 1)
+- [Promethean_Eidolon_Synchronicity_Model — L1778](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-1778-0) (line 1778, col 0, score 1)
+- [Smoke Resonance Visualizations — L1277](smoke-resonance-visualizations.md#^ref-ac9d3ac5-1277-0) (line 1277, col 0, score 1)
+- [Synchronicity Waves and Web — L1769](synchronicity-waves-and-web.md#^ref-91295f3a-1769-0) (line 1769, col 0, score 1)
+- [The Jar of Echoes — L10073](the-jar-of-echoes.md#^ref-18138627-10073-0) (line 10073, col 0, score 1)
+- [Promethean Dev Workflow Update — L6162](promethean-dev-workflow-update.md#^ref-03a5578f-6162-0) (line 6162, col 0, score 1)
+- [The Jar of Echoes — L5052](the-jar-of-echoes.md#^ref-18138627-5052-0) (line 5052, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L3183](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-3183-0) (line 3183, col 0, score 1)
+- [Promethean Chat Activity Report — L3078](promethean-chat-activity-report.md#^ref-18344cf9-3078-0) (line 3078, col 0, score 1)
+- [Promethean Documentation Update — L2815](promethean-documentation-update.txt#^ref-0b872af2-2815-0) (line 2815, col 0, score 1)
+- [eidolon-field-math-foundations — L7875](eidolon-field-math-foundations.md#^ref-008f2ac0-7875-0) (line 7875, col 0, score 1)
+- [The Jar of Echoes — L5053](the-jar-of-echoes.md#^ref-18138627-5053-0) (line 5053, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L3184](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-3184-0) (line 3184, col 0, score 1)
+- [Promethean Chat Activity Report — L3079](promethean-chat-activity-report.md#^ref-18344cf9-3079-0) (line 3079, col 0, score 1)
+- [Promethean Dev Workflow Update — L6163](promethean-dev-workflow-update.md#^ref-03a5578f-6163-0) (line 6163, col 0, score 1)
+- [Promethean Documentation Update — L2816](promethean-documentation-update.txt#^ref-0b872af2-2816-0) (line 2816, col 0, score 1)
+- [eidolon-field-math-foundations — L7876](eidolon-field-math-foundations.md#^ref-008f2ac0-7876-0) (line 7876, col 0, score 1)
+- [The Jar of Echoes — L5054](the-jar-of-echoes.md#^ref-18138627-5054-0) (line 5054, col 0, score 1)
+- [eidolon-field-math-foundations — L7877](eidolon-field-math-foundations.md#^ref-008f2ac0-7877-0) (line 7877, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L3185](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-3185-0) (line 3185, col 0, score 1)
+- [Promethean Chat Activity Report — L3080](promethean-chat-activity-report.md#^ref-18344cf9-3080-0) (line 3080, col 0, score 1)
+- [Promethean Dev Workflow Update — L6164](promethean-dev-workflow-update.md#^ref-03a5578f-6164-0) (line 6164, col 0, score 1)
+- [Promethean Documentation Update — L2817](promethean-documentation-update.txt#^ref-0b872af2-2817-0) (line 2817, col 0, score 1)
+- [Duck's Attractor States — L6258](ducks-attractor-states.md#^ref-13951643-6258-0) (line 6258, col 0, score 1)
+- [eidolon-field-math-foundations — L7878](eidolon-field-math-foundations.md#^ref-008f2ac0-7878-0) (line 7878, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L3186](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-3186-0) (line 3186, col 0, score 1)
+- [Promethean Chat Activity Report — L3081](promethean-chat-activity-report.md#^ref-18344cf9-3081-0) (line 3081, col 0, score 1)
+- [Promethean Dev Workflow Update — L6165](promethean-dev-workflow-update.md#^ref-03a5578f-6165-0) (line 6165, col 0, score 1)
+- [Promethean Documentation Update — L2818](promethean-documentation-update.txt#^ref-0b872af2-2818-0) (line 2818, col 0, score 1)
+- [windows-tiling-with-autohotkey — L6156](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-6156-0) (line 6156, col 0, score 1)
+- [Duck's Attractor States — L6259](ducks-attractor-states.md#^ref-13951643-6259-0) (line 6259, col 0, score 1)
+- [Creative Moments — L2970](creative-moments.md#^ref-10d98225-2970-0) (line 2970, col 0, score 0.99)
+- [Per-Domain Policy System for JS Crawler — L1852](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-1852-0) (line 1852, col 0, score 0.99)
+- [Promethean Documentation Pipeline Overview — L1882](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-1882-0) (line 1882, col 0, score 0.98)
+- [TypeScript Patch for Tool Calling Support — L3456](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-3456-0) (line 3456, col 0, score 0.98)
+- [Chroma Toolkit Consolidation Plan — L3800](chroma-toolkit-consolidation-plan.md#^ref-5020e892-3800-0) (line 3800, col 0, score 0.98)
+- [eidolon-field-math-foundations — L4565](eidolon-field-math-foundations.md#^ref-008f2ac0-4565-0) (line 4565, col 0, score 0.98)
+- [Git Commit Optimization for Code Reviews — L182](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-182-0) (line 182, col 0, score 0.96)
+- [Promethean Documentation Update — L49](promethean-documentation-update-2.md#^ref-de34f84b-49-0) (line 49, col 0, score 0.96)
+- [Self-Improving Documentation Tool — L56](self-improving-documentation-tool.md#^ref-5c307293-56-0) (line 56, col 0, score 0.96)
+- [field-dynamics-math-blocks — L773](field-dynamics-math-blocks.md#^ref-7cfc230d-773-0) (line 773, col 0, score 0.95)
+- [field-node-diagram-outline — L903](field-node-diagram-outline.md#^ref-1f32c94a-903-0) (line 903, col 0, score 0.95)
+- [field-node-diagram-set — L809](field-node-diagram-set.md#^ref-22b989d5-809-0) (line 809, col 0, score 0.95)
+- [Git Commit Optimization for Code Reviews — L181](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-181-0) (line 181, col 0, score 0.96)
+- [Promethean Documentation Update — L48](promethean-documentation-update-2.md#^ref-de34f84b-48-0) (line 48, col 0, score 0.96)
+- [Self-Improving Documentation Tool — L55](self-improving-documentation-tool.md#^ref-5c307293-55-0) (line 55, col 0, score 0.96)
+- [Duck's Attractor States — L13527](ducks-attractor-states.md#^ref-13951643-13527-0) (line 13527, col 0, score 0.94)
+- [Promethean Dev Workflow Update — L17339](promethean-dev-workflow-update.md#^ref-03a5578f-17339-0) (line 17339, col 0, score 0.94)
+- [Duck's Attractor States — L643](ducks-attractor-states.md#^ref-13951643-643-0) (line 643, col 0, score 0.99)
+- [Dynamic Context Model for Web Components — L686](dynamic-context-model-for-web-components.md#^ref-f7702bf8-686-0) (line 686, col 0, score 0.99)
+- [Eidolon Field Abstract Model — L497](eidolon-field-abstract-model.md#^ref-5e8b2388-497-0) (line 497, col 0, score 0.99)
+- [eidolon-field-math-foundations — L286](eidolon-field-math-foundations.md#^ref-008f2ac0-286-0) (line 286, col 0, score 0.99)
+- [eidolon-node-lifecycle — L285](eidolon-node-lifecycle.md#^ref-938eca9c-285-0) (line 285, col 0, score 0.99)
+- [Factorio AI with External Agents — L762](factorio-ai-with-external-agents.md#^ref-a4d90289-762-0) (line 762, col 0, score 0.99)
+- [field-dynamics-math-blocks — L322](field-dynamics-math-blocks.md#^ref-7cfc230d-322-0) (line 322, col 0, score 0.99)
+- [field-interaction-equations — L353](field-interaction-equations.md#^ref-b09141b7-353-0) (line 353, col 0, score 0.99)
+- [field-node-diagram-outline — L419](field-node-diagram-outline.md#^ref-1f32c94a-419-0) (line 419, col 0, score 0.99)
+- [field-node-diagram-set — L352](field-node-diagram-set.md#^ref-22b989d5-352-0) (line 352, col 0, score 0.99)
+- [obsidian-ignore-node-modules-regex — L812](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-812-0) (line 812, col 0, score 0.94)
+- [Obsidian Task Generation — L150](obsidian-task-generation.md#^ref-9b694a91-150-0) (line 150, col 0, score 0.94)
+- [Obsidian Templating Plugins Integration Guide — L468](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-468-0) (line 468, col 0, score 0.94)
+- [OpenAPI Validation Report — L160](openapi-validation-report.md#^ref-5c152b08-160-0) (line 160, col 0, score 0.94)
+- [Optimizing Command Limitations in System Design — L223](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-223-0) (line 223, col 0, score 0.94)
+- [ParticleSimulationWithCanvasAndFFmpeg — L1098](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-1098-0) (line 1098, col 0, score 0.94)
+- [Per-Domain Policy System for JS Crawler — L1293](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-1293-0) (line 1293, col 0, score 0.94)
+- [Performance-Optimized-Polyglot-Bridge — L1136](performance-optimized-polyglot-bridge.md#^ref-f5579967-1136-0) (line 1136, col 0, score 0.94)
+- [Duck's Attractor States — L8687](ducks-attractor-states.md#^ref-13951643-8687-0) (line 8687, col 0, score 0.98)
+- [Creative Moments — L4588](creative-moments.md#^ref-10d98225-4588-0) (line 4588, col 0, score 1)
+- [Promethean Documentation Update — L55](promethean-documentation-update-2.md#^ref-de34f84b-55-0) (line 55, col 0, score 0.98)
+- [Debugging Broker Connections and Agent Behavior — L157](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-157-0) (line 157, col 0, score 0.98)
+- [Self-Improving Documentation Tool — L104](self-improving-documentation-tool.md#^ref-5c307293-104-0) (line 104, col 0, score 0.98)
+- [Promethean Documentation Update — L64](promethean-documentation-update-2.md#^ref-de34f84b-64-0) (line 64, col 0, score 0.98)
+- [Self-Improving Documentation Tool — L96](self-improving-documentation-tool.md#^ref-5c307293-96-0) (line 96, col 0, score 0.98)
+- [windows-tiling-with-autohotkey — L7938](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-7938-0) (line 7938, col 0, score 0.96)
+- [typed-struct-compiler — L1042](typed-struct-compiler.md#^ref-78eeedf7-1042-0) (line 1042, col 0, score 0.94)
+- [TypeScript Patch for Tool Calling Support — L1148](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-1148-0) (line 1148, col 0, score 0.94)
+- [Unique Concepts — L528](unique-concepts.md#^ref-ed6f3fc9-528-0) (line 528, col 0, score 0.94)
+- [Unique Info Dump Index — L402](unique-info-dump-index.md#^ref-30ec3ba6-402-0) (line 402, col 0, score 0.94)
+- [windows-tiling-with-autohotkey — L495](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-495-0) (line 495, col 0, score 0.94)
+- [zero-copy-snapshots-and-workers — L1104](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1104-0) (line 1104, col 0, score 0.94)
+- [Creative Moments — L4516](creative-moments.md#^ref-10d98225-4516-0) (line 4516, col 0, score 0.99)
+- [Creative Moments — L4234](creative-moments.md#^ref-10d98225-4234-0) (line 4234, col 0, score 0.98)
+- [Creative Moments — L4737](creative-moments.md#^ref-10d98225-4737-0) (line 4737, col 0, score 0.95)
+- [Creative Moments — L4519](creative-moments.md#^ref-10d98225-4519-0) (line 4519, col 0, score 0.99)
+- [Promethean Dev Workflow Update — L10286](promethean-dev-workflow-update.md#^ref-03a5578f-10286-0) (line 10286, col 0, score 0.98)
+- [Promethean Documentation Update — L4662](promethean-documentation-update.txt#^ref-0b872af2-4662-0) (line 4662, col 0, score 0.98)
+- [Promethean Notes — L4860](promethean-notes.md#^ref-1c4046b5-4860-0) (line 4860, col 0, score 0.98)
+- [The Jar of Echoes — L7803](the-jar-of-echoes.md#^ref-18138627-7803-0) (line 7803, col 0, score 0.98)
+- [Creative Moments — L4731](creative-moments.md#^ref-10d98225-4731-0) (line 4731, col 0, score 0.98)
+- [Duck's Attractor States — L8948](ducks-attractor-states.md#^ref-13951643-8948-0) (line 8948, col 0, score 0.98)
+- [Creative Moments — L3886](creative-moments.md#^ref-10d98225-3886-0) (line 3886, col 0, score 0.97)
+- [Duck's Attractor States — L5746](ducks-attractor-states.md#^ref-13951643-5746-0) (line 5746, col 0, score 0.97)
+- [eidolon-field-math-foundations — L9178](eidolon-field-math-foundations.md#^ref-008f2ac0-9178-0) (line 9178, col 0, score 0.97)
+- [Functional Refactor of TypeScript Document Processing — L4575](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-4575-0) (line 4575, col 0, score 0.97)
+- [Promethean Chat Activity Report — L3845](promethean-chat-activity-report.md#^ref-18344cf9-3845-0) (line 3845, col 0, score 0.97)
+- [Promethean Dev Workflow Update — L5259](promethean-dev-workflow-update.md#^ref-03a5578f-5259-0) (line 5259, col 0, score 0.97)
+- [eidolon-field-math-foundations — L16336](eidolon-field-math-foundations.md#^ref-008f2ac0-16336-0) (line 16336, col 0, score 0.99)
+- [windows-tiling-with-autohotkey — L17254](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-17254-0) (line 17254, col 0, score 0.99)
+- [homeostasis-decay-formulas — L3537](homeostasis-decay-formulas.md#^ref-37b5d236-3537-0) (line 3537, col 0, score 0.98)
+- [Eidolon Field Abstract Model — L2817](eidolon-field-abstract-model.md#^ref-5e8b2388-2817-0) (line 2817, col 0, score 0.98)
+- [field-interaction-equations — L2532](field-interaction-equations.md#^ref-b09141b7-2532-0) (line 2532, col 0, score 0.98)
+- [Debugging Broker Connections and Agent Behavior — L156](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-156-0) (line 156, col 0, score 0.98)
+- [Promethean Documentation Update — L71](promethean-documentation-update-2.md#^ref-de34f84b-71-0) (line 71, col 0, score 0.98)
+- [Self-Improving Documentation Tool — L103](self-improving-documentation-tool.md#^ref-5c307293-103-0) (line 103, col 0, score 0.98)
+- [Math Fundamentals — L1337](chunks/math-fundamentals.md#^ref-c6e87433-1337-0) (line 1337, col 0, score 0.98)
+- [field-interaction-equations — L4285](field-interaction-equations.md#^ref-b09141b7-4285-0) (line 4285, col 0, score 0.98)
+- [heartbeat-fragment-demo — L2744](heartbeat-fragment-demo.md#^ref-dd00677a-2744-0) (line 2744, col 0, score 0.98)
+- [Debugging Broker Connections and Agent Behavior — L1594](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-1594-0) (line 1594, col 0, score 0.96)
+- [Operations — L1055](chunks/operations.md#^ref-f1add613-1055-0) (line 1055, col 0, score 0.95)
+- [Window Management — L2454](chunks/window-management.md#^ref-9e8ae388-2454-0) (line 2454, col 0, score 0.95)
+- [Creative Moments — L1627](creative-moments.md#^ref-10d98225-1627-0) (line 1627, col 0, score 0.95)
+- [Debugging Broker Connections and Agent Behavior — L3577](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-3577-0) (line 3577, col 0, score 0.95)
+- [Duck's Attractor States — L17968](ducks-attractor-states.md#^ref-13951643-17968-0) (line 17968, col 0, score 0.97)
+- [eidolon-field-math-foundations — L14793](eidolon-field-math-foundations.md#^ref-008f2ac0-14793-0) (line 14793, col 0, score 0.96)
+- [homeostasis-decay-formulas — L1700](homeostasis-decay-formulas.md#^ref-37b5d236-1700-0) (line 1700, col 0, score 0.96)
+- [Factorio AI with External Agents — L3366](factorio-ai-with-external-agents.md#^ref-a4d90289-3366-0) (line 3366, col 0, score 0.96)
+- [field-node-diagram-set — L2146](field-node-diagram-set.md#^ref-22b989d5-2146-0) (line 2146, col 0, score 0.96)
+- [Migrate to Provider-Tenant Architecture — L5661](migrate-to-provider-tenant-architecture.md#^ref-54382370-5661-0) (line 5661, col 0, score 0.96)
+- [plan-update-confirmation — L4675](plan-update-confirmation.md#^ref-b22d79c6-4675-0) (line 4675, col 0, score 0.96)
+- [Promethean Chat Activity Report — L4828](promethean-chat-activity-report.md#^ref-18344cf9-4828-0) (line 4828, col 0, score 0.98)
+- [Window Management — L1048](chunks/window-management.md#^ref-9e8ae388-1048-0) (line 1048, col 0, score 0.99)
+- [Creative Moments — L508](creative-moments.md#^ref-10d98225-508-0) (line 508, col 0, score 0.99)
+- [Debugging Broker Connections and Agent Behavior — L887](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-887-0) (line 887, col 0, score 0.99)
+- [DuckDuckGoSearchPipeline — L519](duckduckgosearchpipeline.md#^ref-e979c50f-519-0) (line 519, col 0, score 0.99)
+- [Duck's Self-Referential Perceptual Loop — L935](ducks-self-referential-perceptual-loop.md#^ref-71726f04-935-0) (line 935, col 0, score 0.99)
+- [Dynamic Context Model for Web Components — L1610](dynamic-context-model-for-web-components.md#^ref-f7702bf8-1610-0) (line 1610, col 0, score 0.99)
+- [eidolon-field-math-foundations — L1671](eidolon-field-math-foundations.md#^ref-008f2ac0-1671-0) (line 1671, col 0, score 0.99)
+- [Factorio AI with External Agents — L935](factorio-ai-with-external-agents.md#^ref-a4d90289-935-0) (line 935, col 0, score 0.99)
+- [Git Commit Optimization for Code Reviews — L230](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-230-0) (line 230, col 0, score 0.99)
+- [Duck's Attractor States — L8251](ducks-attractor-states.md#^ref-13951643-8251-0) (line 8251, col 0, score 0.98)
+- [eidolon-field-math-foundations — L8622](eidolon-field-math-foundations.md#^ref-008f2ac0-8622-0) (line 8622, col 0, score 0.98)
+- [Functional Refactor of TypeScript Document Processing — L7545](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-7545-0) (line 7545, col 0, score 0.98)
+- [The Jar of Echoes — L6916](the-jar-of-echoes.md#^ref-18138627-6916-0) (line 6916, col 0, score 0.98)
+- [windows-tiling-with-autohotkey — L6494](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-6494-0) (line 6494, col 0, score 0.98)
+- [Creative Moments — L4664](creative-moments.md#^ref-10d98225-4664-0) (line 4664, col 0, score 0.98)
+- [Self-Improving Documentation Tool — L74](self-improving-documentation-tool.md#^ref-5c307293-74-0) (line 74, col 0, score 0.98)
+- [The Jar of Echoes — L8240](the-jar-of-echoes.md#^ref-18138627-8240-0) (line 8240, col 0, score 0.98)
+- [Git Commit Optimization for Code Reviews — L231](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-231-0) (line 231, col 0, score 0.99)
+- [Creative Moments — L3697](creative-moments.md#^ref-10d98225-3697-0) (line 3697, col 0, score 0.98)
+- [Duck's Attractor States — L7690](ducks-attractor-states.md#^ref-13951643-7690-0) (line 7690, col 0, score 0.98)
+- [eidolon-field-math-foundations — L14437](eidolon-field-math-foundations.md#^ref-008f2ac0-14437-0) (line 14437, col 0, score 0.98)
+- [Functional Refactor of TypeScript Document Processing — L7001](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-7001-0) (line 7001, col 0, score 0.98)
+- [Promethean Chat Activity Report — L4032](promethean-chat-activity-report.md#^ref-18344cf9-4032-0) (line 4032, col 0, score 0.98)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
