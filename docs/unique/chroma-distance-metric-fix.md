@@ -360,7 +360,7 @@ confirm scores and coverage.
 ▌ Explain this codebase ^ref-9fd881b6-52-0
  ⏎ send   Ctrl+J newline   Ctrl+C quit   1552624 tokens used   70% context left<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [chroma-distance-metric-fix](chroma-distance-metric-fix-2.md)
+- [chroma-distance-metric-fix](chroma-distance-metric-fix-3.md)
 - [Smoke Resonance Visualizations](smoke-resonance-visualizations.md)
 - [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
 - [Tracing the Signal](tracing-the-signal.md)
@@ -439,17 +439,17 @@ confirm scores and coverage.
 - [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
 - [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
 - [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
-- [chroma-distance-metric-fix — L15](chroma-distance-metric-fix-2.md#^ref-b9540809-15-0) (line 15, col 0, score 1)
-- [chroma-distance-metric-fix — L16](chroma-distance-metric-fix-2.md#^ref-b9540809-16-0) (line 16, col 0, score 1)
-- [chroma-distance-metric-fix — L17](chroma-distance-metric-fix-2.md#^ref-b9540809-17-0) (line 17, col 0, score 1)
-- [chroma-distance-metric-fix — L28](chroma-distance-metric-fix-2.md#^ref-b9540809-28-0) (line 28, col 0, score 0.86)
-- [chroma-distance-metric-fix — L33](chroma-distance-metric-fix-2.md#^ref-b9540809-33-0) (line 33, col 0, score 1)
-- [chroma-distance-metric-fix — L47](chroma-distance-metric-fix-2.md#^ref-b9540809-47-0) (line 47, col 0, score 1)
+- [chroma-distance-metric-fix — L15](chroma-distance-metric-fix-3.md#^ref-b9540809-15-0) (line 15, col 0, score 1)
+- [chroma-distance-metric-fix — L16](chroma-distance-metric-fix-3.md#^ref-b9540809-16-0) (line 16, col 0, score 1)
+- [chroma-distance-metric-fix — L17](chroma-distance-metric-fix-3.md#^ref-b9540809-17-0) (line 17, col 0, score 1)
+- [chroma-distance-metric-fix — L28](chroma-distance-metric-fix-3.md#^ref-b9540809-28-0) (line 28, col 0, score 0.86)
+- [chroma-distance-metric-fix — L33](chroma-distance-metric-fix-3.md#^ref-b9540809-33-0) (line 33, col 0, score 1)
+- [chroma-distance-metric-fix — L47](chroma-distance-metric-fix-3.md#^ref-b9540809-47-0) (line 47, col 0, score 1)
 - [run-step-api — L160](run-step-api.md#^ref-15d25922-160-0) (line 160, col 0, score 0.9)
 - [run-step-api — L613](run-step-api.md#^ref-15d25922-613-0) (line 613, col 0, score 0.9)
 - [run-step-api — L144](run-step-api.md#^ref-15d25922-144-0) (line 144, col 0, score 0.88)
 - [run-step-api — L664](run-step-api.md#^ref-15d25922-664-0) (line 664, col 0, score 0.88)
 - [run-step-api — L329](run-step-api.md#^ref-15d25922-329-0) (line 329, col 0, score 0.86)
 - [run-step-api — L364](run-step-api.md#^ref-15d25922-364-0) (line 364, col 0, score 0.85)
-- [chroma-distance-metric-fix — L51](chroma-distance-metric-fix-2.md#^ref-b9540809-51-0) (line 51, col 0, score 1)
+- [chroma-distance-metric-fix — L51](chroma-distance-metric-fix-3.md#^ref-b9540809-51-0) (line 51, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

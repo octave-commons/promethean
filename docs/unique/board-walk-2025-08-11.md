@@ -45,6 +45,7 @@ related_to_title:
   - TypeScript Patch for Tool Calling Support
   - AGENTS.md
   - Promethean Data Sync Protocol
+  - archetype-ecs
   - Debugging Broker Connections and Agent Behavior
   - typed-struct-compiler
   - Duck's Self-Referential Perceptual Loop
@@ -144,6 +145,7 @@ related_to_uuid:
   - bb90903a-4723-44f7-850e-a71415ef6224
   - c0392040-16a2-41e8-bd54-75110319e3c0
   - 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
+  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
   - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
   - 78eeedf7-75bc-4692-a5a7-bb6857270621
   - 71726f04-eb1c-42a5-a5fe-d8209de6e159
@@ -361,10 +363,6 @@ references:
     line: 819
     col: 0
     score: 0.96
-  - uuid: 2901a3e9-96f0-497c-ae2c-775f28a702dd
-    line: 45
-    col: 0
-    score: 1
   - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
     line: 560
     col: 0
@@ -605,10 +603,6 @@ references:
     line: 287
     col: 0
     score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 302
-    col: 0
-    score: 1
   - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
     line: 15
     col: 0
@@ -700,7 +694,7 @@ references:
   - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
     line: 315
     col: 0
-    score: 1
+    score: 0.98
   - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
     line: 27
     col: 0
@@ -1097,10 +1091,6 @@ references:
     line: 15
     col: 0
     score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 316
-    col: 0
-    score: 1
   - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
     line: 28
     col: 0
@@ -1120,7 +1110,7 @@ references:
   - uuid: d5b16703-d7f7-438a-9a75-3ae4589b177b
     line: 331
     col: 0
-    score: 0.99
+    score: 0.91
   - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
     line: 427
     col: 0
@@ -3333,6 +3323,358 @@ references:
     line: 817
     col: 0
     score: 0.95
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 481
+    col: 0
+    score: 0.9
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 437
+    col: 0
+    score: 0.91
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 396
+    col: 0
+    score: 0.88
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 381
+    col: 0
+    score: 0.91
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 301
+    col: 0
+    score: 0.88
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 464
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 432
+    col: 0
+    score: 0.97
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 425
+    col: 0
+    score: 0.98
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 122
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 618
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 487
+    col: 0
+    score: 0.99
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 507
+    col: 0
+    score: 0.99
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 579
+    col: 0
+    score: 0.92
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 248
+    col: 0
+    score: 0.92
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 604
+    col: 0
+    score: 0.99
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 164
+    col: 0
+    score: 0.99
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 533
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 543
+    col: 0
+    score: 0.94
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 479
+    col: 0
+    score: 0.94
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 128
+    col: 0
+    score: 0.97
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 549
+    col: 0
+    score: 0.93
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 538
+    col: 0
+    score: 0.92
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 416
+    col: 0
+    score: 0.94
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 137
+    col: 0
+    score: 0.97
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 151
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 152
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 153
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 154
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 155
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 157
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 456
+    col: 0
+    score: 0.98
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 496
+    col: 0
+    score: 0.98
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 127
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 515
+    col: 0
+    score: 0.99
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 450
+    col: 0
+    score: 0.93
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 121
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 525
+    col: 0
+    score: 0.97
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 461
+    col: 0
+    score: 0.96
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 530
+    col: 0
+    score: 0.97
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 468
+    col: 0
+    score: 0.95
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 526
+    col: 0
+    score: 0.98
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 541
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 414
+    col: 0
+    score: 0.97
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 427
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 428
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 504
+    col: 0
+    score: 0.96
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 506
+    col: 0
+    score: 0.96
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 505
+    col: 0
+    score: 0.95
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 475
+    col: 0
+    score: 0.96
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 454
+    col: 0
+    score: 0.95
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 578
+    col: 0
+    score: 0.99
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 247
+    col: 0
+    score: 0.99
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 581
+    col: 0
+    score: 0.99
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 252
+    col: 0
+    score: 0.99
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 585
+    col: 0
+    score: 0.99
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 254
+    col: 0
+    score: 0.99
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 433
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 123
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 131
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 134
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 498
+    col: 0
+    score: 0.96
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 599
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 178
+    col: 0
+    score: 0.98
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 569
+    col: 0
+    score: 0.96
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 572
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 191
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 559
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 192
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 560
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 193
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 568
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 201
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 202
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 210
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 212
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 214
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 215
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 216
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 263
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 264
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 265
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 270
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 271
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 640
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 289
+    col: 0
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 1
+    col: 0
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 3
+    col: 0
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 7
+    col: 0
+    score: 1
 ---
 # Board Walk – 2025-08-11
 
@@ -3474,7 +3816,7 @@ You said you want **column-normalized** hashtags on tasks and files. Proposed ca
 - [api-gateway-versioning](api-gateway-versioning.md)
 - [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
 - [balanced-bst](balanced-bst.md)
-- [Promethean Documentation Update](promethean-documentation-update-3.md)
+- [Promethean Documentation Update](promethean-documentation-update-2.md)
 - [Self-Improving Documentation Tool](self-improving-documentation-tool.md)
 - [Math Fundamentals](chunks/math-fundamentals.md)
 - [Creative Moments](creative-moments.md)
@@ -3495,6 +3837,7 @@ You said you want **column-normalized** hashtags on tasks and files. Proposed ca
 - [AGENTS.md](agents-md.md)
 - [Promethean Documentation Update](promethean-documentation-update.md)
 - [Promethean Data Sync Protocol](promethean-data-sync-protocol.md)
+- [archetype-ecs](archetype-ecs.md)
 - [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
 - [typed-struct-compiler](typed-struct-compiler.md)
 - [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
@@ -3543,7 +3886,7 @@ You said you want **column-normalized** hashtags on tasks and files. Proposed ca
 - [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
 - [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
 - [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
-- [AGENTS.md](agents-md-3.md)
+- [AGENTS.md](agents-md-2.md)
 - [Diagrams](chunks/diagrams.md)
 - [Model Upgrade Calm-Down Guide](model-upgrade-calm-down-guide.md)
 - [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
@@ -3601,7 +3944,6 @@ You said you want **column-normalized** hashtags on tasks and files. Proposed ca
 - [polymorphic-meta-programming-engine — L112](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-112-0) (line 112, col 0, score 0.91)
 - [TypeScript Patch for Tool Calling Support — L115](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-115-0) (line 115, col 0, score 0.95)
 - [run-step-api — L819](run-step-api.md#^ref-15d25922-819-0) (line 819, col 0, score 0.96)
-- [Admin Dashboard for User Management — L45](admin-dashboard-for-user-management.md#^ref-2901a3e9-45-0) (line 45, col 0, score 1)
 - [TypeScript Patch for Tool Calling Support — L560](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-560-0) (line 560, col 0, score 1)
 - [Agent Reflections and Prompt Evolution — L187](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-187-0) (line 187, col 0, score 1)
 - [JavaScript — L66](chunks/javascript.md#^ref-c1618c66-66-0) (line 66, col 0, score 1)
@@ -3650,7 +3992,7 @@ You said you want **column-normalized** hashtags on tasks and files. Proposed ca
 - [api-gateway-versioning — L288](api-gateway-versioning.md#^ref-0580dcd3-288-0) (line 288, col 0, score 1)
 - [balanced-bst — L299](balanced-bst.md#^ref-d3e7db72-299-0) (line 299, col 0, score 1)
 - [Board Automation Improvements — L12](board-automation-improvements.md#^ref-ac60a1d6-12-0) (line 12, col 0, score 1)
-- [Promethean Documentation Update — L35](promethean-documentation-update-3.md#^ref-de34f84b-35-0) (line 35, col 0, score 1)
+- [Promethean Documentation Update — L35](promethean-documentation-update-2.md#^ref-de34f84b-35-0) (line 35, col 0, score 1)
 - [eidolon-node-lifecycle — L57](eidolon-node-lifecycle.md#^ref-938eca9c-57-0) (line 57, col 0, score 1)
 - [i3-bluetooth-setup — L124](i3-bluetooth-setup.md#^ref-5e408692-124-0) (line 124, col 0, score 1)
 - [Ice Box Reorganization — L81](ice-box-reorganization.md#^ref-291c7d91-81-0) (line 81, col 0, score 1)
@@ -3662,7 +4004,6 @@ You said you want **column-normalized** hashtags on tasks and files. Proposed ca
 - [Window Management — L53](chunks/window-management.md#^ref-9e8ae388-53-0) (line 53, col 0, score 1)
 - [Creative Moments — L33](creative-moments.md#^ref-10d98225-33-0) (line 33, col 0, score 1)
 - [api-gateway-versioning — L287](api-gateway-versioning.md#^ref-0580dcd3-287-0) (line 287, col 0, score 1)
-- [balanced-bst — L302](balanced-bst.md#^ref-d3e7db72-302-0) (line 302, col 0, score 1)
 - [Board Automation Improvements — L15](board-automation-improvements.md#^ref-ac60a1d6-15-0) (line 15, col 0, score 1)
 - [Pure TypeScript Search Microservice — L593](pure-typescript-search-microservice.md#^ref-d17d3a96-593-0) (line 593, col 0, score 1)
 - [schema-evolution-workflow — L561](schema-evolution-workflow.md#^ref-d8059b6a-561-0) (line 561, col 0, score 1)
@@ -3685,7 +4026,7 @@ You said you want **column-normalized** hashtags on tasks and files. Proposed ca
 - [eidolon-field-math-foundations — L2554](eidolon-field-math-foundations.md#^ref-008f2ac0-2554-0) (line 2554, col 0, score 0.99)
 - [The Jar of Echoes — L2728](the-jar-of-echoes.md#^ref-18138627-2728-0) (line 2728, col 0, score 0.99)
 - [api-gateway-versioning — L293](api-gateway-versioning.md#^ref-0580dcd3-293-0) (line 293, col 0, score 1)
-- [balanced-bst — L315](balanced-bst.md#^ref-d3e7db72-315-0) (line 315, col 0, score 1)
+- [balanced-bst — L315](balanced-bst.md#^ref-d3e7db72-315-0) (line 315, col 0, score 0.98)
 - [Board Automation Improvements — L27](board-automation-improvements.md#^ref-ac60a1d6-27-0) (line 27, col 0, score 1)
 - [Creative Moments — L176](creative-moments.md#^ref-10d98225-176-0) (line 176, col 0, score 1)
 - [Duck's Attractor States — L366](ducks-attractor-states.md#^ref-13951643-366-0) (line 366, col 0, score 1)
@@ -3785,12 +4126,11 @@ You said you want **column-normalized** hashtags on tasks and files. Proposed ca
 - [DuckDuckGoSearchPipeline — L123](duckduckgosearchpipeline.md#^ref-e979c50f-123-0) (line 123, col 0, score 1)
 - [graph-ds — L829](graph-ds.md#^ref-6620e2f2-829-0) (line 829, col 0, score 1)
 - [AI-First-OS-Model-Context-Protocol — L15](ai-first-os-model-context-protocol.md#^ref-618198f4-15-0) (line 15, col 0, score 1)
-- [balanced-bst — L316](balanced-bst.md#^ref-d3e7db72-316-0) (line 316, col 0, score 1)
 - [Board Automation Improvements — L28](board-automation-improvements.md#^ref-ac60a1d6-28-0) (line 28, col 0, score 1)
 - [AGENTS.md — L191](agents-md.md#^ref-bb90903a-191-0) (line 191, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L198](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-198-0) (line 198, col 0, score 0.99)
 - [aionian-circuit-math — L167](aionian-circuit-math.md#^ref-f2d83a77-167-0) (line 167, col 0, score 0.99)
-- [AGENTS.md — L331](agents-md-3.md#^ref-d5b16703-331-0) (line 331, col 0, score 0.99)
+- [AGENTS.md — L331](agents-md-2.md#^ref-d5b16703-331-0) (line 331, col 0, score 0.91)
 - [Diagrams — L427](chunks/diagrams.md#^ref-45cd25b5-427-0) (line 427, col 0, score 0.99)
 - [DSL — L442](chunks/dsl.md#^ref-e87bc036-442-0) (line 442, col 0, score 0.99)
 - [AI-First-OS-Model-Context-Protocol — L16](ai-first-os-model-context-protocol.md#^ref-618198f4-16-0) (line 16, col 0, score 1)
@@ -3798,7 +4138,7 @@ You said you want **column-normalized** hashtags on tasks and files. Proposed ca
 - [balanced-bst — L317](balanced-bst.md#^ref-d3e7db72-317-0) (line 317, col 0, score 1)
 - [Board Automation Improvements — L29](board-automation-improvements.md#^ref-ac60a1d6-29-0) (line 29, col 0, score 1)
 - [Git Commit Optimization for Code Reviews — L166](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-166-0) (line 166, col 0, score 1)
-- [Promethean Documentation Update — L42](promethean-documentation-update-3.md#^ref-de34f84b-42-0) (line 42, col 0, score 1)
+- [Promethean Documentation Update — L42](promethean-documentation-update-2.md#^ref-de34f84b-42-0) (line 42, col 0, score 1)
 - [run-step-api — L1033](run-step-api.md#^ref-15d25922-1033-0) (line 1033, col 0, score 1)
 - [Self-Improving Documentation Tool — L29](self-improving-documentation-tool.md#^ref-5c307293-29-0) (line 29, col 0, score 1)
 - [api-gateway-versioning — L295](api-gateway-versioning.md#^ref-0580dcd3-295-0) (line 295, col 0, score 1)
@@ -3856,9 +4196,9 @@ You said you want **column-normalized** hashtags on tasks and files. Proposed ca
 - [aionian-circuit-math — L164](aionian-circuit-math.md#^ref-f2d83a77-164-0) (line 164, col 0, score 1)
 - [AI-First-OS-Model-Context-Protocol — L226](ai-first-os-model-context-protocol.md#^ref-618198f4-226-0) (line 226, col 0, score 0.98)
 - [aionian-circuit-math — L169](aionian-circuit-math.md#^ref-f2d83a77-169-0) (line 169, col 0, score 0.98)
-- [AGENTS.md — L332](agents-md-3.md#^ref-d5b16703-332-0) (line 332, col 0, score 0.98)
+- [AGENTS.md — L332](agents-md-2.md#^ref-d5b16703-332-0) (line 332, col 0, score 0.98)
 - [aionian-circuit-math — L171](aionian-circuit-math.md#^ref-f2d83a77-171-0) (line 171, col 0, score 0.98)
-- [AGENTS.md — L333](agents-md-3.md#^ref-d5b16703-333-0) (line 333, col 0, score 0.98)
+- [AGENTS.md — L333](agents-md-2.md#^ref-d5b16703-333-0) (line 333, col 0, score 0.98)
 - [Board Automation Improvements — L25](board-automation-improvements.md#^ref-ac60a1d6-25-0) (line 25, col 0, score 0.99)
 - [balanced-bst — L312](balanced-bst.md#^ref-d3e7db72-312-0) (line 312, col 0, score 0.99)
 - [aionian-circuit-math — L165](aionian-circuit-math.md#^ref-f2d83a77-165-0) (line 165, col 0, score 0.99)
@@ -3969,7 +4309,7 @@ You said you want **column-normalized** hashtags on tasks and files. Proposed ca
 - [AI-First-OS-Model-Context-Protocol — L232](ai-first-os-model-context-protocol.md#^ref-618198f4-232-0) (line 232, col 0, score 0.98)
 - [Chroma Toolkit Consolidation Plan — L466](chroma-toolkit-consolidation-plan.md#^ref-5020e892-466-0) (line 466, col 0, score 0.98)
 - [aionian-circuit-math — L172](aionian-circuit-math.md#^ref-f2d83a77-172-0) (line 172, col 0, score 0.98)
-- [AGENTS.md — L337](agents-md-3.md#^ref-d5b16703-337-0) (line 337, col 0, score 0.98)
+- [AGENTS.md — L337](agents-md-2.md#^ref-d5b16703-337-0) (line 337, col 0, score 0.98)
 - [eidolon-field-math-foundations — L3342](eidolon-field-math-foundations.md#^ref-008f2ac0-3342-0) (line 3342, col 0, score 0.96)
 - [Promethean Chat Activity Report — L1182](promethean-chat-activity-report.md#^ref-18344cf9-1182-0) (line 1182, col 0, score 0.96)
 - [windows-tiling-with-autohotkey — L2173](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-2173-0) (line 2173, col 0, score 0.96)
@@ -4344,4 +4684,92 @@ You said you want **column-normalized** hashtags on tasks and files. Proposed ca
 - [zero-copy-snapshots-and-workers — L536](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-536-0) (line 536, col 0, score 0.99)
 - [schema-evolution-workflow — L696](schema-evolution-workflow.md#^ref-d8059b6a-696-0) (line 696, col 0, score 0.95)
 - [Chroma Toolkit Consolidation Plan — L817](chroma-toolkit-consolidation-plan.md#^ref-5020e892-817-0) (line 817, col 0, score 0.95)
+- [api-gateway-versioning — L481](api-gateway-versioning.md#^ref-0580dcd3-481-0) (line 481, col 0, score 0.9)
+- [api-gateway-versioning — L437](api-gateway-versioning.md#^ref-0580dcd3-437-0) (line 437, col 0, score 0.91)
+- [api-gateway-versioning — L396](api-gateway-versioning.md#^ref-0580dcd3-396-0) (line 396, col 0, score 0.88)
+- [api-gateway-versioning — L381](api-gateway-versioning.md#^ref-0580dcd3-381-0) (line 381, col 0, score 0.91)
+- [api-gateway-versioning — L301](api-gateway-versioning.md#^ref-0580dcd3-301-0) (line 301, col 0, score 0.88)
+- [balanced-bst — L464](balanced-bst.md#^ref-d3e7db72-464-0) (line 464, col 0, score 1)
+- [balanced-bst — L432](balanced-bst.md#^ref-d3e7db72-432-0) (line 432, col 0, score 0.97)
+- [balanced-bst — L425](balanced-bst.md#^ref-d3e7db72-425-0) (line 425, col 0, score 0.98)
+- [Board Automation Improvements — L122](board-automation-improvements.md#^ref-ac60a1d6-122-0) (line 122, col 0, score 1)
+- [balanced-bst — L618](balanced-bst.md#^ref-d3e7db72-618-0) (line 618, col 0, score 1)
+- [balanced-bst — L487](balanced-bst.md#^ref-d3e7db72-487-0) (line 487, col 0, score 0.99)
+- [balanced-bst — L507](balanced-bst.md#^ref-d3e7db72-507-0) (line 507, col 0, score 0.99)
+- [balanced-bst — L579](balanced-bst.md#^ref-d3e7db72-579-0) (line 579, col 0, score 0.92)
+- [Board Automation Improvements — L248](board-automation-improvements.md#^ref-ac60a1d6-248-0) (line 248, col 0, score 0.92)
+- [balanced-bst — L604](balanced-bst.md#^ref-d3e7db72-604-0) (line 604, col 0, score 0.99)
+- [Board Automation Improvements — L164](board-automation-improvements.md#^ref-ac60a1d6-164-0) (line 164, col 0, score 0.99)
+- [balanced-bst — L533](balanced-bst.md#^ref-d3e7db72-533-0) (line 533, col 0, score 1)
+- [balanced-bst — L543](balanced-bst.md#^ref-d3e7db72-543-0) (line 543, col 0, score 0.94)
+- [balanced-bst — L479](balanced-bst.md#^ref-d3e7db72-479-0) (line 479, col 0, score 0.94)
+- [Board Automation Improvements — L128](board-automation-improvements.md#^ref-ac60a1d6-128-0) (line 128, col 0, score 0.97)
+- [balanced-bst — L549](balanced-bst.md#^ref-d3e7db72-549-0) (line 549, col 0, score 0.93)
+- [balanced-bst — L538](balanced-bst.md#^ref-d3e7db72-538-0) (line 538, col 0, score 0.92)
+- [balanced-bst — L416](balanced-bst.md#^ref-d3e7db72-416-0) (line 416, col 0, score 0.94)
+- [Board Automation Improvements — L137](board-automation-improvements.md#^ref-ac60a1d6-137-0) (line 137, col 0, score 0.97)
+- [Board Automation Improvements — L151](board-automation-improvements.md#^ref-ac60a1d6-151-0) (line 151, col 0, score 1)
+- [Board Automation Improvements — L152](board-automation-improvements.md#^ref-ac60a1d6-152-0) (line 152, col 0, score 1)
+- [Board Automation Improvements — L153](board-automation-improvements.md#^ref-ac60a1d6-153-0) (line 153, col 0, score 1)
+- [Board Automation Improvements — L154](board-automation-improvements.md#^ref-ac60a1d6-154-0) (line 154, col 0, score 1)
+- [Board Automation Improvements — L155](board-automation-improvements.md#^ref-ac60a1d6-155-0) (line 155, col 0, score 1)
+- [Board Automation Improvements — L157](board-automation-improvements.md#^ref-ac60a1d6-157-0) (line 157, col 0, score 1)
+- [balanced-bst — L456](balanced-bst.md#^ref-d3e7db72-456-0) (line 456, col 0, score 0.98)
+- [balanced-bst — L496](balanced-bst.md#^ref-d3e7db72-496-0) (line 496, col 0, score 0.98)
+- [Board Automation Improvements — L127](board-automation-improvements.md#^ref-ac60a1d6-127-0) (line 127, col 0, score 1)
+- [balanced-bst — L515](balanced-bst.md#^ref-d3e7db72-515-0) (line 515, col 0, score 0.99)
+- [balanced-bst — L450](balanced-bst.md#^ref-d3e7db72-450-0) (line 450, col 0, score 0.93)
+- [Board Automation Improvements — L121](board-automation-improvements.md#^ref-ac60a1d6-121-0) (line 121, col 0, score 1)
+- [balanced-bst — L525](balanced-bst.md#^ref-d3e7db72-525-0) (line 525, col 0, score 0.97)
+- [balanced-bst — L461](balanced-bst.md#^ref-d3e7db72-461-0) (line 461, col 0, score 0.96)
+- [balanced-bst — L530](balanced-bst.md#^ref-d3e7db72-530-0) (line 530, col 0, score 0.97)
+- [balanced-bst — L468](balanced-bst.md#^ref-d3e7db72-468-0) (line 468, col 0, score 0.95)
+- [balanced-bst — L526](balanced-bst.md#^ref-d3e7db72-526-0) (line 526, col 0, score 0.98)
+- [balanced-bst — L541](balanced-bst.md#^ref-d3e7db72-541-0) (line 541, col 0, score 1)
+- [balanced-bst — L414](balanced-bst.md#^ref-d3e7db72-414-0) (line 414, col 0, score 0.97)
+- [balanced-bst — L427](balanced-bst.md#^ref-d3e7db72-427-0) (line 427, col 0, score 1)
+- [balanced-bst — L428](balanced-bst.md#^ref-d3e7db72-428-0) (line 428, col 0, score 1)
+- [balanced-bst — L504](balanced-bst.md#^ref-d3e7db72-504-0) (line 504, col 0, score 0.96)
+- [balanced-bst — L506](balanced-bst.md#^ref-d3e7db72-506-0) (line 506, col 0, score 0.96)
+- [balanced-bst — L505](balanced-bst.md#^ref-d3e7db72-505-0) (line 505, col 0, score 0.95)
+- [balanced-bst — L475](balanced-bst.md#^ref-d3e7db72-475-0) (line 475, col 0, score 0.96)
+- [balanced-bst — L454](balanced-bst.md#^ref-d3e7db72-454-0) (line 454, col 0, score 0.95)
+- [balanced-bst — L578](balanced-bst.md#^ref-d3e7db72-578-0) (line 578, col 0, score 0.99)
+- [Board Automation Improvements — L247](board-automation-improvements.md#^ref-ac60a1d6-247-0) (line 247, col 0, score 0.99)
+- [balanced-bst — L581](balanced-bst.md#^ref-d3e7db72-581-0) (line 581, col 0, score 0.99)
+- [Board Automation Improvements — L252](board-automation-improvements.md#^ref-ac60a1d6-252-0) (line 252, col 0, score 0.99)
+- [balanced-bst — L585](balanced-bst.md#^ref-d3e7db72-585-0) (line 585, col 0, score 0.99)
+- [Board Automation Improvements — L254](board-automation-improvements.md#^ref-ac60a1d6-254-0) (line 254, col 0, score 0.99)
+- [balanced-bst — L433](balanced-bst.md#^ref-d3e7db72-433-0) (line 433, col 0, score 1)
+- [Board Automation Improvements — L123](board-automation-improvements.md#^ref-ac60a1d6-123-0) (line 123, col 0, score 1)
+- [Board Automation Improvements — L131](board-automation-improvements.md#^ref-ac60a1d6-131-0) (line 131, col 0, score 1)
+- [Board Automation Improvements — L134](board-automation-improvements.md#^ref-ac60a1d6-134-0) (line 134, col 0, score 1)
+- [balanced-bst — L498](balanced-bst.md#^ref-d3e7db72-498-0) (line 498, col 0, score 0.96)
+- [balanced-bst — L599](balanced-bst.md#^ref-d3e7db72-599-0) (line 599, col 0, score 1)
+- [Board Automation Improvements — L178](board-automation-improvements.md#^ref-ac60a1d6-178-0) (line 178, col 0, score 0.98)
+- [balanced-bst — L569](balanced-bst.md#^ref-d3e7db72-569-0) (line 569, col 0, score 0.96)
+- [balanced-bst — L572](balanced-bst.md#^ref-d3e7db72-572-0) (line 572, col 0, score 1)
+- [Board Automation Improvements — L191](board-automation-improvements.md#^ref-ac60a1d6-191-0) (line 191, col 0, score 1)
+- [balanced-bst — L559](balanced-bst.md#^ref-d3e7db72-559-0) (line 559, col 0, score 1)
+- [Board Automation Improvements — L192](board-automation-improvements.md#^ref-ac60a1d6-192-0) (line 192, col 0, score 1)
+- [balanced-bst — L560](balanced-bst.md#^ref-d3e7db72-560-0) (line 560, col 0, score 1)
+- [Board Automation Improvements — L193](board-automation-improvements.md#^ref-ac60a1d6-193-0) (line 193, col 0, score 1)
+- [balanced-bst — L568](balanced-bst.md#^ref-d3e7db72-568-0) (line 568, col 0, score 1)
+- [Board Automation Improvements — L201](board-automation-improvements.md#^ref-ac60a1d6-201-0) (line 201, col 0, score 1)
+- [Board Automation Improvements — L202](board-automation-improvements.md#^ref-ac60a1d6-202-0) (line 202, col 0, score 1)
+- [Board Automation Improvements — L210](board-automation-improvements.md#^ref-ac60a1d6-210-0) (line 210, col 0, score 1)
+- [Board Automation Improvements — L212](board-automation-improvements.md#^ref-ac60a1d6-212-0) (line 212, col 0, score 1)
+- [Board Automation Improvements — L214](board-automation-improvements.md#^ref-ac60a1d6-214-0) (line 214, col 0, score 1)
+- [Board Automation Improvements — L215](board-automation-improvements.md#^ref-ac60a1d6-215-0) (line 215, col 0, score 1)
+- [Board Automation Improvements — L216](board-automation-improvements.md#^ref-ac60a1d6-216-0) (line 216, col 0, score 1)
+- [Board Automation Improvements — L263](board-automation-improvements.md#^ref-ac60a1d6-263-0) (line 263, col 0, score 1)
+- [Board Automation Improvements — L264](board-automation-improvements.md#^ref-ac60a1d6-264-0) (line 264, col 0, score 1)
+- [Board Automation Improvements — L265](board-automation-improvements.md#^ref-ac60a1d6-265-0) (line 265, col 0, score 1)
+- [Board Automation Improvements — L270](board-automation-improvements.md#^ref-ac60a1d6-270-0) (line 270, col 0, score 1)
+- [Board Automation Improvements — L271](board-automation-improvements.md#^ref-ac60a1d6-271-0) (line 271, col 0, score 1)
+- [balanced-bst — L640](balanced-bst.md#^ref-d3e7db72-640-0) (line 640, col 0, score 1)
+- [Board Automation Improvements — L289](board-automation-improvements.md#^ref-ac60a1d6-289-0) (line 289, col 0, score 1)
+- [archetype-ecs — L1](archetype-ecs.md#^ref-8f4c1e86-1-0) (line 1, col 0, score 1)
+- [archetype-ecs — L3](archetype-ecs.md#^ref-8f4c1e86-3-0) (line 3, col 0, score 1)
+- [archetype-ecs — L7](archetype-ecs.md#^ref-8f4c1e86-7-0) (line 7, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

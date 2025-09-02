@@ -536,10 +536,6 @@ references:
     line: 285
     col: 0
     score: 1
-  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
-    line: 11
-    col: 0
-    score: 1
   - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
     line: 134
     col: 0
@@ -586,10 +582,6 @@ references:
     score: 1
   - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
     line: 15
-    col: 0
-    score: 1
-  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-    line: 137
     col: 0
     score: 1
   - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
@@ -660,10 +652,6 @@ references:
     line: 168
     col: 0
     score: 0.93
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 295
-    col: 0
-    score: 1
   - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
     line: 18
     col: 0
@@ -830,10 +818,6 @@ references:
     score: 0.98
   - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
     line: 163
-    col: 0
-    score: 1
-  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
-    line: 23
     col: 0
     score: 1
   - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
@@ -1030,10 +1014,6 @@ references:
     score: 1
   - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
     line: 15
-    col: 0
-    score: 1
-  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-    line: 157
     col: 0
     score: 1
   - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
@@ -1400,10 +1380,6 @@ references:
     line: 3010
     col: 0
     score: 0.98
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 307
-    col: 0
-    score: 1
   - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
     line: 82
     col: 0
@@ -2912,6 +2888,306 @@ references:
     line: 1684
     col: 0
     score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 202
+    col: 0
+    score: 0.99
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 681
+    col: 0
+    score: 0.99
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 317
+    col: 0
+    score: 0.98
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 350
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 439
+    col: 0
+    score: 0.97
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 494
+    col: 0
+    score: 0.97
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 391
+    col: 0
+    score: 0.97
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 414
+    col: 0
+    score: 0.96
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 498
+    col: 0
+    score: 0.96
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 568
+    col: 0
+    score: 0.93
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 204
+    col: 0
+    score: 0.99
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 205
+    col: 0
+    score: 0.99
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 682
+    col: 0
+    score: 0.99
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 112
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 306
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 207
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 208
+    col: 0
+    score: 0.99
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 210
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 687
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 211
+    col: 0
+    score: 0.99
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 300
+    col: 0
+    score: 0.98
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 459
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 464
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 297
+    col: 0
+    score: 0.97
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 519
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 123
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 388
+    col: 0
+    score: 0.93
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 364
+    col: 0
+    score: 0.98
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 284
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 473
+    col: 0
+    score: 0.96
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 349
+    col: 0
+    score: 0.99
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 335
+    col: 0
+    score: 0.94
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 720
+    col: 0
+    score: 0.89
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 609
+    col: 0
+    score: 0.89
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 470
+    col: 0
+    score: 0.96
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 278
+    col: 0
+    score: 0.94
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 401
+    col: 0
+    score: 0.99
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 311
+    col: 0
+    score: 0.99
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 340
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 417
+    col: 0
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 466
+    col: 0
+    score: 0.97
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 356
+    col: 0
+    score: 0.97
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 353
+    col: 0
+    score: 0.96
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 345
+    col: 0
+    score: 0.96
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 590
+    col: 0
+    score: 0.95
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 159
+    col: 0
+    score: 0.9
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 386
+    col: 0
+    score: 0.99
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 436
+    col: 0
+    score: 0.98
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 429
+    col: 0
+    score: 0.97
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 124
+    col: 0
+    score: 0.96
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 441
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 325
+    col: 0
+    score: 0.94
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 192
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 671
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 193
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 672
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 675
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 201
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 565
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 247
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 250
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 254
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 255
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 257
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 388
+    col: 0
+    score: 0.94
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 260
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 261
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 178
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 561
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 164
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 165
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 168
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 289
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 712
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 300
+    col: 0
+    score: 1
 ---
 Yup—here’s a tight, generic **balanced BST** (AVL) you can drop in as `shared/js/prom-lib/ds/bst.ts`. It behaves like a `Map` with extras: `floor/ceil`, `rank/select`, range iterators, and O(log n) ops. ^ref-d3e7db72-1-0
 
@@ -3220,7 +3496,7 @@ Want a **persistent/immutable** variant (functional tree), or a **Treap** / **Re
 - [api-gateway-versioning](api-gateway-versioning.md)
 - [Board Automation Improvements](board-automation-improvements.md)
 - [Git Commit Optimization for Code Reviews](git-commit-optimization-for-code-reviews.md)
-- [Promethean Documentation Update](promethean-documentation-update-3.md)
+- [Promethean Documentation Update](promethean-documentation-update-2.md)
 - [Self-Improving Documentation Tool](self-improving-documentation-tool.md)
 - [aionian-circuit-math](aionian-circuit-math.md)
 - [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
@@ -3275,7 +3551,7 @@ Want a **persistent/immutable** variant (functional tree), or a **Treap** / **Re
 - [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
 - [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
 - [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
-- [AGENTS.md](agents-md-3.md)
+- [AGENTS.md](agents-md-2.md)
 - [Diagrams](chunks/diagrams.md)
 - [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
 - [Model Upgrade Calm-Down Guide](model-upgrade-calm-down-guide.md)
@@ -3395,7 +3671,6 @@ Want a **persistent/immutable** variant (functional tree), or a **Treap** / **Re
 - [Creative Moments — L33](creative-moments.md#^ref-10d98225-33-0) (line 33, col 0, score 1)
 - [aionian-circuit-math — L149](aionian-circuit-math.md#^ref-f2d83a77-149-0) (line 149, col 0, score 1)
 - [api-gateway-versioning — L285](api-gateway-versioning.md#^ref-0580dcd3-285-0) (line 285, col 0, score 1)
-- [Board Automation Improvements — L11](board-automation-improvements.md#^ref-ac60a1d6-11-0) (line 11, col 0, score 1)
 - [Board Walk – 2025-08-11 — L134](board-walk-2025-08-11.md#^ref-7aa1eb92-134-0) (line 134, col 0, score 1)
 - [field-dynamics-math-blocks — L193](field-dynamics-math-blocks.md#^ref-7cfc230d-193-0) (line 193, col 0, score 1)
 - [field-node-diagram-set — L203](field-node-diagram-set.md#^ref-22b989d5-203-0) (line 203, col 0, score 1)
@@ -3408,7 +3683,6 @@ Want a **persistent/immutable** variant (functional tree), or a **Treap** / **Re
 - [ParticleSimulationWithCanvasAndFFmpeg — L329](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-329-0) (line 329, col 0, score 1)
 - [api-gateway-versioning — L287](api-gateway-versioning.md#^ref-0580dcd3-287-0) (line 287, col 0, score 1)
 - [Board Automation Improvements — L15](board-automation-improvements.md#^ref-ac60a1d6-15-0) (line 15, col 0, score 1)
-- [Board Walk – 2025-08-11 — L137](board-walk-2025-08-11.md#^ref-7aa1eb92-137-0) (line 137, col 0, score 1)
 - [Pure TypeScript Search Microservice — L593](pure-typescript-search-microservice.md#^ref-d17d3a96-593-0) (line 593, col 0, score 1)
 - [schema-evolution-workflow — L561](schema-evolution-workflow.md#^ref-d8059b6a-561-0) (line 561, col 0, score 1)
 - [Stateful Partitions and Rebalancing — L607](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-607-0) (line 607, col 0, score 1)
@@ -3426,7 +3700,6 @@ Want a **persistent/immutable** variant (functional tree), or a **Treap** / **Re
 - [AI-First-OS-Model-Context-Protocol — L200](ai-first-os-model-context-protocol.md#^ref-618198f4-200-0) (line 200, col 0, score 0.93)
 - [api-gateway-versioning — L347](api-gateway-versioning.md#^ref-0580dcd3-347-0) (line 347, col 0, score 0.93)
 - [aionian-circuit-math — L168](aionian-circuit-math.md#^ref-f2d83a77-168-0) (line 168, col 0, score 0.93)
-- [api-gateway-versioning — L295](api-gateway-versioning.md#^ref-0580dcd3-295-0) (line 295, col 0, score 1)
 - [Board Automation Improvements — L18](board-automation-improvements.md#^ref-ac60a1d6-18-0) (line 18, col 0, score 1)
 - [Board Walk – 2025-08-11 — L159](board-walk-2025-08-11.md#^ref-7aa1eb92-159-0) (line 159, col 0, score 1)
 - [Math Fundamentals — L134](chunks/math-fundamentals.md#^ref-c6e87433-134-0) (line 134, col 0, score 1)
@@ -3469,7 +3742,6 @@ Want a **persistent/immutable** variant (functional tree), or a **Treap** / **Re
 - [aionian-circuit-math — L291](aionian-circuit-math.md#^ref-f2d83a77-291-0) (line 291, col 0, score 1)
 - [eidolon-field-math-foundations — L3744](eidolon-field-math-foundations.md#^ref-008f2ac0-3744-0) (line 3744, col 0, score 0.98)
 - [aionian-circuit-math — L163](aionian-circuit-math.md#^ref-f2d83a77-163-0) (line 163, col 0, score 1)
-- [Board Automation Improvements — L23](board-automation-improvements.md#^ref-ac60a1d6-23-0) (line 23, col 0, score 1)
 - [Board Walk – 2025-08-11 — L164](board-walk-2025-08-11.md#^ref-7aa1eb92-164-0) (line 164, col 0, score 1)
 - [i3-bluetooth-setup — L247](i3-bluetooth-setup.md#^ref-5e408692-247-0) (line 247, col 0, score 1)
 - [Dynamic Context Model for Web Components — L1705](dynamic-context-model-for-web-components.md#^ref-f7702bf8-1705-0) (line 1705, col 0, score 0.99)
@@ -3481,9 +3753,9 @@ Want a **persistent/immutable** variant (functional tree), or a **Treap** / **Re
 - [aionian-circuit-math — L164](aionian-circuit-math.md#^ref-f2d83a77-164-0) (line 164, col 0, score 1)
 - [AI-First-OS-Model-Context-Protocol — L226](ai-first-os-model-context-protocol.md#^ref-618198f4-226-0) (line 226, col 0, score 0.98)
 - [aionian-circuit-math — L169](aionian-circuit-math.md#^ref-f2d83a77-169-0) (line 169, col 0, score 0.98)
-- [AGENTS.md — L332](agents-md-3.md#^ref-d5b16703-332-0) (line 332, col 0, score 0.98)
+- [AGENTS.md — L332](agents-md-2.md#^ref-d5b16703-332-0) (line 332, col 0, score 0.98)
 - [aionian-circuit-math — L171](aionian-circuit-math.md#^ref-f2d83a77-171-0) (line 171, col 0, score 0.98)
-- [AGENTS.md — L333](agents-md-3.md#^ref-d5b16703-333-0) (line 333, col 0, score 0.98)
+- [AGENTS.md — L333](agents-md-2.md#^ref-d5b16703-333-0) (line 333, col 0, score 0.98)
 - [Board Automation Improvements — L25](board-automation-improvements.md#^ref-ac60a1d6-25-0) (line 25, col 0, score 0.99)
 - [Board Walk – 2025-08-11 — L166](board-walk-2025-08-11.md#^ref-7aa1eb92-166-0) (line 166, col 0, score 0.99)
 - [aionian-circuit-math — L165](aionian-circuit-math.md#^ref-f2d83a77-165-0) (line 165, col 0, score 0.99)
@@ -3519,12 +3791,11 @@ Want a **persistent/immutable** variant (functional tree), or a **Treap** / **Re
 - [graph-ds — L829](graph-ds.md#^ref-6620e2f2-829-0) (line 829, col 0, score 1)
 - [i3-bluetooth-setup — L557](i3-bluetooth-setup.md#^ref-5e408692-557-0) (line 557, col 0, score 1)
 - [AI-First-OS-Model-Context-Protocol — L15](ai-first-os-model-context-protocol.md#^ref-618198f4-15-0) (line 15, col 0, score 1)
-- [Board Walk – 2025-08-11 — L157](board-walk-2025-08-11.md#^ref-7aa1eb92-157-0) (line 157, col 0, score 1)
 - [Board Automation Improvements — L28](board-automation-improvements.md#^ref-ac60a1d6-28-0) (line 28, col 0, score 1)
 - [AGENTS.md — L191](agents-md.md#^ref-bb90903a-191-0) (line 191, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L198](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-198-0) (line 198, col 0, score 0.99)
 - [aionian-circuit-math — L167](aionian-circuit-math.md#^ref-f2d83a77-167-0) (line 167, col 0, score 0.99)
-- [AGENTS.md — L331](agents-md-3.md#^ref-d5b16703-331-0) (line 331, col 0, score 0.99)
+- [AGENTS.md — L331](agents-md-2.md#^ref-d5b16703-331-0) (line 331, col 0, score 0.99)
 - [Diagrams — L427](chunks/diagrams.md#^ref-45cd25b5-427-0) (line 427, col 0, score 0.99)
 - [DSL — L442](chunks/dsl.md#^ref-e87bc036-442-0) (line 442, col 0, score 0.99)
 - [AI-First-OS-Model-Context-Protocol — L16](ai-first-os-model-context-protocol.md#^ref-618198f4-16-0) (line 16, col 0, score 1)
@@ -3532,7 +3803,7 @@ Want a **persistent/immutable** variant (functional tree), or a **Treap** / **Re
 - [Board Automation Improvements — L29](board-automation-improvements.md#^ref-ac60a1d6-29-0) (line 29, col 0, score 1)
 - [Board Walk – 2025-08-11 — L158](board-walk-2025-08-11.md#^ref-7aa1eb92-158-0) (line 158, col 0, score 1)
 - [Git Commit Optimization for Code Reviews — L166](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-166-0) (line 166, col 0, score 1)
-- [Promethean Documentation Update — L42](promethean-documentation-update-3.md#^ref-de34f84b-42-0) (line 42, col 0, score 1)
+- [Promethean Documentation Update — L42](promethean-documentation-update-2.md#^ref-de34f84b-42-0) (line 42, col 0, score 1)
 - [run-step-api — L1033](run-step-api.md#^ref-15d25922-1033-0) (line 1033, col 0, score 1)
 - [Self-Improving Documentation Tool — L29](self-improving-documentation-tool.md#^ref-5c307293-29-0) (line 29, col 0, score 1)
 - [Board Walk – 2025-08-11 — L170](board-walk-2025-08-11.md#^ref-7aa1eb92-170-0) (line 170, col 0, score 1)
@@ -3611,7 +3882,6 @@ Want a **persistent/immutable** variant (functional tree), or a **Treap** / **Re
 - [Board Automation Improvements — L84](board-automation-improvements.md#^ref-ac60a1d6-84-0) (line 84, col 0, score 0.98)
 - [Creative Moments — L1435](creative-moments.md#^ref-10d98225-1435-0) (line 1435, col 0, score 0.98)
 - [Duck's Attractor States — L3010](ducks-attractor-states.md#^ref-13951643-3010-0) (line 3010, col 0, score 0.98)
-- [api-gateway-versioning — L307](api-gateway-versioning.md#^ref-0580dcd3-307-0) (line 307, col 0, score 1)
 - [Board Automation Improvements — L82](board-automation-improvements.md#^ref-ac60a1d6-82-0) (line 82, col 0, score 1)
 - [eidolon-field-math-foundations — L4160](eidolon-field-math-foundations.md#^ref-008f2ac0-4160-0) (line 4160, col 0, score 0.98)
 - [AI-First-OS-Model-Context-Protocol — L386](ai-first-os-model-context-protocol.md#^ref-618198f4-386-0) (line 386, col 0, score 0.98)
@@ -3989,4 +4259,79 @@ Want a **persistent/immutable** variant (functional tree), or a **Treap** / **Re
 - [Promethean Dev Workflow Update — L5410](promethean-dev-workflow-update.md#^ref-03a5578f-5410-0) (line 5410, col 0, score 1)
 - [Promethean Documentation Update — L1488](promethean-documentation-update.txt#^ref-0b872af2-1488-0) (line 1488, col 0, score 1)
 - [Promethean Notes — L1684](promethean-notes.md#^ref-1c4046b5-1684-0) (line 1684, col 0, score 1)
+- [Board Automation Improvements — L202](board-automation-improvements.md#^ref-ac60a1d6-202-0) (line 202, col 0, score 0.99)
+- [Board Walk – 2025-08-11 — L681](board-walk-2025-08-11.md#^ref-7aa1eb92-681-0) (line 681, col 0, score 0.99)
+- [api-gateway-versioning — L317](api-gateway-versioning.md#^ref-0580dcd3-317-0) (line 317, col 0, score 0.98)
+- [aionian-circuit-math — L350](aionian-circuit-math.md#^ref-f2d83a77-350-0) (line 350, col 0, score 0.98)
+- [api-gateway-versioning — L439](api-gateway-versioning.md#^ref-0580dcd3-439-0) (line 439, col 0, score 0.97)
+- [api-gateway-versioning — L494](api-gateway-versioning.md#^ref-0580dcd3-494-0) (line 494, col 0, score 0.97)
+- [aionian-circuit-math — L391](aionian-circuit-math.md#^ref-f2d83a77-391-0) (line 391, col 0, score 0.97)
+- [api-gateway-versioning — L414](api-gateway-versioning.md#^ref-0580dcd3-414-0) (line 414, col 0, score 0.96)
+- [api-gateway-versioning — L498](api-gateway-versioning.md#^ref-0580dcd3-498-0) (line 498, col 0, score 0.96)
+- [Board Walk – 2025-08-11 — L568](board-walk-2025-08-11.md#^ref-7aa1eb92-568-0) (line 568, col 0, score 0.93)
+- [Board Automation Improvements — L204](board-automation-improvements.md#^ref-ac60a1d6-204-0) (line 204, col 0, score 0.99)
+- [Board Automation Improvements — L205](board-automation-improvements.md#^ref-ac60a1d6-205-0) (line 205, col 0, score 0.99)
+- [Board Walk – 2025-08-11 — L682](board-walk-2025-08-11.md#^ref-7aa1eb92-682-0) (line 682, col 0, score 0.99)
+- [Board Automation Improvements — L112](board-automation-improvements.md#^ref-ac60a1d6-112-0) (line 112, col 0, score 1)
+- [Board Walk – 2025-08-11 — L306](board-walk-2025-08-11.md#^ref-7aa1eb92-306-0) (line 306, col 0, score 1)
+- [Board Automation Improvements — L207](board-automation-improvements.md#^ref-ac60a1d6-207-0) (line 207, col 0, score 1)
+- [Board Automation Improvements — L208](board-automation-improvements.md#^ref-ac60a1d6-208-0) (line 208, col 0, score 0.99)
+- [Board Automation Improvements — L210](board-automation-improvements.md#^ref-ac60a1d6-210-0) (line 210, col 0, score 1)
+- [Board Walk – 2025-08-11 — L687](board-walk-2025-08-11.md#^ref-7aa1eb92-687-0) (line 687, col 0, score 1)
+- [Board Automation Improvements — L211](board-automation-improvements.md#^ref-ac60a1d6-211-0) (line 211, col 0, score 0.99)
+- [Board Walk – 2025-08-11 — L300](board-walk-2025-08-11.md#^ref-7aa1eb92-300-0) (line 300, col 0, score 0.98)
+- [Board Walk – 2025-08-11 — L459](board-walk-2025-08-11.md#^ref-7aa1eb92-459-0) (line 459, col 0, score 1)
+- [Board Walk – 2025-08-11 — L464](board-walk-2025-08-11.md#^ref-7aa1eb92-464-0) (line 464, col 0, score 1)
+- [Board Walk – 2025-08-11 — L297](board-walk-2025-08-11.md#^ref-7aa1eb92-297-0) (line 297, col 0, score 0.97)
+- [Board Walk – 2025-08-11 — L519](board-walk-2025-08-11.md#^ref-7aa1eb92-519-0) (line 519, col 0, score 1)
+- [Board Automation Improvements — L123](board-automation-improvements.md#^ref-ac60a1d6-123-0) (line 123, col 0, score 1)
+- [Board Walk – 2025-08-11 — L388](board-walk-2025-08-11.md#^ref-7aa1eb92-388-0) (line 388, col 0, score 0.93)
+- [Board Walk – 2025-08-11 — L364](board-walk-2025-08-11.md#^ref-7aa1eb92-364-0) (line 364, col 0, score 0.98)
+- [Board Walk – 2025-08-11 — L284](board-walk-2025-08-11.md#^ref-7aa1eb92-284-0) (line 284, col 0, score 1)
+- [Board Walk – 2025-08-11 — L473](board-walk-2025-08-11.md#^ref-7aa1eb92-473-0) (line 473, col 0, score 0.96)
+- [Board Walk – 2025-08-11 — L349](board-walk-2025-08-11.md#^ref-7aa1eb92-349-0) (line 349, col 0, score 0.99)
+- [Board Walk – 2025-08-11 — L335](board-walk-2025-08-11.md#^ref-7aa1eb92-335-0) (line 335, col 0, score 0.94)
+- [Board Walk – 2025-08-11 — L720](board-walk-2025-08-11.md#^ref-7aa1eb92-720-0) (line 720, col 0, score 0.89)
+- [Board Walk – 2025-08-11 — L609](board-walk-2025-08-11.md#^ref-7aa1eb92-609-0) (line 609, col 0, score 0.89)
+- [Board Walk – 2025-08-11 — L470](board-walk-2025-08-11.md#^ref-7aa1eb92-470-0) (line 470, col 0, score 0.96)
+- [Board Automation Improvements — L278](board-automation-improvements.md#^ref-ac60a1d6-278-0) (line 278, col 0, score 0.94)
+- [Board Walk – 2025-08-11 — L401](board-walk-2025-08-11.md#^ref-7aa1eb92-401-0) (line 401, col 0, score 0.99)
+- [Board Walk – 2025-08-11 — L311](board-walk-2025-08-11.md#^ref-7aa1eb92-311-0) (line 311, col 0, score 0.99)
+- [Board Walk – 2025-08-11 — L340](board-walk-2025-08-11.md#^ref-7aa1eb92-340-0) (line 340, col 0, score 1)
+- [api-gateway-versioning — L417](api-gateway-versioning.md#^ref-0580dcd3-417-0) (line 417, col 0, score 0.98)
+- [api-gateway-versioning — L466](api-gateway-versioning.md#^ref-0580dcd3-466-0) (line 466, col 0, score 0.97)
+- [api-gateway-versioning — L356](api-gateway-versioning.md#^ref-0580dcd3-356-0) (line 356, col 0, score 0.97)
+- [api-gateway-versioning — L353](api-gateway-versioning.md#^ref-0580dcd3-353-0) (line 353, col 0, score 0.96)
+- [api-gateway-versioning — L345](api-gateway-versioning.md#^ref-0580dcd3-345-0) (line 345, col 0, score 0.96)
+- [aionian-circuit-math — L590](aionian-circuit-math.md#^ref-f2d83a77-590-0) (line 590, col 0, score 0.95)
+- [Board Automation Improvements — L159](board-automation-improvements.md#^ref-ac60a1d6-159-0) (line 159, col 0, score 0.9)
+- [Board Walk – 2025-08-11 — L386](board-walk-2025-08-11.md#^ref-7aa1eb92-386-0) (line 386, col 0, score 0.99)
+- [Board Walk – 2025-08-11 — L436](board-walk-2025-08-11.md#^ref-7aa1eb92-436-0) (line 436, col 0, score 0.98)
+- [Board Walk – 2025-08-11 — L429](board-walk-2025-08-11.md#^ref-7aa1eb92-429-0) (line 429, col 0, score 0.97)
+- [Board Automation Improvements — L124](board-automation-improvements.md#^ref-ac60a1d6-124-0) (line 124, col 0, score 0.96)
+- [Board Walk – 2025-08-11 — L441](board-walk-2025-08-11.md#^ref-7aa1eb92-441-0) (line 441, col 0, score 1)
+- [Board Walk – 2025-08-11 — L325](board-walk-2025-08-11.md#^ref-7aa1eb92-325-0) (line 325, col 0, score 0.94)
+- [Board Automation Improvements — L192](board-automation-improvements.md#^ref-ac60a1d6-192-0) (line 192, col 0, score 1)
+- [Board Walk – 2025-08-11 — L671](board-walk-2025-08-11.md#^ref-7aa1eb92-671-0) (line 671, col 0, score 1)
+- [Board Automation Improvements — L193](board-automation-improvements.md#^ref-ac60a1d6-193-0) (line 193, col 0, score 1)
+- [Board Walk – 2025-08-11 — L672](board-walk-2025-08-11.md#^ref-7aa1eb92-672-0) (line 672, col 0, score 1)
+- [Board Walk – 2025-08-11 — L675](board-walk-2025-08-11.md#^ref-7aa1eb92-675-0) (line 675, col 0, score 1)
+- [Board Automation Improvements — L201](board-automation-improvements.md#^ref-ac60a1d6-201-0) (line 201, col 0, score 1)
+- [Board Walk – 2025-08-11 — L565](board-walk-2025-08-11.md#^ref-7aa1eb92-565-0) (line 565, col 0, score 1)
+- [Board Automation Improvements — L247](board-automation-improvements.md#^ref-ac60a1d6-247-0) (line 247, col 0, score 1)
+- [Board Automation Improvements — L250](board-automation-improvements.md#^ref-ac60a1d6-250-0) (line 250, col 0, score 1)
+- [Board Automation Improvements — L254](board-automation-improvements.md#^ref-ac60a1d6-254-0) (line 254, col 0, score 1)
+- [Board Automation Improvements — L255](board-automation-improvements.md#^ref-ac60a1d6-255-0) (line 255, col 0, score 1)
+- [Board Automation Improvements — L257](board-automation-improvements.md#^ref-ac60a1d6-257-0) (line 257, col 0, score 1)
+- [api-gateway-versioning — L388](api-gateway-versioning.md#^ref-0580dcd3-388-0) (line 388, col 0, score 0.94)
+- [Board Automation Improvements — L260](board-automation-improvements.md#^ref-ac60a1d6-260-0) (line 260, col 0, score 1)
+- [Board Automation Improvements — L261](board-automation-improvements.md#^ref-ac60a1d6-261-0) (line 261, col 0, score 1)
+- [Board Automation Improvements — L178](board-automation-improvements.md#^ref-ac60a1d6-178-0) (line 178, col 0, score 1)
+- [Board Walk – 2025-08-11 — L561](board-walk-2025-08-11.md#^ref-7aa1eb92-561-0) (line 561, col 0, score 1)
+- [Board Automation Improvements — L164](board-automation-improvements.md#^ref-ac60a1d6-164-0) (line 164, col 0, score 1)
+- [Board Automation Improvements — L165](board-automation-improvements.md#^ref-ac60a1d6-165-0) (line 165, col 0, score 1)
+- [Board Automation Improvements — L168](board-automation-improvements.md#^ref-ac60a1d6-168-0) (line 168, col 0, score 1)
+- [Board Automation Improvements — L289](board-automation-improvements.md#^ref-ac60a1d6-289-0) (line 289, col 0, score 1)
+- [Board Walk – 2025-08-11 — L712](board-walk-2025-08-11.md#^ref-7aa1eb92-712-0) (line 712, col 0, score 1)
+- [Board Automation Improvements — L300](board-automation-improvements.md#^ref-ac60a1d6-300-0) (line 300, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

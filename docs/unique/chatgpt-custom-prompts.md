@@ -808,10 +808,6 @@ references:
     line: 159
     col: 0
     score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 66
-    col: 0
-    score: 1
   - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
     line: 45
     col: 0
@@ -1072,10 +1068,6 @@ references:
     line: 288
     col: 0
     score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 634
-    col: 0
-    score: 1
   - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
     line: 541
     col: 0
@@ -1102,10 +1094,6 @@ references:
     score: 1
   - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
     line: 59
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 103
     col: 0
     score: 1
   - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
@@ -1150,10 +1138,6 @@ references:
     score: 1
   - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
     line: 612
-    col: 0
-    score: 1
-  - uuid: 49a9a860-944c-467a-b532-4f99186a8593
-    line: 94
     col: 0
     score: 1
   - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
@@ -2488,10 +2472,6 @@ references:
     line: 89
     col: 0
     score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 45
-    col: 0
-    score: 1
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
     line: 126
     col: 0
@@ -2546,10 +2526,6 @@ references:
     score: 1
   - uuid: 86a691ec-ca1f-4350-824c-0ded1f8ebe70
     line: 119
-    col: 0
-    score: 1
-  - uuid: b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
-    line: 121
     col: 0
     score: 1
   - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
@@ -6407,7 +6383,7 @@ I believe there is a way for AI to enhance our lives and improve our standard of
 - [Math Fundamentals](chunks/math-fundamentals.md)
 - [Services](chunks/services.md)
 - [Tooling](chunks/tooling.md)
-- [Docops Feature Updates](docops-feature-updates-3.md)
+- [Docops Feature Updates](docops-feature-updates-2.md)
 - [Docops Feature Updates](docops-feature-updates.md)
 - [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
 - [Mindful Prioritization](mindful-prioritization.md)
@@ -6536,7 +6512,7 @@ I believe there is a way for AI to enhance our lives and improve our standard of
 - [Window Management — L49](chunks/window-management.md#^ref-9e8ae388-49-0) (line 49, col 0, score 1)
 - [Creative Moments — L18](creative-moments.md#^ref-10d98225-18-0) (line 18, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L77](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-77-0) (line 77, col 0, score 1)
-- [Docops Feature Updates — L39](docops-feature-updates-3.md#^ref-cdbd21ee-39-0) (line 39, col 0, score 1)
+- [Docops Feature Updates — L39](docops-feature-updates-2.md#^ref-cdbd21ee-39-0) (line 39, col 0, score 1)
 - [Docops Feature Updates — L67](docops-feature-updates.md#^ref-2792d448-67-0) (line 67, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L22](duckduckgosearchpipeline.md#^ref-e979c50f-22-0) (line 22, col 0, score 1)
 - [Duck's Attractor States — L107](ducks-attractor-states.md#^ref-13951643-107-0) (line 107, col 0, score 1)
@@ -6580,7 +6556,6 @@ I believe there is a way for AI to enhance our lives and improve our standard of
 - [Pipeline Enhancements — L18](pipeline-enhancements.md#^ref-e2135d9f-18-0) (line 18, col 0, score 1)
 - [polyglot-repl-interface-layer — L206](polyglot-repl-interface-layer.md#^ref-9c79206d-206-0) (line 206, col 0, score 1)
 - [Post-Linguistic Transhuman Design Frameworks — L159](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-159-0) (line 159, col 0, score 1)
-- [Promethean Chat Activity Report — L66](promethean-chat-activity-report.md#^ref-18344cf9-66-0) (line 66, col 0, score 1)
 - [Promethean Data Sync Protocol — L45](promethean-data-sync-protocol.md#^ref-9fab9e76-45-0) (line 45, col 0, score 1)
 - [Promethean Dev Workflow Update — L98](promethean-dev-workflow-update.md#^ref-03a5578f-98-0) (line 98, col 0, score 1)
 - [Promethean Documentation Overview — L16](promethean-documentation-overview.md#^ref-9413237f-16-0) (line 16, col 0, score 1)
@@ -6646,15 +6621,13 @@ I believe there is a way for AI to enhance our lives and improve our standard of
 - [Prometheus Observability Stack — L570](prometheus-observability-stack.md#^ref-e90b5a16-570-0) (line 570, col 0, score 1)
 - [Protocol_0_The_Contradiction_Engine — L167](protocol-0-the-contradiction-engine.md#^ref-9a93a756-167-0) (line 167, col 0, score 1)
 - [Provider-Agnostic Chat Panel Implementation — L288](provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-288-0) (line 288, col 0, score 1)
-- [Pure TypeScript Search Microservice — L634](pure-typescript-search-microservice.md#^ref-d17d3a96-634-0) (line 634, col 0, score 1)
 - [Prometheus Observability Stack — L541](prometheus-observability-stack.md#^ref-e90b5a16-541-0) (line 541, col 0, score 1)
 - [Prompt_Folder_Bootstrap — L222](prompt-folder-bootstrap.md#^ref-bd4f0976-222-0) (line 222, col 0, score 1)
 - [Reawakening Duck — L131](reawakening-duck.md#^ref-59b5670f-131-0) (line 131, col 0, score 1)
 - [typed-struct-compiler — L416](typed-struct-compiler.md#^ref-78eeedf7-416-0) (line 416, col 0, score 1)
-- [Docops Feature Updates — L20](docops-feature-updates-3.md#^ref-cdbd21ee-20-0) (line 20, col 0, score 1)
+- [Docops Feature Updates — L20](docops-feature-updates-2.md#^ref-cdbd21ee-20-0) (line 20, col 0, score 1)
 - [Docops Feature Updates — L37](docops-feature-updates.md#^ref-2792d448-37-0) (line 37, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L59](duckduckgosearchpipeline.md#^ref-e979c50f-59-0) (line 59, col 0, score 1)
-- [Duck's Attractor States — L103](ducks-attractor-states.md#^ref-13951643-103-0) (line 103, col 0, score 1)
 - [Duck's Self-Referential Perceptual Loop — L84](ducks-self-referential-perceptual-loop.md#^ref-71726f04-84-0) (line 84, col 0, score 1)
 - [Post-Linguistic Transhuman Design Frameworks — L134](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-134-0) (line 134, col 0, score 1)
 - [Pure TypeScript Search Microservice — L605](pure-typescript-search-microservice.md#^ref-d17d3a96-605-0) (line 605, col 0, score 1)
@@ -6666,7 +6639,6 @@ I believe there is a way for AI to enhance our lives and improve our standard of
 - [Redirecting Standard Error — L73](redirecting-standard-error.md#^ref-b3555ede-73-0) (line 73, col 0, score 1)
 - [ripple-propagation-demo — L162](ripple-propagation-demo.md#^ref-8430617b-162-0) (line 162, col 0, score 1)
 - [schema-evolution-workflow — L612](schema-evolution-workflow.md#^ref-d8059b6a-612-0) (line 612, col 0, score 1)
-- [Self-Agency in AI Interaction — L94](self-agency-in-ai-interaction.md#^ref-49a9a860-94-0) (line 94, col 0, score 1)
 - [sibilant-macro-targets — L246](sibilant-macro-targets.md#^ref-c5c9a5c6-246-0) (line 246, col 0, score 1)
 - [Stateful Partitions and Rebalancing — L638](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-638-0) (line 638, col 0, score 1)
 - [unique-templates — L55](templates/unique-templates.md#^ref-c26f0044-55-0) (line 55, col 0, score 1)
@@ -6935,7 +6907,7 @@ I believe there is a way for AI to enhance our lives and improve our standard of
 - [Window Management — L73](chunks/window-management.md#^ref-9e8ae388-73-0) (line 73, col 0, score 1)
 - [Creative Moments — L43](creative-moments.md#^ref-10d98225-43-0) (line 43, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L104](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-104-0) (line 104, col 0, score 1)
-- [Docops Feature Updates — L44](docops-feature-updates-3.md#^ref-cdbd21ee-44-0) (line 44, col 0, score 1)
+- [Docops Feature Updates — L44](docops-feature-updates-2.md#^ref-cdbd21ee-44-0) (line 44, col 0, score 1)
 - [Docops Feature Updates — L75](docops-feature-updates.md#^ref-2792d448-75-0) (line 75, col 0, score 1)
 - [DuckDuckGoSearchPipeline — L48](duckduckgosearchpipeline.md#^ref-e979c50f-48-0) (line 48, col 0, score 1)
 - [Duck's Attractor States — L127](ducks-attractor-states.md#^ref-13951643-127-0) (line 127, col 0, score 1)
@@ -6998,9 +6970,8 @@ I believe there is a way for AI to enhance our lives and improve our standard of
 - [Prometheus Observability Stack — L512](prometheus-observability-stack.md#^ref-e90b5a16-512-0) (line 512, col 0, score 1)
 - [Creative Moments — L40](creative-moments.md#^ref-10d98225-40-0) (line 40, col 0, score 1)
 - [Debugging Broker Connections and Agent Behavior — L108](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-108-0) (line 108, col 0, score 1)
-- [Docops Feature Updates — L60](docops-feature-updates-3.md#^ref-cdbd21ee-60-0) (line 60, col 0, score 1)
+- [Docops Feature Updates — L60](docops-feature-updates-2.md#^ref-cdbd21ee-60-0) (line 60, col 0, score 1)
 - [Docops Feature Updates — L89](docops-feature-updates.md#^ref-2792d448-89-0) (line 89, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L45](duckduckgosearchpipeline.md#^ref-e979c50f-45-0) (line 45, col 0, score 1)
 - [Duck's Attractor States — L126](ducks-attractor-states.md#^ref-13951643-126-0) (line 126, col 0, score 1)
 - [Duck's Self-Referential Perceptual Loop — L117](ducks-self-referential-perceptual-loop.md#^ref-71726f04-117-0) (line 117, col 0, score 1)
 - [field-node-diagram-visualizations — L142](field-node-diagram-visualizations.md#^ref-e9b27b06-142-0) (line 142, col 0, score 1)
@@ -7015,7 +6986,6 @@ I believe there is a way for AI to enhance our lives and improve our standard of
 - [homeostasis-decay-formulas — L281](homeostasis-decay-formulas.md#^ref-37b5d236-281-0) (line 281, col 0, score 1)
 - [i3-bluetooth-setup — L222](i3-bluetooth-setup.md#^ref-5e408692-222-0) (line 222, col 0, score 1)
 - [Mathematical Samplers — L119](mathematical-samplers.md#^ref-86a691ec-119-0) (line 119, col 0, score 1)
-- [Mathematics Sampler — L121](mathematics-sampler.md#^ref-b5e0183e-121-0) (line 121, col 0, score 1)
 - [Model Selection for Lightweight Conversational Tasks — L276](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-276-0) (line 276, col 0, score 1)
 - [Factorio AI with External Agents — L267](factorio-ai-with-external-agents.md#^ref-a4d90289-267-0) (line 267, col 0, score 1)
 - [Layer1SurvivabilityEnvelope — L282](layer1survivabilityenvelope.md#^ref-64a9f9f9-282-0) (line 282, col 0, score 1)
