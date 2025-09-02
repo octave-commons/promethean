@@ -46,7 +46,7 @@ async function main() {
       .map(m => m[1])
       .filter((x): x is string => Boolean(x));
 
-    out.push({ taskFile: f.replace(/\\/g,"/"), hits: scored, links });
+      out.push({ taskFile: f.replace(/\\/g,"/"), hits: scored, links });
   }
 
   await writeText(path.resolve(args["--out"]!), JSON.stringify({ contexts: out }, null, 2));

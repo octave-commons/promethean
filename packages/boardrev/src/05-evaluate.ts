@@ -61,8 +61,8 @@ async function main() {
     try { obj = await ollamaJSON(args["--model"]!, `SYSTEM:\n${sys}\n\nUSER:\n${user}`); }
     catch { obj = { inferred_status: status, confidence: 0.5, summary: "Review failed; keep current status.", suggested_actions: ["Manually review this task."] }; }
 
-    const parsed = EvalSchema.safeParse(obj);
-    const clean = parsed.success ? parsed.data : { inferred_status: status, confidence: 0.5, summary: "LLM parse failed", suggested_actions: ["Manual triage required."] };
+      const parsed = EvalSchema.safeParse(obj);
+      const clean = parsed.success ? parsed.data : { inferred_status: status, confidence: 0.5, summary: "LLM parse failed", suggested_actions: ["Manual triage required."] };
 
     const item: EvalItem = {
       taskFile: ctx.taskFile,
