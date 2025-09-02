@@ -33,14 +33,15 @@ type Snapshot = {
   };
 };
 
-function parseArgs(defaults: Record<string,string>) {
+function parseArgs<T extends Record<string, string>>(defaults: T): T {
   const out = { ...defaults };
   const a = process.argv.slice(2);
-  for (let i=0;i<a.length;i++){
-    const k=a[i];
-    if(!k.startsWith("--")) continue;
-    const v=a[i+1] && !a[i+1].startsWith("--") ? a[++i] : "true";
-    out[k]=v;
+  for (let i = 0; i < a.length; i++) {
+    const k = a[i];
+    if (!k?.startsWith("--")) continue;
+    const next = a[i + 1];
+    const v = next && !next.startsWith("--") ? (i++, next) : "true";
+    out[k as keyof T] = v as T[keyof T];
   }
   return out;
 }
@@ -101,7 +102,7 @@ async function main() {
   if (args["--test"].trim()) steps.push(await runCmd("test", args["--test"], TIMEOUT));
 
   const endedAt = new Date().toISOString();
-  const snap: Snapshot = { stage: STAGE, startedAt, endedAt, steps, runSummary };
+  const snap: Snapshot = { stage: STAGE, startedAt, endedAt, steps, ...(runSummary ? { runSummary } : {}) };
 
   // write cache
   const cacheFile = path.join(CACHE_DIR, `${STAGE}.json`);

@@ -11,7 +11,7 @@ const args = parseArgs({
   "--groups": ".cache/cookbook/groups.json",
   "--out": ".cache/cookbook/plan.json",
   "--llm": "qwen3:4b"
-});
+} as const);
 
 const RecipeSchema = z.object({
   title: z.string().min(1),
@@ -36,8 +36,9 @@ async function main() {
   const outGroups: Record<string, PlanRecipe[]> = {};
 
   for (const g of groups.groups) {
-    const sample = byId.get(g.blockIds[0])!;
-    const meta = classes.classes[g.blockIds[0]];
+    const firstId = g.blockIds[0]!;
+    const sample = byId.get(firstId)!;
+    const meta = classes.classes[firstId]!;
     const sys = [
       "You produce runnable, task-oriented cookbook recipes.",
       "Return ONLY JSON with keys:",
