@@ -9,7 +9,7 @@ const args = parseArgs({
   "--out": ".cache/cookbook/groups.json",
   "--min-sim": "0.82",
   "--max-size": "12"
-});
+} as const);
 
 async function main() {
   const cf = JSON.parse(await fs.readFile(path.resolve(args["--in"]), "utf-8")) as ClassesFile;
@@ -21,7 +21,7 @@ async function main() {
 
   for (const id of ids) {
     if (seen.has(id)) continue;
-    const seed = cf.classes[id];
+    const seed = cf.classes[id]!;
     const key = `${seed.task}|${seed.runtime}|${seed.language}`;
     const centroid = cf.embeddings[id];
     const members = [id];
@@ -29,15 +29,16 @@ async function main() {
     // greedy nearest neighbors within same key
     for (const other of ids) {
       if (id === other || seen.has(other)) continue;
-      const c = cf.classes[other];
-      if (`${c.task}|${c.runtime}|${c.language}` !== key) continue;
-      const sim = cosine(centroid, cf.embeddings[other] || []);
+        const c = cf.classes[other]!;
+        if (`${c.task}|${c.runtime}|${c.language}` !== key) continue;
+        const sim = cosine(centroid ?? [], cf.embeddings[other] ?? []);
       if (sim >= minSim) members.push(other);
       if (members.length >= maxSize) break;
     }
 
     members.forEach(m => seen.add(m));
-    groups.push({ key, blockIds: members, centroid });
+    const g: Group = centroid ? { key, blockIds: members, centroid } : { key, blockIds: members };
+    groups.push(g);
   }
 
   const out: GroupsFile = { groupedAt: new Date().toISOString(), groups };
