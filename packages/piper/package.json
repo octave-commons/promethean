@@ -8,14 +8,20 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "prepare": "pnpm run build"
+    "prepack": "pnpm run build"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "dependencies": {
     "chokidar": "^3.6.0",
     "globby": "^14.0.2",
     "yaml": "^2.5.0",
     "zod": "^3.23.8",
-    "@promethean/level-cache": "file:../level-cache"
+    "@promethean/level-cache": "workspace:*",
   },
   "devDependencies": {
     "tsx": "^4.19.2",
