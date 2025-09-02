@@ -25,9 +25,8 @@ const EvalSchema = z.object({
 });
 
 async function main() {
-  const prompts: { prompts: PromptChunk[] } = JSON.parse(await fs.readFile(path.resolve(args["--prompts"]), "utf-8"));
-  const contexts: { contexts: TaskContext[] } = JSON.parse(await fs.readFile(path.resolve(args["--context"]), "utf-8"));
-  const byTask = new Map(contexts.contexts.map(c => [c.taskFile, c]));
+  const prompts: { prompts: PromptChunk[] } = JSON.parse(await fs.readFile(path.resolve(args["--prompts"]!), "utf-8"));
+  const contexts: { contexts: TaskContext[] } = JSON.parse(await fs.readFile(path.resolve(args["--context"]!), "utf-8"));
 
   const items: EvalItem[] = [];
 
@@ -59,20 +58,26 @@ async function main() {
     ].filter(Boolean).join("\n");
 
     let obj: any;
-    try { obj = await ollamaJSON(args["--model"], `SYSTEM:\n${sys}\n\nUSER:\n${user}`); }
+    try { obj = await ollamaJSON(args["--model"]!, `SYSTEM:\n${sys}\n\nUSER:\n${user}`); }
     catch { obj = { inferred_status: status, confidence: 0.5, summary: "Review failed; keep current status.", suggested_actions: ["Manually review this task."] }; }
 
-    const parsed = EvalSchema.safeParse(obj);
-    const clean = parsed.success ? parsed.data : { inferred_status: status, confidence: 0.5, summary: "LLM parse failed", suggested_actions: ["Manual triage required."] };
+      const parsed = EvalSchema.safeParse(obj);
+      const clean = parsed.success ? parsed.data : { inferred_status: status, confidence: 0.5, summary: "LLM parse failed", suggested_actions: ["Manual triage required."] };
 
-    items.push({
+    const item: EvalItem = {
       taskFile: ctx.taskFile,
-      ...clean,
-      inferred_status: normStatus(clean.inferred_status)
-    });
+      inferred_status: normStatus(clean.inferred_status),
+      confidence: clean.confidence,
+      summary: clean.summary,
+      suggested_actions: clean.suggested_actions,
+      ...(clean.blockers ? { blockers: clean.blockers } : {}),
+      ...(clean.suggested_labels ? { suggested_labels: clean.suggested_labels } : {}),
+      ...(clean.suggested_assignee ? { suggested_assignee: clean.suggested_assignee } : {})
+    };
+    items.push(item);
   }
 
-  await writeText(path.resolve(args["--out"]), JSON.stringify({ evals: items }, null, 2));
+  await writeText(path.resolve(args["--out"]!), JSON.stringify({ evals: items }, null, 2));
   console.log(`boardrev: evaluated ${items.length} task(s)`);
 }
 
