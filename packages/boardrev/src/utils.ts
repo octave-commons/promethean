@@ -4,6 +4,14 @@ import { globby } from "globby";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
+export function parseArgs(defaults: Record<string,string>) {
+  const out = { ...defaults };
+  const a = process.argv.slice(2);
+  for (let i = 0; i < a.length; i++) {
+    const k = a[i]!; if (!k.startsWith("--")) continue;
+    const next = a[i + 1];
+    const v = next && !next.startsWith("--") ? a[++i]! : "true";
+    out[k] = v;
   export function parseArgs(defaults: Record<string,string>) {
     const out: Record<string,string> = { ...defaults };
     const a = process.argv.slice(2);

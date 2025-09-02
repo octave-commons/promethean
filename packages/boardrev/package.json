@@ -22,6 +22,7 @@
     "br:all": "pnpm br:01-fm && pnpm br:02-prompts && pnpm br:03-index && pnpm br:04-match && pnpm br:05-eval && pnpm br:06-report"
   },
   "dependencies": {
+    "ava": "^6.4.1",
     "globby": "^14.0.2",
     "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",
