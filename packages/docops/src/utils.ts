@@ -41,10 +41,12 @@ export async function listFilesRec(
     }
   }
   await walk(root);
-  return out
-    // exclude Emacs lockfiles like .#file.md which can cause crashes
-    .filter((p) => !path.basename(p).startsWith(".#"))
-    .filter((p) => exts.has(path.extname(p).toLowerCase()));
+  return (
+    out
+      // exclude Emacs lockfiles like .#file.md which can cause crashes
+      .filter((p) => !path.basename(p).startsWith(".#"))
+      .filter((p) => exts.has(path.extname(p).toLowerCase()))
+  );
 }
 
 export function randomUUID(): string {

@@ -14,18 +14,20 @@ const joinKey = (ns: string | undefined, key: string): string =>
   ns ? `${ns}\u241F${key}` : key; // \u241F = SYMBOL FOR UNIT SEPARATOR
 
 /** unwrap, checking TTL; returns [value, expired?] */
-const unwrap = <T>(env: Envelope<T> | undefined): readonly [T | undefined, boolean] => {
+const unwrap = <T>(
+  env: Envelope<T> | undefined,
+): readonly [T | undefined, boolean] => {
   if (env == null) return [undefined, false];
   const expired = typeof env.x === "number" && env.x <= now();
   return [expired ? undefined : env.v, expired];
 };
 
 export const openLevelCache = async <T = unknown>(
-  opts: CacheOptions
+  opts: CacheOptions,
 ): Promise<Cache<T>> => {
   const db = new Level<string, Envelope<T>>(opts.path, {
     keyEncoding: "utf8",
-    valueEncoding: "json"
+    valueEncoding: "json",
   });
 
   const base: Readonly<{
@@ -33,7 +35,7 @@ export const openLevelCache = async <T = unknown>(
     namespace?: string;
   }> = {
     defaultTtlMs: opts.defaultTtlMs,
-    namespace: opts.namespace
+    namespace: opts.namespace,
   };
 
   const get = async (key: string): Promise<T | undefined> => {
@@ -59,7 +61,7 @@ export const openLevelCache = async <T = unknown>(
   const set = async (
     key: string,
     value: T,
-    putOpts?: PutOptions
+    putOpts?: PutOptions,
   ): Promise<void> => {
     const ttl = putOpts?.ttlMs ?? base.defaultTtlMs;
     const k = joinKey(base.namespace, key);
@@ -77,7 +79,7 @@ export const openLevelCache = async <T = unknown>(
     ops: ReadonlyArray<
       | { type: "put"; key: string; value: T; ttlMs?: Millis }
       | { type: "del"; key: string }
-    >
+    >,
   ): Promise<void> => {
     // map immutably to level batch ops
     const mapped = ops.map((op) => {
@@ -85,7 +87,9 @@ export const openLevelCache = async <T = unknown>(
       if (op.type === "del") return { type: "del" as const, key: k };
       const ttl = op.ttlMs ?? base.defaultTtlMs;
       const env: Envelope<T> =
-        typeof ttl === "number" ? { v: op.value, x: now() + ttl } : { v: op.value };
+        typeof ttl === "number"
+          ? { v: op.value, x: now() + ttl }
+          : { v: op.value };
       return { type: "put" as const, key: k, value: env };
     });
     // @ts-expect-error level typings accept this structure
@@ -94,7 +98,11 @@ export const openLevelCache = async <T = unknown>(
 
   const entries = async function* (opts?: Readonly<{ limit?: number }>) {
     const prefix = base.namespace ? `${base.namespace}\u241F` : "";
-    const it = db.iterator({ gte: prefix, lt: prefix ? prefix + "\uFFFF" : undefined, limit: opts?.limit });
+    const it = db.iterator({
+      gte: prefix,
+      lt: prefix ? prefix + "\uFFFF" : undefined,
+      limit: opts?.limit,
+    });
     try {
       for await (const [k, env] of it) {
         const [val, expired] = unwrap(env as Envelope<T> | undefined);
@@ -102,7 +110,9 @@ export const openLevelCache = async <T = unknown>(
           await db.del(k as string).catch(() => {});
           continue;
         }
-        const logicalKey = prefix ? (k as string).slice(prefix.length) : (k as string);
+        const logicalKey = prefix
+          ? (k as string).slice(prefix.length)
+          : (k as string);
         if (val !== undefined) yield [logicalKey, val] as [string, T];
       }
     } finally {
@@ -128,7 +138,11 @@ export const openLevelCache = async <T = unknown>(
       const next: CacheOptions = {
         path: opts.path,
         defaultTtlMs: base.defaultTtlMs,
-        namespace: ns ? (base.namespace ? `${base.namespace}/${ns}` : ns) : base.namespace
+        namespace: ns
+          ? base.namespace
+            ? `${base.namespace}/${ns}`
+            : ns
+          : base.namespace,
       };
       // reuse same underlying db handle; rebind fns to new namespace
       return bindView<T>(db, next);
@@ -137,20 +151,36 @@ export const openLevelCache = async <T = unknown>(
   const close = async () => db.close();
 
   // provide the bound functions
-  return { get, has, set, del, batch, entries, sweepExpired, withNamespace, close };
+  return {
+    get,
+    has,
+    set,
+    del,
+    batch,
+    entries,
+    sweepExpired,
+    withNamespace,
+    close,
+  };
 };
 
 /** internal: bind a new namespaced view over an existing db handle */
-function bindView<T>(db: Level<string, Envelope<T>>, opts: CacheOptions): Cache<T> {
+function bindView<T>(
+  db: Level<string, Envelope<T>>,
+  opts: CacheOptions,
+): Cache<T> {
   // leverage openLevelCache logic without reopening the db
   const base = {
     defaultTtlMs: opts.defaultTtlMs,
-    namespace: opts.namespace
+    namespace: opts.namespace,
   };
 
   const now = (): Millis => Date.now();
-  const joinKey = (ns: string | undefined, key: string) => (ns ? `${ns}\u241F${key}` : key);
-  const unwrap = (env: Envelope<T> | undefined): readonly [T | undefined, boolean] => {
+  const joinKey = (ns: string | undefined, key: string) =>
+    ns ? `${ns}\u241F${key}` : key;
+  const unwrap = (
+    env: Envelope<T> | undefined,
+  ): readonly [T | undefined, boolean] => {
     if (env == null) return [undefined, false];
     const expired = typeof env.x === "number" && env.x <= now();
     return [expired ? undefined : env.v, expired];
@@ -169,7 +199,8 @@ function bindView<T>(db: Level<string, Envelope<T>>, opts: CacheOptions): Cache<
   const set = async (key: string, value: T, put?: PutOptions) => {
     const ttl = put?.ttlMs ?? base.defaultTtlMs;
     const k = joinKey(base.namespace, key);
-    const env: Envelope<T> = typeof ttl === "number" ? { v: value, x: now() + ttl } : { v: value };
+    const env: Envelope<T> =
+      typeof ttl === "number" ? { v: value, x: now() + ttl } : { v: value };
     await db.put(k, env);
   };
 
@@ -182,13 +213,16 @@ function bindView<T>(db: Level<string, Envelope<T>>, opts: CacheOptions): Cache<
     ops: ReadonlyArray<
       | { type: "put"; key: string; value: T; ttlMs?: Millis }
       | { type: "del"; key: string }
-    >
+    >,
   ) => {
     const mapped = ops.map((op) => {
       const k = joinKey(base.namespace, op.key);
       if (op.type === "del") return { type: "del" as const, key: k };
       const ttl = op.ttlMs ?? base.defaultTtlMs;
-      const env: Envelope<T> = typeof ttl === "number" ? { v: op.value, x: now() + ttl } : { v: op.value };
+      const env: Envelope<T> =
+        typeof ttl === "number"
+          ? { v: op.value, x: now() + ttl }
+          : { v: op.value };
       return { type: "put" as const, key: k, value: env };
     });
     // @ts-expect-error level typings accept this
@@ -197,14 +231,20 @@ function bindView<T>(db: Level<string, Envelope<T>>, opts: CacheOptions): Cache<
 
   const entries = async function* (opts?: Readonly<{ limit?: number }>) {
     const prefix = base.namespace ? `${base.namespace}\u241F` : "";
-    const it = db.iterator({ gte: prefix, lt: prefix ? prefix + "\uFFFF" : undefined, limit: opts?.limit });
+    const it = db.iterator({
+      gte: prefix,
+      lt: prefix ? prefix + "\uFFFF" : undefined,
+      limit: opts?.limit,
+    });
     for await (const [k, env] of it) {
       const [val, expired] = unwrap(env as Envelope<T> | undefined);
       if (expired) {
         await db.del(k as string).catch(() => {});
         continue;
       }
-      const logicalKey = prefix ? (k as string).slice(prefix.length) : (k as string);
+      const logicalKey = prefix
+        ? (k as string).slice(prefix.length)
+        : (k as string);
       if (val !== undefined) yield [logicalKey, val] as [string, T];
     }
   };
@@ -224,12 +264,26 @@ function bindView<T>(db: Level<string, Envelope<T>>, opts: CacheOptions): Cache<
   const withNamespace = (ns: string) =>
     bindView<T>(db, {
       ...opts,
-      namespace: ns ? (base.namespace ? `${base.namespace}/${ns}` : ns) : base.namespace
+      namespace: ns
+        ? base.namespace
+          ? `${base.namespace}/${ns}`
+          : ns
+        : base.namespace,
     });
 
   const close = async () => db.close();
 
-  return { get, has, set, del, batch, entries, sweepExpired, withNamespace, close };
+  return {
+    get,
+    has,
+    set,
+    del,
+    batch,
+    entries,
+    sweepExpired,
+    withNamespace,
+    close,
+  };
 }
 
 export type { Cache, CacheOptions, PutOptions } from "./types.js";

@@ -4,7 +4,13 @@ import { promises as fs } from "node:fs";
 import * as path from "node:path";
 import matter from "gray-matter";
 // DB is injected by caller
-import { parseArgs, stripGeneratedSections, relMdLink, anchorId, injectAnchors } from "./utils";
+import {
+  parseArgs,
+  stripGeneratedSections,
+  relMdLink,
+  anchorId,
+  injectAnchors,
+} from "./utils";
 import type { Front } from "./types";
 
 export type FootersOptions = {
@@ -29,9 +35,13 @@ type Ref = { uuid: string; line: number; col: number; score?: number };
 
 // (no-op)
 
-const isDocFile = (p: string) => /\.(md|mdx|txt)$/i.test(p) && p.startsWith(ROOT);
+const isDocFile = (p: string) =>
+  /\.(md|mdx|txt)$/i.test(p) && p.startsWith(ROOT);
 
-const nearestHeadingAnchor = (content: string, line: number): string | undefined =>
+const nearestHeadingAnchor = (
+  content: string,
+  line: number,
+): string | undefined =>
   content
     .split("\n")
     .slice(0, Math.max(0, line))
@@ -45,7 +55,9 @@ const nearestHeadingAnchor = (content: string, line: number): string | undefined
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-");
 
-const collectEntries = async <K extends string, V>(it: AsyncIterable<[K, V]>) => {
+const collectEntries = async <K extends string, V>(
+  it: AsyncIterable<[K, V]>,
+) => {
   const acc: Array<readonly [K, V]> = [];
   for await (const e of it) acc.push(e as readonly [K, V]);
   return acc as unknown as readonly [K, V][];
@@ -59,7 +71,7 @@ const readFront = (fpath: string) =>
 
 const computeAnchorsByPath = (
   docs: ReadonlyArray<readonly [string, DocInfo]>,
-  byUuid: ReadonlyMap<string, DocInfo>
+  byUuid: ReadonlyMap<string, DocInfo>,
 ) =>
   Promise.all(
     docs.map(([, info]) =>
@@ -70,12 +82,18 @@ const computeAnchorsByPath = (
             .map((r) => {
               const tgt = byUuid.get(r.uuid);
               return tgt
-                ? ({ path: tgt.path, line: r.line, id: anchorId(r.uuid, r.line, r.col) } as const)
+                ? ({
+                    path: tgt.path,
+                    line: r.line,
+                    id: anchorId(r.uuid, r.line, r.col),
+                  } as const)
                 : null;
             })
-            .filter((x): x is { path: string; line: number; id: string } => !!x)
-        )
-    )
+            .filter(
+              (x): x is { path: string; line: number; id: string } => !!x,
+            ),
+        ),
+    ),
   ).then((arrs) => {
     const flat = arrs.flat();
     const grouped = flat.reduce((m, a) => {
@@ -94,7 +112,7 @@ const computeAnchorsByPath = (
 const relatedLines = (
   fm: Front,
   fpath: string,
-  byUuid: ReadonlyMap<string, DocInfo>
+  byUuid: ReadonlyMap<string, DocInfo>,
 ) =>
   (fm.related_to_uuid ?? [])
     .map((u) => [u, byUuid.get(u)] as const)
@@ -105,14 +123,12 @@ const relatedLines = (
       return `- [${title}](${href})`;
     })
     .reduce((xs, x) => xs.concat([x]), [] as string[])
-    .concat(
-      (fm.related_to_uuid ?? []).length === 0 ? ["- _None_"] : []
-    );
+    .concat((fm.related_to_uuid ?? []).length === 0 ? ["- _None_"] : []);
 
 const sourceLines = (
   fm: Front,
   fpath: string,
-  byUuid: ReadonlyMap<string, DocInfo>
+  byUuid: ReadonlyMap<string, DocInfo>,
 ) =>
   Promise.all(
     (fm.references ?? []).map((r) => {
@@ -123,10 +139,13 @@ const sourceLines = (
         ANCHOR_STYLE === "block"
           ? Promise.resolve("^" + anchorId(r.uuid, r.line, r.col))
           : ANCHOR_STYLE === "heading"
-          ? fs
-              .readFile(ref.path, "utf8")
-              .then((raw) => nearestHeadingAnchor(matter(raw).content, r.line) || "")
-          : Promise.resolve("");
+            ? fs
+                .readFile(ref.path, "utf8")
+                .then(
+                  (raw) =>
+                    nearestHeadingAnchor(matter(raw).content, r.line) || "",
+                )
+            : Promise.resolve("");
 
       return anchorP.then((anchor) => {
         const href = relMdLink(fpath, ref.path, anchor || undefined);
@@ -136,7 +155,7 @@ const sourceLines = (
         })`;
         return `- [${title} — L${r.line}](${href})${meta}`;
       });
-    })
+    }),
   ).then((lines) => {
     const kept = lines.filter((x): x is string => !!x);
     return kept.length ? kept : ["- _None_"];
@@ -147,14 +166,22 @@ const renderFooter = (
   fm: Front,
   body: string,
   anchorsByPath: ReadonlyMap<string, Array<{ line: number; id: string }>>,
-  byUuid: ReadonlyMap<string, DocInfo>
+  byUuid: ReadonlyMap<string, DocInfo>,
 ) => {
-  const injected = ANCHOR_STYLE === "block" && anchorsByPath.has(fpath)
-    ? injectAnchors(body, anchorsByPath.get(fpath) as Array<{ line: number; id: string }>)
-    : body;
+  const injected =
+    ANCHOR_STYLE === "block" && anchorsByPath.has(fpath)
+      ? injectAnchors(
+          body,
+          anchorsByPath.get(fpath) as Array<{ line: number; id: string }>,
+        )
+      : body;
 
-  const relP = INCLUDE_RELATED ? Promise.resolve(relatedLines(fm, fpath, byUuid)) : Promise.resolve<string[]>([]);
-  const srcP = INCLUDE_SOURCES ? sourceLines(fm, fpath, byUuid) : Promise.resolve<string[]>([]);
+  const relP = INCLUDE_RELATED
+    ? Promise.resolve(relatedLines(fm, fpath, byUuid))
+    : Promise.resolve<string[]>([]);
+  const srcP = INCLUDE_SOURCES
+    ? sourceLines(fm, fpath, byUuid)
+    : Promise.resolve<string[]>([]);
 
   return Promise.all([relP, srcP]).then(([rels, srcs]) => {
     const footer = [
@@ -181,7 +208,7 @@ import type { DBs } from "./db";
 export async function runFooters(
   opts: FootersOptions,
   db: any,
-  onProgress?: (p: { step: 'footers'; done: number; total: number }) => void
+  onProgress?: (p: { step: "footers"; done: number; total: number }) => void,
 ) {
   ROOT = path.resolve(opts.dir);
   ANCHOR_STYLE = opts.anchorStyle ?? "block";
@@ -194,17 +221,24 @@ export async function runFooters(
   // Local helpers that close over docsKV
   const buildDocsMaps = async () => {
     const entries = await collectEntries(docsKV.iterator());
-    const filtered = entries.filter(([, info]) => isDocFile((info as DocInfo).path));
+    const filtered = entries.filter(([, info]) =>
+      isDocFile((info as DocInfo).path),
+    );
     const byUuid = new Map<string, DocInfo>(filtered as [string, DocInfo][]);
     return { byUuid, list: filtered as [string, DocInfo][] } as const;
   };
 
   let { byUuid, list } = await buildDocsMaps();
   if (opts.files && opts.files.length) {
-    const wanted = new Set(opts.files.map(p => path.resolve(p)));
-    list = list.filter(([, info]) => wanted.has(path.resolve((info as DocInfo).path)));
+    const wanted = new Set(opts.files.map((p) => path.resolve(p)));
+    list = list.filter(([, info]) =>
+      wanted.has(path.resolve((info as DocInfo).path)),
+    );
   }
-  const anchorsByPath = ANCHOR_STYLE === "block" ? await computeAnchorsByPath(list, byUuid) : new Map();
+  const anchorsByPath =
+    ANCHOR_STYLE === "block"
+      ? await computeAnchorsByPath(list, byUuid)
+      : new Map();
   let done = 0;
   const total = list.length;
   await Promise.all(
@@ -214,22 +248,35 @@ export async function runFooters(
         .then((raw) => {
           const gm = matter(raw);
           const fm = (gm.data || {}) as Front;
-          return renderFooter(info.path, fm, gm.content, anchorsByPath, byUuid).then((md) => {
+          return renderFooter(
+            info.path,
+            fm,
+            gm.content,
+            anchorsByPath,
+            byUuid,
+          ).then((md) => {
             const finalMd = matter.stringify(md, fm, { language: "yaml" });
             return DRY
-              ? (console.log(`Would update: ${path.relative(process.cwd(), info.path)}`), Promise.resolve())
+              ? (console.log(
+                  `Would update: ${path.relative(process.cwd(), info.path)}`,
+                ),
+                Promise.resolve())
               : fs.writeFile(info.path, finalMd, "utf8");
           });
         })
-        .then(() => { done++; onProgress?.({ step: 'footers', done, total }); })
-    )
+        .then(() => {
+          done++;
+          onProgress?.({ step: "footers", done, total });
+        }),
+    ),
   );
   // db lifecycle is owned by caller
 }
 
 // CLI entry
 import { pathToFileURL } from "node:url";
-const isDirect = !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
+const isDirect =
+  !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
 if (isDirect) {
   const args = parseArgs({
     "--dir": "docs/unique",
@@ -238,16 +285,26 @@ if (isDirect) {
     "--include-sources": "true",
     "--dry-run": "false",
   });
-  const { openDB } = await import('./db');
+  const { openDB } = await import("./db");
   const db = await openDB();
-  runFooters({
-    dir: args["--dir"],
-    anchorStyle: args["--anchor-style"] as any,
-    includeRelated: args["--include-related"] === "true",
-    includeSources: args["--include-sources"] === "true",
-    dryRun: args["--dry-run"] === "true",
-  }, db)
+  runFooters(
+    {
+      dir: args["--dir"],
+      anchorStyle: args["--anchor-style"] as any,
+      includeRelated: args["--include-related"] === "true",
+      includeSources: args["--include-sources"] === "true",
+      dryRun: args["--dry-run"] === "true",
+    },
+    db,
+  )
     .then(() => console.log("05-footers: done."))
-    .catch((e) => { console.error(e); process.exit(1); })
-    .finally(async () => { try { await db.root.close(); } catch {} });
+    .catch((e) => {
+      console.error(e);
+      process.exit(1);
+    })
+    .finally(async () => {
+      try {
+        await db.root.close();
+      } catch {}
+    });
 }

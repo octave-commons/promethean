@@ -18,10 +18,12 @@ export type Cache<T = unknown> = Readonly<{
   del: (key: string) => Promise<void>;
 
   /** batch put/del with ttl per-put (no mutation of input) */
-  batch: (ops: ReadonlyArray<
-    | { type: "put"; key: string; value: T; ttlMs?: Millis }
-    | { type: "del"; key: string }
-  >) => Promise<void>;
+  batch: (
+    ops: ReadonlyArray<
+      | { type: "put"; key: string; value: T; ttlMs?: Millis }
+      | { type: "del"; key: string }
+    >,
+  ) => Promise<void>;
 
   /** lazy iterator over non-expired entries (namespaced) */
   entries: (opts?: Readonly<{ limit?: number }>) => AsyncGenerator<[string, T]>;
