@@ -1,29 +1,8 @@
-import { World, Entity } from '@promethean/ds/ecs.js';
-import { defineAgentComponents } from './components';
-import { VADUpdateSystem } from './systems/vad';
-import { TurnDetectionSystem } from './systems/turn';
-import { SpeechArbiterSystem } from './systems/speechArbiter';
-// ecs/carry.ts
-
-// Carry a *subset* of components for all entities that have them in the current buffer.
-// This avoids needing a "query all" and keeps it cheap enough for now.
-function carryForTick(
-    w: any,
-    components: Array<any>, // component defs (e.g., C.Turn, C.PlaybackQ, etc.)
-) {
-    for (const Comp of components) {
-        // Query "all entities that have this Comp"
-        const q = w.makeQuery({ all: [Comp] });
-        for (const [eid, get] of w.iter(q)) {
-            const cur = get(Comp); // reads from current buffer
-            if (cur !== undefined && cur !== null) {
-                // write-through into next buffer unchanged
-                (w as any).set(eid as any, Comp, cur);
-            }
-        }
-    }
-}
-
+import { World } from '@promethean/ds/ecs.js';
+import { defineAgentComponents } from './components.js';
+import { VADUpdateSystem } from './systems/vad.js';
+import { TurnDetectionSystem } from './systems/turn.js';
+import { SpeechArbiterSystem } from './systems/speechArbiter.js';
 export function createAgentWorld(audioPlayer: any) {
     const w = new World();
     const C = defineAgentComponents(w);
@@ -53,19 +32,6 @@ export function createAgentWorld(audioPlayer: any) {
 
     async function tick(dtMs = 50) {
         const cmd = w.beginTick();
-
-        // 1) Carry: snapshot current → next so reads don't vanish when turn bumps
-        // carryForTick(w, [
-        //     C.Turn,
-        //     C.Policy,
-        //     C.PlaybackQ,
-        //     C.Utterance,
-        //     C.AudioRes,
-        //     C.AudioRef,
-        //     C.VAD,
-        //     C.RawVAD,
-        //     C.TranscriptFinal
-        // ]);
 
         for (const s of systems) await s(dtMs);
 
