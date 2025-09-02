@@ -28,6 +28,7 @@ services:
       OLLAMA_HOST: "0.0.0.0:11434"
       OLLAMA_DEBUG: "INFO"
       OLLAMA_LLM_LIBRARY: "cublas"
+      CUDA_VISIBLE_DEVICES: "0"
     healthcheck:
       test:
         [
@@ -39,8 +40,35 @@ services:
       interval: 10s
       timeout: 5s
       retries: 6
+  redis:
+    image: redis:6.2-alpine
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  mongodb:
+    image: mongo:6-jammy
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongo-data:/data/db
 
 volumes:
+  redis_data:
   sonarqube_data:
   sonarqube_logs:
   sonarqube_extensions:
+  mongo-data:
