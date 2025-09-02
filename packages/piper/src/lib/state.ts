@@ -1,4 +1,5 @@
-import { openLevelCache } from "@promethean/level-cache";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 
 export type RunState = {
   steps: Record<
@@ -7,31 +8,22 @@ export type RunState = {
   >;
 };
 
-const DB_PATH = ".cache/piper.level";
+const DB_DIR = ".cache";
 
 export async function loadState(pipeline: string): Promise<RunState> {
-  const cache = await openLevelCache<any>({
-    path: DB_PATH,
-    namespace: pipeline,
-  });
-  const steps: RunState["steps"] = {};
-  for await (const [key, val] of cache.entries()) {
-    if (key && val) steps[key] = val as any;
+  const file = join(DB_DIR, `${pipeline}.json`);
+  try {
+    const data = await readFile(file, "utf8");
+    const steps = JSON.parse(data) as RunState["steps"];
+    return { steps };
+  } catch (err: any) {
+    if (err.code !== "ENOENT") throw err;
+    return { steps: {} };
   }
-  await cache.close();
-  return { steps };
 }
 
 export async function saveState(pipeline: string, state: RunState) {
-  const cache = await openLevelCache<any>({
-    path: DB_PATH,
-    namespace: pipeline,
-  });
-  const ops = Object.entries(state.steps).map(([k, v]) => ({
-    type: "put" as const,
-    key: k,
-    value: v,
-  }));
-  if (ops.length) await cache.batch(ops);
-  await cache.close();
+  await mkdir(DB_DIR, { recursive: true });
+  const file = join(DB_DIR, `${pipeline}.json`);
+  await writeFile(file, JSON.stringify(state.steps, null, 2), "utf8");
 }

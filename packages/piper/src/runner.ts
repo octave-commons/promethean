@@ -48,8 +48,16 @@ function semaphore(n: number) {
 }
 
 async function loadState(pipeline: string): Promise<State> {
-  try { return JSON.parse(await readTextMaybe(STATE_FILE(pipeline)) || "{}"); }
-  catch { return { steps: {} }; }
+  try {
+    const txt = await readTextMaybe(STATE_FILE(pipeline));
+    if (!txt) return { steps: {} };
+    const parsed = JSON.parse(txt);
+    return parsed && typeof parsed === "object" && "steps" in parsed
+      ? (parsed as State)
+      : { steps: {} };
+  } catch {
+    return { steps: {} };
+  }
 }
 
 async function saveState(pipeline: string, state: State) {

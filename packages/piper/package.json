@@ -8,7 +8,8 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "prepare": "pnpm run build"
+    "prepare": "pnpm run build",
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs --no-worker-threads"
   },
   "dependencies": {
     "@promethean/piper": "link:",
