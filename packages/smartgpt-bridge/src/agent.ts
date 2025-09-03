@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 import { spawn as defaultSpawn } from "child_process";
 import { nanoid } from "nanoid";

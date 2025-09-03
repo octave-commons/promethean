@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 import { reindexAll } from "./indexer.js";
 const ROOT_PATH = process.env.ROOT_PATH;

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // loosen typing to avoid cross-package type coupling
 import { Topics } from '@promethean/event/topics.js';
 import { HeartbeatPayload, ProcessState } from './types';

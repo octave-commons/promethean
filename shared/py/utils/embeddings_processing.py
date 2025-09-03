@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Embedding utilities such as a minimal PCA implementation."""
 
 from typing import Optional

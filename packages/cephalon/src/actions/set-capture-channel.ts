@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { TextChannel } from "discord.js";
 import type { Bot } from "../bot.js";
 import type { SetCaptureChannelScope } from "./set-capture-channel.scope.js";

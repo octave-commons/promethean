@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";

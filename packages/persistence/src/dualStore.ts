@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { Collection as ChromaCollection } from 'chromadb';
 
 import { RemoteEmbeddingFunction } from '@promethean/embeddings/remote.js';

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';

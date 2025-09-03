@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { execa } from "execa";
 import { decode } from "wav-decoder";
 

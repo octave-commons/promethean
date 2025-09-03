@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export type Unsubscribe = () => void;
 export type Listener<E> = (event: E) => void | Promise<void>;
 

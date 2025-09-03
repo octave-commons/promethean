@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { WebSocketServer } from 'ws';
 import { randomUUID } from 'crypto';
 import { attachRouter } from './router.js';

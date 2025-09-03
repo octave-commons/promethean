@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// SPDX-License-Identifier: GPL-3.0-only
 import { MongoClient } from 'mongodb';
 import { makeDeterministicEmbedder } from './embedder.js';
 import { makeChromaWrapper } from './chroma.js';

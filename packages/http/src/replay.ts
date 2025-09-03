@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import express from 'express';
 
 export function startReplayAPI(store: any, { port = 8083 } = {}) {

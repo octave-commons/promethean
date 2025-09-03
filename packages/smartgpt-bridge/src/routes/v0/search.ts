@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 import { search } from "../../indexer.js";
 import { contextStore } from "../../sinks.js";

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // scripts/remove-prom-lisp-bin.ts
 import { promises as fs } from "node:fs";
 import { join } from "node:path";

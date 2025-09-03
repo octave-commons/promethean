@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-only
 """Compile Hy source files in ``services/hy`` to Python equivalents in ``services/py``."""
 from pathlib import Path
 

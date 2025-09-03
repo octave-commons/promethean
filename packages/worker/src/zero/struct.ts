@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // shared/ts/prom-lib/worker/zero/struct.ts
 // MIT. No deps. Node + browser safe.
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// SPDX-License-Identifier: GPL-3.0-only
 /**
  * apply_patch — shim for Codex-style patch tool calls.
  * Supports:

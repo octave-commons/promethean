@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { AudioPlayer, AudioResource } from "@discordjs/voice";
 import EventEmitter from "events";
 

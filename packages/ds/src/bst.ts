@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // MIT. Zero deps. Node + browser safe.
 // Balanced Binary Search Tree (AVL). Generic K,V with custom comparator.
 

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export type CodeBlock = {
   id: string; // stable hash id
   srcPath: string; // absolute source file

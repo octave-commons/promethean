@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // shared/js/brokerClient.js
 
 import WebSocket from "ws";

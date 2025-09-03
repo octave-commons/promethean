@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-only
 """Generate service scaffolding and README templates.
 
 This script previously generated README templates from existing services.

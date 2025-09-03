@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 "use strict";
 var __extends =
   (this && this.__extends) ||

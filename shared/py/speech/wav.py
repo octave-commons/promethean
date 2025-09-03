@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 import torch
 import torch.nn.functional as F
 import numpy as np

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { topic, fileBackedRegistry, mongoForTenant } from "@shared/prom-lib";
 
 export async function handleSocialMessageCreated(evt: any) {

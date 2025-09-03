@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 let client: any;
 try {
     // eslint-disable-next-line @typescript-eslint/no-var-requires

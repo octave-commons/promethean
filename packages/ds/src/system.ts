@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // ecs/strict-system.ts
 import type { World, Entity, ComponentType, Query } from './ecs';
 

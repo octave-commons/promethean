@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import * as path from "path";
 import { promises as fs } from "fs";
 import { git, isGitRepo, sanitizeBranch } from "../utils.js";

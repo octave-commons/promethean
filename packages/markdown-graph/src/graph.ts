@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import path from "path";
 import { promises as fs } from "fs";
 import { ContextStore } from "@promethean/persistence";

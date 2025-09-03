@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { AgentRuntime } from "@shared/ts/dist/agent/runtime.js";
 import { AgentEnvelope } from "@shared/ts/dist/agent/envelope.js";
 

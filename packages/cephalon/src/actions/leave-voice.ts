@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { LeaveVoiceScope } from "./leave-voice.scope.js";
 
 export type LeaveVoiceInput = {

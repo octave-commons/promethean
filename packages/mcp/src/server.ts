@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import dotenv from 'dotenv';
 import { createServer as createHttpServer } from 'http';
 import { createServer as createHttpsServer } from 'https';

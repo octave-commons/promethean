@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 import { v4 as uuidv4 } from "uuid";
 import { contextStore } from "../sinks.js";

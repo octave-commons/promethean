@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // tools/wip-sheriff.ts
 import fs from 'node:fs/promises';
 import path from 'node:path';

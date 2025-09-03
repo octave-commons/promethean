@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // Normalized provider-agnostic voice event types
 export type VoiceAudioPcm = {
     session_id: string;

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 const { createCanvas } = require("canvas");
 const fs = require("fs-extra");
 const path = require("path");

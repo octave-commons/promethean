@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-only
 """Rename changelog fragments to use the actual PR number.
 
 This script searches ``changelog.d`` for fragment files and renames them to

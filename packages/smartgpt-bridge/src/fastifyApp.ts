@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 import Fastify from "fastify";
 // Frontend assets are served by a standalone file server under `sites/`

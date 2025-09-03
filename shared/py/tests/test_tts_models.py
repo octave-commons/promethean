@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Tests for lightweight initialization of TTS models.
 
 The real OpenVINO and NumPy dependencies are heavy and not required for these

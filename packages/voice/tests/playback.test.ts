@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from "ava";
 import { Guild } from "discord.js";
 import { PassThrough } from "stream";

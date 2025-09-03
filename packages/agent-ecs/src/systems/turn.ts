@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { defineAgentComponents } from '../components';
 
 export function TurnDetectionSystem(w: any, C: ReturnType<typeof import('../components').defineAgentComponents>) {

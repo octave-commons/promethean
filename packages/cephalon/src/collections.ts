@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { AGENT_NAME } from "@promethean/legacy/env.js";
 
 import { DualStoreManager as Dual } from '@promethean/persistence/dualStore.js';

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from 'ava';
 import { RouterLLM } from '../shared/ts/dist/intention/router.js';
 import { extractCode } from '../shared/ts/dist/intention/utils.js';

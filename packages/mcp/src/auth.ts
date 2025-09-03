@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export function authorize(token: string | undefined, origin: string | undefined): boolean {
     const expectedToken = process.env.MCP_TOKEN;
     if (expectedToken && token !== expectedToken) return false;

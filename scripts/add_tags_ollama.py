@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 import subprocess
 import shutil
 from pathlib import Path

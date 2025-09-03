@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import EventEmitter from "node:events";
 import http from "node:http";
 export class Transcriber extends EventEmitter {

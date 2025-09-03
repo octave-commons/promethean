@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 /**
  * @file index.ts
  * @description This file defines the Agent class, which is responsible for managing the agent's state and interactions.

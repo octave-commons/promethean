@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import express, { Application } from "express";
 import bodyParser from "body-parser";
 import { GraphDB } from "./graph.js";

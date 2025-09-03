@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from "ava";
 import { InMemoryEventBus } from "@shared/prom-lib";
 import { GatewayPublisher } from "../src/gateway.js";

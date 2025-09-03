@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import crypto from "crypto";
 export const CONFIG_FP = (cfg) =>
   crypto.createHash("sha256").update(JSON.stringify(cfg)).digest("hex");

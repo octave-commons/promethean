@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { WebSocket, RawData } from 'ws';
 import { v4 as uuidv4 } from 'uuid';
 import { createBridge, BridgeMessage } from './bridge.js';

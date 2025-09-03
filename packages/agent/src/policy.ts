@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export type Capability =
     | { kind: 'provider.gateway.connect'; provider: string; tenant: string }
     | { kind: 'provider.rest.call'; provider: string; tenant: string; route: string }

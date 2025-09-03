@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 # shared/py/broker_client.py
 
 import asyncio

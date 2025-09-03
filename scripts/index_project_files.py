@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Index all project files into a ChromaDB collection.
 
 This script walks the repository tree, reading each file and storing its

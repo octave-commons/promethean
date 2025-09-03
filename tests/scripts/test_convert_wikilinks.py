@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Tests for ``scripts.convert_wikilinks``."""
 
 import scripts.convert_wikilinks as cw

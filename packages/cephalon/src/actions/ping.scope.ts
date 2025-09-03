@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { Logger } from "../factories/logger.js";
 import { makeLogger } from "../factories/logger.js";
 import { makePolicy, type PolicyChecker } from "../factories/policy.js";

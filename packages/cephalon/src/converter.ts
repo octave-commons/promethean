@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { Readable, PassThrough } from "node:stream";
 import * as prism from "prism-media";
 import * as wav from "wav";

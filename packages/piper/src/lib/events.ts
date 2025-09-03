@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { StepResult } from "../types.js";
 
 export type PiperEvent =

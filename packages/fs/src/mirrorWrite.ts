@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @shared/ts/dist/fsMirrorGeneric.ts
 import { promises as fs, Stats } from 'fs';
 import * as path from 'path';

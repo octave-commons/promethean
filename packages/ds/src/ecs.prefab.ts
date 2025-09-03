@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // shared/ts/prom-lib/ds/ecs.prefab.ts
 
 import { World, ComponentType } from './ecs';

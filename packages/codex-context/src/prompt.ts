@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { ChatMessage } from "./types/openai.js";
 import type { RetrieverResult } from "./retriever.js";
 

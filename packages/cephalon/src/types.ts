@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { Message } from "ollama";
 import { Bot } from "./bot.js";
 // avoid compile-time type coupling to ContextStore

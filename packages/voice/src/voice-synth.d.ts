@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import EventEmitter from "events";
 import { IncomingMessage } from "http";
 import { Readable } from "stream";

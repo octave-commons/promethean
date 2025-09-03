@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 import { User } from "./models/User.js";
 import { checkAccess } from "./utils/policyEngine.js";

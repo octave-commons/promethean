@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { JsonSchema7Type } from 'zod-to-json-schema';
 import { searchTool } from './search.js';
 

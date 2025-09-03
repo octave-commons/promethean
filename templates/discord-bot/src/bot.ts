@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { Client, GatewayIntentBits, Message } from "discord.js";
 
 export class Bot {

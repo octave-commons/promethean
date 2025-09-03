@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { VoiceConnection } from "@discordjs/voice";
 import * as discord from "discord.js";
 import { Speaker } from "./speaker";

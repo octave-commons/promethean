@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { fileBackedRegistry } from "@shared/prom-lib";
 import { makeChromaWrapper } from "@shared/prom-lib";
 import { makeDeterministicEmbedder } from "@shared/prom-lib";

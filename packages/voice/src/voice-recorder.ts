@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 /** Handles saving pcm data to wav files on disk.
     In the future it will also accept other formats.
     */

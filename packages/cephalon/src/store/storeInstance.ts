@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { createStore } from "./createStore.js";
 import { initialState, reducer } from "./reducer.js";
 import { registerVoiceEffects } from "./effects/voice.js";

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { formatMessage } from "@promethean/persistence/contextStore.js";
 import { generatePromptChoice, generateSpecialQuery } from "../util.js";
 import type { AIAgent } from "./index.js";

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 import { ContextStore } from "@promethean/persistence/contextStore.js";
 

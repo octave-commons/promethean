@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // integration: exercises real ws server
 import test from "ava";
 import { WebSocketServer } from "ws";

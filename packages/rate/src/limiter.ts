@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export class TokenBucket {
     private capacity: number;
     private tokens: number;

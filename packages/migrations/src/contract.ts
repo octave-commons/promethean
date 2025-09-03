@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { Db } from 'mongodb';
 import type { ChromaWrapper } from './chroma.js';
 

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { parse } from './parser';
 import { lower } from './lower';
 import { compileToBytecode, runBytecode } from './vm';

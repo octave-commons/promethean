@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // scripts/patch-imports.js
 import fs from "fs/promises";
 import path from "path";

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // PM2 ecosystem configuration for Promethean SmartGPT Bridge
 // Usage:
 //   ROOT_PATH=/abs/path/to/repo pnpm dlx pm2 start ecosystem.config.js --env production

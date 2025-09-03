@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { Event } from "../events.js";
 
 type Bus = { publish: (msg: any) => void };

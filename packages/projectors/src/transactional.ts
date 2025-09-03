@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 import type { Db, ClientSession } from 'mongodb';
 import type { EventBus, EventRecord } from '@promethean/event/types.js';

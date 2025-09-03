@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // src/04-name.ts
 import { promises as fs } from "fs";
 import * as path from "path";

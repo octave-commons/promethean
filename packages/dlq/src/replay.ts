@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // Loosen types to decouple cross-package declarations at build time
 import { dlqTopic } from './types';
 

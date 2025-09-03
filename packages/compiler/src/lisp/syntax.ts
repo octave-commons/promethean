@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export type Span = { start: number; end: number; line: number; col: number };
 export type Sym = { t: 'sym'; name: string; gensym?: string; span?: Span };
 export type Num = { t: 'num'; v: number; span?: Span };

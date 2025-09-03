@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 import crypto from "crypto";
 import { User } from "../../models/User.js";

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 "use strict";
 // @ts-nocheck
 // Lazy/optional node-pty wrapper so tests and unsupported runtimes don't explode.

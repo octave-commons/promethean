@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from 'ava';
 import path from 'node:path';
 import { fileBackedRegistry } from '../provider-registry.js';

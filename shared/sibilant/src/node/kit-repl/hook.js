@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 module.exports = function (obj) {
     if (obj.hook || obj.unhook) {
         throw new Error('Object already has properties hook and/or unhook');

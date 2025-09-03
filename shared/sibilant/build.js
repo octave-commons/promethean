@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 console.log('yo');
 import lith from './dist/lang/sibilant.js';
 import { mirrorWithHandler } from '@shared/ts/dist/fs/mirrorWrite.js';

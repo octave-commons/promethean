@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { Diag, assert } from './common';
 import type { Tok } from './lexer';
 import { lex } from './lexer';

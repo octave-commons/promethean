@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Tests for ``scripts.kanban.kanban_to_hashtags``."""
 
 from scripts.kanban import kanban_to_hashtags as kh

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { Bot } from "../bot.js";
 import type * as discord from "discord.js";
 import { makeLogger, type Logger } from "../factories/logger.js";

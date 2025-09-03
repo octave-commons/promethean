@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { AgentEnvelope } from "@shared/ts/dist/agent/envelope.js";
 
 type Handler = (msg: AgentEnvelope<any>) => Promise<void>;

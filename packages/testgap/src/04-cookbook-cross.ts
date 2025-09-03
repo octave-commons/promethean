@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 /* eslint-disable no-console */
 import { globby } from "globby";
 import * as path from "path";

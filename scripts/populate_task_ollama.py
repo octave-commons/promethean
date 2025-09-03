@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-only
 """Populate a new task file with starter content using ollama."""
 import subprocess
 import shutil

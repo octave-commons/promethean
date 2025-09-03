@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from 'ava';
 import { WebSocket } from 'ws';
 import { start, setGenerateFn } from '../dist/index.js';

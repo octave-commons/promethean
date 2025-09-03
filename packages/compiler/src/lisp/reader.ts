@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { Span, S, Sym, List, Nil, num, str, bool, sym, list, nil } from './syntax';
 
 type Tok =

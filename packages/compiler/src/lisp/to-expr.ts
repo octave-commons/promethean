@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { Expr } from '../ast';
 import { name as mkName } from '../ast';
 import { S, List, Sym, Num, Str, Bool, Nil, isList, isSym, list, sym } from './syntax';

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Broker-tied heartbeat helper for Python services.
 
 This publishes heartbeat events using the canonical BrokerClient so that

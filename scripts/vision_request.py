@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 import requests
 
 url = "http://localhost:8080/vision/capture"

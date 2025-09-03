@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // loose typing
 import type { defineAgentComponents } from '../components';
 

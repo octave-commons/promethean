@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-only
 """Pre-commit hook to validate changelog entries.
 
 - Ensures each PR adds at most one fragment in ``changelog.d`` by checking for

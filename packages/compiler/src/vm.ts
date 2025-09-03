@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { Module, Fun, Stmt, Rhs } from './ir';
 
 export type OpCode =

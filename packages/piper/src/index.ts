@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// SPDX-License-Identifier: GPL-3.0-only
 import * as path from "path";
 import { runPipeline, watchPipeline } from "./runner.js";
 

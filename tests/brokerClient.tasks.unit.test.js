@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from 'ava';
 import { BrokerClient } from '@shared/js/brokerClient.js';
 import { getMemoryBroker, resetMemoryBroker } from '@shared/ts/dist/test-utils/broker.js';

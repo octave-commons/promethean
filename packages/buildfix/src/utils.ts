@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { exec as _exec } from "child_process";
 import { promises as fs } from "fs";
 import * as path from "path";

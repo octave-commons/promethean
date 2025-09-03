@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { makeDeterministicEmbedder } from "@promethean/migrations/embedder.js";
 import { fileBackedRegistry } from "@promethean/platform/provider-registry.js";
 import { makeChromaWrapper } from "@promethean/migrations/chroma.js";

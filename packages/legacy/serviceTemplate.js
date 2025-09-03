@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // shared/js/serviceTemplate.js
 
 import { BrokerClient } from './brokerClient.js';

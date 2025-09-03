@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { Span } from './common';
 
 export type Name = { kind: 'Name'; text: string; span: Span };

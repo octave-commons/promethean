@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from "ava";
 import { buildAugmentedPrompt } from "../prompt.js";
 test("buildAugmentedPrompt appends context with citations", (t) => {

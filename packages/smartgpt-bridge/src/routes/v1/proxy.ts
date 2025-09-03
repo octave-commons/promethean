@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 export function proxy(fastify, method, urlBuilder, payloadBuilder) {
   return async function (req, reply) {

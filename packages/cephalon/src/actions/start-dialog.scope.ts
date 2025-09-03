@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import * as discord from "discord.js";
 import { AudioPlayerStatus } from "@discordjs/voice";
 import { randomUUID } from "crypto";

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import runPing from "../../actions/ping.js";
 import { buildPingScope } from "../../actions/ping.scope.js";
 import type { Event } from "../events.js";

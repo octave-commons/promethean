@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { start } from "./agent.js";
 
 // Your real runtime wiring should create an AgentRuntime instance and call start(rt).

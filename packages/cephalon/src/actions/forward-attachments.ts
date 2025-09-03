@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { Message, TextChannel } from "discord.js";
 import type { ForwardAttachmentsScope } from "./forward-attachments.scope.js";
 import { pushVisionFrame } from "@promethean/agent-ecs/helpers/pushVision.js";

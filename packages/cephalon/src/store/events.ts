@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export type Event =
   | {
       type: "VOICE/LEAVE_REQUESTED";

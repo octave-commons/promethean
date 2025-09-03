@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { S, List, Sym, list, sym, isList, isSym, gensym } from './syntax';
 import { qq } from './qq';
 

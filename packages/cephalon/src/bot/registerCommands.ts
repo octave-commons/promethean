@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { Bot } from "../bot.js";
 import type { RESTPostAPIChatInputApplicationCommandsJSONBody } from "discord.js";
 import * as leaveVoice from "../commands/leave-voice.js";

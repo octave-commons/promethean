@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 /**
  * @deprecated Persistence now uses @shared/ts/persistence/DualStore.

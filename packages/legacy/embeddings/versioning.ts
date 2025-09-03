@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import crypto from "crypto";
 export type EmbedConfig = {
   driver: string;

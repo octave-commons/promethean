@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { PiperStep } from "../types.js";
 
 export function topoSort(steps: PiperStep[]): PiperStep[] {

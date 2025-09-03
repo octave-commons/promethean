@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 const { spawn } = require("child_process");
 const fs = require("fs/promises");
 const path = require("path");

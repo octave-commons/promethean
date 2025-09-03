@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import * as path from "path";
 import { tsc } from "../utils.js";
 

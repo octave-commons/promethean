@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { User } from "discord.js";
 import EventEmitter from "node:events";
 import http, { RequestOptions } from "node:http";

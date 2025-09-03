@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // Loose typing to avoid cross-package type coupling during build
 
 export type BargeIn = 'none' | 'duck' | 'pause' | 'stop';

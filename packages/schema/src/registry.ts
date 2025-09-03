@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { z, ZodTypeAny } from 'zod';
 
 export type Compat = 'none' | 'backward' | 'forward';

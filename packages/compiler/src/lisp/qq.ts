@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { S, List, Sym, Nil, isList, isSym, list, sym, nil } from './syntax';
 
 export function qq(expr: S, env: Record<string, S>): S {

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export type FnId = string; // from @promethean/simtasks FunctionInfo.id
 
 export type ModSpec = {

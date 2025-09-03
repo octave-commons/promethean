@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export type CodeBlock = {
   id: string;
   source: "doc" | "example" | "readme";

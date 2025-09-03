@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 import torch
 import torchaudio
 from transformers import Wav2Vec2ForCTC, Wav2Vec2Processor

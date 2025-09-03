@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Tests for :mod:`scripts.add_tags_ollama`."""
 
 import shutil

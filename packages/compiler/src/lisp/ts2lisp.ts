@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { jsToLisp } from './js2lisp';
 
 export interface TsToLispOptions {

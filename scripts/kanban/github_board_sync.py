@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Synchronize local kanban board with a GitHub Projects board."""
 
 import argparse

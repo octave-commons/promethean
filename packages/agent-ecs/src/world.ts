@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { World, Entity } from '@promethean/ds/ecs.js';
 import { defineAgentComponents } from './components';
 import { VADUpdateSystem } from './systems/vad';

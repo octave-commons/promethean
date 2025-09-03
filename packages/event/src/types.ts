@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export type UUID = string;
 export type Millis = number;
 export type Vec8 = [number, number, number, number, number, number, number, number];

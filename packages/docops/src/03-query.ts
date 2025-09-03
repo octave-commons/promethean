@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { parseArgs, cosine, writeJSON, readJSON } from "./utils";
 import type { Chunk, QueryHit } from "./types";
 import * as path from "path";

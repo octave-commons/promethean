@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { MongoClient, Collection } from 'mongodb';
 
 export type Phase = 'prepare' | 'backfill' | 'cdc' | 'dualwrite' | 'cutover' | 'decommission';

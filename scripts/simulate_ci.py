@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-only
 """Simulate GitHub Actions pull_request workflows locally."""
 
 from __future__ import annotations

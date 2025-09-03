@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export type Span = { start: number; end: number; line: number; col: number };
 export class Diag extends Error {
     constructor(

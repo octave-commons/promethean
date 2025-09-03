@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import ts from 'typescript';
 
 // Structural pattern matching with extended wildcard support

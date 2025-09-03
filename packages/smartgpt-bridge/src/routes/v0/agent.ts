@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 import path from "path";
 import { AgentSupervisor as NewAgentSupervisor } from "../../agentSupervisor.js";

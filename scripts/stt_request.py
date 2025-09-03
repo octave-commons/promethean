@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Convenience script for invoking the STT service."""
 
 from shared.py.speech.service_clients import send_wav_as_pcm

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export function sseInit(reply: any) {
   reply.raw.setHeader("Content-Type", "text/event-stream");
   reply.raw.setHeader("Cache-Control", "no-cache");
