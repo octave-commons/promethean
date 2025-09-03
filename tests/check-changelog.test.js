@@ -2,10 +2,9 @@ import test from "ava";
 import { mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import {
-	checkDuplicateFragments,
-	changelogModified,
-} from "../scripts/check-changelog.ts";
+import changelog from "../scripts/check-changelog.cjs";
+
+const { checkDuplicateFragments, changelogModified } = changelog;
 
 const makeTempDir = () => mkdtempSync(path.join(tmpdir(), "changelog-"));
 
