@@ -18,7 +18,7 @@ const charMap: { [key: string]: string } = {
 };
 function escapeUnsafeChars(str: string): string {
   return str.replace(
-    /[<>\b\f\n\r\t\0\u2028\u2029]/g,
+    /[<>\b\f\n\r\t\0\u2028\u2029\\]/g,
     (x) => charMap[x] || x
   );
 }
