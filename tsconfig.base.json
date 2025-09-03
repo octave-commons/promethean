@@ -1,21 +1,20 @@
 {
-    "$schema": "https://json.schemastore.org/tsconfig.json",
-    "compilerOptions": {
-        "target": "ES2022",
-        "module": "ESNext",
-        "moduleResolution": "Node",
-        "strict": true,
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "skipLibCheck": true,
-        "declaration": true,
-        "declarationMap": true,
-        "importHelpers": false,
-        "newLine": "lf",
-        "noEmitHelpers": true,
-        "removeComments": false,
-        "sourceMap": true,
-        "lib": ["ES2022"],
-        "types": ["node", "ava"]
-    }
+  "$schema": "https://json.schemastore.org/tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "declarationMap": true,
+    "importHelpers": false,
+    "newLine": "lf",
+    "removeComments": false,
+    "sourceMap": true,
+    "lib": ["ES2022"],
+    "types": ["node", "ava"]
+  }
 }
