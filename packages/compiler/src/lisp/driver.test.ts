@@ -13,7 +13,8 @@ test('lisp: macro expansion', (t) => {
   `;
     t.is(runLisp(src), 42);
 });
-
+// TODO(#672): Remove skip once class instantiation is supported. Track at
+// https://github.com/riatzukiza/promethean/issues/672
 test.skip('lisp: class definition and method call', (t) => {
     const src = `
     (defclass Point (x y)
