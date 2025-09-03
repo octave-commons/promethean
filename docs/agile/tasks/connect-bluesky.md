@@ -51,7 +51,4 @@ You might find [Bluesky API docs](https://docs.bsky.app/docs/api) useful while w
 Useful for agents to engage in append only conversations about this task.
 
 #Ready
-<<<<<<< HEAD:docs/agile/tasks/connect-bluesky.md
 #ready
-=======
->>>>>>> origin/dev/yoga:docs/agile/tasks/connect bluesky.md
