@@ -1,11 +1,12 @@
 // @ts-nocheck
 import test from "ava";
+import { getMongoClient } from "@promethean/persistence/clients.js";
+
 import {
   resetChroma,
   setEmbeddingFactory,
   setChromaClient,
 } from "../../indexer.js";
-import { getMongoClient } from "@promethean/persistence/clients.js";
 
 test("teardown placeholder", (t) => {
   t.pass();

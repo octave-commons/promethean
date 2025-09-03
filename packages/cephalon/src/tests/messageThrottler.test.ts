@@ -1,11 +1,13 @@
+import path from "path";
+import { fileURLToPath } from "url";
+
 import test from "ava";
-process.env.DISABLE_AUDIO = "1";
+
 import { AIAgent } from "../agent.js";
 import type { Bot } from "../bot.js";
 // avoid compile-time coupling to ContextStore type
 import { initMessageThrottler } from "../messageThrottler.js";
-import path from "path";
-import { fileURLToPath } from "url";
+process.env.DISABLE_AUDIO = "1";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // @ts-ignore dynamic import of JS module without types

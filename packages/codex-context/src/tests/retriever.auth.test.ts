@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { SmartGptrRetriever } from "../retriever.js";
 
 const calls: any[] = [];

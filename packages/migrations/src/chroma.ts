@@ -1,18 +1,18 @@
 type UpsertItem = { id: string; embedding: number[]; metadata?: Record<string, any>; document?: string };
 
-export interface ChromaConfig {
+export type ChromaConfig = {
     url: string; // CHROMA_URL
     prefix?: string; // collection prefix e.g., prom_
     collection: string; // logical collection name
     embeddingDim: number; // guard
-}
+};
 
-export interface ChromaWrapper {
+export type ChromaWrapper = {
     ensureCollection(): Promise<void>;
     upsert(items: UpsertItem[]): Promise<void>;
     delete(ids: string[]): Promise<void>;
     count(): Promise<number>;
-}
+};
 
 export function makeChromaWrapper(cfg: ChromaConfig): ChromaWrapper {
     // Minimal, adapter-agnostic wrapper. Replace internals with real chromadb client as needed.

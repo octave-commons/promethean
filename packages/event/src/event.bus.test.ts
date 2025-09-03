@@ -1,5 +1,6 @@
 import test from 'ava';
-import { InMemoryEventBus } from './memory';
+import { InMemoryEventBus } from './memory.js';
+import type { EventRecord } from './types.js';
 
 test('event bus: publish/subscribe earliest', async (t) => {
     const bus = new InMemoryEventBus();
@@ -8,7 +9,7 @@ test('event bus: publish/subscribe earliest', async (t) => {
     const unsub = await bus.subscribe(
         't.a',
         'g1',
-        async (e) => {
+        async (e: EventRecord) => {
             seen.push(e.payload as string);
         },
         { from: 'earliest' },
@@ -32,7 +33,7 @@ test('event bus: nack leaves cursor and retries', async (t) => {
     const unsub = await bus.subscribe(
         't.b',
         'g1',
-        async (_e) => {
+        async (_e: EventRecord) => {
             attempts++;
             if (attempts === 1) throw new Error('boom');
         },
@@ -52,7 +53,7 @@ test('event bus: manual ack requires explicit ack', async (t) => {
     const unsub = await bus.subscribe(
         't.c',
         'g1',
-        async (e) => {
+        async (e: EventRecord) => {
             lastId = e.id;
         },
         { from: 'earliest', manualAck: true },
@@ -64,7 +65,11 @@ test('event bus: manual ack requires explicit ack', async (t) => {
     let cur = await bus.getCursor('t.c', 'g1');
     t.is(cur?.lastId, undefined);
 
-    await bus.ack('t.c', 'g1', lastId!);
+    if (!lastId) {
+        t.fail('lastId not set');
+        return;
+    }
+    await bus.ack('t.c', 'g1', lastId);
     cur = await bus.getCursor('t.c', 'g1');
     t.is(cur?.lastId, lastId);
     await unsub();

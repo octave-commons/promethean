@@ -5,17 +5,18 @@ import remarkStringify from 'remark-stringify';
 import { visit } from 'unist-util-visit';
 import matter from 'gray-matter';
 import { v4 as uuidv4 } from 'uuid';
+
 import { STATUS_SET } from './statuses.js';
 
-export interface TaskFrontmatter {
+export type TaskFrontmatter = {
     [key: string]: any;
-}
+};
 
-export interface TaskDoc {
+export type TaskDoc = {
     id: string;
     title: string;
     hashtags: string[]; // includes status hashtag when present
-}
+};
 
 export class MarkdownTask {
     private readonly original: string;

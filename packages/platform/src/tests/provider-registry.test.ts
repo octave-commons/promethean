@@ -1,5 +1,7 @@
-import test from 'ava';
 import path from 'node:path';
+
+import test from 'ava';
+
 import { fileBackedRegistry } from '../provider-registry.js';
 
 test('loads providers.yml and expands env', async (t) => {

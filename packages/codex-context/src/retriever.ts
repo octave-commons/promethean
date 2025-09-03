@@ -1,4 +1,5 @@
 import nodeFetch from "node-fetch";
+
 import { createLogger } from "./logger.js";
 
 export type SearchHit = {
@@ -34,12 +35,12 @@ export type RetrieverOptions = {
   n?: number;
 };
 
-export interface Retriever {
+export type Retriever = {
   retrieve(
     query: string,
     opts?: Partial<RetrieverOptions>,
   ): Promise<RetrieverResult>;
-}
+};
 
 export class SmartGptrRetriever implements Retriever {
   private fetcher: (url: string, init?: any) => Promise<any>;
@@ -76,7 +77,7 @@ export class SmartGptrRetriever implements Retriever {
         headers,
         body: JSON.stringify({ q: query, n }),
       });
-      const js = (await s.json()) as any;
+      const js = await s.json();
       const results = Array.isArray(js?.results)
         ? js.results
         : js?.results?.results || [];
@@ -108,7 +109,7 @@ export class SmartGptrRetriever implements Retriever {
         headers,
         body: JSON.stringify({ query, limit: 50 }),
       });
-      const js = (await resp.json()) as any;
+      const js = await resp.json();
       const arr = Array.isArray(js?.results) ? js.results : [];
       out.symbols = arr.map((s: any) => ({
         path: String(s.path || ""),
@@ -136,7 +137,7 @@ export class SmartGptrRetriever implements Retriever {
           context: 1,
         }),
       });
-      const js = (await resp.json()) as any;
+      const js = await resp.json();
       const arr = Array.isArray(js?.results) ? js.results : [];
       out.grep = arr.map((g: any) => ({
         path: String(g.path || ""),

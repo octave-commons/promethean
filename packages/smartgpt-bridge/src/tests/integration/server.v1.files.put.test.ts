@@ -1,7 +1,9 @@
 // @ts-nocheck
-import test from "ava";
 import fs from "node:fs/promises";
 import path from "node:path";
+
+import test from "ava";
+
 import { withServer } from "../helpers/server.js";
 
 const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");

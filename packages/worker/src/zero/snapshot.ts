@@ -4,12 +4,12 @@ type Transferable = ArrayBuffer | SharedArrayBuffer;
 
 export type ComponentRef = any;
 
-export interface WorldLike {
+export type WorldLike = {
     iter(query: any): IterableIterator<[number, ...any[]]>;
     get(eid: number, type: ComponentRef): any;
     set(eid: number, type: ComponentRef, value: any): void;
     isAlive(eid: number): boolean;
-}
+};
 
 export type BuildSpec = {
     layouts: CompLayout[];
@@ -33,13 +33,13 @@ export function buildSnapshot(world: WorldLike, spec: BuildSpec, query: any): { 
 
     let i = 0;
     for (const [e] of world.iter(query)) {
-        eids[i] = e as number;
+        eids[i] = e;
         for (const L of spec.layouts) {
             const ctype = spec.types[L.cid];
-            const v = world.get(e as number, ctype);
+            const v = world.get(e, ctype);
             if (v == null) continue;
             for (const field of Object.keys(L.fields)) {
-                (comps[L.cid].fields[field] as any)[i] = (v as any)[field] ?? 0;
+                (comps[L.cid].fields[field] as any)[i] = v[field] ?? 0;
             }
         }
         i++;
@@ -77,7 +77,7 @@ export function commitSnapshot(world: WorldLike, spec: BuildSpec, snap: Snap) {
             if (!world.isAlive(eid)) continue;
             const cur = world.get(eid, ctype) ?? {};
             for (const [field, arr] of Object.entries(cols.fields)) {
-                (cur as any)[field] = (arr as any)[i];
+                cur[field] = (arr as any)[i];
             }
             world.set(eid, ctype, cur);
         }

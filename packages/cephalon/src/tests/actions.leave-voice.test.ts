@@ -1,4 +1,5 @@
 import test from "ava";
+
 import runLeave from "../actions/leave-voice.js";
 import type { LeaveVoiceScope } from "../actions/leave-voice.scope.js";
 import { NotAllowedError } from "../factories/policy.js";

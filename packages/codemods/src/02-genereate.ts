@@ -1,18 +1,22 @@
-/* eslint-disable no-console */
 import { promises as fs } from "fs";
 import * as path from "path";
+
 import { readJSON } from "./utils.js";
 import type { ModSpecFile, ModSpec } from "./types.js";
 
 const args = parseArgs({
   "--in": ".cache/codemods/specs.json",
-  "--outDir": "codemods" // relative to repo root
+  "--outDir": "codemods", // relative to repo root
 });
-function parseArgs(defaults: Record<string,string>) {
+function parseArgs(defaults: Record<string, string>) {
   const out = { ...defaults };
   const a = process.argv.slice(2);
-  for (let i=0;i<a.length;i++){ const k=a[i]; if(!k.startsWith("--")) continue;
-    const v=a[i+1] && !a[i+1].startsWith("--") ? a[++i] : "true"; out[k]=v; }
+  for (let i = 0; i < a.length; i++) {
+    const k = a[i];
+    if (!k.startsWith("--")) continue;
+    const v = a[i + 1] && !a[i + 1].startsWith("--") ? a[++i] : "true";
+    out[k] = v;
+  }
   return out;
 }
 
@@ -20,7 +24,9 @@ function transformTemplate(spec: ModSpec) {
   return `/* AUTO-GENERATED: ${spec.clusterId} — ${spec.title}
    * Canonical: ${spec.canonical.name} @ ${spec.canonical.path}
    * Param order: ${spec.canonical.params?.join(", ") || "(unknown)"}
-   * Duplicates: ${spec.duplicates.map(d => d.name + " in " + d.file).join(", ")}
+   * Duplicates: ${spec.duplicates
+     .map((d) => d.name + " in " + d.file)
+     .join(", ")}
    */
 import { Project, SyntaxKind, Node } from "ts-morph";
 import * as path from "path";
@@ -31,12 +37,12 @@ const CANONICAL_NAME = ${JSON.stringify(spec.canonical.name)};
 const CANONICAL_PARAMS = ${JSON.stringify(spec.canonical.params ?? [])};
 
 const DUPLICATES = ${JSON.stringify(
-  spec.duplicates.map(d => ({
-    name: d.name,
-    file: d.file,
-    paramMap: d.paramMap ?? [],
-  }))
-)};
+    spec.duplicates.map((d) => ({
+      name: d.name,
+      file: d.file,
+      paramMap: d.paramMap ?? [],
+    })),
+  )};
 
 function reorderArgs(textArgs: string[], paramMap: number[], haveCanonParams: boolean): string[] {
   if (!haveCanonParams || !paramMap.length) return textArgs;
@@ -146,19 +152,39 @@ async function main() {
   for (const spec of data.specs) {
     const dir = path.join(OUT_DIR, spec.clusterId);
     await fs.mkdir(dir, { recursive: true });
-    await fs.writeFile(path.join(dir, "transform.ts"), transformTemplate(spec), "utf-8");
+    await fs.writeFile(
+      path.join(dir, "transform.ts"),
+      transformTemplate(spec),
+      "utf-8",
+    );
 
     const md = [
       `# ${spec.title}`,
       "",
       `- Canonical: \`${spec.canonical.name}\` @ \`${spec.canonical.path}\``,
-      `- Canonical params: ${spec.canonical.params?.length ? "`" + spec.canonical.params.join(", ") + "`" : "_unknown_"}`,
+      `- Canonical params: ${
+        spec.canonical.params?.length
+          ? "`" + spec.canonical.params.join(", ") + "`"
+          : "_unknown_"
+      }`,
       `- Duplicates:`,
-      ...spec.duplicates.map(d => `  - \`${d.name}\` — \`${d.file}\`${d.params?.length ? " (params: `" + d.params.join(", ") + "`)" : ""}${d.paramMap?.length ? " (map " + d.paramMap.join(",") + ")" : ""}`),
-      ""
+      ...spec.duplicates.map(
+        (d) =>
+          `  - \`${d.name}\` — \`${d.file}\`${
+            d.params?.length ? " (params: `" + d.params.join(", ") + "`)" : ""
+          }${d.paramMap?.length ? " (map " + d.paramMap.join(",") + ")" : ""}`,
+      ),
+      "",
     ].join("\n");
     await fs.writeFile(path.join(dir, "README.md"), md, "utf-8");
   }
-  console.log(`codemods:02-generate → wrote ${data.specs.length} transforms in ${path.relative(process.cwd(), OUT_DIR)}`);
+  console.log(
+    `codemods:02-generate → wrote ${
+      data.specs.length
+    } transforms in ${path.relative(process.cwd(), OUT_DIR)}`,
+  );
 }
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

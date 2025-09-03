@@ -1,7 +1,8 @@
 import test from "ava";
-process.env.DISABLE_AUDIO = "1";
+
 import { AIAgent } from "../agent.js";
 import type { Bot } from "../bot.js";
+process.env.DISABLE_AUDIO = "1";
 //
 
 test.skip("agent updates tick interval", (t) => {

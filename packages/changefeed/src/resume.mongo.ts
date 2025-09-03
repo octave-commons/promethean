@@ -5,7 +5,7 @@ export function tokenStore(db: Db, key = 'changefeed:default') {
     return {
         async load(): Promise<ResumeToken | null> {
             const d = await coll.findOne({ _id: key });
-            return (d?.token as any) ?? null;
+            return d?.token ?? null;
         },
         async save(token: ResumeToken) {
             await coll.updateOne({ _id: key }, { $set: { token } }, { upsert: true });

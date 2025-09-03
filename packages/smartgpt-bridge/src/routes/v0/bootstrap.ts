@@ -1,5 +1,6 @@
 // @ts-nocheck
 import crypto from "crypto";
+
 import { User } from "../../models/User.js";
 
 function requireLocal(req, reply, done) {

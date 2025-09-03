@@ -1,14 +1,14 @@
-export interface EmbedderConfig {
+export type EmbedderConfig = {
     modelId: string; // e.g., qwen2.5-embed:2025-08-01
     dim: number; // e.g., 1536
-}
+};
 
-export interface Embedder {
+export type Embedder = {
     readonly modelId: string;
     readonly dim: number;
     embedOne(text: string | { type: string; data: string }): Promise<number[]>;
     embedMany(texts: Array<string | { type: string; data: string }>): Promise<number[][]>;
-}
+};
 
 export function makeDeterministicEmbedder(cfg: EmbedderConfig): Embedder {
     function hashToVec(s: string, dim: number): number[] {

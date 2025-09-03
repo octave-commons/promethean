@@ -1,12 +1,13 @@
 import type * as EST from 'estree';
+
 import { S, Sym, Num, Str, Bool, Nil, List, sym, num, str, bool, list, nil } from './syntax';
 
-export interface Js2LispOptions {
+export type Js2LispOptions = {
     // When true, try to fold "let v; v = EXPR;" into one (let ((v EXPR)) ...)
     foldLetInits?: boolean;
     // Map certain globals to (js/global "...") instead of identifiers.
     globals?: string[]; // e.g., ["document", "Image", "console"]
-}
+};
 
 /** Convert a whole Program AST to a list of Lisp forms. */
 export function estreeProgramToLisp(ast: EST.Program, opts: Js2LispOptions = {}): S[] {
@@ -17,7 +18,7 @@ export function estreeProgramToLisp(ast: EST.Program, opts: Js2LispOptions = {})
             ce.type === 'CallExpression' &&
             (ce.callee.type === 'FunctionExpression' || ce.callee.type === 'ArrowFunctionExpression')
         ) {
-            const fn = ce.callee as EST.FunctionExpression | EST.ArrowFunctionExpression;
+            const fn = ce.callee;
             // Take function body statements
             const forms = stmtsToForms(asBlockBody(fn.body), opts);
             return forms;
@@ -59,7 +60,7 @@ function stmt(n: EST.Statement, opts: Js2LispOptions): S | null {
             return list([sym('let'), list(pairs), sym('nil')]);
         }
         case 'ExpressionStatement':
-            return expr(n.expression as EST.Expression, opts);
+            return expr(n.expression, opts);
         case 'ReturnStatement':
             return n.argument ? expr(n.argument, opts) : sym('nil');
         case 'IfStatement': {
@@ -113,7 +114,7 @@ function expr(n: EST.Expression, opts: Js2LispOptions): S {
         }
         case 'BinaryExpression': {
             const a = expr(n.left as EST.Expression, opts),
-                b = expr(n.right as EST.Expression, opts);
+                b = expr(n.right, opts);
             return list([sym(n.operator as any), a, b]);
         }
         case 'LogicalExpression': {
@@ -176,7 +177,7 @@ function expr(n: EST.Expression, opts: Js2LispOptions): S {
             for (let i = 0; i < n.quasis.length; i++) {
                 const q = n.quasis[i];
                 if (q.value.cooked) parts.push(str(q.value.cooked));
-                if (i < n.expressions.length) parts.push(expr(n.expressions[i] as EST.Expression, opts));
+                if (i < n.expressions.length) parts.push(expr(n.expressions[i], opts));
             }
             return list([sym('+'), ...parts]);
         default:

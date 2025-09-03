@@ -1,4 +1,5 @@
 import test from "ava";
+
 import execute, { data } from "../commands/join-voice.js";
 
 function makeInteraction() {
@@ -26,7 +27,7 @@ test("join-voice command defers and dispatches event", async (t) => {
       dispatched.push(e);
     },
   };
-  await execute(interaction as any, ctx);
+  await execute(interaction, ctx);
   t.is((data as any).name, "join-voice");
   t.deepEqual(interaction.calls[0], ["deferReply", { ephemeral: true }]);
   t.deepEqual(dispatched[0], {

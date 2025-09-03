@@ -1,9 +1,12 @@
 // @ts-nocheck
 import { createRequire } from "module";
 import crypto from "crypto";
+
 import { createRemoteJWKSet, jwtVerify, decodeProtectedHeader } from "jose";
 
 // Route modules (legacy)
+import { logger } from "../../logger.js";
+
 import { registerFilesRoutes } from "./files.js";
 import { registerSearchRoutes } from "./search.js";
 import { registerIndexerRoutes } from "./indexer.js";
@@ -14,7 +17,6 @@ import { registerExecRoutes } from "./exec.js";
 import { registerSinkRoutes } from "./sinks.js";
 import { registerUserRoutes } from "./users.js";
 import { registerPolicyRoutes } from "./policies.js";
-import { logger } from "../../logger.js";
 import { registerBootstrapRoutes } from "./bootstrap.js";
 
 function parseCookies(req) {
