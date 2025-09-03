@@ -1,4 +1,4 @@
-import type { LLM } from './llm';
+import type { LLM } from './llm.js';
 
 export class OpenAICompatLLM implements LLM {
     constructor(
@@ -38,7 +38,9 @@ export class OpenAICompatLLM implements LLM {
             }),
         });
         if (!r.ok) throw new Error(`openai-compat ${r.status}: ${await r.text().catch(() => '<no body>')}`);
-        const j: any = await r.json();
+        const j = (await r.json()) as {
+            choices?: { message?: { content?: string } }[];
+        };
         const text = j.choices?.[0]?.message?.content ?? '';
         return text.replace(/^```[\w-]*\n?|\n?```$/g, '');
     }
