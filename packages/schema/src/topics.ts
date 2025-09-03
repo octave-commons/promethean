@@ -1,4 +1,5 @@
 import { z } from 'zod';
+
 import { SchemaRegistry } from './registry';
 
 export const reg = new SchemaRegistry();

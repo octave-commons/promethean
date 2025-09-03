@@ -1,7 +1,8 @@
-import test from 'ava';
 import os from 'os';
 import { promises as fs } from 'fs';
 import { join } from 'path';
+
+import test from 'ava';
 import { MarkdownBoard } from '@promethean/markdown/kanban.js';
 import {
     stripHash,

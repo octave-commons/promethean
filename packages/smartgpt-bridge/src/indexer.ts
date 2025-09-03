@@ -1,8 +1,10 @@
 // @ts-nocheck
 import fs from "fs/promises";
 import path from "path";
+
 import fg from "fast-glob";
 import { ChromaClient } from "chromadb";
+
 import { RemoteEmbeddingFunction } from "./remoteEmbedding.js";
 import { logger } from "./logger.js";
 import {

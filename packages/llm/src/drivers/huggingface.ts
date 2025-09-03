@@ -1,4 +1,5 @@
 import { HfInference } from '@huggingface/inference';
+
 import { LLMDriver, GenerateArgs } from './base.js';
 
 export class HuggingFaceDriver implements LLMDriver {

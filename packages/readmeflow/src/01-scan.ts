@@ -1,17 +1,19 @@
-/* eslint-disable no-console */
 import { promises as fs } from "fs";
 import * as path from "path";
+
 import { parseArgs, readMaybe, writeJSON } from "./utils.js";
 import type { PkgInfo, ScanOut } from "./types.js";
 
 const args = parseArgs({
   "--root": "packages",
-  "--out": ".cache/readmes/scan.json"
+  "--out": ".cache/readmes/scan.json",
 });
 
 async function main() {
   const ROOT = path.resolve(args["--root"]);
-  const dirs = (await fs.readdir(ROOT, { withFileTypes: true })).filter(e => e.isDirectory()).map(e => e.name);
+  const dirs = (await fs.readdir(ROOT, { withFileTypes: true }))
+    .filter((e) => e.isDirectory())
+    .map((e) => e.name);
 
   const pkgMap = new Map<string, PkgInfo>();
   for (const d of dirs) {
@@ -21,20 +23,33 @@ async function main() {
       const json = JSON.parse(await fs.readFile(pj, "utf-8"));
       const name = json.name ?? d;
       const info: PkgInfo = {
-        name, version: json.version ?? "0.0.0", dir,
-        description: json.description, bin: json.bin, scripts: json.scripts,
-        dependencies: json.dependencies, devDependencies: json.devDependencies, peerDependencies: json.peerDependencies,
-        workspaceDeps: [], hasTsConfig: !!(await readMaybe(path.join(dir, "tsconfig.json"))),
-        readme: await readMaybe(path.join(dir, "README.md"))
+        name,
+        version: json.version ?? "0.0.0",
+        dir,
+        description: json.description,
+        bin: json.bin,
+        scripts: json.scripts,
+        dependencies: json.dependencies,
+        devDependencies: json.devDependencies,
+        peerDependencies: json.peerDependencies,
+        workspaceDeps: [],
+        hasTsConfig: !!(await readMaybe(path.join(dir, "tsconfig.json"))),
+        readme: await readMaybe(path.join(dir, "README.md")),
       };
       pkgMap.set(name, info);
-    } catch { /* skip */ }
+    } catch {
+      /* skip */
+    }
   }
 
   // compute workspace internal deps
   for (const info of pkgMap.values()) {
-    const all = { ...(info.dependencies ?? {}), ...(info.devDependencies ?? {}), ...(info.peerDependencies ?? {}) };
-    const internal = Object.keys(all).filter(n => pkgMap.has(n));
+    const all = {
+      ...(info.dependencies ?? {}),
+      ...(info.devDependencies ?? {}),
+      ...(info.peerDependencies ?? {}),
+    };
+    const internal = Object.keys(all).filter((n) => pkgMap.has(n));
     info.workspaceDeps = internal;
   }
 
@@ -52,8 +67,15 @@ async function main() {
     }
   }
 
-  const out: ScanOut = { createdAt: new Date().toISOString(), packages: Array.from(pkgMap.values()), graphMermaid: lines.join("\n") };
+  const out: ScanOut = {
+    createdAt: new Date().toISOString(),
+    packages: Array.from(pkgMap.values()),
+    graphMermaid: lines.join("\n"),
+  };
   await writeJSON(path.resolve(args["--out"]), out);
   console.log(`readmeflow: scanned ${pkgMap.size} packages → ${args["--out"]}`);
 }
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

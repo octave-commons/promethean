@@ -1,6 +1,7 @@
 // @ts-nocheck
-import { proxy } from "./proxy.js";
 import { contextStore } from "../../sinks.js";
+
+import { proxy } from "./proxy.js";
 
 export function registerSinkRoutes(v1) {
   // ------------------------------------------------------------------

@@ -31,7 +31,6 @@ import { visit, EXIT } from 'unist-util-visit';
 import toStringWithNodes from 'unist-util-to-string-with-nodes';
 import matter from 'gray-matter';
 import { v4 as uuidv4 } from 'uuid';
-
 import type { Node, Parent } from 'unist';
 function toString(node: Node): string {
     return toStringWithNodes(node).text;
@@ -41,28 +40,28 @@ function toString(node: Node): string {
 
 export type Attrs = Record<string, string>;
 
-export interface Card {
+export type Card = {
     id: string;
     text: string;
     done: boolean;
     tags: string[];
     links: string[];
     attrs: Attrs;
-}
+};
 
-export interface Column {
+export type Column = {
     name: string;
     // index of the heading node in the MDAST children array (internal pointer)
     _headingIndex: number;
-}
+};
 
-export interface BoardFrontmatter {
+export type BoardFrontmatter = {
     [key: string]: any;
-}
+};
 
-export interface KanbanSettings {
+export type KanbanSettings = {
     [key: string]: any;
-}
+};
 
 // ---------- Helpers ----------
 
@@ -348,7 +347,7 @@ export class MarkdownBoard {
             // Build text from paragraph child text nodes to avoid losing raw tokens
             const pieces: string[] = [];
             for (const ch of paragraph.children || []) {
-                if (typeof (ch as any).value === 'string') pieces.push(String((ch as any).value));
+                if (typeof ch.value === 'string') pieces.push(String(ch.value));
             }
             rawText = pieces.join('').trim();
             // If the id HTML comment was parsed inline inside the paragraph, strip it from the text

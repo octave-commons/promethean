@@ -1,13 +1,13 @@
 // loosen typing to avoid cross-package type coupling
 
-export interface ReconstructOpts<T = any> {
+export type ReconstructOpts<T = any> = {
     topic: string; // e.g., "process.state"
     snapshotTopic?: string; // e.g., "process.state.snapshot" (optional)
     key: string; // entity key
     atTs: number; // target timestamp (epoch ms)
     apply: (prev: T | null, e: any) => T | null; // reducer: apply event->state
     fetchSnapshot?: (key: string, upTo: number) => Promise<{ state: T | null; ts: number } | null>;
-}
+};
 
 export async function reconstructAt<T = any>(store: any, opts: ReconstructOpts<T>) {
     let baseState: T | null = null;
@@ -27,7 +27,7 @@ export async function reconstructAt<T = any>(store: any, opts: ReconstructOpts<T
     for (const e of events) {
         if (e.ts > opts.atTs) break;
         if (e.key !== opts.key) continue;
-        baseState = opts.apply(baseState, e as any);
+        baseState = opts.apply(baseState, e);
         baseTs = e.ts;
     }
     return { state: baseState, ts: baseTs };

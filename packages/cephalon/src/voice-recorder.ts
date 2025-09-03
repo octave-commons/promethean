@@ -3,8 +3,9 @@
     */
 import { PassThrough } from "node:stream";
 import { createWriteStream } from "node:fs";
-import * as wav from "wav";
 import EventEmitter from "node:events";
+
+import * as wav from "wav";
 import { User } from "discord.js";
 
 export type RecordingMetaData = {

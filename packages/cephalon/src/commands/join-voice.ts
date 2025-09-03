@@ -1,4 +1,5 @@
 import type { ChatInputCommandInteraction, TextChannel } from "discord.js";
+
 import type { Bot } from "../bot.js";
 import type { Event } from "../store/events.js";
 
@@ -29,7 +30,7 @@ export default async function execute(
 
   const evt: any = {
     type: "VOICE/JOIN_REQUESTED",
-    guildId: interaction.guild!.id,
+    guildId: interaction.guild.id,
     voiceChannelId: interaction.member.voice.channelId,
     by: interaction.user.id,
   };

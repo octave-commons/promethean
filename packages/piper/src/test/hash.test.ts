@@ -1,6 +1,8 @@
-import test, { ExecutionContext } from "ava";
 import * as fs from "fs/promises";
 import * as path from "path";
+
+import test, { ExecutionContext } from "ava";
+
 import { fingerprintFromGlobs, stepFingerprint } from "../hash.js";
 
 async function withTmp(

@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 import * as crypto from "crypto";
+
 import * as ts from "typescript";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
@@ -24,7 +25,17 @@ export async function listFilesRec(root: string, exts: Set<string>) {
     for (const e of ents) {
       const p = path.join(d, e.name);
       if (e.isDirectory()) {
-        if (["node_modules", "dist", "build", "coverage", ".turbo", ".next"].includes(e.name)) continue;
+        if (
+          [
+            "node_modules",
+            "dist",
+            "build",
+            "coverage",
+            ".turbo",
+            ".next",
+          ].includes(e.name)
+        )
+          continue;
         await walk(p);
       } else if (exts.has(path.extname(p).toLowerCase())) out.push(p);
     }
@@ -45,11 +56,15 @@ export function makeProgram(rootFiles: string[], tsconfigPath?: string) {
   let options: ts.CompilerOptions = {
     target: ts.ScriptTarget.ES2022,
     module: ts.ModuleKind.ESNext,
-    strict: true
+    strict: true,
   };
   if (tsconfigPath) {
     const cfg = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
-    const parsed = ts.parseJsonConfigFileContent(cfg.config, ts.sys, path.dirname(tsconfigPath));
+    const parsed = ts.parseJsonConfigFileContent(
+      cfg.config,
+      ts.sys,
+      path.dirname(tsconfigPath),
+    );
     options = { ...parsed.options, ...options };
   }
   return ts.createProgram(rootFiles, options);
@@ -76,9 +91,15 @@ export function getNodeText(src: string, node: ts.Node): string {
 }
 
 export function cosine(a: number[], b: number[]) {
-  let dot = 0, na = 0, nb = 0;
+  let dot = 0,
+    na = 0,
+    nb = 0;
   const n = Math.min(a.length, b.length);
-  for (let i = 0; i < n; i++) { dot += a[i] * b[i]; na += a[i]*a[i]; nb += b[i]*b[i]; }
+  for (let i = 0; i < n; i++) {
+    dot += a[i] * b[i];
+    na += a[i] * a[i];
+    nb += b[i] * b[i];
+  }
   if (!na || !nb) return 0;
   return dot / (Math.sqrt(na) * Math.sqrt(nb));
 }
