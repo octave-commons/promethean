@@ -1,6 +1,7 @@
 import type { Expr } from '../ast';
 import { name as mkName } from '../ast';
 import { S, List, Sym, Num, Str, Bool, Nil, isList, isSym, list, sym } from './syntax';
+import { escapeUnsafeChars } from '../jsgen';
 
 export function toExpr(x: S): Expr {
     switch (x.t) {
@@ -46,7 +47,7 @@ function listToExpr(x: List): Expr {
     if (isSym(hd, 'quote')) {
         // quote datum -> turn into a JS literal via simple conversion (lists to nested arrays)
         const v = datumToJs(x.xs[1]);
-        return { kind: 'Str', value: JSON.stringify(v), span: x.span! }; // simplest: embed JSON string (you can upgrade to tagged data)
+        return { kind: 'Str', value: escapeUnsafeChars(JSON.stringify(v)), span: x.span! }; // simplest: embed JSON string (you can upgrade to tagged data)
     }
     if (isSym(hd, 'let')) {
         // (let ((a v) (b w)) body...)
