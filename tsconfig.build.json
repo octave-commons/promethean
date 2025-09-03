@@ -3,10 +3,10 @@
 
   "references": [
     {
-      "path": "packages/level-cache"
+      "path": "./packages/level-cache"
     },
     {
-      "path": "packages/piper"
+      "path": "./packages/piper"
     },
     {
       "path": "./packages/agent"
