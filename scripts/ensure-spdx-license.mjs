@@ -1,13 +1,15 @@
-import { execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 const checkMode = process.argv.includes('--check');
 
-const exts = ['js', 'ts', 'py'];
-
-const lsFilesCmd = "git ls-files '*.js' '*.ts' '*.py' ':!sites/**'";
-const files = execSync(lsFilesCmd).toString().trim().split('\n').filter(Boolean);
+const lsFilesArgs = ['ls-files', '*.js', '*.ts', '*.py', ':!sites/**'];
+const files = execFileSync('git', lsFilesArgs)
+  .toString()
+  .trim()
+  .split('\n')
+  .filter(Boolean);
 
 const headers = {
   js: '// SPDX-License-Identifier: GPL-3.0-only',
