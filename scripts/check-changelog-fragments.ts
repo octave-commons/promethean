@@ -1,14 +1,18 @@
 import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const VALID_RE = /^\d+\.(added|changed|deprecated|removed|fixed|security)\.md$/;
+const VALID_RE = /^\d+(?:\.\d+)*\.(added|changed|deprecated|removed|fixed|security)\.md$/;
 
 export function findInvalidFragments(dir: string = "changelog.d"): string[] {
-	if (!fs.existsSync(dir)) {
-		return [];
-	}
-	return fs
-		.readdirSync(dir)
-		.filter((name) => name.endsWith(".md") && !VALID_RE.test(name));
+        if (!fs.existsSync(dir)) {
+                return [];
+        }
+        return fs
+                .readdirSync(dir, { withFileTypes: true })
+                .filter((d) => d.isFile())
+                .map((d) => d.name)
+                .filter((name) => name.endsWith(".md") && !VALID_RE.test(name));
 }
 
 export function main(): number {
@@ -23,6 +27,6 @@ export function main(): number {
 	return 0;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-	process.exit(main());
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+        process.exit(main());
 }
