@@ -1,5 +1,6 @@
 import path from "path";
 import { promises as fs } from "fs";
+
 import { ContextStore } from "@promethean/persistence";
 
 const LINK_PATTERN = /\[[^\]]*\]\(([^)]+\.md)\)/g;
@@ -10,11 +11,7 @@ export class GraphDB {
   private readonly links: any;
   private readonly hashtags: any;
 
-  private constructor(
-    repoPath: string,
-    links: any,
-    hashtags: any,
-  ) {
+  private constructor(repoPath: string, links: any, hashtags: any) {
     this.repoPath = path.resolve(repoPath);
     this.links = links;
     this.hashtags = hashtags;
@@ -22,16 +19,16 @@ export class GraphDB {
 
   static async create(repoPath: string): Promise<GraphDB> {
     const store = new ContextStore();
-    const links = (await store.createCollection(
+    const links = await store.createCollection(
       "markdown_graph_links",
       "text",
       "timestamp",
-    )) as any;
-    const hashtags = (await store.createCollection(
+    );
+    const hashtags = await store.createCollection(
       "markdown_graph_hashtags",
       "text",
       "timestamp",
-    )) as any;
+    );
     return new GraphDB(repoPath, links, hashtags);
   }
 

@@ -1,5 +1,6 @@
 import express, { Application } from "express";
 import bodyParser from "body-parser";
+
 import { GraphDB } from "./graph.js";
 
 export async function createApp(

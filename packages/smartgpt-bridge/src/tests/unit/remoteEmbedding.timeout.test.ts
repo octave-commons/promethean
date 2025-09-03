@@ -1,6 +1,7 @@
 // @ts-nocheck
-import test from "ava";
 import path from "node:path";
+
+import test from "ava";
 
 test.serial(
   "RemoteEmbeddingFunction: times out when no response",

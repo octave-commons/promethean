@@ -1,13 +1,13 @@
-export interface HeartbeatPayload {
+export type HeartbeatPayload = {
     pid: number;
     name: string;
     host: string;
     cpu_pct: number;
     mem_mb: number;
     sid?: string;
-}
+};
 
-export interface ProcessState {
+export type ProcessState = {
     processId: string; // `${host}:${name}:${pid}`
     name: string;
     host: string;
@@ -17,4 +17,4 @@ export interface ProcessState {
     mem_mb: number;
     last_seen_ts: number;
     status: 'alive' | 'stale';
-}
+};

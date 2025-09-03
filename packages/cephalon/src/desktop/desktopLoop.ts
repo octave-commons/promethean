@@ -1,4 +1,5 @@
 import * as discord from "discord.js";
+
 import {
   captureAndRenderWaveform,
   AudioImageData,
@@ -15,10 +16,10 @@ export async function captureScreen(): Promise<Buffer> {
   return Buffer.from(arrayBuf);
 }
 
-export interface DesktopCaptureData {
+export type DesktopCaptureData = {
   audio: AudioImageData;
   screen: Buffer;
-}
+};
 
 type DesktopDeps = {
   captureScreen: typeof captureScreen;

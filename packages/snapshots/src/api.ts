@@ -1,13 +1,14 @@
-import express from 'express';
-import type { Db } from 'mongodb';
 import crypto from 'crypto';
 
-export interface SnapshotApiOptions {
+import express from 'express';
+import type { Db } from 'mongodb';
+
+export type SnapshotApiOptions = {
     collection: string; // e.g., "processes.snapshot"
     keyField?: string; // default "_key"
     bodyLimit?: string; // default "200kb"
     maxAgeSeconds?: number; // default 5 (client cache)
-}
+};
 
 function etagOf(doc: any) {
     const s = JSON.stringify(doc);

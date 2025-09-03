@@ -1,4 +1,5 @@
 import test from "ava";
+
 import execute, { data } from "../commands/leave-voice.js";
 
 function makeInteraction() {
@@ -25,7 +26,7 @@ test("leave-voice command defers and dispatches event", async (t) => {
     bot: {} as any,
     dispatch: async (e: any) => void dispatched.push(e),
   };
-  await execute(interaction as any, ctx);
+  await execute(interaction, ctx);
   t.is((data as any).name, "leave-voice");
   t.deepEqual(interaction.calls[0], ["deferReply", { ephemeral: true }]);
   t.deepEqual(dispatched[0], {

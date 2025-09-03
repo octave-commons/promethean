@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { makeDeterministicEmbedder, assertDim } from './embedder.js';
 
 test('deterministic embedder returns fixed dimension', async (t) => {

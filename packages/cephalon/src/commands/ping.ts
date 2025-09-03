@@ -1,4 +1,5 @@
 import type { ChatInputCommandInteraction } from "discord.js";
+
 import type { Bot } from "../bot.js";
 import runPing from "../actions/ping.js";
 import { buildPingScope } from "../actions/ping.scope.js";

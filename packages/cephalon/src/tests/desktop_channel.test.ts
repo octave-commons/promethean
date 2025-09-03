@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { DesktopCaptureManager } from "../desktop/desktopLoop.js";
 
 // Ensure desktop captures are sent to configured channel

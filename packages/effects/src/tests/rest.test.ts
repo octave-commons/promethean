@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { restRequest } from '../rest.js';
 
 test('restRequest wraps provider/tenant/route/body', (t) => {

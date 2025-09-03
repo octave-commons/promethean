@@ -1,5 +1,6 @@
 // @ts-nocheck
 import test from 'ava';
+
 import { S, compileStruct } from './struct';
 import type { Infer } from './struct';
 

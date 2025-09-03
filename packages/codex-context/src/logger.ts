@@ -43,7 +43,7 @@ export function createLogger(service: string, base: LogFields = {}) {
       process.stdout.write(JSON.stringify(payload) + "\n");
     } catch (e) {
       // Fallback to console if needed
-      // eslint-disable-next-line no-console
+
       console.log(`[${payload.ts}] ${svc} ${level.toUpperCase()}: ${msg}`);
     }
   }
