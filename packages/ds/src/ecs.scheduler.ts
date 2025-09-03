@@ -1,8 +1,8 @@
 // shared/ts/prom-lib/ds/ecs.scheduler.ts
 // MIT. Zero deps (uses World from ecs.ts and Graph from graph.ts)
 
-import { World, CommandBuffer, ComponentType, Query } from './ecs';
-import { Graph } from './graph';
+import { World, CommandBuffer, ComponentType, Query } from './ecs.js';
+import { Graph } from './graph.js';
 
 export type Stage = 'startup' | 'update' | 'late' | 'render' | 'cleanup';
 export const DEFAULT_STAGE_ORDER: Stage[] = ['startup', 'update', 'late', 'render', 'cleanup'];
