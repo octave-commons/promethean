@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { handleSocialMessageCreated } from "../src/index.js";
 
 test("indexes with provider+tenant key", async (t) => {

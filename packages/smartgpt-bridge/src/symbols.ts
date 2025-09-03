@@ -1,8 +1,10 @@
 // @ts-nocheck
-import ts from "typescript";
 import path from "path";
 import fs from "fs/promises";
+
+import ts from "typescript";
 import fg from "fast-glob";
+
 import { normalizeToRoot, isInsideRoot } from "./files.js";
 
 let SYMBOL_INDEX = []; // array of { path, name, kind, startLine, endLine, signature? }

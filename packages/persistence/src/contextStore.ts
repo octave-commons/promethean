@@ -1,8 +1,8 @@
 import type { Message } from 'ollama';
-import { DualStoreManager } from './dualStore.js';
-
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
+
+import { DualStoreManager } from './dualStore.js';
 import type { DualStoreEntry } from './types.js';
 TimeAgo.addDefaultLocale(en);
 const timeAgo = new TimeAgo('en-US');

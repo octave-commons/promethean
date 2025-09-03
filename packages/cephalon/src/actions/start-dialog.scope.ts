@@ -1,12 +1,15 @@
+import { randomUUID } from "crypto";
+
 import * as discord from "discord.js";
 import { AudioPlayerStatus } from "@discordjs/voice";
-import { randomUUID } from "crypto";
 import { createAgentWorld } from "@promethean/agent-ecs/world.js";
 import { OrchestratorSystem } from "@promethean/agent-ecs/systems/orchestrator.js";
+import { enqueueUtterance } from "@promethean/agent-ecs/helpers/enqueueUtterance.js";
+import { AGENT_NAME } from "@promethean/legacy/env.js";
+
 import type { Bot } from "../bot.js";
 import type { FinalTranscript } from "../transcriber.js";
 import { defaultPrompt } from "../prompts.js";
-import { enqueueUtterance } from "@promethean/agent-ecs/helpers/enqueueUtterance.js";
 import {
   classifyPause,
   estimatePauseDuration,
@@ -14,7 +17,6 @@ import {
   splitSentances,
 } from "../tokenizers.js";
 import { sleep } from "../util.js";
-import { AGENT_NAME } from "@promethean/legacy/env.js";
 
 export type StartDialogInput = { bot: Bot };
 export type StartDialogOutput = { started: boolean };
@@ -26,7 +28,7 @@ export async function storeAgentMessage(
   startTime = Date.now(),
   endTime = Date.now(),
 ) {
-  const messages = bot.context.getCollection("agent_messages") as any;
+  const messages = bot.context.getCollection("agent_messages");
   return messages.insert({
     text,
     createdAt: Date.now(),

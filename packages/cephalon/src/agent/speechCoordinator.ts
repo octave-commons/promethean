@@ -1,10 +1,11 @@
-import { AudioPlayer, AudioResource } from "@discordjs/voice";
 import EventEmitter from "events";
+
+import { AudioPlayer, AudioResource } from "@discordjs/voice";
 
 export type Priority = 0 | 1 | 2;
 export type BargeInPolicy = "none" | "duck" | "pause" | "stop";
 
-export interface Utterance {
+export type Utterance = {
   id: string;
   turnId: number;
   priority: Priority;
@@ -13,7 +14,7 @@ export interface Utterance {
   makeResource: () => Promise<AudioResource>;
   onStart?: () => void;
   onEnd?: (reason: "finished" | "cancelled") => void;
-}
+};
 
 export class SpeechArbiter extends EventEmitter {
   private player: AudioPlayer;

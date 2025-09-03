@@ -1,8 +1,10 @@
+import http from 'http';
+
 import type { Request, Response, Express } from 'express';
 import type { WebSocket } from 'ws';
 import express from 'express';
-import http from 'http';
 import { WebSocketServer } from 'ws';
+
 import { loadDriver, LLMDriver } from './drivers/index.js';
 import type { Tool } from './tools.js';
 
@@ -80,7 +82,7 @@ export async function start(port = Number(process.env.LLM_PORT) || 8888) {
             console.error('Failed to initialize broker', err);
         }
         // @ts-ignore
-            const { HeartbeatClient } = await import('@promethean/legacy/heartbeat/index.js');
+        const { HeartbeatClient } = await import('@promethean/legacy/heartbeat/index.js');
         const hb = new HeartbeatClient({ name: process.env.name || 'llm' });
         await hb.sendOnce();
         hb.start();

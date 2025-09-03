@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
 import { promises as fs } from "fs";
 import * as path from "path";
+
 import { parseArgs, OLLAMA_URL } from "./utils.js";
 import type { ScanResult, EmbeddingMap } from "./types.js";
 
@@ -9,13 +9,14 @@ const args = parseArgs({
   "--out": ".cache/simtasks/embeddings.json",
   "--embed-model": "nomic-embed-text:latest",
   "--include-jsdoc": "true",
-  "--include-snippet": "true"
+  "--include-snippet": "true",
 });
 
 async function ollamaEmbed(model: string, text: string): Promise<number[]> {
   const res = await fetch(`${OLLAMA_URL}/api/embeddings`, {
-    method: "POST", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ model, prompt: text })
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ model, prompt: text }),
   });
   if (!res.ok) throw new Error(`ollama embeddings ${res.status}`);
   const data: any = await res.json();
@@ -40,14 +41,23 @@ async function main() {
       f.signature ? `SIGNATURE: ${f.signature}` : "",
       `PACKAGE: ${f.pkgName}  FILE: ${f.fileRel}:${f.startLine}-${f.endLine}`,
       withDoc && f.jsdoc ? `JSDOC:\n${f.jsdoc}` : "",
-      withSnippet ? `CODE:\n${f.snippet}` : ""
-    ].filter(Boolean).join("\n");
+      withSnippet ? `CODE:\n${f.snippet}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
     embeds[f.id] = await ollamaEmbed(model, text);
   }
 
   await fs.mkdir(path.dirname(OUT), { recursive: true });
   await fs.writeFile(OUT, JSON.stringify(embeds), "utf-8");
-  console.log(`simtasks: embedded ${Object.keys(embeds).length} functions -> ${path.relative(process.cwd(), OUT)}`);
+  console.log(
+    `simtasks: embedded ${
+      Object.keys(embeds).length
+    } functions -> ${path.relative(process.cwd(), OUT)}`,
+  );
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

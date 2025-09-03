@@ -1,4 +1,5 @@
 import { World, Entity } from '@promethean/ds/ecs.js';
+
 import { defineAgentComponents } from './components';
 import { VADUpdateSystem } from './systems/vad';
 import { TurnDetectionSystem } from './systems/turn';
@@ -18,7 +19,7 @@ function carryForTick(
             const cur = get(Comp); // reads from current buffer
             if (cur !== undefined && cur !== null) {
                 // write-through into next buffer unchanged
-                (w as any).set(eid as any, Comp, cur);
+                w.set(eid, Comp, cur);
             }
         }
     }

@@ -1,8 +1,9 @@
 import { configDotenv } from "dotenv";
-configDotenv();
 import express from "express";
 import type { Express } from "express";
 import bodyParser from "body-parser";
+import ollama from "ollama";
+
 import { SmartGptrRetriever } from "./retriever.js";
 import { buildAugmentedPrompt } from "./prompt.js";
 import { OllamaBackend, OllamaOpenAIBackend } from "./backend.js";
@@ -15,8 +16,8 @@ import type {
   Usage,
 } from "./types/openai.js";
 import { persistArtifact } from "./save.js";
-import ollama from "ollama";
 import { createLogger } from "./logger.js";
+configDotenv();
 
 export type AppDeps = {
   retriever?: SmartGptrRetriever;

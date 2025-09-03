@@ -2,7 +2,7 @@ export type UUID = string;
 export type Millis = number;
 export type Vec8 = [number, number, number, number, number, number, number, number];
 
-export interface EventRecord<T = unknown> {
+export type EventRecord<T = unknown> = {
     id: UUID; // uuidv7
     sid?: UUID; // boot/session id
     ts: Millis; // epoch ms
@@ -13,22 +13,22 @@ export interface EventRecord<T = unknown> {
     payload: T; // JSON-safe
     caused_by?: UUID[];
     tags?: string[];
-}
+};
 
-export interface DeliveryContext {
+export type DeliveryContext = {
     attempt: number;
     maxAttempts: number;
     // last known offset for this subscription/group in this topic
     cursor?: CursorPosition;
-}
+};
 
-export interface CursorPosition {
+export type CursorPosition = {
     topic: string;
     lastId?: UUID; // last delivered acked id
     lastTs?: Millis; // optional for time-based catchup
-}
+};
 
-export interface SubscribeOptions {
+export type SubscribeOptions = {
     group: string; // durable consumer group name
     from?: 'latest' | 'earliest' | 'ts' | 'afterId';
     ts?: Millis;
@@ -40,9 +40,9 @@ export interface SubscribeOptions {
     manualAck?: boolean; // if true, caller must ack explicitly
     filter?(e: EventRecord): boolean;
     topics?: string[]; // if adapter supports multi-topic fan-in
-}
+};
 
-export interface PublishOptions {
+export type PublishOptions = {
     id?: UUID;
     ts?: Millis;
     key?: string;
@@ -50,15 +50,15 @@ export interface PublishOptions {
     tags?: string[];
     caused_by?: UUID[];
     sid?: UUID;
-}
+};
 
-export interface Ack {
+export type Ack = {
     id: UUID;
     ok: boolean;
     err?: string;
-}
+};
 
-export interface EventBus {
+export type EventBus = {
     publish<T>(topic: string, payload: T, opts?: PublishOptions): Promise<EventRecord<T>>;
     subscribe(
         topic: string,
@@ -71,17 +71,17 @@ export interface EventBus {
     // cursor utilities
     getCursor(topic: string, group: string): Promise<CursorPosition | null>;
     setCursor(topic: string, group: string, cursor: CursorPosition): Promise<void>;
-}
+};
 
-export interface CursorStore {
+export type CursorStore = {
     get(topic: string, group: string): Promise<CursorPosition | null>;
     set(topic: string, group: string, cursor: CursorPosition): Promise<void>;
-}
+};
 
-export interface EventStore {
+export type EventStore = {
     insert<T>(e: EventRecord<T>): Promise<void>;
     // range scan from afterId OR from ts; returns ascending by ts (then id)
     scan(topic: string, params: { afterId?: UUID; ts?: Millis; limit?: number }): Promise<EventRecord[]>;
     // optional compaction helpers
     latestByKey?(topic: string, keys: string[]): Promise<Record<string, EventRecord | undefined>>;
-}
+};

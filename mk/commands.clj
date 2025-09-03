@@ -139,7 +139,7 @@
     (when-not service (throw (ex-info "SERVICE env required" {})))
     (u/sh! (format "pm2 stop %s || true" service) {:shell true})))
 
-(defn lint-tasks [] (u/sh! ["python" "scripts/lint_tasks.py"]))
+(defn lint-tasks [] (u/sh! ["pnpm" "lint:tasks"]))
 
 (defn simulate-ci []
   (if-let [job (System/getenv "SIMULATE_CI_JOB")]

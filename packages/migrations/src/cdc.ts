@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { MongoClient } from 'mongodb';
+
 import { makeDeterministicEmbedder } from './embedder.js';
 import { makeChromaWrapper } from './chroma.js';
 import { makeCheckpointStore } from './checkpoints.js';

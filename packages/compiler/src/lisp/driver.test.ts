@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { runLisp } from './driver';
 
 test('lisp: basic arithmetic', (t) => {

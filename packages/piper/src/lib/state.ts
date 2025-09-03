@@ -16,7 +16,7 @@ export async function loadState(pipeline: string): Promise<RunState> {
   });
   const steps: RunState["steps"] = {};
   for await (const [key, val] of cache.entries()) {
-    if (key && val) steps[key] = val as any;
+    if (key && val) steps[key] = val;
   }
   await cache.close();
   return { steps };

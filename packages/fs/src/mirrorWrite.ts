@@ -2,12 +2,13 @@
 import { promises as fs, Stats } from 'fs';
 import * as path from 'path';
 import { createHash } from 'crypto';
+
 import { streamTreeConcurrent, StreamNode } from './streamTreeGeneratorsConcurrent.js';
 
 type OverwriteMode = 'always' | 'if-newer' | 'never';
 type DeleteExtraMode = 'none' | 'files' | 'all';
 
-export interface MirrorOptions {
+export type MirrorOptions = {
     includeHidden?: boolean;
     maxDepth?: number;
     followSymlinks?: boolean;
@@ -47,10 +48,10 @@ export interface MirrorOptions {
 
     /** Protect specific dst paths from deletion (return false to prevent delete). */
     deleteFilter?: (dstAbsPath: string, relPath: string) => boolean;
-}
+};
 
 /** The input we pass to your handler — lazy readers to avoid unnecessary I/O. */
-export interface FileIn {
+export type FileIn = {
     srcPath: string; // absolute
     relPath: string; // relative to src root
     name: string;
@@ -61,7 +62,7 @@ export interface FileIn {
     stat(): Promise<Stats>;
     text(): Promise<string>;
     bytes(): Promise<Buffer>;
-}
+};
 
 /** What your handler returns to decide the mirrored result. */
 export type HandlerResult =
@@ -73,7 +74,7 @@ export type HandlerResult =
           encoding?: BufferEncoding; // default 'utf8' if content is string
       };
 
-export interface MirrorStats {
+export type MirrorStats = {
     filesProcessed: number;
     filesWritten: number;
     filesCopied: number;
@@ -83,7 +84,7 @@ export interface MirrorStats {
     deletedDirs: number;
     errors: number;
     planned?: PlannedOp[];
-}
+};
 
 export type PlannedOp =
     | { kind: 'mkdir'; path: string }
