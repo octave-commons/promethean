@@ -1,5 +1,6 @@
-import test from 'ava';
 import { EventEmitter } from 'node:events';
+
+import test from 'ava';
 import ollama, { type Message } from 'ollama';
 import {
     generateTwitchStreamTitle,
@@ -8,9 +9,9 @@ import {
     MemoryTitleStore,
 } from '@promethean/stream/title.js';
 
-interface TitleContextSource {
+type TitleContextSource = {
     fetch(): Promise<Message[]>;
-}
+};
 
 const message: Message = {
     role: 'user',

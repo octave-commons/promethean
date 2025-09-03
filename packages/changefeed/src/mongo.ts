@@ -2,7 +2,7 @@
 import type { Db, ResumeToken } from 'mongodb';
 import { EventBus } from '@promethean/event/types.js';
 
-export interface ChangefeedOptions {
+export type ChangefeedOptions = {
     collection: string;
     topic: string;
     fullDocument?: 'updateLookup' | 'whenAvailable'; // default "updateLookup"
@@ -12,7 +12,7 @@ export interface ChangefeedOptions {
     };
     filter?: (doc: any) => boolean; // drop noisy changes if needed
     map?: (doc: any) => any; // transform doc->payload
-}
+};
 
 export async function startMongoChangefeed(db: Db, bus: EventBus, opts: ChangefeedOptions) {
     const coll = db.collection(opts.collection);

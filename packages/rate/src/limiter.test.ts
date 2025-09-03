@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { TokenBucket } from './limiter.js';
 
 // ensure TokenBucket enforces capacity and returns deficit

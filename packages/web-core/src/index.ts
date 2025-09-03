@@ -5,11 +5,11 @@
 // Avoid hard dependency on fastify types; accept any-compatible instances
 import type { z } from 'zod';
 
-export interface HealthCheckResponse {
+export type HealthCheckResponse = {
     status: 'healthy' | 'unhealthy';
     timestamp: string;
     service: string;
-}
+};
 
 export function createHealthCheck(serviceName: string = 'promethean-service') {
     return (): HealthCheckResponse => ({
@@ -19,10 +19,7 @@ export function createHealthCheck(serviceName: string = 'promethean-service') {
     });
 }
 
-export async function registerHealthRoute(
-    fastify: any,
-    options: { serviceName?: string },
-) {
+export async function registerHealthRoute(fastify: any, options: { serviceName?: string }) {
     const healthCheck = createHealthCheck(options.serviceName);
 
     fastify.get('/health', async () => {

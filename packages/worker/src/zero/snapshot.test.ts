@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { buildSnapshot, commitSnapshot, type WorldLike, type ComponentRef } from './snapshot';
 import { markChanged } from './layout';
 
@@ -52,6 +53,6 @@ test('snapshot: build and commit', (t) => {
     px[0] = 5;
     markChanged(snap.comps[Pos.id].changed, 0);
     commitSnapshot(world, spec, snap);
-    const pos = world.get(1, Pos) as any;
+    const pos = world.get(1, Pos);
     t.is(pos.x, 5);
 });

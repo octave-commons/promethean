@@ -3,9 +3,11 @@
     */
 import { PassThrough } from "node:stream";
 import { createWriteStream } from "node:fs";
+
 // @ts-ignore no types available
-import * as wav from "wav";
 import EventEmitter from "node:events";
+
+import * as wav from "wav";
 import { User } from "discord.js";
 
 export type RecordingMetaData = {

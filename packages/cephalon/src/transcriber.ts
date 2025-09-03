@@ -1,7 +1,9 @@
-import { User } from "discord.js";
 import { EventEmitter } from "node:events";
 import { PassThrough } from "node:stream";
+
+import { User } from "discord.js";
 import { BrokerClient } from "@promethean/legacy/brokerClient.js";
+
 import { Speaker } from "./speaker.js";
 
 export type TranscriberOptions = {
@@ -69,7 +71,7 @@ export class Transcriber extends EventEmitter {
     }
     if (process.env.DISABLE_BROKER === "1") {
       // Minimal no-op broker for tests that don't exercise transcription
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
       this.broker = {
         enqueue() {},
         subscribe() {},

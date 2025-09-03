@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { Graph } from './graph';
 
 test('Graph: bfs traverses undirected graph', (t) => {

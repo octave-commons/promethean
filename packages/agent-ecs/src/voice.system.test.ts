@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { createAgentWorld } from './world';
 import { VoiceSystem } from './systems/voice';
 

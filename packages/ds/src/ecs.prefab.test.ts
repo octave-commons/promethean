@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { World } from './ecs';
 import { makeBlueprint, spawn } from './ecs.prefab';
 

@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { World } from './ecs';
 
 test('ECS double-buffer: add readable in-frame; set visible after endTick', (t) => {

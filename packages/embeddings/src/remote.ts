@@ -1,6 +1,7 @@
+import { randomUUID } from 'node:crypto';
+
 import type { EmbeddingFunction, EmbeddingFunctionSpace } from 'chromadb';
 import { BrokerClient } from '@promethean/legacy/brokerClient.js';
-import { randomUUID } from 'node:crypto';
 
 export type RemoteEmbeddingOptions = {
     brokerUrl?: string;
