@@ -18,8 +18,7 @@ const args = parseArgs({
   "--default-status": "todo",
 });
 
-function randomUUID() {
-  // @ts-ignore
+async function randomUUID() {
   return (
     globalThis.crypto?.randomUUID?.() ?? (await import("crypto")).randomUUID()
   );
@@ -44,7 +43,7 @@ async function main() {
       inferTitle(gm.content) ??
       slug(path.basename(f, ".md")).replace(/-/g, " ");
     const payload: TaskFM = {
-      uuid: fm.uuid ?? randomUUID(),
+      uuid: fm.uuid ?? (await randomUUID()),
       title,
       status: normStatus(fm.status ?? args["--default-status"]),
       priority: (fm.priority as any) ?? args["--default-priority"],
