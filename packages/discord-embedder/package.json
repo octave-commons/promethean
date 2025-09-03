@@ -25,7 +25,7 @@
     "dj"
   ],
   "author": "Amish Shah <amishshah.2k@gmail.com>",
-  "license": "UNLICENSE",
+  "license": "GPL-3.0-only",
   "dependencies": {
     "@discordjs/voice": "^0.18.0",
     "@promethean/legacy": "workspace:*",
