@@ -1,5 +1,5 @@
 import test from 'ava';
-import { tsToLisp } from './ts2lisp';
+import { tsToLisp } from './ts2lisp.js';
 
 test('transpiles TypeScript to Lisp', async (t) => {
     const src = 'const x: number = 1 + 2;';
