@@ -1,6 +1,6 @@
-import { fileBackedRegistry } from "../../platform/dist/provider-registry.js";
-import { mongoForTenant } from "../../effects/dist/mongo.js";
-import { topic } from "../../platform/dist/topic.js";
+import { fileBackedRegistry } from "@promethean/platform/provider-registry.js";
+import { mongoForTenant } from "@promethean/effects/mongo.js";
+import { topic } from "@promethean/platform/topic.js";
 
 export async function handleSocialMessageCreated(evt: any) {
   if (!evt.attachments?.length) return [];

@@ -1,5 +1,5 @@
-import { makePolicy } from "../../agent/dist/policy.js";
-import { fileBackedRegistry } from "../../platform/dist/provider-registry.js";
+import { makePolicy } from "@promethean/agent/policy.js";
+import { fileBackedRegistry } from "@promethean/platform/provider-registry.js";
 
 type RestResponse = {
   ok: boolean;
