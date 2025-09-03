@@ -22,7 +22,7 @@
     "doc:05-footers": "tsx packages/docops/src/05-footers.ts --dir docs/unique --anchor-style block",
     "doc:06-rename": "tsx packages/docops/src/06-rename.ts --dir docs/unique",
     "doc:all": "pnpm doc:01-frontmatter && pnpm doc:02-embed && pnpm doc:03-query && pnpm doc:04-relate && pnpm doc:05-footers && pnpm doc:06-rename",
-    "postinstall": "pnpm --filter @promethean/piper... run build"
+    "postinstall": "pnpm --filter @promethean/piper^... run build && pnpm --filter @promethean/piper run build"
   },
   "bin": {
     "prom": "./bin/promethean.js"
