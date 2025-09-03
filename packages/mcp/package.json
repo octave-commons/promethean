@@ -1,11 +1,15 @@
 {
-  "name": "mcp-server",
+  "name": "mcp",
   "version": "0.0.1",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/server.js",
+  "bin": {
+    "mcp-stdio": "dist/stdio.js"
+  },
   "scripts": {
     "build": "tsc",
-    "dev": "tsx src/index.ts",
+    "dev:server": "tsx src/server.ts",
+    "dev:stdio": "tsx src/stdio.ts",
     "test": "pnpm build && ava --config ../../config/ava.config.mjs dist/test/**/*.js",
     "lint": "eslint .",
     "format": "eslint . --fix",
@@ -29,3 +33,4 @@
     "typescript": "^5.9.2"
   }
 }
+
