@@ -2,7 +2,9 @@ import test from "ava";
 import { mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { findInvalidFragments } from "../scripts/check-changelog-fragments.ts";
+import frag from "../scripts/check-changelog-fragments.cjs";
+
+const { findInvalidFragments } = frag;
 
 const makeTempDir = () => mkdtempSync(path.join(tmpdir(), "frag-"));
 
