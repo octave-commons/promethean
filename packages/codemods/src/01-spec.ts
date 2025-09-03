@@ -1,7 +1,7 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 
-import { Project } from "ts-morph";
+import { Project, Node } from "ts-morph";
 
 import { readJSON, writeJSON } from "./utils.js";
 import type { ModSpecFile, ModSpec } from "./types.js";
@@ -100,11 +100,8 @@ async function main() {
     // const foo = (...) => {}
     const vd = sf.getVariableDeclaration(funcName);
     const init = vd?.getInitializer();
-    if (init && typeof (init as any).getParameters === "function") {
-      // arrow or function expression
-      // @ts-ignore
-      if (init.getParameters)
-        return init.getParameters().map((p: any) => p.getName());
+    if (init && (Node.isArrowFunction(init) || Node.isFunctionExpression(init))) {
+      return init.getParameters().map((p) => p.getName());
     }
     return undefined;
   }
