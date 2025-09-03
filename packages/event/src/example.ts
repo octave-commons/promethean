@@ -1,4 +1,5 @@
-import { InMemoryEventBus } from './memory';
+import { InMemoryEventBus } from './memory.js';
+import type { EventRecord } from './types.js';
 
 (async () => {
     const bus = new InMemoryEventBus();
@@ -7,9 +8,9 @@ import { InMemoryEventBus } from './memory';
     await bus.subscribe(
         'heartbeat.received',
         'ops',
-        async (e) => {
+        async (_e: EventRecord) => {
             // do stuff (update process table, emit metrics, etc.)
-            // console.log("HB:", e.payload);
+            // console.log("HB:", _e.payload);
         },
         { from: 'earliest', batchSize: 100 },
     );
@@ -28,6 +29,6 @@ import { InMemoryEventBus } from './memory';
     );
 
     // Optional: read the cursor
-    const cur = await bus.getCursor('heartbeat.received', 'ops');
-    // console.log("cursor:", cur);
+    const _cur = await bus.getCursor('heartbeat.received', 'ops');
+    // console.log("cursor:", _cur);
 })();
