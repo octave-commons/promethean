@@ -1,7 +1,7 @@
 import { readdirSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { execSync } from 'node:child_process';
+import { execSync, execFileSync } from 'node:child_process';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -24,7 +24,11 @@ function checkDuplicateFragments(): boolean {
 
 function changelogModified(): boolean {
   try {
-    const output = execSync(`git diff --name-only --cached ${CHANGELOG_MD}`, { encoding: 'utf8' }).trim();
+    const output = execFileSync(
+      "git",
+      ["diff", "--name-only", "--cached", CHANGELOG_MD],
+      { encoding: 'utf8' }
+    ).trim();
     return output.length > 0;
   } catch {
     return false;
