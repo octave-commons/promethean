@@ -1,46 +1,46 @@
-import { readFileSync, readdirSync } from 'node:fs';
-import path from 'node:path';
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 
 const REQUIRED_SECTIONS = ["Description", "Goals", "Requirements", "Subtasks"];
-const STATUS_TAGS = new Set(["#IceBox", "#Accepted", "#Ready", "#Todo", "#InProgress", "#Done"]);
+const STATUS_TAGS = ["#IceBox", "#Accepted", "#Ready", "#Todo", "#InProgress", "#Done"];
 
-function escapeRegExp(str: string): string {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+function escapeRegExp(input: string): string {
+  return input.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-function checkFile(filePath: string): string[] {
-  const text = readFileSync(filePath, "utf8");
+function checkFile(path: string): string[] | null {
+  const text = readFileSync(path, "utf8");
   const errors: string[] = [];
+
   for (const section of REQUIRED_SECTIONS) {
     const pattern = new RegExp(`^#+\\s*${escapeRegExp(section)}`, "im");
     if (!pattern.test(text)) {
       errors.push(`Missing section: ${section}`);
     }
   }
-  if (![...STATUS_TAGS].some((tag) => text.includes(tag))) {
+
+  if (!STATUS_TAGS.some((tag) => text.includes(tag))) {
     errors.push("Missing status hashtag");
   }
-  return errors;
+
+  return errors.length ? errors : null;
 }
 
-function main(): void {
-  const dirArg = process.argv[2];
-  const directory = dirArg ? path.resolve(dirArg) : path.resolve("docs/agile/tasks");
-
+export function main(): void {
+  const directory = process.argv[2] ?? "docs/agile/tasks";
   const files = readdirSync(directory).filter((f) => f.endsWith(".md")).sort();
-  const failures: [string, string[]][] = [];
+  const failures: Array<{ path: string; errors: string[] }> = [];
+
   for (const file of files) {
-    const filePath = path.join(directory, file);
-    const errors = checkFile(filePath);
-    if (errors.length > 0) {
-      failures.push([filePath, errors]);
-    }
+    const filePath = join(directory, file);
+    const result = checkFile(filePath);
+    if (result) failures.push({ path: filePath, errors: result });
   }
 
-  if (failures.length > 0) {
-    for (const [file, errs] of failures) {
-      for (const err of errs) {
-        console.log(`${file}: ${err}`);
+  if (failures.length) {
+    for (const { path, errors } of failures) {
+      for (const err of errors) {
+        console.log(`${path}: ${err}`);
       }
     }
     process.exit(1);
@@ -49,4 +49,6 @@ function main(): void {
   console.log("All task files have required sections and status hashtags.");
 }
 
-main();
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main();
+}
