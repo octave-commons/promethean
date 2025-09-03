@@ -9,7 +9,7 @@ export function getPty() {
   if (_pty !== undefined) return _pty;
   try {
     // dynamic require to avoid ESM import errors when missing
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+
     const mod = require("node-pty");
     _pty = mod && (mod.default || mod);
   } catch {

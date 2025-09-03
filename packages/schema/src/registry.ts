@@ -3,12 +3,12 @@ import { z, ZodTypeAny } from 'zod';
 export type Compat = 'none' | 'backward' | 'forward';
 export type TopicId = string;
 
-export interface TopicSchema {
+export type TopicSchema = {
     topic: TopicId;
     version: number;
     schema: ZodTypeAny;
     compat: Compat; // evolution rule vs previous version(s)
-}
+};
 
 export class SchemaRegistry {
     private versions = new Map<TopicId, TopicSchema[]>(); // ascending by version

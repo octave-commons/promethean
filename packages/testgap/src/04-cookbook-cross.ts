@@ -1,7 +1,8 @@
-/* eslint-disable no-console */
-import { globby } from "globby";
 import * as path from "path";
 import { promises as fs } from "fs";
+
+import { globby } from "globby";
+
 import { parseArgs, writeJSON } from "./utils.js";
 import type { CookbookCross } from "./types.js";
 

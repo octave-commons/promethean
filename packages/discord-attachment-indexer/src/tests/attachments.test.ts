@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { handleSocialMessageCreated } from "../index.js";
 
 test("indexes attachments for provider+tenant", async (t) => {

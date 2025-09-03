@@ -95,3 +95,7 @@ packages/codex-context/docs/codex-context/
 build-errors.txt
 
 test-errors.txt
+
+.eslintcache
+
+error-groups/

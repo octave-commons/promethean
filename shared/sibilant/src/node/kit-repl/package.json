@@ -26,6 +26,6 @@
         "lisp"
     ],
     "author": "Aaron Beavers",
-    "license": "ISC",
+    "license": "GPL-3.0-only",
     "homepage": "git+https://bitbucket.org/aaron_beavers/kit-repl#readme"
 }

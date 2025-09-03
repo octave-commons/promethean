@@ -1,5 +1,6 @@
 import type { ChatInputCommandInteraction, TextChannel } from "discord.js";
 import { ChannelType } from "discord.js";
+
 import type { Bot } from "../bot.js";
 import runSetDesktop from "../actions/set-desktop-channel.js";
 import { buildSetDesktopChannelScope } from "../actions/set-desktop-channel.scope.js";

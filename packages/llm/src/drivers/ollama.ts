@@ -1,4 +1,5 @@
 import ollama from 'ollama';
+
 import { LLMDriver, GenerateArgs } from './base.js';
 
 export class OllamaDriver implements LLMDriver {

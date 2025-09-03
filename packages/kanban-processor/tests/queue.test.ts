@@ -1,5 +1,6 @@
 import test from "ava";
 import { WebSocketServer } from "ws";
+
 import { startKanbanProcessor } from "../src/index.js";
 
 function wait(ms: number) {

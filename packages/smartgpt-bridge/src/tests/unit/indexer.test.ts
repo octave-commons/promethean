@@ -1,7 +1,9 @@
 // @ts-nocheck
-import test from "ava";
 import path from "node:path";
 import fs from "node:fs/promises";
+
+import test from "ava";
+
 import {
   reindexAll,
   reindexSubset,

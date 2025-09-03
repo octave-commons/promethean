@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+
 import { z } from 'zod';
 import YAML from 'yaml';
 
@@ -13,10 +14,10 @@ export type ProviderTenant = {
     extra?: Record<string, any>;
 };
 
-export interface ProviderRegistry {
+export type ProviderRegistry = {
     get(provider: string, tenant: string): Promise<ProviderTenant>;
     list(provider?: string): Promise<ProviderTenant[]>;
-}
+};
 
 const CredentialsSchema = z.record(z.string());
 const ProviderTenantSchema = z.object({

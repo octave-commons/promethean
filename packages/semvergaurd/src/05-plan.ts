@@ -1,7 +1,7 @@
-/* eslint-disable no-console */
 import { promises as fs } from "fs";
 import * as path from "path";
 import { exec as _exec } from "child_process";
+
 import { parseArgs, readJSON, writeJSON } from "./utils.js";
 
 const exec = (cmd: string, cwd = process.cwd()) =>

@@ -1,5 +1,6 @@
 import type { Expr } from '../ast';
 import { name as mkName } from '../ast';
+
 import { S, List, Sym, Num, Str, Bool, Nil, isList, isSym, list, sym } from './syntax';
 
 export function toExpr(x: S): Expr {
@@ -15,7 +16,7 @@ export function toExpr(x: S): Expr {
         case 'sym':
             return {
                 kind: 'Var',
-                name: mkName(x.gensym ?? x.name, x.span!),
+                name: mkName(x.gensym ?? x.name, x.span),
                 span: x.span!,
             };
         case 'list':
@@ -63,7 +64,7 @@ function listToExpr(x: List): Expr {
         const [, n, v, body] = x.xs;
         return {
             kind: 'Let',
-            name: mkName((n as Sym).gensym ?? (n as Sym).name, n.span!),
+            name: mkName((n as Sym).gensym ?? (n as Sym).name, n.span),
             value: toExpr(v),
             body: toExpr(body),
             span: x.span!,
@@ -71,13 +72,13 @@ function listToExpr(x: List): Expr {
     }
     if (isSym(hd, 'defun')) {
         const [, nameS, paramsList, ...bodyS] = x.xs;
-        const name = mkName((nameS as Sym).gensym ?? (nameS as Sym).name, nameS.span!);
-        const params = ((paramsList as List).xs as Sym[]).map((s) => mkName(s.gensym ?? s.name, s.span!));
+        const name = mkName((nameS as Sym).gensym ?? (nameS as Sym).name, nameS.span);
+        const params = ((paramsList as List).xs as Sym[]).map((s) => mkName(s.gensym ?? s.name, s.span));
         const body = bodyS.length === 1 ? toExpr(bodyS[0]) : toExpr(list([sym('begin'), ...bodyS]));
         return { kind: 'Def', name, params, body, span: x.span! } as Expr;
     }
     if (isSym(hd, 'fn') || isSym(hd, 'lambda')) {
-        const params = ((x.xs[1] as List).xs as Sym[]).map((s) => mkName(s.gensym ?? s.name, s.span!));
+        const params = ((x.xs[1] as List).xs as Sym[]).map((s) => mkName(s.gensym ?? s.name, s.span));
         const bodyS = x.xs.slice(2);
         const body = bodyS.length === 1 ? toExpr(bodyS[0]) : toExpr(list([sym('begin'), ...bodyS]));
         return { kind: 'Fun', params, body, span: x.span! };
@@ -85,12 +86,12 @@ function listToExpr(x: List): Expr {
 
     if (isSym(hd, 'class')) {
         const [, nameS, fieldsList, methodsList] = x.xs;
-        const name = mkName((nameS as Sym).name, nameS.span!);
-        const fields = ((fieldsList as List).xs as Sym[]).map((s) => mkName(s.name, s.span!));
+        const name = mkName((nameS as Sym).name, nameS.span);
+        const fields = ((fieldsList as List).xs as Sym[]).map((s) => mkName(s.name, s.span));
         const methods = (methodsList as List).xs.map((m) => {
             const [mn, paramsList, ...bodyS] = (m as List).xs;
-            const mname = mkName((mn as Sym).name, mn.span!);
-            const params = ((paramsList as List).xs as Sym[]).map((s) => mkName(s.name, s.span!));
+            const mname = mkName((mn as Sym).name, mn.span);
+            const params = ((paramsList as List).xs as Sym[]).map((s) => mkName(s.name, s.span));
             const body = bodyS.length === 1 ? toExpr(bodyS[0]) : toExpr(list([sym('begin'), ...bodyS]));
             return { name: mname, params, body };
         });

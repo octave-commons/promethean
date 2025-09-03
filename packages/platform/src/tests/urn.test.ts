@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { toUrn, fromUrn } from '../urn.js';
 
 test('URN round-trip', (t) => {

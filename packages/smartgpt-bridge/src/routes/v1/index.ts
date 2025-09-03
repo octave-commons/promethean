@@ -1,6 +1,7 @@
 // @ts-nocheck
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
+
 import { registerFilesRoutes } from "./files.js";
 import { registerSearchRoutes } from "./search.js";
 import { registerSinkRoutes } from "./sinks.js";
