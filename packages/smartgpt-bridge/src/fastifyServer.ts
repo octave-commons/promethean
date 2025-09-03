@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { configDotenv } from "dotenv";
+
 import { buildFastifyApp } from "./fastifyApp.js";
 import { scheduleChromaCleanup } from "./logging/chromaCleanup.js";
 

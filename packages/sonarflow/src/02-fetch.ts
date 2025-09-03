@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { parseArgs, SONAR_URL, authHeader, writeJSON } from "./utils.js";
 import type { SonarIssue, FetchPayload } from "./types.js";
 
@@ -8,10 +7,13 @@ const args = parseArgs({
   "--statuses": "OPEN,REOPENED,CONFIRMED",
   "--types": "BUG,VULNERABILITY,CODE_SMELL,SECURITY_HOTSPOT",
   "--severities": "BLOCKER,CRITICAL,MAJOR,MINOR,INFO",
-  "--pageSize": "500"
+  "--pageSize": "500",
 });
 
-async function sonarGet(pathname: string, params: Record<string,string|number>) {
+async function sonarGet(
+  pathname: string,
+  params: Record<string, string | number>,
+) {
   const qs = new URLSearchParams(params as any).toString();
   const url = `${SONAR_URL}${pathname}?${qs}`;
   const res = await fetch(url, { headers: { ...authHeader() } });
@@ -26,7 +28,8 @@ async function main() {
 
   const pageSize = Number(args["--pageSize"]);
   const issues: SonarIssue[] = [];
-  let page = 1, total = 0;
+  let page = 1,
+    total = 0;
 
   do {
     const data = await sonarGet("/api/issues/search", {
@@ -34,7 +37,9 @@ async function main() {
       statuses: args["--statuses"],
       types: args["--types"],
       severities: args["--severities"],
-      p: page, ps: pageSize, additionalFields: "_all"
+      p: page,
+      ps: pageSize,
+      additionalFields: "_all",
     });
 
     total = data.total;
@@ -49,7 +54,7 @@ async function main() {
         line: it.line,
         message: it.message,
         debt: it.debt,
-        tags: it.tags
+        tags: it.tags,
       });
     }
     page++;
@@ -58,11 +63,16 @@ async function main() {
   const payload: FetchPayload = {
     issues,
     fetchedAt: new Date().toISOString(),
-    project
+    project,
   };
 
   await writeJSON(args["--out"], payload);
-  console.log(`sonarflow: fetched ${issues.length} issues for ${project} → ${args["--out"]}`);
+  console.log(
+    `sonarflow: fetched ${issues.length} issues for ${project} → ${args["--out"]}`,
+  );
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { createStore } from "../store/createStore.js";
 import { initialState, reducer } from "../store/reducer.js";
 import type { Event } from "../store/events.js";

@@ -1,12 +1,13 @@
 import { promises as fs } from 'node:fs';
 import * as path from 'node:path';
+
 import { listFiles, type FileEntry } from './util.js';
 
-export interface DirEntry {
+export type DirEntry = {
     name: string;
     relative: string;
     type: 'file' | 'dir';
-}
+};
 
 function resolvePath(root: string, rel: string): string {
     const base = path.resolve(root);

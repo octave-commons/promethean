@@ -1,4 +1,5 @@
 import { Level } from "level";
+
 import type { Cache, CacheOptions, Millis, PutOptions } from "./types.js";
 
 /**
@@ -106,12 +107,10 @@ export const openLevelCache = async <T = unknown>(
       for await (const [k, env] of it) {
         const [val, expired] = unwrap(env as Envelope<T> | undefined);
         if (expired) {
-          await db.del(k as string).catch(() => {});
+          await db.del(k).catch(() => {});
           continue;
         }
-        const logicalKey = prefix
-          ? (k as string).slice(prefix.length)
-          : (k as string);
+        const logicalKey = prefix ? k.slice(prefix.length) : k;
         if (val !== undefined) yield [logicalKey, val] as [string, T];
       }
     } finally {
@@ -124,7 +123,7 @@ export const openLevelCache = async <T = unknown>(
     for await (const [k, env] of db.iterator()) {
       const [, expired] = unwrap(env as Envelope<T> | undefined);
       if (expired) {
-        await db.del(k as string).catch(() => {});
+        await db.del(k).catch(() => {});
         n++;
       }
     }
@@ -237,12 +236,10 @@ function bindView<T>(
     for await (const [k, env] of it) {
       const [val, expired] = unwrap(env as Envelope<T> | undefined);
       if (expired) {
-        await db.del(k as string).catch(() => {});
+        await db.del(k).catch(() => {});
         continue;
       }
-      const logicalKey = prefix
-        ? (k as string).slice(prefix.length)
-        : (k as string);
+      const logicalKey = prefix ? k.slice(prefix.length) : k;
       if (val !== undefined) yield [logicalKey, val] as [string, T];
     }
   };
@@ -252,7 +249,7 @@ function bindView<T>(
     for await (const [k, env] of db.iterator()) {
       const [, expired] = unwrap(env as Envelope<T> | undefined);
       if (expired) {
-        await db.del(k as string).catch(() => {});
+        await db.del(k).catch(() => {});
         n++;
       }
     }

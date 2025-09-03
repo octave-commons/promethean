@@ -1,5 +1,7 @@
-import test from "ava";
 import { PassThrough } from "stream";
+
+import test from "ava";
+
 import { convert } from "../converter.js";
 
 test("convert ogg stream to wav stream returns a stream", (t) => {

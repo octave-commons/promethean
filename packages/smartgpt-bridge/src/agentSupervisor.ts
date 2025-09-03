@@ -1,8 +1,10 @@
 // @ts-nocheck
-import { getPty, PtyUnavailableError } from "./lib/pty.js";
-import { nanoid } from "nanoid";
 import fs from "fs";
 import path from "path";
+
+import { nanoid } from "nanoid";
+
+import { getPty, PtyUnavailableError } from "./lib/pty.js";
 
 // ESM-safe __dirname
 const __dirname = path.dirname(new URL(import.meta.url).pathname);

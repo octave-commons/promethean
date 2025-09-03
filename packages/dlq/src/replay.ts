@@ -10,7 +10,7 @@ export async function replayDLQ(
     const dlq = dlqTopic(topic);
     const batch = await store.scan(dlq, { ts: 0, limit });
     for (const rec of batch) {
-        const orig = (rec.payload as any)?.original as any;
+        const orig = rec.payload?.original;
         if (!orig) continue;
         const tweaked = transform ? transform(orig) || orig : orig;
         await bus.publish(tweaked.topic, tweaked.payload, {

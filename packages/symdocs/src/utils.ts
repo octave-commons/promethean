@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 import * as crypto from "crypto";
+
 import * as ts from "typescript";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
@@ -57,13 +58,19 @@ export function makeProgram(rootFiles: string[], tsconfigPath?: string) {
   if (tsconfigPath) {
     const configFile = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
     if (configFile.error) {
-      throw new Error(ts.formatDiagnosticsWithColorAndContext([configFile.error], {
-        getCanonicalFileName: (f) => f,
-        getCurrentDirectory: ts.sys.getCurrentDirectory,
-        getNewLine: () => ts.sys.newLine,
-      }));
+      throw new Error(
+        ts.formatDiagnosticsWithColorAndContext([configFile.error], {
+          getCanonicalFileName: (f) => f,
+          getCurrentDirectory: ts.sys.getCurrentDirectory,
+          getNewLine: () => ts.sys.newLine,
+        }),
+      );
     }
-    const parse = ts.parseJsonConfigFileContent(configFile.config, ts.sys, path.dirname(tsconfigPath));
+    const parse = ts.parseJsonConfigFileContent(
+      configFile.config,
+      ts.sys,
+      path.dirname(tsconfigPath),
+    );
     options = { ...parse.options, ...options };
   }
 
@@ -92,14 +99,24 @@ export function posToLine(sf: ts.SourceFile, pos: number) {
   return line + 1;
 }
 
-export function signatureForFunction(checker: ts.TypeChecker, decl: ts.FunctionLikeDeclarationBase): string | undefined {
-  const sig = checker.getSignatureFromDeclaration(decl as ts.SignatureDeclaration);
+export function signatureForFunction(
+  checker: ts.TypeChecker,
+  decl: ts.FunctionLikeDeclarationBase,
+): string | undefined {
+  const sig = checker.getSignatureFromDeclaration(
+    decl as ts.SignatureDeclaration,
+  );
   return sig ? checker.signatureToString(sig) : undefined;
 }
 
-export function typeToString(checker: ts.TypeChecker, node: ts.Node): string | undefined {
+export function typeToString(
+  checker: ts.TypeChecker,
+  node: ts.Node,
+): string | undefined {
   const t = checker.getTypeAtLocation(node);
   try {
     return checker.typeToString(t);
-  } catch { return undefined; }
+  } catch {
+    return undefined;
+  }
 }

@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
 import { promises as fs } from "fs";
 import * as path from "path";
+
 import { parseArgs, cosine, writeJSON } from "./utils.js";
 import type { ClassesFile, GroupsFile, Group } from "./types.js";
 
@@ -8,11 +8,13 @@ const args = parseArgs({
   "--in": ".cache/cookbook/classes.json",
   "--out": ".cache/cookbook/groups.json",
   "--min-sim": "0.82",
-  "--max-size": "12"
+  "--max-size": "12",
 });
 
 async function main() {
-  const cf = JSON.parse(await fs.readFile(path.resolve(args["--in"]), "utf-8")) as ClassesFile;
+  const cf = JSON.parse(
+    await fs.readFile(path.resolve(args["--in"]), "utf-8"),
+  ) as ClassesFile;
   const ids = Object.keys(cf.classes);
   const seen = new Set<string>();
   const groups: Group[] = [];
@@ -36,7 +38,7 @@ async function main() {
       if (members.length >= maxSize) break;
     }
 
-    members.forEach(m => seen.add(m));
+    members.forEach((m) => seen.add(m));
     groups.push({ key, blockIds: members, centroid });
   }
 
@@ -44,4 +46,7 @@ async function main() {
   await writeJSON(path.resolve(args["--out"]), out);
   console.log(`cookbook: formed ${groups.length} group(s) → ${args["--out"]}`);
 }
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

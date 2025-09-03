@@ -1,4 +1,5 @@
 import { enqueueUtterance } from "@promethean/agent-ecs/helpers/enqueueUtterance.js";
+
 import type { RegisterLlmHandlerScope } from "./register-llm-handler.scope.js";
 
 export default function run(scope: RegisterLlmHandlerScope) {

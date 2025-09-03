@@ -1,7 +1,9 @@
-import test from "ava";
-import { persistArtifact } from "../save.js";
 import fs from "fs/promises";
 import path from "path";
+
+import test from "ava";
+
+import { persistArtifact } from "../save.js";
 
 test("persistArtifact writes markdown to docs/codex-context/requests", async (t) => {
   const baseDir = path.join(process.cwd(), "docs", "codex-context");

@@ -40,8 +40,8 @@ export async function generateSpectrogram(
   );
 
   // Write the wavBuffer to stdin
-  ffmpeg.stdin!.write(wavBuffer);
-  ffmpeg.stdin!.end();
+  ffmpeg.stdin.write(wavBuffer);
+  ffmpeg.stdin.end();
 
   const { stdout } = await ffmpeg;
 

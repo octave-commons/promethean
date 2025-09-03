@@ -1,7 +1,7 @@
-let AGENT_NAME = "Agent";
-try {
-  ({ AGENT_NAME } = await import("@promethean/legacy/env.js"));
-} catch {}
+import { randomUUID } from "crypto";
+
+import { createAudioResource, StreamType } from "@discordjs/voice";
+
 import {
   splitSentances,
   seperateSpeechFromThought,
@@ -9,10 +9,15 @@ import {
   estimatePauseDuration,
 } from "../tokenizers.js";
 import { sleep } from "../util.js";
-import type { AIAgent } from "./index.js";
-import { createAudioResource, StreamType } from "@discordjs/voice";
-import { randomUUID } from "crypto";
+
 import { Utterance } from "./speechCoordinator.js";
+
+import type { AIAgent } from "./index.js";
+
+let AGENT_NAME = "Agent";
+try {
+  ({ AGENT_NAME } = await import("@promethean/legacy/env.js"));
+} catch {}
 
 export async function speak(this: AIAgent, text: string) {
   const session = this.bot.currentVoiceSession;
@@ -48,7 +53,7 @@ export async function storeAgentMessage(
   startTime = Date.now(),
   endTime = Date.now(),
 ) {
-  const messages = this.context.getCollection("agent_messages") as any;
+  const messages = this.context.getCollection("agent_messages");
   return messages.insert({
     text,
     createdAt: Date.now(),

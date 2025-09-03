@@ -1,9 +1,9 @@
 import { S } from './syntax';
 
-export interface PrintOptions {
+export type PrintOptions = {
     indent?: number;
     maxInline?: number; // inline short lists
-}
+};
 
 export function printS(x: S, opts: PrintOptions = {}, depth = 0): string {
     const ind = ' '.repeat(opts.indent ?? 2);
