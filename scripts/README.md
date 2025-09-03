@@ -9,5 +9,20 @@ This folder contains utility scripts grouped by purpose. Most scripts are safe t
 - sibilant/: Build helpers for Sibilant-based sources.
 - misc/: One-off or experimental tools not yet categorized.
 
+## Running scripts
+
+Python utilities can be executed directly with the interpreter:
+
+```
+python scripts/simulate_ci.py --job lint
+```
+
+TypeScript scripts use [tsx](https://github.com/esbuild-kit/tsx). Use `pnpm exec` (or `npx`) to run them:
+
+```
+pnpm exec tsx scripts/lint-topics.ts
+pnpm exec tsx scripts/regen-footers.ts --dir docs/unique
+```
+
 Use make targets or pnpm/python directly as indicated in subfolder READMEs.
 
