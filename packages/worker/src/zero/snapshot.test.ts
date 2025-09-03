@@ -1,6 +1,6 @@
 import test from 'ava';
-import { buildSnapshot, commitSnapshot, type WorldLike, type ComponentRef } from './snapshot';
-import { markChanged } from './layout';
+import { buildSnapshot, commitSnapshot, type WorldLike, type ComponentRef } from './snapshot.js';
+import { markChanged } from './layout.js';
 
 class MockWorld implements WorldLike {
     comps = new Map<number, Map<number, any>>();

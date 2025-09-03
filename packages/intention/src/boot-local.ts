@@ -1,8 +1,8 @@
 import { promises as fs } from 'node:fs';
-import { RouterLLM } from './router';
-import { FileCacheLLM } from './cache';
-import { OllamaLLM } from './ollama';
-import { OpenAICompatLLM } from './openai_compat';
+import { RouterLLM } from './router.js';
+import { FileCacheLLM } from './cache.js';
+import { OllamaLLM } from './ollama.js';
+import { OpenAICompatLLM } from './openai_compat.js';
 
 interface Cfg {
     cacheDir?: string;

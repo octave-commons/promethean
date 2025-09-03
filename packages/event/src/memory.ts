@@ -10,7 +10,7 @@ import {
     CursorStore,
     Ack,
     UUID,
-} from './types';
+} from './types.js';
 
 type GroupKey = string; // `${topic}::${group}`
 const gkey = (t: string, g: string) => `${t}::${g}`;

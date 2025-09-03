@@ -1,4 +1,4 @@
-import type { defineAgentComponents } from '../components';
+import type { defineAgentComponents } from '../components.js';
 
 export function TurnDetectionSystem(w: any, C: ReturnType<typeof import('../components').defineAgentComponents>) {
     const { Turn, VAD, TranscriptFinal } = C as ReturnType<typeof defineAgentComponents>;

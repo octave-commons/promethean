@@ -1,6 +1,6 @@
 import express from "express";
 import { Client } from "discord.js";
-import { VoiceSession } from "./voice-session";
+import { VoiceSession } from "./voice-session.js";
 export declare function createVoiceService(token?: string): {
   app: express.Application;
   client: Client<boolean>;

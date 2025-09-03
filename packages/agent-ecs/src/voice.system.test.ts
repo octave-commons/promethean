@@ -1,6 +1,6 @@
 import test from 'ava';
-import { createAgentWorld } from './world';
-import { VoiceSystem } from './systems/voice';
+import { createAgentWorld } from './world.js';
+import { VoiceSystem } from './systems/voice.js';
 
 function makePlayer() {
     let subscribed: any = null;

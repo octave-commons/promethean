@@ -7,8 +7,8 @@ import {
   writeJSON,
   readJSON,
   parseMarkdownChunks,
-} from "./utils";
-import type { Chunk, Front } from "./types";
+} from "./utils.js";
+import type { Chunk, Front } from "./types.js";
 
 const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 

@@ -1,4 +1,4 @@
-import type { AgentBus } from '../bus';
+import type { AgentBus } from '../bus.js';
 
 export function OrchestratorSystem(
     w: any,

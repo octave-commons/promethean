@@ -1,7 +1,7 @@
 // @ts-nocheck
 import test from 'ava';
-import { S, compileStruct } from './struct';
-import type { Infer } from './struct';
+import { S, compileStruct } from './struct.js';
+import type { Infer } from './struct.js';
 
 const Position = S.struct({ x: S.f32(), y: S.f32() });
 type Position = Infer<typeof Position>;

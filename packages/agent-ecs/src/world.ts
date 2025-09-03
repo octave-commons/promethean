@@ -1,8 +1,8 @@
 import { World, Entity } from '@promethean/ds/ecs.js';
-import { defineAgentComponents } from './components';
-import { VADUpdateSystem } from './systems/vad';
-import { TurnDetectionSystem } from './systems/turn';
-import { SpeechArbiterSystem } from './systems/speechArbiter';
+import { defineAgentComponents } from './components.js';
+import { VADUpdateSystem } from './systems/vad.js';
+import { TurnDetectionSystem } from './systems/turn.js';
+import { SpeechArbiterSystem } from './systems/speechArbiter.js';
 // ecs/carry.ts
 
 // Carry a *subset* of components for all entities that have them in the current buffer.

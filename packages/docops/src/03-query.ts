@@ -1,5 +1,5 @@
-import { parseArgs, cosine, writeJSON, readJSON } from "./utils";
-import type { Chunk, QueryHit } from "./types";
+import { parseArgs, cosine, writeJSON, readJSON } from "./utils.js";
+import type { Chunk, QueryHit } from "./types.js";
 import * as path from "path";
 
 const args = parseArgs({

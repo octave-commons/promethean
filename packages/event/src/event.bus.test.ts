@@ -1,5 +1,5 @@
 import test from 'ava';
-import { InMemoryEventBus } from './memory';
+import { InMemoryEventBus } from './memory.js';
 
 test('event bus: publish/subscribe earliest', async (t) => {
     const bus = new InMemoryEventBus();

@@ -1,6 +1,6 @@
-import type { Expr } from '../ast';
-import { name as mkName } from '../ast';
-import { S, List, Sym, Num, Str, Bool, Nil, isList, isSym, list, sym } from './syntax';
+import type { Expr } from '../ast.js';
+import { name as mkName } from '../ast.js';
+import { S, List, Sym, Num, Str, Bool, Nil, isList, isSym, list, sym } from './syntax.js';
 
 export function toExpr(x: S): Expr {
     switch (x.t) {

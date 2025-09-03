@@ -1,6 +1,6 @@
 import { Collection, Db } from 'mongodb';
-import { EventBus, EventRecord, EventStore, CursorStore, PublishOptions, CursorPosition, Ack, UUID } from './types';
-import { InMemoryEventBus } from './memory';
+import { EventBus, EventRecord, EventStore, CursorStore, PublishOptions, CursorPosition, Ack, UUID } from './types.js';
+import { InMemoryEventBus } from './memory.js';
 
 export class MongoEventStore implements EventStore {
     private coll: Collection<EventRecord>;

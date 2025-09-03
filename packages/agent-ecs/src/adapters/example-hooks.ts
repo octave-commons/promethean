@@ -1,4 +1,4 @@
-import { enqueueUtterance } from '../helpers/enqueueUtterance';
+import { enqueueUtterance } from '../helpers/enqueueUtterance.js';
 
 export function wireAdapters(
     world: ReturnType<typeof import('../world').createAgentWorld>,

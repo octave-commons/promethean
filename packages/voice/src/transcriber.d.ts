@@ -2,7 +2,7 @@ import { User } from "discord.js";
 import EventEmitter from "node:events";
 import http, { RequestOptions } from "node:http";
 import { PassThrough } from "node:stream";
-import { Speaker } from "./speaker";
+import { Speaker } from "./speaker.js";
 export type TranscriberOptions = {
   hostname: string;
   port: number;

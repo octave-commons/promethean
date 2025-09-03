@@ -2,8 +2,8 @@ import { promises as fs } from "fs";
 import * as path from "path";
 import matter from "gray-matter";
 import { z } from "zod";
-import { parseArgs, listFilesRec, randomUUID } from "./utils";
-import type { Front } from "./types";
+import { parseArgs, listFilesRec, randomUUID } from "./utils.js";
+import type { Front } from "./types.js";
 
 const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 

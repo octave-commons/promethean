@@ -1,4 +1,4 @@
-import type { Span } from './common';
+import type { Span } from './common.js';
 
 export type Name = { kind: 'Name'; text: string; span: Span };
 

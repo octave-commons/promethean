@@ -1,4 +1,4 @@
-import { InMemoryEventBus } from './memory';
+import { InMemoryEventBus } from './memory.js';
 
 (async () => {
     const bus = new InMemoryEventBus();

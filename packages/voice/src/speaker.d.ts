@@ -1,9 +1,9 @@
 import { PassThrough } from "node:stream";
-import { Transcriber } from "./transcriber";
+import { Transcriber } from "./transcriber.js";
 import { AudioReceiveStream } from "@discordjs/voice";
 import { User } from "discord.js";
 import EventEmitter from "node:events";
-import { VoiceRecorder } from "./voice-recorder";
+import { VoiceRecorder } from "./voice-recorder.js";
 export type SpeakerOptions = {
   user: User;
   transcriber: Transcriber;

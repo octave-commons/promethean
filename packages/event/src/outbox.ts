@@ -1,4 +1,4 @@
-import { EventBus, UUID } from './types';
+import { EventBus, UUID } from './types.js';
 
 export interface OutboxStore<T = any> {
     add(rec: { id: UUID; topic: string; payload: T; headers?: Record<string, string> }): Promise<void>;

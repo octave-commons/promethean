@@ -1,6 +1,6 @@
 // loose typing to avoid cross-package type coupling
-import type { defineAgentComponents } from '../components';
-import { enqueueUtterance } from '../helpers/enqueueUtterance';
+import type { defineAgentComponents } from '../components.js';
+import { enqueueUtterance } from '../helpers/enqueueUtterance.js';
 
 type Deps = {
     joinVoiceChannel: (opts: any) => any;

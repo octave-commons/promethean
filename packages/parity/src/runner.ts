@@ -1,4 +1,4 @@
-import { normalizeChat, normalizeEmbed, normalizeError, normalizeStream } from './normalizers';
+import { normalizeChat, normalizeEmbed, normalizeError, normalizeStream } from './normalizers.js';
 
 export interface ParityClients {
     broker: {

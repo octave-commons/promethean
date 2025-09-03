@@ -1,4 +1,4 @@
-import type { LLM } from './llm';
+import type { LLM } from './llm.js';
 
 export class RouterLLM implements LLM {
     constructor(private providers: LLM[]) {}

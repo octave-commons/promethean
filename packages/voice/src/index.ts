@@ -1,6 +1,6 @@
 import express, { Application } from "express";
 import { Client, GatewayIntentBits, User } from "discord.js";
-import { VoiceSession } from "./voice-session";
+import { VoiceSession } from "./voice-session.js";
 import { HeartbeatClient } from "@promethean/legacy/heartbeat/index.js";
 
 export function createVoiceService(

@@ -1,5 +1,5 @@
 // loose typing to avoid cross-package type coupling
-import type { defineAgentComponents } from '../components';
+import type { defineAgentComponents } from '../components.js';
 
 // If the user keeps speaking for at least this long while we're paused,
 // escalate to a hard stop of the current utterance.

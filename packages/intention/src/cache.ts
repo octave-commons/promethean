@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 import { promises as fs } from 'node:fs';
 import * as path from 'node:path';
-import type { LLM } from './llm';
+import type { LLM } from './llm.js';
 
 export class FileCacheLLM implements LLM {
     constructor(

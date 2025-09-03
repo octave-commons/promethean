@@ -1,5 +1,5 @@
 // loosen typing to avoid cross-package type coupling
-import { CompLayout, Snap, allocColumns, canUseSAB, isChanged } from './layout';
+import { CompLayout, Snap, allocColumns, canUseSAB, isChanged } from './layout.js';
 type Transferable = ArrayBuffer | SharedArrayBuffer;
 
 export type ComponentRef = any;

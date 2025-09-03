@@ -1,5 +1,5 @@
 import test from 'ava';
-import { runLisp } from './driver';
+import { runLisp } from './driver.js';
 
 test('lisp: basic arithmetic', (t) => {
     t.is(runLisp('(+ 2 40)'), 42);

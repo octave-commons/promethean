@@ -1,5 +1,5 @@
 // loose typing
-import type { defineAgentComponents } from '../components';
+import type { defineAgentComponents } from '../components.js';
 
 export function enqueueUtterance(
     w: any,

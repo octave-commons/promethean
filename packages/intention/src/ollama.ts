@@ -1,4 +1,4 @@
-import type { LLM } from './llm';
+import type { LLM } from './llm.js';
 
 type OllamaOpts = {
     model: string;

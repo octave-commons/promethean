@@ -1,10 +1,10 @@
 import { VoiceConnection } from "@discordjs/voice";
 import * as discord from "discord.js";
-import { Speaker } from "./speaker";
+import { Speaker } from "./speaker.js";
 import { UUID } from "crypto";
-import { Transcriber } from "./transcriber";
-import { VoiceRecorder } from "./voice-recorder";
-import { VoiceSynth } from "./voice-synth";
+import { Transcriber } from "./transcriber.js";
+import { VoiceRecorder } from "./voice-recorder.js";
+import { VoiceSynth } from "./voice-synth.js";
 import EventEmitter from "events";
 /**
    Handles all things voice. Emits an event when a user begins speaking, and when they stop speaking

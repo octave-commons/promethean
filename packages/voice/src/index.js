@@ -1,6 +1,6 @@
 import express from "express";
 import { Client, GatewayIntentBits } from "discord.js";
-import { VoiceSession } from "./voice-session";
+import { VoiceSession } from "./voice-session.js";
 import { HeartbeatClient } from "../../../../shared/js/heartbeat/index.js";
 export function createVoiceService(token = process.env.DISCORD_TOKEN || "") {
   if (!token) {

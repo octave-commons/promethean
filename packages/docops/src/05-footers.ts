@@ -1,8 +1,8 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 import matter from "gray-matter";
-import { parseArgs, readJSON, stripGeneratedSections, relMdLink, anchorId, injectAnchors } from "./utils";
-import type { Front } from "./types";
+import { parseArgs, readJSON, stripGeneratedSections, relMdLink, anchorId, injectAnchors } from "./utils.js";
+import type { Front } from "./types.js";
 
 const args = parseArgs({
   "--dir": "docs/unique",

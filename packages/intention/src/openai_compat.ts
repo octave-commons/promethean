@@ -1,4 +1,4 @@
-import type { LLM } from './llm';
+import type { LLM } from './llm.js';
 
 export class OpenAICompatLLM implements LLM {
     constructor(

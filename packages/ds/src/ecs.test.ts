@@ -1,5 +1,5 @@
 import test from 'ava';
-import { World } from './ecs';
+import { World } from './ecs.js';
 
 test('ecs: creates entity and iterates components', (t) => {
     const world = new World();
