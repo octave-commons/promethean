@@ -1,8 +1,9 @@
-/* eslint-disable no-console */
 import { promises as fs } from "fs";
 import * as path from "path";
+
 import { globby } from "globby";
 import { Project } from "ts-morph";
+
 import { parseArgs, writeJSON, rel } from "./utils.js";
 import type { ExportScan, ExportSymbol } from "./types.js";
 

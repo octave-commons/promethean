@@ -1,12 +1,14 @@
 import { writeFile } from "fs/promises";
+
+import { choice } from "../util.js";
+import { innerStateFormat } from "../prompts.js";
+import type { AgentInnerState } from "../types.js";
+
+import type { AIAgent } from "./index.js";
 let AGENT_NAME = "Agent";
 try {
   ({ AGENT_NAME } = await import("@promethean/legacy/env.js"));
 } catch {}
-import { choice } from "../util.js";
-import { innerStateFormat } from "../prompts.js";
-import type { AgentInnerState } from "../types.js";
-import type { AIAgent } from "./index.js";
 
 export async function generateInnerState(this: AIAgent) {
   this.isThinking = true;
@@ -48,7 +50,7 @@ export async function think(this: AIAgent): Promise<any> {
     ]),
   })) as string;
 
-  const thoughts = this.context.getCollection("agent_messages") as any;
+  const thoughts = this.context.getCollection("agent_messages");
 
   await thoughts.insert({
     text: `You thought to yourself: ${newThought}`,

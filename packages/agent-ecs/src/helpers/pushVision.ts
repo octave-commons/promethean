@@ -13,7 +13,7 @@ export function pushVisionFrame(
         mime?: string;
     },
 ) {
-    const { VisionFrame, VisionRing } = C as ReturnType<typeof defineAgentComponents>;
+    const { VisionFrame, VisionRing } = C;
     const e = w.createEntity();
     const id = globalThis.crypto?.randomUUID?.() ?? `${Date.now()}.${Math.random()}`;
     w.addComponent(e, VisionFrame, { id, ts: Date.now(), ref });

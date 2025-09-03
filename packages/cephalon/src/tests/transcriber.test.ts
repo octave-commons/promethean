@@ -1,6 +1,8 @@
-import test from "ava";
 import { PassThrough } from "node:stream";
 import EventEmitter from "node:events";
+
+import test from "ava";
+
 import { Transcriber } from "../transcriber.js";
 
 class DummyBroker extends EventEmitter {

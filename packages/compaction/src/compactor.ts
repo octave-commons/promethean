@@ -1,12 +1,12 @@
 // Module types resolved at runtime; loosen compile-time types here
 
-export interface CompactorOptions {
+export type CompactorOptions = {
     topic: string;
     snapshotTopic: string;
     keySource?: (e: any) => string | undefined; // optional, if state events are not keyed
     intervalMs?: number; // how often to snapshot
     batchKeys?: string[]; // optional, restrict to a key set
-}
+};
 
 export function startCompactor(store: any, bus: any, opts: CompactorOptions) {
     const every = opts.intervalMs ?? 30_000;

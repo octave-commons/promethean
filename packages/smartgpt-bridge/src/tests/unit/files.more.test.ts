@@ -1,6 +1,8 @@
 // @ts-nocheck
-import test from "ava";
 import path from "node:path";
+
+import test from "ava";
+
 import {
   locateStacktrace,
   resolvePath,

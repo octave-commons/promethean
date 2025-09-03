@@ -3,17 +3,17 @@
 
 export type Id = string | number;
 
-export interface NodeRecord<ND = unknown> {
+export type NodeRecord<ND = unknown> = {
     id: Id;
     data?: ND;
-}
+};
 
-export interface EdgeRecord<ED = unknown> {
+export type EdgeRecord<ED = unknown> = {
     u: Id;
     v: Id;
     weight?: number; // default = 1
     data?: ED;
-}
+};
 
 type EdgeCell<ED> = { weight: number; data?: ED };
 

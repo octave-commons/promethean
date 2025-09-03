@@ -6,18 +6,18 @@ export type ComponentId = number;
 
 const MAX_COMPONENTS = 1024 * 8;
 
-export interface ComponentSpec<T> {
+export type ComponentSpec<T> = {
     name: string;
     defaults?: () => T;
     onAdd?: (w: World, e: Entity, v: T) => void;
     onRemove?: (w: World, e: Entity, v: T) => void;
     equals?: (a: T, b: T) => boolean; // <-- for setIfChanged()
-}
+};
 
-export interface ComponentType<T> extends ComponentSpec<T> {
+export type ComponentType<T> = {
     id: ComponentId; // 0..63
     mask: bigint; // 1n << id
-}
+} & ComponentSpec<T>;
 
 export type Query = {
     all?: bigint; // must have all bits
@@ -145,7 +145,7 @@ export class World {
 
     destroyEntity(e: Entity): void {
         this.requireAlive(e);
-        const { arch, row } = this.loc[e & 0xffff]!;
+        const { arch, row } = this.loc[e & 0xffff];
         // call onRemove hooks for all comps present
         for (let cid = 0; cid < this.nextCompId; cid++) {
             const bit = 1n << BigInt(cid);
@@ -173,7 +173,7 @@ export class World {
     addComponent<T>(e: Entity, ct: ComponentType<T>, value?: T): void {
         this.requireAlive(e);
         const idx = e & 0xffff;
-        const loc = this.loc[idx]!;
+        const loc = this.loc[idx];
         const from = loc.arch;
         if ((from.mask & ct.mask) !== 0n) {
             // already has: set value + mark changed
@@ -202,7 +202,7 @@ export class World {
     removeComponent<T>(e: Entity, ct: ComponentType<T>): void {
         this.requireAlive(e);
         const idx = e & 0xffff;
-        const loc = this.loc[idx]!;
+        const loc = this.loc[idx];
         const from = loc.arch;
         if ((from.mask & ct.mask) === 0n) return; // nothing to do
         const to = this.nextArchetype(from, ct.id, false);
@@ -218,7 +218,7 @@ export class World {
 
     get<T>(e: Entity, ct: ComponentType<T>): T | undefined {
         this.requireAlive(e);
-        const { arch, row } = this.loc[e & 0xffff]!;
+        const { arch, row } = this.loc[e & 0xffff];
         if ((arch.mask & ct.mask) === 0n) return undefined;
         arch.ensureColumn(ct.id);
         const [prev] = arch.columns.get(ct.id)!;
@@ -228,7 +228,7 @@ export class World {
     carry<T>(e: Entity, ct: ComponentType<T>): void {
         // copy prev → next for this (entity,comp) WITHOUT marking changed
         this.requireAlive(e);
-        const { arch, row } = this.loc[e & 0xffff]!;
+        const { arch, row } = this.loc[e & 0xffff];
         if ((arch.mask & ct.mask) === 0n) throw new Error(`entity lacks ${ct.name}`);
         arch.ensureColumn(ct.id);
         const [prev, next] = arch.columns.get(ct.id)!;
@@ -241,7 +241,7 @@ export class World {
 
     set<T>(e: Entity, ct: ComponentType<T>, value: T): void {
         this.requireAlive(e);
-        const { arch, row } = this.loc[e & 0xffff]!;
+        const { arch, row } = this.loc[e & 0xffff];
         if ((arch.mask & ct.mask) === 0n) throw new Error(`entity lacks ${ct.name}`);
         arch.ensureColumn(ct.id);
         const [prev, next] = arch.columns.get(ct.id)!;
@@ -265,7 +265,7 @@ export class World {
 
     has(e: Entity, ct: ComponentType<any>): boolean {
         if (!this.isAlive(e)) return false;
-        const { arch } = this.loc[e & 0xffff]!;
+        const { arch } = this.loc[e & 0xffff];
         return (arch.mask & ct.mask) !== 0n;
     }
 
@@ -316,16 +316,16 @@ export class World {
                     }
                     if (!ok) continue;
                 }
-                const e = arch.entities[row]!;
+                const e = arch.entities[row];
                 const get = (ct: ComponentType<any>) => {
                     arch.ensureColumn(ct.id);
                     const [prev] = arch.columns.get(ct.id)!;
                     return prev[row];
                 };
-                const v1 = c1 ? (arch.columns.get(c1.id)![0][row] as any) : undefined;
-                const v2 = c2 ? (arch.columns.get(c2.id)![0][row] as any) : undefined;
-                const v3 = c3 ? (arch.columns.get(c3.id)![0][row] as any) : undefined;
-                yield [e, get, v1 as any, v2 as any, v3 as any];
+                const v1 = c1 ? arch.columns.get(c1.id)![0][row] : undefined;
+                const v2 = c2 ? arch.columns.get(c2.id)![0][row] : undefined;
+                const v3 = c3 ? arch.columns.get(c3.id)![0][row] : undefined;
+                yield [e, get, v1, v2, v3];
             }
         }
     }
@@ -401,7 +401,7 @@ export class World {
 
     private removeRow(arch: Archetype, row: number): void {
         const last = arch.entities.length - 1;
-        const eLast = arch.entities[last]!;
+        const eLast = arch.entities[last];
         // swap-remove entity row
         arch.entities[row] = eLast;
         arch.entities.pop();

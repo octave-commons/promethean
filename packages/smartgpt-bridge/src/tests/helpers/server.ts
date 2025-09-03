@@ -1,8 +1,9 @@
 // @ts-nocheck
-import { buildFastifyApp } from "../../fastifyApp.js";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import sinon from "sinon";
 import * as persistenceClients from "@promethean/persistence/clients.js";
+
+import { buildFastifyApp } from "../../fastifyApp.js";
 
 function makeClient(app) {
   const u = (path, query) => {

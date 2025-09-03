@@ -1,7 +1,9 @@
 import { createCanvas } from "canvas";
+
 import { annotateImage } from "../annotate-image.js";
 import { getCurrentDateTime } from "../get-current-date-time.js";
 import { captureAudio } from "../desktop/desktopAudioCapture.js";
+
 import { generateSpectrogram } from "./spectrogram.js";
 
 const DEFAULT_WIDTH = 1024;

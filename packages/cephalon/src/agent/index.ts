@@ -8,9 +8,10 @@
  * @requires EventEmitter
  */
 
+import EventEmitter from "events";
+
 import { AudioPlayer, createAudioPlayer } from "@discordjs/voice";
 import { Message } from "ollama";
-import EventEmitter from "events";
 
 import {
   DesktopCaptureManager,

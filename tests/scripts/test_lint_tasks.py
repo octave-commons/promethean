@@ -4,11 +4,7 @@ from pathlib import Path
 
 def run_lint(path: Path):
     return subprocess.run(
-        [
-            "python",
-            "scripts/lint_tasks.py",
-            str(path),
-        ],
+        ["pnpm", "lint:tasks", str(path)],
         capture_output=True,
         text=True,
     )

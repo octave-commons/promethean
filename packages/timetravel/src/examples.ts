@@ -6,6 +6,6 @@ export async function processAt(store: any, processId: string, atTs: number) {
         topic: 'process.state',
         key: processId,
         atTs,
-        apply: (_prev, e) => e.payload as any,
+        apply: (_prev, e) => e.payload,
     });
 }

@@ -16,7 +16,7 @@ interface Options {
 	iife: boolean;
 	importNames: string[];
 	pretty: boolean;
-}
+
 
 export function emitJS(expr: Expr, opts: Options): string {
 	const body = emitExpr(expr);
