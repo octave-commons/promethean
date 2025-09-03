@@ -1,6 +1,6 @@
 import test from 'ava';
 import WebSocket, { WebSocketServer, RawData } from 'ws';
-import { startServer } from '../src/index.js';
+import { startServer } from '../src/server.js';
 import { once } from 'events';
 import type { AddressInfo } from 'net';
 
