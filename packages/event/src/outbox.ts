@@ -1,6 +1,6 @@
-import { EventBus, UUID } from './types';
+import type { EventBus, UUID } from './types.js';
 
-export interface OutboxStore<T = any> {
+export interface OutboxStore<T = unknown> {
     add(rec: { id: UUID; topic: string; payload: T; headers?: Record<string, string> }): Promise<void>;
     claimBatch(n: number): Promise<{ id: UUID; topic: string; payload: T; headers?: Record<string, string> }[]>;
     markSent(id: UUID): Promise<void>;

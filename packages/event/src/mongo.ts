@@ -1,6 +1,12 @@
-import { Collection, Db } from 'mongodb';
-import { EventBus, EventRecord, EventStore, CursorStore, PublishOptions, CursorPosition, Ack, UUID } from './types';
-import { InMemoryEventBus } from './memory';
+import type { Collection, Db, IndexSpecification } from 'mongodb';
+import type {
+    EventRecord,
+    EventStore,
+    CursorStore,
+    CursorPosition,
+    UUID,
+} from './types.js';
+import { InMemoryEventBus } from './memory.js';
 
 export class MongoEventStore implements EventStore {
     private coll: Collection<EventRecord>;
@@ -9,7 +15,7 @@ export class MongoEventStore implements EventStore {
     }
     static async ensureIndexes(db: Db, name = 'events') {
         const coll = db.collection(name);
-        const idx: any[] = [
+        const idx: Array<{ key: IndexSpecification; unique?: boolean }> = [
             { key: { topic: 1, ts: 1, id: 1 } },
             { key: { topic: 1, key: 1, ts: -1 } }, // supports compaction queries
             { key: { id: 1 }, unique: true },
@@ -18,10 +24,10 @@ export class MongoEventStore implements EventStore {
         for (const i of idx) await coll.createIndex(i.key, { unique: i.unique });
     }
     async insert<T>(e: EventRecord<T>): Promise<void> {
-        await this.coll.insertOne(e as any);
+        await this.coll.insertOne(e as EventRecord);
     }
     async scan(topic: string, params: { afterId?: UUID; ts?: number; limit?: number }): Promise<EventRecord[]> {
-        const q: any = { topic };
+        const q: Record<string, unknown> = { topic };
         if (params.afterId) q.id = { $gt: params.afterId };
         if (params.ts) q.ts = { $gte: params.ts };
         const cur = this.coll
@@ -63,8 +69,4 @@ export class MongoCursorStore implements CursorStore {
 }
 
 // Quick composition (drop-in replacement for InMemoryEventBus)
-export class MongoEventBus extends InMemoryEventBus {
-    constructor(store: MongoEventStore, cursors: MongoCursorStore) {
-        super(store, cursors);
-    }
-}
+export class MongoEventBus extends InMemoryEventBus {}
