@@ -1,6 +1,8 @@
 // @ts-nocheck
-import { execa } from "execa";
 import fs from "fs/promises";
+
+import { execa } from "execa";
+
 import { normalizeToRoot } from "./files.js";
 
 function splitCSV(s) {

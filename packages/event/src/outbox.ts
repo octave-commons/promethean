@@ -1,11 +1,11 @@
 import { EventBus, UUID } from './types';
 
-export interface OutboxStore<T = any> {
+export type OutboxStore<T = any> = {
     add(rec: { id: UUID; topic: string; payload: T; headers?: Record<string, string> }): Promise<void>;
     claimBatch(n: number): Promise<{ id: UUID; topic: string; payload: T; headers?: Record<string, string> }[]>;
     markSent(id: UUID): Promise<void>;
     markError(id: UUID, err: string): Promise<void>;
-}
+};
 export async function runOutboxDrainer(outbox: OutboxStore, bus: EventBus, intervalMs = 250) {
     while (true) {
         const batch = await outbox.claimBatch(100);

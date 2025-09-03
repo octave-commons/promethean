@@ -1,9 +1,10 @@
 // @ts-nocheck
+import { emitJS } from '../jsgen';
+
 import { read } from './reader';
 import { macroexpandAll } from './expand';
 import { toExpr } from './to-expr';
 import { sym, isList } from './syntax';
-import { emitJS } from '../jsgen';
 
 export function compileLispToJS(src: string, { pretty = false, importNames = [] as string[] } = {}) {
     const forms = read(src);
@@ -15,7 +16,7 @@ export function compileLispToJS(src: string, { pretty = false, importNames = [] 
         t: 'list',
         xs: [{ t: 'sym', name: 'begin' }, ...expanded],
     } as any;
-    const ast = toExpr(program as any);
+    const ast = toExpr(program);
     const js = emitJS(ast, { iife: false, importNames, pretty });
     return { forms, expanded, ast, js };
 }

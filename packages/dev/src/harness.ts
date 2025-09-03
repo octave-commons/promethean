@@ -3,10 +3,10 @@ import { startWSGateway } from '@promethean/ws/server.js';
 import { startHttpPublisher } from '@promethean/http/publish.js';
 import { startProcessProjector } from '@promethean/examples/process/projector.js';
 
-export interface Harness {
+export type Harness = {
     bus: any;
     stop(): Promise<void>;
-}
+};
 
 export async function startHarness({ wsPort = 9090, httpPort = 9091 } = {}): Promise<Harness> {
     const bus = new InMemoryEventBus();

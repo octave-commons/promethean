@@ -49,7 +49,7 @@ export async function runTests(
       { cwd: process.cwd() },
       (err: any, stdout: string | Buffer, stderr: string | Buffer) => {
         resolve({
-          code: err ? (err as any).code ?? 1 : 0,
+          code: err ? err.code ?? 1 : 0,
           stdout: stdout?.toString() ?? "",
           stderr: stderr?.toString() ?? "",
         });

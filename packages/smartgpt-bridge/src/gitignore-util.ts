@@ -2,6 +2,7 @@
 // Utility to load and merge .gitignore files from root to a given directory
 import fs from "fs/promises";
 import path from "path";
+
 import ignore from "ignore";
 
 /**

@@ -1,5 +1,6 @@
-import type { Bot } from "../bot.js";
 import type * as discord from "discord.js";
+
+import type { Bot } from "../bot.js";
 import { makeLogger, type Logger } from "../factories/logger.js";
 import { makePolicy, type PolicyChecker } from "../factories/policy.js";
 

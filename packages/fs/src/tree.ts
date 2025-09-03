@@ -4,7 +4,7 @@ import * as path from 'path';
 
 export type NodeType = 'file' | 'dir' | 'symlink';
 
-export interface TreeNode {
+export type TreeNode = {
     name: string; // basename
     path: string; // absolute path
     relative: string; // path relative to root
@@ -13,16 +13,16 @@ export interface TreeNode {
     mtimeMs?: number; // modified time (ms since epoch)
     ext?: string; // ".ts", ".md", etc. (files only)
     children?: TreeNode[]; // present for dirs
-}
+};
 
-export interface TreeOptions {
+export type TreeOptions = {
     includeHidden?: boolean; // include dotfiles/dirs (default: false)
     maxDepth?: number; // 0 = only root, 1 = root + children, ... (default: Infinity)
     followSymlinks?: boolean; // lstat vs stat (default: false)
     typeFilter?: NodeType | 'any'; // restrict subtree nodes (default: "any")
     onError?: (err: unknown, absPath: string) => void; // error hook (default: swallow/log)
     predicate?: (absPath: string, dirent: Dirent) => boolean; // skip nodes if returns false
-}
+};
 
 const isHidden = (name: string) => name.startsWith('.');
 

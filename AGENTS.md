@@ -140,9 +140,3 @@ Given a task, plan minimally, call only the tools you actually need, summarize e
 
 ## Evidence
 - Concise results from tool calls (snippets, IDs, counts, URLs). Avoid wall-of-text.
-
-## Proposal
-- For filesystem mutations: provide **unified diff**.
-- For GitHub actions: show the **exact** request body (JSON) you intend to send.
-- For Obsidian: show the note path + YAML frontmatter + body delta.
-- For MongoDB: show the query (read-only unless instructed) and a 3–5 row sample schema.

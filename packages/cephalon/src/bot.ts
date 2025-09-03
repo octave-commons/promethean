@@ -1,3 +1,5 @@
+import { EventEmitter } from "events";
+
 import * as discord from "discord.js";
 import {
   Client,
@@ -7,31 +9,31 @@ import {
   Routes,
   type RESTPutAPIApplicationCommandsJSONBody,
 } from "discord.js";
-import { EventEmitter } from "events";
 import { DESKTOP_CAPTURE_CHANNEL_ID } from "@promethean/legacy/env.js";
 import { ContextStore } from "@promethean/persistence/contextStore.js";
 import { createAgentWorld } from "@promethean/agent-ecs/world.js";
 import { AgentBus } from "@promethean/agent-ecs/bus.js";
 import { BrokerClient } from "@promethean/legacy/brokerClient.js";
 import { checkPermission } from "@promethean/legacy/permissionGate.js";
+import { cleanupChroma } from "@promethean/persistence/maintenance.js";
+import { pushVisionFrame } from "@promethean/agent-ecs/helpers/pushVision.js";
+
 import { type Interaction } from "./interactions.js";
 import { DesktopCaptureManager } from "./desktop/desktopLoop.js";
 // Avoid compile-time coupling to persistence types
-import { cleanupChroma } from "@promethean/persistence/maintenance.js";
-import { pushVisionFrame } from "@promethean/agent-ecs/helpers/pushVision.js";
+
 import runForwardAttachments from "./actions/forward-attachments.js";
 import { buildForwardAttachmentsScope } from "./actions/forward-attachments.scope.js";
 import registerLlmHandler from "./actions/register-llm-handler.js";
 import { buildRegisterLlmHandlerScope } from "./actions/register-llm-handler.scope.js";
-
 import { registerNewStyleCommands } from "./bot/registerCommands.js";
 
 // const VOICE_SERVICE_URL = process.env.VOICE_SERVICE_URL || 'http://localhost:4000';
 
-export interface BotOptions {
+export type BotOptions = {
   token: string;
   applicationId: string;
-}
+};
 
 export type VoiceStateChangeHandler = (
   oldState: discord.VoiceState,
@@ -172,14 +174,14 @@ export class Bot extends EventEmitter {
     if (process.env.NODE_ENV !== "test") {
       let collection: any | null = null;
       try {
-        collection = this.context.getCollection("discord_messages") as any;
+        collection = this.context.getCollection("discord_messages");
       } catch {
         try {
-          collection = (await this.context.createCollection(
+          collection = await this.context.createCollection(
             "discord_messages",
             "content",
             "created_at",
-          )) as any;
+          );
         } catch (e) {
           console.warn(e);
         }

@@ -3,11 +3,12 @@ import { promises as fs } from 'fs';
 import * as path from 'path';
 import { Readable, Transform, Writable } from 'stream';
 import { pipeline as _pipeline } from 'stream/promises';
+
 import { streamTreeConcurrent, StreamEvent, StreamNode } from './streamTreeGeneratorsConcurrent.js';
 
 type OverwriteMode = 'always' | 'if-newer' | 'never';
 
-export interface MirrorOptions {
+export type MirrorOptions = {
     includeHidden?: boolean;
     maxDepth?: number;
     followSymlinks?: boolean;
@@ -41,25 +42,25 @@ export interface MirrorOptions {
 
     /** Abort mid‑run */
     signal?: AbortSignal;
-}
+};
 
-export interface FileInfo {
+export type FileInfo = {
     srcRoot: string;
     dstRoot: string;
     node: StreamNode;
     srcPath: string; // absolute
     dstPath: string; // absolute (after mapPath)
     relPath: string; // relative to srcRoot (before mapPath)
-}
+};
 
-export interface MirrorStats {
+export type MirrorStats = {
     dirsCreated: number;
     filesWritten: number;
     filesSkipped: number;
     symlinksCreated: number;
     errors: number;
     planned?: PlannedOp[]; // when dryRun === true
-}
+};
 
 export type PlannedOp =
     | { kind: 'mkdir'; path: string }

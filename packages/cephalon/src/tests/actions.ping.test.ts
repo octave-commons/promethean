@@ -1,4 +1,5 @@
 import test from "ava";
+
 import runPing from "../actions/ping.js";
 import type { PingScope } from "../actions/ping.scope.js";
 import { NotAllowedError } from "../factories/policy.js";

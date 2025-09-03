@@ -145,12 +145,12 @@ export type BufferCtor<T extends ArrayBufferView> = {
     BYTES_PER_ELEMENT: number;
 };
 
-export interface NumericComponentSpec<T extends ArrayBufferView> {
+export type NumericComponentSpec<T extends ArrayBufferView> = {
     name: string;
     buffer: BufferCtor<T>; // e.g., Float32Array
     arity: number; // scalars=1, vec2=2, vec3=3, etc.
     defaults?: () => number[]; // per element defaults
-}
+};
 
 export function defineNumericComponent<T extends ArrayBufferView>(w: World, spec: NumericComponentSpec<T>) {
     // Under the hood we still store arrays of values,

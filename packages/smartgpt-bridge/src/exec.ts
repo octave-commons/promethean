@@ -1,4 +1,9 @@
 // @ts-nocheck
+import path from "path";
+
+import { execa } from "execa";
+
+import { isInsideRoot } from "./files.js";
 const REPO_ROOT = process.env.REPO_ROOT;
 
 // return exec({cwd,shell:'/usr/bin/bash'})`${command}`
@@ -12,9 +17,6 @@ const DANGER_PATTERNS = [
 function matchDanger(s) {
   return DANGER_PATTERNS.find((rx) => rx.test(s));
 }
-import { execa } from "execa";
-import path from "path";
-import { isInsideRoot } from "./files.js";
 
 export async function runCommand({
   command,

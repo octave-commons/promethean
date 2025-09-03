@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { InMemoryEventBus } from './memory';
 
 test('event bus: publish/subscribe earliest', async (t) => {
