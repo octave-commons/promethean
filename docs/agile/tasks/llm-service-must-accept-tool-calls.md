@@ -50,8 +50,4 @@ Nothing
 - [kanban](kanban.md)
 
 #framework-core #Ready
-<<<<<<< HEAD:docs/agile/tasks/llm-service-must-accept-tool-calls.md
 #ready
-=======
-
->>>>>>> origin/dev/yoga:docs/agile/tasks/LLM service must accept tool calls.md

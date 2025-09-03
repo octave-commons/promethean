@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export async function chat({ model, messages, options = {}, }) {
     const host = process.env.OLLAMA_HOST || "http://localhost:11434";
     const res = await fetch(`${host}/api/chat`, {

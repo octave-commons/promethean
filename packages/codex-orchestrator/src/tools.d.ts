@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export declare function readFileSafe(p: string): Promise<string>;
 export declare function summarize(s: string, maxLen?: number): string;
 export declare function ripgrep(cwd: string, query: string): Promise<string>;
