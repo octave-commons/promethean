@@ -1,26 +1,15 @@
 import type { Expr, Name } from "./ast";
 
-
 // Escape unsafe characters for JS string literal contexts
-const charMap: { [key: string]: string } = {
-  '<': '\\u003C',
-  '>': '\\u003E',
-  '/': '\\u002F',
-  '\\': '\\\\',
-  '\b': '\\b',
-  '\f': '\\f',
-  '\n': '\\n',
-  '\r': '\\r',
-  '\t': '\\t',
-  '\0': '\\0',
-  '\u2028': '\\u2028',
-  '\u2029': '\\u2029'
+const charMap: Record<string, string> = {
+	"<": "\\u003C",
+	">": "\\u003E",
+	"/": "\\u002F",
+	"\u2028": "\\u2028",
+	"\u2029": "\\u2029",
 };
 function escapeUnsafeChars(str: string): string {
-  return str.replace(
-    /[<>\b\f\n\r\t\0\u2028\u2029\\]/g,
-    (x) => charMap[x] || x
-  );
+	return str.replace(/[<>/\u2028\u2029]/g, (x) => charMap[x] || x);
 }
 
 interface Options {
@@ -31,9 +20,10 @@ interface Options {
 
 export function emitJS(expr: Expr, opts: Options): string {
 	const body = emitExpr(expr);
-	const imports = opts.importNames;
+	const ident = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
+	const imports = opts.importNames.filter((n) => ident.test(n));
 	const header = imports.length
-		? `const { ${imports.join(", ")} } = args;`
+		? imports.map((n) => `const ${n}=args[${JSON.stringify(n)}];`).join("")
 		: "";
 	return `(function(args){${header}return ${body};})`;
 }
@@ -55,7 +45,8 @@ function emitExpr(e: Expr): string {
 		case "Block": {
 			const exprs = e.exprs.map(emitExpr);
 			const last = exprs.pop() ?? "null";
-			return `(function(){${exprs.map((x: string) => `${x};`).join("")}return ${last};})()`;
+			const stmts = exprs.join(";");
+			return `(function(){${stmts}${stmts ? ";" : ""}return ${last};})()`;
 		}
 		case "Let":
 			return `(function(){const ${e.name.text}=${emitExpr(e.value)};return ${emitExpr(e.body)};})()`;
@@ -64,9 +55,11 @@ function emitExpr(e: Expr): string {
 		case "Def":
 			return `function ${e.name.text}(${e.params.map((p: Name) => p.text).join(",")}){return ${emitExpr(e.body)};}`;
 		case "Bin":
-			return `(${emitExpr(e.left)}${e.op}${emitExpr(e.right)})`;
-		case "Un":
-			return `(${e.op}${emitExpr(e.expr)})`;
+			return `(${emitExpr(e.left)} ${e.op} ${emitExpr(e.right)})`;
+		case "Un": {
+			const needsSpace = /^[A-Za-z]/.test(e.op);
+			return `(${e.op}${needsSpace ? " " : ""}${emitExpr(e.expr)})`;
+		}
 		case "Call":
 			return `${emitExpr(e.callee)}(${e.args.map(emitExpr).join(",")})`;
 		case "Class": {
@@ -85,14 +78,23 @@ function emitExpr(e: Expr): string {
 		case "New":
 			return `(new ${emitExpr(e.ctor)}(${e.args.map(emitExpr).join(",")}))`;
 		case "Get":
-			return `(${emitExpr(e.obj)}.${e.prop})`;
+			return `(${emitExpr(e.obj)}${emitProp(e.prop)})`;
 		case "Set":
-			return `(${emitExpr(e.obj)}.${e.prop}=${emitExpr(e.value)})`;
+			return `(${emitExpr(e.obj)}${emitProp(e.prop)}=${emitExpr(e.value)})`;
 		case "MethodCall":
-			return `${emitExpr(e.obj)}.${e.method}(${e.args.map(emitExpr).join(",")})`;
+			return `${emitExpr(e.obj)}${emitProp(e.method)}(${e.args.map(emitExpr).join(",")})`;
 		default:
-			throw new Error(
-				`Unhandled expression kind: ${(e as { kind: string }).kind}`,
-			);
+			return assertNever(e as never);
 	}
+}
+
+function emitProp(prop: string | Name): string {
+	const name = typeof prop === "string" ? prop : prop.text;
+	return /^[A-Za-z_$][A-Za-z0-9_$]*$/.test(name)
+		? `.${name}`
+		: `[${JSON.stringify(name)}]`;
+}
+
+function assertNever(x: never): never {
+	throw new Error(`Unhandled expression kind: ${JSON.stringify(x)}`);
 }
