@@ -40,9 +40,5 @@ Nothing
 
 ## 🔍 Relevant Links
 
-<<<<<<< HEAD:docs/agile/tasks/find-music-that-triggered-copyright-mute-on-twitch-for-analysis-incoming.md
 - [[kanban]]
 #rejected
-=======
-- [[kanban.md]]
->>>>>>> origin/dev/yoga:docs/agile/tasks/Find music that triggered copyright mute on twitch for analysis incoming.md
