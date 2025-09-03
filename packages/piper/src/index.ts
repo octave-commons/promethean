@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import * as path from "path";
+
 import { runPipeline, watchPipeline } from "./runner.js";
 
 function usage() {
@@ -33,7 +34,7 @@ async function main() {
   const cmd = args[0];
   const get = (flag: string, dflt?: string) => {
     const i = args.indexOf(flag);
-    return i >= 0 ? args[i+1] : dflt;
+    return i >= 0 ? args[i + 1] : dflt;
   };
   const has = (flag: string) => args.includes(flag);
 
@@ -44,13 +45,16 @@ async function main() {
 
   if (cmd === "run" || cmd === "watch") {
     const name = args[1];
-    if (!name) { usage(); process.exit(1); }
+    if (!name) {
+      usage();
+      process.exit(1);
+    }
     const opts = {
       force: has("--force"),
       dryRun: has("--dry"),
       concurrency: Number(get("--concurrency", "2")),
       reportDir: get("--report", "docs/agile/pipelines")!,
-      contentHash: has("--content-hash")
+      contentHash: has("--content-hash"),
     };
     if (cmd === "run") await runPipeline(configPath, name, opts);
     else await watchPipeline(configPath, name, opts);
@@ -60,4 +64,7 @@ async function main() {
   usage();
 }
 
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

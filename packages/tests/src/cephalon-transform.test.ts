@@ -1,12 +1,12 @@
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-import test from 'ava';
 import fs from 'fs';
 import path from 'path';
+
+import test from 'ava';
 import { makeTransformer, applyTransformer } from '@promethean/compiler/transform/transformer.js';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 function runFixtureTransform(t: any, name: string, file: string) {
     const before = fs.readFileSync(path.join(__dirname, `fixtures/${file}.before.ts`), 'utf8');

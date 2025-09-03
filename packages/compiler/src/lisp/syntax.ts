@@ -26,6 +26,5 @@ export function gensym(prefix = 'g'): Sym {
 export function symName(x: Sym): string {
     return x.gensym ?? x.name;
 }
-export const isSym = (x: S, n?: string) => x.t === 'sym' && (n ? (x as Sym).name === n : true);
-export const isList = (x: S, n?: string) =>
-    x.t === 'list' && (n ? (x as List).xs[0]?.t === 'sym' && ((x as List).xs[0] as Sym).name === n : true);
+export const isSym = (x: S, n?: string) => x.t === 'sym' && (n ? x.name === n : true);
+export const isList = (x: S, n?: string) => x.t === 'list' && (n ? x.xs[0]?.t === 'sym' && x.xs[0].name === n : true);

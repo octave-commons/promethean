@@ -1,16 +1,17 @@
-import ollama, { type Message } from 'ollama';
 import type { EventEmitter } from 'node:events';
+
+import ollama, { type Message } from 'ollama';
 
 const SYSTEM_PROMPT = 'Generate an engaging Twitch stream title (max 60 characters) based on recent context.';
 const BANNED_WORDS = [/\bnsfw\b/i];
 
-export interface TitleContextSource {
+export type TitleContextSource = {
     fetch(): Promise<Message[]>;
-}
+};
 
-export interface TitleStore {
+export type TitleStore = {
     save(title: string): Promise<void>;
-}
+};
 
 export class MemoryTitleStore implements TitleStore {
     public titles: string[] = [];
@@ -20,10 +21,10 @@ export class MemoryTitleStore implements TitleStore {
     }
 }
 
-export interface DiscordTranscriptEntry {
+export type DiscordTranscriptEntry = {
     author: string;
     content: string;
-}
+};
 
 export class DiscordTranscriptSource implements TitleContextSource {
     constructor(private readonly getLatest: () => Promise<DiscordTranscriptEntry[]>) {}

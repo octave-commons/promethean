@@ -1,14 +1,16 @@
+import { randomUUID, UUID } from "crypto";
+import EventEmitter from "events";
+import { readFile } from "fs/promises";
+
 import { VoiceConnection } from "@discordjs/voice";
 import * as discord from "discord.js";
+
 import { Speaker } from "./speaker.js";
-import { randomUUID, UUID } from "crypto";
 import { Transcriber } from "./transcriber.js";
 import { VoiceRecorder } from "./voice-recorder.js";
 import { Bot } from "./bot.js";
 import { VoiceSynth } from "./voice-synth.js";
-import EventEmitter from "events";
 import { captureScreen } from "./desktop/desktopLoop.js";
-import { readFile } from "fs/promises";
 import { AudioService } from "./audio-service.js";
 
 export type VoiceSessionOptions = {

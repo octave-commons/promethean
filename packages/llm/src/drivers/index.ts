@@ -1,11 +1,13 @@
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
+
 import yaml from 'js-yaml';
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 import { LLMDriver } from './base.js';
 import { OllamaDriver } from './ollama.js';
 import { HuggingFaceDriver } from './huggingface.js';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 function readConfig(): any {
     const candidates = [

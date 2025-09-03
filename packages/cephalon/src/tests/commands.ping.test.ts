@@ -1,4 +1,5 @@
 import test from "ava";
+
 import execute, { data } from "../commands/ping.js";
 
 function makeInteraction() {
@@ -19,7 +20,7 @@ function makeInteraction() {
 
 test("ping command defers and replies with pong", async (t) => {
   const interaction = makeInteraction();
-  await execute(interaction as any, { bot: {} as any });
+  await execute(interaction, { bot: {} as any });
   t.is((data as any).name, "ping");
   t.deepEqual(interaction.calls[0], ["deferReply", { ephemeral: true }]);
   t.deepEqual(interaction.calls[interaction.calls.length - 1], [

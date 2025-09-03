@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { compileAndRun } from './driver';
 
 test('compiler: compiles and runs basic program', (t) => {

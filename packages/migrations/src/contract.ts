@@ -1,18 +1,19 @@
 import type { Db } from 'mongodb';
+
 import type { ChromaWrapper } from './chroma.js';
 
-export interface ValidationReport {
+export type ValidationReport = {
     ok: boolean;
     issues: string[];
-}
+};
 
-export interface MongoContract {
+export type MongoContract = {
     collections: Record<string, { indexes?: string[] }>;
-}
+};
 
-export interface ChromaContract {
+export type ChromaContract = {
     collections: Record<string, { embedding_dim: number; embedding_model: string }>;
-}
+};
 
 export async function validateMongoContract(db: Db, contract: MongoContract): Promise<ValidationReport> {
     const issues: string[] = [];

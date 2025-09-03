@@ -1,32 +1,33 @@
-/* eslint-disable no-console */
 import { promises as fs } from "fs";
 import * as path from "path";
 
 type Pkg = {
-  name: string;              // npm name, e.g. @promethean/foo
-  folder: string;            // folder under packages/, e.g. foo  OR apps/web
-  dir: string;               // absolute dir
-  manifest: any;             // package.json
+  name: string; // npm name, e.g. @promethean/foo
+  folder: string; // folder under packages/, e.g. foo  OR apps/web
+  dir: string; // absolute dir
+  manifest: any; // package.json
   declaredDeps: Set<string>; // internal deps declared in package.json
-  importDeps: Set<string>;   // internal deps referenced in source imports
-  domain: string;            // computed domain (e.g., "apps" for apps/web; "_root" for top-level)
+  importDeps: Set<string>; // internal deps referenced in source imports
+  domain: string; // computed domain (e.g., "apps" for apps/web; "_root" for top-level)
 };
 
 const args = parseArgs({
   "--root": "packages",
   "--out": "docs/packages",
   "--ext": ".ts,.tsx,.js,.jsx",
-  "--include-imports": "true",     // analyze imports in source files
-  "--respect-manifest": "true",    // include package.json deps as edges
+  "--include-imports": "true", // analyze imports in source files
+  "--respect-manifest": "true", // include package.json deps as edges
   "--render-domain-graphs": "true",
-  "--domain-depth": "1",           // how many path segments under packages/ define a domain
+  "--domain-depth": "1", // how many path segments under packages/ define a domain
   "--rdeps-table": "true",
-  "--max-rdeps-list": "12"         // show up to N dependents in the table cells
+  "--max-rdeps-list": "12", // show up to N dependents in the table cells
 });
 
 const ROOT = path.resolve(args["--root"]);
 const OUT_ROOT = path.resolve(args["--out"]);
-const EXTS = new Set(args["--ext"].split(",").map((s) => s.trim().toLowerCase()));
+const EXTS = new Set(
+  args["--ext"].split(",").map((s) => s.trim().toLowerCase()),
+);
 const INCLUDE_IMPORTS = args["--include-imports"] === "true";
 const RESPECT_MANIFEST = args["--respect-manifest"] === "true";
 const RENDER_DOMAIN_GRAPHS = args["--render-domain-graphs"] === "true";
@@ -35,9 +36,9 @@ const RDEPS_TABLE = args["--rdeps-table"] === "true";
 const MAX_RDEPS_LIST = Math.max(0, parseInt(args["--max-rdeps-list"], 10) || 0);
 
 const GLOBAL_START = "<!-- SYMPKG:BEGIN -->";
-const GLOBAL_END   = "<!-- SYMPKG:END -->";
-const PKG_START    = "<!-- SYMPKG:PKG:BEGIN -->";
-const PKG_END      = "<!-- SYMPKG:PKG:END -->";
+const GLOBAL_END = "<!-- SYMPKG:END -->";
+const PKG_START = "<!-- SYMPKG:PKG:BEGIN -->";
+const PKG_END = "<!-- SYMPKG:PKG:END -->";
 
 async function main() {
   const pkgs = await findWorkspacePackages(ROOT, DOMAIN_DEPTH);
@@ -64,7 +65,7 @@ async function main() {
           }
         }
         p.importDeps = specs;
-      })
+      }),
     );
   }
 
@@ -75,12 +76,14 @@ async function main() {
   for (const p of pkgs) {
     if (RESPECT_MANIFEST) {
       for (const to of p.declaredDeps) {
-        if (internalNames.has(to) && to !== p.name) edges.push({ from: p.name, to, kind: "manifest" });
+        if (internalNames.has(to) && to !== p.name)
+          edges.push({ from: p.name, to, kind: "manifest" });
       }
     }
     if (INCLUDE_IMPORTS) {
       for (const to of p.importDeps) {
-        if (internalNames.has(to) && to !== p.name) edges.push({ from: p.name, to, kind: "import" });
+        if (internalNames.has(to) && to !== p.name)
+          edges.push({ from: p.name, to, kind: "import" });
       }
     }
   }
@@ -98,7 +101,10 @@ async function main() {
   // Compute deps/dependees
   const deps = new Map<string, Set<string>>();
   const rdeps = new Map<string, Set<string>>();
-  for (const p of pkgs) { deps.set(p.name, new Set()); rdeps.set(p.name, new Set()); }
+  for (const p of pkgs) {
+    deps.set(p.name, new Set());
+    rdeps.set(p.name, new Set());
+  }
   for (const { from, to } of edgeList) {
     deps.get(from)!.add(to);
     rdeps.get(to)!.add(from);
@@ -109,13 +115,17 @@ async function main() {
   // 1) Global README with big graph + index + (optional) reverse-dep table + (optional) domain graphs
   const globalReadme = path.join(OUT_ROOT, "README.md");
   const existingGlobal = await readMaybe(globalReadme);
-  const preservedTop = stripBetween(existingGlobal ?? "", GLOBAL_START, GLOBAL_END);
+  const preservedTop = stripBetween(
+    existingGlobal ?? "",
+    GLOBAL_START,
+    GLOBAL_END,
+  );
 
   const nodeIds = new Map<string, string>(); // npm name -> mermaid id
   pkgs.forEach((p, i) => nodeIds.set(p.name, `n${i + 1}`));
 
   const globalGraph = buildMermaidGlobal(pkgs, edgeList, nodeIds, (name) =>
-    path.join("./", byName.get(name)!.folder, "README.md").replace(/\\/g, "/")
+    path.join("./", byName.get(name)!.folder, "README.md").replace(/\\/g, "/"),
   );
 
   const indexLines: string[] = [
@@ -131,13 +141,20 @@ async function main() {
       }),
   ];
 
-  const rdepsTable = RDEPS_TABLE ? renderReverseDepTable(pkgs, rdeps, (name) =>
-    `./${byName.get(name)!.folder}/README.md`.replace(/\\/g, "/")
-  ) : "";
+  const rdepsTable = RDEPS_TABLE
+    ? renderReverseDepTable(pkgs, rdeps, (name) =>
+        `./${byName.get(name)!.folder}/README.md`.replace(/\\/g, "/"),
+      )
+    : "";
 
   const domainSection = RENDER_DOMAIN_GRAPHS
     ? renderDomainGraphs(pkgs, edgeList, byName, (name, fromFolder) =>
-        path.relative(path.join(OUT_ROOT, fromFolder), path.join(OUT_ROOT, byName.get(name)!.folder, "README.md")).replace(/\\/g, "/")
+        path
+          .relative(
+            path.join(OUT_ROOT, fromFolder),
+            path.join(OUT_ROOT, byName.get(name)!.folder, "README.md"),
+          )
+          .replace(/\\/g, "/"),
       )
     : "";
 
@@ -178,7 +195,12 @@ async function main() {
     const rs = Array.from(rdeps.get(p.name)!).sort();
 
     const localGraph = buildMermaidLocal(p.name, ds, rs, (name) =>
-      path.relative(path.dirname(pkgReadme), path.join(OUT_ROOT, byName.get(name)!.folder, "README.md")).replace(/\\/g, "/")
+      path
+        .relative(
+          path.dirname(pkgReadme),
+          path.join(OUT_ROOT, byName.get(name)!.folder, "README.md"),
+        )
+        .replace(/\\/g, "/"),
     );
 
     const body = [
@@ -197,11 +219,31 @@ async function main() {
       "",
       "## Dependencies",
       "",
-      ds.length ? ds.map((n) => `- [${n}](${relativeToPkgReadmeLink(p.folder, byName.get(n)!.folder)})`).join("\n") : "- _None_",
+      ds.length
+        ? ds
+            .map(
+              (n) =>
+                `- [${n}](${relativeToPkgReadmeLink(
+                  p.folder,
+                  byName.get(n)!.folder,
+                )})`,
+            )
+            .join("\n")
+        : "- _None_",
       "",
       "## Dependents",
       "",
-      rs.length ? rs.map((n) => `- [${n}](${relativeToPkgReadmeLink(p.folder, byName.get(n)!.folder)})`).join("\n") : "- _None_",
+      rs.length
+        ? rs
+            .map(
+              (n) =>
+                `- [${n}](${relativeToPkgReadmeLink(
+                  p.folder,
+                  byName.get(n)!.folder,
+                )})`,
+            )
+            .join("\n")
+        : "- _None_",
       PKG_END,
       "",
     ]
@@ -211,7 +253,9 @@ async function main() {
     await fs.writeFile(pkgReadme, body, "utf-8");
   }
 
-  console.log(`Wrote package graphs to ${path.relative(process.cwd(), OUT_ROOT)}`);
+  console.log(
+    `Wrote package graphs to ${path.relative(process.cwd(), OUT_ROOT)}`,
+  );
 }
 
 /* ---------------- helpers ---------------- */
@@ -233,7 +277,10 @@ async function listDirs(p: string): Promise<string[]> {
   return ents.filter((e) => e.isDirectory()).map((e) => path.join(p, e.name));
 }
 
-async function findWorkspacePackages(root: string, domainDepth: number): Promise<Pkg[]> {
+async function findWorkspacePackages(
+  root: string,
+  domainDepth: number,
+): Promise<Pkg[]> {
   const dirs = await listDirs(root);
   const out: Pkg[] = [];
 
@@ -243,7 +290,10 @@ async function findWorkspacePackages(root: string, domainDepth: number): Promise
       const raw = await fs.readFile(pkgJson, "utf-8");
       const manifest = JSON.parse(raw);
       if (manifest.name) {
-        const folder = dir.split(path.sep).slice(dir.split(path.sep).indexOf(path.basename(root)) + 1).join(path.sep);
+        const folder = dir
+          .split(path.sep)
+          .slice(dir.split(path.sep).indexOf(path.basename(root)) + 1)
+          .join(path.sep);
         const domain = inferDomain(folder, domainDepth);
         out.push({
           name: manifest.name,
@@ -252,10 +302,12 @@ async function findWorkspacePackages(root: string, domainDepth: number): Promise
           manifest,
           declaredDeps: collectDeclaredDeps(manifest),
           importDeps: new Set<string>(),
-          domain
+          domain,
         });
       }
-    } catch { /* not a package */ }
+    } catch {
+      /* not a package */
+    }
   }
 
   for (const d of dirs) {
@@ -270,26 +322,47 @@ function inferDomain(folder: string, depth: number): string {
   const parts = folder.split(/[\\/]/).filter(Boolean);
   // If only 1 segment (top-level like packages/foo), put into _root domain.
   if (parts.length < 2) return "_root";
-  return parts.slice(0, Math.min(depth, parts.length - 0)).slice(0, depth).join("/");
+  return parts
+    .slice(0, Math.min(depth, parts.length - 0))
+    .slice(0, depth)
+    .join("/");
 }
 
 function collectDeclaredDeps(pkg: any): Set<string> {
   const names = new Set<string>();
-  for (const key of ["dependencies", "devDependencies", "peerDependencies", "optionalDependencies"]) {
+  for (const key of [
+    "dependencies",
+    "devDependencies",
+    "peerDependencies",
+    "optionalDependencies",
+  ]) {
     const o = pkg[key] || {};
     for (const k of Object.keys(o)) names.add(k);
   }
   return names;
 }
 
-async function listFilesRec(root: string, exts: Set<string>): Promise<string[]> {
+async function listFilesRec(
+  root: string,
+  exts: Set<string>,
+): Promise<string[]> {
   const out: string[] = [];
   async function walk(d: string) {
     const ents = await fs.readdir(d, { withFileTypes: true });
     for (const e of ents) {
       const p = path.join(d, e.name);
       if (e.isDirectory()) {
-        if (["node_modules", "dist", "build", "coverage", ".turbo", ".next"].includes(e.name)) continue;
+        if (
+          [
+            "node_modules",
+            "dist",
+            "build",
+            "coverage",
+            ".turbo",
+            ".next",
+          ].includes(e.name)
+        )
+          continue;
         await walk(p);
       } else {
         if (exts.has(path.extname(p).toLowerCase())) out.push(p);
@@ -304,7 +377,7 @@ const IMPORT_RE = [
   /import\s+[\s\S]*?\sfrom\s+['"]([^'"]+)['"]/g,
   /import\s*['"]([^'"]+)['"]/g,
   /require\(\s*['"]([^'"]+)['"]\s*\)/g,
-  /import\(\s*['"]([^'"]+)['"]\s*\)/g
+  /import\(\s*['"]([^'"]+)['"]\s*\)/g,
 ];
 
 function extractImportSpecifiers(src: string): string[] {
@@ -342,7 +415,11 @@ function stripBetween(text: string, start: string, end: string) {
 }
 
 async function readMaybe(p: string) {
-  try { return await fs.readFile(p, "utf-8"); } catch { return undefined; }
+  try {
+    return await fs.readFile(p, "utf-8");
+  } catch {
+    return undefined;
+  }
 }
 
 function relativeToPkgReadmeLink(fromFolder: string, toFolder: string) {
@@ -359,9 +436,11 @@ function buildMermaidGlobal(
   pkgs: Pkg[],
   edges: Array<{ from: string; to: string; kind: "manifest" | "import" }>,
   idOf: Map<string, string>,
-  hrefOf: (name: string) => string
+  hrefOf: (name: string) => string,
 ) {
-  const nodeLines = pkgs.map((p) => `${idOf.get(p.name)}["${esc(p.name)}"]`).join("\n  ");
+  const nodeLines = pkgs
+    .map((p) => `${idOf.get(p.name)}["${esc(p.name)}"]`)
+    .join("\n  ");
 
   const edgeLines = edges
     .map((e) => {
@@ -372,7 +451,10 @@ function buildMermaidGlobal(
     .join("\n  ");
 
   const clickLines = pkgs
-    .map((p) => `click ${idOf.get(p.name)} "${hrefOf(p.name)}" "${esc(p.name)} docs"`)
+    .map(
+      (p) =>
+        `click ${idOf.get(p.name)} "${hrefOf(p.name)}" "${esc(p.name)} docs"`,
+    )
     .join("\n  ");
 
   return [
@@ -389,7 +471,7 @@ function buildMermaidLocal(
   name: string,
   deps: string[],
   rdeps: string[],
-  hrefOf: (name: string) => string
+  hrefOf: (name: string) => string,
 ) {
   const center = "A";
   const nodes = [`${center}["${esc(name)}"]`];
@@ -402,8 +484,12 @@ function buildMermaidLocal(
   rdepNodes.forEach((r) => edges.push(`${r} --> ${center}`));
 
   const clicks: string[] = [];
-  deps.forEach((n, i) => clicks.push(`click D${i + 1} "${hrefOf(n)}" "${esc(n)}"`));
-  rdeps.forEach((n, i) => clicks.push(`click R${i + 1} "${hrefOf(n)}" "${esc(n)}"`));
+  deps.forEach((n, i) =>
+    clicks.push(`click D${i + 1} "${hrefOf(n)}" "${esc(n)}"`),
+  );
+  rdeps.forEach((n, i) =>
+    clicks.push(`click R${i + 1} "${hrefOf(n)}" "${esc(n)}"`),
+  );
 
   return [
     "graph LR",
@@ -421,12 +507,19 @@ function buildMermaidDomain(
   domain: string,
   pkgs: Pkg[],
   edges: Array<{ from: string; to: string; kind: "manifest" | "import" }>,
-  hrefOf: (name: string) => string
+  hrefOf: (name: string) => string,
 ) {
   const ids = new Map<string, string>();
-  pkgs.forEach((p, i) => ids.set(p.name, `d${Math.abs(hash(domain + p.name)).toString(36)}_${i + 1}`));
+  pkgs.forEach((p, i) =>
+    ids.set(
+      p.name,
+      `d${Math.abs(hash(domain + p.name)).toString(36)}_${i + 1}`,
+    ),
+  );
 
-  const nodeLines = pkgs.map((p) => `${ids.get(p.name)}["${esc(p.name)}"]`).join("\n  ");
+  const nodeLines = pkgs
+    .map((p) => `${ids.get(p.name)}["${esc(p.name)}"]`)
+    .join("\n  ");
   const names = new Set(pkgs.map((p) => p.name));
 
   const edgeLines = edges
@@ -439,7 +532,10 @@ function buildMermaidDomain(
     .join("\n  ");
 
   const clickLines = pkgs
-    .map((p) => `click ${ids.get(p.name)} "${hrefOf(p.name)}" "${esc(p.name)} docs"`)
+    .map(
+      (p) =>
+        `click ${ids.get(p.name)} "${hrefOf(p.name)}" "${esc(p.name)} docs"`,
+    )
     .join("\n  ");
 
   return [
@@ -458,10 +554,13 @@ function buildMermaidDomain(
 function renderReverseDepTable(
   pkgs: Pkg[],
   rdeps: Map<string, Set<string>>,
-  hrefOf: (name: string) => string
+  hrefOf: (name: string) => string,
 ): string {
   const rows = pkgs
-    .map((p) => ({ name: p.name, deps: rdeps.get(p.name) ?? new Set<string>() }))
+    .map((p) => ({
+      name: p.name,
+      deps: rdeps.get(p.name) ?? new Set<string>(),
+    }))
     .sort((a, b) => b.deps.size - a.deps.size);
 
   const lines: string[] = [];
@@ -470,9 +569,18 @@ function renderReverseDepTable(
   for (const r of rows) {
     const list = Array.from(r.deps).sort();
     const shown = MAX_RDEPS_LIST > 0 ? list.slice(0, MAX_RDEPS_LIST) : list;
-    const extra = MAX_RDEPS_LIST > 0 && list.length > MAX_RDEPS_LIST ? `, +${list.length - MAX_RDEPS_LIST} more` : "";
-    const links = shown.map((n) => `[${n}](${hrefOf(n)})`).join(", ") + (extra ? extra : "");
-    lines.push(`| [${r.name}](${hrefOf(r.name)}) | ${list.length} | ${links || "_None_"} |`);
+    const extra =
+      MAX_RDEPS_LIST > 0 && list.length > MAX_RDEPS_LIST
+        ? `, +${list.length - MAX_RDEPS_LIST} more`
+        : "";
+    const links =
+      shown.map((n) => `[${n}](${hrefOf(n)})`).join(", ") +
+      (extra ? extra : "");
+    lines.push(
+      `| [${r.name}](${hrefOf(r.name)}) | ${list.length} | ${
+        links || "_None_"
+      } |`,
+    );
   }
   return lines.join("\n");
 }
@@ -481,15 +589,26 @@ function renderDomainGraphs(
   pkgs: Pkg[],
   edges: Array<{ from: string; to: string; kind: "manifest" | "import" }>,
   byName: Map<string, Pkg>,
-  hrefOfRelTo: (name: string, fromFolder: string) => string
+  hrefOfRelTo: (name: string, fromFolder: string) => string,
 ): string {
   const byDomain = new Map<string, Pkg[]>();
-  for (const p of pkgs) (byDomain.get(p.domain) ?? byDomain.set(p.domain, []).get(p.domain)!).push(p);
+  for (const p of pkgs)
+    (byDomain.get(p.domain) ?? byDomain.set(p.domain, []).get(p.domain)!).push(
+      p,
+    );
 
   const sections: string[] = [];
-  for (const [domain, list] of Array.from(byDomain.entries()).sort((a, b) => a[0].localeCompare(b[0]))) {
-    const mermaid = buildMermaidDomain(domain, list, edges, (name) => hrefOfRelTo(name, /*fromFolder*/ list[0].folder));
-    const cross = crossDomainEdges(domain, list.map((p) => p.name), edges);
+  for (const [domain, list] of Array.from(byDomain.entries()).sort((a, b) =>
+    a[0].localeCompare(b[0]),
+  )) {
+    const mermaid = buildMermaidDomain(domain, list, edges, (name) =>
+      hrefOfRelTo(name, /*fromFolder*/ list[0].folder),
+    );
+    const cross = crossDomainEdges(
+      domain,
+      list.map((p) => p.name),
+      edges,
+    );
 
     sections.push(
       `### ${domain === "_root" ? "root (packages/*)" : domain}`,
@@ -499,13 +618,17 @@ function renderDomainGraphs(
       "```",
       cross.length ? "**Cross-domain edges touching this domain:**" : "",
       cross.length ? cross.map((c) => `- ${c}`).join("\n") : "",
-      ""
+      "",
     );
   }
   return sections.filter(Boolean).join("\n");
 }
 
-function crossDomainEdges(domain: string, members: string[], edges: { from: string; to: string }[]) {
+function crossDomainEdges(
+  domain: string,
+  members: string[],
+  edges: { from: string; to: string }[],
+) {
   const set = new Set(members);
   const out: string[] = [];
   for (const e of edges) {
@@ -520,13 +643,11 @@ function crossDomainEdges(domain: string, members: string[], edges: { from: stri
 
 /* ---------- misc ---------- */
 
-
 function hash(s: string) {
   let h = 0;
   for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0;
   return h;
 }
-
 
 main().catch((e) => {
   console.error(e);

@@ -30,7 +30,7 @@ async function main() {
       area: "events",
       name: "SocialMessageCreated",
     });
-    // eslint-disable-next-line no-console
+
     console.log(`[discord-attachment-indexer] subscribing to ${eventsTopic}`);
   }
   setInterval(() => {}, 1 << 30);
@@ -38,7 +38,6 @@ async function main() {
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch((e) => {
-    // eslint-disable-next-line no-console
     console.error(e);
     process.exit(1);
   });

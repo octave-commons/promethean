@@ -1,4 +1,5 @@
 import { BrokerClient } from "@promethean/legacy/brokerClient.js";
+
 import type { AIAgent } from "./agent.js";
 
 export async function initMessageThrottler(agent: AIAgent, url?: string) {

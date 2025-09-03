@@ -1,31 +1,31 @@
 // shared/ts/prom-lib/ds/ecs.scheduler.ts
 // MIT. Zero deps (uses World from ecs.ts and Graph from graph.ts)
 
-import { World, CommandBuffer, ComponentType, Query } from './ecs';
-import { Graph } from './graph';
+import { World, CommandBuffer, ComponentType, Query } from './ecs.js';
+import { Graph } from './graph.js';
 
 export type Stage = 'startup' | 'update' | 'late' | 'render' | 'cleanup';
 export const DEFAULT_STAGE_ORDER: Stage[] = ['startup', 'update', 'late', 'render', 'cleanup'];
 
 export type ResourceName = string;
 
-export interface SystemContext {
+export type SystemContext = {
     world: World;
     dt: number;
     time: number;
     resources: ResourceBag;
     cmd: CommandBuffer;
     stage: Stage;
-}
+};
 
-export interface QuerySpec {
+export type QuerySpec = {
     all?: ComponentType<any>[];
     any?: ComponentType<any>[];
     none?: ComponentType<any>[];
     changed?: ComponentType<any>[];
-}
+};
 
-export interface SystemSpec {
+export type SystemSpec = {
     name: string;
     stage?: Stage;
     before?: string[]; // run before these
@@ -38,7 +38,7 @@ export interface SystemSpec {
     run(ctx: SystemContext): void | Promise<void>;
     // Optional: skip this system if its query has no matching entities this frame
     skipIfEmpty?: boolean;
-}
+};
 
 export type CompiledSystem = SystemSpec & {
     id: string;
@@ -48,11 +48,11 @@ export type CompiledSystem = SystemSpec & {
 
 export type Batch = { stage: Stage; systems: CompiledSystem[] };
 
-export interface SchedulePlan {
+export type SchedulePlan = {
     stages: Stage[];
     batchesByStage: Map<Stage, Batch[]>; // each batch can run in parallel (conflict-free)
     topoOrder: string[]; // flattened order (for debugging)
-}
+};
 
 export class ResourceBag {
     private map = new Map<ResourceName, any>();

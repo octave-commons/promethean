@@ -7,10 +7,10 @@ type Event = {
     replyTo?: string;
 };
 
-export interface MemoryBrokerClient {
+export type MemoryBrokerClient = {
     id: string;
     onEvent: (evt: Event) => void;
-}
+};
 
 class MemoryBroker {
     topics = new Map<string, Set<MemoryBrokerClient>>();
