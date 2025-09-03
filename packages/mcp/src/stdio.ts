@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import dotenv from 'dotenv';
-import WebSocket from 'ws';
-import readline from 'readline';
+import WebSocket, { type RawData } from 'ws';
+import readline from 'node:readline';
 
 dotenv.config();
 
@@ -14,15 +14,15 @@ const ws = new WebSocket(url, {
 
 ws.on('open', () => {
     const rl = readline.createInterface({ input: process.stdin });
-    rl.on('line', (line) => ws.send(line));
-    ws.on('message', (data) => {
-        process.stdout.write(data.toString() + '\n');
+    rl.on('line', (line: string) => ws.send(line));
+    ws.on('message', (data: RawData) => {
+        process.stdout.write(`${data.toString()}\n`);
     });
     ws.on('close', () => rl.close());
 });
 
 ws.on('close', () => process.exit(0));
-ws.on('error', (err) => {
+ws.on('error', (err: Error) => {
     console.error('WS error', err);
     process.exit(1);
 });
