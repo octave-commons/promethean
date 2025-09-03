@@ -1,5 +1,5 @@
 // In-memory EventBus implementation that conforms to ./types
-import {
+import type {
     EventBus,
     EventRecord,
     PublishOptions,
@@ -10,7 +10,7 @@ import {
     CursorStore,
     Ack,
     UUID,
-} from './types';
+} from './types.js';
 
 type GroupKey = string; // `${topic}::${group}`
 const gkey = (t: string, g: string) => `${t}::${g}`;
@@ -28,7 +28,7 @@ class InMemoryStore implements EventStore {
     }
 
     async insert<T>(e: EventRecord<T>): Promise<void> {
-        this.events(e.topic).push(e as any);
+        this.events(e.topic).push(e as unknown as EventRecord);
     }
 
     async scan(topic: string, params: { afterId?: UUID; ts?: number; limit?: number }): Promise<EventRecord[]> {
@@ -129,7 +129,7 @@ export class InMemoryEventBus implements EventBus {
             const head = await this.store.scan(topic, { ts, limit: 1 });
             if (head.length) {
                 // start before the first >= ts
-                const before = await this.store.scan(topic, {
+                const _before = await this.store.scan(topic, {
                     afterId: undefined,
                     ts: undefined,
                     limit: 0,
@@ -189,7 +189,7 @@ export class InMemoryEventBus implements EventBus {
         cur.lastId = id;
         await this.cursors.set(topic, group, cur as CursorPosition);
         const sub = this.subs.get(key);
-        if (sub && sub.manualAck && sub.inFlightId === id) {
+        if (sub?.manualAck && sub.inFlightId === id) {
             sub.inFlightId = undefined;
             this.drain(sub);
         }
@@ -226,8 +226,9 @@ export class InMemoryEventBus implements EventBus {
             // Pause if waiting for manual ack
             if (sub.manualAck && sub.inFlightId) return;
 
-            const cur = (await this.cursors.get(sub.topic, sub.group))!;
-            const afterId = cur?.lastId;
+            const cur = await this.cursors.get(sub.topic, sub.group);
+            if (!cur) return;
+            const afterId = cur.lastId;
             const batch = await this.store.scan(sub.topic, {
                 afterId,
                 limit: 1,
