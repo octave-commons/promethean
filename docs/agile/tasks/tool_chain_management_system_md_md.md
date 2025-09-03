@@ -16,14 +16,8 @@ Placeholder task stub generated from kanban board.
 
 ---
 
-<<<<<<< HEAD
 ### **Related Tasks**  
 - [[integrate-sonarqube-into-devops]] (if SonarQube integration is part of this tool chain).  
-=======
-## 📋 Subtasks
-
-- [ ] Outline steps to implement.
->>>>>>> origin/dev/yoga
 
 ---
 
@@ -35,19 +29,5 @@ Placeholder task stub generated from kanban board.
 
 ## ⛓️ Blocked By
 
-<<<<<<< HEAD
 Let me know if you need further details or adjustments!
-=======
-Nothing
-
-## ⛓️ Blocks
-
-Nothing
-
----
-
-## 🔍 Relevant Links
-
-- [kanban](../boards/kanban.md)
->>>>>>> origin/dev/yoga
 #ice-box
