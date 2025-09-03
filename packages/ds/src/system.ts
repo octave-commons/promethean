@@ -1,5 +1,5 @@
 // ecs/strict-system.ts
-import type { World, Entity, ComponentType, Query } from './ecs';
+import type { World, Entity, ComponentType, Query } from './ecs.js';
 
 export type SystemSpec = {
     name: string;
@@ -18,7 +18,9 @@ export type SystemCtx = {
     setIfChanged: <T>(e: Entity, c: ComponentType<T>, v: T) => void;
     carry: <T>(e: Entity, c: ComponentType<T>) => void;
     iter: World['iter']; // base iterator (for custom modes)
-    iterAll: <T extends any[]>(...cs: { [K in keyof T]: ComponentType<T[K]> }) => IterableIterator<[Entity, ...T]>;
+    iterAll: <T extends any[]>(
+        ...cs: { [K in keyof T]: ComponentType<T[K]> }[]
+    ) => IterableIterator<[Entity, ...T]>;
     iterPacked: <T extends any[]>(opts: {
         comps: { [K in keyof T]: ComponentType<T[K]> };
         block?: number;
@@ -38,7 +40,7 @@ export function* iterAll<T extends any[]>(
 ): IterableIterator<[Entity, ...T]> {
     // single pass: pull each comp once per row
     for (const [e, get] of w.iter(q)) {
-        const tuple = comps.map((c) => get(c)) as T;
+        const tuple = comps.map((c: ComponentType<T[number]>) => get(c)) as T;
         yield [e, ...tuple];
     }
 }
