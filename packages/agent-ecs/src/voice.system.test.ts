@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from 'ava';
 import { createAgentWorld } from './world';
 import { VoiceSystem } from './systems/voice';

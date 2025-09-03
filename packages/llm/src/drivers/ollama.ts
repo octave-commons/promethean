@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import ollama from 'ollama';
 import { LLMDriver, GenerateArgs } from './base.js';
 

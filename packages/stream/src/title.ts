@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import ollama, { type Message } from 'ollama';
 import type { EventEmitter } from 'node:events';
 

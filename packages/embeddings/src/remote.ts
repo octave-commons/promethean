@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { EmbeddingFunction, EmbeddingFunctionSpace } from 'chromadb';
 import { BrokerClient } from '@promethean/legacy/brokerClient.js';
 import { randomUUID } from 'node:crypto';

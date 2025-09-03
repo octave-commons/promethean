@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export const toUrn = (provider: string, kind: string, tenant: string, id: string) =>
     `urn:${provider}:${kind}:${tenant}:${id}`;
 

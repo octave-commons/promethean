@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import Fastify from "fastify";
 import { jwks, signAccessToken, verifyToken, initKeys } from "./keys.js";
 import crypto from "node:crypto";

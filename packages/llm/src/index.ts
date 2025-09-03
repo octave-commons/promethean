@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { Request, Response, Express } from 'express';
 import type { WebSocket } from 'ws';
 import express from 'express';

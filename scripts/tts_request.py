@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Convenience script for invoking the TTS service."""
 
 from shared.py.speech.service_clients import synthesize_text_to_file

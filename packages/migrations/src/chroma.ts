@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 type UpsertItem = { id: string; embedding: number[]; metadata?: Record<string, any>; document?: string };
 
 export interface ChromaConfig {

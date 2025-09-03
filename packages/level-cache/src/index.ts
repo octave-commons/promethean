@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { Level } from "level";
 import type { Cache, CacheOptions, Millis, PutOptions } from "./types.js";
 

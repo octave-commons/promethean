@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // pm2Helpers.js (updated)
 import path from "path";
 

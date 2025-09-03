@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Tests for :mod:`scripts.index_project_files`."""
 
 from pathlib import Path

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { writeFile } from "fs/promises";
 let AGENT_NAME = "Agent";
 try {

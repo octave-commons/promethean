@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export function semaphore(n: number) {
   let cur = 0;
   const q: Array<() => void> = [];

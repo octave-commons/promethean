@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { promises as fs } from 'node:fs';
 import * as path from 'node:path';
 import { listFiles, type FileEntry } from './util.js';

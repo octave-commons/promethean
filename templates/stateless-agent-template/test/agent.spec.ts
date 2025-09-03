@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { describe, it, expect } from "vitest";
 import { start } from "../src/agent.js";
 import { makeMockRuntime } from "./mockRuntime.js";

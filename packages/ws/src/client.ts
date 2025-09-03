@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import WebSocket from 'ws';
 
 export type Handler = (event: any, ctx: { attempt: number; ack_deadline_ms: number }) => Promise<void> | void;

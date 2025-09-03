@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { getFiles } from "../api.js";
 import { setSelection } from "../selection.js";
 import { renderSelectedMarkdown } from "../render.js";

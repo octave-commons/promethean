@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from 'ava';
 import { headerToStatus, STATUS_ORDER, STATUS_SET } from '@promethean/markdown/statuses.js';
 

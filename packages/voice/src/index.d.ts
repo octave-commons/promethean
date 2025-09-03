@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import express from "express";
 import { Client } from "discord.js";
 import { VoiceSession } from "./voice-session";

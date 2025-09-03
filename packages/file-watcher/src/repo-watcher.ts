@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import chokidar from "chokidar";
 import { execFile } from "child_process";
 

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export const metrics = {
     sessions: 0,
     calls: 0,

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// SPDX-License-Identifier: GPL-3.0-only
 // find-broken-imports.mjs
 // Node 18+. No external deps.
 

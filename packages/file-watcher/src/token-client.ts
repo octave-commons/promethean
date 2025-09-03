@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export type ClientCredsConfig = {
   authUrl: string; // e.g. http://localhost:8088
   clientId: string;

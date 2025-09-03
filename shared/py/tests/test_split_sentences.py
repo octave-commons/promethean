@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 from shared.py.utils.split_sentences import split_sentences
 
 

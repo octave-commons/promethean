@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { execFile, execFileSync } from "node:child_process";
 import * as fs from "node:fs/promises";
 import * as os from "node:os";

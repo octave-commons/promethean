@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { MongoClient } from 'mongodb';
 const mongo = new MongoClient(process.env.MONGODB_URI || 'mongodb://localhost:27017');
 const family = `${process.env.AGENT_NAME}_discord_messages`;

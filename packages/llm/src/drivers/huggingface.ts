@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { HfInference } from '@huggingface/inference';
 import { LLMDriver, GenerateArgs } from './base.js';
 

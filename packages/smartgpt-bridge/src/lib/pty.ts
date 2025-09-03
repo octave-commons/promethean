@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 // Lazy/optional node-pty wrapper so tests and unsupported runtimes don't explode.
 // If NODE_PTY_DISABLED=1, this returns null or throws a typed error via helpers.

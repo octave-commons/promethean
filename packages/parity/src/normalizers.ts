@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export function normalizeChat(res: any) {
     const { text, usage, finish_reason } = res || {};
     return { text, usage, finish_reason };

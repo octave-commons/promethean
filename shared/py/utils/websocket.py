@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Utilities for consistent WebSocket handling across services."""
 
 from typing import Awaitable, Callable

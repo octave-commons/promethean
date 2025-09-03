@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import nodeFetch from "node-fetch";
 import { createLogger } from "./logger.js";
 

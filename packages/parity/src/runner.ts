@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { normalizeChat, normalizeEmbed, normalizeError, normalizeStream } from './normalizers';
 
 export interface ParityClients {

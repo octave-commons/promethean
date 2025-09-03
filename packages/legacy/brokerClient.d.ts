@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { WebSocket } from 'ws';
 
 export class BrokerClient {

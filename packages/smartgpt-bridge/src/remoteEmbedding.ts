@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 // Adapter to shared RemoteEmbeddingFunction with testable broker injection and timeouts.
 import { RemoteEmbeddingFunction as SharedRemoteEmbedding } from "@promethean/embeddings/remote.js";

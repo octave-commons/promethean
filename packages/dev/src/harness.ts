@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { InMemoryEventBus } from '@promethean/event/memory.js';
 import { startWSGateway } from '@promethean/ws/server.js';
 import { startHttpPublisher } from '@promethean/http/publish.js';

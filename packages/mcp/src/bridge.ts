@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { WebSocket, RawData } from 'ws';
 import { EventEmitter } from 'events';
 

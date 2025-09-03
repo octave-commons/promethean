@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 import { Policy } from "../../models/Policy.js";
 

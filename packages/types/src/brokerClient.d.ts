@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 declare module '@shared/js/brokerClient.js' {
     export class BrokerClient {
         constructor(opts?: { url?: string; id?: string });

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from "ava";
 process.env.DISABLE_AUDIO = "1";
 import { AIAgent } from "../agent.js";

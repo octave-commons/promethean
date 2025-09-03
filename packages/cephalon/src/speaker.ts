@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // Handles decoding ogg streams to pcm packets.
 // Emits pcm packets for consumption by other sources.
 

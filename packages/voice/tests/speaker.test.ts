@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from "ava";
 import { Guild, User } from "discord.js";
 import { VoiceSession } from "../src/voice-session.ts";

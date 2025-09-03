@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 from shared.py.utils.numbers import normalize_numbers
 
 

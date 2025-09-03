@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import tokenizer from "sbd";
 export function mergeShortFragments(sentences: string[], minLength = 20) {
   const merged = [];

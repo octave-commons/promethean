@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // PM2 ecosystem for Discord access agents. Reads tenants from providers.yml at runtime.
 module.exports = {
     apps: [

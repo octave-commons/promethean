@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Utilities for splitting text into sentence-based chunks."""
 
 import logging

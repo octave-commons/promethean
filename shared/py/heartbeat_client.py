@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Utilities for sending periodic heartbeats via the message broker.
 
 This module provides a small :class:`HeartbeatClient` class that can be reused

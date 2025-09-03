@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import express from 'express';
 import type { Db } from 'mongodb';
 import crypto from 'crypto';

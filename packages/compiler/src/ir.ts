@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export type Sym = string & { __sym: true };
 export type Lit = number | string | boolean | null;
 

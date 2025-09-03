@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 import test from "ava";
 import fs from "node:fs/promises";

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export interface EmbedderConfig {
     modelId: string; // e.g., qwen2.5-embed:2025-08-01
     dim: number; // e.g., 1536

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { join } from "path";
 import { BrokerClient } from "@shared/js/brokerClient.js";
 import { createBoardWatcher } from "./board-watcher.js";

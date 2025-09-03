@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from "ava";
 import { slug, collectionFor, CONFIG_FP } from "./versioning.js";
 

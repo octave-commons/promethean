@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 from datetime import datetime, timezone, timedelta
 
 from shared.py.date_tools import time_ago

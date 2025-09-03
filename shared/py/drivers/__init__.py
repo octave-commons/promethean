@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 from .base import EmbeddingDriver
 from .naive_driver import NaiveDriver
 

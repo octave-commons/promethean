@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-only
 """Validate that all changelog fragments have numeric filenames.
 
 This script ensures every file in ``changelog.d`` follows the Towncrier

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { spawn } from "child_process";
 import EventEmitter from "events";
 import { request } from "http";

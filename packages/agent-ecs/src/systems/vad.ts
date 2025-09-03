@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export function VADUpdateSystem(w: any, C: any) {
     const { RawVAD, VAD } = C;
     const q = w.makeQuery({ all: [RawVAD, VAD] });

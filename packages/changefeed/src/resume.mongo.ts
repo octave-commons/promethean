@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { Db, ResumeToken } from 'mongodb';
 
 export function tokenStore(db: Db, key = 'changefeed:default') {

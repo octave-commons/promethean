@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from "ava";
 import runForward from "../actions/forward-attachments.js";
 import { buildForwardAttachmentsScope } from "../actions/forward-attachments.scope.js";

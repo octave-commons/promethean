@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // ecosystem.config.js (ESM, but NO top-level await)
 import { defineApp } from './dev/pm2Helpers.js';
 import { fileURLToPath } from 'url';

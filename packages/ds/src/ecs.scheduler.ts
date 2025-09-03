@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // shared/ts/prom-lib/ds/ecs.scheduler.ts
 // MIT. Zero deps (uses World from ecs.ts and Graph from graph.ts)
 

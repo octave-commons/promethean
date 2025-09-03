@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Event name constants loaded from events.json."""
 
 from enum import Enum

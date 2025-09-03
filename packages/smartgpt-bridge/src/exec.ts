@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 const REPO_ROOT = process.env.REPO_ROOT;
 

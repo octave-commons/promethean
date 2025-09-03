@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from "ava";
 import runLeave from "../actions/leave-voice.js";
 import type { LeaveVoiceScope } from "../actions/leave-voice.scope.js";

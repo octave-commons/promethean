@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { TokenBucket } from '@promethean/rate/limiter.js';
 
 export function makeConnLimiter() {

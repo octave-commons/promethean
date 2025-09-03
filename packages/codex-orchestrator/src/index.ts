@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import * as path from "node:path";
 
 import { chat } from "./ollama.js";

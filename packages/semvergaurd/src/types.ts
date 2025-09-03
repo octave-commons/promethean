@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export type ApiKind = "function"|"variable"|"class"|"interface"|"type"|"enum";
 export type MemberSig = { name: string; type: string; optional?: boolean };
 export type FnSig = { params: MemberSig[]; returns: string };

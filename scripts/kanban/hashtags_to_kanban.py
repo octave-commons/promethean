@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-only
 """Generate a Kanban board from task status hashtags (dedupe + preserve unlinked + keep settings).
 
 Features:

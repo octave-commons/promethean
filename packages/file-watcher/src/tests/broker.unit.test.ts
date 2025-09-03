@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from "ava";
 import { promises as fs, mkdtempSync, writeFileSync } from "fs";
 import { join } from "path";

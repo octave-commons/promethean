@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 // migrations/20250822_seed_rbac.js
 import { Policy } from "../src/models/policy.js";

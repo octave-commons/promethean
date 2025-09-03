@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @shared/ts/dist/fsTree.ts
 import { Dirent, promises as fs } from 'fs';
 import * as path from 'path';

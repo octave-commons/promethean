@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 import numpy as np
 from shared.py.utils.embeddings_processing import PCA
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-3.0-only
 """Generate documentation for orphaned files using Ollama.
 
 This script reads the list of orphaned files from ``orphaned-files-report.md``.

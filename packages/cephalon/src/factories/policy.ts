@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { checkPermission } from "@promethean/legacy/permissionGate.js";
 
 export class NotAllowedError extends Error {

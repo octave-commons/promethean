@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { Dirent, promises as fs } from 'fs';
 import * as path from 'path';
 

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 /* eslint-disable no-console */
 import { z } from "zod";
 import * as path from "path";

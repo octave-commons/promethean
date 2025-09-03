@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // scripts/run-hy-tests.js
 const fs = require('fs/promises');
 const { spawn } = require('child_process');

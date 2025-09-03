@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Permission gating layer (Dorian).
 
 This module provides a simple in-memory permission layer used by the

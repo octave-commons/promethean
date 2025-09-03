@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 class DocOpsStep extends HTMLElement {
   connectedCallback() {
     this.attachShadow({ mode: "open" });

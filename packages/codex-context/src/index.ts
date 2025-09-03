@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { configDotenv } from "dotenv";
 configDotenv();
 import express from "express";

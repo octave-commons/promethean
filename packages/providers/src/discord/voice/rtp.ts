@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // RTP/Opus helpers stubs
 export function decodeOpusPacket(packet: Buffer) {
     // TODO: decode opus to PCM

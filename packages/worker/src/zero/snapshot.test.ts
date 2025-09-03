@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from 'ava';
 import { buildSnapshot, commitSnapshot, type WorldLike, type ComponentRef } from './snapshot';
 import { markChanged } from './layout';

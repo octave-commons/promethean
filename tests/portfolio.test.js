@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from 'ava';
 import {spawnSync} from 'child_process';
 import {promises as fs} from 'fs';

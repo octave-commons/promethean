@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { createCanvas } from "canvas";
 import { annotateImage } from "../annotate-image.js";
 import { getCurrentDateTime } from "../get-current-date-time.js";

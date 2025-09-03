@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { ChatInputCommandInteraction, TextChannel } from "discord.js";
 import { ChannelType } from "discord.js";
 import type { Bot } from "../bot.js";

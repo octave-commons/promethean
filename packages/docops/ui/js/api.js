@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // Lightweight fetch helpers for DocOps UI
 
 export async function getConfig() {

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import WebSocket from 'ws';
 import dotenv from 'dotenv';
 import { once } from 'events';

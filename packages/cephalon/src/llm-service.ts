@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-ignore import js module without types
 import { BrokerClient } from "@promethean/legacy/brokerClient.js";
 import { Message } from "ollama";

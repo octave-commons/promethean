@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { makePolicy } from "@shared/prom-lib";
 import { fileBackedRegistry } from "@shared/prom-lib";
 

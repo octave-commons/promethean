@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from 'ava';
 import { loadDriver } from '../dist/drivers/index.js';
 import ollama from 'ollama';

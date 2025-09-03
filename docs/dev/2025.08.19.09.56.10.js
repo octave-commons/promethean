@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// SPDX-License-Identifier: GPL-3.0-only
 
 /**
  * Recursively index a directory and append Org headers for each text file.

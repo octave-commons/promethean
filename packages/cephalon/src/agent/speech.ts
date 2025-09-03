@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 let AGENT_NAME = "Agent";
 try {
   ({ AGENT_NAME } = await import("@promethean/legacy/env.js"));

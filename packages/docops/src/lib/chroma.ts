@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // Lightweight helpers to get a Chroma collection with Ollama embedding function
 import { OLLAMA_URL } from "../utils";
 

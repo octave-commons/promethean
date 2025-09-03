@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 /**
  * HuggingFace HTTP client utilities for Promethean Node.js services
  */

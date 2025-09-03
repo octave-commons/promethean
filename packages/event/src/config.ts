@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export const Topics = {
     HeartbeatReceived: { name: 'heartbeat.received', retentionDays: 3 },
     ProcessState: { name: 'process.state', compaction: true }, // keyed by process-id

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Tests for ``scripts.kanban.agile_statuses`` and related modules."""
 
 from scripts.kanban import agile_statuses as agile

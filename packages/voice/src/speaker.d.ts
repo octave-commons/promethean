@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { PassThrough } from "node:stream";
 import { Transcriber } from "./transcriber";
 import { AudioReceiveStream } from "@discordjs/voice";

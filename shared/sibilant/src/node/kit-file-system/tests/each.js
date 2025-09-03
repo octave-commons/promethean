@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 const { FileSystem } = require('../index.js');
 const { create } = require('kit/js/util');
 

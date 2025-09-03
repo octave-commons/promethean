@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 import argparse
 import os
 import re

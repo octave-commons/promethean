@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 import { buildFastifyApp } from "../../fastifyApp.js";
 import { MongoMemoryServer } from "mongodb-memory-server";

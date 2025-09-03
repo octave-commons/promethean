@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { WebSocket } from 'ws';
 
 export function createSender(ws: WebSocket, maxBuffer = 1 << 20) {

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Date and time helpers for shared utilities."""
 
 from datetime import datetime, timezone

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // In-memory EventBus implementation that conforms to ./types
 import {
     EventBus,

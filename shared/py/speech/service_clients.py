@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """HTTP clients for speech services.
 
 This module provides simple helper functions to communicate with the

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 (function(a, b, c) {
     /* node_modules/kit/inc/core/defs.sibilant:53:9 */
 

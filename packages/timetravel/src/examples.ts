@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { reconstructAt } from './reconstruct';
 // loosen typing to avoid cross-package type coupling
 

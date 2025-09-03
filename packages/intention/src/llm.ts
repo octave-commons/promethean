@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export type LLM = {
     generate(opts: { system: string; prompt: string }): Promise<string>;
 };

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { Span } from './common';
 
 export type TokKind = 'id' | 'num' | 'str' | 'op' | 'punct' | 'kw' | 'eof';

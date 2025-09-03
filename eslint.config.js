@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 

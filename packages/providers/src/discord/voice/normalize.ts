@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // Map SSRC to user_id and emit normalized PCM event envelope
 export function normalizeRtpToPcm(ssrc: number, userId: string, pcm: Buffer) {
     return {

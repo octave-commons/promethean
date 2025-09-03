@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { AgentBus } from "@promethean/agent-ecs/bus.js";
 import type { Bot } from "../bot.js";
 

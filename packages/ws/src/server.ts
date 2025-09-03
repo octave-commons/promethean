@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { WebSocketServer, WebSocket } from 'ws';
 // loosen typing to avoid cross-package type coupling
 import { makeConnLimiter, makeTopicLimiter } from './server.rate';

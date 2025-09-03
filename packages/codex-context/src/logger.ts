@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 type Level = "debug" | "info" | "warn" | "error";
 
 const levelOrder: Record<Level, number> = {

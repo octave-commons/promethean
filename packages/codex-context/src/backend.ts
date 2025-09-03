@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import ollama from "ollama";
 import type { ChatMessage } from "./types/openai.js";
 import { createLogger } from "./logger.js";

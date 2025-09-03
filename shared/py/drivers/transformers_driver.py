@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 from functools import lru_cache
 from typing import List, Any
 

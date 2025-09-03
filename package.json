@@ -13,7 +13,7 @@
     "build:docs": "node scripts/generate-service-docs.js",
     "health:node-abi": "node -p \"process.versions.node + ' ABI ' + process.versions.modules\"",
     "prepare": "chmod +x ./bin/promethean.js",
-    "lint": "biome lint --config-path=biome.json .",
+    "lint": "biome lint --config-path=biome.json . && node scripts/ensure-spdx-license.mjs --check",
     "format": "biome format --config-path=biome.json --write .",
     "doc:01-frontmatter": "tsx packages/docops/src/01-frontmatter.ts --dir docs/unique --gen-model qwen3:4b",
     "doc:02-embed": "tsx packages/docops/src/02-embed.ts --dir docs/unique",

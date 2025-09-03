@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 import fs from "fs/promises";
 import { viewFile, treeDirectory, normalizeToRoot } from "../../files.js";

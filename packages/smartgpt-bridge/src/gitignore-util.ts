@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // @ts-nocheck
 // Utility to load and merge .gitignore files from root to a given directory
 import fs from "fs/promises";

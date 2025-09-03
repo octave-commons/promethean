@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 import pytest; pytest.skip("example script", allow_module_level=True)
 import os
 print(os.path.dirname(os.path.abspath(__file__)))

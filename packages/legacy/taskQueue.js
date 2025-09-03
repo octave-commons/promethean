@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // shared/js/taskQueue.js
 
 import { randomUUID } from "crypto";

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { estreeProgramToLisp, type Js2LispOptions } from './js-ast2lisp';
 import { printS } from './print';
 

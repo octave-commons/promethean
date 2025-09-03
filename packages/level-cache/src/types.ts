@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export type Millis = number;
 
 export type CacheOptions = Readonly<{

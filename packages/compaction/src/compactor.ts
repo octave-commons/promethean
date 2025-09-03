@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // Module types resolved at runtime; loosen compile-time types here
 
 export interface CompactorOptions {

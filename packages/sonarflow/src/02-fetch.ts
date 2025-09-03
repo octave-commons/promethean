@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 /* eslint-disable no-console */
 import { parseArgs, SONAR_URL, authHeader, writeJSON } from "./utils.js";
 import type { SonarIssue, FetchPayload } from "./types.js";

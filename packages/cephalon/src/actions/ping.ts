@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { PingScope } from "./ping.scope.js";
 
 export type PingInput = { userId: string };

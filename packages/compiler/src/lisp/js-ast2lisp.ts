@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type * as EST from 'estree';
 import { S, Sym, Num, Str, Bool, Nil, List, sym, num, str, bool, list, nil } from './syntax';
 

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { S, List, Sym, isList, isSym, list, sym } from './syntax';
 import { MacroEnv, installCoreMacros } from './macros';
 

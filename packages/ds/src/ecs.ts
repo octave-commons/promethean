@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 // GPL3. Zero deps. Archetype ECS with 64-bit signature mask.
 // NOTE: 64 components max (extend to 128+ via two bigints if needed).
 

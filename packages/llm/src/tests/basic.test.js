@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import test from 'ava';
 import express from 'express';
 import { loadModel } from '../dist/index.js';

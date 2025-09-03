@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 type Msg = { role: "system" | "user" | "assistant"; content: string };
 
 export async function chat({

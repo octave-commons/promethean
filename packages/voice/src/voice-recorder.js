@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import { createWriteStream } from "node:fs";
 // @ts-ignore no types available
 import * as wav from "wav";

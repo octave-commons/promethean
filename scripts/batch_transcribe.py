@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-only
 """Batch transcription utility.
 
 Iterates over WAV files in ``data/raw-wav`` and transcribes them using any

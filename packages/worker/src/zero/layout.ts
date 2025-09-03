@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 export type Scalar = 'f32' | 'f64' | 'i32' | 'u32' | 'i16' | 'u16' | 'i8' | 'u8';
 export type FieldSpec = { [fieldName: string]: Scalar };
 export type CompLayout = { cid: number; fields: FieldSpec };

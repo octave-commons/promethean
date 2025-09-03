@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import path from "path";
 import { fileURLToPath } from "url";
 import { defineApp } from "../../dev/pm2Helpers.js";

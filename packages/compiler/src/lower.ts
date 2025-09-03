@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-only
 import type { Expr } from './ast';
 import { gensym, type Module, type Fun, type Stmt, type Sym, type Rhs, type Val } from './ir';
 
