@@ -32,6 +32,7 @@
     "@promethean/legacy": "file:packages/legacy",
     "@promethean/piper": "file:packages/piper",
     "@types/node": "^24.3.0",
+    "@xenova/transformers": "2.17.2",
     "adm-zip": "0.5.16",
     "dotenv": "17.2.1",
     "gray-matter": "^4.0.3",
