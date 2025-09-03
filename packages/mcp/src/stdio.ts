@@ -3,9 +3,6 @@ import dotenv from "dotenv";
 import WebSocket, { type RawData } from "ws";
 import readline from "node:readline";
 
-import dotenv from "dotenv";
-import WebSocket from "ws";
-
 dotenv.config();
 
 const url = process.env.MCP_SERVER_URL || "ws://localhost:4410/mcp";
