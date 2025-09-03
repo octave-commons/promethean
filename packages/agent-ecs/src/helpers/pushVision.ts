@@ -4,7 +4,7 @@ import type { defineAgentComponents } from '../components.js';
 export function pushVisionFrame(
     w: any,
     agent: any,
-    C: ReturnType<typeof import('../components').defineAgentComponents>,
+    C: ReturnType<typeof import('../components.js').defineAgentComponents>,
     ref: {
         type: 'url' | 'blob' | 'attachment';
         url?: string;
