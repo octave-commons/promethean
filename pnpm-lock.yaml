@@ -44,6 +44,9 @@ importers:
       unist-util-visit:
         specifier: ^5.0.0
         version: 5.0.0
+      uuid:
+        specifier: ^11.1.0
+        version: 11.1.0
       ws:
         specifier: 8.18.3
         version: 8.18.3
@@ -53,6 +56,9 @@ importers:
       zod:
         specifier: 3.25.76
         version: 3.25.76
+      zod-to-json-schema:
+        specifier: ^3.24.6
+        version: 3.24.6(zod@3.25.76)
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.2.2
@@ -63,6 +69,12 @@ importers:
       '@types/mongodb':
         specifier: 4.0.6
         version: 4.0.6(socks@2.8.7)
+      '@types/uuid':
+        specifier: ^9.0.7
+        version: 9.0.8
+      '@types/ws':
+        specifier: ^8.5.10
+        version: 8.18.1
       '@typescript-eslint/eslint-plugin':
         specifier: 8.39.0
         version: 8.39.0(@typescript-eslint/parser@8.39.0(eslint@9.33.0)(typescript@5.9.2))(eslint@9.33.0)(typescript@5.9.2)
@@ -2946,6 +2958,9 @@ importers:
       '@types/node':
         specifier: ^20.19.11
         version: 20.19.11
+      '@types/uuid':
+        specifier: ^9.0.7
+        version: 9.0.8
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
