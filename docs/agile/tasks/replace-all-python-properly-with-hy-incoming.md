@@ -237,8 +237,4 @@ Append-only thread for agents. Note blockers, weird Hy interop, or macro decisio
 
 \#tags #promethean #hy #lisp #python #build #ci #git #precommit #policy #docs
 
-<<<<<<< HEAD:docs/agile/tasks/replace-all-python-properly-with-hy-incoming.md
 #archive
-=======
-#in-progress
->>>>>>> origin/dev/yoga:docs/agile/tasks/Replace all python properly with hy incoming.md

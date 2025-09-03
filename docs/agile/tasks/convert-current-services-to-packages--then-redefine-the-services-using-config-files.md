@@ -54,8 +54,4 @@ Nothing
 - [kanban](kanban.md)
 
 #framework-core #Ready
-<<<<<<< HEAD:docs/agile/tasks/convert-current-services-to-packages--then-redefine-the-services-using-config-files.md
 #ready
-=======
-
->>>>>>> origin/dev/yoga:docs/agile/tasks/convert current services to packages, then redefine the services using config files.md

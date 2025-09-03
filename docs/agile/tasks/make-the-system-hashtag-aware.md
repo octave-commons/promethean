@@ -30,7 +30,4 @@ Useful for agents to engage in append only conversations about this task.
 - Estimate: 3
 - Assumptions: A consistent hashtag taxonomy is available.
 - Dependencies: Vault graph service and parsing hooks.
-<<<<<<< HEAD:docs/agile/tasks/make-the-system-hashtag-aware.md
 #ready
-=======
->>>>>>> origin/dev/yoga:docs/agile/tasks/Make the system hashtag aware.md

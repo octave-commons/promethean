@@ -49,8 +49,4 @@ Nothing
 - [kanban](kanban.md)
 
 #framework-core #Ready
-<<<<<<< HEAD:docs/agile/tasks/clearly-standardize-data-models.md
 #ready
-=======
-
->>>>>>> origin/dev/yoga:docs/agile/tasks/clearly standardize data models.md
