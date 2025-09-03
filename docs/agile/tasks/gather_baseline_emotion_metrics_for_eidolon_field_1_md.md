@@ -30,16 +30,9 @@ this baseline to detect deviations and compute rewards.
 
 ## 📋 Subtasks
 
-<<<<<<< HEAD
 - [ ] Run initial collection using current Eidolon service (or mock data)
 - [ ] Export cleaned results to `data/eidolon/baseline.csv`
 - [ ] Update doc `eidolon-field-math.md` with methodology and assumptions
-=======
-- [ ] Run the collection script on a local machine
-- [ ] Verify the CSV contains timestamped vectors with eight fields
-- [ ] Update doc `eidolon-field-math.md` with sampling methodology
-- [ ] Commit the CSV and report under `data/eidolon/`
->>>>>>> main
 
 ---
 
@@ -69,7 +62,4 @@ Nothing
 - What instrumentation already exists in Eidolon for metric export?
 - How much historical data is needed for a meaningful baseline?
 #IceBox
-<<<<<<< HEAD
 #rejected
-=======
->>>>>>> origin/dev/yoga
