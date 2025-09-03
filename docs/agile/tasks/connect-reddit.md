@@ -71,7 +71,4 @@ Useful for agents to engage in append only conversations about this task.
 No blockers.
 
 #Ready
-<<<<<<< HEAD:docs/agile/tasks/connect-reddit.md
 #ready
-=======
->>>>>>> origin/dev/yoga:docs/agile/tasks/connect reddit.md
