@@ -1,4 +1,6 @@
-import { fileBackedRegistry, mongoForTenant, topic } from "@shared/prom-lib";
+import { fileBackedRegistry } from "../../platform/dist/provider-registry.js";
+import { mongoForTenant } from "../../effects/dist/mongo.js";
+import { topic } from "../../platform/dist/topic.js";
 
 export async function handleSocialMessageCreated(evt: any) {
   if (!evt.attachments?.length) return [];

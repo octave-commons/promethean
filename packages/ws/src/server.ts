@@ -1,6 +1,6 @@
 import { WebSocketServer, WebSocket } from 'ws';
 // loosen typing to avoid cross-package type coupling
-import { makeConnLimiter, makeTopicLimiter } from './server.rate';
+import { makeConnLimiter, makeTopicLimiter } from './server.rate.js';
 // token bucket provided at runtime
 
 export type AuthResult = { ok: true; subScopes?: string[] } | { ok: false; code: string; msg: string };

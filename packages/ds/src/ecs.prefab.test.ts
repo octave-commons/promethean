@@ -1,6 +1,6 @@
 import test from 'ava';
-import { World } from './ecs';
-import { makeBlueprint, spawn } from './ecs.prefab';
+import { World } from './ecs.js';
+import { makeBlueprint, spawn } from './ecs.prefab.js';
 
 test('prefab: spawns entities from blueprint with overrides', (t) => {
     const world = new World();

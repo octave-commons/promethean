@@ -1,5 +1,5 @@
-import { makePolicy } from "@shared/prom-lib";
-import { fileBackedRegistry } from "@shared/prom-lib";
+import { makePolicy } from "../../agent/dist/policy.js";
+import { fileBackedRegistry } from "../../platform/dist/provider-registry.js";
 
 type RestResponse = {
   ok: boolean;

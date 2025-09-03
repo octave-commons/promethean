@@ -1,8 +1,6 @@
-import {
-  InMemoryEventBus,
-  topic,
-  normalizeDiscordMessage,
-} from "@shared/prom-lib";
+import { InMemoryEventBus } from "../../event/dist/memory.js";
+import { topic } from "../../platform/dist/topic.js";
+import { normalizeDiscordMessage } from "../../providers/dist/discord/normalize.js";
 
 export class GatewayPublisher {
   constructor(private bus: InMemoryEventBus) {}

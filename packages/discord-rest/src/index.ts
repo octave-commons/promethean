@@ -1,7 +1,5 @@
-import {
-  fileBackedRegistry,
-  topic, // , PostMessage
-} from "@shared/prom-lib";
+import { fileBackedRegistry } from "../../platform/dist/provider-registry.js";
+import { topic } from "../../platform/dist/topic.js";
 
 // Stub REST proxy: subscribes to rest.request and would call Discord REST.
 async function main() {

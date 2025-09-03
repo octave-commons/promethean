@@ -1,5 +1,5 @@
 import test from 'ava';
-import { Graph } from './graph';
+import { Graph } from './graph.js';
 
 test('Graph: bfs traverses undirected graph', (t) => {
     const g = new Graph({ directed: false });

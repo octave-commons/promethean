@@ -1,6 +1,6 @@
 // shared/ts/prom-lib/ds/ecs.prefab.ts
 
-import { World, ComponentType } from './ecs';
+import { World, ComponentType } from './ecs.js';
 
 export type BlueprintStep<T = any> = {
     c: ComponentType<T>;
