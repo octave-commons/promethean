@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@promethean/migrations": "workspace:*",
+    "@promethean/platform": "workspace:*",
     "@types/node": "^24.3.0",
     "typescript": "^5.9.2"
   },
