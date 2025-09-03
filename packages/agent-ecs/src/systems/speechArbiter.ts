@@ -7,7 +7,7 @@ const STOP_AFTER_MS = 1000; // tune: 700–1200ms feels natural
 
 type BargeState = { speakingSince: number | null; paused: boolean };
 
-export function SpeechArbiterSystem(w: any, C: ReturnType<typeof import('../components').defineAgentComponents>) {
+export function SpeechArbiterSystem(w: any, C: ReturnType<typeof import('../components.js').defineAgentComponents>) {
     const { Turn, PlaybackQ, AudioRef, Utterance, AudioRes, VAD, Policy } = C as ReturnType<
         typeof defineAgentComponents
     >;

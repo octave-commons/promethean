@@ -1,7 +1,7 @@
 import { enqueueUtterance } from '../helpers/enqueueUtterance.js';
 
 export function wireAdapters(
-    world: ReturnType<typeof import('../world').createAgentWorld>,
+    world: ReturnType<typeof import('../world.js').createAgentWorld>,
     deps: {
         tts: { synth: (text: string) => Promise<any> }; // returns AudioResource-compatible stream
     },
