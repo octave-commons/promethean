@@ -1,8 +1,9 @@
 import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const repoRoot = path.resolve(__dirname, "..");
+const repoRoot = path.resolve(fileURLToPath(new URL("..", import.meta.url)));
 
 export function checkDuplicateFragments(
 	changelogDir: string = path.join(repoRoot, "changelog.d"),
@@ -11,19 +12,21 @@ export function checkDuplicateFragments(
 	if (!fs.existsSync(changelogDir)) {
 		return true;
 	}
-	for (const name of fs.readdirSync(changelogDir)) {
-		if (!name.endsWith(".md")) continue;
-		const prefix = name.split(".")[0];
-		if (prefixes.has(prefix)) {
-			console.error(
-				"Duplicate changelog fragments detected for PR",
-				prefix,
-				`(${prefixes.get(prefix)}, ${name})`,
-			);
-			return false;
-		}
-		prefixes.set(prefix, name);
-	}
+        for (const name of fs.readdirSync(changelogDir)) {
+                if (!name.endsWith(".md")) continue;
+                const m = name.match(/^(.+)\.(added|changed|deprecated|removed|fixed|security)\.md$/);
+                if (!m) continue; // ignore invalid names; the fragments validator reports those
+                const prefix = m[1];
+                if (prefixes.has(prefix)) {
+                        console.error(
+                                "Duplicate changelog fragments detected for PR",
+                                prefix,
+                                `(${prefixes.get(prefix)}, ${name})`,
+                        );
+                        return false;
+                }
+                prefixes.set(prefix, name);
+        }
 	return true;
 }
 
@@ -31,14 +34,16 @@ export function changelogModified(
 	changelogPath: string = path.join(repoRoot, "CHANGELOG.md"),
 	runner: typeof spawnSync = spawnSync,
 ): boolean {
-	const result = runner(
-		"git",
-		["diff", "--name-only", "--cached", changelogPath],
-		{
-			encoding: "utf8",
-		},
-	);
-	return result.stdout.trim().length > 0;
+        const relative = path.relative(repoRoot, changelogPath);
+        const result = runner(
+                "git",
+                ["diff", "--name-only", "--cached", "--", relative],
+                {
+                        encoding: "utf8",
+                        cwd: repoRoot,
+                },
+        );
+        return result.stdout.trim().length > 0;
 }
 
 export function main(): number {
@@ -55,6 +60,6 @@ export function main(): number {
 	return ok ? 0 : 1;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-	process.exit(main());
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
+        process.exit(main());
 }
