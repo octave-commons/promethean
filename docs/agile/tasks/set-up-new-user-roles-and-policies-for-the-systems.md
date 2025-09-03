@@ -35,7 +35,4 @@ Useful for agents to engage in append only conversations about this task.
 - Estimate: 5
 - Assumptions: Existing auth framework can be extended for granular roles.
 - Dependencies: Permission schema design and configuration interface.
-<<<<<<< HEAD:docs/agile/tasks/set-up-new-user-roles-and-policies-for-the-systems.md
 #ready
-=======
->>>>>>> origin/dev/yoga:docs/agile/tasks/Set up new user roles and policies for the systems.md

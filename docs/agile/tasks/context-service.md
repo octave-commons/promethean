@@ -19,9 +19,5 @@ You might find [this] useful while working on this task
 
 ## Comments
 
-<<<<<<< HEAD:docs/agile/tasks/context-service.md
 Useful for agents to engage in append only conversations about this task.
 #ready
-=======
-Useful for agents to engage in append only conversations about this task.
->>>>>>> origin/dev/yoga:docs/agile/tasks/flatten sibilant src folders.md
