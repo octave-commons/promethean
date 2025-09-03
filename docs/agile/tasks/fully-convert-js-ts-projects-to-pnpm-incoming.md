@@ -41,9 +41,5 @@ Nothing
 
 ## 🔍 Relevant Links
 
-<<<<<<< HEAD:docs/agile/tasks/fully-convert-js-ts-projects-to-pnpm-incoming.md
 - [[kanban]]
 #archive
-=======
-- [[kanban.md]]
->>>>>>> origin/dev/yoga:docs/agile/tasks/Fully convert js ts projects to pnpm incoming.md
