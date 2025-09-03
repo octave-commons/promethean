@@ -1,6 +1,6 @@
-import { InMemoryEventBus } from "../../event/dist/memory.js";
-import { topic } from "../../platform/dist/topic.js";
-import { normalizeDiscordMessage } from "../../providers/dist/discord/normalize.js";
+import { InMemoryEventBus } from "@promethean/event/memory.js";
+import { topic } from "@promethean/platform/topic.js";
+import { normalizeDiscordMessage } from "@promethean/providers/discord/normalize.js";
 
 export class GatewayPublisher {
   constructor(private bus: InMemoryEventBus) {}
