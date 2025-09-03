@@ -9,8 +9,8 @@
     "build:check": "tsc --noEmit --incremental false",
     "test": "pnpm run build && ava --config ../../../config/ava.config.mjs dist/tests",
     "coverage": "pnpm run build && c8 ava",
-    "lint": "prettier --cache --check . && eslint src --cache",
-    "format": "prettier --cache --write . && eslint src --fix --cache",
+    "lint": "pnpm exec biome lint .",
+    "format": "pnpm exec biome format --write .",
     "start": "pnpm run build && node --env-file=../../.env dist/index.js",
     "start:dev": "node --env-file=../../.env --loader ts-node/esm src/index.ts"
   },
