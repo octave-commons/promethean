@@ -1,7 +1,8 @@
 import ollama from "ollama";
+import nodeFetch from "node-fetch";
+
 import type { ChatMessage } from "./types/openai.js";
 import { createLogger } from "./logger.js";
-import nodeFetch from "node-fetch";
 
 export type GenerationParams = {
   temperature?: number;
@@ -22,7 +23,7 @@ export type BackendConfig =
       apiKey?: string; // optional; Ollama ignores but OpenAI client expects it
     } & GenerationParams);
 
-export interface BackendClient {
+export type BackendClient = {
   chat(
     messages: ChatMessage[],
     cfg?: Partial<BackendConfig>,
@@ -41,7 +42,7 @@ export interface BackendClient {
   >;
   listModels(cfg?: Partial<BackendConfig>): Promise<any>;
   getModel(id: string, cfg?: Partial<BackendConfig>): Promise<any | null>;
-}
+};
 
 export class OllamaBackend implements BackendClient {
   private log = createLogger("codex-context", {

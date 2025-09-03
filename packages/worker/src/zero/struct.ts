@@ -87,7 +87,7 @@ const SCALAR_SIZE: Record<Exclude<Scalar, 'bool'>, number> = {
 function sizeOf(t: TypeInfo): number {
     switch (t.kind) {
         case 'scalar':
-            return t.t === 'bool' ? 1 : SCALAR_SIZE[t.t as Exclude<Scalar, 'bool'>];
+            return t.t === 'bool' ? 1 : SCALAR_SIZE[t.t];
         case 'pad':
             return t.bytes;
         case 'array':
@@ -108,7 +108,7 @@ function sizeOf(t: TypeInfo): number {
 function alignOf(t: TypeInfo): number {
     switch (t.kind) {
         case 'scalar':
-            return t.t === 'bool' ? 1 : SCALAR_SIZE[t.t as Exclude<Scalar, 'bool'>];
+            return t.t === 'bool' ? 1 : SCALAR_SIZE[t.t];
         case 'pad':
             return 1;
         case 'array':

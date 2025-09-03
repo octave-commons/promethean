@@ -1,6 +1,7 @@
 // @ts-nocheck
-import test from "ava";
 import path from "node:path";
+
+import test from "ava";
 
 test("RemoteEmbeddingFunction: generate returns embeddings via fake broker", async (t) => {
   const prev = process.env.SHARED_IMPORT;

@@ -1,9 +1,11 @@
-import test from "ava";
-import request from "supertest";
 import { promises as fs } from "fs";
 import { join } from "path";
 import { tmpdir } from "os";
+
+import request from "supertest";
+import test from "ava";
 import { installInMemoryPersistence } from "@promethean/test-utils/persistence.js";
+
 import { createApp, handleTask } from "../src/index.js";
 
 test("cold start and update (unit, no network)", async (t) => {

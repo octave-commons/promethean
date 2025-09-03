@@ -4,7 +4,7 @@ import * as path from 'path';
 
 export type NodeType = 'file' | 'dir' | 'symlink';
 
-export interface StreamNode {
+export type StreamNode = {
     name: string;
     path: string;
     relative: string;
@@ -13,18 +13,18 @@ export interface StreamNode {
     mtimeMs?: number;
     ext?: string;
     depth: number;
-}
+};
 
 export type StreamEventType = 'enter' | 'exit' | 'node' | 'error';
 
-export interface StreamEvent {
+export type StreamEvent = {
     type: StreamEventType;
     node?: StreamNode;
     error?: unknown;
     atPath?: string;
-}
+};
 
-export interface StreamOptions {
+export type StreamOptions = {
     includeHidden?: boolean;
     maxDepth?: number;
     followSymlinks?: boolean;
@@ -33,14 +33,14 @@ export interface StreamOptions {
     onError?: (err: unknown, absPath: string) => void;
     signal?: AbortSignal;
     concurrency?: number; // NEW: max concurrent fs ops
-}
+};
 
-export interface DirentLike {
+export type DirentLike = {
     name: string;
     isDirectory(): boolean;
     isFile(): boolean;
     isSymbolicLink(): boolean;
-}
+};
 
 const isHidden = (n: string) => n.startsWith('.');
 

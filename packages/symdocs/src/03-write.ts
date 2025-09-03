@@ -1,7 +1,9 @@
 import { promises as fs } from "fs";
 import * as path from "path";
+
 import matter from "gray-matter";
 import * as yaml from "yaml";
+
 import { parseArgs } from "./utils.js";
 import type { DocMap, ScanResult, SymbolInfo } from "./types.js";
 
@@ -9,7 +11,7 @@ const args = parseArgs({
   "--scan": ".cache/symdocs/symbols.json",
   "--docs": ".cache/symdocs/docs.json",
   "--out": "docs/packages",
-  "--granularity": "module" // "module" | "symbol"
+  "--granularity": "module", // "module" | "symbol"
 });
 
 const OUT_ROOT = path.resolve(args["--out"]);
@@ -21,12 +23,20 @@ function fm(obj: any) {
   return yaml.stringify(obj, { indent: 2, simpleKeys: true });
 }
 
-function startMark() { return "<!-- SYMDOCS:BEGIN -->"; }
-function endMark() { return "<!-- SYMDOCS:END -->"; }
+function startMark() {
+  return "<!-- SYMDOCS:BEGIN -->";
+}
+function endMark() {
+  return "<!-- SYMDOCS:END -->";
+}
 
 async function main() {
-  const scan: ScanResult = JSON.parse(await fs.readFile(path.resolve(args["--scan"]), "utf-8"));
-  const docs: DocMap = JSON.parse(await fs.readFile(path.resolve(args["--docs"]), "utf-8"));
+  const scan: ScanResult = JSON.parse(
+    await fs.readFile(path.resolve(args["--scan"]), "utf-8"),
+  );
+  const docs: DocMap = JSON.parse(
+    await fs.readFile(path.resolve(args["--docs"]), "utf-8"),
+  );
 
   if (GRANULARITY === "symbol") {
     await writeOnePerSymbol(scan.symbols, docs);
@@ -46,13 +56,17 @@ async function writeOnePerModule(symbols: SymbolInfo[], docs: DocMap) {
 
   for (const [key, syms] of groups) {
     const [pkg, moduleRel] = key.split("|");
-    const outPath = path.join(OUT_ROOT, pkg, moduleRel.replace(/\.(ts|tsx|js|jsx)$/i, ".md"));
+    const outPath = path.join(
+      OUT_ROOT,
+      pkg,
+      moduleRel.replace(/\.(ts|tsx|js|jsx)$/i, ".md"),
+    );
     await fs.mkdir(path.dirname(outPath), { recursive: true });
 
     const fmHeader = {
       package: pkg,
       module: moduleRel,
-      generated_at: new Date().toISOString()
+      generated_at: new Date().toISOString(),
     };
 
     // existing content (preserve anything above marker)
@@ -60,7 +74,9 @@ async function writeOnePerModule(symbols: SymbolInfo[], docs: DocMap) {
     const gm = existing ? matter(existing) : { content: "", data: {} };
     const preserved = stripBetween(gm.content, startMark(), endMark());
 
-    const sections = syms.map((s) => renderSymbolSection(s, docs[s.id])).join("\n\n");
+    const sections = syms
+      .map((s) => renderSymbolSection(s, docs[s.id]))
+      .join("\n\n");
 
     const body = [
       preserved.trimEnd(),
@@ -74,10 +90,14 @@ async function writeOnePerModule(symbols: SymbolInfo[], docs: DocMap) {
       "",
       sections,
       endMark(),
-      ""
+      "",
     ].join("\n");
 
-    const final = matter.stringify(body, { ...gm.data, ...fmHeader }, { language: "yaml" });
+    const final = matter.stringify(
+      body,
+      { ...gm.data, ...fmHeader },
+      { language: "yaml" },
+    );
     await fs.writeFile(outPath, final, "utf-8");
   }
 }
@@ -89,7 +109,7 @@ async function writeOnePerSymbol(symbols: SymbolInfo[], docs: DocMap) {
       s.pkg,
       s.moduleRel.replace(/\.(ts|tsx|js|jsx)$/i, ""),
       "__symbols",
-      `${s.name}-${s.kind}.md`
+      `${s.name}-${s.kind}.md`,
     );
     await fs.mkdir(path.dirname(outPath), { recursive: true });
 
@@ -99,11 +119,13 @@ async function writeOnePerSymbol(symbols: SymbolInfo[], docs: DocMap) {
       symbol: s.name,
       kind: s.kind,
       exported: s.exported,
-      generated_at: new Date().toISOString()
+      generated_at: new Date().toISOString(),
     };
 
     const section = renderSymbolSection(s, docs[s.id]);
-    const final = matter.stringify(section + "\n", fmHeader, { language: "yaml" });
+    const final = matter.stringify(section + "\n", fmHeader, {
+      language: "yaml",
+    });
     await fs.writeFile(outPath, final, "utf-8");
   }
 }
@@ -124,10 +146,14 @@ function renderSymbolSection(s: SymbolInfo, d?: any): string {
     s.signature ? `\n**Signature:** \`${s.signature}\`\n` : "",
     usage ? `${usage}\n` : "",
     details ?? "",
-    pitfalls?.length ? `\n**Pitfalls:**\n${pitfalls.map((p) => `- ${p}`).join("\n")}\n` : "",
+    pitfalls?.length
+      ? `\n**Pitfalls:**\n${pitfalls.map((p) => `- ${p}`).join("\n")}\n`
+      : "",
     tags?.length ? `**Tags:** ${tags.join(", ")}` : "",
     mermaid ? `\n\`\`\`mermaid\n${mermaid}\n\`\`\`\n` : "",
-    "<details><summary>Source</summary>\n\n```" + s.lang + `\n${s.snippet.trim()}\n\`\`\`\n\n</details>`
+    "<details><summary>Source</summary>\n\n```" +
+      s.lang +
+      `\n${s.snippet.trim()}\n\`\`\`\n\n</details>`,
   ].filter(Boolean);
 
   return lines.join("\n");
@@ -140,11 +166,19 @@ function ensureCodeFence(block: string, lang: string) {
 }
 
 function slug(s: string) {
-  return s.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  return s
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 async function readMaybe(p: string) {
-  try { return await fs.readFile(p, "utf-8"); } catch { return undefined; }
+  try {
+    return await fs.readFile(p, "utf-8");
+  } catch {
+    return undefined;
+  }
 }
 
 function stripBetween(text: string, start: string, end: string) {
@@ -154,4 +188,7 @@ function stripBetween(text: string, start: string, end: string) {
   return text.trimEnd();
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

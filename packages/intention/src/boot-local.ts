@@ -1,15 +1,16 @@
 import { promises as fs } from 'node:fs';
+
 import { RouterLLM } from './router';
 import { FileCacheLLM } from './cache';
 import { OllamaLLM } from './ollama';
 import { OpenAICompatLLM } from './openai_compat';
 
-interface Cfg {
+type Cfg = {
     cacheDir?: string;
     rounds?: number;
     providers: any[];
     targets?: { jsDir?: string; pyDir?: string };
-}
+};
 
 export async function loadLocalLLM(cfgPath = '.promirror/intent.config.json') {
     const raw = await fs.readFile(cfgPath, 'utf8');

@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { AVLTree } from './bst';
 
 test('AVLTree: basic operations', (t) => {

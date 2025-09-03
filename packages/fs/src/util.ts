@@ -1,18 +1,18 @@
 import { Dirent, promises as fs } from 'fs';
 import * as path from 'path';
 
-export interface FileEntry {
+export type FileEntry = {
     path: string; // full path
     relative: string; // path relative to the root
     name: string; // base filename
     type: 'file' | 'dir';
-}
+};
 
-export interface WalkOptions {
+export type WalkOptions = {
     includeHidden?: boolean; // include dotfiles
     maxDepth?: number; // how deep to recurse
     typeFilter?: 'file' | 'dir'; // restrict results
-}
+};
 
 /**
  * Walk a directory tree and collect entries.

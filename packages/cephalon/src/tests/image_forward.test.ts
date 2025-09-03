@@ -1,4 +1,5 @@
 import test from "ava";
+
 import runForward from "../actions/forward-attachments.js";
 import { buildForwardAttachmentsScope } from "../actions/forward-attachments.scope.js";
 import type { Bot } from "../bot.js";

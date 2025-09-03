@@ -5,7 +5,7 @@ import * as path from 'path';
 export type NodeType = 'file' | 'dir' | 'symlink';
 export type StreamEventType = 'enter' | 'exit' | 'node' | 'error';
 
-export interface StreamNode {
+export type StreamNode = {
     name: string;
     path: string; // absolute
     relative: string; // relative to root
@@ -14,23 +14,23 @@ export interface StreamNode {
     mtimeMs?: number;
     ext?: string;
     depth: number;
-}
+};
 
-export interface StreamEvent {
+export type StreamEvent = {
     type: StreamEventType;
     node?: StreamNode;
     error?: unknown;
     atPath?: string;
-}
+};
 
-export interface DirentLike {
+export type DirentLike = {
     name: string;
     isDirectory(): boolean;
     isFile(): boolean;
     isSymbolicLink(): boolean;
-}
+};
 
-export interface StreamOptions {
+export type StreamOptions = {
     includeHidden?: boolean;
     maxDepth?: number;
     followSymlinks?: boolean;
@@ -40,7 +40,7 @@ export interface StreamOptions {
     signal?: AbortSignal;
     concurrency?: number; // max concurrent fs ops (default 16)
     queueHighWater?: number; // optional: backpressure to throttle workers
-}
+};
 
 /** Minimal async queue (channel) */
 class AsyncQueue<T> {

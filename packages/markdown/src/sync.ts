@@ -1,13 +1,14 @@
 import { promises as fs } from 'fs';
 import { join } from 'path';
+
 import { MarkdownBoard, type Card } from './kanban.js';
 import { MarkdownTask } from './task.js';
 import { STATUS_SET, headerToStatus } from './statuses.js';
 
-export interface SyncOptions {
+export type SyncOptions = {
     tasksDir: string;
     createMissingTasks?: boolean;
-}
+};
 
 export function firstWikiTarget(card: Card): string | null {
     if (!card.links?.length) return null;

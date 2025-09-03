@@ -13,7 +13,7 @@ export function enqueueUtterance(
         factory: () => Promise<any>;
     },
 ) {
-    const { Turn, PlaybackQ, Utterance, AudioRes, Policy } = C as ReturnType<typeof defineAgentComponents>;
+    const { Turn, PlaybackQ, Utterance, AudioRes, Policy } = C;
     const defaultBarge = (w.get(agent, Policy)?.defaultBargeIn ?? 'pause') as 'none' | 'duck' | 'pause' | 'stop';
     const opts = {
         id: rawOpts?.id,

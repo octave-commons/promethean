@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { embedMessage } from "../src/index.js";
 
 test("embeds text into provider+tenant namespace", async (t) => {

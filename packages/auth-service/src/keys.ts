@@ -69,7 +69,7 @@ export async function initKeys(): Promise<KeyState> {
         delete (publicJwk as any).d;
         publicKey = (await importJWK(publicJwk, jwk.alg as string)) as KeyLike;
       }
-      publicJwk ||= (await exportJWK(publicKey)) as JWK;
+      publicJwk ||= await exportJWK(publicKey);
     } else if (envPriv && envPub) {
       if (alg === "EdDSA") {
         privateKey = await importPKCS8(envPriv, alg);
@@ -83,7 +83,7 @@ export async function initKeys(): Promise<KeyState> {
       } else {
         throw new Error(`Unsupported PEM import for alg ${alg}`);
       }
-      publicJwk = (await exportJWK(publicKey)) as JWK;
+      publicJwk = await exportJWK(publicKey);
     } else {
       // Generate a fresh keypair for dev.
       const { publicKey: pub, privateKey: priv } = await generateKeyPair(
@@ -91,7 +91,7 @@ export async function initKeys(): Promise<KeyState> {
       );
       privateKey = priv;
       publicKey = pub;
-      publicJwk = (await exportJWK(publicKey)) as JWK;
+      publicJwk = await exportJWK(publicKey);
     }
 
     const kid = env("AUTH_KID") || randomKid();
