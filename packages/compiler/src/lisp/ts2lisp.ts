@@ -1,4 +1,4 @@
-import { jsToLisp } from './js2lisp';
+import { jsToLisp } from './js2lisp.js';
 
 export interface TsToLispOptions {
     // Names treated as globals -> (js/global "Name"), e.g., ["document","window","Image"]

@@ -1,6 +1,6 @@
-import { parse } from './parser';
-import { lower } from './lower';
-import { compileToBytecode, runBytecode } from './vm';
+import { parse } from './parser.js';
+import { lower } from './lower.js';
+import { compileToBytecode, runBytecode } from './vm.js';
 
 export function compileAndRun(src: string) {
     const ast = parse(src);

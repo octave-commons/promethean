@@ -1,4 +1,4 @@
-import type { Module, Fun, Stmt, Rhs } from './ir';
+import type { Module, Stmt, Rhs } from './ir.js';
 
 export type OpCode =
     | ['LIT', number | string | boolean | null]
@@ -49,9 +49,13 @@ export function compileToBytecode(mod: Module): Bytecode {
                 /* closures later */ code.push(['LIT', null], ['MOV', d]);
             }
         } else if (rhs.r === 'prim') {
-            const a = slot(rhs.a),
-                b = rhs.b != null ? slot(rhs.b) : -1;
-            code.push(['PRIM', rhs.op, a, rhs.b != null ? b : undefined], ['MOV', d]);
+            const a = slot(rhs.a);
+            if (rhs.b != null) {
+                const b = slot(rhs.b);
+                code.push(['PRIM', rhs.op, a, b], ['MOV', d]);
+            } else {
+                code.push(['PRIM', rhs.op, a], ['MOV', d]);
+            }
         } else if (rhs.r === 'call') {
             const fn = slot(rhs.fn);
             code.push(['CALL', fn, rhs.args.length], ['MOV', d]);
