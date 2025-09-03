@@ -1,5 +1,28 @@
 import type { Expr, Name } from "./ast";
 
+
+// Escape unsafe characters for JS string literal contexts
+const charMap: { [key: string]: string } = {
+  '<': '\\u003C',
+  '>': '\\u003E',
+  '/': '\\u002F',
+  '\\': '\\\\',
+  '\b': '\\b',
+  '\f': '\\f',
+  '\n': '\\n',
+  '\r': '\\r',
+  '\t': '\\t',
+  '\0': '\\0',
+  '\u2028': '\\u2028',
+  '\u2029': '\\u2029'
+};
+function escapeUnsafeChars(str: string): string {
+  return str.replace(
+    /[<>\b\f\n\r\t\0\u2028\u2029]/g,
+    (x) => charMap[x] || x
+  );
+}
+
 interface Options {
 	iife: boolean;
 	importNames: string[];
@@ -20,7 +43,7 @@ function emitExpr(e: Expr): string {
 		case "Num":
 			return String(e.value);
 		case "Str":
-			return JSON.stringify(e.value);
+			return escapeUnsafeChars(JSON.stringify(e.value));
 		case "Bool":
 			return e.value ? "true" : "false";
 		case "Null":
