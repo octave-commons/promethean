@@ -1,5 +1,5 @@
 import test from "ava";
-import { InMemoryEventBus } from "@shared/prom-lib";
+import { InMemoryEventBus } from "../../event/dist/memory.js";
 import { GatewayPublisher } from "../src/gateway.js";
 
 test("publishes raw and normalized events to bus", async (t) => {

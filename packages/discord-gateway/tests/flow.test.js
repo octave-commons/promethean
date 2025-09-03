@@ -1,5 +1,5 @@
 import test from "ava";
-import { InMemoryEventBus } from "@shared/prom-lib";
+import { InMemoryEventBus } from "../../event/dist/memory.js";
 import { GatewayPublisher } from "../src/gateway.js";
 import { handleSocialMessageCreated as indexMessage } from "../../discord-message-indexer/src/index.js";
 import { handleSocialMessageCreated as indexAttachments } from "../../discord-attachment-indexer/src/index.js";

@@ -1,7 +1,5 @@
-import {
-  fileBackedRegistry,
-  topic, // , SocialMessageCreated, toUrn
-} from "@shared/prom-lib";
+import { fileBackedRegistry } from "../../platform/dist/provider-registry.js";
+import { topic } from "../../platform/dist/topic.js";
 
 // Stub Gateway: would connect to Discord WS, normalize MESSAGE_CREATE to SocialMessageCreated
 async function main() {

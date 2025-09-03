@@ -1,4 +1,6 @@
-import { topic, fileBackedRegistry, mongoForTenant } from "@shared/prom-lib";
+import { topic } from "../../platform/dist/topic.js";
+import { fileBackedRegistry } from "../../platform/dist/provider-registry.js";
+import { mongoForTenant } from "../../effects/dist/mongo.js";
 
 export async function handleSocialMessageCreated(evt: any) {
   const reg = fileBackedRegistry();

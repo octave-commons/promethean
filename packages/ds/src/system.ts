@@ -1,5 +1,5 @@
 // ecs/strict-system.ts
-import type { World, Entity, ComponentType, Query } from './ecs';
+import type { World, Entity, ComponentType, Query } from './ecs.js';
 
 export type SystemSpec = {
     name: string;

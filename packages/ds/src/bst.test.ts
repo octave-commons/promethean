@@ -1,5 +1,5 @@
 import test from 'ava';
-import { AVLTree } from './bst';
+import { AVLTree } from './bst.js';
 
 test('AVLTree: basic operations', (t) => {
     const tree = new AVLTree<number, string>();
