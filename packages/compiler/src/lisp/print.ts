@@ -1,4 +1,4 @@
-import { S } from './syntax';
+import { S } from './syntax.js';
 
 export interface PrintOptions {
     indent?: number;
