@@ -1,5 +1,5 @@
 // ecs/strict-system.ts
-import type { World, Entity, ComponentType, Query } from './ecs';
+import type { World, Entity, ComponentType, Query } from './ecs.js';
 
 export type SystemSpec = {
     name: string;
@@ -18,12 +18,18 @@ export type SystemCtx = {
     setIfChanged: <T>(e: Entity, c: ComponentType<T>, v: T) => void;
     carry: <T>(e: Entity, c: ComponentType<T>) => void;
     iter: World['iter']; // base iterator (for custom modes)
-    iterAll: <T extends any[]>(...cs: { [K in keyof T]: ComponentType<T[K]> }) => IterableIterator<[Entity, ...T]>;
-    iterPacked: <T extends any[]>(opts: {
-        comps: { [K in keyof T]: ComponentType<T[K]> };
-        block?: number;
-    }) => IterableIterator<{ rows: number[]; cols: any[][] }>;
-    entityIter: <T extends Record<string, ComponentType<any>>>(map: T) => IterableIterator<[Entity, ViewsOf<T>]>;
+    iterAll: (
+        ...cs: ComponentType<any>[]
+    ) => IterableIterator<[Entity, ...any[]]>;
+    iterPacked: (
+        opts: {
+            comps: ComponentType<any>[];
+            block?: number;
+        },
+    ) => IterableIterator<{ rows: number[]; cols: any[][] }>;
+    entityIter: <T extends Record<string, ComponentType<any>>>(
+        map: T,
+    ) => IterableIterator<[Entity, ViewsOf<T>]>;
 };
 
 type ViewsOf<T extends Record<string, ComponentType<any>>> = {
@@ -38,7 +44,7 @@ export function* iterAll<T extends any[]>(
 ): IterableIterator<[Entity, ...T]> {
     // single pass: pull each comp once per row
     for (const [e, get] of w.iter(q)) {
-        const tuple = comps.map((c) => get(c)) as T;
+        const tuple = comps.map((c: ComponentType<T[number]>) => get(c)) as T;
         yield [e, ...tuple];
     }
 }
@@ -95,15 +101,15 @@ export function makeStrictSystem(w: World, spec: SystemSpec) {
     const ctx: SystemCtx = {
         world: w,
         get: w.get.bind(w),
-        carry: (e, c) => {
+        carry: (e: Entity, c: ComponentType<any>) => {
             assertOwn(c, 'carry');
             w.carry(e, c);
         },
-        set: (e, c, v) => {
+        set: (e: Entity, c: ComponentType<any>, v: any) => {
             assertOwn(c, 'set');
             w.set(e, c, v);
         },
-        setIfChanged: (e, c, v) => {
+        setIfChanged: (e: Entity, c: ComponentType<any>, v: any) => {
             assertOwn(c, 'setIfChanged');
             w.setIfChanged(e, c, v);
         },

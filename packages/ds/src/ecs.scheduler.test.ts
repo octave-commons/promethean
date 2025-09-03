@@ -1,7 +1,7 @@
 import test from 'ava';
 
-import { World } from './ecs';
-import { Scheduler } from './ecs.scheduler';
+import { World } from './ecs.js';
+import { Scheduler } from './ecs.scheduler.js';
 
 test('Scheduler: orders systems, respects conflicts, skips empty', async (t) => {
     const world = new World();
