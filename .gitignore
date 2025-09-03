@@ -97,3 +97,5 @@ build-errors.txt
 test-errors.txt
 
 .eslintcache
+
+error-groups/
