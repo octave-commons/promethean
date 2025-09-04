@@ -215,7 +215,7 @@ export function createApp(deps: AppDeps = {}): Express {
     }
   });
 
-  // Minimal Ollama-compat routes used by Codex CLI
+  // Minimal Ollama-compat routes used by Codex
   app.get("/api/tags", async (_req, res) => {
     try {
       const list: any = await (ollama as any).list();

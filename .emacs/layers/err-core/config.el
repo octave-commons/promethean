@@ -39,10 +39,19 @@
 (setq org-src-fontify-natively t
       org-src-tab-acts-natively t
       org-edit-src-content-indentation 0
-      org-confirm-babel-evaluate nil
+      ;; Confirm for unknown languages; skip prompt for ELisp/Python only
+      org-confirm-babel-evaluate (lambda (lang _)
+                                   (not (member lang '("emacs-lisp" "python"))))
       org-startup-with-inline-images t
-      org-babel-python-command "/home/err/.venvs/main/bin/python")
+      org-babel-python-command (or (and (file-executable-p "/home/err/.venvs/main/bin/python")
+                                        "/home/err/.venvs/main/bin/python")
+                                   (executable-find "python3")
+                                   "python3"))
 (setq markdown-fontify-code-blocks-natively t)
+
+;; Ensure Python is enabled for Babel
+(with-eval-after-load 'org
+  (org-babel-do-load-languages 'org-babel-load-languages '((python . t))))
 (setq lsp-idle-delay 0.3
       lsp-file-watch-threshold 5000
       lsp-completion-enable-additional-text-edit nil

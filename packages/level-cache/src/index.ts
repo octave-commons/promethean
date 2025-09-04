@@ -47,9 +47,12 @@ function buildCacheScope<T>(
 
   const get = async (key: string): Promise<T | undefined> => {
     const k = joinKey(base.namespace, key);
-    const env = await db
-      .get(k)
-      .catch(() => undefined as Envelope<T> | undefined);
+    const env = await db.get(k).catch((err: any) => {
+      if (err && (err.code === "LEVEL_NOT_FOUND" || err.notFound)) {
+        return undefined as Envelope<T> | undefined;
+      }
+      throw err;
+    });
     const [val, expired] = unwrap(env);
     if (expired) await db.del(k).catch(() => {});
     return val;
