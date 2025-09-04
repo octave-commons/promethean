@@ -11,7 +11,13 @@ function buildStream(): NodeJS.WritableStream {
   if (logFile) {
     try {
       fs.mkdirSync(path.dirname(logFile), { recursive: true });
-      outputs.push(fs.createWriteStream(logFile, { flags: "a" }));
+      const fileStream = fs.createWriteStream(logFile, { flags: "a" });
+      fileStream.on("error", (error) => {
+        console.error("log file stream error", error);
+        const idx = outputs.indexOf(fileStream);
+        if (idx !== -1) outputs.splice(idx, 1);
+      });
+      outputs.push(fileStream);
     } catch {
       // ignore file errors and fall back to stdout only
     }
