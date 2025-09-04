@@ -1,4 +1,5 @@
 import * as discord from "discord.js";
+
 import type { VoiceStateChangeHandler } from "../bot.js";
 
 export type VoiceAdapter = {

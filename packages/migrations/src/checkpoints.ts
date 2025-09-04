@@ -11,13 +11,13 @@ export type Checkpoint = {
     resumeToken?: unknown; // MongoDB change stream resume token
 };
 
-export interface CheckpointStore {
+export type CheckpointStore = {
     get(id: string): Promise<Checkpoint | null>;
     set(cp: Checkpoint): Promise<void>;
     advancePhase(id: string, phase: Phase): Promise<Checkpoint>;
     getResumeToken(id: string): Promise<unknown | undefined>;
     setResumeToken(id: string, token: unknown): Promise<void>;
-}
+};
 
 export class MongoCheckpointStore implements CheckpointStore {
     private coll: Collection<Checkpoint>;

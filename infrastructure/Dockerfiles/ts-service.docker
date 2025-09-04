@@ -2,7 +2,7 @@
 FROM node:22-slim
 
 ENV NODE_ENV=production \
-    PNPM_HOME=/usr/local/share/pnpm \
+    PNPm_HOME=/usr/local/share/pnpm \
     PATH=/usr/local/share/pnpm:$PATH
 
 RUN corepack enable && apt-get update && apt-get install -y --no-install-recommends \

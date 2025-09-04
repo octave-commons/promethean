@@ -4,19 +4,25 @@
   "private": true,
   "type": "module",
   "bin": {
-    "piper": "dist/index.js"
+    "piper": "bin/piper.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "ava --timeout=60s \"test/**/*.js\""
+    "prepack": "pnpm run build"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   },
   "dependencies": {
-    "@promethean/piper": "link:",
-    "@promethean/level-cache": "link:../level-cache",
     "chokidar": "^3.6.0",
     "globby": "^14.0.2",
     "yaml": "^2.5.0",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "@promethean/level-cache": "workspace:*"
   },
   "devDependencies": {
     "ava": "^6.4.1",

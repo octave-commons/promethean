@@ -1,4 +1,5 @@
 import { Message } from "ollama";
+
 import { Bot } from "./bot.js";
 // avoid compile-time type coupling to ContextStore
 import { LLMService } from "./llm-service.js";
@@ -30,13 +31,13 @@ export type AgentInnerState = {
   selfAffirmations: string[];
 };
 
-export interface AgentOptions {
+export type AgentOptions = {
   historyLimit?: number;
   prompt?: string;
   bot: Bot;
   context: any;
   llm?: LLMService;
-}
+};
 
 export type GenerateResponseOptions = {
   specialQuery?: string | undefined;

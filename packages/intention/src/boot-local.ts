@@ -1,15 +1,20 @@
 import { promises as fs } from 'node:fs';
-import { RouterLLM } from './router';
-import { FileCacheLLM } from './cache';
-import { OllamaLLM } from './ollama';
-import { OpenAICompatLLM } from './openai_compat';
 
-interface Cfg {
+import { RouterLLM } from './router.js';
+import { FileCacheLLM } from './cache.js';
+import { OllamaLLM } from './ollama.js';
+import { OpenAICompatLLM } from './openai_compat.js';
+
+type ProviderCfg =
+    | { type: 'ollama'; model: string; host?: string; options?: Record<string, unknown> }
+    | { type: 'openai_compat'; baseUrl?: string; model: string; params?: Record<string, unknown> };
+
+type Cfg = {
     cacheDir?: string;
     rounds?: number;
-    providers: any[];
+    providers: ProviderCfg[];
     targets?: { jsDir?: string; pyDir?: string };
-}
+};
 
 export async function loadLocalLLM(cfgPath = '.promirror/intent.config.json') {
     const raw = await fs.readFile(cfgPath, 'utf8');
@@ -23,7 +28,7 @@ export async function loadLocalLLM(cfgPath = '.promirror/intent.config.json') {
                 options: p.options,
             });
         if (p.type === 'openai_compat') return new OpenAICompatLLM(p.baseUrl, p.model, 'sk-local', p.params);
-        throw new Error('unknown provider ' + p.type);
+        throw new Error('unknown provider');
     });
 
     const router = new RouterLLM(providers);

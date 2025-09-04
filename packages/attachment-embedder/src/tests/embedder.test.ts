@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { embedAttachments } from "../index.js";
 
 test("embeds attachments into provider+tenant namespace", async (t) => {

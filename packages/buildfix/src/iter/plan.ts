@@ -1,10 +1,16 @@
 import * as path from "path";
 import { promises as fs } from "fs";
-import { PlanSchema, type Plan } from "./dsl.js";
+
 import { ollamaJSON } from "../utils.js";
+
+import { PlanSchema, type Plan } from "./dsl.js";
 import { buildPrompt } from "./prompt.js";
 
-export async function requestPlan(model: string, err: any, history: any): Promise<Plan> {
+export async function requestPlan(
+  model: string,
+  err: any,
+  history: any,
+): Promise<Plan> {
   const raw = await ollamaJSON(model, buildPrompt(err, history));
   const parsed = PlanSchema.safeParse(raw);
   if (!parsed.success) throw new Error("invalid plan JSON");

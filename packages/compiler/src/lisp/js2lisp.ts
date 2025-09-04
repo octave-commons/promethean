@@ -8,11 +8,7 @@ export async function jsToLisp(src: string, opts: Js2LispOptions & { tryAcorn?: 
         // Try ESM import first, then CJS require fallback
         const acorn = await loadAcorn();
         if (acorn) {
-            const mod: any = (acorn as any).parse
-                ? acorn
-                : (acorn as any).default?.parse
-                  ? (acorn as any).default
-                  : acorn;
+            const mod: any = acorn.parse ? acorn : acorn.default?.parse ? acorn.default : acorn;
             try {
                 Program = mod.parse(src, { ecmaVersion: 'latest', sourceType: 'module' });
             } catch (_) {
@@ -37,7 +33,7 @@ async function loadAcorn(): Promise<any | null> {
         return await import(/* @vite-ignore */ 'acorn');
     } catch (_) {
         try {
-            const req = (0, eval)('require') as any;
+            const req = (0, eval)('require');
             return req ? req('acorn') : null;
         } catch (_) {
             return null;

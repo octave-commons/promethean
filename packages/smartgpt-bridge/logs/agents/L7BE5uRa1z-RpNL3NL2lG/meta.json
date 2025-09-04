@@ -1,9 +1,0 @@
-{
-  "id": "L7BE5uRa1z-RpNL3NL2lG",
-  "mode": "agent",
-  "cmd": "codex",
-  "args": ["exec", "--full-auto", "--cd", "/home/err/devel/promethean"],
-  "cwd": "/home/err/devel/promethean",
-  "startedAt": 1756315828835,
-  "prompt": ""
-}

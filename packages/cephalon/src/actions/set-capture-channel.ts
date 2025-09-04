@@ -1,5 +1,7 @@
 import type { TextChannel } from "discord.js";
+
 import type { Bot } from "../bot.js";
+
 import type { SetCaptureChannelScope } from "./set-capture-channel.scope.js";
 
 export type SetCaptureChannelInput = {

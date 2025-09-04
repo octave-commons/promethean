@@ -1,7 +1,9 @@
-import Fastify from "fastify";
-import { jwks, signAccessToken, verifyToken, initKeys } from "./keys.js";
 import crypto from "node:crypto";
+
+import Fastify from "fastify";
 import { configDotenv } from "dotenv";
+
+import { jwks, signAccessToken, verifyToken, initKeys } from "./keys.js";
 configDotenv();
 
 type ClientDef = {

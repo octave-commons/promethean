@@ -1,5 +1,6 @@
-import type { Bot } from "../bot.js";
 import type { RESTPostAPIChatInputApplicationCommandsJSONBody } from "discord.js";
+
+import type { Bot } from "../bot.js";
 import * as leaveVoice from "../commands/leave-voice.js";
 import * as ping from "../commands/ping.js";
 import * as joinVoice from "../commands/join-voice.js";

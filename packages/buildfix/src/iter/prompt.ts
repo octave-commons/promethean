@@ -1,15 +1,32 @@
 import type { History } from "../types.js";
 
-export function buildPrompt(err: {file:string; line:number; col:number; code:string; message:string; frame:string; key:string}, history: History){
-  const prev = history.attempts.map(a =>
-`ATTEMPT #${a.n}
+export function buildPrompt(
+  err: {
+    file: string;
+    line: number;
+    col: number;
+    code: string;
+    message: string;
+    frame: string;
+    key: string;
+  },
+  history: History,
+) {
+  const prev = history.attempts
+    .map(
+      (a) =>
+        `ATTEMPT #${a.n}
 Plan: ${a.planSummary}
 Commit: ${a.commitSha ?? "(no-commit)"} ${a.pushed ? "(pushed)" : ""}
-Result: tsc ${a.resolved ? "OK" : "failed"}; after=${a.tscAfterCount}; stillPresent=${a.errorStillPresent}
-`).join("\n");
+Result: tsc ${a.resolved ? "OK" : "failed"}; after=${
+          a.tscAfterCount
+        }; stillPresent=${a.errorStillPresent}
+`,
+    )
+    .join("\n");
 
   return [
-`You are a TypeScript ts-morph refactoring agent.
+    `You are a TypeScript ts-morph refactoring agent.
 
 Return ONLY JSON with keys:
 - title (string)
@@ -33,6 +50,6 @@ ${err.frame}
 
 Previous attempts:
 ${prev || "(none)"}
-`
+`,
   ].join("\n");
 }

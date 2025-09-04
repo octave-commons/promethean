@@ -1,6 +1,6 @@
 import { normalizeChat, normalizeEmbed, normalizeError, normalizeStream } from './normalizers';
 
-export interface ParityClients {
+export type ParityClients = {
     broker: {
         chat(payload: any): Promise<any>;
         chatStream(payload: any, onChunk: (chunk: any) => void): Promise<void>;
@@ -11,7 +11,7 @@ export interface ParityClients {
         chatStream(payload: any, onChunk: (chunk: any) => void): Promise<void>;
         embed?(payload: any): Promise<any>;
     };
-}
+};
 
 export async function runChatBoth(payload: any, clients: ParityClients) {
     const [b, h] = await Promise.all([clients.broker.chat(payload), clients.bridge.chat(payload)]);

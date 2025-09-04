@@ -1,7 +1,8 @@
-import test from 'ava';
 import { promises as fs } from 'fs';
 import { join } from 'path';
 import os from 'os';
+
+import test from 'ava';
 import { MarkdownBoard } from '@promethean/markdown/kanban.js';
 import { syncBoardStatuses } from '@promethean/markdown/sync.js';
 
