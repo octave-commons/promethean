@@ -598,7 +598,7 @@ Chat URL: https://chat.openai.com/c/68a77ab2-5cec-8324-8ca6-1d71a6f5dc1d
 > 
 > We should **split governance docs** into **agent classes** rather than letting root `AGENTS.md` carry it all: 
 > 
-> 1. **Developer Agents** (Pythagoras, Codex CLI, Codex GUI) 
+> 1. **Developer Agents** (Pythagoras, Codex, Codex GUI) 
 >  - Governed by: `docs/agents/developer/AGENTS.md` 
 >  - Permissions: access to repo, docs, PRs. 
 > 
@@ -652,7 +652,7 @@ Chat URL: https://chat.openai.com/c/68a77ab2-5cec-8324-8ca6-1d71a6f5dc1d
 >  - `docs/agents/infrastructure/AGENTS.md`
 > 2. Drop placeholders for **individual agents**:
 >  - `docs/agents/duck/AGENTS.md`
->  - `docs/agents/codex-cli/AGENTS.md`
+>  - `docs/agents/codex/AGENTS.md`
 >  - `docs/agents/codex-gui/AGENTS.md`
 >  - `docs/agents/pythagoras/AGENTS.md`
 > 
@@ -680,7 +680,7 @@ Chat URL: https://chat.openai.com/c/68a77ab2-5cec-8324-8ca6-1d71a6f5dc1d
 > - `docs/agents/residents/AGENTS.md` → Duck + future residents 
 > - `docs/agents/infrastructure/AGENTS.md` → Board Manager, Synthesis-Agent, Embedding Agents 
 > - `docs/agents/duck/AGENTS.md` → Duck-specific WIP doc 
-> - `docs/agents/codex-cli/AGENTS.md` → CLI automation agent 
+> - `docs/agents/codex/AGENTS.md` → CLI automation agent 
 > - `docs/agents/codex-gui/AGENTS.md` → GUI workflow agent 
 > - `docs/agents/pythagoras/AGENTS.md` → your profile as repo navigator 
 > 
@@ -933,7 +933,7 @@ Chat URL: https://chat.openai.com/c/68a77ab2-5cec-8324-8ca6-1d71a6f5dc1d
 > 
 > ---
 > 
-> 👉 Next candidate for contradictions: compare **root `AGENTS.md` dev setup rules** (service-specific installs, no global setup) with what **Codex CLI/GUI docs** currently say. Would you like me to scan Codex docs for mismatch?
+> 👉 Next candidate for contradictions: compare **root `AGENTS.md` dev setup rules** (service-specific installs, no global setup) with what **Codex/GUI docs** currently say. Would you like me to scan Codex docs for mismatch?
 <!-- UID: e8e9ca9f-b41f-48fd-9da4-14169c7b7b7a -->
 
 ---
@@ -951,7 +951,7 @@ Chat URL: https://chat.openai.com/c/68a77ab2-5cec-8324-8ca6-1d71a6f5dc1d
 >[!nexus_agent] **Assistant** - 08/21/2025 at 3:50 PM
 > Got both Codex docs. Here’s the contrast: 
 > 
-> ### **Codex CLI Doc**
+> ### **Codex Doc**
 > - Responsibilities: builds, tests, migrations, PR updates. 
 > - Restrictions: PR-only, must align with `docs/agile/Process.md`. 
 > - ❌ Does *not* mention local dev rules (`make setup-quick SERVICE=...`, avoid global setup, enforce `pnpm` via corepack). 
@@ -968,7 +968,7 @@ Chat URL: https://chat.openai.com/c/68a77ab2-5cec-8324-8ca6-1d71a6f5dc1d
 >  - **pnpm via corepack** for JS/TS. 
 >  - CI enforces per-service tests, no global validation. 
 > 
-> ⚖️ Contradiction: Root doc defines **strict dev setup + CI rules**, but **Codex CLI/GUI governance docs don’t enforce them**. 
+> ⚖️ Contradiction: Root doc defines **strict dev setup + CI rules**, but **Codex/GUI governance docs don’t enforce them**. 
 > 
 > 👉 Want me to log this as **Contradiction 003** in `docs/reports/contradictions.md`?
 <!-- UID: 71fbecee-db10-4ed9-88c9-53f18c76c4a2 -->
@@ -989,7 +989,7 @@ Chat URL: https://chat.openai.com/c/68a77ab2-5cec-8324-8ca6-1d71a6f5dc1d
 > ✅ Logged **Contradiction 003** into `docs/reports/contradictions.md`: 
 > 
 > - **Root `AGENTS.md`** mandates **service-specific setup**, forbids global setup, enforces `pnpm/corepack`. 
-> - **Codex CLI + GUI docs** don’t reference these rules. 
+> - **Codex + GUI docs** don’t reference these rules. 
 > - Resolution: expand Codex governance to explicitly enforce + surface setup discipline. 
 > 
 > ---
@@ -1094,7 +1094,7 @@ Chat URL: https://chat.openai.com/c/68a77ab2-5cec-8324-8ca6-1d71a6f5dc1d
 >  - Expand `docs/agents/board-manager/AGENTS.md` to explicitly include **Prompt Refinement**, **Agent Thinking**, and **Codex Prompt** stages from `docs/agile/Process.md`. 
 > 
 > 3. **Codex Governance (Contradiction 003)** 
->  - Update `docs/agents/codex-cli/AGENTS.md` to enforce **service-specific setup rules**, `pnpm/corepack`, and scoped CI. 
+>  - Update `docs/agents/codex/AGENTS.md` to enforce **service-specific setup rules**, `pnpm/corepack`, and scoped CI. 
 >  - Update `docs/agents/codex-gui/AGENTS.md` to clarify that GUI should only surface **service-specific test/CI states**, not global ones. 
 > 
 > ---
@@ -1143,7 +1143,7 @@ Chat URL: https://chat.openai.com/c/68a77ab2-5cec-8324-8ca6-1d71a6f5dc1d
 >[!nexus_agent] **Assistant** - 08/21/2025 at 4:08 PM
 > ✅ Updated **Codex governance docs** to resolve Contradiction 003:
 > 
-> - **Codex CLI** now enforces:
+> - **Codex** now enforces:
 >  - Service-specific setup only (`make setup-quick SERVICE=<name>`). 
 >  - No global setup. 
 >  - `pnpm via corepack` required. 

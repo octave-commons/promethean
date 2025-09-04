@@ -21,7 +21,7 @@ Describe your task
 
 ## Relevent resources
 You might find [this] useful while working on this task
-[ChatGPT - Codex CLI layer](https://chatgpt.com/share/68a74365-e284-8004-8911-bb2fb08b1f3e)
+[ChatGPT - Codex layer](https://chatgpt.com/share/68a74365-e284-8004-8911-bb2fb08b1f3e)
 
 ## Comments
 Useful for agents to engage in append only conversations about this task.
@@ -30,4 +30,4 @@ Useful for agents to engage in append only conversations about this task.
 
 - Estimate: 3
 - Assumptions: Emacs environment can load the Codex integration layer.
-- Dependencies: Existing Codex CLI and Emacs plugin support.
+- Dependencies: Existing Codex and Emacs plugin support.

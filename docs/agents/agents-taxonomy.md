@@ -9,7 +9,7 @@ Promethean distinguishes **three major classes of agents**:
 
 ## 1. Developer Agents
 - [[docs/agents/pythagoras/AGENTS.md|Pythagoras]] → Repo navigator & governance enforcer.
-- [[docs/agents/codex-cli/AGENTS.md|Codex CLI]] → Automation agent (make/test/build).
+- [[docs/agents/codex/agents.md|Codex]] → Automation agent (make/test/build).
 - [[docs/agents/codex-gui/AGENTS.md|Codex GUI]] → Workflow + Kanban sync agent.
 
 Governance doc: [[docs/agents/developer/AGENTS.md]]
@@ -41,7 +41,7 @@ graph TD
 
   subgraph Developer Agents
     Pythagoras[[docs/agents/pythagoras/AGENTS.md]]
-    CodexCLI[[docs/agents/codex-cli/AGENTS.md]]
+    Codex[[docs/agents/codex/agents.md]]
     CodexGUI[[docs/agents/codex-gui/AGENTS.md]]
   end
 

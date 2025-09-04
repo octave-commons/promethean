@@ -2,6 +2,7 @@ export type Front = {
   uuid?: string;
   created_at?: string;
   filename?: string;
+  title?: string;
   description?: string;
   tags?: string[];
   related_to_title?: string[];
