@@ -1,5 +1,6 @@
 export default {
-  files: ["dist/tests/**/*.test.js"],
+  files: ["src/tests/**/*.test.ts"],
+  extensions: ["ts"],
   timeout: "30s",
-  nodeArguments: ["--experimental-vm-modules", "--import=tsx"],
+  nodeArguments: ["--loader=ts-node/esm", "--enable-source-maps"],
 };
