@@ -92,15 +92,13 @@
 (defun err-core/post-init-lsp-mode ()
 
   (with-eval-after-load 'lsp-mode
+    (add-to-list 'lsp-language-id-configuration '(lisp-mode . "commonlisp"))
     (lsp-register-client
      (make-lsp-client :new-connection (lsp-stdio-connection (lambda () (list (expand-file-name "~/.roswell/bin/cl-lsp"))))
                       :activation-fn (lsp-activate-on "commonlisp")
                       :server-id 'cl-lsp))))
 
 (defun err-core/post-init-common-lisp ()
-
-  (with-eval-after-load 'lsp-mode
-    (add-to-list 'lsp-language-id-configuration '(lisp-mode . "commonlisp")))
 
   (with-eval-after-load 'lisp-mode
     (add-hook 'lisp-mode-hook #'lsp-deferred)
