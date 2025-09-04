@@ -6,6 +6,9 @@
         "composite": true,
         "declaration": true
     },
-    "include": ["src/**/*"],
+    "include": [
+        "src/**/*",
+        "shims/**/*.d.ts"
+    ],
     "references": []
 }
