@@ -1,24 +1,22 @@
 {
-    "extends": "../../config/tsconfig.base.json",
-    "compilerOptions": {
-        "rootDir": "src",
-        "outDir": "dist",
-        "composite": true,
-        "declaration": true
-    },
-    "include": [
-        "src/**/*",
-        "node_modules/@promethean/types/shims/event.d.ts"
-    ],
-    "references": [
-        {
-            "path": "../types"
-        },
-        {
-            "path": "../event"
-        },
-        {
-            "path": "../rate"
-        }
-    ]
+	"extends": "../../config/tsconfig.base.json",
+	"compilerOptions": {
+		"rootDir": "src",
+		"outDir": "dist",
+		"composite": true,
+		"declaration": true,
+		"types": ["node", "ava", "@promethean/types/shims/event"]
+	},
+	"include": ["src/**/*"],
+	"references": [
+		{
+			"path": "../types"
+		},
+		{
+			"path": "../event"
+		},
+		{
+			"path": "../rate"
+		}
+	]
 }
