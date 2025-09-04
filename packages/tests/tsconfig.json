@@ -6,7 +6,7 @@
         "composite": true,
         "declaration": true
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "../types/shims/*.d.ts"],
     "references": [
         {
             "path": "../compiler"
@@ -28,6 +28,9 @@
         },
         {
             "path": "../web"
+        },
+        {
+            "path": "../types"
         }
     ]
 }
