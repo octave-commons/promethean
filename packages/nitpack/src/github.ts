@@ -15,11 +15,14 @@ const gh = async <T>(url: string, token: string): Promise<readonly T[]> => {
     u.searchParams.set("per_page", "100");
     u.searchParams.set("page", String(page));
     const res = await fetch(u, {
-      headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${token}`,
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
+const res = await fetch(u, {
+  headers: {
+    Accept: "application/vnd.github+json",
+    Authorization: `Bearer ${token}`,
+    "X-GitHub-Api-Version": "2022-11-28",
+    "User-Agent": "nitpack/0.1 (+https://github.com/riatzukiza/promethean)",
+  },
+});
     });
     if (!res.ok)
       throw new Error(`GitHub ${res.status} ${res.statusText} for ${u}`);

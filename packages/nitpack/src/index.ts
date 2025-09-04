@@ -22,7 +22,11 @@ const main = async () => {
   }
   const repoRoot = args.root ?? cwd();
   const outDir = args.out ?? "docs/agile/tasks";
-
+  const prNum = Number(args.pr);
+  if (!Number.isInteger(prNum) || prNum <= 0) {
+    console.error("Bad --pr, expected a positive integer");
+    exit(2);
+  }
   const { owner, name } = parseRepo(args.repo);
   const { issueComments, reviewComments } = await fetchAllComments({
     owner,
