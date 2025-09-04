@@ -30,10 +30,14 @@ file.
 
 * Key bindings
 
-| Key Binding | Description    |
-|-------------+----------------|
-| ~SPC x x x~ | Does thing01   |
-
+| Key Binding  | Description                     |
+|--------------+---------------------------------|
+| ~SPC m o i~  | Insert wikilink                 |
+| ~SPC m o f~  | Follow link at point            |
+| ~SPC m o b~  | Jump to backlink                |
+| ~SPC m o n~  | Open today's daily note         |
+| ~SPC m o t~  | Insert tag                      |
+| ~SPC m o s~  | Search in vault                 |
 # Use GitHub URLs if you wish to link a Spacemacs documentation file or its heading.
 # Examples:
 # [[https://github.com/syl20bnr/spacemacs/blob/develop/doc/VIMUSERS.org#sessions]]
