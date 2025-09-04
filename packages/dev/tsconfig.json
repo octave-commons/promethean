@@ -6,8 +6,14 @@
         "composite": true,
         "declaration": true
     },
-    "include": ["src/**/*", "../types/shims/event.d.ts"],
+    "include": [
+        "src/**/*",
+        "node_modules/@promethean/types/shims/event.d.ts"
+    ],
     "references": [
+        {
+            "path": "../types"
+        },
         {
             "path": "../event"
         },
