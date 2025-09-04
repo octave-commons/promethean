@@ -7,15 +7,32 @@
     "moduleResolution": "Bundler",
     "baseUrl": ".",
     "paths": {
-      "@shared/js/*": ["../../js/*"],
-      "@promethean/persistence": ["../persistence/dist/index"],
-      "@promethean/persistence/*": ["../persistence/dist/*"],
-      "@promethean/embeddings": ["../embeddings/dist/index"],
-      "@promethean/embeddings/*": ["../embeddings/dist/*"]
+      "@shared/js/*": [
+        "../../js/*"
+      ],
+      "@promethean/persistence": [
+        "../persistence/dist/index"
+      ],
+      "@promethean/persistence/*": [
+        "../persistence/dist/*"
+      ],
+      "@promethean/embeddings": [
+        "../embeddings/dist/index"
+      ],
+      "@promethean/embeddings/*": [
+        "../embeddings/dist/*"
+      ]
     },
     "allowArbitraryExtensions": true,
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*.ts",
+    "../types/shims/persistence.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

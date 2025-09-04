@@ -15,9 +15,15 @@
     "moduleResolution": "Bundler",
     "baseUrl": ".",
     "paths": {
-      "@shared/ts/*": ["../../../shared/ts/dist/*"],
-      "@promethean/test-utils": ["../test-utils/dist/index"],
-      "@promethean/test-utils/*": ["../test-utils/dist/*"]
+      "@shared/ts/*": [
+        "../../../shared/ts/dist/*"
+      ],
+      "@promethean/test-utils": [
+        "../test-utils/dist/index"
+      ],
+      "@promethean/test-utils/*": [
+        "../test-utils/dist/*"
+      ]
     },
     "resolveJsonModule": true,
     "resolvePackageJsonExports": true,
@@ -30,11 +36,20 @@
     "esModuleInterop": false,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "lib": ["ESNext"],
+    "lib": [
+      "ESNext"
+    ],
     "target": "ESNext",
     "useDefineForClassFields": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "tests/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "tests/**/*.ts",
+    "../types/shims/persistence.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
