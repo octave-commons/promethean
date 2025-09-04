@@ -6,13 +6,17 @@ aliases: "Canvas performance troubleshooting"
 conversation_id: 68a38690-27f0-8333-8319-d7deec3076a9
 create_time: 08/18/2025 at 3:01 PM
 update_time: 08/18/2025 at 3:28 PM
+chat_url: "https://chat.openai.com/c/68a38690-27f0-8333-8319-d7deec3076a9"
+tags: [canvas, performance, troubleshooting, chatgpt, browsers]
+doc_kind: "conversation-transcript"
 ---
+<!-- markdownlint-disable MD024 MD029 -->
 
 # Title: Canvas performance troubleshooting
 
 Created: 08/18/2025 at 3:01 PM
 Last Updated: 08/18/2025 at 3:28 PM
-Chat URL: https://chat.openai.com/c/68a38690-27f0-8333-8319-d7deec3076a9
+<!-- Chat URL moved to front-matter as chat_url -->
 
 
 >[!nexus_user] **User** - 08/18/2025 at 3:01 PM
@@ -76,7 +80,7 @@ Chat URL: https://chat.openai.com/c/68a38690-27f0-8333-8319-d7deec3076a9
 >  - `about:config`: set **`gfx.webrender.software` = true** (test), then if worse, set it back and instead try **`MOZ_ENABLE_WAYLAND=1 firefox`** (if you’re on Wayland-capable stack).
 > 
 > 2) **Kill compositor interference (quick test):** 
->  ```
+>  ```text
 >  pkill picom; firefox --new-instance --ProfileManager
 >  ```
 >  Open a fresh profile → load ChatGPT → reproduce. If smooth now, picom rules or your old profile were the culprit.
@@ -89,7 +93,7 @@ Chat URL: https://chat.openai.com/c/68a38690-27f0-8333-8319-d7deec3076a9
 > 
 > 5) **Last‑resort: isolate the heavyweight tab:** 
 >  Run Chromium just for ChatGPT UI: 
->  ```
+>  ```text
 >  chromium --user-data-dir=/tmp/chatgpt-clean --disable-extensions --disable-background-timer-throttling
 >  ```
 >  Keep everything else in Firefox.
@@ -190,7 +194,7 @@ Chat URL: https://chat.openai.com/c/68a38690-27f0-8333-8319-d7deec3076a9
 > 
 > 3. **Limit Firefox RAM so it can’t spiral**: 
 >  - `about:config`: 
->  ```
+>  ```text
 >  browser.tabs.unloadOnLowMemory = true
 >  media.memory_cache_max_size = 65536
 >  ```
@@ -231,7 +235,7 @@ Chat URL: https://chat.openai.com/c/68a38690-27f0-8333-8319-d7deec3076a9
 > 1. **GPU driver path** 
 >  - Both Firefox and Chrome talk to the same Mesa/Intel/AMD driver stack. If WebGL/WebGPU or heavy compositing kicks a known bug, you get a system-wide hang. 
 >  - Telltale sign: kernel log lines like 
->  ```
+>  ```text
 >  GPU HANG: ecode ...
 >  Resetting GPU
 >  ``` 
@@ -260,7 +264,7 @@ Chat URL: https://chat.openai.com/c/68a38690-27f0-8333-8319-d7deec3076a9
 >  ``` 
 >  That way if canvas tries to balloon, kernel kills just that process, not the whole session.
 > - **Keep zram on**: 
->  ```
+>  ```text
 >  sudo apt install zram-tools
 >  ``` 
 >  (or systemd-zram-generator). This absorbs swap storms.
