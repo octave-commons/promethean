@@ -22,7 +22,7 @@ function stripGenerated(text: string) {
   return text.trimEnd();
 }
 
-function makeReadme(pkg: any, outline: any, mermaid?: string) {
+function makeReadme(_pkg: any, outline: any, mermaid?: string) {
   const toc = outline.includeTOC ? "[TOC]\n\n" : "";
   const sec = outline.sections
     .map((s: any) => `## ${s.heading}\n\n${s.body}\n`)
@@ -47,10 +47,10 @@ function makeReadme(pkg: any, outline: any, mermaid?: string) {
 
 async function main() {
   const scan = JSON.parse(
-    await fs.readFile(path.resolve(args["--scan"]), "utf-8"),
+    await fs.readFile(path.resolve(args["--scan"]!), "utf-8"),
   ) as ScanOut;
   const outlines = JSON.parse(
-    await fs.readFile(path.resolve(args["--outlines"]), "utf-8"),
+    await fs.readFile(path.resolve(args["--outlines"]!), "utf-8"),
   ) as OutlinesFile;
 
   for (const pkg of scan.packages) {

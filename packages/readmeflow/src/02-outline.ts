@@ -24,7 +24,7 @@ const OutlineSchema = z.object({
 
 async function main() {
   const scan = JSON.parse(
-    await fs.readFile(path.resolve(args["--scan"]), "utf-8"),
+    await fs.readFile(path.resolve(args["--scan"]!), "utf-8"),
   ) as ScanOut;
   const outlines: Record<string, Outline> = {};
 
@@ -55,7 +55,7 @@ async function main() {
     let obj: any;
     try {
       obj = await ollamaJSON(
-        args["--model"],
+        args["--model"]!,
         `SYSTEM:\n${sys}\n\nUSER:\n${user}`,
       );
     } catch {
@@ -80,7 +80,7 @@ async function main() {
       };
     }
     const parsed = OutlineSchema.safeParse(obj);
-    const outline = parsed.success
+    const outlineRaw = parsed.success
       ? parsed.data
       : {
           title: pkg.name,
@@ -93,11 +93,23 @@ async function main() {
           ],
         };
 
-    outlines[pkg.name] = { name: pkg.name, ...outline };
+    const outline: Outline = {
+      name: pkg.name,
+      title: outlineRaw.title,
+      tagline: outlineRaw.tagline,
+      includeTOC: outlineRaw.includeTOC ?? true,
+      sections: outlineRaw.sections,
+      ...(Array.isArray((outlineRaw as any).badges) &&
+      (outlineRaw as any).badges.length
+        ? { badges: (outlineRaw as any).badges as string[] }
+        : {}),
+    };
+
+    outlines[pkg.name] = outline;
   }
 
   const out: OutlinesFile = { plannedAt: new Date().toISOString(), outlines };
-  await writeJSON(path.resolve(args["--out"]), out);
+  await writeJSON(path.resolve(args["--out"]!), out);
   console.log(
     `readmeflow: outlined ${Object.keys(outlines).length} README(s) → ${
       args["--out"]
