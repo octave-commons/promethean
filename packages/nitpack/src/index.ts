@@ -12,7 +12,7 @@ const main = async () => {
   const token = args.token ?? env.GITHUB_TOKEN;
   if (!args.repo || !args.pr) {
     console.error(
-      "Usage: nitpack --repo <owner/name> --pr <number> [--out docs/agile/tasks] [--token ...]",
+      "Usage: nitpack --repo <owner/name> --pr <number> [--root CWD] [--out docs/agile/tasks] [--token ...]",
     );
     exit(2);
   }
@@ -22,12 +22,17 @@ const main = async () => {
   }
   const repoRoot = args.root ?? cwd();
   const outDir = args.out ?? "docs/agile/tasks";
+  const prNum = Number(args.pr);
+  if (!Number.isInteger(prNum) || prNum <= 0) {
+    console.error("Bad --pr, expected a positive integer");
+    exit(2);
+  }
 
   const { owner, name } = parseRepo(args.repo);
   const { issueComments, reviewComments } = await fetchAllComments({
     owner,
     repo: name,
-    pr: Number(args.pr),
+    pr: prNum,
     token,
   });
 
@@ -47,20 +52,20 @@ const main = async () => {
   );
 
   await emitTasks({
-    pr: Number(args.pr),
+    pr: prNum,
     outDir,
     classification,
     counts,
     policy: toPolicyChanges(classification),
   });
 
-  console.log(`[nitpack] wrote tasks for PR #${args.pr} to ${outDir}`);
+  console.log(`[nitpack] wrote tasks for PR #${prNum} to ${outDir}`);
 };
 
 const parseRepo = (repo: string) => {
-  const [owner, name] = repo.split("/");
-  if (!owner || !name) throw new Error("Bad --repo, expected owner/name");
-  return { owner, name };
+  const m = /^([^/]+)\/([^/]+)$/.exec(repo.trim());
+  if (!m) throw new Error("Bad --repo, expected owner/name");
+  return { owner: m[1]!, name: m[2]! };
 };
 
 main().catch((err) => {
