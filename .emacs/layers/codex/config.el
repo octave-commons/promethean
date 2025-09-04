@@ -1,5 +1,5 @@
 ;;; config.el --- codex layer
-(defvar codex-cli-executable "codex"
+(defvar codex-cli-executable "/home/err/.local/share/pnpm/codex"
   "Path to the Codex CLI binary.")
 
 (defvar codex-context-max-bytes (* 512 1024)
