@@ -77,6 +77,9 @@ export const countOccurrences = async (
     }
     // fall through to Node scan on errors or no matches
   }
+
+  // -- existing Node-based scan implementation follows here --
+};
   const rx = nodeScanRegexFor(key);
   if (!rx) return 0;
   const files = await globby(
