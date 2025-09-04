@@ -472,6 +472,9 @@ importers:
       '@promethean/persistence':
         specifier: workspace:*
         version: link:../persistence
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@promethean/voice-service':
         specifier: file:../voice
         version: link:../voice
@@ -1396,6 +1399,9 @@ importers:
       '@promethean/persistence':
         specifier: file:../persistence
         version: file:packages/persistence(socks@2.8.7)
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       chromadb:
         specifier: ^3.0.9
         version: 3.0.14
@@ -2011,6 +2017,9 @@ importers:
 
   packages/event:
     dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -2275,6 +2284,9 @@ importers:
       '@promethean/stream':
         specifier: workspace:*
         version: link:../stream
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -3855,6 +3867,9 @@ importers:
       '@promethean/event':
         specifier: workspace:*
         version: link:../event
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -4354,6 +4369,9 @@ importers:
       '@promethean/persistence':
         specifier: file:../persistence
         version: file:packages/persistence(socks@2.8.7)
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/node':
         specifier: ^24.3.0
         version: 24.3.1
@@ -5135,6 +5153,8 @@ importers:
       typescript:
         specifier: ^5.9.2
         version: 5.9.2
+
+  packages/utils: {}
 
   packages/voice:
     dependencies:
@@ -13776,6 +13796,7 @@ snapshots:
   '@promethean/fs@file:packages/fs(socks@2.8.7)':
     dependencies:
       '@promethean/stream': link:packages/stream
+      '@promethean/utils': link:packages/utils
       '@types/javascript-time-ago': 2.5.0
       '@types/unist': 3.0.3
       body-parser: 1.20.3

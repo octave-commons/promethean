@@ -1,5 +1,6 @@
 // @shared/ts/dist/fsStreamConcurrent.ts
 import { promises as fs } from 'fs';
+import { sleep } from '@promethean/utils/sleep.js';
 import * as path from 'path';
 
 export type NodeType = 'file' | 'dir' | 'symlink';
@@ -123,7 +124,7 @@ export async function* streamTreeConcurrent(root: string, opts: StreamOptions = 
 
                 // Backpressure: if queue is too full, yield to consumer
                 while (queue.size >= queueHighWater && !maybeStop()) {
-                    await new Promise((r) => setTimeout(r, 1));
+                    await sleep(1);
                 }
 
                 // Stat

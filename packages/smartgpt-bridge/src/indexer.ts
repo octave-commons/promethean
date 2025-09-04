@@ -4,6 +4,7 @@ import path from "path";
 
 import fg from "fast-glob";
 import { ChromaClient } from "chromadb";
+import { sleep } from "@promethean/utils/sleep.js";
 
 import { RemoteEmbeddingFunction } from "./remoteEmbedding.js";
 import { logger } from "./logger.js";
@@ -351,7 +352,7 @@ class IndexerManager {
           });
         }
       }
-      if (this.queue.length) await new Promise((r) => setTimeout(r, delayMs));
+      if (this.queue.length) await sleep(delayMs);
     }
     this.active = false;
     this.finishedAt = Date.now();

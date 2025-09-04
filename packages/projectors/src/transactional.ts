@@ -1,6 +1,7 @@
 // @ts-nocheck
 import type { Db, ClientSession } from 'mongodb';
 import type { EventBus, EventRecord } from '@promethean/event/types.js';
+import { sleep } from '@promethean/utils/sleep.js';
 
 export type TxnProjectorOpts<E = any> = {
     topic: string;
@@ -31,7 +32,7 @@ export async function startTransactionalProjector<E = any>(bus: EventBus, db: Db
                     return;
                 } catch (err) {
                     if (i === retries) throw err;
-                    await new Promise((r) => setTimeout(r, 100 * (i + 1)));
+                    await sleep(100 * (i + 1));
                 } finally {
                     await s.endSession();
                 }

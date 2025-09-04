@@ -1,4 +1,6 @@
 import { formatMessage } from "@promethean/persistence/contextStore.js";
+import { sleep } from "@promethean/utils/sleep.js";
+export { sleep };
 
 export function randomInt(max: number) {
   return Math.floor(Math.random() * max);
@@ -41,5 +43,3 @@ Talk to the user about the image on the screen and engage with the conversation.
 `;
 }
 
-export const sleep = (ms: number) =>
-  new Promise((resolve) => setTimeout(resolve, ms));

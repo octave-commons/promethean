@@ -41,7 +41,8 @@
     "pnpm": "^10.13.1",
     "prism-media": "^2.0.0-alpha.0",
     "wav": "^1.0.2",
-    "ws": "^8.18.3"
+    "ws": "^8.18.3",
+    "@promethean/utils": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^22.17.2",
