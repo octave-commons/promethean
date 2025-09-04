@@ -54,6 +54,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  tei-embeddings:
+    profiles: ["ai"]
+    image: ghcr.io/huggingface/text-embeddings-inference:1.6
+    environment:
+      - MODEL_ID=${TEI_MODEL:-nomic-ai/nomic-embed-text-v1.5}
+      - NUM_SHARD=1
+    ports: ["8081:80"]
+    networks: [prom-net]
+    restart: unless-stopped
   mongodb:
     image: mongo:6-jammy
     container_name: mongodb
