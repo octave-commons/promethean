@@ -6,7 +6,7 @@
         "composite": true,
         "declaration": true
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "../types/shims/event.d.ts"],
     "references": [
         {
             "path": "../event"
