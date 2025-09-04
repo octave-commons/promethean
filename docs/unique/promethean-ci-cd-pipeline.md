@@ -1,3 +1,24 @@
+---
+uuid: a23e211e-828d-4d6d-8fea-9df1afd9e76e
+created_at: 2025.09.02.13.18.50.md
+filename: Promethean CI/CD Pipeline
+description: >-
+  This document describes the CI/CD pipeline configuration for Promethean,
+  focusing on documentation generation, code transformation, and semantic
+  versioning guardrails. The pipeline includes steps for scanning code,
+  generating documentation, clustering tasks, applying code modifications, and
+  ensuring semantic versioning compliance.
+tags:
+  - CI/CD
+  - documentation
+  - code transformation
+  - semantic versioning
+  - agile
+  - pipeline
+related_to_uuid: []
+related_to_title: []
+references: []
+---
 
 pipelines:
   - name: docs
@@ -362,3 +383,9 @@ pipelines:
           - ".cache/docops/frontmatters.json"
         outputs:
           - ".cache/docops/renames.json"
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
