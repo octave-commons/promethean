@@ -66,7 +66,6 @@
 
   (with-eval-after-load 'copilot
 
-    (add-to-list 'copilot-major-mode-alist '("emacs-lisp" . "elisp"))
     (advice-add 'copilot--infer-indentation-offset :around
                 (lambda (orig &rest args)
                   (condition-case _
@@ -82,8 +81,9 @@
   )
 (defun err-core/post-init-lsp-sonarlint ()
   (with-eval-after-load 'lsp-sonarlint
-    (lsp-sonarlint-auto-download t)
-    (lsp-sonarlint-enabled-analyzers '("javascript" "typescript" "python" "java" "cfamily"))))
+    ;; (lsp-sonarlint-auto-download t)
+    ;; (lsp-sonarlint-enabled-analyzers '("javascript" "typescript" "python" "java" "cfamily"))
+    ))
 
 (defun err-core/post-init-typescript-mode ()
   (with-eval-after-load 'typescript-mode
@@ -107,19 +107,19 @@
     (let ((slime-helper (expand-file-name "~/quicklisp/slime-helper.el")))
       (when (file-exists-p slime-helper)
         (load slime-helper)))))
-(defun err-core/post-init-markdown-mode ()
+;; (defun err-core/post-init-markdown-mode ()
 
-  (with-eval-after-load 'markdown-mode
-    (add-to-list 'auto-mode-alist '("\\.bb\\'" . clojure-mode))
+;;   (with-eval-after-load 'markdown-mode
+;;     (add-to-list 'auto-mode-alist '("\\.bb" . clojure-mode))
 
-    (add-to-list 'auto-mode-alist '("\\.clj"  . clojure-mode))
-    (add-to-list 'auto-mode-alist '("\\.cljs" . clojure-mode))
-    (dolist (pair `(("\\.ts"  . typescript-mode)
-                    ("\\.bb"  . clojure-mode)
-                    ("\..babashka" . clojure-mode)
-                    ("\\.clj" . clojure-mode)
-                    ("\\.edn" . clojure-mode)))
-      (add-to-list 'auto-mode-alist pair))))
+;;     (add-to-list 'auto-mode-alist '("\\.clj"  . clojure-mode))
+;;     (add-to-list 'auto-mode-alist '("\\.cljs" . clojure-mode))
+;;     (dolist (pair `(("\\.ts"  . typescript-mode)
+;;                     ("\\.bb"  . clojure-mode)
+;;                     ("\\.babashka" . clojure-mode)
+;;                     ("\\.clj" . clojure-mode)
+;;                     ("\\.edn" . clojure-mode)))
+;;       (add-to-list 'auto-mode-alist pair))))
 (defun err-core/post-init-org ()
 
   (with-eval-after-load 'org

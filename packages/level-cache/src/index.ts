@@ -32,8 +32,8 @@ export const openLevelCache = async <T = unknown>(
   });
 
   const base: Readonly<{
-    defaultTtlMs?: Millis;
-    namespace?: string;
+    defaultTtlMs: Millis | undefined;
+    namespace: string | undefined;
   }> = {
     defaultTtlMs: opts.defaultTtlMs,
     namespace: opts.namespace,
