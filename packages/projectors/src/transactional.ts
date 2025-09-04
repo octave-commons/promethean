@@ -2,13 +2,13 @@
 import type { Db, ClientSession } from 'mongodb';
 import type { EventBus, EventRecord } from '@promethean/event/types.js';
 
-export interface TxnProjectorOpts<E = any> {
+export type TxnProjectorOpts<E = any> = {
     topic: string;
     group: string;
     handler: (e: EventRecord<E>, db: Db, s: ClientSession) => Promise<void>;
     from?: 'earliest' | 'latest';
     retries?: number;
-}
+};
 
 export async function startTransactionalProjector<E = any>(bus: EventBus, db: Db, opts: TxnProjectorOpts<E>) {
     const from = opts.from ?? 'earliest';

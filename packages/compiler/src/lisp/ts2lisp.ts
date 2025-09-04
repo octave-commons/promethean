@@ -1,6 +1,6 @@
 import { jsToLisp } from './js2lisp.js';
 
-export interface TsToLispOptions {
+export type TsToLispOptions = {
     // Names treated as globals -> (js/global "Name"), e.g., ["document","window","Image"]
     globals?: string[];
     // Try to use the 'typescript' package (Node). If not present and in browser, try 'sucrase'.
@@ -9,7 +9,7 @@ export interface TsToLispOptions {
     tsCompilerOptions?: Record<string, any>;
     // If true, also return the intermediary JS and TS source map text (from TS transpile)
     includeIntermediate?: boolean;
-}
+};
 
 /** Transpile TypeScript to Lisp text. */
 export async function tsToLisp(tsSource: string, opts: TsToLispOptions = {}) {
@@ -30,11 +30,7 @@ async function transpileTS(tsSource: string, opts: TsToLispOptions) {
         const tsMod = await dynamicImportTS();
         if (tsMod) {
             // Support both ESM dynamic import and CJS require shapes
-            const ts = (tsMod as any).transpileModule
-                ? (tsMod as any)
-                : (tsMod as any).default?.transpileModule
-                  ? (tsMod as any).default
-                  : (tsMod as any);
+            const ts = tsMod.transpileModule ? tsMod : tsMod.default?.transpileModule ? tsMod.default : tsMod;
             const compilerOptions = {
                 target: ts.ScriptTarget.ES2020,
                 module: ts.ModuleKind.ESNext,
@@ -102,7 +98,7 @@ async function dynamicImportAny(name: string) {
         return await import(/* @vite-ignore */ name);
     } catch {
         try {
-            const req = (0, eval)('require') as any;
+            const req = (0, eval)('require');
             return req ? req(name) : null;
         } catch {
             return null;

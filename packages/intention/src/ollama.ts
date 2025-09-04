@@ -1,4 +1,4 @@
-import type { LLM } from './llm';
+import type { LLM } from './llm.js';
 
 type OllamaOpts = {
     model: string;
@@ -70,15 +70,19 @@ export class OllamaLLM implements LLM {
                     const line = buf.slice(0, nl).trim();
                     buf = buf.slice(nl + 1);
                     if (!line) continue;
-                    let obj: any;
-                    try {
-                        obj = JSON.parse(line);
-                    } catch {
-                        continue;
-                    }
-                    if (obj.done) break;
-                    const chunk = obj?.message?.content ?? '';
-                    out += chunk;
+            interface OllamaChunk {
+                done?: boolean;
+                message?: { content?: string };
+            }
+            let obj: OllamaChunk;
+            try {
+                obj = JSON.parse(line) as OllamaChunk;
+            } catch {
+                continue;
+            }
+            if (obj.done) break;
+            const chunk = obj.message?.content ?? '';
+            out += chunk;
                 }
             }
             return stripFences(out.trim());

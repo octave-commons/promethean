@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { normalizeDiscordMessage } from './normalize.js';
 
 const raw = {

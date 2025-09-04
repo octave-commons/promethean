@@ -4,9 +4,9 @@ import Fastify from "fastify";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import ajvformats from "ajv-formats";
+
 import { createFastifyAuth } from "./fastifyAuth.js";
 import { registerV0Routes } from "./routes/v0/index.js";
-
 import { indexerManager } from "./indexer.js";
 import { restoreAgentsFromStore } from "./agent.js";
 import { registerSinks } from "./sinks.js";

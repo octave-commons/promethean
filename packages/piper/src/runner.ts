@@ -1,11 +1,11 @@
 import * as path from "path";
 import { promises as fs } from "fs";
-import chokidar from "chokidar";
-import YAML from "yaml";
+
+import * as chokidar from "chokidar";
+import * as YAML from "yaml";
 import {
   FileSchema,
   PiperFile,
-  PiperPipeline,
   PiperStep,
   RunOptions,
   StepResult,
@@ -13,24 +13,25 @@ import {
 import {
   ensureDir,
   listOutputsExist,
-  readTextMaybe,
   runNode,
   runShell,
   runTSModule,
   writeText,
 } from "./fsutils.js";
-import { sha1, stepFingerprint } from "./hash.js";
+import { stepFingerprint } from "./hash.js";
 import { topoSort } from "./lib/graph.js";
 import { semaphore } from "./lib/concurrency.js";
 import { loadState, saveState, RunState } from "./lib/state.js";
 import { renderReport } from "./lib/report.js";
 import { emitEvent } from "./lib/events.js";
 
-const slug = (s: string) =>
-  s
+function slug(s: string) {
+  return s
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
 
 async function readConfig(p: string): Promise<PiperFile> {
   const raw = await fs.readFile(p, "utf-8");
@@ -40,6 +41,9 @@ async function readConfig(p: string): Promise<PiperFile> {
     throw new Error("pipelines config invalid: " + parsed.error.message);
   return parsed.data;
 }
+
+
+
 
 function shouldSkip(
   step: PiperStep,

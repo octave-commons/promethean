@@ -3,6 +3,7 @@ import { promises as fs } from "node:fs";
 import * as path from "node:path";
 import { Project, SyntaxKind } from "ts-morph";
 import { diffLines } from "diff";
+
 import { listCodeFiles, relFromRepo } from "./utils.js";
 
 const args = parseArgs({
@@ -11,7 +12,7 @@ const args = parseArgs({
   "--mode": "dry", // dry | apply
   "--report": "docs/agile/tasks/codemods",
   "--specs": ".cache/codemods/specs.json",
-  "--delete-duplicates": "true"
+  "--delete-duplicates": "true",
 });
 // biome-ignore lint/style/noNonNullAssertion: argument is required with default
 const specsPath = args["--specs"]!;
@@ -30,8 +31,16 @@ function parseArgs<T extends Record<string, string>>(defaults: T): T {
 }
 
 async function loadTransforms(modsDir: string) {
-  const dirs = await fs.readdir(modsDir, { withFileTypes: true }).catch(()=>[]);
-  const loaders: Array<{ id: string; run: (p: Project, f: string) => Promise<{changed:boolean;notes:string[]}> }> = [];
+  const dirs = await fs
+    .readdir(modsDir, { withFileTypes: true })
+    .catch(() => []);
+  const loaders: Array<{
+    id: string;
+    run: (
+      p: Project,
+      f: string,
+    ) => Promise<{ changed: boolean; notes: string[] }>;
+  }> = [];
   for (const d of dirs) {
     if (!d.isDirectory()) continue;
     const id = d.name;
@@ -39,8 +48,11 @@ async function loadTransforms(modsDir: string) {
     const ts = path.join(modsDir, id, "transform.ts");
     // biome-ignore lint/suspicious/noExplicitAny: transforms may export any shape
     let mod: any;
-    try { mod = await import(pathToFileURL(js).href); }
-    catch { mod = await import(pathToFileURL(ts).href); }
+    try {
+      mod = await import(pathToFileURL(js).href);
+    } catch {
+      mod = await import(pathToFileURL(ts).href);
+    }
     if (mod?.runTransform) loaders.push({ id, run: mod.runTransform });
   }
   return loaders;
@@ -58,18 +70,21 @@ type SpecsFile = {
 async function main() {
   const ROOT = path.resolve(args["--root"]);
   const MODS = path.resolve(args["--modsDir"]);
-  const MODE = (args["--mode"] as "dry"|"apply");
+  const MODE = args["--mode"] as "dry" | "apply";
   const REPORT_ROOT = path.resolve(args["--report"]);
   const DELETE = args["--delete-duplicates"] === "true";
 
   const transforms = await loadTransforms(MODS);
-  if (!transforms.length) { console.log("No transforms found."); return; }
+  if (!transforms.length) {
+    console.log("No transforms found.");
+    return;
+  }
 
   await fs.mkdir(REPORT_ROOT, { recursive: true });
 
   const project = new Project({
     tsConfigFilePath: path.join(process.cwd(), "tsconfig.json"),
-    skipAddingFilesFromTsConfig: true
+    skipAddingFilesFromTsConfig: true,
   });
   const files = await listCodeFiles(ROOT);
   files.forEach((f: string) => { project.addSourceFileAtPathIfExists(f); });
@@ -79,7 +94,12 @@ async function main() {
   const deletionsDone: string[] = [];
 
   for (const t of transforms) {
-    const reportLines: string[] = [`# Codemod ${t.id}`, "", `Mode: \`${MODE}\``, ""];
+    const reportLines: string[] = [
+      `# Codemod ${t.id}`,
+      "",
+      `Mode: \`${MODE}\``,
+      "",
+    ];
     let changedCount = 0;
 
     for (const f of files) {
@@ -104,13 +124,28 @@ async function main() {
         sf.replaceWithText(before);
 
         reportLines.push(`## ${relFromRepo(f)}`);
-        if (res.notes.length) { reportLines.push("", "**Notes:**", ...res.notes.map(n => `- ${n}`), ""); }
+        if (res.notes.length) {
+          reportLines.push(
+            "",
+            "**Notes:**",
+            ...res.notes.map((n) => `- ${n}`),
+            "",
+          );
+        }
         reportLines.push("```diff", pretty.trimEnd(), "```", "");
       }
     }
 
-    summary.push(`- ${t.id}: ${changedCount} file(s) ${MODE === "dry" ? "would change" : "changed"}`);
-    await fs.writeFile(path.join(REPORT_ROOT, `${t.id}.md`), reportLines.join("\n"), "utf-8");
+    summary.push(
+      `- ${t.id}: ${changedCount} file(s) ${
+        MODE === "dry" ? "would change" : "changed"
+      }`,
+    );
+    await fs.writeFile(
+      path.join(REPORT_ROOT, `${t.id}.md`),
+      reportLines.join("\n"),
+      "utf-8",
+    );
   }
 
   // Candidate deletions (files that now have no meaningful statements)
@@ -121,12 +156,12 @@ async function main() {
         const abs = path.resolve(dup.file);
         const sf = project.getSourceFile(abs);
         if (!sf) continue;
-        const keep = sf.getStatements().some(st => {
+        const keep = sf.getStatements().some((st) => {
           const k = st.getKind();
           // keep if any real declaration/assignment/export remains
           return ![
             SyntaxKind.ImportDeclaration,
-            SyntaxKind.EmptyStatement
+            SyntaxKind.EmptyStatement,
           ].includes(k);
         });
         if (!keep) deletionsWanted.add(abs);
@@ -137,8 +172,12 @@ async function main() {
       // save changes first
       await project.save();
       for (const abs of deletionsWanted) {
-        try { await fs.rm(abs); deletionsDone.push(relFromRepo(abs)); }
-        catch { /* ignore */ }
+        try {
+          await fs.rm(abs);
+          deletionsDone.push(relFromRepo(abs));
+        } catch {
+          /* ignore */
+        }
       }
     }
   }
@@ -161,7 +200,12 @@ async function main() {
   if (MODE === "apply") {
     await project.save();
   }
-  console.log(`codemods:${MODE} — see ${path.relative(process.cwd(), REPORT_ROOT)}`);
+  console.log(
+    `codemods:${MODE} — see ${path.relative(process.cwd(), REPORT_ROOT)}`,
+  );
 }
 
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

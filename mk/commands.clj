@@ -1,9 +1,6 @@
 (ns mk.commands
-  (:require [mk.python :as py]
-            [mk.node :as js]
+  (:require [mk.node :as js]
             [mk.util :as u]
-            [mk.configs :as cfg]
-            [babashka.process :as p]
             [babashka.fs :as fs]))
 
 ;; Root tasks ---------------------------------------------------------------
@@ -14,7 +11,7 @@
 (defn clean []
   (js/clean-js)
   (js/clean-ts)
-  (py/clean-python))
+  )
 
 (defn distclean []
   (println "[distclean] Removing ignored files repo-wide via git clean -fdX")
@@ -22,7 +19,7 @@
   (println "[distclean] Done. Tracked files untouched."))
 
 (defn lint []
-  (py/lint-python)
+
   (js/lint-js)
   (js/lint-ts))
 
@@ -32,31 +29,20 @@
     (u/sh! ["npx" "tsx" "scripts/lint-topics.ts"])) )
 
 (defn test []
-  (py/test-python)
   (js/test-js)
   (js/test-ts))
 
-(defn test-integration []
-  (u/sh! "python -m pytest tests/integration" {:shell true}))
-
-(defn test-e2e []
-  (if (u/has-cmd? "pipenv")
-    (u/sh! "python -m pipenv run pytest tests/e2e || true" {:shell true})
-    (u/sh! "pytest tests/e2e || true" {:shell true})))
 
 (defn format-code []
-  (py/format-python)
   (js/format-js)
   (js/format-ts))
 
 (defn coverage []
-  (py/coverage-python)
   (js/coverage-js)
   (js/coverage-ts))
 
 (defn setup []
   (println "Setting up all services...")
-  (py/setup-python)
   (js/setup-js)
   (js/setup-ts)
   (println "[note] sibilant setup not ported; skipping")
@@ -65,7 +51,6 @@
 
 (defn setup-quick []
   (println "Quick setup using requirements.txt files...")
-  (py/setup-python-quick)
   ;; Use pnpm workspace for efficient install
   (println "Installing all workspace dependencies...")
   (if (u/has-pnpm?)
@@ -94,22 +79,6 @@
       (u/sh! ["pip" "install" (str wheel)]))
     (println "GitHub Actions artifact installation complete")))
 
-(defn- gpu-build? [d]
-  (= (cfg/reqs-file-for d) "requirements.gpu.in"))
-
-(defn probe-python-service []
-  (let [service (or (System/getenv "service") (System/getenv "SERVICE"))
-        d (str (fs/path "services/py" (or service "")))]
-    (when-not service (throw (ex-info "SERVICE env required" {})))
-    (if (u/has-uv?)
-      (u/cuda-probe d (gpu-build? d))
-      (println "uv not found; probe requires uv"))))
-
-(defn probe-python-services []
-  (when (u/has-uv?)
-    (doseq [d cfg/services-py]
-      (u/cuda-probe d (gpu-build? d)))))
-
 (defn system-deps []
   (if (System/getenv "SIMULATE_CI")
     (println "Skipping system dependency installation during CI simulation")
@@ -128,18 +97,7 @@
             {:shell true})
       (println "MongoDB installation is only supported on Linux"))))
 
-(defn start [] (u/sh! ["pm2" "start" "ecosystem.config.js"]))
-(defn stop [] (u/sh! "pm2 stop ecosystem.config.js || true" {:shell true}))
-(defn start-service []
-  (let [service (or (System/getenv "service") (System/getenv "SERVICE"))]
-    (when-not service (throw (ex-info "SERVICE env required" {})))
-    (u/sh! ["pm2" "start" "ecosystem.config.js" "--only" service])))
-(defn stop-service []
-  (let [service (or (System/getenv "service") (System/getenv "SERVICE"))]
-    (when-not service (throw (ex-info "SERVICE env required" {})))
-    (u/sh! (format "pm2 stop %s || true" service) {:shell true})))
-
-(defn lint-tasks [] (u/sh! ["python" "scripts/lint_tasks.py"]))
+(defn lint-tasks [] (u/sh! ["pnpm" "lint:tasks"]))
 
 (defn simulate-ci []
   (if-let [job (System/getenv "SIMULATE_CI_JOB")]
@@ -157,7 +115,7 @@
 (defn pre-commit-install []
   (u/sh! ["pre-commit" "install"]))
 
-(defn pre-commit-run 
+(defn pre-commit-run
   ([] (u/sh! ["pre-commit" "run" "--all-files"]))
   ([hook-name] (u/sh! ["pre-commit" "run" hook-name "--all-files"])))
 

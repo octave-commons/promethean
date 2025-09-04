@@ -34,7 +34,7 @@ function matchPattern(node: ts.Node, pattern: ts.Node): boolean {
             if (
                 pce.arguments.length === 1 &&
                 ts.isIdentifier(pce.arguments[0]) &&
-                (pce.arguments[0] as ts.Identifier).text.startsWith('_')
+                pce.arguments[0].text.startsWith('_')
             ) {
                 // wildcard argument list
                 return true;
@@ -60,10 +60,10 @@ function matchPattern(node: ts.Node, pattern: ts.Node): boolean {
 }
 
 // Rule: when pattern matches, replace with after AST
-interface Rule {
+type Rule = {
     before: ts.Node;
     after: ts.Node[];
-}
+};
 
 export function makeTransformer(before: string, after: string) {
     const beforeSource = ts.createSourceFile('before.ts', before, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);

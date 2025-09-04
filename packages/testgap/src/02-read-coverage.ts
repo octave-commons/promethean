@@ -1,7 +1,8 @@
-/* eslint-disable no-console */
 import * as path from "path";
-import { globby } from "globby";
 import { promises as fs } from "fs";
+
+import { globby } from "globby";
+
 import { parseArgs, writeJSON, rel } from "./utils.js";
 import type { CoverageIndex, FileCoverage } from "./types.js";
 

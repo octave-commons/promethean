@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { makeChromaWrapper } from './chroma.js';
 
 test('chroma wrapper upsert/delete/count', async (t) => {

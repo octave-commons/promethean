@@ -1,18 +1,21 @@
-/* eslint-disable no-console */
 import { promises as fs } from "fs";
 import * as path from "path";
+
 import matter from "gray-matter";
+
 import { parseArgs, writeJSON } from "./utils.js";
 import type { RunResultsFile, VerifyFile, VerifyItem } from "./types.js";
 
 const args = parseArgs({
   "--runs": ".cache/cookbook/run-results.json",
   "--out": ".cache/cookbook/verify.json",
-  "--accept": "false"
+  "--accept": "false",
 });
 
 async function main() {
-  const runs = JSON.parse(await fs.readFile(path.resolve(args["--runs"]), "utf-8")) as RunResultsFile;
+  const runs = JSON.parse(
+    await fs.readFile(path.resolve(args["--runs"]), "utf-8"),
+  ) as RunResultsFile;
   const accept = args["--accept"] === "true";
   const items: VerifyItem[] = [];
 
@@ -38,4 +41,7 @@ async function main() {
   await writeJSON(path.resolve(args["--out"]), out);
   console.log(`cookbook: verify → ${args["--out"]} (accept=${accept})`);
 }
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

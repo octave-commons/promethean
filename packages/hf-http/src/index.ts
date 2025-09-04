@@ -5,10 +5,10 @@
 import { request } from 'undici';
 import type { z } from 'zod';
 
-export interface HfApiConfig {
+export type HfApiConfig = {
     apiKey?: string;
     baseUrl?: string;
-}
+};
 
 export class HuggingFaceClient {
     private apiKey?: string;

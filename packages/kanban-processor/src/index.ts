@@ -4,6 +4,7 @@ import {
 } from "path";
 import { readdir, readFile, stat, writeFile } from "fs/promises";
 import crypto from "crypto";
+
 import { ContextStore } from "@promethean/persistence/contextStore.js";
 // DualStoreManager types resolved at runtime; avoid compile-time coupling
 import { getMongoClient } from "@promethean/persistence/clients.js";
@@ -25,12 +26,12 @@ const EVENTS = {
   cardTaskChanged: "kanban-card-task-changed",
 };
 
-interface KanbanCard {
+type KanbanCard = {
   id: string;
   title: string;
   column: string;
   link: string;
-}
+};
 
 const defaultRepoRoot = process.env.REPO_ROOT || "";
 

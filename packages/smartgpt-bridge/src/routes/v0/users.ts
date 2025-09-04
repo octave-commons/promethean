@@ -1,5 +1,6 @@
 // @ts-nocheck
 import crypto from "crypto";
+
 import { User } from "../../models/User.js";
 
 export function registerUserRoutes(app) {

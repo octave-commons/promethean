@@ -75,17 +75,17 @@ export function runBytecode(bc: Bytecode): any {
         const ins = code[ip++];
         const [op] = ins;
         if (op === 'LIT') acc = ins[1];
-        else if (op === 'MOV') acc = mem[ins[1] as number] = acc ?? mem[ins[1] as number];
+        else if (op === 'MOV') acc = mem[ins[1]] = acc ?? mem[ins[1]];
         else if (op === 'PRIM') {
-            const o = ins[1] as string,
-                a = mem[ins[2] as number],
-                b = ins[3] != null ? mem[ins[3] as number] : undefined;
+            const o = ins[1],
+                a = mem[ins[2]],
+                b = ins[3] != null ? mem[ins[3]] : undefined;
             acc = prim(o, a, b);
         } else if (op === 'JZ') {
-            const target = ins[1] as number;
+            const target = ins[1];
             if (!acc) ip = target;
         } else if (op === 'JMP') {
-            ip = ins[1] as number;
+            ip = ins[1];
         } else if (op === 'CALL') {
             /* stub */ acc = null;
         } else if (op === 'RET') return acc;

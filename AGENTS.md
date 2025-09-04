@@ -141,13 +141,15 @@ We love dotenv. use it all the time. Make everyone's lives easier.
 
 ## Changelog Updates
 
-Do not edit `CHANGELOG.md` directly. We build it from fragment files using [towncrier](https://towncrier.readthedocs.io/). For every pull request add a fragment under `changelog.d/` named `<PR number>.<type>.md` where `<type>` is one of `added`, `changed`, `deprecated`, `removed`, `fixed`, or `security`.
+Do not edit `CHANGELOG.md` directly.
+We build it from fragment files using [towncrier](https://towncrier.readthedocs.io/).
+For every pull request add a fragment under `changelog.d/` named
+`<DATETIMESTSRING:YYYY.MM.DD.hh.mm.ss.<type>.md` where `<type>` is one of `added`, `changed`, `deprecated`, `removed`, `fixed`, or `security`.
 
-Example: `changelog.d/1234.added.md`
+Example: `changelog.d/2025.08.25.13.45.23.added.md`
 
 During release, run `make build-changelog` to aggregate all fragments into `CHANGELOG.md`. The build step removes processed fragments to keep `changelog.d/` tidy.
 
-## Hashtags are your friend
 
 ## 📝 Architecture Decision Records (ADRs)
 
