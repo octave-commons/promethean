@@ -400,6 +400,7 @@ reviews:
       # Default: true
       enabled: true
 
+
     # ESLint is a static code analysis tool for JavaScript files.
     # Default: {}
     eslint:
@@ -449,6 +450,7 @@ reviews:
       # Default: true
       enabled: true
 
+
     # Cppcheck is a static code analysis tool for the C and C++ programming languages.
     # Default: {}
     cppcheck:
@@ -463,6 +465,7 @@ reviews:
       # Default: true
       enabled: true
 
+    config_file: ".semgrep.yaml"
     # CircleCI tool is a static checker for CircleCI config files.
     # Default: {}
     circleci:
