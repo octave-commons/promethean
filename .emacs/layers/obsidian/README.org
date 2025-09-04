@@ -19,11 +19,11 @@
 This layer adds support for something.
 
 ** Features:
-  - Autocomplete
-  - Lint
-  - Refactor
-  - ...
-
+  - Wikilinks: insert and follow [[Wiki]] links
+  - Backlinks: backlinks minor mode and jump
+  - Daily notes: quick access to today's note
+  - Tags: insert and search tags
+  - Vault-wide search (ripgrep-based if available)
 * Install
 To use this configuration layer, add it to your =~/.spacemacs=. You will need to
 add =obsidian= to the existing =dotspacemacs-configuration-layers= list in this
