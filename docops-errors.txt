@@ -1,0 +1,34 @@
+
+> promethean@ doc:all /home/err/devel/promethean
+> pnpm doc:01-frontmatter && pnpm doc:02-embed && pnpm doc:03-query && pnpm doc:04-relate && pnpm doc:05-footers && pnpm doc:06-rename
+
+
+> promethean@ doc:01-frontmatter /home/err/devel/promethean
+> tsx packages/docops/src/01-frontmatter.ts --dir docs/unique --gen-model qwen3:4b
+
+01-frontmatter: done.
+
+> promethean@ doc:02-embed /home/err/devel/promethean
+> tsx packages/docops/src/02-embed.ts --dir docs/unique
+
+02-embed: done (vectors in Chroma; KV in Level).
+
+> promethean@ doc:03-query /home/err/devel/promethean
+> tsx packages/docops/src/03-query.ts
+
+03-query: done (hits -> LevelDB sublevel 'q').
+
+> promethean@ doc:04-relate /home/err/devel/promethean
+> tsx packages/docops/src/04-relations.ts --docs-dir docs/unique --doc-threshold 0.78 --ref-threshold 0.85
+
+04-relations: done.
+
+> promethean@ doc:05-footers /home/err/devel/promethean
+> tsx packages/docops/src/05-footers.ts --dir docs/unique --anchor-style block
+
+05-footers: done.
+
+> promethean@ doc:06-rename /home/err/devel/promethean
+> tsx packages/docops/src/06-rename.ts --dir docs/unique
+
+06-rename: done.

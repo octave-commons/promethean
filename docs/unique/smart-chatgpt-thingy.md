@@ -13,88 +13,56 @@ tags:
   - timestamps
   - links
 related_to_title:
-  - zero-copy-snapshots-and-workers
-  - JavaScript
-  - ecs-offload-workers
-  - Lisp-Compiler-Integration
   - Unique Info Dump Index
-  - AI-Centric OS with MCP Layer
-  - AI-First-OS-Model-Context-Protocol
-  - balanced-bst
+  - Promethean-native config design
+  - ecs-offload-workers
+  - layer-1-uptime-diagrams
+  - prompt-programming-language-lisp
+  - heartbeat-simulation-snippets
+  - promethean-system-diagrams
+  - sibilant-meta-string-templating-runtime
+  - compiler-kit-foundations
+  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
+  - 'Agent Tasks: Persistence Migration to DualStore'
+  - Promethean Agent DSL TS Scaffold
+  - Eidolon-Field-Optimization
+  - lisp-dsl-for-window-management
+  - i3-layout-saver
+  - 'Promethean Pipelines: Local TypeScript-First Workflow'
+  - Event Bus Projections Architecture
+  - Language-Agnostic Mirror System
+  - State Snapshots API and Transactional Projector
+  - Matplotlib Animation with Async Execution
 related_to_uuid:
-  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
-  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
-  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-  - cfee6d36-b9f5-4587-885a-cdfddb4f054e
   - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-  - 618198f4-cfad-4677-9df6-0640d8a97bae
-  - d3e7db72-2e07-4dae-8920-0e07c499a1e5
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - 4127189a-e0ab-436f-8571-cc852b8e9add
+  - d41a06d1-613e-4440-80b7-4553fc694285
+  - 23e221e9-d4fa-4106-8458-06db2595085f
+  - b51e19b4-1326-4311-9798-33e972bf626c
+  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
+  - 93d2ba51-8689-49ee-94e2-296092e48058
+  - 5158f742-4a3b-466e-bfc3-d83517b64200
+  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+  - c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
+  - 31f0166e-4631-45fa-aecd-b44e9a13f497
+  - 6b63edca-7637-4fb0-bc85-d498c31cc46e
+  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
+  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
 references:
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 13
-    col: 1
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 13
-    col: 3
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 459
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 459
-    col: 3
-    score: 1
-  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
-    line: 541
-    col: 1
-    score: 1
-  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
-    line: 541
-    col: 3
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 7
+    col: 0
     score: 1
   - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 74
-    col: 1
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 74
-    col: 3
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 1
-    score: 1
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 406
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 11
-    col: 3
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 1
-    score: 1
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 14
-    col: 3
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 1
-    score: 1
-  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
-    line: 297
-    col: 3
-    score: 1
+    line: 10
+    col: 0
+    score: 0.86
 ---
 ```smart-chatgpt
 chat-active:: 1755702801 https://chatgpt.com/g/g-68a508b9180081919110e09ab9faee17-pythagoras/c/68a55ed7-1558-8327-b0cb-cbfd9fdfb041
@@ -103,8 +71,9 @@ chat-done:: 1755699836 https://chatgpt.com/g/g-68a508b9180081919110e09ab9faee17-
 chat-done:: 1755638712 https://chatgpt.com/g/g-p-6883d8e9569c8191aad0cfd2a5bf3af3-promethean/c/68a4ebb4-65fc-8331-9355-fab4aafdba43
 
 ```
-
-What?
+^ref-2facccf8-1-0 ^ref-2facccf8-8-0
+ ^ref-2facccf8-9-0
+What? ^ref-2facccf8-10-0
 ```smart-connections
 {
   "render_markdown": true,
@@ -114,33 +83,30 @@ What?
   "expanded_view": false,
   "results_limit": "20"
 }
-```
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+^ref-2facccf8-10-0
+```<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
-- [JavaScript](chunks/javascript.md)
-- [ecs-offload-workers](ecs-offload-workers.md)
-- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
 - [Unique Info Dump Index](unique-info-dump-index.md)
-- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
-- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
-- [balanced-bst](balanced-bst.md)
-
+- [Promethean-native config design](promethean-native-config-design.md)
+- [ecs-offload-workers](ecs-offload-workers.md)
+- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
+- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
+- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
+- [promethean-system-diagrams](promethean-system-diagrams.md)
+- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
+- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
+- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
+- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
+- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
+- [i3-layout-saver](i3-layout-saver.md)
+- [Promethean Pipelines: Local TypeScript-First Workflow](promethean-pipelines-local-typescript-first-workflow.md)
+- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
 ## Sources
-- [JavaScript — L13](chunks/javascript.md#L13) (line 13, col 1, score 1)
-- [JavaScript — L13](chunks/javascript.md#L13) (line 13, col 3, score 1)
-- [ecs-offload-workers — L459](ecs-offload-workers.md#L459) (line 459, col 1, score 1)
-- [ecs-offload-workers — L459](ecs-offload-workers.md#L459) (line 459, col 3, score 1)
-- [Lisp-Compiler-Integration — L541](lisp-compiler-integration.md#L541) (line 541, col 1, score 1)
-- [Lisp-Compiler-Integration — L541](lisp-compiler-integration.md#L541) (line 541, col 3, score 1)
-- [Unique Info Dump Index — L74](unique-info-dump-index.md#L74) (line 74, col 1, score 1)
-- [Unique Info Dump Index — L74](unique-info-dump-index.md#L74) (line 74, col 3, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- [Unique Info Dump Index — L7](unique-info-dump-index.md#^ref-30ec3ba6-7-0) (line 7, col 0, score 1)
+- [Unique Info Dump Index — L10](unique-info-dump-index.md#^ref-30ec3ba6-10-0) (line 10, col 0, score 0.86)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -18,1369 +18,609 @@ tags:
   - syntax-extension
   - transpiler
 related_to_title:
-  - aionian-circuit-math
-  - sibilant-metacompiler-overview
-  - Cross-Target Macro System in Sibilant
-  - polymorphic-meta-programming-engine
-  - sibilant-macro-targets
-  - field-interaction-equations
-  - polyglot-repl-interface-layer
   - Chroma Toolkit Consolidation Plan
-  - compiler-kit-foundations
-  - Cross-Language Runtime Polymorphism
-  - sibilant-meta-string-templating-runtime
-  - Lispy Macros with syntax-rules
-  - lisp-dsl-for-window-management
-  - Sibilant Meta-Prompt DSL
-  - Promethean-native config design
-  - Dynamic Context Model for Web Components
-  - ts-to-lisp-transpiler
-  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
-  - Unique Info Dump Index
-  - typed-struct-compiler
-  - Lisp-Compiler-Integration
-  - prompt-programming-language-lisp
-  - js-to-lisp-reverse-compiler
-  - 'Agent Tasks: Persistence Migration to DualStore'
-  - Interop and Source Maps
-  - Board Walk – 2025-08-11
-  - DSL
-  - komorebi-group-window-hack
-  - api-gateway-versioning
-  - ecs-offload-workers
-  - ecs-scheduler-and-prefabs
-  - archetype-ecs
   - Diagrams
-  - Voice Access Layer Design
-  - graph-ds
-  - EidolonField
-  - Recursive Prompt Construction Engine
-  - Math Fundamentals
-  - eidolon-field-math-foundations
-  - field-dynamics-math-blocks
-  - ParticleSimulationWithCanvasAndFFmpeg
-  - Language-Agnostic Mirror System
+  - DSL
   - JavaScript
-  - mystery-lisp-search-session
-  - heartbeat-simulation-snippets
-  - Obsidian ChatGPT Plugin Integration Guide
-  - Obsidian ChatGPT Plugin Integration
-  - Prompt_Folder_Bootstrap
-  - set-assignment-in-lisp-ast
+  - Math Fundamentals
+  - Operations
+  - Services
+  - Shared
+  - Promethean Chat Activity Report
+  - eidolon-field-math-foundations
+  - The Jar of Echoes
+  - Canonical Org-Babel Matplotlib Animation Template
+  - windows-tiling-with-autohotkey
+  - Promethean Dev Workflow Update
+  - Dynamic Context Model for Web Components
+  - graph-ds
+  - Factorio AI with External Agents
+  - Functional Refactor of TypeScript Document Processing
+  - eidolon-node-lifecycle
+  - field-dynamics-math-blocks
+  - field-interaction-equations
+  - field-node-diagram-outline
+  - field-node-diagram-set
+  - field-node-diagram-visualizations
+  - aionian-circuit-math
+  - Promethean Web UI Setup
+  - ecs-offload-workers
+  - Recursive Prompt Construction Engine
+  - Fnord Tracer Protocol
+  - Eidolon Field Abstract Model
+  - Duck's Attractor States
   - homeostasis-decay-formulas
+  - Ice Box Reorganization
+  - EidolonField
+  - set-assignment-in-lisp-ast
+  - observability-infrastructure-setup
+  - State Snapshots API and Transactional Projector
+  - WebSocket Gateway Implementation
+  - Event Bus MVP
+  - Unique Info Dump Index
+  - RAG UI Panel with Qdrant and PostgREST
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - System Scheduler with Resource-Aware DAG
+  - Simulation Demo
+  - Window Management
+  - Tooling
+  - promethean-system-diagrams
+  - Lispy Macros with syntax-rules
+  - Promethean Agent Config DSL
+  - compiler-kit-foundations
+  - Sibilant Meta-Prompt DSL
+  - markdown-to-org-transpiler
+  - universal-intention-code-fabric
+  - Promethean-native config design
+  - Local-Offline-Model-Deployment-Strategy
+  - polymorphic-meta-programming-engine
+  - Voice Access Layer Design
+  - ParticleSimulationWithCanvasAndFFmpeg
+  - 'Promethean Pipelines: Local TypeScript-First Workflow'
+  - lisp-dsl-for-window-management
+  - heartbeat-simulation-snippets
+  - i3-config-validation-methods
+  - Universal Lisp Interface
+  - mystery-lisp-search-session
+  - Promethean Event Bus MVP v0.1
+  - Chroma-Embedding-Refactor
+  - Refactor Frontmatter Processing
+  - Vectorial Exception Descent
+  - SentenceProcessing
+  - Ghostly Smoke Interference
+  - Mongo Outbox Implementation
+  - Promethean Full-Stack Docker Setup
+  - Promethean_Eidolon_Synchronicity_Model
+  - Creative Moments
+  - ecs-scheduler-and-prefabs
+  - Refactor 05-footers.ts
+  - Event Bus Projections Architecture
+  - Cross-Target Macro System in Sibilant
+  - smart-chatgpt-thingy
+  - file-watcher-auth-fix
+  - Local-Only-LLM-Workflow
+  - Language-Agnostic Mirror System
+  - Matplotlib Animation with Async Execution
+  - Local-First Intention→Code Loop with Free Models
+  - prom-lib-rate-limiters-and-replay-api
+  - pm2-orchestration-patterns
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - sibilant-meta-string-templating-runtime
+  - 'Agent Tasks: Persistence Migration to DualStore'
+  - Eidolon-Field-Optimization
+  - Promethean State Format
+  - Agent Reflections and Prompt Evolution
+  - Promethean Documentation Pipeline Overview
+  - plan-update-confirmation
+  - Prometheus Observability Stack
+  - Performance-Optimized-Polyglot-Bridge
+  - komorebi-group-window-hack
+  - Redirecting Standard Error
+  - Promethean Pipelines
+  - Promethean Infrastructure Setup
+  - Promethean Documentation Overview
+  - Promethean Documentation Update
+  - Promethean Notes
+  - promethean-requirements
+  - ripple-propagation-demo
+  - schema-evolution-workflow
+  - Self-Agency in AI Interaction
+  - Provider-Agnostic Chat Panel Implementation
+  - Protocol_0_The_Contradiction_Engine
+  - Reawakening Duck
+  - Prompt_Folder_Bootstrap
+  - Pure TypeScript Search Microservice
+  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
+  - ChatGPT Custom Prompts
 related_to_uuid:
-  - f2d83a77-7f86-4c56-8538-1350167a0c6c
-  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
-  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
-  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
-  - c5c9a5c6-427d-4864-8084-c083cd55faa0
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
   - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - 01b21543-7e03-4129-8fe4-b6306be69dee
-  - c34c36a6-80c9-4b44-a200-6448543b1b33
-  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
-  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
-  - c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-  - af5d2824-faad-476c-a389-e912d9bc672c
-  - ab748541-020e-4a7e-b07d-28173bd5bea2
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
-  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
-  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - 78eeedf7-75bc-4692-a5a7-bb6857270621
-  - cfee6d36-b9f5-4587-885a-cdfddb4f054e
-  - d41a06d1-613e-4440-80b7-4553fc694285
-  - 58191024-d04a-4520-8aae-a18be7b94263
-  - 93d2ba51-8689-49ee-94e2-296092e48058
-  - cdfac40c-00e4-458f-96a7-4c37d0278731
-  - 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-  - e87bc036-1570-419e-a558-f45b9c0db698
-  - dd89372d-10de-42a9-8c96-6bc13ea36d02
-  - 0580dcd3-533d-4834-8a2f-eae3771960a9
-  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
-  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
   - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
-  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - e87bc036-1570-419e-a558-f45b9c0db698
   - c1618c66-f73a-4e04-9bfa-ef38755f7acc
-  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-  - 23e221e9-d4fa-4106-8458-06db2595085f
-  - 1d3d6c3a-039e-4b96-93c1-95854945e248
-  - ca8e1399-77bf-4f77-82a3-3f703b68706d
-  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-  - c5fba0a0-9196-468d-a0f3-51c99e987263
+  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+  - f1add613-656e-4bec-b52b-193fd78c4642
+  - 75ea4a6a-8270-488d-9d37-799c288e5f70
+  - 623a55f7-685c-486b-abaf-469da1bbbb69
+  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 18138627-a348-4fbb-b447-410dfb400564
+  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - 03a5578f-d689-45db-95e9-11300e5eee6f
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - a4d90289-798d-44a0-a8e8-a055ae12fb52
+  - 1cfae310-35dc-49c2-98f1-b186da25d84b
+  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+  - 22b989d5-f4aa-4880-8632-709c21830f83
+  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - f2d83a77-7f86-4c56-8538-1350167a0c6c
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
+  - 13951643-1741-46bb-89dc-1beebb122633
   - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
+  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
+  - c5fba0a0-9196-468d-a0f3-51c99e987263
+  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - ba244286-4e84-425b-8bf6-b80c4eb783fc
+  - 557309a3-c906-4e97-8867-89ffe151790c
+  - 9e8ae388-767a-4ea8-9f2e-88801291d947
+  - 6cb4943e-8267-4e27-8618-2ce0a464d173
+  - b51e19b4-1326-4311-9798-33e972bf626c
+  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - af5d2824-faad-476c-a389-e912d9bc672c
+  - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+  - 6b63edca-7637-4fb0-bc85-d498c31cc46e
+  - c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
+  - 23e221e9-d4fa-4106-8458-06db2595085f
+  - d28090ac-f746-4958-aab5-ed1315382c04
+  - b01856b4-999f-418d-8009-ade49b00eb0f
+  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+  - 8b256935-02f6-4da2-a406-bf6b8415276f
+  - cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
+  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
+  - 681a4ab2-8fef-4833-a09d-bceb62d114da
+  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - 80d4d883-59f9-401b-8699-7a2723148b1e
+  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - 2facccf8-69cf-4a7d-b24b-de966ec70283
+  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
+  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+  - 51932e7b-4237-4756-bcae-8be6d535d0d1
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+  - 93d2ba51-8689-49ee-94e2-296092e48058
+  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+  - 23df6ddb-05cf-4639-8201-f8291f8a6026
+  - bb7f0835-c347-474f-bfad-eabd873b51ad
+  - 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
+  - f5579967-762d-4cfd-851e-4f71b4cb77a1
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - b3555ede-324a-4d24-a885-b0721e74babf
+  - 8b8e6103-30a4-4d66-b5f2-87db1612b587
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - 9413237f-2537-4bbf-8768-db6180970e36
+  - c0392040-16a2-41e8-bd54-75110319e3c0
+  - 0b872af2-4197-46f3-b631-afb4e6135585
+  - 1c4046b5-742d-4004-aec6-b47251fef5d6
+  - 95205cd3-c3d5-4047-9c33-9c5ca2b49597
+  - 8430617b-80a2-4cc9-8288-9a74cb57990b
+  - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+  - 49a9a860-944c-467a-b532-4f99186a8593
+  - 43bfe9dd-d433-42ca-9777-f4c40eaba791
+  - 9a93a756-6d33-45d1-aca9-51b74f2b33d2
+  - 59b5670f-36d3-4d34-8985-f3144b15347a
+  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+  - d17d3a96-c84d-4738-a403-6c733b874da2
+  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
+  - 930054b3-ba95-4acf-bb92-0e3ead25ed0b
 references:
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 1
-    col: 1
-    score: 0.88
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 1002
+    col: 0
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 522
+    col: 0
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 469
+    col: 0
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 508
+    col: 0
+    score: 1
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 454
+    col: 0
+    score: 1
+  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
+    line: 181
+    col: 0
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 440
+    col: 0
+    score: 1
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 370
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 1157
+    col: 0
+    score: 0.96
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 3097
+    col: 0
+    score: 0.94
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 2827
+    col: 0
+    score: 0.94
+  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
+    line: 2418
+    col: 0
+    score: 0.93
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 2761
+    col: 0
+    score: 0.93
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 1359
+    col: 0
+    score: 0.93
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 1643
+    col: 0
+    score: 0.93
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 1574
+    col: 0
+    score: 0.93
   - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
     line: 128
-    col: 1
-    score: 0.98
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 72
-    col: 5
+    col: 0
+    score: 0.92
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 35
+    col: 0
+    score: 0.85
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 159
+    col: 0
+    score: 0.85
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 144
+    col: 0
+    score: 0.85
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 33
+    col: 0
+    score: 0.85
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 207
+    col: 0
     score: 0.88
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 88
-    col: 5
-    score: 0.88
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 107
-    col: 5
-    score: 0.88
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
     line: 148
-    col: 9
-    score: 0.88
-  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 49
-    col: 1
-    score: 0.98
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 132
-    col: 1
-    score: 0.89
-  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 74
-    col: 1
-    score: 0.93
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 160
-    col: 1
-    score: 0.91
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 188
-    col: 1
-    score: 0.9
-  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
-    line: 153
-    col: 1
-    score: 0.9
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 146
-    col: 1
-    score: 0.89
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 193
-    col: 1
-    score: 0.87
-  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
-    line: 7
-    col: 1
+    col: 0
     score: 0.86
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 16
-    col: 1
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 16
-    col: 3
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 125
-    col: 1
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 125
-    col: 3
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 142
-    col: 1
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 142
-    col: 3
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 154
-    col: 1
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 154
-    col: 3
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 612
-    col: 1
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 612
-    col: 3
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 205
-    col: 1
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 205
-    col: 3
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 171
-    col: 1
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 171
-    col: 3
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 159
-    col: 1
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 159
-    col: 3
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 206
-    col: 1
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 206
-    col: 3
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 393
-    col: 1
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 393
-    col: 3
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 158
-    col: 1
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 158
-    col: 3
-    score: 1
-  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
-    line: 417
-    col: 1
-    score: 1
-  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
-    line: 417
-    col: 3
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 202
-    col: 1
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 202
-    col: 3
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 172
-    col: 1
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 172
-    col: 3
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 390
-    col: 1
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 390
-    col: 3
-    score: 1
-  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
-    line: 250
-    col: 1
-    score: 1
-  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
-    line: 250
-    col: 3
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 617
-    col: 1
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 617
-    col: 3
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 210
-    col: 1
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 210
-    col: 3
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 170
-    col: 1
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 170
-    col: 3
-    score: 1
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 247
-    col: 1
-    score: 1
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 247
-    col: 3
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 153
-    col: 1
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 153
-    col: 3
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 15
-    col: 1
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 15
-    col: 3
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 177
-    col: 1
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 177
-    col: 3
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 124
-    col: 1
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 124
-    col: 3
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 204
-    col: 1
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 204
-    col: 3
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 174
-    col: 1
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 174
-    col: 3
-    score: 1
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 198
-    col: 1
-    score: 1
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 198
-    col: 3
-    score: 1
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 348
+    col: 0
+    score: 0.86
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 303
+    col: 0
+    score: 0.87
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 491
+    col: 0
+    score: 0.87
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 358
+    col: 0
+    score: 0.87
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 120
+    col: 0
+    score: 0.86
+  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+    line: 272
+    col: 0
+    score: 0.86
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 388
+    col: 0
+    score: 0.86
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 631
+    col: 0
+    score: 0.86
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 440
+    col: 0
+    score: 0.89
   - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
-    line: 177
-    col: 1
-    score: 1
-  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
-    line: 177
-    col: 3
-    score: 1
-  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
-    line: 134
-    col: 1
-    score: 1
-  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
-    line: 134
-    col: 3
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 156
-    col: 1
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 156
-    col: 3
-    score: 1
-  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-    line: 136
-    col: 1
-    score: 1
-  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-    line: 136
-    col: 3
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 386
-    col: 1
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 386
-    col: 3
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 13
-    col: 1
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 13
-    col: 3
-    score: 1
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 513
-    col: 1
-    score: 1
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 513
-    col: 3
-    score: 1
-  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
-    line: 539
-    col: 1
-    score: 1
-  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
-    line: 539
-    col: 3
-    score: 1
-  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
-    line: 400
-    col: 1
-    score: 1
-  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
-    line: 400
-    col: 3
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 173
-    col: 1
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 173
-    col: 3
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 156
-    col: 1
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 156
-    col: 3
-    score: 1
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 200
-    col: 1
-    score: 1
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 200
-    col: 3
-    score: 1
-  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
-    line: 389
-    col: 1
-    score: 1
-  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
-    line: 389
-    col: 3
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 208
-    col: 1
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 208
-    col: 3
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 176
-    col: 1
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 176
-    col: 3
-    score: 1
-  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-    line: 219
-    col: 1
-    score: 1
-  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-    line: 219
-    col: 3
-    score: 1
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 207
-    col: 1
-    score: 1
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 207
-    col: 3
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 608
-    col: 1
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 608
-    col: 3
-    score: 1
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 516
-    col: 1
-    score: 1
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 516
-    col: 3
-    score: 1
-  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
-    line: 536
-    col: 1
-    score: 1
-  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
-    line: 536
-    col: 3
-    score: 1
-  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
-    line: 538
-    col: 1
-    score: 1
-  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
-    line: 538
-    col: 3
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 201
-    col: 1
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 201
-    col: 3
-    score: 1
-  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
-    line: 546
-    col: 1
-    score: 1
-  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
-    line: 546
-    col: 3
-    score: 1
-  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
-    line: 126
-    col: 1
-    score: 1
-  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
-    line: 126
-    col: 3
-    score: 1
-  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
-    line: 11
-    col: 1
-    score: 1
-  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
-    line: 11
-    col: 3
-    score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 172
-    col: 1
-    score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 172
-    col: 3
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 201
-    col: 1
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 201
-    col: 3
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 178
-    col: 1
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 178
-    col: 3
-    score: 1
-  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
-    line: 251
-    col: 1
-    score: 1
-  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
-    line: 251
-    col: 3
-    score: 1
-  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
-    line: 130
-    col: 1
-    score: 1
-  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
-    line: 130
-    col: 3
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 159
-    col: 1
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 159
-    col: 3
-    score: 1
-  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-    line: 134
-    col: 1
-    score: 1
-  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-    line: 134
-    col: 3
-    score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 168
-    col: 1
-    score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 168
-    col: 3
-    score: 1
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 285
-    col: 1
-    score: 1
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 285
-    col: 3
-    score: 1
-  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-    line: 135
-    col: 1
-    score: 1
-  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-    line: 135
-    col: 3
-    score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 167
-    col: 1
-    score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 167
-    col: 3
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 180
-    col: 1
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 180
-    col: 3
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 14
-    col: 1
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 14
-    col: 3
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 613
-    col: 1
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 613
-    col: 3
-    score: 1
-  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-    line: 218
-    col: 1
-    score: 1
-  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-    line: 218
-    col: 3
-    score: 1
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 122
-    col: 1
-    score: 1
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 122
-    col: 3
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 611
-    col: 1
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 611
-    col: 3
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 462
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 462
-    col: 3
-    score: 1
-  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
-    line: 398
-    col: 1
-    score: 1
-  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
-    line: 398
-    col: 3
-    score: 1
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 517
-    col: 1
-    score: 1
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 517
-    col: 3
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 158
-    col: 1
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 158
-    col: 3
-    score: 1
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 457
-    col: 1
-    score: 1
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 457
-    col: 3
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 9
-    col: 1
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 9
-    col: 3
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 10
-    col: 1
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 10
-    col: 3
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 17
-    col: 1
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 17
-    col: 3
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 614
-    col: 1
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 614
-    col: 3
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 369
-    col: 1
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 369
-    col: 3
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 100
-    col: 1
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 100
-    col: 3
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 610
-    col: 1
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 610
-    col: 3
-    score: 1
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 515
-    col: 1
-    score: 1
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 515
-    col: 3
-    score: 1
-  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
-    line: 423
-    col: 1
-    score: 1
-  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
-    line: 423
-    col: 3
-    score: 1
-  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
-    line: 532
-    col: 1
-    score: 1
-  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
-    line: 532
-    col: 3
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 212
-    col: 1
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 212
-    col: 3
-    score: 1
-  - uuid: 23e221e9-d4fa-4106-8458-06db2595085f
-    line: 96
-    col: 1
-    score: 1
-  - uuid: 23e221e9-d4fa-4106-8458-06db2595085f
-    line: 96
-    col: 3
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 38
-    col: 1
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 38
-    col: 3
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 38
-    col: 1
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 38
-    col: 3
-    score: 1
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 528
-    col: 1
-    score: 0.98
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 528
-    col: 3
-    score: 0.98
-  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
-    line: 410
-    col: 1
-    score: 0.98
-  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
-    line: 410
-    col: 3
-    score: 0.98
-  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
-    line: 159
-    col: 1
-    score: 0.98
-  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
-    line: 159
-    col: 3
-    score: 0.98
-  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
-    line: 157
-    col: 1
-    score: 0.98
-  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
-    line: 157
-    col: 3
-    score: 0.98
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 176
-    col: 1
-    score: 0.98
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 176
-    col: 3
-    score: 0.98
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 167
-    col: 1
-    score: 0.97
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 167
-    col: 3
-    score: 0.97
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
     line: 147
-    col: 1
-    score: 0.96
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 147
-    col: 3
-    score: 0.96
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 161
-    col: 1
-    score: 0.96
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 161
-    col: 3
-    score: 0.96
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 320
-    col: 1
-    score: 1
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 320
-    col: 3
-    score: 1
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 201
-    col: 1
-    score: 1
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 201
-    col: 3
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 404
-    col: 1
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 404
-    col: 3
-    score: 1
-  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
-    line: 397
-    col: 1
-    score: 1
-  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
-    line: 397
-    col: 3
-    score: 1
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 321
-    col: 1
-    score: 1
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 321
-    col: 3
-    score: 1
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 202
-    col: 1
-    score: 1
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 202
-    col: 3
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 405
-    col: 1
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 405
-    col: 3
-    score: 1
-  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
-    line: 398
-    col: 1
-    score: 1
-  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
-    line: 398
-    col: 3
-    score: 1
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 322
-    col: 1
-    score: 1
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 322
-    col: 3
-    score: 1
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 203
-    col: 1
-    score: 1
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 203
-    col: 3
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 406
-    col: 1
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 406
-    col: 3
-    score: 1
-  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
-    line: 399
-    col: 1
-    score: 1
-  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
-    line: 399
-    col: 3
-    score: 1
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 323
-    col: 1
-    score: 1
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 323
-    col: 3
-    score: 1
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 204
-    col: 1
-    score: 1
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 204
-    col: 3
-    score: 1
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 196
-    col: 1
-    score: 1
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 196
-    col: 3
-    score: 1
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 325
-    col: 1
-    score: 1
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 325
-    col: 3
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 219
-    col: 1
-    score: 0.99
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 219
-    col: 3
-    score: 0.99
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 218
-    col: 1
-    score: 0.99
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 218
-    col: 3
-    score: 0.99
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 192
-    col: 1
-    score: 0.99
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 192
-    col: 3
-    score: 0.99
-  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
-    line: 186
-    col: 1
-    score: 0.99
-  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
-    line: 186
-    col: 3
-    score: 0.99
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 21
-    col: 1
-    score: 0.99
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 21
-    col: 3
-    score: 0.99
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 124
-    col: 1
-    score: 0.99
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 124
-    col: 3
-    score: 0.99
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 176
-    col: 1
-    score: 0.99
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 176
-    col: 3
-    score: 0.99
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 152
-    col: 1
-    score: 0.98
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 152
-    col: 3
-    score: 0.98
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 220
-    col: 1
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 220
-    col: 3
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    col: 0
+    score: 0.89
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 349
+    col: 0
+    score: 0.87
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 588
+    col: 0
+    score: 0.86
+  - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+    line: 232
+    col: 0
+    score: 0.85
+  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
+    line: 279
+    col: 0
+    score: 0.86
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 427
+    col: 0
+    score: 0.89
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 630
+    col: 0
+    score: 0.87
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 524
+    col: 0
+    score: 0.87
+  - uuid: b51e19b4-1326-4311-9798-33e972bf626c
     line: 169
-    col: 1
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 169
-    col: 3
-    score: 1
-  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 105
-    col: 1
-    score: 1
-  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 105
-    col: 3
-    score: 1
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 216
-    col: 1
-    score: 1
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 216
-    col: 3
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 166
-    col: 1
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 166
-    col: 3
-    score: 1
-  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
-    line: 187
-    col: 1
-    score: 1
-  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
-    line: 187
-    col: 3
-    score: 1
-  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 106
-    col: 1
-    score: 1
-  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 106
-    col: 3
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 216
-    col: 1
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 216
-    col: 3
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 191
-    col: 1
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 191
-    col: 3
-    score: 1
-  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 104
-    col: 1
-    score: 1
-  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 104
-    col: 3
-    score: 1
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 219
-    col: 1
-    score: 1
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 219
-    col: 3
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 186
-    col: 1
-    score: 0.99
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 186
-    col: 3
-    score: 0.99
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 195
-    col: 1
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 195
-    col: 3
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 218
-    col: 1
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 218
-    col: 3
-    score: 1
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 219
-    col: 1
-    score: 1
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 219
-    col: 3
-    score: 1
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 215
-    col: 1
-    score: 1
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 215
-    col: 3
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 168
-    col: 1
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 168
-    col: 3
-    score: 1
-  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 107
-    col: 1
-    score: 1
-  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 107
-    col: 3
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 194
-    col: 1
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 194
-    col: 3
-    score: 1
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 217
-    col: 1
-    score: 1
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 217
-    col: 3
-    score: 1
-  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 101
-    col: 1
-    score: 1
-  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 101
-    col: 3
-    score: 1
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 213
-    col: 1
-    score: 0.97
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 213
-    col: 3
-    score: 0.97
+    col: 0
+    score: 0.86
+  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+    line: 375
+    col: 0
+    score: 0.86
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 471
+    col: 0
+    score: 0.93
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 235
+    col: 0
+    score: 0.93
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 117
+    col: 0
+    score: 0.93
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 260
+    col: 0
+    score: 0.93
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 234
+    col: 0
+    score: 0.93
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 245
+    col: 0
+    score: 0.93
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 208
+    col: 0
+    score: 0.93
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 235
+    col: 0
+    score: 0.93
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 180
+    col: 0
+    score: 0.93
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 225
+    col: 0
+    score: 0.93
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 478
+    col: 0
+    score: 0.93
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 184
+    col: 0
+    score: 0.88
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 443
+    col: 0
+    score: 0.88
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 271
+    col: 0
+    score: 0.88
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 165
+    col: 0
+    score: 0.88
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 231
+    col: 0
+    score: 0.88
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 243
+    col: 0
+    score: 0.88
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 199
+    col: 0
+    score: 0.88
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 225
+    col: 0
+    score: 0.88
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 325
+    col: 0
+    score: 0.88
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 465
+    col: 0
+    score: 0.88
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 242
+    col: 0
+    score: 0.88
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 142
+    col: 0
+    score: 0.88
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 1810
+    col: 0
+    score: 0.87
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 4929
+    col: 0
+    score: 0.87
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 1905
+    col: 0
+    score: 0.87
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 1981
+    col: 0
+    score: 0.87
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 1614
+    col: 0
+    score: 0.87
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 1599
+    col: 0
+    score: 0.87
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 1799
+    col: 0
+    score: 0.87
+  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
+    line: 1606
+    col: 0
+    score: 0.87
+  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
+    line: 1598
+    col: 0
+    score: 0.87
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 10088
+    col: 0
+    score: 0.87
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 5613
+    col: 0
+    score: 0.87
 ---
-Note: Consolidated here → ../notes/dsl/template-based-compilation.md
+Note: Consolidated here → ../notes/dsl/template-based-compilation.md ^ref-f8877e5e-1-0
 
-**YES. That's the good shit.**
+**YES. That's the good shit.** ^ref-f8877e5e-3-0
 
-That right there is **template-as-compilation**, raw and powerful. You're not building ASTs that are interpreted — you're literally **composing code as strings**, with Lisp macros giving you the syntax abstraction **and** codegen at the same time.
+That right there is **template-as-compilation**, raw and powerful. You're not building ASTs that are interpreted — you're literally **composing code as strings**, with Lisp macros giving you the syntax abstraction **and** codegen at the same time. ^ref-f8877e5e-5-0
 
-You’re not stuck with AST rules — you’re writing a **custom compiler** for every macro.
+You’re not stuck with AST rules — you’re writing a **custom compiler** for every macro. ^ref-f8877e5e-7-0
 
 ---
 
 ## 🧠 Why This Is a Game Changer
 
-In Common Lisp or Hy, macros return **quoted code** to be executed in a fixed runtime.
+In Common Lisp or Hy, macros return **quoted code** to be executed in a fixed runtime. ^ref-f8877e5e-13-0
 
-But in Sibilant, macros return:
+But in Sibilant, macros return: ^ref-f8877e5e-15-0
 
-* Raw strings
-* Lists of strings
-* Nested arrays that **flatten into formatted code**
+* Raw strings ^ref-f8877e5e-17-0
+* Lists of strings ^ref-f8877e5e-18-0
+* Nested arrays that **flatten into formatted code** ^ref-f8877e5e-19-0
 
-Which means:
+Which means: ^ref-f8877e5e-21-0
 
 * You don’t need to wait for someone to add a feature to the host language
 * You don’t even need to *target* the host language
-* You can use macros as **code weaving machines**
+* You can use macros as **code weaving machines** ^ref-f8877e5e-25-0
 
-You’re not *interpreting Lisp* — you’re using Lisp to **write other languages**.
+You’re not *interpreting Lisp* — you’re using Lisp to **write other languages**. ^ref-f8877e5e-27-0
 
 ---
 
 ## 🧰 Example Expansion
 
-Your macro:
+Your macro: ^ref-f8877e5e-33-0
 
 ```sibilant
 (def-async do-thing (x y)
   (var result (await (call-api x y)))
   (print result))
 ```
-
+^ref-f8877e5e-35-0 ^ref-f8877e5e-40-0
+ ^ref-f8877e5e-41-0
 Expands to:
-
+ ^ref-f8877e5e-43-0
 ```js
 async function doThing(x, y) {
   var result = await callApi(x, y);
   console.log(result);
 }
-```
+^ref-f8877e5e-43-0
+``` ^ref-f8877e5e-50-0
+^ref-f8877e5e-44-0
 
 Clean, readable, maintainable — and **it was all Lisp** at authoring time.
 
 ---
-
-## 🔧 Sibilant Meta-Compilation Stack
-
-You could build:
-
-1. **Language targets** (JS, TS, Py, Cython, etc.)
+ ^ref-f8877e5e-56-0
+## 🔧 Sibilant Meta-Compilation Stack ^ref-f8877e5e-56-0
+ ^ref-f8877e5e-58-0
+You could build: ^ref-f8877e5e-58-0
+ ^ref-f8877e5e-59-0 ^ref-f8877e5e-60-0
+1. **Language targets** (JS, TS, Py, Cython, etc.) ^ref-f8877e5e-60-0
 2. A **macro prelude** per language
 3. A **compiler pass** that loads all macros, sets output mode, and generates code
 
 ---
-
-## 🧬 New Meta-Features You Could Add
+ ^ref-f8877e5e-66-0
+## 🧬 New Meta-Features You Could Add ^ref-f8877e5e-66-0
 
 | Feature             | Macro Shape Example                       |
 | ------------------- | ----------------------------------------- |
@@ -1392,376 +632,216 @@ You could build:
 | Inline docgen       | `(doc "adds two numbers") (defn add ...)` |
 
 ---
-
-## 🚀 Want to Take This Further?
+ ^ref-f8877e5e-79-0
+## 🚀 Want to Take This Further? ^ref-f8877e5e-79-0
 
 We could scaffold:
-
-* A **dual-target DSL** in Sibilant → `js/` and `py/` outputs
-* A **macro system** that compiles window layout commands (e.g., your i3 DSL)
+ ^ref-f8877e5e-82-0 ^ref-f8877e5e-83-0
+* A **dual-target DSL** in Sibilant → `js/` and `py/` outputs ^ref-f8877e5e-83-0 ^ref-f8877e5e-84-0
+* A **macro system** that compiles window layout commands (e.g., your i3 DSL) ^ref-f8877e5e-84-0
 * A **Sibilant loader** that reads macros and emits multi-language bindings
 * A **Lisp shell** that lets you live-edit and run Sibilant macros on the fly
 
 ---
-
-## 🏷️ Tags
+ ^ref-f8877e5e-90-0
+## 🏷️ Tags ^ref-f8877e5e-90-0
 
 \#sibilant #dsl #metaprogramming #codegen #stringtemplating #macros #lisp #transpiler #asyncawait #syntaxextension
+ ^ref-f8877e5e-94-0
+--- ^ref-f8877e5e-94-0
 
----
-
-Let’s do something wild. Want to define the first `defbind` macro for your tiling WM DSL in Sibilant now? Or build a `target` system so the same macro can compile to Python or JS?
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+Let’s do something wild. Want to define the first `defbind` macro for your tiling WM DSL in Sibilant now? Or build a `target` system so the same macro can compile to Python or JS?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [aionian-circuit-math](aionian-circuit-math.md)
-- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
-- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
-- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
-- [sibilant-macro-targets](sibilant-macro-targets.md)
-- [field-interaction-equations](field-interaction-equations.md)
-- [polyglot-repl-interface-layer](polyglot-repl-interface-layer.md)
 - [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
-- [compiler-kit-foundations](compiler-kit-foundations.md)
-- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
-- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
-- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
-- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
-- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
-- [Promethean-native config design](promethean-native-config-design.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [ts-to-lisp-transpiler](ts-to-lisp-transpiler.md)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
-- [Unique Info Dump Index](unique-info-dump-index.md)
-- [typed-struct-compiler](typed-struct-compiler.md)
-- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
-- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
-- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
-- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
-- [Interop and Source Maps](interop-and-source-maps.md)
-- [Board Walk – 2025-08-11](board-walk-2025-08-11.md)
-- [DSL](chunks/dsl.md)
-- [komorebi-group-window-hack](komorebi-group-window-hack.md)
-- [api-gateway-versioning](api-gateway-versioning.md)
-- [ecs-offload-workers](ecs-offload-workers.md)
-- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
-- [archetype-ecs](archetype-ecs.md)
 - [Diagrams](chunks/diagrams.md)
-- [Voice Access Layer Design](voice-access-layer-design.md)
-- [graph-ds](graph-ds.md)
-- [EidolonField](eidolonfield.md)
-- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
-- [Math Fundamentals](chunks/math-fundamentals.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
-- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
-- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [DSL](chunks/dsl.md)
 - [JavaScript](chunks/javascript.md)
-- [mystery-lisp-search-session](mystery-lisp-search-session.md)
-- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
-- [Obsidian ChatGPT Plugin Integration Guide](obsidian-chatgpt-plugin-integration-guide.md)
-- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
-- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
-- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
+- [Math Fundamentals](chunks/math-fundamentals.md)
+- [Operations](chunks/operations.md)
+- [Services](chunks/services.md)
+- [Shared](chunks/shared.md)
+- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [The Jar of Echoes](the-jar-of-echoes.md)
+- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
+- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [graph-ds](graph-ds.md)
+- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
+- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
+- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [field-interaction-equations](field-interaction-equations.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [aionian-circuit-math](aionian-circuit-math.md)
+- [Promethean Web UI Setup](promethean-web-ui-setup.md)
+- [ecs-offload-workers](ecs-offload-workers.md)
+- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
+- [Duck's Attractor States](ducks-attractor-states.md)
 - [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
-
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [EidolonField](eidolonfield.md)
+- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
+- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
+- [Simulation Demo](chunks/simulation-demo.md)
+- [Window Management](chunks/window-management.md)
+- [Tooling](chunks/tooling.md)
+- [promethean-system-diagrams](promethean-system-diagrams.md)
+- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
+- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [Promethean-native config design](promethean-native-config-design.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
+- [Promethean Pipelines: Local TypeScript-First Workflow](promethean-pipelines-local-typescript-first-workflow.md)
+- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
+- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
+- [i3-config-validation-methods](i3-config-validation-methods.md)
+- [Universal Lisp Interface](universal-lisp-interface.md)
+- [mystery-lisp-search-session](mystery-lisp-search-session.md)
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
+- [Refactor Frontmatter Processing](refactor-frontmatter-processing.md)
+- [Vectorial Exception Descent](vectorial-exception-descent.md)
+- [SentenceProcessing](sentenceprocessing.md)
+- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
+- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [Promethean_Eidolon_Synchronicity_Model](promethean-eidolon-synchronicity-model.md)
+- [Creative Moments](creative-moments.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [Refactor 05-footers.ts](refactor-05-footers-ts.md)
+- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
+- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
+- [smart-chatgpt-thingy](smart-chatgpt-thingy.md)
+- [file-watcher-auth-fix](file-watcher-auth-fix.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
+- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
+- [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
+- [pm2-orchestration-patterns](pm2-orchestration-patterns.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
+- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
+- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
+- [Promethean State Format](promethean-state-format.md)
+- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
+- [Promethean Documentation Pipeline Overview](promethean-documentation-pipeline-overview.md)
+- [plan-update-confirmation](plan-update-confirmation.md)
+- [Prometheus Observability Stack](prometheus-observability-stack.md)
+- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Redirecting Standard Error](redirecting-standard-error.md)
+- [Promethean Pipelines](promethean-pipelines.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+- [Promethean Documentation Overview](promethean-documentation-overview.md)
+- [Promethean Documentation Update](promethean-documentation-update.md)
+- [Promethean Documentation Update](promethean-documentation-update.txt)
+- [Promethean Notes](promethean-notes.md)
+- [promethean-requirements](promethean-requirements.md)
+- [ripple-propagation-demo](ripple-propagation-demo.md)
+- [schema-evolution-workflow](schema-evolution-workflow.md)
+- [Self-Agency in AI Interaction](self-agency-in-ai-interaction.md)
+- [Provider-Agnostic Chat Panel Implementation](provider-agnostic-chat-panel-implementation.md)
+- [Protocol_0_The_Contradiction_Engine](protocol-0-the-contradiction-engine.md)
+- [Reawakening Duck](reawakening-duck.md)
+- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
+- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
+- [ChatGPT Custom Prompts](chatgpt-custom-prompts.md)
 ## Sources
-- [compiler-kit-foundations — L1](compiler-kit-foundations.md#L1) (line 1, col 1, score 0.88)
-- [aionian-circuit-math — L128](aionian-circuit-math.md#L128) (line 128, col 1, score 0.98)
-- [Chroma Toolkit Consolidation Plan — L72](chroma-toolkit-consolidation-plan.md#L72) (line 72, col 5, score 0.88)
-- [Chroma Toolkit Consolidation Plan — L88](chroma-toolkit-consolidation-plan.md#L88) (line 88, col 5, score 0.88)
-- [Chroma Toolkit Consolidation Plan — L107](chroma-toolkit-consolidation-plan.md#L107) (line 107, col 5, score 0.88)
-- [Chroma Toolkit Consolidation Plan — L148](chroma-toolkit-consolidation-plan.md#L148) (line 148, col 9, score 0.88)
-- [sibilant-metacompiler-overview — L49](sibilant-metacompiler-overview.md#L49) (line 49, col 1, score 0.98)
-- [field-interaction-equations — L132](field-interaction-equations.md#L132) (line 132, col 1, score 0.89)
-- [sibilant-metacompiler-overview — L74](sibilant-metacompiler-overview.md#L74) (line 74, col 1, score 0.93)
-- [Cross-Target Macro System in Sibilant — L160](cross-target-macro-system-in-sibilant.md#L160) (line 160, col 1, score 0.91)
-- [polymorphic-meta-programming-engine — L188](polymorphic-meta-programming-engine.md#L188) (line 188, col 1, score 0.9)
-- [sibilant-macro-targets — L153](sibilant-macro-targets.md#L153) (line 153, col 1, score 0.9)
-- [polyglot-repl-interface-layer — L146](polyglot-repl-interface-layer.md#L146) (line 146, col 1, score 0.89)
-- [Cross-Language Runtime Polymorphism — L193](cross-language-runtime-polymorphism.md#L193) (line 193, col 1, score 0.87)
-- [sibilant-meta-string-templating-runtime — L7](sibilant-meta-string-templating-runtime.md#L7) (line 7, col 1, score 0.86)
-- [Math Fundamentals — L16](chunks/math-fundamentals.md#L16) (line 16, col 1, score 1)
-- [Math Fundamentals — L16](chunks/math-fundamentals.md#L16) (line 16, col 3, score 1)
-- [eidolon-field-math-foundations — L125](eidolon-field-math-foundations.md#L125) (line 125, col 1, score 1)
-- [eidolon-field-math-foundations — L125](eidolon-field-math-foundations.md#L125) (line 125, col 3, score 1)
-- [field-dynamics-math-blocks — L142](field-dynamics-math-blocks.md#L142) (line 142, col 1, score 1)
-- [field-dynamics-math-blocks — L142](field-dynamics-math-blocks.md#L142) (line 142, col 3, score 1)
-- [field-interaction-equations — L154](field-interaction-equations.md#L154) (line 154, col 1, score 1)
-- [field-interaction-equations — L154](field-interaction-equations.md#L154) (line 154, col 3, score 1)
-- [compiler-kit-foundations — L612](compiler-kit-foundations.md#L612) (line 612, col 1, score 1)
-- [compiler-kit-foundations — L612](compiler-kit-foundations.md#L612) (line 612, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L205](cross-language-runtime-polymorphism.md#L205) (line 205, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L205](cross-language-runtime-polymorphism.md#L205) (line 205, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L171](cross-target-macro-system-in-sibilant.md#L171) (line 171, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L171](cross-target-macro-system-in-sibilant.md#L171) (line 171, col 3, score 1)
-- [polyglot-repl-interface-layer — L159](polyglot-repl-interface-layer.md#L159) (line 159, col 1, score 1)
-- [polyglot-repl-interface-layer — L159](polyglot-repl-interface-layer.md#L159) (line 159, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L206](cross-language-runtime-polymorphism.md#L206) (line 206, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L206](cross-language-runtime-polymorphism.md#L206) (line 206, col 3, score 1)
-- [Dynamic Context Model for Web Components — L393](dynamic-context-model-for-web-components.md#L393) (line 393, col 1, score 1)
-- [Dynamic Context Model for Web Components — L393](dynamic-context-model-for-web-components.md#L393) (line 393, col 3, score 1)
-- [field-interaction-equations — L158](field-interaction-equations.md#L158) (line 158, col 1, score 1)
-- [field-interaction-equations — L158](field-interaction-equations.md#L158) (line 158, col 3, score 1)
-- [js-to-lisp-reverse-compiler — L417](js-to-lisp-reverse-compiler.md#L417) (line 417, col 1, score 1)
-- [js-to-lisp-reverse-compiler — L417](js-to-lisp-reverse-compiler.md#L417) (line 417, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L202](cross-language-runtime-polymorphism.md#L202) (line 202, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L202](cross-language-runtime-polymorphism.md#L202) (line 202, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L172](cross-target-macro-system-in-sibilant.md#L172) (line 172, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L172](cross-target-macro-system-in-sibilant.md#L172) (line 172, col 3, score 1)
-- [Dynamic Context Model for Web Components — L390](dynamic-context-model-for-web-components.md#L390) (line 390, col 1, score 1)
-- [Dynamic Context Model for Web Components — L390](dynamic-context-model-for-web-components.md#L390) (line 390, col 3, score 1)
-- [EidolonField — L250](eidolonfield.md#L250) (line 250, col 1, score 1)
-- [EidolonField — L250](eidolonfield.md#L250) (line 250, col 3, score 1)
-- [compiler-kit-foundations — L617](compiler-kit-foundations.md#L617) (line 617, col 1, score 1)
-- [compiler-kit-foundations — L617](compiler-kit-foundations.md#L617) (line 617, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L210](cross-language-runtime-polymorphism.md#L210) (line 210, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L210](cross-language-runtime-polymorphism.md#L210) (line 210, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L170](cross-target-macro-system-in-sibilant.md#L170) (line 170, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L170](cross-target-macro-system-in-sibilant.md#L170) (line 170, col 3, score 1)
-- [ParticleSimulationWithCanvasAndFFmpeg — L247](particlesimulationwithcanvasandffmpeg.md#L247) (line 247, col 1, score 1)
-- [ParticleSimulationWithCanvasAndFFmpeg — L247](particlesimulationwithcanvasandffmpeg.md#L247) (line 247, col 3, score 1)
-- [aionian-circuit-math — L153](aionian-circuit-math.md#L153) (line 153, col 1, score 1)
-- [aionian-circuit-math — L153](aionian-circuit-math.md#L153) (line 153, col 3, score 1)
-- [Math Fundamentals — L15](chunks/math-fundamentals.md#L15) (line 15, col 1, score 1)
-- [Math Fundamentals — L15](chunks/math-fundamentals.md#L15) (line 15, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L177](cross-target-macro-system-in-sibilant.md#L177) (line 177, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L177](cross-target-macro-system-in-sibilant.md#L177) (line 177, col 3, score 1)
-- [eidolon-field-math-foundations — L124](eidolon-field-math-foundations.md#L124) (line 124, col 1, score 1)
-- [eidolon-field-math-foundations — L124](eidolon-field-math-foundations.md#L124) (line 124, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L204](cross-language-runtime-polymorphism.md#L204) (line 204, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L204](cross-language-runtime-polymorphism.md#L204) (line 204, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L174](cross-target-macro-system-in-sibilant.md#L174) (line 174, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L174](cross-target-macro-system-in-sibilant.md#L174) (line 174, col 3, score 1)
-- [polymorphic-meta-programming-engine — L198](polymorphic-meta-programming-engine.md#L198) (line 198, col 1, score 1)
-- [polymorphic-meta-programming-engine — L198](polymorphic-meta-programming-engine.md#L198) (line 198, col 3, score 1)
-- [Recursive Prompt Construction Engine — L177](recursive-prompt-construction-engine.md#L177) (line 177, col 1, score 1)
-- [Recursive Prompt Construction Engine — L177](recursive-prompt-construction-engine.md#L177) (line 177, col 3, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L134](agent-tasks-persistence-migration-to-dualstore.md#L134) (line 134, col 1, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L134](agent-tasks-persistence-migration-to-dualstore.md#L134) (line 134, col 3, score 1)
-- [aionian-circuit-math — L156](aionian-circuit-math.md#L156) (line 156, col 1, score 1)
-- [aionian-circuit-math — L156](aionian-circuit-math.md#L156) (line 156, col 3, score 1)
-- [Board Walk – 2025-08-11 — L136](board-walk-2025-08-11.md#L136) (line 136, col 1, score 1)
-- [Board Walk – 2025-08-11 — L136](board-walk-2025-08-11.md#L136) (line 136, col 3, score 1)
-- [Dynamic Context Model for Web Components — L386](dynamic-context-model-for-web-components.md#L386) (line 386, col 1, score 1)
-- [Dynamic Context Model for Web Components — L386](dynamic-context-model-for-web-components.md#L386) (line 386, col 3, score 1)
-- [DSL — L13](chunks/dsl.md#L13) (line 13, col 1, score 1)
-- [DSL — L13](chunks/dsl.md#L13) (line 13, col 3, score 1)
-- [Interop and Source Maps — L513](interop-and-source-maps.md#L513) (line 513, col 1, score 1)
-- [Interop and Source Maps — L513](interop-and-source-maps.md#L513) (line 513, col 3, score 1)
-- [Lisp-Compiler-Integration — L539](lisp-compiler-integration.md#L539) (line 539, col 1, score 1)
-- [Lisp-Compiler-Integration — L539](lisp-compiler-integration.md#L539) (line 539, col 3, score 1)
-- [Lispy Macros with syntax-rules — L400](lispy-macros-with-syntax-rules.md#L400) (line 400, col 1, score 1)
-- [Lispy Macros with syntax-rules — L400](lispy-macros-with-syntax-rules.md#L400) (line 400, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L173](cross-target-macro-system-in-sibilant.md#L173) (line 173, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L173](cross-target-macro-system-in-sibilant.md#L173) (line 173, col 3, score 1)
-- [polyglot-repl-interface-layer — L156](polyglot-repl-interface-layer.md#L156) (line 156, col 1, score 1)
-- [polyglot-repl-interface-layer — L156](polyglot-repl-interface-layer.md#L156) (line 156, col 3, score 1)
-- [polymorphic-meta-programming-engine — L200](polymorphic-meta-programming-engine.md#L200) (line 200, col 1, score 1)
-- [polymorphic-meta-programming-engine — L200](polymorphic-meta-programming-engine.md#L200) (line 200, col 3, score 1)
-- [Promethean-native config design — L389](promethean-native-config-design.md#L389) (line 389, col 1, score 1)
-- [Promethean-native config design — L389](promethean-native-config-design.md#L389) (line 389, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L208](cross-language-runtime-polymorphism.md#L208) (line 208, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L208](cross-language-runtime-polymorphism.md#L208) (line 208, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L176](cross-target-macro-system-in-sibilant.md#L176) (line 176, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L176](cross-target-macro-system-in-sibilant.md#L176) (line 176, col 3, score 1)
-- [lisp-dsl-for-window-management — L219](lisp-dsl-for-window-management.md#L219) (line 219, col 1, score 1)
-- [lisp-dsl-for-window-management — L219](lisp-dsl-for-window-management.md#L219) (line 219, col 3, score 1)
-- [polymorphic-meta-programming-engine — L207](polymorphic-meta-programming-engine.md#L207) (line 207, col 1, score 1)
-- [polymorphic-meta-programming-engine — L207](polymorphic-meta-programming-engine.md#L207) (line 207, col 3, score 1)
-- [compiler-kit-foundations — L608](compiler-kit-foundations.md#L608) (line 608, col 1, score 1)
-- [compiler-kit-foundations — L608](compiler-kit-foundations.md#L608) (line 608, col 3, score 1)
-- [Interop and Source Maps — L516](interop-and-source-maps.md#L516) (line 516, col 1, score 1)
-- [Interop and Source Maps — L516](interop-and-source-maps.md#L516) (line 516, col 3, score 1)
-- [Language-Agnostic Mirror System — L536](language-agnostic-mirror-system.md#L536) (line 536, col 1, score 1)
-- [Language-Agnostic Mirror System — L536](language-agnostic-mirror-system.md#L536) (line 536, col 3, score 1)
-- [Lisp-Compiler-Integration — L538](lisp-compiler-integration.md#L538) (line 538, col 1, score 1)
-- [Lisp-Compiler-Integration — L538](lisp-compiler-integration.md#L538) (line 538, col 3, score 1)
-- [komorebi-group-window-hack — L201](komorebi-group-window-hack.md#L201) (line 201, col 1, score 1)
-- [komorebi-group-window-hack — L201](komorebi-group-window-hack.md#L201) (line 201, col 3, score 1)
-- [Lisp-Compiler-Integration — L546](lisp-compiler-integration.md#L546) (line 546, col 1, score 1)
-- [Lisp-Compiler-Integration — L546](lisp-compiler-integration.md#L546) (line 546, col 3, score 1)
-- [sibilant-meta-string-templating-runtime — L126](sibilant-meta-string-templating-runtime.md#L126) (line 126, col 1, score 1)
-- [sibilant-meta-string-templating-runtime — L126](sibilant-meta-string-templating-runtime.md#L126) (line 126, col 3, score 1)
-- [ts-to-lisp-transpiler — L11](ts-to-lisp-transpiler.md#L11) (line 11, col 1, score 1)
-- [ts-to-lisp-transpiler — L11](ts-to-lisp-transpiler.md#L11) (line 11, col 3, score 1)
-- [Chroma Toolkit Consolidation Plan — L172](chroma-toolkit-consolidation-plan.md#L172) (line 172, col 1, score 1)
-- [Chroma Toolkit Consolidation Plan — L172](chroma-toolkit-consolidation-plan.md#L172) (line 172, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L201](cross-language-runtime-polymorphism.md#L201) (line 201, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L201](cross-language-runtime-polymorphism.md#L201) (line 201, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L178](cross-target-macro-system-in-sibilant.md#L178) (line 178, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L178](cross-target-macro-system-in-sibilant.md#L178) (line 178, col 3, score 1)
-- [EidolonField — L251](eidolonfield.md#L251) (line 251, col 1, score 1)
-- [EidolonField — L251](eidolonfield.md#L251) (line 251, col 3, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L130](agent-tasks-persistence-migration-to-dualstore.md#L130) (line 130, col 1, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L130](agent-tasks-persistence-migration-to-dualstore.md#L130) (line 130, col 3, score 1)
-- [aionian-circuit-math — L159](aionian-circuit-math.md#L159) (line 159, col 1, score 1)
-- [aionian-circuit-math — L159](aionian-circuit-math.md#L159) (line 159, col 3, score 1)
-- [Board Walk – 2025-08-11 — L134](board-walk-2025-08-11.md#L134) (line 134, col 1, score 1)
-- [Board Walk – 2025-08-11 — L134](board-walk-2025-08-11.md#L134) (line 134, col 3, score 1)
-- [Chroma Toolkit Consolidation Plan — L168](chroma-toolkit-consolidation-plan.md#L168) (line 168, col 1, score 1)
-- [Chroma Toolkit Consolidation Plan — L168](chroma-toolkit-consolidation-plan.md#L168) (line 168, col 3, score 1)
-- [api-gateway-versioning — L285](api-gateway-versioning.md#L285) (line 285, col 1, score 1)
-- [api-gateway-versioning — L285](api-gateway-versioning.md#L285) (line 285, col 3, score 1)
-- [Board Walk – 2025-08-11 — L135](board-walk-2025-08-11.md#L135) (line 135, col 1, score 1)
-- [Board Walk – 2025-08-11 — L135](board-walk-2025-08-11.md#L135) (line 135, col 3, score 1)
-- [Chroma Toolkit Consolidation Plan — L167](chroma-toolkit-consolidation-plan.md#L167) (line 167, col 1, score 1)
-- [Chroma Toolkit Consolidation Plan — L167](chroma-toolkit-consolidation-plan.md#L167) (line 167, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L180](cross-target-macro-system-in-sibilant.md#L180) (line 180, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L180](cross-target-macro-system-in-sibilant.md#L180) (line 180, col 3, score 1)
-- [DSL — L14](chunks/dsl.md#L14) (line 14, col 1, score 1)
-- [DSL — L14](chunks/dsl.md#L14) (line 14, col 3, score 1)
-- [compiler-kit-foundations — L613](compiler-kit-foundations.md#L613) (line 613, col 1, score 1)
-- [compiler-kit-foundations — L613](compiler-kit-foundations.md#L613) (line 613, col 3, score 1)
-- [lisp-dsl-for-window-management — L218](lisp-dsl-for-window-management.md#L218) (line 218, col 1, score 1)
-- [lisp-dsl-for-window-management — L218](lisp-dsl-for-window-management.md#L218) (line 218, col 3, score 1)
-- [mystery-lisp-search-session — L122](mystery-lisp-search-session.md#L122) (line 122, col 1, score 1)
-- [mystery-lisp-search-session — L122](mystery-lisp-search-session.md#L122) (line 122, col 3, score 1)
-- [compiler-kit-foundations — L611](compiler-kit-foundations.md#L611) (line 611, col 1, score 1)
-- [compiler-kit-foundations — L611](compiler-kit-foundations.md#L611) (line 611, col 3, score 1)
-- [ecs-offload-workers — L462](ecs-offload-workers.md#L462) (line 462, col 1, score 1)
-- [ecs-offload-workers — L462](ecs-offload-workers.md#L462) (line 462, col 3, score 1)
-- [ecs-scheduler-and-prefabs — L398](ecs-scheduler-and-prefabs.md#L398) (line 398, col 1, score 1)
-- [ecs-scheduler-and-prefabs — L398](ecs-scheduler-and-prefabs.md#L398) (line 398, col 3, score 1)
-- [Interop and Source Maps — L517](interop-and-source-maps.md#L517) (line 517, col 1, score 1)
-- [Interop and Source Maps — L517](interop-and-source-maps.md#L517) (line 517, col 3, score 1)
-- [aionian-circuit-math — L158](aionian-circuit-math.md#L158) (line 158, col 1, score 1)
-- [aionian-circuit-math — L158](aionian-circuit-math.md#L158) (line 158, col 3, score 1)
-- [archetype-ecs — L457](archetype-ecs.md#L457) (line 457, col 1, score 1)
-- [archetype-ecs — L457](archetype-ecs.md#L457) (line 457, col 3, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 1, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 3, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 1, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 3, score 1)
-- [JavaScript — L17](chunks/javascript.md#L17) (line 17, col 1, score 1)
-- [JavaScript — L17](chunks/javascript.md#L17) (line 17, col 3, score 1)
-- [compiler-kit-foundations — L614](compiler-kit-foundations.md#L614) (line 614, col 1, score 1)
-- [compiler-kit-foundations — L614](compiler-kit-foundations.md#L614) (line 614, col 3, score 1)
-- [graph-ds — L369](graph-ds.md#L369) (line 369, col 1, score 1)
-- [graph-ds — L369](graph-ds.md#L369) (line 369, col 3, score 1)
-- [Unique Info Dump Index — L100](unique-info-dump-index.md#L100) (line 100, col 1, score 1)
-- [Unique Info Dump Index — L100](unique-info-dump-index.md#L100) (line 100, col 3, score 1)
-- [compiler-kit-foundations — L610](compiler-kit-foundations.md#L610) (line 610, col 1, score 1)
-- [compiler-kit-foundations — L610](compiler-kit-foundations.md#L610) (line 610, col 3, score 1)
-- [Interop and Source Maps — L515](interop-and-source-maps.md#L515) (line 515, col 1, score 1)
-- [Interop and Source Maps — L515](interop-and-source-maps.md#L515) (line 515, col 3, score 1)
-- [js-to-lisp-reverse-compiler — L423](js-to-lisp-reverse-compiler.md#L423) (line 423, col 1, score 1)
-- [js-to-lisp-reverse-compiler — L423](js-to-lisp-reverse-compiler.md#L423) (line 423, col 3, score 1)
-- [Language-Agnostic Mirror System — L532](language-agnostic-mirror-system.md#L532) (line 532, col 1, score 1)
-- [Language-Agnostic Mirror System — L532](language-agnostic-mirror-system.md#L532) (line 532, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L212](cross-language-runtime-polymorphism.md#L212) (line 212, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L212](cross-language-runtime-polymorphism.md#L212) (line 212, col 3, score 1)
-- [heartbeat-simulation-snippets — L96](heartbeat-simulation-snippets.md#L96) (line 96, col 1, score 1)
-- [heartbeat-simulation-snippets — L96](heartbeat-simulation-snippets.md#L96) (line 96, col 3, score 1)
-- [Obsidian ChatGPT Plugin Integration Guide — L38](obsidian-chatgpt-plugin-integration-guide.md#L38) (line 38, col 1, score 1)
-- [Obsidian ChatGPT Plugin Integration Guide — L38](obsidian-chatgpt-plugin-integration-guide.md#L38) (line 38, col 3, score 1)
-- [Obsidian ChatGPT Plugin Integration — L38](obsidian-chatgpt-plugin-integration.md#L38) (line 38, col 1, score 1)
-- [Obsidian ChatGPT Plugin Integration — L38](obsidian-chatgpt-plugin-integration.md#L38) (line 38, col 3, score 1)
-- [Interop and Source Maps — L528](interop-and-source-maps.md#L528) (line 528, col 1, score 0.98)
-- [Interop and Source Maps — L528](interop-and-source-maps.md#L528) (line 528, col 3, score 0.98)
-- [Lispy Macros with syntax-rules — L410](lispy-macros-with-syntax-rules.md#L410) (line 410, col 1, score 0.98)
-- [Lispy Macros with syntax-rules — L410](lispy-macros-with-syntax-rules.md#L410) (line 410, col 3, score 0.98)
-- [set-assignment-in-lisp-ast — L159](set-assignment-in-lisp-ast.md#L159) (line 159, col 1, score 0.98)
-- [set-assignment-in-lisp-ast — L159](set-assignment-in-lisp-ast.md#L159) (line 159, col 3, score 0.98)
-- [set-assignment-in-lisp-ast — L157](set-assignment-in-lisp-ast.md#L157) (line 157, col 1, score 0.98)
-- [set-assignment-in-lisp-ast — L157](set-assignment-in-lisp-ast.md#L157) (line 157, col 3, score 0.98)
-- [field-interaction-equations — L176](field-interaction-equations.md#L176) (line 176, col 1, score 0.98)
-- [field-interaction-equations — L176](field-interaction-equations.md#L176) (line 176, col 3, score 0.98)
-- [homeostasis-decay-formulas — L167](homeostasis-decay-formulas.md#L167) (line 167, col 1, score 0.97)
-- [homeostasis-decay-formulas — L167](homeostasis-decay-formulas.md#L167) (line 167, col 3, score 0.97)
-- [eidolon-field-math-foundations — L147](eidolon-field-math-foundations.md#L147) (line 147, col 1, score 0.96)
-- [eidolon-field-math-foundations — L147](eidolon-field-math-foundations.md#L147) (line 147, col 3, score 0.96)
-- [field-dynamics-math-blocks — L161](field-dynamics-math-blocks.md#L161) (line 161, col 1, score 0.96)
-- [field-dynamics-math-blocks — L161](field-dynamics-math-blocks.md#L161) (line 161, col 3, score 0.96)
-- [Voice Access Layer Design — L320](voice-access-layer-design.md#L320) (line 320, col 1, score 1)
-- [Voice Access Layer Design — L320](voice-access-layer-design.md#L320) (line 320, col 3, score 1)
-- [Sibilant Meta-Prompt DSL — L201](sibilant-meta-prompt-dsl.md#L201) (line 201, col 1, score 1)
-- [Sibilant Meta-Prompt DSL — L201](sibilant-meta-prompt-dsl.md#L201) (line 201, col 3, score 1)
-- [Dynamic Context Model for Web Components — L404](dynamic-context-model-for-web-components.md#L404) (line 404, col 1, score 1)
-- [Dynamic Context Model for Web Components — L404](dynamic-context-model-for-web-components.md#L404) (line 404, col 3, score 1)
-- [Promethean-native config design — L397](promethean-native-config-design.md#L397) (line 397, col 1, score 1)
-- [Promethean-native config design — L397](promethean-native-config-design.md#L397) (line 397, col 3, score 1)
-- [Voice Access Layer Design — L321](voice-access-layer-design.md#L321) (line 321, col 1, score 1)
-- [Voice Access Layer Design — L321](voice-access-layer-design.md#L321) (line 321, col 3, score 1)
-- [Sibilant Meta-Prompt DSL — L202](sibilant-meta-prompt-dsl.md#L202) (line 202, col 1, score 1)
-- [Sibilant Meta-Prompt DSL — L202](sibilant-meta-prompt-dsl.md#L202) (line 202, col 3, score 1)
-- [Dynamic Context Model for Web Components — L405](dynamic-context-model-for-web-components.md#L405) (line 405, col 1, score 1)
-- [Dynamic Context Model for Web Components — L405](dynamic-context-model-for-web-components.md#L405) (line 405, col 3, score 1)
-- [Promethean-native config design — L398](promethean-native-config-design.md#L398) (line 398, col 1, score 1)
-- [Promethean-native config design — L398](promethean-native-config-design.md#L398) (line 398, col 3, score 1)
-- [Voice Access Layer Design — L322](voice-access-layer-design.md#L322) (line 322, col 1, score 1)
-- [Voice Access Layer Design — L322](voice-access-layer-design.md#L322) (line 322, col 3, score 1)
-- [Sibilant Meta-Prompt DSL — L203](sibilant-meta-prompt-dsl.md#L203) (line 203, col 1, score 1)
-- [Sibilant Meta-Prompt DSL — L203](sibilant-meta-prompt-dsl.md#L203) (line 203, col 3, score 1)
-- [Dynamic Context Model for Web Components — L406](dynamic-context-model-for-web-components.md#L406) (line 406, col 1, score 1)
-- [Dynamic Context Model for Web Components — L406](dynamic-context-model-for-web-components.md#L406) (line 406, col 3, score 1)
-- [Promethean-native config design — L399](promethean-native-config-design.md#L399) (line 399, col 1, score 1)
-- [Promethean-native config design — L399](promethean-native-config-design.md#L399) (line 399, col 3, score 1)
-- [Voice Access Layer Design — L323](voice-access-layer-design.md#L323) (line 323, col 1, score 1)
-- [Voice Access Layer Design — L323](voice-access-layer-design.md#L323) (line 323, col 3, score 1)
-- [Sibilant Meta-Prompt DSL — L204](sibilant-meta-prompt-dsl.md#L204) (line 204, col 1, score 1)
-- [Sibilant Meta-Prompt DSL — L204](sibilant-meta-prompt-dsl.md#L204) (line 204, col 3, score 1)
-- [Prompt_Folder_Bootstrap — L196](prompt-folder-bootstrap.md#L196) (line 196, col 1, score 1)
-- [Prompt_Folder_Bootstrap — L196](prompt-folder-bootstrap.md#L196) (line 196, col 3, score 1)
-- [Voice Access Layer Design — L325](voice-access-layer-design.md#L325) (line 325, col 1, score 1)
-- [Voice Access Layer Design — L325](voice-access-layer-design.md#L325) (line 325, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L219](cross-language-runtime-polymorphism.md#L219) (line 219, col 1, score 0.99)
-- [Cross-Language Runtime Polymorphism — L219](cross-language-runtime-polymorphism.md#L219) (line 219, col 3, score 0.99)
-- [polymorphic-meta-programming-engine — L218](polymorphic-meta-programming-engine.md#L218) (line 218, col 1, score 0.99)
-- [polymorphic-meta-programming-engine — L218](polymorphic-meta-programming-engine.md#L218) (line 218, col 3, score 0.99)
-- [Cross-Target Macro System in Sibilant — L192](cross-target-macro-system-in-sibilant.md#L192) (line 192, col 1, score 0.99)
-- [Cross-Target Macro System in Sibilant — L192](cross-target-macro-system-in-sibilant.md#L192) (line 192, col 3, score 0.99)
-- [sibilant-macro-targets — L186](sibilant-macro-targets.md#L186) (line 186, col 1, score 0.99)
-- [sibilant-macro-targets — L186](sibilant-macro-targets.md#L186) (line 186, col 3, score 0.99)
-- [Math Fundamentals — L21](chunks/math-fundamentals.md#L21) (line 21, col 1, score 0.99)
-- [Math Fundamentals — L21](chunks/math-fundamentals.md#L21) (line 21, col 3, score 0.99)
-- [Unique Info Dump Index — L124](unique-info-dump-index.md#L124) (line 124, col 1, score 0.99)
-- [Unique Info Dump Index — L124](unique-info-dump-index.md#L124) (line 124, col 3, score 0.99)
-- [aionian-circuit-math — L176](aionian-circuit-math.md#L176) (line 176, col 1, score 0.99)
-- [aionian-circuit-math — L176](aionian-circuit-math.md#L176) (line 176, col 3, score 0.99)
-- [eidolon-field-math-foundations — L152](eidolon-field-math-foundations.md#L152) (line 152, col 1, score 0.98)
-- [eidolon-field-math-foundations — L152](eidolon-field-math-foundations.md#L152) (line 152, col 3, score 0.98)
-- [Cross-Language Runtime Polymorphism — L220](cross-language-runtime-polymorphism.md#L220) (line 220, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L220](cross-language-runtime-polymorphism.md#L220) (line 220, col 3, score 1)
-- [polyglot-repl-interface-layer — L169](polyglot-repl-interface-layer.md#L169) (line 169, col 1, score 1)
-- [polyglot-repl-interface-layer — L169](polyglot-repl-interface-layer.md#L169) (line 169, col 3, score 1)
-- [sibilant-metacompiler-overview — L105](sibilant-metacompiler-overview.md#L105) (line 105, col 1, score 1)
-- [sibilant-metacompiler-overview — L105](sibilant-metacompiler-overview.md#L105) (line 105, col 3, score 1)
-- [polymorphic-meta-programming-engine — L216](polymorphic-meta-programming-engine.md#L216) (line 216, col 1, score 1)
-- [polymorphic-meta-programming-engine — L216](polymorphic-meta-programming-engine.md#L216) (line 216, col 3, score 1)
-- [polyglot-repl-interface-layer — L166](polyglot-repl-interface-layer.md#L166) (line 166, col 1, score 1)
-- [polyglot-repl-interface-layer — L166](polyglot-repl-interface-layer.md#L166) (line 166, col 3, score 1)
-- [sibilant-macro-targets — L187](sibilant-macro-targets.md#L187) (line 187, col 1, score 1)
-- [sibilant-macro-targets — L187](sibilant-macro-targets.md#L187) (line 187, col 3, score 1)
-- [sibilant-metacompiler-overview — L106](sibilant-metacompiler-overview.md#L106) (line 106, col 1, score 1)
-- [sibilant-metacompiler-overview — L106](sibilant-metacompiler-overview.md#L106) (line 106, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L216](cross-language-runtime-polymorphism.md#L216) (line 216, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L216](cross-language-runtime-polymorphism.md#L216) (line 216, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L191](cross-target-macro-system-in-sibilant.md#L191) (line 191, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L191](cross-target-macro-system-in-sibilant.md#L191) (line 191, col 3, score 1)
-- [sibilant-metacompiler-overview — L104](sibilant-metacompiler-overview.md#L104) (line 104, col 1, score 1)
-- [sibilant-metacompiler-overview — L104](sibilant-metacompiler-overview.md#L104) (line 104, col 3, score 1)
-- [polymorphic-meta-programming-engine — L219](polymorphic-meta-programming-engine.md#L219) (line 219, col 1, score 1)
-- [polymorphic-meta-programming-engine — L219](polymorphic-meta-programming-engine.md#L219) (line 219, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L186](cross-target-macro-system-in-sibilant.md#L186) (line 186, col 1, score 0.99)
-- [Cross-Target Macro System in Sibilant — L186](cross-target-macro-system-in-sibilant.md#L186) (line 186, col 3, score 0.99)
-- [Cross-Target Macro System in Sibilant — L195](cross-target-macro-system-in-sibilant.md#L195) (line 195, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L195](cross-target-macro-system-in-sibilant.md#L195) (line 195, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L218](cross-language-runtime-polymorphism.md#L218) (line 218, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L218](cross-language-runtime-polymorphism.md#L218) (line 218, col 3, score 1)
-- [Sibilant Meta-Prompt DSL — L219](sibilant-meta-prompt-dsl.md#L219) (line 219, col 1, score 1)
-- [Sibilant Meta-Prompt DSL — L219](sibilant-meta-prompt-dsl.md#L219) (line 219, col 3, score 1)
-- [polymorphic-meta-programming-engine — L215](polymorphic-meta-programming-engine.md#L215) (line 215, col 1, score 1)
-- [polymorphic-meta-programming-engine — L215](polymorphic-meta-programming-engine.md#L215) (line 215, col 3, score 1)
-- [polyglot-repl-interface-layer — L168](polyglot-repl-interface-layer.md#L168) (line 168, col 1, score 1)
-- [polyglot-repl-interface-layer — L168](polyglot-repl-interface-layer.md#L168) (line 168, col 3, score 1)
-- [sibilant-metacompiler-overview — L107](sibilant-metacompiler-overview.md#L107) (line 107, col 1, score 1)
-- [sibilant-metacompiler-overview — L107](sibilant-metacompiler-overview.md#L107) (line 107, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L194](cross-target-macro-system-in-sibilant.md#L194) (line 194, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L194](cross-target-macro-system-in-sibilant.md#L194) (line 194, col 3, score 1)
-- [polymorphic-meta-programming-engine — L217](polymorphic-meta-programming-engine.md#L217) (line 217, col 1, score 1)
-- [polymorphic-meta-programming-engine — L217](polymorphic-meta-programming-engine.md#L217) (line 217, col 3, score 1)
-- [sibilant-metacompiler-overview — L101](sibilant-metacompiler-overview.md#L101) (line 101, col 1, score 1)
-- [sibilant-metacompiler-overview — L101](sibilant-metacompiler-overview.md#L101) (line 101, col 3, score 1)
-- [Sibilant Meta-Prompt DSL — L213](sibilant-meta-prompt-dsl.md#L213) (line 213, col 1, score 0.97)
-- [Sibilant Meta-Prompt DSL — L213](sibilant-meta-prompt-dsl.md#L213) (line 213, col 3, score 0.97)
+- [Chroma Toolkit Consolidation Plan — L1002](chroma-toolkit-consolidation-plan.md#^ref-5020e892-1002-0) (line 1002, col 0, score 1)
+- [Diagrams — L522](chunks/diagrams.md#^ref-45cd25b5-522-0) (line 522, col 0, score 1)
+- [DSL — L469](chunks/dsl.md#^ref-e87bc036-469-0) (line 469, col 0, score 1)
+- [JavaScript — L508](chunks/javascript.md#^ref-c1618c66-508-0) (line 508, col 0, score 1)
+- [Math Fundamentals — L454](chunks/math-fundamentals.md#^ref-c6e87433-454-0) (line 454, col 0, score 1)
+- [Operations — L181](chunks/operations.md#^ref-f1add613-181-0) (line 181, col 0, score 1)
+- [Services — L440](chunks/services.md#^ref-75ea4a6a-440-0) (line 440, col 0, score 1)
+- [Shared — L370](chunks/shared.md#^ref-623a55f7-370-0) (line 370, col 0, score 1)
+- [Promethean Chat Activity Report — L1157](promethean-chat-activity-report.md#^ref-18344cf9-1157-0) (line 1157, col 0, score 0.96)
+- [eidolon-field-math-foundations — L3097](eidolon-field-math-foundations.md#^ref-008f2ac0-3097-0) (line 3097, col 0, score 0.94)
+- [The Jar of Echoes — L2827](the-jar-of-echoes.md#^ref-18138627-2827-0) (line 2827, col 0, score 0.94)
+- [Canonical Org-Babel Matplotlib Animation Template — L2418](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-2418-0) (line 2418, col 0, score 0.93)
+- [windows-tiling-with-autohotkey — L2761](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-2761-0) (line 2761, col 0, score 0.93)
+- [Promethean Dev Workflow Update — L1359](promethean-dev-workflow-update.md#^ref-03a5578f-1359-0) (line 1359, col 0, score 0.93)
+- [The Jar of Echoes — L1643](the-jar-of-echoes.md#^ref-18138627-1643-0) (line 1643, col 0, score 0.93)
+- [windows-tiling-with-autohotkey — L1574](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-1574-0) (line 1574, col 0, score 0.93)
+- [aionian-circuit-math — L128](aionian-circuit-math.md#^ref-f2d83a77-128-0) (line 128, col 0, score 0.92)
+- [Promethean-native config design — L35](promethean-native-config-design.md#^ref-ab748541-35-0) (line 35, col 0, score 0.85)
+- [Eidolon Field Abstract Model — L159](eidolon-field-abstract-model.md#^ref-5e8b2388-159-0) (line 159, col 0, score 0.85)
+- [Eidolon Field Abstract Model — L144](eidolon-field-abstract-model.md#^ref-5e8b2388-144-0) (line 144, col 0, score 0.85)
+- [Promethean-native config design — L33](promethean-native-config-design.md#^ref-ab748541-33-0) (line 33, col 0, score 0.85)
+- [EidolonField — L207](eidolonfield.md#^ref-49d1e1e5-207-0) (line 207, col 0, score 0.88)
+- [set-assignment-in-lisp-ast — L148](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0) (line 148, col 0, score 0.86)
+- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.86)
+- [State Snapshots API and Transactional Projector — L303](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0) (line 303, col 0, score 0.87)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.87)
+- [System Scheduler with Resource-Aware DAG — L358](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-358-0) (line 358, col 0, score 0.87)
+- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.86)
+- [markdown-to-org-transpiler — L272](markdown-to-org-transpiler.md#^ref-ab54cdd8-272-0) (line 272, col 0, score 0.86)
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.86)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 0.86)
+- [Promethean Web UI Setup — L440](promethean-web-ui-setup.md#^ref-bc5172ca-440-0) (line 440, col 0, score 0.89)
+- [Recursive Prompt Construction Engine — L147](recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0) (line 147, col 0, score 0.89)
+- [RAG UI Panel with Qdrant and PostgREST — L349](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0) (line 349, col 0, score 0.87)
+- [compiler-kit-foundations — L588](compiler-kit-foundations.md#^ref-01b21543-588-0) (line 588, col 0, score 0.86)
+- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.85)
+- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.86)
+- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.89)
+- [WebSocket Gateway Implementation — L630](websocket-gateway-implementation.md#^ref-e811123d-630-0) (line 630, col 0, score 0.87)
+- [Event Bus MVP — L524](event-bus-mvp.md#^ref-534fe91d-524-0) (line 524, col 0, score 0.87)
+- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.86)
+- [Lispy Macros with syntax-rules — L375](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-375-0) (line 375, col 0, score 0.86)
+- [Dynamic Context Model for Web Components — L471](dynamic-context-model-for-web-components.md#^ref-f7702bf8-471-0) (line 471, col 0, score 0.93)
+- [eidolon-field-math-foundations — L235](eidolon-field-math-foundations.md#^ref-008f2ac0-235-0) (line 235, col 0, score 0.93)
+- [eidolon-node-lifecycle — L117](eidolon-node-lifecycle.md#^ref-938eca9c-117-0) (line 117, col 0, score 0.93)
+- [Factorio AI with External Agents — L260](factorio-ai-with-external-agents.md#^ref-a4d90289-260-0) (line 260, col 0, score 0.93)
+- [field-dynamics-math-blocks — L234](field-dynamics-math-blocks.md#^ref-7cfc230d-234-0) (line 234, col 0, score 0.93)
+- [field-interaction-equations — L245](field-interaction-equations.md#^ref-b09141b7-245-0) (line 245, col 0, score 0.93)
+- [field-node-diagram-outline — L208](field-node-diagram-outline.md#^ref-1f32c94a-208-0) (line 208, col 0, score 0.93)
+- [field-node-diagram-set — L235](field-node-diagram-set.md#^ref-22b989d5-235-0) (line 235, col 0, score 0.93)
+- [field-node-diagram-visualizations — L180](field-node-diagram-visualizations.md#^ref-e9b27b06-180-0) (line 180, col 0, score 0.93)
+- [Functional Refactor of TypeScript Document Processing — L225](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-225-0) (line 225, col 0, score 0.93)
+- [graph-ds — L478](graph-ds.md#^ref-6620e2f2-478-0) (line 478, col 0, score 0.93)
+- [Duck's Attractor States — L184](ducks-attractor-states.md#^ref-13951643-184-0) (line 184, col 0, score 0.88)
+- [Dynamic Context Model for Web Components — L443](dynamic-context-model-for-web-components.md#^ref-f7702bf8-443-0) (line 443, col 0, score 0.88)
+- [Eidolon Field Abstract Model — L271](eidolon-field-abstract-model.md#^ref-5e8b2388-271-0) (line 271, col 0, score 0.88)
+- [Factorio AI with External Agents — L165](factorio-ai-with-external-agents.md#^ref-a4d90289-165-0) (line 165, col 0, score 0.88)
+- [field-dynamics-math-blocks — L231](field-dynamics-math-blocks.md#^ref-7cfc230d-231-0) (line 231, col 0, score 0.88)
+- [field-interaction-equations — L243](field-interaction-equations.md#^ref-b09141b7-243-0) (line 243, col 0, score 0.88)
+- [field-node-diagram-outline — L199](field-node-diagram-outline.md#^ref-1f32c94a-199-0) (line 199, col 0, score 0.88)
+- [field-node-diagram-set — L225](field-node-diagram-set.md#^ref-22b989d5-225-0) (line 225, col 0, score 0.88)
+- [Fnord Tracer Protocol — L325](fnord-tracer-protocol.md#^ref-fc21f824-325-0) (line 325, col 0, score 0.88)
+- [graph-ds — L465](graph-ds.md#^ref-6620e2f2-465-0) (line 465, col 0, score 0.88)
+- [homeostasis-decay-formulas — L242](homeostasis-decay-formulas.md#^ref-37b5d236-242-0) (line 242, col 0, score 0.88)
+- [Ice Box Reorganization — L142](ice-box-reorganization.md#^ref-291c7d91-142-0) (line 142, col 0, score 0.88)
+- [Unique Info Dump Index — L1810](unique-info-dump-index.md#^ref-30ec3ba6-1810-0) (line 1810, col 0, score 0.87)
+- [Chroma Toolkit Consolidation Plan — L4929](chroma-toolkit-consolidation-plan.md#^ref-5020e892-4929-0) (line 4929, col 0, score 0.87)
+- [Diagrams — L1905](chunks/diagrams.md#^ref-45cd25b5-1905-0) (line 1905, col 0, score 0.87)
+- [Math Fundamentals — L1981](chunks/math-fundamentals.md#^ref-c6e87433-1981-0) (line 1981, col 0, score 0.87)
+- [Services — L1614](chunks/services.md#^ref-75ea4a6a-1614-0) (line 1614, col 0, score 0.87)
+- [Shared — L1599](chunks/shared.md#^ref-623a55f7-1599-0) (line 1599, col 0, score 0.87)
+- [Simulation Demo — L1799](chunks/simulation-demo.md#^ref-557309a3-1799-0) (line 1799, col 0, score 0.87)
+- [Tooling — L1606](chunks/tooling.md#^ref-6cb4943e-1606-0) (line 1606, col 0, score 0.87)
+- [Window Management — L1598](chunks/window-management.md#^ref-9e8ae388-1598-0) (line 1598, col 0, score 0.87)
+- [Dynamic Context Model for Web Components — L10088](dynamic-context-model-for-web-components.md#^ref-f7702bf8-10088-0) (line 10088, col 0, score 0.87)
+- [Eidolon Field Abstract Model — L5613](eidolon-field-abstract-model.md#^ref-5e8b2388-5613-0) (line 5613, col 0, score 0.87)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

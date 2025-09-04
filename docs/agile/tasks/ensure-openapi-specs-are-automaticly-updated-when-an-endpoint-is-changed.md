@@ -41,9 +41,5 @@ Nothing
 
 ## 🔍 Relevant Links
 
-<<<<<<< HEAD:docs/agile/tasks/ensure-openapi-specs-are-automaticly-updated-when-an-endpoint-is-changed.md
 - [[kanban]]
 #done
-=======
-- [[kanban.md]]
->>>>>>> origin/dev/yoga:docs/agile/tasks/Ensure openapi specs are automaticly updated when an endpoint is changed.md

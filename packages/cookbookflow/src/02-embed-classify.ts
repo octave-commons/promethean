@@ -8,8 +8,8 @@ const args = parseArgs({
   "--in": ".cache/cookbook/blocks.json",
   "--out": ".cache/cookbook/classes.json",
   "--embed-model": "nomic-embed-text:latest",
-  "--llm": "qwen3:4b",
-});
+  "--llm": "qwen3:4b"
+} as const);
 
 async function main() {
   const scan = JSON.parse(

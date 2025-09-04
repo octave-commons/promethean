@@ -55,19 +55,6 @@ export function createAgentWorld(audioPlayer: any) {
     async function tick(dtMs = 50) {
         const cmd = w.beginTick();
 
-        // 1) Carry: snapshot current → next so reads don't vanish when turn bumps
-        // carryForTick(w, [
-        //     C.Turn,
-        //     C.Policy,
-        //     C.PlaybackQ,
-        //     C.Utterance,
-        //     C.AudioRes,
-        //     C.AudioRef,
-        //     C.VAD,
-        //     C.RawVAD,
-        //     C.TranscriptFinal
-        // ]);
-
         for (const s of systems) await s(dtMs);
 
         cmd.flush();

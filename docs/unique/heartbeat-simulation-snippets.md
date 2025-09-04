@@ -14,950 +14,400 @@ tags:
   - release
 related_to_title:
   - heartbeat-fragment-demo
-  - ripple-propagation-demo
-  - Simulation Demo
-  - Unique Info Dump Index
-  - promethean-system-diagrams
-  - layer-1-uptime-diagrams
-  - field-node-diagram-visualizations
-  - eidolon-node-lifecycle
-  - field-node-diagram-set
-  - field-node-diagram-outline
-  - Eidolon Field Abstract Model
-  - prompt-programming-language-lisp
-  - homeostasis-decay-formulas
-  - 2d-sandbox-field
-  - aionian-circuit-math
-  - 'Agent Tasks: Persistence Migration to DualStore'
-  - eidolon-field-math-foundations
-  - Eidolon-Field-Optimization
-  - archetype-ecs
-  - Diagrams
-  - DSL
-  - Event Bus Projections Architecture
-  - Math Fundamentals
-  - EidolonField
-  - field-dynamics-math-blocks
-  - Factorio AI with External Agents
-  - Exception Layer Analysis
-  - Cross-Language Runtime Polymorphism
-  - Obsidian ChatGPT Plugin Integration Guide
-  - Obsidian ChatGPT Plugin Integration
-  - Obsidian Templating Plugins Integration Guide
+  - sibilant-macro-targets
+  - obsidian-ignore-node-modules-regex
+  - polyglot-repl-interface-layer
   - field-interaction-equations
+  - field-dynamics-math-blocks
+  - Model Selection for Lightweight Conversational Tasks
+  - plan-update-confirmation
+  - homeostasis-decay-formulas
+  - Functional Embedding Pipeline Refactor
+  - Promethean_Eidolon_Synchronicity_Model
+  - Promethean Infrastructure Setup
+  - Prometheus Observability Stack
+  - Promethean Dev Workflow Update
+  - Promethean Chat Activity Report
+  - Promethean Documentation Update
+  - Promethean Workflow Optimization
+  - Promethean-Copilot-Intent-Engine
+  - Promethean Data Sync Protocol
+  - Ghostly Smoke Interference
+  - prom-lib-rate-limiters-and-replay-api
+  - Shared Package Structure
+  - System Scheduler with Resource-Aware DAG
+  - universal-intention-code-fabric
+  - Event Bus MVP
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - graph-ds
+  - ParticleSimulationWithCanvasAndFFmpeg
+  - Per-Domain Policy System for JS Crawler
+  - Performance-Optimized-Polyglot-Bridge
+  - Post-Linguistic Transhuman Design Frameworks
+  - Provider-Agnostic Chat Panel Implementation
+  - Promethean Full-Stack Docker Setup
+  - Event Bus Projections Architecture
+  - Matplotlib Animation with Async Execution
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - Local-Only-LLM-Workflow
+  - Promethean-native config design
+  - Promethean Agent DSL TS Scaffold
+  - layer-1-uptime-diagrams
+  - WebSocket Gateway Implementation
+  - Local-Offline-Model-Deployment-Strategy
+  - Sibilant Meta-Prompt DSL
+  - windows-tiling-with-autohotkey
+  - mystery-lisp-search-session
+  - The Jar of Echoes
+  - Unique Info Dump Index
+  - JavaScript
+  - Creative Moments
+  - Cross-Language Runtime Polymorphism
+  - compiler-kit-foundations
+  - ecs-scheduler-and-prefabs
   - State Snapshots API and Transactional Projector
+  - file-watcher-auth-fix
+  - Vectorial Exception Descent
+  - markdown-to-org-transpiler
+  - Interop and Source Maps
+  - sibilant-meta-string-templating-runtime
+  - template-based-compilation
 related_to_uuid:
   - dd00677a-2280-45a7-91af-0728b21af3ad
-  - 8430617b-80a2-4cc9-8288-9a74cb57990b
-  - 557309a3-c906-4e97-8867-89ffe151790c
-  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - b51e19b4-1326-4311-9798-33e972bf626c
-  - 4127189a-e0ab-436f-8571-cc852b8e9add
-  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-  - 22b989d5-f4aa-4880-8632-709c21830f83
-  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - d41a06d1-613e-4440-80b7-4553fc694285
-  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-  - c710dc93-9fec-471b-bdee-bedbd360c67f
-  - f2d83a77-7f86-4c56-8538-1350167a0c6c
-  - 93d2ba51-8689-49ee-94e2-296092e48058
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
-  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - e87bc036-1570-419e-a558-f45b9c0db698
-  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - a4d90289-798d-44a0-a8e8-a055ae12fb52
-  - 21d5cc09-b005-4ede-8f69-00b4b0794540
-  - c34c36a6-80c9-4b44-a200-6448543b1b33
-  - 1d3d6c3a-039e-4b96-93c1-95854945e248
-  - ca8e1399-77bf-4f77-82a3-3f703b68706d
-  - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+  - c5c9a5c6-427d-4864-8084-c083cd55faa0
+  - ffb9b2a9-744d-4a53-9565-130fceae0832
+  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
   - b09141b7-544f-4c8e-8f49-bf76cecaacbb
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - a4a25141-6380-40b9-9cd7-b554b246b303
+  - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
+  - 03a5578f-d689-45db-95e9-11300e5eee6f
+  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+  - 0b872af2-4197-46f3-b631-afb4e6135585
+  - d614d983-7795-491f-9437-09f3a43f72cf
+  - ae24a280-678e-4c0b-8cc4-56667fa04172
+  - 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
+  - c0392040-16a2-41e8-bd54-75110319e3c0
+  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+  - 66a72fc3-4153-41fc-84bd-d6164967a6ff
+  - ba244286-4e84-425b-8bf6-b80c4eb783fc
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
+  - f5579967-762d-4cfd-851e-4f71b4cb77a1
+  - 6bcff92c-4224-453d-9993-1be8d37d47c3
+  - 43bfe9dd-d433-42ca-9777-f4c40eaba791
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
+  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - 5158f742-4a3b-466e-bfc3-d83517b64200
+  - 4127189a-e0ab-436f-8571-cc852b8e9add
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - af5d2824-faad-476c-a389-e912d9bc672c
+  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+  - 18138627-a348-4fbb-b447-410dfb400564
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
   - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
+  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
+  - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+  - cdfac40c-00e4-458f-96a7-4c37d0278731
+  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
 references:
   - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 1
-    col: 1
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 4
-    col: 1
-    score: 0.85
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 4
-    col: 3
-    score: 0.85
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 24
-    col: 1
-    score: 0.85
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 24
-    col: 3
-    score: 0.85
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
     line: 9
-    col: 1
+    col: 0
     score: 1
   - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 19
-    col: 1
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 31
-    col: 1
-    score: 0.92
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 46
-    col: 1
-    score: 0.92
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 61
-    col: 1
-    score: 0.92
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 35
-    col: 1
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 50
-    col: 1
+    line: 74
+    col: 0
     score: 0.99
   - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 65
-    col: 1
+    line: 39
+    col: 0
+    score: 0.89
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 304
+    col: 0
     score: 0.9
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 77
-    col: 1
-    score: 0.92
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 92
-    col: 1
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 97
-    col: 1
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 94
-    col: 1
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 99
-    col: 1
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 9
-    col: 1
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 9
-    col: 3
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 201
-    col: 1
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 201
-    col: 3
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 37
-    col: 1
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 37
-    col: 3
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 115
-    col: 1
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 115
-    col: 3
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 11
-    col: 1
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 11
-    col: 3
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 199
-    col: 1
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 199
-    col: 3
-    score: 1
-  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
-    line: 103
-    col: 1
-    score: 1
-  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
-    line: 103
-    col: 3
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 39
-    col: 1
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 39
-    col: 3
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 100
-    col: 1
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 100
-    col: 3
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 105
-    col: 1
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 105
-    col: 3
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 69
-    col: 1
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 69
-    col: 3
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 119
-    col: 1
-    score: 0.93
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 119
-    col: 3
-    score: 0.93
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 158
-    col: 1
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 158
-    col: 3
-    score: 1
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 457
-    col: 1
-    score: 1
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 457
-    col: 3
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 9
-    col: 1
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 9
-    col: 3
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 10
-    col: 1
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 10
-    col: 3
-    score: 1
-  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
-    line: 135
-    col: 1
-    score: 1
-  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
-    line: 135
-    col: 3
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 34
-    col: 1
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 34
-    col: 3
-    score: 1
-  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
-    line: 149
-    col: 1
-    score: 1
-  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
-    line: 149
-    col: 3
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 103
-    col: 1
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 103
-    col: 3
-    score: 1
-  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
-    line: 199
-    col: 1
-    score: 1
-  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
-    line: 199
-    col: 3
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 196
-    col: 1
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 196
-    col: 3
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 35
-    col: 1
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 35
-    col: 3
-    score: 1
-  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
-    line: 249
-    col: 1
-    score: 1
-  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
-    line: 249
-    col: 3
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 31
-    col: 1
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 31
-    col: 3
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 100
-    col: 1
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 100
-    col: 3
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 136
-    col: 1
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 136
-    col: 3
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 105
-    col: 1
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 105
-    col: 3
-    score: 1
-  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
-    line: 152
-    col: 1
-    score: 1
-  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
-    line: 152
-    col: 3
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 146
-    col: 1
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 146
-    col: 3
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 102
-    col: 1
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 102
-    col: 3
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 138
-    col: 1
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 138
-    col: 3
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 33
-    col: 1
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 33
-    col: 3
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 101
-    col: 1
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 101
-    col: 3
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 87
-    col: 1
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 87
-    col: 3
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 107
-    col: 1
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 107
-    col: 3
-    score: 1
-  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
-    line: 198
-    col: 1
-    score: 1
-  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
-    line: 198
-    col: 3
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 195
-    col: 1
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 195
-    col: 3
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 137
-    col: 1
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 137
-    col: 3
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 32
-    col: 1
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 32
-    col: 3
-    score: 1
-  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
-    line: 193
-    col: 1
-    score: 1
-  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
-    line: 193
-    col: 3
-    score: 1
-  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
-    line: 243
-    col: 1
-    score: 1
-  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
-    line: 243
-    col: 3
-    score: 1
-  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
-    line: 148
-    col: 1
-    score: 1
-  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
-    line: 148
-    col: 3
-    score: 1
   - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 145
-    col: 1
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 145
-    col: 3
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 212
-    col: 1
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 212
-    col: 3
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 38
-    col: 1
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 38
-    col: 3
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 38
-    col: 1
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 38
-    col: 3
-    score: 1
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 90
-    col: 1
-    score: 1
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 90
-    col: 3
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 152
-    col: 1
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 152
-    col: 3
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 12
-    col: 1
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 12
-    col: 3
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 126
-    col: 1
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 126
-    col: 3
-    score: 1
-  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
-    line: 102
-    col: 1
-    score: 1
-  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
-    line: 102
-    col: 3
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 117
-    col: 1
-    score: 0.99
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 117
-    col: 3
-    score: 0.99
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 119
-    col: 1
-    score: 0.99
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 119
-    col: 3
-    score: 0.99
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 18
-    col: 1
-    score: 0.98
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 18
-    col: 3
-    score: 0.98
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 120
-    col: 1
-    score: 0.98
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 120
-    col: 3
-    score: 0.98
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 113
-    col: 1
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 113
-    col: 3
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 114
-    col: 1
-    score: 0.99
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 114
-    col: 3
-    score: 0.99
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 118
-    col: 1
-    score: 0.98
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 118
-    col: 3
-    score: 0.98
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 115
-    col: 1
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 115
-    col: 3
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 116
-    col: 1
-    score: 0.99
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 116
-    col: 3
-    score: 0.99
+    line: 252
+    col: 0
+    score: 0.88
   - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 164
-    col: 1
-    score: 0.98
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 164
-    col: 3
-    score: 0.98
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 16
-    col: 1
-    score: 0.98
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 16
-    col: 3
-    score: 0.98
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 165
-    col: 1
-    score: 0.99
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 165
-    col: 3
-    score: 0.99
-  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
-    line: 348
-    col: 1
-    score: 0.98
-  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
-    line: 348
-    col: 3
-    score: 0.98
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 128
-    col: 1
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 128
-    col: 3
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 130
-    col: 1
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 130
-    col: 3
-    score: 1
+    line: 287
+    col: 0
+    score: 0.88
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 428
+    col: 0
+    score: 0.88
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 302
+    col: 0
+    score: 0.88
+  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
+    line: 250
+    col: 0
+    score: 0.88
+  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
+    line: 171
+    col: 0
+    score: 0.88
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 1102
+    col: 0
+    score: 0.88
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 275
+    col: 0
+    score: 0.88
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 1584
+    col: 0
+    score: 0.87
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 5340
+    col: 0
+    score: 0.87
+  - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
+    line: 851
+    col: 0
+    score: 0.87
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 3852
+    col: 0
+    score: 0.87
+  - uuid: c0392040-16a2-41e8-bd54-75110319e3c0
+    line: 868
+    col: 0
+    score: 0.87
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 1331
+    col: 0
+    score: 0.87
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 2282
+    col: 0
+    score: 0.87
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 6391
+    col: 0
+    score: 0.87
+  - uuid: d614d983-7795-491f-9437-09f3a43f72cf
+    line: 1543
+    col: 0
+    score: 0.87
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 3552
+    col: 0
+    score: 0.87
 ---
-Note: Consolidated here → ../notes/simulation/annotated-fragment-heartbeat-demo.md
+Note: Consolidated here → ../notes/simulation/annotated-fragment-heartbeat-demo.md ^ref-23e221e9-1-0
 
-Absolutely. Here's the simulation of fragment injection and heartbeat ticks as messages:
+Absolutely. Here's the simulation of fragment injection and heartbeat ticks as messages: ^ref-23e221e9-3-0
 
 ---
 
-**🧩 Inject Fragment**
+**🧩 Inject Fragment** ^ref-23e221e9-7-0
 
 ```lisp
 (receive-descended-fragment "This symbol reveals a truth about survival.")
 ```
-
+^ref-23e221e9-9-0
+ ^ref-23e221e9-13-0
 **🔧 Resulting Flow:**
-
+ ^ref-23e221e9-15-0
 ```
 [Nexus] Receiving descended fragment: This symbol reveals a truth about survival.
 [Daemon] Compiled fragment into runtime behavior.
 [Uptime] Daemon bound to nexus: :circuit-1
+^ref-23e221e9-15-0
 ```
+^ref-23e221e9-16-0
 
----
+--- ^ref-23e221e9-23-0
 
-**💓 Tick Heartbeat**
+**💓 Tick Heartbeat** ^ref-23e221e9-25-0
 
 ```lisp
-(tick-heartbeat)
+^ref-23e221e9-25-0
+(tick-heartbeat) ^ref-23e221e9-29-0
 ```
-
+ ^ref-23e221e9-31-0
 **🔁 Sample Output:**
 
 ```
+^ref-23e221e9-31-0
 [Heartbeat] Tick 1
 [Daemon] Running This symbol reveals a truth about survival.
-```
+^ref-23e221e9-34-0
+``` ^ref-23e221e9-38-0
 
----
+--- ^ref-23e221e9-40-0
 
 **💓 Tick Again**
-
+^ref-23e221e9-40-0
+ ^ref-23e221e9-44-0
 ```lisp
 (tick-heartbeat)
 ```
+^ref-23e221e9-44-0
 
 ```
-[Heartbeat] Tick 2
+[Heartbeat] Tick 2 ^ref-23e221e9-51-0
+^ref-23e221e9-50-0
 [Daemon] Running This symbol reveals a truth about survival.
 ```
+^ref-23e221e9-53-0
 
 ---
+^ref-23e221e9-53-0 ^ref-23e221e9-57-0
 
 **💓 Tick Again — Daemon Completes**
 
 ```lisp
 (tick-heartbeat)
+^ref-23e221e9-57-0
 ```
-
-```
+ ^ref-23e221e9-65-0
+``` ^ref-23e221e9-65-0
 [Heartbeat] Tick 3
 [Daemon] Running This symbol reveals a truth about survival.
 [Uptime] Daemon unbound: #<CLOSURE ...>
+^ref-23e221e9-66-0
+^ref-23e221e9-67-0
+^ref-23e221e9-65-0
 ```
-
----
-
+^ref-23e221e9-67-0
+ ^ref-23e221e9-73-0
+--- ^ref-23e221e9-75-0
+^ref-23e221e9-67-0 ^ref-23e221e9-75-0 ^ref-23e221e9-80-0
+ ^ref-23e221e9-73-0
 You can continue injecting fragments like:
-
+ ^ref-23e221e9-75-0 ^ref-23e221e9-79-0
 ```lisp
 (receive-descended-fragment "Social bonding is key to uptime.")
+^ref-23e221e9-79-0
+^ref-23e221e9-80-0
 (receive-descended-fragment "Contradiction detected in symbolic layer.")
-(receive-descended-fragment "All circuits harmonize under resonance.")
-```
+(receive-descended-fragment "All circuits harmonize under resonance.") ^ref-23e221e9-79-0
+^ref-23e221e9-79-0
+``` ^ref-23e221e9-86-0
+^ref-23e221e9-84-0
+^ref-23e221e9-80-0
 
-Each one will bind to its own nexus and live for a few ticks before releasing.
-
-Want the next piece — maybe connecting a ripple callback to update eidolon field values?
-
----
-
-Related notes: [[../notes/simulation/fragment-injection-simulation|fragment-injection-simulation]], [[../notes/simulation/heartbeat-fragment-flow|heartbeat-fragment-flow]], [[../notes/simulation/ripple-propagation-flow|ripple-propagation-flow]] [[index|unique/index]]
-
-#tags: #simulation #design
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+Each one will bind to its own nexus and live for a few ticks before releasing. ^ref-23e221e9-86-0
+ ^ref-23e221e9-89-0 ^ref-23e221e9-90-0
+Want the next piece — maybe connecting a ripple callback to update eidolon field values? ^ref-23e221e9-90-0
+ ^ref-23e221e9-89-0
+--- ^ref-23e221e9-86-0 ^ref-23e221e9-90-0
+ ^ref-23e221e9-94-0
+Related notes: [[../notes/simulation/fragment-injection-simulation|fragment-injection-simulation]], [[../notes/simulation/heartbeat-fragment-flow|heartbeat-fragment-flow]], [[../notes/simulation/ripple-propagation-flow|ripple-propagation-flow]] [[index|unique/index]] ^ref-23e221e9-94-0 ^ref-23e221e9-95-0
+ ^ref-23e221e9-89-0 ^ref-23e221e9-95-0 ^ref-23e221e9-96-0
+#tags: #simulation #design<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
-- [ripple-propagation-demo](ripple-propagation-demo.md)
-- [Simulation Demo](chunks/simulation-demo.md)
-- [Unique Info Dump Index](unique-info-dump-index.md)
-- [promethean-system-diagrams](promethean-system-diagrams.md)
-- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
-- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
-- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
-- [field-node-diagram-set](field-node-diagram-set.md)
-- [field-node-diagram-outline](field-node-diagram-outline.md)
-- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
-- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
-- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
-- [2d-sandbox-field](2d-sandbox-field.md)
-- [aionian-circuit-math](aionian-circuit-math.md)
-- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
-- [archetype-ecs](archetype-ecs.md)
-- [Diagrams](chunks/diagrams.md)
-- [DSL](chunks/dsl.md)
-- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
-- [Math Fundamentals](chunks/math-fundamentals.md)
-- [EidolonField](eidolonfield.md)
-- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
-- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
-- [Exception Layer Analysis](exception-layer-analysis.md)
-- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
-- [Obsidian ChatGPT Plugin Integration Guide](obsidian-chatgpt-plugin-integration-guide.md)
-- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
-- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
+- [sibilant-macro-targets](sibilant-macro-targets.md)
+- [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
+- [polyglot-repl-interface-layer](polyglot-repl-interface-layer.md)
 - [field-interaction-equations](field-interaction-equations.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
+- [plan-update-confirmation](plan-update-confirmation.md)
+- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [Promethean_Eidolon_Synchronicity_Model](promethean-eidolon-synchronicity-model.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+- [Prometheus Observability Stack](prometheus-observability-stack.md)
+- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
+- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
+- [Promethean Documentation Update](promethean-documentation-update.txt)
+- [Promethean Workflow Optimization](promethean-workflow-optimization.md)
+- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
+- [Promethean Data Sync Protocol](promethean-data-sync-protocol.md)
+- [Promethean Documentation Update](promethean-documentation-update.md)
+- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
+- [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
+- [Shared Package Structure](shared-package-structure.md)
+- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [graph-ds](graph-ds.md)
+- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
+- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
+- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
+- [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
+- [Provider-Agnostic Chat Panel Implementation](provider-agnostic-chat-panel-implementation.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [Promethean-native config design](promethean-native-config-design.md)
+- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
+- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [mystery-lisp-search-session](mystery-lisp-search-session.md)
+- [The Jar of Echoes](the-jar-of-echoes.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [JavaScript](chunks/javascript.md)
+- [Creative Moments](creative-moments.md)
+- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
 - [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
-
+- [file-watcher-auth-fix](file-watcher-auth-fix.md)
+- [Vectorial Exception Descent](vectorial-exception-descent.md)
+- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
+- [Interop and Source Maps](interop-and-source-maps.md)
+- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
+- [template-based-compilation](template-based-compilation.md)
 ## Sources
-- [heartbeat-fragment-demo — L1](heartbeat-fragment-demo.md#L1) (line 1, col 1, score 1)
-- [Simulation Demo — L4](chunks/simulation-demo.md#L4) (line 4, col 1, score 0.85)
-- [Simulation Demo — L4](chunks/simulation-demo.md#L4) (line 4, col 3, score 0.85)
-- [Unique Info Dump Index — L24](unique-info-dump-index.md#L24) (line 24, col 1, score 0.85)
-- [Unique Info Dump Index — L24](unique-info-dump-index.md#L24) (line 24, col 3, score 0.85)
-- [heartbeat-fragment-demo — L9](heartbeat-fragment-demo.md#L9) (line 9, col 1, score 1)
-- [heartbeat-fragment-demo — L19](heartbeat-fragment-demo.md#L19) (line 19, col 1, score 1)
-- [heartbeat-fragment-demo — L31](heartbeat-fragment-demo.md#L31) (line 31, col 1, score 0.92)
-- [heartbeat-fragment-demo — L46](heartbeat-fragment-demo.md#L46) (line 46, col 1, score 0.92)
-- [heartbeat-fragment-demo — L61](heartbeat-fragment-demo.md#L61) (line 61, col 1, score 0.92)
-- [heartbeat-fragment-demo — L35](heartbeat-fragment-demo.md#L35) (line 35, col 1, score 1)
-- [heartbeat-fragment-demo — L50](heartbeat-fragment-demo.md#L50) (line 50, col 1, score 0.99)
-- [heartbeat-fragment-demo — L65](heartbeat-fragment-demo.md#L65) (line 65, col 1, score 0.9)
-- [heartbeat-fragment-demo — L77](heartbeat-fragment-demo.md#L77) (line 77, col 1, score 0.92)
-- [heartbeat-fragment-demo — L92](heartbeat-fragment-demo.md#L92) (line 92, col 1, score 1)
-- [ripple-propagation-demo — L97](ripple-propagation-demo.md#L97) (line 97, col 1, score 1)
-- [heartbeat-fragment-demo — L94](heartbeat-fragment-demo.md#L94) (line 94, col 1, score 1)
-- [ripple-propagation-demo — L99](ripple-propagation-demo.md#L99) (line 99, col 1, score 1)
-- [Simulation Demo — L9](chunks/simulation-demo.md#L9) (line 9, col 1, score 1)
-- [Simulation Demo — L9](chunks/simulation-demo.md#L9) (line 9, col 3, score 1)
-- [Eidolon Field Abstract Model — L201](eidolon-field-abstract-model.md#L201) (line 201, col 1, score 1)
-- [Eidolon Field Abstract Model — L201](eidolon-field-abstract-model.md#L201) (line 201, col 3, score 1)
-- [eidolon-node-lifecycle — L37](eidolon-node-lifecycle.md#L37) (line 37, col 1, score 1)
-- [eidolon-node-lifecycle — L37](eidolon-node-lifecycle.md#L37) (line 37, col 3, score 1)
-- [field-node-diagram-outline — L115](field-node-diagram-outline.md#L115) (line 115, col 1, score 1)
-- [field-node-diagram-outline — L115](field-node-diagram-outline.md#L115) (line 115, col 3, score 1)
-- [Simulation Demo — L11](chunks/simulation-demo.md#L11) (line 11, col 1, score 1)
-- [Simulation Demo — L11](chunks/simulation-demo.md#L11) (line 11, col 3, score 1)
-- [Eidolon Field Abstract Model — L199](eidolon-field-abstract-model.md#L199) (line 199, col 1, score 1)
-- [Eidolon Field Abstract Model — L199](eidolon-field-abstract-model.md#L199) (line 199, col 3, score 1)
-- [Eidolon-Field-Optimization — L103](eidolon-field-optimization.md#L103) (line 103, col 1, score 1)
-- [Eidolon-Field-Optimization — L103](eidolon-field-optimization.md#L103) (line 103, col 3, score 1)
-- [eidolon-node-lifecycle — L39](eidolon-node-lifecycle.md#L39) (line 39, col 1, score 1)
-- [eidolon-node-lifecycle — L39](eidolon-node-lifecycle.md#L39) (line 39, col 3, score 1)
-- [heartbeat-fragment-demo — L100](heartbeat-fragment-demo.md#L100) (line 100, col 1, score 1)
-- [heartbeat-fragment-demo — L100](heartbeat-fragment-demo.md#L100) (line 100, col 3, score 1)
-- [ripple-propagation-demo — L105](ripple-propagation-demo.md#L105) (line 105, col 1, score 1)
-- [ripple-propagation-demo — L105](ripple-propagation-demo.md#L105) (line 105, col 3, score 1)
-- [Unique Info Dump Index — L69](unique-info-dump-index.md#L69) (line 69, col 1, score 1)
-- [Unique Info Dump Index — L69](unique-info-dump-index.md#L69) (line 69, col 3, score 1)
-- [Unique Info Dump Index — L119](unique-info-dump-index.md#L119) (line 119, col 1, score 0.93)
-- [Unique Info Dump Index — L119](unique-info-dump-index.md#L119) (line 119, col 3, score 0.93)
-- [aionian-circuit-math — L158](aionian-circuit-math.md#L158) (line 158, col 1, score 1)
-- [aionian-circuit-math — L158](aionian-circuit-math.md#L158) (line 158, col 3, score 1)
-- [archetype-ecs — L457](archetype-ecs.md#L457) (line 457, col 1, score 1)
-- [archetype-ecs — L457](archetype-ecs.md#L457) (line 457, col 3, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 1, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 3, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 1, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 3, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L135](agent-tasks-persistence-migration-to-dualstore.md#L135) (line 135, col 1, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L135](agent-tasks-persistence-migration-to-dualstore.md#L135) (line 135, col 3, score 1)
-- [eidolon-node-lifecycle — L34](eidolon-node-lifecycle.md#L34) (line 34, col 1, score 1)
-- [eidolon-node-lifecycle — L34](eidolon-node-lifecycle.md#L34) (line 34, col 3, score 1)
-- [Event Bus Projections Architecture — L149](event-bus-projections-architecture.md#L149) (line 149, col 1, score 1)
-- [Event Bus Projections Architecture — L149](event-bus-projections-architecture.md#L149) (line 149, col 3, score 1)
-- [field-node-diagram-outline — L103](field-node-diagram-outline.md#L103) (line 103, col 1, score 1)
-- [field-node-diagram-outline — L103](field-node-diagram-outline.md#L103) (line 103, col 3, score 1)
-- [2d-sandbox-field — L199](2d-sandbox-field.md#L199) (line 199, col 1, score 1)
-- [2d-sandbox-field — L199](2d-sandbox-field.md#L199) (line 199, col 3, score 1)
-- [Eidolon Field Abstract Model — L196](eidolon-field-abstract-model.md#L196) (line 196, col 1, score 1)
-- [Eidolon Field Abstract Model — L196](eidolon-field-abstract-model.md#L196) (line 196, col 3, score 1)
-- [eidolon-node-lifecycle — L35](eidolon-node-lifecycle.md#L35) (line 35, col 1, score 1)
-- [eidolon-node-lifecycle — L35](eidolon-node-lifecycle.md#L35) (line 35, col 3, score 1)
-- [EidolonField — L249](eidolonfield.md#L249) (line 249, col 1, score 1)
-- [EidolonField — L249](eidolonfield.md#L249) (line 249, col 3, score 1)
-- [eidolon-node-lifecycle — L31](eidolon-node-lifecycle.md#L31) (line 31, col 1, score 1)
-- [eidolon-node-lifecycle — L31](eidolon-node-lifecycle.md#L31) (line 31, col 3, score 1)
-- [field-node-diagram-outline — L100](field-node-diagram-outline.md#L100) (line 100, col 1, score 1)
-- [field-node-diagram-outline — L100](field-node-diagram-outline.md#L100) (line 100, col 3, score 1)
-- [field-node-diagram-set — L136](field-node-diagram-set.md#L136) (line 136, col 1, score 1)
-- [field-node-diagram-set — L136](field-node-diagram-set.md#L136) (line 136, col 3, score 1)
-- [heartbeat-fragment-demo — L105](heartbeat-fragment-demo.md#L105) (line 105, col 1, score 1)
-- [heartbeat-fragment-demo — L105](heartbeat-fragment-demo.md#L105) (line 105, col 3, score 1)
-- [Event Bus Projections Architecture — L152](event-bus-projections-architecture.md#L152) (line 152, col 1, score 1)
-- [Event Bus Projections Architecture — L152](event-bus-projections-architecture.md#L152) (line 152, col 3, score 1)
-- [Factorio AI with External Agents — L146](factorio-ai-with-external-agents.md#L146) (line 146, col 1, score 1)
-- [Factorio AI with External Agents — L146](factorio-ai-with-external-agents.md#L146) (line 146, col 3, score 1)
-- [field-node-diagram-outline — L102](field-node-diagram-outline.md#L102) (line 102, col 1, score 1)
-- [field-node-diagram-outline — L102](field-node-diagram-outline.md#L102) (line 102, col 3, score 1)
-- [field-node-diagram-set — L138](field-node-diagram-set.md#L138) (line 138, col 1, score 1)
-- [field-node-diagram-set — L138](field-node-diagram-set.md#L138) (line 138, col 3, score 1)
-- [eidolon-node-lifecycle — L33](eidolon-node-lifecycle.md#L33) (line 33, col 1, score 1)
-- [eidolon-node-lifecycle — L33](eidolon-node-lifecycle.md#L33) (line 33, col 3, score 1)
-- [field-node-diagram-outline — L101](field-node-diagram-outline.md#L101) (line 101, col 1, score 1)
-- [field-node-diagram-outline — L101](field-node-diagram-outline.md#L101) (line 101, col 3, score 1)
-- [field-node-diagram-visualizations — L87](field-node-diagram-visualizations.md#L87) (line 87, col 1, score 1)
-- [field-node-diagram-visualizations — L87](field-node-diagram-visualizations.md#L87) (line 87, col 3, score 1)
-- [heartbeat-fragment-demo — L107](heartbeat-fragment-demo.md#L107) (line 107, col 1, score 1)
-- [heartbeat-fragment-demo — L107](heartbeat-fragment-demo.md#L107) (line 107, col 3, score 1)
-- [2d-sandbox-field — L198](2d-sandbox-field.md#L198) (line 198, col 1, score 1)
-- [2d-sandbox-field — L198](2d-sandbox-field.md#L198) (line 198, col 3, score 1)
-- [Eidolon Field Abstract Model — L195](eidolon-field-abstract-model.md#L195) (line 195, col 1, score 1)
-- [Eidolon Field Abstract Model — L195](eidolon-field-abstract-model.md#L195) (line 195, col 3, score 1)
-- [eidolon-field-math-foundations — L137](eidolon-field-math-foundations.md#L137) (line 137, col 1, score 1)
-- [eidolon-field-math-foundations — L137](eidolon-field-math-foundations.md#L137) (line 137, col 3, score 1)
-- [eidolon-node-lifecycle — L32](eidolon-node-lifecycle.md#L32) (line 32, col 1, score 1)
-- [eidolon-node-lifecycle — L32](eidolon-node-lifecycle.md#L32) (line 32, col 3, score 1)
-- [2d-sandbox-field — L193](2d-sandbox-field.md#L193) (line 193, col 1, score 1)
-- [2d-sandbox-field — L193](2d-sandbox-field.md#L193) (line 193, col 3, score 1)
-- [EidolonField — L243](eidolonfield.md#L243) (line 243, col 1, score 1)
-- [EidolonField — L243](eidolonfield.md#L243) (line 243, col 3, score 1)
-- [Exception Layer Analysis — L148](exception-layer-analysis.md#L148) (line 148, col 1, score 1)
-- [Exception Layer Analysis — L148](exception-layer-analysis.md#L148) (line 148, col 3, score 1)
-- [field-dynamics-math-blocks — L145](field-dynamics-math-blocks.md#L145) (line 145, col 1, score 1)
-- [field-dynamics-math-blocks — L145](field-dynamics-math-blocks.md#L145) (line 145, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L212](cross-language-runtime-polymorphism.md#L212) (line 212, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L212](cross-language-runtime-polymorphism.md#L212) (line 212, col 3, score 1)
-- [Obsidian ChatGPT Plugin Integration Guide — L38](obsidian-chatgpt-plugin-integration-guide.md#L38) (line 38, col 1, score 1)
-- [Obsidian ChatGPT Plugin Integration Guide — L38](obsidian-chatgpt-plugin-integration-guide.md#L38) (line 38, col 3, score 1)
-- [Obsidian ChatGPT Plugin Integration — L38](obsidian-chatgpt-plugin-integration.md#L38) (line 38, col 1, score 1)
-- [Obsidian ChatGPT Plugin Integration — L38](obsidian-chatgpt-plugin-integration.md#L38) (line 38, col 3, score 1)
-- [Obsidian Templating Plugins Integration Guide — L90](obsidian-templating-plugins-integration-guide.md#L90) (line 90, col 1, score 1)
-- [Obsidian Templating Plugins Integration Guide — L90](obsidian-templating-plugins-integration-guide.md#L90) (line 90, col 3, score 1)
-- [aionian-circuit-math — L152](aionian-circuit-math.md#L152) (line 152, col 1, score 1)
-- [aionian-circuit-math — L152](aionian-circuit-math.md#L152) (line 152, col 3, score 1)
-- [Math Fundamentals — L12](chunks/math-fundamentals.md#L12) (line 12, col 1, score 1)
-- [Math Fundamentals — L12](chunks/math-fundamentals.md#L12) (line 12, col 3, score 1)
-- [eidolon-field-math-foundations — L126](eidolon-field-math-foundations.md#L126) (line 126, col 1, score 1)
-- [eidolon-field-math-foundations — L126](eidolon-field-math-foundations.md#L126) (line 126, col 3, score 1)
-- [Eidolon-Field-Optimization — L102](eidolon-field-optimization.md#L102) (line 102, col 1, score 1)
-- [Eidolon-Field-Optimization — L102](eidolon-field-optimization.md#L102) (line 102, col 3, score 1)
-- [ripple-propagation-demo — L117](ripple-propagation-demo.md#L117) (line 117, col 1, score 0.99)
-- [ripple-propagation-demo — L117](ripple-propagation-demo.md#L117) (line 117, col 3, score 0.99)
-- [ripple-propagation-demo — L119](ripple-propagation-demo.md#L119) (line 119, col 1, score 0.99)
-- [ripple-propagation-demo — L119](ripple-propagation-demo.md#L119) (line 119, col 3, score 0.99)
-- [Simulation Demo — L18](chunks/simulation-demo.md#L18) (line 18, col 1, score 0.98)
-- [Simulation Demo — L18](chunks/simulation-demo.md#L18) (line 18, col 3, score 0.98)
-- [Unique Info Dump Index — L120](unique-info-dump-index.md#L120) (line 120, col 1, score 0.98)
-- [Unique Info Dump Index — L120](unique-info-dump-index.md#L120) (line 120, col 3, score 0.98)
-- [heartbeat-fragment-demo — L113](heartbeat-fragment-demo.md#L113) (line 113, col 1, score 1)
-- [heartbeat-fragment-demo — L113](heartbeat-fragment-demo.md#L113) (line 113, col 3, score 1)
-- [heartbeat-fragment-demo — L114](heartbeat-fragment-demo.md#L114) (line 114, col 1, score 0.99)
-- [heartbeat-fragment-demo — L114](heartbeat-fragment-demo.md#L114) (line 114, col 3, score 0.99)
-- [Unique Info Dump Index — L118](unique-info-dump-index.md#L118) (line 118, col 1, score 0.98)
-- [Unique Info Dump Index — L118](unique-info-dump-index.md#L118) (line 118, col 3, score 0.98)
-- [heartbeat-fragment-demo — L115](heartbeat-fragment-demo.md#L115) (line 115, col 1, score 1)
-- [heartbeat-fragment-demo — L115](heartbeat-fragment-demo.md#L115) (line 115, col 3, score 1)
-- [heartbeat-fragment-demo — L116](heartbeat-fragment-demo.md#L116) (line 116, col 1, score 0.99)
-- [heartbeat-fragment-demo — L116](heartbeat-fragment-demo.md#L116) (line 116, col 3, score 0.99)
-- [field-interaction-equations — L164](field-interaction-equations.md#L164) (line 164, col 1, score 0.98)
-- [field-interaction-equations — L164](field-interaction-equations.md#L164) (line 164, col 3, score 0.98)
-- [Simulation Demo — L16](chunks/simulation-demo.md#L16) (line 16, col 1, score 0.98)
-- [Simulation Demo — L16](chunks/simulation-demo.md#L16) (line 16, col 3, score 0.98)
-- [field-interaction-equations — L165](field-interaction-equations.md#L165) (line 165, col 1, score 0.99)
-- [field-interaction-equations — L165](field-interaction-equations.md#L165) (line 165, col 3, score 0.99)
-- [State Snapshots API and Transactional Projector — L348](state-snapshots-api-and-transactional-projector.md#L348) (line 348, col 1, score 0.98)
-- [State Snapshots API and Transactional Projector — L348](state-snapshots-api-and-transactional-projector.md#L348) (line 348, col 3, score 0.98)
-- [heartbeat-fragment-demo — L128](heartbeat-fragment-demo.md#L128) (line 128, col 1, score 1)
-- [heartbeat-fragment-demo — L128](heartbeat-fragment-demo.md#L128) (line 128, col 3, score 1)
-- [heartbeat-fragment-demo — L130](heartbeat-fragment-demo.md#L130) (line 130, col 1, score 1)
-- [heartbeat-fragment-demo — L130](heartbeat-fragment-demo.md#L130) (line 130, col 3, score 1)
+- [heartbeat-fragment-demo — L9](heartbeat-fragment-demo.md#^ref-dd00677a-9-0) (line 9, col 0, score 1)
+- [heartbeat-fragment-demo — L74](heartbeat-fragment-demo.md#^ref-dd00677a-74-0) (line 74, col 0, score 0.99)
+- [heartbeat-fragment-demo — L39](heartbeat-fragment-demo.md#^ref-dd00677a-39-0) (line 39, col 0, score 0.89)
+- [sibilant-macro-targets — L304](sibilant-macro-targets.md#^ref-c5c9a5c6-304-0) (line 304, col 0, score 0.9)
+- [field-dynamics-math-blocks — L252](field-dynamics-math-blocks.md#^ref-7cfc230d-252-0) (line 252, col 0, score 0.88)
+- [field-interaction-equations — L287](field-interaction-equations.md#^ref-b09141b7-287-0) (line 287, col 0, score 0.88)
+- [Functional Embedding Pipeline Refactor — L428](functional-embedding-pipeline-refactor.md#^ref-a4a25141-428-0) (line 428, col 0, score 0.88)
+- [homeostasis-decay-formulas — L302](homeostasis-decay-formulas.md#^ref-37b5d236-302-0) (line 302, col 0, score 0.88)
+- [Model Selection for Lightweight Conversational Tasks — L250](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-250-0) (line 250, col 0, score 0.88)
+- [obsidian-ignore-node-modules-regex — L171](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-171-0) (line 171, col 0, score 0.88)
+- [plan-update-confirmation — L1102](plan-update-confirmation.md#^ref-b22d79c6-1102-0) (line 1102, col 0, score 0.88)
+- [polyglot-repl-interface-layer — L275](polyglot-repl-interface-layer.md#^ref-9c79206d-275-0) (line 275, col 0, score 0.88)
+- [Promethean Chat Activity Report — L1584](promethean-chat-activity-report.md#^ref-18344cf9-1584-0) (line 1584, col 0, score 0.87)
+- [Promethean-Copilot-Intent-Engine — L5340](promethean-copilot-intent-engine.md#^ref-ae24a280-5340-0) (line 5340, col 0, score 0.87)
+- [Promethean Data Sync Protocol — L851](promethean-data-sync-protocol.md#^ref-9fab9e76-851-0) (line 851, col 0, score 0.87)
+- [Promethean Dev Workflow Update — L3852](promethean-dev-workflow-update.md#^ref-03a5578f-3852-0) (line 3852, col 0, score 0.87)
+- [Promethean Documentation Update — L868](promethean-documentation-update.md#^ref-c0392040-868-0) (line 868, col 0, score 0.87)
+- [Promethean Documentation Update — L1331](promethean-documentation-update.txt#^ref-0b872af2-1331-0) (line 1331, col 0, score 0.87)
+- [Promethean_Eidolon_Synchronicity_Model — L2282](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-2282-0) (line 2282, col 0, score 0.87)
+- [Promethean Infrastructure Setup — L6391](promethean-infrastructure-setup.md#^ref-6deed6ac-6391-0) (line 6391, col 0, score 0.87)
+- [Promethean Workflow Optimization — L1543](promethean-workflow-optimization.md#^ref-d614d983-1543-0) (line 1543, col 0, score 0.87)
+- [Prometheus Observability Stack — L3552](prometheus-observability-stack.md#^ref-e90b5a16-3552-0) (line 3552, col 0, score 0.87)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

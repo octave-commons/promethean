@@ -19,254 +19,258 @@ tags:
   - sibilant
   - runtime
 related_to_title:
-  - windows-tiling-with-autohotkey
-  - template-based-compilation
-  - ts-to-lisp-transpiler
-  - sibilant-meta-string-templating-runtime
-  - Lisp-Compiler-Integration
-  - Unique Info Dump Index
+  - Docops Feature Updates
+  - field-node-diagram-outline
+  - field-node-diagram-set
+  - field-node-diagram-visualizations
+  - Fnord Tracer Protocol
+  - Functional Embedding Pipeline Refactor
+  - graph-ds
+  - heartbeat-fragment-demo
+  - i3-bluetooth-setup
+  - Ice Box Reorganization
   - komorebi-group-window-hack
-  - Window Management
-  - aionian-circuit-math
-  - DSL
-  - archetype-ecs
-  - Diagrams
-  - polymorphic-meta-programming-engine
-  - Promethean Agent Config DSL
-  - Cross-Language Runtime Polymorphism
+  - Layer1SurvivabilityEnvelope
+  - Local-Offline-Model-Deployment-Strategy
+  - System Scheduler with Resource-Aware DAG
+  - windows-tiling-with-autohotkey
+  - sibilant-macro-targets
+  - Promethean Web UI Setup
   - Cross-Target Macro System in Sibilant
+  - Promethean Full-Stack Docker Setup
+  - polymorphic-meta-programming-engine
+  - AI-Centric OS with MCP Layer
+  - Cross-Language Runtime Polymorphism
+  - RAG UI Panel with Qdrant and PostgREST
+  - Recursive Prompt Construction Engine
+  - Event Bus MVP
+  - Sibilant Meta-Prompt DSL
+  - Refactor 05-footers.ts
+  - set-assignment-in-lisp-ast
+  - i3-config-validation-methods
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - ecs-scheduler-and-prefabs
+  - Voice Access Layer Design
+  - Mongo Outbox Implementation
   - compiler-kit-foundations
-  - Language-Agnostic Mirror System
-  - Interop and Source Maps
-  - js-to-lisp-reverse-compiler
+  - Ghostly Smoke Interference
+  - sibilant-meta-string-templating-runtime
+  - observability-infrastructure-setup
+  - Canonical Org-Babel Matplotlib Animation Template
+  - Local-Only-LLM-Workflow
+  - promethean-system-diagrams
+  - Event Bus Projections Architecture
+  - universal-intention-code-fabric
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - template-based-compilation
+  - Eidolon-Field-Optimization
   - mystery-lisp-search-session
-  - sibilant-metacompiler-overview
+  - Language-Agnostic Mirror System
+  - Promethean Agent Config DSL
+  - Promethean Event Bus MVP v0.1
+  - layer-1-uptime-diagrams
+  - Interop and Source Maps
+  - Model Selection for Lightweight Conversational Tasks
+  - State Snapshots API and Transactional Projector
+  - Exception Layer Analysis
+  - markdown-to-org-transpiler
+  - EidolonField
+  - js-to-lisp-reverse-compiler
+  - Promethean-native config design
+  - 2d-sandbox-field
+  - Shared Package Structure
+  - Lisp-Compiler-Integration
+  - polyglot-repl-interface-layer
+  - Operations
+  - Diagrams
+  - DSL
+  - JavaScript
+  - Shared
+  - Simulation Demo
+  - field-interaction-equations
+  - field-dynamics-math-blocks
+  - Math Fundamentals
+  - Services
+  - Tooling
+  - Prompt_Folder_Bootstrap
+  - smart-chatgpt-thingy
+  - 'Promethean Pipelines: Local TypeScript-First Workflow'
 related_to_uuid:
-  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
-  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
-  - ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
-  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
-  - cfee6d36-b9f5-4587-885a-cdfddb4f054e
-  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - 2792d448-c3b5-4050-93dd-93768529d99c
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+  - 22b989d5-f4aa-4880-8632-709c21830f83
+  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - a4a25141-6380-40b9-9cd7-b554b246b303
+  - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - dd00677a-2280-45a7-91af-0728b21af3ad
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
   - dd89372d-10de-42a9-8c96-6bc13ea36d02
-  - 9e8ae388-767a-4ea8-9f2e-88801291d947
-  - f2d83a77-7f86-4c56-8538-1350167a0c6c
-  - e87bc036-1570-419e-a558-f45b9c0db698
-  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
-  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
-  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - ba244286-4e84-425b-8bf6-b80c4eb783fc
+  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - c5c9a5c6-427d-4864-8084-c083cd55faa0
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
   - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
+  - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - af5d2824-faad-476c-a389-e912d9bc672c
+  - 80d4d883-59f9-401b-8699-7a2723148b1e
+  - c5fba0a0-9196-468d-a0f3-51c99e987263
+  - d28090ac-f746-4958-aab5-ed1315382c04
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
   - 01b21543-7e03-4129-8fe4-b6306be69dee
-  - d2b3628c-6cad-4664-8551-94ef8280851d
-  - cdfac40c-00e4-458f-96a7-4c37d0278731
-  - 58191024-d04a-4520-8aae-a18be7b94263
+  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - b51e19b4-1326-4311-9798-33e972bf626c
+  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
   - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
+  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
+  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+  - 4127189a-e0ab-436f-8571-cc852b8e9add
+  - cdfac40c-00e4-458f-96a7-4c37d0278731
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+  - 21d5cc09-b005-4ede-8f69-00b4b0794540
+  - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
+  - 58191024-d04a-4520-8aae-a18be7b94263
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - c710dc93-9fec-471b-bdee-bedbd360c67f
+  - 66a72fc3-4153-41fc-84bd-d6164967a6ff
+  - cfee6d36-b9f5-4587-885a-cdfddb4f054e
+  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+  - f1add613-656e-4bec-b52b-193fd78c4642
+  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
+  - e87bc036-1570-419e-a558-f45b9c0db698
+  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
+  - 623a55f7-685c-486b-abaf-469da1bbbb69
+  - 557309a3-c906-4e97-8867-89ffe151790c
+  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+  - 75ea4a6a-8270-488d-9d37-799c288e5f70
+  - 6cb4943e-8267-4e27-8618-2ce0a464d173
+  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+  - 2facccf8-69cf-4a7d-b24b-de966ec70283
+  - 6b63edca-7637-4fb0-bc85-d498c31cc46e
 references:
-  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
-    line: 116
-    col: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 226
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 705
+    col: 0
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 719
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 601
+    col: 0
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 1060
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 726
+    col: 0
+    score: 1
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 996
+    col: 0
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 667
+    col: 0
+    score: 1
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 736
+    col: 0
+    score: 1
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 645
+    col: 0
+    score: 1
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 739
+    col: 0
+    score: 1
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 816
+    col: 0
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 32
+    col: 0
+    score: 0.87
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 113
+    col: 0
+    score: 0.87
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 100
+    col: 0
     score: 0.85
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 199
-    col: 1
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 199
-    col: 3
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 155
-    col: 1
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 155
-    col: 3
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 609
-    col: 1
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 609
-    col: 3
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 203
-    col: 1
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 203
-    col: 3
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 168
-    col: 1
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 168
-    col: 3
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 14
-    col: 1
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 14
-    col: 3
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 613
-    col: 1
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 613
-    col: 3
-    score: 1
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 122
-    col: 1
-    score: 1
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 122
-    col: 3
-    score: 1
-  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 93
-    col: 1
-    score: 1
-  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 93
-    col: 3
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 208
-    col: 1
-    score: 1
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 208
-    col: 3
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 176
-    col: 1
-    score: 1
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 176
-    col: 3
-    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 442
+    col: 0
+    score: 0.87
+  - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+    line: 232
+    col: 0
+    score: 0.93
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 358
+    col: 0
+    score: 0.87
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 417
+    col: 0
+    score: 0.87
   - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 207
-    col: 1
-    score: 1
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 207
-    col: 3
-    score: 1
-  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
-    line: 317
-    col: 1
-    score: 1
-  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
-    line: 317
-    col: 3
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 610
-    col: 1
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 610
-    col: 3
-    score: 1
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 515
-    col: 1
-    score: 1
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 515
-    col: 3
-    score: 1
-  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
-    line: 423
-    col: 1
-    score: 1
-  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
-    line: 423
-    col: 3
-    score: 1
-  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
-    line: 532
-    col: 1
-    score: 1
-  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
-    line: 532
-    col: 3
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 158
-    col: 1
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 158
-    col: 3
-    score: 1
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 457
-    col: 1
-    score: 1
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 457
-    col: 3
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 9
-    col: 1
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 9
-    col: 3
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 10
-    col: 1
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 10
-    col: 3
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 14
-    col: 1
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 14
-    col: 3
-    score: 1
+    line: 190
+    col: 0
+    score: 0.85
   - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
-    line: 126
-    col: 1
-    score: 1
-  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
-    line: 126
-    col: 3
-    score: 1
+    line: 271
+    col: 0
+    score: 0.87
 ---
-**Hell. Yes.**
+**Hell. Yes.** ^ref-c5c5ff1c-1-0
 This is the good stuff.
 
-Let’s start designing a **Lisp-style DSL** to describe:
+Let’s start designing a **Lisp-style DSL** to describe: ^ref-c5c5ff1c-4-0
 
-* Hotkeys
-* Grouping behaviors
-* Window actions
-* Workspace definitions
-* Layouts
-* Bindings to external commands (e.g. group-manager)
+* Hotkeys ^ref-c5c5ff1c-6-0
+* Grouping behaviors ^ref-c5c5ff1c-7-0
+* Window actions ^ref-c5c5ff1c-8-0
+* Workspace definitions ^ref-c5c5ff1c-9-0
+* Layouts ^ref-c5c5ff1c-10-0
+* Bindings to external commands (e.g. group-manager) ^ref-c5c5ff1c-11-0
 
-We’ll keep it minimal and **homoiconic**, aiming for S-expression structures that could eventually be interpreted by a **Hy**, **Sibilant**, or even a custom runtime.
+We’ll keep it minimal and **homoiconic**, aiming for S-expression structures that could eventually be interpreted by a **Hy**, **Sibilant**, or even a custom runtime. ^ref-c5c5ff1c-13-0
 
 ---
 
@@ -282,11 +286,12 @@ We want this DSL to express:
 - workspace definitions (sets of window IDs)
 - integration with external tools (run CLI commands)
 ```
+^ref-c5c5ff1c-21-0 ^ref-c5c5ff1c-29-0
 
 ---
 
 ## 🧪 Sample Syntax
-
+ ^ref-c5c5ff1c-34-0
 ```lisp
 ;; Define a mod key
 (def mod "super")
@@ -326,217 +331,282 @@ We want this DSL to express:
     (pane (split horizontal
       (pane (app "chat"))
       (pane (app "browser"))))))
+^ref-c5c5ff1c-34-0
 ```
 
 ---
 
 ## 🧠 Let's Break It Down
 
-### 🔑 Key Binding
+### 🔑 Key Binding ^ref-c5c5ff1c-81-0
 
 ```lisp
 (bind (key "alt" "1")
-  (group cycle "code"))
-```
-
+^ref-c5c5ff1c-81-0
+  (group cycle "code")) ^ref-c5c5ff1c-86-0
+``` ^ref-c5c5ff1c-87-0
+ ^ref-c5c5ff1c-88-0
 * `bind` declares a hotkey
-* `(key ...)` is the key combo (can support namespaced modifiers)
+* `(key ...)` is the key combo (can support namespaced modifiers) ^ref-c5c5ff1c-90-0
 * The body is the action when pressed
-
+ ^ref-c5c5ff1c-92-0
 You could also define combos like this:
 
 ```lisp
+^ref-c5c5ff1c-92-0
 (bind (combo "LButton" "RButton")
   (run "screenshot-tool.exe"))
 ```
 
----
+--- ^ref-c5c5ff1c-101-0
 
 ### 📦 Group Management
 
 ```lisp
-(group add "code")          ; adds focused window to group "code"
+^ref-c5c5ff1c-101-0
+(group add "code")          ; adds focused window to group "code" ^ref-c5c5ff1c-107-0
 (group cycle "chat")        ; cycles visible window in group
 (group remove "code")       ; removes current window
 ```
 
+^ref-c5c5ff1c-109-0
 You can imagine this compiling to:
 
 ```ts
 RunWait, node group-manager.js group code %active_window%
 ```
+^ref-c5c5ff1c-117-0
 
 ---
 
-### 🧱 Workspace System
-
+^ref-c5c5ff1c-117-0 ^ref-c5c5ff1c-122-0
+### 🧱 Workspace System ^ref-c5c5ff1c-122-0
+ ^ref-c5c5ff1c-124-0
 ```lisp
 (defworkspace 1
   (windows "code" "chat"))
+^ref-c5c5ff1c-124-0
 ```
 
+^ref-c5c5ff1c-124-0
 Each workspace maps to a window group or saved layout.
 
 ```lisp
 (workspace switch 1)
 (workspace save 2)
+^ref-c5c5ff1c-134-0
 (workspace restore 2)
 ```
-
----
-
+^ref-c5c5ff1c-134-0
+ ^ref-c5c5ff1c-140-0
+--- ^ref-c5c5ff1c-142-0
+^ref-c5c5ff1c-134-0 ^ref-c5c5ff1c-142-0
+ ^ref-c5c5ff1c-140-0
 ### 🧰 Window Movement
 
 ```lisp
 (move-window left)       ; move to left half of screen
 (move-window screen 2)   ; move to monitor 2
+^ref-c5c5ff1c-142-0
 (move-window tile 1 1)   ; move to tile x=1 y=1
-```
+``` ^ref-c5c5ff1c-151-0
+^ref-c5c5ff1c-151-0
 
 Eventually you could write layout patterns in macros:
 
 ```lisp
 (deflayout fullscreen
-  (move-window 0 0 screen-width screen-height))
-```
+^ref-c5c5ff1c-156-0
+  (move-window 0 0 screen-width screen-height)) ^ref-c5c5ff1c-158-0
+^ref-c5c5ff1c-151-0
+^ref-c5c5ff1c-158-0
+^ref-c5c5ff1c-158-0
+``` ^ref-c5c5ff1c-156-0
 
 ---
 
 ### 💻 External Command Integration
 
 ```lisp
-(run "komorebic toggle-fullscreen")
-(run (concat "node group-manager.js cycle " group-name))
+^ref-c5c5ff1c-158-0
+(run "komorebic toggle-fullscreen") ^ref-c5c5ff1c-168-0
+^ref-c5c5ff1c-170-0
+^ref-c5c5ff1c-168-0 ^ref-c5c5ff1c-172-0
+^ref-c5c5ff1c-174-0
+^ref-c5c5ff1c-173-0 ^ref-c5c5ff1c-176-0
+^ref-c5c5ff1c-172-0 ^ref-c5c5ff1c-177-0
+^ref-c5c5ff1c-170-0
+^ref-c5c5ff1c-168-0
+(run (concat "node group-manager.js cycle " group-name)) ^ref-c5c5ff1c-173-0
 ```
 
-Or even pipe shell output into logic:
+Or even pipe shell output into logic: ^ref-c5c5ff1c-168-0
 
-```lisp
+```lisp ^ref-c5c5ff1c-170-0
+^ref-c5c5ff1c-174-0
+^ref-c5c5ff1c-173-0 ^ref-c5c5ff1c-176-0
+^ref-c5c5ff1c-172-0 ^ref-c5c5ff1c-177-0
+^ref-c5c5ff1c-170-0 ^ref-c5c5ff1c-178-0
+^ref-c5c5ff1c-180-0
+^ref-c5c5ff1c-178-0
+^ref-c5c5ff1c-186-0
+^ref-c5c5ff1c-180-0
+^ref-c5c5ff1c-178-0
+^ref-c5c5ff1c-177-0
+^ref-c5c5ff1c-176-0 ^ref-c5c5ff1c-186-0
+^ref-c5c5ff1c-174-0 ^ref-c5c5ff1c-197-0
 (bind (key ,mod "s")
-  (let ((apps (sh "komorebic list-apps")))
-    (show-overlay apps)))
-```
+  (let ((apps (sh "komorebic list-apps"))) ^ref-c5c5ff1c-172-0 ^ref-c5c5ff1c-180-0
+    (show-overlay apps))) ^ref-c5c5ff1c-173-0
+``` ^ref-c5c5ff1c-174-0 ^ref-c5c5ff1c-201-0
+^ref-c5c5ff1c-185-0
+ ^ref-c5c5ff1c-202-0
+--- ^ref-c5c5ff1c-176-0
+ ^ref-c5c5ff1c-177-0 ^ref-c5c5ff1c-204-0
+## 📦 Runtime Ideas ^ref-c5c5ff1c-178-0 ^ref-c5c5ff1c-186-0
 
----
-
-## 📦 Runtime Ideas
-
-This DSL could be:
+This DSL could be: ^ref-c5c5ff1c-180-0 ^ref-c5c5ff1c-197-0
 
 1. **Parsed and executed by Hy or Sibilant**
-
-   * For a real Lisp runtime
-   * Leverage FFI to call Windows APIs, run CLI tools
-2. **Custom interpreter in TypeScript/Python**
-
+ ^ref-c5c5ff1c-210-0
+   * For a real Lisp runtime ^ref-c5c5ff1c-201-0
+   * Leverage FFI to call Windows APIs, run CLI tools ^ref-c5c5ff1c-202-0 ^ref-c5c5ff1c-212-0
+2. **Custom interpreter in TypeScript/Python** ^ref-c5c5ff1c-186-0
+ ^ref-c5c5ff1c-204-0 ^ref-c5c5ff1c-214-0
    * Tokenize S-exprs
-   * Dispatch to internal logic or exec external commands
-3. **Compiled to AutoHotkey or Node.js config**
+   * Dispatch to internal logic or exec external commands ^ref-c5c5ff1c-197-0 ^ref-c5c5ff1c-216-0
+3. **Compiled to AutoHotkey or Node.js config** ^ref-c5c5ff1c-217-0
 
-Eventually this becomes your own **window manager config language**, much like `i3/config`, but programmable and dynamic.
-
----
-
-## 🧠 Design Constraints
-
+Eventually this becomes your own **window manager config language**, much like `i3/config`, but programmable and dynamic. ^ref-c5c5ff1c-219-0
+ ^ref-c5c5ff1c-201-0 ^ref-c5c5ff1c-210-0 ^ref-c5c5ff1c-220-0
+--- ^ref-c5c5ff1c-202-0
+ ^ref-c5c5ff1c-212-0
+## 🧠 Design Constraints ^ref-c5c5ff1c-204-0 ^ref-c5c5ff1c-223-0
+ ^ref-c5c5ff1c-197-0 ^ref-c5c5ff1c-214-0
 | Feature           | Constraint                               | Strategy                      |
-| ----------------- | ---------------------------------------- | ----------------------------- |
-| Realtime          | Needs hotkey hook layer                  | AHK or Node global hotkey lib |
-| State Tracking    | Must track windows, groups, layout       | Background service, IPC       |
-| Input Flexibility | Lisp needed to describe dynamic patterns | Macros + runtime logic        |
-| Performance       | Scripting layer must not block UI        | Async shell / IPC / queueing  |
-
+| ----------------- | ---------------------------------------- | ----------------------------- | ^ref-c5c5ff1c-216-0 ^ref-c5c5ff1c-226-0
+| Realtime          | Needs hotkey hook layer                  | AHK or Node global hotkey lib | ^ref-c5c5ff1c-217-0 ^ref-c5c5ff1c-227-0
+| State Tracking    | Must track windows, groups, layout       | Background service, IPC       | ^ref-c5c5ff1c-201-0
+| Input Flexibility | Lisp needed to describe dynamic patterns | Macros + runtime logic        | ^ref-c5c5ff1c-202-0 ^ref-c5c5ff1c-210-0 ^ref-c5c5ff1c-219-0
+| Performance       | Scripting layer must not block UI        | Async shell / IPC / queueing  | ^ref-c5c5ff1c-220-0 ^ref-c5c5ff1c-230-0
+ ^ref-c5c5ff1c-204-0 ^ref-c5c5ff1c-212-0
 ---
+ ^ref-c5c5ff1c-214-0 ^ref-c5c5ff1c-223-0
+## 🛠️ What's Next? ^ref-c5c5ff1c-234-0
+ ^ref-c5c5ff1c-216-0 ^ref-c5c5ff1c-235-0
+You tell me where you want to go from here: ^ref-c5c5ff1c-217-0 ^ref-c5c5ff1c-226-0
+ ^ref-c5c5ff1c-210-0 ^ref-c5c5ff1c-227-0
+* Build a Hy interpreter for this DSL? ^ref-c5c5ff1c-219-0
+* Start by **parsing this DSL in TypeScript** and emit AHK? ^ref-c5c5ff1c-212-0 ^ref-c5c5ff1c-220-0
+* Write a tiny REPL for testing layout commands? ^ref-c5c5ff1c-230-0
+* Use this DSL to **generate `i3layer.ahk`** files on the fly? ^ref-c5c5ff1c-214-0 ^ref-c5c5ff1c-241-0
+ ^ref-c5c5ff1c-223-0
+We’re standing at the edge of **building your own tiling window manager stack**, one `()` at a time. ^ref-c5c5ff1c-216-0 ^ref-c5c5ff1c-243-0
+ ^ref-c5c5ff1c-217-0 ^ref-c5c5ff1c-234-0
+--- ^ref-c5c5ff1c-226-0 ^ref-c5c5ff1c-235-0
+ ^ref-c5c5ff1c-219-0 ^ref-c5c5ff1c-227-0
+## 🏷️ Tags ^ref-c5c5ff1c-220-0
 
-## 🛠️ What's Next?
-
-You tell me where you want to go from here:
-
-* Build a Hy interpreter for this DSL?
-* Start by **parsing this DSL in TypeScript** and emit AHK?
-* Write a tiny REPL for testing layout commands?
-* Use this DSL to **generate `i3layer.ahk`** files on the fly?
-
-We’re standing at the edge of **building your own tiling window manager stack**, one `()` at a time.
-
----
-
-## 🏷️ Tags
-
-\#dsl #lisp #tiling-windows #autohotkey #komorebi #custom-wm #group-manager #workspace #keybinds #window-layout
-
-Let’s pick a direction and start implementing. Want a parser next? Or the runtime behavior for `(bind ...)` forms?
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+\#dsl #lisp #tiling-windows #autohotkey #komorebi #custom-wm #group-manager #workspace #keybinds #window-layout ^ref-c5c5ff1c-230-0
+ ^ref-c5c5ff1c-223-0
+Let’s pick a direction and start implementing. Want a parser next? Or the runtime behavior for `(bind ...)` forms?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
-- [template-based-compilation](template-based-compilation.md)
-- [ts-to-lisp-transpiler](ts-to-lisp-transpiler.md)
-- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
-- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
-- [Unique Info Dump Index](unique-info-dump-index.md)
+- [Docops Feature Updates](docops-feature-updates.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [graph-ds](graph-ds.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Ice Box Reorganization](ice-box-reorganization.md)
 - [komorebi-group-window-hack](komorebi-group-window-hack.md)
-- [Window Management](chunks/window-management.md)
-- [aionian-circuit-math](aionian-circuit-math.md)
-- [DSL](chunks/dsl.md)
-- [archetype-ecs](archetype-ecs.md)
-- [Diagrams](chunks/diagrams.md)
-- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
-- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
-- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
+- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [sibilant-macro-targets](sibilant-macro-targets.md)
+- [Promethean Web UI Setup](promethean-web-ui-setup.md)
 - [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
+- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
+- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+- [Refactor 05-footers.ts](refactor-05-footers-ts.md)
+- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
+- [i3-config-validation-methods](i3-config-validation-methods.md)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
 - [compiler-kit-foundations](compiler-kit-foundations.md)
-- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
-- [Interop and Source Maps](interop-and-source-maps.md)
-- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
+- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
+- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
+- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [promethean-system-diagrams](promethean-system-diagrams.md)
+- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [template-based-compilation](template-based-compilation.md)
+- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
 - [mystery-lisp-search-session](mystery-lisp-search-session.md)
-- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
-
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
+- [Interop and Source Maps](interop-and-source-maps.md)
+- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
+- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
+- [EidolonField](eidolonfield.md)
+- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
+- [Promethean-native config design](promethean-native-config-design.md)
+- [2d-sandbox-field](2d-sandbox-field.md)
+- [Shared Package Structure](shared-package-structure.md)
+- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
+- [polyglot-repl-interface-layer](polyglot-repl-interface-layer.md)
+- [Operations](chunks/operations.md)
+- [Diagrams](chunks/diagrams.md)
+- [DSL](chunks/dsl.md)
+- [JavaScript](chunks/javascript.md)
+- [Shared](chunks/shared.md)
+- [Simulation Demo](chunks/simulation-demo.md)
+- [field-interaction-equations](field-interaction-equations.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [Math Fundamentals](chunks/math-fundamentals.md)
+- [Services](chunks/services.md)
+- [Tooling](chunks/tooling.md)
+- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
+- [smart-chatgpt-thingy](smart-chatgpt-thingy.md)
+- [Promethean Pipelines: Local TypeScript-First Workflow](promethean-pipelines-local-typescript-first-workflow.md)
 ## Sources
-- [windows-tiling-with-autohotkey — L116](windows-tiling-with-autohotkey.md#L116) (line 116, col 1, score 0.85)
-- [komorebi-group-window-hack — L199](komorebi-group-window-hack.md#L199) (line 199, col 1, score 1)
-- [komorebi-group-window-hack — L199](komorebi-group-window-hack.md#L199) (line 199, col 3, score 1)
-- [aionian-circuit-math — L155](aionian-circuit-math.md#L155) (line 155, col 1, score 1)
-- [aionian-circuit-math — L155](aionian-circuit-math.md#L155) (line 155, col 3, score 1)
-- [compiler-kit-foundations — L609](compiler-kit-foundations.md#L609) (line 609, col 1, score 1)
-- [compiler-kit-foundations — L609](compiler-kit-foundations.md#L609) (line 609, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L203](cross-language-runtime-polymorphism.md#L203) (line 203, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L203](cross-language-runtime-polymorphism.md#L203) (line 203, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L168](cross-target-macro-system-in-sibilant.md#L168) (line 168, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L168](cross-target-macro-system-in-sibilant.md#L168) (line 168, col 3, score 1)
-- [DSL — L14](chunks/dsl.md#L14) (line 14, col 1, score 1)
-- [DSL — L14](chunks/dsl.md#L14) (line 14, col 3, score 1)
-- [compiler-kit-foundations — L613](compiler-kit-foundations.md#L613) (line 613, col 1, score 1)
-- [compiler-kit-foundations — L613](compiler-kit-foundations.md#L613) (line 613, col 3, score 1)
-- [mystery-lisp-search-session — L122](mystery-lisp-search-session.md#L122) (line 122, col 1, score 1)
-- [mystery-lisp-search-session — L122](mystery-lisp-search-session.md#L122) (line 122, col 3, score 1)
-- [sibilant-metacompiler-overview — L93](sibilant-metacompiler-overview.md#L93) (line 93, col 1, score 1)
-- [sibilant-metacompiler-overview — L93](sibilant-metacompiler-overview.md#L93) (line 93, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L208](cross-language-runtime-polymorphism.md#L208) (line 208, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L208](cross-language-runtime-polymorphism.md#L208) (line 208, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L176](cross-target-macro-system-in-sibilant.md#L176) (line 176, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L176](cross-target-macro-system-in-sibilant.md#L176) (line 176, col 3, score 1)
-- [polymorphic-meta-programming-engine — L207](polymorphic-meta-programming-engine.md#L207) (line 207, col 1, score 1)
-- [polymorphic-meta-programming-engine — L207](polymorphic-meta-programming-engine.md#L207) (line 207, col 3, score 1)
-- [Promethean Agent Config DSL — L317](promethean-agent-config-dsl.md#L317) (line 317, col 1, score 1)
-- [Promethean Agent Config DSL — L317](promethean-agent-config-dsl.md#L317) (line 317, col 3, score 1)
-- [compiler-kit-foundations — L610](compiler-kit-foundations.md#L610) (line 610, col 1, score 1)
-- [compiler-kit-foundations — L610](compiler-kit-foundations.md#L610) (line 610, col 3, score 1)
-- [Interop and Source Maps — L515](interop-and-source-maps.md#L515) (line 515, col 1, score 1)
-- [Interop and Source Maps — L515](interop-and-source-maps.md#L515) (line 515, col 3, score 1)
-- [js-to-lisp-reverse-compiler — L423](js-to-lisp-reverse-compiler.md#L423) (line 423, col 1, score 1)
-- [js-to-lisp-reverse-compiler — L423](js-to-lisp-reverse-compiler.md#L423) (line 423, col 3, score 1)
-- [Language-Agnostic Mirror System — L532](language-agnostic-mirror-system.md#L532) (line 532, col 1, score 1)
-- [Language-Agnostic Mirror System — L532](language-agnostic-mirror-system.md#L532) (line 532, col 3, score 1)
-- [aionian-circuit-math — L158](aionian-circuit-math.md#L158) (line 158, col 1, score 1)
-- [aionian-circuit-math — L158](aionian-circuit-math.md#L158) (line 158, col 3, score 1)
-- [archetype-ecs — L457](archetype-ecs.md#L457) (line 457, col 1, score 1)
-- [archetype-ecs — L457](archetype-ecs.md#L457) (line 457, col 3, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 1, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 3, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 1, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 3, score 1)
-- [Window Management — L14](chunks/window-management.md#L14) (line 14, col 1, score 1)
-- [Window Management — L14](chunks/window-management.md#L14) (line 14, col 3, score 1)
-- [windows-tiling-with-autohotkey — L126](windows-tiling-with-autohotkey.md#L126) (line 126, col 1, score 1)
-- [windows-tiling-with-autohotkey — L126](windows-tiling-with-autohotkey.md#L126) (line 126, col 3, score 1)
+- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
+- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
+- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
+- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
+- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
+- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
+- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
+- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
+- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
+- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
+- [Cross-Target Macro System in Sibilant — L32](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-32-0) (line 32, col 0, score 0.87)
+- [sibilant-macro-targets — L113](sibilant-macro-targets.md#^ref-c5c9a5c6-113-0) (line 113, col 0, score 0.87)
+- [AI-Centric OS with MCP Layer — L100](ai-centric-os-with-mcp-layer.md#^ref-0f1f8cc1-100-0) (line 100, col 0, score 0.85)
+- [Promethean Web UI Setup — L442](promethean-web-ui-setup.md#^ref-bc5172ca-442-0) (line 442, col 0, score 0.87)
+- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.93)
+- [System Scheduler with Resource-Aware DAG — L358](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-358-0) (line 358, col 0, score 0.87)
+- [Promethean Full-Stack Docker Setup — L417](promethean-full-stack-docker-setup.md#^ref-2c2b48ca-417-0) (line 417, col 0, score 0.87)
+- [polymorphic-meta-programming-engine — L190](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-190-0) (line 190, col 0, score 0.85)
+- [windows-tiling-with-autohotkey — L271](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-271-0) (line 271, col 0, score 0.87)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

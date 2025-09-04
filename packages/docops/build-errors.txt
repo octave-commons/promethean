@@ -1,0 +1,23 @@
+
+> @promethean/docops@ build /home/err/devel/promethean/packages/docops
+> tsc -p tsconfig.json
+
+src/01-frontmatter.ts(35,22): error TS18046: 'data' is of type 'unknown'.
+src/01-frontmatter.ts(35,51): error TS18046: 'data' is of type 'unknown'.
+src/01-frontmatter.ts(35,82): error TS18046: 'data' is of type 'unknown'.
+src/02-embed.ts(8,23): error TS2459: Module '"./db"' declares 'Chunk' locally, but it is not exported.
+src/02-embed.ts(57,7): error TS7023: 'groupsOf' implicitly has return type 'any' because it does not have a return type annotation and is referenced directly or indirectly in one of its return expressions.
+src/02-embed.ts(88,31): error TS7031: Binding element 'c' implicitly has an 'any' type.
+src/02-embed.ts(89,33): error TS7031: Binding element 'c' implicitly has an 'any' type.
+src/02-embed.ts(90,33): error TS7031: Binding element 'c' implicitly has an 'any' type.
+src/02-embed.ts(96,43): error TS7031: Binding element 'c' implicitly has an 'any' type.
+src/02-embed.ts(96,46): error TS7031: Binding element 'fp' implicitly has an 'any' type.
+src/03-query.ts(48,22): error TS2339: Property 'value' does not exist on type '[string, readonly Chunk[]]'.
+src/03-query.ts(64,22): error TS2339: Property 'key' does not exist on type '[string, readonly Chunk[]]'.
+src/03-query.ts(64,33): error TS2339: Property 'value' does not exist on type '[string, readonly Chunk[]]'.
+src/db.ts(18,18): error TS2741: Property 'location' is missing in type 'AbstractSublevel<Level<string, unknown>, string | Uint8Array<ArrayBufferLike> | Buffer<ArrayBufferLike>, string, { path: string; title: string; }>' but required in type 'Level<string, { path: string; title: string; }>'.
+src/db.ts(18,24): error TS2741: Property 'location' is missing in type 'AbstractSublevel<Level<string, unknown>, string | Uint8Array<ArrayBufferLike> | Buffer<ArrayBufferLike>, string, readonly Chunk[]>' but required in type 'Level<string, readonly Chunk[]>'.
+src/db.ts(18,32): error TS2741: Property 'location' is missing in type 'AbstractSublevel<Level<string, unknown>, string | Uint8Array<ArrayBufferLike> | Buffer<ArrayBufferLike>, string, string>' but required in type 'Level<string, string>'.
+src/utils.ts(1,22): error TS2300: Duplicate identifier 'fs'.
+src/utils.ts(270,41): error TS2300: Duplicate identifier 'fs'.
+ ELIFECYCLE  Command failed with exit code 2.

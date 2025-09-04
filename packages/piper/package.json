@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "test": "ava --timeout=60s \"test/**/*.js\""
     "prepack": "pnpm run build"
   },
   "exports": {
@@ -24,6 +25,7 @@
     "@promethean/level-cache": "workspace:*"
   },
   "devDependencies": {
+    "ava": "^6.4.1",
     "tsx": "^4.19.2",
     "typescript": "^5.5.4"
   }

@@ -19,9 +19,5 @@ You might find [this] useful while working on this task
 
 ## Comments
 
-<<<<<<< HEAD:docs/agile/tasks/codex-action-build-file-contextualizer..md
 Useful for agents to engage in append only conversations about this task.
 #archive
-=======
-Useful for agents to engage in append only conversations about this task.
->>>>>>> origin/dev/yoga:docs/agile/tasks/consolidate all configs into ` config` as `.edn` files.md

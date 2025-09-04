@@ -13,307 +13,269 @@ tags:
   - fading
   - motion
 related_to_title:
-  - Ghostly Smoke Interference
-  - Diagrams
+  - ChatGPT Custom Prompts
+  - Fnord Tracer Protocol
+  - i3-bluetooth-setup
+  - komorebi-group-window-hack
+  - Docops Feature Updates
+  - field-node-diagram-outline
+  - field-node-diagram-set
+  - field-node-diagram-visualizations
+  - Functional Embedding Pipeline Refactor
+  - graph-ds
+  - heartbeat-fragment-demo
+  - Ice Box Reorganization
+  - Layer1SurvivabilityEnvelope
+  - unique-templates
+  - The Jar of Echoes
+  - Tracing the Signal
+  - ts-to-lisp-transpiler
+  - typed-struct-compiler
+  - TypeScript Patch for Tool Calling Support
+  - Unique Concepts
   - Unique Info Dump Index
-  - Smoke Resonance Visualizations
-  - Synchronicity Waves and Web
-  - Promethean_Eidolon_Synchronicity_Model
-  - Duck's Attractor States
-  - aionian-circuit-math
-  - archetype-ecs
+  - Simulation Demo
+  - Creative Moments
+  - Diagrams
   - DSL
-  - Event Bus Projections Architecture
+  - Services
   - Shared
-  - layer-1-uptime-diagrams
-  - field-dynamics-math-blocks
-  - obsidian-ignore-node-modules-regex
-  - promethean-system-diagrams
+  - Tooling
+  - Window Management
+  - Debugging Broker Connections and Agent Behavior
+  - DuckDuckGoSearchPipeline
+  - Chroma Toolkit Consolidation Plan
+  - JavaScript
+  - Math Fundamentals
+  - Operations
+  - Recursive Prompt Construction Engine
+  - Stateful Partitions and Rebalancing
+  - Performance-Optimized-Polyglot-Bridge
+  - Eidolon Field Abstract Model
+  - Promethean-Copilot-Intent-Engine
+  - schema-evolution-workflow
+  - Migrate to Provider-Tenant Architecture
+  - Mindful Prioritization
 related_to_uuid:
-  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
+  - 930054b3-ba95-4acf-bb92-0e3ead25ed0b
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - 2792d448-c3b5-4050-93dd-93768529d99c
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+  - 22b989d5-f4aa-4880-8632-709c21830f83
+  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - a4a25141-6380-40b9-9cd7-b554b246b303
+  - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - dd00677a-2280-45a7-91af-0728b21af3ad
+  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
+  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - c26f0044-26fe-4c43-8ab0-fc4690723e3c
+  - 18138627-a348-4fbb-b447-410dfb400564
+  - c3cd4f65-2bb3-4fca-a32e-2ac667e03f40
+  - ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
   - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
-  - 91295f3a-a2af-4050-a2b8-4777ea70c32c
-  - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - f2d83a77-7f86-4c56-8538-1350167a0c6c
-  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+  - 557309a3-c906-4e97-8867-89ffe151790c
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
   - e87bc036-1570-419e-a558-f45b9c0db698
-  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
+  - 75ea4a6a-8270-488d-9d37-799c288e5f70
   - 623a55f7-685c-486b-abaf-469da1bbbb69
-  - 4127189a-e0ab-436f-8571-cc852b8e9add
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - ffb9b2a9-744d-4a53-9565-130fceae0832
-  - b51e19b4-1326-4311-9798-33e972bf626c
+  - 6cb4943e-8267-4e27-8618-2ce0a464d173
+  - 9e8ae388-767a-4ea8-9f2e-88801291d947
+  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+  - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
+  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+  - f1add613-656e-4bec-b52b-193fd78c4642
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+  - 4330e8f0-5f46-4235-918b-39b6b93fa561
+  - f5579967-762d-4cfd-851e-4f71b4cb77a1
+  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
+  - ae24a280-678e-4c0b-8cc4-56667fa04172
+  - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - 40185d05-010e-45e7-8c2d-2f879bf14218
 references:
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 6765
+    col: 0
+    score: 0.85
   - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 4
-    col: 1
-    score: 0.86
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 4
-    col: 3
-    score: 0.86
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 33
-    col: 1
-    score: 0.86
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 33
-    col: 3
-    score: 0.86
-  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
-    line: 39
-    col: 1
-    score: 0.91
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 61
-    col: 1
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 61
-    col: 3
-    score: 1
-  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-    line: 54
-    col: 1
-    score: 1
-  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-    line: 54
-    col: 3
-    score: 1
-  - uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
-    line: 78
-    col: 1
-    score: 1
-  - uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
-    line: 78
-    col: 3
-    score: 1
-  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
-    line: 86
-    col: 1
-    score: 1
-  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
-    line: 86
-    col: 3
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 7
-    col: 1
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 7
-    col: 3
-    score: 1
-  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
     line: 147
-    col: 1
-    score: 1
-  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
-    line: 147
-    col: 3
-    score: 1
-  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
-    line: 83
-    col: 1
-    score: 1
-  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
-    line: 83
-    col: 3
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 67
-    col: 1
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 67
-    col: 3
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 158
-    col: 1
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 158
-    col: 3
-    score: 1
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 457
-    col: 1
-    score: 1
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 457
-    col: 3
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 9
-    col: 1
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 9
-    col: 3
-    score: 1
+    col: 0
+    score: 0.85
   - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 10
-    col: 1
-    score: 1
+    line: 4017
+    col: 0
+    score: 0.85
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 4358
+    col: 0
+    score: 0.85
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 4009
+    col: 0
+    score: 0.85
+  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
+    line: 167
+    col: 0
+    score: 0.85
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 139
+    col: 0
+    score: 0.85
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 3304
+    col: 0
+    score: 0.85
+  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
+    line: 160
+    col: 0
+    score: 0.85
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 444
+    col: 0
+    score: 0.91
   - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 464
+    col: 0
+    score: 0.91
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 445
+    col: 0
+    score: 0.91
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 302
+    col: 0
+    score: 0.91
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 388
+    col: 0
+    score: 0.91
+  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
+    line: 324
+    col: 0
+    score: 0.91
+  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
+    line: 411
+    col: 0
+    score: 0.91
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 156
+    col: 0
+    score: 0.91
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 296
+    col: 0
+    score: 0.91
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 184
+    col: 0
+    score: 0.91
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 226
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 705
+    col: 0
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 719
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 601
+    col: 0
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 1060
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 726
+    col: 0
+    score: 1
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 996
+    col: 0
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 667
+    col: 0
+    score: 1
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 736
+    col: 0
+    score: 1
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 645
+    col: 0
+    score: 1
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 739
+    col: 0
+    score: 1
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 816
+    col: 0
+    score: 1
+  - uuid: 930054b3-ba95-4acf-bb92-0e3ead25ed0b
+    line: 5
+    col: 0
+    score: 1
+  - uuid: 930054b3-ba95-4acf-bb92-0e3ead25ed0b
+    line: 7
+    col: 0
+    score: 1
+  - uuid: 930054b3-ba95-4acf-bb92-0e3ead25ed0b
+    line: 18
+    col: 0
+    score: 1
+  - uuid: c26f0044-26fe-4c43-8ab0-fc4690723e3c
+    line: 12
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 139
+    col: 0
+    score: 1
+  - uuid: c3cd4f65-2bb3-4fca-a32e-2ac667e03f40
+    line: 104
+    col: 0
+    score: 1
+  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
+    line: 45
+    col: 0
+    score: 1
+  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
+    line: 411
+    col: 0
+    score: 1
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+    line: 566
+    col: 0
+    score: 1
+  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
     line: 10
-    col: 3
+    col: 0
     score: 1
-  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
-    line: 112
-    col: 1
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 144
+    col: 0
     score: 1
-  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
-    line: 112
-    col: 3
-    score: 1
-  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-    line: 56
-    col: 1
-    score: 1
-  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-    line: 56
-    col: 3
-    score: 1
-  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
-    line: 82
-    col: 1
-    score: 1
-  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
-    line: 82
-    col: 3
-    score: 1
-  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
-    line: 118
-    col: 1
-    score: 0.91
-  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
-    line: 118
-    col: 3
-    score: 0.91
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 142
-    col: 1
-    score: 0.97
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 142
-    col: 3
-    score: 0.97
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 143
-    col: 1
-    score: 0.96
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 143
-    col: 3
-    score: 0.96
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 140
-    col: 1
-    score: 0.91
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 140
-    col: 3
-    score: 0.91
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 170
-    col: 1
-    score: 0.91
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 170
-    col: 3
-    score: 0.91
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 141
-    col: 1
-    score: 0.93
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 141
-    col: 3
-    score: 0.93
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 18
-    col: 1
-    score: 0.98
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 18
-    col: 3
-    score: 0.98
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 19
-    col: 1
-    score: 0.98
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 19
-    col: 3
-    score: 0.98
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 156
-    col: 1
-    score: 0.98
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 156
-    col: 3
-    score: 0.98
-  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
-    line: 176
-    col: 1
-    score: 0.98
-  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
-    line: 176
-    col: 3
-    score: 0.98
-  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
-    line: 177
-    col: 1
-    score: 0.98
-  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
-    line: 177
-    col: 3
-    score: 0.98
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 157
-    col: 1
-    score: 0.98
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 157
-    col: 3
-    score: 0.98
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 58
-    col: 1
-    score: 0.98
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 58
-    col: 3
-    score: 0.98
-  - uuid: b51e19b4-1326-4311-9798-33e972bf626c
-    line: 207
-    col: 1
-    score: 0.98
-  - uuid: b51e19b4-1326-4311-9798-33e972bf626c
-    line: 207
-    col: 3
-    score: 0.98
-  - uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
-    line: 86
-    col: 1
-    score: 0.97
-  - uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
-    line: 86
-    col: 3
-    score: 0.97
 ---
-Note: Consolidated here → ../notes/diagrams/smoke-waves-infinite-depth.md
+Note: Consolidated here → ../notes/diagrams/smoke-waves-infinite-depth.md ^ref-92a052a5-1-0
 
-Here’s the **infinite depth smoke** version — multiple layers drifting at different speeds, fading in and out so it feels like you’re moving through the field.
+Here’s the **infinite depth smoke** version — multiple layers drifting at different speeds, fading in and out so it feels like you’re moving through the field. ^ref-92a052a5-3-0
 [[smoke_waves_infinite_depth.gif|Click here to view it.]]
 
-Next, we could make symbols briefly *condense* inside the smoke, then dissolve — like the ghosts remembering they were words for a moment.
+Next, we could make symbols briefly *condense* inside the smoke, then dissolve — like the ghosts remembering they were words for a moment. ^ref-92a052a5-6-0
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
@@ -390,90 +352,92 @@ ani.save(gif_path_depth, writer='pillow', fps=20)
 
 gif_path_depth
 
-```
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+```<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
-- [Diagrams](chunks/diagrams.md)
+- [ChatGPT Custom Prompts](chatgpt-custom-prompts.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Docops Feature Updates](docops-feature-updates.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [graph-ds](graph-ds.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [unique-templates](templates/unique-templates.md)
+- [The Jar of Echoes](the-jar-of-echoes.md)
+- [Tracing the Signal](tracing-the-signal.md)
+- [ts-to-lisp-transpiler](ts-to-lisp-transpiler.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [Unique Concepts](unique-concepts.md)
 - [Unique Info Dump Index](unique-info-dump-index.md)
-- [Smoke Resonance Visualizations](smoke-resonance-visualizations.md)
-- [Synchronicity Waves and Web](synchronicity-waves-and-web.md)
-- [Promethean_Eidolon_Synchronicity_Model](promethean-eidolon-synchronicity-model.md)
-- [Duck's Attractor States](ducks-attractor-states.md)
-- [aionian-circuit-math](aionian-circuit-math.md)
-- [archetype-ecs](archetype-ecs.md)
+- [Simulation Demo](chunks/simulation-demo.md)
+- [Creative Moments](creative-moments.md)
+- [Diagrams](chunks/diagrams.md)
 - [DSL](chunks/dsl.md)
-- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
+- [Services](chunks/services.md)
 - [Shared](chunks/shared.md)
-- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
-- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
-- [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
-- [promethean-system-diagrams](promethean-system-diagrams.md)
-
+- [Tooling](chunks/tooling.md)
+- [Window Management](chunks/window-management.md)
+- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
+- [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [JavaScript](chunks/javascript.md)
+- [Math Fundamentals](chunks/math-fundamentals.md)
+- [Operations](chunks/operations.md)
+- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
+- [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
+- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
+- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
+- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
+- [schema-evolution-workflow](schema-evolution-workflow.md)
+- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
+- [Mindful Prioritization](mindful-prioritization.md)
 ## Sources
-- [Diagrams — L4](chunks/diagrams.md#L4) (line 4, col 1, score 0.86)
-- [Diagrams — L4](chunks/diagrams.md#L4) (line 4, col 3, score 0.86)
-- [Unique Info Dump Index — L33](unique-info-dump-index.md#L33) (line 33, col 1, score 0.86)
-- [Unique Info Dump Index — L33](unique-info-dump-index.md#L33) (line 33, col 3, score 0.86)
-- [Ghostly Smoke Interference — L39](ghostly-smoke-interference.md#L39) (line 39, col 1, score 0.91)
-- [Duck's Attractor States — L61](ducks-attractor-states.md#L61) (line 61, col 1, score 1)
-- [Duck's Attractor States — L61](ducks-attractor-states.md#L61) (line 61, col 3, score 1)
-- [Promethean_Eidolon_Synchronicity_Model — L54](promethean-eidolon-synchronicity-model.md#L54) (line 54, col 1, score 1)
-- [Promethean_Eidolon_Synchronicity_Model — L54](promethean-eidolon-synchronicity-model.md#L54) (line 54, col 3, score 1)
-- [Smoke Resonance Visualizations — L78](smoke-resonance-visualizations.md#L78) (line 78, col 1, score 1)
-- [Smoke Resonance Visualizations — L78](smoke-resonance-visualizations.md#L78) (line 78, col 3, score 1)
-- [Synchronicity Waves and Web — L86](synchronicity-waves-and-web.md#L86) (line 86, col 1, score 1)
-- [Synchronicity Waves and Web — L86](synchronicity-waves-and-web.md#L86) (line 86, col 3, score 1)
-- [Shared — L7](chunks/shared.md#L7) (line 7, col 1, score 1)
-- [Shared — L7](chunks/shared.md#L7) (line 7, col 3, score 1)
-- [Event Bus Projections Architecture — L147](event-bus-projections-architecture.md#L147) (line 147, col 1, score 1)
-- [Event Bus Projections Architecture — L147](event-bus-projections-architecture.md#L147) (line 147, col 3, score 1)
-- [Synchronicity Waves and Web — L83](synchronicity-waves-and-web.md#L83) (line 83, col 1, score 1)
-- [Synchronicity Waves and Web — L83](synchronicity-waves-and-web.md#L83) (line 83, col 3, score 1)
-- [Unique Info Dump Index — L67](unique-info-dump-index.md#L67) (line 67, col 1, score 1)
-- [Unique Info Dump Index — L67](unique-info-dump-index.md#L67) (line 67, col 3, score 1)
-- [aionian-circuit-math — L158](aionian-circuit-math.md#L158) (line 158, col 1, score 1)
-- [aionian-circuit-math — L158](aionian-circuit-math.md#L158) (line 158, col 3, score 1)
-- [archetype-ecs — L457](archetype-ecs.md#L457) (line 457, col 1, score 1)
-- [archetype-ecs — L457](archetype-ecs.md#L457) (line 457, col 3, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 1, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 3, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 1, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 3, score 1)
-- [Ghostly Smoke Interference — L112](ghostly-smoke-interference.md#L112) (line 112, col 1, score 1)
-- [Ghostly Smoke Interference — L112](ghostly-smoke-interference.md#L112) (line 112, col 3, score 1)
-- [Promethean_Eidolon_Synchronicity_Model — L56](promethean-eidolon-synchronicity-model.md#L56) (line 56, col 1, score 1)
-- [Promethean_Eidolon_Synchronicity_Model — L56](promethean-eidolon-synchronicity-model.md#L56) (line 56, col 3, score 1)
-- [Synchronicity Waves and Web — L82](synchronicity-waves-and-web.md#L82) (line 82, col 1, score 1)
-- [Synchronicity Waves and Web — L82](synchronicity-waves-and-web.md#L82) (line 82, col 3, score 1)
-- [Ghostly Smoke Interference — L118](ghostly-smoke-interference.md#L118) (line 118, col 1, score 0.91)
-- [Ghostly Smoke Interference — L118](ghostly-smoke-interference.md#L118) (line 118, col 3, score 0.91)
-- [Unique Info Dump Index — L142](unique-info-dump-index.md#L142) (line 142, col 1, score 0.97)
-- [Unique Info Dump Index — L142](unique-info-dump-index.md#L142) (line 142, col 3, score 0.97)
-- [Unique Info Dump Index — L143](unique-info-dump-index.md#L143) (line 143, col 1, score 0.96)
-- [Unique Info Dump Index — L143](unique-info-dump-index.md#L143) (line 143, col 3, score 0.96)
-- [Unique Info Dump Index — L140](unique-info-dump-index.md#L140) (line 140, col 1, score 0.91)
-- [Unique Info Dump Index — L140](unique-info-dump-index.md#L140) (line 140, col 3, score 0.91)
-- [Unique Info Dump Index — L170](unique-info-dump-index.md#L170) (line 170, col 1, score 0.91)
-- [Unique Info Dump Index — L170](unique-info-dump-index.md#L170) (line 170, col 3, score 0.91)
-- [Unique Info Dump Index — L141](unique-info-dump-index.md#L141) (line 141, col 1, score 0.93)
-- [Unique Info Dump Index — L141](unique-info-dump-index.md#L141) (line 141, col 3, score 0.93)
-- [Diagrams — L18](chunks/diagrams.md#L18) (line 18, col 1, score 0.98)
-- [Diagrams — L18](chunks/diagrams.md#L18) (line 18, col 3, score 0.98)
-- [Diagrams — L19](chunks/diagrams.md#L19) (line 19, col 1, score 0.98)
-- [Diagrams — L19](chunks/diagrams.md#L19) (line 19, col 3, score 0.98)
-- [field-dynamics-math-blocks — L156](field-dynamics-math-blocks.md#L156) (line 156, col 1, score 0.98)
-- [field-dynamics-math-blocks — L156](field-dynamics-math-blocks.md#L156) (line 156, col 3, score 0.98)
-- [layer-1-uptime-diagrams — L176](layer-1-uptime-diagrams.md#L176) (line 176, col 1, score 0.98)
-- [layer-1-uptime-diagrams — L176](layer-1-uptime-diagrams.md#L176) (line 176, col 3, score 0.98)
-- [layer-1-uptime-diagrams — L177](layer-1-uptime-diagrams.md#L177) (line 177, col 1, score 0.98)
-- [layer-1-uptime-diagrams — L177](layer-1-uptime-diagrams.md#L177) (line 177, col 3, score 0.98)
-- [field-dynamics-math-blocks — L157](field-dynamics-math-blocks.md#L157) (line 157, col 1, score 0.98)
-- [field-dynamics-math-blocks — L157](field-dynamics-math-blocks.md#L157) (line 157, col 3, score 0.98)
-- [obsidian-ignore-node-modules-regex — L58](obsidian-ignore-node-modules-regex.md#L58) (line 58, col 1, score 0.98)
-- [obsidian-ignore-node-modules-regex — L58](obsidian-ignore-node-modules-regex.md#L58) (line 58, col 3, score 0.98)
-- [promethean-system-diagrams — L207](promethean-system-diagrams.md#L207) (line 207, col 1, score 0.98)
-- [promethean-system-diagrams — L207](promethean-system-diagrams.md#L207) (line 207, col 3, score 0.98)
-- [Smoke Resonance Visualizations — L86](smoke-resonance-visualizations.md#L86) (line 86, col 1, score 0.97)
-- [Smoke Resonance Visualizations — L86](smoke-resonance-visualizations.md#L86) (line 86, col 3, score 0.97)
+- [Chroma Toolkit Consolidation Plan — L6765](chroma-toolkit-consolidation-plan.md#^ref-5020e892-6765-0) (line 6765, col 0, score 0.85)
+- [Diagrams — L147](chunks/diagrams.md#^ref-45cd25b5-147-0) (line 147, col 0, score 0.85)
+- [DSL — L4017](chunks/dsl.md#^ref-e87bc036-4017-0) (line 4017, col 0, score 0.85)
+- [JavaScript — L4358](chunks/javascript.md#^ref-c1618c66-4358-0) (line 4358, col 0, score 0.85)
+- [Math Fundamentals — L4009](chunks/math-fundamentals.md#^ref-c6e87433-4009-0) (line 4009, col 0, score 0.85)
+- [Operations — L167](chunks/operations.md#^ref-f1add613-167-0) (line 167, col 0, score 0.85)
+- [Services — L139](chunks/services.md#^ref-75ea4a6a-139-0) (line 139, col 0, score 0.85)
+- [Shared — L3304](chunks/shared.md#^ref-623a55f7-3304-0) (line 3304, col 0, score 0.85)
+- [Tooling — L160](chunks/tooling.md#^ref-6cb4943e-160-0) (line 160, col 0, score 0.85)
+- [Diagrams — L444](chunks/diagrams.md#^ref-45cd25b5-444-0) (line 444, col 0, score 0.91)
+- [DSL — L464](chunks/dsl.md#^ref-e87bc036-464-0) (line 464, col 0, score 0.91)
+- [Services — L445](chunks/services.md#^ref-75ea4a6a-445-0) (line 445, col 0, score 0.91)
+- [Shared — L302](chunks/shared.md#^ref-623a55f7-302-0) (line 302, col 0, score 0.91)
+- [Simulation Demo — L388](chunks/simulation-demo.md#^ref-557309a3-388-0) (line 388, col 0, score 0.91)
+- [Tooling — L324](chunks/tooling.md#^ref-6cb4943e-324-0) (line 324, col 0, score 0.91)
+- [Window Management — L411](chunks/window-management.md#^ref-9e8ae388-411-0) (line 411, col 0, score 0.91)
+- [Creative Moments — L156](creative-moments.md#^ref-10d98225-156-0) (line 156, col 0, score 0.91)
+- [Debugging Broker Connections and Agent Behavior — L296](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-296-0) (line 296, col 0, score 0.91)
+- [DuckDuckGoSearchPipeline — L184](duckduckgosearchpipeline.md#^ref-e979c50f-184-0) (line 184, col 0, score 0.91)
+- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
+- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
+- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
+- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
+- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
+- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
+- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
+- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
+- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
+- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
+- [ChatGPT Custom Prompts — L5](chatgpt-custom-prompts.md#^ref-930054b3-5-0) (line 5, col 0, score 1)
+- [ChatGPT Custom Prompts — L7](chatgpt-custom-prompts.md#^ref-930054b3-7-0) (line 7, col 0, score 1)
+- [ChatGPT Custom Prompts — L18](chatgpt-custom-prompts.md#^ref-930054b3-18-0) (line 18, col 0, score 1)
+- [unique-templates — L12](templates/unique-templates.md#^ref-c26f0044-12-0) (line 12, col 0, score 1)
+- [The Jar of Echoes — L139](the-jar-of-echoes.md#^ref-18138627-139-0) (line 139, col 0, score 1)
+- [Tracing the Signal — L104](tracing-the-signal.md#^ref-c3cd4f65-104-0) (line 104, col 0, score 1)
+- [ts-to-lisp-transpiler — L45](ts-to-lisp-transpiler.md#^ref-ba11486b-45-0) (line 45, col 0, score 1)
+- [typed-struct-compiler — L411](typed-struct-compiler.md#^ref-78eeedf7-411-0) (line 411, col 0, score 1)
+- [TypeScript Patch for Tool Calling Support — L566](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-566-0) (line 566, col 0, score 1)
+- [Unique Concepts — L10](unique-concepts.md#^ref-ed6f3fc9-10-0) (line 10, col 0, score 1)
+- [Unique Info Dump Index — L144](unique-info-dump-index.md#^ref-30ec3ba6-144-0) (line 144, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

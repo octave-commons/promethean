@@ -30,7 +30,4 @@ Useful for agents to engage in append only conversations about this task.
 - Estimate: 5
 - Assumptions: Underlying LLM and transport layer support streaming responses.
 - Dependencies: Streaming protocol implementation and client compatibility.
-<<<<<<< HEAD:docs/agile/tasks/llm-service-must-allow-streamed-responses.md
 #ready
-=======
->>>>>>> origin/dev/yoga:docs/agile/tasks/LLM service must allow streamed responses.md

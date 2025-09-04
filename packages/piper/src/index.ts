@@ -8,6 +8,7 @@ function usage() {
 
 Commands:
   list                         List pipelines in pipelines.yaml
+  status <name>                Show cache/status for each step
   run <name>                   Run a pipeline
   watch <name>                 Watch inputs & re-run
 
@@ -17,7 +18,8 @@ Options for run/watch:
   --dry                        Dry-run (plan)
   --concurrency 4              Concurrency
   --report docs/agile/pipelines
-  --content-hash               Use content hashing even if step cache=mtime`);
+  --content-hash               Use content hashing even if step cache=mtime
+  --json                       Emit NDJSON events (start/skip/end)`);
 }
 
 async function listPipelines(configPath: string) {
@@ -43,6 +45,16 @@ async function main() {
   if (!cmd || cmd === "help" || cmd === "--help") return usage();
   if (cmd === "list") return listPipelines(configPath);
 
+  if (cmd === "status") {
+    const { showStatus } = await import("./status.js");
+    const name = args[1];
+    if (!name) {
+      usage();
+      process.exit(1);
+    }
+    return showStatus(configPath, name);
+  }
+
   if (cmd === "run" || cmd === "watch") {
     const name = args[1];
     if (!name) {
@@ -55,8 +67,9 @@ async function main() {
       concurrency: Number(get("--concurrency", "2")),
       reportDir: get("--report", "docs/agile/pipelines")!,
       contentHash: has("--content-hash"),
-    };
-    if (cmd === "run") await runPipeline(configPath, name, opts);
+      json: has("--json"),
+    } as any;
+    if (cmd === "run") await runPipeline(configPath, name, opts as any);
     else await watchPipeline(configPath, name, opts);
     return;
   }
