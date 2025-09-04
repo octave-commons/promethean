@@ -10,7 +10,7 @@
   (let [parser (mk-parser)]
     (.. parser (parseString nil src) (getRootNode))))
 
- (defmulti node->edn (fn [^TSNode n] (.getType n)))
+(defmulti node->edn (fn [^TSNode n] (.getType n)))
 (defn children [^TSNode n]
   (map #(.getChild n %) (range (.getChildCount n))))
 
@@ -43,7 +43,9 @@
     {:el/type tag :form (node->edn (first (children n)))}))
 
 (defmethod node->edn :default [n]
-  {:el/type :unknown :raw (.getText n)})
+  {:el/type :unknown
+   :node/type (.getType ^TSNode n)
+   :raw (.getText ^TSNode n)})
 
 (defn elisp->data [src]
   (-> src parse-root node->edn))
