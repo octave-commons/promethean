@@ -8,8 +8,11 @@ dist/
 data/
 !docs/data/
 !docs/data/**
-pulbic/
+public/
+# keep .env ignored; provide non-secret sample for image pinning
+# copy .env.example -> .env locally
 .env
+!.env.example
 agents/duck/chroma_data/
 
 .obsidian/

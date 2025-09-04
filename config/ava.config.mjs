@@ -7,10 +7,6 @@ export default {
     "dist/test/**/*.js",
     "dist/**/*.test.js",
     "dist/**/*.spec.js",
-    // JS tests
-    "tests/**/*.js",
-    "test/**/*.js",
-    "**/*.test.js",
   ],
   timeout: "30s",
   failFast: false,
