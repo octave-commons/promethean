@@ -12,7 +12,7 @@ update_time: 08/18/2025 at 3:28 PM
 
 Created: 08/18/2025 at 3:01 PM
 Last Updated: 08/18/2025 at 3:28 PM
-Chat URL: https://chat.openai.com/c/68a38690-27f0-8333-8319-d7deec3076a9
+<!-- Chat URL moved to front-matter as chat_url -->
 
 
 >[!nexus_user] **User** - 08/18/2025 at 3:01 PM
