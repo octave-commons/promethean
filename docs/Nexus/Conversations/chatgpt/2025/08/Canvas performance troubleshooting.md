@@ -6,6 +6,9 @@ aliases: "Canvas performance troubleshooting"
 conversation_id: 68a38690-27f0-8333-8319-d7deec3076a9
 create_time: 08/18/2025 at 3:01 PM
 update_time: 08/18/2025 at 3:28 PM
+chat_url: "https://chat.openai.com/c/68a38690-27f0-8333-8319-d7deec3076a9"
+tags: [canvas, performance, troubleshooting, chatgpt, browsers]
+doc_kind: "conversation-transcript"
 ---
 
 # Title: Canvas performance troubleshooting
