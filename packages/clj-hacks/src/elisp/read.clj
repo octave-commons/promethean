@@ -10,8 +10,7 @@
   (let [parser (mk-parser)]
     (.. parser (parseString nil src) (getRootNode))))
 
-(defmulti node->edn #(.-type ^TSNode %))
-
+ (defmulti node->edn (fn [^TSNode n] (.getType n)))
 (defn children [^TSNode n]
   (map #(.getChild n %) (range (.getChildCount n))))
 
