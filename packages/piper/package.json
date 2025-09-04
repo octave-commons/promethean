@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "ava --timeout=60s \"test/**/*.js\""
+    "test": "pnpm build && ava",
     "prepack": "pnpm run build"
   },
   "exports": {
@@ -18,15 +18,15 @@
     }
   },
   "dependencies": {
-    "chokidar": "^3.6.0",
-    "globby": "^14.0.2",
-    "yaml": "^2.5.0",
-    "zod": "^3.23.8",
+    "chokidar": "3.6.0",
+    "globby": "14.0.2",
+    "yaml": "2.5.0",
+    "zod": "3.23.8",
     "@promethean/level-cache": "workspace:*"
   },
   "devDependencies": {
-    "ava": "^6.4.1",
-    "tsx": "^4.19.2",
-    "typescript": "^5.5.4"
+    "ava": "6.4.1",
+    "tsx": "4.19.2",
+    "typescript": "5.5.4"
   }
 }

@@ -1,0 +1,122 @@
+version: "3.9"
+
+networks:
+  prom-net:
+    driver: bridge
+
+x-env-defaults: &env_defaults
+  HF_TOKEN: ${HF_TOKEN:-}
+  TEI_MODEL: ${TEI_MODEL:-nomic-ai/nomic-embed-text-v1.5}
+  CLIP_MODEL: ${CLIP_MODEL:-openai/clip-vit-large-patch14}
+  VLLM_MAX_TOKENS: ${VLLM_MAX_TOKENS:-32768}
+
+services:
+  # ---------- Edge (the only exposed port) ----------
+  edge:
+    image: nginx:1.27-alpine
+    container_name: edge
+    ports: ["80:80"]
+    volumes:
+      - ../../infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../../infra/nginx/secrets:/etc/nginx/secrets:ro
+    networks: [prom-net]
+    restart: unless-stopped
+    depends_on:
+      - ollama
+      - vllm-qwen3-8b
+      - vllm-qwen25-coder-7b
+      - vllm-gemma-2b
+      - tei-nomic
+      - clip-vit
+      - whisper-faster-openai
+      - ovms-npu
+
+  # ---------- LLMs (GPU) ----------
+  vllm-qwen3-8b:
+    image: vllm/vllm-openai:latest
+    command: >
+      --model Qwen/Qwen3-8B-Instruct
+      --dtype auto --max-num-batched-tokens ${VLLM_MAX_TOKENS:-32768}
+    environment:
+      <<: *env_defaults
+    networks: [prom-net]
+    gpus: all
+    restart: unless-stopped
+
+  vllm-qwen25-coder-7b:
+    image: vllm/vllm-openai:latest
+    command: >
+      --model Qwen/Qwen2.5-Coder-7B-Instruct
+      --dtype auto --max-num-batched-tokens ${VLLM_MAX_TOKENS:-32768}
+    environment:
+      <<: *env_defaults
+    networks: [prom-net]
+    gpus: all
+    restart: unless-stopped
+
+  vllm-gemma-2b:
+    image: vllm/vllm-openai:latest
+    command: >
+      --model google/gemma-2-2b-it
+      --dtype auto --max-num-batched-tokens ${VLLM_MAX_TOKENS:-32768}
+    environment:
+      <<: *env_defaults
+    networks: [prom-net]
+    gpus: all
+    restart: unless-stopped
+
+  # ---------- Ollama (GPU optional) ----------
+  ollama:
+    image: ollama/ollama:latest
+    environment:
+      OLLAMA_KEEP_ALIVE: 5m
+    volumes:
+      - ${HOME}/.ollama:/root/.ollama
+    networks: [prom-net]
+    gpus: all
+    restart: unless-stopped
+
+  # ---------- Embeddings (nomic) ----------
+  tei-nomic:
+    image: ghcr.io/huggingface/text-embeddings-inference:89-1.8
+    command: --model-id ${TEI_MODEL:-nomic-ai/nomic-embed-text-v1.5} --port 80
+    environment:
+      <<: *env_defaults
+    volumes:
+      - ${HOME}/.cache/huggingface:/root/.cache/huggingface
+    networks: [prom-net]
+    restart: unless-stopped
+
+  # ---------- CLIP ViT (HTTP or gRPC on 51000) ----------
+  clip-vit:
+    image: jinaai/clip-server:latest
+    environment:
+      CLIP_MODEL: ${CLIP_MODEL:-openai/clip-vit-large-patch14}
+    volumes:
+      - ${HOME}/.cache:/home/cas/.cache
+    networks: [prom-net]
+    gpus: all
+    restart: unless-stopped
+
+  # ---------- Whisper (CUDA) ----------
+  whisper-faster-openai:
+    image: fedirz/faster-whisper-server:latest-cuda
+    environment:
+      ASR_ENGINE: whisper
+      ASR_MODEL: medium
+      ASR_BEAM_SIZE: 5
+    volumes:
+      - ${HOME}/.cache/huggingface:/root/.cache/huggingface
+    networks: [prom-net]
+    gpus: all
+    restart: unless-stopped
+
+  # ---------- OVMS (Intel iGPU/NPU) ----------
+  ovms-npu:
+    image: openvino/model_server:latest
+    command: --config_path /config/config.json --rest_port 9000 --port 9000
+    volumes:
+      - ./infra/ovms/config.json:/config/config.json:ro
+      - ./models/ov:/opt/models:ro
+    networks: [prom-net]
+    restart: unless-stopped
