@@ -13,8 +13,9 @@ export async function ensureDir(p: string) {
 export async function readTextMaybe(p: string) {
   try {
     return await fs.readFile(p, "utf-8");
-  } catch {
-    return undefined;
+  } catch (err: any) {
+    if ((err as NodeJS.ErrnoException)?.code === "ENOENT") return undefined;
+    throw err;
   }
 }
 
@@ -24,11 +25,10 @@ export async function writeText(p: string, s: string) {
 }
 
 export async function listOutputsExist(outputs: string[], cwd: string) {
-  for (const pat of outputs) {
-    const files = await globby(pat, { cwd, absolute: true, dot: true });
-    if (files.length === 0) return false;
-  }
-  return true;
+  const results = await Promise.all(
+    outputs.map((pat) => globby(pat, { cwd, absolute: true, dot: true })),
+  );
+  return results.every((files) => files.length > 0);
 }
 
 export function runShell(
@@ -37,7 +37,12 @@ export function runShell(
   env: Record<string, string>,
   timeoutMs?: number,
 ) {
-  return runSpawn(cmd, { cwd, env, shell: true, timeoutMs });
+  return runSpawn(cmd, {
+    cwd,
+    env,
+    shell: true,
+    ...(timeoutMs ? { timeoutMs } : {}),
+  });
 }
 
 export function runNode(
@@ -49,7 +54,12 @@ export function runNode(
 ) {
   const cmd = process.execPath;
   const finalArgs = [file, ...(args ?? [])];
-  return runSpawn(cmd, { cwd, env, args: finalArgs, timeoutMs });
+  return runSpawn(cmd, {
+    cwd,
+    env,
+    args: finalArgs,
+    ...(timeoutMs ? { timeoutMs } : {}),
+  });
 }
 
 export async function runTSModule(
@@ -63,24 +73,33 @@ export async function runTSModule(
     : path.resolve(cwd, step.ts!.module);
   const code = `
     import mod from ${JSON.stringify(modPath)};
-    const fn = (mod && mod.${step.ts!.export}) || (mod && mod.default) || mod;
+    const exportName = ${JSON.stringify(step.ts!.export ?? "")};
+    const fn =
+      (exportName && mod && mod[exportName]) ||
+      (mod && mod.default) ||
+      mod;
     const res = await fn(${JSON.stringify(step.ts!.args ?? {})});
     if (typeof res === 'string') process.stdout.write(res);
   `;
   // Lazy-run via node -e with ESM loader
   const cmd = process.execPath;
-  const args = ["-e", code];
-  return runSpawn(cmd, { cwd, env, args, timeoutMs });
+  const args = ["--input-type=module", "-e", code];
+  return runSpawn(cmd, {
+    cwd,
+    env,
+    args,
+    ...(timeoutMs ? { timeoutMs } : {}),
+  });
 }
 
 function runSpawn(
   cmd: string,
   opts: {
     cwd: string;
-    env: Record<string, string>;
-    shell?: boolean | undefined;
-    args?: string[] | undefined;
-    timeoutMs?: number | undefined;
+    env: NodeJS.ProcessEnv;
+    shell?: boolean;
+    args?: string[];
+    timeoutMs?: number;
   },
 ) {
   return new Promise<{ code: number | null; stdout: string; stderr: string }>(
@@ -91,11 +110,13 @@ function runSpawn(
             env: { ...process.env, ...opts.env },
             shell: true,
             stdio: ["ignore", "pipe", "pipe"],
+            detached: process.platform !== "win32",
           })
         : spawn(cmd, opts.args ?? [], {
             cwd: opts.cwd,
             env: { ...process.env, ...opts.env },
             stdio: ["ignore", "pipe", "pipe"],
+            detached: process.platform !== "win32",
           });
 
       let out = "",
@@ -104,7 +125,11 @@ function runSpawn(
         opts.timeoutMs && opts.timeoutMs > 0
           ? setTimeout(() => {
               try {
-                child.kill("SIGKILL");
+                if (process.platform !== "win32" && child.pid) {
+                  process.kill(-child.pid, "SIGKILL");
+                } else {
+                  child.kill("SIGKILL");
+                }
               } catch {}
             }, opts.timeoutMs)
           : undefined;
