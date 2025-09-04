@@ -27,6 +27,7 @@ evidence, and produce diffs/notes.
 - Functional preferred
 - TTD non-negotiable
 - Document-driven development
+- No relative module resolution outside of the package root. Depend on `@promethean/types` via "workspace:*".
 
 # Banned
 Under no circumstances should you introduce the following to Promethean:
