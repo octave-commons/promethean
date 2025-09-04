@@ -16,8 +16,8 @@
 - [[#key-bindings][Key bindings]]
 
 * Description
-This layer adds support for something.
-
+The =codex-hub= layer integrates Codex workflows into Spacemacs:
+context-aware tasks, buffer fixing, and review flows powered by local/remote LLMs.
 ** Features:
   - Autocomplete
   - Lint
