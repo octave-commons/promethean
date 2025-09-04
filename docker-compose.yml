@@ -11,12 +11,12 @@ services:
       - sonarqube_extensions:/opt/sonarqube/extensions
     restart: always
   chromadb:
-    image: chromadb/chroma
+    image: ${CHROMA_IMAGE:-chromadb/chroma:1.0.21.dev56}
     restart: always
     volumes:
       - ./data/chroma:/index_data
     ports:
-      - 8000:8000
+      - 127.0.0.1:8000:8000
   ollama:
     image: ollama/ollama:0.11.8
     restart: always
@@ -32,13 +32,7 @@ services:
       NVIDIA_VISIBLE_DEVICES: "all"
       NVIDIA_DRIVER_CAPABILITIES: "all"
     healthcheck:
-      test:
-        [
-          "CMD",
-          "bash",
-          "-lc",
-          "curl -fsS http://127.0.0.1:11434/api/tags >/dev/null && nvidia-smi >/dev/null 2>&1",
-        ]
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:11434/api/tags >/dev/null && nvidia-smi >/dev/null 2>&1"]
       interval: 10s
       timeout: 5s
       retries: 6
@@ -47,7 +41,7 @@ services:
     container_name: redis
     restart: unless-stopped
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
     command: redis-server --save 60 1 --loglevel warning
     volumes:
       - redis_data:/data
@@ -63,14 +57,14 @@ services:
     environment:
       - MODEL_ID=${TEI_MODEL:-nomic-ai/nomic-embed-text-v1.5}
       - NUM_SHARD=1
-    ports: ["8081:80"]
+    ports: ["127.0.0.1:8081:80"]
     restart: unless-stopped
   mongodb:
     image: mongo:6-jammy
     container_name: mongodb
     restart: always
     ports:
-      - "27017:27017"
+      - "127.0.0.1:27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: password
@@ -87,7 +81,7 @@ services:
 
   haystack:
     profiles: ["ai", "rag"]
-    image: deepset/haystack:base
+    image: ${HAYSTACK_IMAGE:-deepset/haystack:base-v2.17.1}
     environment:
       - PIPELINE_YAML=/app/pipelines/default.yaml
     volumes:
@@ -102,27 +96,34 @@ services:
     environment:
       - MODEL_ID=${CLIP_MODEL:-openai/clip-vit-large-patch14}
       - TASK=feature-extraction
-    ports: ["8082:80"]
+    ports: ["127.0.0.1:8082:80"]
     restart: unless-stopped
   qdrant:
-    image: qdrant/qdrant:latest
+    image: ${QDRANT_IMAGE:-qdrant/qdrant:v1.15.4}
     restart: unless-stopped
     volumes:
       - qdrant-data:/qdrant/storage
 
   tor:
-    image: dperson/torproxy
+    image: ${TOR_PROXY_IMAGE:-dperson/torproxy@sha256:d161ddddd47b4d2a91b8fe93d61e81b0760c0452ab6983a35ed37452e24004f6}
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 9050 || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
 
   privoxy:
-    image: vimagick/privoxy
+    image: ${PRIVOXY_IMAGE:-vimagick/privoxy@sha256:10ebc7e0c44f7ad5ef6f92fe929bb48984b0c6fb632439f7255028fc016118b9}
     restart: unless-stopped
     environment:
       - FORWARD_SOCKS5=tor:9050
-    depends_on: [tor]
+    depends_on:
+      tor:
+        condition: service_healthy
   # ---------- Whisper (CUDA) ----------
   whisper-faster-openai:
-    image: fedirz/faster-whisper-server:latest-cuda
+    image: ${WHISPER_IMAGE:-fedirz/faster-whisper-server:0.6.0-rc.3-cuda}
     environment:
       ASR_ENGINE: whisper
       ASR_MODEL: medium
@@ -134,7 +135,7 @@ services:
 
   # ---------- OVMS (Intel iGPU/NPU) ----------
   ovms-npu:
-    image: openvino/model_server:latest
+    image: ${OVMS_IMAGE:-openvino/model_server:2025.2.1}
     command: --config_path /config/config.json --rest_port 9000 --port 9000
     volumes:
       - ./infra/ovms/config.json:/config/config.json:ro
@@ -142,6 +143,7 @@ services:
     restart: unless-stopped
 
 volumes:
+  nats_data:
   qdrant-data:
   redis_data:
   sonarqube_data:
