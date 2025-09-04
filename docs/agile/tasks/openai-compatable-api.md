@@ -1,9 +1,9 @@
 
-# Task: Context Layer Between Codex CLI and Local LLMs
+# Task: Context Layer Between Codex and Local LLMs
 
 ## Description
 
-We need to design and implement a **context-building service** under `services/ts/` that sits between the Codex CLI and local language models (e.g., Ollama). This service must **expose an OpenAI-compatible API** so that Codex CLI and other OpenAI SDK-based clients can interact with it without modification.
+We need to design and implement a **context-building service** under `services/ts/` that sits between Codex and local language models (e.g., Ollama). This service must **expose an OpenAI-compatible API** so that Codex and other OpenAI SDK-based clients can interact with it without modification.
 
 The service will:
 
@@ -18,7 +18,7 @@ The service will:
 * [ ] Service implemented under `services/ts/codex-context/`.
 * [ ] Exposes OpenAI-compatible API endpoints (`/v1/chat/completions`, `/v1/completions`, etc.).
 * [ ] Accepts OpenAI-style requests (same JSON schema) and returns OpenAI-style responses.
-* [ ] Codex CLI requests transparently pass through this service.
+* [ ] Codex requests transparently pass through this service.
 * [ ] Relevant repo context (code, AGENTS.md, docs) is retrieved via SmartGPT endpoints.
 * [ ] SmartGPT requests must be authorized with a static token.
 * [ ] Prompt construction supports append-only structured augmentation (preserves provenance & citations).

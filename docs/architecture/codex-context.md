@@ -33,7 +33,7 @@ Testing
 - Prompt assembly: Verifies citations and context are injected into system message.
 - Artifact persistence: Produces request markdown files for Obsidian.
 
-Usage with Codex CLI
+Usage with Codex
 --------------------
 
 - Configure Codex/OpenAI SDK with `OPENAI_BASE_URL=http://localhost:8140/v1` (or equivalent client option) and `OPENAI_API_KEY` (any placeholder, not used for local auth).
