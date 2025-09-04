@@ -1,5 +1,6 @@
 **/node_modules/**
 node_modules/
+packages/**/package-lock.json
 data/*
 !data/README.md
 dist/
