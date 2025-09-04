@@ -10,28 +10,36 @@ const hasRg = (): boolean => {
   return r.status === 0;
 };
 
-const rgArgsFor = (key: string): RgArgs | null => {
-  switch (key) {
-    case "REL_JS_SUFFIX":
-      return {
-        args: [
-          "-n",
-          "--glob",
-          "packages/**/src/**/*.{ts,tsx}",
-          "from ['\"][.]{1,2}/[^'\"]*(?!.js)['\"]",
-        ],
-      };
-    case "NO_TS_PATHS":
-      return {
-        args: ["-n", "--glob", "packages/**/tsconfig*.json", '"paths"s*:'],
-      };
+case "REL_JS_SUFFIX":
+  return {
+    args: [
+      "-n",
+      "-P",
+      "--glob",
+      "packages/**/src/**/*.{ts,tsx}",
+      "-e",
+      "from [\"'][.]{1,2}/[^\"']*(?!\\.js)[\"']",
+    ],
+  };
+ case "NO_TS_PATHS":
+   return {
+     args: [
+       "-n",
+       "--glob",
+       "packages/**/tsconfig*.json",
+       "-e",
+       "\"paths\"\\s*:",
+     ],
+   };
     case "NO_EMBED_HTML":
       return {
         args: [
           "-n",
+          "-i",
           "--glob",
-          "packages/**/src/**/*.ts",
-          "<html|<!doctype|res.send(",
+          "packages/**/src/**/*.{ts,tsx,js,jsx}",
+          "-e",
+          "(?i)<html|<!doctype|res\\.send\\(",
         ],
       };
     default:
@@ -62,9 +70,14 @@ export const countOccurrences = async (
       cwd: repoRoot,
       encoding: "utf8",
     });
-    if (r.status !== 0 || !r.stdout) return 0;
-    return r.stdout.trim().split("\n").filter(Boolean).length;
+    if (r.status === 0 && r.stdout) {
+      return r.stdout.trim().split("\n").filter(Boolean).length;
+    }
+    // fall through to Node scan on errors or no matches
   }
+
+  // -- existing Node-based scan implementation follows here --
+};
   const rx = nodeScanRegexFor(key);
   if (!rx) return 0;
   const files = await globby(
