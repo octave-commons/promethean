@@ -78,21 +78,20 @@
      "\n")))
 
 (defun codex--lsp-symbols ()
-  (when (and codex-include-lsp-context (boundp 'lsp-mode) lsp-mode (fboundp 'lsp-request))
+  (when (and codex-include-lsp-context
+             (boundp 'lsp-mode) lsp-mode
+             (fboundp 'lsp-request)
+             buffer-file-name)
     (condition-case _
         (let* ((doc (lsp-request "textDocument/documentSymbol"
-                                 `(:textDocument (:uri ,(concat "file://" (buffer-file-name))))))
-               (names (cl-labels ((grab (x)
-                                    (or (alist-get 'name x)
-                                        (alist-get :name x))))
-                        (mapconcat #'identity
-                                   (delq nil (mapcar (lambda (x) (grab x)) doc))
-                                   ", "))))
+                                 `(:textDocument (:uri ,(concat "file://" buffer-file-name)))))
+               (names (cl-labels ((grab (x) (or (alist-get 'name x)
+                                                (alist-get :name x))))
+                        (mapconcat #'identity (delq nil (mapcar #'grab doc)) ", "))))
           (if (and names (> (length names) 0))
               (format "LSP symbols: %s" names)
             ""))
       (error ""))))
-
 (defun codex--buffer-chunk ()
   (let* ((sel (if (use-region-p)
                   (buffer-substring-no-properties (region-beginning) (region-end))
