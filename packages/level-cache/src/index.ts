@@ -32,26 +32,19 @@ export const openLevelCache = async <T = unknown>(
   });
 
   const base: Readonly<{
-    defaultTtlMs?: number | undefined;
-    namespace?: string | undefined;
+    defaultTtlMs?: Millis;
+    namespace?: string;
   }> = {
-    defaultTtlMs: opts.defaultTtlMs ?? undefined,
-    namespace: opts.namespace ?? undefined,
+    defaultTtlMs: opts.defaultTtlMs,
+    namespace: opts.namespace,
   };
 
   const get = async (key: string): Promise<T | undefined> => {
     const k = joinKey(base.namespace, key);
-    try {
-      const env = await db.get(k).catch(() => undefined);
-      const [val, expired] = unwrap(env);
-      if (expired) {
-        // lazy deletion; don't throw
-        await db.del(k).catch(() => {});
-      }
-      return val;
-    } catch {
-      return undefined;
-    }
+    const env = await db.get(k).catch(() => undefined);
+    const [val, expired] = unwrap(env);
+    if (expired) await db.del(k).catch(() => {});
+    return val;
   };
 
   const has = async (key: string): Promise<boolean> => {
@@ -267,7 +260,7 @@ function bindView<T>(
         ? base.namespace
           ? `${base.namespace}/${ns}`
           : ns
-        : base.namespace,
+        : undefined,
     });
 
   const close = async () => db.close();

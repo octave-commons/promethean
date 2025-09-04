@@ -1,8 +1,14 @@
 const stripCodeFences = (s: string): string =>
-  s.replace(/```[\s\S]*?```/g, " ").replace(/`[^`]*`/g, " ");
+  s
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/~~~[\s\S]*?~~~/g, " ")
+    .replace(/`[^`]*`/g, " ");
 
 const stripPaths = (s: string): string =>
-  s.replace(/\b\S+\.(ts|tsx|js|jsx|json|yaml|yml)(:\d+)?\b/g, " ");
+  s.replace(
+    /(?:[A-Za-z]:\\|\.{1,2}\/|\/)?[\w./\\-]+\.(?:ts|tsx|js|jsx|mjs|cjs|json|ya?ml)(?::\d+)?(?=[\s),.;:!?]|$)/g,
+    " ",
+  );
 
 const clean = (s: string): string =>
   s

@@ -1,6 +1,12 @@
-(defun codex-cli/init-codex-cli-layer ()
-  "Initialize codex‑cli keybindings."
-  (spacemacs/set-leader-keys
-    "axc" 'codex‑cli‑suggest-current
-    "axa" 'codex‑cli‑auto‑edit-current
-    "axf" 'codex‑cli‑full‑auto‑current))
+;;; config.el --- codex layer
+(defvar codex-cli-executable "codex"
+  "Path to the Codex CLI binary.")
+
+(defvar codex-context-max-bytes (* 512 1024)
+  "Cap the bytes of buffer/region sent to Codex (def: 512KB).")
+
+(defvar codex-include-lsp-context t)
+(defvar codex-include-flycheck-errors t)
+(defvar codex-include-git-summary t)
+(defvar codex-noninteractive t
+  "If non-nil, use non-interactive/CI-style invocation suitable for scripting.")
