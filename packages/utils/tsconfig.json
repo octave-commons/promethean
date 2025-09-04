@@ -6,13 +6,5 @@
         "composite": true,
         "declaration": true
     },
-    "include": ["src/**/*"],
-    "references": [
-        {
-            "path": "../event"
-        },
-        {
-            "path": "../utils"
-        }
-    ]
+    "include": ["src/**/*"]
 }

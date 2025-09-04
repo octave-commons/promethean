@@ -1,5 +1,7 @@
 // Module types resolved at runtime; loosen compile-time types here
 
+import { sleep } from '@promethean/utils/sleep.js';
+
 export type CompactorOptions = {
     topic: string;
     snapshotTopic: string;
@@ -42,8 +44,4 @@ export function startCompactor(store: any, bus: any, opts: CompactorOptions) {
     return () => {
         stopped = true;
     };
-}
-
-function sleep(ms: number) {
-    return new Promise((r) => setTimeout(r, ms));
 }
