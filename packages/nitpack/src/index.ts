@@ -27,7 +27,6 @@ const main = async () => {
     console.error("Bad --pr, expected a positive integer");
     exit(2);
   }
-
   const { owner, name } = parseRepo(args.repo);
   const { issueComments, reviewComments } = await fetchAllComments({
     owner,
