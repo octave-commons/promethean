@@ -3,7 +3,7 @@
 ;; Spacemacs layer to integrate OpenAI Codex CLI.
 
 ;;; Code:
-(defconst codex-cli-packages
+(defconst codex-packages
   '()
   "No external packages needed; using built‑in features.")
 
