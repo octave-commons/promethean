@@ -27,12 +27,8 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "experimentalDecorators": true,
-    "lib": ["ESNext", "esnext.disposable"],
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "paths": {
-      "@shared/ts/*": ["../shared/ts/dist/*"]
-    },
     "lib": ["ES2022", "esnext.disposable"]
   },
   "types": ["node", "ava"],
