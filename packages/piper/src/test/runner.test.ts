@@ -59,7 +59,6 @@ test.serial(
 
         const res1 = await runPipeline(pipelinesPath, "demo", {
           concurrency: 2,
-          reportDir: undefined,
           contentHash: true,
         });
         t.truthy(await fs.readFile(path.join(dir, "out.txt"), "utf8"));
@@ -72,7 +71,6 @@ test.serial(
 
         const res2 = await runPipeline(pipelinesPath, "demo", {
           concurrency: 2,
-          reportDir: undefined,
           contentHash: true,
         });
         t.true(
@@ -84,7 +82,6 @@ test.serial(
         await fs.writeFile(path.join(dir, "out.txt"), "changed\n", "utf8");
         const res3 = await runPipeline(pipelinesPath, "demo", {
           concurrency: 2,
-          reportDir: undefined,
           contentHash: true,
         });
         t.true(
