@@ -108,7 +108,7 @@ Notes:
 
 ### Agent API (for AI)
 
-Use these endpoints to launch and supervise Codex CLI tasks. Prefer sandboxing when running with approvals bypass.
+Use these endpoints to launch and supervise Codex tasks. Prefer sandboxing when running with approvals bypass.
 
 - `POST /v0/agent/start`
     - Purpose: Start a new Codex process under the PTY-based AgentSupervisor.
