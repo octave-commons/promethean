@@ -58,6 +58,6 @@
     // Completeness
     "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "include": ["src/**/*.ts", "tests/**/*.ts", "../types/shims/persistence.d.ts"],
   "exclude": ["node_modules"]
 }
