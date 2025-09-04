@@ -1,7 +1,3 @@
-export default {
-  files: ["tests/**/*.ts"],
-  extensions: {
-    ts: "module",
-  },
-  nodeArguments: ["--loader=tsx"],
-};
+import base from "../../config/ava.config.mjs";
+
+export default base;

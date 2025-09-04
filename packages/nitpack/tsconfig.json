@@ -1,5 +1,4 @@
 {
-  "extends": null,
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022"],
@@ -7,11 +6,14 @@
     "moduleResolution": "NodeNext",
     "moduleDetection": "force",
     "strict": true,
+    "verbatimModuleSyntax": true,
     "noUncheckedIndexedAccess": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "allowJs": false,
-    "composite": false
+    "composite": false,
+    "rootDir": ".",
+    "outDir": "dist"
   },
   "include": ["src", "tests"]
 }
