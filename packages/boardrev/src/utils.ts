@@ -1,33 +1,46 @@
-import { promises as fs } from "fs";
-import * as path from "path";
+// SPDX-License-Identifier: GPL-3.0-only
+// Native ESM; NodeNext; no HTML here.
 
+import { promises as fs } from "fs"; // Node fs/promises ESM is fine on modern Node.
+import * as path from "path";
 import { globby } from "globby";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
+/**
+ * Minimal, side-effect-free arg parser.
+ * Keeps your existing convention of keys including the leading `--`.
+ * Supports `--flag value` and bare flags (`--flag` => "true").
+ */
 export function parseArgs(defaults: Record<string, string>) {
-  const out = { ...defaults };
+  const out: Record<string, string> = { ...defaults };
   const a = process.argv.slice(2);
   for (let i = 0; i < a.length; i++) {
-    const k = a[i];
+    const k = a[i]!;
     if (!k.startsWith("--")) continue;
-    const v = a[i + 1] && !a[i + 1].startsWith("--") ? a[++i] : "true";
+    const v = a[i + 1] && !a[i + 1]!.startsWith("--") ? a[++i]! : "true";
     out[k] = v;
   }
   return out;
 }
 
+/**
+ * Find markdown task files (skip READMEs).
+ * Globs require forward slashes; normalize on Windows.
+ */
 export async function listTaskFiles(dir: string) {
-  return globby([`${dir.replace(/\\/g, "/")}/**/*.md`, "!**/README.md"]);
+  return globby([`${dir.replace(/\\/g, "/")}/**/*.md`, "!**/README.md"]); // forward slashes per globby docs
 }
 
 export async function readText(p: string) {
   return fs.readFile(p, "utf-8");
 }
+
 export async function writeText(p: string, s: string) {
   await fs.mkdir(path.dirname(p), { recursive: true });
   await fs.writeFile(p, s, "utf-8");
 }
+
 export async function readMaybe(p: string) {
   try {
     return await fs.readFile(p, "utf-8");
@@ -59,10 +72,11 @@ export function relFromRepo(abs: string) {
   return path.relative(process.cwd(), abs).replace(/\\/g, "/");
 }
 
-export async function ollamaEmbed(
-  model: string,
-  text: string,
-): Promise<number[]> {
+/**
+ * Ollama embeddings.
+ * NOTE: Some tooling/docs reference /api/embed; /api/embeddings is widely used.
+ */
+export async function ollamaEmbed(model: string, text: string): Promise<number[]> {
   const res = await fetch(`${OLLAMA_URL}/api/embeddings`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -73,13 +87,17 @@ export async function ollamaEmbed(
   return data.embedding as number[];
 }
 
+/**
+ * Ask Ollama for strict JSON.
+ * We still defensively strip ```json fences if a model ignores format.
+ */
 export async function ollamaJSON(model: string, prompt: string): Promise<any> {
   const res = await fetch(`${OLLAMA_URL}/api/generate`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       model,
-      prompt,
+      prompt, // Ideally also instruct in the prompt to respond with JSON.
       stream: false,
       options: { temperature: 0 },
       format: "json",
@@ -88,9 +106,7 @@ export async function ollamaJSON(model: string, prompt: string): Promise<any> {
   if (!res.ok) throw new Error(`ollama ${res.status}`);
   const data: any = await res.json();
   const raw =
-    typeof data.response === "string"
-      ? data.response
-      : JSON.stringify(data.response);
+    typeof data.response === "string" ? data.response : JSON.stringify(data.response);
   return JSON.parse(
     raw
       .replace(/```json\s*/g, "")
@@ -99,15 +115,16 @@ export async function ollamaJSON(model: string, prompt: string): Promise<any> {
   );
 }
 
+/** Cosine similarity: safe when vectors differ in length. */
 export function cosine(a: number[], b: number[]) {
-  let dot = 0,
-    na = 0,
-    nb = 0,
-    n = Math.min(a.length, b.length);
+  let dot = 0, na = 0, nb = 0;
+  const n = Math.min(a.length, b.length);
   for (let i = 0; i < n; i++) {
-    dot += a[i] * b[i];
-    na += a[i] * a[i];
-    nb += b[i] * b[i];
+    const ai = a[i]!;
+    const bi = b[i]!;
+    dot += ai * bi;
+    na += ai * ai;
+    nb += bi * bi;
   }
   return !na || !nb ? 0 : dot / (Math.sqrt(na) * Math.sqrt(nb));
 }

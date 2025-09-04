@@ -1,11 +1,13 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-import matter from "gray-matter";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
 import * as yaml from "yaml";
-import type { Chunk, Front } from "./types";
+import { once } from "node:events";
+import { Chunk, Front } from "./types";
+import { createWriteStream } from "node:fs";
+import { randomUUID as nodeRandomUUID } from "node:crypto";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
@@ -39,13 +41,16 @@ export async function listFilesRec(
     }
   }
   await walk(root);
-  return out.filter((p) => exts.has(path.extname(p).toLowerCase()));
+  return (
+    out
+      // exclude Emacs lockfiles like .#file.md which can cause crashes
+      .filter((p) => !path.basename(p).startsWith(".#"))
+      .filter((p) => exts.has(path.extname(p).toLowerCase()))
+  );
 }
 
 export function randomUUID(): string {
-  return (
-    (globalThis as any).crypto?.randomUUID?.() ?? require("crypto").randomUUID()
-  );
+  return (globalThis as any).crypto?.randomUUID?.() ?? nodeRandomUUID();
 }
 
 export function slugify(s: string): string {
@@ -266,9 +271,6 @@ export function injectAnchors(
   }
   return lines.join("\n");
 }
-// packages/docops/src/utils.ts
-import { createWriteStream, promises as fs } from "node:fs";
-import { once } from "node:events";
 
 // Replacer that avoids cycles, BigInt, gigantic strings, and serializes typed arrays sanely.
 export function safeReplacer() {

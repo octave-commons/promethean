@@ -1,5 +1,3 @@
-import * as path from "path";
-
 import type { History } from "../types.js";
 
 export function buildPrompt(

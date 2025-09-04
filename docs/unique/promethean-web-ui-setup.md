@@ -14,322 +14,367 @@ tags:
   - Docker
   - Containerization
 related_to_title:
-  - Promethean Full-Stack Docker Setup
-  - Pure TypeScript Search Microservice
-  - RAG UI Panel with Qdrant and PostgREST
-  - Promethean Infrastructure Setup
-  - shared-package-layout-clarification
-  - Pure-Node Crawl Stack with Playwright and Crawlee
-  - Prometheus Observability Stack
-  - Per-Domain Policy System for JS Crawler
   - api-gateway-versioning
-  - Migrate to Provider-Tenant Architecture
-  - Dynamic Context Model for Web Components
-  - Local-Only-LLM-Workflow
+  - AGENTS.md
+  - The Jar of Echoes
+  - eidolon-field-math-foundations
+  - Promethean Full-Stack Docker Setup
+  - AI-First-OS-Model-Context-Protocol
+  - windows-tiling-with-autohotkey
+  - aionian-circuit-math
+  - Promethean Notes
+  - Promethean Chat Activity Report
+  - balanced-bst
+  - Canonical Org-Babel Matplotlib Animation Template
+  - Mongo Outbox Implementation
+  - Docops Feature Updates
+  - Math Fundamentals
+  - homeostasis-decay-formulas
+  - universal-intention-code-fabric
+  - observability-infrastructure-setup
+  - polyglot-repl-interface-layer
+  - compiler-kit-foundations
+  - Duck's Attractor States
+  - Fnord Tracer Protocol
+  - ecs-scheduler-and-prefabs
+  - sibilant-meta-string-templating-runtime
+  - Unique Info Dump Index
+  - JavaScript
+  - SentenceProcessing
+  - Refactor Frontmatter Processing
+  - field-node-diagram-set
   - Debugging Broker Connections and Agent Behavior
+  - field-dynamics-math-blocks
+  - Ice Box Reorganization
+  - Voice Access Layer Design
+  - promethean-system-diagrams
+  - Event Bus Projections Architecture
+  - Vectorial Exception Descent
+  - file-watcher-auth-fix
+  - Language-Agnostic Mirror System
+  - heartbeat-simulation-snippets
+  - set-assignment-in-lisp-ast
+  - polymorphic-meta-programming-engine
+  - System Scheduler with Resource-Aware DAG
+  - i3-layout-saver
+  - Exception Layer Analysis
+  - layer-1-uptime-diagrams
+  - template-based-compilation
+  - Lispy Macros with syntax-rules
+  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
+  - Event Bus MVP
+  - Promethean Infrastructure Setup
+  - Ghostly Smoke Interference
+  - Cross-Language Runtime Polymorphism
   - ecs-offload-workers
+  - Local-Only-LLM-Workflow
+  - Promethean Agent DSL TS Scaffold
+  - Lisp-Compiler-Integration
   - i3-config-validation-methods
+  - lisp-dsl-for-window-management
+  - RAG UI Panel with Qdrant and PostgREST
+  - Sibilant Meta-Prompt DSL
+  - obsidian-ignore-node-modules-regex
   - Post-Linguistic Transhuman Design Frameworks
+  - Promethean-native config design
+  - Model Upgrade Calm-Down Guide
+  - Factorio AI with External Agents
+  - Self-Agency in AI Interaction
+  - WebSocket Gateway Implementation
+  - Promethean Dev Workflow Update
+  - Promethean Documentation Update
+  - State Snapshots API and Transactional Projector
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - Matplotlib Animation with Async Execution
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - Recursive Prompt Construction Engine
+  - Local-First Intention→Code Loop with Free Models
+  - js-to-lisp-reverse-compiler
+  - Pure TypeScript Search Microservice
+  - field-node-diagram-outline
 related_to_uuid:
-  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-  - d17d3a96-c84d-4738-a403-6c733b874da2
-  - e1056831-ae0c-460b-95fa-4cf09b3398c6
-  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-  - 36c8882a-badc-4e18-838d-2c54d7038141
-  - d527c05d-22e8-4493-8f29-ae3cb67f035b
-  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
-  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
   - 0580dcd3-533d-4834-8a2f-eae3771960a9
-  - 54382370-1931-4a19-a634-46735708a9ea
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - bb90903a-4723-44f7-850e-a71415ef6224
+  - 18138627-a348-4fbb-b447-410dfb400564
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - 618198f4-cfad-4677-9df6-0640d8a97bae
+  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - f2d83a77-7f86-4c56-8538-1350167a0c6c
+  - 1c4046b5-742d-4004-aec6-b47251fef5d6
+  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+  - d3e7db72-2e07-4dae-8920-0e07c499a1e5
+  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
+  - 681a4ab2-8fef-4833-a09d-bceb62d114da
+  - cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
+  - 22b989d5-f4aa-4880-8632-709c21830f83
   - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - b51e19b4-1326-4311-9798-33e972bf626c
+  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
+  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
+  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
+  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - 23e221e9-d4fa-4106-8458-06db2595085f
+  - c5fba0a0-9196-468d-a0f3-51c99e987263
+  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
+  - ba244286-4e84-425b-8bf6-b80c4eb783fc
+  - 31f0166e-4631-45fa-aecd-b44e9a13f497
+  - 21d5cc09-b005-4ede-8f69-00b4b0794540
+  - 4127189a-e0ab-436f-8571-cc852b8e9add
+  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
   - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - 5158f742-4a3b-466e-bfc3-d83517b64200
+  - cfee6d36-b9f5-4587-885a-cdfddb4f054e
   - d28090ac-f746-4958-aab5-ed1315382c04
+  - c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - af5d2824-faad-476c-a389-e912d9bc672c
+  - 2792d448-c3b5-4050-93dd-93768529d99c
+  - ffb9b2a9-744d-4a53-9565-130fceae0832
   - 6bcff92c-4224-453d-9993-1be8d37d47c3
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - db74343f-8f84-43a3-adb2-499c6f00be1c
+  - a4d90289-798d-44a0-a8e8-a055ae12fb52
+  - 49a9a860-944c-467a-b532-4f99186a8593
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - 03a5578f-d689-45db-95e9-11300e5eee6f
+  - 0b872af2-4197-46f3-b631-afb4e6135585
+  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
+  - 58191024-d04a-4520-8aae-a18be7b94263
+  - d17d3a96-c84d-4738-a403-6c733b874da2
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
 references:
   - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-    line: 169
-    col: 1
-    score: 0.99
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 73
-    col: 1
+    line: 171
+    col: 0
     score: 0.9
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 139
-    col: 1
-    score: 0.9
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 172
-    col: 1
-    score: 0.89
-  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-    line: 388
-    col: 1
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 274
+    col: 0
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 191
+    col: 0
+    score: 0.98
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 3354
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 190
+    col: 0
+    score: 0.98
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 276
+    col: 0
+    score: 0.98
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 262
+    col: 0
+    score: 0.97
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 115
+    col: 0
+    score: 0.97
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 227
+    col: 0
+    score: 0.97
+  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
+    line: 2625
+    col: 0
+    score: 0.97
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 346
+    col: 0
+    score: 1
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 275
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 3292
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 2787
+    col: 0
+    score: 1
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 1059
+    col: 0
+    score: 0.98
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 1192
+    col: 0
+    score: 0.98
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 2464
+    col: 0
+    score: 0.97
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 363
+    col: 0
+    score: 0.97
+  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+    line: 92
+    col: 0
+    score: 0.86
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 610
+    col: 0
+    score: 0.95
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 379
+    col: 0
+    score: 0.87
+  - uuid: 681a4ab2-8fef-4833-a09d-bceb62d114da
+    line: 30
+    col: 0
+    score: 0.86
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 348
+    col: 0
     score: 0.91
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 336
-    col: 1
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 388
+    col: 0
+    score: 0.92
+  - uuid: cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
+    line: 11
+    col: 0
+    score: 0.86
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 15616
+    col: 0
+    score: 0.87
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 13864
+    col: 0
+    score: 0.87
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 7868
+    col: 0
+    score: 0.87
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 13178
+    col: 0
+    score: 0.87
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 15006
+    col: 0
+    score: 0.87
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 15236
+    col: 0
+    score: 0.87
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 12067
+    col: 0
+    score: 0.87
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 2507
+    col: 0
+    score: 0.87
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 296
+    col: 0
+    score: 0.86
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 171
+    col: 0
+    score: 0.86
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 1356
+    col: 0
+    score: 0.86
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 881
+    col: 0
+    score: 0.86
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 808
+    col: 0
+    score: 0.86
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 611
+    col: 0
+    score: 0.86
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 17764
+    col: 0
+    score: 0.86
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 21424
+    col: 0
+    score: 0.86
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 280
+    col: 0
+    score: 0.85
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 189
+    col: 0
+    score: 0.95
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 194
+    col: 0
+    score: 0.95
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 328
+    col: 0
+    score: 0.95
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 291
+    col: 0
     score: 0.9
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 589
-    col: 1
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 589
-    col: 3
-    score: 1
-  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
-    line: 506
-    col: 1
-    score: 1
-  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
-    line: 506
-    col: 3
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 526
-    col: 1
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 526
-    col: 3
-    score: 1
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 362
-    col: 1
-    score: 1
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 362
-    col: 3
-    score: 1
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 288
-    col: 1
-    score: 1
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 288
-    col: 3
-    score: 1
-  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-    line: 440
-    col: 1
-    score: 1
-  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-    line: 440
-    col: 3
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 584
-    col: 1
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 584
-    col: 3
-    score: 1
-  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
-    line: 510
-    col: 1
-    score: 1
-  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
-    line: 510
-    col: 3
-    score: 1
-  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-    line: 437
-    col: 1
-    score: 1
-  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-    line: 437
-    col: 3
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 578
-    col: 1
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 578
-    col: 3
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 522
-    col: 1
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 522
-    col: 3
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 534
-    col: 1
-    score: 0.94
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 534
-    col: 3
-    score: 0.94
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 284
-    col: 1
-    score: 1
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 284
-    col: 3
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 40
-    col: 1
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 40
-    col: 3
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 384
-    col: 1
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 384
-    col: 3
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 458
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 458
-    col: 3
-    score: 1
-  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
-    line: 55
-    col: 1
-    score: 1
-  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
-    line: 55
-    col: 3
-    score: 1
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 182
-    col: 1
-    score: 1
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 182
-    col: 3
-    score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 278
-    col: 1
-    score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 278
-    col: 3
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 91
-    col: 1
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 91
-    col: 3
-    score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 471
-    col: 1
-    score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 471
-    col: 3
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 580
-    col: 1
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 580
-    col: 3
-    score: 1
-  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
-    line: 509
-    col: 1
-    score: 1
-  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
-    line: 509
-    col: 3
-    score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 488
-    col: 1
-    score: 0.95
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 488
-    col: 3
-    score: 0.95
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 368
-    col: 1
-    score: 0.99
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 368
-    col: 3
-    score: 0.99
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 370
-    col: 1
-    score: 0.99
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 370
-    col: 3
-    score: 0.99
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 372
-    col: 1
-    score: 0.99
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 372
-    col: 3
-    score: 0.99
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 374
-    col: 1
-    score: 0.99
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 374
-    col: 3
-    score: 0.99
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 530
-    col: 1
-    score: 0.98
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 530
-    col: 3
-    score: 0.98
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 601
-    col: 1
-    score: 0.98
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 601
-    col: 3
-    score: 0.98
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 533
-    col: 1
-    score: 0.98
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 533
-    col: 3
-    score: 0.98
-  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-    line: 445
-    col: 1
-    score: 0.99
-  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-    line: 445
-    col: 3
-    score: 0.99
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 590
+    col: 0
+    score: 0.88
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 137
+    col: 0
+    score: 0.85
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 158
+    col: 0
+    score: 0.85
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 275
+    col: 0
+    score: 0.85
 ---
-Nice stack. Here’s a clean way to bolt on a **TypeScript + Web Components** UI that lives behind your existing NGINX “edge”, requires **X-API-Key for API calls** (but not for loading the UI), and keeps container bits separate from source (Dockerfile in `./images`, code in `./services/ts/webapp`).
+Nice stack. Here’s a clean way to bolt on a **TypeScript + Web Components** UI that lives behind your existing NGINX “edge”, requires **X-API-Key for API calls** (but not for loading the UI), and keeps container bits separate from source (Dockerfile in `./images`, code in `./services/ts/webapp`). ^ref-bc5172ca-1-0
 
 ---
 
@@ -363,15 +408,16 @@ services:
     networks: [ prom-net ]
     restart: unless-stopped
 ```
+^ref-bc5172ca-9-0 ^ref-bc5172ca-35-0
 
 ---
 
 # 2) Let the UI load **without** a token, but keep token-gated APIs
-
+ ^ref-bc5172ca-40-0
 Replace your `infra/nginx/nginx.conf` with this adjusted version (adds a small `map` to bypass auth for `/ui/*`, proxies `/ui/*` to the `web` container, and keeps token auth on API routes):
 
 ### `infra/nginx/nginx.conf`
-
+ ^ref-bc5172ca-44-0
 ```nginx
 worker_processes  1;
 events { worker_connections 1024; }
@@ -558,13 +604,15 @@ http {
     }
   }
 }
+^ref-bc5172ca-44-0
 ```
+^ref-bc5172ca-45-0
 
 ---
 
 # 3) Multi-stage Dockerfile (kept in `./images`)
 
-### `images/web.docker`
+### `images/web.docker` ^ref-bc5172ca-238-0
 
 ```dockerfile
 # --- build ---
@@ -583,11 +631,12 @@ COPY --from=build /app/dist/ /usr/share/nginx/html/
 # Small hardening
 RUN rm -f /etc/nginx/conf.d/default.conf
 EXPOSE 80
+^ref-bc5172ca-238-0
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
 ---
-
+ ^ref-bc5172ca-262-0
 # 4) Minimal TS + Web Components app (no framework)
 
 ```
@@ -600,9 +649,11 @@ services/
       vite.config.ts
       src/
         main.ts
+^ref-bc5172ca-262-0
         lib/api.ts
         components/prom-ui.ts
-```
+``` ^ref-bc5172ca-279-0
+^ref-bc5172ca-278-0
 
 ### `services/ts/webapp/package.json`
 
@@ -619,13 +670,16 @@ services/
   },
   "devDependencies": {
     "typescript": "^5.5.4",
+^ref-bc5172ca-278-0
     "vite": "^5.4.0"
   }
 }
-```
+^ref-bc5172ca-298-0
+``` ^ref-bc5172ca-302-0
+^ref-bc5172ca-298-0
 
 ### `services/ts/webapp/tsconfig.json`
-
+ ^ref-bc5172ca-306-0
 ```json
 {
   "compilerOptions": {
@@ -637,21 +691,30 @@ services/
     "jsx": "react-jsx",
     "allowJs": false,
     "noEmit": true,
+^ref-bc5172ca-298-0
     "types": []
   },
   "include": ["src/**/*"]
+^ref-bc5172ca-317-0
 }
+^ref-bc5172ca-317-0
+^ref-bc5172ca-306-0 ^ref-bc5172ca-325-0
 ```
+^ref-bc5172ca-317-0
 
 ### `services/ts/webapp/vite.config.ts`
 
 ```ts
 import { defineConfig } from "vite";
+^ref-bc5172ca-317-0
 export default defineConfig({
   server: { port: 5173, strictPort: true },
   build: { outDir: "dist" },
+^ref-bc5172ca-328-0
   base: "/" // served behind /ui/ via edge; nginx rewrites /ui/* → /
+^ref-bc5172ca-328-0
 });
+^ref-bc5172ca-328-0
 ```
 
 ### `services/ts/webapp/index.html`
@@ -663,11 +726,16 @@ export default defineConfig({
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Promethean UI</title>
+^ref-bc5172ca-328-0
   </head>
   <body style="margin:0;font-family:system-ui,Segoe UI,Roboto,Arial">
     <prom-ui></prom-ui>
     <script type="module" src="/src/main.ts"></script>
-  </body>
+  </body> ^ref-bc5172ca-351-0
+^ref-bc5172ca-351-0
+^ref-bc5172ca-345-0
+^ref-bc5172ca-351-0
+^ref-bc5172ca-345-0
 </html>
 ```
 
@@ -731,17 +799,21 @@ export const API = {
 
   asrGpuTranscribe: (file: File) => {
     const form = new FormData();
+^ref-bc5172ca-351-0
     form.set("file", file, file.name);
     form.set("model", "whisper-1"); // openai-compatible faster-whisper server
     return doFetch(`/asr/gpu/v1/audio/transcriptions`, {
       method: "POST",
       body: form
+^ref-bc5172ca-415-0
+^ref-bc5172ca-415-0
+^ref-bc5172ca-415-0
     });
   }
 };
 ```
 
-### `services/ts/webapp/src/components/prom-ui.ts`
+### `services/ts/webapp/src/components/prom-ui.ts` ^ref-bc5172ca-440-0
 
 ```ts
 import { API, getApiKey, setApiKey } from "../lib/api";
@@ -876,31 +948,44 @@ export class PromUi extends HTMLElement {
   }
 
   private $(sel: string) { return this.root.querySelector(sel)!; }
+^ref-bc5172ca-415-0
   private $T<T extends HTMLElement>(sel: string) { return this.root.querySelector(sel) as T; }
   private showErr(sel: string, e: any) {
     this.$<HTMLElement>(sel).textContent = `Error: ${e?.message || e}`;
   }
   private setBusy(b: boolean) {
+^ref-bc5172ca-563-0
+^ref-bc5172ca-574-0
+^ref-bc5172ca-563-0
+^ref-bc5172ca-581-0
+^ref-bc5172ca-574-0
+^ref-bc5172ca-563-0
+^ref-bc5172ca-435-0
     (b ? document.body.classList.add : document.body.classList.remove).call(document.body.classList, "busy");
   }
 }
+^ref-bc5172ca-440-0
 customElements.define("prom-ui", PromUi);
-```
+``` ^ref-bc5172ca-574-0
+^ref-bc5172ca-442-0
 
 ---
 
 # 5) Bring it up
-
+^ref-bc5172ca-563-0
+ ^ref-bc5172ca-574-0
 ```bash
 # as before: secrets + base stack
+^ref-bc5172ca-598-0
 mkdir -p infra/nginx/secrets infra/ovms models/ov
-echo "CHANGEME 1;" > infra/nginx/secrets/api_keys.map
+echo "CHANGEME 1;" > infra/nginx/secrets/api_keys.map ^ref-bc5172ca-601-0
+^ref-bc5172ca-581-0 ^ref-bc5172ca-602-0
 
 # build + run with UI
-docker compose -f docker-compose.yaml up -d --build
+docker compose -f docker-compose.yaml up -d --build ^ref-bc5172ca-605-0
 # (or with device overlay)
 docker compose -f docker-compose.yaml -f docker-compose.stealth.yaml up -d --build
-```
+``` ^ref-bc5172ca-598-0
 
 Open: `http://localhost/ui/`
 Paste your token (from `infra/nginx/secrets/api_keys.map`) into the UI; try Chat, Embeddings, ASR, or Ollama.
@@ -911,110 +996,163 @@ Paste your token (from `infra/nginx/secrets/api_keys.map`) into the UI; try Chat
 
 ```mermaid
 flowchart LR
+^ref-bc5172ca-581-0
   A[Browser /ui/*] -->|no token| E[edge:80]
   E -->|rewrite /ui/* → /| W[web:80 (nginx static)]
-  subgraph "token-gated APIs"
+  subgraph "token-gated APIs" ^ref-bc5172ca-598-0
     E -->|/llm/* + X-API-Key| V1[vllm-qwen3:8000]
     E -->|/llm/* + X-API-Key| V2[vllm-qwen25:8000]
-    E -->|/llm/* + X-API-Key| V3[vllm-gemma2:8000]
-    E -->|/embed/nomic/* + X-API-Key| TEI[tei-nomic:80]
+^ref-bc5172ca-605-0
+^ref-bc5172ca-602-0 ^ref-bc5172ca-609-0
+^ref-bc5172ca-601-0
+^ref-bc5172ca-598-0
+^ref-bc5172ca-615-0
+^ref-bc5172ca-629-0
+^ref-bc5172ca-626-0
+^ref-bc5172ca-615-0
+^ref-bc5172ca-609-0 ^ref-bc5172ca-633-0
+^ref-bc5172ca-605-0
+^ref-bc5172ca-602-0
+    E -->|/llm/* + X-API-Key| V3[vllm-gemma2:8000] ^ref-bc5172ca-601-0
+    E -->|/embed/nomic/* + X-API-Key| TEI[tei-nomic:80] ^ref-bc5172ca-602-0
     E -->|/asr/gpu/* + X-API-Key| FW[whisper-faster-openai:8000]
-    E -->|/ollama/* + X-API-Key| OL[ollama:11434]
-    E -->|/clip/* + X-API-Key| CL[clip-vit:51000]
+    E -->|/ollama/* + X-API-Key| OL[ollama:11434] ^ref-bc5172ca-615-0 ^ref-bc5172ca-626-0
+    E -->|/clip/* + X-API-Key| CL[clip-vit:51000] ^ref-bc5172ca-605-0
   end
-```
+``` ^ref-bc5172ca-629-0
 
----
+--- ^ref-bc5172ca-609-0
 
-If you want me to wire in **RAG UI panels** (pg/qdrant ping + collection browser) or add **CLIP image encode demo**, say the word and I’ll drop the components + endpoints.
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+If you want me to wire in **RAG UI panels** (pg/qdrant ping + collection browser) or add **CLIP image encode demo**, say the word and I’ll drop the components + endpoints.<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
-- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
-- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
-- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
-- [shared-package-layout-clarification](shared-package-layout-clarification.md)
-- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
-- [Prometheus Observability Stack](prometheus-observability-stack.md)
-- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
 - [api-gateway-versioning](api-gateway-versioning.md)
-- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [AGENTS.md](agents-md.md)
+- [The Jar of Echoes](the-jar-of-echoes.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
+- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [aionian-circuit-math](aionian-circuit-math.md)
+- [Promethean Notes](promethean-notes.md)
+- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
+- [balanced-bst](balanced-bst.md)
+- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
+- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
+- [Docops Feature Updates](docops-feature-updates-2.md)
+- [Math Fundamentals](chunks/math-fundamentals.md)
+- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
+- [polyglot-repl-interface-layer](polyglot-repl-interface-layer.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [Duck's Attractor States](ducks-attractor-states.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [JavaScript](chunks/javascript.md)
+- [SentenceProcessing](sentenceprocessing.md)
+- [Refactor Frontmatter Processing](refactor-frontmatter-processing.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
 - [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [promethean-system-diagrams](promethean-system-diagrams.md)
+- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
+- [Vectorial Exception Descent](vectorial-exception-descent.md)
+- [file-watcher-auth-fix](file-watcher-auth-fix.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
+- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
+- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
+- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
+- [i3-layout-saver](i3-layout-saver.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
+- [template-based-compilation](template-based-compilation.md)
+- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
+- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
 - [ecs-offload-workers](ecs-offload-workers.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
+- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
 - [i3-config-validation-methods](i3-config-validation-methods.md)
+- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+- [Docops Feature Updates](docops-feature-updates.md)
+- [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
 - [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
-
+- [Promethean-native config design](promethean-native-config-design.md)
+- [Model Upgrade Calm-Down Guide](model-upgrade-calm-down-guide.md)
+- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
+- [Self-Agency in AI Interaction](self-agency-in-ai-interaction.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
+- [Promethean Documentation Update](promethean-documentation-update.txt)
+- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
+- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
+- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
+- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
 ## Sources
-- [Promethean Full-Stack Docker Setup — L169](promethean-full-stack-docker-setup.md#L169) (line 169, col 1, score 0.99)
-- [Pure TypeScript Search Microservice — L73](pure-typescript-search-microservice.md#L73) (line 73, col 1, score 0.9)
-- [Pure TypeScript Search Microservice — L139](pure-typescript-search-microservice.md#L139) (line 139, col 1, score 0.9)
-- [RAG UI Panel with Qdrant and PostgREST — L172](rag-ui-panel-with-qdrant-and-postgrest.md#L172) (line 172, col 1, score 0.89)
-- [Promethean Full-Stack Docker Setup — L388](promethean-full-stack-docker-setup.md#L388) (line 388, col 1, score 0.91)
-- [RAG UI Panel with Qdrant and PostgREST — L336](rag-ui-panel-with-qdrant-and-postgrest.md#L336) (line 336, col 1, score 0.9)
-- [Promethean Infrastructure Setup — L589](promethean-infrastructure-setup.md#L589) (line 589, col 1, score 1)
-- [Promethean Infrastructure Setup — L589](promethean-infrastructure-setup.md#L589) (line 589, col 3, score 1)
-- [Prometheus Observability Stack — L506](prometheus-observability-stack.md#L506) (line 506, col 1, score 1)
-- [Prometheus Observability Stack — L506](prometheus-observability-stack.md#L506) (line 506, col 3, score 1)
-- [Pure TypeScript Search Microservice — L526](pure-typescript-search-microservice.md#L526) (line 526, col 1, score 1)
-- [Pure TypeScript Search Microservice — L526](pure-typescript-search-microservice.md#L526) (line 526, col 3, score 1)
-- [RAG UI Panel with Qdrant and PostgREST — L362](rag-ui-panel-with-qdrant-and-postgrest.md#L362) (line 362, col 1, score 1)
-- [RAG UI Panel with Qdrant and PostgREST — L362](rag-ui-panel-with-qdrant-and-postgrest.md#L362) (line 362, col 3, score 1)
-- [api-gateway-versioning — L288](api-gateway-versioning.md#L288) (line 288, col 1, score 1)
-- [api-gateway-versioning — L288](api-gateway-versioning.md#L288) (line 288, col 3, score 1)
-- [Promethean Full-Stack Docker Setup — L440](promethean-full-stack-docker-setup.md#L440) (line 440, col 1, score 1)
-- [Promethean Full-Stack Docker Setup — L440](promethean-full-stack-docker-setup.md#L440) (line 440, col 3, score 1)
-- [Promethean Infrastructure Setup — L584](promethean-infrastructure-setup.md#L584) (line 584, col 1, score 1)
-- [Promethean Infrastructure Setup — L584](promethean-infrastructure-setup.md#L584) (line 584, col 3, score 1)
-- [Prometheus Observability Stack — L510](prometheus-observability-stack.md#L510) (line 510, col 1, score 1)
-- [Prometheus Observability Stack — L510](prometheus-observability-stack.md#L510) (line 510, col 3, score 1)
-- [Promethean Full-Stack Docker Setup — L437](promethean-full-stack-docker-setup.md#L437) (line 437, col 1, score 1)
-- [Promethean Full-Stack Docker Setup — L437](promethean-full-stack-docker-setup.md#L437) (line 437, col 3, score 1)
-- [Promethean Infrastructure Setup — L578](promethean-infrastructure-setup.md#L578) (line 578, col 1, score 1)
-- [Promethean Infrastructure Setup — L578](promethean-infrastructure-setup.md#L578) (line 578, col 3, score 1)
-- [Pure TypeScript Search Microservice — L522](pure-typescript-search-microservice.md#L522) (line 522, col 1, score 1)
-- [Pure TypeScript Search Microservice — L522](pure-typescript-search-microservice.md#L522) (line 522, col 3, score 1)
-- [Pure TypeScript Search Microservice — L534](pure-typescript-search-microservice.md#L534) (line 534, col 1, score 0.94)
-- [Pure TypeScript Search Microservice — L534](pure-typescript-search-microservice.md#L534) (line 534, col 3, score 0.94)
-- [api-gateway-versioning — L284](api-gateway-versioning.md#L284) (line 284, col 1, score 1)
-- [api-gateway-versioning — L284](api-gateway-versioning.md#L284) (line 284, col 3, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 1, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 3, score 1)
-- [Dynamic Context Model for Web Components — L384](dynamic-context-model-for-web-components.md#L384) (line 384, col 1, score 1)
-- [Dynamic Context Model for Web Components — L384](dynamic-context-model-for-web-components.md#L384) (line 384, col 3, score 1)
-- [ecs-offload-workers — L458](ecs-offload-workers.md#L458) (line 458, col 1, score 1)
-- [ecs-offload-workers — L458](ecs-offload-workers.md#L458) (line 458, col 3, score 1)
-- [i3-config-validation-methods — L55](i3-config-validation-methods.md#L55) (line 55, col 1, score 1)
-- [i3-config-validation-methods — L55](i3-config-validation-methods.md#L55) (line 55, col 3, score 1)
-- [Local-Only-LLM-Workflow — L182](local-only-llm-workflow.md#L182) (line 182, col 1, score 1)
-- [Local-Only-LLM-Workflow — L182](local-only-llm-workflow.md#L182) (line 182, col 3, score 1)
-- [Migrate to Provider-Tenant Architecture — L278](migrate-to-provider-tenant-architecture.md#L278) (line 278, col 1, score 1)
-- [Migrate to Provider-Tenant Architecture — L278](migrate-to-provider-tenant-architecture.md#L278) (line 278, col 3, score 1)
-- [Post-Linguistic Transhuman Design Frameworks — L91](post-linguistic-transhuman-design-frameworks.md#L91) (line 91, col 1, score 1)
-- [Post-Linguistic Transhuman Design Frameworks — L91](post-linguistic-transhuman-design-frameworks.md#L91) (line 91, col 3, score 1)
-- [Per-Domain Policy System for JS Crawler — L471](per-domain-policy-system-for-js-crawler.md#L471) (line 471, col 1, score 1)
-- [Per-Domain Policy System for JS Crawler — L471](per-domain-policy-system-for-js-crawler.md#L471) (line 471, col 3, score 1)
-- [Promethean Infrastructure Setup — L580](promethean-infrastructure-setup.md#L580) (line 580, col 1, score 1)
-- [Promethean Infrastructure Setup — L580](promethean-infrastructure-setup.md#L580) (line 580, col 3, score 1)
-- [Prometheus Observability Stack — L509](prometheus-observability-stack.md#L509) (line 509, col 1, score 1)
-- [Prometheus Observability Stack — L509](prometheus-observability-stack.md#L509) (line 509, col 3, score 1)
-- [Per-Domain Policy System for JS Crawler — L488](per-domain-policy-system-for-js-crawler.md#L488) (line 488, col 1, score 0.95)
-- [Per-Domain Policy System for JS Crawler — L488](per-domain-policy-system-for-js-crawler.md#L488) (line 488, col 3, score 0.95)
-- [RAG UI Panel with Qdrant and PostgREST — L368](rag-ui-panel-with-qdrant-and-postgrest.md#L368) (line 368, col 1, score 0.99)
-- [RAG UI Panel with Qdrant and PostgREST — L368](rag-ui-panel-with-qdrant-and-postgrest.md#L368) (line 368, col 3, score 0.99)
-- [RAG UI Panel with Qdrant and PostgREST — L370](rag-ui-panel-with-qdrant-and-postgrest.md#L370) (line 370, col 1, score 0.99)
-- [RAG UI Panel with Qdrant and PostgREST — L370](rag-ui-panel-with-qdrant-and-postgrest.md#L370) (line 370, col 3, score 0.99)
-- [RAG UI Panel with Qdrant and PostgREST — L372](rag-ui-panel-with-qdrant-and-postgrest.md#L372) (line 372, col 1, score 0.99)
-- [RAG UI Panel with Qdrant and PostgREST — L372](rag-ui-panel-with-qdrant-and-postgrest.md#L372) (line 372, col 3, score 0.99)
-- [RAG UI Panel with Qdrant and PostgREST — L374](rag-ui-panel-with-qdrant-and-postgrest.md#L374) (line 374, col 1, score 0.99)
-- [RAG UI Panel with Qdrant and PostgREST — L374](rag-ui-panel-with-qdrant-and-postgrest.md#L374) (line 374, col 3, score 0.99)
-- [Pure TypeScript Search Microservice — L530](pure-typescript-search-microservice.md#L530) (line 530, col 1, score 0.98)
-- [Pure TypeScript Search Microservice — L530](pure-typescript-search-microservice.md#L530) (line 530, col 3, score 0.98)
-- [Promethean Infrastructure Setup — L601](promethean-infrastructure-setup.md#L601) (line 601, col 1, score 0.98)
-- [Promethean Infrastructure Setup — L601](promethean-infrastructure-setup.md#L601) (line 601, col 3, score 0.98)
-- [Pure TypeScript Search Microservice — L533](pure-typescript-search-microservice.md#L533) (line 533, col 1, score 0.98)
-- [Pure TypeScript Search Microservice — L533](pure-typescript-search-microservice.md#L533) (line 533, col 3, score 0.98)
-- [Promethean Full-Stack Docker Setup — L445](promethean-full-stack-docker-setup.md#L445) (line 445, col 1, score 0.99)
-- [Promethean Full-Stack Docker Setup — L445](promethean-full-stack-docker-setup.md#L445) (line 445, col 3, score 0.99)
+- [Promethean Full-Stack Docker Setup — L171](promethean-full-stack-docker-setup.md#^ref-2c2b48ca-171-0) (line 171, col 0, score 0.9)
+- [AGENTS.md — L274](agents-md.md#^ref-bb90903a-274-0) (line 274, col 0, score 1)
+- [AI-First-OS-Model-Context-Protocol — L191](ai-first-os-model-context-protocol.md#^ref-618198f4-191-0) (line 191, col 0, score 0.98)
+- [windows-tiling-with-autohotkey — L3354](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-3354-0) (line 3354, col 0, score 0.98)
+- [AI-First-OS-Model-Context-Protocol — L190](ai-first-os-model-context-protocol.md#^ref-618198f4-190-0) (line 190, col 0, score 0.98)
+- [aionian-circuit-math — L276](aionian-circuit-math.md#^ref-f2d83a77-276-0) (line 276, col 0, score 0.98)
+- [AGENTS.md — L262](agents-md.md#^ref-bb90903a-262-0) (line 262, col 0, score 0.97)
+- [AI-First-OS-Model-Context-Protocol — L115](ai-first-os-model-context-protocol.md#^ref-618198f4-115-0) (line 115, col 0, score 0.97)
+- [AI-First-OS-Model-Context-Protocol — L227](ai-first-os-model-context-protocol.md#^ref-618198f4-227-0) (line 227, col 0, score 0.97)
+- [Canonical Org-Babel Matplotlib Animation Template — L2625](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-2625-0) (line 2625, col 0, score 0.97)
+- [api-gateway-versioning — L346](api-gateway-versioning.md#^ref-0580dcd3-346-0) (line 346, col 0, score 1)
+- [AGENTS.md — L275](agents-md.md#^ref-bb90903a-275-0) (line 275, col 0, score 1)
+- [The Jar of Echoes — L3292](the-jar-of-echoes.md#^ref-18138627-3292-0) (line 3292, col 0, score 1)
+- [eidolon-field-math-foundations — L2787](eidolon-field-math-foundations.md#^ref-008f2ac0-2787-0) (line 2787, col 0, score 1)
+- [Promethean Notes — L1059](promethean-notes.md#^ref-1c4046b5-1059-0) (line 1059, col 0, score 0.98)
+- [Promethean Chat Activity Report — L1192](promethean-chat-activity-report.md#^ref-18344cf9-1192-0) (line 1192, col 0, score 0.98)
+- [windows-tiling-with-autohotkey — L2464](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-2464-0) (line 2464, col 0, score 0.97)
+- [balanced-bst — L363](balanced-bst.md#^ref-d3e7db72-363-0) (line 363, col 0, score 0.97)
+- [sibilant-meta-string-templating-runtime — L92](sibilant-meta-string-templating-runtime.md#^ref-2aafc801-92-0) (line 92, col 0, score 0.86)
+- [Mongo Outbox Implementation — L610](mongo-outbox-implementation.md#^ref-9c1acd1e-610-0) (line 610, col 0, score 0.95)
+- [ecs-scheduler-and-prefabs — L379](ecs-scheduler-and-prefabs.md#^ref-c62a1815-379-0) (line 379, col 0, score 0.87)
+- [SentenceProcessing — L30](sentenceprocessing.md#^ref-681a4ab2-30-0) (line 30, col 0, score 0.86)
+- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.91)
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.92)
+- [Refactor Frontmatter Processing — L11](refactor-frontmatter-processing.md#^ref-cfbdca2f-11-0) (line 11, col 0, score 0.86)
+- [The Jar of Echoes — L15616](the-jar-of-echoes.md#^ref-18138627-15616-0) (line 15616, col 0, score 0.87)
+- [windows-tiling-with-autohotkey — L13864](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-13864-0) (line 13864, col 0, score 0.87)
+- [Promethean Notes — L7868](promethean-notes.md#^ref-1c4046b5-7868-0) (line 7868, col 0, score 0.87)
+- [windows-tiling-with-autohotkey — L13178](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-13178-0) (line 13178, col 0, score 0.87)
+- [Duck's Attractor States — L15006](ducks-attractor-states.md#^ref-13951643-15006-0) (line 15006, col 0, score 0.87)
+- [eidolon-field-math-foundations — L15236](eidolon-field-math-foundations.md#^ref-008f2ac0-15236-0) (line 15236, col 0, score 0.87)
+- [The Jar of Echoes — L12067](the-jar-of-echoes.md#^ref-18138627-12067-0) (line 12067, col 0, score 0.87)
+- [Fnord Tracer Protocol — L2507](fnord-tracer-protocol.md#^ref-fc21f824-2507-0) (line 2507, col 0, score 0.87)
+- [Unique Info Dump Index — L296](unique-info-dump-index.md#^ref-30ec3ba6-296-0) (line 296, col 0, score 0.86)
+- [JavaScript — L171](chunks/javascript.md#^ref-c1618c66-171-0) (line 171, col 0, score 0.86)
+- [Debugging Broker Connections and Agent Behavior — L1356](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-1356-0) (line 1356, col 0, score 0.86)
+- [field-dynamics-math-blocks — L881](field-dynamics-math-blocks.md#^ref-7cfc230d-881-0) (line 881, col 0, score 0.86)
+- [field-node-diagram-set — L808](field-node-diagram-set.md#^ref-22b989d5-808-0) (line 808, col 0, score 0.86)
+- [Ice Box Reorganization — L611](ice-box-reorganization.md#^ref-291c7d91-611-0) (line 611, col 0, score 0.86)
+- [Duck's Attractor States — L17764](ducks-attractor-states.md#^ref-13951643-17764-0) (line 17764, col 0, score 0.86)
+- [eidolon-field-math-foundations — L21424](eidolon-field-math-foundations.md#^ref-008f2ac0-21424-0) (line 21424, col 0, score 0.86)
+- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.85)
+- [Docops Feature Updates — L189](docops-feature-updates-2.md#^ref-cdbd21ee-189-0) (line 189, col 0, score 0.95)
+- [Math Fundamentals — L194](chunks/math-fundamentals.md#^ref-c6e87433-194-0) (line 194, col 0, score 0.95)
+- [homeostasis-decay-formulas — L328](homeostasis-decay-formulas.md#^ref-37b5d236-328-0) (line 328, col 0, score 0.95)
+- [polyglot-repl-interface-layer — L291](polyglot-repl-interface-layer.md#^ref-9c79206d-291-0) (line 291, col 0, score 0.9)
+- [compiler-kit-foundations — L590](compiler-kit-foundations.md#^ref-01b21543-590-0) (line 590, col 0, score 0.88)
+- [Math Fundamentals — L137](chunks/math-fundamentals.md#^ref-c6e87433-137-0) (line 137, col 0, score 0.85)
+- [Docops Feature Updates — L158](docops-feature-updates-2.md#^ref-cdbd21ee-158-0) (line 158, col 0, score 0.85)
+- [homeostasis-decay-formulas — L275](homeostasis-decay-formulas.md#^ref-37b5d236-275-0) (line 275, col 0, score 0.85)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

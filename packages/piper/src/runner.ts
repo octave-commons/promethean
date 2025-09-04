@@ -1,13 +1,11 @@
 import * as path from "path";
 import { promises as fs } from "fs";
 
-import chokidar from "chokidar";
-import YAML from "yaml";
-
+import * as chokidar from "chokidar";
+import * as YAML from "yaml";
 import {
   FileSchema,
   PiperFile,
-  PiperPipeline,
   PiperStep,
   RunOptions,
   StepResult,
@@ -15,23 +13,17 @@ import {
 import {
   ensureDir,
   listOutputsExist,
-  readTextMaybe,
   runNode,
   runShell,
   runTSModule,
   writeText,
 } from "./fsutils.js";
-import { sha1, stepFingerprint } from "./hash.js";
-
-type State = {
-  steps: Record<
-    string,
-    { fingerprint: string; endedAt: string; exitCode: number | null }
-  >;
-};
-const STATE_DIR = ".cache/piper";
-const STATE_FILE = (pipeline: string) =>
-  path.join(STATE_DIR, `${slug(pipeline)}.state.json`);
+import { stepFingerprint } from "./hash.js";
+import { topoSort } from "./lib/graph.js";
+import { semaphore } from "./lib/concurrency.js";
+import { loadState, saveState, RunState } from "./lib/state.js";
+import { renderReport } from "./lib/report.js";
+import { emitEvent } from "./lib/events.js";
 
 function slug(s: string) {
   return s
@@ -40,26 +32,6 @@ function slug(s: string) {
     .replace(/^-+|-+$/g, "");
 }
 
-function topoSort(steps: PiperStep[]): PiperStep[] {
-  const byId = new Map(steps.map((s) => [s.id, s]));
-  const visited = new Set<string>(),
-    order: PiperStep[] = [];
-  function visit(id: string, stack: string[]) {
-    if (visited.has(id)) return;
-    const s = byId.get(id);
-    if (!s) throw new Error(`unknown step ${id}`);
-    stack.push(id);
-    for (const d of s.deps) {
-      if (stack.includes(d))
-        throw new Error(`cycle: ${stack.join(" -> ")} -> ${d}`);
-      visit(d, stack.slice());
-    }
-    visited.add(id);
-    order.push(s);
-  }
-  for (const s of steps) visit(s.id, []);
-  return order;
-}
 
 async function readConfig(p: string): Promise<PiperFile> {
   const raw = await fs.readFile(p, "utf-8");
@@ -70,40 +42,12 @@ async function readConfig(p: string): Promise<PiperFile> {
   return parsed.data;
 }
 
-function semaphore(n: number) {
-  let cur = 0;
-  const q: Array<() => void> = [];
-  const take = () =>
-    new Promise<void>((res) => {
-      if (cur < n) {
-        cur++;
-        res();
-      } else q.push(res);
-    });
-  const release = () => {
-    cur--;
-    const fn = q.shift();
-    if (fn) fn();
-  };
-  return { take, release };
-}
 
-async function loadState(pipeline: string): Promise<State> {
-  try {
-    return JSON.parse((await readTextMaybe(STATE_FILE(pipeline))) || "{}");
-  } catch {
-    return { steps: {} };
-  }
-}
 
-async function saveState(pipeline: string, state: State) {
-  await ensureDir(STATE_DIR);
-  await writeText(STATE_FILE(pipeline), JSON.stringify(state, null, 2));
-}
 
 function shouldSkip(
   step: PiperStep,
-  state: State,
+  state: RunState,
   fp: string,
   haveOutputs: boolean,
   force: boolean | undefined,
@@ -122,7 +66,7 @@ function shouldSkip(
 export async function runPipeline(
   configPath: string,
   pipelineName: string,
-  opts: RunOptions,
+  opts: RunOptions & { json?: boolean },
 ) {
   const cfg = await readConfig(configPath);
   const pipeline = cfg.pipelines.find((p) => p.name === pipelineName);
@@ -155,14 +99,31 @@ export async function runPipeline(
       );
       if (opts.dryRun) {
         results.push({ id: s.id, skipped: true, reason: "dry-run" });
+        emitEvent(
+          {
+            type: "skip",
+            stepId: s.id,
+            at: new Date().toISOString(),
+            reason: "dry-run",
+          },
+          !!(opts as any).json,
+        );
         return;
       }
       if (skip) {
         results.push({ id: s.id, skipped: true, reason });
+        emitEvent(
+          { type: "skip", stepId: s.id, at: new Date().toISOString(), reason },
+          !!(opts as any).json,
+        );
         return;
       }
 
       const startedAt = new Date().toISOString();
+      emitEvent(
+        { type: "start", stepId: s.id, at: startedAt },
+        !!(opts as any).json,
+      );
       let execRes: { code: number | null; stdout: string; stderr: string } = {
         code: 0,
         stdout: "",
@@ -190,6 +151,10 @@ export async function runPipeline(
 
       state.steps[s.id] = { fingerprint: fp, endedAt, exitCode: execRes.code };
       await saveState(pipeline.name, state);
+      emitEvent(
+        { type: "end", stepId: s.id, at: endedAt, result: out },
+        !!(opts as any).json,
+      );
     } finally {
       sem.release();
     }
@@ -237,27 +202,4 @@ export async function watchPipeline(
     console.log(`[piper] change detected — re-running ${pipelineName}`);
     await runPipeline(configPath, pipelineName, { ...opts, dryRun: false });
   });
-}
-
-function renderReport(p: PiperPipeline, results: StepResult[]) {
-  const rows = results
-    .map((r) => {
-      const dur = r.durationMs ?? 0;
-      const status = r.skipped
-        ? "SKIP"
-        : r.exitCode === 0
-          ? "OK"
-          : `FAIL(${r.exitCode})`;
-      return `| ${r.id} | ${status} | ${dur} | ${r.reason ?? ""} |`;
-    })
-    .join("\n");
-
-  return [
-    `# Pipeline: ${p.name}`,
-    "",
-    "| Step | Status | Duration (ms) | Notes |",
-    "|---|:---:|---:|---|",
-    rows,
-    "",
-  ].join("\n");
 }

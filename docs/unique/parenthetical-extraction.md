@@ -13,56 +13,30 @@ tags:
   - duration estimation
   - parentheticals
 related_to_title:
-  - Eidolon-Field-Optimization
-  - homeostasis-decay-formulas
-  - ripple-propagation-demo
-  - 2d-sandbox-field
-  - Eidolon Field Abstract Model
-  - EidolonField
+  - pm2-orchestration-patterns
+  - Optimizing Command Limitations in System Design
+  - Promethean Infrastructure Setup
+  - ParticleSimulationWithCanvasAndFFmpeg
+  - Dynamic Context Model for Web Components
+  - Chroma Toolkit Consolidation Plan
+  - 'Agent Tasks: Persistence Migration to DualStore'
+  - DSL
+  - Window Management
 related_to_uuid:
-  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
-  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-  - 8430617b-80a2-4cc9-8288-9a74cb57990b
-  - c710dc93-9fec-471b-bdee-bedbd360c67f
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
+  - 51932e7b-4237-4756-bcae-8be6d535d0d1
+  - 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - 93d2ba51-8689-49ee-94e2-296092e48058
+  - e87bc036-1570-419e-a558-f45b9c0db698
+  - 9e8ae388-767a-4ea8-9f2e-88801291d947
 references:
-  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
-    line: 50
-    col: 1
-    score: 0.87
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 157
-    col: 1
+  - uuid: 51932e7b-4237-4756-bcae-8be6d535d0d1
+    line: 217
+    col: 0
     score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 157
-    col: 3
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 114
-    col: 1
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 114
-    col: 3
-    score: 1
-  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
-    line: 215
-    col: 1
-    score: 0.86
-  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
-    line: 215
-    col: 3
-    score: 0.86
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 210
-    col: 1
-    score: 0.86
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 210
-    col: 3
-    score: 0.86
 ---
 
 # Extract parens
@@ -93,24 +67,17 @@ const x = "I have a thing with a paren in it. (it's here.)"
 console.log(extractParentheticals(x));
 }
 
-```
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+```<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
-- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
-- [ripple-propagation-demo](ripple-propagation-demo.md)
-- [2d-sandbox-field](2d-sandbox-field.md)
-- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
-- [EidolonField](eidolonfield.md)
-
+- [pm2-orchestration-patterns](pm2-orchestration-patterns.md)
+- [Optimizing Command Limitations in System Design](optimizing-command-limitations-in-system-design.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
+- [DSL](chunks/dsl.md)
+- [Window Management](chunks/window-management.md)
 ## Sources
-- [Eidolon-Field-Optimization — L50](eidolon-field-optimization.md#L50) (line 50, col 1, score 0.87)
-- [homeostasis-decay-formulas — L157](homeostasis-decay-formulas.md#L157) (line 157, col 1, score 1)
-- [homeostasis-decay-formulas — L157](homeostasis-decay-formulas.md#L157) (line 157, col 3, score 1)
-- [ripple-propagation-demo — L114](ripple-propagation-demo.md#L114) (line 114, col 1, score 1)
-- [ripple-propagation-demo — L114](ripple-propagation-demo.md#L114) (line 114, col 3, score 1)
-- [2d-sandbox-field — L215](2d-sandbox-field.md#L215) (line 215, col 1, score 0.86)
-- [2d-sandbox-field — L215](2d-sandbox-field.md#L215) (line 215, col 3, score 0.86)
-- [Eidolon Field Abstract Model — L210](eidolon-field-abstract-model.md#L210) (line 210, col 1, score 0.86)
-- [Eidolon Field Abstract Model — L210](eidolon-field-abstract-model.md#L210) (line 210, col 3, score 0.86)
+- [pm2-orchestration-patterns — L217](pm2-orchestration-patterns.md#^ref-51932e7b-217-0) (line 217, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
