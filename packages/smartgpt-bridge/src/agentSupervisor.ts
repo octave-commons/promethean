@@ -59,7 +59,7 @@ export class AgentSupervisor {
       const nsjailBin = "/usr/bin/nsjail";
       const sandboxCfg = path.resolve(__dirname, "../sandbox.cfg");
 
-      // Inner command is codex CLI with or without bypass approvals
+      // Inner command is codex with or without bypass approvals
       const codexArgs = [
         "exec",
         bypassApprovals ? "--dangerously-bypass-approvals" : "--full-auto",
