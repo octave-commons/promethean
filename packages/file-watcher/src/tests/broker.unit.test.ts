@@ -7,10 +7,7 @@ import {
   getMemoryBroker,
   resetMemoryBroker,
 } from "@promethean/test-utils/broker.js";
-
-function sleep(ms: number) {
-  return new Promise((r) => setTimeout(r, ms));
-}
+import { sleep } from "@promethean/utils/sleep.js";
 
 test("publishes board/task events via memory broker", async (t) => {
   resetMemoryBroker("fw-unit");

@@ -1,5 +1,3 @@
-import type { defineAgentComponents } from '../components';
-
 export function TurnDetectionSystem(w: any, C: ReturnType<typeof import('../components').defineAgentComponents>) {
     const { Turn, VAD, TranscriptFinal } = C;
     const qVad = w.makeQuery({ all: [Turn, VAD] });
