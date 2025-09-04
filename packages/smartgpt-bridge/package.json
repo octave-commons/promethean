@@ -8,11 +8,12 @@
     "start": "node dist/fastifyServer.js",
     "reindex": "node dist/cli-reindex.js",
     "symbols": "node dist/cli-symbols.js",
-    "test": "pnpm build && ava --config ../../../config/ava.config.mjs",
+    "test": "ava",
     "test:watch": "ava -w",
     "build": "tsc -p tsconfig.json",
-    "lint": "pnpm exec biome lint tests/unit tests/integration tests/system tests/helpers || true",
-    "format": "pnpm exec biome format --write src tests/unit tests/integration tests/system tests/helpers",
+    "lint": "pnpm exec biome lint src/tests/unit src/tests/integration src/tests/system src/tests/helpers || true && pnpm run lint:tests",
+    "lint:tests": "node --input-type=module -e \"import fs from 'fs';import path from 'path';const walk=d=>fs.readdirSync(d).some(f=>{const p=path.join(d,f);const s=fs.statSync(p);return s.isDirectory()?walk(p):p.endsWith('.test.js');});if(walk('src/tests')){console.error('Error: compiled test artifacts found');process.exit(1);} \"",
+    "format": "pnpm exec biome format --write src src/tests/unit src/tests/integration src/tests/system src/tests/helpers",
     "test:coverage": "c8 -r text -r text-summary -r lcov -r html ava"
   },
   "dependencies": {
@@ -45,6 +46,7 @@
     "c8": "^9.1.0",
     "mongodb-memory-server": "^10.2.0",
     "sinon": "^17.0.1",
+    "ts-node": "^10.9.2",
     "tsx": "^4.19.0"
   }
 }
