@@ -92,6 +92,7 @@
 (defun err-core/post-init-lsp-mode ()
 
   (with-eval-after-load 'lsp-mode
+    (add-to-list 'lsp-language-id-configuration '(lisp-mode . "commonlisp"))
     (lsp-register-client
      (make-lsp-client :new-connection (lsp-stdio-connection (lambda () (list (expand-file-name "~/.roswell/bin/cl-lsp"))))
                       :activation-fn (lsp-activate-on "commonlisp")
@@ -99,15 +100,17 @@
 
 (defun err-core/post-init-common-lisp ()
 
-  (with-eval-after-load 'common-lisp
-    (add-to-list 'lsp-language-id-configuration '(common-lisp-mode . "commonlisp"))
-    (add-hook 'common-lisp-mode-hook #'lsp) ;; or use (add-hook 'common-lisp-mode-hook #'lsp-deferred)
-    (add-hook 'common-lisp-mode-hook #'flycheck-mode)
-    (spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hook-common-lisp-mode)
-    (let ((slime-helper (expand-file-name "~/quicklisp/slime-helper.el")))
-      (when (file-exists-p slime-helper)
-        (load slime-helper)))))
-;; (defun err-core/post-init-markdown-mode ()
+  (with-eval-after-load 'lisp-mode
+    (add-hook 'lisp-mode-hook #'lsp-deferred)
+    (add-hook 'lisp-mode-hook #'flycheck-mode)
+    ;; Verify this toggle exists for lisp-mode; otherwise use the generic one.
+    (when (fboundp
+           'spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hook-lisp-mode)
+      (spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hook-lisp-mode)))
+
+  (let ((slime-helper (expand-file-name "~/quicklisp/slime-helper.el")))
+    (when (file-exists-p slime-helper)
+      (load slime-helper))))
 
 ;;   (with-eval-after-load 'markdown-mode
 ;;     (add-to-list 'auto-mode-alist '("\\.bb" . clojure-mode))
@@ -133,9 +136,8 @@
       :command ("sblint" source-inplace)
       :error-patterns
       ((error line-start (file-name) ":" line ":" column ": " (message) line-end))
-      :modes (common-lisp-mode)
-
-      (add-to-list 'flycheck-checkers 'common-lisp-sblint)))
+      :modes (common-lisp-mode))
+    (add-to-list 'flycheck-checkers 'common-lisp-sblint))
   )
 
 (defun err-core/post-init-company ())
