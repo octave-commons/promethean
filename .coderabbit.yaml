@@ -339,9 +339,6 @@ reviews:
       # Default: true
       enabled: true
 
-      # Optional path to the SwiftLint configuration file relative to the repository. This is useful when the configuration file is named differently than the default '.swiftlint.yml' or '.swiftlint.yaml'.
-      config_file: "example-value"
-
     # PHPStan is a tool to analyze PHP code.
     # Default: {}
     phpstan:
@@ -375,9 +372,6 @@ reviews:
       # Default: true
       enabled: true
 
-      # Optional path to the golangci-lint configuration file relative to the repository. Useful when the configuration file is named differently than the default '.golangci.yml', '.golangci.yaml', '.golangci.toml', '.golangci.json'.
-      config_file: "example-value"
-
     # YAMLlint is a linter for YAML files.
     # Default: {}
     yamllint:
@@ -405,9 +399,6 @@ reviews:
       # Enable detekt - detekt is a static code analysis tool for Kotlin files. - v1.23.8
       # Default: true
       enabled: true
-
-      # Optional path to the detekt configuration file relative to the repository.
-      config_file: "example-value"
 
     # ESLint is a static code analysis tool for JavaScript files.
     # Default: {}
@@ -458,9 +449,6 @@ reviews:
       # Default: true
       enabled: true
 
-      # Optional path to the PMD configuration file relative to the repository.
-      config_file: "example-value"
-
     # Cppcheck is a static code analysis tool for the C and C++ programming languages.
     # Default: {}
     cppcheck:
@@ -476,7 +464,7 @@ reviews:
       enabled: true
 
       # Optional path to the Semgrep configuration file relative to the repository.
-      config_file: "example-value"
+      config_file: ".semgrep.yaml"
 
     # CircleCI tool is a static checker for CircleCI config files.
     # Default: {}
