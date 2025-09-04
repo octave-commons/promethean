@@ -1,15 +1,18 @@
 {
-    "extends": "../../config/tsconfig.base.json",
-    "compilerOptions": {
-        "rootDir": "src",
-        "outDir": "dist",
-        "composite": true,
-        "declaration": true
-    },
-    "include": ["src/**/*"],
-    "references": [
-        {
-            "path": "../persistence"
-        }
-    ]
+  "extends": "../../config/tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "composite": true,
+    "declaration": true
+  },
+  "include": [
+    "src/**/*",
+    "../types/shims/persistence.d.ts"
+  ],
+  "references": [
+    {
+      "path": "../persistence"
+    }
+  ]
 }

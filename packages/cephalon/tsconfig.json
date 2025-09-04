@@ -5,16 +5,37 @@
     "rootDir": "src",
     "baseUrl": ".",
     "paths": {
-      "@shared/js/*": ["../../js/*"],
-      "@promethean/persistence": ["../persistence/dist/index"],
-      "@promethean/persistence/*": ["../persistence/dist/*"],
-      "@promethean/agent-ecs": ["../agent-ecs/dist/index"],
-      "@promethean/agent-ecs/*": ["../agent-ecs/dist/*"],
-      "@promethean/llm": ["../llm/dist/index"],
-      "@promethean/llm/*": ["../llm/dist/*"]
+      "@shared/js/*": [
+        "../../js/*"
+      ],
+      "@promethean/persistence": [
+        "../persistence/dist/index"
+      ],
+      "@promethean/persistence/*": [
+        "../persistence/dist/*"
+      ],
+      "@promethean/agent-ecs": [
+        "../agent-ecs/dist/index"
+      ],
+      "@promethean/agent-ecs/*": [
+        "../agent-ecs/dist/*"
+      ],
+      "@promethean/llm": [
+        "../llm/dist/index"
+      ],
+      "@promethean/llm/*": [
+        "../llm/dist/*"
+      ]
     },
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
-  "include": ["src/**/*"],
-  "exclude": ["dist"]
+  "include": [
+    "src/**/*",
+    "../types/shims/persistence.d.ts"
+  ],
+  "exclude": [
+    "dist"
+  ]
 }
