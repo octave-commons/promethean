@@ -98,12 +98,22 @@ export async function runFrontmatter(
       )
       .then(parseModelJSON);
 
+  const isoFromBasename = (name: string) => {
+    const base = name.replace(/\.[^.]+$/, "");
+    const m = base.match(
+      /(\d{4})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})/
+    );
+    return m
+      ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z`
+      : name;
+  };
+
   const ensureBaseFront = (fpath: string, fm: Front): Front => {
     const baseName = path.basename(fpath);
     return Object.freeze<Front>({
       ...fm,
       uuid: fm.uuid ?? randomUUID(),
-      created_at: fm.created_at ?? baseName,
+      created_at: fm.created_at ?? isoFromBasename(baseName),
     });
   };
 
@@ -115,7 +125,14 @@ export async function runFrontmatter(
     const filename = base.filename ?? gen.filename ?? deriveFilename(fpath);
     const description = base.description ?? gen.description ?? "";
     const tags = base.tags && base.tags.length ? base.tags : uniq(gen.tags);
-    return Object.freeze<Front>({ ...base, filename, description, tags });
+    const title = base.title ?? filename;
+    return Object.freeze<Front>({
+      ...base,
+      filename,
+      title,
+      description,
+      tags,
+    });
   };
 
   const validateGen = (obj: unknown) => {
@@ -137,7 +154,7 @@ export async function runFrontmatter(
       frontKV.put(uuid, fm),
       docsKV.put(uuid, {
         path: fpath,
-        title: fm.filename ?? deriveFilename(fpath),
+        title: fm.title ?? fm.filename ?? deriveFilename(fpath),
       }),
     ]).then(() => undefined);
 

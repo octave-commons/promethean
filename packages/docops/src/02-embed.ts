@@ -12,7 +12,7 @@ import {
   listFilesRec,
   parseMarkdownChunks,
   OLLAMA_URL,
-} from "./utils";
+} from "./utils.js";
 import { Chunk } from "./types";
 import { OllamaEmbeddingFunction } from "@chroma-core/ollama";
 
