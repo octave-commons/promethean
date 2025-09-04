@@ -15,22 +15,29 @@ const gh = async <T>(url: string, token: string): Promise<readonly T[]> => {
     u.searchParams.set("per_page", "100");
     u.searchParams.set("page", String(page));
     const res = await fetch(u, {
-const res = await fetch(u, {
-  headers: {
-    Accept: "application/vnd.github+json",
-    Authorization: `Bearer ${token}`,
-    "X-GitHub-Api-Version": "2022-11-28",
-    "User-Agent": "nitpack/0.1 (+https://github.com/riatzukiza/promethean)",
-  },
-});
+      signal: AbortSignal.timeout(15_000),
+      headers: {
+        Accept: "application/vnd.github+json",
+        Authorization: `Bearer ${token}`,
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "nitpack/0.1 (+https://github.com/riatzukiza/promethean)",
+      },
     });
-    if (!res.ok)
-      throw new Error(`GitHub ${res.status} ${res.statusText} for ${u}`);
+    if (!res.ok) {
+      const rid = res.headers.get("x-github-request-id");
+      const rem = res.headers.get("x-ratelimit-remaining");
+      throw new Error(
+        `GitHub ${res.status} ${res.statusText} for ${u} (request ${rid}, remaining ${rem})`,
+      );
+    }
     const data = await res.json();
     if (!Array.isArray(data) || data.length === 0) break;
     out.push(...data);
-    if (data.length < 100) break;
-    page++;
+    const link = res.headers.get("link") ?? "";
+    const hasNext = /\brel="next"\b/.test(link);
+    if (!hasNext) break;
+    if (page++ > 1000)
+      throw new Error("GitHub pagination exceeded 1000 pages");
   }
   return out;
 };
@@ -52,3 +59,4 @@ export const fetchAllComments = async (
   );
   return { issueComments, reviewComments };
 };
+
