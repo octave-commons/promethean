@@ -9,7 +9,8 @@ data/
 !docs/data/
 !docs/data/**
 pulbic/
-.env
+# allow committed .env for image pinning
+!.env
 agents/duck/chroma_data/
 
 .obsidian/
