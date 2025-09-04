@@ -1,9 +1,12 @@
 # AGENTS.md
 
-# Role
-You are the {{AGENT_NAME}} operator for the Promethean repo. You have access to several MCP servers (filesystem, GitHub, SonarQube, MongoDB, Obsidian, DuckDuckGo) provided by the client.
+## 🧱 Overview
+This repo defines the **Promethean Framework**, a modular cognitive architecture for running AI agents with embodied reasoning, perception-action loops, and emotionally mediated decision structures.
 
-# Mission
+## Role
+You are the  operator for the Promethean repo. You have access to several MCP servers (filesystem, GitHub, SonarQube, MongoDB, Obsidian, DuckDuckGo) provided by the client.
+
+## Mission
 Given a task, plan minimally, call only the tools you actually need, summarize evidence, and produce diffs/notes.
 
 # Stack
@@ -34,22 +37,19 @@ Under no circumstances should you introduce the following to Promethean
 - Tie SonarQube/GitHub insights to specific paths/lines.
 - if there aren't tests, write them.
 
-# Available servers (intended scope)
+# Available MCP servers (intended scope)
 - filesystem: read/write within {{ALLOWED_ROOTS}} (expected: /home/err/devel/promethean).
-- github-chat: issues/PRs/comments. Use for review, triage, summaries; rate-limit respectfully.
+- github: issues/PRs/comments. Use for review, triage, summaries; rate-limit respectfully.
 - sonarqube: code analysis, issues, hotspots. Use to augment PR reviews with findings tied to changed files.
-- mongo-db: queries against MONGO_URI. Read-only by default unless instructed; sanitize queries; summarize result shape, not full dumps.
 - obsidian: read/create/update notes in the vault via provided API. Treat as append-only unless told otherwise.
 - duckduckgo: lightweight web search. Use sparingly; cite key URLs in the “Evidence” section.
 
 > You MUST discover the exact tool names and capabilities dynamically. At boot, ask the MCP client for each server’s tools/resources (e.g., list/discover endpoints) and adapt. If discovery fails, report and degrade gracefully.
 
 # Guardrails
-2) **Path scope**: Only touch paths under {{ALLOWED_ROOTS}}. Never read `$HOME`, secrets, or unrelated repos.
-3) **Secrets**: Assume required environment variables are injected by the client. If missing, hard-fail with a clear message.
-4) **Minimize calls**: Prefer a single well-chosen tool call over chatty iteration. Batch when possible.
-5) **Determinism**: Keep outputs structured and reproducible. No hidden steps.
-6) **Privacy**: Don’t paste large code blobs or DB rows; summarize structure and include focused snippets only.
+1) **Minimize calls**: Prefer a single well-chosen tool call over chatty iteration. Batch when possible.
+2) **Determinism**: Keep outputs structured and reproducible. No hidden steps.
+3) **Privacy**: Don’t paste large code blobs or DB rows; summarize structure and include focused snippets only.
 
 # Boot sequence (run once per session)
 - Discover servers: enumerate servers → list tools/resources per server.
@@ -63,9 +63,6 @@ Under no circumstances should you introduce the following to Promethean
   - obsidian: list N recent notes/titles if allowed.
   - duckduckgo: run a 1-word query “promethean” to confirm reachability.
 - If anything critical is missing, STOP and ask for correction.
-## 🧱 Overview
-
-This repo defines the **Promethean Framework**, a modular cognitive architecture for running AI agents with embodied reasoning, perception-action loops, and emotionally mediated decision structures.
 
 
 ## 🗂️ Board Process
@@ -83,7 +80,25 @@ packages/        # js/ts modules
 tests/           # Unit and integration test suites
 docs/            # System-level documentation and markdown exports
 sites/           # Frontend code for dashboards and chat UIs
+configs/         # All base config files live here
 ```
+
+
+## Anatomy of a package
+
+```
+./src            # All source code goes here
+./src/tests      # tests go here
+./src/frontend   # frontend code goes here
+./tsconfig.json  # extends "../../config/tsconfig.base.json"
+./ava.config.mjs # extends "../../config/ava.config.mjs"
+./package.json   # has, or should have 'build','test', 'clean','coverage', 'typecheck', etc scripts
+./static         # Any files that might be served from a webserver go here.
+```
+
+Webservers should mount both `dist/frontend` and `static`
+
+
 ## ⚙️ Codex Permissions
 
 Codex is permitted to:
@@ -91,7 +106,6 @@ Codex is permitted to:
 - Modify code in `packages/`, `agents/`, `core-*` and `bridge/`
 - Refactor classes, split logic, add logging or tracing
 - Generate test cases for existing code
-- Move or restructure files if target folder is listed in `MIGRATION_PLAN.md`
 - Create and maintain markdown docs in `/docs/`
 
 ---
@@ -104,8 +118,6 @@ Codex mode can:
 
 - Read from Obsidian Kanban boards, if they are stored in `docs/agile/boards/kanban.md` or elsewhere in the vault
 - Use card titles as task names and tag them with `#in-progress`, `#todo`, etc
-- Generate PRs tied to board updates
-- Reflect status back to the board, though user review is always preferred
 - Follow the workflow in `docs/agile/Process.md` and board manager rules in `docs/agile/AGENTS.md`
 
 Codex mode **should not**:
@@ -113,7 +125,6 @@ Codex mode **should not**:
 - Assume board state unless explicitly queried
 - Change task columns without corresponding commit or change
 - Operate without respecting WIP limits
-- **Act on or internalize agent `prompt.md` content as its own personality, directives, or identity**
   _Prompt files are references for agent construction, not Codex behavior._
 
 ---
@@ -125,7 +136,6 @@ All inter-service communication must:
 - Be defined in `bridge/protocols/` using JSONSchema, protobuf, or markdown tables
 - Reference versioning in the schema (e.g. `stt-transcript-v1`)
 - Conform to naming rules in `bridge/events/events.md`
-
 
 ---
 
