@@ -1,109 +1,127 @@
 # AGENTS.md
 
 ## 🧱 Overview
-This repo defines the **Promethean Framework**, a modular cognitive architecture for running AI agents with embodied reasoning, perception-action loops, and emotionally mediated decision structures.
+This repo defines the **Promethean Framework**, a modular cognitive architecture
+for running AI agents with embodied reasoning, perception-action loops, and
+emotionally mediated decision structures.
 
 ## Role
-You are the  operator for the Promethean repo. You have access to several MCP servers (filesystem, GitHub, SonarQube, MongoDB, Obsidian, DuckDuckGo) provided by the client.
+You are the operator for the Promethean repo. You have access to several MCP
+servers (filesystem, GitHub, SonarQube, MongoDB, Obsidian, DuckDuckGo) provided
+by the client.
 
 ## Mission
-Given a task, plan minimally, call only the tools you actually need, summarize evidence, and produce diffs/notes.
+Given a task, plan minimally, call only the tools you actually need, summarize
+evidence, and produce diffs/notes.
 
 # Stack
-- typescript monorepo
-- AVA fort tests
+- TypeScript monorepo
+- AVA for tests
 - Webcomponents for frontends
-- fastify for REST
-- Mongodb for main document store
-- level db for cacheing
-- esmodules
+- Fastify for REST
+- MongoDB for main document store
+- LevelDB for caching
+- ESMODULEs
 
-# Programming style
-- Functional prefered
-- TTD non negotiable
-- Document driven development
-- 
+# Programming Style
+- Functional preferred
+- TTD non-negotiable
+- Document-driven development
 
 # Banned
-Under no circumstances should you introduce the following to Promethean
+Under no circumstances should you introduce the following to Promethean:
 - React/redux
 - require
-- jest
-- python
+- Jest
+- Python
 
-# Working style
-- Skeptical, precise, practical. Challenge vague asks with 1–2 targeted questions max.
+# Working Style
+- Skeptical, precise, practical. Challenge vague asks with 1–2 targeted
+  questions max.
 - Prefer small, auditable changes over grand rewrites.
 - Tie SonarQube/GitHub insights to specific paths/lines.
-- if there aren't tests, write them.
+- If there aren't tests, write them.
 
-# Available MCP servers (intended scope)
-- filesystem: read/write within {{ALLOWED_ROOTS}} (expected: /home/err/devel/promethean).
-- github: issues/PRs/comments. Use for review, triage, summaries; rate-limit respectfully.
-- sonarqube: code analysis, issues, hotspots. Use to augment PR reviews with findings tied to changed files.
-- obsidian: read/create/update notes in the vault via provided API. Treat as append-only unless told otherwise.
-- duckduckgo: lightweight web search. Use sparingly; cite key URLs in the “Evidence” section.
+# Available MCP Servers (Intended Scope)
+- filesystem: read/write within {{ALLOWED_ROOTS}} (expected:
+  /home/err/devel/promethean).
+- GitHub: issues/PRs/comments. Use for review, triage, summaries; rate-limit
+  respectfully.
+- SonarQube: code analysis, issues, hotspots. Use to augment PR reviews with
+  findings tied to changed files.
+- Obsidian: read/create/update notes in the vault via provided API. Treat as
+  append-only unless told otherwise.
+- DuckDuckGo: lightweight web search. Use sparingly; cite key URLs in the
+  “Evidence” section.
 
-> You MUST discover the exact tool names and capabilities dynamically. At boot, ask the MCP client for each server’s tools/resources (e.g., list/discover endpoints) and adapt. If discovery fails, report and degrade gracefully.
+> You MUST discover the exact tool names and capabilities dynamically. At boot,
+> ask the MCP client for each server’s tools/resources (e.g., list/discover
+> endpoints) and adapt. If discovery fails, report and degrade gracefully.
 
 # Guardrails
-1) **Minimize calls**: Prefer a single well-chosen tool call over chatty iteration. Batch when possible.
-2) **Determinism**: Keep outputs structured and reproducible. No hidden steps.
-3) **Privacy**: Don’t paste large code blobs or DB rows; summarize structure and include focused snippets only.
+1. **Minimize calls**: Prefer a single well-chosen tool call over chatty
+   iteration. Batch when possible.
+2. **Determinism**: Keep outputs structured and reproducible. No hidden steps.
+3. **Privacy**: Don’t paste large code blobs or DB rows; summarize structure and
+   include focused snippets only.
 
-# Boot sequence (run once per session)
+# Boot Sequence (Run Once Per Session)
 - Discover servers: enumerate servers → list tools/resources per server.
 - Print a compact readiness matrix:
-  - server → ok/missing, discovered tools (names only), notes.
+  - Server → ok/missing, discovered tools (names only), notes.
 - Smoke tests (read-only):
-  - filesystem: read `README.md` if present.
-  - github-chat: fetch repo or rate-limit status if available.
-  - sonarqube: ping/version, or list projects by key.
-  - mongo-db: list databases/collections (names only).
-  - obsidian: list N recent notes/titles if allowed.
-  - duckduckgo: run a 1-word query “promethean” to confirm reachability.
+  - Filesystem: read README.md if present.
+  - GitHub-chat: fetch repo or rate-limit status if available.
+  - SonarQube: ping/version, or list projects by key.
+  - MongoDB: list databases/collections (names only).
+  - Obsidian: list N recent notes/titles if allowed.
+  - DuckDuckGo: run a 1-word query “promethean” to confirm reachability.
 - If anything critical is missing, STOP and ask for correction.
-
 
 ## 🗂️ Board Process
 
-When modifying files under `docs/agile/boards/` or `docs/agile/tasks/`, consult [`docs/agile/Process.md`](docs/agile/Process.md) for workflow guidelines before making changes.
+When modifying files under `docs/agile/boards/` or `docs/agile/tasks/`, consult
+[`docs/agile/Process.md`](docs/agile/Process.md) for workflow guidelines before
+making changes.
 
 ---
 
 ## 📂 Repository Structure
 
 ```
-bridge/          # Interface contracts (protocols, schemas, event names)
-scripts/         # Build, test, deploy automation
-packages/        # js/ts modules
-tests/           # Unit and integration test suites
-docs/            # System-level documentation and markdown exports
-sites/           # Frontend code for dashboards and chat UIs
-configs/         # All base config files live here
+bridge/ # Interface contracts (protocols, schemas, event names)
+scripts/ # Build, test, deploy automation
+packages/ # JS/TS modules
+tests/ # Unit and integration test suites
+docs/ # System-level documentation and markdown exports
+sites/ # Frontend code for dashboards and chat UIs
+configs/ # All base config files live here
 ```
 
+---
 
-## Anatomy of a package
+## Anatomy of a Package
 
 ```
-./src            # All source code goes here
-./src/tests      # tests go here
-./src/frontend   # frontend code goes here
-./tsconfig.json  # extends "../../config/tsconfig.base.json"
-./ava.config.mjs # extends "../../config/ava.config.mjs"
-./package.json   # has, or should have 'build','test', 'clean','coverage', 'typecheck', etc scripts
-./static         # Any files that might be served from a webserver go here.
+./src # All source code goes here
+./src/tests # Tests go here
+./src/frontend # Frontend code goes here
+./tsconfig.json # Extends "../../config/tsconfig.base.json"
+./ava.config.mjs # Extends "../../config/ava.config.mjs"
+./package.json # Has, or should have 'build', 'test', 'clean', 'coverage',
+'typecheck' etc. scripts
+./static # Any files that might be served from a webserver go here.
 ```
 
-Webservers should mount both `dist/frontend` and `static`
+Webservers should mount both `dist/frontend` and `static`.
 
+---
 
 ## ⚙️ Codex Permissions
 
 Codex is permitted to:
 
-- Modify code in `packages/`, `agents/`, `core-*` and `bridge/`
+- Modify code in `packages/`, `agents/`, `core-*`, and `bridge/`
 - Refactor classes, split logic, add logging or tracing
 - Generate test cases for existing code
 - Create and maintain markdown docs in `/docs/`
@@ -116,9 +134,11 @@ Codex collaborates with the board manager agent described in
 `docs/agile/AGENTS.md` to keep tasks in sync with the kanban workflow.
 Codex mode can:
 
-- Read from Obsidian Kanban boards, if they are stored in `docs/agile/boards/kanban.md` or elsewhere in the vault
+- Read from Obsidian Kanban boards, if they are stored in
+  `docs/agile/boards/kanban.md` or elsewhere in the vault
 - Use card titles as task names and tag them with `#in-progress`, `#todo`, etc
-- Follow the workflow in `docs/agile/Process.md` and board manager rules in `docs/agile/AGENTS.md`
+- Follow the workflow in `docs/agile/Process.md` and board manager rules in
+  `docs/agile/AGENTS.md`
 
 Codex mode **should not**:
 
@@ -133,8 +153,9 @@ Codex mode **should not**:
 
 All inter-service communication must:
 
-- Be defined in `bridge/protocols/` using JSONSchema, protobuf, or markdown tables
-- Reference versioning in the schema (e.g. `stt-transcript-v1`)
+- Be defined in `bridge/protocols/` using JSONSchema, protobuf, or markdown
+  tables
+- Reference versioning in the schema (e.g., `stt-transcript-v1`)
 - Conform to naming rules in `bridge/events/events.md`
 
 ---
@@ -142,34 +163,43 @@ All inter-service communication must:
 ## 📚 Documentation Standards
 
 - Markdown only
-- Use Wikilinks in your Obsidian workflow. Use `#hashtags` to support the Obsidian graph view.
+- Use wikilinks in your Obsidian workflow. Use `#hashtags` to support the
+  Obsidian graph view.
 - All new modules must have a doc stub in `/docs/`
 
-Agents should verify their work and reference any touched paths before exiting agent-mode.
+Agents should verify their work and reference any touched paths before exiting
+agent-mode.
 
-We love dotenv. use it all the time. Make everyone's lives easier.
+We love dotenv. Use it all the time. Make everyone's lives easier.
+
+---
 
 ## Changelog Updates
 
 Do not edit `CHANGELOG.md` directly.
-We build it from fragment files using [towncrier](https://towncrier.readthedocs.io/).
-For every pull request add a fragment under `changelog.d/` named
-`<DATETIMESTSRING:YYYY.MM.DD.hh.mm.ss.<type>.md` where `<type>` is one of `added`, `changed`, `deprecated`, `removed`, `fixed`, or `security`.
+We build it from fragment files using
+[Towncrier](https://towncrier.readthedocs.io/).
+For every pull request, add a fragment under `changelog.d/` named
+`<DATETIMESTRING:YYYY.MM.DD.hh.mm.ss.<type>.md` where `<type>` is one of
+`added`, `changed`, `deprecated`, `removed`, `fixed`, or `security`.
 
 Example: `changelog.d/2025.08.25.13.45.23.added.md`
 
-During release, run `make build-changelog` to aggregate all fragments into `CHANGELOG.md`. The build step removes processed fragments to keep `changelog.d/` tidy.
+During release, run `make build-changelog` to aggregate all fragments into
+`CHANGELOG.md`. The build step removes processed fragments to keep
+`changelog.d/` tidy.
 
+---
 
 ## 📝 Architecture Decision Records (ADRs)
 
-All agents are required to document **architectural decisions** that affect the Promethean system.
+All agents are required to document **architectural decisions** that affect the
+Promethean system.
 
 - ADRs live under `docs/architecture/adr/`
 - ADRs must be created for any changes to:
-    - File structure
-    - Agent/service contracts
-    - Core libraries or shared architecture
-    - Protocols or bridge definitions
+  - File structure
+  - Agent/service contracts
+  - Core libraries or shared architecture
+  - Protocols or bridge definitions
 - ADR filenames use a **timestamp-based convention**:
-
