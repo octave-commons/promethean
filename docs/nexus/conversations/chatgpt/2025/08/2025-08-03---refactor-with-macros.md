@@ -1424,7 +1424,7 @@ Chat URL: https://chat.openai.com/c/6890318e-c1b4-8323-b46d-e7123d80139f
 
 
 >[!nexus_user] **User** - 08/04/2025 at 9:39 AM
-> Lets add a codex mode to use the codex-cli for auto complete like github copilot. Let's basicly just see if we can't duplicate the copilot layer, but for codex.
+> Lets add a codex mode to use the codex for auto complete like github copilot. Let's basicly just see if we can't duplicate the copilot layer, but for codex.
 <!-- UID: d1599d09-a062-4b91-a97a-4a015a3b2479 -->
 
 
@@ -1435,7 +1435,7 @@ Chat URL: https://chat.openai.com/c/6890318e-c1b4-8323-b46d-e7123d80139f
 >  "updates": [
 >  {
 >  "pattern": ".*",
->  "replacement": "(import subprocess)\n(import shutil)\n(import glob)\n(import os.path [isdir join basename])\n(import sys)\n\n;; -----------------------------------------------------------------------------\n;; Macros\n;; -----------------------------------------------------------------------------\n(defmacro define-service-list [name root-dir &optional [exclude []]]\n `(setv ~name\n (list\n ~@(for [p (sorted (glob.glob (str ~root-dir \"/*\")))]\n (if (and (isdir p)\n (not (in (basename p) ~exclude)))\n `~p)))))\n\n(defmacro define-patterns [&rest groups]\n `(setv patterns\n (list\n ~@(for [[lang commands] groups\n [action fn] commands]\n `[~(str action \"-\" lang \"-service-\") ~fn]))))\n\n;; -----------------------------------------------------------------------------\n;; Service List Definitions\n;; -----------------------------------------------------------------------------\n(define-service-list SERVICES_PY \"services/py\")\n(define-service-list SERVICES_JS \"services/js\")\n(define-service-list SERVICES_TS \"services/ts\")\n\n;; -----------------------------------------------------------------------------\n;; Pattern Dispatch (Refactored)\n;; -----------------------------------------------------------------------------\n(define-patterns\n [\"python\"\n [[\"setup\" setup-python-service]\n [\"test\" test-python-service]\n [\"coverage\" coverage-python-service]\n [\"lint\" lint-python-service]]]\n\n [\"js\"\n [[\"setup\" setup-js-service]\n [\"test\" test-js-service]\n [\"coverage\" coverage-js-service]\n [\"lint\" lint-js-service]]]\n\n [\"ts\"\n [[\"setup\" setup-ts-service]\n [\"test\" test-ts-service]\n [\"coverage\" coverage-ts-service]\n [\"lint\" lint-ts-service]]]\n\n [\"hy\"\n [[\"setup\" setup-hy-service]]]\n\n [\"sibilant\"\n [[\"setup\" setup-sibilant-service]]]\n\n [\"\"\n [[\"start\" start-service]\n [\"stop\" stop-service]\n [\"generate-requirements\" generate-requirements-service]]])\n\n;; -----------------------------------------------------------------------------\n;; Codex Mode Integration (Experimental Copilot Clone)\n;; -----------------------------------------------------------------------------\n;; This is a stub for integrating `codex-cli` for AI completions\n;; Triggered manually or on idle, similar to GitHub Copilot layer.\n\n(defn codex-complete-buffer []\n \"Run codex on the current buffer and insert completion.\"\n (interactive)\n (let [code (buffer-substring-no-properties (point-min) (point-max))\n tmpfile (make-temp-file \"codex-input-\" nil \".txt\" code)\n cmd (format \"codex complete %s\" tmpfile)]\n (with-temp-buffer\n (insert (shell-command-to-string cmd))\n (goto-char (point-max))\n (insert \"\\n\"))))\n\n(global-set-key (kbd \"C-c C-x C-c\") 'codex-complete-buffer)"
+>  "replacement": "(import subprocess)\n(import shutil)\n(import glob)\n(import os.path [isdir join basename])\n(import sys)\n\n;; -----------------------------------------------------------------------------\n;; Macros\n;; -----------------------------------------------------------------------------\n(defmacro define-service-list [name root-dir &optional [exclude []]]\n `(setv ~name\n (list\n ~@(for [p (sorted (glob.glob (str ~root-dir \"/*\")))]\n (if (and (isdir p)\n (not (in (basename p) ~exclude)))\n `~p)))))\n\n(defmacro define-patterns [&rest groups]\n `(setv patterns\n (list\n ~@(for [[lang commands] groups\n [action fn] commands]\n `[~(str action \"-\" lang \"-service-\") ~fn]))))\n\n;; -----------------------------------------------------------------------------\n;; Service List Definitions\n;; -----------------------------------------------------------------------------\n(define-service-list SERVICES_PY \"services/py\")\n(define-service-list SERVICES_JS \"services/js\")\n(define-service-list SERVICES_TS \"services/ts\")\n\n;; -----------------------------------------------------------------------------\n;; Pattern Dispatch (Refactored)\n;; -----------------------------------------------------------------------------\n(define-patterns\n [\"python\"\n [[\"setup\" setup-python-service]\n [\"test\" test-python-service]\n [\"coverage\" coverage-python-service]\n [\"lint\" lint-python-service]]]\n\n [\"js\"\n [[\"setup\" setup-js-service]\n [\"test\" test-js-service]\n [\"coverage\" coverage-js-service]\n [\"lint\" lint-js-service]]]\n\n [\"ts\"\n [[\"setup\" setup-ts-service]\n [\"test\" test-ts-service]\n [\"coverage\" coverage-ts-service]\n [\"lint\" lint-ts-service]]]\n\n [\"hy\"\n [[\"setup\" setup-hy-service]]]\n\n [\"sibilant\"\n [[\"setup\" setup-sibilant-service]]]\n\n [\"\"\n [[\"start\" start-service]\n [\"stop\" stop-service]\n [\"generate-requirements\" generate-requirements-service]]])\n\n;; -----------------------------------------------------------------------------\n;; Codex Mode Integration (Experimental Copilot Clone)\n;; -----------------------------------------------------------------------------\n;; This is a stub for integrating `codex` for AI completions\n;; Triggered manually or on idle, similar to GitHub Copilot layer.\n\n(defn codex-complete-buffer []\n \"Run codex on the current buffer and insert completion.\"\n (interactive)\n (let [code (buffer-substring-no-properties (point-min) (point-max))\n tmpfile (make-temp-file \"codex-input-\" nil \".txt\" code)\n cmd (format \"codex complete %s\" tmpfile)]\n (with-temp-buffer\n (insert (shell-command-to-string cmd))\n (goto-char (point-max))\n (insert \"\\n\"))))\n\n(global-set-key (kbd \"C-c C-x C-c\") 'codex-complete-buffer)"
 >  }
 >  ]
 > }
@@ -1447,7 +1447,7 @@ Chat URL: https://chat.openai.com/c/6890318e-c1b4-8323-b46d-e7123d80139f
 
 
 >[!nexus_agent] **Assistant** - 08/04/2025 at 9:40 AM
-> I've added a section to define a minimal **Codex Mode integration**, functioning like a Copilot clone using `codex-cli`. Here's what it includes:
+> I've added a section to define a minimal **Codex Mode integration**, functioning like a Copilot clone using `codex`. Here's what it includes:
 > 
 > ### 🧠 `codex-complete-buffer`
 > - Extracts current buffer contents
@@ -1517,7 +1517,7 @@ Chat URL: https://chat.openai.com/c/6890318e-c1b4-8323-b46d-e7123d80139f
 >  :commands (codex-complete-buffer)
 >  :init
 >  (defun codex-complete-buffer ()
->  "Run codex-cli on the current buffer and insert completion."
+>  "Run codex on the current buffer and insert completion."
 >  (interactive)
 >  (let* ((tmpfile (make-temp-file "codex-input-" nil ".txt"))
 >  (outputfile (make-temp-file "codex-output-" nil ".txt"))
@@ -1543,7 +1543,7 @@ Chat URL: https://chat.openai.com/c/6890318e-c1b4-8323-b46d-e7123d80139f
 > 
 > - A fully structured Spacemacs layer
 > - Hy and Sibilant setup with `smartparens` and `rainbow-delimiters`
-> - A `codex-mode` stub with `codex-complete-buffer`, acting like a Copilot replacement using `codex-cli`
+> - A `codex-mode` stub with `codex-complete-buffer`, acting like a Copilot replacement using `codex`
 > - Global keybinding `C-c C-x C-c` to trigger completions
 > 
 > Would you like help wiring this into your `.spacemacs` or should we scaffold `config.el`, `keybindings.el`, or a README for the layer next?
@@ -1570,7 +1570,7 @@ Chat URL: https://chat.openai.com/c/6890318e-c1b4-8323-b46d-e7123d80139f
 >  "updates": [
 >  {
 >  "pattern": ".*",
->  "replacement": ";;; packages.el --- Promethean Layer for Lisp-like DSLs -*- lexical-binding: t -*-\n\n(defconst promethean-packages\n '(smartparens\n rainbow-delimiters))\n\n(defun promethean/init-smartparens () nil)\n(defun promethean/init-rainbow-delimiters () nil)\n\n;; Generic Lisp hooks\n(defun promethean/setup-lispy-env ()\n (smartparens-strict-mode 1)\n (rainbow-delimiters-mode 1)\n (electric-pair-mode -1))\n\n;; -----------------------------------------------------------------------------\n;; Codex Integration (global, applies to all dialects)\n;; -----------------------------------------------------------------------------\n\n(defun promethean/init-codex-mode ()\n (use-package codex-mode\n :commands (codex-complete-buffer)\n :init\n (defun codex-complete-buffer ()\n \"Run codex-cli on the current buffer and insert completion.\"\n (interactive)\n (let* ((tmpfile (make-temp-file \"codex-input-\" nil \".txt\"))\n (outputfile (make-temp-file \"codex-output-\" nil \".txt\"))\n (code (buffer-substring-no-properties (point-min) (point-max))))\n (with-temp-file tmpfile (insert code))\n (shell-command (format \"codex complete --output %s %s\" outputfile tmpfile))\n (when (file-exists-p outputfile)\n (insert-file-contents outputfile)\n (delete-file outputfile))\n (delete-file tmpfile)))\n\n (global-set-key (kbd \"C-c C-x C-c\") #'codex-complete-buffer)))\n\n;; -----------------------------------------------------------------------------\n;; Future dialects: hy-mode, sibilant-mode, prompt-mode etc.\n;; These will be defined in dialect-specific files like layers/promethean/hy.el\n;; -----------------------------------------------------------------------------"
+>  "replacement": ";;; packages.el --- Promethean Layer for Lisp-like DSLs -*- lexical-binding: t -*-\n\n(defconst promethean-packages\n '(smartparens\n rainbow-delimiters))\n\n(defun promethean/init-smartparens () nil)\n(defun promethean/init-rainbow-delimiters () nil)\n\n;; Generic Lisp hooks\n(defun promethean/setup-lispy-env ()\n (smartparens-strict-mode 1)\n (rainbow-delimiters-mode 1)\n (electric-pair-mode -1))\n\n;; -----------------------------------------------------------------------------\n;; Codex Integration (global, applies to all dialects)\n;; -----------------------------------------------------------------------------\n\n(defun promethean/init-codex-mode ()\n (use-package codex-mode\n :commands (codex-complete-buffer)\n :init\n (defun codex-complete-buffer ()\n \"Run codex on the current buffer and insert completion.\"\n (interactive)\n (let* ((tmpfile (make-temp-file \"codex-input-\" nil \".txt\"))\n (outputfile (make-temp-file \"codex-output-\" nil \".txt\"))\n (code (buffer-substring-no-properties (point-min) (point-max))))\n (with-temp-file tmpfile (insert code))\n (shell-command (format \"codex complete --output %s %s\" outputfile tmpfile))\n (when (file-exists-p outputfile)\n (insert-file-contents outputfile)\n (delete-file outputfile))\n (delete-file tmpfile)))\n\n (global-set-key (kbd \"C-c C-x C-c\") #'codex-complete-buffer)))\n\n;; -----------------------------------------------------------------------------\n;; Future dialects: hy-mode, sibilant-mode, prompt-mode etc.\n;; These will be defined in dialect-specific files like layers/promethean/hy.el\n;; -----------------------------------------------------------------------------"
 >  }
 >  ]
 > }
@@ -1586,7 +1586,7 @@ Chat URL: https://chat.openai.com/c/6890318e-c1b4-8323-b46d-e7123d80139f
 > 
 > - Loads shared tooling (`smartparens`, `rainbow-delimiters`)
 > - Defines `promethean/setup-lispy-env` as a reusable Lisp-mode hook
-> - Sets up a `codex-complete-buffer` function for AI completion using `codex-cli`
+> - Sets up a `codex-complete-buffer` function for AI completion using `codex`
 > - Leaves dialect-specific logic (e.g. Hy, Sibilant) to be added later in modular files like `hy.el`, `sibilant.el`, etc.
 > 
 > Want to scaffold the `layers/promethean/hy.el` and `sibilant.el` subfiles next so they each register their own modes and call `setup-lispy-env`?
@@ -1753,7 +1753,7 @@ Chat URL: https://chat.openai.com/c/6890318e-c1b4-8323-b46d-e7123d80139f
 >  (electric-pair-mode -1))
 > 
 > (defun promethean/codex-complete-buffer ()
->  "Run codex-cli on the current buffer and insert completion."
+>  "Run codex on the current buffer and insert completion."
 >  (interactive)
 >  (let* ((tmpfile (make-temp-file "codex-input-" nil ".txt"))
 >  (outputfile (make-temp-file "codex-output-" nil ".txt"))
@@ -1831,7 +1831,7 @@ Chat URL: https://chat.openai.com/c/6890318e-c1b4-8323-b46d-e7123d80139f
 > 
 > ** Features
 > - Smartparens + rainbow delimiters for structural editing
-> - Codex CLI integration (Copilot-like completion)
+> - Codex integration (Copilot-like completion)
 > - Eval buffer hooks for Hy and Sibilant
 > - Easy to extend per dialect
 > 
@@ -6486,7 +6486,7 @@ Chat URL: https://chat.openai.com/c/6890318e-c1b4-8323-b46d-e7123d80139f
 > 💡 *Next...*
 > 
 > 1. Want to do **Prompt Lisp Mode** for `.prompt.sibilant` files?
-> 2. Want to integrate **Codex CLI completions** via `company-mode` or `completion-at-point`?
+> 2. Want to integrate **Codex completions** via `company-mode` or `completion-at-point`?
 > 3. Want to start parsing the `.prompt` ASTs into structured Emacs overlays?
 > 
 > Pick the next rabbit hole, and I’ll start digging. 🕳️🐇
@@ -6523,7 +6523,7 @@ Chat URL: https://chat.openai.com/c/6890318e-c1b4-8323-b46d-e7123d80139f
 > ### 🧠 `llm-complete.el`: A Unified LLM Completion Framework
 > 
 > #### 1. **Backends**
-> Each backend (e.g. Codex CLI, Ollama, OpenAI, Localhost) becomes a small module that defines:
+> Each backend (e.g. Codex, Ollama, OpenAI, Localhost) becomes a small module that defines:
 > 
 > ```elisp
 > (llm-complete-register-backend
@@ -6563,7 +6563,7 @@ Chat URL: https://chat.openai.com/c/6890318e-c1b4-8323-b46d-e7123d80139f
 > 
 > ---
 > 
-> ### 🔌 Backend Example: Codex CLI
+> ### 🔌 Backend Example: Codex
 > 
 > ```elisp
 > (defun llm-codex-available-p ()
@@ -6766,7 +6766,7 @@ Chat URL: https://chat.openai.com/c/6890318e-c1b4-8323-b46d-e7123d80139f
 > 
 > (llm-complete-register-backend
 >  codex
->  :label "Codex CLI"
+>  :label "Codex"
 >  :priority 10
 >  :command #'llm-codex-complete
 >  :available-p #'llm-codex-available-p)
@@ -6787,7 +6787,7 @@ Chat URL: https://chat.openai.com/c/6890318e-c1b4-8323-b46d-e7123d80139f
 > 
 > ** Supported backends
 > 
-> - Codex CLI (via `codex`)
+> - Codex (via `codex`)
 > - Ollama (LLaMA3, etc) — easy to add next
 > 
 > ** Usage

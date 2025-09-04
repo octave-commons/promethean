@@ -27,7 +27,7 @@ OpenAI-compatible API that enriches prompts with Promethean repo context via Sma
 - Start (dev): `pnpm -C services/ts/codex-context start:dev`
 - Test: `pnpm -C services/ts/codex-context test`
 
-## Usage with Codex CLI
+## Usage with Codex
 
 Set your OpenAI client base URL to this service:
 

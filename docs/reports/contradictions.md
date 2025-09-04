@@ -67,8 +67,8 @@ This file aggregates **semantic contradictions, overlaps, and tensions** discove
 - Enforces `pnpm` via `corepack` for JS/TS.
 - CI must validate only per-service, never globally.
 
-### Source B: `docs/agents/codex-cli/AGENTS.md` + `docs/agents/codex-gui/AGENTS.md`
-- Codex CLI: build, test, migrate, PR update. Aligns with process doc.
+### Source B: `docs/agents/codex/AGENTS.md` + `docs/agents/codex-gui/AGENTS.md`
+- Codex: build, test, migrate, PR update. Aligns with process doc.
 - Codex GUI: Kanban sync, workflow interface.
 - ❌ Neither mentions service-specific setup or CI scoping rules.
 
@@ -77,7 +77,7 @@ This file aggregates **semantic contradictions, overlaps, and tensions** discove
 - **Codex docs** ignore them, leaving enforcement ambiguous.
 
 ### Resolution Paths
-1. Update Codex CLI governance to enforce per-service setup + pnpm rules.
+1. Update Codex governance to enforce per-service setup + pnpm rules.
 2. Ensure Codex GUI displays service-specific CI/test status, not global checks.
 3. Clarify Codex roles in supporting vs enforcing dev setup discipline.
 
