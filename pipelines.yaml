@@ -20,11 +20,11 @@ pipelines:
         deps: ["symdocs-scan"]
         shell: "pnpm --filter @promethean/symdocs symdocs:04-graph"
         inputs:
-          [
-            "packages/**/package.json",
-            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}",
-          ]
-        outputs: ["docs/packages/README.md", "docs/packages/**/README.md"]
+          - "packages/**/package.json"
+          - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
+        outputs:
+          - "docs/packages/README.md"
+          - "docs/packages/**/README.md"
 
   - name: simtasks
     steps:
@@ -68,10 +68,8 @@ pipelines:
         deps: ["mods-generate"]
         shell: "pnpm --filter @promethean/codemods mods:03-dry-run --root packages --report docs/agile/tasks/codemods --specs .cache/codemods/specs.json --delete-duplicates true"
         inputs:
-          [
-            "codemods/**/transform.ts",
-            "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}",
-          ]
+          - "codemods/**/transform.ts"
+          - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
         outputs: ["docs/agile/tasks/codemods/*.md"]
       - id: mods-apply
         deps: ["mods-dry-run"]
@@ -83,10 +81,9 @@ pipelines:
         shell: 'pnpm --filter @promethean/codemods mods:04-verify:after --stage after --test "pnpm -w -r test"'
         inputs: [".cache/codemods/run-apply.json"]
         outputs:
-          [
-            "docs/agile/tasks/codemods/verify-after.md",
-            "docs/agile/tasks/codemods/VERIFY.md",
-          ]
+          - "docs/agile/tasks/codemods/verify-after.md"
+          - "docs/agile/tasks/codemods/VERIFY.md"
+
   - name: semver-guard
     steps:
       - id: sv-snapshot
@@ -95,25 +92,21 @@ pipelines:
           - "packages/**/package.json"
           - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
         outputs: [".cache/semverguard/snapshot.json"]
-
       - id: sv-diff
         deps: ["sv-snapshot"]
         shell: "pnpm --filter @promethean/semverguard sv:02-diff --current .cache/semverguard/snapshot.json --baseline git:origin/main:.cache/semverguard/snapshot.json --out .cache/semverguard/diff.json"
         inputs: [".cache/semverguard/snapshot.json"]
         outputs: [".cache/semverguard/diff.json"]
-
       - id: sv-plan
         deps: ["sv-diff"]
         shell: "pnpm --filter @promethean/semverguard sv:03-plan --diff .cache/semverguard/diff.json --out .cache/semverguard/plans.json --model qwen3:4b"
         inputs: [".cache/semverguard/diff.json"]
         outputs: [".cache/semverguard/plans.json"]
-
       - id: sv-write
         deps: ["sv-plan"]
         shell: "pnpm --filter @promethean/semverguard sv:04-write --plans .cache/semverguard/plans.json --out docs/agile/tasks/semver"
         inputs: [".cache/semverguard/plans.json"]
         outputs: ["docs/agile/tasks/semver/*.md"]
-
       - id: sv-pr
         deps: ["sv-write"]
         shell: "pnpm --filter @promethean/semverguard sv:05-pr --plans .cache/semverguard/plans.json --root packages --mode prepare --update-dependents true --dep-range preserve"
@@ -122,12 +115,13 @@ pipelines:
           - "packages/**/package.json"
         outputs:
           - ".cache/semverguard/pr/summary.json"
+
   - name: board-review
     steps:
       - id: br-fm
         shell: "pnpm --filter @promethean/boardrev br:01-fm"
         inputs: ["docs/agile/tasks/**/*.md"]
-        outputs: ["docs/agile/tasks/**/*.md"] # FM updates in-place
+        outputs: ["docs/agile/tasks/**/*.md"]
       - id: br-prompts
         deps: ["br-fm"]
         shell: "pnpm --filter @promethean/boardrev br:02-prompts --process docs/agile/Process.md --out .cache/boardrev/prompts.json"
@@ -163,11 +157,12 @@ pipelines:
         shell: "pnpm --filter @promethean/boardrev br:06-report --outDir docs/agile/reports"
         inputs: [".cache/boardrev/evals.json"]
         outputs: ["docs/agile/reports/*.md"]
+
   - name: sonar
     steps:
       - id: sonar-scan
         cwd: .
-        shell: "sonar-scanner" # expects sonar-project.properties in repo OR env overrides
+        shell: "sonar-scanner"
         env:
           SONAR_HOST_URL: "${SONAR_HOST_URL}"
           SONAR_TOKEN: "${SONAR_TOKEN}"
@@ -176,7 +171,7 @@ pipelines:
           - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
           - "sonar-project.properties"
         outputs:
-          - ".cache/sonar/scan.touch" # marker file we create after scan
+          - ".cache/sonar/scan.touch"
       - id: sonar-fetch
         deps: ["sonar-scan"]
         shell: "pnpm --filter @promethean/sonarflow sonar:fetch --project ${SONAR_PROJECT_KEY} --out .cache/sonar/issues.json"
@@ -192,6 +187,7 @@ pipelines:
         shell: "pnpm --filter @promethean/sonarflow sonar:write --in .cache/sonar/plans.json --out docs/agile/tasks/sonar"
         inputs: [".cache/sonar/plans.json"]
         outputs: ["docs/agile/tasks/sonar/*.md"]
+
   - name: readmes
     steps:
       - id: rm-scan
@@ -201,7 +197,6 @@ pipelines:
           - "packages/**/tsconfig.json"
         outputs:
           - ".cache/readmes/scan.json"
-
       - id: rm-outline
         deps: ["rm-scan"]
         shell: "pnpm --filter @promethean/readmeflow rm:02-outline --scan .cache/readmes/scan.json --out .cache/readmes/outlines.json --model qwen3:4b"
@@ -211,7 +206,6 @@ pipelines:
           - ".cache/readmes/scan.json"
         outputs:
           - ".cache/readmes/outlines.json"
-
       - id: rm-write
         deps: ["rm-outline"]
         shell: "pnpm --filter @promethean/readmeflow rm:03-write --scan .cache/readmes/scan.json --outlines .cache/readmes/outlines.json --mermaid true"
@@ -219,7 +213,6 @@ pipelines:
           - ".cache/readmes/outlines.json"
         outputs:
           - "packages/**/README.md"
-
       - id: rm-verify
         deps: ["rm-write"]
         shell: "pnpm --filter @promethean/readmeflow rm:04-verify --root packages --out docs/agile/reports/readmes"
@@ -227,6 +220,7 @@ pipelines:
           - "packages/**/README.md"
         outputs:
           - "docs/agile/reports/readmes/*.md"
+
   - name: buildfix
     steps:
       - id: bf-errors
@@ -236,7 +230,6 @@ pipelines:
           - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
         outputs:
           - ".cache/buildfix/errors.json"
-
       - id: bf-iterate
         deps: ["bf-errors"]
         shell: >
@@ -263,7 +256,6 @@ pipelines:
           - ".cache/buildfix/summary.json"
           - ".cache/buildfix/history/**"
           - ".cache/buildfix/snippets/**"
-
       - id: bf-report
         deps: ["bf-iterate"]
         shell: "pnpm --filter @promethean/buildfix bf:03-report --summary .cache/buildfix/summary.json --history-root .cache/buildfix/history --out docs/agile/reports/buildfix"
@@ -271,13 +263,12 @@ pipelines:
           - ".cache/buildfix/summary.json"
         outputs:
           - "docs/agile/reports/buildfix/*.md"
+
   - name: test-gap
     steps:
-      # (Optional) upstream: run your tests to produce lcov.info
       # - id: tg-run-tests
-      #   shell: "pnpm -w test -- --coverage"   # or your workspace runner
+      #   shell: "pnpm -w test -- --coverage"
       #   outputs: ["coverage/lcov.info", "packages/**/coverage/lcov.info"]
-
       - id: tg-exports
         shell: "pnpm --filter @promethean/testgap tg:01-scan-exports --root packages --out .cache/testgap/exports.json"
         inputs:
@@ -285,16 +276,13 @@ pipelines:
           - "packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}"
         outputs:
           - ".cache/testgap/exports.json"
-
       - id: tg-coverage
-        # deps: ["tg-run-tests"]
         shell: 'pnpm --filter @promethean/testgap tg:02-read-coverage --lcov-globs "{coverage/lcov.info,packages/**/coverage/lcov.info}" --out .cache/testgap/coverage.json'
         inputs:
           - "coverage/lcov.info"
           - "packages/**/coverage/lcov.info"
         outputs:
           - ".cache/testgap/coverage.json"
-
       - id: tg-map
         deps: ["tg-exports", "tg-coverage"]
         shell: "pnpm --filter @promethean/testgap tg:03-map-gaps --exports .cache/testgap/exports.json --coverage .cache/testgap/coverage.json --min-lines 3 --out .cache/testgap/gaps.json"
@@ -308,7 +296,6 @@ pipelines:
         shell: "pnpm --filter @promethean/testgap tg:08-gate --gaps .cache/testgap/gaps.json --out .cache/testgap/gate.json --threshold 0.70 --metric symbols"
         inputs: [".cache/testgap/gaps.json"]
         outputs: [".cache/testgap/gate.json"]
-
       - id: tg-cookbook
         deps: ["tg-map"]
         shell: "pnpm --filter @promethean/testgap tg:04-cookbook-cross --recipes docs/cookbook/**/*.md --out .cache/testgap/cookbook.json"
@@ -316,7 +303,6 @@ pipelines:
           - "docs/cookbook/**/*.md"
         outputs:
           - ".cache/testgap/cookbook.json"
-
       - id: tg-plan
         deps: ["tg-cookbook"]
         shell: "pnpm --filter @promethean/testgap tg:05-plan --gaps .cache/testgap/gaps.json --cookbook .cache/testgap/cookbook.json --out .cache/testgap/plans.json --model qwen3:4b --threshold 0.5 --max-per-pkg 15"
@@ -327,7 +313,6 @@ pipelines:
           - ".cache/testgap/cookbook.json"
         outputs:
           - ".cache/testgap/plans.json"
-
       - id: tg-write
         deps: ["tg-plan"]
         shell: "pnpm --filter @promethean/testgap tg:06-write --plans .cache/testgap/plans.json --out docs/agile/tasks/test-gaps"
@@ -335,7 +320,6 @@ pipelines:
           - ".cache/testgap/plans.json"
         outputs:
           - "docs/agile/tasks/test-gaps/*.md"
-
       - id: tg-report
         deps: ["tg-map"]
         shell: "pnpm --filter @promethean/testgap tg:07-report --gaps .cache/testgap/gaps.json --out docs/agile/reports/test-gaps"
@@ -343,9 +327,9 @@ pipelines:
           - ".cache/testgap/gaps.json"
         outputs:
           - "docs/agile/reports/test-gaps/*.md"
+
   - name: docops
     steps:
-      # a) Ensure / complete front matter (filename/description/tags/uuid)
       - id: doc-fm
         shell: >
           pnpm --filter @promethean/docops
@@ -358,8 +342,6 @@ pipelines:
           - "docs/unique/**/*.md"
         outputs:
           - ".cache/docops/frontmatters.json"
-
-      # b) Chunk + embed (language-aware tokenizer) and build index
       - id: doc-index
         deps: ["doc-fm"]
         shell: >
@@ -375,8 +357,6 @@ pipelines:
         outputs:
           - ".cache/docops/chunks.json"
           - ".cache/docops/embeddings.json"
-
-      # c) Cross-document similarity queries (cache per-chunk results)
       - id: doc-similarity
         deps: ["doc-index"]
         shell: >
@@ -390,8 +370,6 @@ pipelines:
           - ".cache/docops/embeddings.json"
         outputs:
           - ".cache/docops/queries.json"
-
-      # d) Compute related-doc scores (doc↔doc)
       - id: doc-related
         deps: ["doc-similarity"]
         shell: >
@@ -406,8 +384,6 @@ pipelines:
           - ".cache/docops/frontmatters.json"
         outputs:
           - ".cache/docops/related.json"
-
-      # e) High-scoring references (chunk-level, with line/col)
       - id: doc-references
         deps: ["doc-similarity"]
         shell: >
@@ -422,8 +398,6 @@ pipelines:
           - ".cache/docops/chunks.json"
         outputs:
           - ".cache/docops/references.json"
-
-      # f) Apply FM updates (add related & references into FM only)
       - id: doc-apply-fm
         deps: ["doc-related", "doc-references"]
         shell: >
@@ -439,8 +413,6 @@ pipelines:
           - ".cache/docops/references.json"
         outputs:
           - ".cache/docops/applied-fm.touch"
-
-      # g) Footer writer (markdown links with line anchors)
       - id: doc-footer
         deps: ["doc-apply-fm"]
         shell: >
@@ -456,8 +428,6 @@ pipelines:
           - "docs/unique/**/*.md"
         outputs:
           - ".cache/docops/footer.touch"
-
-      # h) Optional rename pass (based on generated titles)
       - id: doc-rename
         deps: ["doc-apply-fm"]
         shell: >

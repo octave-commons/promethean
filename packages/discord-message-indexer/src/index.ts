@@ -16,7 +16,7 @@ export async function handleSocialMessageCreated(evt: any) {
     created_at: evt.created_at,
     indexed_at: new Date().toISOString(),
   };
-  // eslint-disable-next-line no-console
+
   console.log(
     `[discord-message-indexer] upsert into ${tenantCfg.storage.mongo_db}.messages`,
     {
@@ -41,7 +41,7 @@ async function main() {
       area: "events",
       name: "SocialMessageCreated",
     });
-    // eslint-disable-next-line no-console
+
     console.log(`[discord-message-indexer] subscribing to ${eventsTopic}`);
   }
   setInterval(() => {}, 1 << 30);
@@ -49,7 +49,6 @@ async function main() {
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch((e) => {
-    // eslint-disable-next-line no-console
     console.error(e);
     process.exit(1);
   });

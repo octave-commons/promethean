@@ -1,6 +1,5 @@
 let client: any;
 try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     client = await import('prom-client');
 } catch {
     client = null;

@@ -1,31 +1,35 @@
-/* eslint-disable no-console */
 import * as path from "path";
 import { promises as fs } from "fs";
+
 import { globby } from "globby";
+
 import { parseArgs, ollamaEmbed, writeText } from "./utils.js";
 import type { RepoDoc, Embeddings } from "./types.js";
 
 const args = parseArgs({
-  "--globs": "{README.md,docs/**/*.md,packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}}",
+  "--globs":
+    "{README.md,docs/**/*.md,packages/**/{src,lib}/**/*.{ts,tsx,js,jsx}}",
   "--max-bytes": "200000",
   "--max-lines": "400",
   "--embed-model": "nomic-embed-text:latest",
   "--out-index": ".cache/boardrev/repo-index.json",
-  "--out-emb": ".cache/boardrev/repo-embeddings.json"
+  "--out-emb": ".cache/boardrev/repo-embeddings.json",
 });
 
 async function main() {
-  const files = await globby(args["--globs"]!.split(",").map(s => s.trim()));
-  const maxB = Number(args["--max-bytes"]), maxL = Number(args["--max-lines"]);
+  const files = await globby(args["--globs"].split(",").map((s) => s.trim()));
+  const maxB = Number(args["--max-bytes"]),
+    maxL = Number(args["--max-lines"]);
   const index: RepoDoc[] = [];
   const embeddings: Embeddings = {};
 
   for (const f of files) {
-    const st = await fs.stat(f); if (st.size > maxB) continue;
+    const st = await fs.stat(f);
+    if (st.size > maxB) continue;
     const raw = await fs.readFile(f, "utf-8");
     const excerpt = raw.split(/\r?\n/).slice(0, maxL).join("\n");
     const kind = /\.(md|mdx)$/i.test(f) ? "doc" : "code";
-    index.push({ path: f.replace(/\\/g,"/"), size: st.size, kind, excerpt });
+    index.push({ path: f.replace(/\\/g, "/"), size: st.size, kind, excerpt });
   }
 
   // embed
@@ -42,4 +46,7 @@ async function main() {
   console.log(`boardrev: indexed ${index.length} repo docs`);
 }
 
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

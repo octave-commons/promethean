@@ -4,7 +4,7 @@ import * as path from 'path';
 
 export type NodeType = 'file' | 'dir' | 'symlink';
 
-export interface StreamNode {
+export type StreamNode = {
     name: string; // basename
     path: string; // absolute path
     relative: string; // path relative to the root
@@ -13,18 +13,18 @@ export interface StreamNode {
     mtimeMs?: number; // modified time (ms since epoch)
     ext?: string; // ".ts", ".md", etc. (files only)
     depth: number; // 0 for root, 1 for its children, ...
-}
+};
 
 export type StreamEventType = 'enter' | 'exit' | 'node' | 'error';
 
-export interface StreamEvent {
+export type StreamEvent = {
     type: StreamEventType;
     node?: StreamNode; // present for 'node' | 'enter' | 'exit'
     error?: unknown; // present for 'error'
     atPath?: string; // path where error occurred
-}
+};
 
-export interface StreamOptions {
+export type StreamOptions = {
     includeHidden?: boolean; // include dotfiles/dirs (default: false)
     maxDepth?: number; // 0 = only root, 1 = root + children, ... (default: Infinity)
     followSymlinks?: boolean; // (default: false)
@@ -32,15 +32,15 @@ export interface StreamOptions {
     predicate?: (absPath: string, direntLike: DirentLike) => boolean; // early prune
     onError?: (err: unknown, absPath: string) => void; // optional side logging
     signal?: AbortSignal; // cancel mid-walk
-}
+};
 
 /** Minimal Dirent-like surface for predicate use */
-export interface DirentLike {
+export type DirentLike = {
     name: string;
     isDirectory(): boolean;
     isFile(): boolean;
     isSymbolicLink(): boolean;
-}
+};
 
 const isHidden = (name: string) => name.startsWith('.');
 

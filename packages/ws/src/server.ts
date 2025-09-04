@@ -1,4 +1,5 @@
 import { WebSocketServer, WebSocket } from 'ws';
+
 // loosen typing to avoid cross-package type coupling
 import { makeConnLimiter, makeTopicLimiter } from './server.rate';
 // token bucket provided at runtime
@@ -8,12 +9,12 @@ export type AuthFn = (token: string | undefined) => Promise<AuthResult>;
 
 type Inflight = { event: any; deadline: number; attempt: number };
 
-export interface WSGatewayOptions {
+export type WSGatewayOptions = {
     auth?: AuthFn;
     ackTimeoutMs?: number; // default 30s
     maxInflightPerSub?: number; // default 100
     log?: (...args: any[]) => void;
-}
+};
 
 export function startWSGateway(bus: any, port: number, opts: WSGatewayOptions = {}) {
     const wss = new WebSocketServer({ port });

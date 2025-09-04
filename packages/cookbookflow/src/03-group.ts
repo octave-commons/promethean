@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
 import { promises as fs } from "fs";
 import * as path from "path";
+
 import { parseArgs, cosine, writeJSON } from "./utils.js";
 import type { ClassesFile, GroupsFile, Group } from "./types.js";
 
@@ -12,7 +12,9 @@ const args = parseArgs({
 } as const);
 
 async function main() {
-  const cf = JSON.parse(await fs.readFile(path.resolve(args["--in"]), "utf-8")) as ClassesFile;
+  const cf = JSON.parse(
+    await fs.readFile(path.resolve(args["--in"]), "utf-8"),
+  ) as ClassesFile;
   const ids = Object.keys(cf.classes);
   const seen = new Set<string>();
   const groups: Group[] = [];
@@ -45,4 +47,7 @@ async function main() {
   await writeJSON(path.resolve(args["--out"]), out);
   console.log(`cookbook: formed ${groups.length} group(s) → ${args["--out"]}`);
 }
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

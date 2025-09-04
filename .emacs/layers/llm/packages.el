@@ -1,4 +1,4 @@
-;;; packages.el --- llm layer packages file for Spacemacs.
+;;; packages.el --- llm layer packages  -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (c) 2012-2025 Sylvain Benner & Contributors
 ;;
@@ -40,7 +40,6 @@
 
 ;;; Code:
 
-;;; packages.el --- llm layer packages  -*- lexical-binding: t; -*-
 
 (defconst llm-packages
   '(
@@ -57,11 +56,14 @@
     :defer t
     :init
     ;; Local-first defaults: Ollama on localhost
-    (setq gptel-default-mode 'org-mode)
-    (setq gptel-backend
-          (gptel-make-ollama "ollama"
-            :host "http://localhost:11434"
-            :models '("qwen2.5-coder:7b" "llama3.2:3b" "qwen2.5:7b")))
+    (setq
+     gptel-model 'qwen3:8b
+     gptel-default-mode 'org-mode
+     gptel-backend
+     (gptel-make-ollama "ollama"
+       :host "localhost:11434"
+       :stream t
+       :models '(qwen3:8b llama3.2:3b qwen2.5:7b)))
     :config
     ;; Helper: send region if active, else whole buffer
     (defun llm/gptel-send-region-or-buffer ()

@@ -1,0 +1,21 @@
+{
+  "name": "@promethean/alias-rewrite",
+  "version": "0.1.0",
+  "type": "module",
+  "license": "GPL-3.0-only",
+  "bin": {
+    "alias-rewrite": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "ava"
+  },
+  "dependencies": {
+    "fast-glob": "^3.3.2",
+    "ts-morph": "^22.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "ava": "^6.1.0"
+  }
+}

@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
 import * as path from "path";
 import { promises as fs } from "fs";
+
 import { parseArgs, readJSON } from "./utils.js";
 import type { Summary, History } from "./types.js";
 

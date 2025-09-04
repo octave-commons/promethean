@@ -1,5 +1,7 @@
-import test from "ava";
 import EventEmitter from "events";
+
+import test from "ava";
+
 import {
   SpeechArbiter,
   TurnManager,

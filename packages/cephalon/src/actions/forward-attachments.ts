@@ -1,6 +1,7 @@
 import type { Message, TextChannel } from "discord.js";
-import type { ForwardAttachmentsScope } from "./forward-attachments.scope.js";
 import { pushVisionFrame } from "@promethean/agent-ecs/helpers/pushVision.js";
+
+import type { ForwardAttachmentsScope } from "./forward-attachments.scope.js";
 
 export type ForwardAttachmentsInput = { message: Message };
 export type ForwardAttachmentsOutput = { forwarded: number };

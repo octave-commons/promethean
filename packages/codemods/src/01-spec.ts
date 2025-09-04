@@ -1,6 +1,7 @@
-/* eslint-disable no-console */
 import * as path from "path";
+
 import { Project } from "ts-morph";
+
 import { readJSON, writeJSON } from "./utils.js";
 import type { ModSpecFile, ModSpec } from "./types.js";
 

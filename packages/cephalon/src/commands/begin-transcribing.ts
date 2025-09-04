@@ -1,4 +1,5 @@
 import type { ChatInputCommandInteraction } from "discord.js";
+
 import type { Bot } from "../bot.js";
 import {
   buildTranscribeSpeakerScope,

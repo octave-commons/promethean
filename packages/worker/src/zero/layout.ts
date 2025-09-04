@@ -37,7 +37,7 @@ export function canUseSAB(): boolean {
 export function allocColumns(rows: number, layout: CompLayout, shared: boolean): CompColumns {
     const fields: Columns = {};
     for (const [k, ty] of Object.entries(layout.fields)) {
-        const Ctor = T[ty as Scalar];
+        const Ctor = T[ty];
         const buf = shared
             ? new SharedArrayBuffer(Ctor.BYTES_PER_ELEMENT * rows)
             : new ArrayBuffer(Ctor.BYTES_PER_ELEMENT * rows);

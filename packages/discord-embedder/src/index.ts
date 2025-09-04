@@ -4,7 +4,7 @@ import { HeartbeatClient } from "@promethean/legacy/heartbeat/index.js";
 import { ContextStore, getMongoClient } from "@promethean/persistence";
 
 // Schema for raw discord messages awaiting embedding
-interface DiscordMessage {
+type DiscordMessage = {
   _id: ObjectId;
   created_at: number;
   author: number;
@@ -13,7 +13,7 @@ interface DiscordMessage {
   author_name: string;
   content: string | null;
   embedding_status?: Record<string, "processing" | "done" | "error">;
-}
+};
 
 const EMBED_VERSION =
   process.env.EMBED_VERSION || new Date().toISOString().slice(0, 10);
@@ -35,11 +35,11 @@ const EMBED_DIMS = Number(process.env.EMBED_DIMS || 768);
 
   // dual store + context manager
   const ctxStore = new ContextStore();
-  const store = (await ctxStore.createCollection(
+  const store = await ctxStore.createCollection(
     "discord_messages",
     "content",
     "created_at",
-  )) as any;
+  );
 
   await discordMessagesCollection.createIndex({
     [`embedding_status.${EMBED_VERSION}`]: 1,

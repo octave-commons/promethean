@@ -15,7 +15,7 @@ export function compileLispToJS(src: string, { pretty = false, importNames = [] 
         t: 'list',
         xs: [{ t: 'sym', name: 'begin' }, ...expanded],
     } as any;
-    const ast = toExpr(program as any);
+    const ast = toExpr(program);
     const js = emitJS(ast, { iife: false, importNames, pretty });
     return { forms, expanded, ast, js };
 }

@@ -32,4 +32,7 @@ set -euo pipefail
 # corepack enable pnpm
 
 # pre-commit install
-pnpm install --no-lockfile
+corepack enable
+corepack prepare pnpm@9.0.0 --activate
+pnpm -v
+pnpm install --no-frozen-lockfile --reporter=append-only

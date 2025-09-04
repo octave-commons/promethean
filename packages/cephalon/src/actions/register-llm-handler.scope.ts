@@ -1,4 +1,5 @@
 import type { AgentBus } from "@promethean/agent-ecs/bus.js";
+
 import type { Bot } from "../bot.js";
 
 export type RegisterLlmHandlerScope = {

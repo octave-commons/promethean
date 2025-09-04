@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { topic } from '../topic.js';
 
 test('topic formats correctly', (t) => {
