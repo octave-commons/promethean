@@ -12,11 +12,11 @@ const args = parseArgs({
 
 async function main() {
   const pkgs = await fs
-    .readdir(path.resolve(args["--root"]), { withFileTypes: true })
+    .readdir(path.resolve(args["--root"]!), { withFileTypes: true })
     .then((ents) =>
       ents
         .filter((e) => e.isDirectory())
-        .map((e) => path.join(args["--root"], e.name)),
+        .map((e) => path.join(args["--root"]!, e.name)),
     );
   const results: VerifyReport["results"] = [];
 
@@ -28,12 +28,16 @@ async function main() {
       continue;
     }
     const raw = await fs.readFile(readme, "utf-8");
-    const links = Array.from(raw.matchAll(/\[[^\]]+?\]\(([^)]+)\)/g))
+    const links: string[] = Array.from(raw.matchAll(/\[[^\]]+?\]\(([^)]+)\)/g))
       .map((m) => m[1])
+      .filter((h): h is string => typeof h === "string")
       .filter((h) => !h.startsWith("http"));
     const broken: string[] = [];
-    for (const href of links.slice(0, Number(args["--max"]))) {
-      const target = path.resolve(dir, href.split("#")[0]);
+    const max = Number(args["--max"]!);
+    for (let i = 0; i < Math.min(links.length, max); i++) {
+      const href: string = links[i]!;
+      const segment: string = href.split("#").at(0) ?? "";
+      const target = path.resolve(dir as string, segment as string);
       try {
         await fs.access(target);
       } catch {
@@ -58,15 +62,15 @@ async function main() {
     "",
   ].join("\n");
 
-  await fs.mkdir(path.resolve(args["--out"]), { recursive: true });
-  await writeText(path.join(args["--out"], `readmes-${ts}.md`), md);
+  await fs.mkdir(path.resolve(args["--out"]!), { recursive: true });
+  await writeText(path.join(args["--out"]!, `readmes-${ts}.md`), md);
   await writeText(
-    path.join(args["--out"], `README.md`),
+    path.join(args["--out"]!, `README.md`),
     `# Readme Reports\n\n- [Latest](readmes-${ts}.md)\n`,
   );
   console.log(
     `readmeflow: verify report → ${path.join(
-      args["--out"],
+      args["--out"]!,
       `readmes-${ts}.md`,
     )}`,
   );

@@ -10,7 +10,7 @@ const args = parseArgs({
 });
 
 async function main() {
-  const ROOT = path.resolve(args["--root"]);
+  const ROOT = path.resolve(args["--root"]!);
   const dirs = (await fs.readdir(ROOT, { withFileTypes: true }))
     .filter((e) => e.isDirectory())
     .map((e) => e.name);
@@ -22,6 +22,7 @@ async function main() {
     try {
       const json = JSON.parse(await fs.readFile(pj, "utf-8"));
       const name = json.name ?? d;
+      const maybeReadme = await readMaybe(path.join(dir, "README.md"));
       const info: PkgInfo = {
         name,
         version: json.version ?? "0.0.0",
@@ -34,7 +35,7 @@ async function main() {
         peerDependencies: json.peerDependencies,
         workspaceDeps: [],
         hasTsConfig: !!(await readMaybe(path.join(dir, "tsconfig.json"))),
-        readme: await readMaybe(path.join(dir, "README.md")),
+        ...(maybeReadme !== undefined ? { readme: maybeReadme } : {}),
       };
       pkgMap.set(name, info);
     } catch {
@@ -72,7 +73,7 @@ async function main() {
     packages: Array.from(pkgMap.values()),
     graphMermaid: lines.join("\n"),
   };
-  await writeJSON(path.resolve(args["--out"]), out);
+  await writeJSON(path.resolve(args["--out"]!), out);
   console.log(`readmeflow: scanned ${pkgMap.size} packages → ${args["--out"]}`);
 }
 main().catch((e) => {
