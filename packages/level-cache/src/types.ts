@@ -4,9 +4,9 @@ export type CacheOptions = Readonly<{
   /** filesystem path for LevelDB */
   path: string;
   /** default TTL applied by set() when none provided */
-  defaultTtlMs?: Millis;
+  defaultTtlMs: Millis | undefined;
   /** key namespace/prefix (purely logical; not a sublevel dep) */
-  namespace?: string;
+  namespace: string | undefined;
 }>;
 
 export type PutOptions = Readonly<{ ttlMs?: Millis }>;
