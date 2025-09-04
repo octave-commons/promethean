@@ -10,6 +10,7 @@ chat_url: "https://chat.openai.com/c/68a38690-27f0-8333-8319-d7deec3076a9"
 tags: [canvas, performance, troubleshooting, chatgpt, browsers]
 doc_kind: "conversation-transcript"
 ---
+<!-- markdownlint-disable MD024 MD029 -->
 
 # Title: Canvas performance troubleshooting
 
