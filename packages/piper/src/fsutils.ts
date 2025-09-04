@@ -78,9 +78,9 @@ function runSpawn(
   opts: {
     cwd: string;
     env: Record<string, string>;
-    shell?: boolean;
-    args?: string[];
-    timeoutMs?: number;
+    shell?: boolean | undefined;
+    args?: string[] | undefined;
+    timeoutMs?: number | undefined;
   },
 ) {
   return new Promise<{ code: number | null; stdout: string; stderr: string }>(
