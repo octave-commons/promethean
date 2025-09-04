@@ -63,96 +63,80 @@
 
   )
 (defun err-core/post-init-copilot ()
-  (advice-add 'copilot--infer-indentation-offset :around
-              (lambda (orig &rest args)
-                (condition-case _
-                    (apply orig args)
-                  (warning (err/copilot-lisp-indent-fallback))
-                  (error   (err/copilot-lisp-indent-fallback)))))
-  (dolist (m '(emacs-lisp-mode lisp-mode lisp-interaction-mode scheme-mode clojure-mode hy-mode))
-    (add-hook (intern (format "%s-hook" m))
-              (lambda ()
-                (setq-local lisp-body-indent (or (and (numberp lisp-body-indent) lisp-body-indent) 2))
-                (setq-local standard-indent   (or (and (numberp standard-indent) standard-indent) 2))
-                (setq-local tab-width         (or (and (numberp tab-width) tab-width) 2))
-                (setq-local indent-tabs-mode nil))))
+
+  (with-eval-after-load 'copilot
+
+    (add-to-list 'copilot-major-mode-alist '("emacs-lisp" . "elisp"))
+    (advice-add 'copilot--infer-indentation-offset :around
+                (lambda (orig &rest args)
+                  (condition-case _
+                      (apply orig args)
+                    (warning (err/copilot-lisp-indent-fallback))
+                    (error   (err/copilot-lisp-indent-fallback)))))
+    (dolist (m '(emacs-lisp-mode lisp-mode lisp-interaction-mode scheme-mode clojure-mode hy-mode))
+      (add-hook (intern (format "%s-hook" m))
+                (lambda ()
+                  (setq-local lisp-body-indent (or (and (numberp lisp-body-indent) lisp-body-indent) 2))
+                  (setq-local standard-indent   (or (and (numberp standard-indent) standard-indent) 2))
+                  (setq-local tab-width         (or (and (numberp tab-width) tab-width) 2)) (setq-local indent-tabs-mode nil)))))
   )
 (defun err-core/post-init-lsp-sonarlint ()
-  (use-package lsp-sonarlint
-    :after lsp-mode
-    :custom
+  (with-eval-after-load 'lsp-sonarlint
     (lsp-sonarlint-auto-download t)
     (lsp-sonarlint-enabled-analyzers '("javascript" "typescript" "python" "java" "cfamily"))))
+
 (defun err-core/post-init-typescript-mode ()
-  (add-hook 'typescript-mode-hook #'prettier-js-mode)
-  (add-hook 'typescript-mode-hook #'add-node-modules-path)
-  )
+  (with-eval-after-load 'typescript-mode
+    (add-hook 'typescript-mode-hook #'prettier-js-mode)
+    (add-hook 'typescript-mode-hook #'add-node-modules-path)))
 (defun err-core/post-init-lsp-mode ()
 
-  (setq lsp-idle-delay 0.3
-        lsp-file-watch-threshold 5000
-        lsp-completion-enable-additional-text-edit nil
-        lsp-typescript-tsserver-log 'verbose
-        lsp-typescript-tsserver-trace 'verbose
-        lsp-typescript-initialization-options
-        `(:tsserver
-          (:logDirectory ,(expand-file-name ".lsp-tsserver-logs" user-emacs-directory)
-                         :logVerbosity "verbose")))
-
-  (add-to-list 'lsp-disabled-clients 'semgrep-ls)
-  (add-to-list 'lsp-language-id-configuration '(common-lisp-mode . "commonlisp"))
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection (lambda () (list (expand-file-name "~/.roswell/bin/cl-lsp"))))
-                    :activation-fn (lsp-activate-on "commonlisp")
-                    :server-id 'cl-lsp)))
+  (with-eval-after-load 'lsp-mode
+    (lsp-register-client
+     (make-lsp-client :new-connection (lsp-stdio-connection (lambda () (list (expand-file-name "~/.roswell/bin/cl-lsp"))))
+                      :activation-fn (lsp-activate-on "commonlisp")
+                      :server-id 'cl-lsp))))
 
 (defun err-core/post-init-common-lisp ()
 
-  (add-hook 'common-lisp-mode-hook #'lsp) ;; or use (add-hook 'common-lisp-mode-hook #'lsp-deferred)
-  (add-hook 'common-lisp-mode-hook #'flycheck-mode)
-  (spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hook-common-lisp-mode)
-  (let ((slime-helper (expand-file-name "~/quicklisp/slime-helper.el")))
-    (when (file-exists-p slime-helper)
-      (load slime-helper))))
+  (with-eval-after-load 'common-lisp
+    (add-to-list 'lsp-language-id-configuration '(common-lisp-mode . "commonlisp"))
+    (add-hook 'common-lisp-mode-hook #'lsp) ;; or use (add-hook 'common-lisp-mode-hook #'lsp-deferred)
+    (add-hook 'common-lisp-mode-hook #'flycheck-mode)
+    (spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hook-common-lisp-mode)
+    (let ((slime-helper (expand-file-name "~/quicklisp/slime-helper.el")))
+      (when (file-exists-p slime-helper)
+        (load slime-helper)))))
 (defun err-core/post-init-markdown-mode ()
-  (setq markdown-fontify-code-blocks-natively t)
-  (add-to-list 'markdown-code-lang-modes '("clj"  . clojure-mode))
-  (add-to-list 'markdown-code-lang-modes '("cljs" . clojure-mode))
-  (let* ((ts-mode (cond
-                   ((fboundp 'typescript-ts-mode) 'typescript-ts-mode)
-                   ((fboundp 'typescript-mode)    'typescript-mode)
-                   (t 'js-mode)))
-         (tsx-mode (cond
-                    ((fboundp 'tsx-ts-mode)        'tsx-ts-mode)
-                    ((fboundp 'typescript-ts-mode) 'typescript-ts-mode)
-                    ((fboundp 'typescript-mode)    'typescript-mode)
-                    (t ts-mode))))
-    (dolist (pair `(("ts"  . ts-mode)
-                    ("tsx" . tsx-mode)
-                    ("bb"  . clojure-mode)
-                    ("babashka" . clojure-mode)
-                    ("clj" . clojure-mode)
-                    ("edn" . clojure-mode)))
-      (add-to-list 'markdown-code-lang-modes pair))))
+
+  (with-eval-after-load 'markdown-mode
+    (add-to-list 'auto-mode-alist '("\\.bb\\'" . clojure-mode))
+
+    (add-to-list 'auto-mode-alist '("\\.clj"  . clojure-mode))
+    (add-to-list 'auto-mode-alist '("\\.cljs" . clojure-mode))
+    (dolist (pair `(("\\.ts"  . typescript-mode)
+                    ("\\.bb"  . clojure-mode)
+                    ("\..babashka" . clojure-mode)
+                    ("\\.clj" . clojure-mode)
+                    ("\\.edn" . clojure-mode)))
+      (add-to-list 'auto-mode-alist pair))))
 (defun err-core/post-init-org ()
-  (setq org-src-fontify-natively t
-        org-src-tab-acts-natively t
-        org-edit-src-content-indentation 0
-        org-confirm-babel-evaluate nil
-        org-startup-with-inline-images t
-        org-babel-python-command "/home/err/.venvs/main/bin/python")
-  (org-babel-do-load-languages 'org-babel-load-languages '((python . t)))
-  (add-hook 'org-babel-after-execute-hook #'org-display-inline-images))
+
+  (with-eval-after-load 'org
+    (org-babel-do-load-languages 'org-babel-load-languages '((python . t)))
+    (add-hook 'org-babel-after-execute-hook #'org-display-inline-images)))
 
 (defun err-core/post-init-flycheck ()
-  (flycheck-define-checker common-lisp-sblint
-    "Common Lisp linting via sblint (SBCL)."
-    :command ("sblint" source-inplace)
-    :error-patterns
-    ((error line-start (file-name) ":" line ":" column ": " (message) line-end))
-    :modes (common-lisp-mode)
+  (with-eval-after-load 'flycheck
+    (flycheck-define-checker common-lisp-sblint
+      "Common Lisp linting via sblint (SBCL)."
+      :command ("sblint" source-inplace)
+      :error-patterns
+      ((error line-start (file-name) ":" line ":" column ": " (message) line-end))
+      :modes (common-lisp-mode)
 
-    (add-to-list 'flycheck-checkers 'common-lisp-sblint)))
+      (add-to-list 'flycheck-checkers 'common-lisp-sblint)))
+  )
 
 (defun err-core/post-init-company ())
 (defun err-core/post-init-prettier-js ())

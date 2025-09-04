@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import * as path from "path";
 
 import { runPipeline, watchPipeline } from "./runner.js";
