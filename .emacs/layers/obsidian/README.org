@@ -16,14 +16,13 @@
 - [[#key-bindings][Key bindings]]
 
 * Description
-This layer adds support for something.
-
+This layer integrates =obsidian.el= to work with Obsidian vaults from Markdown buffers in Spacemacs: wikilinks, backlinks, daily notes, tags, search, and link following.
 ** Features:
-  - Autocomplete
-  - Lint
-  - Refactor
-  - ...
-
+  - Wikilinks: insert and follow [[Wiki]] links
+  - Backlinks: backlinks minor mode and jump
+  - Daily notes: quick access to today's note
+  - Tags: insert and search tags
+  - Vault-wide search (ripgrep-based if available)
 * Install
 To use this configuration layer, add it to your =~/.spacemacs=. You will need to
 add =obsidian= to the existing =dotspacemacs-configuration-layers= list in this
@@ -31,10 +30,14 @@ file.
 
 * Key bindings
 
-| Key Binding | Description    |
-|-------------+----------------|
-| ~SPC x x x~ | Does thing01   |
-
+| Key Binding  | Description                     |
+|--------------+---------------------------------|
+| ~SPC m o i~  | Insert wikilink                 |
+| ~SPC m o f~  | Follow link at point            |
+| ~SPC m o b~  | Jump to backlink                |
+| ~SPC m o n~  | Open today's daily note         |
+| ~SPC m o t~  | Insert tag                      |
+| ~SPC m o s~  | Search in vault                 |
 # Use GitHub URLs if you wish to link a Spacemacs documentation file or its heading.
 # Examples:
 # [[https://github.com/syl20bnr/spacemacs/blob/develop/doc/VIMUSERS.org#sessions]]
