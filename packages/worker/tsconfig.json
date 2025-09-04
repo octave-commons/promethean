@@ -6,7 +6,7 @@
         "composite": true,
         "declaration": true
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "../types/shims/ecs.d.ts"],
     "references": [
         {
             "path": "../ds"
