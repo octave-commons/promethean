@@ -9,6 +9,6 @@ export default async function run(
 ): Promise<PingOutput> {
   await scope.policy.assertAllowed(input.userId, "ping");
   const now = scope.time();
-  scope.logger.debug("pong at", now.toISOString());
+  scope.logger.debug("pong at", { time: now.toISOString() });
   return { message: "pong" };
 }
