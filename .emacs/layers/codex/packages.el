@@ -1,6 +1,6 @@
-;;; packages.el --- codex‑cli layer setup -*- lexical-binding: t; -*-
+;;; packages.el --- codex layer setup -*- lexical-binding: t; -*-
 ;;; Commentary:
-;; Spacemacs layer to integrate OpenAI Codex CLI.
+;; Spacemacs layer to integrate Codex.
 
 ;;; Code:
 (defconst codex-packages

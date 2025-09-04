@@ -1,4 +1,4 @@
-## 🛠️ Task: Design Ollama model file for use with codex CLI
+## 🛠️ Task: Design Ollama model file for use with Codex
 
 Having a preconfigured, pre-prompted model could help agents perform better as Codex models.
 

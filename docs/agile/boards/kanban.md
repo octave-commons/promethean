@@ -165,7 +165,7 @@ kanban-plugin: board
 ## Breakdown (13)
 
 - [ ] [[cephalon_event_schema_updates.md|cephalon event schema updates]] #incoming
-- [ ] [[design_ollama_model_file_for_use_with_codex_cli.md|Design Ollama model file for use with codex CLI]] #ice-box
+- [ ] [[design_ollama_model_file_for_use_with_codex.md|Design Ollama model file for use with Codex]] #ice-box
 - [ ] [[auth_service_rfc_and_architecture.md|auth service rfc and architecture]] #incoming
 - [ ] [[extract_site_modules_from_riatzukiza_github_io_md_md.md|Extract site modules from riatzukiza.github.io]] #accepted
 - [ ] [[define_permission_schema_in_agents_1_md.md|Define permission schema in AGENTS.md]] #ice-box
@@ -179,7 +179,7 @@ kanban-plugin: board
 - [ ] [[clearly-document-new-repository-layout]] #devops #architectural-decisions #monorepo #packages #package-manager #runtime #multiruntime #accepted
 - [ ] [[agent-safe-stablization-after-big-moves]] #precommit #stabilization #monorepo #typescript #python #hy #agents #safety #playbook #accepted
 - [ ] [[cephalon_event_schema_updates.md|cephalon event schema updates]] #cephalon #events #schemas #breakdown
-- [ ] [[design_ollama_model_file_for_use_with_codex_cli.md|Design Ollama model file for use with codex CLI]] #breakdown
+- [ ] [[design_ollama_model_file_for_use_with_codex.md|Design Ollama model file for use with Codex]] #breakdown
 - [ ] [[auth_service_rfc_and_architecture.md|auth service rfc and architecture]] #auth #oauth #architecture #breakdown
 - [ ] [[breakdown-cephalon-voice-commands-file-using-ecs|breakdown cephalon voice commands file using ecs]] #breakdown
 - [ ] [[auth_ci_and_load_tests.md|auth ci and load tests]] #auth #testing #performance #breakdown
@@ -273,7 +273,7 @@ kanban-plugin: board
 - [ ] [[update_makefile_to_have_commands_specific_for_agents_md.md|Update Makefile to have commands specific for agents]] #todo
 - [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md.md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #todo
 - [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md.md|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #todo
-- [ ] [[define_codex_cli_baseg_agent_md_md.md|define codex cli baseg agent md md]] #todo
+- [ ] [[define_codex_baseg_agent_md_md.md|define codex baseg agent md md]] #todo
 - [ ] [[describe_github_branching_workflow_md.md|describe github branching workflow md]] #todo
 - [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md.md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #todo
 - [ ] [[discord_chat_link_traversal_md_md.md|discord chat link traversal md md]] #todo
@@ -408,7 +408,7 @@ kanban-plugin: board
 
 - [ ] [[Fully convert js ts projects to pnpm incoming.md|Fully convert js ts projects to pnpm incoming]] #todo
 - [ ] [[also-bat-man-but-more-so]]
-- [ ] [[define_codex_cli_baseg_agent_md_md.md|define codex cli baseg agent md md]] #framework-core #IceBox #todo
+- [ ] [[define_codex_baseg_agent_md_md.md|define codex baseg agent md md]] #framework-core #IceBox #todo
 - [ ] [[fully-convert-js-ts-projects-to-pnpm-incoming|Fully convert js ts projects to pnpm incoming]] #framework-core #archive
 - [ ] [[replace-all-python-properly-with-hy-incoming|Replace all python properly with hy incoming]] #architecture #lang #hy #python-ban #build #ci #tooling #promethean #tags #promethean #hy #lisp #python #build #ci #git #precommit #policy #docs #archive
 
