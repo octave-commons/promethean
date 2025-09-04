@@ -1,4 +1,5 @@
 import * as discord from "discord.js";
+import { sleep } from "@promethean/utils/sleep.js";
 
 import {
   captureAndRenderWaveform,
@@ -89,7 +90,7 @@ export class DesktopCaptureManager {
         this.frames.shift();
       }
 
-      await new Promise((res) => setTimeout(res, this.step * 1000));
+      await sleep(this.step * 1000);
     }
   }
 

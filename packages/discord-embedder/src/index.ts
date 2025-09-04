@@ -2,6 +2,7 @@ import { ObjectId, Collection } from "mongodb";
 import { AGENT_NAME } from "@promethean/legacy/env.js";
 import { HeartbeatClient } from "@promethean/legacy/heartbeat/index.js";
 import { ContextStore, getMongoClient } from "@promethean/persistence";
+import { sleep } from "@promethean/utils/sleep.js";
 
 // Schema for raw discord messages awaiting embedding
 type DiscordMessage = {
@@ -47,7 +48,7 @@ const EMBED_DIMS = Number(process.env.EMBED_DIMS || 768);
   });
 
   while (true) {
-    await new Promise((res) => setTimeout(res, 1000));
+    await sleep(1000);
 
     const messages = (await discordMessagesCollection
       .find({
@@ -61,7 +62,7 @@ const EMBED_DIMS = Number(process.env.EMBED_DIMS || 768);
       console.log(
         `[${family}] No pending for version ${EMBED_VERSION}. Sleeping 1 minute…`,
       );
-      await new Promise((res) => setTimeout(res, 60_000));
+      await sleep(60_000);
       continue;
     }
 

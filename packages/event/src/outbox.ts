@@ -1,4 +1,5 @@
 import type { EventBus, UUID } from './types.js';
+import { sleep } from '@promethean/utils/sleep.js';
 
 export interface OutboxStore<T = unknown> {
     add(rec: { id: UUID; topic: string; payload: T; headers?: Record<string, string> }): Promise<void>;
@@ -10,7 +11,7 @@ export async function runOutboxDrainer(outbox: OutboxStore, bus: EventBus, inter
     while (true) {
         const batch = await outbox.claimBatch(100);
         if (batch.length === 0) {
-            await new Promise((r) => setTimeout(r, intervalMs));
+            await sleep(intervalMs);
             continue;
         }
         for (const rec of batch) {
