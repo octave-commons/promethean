@@ -58,7 +58,7 @@
     // Completeness
     "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts", "../types/shims/*.d.ts"],
+  "include": ["src/**/*.ts", "tests/**/*.ts", "../types/src/shims/*.d.ts"],
   "exclude": ["node_modules"],
   "references": [
     { "path": "../types" }
