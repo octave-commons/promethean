@@ -6,31 +6,33 @@ import { spawnSync } from "node:child_process";
 type RgArgs = Readonly<{ args: readonly string[] }>;
 
 const hasRg = (): boolean => {
-  const r = spawnSync("rg", ["--version"], { stdio: "ignore" });
+  const r = spawnSync("rg", ["--version"], { stdio: "ignore", timeout: 1000 });
   return r.status === 0;
 };
 
-case "REL_JS_SUFFIX":
-  return {
-    args: [
-      "-n",
-      "-P",
-      "--glob",
-      "packages/**/src/**/*.{ts,tsx}",
-      "-e",
-      "from [\"'][.]{1,2}/[^\"']*(?!\\.js)[\"']",
-    ],
-  };
- case "NO_TS_PATHS":
-   return {
-     args: [
-       "-n",
-       "--glob",
-       "packages/**/tsconfig*.json",
-       "-e",
-       "\"paths\"\\s*:",
-     ],
-   };
+const rgArgsFor = (key: string): RgArgs | null => {
+  switch (key) {
+    case "REL_JS_SUFFIX":
+      return {
+        args: [
+          "-n",
+          "-P",
+          "--glob",
+          "packages/**/src/**/*.{ts,tsx}",
+          "-e",
+          "from [\"'][.]{1,2}/[^\"']*(?!\\.js)[\"']",
+        ],
+      };
+    case "NO_TS_PATHS":
+      return {
+        args: [
+          "-n",
+          "--glob",
+          "packages/**/tsconfig*.json",
+          "-e",
+          "\"paths\"\\s*:",
+        ],
+      };
     case "NO_EMBED_HTML":
       return {
         args: [

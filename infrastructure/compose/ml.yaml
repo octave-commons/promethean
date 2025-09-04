@@ -17,8 +17,8 @@ services:
     container_name: edge
     ports: ["80:80"]
     volumes:
-      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./infra/nginx/secrets:/etc/nginx/secrets:ro
+      - ../../infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ../../infra/nginx/secrets:/etc/nginx/secrets:ro
     networks: [prom-net]
     restart: unless-stopped
     depends_on:
