@@ -20,8 +20,8 @@ const rgArgsFor = (key: string): RgArgs | null => {
           "--glob",
           "packages/**/src/**/*.{ts,tsx}",
           "-e",
-          "from [\"'][.]{1,2}/[^\"']*(?!\\.js)[\"']",
-        ],
+          "from [\\\"'][.]{1,2}/[^\\\"']*(?!\\\\.js)[\\\"']",
+          "from [\"'][.]{1,2}/[^\"']*(?!\\.js)[\"']",        ],
       };
     case "NO_TS_PATHS":
       return {
@@ -30,7 +30,7 @@ const rgArgsFor = (key: string): RgArgs | null => {
           "--glob",
           "packages/**/tsconfig*.json",
           "-e",
-          "\"paths\"\\s*:",
+          "\\\"paths\\\"\\\\s*:",
         ],
       };
     case "NO_EMBED_HTML":
@@ -41,7 +41,7 @@ const rgArgsFor = (key: string): RgArgs | null => {
           "--glob",
           "packages/**/src/**/*.{ts,tsx,js,jsx}",
           "-e",
-          "(?i)<html|<!doctype|res\\.send\\(",
+          "(?i)<html|<!doctype|res\\\\.send\\\\(",
         ],
       };
     default:
@@ -52,7 +52,7 @@ const rgArgsFor = (key: string): RgArgs | null => {
 const nodeScanRegexFor = (key: string): RegExp | null => {
   switch (key) {
     case "REL_JS_SUFFIX":
-      return /from ['"][.]{1,2}\/[^'"]*(?!\.js)['"]/g;
+      return /from ['\"][.]{1,2}\/[^'\"]*(?!\.js)['\"]/g;
     case "NO_TS_PATHS":
       return /"paths"\s*:/g;
     case "NO_EMBED_HTML":
@@ -78,8 +78,6 @@ export const countOccurrences = async (
     // fall through to Node scan on errors or no matches
   }
 
-  // -- existing Node-based scan implementation follows here --
-};
   const rx = nodeScanRegexFor(key);
   if (!rx) return 0;
   const files = await globby(
