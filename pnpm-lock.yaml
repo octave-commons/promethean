@@ -232,6 +232,9 @@ importers:
       '@promethean/legacy':
         specifier: workspace:*
         version: link:../legacy
+      '@promethean/types':
+        specifier: workspace:*
+        version: link:../types
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -5418,6 +5421,9 @@ importers:
       '@promethean/ds':
         specifier: workspace:*
         version: link:../ds
+      '@promethean/types':
+        specifier: workspace:*
+        version: link:../types
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0

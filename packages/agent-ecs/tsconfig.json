@@ -4,12 +4,16 @@
         "rootDir": "src",
         "outDir": "dist",
         "composite": true,
-        "declaration": true
+        "declaration": true,
+        "typeRoots": ["./node_modules/@types", "./node_modules/@promethean/types/shims"]
     },
-    "include": ["src/**/*", "../types/shims/ecs.d.ts"],
+    "include": ["src/**/*"],
     "references": [
         {
             "path": "../ds"
+        },
+        {
+            "path": "../types"
         }
     ]
 }

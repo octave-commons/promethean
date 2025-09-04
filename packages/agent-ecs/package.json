@@ -54,7 +54,8 @@
         "yaml": "^2.5.1",
         "zod": "^3.23.8",
         "@promethean/ds": "workspace:*",
-        "@promethean/legacy": "workspace:*"
+        "@promethean/legacy": "workspace:*",
+        "@promethean/types": "workspace:*"
     },
     "devDependencies": {
         "@biomejs/biome": "^2.2.2",
