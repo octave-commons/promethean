@@ -472,6 +472,9 @@ importers:
       '@promethean/persistence':
         specifier: workspace:*
         version: link:../persistence
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@promethean/voice-service':
         specifier: file:../voice
         version: link:../voice
@@ -837,6 +840,9 @@ importers:
 
   packages/codex-context:
     dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/body-parser':
         specifier: ^1.19.5
         version: 1.19.6
@@ -4354,6 +4360,9 @@ importers:
       '@promethean/persistence':
         specifier: file:../persistence
         version: file:packages/persistence(socks@2.8.7)
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/node':
         specifier: ^24.3.0
         version: 24.3.1
@@ -5126,6 +5135,24 @@ importers:
       acorn:
         specifier: ^8.15.0
         version: 8.15.0
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@types/node@20.19.13)(typescript@5.9.2)
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.2
+
+  packages/utils:
+    devDependencies:
+      '@biomejs/biome':
+        specifier: ^2.2.2
+        version: 2.2.2
+      '@types/node':
+        specifier: ^20.19.11
+        version: 20.19.13
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
