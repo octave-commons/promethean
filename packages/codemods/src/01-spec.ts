@@ -20,12 +20,14 @@ const out = args["--out"]!;
 const tsconfig = args["--tsconfig"]!;
 
 function parseArgs(defaults: Record<string, string>) {
-  const out = { ...defaults };
+  const out = { ...defaults } as Record<string, string>;
   const a = process.argv.slice(2);
   for (let i = 0; i < a.length; i++) {
     const k = a[i];
-    if (!k.startsWith("--")) continue;
-    const v = a[i + 1] && !a[i + 1].startsWith("--") ? a[++i] : "true";
+    if (!k || !k.startsWith("--")) continue;
+    const next = a[i + 1];
+    const v =
+      next !== undefined && !next.startsWith("--") ? (i++, next) : "true";
     out[k] = v;
   }
   return out;
@@ -68,6 +70,7 @@ async function main() {
   const scanData = await readJSON<{ functions: Fn[] }>(path.resolve(scan), {
     functions: [],
   });
+  const byId = new Map<string, Fn>(scanData.functions.map((f) => [f.id, f]));
   const clustersData = await readJSON<Cluster[]>(path.resolve(clusters), []);
   const plansData = await readJSON<Record<string, Plan>>(
     path.resolve(plans),
@@ -100,11 +103,10 @@ async function main() {
     // const foo = (...) => {}
     const vd = sf.getVariableDeclaration(funcName);
     const init = vd?.getInitializer();
-    if (init && typeof (init as any).getParameters === "function") {
+    const initAny = init as any;
+    if (initAny && typeof initAny.getParameters === "function") {
       // arrow or function expression
-      // @ts-ignore
-      if (init.getParameters)
-        return init.getParameters().map((p: any) => p.getName());
+      return initAny.getParameters().map((p: any) => p.getName());
     }
     return undefined;
   }
@@ -116,14 +118,12 @@ async function main() {
     const dupsAll = c.memberIds.map((id) => byId.get(id)!).filter(Boolean);
     const dups = dupsAll.filter((d) => d.kind !== "method"); // v1: free functions / arrows
 
-    const spec: ModSpec = {
+    const baseSpec: ModSpec = {
       clusterId: c.id,
       title: plan.title,
-      summary: plan.summary,
       canonical: {
         path: plan.canonicalPath,
         name: plan.canonicalName,
-        params: undefined,
       },
       duplicates: dups.map((d) => ({
         id: d.id,
@@ -133,11 +133,11 @@ async function main() {
         kind: d.kind,
         exported: d.exported,
       })),
-      canonical: { path: plan.canonicalPath, name: plan.canonicalName },
-      duplicates: dups.map(d => ({
-        id: d.id, package: d.pkgName, file: d.fileRel, name: d.name, kind: d.kind, exported: d.exported
-      }))
     };
+    const spec: ModSpec =
+      plan.summary !== undefined
+        ? { ...baseSpec, summary: plan.summary }
+        : baseSpec;
 
     // try to load canonical + duplicates to extract params
     const canonAbs = path.resolve(plan.canonicalPath);
