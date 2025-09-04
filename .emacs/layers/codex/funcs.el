@@ -51,6 +51,9 @@
 ;;; funcs.el --- codex layer
 (require 'json)
 (require 'subr-x)
+;; Needed for cl-labels and seq-filter
+(require 'cl-lib)
+(require 'seq)
 
 (defun codex--project-root ()
   (or (and (fboundp 'projectile-project-root) (projectile-project-root))
@@ -95,11 +98,16 @@
 (defun codex--buffer-chunk ()
   (let* ((sel (if (use-region-p)
                   (buffer-substring-no-properties (region-beginning) (region-end))
-                (buffer-substring-no-properties (point-min) (point-max))))
-         (bytes (string-bytes sel)))
-    (if (> bytes codex-context-max-bytes)
-        (substring sel 0 (position-bytes codex-context-max-bytes))
-      sel)))
+                (buffer-substring-no-properties (point-min) (point-max)))))
+    (if (<= (string-bytes sel) codex-context-max-bytes)
+        sel
+      (let* ((limit codex-context-max-bytes)
+             (i (min (length sel) limit)))
+        ;; Decrease index until byte size fits limit
+        (while (and (> i 0)
+                    (> (string-bytes (substring sel 0 i)) limit))
+          (setq i (1- i)))
+        (substring sel 0 i)))))
 
 (defun codex--build-prompt (kind user-prompt)
   "Build a markdown-ish prompt Codex understands well."

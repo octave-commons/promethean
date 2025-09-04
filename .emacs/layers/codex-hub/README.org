@@ -31,10 +31,11 @@ file.
 
 * Key bindings
 
-| Key Binding | Description    |
-|-------------+----------------|
-| ~SPC x x x~ | Does thing01   |
-
+| Key Binding  | Command             | Description          |
+|--------------+---------------------+----------------------|
+| ~SPC a x t~  | codex-hub-task      | Run task with context|
+| ~SPC a x f~  | codex-hub-fix-buffer| Repair current buffer|
+| ~SPC a x r~  | codex-hub-review    | Review changes       |
 # Use GitHub URLs if you wish to link a Spacemacs documentation file or its heading.
 # Examples:
 # [[https://github.com/syl20bnr/spacemacs/blob/develop/doc/VIMUSERS.org#sessions]]
