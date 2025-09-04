@@ -1,7 +1,6 @@
-import { promises as fs } from "fs";
 import * as path from "path";
 
-import { Project, Node } from "ts-morph";
+import { Project } from "ts-morph";
 
 import { readJSON, writeJSON } from "./utils.js";
 import type { ModSpecFile, ModSpec } from "./types.js";
@@ -13,6 +12,12 @@ const args = parseArgs({
   "--out": ".cache/codemods/specs.json",
   "--tsconfig": "tsconfig.json",
 });
+
+const scan = args["--scan"]!;
+const clusters = args["--clusters"]!;
+const plans = args["--plans"]!;
+const out = args["--out"]!;
+const tsconfig = args["--tsconfig"]!;
 
 function parseArgs(defaults: Record<string, string>) {
   const out = { ...defaults };
@@ -60,25 +65,20 @@ function buildParamMap(canon: string[], dup: string[]): number[] {
 }
 
 async function main() {
-  const scan = await readJSON<{ functions: Fn[] }>(
-    path.resolve(args["--scan"]),
-    { functions: [] },
-  );
-  const clusters = await readJSON<Cluster[]>(
-    path.resolve(args["--clusters"]),
-    [],
-  );
-  const plans = await readJSON<Record<string, Plan>>(
-    path.resolve(args["--plans"]),
+  const scanData = await readJSON<{ functions: Fn[] }>(path.resolve(scan), {
+    functions: [],
+  });
+  const clustersData = await readJSON<Cluster[]>(path.resolve(clusters), []);
+  const plansData = await readJSON<Record<string, Plan>>(
+    path.resolve(plans),
     {},
   );
 
   const project = new Project({
-    tsConfigFilePath: path.resolve(args["--tsconfig"]),
+    tsConfigFilePath: path.resolve(tsconfig),
     skipAddingFilesFromTsConfig: true,
   });
 
-  const byId = new Map(scan.functions.map((f) => [f.id, f]));
   const specs: ModSpec[] = [];
 
   // Helper: get param names for a function name in a file
@@ -100,14 +100,17 @@ async function main() {
     // const foo = (...) => {}
     const vd = sf.getVariableDeclaration(funcName);
     const init = vd?.getInitializer();
-    if (init && (Node.isArrowFunction(init) || Node.isFunctionExpression(init))) {
-      return init.getParameters().map((p) => p.getName());
+    if (init && typeof (init as any).getParameters === "function") {
+      // arrow or function expression
+      // @ts-ignore
+      if (init.getParameters)
+        return init.getParameters().map((p: any) => p.getName());
     }
     return undefined;
   }
 
-  for (const c of clusters) {
-    const plan = plans[c.id];
+  for (const c of clustersData) {
+    const plan = plansData[c.id];
     if (!plan) continue;
 
     const dupsAll = c.memberIds.map((id) => byId.get(id)!).filter(Boolean);
@@ -130,6 +133,10 @@ async function main() {
         kind: d.kind,
         exported: d.exported,
       })),
+      canonical: { path: plan.canonicalPath, name: plan.canonicalName },
+      duplicates: dups.map(d => ({
+        id: d.id, package: d.pkgName, file: d.fileRel, name: d.name, kind: d.kind, exported: d.exported
+      }))
     };
 
     // try to load canonical + duplicates to extract params
@@ -158,7 +165,7 @@ async function main() {
     specs.push(spec);
   }
 
-  await writeJSON(path.resolve(args["--out"]), { specs } satisfies ModSpecFile);
+  await writeJSON(path.resolve(out), { specs } satisfies ModSpecFile);
   console.log(
     `codemods:01-spec → ${specs.length} specs with param maps where possible`,
   );

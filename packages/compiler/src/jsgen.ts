@@ -1,4 +1,4 @@
-import type { Expr } from './ast';
+import type { Expr } from './ast.js';
 
 type Options = {
     iife: boolean;

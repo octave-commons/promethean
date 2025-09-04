@@ -7,8 +7,8 @@ import type { RunResultsFile, VerifyFile } from "./types.js";
 const args = parseArgs({
   "--runs": ".cache/cookbook/run-results.json",
   "--verify": ".cache/cookbook/verify.json",
-  "--out": "docs/agile/reports/cookbook",
-});
+  "--out": "docs/agile/reports/cookbook"
+} as const);
 
 async function main() {
   const runs = JSON.parse(

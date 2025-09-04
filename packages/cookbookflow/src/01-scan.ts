@@ -9,21 +9,16 @@ import type { CodeBlock, ScanOutput } from "./types.js";
 const args = parseArgs({
   "--roots": "docs examples packages",
   "--out": ".cache/cookbook/blocks.json",
-  "--max-context": "12",
-});
+  "--max-context": "12"
+} as const);
 
-function* mdCodeBlocks(
-  md: string,
-): Generator<{ lang: string; code: string; header: string }> {
-  const fence = /```(\w+)?[^\n]*\n([\s\S]*?)```/g;
-  let m;
-  while ((m = fence.exec(md))) {
-    const before = md.slice(0, m.index);
-    const header = (
-      before.match(/(?:^|\n)#{1,6}\s+[^\n]+$/m)?.[0] ?? ""
-    ).trim();
-    yield { lang: (m[1] || "").toLowerCase(), code: m[2], header };
-  }
+function* mdCodeBlocks(md: string): Generator<{lang:string, code:string, header:string}> {
+    const fence = /```(\w+)?[^\n]*\n([\s\S]*?)```/g;
+    let m; while ( (m = fence.exec(md)) ) {
+      const before = md.slice(0, m.index);
+      const header = (before.match(/(?:^|\n)#{1,6}\s+[^\n]+$/m)?.[0] ?? "").trim();
+      yield { lang: (m[1] || "").toLowerCase(), code: m[2] ?? "", header };
+    }
 }
 
 async function main() {

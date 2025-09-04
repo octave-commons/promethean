@@ -14,1122 +14,408 @@ tags:
   - prefab
   - blueprint
 related_to_title:
+  - set-assignment-in-lisp-ast
   - System Scheduler with Resource-Aware DAG
-  - ecs-offload-workers
-  - Prompt_Folder_Bootstrap
-  - markdown-to-org-transpiler
-  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
-  - Promethean Infrastructure Setup
-  - eidolon-field-math-foundations
-  - archetype-ecs
-  - JavaScript
-  - Unique Info Dump Index
-  - Performance-Optimized-Polyglot-Bridge
-  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
-  - Lisp-Compiler-Integration
-  - compiler-kit-foundations
-  - Local-First Intention→Code Loop with Free Models
-  - Local-Only-LLM-Workflow
-  - Interop and Source Maps
-  - js-to-lisp-reverse-compiler
-  - 'Agent Tasks: Persistence Migration to DualStore'
-  - aionian-circuit-math
-  - Math Fundamentals
-  - Diagrams
-  - DSL
-  - api-gateway-versioning
-  - Debugging Broker Connections and Agent Behavior
-  - Dynamic Context Model for Web Components
-  - Admin Dashboard for User Management
-  - graph-ds
-  - Chroma Toolkit Consolidation Plan
-  - typed-struct-compiler
-  - Language-Agnostic Mirror System
-  - Agent Reflections and Prompt Evolution
-  - Canonical Org-Babel Matplotlib Animation Template
-  - Promethean Event Bus MVP v0.1
-  - zero-copy-snapshots-and-workers
-  - State Snapshots API and Transactional Projector
   - obsidian-ignore-node-modules-regex
+  - Obsidian ChatGPT Plugin Integration Guide
+  - Obsidian ChatGPT Plugin Integration
+  - Obsidian Templating Plugins Integration Guide
+  - Optimizing Command Limitations in System Design
+  - Model Selection for Lightweight Conversational Tasks
+  - Model Upgrade Calm-Down Guide
+  - NPU Voice Code and Sensory Integration
+  - Obsidian Task Generation
+  - OpenAPI Validation Report
+  - WebSocket Gateway Implementation
+  - Voice Access Layer Design
+  - Vectorial Exception Descent
+  - polymorphic-meta-programming-engine
+  - Lispy Macros with syntax-rules
+  - RAG UI Panel with Qdrant and PostgREST
+  - sibilant-metacompiler-overview
+  - observability-infrastructure-setup
+  - Exception Layer Analysis
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - Promethean Agent Config DSL
+  - js-to-lisp-reverse-compiler
+  - Sibilant Meta-Prompt DSL
+  - Cross-Language Runtime Polymorphism
+  - State Snapshots API and Transactional Projector
+  - ripple-propagation-demo
+  - schema-evolution-workflow
+  - Redirecting Standard Error
+  - i3-layout-saver
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - Refactor Frontmatter Processing
+  - markdown-to-org-transpiler
+  - Promethean Web UI Setup
+  - archetype-ecs
+  - 'Promethean Pipelines: Local TypeScript-First Workflow'
+  - shared-package-layout-clarification
+  - heartbeat-simulation-snippets
+  - Mongo Outbox Implementation
+  - Interop and Source Maps
+  - Local-Only-LLM-Workflow
+  - Ghostly Smoke Interference
+  - Lisp-Compiler-Integration
+  - graph-ds
+  - Window Management
+  - Dynamic Context Model for Web Components
+  - Factorio AI with External Agents
+  - eidolon-field-math-foundations
+  - Migrate to Provider-Tenant Architecture
+  - Layer1SurvivabilityEnvelope
+  - Functional Refactor of TypeScript Document Processing
+  - Fnord Tracer Protocol
+  - i3-bluetooth-setup
+  - komorebi-group-window-hack
+  - mystery-lisp-search-session
+  - Shared Package Structure
+  - i3-config-validation-methods
+  - Local-Offline-Model-Deployment-Strategy
+  - promethean-system-diagrams
+  - Promethean Infrastructure Setup
+  - sibilant-meta-string-templating-runtime
+  - compiler-kit-foundations
+  - Board Walk – 2025-08-11
+  - Chroma-Embedding-Refactor
+  - Promethean-native config design
+  - TypeScript Patch for Tool Calling Support
+  - layer-1-uptime-diagrams
+  - Self-Agency in AI Interaction
+  - Universal Lisp Interface
+  - Per-Domain Policy System for JS Crawler
+  - Event Bus MVP
+  - Promethean Chat Activity Report
+  - prompt-programming-language-lisp
+  - sibilant-macro-targets
+  - heartbeat-fragment-demo
+  - universal-intention-code-fabric
+  - Recursive Prompt Construction Engine
+  - Cross-Target Macro System in Sibilant
+  - prom-lib-rate-limiters-and-replay-api
+  - Promethean Full-Stack Docker Setup
+  - Prompt_Folder_Bootstrap
+  - Eidolon-Field-Optimization
+  - Matplotlib Animation with Async Execution
+  - zero-copy-snapshots-and-workers
+  - Performance-Optimized-Polyglot-Bridge
+  - typed-struct-compiler
+  - field-dynamics-math-blocks
+  - plan-update-confirmation
+  - ts-to-lisp-transpiler
 related_to_uuid:
+  - c5fba0a0-9196-468d-a0f3-51c99e987263
   - ba244286-4e84-425b-8bf6-b80c4eb783fc
-  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-  - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
-  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
-  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - f5579967-762d-4cfd-851e-4f71b4cb77a1
-  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
-  - cfee6d36-b9f5-4587-885a-cdfddb4f054e
-  - 01b21543-7e03-4129-8fe4-b6306be69dee
-  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
-  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-  - cdfac40c-00e4-458f-96a7-4c37d0278731
-  - 58191024-d04a-4520-8aae-a18be7b94263
-  - 93d2ba51-8689-49ee-94e2-296092e48058
-  - f2d83a77-7f86-4c56-8538-1350167a0c6c
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - e87bc036-1570-419e-a558-f45b9c0db698
-  - 0580dcd3-533d-4834-8a2f-eae3771960a9
-  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - 2901a3e9-96f0-497c-ae2c-775f28a702dd
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - 78eeedf7-75bc-4692-a5a7-bb6857270621
-  - d2b3628c-6cad-4664-8551-94ef8280851d
-  - bb7f0835-c347-474f-bfad-eabd873b51ad
-  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
-  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
-  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
-  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
   - ffb9b2a9-744d-4a53-9565-130fceae0832
+  - 1d3d6c3a-039e-4b96-93c1-95854945e248
+  - ca8e1399-77bf-4f77-82a3-3f703b68706d
+  - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+  - 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - db74343f-8f84-43a3-adb2-499c6f00be1c
+  - 5a02283e-4281-4930-9ca7-e27849de11bd
+  - 9b694a91-dec5-4708-9462-3f71000ba925
+  - 5c152b08-6b69-4bb8-a1a7-66745789c169
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
+  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
+  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
+  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - 21d5cc09-b005-4ede-8f69-00b4b0794540
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
+  - 58191024-d04a-4520-8aae-a18be7b94263
+  - af5d2824-faad-476c-a389-e912d9bc672c
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+  - 8430617b-80a2-4cc9-8288-9a74cb57990b
+  - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+  - b3555ede-324a-4d24-a885-b0721e74babf
+  - 31f0166e-4631-45fa-aecd-b44e9a13f497
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
+  - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+  - 6b63edca-7637-4fb0-bc85-d498c31cc46e
+  - 36c8882a-badc-4e18-838d-2c54d7038141
+  - 23e221e9-d4fa-4106-8458-06db2595085f
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - cdfac40c-00e4-458f-96a7-4c37d0278731
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+  - cfee6d36-b9f5-4587-885a-cdfddb4f054e
+  - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - 9e8ae388-767a-4ea8-9f2e-88801291d947
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - a4d90289-798d-44a0-a8e8-a055ae12fb52
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - 1cfae310-35dc-49c2-98f1-b186da25d84b
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+  - 66a72fc3-4153-41fc-84bd-d6164967a6ff
+  - d28090ac-f746-4958-aab5-ed1315382c04
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - b51e19b4-1326-4311-9798-33e972bf626c
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+  - 8b256935-02f6-4da2-a406-bf6b8415276f
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+  - 4127189a-e0ab-436f-8571-cc852b8e9add
+  - 49a9a860-944c-467a-b532-4f99186a8593
+  - b01856b4-999f-418d-8009-ade49b00eb0f
+  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+  - d41a06d1-613e-4440-80b7-4553fc694285
+  - c5c9a5c6-427d-4864-8084-c083cd55faa0
+  - dd00677a-2280-45a7-91af-0728b21af3ad
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
+  - f5579967-762d-4cfd-851e-4f71b4cb77a1
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
 references:
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 6
-    col: 1
-    score: 0.87
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 6
-    col: 3
-    score: 0.87
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 41
-    col: 1
-    score: 0.87
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 41
-    col: 3
-    score: 0.87
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 1
-    col: 1
-    score: 1
   - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
     line: 5
-    col: 1
+    col: 0
     score: 1
   - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 244
-    col: 1
+    line: 340
+    col: 0
+    score: 0.86
+  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
+    line: 148
+    col: 0
     score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 95
+    col: 0
+    score: 0.94
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 190
+    col: 0
+    score: 0.94
+  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+    line: 375
+    col: 0
+    score: 0.94
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 349
+    col: 0
+    score: 0.93
+  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
+    line: 52
+    col: 0
+    score: 0.93
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 63
+    col: 0
+    score: 0.92
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 490
+    col: 0
+    score: 0.92
+  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
+    line: 279
+    col: 0
+    score: 0.92
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 348
+    col: 0
+    score: 0.92
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 343
+    col: 0
+    score: 0.91
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 120
+    col: 0
+    score: 0.91
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 211
+    col: 0
+    score: 0.91
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 303
+    col: 0
+    score: 0.9
+  - uuid: 31f0166e-4631-45fa-aecd-b44e9a13f497
+    line: 79
+    col: 0
+    score: 0.87
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 400
+    col: 0
+    score: 0.89
+  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+    line: 272
+    col: 0
+    score: 0.87
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 146
+    col: 0
+    score: 0.86
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 148
+    col: 0
+    score: 0.86
   - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 366
-    col: 1
+    line: 367
+    col: 0
     score: 0.87
   - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 308
-    col: 1
+    line: 310
+    col: 0
     score: 1
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 24
-    col: 1
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 341
+    col: 0
     score: 1
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 42
-    col: 1
-    score: 1
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 66
-    col: 1
-    score: 1
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+  - uuid: cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
+    line: 11
+    col: 0
+    score: 0.87
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 442
+    col: 0
+    score: 0.87
+  - uuid: 23e221e9-d4fa-4106-8458-06db2595085f
     line: 84
-    col: 1
-    score: 1
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 103
-    col: 1
-    score: 1
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 130
-    col: 1
-    score: 1
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 152
-    col: 1
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 336
-    col: 1
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 338
-    col: 1
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 350
-    col: 1
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 362
-    col: 1
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 366
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 446
-    col: 1
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 377
-    col: 1
-    score: 1
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 289
-    col: 1
-    score: 1
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
-    line: 153
-    col: 1
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 558
-    col: 1
-    score: 0.98
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 105
-    col: 1
-    score: 0.88
-  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
-    line: 429
-    col: 1
+    col: 0
+    score: 0.86
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 610
+    col: 0
     score: 0.85
-  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
-    line: 497
-    col: 1
+  - uuid: 6b63edca-7637-4fb0-bc85-d498c31cc46e
+    line: 220
+    col: 0
+    score: 0.86
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 212
+    col: 0
+    score: 0.87
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 280
+    col: 0
+    score: 1
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 631
+    col: 0
+    score: 1
+  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
+    line: 156
+    col: 0
+    score: 0.89
+  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
+    line: 95
+    col: 0
+    score: 0.89
+  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
+    line: 33
+    col: 0
+    score: 0.89
+  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
+    line: 61
+    col: 0
+    score: 0.89
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 41
+    col: 0
+    score: 0.89
+  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
+    line: 90
+    col: 0
+    score: 0.89
+  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
+    line: 44
+    col: 0
+    score: 0.89
+  - uuid: b3555ede-324a-4d24-a885-b0721e74babf
+    line: 72
+    col: 0
+    score: 0.89
+  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
+    line: 145
+    col: 0
+    score: 0.89
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 557
+    col: 0
+    score: 0.89
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 498
+    col: 0
     score: 0.85
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 379
-    col: 1
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 379
-    col: 3
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 380
-    col: 1
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 380
-    col: 3
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 450
-    col: 1
-    score: 0.9
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 450
-    col: 3
-    score: 0.9
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 381
-    col: 1
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 381
-    col: 3
-    score: 1
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 455
-    col: 1
-    score: 1
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 455
-    col: 3
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 455
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 455
-    col: 3
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 130
-    col: 1
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 130
-    col: 3
-    score: 1
   - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 179
-    col: 1
-    score: 1
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 179
-    col: 3
-    score: 1
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 460
-    col: 1
-    score: 1
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 460
-    col: 3
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 15
-    col: 1
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 15
-    col: 3
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
     line: 129
-    col: 1
+    col: 0
+    score: 0.85
+  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
+    line: 149
+    col: 0
+    score: 1
+  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
+    line: 96
+    col: 0
+    score: 1
+  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
+    line: 18
+    col: 0
+    score: 1
+  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
+    line: 36
+    col: 0
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 92
+    col: 0
     score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 129
-    col: 3
-    score: 1
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 177
-    col: 1
-    score: 1
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 177
-    col: 3
-    score: 1
-  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
-    line: 138
-    col: 1
-    score: 1
-  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
-    line: 138
-    col: 3
-    score: 1
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 110
-    col: 1
-    score: 1
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 110
-    col: 3
-    score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 170
-    col: 1
-    score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 170
-    col: 3
-    score: 1
-  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
-    line: 884
-    col: 1
-    score: 1
-  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
-    line: 884
-    col: 3
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 456
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 456
-    col: 3
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 131
-    col: 1
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 131
-    col: 3
-    score: 1
-  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
-    line: 424
-    col: 1
-    score: 1
-  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
-    line: 424
-    col: 3
-    score: 1
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 176
-    col: 1
-    score: 1
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 176
-    col: 3
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 457
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 457
-    col: 3
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 132
-    col: 1
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 132
-    col: 3
-    score: 1
-  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
-    line: 145
-    col: 1
-    score: 1
-  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
-    line: 145
-    col: 3
-    score: 1
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 174
-    col: 1
-    score: 1
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 174
-    col: 3
-    score: 1
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 284
-    col: 1
-    score: 1
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 284
-    col: 3
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 40
-    col: 1
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 40
-    col: 3
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 384
-    col: 1
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 384
-    col: 3
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 458
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 458
-    col: 3
-    score: 1
-  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
-    line: 133
-    col: 1
-    score: 1
-  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
-    line: 133
-    col: 3
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 151
-    col: 1
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 151
-    col: 3
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 14
-    col: 1
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 14
-    col: 3
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 460
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 460
-    col: 3
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 16
-    col: 1
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 16
-    col: 3
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 466
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 466
-    col: 3
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 367
-    col: 1
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 367
-    col: 3
-    score: 1
-  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
-    line: 537
-    col: 1
-    score: 1
-  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
-    line: 537
-    col: 3
-    score: 1
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 456
-    col: 1
-    score: 1
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 456
-    col: 3
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 463
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 463
-    col: 3
-    score: 1
-  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
-    line: 384
-    col: 1
-    score: 1
-  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
-    line: 384
-    col: 3
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 63
-    col: 1
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 63
-    col: 3
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 158
-    col: 1
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 158
-    col: 3
-    score: 1
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 457
-    col: 1
-    score: 1
-  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-    line: 457
-    col: 3
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 9
-    col: 1
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 9
-    col: 3
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 10
-    col: 1
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 10
-    col: 3
-    score: 1
-  - uuid: 2901a3e9-96f0-497c-ae2c-775f28a702dd
-    line: 41
-    col: 1
-    score: 1
-  - uuid: 2901a3e9-96f0-497c-ae2c-775f28a702dd
-    line: 41
-    col: 3
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 461
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 461
-    col: 3
-    score: 1
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 173
-    col: 1
-    score: 1
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 173
-    col: 3
-    score: 1
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 304
-    col: 1
-    score: 1
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 304
-    col: 3
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 611
-    col: 1
-    score: 1
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 611
-    col: 3
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 462
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 462
-    col: 3
-    score: 1
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 517
-    col: 1
-    score: 1
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 517
-    col: 3
-    score: 1
-  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
-    line: 543
-    col: 1
-    score: 1
-  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
-    line: 543
-    col: 3
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 161
-    col: 1
-    score: 0.97
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 161
-    col: 3
-    score: 0.97
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 162
-    col: 1
-    score: 0.96
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 162
-    col: 3
-    score: 0.96
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 369
-    col: 1
-    score: 0.96
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 369
-    col: 3
-    score: 0.96
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 370
-    col: 1
-    score: 0.94
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 370
-    col: 3
-    score: 0.94
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 371
-    col: 1
-    score: 0.99
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 371
-    col: 3
-    score: 0.99
-  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
-    line: 347
-    col: 1
-    score: 0.98
-  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
-    line: 347
-    col: 3
-    score: 0.98
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 26
-    col: 1
-    score: 0.98
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 26
-    col: 3
-    score: 0.98
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 27
-    col: 1
-    score: 0.98
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 27
-    col: 3
-    score: 0.98
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 372
-    col: 1
-    score: 0.99
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 372
-    col: 3
-    score: 0.99
-  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
-    line: 348
-    col: 1
-    score: 0.99
-  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
-    line: 348
-    col: 3
-    score: 0.99
   - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 58
-    col: 1
-    score: 0.98
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 58
-    col: 3
-    score: 0.98
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 473
-    col: 1
-    score: 0.99
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 473
-    col: 3
-    score: 0.99
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 311
-    col: 1
-    score: 0.99
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 311
-    col: 3
-    score: 0.99
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
-    line: 178
-    col: 1
-    score: 0.99
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
-    line: 178
-    col: 3
-    score: 0.99
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 194
-    col: 1
-    score: 0.99
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 194
-    col: 3
-    score: 0.99
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 400
-    col: 1
+    line: 67
+    col: 0
     score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 400
-    col: 3
+  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
+    line: 23
+    col: 0
     score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 402
-    col: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 107
+    col: 0
     score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 402
-    col: 3
+  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
+    line: 39
+    col: 0
     score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 194
-    col: 1
-    score: 0.99
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 194
-    col: 3
-    score: 0.99
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 403
-    col: 1
-    score: 0.99
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 403
-    col: 3
-    score: 0.99
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 405
-    col: 1
-    score: 0.98
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 405
-    col: 3
-    score: 0.98
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 195
-    col: 1
-    score: 0.99
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 195
-    col: 3
-    score: 0.99
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 404
-    col: 1
-    score: 0.99
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 404
-    col: 3
-    score: 0.99
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 196
-    col: 1
-    score: 0.99
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 196
-    col: 3
-    score: 0.99
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 407
-    col: 1
-    score: 0.99
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 407
-    col: 3
-    score: 0.99
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 197
-    col: 1
-    score: 0.99
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 197
-    col: 3
-    score: 0.99
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 408
-    col: 1
-    score: 0.98
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 408
-    col: 3
-    score: 0.98
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 406
-    col: 1
+  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+    line: 73
+    col: 0
     score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 406
-    col: 3
-    score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 198
-    col: 1
-    score: 0.99
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 198
-    col: 3
-    score: 0.99
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 199
-    col: 1
-    score: 0.99
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 199
-    col: 3
-    score: 0.99
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 200
-    col: 1
-    score: 0.99
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 200
-    col: 3
-    score: 0.99
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 310
-    col: 1
-    score: 1
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 310
-    col: 3
-    score: 1
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
-    line: 177
-    col: 1
-    score: 1
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
-    line: 177
-    col: 3
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 415
-    col: 1
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 415
-    col: 3
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 155
-    col: 1
-    score: 0.99
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 155
-    col: 3
-    score: 0.99
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 474
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 474
-    col: 3
-    score: 1
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
-    line: 179
-    col: 1
-    score: 1
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
-    line: 179
-    col: 3
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 416
-    col: 1
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 416
-    col: 3
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 157
-    col: 1
-    score: 0.98
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 157
-    col: 3
-    score: 0.98
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 475
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 475
-    col: 3
-    score: 1
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 312
-    col: 1
-    score: 1
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 312
-    col: 3
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 417
-    col: 1
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 417
-    col: 3
-    score: 1
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 194
-    col: 1
-    score: 0.99
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 194
-    col: 3
-    score: 0.99
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 476
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 476
-    col: 3
-    score: 1
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 313
-    col: 1
-    score: 1
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 313
-    col: 3
-    score: 1
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
-    line: 180
-    col: 1
-    score: 1
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
-    line: 180
-    col: 3
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 418
-    col: 1
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 418
-    col: 3
-    score: 1
-  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
-    line: 147
-    col: 1
-    score: 1
-  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
-    line: 147
-    col: 3
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 477
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 477
-    col: 3
-    score: 1
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 314
-    col: 1
-    score: 1
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 314
-    col: 3
-    score: 1
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
-    line: 181
-    col: 1
-    score: 1
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
-    line: 181
-    col: 3
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 478
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 478
-    col: 3
-    score: 1
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 315
-    col: 1
-    score: 1
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 315
-    col: 3
-    score: 1
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
-    line: 182
-    col: 1
-    score: 1
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
-    line: 182
-    col: 3
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 420
-    col: 1
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 420
-    col: 3
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 479
-    col: 1
-    score: 1
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 479
-    col: 3
-    score: 1
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 316
-    col: 1
-    score: 1
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 316
-    col: 3
-    score: 1
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
-    line: 183
-    col: 1
-    score: 1
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
-    line: 183
-    col: 3
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 421
-    col: 1
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 421
-    col: 3
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 426
-    col: 1
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 426
-    col: 3
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 427
-    col: 1
-    score: 0.99
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 427
-    col: 3
-    score: 0.99
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 373
-    col: 1
-    score: 0.99
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 373
-    col: 3
-    score: 0.99
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 375
-    col: 1
-    score: 0.98
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 375
-    col: 3
-    score: 0.98
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 191
-    col: 1
-    score: 0.98
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 191
-    col: 3
-    score: 0.98
 ---
-Note: Consolidated here → ../notes/js/ecs-scheduler-and-prefabs.md
+Note: Consolidated here → ../notes/js/ecs-scheduler-and-prefabs.md ^ref-c62a1815-1-0
 
-Heck yes—let’s wire a **real system scheduler** on top of the ECS you’ve got, plus **resources**, **dependency graph**, **conflict-aware batching**, and **prefabs/blueprints**. Paste these under `shared/js/prom-lib/ds/`.
+Heck yes—let’s wire a **real system scheduler** on top of the ECS you’ve got, plus **resources**, **dependency graph**, **conflict-aware batching**, and **prefabs/blueprints**. Paste these under `shared/js/prom-lib/ds/`. ^ref-c62a1815-3-0
 
 # 1) System Scheduler (archetype ECS + resource-aware DAG)
 
@@ -1369,9 +655,10 @@ function conflictsInBatch(existing: CompiledSystem[], candidate: CompiledSystem)
   return false;
 }
 ```
+^ref-c62a1815-7-0
 
 ## Tiny usage
-
+ ^ref-c62a1815-246-0
 ```ts
 import { World } from "./ecs";
 import { Scheduler } from "./ecs.scheduler";
@@ -1432,10 +719,12 @@ sched
   });
 
 await sched.runFrame(0.016, performance.now());
+^ref-c62a1815-246-0
 ```
+^ref-c62a1815-247-0
 
-# 2) Prefabs / Blueprints
-
+# 2) Prefabs / Blueprints ^ref-c62a1815-310-0
+ ^ref-c62a1815-312-0
 ```ts
 // shared/js/prom-lib/ds/ecs.prefab.ts
 import { World, ComponentType } from "./ecs";
@@ -1461,9 +750,11 @@ export function spawn(world: World, bp: Blueprint, count = 1, overrides?: Partia
     ids.push(e);
   }
   return ids;
-}
+^ref-c62a1815-310-0
+} ^ref-c62a1815-338-0
+^ref-c62a1815-312-0 ^ref-c62a1815-340-0
 ```
-
+ ^ref-c62a1815-340-0 ^ref-c62a1815-342-0
 **Usage:**
 
 ```ts
@@ -1472,9 +763,12 @@ const Bullet = makeBlueprint("Bullet", [
   { c: CPos, v: (i)=>({x:i*10, y:0}) },
   { c: CVel, v: {x:0,y:100} },
   { c: CLife, v: {t:2} }
+^ref-c62a1815-340-0
 ]);
+^ref-c62a1815-343-0 ^ref-c62a1815-353-0
 spawn(world, Bullet, 100); // spawns 100 bullets fast
 ```
+^ref-c62a1815-352-0
 
 # 3) Visual: system graph (you’ll see batches)
 
@@ -1485,329 +779,194 @@ flowchart LR
   end
   subgraph render
     render
-  end
+^ref-c62a1815-352-0
+  end ^ref-c62a1815-364-0
   classDef stage fill:#eef,stroke:#55f,color:#000;
-  class render,physics,decay stage;
+  class render,physics,decay stage; ^ref-c62a1815-370-0
+^ref-c62a1815-364-0 ^ref-c62a1815-368-0
 ```
+^ref-c62a1815-364-0
 
 *(In practice the scheduler builds a full DAG and packs conflict-free systems into parallel **batches** per stage.)*
-
+ ^ref-c62a1815-376-0
 # 4) Sibilant sprinkles (pseudo)
 
 ```lisp
 ; shared/sibilant/prom/ds/ecs-scheduler.sib (pseudo)
 (defn scheduler [world] (new Scheduler world))
+^ref-c62a1815-368-0
 (defn sys [name stage query reads writes run]
   {:name name :stage stage :query query :reads reads :writes writes :run run})
-(defn add-sys! [sched sys] (.register sched sys))
+(defn add-sys! [sched sys] (.register sched sys)) ^ref-c62a1815-379-0
+^ref-c62a1815-381-0 ^ref-c62a1815-382-0
+^ref-c62a1815-379-0 ^ref-c62a1815-383-0
 (defn tick! [sched dt t] (.runFrame sched dt t))
-```
-
----
-
-If you want, I can add:
-
-* a **worker\_threads** pool for true parallel execution,
-* a **timeline tracer** (per-system duration, Gantt output),
-* or a **hot-reload** API to add/remove systems at runtime without full recompiles.
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+^ref-c62a1815-385-0 ^ref-c62a1815-386-0
+^ref-c62a1815-383-0 ^ref-c62a1815-387-0
+^ref-c62a1815-382-0 ^ref-c62a1815-388-0
+^ref-c62a1815-376-0
+^ref-c62a1815-381-0 ^ref-c62a1815-389-0
+^ref-c62a1815-379-0 ^ref-c62a1815-390-0
+``` ^ref-c62a1815-381-0 ^ref-c62a1815-385-0
+^ref-c62a1815-379-0
+^ref-c62a1815-385-0
+^ref-c62a1815-383-0 ^ref-c62a1815-393-0
+^ref-c62a1815-382-0
+^ref-c62a1815-381-0 ^ref-c62a1815-395-0
+^ref-c62a1815-379-0 ^ref-c62a1815-396-0
+^ref-c62a1815-376-0 ^ref-c62a1815-397-0
+ ^ref-c62a1815-382-0 ^ref-c62a1815-386-0 ^ref-c62a1815-398-0
+--- ^ref-c62a1815-383-0 ^ref-c62a1815-387-0 ^ref-c62a1815-393-0 ^ref-c62a1815-399-0
+ ^ref-c62a1815-388-0 ^ref-c62a1815-400-0
+If you want, I can add: ^ref-c62a1815-385-0 ^ref-c62a1815-389-0 ^ref-c62a1815-395-0
+ ^ref-c62a1815-386-0 ^ref-c62a1815-390-0 ^ref-c62a1815-396-0 ^ref-c62a1815-402-0
+* a **worker\_threads** pool for true parallel execution, ^ref-c62a1815-387-0 ^ref-c62a1815-397-0
+* a **timeline tracer** (per-system duration, Gantt output), ^ref-c62a1815-388-0 ^ref-c62a1815-398-0
+* or a **hot-reload** API to add/remove systems at runtime without full recompiles.<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
+- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
 - [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
-- [ecs-offload-workers](ecs-offload-workers.md)
-- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
-- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
-- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [archetype-ecs](archetype-ecs.md)
-- [JavaScript](chunks/javascript.md)
-- [Unique Info Dump Index](unique-info-dump-index.md)
-- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
-- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
-- [compiler-kit-foundations](compiler-kit-foundations.md)
-- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
-- [Interop and Source Maps](interop-and-source-maps.md)
-- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
-- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
-- [aionian-circuit-math](aionian-circuit-math.md)
-- [Math Fundamentals](chunks/math-fundamentals.md)
-- [Diagrams](chunks/diagrams.md)
-- [DSL](chunks/dsl.md)
-- [api-gateway-versioning](api-gateway-versioning.md)
-- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [Admin Dashboard for User Management](admin-dashboard-for-user-management.md)
-- [graph-ds](graph-ds.md)
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
-- [typed-struct-compiler](typed-struct-compiler.md)
-- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
-- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
-- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
-- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
 - [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
-
+- [Obsidian ChatGPT Plugin Integration Guide](obsidian-chatgpt-plugin-integration-guide.md)
+- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
+- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
+- [Optimizing Command Limitations in System Design](optimizing-command-limitations-in-system-design.md)
+- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
+- [Model Upgrade Calm-Down Guide](model-upgrade-calm-down-guide.md)
+- [NPU Voice Code and Sensory Integration](npu-voice-code-and-sensory-integration.md)
+- [Obsidian Task Generation](obsidian-task-generation.md)
+- [OpenAPI Validation Report](openapi-validation-report.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [Vectorial Exception Descent](vectorial-exception-descent.md)
+- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
+- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
+- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
+- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
+- [ripple-propagation-demo](ripple-propagation-demo.md)
+- [schema-evolution-workflow](schema-evolution-workflow.md)
+- [Redirecting Standard Error](redirecting-standard-error.md)
+- [i3-layout-saver](i3-layout-saver.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [Refactor Frontmatter Processing](refactor-frontmatter-processing.md)
+- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
+- [Promethean Web UI Setup](promethean-web-ui-setup.md)
+- [archetype-ecs](archetype-ecs.md)
+- [Promethean Pipelines: Local TypeScript-First Workflow](promethean-pipelines-local-typescript-first-workflow.md)
+- [shared-package-layout-clarification](shared-package-layout-clarification.md)
+- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
+- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
+- [Interop and Source Maps](interop-and-source-maps.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
+- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
+- [graph-ds](graph-ds.md)
+- [Window Management](chunks/window-management.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [mystery-lisp-search-session](mystery-lisp-search-session.md)
+- [Shared Package Structure](shared-package-structure.md)
+- [i3-config-validation-methods](i3-config-validation-methods.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [promethean-system-diagrams](promethean-system-diagrams.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [Board Walk – 2025-08-11](board-walk-2025-08-11.md)
+- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
+- [Promethean-native config design](promethean-native-config-design.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
+- [Self-Agency in AI Interaction](self-agency-in-ai-interaction.md)
+- [Universal Lisp Interface](universal-lisp-interface.md)
+- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
+- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
+- [sibilant-macro-targets](sibilant-macro-targets.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
+- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
+- [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
+- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
+- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
+- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [plan-update-confirmation](plan-update-confirmation.md)
+- [ts-to-lisp-transpiler](ts-to-lisp-transpiler.md)
 ## Sources
-- [JavaScript — L6](chunks/javascript.md#L6) (line 6, col 1, score 0.87)
-- [JavaScript — L6](chunks/javascript.md#L6) (line 6, col 3, score 0.87)
-- [Unique Info Dump Index — L41](unique-info-dump-index.md#L41) (line 41, col 1, score 0.87)
-- [Unique Info Dump Index — L41](unique-info-dump-index.md#L41) (line 41, col 3, score 0.87)
-- [System Scheduler with Resource-Aware DAG — L1](system-scheduler-with-resource-aware-dag.md#L1) (line 1, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L5](system-scheduler-with-resource-aware-dag.md#L5) (line 5, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L244](system-scheduler-with-resource-aware-dag.md#L244) (line 244, col 1, score 1)
-- [archetype-ecs — L366](archetype-ecs.md#L366) (line 366, col 1, score 0.87)
-- [System Scheduler with Resource-Aware DAG — L308](system-scheduler-with-resource-aware-dag.md#L308) (line 308, col 1, score 1)
-- [Prompt_Folder_Bootstrap — L24](prompt-folder-bootstrap.md#L24) (line 24, col 1, score 1)
-- [Prompt_Folder_Bootstrap — L42](prompt-folder-bootstrap.md#L42) (line 42, col 1, score 1)
-- [Prompt_Folder_Bootstrap — L66](prompt-folder-bootstrap.md#L66) (line 66, col 1, score 1)
-- [Prompt_Folder_Bootstrap — L84](prompt-folder-bootstrap.md#L84) (line 84, col 1, score 1)
-- [Prompt_Folder_Bootstrap — L103](prompt-folder-bootstrap.md#L103) (line 103, col 1, score 1)
-- [Prompt_Folder_Bootstrap — L130](prompt-folder-bootstrap.md#L130) (line 130, col 1, score 1)
-- [Prompt_Folder_Bootstrap — L152](prompt-folder-bootstrap.md#L152) (line 152, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L336](system-scheduler-with-resource-aware-dag.md#L336) (line 336, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L338](system-scheduler-with-resource-aware-dag.md#L338) (line 338, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L350](system-scheduler-with-resource-aware-dag.md#L350) (line 350, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L362](system-scheduler-with-resource-aware-dag.md#L362) (line 362, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L366](system-scheduler-with-resource-aware-dag.md#L366) (line 366, col 1, score 1)
-- [ecs-offload-workers — L446](ecs-offload-workers.md#L446) (line 446, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L377](system-scheduler-with-resource-aware-dag.md#L377) (line 377, col 1, score 1)
-- [markdown-to-org-transpiler — L289](markdown-to-org-transpiler.md#L289) (line 289, col 1, score 1)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L153](ollama-llm-provider-for-pseudo-code-transpiler.md#L153) (line 153, col 1, score 1)
-- [Promethean Infrastructure Setup — L558](promethean-infrastructure-setup.md#L558) (line 558, col 1, score 0.98)
-- [eidolon-field-math-foundations — L105](eidolon-field-math-foundations.md#L105) (line 105, col 1, score 0.88)
-- [Performance-Optimized-Polyglot-Bridge — L429](performance-optimized-polyglot-bridge.md#L429) (line 429, col 1, score 0.85)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L497](polyglot-s-expr-bridge-python-js-lisp-interop.md#L497) (line 497, col 1, score 0.85)
-- [System Scheduler with Resource-Aware DAG — L379](system-scheduler-with-resource-aware-dag.md#L379) (line 379, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L379](system-scheduler-with-resource-aware-dag.md#L379) (line 379, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L380](system-scheduler-with-resource-aware-dag.md#L380) (line 380, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L380](system-scheduler-with-resource-aware-dag.md#L380) (line 380, col 3, score 1)
-- [ecs-offload-workers — L450](ecs-offload-workers.md#L450) (line 450, col 1, score 0.9)
-- [ecs-offload-workers — L450](ecs-offload-workers.md#L450) (line 450, col 3, score 0.9)
-- [System Scheduler with Resource-Aware DAG — L381](system-scheduler-with-resource-aware-dag.md#L381) (line 381, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L381](system-scheduler-with-resource-aware-dag.md#L381) (line 381, col 3, score 1)
-- [archetype-ecs — L455](archetype-ecs.md#L455) (line 455, col 1, score 1)
-- [archetype-ecs — L455](archetype-ecs.md#L455) (line 455, col 3, score 1)
-- [ecs-offload-workers — L455](ecs-offload-workers.md#L455) (line 455, col 1, score 1)
-- [ecs-offload-workers — L455](ecs-offload-workers.md#L455) (line 455, col 3, score 1)
-- [eidolon-field-math-foundations — L130](eidolon-field-math-foundations.md#L130) (line 130, col 1, score 1)
-- [eidolon-field-math-foundations — L130](eidolon-field-math-foundations.md#L130) (line 130, col 3, score 1)
-- [Local-Only-LLM-Workflow — L179](local-only-llm-workflow.md#L179) (line 179, col 1, score 1)
-- [Local-Only-LLM-Workflow — L179](local-only-llm-workflow.md#L179) (line 179, col 3, score 1)
-- [archetype-ecs — L460](archetype-ecs.md#L460) (line 460, col 1, score 1)
-- [archetype-ecs — L460](archetype-ecs.md#L460) (line 460, col 3, score 1)
-- [JavaScript — L15](chunks/javascript.md#L15) (line 15, col 1, score 1)
-- [JavaScript — L15](chunks/javascript.md#L15) (line 15, col 3, score 1)
-- [eidolon-field-math-foundations — L129](eidolon-field-math-foundations.md#L129) (line 129, col 1, score 1)
-- [eidolon-field-math-foundations — L129](eidolon-field-math-foundations.md#L129) (line 129, col 3, score 1)
-- [Local-Only-LLM-Workflow — L177](local-only-llm-workflow.md#L177) (line 177, col 1, score 1)
-- [Local-Only-LLM-Workflow — L177](local-only-llm-workflow.md#L177) (line 177, col 3, score 1)
-- [Agent Reflections and Prompt Evolution — L138](agent-reflections-and-prompt-evolution.md#L138) (line 138, col 1, score 1)
-- [Agent Reflections and Prompt Evolution — L138](agent-reflections-and-prompt-evolution.md#L138) (line 138, col 3, score 1)
-- [Canonical Org-Babel Matplotlib Animation Template — L110](canonical-org-babel-matplotlib-animation-template.md#L110) (line 110, col 1, score 1)
-- [Canonical Org-Babel Matplotlib Animation Template — L110](canonical-org-babel-matplotlib-animation-template.md#L110) (line 110, col 3, score 1)
-- [Chroma Toolkit Consolidation Plan — L170](chroma-toolkit-consolidation-plan.md#L170) (line 170, col 1, score 1)
-- [Chroma Toolkit Consolidation Plan — L170](chroma-toolkit-consolidation-plan.md#L170) (line 170, col 3, score 1)
-- [Promethean Event Bus MVP v0.1 — L884](promethean-event-bus-mvp-v0-1.md#L884) (line 884, col 1, score 1)
-- [Promethean Event Bus MVP v0.1 — L884](promethean-event-bus-mvp-v0-1.md#L884) (line 884, col 3, score 1)
-- [ecs-offload-workers — L456](ecs-offload-workers.md#L456) (line 456, col 1, score 1)
-- [ecs-offload-workers — L456](ecs-offload-workers.md#L456) (line 456, col 3, score 1)
-- [eidolon-field-math-foundations — L131](eidolon-field-math-foundations.md#L131) (line 131, col 1, score 1)
-- [eidolon-field-math-foundations — L131](eidolon-field-math-foundations.md#L131) (line 131, col 3, score 1)
-- [js-to-lisp-reverse-compiler — L424](js-to-lisp-reverse-compiler.md#L424) (line 424, col 1, score 1)
-- [js-to-lisp-reverse-compiler — L424](js-to-lisp-reverse-compiler.md#L424) (line 424, col 3, score 1)
-- [Local-Only-LLM-Workflow — L176](local-only-llm-workflow.md#L176) (line 176, col 1, score 1)
-- [Local-Only-LLM-Workflow — L176](local-only-llm-workflow.md#L176) (line 176, col 3, score 1)
-- [ecs-offload-workers — L457](ecs-offload-workers.md#L457) (line 457, col 1, score 1)
-- [ecs-offload-workers — L457](ecs-offload-workers.md#L457) (line 457, col 3, score 1)
-- [eidolon-field-math-foundations — L132](eidolon-field-math-foundations.md#L132) (line 132, col 1, score 1)
-- [eidolon-field-math-foundations — L132](eidolon-field-math-foundations.md#L132) (line 132, col 3, score 1)
-- [Local-First Intention→Code Loop with Free Models — L145](local-first-intention-code-loop-with-free-models.md#L145) (line 145, col 1, score 1)
-- [Local-First Intention→Code Loop with Free Models — L145](local-first-intention-code-loop-with-free-models.md#L145) (line 145, col 3, score 1)
-- [Local-Only-LLM-Workflow — L174](local-only-llm-workflow.md#L174) (line 174, col 1, score 1)
-- [Local-Only-LLM-Workflow — L174](local-only-llm-workflow.md#L174) (line 174, col 3, score 1)
-- [api-gateway-versioning — L284](api-gateway-versioning.md#L284) (line 284, col 1, score 1)
-- [api-gateway-versioning — L284](api-gateway-versioning.md#L284) (line 284, col 3, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 1, score 1)
-- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 3, score 1)
-- [Dynamic Context Model for Web Components — L384](dynamic-context-model-for-web-components.md#L384) (line 384, col 1, score 1)
-- [Dynamic Context Model for Web Components — L384](dynamic-context-model-for-web-components.md#L384) (line 384, col 3, score 1)
-- [ecs-offload-workers — L458](ecs-offload-workers.md#L458) (line 458, col 1, score 1)
-- [ecs-offload-workers — L458](ecs-offload-workers.md#L458) (line 458, col 3, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L133](agent-tasks-persistence-migration-to-dualstore.md#L133) (line 133, col 1, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L133](agent-tasks-persistence-migration-to-dualstore.md#L133) (line 133, col 3, score 1)
-- [aionian-circuit-math — L151](aionian-circuit-math.md#L151) (line 151, col 1, score 1)
-- [aionian-circuit-math — L151](aionian-circuit-math.md#L151) (line 151, col 3, score 1)
-- [Math Fundamentals — L14](chunks/math-fundamentals.md#L14) (line 14, col 1, score 1)
-- [Math Fundamentals — L14](chunks/math-fundamentals.md#L14) (line 14, col 3, score 1)
-- [ecs-offload-workers — L460](ecs-offload-workers.md#L460) (line 460, col 1, score 1)
-- [ecs-offload-workers — L460](ecs-offload-workers.md#L460) (line 460, col 3, score 1)
-- [JavaScript — L16](chunks/javascript.md#L16) (line 16, col 1, score 1)
-- [JavaScript — L16](chunks/javascript.md#L16) (line 16, col 3, score 1)
-- [ecs-offload-workers — L466](ecs-offload-workers.md#L466) (line 466, col 1, score 1)
-- [ecs-offload-workers — L466](ecs-offload-workers.md#L466) (line 466, col 3, score 1)
-- [graph-ds — L367](graph-ds.md#L367) (line 367, col 1, score 1)
-- [graph-ds — L367](graph-ds.md#L367) (line 367, col 3, score 1)
-- [Language-Agnostic Mirror System — L537](language-agnostic-mirror-system.md#L537) (line 537, col 1, score 1)
-- [Language-Agnostic Mirror System — L537](language-agnostic-mirror-system.md#L537) (line 537, col 3, score 1)
-- [archetype-ecs — L456](archetype-ecs.md#L456) (line 456, col 1, score 1)
-- [archetype-ecs — L456](archetype-ecs.md#L456) (line 456, col 3, score 1)
-- [ecs-offload-workers — L463](ecs-offload-workers.md#L463) (line 463, col 1, score 1)
-- [ecs-offload-workers — L463](ecs-offload-workers.md#L463) (line 463, col 3, score 1)
-- [typed-struct-compiler — L384](typed-struct-compiler.md#L384) (line 384, col 1, score 1)
-- [typed-struct-compiler — L384](typed-struct-compiler.md#L384) (line 384, col 3, score 1)
-- [Unique Info Dump Index — L63](unique-info-dump-index.md#L63) (line 63, col 1, score 1)
-- [Unique Info Dump Index — L63](unique-info-dump-index.md#L63) (line 63, col 3, score 1)
-- [aionian-circuit-math — L158](aionian-circuit-math.md#L158) (line 158, col 1, score 1)
-- [aionian-circuit-math — L158](aionian-circuit-math.md#L158) (line 158, col 3, score 1)
-- [archetype-ecs — L457](archetype-ecs.md#L457) (line 457, col 1, score 1)
-- [archetype-ecs — L457](archetype-ecs.md#L457) (line 457, col 3, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 1, score 1)
-- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 3, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 1, score 1)
-- [DSL — L10](chunks/dsl.md#L10) (line 10, col 3, score 1)
-- [Admin Dashboard for User Management — L41](admin-dashboard-for-user-management.md#L41) (line 41, col 1, score 1)
-- [Admin Dashboard for User Management — L41](admin-dashboard-for-user-management.md#L41) (line 41, col 3, score 1)
-- [ecs-offload-workers — L461](ecs-offload-workers.md#L461) (line 461, col 1, score 1)
-- [ecs-offload-workers — L461](ecs-offload-workers.md#L461) (line 461, col 3, score 1)
-- [Local-Only-LLM-Workflow — L173](local-only-llm-workflow.md#L173) (line 173, col 1, score 1)
-- [Local-Only-LLM-Workflow — L173](local-only-llm-workflow.md#L173) (line 173, col 3, score 1)
-- [markdown-to-org-transpiler — L304](markdown-to-org-transpiler.md#L304) (line 304, col 1, score 1)
-- [markdown-to-org-transpiler — L304](markdown-to-org-transpiler.md#L304) (line 304, col 3, score 1)
-- [compiler-kit-foundations — L611](compiler-kit-foundations.md#L611) (line 611, col 1, score 1)
-- [compiler-kit-foundations — L611](compiler-kit-foundations.md#L611) (line 611, col 3, score 1)
-- [ecs-offload-workers — L462](ecs-offload-workers.md#L462) (line 462, col 1, score 1)
-- [ecs-offload-workers — L462](ecs-offload-workers.md#L462) (line 462, col 3, score 1)
-- [Interop and Source Maps — L517](interop-and-source-maps.md#L517) (line 517, col 1, score 1)
-- [Interop and Source Maps — L517](interop-and-source-maps.md#L517) (line 517, col 3, score 1)
-- [Lisp-Compiler-Integration — L543](lisp-compiler-integration.md#L543) (line 543, col 1, score 1)
-- [Lisp-Compiler-Integration — L543](lisp-compiler-integration.md#L543) (line 543, col 3, score 1)
-- [Unique Info Dump Index — L161](unique-info-dump-index.md#L161) (line 161, col 1, score 0.97)
-- [Unique Info Dump Index — L161](unique-info-dump-index.md#L161) (line 161, col 3, score 0.97)
-- [Unique Info Dump Index — L162](unique-info-dump-index.md#L162) (line 162, col 1, score 0.96)
-- [Unique Info Dump Index — L162](unique-info-dump-index.md#L162) (line 162, col 3, score 0.96)
-- [zero-copy-snapshots-and-workers — L369](zero-copy-snapshots-and-workers.md#L369) (line 369, col 1, score 0.96)
-- [zero-copy-snapshots-and-workers — L369](zero-copy-snapshots-and-workers.md#L369) (line 369, col 3, score 0.96)
-- [zero-copy-snapshots-and-workers — L370](zero-copy-snapshots-and-workers.md#L370) (line 370, col 1, score 0.94)
-- [zero-copy-snapshots-and-workers — L370](zero-copy-snapshots-and-workers.md#L370) (line 370, col 3, score 0.94)
-- [zero-copy-snapshots-and-workers — L371](zero-copy-snapshots-and-workers.md#L371) (line 371, col 1, score 0.99)
-- [zero-copy-snapshots-and-workers — L371](zero-copy-snapshots-and-workers.md#L371) (line 371, col 3, score 0.99)
-- [State Snapshots API and Transactional Projector — L347](state-snapshots-api-and-transactional-projector.md#L347) (line 347, col 1, score 0.98)
-- [State Snapshots API and Transactional Projector — L347](state-snapshots-api-and-transactional-projector.md#L347) (line 347, col 3, score 0.98)
-- [JavaScript — L26](chunks/javascript.md#L26) (line 26, col 1, score 0.98)
-- [JavaScript — L26](chunks/javascript.md#L26) (line 26, col 3, score 0.98)
-- [JavaScript — L27](chunks/javascript.md#L27) (line 27, col 1, score 0.98)
-- [JavaScript — L27](chunks/javascript.md#L27) (line 27, col 3, score 0.98)
-- [zero-copy-snapshots-and-workers — L372](zero-copy-snapshots-and-workers.md#L372) (line 372, col 1, score 0.99)
-- [zero-copy-snapshots-and-workers — L372](zero-copy-snapshots-and-workers.md#L372) (line 372, col 3, score 0.99)
-- [State Snapshots API and Transactional Projector — L348](state-snapshots-api-and-transactional-projector.md#L348) (line 348, col 1, score 0.99)
-- [State Snapshots API and Transactional Projector — L348](state-snapshots-api-and-transactional-projector.md#L348) (line 348, col 3, score 0.99)
-- [obsidian-ignore-node-modules-regex — L58](obsidian-ignore-node-modules-regex.md#L58) (line 58, col 1, score 0.98)
-- [obsidian-ignore-node-modules-regex — L58](obsidian-ignore-node-modules-regex.md#L58) (line 58, col 3, score 0.98)
-- [ecs-offload-workers — L473](ecs-offload-workers.md#L473) (line 473, col 1, score 0.99)
-- [ecs-offload-workers — L473](ecs-offload-workers.md#L473) (line 473, col 3, score 0.99)
-- [markdown-to-org-transpiler — L311](markdown-to-org-transpiler.md#L311) (line 311, col 1, score 0.99)
-- [markdown-to-org-transpiler — L311](markdown-to-org-transpiler.md#L311) (line 311, col 3, score 0.99)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L178](ollama-llm-provider-for-pseudo-code-transpiler.md#L178) (line 178, col 1, score 0.99)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L178](ollama-llm-provider-for-pseudo-code-transpiler.md#L178) (line 178, col 3, score 0.99)
-- [Prompt_Folder_Bootstrap — L194](prompt-folder-bootstrap.md#L194) (line 194, col 1, score 0.99)
-- [Prompt_Folder_Bootstrap — L194](prompt-folder-bootstrap.md#L194) (line 194, col 3, score 0.99)
-- [System Scheduler with Resource-Aware DAG — L400](system-scheduler-with-resource-aware-dag.md#L400) (line 400, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L400](system-scheduler-with-resource-aware-dag.md#L400) (line 400, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L402](system-scheduler-with-resource-aware-dag.md#L402) (line 402, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L402](system-scheduler-with-resource-aware-dag.md#L402) (line 402, col 3, score 1)
-- [Chroma Toolkit Consolidation Plan — L194](chroma-toolkit-consolidation-plan.md#L194) (line 194, col 1, score 0.99)
-- [Chroma Toolkit Consolidation Plan — L194](chroma-toolkit-consolidation-plan.md#L194) (line 194, col 3, score 0.99)
-- [System Scheduler with Resource-Aware DAG — L403](system-scheduler-with-resource-aware-dag.md#L403) (line 403, col 1, score 0.99)
-- [System Scheduler with Resource-Aware DAG — L403](system-scheduler-with-resource-aware-dag.md#L403) (line 403, col 3, score 0.99)
-- [System Scheduler with Resource-Aware DAG — L405](system-scheduler-with-resource-aware-dag.md#L405) (line 405, col 1, score 0.98)
-- [System Scheduler with Resource-Aware DAG — L405](system-scheduler-with-resource-aware-dag.md#L405) (line 405, col 3, score 0.98)
-- [Chroma Toolkit Consolidation Plan — L195](chroma-toolkit-consolidation-plan.md#L195) (line 195, col 1, score 0.99)
-- [Chroma Toolkit Consolidation Plan — L195](chroma-toolkit-consolidation-plan.md#L195) (line 195, col 3, score 0.99)
-- [System Scheduler with Resource-Aware DAG — L404](system-scheduler-with-resource-aware-dag.md#L404) (line 404, col 1, score 0.99)
-- [System Scheduler with Resource-Aware DAG — L404](system-scheduler-with-resource-aware-dag.md#L404) (line 404, col 3, score 0.99)
-- [Chroma Toolkit Consolidation Plan — L196](chroma-toolkit-consolidation-plan.md#L196) (line 196, col 1, score 0.99)
-- [Chroma Toolkit Consolidation Plan — L196](chroma-toolkit-consolidation-plan.md#L196) (line 196, col 3, score 0.99)
-- [System Scheduler with Resource-Aware DAG — L407](system-scheduler-with-resource-aware-dag.md#L407) (line 407, col 1, score 0.99)
-- [System Scheduler with Resource-Aware DAG — L407](system-scheduler-with-resource-aware-dag.md#L407) (line 407, col 3, score 0.99)
-- [Chroma Toolkit Consolidation Plan — L197](chroma-toolkit-consolidation-plan.md#L197) (line 197, col 1, score 0.99)
-- [Chroma Toolkit Consolidation Plan — L197](chroma-toolkit-consolidation-plan.md#L197) (line 197, col 3, score 0.99)
-- [System Scheduler with Resource-Aware DAG — L408](system-scheduler-with-resource-aware-dag.md#L408) (line 408, col 1, score 0.98)
-- [System Scheduler with Resource-Aware DAG — L408](system-scheduler-with-resource-aware-dag.md#L408) (line 408, col 3, score 0.98)
-- [System Scheduler with Resource-Aware DAG — L406](system-scheduler-with-resource-aware-dag.md#L406) (line 406, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L406](system-scheduler-with-resource-aware-dag.md#L406) (line 406, col 3, score 1)
-- [Chroma Toolkit Consolidation Plan — L198](chroma-toolkit-consolidation-plan.md#L198) (line 198, col 1, score 0.99)
-- [Chroma Toolkit Consolidation Plan — L198](chroma-toolkit-consolidation-plan.md#L198) (line 198, col 3, score 0.99)
-- [Chroma Toolkit Consolidation Plan — L199](chroma-toolkit-consolidation-plan.md#L199) (line 199, col 1, score 0.99)
-- [Chroma Toolkit Consolidation Plan — L199](chroma-toolkit-consolidation-plan.md#L199) (line 199, col 3, score 0.99)
-- [Chroma Toolkit Consolidation Plan — L200](chroma-toolkit-consolidation-plan.md#L200) (line 200, col 1, score 0.99)
-- [Chroma Toolkit Consolidation Plan — L200](chroma-toolkit-consolidation-plan.md#L200) (line 200, col 3, score 0.99)
-- [markdown-to-org-transpiler — L310](markdown-to-org-transpiler.md#L310) (line 310, col 1, score 1)
-- [markdown-to-org-transpiler — L310](markdown-to-org-transpiler.md#L310) (line 310, col 3, score 1)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L177](ollama-llm-provider-for-pseudo-code-transpiler.md#L177) (line 177, col 1, score 1)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L177](ollama-llm-provider-for-pseudo-code-transpiler.md#L177) (line 177, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L415](system-scheduler-with-resource-aware-dag.md#L415) (line 415, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L415](system-scheduler-with-resource-aware-dag.md#L415) (line 415, col 3, score 1)
-- [eidolon-field-math-foundations — L155](eidolon-field-math-foundations.md#L155) (line 155, col 1, score 0.99)
-- [eidolon-field-math-foundations — L155](eidolon-field-math-foundations.md#L155) (line 155, col 3, score 0.99)
-- [ecs-offload-workers — L474](ecs-offload-workers.md#L474) (line 474, col 1, score 1)
-- [ecs-offload-workers — L474](ecs-offload-workers.md#L474) (line 474, col 3, score 1)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L179](ollama-llm-provider-for-pseudo-code-transpiler.md#L179) (line 179, col 1, score 1)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L179](ollama-llm-provider-for-pseudo-code-transpiler.md#L179) (line 179, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L416](system-scheduler-with-resource-aware-dag.md#L416) (line 416, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L416](system-scheduler-with-resource-aware-dag.md#L416) (line 416, col 3, score 1)
-- [eidolon-field-math-foundations — L157](eidolon-field-math-foundations.md#L157) (line 157, col 1, score 0.98)
-- [eidolon-field-math-foundations — L157](eidolon-field-math-foundations.md#L157) (line 157, col 3, score 0.98)
-- [ecs-offload-workers — L475](ecs-offload-workers.md#L475) (line 475, col 1, score 1)
-- [ecs-offload-workers — L475](ecs-offload-workers.md#L475) (line 475, col 3, score 1)
-- [markdown-to-org-transpiler — L312](markdown-to-org-transpiler.md#L312) (line 312, col 1, score 1)
-- [markdown-to-org-transpiler — L312](markdown-to-org-transpiler.md#L312) (line 312, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L417](system-scheduler-with-resource-aware-dag.md#L417) (line 417, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L417](system-scheduler-with-resource-aware-dag.md#L417) (line 417, col 3, score 1)
-- [Local-Only-LLM-Workflow — L194](local-only-llm-workflow.md#L194) (line 194, col 1, score 0.99)
-- [Local-Only-LLM-Workflow — L194](local-only-llm-workflow.md#L194) (line 194, col 3, score 0.99)
-- [ecs-offload-workers — L476](ecs-offload-workers.md#L476) (line 476, col 1, score 1)
-- [ecs-offload-workers — L476](ecs-offload-workers.md#L476) (line 476, col 3, score 1)
-- [markdown-to-org-transpiler — L313](markdown-to-org-transpiler.md#L313) (line 313, col 1, score 1)
-- [markdown-to-org-transpiler — L313](markdown-to-org-transpiler.md#L313) (line 313, col 3, score 1)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L180](ollama-llm-provider-for-pseudo-code-transpiler.md#L180) (line 180, col 1, score 1)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L180](ollama-llm-provider-for-pseudo-code-transpiler.md#L180) (line 180, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L418](system-scheduler-with-resource-aware-dag.md#L418) (line 418, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L418](system-scheduler-with-resource-aware-dag.md#L418) (line 418, col 3, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L147](agent-tasks-persistence-migration-to-dualstore.md#L147) (line 147, col 1, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L147](agent-tasks-persistence-migration-to-dualstore.md#L147) (line 147, col 3, score 1)
-- [ecs-offload-workers — L477](ecs-offload-workers.md#L477) (line 477, col 1, score 1)
-- [ecs-offload-workers — L477](ecs-offload-workers.md#L477) (line 477, col 3, score 1)
-- [markdown-to-org-transpiler — L314](markdown-to-org-transpiler.md#L314) (line 314, col 1, score 1)
-- [markdown-to-org-transpiler — L314](markdown-to-org-transpiler.md#L314) (line 314, col 3, score 1)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L181](ollama-llm-provider-for-pseudo-code-transpiler.md#L181) (line 181, col 1, score 1)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L181](ollama-llm-provider-for-pseudo-code-transpiler.md#L181) (line 181, col 3, score 1)
-- [ecs-offload-workers — L478](ecs-offload-workers.md#L478) (line 478, col 1, score 1)
-- [ecs-offload-workers — L478](ecs-offload-workers.md#L478) (line 478, col 3, score 1)
-- [markdown-to-org-transpiler — L315](markdown-to-org-transpiler.md#L315) (line 315, col 1, score 1)
-- [markdown-to-org-transpiler — L315](markdown-to-org-transpiler.md#L315) (line 315, col 3, score 1)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L182](ollama-llm-provider-for-pseudo-code-transpiler.md#L182) (line 182, col 1, score 1)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L182](ollama-llm-provider-for-pseudo-code-transpiler.md#L182) (line 182, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L420](system-scheduler-with-resource-aware-dag.md#L420) (line 420, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L420](system-scheduler-with-resource-aware-dag.md#L420) (line 420, col 3, score 1)
-- [ecs-offload-workers — L479](ecs-offload-workers.md#L479) (line 479, col 1, score 1)
-- [ecs-offload-workers — L479](ecs-offload-workers.md#L479) (line 479, col 3, score 1)
-- [markdown-to-org-transpiler — L316](markdown-to-org-transpiler.md#L316) (line 316, col 1, score 1)
-- [markdown-to-org-transpiler — L316](markdown-to-org-transpiler.md#L316) (line 316, col 3, score 1)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L183](ollama-llm-provider-for-pseudo-code-transpiler.md#L183) (line 183, col 1, score 1)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L183](ollama-llm-provider-for-pseudo-code-transpiler.md#L183) (line 183, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L421](system-scheduler-with-resource-aware-dag.md#L421) (line 421, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L421](system-scheduler-with-resource-aware-dag.md#L421) (line 421, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L426](system-scheduler-with-resource-aware-dag.md#L426) (line 426, col 1, score 1)
-- [System Scheduler with Resource-Aware DAG — L426](system-scheduler-with-resource-aware-dag.md#L426) (line 426, col 3, score 1)
-- [System Scheduler with Resource-Aware DAG — L427](system-scheduler-with-resource-aware-dag.md#L427) (line 427, col 1, score 0.99)
-- [System Scheduler with Resource-Aware DAG — L427](system-scheduler-with-resource-aware-dag.md#L427) (line 427, col 3, score 0.99)
-- [zero-copy-snapshots-and-workers — L373](zero-copy-snapshots-and-workers.md#L373) (line 373, col 1, score 0.99)
-- [zero-copy-snapshots-and-workers — L373](zero-copy-snapshots-and-workers.md#L373) (line 373, col 3, score 0.99)
-- [zero-copy-snapshots-and-workers — L375](zero-copy-snapshots-and-workers.md#L375) (line 375, col 1, score 0.98)
-- [zero-copy-snapshots-and-workers — L375](zero-copy-snapshots-and-workers.md#L375) (line 375, col 3, score 0.98)
-- [Local-Only-LLM-Workflow — L191](local-only-llm-workflow.md#L191) (line 191, col 1, score 0.98)
-- [Local-Only-LLM-Workflow — L191](local-only-llm-workflow.md#L191) (line 191, col 3, score 0.98)
+- [System Scheduler with Resource-Aware DAG — L5](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-5-0) (line 5, col 0, score 1)
+- [System Scheduler with Resource-Aware DAG — L340](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-340-0) (line 340, col 0, score 0.86)
+- [set-assignment-in-lisp-ast — L148](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0) (line 148, col 0, score 1)
+- [Vectorial Exception Descent — L95](vectorial-exception-descent.md#^ref-d771154e-95-0) (line 95, col 0, score 0.94)
+- [polymorphic-meta-programming-engine — L190](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-190-0) (line 190, col 0, score 0.94)
+- [Lispy Macros with syntax-rules — L375](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-375-0) (line 375, col 0, score 0.94)
+- [RAG UI Panel with Qdrant and PostgREST — L349](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0) (line 349, col 0, score 0.93)
+- [sibilant-metacompiler-overview — L52](sibilant-metacompiler-overview.md#^ref-61d4086b-52-0) (line 52, col 0, score 0.93)
+- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.92)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L490](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-490-0) (line 490, col 0, score 0.92)
+- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.92)
+- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.92)
+- [js-to-lisp-reverse-compiler — L343](js-to-lisp-reverse-compiler.md#^ref-58191024-343-0) (line 343, col 0, score 0.91)
+- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.91)
+- [Cross-Language Runtime Polymorphism — L211](cross-language-runtime-polymorphism.md#^ref-c34c36a6-211-0) (line 211, col 0, score 0.91)
+- [State Snapshots API and Transactional Projector — L303](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0) (line 303, col 0, score 0.9)
+- [i3-layout-saver — L79](i3-layout-saver.md#^ref-31f0166e-79-0) (line 79, col 0, score 0.87)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L400](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-400-0) (line 400, col 0, score 0.89)
+- [markdown-to-org-transpiler — L272](markdown-to-org-transpiler.md#^ref-ab54cdd8-272-0) (line 272, col 0, score 0.87)
+- [shared-package-layout-clarification — L146](shared-package-layout-clarification.md#^ref-36c8882a-146-0) (line 146, col 0, score 0.86)
+- [shared-package-layout-clarification — L148](shared-package-layout-clarification.md#^ref-36c8882a-148-0) (line 148, col 0, score 0.86)
+- [archetype-ecs — L367](archetype-ecs.md#^ref-8f4c1e86-367-0) (line 367, col 0, score 0.87)
+- [System Scheduler with Resource-Aware DAG — L310](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-310-0) (line 310, col 0, score 1)
+- [System Scheduler with Resource-Aware DAG — L341](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-341-0) (line 341, col 0, score 1)
+- [Refactor Frontmatter Processing — L11](refactor-frontmatter-processing.md#^ref-cfbdca2f-11-0) (line 11, col 0, score 0.87)
+- [Promethean Web UI Setup — L442](promethean-web-ui-setup.md#^ref-bc5172ca-442-0) (line 442, col 0, score 0.87)
+- [heartbeat-simulation-snippets — L84](heartbeat-simulation-snippets.md#^ref-23e221e9-84-0) (line 84, col 0, score 0.86)
+- [Mongo Outbox Implementation — L610](mongo-outbox-implementation.md#^ref-9c1acd1e-610-0) (line 610, col 0, score 0.85)
+- [Promethean Pipelines: Local TypeScript-First Workflow — L220](promethean-pipelines-local-typescript-first-workflow.md#^ref-6b63edca-220-0) (line 220, col 0, score 0.86)
+- [Cross-Language Runtime Polymorphism — L212](cross-language-runtime-polymorphism.md#^ref-c34c36a6-212-0) (line 212, col 0, score 0.87)
+- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 1)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 1)
+- [Model Selection for Lightweight Conversational Tasks — L156](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-156-0) (line 156, col 0, score 0.89)
+- [Model Upgrade Calm-Down Guide — L95](model-upgrade-calm-down-guide.md#^ref-db74343f-95-0) (line 95, col 0, score 0.89)
+- [NPU Voice Code and Sensory Integration — L33](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-33-0) (line 33, col 0, score 0.89)
+- [Obsidian ChatGPT Plugin Integration Guide — L61](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-61-0) (line 61, col 0, score 0.89)
+- [Obsidian ChatGPT Plugin Integration — L41](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-41-0) (line 41, col 0, score 0.89)
+- [obsidian-ignore-node-modules-regex — L90](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-90-0) (line 90, col 0, score 0.89)
+- [Obsidian Task Generation — L44](obsidian-task-generation.md#^ref-9b694a91-44-0) (line 44, col 0, score 0.89)
+- [Redirecting Standard Error — L72](redirecting-standard-error.md#^ref-b3555ede-72-0) (line 72, col 0, score 0.89)
+- [ripple-propagation-demo — L145](ripple-propagation-demo.md#^ref-8430617b-145-0) (line 145, col 0, score 0.89)
+- [schema-evolution-workflow — L557](schema-evolution-workflow.md#^ref-d8059b6a-557-0) (line 557, col 0, score 0.89)
+- [Interop and Source Maps — L498](interop-and-source-maps.md#^ref-cdfac40c-498-0) (line 498, col 0, score 0.85)
+- [Local-Only-LLM-Workflow — L129](local-only-llm-workflow.md#^ref-9a8ab57e-129-0) (line 129, col 0, score 0.85)
+- [Model Selection for Lightweight Conversational Tasks — L149](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-149-0) (line 149, col 0, score 1)
+- [Model Upgrade Calm-Down Guide — L96](model-upgrade-calm-down-guide.md#^ref-db74343f-96-0) (line 96, col 0, score 1)
+- [NPU Voice Code and Sensory Integration — L18](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-18-0) (line 18, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration Guide — L36](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-36-0) (line 36, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration — L92](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-92-0) (line 92, col 0, score 1)
+- [obsidian-ignore-node-modules-regex — L67](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-67-0) (line 67, col 0, score 1)
+- [Obsidian Task Generation — L23](obsidian-task-generation.md#^ref-9b694a91-23-0) (line 23, col 0, score 1)
+- [Obsidian Templating Plugins Integration Guide — L107](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-107-0) (line 107, col 0, score 1)
+- [OpenAPI Validation Report — L39](openapi-validation-report.md#^ref-5c152b08-39-0) (line 39, col 0, score 1)
+- [Optimizing Command Limitations in System Design — L73](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-73-0) (line 73, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
