@@ -1388,14 +1388,14 @@ importers:
         specifier: ^0.18.0
         version: 0.18.0(@discordjs/opus@0.10.0)
       '@promethean/embeddings':
-        specifier: file:../embeddings
-        version: file:packages/embeddings(socks@2.8.7)
+        specifier: workspace:*
+        version: link:../embeddings
       '@promethean/legacy':
         specifier: workspace:*
         version: link:../legacy
       '@promethean/persistence':
-        specifier: file:../persistence
-        version: file:packages/persistence(socks@2.8.7)
+        specifier: workspace:*
+        version: link:../persistence
       chromadb:
         specifier: ^3.0.9
         version: 3.0.14
@@ -1433,6 +1433,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.1.4
         version: 2.2.2
+      '@promethean/types':
+        specifier: workspace:*
+        version: link:../types
       '@types/node':
         specifier: ^22.17.2
         version: 22.18.1
@@ -3078,8 +3081,8 @@ importers:
   packages/markdown-graph:
     dependencies:
       '@promethean/persistence':
-        specifier: file:../persistence
-        version: file:packages/persistence(socks@2.8.7)
+        specifier: workspace:*
+        version: link:../persistence
       '@types/body-parser':
         specifier: ^1.19.5
         version: 1.19.6
@@ -3091,8 +3094,11 @@ importers:
         version: 4.21.2
     devDependencies:
       '@promethean/test-utils':
-        specifier: file:../test-utils
-        version: file:packages/test-utils(socks@2.8.7)
+        specifier: workspace:*
+        version: link:../test-utils
+      '@promethean/types':
+        specifier: workspace:*
+        version: link:../types
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.23

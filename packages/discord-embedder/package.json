@@ -29,8 +29,8 @@
   "dependencies": {
     "@discordjs/voice": "^0.18.0",
     "@promethean/legacy": "workspace:*",
-    "@promethean/embeddings": "file:../embeddings",
-    "@promethean/persistence": "file:../persistence",
+    "@promethean/embeddings": "workspace:*",
+    "@promethean/persistence": "workspace:*",
     "chromadb": "^3.0.9",
     "discord.js": "^14.17.3",
     "dotenv": "^17.2.0",
@@ -46,6 +46,7 @@
   "devDependencies": {
     "@types/node": "^22.17.2",
     "@types/ws": "^8.5.12",
+    "@promethean/types": "workspace:*",
     "ava": "^6.4.1",
     "c8": "^9.1.0",
     "@biomejs/biome": "^2.1.4",
