@@ -2,13 +2,13 @@
 nexus: nexus-ai-chat-importer
 plugin_version: "1.2.0"
 provider: chatgpt
-aliases: "Codex CLI crash course"
+aliases: "Codex crash course"
 conversation_id: 6887eee1-7e8c-8330-8fd4-14a5f05c7250
 create_time: 07/28/2025 at 4:42 PM
 update_time: 07/28/2025 at 6:41 PM
 ---
 
-# Title: Codex CLI crash course
+# Title: Codex crash course
 
 Created: 07/28/2025 at 4:42 PM
 Last Updated: 07/28/2025 at 6:41 PM
@@ -23,13 +23,13 @@ Chat URL: https://chat.openai.com/c/6887eee1-7e8c-8330-8fd4-14a5f05c7250
 
 
 >[!nexus_agent] **Assistant** - 07/28/2025 at 4:42 PM
-> Absolutely. Here's a quick **crash course on the Codex CLI**, especially tailored for someone with your experience level and project style.
+> Absolutely. Here's a quick **crash course on the Codex**, especially tailored for someone with your experience level and project style.
 > 
 > ---
 > 
-> ## 🚀 What Is Codex CLI?
+> ## 🚀 What Is Codex?
 > 
-> Codex CLI is OpenAI's **local developer assistant**—a terminal tool you can run on your machine to:
+> Codex is OpenAI's **local developer assistant**—a terminal tool you can run on your machine to:
 > - Understand and explain code
 > - Refactor or document code
 > - Answer technical questions
@@ -40,7 +40,7 @@ Chat URL: https://chat.openai.com/c/6887eee1-7e8c-8330-8fd4-14a5f05c7250
 > 
 > ---
 > 
-> ## 🧰 Installing Codex CLI
+> ## 🧰 Installing Codex
 > 
 > If you haven't already:
 > 
@@ -127,12 +127,12 @@ Chat URL: https://chat.openai.com/c/6887eee1-7e8c-8330-8fd4-14a5f05c7250
 > 
 > ## 🧱 Codex vs Agent Mode
 > 
-> - **Codex CLI** is **local** and file-aware.
+> - **Codex** is **local** and file-aware.
 > - **Agent mode** (what you're in now) is **browser-based**, better for long-term design conversations, but not directly integrated with your filesystem.
 > 
 > You can even use both in tandem:
 > - Plan and design here
-> - Execute and tweak locally via Codex CLI
+> - Execute and tweak locally via Codex
 > 
 > ---
 > 
@@ -178,7 +178,7 @@ Chat URL: https://chat.openai.com/c/6887eee1-7e8c-8330-8fd4-14a5f05c7250
 >[!nexus_agent] **Assistant** - 07/28/2025 at 4:46 PM
 > Exactly — you're dead on.
 > 
-> The **Codex CLI is raw muscle**. Think of it like a **text-based LLM co-pilot** that:
+> The **Codex is raw muscle**. Think of it like a **text-based LLM co-pilot** that:
 > - Has **file system awareness** (it reads local files, maintains short-term context),
 > - Responds quickly to **small, focused prompts**, and
 > - Plays nicely with **Unix-y workflows** and quick iterations.
@@ -236,7 +236,7 @@ Chat URL: https://chat.openai.com/c/6887eee1-7e8c-8330-8fd4-14a5f05c7250
 > 
 > ### TL;DR
 > 
-> **Codex CLI is your LLM-powered command line apprentice**, not your architect. 
+> **Codex is your LLM-powered command line apprentice**, not your architect. 
 > It’s meant to:
 > - Be fast
 > - Be local
@@ -706,7 +706,7 @@ Chat URL: https://chat.openai.com/c/6887eee1-7e8c-8330-8fd4-14a5f05c7250
 > Would you like help with any of these?
 > 
 > 1. **Create a script that walks `services/` and outputs `file.doc.template.md` scaffolds for every script**
-> 2. **Write a `.prompt.sibilant` macro that turns a doc into a Codex CLI prompt** (e.g., "implement this file from doc")
+> 2. **Write a `.prompt.sibilant` macro that turns a doc into a Codex prompt** (e.g., "implement this file from doc")
 > 3. **Design the data model for storing these doc-program pairs in MongoDB or ChromaDB as part of Promethean memory**
 > 4. **Turn this template into a function call for Codex-based "describe this file" + "store doc" loop**
 > 

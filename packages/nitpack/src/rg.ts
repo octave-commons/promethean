@@ -30,7 +30,7 @@ const rgArgsFor = (key: string): RgArgs | null => {
           "--glob",
           "packages/**/tsconfig*.json",
           "-e",
-          "\\\"paths\\\"\\\\s*:",
+          "\\\"paths\\\"\\s*:",
         ],
       };
     case "NO_EMBED_HTML":

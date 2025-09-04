@@ -2,13 +2,13 @@
 nexus: nexus-ai-chat-importer
 plugin_version: "1.2.0"
 provider: chatgpt
-aliases: "Codex CLI layer"
+aliases: "Codex layer"
 conversation_id: 68a4dfc9-3cc4-8321-b072-ef859d2b6387
 create_time: 08/19/2025 at 3:34 PM
 update_time: 08/21/2025 at 11:03 AM
 ---
 
-# Title: Codex CLI layer
+# Title: Codex layer
 
 Created: 08/19/2025 at 3:34 PM
 Last Updated: 08/21/2025 at 11:03 AM
@@ -23,14 +23,14 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 
 
 >[!nexus_agent] **Assistant** - 08/19/2025 at 3:34 PM
-> Certainly! You're asking for a Spacemacs layer that functions similarly to SLIME for Lisp—except it targets the OpenAI Codex CLI, allowing you to send any text file (e.g. code) to the Codex CLI from within Emacs, rooted at your project directory. Let’s call this hypothetical layer `codex-cli`.
+> Certainly! You're asking for a Spacemacs layer that functions similarly to SLIME for Lisp—except it targets the OpenAI Codex, allowing you to send any text file (e.g. code) to the Codex from within Emacs, rooted at your project directory. Let’s call this hypothetical layer `codex`.
 > 
 > ---
 > 
-> ## Objectives for the `codex-cli` Spacemacs Layer
+> ## Objectives for the `codex` Spacemacs Layer
 > 
-> 1. **Start Codex CLI** at the project root (detect via Git or project root).
-> 2. **Send current buffer/file contents or selection to Codex CLI**—with options for prompt customization.
+> 1. **Start Codex** at the project root (detect via Git or project root).
+> 2. **Send current buffer/file contents or selection to Codex**—with options for prompt customization.
 > 3. Support **interactive Codex modes**, such as Suggest (default), Auto‑Edit, Full‑Auto, and allow changing modes via flags.
 > 4. Provide **keybindings** under a leader key (e.g., `SPC a x` prefix).
 > 5. Handle **configuration and cleanup** gracefully.
@@ -38,9 +38,9 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 > 
 > ---
 > 
-> ## Codex CLI Overview
+> ## Codex Overview
 > 
-> To ensure accurate usage of Codex CLI, here’s a quick summary of its functionality and modes:
+> To ensure accurate usage of Codex, here’s a quick summary of its functionality and modes:
 > 
 > - **Install** with `npm install -g @openai/codex` cite.
 > - **Run** it in your project root: `codex` for interactive mode, or `codex --auto-edit`, `codex --full-auto` cite.
@@ -53,7 +53,7 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 > 
 > ---
 > 
-> ## `codex-cli` Spacemacs Layer Outline
+> ## `codex` Spacemacs Layer Outline
 > 
 > I'll outline Elisp covering:
 > 
@@ -69,10 +69,10 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 > ```elisp
 > ;;; packages.el --- codex‑cli layer setup -*- lexical-binding: t; -*-
 > ;;; Commentary:
-> ;; Spacemacs layer to integrate OpenAI Codex CLI.
+> ;; Spacemacs layer to integrate OpenAI Codex.
 > 
 > ;;; Code:
-> (defconst codex-cli-packages
+> (defconst codex-packages
 >  '()
 >  "No external packages needed; using built‑in features.")
 > 
@@ -86,7 +86,7 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 > ```elisp
 > ;;; funcs.el --- codex‑cli functions -*- lexical-binding: t; -*-
 > ;;; Commentary:
-> ;; Functions to interact with Codex CLI.
+> ;; Functions to interact with Codex.
 > 
 > (require 'project)
 > (require 'cl-lib)
@@ -98,14 +98,14 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 >  default-directory))
 > 
 > (defun codex‑cli--build-command (mode prompt)
->  "Construct codex CLI command as a string for MODE and PROMPT.
+>  "Construct codex command as a string for MODE and PROMPT.
 > MODE is one of \"suggest\", \"auto-edit\", or \"full-auto\"."
 >  (format "codex --approval-mode %s %s"
 >  mode
 >  (shell-quote-argument prompt)))
 > 
 > (defun codex‑cli‑send-buffer (mode)
->  "Send the current buffer contents to Codex CLI with MODE.
+>  "Send the current buffer contents to Codex with MODE.
 > MODE is e.g. \"suggest\", \"auto-edit\", or \"full-auto\"."
 >  (let* ((root (codex‑cli--project-root))
 >  (prompt (read-string "Prompt for Codex: "))
@@ -117,20 +117,20 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 >  (let ((default-directory root))
 >  (async-shell-command
 >  (concat cmd " <" (shell-quote-argument file))
->  "*Codex CLI Output*" "*Codex CLI Error*"))))
+>  "*Codex Output*" "*Codex Error*"))))
 > 
 > (defun codex‑cli‑suggest-current ()
->  "Run Codex CLI in suggest mode on current file."
+>  "Run Codex in suggest mode on current file."
 >  (interactive)
 >  (codex‑cli‑send-buffer "suggest"))
 > 
 > (defun codex‑cli‑auto‑edit-current ()
->  "Run Codex CLI in auto-edit mode on current file."
+>  "Run Codex in auto-edit mode on current file."
 >  (interactive)
 >  (codex‑cli‑send-buffer "auto-edit"))
 > 
 > (defun codex‑cli‑full‑auto‑current ()
->  "Run Codex CLI in full-auto mode on current file."
+>  "Run Codex in full-auto mode on current file."
 >  (interactive)
 >  (codex‑cli‑send-buffer "full-auto"))
 > ;;; funcs.el ends here
@@ -139,7 +139,7 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 > ### keybindings in `packages.el` (or `config.el`, depending on layer layout)
 > 
 > ```elisp
-> (defun codex-cli/init-codex-cli-layer ()
+> (defun codex/init-codex-layer ()
 >  "Initialize codex‑cli keybindings."
 >  (spacemacs/set-leader-keys
 >  "axc" 'codex‑cli‑suggest-current
@@ -157,17 +157,17 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 >  dotspacemacs-configuration-layers
 >  '(
 >  ;; other layers...
->  codex-cli
+>  codex
 >  )
 > ```
 > 
-> Ensure the files `packages.el`, `funcs.el` are placed under `~/.spacemacs.d/layers/codex-cli/`. Reload configuration via `SPC f e R`.
+> Ensure the files `packages.el`, `funcs.el` are placed under `~/.spacemacs.d/layers/codex/`. Reload configuration via `SPC f e R`.
 > 
 > ---
 > 
 > ## Usage Workflows
 > 
-> - **Invoke Suggest Mode**: Open a buffer for a text file → `SPC a x c` → input your prompt → result appears in `*Codex CLI Output*`.
+> - **Invoke Suggest Mode**: Open a buffer for a text file → `SPC a x c` → input your prompt → result appears in `*Codex Output*`.
 > - **Change Mode**: `SPC a x a` (Auto‑Edit) or `SPC a x f` (Full‑Auto).
 > - **Project Root Detection**: File is sent from your Git/project root automatically.
 > 
@@ -200,7 +200,7 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 
 
 >[!nexus_agent] **Assistant** - 08/19/2025 at 3:54 PM
-> You're totally on the right track—giving your layer SLIME‑like functionality inside Spacemacs, with region/paragraph/code‑block awareness and fallback to a local open‑source model—that’s a super solid plan. Let’s enhance your `codex-cli` layer accordingly.
+> You're totally on the right track—giving your layer SLIME‑like functionality inside Spacemacs, with region/paragraph/code‑block awareness and fallback to a local open‑source model—that’s a super solid plan. Let’s enhance your `codex` layer accordingly.
 > 
 > ---
 > 
@@ -228,7 +228,7 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 > **Implementation sketch**:
 > 
 > ```elisp
-> (defun codex-cli--region-or-something (unit)
+> (defun codex--region-or-something (unit)
 >  "Select region according to UNIT, then return (beg . end)."
 >  (cond
 >  ((use-region-p)
@@ -253,11 +253,11 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 > 
 > ## 2. Fallback to Local Ollama Model When Token Limit Is Reached
 > 
-> Your layer should try Codex CLI first, but if it fails due to token limits, seamlessly fall back to your local Ollama server.
+> Your layer should try Codex first, but if it fails due to token limits, seamlessly fall back to your local Ollama server.
 > 
 > A simplified flow:
 > 
-> 1. Run Codex CLI as usual via `async-shell-command`.
+> 1. Run Codex as usual via `async-shell-command`.
 > 2. On failure, detect the error buffer or process exit code.
 > 3. Retry using `ollama` command, e.g.:
 > 
@@ -267,19 +267,19 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 > 
 > You’ll want to allow user configuration of:
 > 
-> - `codex-cli-fallback-model` (e.g., `llama2`), 
-> - `codex-cli-ollama-command` (default `"ollama eval"`), 
-> - Maybe `codex-cli-token-error-pattern` to detect token limit errors.
+> - `codex-fallback-model` (e.g., `llama2`), 
+> - `codex-ollama-command` (default `"ollama eval"`), 
+> - Maybe `codex-token-error-pattern` to detect token limit errors.
 > 
 > Implementation outline:
 > 
 > ```elisp
-> (defun codex-cli--send-with-fallback (base-cmd file)
+> (defun codex--send-with-fallback (base-cmd file)
 >  "Send FILE with BASE-CMD to codex; on token error, fall back to ollama."
 >  (let ((default-directory (codex‑cli--project-root)))
 >  (async-shell-command
 >  (format "%s < %s" base-cmd (shell-quote-argument file))
->  "*Codex CLI Output*" "*Codex CLI Error*")
+>  "*Codex Output*" "*Codex Error*")
 >  ;; Add a process sentinel or advice on completion to inspect error buffer,
 >  ;; match token-limit error, and if found, re-run with ollama.
 >  ))
@@ -301,44 +301,44 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 > (require 'project)
 > (require 'cl-lib)
 > 
-> (defcustom codex-cli-ollama-command "ollama eval"
+> (defcustom codex-ollama-command "ollama eval"
 >  "Base command for fallback to Ollama server."
 >  :type 'string)
 > 
-> (defcustom codex-cli-fallback-model "llama2"
+> (defcustom codex-fallback-model "llama2"
 >  "Model name to use with Ollama on fallback."
 >  :type 'string)
 > 
-> (defcustom codex-cli-token-error-pattern
+> (defcustom codex-token-error-pattern
 >  "token limit"
 >  "Regexp pattern to detect token limit errors from Codex."
 >  :type 'string)
 > 
-> (defun codex-cli--project-root ()
+> (defun codex--project-root ()
 >  (or (project-root (project-current))
 >  (locate-dominating-file default-directory ".git")
 >  default-directory))
 > 
-> (defun codex-cli--build-command (mode prompt)
+> (defun codex--build-command (mode prompt)
 >  (format "codex --approval-mode %s %s"
 >  mode (shell-quote-argument prompt)))
 > 
-> (defun codex-cli--dispatch (cmd file)
+> (defun codex--dispatch (cmd file)
 >  "Run CMD on FILE, fallback to Ollama if token error."
->  (let* ((default-directory (codex-cli--project-root))
+>  (let* ((default-directory (codex--project-root))
 >  (proc (start-process-shell-command
->  "codex-cli" "*Codex CLI Output*" cmd)))
+>  "codex" "*Codex Output*" cmd)))
 >  (set-process-sentinel
 >  proc
 >  (lambda (p _event)
 >  (when (and (not (process-live-p p))
->  (with-current-buffer "*Codex CLI Error*"
+>  (with-current-buffer "*Codex Error*"
 >  (goto-char (point-min))
->  (re-search-forward codex-cli-token-error-pattern nil t)))
->  (message "Codex hit token limit—falling back to Ollama model %s" codex-cli-fallback-model)
+>  (re-search-forward codex-token-error-pattern nil t)))
+>  (message "Codex hit token limit—falling back to Ollama model %s" codex-fallback-model)
 >  (let ((ollama-cmd (format "%s %s --stdin < %s"
->  codex-cli-ollama-command
->  codex-cli-fallback-model
+>  codex-ollama-command
+>  codex-fallback-model
 >  (shell-quote-argument file))))
 >  (async-shell-command
 >  ollama-cmd "*Ollama Output*" "*Ollama Error*")))))))
@@ -348,29 +348,29 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 > Then wrap your region selection logic:
 > 
 > ```elisp
-> (defun codex-cli-send-unit (mode unit)
+> (defun codex-send-unit (mode unit)
 >  "Send selected UNIT (e.g. paragraph, s-exp) using MODE."
 >  (interactive
 >  (list (completing-read "Mode (suggest/auto-edit/full-auto): " '("suggest" "auto-edit" "full-auto"))
 >  (completing-read "Unit (paragraph/sexp/region): " '("paragraph" "sexp" "region"))))
->  (let* ((bounds (codex-cli--region-or-something (intern unit)))
->  (file (make-temp-file "codex-cli-" nil ".txt")))
+>  (let* ((bounds (codex--region-or-something (intern unit)))
+>  (file (make-temp-file "codex-" nil ".txt")))
 >  (write-region (car bounds) (cdr bounds) file)
 >  (let ((prompt (read-string "Prompt for Codex: "))
->  (cmd (codex-cli--build-command mode prompt)))
->  (codex-cli--dispatch (concat cmd " < " (shell-quote-argument file)) file))))
+>  (cmd (codex--build-command mode prompt)))
+>  (codex--dispatch (concat cmd " < " (shell-quote-argument file)) file))))
 > ```
 > 
 > ### `packages.el`
 > 
 > ```elisp
-> (defun codex-cli/init-codex-cli ()
+> (defun codex/init-codex ()
 >  (spacemacs/set-leader-keys
->  "axp" 'codex-cli-send-unit ;; fleshed by interactive prompt
+>  "axp" 'codex-send-unit ;; fleshed by interactive prompt
 >  ;; Optionally, you can define wrappers:
->  "axP" (lambda () (interactive) (codex-cli-send-unit "suggest" "paragraph"))
->  "axs" (lambda () (interactive) (codex-cli-send-unit "suggest" "sexp"))
->  "axr" (lambda () (interactive) (codex-cli-send-unit "suggest" "region"))))
+>  "axP" (lambda () (interactive) (codex-send-unit "suggest" "paragraph"))
+>  "axs" (lambda () (interactive) (codex-send-unit "suggest" "sexp"))
+>  "axr" (lambda () (interactive) (codex-send-unit "suggest" "region"))))
 > ```
 > 
 > ---
@@ -381,7 +381,7 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 > 2. **`SPC a x s`** → send S‑expression or defun (in Lisp‑derived modes).
 > 3. **`SPC a x r`** → send current region if active.
 > 4. You’re prompted for mode and prompt.
-> 5. If Codex CLI errors out (e.g., "token limit"), it automatically retries on your local Ollama model.
+> 5. If Codex errors out (e.g., "token limit"), it automatically retries on your local Ollama model.
 > 6. Results go to dedicated output buffers for easy review.
 > 
 > ---
@@ -485,7 +485,7 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 > ```elisp
 > (defun prep--select-and-write (unit)
 >  "Return file path of selected UNIT written to a temp file."
->  (let ((bounds (codex-cli--region-or-something unit))
+>  (let ((bounds (codex--region-or-something unit))
 >  (file (make-temp-file "prep-" nil ".md")))
 >  (write-region (car bounds) (cdr bounds) file)
 >  file))
@@ -498,7 +498,7 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 >  (async-shell-command cmd output-buffer)))
 > 
 > (defun codex-prep-generate-tasks (unit)
->  "Generate tasks from selected UNIT via Ollama, then pass to Codex CLI."
+>  "Generate tasks from selected UNIT via Ollama, then pass to Codex."
 >  (interactive (list (completing-read "Unit (paragraph/region/sexp): "
 >  '("paragraph" "region" "sexp"))))
 >  (let* ((input-file (prep--select-and-write (intern unit)))
@@ -506,7 +506,7 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 >  "Generate tasks from the selection:"))
 >  (task-buffer "*Prep Tasks*"))
 >  (prep--run-ollama prompt input-file task-buffer)
->  ;; Could add sentinel to then send tasks to codex-cli or similar
+>  ;; Could add sentinel to then send tasks to codex or similar
 >  ))
 > ```
 > 
@@ -535,11 +535,11 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 >  - Region/paragraph selected automatically.
 >  - Prompt: e.g., `"Create subtasks from this description"`.
 > 3. Ollama returns bulleted tasks in `*Prep Tasks*`.
-> 4. Press another command `SPC a x c` (“Codex with tasks”) to feed those tasks into Codex CLI or fallback Ollama.
+> 4. Press another command `SPC a x c` (“Codex with tasks”) to feed those tasks into Codex or fallback Ollama.
 > 
 > Under the hood:
 > - `prep--run-ollama` runs the first pass.
-> - A process sentinel on the shell command detects completion, then reads from the output buffer and triggers codex-sending workflows (like `codex-cli--dispatch`).
+> - A process sentinel on the shell command detects completion, then reads from the output buffer and triggers codex-sending workflows (like `codex--dispatch`).
 > 
 > ```elisp
 > (set-process-sentinel
@@ -547,8 +547,8 @@ Chat URL: https://chat.openai.com/c/68a4dfc9-3cc4-8321-b072-ef859d2b6387
 >  (lambda (_proc _event)
 >  (with-current-buffer "*Prep Tasks*"
 >  (let ((tasks (buffer-string)))
->  ;; Optionally save to temp file and send to codex-cli
->  (codex-cli--dispatch
+>  ;; Optionally save to temp file and send to codex
+>  (codex--dispatch
 >  (format "codex --approval-mode suggest %s"
 >  (shell-quote-argument tasks))
 >  (write-region (point-min) (point-max) "/tmp/tasks.md"))))))

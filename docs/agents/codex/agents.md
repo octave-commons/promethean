@@ -1,11 +1,11 @@
 ---
 project: Promethean
-hashtags: [#agents, #codex, #cli, #promethean]
+hashtags: [#agents, #codex, #promethean]
 ---
 
-# 💻 Codex CLI Agent
+# 💻 Codex Agent
 
-Codex CLI is a **developer-facing automation agent**.
+Codex is a **developer-facing automation agent**.
 
 ## Responsibilities
 - Run builds, tests, and formatting.
@@ -23,5 +23,5 @@ Codex CLI is a **developer-facing automation agent**.
 
 ---
 ## 🔗 Cross-Links
-- [[agents/codex-cli/agents|Root Agents Governance]] → source of dev setup rules.
+- [[agents/codex/agents|Root Agents Governance]] → source of dev setup rules.
 - [[docs/agile/Process.md|Agile Process Guide]] → defines CI flow.
