@@ -1,4 +1,5 @@
 import { Level } from "level";
+
 import type { Cache, CacheOptions, Millis, PutOptions } from "./types.js";
 
 /**
@@ -31,11 +32,11 @@ export const openLevelCache = async <T = unknown>(
   });
 
   const base: Readonly<{
-    defaultTtlMs?: Millis;
-    namespace?: string;
+    defaultTtlMs?: number | undefined;
+    namespace?: string | undefined;
   }> = {
-    defaultTtlMs: opts.defaultTtlMs,
-    namespace: opts.namespace,
+    defaultTtlMs: opts.defaultTtlMs ?? undefined,
+    namespace: opts.namespace ?? undefined,
   };
 
   const get = async (key: string): Promise<T | undefined> => {
@@ -141,7 +142,7 @@ export const openLevelCache = async <T = unknown>(
           ? base.namespace
             ? `${base.namespace}/${ns}`
             : ns
-          : base.namespace,
+          : undefined,
       };
       // reuse same underlying db handle; rebind fns to new namespace
       return bindView<T>(db, next);

@@ -32,7 +32,6 @@ function slug(s: string) {
     .replace(/^-+|-+$/g, "");
 }
 
-
 async function readConfig(p: string): Promise<PiperFile> {
   const raw = await fs.readFile(p, "utf-8");
   const obj = p.endsWith(".json") ? JSON.parse(raw) : YAML.parse(raw);
@@ -41,9 +40,6 @@ async function readConfig(p: string): Promise<PiperFile> {
     throw new Error("pipelines config invalid: " + parsed.error.message);
   return parsed.data;
 }
-
-
-
 
 function shouldSkip(
   step: PiperStep,
