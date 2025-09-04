@@ -21,7 +21,7 @@ const rgArgsFor = (key: string): RgArgs | null => {
           "packages/**/src/**/*.{ts,tsx}",
           "-e",
           "from [\\\"'][.]{1,2}/[^\\\"']*(?!\\\\.js)[\\\"']",
-        ],
+          "from [\"'][.]{1,2}/[^\"']*(?!\\.js)[\"']",        ],
       };
     case "NO_TS_PATHS":
       return {

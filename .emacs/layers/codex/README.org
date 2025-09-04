@@ -1,0 +1,2 @@
+* codex layer
+Wraps OpenAI Codex CLI and pipes editor state as context.
