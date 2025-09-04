@@ -1,11 +1,30 @@
-
 version: "3.9"
-
 services:
-  model-server:
+  vllm-qwen3-8b:
     environment:
-      - NVIDIA_VISIBLE_DEVICES=all
-      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
-      - OPENVINO_DEVICE_ORDER=NPU,GPU,CPU
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+  vllm-qwen25-coder-7b:
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+  vllm-gemma-2b:
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+  clip-vit:
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+  whisper-faster-openai:
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+  ollama:
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+  ovms-npu:
     devices:
-      - /dev/dri:/dev/dri
+      - /dev/dri:/dev/dri # Intel iGPU
+      - /dev/accel:/dev/accel # Intel NPU (host must have driver)
