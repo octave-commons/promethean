@@ -3,16 +3,18 @@
 Extract & dedupe PR review nits into actionable **codemod** and **policy** task files.
 
 - Native ESM (NodeNext)
-- TypeScript, functional style
+- TypeScript; functional style
 - No TS path aliases
-- Relative imports end with **.js** in source
+- Relative imports end with .js in source files
 - License: GPL-3.0-only
 
 ## Usage
 
 ```bash
-pnpm -F @promethean/nitpack start --   --repo riatzukiza/promethean   --pr 688   --out docs/agile/tasks   --token $GITHUB_TOKEN
+pnpm -F @promethean/nitpack start -- --repo riatzukiza/promethean --pr 688 --out docs/agile/tasks --token "$GITHUB_TOKEN"
 ```
+
+Note: the token needs repo:read (and read:org if your PR comments require it).
 
 This produces:
 

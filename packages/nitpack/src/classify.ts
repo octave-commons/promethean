@@ -20,14 +20,18 @@ type Rule = Readonly<{
 
 const r = (rx: RegExp) => (s: string) => rx.test(s);
 
-const contains = (xs: readonly (string | RegExp)[]) => (s: string) =>
-  xs.every((x) => (typeof x === "string" ? s.includes(x) : x.test(s)));
+const contains = (xs: readonly (string | RegExp)[]) => (s: string) => {
+  const l = s.toLowerCase();
+  return xs.every((x) =>
+    typeof x === "string" ? l.includes(x.toLowerCase()) : x.test(l),
+  );
+};
 
 export const RULES: readonly Rule[] = [
   {
     key: "REL_JS_SUFFIX",
     title: "Append .js to relative TS imports",
-    detect: r(/\bfrom ['\"][.]{1,2}\//),
+    detect: r(/\bfrom ['\"][.]{1,2}\//i),
   },
   {
     key: "NO_TS_PATHS",
@@ -77,6 +81,13 @@ export const RULES: readonly Rule[] = [
 ];
 
 export const NIT_KEYS = RULES.map((x) => x.key);
+
+export const KEY_TITLES: Readonly<Record<NitKey, string>> = Object.freeze(
+  Object.fromEntries(RULES.map((r) => [r.key, r.title])) as Record<
+    NitKey,
+    string
+  >,
+);
 
 export const classifyComments = (
   comments: readonly string[],
