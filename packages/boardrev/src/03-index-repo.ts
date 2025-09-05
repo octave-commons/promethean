@@ -17,9 +17,9 @@ const args = parseArgs({
 });
 
 async function main() {
-  const files = await globby(args["--globs"].split(",").map((s) => s.trim()));
-  const maxB = Number(args["--max-bytes"]),
-    maxL = Number(args["--max-lines"]);
+  const files = await globby(args["--globs"]!.split(",").map((s) => s.trim()));
+  const maxB = Number(args["--max-bytes"]!),
+    maxL = Number(args["--max-lines"]!);
   const index: RepoDoc[] = [];
   const embeddings: Embeddings = {};
 
