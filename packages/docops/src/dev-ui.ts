@@ -7,13 +7,14 @@ import { promises as fs } from "node:fs";
 import { openDB } from "./db";
 import {
   runFrontmatter,
+  runPurge,
   runEmbed,
   runQuery,
   runRelations,
   runFooters,
   runRename,
 } from "./index";
-import { parseArgs } from "./utils";
+import { parseArgs, listFilesRec } from "./utils";
 import { computePreview } from "./preview-front";
 
 const args = parseArgs({
@@ -89,21 +90,85 @@ app.get("/api/docs", async (req, reply) => {
 app.get("/api/files", async (req, reply) => {
   const q = (req.query || {}) as any;
   const dir = path.resolve(q.dir || ROOT);
-  async function tree(p: string): Promise<any> {
-    const ents = await fs.readdir(p, { withFileTypes: true });
+  const maxDepth = Math.max(0, Number(q.maxDepth ?? 2) | 0) || 2;
+  const maxEntries = Math.max(1, Number(q.maxEntries ?? 500) | 0) || 500;
+  const includeMeta = String(q.includeMeta || "0") === "1";
+  const exts = new Set(
+    String(q.exts || ".md,.mdx,.txt,.markdown")
+      .split(",")
+      .map((s: string) => s.trim().toLowerCase())
+      .filter(Boolean),
+  );
+  const skipDirs = new Set([
+    "node_modules",
+    ".git",
+    ".obsidian",
+    ".cache",
+    "dist",
+    "build",
+    "coverage",
+  ]);
+  async function tree(p: string, depth: number): Promise<any[]> {
+    if (depth < 0) return [];
+    let ents = await fs.readdir(p, { withFileTypes: true });
+    // order: dirs first, then files; cap total entries
+    const dirs = ents.filter((e) => e.isDirectory() && !skipDirs.has(e.name));
+    const files = ents.filter((e) => e.isFile());
+    const limited = dirs.concat(files).slice(0, maxEntries);
     const out: any[] = [];
-    for (const e of ents) {
+    for (const e of limited) {
       if (e.name.startsWith(".#")) continue; // ignore lock files
       const fp = path.join(p, e.name);
-      if (e.isDirectory())
-        out.push({ name: e.name, type: "dir", children: await tree(fp) });
-      else out.push({ name: e.name, type: "file", path: fp });
+      if (e.isDirectory()) {
+        const children = await tree(fp, depth - 1);
+        out.push({ name: e.name, type: "dir", children });
+      } else {
+        const ok = exts.has(path.extname(e.name).toLowerCase());
+        if (!ok) continue;
+        if (!includeMeta) {
+          out.push({ name: e.name, type: "file", path: fp });
+        } else {
+          try {
+            const st = await fs.stat(fp);
+            // Light frontmatter length estimation from head only
+            let fmLen = 0;
+            if (st.size > 0) {
+              try {
+                const fd = await (fs as any).open(fp, "r");
+                try {
+                  const headLen = Math.min(256 * 1024, st.size);
+                  const buf = Buffer.allocUnsafe(headLen);
+                  await fd.read(buf, 0, headLen, 0);
+                  const head = buf.toString("utf8");
+                  if (head.startsWith("---")) {
+                    const m = head.match(/^---\r?\n[\s\S]*?\r?\n---\r?\n/);
+                    if (m) fmLen = m[0].length;
+                  }
+                } finally {
+                  await fd.close();
+                }
+              } catch {}
+            }
+            out.push({
+              name: e.name,
+              type: "file",
+              path: fp,
+              size: st.size,
+              fmLen,
+            });
+          } catch {
+            out.push({ name: e.name, type: "file", path: fp });
+          }
+        }
+      }
     }
     return out;
   }
   try {
-    const root = await tree(dir);
+    const root = await tree(dir, maxDepth);
     reply.header("content-type", "application/json");
+    reply.header("Cache-Control", "no-store, no-cache, must-revalidate");
+    reply.header("Pragma", "no-cache");
     return reply.send({ dir, tree: root });
   } catch (e: any) {
     reply.code(500);
@@ -274,6 +339,18 @@ app.get("/api/chunk-hits", async (req, reply) => {
 });
 
 import { sseInit, log } from "./lib/sse";
+// Try to enable WebSocket support; fallback to SSE if plugin not installed
+let WS_ENABLED = false as boolean;
+try {
+  const wsName = "@fastify/websocket";
+  const wsMod: any = await import(wsName as any);
+  const wsPlugin = wsMod.default || wsMod;
+  // @ts-ignore fastify typings for plugins
+  await app.register(wsPlugin, {});
+  WS_ENABLED = true;
+} catch {
+  WS_ENABLED = false;
+}
 
 // Pipeline status per document
 app.get("/api/status", async (req, reply) => {
@@ -304,21 +381,60 @@ app.get("/api/status", async (req, reply) => {
       let relationsRelated = 0;
       let relationsRefs = 0;
       let footersPresent = false;
+
+      // Read only a small head and tail window to avoid OOM on huge files
+      const HEAD_LIMIT = 256 * 1024; // 256 KB
+      const TAIL_LIMIT = 128 * 1024; // 128 KB
       try {
-        const raw = await fs.readFile(abs, "utf8");
-        const gm = (await import("gray-matter")).default(raw);
-        const fm = (gm.data || {}) as any;
-        frontmatterDone = !!fm.uuid;
-        relationsPresent =
-          "related_to_uuid" in fm ||
-          "references" in fm ||
-          "related_to_title" in fm;
-        relationsRelated = Array.isArray(fm.related_to_uuid)
-          ? fm.related_to_uuid.length
-          : 0;
-        relationsRefs = Array.isArray(fm.references) ? fm.references.length : 0;
-        footersPresent =
-          /<!--\s*GENERATED-SECTIONS:DO-NOT-EDIT-BELOW\s*-->/.test(raw);
+        const fd = await (fs as any).open(abs, "r");
+        try {
+          const st = await fd.stat();
+          const headLen = Math.min(HEAD_LIMIT, st.size);
+          const headBuf = Buffer.allocUnsafe(headLen);
+          await fd.read(headBuf, 0, headLen, 0);
+          const head = headBuf.toString("utf8");
+
+          // Fast frontmatter scan (YAML between leading --- ... ---)
+          let fmObj: any = undefined;
+          const fmStart = head.startsWith("---") ? 0 : head.indexOf("\n---");
+          if (fmStart === 0) {
+            const endIdx = head.indexOf("\n---", 3);
+            if (endIdx > 0) {
+              const yamlText = head.slice(3, endIdx).replace(/^\n+|\n+$/g, "");
+              try {
+                const YAML = (await import("yaml")).default;
+                fmObj = YAML.parse(yamlText) || {};
+              } catch {}
+            }
+          }
+          if (fmObj && typeof fmObj === "object") {
+            frontmatterDone = !!fmObj.uuid;
+            const hasRelU = Array.isArray(fmObj.related_to_uuid);
+            const hasRefs = Array.isArray(fmObj.references);
+            const hasRelT = Array.isArray(fmObj.related_to_title);
+            relationsPresent = !!(hasRelU || hasRefs || hasRelT);
+            relationsRelated = hasRelU ? fmObj.related_to_uuid.length : 0;
+            relationsRefs = hasRefs ? fmObj.references.length : 0;
+          } else {
+            // Heuristic: detect presence without parsing large YAML
+            frontmatterDone = /\buuid\s*:\s*\S/.test(head);
+            relationsPresent =
+              /related_to_uuid|references|related_to_title/.test(head);
+          }
+
+          // Tail marker for footers presence
+          const tailLen = Math.min(TAIL_LIMIT, Math.max(0, st.size - 0));
+          if (tailLen > 0) {
+            const readFrom = Math.max(0, st.size - tailLen);
+            const tailBuf = Buffer.allocUnsafe(Math.min(TAIL_LIMIT, st.size));
+            await fd.read(tailBuf, 0, Math.min(TAIL_LIMIT, st.size), readFrom);
+            const tail = tailBuf.toString("utf8");
+            footersPresent =
+              /<!--\s*GENERATED-SECTIONS:DO-NOT-EDIT-BELOW\s*-->/.test(tail);
+          }
+        } finally {
+          await fd.close();
+        }
       } catch {}
       const chunks = (await chunksKV.get(d.uuid).catch(() => [])) as any;
       const chunkArr = Array.isArray(chunks) ? (chunks as any[]) : [];
@@ -352,12 +468,156 @@ app.get("/api/status", async (req, reply) => {
 
     const items = await Promise.all(docs.map(docStatus));
     reply.header("content-type", "application/json");
+    reply.header("Cache-Control", "no-store, no-cache, must-revalidate");
+    reply.header("Pragma", "no-cache");
     return reply.send({ items });
   } catch (e: any) {
     reply.code(500);
     return reply.send({ error: e?.message || String(e) });
   }
 });
+
+// ---- Pipeline abstraction (no shelling out) ----
+type StepId =
+  | "purge"
+  | "frontmatter"
+  | "embed"
+  | "query"
+  | "relations"
+  | "footers"
+  | "rename";
+
+async function getColl(collection: string, embedModel: string) {
+  const { getChromaCollection } = await import("./lib/chroma");
+  return (await getChromaCollection({ collection, embedModel })).coll as any;
+}
+
+const stepRegistry: Record<
+  StepId,
+  (
+    args: any,
+    ctx: { db: any; collection?: string; embedModel?: string; coll?: any },
+    onProgress?: (p: any) => void,
+  ) => Promise<void>
+> = {
+  purge: async (args, _ctx, onp) => {
+    const files = args.files as string[] | undefined;
+    const dir = args.dir as string;
+    await runPurge({ dir, files }, onp as any);
+  },
+  frontmatter: async (args, ctx, onp) => {
+    const files = args.files as string[] | undefined;
+    await runFrontmatter(
+      { dir: args.dir, genModel: args.genModel || "qwen3:4b", files },
+      ctx.db,
+      onp as any,
+    );
+  },
+  embed: async (args, ctx, onp) => {
+    const files = args.files as string[] | undefined;
+    const coll =
+      ctx.coll ??
+      (await getColl(
+        String(args.collection),
+        String(args.embedModel || "nomic-embed-text:latest"),
+      ));
+    await runEmbed(
+      {
+        dir: args.dir,
+        embedModel: args.embedModel || "nomic-embed-text:latest",
+        collection: args.collection,
+        files,
+      },
+      ctx.db,
+      coll,
+      onp as any,
+    );
+  },
+  query: async (args, ctx, onp) => {
+    const files = args.files as string[] | undefined;
+    const coll =
+      ctx.coll ??
+      (await getColl(
+        String(args.collection),
+        String(args.embedModel || "nomic-embed-text:latest"),
+      ));
+    await runQuery(
+      {
+        embedModel: args.embedModel || "nomic-embed-text:latest",
+        collection: args.collection,
+        k: Number(args.k || 16),
+        force: String(args.force || "false") === "true",
+        files,
+      },
+      ctx.db,
+      coll,
+      onp as any,
+    );
+  },
+  relations: async (args, ctx, onp) => {
+    const files = args.files as string[] | undefined;
+    await runRelations(
+      {
+        docsDir: args.dir,
+        docThreshold: Number(args.docT ?? 0.78),
+        refThreshold: Number(args.refT ?? 0.85),
+        files,
+      },
+      ctx.db,
+      onp as any,
+    );
+  },
+  footers: async (args, ctx, onp) => {
+    const files = args.files as string[] | undefined;
+    await runFooters(
+      { dir: args.dir, anchorStyle: args.anchorStyle || "block", files },
+      ctx.db,
+      onp as any,
+    );
+  },
+  rename: async (args, _ctx, _onp) => {
+    const files = args.files as string[] | undefined;
+    await runRename({ dir: args.dir, files });
+  },
+};
+
+async function runDocopsStep(
+  step: StepId,
+  args: any,
+  onProgress?: (p: any) => void,
+) {
+  const db = await dbPromise;
+  const ctx: any = { db };
+  if (step === "embed" || step === "query") {
+    ctx.coll = await getColl(
+      String(args.collection),
+      String(args.embedModel || "nomic-embed-text:latest"),
+    );
+  }
+  const fn = stepRegistry[step];
+  if (!fn) throw new Error(`Unknown step: ${step}`);
+  await fn(args, ctx, onProgress);
+}
+
+async function runDocopsPipeline(
+  steps: StepId[],
+  baseArgs: any,
+  onProgress: (p: any) => void,
+) {
+  for (let i = 0; i < steps.length; i++) {
+    const step = steps[i]!;
+    onProgress({ step, index: i + 1, of: steps.length });
+    await runDocopsStep(step, baseArgs, (p) =>
+      onProgress({
+        step: p.step || step,
+        percent: p.percent,
+        message: p.message,
+        done: p.done,
+        total: p.total,
+      }),
+    );
+  }
+}
 
 app.get("/api/run", async (req, reply) => {
   const q = (req.query || {}) as any;
@@ -369,99 +629,243 @@ app.get("/api/run", async (req, reply) => {
   line(`Starting pipeline in ${dir}`);
   try {
     const db = await dbPromise;
-    const { getChromaCollection } = await import("./lib/chroma");
     const embedModel = "nomic-embed-text:latest";
-    const { coll } = await getChromaCollection({ collection, embedModel });
-
+    // Run pipeline via registry
+    const steps: StepId[] = [
+      "frontmatter",
+      "embed",
+      "query",
+      "relations",
+      "footers",
+      "rename",
+    ];
     line(
-      "PROGRESS " + JSON.stringify({ step: "frontmatter", index: 1, of: 6 }),
+      "PROGRESS " +
+        JSON.stringify({ step: "frontmatter", index: 1, of: steps.length }),
     );
     const sel = q.files as string | undefined;
     const files = sel ? JSON.parse(sel) : undefined;
-    await runFrontmatter({ dir, genModel: "qwen3:4b", files }, db, (p) =>
-      line(
-        "PROGRESS " +
-          JSON.stringify({
-            step: p.step,
-            percent: Math.round((p.done / p.total) * 100),
-            message: `${p.done}/${p.total}`,
-          }),
-      ),
-    );
-    log(line, "01-frontmatter: done.");
-    line("PROGRESS " + JSON.stringify({ step: "embed", index: 2, of: 6 }));
-    await runEmbed(
-      { dir, embedModel: embedModel, collection, files },
-      db,
-      coll,
+    await runDocopsPipeline(
+      steps,
+      { dir, collection, embedModel, files, docT, refT },
       (p) =>
         line(
           "PROGRESS " +
             JSON.stringify({
               step: p.step,
-              percent: Math.round((p.done / p.total) * 100),
-              message: `${p.done}/${p.total}`,
+              index: p.index,
+              of: p.of,
+              percent: p.percent,
+              message: p.message,
             }),
         ),
     );
-    log(line, "02-embed: done.");
-    line("PROGRESS " + JSON.stringify({ step: "query", index: 3, of: 6 }));
-    await runQuery(
-      { embedModel: embedModel, collection, k: 16, force: true, files },
-      db,
-      coll,
-      (p) =>
-        line(
-          "PROGRESS " +
-            JSON.stringify({
-              step: p.step,
-              percent: Math.round((p.done / p.total) * 100),
-              message: `${p.done}/${p.total}`,
-            }),
-        ),
-    );
-    log(line, "03-query: done.");
-    line("PROGRESS " + JSON.stringify({ step: "relations", index: 4, of: 6 }));
-    await runRelations(
-      {
-        docsDir: dir,
-        docThreshold: Number(docT),
-        refThreshold: Number(refT),
-        files,
-      },
-      db,
-      (p) =>
-        line(
-          "PROGRESS " +
-            JSON.stringify({
-              step: p.step,
-              percent: Math.round((p.done / p.total) * 100),
-              message: `${p.done}/${p.total}`,
-            }),
-        ),
-    );
-    log(line, "04-relations: done.");
-    line("PROGRESS " + JSON.stringify({ step: "footers", index: 5, of: 6 }));
-    await runFooters({ dir, anchorStyle: "block", files }, db, (p) =>
-      line(
-        "PROGRESS " +
-          JSON.stringify({
-            step: p.step,
-            percent: Math.round((p.done / p.total) * 100),
-            message: `${p.done}/${p.total}`,
-          }),
-      ),
-    );
-    log(line, "05-footers: done.");
-    await runRename({ dir, files });
-    line("PROGRESS " + JSON.stringify({ step: "rename", index: 6, of: 6 }));
-    log(line, "06-rename: done.");
   } catch (e: any) {
     log(line, String(e?.stack || e));
   }
   line("Done.");
   reply.raw.end();
 });
+
+// WebSocket equivalent for running full pipeline (more robust than SSE)
+if (WS_ENABLED) {
+  // @ts-ignore fastify websocket route
+  app.get("/ws/run", { websocket: true }, async (connection: any, req: any) => {
+    const q = (req.query || {}) as any;
+    const dir = path.resolve(q.dir || ROOT);
+    const collection = q.collection || COLLECTION;
+    const docT = q.docT || "0.78";
+    const refT = q.refT || "0.85";
+    const send = (line: string) => {
+      try {
+        connection.socket.send(String(line));
+      } catch {}
+    };
+    send(`Starting pipeline in ${dir}`);
+    try {
+      const db = await dbPromise;
+      const { getChromaCollection } = await import("./lib/chroma");
+      const embedModel = "nomic-embed-text:latest";
+      const { coll } = await getChromaCollection({ collection, embedModel });
+
+      send(
+        "PROGRESS " + JSON.stringify({ step: "frontmatter", index: 1, of: 6 }),
+      );
+      const sel = q.files as string | undefined;
+      let files = sel ? JSON.parse(sel) : undefined;
+      if (step === "purge" && !files) {
+        const minSize = Number(q.minSize || "0") || 0;
+        if (minSize > 0) {
+          const exts = new Set([".md", ".mdx", ".txt", ".markdown"]);
+          const all = await listFilesRec(dir, exts);
+          const stats = await Promise.all(
+            all.map(async (p) => {
+              try {
+                const st = await fs.stat(p);
+                return st.size >= minSize ? p : null;
+              } catch {
+                return null;
+              }
+            }),
+          );
+          files = stats.filter((x): x is string => !!x);
+        }
+      }
+      await runFrontmatter({ dir, genModel: "qwen3:4b", files }, db, (p) =>
+        send(
+          "PROGRESS " +
+            JSON.stringify({
+              step: p.step,
+              percent: Math.round((p.done / p.total) * 100),
+              message: `${p.done}/${p.total}`,
+            }),
+        ),
+      );
+      send("01-frontmatter: done.");
+      send("PROGRESS " + JSON.stringify({ step: "embed", index: 2, of: 6 }));
+      await runEmbed(
+        { dir, embedModel: embedModel, collection, files },
+        db,
+        coll,
+        (p) =>
+          send(
+            "PROGRESS " +
+              JSON.stringify({
+                step: p.step,
+                percent: Math.round((p.done / p.total) * 100),
+                message: `${p.done}/${p.total}`,
+              }),
+          ),
+      );
+      send("02-embed: done.");
+      send("PROGRESS " + JSON.stringify({ step: "query", index: 3, of: 6 }));
+      await runQuery(
+        { embedModel: embedModel, collection, k: 16, force: true, files },
+        db,
+        coll,
+        (p) =>
+          send(
+            "PROGRESS " +
+              JSON.stringify({
+                step: p.step,
+                percent: Math.round((p.done / p.total) * 100),
+                message: `${p.done}/${p.total}`,
+              }),
+          ),
+      );
+      send("03-query: done.");
+      send(
+        "PROGRESS " + JSON.stringify({ step: "relations", index: 4, of: 6 }),
+      );
+      await runRelations(
+        {
+          docsDir: dir,
+          docThreshold: Number(docT),
+          refThreshold: Number(refT),
+          files,
+        },
+        db,
+        (p) =>
+          send(
+            "PROGRESS " +
+              JSON.stringify({
+                step: p.step,
+                percent: Math.round((p.done / p.total) * 100),
+                message: `${p.done}/${p.total}`,
+              }),
+          ),
+      );
+      send("04-relations: done.");
+      send("PROGRESS " + JSON.stringify({ step: "footers", index: 5, of: 6 }));
+      await runFooters({ dir, anchorStyle: "block", files }, db, (p) =>
+        send(
+          "PROGRESS " +
+            JSON.stringify({
+              step: p.step,
+              percent: Math.round((p.done / p.total) * 100),
+              message: `${p.done}/${p.total}`,
+            }),
+        ),
+      );
+      send("05-footers: done.");
+      await runRename({ dir, files });
+      send("PROGRESS " + JSON.stringify({ step: "rename", index: 6, of: 6 }));
+      send("06-rename: done.");
+    } catch (e: any) {
+      send(String(e?.stack || e));
+    }
+    try {
+      connection.socket.send("Done.");
+    } catch {}
+    try {
+      connection.socket.close();
+    } catch {}
+  });
+
+  // Single-step WS endpoint
+  app.get(
+    "/ws/run-step",
+    { websocket: true },
+    async (connection: any, req: any) => {
+      const q = (req.query || {}) as any;
+      const step = String(q.step || "").toLowerCase();
+      const dir = path.resolve(q.dir || ROOT);
+      const collection = q.collection || COLLECTION;
+      const embedModel = q.embedModel || "nomic-embed-text:latest";
+      const genModel = q.genModel || "qwen3:4b";
+      const k = Number(q.k || "16") || 16;
+      const force = String(q.force || "false") === "true";
+      const docT = Number(q.docT ?? "0.78");
+      const refT = Number(q.refT ?? "0.85");
+      const anchorStyle = (q.anchorStyle || "block") as
+        | "block"
+        | "heading"
+        | "none";
+      const sel = q.files as string | undefined;
+      const files = sel ? JSON.parse(sel) : undefined;
+      const send = (s: string) => {
+        try {
+          connection.socket.send(String(s));
+        } catch {}
+      };
+      send(`Running step=${step} in ${dir}`);
+      try {
+        const args = {
+          step,
+          dir,
+          collection,
+          embedModel,
+          genModel,
+          k,
+          force,
+          docT,
+          refT,
+          anchorStyle,
+          files,
+        };
+        await runDocopsStep(step as StepId, args, (p) =>
+          send(
+            "PROGRESS " +
+              JSON.stringify({
+                step: p.step,
+                percent:
+                  p.percent ??
+                  (p.total ? Math.round((p.done / p.total) * 100) : undefined),
+                message:
+                  p.message ?? (p.total ? `${p.done}/${p.total}` : undefined),
+              }),
+          ),
+        );
+        send(`Step '${step}' completed.`);
+      } catch (e: any) {
+        send(String(e?.stack || e));
+      }
+      try {
+        connection.socket.close();
+      } catch {}
+    },
+  );
+}
 
 app.get("/api/run-step", async (req, reply) => {
   const q = (req.query || {}) as any;
@@ -484,39 +888,32 @@ app.get("/api/run-step", async (req, reply) => {
   const line = sseInit(reply);
   line(`Running step=${step} in ${dir}`);
   try {
-    const db = await dbPromise;
-    const needColl = step === "embed" || step === "query";
-    let coll: any = null;
-    if (needColl) {
-      const { getChromaCollection } = await import("./lib/chroma");
-      coll = (await getChromaCollection({ collection, embedModel })).coll;
-    }
-
-    switch (step) {
-      case "frontmatter":
-        await runFrontmatter({ dir, genModel, files }, db);
-        break;
-      case "embed":
-        await runEmbed({ dir, embedModel, collection, files }, db, coll);
-        break;
-      case "query":
-        await runQuery({ embedModel, collection, k, force, files }, db, coll);
-        break;
-      case "relations":
-        await runRelations(
-          { docsDir: dir, docThreshold: docT, refThreshold: refT, files },
-          db,
-        );
-        break;
-      case "footers":
-        await runFooters({ dir, anchorStyle, files }, db);
-        break;
-      case "rename":
-        await runRename({ dir, files });
-        break;
-      default:
-        line(`Unknown step: ${step}`);
-    }
+    const args = {
+      step,
+      dir,
+      collection,
+      embedModel,
+      genModel,
+      k,
+      force,
+      docT,
+      refT,
+      anchorStyle,
+      files,
+    };
+    await runDocopsStep(step as StepId, args, (p) =>
+      line(
+        "PROGRESS " +
+          JSON.stringify({
+            step: p.step,
+            percent:
+              p.percent ??
+              (p.total ? Math.round((p.done / p.total) * 100) : undefined),
+            message:
+              p.message ?? (p.total ? `${p.done}/${p.total}` : undefined),
+          }),
+      ),
+    );
     line(`Step '${step}' completed.`);
   } catch (e: any) {
     line(String(e?.stack || e));

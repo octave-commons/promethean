@@ -20,10 +20,10 @@
     "test": "pnpm build && ava"
   },
   "dependencies": {
+    "@promethean/utils": "workspace:*",
     "level": "^9.0.0"
   },
   "devDependencies": {
-    "rimraf": "^6.0.0",
-    "typescript": "5.9.2"
+    "@promethean/test-utils": "workspace:*"
   }
 }

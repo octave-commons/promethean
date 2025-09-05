@@ -1,8 +1,10 @@
 import type * as discord from "discord.js";
 
+import { makePolicy, type PolicyChecker } from "@promethean/security";
+import { checkPermission } from "@promethean/legacy";
+
 import type { Bot } from "../bot.js";
 import { makeLogger, type Logger } from "../factories/logger.js";
-import { makePolicy, type PolicyChecker } from "../factories/policy.js";
 
 export type TranscribeSpeakerScope = {
   logger: Logger;
@@ -23,7 +25,7 @@ export async function buildTranscribeSpeakerScope(): Promise<
 > {
   return {
     logger: makeLogger("transcribe-speaker"),
-    policy: makePolicy(),
+    policy: makePolicy({ permissionGate: checkPermission }),
   };
 }
 

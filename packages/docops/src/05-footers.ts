@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 // packages/docops/src/05-footers.ts
 import { promises as fs } from "node:fs";
 import * as path from "node:path";

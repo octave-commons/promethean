@@ -1,4 +1,6 @@
 import test from 'ava';
+
+import { sleep } from '@promethean/test-utils/sleep';
 import { queueManager } from '../shared/js/queueManager.js';
 
 function createWS() {
@@ -75,7 +77,7 @@ test.serial('heartbeat updates lastSeen', async (t) => {
     queueManager.ready(ws, workerId, queue);
     const before = queueManager.getState().workers[workerId].lastSeen;
 
-    await new Promise((r) => setTimeout(r, 10));
+    await sleep(10);
     queueManager.heartbeat(workerId);
     const after = queueManager.getState().workers[workerId].lastSeen;
 
@@ -93,7 +95,7 @@ test.serial('expired workers are cleaned up and tasks requeued', async (t) => {
     queueManager.ready(ws, workerId, queue);
     queueManager.enqueue(queue, { value: 3 });
 
-    await new Promise((r) => setTimeout(r, 40));
+    await sleep(40);
 
     const state = queueManager.getState();
     t.is(state.workers[workerId], undefined);
@@ -125,7 +127,7 @@ test.serial('task timeout requeues and logs', async (t) => {
     const task = queueManager.enqueue(queue, { value: 3 });
 
     t.is(ws.messages.length, 1);
-    await new Promise((r) => setTimeout(r, 40));
+    await sleep(40);
 
     const state = queueManager.getState();
     t.is(state.queues[queue], 1);
@@ -155,10 +157,10 @@ test.serial('rate limit delays dispatch', async (t) => {
     const start = Date.now();
     t.true(queueManager.acknowledge(workerId, msg1.task.id));
     queueManager.ready(ws, workerId, queue);
-    await new Promise((r) => setTimeout(r, 10));
+    await sleep(10);
     t.is(ws.messages.length, 1);
 
-    await new Promise((r) => setTimeout(r, 60));
+    await sleep(60);
     t.is(ws.messages.length, 2);
     const msg2 = JSON.parse(ws.messages[1]);
     t.is(msg2.task.id, second.id);
