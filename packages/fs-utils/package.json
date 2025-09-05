@@ -19,7 +19,6 @@
     "clean": "rimraf dist"
   },
   "devDependencies": {
-    "tsx": "4.19.2",
-    "typescript": "5.5.4"
+    "tsx": "4.19.2"
   }
 }

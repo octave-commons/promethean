@@ -26,8 +26,5 @@
     "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
     "format": "pnpm exec biome format --write ."
   },
-  "module": "dist/index.js",
-  "devDependencies": {
-    "typescript": "^5.9.2"
-  }
+  "module": "dist/index.js"
 }

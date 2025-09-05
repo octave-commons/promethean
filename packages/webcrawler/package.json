@@ -12,8 +12,5 @@
   "dependencies": {
     "@promethean/web": "file:../web",
     "cheerio": "^1.0.0-rc.12"
-  },
-  "devDependencies": {
-    "typescript": "5.9.2"
   }
 }

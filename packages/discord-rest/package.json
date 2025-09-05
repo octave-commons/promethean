@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@promethean/agent": "workspace:*",
-    "@promethean/platform": "workspace:*",
-    "typescript": "5.9.2"
+    "@promethean/platform": "workspace:*"
   }
 }

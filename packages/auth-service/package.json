@@ -20,8 +20,5 @@
   "dependencies": {
     "fastify": "^4.28.1",
     "jose": "^5.9.6"
-  },
-  "devDependencies": {
-    "typescript": "5.9.2"
   }
 }

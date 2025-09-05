@@ -13,8 +13,5 @@
   "dependencies": {
     "fast-glob": "^3.3.2",
     "ts-morph": "^22.0.0"
-  },
-  "devDependencies": {
-    "typescript": "5.9.2"
   }
 }

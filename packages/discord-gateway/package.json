@@ -13,7 +13,6 @@
   "dependencies": {
     "@promethean/event": "workspace:*",
     "@promethean/platform": "workspace:*",
-    "@promethean/providers": "workspace:*",
-    "typescript": "5.9.2"
+    "@promethean/providers": "workspace:*"
   }
 }
