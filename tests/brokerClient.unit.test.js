@@ -1,4 +1,6 @@
 import test from "ava";
+
+import { sleep } from "@promethean/test-utils/sleep";
 import { BrokerClient } from "@shared/js/brokerClient.js";
 
 test("memory broker: publish delivers to subscribers and unsubscribe stops it", async (t) => {
@@ -12,12 +14,12 @@ test("memory broker: publish delivers to subscribers and unsubscribe stops it", 
 
   pub.publish("foo", { a: 1 });
   pub.publish("foo", { a: 2 });
-  await new Promise((r) => setTimeout(r, 10));
+  await sleep(10);
   t.deepEqual(seen, [{ a: 1 }, { a: 2 }]);
 
   sub.unsubscribe("foo");
   pub.publish("foo", { a: 3 });
-  await new Promise((r) => setTimeout(r, 10));
+  await sleep(10);
   t.deepEqual(seen, [{ a: 1 }, { a: 2 }]);
 
   sub.disconnect();

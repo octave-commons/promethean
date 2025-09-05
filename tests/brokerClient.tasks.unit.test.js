@@ -1,4 +1,6 @@
 import test from 'ava';
+
+import { sleep } from '@promethean/test-utils/sleep';
 import { BrokerClient } from '@shared/js/brokerClient.js';
 import { getMemoryBroker, resetMemoryBroker } from '@shared/ts/dist/test-utils/broker.js';
 
@@ -22,7 +24,7 @@ test('memory broker: ready assigns enqueued task to worker', async (t) => {
   await prod.connect();
   prod.enqueue('jobs', { x: 1 });
 
-  await new Promise((r) => setTimeout(r, 10));
+  await sleep(10);
   t.truthy(assigned);
   t.is(assigned.payload.x, 1);
 
