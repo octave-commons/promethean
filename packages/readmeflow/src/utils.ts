@@ -30,10 +30,6 @@ export async function readMaybe(p: string) {
     return undefined;
   }
 }
-export async function writeJSON(p: string, data: any) {
-  await fs.mkdir(path.dirname(p), { recursive: true });
-  await fs.writeFile(p, JSON.stringify(data, null, 2), "utf-8");
-}
 export async function writeText(p: string, s: string) {
   await fs.mkdir(path.dirname(p), { recursive: true });
   await fs.writeFile(p, s, "utf-8");
