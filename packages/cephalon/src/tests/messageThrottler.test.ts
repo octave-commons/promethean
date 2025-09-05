@@ -3,6 +3,8 @@ import { fileURLToPath } from "url";
 
 import test from "ava";
 
+import { sleep } from "@promethean/test-utils/sleep";
+
 import { AIAgent } from "../agent.js";
 import type { Bot } from "../bot.js";
 // avoid compile-time coupling to ContextStore type
@@ -30,7 +32,7 @@ test.skip("throttles tick interval based on messages", async (t) => {
   for (let i = 0; i < 5; i++) {
     client.publish("test", {});
   }
-  await new Promise((r) => setTimeout(r, 1100));
+  await sleep(1100);
   client.publish("test", {});
   t.true((agent as any).tickInterval > 100);
 
@@ -39,7 +41,7 @@ test.skip("throttles tick interval based on messages", async (t) => {
   if (broker)
     await Promise.race([
       stopBroker(broker),
-      new Promise((resolve) => setTimeout(resolve, 1000)),
+      sleep(1000),
     ]);
   if ((agent as any).audioPlayer?.stop) (agent as any).audioPlayer.stop(true);
 });
