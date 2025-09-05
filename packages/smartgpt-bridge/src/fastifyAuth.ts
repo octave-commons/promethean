@@ -1,6 +1,7 @@
 // @ts-nocheck
 import crypto from "crypto";
 
+import rateLimit from "@fastify/rate-limit";
 import { createRemoteJWKSet, jwtVerify, decodeProtectedHeader } from "jose";
 import { createLogger } from "@promethean/utils";
 import { logStream } from "./log-stream.js";
@@ -309,9 +310,24 @@ export function createFastifyAuth() {
 		}
 	}
 
-	function registerRoutes(fastify) {
-		fastify.get("/auth/me", async (req, reply) => {
-			if (!enabled)
+	async function registerRoutes(fastify) {
+		// Register rate limit plugin if not already registered
+		await fastify.register(rateLimit, {
+			global: false // we will use per-route rate limiting
+		});
+
+		fastify.get(
+			"/auth/me",
+			{
+				config: {
+					rateLimit: {
+						max: 10, // maximum 10 requests
+						timeWindow: "1 minute", // per minute; adjust as desired
+					},
+				},
+			},
+			async (req, reply) => {
+				if (!enabled)
 				return reply.send({
 					ok: true,
 					auth: false,
