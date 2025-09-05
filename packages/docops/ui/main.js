@@ -93,7 +93,8 @@ document.getElementById("run").onclick = async () => {
     "&refT=" +
     refT +
     (files.length ? "&files=" + encodeURIComponent(JSON.stringify(files)) : "");
-  const es = new EventSource(url);
+  const wsProto = location.protocol === "https:" ? "wss" : "ws";
+  const wsUrl = `${wsProto}://${location.host}/ws/run?` + url.split("?")[1];
   const refreshFiles = () => {
     try {
       setSelection([]);
@@ -104,11 +105,10 @@ document.getElementById("run").onclick = async () => {
     if (ft && ft.refresh) ft.refresh();
     populateDocList();
   };
-  es.onmessage = (ev) => {
-    const line = ev.data || "";
-    if (line.startsWith("PROGRESS ")) {
+  const handleLine = (line) => {
+    if ((line || "").startsWith("PROGRESS ")) {
       try {
-        const p = JSON.parse(line.slice(9));
+        const p = JSON.parse(String(line).slice(9));
         if (p.percent != null) {
           prog.value = Math.max(0, Math.min(100, p.percent));
           progText.textContent = `${
@@ -132,9 +132,40 @@ document.getElementById("run").onclick = async () => {
       }
     }
   };
-  es.onerror = () => {
-    es.close();
-  };
+  try {
+    const ws = new WebSocket(wsUrl);
+    let opened = false;
+    let sseUsed = false;
+    const startSSE = () => {
+      if (sseUsed) return;
+      sseUsed = true;
+      const es = new EventSource(url);
+      es.onmessage = (ev) => handleLine(String(ev.data || ""));
+      es.onerror = () => es.close();
+    };
+    ws.onopen = () => {
+      opened = true;
+    };
+    ws.onmessage = (ev) => handleLine(String(ev.data || ""));
+    ws.onerror = () => {
+      try {
+        ws.close();
+      } catch {}
+      startSSE();
+    };
+    setTimeout(() => {
+      if (!opened) {
+        try {
+          ws.close();
+        } catch {}
+        startSSE();
+      }
+    }, 300);
+  } catch {
+    const es = new EventSource(url);
+    es.onmessage = (ev) => handleLine(String(ev.data || ""));
+    es.onerror = () => es.close();
+  }
 };
 
 document.getElementById("renderMd").onclick = renderSelectedMarkdown;
