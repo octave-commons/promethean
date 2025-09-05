@@ -3,7 +3,7 @@ import * as path from "path";
 import { spawn } from "child_process";
 
 import { globby } from "globby";
-import { ensureDir } from '@promethean/fs';
+import { ensureDir } from "@promethean/fs";
 
 import { PiperStep } from "./types.js";
 

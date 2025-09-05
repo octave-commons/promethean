@@ -1,1 +1,1 @@
-export * from './ensureDir.js';
+export { ensureDir } from './ensureDir.js';

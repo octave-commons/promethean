@@ -223,7 +223,7 @@ export async function mirrorWithHandler(
             return true;
         },
         concurrency: Math.max(4, concurrency),
-        signal,
+        ...(signal ? { signal } : {}),
     })) {
         if (shouldStop()) break;
 
@@ -440,7 +440,7 @@ export async function mirrorWithHandler(
         deletedFiles,
         deletedDirs,
         errors,
-        planned: dryRun ? planned : undefined,
+        ...(dryRun ? { planned } : {}),
     };
 }
 
