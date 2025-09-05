@@ -12,8 +12,7 @@
   "dependencies": {
     "cardinal": "^2.1.1",
     "ramda": "^0.31.3",
-    "source-map": "^0.7.6",
-    "source-map-support": "^0.5.21"
+    "source-map": "^0.7.6"
   },
   "bin": {
     "lith": "./bin/lith.js"

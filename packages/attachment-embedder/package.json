@@ -17,9 +17,6 @@
     "typescript": "5.9.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.2",
-    "ava": "^6.4.1",
-    "c8": "^9.1.0",
     "tsx": "^4.20.3"
   }
 }

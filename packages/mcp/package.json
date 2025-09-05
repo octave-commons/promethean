@@ -23,13 +23,11 @@
     "zod-to-json-schema": "^3.23.3"
   },
   "devDependencies": {
+    "@promethean/test-utils": "workspace:*",
     "@types/uuid": "^9.0.7",
     "@types/ws": "^8.5.10",
-    "ava": "^6.4.1",
-    "c8": "^10.1.3",
     "eslint": "^9.33.0",
     "tsx": "^4.20.3",
-    "typescript": "5.9.2",
-    "@promethean/test-utils": "workspace:*"
+    "typescript": "5.9.2"
   }
 }

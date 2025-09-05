@@ -22,8 +22,9 @@ export async function getChromaClient(): Promise<ChromaClient> {
     return chromaClient;
 }
 
-// Test hooks to override clients in unit tests without network dependency.
+// BOT: Test hooks to override clients in unit tests without network dependency.
 // Not for production use.
+// AUTHOR: I do not like test logic getting mixed in with business logic
 export function __setMongoClientForTests(client: MongoClient | any) {
     mongoClient = client;
 }
