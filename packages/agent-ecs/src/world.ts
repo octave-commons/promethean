@@ -1,29 +1,10 @@
-import { World, Entity } from '@promethean/ds/ecs.js';
+import { World } from '@promethean/ds/ecs.js';
+import { sleep } from '@promethean/utils/sleep.js';
 
 import { defineAgentComponents } from './components';
 import { VADUpdateSystem } from './systems/vad';
 import { TurnDetectionSystem } from './systems/turn';
 import { SpeechArbiterSystem } from './systems/speechArbiter';
-// ecs/carry.ts
-
-// Carry a *subset* of components for all entities that have them in the current buffer.
-// This avoids needing a "query all" and keeps it cheap enough for now.
-function carryForTick(
-    w: any,
-    components: Array<any>, // component defs (e.g., C.Turn, C.PlaybackQ, etc.)
-) {
-    for (const Comp of components) {
-        // Query "all entities that have this Comp"
-        const q = w.makeQuery({ all: [Comp] });
-        for (const [eid, get] of w.iter(q)) {
-            const cur = get(Comp); // reads from current buffer
-            if (cur !== undefined && cur !== null) {
-                // write-through into next buffer unchanged
-                w.set(eid, Comp, cur);
-            }
-        }
-    }
-}
 
 export function createAgentWorld(audioPlayer: any) {
     const w = new World();
@@ -66,11 +47,6 @@ export function createAgentWorld(audioPlayer: any) {
     }
     let running = false;
     let tickPromise = Promise.resolve();
-    function sleep(ms: number) {
-        return new Promise((resolve, _) => {
-            setTimeout(resolve, ms);
-        });
-    }
     async function start(delay: number) {
         let tickStart,
             tickStop,

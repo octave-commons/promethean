@@ -5,6 +5,9 @@ import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
 import * as crypto from "crypto";
+import { ensureDir } from "@promethean/fs-utils";
+
+export { ensureDir };
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
@@ -52,10 +55,6 @@ export function cosine(a: number[], b: number[]) {
   }
   if (!na || !nb) return 0;
   return dot / (Math.sqrt(na) * Math.sqrt(nb));
-}
-
-export async function ensureDir(p: string) {
-  await fs.mkdir(p, { recursive: true });
 }
 
 export function relPath(fromRoot: string, fileAbs: string) {

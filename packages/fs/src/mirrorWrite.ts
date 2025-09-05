@@ -3,6 +3,7 @@ import { promises as fs, Stats } from 'fs';
 import * as path from 'path';
 import { createHash } from 'crypto';
 
+import { ensureDir } from '@promethean/fs-utils';
 import { streamTreeConcurrent, StreamNode } from './streamTreeGeneratorsConcurrent.js';
 
 type OverwriteMode = 'always' | 'if-newer' | 'never';
@@ -156,7 +157,7 @@ export async function mirrorWithHandler(
 
     // Cache ensured dirs to minimize fs.mkdir calls
     const ensuredDirs = new Set<string>();
-    const ensureDir = async (dir: string) => {
+    const ensureDirCached = async (dir: string) => {
         const norm = path.normalize(dir);
         keptDirs.add(norm);
         if (ensuredDirs.has(norm) || dryRun) {
@@ -166,7 +167,7 @@ export async function mirrorWithHandler(
             }
             return;
         }
-        await fs.mkdir(norm, { recursive: true });
+        await ensureDir(norm);
         ensuredDirs.add(norm);
         dirsEnsured++;
     };
@@ -254,7 +255,7 @@ export async function mirrorWithHandler(
                 if (decision === 'copy') {
                     const dstPath = path.join(absDst, file.relPath);
                     keptFiles.add(path.normalize(dstPath));
-                    await ensureDir(path.dirname(dstPath));
+                    await ensureDirCached(path.dirname(dstPath));
 
                     if (dryRun) {
                         planned.push({ kind: 'copy', src: file.srcPath, dst: dstPath, reason: 'planned' });
@@ -299,7 +300,7 @@ export async function mirrorWithHandler(
                 const outRel = sanitizeRel(decision.path ?? file.relPath);
                 const dstPath = path.join(absDst, outRel);
                 keptFiles.add(path.normalize(dstPath));
-                await ensureDir(path.dirname(dstPath));
+                await ensureDirCached(path.dirname(dstPath));
 
                 const contentBuf =
                     typeof decision.content === 'string'

@@ -10,6 +10,9 @@
     "references": [
         {
             "path": "../event"
+        },
+        {
+            "path": "../utils"
         }
     ]
 }

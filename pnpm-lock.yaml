@@ -232,6 +232,9 @@ importers:
       '@promethean/legacy':
         specifier: workspace:*
         version: link:../legacy
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -819,6 +822,9 @@ importers:
 
   packages/codepack:
     dependencies:
+      '@promethean/fs-utils':
+        specifier: workspace:*
+        version: link:../fs-utils
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
@@ -922,6 +928,9 @@ importers:
       '@promethean/event':
         specifier: workspace:*
         version: link:../event
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -2248,6 +2257,9 @@ importers:
       '@promethean/test-utils':
         specifier: file:../test-utils
         version: file:packages/test-utils(socks@2.8.7)
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/node':
         specifier: ^22.17.2
         version: 22.18.1
@@ -2278,6 +2290,9 @@ importers:
 
   packages/fs:
     dependencies:
+      '@promethean/fs-utils':
+        specifier: workspace:*
+        version: link:../fs-utils
       '@promethean/stream':
         specifier: workspace:*
         version: link:../stream
@@ -2381,6 +2396,21 @@ importers:
       typescript:
         specifier: ^5.9.2
         version: 5.9.2
+
+  packages/fs-utils:
+    devDependencies:
+      ava:
+        specifier: 6.4.1
+        version: 6.4.1
+      rimraf:
+        specifier: 6.0.1
+        version: 6.0.1
+      tsx:
+        specifier: 4.19.2
+        version: 4.19.2
+      typescript:
+        specifier: 5.5.4
+        version: 5.5.4
 
   packages/hf-http:
     dependencies:
@@ -3727,6 +3757,9 @@ importers:
 
   packages/piper:
     dependencies:
+      '@promethean/fs-utils':
+        specifier: workspace:*
+        version: link:../fs-utils
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../level-cache
@@ -4418,6 +4451,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.2.2
         version: 2.2.2
+      '@types/node':
+        specifier: ^24.3.0
+        version: 24.3.1
       ava:
         specifier: ^6.1.3
         version: 6.4.1
@@ -4430,6 +4466,9 @@ importers:
       sinon:
         specifier: ^17.0.1
         version: 17.0.2
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@types/node@24.3.1)(typescript@5.9.2)
       tsx:
         specifier: ^4.19.0
         version: 4.20.3
@@ -13802,6 +13841,7 @@ snapshots:
 
   '@promethean/fs@file:packages/fs(socks@2.8.7)':
     dependencies:
+      '@promethean/fs-utils': link:packages/fs-utils
       '@promethean/stream': link:packages/stream
       '@types/javascript-time-ago': 2.5.0
       '@types/unist': 3.0.3
@@ -13920,6 +13960,7 @@ snapshots:
 
   '@promethean/piper@file:packages/piper':
     dependencies:
+      '@promethean/fs-utils': link:packages/fs-utils
       '@promethean/level-cache': link:packages/level-cache
       chokidar: 3.6.0
       globby: 14.0.2
