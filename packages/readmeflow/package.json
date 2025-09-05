@@ -2,7 +2,6 @@
   "name": "@promethean/readmeflow",
   "version": "0.1.0",
   "private": true,
-  "license": "GPL-3.0-only",
   "type": "module",
   "bin": {
     "readmeflow-scan": "dist/01-scan.js",
@@ -12,6 +11,12 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "test": "pnpm build && ava",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "rimraf dist",
+    "coverage": "c8 pnpm test",
+    "lint": "biome lint .",
+    "format": "biome format .",
     "rm:01-scan": "tsx src/01-scan.ts",
     "rm:02-outline": "tsx src/02-outline.ts",
     "rm:03-write": "tsx src/03-write.ts",
@@ -26,7 +31,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "rimraf": "^6.0.0",
     "tsx": "^4.19.2",
-    "typescript": "5.9.2"
+    "typescript": "^5.9.2"
   }
 }

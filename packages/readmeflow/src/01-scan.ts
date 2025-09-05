@@ -1,5 +1,5 @@
-import { promises as fs } from "fs";
-import * as path from "path";
+import { promises as fs } from "node:fs";
+import * as path from "node:path";
 
 import { parseArgs, readMaybe } from "./utils.js";
 import { openLevelCache } from "@promethean/level-cache";
@@ -11,7 +11,7 @@ const args = parseArgs({
 });
 
 async function main() {
-  const ROOT = path.resolve(args["--root"]!);
+  const ROOT = path.resolve(args["--root"]);
   const dirs = (await fs.readdir(ROOT, { withFileTypes: true }))
     .filter((e) => e.isDirectory())
     .map((e) => e.name);
@@ -74,13 +74,13 @@ async function main() {
     packages: Array.from(pkgMap.values()),
     graphMermaid: lines.join("\n"),
   };
-  const cache = await openLevelCache<unknown>({
-    path: path.resolve(args["--cache"]!),
+  const cache = await openLevelCache<ScanOut>({
+    path: path.resolve(args["--cache"]),
   });
   await cache.set("scan", out);
   await cache.close();
   console.log(
-    `readmeflow: scanned ${pkgMap.size} packages → ${args["--cache"]}/scan`,
+    `readmeflow: scanned ${pkgMap.size} packages → ${args["--cache"]}`,
   );
 }
 main().catch((e) => {
