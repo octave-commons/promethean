@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc ",
+    "build": "tsc -b",
     "build:check": "tsc --noEmit --incremental false",
     "test": "pnpm run build && ava --config ../../../config/ava.config.mjs",
     "coverage": "pnpm run build && c8 ava --config ../../../config/ava.config.mjs",
@@ -21,10 +21,9 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "@types/node": "^22.17.2",
+    "@types/node": "^20.19.11",
     "@types/supertest": "^2.0.13",
     "@promethean/test-utils": "workspace:*",
-    "@promethean/types": "workspace:*",
     "ava": "^6.4.1",
     "c8": "^9.1.0",
     "eslint": "^8.57.0",
