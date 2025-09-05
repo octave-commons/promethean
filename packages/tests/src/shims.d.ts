@@ -8,4 +8,4 @@ declare module '@promethean/markdown/task.js';
 declare module '@promethean/parity/normalizers.js';
 declare module '@promethean/parity/runner.js';
 declare module '@promethean/stream/title.js';
-declare module '@promethean/web/url.js';
+declare module '@promethean/web-utils/url.js';
