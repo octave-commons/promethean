@@ -18,84 +18,324 @@ tags:
   - acorn
   - s-exprs
 related_to_uuid:
-  - 599c228b-22a8-4fb2-ac23-edc191b630f1
-  - c09d7688-71d6-47fc-bf81-86b6193c84bc
-  - 73d64bce-f428-4735-a3d0-6225a0588e46
-  - abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
-  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
-  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-  - 6bbc5717-b8a5-4aaf-933d-b0225ad598b4
-  - 3657117f-241d-4ab9-a717-4a3f584071fc
-  - bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
-  - 7a66bc1e-9276-41ce-ac22-fc08926acb2d
-  - e2955491-020a-4009-b7ed-a5a348c63cfd
-  - 4c87f571-9942-4288-aec4-0bc52e9cdbe7
-  - 1de71d74-4aec-468f-9354-42999a71da8a
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - 2792d448-c3b5-4050-93dd-93768529d99c
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+  - 22b989d5-f4aa-4880-8632-709c21830f83
+  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - a4a25141-6380-40b9-9cd7-b554b246b303
+  - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - dd00677a-2280-45a7-91af-0728b21af3ad
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - bb7f0835-c347-474f-bfad-eabd873b51ad
+  - 930054b3-ba95-4acf-bb92-0e3ead25ed0b
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
+  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - cdfac40c-00e4-458f-96a7-4c37d0278731
+  - 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
 related_to_title:
-  - Pseudo Pipes Overview
-  - Migrate to Provider-Tenant Architecture
-  - Voice Access Layer Design
-  - RAG UI Panel with Qdrant and PostgREST
-  - polyglot-repl-interface-layer
-  - Universal Lisp Interface
-  - matplotlib-animation-with-async-execution
-  - language-agnostic-mirror-system
-  - chroma-embedding-refactor
-  - pm2-orchestration-patterns
-  - chroma-toolkit-consolidation-plan
-  - set-assignment-in-lisp-ast
+  - Chroma Toolkit Consolidation Plan
+  - Docops Feature Updates
+  - field-node-diagram-outline
+  - field-node-diagram-set
+  - field-node-diagram-visualizations
+  - Fnord Tracer Protocol
+  - Functional Embedding Pipeline Refactor
+  - graph-ds
+  - heartbeat-fragment-demo
+  - i3-bluetooth-setup
+  - Ice Box Reorganization
+  - komorebi-group-window-hack
+  - Layer1SurvivabilityEnvelope
+  - Agent Reflections and Prompt Evolution
+  - ChatGPT Custom Prompts
+  - eidolon-field-math-foundations
+  - Duck's Attractor States
+  - typed-struct-compiler
+  - Unique Concepts
+  - Unique Info Dump Index
+  - zero-copy-snapshots-and-workers
+  - Canonical Org-Babel Matplotlib Animation Template
+  - Creative Moments
   - Interop and Source Maps
+  - Optimizing Command Limitations in System Design
 references:
-  - uuid: 599c228b-22a8-4fb2-ac23-edc191b630f1
-    line: 2
+  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
+    line: 618
     col: 0
     score: 1
-  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
-    line: 127
+  - uuid: 930054b3-ba95-4acf-bb92-0e3ead25ed0b
+    line: 187
+    col: 0
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 999
+    col: 0
+    score: 1
+  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
+    line: 1016
+    col: 0
+    score: 1
+  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+    line: 175
+    col: 0
+    score: 1
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 1221
+    col: 0
+    score: 1
+  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
+    line: 1058
+    col: 0
+    score: 1
+  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
+    line: 515
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 251
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 559
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 1033
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 226
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 705
+    col: 0
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 719
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 601
+    col: 0
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 1060
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 726
+    col: 0
+    score: 1
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 996
+    col: 0
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 667
+    col: 0
+    score: 1
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 736
+    col: 0
+    score: 1
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 645
+    col: 0
+    score: 1
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 739
+    col: 0
+    score: 1
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 816
+    col: 0
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 1002
+    col: 0
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 498
+    col: 0
+    score: 0.93
+  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
+    line: 4122
+    col: 0
+    score: 0.91
+  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
+    line: 4053
+    col: 0
+    score: 0.91
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 239
+    col: 0
+    score: 0.91
+  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+    line: 203
+    col: 0
+    score: 0.91
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 397
+    col: 0
+    score: 0.91
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 1735
+    col: 0
+    score: 0.9
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 3239
+    col: 0
+    score: 0.9
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 2451
+    col: 0
+    score: 0.9
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 1952
+    col: 0
+    score: 0.9
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 2070
+    col: 0
+    score: 0.9
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 148
+    col: 0
+    score: 0.9
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 602
     col: 0
     score: 0.89
-  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
-    line: 220
+  - uuid: 2901a3e9-96f0-497c-ae2c-775f28a702dd
+    line: 282
+    col: 0
+    score: 0.89
+  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
+    line: 303
+    col: 0
+    score: 0.89
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 129
+    col: 0
+    score: 0.89
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 523
     col: 0
     score: 0.88
-  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
     line: 148
     col: 0
     score: 0.87
-  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
-    line: 237
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 588
     col: 0
     score: 0.87
-  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
-    line: 160
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 476
     col: 0
     score: 0.87
-  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 426
+    col: 0
+    score: 0.87
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 138
+    col: 0
+    score: 0.86
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 127
+    col: 0
+    score: 0.86
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
     line: 251
     col: 0
     score: 0.86
-  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 237
+    col: 0
+    score: 0.86
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 220
+    col: 0
+    score: 0.86
+  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+    line: 50
+    col: 0
+    score: 0.86
+  - uuid: 9044701b-03c9-4a30-92c4-46b1bd66c11e
+    line: 32
+    col: 0
+    score: 0.86
+  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+    line: 106
+    col: 0
+    score: 0.86
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 2033
+    col: 0
+    score: 0.86
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 2534
+    col: 0
+    score: 0.86
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 2368
+    col: 0
+    score: 0.86
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 8143
+    col: 0
+    score: 0.86
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 3515
+    col: 0
+    score: 0.86
+  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
+    line: 3103
+    col: 0
+    score: 0.86
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 3544
+    col: 0
+    score: 0.86
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
     line: 207
     col: 0
-    score: 0.86
-  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
-    line: 229
-    col: 0
-    score: 0.86
-  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
-    line: 170
-    col: 0
-    score: 0.86
-  - uuid: 73d64bce-f428-4735-a3d0-6225a0588e46
-    line: 204
+    score: 0.85
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 160
     col: 0
     score: 0.85
-  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
-    line: 132
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 3980
     col: 0
     score: 0.85
-  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
-    line: 343
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 2695
+    col: 0
+    score: 0.85
+  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
+    line: 1863
+    col: 0
+    score: 0.85
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 5070
+    col: 0
+    score: 0.85
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 610
     col: 0
     score: 0.85
 ---

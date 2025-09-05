@@ -40,8 +40,8 @@ related_to_uuid:
   - 13951643-1741-46bb-89dc-1beebb122633
   - 71726f04-eb1c-42a5-a5fe-d8209de6e159
   - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - 623a55f7-685c-486b-abaf-469da1bbbb69
-  - 557309a3-c906-4e97-8867-89ffe151790c
+  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
 related_to_title:
   - polyglot-repl-interface-layer
   - Post-Linguistic Transhuman Design Frameworks
@@ -65,13 +65,9 @@ related_to_title:
   - Duck's Attractor States
   - Duck's Self-Referential Perceptual Loop
   - Dynamic Context Model for Web Components
-  - Shared
-  - Simulation Demo
+  - Eidolon Field Abstract Model
+  - eidolon-field-math-foundations
 references:
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 11
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 47
     col: 0
@@ -102,18 +98,6 @@ references:
     score: 1
   - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
     line: 462
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 21
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 39
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 28
     col: 0
     score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5

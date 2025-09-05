@@ -16,21 +16,15 @@ tags:
   - structure
   - focus
 related_to_uuid:
-  - 623a55f7-685c-486b-abaf-469da1bbbb69
   - 71726f04-eb1c-42a5-a5fe-d8209de6e159
   - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
   - 40185d05-010e-45e7-8c2d-2f879bf14218
   - 03a5578f-d689-45db-95e9-11300e5eee6f
-  - f1add613-656e-4bec-b52b-193fd78c4642
-  - 9e8ae388-767a-4ea8-9f2e-88801291d947
   - a4d90289-798d-44a0-a8e8-a055ae12fb52
   - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
   - fc21f824-4244-4030-a48e-c4170160ea1d
   - 6620e2f2-de6d-45d8-a722-5d26e160b370
   - 5e408692-0e74-400e-a617-84247c7353ad
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-  - 557309a3-c906-4e97-8867-89ffe151790c
   - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
   - 5e8b2388-022b-46cf-952c-36ae9b8f0037
   - b09141b7-544f-4c8e-8f49-bf76cecaacbb
@@ -40,23 +34,23 @@ related_to_uuid:
   - db74343f-8f84-43a3-adb2-499c6f00be1c
   - 22b989d5-f4aa-4880-8632-709c21830f83
   - 5a02283e-4281-4930-9ca7-e27849de11bd
-  - 6cb4943e-8267-4e27-8618-2ce0a464d173
+  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - a4a25141-6380-40b9-9cd7-b554b246b303
+  - 1cfae310-35dc-49c2-98f1-b186da25d84b
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - ffb9b2a9-744d-4a53-9565-130fceae0832
 related_to_title:
-  - Shared
   - Duck's Self-Referential Perceptual Loop
   - Dynamic Context Model for Web Components
   - Mindful Prioritization
   - Promethean Dev Workflow Update
-  - Operations
-  - Window Management
   - Factorio AI with External Agents
   - DuckDuckGoSearchPipeline
   - Fnord Tracer Protocol
   - graph-ds
   - i3-bluetooth-setup
-  - Diagrams
-  - Math Fundamentals
-  - Simulation Demo
   - Debugging Broker Connections and Agent Behavior
   - Eidolon Field Abstract Model
   - field-interaction-equations
@@ -66,7 +60,13 @@ related_to_title:
   - Model Upgrade Calm-Down Guide
   - field-node-diagram-set
   - NPU Voice Code and Sensory Integration
-  - Tooling
+  - eidolon-node-lifecycle
+  - field-node-diagram-outline
+  - field-node-diagram-visualizations
+  - Functional Embedding Pipeline Refactor
+  - Functional Refactor of TypeScript Document Processing
+  - field-dynamics-math-blocks
+  - obsidian-ignore-node-modules-regex
 references:
   - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
     line: 21
@@ -90,10 +90,6 @@ references:
     score: 1
   - uuid: d5b16703-d7f7-438a-9a75-3ae4589b177b
     line: 339
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 41
     col: 0
     score: 1
   - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
@@ -212,10 +208,6 @@ references:
     line: 165
     col: 0
     score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 43
-    col: 0
-    score: 1
   - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
     line: 35
     col: 0
@@ -244,30 +236,6 @@ references:
     line: 39
     col: 0
     score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 81
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 41
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 37
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 27
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 24
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 57
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 15
     col: 0
@@ -278,10 +246,6 @@ references:
     score: 1
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
     line: 111
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 48
     col: 0
     score: 1
   - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
@@ -314,18 +278,6 @@ references:
     score: 1
   - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
     line: 172
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 21
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 39
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 28
     col: 0
     score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
@@ -364,34 +316,6 @@ references:
     line: 70
     col: 0
     score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 20
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 9
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 72
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 23
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 25
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 11
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 22
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 7
     col: 0
@@ -416,34 +340,6 @@ references:
     line: 205
     col: 0
     score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 19
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 25
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 18
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 64
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 26
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 28
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 22
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 8
     col: 0
@@ -466,6 +362,110 @@ references:
     score: 1
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
     line: 124
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 100
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 460
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 262
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 178
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 87
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 179
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 412
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 261
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 181
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 90
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 157
+    col: 0
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 205
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 95
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 33
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 99
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 46
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 10
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 56
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 190
+    col: 0
+    score: 1
+  - uuid: ce37a9b8-5984-4fb8-b9e7-f72470314975
+    line: 113
+    col: 0
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 170
+    col: 0
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 180
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 135
+    col: 0
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 159
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 120
+    col: 0
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 265
     col: 0
     score: 1
 ---

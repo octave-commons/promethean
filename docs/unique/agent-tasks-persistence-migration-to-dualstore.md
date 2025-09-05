@@ -18,458 +18,110 @@ tags:
   - kanban-processor
   - markdown-graph
 related_to_uuid:
-  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-  - 22b989d5-f4aa-4880-8632-709c21830f83
-  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - dd00677a-2280-45a7-91af-0728b21af3ad
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
-  - dd89372d-10de-42a9-8c96-6bc13ea36d02
-  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
-  - 03a5578f-d689-45db-95e9-11300e5eee6f
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - 10d98225-12e0-4212-8e15-88b57cf7bee5
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-  - ffb9b2a9-744d-4a53-9565-130fceae0832
-  - d144aa62-348c-4e5d-ae8f-38084c67ceca
-  - a4d90289-798d-44a0-a8e8-a055ae12fb52
-  - 54382370-1931-4a19-a634-46735708a9ea
-  - bb7f0835-c347-474f-bfad-eabd873b51ad
-  - 18138627-a348-4fbb-b447-410dfb400564
-  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+  - 8792b6d3-aafd-403f-a410-e8a09ec2f8cf
+  - 6420e101-2d34-45b5-bcff-d21e1c6e516b
+  - 7a75d992-5267-4557-b464-b6c7d3f88dad
+  - ed2e157e-bfed-4291-ae4c-6479df975d87
+  - 4f9a7fd9-de08-4b9c-87c4-21268bc26d54
+  - a09a2867-7f5a-4864-8150-6eee881a616b
+  - 01c5547f-27eb-42d1-af24-9cad10b6a2ca
+  - c09d7688-71d6-47fc-bf81-86b6193c84bc
+  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+  - e4317155-7fa6-44e8-8aee-b72384581790
+  - 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+  - 004a0f06-3808-4421-b9e1-41b5b41ebcb8
+  - 50ac7389-a75e-476a-ab34-bb24776d4f38
+  - aa437a1f-eb7e-4096-a6cc-98d2eeeef8c5
+  - aa88652d-c8e5-4a1b-850e-afdf7fe15dae
+  - e2955491-020a-4009-b7ed-a5a348c63cfd
+  - 6bbc5717-b8a5-4aaf-933d-b0225ad598b4
+  - 99c6d380-a2a6-4d8e-a391-f4bc0c9a631f
+  - b25be760-256e-4a8a-b34d-867281847ccb
+  - 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
+  - 688ad325-4243-4304-bccc-1a1d8745de08
+  - a23de044-17e0-45f0-bba7-d870803cbfed
+  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
+  - 260f25bf-c996-4da2-a529-3a292406296f
 related_to_title:
-  - field-node-diagram-outline
-  - field-node-diagram-set
-  - field-node-diagram-visualizations
-  - graph-ds
-  - eidolon-node-lifecycle
-  - Diagrams
-  - Fnord Tracer Protocol
-  - heartbeat-fragment-demo
-  - i3-bluetooth-setup
-  - Ice Box Reorganization
-  - komorebi-group-window-hack
-  - Layer1SurvivabilityEnvelope
-  - Canonical Org-Babel Matplotlib Animation Template
-  - Promethean Dev Workflow Update
-  - Duck's Attractor States
-  - Creative Moments
-  - eidolon-field-math-foundations
-  - Promethean Infrastructure Setup
-  - obsidian-ignore-node-modules-regex
-  - Model Selection for Lightweight Conversational Tasks
-  - Factorio AI with External Agents
+  - aionian-circuit-math
+  - Eidolon Field Math Foundations
+  - field-dynamics-math-blocks
+  - field-interaction-equations
+  - homeostasis-decay-formulas
+  - pr-688-nitpack-extract
+  - run-step-api
   - Migrate to Provider-Tenant Architecture
-  - Agent Reflections and Prompt Evolution
-  - The Jar of Echoes
-  - Prompt_Folder_Bootstrap
+  - Universal Lisp Interface
+  - chroma-embedding-refactor
+  - TypeScript Patch for Tool Calling Support
+  - promethean-native-config-design
+  - ecs-offload-workers
+  - promethean-full-stack-docker-setup
+  - Prometheus Observability Stack
+  - Promethean Web UI Setup
+  - chroma-toolkit-consolidation-plan
+  - matplotlib-animation-with-async-execution
+  - Layer 1 Survivability Envelope
+  - ripple-propagation-demo
+  - system-scheduler
+  - template-based-compilation
+  - Komorebi Group Manager
+  - polyglot-repl-interface-layer
+  - Polymorphic Meta-Programming Engine
 references:
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 226
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 705
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 719
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 601
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 1060
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 726
-    col: 0
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 996
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 667
-    col: 0
-    score: 1
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 736
-    col: 0
-    score: 1
-  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
-    line: 645
-    col: 0
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 739
-    col: 0
-    score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 816
-    col: 0
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 809
-    col: 0
-    score: 1
-  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
-    line: 202
-    col: 0
-    score: 1
-  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
-    line: 171
-    col: 0
-    score: 1
-  - uuid: d614d983-7795-491f-9437-09f3a43f72cf
-    line: 87
-    col: 0
-    score: 1
-  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
-    line: 617
-    col: 0
-    score: 1
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 315
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 338
-    col: 0
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 698
-    col: 0
-    score: 1
-  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
-    line: 242
-    col: 0
-    score: 1
-  - uuid: d614d983-7795-491f-9437-09f3a43f72cf
-    line: 95
-    col: 0
-    score: 1
-  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
-    line: 621
-    col: 0
-    score: 1
-  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-    line: 238
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 344
-    col: 0
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 640
-    col: 0
-    score: 1
-  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
-    line: 232
-    col: 0
-    score: 1
-  - uuid: b3555ede-324a-4d24-a885-b0721e74babf
-    line: 102
-    col: 0
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 180
-    col: 0
-    score: 1
-  - uuid: 49a9a860-944c-467a-b532-4f99186a8593
-    line: 120
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 396
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 68
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 49
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 73
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 43
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 104
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 44
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 75
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 48
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 127
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 151
-    col: 0
-    score: 1
-  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
-    line: 105
-    col: 0
-    score: 1
-  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
-    line: 150
-    col: 0
-    score: 1
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 258
-    col: 0
-    score: 1
-  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-    line: 164
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 351
-    col: 0
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 201
-    col: 0
-    score: 1
-  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-    line: 609
-    col: 0
-    score: 1
-  - uuid: 49a9a860-944c-467a-b532-4f99186a8593
-    line: 133
-    col: 0
-    score: 1
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 209
-    col: 0
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 137
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 138
-    col: 0
-    score: 1
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 207
-    col: 0
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1100
-    col: 0
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 230
-    col: 0
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 125
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+  - uuid: 8792b6d3-aafd-403f-a410-e8a09ec2f8cf
     line: 147
     col: 0
     score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 140
+  - uuid: 6420e101-2d34-45b5-bcff-d21e1c6e516b
+    line: 119
     col: 0
     score: 1
-  - uuid: 2901a3e9-96f0-497c-ae2c-775f28a702dd
-    line: 76
+  - uuid: 7a75d992-5267-4557-b464-b6c7d3f88dad
+    line: 134
     col: 0
     score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 33
+  - uuid: ed2e157e-bfed-4291-ae4c-6479df975d87
+    line: 147
     col: 0
     score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+  - uuid: 4f9a7fd9-de08-4b9c-87c4-21268bc26d54
+    line: 147
+    col: 0
+    score: 1
+  - uuid: a09a2867-7f5a-4864-8150-6eee881a616b
+    line: 78
+    col: 0
+    score: 1
+  - uuid: 01c5547f-27eb-42d1-af24-9cad10b6a2ca
+    line: 910
+    col: 0
+    score: 0.88
+  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
     line: 98
     col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 179
+    score: 0.87
+  - uuid: 6420e101-2d34-45b5-bcff-d21e1c6e516b
+    line: 105
     col: 0
-    score: 1
-  - uuid: 86a691ec-ca1f-4350-824c-0ded1f8ebe70
-    line: 116
+    score: 0.86
+  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
+    line: 38
     col: 0
-    score: 1
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 136
+    score: 0.86
+  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
+    line: 100
     col: 0
-    score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 95
+    score: 0.85
+  - uuid: bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+    line: 26
     col: 0
-    score: 1
-  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
-    line: 133
+    score: 0.85
+  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+    line: 56
     col: 0
-    score: 1
-  - uuid: 95205cd3-c3d5-4047-9c33-9c5ca2b49597
-    line: 68
-    col: 0
-    score: 1
-  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
-    line: 211
-    col: 0
-    score: 1
-  - uuid: b3555ede-324a-4d24-a885-b0721e74babf
-    line: 75
-    col: 0
-    score: 1
-  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-    line: 629
-    col: 0
-    score: 1
-  - uuid: 49a9a860-944c-467a-b532-4f99186a8593
-    line: 95
-    col: 0
-    score: 1
-  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
-    line: 264
-    col: 0
-    score: 1
-  - uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
-    line: 144
-    col: 0
-    score: 1
-  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
-    line: 658
-    col: 0
-    score: 1
-  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
-    line: 140
-    col: 0
-    score: 1
-  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
-    line: 281
-    col: 0
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 746
-    col: 0
-    score: 1
-  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
-    line: 186
-    col: 0
-    score: 1
-  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
-    line: 179
-    col: 0
-    score: 1
-  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
-    line: 550
-    col: 0
-    score: 1
-  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-    line: 163
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 319
-    col: 0
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 619
-    col: 0
-    score: 1
-  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
-    line: 237
-    col: 0
-    score: 1
-  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-    line: 566
-    col: 0
-    score: 1
-  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
-    line: 602
-    col: 0
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 641
-    col: 0
-    score: 1
-  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-    line: 656
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 684
-    col: 0
-    score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 603
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 347
-    col: 0
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 594
-    col: 0
-    score: 1
-  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-    line: 578
-    col: 0
-    score: 1
-  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
-    line: 616
-    col: 0
-    score: 1
-  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-    line: 571
-    col: 0
-    score: 1
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 385
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 176
-    col: 0
-    score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 195
-    col: 0
-    score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 198
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 65
-    col: 0
-    score: 1
+    score: 0.85
 ---
 # 🤖 Agent Tasks: Persistence Migration to DualStore
 

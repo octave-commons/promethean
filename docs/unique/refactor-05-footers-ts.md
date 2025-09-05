@@ -16,58 +16,206 @@ tags:
   - promises
   - error-handling
 related_to_uuid:
-  - 90955a83-f6e5-4168-89e6-1e12eabed78b
-  - 1f4a3423-555e-4d45-8c32-5b6b45914a4e
-  - cfb15342-0e5d-444b-9e96-3f8758071609
-  - 0a8255a5-ef49-4a1e-ae71-b2f57eb7bdf8
-  - 792a343e-674c-4bb4-8435-b3f8c163349d
+  - 814b1bc2-cb40-4387-9f73-5af386aaf003
+  - ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
+  - 4330e8f0-5f46-4235-918b-39b6b93fa561
+  - c3cd4f65-2bb3-4fca-a32e-2ac667e03f40
+  - ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
+  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - bb7f0835-c347-474f-bfad-eabd873b51ad
+  - 930054b3-ba95-4acf-bb92-0e3ead25ed0b
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 41ce0216-f8cc-4eed-8d9a-fcc25be21425
+  - cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
+  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
+  - 8b256935-02f6-4da2-a406-bf6b8415276f
+  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - 51932e7b-4237-4756-bcae-8be6d535d0d1
 related_to_title:
-  - Exception Layer Analysis
+  - tracing-the-signal
+  - Smoke Resonance Visualizations
+  - Stateful Partitions and Rebalancing
+  - Tracing the Signal
+  - ts-to-lisp-transpiler
+  - typed-struct-compiler
+  - TypeScript Patch for Tool Calling Support
+  - Unique Concepts
+  - zero-copy-snapshots-and-workers
+  - Canonical Org-Babel Matplotlib Animation Template
+  - Agent Reflections and Prompt Evolution
+  - ChatGPT Custom Prompts
+  - Chroma Toolkit Consolidation Plan
+  - Unique Info Dump Index
+  - Creative Moments
+  - Duck's Attractor States
+  - eidolon-field-math-foundations
   - refactor-relations
   - Refactor Frontmatter Processing
-  - Functional Refactor of TypeScript Document Processing
-  - windows-tiling-with-autohotkey
+  - Vectorial Exception Descent
+  - Chroma-Embedding-Refactor
+  - Ghostly Smoke Interference
+  - ecs-scheduler-and-prefabs
+  - compiler-kit-foundations
+  - pm2-orchestration-patterns
 references:
-  - uuid: 90955a83-f6e5-4168-89e6-1e12eabed78b
-    line: 1
+  - uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
+    line: 483
     col: 0
     score: 1
-  - uuid: 1f4a3423-555e-4d45-8c32-5b6b45914a4e
+  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
+    line: 1321
+    col: 0
+    score: 1
+  - uuid: c3cd4f65-2bb3-4fca-a32e-2ac667e03f40
+    line: 561
+    col: 0
+    score: 1
+  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
+    line: 522
+    col: 0
+    score: 1
+  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
+    line: 1015
+    col: 0
+    score: 1
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+    line: 1228
+    col: 0
+    score: 1
+  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+    line: 173
+    col: 0
+    score: 1
+  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
+    line: 1057
+    col: 0
+    score: 1
+  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
+    line: 513
+    col: 0
+    score: 1
+  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
+    line: 618
+    col: 0
+    score: 1
+  - uuid: 930054b3-ba95-4acf-bb92-0e3ead25ed0b
+    line: 187
+    col: 0
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 999
+    col: 0
+    score: 1
+  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
+    line: 1016
+    col: 0
+    score: 1
+  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+    line: 175
+    col: 0
+    score: 1
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 1221
+    col: 0
+    score: 1
+  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
+    line: 1058
+    col: 0
+    score: 1
+  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
+    line: 515
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 251
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 559
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 1033
+    col: 0
+    score: 1
+  - uuid: 814b1bc2-cb40-4387-9f73-5af386aaf003
     line: 3
     col: 0
-    score: 0.99
-  - uuid: 1f4a3423-555e-4d45-8c32-5b6b45914a4e
-    line: 8
+    score: 1
+  - uuid: 814b1bc2-cb40-4387-9f73-5af386aaf003
+    line: 5
     col: 0
-    score: 0.98
-  - uuid: cfb15342-0e5d-444b-9e96-3f8758071609
-    line: 4
+    score: 1
+  - uuid: 814b1bc2-cb40-4387-9f73-5af386aaf003
+    line: 7
     col: 0
-    score: 0.97
-  - uuid: 1f4a3423-555e-4d45-8c32-5b6b45914a4e
+    score: 1
+  - uuid: 814b1bc2-cb40-4387-9f73-5af386aaf003
+    line: 9
+    col: 0
+    score: 1
+  - uuid: 814b1bc2-cb40-4387-9f73-5af386aaf003
+    line: 11
+    col: 0
+    score: 1
+  - uuid: 814b1bc2-cb40-4387-9f73-5af386aaf003
+    line: 17
+    col: 0
+    score: 1
+  - uuid: 814b1bc2-cb40-4387-9f73-5af386aaf003
+    line: 19
+    col: 0
+    score: 1
+  - uuid: 41ce0216-f8cc-4eed-8d9a-fcc25be21425
     line: 6
     col: 0
     score: 0.97
-  - uuid: 1f4a3423-555e-4d45-8c32-5b6b45914a4e
-    line: 4
-    col: 0
-    score: 0.95
-  - uuid: 1f4a3423-555e-4d45-8c32-5b6b45914a4e
-    line: 5
+  - uuid: 41ce0216-f8cc-4eed-8d9a-fcc25be21425
+    line: 10
     col: 0
     score: 0.93
-  - uuid: 1f4a3423-555e-4d45-8c32-5b6b45914a4e
-    line: 7
-    col: 0
-    score: 0.93
-  - uuid: cfb15342-0e5d-444b-9e96-3f8758071609
+  - uuid: cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
     line: 7
     col: 0
     score: 0.9
-  - uuid: cfb15342-0e5d-444b-9e96-3f8758071609
-    line: 9
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 376
     col: 0
-    score: 0.89
+    score: 0.87
+  - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
+    line: 289
+    col: 0
+    score: 0.87
+  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+    line: 40
+    col: 0
+    score: 0.87
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 95
+    col: 0
+    score: 0.86
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 588
+    col: 0
+    score: 0.86
+  - uuid: 51932e7b-4237-4756-bcae-8be6d535d0d1
+    line: 217
+    col: 0
+    score: 0.86
+  - uuid: d41a06d1-613e-4440-80b7-4553fc694285
+    line: 56
+    col: 0
+    score: 0.85
 ---
 Refactor 05-footers.ts under the following contraints: ^ref-80d4d883-1-0
 

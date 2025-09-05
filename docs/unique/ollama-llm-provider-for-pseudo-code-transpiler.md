@@ -18,46 +18,194 @@ tags:
   - temperature
   - stop-sequences
 related_to_uuid:
-  - 4316c3f9-551f-4872-b5c5-98ae73508535
-  - 740bbd1c-c039-405c-8a32-4baeddfb5637
-  - 8a9432f5-cb79-40fa-bab1-d3b9e9c0bac8
-  - 2478e18c-f621-4b0c-a4c5-9637d213cccf
-  - abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
-  - e2955491-020a-4009-b7ed-a5a348c63cfd
-  - c2ba3d27-5b24-4345-9cf2-5cf296f8b03d
-  - a23de044-17e0-45f0-bba7-d870803cbfed
-  - c0e6ea38-a9a0-4379-aa9c-b634a6591a59
-  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-  - 4c63f2be-b5cd-479c-ad0d-ca26424162f7
-  - f4767ec9-7363-4ca0-ad88-ccc624247a3b
-  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
-  - 5becb573-0a78-486b-8d3c-199b3c7a79ec
-  - 3657117f-241d-4ab9-a717-4a3f584071fc
-  - 95410f6e-dabb-4560-80a8-1ed4fd9c3d3b
-  - 6f13f134-7536-4bc3-b695-5aaa2906bb9d
-  - 6ff8d80e-7070-47b5-898c-ee506e353471
-  - 177c260c-39b2-4450-836d-1e87c0bd0035
+  - b38ebf11-ba84-4318-9283-69ab12906f94
+  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - 2792d448-c3b5-4050-93dd-93768529d99c
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+  - 22b989d5-f4aa-4880-8632-709c21830f83
+  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - a4a25141-6380-40b9-9cd7-b554b246b303
+  - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - dd00677a-2280-45a7-91af-0728b21af3ad
+  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
+  - bb7f0835-c347-474f-bfad-eabd873b51ad
+  - 930054b3-ba95-4acf-bb92-0e3ead25ed0b
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - <generate-uuid>
+  - b39939e3-bed8-4305-81a6-b53e9033682a
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
+  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - 13951643-1741-46bb-89dc-1beebb122633
 related_to_title:
-  - WebSocket Gateway Implementation
+  - Promethean Workflow Optimization
+  - Layer1SurvivabilityEnvelope
+  - komorebi-group-window-hack
+  - i3-bluetooth-setup
+  - Docops Feature Updates
+  - field-node-diagram-outline
+  - field-node-diagram-set
+  - field-node-diagram-visualizations
+  - Fnord Tracer Protocol
+  - Functional Embedding Pipeline Refactor
+  - graph-ds
   - heartbeat-fragment-demo
-  - Local-Only LLM Workflow
-  - Cross-Language Runtime Polymorphism
-  - RAG UI Panel with Qdrant and PostgREST
-  - chroma-toolkit-consolidation-plan
-  - observability-infrastructure-setup
-  - Komorebi Group Manager
-  - board-walk-2025-08-11
-  - Universal Lisp Interface
-  - lisp-compiler-integration
-  - ecs-scheduler
-  - dynamic-context-model-for-web-components
+  - Ice Box Reorganization
   - Agent Reflections and Prompt Evolution
-  - language-agnostic-mirror-system
-  - model-selection-for-lightweight-conversational-tasks
-  - shared-package-layout-clarification
-  - provider-agnostic-chat-panel-implementation
-  - universal-intention-code-fabric
-references: []
+  - ChatGPT Custom Prompts
+  - Chroma Toolkit Consolidation Plan
+  - Centralized File Embedder + Cache
+  - Centralized File Embedder
+  - typed-struct-compiler
+  - Unique Concepts
+  - Unique Info Dump Index
+  - zero-copy-snapshots-and-workers
+  - Canonical Org-Babel Matplotlib Animation Template
+  - Creative Moments
+  - Duck's Attractor States
+references:
+  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
+    line: 618
+    col: 0
+    score: 1
+  - uuid: 930054b3-ba95-4acf-bb92-0e3ead25ed0b
+    line: 187
+    col: 0
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 999
+    col: 0
+    score: 1
+  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
+    line: 1016
+    col: 0
+    score: 1
+  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+    line: 175
+    col: 0
+    score: 1
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 1221
+    col: 0
+    score: 1
+  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
+    line: 1058
+    col: 0
+    score: 1
+  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
+    line: 515
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 251
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 559
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 1033
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 226
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 705
+    col: 0
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 719
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 601
+    col: 0
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 1060
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 726
+    col: 0
+    score: 1
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 996
+    col: 0
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 667
+    col: 0
+    score: 1
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 736
+    col: 0
+    score: 1
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 645
+    col: 0
+    score: 1
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 739
+    col: 0
+    score: 1
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 816
+    col: 0
+    score: 1
+  - uuid: <generate-uuid>
+    line: 2
+    col: 0
+    score: 1
+  - uuid: b39939e3-bed8-4305-81a6-b53e9033682a
+    line: 2
+    col: 0
+    score: 1
+  - uuid: <generate-uuid>
+    line: 4
+    col: 0
+    score: 1
+  - uuid: b39939e3-bed8-4305-81a6-b53e9033682a
+    line: 4
+    col: 0
+    score: 1
+  - uuid: b38ebf11-ba84-4318-9283-69ab12906f94
+    line: 1
+    col: 0
+    score: 1
+  - uuid: b38ebf11-ba84-4318-9283-69ab12906f94
+    line: 5
+    col: 0
+    score: 1
+  - uuid: b38ebf11-ba84-4318-9283-69ab12906f94
+    line: 7
+    col: 0
+    score: 1
+  - uuid: b38ebf11-ba84-4318-9283-69ab12906f94
+    line: 9
+    col: 0
+    score: 1
+  - uuid: b38ebf11-ba84-4318-9283-69ab12906f94
+    line: 12
+    col: 0
+    score: 1
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 44
+    col: 0
+    score: 0.92
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 303
+    col: 0
+    score: 0.86
 ---
 Ohhh nice—let’s plug **Ollama** in as the LLM backend for the pseudo-code transpiler. Here’s a drop-in provider that speaks Ollama’s `/api/chat` (streaming), strips code fences, and gives you knobs for model/temperature/stop tokens. ^ref-b362e12e-1-0
 

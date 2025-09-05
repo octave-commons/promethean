@@ -17,116 +17,251 @@ tags:
   - boilerplate
   - agent
 related_to_uuid:
-  - 7a75d992-5267-4557-b464-b6c7d3f88dad
-  - 798ee018-e1d3-454f-97c4-a9d66b106602
-  - cdf2c6e4-0dbd-4f19-b645-ac619a6f267d
-  - 0f203aa7-c96d-4323-9b9e-bbc438966e8c
-  - 10780cdc-5036-4e8a-9599-a11703bc30c9
-  - c29a64c6-f5ea-49ca-91a1-0b590ca547ae
-  - 7b672b78-7057-4506-baf9-1262a6e477e3
-  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-  - e4317155-7fa6-44e8-8aee-b72384581790
-  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
-  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
-  - 395df1ea-572e-49ec-8861-aff9d095ed0e
-  - 3657117f-241d-4ab9-a717-4a3f584071fc
-  - e2955491-020a-4009-b7ed-a5a348c63cfd
-  - 572b571b-b337-4004-97b8-386f930b5497
-  - ee1a3ac8-7b0e-4174-a7c4-030c596acd17
-  - 8fd08696-5338-493b-bed5-507f8a6a6ea9
-  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
-  - 7d584c12-7517-4f30-8378-34ac9fc3a3f8
-  - b25be760-256e-4a8a-b34d-867281847ccb
-  - 479401ac-f614-4d0b-8cc6-2ebb8d9de4d9
-  - 740bbd1c-c039-405c-8a32-4baeddfb5637
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - 6420e101-2d34-45b5-bcff-d21e1c6e516b
-  - 4f9a7fd9-de08-4b9c-87c4-21268bc26d54
+  - 5158f742-4a3b-466e-bfc3-d83517b64200
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+  - 03a5578f-d689-45db-95e9-11300e5eee6f
+  - 0b872af2-4197-46f3-b631-afb4e6135585
+  - 1c4046b5-742d-4004-aec6-b47251fef5d6
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+  - 9413237f-2537-4bbf-8768-db6180970e36
+  - c0392040-16a2-41e8-bd54-75110319e3c0
+  - 8430617b-80a2-4cc9-8288-9a74cb57990b
+  - 15d25922-0de6-414f-b7d1-e50e2a57b33a
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
+  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 6bcff92c-4224-453d-9993-1be8d37d47c3
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
+  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
+  - cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
 related_to_title:
-  - field-dynamics-math-blocks
-  - promethean-requirements
-  - Unique Info Dump Index
-  - schema-evolution-workflow
-  - Eidolon Field Abstract Model
-  - EidolonField
-  - mystery-lisp-for-python-education
-  - Universal Lisp Interface
-  - TypeScript Patch for Tool Calling Support
-  - polyglot-repl-interface-layer
-  - Stateful Partitions and Rebalancing
-  - Promethean System Diagrams
-  - language-agnostic-mirror-system
-  - chroma-toolkit-consolidation-plan
-  - State Snapshots API and Transactional Projector
-  - promethean-agent-dsl-ts-scaffold
-  - typed-struct-compiler
-  - dynamic-context-model-for-web-components
-  - promethean-native-config-design
+  - Promethean Agent DSL TS Scaffold
+  - Voice Access Layer Design
+  - WebSocket Gateway Implementation
+  - universal-intention-code-fabric
+  - Promethean_Eidolon_Synchronicity_Model
+  - Promethean Dev Workflow Update
+  - Promethean Documentation Update
+  - Promethean Notes
+  - Promethean Infrastructure Setup
+  - Promethean Documentation Pipeline Overview
+  - Promethean Documentation Overview
   - ripple-propagation-demo
-  - compiler-kit-foundations
-  - heartbeat-fragment-demo
-  - i3-bluetooth-setup
-  - Eidolon Field Math Foundations
-  - homeostasis-decay-formulas
+  - run-step-api
+  - Promethean Full-Stack Docker Setup
+  - file-watcher-auth-fix
+  - TypeScript Patch for Tool Calling Support
+  - plan-update-confirmation
+  - Optimizing Command Limitations in System Design
+  - Dynamic Context Model for Web Components
+  - Post-Linguistic Transhuman Design Frameworks
+  - Duck's Attractor States
+  - sibilant-metacompiler-overview
+  - polymorphic-meta-programming-engine
+  - Refactor Frontmatter Processing
 references:
-  - uuid: 798ee018-e1d3-454f-97c4-a9d66b106602
-    line: 4
+  - uuid: 5158f742-4a3b-466e-bfc3-d83517b64200
+    line: 818
     col: 0
     score: 1
-  - uuid: 7a75d992-5267-4557-b464-b6c7d3f88dad
-    line: 1
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 280
     col: 0
     score: 1
-  - uuid: 7a75d992-5267-4557-b464-b6c7d3f88dad
-    line: 3
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 631
     col: 0
     score: 1
-  - uuid: 7a75d992-5267-4557-b464-b6c7d3f88dad
-    line: 9
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 388
     col: 0
-    score: 1
-  - uuid: 7a75d992-5267-4557-b464-b6c7d3f88dad
-    line: 11
+    score: 0.95
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 60
     col: 0
-    score: 1
-  - uuid: cdf2c6e4-0dbd-4f19-b645-ac619a6f267d
-    line: 28
+    score: 0.92
+  - uuid: 9413237f-2537-4bbf-8768-db6180970e36
+    line: 86
+    col: 0
+    score: 0.92
+  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+    line: 243
+    col: 0
+    score: 0.92
+  - uuid: c0392040-16a2-41e8-bd54-75110319e3c0
+    line: 94
+    col: 0
+    score: 0.92
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 12
+    col: 0
+    score: 0.92
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 133
+    col: 0
+    score: 0.92
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 750
+    col: 0
+    score: 0.92
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 8
+    col: 0
+    score: 0.92
+  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
+    line: 189
+    col: 0
+    score: 0.92
+  - uuid: 15d25922-0de6-414f-b7d1-e50e2a57b33a
+    line: 1038
+    col: 0
+    score: 0.92
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 416
+    col: 0
+    score: 0.88
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+    line: 514
+    col: 0
+    score: 0.88
+  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
+    line: 52
+    col: 0
+    score: 0.88
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 190
+    col: 0
+    score: 0.88
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 5938
+    col: 0
+    score: 0.88
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 3436
+    col: 0
+    score: 0.88
+  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+    line: 1247
+    col: 0
+    score: 0.88
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 3442
+    col: 0
+    score: 0.88
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 3789
+    col: 0
+    score: 0.88
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 2057
+    col: 0
+    score: 0.88
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 6452
+    col: 0
+    score: 0.88
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 2314
+    col: 0
+    score: 0.88
+  - uuid: b51e19b4-1326-4311-9798-33e972bf626c
+    line: 169
     col: 0
     score: 0.87
-  - uuid: 0f203aa7-c96d-4323-9b9e-bbc438966e8c
-    line: 522
+  - uuid: cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
+    line: 11
+    col: 0
+    score: 0.87
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 306
+    col: 0
+    score: 0.87
+  - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
+    line: 289
+    col: 0
+    score: 0.87
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 148
+    col: 0
+    score: 0.87
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 120
+    col: 0
+    score: 0.87
+  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
+    line: 147
     col: 0
     score: 0.86
-  - uuid: 10780cdc-5036-4e8a-9599-a11703bc30c9
-    line: 144
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 305
     col: 0
     score: 0.86
-  - uuid: c29a64c6-f5ea-49ca-91a1-0b590ca547ae
-    line: 74
+  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
+    line: 279
     col: 0
-    score: 0.85
-  - uuid: 7b672b78-7057-4506-baf9-1262a6e477e3
+    score: 0.86
+  - uuid: 9044701b-03c9-4a30-92c4-46b1bd66c11e
+    line: 32
+    col: 0
+    score: 0.86
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 349
+    col: 0
+    score: 0.86
+  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+    line: 375
+    col: 0
+    score: 0.86
+  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
     line: 85
     col: 0
-    score: 0.85
-  - uuid: 9a1076d6-1aac-497e-bac3-66c9ea09da55
-    line: 272
+    score: 0.86
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 524
+    col: 0
+    score: 0.86
+  - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+    line: 232
+    col: 0
+    score: 0.86
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 111
+    col: 0
+    score: 0.86
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 376
+    col: 0
+    score: 0.86
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 490
+    col: 0
+    score: 0.86
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 427
     col: 0
     score: 0.85
-  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-    line: 137
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 440
     col: 0
     score: 0.85
-  - uuid: e4317155-7fa6-44e8-8aee-b72384581790
-    line: 515
+  - uuid: 31f0166e-4631-45fa-aecd-b44e9a13f497
+    line: 79
     col: 0
     score: 0.85
-  - uuid: fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
-    line: 146
+  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
+    line: 565
     col: 0
     score: 0.85
-  - uuid: 395df1ea-572e-49ec-8861-aff9d095ed0e
-    line: 95
+  - uuid: 23e221e9-d4fa-4106-8458-06db2595085f
+    line: 84
     col: 0
     score: 0.85
 ---

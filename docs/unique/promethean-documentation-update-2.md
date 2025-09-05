@@ -19,12 +19,9 @@ tags:
 related_to_uuid:
   - b3555ede-324a-4d24-a885-b0721e74babf
   - 49a9a860-944c-467a-b532-4f99186a8593
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-  - 6cb4943e-8267-4e27-8618-2ce0a464d173
   - 10d98225-12e0-4212-8e15-88b57cf7bee5
   - e90b5a16-d58f-424d-bd36-70e9bd2861ad
   - 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
-  - c26f0044-26fe-4c43-8ab0-fc4690723e3c
   - 5e408692-0e74-400e-a617-84247c7353ad
   - 291c7d91-da8c-486c-9bc0-bd2254536e2d
   - dd89372d-10de-42a9-8c96-6bc13ea36d02
@@ -42,15 +39,15 @@ related_to_uuid:
   - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
   - 5c152b08-6b69-4bb8-a1a7-66745789c169
   - 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
+  - 59b5670f-36d3-4d34-8985-f3144b15347a
 related_to_title:
   - Redirecting Standard Error
   - Self-Agency in AI Interaction
-  - Math Fundamentals
-  - Tooling
   - Creative Moments
   - Prometheus Observability Stack
   - Promethean Data Sync Protocol
-  - unique-templates
   - i3-bluetooth-setup
   - Ice Box Reorganization
   - komorebi-group-window-hack
@@ -68,45 +65,12 @@ related_to_title:
   - Obsidian Templating Plugins Integration Guide
   - OpenAPI Validation Report
   - Optimizing Command Limitations in System Design
+  - ParticleSimulationWithCanvasAndFFmpeg
+  - Per-Domain Policy System for JS Crawler
+  - Reawakening Duck
 references:
   - uuid: 5e408692-0e74-400e-a617-84247c7353ad
     line: 157
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 33
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 70
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 65
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 53
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 73
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 96
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 13
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 80
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 85
     col: 0
     score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
@@ -145,72 +109,24 @@ references:
     line: 192
     col: 0
     score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 4029
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 2817
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 2308
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 4030
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 2818
     col: 0
     score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 2309
     col: 0
     score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 4031
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 2819
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 2310
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 4032
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 2821
     col: 0
     score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 2312
     col: 0
     score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 4033
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 2822
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 2313
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 4034
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 2823
     col: 0
     score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5

@@ -11,11 +11,11 @@ tags:
   - text-processing
   - speech-extraction
 related_to_uuid:
-  - 8f1782ee-a75f-4c9e-acb7-3f744ad2c952
+  - 209f97db-585d-4a59-84f6-567300fb082e
 related_to_title:
-  - Optimizing Command Limitations in System Design
+  - Self-Improving Documentation Tool
 references:
-  - uuid: 8f1782ee-a75f-4c9e-acb7-3f744ad2c952
+  - uuid: 209f97db-585d-4a59-84f6-567300fb082e
     line: 1
     col: 0
     score: 1
@@ -31,6 +31,10 @@ references:
 			...(.map temp (=> (s)  (.split s)))
 			]) )
 	(return {speech:temp, parenthetics})
+			
+)
+```
+s})
 			
 )
 ```

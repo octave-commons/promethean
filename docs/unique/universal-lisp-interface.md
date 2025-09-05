@@ -20,10 +20,8 @@ related_to_uuid:
   - ffb9b2a9-744d-4a53-9565-130fceae0832
   - 6bcff92c-4224-453d-9993-1be8d37d47c3
   - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
   - cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
   - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
-  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
   - b09141b7-544f-4c8e-8f49-bf76cecaacbb
   - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
   - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
@@ -41,15 +39,15 @@ related_to_uuid:
   - e811123d-5841-4e52-bf8c-978f26db4230
   - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
   - 8b256935-02f6-4da2-a406-bf6b8415276f
+  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
+  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
 related_to_title:
   - universal-intention-code-fabric
   - obsidian-ignore-node-modules-regex
   - Post-Linguistic Transhuman Design Frameworks
   - Promethean_Eidolon_Synchronicity_Model
-  - Math Fundamentals
   - Docops Feature Updates
   - sibilant-meta-string-templating-runtime
-  - JavaScript
   - field-interaction-equations
   - Promethean Chat Activity Report
   - Obsidian Templating Plugins Integration Guide
@@ -67,6 +65,8 @@ related_to_title:
   - WebSocket Gateway Implementation
   - TypeScript Patch for Tool Calling Support
   - Chroma-Embedding-Refactor
+  - EidolonField
+  - Eidolon Field Abstract Model
 references:
   - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
     line: 388
@@ -84,20 +84,12 @@ references:
     line: 211
     col: 0
     score: 0.92
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 206
-    col: 0
-    score: 0.92
   - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
     line: 171
     col: 0
     score: 0.92
   - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
     line: 92
-    col: 0
-    score: 0.92
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 143
     col: 0
     score: 0.92
   - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb

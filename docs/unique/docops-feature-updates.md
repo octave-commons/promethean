@@ -21,6 +21,10 @@ related_to_title:
   - local-offline-model-deployment-strategy
 references:
   - uuid: 4f51abed-44fe-4bd6-9eaa-21a6e5c0b46f
+    line: 14
+    col: 0
+    score: 1
+  - uuid: 4f51abed-44fe-4bd6-9eaa-21a6e5c0b46f
     line: 6
     col: 0
     score: 0.99

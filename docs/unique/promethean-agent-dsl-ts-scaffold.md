@@ -15,28 +15,180 @@ tags:
   - codegen
   - example
 related_to_uuid:
-  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
-  - 7a66bc1e-9276-41ce-ac22-fc08926acb2d
-  - 7b672b78-7057-4506-baf9-1262a6e477e3
-  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
-  - c46718fe-73dd-4236-8f1c-f6565da58cc4
-  - e4317155-7fa6-44e8-8aee-b72384581790
-  - 21913df0-a1c6-4ba0-a9e9-8ffc35a71d74
+  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+  - b51e19b4-1326-4311-9798-33e972bf626c
+  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - cdfac40c-00e4-458f-96a7-4c37d0278731
+  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - 31f0166e-4631-45fa-aecd-b44e9a13f497
+  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
+  - b01856b4-999f-418d-8009-ade49b00eb0f
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - 23e221e9-d4fa-4106-8458-06db2595085f
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - 4127189a-e0ab-436f-8571-cc852b8e9add
+  - 8b256935-02f6-4da2-a406-bf6b8415276f
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
 related_to_title:
-  - Stateful Partitions and Rebalancing
-  - pm2-orchestration-patterns
-  - mystery-lisp-for-python-education
-  - dynamic-context-model-for-web-components
-  - shared-package-structure
-  - TypeScript Patch for Tool Calling Support
-  - Graph Data Structure
+  - mystery-lisp-search-session
+  - promethean-system-diagrams
+  - Matplotlib Animation with Async Execution
+  - sibilant-meta-string-templating-runtime
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - Local-Only-LLM-Workflow
+  - Local-Offline-Model-Deployment-Strategy
+  - Interop and Source Maps
+  - Language-Agnostic Mirror System
+  - i3-layout-saver
+  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
+  - ecs-scheduler-and-prefabs
+  - Promethean Agent Config DSL
+  - Event Bus MVP
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - lisp-dsl-for-window-management
+  - Universal Lisp Interface
+  - compiler-kit-foundations
+  - heartbeat-simulation-snippets
+  - Voice Access Layer Design
+  - layer-1-uptime-diagrams
+  - Chroma-Embedding-Refactor
+  - Cross-Target Macro System in Sibilant
+  - Ghostly Smoke Interference
+  - Vectorial Exception Descent
 references:
-  - uuid: 9a1076d6-1aac-497e-bac3-66c9ea09da55
-    line: 578
+  - uuid: b51e19b4-1326-4311-9798-33e972bf626c
+    line: 169
+    col: 0
+    score: 0.97
+  - uuid: 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+    line: 44
+    col: 0
+    score: 0.97
+  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+    line: 92
+    col: 0
+    score: 0.96
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 147
+    col: 0
+    score: 0.95
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 497
+    col: 0
+    score: 0.95
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 490
+    col: 0
+    score: 0.95
+  - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+    line: 232
+    col: 0
+    score: 0.95
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 504
+    col: 0
+    score: 0.95
+  - uuid: 31f0166e-4631-45fa-aecd-b44e9a13f497
+    line: 79
+    col: 0
+    score: 0.95
+  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
+    line: 185
+    col: 0
+    score: 0.94
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 151
+    col: 0
+    score: 0.94
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 376
+    col: 0
+    score: 0.94
+  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
+    line: 279
+    col: 0
+    score: 0.94
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 524
+    col: 0
+    score: 0.94
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 400
+    col: 0
+    score: 0.94
+  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
+    line: 187
+    col: 0
+    score: 0.9
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 588
+    col: 0
+    score: 0.89
+  - uuid: 23e221e9-d4fa-4106-8458-06db2595085f
+    line: 80
+    col: 0
+    score: 0.88
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 280
+    col: 0
+    score: 0.87
+  - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
+    line: 289
+    col: 0
+    score: 0.87
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 129
+    col: 0
+    score: 0.87
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 150
+    col: 0
+    score: 0.87
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 491
+    col: 0
+    score: 0.87
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 95
+    col: 0
+    score: 0.86
+  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
+    line: 148
+    col: 0
+    score: 0.86
+  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+    line: 40
+    col: 0
+    score: 0.86
+  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+    line: 106
     col: 0
     score: 0.85
-  - uuid: 9a1076d6-1aac-497e-bac3-66c9ea09da55
-    line: 36
+  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+    line: 375
+    col: 0
+    score: 0.85
+  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
+    line: 147
+    col: 0
+    score: 0.85
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 137
+    col: 0
+    score: 0.85
+  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
+    line: 272
     col: 0
     score: 0.85
 ---

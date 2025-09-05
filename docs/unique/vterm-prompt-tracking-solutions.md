@@ -15,30 +15,68 @@ tags:
   - osc-51
   - prompt-jump
 related_to_uuid:
-  - 9294c474-78ea-4760-aa39-fcb071ca7806
+  - 3bea339f-aea3-4dae-8e1c-c7638a6899b0
+  - 3b86ea3e-a1d3-46cb-bd6d-774a3c7f8f68
+  - 3724ef1e-d13f-4b52-8045-ba149d90fdec
+  - 636f49b1-4bf4-4578-8153-f1f34c250b05
 related_to_title:
-  - Model Upgrade Calm Down Guide
+  - Obsidian ChatGPT Plugin Integration Guide
+  - AI-First OS Model Context Protocol
+  - obsidian-templating-plugins-integration-guide
+  - Obsidian ChatGPT Plugin Integration
 references:
-  - uuid: 9294c474-78ea-4760-aa39-fcb071ca7806
+  - uuid: 3b86ea3e-a1d3-46cb-bd6d-774a3c7f8f68
     line: 1
     col: 0
     score: 1
-  - uuid: 9294c474-78ea-4760-aa39-fcb071ca7806
+  - uuid: 3b86ea3e-a1d3-46cb-bd6d-774a3c7f8f68
+    line: 3
+    col: 0
+    score: 1
+  - uuid: 3b86ea3e-a1d3-46cb-bd6d-774a3c7f8f68
     line: 5
     col: 0
     score: 1
-  - uuid: 9294c474-78ea-4760-aa39-fcb071ca7806
-    line: 6
-    col: 0
-    score: 1
-  - uuid: 9294c474-78ea-4760-aa39-fcb071ca7806
+  - uuid: 3b86ea3e-a1d3-46cb-bd6d-774a3c7f8f68
     line: 7
     col: 0
     score: 1
-  - uuid: 9294c474-78ea-4760-aa39-fcb071ca7806
-    line: 11
+  - uuid: 3bea339f-aea3-4dae-8e1c-c7638a6899b0
+    line: 5
     col: 0
     score: 1
+  - uuid: 3bea339f-aea3-4dae-8e1c-c7638a6899b0
+    line: 13
+    col: 0
+    score: 1
+  - uuid: 3724ef1e-d13f-4b52-8045-ba149d90fdec
+    line: 13
+    col: 0
+    score: 1
+  - uuid: 636f49b1-4bf4-4578-8153-f1f34c250b05
+    line: 13
+    col: 0
+    score: 1
+  - uuid: 3bea339f-aea3-4dae-8e1c-c7638a6899b0
+    line: 15
+    col: 0
+    score: 1
+  - uuid: 636f49b1-4bf4-4578-8153-f1f34c250b05
+    line: 15
+    col: 0
+    score: 0.99
+  - uuid: 3724ef1e-d13f-4b52-8045-ba149d90fdec
+    line: 15
+    col: 0
+    score: 0.99
+  - uuid: 636f49b1-4bf4-4578-8153-f1f34c250b05
+    line: 5
+    col: 0
+    score: 0.91
+  - uuid: 3724ef1e-d13f-4b52-8045-ba149d90fdec
+    line: 5
+    col: 0
+    score: 0.89
 ---
 Got it — no copy mode. Let’s fix the two pain points directly:
 

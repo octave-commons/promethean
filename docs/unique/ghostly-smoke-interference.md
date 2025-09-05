@@ -24,13 +24,6 @@ related_to_uuid:
   - 0904921a-50df-420d-8fd1-c946d25004c3
   - 13951643-1741-46bb-89dc-1beebb122633
   - 10d98225-12e0-4212-8e15-88b57cf7bee5
-  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
-  - f1add613-656e-4bec-b52b-193fd78c4642
-  - 75ea4a6a-8270-488d-9d37-799c288e5f70
-  - 623a55f7-685c-486b-abaf-469da1bbbb69
-  - 557309a3-c906-4e97-8867-89ffe151790c
-  - 6cb4943e-8267-4e27-8618-2ce0a464d173
-  - 9e8ae388-767a-4ea8-9f2e-88801291d947
   - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
   - a4d90289-798d-44a0-a8e8-a055ae12fb52
   - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
@@ -46,17 +39,17 @@ related_to_uuid:
   - d771154e-a7ef-44ca-b69c-a1626cf94fbf
   - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
   - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - 51932e7b-4237-4756-bcae-8be6d535d0d1
+  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
 related_to_title:
   - Ghostly Smoke Interference
   - Duck's Attractor States
   - Creative Moments
-  - JavaScript
-  - Operations
-  - Services
-  - Shared
-  - Simulation Demo
-  - Tooling
-  - Window Management
   - DuckDuckGoSearchPipeline
   - Factorio AI with External Agents
   - field-dynamics-math-blocks
@@ -72,39 +65,18 @@ related_to_title:
   - Vectorial Exception Descent
   - Voice Access Layer Design
   - Local-Only-LLM-Workflow
+  - ecs-scheduler-and-prefabs
+  - pm2-orchestration-patterns
+  - mystery-lisp-search-session
+  - Local-First Intention→Code Loop with Free Models
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - Recursive Prompt Construction Engine
+  - prom-lib-rate-limiters-and-replay-api
 references:
   - uuid: 0904921a-50df-420d-8fd1-c946d25004c3
     line: 40
     col: 0
     score: 0.97
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 730
-    col: 0
-    score: 0.94
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 358
-    col: 0
-    score: 0.94
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 503
-    col: 0
-    score: 0.94
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 446
-    col: 0
-    score: 0.94
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 437
-    col: 0
-    score: 0.94
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 485
-    col: 0
-    score: 0.94
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 600
-    col: 0
-    score: 0.94
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 332
     col: 0
