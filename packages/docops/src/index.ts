@@ -1,4 +1,5 @@
 export { runFrontmatter, type FrontmatterOptions } from "./01-frontmatter";
+export { runPurge, type PurgeOptions } from "./00-purge";
 export { runEmbed, type EmbedOptions } from "./02-embed";
 export { runQuery, type QueryOptions } from "./03-query";
 export { runRelations, type RelationsOptions } from "./04-relations";

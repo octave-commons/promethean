@@ -15,15 +15,16 @@
     "format": "prettier --cache --write . && eslint . --fix --cache || true"
   },
   "dependencies": {
-    "chokidar": "^3.5.3",
-    "@promethean/persistence": "file:../persistence",
     "@promethean/embeddings": "file:../embeddings",
+    "@promethean/legacy": "workspace:*",
+    "@promethean/persistence": "file:../persistence",
+    "chokidar": "^3.5.3",
     "dotenv": "^17.2.1",
-    "ws": "^8.18.3",
-    "@promethean/legacy": "workspace:*"
+    "ws": "^8.18.3"
   },
   "devDependencies": {
-    "@types/node": "^22.17.2",
+    "@promethean/test-utils": "file:../test-utils",
+    "@promethean/utils": "workspace:*",
     "@types/ws": "^8.5.10",
     "ava": "^6.4.1",
     "c8": "^9.1.0",
@@ -31,8 +32,6 @@
     "eslint-config-neon": "^0.1.62",
     "prettier": "^3.4.2",
     "ts-node": "^10.9.2",
-    "typescript": "5.9.2",
-    "@promethean/utils": "workspace:*",
-    "@promethean/test-utils": "file:../test-utils"
+    "typescript": "5.9.2"
   }
 }

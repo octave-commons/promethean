@@ -16,7 +16,6 @@
     "smoke": "tsx scripts/mcp-call.ts"
   },
   "dependencies": {
-    "@types/node": "^24.3.0",
     "dotenv": "^17.2.1",
     "uuid": "^9.0.0",
     "ws": "^8.18.3",

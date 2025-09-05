@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 // packages/docops/src/04-relations.ts
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
@@ -11,12 +10,16 @@ export type RelationsOptions = {
   docsDir: string;
   docThreshold: number;
   refThreshold: number;
+  maxRelated?: number; // cap related_to_* lists
+  maxReferences?: number; // cap references list
   debug?: boolean;
   files?: string[]; // limit to subset
 };
 let ROOT = path.resolve("docs/unique");
 let DOC_THRESHOLD = 0.78;
 let REF_THRESHOLD = 0.6;
+let MAX_RELATED = 25;
+let MAX_REFERENCES = 100;
 let DEBUG = false;
 const dbg = (...xs: any[]) => {
   if (DEBUG) console.log("[04-relations]", ...xs);
@@ -39,6 +42,11 @@ export async function runRelations(
   ROOT = path.resolve(opts.docsDir);
   DOC_THRESHOLD = opts.docThreshold;
   REF_THRESHOLD = opts.refThreshold;
+  MAX_RELATED =
+    Math.max(0, Number(opts.maxRelated ?? MAX_RELATED) | 0) || MAX_RELATED;
+  MAX_REFERENCES =
+    Math.max(0, Number(opts.maxReferences ?? MAX_REFERENCES) | 0) ||
+    MAX_REFERENCES;
   DEBUG = Boolean(opts.debug);
   const docsKV = db.docs; // uuid -> { path, title }
   const chunksKV = db.chunks; // uuid -> readonly Chunk[]
@@ -140,7 +148,9 @@ export async function runRelations(
         (m, r) => m.set(`${r.uuid}:${r.line}:${r.col}`, r),
         new Map<string, Ref>(),
       );
-      const out = Array.from(dedup.values());
+      const out = Array.from(dedup.values())
+        .sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
+        .slice(0, MAX_REFERENCES);
       if (DEBUG)
         dbg("refsForDoc", uuid, "chunks", chunks.length, "refs", out.length);
       return out;
@@ -154,7 +164,8 @@ export async function runRelations(
   ) => {
     const peers = Array.from((docPairs.get(uuid) ?? new Map()).entries())
       .filter(([, s]) => s >= threshold)
-      .sort((a, b) => b[1] - a[1]);
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, MAX_RELATED);
     const related_to_uuid = uniq(peers.map(([u]) => u));
     const related_to_title = uniq(
       peers.map(([u]) => docsByUuid.get(u)?.title ?? u),
@@ -264,16 +275,20 @@ if (isDirect) {
     "--docs-dir": "docs/unique",
     "--doc-threshold": "0.78",
     "--ref-threshold": "0.6",
+    "--max-related": "25",
+    "--max-references": "100",
     "--debug": "false",
   });
   const docsDir = args["--docs-dir"] ?? "docs/unique";
   const docT = Number(args["--doc-threshold"] ?? "0.78");
   const refT = Number(args["--ref-threshold"] ?? "0.6");
+  const maxRel = Number(args["--max-related"] ?? "25");
+  const maxRefs = Number(args["--max-references"] ?? "100");
   const debug = (args["--debug"] ?? "false") === "true";
   console.log(
     `04-relations: ROOT=${path.resolve(
       docsDir,
-    )}, DOC_THRESHOLD=${docT}, REF_THRESHOLD=${refT}`,
+    )}, DOC_THRESHOLD=${docT}, REF_THRESHOLD=${refT}, MAX_RELATED=${maxRel}, MAX_REFERENCES=${maxRefs}`,
   );
   const { openDB } = await import("./db");
   const db = await openDB();
@@ -282,6 +297,8 @@ if (isDirect) {
       docsDir,
       docThreshold: docT,
       refThreshold: refT,
+      maxRelated: maxRel,
+      maxReferences: maxRefs,
       debug,
     },
     db,

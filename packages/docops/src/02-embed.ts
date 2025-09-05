@@ -1,10 +1,9 @@
-#!/usr/bin/env node
 // packages/docops/src/02-embed.ts
 import * as path from "node:path";
 import { promises as fs } from "node:fs";
 import matter from "gray-matter";
 import { createHash } from "node:crypto";
-import ollama from "ollama";
+import { Ollama } from "ollama";
 import { ChromaClient } from "chromadb";
 import { DBs } from "./db";
 import {
@@ -67,6 +66,23 @@ const chunkDoc = (
 const fingerprint = (text: string, model: string) =>
   sha256(`${model}::${text}`);
 
+// Heuristic cleaners to avoid embedding frontmatter (already removed) and footer link dumps
+const REF_HEADING_RE =
+  /^(references|external links|see also|footnotes|sources|bibliography)$/i;
+const LINK_DEF_RE = /^\s*\[[^\]]+\]:\s*\S+/; // [label]: url
+const BARE_LINK_RE =
+  /^(?:[-*+]\s*)?(?:<https?:\/\/\S+>|https?:\/\/\S+|\[[^\]]+\]\([^)]*\))\s*$/i;
+function cleanChunkText(c: Chunk): string {
+  const title = (c as any).title as string | undefined;
+  if (title && REF_HEADING_RE.test(title.trim())) return "";
+  const lines = (c.text || "").split("\n");
+  const kept = lines.filter(
+    (L) => !(LINK_DEF_RE.test(L) || BARE_LINK_RE.test(L.trim())),
+  );
+  const s = kept.join("\n").trim();
+  return s;
+}
+
 const changedIds = async (
   fpDB: DBs["fp"],
   chunks: readonly Chunk[],
@@ -74,32 +90,50 @@ const changedIds = async (
 ) => {
   const pairs = await Promise.all(
     chunks.map(async (c) => {
-      const fp = fingerprint(c.text, model);
+      const text = cleanChunkText(c);
+      if (!text) return null; // drop empty/garbage chunks
+      const fp = fingerprint(text, model);
       try {
         const old = await fpDB.get(c.id);
-        return old === fp ? null : ([c, fp] as const);
+        return old === fp ? null : ([c, fp, text] as const);
       } catch {
-        return [c, fp] as const;
+        return [c, fp, text] as const;
       }
     }),
   );
-  return pairs.filter((x): x is readonly [Chunk, string] => !!x);
+  return pairs.filter((x): x is readonly [Chunk, string, string] => !!x);
 };
 
-const embedBatch = async (model: string, texts: string[]) => {
+const ollamaClient = new Ollama({ host: OLLAMA_URL });
+const embedBatch = async (
+  model: string,
+  texts: string[],
+  timeoutMs = 120_000,
+) => {
   if (texts.length === 0) return [] as number[][];
   // Official API uses `.embed({ model, input })`
-  const { embeddings } = await ollama.embed({ model, input: texts });
+  const p = ollamaClient.embed({ model, input: texts }) as Promise<any>;
+  const withTimeout = new Promise<any>((_resolve, reject) => {
+    const t = setTimeout(
+      () => reject(new Error(`ollama.embed timeout after ${timeoutMs}ms`)),
+      timeoutMs,
+    );
+    p.then((v) => (clearTimeout(t), _resolve(v))).catch(
+      (e) => (clearTimeout(t), reject(e)),
+    );
+  });
+  const { embeddings } = await withTimeout;
   return embeddings as number[][];
 };
 
 const groupsOf = <T>(
   n: number,
   xs: readonly T[],
-): ReadonlyArray<readonly T[]> =>
-  xs.length === 0
-    ? []
-    : ([xs.slice(0, n) as readonly T[], ...groupsOf(n, xs.slice(n))] as const);
+): ReadonlyArray<readonly T[]> => {
+  const out: Array<readonly T[]> = [];
+  for (let i = 0; i < xs.length; i += n) out.push(xs.slice(i, i + n));
+  return out;
+};
 
 export async function runEmbed(
   opts: EmbedOptions,
@@ -160,6 +194,14 @@ export async function runEmbed(
       "deltas",
       deltas.length,
     );
+    onProgress?.({
+      step: "embed",
+      done: fileDone,
+      total: files.length,
+      message: `file ${fileDone + 1}/${files.length} ${path.basename(
+        f,
+      )} chunks=${chunks.length} deltas=${deltas.length}`,
+    });
     totalDeltas += deltas.length;
     if (deltas.length === 0) {
       fileDone++;
@@ -168,25 +210,49 @@ export async function runEmbed(
     }
 
     // Batch-embed with ollama and upsert to Chroma
-    for (const group of groupsOf(BATCH, deltas)) {
+    const groups = groupsOf(BATCH, deltas);
+    for (let gi = 0; gi < groups.length; gi++) {
+      const group = groups[gi]!;
       const ids = group.map(([c]) => c.id);
-      const texts = group.map(([c]) => c.text);
+      const texts = group.map(([, , text]) => text);
       const metas = group.map(([c]) => ({
         docUuid: c.docUuid,
         path: c.docPath,
         title,
       }));
 
-      const embs = await embedBatch(EMBED_MODEL, texts); // uses ollama JS client
-      await coll.upsert({
-        ids,
-        embeddings: embs,
-        documents: texts,
-        metadatas: metas,
-      });
+      try {
+        const embs = await embedBatch(EMBED_MODEL, texts); // uses ollama JS client
+        await coll.upsert({
+          ids,
+          embeddings: embs,
+          documents: texts,
+          metadatas: metas,
+        });
+      } catch (e) {
+        dbg("embed/upsert error", {
+          file: f,
+          uuid: fm.uuid,
+          group: gi + 1,
+          of: groups.length,
+          error: String((e as any)?.message || e),
+        });
+        // continue to next group instead of stalling whole pipeline
+      }
 
       // Persist fingerprints (immutable write: independent puts)
       await Promise.all(group.map(async ([c, fp]) => db.fp.put(c.id, fp)));
+
+      // Fine-grained progress: advance within this file
+      const frac = (gi + 1) / groups.length;
+      onProgress?.({
+        step: "embed",
+        done: fileDone + frac,
+        total: files.length,
+        message: `file ${fileDone + 1}/${files.length} group ${gi + 1}/${
+          groups.length
+        }`,
+      });
     }
     fileDone++;
     onProgress?.({ step: "embed", done: fileDone, total: files.length });
