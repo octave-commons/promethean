@@ -93,16 +93,14 @@ async function main() {
           ],
         };
 
+    // eslint-disable-next-line functional/prefer-immutable-types
     const outline: Outline = {
       name: pkg.name,
       title: outlineRaw.title,
       tagline: outlineRaw.tagline,
-      includeTOC: outlineRaw.includeTOC ?? true,
+      includeTOC: outlineRaw.includeTOC,
       sections: outlineRaw.sections,
-      ...(Array.isArray((outlineRaw as any).badges) &&
-      (outlineRaw as any).badges.length
-        ? { badges: (outlineRaw as any).badges as string[] }
-        : {}),
+      ...(outlineRaw.badges?.length ? { badges: outlineRaw.badges } : {}),
     };
 
     outlines[pkg.name] = outline;
