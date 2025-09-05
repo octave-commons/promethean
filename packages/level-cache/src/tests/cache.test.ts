@@ -1,7 +1,11 @@
-import test from "ava";
-import { openLevelCache } from "../index.js";
 import { rmSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
+
+import test from "ava";
+
+import { sleep } from "@promethean/test-utils/sleep";
+
+import { openLevelCache } from "../index.js";
 
 const TMP_ROOT = ".cache/tests-level";
 
@@ -12,9 +16,6 @@ function tmpPath(name: string): string {
   } catch {}
   return p;
 }
-
-const sleep = (ms: number): Promise<void> =>
-  new Promise((r) => setTimeout(r, ms));
 
 test("set/get/has basic", async (t) => {
   const path = tmpPath("basic");

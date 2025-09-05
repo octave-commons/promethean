@@ -4,6 +4,8 @@ import path from "node:path";
 
 import test from "ava";
 
+import { sleep } from "@promethean/test-utils/sleep";
+
 import {
   setChromaClient,
   setEmbeddingFactory,
@@ -12,15 +14,11 @@ import {
 } from "../../indexer.js";
 import { loadBootstrapState } from "../../indexerState.js";
 
-function delay(ms) {
-  return new Promise((r) => setTimeout(r, ms));
-}
-
 async function waitIdle(timeoutMs = 5000) {
   const start = Date.now();
   while (indexerManager.isBusy()) {
     if (Date.now() - start > timeoutMs) throw new Error("waitIdle timeout");
-    await delay(10);
+    await sleep(10);
   }
 }
 

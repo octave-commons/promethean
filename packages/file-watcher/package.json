@@ -32,6 +32,8 @@
     "eslint-config-neon": "^0.1.62",
     "prettier": "^3.4.2",
     "ts-node": "^10.9.2",
-    "typescript": "5.9.2"
+    "typescript": "5.9.2",
+    "@promethean/utils": "workspace:*",
+    "@promethean/test-utils": "workspace:*"
   }
 }
