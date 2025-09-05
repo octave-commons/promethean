@@ -31,7 +31,9 @@
     "target": "esnext",
     "useDefineForClassFields": true,
     "paths": {
-      "@shared/ts/*": ["../shared/ts/dist/*"]
+      "@shared/ts/*": ["../shared/ts/dist/*"],
+      "@promethean/test-utils/*": ["../packages/test-utils/dist/*"],
+      "@promethean/test-utils/sleep": ["../packages/test-utils/dist/sleep"]
     },
     "types": ["node", "ava"]
   },
