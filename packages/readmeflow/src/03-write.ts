@@ -1,14 +1,13 @@
 import * as path from "path";
-import { promises as fs } from "fs";
 
 import matter from "gray-matter";
 
 import { parseArgs, writeText, readMaybe } from "./utils.js";
+import { openLevelCache } from "@promethean/level-cache";
 import type { ScanOut, OutlinesFile } from "./types.js";
 
 const args = parseArgs({
-  "--scan": ".cache/readmes/scan.json",
-  "--outlines": ".cache/readmes/outlines.json",
+  "--cache": ".cache/readmes",
   "--mermaid": "true",
 });
 
@@ -46,12 +45,11 @@ function makeReadme(_pkg: any, outline: any, mermaid?: string) {
 }
 
 async function main() {
-  const scan = JSON.parse(
-    await fs.readFile(path.resolve(args["--scan"]!), "utf-8"),
-  ) as ScanOut;
-  const outlines = JSON.parse(
-    await fs.readFile(path.resolve(args["--outlines"]!), "utf-8"),
-  ) as OutlinesFile;
+  const cache = await openLevelCache<unknown>({
+    path: path.resolve(args["--cache"]!),
+  });
+  const scan = (await cache.get("scan")) as ScanOut;
+  const outlines = (await cache.get("outlines")) as OutlinesFile;
 
   for (const pkg of scan.packages) {
     const out = outlines.outlines[pkg.name];
@@ -73,6 +71,7 @@ async function main() {
     const final = matter.stringify(content, fm, { language: "yaml" });
     await writeText(readmePath, final);
   }
+  await cache.close();
   console.log(`readmeflow: wrote ${scan.packages.length} README(s)`);
 }
 main().catch((e) => {

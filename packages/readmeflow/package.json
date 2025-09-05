@@ -17,12 +17,13 @@
   "rm:04-verify": "tsx src/04-verify.ts",
   "rm:all": "pnpm rm:01-scan && pnpm rm:02-outline && pnpm rm:03-write && pnpm rm:04-verify"
  },
- "dependencies": {
-  "globby": "^14.0.2",
-  "gray-matter": "^4.0.3",
-  "yaml": "^2.5.0",
-  "zod": "^3.23.8"
- },
+  "dependencies": {
+    "@promethean/level-cache": "workspace:*",
+    "globby": "^14.0.2",
+    "gray-matter": "^4.0.3",
+    "yaml": "^2.5.0",
+    "zod": "^3.23.8"
+  },
  "devDependencies": {
   "tsx": "^4.19.2",
   "typescript": "^5.5.4"

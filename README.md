@@ -26,6 +26,11 @@ into small services that handle speech-to-text, text-to-speech, memory, and high
 📊 For architecture roadmaps and visualizations, see [docs/architecture/index.md](docs/architecture/index.md).
 📦 Data migration conventions and runbooks live under [docs/data](docs/data/contracts/README.md).
 
+### Development conventions
+
+- Prefer immutable data; avoid in-place object mutation.
+- Use key-value caches like `@promethean/level-cache` instead of JSON files for intermediate data.
+
 ### Broker Heartbeat
 
 `BrokerClient` sends periodic heartbeats to keep connections alive. Configure the interval in milliseconds with the `BROKER_HEARTBEAT_MS` environment variable (default `30000`).
