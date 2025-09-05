@@ -28,11 +28,5 @@
   },
   "module": "dist/index.js",
   "dependencies": {},
-  "devDependencies": {
-    "@biomejs/biome": "^2.2.2",
-    "@types/node": "^20.19.11",
-    "rimraf": "^6.0.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.2"
-  }
+  "license": "GPL-3.0-only"
 }

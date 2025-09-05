@@ -18,7 +18,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -b",
     "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
@@ -56,15 +56,16 @@
     "@promethean/security": "workspace:*"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.2",
-    "@types/body-parser": "^1.19.5",
-    "@types/estree": "^1.0.5",
-    "@types/express": "^4.17.21",
-    "@types/node": "^20.19.11",
-    "@types/ws": "^8.5.9",
-    "acorn": "^8.15.0",
-    "rimraf": "^6.0.1",
-    "ts-node": "^10.9.2",
+    "@biomejs/biome": "2.2.2",
+    "@types/body-parser": "1.19.5",
+    "@types/estree": "1.0.5",
+    "@types/express": "4.17.21",
+    "@types/node": "20.19.11",
+    "@types/ws": "8.5.9",
+    "acorn": "8.15.0",
+    "rimraf": "6.0.1",
+    "ts-node": "10.9.2",
     "typescript": "5.9.2"
-  }
+  },
+  "license": "GPL-3.0-only"
 }

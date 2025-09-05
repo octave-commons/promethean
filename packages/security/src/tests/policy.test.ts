@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { makePolicy, NotAllowedError } from '../policy.js';
+import { makePolicy, NotAllowedError } from '../index.js';
 
 const providerPolicy = makePolicy({
   providerAccess: { allowPatterns: ['services/ts/discord-rest/'] },
@@ -23,7 +23,10 @@ test('provider caps obey access rules', async (t) => {
         tenant: 'duck',
         route: '/foo',
       }),
-    { instanceOf: NotAllowedError },
+    {
+      instanceOf: NotAllowedError,
+      message: /Policy denied .*provider\.rest\.call.*agent services\/ts\/discord-message-indexer\//,
+    },
   );
 });
 
@@ -35,4 +38,8 @@ test('permission gate denies as configured', async (t) => {
   await t.throwsAsync(() => policy.assertAllowed('bad', 'ping'), {
     instanceOf: NotAllowedError,
   });
+  // capability checks should not be blocked by permissionGate
+  await t.notThrowsAsync(() =>
+    policy.checkCapability('any', { kind: 'http.fetch', url: 'https://example.test' }),
+  );
 });
