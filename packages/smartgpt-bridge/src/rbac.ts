@@ -2,7 +2,10 @@
 import { User } from "./models/User.js";
 import { checkAccess } from "./utils/policyEngine.js";
 import { initMongo } from "./mongo.js";
-import { logger } from "./logger.js";
+import { createLogger } from "@promethean/utils/logger.js";
+import { logStream } from "./log-stream.js";
+
+const logger = createLogger({ service: "smartgpt-bridge", stream: logStream });
 
 function getApiKeyHeaderNames(req) {
   try {

@@ -5,7 +5,9 @@ import { createRemoteJWKSet, jwtVerify, decodeProtectedHeader } from "jose";
 
 import { initMongo } from "./mongo.js";
 import { User } from "./models/User.js";
-import { logger } from "./logger.js";
+import { createLogger } from "@promethean/utils/logger.js";
+import { logStream } from "./log-stream.js";
+const logger = createLogger({ service: "smartgpt-bridge", stream: logStream });
 
 function parseCookies(req) {
   const header = req.headers?.cookie;
