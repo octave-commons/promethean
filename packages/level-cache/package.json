@@ -24,7 +24,6 @@
     "level": "^9.0.0"
   },
   "devDependencies": {
-    "@promethean/test-utils": "workspace:*",
-    "typescript": "5.9.2"
+    "@promethean/test-utils": "workspace:*"
   }
 }
