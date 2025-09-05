@@ -32,6 +32,7 @@
     "prettier": "^3.4.2",
     "ts-node": "^10.9.2",
     "typescript": "5.7.3",
-    "@promethean/test-utils": "file:../test-utils"
+    "@promethean/test-utils": "file:../test-utils",
+    "@promethean/utils": "workspace:*"
   }
 }
