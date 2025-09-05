@@ -1,25 +1,35 @@
 import test from "ava";
-import { retry } from "../retry.js";
+
+import { retry } from "../index.js";
 
 // ensure retry succeeds after transient failures
 // use small delays for fast tests
 
 test("retries until success", async (t) => {
-    let attempts = 0;
+    const calls: number[] = [];
     const result = await retry(async () => {
-        attempts++;
-        if (attempts < 3) throw new Error("fail");
+        calls.push(1);
+        if (calls.length < 3) throw new Error("fail");
         return "ok";
     }, { attempts: 5, delayMs: 1 });
     t.is(result, "ok");
-    t.is(attempts, 3);
+    t.is(calls.length, 3);
 });
 
 test("throws after max attempts", async (t) => {
-    let attempts = 0;
+    const calls: number[] = [];
     await t.throwsAsync(() => retry(async () => {
-        attempts++;
+        calls.push(1);
         throw new Error("fail");
     }, { attempts: 3, delayMs: 1 }));
-    t.is(attempts, 3);
+    t.is(calls.length, 3);
+});
+
+test("shouldRetry can stop retries", async (t) => {
+    const calls: number[] = [];
+    await t.throwsAsync(() => retry(async () => {
+        calls.push(1);
+        throw new Error("fail");
+    }, { attempts: 5, delayMs: 1, shouldRetry: () => false }));
+    t.is(calls.length, 1);
 });
