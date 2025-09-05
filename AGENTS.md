@@ -22,9 +22,11 @@ evidence, and produce diffs/notes.
 - MongoDB for main document store
 - LevelDB for caching
 - ESMODULEs
+- Prefer key-value caches via `@promethean/level-cache`; avoid JSON files for transient data
 
 # Programming Style
 - Functional preferred
+- Immutable data; no in-place object mutation
 - TTD non-negotiable
 - Document-driven development
 - No relative module resolution outside of the package root. Depend on `@promethean/<package>*` via "workspace:*".

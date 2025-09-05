@@ -14,7 +14,9 @@
     "./dist/*": "./dist/*",
     "./*": "./dist/*"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
@@ -35,6 +37,6 @@
     "c8": "^10.1.3",
     "rimraf": "^6.0.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.2"
+    "typescript": "5.9.2"
   }
 }
