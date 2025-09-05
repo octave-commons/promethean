@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import { promises as fs } from "fs";
 import * as path from "path";
 import matter from "gray-matter";
