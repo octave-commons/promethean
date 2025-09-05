@@ -1,8 +1,7 @@
 import { makePolicy, type PolicyChecker } from "@promethean/security";
 import { checkPermission } from "@promethean/legacy";
 
-import type { Logger } from "../factories/logger.js";
-import { makeLogger } from "../factories/logger.js";
+import { createLogger, type Logger } from "@promethean/utils/logger.js";
 
 export type PingScope = {
   logger: Logger;
@@ -12,7 +11,7 @@ export type PingScope = {
 
 export async function buildPingScope(): Promise<PingScope> {
   return {
-    logger: makeLogger("ping"),
+    logger: createLogger({ service: "ping" }),
     policy: makePolicy({ permissionGate: checkPermission }),
     time: () => new Date(),
   };
