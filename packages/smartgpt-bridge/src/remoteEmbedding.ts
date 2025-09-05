@@ -1,6 +1,6 @@
 // @ts-nocheck
 // Adapter to shared RemoteEmbeddingFunction with testable broker injection and timeouts.
-import { RemoteEmbeddingFunction as SharedRemoteEmbedding } from "@promethean/embeddings/remote.js";
+import { RemoteEmbeddingFunction as SharedRemoteEmbedding } from "@promethean/embedding/remote.js";
 
 export class RemoteEmbeddingFunction extends SharedRemoteEmbedding {
   constructor(
