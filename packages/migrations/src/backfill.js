@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { MongoClient } from 'mongodb';
-import { makeDeterministicEmbedder } from '@shared/prom-lib';
-import { makeChromaWrapper } from '@shared/prom-lib';
-import { makeCheckpointStore } from '@shared/prom-lib';
-import { checksumFor } from '@shared/prom-lib';
+import { makeDeterministicEmbedder } from './embedder.js';
+import { makeChromaWrapper } from './chroma.js';
+import { makeCheckpointStore } from './checkpoints.js';
+import { checksumFor } from './integrity.js';
 import fs from 'node:fs';
 import path from 'node:path';
 
