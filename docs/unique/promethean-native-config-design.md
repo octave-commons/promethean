@@ -16,6 +16,280 @@ tags:
   - surgical-updates
   - provider-registry
   - sandbox-policy
+related_to_uuid:
+  - abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - 4316c3f9-551f-4872-b5c5-98ae73508535
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+  - b01856b4-999f-418d-8009-ade49b00eb0f
+  - 2c9f86e6-9b63-44d7-902d-84b10b0bdbe3
+  - 8430617b-80a2-4cc9-8288-9a74cb57990b
+  - 8b256935-02f6-4da2-a406-bf6b8415276f
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - 4330e8f0-5f46-4235-918b-39b6b93fa561
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+  - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+related_to_title:
+  - RAG UI Panel with Qdrant and PostgREST
+  - Voice Access Layer Design
+  - WebSocket Gateway Implementation
+  - Migrate to Provider-Tenant Architecture
+  - Universal Lisp Interface
+  - TypeScript Patch for Tool Calling Support
+  - Field Node Diagrams
+  - ripple-propagation-demo
+  - Chroma-Embedding-Refactor
+  - Event Bus MVP
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - Dynamic Context Model for Web Components
+  - template-based-compilation
+  - homeostasis-decay-formulas
+  - Stateful Partitions and Rebalancing
+  - Promethean Full-Stack Docker Setup
+  - Prometheus Observability Stack
+  - komorebi-group-window-hack
+  - Model Selection for Lightweight Conversational Tasks
+  - Chroma Toolkit Consolidation Plan
+  - ParticleSimulationWithCanvasAndFFmpeg
+  - markdown-to-org-transpiler
+references:
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 631
+    col: 0
+    score: 1
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 280
+    col: 0
+    score: 1
+  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+    line: 1
+    col: 0
+    score: 1
+  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+    line: 9
+    col: 0
+    score: 1
+  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+    line: 80
+    col: 0
+    score: 1
+  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+    line: 51
+    col: 0
+    score: 1
+  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+    line: 343
+    col: 0
+    score: 0.96
+  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+    line: 50
+    col: 0
+    score: 0.95
+  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+    line: 146
+    col: 0
+    score: 0.95
+  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+    line: 316
+    col: 0
+    score: 0.95
+  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+    line: 318
+    col: 0
+    score: 0.95
+  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+    line: 47
+    col: 0
+    score: 0.94
+  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+    line: 137
+    col: 0
+    score: 0.93
+  - uuid: 4316c3f9-551f-4872-b5c5-98ae73508535
+    line: 36
+    col: 0
+    score: 0.92
+  - uuid: 4316c3f9-551f-4872-b5c5-98ae73508535
+    line: 56
+    col: 0
+    score: 0.91
+  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+    line: 345
+    col: 0
+    score: 0.9
+  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+    line: 117
+    col: 0
+    score: 0.9
+  - uuid: 4316c3f9-551f-4872-b5c5-98ae73508535
+    line: 296
+    col: 0
+    score: 0.89
+  - uuid: 4316c3f9-551f-4872-b5c5-98ae73508535
+    line: 336
+    col: 0
+    score: 0.89
+  - uuid: 4316c3f9-551f-4872-b5c5-98ae73508535
+    line: 630
+    col: 0
+    score: 0.89
+  - uuid: 4316c3f9-551f-4872-b5c5-98ae73508535
+    line: 43
+    col: 0
+    score: 0.89
+  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+    line: 119
+    col: 0
+    score: 0.89
+  - uuid: 4316c3f9-551f-4872-b5c5-98ae73508535
+    line: 450
+    col: 0
+    score: 0.88
+  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+    line: 56
+    col: 0
+    score: 0.88
+  - uuid: 2c9f86e6-9b63-44d7-902d-84b10b0bdbe3
+    line: 63
+    col: 0
+    score: 0.88
+  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+    line: 61
+    col: 0
+    score: 0.88
+  - uuid: 4316c3f9-551f-4872-b5c5-98ae73508535
+    line: 449
+    col: 0
+    score: 0.88
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+    line: 35
+    col: 0
+    score: 0.87
+  - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
+    line: 66
+    col: 0
+    score: 0.87
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+    line: 160
+    col: 0
+    score: 0.87
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 39
+    col: 0
+    score: 0.87
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 527
+    col: 0
+    score: 0.87
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+    line: 104
+    col: 0
+    score: 0.86
+  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
+    line: 172
+    col: 0
+    score: 0.86
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 318
+    col: 0
+    score: 0.86
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 272
+    col: 0
+    score: 0.86
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+    line: 88
+    col: 0
+    score: 0.86
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 491
+    col: 0
+    score: 0.86
+  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
+    line: 64
+    col: 0
+    score: 0.85
+  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
+    line: 137
+    col: 0
+    score: 0.85
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 342
+    col: 0
+    score: 0.85
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 132
+    col: 0
+    score: 0.85
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 72
+    col: 0
+    score: 0.85
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 332
+    col: 0
+    score: 0.85
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 21
+    col: 0
+    score: 0.85
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 81
+    col: 0
+    score: 0.85
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 61
+    col: 0
+    score: 0.85
+  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
+    line: 150
+    col: 0
+    score: 0.85
+  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
+    line: 52
+    col: 0
+    score: 0.85
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 40
+    col: 0
+    score: 0.85
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 483
+    col: 0
+    score: 0.85
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 480
+    col: 0
+    score: 0.85
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+    line: 115
+    col: 0
+    score: 0.85
+  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
+    line: 299
+    col: 0
+    score: 0.85
+  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
+    line: 272
+    col: 0
+    score: 0.85
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+    line: 534
+    col: 0
+    score: 0.85
 ---
 Short answer: yes. We can rip out the good parts—config + profiles + trust + provider registry—and make them first‑class in Promethean, **without** inheriting Codex’s “rewrite your file” nonsense. ^ref-ab748541-1-0
 

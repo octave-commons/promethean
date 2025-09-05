@@ -15,6 +15,259 @@ tags:
   - Docker
   - API Authentication
   - Token-Gated
+related_to_uuid:
+  - 0580dcd3-533d-4834-8a2f-eae3771960a9
+  - bb90903a-4723-44f7-850e-a71415ef6224
+  - 18138627-a348-4fbb-b447-410dfb400564
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - 618198f4-cfad-4677-9df6-0640d8a97bae
+  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - f2d83a77-7f86-4c56-8538-1350167a0c6c
+  - 1c4046b5-742d-4004-aec6-b47251fef5d6
+  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+  - d3e7db72-2e07-4dae-8920-0e07c499a1e5
+  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+related_to_title:
+  - api-gateway-versioning
+  - AGENTS.md
+  - The Jar of Echoes
+  - eidolon-field-math-foundations
+  - Promethean Full-Stack Docker Setup
+  - AI-First-OS-Model-Context-Protocol
+  - windows-tiling-with-autohotkey
+  - aionian-circuit-math
+  - Promethean Notes
+  - Promethean Chat Activity Report
+  - balanced-bst
+  - Canonical Org-Babel Matplotlib Animation Template
+  - Mongo Outbox Implementation
+  - Docops Feature Updates
+  - Math Fundamentals
+  - homeostasis-decay-formulas
+  - universal-intention-code-fabric
+  - observability-infrastructure-setup
+  - polyglot-repl-interface-layer
+  - compiler-kit-foundations
+  - Duck's Attractor States
+  - Fnord Tracer Protocol
+  - ecs-scheduler-and-prefabs
+  - sibilant-meta-string-templating-runtime
+  - Unique Info Dump Index
+references:
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 274
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 346
+    col: 0
+    score: 1
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 275
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 3292
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 2787
+    col: 0
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 191
+    col: 0
+    score: 0.98
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 3354
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 190
+    col: 0
+    score: 0.98
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 276
+    col: 0
+    score: 0.98
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 1059
+    col: 0
+    score: 0.98
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 1192
+    col: 0
+    score: 0.98
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 262
+    col: 0
+    score: 0.97
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 115
+    col: 0
+    score: 0.97
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 227
+    col: 0
+    score: 0.97
+  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
+    line: 2625
+    col: 0
+    score: 0.97
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 2464
+    col: 0
+    score: 0.97
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 363
+    col: 0
+    score: 0.97
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 610
+    col: 0
+    score: 0.95
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 189
+    col: 0
+    score: 0.95
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 194
+    col: 0
+    score: 0.95
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 328
+    col: 0
+    score: 0.95
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 388
+    col: 0
+    score: 0.92
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 348
+    col: 0
+    score: 0.91
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 171
+    col: 0
+    score: 0.9
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 291
+    col: 0
+    score: 0.9
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 590
+    col: 0
+    score: 0.88
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 379
+    col: 0
+    score: 0.87
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 15616
+    col: 0
+    score: 0.87
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 13864
+    col: 0
+    score: 0.87
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 7868
+    col: 0
+    score: 0.87
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 13178
+    col: 0
+    score: 0.87
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 15006
+    col: 0
+    score: 0.87
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 15236
+    col: 0
+    score: 0.87
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 12067
+    col: 0
+    score: 0.87
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 2507
+    col: 0
+    score: 0.87
+  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+    line: 92
+    col: 0
+    score: 0.86
+  - uuid: 681a4ab2-8fef-4833-a09d-bceb62d114da
+    line: 30
+    col: 0
+    score: 0.86
+  - uuid: cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
+    line: 11
+    col: 0
+    score: 0.86
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 296
+    col: 0
+    score: 0.86
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 171
+    col: 0
+    score: 0.86
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 1356
+    col: 0
+    score: 0.86
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 881
+    col: 0
+    score: 0.86
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 808
+    col: 0
+    score: 0.86
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 611
+    col: 0
+    score: 0.86
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 17764
+    col: 0
+    score: 0.86
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 21424
+    col: 0
+    score: 0.86
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 280
+    col: 0
+    score: 0.85
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 137
+    col: 0
+    score: 0.85
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 158
+    col: 0
+    score: 0.85
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 275
+    col: 0
+    score: 0.85
 ---
 Nice stack. Here’s a clean way to bolt on a **TypeScript + Web Components** UI that lives behind your existing NGINX “edge”, requires **X-API-Key for API calls** (but not for loading the UI), and keeps container bits separate from source (Dockerfile in `./images`, code in `./services/ts/webapp`). ^ref-bc5172ca-1-0
 

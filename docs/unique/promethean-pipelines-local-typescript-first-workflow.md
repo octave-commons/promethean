@@ -19,6 +19,27 @@ tags:
   - symdocs
   - qdrant
   - dependency-cruiser
+related_to_uuid:
+  - 4594f6ff-aa66-4c55-8a18-2a8c417c03a7
+  - 99c6d380-a2a6-4d8e-a391-f4bc0c9a631f
+  - ee4b3631-a745-485b-aff1-2da806cfadfb
+  - 3e74aac4-d652-4ba2-be14-524d5dfb98f1
+  - 033f4d79-efaa-4caf-a193-9022935b8194
+related_to_title:
+  - Pipeline Brainstorming
+  - Layer 1 Survivability Envelope
+  - Promethean Documentation Pipeline Overview
+  - Promethean CI/CD Pipeline
+  - Prompt Programming Language for LLMs
+references:
+  - uuid: 4594f6ff-aa66-4c55-8a18-2a8c417c03a7
+    line: 2
+    col: 0
+    score: 0.99
+  - uuid: 4594f6ff-aa66-4c55-8a18-2a8c417c03a7
+    line: 220
+    col: 0
+    score: 0.95
 ---
 Love this question. Here are a bunch of *plug-and-play* pipelines we can add in the same style as your `symdocs` one—zero SaaS, all local, TypeScript-first. I kept each to a few clear steps so they’re composable. ^ref-6b63edca-1-0
 
@@ -191,6 +212,92 @@ pipelines:
         cwd: images
         shell: "docker buildx bake -f bake.hcl --set *.platform=linux/amd64 --print && docker buildx bake -f bake.hcl"
         inputs: ["*.docker","bake.hcl","../packages/**"]
+        outputs: [".cache/images/build.ok"]
+      - id: sbom
+        deps: ["buildx"]
+        cwd: images
+        shell: "syft packages:local -o json > ../docs/sbom.json"
+        inputs: []
+        outputs: ["../docs/sbom.json"]
+      - id: scan
+        deps: ["sbom"]
+        cwd: images
+        shell: "grype sbom:../docs/sbom.json -o json > ../docs/vulns.json || true"
+        inputs: ["../docs/sbom.json"]
+        outputs: ["../docs/vulns.json"]
+
+  # 11) Board sync (Obsidian/GitHub raw → normalized tasks)
+  - name: board-sync
+    steps:
+      - id: fetch-kanban
+        cwd: tools/board
+        shell: "pnpm tsx fetch-kanban.ts --url  --out .cache/board/kanban.md"
+        inputs: []
+        outputs: [".cache/board/kanban.md"]
+      - id: normalize
+        deps: ["fetch-kanban"]
+        cwd: tools/board
+        shell: "pnpm tsx normalize-kanban.ts .cache/board/kanban.md --out .cache/board/normalized.json"
+        inputs: [".cache/board/kanban.md"]
+        outputs: [".cache/board/normalized.json"]
+
+  # 12) MCP tool registry checks
+  - name: mcp-tools
+    steps:
+      - id: manifest-validate
+        cwd: tools/mcp
+        shell: "pnpm tsx validate-tooling.ts ./tools/mcp/manifests --out .cache/mcp/validation.json"
+        inputs: ["manifests/**/*.json"]
+        outputs: [".cache/mcp/validation.json"]
+      - id: smoke-connect
+        deps: ["manifest-validate"]
+        cwd: tools/mcp
+        shell: "pnpm tsx smoke.ts --manifest manifests/*.json --out .cache/mcp/smoke.log"
+        inputs: ["manifests/*.json"]
+        outputs: [".cache/mcp/smoke.log"]
+```
+^ref-6b63edca-3-0
+ ^ref-6b63edca-217-0
+Here’s a quick mental model of how they relate:
+ ^ref-6b63edca-219-0
+```mermaid
+flowchart LR
+  subgraph Docs
+    A[symdocs-scan] --> B[symdocs-docs] --> C[symdocs-graph]
+  end
+
+  subgraph API
+    D[openapi-gen] --> E[openapi-clients]
+    D --> F[openapi-site]
+  end
+
+  subgraph Knowledge
+    G[frontmatter-fill] --> H[chunk] --> I[embed->qdrant]
+    J[crawl] --> K[html->md] --> I
+  end
+
+  subgraph Code
+    L[typecheck] --> M[eslint] --> N[dep-graph]
+    M --> O[dead-exports]
+    P[codemods-preview] --> Q[codemods-apply]
+  end
+
+  subgraph Media
+    R[segment] --> S[whisper.cpp]
+  end
+
+  subgraph Ops
+    T[changelog] --> U[release-notes]
+    V[buildx] --> W[sbom] --> X[scan]
+    Y[board-fetch] --> Z[normalize]
+    AA[mcp-validate] --> AB[mcp-smoke]
+  end
+^ref-6b63edca-219-0
+``` ^ref-6b63edca-253-0
+^ref-6b63edca-220-0
+
+If you want, I can scaffold any of these (scripts + pnpm targets) and slot them into your repo layout exactly where you prefer (`tools/*`, `images/*`, `docs/*`, `packages/*`).
+r","bake.hcl","../packages/**"]
         outputs: [".cache/images/build.ok"]
       - id: sbom
         deps: ["buildx"]

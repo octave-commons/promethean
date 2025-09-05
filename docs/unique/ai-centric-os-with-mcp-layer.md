@@ -21,6 +21,154 @@ tags:
   - local-only
   - tooling
   - microservices
+related_to_uuid:
+  - a39e72eb-34f4-45d2-9b59-a0f9f4a12fc0
+  - f35d133e-6e9a-4aee-84b1-fa2579664ad8
+  - 792a343e-674c-4bb4-8435-b3f8c163349d
+  - 177c260c-39b2-4450-836d-1e87c0bd0035
+  - 3657117f-241d-4ab9-a717-4a3f584071fc
+  - 5b8c984e-cff5-4d59-b904-4c7c558a4030
+  - 99c6d380-a2a6-4d8e-a391-f4bc0c9a631f
+  - ee4b3631-a745-485b-aff1-2da806cfadfb
+  - d65e5b6c-29ed-458f-bf9b-94bf0d48fa79
+  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - 972c820f-63a8-49c6-831f-013832195478
+  - 006182ac-45a4-449d-8a60-c9bd5a3a9bff
+  - 6bbc5717-b8a5-4aaf-933d-b0225ad598b4
+  - 8fd08696-5338-493b-bed5-507f8a6a6ea9
+  - 740bbd1c-c039-405c-8a32-4baeddfb5637
+  - 2478e18c-f621-4b0c-a4c5-9637d213cccf
+  - a509c89c-480c-446b-9045-a70f4e675b54
+  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
+  - a23de044-17e0-45f0-bba7-d870803cbfed
+  - f24dbd59-29e1-4eeb-bb3e-d2c31116b207
+  - 10780cdc-5036-4e8a-9599-a11703bc30c9
+  - e0d3201b-826a-4976-ab01-36aae28882be
+  - e4317155-7fa6-44e8-8aee-b72384581790
+  - 01723341-5fbf-4118-8885-9ed0a94fca04
+  - 31a2df46-9dbc-4066-b3e3-d3e860099fd0
+related_to_title:
+  - mcp-server-config
+  - windows-tiling-with-autohotkey
+  - universal-intention-code-fabric
+  - language-agnostic-mirror-system
+  - lisp-dsl-window-management
+  - Layer 1 Survivability Envelope
+  - Promethean Documentation Pipeline Overview
+  - sibilant-macro-targets
+  - Universal Lisp Interface
+  - archetype-ecs
+  - local-first-intention-code-loop
+  - matplotlib-animation-with-async-execution
+  - typed-struct-compiler
+  - heartbeat-fragment-demo
+  - Cross-Language Runtime Polymorphism
+  - Smart ChatGPT Activity Log
+  - polyglot-repl-interface-layer
+  - Komorebi Group Manager
+  - Mongo Outbox Implementation
+  - Eidolon Field Abstract Model
+  - Field Node Diagrams
+  - TypeScript Patch for Tool Calling Support
+  - Fnord Tracer Protocol
+  - field-node-diagram-set
+references:
+  - uuid: a39e72eb-34f4-45d2-9b59-a0f9f4a12fc0
+    line: 25
+    col: 0
+    score: 1
+  - uuid: f35d133e-6e9a-4aee-84b1-fa2579664ad8
+    line: 25
+    col: 0
+    score: 1
+  - uuid: 177c260c-39b2-4450-836d-1e87c0bd0035
+    line: 131
+    col: 0
+    score: 0.88
+  - uuid: 792a343e-674c-4bb4-8435-b3f8c163349d
+    line: 116
+    col: 0
+    score: 0.88
+  - uuid: ee4b3631-a745-485b-aff1-2da806cfadfb
+    line: 111
+    col: 0
+    score: 0.87
+  - uuid: 792a343e-674c-4bb4-8435-b3f8c163349d
+    line: 96
+    col: 0
+    score: 0.87
+  - uuid: 792a343e-674c-4bb4-8435-b3f8c163349d
+    line: 104
+    col: 0
+    score: 0.87
+  - uuid: 5b8c984e-cff5-4d59-b904-4c7c558a4030
+    line: 122
+    col: 0
+    score: 0.87
+  - uuid: 3657117f-241d-4ab9-a717-4a3f584071fc
+    line: 130
+    col: 0
+    score: 0.87
+  - uuid: 99c6d380-a2a6-4d8e-a391-f4bc0c9a631f
+    line: 132
+    col: 0
+    score: 0.87
+  - uuid: a39e72eb-34f4-45d2-9b59-a0f9f4a12fc0
+    line: 175
+    col: 0
+    score: 0.87
+  - uuid: f35d133e-6e9a-4aee-84b1-fa2579664ad8
+    line: 175
+    col: 0
+    score: 0.87
+  - uuid: 792a343e-674c-4bb4-8435-b3f8c163349d
+    line: 78
+    col: 0
+    score: 0.86
+  - uuid: 006182ac-45a4-449d-8a60-c9bd5a3a9bff
+    line: 101
+    col: 0
+    score: 0.86
+  - uuid: 6bbc5717-b8a5-4aaf-933d-b0225ad598b4
+    line: 13
+    col: 0
+    score: 0.86
+  - uuid: 5b8c984e-cff5-4d59-b904-4c7c558a4030
+    line: 124
+    col: 0
+    score: 0.86
+  - uuid: d65e5b6c-29ed-458f-bf9b-94bf0d48fa79
+    line: 162
+    col: 0
+    score: 0.86
+  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+    line: 172
+    col: 0
+    score: 0.86
+  - uuid: 8fd08696-5338-493b-bed5-507f8a6a6ea9
+    line: 376
+    col: 0
+    score: 0.85
+  - uuid: 740bbd1c-c039-405c-8a32-4baeddfb5637
+    line: 88
+    col: 0
+    score: 0.85
+  - uuid: 972c820f-63a8-49c6-831f-013832195478
+    line: 363
+    col: 0
+    score: 0.85
+  - uuid: 8fd08696-5338-493b-bed5-507f8a6a6ea9
+    line: 358
+    col: 0
+    score: 0.85
+  - uuid: 5b8c984e-cff5-4d59-b904-4c7c558a4030
+    line: 101
+    col: 0
+    score: 0.85
+  - uuid: 2478e18c-f621-4b0c-a4c5-9637d213cccf
+    line: 129
+    col: 0
+    score: 0.85
 ---
 Alright — let’s wire your crawling/RAG/observability stack into an **AI-centric OS** with an **MCP layer** that tools/agents can call. Pure JS, local-only, no SaaS. I’ll give you the *shape* first (systems design), then a lean TypeScript scaffold you can drop into your repo. ^ref-0f1f8cc1-1-0
 

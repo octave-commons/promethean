@@ -14,6 +14,31 @@ tags:
   - parser
   - codegen
   - example
+related_to_uuid:
+  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
+  - 7a66bc1e-9276-41ce-ac22-fc08926acb2d
+  - 7b672b78-7057-4506-baf9-1262a6e477e3
+  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
+  - c46718fe-73dd-4236-8f1c-f6565da58cc4
+  - e4317155-7fa6-44e8-8aee-b72384581790
+  - 21913df0-a1c6-4ba0-a9e9-8ffc35a71d74
+related_to_title:
+  - Stateful Partitions and Rebalancing
+  - pm2-orchestration-patterns
+  - mystery-lisp-for-python-education
+  - dynamic-context-model-for-web-components
+  - shared-package-structure
+  - TypeScript Patch for Tool Calling Support
+  - Graph Data Structure
+references:
+  - uuid: 9a1076d6-1aac-497e-bac3-66c9ea09da55
+    line: 578
+    col: 0
+    score: 0.85
+  - uuid: 9a1076d6-1aac-497e-bac3-66c9ea09da55
+    line: 36
+    col: 0
+    score: 0.85
 ---
 Got you. Here’s a **single-paste bootstrap** that lays down the full TS scaffold (parser + types + resolver + codegen + example). Paste this in a shell from the repo root: ^ref-5158f742-1-0
 
@@ -722,6 +747,130 @@ export default {
 
 function procToApp(p: ProcDef) {
 const script = serviceToScript(p.service);
+return {
+name: `agent:${p.name}`,
+script,
+args: p.args ? JSON.stringify(p.args) : undefined,
+env: mapEnv(p.env),
+autorestart: true
+};
+}
+ ^ref-5158f742-716-0
+function serviceToScript(svc: string) {
+// naive mapping; adjust as needed
+if (svc.endsWith(".ts")) return svc;
+if (svc.startsWith("services/")) return `${svc}/index.ts`;
+return svc;
+}
+ ^ref-5158f742-723-0
+function mapEnv(env?: Record\<string, any>) {
+if (!env) return undefined;
+const out: Record\<string, string> = {};
+for (const \[k, v] of Object.entries(env)) {
+out\[k] = typeof v === 'string' ? v : JSON.stringify(v);
+}
+return out;
+}
+EOF
+
+# src/codegen/env.ts
+ ^ref-5158f742-735-0
+cat > "\$ROOT/src/codegen/env.ts" <<'EOF'
+import { AgentModule } from "../types/dsl.js";
+ ^ref-5158f742-738-0
+export function emitDotEnv(agent: AgentModule): string {
+const lines: string\[] = \[];
+for (const \[k, v] of Object.entries(agent.env)) {
+if (typeof v === 'string') lines.push(`${k}=${escapeVal(v)}`);
+else if (v && v.kind === 'secret') lines.push(`${k}=${`**SECRET**:\${v.key}`}`);
+}
+return lines.join('\n') + '\n';
+}
+ ^ref-5158f742-747-0
+function escapeVal(v: string) {
+if (/\[\s#]/.test(v)) return JSON.stringify(v);
+return v;
+}
+EOF
+
+# src/codegen/permissions.ts
+ ^ref-5158f742-755-0
+cat > "\$ROOT/src/codegen/permissions.ts" <<'EOF'
+import { AgentModule } from "../types/dsl.js";
+ ^ref-5158f742-758-0
+export function emitPermissionsJSON(agent: AgentModule): string {
+// no further processing; emit as-is
+return JSON.stringify(agent.perms ?? {}, null, 2) + '\n';
+}
+EOF
+
+# src/index.ts
+ ^ref-5158f742-766-0
+cat > "\$ROOT/src/index.ts" <<'EOF'
+import { parseModule } from "./parser/index.js";
+import { Module, AgentModule } from "./types/dsl.js";
+import { composeAgent, registryFromModules } from "./resolver.js";
+import { emitPm2Ecosystem } from "./codegen/pm2.js";
+import { emitDotEnv } from "./codegen/env.js";
+import { emitPermissionsJSON } from "./codegen/permissions.js";
+ ^ref-5158f742-774-0
+export type BuiltArtifacts = {
+pm2: string;
+env: string;
+permissions: string;
+};
+ ^ref-5158f742-780-0
+export function buildAgentArtifacts(ast: any): { agent: AgentModule, artifacts: BuiltArtifacts } {
+const mods = parseModule(ast);
+const agent = mods.find(m => (m as Module).kind === 'agent') as AgentModule | undefined;
+if (!agent) throw new Error('No (agent ...) form found');
+const reg = registryFromModules(mods);
+const composed = composeAgent(agent, reg);
+ ^ref-5158f742-787-0
+const artifacts: BuiltArtifacts = {
+pm2: emitPm2Ecosystem(composed),
+env: emitDotEnv(composed),
+permissions: emitPermissionsJSON(composed)
+};
+return { agent: composed, artifacts };
+}
+EOF
+
+# examples/duck.sx
+ ^ref-5158f742-798-0
+cat > "\$ROOT/examples/duck.sx" <<'EOF'
+(agent
+\:id duck
+\:name "Duck"
+(use discord.bot/v1)
+(env {\:DISCORD\_TOKEN (secret \:discord/duck)})
+(perm
+(fs \:read \["/data/\*\*"])
+(net \:egress \["\*.discord.com"])
+(gpu \:allow true))
+(topology
+(proc \:name \:discord \:service "services/ts/discord" \:args {\:agent "duck"})
+(link \:from \:discord \:to \:cephalon \:via \:ws)))
+EOF
+ ^ref-5158f742-813-0
+echo "Wrote scaffold to \$ROOT"
+echo "Next:"
+echo "  cd \$ROOT && npm i && npm run build"
+ ^ref-5158f742-817-0
+```
+
+Quick notes:
+- This is **runtime-agnostic**; `emitPm2Ecosystem` gives you a ready `ecosystem.config.mjs` string if you want PM2, but you can also read `agent.topology` directly for a custom runner.
+- `:secret` forms emit `__SECRET__:ns/key` placeholders in `.env`. Wire your secret resolver at run/start time.
+- Block parameter substitution uses `:$param` in block `proc.args`, filled from `(use some.block/vN :with {:param ...})`.
+
+Want me to tack on a tiny `prom` CLI (Node) next that:
+- reads `.sx`, calls your reader → `coerceNode` → `buildAgentArtifacts`,
+- writes artifacts into `dist/agents/<id>/`,
+- and optionally spawns via PM2 or a minimal custom runner?
+^ref-5158f742-817-0
+```
+erviceToScript(p.service);
 return {
 name: `agent:${p.name}`,
 script,

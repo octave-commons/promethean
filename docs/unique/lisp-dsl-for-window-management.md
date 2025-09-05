@@ -18,6 +18,143 @@ tags:
   - workspaces
   - layouts
   - external-commands
+related_to_uuid:
+  - 2792d448-c3b5-4050-93dd-93768529d99c
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+  - 22b989d5-f4aa-4880-8632-709c21830f83
+  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - a4a25141-6380-40b9-9cd7-b554b246b303
+  - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - dd00677a-2280-45a7-91af-0728b21af3ad
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - ba244286-4e84-425b-8bf6-b80c4eb783fc
+  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - c5c9a5c6-427d-4864-8084-c083cd55faa0
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
+  - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+related_to_title:
+  - Docops Feature Updates
+  - field-node-diagram-outline
+  - field-node-diagram-set
+  - field-node-diagram-visualizations
+  - Fnord Tracer Protocol
+  - Functional Embedding Pipeline Refactor
+  - graph-ds
+  - heartbeat-fragment-demo
+  - i3-bluetooth-setup
+  - Ice Box Reorganization
+  - komorebi-group-window-hack
+  - Layer1SurvivabilityEnvelope
+  - Local-Offline-Model-Deployment-Strategy
+  - System Scheduler with Resource-Aware DAG
+  - windows-tiling-with-autohotkey
+  - sibilant-macro-targets
+  - prom ui bootstrap
+  - Cross-Target Macro System in Sibilant
+  - Promethean Full-Stack Docker Setup
+  - polymorphic-meta-programming-engine
+  - AI-Centric OS with MCP Layer
+  - Cross-Language Runtime Polymorphism
+  - RAG UI Panel with Qdrant and PostgREST
+  - Recursive Prompt Construction Engine
+  - Event Bus MVP
+references:
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 226
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 705
+    col: 0
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 719
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 601
+    col: 0
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 1060
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 726
+    col: 0
+    score: 1
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 996
+    col: 0
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 667
+    col: 0
+    score: 1
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 736
+    col: 0
+    score: 1
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 645
+    col: 0
+    score: 1
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 739
+    col: 0
+    score: 1
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 816
+    col: 0
+    score: 1
+  - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+    line: 232
+    col: 0
+    score: 0.93
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 32
+    col: 0
+    score: 0.87
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 113
+    col: 0
+    score: 0.87
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 442
+    col: 0
+    score: 0.87
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 358
+    col: 0
+    score: 0.87
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 417
+    col: 0
+    score: 0.87
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 271
+    col: 0
+    score: 0.87
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 100
+    col: 0
+    score: 0.85
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 190
+    col: 0
+    score: 0.85
 ---
 **Hell. Yes.** ^ref-c5c5ff1c-1-0
 This is the good stuff.

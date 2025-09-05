@@ -14,6 +14,219 @@ tags:
   - dependency-graph
   - batching
   - prefabs
+related_to_uuid:
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - a4a25141-6380-40b9-9cd7-b554b246b303
+  - 22b989d5-f4aa-4880-8632-709c21830f83
+  - 2792d448-c3b5-4050-93dd-93768529d99c
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - dd00677a-2280-45a7-91af-0728b21af3ad
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - ffb9b2a9-744d-4a53-9565-130fceae0832
+  - 557309a3-c906-4e97-8867-89ffe151790c
+  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
+  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+  - 18138627-a348-4fbb-b447-410dfb400564
+related_to_title:
+  - ecs-scheduler-and-prefabs
+  - graph-ds
+  - Functional Embedding Pipeline Refactor
+  - field-node-diagram-set
+  - Docops Feature Updates
+  - field-node-diagram-outline
+  - field-node-diagram-visualizations
+  - Fnord Tracer Protocol
+  - heartbeat-fragment-demo
+  - i3-bluetooth-setup
+  - Ice Box Reorganization
+  - komorebi-group-window-hack
+  - Layer1SurvivabilityEnvelope
+  - Recursive Prompt Construction Engine
+  - homeostasis-decay-formulas
+  - obsidian-ignore-node-modules-regex
+  - Simulation Demo
+  - Math Fundamentals
+  - Local-Offline-Model-Deployment-Strategy
+  - TypeScript Patch for Tool Calling Support
+  - Model Selection for Lightweight Conversational Tasks
+  - zero-copy-snapshots-and-workers
+  - windows-tiling-with-autohotkey
+  - ParticleSimulationWithCanvasAndFFmpeg
+  - The Jar of Echoes
+references:
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 7
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 226
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 705
+    col: 0
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 719
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 601
+    col: 0
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 1060
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 726
+    col: 0
+    score: 1
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 996
+    col: 0
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 667
+    col: 0
+    score: 1
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 736
+    col: 0
+    score: 1
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 645
+    col: 0
+    score: 1
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 739
+    col: 0
+    score: 1
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 816
+    col: 0
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 312
+    col: 0
+    score: 1
+  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
+    line: 4
+    col: 0
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 247
+    col: 0
+    score: 0.99
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 188
+    col: 0
+    score: 0.94
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 304
+    col: 0
+    score: 0.94
+  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
+    line: 209
+    col: 0
+    score: 0.94
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 202
+    col: 0
+    score: 0.94
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 394
+    col: 0
+    score: 0.94
+  - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+    line: 232
+    col: 0
+    score: 0.93
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+    line: 690
+    col: 0
+    score: 0.91
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 363
+    col: 0
+    score: 0.91
+  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
+    line: 255
+    col: 0
+    score: 0.91
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 2421
+    col: 0
+    score: 0.88
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 2445
+    col: 0
+    score: 0.88
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 5039
+    col: 0
+    score: 0.88
+  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
+    line: 2157
+    col: 0
+    score: 0.88
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 11209
+    col: 0
+    score: 0.88
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 11675
+    col: 0
+    score: 0.88
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 7117
+    col: 0
+    score: 0.88
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 7118
+    col: 0
+    score: 0.88
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 367
+    col: 0
+    score: 0.87
+  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+    line: 40
+    col: 0
+    score: 0.87
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 340
+    col: 0
+    score: 0.86
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 342
+    col: 0
+    score: 0.86
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 120
+    col: 0
+    score: 0.86
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 527
+    col: 0
+    score: 0.85
+  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+    line: 50
+    col: 0
+    score: 0.85
 ---
 Heck yes—let’s wire a **real system scheduler** on top of the ECS you’ve got, plus **resources**, **dependency graph**, **conflict-aware batching**, and **prefabs/blueprints**. Paste these under `shared/js/prom-lib/ds/`. ^ref-ba244286-1-0
 

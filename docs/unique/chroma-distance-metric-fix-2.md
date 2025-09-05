@@ -16,6 +16,190 @@ tags:
   - embedding
   - query
   - fix
+related_to_uuid:
+  - a439e02d-0ac3-4701-bfca-a7d5cfa3d313
+  - 9fd881b6-cd3b-446d-820c-09a590f68f36
+  - ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
+  - 1c4046b5-742d-4004-aec6-b47251fef5d6
+  - 8b8e6103-30a4-4d66-b5f2-87db1612b587
+  - 23df6ddb-05cf-4639-8201-f8291f8a6026
+  - 43bfe9dd-d433-42ca-9777-f4c40eaba791
+  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
+  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+  - 9a93a756-6d33-45d1-aca9-51b74f2b33d2
+  - 95205cd3-c3d5-4047-9c33-9c5ca2b49597
+  - d614d983-7795-491f-9437-09f3a43f72cf
+  - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+  - 15d25922-0de6-414f-b7d1-e50e2a57b33a
+  - 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+  - 0b872af2-4197-46f3-b631-afb4e6135585
+  - 03a5578f-d689-45db-95e9-11300e5eee6f
+  - 8430617b-80a2-4cc9-8288-9a74cb57990b
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - 9413237f-2537-4bbf-8768-db6180970e36
+  - c0392040-16a2-41e8-bd54-75110319e3c0
+  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
+  - 36c8882a-badc-4e18-838d-2c54d7038141
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+related_to_title:
+  - Chroma Distance Metric Fix
+  - chroma-distance-metric-fix
+  - ts-to-lisp-transpiler
+  - Promethean Notes
+  - Promethean Pipelines
+  - Promethean State Format
+  - Provider-Agnostic Chat Panel Implementation
+  - Prometheus Observability Stack
+  - Prompt_Folder_Bootstrap
+  - Protocol_0_The_Contradiction_Engine
+  - promethean-requirements
+  - Promethean Workflow Optimization
+  - Promethean_Eidolon_Synchronicity_Model
+  - Ghostly Smoke Interference
+  - run-step-api
+  - Promethean Documentation Pipeline Overview
+  - Promethean Documentation Update
+  - Promethean Dev Workflow Update
+  - ripple-propagation-demo
+  - Promethean Infrastructure Setup
+  - Promethean Documentation Overview
+  - polymorphic-meta-programming-engine
+  - shared-package-layout-clarification
+  - prom ui bootstrap
+references:
+  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+    line: 40
+    col: 0
+    score: 1
+  - uuid: 9fd881b6-cd3b-446d-820c-09a590f68f36
+    line: 11
+    col: 0
+    score: 1
+  - uuid: 9fd881b6-cd3b-446d-820c-09a590f68f36
+    line: 12
+    col: 0
+    score: 1
+  - uuid: 9fd881b6-cd3b-446d-820c-09a590f68f36
+    line: 15
+    col: 0
+    score: 1
+  - uuid: 9fd881b6-cd3b-446d-820c-09a590f68f36
+    line: 16
+    col: 0
+    score: 1
+  - uuid: 9fd881b6-cd3b-446d-820c-09a590f68f36
+    line: 17
+    col: 0
+    score: 1
+  - uuid: 9fd881b6-cd3b-446d-820c-09a590f68f36
+    line: 34
+    col: 0
+    score: 1
+  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
+    line: 3
+    col: 0
+    score: 1
+  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
+    line: 5
+    col: 0
+    score: 1
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 27
+    col: 0
+    score: 1
+  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
+    line: 94
+    col: 0
+    score: 1
+  - uuid: 95205cd3-c3d5-4047-9c33-9c5ca2b49597
+    line: 31
+    col: 0
+    score: 1
+  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
+    line: 132
+    col: 0
+    score: 1
+  - uuid: d614d983-7795-491f-9437-09f3a43f72cf
+    line: 27
+    col: 0
+    score: 1
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 534
+    col: 0
+    score: 1
+  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+    line: 209
+    col: 0
+    score: 1
+  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
+    line: 144
+    col: 0
+    score: 1
+  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
+    line: 273
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 60
+    col: 0
+    score: 1
+  - uuid: 9413237f-2537-4bbf-8768-db6180970e36
+    line: 86
+    col: 0
+    score: 1
+  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+    line: 243
+    col: 0
+    score: 1
+  - uuid: c0392040-16a2-41e8-bd54-75110319e3c0
+    line: 94
+    col: 0
+    score: 1
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 12
+    col: 0
+    score: 1
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 133
+    col: 0
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 750
+    col: 0
+    score: 1
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 8
+    col: 0
+    score: 1
+  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
+    line: 189
+    col: 0
+    score: 1
+  - uuid: 15d25922-0de6-414f-b7d1-e50e2a57b33a
+    line: 1038
+    col: 0
+    score: 1
+  - uuid: 15d25922-0de6-414f-b7d1-e50e2a57b33a
+    line: 804
+    col: 0
+    score: 0.95
+  - uuid: 9fd881b6-cd3b-446d-820c-09a590f68f36
+    line: 10
+    col: 0
+    score: 0.92
+  - uuid: 9fd881b6-cd3b-446d-820c-09a590f68f36
+    line: 30
+    col: 0
+    score: 0.91
+  - uuid: a439e02d-0ac3-4701-bfca-a7d5cfa3d313
+    line: 56
+    col: 0
+    score: 0.88
+  - uuid: 9fd881b6-cd3b-446d-820c-09a590f68f36
+    line: 32
+    col: 0
+    score: 0.86
 ---
 
 codex ^ref-b9540809-2-0

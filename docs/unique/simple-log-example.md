@@ -8,6 +8,19 @@ tags:
   - console
   - log
   - example
+related_to_uuid: []
+related_to_title: []
+references: []
+---
+```ts
+console.log("what?")
+```
+rompt Construction Engine
+references:
+  - uuid: 0444fe9c-20cf-4b64-8cc4-fc37b59450cb
+    line: 147
+    col: 0
+    score: 1
 ---
 ```ts
 console.log("what?")

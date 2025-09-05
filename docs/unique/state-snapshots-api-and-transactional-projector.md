@@ -16,6 +16,69 @@ tags:
   - etags
   - api
   - event-bus
+related_to_uuid:
+  - e2955491-020a-4009-b7ed-a5a348c63cfd
+  - 65c145c7-fe3e-4989-9aae-5db39fa0effc
+  - c29a64c6-f5ea-49ca-91a1-0b590ca547ae
+  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - 4316c3f9-551f-4872-b5c5-98ae73508535
+  - f24dbd59-29e1-4eeb-bb3e-d2c31116b207
+  - 4d8cbf01-e44a-452f-96a0-17bde7b416a8
+  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
+  - 0f203aa7-c96d-4323-9b9e-bbc438966e8c
+  - 46b3c583-a4e2-4ecc-90de-6fd104da23db
+related_to_title:
+  - chroma-toolkit-consolidation-plan
+  - event-bus-mvp
+  - EidolonField
+  - Universal Lisp Interface
+  - WebSocket Gateway Implementation
+  - Mongo Outbox Implementation
+  - pure-node-crawl-stack-with-playwright-and-crawlee
+  - Stateful Partitions and Rebalancing
+  - schema-evolution-workflow
+  - Promethean Event Bus MVP
+references:
+  - uuid: e2955491-020a-4009-b7ed-a5a348c63cfd
+    line: 122
+    col: 0
+    score: 0.86
+  - uuid: e2955491-020a-4009-b7ed-a5a348c63cfd
+    line: 124
+    col: 0
+    score: 0.86
+  - uuid: e2955491-020a-4009-b7ed-a5a348c63cfd
+    line: 109
+    col: 0
+    score: 0.86
+  - uuid: e2955491-020a-4009-b7ed-a5a348c63cfd
+    line: 88
+    col: 0
+    score: 0.86
+  - uuid: e2955491-020a-4009-b7ed-a5a348c63cfd
+    line: 72
+    col: 0
+    score: 0.86
+  - uuid: 65c145c7-fe3e-4989-9aae-5db39fa0effc
+    line: 523
+    col: 0
+    score: 0.86
+  - uuid: c29a64c6-f5ea-49ca-91a1-0b590ca547ae
+    line: 184
+    col: 0
+    score: 0.86
+  - uuid: e2955491-020a-4009-b7ed-a5a348c63cfd
+    line: 165
+    col: 0
+    score: 0.86
+  - uuid: e2955491-020a-4009-b7ed-a5a348c63cfd
+    line: 137
+    col: 0
+    score: 0.85
+  - uuid: e2955491-020a-4009-b7ed-a5a348c63cfd
+    line: 89
+    col: 0
+    score: 0.85
 ---
 Note: Consolidated here → ../notes/services/state-snapshots-transactional-projector-timetravel-devharness.md
 
@@ -166,6 +229,240 @@ export async function startProcessTxnProjector(bus: MongoEventBus, db: any) {
         { _key: p.processId },
         { $set: { ...p, _key: p.processId, _ts: e.ts } },
         { upsert: true, session: s }
+      );
+      // Collection B: aggregate a simple host counter (idempotent upsert)
+      await db.collection("host_stats").updateOne(
+        { _key: p.host },
+        { $setOnInsert: { _key: p.host }, $inc: { seen: 1 }, $set: { last_ts: e.ts } },
+        { upsert: true, session: s }
+      );
+    },
+  });
+^ref-509e1cd5-132-0
+}
+```
+ ^ref-509e1cd5-162-0
+**Mermaid (ack-after-commit):**
+
+```mermaid
+sequenceDiagram
+  participant Bus as EventBus
+  participant Proj as Txn Projector
+  participant DB as Mongo
+  Bus-->>Proj: EVENT
+  Proj->>DB: startSession + withTransaction
+^ref-509e1cd5-162-0
+  DB-->>Proj: commit
+  Proj-->>Bus: (auto-ack from subscribe)
+```
+
+--- ^ref-509e1cd5-177-0
+
+# Time-Travel Query Helper (reconstruct state at T) ^ref-509e1cd5-179-0
+
+Works with compaction topics (latest-by-key) + periodic snapshots.
+
+```ts
+// shared/js/prom-lib/timetravel/reconstruct.ts
+import type { MongoEventStore } from "../event/mongo";
+import type { EventRecord } from "../event/types";
+
+export interface ReconstructOpts<T=any> {
+  topic: string;                // e.g., "process.state"
+  snapshotTopic?: string;       // e.g., "process.state.snapshot" (optional)
+  key: string;                  // entity key
+  atTs: number;                 // target timestamp (epoch ms)
+  apply: (prev: T | null, e: EventRecord<T>) => T | null; // reducer: apply event->state
+  // fetchSnapshot: override to load nearest <= atTs (if not using events-only)
+  fetchSnapshot?: (key: string, upTo: number) => Promise<{ state: T | null, ts: number } | null>;
+}
+
+export async function reconstructAt<T=any>(store: MongoEventStore, opts: ReconstructOpts<T>) {
+  let baseState: T | null = null;
+  let baseTs = 0;
+
+  // optional snapshot as baseline
+  if (opts.fetchSnapshot) {
+    const snap = await opts.fetchSnapshot(opts.key, opts.atTs);
+    if (snap) { baseState = snap.state; baseTs = snap.ts; }
+  }
+
+  // scan events after baseline up to atTs
+  const events = await store.scan(opts.topic, { ts: baseTs, limit: 1_000_000 });
+  for (const e of events) {
+    if (e.ts > opts.atTs) break;
+    if (e.key !== opts.key) continue;
+    baseState = opts.apply(baseState, e as EventRecord<T>);
+    baseTs = e.ts;
+^ref-509e1cd5-179-0
+  } ^ref-509e1cd5-216-0
+  return { state: baseState, ts: baseTs };
+}
+```
+^ref-509e1cd5-218-0 ^ref-509e1cd5-220-0
+
+**Example reducer (process.state is full upsert):**
+
+```ts
+// shared/js/prom-lib/timetravel/examples.ts
+import { reconstructAt } from "./reconstruct";
+import { MongoEventStore } from "../event/mongo";
+
+export async function processAt(store: MongoEventStore, processId: string, atTs: number) {
+  return reconstructAt(store, {
+    topic: "process.state",
+    key: processId,
+^ref-509e1cd5-218-0
+    atTs, ^ref-509e1cd5-233-0
+    apply: (_prev, e) => e.payload as any
+  });
+}
+^ref-509e1cd5-235-0
+^ref-509e1cd5-233-0
+```
+^ref-509e1cd5-233-0
+^ref-509e1cd5-235-0 ^ref-509e1cd5-242-0
+^ref-509e1cd5-233-0 ^ref-509e1cd5-242-0
+
+**Mermaid:**
+
+^ref-509e1cd5-235-0 ^ref-509e1cd5-247-0
+```mermaid ^ref-509e1cd5-242-0
+flowchart LR
+  Snap[Snapshot <= T] --> Base
+^ref-509e1cd5-242-0 ^ref-509e1cd5-248-0
+  Base -->|scan events (Base.ts..T)| Reduce
+^ref-509e1cd5-248-0
+  Reduce --> State[State@T]
+^ref-509e1cd5-248-0
+```
+
+> If you don’t have snapshots, set `fetchSnapshot` to `null` and it’ll reconstruct purely from events (longer scans).
+
+---
+
+# Dev Harness (spin in-memory bus + fake services)
+
+```ts
+// shared/js/prom-lib/dev/harness.ts
+import { InMemoryEventBus } from "../event/memory";
+import { startWSGateway } from "../ws/server";
+import { startHttpPublisher } from "../http/publish";
+import { startProcessProjector } from "../examples/process/projector";
+
+export interface Harness {
+  bus: InMemoryEventBus;
+  stop(): Promise<void>;
+}
+
+export async function startHarness({ wsPort = 9090, httpPort = 9091 } = {}): Promise<Harness> {
+  const bus = new InMemoryEventBus();
+
+  const wss = startWSGateway(bus, wsPort, { auth: async () => ({ ok: true }) });
+  const http = startHttpPublisher(bus, httpPort);
+  const stopProj = await startProcessProjector(bus);
+
+  return {
+    bus,
+    async stop() {
+^ref-509e1cd5-248-0
+      await new Promise(r => (http as any).close(r)); ^ref-509e1cd5-278-0
+      wss.close();
+      stopProj();
+^ref-509e1cd5-280-0
+^ref-509e1cd5-278-0
+    }
+^ref-509e1cd5-280-0
+^ref-509e1cd5-278-0
+  };
+^ref-509e1cd5-280-0
+^ref-509e1cd5-278-0
+}
+```
+
+**Integration test (Jest)**
+
+```ts
+// tests/dev.harness.int.test.ts
+import { startHarness } from "../shared/js/prom-lib/dev/harness";
+
+test("harness end-to-end", async () => {
+  const h = await startHarness({ wsPort: 9190, httpPort: 9191 });
+
+  // publish a heartbeat and wait a tick
+  await h.bus.publish("heartbeat.received", { pid: 1, name: "stt", host: "local", cpu_pct: 1, mem_mb: 2 });
+  await new Promise(r => setTimeout(r, 50));
+^ref-509e1cd5-280-0
+
+  // ensure projector emitted process.state
+^ref-509e1cd5-303-0
+  const cur = await h.bus.getCursor("process.state", "process-projector"); // from projector group
+^ref-509e1cd5-303-0
+  expect(cur).toBeTruthy();
+^ref-509e1cd5-319-0 ^ref-509e1cd5-320-0
+^ref-509e1cd5-318-0 ^ref-509e1cd5-321-0
+^ref-509e1cd5-317-0
+^ref-509e1cd5-303-0
+^ref-509e1cd5-299-0
+ ^ref-509e1cd5-325-0
+  await h.stop(); ^ref-509e1cd5-317-0
+}, 10_000); ^ref-509e1cd5-318-0
+``` ^ref-509e1cd5-319-0
+^ref-509e1cd5-303-0
+
+---
+
+# Sibilant sprinkles (pseudo)
+
+^ref-509e1cd5-303-0
+```lisp
+; shared/sibilant/prom/snapshots.sib (pseudo)
+^ref-509e1cd5-321-0
+^ref-509e1cd5-320-0
+^ref-509e1cd5-319-0
+^ref-509e1cd5-318-0 ^ref-509e1cd5-325-0
+^ref-509e1cd5-317-0
+(defn start-snapshot-api [db port coll] ^ref-509e1cd5-327-0
+^ref-509e1cd5-333-0
+^ref-509e1cd5-330-0
+^ref-509e1cd5-329-0
+^ref-509e1cd5-328-0
+^ref-509e1cd5-327-0 ^ref-509e1cd5-338-0
+^ref-509e1cd5-338-0
+^ref-509e1cd5-333-0
+^ref-509e1cd5-330-0
+^ref-509e1cd5-329-0
+^ref-509e1cd5-328-0
+^ref-509e1cd5-327-0 ^ref-509e1cd5-353-0
+^ref-509e1cd5-325-0
+^ref-509e1cd5-321-0
+^ref-509e1cd5-320-0
+  (startSnapshotApi db port {:collection coll})) ^ref-509e1cd5-328-0
+ ^ref-509e1cd5-317-0 ^ref-509e1cd5-329-0
+; transactional projector macro-ish feel ^ref-509e1cd5-318-0 ^ref-509e1cd5-330-0
+(defmacro def-txn-projector [topic group & body] ^ref-509e1cd5-319-0
+  `(startTransactionalProjector bus db {:topic ~topic :group ~group :handler (fn [e db s] ~@body)})) ^ref-509e1cd5-320-0
+``` ^ref-509e1cd5-321-0 ^ref-509e1cd5-333-0
+
+---
+
+# Kanban adds ^ref-509e1cd5-325-0 ^ref-509e1cd5-366-0
+ ^ref-509e1cd5-338-0
+* [ ] Expose **Snapshot API** for `processes` (collection `processes`) ^ref-509e1cd5-327-0 ^ref-509e1cd5-353-0
+* [ ] Add `process.txn` projector to upsert `processes` + `host_stats` atomically ^ref-509e1cd5-328-0
+* [ ] Implement `timetravel.processAt(processId, T)` in a small CLI for debugging ^ref-509e1cd5-329-0
+* [ ] Add `dev.harness.int.test.ts` to CI integration stage ^ref-509e1cd5-330-0
+* [ ] Document ETag semantics and cache headers for `/snap/:key`
+
+--- ^ref-509e1cd5-333-0
+
+Want **Part 8** next? I can deliver:
+
+* **Multi-tenant topics** (namespace + policy isolation),
+* **SLO monitor** (lag, ack time, error rate with alarms), ^ref-509e1cd5-338-0
+* **Bulk replayer** (topic→topic with filter/map),
+* and **JS/Hy generators** to autowire schemas/topics → typed clients + validators.
+{ upsert: true, session: s }
       );
       // Collection B: aggregate a simple host counter (idempotent upsert)
       await db.collection("host_stats").updateOne(

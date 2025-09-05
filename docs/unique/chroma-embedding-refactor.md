@@ -14,6 +14,151 @@ tags:
   - minimal-churn
   - json
   - compatibility
+related_to_uuid:
+  - 0a8255a5-ef49-4a1e-ae71-b2f57eb7bdf8
+  - 8b256935-02f6-4da2-a406-bf6b8415276f
+  - 86ef1f2b-1b3f-4ca7-a88e-b8b52e70ac10
+  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - a23de044-17e0-45f0-bba7-d870803cbfed
+  - b25be760-256e-4a8a-b34d-867281847ccb
+  - 972c820f-63a8-49c6-831f-013832195478
+  - 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
+  - 5becb573-0a78-486b-8d3c-199b3c7a79ec
+  - e4317155-7fa6-44e8-8aee-b72384581790
+  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
+  - 8802d059-6b36-4e56-bb17-6a80a7dba599
+  - c3f0e260-531f-42ea-add4-4e6bb7e5f771
+  - abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+  - 4316c3f9-551f-4872-b5c5-98ae73508535
+  - 8fd08696-5338-493b-bed5-507f8a6a6ea9
+  - 688ad325-4243-4304-bccc-1a1d8745de08
+  - 004a0f06-3808-4421-b9e1-41b5b41ebcb8
+  - c09d7688-71d6-47fc-bf81-86b6193c84bc
+  - cfb15342-0e5d-444b-9e96-3f8758071609
+  - 3abeaf12-5a59-45f1-80d8-82b031b84b96
+  - 909312f1-5feb-4503-a6fa-10a710aa7429
+  - 792a343e-674c-4bb4-8435-b3f8c163349d
+  - aaf779eb-0287-499f-b6d3-6fb4d9e595bd
+related_to_title:
+  - Functional Refactor of TypeScript Document Processing
+  - Chroma-Embedding-Refactor
+  - promethean-pipelines
+  - Universal Lisp Interface
+  - Komorebi Group Manager
+  - ripple-propagation-demo
+  - archetype-ecs
+  - promethean-native-config-design
+  - Stateful Partitions and Rebalancing
+  - Agent Reflections and Prompt Evolution
+  - TypeScript Patch for Tool Calling Support
+  - dynamic-context-model-for-web-components
+  - agent-tasks-persistence-migration-to-dualstore
+  - Functional Embedding Pipeline Refactor
+  - RAG UI Panel with Qdrant and PostgREST
+  - WebSocket Gateway Implementation
+  - typed-struct-compiler
+  - template-based-compilation
+  - ecs-offload-workers
+  - Migrate to Provider-Tenant Architecture
+  - Refactor Frontmatter Processing
+  - sibilant-metacompiler
+  - refactor-05-footers
+  - windows-tiling-with-autohotkey
+  - sibilant-meta-string-templating-runtime
+references:
+  - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
+    line: 114
+    col: 0
+    score: 0.95
+  - uuid: 0a8255a5-ef49-4a1e-ae71-b2f57eb7bdf8
+    line: 5
+    col: 0
+    score: 0.94
+  - uuid: 86ef1f2b-1b3f-4ca7-a88e-b8b52e70ac10
+    line: 84
+    col: 0
+    score: 0.88
+  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+    line: 137
+    col: 0
+    score: 0.88
+  - uuid: a23de044-17e0-45f0-bba7-d870803cbfed
+    line: 195
+    col: 0
+    score: 0.88
+  - uuid: 86ef1f2b-1b3f-4ca7-a88e-b8b52e70ac10
+    line: 68
+    col: 0
+    score: 0.87
+  - uuid: b25be760-256e-4a8a-b34d-867281847ccb
+    line: 64
+    col: 0
+    score: 0.87
+  - uuid: 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+    line: 35
+    col: 0
+    score: 0.87
+  - uuid: 5becb573-0a78-486b-8d3c-199b3c7a79ec
+    line: 101
+    col: 0
+    score: 0.87
+  - uuid: 9a1076d6-1aac-497e-bac3-66c9ea09da55
+    line: 299
+    col: 0
+    score: 0.87
+  - uuid: a23de044-17e0-45f0-bba7-d870803cbfed
+    line: 185
+    col: 0
+    score: 0.87
+  - uuid: 972c820f-63a8-49c6-831f-013832195478
+    line: 418
+    col: 0
+    score: 0.86
+  - uuid: 972c820f-63a8-49c6-831f-013832195478
+    line: 442
+    col: 0
+    score: 0.86
+  - uuid: b25be760-256e-4a8a-b34d-867281847ccb
+    line: 88
+    col: 0
+    score: 0.86
+  - uuid: e4317155-7fa6-44e8-8aee-b72384581790
+    line: 104
+    col: 0
+    score: 0.86
+  - uuid: 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+    line: 33
+    col: 0
+    score: 0.86
+  - uuid: 0c501d52-ba38-42aa-ad25-2d78425dfaff
+    line: 336
+    col: 0
+    score: 0.86
+  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+    line: 172
+    col: 0
+    score: 0.86
+  - uuid: 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+    line: 278
+    col: 0
+    score: 0.86
+  - uuid: 8802d059-6b36-4e56-bb17-6a80a7dba599
+    line: 8
+    col: 0
+    score: 0.85
+  - uuid: 972c820f-63a8-49c6-831f-013832195478
+    line: 366
+    col: 0
+    score: 0.85
+  - uuid: 972c820f-63a8-49c6-831f-013832195478
+    line: 415
+    col: 0
+    score: 0.85
+  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+    line: 117
+    col: 0
+    score: 0.85
 ---
 You’re right—I shouldn’t have put giant `embedding: number[]` blobs on chunk objects at all if the target is **Chroma**. That was dumb. Here’s a **minimal-churn refactor** that: ^ref-8b256935-1-0
 
@@ -305,6 +450,45 @@ So legacy spots can do:
 
 ```typescript
 import { getCollection } from "./chroma";
+^ref-8b256935-282-0
+import { attachEmbeddings } from "./compat";
+
+const coll = await getCollection("docs");
+const withVecs = await attachEmbeddings(chunks, coll);
+^ref-8b256935-295-0 ^ref-8b256935-296-0
+^ref-8b256935-294-0 ^ref-8b256935-297-0
+^ref-8b256935-288-0 ^ref-8b256935-298-0
+``` ^ref-8b256935-294-0
+^ref-8b256935-289-0
+^ref-8b256935-295-0 ^ref-8b256935-296-0 ^ref-8b256935-300-0
+^ref-8b256935-294-0 ^ref-8b256935-297-0
+ ^ref-8b256935-295-0 ^ref-8b256935-296-0 ^ref-8b256935-298-0
+--- ^ref-8b256935-296-0
+ ^ref-8b256935-297-0 ^ref-8b256935-298-0 ^ref-8b256935-300-0
+## Why this way (and not another duct tape) ^ref-8b256935-298-0
+ ^ref-8b256935-300-0 ^ref-8b256935-306-0
+* **No JSON whales.** We never stringify megabyte-scale arrays. ^ref-8b256935-300-0 ^ref-8b256935-307-0
+* **Chroma is the source of truth** for vectors (as you asked).
+* **Your file contracts mostly survive** (`chunks.json` map + `docs-by-uuid.json`). Only the bad idea—`chunk.embedding`—is gone.
+* You still get **deterministic caching** via the content+model fingerprint, not by hoarding vectors in JSON. ^ref-8b256935-306-0
+* If someone *really* needs a local vector list, they can call `attachEmbeddings()` or query Chroma directly. ^ref-8b256935-307-0 ^ref-8b256935-311-0
+ ^ref-8b256935-306-0
+If you want me to also flip your other stages to query Chroma (search, RAG, etc.), I’ll hammer those next. ^ref-8b256935-306-0
+ ^ref-8b256935-307-0
+--- ^ref-8b256935-311-0 ^ref-8b256935-315-0
+
+### References
+ ^ref-8b256935-311-0
+* Chroma “Getting Started” & JS client basics. ([Chroma Docs][1]) ^ref-8b256935-315-0
+* JS `collection.upsert({ ids, embeddings, documents, metadatas })` semantics. ([Chroma Docs][2])
+ ^ref-8b256935-315-0
+--- ^ref-8b256935-315-0 ^ref-8b256935-322-0
+ ^ref-8b256935-323-0
+\#hashtags ^ref-8b256935-324-0
+\#promethean #typescript #chroma #streaming #ollama #embeddings #obdev
+ ^ref-8b256935-322-0 ^ref-8b256935-326-0
+[1]:  "Getting Started - Chroma Docs" ^ref-8b256935-323-0 ^ref-8b256935-327-0
+ from "./chroma";
 ^ref-8b256935-282-0
 import { attachEmbeddings } from "./compat";
 

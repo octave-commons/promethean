@@ -18,6 +18,143 @@ tags:
   - node-js
   - local-proxy
   - web-scraping
+related_to_uuid:
+  - d561308b-933e-4c30-ac2f-affb3504ae91
+  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
+  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - d28090ac-f746-4958-aab5-ed1315382c04
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
+  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+  - e2135d9f-c69d-47ee-9b17-0b05e98dc748
+  - de226416-562b-45ea-8cb3-e7e0e708a07c
+  - cdfac40c-00e4-458f-96a7-4c37d0278731
+  - 6bcff92c-4224-453d-9993-1be8d37d47c3
+  - b51e19b4-1326-4311-9798-33e972bf626c
+  - b01856b4-999f-418d-8009-ade49b00eb0f
+  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - 21d5cc09-b005-4ede-8f69-00b4b0794540
+  - 681a4ab2-8fef-4833-a09d-bceb62d114da
+  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - af5d2824-faad-476c-a389-e912d9bc672c
+related_to_title:
+  - Parenthetical Extraction
+  - Per-Domain Policy System for JS Crawler
+  - Vectorial Exception Descent
+  - WebSocket Gateway Implementation
+  - i3-config-validation-methods
+  - Model Selection for Lightweight Conversational Tasks
+  - sibilant-metacompiler-overview
+  - State Snapshots API and Transactional Projector
+  - Pipeline Enhancements
+  - Eidolon Field Optimization
+  - Interop and Source Maps
+  - Post-Linguistic Transhuman Design Frameworks
+  - promethean-system-diagrams
+  - Universal Lisp Interface
+  - Matplotlib Animation with Async Execution
+  - RAG UI Panel with Qdrant and PostgREST
+  - mystery-lisp-search-session
+  - komorebi-group-window-hack
+  - Promethean-native config design
+  - universal-intention-code-fabric
+  - compiler-kit-foundations
+  - Exception Layer Analysis
+  - SentenceProcessing
+  - Language-Agnostic Mirror System
+  - Sibilant Meta-Prompt DSL
+references:
+  - uuid: d561308b-933e-4c30-ac2f-affb3504ae91
+    line: 3
+    col: 0
+    score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 95
+    col: 0
+    score: 0.89
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 188
+    col: 0
+    score: 0.88
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 631
+    col: 0
+    score: 0.88
+  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
+    line: 103
+    col: 0
+    score: 0.87
+  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
+    line: 52
+    col: 0
+    score: 0.87
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 303
+    col: 0
+    score: 0.87
+  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
+    line: 169
+    col: 0
+    score: 0.87
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 28
+    col: 0
+    score: 0.87
+  - uuid: de226416-562b-45ea-8cb3-e7e0e708a07c
+    line: 50
+    col: 0
+    score: 0.87
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 498
+    col: 0
+    score: 0.87
+  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
+    line: 137
+    col: 0
+    score: 0.86
+  - uuid: 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+    line: 16
+    col: 0
+    score: 0.86
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 269
+    col: 0
+    score: 0.86
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 132
+    col: 0
+    score: 0.85
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 590
+    col: 0
+    score: 0.85
+  - uuid: b51e19b4-1326-4311-9798-33e972bf626c
+    line: 169
+    col: 0
+    score: 0.85
+  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+    line: 106
+    col: 0
+    score: 0.85
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 388
+    col: 0
+    score: 0.85
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 349
+    col: 0
+    score: 0.85
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 305
+    col: 0
+    score: 0.85
 ---
 Heard. JS or bust. Here’s a **pure-Node** crawling stack: Playwright + Crawlee, no Python anywhere, no SaaS, no tokens. Local proxy optional. Data lands as JSONL and (optionally) streams into Meilisearch/OpenSearch—both via HTTP from Node. ^ref-d527c05d-1-0
 
@@ -466,3 +603,4 @@ docker compose --profile crawl-js up --build crawler-js ^ref-d527c05d-412-0
 Want me to add a **simple DOM extractor** (meta tags, visible text, main article heuristics) or a **per-domain config file** so you can override throttles/parsers without changing code? I can drop both in quickly. ^ref-d527c05d-432-0
  ^ref-d527c05d-433-0
 \#webcrawling #javascript #playwright #crawlee #docker #airgapped #selfhosted #meilisearch #opensearch #obsidian
+ensearch #obsidian

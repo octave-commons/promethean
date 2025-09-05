@@ -18,6 +18,202 @@ tags:
   - macroexpander
   - quasiquote
   - compiler-integration
+related_to_uuid:
+  - cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
+  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - 03a5578f-d689-45db-95e9-11300e5eee6f
+  - 18138627-a348-4fbb-b447-410dfb400564
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+  - 43bfe9dd-d433-42ca-9777-f4c40eaba791
+  - 2792d448-c3b5-4050-93dd-93768529d99c
+  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
+  - ae24a280-678e-4c0b-8cc4-56667fa04172
+  - 66a72fc3-4153-41fc-84bd-d6164967a6ff
+  - cdfac40c-00e4-458f-96a7-4c37d0278731
+  - 21d5cc09-b005-4ede-8f69-00b4b0794540
+  - e2135d9f-c69d-47ee-9b17-0b05e98dc748
+  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+  - f5579967-762d-4cfd-851e-4f71b4cb77a1
+  - db74343f-8f84-43a3-adb2-499c6f00be1c
+  - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+  - ca8e1399-77bf-4f77-82a3-3f703b68706d
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - ffb9b2a9-744d-4a53-9565-130fceae0832
+  - 5a02283e-4281-4930-9ca7-e27849de11bd
+  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+related_to_title:
+  - Refactor Frontmatter Processing
+  - file-watcher-auth-fix
+  - Local-Offline-Model-Deployment-Strategy
+  - Promethean Dev Workflow Update
+  - The Jar of Echoes
+  - Chroma Toolkit Consolidation Plan
+  - Docops Feature Updates
+  - Provider-Agnostic Chat Panel Implementation
+  - Per-Domain Policy System for JS Crawler
+  - Promethean-Copilot-Intent-Engine
+  - Shared Package Structure
+  - Interop and Source Maps
+  - Exception Layer Analysis
+  - Pipeline Enhancements
+  - plan-update-confirmation
+  - polyglot-repl-interface-layer
+  - Performance-Optimized-Polyglot-Bridge
+  - Model Upgrade Calm-Down Guide
+  - Obsidian Templating Plugins Integration Guide
+  - Obsidian ChatGPT Plugin Integration
+  - Model Selection for Lightweight Conversational Tasks
+  - obsidian-ignore-node-modules-regex
+  - NPU Voice Code and Sensory Integration
+  - Lispy Macros with syntax-rules
+references:
+  - uuid: cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
+    line: 11
+    col: 0
+    score: 1
+  - uuid: 9044701b-03c9-4a30-92c4-46b1bd66c11e
+    line: 32
+    col: 0
+    score: 0.99
+  - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+    line: 232
+    col: 0
+    score: 0.96
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 17867
+    col: 0
+    score: 0.9
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 17457
+    col: 0
+    score: 0.9
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 1749
+    col: 0
+    score: 0.9
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 1010
+    col: 0
+    score: 0.9
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 1270
+    col: 0
+    score: 0.9
+  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
+    line: 3042
+    col: 0
+    score: 0.9
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 3347
+    col: 0
+    score: 0.9
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 3746
+    col: 0
+    score: 0.9
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 426
+    col: 0
+    score: 0.88
+  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+    line: 325
+    col: 0
+    score: 0.87
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 63
+    col: 0
+    score: 0.87
+  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
+    line: 563
+    col: 0
+    score: 0.87
+  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
+    line: 1047
+    col: 0
+    score: 0.87
+  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
+    line: 929
+    col: 0
+    score: 0.87
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 917
+    col: 0
+    score: 0.87
+  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
+    line: 1317
+    col: 0
+    score: 0.87
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 1141
+    col: 0
+    score: 0.87
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 1608
+    col: 0
+    score: 0.87
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 1524
+    col: 0
+    score: 0.87
+  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
+    line: 580
+    col: 0
+    score: 0.87
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 2018
+    col: 0
+    score: 0.87
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 1274
+    col: 0
+    score: 0.87
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 973
+    col: 0
+    score: 0.86
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 504
+    col: 0
+    score: 0.86
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 401
+    col: 0
+    score: 0.86
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 590
+    col: 0
+    score: 0.86
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 491
+    col: 0
+    score: 0.86
+  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+    line: 50
+    col: 0
+    score: 0.85
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 189
+    col: 0
+    score: 0.85
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 54
+    col: 0
+    score: 0.85
+  - uuid: 66a72fc3-4153-41fc-84bd-d6164967a6ff
+    line: 188
+    col: 0
+    score: 0.85
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 212
+    col: 0
+    score: 0.85
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 137
+    col: 0
+    score: 0.85
 ---
 Oh we’re doing *our* Lisp. Love that energy. Here’s a **minimal, hygienic-ish, macro-first Lisp front-end** that plugs into the compiler pipeline you already have (IR → JS). It’s small, fast, and pragmatically powerful: ^ref-cfee6d36-1-0
 
