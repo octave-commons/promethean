@@ -48,9 +48,12 @@ test("enforces per-route token bucket", async (t) => {
   );
   t.false(r6.ok);
   t.is(r6.status, 429);
+  t.true(typeof r6.retry_after_ms === "number" && r6.retry_after_ms >= 1000);
   t.is(spy.calls.length, 5);
+  t.is(r6.bucket, "POST:/channels/:channel/messages");
 
   // record first call details
   t.true(spy.calls[0].url.includes("/channels/123/messages"));
-  t.truthy(spy.calls[0].init.headers["Authorization"].startsWith("Bot "));
+  t.truthy(spy.calls[0].init.headers.Authorization.startsWith("Bot "));
+  t.is(spy.calls[0].init.method, "POST");
 });
