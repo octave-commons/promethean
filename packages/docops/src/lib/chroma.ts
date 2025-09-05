@@ -1,5 +1,5 @@
 // Lightweight helpers to get a Chroma collection with Ollama embedding function
-import { OLLAMA_URL } from "../utils";
+import { OLLAMA_URL } from "../utils.js";
 
 export async function getChromaCollection(opts: {
   collection: string;

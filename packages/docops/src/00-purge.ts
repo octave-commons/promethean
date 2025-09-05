@@ -1,7 +1,7 @@
 // packages/docops/src/00-purge.ts
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
-import { parseArgs, listFilesRec, stripGeneratedSections } from "./utils";
+import { parseArgs, listFilesRec, stripGeneratedSections } from "./utils.js";
 
 export type PurgeOptions = {
   dir: string;
@@ -57,7 +57,7 @@ export async function runPurge(
   let files = await listFilesRec(ROOT, EXTS);
   if (opts.files && opts.files.length) {
     const wanted = new Set(opts.files.map((p) => path.resolve(p)));
-    files = files.filter((f) => wanted.has(path.resolve(f)));
+    files = files.filter((f: string) => wanted.has(path.resolve(f)));
   }
 
   let done = 0;

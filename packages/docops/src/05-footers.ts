@@ -9,8 +9,8 @@ import {
   relMdLink,
   anchorId,
   injectAnchors,
-} from "./utils";
-import type { Front } from "./types";
+} from "./utils.js";
+import type { Front } from "./types.js";
 
 export type FootersOptions = {
   dir: string;
@@ -115,14 +115,14 @@ const relatedLines = (
   byUuid: ReadonlyMap<string, DocInfo>,
 ) =>
   (fm.related_to_uuid ?? [])
-    .map((u) => [u, byUuid.get(u)] as const)
+    .map((u: string) => [u, byUuid.get(u)] as const)
     .filter(([, d]) => !!d)
     .map(([, d]) => {
       const href = relMdLink(fpath, (d as DocInfo).path);
       const title = (d as DocInfo).title || "";
       return `- [${title}](${href})`;
     })
-    .reduce((xs, x) => xs.concat([x]), [] as string[])
+    .reduce((xs: string[], x: string) => xs.concat([x]), [] as string[])
     .concat((fm.related_to_uuid ?? []).length === 0 ? ["- _None_"] : []);
 
 const sourceLines = (
@@ -131,7 +131,7 @@ const sourceLines = (
   byUuid: ReadonlyMap<string, DocInfo>,
 ) =>
   Promise.all(
-    (fm.references ?? []).map((r) => {
+    (fm.references ?? []).map((r: Ref) => {
       const ref = byUuid.get(r.uuid);
       if (!ref) return Promise.resolve<string | null>(null);
 
@@ -156,7 +156,7 @@ const sourceLines = (
         return `- [${title} — L${r.line}](${href})${meta}`;
       });
     }),
-  ).then((lines) => {
+  ).then((lines: Array<string | null>) => {
     const kept = lines.filter((x): x is string => !!x);
     return kept.length ? kept : ["- _None_"];
   });
@@ -283,7 +283,7 @@ if (isDirect) {
     "--include-sources": "true",
     "--dry-run": "false",
   });
-  const { openDB } = await import("./db");
+  const { openDB } = await import("./db.js");
   const db = await openDB();
   const dir = args["--dir"] ?? "docs/unique";
   const anchorStyle = (args["--anchor-style"] ?? "block") as any;

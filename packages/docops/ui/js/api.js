@@ -78,9 +78,12 @@ export async function searchSemantic(q, collection, k = 10) {
   return r.json();
 }
 
-export async function getStatus(dir) {
+export async function getStatus(dir, opts = {}) {
   const params = new URLSearchParams();
   if (dir) params.set("dir", dir);
+  if (opts.limit != null) params.set("limit", String(opts.limit));
+  if (opts.page != null) params.set("page", String(opts.page));
+  if (opts.onlyIncomplete) params.set("onlyIncomplete", "1");
   const r = await fetch("/api/status?" + params.toString(), {
     cache: "no-store",
   });
