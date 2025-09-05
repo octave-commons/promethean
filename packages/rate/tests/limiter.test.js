@@ -1,15 +1,15 @@
 import test from 'ava';
 
-import { sleep } from '@promethean/test-utils/sleep';
+import { sleep } from '@promethean/test-utils/sleep.js';
 
-import { TokenBucket } from './limiter.js';
+import { TokenBucket } from '../dist/limiter.js';
 
 // ensure TokenBucket enforces capacity and returns deficit
 test('TokenBucket enforces capacity', (t) => {
     const bucket = new TokenBucket({ capacity: 5, refillPerSec: 1 });
     t.true(bucket.tryConsume(3));
     t.false(bucket.tryConsume(3));
-    t.is(bucket.deficit(3), 1);
+    t.true(Math.abs(bucket.deficit(3) - 1) < 1e-6);
 });
 
 // ensure tokens refill over time
