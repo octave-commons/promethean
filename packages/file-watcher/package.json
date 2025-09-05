@@ -23,17 +23,12 @@
     "ws": "^8.18.3"
   },
   "devDependencies": {
-    "@promethean/test-utils": "file:../test-utils",
+    "@promethean/test-utils": "workspace:*",
     "@promethean/utils": "workspace:*",
     "@types/ws": "^8.5.10",
-    "ava": "^6.4.1",
-    "c8": "^9.1.0",
     "eslint": "^8.57.0",
     "eslint-config-neon": "^0.1.62",
     "prettier": "^3.4.2",
-    "ts-node": "^10.9.2",
-    "typescript": "5.9.2",
-    "@promethean/utils": "workspace:*",
-    "@promethean/test-utils": "workspace:*"
+    "typescript": "5.9.2"
   }
 }

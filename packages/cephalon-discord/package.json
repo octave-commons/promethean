@@ -12,9 +12,5 @@
   },
   "dependencies": {
     "typescript": "5.9.2"
-  },
-  "devDependencies": {
-    "ava": "^6.4.1",
-    "c8": "^9.1.0"
   }
 }

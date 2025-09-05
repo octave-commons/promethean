@@ -14,8 +14,6 @@
     "cheerio": "^1.0.0-rc.12"
   },
   "devDependencies": {
-    "ava": "^6.4.1",
-    "c8": "^10.1.3",
     "typescript": "5.9.2"
   }
 }
