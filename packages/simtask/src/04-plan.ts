@@ -3,7 +3,7 @@ import * as path from "path";
 
 import { z } from "zod";
 
-import { parseArgs, OLLAMA_URL } from "./utils.js";
+import { parseArgs } from "./utils.js";
 import type { ScanResult, Cluster, Plan } from "./types.js";
 
 const args = parseArgs({
@@ -55,11 +55,13 @@ async function ollamaJSON(model: string, prompt: string) {
 }
 
 async function main() {
-  const SCAN = path.resolve(args["--scan"]);
-  const CLS = path.resolve(args["--clusters"]);
-  const OUT = path.resolve(args["--out"]);
-  const model = args["--model"];
-  const baseDir = args["--base-dir"];
+  const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions.json");
+  const CLS = path.resolve(
+    args["--clusters"] ?? ".cache/simtasks/clusters.json",
+  );
+  const OUT = path.resolve(args["--out"] ?? ".cache/simtasks/plans.json");
+  const model = args["--model"] ?? "qwen3:4b";
+  const baseDir = args["--base-dir"] ?? "packages";
   const force = args["--force"] === "true";
 
   const { functions }: ScanResult = JSON.parse(
