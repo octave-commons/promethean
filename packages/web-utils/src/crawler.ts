@@ -1,5 +1,5 @@
 import { load } from "cheerio";
-import { canonicalUrl, isUrlAllowed } from "@promethean/web";
+import { canonicalUrl, isUrlAllowed } from './url.js';
 
 export type CrawlResult = {
   url: string;
