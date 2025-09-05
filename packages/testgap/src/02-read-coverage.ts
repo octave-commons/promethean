@@ -47,7 +47,7 @@ function parseLCOV(raw: string): FileCoverage[] {
 
 async function main() {
   const files = await globby(
-    args["--lcov-globs"].split(",").map((s) => s.trim()),
+    (args["--lcov-globs"] ?? "").split(",").map((s) => s.trim()),
   );
   const idx: CoverageIndex = {
     collectedAt: new Date().toISOString(),
@@ -57,9 +57,10 @@ async function main() {
     const raw = await fs.readFile(f, "utf-8");
     for (const fc of parseLCOV(raw)) idx.files[fc.file] = fc;
   }
-  await writeJSON(path.resolve(args["--out"]), idx);
+  const outPath = path.resolve(args["--out"] ?? ".cache/testgap/coverage.json");
+  await writeJSON(outPath, idx);
   console.log(
-    `testgap: coverage → ${args["--out"]} (${
+    `testgap: coverage → ${args["--out"] ?? ".cache/testgap/coverage.json"} (${
       Object.keys(idx.files).length
     } files)`,
   );

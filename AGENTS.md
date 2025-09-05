@@ -46,6 +46,10 @@ Under no circumstances should you introduce the following to Promethean:
 # Available MCP Servers (Intended Scope)
 - filesystem: read/write within {{ALLOWED_ROOTS}} (expected:
   /home/err/devel/promethean).
+  - DO NOT read the full directory tree. It will break you. it's too big.
+  - ONLY read sub directories of the project
+  - LIST the project root
+  - ONLY read directory trees from with in a package.
 - GitHub: issues/PRs/comments. Use for review, triage, summaries; rate-limit
   respectfully.
 - SonarQube: code analysis, issues, hotspots. Use to augment PR reviews with
@@ -60,7 +64,7 @@ Under no circumstances should you introduce the following to Promethean:
 > endpoints) and adapt. If discovery fails, report and degrade gracefully.
 
 # Guardrails
-1. **Minimize calls**: Prefer a single well-chosen tool call over chatty
+1. **Minimize calls**: Prefer a single well-chosen tool call with isolated scope over chatty or indiscriminate bulk operations
    iteration. Batch when possible.
 2. **Determinism**: Keep outputs structured and reproducible. No hidden steps.
 3. **Privacy**: Don’t paste large code blobs or DB rows; summarize structure and

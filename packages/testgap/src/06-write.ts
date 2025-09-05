@@ -37,15 +37,19 @@ function uuid() {
 
 async function main() {
   const plans = JSON.parse(
-    await fs.readFile(path.resolve(args["--plans"]), "utf-8"),
+    await fs.readFile(
+      path.resolve(args["--plans"] ?? ".cache/testgap/plans.json"),
+      "utf-8",
+    ),
   ) as PlanFile;
-  await fs.mkdir(path.resolve(args["--out"]), { recursive: true });
+  const outDir = path.resolve(args["--out"] ?? "docs/agile/tasks/test-gaps");
+  await fs.mkdir(outDir, { recursive: true });
   const index: string[] = ["# Test gap tasks", ""];
 
   for (const [pkg, tasks] of Object.entries(plans.tasks)) {
     for (const t of tasks) {
       const fname = `${slug(pkg)}-${slug(t.title)}.md`;
-      const p = path.join(args["--out"], fname);
+      const p = path.join(outDir, fname);
       const existing = await (async () => {
         try {
           return await fs.readFile(p, "utf-8");
@@ -59,8 +63,8 @@ async function main() {
         uuid: gm?.data?.uuid ?? uuid(),
         title: t.title,
         package: pkg,
-        status: args["--status"],
-        priority: args["--priority"],
+        status: args["--status"] ?? "todo",
+        priority: args["--priority"] ?? "P2",
         labels: Array.from(
           new Set([...(gm?.data?.labels ?? []), ...(t.labels ?? [])]),
         ),
@@ -102,11 +106,11 @@ async function main() {
   }
 
   await fs.writeFile(
-    path.join(args["--out"], "README.md"),
+    path.join(outDir, "README.md"),
     index.join("\n") + "\n",
     "utf-8",
   );
-  console.log(`testgap: wrote tasks → ${args["--out"]}`);
+  console.log(`testgap: wrote tasks → ${outDir}`);
 }
 main().catch((e) => {
   console.error(e);
