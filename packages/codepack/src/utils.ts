@@ -5,7 +5,7 @@ import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
 import * as crypto from "crypto";
-import { ensureDir } from '@promethean/fs';
+import { ensureDir } from "@promethean/fs";
 
 export { ensureDir };
 

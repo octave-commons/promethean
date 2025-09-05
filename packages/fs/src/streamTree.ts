@@ -107,9 +107,9 @@ export async function* streamTree(root: string, opts: StreamOptions = {}): Async
                 path: p,
                 relative: path.relative(base, p),
                 type,
-                size: type !== 'dir' ? s.size : undefined,
+                ...(type !== 'dir' ? { size: s.size } : {}),
                 mtimeMs: s.mtimeMs,
-                ext: type === 'file' ? path.extname(name) : undefined,
+                ...(type === 'file' ? { ext: path.extname(name) } : {}),
                 depth,
             };
         } catch (e) {
