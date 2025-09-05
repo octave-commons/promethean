@@ -22,8 +22,8 @@ const OutlineSchema = z.object({
 });
 
 async function main() {
-  const cache = await openLevelCache<unknown>({
-    path: path.resolve(args["--cache"]!),
+  const cache = await openLevelCache<ScanOut | OutlinesFile>({
+    path: path.resolve(args["--cache"]),
   });
   const scan = (await cache.get("scan")) as ScanOut;
   let outlines: Record<string, Outline> = {};
@@ -52,10 +52,10 @@ async function main() {
       "If the repo uses Piper pipelines, mention how to run the relevant pipeline.",
     ].join("\n");
 
-    let obj: any;
+    let obj: unknown;
     try {
       obj = await ollamaJSON(
-        args["--model"]!,
+        args["--model"],
         `SYSTEM:\n${sys}\n\nUSER:\n${user}`,
       );
     } catch {
@@ -66,9 +66,12 @@ async function main() {
         sections: [
           {
             heading: "Install",
-            body: "```bash\npnpm -w add -D " + pkg.name + "\n```",
+            body: `\`\`\`bash\npnpm -w add -D ${pkg.name}\n\`\`\``,
           },
-          { heading: "Quickstart", body: "```ts\n// usage example\n```" },
+          {
+            heading: "Quickstart",
+            body: "```ts\n// usage example\n```",
+          },
           {
             heading: "Commands",
             body:
@@ -87,7 +90,7 @@ async function main() {
           tagline: pkg.description ?? "",
           includeTOC: true,
           sections: [
-            { heading: "Install", body: "pnpm add " + pkg.name },
+            { heading: "Install", body: `pnpm add ${pkg.name}` },
             { heading: "Usage", body: "(coming soon)" },
             { heading: "License", body: "MIT" },
           ],
@@ -102,13 +105,17 @@ async function main() {
       sections: outlineRaw.sections,
       ...(outlineRaw.badges?.length ? { badges: outlineRaw.badges } : {}),
     };
+
     outlines = { ...outlines, [pkg.name]: outline };
   }
+  // eslint-disable-next-line functional/prefer-immutable-types
   const out: OutlinesFile = { plannedAt: new Date().toISOString(), outlines };
   await cache.set("outlines", out);
   await cache.close();
   console.log(
-    `readmeflow: outlined ${Object.keys(outlines).length} README(s) → ${args["--cache"]}/outlines`,
+    `readmeflow: outlined ${Object.keys(outlines).length} README(s) → ${
+      args["--cache"]
+    }`,
   );
 }
 main().catch((e) => {
