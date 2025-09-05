@@ -122,12 +122,15 @@ export async function runRelations(
                 if (!tChunk) return true;
                 return (tChunk.text || "").trim() !== (c.text || "").trim();
               })
-              .map((h) => ({
-                uuid: h.docUuid,
-                line: h.startLine,
-                col: (h as any).startCol ?? 0,
-                score: round2(h.score),
-              })),
+              .map((h) => {
+                const s = round2(h.score);
+                return {
+                  uuid: h.docUuid,
+                  line: h.startLine,
+                  col: (h as any).startCol ?? 0,
+                  ...(s != null ? { score: s } : {}),
+                } as const;
+              }),
           ),
       ),
     ).then((arrs) => {
@@ -263,19 +266,23 @@ if (isDirect) {
     "--ref-threshold": "0.6",
     "--debug": "false",
   });
+  const docsDir = args["--docs-dir"] ?? "docs/unique";
+  const docT = Number(args["--doc-threshold"] ?? "0.78");
+  const refT = Number(args["--ref-threshold"] ?? "0.6");
+  const debug = (args["--debug"] ?? "false") === "true";
   console.log(
-    `04-relations: ROOT=${path.resolve(args["--docs-dir"])}, DOC_THRESHOLD=${
-      args["--doc-threshold"]
-    }, REF_THRESHOLD=${args["--ref-threshold"]}`,
+    `04-relations: ROOT=${path.resolve(
+      docsDir,
+    )}, DOC_THRESHOLD=${docT}, REF_THRESHOLD=${refT}`,
   );
   const { openDB } = await import("./db");
   const db = await openDB();
   runRelations(
     {
-      docsDir: args["--docs-dir"],
-      docThreshold: Number(args["--doc-threshold"]),
-      refThreshold: Number(args["--ref-threshold"]),
-      debug: args["--debug"] === "true",
+      docsDir,
+      docThreshold: docT,
+      refThreshold: refT,
+      debug,
     },
     db,
   )

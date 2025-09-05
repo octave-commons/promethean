@@ -17,10 +17,12 @@ export function parseArgs(
   const out = { ...defaults };
   const argv = process.argv.slice(2);
   for (let i = 0; i < argv.length; i++) {
-    const k = argv[i];
+    const k = argv[i]!;
     if (k.startsWith("--")) {
-      const v =
-        argv[i + 1] && !argv[i + 1].startsWith("--") ? argv[++i] : "true";
+      const next = argv[i + 1];
+      const useNext = !!next && !next.startsWith("--");
+      const v = useNext ? next! : "true";
+      if (useNext) i++;
       out[k] = v;
     }
   }
@@ -103,9 +105,11 @@ export function cosine(a: number[], b: number[]): number {
     nb = 0;
   const n = Math.min(a.length, b.length);
   for (let i = 0; i < n; i++) {
-    dot += a[i] * b[i];
-    na += a[i] * a[i];
-    nb += b[i] * b[i];
+    const ai = a[i]!;
+    const bi = b[i]!;
+    dot += ai * bi;
+    na += ai * ai;
+    nb += bi * bi;
   }
   if (na === 0 || nb === 0) return 0;
   return dot / (Math.sqrt(na) * Math.sqrt(nb));
@@ -164,7 +168,7 @@ export function parseMarkdownChunks(markdown: string): Chunk[] {
       if (!trimmed) return;
       const kind = node.type === "code" ? "code" : "text";
       for (const s of sentenceSplit(trimmed, 1200)) {
-        chunks.push({
+        const base: any = {
           id: "",
           docUuid: "",
           docPath: "",
@@ -173,9 +177,10 @@ export function parseMarkdownChunks(markdown: string): Chunk[] {
           endLine: pos.end.line,
           endCol: pos.end.column,
           text: s,
-          title: currentHeading,
           kind,
-        });
+        };
+        if (currentHeading) base.title = currentHeading;
+        chunks.push(base as Chunk);
       }
     }
   });
@@ -190,7 +195,6 @@ export function parseMarkdownChunks(markdown: string): Chunk[] {
       endLine: markdown.split("\n").length,
       endCol: 1,
       text: markdown.trim(),
-      title: undefined,
       kind: "text",
     });
   }
@@ -219,21 +223,25 @@ export function computeFenceMap(lines: string[]): boolean[] {
     fenceLen = 0;
   const fenceRe = /^(\s*)(`{3,}|~{3,})(.*)$/;
   for (let i = 0; i < lines.length; i++) {
-    const L = lines[i];
+    const L = lines[i] ?? "";
     if (!inFence) {
       const m = L.match(fenceRe);
       if (m) {
         inFence = true;
-        fenceChar = m[2][0] as any;
-        fenceLen = m[2].length;
+        const grp = m[2] ?? "";
+        fenceChar = grp[0] as any;
+        fenceLen = grp.length;
         inside[i] = true;
         continue;
       }
     } else {
       inside[i] = true;
       const m = L.match(fenceRe);
-      if (m && (m[2][0] as any) === fenceChar && m[2].length >= fenceLen) {
-        inFence = false;
+      if (m) {
+        const grp = m[2] ?? "";
+        if ((grp[0] as any) === fenceChar && grp.length >= fenceLen) {
+          inFence = false;
+        }
       }
     }
   }
@@ -251,8 +259,8 @@ export function injectAnchors(
   for (const w of want) uniq.set(`${w.line}:${w.id}`, w);
   const anchors = Array.from(uniq.values()).sort((a, b) => a.line - b.line);
   const hasIdOnOrNext = (idx: number, id: string) =>
-    (lines[idx] && lines[idx].includes(`^${id}`)) ||
-    (lines[idx + 1] && lines[idx + 1].trim() === `^${id}`);
+    (lines[idx] ?? "").includes(`^${id}`) ||
+    (lines[idx + 1] ?? "").trim() === `^${id}`;
   const nextOutsideIdx = (idx: number) => {
     let i = Math.min(idx, lines.length - 1);
     while (i < lines.length && inside[i]) i++;

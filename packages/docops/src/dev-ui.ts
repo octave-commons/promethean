@@ -22,9 +22,9 @@ const args = parseArgs({
   "--port": "3939",
 });
 
-const ROOT = path.resolve(args["--dir"]);
-const COLLECTION = args["--collection"];
-const PORT = Number(args["--port"]) || 3939;
+const ROOT = path.resolve(args["--dir"] ?? "docs/unique");
+const COLLECTION = args["--collection"] ?? "docs-cosine";
+const PORT = Number(args["--port"] ?? "3939") || 3939;
 // Ensure DB path .cache/* resolves to repo root where other scripts write
 const REPO_ROOT = path.resolve(
   path.dirname(url.fileURLToPath(import.meta.url)),
@@ -45,10 +45,13 @@ const UI_ROOT = path.resolve(
   path.dirname(url.fileURLToPath(import.meta.url)),
   "../ui",
 );
-await app.register(fastifyStatic, {
-  root: UI_ROOT,
-  prefix: "/",
-});
+await app.register(
+  fastifyStatic as any,
+  {
+    root: UI_ROOT,
+    prefix: "/",
+  } as any,
+);
 
 app.get("/", async (_req, reply) => {
   try {
@@ -212,7 +215,6 @@ app.get("/api/read", async (req, reply) => {
 app.get("/api/chunks", async (req, reply) => {
   try {
     const q = (req.query || {}) as any;
-    const dir = path.resolve(q.dir || ROOT);
     const wantFile = q.file ? path.resolve(q.file) : undefined;
     let uuid: string | undefined = (q.uuid || undefined) as string | undefined;
 

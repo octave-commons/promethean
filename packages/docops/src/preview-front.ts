@@ -20,10 +20,10 @@ const args = parseArgs({
   "--debug": "false",
 });
 
-const ROOT = path.resolve(args["--dir"]);
-const DOC_THRESHOLD = Number(args["--doc-threshold"]);
-const REF_THRESHOLD = Number(args["--ref-threshold"]);
-const DEBUG = args["--debug"] === "true";
+const ROOT = path.resolve(args["--dir"] ?? "docs/unique");
+const DOC_THRESHOLD = Number(args["--doc-threshold"] ?? "0.78");
+const REF_THRESHOLD = Number(args["--ref-threshold"] ?? "0.85");
+const DEBUG = (args["--debug"] ?? "false") === "true";
 const dbg = (...xs: any[]) => {
   if (DEBUG) console.log("[preview]", ...xs);
 };
@@ -116,13 +116,15 @@ export async function computePreview(
       // references above threshold
       if (s >= opts.refThreshold) {
         const k = `${h.docUuid}:${h.startLine}:${(h as any).startCol ?? 0}`;
-        if (!refsAcc.has(k))
+        if (!refsAcc.has(k)) {
+          const s2 = round2(s);
           refsAcc.set(k, {
             uuid: h.docUuid,
             line: h.startLine,
             col: (h as any).startCol ?? 0,
-            score: round2(s),
+            ...(s2 != null ? { score: s2 } : {}),
           });
+        }
       }
     }
   }
@@ -170,15 +172,15 @@ async function main() {
   if (!isDirect) return;
   const uuid = args["--uuid"] || undefined;
   const file = args["--file"] || undefined;
-  const res = await computePreview(
-    { uuid, file },
-    {
-      dir: ROOT,
-      docThreshold: DOC_THRESHOLD,
-      refThreshold: REF_THRESHOLD,
-      debug: DEBUG,
-    },
-  );
+  const frontSel: { uuid?: string; file?: string } = {};
+  if (uuid) frontSel.uuid = uuid;
+  if (file) frontSel.file = file;
+  const res = await computePreview(frontSel, {
+    dir: ROOT,
+    docThreshold: DOC_THRESHOLD,
+    refThreshold: REF_THRESHOLD,
+    debug: DEBUG,
+  });
   console.log(JSON.stringify(res, null, 2));
 }
 
