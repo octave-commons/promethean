@@ -79,4 +79,22 @@ export default [
       ],
     },
   },
+  {
+    files: [
+      "**/*.test.{ts,tsx,js}",
+      "**/*.spec.{ts,tsx,js}",
+      "**/tests/**/*.{ts,tsx,js}",
+    ],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector:
+            "CallExpression[callee.name='setTimeout'][arguments.0.type='Identifier']",
+          message:
+            "Use sleep from @promethean/test-utils instead of setTimeout for sleeps in tests.",
+        },
+      ],
+    },
+  },
 ];
