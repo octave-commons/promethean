@@ -3,6 +3,7 @@ import { createRequire } from "module";
 import crypto from "crypto";
 
 import { createRemoteJWKSet, jwtVerify, decodeProtectedHeader } from "jose";
+import rateLimit from "@fastify/rate-limit";
 import fastifyRateLimit from "@fastify/rate-limit";
 // Route modules (legacy)
 import { createLogger } from "@promethean/utils";
@@ -49,7 +50,8 @@ function timingSafeEqual(a, b) {
 }
 
 export async function registerV0Routes(app) {
-	// Old auth semantics (from src/auth.js), adapted for Fastify and scoped to /v0 only
+       await app.register(rateLimit, { max: 100, timeWindow: "1 minute" });
+       // Old auth semantics (from src/auth.js), adapted for Fastify and scoped to /v0 only
 	const enabled =
 		String(process.env.AUTH_ENABLED || "false").toLowerCase() === "true";
 	const mode = (process.env.AUTH_MODE || "static").toLowerCase(); // 'static' | 'jwt'
@@ -195,16 +197,16 @@ export async function registerV0Routes(app) {
 					if (/missing jwks/i.test(msg) && jwtSecret) {
 						// HS fallback
 						const key = new TextEncoder().encode(String(jwtSecret));
-						const { payload } = await jwtVerify(
-							String(token),
-							key,
-							{
-								algorithms: ["HS256", "HS384", "HS512"],
-								iss: jwtIssuer || undefined,
-								aud: jwtAudience || undefined,
-								clockTolerance: "60s",
-							},
-						);
+                                                 const { payload } = await jwtVerify(
+                                                         String(token),
+                                                         key,
+                                                         {
+                                                                 algorithms: ["HS256", "HS384", "HS512"],
+                                                                 issuer: jwtIssuer || undefined,
+                                                                 audience: jwtAudience || undefined,
+                                                                 clockTolerance: "60s",
+                                                         },
+                                                 );
 						req.user = payload;
 						return;
 					}
