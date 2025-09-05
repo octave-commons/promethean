@@ -1,5 +1,5 @@
 import test from "ava";
-import { DiscordRestProxy } from "../src/rest.js";
+import { DiscordRestProxy } from "@promethean/discord";
 
 function makeFetch(status, json, spy) {
   return async (url, init) => {

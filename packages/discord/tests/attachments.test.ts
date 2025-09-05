@@ -1,10 +1,10 @@
 import test from "ava";
 
-import { handleSocialMessageCreated } from "../index.js";
+import { indexAttachments } from "@promethean/discord";
 
 test("indexes attachments for provider+tenant", async (t) => {
   process.env.DISCORD_TOKEN_DUCK = "test";
-  const out = await handleSocialMessageCreated({
+  const out = await indexAttachments({
     message_id: "m1",
     author_urn: "urn:discord:user:duck:au1",
     space_urn: "urn:discord:space:duck:ch1",
