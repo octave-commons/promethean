@@ -4167,6 +4167,9 @@ importers:
 
   packages/readmeflow:
     dependencies:
+      '@promethean/level-cache':
+        specifier: workspace:*
+        version: link:../level-cache
       globby:
         specifier: ^14.0.2
         version: 14.0.2
@@ -4180,11 +4183,14 @@ importers:
         specifier: ^3.23.8
         version: 3.25.76
     devDependencies:
+      rimraf:
+        specifier: ^6.0.0
+        version: 6.0.1
       tsx:
         specifier: ^4.19.2
         version: 4.20.3
       typescript:
-        specifier: ^5.5.4
+        specifier: ^5.9.2
         version: 5.9.2
 
   packages/schema:
@@ -15058,7 +15064,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.1)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -17324,7 +17330,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.1)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
