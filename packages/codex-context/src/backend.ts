@@ -2,7 +2,7 @@ import ollama from "ollama";
 import nodeFetch from "node-fetch";
 
 import type { ChatMessage } from "./types/openai.js";
-import { createLogger } from "./logger.js";
+import { createLogger } from "@promethean/utils/logger.js";
 
 export type GenerationParams = {
   temperature?: number;
@@ -45,9 +45,12 @@ export type BackendClient = {
 };
 
 export class OllamaBackend implements BackendClient {
-  private log = createLogger("codex-context", {
-    component: "backend",
-    driver: "ollama",
+  private log = createLogger({
+    service: "codex-context",
+    base: {
+      component: "backend",
+      driver: "ollama",
+    },
   });
   constructor(private model: string) {}
 
@@ -206,9 +209,12 @@ export class OllamaBackend implements BackendClient {
 }
 
 export class OllamaOpenAIBackend implements BackendClient {
-  private log = createLogger("codex-context", {
-    component: "backend",
-    driver: "ollama-openai",
+  private log = createLogger({
+    service: "codex-context",
+    base: {
+      component: "backend",
+      driver: "ollama-openai",
+    },
   });
   private baseUrl: string;
   private apiKey?: string;

@@ -4,7 +4,7 @@ import { makePolicy, type PolicyChecker } from "@promethean/security";
 import { checkPermission } from "@promethean/legacy";
 
 import type { Bot } from "../bot.js";
-import { makeLogger, type Logger } from "../factories/logger.js";
+import { createLogger, type Logger } from "@promethean/utils/logger.js";
 
 export type TranscribeSpeakerScope = {
   logger: Logger;
@@ -24,7 +24,7 @@ export async function buildTranscribeSpeakerScope(): Promise<
   Pick<TranscribeSpeakerScope, "logger" | "policy">
 > {
   return {
-    logger: makeLogger("transcribe-speaker"),
+    logger: createLogger({ service: "transcribe-speaker" }),
     policy: makePolicy({ permissionGate: checkPermission }),
   };
 }

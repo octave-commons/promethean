@@ -1,6 +1,6 @@
 import nodeFetch from "node-fetch";
 
-import { createLogger } from "./logger.js";
+import { createLogger } from "@promethean/utils/logger.js";
 
 export type SearchHit = {
   path: string;
@@ -44,7 +44,10 @@ export type Retriever = {
 
 export class SmartGptrRetriever implements Retriever {
   private fetcher: (url: string, init?: any) => Promise<any>;
-  private log = createLogger("codex-context", { component: "retriever" });
+  private readonly log = createLogger({
+    service: "codex-context",
+    base: { component: "retriever" },
+  });
   constructor(
     private baseUrl: string,
     private token?: string,

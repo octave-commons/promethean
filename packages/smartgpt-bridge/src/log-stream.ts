@@ -2,8 +2,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { Writable } from "node:stream";
 
-import { createLogger } from "@promethean/utils/logger.js";
-
 function buildStream(): NodeJS.WritableStream {
   const outputs: NodeJS.WritableStream[] = [process.stdout];
   const logFile = process.env.LOG_FILE;
@@ -33,4 +31,4 @@ function buildStream(): NodeJS.WritableStream {
   });
 }
 
-export const logger = createLogger({ service: "smartgpt-bridge", stream: buildStream() });
+export const logStream = buildStream();
