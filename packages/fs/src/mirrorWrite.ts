@@ -3,7 +3,7 @@ import { promises as fs, Stats } from 'fs';
 import * as path from 'path';
 import { createHash } from 'crypto';
 
-import { ensureDir } from '@promethean/fs-utils';
+import { ensureDir } from './ensureDir.js';
 import { streamTreeConcurrent, StreamNode } from './streamTreeGeneratorsConcurrent.js';
 
 type OverwriteMode = 'always' | 'if-newer' | 'never';
