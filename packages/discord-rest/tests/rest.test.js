@@ -1,5 +1,5 @@
 import test from "ava";
-import { DiscordRestProxy } from "../src/rest.js";
+import { DiscordRestProxy } from "../dist/rest.js";
 
 function makeFetch(status, json, spy) {
   return async (url, init) => {
