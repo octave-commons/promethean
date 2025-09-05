@@ -1,10 +1,14 @@
 // integration: exercises real ws server
 import test from "ava";
 import { WebSocketServer } from "ws";
+import { once } from "events";
+
+import { sleep } from "@promethean/test-utils/sleep";
 import { BrokerClient } from "@shared/js/brokerClient.js";
 
 test.serial("BrokerClient sends messages and handles callbacks", async (t) => {
   const wss = new WebSocketServer({ port: 0 });
+  await once(wss, "listening");
   const port = wss.address().port;
   const received = [];
   let task;
@@ -40,10 +44,10 @@ test.serial("BrokerClient sends messages and handles callbacks", async (t) => {
   client.ack("t1");
   client.heartbeat();
 
-  await new Promise((resolve) => setTimeout(resolve, 50));
+  await sleep(50);
 
   client.unsubscribe("foo");
-  await new Promise((r) => setTimeout(r, 10));
+  await sleep(10);
 
   t.is(eventData, 42);
   t.deepEqual(task, { id: "t1" });
@@ -66,6 +70,7 @@ test.serial("BrokerClient sends messages and handles callbacks", async (t) => {
 
 test.serial("BrokerClient reconnects and flushes queue", async (t) => {
   const wss = new WebSocketServer({ port: 0 });
+  await once(wss, "listening");
   const port = wss.address().port;
   const received = [];
   let connectionCount = 0;
@@ -85,11 +90,11 @@ test.serial("BrokerClient reconnects and flushes queue", async (t) => {
   await client.connect();
 
   // Connection will close shortly; queue a message while disconnected
-  await new Promise((r) => setTimeout(r, 50));
+  await sleep(50);
   client.publish("after", { a: 1 });
 
   // Wait for reconnection and message flush
-  await new Promise((r) => setTimeout(r, 1500));
+  await sleep(1500);
 
   t.true(
     received.some((m) => m.action === "publish" && m.message.payload.a === 1),

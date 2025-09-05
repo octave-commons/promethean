@@ -6,6 +6,21 @@ import { EventEmitter } from "events";
 import WebSocket, { WebSocketServer } from "ws";
 import test from "ava";
 
+// packages/test-utils/package.json
+{
+  // … other fields …
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./sleep": {
+      "types": "./dist/sleep.d.ts",
+      "import": "./dist/sleep.js"
+    }
+  },
+  // … other fields …
+}
 import { attachRouter } from "../src/router.js";
 import { createWsServer } from "../src/wsListener.js";
 
@@ -38,7 +53,7 @@ test("attachRouter emits progress, result, error and cleans up on close", async 
   bridgeSocket.send(
     JSON.stringify({ kind: "tool.error", id: "3", error: "boom" }),
   );
-  await new Promise((res) => setTimeout(res, 10));
+  await sleep(10);
 
   t.deepEqual(ws.sent[0], {
     jsonrpc: "2.0",
