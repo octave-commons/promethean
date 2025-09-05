@@ -7,8 +7,7 @@
     "declaration": true
   },
   "include": [
-    "src/**/*",
-    "node_modules/@promethean/types/shims/persistence.d.ts"
+    "src/**/*"
   ],
   "references": [
     { "path": "../embeddings" },
