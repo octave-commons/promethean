@@ -21,9 +21,12 @@ const TaskSchema = z.object({
 });
 
 async function main() {
-  const diff = JSON.parse(
-    await fs.readFile(path.resolve(args["--diff"]), "utf-8"),
-  ) as { results: Record<string, { required: any; changes: ApiChange[] }> };
+  const diffPath = path.resolve(
+    args["--diff"] ?? ".cache/semverguard/diff.json",
+  );
+  const diff = JSON.parse(await fs.readFile(diffPath, "utf-8")) as {
+    results: Record<string, { required: any; changes: ApiChange[] }>;
+  };
 
   const packages: PlansFile["packages"] = {};
   for (const [pkg, res] of Object.entries(diff.results)) {
@@ -47,7 +50,7 @@ async function main() {
     let obj: any;
     try {
       obj = await ollamaJSON(
-        args["--model"],
+        args["--model"] ?? "qwen3:4b",
         `SYSTEM:\n${sys}\n\nUSER:\n${user}`,
       );
     } catch {
@@ -87,8 +90,13 @@ async function main() {
   }
 
   const out: PlansFile = { plannedAt: new Date().toISOString(), packages };
-  await writeJSON(path.resolve(args["--out"]), out);
-  console.log(`semverguard: plans → ${args["--out"]}`);
+  const outPath = path.resolve(
+    args["--out"] ?? ".cache/semverguard/plans.json",
+  );
+  await writeJSON(outPath, out);
+  console.log(
+    `semverguard: plans → ${args["--out"] ?? ".cache/semverguard/plans.json"}`,
+  );
 }
 
 main().catch((e) => {
