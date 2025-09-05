@@ -15,7 +15,6 @@
     "ts-morph": "^22.0.0"
   },
   "devDependencies": {
-    "typescript": "5.9.2",
-    "ava": "^6.1.0"
+    "typescript": "5.9.2"
   }
 }

@@ -43,13 +43,9 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.2",
-    "ava": "^6.1.3",
-    "c8": "^9.1.0",
+    "@promethean/test-utils": "workspace:*",
     "mongodb-memory-server": "^10.2.0",
     "sinon": "^17.0.1",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.19.0",
-    "@promethean/test-utils": "workspace:*"
+    "tsx": "^4.19.0"
   }
 }
