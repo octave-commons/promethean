@@ -7,5 +7,5 @@
     "declaration": true
   },
   "include": ["src/**/*"],
-  "references": [{ "path": "../level-cache" }]
+  "references": [{ "path": "../fs" }, { "path": "../level-cache" }]
 }
