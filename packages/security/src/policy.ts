@@ -36,10 +36,12 @@ export type PolicyContext = {
 
 export type PolicyRule = (ctx: PolicyContext) => Promise<void> | void;
 
+// packages/security/src/policy.ts
+
 export type PolicyConfig = {
-  permissionGate?: (subject: string, action: string) => boolean;
-  providerAccess?: ProviderAccessRule;
-  rules?: PolicyRule[];
+  readonly permissionGate?: (subject: string, action: string) => boolean | Promise<boolean>;
+  readonly providerAccess?: Readonly<ProviderAccessRule>;
+  readonly rules?: readonly PolicyRule[];
 };
 
 export function makePolicy(config: PolicyConfig = {}): PolicyChecker {
