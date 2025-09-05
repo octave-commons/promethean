@@ -78,18 +78,13 @@ function permissionGateRule(
 }
 
 function providerAccessRule(rule: ProviderAccessRule): PolicyRule {
+  const allowIdSet = new Set(rule.allowAgentIds ?? []);
+  const allowRegexes = (rule.allowPatterns ?? []).map(globToRegExp);
   return ({ subject, capability }) => {
     if (!capability || !capability.kind.startsWith('provider.')) return;
-    if (rule.allowAgentIds?.includes(subject)) return;
-    if (rule.allowPatterns) {
-      for (const pat of rule.allowPatterns) {
-        const re = globToRegExp(pat);
-        if (re.test(subject)) return;
-      }
-    }
-    throw new NotAllowedError(
-      `Policy denied ${capability.kind} for agent ${subject}`,
-    );
+    if (allowIdSet.has(subject)) return;
+    if (allowRegexes.some((re) => re.test(subject))) return;
+    throw new NotAllowedError(`Policy denied ${capability.kind} for agent ${subject}`);
   };
 }
 
