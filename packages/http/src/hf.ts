@@ -3,7 +3,6 @@
  */
 
 import { request } from 'undici';
-import type { z } from 'zod';
 
 export type HfApiConfig = {
     apiKey?: string;
@@ -11,7 +10,7 @@ export type HfApiConfig = {
 };
 
 export class HuggingFaceClient {
-    private apiKey?: string;
+    private apiKey: string | undefined;
     private baseUrl: string;
 
     constructor(config: HfApiConfig = {}) {
