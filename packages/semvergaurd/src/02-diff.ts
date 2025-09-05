@@ -6,7 +6,6 @@ import type {
   WorkspaceSnapshot,
   DiffResult,
   ApiChange,
-  MemberSig,
   FnSig,
   ClassSig,
 } from "./types.js";
@@ -38,7 +37,7 @@ function maxSemver(
 ): DiffResult["required"] {
   const ord = { none: 0, patch: 1, minor: 2, major: 3 } as const;
   const inv = ["none", "patch", "minor", "major"] as const;
-  return inv[Math.max(ord[a], ord[b])];
+  return inv[Math.max(ord[a], ord[b])] as DiffResult["required"];
 }
 
 function comparePkg(oldP: any, curP: any): DiffResult {
@@ -158,7 +157,7 @@ function comparePkg(oldP: any, curP: any): DiffResult {
         // props removed → major; added optional prop → minor
         const oldPs = new Map((a?.props ?? []).map((p) => [p.name, p]));
         const newPs = new Map((b?.props ?? []).map((p) => [p.name, p]));
-        for (const [pName, p] of oldPs)
+        for (const [pName] of oldPs)
           if (!newPs.has(pName)) {
             changes.push({
               name: `${name}.${pName}`,
@@ -212,8 +211,12 @@ function comparePkg(oldP: any, curP: any): DiffResult {
 }
 
 async function main() {
-  const current = await readSnap(args["--current"]);
-  const baseline = await readSnap(args["--baseline"]);
+  const current = await readSnap(
+    args["--current"] ?? ".cache/semverguard/snapshot.json",
+  );
+  const baseline = await readSnap(
+    args["--baseline"] ?? ".cache/semverguard/baseline.json",
+  );
 
   const out: Record<string, DiffResult> = {};
   const names = new Set<string>([
@@ -224,10 +227,13 @@ async function main() {
     out[name] = comparePkg(baseline.packages[name], current.packages[name]);
   }
 
-  await writeJSON(path.resolve(args["--out"]), {
-    comparedAt: new Date().toISOString(),
-    results: out,
-  });
+  await writeJSON(
+    path.resolve(args["--out"] ?? ".cache/semverguard/diff.json"),
+    {
+      comparedAt: new Date().toISOString(),
+      results: out,
+    },
+  );
   console.log(`semverguard: diff → ${args["--out"]}`);
 }
 

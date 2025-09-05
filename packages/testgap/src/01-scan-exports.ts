@@ -13,7 +13,7 @@ const args = parseArgs({
 });
 
 async function main() {
-  const ROOT = path.resolve(args["--root"]);
+  const ROOT = path.resolve(args["--root"] ?? "packages");
   const pkgs = (await fs.readdir(ROOT, { withFileTypes: true }))
     .filter((d) => d.isDirectory())
     .map((d) => d.name);
@@ -40,17 +40,14 @@ async function main() {
       const file = rel(sf.getFilePath().replace(/\\/g, "/"));
       for (const [name, decls] of sf.getExportedDeclarations()) {
         const d = decls[0];
-        const kind = (d.getKindName() || "")
+        if (!d) continue;
+        const kind = (d.getKindName?.() || (d as any).getKindName?.() || "")
           .replace("Declaration", "")
           .toLowerCase();
-        const pos = d.getStartLineNumber
+        const pos = (d as any).getStartLineNumber
           ? {
-              startLine: d.getStartLineNumber(),
-              endLine:
-                d.getEndLineNumber?.() ??
-                d.getEndLineNumber?.() ??
-                (d as any).getEndLineNumber?.() ??
-                0,
+              startLine: (d as any).getStartLineNumber(),
+              endLine: (d as any).getEndLineNumber?.() ?? 0,
             }
           : { startLine: 1, endLine: 1 };
         symbols.push({
@@ -75,9 +72,12 @@ async function main() {
   }
 
   const out: ExportScan = { scannedAt: new Date().toISOString(), symbols };
-  await writeJSON(path.resolve(args["--out"]), out);
+  const outPath = path.resolve(args["--out"] ?? ".cache/testgap/exports.json");
+  await writeJSON(outPath, out);
   console.log(
-    `testgap: scanned exports → ${args["--out"]} (${symbols.length} symbols)`,
+    `testgap: scanned exports → ${
+      args["--out"] ?? ".cache/testgap/exports.json"
+    } (${symbols.length} symbols)`,
   );
 }
 main().catch((e) => {

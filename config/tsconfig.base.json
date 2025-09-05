@@ -27,14 +27,13 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "experimentalDecorators": true,
-    "lib": ["ESNext", "esnext.disposable"],
-    "target": "ESNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable", "esnext.disposable"],
+    "target": "esnext",
     "useDefineForClassFields": true,
     "paths": {
       "@shared/ts/*": ["../shared/ts/dist/*"]
     },
-    "lib": ["ES2022", "esnext.disposable"]
+    "types": ["node", "ava"]
   },
-  "types": ["node", "ava"],
   "exclude": ["../**/dist", "../**/node_modules"]
 }

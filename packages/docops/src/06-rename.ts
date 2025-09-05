@@ -56,10 +56,10 @@ const isDirect =
   !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
 if (isDirect) {
   const args = parseArgs({ "--dir": "docs/unique", "--dry-run": "false" });
-  runRename({ dir: args["--dir"], dryRun: args["--dry-run"] === "true" }).catch(
-    (e) => {
-      console.error(e);
-      process.exit(1);
-    },
-  );
+  const dir = args["--dir"] ?? "docs/unique";
+  const dryRun = (args["--dry-run"] ?? "false") === "true";
+  runRename({ dir, dryRun }).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
 }

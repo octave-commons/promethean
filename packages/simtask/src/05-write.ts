@@ -2,7 +2,7 @@ import { promises as fs } from "fs";
 import * as path from "path";
 
 import matter from "gray-matter";
-import * as yaml from "yaml";
+import { randomUUID } from "crypto";
 
 import { parseArgs } from "./utils.js";
 import type { ScanResult, Cluster, Plan, FunctionInfo } from "./types.js";
@@ -55,13 +55,15 @@ function escapeMd(s: string) {
 }
 
 async function main() {
-  const SCAN = path.resolve(args["--scan"]);
-  const CLS = path.resolve(args["--clusters"]);
-  const PLANS = path.resolve(args["--plans"]);
-  const OUT = path.resolve(args["--out"]);
-  const priority = args["--priority"];
-  const status = args["--status"];
-  const labels = args["--label"]
+  const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions.json");
+  const CLS = path.resolve(
+    args["--clusters"] ?? ".cache/simtasks/clusters.json",
+  );
+  const PLANS = path.resolve(args["--plans"] ?? ".cache/simtasks/plans.json");
+  const OUT = path.resolve(args["--out"] ?? "docs/agile/tasks");
+  const priority = args["--priority"] ?? "P2";
+  const status = args["--status"] ?? "todo";
+  const labels = (args["--label"] ?? "duplication,refactor,consolidation")
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean);
@@ -188,8 +190,7 @@ async function main() {
 
 function cryptoRandomUUID() {
   // Node 18+
-  // @ts-ignore
-  return globalThis.crypto?.randomUUID?.() ?? require("crypto").randomUUID();
+  return globalThis.crypto?.randomUUID?.() ?? randomUUID();
 }
 
 async function readMaybe(p: string) {

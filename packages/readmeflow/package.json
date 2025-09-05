@@ -1,30 +1,38 @@
 {
- "name": "@promethean/readmeflow",
- "version": "0.1.0",
- "private": true,
- "type": "module",
- "bin": {
-  "readmeflow-scan": "dist/01-scan.js",
-  "readmeflow-outline": "dist/02-outline.js",
-  "readmeflow-write": "dist/03-write.js",
-  "readmeflow-verify": "dist/04-verify.js"
- },
- "scripts": {
-  "build": "tsc -p tsconfig.json",
-  "rm:01-scan": "tsx src/01-scan.ts",
-  "rm:02-outline": "tsx src/02-outline.ts",
-  "rm:03-write": "tsx src/03-write.ts",
-  "rm:04-verify": "tsx src/04-verify.ts",
-  "rm:all": "pnpm rm:01-scan && pnpm rm:02-outline && pnpm rm:03-write && pnpm rm:04-verify"
- },
- "dependencies": {
-  "globby": "^14.0.2",
-  "gray-matter": "^4.0.3",
-  "yaml": "^2.5.0",
-  "zod": "^3.23.8"
- },
- "devDependencies": {
-  "tsx": "^4.19.2",
-  "typescript": "^5.5.4"
- }
+  "name": "@promethean/readmeflow",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "readmeflow-scan": "dist/01-scan.js",
+    "readmeflow-outline": "dist/02-outline.js",
+    "readmeflow-write": "dist/03-write.js",
+    "readmeflow-verify": "dist/04-verify.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "pnpm build && ava",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "rimraf dist",
+    "coverage": "c8 pnpm test",
+    "lint": "biome lint .",
+    "format": "biome format .",
+    "rm:01-scan": "tsx src/01-scan.ts",
+    "rm:02-outline": "tsx src/02-outline.ts",
+    "rm:03-write": "tsx src/03-write.ts",
+    "rm:04-verify": "tsx src/04-verify.ts",
+    "rm:all": "pnpm rm:01-scan && pnpm rm:02-outline && pnpm rm:03-write && pnpm rm:04-verify"
+  },
+  "dependencies": {
+    "@promethean/level-cache": "workspace:*",
+    "globby": "^14.0.2",
+    "gray-matter": "^4.0.3",
+    "yaml": "^2.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "rimraf": "^6.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.9.2"
+  }
 }
