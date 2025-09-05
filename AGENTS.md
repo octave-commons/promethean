@@ -27,7 +27,7 @@ evidence, and produce diffs/notes.
 # Programming Style
 - Functional preferred
 - Immutable data; no in-place object mutation
-- TTD non-negotiable
+- TDD non-negotiable
 - Document-driven development
 - No relative module resolution outside of the package root. Depend on `@promethean/<package>*` via "workspace:*".
 
