@@ -1,6 +1,7 @@
 // @ts-nocheck
 import type { Db, ClientSession } from 'mongodb';
 import type { EventBus, EventRecord } from '@promethean/event/types.js';
+import { retry } from '@promethean/utils';
 
 export type TxnProjectorOpts<E = any> = {
     topic: string;
@@ -18,24 +19,22 @@ export async function startTransactionalProjector<E = any>(bus: EventBus, db: Db
         opts.topic,
         opts.group,
         async (e) => {
-            for (let i = 0; i <= retries; i++) {
-                const s = db.client.startSession();
-                try {
-                    await s.withTransaction(
-                        async () => {
-                            await opts.handler(e, db, s);
-                        },
-                        { writeConcern: { w: 'majority' } },
-                    );
-                    // success → exit retry loop
-                    return;
-                } catch (err) {
-                    if (i === retries) throw err;
-                    await new Promise((r) => setTimeout(r, 100 * (i + 1)));
-                } finally {
-                    await s.endSession();
-                }
-            }
+            await retry(
+                async () => {
+                    const s = db.client.startSession();
+                    try {
+                        await s.withTransaction(
+                            async () => {
+                                await opts.handler(e, db, s);
+                            },
+                            { writeConcern: { w: 'majority' } },
+                        );
+                    } finally {
+                        await s.endSession();
+                    }
+                },
+                { attempts: retries + 1, backoff: (a) => 100 * a },
+            );
         },
         { from, manualAck: false, batchSize: 200 },
     );

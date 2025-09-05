@@ -7,6 +7,7 @@ import { WebSocketServer } from 'ws';
 
 import { loadDriver, LLMDriver } from './drivers/index.js';
 import type { Tool } from './tools.js';
+import { retry } from '@promethean/utils';
 
 export const app: Express = express();
 app.use(express.json({ limit: '500mb' }));
@@ -20,26 +21,20 @@ export async function loadModel(): Promise<LLMDriver> {
 
 let generateFn = async (
     { prompt, context = [], format, tools = [] }: { prompt: string; context?: any[]; format?: any; tools?: Tool[] },
-    retry = 0,
 ): Promise<any> => {
-    try {
-        const d = await loadModel();
-        return await d.generate({ prompt, context, format, tools });
-    } catch (err) {
-        if (retry < 5) {
-            await new Promise((r) => setTimeout(r, retry * 1610));
-            return generateFn({ prompt, context, format, tools }, retry + 1);
-        }
-        throw err;
-    }
+    const d = await loadModel();
+    return d.generate({ prompt, context, format, tools });
 };
 
 export function setGenerateFn(fn: typeof generateFn) {
     generateFn = fn;
 }
 
-export async function generate(args: { prompt: string; context?: any[]; format?: any; tools?: Tool[] }, retry = 0) {
-    return generateFn(args, retry);
+export async function generate(args: { prompt: string; context?: any[]; format?: any; tools?: Tool[] }) {
+    return retry(() => generateFn(args), {
+        attempts: 6,
+        backoff: (a: number) => (a - 1) * 1610,
+    });
 }
 
 let broker: any;
