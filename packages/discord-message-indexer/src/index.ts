@@ -1,4 +1,5 @@
-import { topic, fileBackedRegistry, mongoForTenant } from "@shared/prom-lib";
+import { topic, fileBackedRegistry } from "@promethean/platform";
+import { mongoForTenant } from "@promethean/effects/mongo.js";
 
 export async function handleSocialMessageCreated(evt: any) {
   const reg = fileBackedRegistry();
