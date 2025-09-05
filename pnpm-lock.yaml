@@ -1259,6 +1259,12 @@ importers:
       '@promethean/platform':
         specifier: workspace:*
         version: link:../platform
+      '@promethean/rate':
+        specifier: workspace:*
+        version: link:../rate
+      '@promethean/security':
+        specifier: workspace:*
+        version: link:../security
 
   packages/dlq:
     dependencies:
@@ -3246,6 +3252,8 @@ importers:
         specifier: ^8.5.9
         version: 8.18.1
 
+  packages/prom-lib: {}
+
   packages/providers:
     dependencies:
       '@promethean/platform':
@@ -3336,6 +3344,9 @@ importers:
 
   packages/rate:
     dependencies:
+      '@promethean/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -13121,6 +13132,10 @@ snapshots:
       '@types/webidl-conversions': 7.0.3
 
   '@types/ws@8.18.1':
+    dependencies:
+      '@types/node': 24.3.1
+
+  '@types/ws@8.5.9':
     dependencies:
       '@types/node': 24.3.1
 
