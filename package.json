@@ -87,5 +87,12 @@
   },
   "engines": {
     "node": "20.19.4"
+  },
+  "pnpm": {
+    "overrides": {
+      "fastify": "^5.0.0",
+      "@fastify/static": "^8.2.0",
+      "@fastify/websocket": "^11.2.0"
+    }
   }
 }

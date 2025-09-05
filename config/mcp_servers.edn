@@ -19,7 +19,7 @@
 
   :npm-helper
   {:command "npx"
-   :args ["-y" "npm-helper-mcp"]}
+   :args ["-y" "@pinkpixel/npm-helper-mcp"]}
 
   :lsp-mcp
   {:command "npx"
