@@ -4,7 +4,7 @@ import * as path from 'path';
 import { Readable, Transform, Writable } from 'stream';
 import { pipeline as _pipeline } from 'stream/promises';
 
-import { ensureDir } from '@promethean/fs-utils';
+import { ensureDir } from './ensureDir.js';
 import { streamTreeConcurrent, StreamEvent, StreamNode } from './streamTreeGeneratorsConcurrent.js';
 
 type OverwriteMode = 'always' | 'if-newer' | 'never';
@@ -228,7 +228,7 @@ export async function mirrorTree(srcRoot: string, dstRoot: string, opts: MirrorO
             return true;
         },
         concurrency,
-        signal,
+        ...(signal ? { signal } : {}),
     })) {
         if (shouldStop()) break;
         if (!ev.node) continue;
@@ -254,7 +254,14 @@ export async function mirrorTree(srcRoot: string, dstRoot: string, opts: MirrorO
         }
     }
 
-    return { dirsCreated, filesWritten, filesSkipped, symlinksCreated, errors, planned: dryRun ? planned : undefined };
+    return {
+        dirsCreated,
+        filesWritten,
+        filesSkipped,
+        symlinksCreated,
+        errors,
+        ...(dryRun ? { planned } : {}),
+    };
 }
 
 /** Helper to quickly make a line‑based text transform */
