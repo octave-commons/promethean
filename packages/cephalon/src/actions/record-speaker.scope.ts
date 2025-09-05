@@ -5,6 +5,7 @@ import { checkPermission } from "@promethean/legacy";
 
 import type { Bot } from "../bot.js";
 import { createLogger, type Logger } from "@promethean/utils/logger.js";
+import type { Bot } from "../bot.js";
 
 export type RecordSpeakerScope = {
   logger: Logger;
