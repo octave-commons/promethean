@@ -1,35 +1,38 @@
-import { makePolicy, type PolicyChecker } from "@promethean/security";
 import { checkPermission } from "@promethean/legacy";
+import { makePolicy, type PolicyChecker } from "@promethean/security";
+import { createLogger, type Logger } from "@promethean/utils";
 
 import type { Bot } from "../bot.js";
-import { createLogger, type Logger } from "@promethean/utils/logger.js";
 
 export type TtsScope = {
-  logger: Logger;
-  policy: PolicyChecker;
-  speak: (input: TtsInput) => Promise<TtsOutput>;
+	logger: Logger;
+	policy: PolicyChecker;
+	speak: (input: TtsInput) => Promise<TtsOutput>;
 };
 
 export type TtsInput = {
-  bot: Bot;
-  message: string;
+	bot: Bot;
+	message: string;
 };
 
 export type TtsOutput = { ok: boolean };
 
 export async function buildTtsScope(): Promise<
-  Pick<TtsScope, "logger" | "policy">
+	Pick<TtsScope, "logger" | "policy">
 > {
-  return {
-    logger: createLogger({ service: "tts" }),
-    policy: makePolicy({ permissionGate: checkPermission }),
-  };
+	return {
+		logger: createLogger({
+			service: "cephalon",
+			base: { component: "tts" },
+		}),
+		policy: makePolicy({ permissionGate: checkPermission }),
+	};
 }
 
 export function makeTtsAction(): TtsScope["speak"] {
-  return async ({ bot, message }) => {
-    if (!bot.currentVoiceSession) return { ok: false };
-    await bot.currentVoiceSession.playVoice(message);
-    return { ok: true };
-  };
+	return async ({ bot, message }) => {
+		if (!bot.currentVoiceSession) return { ok: false };
+		await bot.currentVoiceSession.playVoice(message);
+		return { ok: true };
+	};
 }
