@@ -19,6 +19,171 @@ tags:
   - cursor-management
   - ack-nack
   - publish-subscribe
+related_to_uuid:
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - 6546ebef-4b70-4ddb-ac70-e215ce409083
+  - e2955491-020a-4009-b7ed-a5a348c63cfd
+  - 572b571b-b337-4004-97b8-386f930b5497
+  - f24dbd59-29e1-4eeb-bb3e-d2c31116b207
+  - 73d64bce-f428-4735-a3d0-6225a0588e46
+  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - c09d7688-71d6-47fc-bf81-86b6193c84bc
+  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
+  - 0f203aa7-c96d-4323-9b9e-bbc438966e8c
+  - a5fb863a-c6dd-48e1-8916-718b70b65434
+  - 46b3c583-a4e2-4ecc-90de-6fd104da23db
+  - 792a343e-674c-4bb4-8435-b3f8c163349d
+  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
+  - aa437a1f-eb7e-4096-a6cc-98d2eeeef8c5
+  - 6bbc5717-b8a5-4aaf-933d-b0225ad598b4
+  - 7b672b78-7057-4506-baf9-1262a6e477e3
+  - abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+  - 58a50f5a-b073-4c50-8d3f-4284bd5df171
+  - 7a66bc1e-9276-41ce-ac22-fc08926acb2d
+  - bdca8ded-0e64-417b-a258-4528829c4704
+  - 479401ac-f614-4d0b-8cc6-2ebb8d9de4d9
+  - ee4b3631-a745-485b-aff1-2da806cfadfb
+  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
+  - c3f0e260-531f-42ea-add4-4e6bb7e5f771
+related_to_title:
+  - Event Bus MVP
+  - git-commit-optimization-for-code-reviews
+  - chroma-toolkit-consolidation-plan
+  - State Snapshots API and Transactional Projector
+  - Mongo Outbox Implementation
+  - Voice Access Layer Design
+  - Universal Lisp Interface
+  - Migrate to Provider-Tenant Architecture
+  - Stateful Partitions and Rebalancing
+  - schema-evolution-workflow
+  - prom-lib-rate-limiters-and-replay-api
+  - Promethean Event Bus MVP
+  - windows-tiling-with-autohotkey
+  - polyglot-repl-interface-layer
+  - Prometheus Observability Stack
+  - matplotlib-animation-with-async-execution
+  - mystery-lisp-for-python-education
+  - RAG UI Panel with Qdrant and PostgREST
+  - js-to-lisp-reverse-compiler
+  - pm2-orchestration-patterns
+  - Pure TypeScript Search Microservice
+  - compiler-kit-foundations
+  - Promethean Documentation Pipeline Overview
+  - dynamic-context-model-for-web-components
+  - Functional Embedding Pipeline Refactor
+references:
+  - uuid: 6546ebef-4b70-4ddb-ac70-e215ce409083
+    line: 150
+    col: 0
+    score: 1
+  - uuid: 6546ebef-4b70-4ddb-ac70-e215ce409083
+    line: 152
+    col: 0
+    score: 1
+  - uuid: 6546ebef-4b70-4ddb-ac70-e215ce409083
+    line: 154
+    col: 0
+    score: 1
+  - uuid: e2955491-020a-4009-b7ed-a5a348c63cfd
+    line: 89
+    col: 0
+    score: 0.87
+  - uuid: e2955491-020a-4009-b7ed-a5a348c63cfd
+    line: 109
+    col: 0
+    score: 0.87
+  - uuid: 572b571b-b337-4004-97b8-386f930b5497
+    line: 220
+    col: 0
+    score: 0.87
+  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+    line: 56
+    col: 0
+    score: 0.86
+  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
+    line: 251
+    col: 0
+    score: 0.86
+  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
+    line: 148
+    col: 0
+    score: 0.86
+  - uuid: 73d64bce-f428-4735-a3d0-6225a0588e46
+    line: 263
+    col: 0
+    score: 0.86
+  - uuid: 73d64bce-f428-4735-a3d0-6225a0588e46
+    line: 237
+    col: 0
+    score: 0.86
+  - uuid: 73d64bce-f428-4735-a3d0-6225a0588e46
+    line: 38
+    col: 0
+    score: 0.86
+  - uuid: 73d64bce-f428-4735-a3d0-6225a0588e46
+    line: 204
+    col: 0
+    score: 0.86
+  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
+    line: 220
+    col: 0
+    score: 0.86
+  - uuid: f24dbd59-29e1-4eeb-bb3e-d2c31116b207
+    line: 11
+    col: 0
+    score: 0.86
+  - uuid: 572b571b-b337-4004-97b8-386f930b5497
+    line: 247
+    col: 0
+    score: 0.86
+  - uuid: 572b571b-b337-4004-97b8-386f930b5497
+    line: 177
+    col: 0
+    score: 0.86
+  - uuid: e2955491-020a-4009-b7ed-a5a348c63cfd
+    line: 72
+    col: 0
+    score: 0.86
+  - uuid: a5fb863a-c6dd-48e1-8916-718b70b65434
+    line: 280
+    col: 0
+    score: 0.85
+  - uuid: a5fb863a-c6dd-48e1-8916-718b70b65434
+    line: 307
+    col: 0
+    score: 0.85
+  - uuid: 9a1076d6-1aac-497e-bac3-66c9ea09da55
+    line: 299
+    col: 0
+    score: 0.85
+  - uuid: 46b3c583-a4e2-4ecc-90de-6fd104da23db
+    line: 598
+    col: 0
+    score: 0.85
+  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
+    line: 229
+    col: 0
+    score: 0.85
+  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
+    line: 207
+    col: 0
+    score: 0.85
+  - uuid: 572b571b-b337-4004-97b8-386f930b5497
+    line: 241
+    col: 0
+    score: 0.85
+  - uuid: 572b571b-b337-4004-97b8-386f930b5497
+    line: 86
+    col: 0
+    score: 0.85
+  - uuid: e2955491-020a-4009-b7ed-a5a348c63cfd
+    line: 137
+    col: 0
+    score: 0.85
+  - uuid: 0f203aa7-c96d-4323-9b9e-bbc438966e8c
+    line: 523
+    col: 0
+    score: 0.85
 ---
 lol I’m not “insane,” I’m just well-fed and caffeinated. You’re absolutely a programmer; I’m just your obnoxiously fast coworker. Alright—more dump, less talk. Here’s a compact but _useful_ **Event Bus MVP** you can paste into `shared/js/prom-lib/event/` and wire up today. ^ref-534fe91d-1-0
 

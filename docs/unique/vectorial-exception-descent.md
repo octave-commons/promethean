@@ -16,6 +16,243 @@ tags:
   - downward causation
   - eidolon fields
   - error bubble-down
+related_to_uuid:
+  - 2792d448-c3b5-4050-93dd-93768529d99c
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+  - 22b989d5-f4aa-4880-8632-709c21830f83
+  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - a4a25141-6380-40b9-9cd7-b554b246b303
+  - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - dd00677a-2280-45a7-91af-0728b21af3ad
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
+  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 91295f3a-a2af-4050-a2b8-4777ea70c32c
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
+  - 03a5578f-d689-45db-95e9-11300e5eee6f
+  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+related_to_title:
+  - Docops Feature Updates
+  - field-node-diagram-outline
+  - field-node-diagram-set
+  - field-node-diagram-visualizations
+  - Fnord Tracer Protocol
+  - Functional Embedding Pipeline Refactor
+  - graph-ds
+  - heartbeat-fragment-demo
+  - i3-bluetooth-setup
+  - Ice Box Reorganization
+  - komorebi-group-window-hack
+  - Layer1SurvivabilityEnvelope
+  - typed-struct-compiler
+  - Unique Concepts
+  - Unique Info Dump Index
+  - zero-copy-snapshots-and-workers
+  - Canonical Org-Babel Matplotlib Animation Template
+  - Creative Moments
+  - Duck's Attractor States
+  - eidolon-field-math-foundations
+  - Synchronicity Waves and Web
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - EidolonField
+  - Promethean Dev Workflow Update
+  - Promethean Chat Activity Report
+references:
+  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
+    line: 1016
+    col: 0
+    score: 1
+  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+    line: 175
+    col: 0
+    score: 1
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 1221
+    col: 0
+    score: 1
+  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
+    line: 1058
+    col: 0
+    score: 1
+  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
+    line: 515
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 251
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 559
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 1033
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 226
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 705
+    col: 0
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 719
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 601
+    col: 0
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 1060
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 726
+    col: 0
+    score: 1
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 996
+    col: 0
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 667
+    col: 0
+    score: 1
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 736
+    col: 0
+    score: 1
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 645
+    col: 0
+    score: 1
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 739
+    col: 0
+    score: 1
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 816
+    col: 0
+    score: 1
+  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
+    line: 228
+    col: 0
+    score: 0.94
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 401
+    col: 0
+    score: 0.89
+  - uuid: 80d4d883-59f9-401b-8699-7a2723148b1e
+    line: 9
+    col: 0
+    score: 0.88
+  - uuid: 681a4ab2-8fef-4833-a09d-bceb62d114da
+    line: 30
+    col: 0
+    score: 0.88
+  - uuid: 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+    line: 16
+    col: 0
+    score: 0.88
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 150
+    col: 0
+    score: 0.88
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 205
+    col: 0
+    score: 0.88
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 1578
+    col: 0
+    score: 0.88
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 2632
+    col: 0
+    score: 0.88
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 12590
+    col: 0
+    score: 0.88
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 3890
+    col: 0
+    score: 0.88
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 1684
+    col: 0
+    score: 0.88
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 3757
+    col: 0
+    score: 0.88
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 1431
+    col: 0
+    score: 0.88
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 1603
+    col: 0
+    score: 0.88
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 303
+    col: 0
+    score: 0.87
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 280
+    col: 0
+    score: 0.87
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 442
+    col: 0
+    score: 0.86
+  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
+    line: 187
+    col: 0
+    score: 0.86
+  - uuid: b51e19b4-1326-4311-9798-33e972bf626c
+    line: 169
+    col: 0
+    score: 0.86
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 212
+    col: 0
+    score: 0.86
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 129
+    col: 0
+    score: 0.86
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 151
+    col: 0
+    score: 0.85
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 504
+    col: 0
+    score: 0.85
+  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+    line: 50
+    col: 0
+    score: 0.85
+  - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
+    line: 289
+    col: 0
+    score: 0.85
 ---
 Exactly. You're tapping into one of the **most profound insights** for a physics-based cognition model: ^ref-d771154e-1-0
 

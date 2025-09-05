@@ -19,6 +19,103 @@ tags:
   - api-gateway
   - embeddings
   - crawler
+related_to_uuid:
+  - 1fcb8421-46eb-4813-ba66-f79b25ef5db7
+  - c2ba3d27-5b24-4345-9cf2-5cf296f8b03d
+  - 6f13f134-7536-4bc3-b695-5aaa2906bb9d
+  - e4317155-7fa6-44e8-8aee-b72384581790
+  - c46718fe-73dd-4236-8f1c-f6565da58cc4
+  - 4d8cbf01-e44a-452f-96a0-17bde7b416a8
+  - 740bbd1c-c039-405c-8a32-4baeddfb5637
+  - eb21f139-3125-4969-bc81-06a30887fc3a
+  - d65e5b6c-29ed-458f-bf9b-94bf0d48fa79
+  - aa437a1f-eb7e-4096-a6cc-98d2eeeef8c5
+  - f24dbd59-29e1-4eeb-bb3e-d2c31116b207
+  - 6420e101-2d34-45b5-bcff-d21e1c6e516b
+  - f4767ec9-7363-4ca0-ad88-ccc624247a3b
+  - 792a343e-674c-4bb4-8435-b3f8c163349d
+  - aa88652d-c8e5-4a1b-850e-afdf7fe15dae
+  - e9aece2c-221c-44fc-9bc3-83c591c8e74d
+  - d975dfe2-e98e-40b1-9df0-fcd13161e951
+  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
+  - 50ac7389-a75e-476a-ab34-bb24776d4f38
+  - bdca8ded-0e64-417b-a258-4528829c4704
+  - 99c6d380-a2a6-4d8e-a391-f4bc0c9a631f
+  - cdb74242-b61d-4b7e-9288-5859e040e512
+  - 86ef1f2b-1b3f-4ca7-a88e-b8b52e70ac10
+  - b25be760-256e-4a8a-b34d-867281847ccb
+  - 95cb7640-a903-4a2e-99c7-2d060a0fbecf
+related_to_title:
+  - api-gateway-versioning
+  - observability-infrastructure-setup
+  - shared-package-layout-clarification
+  - TypeScript Patch for Tool Calling Support
+  - shared-package-structure
+  - pure-node-crawl-stack-with-playwright-and-crawlee
+  - heartbeat-fragment-demo
+  - Post-Linguistic Transhuman Design Frameworks
+  - sibilant-macro-targets
+  - Prometheus Observability Stack
+  - Mongo Outbox Implementation
+  - Eidolon Field Math Foundations
+  - ecs-scheduler
+  - windows-tiling-with-autohotkey
+  - Promethean Web UI Setup
+  - promethean-qdrant-demo
+  - minimal-typescript-qdrant-demo
+  - polyglot-repl-interface-layer
+  - promethean-full-stack-docker-setup
+  - Pure TypeScript Search Microservice
+  - Layer 1 Survivability Envelope
+  - Event Bus Projections Architecture
+  - promethean-pipelines
+  - ripple-propagation-demo
+  - Promethean State Format
+references:
+  - uuid: 1fcb8421-46eb-4813-ba66-f79b25ef5db7
+    line: 7
+    col: 0
+    score: 0.97
+  - uuid: 1fcb8421-46eb-4813-ba66-f79b25ef5db7
+    line: 52
+    col: 0
+    score: 0.97
+  - uuid: 1fcb8421-46eb-4813-ba66-f79b25ef5db7
+    line: 82
+    col: 0
+    score: 0.93
+  - uuid: c2ba3d27-5b24-4345-9cf2-5cf296f8b03d
+    line: 46
+    col: 0
+    score: 0.9
+  - uuid: 1fcb8421-46eb-4813-ba66-f79b25ef5db7
+    line: 282
+    col: 0
+    score: 0.9
+  - uuid: 6f13f134-7536-4bc3-b695-5aaa2906bb9d
+    line: 49
+    col: 0
+    score: 0.89
+  - uuid: e4317155-7fa6-44e8-8aee-b72384581790
+    line: 110
+    col: 0
+    score: 0.87
+  - uuid: 740bbd1c-c039-405c-8a32-4baeddfb5637
+    line: 63
+    col: 0
+    score: 0.86
+  - uuid: 4d8cbf01-e44a-452f-96a0-17bde7b416a8
+    line: 110
+    col: 0
+    score: 0.86
+  - uuid: c46718fe-73dd-4236-8f1c-f6565da58cc4
+    line: 77
+    col: 0
+    score: 0.86
+  - uuid: eb21f139-3125-4969-bc81-06a30887fc3a
+    line: 57
+    col: 0
+    score: 0.85
 ---
 Nice—picking it back up. Last we aligned on: **all ports hidden behind NGINX**, **no SaaS/tokens**, **JS/TS-only services**, **Dockerfiles live in `./images/`**, and **infra kept out of source**. We also said to include **Ollama**, **Qdrant** (local vector DB), **Tor (+Privoxy)** for optional crawler routing, a **TS crawler**, a **TS embeddings service** (no Python; `@xenova/transformers`), and a tiny **TS API Gateway** to give you a clean interface. Here’s the concrete drop: ^ref-6deed6ac-1-0
 
@@ -437,6 +534,263 @@ app.post('/embeddings', async (c) => {
 })
 
 serve({ fetch: app.fetch, port: 7070 }) ^ref-6deed6ac-415-0
+```
+
+# 🧱 Shared TS interface (SDK)
+
+> Note: per your rule, imports should look like `@shared/ts/dist/...` after build. Here I show source; your build should output to `@shared/ts/dist/...`.
+
+## `shared/ts/package.json` ^ref-6deed6ac-424-0
+
+```json
+{
+  "name": "@shared/ts",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./dist/*": "./dist/*"
+  },
+  "scripts": {
+    "build": "tsc -p ."
+^ref-6deed6ac-392-0
+  },
+  "devDependencies": {
+^ref-6deed6ac-415-0
+    "typescript": "^5.5.4",
+^ref-6deed6ac-415-0
+^ref-6deed6ac-439-0
+    "zod": "^3.23.8"
+  },
+  "dependencies": {
+    "undici": "^6.19.8"
+  }
+^ref-6deed6ac-424-0
+}
+```
+
+## `shared/ts/src/http.ts`
+
+```ts
+import { fetch } from 'undici'
+
+export async function jsonFetch<T>(url: string, init?: RequestInit): Promise<T> {
+  const res = await fetch(url, {
+    ...init,
+    headers: { 'content-type': 'application/json', ...(init?.headers || {}) }
+  })
+  if (!res.ok) {
+    const text = await res.text().catch(() => '')
+^ref-6deed6ac-415-0
+    throw new Error(`HTTP ${res.status} ${res.statusText}: ${text}`)
+  }
+^ref-6deed6ac-439-0
+  return res.json() as Promise<T>
+^ref-6deed6ac-456-0
+^ref-6deed6ac-439-0
+^ref-6deed6ac-456-0
+}
+
+export const api = (base = '') => ({
+  get:  <T>(p: string) => jsonFetch<T>(base + p),
+  post: <T>(p: string, body: unknown) =>
+    jsonFetch<T>(base + p, { method: 'POST', body: JSON.stringify(body) }),
+})
+```
+
+## `shared/ts/src/clients/ollama.ts`
+
+```ts
+import { api } from '../http.js'
+^ref-6deed6ac-439-0
+
+export type ChatMsg = { role: 'system' | 'user' | 'assistant'; content: string }
+^ref-6deed6ac-456-0
+^ref-6deed6ac-471-0
+export type ChatReq = { model: string; messages: ChatMsg[] }
+^ref-6deed6ac-485-0
+^ref-6deed6ac-471-0
+export type ChatResp = { message: ChatMsg; done: boolean }
+
+export const createOllamaClient = (base = '/api') => {
+  const a = api(base)
+  return {
+    chat: (req: ChatReq) => a.post<ChatResp>('/llm/chat', req)
+  }
+}
+```
+
+## `shared/ts/src/clients/qdrant.ts`
+^ref-6deed6ac-456-0
+
+```ts
+^ref-6deed6ac-471-0
+^ref-6deed6ac-485-0
+^ref-6deed6ac-501-0
+import { api } from '../http.js'
+type Point = { id: string | number; vector: number[]; payload?: Record<string, unknown> }
+ ^ref-6deed6ac-485-0
+export const createQdrantClient = (base = '/api') => {
+  const a = api(base)
+  return {
+    upsert: (collection: string, points: Point[]) =>
+      a.post(`/vectors/upsert`, { collection, points })
+  }
+}
+```
+^ref-6deed6ac-471-0
+
+## `shared/ts/src/clients/crawler.ts`
+^ref-6deed6ac-501-0
+
+```ts
+import { api } from '../http.js'
+export type CrawlResult = { url: string; title: string; text: string }
+
+export const createCrawlerClient = (base = '/api') => {
+  const a = api(base)
+  return {
+    crawl: (url: string) => a.post<CrawlResult>('/crawl', { url })
+  }
+}
+```
+
+^ref-6deed6ac-485-0
+## `shared/ts/src/clients/embeddings.ts`
+
+```ts
+^ref-6deed6ac-501-0
+^ref-6deed6ac-536-0 ^ref-6deed6ac-540-0
+^ref-6deed6ac-534-0
+import { api } from '../http.js' ^ref-6deed6ac-542-0
+
+export type EmbeddingsResp = { embeddings: number[][] }
+
+export const createEmbeddingsClient = (base = '/api') => {
+  const a = api(base)
+  return {
+    embed: (input: string[] | string) =>
+      a.post<EmbeddingsResp>('/embeddings', { input })
+  }
+}
+```
+
+# 🗺️ Mermaid (you like diagrams)
+
+```mermaid
+flowchart LR
+  subgraph Host[Host]
+    NGINX["NGINX :80"]
+  end
+
+  subgraph prom-net
+    AG["api-gateway :8080"]
+    OLLAMA["ollama :11434"]
+    QD["qdrant :6333"]
+    CRAWL["crawler :3000"]
+    EMB["embeddings :7070"]
+^ref-6deed6ac-501-0
+    TOR["tor :9050"]
+    PRX["privoxy :8118"]
+  end
+
+^ref-6deed6ac-545-0
+^ref-6deed6ac-543-0
+^ref-6deed6ac-542-0 ^ref-6deed6ac-549-0
+^ref-6deed6ac-540-0
+^ref-6deed6ac-536-0 ^ref-6deed6ac-551-0
+^ref-6deed6ac-564-0
+^ref-6deed6ac-562-0
+^ref-6deed6ac-561-0 ^ref-6deed6ac-567-0
+^ref-6deed6ac-560-0
+^ref-6deed6ac-558-0
+^ref-6deed6ac-554-0
+^ref-6deed6ac-553-0
+^ref-6deed6ac-552-0
+^ref-6deed6ac-551-0
+^ref-6deed6ac-549-0
+^ref-6deed6ac-545-0
+^ref-6deed6ac-543-0
+^ref-6deed6ac-576-0 ^ref-6deed6ac-577-0
+^ref-6deed6ac-574-0 ^ref-6deed6ac-578-0
+^ref-6deed6ac-542-0 ^ref-6deed6ac-579-0
+^ref-6deed6ac-540-0
+^ref-6deed6ac-536-0
+^ref-6deed6ac-592-0
+^ref-6deed6ac-589-0 ^ref-6deed6ac-597-0
+^ref-6deed6ac-587-0
+^ref-6deed6ac-583-0
+^ref-6deed6ac-582-0
+^ref-6deed6ac-579-0
+^ref-6deed6ac-578-0
+^ref-6deed6ac-577-0
+^ref-6deed6ac-576-0 ^ref-6deed6ac-604-0
+^ref-6deed6ac-574-0
+^ref-6deed6ac-567-0
+^ref-6deed6ac-564-0
+^ref-6deed6ac-562-0 ^ref-6deed6ac-608-0
+^ref-6deed6ac-561-0
+^ref-6deed6ac-560-0
+^ref-6deed6ac-558-0
+^ref-6deed6ac-554-0
+^ref-6deed6ac-553-0
+^ref-6deed6ac-552-0
+^ref-6deed6ac-551-0
+^ref-6deed6ac-549-0
+^ref-6deed6ac-545-0
+^ref-6deed6ac-543-0 ^ref-6deed6ac-618-0
+  NGINX -->|/api/*| AG ^ref-6deed6ac-534-0 ^ref-6deed6ac-552-0 ^ref-6deed6ac-582-0
+  NGINX -->|/ollama/*| OLLAMA ^ref-6deed6ac-553-0
+  NGINX -->|/qdrant/*| QD ^ref-6deed6ac-554-0
+  NGINX -->|/crawler/*| CRAWL ^ref-6deed6ac-622-0
+^ref-6deed6ac-583-0 ^ref-6deed6ac-623-0
+  NGINX -->|/embeddings/*| EMB ^ref-6deed6ac-587-0
+^ref-6deed6ac-536-0
+ ^ref-6deed6ac-540-0 ^ref-6deed6ac-558-0 ^ref-6deed6ac-589-0 ^ref-6deed6ac-626-0
+  CRAWL -->|HTTP(S) via| PRX --> TOR
+  AG --> OLLAMA ^ref-6deed6ac-542-0 ^ref-6deed6ac-560-0 ^ref-6deed6ac-628-0
+  AG --> QD ^ref-6deed6ac-543-0 ^ref-6deed6ac-561-0 ^ref-6deed6ac-592-0
+  AG --> CRAWL ^ref-6deed6ac-562-0
+  AG --> EMB
+```
+
+^ref-6deed6ac-545-0 ^ref-6deed6ac-597-0
+^ref-6deed6ac-564-0 ^ref-6deed6ac-567-0
+--- ^ref-6deed6ac-549-0
+
+## How to run ^ref-6deed6ac-551-0 ^ref-6deed6ac-638-0
+ ^ref-6deed6ac-552-0
+1. Build once from repo root: ^ref-6deed6ac-553-0
+ ^ref-6deed6ac-554-0 ^ref-6deed6ac-604-0
+```bash ^ref-6deed6ac-574-0
+docker compose -f infrastructure/compose/stack.yml build
+``` ^ref-6deed6ac-576-0
+ ^ref-6deed6ac-558-0 ^ref-6deed6ac-577-0 ^ref-6deed6ac-608-0
+2. Dev mode (hot-reload with volumes already set): ^ref-6deed6ac-578-0
+ ^ref-6deed6ac-560-0 ^ref-6deed6ac-579-0
+* In each TS service folder, run `pnpm i && pnpm build` (or `pnpm dev` if you prefer local runs). ^ref-6deed6ac-561-0
+* Then: ^ref-6deed6ac-562-0 ^ref-6deed6ac-649-0
+ ^ref-6deed6ac-582-0
+```bash ^ref-6deed6ac-564-0 ^ref-6deed6ac-583-0
+docker compose -f infrastructure/compose/stack.yml up -d
+```
+ ^ref-6deed6ac-567-0
+3. Test endpoints (all via NGINX, single port :80): ^ref-6deed6ac-587-0 ^ref-6deed6ac-618-0
+
+* Health: `curl  api/health` (note the space removed → `/api/health`) ^ref-6deed6ac-589-0 ^ref-6deed6ac-660-0
+* Chat: `curl -X POST  -d '{"model":"qwen2.5-coder:7b","messages":[{"role":"user","content":"hello"}]}' -H 'content-type: application/json'`
+* Crawl: `curl -X POST  -d '{"url":" -H 'content-type: application/json'`
+* Embeddings: `curl -X POST  -d '{"input":["hello world"]}' -H 'content-type: application/json'` ^ref-6deed6ac-592-0
+ ^ref-6deed6ac-574-0
+---
+ ^ref-6deed6ac-576-0 ^ref-6deed6ac-626-0
+If you want, I can also add: ^ref-6deed6ac-577-0
+ ^ref-6deed6ac-578-0 ^ref-6deed6ac-597-0 ^ref-6deed6ac-628-0 ^ref-6deed6ac-665-0
+* a **/rag/query** route in the gateway (crawl → embed → similarity search in Qdrant → optional LLM answer), ^ref-6deed6ac-579-0
+* a **WS** endpoint for streaming LLM tokens,
+* or fold `/ollama`, `/qdrant`, `/crawler`, `/embeddings` behind `/api/*` only (fully opaque services).
+ ^ref-6deed6ac-582-0
+What do you want next—RAG flow wired end-to-end or WS streaming?
+}) ^ref-6deed6ac-415-0
 ```
 
 # 🧱 Shared TS interface (SDK)

@@ -16,6 +16,210 @@ tags:
   - interactable-prompts
   - output-formats
   - cognitive-wiring
+related_to_uuid:
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+  - 03a5578f-d689-45db-95e9-11300e5eee6f
+  - 0b872af2-4197-46f3-b631-afb4e6135585
+  - 1c4046b5-742d-4004-aec6-b47251fef5d6
+  - 18138627-a348-4fbb-b447-410dfb400564
+  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - 6bcff92c-4224-453d-9993-1be8d37d47c3
+  - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
+  - 2792d448-c3b5-4050-93dd-93768529d99c
+  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
+  - 5c152b08-6b69-4bb8-a1a7-66745789c169
+  - 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
+  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+  - c0392040-16a2-41e8-bd54-75110319e3c0
+  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
+  - ba244286-4e84-425b-8bf6-b80c4eb783fc
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+related_to_title:
+  - eidolon-field-math-foundations
+  - Promethean Chat Activity Report
+  - Promethean Dev Workflow Update
+  - Promethean Documentation Update
+  - Promethean Notes
+  - The Jar of Echoes
+  - windows-tiling-with-autohotkey
+  - Post-Linguistic Transhuman Design Frameworks
+  - Promethean_Eidolon_Synchronicity_Model
+  - JavaScript
+  - Docops Feature Updates
+  - sibilant-metacompiler-overview
+  - OpenAPI Validation Report
+  - Optimizing Command Limitations in System Design
+  - ParticleSimulationWithCanvasAndFFmpeg
+  - Per-Domain Policy System for JS Crawler
+  - plan-update-confirmation
+  - Promethean Documentation Pipeline Overview
+  - polyglot-repl-interface-layer
+  - Promethean Agent Config DSL
+  - System Scheduler with Resource-Aware DAG
+  - Voice Access Layer Design
+  - Cross-Language Runtime Polymorphism
+  - markdown-to-org-transpiler
+references:
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 8140
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 2129
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 5521
+    col: 0
+    score: 1
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 1833
+    col: 0
+    score: 1
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 2029
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 4611
+    col: 0
+    score: 1
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 5385
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 2136
+    col: 0
+    score: 0.98
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 4618
+    col: 0
+    score: 0.98
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 264
+    col: 0
+    score: 0.95
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 215
+    col: 0
+    score: 0.95
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 157
+    col: 0
+    score: 0.95
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 158
+    col: 0
+    score: 0.95
+  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
+    line: 52
+    col: 0
+    score: 0.9
+  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
+    line: 553
+    col: 0
+    score: 0.89
+  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+    line: 327
+    col: 0
+    score: 0.89
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 1045
+    col: 0
+    score: 0.89
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 1040
+    col: 0
+    score: 0.89
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 1180
+    col: 0
+    score: 0.89
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 683
+    col: 0
+    score: 0.89
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 1045
+    col: 0
+    score: 0.89
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 526
+    col: 0
+    score: 0.89
+  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+    line: 1365
+    col: 0
+    score: 0.89
+  - uuid: c0392040-16a2-41e8-bd54-75110319e3c0
+    line: 508
+    col: 0
+    score: 0.89
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 280
+    col: 0
+    score: 0.87
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 374
+    col: 0
+    score: 0.87
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 211
+    col: 0
+    score: 0.87
+  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+    line: 272
+    col: 0
+    score: 0.87
+  - uuid: 6b63edca-7637-4fb0-bc85-d498c31cc46e
+    line: 220
+    col: 0
+    score: 0.86
+  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
+    line: 279
+    col: 0
+    score: 0.86
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 306
+    col: 0
+    score: 0.86
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 427
+    col: 0
+    score: 0.86
+  - uuid: 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+    line: 44
+    col: 0
+    score: 0.86
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 148
+    col: 0
+    score: 0.86
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 631
+    col: 0
+    score: 0.85
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 63
+    col: 0
+    score: 0.85
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 303
+    col: 0
+    score: 0.85
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 28
+    col: 0
+    score: 0.85
 ---
 Yes—this direction is 🔥. ^ref-d41a06d1-1-0
 

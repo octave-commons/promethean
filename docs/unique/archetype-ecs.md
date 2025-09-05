@@ -10,6 +10,161 @@ tags:
   - ecs
   - typescript
   - archetype
+related_to_uuid:
+  - 95cb7640-a903-4a2e-99c7-2d060a0fbecf
+  - 96ffd77d-46ff-409d-8e59-d7e00ce7055b
+  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+  - 9f8f8fb9-9bc4-49a4-b565-ee31a0d2503c
+  - 86ef1f2b-1b3f-4ca7-a88e-b8b52e70ac10
+  - 0a8255a5-ef49-4a1e-ae71-b2f57eb7bdf8
+  - bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+  - 792a343e-674c-4bb4-8435-b3f8c163349d
+  - f4767ec9-7363-4ca0-ad88-ccc624247a3b
+  - 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
+  - 4316c3f9-551f-4872-b5c5-98ae73508535
+  - 8fd08696-5338-493b-bed5-507f8a6a6ea9
+  - a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+  - 6f13f134-7536-4bc3-b695-5aaa2906bb9d
+  - e4317155-7fa6-44e8-8aee-b72384581790
+  - 740bbd1c-c039-405c-8a32-4baeddfb5637
+  - c2ba3d27-5b24-4345-9cf2-5cf296f8b03d
+  - ee4b3631-a745-485b-aff1-2da806cfadfb
+  - 5becb573-0a78-486b-8d3c-199b3c7a79ec
+  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
+  - 3657117f-241d-4ab9-a717-4a3f584071fc
+  - 0e289525-1904-4f7d-9d3a-4fedc53efe9b
+  - 40bc2ba7-9c5c-4f72-8f88-17bef3c6163f
+  - 6b91d91d-6b5c-4516-a0c8-d66d9b9fcc9b
+related_to_title:
+  - Promethean State Format
+  - ChatGPT Custom Prompts
+  - archetype-ecs
+  - Promethean Code Principles
+  - promethean-pipelines
+  - Functional Refactor of TypeScript Document Processing
+  - chroma-embedding-refactor
+  - windows-tiling-with-autohotkey
+  - ecs-scheduler
+  - system-scheduler
+  - WebSocket Gateway Implementation
+  - typed-struct-compiler
+  - AI-Centric OS with MCP Layer
+  - shared-package-layout-clarification
+  - TypeScript Patch for Tool Calling Support
+  - heartbeat-fragment-demo
+  - observability-infrastructure-setup
+  - Promethean Documentation Pipeline Overview
+  - Agent Reflections and Prompt Evolution
+  - Stateful Partitions and Rebalancing
+  - language-agnostic-mirror-system
+  - functional-programming-in-typescript
+  - Lean AGENT Setup
+  - AGENTS.md
+references:
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 7
+    col: 0
+    score: 1
+  - uuid: 96ffd77d-46ff-409d-8e59-d7e00ce7055b
+    line: 5
+    col: 0
+    score: 1
+  - uuid: 96ffd77d-46ff-409d-8e59-d7e00ce7055b
+    line: 7
+    col: 0
+    score: 1
+  - uuid: 96ffd77d-46ff-409d-8e59-d7e00ce7055b
+    line: 9
+    col: 0
+    score: 1
+  - uuid: 96ffd77d-46ff-409d-8e59-d7e00ce7055b
+    line: 16
+    col: 0
+    score: 1
+  - uuid: 95cb7640-a903-4a2e-99c7-2d060a0fbecf
+    line: 75
+    col: 0
+    score: 1
+  - uuid: 95cb7640-a903-4a2e-99c7-2d060a0fbecf
+    line: 78
+    col: 0
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 445
+    col: 0
+    score: 0.97
+  - uuid: 9f8f8fb9-9bc4-49a4-b565-ee31a0d2503c
+    line: 3
+    col: 0
+    score: 0.94
+  - uuid: 9f8f8fb9-9bc4-49a4-b565-ee31a0d2503c
+    line: 5
+    col: 0
+    score: 0.92
+  - uuid: 86ef1f2b-1b3f-4ca7-a88e-b8b52e70ac10
+    line: 68
+    col: 0
+    score: 0.89
+  - uuid: 0a8255a5-ef49-4a1e-ae71-b2f57eb7bdf8
+    line: 1
+    col: 0
+    score: 0.87
+  - uuid: 86ef1f2b-1b3f-4ca7-a88e-b8b52e70ac10
+    line: 84
+    col: 0
+    score: 0.87
+  - uuid: bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+    line: 66
+    col: 0
+    score: 0.87
+  - uuid: f4767ec9-7363-4ca0-ad88-ccc624247a3b
+    line: 247
+    col: 0
+    score: 0.87
+  - uuid: 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
+    line: 245
+    col: 0
+    score: 0.87
+  - uuid: 792a343e-674c-4bb4-8435-b3f8c163349d
+    line: 78
+    col: 0
+    score: 0.86
+  - uuid: 4316c3f9-551f-4872-b5c5-98ae73508535
+    line: 36
+    col: 0
+    score: 0.86
+  - uuid: 8fd08696-5338-493b-bed5-507f8a6a6ea9
+    line: 358
+    col: 0
+    score: 0.86
+  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+    line: 128
+    col: 0
+    score: 0.86
+  - uuid: 6f13f134-7536-4bc3-b695-5aaa2906bb9d
+    line: 28
+    col: 0
+    score: 0.86
+  - uuid: bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+    line: 101
+    col: 0
+    score: 0.86
+  - uuid: 6f13f134-7536-4bc3-b695-5aaa2906bb9d
+    line: 128
+    col: 0
+    score: 0.86
+  - uuid: e4317155-7fa6-44e8-8aee-b72384581790
+    line: 32
+    col: 0
+    score: 0.85
+  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+    line: 77
+    col: 0
+    score: 0.85
+  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+    line: 162
+    col: 0
+    score: 0.85
 ---
 Note: Consolidated here → ../notes/js/archetype-ecs.md ^ref-8f4c1e86-1-0
 
@@ -418,6 +573,56 @@ function decay(dt: number) {
 // 4) Tick with a command buffer (optional for structural ops)
 function tick(dt: number) {
   const cmd = world.beginTick();
+  physics(dt);
+  decay(dt);
+  cmd.flush();
+  world.endTick();
+}
+^ref-8f4c1e86-366-0
+```
+^ref-8f4c1e86-367-0
+
+# Extras you can add (optional, easy bolt-ons)
+ ^ref-8f4c1e86-417-0
+* **System scheduler** with dependencies (use the DAG you already have—toposort the system graph and run). ^ref-8f4c1e86-418-0
+* **Events**: fire component `onAdd/onRemove` (already supported) + `onChanged` subscription via `changed:` queries. ^ref-8f4c1e86-419-0
+* **Serialization**: `World → JSON` by dumping archetypes and columns; `JSON → World` by rebuilding rows.
+* **More than 64 components**: maintain two (or N) `bigint` masks per archetype and per query.
+
+# Mermaid (shape of the ECS) ^ref-8f4c1e86-423-0
+
+```mermaid
+flowchart LR
+  subgraph World
+    A[Archetype 0b0011]:::arch
+    B[Archetype 0b0111]:::arch
+    C[Archetype 0b0010]:::arch
+    A-- add C2 -->B
+    B-- remove C1 -->C
+    A -- SoA columns --> ColsA[(Pos[], Vel[])]
+    B -- SoA columns --> ColsB[(Pos[], Vel[], Life[])]
+  end
+  Sys1[Physics System] -->|query all:[Pos,Vel]| A & B
+  Sys2[Lifetime System] -->|query all:[Life]| B
+^ref-8f4c1e86-423-0
+  classDef arch fill:#eef,stroke:#88f;
+```
+ ^ref-8f4c1e86-441-0
+# Sibilant sprinkles (pseudo)
+
+```lisp
+; shared/sibilant/prom/ds/ecs.sib (pseudo)
+(defn make-world [] (new World))
+(defn defcomp [w name defaults] (.defineComponent w {:name name :defaults defaults}))
+(defn query [w & {:all [] :any [] :none [] :changed []}]
+^ref-8f4c1e86-441-0
+  (.makeQuery w {:all all :any any :none none :changed changed})) ^ref-8f4c1e86-450-0
+(defn iter [w q & comps] (.iter w q ~@comps))
+``` ^ref-8f4c1e86-452-0
+^ref-8f4c1e86-444-0
+ ^ref-8f4c1e86-453-0
+Want me to wire a **system scheduler** that uses the Graph you already have (with per-system resources, parallel-safe stages), or add a **prefab/blueprint** loader?
+ cmd = world.beginTick();
   physics(dt);
   decay(dt);
   cmd.flush();

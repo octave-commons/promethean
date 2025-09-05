@@ -18,6 +18,27 @@ tags:
   - pipeline
   - typescript
   - javascript
+related_to_uuid:
+  - a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+related_to_title:
+  - AI-Centric OS with MCP Layer
+references:
+  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+    line: 1
+    col: 0
+    score: 1
+  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+    line: 7
+    col: 0
+    score: 1
+  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+    line: 8
+    col: 0
+    score: 1
+  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+    line: 10
+    col: 0
+    score: 1
 ---
 
 pipelines:
@@ -365,6 +386,25 @@ pipelines:
           - ".cache/docops/references.json"
         outputs:
           - ".cache/docops/applied-fm.touch"
+
+      # g) Footer writer (markdown links with line anchors)
+      - id: doc-footer
+        deps: ["doc-apply-fm"]
+        inputs:
+          - ".cache/docops/references.json"
+          - ".cache/docops/related.json"
+          - "docs/unique/**/*.md"
+        outputs:
+          - ".cache/docops/footer.touch"
+
+      # h) Optional rename pass (based on generated titles)
+      - id: doc-rename
+        deps: ["doc-apply-fm"]
+        inputs:
+          - ".cache/docops/frontmatters.json"
+        outputs:
+          - ".cache/docops/renames.json"
+e/docops/applied-fm.touch"
 
       # g) Footer writer (markdown links with line anchors)
       - id: doc-footer

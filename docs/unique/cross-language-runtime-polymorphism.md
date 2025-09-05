@@ -18,6 +18,147 @@ tags:
   - interoperability
   - staged-polymorphism
   - typed-buffers
+related_to_uuid:
+  - c38e7047-c6c0-4a19-a0e6-5707a12e9de1
+  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
+  - 2478e18c-f621-4b0c-a4c5-9637d213cccf
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+  - af5d2824-faad-476c-a389-e912d9bc672c
+  - d41a06d1-613e-4440-80b7-4553fc694285
+  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+  - c5c9a5c6-427d-4864-8084-c083cd55faa0
+  - 21d5cc09-b005-4ede-8f69-00b4b0794540
+  - b01856b4-999f-418d-8009-ade49b00eb0f
+  - 8430617b-80a2-4cc9-8288-9a74cb57990b
+  - ba244286-4e84-425b-8bf6-b80c4eb783fc
+  - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - c5fba0a0-9196-468d-a0f3-51c99e987263
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+related_to_title:
+  - Particle Simulation with Canvas and FFmpeg
+  - sibilant-metacompiler-overview
+  - Cross-Language Runtime Polymorphism
+  - Recursive Prompt Construction Engine
+  - Sibilant Meta-Prompt DSL
+  - prompt-programming-language-lisp
+  - template-based-compilation
+  - Event Bus MVP
+  - Promethean Full-Stack Docker Setup
+  - i3-bluetooth-setup
+  - Matplotlib Animation with Async Execution
+  - State Snapshots API and Transactional Projector
+  - sibilant-macro-targets
+  - Exception Layer Analysis
+  - Universal Lisp Interface
+  - ripple-propagation-demo
+  - System Scheduler with Resource-Aware DAG
+  - AI-Centric OS with MCP Layer
+  - sibilant-meta-string-templating-runtime
+  - Promethean Agent Config DSL
+  - komorebi-group-window-hack
+  - Lispy Macros with syntax-rules
+  - field-dynamics-math-blocks
+  - set-assignment-in-lisp-ast
+  - Voice Access Layer Design
+references:
+  - uuid: c38e7047-c6c0-4a19-a0e6-5707a12e9de1
+    line: 1
+    col: 0
+    score: 1
+  - uuid: c38e7047-c6c0-4a19-a0e6-5707a12e9de1
+    line: 3
+    col: 0
+    score: 1
+  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
+    line: 52
+    col: 0
+    score: 0.92
+  - uuid: 2478e18c-f621-4b0c-a4c5-9637d213cccf
+    line: 212
+    col: 0
+    score: 0.91
+  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
+    line: 147
+    col: 0
+    score: 0.91
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 120
+    col: 0
+    score: 0.89
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 527
+    col: 0
+    score: 0.87
+  - uuid: 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+    line: 16
+    col: 0
+    score: 0.87
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 342
+    col: 0
+    score: 0.87
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 44
+    col: 0
+    score: 0.87
+  - uuid: d41a06d1-613e-4440-80b7-4553fc694285
+    line: 56
+    col: 0
+    score: 0.87
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 1493
+    col: 0
+    score: 0.87
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 63
+    col: 0
+    score: 0.86
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 303
+    col: 0
+    score: 0.86
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 2113
+    col: 0
+    score: 0.86
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 64
+    col: 0
+    score: 0.85
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 128
+    col: 0
+    score: 0.85
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 2094
+    col: 0
+    score: 0.85
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 358
+    col: 0
+    score: 0.85
+  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
+    line: 137
+    col: 0
+    score: 0.85
+  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
+    line: 64
+    col: 0
+    score: 0.85
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 1136
+    col: 0
+    score: 0.85
 ---
 **Exactly. You’re describing a staged polymorphic runtime with runtime-boundary awareness.** ^ref-c34c36a6-1-0
 

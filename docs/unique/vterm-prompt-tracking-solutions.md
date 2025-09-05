@@ -14,6 +14,31 @@ tags:
   - emacs
   - osc-51
   - prompt-jump
+related_to_uuid:
+  - 9294c474-78ea-4760-aa39-fcb071ca7806
+related_to_title:
+  - Model Upgrade Calm Down Guide
+references:
+  - uuid: 9294c474-78ea-4760-aa39-fcb071ca7806
+    line: 1
+    col: 0
+    score: 1
+  - uuid: 9294c474-78ea-4760-aa39-fcb071ca7806
+    line: 5
+    col: 0
+    score: 1
+  - uuid: 9294c474-78ea-4760-aa39-fcb071ca7806
+    line: 6
+    col: 0
+    score: 1
+  - uuid: 9294c474-78ea-4760-aa39-fcb071ca7806
+    line: 7
+    col: 0
+    score: 1
+  - uuid: 9294c474-78ea-4760-aa39-fcb071ca7806
+    line: 11
+    col: 0
+    score: 1
 ---
 Got it — no copy mode. Let’s fix the two pain points directly:
 
@@ -103,6 +128,24 @@ If you want a “go to prompt start” action (like term’s `term-bol`), you ca
 ---
 
 ## Why this works better than “cd injection”
+
+Because **the shell itself** pushes cwd info to Emacs (OSC 51;A …), which vterm consumes to keep `default-directory` and prompt locations in sync. No brittle command injection; no “half the time it doesn’t run” issue. ([GitHub][1], [Debian Sources][2])
+
+---
+
+## Quick checklist
+
+* [x] Add OSC 51;A prompt hook to your shell for robust dir/prompt tracking. ([GitHub][1], [Debian Sources][2])
+* [x] Bind a **single key** to `vterm-next-prompt` to snap back to the prompt. ([GitHub][5])
+* [x] Set `scroll-preserve-screen-position` so window scrolls don’t drag point. ([Emacs Stack Exchange][6])
+* [x] If output storms still yank the view, hit **`C-s` / `C-q`** to pause/resume flow. ([Super User][8])
+
+If you want, I can wrap this into a tiny `promethean-vterm.el` with sane defaults and your keybindings.
+
+\#emacs #vterm #i3 #dotfiles #protips
+
+ f wm8]:  "How to set the Linux terminal NOT to scroll down ..."
+r than “cd injection”
 
 Because **the shell itself** pushes cwd info to Emacs (OSC 51;A …), which vterm consumes to keep `default-directory` and prompt locations in sync. No brittle command injection; no “half the time it doesn’t run” issue. ([GitHub][1], [Debian Sources][2])
 

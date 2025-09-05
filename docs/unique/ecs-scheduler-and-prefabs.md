@@ -14,6 +14,122 @@ tags:
   - dependency
   - batching
   - prefabs
+related_to_uuid:
+  - 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - 6f13f134-7536-4bc3-b695-5aaa2906bb9d
+  - cdf2c6e4-0dbd-4f19-b645-ac619a6f267d
+  - cfa2be7b-13fd-404b-aaa4-80abc4fa8cd2
+  - 972c820f-63a8-49c6-831f-013832195478
+  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
+  - aa88652d-c8e5-4a1b-850e-afdf7fe15dae
+  - abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+  - 21913df0-a1c6-4ba0-a9e9-8ffc35a71d74
+  - a69259b4-4260-4877-bd79-22c432e1f85f
+  - 4316c3f9-551f-4872-b5c5-98ae73508535
+  - 50ac7389-a75e-476a-ab34-bb24776d4f38
+  - bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+  - 7842d43c-7d13-46f0-bdf1-561f5e4c6f53
+  - c46718fe-73dd-4236-8f1c-f6565da58cc4
+  - c0e6ea38-a9a0-4379-aa9c-b634a6591a59
+  - 46b3c583-a4e2-4ecc-90de-6fd104da23db
+  - 2478e18c-f621-4b0c-a4c5-9637d213cccf
+  - c09d7688-71d6-47fc-bf81-86b6193c84bc
+  - 004a0f06-3808-4421-b9e1-41b5b41ebcb8
+  - 0f203aa7-c96d-4323-9b9e-bbc438966e8c
+  - e4317155-7fa6-44e8-8aee-b72384581790
+  - d65e5b6c-29ed-458f-bf9b-94bf0d48fa79
+related_to_title:
+  - system-scheduler
+  - ecs-scheduler-and-prefabs
+  - shared-package-layout-clarification
+  - Unique Info Dump Index
+  - prompt-folder-bootstrap
+  - archetype-ecs
+  - dynamic-context-model-for-web-components
+  - Promethean Web UI Setup
+  - RAG UI Panel with Qdrant and PostgREST
+  - Graph Data Structure
+  - polyglot-s-expr-bridge-python-js-lisp-interop
+  - WebSocket Gateway Implementation
+  - promethean-full-stack-docker-setup
+  - chroma-embedding-refactor
+  - promethean-infrastructure-setup
+  - shared-package-structure
+  - board-walk-2025-08-11
+  - Promethean Event Bus MVP
+  - Cross-Language Runtime Polymorphism
+  - Migrate to Provider-Tenant Architecture
+  - ecs-offload-workers
+  - schema-evolution-workflow
+  - TypeScript Patch for Tool Calling Support
+  - sibilant-macro-targets
+references:
+  - uuid: 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
+    line: 311
+    col: 0
+    score: 1
+  - uuid: 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
+    line: 343
+    col: 0
+    score: 1
+  - uuid: 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
+    line: 1
+    col: 0
+    score: 0.99
+  - uuid: 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
+    line: 245
+    col: 0
+    score: 0.99
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 379
+    col: 0
+    score: 0.97
+  - uuid: 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
+    line: 358
+    col: 0
+    score: 0.93
+  - uuid: 6f13f134-7536-4bc3-b695-5aaa2906bb9d
+    line: 128
+    col: 0
+    score: 0.9
+  - uuid: 6f13f134-7536-4bc3-b695-5aaa2906bb9d
+    line: 108
+    col: 0
+    score: 0.9
+  - uuid: 6f13f134-7536-4bc3-b695-5aaa2906bb9d
+    line: 111
+    col: 0
+    score: 0.9
+  - uuid: 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
+    line: 340
+    col: 0
+    score: 0.9
+  - uuid: 6f13f134-7536-4bc3-b695-5aaa2906bb9d
+    line: 80
+    col: 0
+    score: 0.88
+  - uuid: cdf2c6e4-0dbd-4f19-b645-ac619a6f267d
+    line: 41
+    col: 0
+    score: 0.87
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 367
+    col: 0
+    score: 0.87
+  - uuid: 972c820f-63a8-49c6-831f-013832195478
+    line: 367
+    col: 0
+    score: 0.87
+  - uuid: cfa2be7b-13fd-404b-aaa4-80abc4fa8cd2
+    line: 129
+    col: 0
+    score: 0.87
+  - uuid: 0c501d52-ba38-42aa-ad25-2d78425dfaff
+    line: 336
+    col: 0
+    score: 0.85
 ---
 Note: Consolidated here → ../notes/js/ecs-scheduler-and-prefabs.md ^ref-c62a1815-1-0
 
@@ -412,6 +528,19 @@ flowchart LR
 ``` ^ref-c62a1815-381-0 ^ref-c62a1815-385-0
 ^ref-c62a1815-379-0
 ^ref-c62a1815-385-0
+^ref-c62a1815-383-0 ^ref-c62a1815-393-0
+^ref-c62a1815-382-0
+^ref-c62a1815-381-0 ^ref-c62a1815-395-0
+^ref-c62a1815-379-0 ^ref-c62a1815-396-0
+^ref-c62a1815-376-0 ^ref-c62a1815-397-0
+ ^ref-c62a1815-382-0 ^ref-c62a1815-386-0 ^ref-c62a1815-398-0
+--- ^ref-c62a1815-383-0 ^ref-c62a1815-387-0 ^ref-c62a1815-393-0 ^ref-c62a1815-399-0
+ ^ref-c62a1815-388-0 ^ref-c62a1815-400-0
+If you want, I can add: ^ref-c62a1815-385-0 ^ref-c62a1815-389-0 ^ref-c62a1815-395-0
+ ^ref-c62a1815-386-0 ^ref-c62a1815-390-0 ^ref-c62a1815-396-0 ^ref-c62a1815-402-0
+* a **worker\_threads** pool for true parallel execution, ^ref-c62a1815-387-0 ^ref-c62a1815-397-0
+* a **timeline tracer** (per-system duration, Gantt output), ^ref-c62a1815-388-0 ^ref-c62a1815-398-0
+* or a **hot-reload** API to add/remove systems at runtime without full recompiles.
 ^ref-c62a1815-383-0 ^ref-c62a1815-393-0
 ^ref-c62a1815-382-0
 ^ref-c62a1815-381-0 ^ref-c62a1815-395-0

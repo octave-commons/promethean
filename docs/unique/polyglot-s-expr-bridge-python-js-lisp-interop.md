@@ -17,6 +17,99 @@ tags:
   - javascript
   - interop
   - async
+related_to_uuid:
+  - a6fa9a4a-8e98-4a8d-82ed-da6bb778ab49
+  - 1de71d74-4aec-468f-9354-42999a71da8a
+  - e4317155-7fa6-44e8-8aee-b72384581790
+  - 688ad325-4243-4304-bccc-1a1d8745de08
+  - 0d4e63e3-0724-4bdf-bd42-b4fda58ed025
+  - 99c6d380-a2a6-4d8e-a391-f4bc0c9a631f
+  - 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+  - 2478e18c-f621-4b0c-a4c5-9637d213cccf
+  - f4767ec9-7363-4ca0-ad88-ccc624247a3b
+  - abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
+  - 10780cdc-5036-4e8a-9599-a11703bc30c9
+  - 4d8cbf01-e44a-452f-96a0-17bde7b416a8
+  - 2c9f86e6-9b63-44d7-902d-84b10b0bdbe3
+  - 004a0f06-3808-4421-b9e1-41b5b41ebcb8
+  - 4316c3f9-551f-4872-b5c5-98ae73508535
+  - 4c87f571-9942-4288-aec4-0bc52e9cdbe7
+  - 4f9a7fd9-de08-4b9c-87c4-21268bc26d54
+  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
+  - f1af85cb-be45-42cf-beee-d0795ded07bf
+  - bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+  - 740bbd1c-c039-405c-8a32-4baeddfb5637
+  - c46718fe-73dd-4236-8f1c-f6565da58cc4
+  - 73d64bce-f428-4735-a3d0-6225a0588e46
+  - 479401ac-f614-4d0b-8cc6-2ebb8d9de4d9
+related_to_title:
+  - YAML's Hidden Dangers and Practical Fixes
+  - Interop and Source Maps
+  - TypeScript Patch for Tool Calling Support
+  - template-based-compilation
+  - Performance-Optimized Polyglot Bridge
+  - Layer 1 Survivability Envelope
+  - promethean-native-config-design
+  - Cross-Language Runtime Polymorphism
+  - ecs-scheduler
+  - RAG UI Panel with Qdrant and PostgREST
+  - Stateful Partitions and Rebalancing
+  - Eidolon Field Abstract Model
+  - pure-node-crawl-stack-with-playwright-and-crawlee
+  - Field Node Diagrams
+  - ecs-offload-workers
+  - WebSocket Gateway Implementation
+  - set-assignment-in-lisp-ast
+  - homeostasis-decay-formulas
+  - dynamic-context-model-for-web-components
+  - Zero-Copy Snapshots and Workers
+  - chroma-embedding-refactor
+  - heartbeat-fragment-demo
+  - shared-package-structure
+  - Voice Access Layer Design
+  - compiler-kit-foundations
+references:
+  - uuid: a6fa9a4a-8e98-4a8d-82ed-da6bb778ab49
+    line: 1
+    col: 0
+    score: 1
+  - uuid: a6fa9a4a-8e98-4a8d-82ed-da6bb778ab49
+    line: 3
+    col: 0
+    score: 1
+  - uuid: a6fa9a4a-8e98-4a8d-82ed-da6bb778ab49
+    line: 5
+    col: 0
+    score: 1
+  - uuid: a6fa9a4a-8e98-4a8d-82ed-da6bb778ab49
+    line: 6
+    col: 0
+    score: 1
+  - uuid: a6fa9a4a-8e98-4a8d-82ed-da6bb778ab49
+    line: 7
+    col: 0
+    score: 1
+  - uuid: 1de71d74-4aec-468f-9354-42999a71da8a
+    line: 21
+    col: 0
+    score: 0.89
+  - uuid: e4317155-7fa6-44e8-8aee-b72384581790
+    line: 417
+    col: 0
+    score: 0.87
+  - uuid: 0d4e63e3-0724-4bdf-bd42-b4fda58ed025
+    line: 171
+    col: 0
+    score: 0.86
+  - uuid: e4317155-7fa6-44e8-8aee-b72384581790
+    line: 160
+    col: 0
+    score: 0.86
+  - uuid: 688ad325-4243-4304-bccc-1a1d8745de08
+    line: 33
+    col: 0
+    score: 0.86
 ---
 Yesss, I see it. You’re converging on a **polyglot, S-expr-first “universal language”** where JS, TS, Lisp, and now **Python** are all just different skins over the same core. The next move is a **seamless Python↔JS bridge** you can call from your Lisp without caring which side ran it. ^ref-63a1cc28-1-0
 
@@ -534,6 +627,73 @@ const lisp = `
 ^ref-63a1cc28-490-0
 ^ref-63a1cc28-489-0
 ^ref-63a1cc28-483-0 ^ref-63a1cc28-515-0
+^ref-63a1cc28-479-0
+  (let ((np ($py "numpy"))) ^ref-63a1cc28-517-0
+    (await ((. np sum) [1 2 3 4])))
+`;
+ ^ref-63a1cc28-466-0 ^ref-63a1cc28-497-0
+const { $py, close } = createNodePythonBridge("python", "shared/py/polyglot_runtime.py");
+const { code } = compileLispToJS(lisp, { importNames:["$py"], pretty:true, inlineMap:true }); ^ref-63a1cc28-468-0 ^ref-63a1cc28-483-0 ^ref-63a1cc28-499-0
+const run = (0,eval)(code);          // async wrapper if await is present ^ref-63a1cc28-469-0 ^ref-63a1cc28-500-0 ^ref-63a1cc28-523-0
+const out = await run({ $py }); ^ref-63a1cc28-501-0
+console.log("sum =", out);           // -> 10
+close(); ^ref-63a1cc28-472-0
+^ref-63a1cc28-490-0
+``` ^ref-63a1cc28-504-0
+^ref-63a1cc28-491-0
+ ^ref-63a1cc28-505-0
+--- ^ref-63a1cc28-506-0
+ ^ref-63a1cc28-507-0
+# 7) Browser path (Pyodide) — sketch
+
+Same API, different transport:
+^ref-63a1cc28-532-0
+^ref-63a1cc28-529-0
+^ref-63a1cc28-527-0
+
+^ref-63a1cc28-493-0 ^ref-63a1cc28-538-0
+^ref-63a1cc28-492-0 ^ref-63a1cc28-497-0 ^ref-63a1cc28-539-0
+^ref-63a1cc28-491-0
+^ref-63a1cc28-490-0 ^ref-63a1cc28-499-0
+^ref-63a1cc28-515-0
+^ref-63a1cc28-512-0 ^ref-63a1cc28-517-0
+^ref-63a1cc28-489-0 ^ref-63a1cc28-500-0
+* Load Pyodide in a **Web Worker**. ^ref-63a1cc28-501-0 ^ref-63a1cc28-545-0
+^ref-63a1cc28-474-0
+* Implement a `PyodideTransport` with `request({op,...})` that forwards to worker and uses `pyodide.runPython` to implement ops. ^ref-63a1cc28-483-0
+* Return the same PyRef envelopes so `PythonBridge` doesn’t care. ^ref-63a1cc28-504-0
+ ^ref-63a1cc28-505-0 ^ref-63a1cc28-523-0
+You can stub it like: ^ref-63a1cc28-506-0
+ ^ref-63a1cc28-507-0
+```ts
+// shared/js/prom-lib/polyglot/pyodide-transport.ts (sketch) ^ref-63a1cc28-489-0 ^ref-63a1cc28-527-0
+export class PyodideTransport implements PyTransport { ^ref-63a1cc28-490-0
+  constructor(private worker: Worker) { /* set up postMessage <-> Promise map */ } ^ref-63a1cc28-491-0 ^ref-63a1cc28-529-0
+  request(payload){ /* postMessage; resolve on response */ } ^ref-63a1cc28-492-0 ^ref-63a1cc28-512-0
+  close(){ this.worker.terminate(); } ^ref-63a1cc28-493-0
+} ^ref-63a1cc28-532-0
+``` ^ref-63a1cc28-515-0
+
+…and reuse `new PythonBridge(new PyodideTransport(worker))`. ^ref-63a1cc28-497-0 ^ref-63a1cc28-517-0
+
+--- ^ref-63a1cc28-499-0
+ ^ref-63a1cc28-500-0 ^ref-63a1cc28-538-0
+# 8) Notes & roadmap ^ref-63a1cc28-501-0 ^ref-63a1cc28-539-0
+
+* **Types:** Numbers/strings/bools/bytes/arrays/dicts round-trip; functions/instances are **by-ref** proxies. You can add special-cases (e.g., NumPy array to `ArrayBuffer`) later. ^ref-63a1cc28-523-0
+* **GC:** You can add a `FinalizationRegistry` in JS that sends `op:"release"` for proxies when collected. ^ref-63a1cc28-504-0
+* **Perf:** For heavy data, add a binary fast path (msgpack or raw `bytes` over stdio) and optional **shared memory** for Node workers. ^ref-63a1cc28-505-0
+* **Security:** This runtime evals Python code you told it to call. Don’t expose it to untrusted inputs without sandboxing. ^ref-63a1cc28-506-0
+* **Ergonomics:** We can sugar `await` away with macros like `(py-> np sum [1 2 3])` that expand to `(await ((. ($py "numpy") sum) [1 2 3]))`. ^ref-63a1cc28-507-0 ^ref-63a1cc28-527-0 ^ref-63a1cc28-545-0
+
+--- ^ref-63a1cc28-529-0
+
+If you want, I can:
+ ^ref-63a1cc28-512-0 ^ref-63a1cc28-532-0
+* add the **Pyodide transport** so this runs in a browser Worker,
+* add **NumPy zero-copy** (buffer protocol ↔ `ArrayBuffer`) for big arrays,
+* or hide `await` in **auto-async** macros that lift whole forms.
+0 ^ref-63a1cc28-515-0
 ^ref-63a1cc28-479-0
   (let ((np ($py "numpy"))) ^ref-63a1cc28-517-0
     (await ((. np sum) [1 2 3 4])))

@@ -10,6 +10,15 @@ tags:
   - lisp
   - text-processing
   - speech-extraction
+related_to_uuid:
+  - 8f1782ee-a75f-4c9e-acb7-3f744ad2c952
+related_to_title:
+  - Optimizing Command Limitations in System Design
+references:
+  - uuid: 8f1782ee-a75f-4c9e-acb7-3f744ad2c952
+    line: 1
+    col: 0
+    score: 1
 ---
 
 ```lisp

@@ -15,6 +15,271 @@ tags:
   - lmstudio
   - code-generation
   - intention-to-code
+related_to_uuid:
+  - ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
+  - 4330e8f0-5f46-4235-918b-39b6b93fa561
+  - c3cd4f65-2bb3-4fca-a32e-2ac667e03f40
+  - ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
+  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+  - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
+  - ae24a280-678e-4c0b-8cc4-56667fa04172
+  - 03a5578f-d689-45db-95e9-11300e5eee6f
+  - 9b694a91-dec5-4708-9462-3f71000ba925
+  - 5c152b08-6b69-4bb8-a1a7-66745789c169
+  - 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+  - ca8e1399-77bf-4f77-82a3-3f703b68706d
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - ffb9b2a9-744d-4a53-9565-130fceae0832
+related_to_title:
+  - Smoke Resonance Visualizations
+  - Stateful Partitions and Rebalancing
+  - Tracing the Signal
+  - ts-to-lisp-transpiler
+  - typed-struct-compiler
+  - TypeScript Patch for Tool Calling Support
+  - Unique Concepts
+  - zero-copy-snapshots-and-workers
+  - Canonical Org-Babel Matplotlib Animation Template
+  - Voice Access Layer Design
+  - WebSocket Gateway Implementation
+  - sibilant-meta-string-templating-runtime
+  - Promethean Chat Activity Report
+  - Obsidian Templating Plugins Integration Guide
+  - plan-update-confirmation
+  - Per-Domain Policy System for JS Crawler
+  - Promethean-Copilot-Intent-Engine
+  - Promethean Dev Workflow Update
+  - Obsidian Task Generation
+  - OpenAPI Validation Report
+  - Optimizing Command Limitations in System Design
+  - Obsidian ChatGPT Plugin Integration
+  - i3-bluetooth-setup
+  - homeostasis-decay-formulas
+  - obsidian-ignore-node-modules-regex
+references:
+  - uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
+    line: 483
+    col: 0
+    score: 1
+  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
+    line: 1321
+    col: 0
+    score: 1
+  - uuid: c3cd4f65-2bb3-4fca-a32e-2ac667e03f40
+    line: 561
+    col: 0
+    score: 1
+  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
+    line: 522
+    col: 0
+    score: 1
+  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
+    line: 1015
+    col: 0
+    score: 1
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+    line: 1228
+    col: 0
+    score: 1
+  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+    line: 173
+    col: 0
+    score: 1
+  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
+    line: 1057
+    col: 0
+    score: 1
+  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
+    line: 513
+    col: 0
+    score: 1
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 631
+    col: 0
+    score: 1
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 280
+    col: 0
+    score: 1
+  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+    line: 92
+    col: 0
+    score: 0.92
+  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
+    line: 1991
+    col: 0
+    score: 0.91
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 5490
+    col: 0
+    score: 0.91
+  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
+    line: 1972
+    col: 0
+    score: 0.91
+  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+    line: 156
+    col: 0
+    score: 0.91
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 626
+    col: 0
+    score: 0.91
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 4573
+    col: 0
+    score: 0.91
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 2414
+    col: 0
+    score: 0.91
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 6029
+    col: 0
+    score: 0.91
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 4992
+    col: 0
+    score: 0.91
+  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
+    line: 187
+    col: 0
+    score: 0.9
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 394
+    col: 0
+    score: 0.9
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 124
+    col: 0
+    score: 0.9
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 171
+    col: 0
+    score: 0.9
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 103
+    col: 0
+    score: 0.9
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 87
+    col: 0
+    score: 0.9
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 216
+    col: 0
+    score: 0.9
+  - uuid: 86a691ec-ca1f-4350-824c-0ded1f8ebe70
+    line: 107
+    col: 0
+    score: 0.9
+  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
+    line: 54
+    col: 0
+    score: 0.9
+  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
+    line: 67
+    col: 0
+    score: 0.9
+  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
+    line: 33
+    col: 0
+    score: 0.9
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 37
+    col: 0
+    score: 0.9
+  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
+    line: 64
+    col: 0
+    score: 0.9
+  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
+    line: 83
+    col: 0
+    score: 0.9
+  - uuid: b51e19b4-1326-4311-9798-33e972bf626c
+    line: 169
+    col: 0
+    score: 0.88
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 190
+    col: 0
+    score: 0.88
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 348
+    col: 0
+    score: 0.88
+  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+    line: 376
+    col: 0
+    score: 0.88
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 388
+    col: 0
+    score: 0.87
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 111
+    col: 0
+    score: 0.87
+  - uuid: 681a4ab2-8fef-4833-a09d-bceb62d114da
+    line: 30
+    col: 0
+    score: 0.87
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 343
+    col: 0
+    score: 0.87
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 307
+    col: 0
+    score: 0.86
+  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
+    line: 185
+    col: 0
+    score: 0.86
+  - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+    line: 232
+    col: 0
+    score: 0.86
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 63
+    col: 0
+    score: 0.86
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 120
+    col: 0
+    score: 0.86
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 427
+    col: 0
+    score: 0.86
+  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+    line: 106
+    col: 0
+    score: 0.86
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 504
+    col: 0
+    score: 0.86
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 442
+    col: 0
+    score: 0.85
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 491
+    col: 0
+    score: 0.85
 ---
 Yep—totally with you. Local-only is the whole point. Let’s finish the loop so your intention→code pipeline runs **100% on your box** with **Ollama/LM Studio** and zero paid APIs. ^ref-9a8ab57e-1-0
 

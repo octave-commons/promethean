@@ -15,6 +15,159 @@ tags:
   - field-decay
   - node-influence
   - emergent-behavior
+related_to_uuid:
+  - c7b8a045-45f2-42c4-9617-b0cda73ca3cf
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - d28090ac-f746-4958-aab5-ed1315382c04
+  - af5d2824-faad-476c-a389-e912d9bc672c
+  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
+  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
+  - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - 36c8882a-badc-4e18-838d-2c54d7038141
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
+  - c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+  - 51932e7b-4237-4756-bcae-8be6d535d0d1
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+related_to_title:
+  - i3-bluetooth-setup
+  - Fnord Tracer Protocol
+  - Duck's Attractor States
+  - field-dynamics-math-blocks
+  - homeostasis-decay-formulas
+  - i3-config-validation-methods
+  - Sibilant Meta-Prompt DSL
+  - Layer1SurvivabilityEnvelope
+  - polymorphic-meta-programming-engine
+  - ParticleSimulationWithCanvasAndFFmpeg
+  - sibilant-metacompiler-overview
+  - markdown-to-org-transpiler
+  - Matplotlib Animation with Async Execution
+  - Language-Agnostic Mirror System
+  - shared-package-layout-clarification
+  - Cross-Target Macro System in Sibilant
+  - compiler-kit-foundations
+  - Cross-Language Runtime Polymorphism
+  - EidolonField
+  - lisp-dsl-for-window-management
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
+  - prom ui bootstrap
+  - pm2-orchestration-patterns
+  - Recursive Prompt Construction Engine
+references:
+  - uuid: c7b8a045-45f2-42c4-9617-b0cda73ca3cf
+    line: 1
+    col: 0
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 471
+    col: 0
+    score: 0.92
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 278
+    col: 0
+    score: 0.92
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 410
+    col: 0
+    score: 0.92
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 460
+    col: 0
+    score: 0.92
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 28
+    col: 0
+    score: 0.91
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 120
+    col: 0
+    score: 0.9
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 190
+    col: 0
+    score: 0.9
+  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
+    line: 52
+    col: 0
+    score: 0.9
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 689
+    col: 0
+    score: 0.9
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 341
+    col: 0
+    score: 0.9
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 414
+    col: 0
+    score: 0.9
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 378
+    col: 0
+    score: 0.9
+  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+    line: 272
+    col: 0
+    score: 0.89
+  - uuid: 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+    line: 44
+    col: 0
+    score: 0.89
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 504
+    col: 0
+    score: 0.89
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 148
+    col: 0
+    score: 0.87
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 161
+    col: 0
+    score: 0.87
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 588
+    col: 0
+    score: 0.87
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 211
+    col: 0
+    score: 0.87
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 205
+    col: 0
+    score: 0.86
+  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
+    line: 185
+    col: 0
+    score: 0.86
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 490
+    col: 0
+    score: 0.86
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 151
+    col: 0
+    score: 0.86
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 440
+    col: 0
+    score: 0.86
 ---
 Awesome. This will be our **sandbox**—a 2D Eidolon field to test nodes, particles, and flows. No semantics, no layers—just energy moving in space. ^ref-c710dc93-1-0
 
