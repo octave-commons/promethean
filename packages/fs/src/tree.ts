@@ -167,8 +167,8 @@ export function collapseSingleChildDirs(node: TreeNode): TreeNode {
     const only = node.children[0]!;
     if (node.type === 'dir' && only.type === 'dir') {
         const merged: TreeNode = {
-            name: path.join(node.name, only.name),
-            relative: node.relative, // keep parent’s relative for top-level context
+            name: only.name, // keep basename contract
+            relative: only.relative, // must match `path` relative to root
             path: only.path,
             type: only.type,
             ...(only.size !== undefined ? { size: only.size } : {}),
