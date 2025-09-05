@@ -12,10 +12,12 @@
             "require": "./dist/index.cjs"
         },
         "./dist/*": "./dist/*",
+        "./shims/*": "./shims/*",
         "./*": "./dist/*"
     },
     "files": [
-        "dist"
+        "dist",
+        "shims"
     ],
     "scripts": {
         "build": "tsc",
