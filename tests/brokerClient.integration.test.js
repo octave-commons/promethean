@@ -1,12 +1,14 @@
 // integration: exercises real ws server
 import test from "ava";
 import { WebSocketServer } from "ws";
+import { once } from "events";
 
 import { sleep } from "@promethean/test-utils/sleep";
 import { BrokerClient } from "@shared/js/brokerClient.js";
 
 test.serial("BrokerClient sends messages and handles callbacks", async (t) => {
   const wss = new WebSocketServer({ port: 0 });
+  await once(wss, "listening");
   const port = wss.address().port;
   const received = [];
   let task;
@@ -68,6 +70,7 @@ test.serial("BrokerClient sends messages and handles callbacks", async (t) => {
 
 test.serial("BrokerClient reconnects and flushes queue", async (t) => {
   const wss = new WebSocketServer({ port: 0 });
+  await once(wss, "listening");
   const port = wss.address().port;
   const received = [];
   let connectionCount = 0;
