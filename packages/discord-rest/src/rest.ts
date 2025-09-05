@@ -1,5 +1,6 @@
 import { makePolicy } from "@shared/prom-lib";
 import { fileBackedRegistry } from "@shared/prom-lib";
+import { TokenBucket } from "@promethean/rate";
 
 type RestResponse = {
   ok: boolean;
@@ -9,25 +10,26 @@ type RestResponse = {
   body?: any;
 };
 
-export class BucketLimiter {
-  private until = new Map<string, number>();
-  now() {
-    return Date.now();
-  }
-  canSend(bucket: string) {
-    const t = this.until.get(bucket) || 0;
-    return this.now() >= t;
-  }
-  register429(bucket: string, retryAfterMs: number) {
-    const until = this.now() + Math.max(0, retryAfterMs);
-    this.until.set(bucket, until);
-  }
-}
-
 export class DiscordRestProxy {
-  private limiter: BucketLimiter;
-  constructor(limiter = new BucketLimiter()) {
-    this.limiter = limiter;
+  private buckets = new Map<string, TokenBucket>();
+  private capacity: number;
+  private refillPerSec: number;
+
+  constructor({ capacity = 5, refillPerSec = 1 } = {}) {
+    this.capacity = capacity;
+    this.refillPerSec = refillPerSec;
+  }
+
+  private getBucket(key: string) {
+    let bucket = this.buckets.get(key);
+    if (!bucket) {
+      bucket = new TokenBucket({
+        capacity: this.capacity,
+        refillPerSec: this.refillPerSec,
+      });
+      this.buckets.set(key, bucket);
+    }
+    return bucket;
   }
 
   routeForPostMessage(spaceUrn: string) {
@@ -122,17 +124,12 @@ export class DiscordRestProxy {
     const reg = fileBackedRegistry();
     const cfg = await reg.get(provider, tenant);
     const token = cfg.credentials.bot_token;
-    const bucket = this.bucketKey(method, route);
-    if (!this.limiter.canSend(bucket)) {
-      return {
-        ok: false,
-        status: 429,
-        bucket,
-        retry_after_ms: Math.max(
-          0,
-          (this as any).limiter.until.get(bucket) - Date.now(),
-        ),
-      };
+    const bucketKey = this.bucketKey(method, route);
+    const bucket = this.getBucket(bucketKey);
+    if (!bucket.tryConsume()) {
+      const deficit = bucket.deficit();
+      const retry_after_ms = Math.ceil((deficit / this.refillPerSec) * 1000);
+      return { ok: false, status: 429, bucket: bucketKey, retry_after_ms };
     }
     const url = `https://discord.com/api/v10${route}`;
     const res = await fetchFn(url, {
@@ -144,13 +141,19 @@ export class DiscordRestProxy {
       body: body ? JSON.stringify(body) : undefined,
     } as any);
     if (res.status === 429) {
+      // drain remaining tokens to slow down this bucket
+      while (bucket.tryConsume()) {}
       const retry =
         Number(((await res.json()) as any).retry_after) * 1000 || 1000;
-      this.limiter.register429(bucket, retry);
-      return { ok: false, status: 429, bucket, retry_after_ms: retry };
+      return {
+        ok: false,
+        status: 429,
+        bucket: bucketKey,
+        retry_after_ms: retry,
+      };
     }
     const ok = res.ok;
     const json = await res.json().catch(() => undefined);
-    return { ok, status: res.status, bucket, body: json };
+    return { ok, status: res.status, bucket: bucketKey, body: json };
   }
 }

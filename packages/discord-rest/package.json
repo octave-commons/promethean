@@ -13,6 +13,8 @@
   "dependencies": {
     "@promethean/platform": "workspace:*",
     "@promethean/agent": "workspace:*",
+    "@promethean/rate": "workspace:*",
+    "@shared/prom-lib": "workspace:*",
     "@types/node": "^24.3.0",
     "typescript": "5.9.2"
   },
