@@ -232,6 +232,9 @@ importers:
       '@promethean/legacy':
         specifier: workspace:*
         version: link:../legacy
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -916,6 +919,9 @@ importers:
       '@promethean/event':
         specifier: workspace:*
         version: link:../event
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -2242,6 +2248,9 @@ importers:
       '@promethean/test-utils':
         specifier: file:../test-utils
         version: file:packages/test-utils(socks@2.8.7)
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/node':
         specifier: ^22.17.2
         version: 22.18.1
@@ -5126,6 +5135,24 @@ importers:
       acorn:
         specifier: ^8.15.0
         version: 8.15.0
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@types/node@20.19.13)(typescript@5.9.2)
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.2
+
+  packages/utils:
+    devDependencies:
+      '@biomejs/biome':
+        specifier: ^2.2.2
+        version: 2.2.2
+      '@types/node':
+        specifier: ^20.19.11
+        version: 20.19.13
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
