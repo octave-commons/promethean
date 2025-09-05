@@ -41,7 +41,7 @@ related_to_uuid:
   - bc1dc19d-0e47-4e8a-91d4-544995f143e1
   - 10d98225-12e0-4212-8e15-88b57cf7bee5
   - 13951643-1741-46bb-89dc-1beebb122633
-  - f1add613-656e-4bec-b52b-193fd78c4642
+  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
 related_to_title:
   - api-gateway-versioning
   - AI-First-OS-Model-Context-Protocol
@@ -67,7 +67,7 @@ related_to_title:
   - layer-1-uptime-diagrams
   - Creative Moments
   - Duck's Attractor States
-  - Operations
+  - Debugging Broker Connections and Agent Behavior
 references:
   - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
     line: 57
@@ -83,26 +83,6 @@ references:
     score: 1
   - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
     line: 183
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 69
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 36
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 46
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 40
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 53
     col: 0
     score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
@@ -467,6 +447,26 @@ references:
     score: 1
   - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
     line: 1488
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 574
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 1469
+    col: 0
+    score: 1
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 523
+    col: 0
+    score: 1
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 555
+    col: 0
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 196
     col: 0
     score: 1
 ---

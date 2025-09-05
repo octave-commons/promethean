@@ -199,10 +199,6 @@ references:
     line: 120
     col: 0
     score: 0.87
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 1310
-    col: 0
-    score: 0.87
   - uuid: 54382370-1931-4a19-a634-46735708a9ea
     line: 2637
     col: 0

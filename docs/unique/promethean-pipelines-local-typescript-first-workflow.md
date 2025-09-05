@@ -20,26 +20,114 @@ tags:
   - qdrant
   - dependency-cruiser
 related_to_uuid:
-  - 4594f6ff-aa66-4c55-8a18-2a8c417c03a7
-  - 99c6d380-a2a6-4d8e-a391-f4bc0c9a631f
-  - ee4b3631-a745-485b-aff1-2da806cfadfb
-  - 3e74aac4-d652-4ba2-be14-524d5dfb98f1
-  - 033f4d79-efaa-4caf-a193-9022935b8194
+  - 6b91d91d-6b5c-4516-a0c8-d66d9b9fcc9b
+  - d28090ac-f746-4958-aab5-ed1315382c04
+  - 49a9a860-944c-467a-b532-4f99186a8593
+  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - d17d3a96-c84d-4738-a403-6c733b874da2
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
+  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - 681a4ab2-8fef-4833-a09d-bceb62d114da
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - 23e221e9-d4fa-4106-8458-06db2595085f
+  - cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
+  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
+  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+  - b51e19b4-1326-4311-9798-33e972bf626c
+  - 5158f742-4a3b-466e-bfc3-d83517b64200
+  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+  - e811123d-5841-4e52-bf8c-978f26db4230
 related_to_title:
-  - Pipeline Brainstorming
-  - Layer 1 Survivability Envelope
-  - Promethean Documentation Pipeline Overview
-  - Promethean CI/CD Pipeline
-  - Prompt Programming Language for LLMs
+  - AGENTS.md
+  - i3-config-validation-methods
+  - Self-Agency in AI Interaction
+  - Prompt_Folder_Bootstrap
+  - homeostasis-decay-formulas
+  - Pure TypeScript Search Microservice
+  - Migrate to Provider-Tenant Architecture
+  - Duck's Self-Referential Perceptual Loop
+  - Eidolon Field Abstract Model
+  - ecs-offload-workers
+  - SentenceProcessing
+  - compiler-kit-foundations
+  - Voice Access Layer Design
+  - heartbeat-simulation-snippets
+  - Refactor Frontmatter Processing
+  - file-watcher-auth-fix
+  - Eidolon-Field-Optimization
+  - promethean-system-diagrams
+  - Promethean Agent DSL TS Scaffold
+  - EidolonField
+  - Promethean Full-Stack Docker Setup
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - Cross-Target Macro System in Sibilant
+  - prom ui bootstrap
+  - WebSocket Gateway Implementation
 references:
-  - uuid: 4594f6ff-aa66-4c55-8a18-2a8c417c03a7
-    line: 2
+  - uuid: 6b91d91d-6b5c-4516-a0c8-d66d9b9fcc9b
+    line: 1
     col: 0
-    score: 0.99
-  - uuid: 4594f6ff-aa66-4c55-8a18-2a8c417c03a7
-    line: 220
+    score: 1
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 28
     col: 0
-    score: 0.95
+    score: 0.89
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 2586
+    col: 0
+    score: 0.88
+  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+    line: 1863
+    col: 0
+    score: 0.88
+  - uuid: 49a9a860-944c-467a-b532-4f99186a8593
+    line: 2228
+    col: 0
+    score: 0.88
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 6907
+    col: 0
+    score: 0.88
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 4849
+    col: 0
+    score: 0.88
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 1600
+    col: 0
+    score: 0.88
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 3582
+    col: 0
+    score: 0.88
+  - uuid: 681a4ab2-8fef-4833-a09d-bceb62d114da
+    line: 30
+    col: 0
+    score: 0.87
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 427
+    col: 0
+    score: 0.87
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 280
+    col: 0
+    score: 0.86
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 590
+    col: 0
+    score: 0.86
+  - uuid: 23e221e9-d4fa-4106-8458-06db2595085f
+    line: 84
+    col: 0
+    score: 0.85
 ---
 Love this question. Here are a bunch of *plug-and-play* pipelines we can add in the same style as your `symdocs` one—zero SaaS, all local, TypeScript-first. I kept each to a few clear steps so they’re composable. ^ref-6b63edca-1-0
 

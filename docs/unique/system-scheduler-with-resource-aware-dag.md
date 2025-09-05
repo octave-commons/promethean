@@ -31,8 +31,6 @@ related_to_uuid:
   - babdb9eb-3b15-48a7-8a22-ecc53af7d397
   - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
   - ffb9b2a9-744d-4a53-9565-130fceae0832
-  - 557309a3-c906-4e97-8867-89ffe151790c
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
   - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
   - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
   - d144aa62-348c-4e5d-ae8f-38084c67ceca
@@ -40,6 +38,8 @@ related_to_uuid:
   - 0f6f8f38-98d0-438f-9601-58f478acc0b7
   - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
   - 18138627-a348-4fbb-b447-410dfb400564
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 1cfae310-35dc-49c2-98f1-b186da25d84b
 related_to_title:
   - ecs-scheduler-and-prefabs
   - graph-ds
@@ -57,8 +57,6 @@ related_to_title:
   - Recursive Prompt Construction Engine
   - homeostasis-decay-formulas
   - obsidian-ignore-node-modules-regex
-  - Simulation Demo
-  - Math Fundamentals
   - Local-Offline-Model-Deployment-Strategy
   - TypeScript Patch for Tool Calling Support
   - Model Selection for Lightweight Conversational Tasks
@@ -66,6 +64,8 @@ related_to_title:
   - windows-tiling-with-autohotkey
   - ParticleSimulationWithCanvasAndFFmpeg
   - The Jar of Echoes
+  - Duck's Attractor States
+  - Functional Refactor of TypeScript Document Processing
 references:
   - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
     line: 7
@@ -131,20 +131,12 @@ references:
     line: 247
     col: 0
     score: 0.99
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 188
-    col: 0
-    score: 0.94
   - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
     line: 304
     col: 0
     score: 0.94
   - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
     line: 209
-    col: 0
-    score: 0.94
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 202
     col: 0
     score: 0.94
   - uuid: fc21f824-4244-4030-a48e-c4170160ea1d

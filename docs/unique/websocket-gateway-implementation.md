@@ -29,19 +29,19 @@ related_to_uuid:
   - 291c7d91-da8c-486c-9bc0-bd2254536e2d
   - dd89372d-10de-42a9-8c96-6bc13ea36d02
   - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - 623a55f7-685c-486b-abaf-469da1bbbb69
-  - 557309a3-c906-4e97-8867-89ffe151790c
   - bb7f0835-c347-474f-bfad-eabd873b51ad
   - 930054b3-ba95-4acf-bb92-0e3ead25ed0b
   - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - e87bc036-1570-419e-a558-f45b9c0db698
-  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-  - f1add613-656e-4bec-b52b-193fd78c4642
-  - 75ea4a6a-8270-488d-9d37-799c288e5f70
   - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
   - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
 related_to_title:
   - Docops Feature Updates
   - field-node-diagram-outline
@@ -55,19 +55,19 @@ related_to_title:
   - Ice Box Reorganization
   - komorebi-group-window-hack
   - Layer1SurvivabilityEnvelope
-  - Diagrams
-  - Shared
-  - Simulation Demo
   - Agent Reflections and Prompt Evolution
   - ChatGPT Custom Prompts
   - Chroma Toolkit Consolidation Plan
-  - DSL
-  - JavaScript
-  - Math Fundamentals
-  - Operations
-  - Services
   - eidolon-field-math-foundations
   - Canonical Org-Babel Matplotlib Animation Template
+  - Duck's Attractor States
+  - typed-struct-compiler
+  - Unique Concepts
+  - Unique Info Dump Index
+  - zero-copy-snapshots-and-workers
+  - Creative Moments
+  - Voice Access Layer Design
+  - RAG UI Panel with Qdrant and PostgREST
 references:
   - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
     line: 618
@@ -79,38 +79,6 @@ references:
     score: 1
   - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
     line: 999
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 519
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 466
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 505
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 451
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 178
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 437
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 367
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 378
     col: 0
     score: 1
   - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
@@ -203,34 +171,6 @@ references:
     score: 0.91
   - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
     line: 316
-    col: 0
-    score: 0.9
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 39
-    col: 0
-    score: 0.9
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 82
-    col: 0
-    score: 0.9
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 26
-    col: 0
-    score: 0.9
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 13
-    col: 0
-    score: 0.9
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 19
-    col: 0
-    score: 0.9
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 57
-    col: 0
-    score: 0.9
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 57
     col: 0
     score: 0.9
   - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037

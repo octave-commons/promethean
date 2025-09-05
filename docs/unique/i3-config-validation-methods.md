@@ -29,18 +29,18 @@ related_to_uuid:
   - a4a25141-6380-40b9-9cd7-b554b246b303
   - 5e408692-0e74-400e-a617-84247c7353ad
   - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - e87bc036-1570-419e-a558-f45b9c0db698
-  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-  - 75ea4a6a-8270-488d-9d37-799c288e5f70
   - bb7f0835-c347-474f-bfad-eabd873b51ad
   - 930054b3-ba95-4acf-bb92-0e3ead25ed0b
-  - f1add613-656e-4bec-b52b-193fd78c4642
-  - 623a55f7-685c-486b-abaf-469da1bbbb69
-  - 557309a3-c906-4e97-8867-89ffe151790c
   - 62bec6f0-4e13-4f38-aca4-72c84ba02367
   - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
 related_to_title:
   - graph-ds
   - field-node-diagram-visualizations
@@ -55,18 +55,18 @@ related_to_title:
   - Functional Embedding Pipeline Refactor
   - i3-bluetooth-setup
   - Chroma Toolkit Consolidation Plan
-  - Diagrams
-  - DSL
-  - JavaScript
-  - Math Fundamentals
-  - Services
   - Agent Reflections and Prompt Evolution
   - ChatGPT Custom Prompts
-  - Operations
-  - Shared
-  - Simulation Demo
   - zero-copy-snapshots-and-workers
   - eidolon-field-math-foundations
+  - typed-struct-compiler
+  - Unique Concepts
+  - Unique Info Dump Index
+  - Canonical Org-Babel Matplotlib Animation Template
+  - Creative Moments
+  - Duck's Attractor States
+  - State Snapshots API and Transactional Projector
+  - Lispy Macros with syntax-rules
 references:
   - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
     line: 618
@@ -78,38 +78,6 @@ references:
     score: 1
   - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
     line: 999
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 519
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 466
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 505
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 451
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 178
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 437
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 367
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 378
     col: 0
     score: 1
   - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621

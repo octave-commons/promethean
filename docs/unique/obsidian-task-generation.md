@@ -14,22 +14,17 @@ tags:
   - plugin integration
   - command execution
 related_to_uuid:
-  - 9e8ae388-767a-4ea8-9f2e-88801291d947
   - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
   - 71726f04-eb1c-42a5-a5fe-d8209de6e159
   - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - 623a55f7-685c-486b-abaf-469da1bbbb69
   - a4d90289-798d-44a0-a8e8-a055ae12fb52
   - fc21f824-4244-4030-a48e-c4170160ea1d
   - 6620e2f2-de6d-45d8-a722-5d26e160b370
   - 5e408692-0e74-400e-a617-84247c7353ad
-  - f1add613-656e-4bec-b52b-193fd78c4642
   - 10d98225-12e0-4212-8e15-88b57cf7bee5
   - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
   - cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
   - 13951643-1741-46bb-89dc-1beebb122633
-  - 557309a3-c906-4e97-8867-89ffe151790c
-  - 6cb4943e-8267-4e27-8618-2ce0a464d173
   - 5e8b2388-022b-46cf-952c-36ae9b8f0037
   - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
   - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
@@ -39,23 +34,23 @@ related_to_uuid:
   - ae24a280-678e-4c0b-8cc4-56667fa04172
   - 03a5578f-d689-45db-95e9-11300e5eee6f
   - 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
+  - 22b989d5-f4aa-4880-8632-709c21830f83
+  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - 5f65dfa5-dc97-4a6c-ad93-c45c1312e156
 related_to_title:
-  - Window Management
   - DuckDuckGoSearchPipeline
   - Duck's Self-Referential Perceptual Loop
   - Dynamic Context Model for Web Components
-  - Shared
   - Factorio AI with External Agents
   - Fnord Tracer Protocol
   - graph-ds
   - i3-bluetooth-setup
-  - Operations
   - Creative Moments
   - Debugging Broker Connections and Agent Behavior
   - Docops Feature Updates
   - Duck's Attractor States
-  - Simulation Demo
-  - Tooling
   - Eidolon Field Abstract Model
   - eidolon-field-math-foundations
   - eidolon-node-lifecycle
@@ -65,11 +60,12 @@ related_to_title:
   - Promethean-Copilot-Intent-Engine
   - Promethean Dev Workflow Update
   - Promethean Documentation Pipeline Overview
+  - field-dynamics-math-blocks
+  - field-interaction-equations
+  - field-node-diagram-set
+  - field-node-diagram-visualizations
+  - MindfulRobotIntegration
 references:
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 11
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 47
     col: 0
@@ -100,18 +96,6 @@ references:
     score: 1
   - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
     line: 462
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 21
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 39
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 28
     col: 0
     score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
@@ -366,10 +350,6 @@ references:
     line: 620
     col: 0
     score: 1
-  - uuid: c26f0044-26fe-4c43-8ab0-fc4690723e3c
-    line: 11
-    col: 0
-    score: 1
   - uuid: 18138627-a348-4fbb-b447-410dfb400564
     line: 130
     col: 0
@@ -394,42 +374,6 @@ references:
     line: 9
     col: 0
     score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 28
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 25
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 61
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 18
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 21
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 51
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 67
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 31
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 17
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 33
     col: 0
@@ -446,10 +390,6 @@ references:
     line: 10
     col: 0
     score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 43
-    col: 0
-    score: 1
   - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
     line: 35
     col: 0
@@ -464,6 +404,66 @@ references:
     score: 1
   - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
     line: 424
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 209
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 142
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 39
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 321
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 182
+    col: 0
+    score: 1
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 379
+    col: 0
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 167
+    col: 0
+    score: 1
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 151
+    col: 0
+    score: 1
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 147
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 78
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 30
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 47
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 66
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 90
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 44
     col: 0
     score: 1
 ---

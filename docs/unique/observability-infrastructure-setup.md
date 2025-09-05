@@ -20,80 +20,240 @@ tags:
   - metrics
   - dashboards
 related_to_uuid:
-  - 7842d43c-7d13-46f0-bdf1-561f5e4c6f53
-  - 1fcb8421-46eb-4813-ba66-f79b25ef5db7
-  - 792a343e-674c-4bb4-8435-b3f8c163349d
-  - 672da53b-d8ac-48cd-9cb3-e3fa9915dd6a
-  - e4317155-7fa6-44e8-8aee-b72384581790
-  - 99c6d380-a2a6-4d8e-a391-f4bc0c9a631f
-  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-  - d65e5b6c-29ed-458f-bf9b-94bf0d48fa79
-  - 177c260c-39b2-4450-836d-1e87c0bd0035
-  - 972c820f-63a8-49c6-831f-013832195478
-  - 004a0f06-3808-4421-b9e1-41b5b41ebcb8
-  - 150f8bb4-4322-4bb9-8a5f-9c2e3b233e05
-  - a28a39dd-8c17-463c-9050-2ffe9b56e8bc
-  - cfa2be7b-13fd-404b-aaa4-80abc4fa8cd2
-  - b25be760-256e-4a8a-b34d-867281847ccb
-  - 10780cdc-5036-4e8a-9599-a11703bc30c9
-  - e0d3201b-826a-4976-ab01-36aae28882be
-  - 06ef038a-e195-49c1-898f-a50cc117c59a
-  - 9a7799ff-78bf-451d-9066-24555d8eb209
-  - cce2f5f9-557e-4d35-9dff-5c29ca71efd2
-  - 740bbd1c-c039-405c-8a32-4baeddfb5637
-  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
-  - 5becb573-0a78-486b-8d3c-199b3c7a79ec
-  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
-  - bdca8ded-0e64-417b-a258-4528829c4704
+  - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - 1d3d6c3a-039e-4b96-93c1-95854945e248
+  - ffb9b2a9-744d-4a53-9565-130fceae0832
+  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - ca8e1399-77bf-4f77-82a3-3f703b68706d
+  - cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - 0580dcd3-533d-4834-8a2f-eae3771960a9
 related_to_title:
-  - promethean-infrastructure-setup
-  - api-gateway-versioning
-  - windows-tiling-with-autohotkey
-  - Factorio AI with External Agents
-  - TypeScript Patch for Tool Calling Support
-  - Layer 1 Survivability Envelope
-  - Universal Lisp Interface
-  - sibilant-macro-targets
+  - Obsidian Templating Plugins Integration Guide
+  - Creative Moments
+  - Duck's Attractor States
+  - eidolon-field-math-foundations
+  - zero-copy-snapshots-and-workers
+  - typed-struct-compiler
+  - Unique Concepts
+  - Unique Info Dump Index
+  - Canonical Org-Babel Matplotlib Animation Template
+  - Mongo Outbox Implementation
+  - homeostasis-decay-formulas
+  - Layer1SurvivabilityEnvelope
+  - i3-bluetooth-setup
+  - Obsidian ChatGPT Plugin Integration Guide
+  - obsidian-ignore-node-modules-regex
+  - Ice Box Reorganization
+  - Fnord Tracer Protocol
+  - komorebi-group-window-hack
+  - Obsidian ChatGPT Plugin Integration
+  - Docops Feature Updates
+  - prom ui bootstrap
+  - Promethean Infrastructure Setup
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
   - universal-intention-code-fabric
-  - archetype-ecs
-  - ecs-offload-workers
-  - i3-layout-saver
-  - AI-Centric OS with MCP Layer
-  - prompt-folder-bootstrap
-  - ripple-propagation-demo
-  - Eidolon Field Abstract Model
-  - Field Node Diagrams
-  - 2d-sandbox-field
-  - Sibilant Meta-Prompt DSL
-  - ollama-llm-provider-for-pseudo-code-transpiler
-  - heartbeat-fragment-demo
-  - polyglot-repl-interface-layer
-  - Agent Reflections and Prompt Evolution
-  - dynamic-context-model-for-web-components
-  - Pure TypeScript Search Microservice
+  - api-gateway-versioning
 references:
-  - uuid: 7842d43c-7d13-46f0-bdf1-561f5e4c6f53
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 5495
+    col: 0
+    score: 1
+  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
+    line: 1016
+    col: 0
+    score: 1
+  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+    line: 175
+    col: 0
+    score: 1
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 1221
+    col: 0
+    score: 1
+  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
+    line: 1058
+    col: 0
+    score: 1
+  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
+    line: 515
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 251
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 559
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 1033
+    col: 0
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 610
+    col: 0
+    score: 0.93
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 442
+    col: 0
+    score: 0.91
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 328
+    col: 0
+    score: 0.91
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 189
+    col: 0
+    score: 0.91
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 4742
+    col: 0
+    score: 0.91
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 6074
+    col: 0
+    score: 0.91
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 3301
+    col: 0
+    score: 0.91
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 4353
+    col: 0
+    score: 0.91
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 4105
+    col: 0
+    score: 0.91
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 5171
+    col: 0
+    score: 0.91
+  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
+    line: 3156
+    col: 0
+    score: 0.91
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 3645
+    col: 0
+    score: 0.91
+  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
+    line: 2883
+    col: 0
+    score: 0.91
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 3204
+    col: 0
+    score: 0.91
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
     line: 64
     col: 0
     score: 0.9
-  - uuid: 1fcb8421-46eb-4813-ba66-f79b25ef5db7
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 491
+    col: 0
+    score: 0.9
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
     line: 7
     col: 0
     score: 0.89
-  - uuid: 792a343e-674c-4bb4-8435-b3f8c163349d
-    line: 96
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 307
     col: 0
     score: 0.88
-  - uuid: e4317155-7fa6-44e8-8aee-b72384581790
-    line: 32
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 129
+    col: 0
+    score: 0.88
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 190
+    col: 0
+    score: 0.88
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 416
+    col: 0
+    score: 0.88
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 84
+    col: 0
+    score: 0.87
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 590
+    col: 0
+    score: 0.87
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 132
+    col: 0
+    score: 0.86
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 150
+    col: 0
+    score: 0.86
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 44
+    col: 0
+    score: 0.86
+  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
+    line: 187
+    col: 0
+    score: 0.86
+  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
+    line: 279
+    col: 0
+    score: 0.86
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 120
+    col: 0
+    score: 0.86
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 158
+    col: 0
+    score: 0.86
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 275
+    col: 0
+    score: 0.86
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 268
+    col: 0
+    score: 0.86
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 149
     col: 0
     score: 0.85
-  - uuid: 672da53b-d8ac-48cd-9cb3-e3fa9915dd6a
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 99
+    col: 0
+    score: 0.85
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 388
+    col: 0
+    score: 0.85
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
     line: 89
     col: 0
     score: 0.85
-  - uuid: 99c6d380-a2a6-4d8e-a391-f4bc0c9a631f
-    line: 149
+  - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+    line: 232
     col: 0
     score: 0.85
 ---

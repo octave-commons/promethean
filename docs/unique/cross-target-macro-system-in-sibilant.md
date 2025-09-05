@@ -205,18 +205,6 @@ references:
     line: 106
     col: 0
     score: 0.86
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 877
-    col: 0
-    score: 0.86
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 886
-    col: 0
-    score: 0.86
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 205
-    col: 0
-    score: 0.86
   - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
     line: 1382
     col: 0

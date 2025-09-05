@@ -193,14 +193,6 @@ references:
     line: 170
     col: 0
     score: 0.86
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 170
-    col: 0
-    score: 0.86
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 156
-    col: 0
-    score: 0.86
   - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
     line: 264
     col: 0

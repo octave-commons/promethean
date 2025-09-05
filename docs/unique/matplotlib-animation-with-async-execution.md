@@ -17,70 +17,141 @@ tags:
   - ob-async
   - emacs-jupyter
 related_to_uuid:
-  - b46a41c5-8e85-4363-aec9-1aaa42694078
-  - 004a0f06-3808-4421-b9e1-41b5b41ebcb8
-  - a28a39dd-8c17-463c-9050-2ffe9b56e8bc
-  - c09d7688-71d6-47fc-bf81-86b6193c84bc
-  - bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
-  - 58a50f5a-b073-4c50-8d3f-4284bd5df171
-  - b25be760-256e-4a8a-b34d-867281847ccb
-  - 260f25bf-c996-4da2-a529-3a292406296f
-  - e2955491-020a-4009-b7ed-a5a348c63cfd
-  - 4316c3f9-551f-4872-b5c5-98ae73508535
-  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-  - 8802d059-6b36-4e56-bb17-6a80a7dba599
-  - ee4b3631-a745-485b-aff1-2da806cfadfb
-  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
-  - e4317155-7fa6-44e8-8aee-b72384581790
   - 688ad325-4243-4304-bccc-1a1d8745de08
-  - 8792b6d3-aafd-403f-a410-e8a09ec2f8cf
-  - 7a75d992-5267-4557-b464-b6c7d3f88dad
-  - 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+  - 681a4ab2-8fef-4833-a09d-bceb62d114da
+  - 03a5578f-d689-45db-95e9-11300e5eee6f
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 18138627-a348-4fbb-b447-410dfb400564
+  - ae24a280-678e-4c0b-8cc4-56667fa04172
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 8b8e6103-30a4-4d66-b5f2-87db1612b587
+  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - 479401ac-f614-4d0b-8cc6-2ebb8d9de4d9
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
+  - d41a06d1-613e-4440-80b7-4553fc694285
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - 23e221e9-d4fa-4106-8458-06db2595085f
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - a4a25141-6380-40b9-9cd7-b554b246b303
+  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - 4330e8f0-5f46-4235-918b-39b6b93fa561
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
 related_to_title:
-  - Org-Babel Matplotlib Animation Template
-  - ecs-offload-workers
-  - AI-Centric OS with MCP Layer
-  - Migrate to Provider-Tenant Architecture
-  - chroma-embedding-refactor
-  - js-to-lisp-reverse-compiler
-  - ripple-propagation-demo
-  - Polymorphic Meta-Programming Engine
-  - chroma-toolkit-consolidation-plan
-  - WebSocket Gateway Implementation
-  - Universal Lisp Interface
-  - agent-tasks-persistence-migration-to-dualstore
-  - Promethean Documentation Pipeline Overview
-  - dynamic-context-model-for-web-components
-  - TypeScript Patch for Tool Calling Support
   - template-based-compilation
-  - aionian-circuit-math
-  - field-dynamics-math-blocks
-  - promethean-native-config-design
+  - SentenceProcessing
+  - Promethean Dev Workflow Update
+  - eidolon-field-math-foundations
+  - The Jar of Echoes
+  - Promethean-Copilot-Intent-Engine
+  - Duck's Attractor States
+  - Promethean Pipelines
+  - Local-First Intention→Code Loop with Free Models
+  - Local-Offline-Model-Deployment-Strategy
+  - compiler-kit-foundations
+  - Event Bus MVP
+  - ecs-offload-workers
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
+  - prompt-programming-language-lisp
+  - universal-intention-code-fabric
+  - heartbeat-simulation-snippets
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - Functional Embedding Pipeline Refactor
+  - TypeScript Patch for Tool Calling Support
+  - Local-Only-LLM-Workflow
+  - Stateful Partitions and Rebalancing
+  - Dynamic Context Model for Web Components
 references:
-  - uuid: b46a41c5-8e85-4363-aec9-1aaa42694078
+  - uuid: 681a4ab2-8fef-4833-a09d-bceb62d114da
+    line: 30
+    col: 0
+    score: 1
+  - uuid: 688ad325-4243-4304-bccc-1a1d8745de08
+    line: 1
+    col: 0
+    score: 1
+  - uuid: 688ad325-4243-4304-bccc-1a1d8745de08
+    line: 3
+    col: 0
+    score: 1
+  - uuid: 688ad325-4243-4304-bccc-1a1d8745de08
     line: 5
     col: 0
+    score: 1
+  - uuid: 688ad325-4243-4304-bccc-1a1d8745de08
+    line: 7
+    col: 0
+    score: 1
+  - uuid: 688ad325-4243-4304-bccc-1a1d8745de08
+    line: 13
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 19229
+    col: 0
+    score: 0.91
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 20713
+    col: 0
+    score: 0.91
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 17481
+    col: 0
+    score: 0.91
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 12868
+    col: 0
+    score: 0.91
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 2873
+    col: 0
+    score: 0.91
+  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
+    line: 2297
+    col: 0
+    score: 0.91
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 17122
+    col: 0
+    score: 0.91
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 16438
+    col: 0
+    score: 0.91
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 17896
+    col: 0
+    score: 0.91
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 105
+    col: 0
     score: 0.9
-  - uuid: 004a0f06-3808-4421-b9e1-41b5b41ebcb8
-    line: 32
+  - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+    line: 232
     col: 0
-    score: 0.87
-  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
-    line: 128
-    col: 0
-    score: 0.86
-  - uuid: c09d7688-71d6-47fc-bf81-86b6193c84bc
-    line: 127
+    score: 0.88
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 588
     col: 0
     score: 0.86
-  - uuid: bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
-    line: 66
+  - uuid: 479401ac-f614-4d0b-8cc6-2ebb8d9de4d9
+    line: 1
     col: 0
     score: 0.86
-  - uuid: 004a0f06-3808-4421-b9e1-41b5b41ebcb8
-    line: 194
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 427
     col: 0
-    score: 0.86
+    score: 0.85
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 527
+    col: 0
+    score: 0.85
 ---
 Yep—totally doable. Two good paths: ^ref-687439f9-1-0
 

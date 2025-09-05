@@ -30,7 +30,6 @@ related_to_uuid:
   - 1b1338fc-bb4d-41df-828f-e219cc9442eb
   - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
   - cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
   - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
   - c14edce7-0656-45b2-aaf3-51f042451b7d
   - b4e64f8c-4dc9-4941-a877-646c5ada068e
@@ -41,6 +40,7 @@ related_to_uuid:
   - c62a1815-c43b-4a3b-88e6-d7fa008a155e
   - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
   - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - 681a4ab2-8fef-4833-a09d-bceb62d114da
 related_to_title:
   - api-gateway-versioning
   - AGENTS.md
@@ -56,7 +56,6 @@ related_to_title:
   - Canonical Org-Babel Matplotlib Animation Template
   - Mongo Outbox Implementation
   - Docops Feature Updates
-  - Math Fundamentals
   - homeostasis-decay-formulas
   - universal-intention-code-fabric
   - observability-infrastructure-setup
@@ -67,6 +66,7 @@ related_to_title:
   - ecs-scheduler-and-prefabs
   - sibilant-meta-string-templating-runtime
   - Unique Info Dump Index
+  - SentenceProcessing
 references:
   - uuid: bb90903a-4723-44f7-850e-a71415ef6224
     line: 274
@@ -142,10 +142,6 @@ references:
     score: 0.95
   - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
     line: 189
-    col: 0
-    score: 0.95
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 194
     col: 0
     score: 0.95
   - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
@@ -224,10 +220,6 @@ references:
     line: 296
     col: 0
     score: 0.86
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 171
-    col: 0
-    score: 0.86
   - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
     line: 1356
     col: 0
@@ -254,10 +246,6 @@ references:
     score: 0.86
   - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
     line: 280
-    col: 0
-    score: 0.85
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 137
     col: 0
     score: 0.85
   - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2

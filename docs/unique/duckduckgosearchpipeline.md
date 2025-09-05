@@ -39,10 +39,10 @@ related_to_uuid:
   - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
   - b09141b7-544f-4c8e-8f49-bf76cecaacbb
   - 6bcff92c-4224-453d-9993-1be8d37d47c3
-  - e87bc036-1570-419e-a558-f45b9c0db698
-  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
-  - f1add613-656e-4bec-b52b-193fd78c4642
-  - 6cb4943e-8267-4e27-8618-2ce0a464d173
+  - 1d3d6c3a-039e-4b96-93c1-95854945e248
+  - ca8e1399-77bf-4f77-82a3-3f703b68706d
+  - 9b694a91-dec5-4708-9462-3f71000ba925
+  - cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
 related_to_title:
   - Factorio AI with External Agents
   - Functional Refactor of TypeScript Document Processing
@@ -65,10 +65,10 @@ related_to_title:
   - field-dynamics-math-blocks
   - field-interaction-equations
   - Post-Linguistic Transhuman Design Frameworks
-  - DSL
-  - JavaScript
-  - Operations
-  - Tooling
+  - Obsidian ChatGPT Plugin Integration Guide
+  - Obsidian ChatGPT Plugin Integration
+  - Obsidian Task Generation
+  - Docops Feature Updates
 references:
   - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
     line: 268
@@ -238,10 +238,6 @@ references:
     line: 165
     col: 0
     score: 1
-  - uuid: c26f0044-26fe-4c43-8ab0-fc4690723e3c
-    line: 8
-    col: 0
-    score: 1
   - uuid: 18138627-a348-4fbb-b447-410dfb400564
     line: 173
     col: 0
@@ -342,34 +338,6 @@ references:
     line: 8
     col: 0
     score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 20
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 9
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 72
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 23
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 25
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 11
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 22
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 7
     col: 0
@@ -468,6 +436,38 @@ references:
     score: 1
   - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
     line: 39
+    col: 0
+    score: 1
+  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+    line: 73
+    col: 0
+    score: 1
+  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
+    line: 140
+    col: 0
+    score: 1
+  - uuid: 95205cd3-c3d5-4047-9c33-9c5ca2b49597
+    line: 29
+    col: 0
+    score: 1
+  - uuid: d614d983-7795-491f-9437-09f3a43f72cf
+    line: 25
+    col: 0
+    score: 1
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 558
+    col: 0
+    score: 1
+  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+    line: 220
+    col: 0
+    score: 1
+  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
+    line: 274
+    col: 0
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 614
     col: 0
     score: 1
 ---

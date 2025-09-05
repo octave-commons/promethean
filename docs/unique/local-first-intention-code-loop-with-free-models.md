@@ -28,14 +28,14 @@ related_to_uuid:
   - bb7f0835-c347-474f-bfad-eabd873b51ad
   - 930054b3-ba95-4acf-bb92-0e3ead25ed0b
   - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - e87bc036-1570-419e-a558-f45b9c0db698
-  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-  - f1add613-656e-4bec-b52b-193fd78c4642
-  - 75ea4a6a-8270-488d-9d37-799c288e5f70
-  - 623a55f7-685c-486b-abaf-469da1bbbb69
-  - 557309a3-c906-4e97-8867-89ffe151790c
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
+  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
 related_to_title:
   - aionian-circuit-math
   - field-node-diagram-visualizations
@@ -54,14 +54,14 @@ related_to_title:
   - Agent Reflections and Prompt Evolution
   - ChatGPT Custom Prompts
   - Chroma Toolkit Consolidation Plan
-  - Diagrams
-  - DSL
-  - JavaScript
-  - Math Fundamentals
-  - Operations
-  - Services
-  - Shared
-  - Simulation Demo
+  - typed-struct-compiler
+  - Unique Concepts
+  - Unique Info Dump Index
+  - zero-copy-snapshots-and-workers
+  - Canonical Org-Babel Matplotlib Animation Template
+  - Creative Moments
+  - Duck's Attractor States
+  - eidolon-field-math-foundations
 references:
   - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
     line: 4516
@@ -113,38 +113,6 @@ references:
     score: 1
   - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
     line: 999
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 519
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 466
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 505
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 451
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 178
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 437
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 367
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 378
     col: 0
     score: 1
   - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
@@ -395,38 +363,6 @@ references:
     line: 400
     col: 0
     score: 0.87
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 1002
-    col: 0
-    score: 0.87
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 957
-    col: 0
-    score: 0.87
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 982
-    col: 0
-    score: 0.87
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 650
-    col: 0
-    score: 0.87
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 984
-    col: 0
-    score: 0.87
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 959
-    col: 0
-    score: 0.87
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 923
-    col: 0
-    score: 0.87
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 1093
-    col: 0
-    score: 0.87
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 626
     col: 0
@@ -461,6 +397,18 @@ references:
     score: 0.85
   - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
     line: 151
+    col: 0
+    score: 0.85
+  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
+    line: 185
+    col: 0
+    score: 0.85
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 137
+    col: 0
+    score: 0.85
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 527
     col: 0
     score: 0.85
 ---

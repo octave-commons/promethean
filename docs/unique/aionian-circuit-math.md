@@ -24,13 +24,6 @@ tags:
 related_to_uuid:
   - 0580dcd3-533d-4834-8a2f-eae3771960a9
   - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - e87bc036-1570-419e-a558-f45b9c0db698
-  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-  - f1add613-656e-4bec-b52b-193fd78c4642
-  - 75ea4a6a-8270-488d-9d37-799c288e5f70
-  - 623a55f7-685c-486b-abaf-469da1bbbb69
   - 618198f4-cfad-4677-9df6-0640d8a97bae
   - ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
   - d3e7db72-2e07-4dae-8920-0e07c499a1e5
@@ -47,16 +40,16 @@ related_to_uuid:
   - 5c152b08-6b69-4bb8-a1a7-66745789c169
   - 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
   - 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+  - c0392040-16a2-41e8-bd54-75110319e3c0
+  - d5b16703-d7f7-438a-9a75-3ae4589b177b
+  - f35d133e-6e9a-4aee-84b1-fa2579664ad8
+  - a39e72eb-34f4-45d2-9b59-a0f9f4a12fc0
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - 5e408692-0e74-400e-a617-84247c7353ad
 related_to_title:
   - api-gateway-versioning
   - Chroma Toolkit Consolidation Plan
-  - Diagrams
-  - DSL
-  - JavaScript
-  - Math Fundamentals
-  - Operations
-  - Services
-  - Shared
   - AI-First-OS-Model-Context-Protocol
   - Board Automation Improvements
   - balanced-bst
@@ -73,6 +66,11 @@ related_to_title:
   - OpenAPI Validation Report
   - Promethean Data Sync Protocol
   - Promethean Documentation Pipeline Overview
+  - Promethean Documentation Update
+  - mcp-server-config
+  - eidolon-field-math-foundations
+  - Creative Moments
+  - i3-bluetooth-setup
 references:
   - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
     line: 618
@@ -84,38 +82,6 @@ references:
     score: 1
   - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
     line: 999
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 519
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 466
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 505
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 451
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 178
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 437
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 367
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 378
     col: 0
     score: 1
   - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
@@ -202,34 +168,6 @@ references:
     line: 1002
     col: 0
     score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 522
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 469
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 508
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 454
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 181
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 440
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 370
-    col: 0
-    score: 1
   - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
     line: 285
     col: 0
@@ -294,26 +232,6 @@ references:
     line: 183
     col: 0
     score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 69
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 36
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 46
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 40
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 53
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 33
     col: 0
@@ -360,10 +278,6 @@ references:
     score: 1
   - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
     line: 187
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 66
     col: 0
     score: 1
   - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
@@ -472,6 +386,90 @@ references:
     score: 1
   - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
     line: 165
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 48
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 79
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 69
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 158
+    col: 0
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 178
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 126
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 410
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 228
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 314
+    col: 0
+    score: 1
+  - uuid: de34f84b-270b-4f16-92a8-a681a869b823
+    line: 44
+    col: 0
+    score: 1
+  - uuid: 15d25922-0de6-414f-b7d1-e50e2a57b33a
+    line: 1035
+    col: 0
+    score: 1
+  - uuid: 5c307293-04cb-4478-ba2c-4cd85dbec260
+    line: 31
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 306
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 19
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 160
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 426
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 1534
+    col: 0
+    score: 1
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 610
+    col: 0
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 1262
+    col: 0
+    score: 1
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 863
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 308
     col: 0
     score: 1
 ---

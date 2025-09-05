@@ -40,7 +40,7 @@ related_to_uuid:
   - bb7f0835-c347-474f-bfad-eabd873b51ad
   - 930054b3-ba95-4acf-bb92-0e3ead25ed0b
   - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
 related_to_title:
   - ecs-scheduler-and-prefabs
   - ecs-scheduler
@@ -66,7 +66,7 @@ related_to_title:
   - Agent Reflections and Prompt Evolution
   - ChatGPT Custom Prompts
   - Chroma Toolkit Consolidation Plan
-  - Diagrams
+  - typed-struct-compiler
 references:
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
     line: 4244
@@ -114,38 +114,6 @@ references:
     score: 1
   - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
     line: 999
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 519
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 466
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 505
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 451
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 178
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 437
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 367
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 378
     col: 0
     score: 1
   - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
@@ -278,10 +246,6 @@ references:
     score: 0.9
   - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
     line: 588
-    col: 0
-    score: 0.9
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 207
     col: 0
     score: 0.9
   - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
