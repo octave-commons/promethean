@@ -1,5 +1,5 @@
 import test from "ava";
-import { RemoteEmbeddingFunction } from "@promethean/embeddings/remote.js";
+import { RemoteEmbeddingFunction } from "@promethean/embedding/remote.js";
 
 class MockBrokerClient {
   handlers: Record<string, ((e: any) => void)[]> = {};
