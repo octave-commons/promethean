@@ -6,13 +6,15 @@ import fg from "fast-glob";
 import { ChromaClient } from "chromadb";
 
 import { RemoteEmbeddingFunction } from "./remoteEmbedding.js";
-import { logger } from "./logger.js";
+import { createLogger } from "@promethean/utils/logger.js";
+import { logStream } from "./log-stream.js";
 import {
   loadBootstrapState,
   saveBootstrapState,
   deleteBootstrapState,
 } from "./indexerState.js";
 
+const logger = createLogger({ service: "smartgpt-bridge", stream: logStream });
 let CHROMA = null; // lazily created to avoid holding open handles during import
 let EMBEDDING_FACTORY = null; // optional override for tests
 let EMBEDDING_INSTANCE = null; // cached default embedding fn
