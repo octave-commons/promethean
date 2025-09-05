@@ -1,5 +1,7 @@
 import test from 'ava';
 
+import { sleep } from '@promethean/test-utils/sleep';
+
 import { TokenBucket } from './limiter.js';
 
 // ensure TokenBucket enforces capacity and returns deficit
@@ -16,6 +18,6 @@ test('TokenBucket refills over time', async (t) => {
     const bucket = new TokenBucket({ capacity: 1, refillPerSec: 1 });
     t.true(bucket.tryConsume());
     t.false(bucket.tryConsume());
-    await new Promise((r) => setTimeout(r, 1100));
+    await sleep(1100);
     t.true(bucket.tryConsume());
 });
