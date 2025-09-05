@@ -10,7 +10,7 @@
     "tg:04-cookbook-cross": "dist/04-cookbook-cross.js",
     "tg:05-plan": "dist/05-plan.js",
     "tg:06-write": "dist/06-write.js",
-   "tg:07-report": "dist/07-report.js",
+    "tg:07-report": "dist/07-report.js",
     "tg:08-gate": "dist/08-gate.js"
   },
   "scripts": {
@@ -22,7 +22,7 @@
     "tg:05-plan": "tsx src/05-plan.ts",
     "tg:06-write": "tsx src/06-write.ts",
     "tg:07-report": "tsx src/07-report.ts",
-   "tg:08-gate": "tsx src/08-gate.ts",
+    "tg:08-gate": "tsx src/08-gate.ts",
     "tg:all": "pnpm tg:01-scan-exports && pnpm tg:02-read-coverage && pnpm tg:03-map-gaps && pnpm tg:04-cookbook-cross && pnpm tg:05-plan && pnpm tg:06-write && pnpm tg:07-report"
   },
   "dependencies": {
@@ -34,6 +34,6 @@
   },
   "devDependencies": {
     "tsx": "^4.19.2",
-    "typescript": "^5.5.4"
+    "typescript": "5.9.2"
   }
 }

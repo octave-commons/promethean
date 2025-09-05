@@ -11,8 +11,15 @@ export function parseArgs(defaults: Record<string, string>) {
   const a = process.argv.slice(2);
   for (let i = 0; i < a.length; i++) {
     const k = a[i];
-    if (!k.startsWith("--")) continue;
-    const v = a[i + 1] && !a[i + 1].startsWith("--") ? a[++i] : "true";
+    if (typeof k !== "string" || !k.startsWith("--")) continue;
+    const next = a[i + 1];
+    let v: string;
+    if (typeof next === "string" && !next.startsWith("--")) {
+      v = next;
+      i++;
+    } else {
+      v = "true";
+    }
     out[k] = v;
   }
   return out;
@@ -75,8 +82,8 @@ export function posToLine(sf: ts.SourceFile, pos: number) {
 }
 
 export function getJsDocText(node: ts.Node): string | undefined {
-  const jsdocs = ts.getJSDocCommentsAndTags(node);
-  if (!jsdocs?.length) return undefined;
+  const jsdocs = ts.getJSDocCommentsAndTags(node) ?? [];
+  if (jsdocs.length === 0) return undefined;
   const texts: string[] = [];
   for (const d of jsdocs) {
     // @ts-ignore
@@ -96,9 +103,11 @@ export function cosine(a: number[], b: number[]) {
     nb = 0;
   const n = Math.min(a.length, b.length);
   for (let i = 0; i < n; i++) {
-    dot += a[i] * b[i];
-    na += a[i] * a[i];
-    nb += b[i] * b[i];
+    const av = a[i]!;
+    const bv = b[i]!;
+    dot += av * bv;
+    na += av * av;
+    nb += bv * bv;
   }
   if (!na || !nb) return 0;
   return dot / (Math.sqrt(na) * Math.sqrt(nb));

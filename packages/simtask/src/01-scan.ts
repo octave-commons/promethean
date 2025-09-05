@@ -22,11 +22,13 @@ const args = parseArgs({
   "--out": ".cache/simtasks/functions.json",
 });
 
-const ROOT = path.resolve(args["--root"]);
+const ROOT = path.resolve(args["--root"] ?? "packages");
 const EXTS = new Set(
-  args["--ext"].split(",").map((s) => s.trim().toLowerCase()),
+  (args["--ext"] ?? ".ts,.tsx,.js,.jsx")
+    .split(",")
+    .map((s) => s.trim().toLowerCase()),
 );
-const OUT = path.resolve(args["--out"]);
+const OUT = path.resolve(args["--out"] ?? ".cache/simtasks/functions.json");
 
 async function main() {
   const files = await listFilesRec(ROOT, EXTS);
@@ -43,7 +45,7 @@ async function main() {
 
     const bits = fileRel.split("/");
     if (bits[0] !== "packages" || bits.length < 2) continue;
-    const pkgFolder = bits[1];
+    const pkgFolder = bits[1]!;
     const pkgRoot = path.join(process.cwd(), "packages", pkgFolder);
     const pkgJson = JSON.parse(
       await fs.readFile(path.join(pkgRoot, "package.json"), "utf-8"),
@@ -123,7 +125,7 @@ async function main() {
           endLine,
         ].join("|"),
       );
-      functions.push({
+      const base = {
         id,
         pkgName,
         pkgFolder,
@@ -132,14 +134,15 @@ async function main() {
         moduleRel,
         name,
         kind,
-        className,
         exported,
-        signature,
-        jsdoc,
         startLine,
         endLine,
         snippet,
-      });
+      } as any;
+      if (className) base.className = className;
+      if (signature) base.signature = signature;
+      if (jsdoc) base.jsdoc = jsdoc;
+      functions.push(base as FunctionInfo);
     };
 
     const signatureFromDecl = (d: ts.FunctionDeclaration) => {

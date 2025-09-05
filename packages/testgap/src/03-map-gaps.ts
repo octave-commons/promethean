@@ -2,13 +2,7 @@ import * as path from "path";
 import { promises as fs } from "fs";
 
 import { parseArgs, writeJSON } from "./utils.js";
-import type {
-  ExportScan,
-  CoverageIndex,
-  GapMap,
-  GapItem,
-  SymbolCoverage,
-} from "./types.ts";
+import type { ExportScan, CoverageIndex, GapMap, GapItem } from "./types.ts";
 
 const args = parseArgs({
   "--exports": ".cache/testgap/exports.json",
@@ -25,12 +19,18 @@ function severityFor(ratio: number): "high" | "med" | "low" {
 
 async function main() {
   const exp = JSON.parse(
-    await fs.readFile(path.resolve(args["--exports"]), "utf-8"),
+    await fs.readFile(
+      path.resolve(args["--exports"] ?? ".cache/testgap/exports.json"),
+      "utf-8",
+    ),
   ) as ExportScan;
   const cov = JSON.parse(
-    await fs.readFile(path.resolve(args["--coverage"]), "utf-8"),
+    await fs.readFile(
+      path.resolve(args["--coverage"] ?? ".cache/testgap/coverage.json"),
+      "utf-8",
+    ),
   ) as CoverageIndex;
-  const minLines = Number(args["--min-lines"]);
+  const minLines = Number(args["--min-lines"] ?? "3");
 
   const items: GapItem[] = [];
   for (const s of exp.symbols) {
@@ -62,8 +62,13 @@ async function main() {
     mappedAt: new Date().toISOString(),
     items: items.sort((a, b) => a.ratio - b.ratio),
   };
-  await writeJSON(path.resolve(args["--out"]), out);
-  console.log(`testgap: mapped ${items.length} symbols → ${args["--out"]}`);
+  const outPath = path.resolve(args["--out"] ?? ".cache/testgap/gaps.json");
+  await writeJSON(outPath, out);
+  console.log(
+    `testgap: mapped ${items.length} symbols → ${
+      args["--out"] ?? ".cache/testgap/gaps.json"
+    }`,
+  );
 }
 main().catch((e) => {
   console.error(e);

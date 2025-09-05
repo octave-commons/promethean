@@ -32,12 +32,14 @@ function unionFindClusters(ids: string[], edges: Array<[string, string]>) {
 }
 
 async function main() {
-  const SCAN = path.resolve(args["--scan"]);
-  const EMB = path.resolve(args["--embeds"]);
-  const OUT = path.resolve(args["--out"]);
-  const TH = Number(args["--sim-threshold"]);
-  const K = Number(args["--k"]);
-  const MIN = Number(args["--min-size"]);
+  const SCAN = path.resolve(args["--scan"] ?? ".cache/simtasks/functions.json");
+  const EMB = path.resolve(
+    args["--embeds"] ?? ".cache/simtasks/embeddings.json",
+  );
+  const OUT = path.resolve(args["--out"] ?? ".cache/simtasks/clusters.json");
+  const TH = Number(args["--sim-threshold"] ?? "0.84");
+  const K = Number(args["--k"] ?? "10");
+  const MIN = Number(args["--min-size"] ?? "2");
 
   const { functions } = JSON.parse(
     await fs.readFile(SCAN, "utf-8"),
@@ -45,15 +47,13 @@ async function main() {
   const embeds: EmbeddingMap = JSON.parse(await fs.readFile(EMB, "utf-8"));
 
   const ids = functions.map((f) => f.id);
-  const byId = new Map(functions.map((f) => [f.id, f]));
   const edges: Array<[string, string]> = [];
-  const clusterStats: Record<string, number[]> = {}; // for avg/max later
 
   for (const a of functions) {
-    const av = embeds[a.id];
+    const av = embeds[a.id]!;
     const scores = functions
       .filter((b) => b.id !== a.id)
-      .map((b) => ({ id: b.id, s: cosine(av, embeds[b.id]) }))
+      .map((b) => ({ id: b.id, s: cosine(av, embeds[b.id]!) }))
       .sort((x, y) => y.s - x.s)
       .slice(0, K);
     for (const { id, s } of scores) {
@@ -69,7 +69,7 @@ async function main() {
       cnt = 0;
     for (let x = 0; x < members.length; x++) {
       for (let y = x + 1; y < members.length; y++) {
-        const s = cosine(embeds[members[x]], embeds[members[y]]);
+        const s = cosine(embeds[members[x]!]!, embeds[members[y]!]!);
         if (s > maxSim) maxSim = s;
         sum += s;
         cnt++;

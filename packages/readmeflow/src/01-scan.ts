@@ -1,12 +1,13 @@
-import { promises as fs } from "fs";
-import * as path from "path";
+import { promises as fs } from "node:fs";
+import * as path from "node:path";
 
-import { parseArgs, readMaybe, writeJSON } from "./utils.js";
+import { parseArgs, readMaybe } from "./utils.js";
+import { openLevelCache } from "@promethean/level-cache";
 import type { PkgInfo, ScanOut } from "./types.js";
 
 const args = parseArgs({
   "--root": "packages",
-  "--out": ".cache/readmes/scan.json",
+  "--cache": ".cache/readmes",
 });
 
 async function main() {
@@ -22,6 +23,7 @@ async function main() {
     try {
       const json = JSON.parse(await fs.readFile(pj, "utf-8"));
       const name = json.name ?? d;
+      const maybeReadme = await readMaybe(path.join(dir, "README.md"));
       const info: PkgInfo = {
         name,
         version: json.version ?? "0.0.0",
@@ -34,7 +36,7 @@ async function main() {
         peerDependencies: json.peerDependencies,
         workspaceDeps: [],
         hasTsConfig: !!(await readMaybe(path.join(dir, "tsconfig.json"))),
-        readme: await readMaybe(path.join(dir, "README.md")),
+        ...(maybeReadme !== undefined ? { readme: maybeReadme } : {}),
       };
       pkgMap.set(name, info);
     } catch {
@@ -72,8 +74,14 @@ async function main() {
     packages: Array.from(pkgMap.values()),
     graphMermaid: lines.join("\n"),
   };
-  await writeJSON(path.resolve(args["--out"]), out);
-  console.log(`readmeflow: scanned ${pkgMap.size} packages → ${args["--out"]}`);
+  const cache = await openLevelCache<ScanOut>({
+    path: path.resolve(args["--cache"]),
+  });
+  await cache.set("scan", out);
+  await cache.close();
+  console.log(
+    `readmeflow: scanned ${pkgMap.size} packages → ${args["--cache"]}`,
+  );
 }
 main().catch((e) => {
   console.error(e);

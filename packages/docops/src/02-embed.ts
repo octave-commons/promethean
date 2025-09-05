@@ -212,23 +212,29 @@ if (isDirect) {
   const { openDB } = await import("./db");
   const db = await openDB();
   const client = new ChromaClient({});
+  const embedModel = args["--embed-model"] ?? "nomic-embed-text:latest";
+  const collection = args["--collection"] ?? "docs";
   const embedder = new OllamaEmbeddingFunction({
-    model: args["--embed-model"],
+    model: embedModel,
     url: OLLAMA_URL,
   });
   const coll = await client.getOrCreateCollection({
-    name: args["--collection"],
-    metadata: { embed_model: args["--embed-model"], "hnsw:space": "cosine" },
+    name: collection,
+    metadata: { embed_model: embedModel, "hnsw:space": "cosine" },
     embeddingFunction: embedder,
   });
+  const dir = args["--dir"] ?? "docs/unique";
+  const extsArg = args["--ext"] ?? ".md,.mdx,.txt";
+  const batch = Number(args["--batch"] ?? "128");
+  const debug = (args["--debug"] ?? "false") === "true";
   runEmbed(
     {
-      dir: args["--dir"],
-      exts: args["--ext"].split(","),
-      embedModel: args["--embed-model"],
-      collection: args["--collection"],
-      batch: Number(args["--batch"]),
-      debug: args["--debug"] === "true",
+      dir,
+      exts: extsArg.split(","),
+      embedModel,
+      collection,
+      batch,
+      debug,
     },
     db,
     coll,

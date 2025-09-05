@@ -24,9 +24,9 @@ async function ollamaEmbed(model: string, text: string): Promise<number[]> {
 }
 
 async function main() {
-  const IN = path.resolve(args["--in"]);
-  const OUT = path.resolve(args["--out"]);
-  const model = args["--embed-model"];
+  const IN = path.resolve(args["--in"] ?? ".cache/simtasks/functions.json");
+  const OUT = path.resolve(args["--out"] ?? ".cache/simtasks/embeddings.json");
+  const model = args["--embed-model"] ?? "nomic-embed-text:latest";
   const withDoc = args["--include-jsdoc"] === "true";
   const withSnippet = args["--include-snippet"] === "true";
 

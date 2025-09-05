@@ -25,13 +25,20 @@ const TaskSchema = z.object({
 
 async function main() {
   const gaps = JSON.parse(
-    await fs.readFile(path.resolve(args["--gaps"]), "utf-8"),
+    await fs.readFile(
+      path.resolve(args["--gaps"] ?? ".cache/testgap/gaps.json"),
+      "utf-8",
+    ),
   ) as GapMap;
   const cook = JSON.parse(
-    await fs.readFile(path.resolve(args["--cookbook"]), "utf-8"),
+    await fs.readFile(
+      path.resolve(args["--cookbook"] ?? ".cache/testgap/cookbook.json"),
+      "utf-8",
+    ),
   ) as CookbookCross;
-  const threshold = Number(args["--threshold"]);
-  const maxPer = Number(args["--max-per-pkg"]);
+  void cook;
+  const threshold = Number(args["--threshold"] ?? "0.5");
+  const maxPer = Number(args["--max-per-pkg"] ?? "15");
 
   const byPkg = new Map<string, typeof gaps.items>();
   for (const it of gaps.items.filter((i) => i.ratio < threshold)) {
@@ -68,7 +75,7 @@ async function main() {
     let tasks: PlanTask[] = [];
     try {
       const arr = await ollamaJSON(
-        args["--model"],
+        args["--model"] ?? "qwen3:4b",
         `SYSTEM:\n${sys}\n\nUSER:\n${user}`,
       );
       const parsed = z.array(TaskSchema).safeParse(arr);
@@ -112,11 +119,12 @@ async function main() {
     plan.tasks[pkg] = tasks;
   }
 
-  await writeJSON(path.resolve(args["--out"]), plan);
+  const outPath = path.resolve(args["--out"] ?? ".cache/testgap/plans.json");
+  await writeJSON(outPath, plan);
   console.log(
     `testgap: planned tasks for ${
       Object.keys(plan.tasks).length
-    } package(s) → ${args["--out"]}`,
+    } package(s) → ${args["--out"] ?? ".cache/testgap/plans.json"}`,
   );
 }
 main().catch((e) => {

@@ -4,7 +4,6 @@ import { promises as fs } from "fs";
 import { globby } from "globby";
 
 import { parseArgs, writeJSON } from "./utils.js";
-import type { CookbookCross } from "./types.js";
 
 const args = parseArgs({
   "--recipes": "docs/cookbook/**/*.md",
@@ -15,32 +14,41 @@ function extractImports(code: string): string[] {
   const imps: string[] = [];
   const re1 = /from\s+['"]([^'"]+)['"]/g;
   const re2 = /require\(\s*['"]([^'"]+)['"]\s*\)/g;
-  let m;
-  while ((m = re1.exec(code))) imps.push(m[1]);
-  while ((m = re2.exec(code))) imps.push(m[1]);
+  let m: RegExpExecArray | null;
+  while ((m = re1.exec(code))) {
+    const s = m?.[1];
+    if (s != null) imps.push(s as string);
+  }
+  while ((m = re2.exec(code))) {
+    const s = m?.[1];
+    if (s != null) imps.push(s as string);
+  }
   return Array.from(new Set(imps));
 }
 
 async function main() {
-  const files = await globby([args["--recipes"]]);
+  const files = await globby([args["--recipes"] ?? "docs/cookbook/**/*.md"]);
   const hits = [];
 
   for (const f of files) {
     const raw = await fs.readFile(f, "utf-8");
     const m = raw.match(/```(\w+)?[^\n]*\n([\s\S]*?)```/);
     if (!m) continue;
-    const code = m[2];
+    const code = m[2] ?? "";
     const imported = extractImports(code).filter((s) => s.startsWith("@"));
     const pkg = imported.find((s) => s.includes("/")) || imported[0] || "";
     hits.push({ recipe: f, pkg, imported });
   }
 
-  await writeJSON(path.resolve(args["--out"]), {
+  const outPath = path.resolve(args["--out"] ?? ".cache/testgap/cookbook.json");
+  await writeJSON(outPath, {
     analyzedAt: new Date().toISOString(),
     hits,
   });
   console.log(
-    `testgap: cookbook cross → ${args["--out"]} (${hits.length} recipes)`,
+    `testgap: cookbook cross → ${
+      args["--out"] ?? ".cache/testgap/cookbook.json"
+    } (${hits.length} recipes)`,
   );
 }
 main().catch((e) => {

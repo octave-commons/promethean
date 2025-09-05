@@ -35,16 +35,18 @@ function uuid() {
 }
 
 async function main() {
-  const plans = JSON.parse(
-    await fs.readFile(path.resolve(args["--plans"]), "utf-8"),
-  ) as PlansFile;
-  await fs.mkdir(path.resolve(args["--out"]), { recursive: true });
+  const plansPath = path.resolve(
+    args["--plans"] ?? ".cache/semverguard/plans.json",
+  );
+  const outDir = path.resolve(args["--out"] ?? "docs/agile/tasks/semver");
+  const plans = JSON.parse(await fs.readFile(plansPath, "utf-8")) as PlansFile;
+  await fs.mkdir(outDir, { recursive: true });
 
   const index: string[] = ["# Semver guard tasks", ""];
   for (const [pkg, p] of Object.entries(plans.packages)) {
     const title = `[${p.required}] bump for ${pkg}`;
     const fname = `${slug(pkg)}-semver-${p.required}.md`;
-    const outPath = path.join(args["--out"], fname);
+    const outPath = path.join(outDir, fname);
 
     const table = [
       "| Severity | Change |",
@@ -85,8 +87,8 @@ async function main() {
       uuid: gm.data?.uuid ?? uuid(),
       title,
       package: pkg,
-      status: gm.data?.status ?? args["--status"],
-      priority: gm.data?.priority ?? args["--priority"],
+      status: gm.data?.status ?? args["--status"] ?? "todo",
+      priority: gm.data?.priority ?? args["--priority"] ?? "P2",
       labels: Array.from(
         new Set([...(gm.data?.labels ?? []), ...(p.task.labels ?? [])]),
       ),
@@ -97,11 +99,11 @@ async function main() {
     index.push(`- [${title}](${path.basename(outPath)}) — ${p.required}`);
   }
   await fs.writeFile(
-    path.join(args["--out"], "README.md"),
+    path.join(outDir, "README.md"),
     index.join("\n") + "\n",
     "utf-8",
   );
-  console.log(`semverguard: wrote tasks → ${args["--out"]}`);
+  console.log(`semverguard: wrote tasks → ${outDir}`);
 }
 
 async function readMaybe(p: string) {
