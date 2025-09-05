@@ -8,8 +8,8 @@ type Args = { fromPrefix: string; toPrefix: string; globs: string[] };
 const parseArgs = (argv: string[]): Args => {
   const fromIdx = argv.indexOf("--from");
   const toIdx = argv.indexOf("--to");
-  const fromPrefix = fromIdx >= 0 ? argv[fromIdx + 1] : "@shared/prom-lib";
-  const toPrefix = toIdx >= 0 ? argv[toIdx + 1] : "@promethean-";
+  const fromPrefix = fromIdx >= 0 ? argv[fromIdx + 1] : "@old";
+  const toPrefix = toIdx >= 0 ? argv[toIdx + 1] : "@new-";
   const globs = argv.filter((x) => !x.startsWith("--"));
   return { fromPrefix, toPrefix, globs };
 };

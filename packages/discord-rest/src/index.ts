@@ -1,12 +1,13 @@
-import {
-  fileBackedRegistry,
-  topic, // , PostMessage
-} from "@shared/prom-lib";
+import { fileBackedRegistry } from "@promethean/security";
+import { topic } from "@promethean/platform";
 
 // Stub REST proxy: subscribes to rest.request and would call Discord REST.
 async function main() {
   const reg = fileBackedRegistry();
-  const tenants = await reg.list("discord");
+  const tenants = (await reg.list()) as Array<{
+    provider: string;
+    tenant: string;
+  }>;
   // In real service, subscribe per-tenant topic and forward requests.
   for (const t of tenants) {
     const reqTopic = topic({
