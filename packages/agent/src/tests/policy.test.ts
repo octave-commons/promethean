@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { makePolicy, NotAllowedError } from '@promethean/security/policy.js';
+import { makePolicy, NotAllowedError } from '@promethean/security';
 
 const policy = makePolicy({
   providerAccess: { allowPatterns: ['services/ts/discord-rest/'] },
@@ -21,6 +21,22 @@ test('provider caps denied for others', async (t) => {
   await t.throwsAsync(
     () =>
       policy.checkCapability('services/ts/discord-message-indexer/', {
+        kind: 'provider.rest.call',
+        provider: 'discord',
+        tenant: 'duck',
+        route: '/foo',
+      }),
+    { instanceOf: NotAllowedError },
+  );
+});
+
+test('provider caps do not overmatch similar prefixes', async (t) => {
+  const pol = makePolicy({
+    providerAccess: { allowPatterns: ['services/ts/discord-rest/'] },
+  });
+  await t.throwsAsync(
+    () =>
+      pol.checkCapability('services/ts/discord-rest-bad/', {
         kind: 'provider.rest.call',
         provider: 'discord',
         tenant: 'duck',
