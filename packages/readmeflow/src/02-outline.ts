@@ -1,14 +1,13 @@
 import * as path from "path";
-import { promises as fs } from "fs";
 
 import { z } from "zod";
 
-import { parseArgs, ollamaJSON, writeJSON } from "./utils.js";
+import { parseArgs, ollamaJSON } from "./utils.js";
+import { openLevelCache } from "@promethean/level-cache";
 import type { ScanOut, Outline, OutlinesFile } from "./types.js";
 
 const args = parseArgs({
-  "--scan": ".cache/readmes/scan.json",
-  "--out": ".cache/readmes/outlines.json",
+  "--cache": ".cache/readmes",
   "--model": "qwen3:4b",
 });
 
@@ -23,10 +22,11 @@ const OutlineSchema = z.object({
 });
 
 async function main() {
-  const scan = JSON.parse(
-    await fs.readFile(path.resolve(args["--scan"]!), "utf-8"),
-  ) as ScanOut;
-  const outlines: Record<string, Outline> = {};
+  const cache = await openLevelCache<unknown>({
+    path: path.resolve(args["--cache"]!),
+  });
+  const scan = (await cache.get("scan")) as ScanOut;
+  let outlines: Record<string, Outline> = {};
 
   for (const pkg of scan.packages) {
     const sys = [
@@ -93,27 +93,22 @@ async function main() {
           ],
         };
 
+    // eslint-disable-next-line functional/prefer-immutable-types
     const outline: Outline = {
       name: pkg.name,
       title: outlineRaw.title,
       tagline: outlineRaw.tagline,
-      includeTOC: outlineRaw.includeTOC ?? true,
+      includeTOC: outlineRaw.includeTOC,
       sections: outlineRaw.sections,
-      ...(Array.isArray((outlineRaw as any).badges) &&
-      (outlineRaw as any).badges.length
-        ? { badges: (outlineRaw as any).badges as string[] }
-        : {}),
+      ...(outlineRaw.badges?.length ? { badges: outlineRaw.badges } : {}),
     };
-
-    outlines[pkg.name] = outline;
+    outlines = { ...outlines, [pkg.name]: outline };
   }
-
   const out: OutlinesFile = { plannedAt: new Date().toISOString(), outlines };
-  await writeJSON(path.resolve(args["--out"]!), out);
+  await cache.set("outlines", out);
+  await cache.close();
   console.log(
-    `readmeflow: outlined ${Object.keys(outlines).length} README(s) → ${
-      args["--out"]
-    }`,
+    `readmeflow: outlined ${Object.keys(outlines).length} README(s) → ${args["--cache"]}/outlines`,
   );
 }
 main().catch((e) => {
