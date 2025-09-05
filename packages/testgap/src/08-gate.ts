@@ -30,14 +30,17 @@ function safePct(n: number) {
 }
 
 async function main() {
-  const threshold = Number(args["--threshold"]);
+  const threshold = Number(args["--threshold"] ?? "0.70");
   const metric = (args["--metric"] || "symbols").toLowerCase() as
     | "symbols"
     | "lines";
-  const minLines = Number(args["--min-lines"]);
+  const minLines = Number(args["--min-lines"] ?? "3");
 
   const gapsRaw = JSON.parse(
-    await fs.readFile(path.resolve(args["--gaps"]), "utf-8"),
+    await fs.readFile(
+      path.resolve(args["--gaps"] ?? ".cache/testgap/gaps.json"),
+      "utf-8",
+    ),
   ) as { items: GapItem[] };
   const items = gapsRaw.items.filter((i) => i.total >= minLines);
 
@@ -94,7 +97,10 @@ async function main() {
     if (coverage < threshold) report.failures.push(pkg);
   }
 
-  await writeJSON(path.resolve(args["--out"]), report);
+  await writeJSON(
+    path.resolve(args["--out"] ?? ".cache/testgap/gate.json"),
+    report,
+  );
 
   if (report.failures.length) {
     console.error(

@@ -47,13 +47,14 @@ const nearestHeadingAnchor = (
     .slice(0, Math.max(0, line))
     .reverse()
     .map((ln) => {
-      const m = ln.match(/^\s{0,3}#{1,6}\s+(.*)$/);
-      return m ? m[1].trim().toLowerCase() : undefined;
+      const m = (ln ?? "").match(/^\s{0,3}#{1,6}\s+(.*)$/);
+      const grp = m?.[1];
+      return grp ? grp.trim().toLowerCase() : undefined;
     })
     .find((x) => !!x)
     ?.replace(/[^a-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
+    ?.replace(/\s+/g, "-")
+    ?.replace(/-+/g, "-");
 
 const collectEntries = async <K extends string, V>(
   it: AsyncIterable<[K, V]>,
@@ -203,8 +204,6 @@ const renderFooter = (
   });
 };
 
-import type { DBs } from "./db";
-
 export async function runFooters(
   opts: FootersOptions,
   db: any,
@@ -287,13 +286,18 @@ if (isDirect) {
   });
   const { openDB } = await import("./db");
   const db = await openDB();
+  const dir = args["--dir"] ?? "docs/unique";
+  const anchorStyle = (args["--anchor-style"] ?? "block") as any;
+  const includeRelated = (args["--include-related"] ?? "true") === "true";
+  const includeSources = (args["--include-sources"] ?? "true") === "true";
+  const dryRun = (args["--dry-run"] ?? "false") === "true";
   runFooters(
     {
-      dir: args["--dir"],
-      anchorStyle: args["--anchor-style"] as any,
-      includeRelated: args["--include-related"] === "true",
-      includeSources: args["--include-sources"] === "true",
-      dryRun: args["--dry-run"] === "true",
+      dir,
+      anchorStyle,
+      includeRelated,
+      includeSources,
+      dryRun,
     },
     db,
   )

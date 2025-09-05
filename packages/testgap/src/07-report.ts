@@ -11,11 +11,15 @@ const args = parseArgs({
 
 async function main() {
   const gaps = JSON.parse(
-    await fs.readFile(path.resolve(args["--gaps"]), "utf-8"),
+    await fs.readFile(
+      path.resolve(args["--gaps"] ?? ".cache/testgap/gaps.json"),
+      "utf-8",
+    ),
   ) as GapMap;
-  await fs.mkdir(path.resolve(args["--out"]), { recursive: true });
+  const outDir = path.resolve(args["--out"] ?? "docs/agile/reports/test-gaps");
+  await fs.mkdir(outDir, { recursive: true });
   const ts = new Date().toISOString().replace(/[:.]/g, "-");
-  const out = path.join(args["--out"], `test-gaps-${ts}.md`);
+  const out = path.join(outDir, `test-gaps-${ts}.md`);
 
   const rows = gaps.items
     .slice(0, 500)
@@ -41,7 +45,7 @@ async function main() {
 
   await fs.writeFile(out, md, "utf-8");
   await fs.writeFile(
-    path.join(args["--out"], "README.md"),
+    path.join(outDir, "README.md"),
     `# Test gap reports\n\n- [Latest](${path.basename(out)})\n`,
     "utf-8",
   );

@@ -1,14 +1,13 @@
 import * as path from "path";
-import { promises as fs } from "fs";
 
 import { z } from "zod";
 
-import { parseArgs, ollamaJSON, writeJSON } from "./utils.js";
+import { parseArgs, ollamaJSON } from "./utils.js";
+import { openLevelCache } from "@promethean/level-cache";
 import type { ScanOut, Outline, OutlinesFile } from "./types.js";
 
 const args = parseArgs({
-  "--scan": ".cache/readmes/scan.json",
-  "--out": ".cache/readmes/outlines.json",
+  "--cache": ".cache/readmes",
   "--model": "qwen3:4b",
 });
 
@@ -23,10 +22,11 @@ const OutlineSchema = z.object({
 });
 
 async function main() {
-  const scan = JSON.parse(
-    await fs.readFile(path.resolve(args["--scan"]), "utf-8"),
-  ) as ScanOut;
-  const outlines: Record<string, Outline> = {};
+  const cache = await openLevelCache<ScanOut | OutlinesFile>({
+    path: path.resolve(args["--cache"]),
+  });
+  const scan = (await cache.get("scan")) as ScanOut;
+  let outlines: Record<string, Outline> = {};
 
   for (const pkg of scan.packages) {
     const sys = [
@@ -52,7 +52,7 @@ async function main() {
       "If the repo uses Piper pipelines, mention how to run the relevant pipeline.",
     ].join("\n");
 
-    let obj: any;
+    let obj: unknown;
     try {
       obj = await ollamaJSON(
         args["--model"],
@@ -66,9 +66,12 @@ async function main() {
         sections: [
           {
             heading: "Install",
-            body: "```bash\npnpm -w add -D " + pkg.name + "\n```",
+            body: `\`\`\`bash\npnpm -w add -D ${pkg.name}\n\`\`\``,
           },
-          { heading: "Quickstart", body: "```ts\n// usage example\n```" },
+          {
+            heading: "Quickstart",
+            body: "```ts\n// usage example\n```",
+          },
           {
             heading: "Commands",
             body:
@@ -80,27 +83,38 @@ async function main() {
       };
     }
     const parsed = OutlineSchema.safeParse(obj);
-    const outline = parsed.success
+    const outlineRaw = parsed.success
       ? parsed.data
       : {
           title: pkg.name,
           tagline: pkg.description ?? "",
           includeTOC: true,
           sections: [
-            { heading: "Install", body: "pnpm add " + pkg.name },
+            { heading: "Install", body: `pnpm add ${pkg.name}` },
             { heading: "Usage", body: "(coming soon)" },
             { heading: "License", body: "MIT" },
           ],
         };
 
-    outlines[pkg.name] = { name: pkg.name, ...outline };
-  }
+    // eslint-disable-next-line functional/prefer-immutable-types
+    const outline: Outline = {
+      name: pkg.name,
+      title: outlineRaw.title,
+      tagline: outlineRaw.tagline,
+      includeTOC: outlineRaw.includeTOC,
+      sections: outlineRaw.sections,
+      ...(outlineRaw.badges?.length ? { badges: outlineRaw.badges } : {}),
+    };
 
+    outlines = { ...outlines, [pkg.name]: outline };
+  }
+  // eslint-disable-next-line functional/prefer-immutable-types
   const out: OutlinesFile = { plannedAt: new Date().toISOString(), outlines };
-  await writeJSON(path.resolve(args["--out"]), out);
+  await cache.set("outlines", out);
+  await cache.close();
   console.log(
     `readmeflow: outlined ${Object.keys(outlines).length} README(s) → ${
-      args["--out"]
+      args["--cache"]
     }`,
   );
 }
