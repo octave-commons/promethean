@@ -149,7 +149,7 @@ export async function runQuery(
       const e = (embs[j] ?? null) as number[] | null;
       if (e && Array.isArray(e) && e.length) {
         qEmbeddings.push(e);
-        qChunks.push(group[j]);
+        qChunks.push(group[j]!);
       }
     }
     if (!qEmbeddings.length) continue;
@@ -162,7 +162,7 @@ export async function runQuery(
     const allDists = (res.distances || []) as number[][];
 
     for (let j = 0; j < qChunks.length; j++) {
-      const q = qChunks[j];
+      const q = qChunks[j]!;
       const idsJ = (allIds[j] || []) as string[];
       const distsJ = (allDists[j] || []) as number[];
       const hits = Object.freeze(
@@ -200,22 +200,27 @@ if (isDirect) {
   const { openDB } = await import("./db");
   const db = await openDB();
   const client = new ChromaClient({});
+  const embedModel = args["--embed-model"] ?? "nomic-embed-text:latest";
+  const collection = args["--collection"] ?? "docs";
   const embedder = new OllamaEmbeddingFunction({
-    model: args["--embed-model"],
+    model: embedModel,
     url: OLLAMA_URL,
   });
   const coll = await client.getOrCreateCollection({
-    name: args["--collection"],
-    metadata: { embed_model: args["--embed-model"], "hnsw:space": "cosine" },
+    name: collection,
+    metadata: { embed_model: embedModel, "hnsw:space": "cosine" },
     embeddingFunction: embedder,
   });
+  const k = Math.max(1, Number(args["--k"] ?? "16") | 0) || 16;
+  const force = (args["--force"] ?? "false") === "true";
+  const debug = (args["--debug"] ?? "false") === "true";
   runQuery(
     {
-      embedModel: args["--embed-model"],
-      collection: args["--collection"],
-      k: Math.max(1, Number(args["--k"]) | 0) || 16,
-      force: args["--force"] === "true",
-      debug: args["--debug"] === "true",
+      embedModel,
+      collection,
+      k,
+      force,
+      debug,
     },
     db,
     coll,

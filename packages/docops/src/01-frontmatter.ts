@@ -101,11 +101,9 @@ export async function runFrontmatter(
   const isoFromBasename = (name: string) => {
     const base = name.replace(/\.[^.]+$/, "");
     const m = base.match(
-      /(\d{4})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})/
+      /(\d{4})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})\.(\d{2})/,
     );
-    return m
-      ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z`
-      : name;
+    return m ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z` : name;
   };
 
   const ensureBaseFront = (fpath: string, fm: Front): Front => {
@@ -224,12 +222,16 @@ if (isDirect) {
     "--dry-run": "false",
   });
   const db = await openDB();
+  const dir = args["--dir"] ?? "docs/unique";
+  const extsArg = args["--ext"] ?? ".md,.mdx,.txt";
+  const genModel = args["--gen-model"] ?? "qwen3:4b";
+  const dryRun = (args["--dry-run"] ?? "false") === "true";
   runFrontmatter(
     {
-      dir: args["--dir"],
-      exts: args["--ext"].split(","),
-      genModel: args["--gen-model"],
-      dryRun: args["--dry-run"] === "true",
+      dir,
+      exts: extsArg.split(","),
+      genModel,
+      dryRun,
     },
     db,
   )
