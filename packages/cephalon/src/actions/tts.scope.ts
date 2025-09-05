@@ -2,7 +2,7 @@ import { makePolicy, type PolicyChecker } from "@promethean/security";
 import { checkPermission } from "@promethean/legacy";
 
 import type { Bot } from "../bot.js";
-import { makeLogger, type Logger } from "../factories/logger.js";
+import { createLogger, type Logger } from "@promethean/utils/logger.js";
 
 export type TtsScope = {
   logger: Logger;
@@ -21,7 +21,7 @@ export async function buildTtsScope(): Promise<
   Pick<TtsScope, "logger" | "policy">
 > {
   return {
-    logger: makeLogger("tts"),
+    logger: createLogger({ service: "tts" }),
     policy: makePolicy({ permissionGate: checkPermission }),
   };
 }
