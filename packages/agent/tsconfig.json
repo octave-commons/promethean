@@ -5,11 +5,8 @@
         "outDir": "dist",
         "composite": true,
         "declaration": true,
-        "baseUrl": ".",
-        "paths": {
-            "@promethean/security": ["../security/src/index"],
-            "@promethean/security/*": ["../security/src/*"]
-        }
+        "composite": true,
+        "declaration": true
     },
     "include": ["src/**/*"],
     "references": [{ "path": "../security" }]
