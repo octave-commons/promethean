@@ -16,7 +16,7 @@ import type {
   Usage,
 } from "./types/openai.js";
 import { persistArtifact } from "./save.js";
-import { createLogger } from "./logger.js";
+import { createLogger } from "@promethean/utils/logger.js";
 configDotenv();
 
 export type AppDeps = {
@@ -30,7 +30,7 @@ export function createApp(deps: AppDeps = {}): Express {
   const app = express();
   app.use(bodyParser.json({ limit: "50mb" }));
 
-  const log = createLogger("codex-context");
+  const log = createLogger({ service: "codex-context" });
   const sessions: Map<string, any[]> = new Map();
 
   const rawBridgeUrl = process.env.SMARTGPT_URL || "http://127.0.0.1:3210";
@@ -587,7 +587,7 @@ export function createApp(deps: AppDeps = {}): Express {
 }
 
 export async function start() {
-  const log = createLogger("codex-context");
+  const log = createLogger({ service: "codex-context" });
   const app = createApp();
   const port = Number(process.env.PORT || 8140);
   return app.listen(port, "0.0.0.0", () => {
