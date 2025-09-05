@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 import fg from "fast-glob";
 import { Project, SyntaxKind } from "ts-morph";
-import { mkAliasRewriter, mkRelativeToJs } from "./lib.js";
+console.warn("@promethean/alias-rewrite is deprecated; use @promethean/naming instead.");
+import { mkAliasRewriter, mkRelativeToJs } from "@promethean/naming";
 
 type Args = { fromPrefix: string; toPrefix: string; globs: string[] };
 
 const parseArgs = (argv: string[]): Args => {
   const fromIdx = argv.indexOf("--from");
   const toIdx = argv.indexOf("--to");
-  const fromPrefix = fromIdx >= 0 ? argv[fromIdx + 1] : "@old";
-  const toPrefix = toIdx >= 0 ? argv[toIdx + 1] : "@new-";
+  const fromPrefix = fromIdx >= 0 ? argv[fromIdx + 1] ?? "@old" : "@old";
+  const toPrefix = toIdx >= 0 ? argv[toIdx + 1] ?? "@new-" : "@new-";
   const globs = argv.filter((x) => !x.startsWith("--"));
   return { fromPrefix, toPrefix, globs };
 };
@@ -74,20 +75,22 @@ const main = async () => {
       }
     });
 
-    sf.forEachDescendant((node) => {
-      if (node.getKind() !== SyntaxKind.ImportCall) return;
-      // @ts-ignore ts-morph dynamic
-      const arg = node.getExpression().getArguments?.()[0];
-      if (!arg || arg.getKind() !== SyntaxKind.StringLiteral) return;
-      // @ts-ignore
-      const lit = arg;
-      const old = lit.getLiteralText();
-      const next = rewriteSpec(old, alias, relToJs, sf.getFilePath());
-      if (next !== old) {
-        lit.setLiteralValue(next);
-        touched = true;
-      }
-    });
+      sf.forEachDescendant((node) => {
+        if (node.getKind() !== SyntaxKind.CallExpression) return;
+        // @ts-ignore
+        if (node.getExpression().getKind() !== SyntaxKind.ImportKeyword) return;
+        // @ts-ignore
+        const arg = node.getArguments?.()[0];
+        if (!arg || arg.getKind() !== SyntaxKind.StringLiteral) return;
+        // @ts-ignore
+        const lit = arg;
+        const old = lit.getLiteralText();
+        const next = rewriteSpec(old, alias, relToJs, sf.getFilePath());
+        if (next !== old) {
+          lit.setLiteralValue(next);
+          touched = true;
+        }
+      });
 
     if (touched) {
       sf.saveSync();
