@@ -13,7 +13,7 @@
   "dependencies": {
     "@promethean/migrations": "workspace:*",
     "@types/node": "^24.3.0",
-    "typescript": "^5.9.2"
+    "typescript": "5.9.2"
   },
   "devDependencies": {
     "ava": "^6.4.1",

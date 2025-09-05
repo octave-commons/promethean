@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
-    "typescript": "^5.5.4",
+    "typescript": "5.9.2",
     "yaml": "^2.5.0",
     "zod": "^3.23.8"
   },
