@@ -138,9 +138,9 @@ export async function* streamTreeConcurrent(root: string, opts: StreamOptions = 
             path: dirPath,
             relative: path.relative(base, dirPath),
             type,
-            size: type !== 'dir' ? s.size : undefined,
+            ...(type === 'file' ? { size: s.size } : {}),
             mtimeMs: s.mtimeMs,
-            ext: type === 'file' ? path.extname(name) : undefined,
+            ...(type === 'file' ? { ext: path.extname(name) } : {}),
             depth,
         };
 
@@ -171,18 +171,13 @@ export async function* streamTreeConcurrent(root: string, opts: StreamOptions = 
             while (true) {
                 const task = await nextTask();
                 if (!task) return;
-                try {
-                    const events = await processTask(task);
-                    for (const ev of events) {
-                        // Instead of yielding here, push events to a shared array or use another mechanism
-                        // But since this is a generator, we should yield events from the main generator loop below
-                        // So, do nothing here
-                    }
-                } finally {
-                    release();
-                }
-            }
-        })(),
+                  try {
+                      await processTask(task);
+                  } finally {
+                      release();
+                  }
+              }
+          })(),
     );
 
     // Main event loop: yield events as tasks are processed
