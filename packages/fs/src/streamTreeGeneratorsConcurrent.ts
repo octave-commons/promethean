@@ -176,7 +176,7 @@ export async function* streamTreeConcurrent(root: string, opts: StreamOptions = 
                     path: absPath,
                     relative: path.relative(base, absPath),
                     type: nodeType,
-                    ...(nodeType !== 'dir' ? { size: s.size } : {}),
+                    ...(nodeType === 'file' ? { size: s.size } : {}),
                     mtimeMs: s.mtimeMs,
                     ...(nodeType === 'file' ? { ext: path.extname(name) } : {}),
                     depth,

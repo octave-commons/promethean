@@ -94,7 +94,7 @@ export async function buildTree(root: string, opts: TreeOptions = {}): Promise<T
             path: p,
             relative,
             type,
-            ...(s.isDirectory() ? {} : { size: s.size }),
+            ...(type === 'file' ? { size: s.size } : {}),
             mtimeMs: s.mtimeMs,
             ...(type === 'file' ? { ext: path.extname(name) } : {}),
         };
@@ -158,7 +158,10 @@ export function filterTree(node: TreeNode, keep: (n: TreeNode) => boolean): Tree
  */
 export function collapseSingleChildDirs(node: TreeNode): TreeNode {
     if (!node.children || node.children.length !== 1) {
-        if (node.children) node.children = node.children.map(collapseSingleChildDirs);
+        if (node.children) {
+            const children = node.children.map(collapseSingleChildDirs);
+            return { ...node, children };
+        }
         return node;
     }
     const only = node.children[0]!;
@@ -175,8 +178,8 @@ export function collapseSingleChildDirs(node: TreeNode): TreeNode {
         };
         return collapseSingleChildDirs(merged);
     }
-    node.children = node.children.map(collapseSingleChildDirs);
-    return node;
+    const children = node.children.map(collapseSingleChildDirs);
+    return { ...node, children };
 }
 
 /** Minimal Dirent-like shim for the predicate hook */
