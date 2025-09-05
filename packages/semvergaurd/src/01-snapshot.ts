@@ -21,13 +21,13 @@ const args = parseArgs({
 });
 
 async function main() {
-  const ROOT = path.resolve(args["--root"]);
+  const ROOT = path.resolve(args["--root"] ?? "packages");
   const pkgs = await fs
     .readdir(ROOT, { withFileTypes: true })
     .then((ents) => ents.filter((e) => e.isDirectory()).map((e) => e.name));
 
   const project = new Project({
-    tsConfigFilePath: path.resolve(args["--tsconfig"]),
+    tsConfigFilePath: path.resolve(args["--tsconfig"] ?? "tsconfig.json"),
     skipAddingFilesFromTsConfig: true,
   });
 
@@ -65,6 +65,7 @@ async function main() {
       for (const ed of sf.getExportedDeclarations()) {
         const [name, decls] = ed;
         const d = decls[0];
+        if (!d) continue;
         const kindName = d.getKindName();
 
         if (kindName.endsWith("FunctionDeclaration")) {
@@ -177,11 +178,14 @@ async function main() {
     workspace.packages[pkgName] = snap;
   }
 
-  await writeJSON(path.resolve(args["--out"]), workspace);
+  const outPath = path.resolve(
+    args["--out"] ?? ".cache/semverguard/snapshot.json",
+  );
+  await writeJSON(outPath, workspace);
   console.log(
-    `semverguard: snapshot → ${args["--out"]} (${
-      Object.keys(workspace.packages).length
-    } packages)`,
+    `semverguard: snapshot → ${
+      args["--out"] ?? ".cache/semverguard/snapshot.json"
+    } (${Object.keys(workspace.packages).length} packages)`,
   );
 }
 

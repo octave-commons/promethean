@@ -68,10 +68,10 @@ type PkgJson = {
 function bump(v: string, kind: "major" | "minor" | "patch") {
   const m = v.match(/^(\d+)\.(\d+)\.(\d+)(?:[-+].*)?$/);
   if (!m) return v;
-  let [_, a, b, c] = m;
-  let A = +a,
-    B = +b,
-    C = +c;
+  let [, a, b, c] = m;
+  let A = +a!,
+    B = +b!,
+    C = +c!;
   if (kind === "major") return `${A + 1}.0.0`;
   if (kind === "minor") return `${A}.${B + 1}.0`;
   return `${A}.${B}.${C + 1}`;
@@ -195,16 +195,18 @@ async function loadWorkspacePackages(root: string) {
 }
 
 async function main() {
-  const plans = await readJSON<Plans>(path.resolve(args["--plans"]));
+  const plans = await readJSON<Plans>(
+    path.resolve(args["--plans"] ?? ".cache/semverguard/plans.json"),
+  );
   if (!plans) throw new Error("plans not found");
-  const ROOT = path.resolve(args["--root"]);
-  const OUT = path.resolve(args["--out"]);
-  const MODE = args["--mode"];
+  const ROOT = path.resolve(args["--root"] ?? "packages");
+  const OUT = path.resolve(args["--out"] ?? ".cache/semverguard/pr");
+  const MODE = (args["--mode"] ?? "prepare") as string;
   const UPDATE_DEPS = args["--update-dependents"] === "true";
-  const DEP_RANGE_MODE = args["--dep-range"];
-  const BR_PREFIX = args["--branch-prefix"];
-  const REMOTE = args["--remote"];
-  const CHANGELOG = args["--changelog"];
+  const DEP_RANGE_MODE = args["--dep-range"] ?? "preserve";
+  const BR_PREFIX = args["--branch-prefix"] ?? "semver";
+  const REMOTE = args["--remote"] ?? "origin";
+  const CHANGELOG = args["--changelog"] ?? "CHANGELOG.md";
   const USE_GH = args["--use-gh"] === "true";
 
   await fs.mkdir(OUT, { recursive: true });
