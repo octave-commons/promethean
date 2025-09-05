@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc -p .",
+    "build": "tsc -b",
     "start": "node dist/index.js",
     "test": "pnpm run build && SKIP_NETWORK_TESTS=1 ava --config ../../../config/ava.config.mjs tests/smoke.test.js --node-arguments='--enable-source-maps'",
     "coverage": "pnpm run build && SKIP_NETWORK_TESTS=1 c8 ava --config ../../../config/ava.config.mjs tests/smoke.test.js --node-arguments='--enable-source-maps'",
@@ -59,15 +59,15 @@
     "@promethean/security": "workspace:*"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.2",
-    "@types/node": "^22.17.2",
-    "@types/ws": "^8.5.12",
-    "ava": "^6.4.1",
-    "c8": "^9.1.0",
-    "rewrite-imports": "^3.0.0",
-    "rimraf": "^6.0.1",
-    "source-map-support": "^0.5.21",
-    "ts-node": "^10.9.2",
+    "@biomejs/biome": "2.2.2",
+    "@types/node": "22.17.2",
+    "@types/ws": "8.5.12",
+    "ava": "6.4.1",
+    "c8": "9.1.0",
+    "rewrite-imports": "3.0.0",
+    "rimraf": "6.0.1",
+    "source-map-support": "0.5.21",
+    "ts-node": "10.9.2",
     "typescript": "5.9.2"
   }
 }

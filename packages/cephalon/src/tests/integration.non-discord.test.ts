@@ -1,8 +1,9 @@
 import test from "ava";
 
+import { NotAllowedError } from "@promethean/security";
+
 import runLeave from "../actions/leave-voice.js";
 import { buildLeaveVoiceScope } from "../actions/leave-voice.scope.js";
-import { NotAllowedError } from "@promethean/security/policy.js";
 
 test("leave-voice action invokable via non-Discord scope builder (no bot ctx)", async (t) => {
   const scope = await buildLeaveVoiceScope();

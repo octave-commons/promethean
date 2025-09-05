@@ -23,18 +23,18 @@ export type PolicyChecker = {
 };
 
 export type ProviderAccessRule = {
-  allowAgentIds?: string[];
-  allowPatterns?: string[];
+  readonly allowAgentIds?: readonly string[];
+  readonly allowPatterns?: readonly string[];
 };
 
 export type PolicyContext = {
-  subject: string;
-  action?: string;
-  resource?: string;
-  capability?: Capability;
+  readonly subject: string;
+  readonly action?: string;
+  readonly resource?: string;
+  readonly capability?: Readonly<Capability>;
 };
 
-export type PolicyRule = (ctx: PolicyContext) => Promise<void> | void;
+export type PolicyRule = (ctx: Readonly<PolicyContext>) => Promise<void> | void;
 
 // packages/security/src/policy.ts
 
@@ -45,13 +45,11 @@ export type PolicyConfig = {
 };
 
 export function makePolicy(config: PolicyConfig = {}): PolicyChecker {
-  const rules: PolicyRule[] = [];
-  if (config.permissionGate)
-    rules.push(permissionGateRule(config.permissionGate));
-  if (config.providerAccess)
-    rules.push(providerAccessRule(config.providerAccess));
-  if (config.rules)
-    rules.push(...config.rules);
+  const rules: readonly PolicyRule[] = [
+    ...(config.permissionGate ? [permissionGateRule(config.permissionGate)] : []),
+    ...(config.providerAccess ? [providerAccessRule(config.providerAccess)] : []),
+    ...(config.rules ?? []),
+  ];
 
   return {
     async assertAllowed(subject: string, action: string, resource?: string) {
@@ -89,14 +87,20 @@ function providerAccessRule(rule: ProviderAccessRule): PolicyRule {
 }
 
 function globToRegExp(pat: string): RegExp {
-  const escaped = pat
+  const normalized = pat.trim();
+  if (normalized.length > 256) throw new NotAllowedError('Pattern too long');
+  const escaped = normalized
     .replace(/[.+^${}()|[\]\\]/g, '\\$&')
     .replace(/\*/g, '.*');
   return new RegExp(`^${escaped}$`);
 }
 
-async function runRules(ctx: PolicyContext, rules: PolicyRule[]) {
-  for (const rule of rules) {
+async function runRules(
+  ctx: Readonly<PolicyContext>,
+  rules: ReadonlyArray<PolicyRule>,
+) {
+  await rules.reduce<Promise<void>>(async (p, rule) => {
+    await p;
     await rule(ctx);
-  }
+  }, Promise.resolve());
 }
