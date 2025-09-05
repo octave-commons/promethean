@@ -68,11 +68,11 @@ export function makePolicy(config: PolicyConfig = {}): PolicyChecker {
 }
 
 function permissionGateRule(
-  checkPermission: (subject: string, action: string) => boolean,
+  checkPermission: (subject: string, action: string) => boolean | Promise<boolean>,
 ): PolicyRule {
-  return ({ subject, action }) => {
+  return async ({ subject, action }) => {
     if (!action) return;
-    const ok = checkPermission(subject, action);
+    const ok = await checkPermission(subject, action);
     if (!ok) throw new NotAllowedError('Permission denied');
   };
 }
