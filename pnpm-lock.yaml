@@ -819,6 +819,9 @@ importers:
 
   packages/codepack:
     dependencies:
+      '@promethean/fs-utils':
+        specifier: workspace:*
+        version: link:../fs-utils
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
@@ -2281,6 +2284,9 @@ importers:
 
   packages/fs:
     dependencies:
+      '@promethean/fs-utils':
+        specifier: workspace:*
+        version: link:../fs-utils
       '@promethean/stream':
         specifier: workspace:*
         version: link:../stream
@@ -2384,6 +2390,21 @@ importers:
       typescript:
         specifier: ^5.9.2
         version: 5.9.2
+
+  packages/fs-utils:
+    devDependencies:
+      ava:
+        specifier: 6.4.1
+        version: 6.4.1
+      rimraf:
+        specifier: 6.0.1
+        version: 6.0.1
+      tsx:
+        specifier: 4.19.2
+        version: 4.19.2
+      typescript:
+        specifier: 5.5.4
+        version: 5.5.4
 
   packages/hf-http:
     dependencies:
@@ -3730,6 +3751,9 @@ importers:
 
   packages/piper:
     dependencies:
+      '@promethean/fs-utils':
+        specifier: workspace:*
+        version: link:../fs-utils
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../level-cache
@@ -13805,6 +13829,7 @@ snapshots:
 
   '@promethean/fs@file:packages/fs(socks@2.8.7)':
     dependencies:
+      '@promethean/fs-utils': link:packages/fs-utils
       '@promethean/stream': link:packages/stream
       '@types/javascript-time-ago': 2.5.0
       '@types/unist': 3.0.3
@@ -13923,6 +13948,7 @@ snapshots:
 
   '@promethean/piper@file:packages/piper':
     dependencies:
+      '@promethean/fs-utils': link:packages/fs-utils
       '@promethean/level-cache': link:packages/level-cache
       chokidar: 3.6.0
       globby: 14.0.2
