@@ -1,278 +1,42 @@
 ---
-uuid: 5158f742-4a3b-466e-bfc3-d83517b64200
-created_at: 2025.08.26.12.04.21.md
-filename: Promethean Agent DSL TS Scaffold
+uuid: ee1a3ac8-7b0e-4174-a7c4-030c596acd17
+created_at: promethean-agent-dsl-ts-scaffold.md
+filename: promethean-agent-dsl-ts-scaffold
+title: promethean-agent-dsl-ts-scaffold
 description: >-
-  A single-paste bootstrap for creating a TypeScript scaffold for parsing and
-  generating Promethean Agent DSL (S-Expression) artifacts. Includes parser,
-  types, resolver, and codegen templates with example usage.
+  A single-paste bootstrap for creating a TypeScript scaffold for Promethean
+  Agent DSL (S-Expr) with parser, types, resolver, codegen, and example.
 tags:
   - typescript
   - s-expression
-  - agent
+  - promethean
   - dsl
   - parser
   - codegen
-  - promethean
-related_to_title:
-  - mystery-lisp-search-session
-  - promethean-system-diagrams
-  - Matplotlib Animation with Async Execution
-  - sibilant-meta-string-templating-runtime
-  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
-  - Local-Only-LLM-Workflow
-  - Local-Offline-Model-Deployment-Strategy
-  - Interop and Source Maps
-  - Language-Agnostic Mirror System
-  - i3-layout-saver
-  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
-  - ecs-scheduler-and-prefabs
-  - Promethean Agent Config DSL
-  - Event Bus MVP
-  - Pure-Node Crawl Stack with Playwright and Crawlee
-  - lisp-dsl-for-window-management
-  - Universal Lisp Interface
-  - compiler-kit-foundations
-  - heartbeat-simulation-snippets
-  - Voice Access Layer Design
-  - layer-1-uptime-diagrams
-  - Chroma-Embedding-Refactor
-  - Cross-Target Macro System in Sibilant
-  - Ghostly Smoke Interference
-  - Vectorial Exception Descent
-  - set-assignment-in-lisp-ast
-  - Lispy Macros with syntax-rules
-  - Recursive Prompt Construction Engine
-  - shared-package-layout-clarification
-  - Stateful Partitions and Rebalancing
-  - prom-lib-rate-limiters-and-replay-api
-  - WebSocket Gateway Implementation
-  - polymorphic-meta-programming-engine
-  - 'Promethean Pipelines: Local TypeScript-First Workflow'
-  - Promethean Full-Stack Docker Setup
-  - State Snapshots API and Transactional Projector
-  - Eidolon Field Abstract Model
-  - Fnord Tracer Protocol
-  - field-interaction-equations
-  - Factorio AI with External Agents
-  - eidolon-node-lifecycle
-  - field-node-diagram-set
-  - field-node-diagram-outline
-  - field-node-diagram-visualizations
-  - Fastify Static Files Plugin
-  - field-dynamics-math-blocks
-  - Functional Embedding Pipeline Refactor
-  - Event Bus Projections Architecture
-  - ecs-offload-workers
-  - Lisp-Compiler-Integration
-  - Prometheus Observability Stack
-  - Local-First Intention→Code Loop with Free Models
-  - EidolonField
-  - Mongo Outbox Implementation
-  - RAG UI Panel with Qdrant and PostgREST
-  - Cross-Language Runtime Polymorphism
-  - template-based-compilation
-  - System Scheduler with Resource-Aware DAG
-  - i3-config-validation-methods
-  - schema-evolution-workflow
-  - universal-intention-code-fabric
-  - Exception Layer Analysis
-  - observability-infrastructure-setup
-  - Refactor 05-footers.ts
-  - SentenceProcessing
-  - sibilant-metacompiler-overview
-  - pm2-orchestration-patterns
+  - example
 related_to_uuid:
-  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-  - b51e19b4-1326-4311-9798-33e972bf626c
-  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
-  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
-  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
-  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
-  - cdfac40c-00e4-458f-96a7-4c37d0278731
-  - d2b3628c-6cad-4664-8551-94ef8280851d
-  - 31f0166e-4631-45fa-aecd-b44e9a13f497
-  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
-  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
-  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
-  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
-  - d527c05d-22e8-4493-8f29-ae3cb67f035b
-  - c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-  - b01856b4-999f-418d-8009-ade49b00eb0f
-  - 01b21543-7e03-4129-8fe4-b6306be69dee
-  - 23e221e9-d4fa-4106-8458-06db2595085f
-  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-  - 4127189a-e0ab-436f-8571-cc852b8e9add
-  - 8b256935-02f6-4da2-a406-bf6b8415276f
-  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
-  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
-  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
-  - c5fba0a0-9196-468d-a0f3-51c99e987263
-  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
-  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
-  - 36c8882a-badc-4e18-838d-2c54d7038141
-  - 4330e8f0-5f46-4235-918b-39b6b93fa561
-  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
-  - e811123d-5841-4e52-bf8c-978f26db4230
-  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
-  - 6b63edca-7637-4fb0-bc85-d498c31cc46e
-  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - a4d90289-798d-44a0-a8e8-a055ae12fb52
-  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-  - 22b989d5-f4aa-4880-8632-709c21830f83
-  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-  - ce37a9b8-5984-4fb8-b9e7-f72470314975
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - a4a25141-6380-40b9-9cd7-b554b246b303
-  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
-  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-  - cfee6d36-b9f5-4587-885a-cdfddb4f054e
-  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
-  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
-  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
-  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
-  - e1056831-ae0c-460b-95fa-4cf09b3398c6
-  - c34c36a6-80c9-4b44-a200-6448543b1b33
-  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
-  - ba244286-4e84-425b-8bf6-b80c4eb783fc
-  - d28090ac-f746-4958-aab5-ed1315382c04
-  - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-  - c14edce7-0656-45b2-aaf3-51f042451b7d
-  - 21d5cc09-b005-4ede-8f69-00b4b0794540
-  - b4e64f8c-4dc9-4941-a877-646c5ada068e
-  - 80d4d883-59f9-401b-8699-7a2723148b1e
-  - 681a4ab2-8fef-4833-a09d-bceb62d114da
-  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
-  - 51932e7b-4237-4756-bcae-8be6d535d0d1
+  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
+  - 7a66bc1e-9276-41ce-ac22-fc08926acb2d
+  - 7b672b78-7057-4506-baf9-1262a6e477e3
+  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
+  - c46718fe-73dd-4236-8f1c-f6565da58cc4
+  - e4317155-7fa6-44e8-8aee-b72384581790
+  - 21913df0-a1c6-4ba0-a9e9-8ffc35a71d74
+related_to_title:
+  - Stateful Partitions and Rebalancing
+  - pm2-orchestration-patterns
+  - mystery-lisp-for-python-education
+  - dynamic-context-model-for-web-components
+  - shared-package-structure
+  - TypeScript Patch for Tool Calling Support
+  - Graph Data Structure
 references:
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 106
+  - uuid: 9a1076d6-1aac-497e-bac3-66c9ea09da55
+    line: 578
     col: 0
     score: 0.85
-  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
-    line: 187
-    col: 0
-    score: 0.9
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 588
-    col: 0
-    score: 0.89
-  - uuid: 23e221e9-d4fa-4106-8458-06db2595085f
-    line: 80
-    col: 0
-    score: 0.88
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 280
-    col: 0
-    score: 0.87
-  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-    line: 185
-    col: 0
-    score: 0.94
-  - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
-    line: 289
-    col: 0
-    score: 0.87
-  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
-    line: 95
-    col: 0
-    score: 0.86
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 147
-    col: 0
-    score: 0.95
-  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
-    line: 148
-    col: 0
-    score: 0.86
-  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
-    line: 375
-    col: 0
-    score: 0.85
-  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
-    line: 147
-    col: 0
-    score: 0.85
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 497
-    col: 0
-    score: 0.95
-  - uuid: b51e19b4-1326-4311-9798-33e972bf626c
-    line: 169
-    col: 0
-    score: 0.97
-  - uuid: 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
-    line: 44
-    col: 0
-    score: 0.97
-  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
-    line: 92
-    col: 0
-    score: 0.96
-  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
-    line: 490
-    col: 0
-    score: 0.95
-  - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
-    line: 232
-    col: 0
-    score: 0.95
-  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
-    line: 504
-    col: 0
-    score: 0.95
-  - uuid: 31f0166e-4631-45fa-aecd-b44e9a13f497
-    line: 79
-    col: 0
-    score: 0.95
-  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
-    line: 151
-    col: 0
-    score: 0.94
-  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
-    line: 376
-    col: 0
-    score: 0.94
-  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
-    line: 279
-    col: 0
-    score: 0.94
-  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
-    line: 524
-    col: 0
-    score: 0.94
-  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
-    line: 400
-    col: 0
-    score: 0.94
-  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
-    line: 137
-    col: 0
-    score: 0.85
-  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
-    line: 129
-    col: 0
-    score: 0.87
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 150
-    col: 0
-    score: 0.87
-  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
-    line: 40
-    col: 0
-    score: 0.86
-  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
-    line: 491
-    col: 0
-    score: 0.87
-  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
-    line: 272
+  - uuid: 9a1076d6-1aac-497e-bac3-66c9ea09da55
+    line: 36
     col: 0
     score: 0.85
 ---
@@ -1105,105 +869,128 @@ Want me to tack on a tiny `prom` CLI (Node) next that:
 - writes artifacts into `dist/agents/<id>/`,
 - and optionally spawns via PM2 or a minimal custom runner?
 ^ref-5158f742-817-0
-```<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
-## Related content
-- [mystery-lisp-search-session](mystery-lisp-search-session.md)
-- [promethean-system-diagrams](promethean-system-diagrams.md)
-- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
-- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
-- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
-- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
-- [Interop and Source Maps](interop-and-source-maps.md)
-- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
-- [i3-layout-saver](i3-layout-saver.md)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
-- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
-- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
-- [Event Bus MVP](event-bus-mvp.md)
-- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
-- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
-- [Universal Lisp Interface](universal-lisp-interface.md)
-- [compiler-kit-foundations](compiler-kit-foundations.md)
-- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
-- [Voice Access Layer Design](voice-access-layer-design.md)
-- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
-- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
-- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
-- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
-- [Vectorial Exception Descent](vectorial-exception-descent.md)
-- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
-- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
-- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
-- [shared-package-layout-clarification](shared-package-layout-clarification.md)
-- [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
-- [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
-- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
-- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
-- [Promethean Pipelines: Local TypeScript-First Workflow](promethean-pipelines-local-typescript-first-workflow.md)
-- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
-- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
-- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
-- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
-- [field-interaction-equations](field-interaction-equations.md)
-- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
-- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
-- [field-node-diagram-set](field-node-diagram-set.md)
-- [field-node-diagram-outline](field-node-diagram-outline.md)
-- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
-- [Fastify Static Files Plugin](fastify-static-files-plugin.md)
-- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
-- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
-- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
-- [ecs-offload-workers](ecs-offload-workers.md)
-- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
-- [Prometheus Observability Stack](prometheus-observability-stack.md)
-- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [EidolonField](eidolonfield.md)
-- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
-- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
-- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
-- [template-based-compilation](template-based-compilation.md)
-- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
-- [i3-config-validation-methods](i3-config-validation-methods.md)
-- [schema-evolution-workflow](schema-evolution-workflow.md)
-- [universal-intention-code-fabric](universal-intention-code-fabric.md)
-- [Exception Layer Analysis](exception-layer-analysis.md)
-- [observability-infrastructure-setup](observability-infrastructure-setup.md)
-- [Refactor 05-footers.ts](refactor-05-footers-ts.md)
-- [SentenceProcessing](sentenceprocessing.md)
-- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
-- [pm2-orchestration-patterns](pm2-orchestration-patterns.md)
-## Sources
-- [mystery-lisp-search-session — L106](mystery-lisp-search-session.md#^ref-513dc4c7-106-0) (line 106, col 0, score 0.85)
-- [Universal Lisp Interface — L187](universal-lisp-interface.md#^ref-b01856b4-187-0) (line 187, col 0, score 0.9)
-- [compiler-kit-foundations — L588](compiler-kit-foundations.md#^ref-01b21543-588-0) (line 588, col 0, score 0.89)
-- [heartbeat-simulation-snippets — L80](heartbeat-simulation-snippets.md#^ref-23e221e9-80-0) (line 80, col 0, score 0.88)
-- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.87)
-- [lisp-dsl-for-window-management — L185](lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0) (line 185, col 0, score 0.94)
-- [Chroma-Embedding-Refactor — L289](chroma-embedding-refactor.md#^ref-8b256935-289-0) (line 289, col 0, score 0.87)
-- [Vectorial Exception Descent — L95](vectorial-exception-descent.md#^ref-d771154e-95-0) (line 95, col 0, score 0.86)
-- [Local-Only-LLM-Workflow — L147](local-only-llm-workflow.md#^ref-9a8ab57e-147-0) (line 147, col 0, score 0.95)
-- [set-assignment-in-lisp-ast — L148](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0) (line 148, col 0, score 0.86)
-- [Lispy Macros with syntax-rules — L375](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-375-0) (line 375, col 0, score 0.85)
-- [Recursive Prompt Construction Engine — L147](recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0) (line 147, col 0, score 0.85)
-- [Interop and Source Maps — L497](interop-and-source-maps.md#^ref-cdfac40c-497-0) (line 497, col 0, score 0.95)
-- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.97)
-- [Matplotlib Animation with Async Execution — L44](matplotlib-animation-with-async-execution.md#^ref-687439f9-44-0) (line 44, col 0, score 0.97)
-- [sibilant-meta-string-templating-runtime — L92](sibilant-meta-string-templating-runtime.md#^ref-2aafc801-92-0) (line 92, col 0, score 0.96)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L490](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-490-0) (line 490, col 0, score 0.95)
-- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.95)
-- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.95)
-- [i3-layout-saver — L79](i3-layout-saver.md#^ref-31f0166e-79-0) (line 79, col 0, score 0.95)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L151](ollama-llm-provider-for-pseudo-code-transpiler.md#^ref-b362e12e-151-0) (line 151, col 0, score 0.94)
-- [ecs-scheduler-and-prefabs — L376](ecs-scheduler-and-prefabs.md#^ref-c62a1815-376-0) (line 376, col 0, score 0.94)
-- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.94)
-- [Event Bus MVP — L524](event-bus-mvp.md#^ref-534fe91d-524-0) (line 524, col 0, score 0.94)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L400](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-400-0) (line 400, col 0, score 0.94)
-- [shared-package-layout-clarification — L137](shared-package-layout-clarification.md#^ref-36c8882a-137-0) (line 137, col 0, score 0.85)
-- [layer-1-uptime-diagrams — L129](layer-1-uptime-diagrams.md#^ref-4127189a-129-0) (line 129, col 0, score 0.87)
-- [Cross-Target Macro System in Sibilant — L150](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-150-0) (line 150, col 0, score 0.87)
-- [Ghostly Smoke Interference — L40](ghostly-smoke-interference.md#^ref-b6ae7dfa-40-0) (line 40, col 0, score 0.86)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.87)
-- [Stateful Partitions and Rebalancing — L272](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-272-0) (line 272, col 0, score 0.85)
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+```
+erviceToScript(p.service);
+return {
+name: `agent:${p.name}`,
+script,
+args: p.args ? JSON.stringify(p.args) : undefined,
+env: mapEnv(p.env),
+autorestart: true
+};
+}
+ ^ref-5158f742-716-0
+function serviceToScript(svc: string) {
+// naive mapping; adjust as needed
+if (svc.endsWith(".ts")) return svc;
+if (svc.startsWith("services/")) return `${svc}/index.ts`;
+return svc;
+}
+ ^ref-5158f742-723-0
+function mapEnv(env?: Record\<string, any>) {
+if (!env) return undefined;
+const out: Record\<string, string> = {};
+for (const \[k, v] of Object.entries(env)) {
+out\[k] = typeof v === 'string' ? v : JSON.stringify(v);
+}
+return out;
+}
+EOF
+
+# src/codegen/env.ts
+ ^ref-5158f742-735-0
+cat > "\$ROOT/src/codegen/env.ts" <<'EOF'
+import { AgentModule } from "../types/dsl.js";
+ ^ref-5158f742-738-0
+export function emitDotEnv(agent: AgentModule): string {
+const lines: string\[] = \[];
+for (const \[k, v] of Object.entries(agent.env)) {
+if (typeof v === 'string') lines.push(`${k}=${escapeVal(v)}`);
+else if (v && v.kind === 'secret') lines.push(`${k}=${`**SECRET**:\${v.key}`}`);
+}
+return lines.join('\n') + '\n';
+}
+ ^ref-5158f742-747-0
+function escapeVal(v: string) {
+if (/\[\s#]/.test(v)) return JSON.stringify(v);
+return v;
+}
+EOF
+
+# src/codegen/permissions.ts
+ ^ref-5158f742-755-0
+cat > "\$ROOT/src/codegen/permissions.ts" <<'EOF'
+import { AgentModule } from "../types/dsl.js";
+ ^ref-5158f742-758-0
+export function emitPermissionsJSON(agent: AgentModule): string {
+// no further processing; emit as-is
+return JSON.stringify(agent.perms ?? {}, null, 2) + '\n';
+}
+EOF
+
+# src/index.ts
+ ^ref-5158f742-766-0
+cat > "\$ROOT/src/index.ts" <<'EOF'
+import { parseModule } from "./parser/index.js";
+import { Module, AgentModule } from "./types/dsl.js";
+import { composeAgent, registryFromModules } from "./resolver.js";
+import { emitPm2Ecosystem } from "./codegen/pm2.js";
+import { emitDotEnv } from "./codegen/env.js";
+import { emitPermissionsJSON } from "./codegen/permissions.js";
+ ^ref-5158f742-774-0
+export type BuiltArtifacts = {
+pm2: string;
+env: string;
+permissions: string;
+};
+ ^ref-5158f742-780-0
+export function buildAgentArtifacts(ast: any): { agent: AgentModule, artifacts: BuiltArtifacts } {
+const mods = parseModule(ast);
+const agent = mods.find(m => (m as Module).kind === 'agent') as AgentModule | undefined;
+if (!agent) throw new Error('No (agent ...) form found');
+const reg = registryFromModules(mods);
+const composed = composeAgent(agent, reg);
+ ^ref-5158f742-787-0
+const artifacts: BuiltArtifacts = {
+pm2: emitPm2Ecosystem(composed),
+env: emitDotEnv(composed),
+permissions: emitPermissionsJSON(composed)
+};
+return { agent: composed, artifacts };
+}
+EOF
+
+# examples/duck.sx
+ ^ref-5158f742-798-0
+cat > "\$ROOT/examples/duck.sx" <<'EOF'
+(agent
+\:id duck
+\:name "Duck"
+(use discord.bot/v1)
+(env {\:DISCORD\_TOKEN (secret \:discord/duck)})
+(perm
+(fs \:read \["/data/\*\*"])
+(net \:egress \["\*.discord.com"])
+(gpu \:allow true))
+(topology
+(proc \:name \:discord \:service "services/ts/discord" \:args {\:agent "duck"})
+(link \:from \:discord \:to \:cephalon \:via \:ws)))
+EOF
+ ^ref-5158f742-813-0
+echo "Wrote scaffold to \$ROOT"
+echo "Next:"
+echo "  cd \$ROOT && npm i && npm run build"
+ ^ref-5158f742-817-0
+```
+
+Quick notes:
+- This is **runtime-agnostic**; `emitPm2Ecosystem` gives you a ready `ecosystem.config.mjs` string if you want PM2, but you can also read `agent.topology` directly for a custom runner.
+- `:secret` forms emit `__SECRET__:ns/key` placeholders in `.env`. Wire your secret resolver at run/start time.
+- Block parameter substitution uses `:$param` in block `proc.args`, filled from `(use some.block/vN :with {:param ...})`.
+
+Want me to tack on a tiny `prom` CLI (Node) next that:
+- reads `.sx`, calls your reader → `coerceNode` → `buildAgentArtifacts`,
+- writes artifacts into `dist/agents/<id>/`,
+- and optionally spawns via PM2 or a minimal custom runner?
+^ref-5158f742-817-0
+```

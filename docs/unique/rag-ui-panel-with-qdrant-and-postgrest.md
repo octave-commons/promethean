@@ -1,75 +1,26 @@
 ---
-uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-created_at: 2025.08.31.10.49.42.md
+uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+created_at: rag-ui-panel-with-qdrant-and-postgrest.md
 filename: RAG UI Panel with Qdrant and PostgREST
+title: RAG UI Panel with Qdrant and PostgREST
 description: >-
-  A drop-in RAG UI panel that integrates with Qdrant (HTTP API) and Postgres via
-  PostgREST, using NGINX for token-gated access. Includes collection browser,
-  vector search with TEI nomic embeddings, and a Postgres table viewer.
+  A drop-in RAG UI panel that integrates with Qdrant (HTTP API) and PostgreSQL
+  via PostgREST, using NGINX for edge routing with token-based authentication.
+  Includes collection browser, vector search with TEI nomic embeddings, and a
+  Postgres table viewer.
 tags:
   - RAG
   - Qdrant
   - PostgREST
-  - PostgreSQL
   - NGINX
-  - TEI
   - vector search
-related_to_title:
-  - sibilant-meta-string-templating-runtime
-  - ecs-scheduler-and-prefabs
-  - Voice Access Layer Design
-  - System Scheduler with Resource-Aware DAG
-  - Pure-Node Crawl Stack with Playwright and Crawlee
-  - universal-intention-code-fabric
-  - i3-config-validation-methods
-  - Local-Offline-Model-Deployment-Strategy
-  - State Snapshots API and Transactional Projector
-  - Pure TypeScript Search Microservice
-  - Promethean Infrastructure Setup
-  - Stateful Partitions and Rebalancing
-  - schema-evolution-workflow
-  - plan-update-confirmation
-  - homeostasis-decay-formulas
-  - Docops Feature Updates
-  - Chroma Toolkit Consolidation Plan
-  - Ghostly Smoke Interference
-  - Event Bus MVP
-  - Refactor 05-footers.ts
-  - Promethean Web UI Setup
-  - compiler-kit-foundations
-  - Language-Agnostic Mirror System
-  - polymorphic-meta-programming-engine
-  - SentenceProcessing
-  - markdown-to-org-transpiler
-  - layer-1-uptime-diagrams
-  - lisp-dsl-for-window-management
-  - Promethean Full-Stack Docker Setup
-  - Matplotlib Animation with Async Execution
-  - Eidolon-Field-Optimization
-  - Vectorial Exception Descent
-  - Interop and Source Maps
-  - 'Promethean Pipelines: Local TypeScript-First Workflow'
-  - mystery-lisp-search-session
-  - pm2-orchestration-patterns
-  - Promethean Agent Config DSL
-  - Sibilant Meta-Prompt DSL
-  - Local-Only-LLM-Workflow
-  - prom-lib-rate-limiters-and-replay-api
-  - Mongo Outbox Implementation
-  - file-watcher-auth-fix
-  - observability-infrastructure-setup
-  - komorebi-group-window-hack
-  - typed-struct-compiler
-  - sibilant-metacompiler-overview
-  - Unique Info Dump Index
-  - Migrate to Provider-Tenant Architecture
-  - Diagrams
-  - ecs-offload-workers
-  - Refactor Frontmatter Processing
-  - Promethean-native config design
-  - Shared Package Structure
-  - Lisp-Compiler-Integration
+  - TEI
+  - prometheus
+  - docker
+  - webui
 related_to_uuid:
+  - 26bd1c45-3706-4bc2-9c46-78e035056f61
+  - e108b8dd-c7e8-4245-8bfe-dd475c8aedf1
   - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
   - c62a1815-c43b-4a3b-88e6-d7fa008a155e
   - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
@@ -93,38 +44,57 @@ related_to_uuid:
   - bc5172ca-7a09-42ad-b418-8e42bb14d089
   - 01b21543-7e03-4129-8fe4-b6306be69dee
   - d2b3628c-6cad-4664-8551-94ef8280851d
-  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
-  - 681a4ab2-8fef-4833-a09d-bceb62d114da
-  - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-  - 4127189a-e0ab-436f-8571-cc852b8e9add
-  - c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
-  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
-  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
-  - cdfac40c-00e4-458f-96a7-4c37d0278731
-  - 6b63edca-7637-4fb0-bc85-d498c31cc46e
-  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-  - 51932e7b-4237-4756-bcae-8be6d535d0d1
-  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
-  - af5d2824-faad-476c-a389-e912d9bc672c
-  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
-  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
-  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
-  - b4e64f8c-4dc9-4941-a877-646c5ada068e
-  - dd89372d-10de-42a9-8c96-6bc13ea36d02
-  - 78eeedf7-75bc-4692-a5a7-bb6857270621
-  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
-  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - 54382370-1931-4a19-a634-46735708a9ea
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-  - cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
-  - ab748541-020e-4a7e-b07d-28173bd5bea2
-  - 66a72fc3-4153-41fc-84bd-d6164967a6ff
-  - cfee6d36-b9f5-4587-885a-cdfddb4f054e
+related_to_title:
+  - git-commit-ollama-semantic-grouping
+  - Git Intelligence for Strategic Code Management
+  - sibilant-meta-string-templating-runtime
+  - ecs-scheduler-and-prefabs
+  - Voice Access Layer Design
+  - System Scheduler with Resource-Aware DAG
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - universal-intention-code-fabric
+  - i3-config-validation-methods
+  - Local-Offline-Model-Deployment-Strategy
+  - State Snapshots API and Transactional Projector
+  - Pure TypeScript Search Microservice
+  - Promethean Infrastructure Setup
+  - Stateful Partitions and Rebalancing
+  - schema-evolution-workflow
+  - plan-update-confirmation
+  - homeostasis-decay-formulas
+  - Docops Feature Updates
+  - Chroma Toolkit Consolidation Plan
+  - Ghostly Smoke Interference
+  - Event Bus MVP
+  - Refactor 05-footers.ts
+  - prom ui bootstrap
+  - compiler-kit-foundations
+  - Language-Agnostic Mirror System
 references:
+  - uuid: 26bd1c45-3706-4bc2-9c46-78e035056f61
+    line: 103
+    col: 0
+    score: 1
+  - uuid: 26bd1c45-3706-4bc2-9c46-78e035056f61
+    line: 284
+    col: 0
+    score: 1
+  - uuid: e108b8dd-c7e8-4245-8bfe-dd475c8aedf1
+    line: 1
+    col: 0
+    score: 1
+  - uuid: e108b8dd-c7e8-4245-8bfe-dd475c8aedf1
+    line: 6
+    col: 0
+    score: 1
+  - uuid: 26bd1c45-3706-4bc2-9c46-78e035056f61
+    line: 108
+    col: 0
+    score: 0.94
+  - uuid: 26bd1c45-3706-4bc2-9c46-78e035056f61
+    line: 289
+    col: 0
+    score: 0.94
   - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
     line: 92
     col: 0
@@ -232,7 +202,7 @@ Append these **two locations** to your existing `server { ... }` in `infra/nginx
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
       proxy_set_header X-Forwarded-Proto $scheme;
       rewrite ^/rag/qdrant/(.*)$ /$1 break;
-      proxy_pass http://qdrant:6333/;
+      proxy_pass 
     }
 
     # -------- RAG: PostgREST (PG over HTTP) --------
@@ -245,7 +215,7 @@ Append these **two locations** to your existing `server { ... }` in `infra/nginx
       proxy_set_header X-Forwarded-Proto $scheme;
       rewrite ^/rag/pg/(.*)$ /$1 break;
 ^ref-e1056831-81-0
-      proxy_pass http://postgrest:3000/; ^ref-e1056831-107-0
+      proxy_pass  ^ref-e1056831-107-0
     }
 ``` ^ref-e1056831-110-0
 ^ref-e1056831-109-0
@@ -461,7 +431,7 @@ function escapeHtml(s:string){
 ```bash
 curl -s -H "X-API-Key: CHANGEME" -H "Content-Type: application/json" \
   -d '{ "vectors": { "size": 768, "distance": "Cosine" }, "on_disk": true }' \
-  http://localhost/rag/qdrant/collections/demo
+  
 ^ref-e1056831-300-0
 
 # upsert two points
@@ -478,7 +448,7 @@ curl -s -H "X-API-Key: CHANGEME" -H "Content-Type: application/json" \
 ^ref-e1056831-329-0 ^ref-e1056831-336-0
 ^ref-e1056831-327-0
 ^ref-e1056831-325-0
-  http://localhost/rag/qdrant/collections/demo/points
+  
 ```
  ^ref-e1056831-343-0
 ## Postgres (insert a doc) ^ref-e1056831-325-0
@@ -499,7 +469,7 @@ docker compose -f docker-compose.yaml -f docker-compose.rag.yaml exec -T pg psql
  ^ref-e1056831-355-0
 # 4) Use it ^ref-e1056831-356-0
  ^ref-e1056831-357-0
-1. Open `http://localhost/ui/` ^ref-e1056831-358-0
+1. Open ` ^ref-e1056831-358-0
 2. Paste your `X-API-Key` in the top card. ^ref-e1056831-352-0
 3. Scroll to **RAG Panel**:
  ^ref-e1056831-354-0
@@ -543,64 +513,26 @@ flowchart LR
   * PG `embedding vector(DIM)`
 * **Security**: The UI still loads without a token; all `/rag/*`, `/embed/*`, etc. remain gated by `X-API-Key`.
 * **Schema**: If you’ve got a richer PG schema, expose read-only views and grant `select` to `web_anon`, then point the UI at those endpoints (e.g., `/rag/pg/my_view?select=...`).
-* **Next**: I can add a **chunker + upsert** panel (drop files → split → embed → write to PG and/or Qdrant) if you want ingest from the browser.<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
-## Related content
-- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
-- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
-- [Voice Access Layer Design](voice-access-layer-design.md)
-- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
-- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
-- [universal-intention-code-fabric](universal-intention-code-fabric.md)
-- [i3-config-validation-methods](i3-config-validation-methods.md)
-- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
-- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
-- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
-- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
-- [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
-- [schema-evolution-workflow](schema-evolution-workflow.md)
-- [plan-update-confirmation](plan-update-confirmation.md)
-- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
-- [Docops Feature Updates](docops-feature-updates-2.md)
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
-- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
-- [Event Bus MVP](event-bus-mvp.md)
-- [Refactor 05-footers.ts](refactor-05-footers-ts.md)
-- [Promethean Web UI Setup](promethean-web-ui-setup.md)
-- [compiler-kit-foundations](compiler-kit-foundations.md)
-- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
-- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
-- [SentenceProcessing](sentenceprocessing.md)
-- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
-- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
-- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
-- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
-- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
-- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
-- [Vectorial Exception Descent](vectorial-exception-descent.md)
-- [Interop and Source Maps](interop-and-source-maps.md)
-- [Promethean Pipelines: Local TypeScript-First Workflow](promethean-pipelines-local-typescript-first-workflow.md)
-- [mystery-lisp-search-session](mystery-lisp-search-session.md)
-- [pm2-orchestration-patterns](pm2-orchestration-patterns.md)
-- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
-- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
-- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
-- [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
-- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
-- [file-watcher-auth-fix](file-watcher-auth-fix.md)
-- [observability-infrastructure-setup](observability-infrastructure-setup.md)
-- [komorebi-group-window-hack](komorebi-group-window-hack.md)
-- [typed-struct-compiler](typed-struct-compiler.md)
-- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
-- [Unique Info Dump Index](unique-info-dump-index.md)
-- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
-- [Diagrams](chunks/diagrams.md)
-- [ecs-offload-workers](ecs-offload-workers.md)
-- [Refactor Frontmatter Processing](refactor-frontmatter-processing.md)
-- [Promethean-native config design](promethean-native-config-design.md)
-- [Shared Package Structure](shared-package-structure.md)
-- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
-## Sources
-- [sibilant-meta-string-templating-runtime — L92](sibilant-meta-string-templating-runtime.md#^ref-2aafc801-92-0) (line 92, col 0, score 0.88)
-- [ecs-scheduler-and-prefabs — L379](ecs-scheduler-and-prefabs.md#^ref-c62a1815-379-0) (line 379, col 0, score 0.86)
-- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.85)
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+* **Next**: I can add a **chunker + upsert** panel (drop files → split → embed → write to PG and/or Qdrant) if you want ingest from the browser.
+ref-e1056831-357-0 ^ref-e1056831-374-0
+^ref-e1056831-356-0
+^ref-e1056831-374-0
+  subgraph Edge (NGINX) ^ref-e1056831-352-0 ^ref-e1056831-384-0
+    E -->|/rag/qdrant/* + X-API-Key| Q[qdrant:6333]
+    E -->|/rag/pg/* + X-API-Key| P[postgrest:3000 → pg:5432] ^ref-e1056831-354-0
+    E -->|/embed/nomic/* + X-API-Key| TEI[tei-nomic:80] ^ref-e1056831-355-0
+  end ^ref-e1056831-356-0
+  B -->|/ui/* (no token)| W[web:80] ^ref-e1056831-357-0
+``` ^ref-e1056831-358-0
+
+--- ^ref-e1056831-374-0 ^ref-e1056831-384-0
+
+## Notes / tweaks
+
+* **Embedding dim**: I assumed `768` (fits `nomic-embed-text-v1.5`). If you switch TEI models, update:
+
+  * Qdrant collection `vectors.size`
+  * PG `embedding vector(DIM)`
+* **Security**: The UI still loads without a token; all `/rag/*`, `/embed/*`, etc. remain gated by `X-API-Key`.
+* **Schema**: If you’ve got a richer PG schema, expose read-only views and grant `select` to `web_anon`, then point the UI at those endpoints (e.g., `/rag/pg/my_view?select=...`).
+* **Next**: I can add a **chunker + upsert** panel (drop files → split → embed → write to PG and/or Qdrant) if you want ingest from the browser.

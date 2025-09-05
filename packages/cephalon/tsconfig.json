@@ -16,5 +16,6 @@
     "types": ["node"]
   },
   "include": ["src/**/*"],
-  "exclude": ["dist"]
+  "exclude": ["dist"],
+  "references": [{ "path": "../security" }]
 }
