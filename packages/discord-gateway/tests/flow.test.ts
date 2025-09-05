@@ -1,10 +1,10 @@
 import test from "ava";
 import { InMemoryEventBus } from "@shared/prom-lib";
-import { GatewayPublisher } from "../src/gateway.js";
-import { handleSocialMessageCreated as indexMessage } from "../../discord-message-indexer/src/index.js";
-import { handleSocialMessageCreated as indexAttachments } from "../../discord-attachment-indexer/src/index.js";
-import { embedMessage } from "../../discord-message-embedder/src/index.js";
-import { embedAttachments } from "../../attachment-embedder/src/index.js";
+import { GatewayPublisher } from "../src/gateway.ts";
+import { handleSocialMessageCreated as indexMessage } from "../../discord-message-indexer/src/index.ts";
+import { handleSocialMessageCreated as indexAttachments } from "../../discord-attachment-indexer/src/index.ts";
+import { embedMessage } from "../../discord-message-embedder/src/index.ts";
+import { embedAttachments } from "../../attachment-embedder/src/index.ts";
 
 test("end-to-end: raw -> normalized -> index + embed", async (t) => {
   process.env.DISCORD_TOKEN_DUCK = "x";

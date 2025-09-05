@@ -1,6 +1,6 @@
 import test from 'ava';
 import { WebSocket } from 'ws';
-import { start, setGenerateFn } from '../dist/index.js';
+import { start, setGenerateFn } from '../index.ts';
 
 let server;
 

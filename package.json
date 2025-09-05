@@ -5,7 +5,7 @@
   "scripts": {
     "generate_mcp_configs": "bb ./mk/mcp-compile.clj ./config/mcp_servers.edn ~/.codex/config.toml ~/.config/mcp/config.json ~/.config/Code/User/mcp.json",
     "test": "pnpm run test:unit",
-    "test:unit": "pnpm -r run build && ava --config ./config/ava.config.mjs \"services/**/dist/**/*.test.js\" \"services/**/dist/**/tests/**/*.js\" \"packages/**/dist/**/*.test.js\" \"packages/**/dist/**/test/**/*.js\" \"packages/**/dist/**/tests/**/*.js\" \"shared/**/dist/**/*.test.js\" \"shared/**/dist/**/tests/**/*.js\" \"templates/**/dist/**/test/**/*.js\" \"templates/**/dist/**/tests/**/*.js\" \"services/**/tests/**/*.js\" \"packages/**/tests/**/*.js\" \"shared/**/tests/**/*.js\" \"templates/**/tests/**/*.js\" \"tests/**/*.js\" \"!**/*integration*.*\" \"!**/*e2e*.*\" \"!**/integration/**\" \"!**/e2e/**\" \"!**/system/**\"",
+    "test:unit": "ava --config ./config/ava.config.mjs",
     "test:integration": "pnpm -r run build && ava --config ./config/ava.config.mjs \"services/**/dist/**/*integration*.js\" \"services/**/dist/**/integration/**/*.js\" \"packages/**/dist/**/*integration*.js\" \"packages/**/dist/**/integration/**/*.js\" \"shared/**/dist/**/*integration*.js\" \"shared/**/dist/**/integration/**/*.js\" \"templates/**/dist/**/*integration*.js\" \"templates/**/dist/**/integration/**/*.js\" \"services/**/tests/**/*integration*.js\" \"services/**/tests/**/integration/**/*.js\" \"packages/**/tests/**/*integration*.js\" \"packages/**/tests/**/integration/**/*.js\" \"shared/**/tests/**/*integration*.js\" \"shared/**/tests/**/integration/**/*.js\" \"templates/**/tests/**/*integration*.js\" \"templates/**/tests/**/integration/**/*.js\" \"tests/**/*integration*.js\" \"tests/**/integration/**/*.js\"",
     "test:e2e": "pnpm -r run build && ava --config ./config/ava.config.mjs \"services/**/dist/**/*e2e*.js\" \"services/**/dist/**/e2e/**/*.js\" \"services/**/dist/**/system/**/*.js\" \"packages/**/dist/**/*e2e*.js\" \"packages/**/dist/**/e2e/**/*.js\" \"packages/**/dist/**/system/**/*.js\" \"shared/**/dist/**/*e2e*.js\" \"shared/**/dist/**/e2e/**/*.js\" \"shared/**/dist/**/system/**/*.js\" \"templates/**/dist/**/*e2e*.js\" \"templates/**/dist/**/e2e/**/*.js\" \"templates/**/dist/**/system/**/*.js\" \"services/**/tests/**/*e2e*.js\" \"services/**/tests/**/e2e/**/*.js\" \"services/**/tests/**/system/**/*.js\" \"packages/**/tests/**/*e2e*.js\" \"packages/**/tests/**/e2e/**/*.js\" \"packages/**/tests/**/system/**/*.js\" \"shared/**/tests/**/*e2e*.js\" \"shared/**/tests/**/e2e/**/*.js\" \"shared/**/tests/**/system/**/*.js\" \"templates/**/tests/**/*e2e*.js\" \"templates/**/tests/**/e2e/**/*.js\" \"templates/**/tests/**/system/**/*.js\" \"tests/**/*e2e*.js\" \"tests/**/e2e/**/*.js\" \"tests/**/system/**/*.js\"",
     "e2e": "pnpm run test:e2e",
@@ -13,7 +13,7 @@
     "build:docs": "node scripts/generate-service-docs.js",
     "health:node-abi": "node -p \"process.versions.node + ' ABI ' + process.versions.modules\"",
     "prepare": "chmod +x ./bin/promethean.js",
-    "lint": "biome lint --config-path=biome.json .",
+    "lint": "pnpm run lint:compiled-tests && biome lint --config-path=biome.json .",
     "format": "biome format --config-path=biome.json --write .",
     "lint:tasks": "tsx scripts/lint_tasks.ts",
     "changelog:check": "tsx scripts/check_changelog.ts",
@@ -30,7 +30,8 @@
     "generateBuildErrorReport": "pnpm -r --no-bail build | grep 'error' -i >|build-errors.txt",
     "codemod:aliases": "pnpm -w --filter @promethean/alias-rewrite... build && alias-rewrite --from @shared/prom-lib --to @promethean-",
     "check:flat": "node scripts/check-flat.js",
-    "enforce:esm-ext": "eslint \"packages/**/src/**/*.{ts,tsx}\" --rule 'import/extensions: [2, \"always\", { ignorePackages: true }]'"
+    "enforce:esm-ext": "eslint \"packages/**/src/**/*.{ts,tsx}\" --rule 'import/extensions: [2, \"always\", { ignorePackages: true }]'",
+    "lint:compiled-tests": "tsx scripts/check_compiled_tests.ts"
   },
   "bin": {
     "prom": "./bin/promethean.js"
@@ -75,6 +76,7 @@
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-promise": "^7.2.1",
     "jest": "30.0.5",
+    "ollama": "^0.5.17",
     "puppeteer": "24.16.0",
     "ts-jest": "29.4.1",
     "tsx": "4.20.3",

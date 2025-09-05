@@ -1,5 +1,5 @@
 import test from "ava";
-import { createPostMessage } from "../src/index.js";
+import { createPostMessage } from "../src/index.ts";
 
 test("creates PostMessage command with provider+tenant", (t) => {
   const cmd = createPostMessage(
