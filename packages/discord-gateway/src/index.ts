@@ -1,7 +1,4 @@
-import {
-  fileBackedRegistry,
-  topic, // , SocialMessageCreated, toUrn
-} from "@shared/prom-lib";
+import { fileBackedRegistry, topic } from "@promethean/platform"; // , SocialMessageCreated, toUrn
 
 // Stub Gateway: would connect to Discord WS, normalize MESSAGE_CREATE to SocialMessageCreated
 async function main() {
