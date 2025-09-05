@@ -1,12 +1,13 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 
-import { parseArgs, readMaybe, writeJSON } from "./utils.js";
+import { parseArgs, readMaybe } from "./utils.js";
+import { openLevelCache } from "@promethean/level-cache";
 import type { PkgInfo, ScanOut } from "./types.js";
 
 const args = parseArgs({
   "--root": "packages",
-  "--out": ".cache/readmes/scan.json",
+  "--cache": ".cache/readmes",
 });
 
 async function main() {
@@ -73,8 +74,14 @@ async function main() {
     packages: Array.from(pkgMap.values()),
     graphMermaid: lines.join("\n"),
   };
-  await writeJSON(path.resolve(args["--out"]!), out);
-  console.log(`readmeflow: scanned ${pkgMap.size} packages → ${args["--out"]}`);
+  const cache = await openLevelCache<unknown>({
+    path: path.resolve(args["--cache"]!),
+  });
+  await cache.set("scan", out);
+  await cache.close();
+  console.log(
+    `readmeflow: scanned ${pkgMap.size} packages → ${args["--cache"]}/scan`,
+  );
 }
 main().catch((e) => {
   console.error(e);
