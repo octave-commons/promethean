@@ -44,7 +44,7 @@ export type Retriever = {
 
 export class SmartGptrRetriever implements Retriever {
   private fetcher: (url: string, init?: any) => Promise<any>;
-  private log = createLogger({
+  private readonly log = createLogger({
     service: "codex-context",
     base: { component: "retriever" },
   });
