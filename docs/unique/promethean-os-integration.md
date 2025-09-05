@@ -1,16 +1,20 @@
 ---
-uuid: 2cabf73f-f023-4715-b621-734139276f44
-created_at: 2025.09.02.08.54.14.md
+uuid: 72a34518-1333-4760-a4e2-9fa9fba50759
+created_at: promethean-os-integration.md
 filename: Promethean OS Integration
+title: Promethean OS Integration
 description: >-
-  A system designed to integrate seamlessly with the operating system, providing
-  a user-friendly interface and secure permissions for efficient knowledge
-  management. It focuses on practical application rather than mere knowledge
-  storage, ensuring it functions as a tool for meaningful work.
+  A user-level OS integration tool designed to function as a seamless part of
+  the operating system, providing a dedicated .promethe: folder for
+  user-specific data with clear Unix permissions. Focuses on practical utility
+  rather than knowledge storage, emphasizing real-world application through a
+  minimal, permission-controlled interface.
 tags:
-  - OS Integration
-  - User Permissions
-  - Knowledge Management
+  - user-level
+  - OS integration
+  - unix permissions
+  - minimal interface
+  - data isolation
 related_to_uuid: []
 related_to_title: []
 references: []
@@ -22,9 +26,43 @@ I need a clear unix user/group permission model.
 The program will mound a folder called .promethean to the home folder.
 
 We need to think more about this UI.
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
-## Related content
-- _None_
-## Sources
-- _None_
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+5-7fa6-44e8-8aee-b72384581790
+  - bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+related_to_title:
+  - i3 Config Validation Methods
+  - Universal Lisp Interface
+  - sibilant-macro-targets
+  - Komorebi Group Manager
+  - schema-evolution-workflow
+  - language-agnostic-mirror-system
+  - Sibilant Meta-Prompt DSL
+  - windows-tiling-with-autohotkey
+  - Eidolon Field Abstract Model
+  - Local-Only LLM Workflow
+  - TypeScript Patch for Tool Calling Support
+  - chroma-embedding-refactor
+references:
+  - uuid: 2d0982f7-7518-432a-80b3-e89834cf9ab3
+    line: 1
+    col: 0
+    score: 1
+  - uuid: 2d0982f7-7518-432a-80b3-e89834cf9ab3
+    line: 3
+    col: 0
+    score: 1
+  - uuid: 2d0982f7-7518-432a-80b3-e89834cf9ab3
+    line: 9
+    col: 0
+    score: 1
+  - uuid: 2d0982f7-7518-432a-80b3-e89834cf9ab3
+    line: 14
+    col: 0
+    score: 0.85
+---
+I need to start conceptualizing this system as a tool to use to do meaningful work and not just a vault of knowledge.
+I need to start thinking of this as a user land program that runs as a part of the operating system.
+I need a clear unix user/group permission model.
+
+The program will mound a folder called .promethean to the home folder.
+
+We need to think more about this UI.

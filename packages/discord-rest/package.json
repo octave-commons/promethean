@@ -11,13 +11,7 @@
     "lint": "pnpm exec @biomejs/biome lint . || true"
   },
   "dependencies": {
-    "@promethean/platform": "workspace:*",
     "@promethean/agent": "workspace:*",
-    "@types/node": "^24.3.0",
-    "typescript": "5.9.2"
-  },
-  "devDependencies": {
-    "ava": "^6.4.1",
-    "c8": "^9.1.0"
+    "@promethean/platform": "workspace:*"
   }
 }
