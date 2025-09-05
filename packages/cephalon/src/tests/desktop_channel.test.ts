@@ -1,5 +1,6 @@
 import test from "ava";
 
+import { sleep } from "@promethean/test-utils/sleep";
 import { DesktopCaptureManager } from "../desktop/desktopLoop.js";
 
 // Ensure desktop captures are sent to configured channel
@@ -20,7 +21,7 @@ test("uploads desktop captures to configured channel", async (t) => {
   } as any);
   manager.step = 0;
   const run = manager.start();
-  await new Promise((res) => setTimeout(res, 10));
+  await sleep(10);
   manager.stop();
   await run;
   t.truthy(sent);
