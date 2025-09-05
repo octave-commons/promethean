@@ -176,9 +176,9 @@ export async function* streamTreeConcurrent(root: string, opts: StreamOptions = 
                     path: absPath,
                     relative: path.relative(base, absPath),
                     type: nodeType,
-                    size: nodeType !== 'dir' ? s.size : undefined,
+                    ...(nodeType !== 'dir' ? { size: s.size } : {}),
                     mtimeMs: s.mtimeMs,
-                    ext: nodeType === 'file' ? path.extname(name) : undefined,
+                    ...(nodeType === 'file' ? { ext: path.extname(name) } : {}),
                     depth,
                 };
 
@@ -194,7 +194,7 @@ export async function* streamTreeConcurrent(root: string, opts: StreamOptions = 
                         const children = await fs.readdir(absPath, { withFileTypes: true });
                         // Push in reverse so natural order is preserved when popping (DFS)
                         for (let i = children.length - 1; i >= 0; i--) {
-                            const c = children[i];
+                            const c = children[i]!;
                             taskStack.push({ absPath: path.join(absPath, c.name), depth: depth + 1 });
                         }
                     } catch (e) {
