@@ -327,13 +327,13 @@ importers:
         version: link:../test-utils
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -592,13 +592,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -680,13 +680,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -741,7 +741,7 @@ importers:
         version: link:../utils
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       body-parser:
         specifier: ^1.20.3
         version: 1.20.3
@@ -766,7 +766,7 @@ importers:
     devDependencies:
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/supertest':
         specifier: ^2.0.13
         version: 2.0.16
@@ -866,13 +866,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -951,13 +951,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1036,13 +1036,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1152,13 +1152,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1256,12 +1256,12 @@ importers:
       '@promethean/agent':
         specifier: workspace:*
         version: link:../agent
+      '@promethean/monitoring':
+        specifier: workspace:*
+        version: link:../monitoring
       '@promethean/platform':
         specifier: workspace:*
         version: link:../platform
-      '@promethean/rate':
-        specifier: workspace:*
-        version: link:../rate
       '@promethean/security':
         specifier: workspace:*
         version: link:../security
@@ -1343,13 +1343,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1479,13 +1479,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1564,13 +1564,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1652,13 +1652,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1740,13 +1740,13 @@ importers:
         version: link:../test-utils
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1828,13 +1828,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1953,13 +1953,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -2047,13 +2047,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -2135,13 +2135,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -2226,13 +2226,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -2272,7 +2272,7 @@ importers:
     dependencies:
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       body-parser:
         specifier: ^1.20.2
         version: 1.20.3
@@ -2309,10 +2309,10 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -2428,13 +2428,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -2516,13 +2516,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -2534,7 +2534,7 @@ importers:
         version: file:packages/persistence(socks@2.8.7)
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       body-parser:
         specifier: ^1.20.3
         version: 1.20.3
@@ -2547,7 +2547,7 @@ importers:
         version: file:packages/test-utils(socks@2.8.7)
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/supertest':
         specifier: ^2.0.13
         version: 2.0.16
@@ -2675,13 +2675,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -2766,16 +2766,25 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
+
+  packages/monitoring:
+    dependencies:
+      '@promethean/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
+      prom-client:
+        specifier: ^15.1.0
+        version: 15.1.3
 
   packages/naming:
     dependencies:
@@ -2851,13 +2860,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -2949,13 +2958,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -3040,13 +3049,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -3150,13 +3159,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -3241,18 +3250,16 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
-
-  packages/prom-lib: {}
 
   packages/providers:
     dependencies:
@@ -3331,22 +3338,19 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
 
   packages/rate:
     dependencies:
-      '@promethean/test-utils':
-        specifier: workspace:*
-        version: link:../test-utils
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -3419,13 +3423,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -3529,13 +3533,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -3733,13 +3737,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -3834,13 +3838,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -3938,13 +3942,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -4066,13 +4070,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -4154,13 +4158,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -4190,7 +4194,7 @@ importers:
     devDependencies:
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       cross-env:
         specifier: ^10.0.0
         version: 10.0.0
@@ -4269,13 +4273,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -4354,13 +4358,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -4454,13 +4458,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -4470,9 +4474,9 @@ importers:
       '@promethean/event':
         specifier: workspace:*
         version: link:../event
-      '@promethean/rate':
+      '@promethean/monitoring':
         specifier: workspace:*
-        version: link:../rate
+        version: link:../monitoring
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -4545,13 +4549,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.5
+        version: 1.19.6
       '@types/estree':
         specifier: ^1.0.5
-        version: 1.0.5
+        version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.21
+        version: 4.17.23
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -13132,10 +13136,6 @@ snapshots:
       '@types/webidl-conversions': 7.0.3
 
   '@types/ws@8.18.1':
-    dependencies:
-      '@types/node': 24.3.1
-
-  '@types/ws@8.5.9':
     dependencies:
       '@types/node': 24.3.1
 
