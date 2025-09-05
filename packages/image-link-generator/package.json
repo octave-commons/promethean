@@ -29,8 +29,5 @@
   "module": "dist/index.js",
   "dependencies": {
     "@xenova/transformers": "^2.17.2"
-  },
-  "devDependencies": {
-    "typescript": "5.9.2"
   }
 }

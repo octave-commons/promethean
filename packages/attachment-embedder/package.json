@@ -13,8 +13,7 @@
   "dependencies": {
     "@promethean/migrations": "file:../migrations",
     "@promethean/platform": "file:../platform",
-    "discord.js": "^14.17.3",
-    "typescript": "5.9.2"
+    "discord.js": "^14.17.3"
   },
   "devDependencies": {
     "tsx": "^4.20.3"
