@@ -2,7 +2,7 @@ import test from "ava";
 import { mkdtemp, writeFile, stat } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
-import { findBrokenImageLinks, fixBrokenImageLinks } from "../src/index.js";
+import { findBrokenImageLinks, fixBrokenImageLinks } from '../src/image-links.js';
 
 test("finds broken markdown and org image links", async (t) => {
 	const dir = await mkdtemp(path.join(os.tmpdir(), "img-test-"));

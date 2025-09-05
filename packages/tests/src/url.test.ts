@@ -1,5 +1,5 @@
 import test from 'ava';
-import { canonicalUrl, isUrlAllowed, urlHash } from '@promethean/web/url.js';
+import { canonicalUrl, isUrlAllowed, urlHash } from '@promethean/web-utils/url.js';
 
 test('canonicalUrl normalizes urls', (t) => {
     const normalized = canonicalUrl('HTTP://Example.com:80/a//b/../?b=2&a=1#frag');
