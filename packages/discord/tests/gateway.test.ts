@@ -1,6 +1,6 @@
 import test from "ava";
 import { InMemoryEventBus } from "@promethean/event/memory.js";
-import { GatewayPublisher } from "../src/gateway.js";
+import { GatewayPublisher } from "@promethean/discord";
 
 test("publishes raw and normalized events to bus", async (t) => {
   const bus = new InMemoryEventBus();

@@ -1,6 +1,6 @@
 import test from "ava";
 
-import { convert } from "../converter.js";
+import { convert } from "@promethean/discord";
 
 const sample = Buffer.from("sample");
 
