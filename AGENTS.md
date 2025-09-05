@@ -37,6 +37,8 @@ Under no circumstances should you introduce the following to Promethean:
 - require
 - Jest
 - Python
+- removing contents from .gitignore
+- committing *any* .env file
 
 # Working Style
 - Skeptical, precise, practical. Challenge vague asks with 1–2 targeted
