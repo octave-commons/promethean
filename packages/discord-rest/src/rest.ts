@@ -1,5 +1,5 @@
 import { makePolicy, fileBackedRegistry } from "@promethean/security";
-import { TokenBucket } from "@promethean/rate";
+import { TokenBucket } from "@promethean/monitoring";
 
 type RestResponse = {
   ok: boolean;
