@@ -2,7 +2,7 @@ import test from "ava";
 
 import runPing from "../actions/ping.js";
 import type { PingScope } from "../actions/ping.scope.js";
-import { NotAllowedError } from "../factories/policy.js";
+import { NotAllowedError } from "@promethean/security/policy.js";
 
 function makeScope(allow = true): PingScope {
   return {
@@ -12,6 +12,7 @@ function makeScope(allow = true): PingScope {
         if (!allow || subject === "deny")
           throw new NotAllowedError("Permission denied");
       },
+      async checkCapability() {},
     },
     time: () => new Date("2020-01-01T00:00:00Z"),
   };

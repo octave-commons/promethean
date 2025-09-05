@@ -1,6 +1,7 @@
 import type { Bot } from "../bot.js";
 import { makeLogger, type Logger } from "../factories/logger.js";
-import { makePolicy, type PolicyChecker } from "../factories/policy.js";
+import { makePolicy, type PolicyChecker } from "@promethean/security/policy.js";
+import { checkPermission } from "@promethean/legacy/permissionGate.js";
 
 export type ForwardAttachmentsScope = {
   logger: Logger;
@@ -14,7 +15,7 @@ export async function buildForwardAttachmentsScope(ctx: {
 }): Promise<ForwardAttachmentsScope> {
   return {
     logger: makeLogger("forward-attachments"),
-    policy: makePolicy(),
+    policy: makePolicy({ permissionGate: checkPermission }),
     getCaptureChannel: () => ctx.bot.captureChannel,
     getAgentWorld: () => ctx.bot.agentWorld,
   };

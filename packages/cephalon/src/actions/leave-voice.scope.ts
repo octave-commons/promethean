@@ -1,6 +1,7 @@
 import type { Logger } from "../factories/logger.js";
 import { makeLogger } from "../factories/logger.js";
-import { makePolicy, type PolicyChecker } from "../factories/policy.js";
+import { makePolicy, type PolicyChecker } from "@promethean/security/policy.js";
+import { checkPermission } from "@promethean/legacy/permissionGate.js";
 import {
   makeDiscordVoiceAdapter,
   type VoiceAdapter,
@@ -18,7 +19,7 @@ export async function buildLeaveVoiceScope(ctx?: {
   bot?: Bot;
 }): Promise<LeaveVoiceScope> {
   const logger = makeLogger("leave-voice");
-  const policy = makePolicy();
+  const policy = makePolicy({ permissionGate: checkPermission });
 
   // If we have a bot, create a Discord-specific adapter. Otherwise, make a no-op adapter.
   const voice = ctx?.bot
