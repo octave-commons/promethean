@@ -33,6 +33,6 @@
     "ts-node": "^10.9.2",
     "typescript": "5.9.2",
     "@promethean/utils": "workspace:*",
-    "@promethean/test-utils": "file:../test-utils"
+    "@promethean/test-utils": "workspace:*"
   }
 }

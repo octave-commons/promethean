@@ -11,6 +11,10 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
+    "./sleep": {
+      "types": "./dist/sleep.d.ts",
+      "import": "./dist/sleep.js"
+    },
     "./dist/*": "./dist/*",
     "./*": "./dist/*"
   },
