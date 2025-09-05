@@ -5,7 +5,9 @@ import crypto from "crypto";
 import { createRemoteJWKSet, jwtVerify, decodeProtectedHeader } from "jose";
 
 // Route modules (legacy)
-import { logger } from "../../logger.js";
+import { createLogger } from "@promethean/utils/logger.js";
+import { logStream } from "../../log-stream.js";
+const logger = createLogger({ service: "smartgpt-bridge", stream: logStream });
 
 import { registerFilesRoutes } from "./files.js";
 import { registerSearchRoutes } from "./search.js";
