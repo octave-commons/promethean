@@ -17,6 +17,119 @@ tags:
   - ACL
   - ops-dashboard
   - typed-client
+related_to_uuid:
+  - f1af85cb-be45-42cf-beee-d0795ded07bf
+  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
+  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
+  - 4316c3f9-551f-4872-b5c5-98ae73508535
+  - e0d3201b-826a-4976-ab01-36aae28882be
+  - 6ff8d80e-7070-47b5-898c-ee506e353471
+  - a23de044-17e0-45f0-bba7-d870803cbfed
+  - 4c63f2be-b5cd-479c-ad0d-ca26424162f7
+  - 004a0f06-3808-4421-b9e1-41b5b41ebcb8
+  - a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+  - 177c260c-39b2-4450-836d-1e87c0bd0035
+  - 31a2df46-9dbc-4066-b3e3-d3e860099fd0
+  - 260f25bf-c996-4da2-a529-3a292406296f
+  - e4317155-7fa6-44e8-8aee-b72384581790
+  - 21913df0-a1c6-4ba0-a9e9-8ffc35a71d74
+  - 572b571b-b337-4004-97b8-386f930b5497
+  - a5fb863a-c6dd-48e1-8916-718b70b65434
+  - c29a64c6-f5ea-49ca-91a1-0b590ca547ae
+  - 6628c53a-7c4d-4de3-b711-8bb51ee73e92
+  - d65e5b6c-29ed-458f-bf9b-94bf0d48fa79
+  - 95410f6e-dabb-4560-80a8-1ed4fd9c3d3b
+  - 5becb573-0a78-486b-8d3c-199b3c7a79ec
+  - 7842d43c-7d13-46f0-bdf1-561f5e4c6f53
+  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - f0528a41-be17-4213-b5bc-7d37fcbef0e0
+related_to_title:
+  - Zero-Copy Snapshots and Workers
+  - polyglot-repl-interface-layer
+  - Stateful Partitions and Rebalancing
+  - WebSocket Gateway Implementation
+  - Field Node Diagrams
+  - provider-agnostic-chat-panel-implementation
+  - Komorebi Group Manager
+  - lisp-compiler-integration
+  - ecs-offload-workers
+  - AI-Centric OS with MCP Layer
+  - universal-intention-code-fabric
+  - field-node-diagram-set
+  - Polymorphic Meta-Programming Engine
+  - TypeScript Patch for Tool Calling Support
+  - Graph Data Structure
+  - State Snapshots API and Transactional Projector
+  - prom-lib-rate-limiters-and-replay-api
+  - EidolonField
+  - heartbeat-simulation
+  - sibilant-macro-targets
+  - model-selection-for-lightweight-conversational-tasks
+  - Agent Reflections and Prompt Evolution
+  - promethean-infrastructure-setup
+  - Universal Lisp Interface
+  - local-offline-model-deployment-strategy
+references:
+  - uuid: f1af85cb-be45-42cf-beee-d0795ded07bf
+    line: 360
+    col: 0
+    score: 1
+  - uuid: f1af85cb-be45-42cf-beee-d0795ded07bf
+    line: 363
+    col: 0
+    score: 1
+  - uuid: f1af85cb-be45-42cf-beee-d0795ded07bf
+    line: 364
+    col: 0
+    score: 1
+  - uuid: f1af85cb-be45-42cf-beee-d0795ded07bf
+    line: 365
+    col: 0
+    score: 1
+  - uuid: f1af85cb-be45-42cf-beee-d0795ded07bf
+    line: 239
+    col: 0
+    score: 0.95
+  - uuid: f1af85cb-be45-42cf-beee-d0795ded07bf
+    line: 313
+    col: 0
+    score: 0.95
+  - uuid: f1af85cb-be45-42cf-beee-d0795ded07bf
+    line: 202
+    col: 0
+    score: 0.92
+  - uuid: 9a1076d6-1aac-497e-bac3-66c9ea09da55
+    line: 188
+    col: 0
+    score: 0.87
+  - uuid: 4316c3f9-551f-4872-b5c5-98ae73508535
+    line: 221
+    col: 0
+    score: 0.87
+  - uuid: f1af85cb-be45-42cf-beee-d0795ded07bf
+    line: 69
+    col: 0
+    score: 0.86
+  - uuid: fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
+    line: 114
+    col: 0
+    score: 0.86
+  - uuid: e0d3201b-826a-4976-ab01-36aae28882be
+    line: 76
+    col: 0
+    score: 0.85
+  - uuid: fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
+    line: 146
+    col: 0
+    score: 0.85
+  - uuid: fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
+    line: 138
+    col: 0
+    score: 0.85
+  - uuid: 6ff8d80e-7070-47b5-898c-ee506e353471
+    line: 226
+    col: 0
+    score: 0.85
 ---
 Note: Consolidated here → ../notes/services/broker-outbox-acl-ops.md ^ref-9c1acd1e-1-0
 
@@ -619,6 +732,49 @@ main().catch((e) => { console.error(e); process.exit(1); });
 ^ref-9c1acd1e-556-0 ^ref-9c1acd1e-562-0
 ^ref-9c1acd1e-553-0 ^ref-9c1acd1e-563-0
 ^ref-9c1acd1e-552-0
+^ref-9c1acd1e-551-0
+^ref-9c1acd1e-550-0
+^ref-9c1acd1e-536-0
+^ref-9c1acd1e-535-0 ^ref-9c1acd1e-544-0
+^ref-9c1acd1e-534-0 ^ref-9c1acd1e-545-0
+^ref-9c1acd1e-533-0 ^ref-9c1acd1e-546-0 ^ref-9c1acd1e-570-0
+ ^ref-9c1acd1e-547-0
+^ref-9c1acd1e-516-0 ^ref-9c1acd1e-572-0 ^ref-9c1acd1e-609-0
+```lisp
+; shared/sibilant/prom/acl.sib (pseudo) ^ref-9c1acd1e-550-0 ^ref-9c1acd1e-574-0
+(defmacro allow [action & patterns] ^ref-9c1acd1e-551-0
+  `{:effect "allow" :action ~action :topics [~@patterns]}) ^ref-9c1acd1e-552-0
+ ^ref-9c1acd1e-533-0 ^ref-9c1acd1e-553-0
+(defn scopes->policy [scopes] ^ref-9c1acd1e-534-0
+  {:rules (map (fn [s] (let [[action pattern] (.split s ":")] ^ref-9c1acd1e-535-0 ^ref-9c1acd1e-579-0
+                          {:effect "allow" :action action :topics [pattern]})) ^ref-9c1acd1e-536-0 ^ref-9c1acd1e-556-0 ^ref-9c1acd1e-580-0
+               scopes)}) ^ref-9c1acd1e-537-0 ^ref-9c1acd1e-557-0 ^ref-9c1acd1e-581-0
+ ^ref-9c1acd1e-538-0
+; (def POLICY (scopes->policy ["publish:heartbeat.*" "subscribe:process.**"])) ^ref-9c1acd1e-583-0
+^ref-9c1acd1e-609-0
+``` ^ref-9c1acd1e-584-0
+^ref-9c1acd1e-610-0
+ ^ref-9c1acd1e-585-0
+--- ^ref-9c1acd1e-542-0 ^ref-9c1acd1e-562-0
+ ^ref-9c1acd1e-563-0 ^ref-9c1acd1e-587-0
+# 7) Quick Kanban additions ^ref-9c1acd1e-544-0
+ ^ref-9c1acd1e-545-0
+* [ ] Add `MongoOutbox` to any service that writes DB changes; swap local app emits → outbox writes ^ref-9c1acd1e-546-0
+* [ ] Wire `runOutboxDrainer` in event-hub ^ref-9c1acd1e-547-0
+* [ ] Switch gateway auth to JWT; generate temp HS256 token for dev
+* [ ] Define default scopes: `publish:heartbeat.received`, `subscribe:process.state`
+* [ ] Add `/lag` checks to CI smoke (ensure small lag after publishing bursts) ^ref-9c1acd1e-550-0 ^ref-9c1acd1e-570-0
+* [ ] Build tiny web page that uses `PromClient` in the browser to show live `process.state` (optional) ^ref-9c1acd1e-551-0
+ ^ref-9c1acd1e-552-0 ^ref-9c1acd1e-572-0
+--- ^ref-9c1acd1e-553-0
+ ^ref-9c1acd1e-574-0
+If you want **Part 4**, I’ll dump:
+ ^ref-9c1acd1e-556-0
+* **Backpressure & rate limits** (per-topic quotas, token-bucket), ^ref-9c1acd1e-557-0
+* **Replay API** (HTTP range queries + export to NDJSON),
+* **Exactly-once-ish** consumer helper (idempotent handler wrapper w/ dedupe store), ^ref-9c1acd1e-579-0
+* **Bench harness** (pub/sub throughput tester) and sizing notes.
+f-9c1acd1e-552-0
 ^ref-9c1acd1e-551-0
 ^ref-9c1acd1e-550-0
 ^ref-9c1acd1e-536-0

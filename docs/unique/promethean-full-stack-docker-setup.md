@@ -19,6 +19,75 @@ tags:
   - whisper
   - openvino
   - nginx
+related_to_uuid:
+  - aa88652d-c8e5-4a1b-850e-afdf7fe15dae
+  - 3657117f-241d-4ab9-a717-4a3f584071fc
+  - 2478e18c-f621-4b0c-a4c5-9637d213cccf
+  - cd8f10e6-68d7-4b29-bdfd-3a6614d99229
+  - e4317155-7fa6-44e8-8aee-b72384581790
+  - 8802d059-6b36-4e56-bb17-6a80a7dba599
+  - 1de71d74-4aec-468f-9354-42999a71da8a
+  - e2955491-020a-4009-b7ed-a5a348c63cfd
+  - bc1dc19d-0e47-4e8a-91d4-544995f143e1
+  - f4767ec9-7363-4ca0-ad88-ccc624247a3b
+  - b25be760-256e-4a8a-b34d-867281847ccb
+  - 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+  - 004a0f06-3808-4421-b9e1-41b5b41ebcb8
+  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - a23de044-17e0-45f0-bba7-d870803cbfed
+  - 4d8cbf01-e44a-452f-96a0-17bde7b416a8
+  - c09d7688-71d6-47fc-bf81-86b6193c84bc
+  - 672da53b-d8ac-48cd-9cb3-e3fa9915dd6a
+  - 8792b6d3-aafd-403f-a410-e8a09ec2f8cf
+  - 6420e101-2d34-45b5-bcff-d21e1c6e516b
+  - 58a50f5a-b073-4c50-8d3f-4284bd5df171
+  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
+  - bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+  - 6f13f134-7536-4bc3-b695-5aaa2906bb9d
+  - 0f203aa7-c96d-4323-9b9e-bbc438966e8c
+related_to_title:
+  - Promethean Web UI Setup
+  - language-agnostic-mirror-system
+  - Cross-Language Runtime Polymorphism
+  - promethean-agent-config-dsl
+  - TypeScript Patch for Tool Calling Support
+  - agent-tasks-persistence-migration-to-dualstore
+  - Interop and Source Maps
+  - chroma-toolkit-consolidation-plan
+  - layer-1-uptime-diagrams
+  - ecs-scheduler
+  - ripple-propagation-demo
+  - promethean-native-config-design
+  - ecs-offload-workers
+  - Universal Lisp Interface
+  - Komorebi Group Manager
+  - pure-node-crawl-stack-with-playwright-and-crawlee
+  - Migrate to Provider-Tenant Architecture
+  - Factorio AI with External Agents
+  - aionian-circuit-math
+  - Eidolon Field Math Foundations
+  - js-to-lisp-reverse-compiler
+  - polyglot-repl-interface-layer
+  - chroma-embedding-refactor
+  - shared-package-layout-clarification
+  - schema-evolution-workflow
+references:
+  - uuid: aa88652d-c8e5-4a1b-850e-afdf7fe15dae
+    line: 45
+    col: 0
+    score: 0.89
+  - uuid: 3657117f-241d-4ab9-a717-4a3f584071fc
+    line: 130
+    col: 0
+    score: 0.86
+  - uuid: 2478e18c-f621-4b0c-a4c5-9637d213cccf
+    line: 134
+    col: 0
+    score: 0.86
+  - uuid: cd8f10e6-68d7-4b29-bdfd-3a6614d99229
+    line: 197
+    col: 0
+    score: 0.85
 ---
 ### `docker-compose.yaml` (full stack; no host ports except NGINX)
 
@@ -388,6 +457,106 @@ CHANGEME 1;
     {
       "config": {
         "name": "resnet50",
+        "base_path": "/opt/models/resnet50",
+        "target_device": "GPU",
+        "nireq": 2
+      }
+^ref-2c2b48ca-342-0
+    }
+  ]
+}
+```
+ ^ref-2c2b48ca-377-0
+---
+
+### `.env` (optional defaults)
+
+```env
+^ref-2c2b48ca-377-0
+HF_TOKEN=
+TEI_MODEL=nomic-ai/nomic-embed-text-v1.5
+CLIP_MODEL=openai/clip-vit-large-patch14
+VLLM_MAX_TOKENS=32768
+```
+^ref-2c2b48ca-388-0
+
+---
+
+### Up it
+
+```bash
+# create secrets dir + token
+mkdir -p infra/nginx/secrets infra/ovms models/ov
+echo "CHANGEME 1;" > infra/nginx/secrets/api_keys.map
+
+^ref-2c2b48ca-388-0
+# base stack ^ref-2c2b48ca-400-0
+docker compose -f docker-compose.yaml up -d
+
+# with Stealth device overlay
+docker compose -f docker-compose.yaml -f docker-compose.stealth.yaml up -d
+^ref-2c2b48ca-404-0
+^ref-2c2b48ca-400-0
+```
+^ref-2c2b48ca-404-0
+^ref-2c2b48ca-400-0
+
+If you want **RAG** infra as well (datastore only), add this snippet:
+
+### `docker-compose.rag.yaml` (optional pgvector + qdrant)
+ ^ref-2c2b48ca-416-0
+```yaml
+version: "3.9"
+networks: { prom-net: { external: true } }
+
+services:
+  pg:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: rag
+      POSTGRES_USER: rag
+      POSTGRES_PASSWORD: ragpass
+    volumes:
+      - ./infra/db/init:/docker-entrypoint-initdb.d
+      - pg_data:/var/lib/postgresql/data
+    networks: [ prom-net ]
+  qdrant:
+    image: qdrant/qdrant:latest
+    volumes:
+^ref-2c2b48ca-404-0
+      - qdrant_data:/qdrant/storage ^ref-2c2b48ca-430-0
+    networks: [ prom-net ]
+ ^ref-2c2b48ca-432-0
+volumes:
+^ref-2c2b48ca-435-0
+^ref-2c2b48ca-434-0 ^ref-2c2b48ca-438-0
+^ref-2c2b48ca-432-0
+^ref-2c2b48ca-430-0 ^ref-2c2b48ca-440-0
+  pg_data: {} ^ref-2c2b48ca-434-0
+^ref-2c2b48ca-443-0 ^ref-2c2b48ca-444-0
+^ref-2c2b48ca-440-0
+^ref-2c2b48ca-438-0
+^ref-2c2b48ca-435-0
+^ref-2c2b48ca-434-0
+^ref-2c2b48ca-432-0
+^ref-2c2b48ca-430-0
+  qdrant_data: {} ^ref-2c2b48ca-435-0 ^ref-2c2b48ca-451-0
+^ref-2c2b48ca-416-0
+``` ^ref-2c2b48ca-443-0
+^ref-2c2b48ca-417-0
+^ref-2c2b48ca-443-0
+^ref-2c2b48ca-440-0
+^ref-2c2b48ca-438-0
+^ref-2c2b48ca-435-0
+^ref-2c2b48ca-434-0
+^ref-2c2b48ca-432-0
+^ref-2c2b48ca-430-0
+^ref-2c2b48ca-416-0
+ ^ref-2c2b48ca-444-0
+From here we want to start serving a typescript/webcomponents based frontend that connects to everything. ^ref-2c2b48ca-438-0
+
+#docker #compose #nginx #reverseproxy #ollama #vllm #tei #clip #whisper #ovms #npu #homelab #mlops
+  "name": "resnet50",
         "base_path": "/opt/models/resnet50",
         "target_device": "GPU",
         "nireq": 2

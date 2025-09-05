@@ -20,6 +20,151 @@ tags:
   - coordinator
   - upsert
   - tombstones
+related_to_uuid:
+  - 9a26150e-447f-45de-aa21-435b0d6b7066
+  - 9a7799ff-78bf-451d-9066-24555d8eb209
+  - 0f203aa7-c96d-4323-9b9e-bbc438966e8c
+  - 3841ef7c-f41e-467f-87ae-f722d99e9e0c
+  - bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+  - f24dbd59-29e1-4eeb-bb3e-d2c31116b207
+  - 6ff8d80e-7070-47b5-898c-ee506e353471
+  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
+  - 10780cdc-5036-4e8a-9599-a11703bc30c9
+  - a23de044-17e0-45f0-bba7-d870803cbfed
+  - 65c145c7-fe3e-4989-9aae-5db39fa0effc
+  - 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+  - ee1a3ac8-7b0e-4174-a7c4-030c596acd17
+  - 004a0f06-3808-4421-b9e1-41b5b41ebcb8
+  - b25be760-256e-4a8a-b34d-867281847ccb
+  - 7a66bc1e-9276-41ce-ac22-fc08926acb2d
+  - e4317155-7fa6-44e8-8aee-b72384581790
+  - 4316c3f9-551f-4872-b5c5-98ae73508535
+  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - e2955491-020a-4009-b7ed-a5a348c63cfd
+  - 792a343e-674c-4bb4-8435-b3f8c163349d
+  - 4c63f2be-b5cd-479c-ad0d-ca26424162f7
+  - a69259b4-4260-4877-bd79-22c432e1f85f
+  - a5fb863a-c6dd-48e1-8916-718b70b65434
+  - 6e678cce-b68f-4420-980f-5c9009f0d971
+related_to_title:
+  - Obsidian Task Generation
+  - Sibilant Meta-Prompt DSL
+  - schema-evolution-workflow
+  - per-domain-policy-system-for-js-crawler
+  - chroma-embedding-refactor
+  - Mongo Outbox Implementation
+  - provider-agnostic-chat-panel-implementation
+  - dynamic-context-model-for-web-components
+  - Eidolon Field Abstract Model
+  - Komorebi Group Manager
+  - event-bus-mvp
+  - promethean-native-config-design
+  - promethean-agent-dsl-ts-scaffold
+  - ecs-offload-workers
+  - ripple-propagation-demo
+  - pm2-orchestration-patterns
+  - TypeScript Patch for Tool Calling Support
+  - WebSocket Gateway Implementation
+  - Universal Lisp Interface
+  - chroma-toolkit-consolidation-plan
+  - windows-tiling-with-autohotkey
+  - lisp-compiler-integration
+  - polyglot-s-expr-bridge-python-js-lisp-interop
+  - prom-lib-rate-limiters-and-replay-api
+  - balanced-bst
+references:
+  - uuid: 9a26150e-447f-45de-aa21-435b0d6b7066
+    line: 1
+    col: 0
+    score: 1
+  - uuid: 9a26150e-447f-45de-aa21-435b0d6b7066
+    line: 5
+    col: 0
+    score: 1
+  - uuid: 9a26150e-447f-45de-aa21-435b0d6b7066
+    line: 7
+    col: 0
+    score: 1
+  - uuid: 9a7799ff-78bf-451d-9066-24555d8eb209
+    line: 1
+    col: 0
+    score: 1
+  - uuid: 9a7799ff-78bf-451d-9066-24555d8eb209
+    line: 4
+    col: 0
+    score: 1
+  - uuid: 9a7799ff-78bf-451d-9066-24555d8eb209
+    line: 10
+    col: 0
+    score: 1
+  - uuid: 0f203aa7-c96d-4323-9b9e-bbc438966e8c
+    line: 73
+    col: 0
+    score: 0.91
+  - uuid: f24dbd59-29e1-4eeb-bb3e-d2c31116b207
+    line: 188
+    col: 0
+    score: 0.87
+  - uuid: bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+    line: 285
+    col: 0
+    score: 0.87
+  - uuid: 6ff8d80e-7070-47b5-898c-ee506e353471
+    line: 184
+    col: 0
+    score: 0.86
+  - uuid: a23de044-17e0-45f0-bba7-d870803cbfed
+    line: 185
+    col: 0
+    score: 0.86
+  - uuid: 0c501d52-ba38-42aa-ad25-2d78425dfaff
+    line: 272
+    col: 0
+    score: 0.86
+  - uuid: 3841ef7c-f41e-467f-87ae-f722d99e9e0c
+    line: 440
+    col: 0
+    score: 0.85
+  - uuid: 6ff8d80e-7070-47b5-898c-ee506e353471
+    line: 226
+    col: 0
+    score: 0.85
+  - uuid: 10780cdc-5036-4e8a-9599-a11703bc30c9
+    line: 43
+    col: 0
+    score: 0.85
+  - uuid: ee1a3ac8-7b0e-4174-a7c4-030c596acd17
+    line: 77
+    col: 0
+    score: 0.85
+  - uuid: 004a0f06-3808-4421-b9e1-41b5b41ebcb8
+    line: 194
+    col: 0
+    score: 0.85
+  - uuid: b25be760-256e-4a8a-b34d-867281847ccb
+    line: 88
+    col: 0
+    score: 0.85
+  - uuid: 10780cdc-5036-4e8a-9599-a11703bc30c9
+    line: 144
+    col: 0
+    score: 0.85
+  - uuid: 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+    line: 278
+    col: 0
+    score: 0.85
+  - uuid: 7a66bc1e-9276-41ce-ac22-fc08926acb2d
+    line: 74
+    col: 0
+    score: 0.85
+  - uuid: 65c145c7-fe3e-4989-9aae-5db39fa0effc
+    line: 284
+    col: 0
+    score: 0.85
+  - uuid: 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+    line: 35
+    col: 0
+    score: 0.85
 ---
 Note: Consolidated here → ../notes/services/partitions-schema-registry-projector.md
 
@@ -427,6 +572,194 @@ export async function startChangelogProjector<T>(db: Db, bus: EventBus, opts: Ch
   const isTomb = (e: EventRecord<any>) => {
     const p = e.payload as any;
     return p == null || p?._deleted === true || opts.tombstone?.(e) === true;
+  };
+
+  async function handle(e: EventRecord<T>) {
+    const _key = opts.keyOf(e);
+    if (!_key) return;
+
+    if (isTomb(e)) {
+      await coll.deleteOne({ _key });
+      return;
+    }
+
+    const base = opts.map(e);
+    const version = opts.versionOf?.(e);
+    if (version != null) {
+      // optimistic: only upsert if newer (assumes monotonic version)
+      await coll.updateOne(
+        { _key, $or: [ { _v: { $lt: version } }, { _v: { $exists: false } } ] },
+        { $set: { ...base, _key, _v: version, _ts: e.ts } },
+        { upsert: true }
+      );
+    } else {
+      await coll.updateOne(
+        { _key },
+        { $set: { ...base, _key, _ts: e.ts } },
+        { upsert: true }
+      );
+    }
+  }
+
+  const stop = await bus.subscribe(
+^ref-4330e8f0-351-0
+    opts.topic,
+^ref-4330e8f0-417-0
+^ref-4330e8f0-417-0
+    `changelog:${opts.collection}`,
+    async (e) => { await handle(e); },
+^ref-4330e8f0-417-0
+    { from: "earliest", batchSize: 500, manualAck: false }
+  );
+
+  return stop;
+}
+```
+
+## 3b) Example: materialize `process.state` → `processes` collection
+
+```ts
+// shared/js/prom-lib/examples/process/changelog.ts
+import type { Db } from "mongodb";
+import { EventBus } from "../../event/types";
+import { startChangelogProjector } from "../../projectors/changelog";
+
+export async function startProcessChangelog(db: Db, bus: EventBus) {
+  return startChangelogProjector(db, bus, {
+    topic: "process.state",
+    collection: "processes",
+    keyOf: (e) => (e.payload as any)?.processId,
+    map: (e) => {
+      const p = e.payload as any;
+      return {
+        processId: p.processId, name: p.name, host: p.host, pid: p.pid,
+        sid: p.sid, cpu_pct: p.cpu_pct, mem_mb: p.mem_mb, status: p.status,
+^ref-4330e8f0-417-0
+        last_seen_ts: p.last_seen_ts
+^ref-4330e8f0-448-0
+^ref-4330e8f0-448-0
+      };
+    },
+^ref-4330e8f0-448-0
+    indexes: [
+      { keys: { host: 1, name: 1 } },
+      { keys: { status: 1 } }
+    ]
+  });
+}
+```
+
+---
+
+# 4) Glue example (partitioned consumer + schema + changelog)
+
+```ts
+// services/js/event-hub/partitioned.ts
+import { MongoClient } from "mongodb";
+import { MongoEventBus, MongoEventStore, MongoCursorStore } from "../../shared/js/prom-lib/event/mongo";
+import { SchemaRegistry } from "../../shared/js/prom-lib/schema/registry";
+import { withSchemaValidation } from "../../shared/js/prom-lib/schema/enforce";
+import { subscribePartitioned } from "../../shared/js/prom-lib/partition/subscribe";
+import { PartitionCoordinator } from "../../shared/js/prom-lib/partition/coordinator";
+import { startProcessChangelog } from "../../shared/js/prom-lib/examples/process/changelog";
+import { startProcessProjector } from "../../shared/js/prom-lib/examples/process/projector";
+import { reg as topicSchemas } from "../../shared/js/prom-lib/schema/topics";
+
+async function main() {
+  const client = await MongoClient.connect(process.env.MONGO_URL || "mongodb://127.0.0.1:27017/prom");
+  const db = client.db();
+
+  const rawBus = new MongoEventBus(new MongoEventStore(db), new MongoCursorStore(db));
+  const reg = topicSchemas instanceof SchemaRegistry ? topicSchemas : new SchemaRegistry();
+  const bus = withSchemaValidation(rawBus, reg);
+
+  // Heartbeat -> ProcessState projector (as before)
+  await startProcessProjector(bus);
+
+  // Materialize ProcessState into Mongo collection
+  await startProcessChangelog(db, bus);
+
+  // Partitioned consumer (e.g., heavy analyzer) with 8 partitions
+  const coord = new PartitionCoordinator({ ttlMs: 10_000 });
+  const memberId = `worker-${Math.random().toString(16).slice(2)}`;
+
+  await subscribePartitioned(
+    bus,
+    "process.state",
+    async (e) => {
+      // do expensive work only for assigned partitions
+^ref-4330e8f0-448-0
+      void e; // placeholder
+^ref-4330e8f0-499-0
+^ref-4330e8f0-516-0
+^ref-4330e8f0-515-0
+^ref-4330e8f0-514-0
+^ref-4330e8f0-513-0 ^ref-4330e8f0-520-0
+^ref-4330e8f0-512-0
+^ref-4330e8f0-511-0 ^ref-4330e8f0-522-0
+^ref-4330e8f0-499-0 ^ref-4330e8f0-523-0
+    }, ^ref-4330e8f0-524-0
+    coord, ^ref-4330e8f0-525-0
+^ref-4330e8f0-527-0
+^ref-4330e8f0-525-0
+^ref-4330e8f0-524-0
+^ref-4330e8f0-523-0
+^ref-4330e8f0-522-0
+^ref-4330e8f0-520-0
+^ref-4330e8f0-516-0
+^ref-4330e8f0-515-0
+^ref-4330e8f0-514-0
+^ref-4330e8f0-513-0
+^ref-4330e8f0-512-0
+^ref-4330e8f0-511-0
+^ref-4330e8f0-499-0
+    { group: "analyzers", memberId, partitions: 8, rebalanceEveryMs: 2500 }
+  ); ^ref-4330e8f0-527-0
+ ^ref-4330e8f0-511-0
+  console.log("[partitioned] up");
+}
+
+main().catch((e)=>{ console.error(e); process.exit(1); });
+``` ^ref-4330e8f0-555-0
+^ref-4330e8f0-499-0
+
+^ref-4330e8f0-516-0
+^ref-4330e8f0-515-0 ^ref-4330e8f0-520-0
+^ref-4330e8f0-514-0
+^ref-4330e8f0-513-0 ^ref-4330e8f0-522-0
+^ref-4330e8f0-512-0 ^ref-4330e8f0-523-0
+--- ^ref-4330e8f0-524-0
+ ^ref-4330e8f0-525-0
+# 5) Sibilant sugar (pseudo) ^ref-4330e8f0-565-0
+ ^ref-4330e8f0-511-0 ^ref-4330e8f0-527-0
+```lisp ^ref-4330e8f0-512-0
+; shared/sibilant/prom/partition.sib (pseudo) ^ref-4330e8f0-513-0
+(defn partition-of [key partitions] (jumpHash (str key) partitions)) ^ref-4330e8f0-514-0
+ ^ref-4330e8f0-515-0
+(defn start-partitioned [bus topic group member-id partitions handler] ^ref-4330e8f0-516-0
+  (subscribePartitioned bus topic handler (new PartitionCoordinator {}) {:group group :memberId member-id :partitions partitions}))
+```
+
+--- ^ref-4330e8f0-520-0
+
+# 6) Kanban adds ^ref-4330e8f0-522-0 ^ref-4330e8f0-577-0
+ ^ref-4330e8f0-523-0
+* [ ] Wrap `event-hub` publish path with **withSchemaValidation**; fail fast on bad payloads ^ref-4330e8f0-524-0 ^ref-4330e8f0-578-0
+* [ ] Use **subscribePartitioned** for CPU-heavy consumers; tune `partitions` (power of 2 is fine) ^ref-4330e8f0-525-0 ^ref-4330e8f0-579-0
+* [ ] Add **startChangelogProjector** for any compaction-like topic you want live-queryable
+* [ ] Ensure Mongo indexes: `{ _key: 1 } unique` + common query fields ^ref-4330e8f0-527-0
+* [ ] Add `/ops` endpoint to list **partition assignments** (optional: dump coordinator state)
+* [ ] Write a replay job that replays `process.state.snapshot` to warm the `processes` collection
+ ^ref-4330e8f0-584-0
+---
+
+Want **Part 6** next? I can ship:
+
+* **Schema evolution workflow** (migrations + dual-write + cutover),
+* **Dead letter queue** with replay,
+* **Changefeeds** (watch Mongo changelog and republish),
+* and a **linter** that checks topic names, headers, and schema coverage in CI.
+|| opts.tombstone?.(e) === true;
   };
 
   async function handle(e: EventRecord<T>) {

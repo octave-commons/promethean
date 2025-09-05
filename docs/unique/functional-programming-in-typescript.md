@@ -16,6 +16,210 @@ tags:
   - composability
   - utility-types
   - algebraic-data-types
+related_to_uuid:
+  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+  - 6bcff92c-4224-453d-9993-1be8d37d47c3
+  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+  - ae24a280-678e-4c0b-8cc4-56667fa04172
+  - 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
+  - 03a5578f-d689-45db-95e9-11300e5eee6f
+  - 9413237f-2537-4bbf-8768-db6180970e36
+  - 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+  - c0392040-16a2-41e8-bd54-75110319e3c0
+  - d17d3a96-c84d-4738-a403-6c733b874da2
+  - 59b5670f-36d3-4d34-8985-f3144b15347a
+  - b3555ede-324a-4d24-a885-b0721e74babf
+  - 8430617b-80a2-4cc9-8288-9a74cb57990b
+  - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+  - 49a9a860-944c-467a-b532-4f99186a8593
+  - c5c9a5c6-427d-4864-8084-c083cd55faa0
+  - 4330e8f0-5f46-4235-918b-39b6b93fa561
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+  - 2792d448-c3b5-4050-93dd-93768529d99c
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 623a55f7-685c-486b-abaf-469da1bbbb69
+  - 557309a3-c906-4e97-8867-89ffe151790c
+related_to_title:
+  - polyglot-repl-interface-layer
+  - Post-Linguistic Transhuman Design Frameworks
+  - Promethean Chat Activity Report
+  - Promethean-Copilot-Intent-Engine
+  - Promethean Data Sync Protocol
+  - Promethean Dev Workflow Update
+  - Promethean Documentation Overview
+  - Promethean Documentation Pipeline Overview
+  - Promethean Documentation Update
+  - Pure TypeScript Search Microservice
+  - Reawakening Duck
+  - Redirecting Standard Error
+  - ripple-propagation-demo
+  - schema-evolution-workflow
+  - Self-Agency in AI Interaction
+  - sibilant-macro-targets
+  - Stateful Partitions and Rebalancing
+  - Creative Moments
+  - Docops Feature Updates
+  - Duck's Attractor States
+  - Duck's Self-Referential Perceptual Loop
+  - Dynamic Context Model for Web Components
+  - Shared
+  - Simulation Demo
+references:
+  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
+    line: 11
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 47
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 105
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 97
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 128
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 31
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 90
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 33
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 462
+    col: 0
+    score: 1
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 21
+    col: 0
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 39
+    col: 0
+    score: 1
+  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
+    line: 28
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 28
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 65
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 86
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 123
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 34
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 442
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 218
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 176
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 70
+    col: 0
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 587
+    col: 0
+    score: 1
+  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
+    line: 138
+    col: 0
+    score: 1
+  - uuid: b3555ede-324a-4d24-a885-b0721e74babf
+    line: 53
+    col: 0
+    score: 1
+  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
+    line: 136
+    col: 0
+    score: 1
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 613
+    col: 0
+    score: 1
+  - uuid: 49a9a860-944c-467a-b532-4f99186a8593
+    line: 59
+    col: 0
+    score: 1
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 205
+    col: 0
+    score: 1
+  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
+    line: 635
+    col: 0
+    score: 1
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 160
+    col: 0
+    score: 1
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 144
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 59
+    col: 0
+    score: 1
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 88
+    col: 0
+    score: 1
+  - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
+    line: 14
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 93
+    col: 0
+    score: 1
+  - uuid: 9413237f-2537-4bbf-8768-db6180970e36
+    line: 13
+    col: 0
+    score: 1
+  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+    line: 194
+    col: 0
+    score: 1
+  - uuid: c0392040-16a2-41e8-bd54-75110319e3c0
+    line: 19
+    col: 0
+    score: 1
 ---
 # Functional Programming in TypeScript — a pragmatic, no-BS primer
 

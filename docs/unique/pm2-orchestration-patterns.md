@@ -16,6 +16,119 @@ tags:
   - decomposition
   - boilerplate
   - agent
+related_to_uuid:
+  - 7a75d992-5267-4557-b464-b6c7d3f88dad
+  - 798ee018-e1d3-454f-97c4-a9d66b106602
+  - cdf2c6e4-0dbd-4f19-b645-ac619a6f267d
+  - 0f203aa7-c96d-4323-9b9e-bbc438966e8c
+  - 10780cdc-5036-4e8a-9599-a11703bc30c9
+  - c29a64c6-f5ea-49ca-91a1-0b590ca547ae
+  - 7b672b78-7057-4506-baf9-1262a6e477e3
+  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - e4317155-7fa6-44e8-8aee-b72384581790
+  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
+  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
+  - 395df1ea-572e-49ec-8861-aff9d095ed0e
+  - 3657117f-241d-4ab9-a717-4a3f584071fc
+  - e2955491-020a-4009-b7ed-a5a348c63cfd
+  - 572b571b-b337-4004-97b8-386f930b5497
+  - ee1a3ac8-7b0e-4174-a7c4-030c596acd17
+  - 8fd08696-5338-493b-bed5-507f8a6a6ea9
+  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
+  - 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+  - b25be760-256e-4a8a-b34d-867281847ccb
+  - 479401ac-f614-4d0b-8cc6-2ebb8d9de4d9
+  - 740bbd1c-c039-405c-8a32-4baeddfb5637
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - 6420e101-2d34-45b5-bcff-d21e1c6e516b
+  - 4f9a7fd9-de08-4b9c-87c4-21268bc26d54
+related_to_title:
+  - field-dynamics-math-blocks
+  - promethean-requirements
+  - Unique Info Dump Index
+  - schema-evolution-workflow
+  - Eidolon Field Abstract Model
+  - EidolonField
+  - mystery-lisp-for-python-education
+  - Universal Lisp Interface
+  - TypeScript Patch for Tool Calling Support
+  - polyglot-repl-interface-layer
+  - Stateful Partitions and Rebalancing
+  - Promethean System Diagrams
+  - language-agnostic-mirror-system
+  - chroma-toolkit-consolidation-plan
+  - State Snapshots API and Transactional Projector
+  - promethean-agent-dsl-ts-scaffold
+  - typed-struct-compiler
+  - dynamic-context-model-for-web-components
+  - promethean-native-config-design
+  - ripple-propagation-demo
+  - compiler-kit-foundations
+  - heartbeat-fragment-demo
+  - i3-bluetooth-setup
+  - Eidolon Field Math Foundations
+  - homeostasis-decay-formulas
+references:
+  - uuid: 798ee018-e1d3-454f-97c4-a9d66b106602
+    line: 4
+    col: 0
+    score: 1
+  - uuid: 7a75d992-5267-4557-b464-b6c7d3f88dad
+    line: 1
+    col: 0
+    score: 1
+  - uuid: 7a75d992-5267-4557-b464-b6c7d3f88dad
+    line: 3
+    col: 0
+    score: 1
+  - uuid: 7a75d992-5267-4557-b464-b6c7d3f88dad
+    line: 9
+    col: 0
+    score: 1
+  - uuid: 7a75d992-5267-4557-b464-b6c7d3f88dad
+    line: 11
+    col: 0
+    score: 1
+  - uuid: cdf2c6e4-0dbd-4f19-b645-ac619a6f267d
+    line: 28
+    col: 0
+    score: 0.87
+  - uuid: 0f203aa7-c96d-4323-9b9e-bbc438966e8c
+    line: 522
+    col: 0
+    score: 0.86
+  - uuid: 10780cdc-5036-4e8a-9599-a11703bc30c9
+    line: 144
+    col: 0
+    score: 0.86
+  - uuid: c29a64c6-f5ea-49ca-91a1-0b590ca547ae
+    line: 74
+    col: 0
+    score: 0.85
+  - uuid: 7b672b78-7057-4506-baf9-1262a6e477e3
+    line: 85
+    col: 0
+    score: 0.85
+  - uuid: 9a1076d6-1aac-497e-bac3-66c9ea09da55
+    line: 272
+    col: 0
+    score: 0.85
+  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+    line: 137
+    col: 0
+    score: 0.85
+  - uuid: e4317155-7fa6-44e8-8aee-b72384581790
+    line: 515
+    col: 0
+    score: 0.85
+  - uuid: fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
+    line: 146
+    col: 0
+    score: 0.85
+  - uuid: 395df1ea-572e-49ec-8861-aff9d095ed0e
+    line: 95
+    col: 0
+    score: 0.85
 ---
 Note: Consolidated here → ../notes/tooling/pm2-ecosystem-patterns.md ^ref-51932e7b-1-0
 
@@ -174,6 +287,99 @@ Yours is mostly perfect already, just slight cleanup and better naming.
 const path = require("path");
 const dotenv = require("dotenv");
 const { definePythonService, defineNodeService } = require("../../dev/pm2Helpers");
+
+dotenv.config({ path: __dirname + "/.tokens" });
+
+const discord_env = {
+  DISCORD_TOKEN: process.env.DISCORD_TOKEN,
+  DISCORD_CLIENT_USER_ID: "449279570445729793",
+  DEFAULT_CHANNEL: "450688080542695436",
+  DEFAULT_CHANNEL_NAME: "duck-bots",
+  DISCORD_CLIENT_USER_NAME: "Duck",
+  AUTHOR_USER_NAME: "Error",
+  AGENT_NAME: "Duck",
+};
+
+module.exports = {
+  apps: [
+    definePythonService("duck_discord_indexer", path.join(__dirname, "../../services/py/discord_indexer"), {
+      env: discord_env,
+    }),
+    defineNodeService("duck_cephalon", path.join(__dirname, "../../services/ts/cephalon"), {
+      env: discord_env,
+    }),
+    defineNodeService("duck_embedder", path.join(__dirname, "../../services/ts/discord-embedder"), {
+      env: discord_env,
+    }),
+    defineNodeService("duck_voice", path.join(__dirname, "../../services/ts/voice"), {
+      env: discord_env,
+    }),
+    definePythonService("duck_attachment_indexer", path.join(__dirname, "../../services/py/discord_attachment_indexer"), {
+      watch: ["./services/py/tts"],
+      env: {
+        ...discord_env,
+        DEESKTOP_CAPTURE_CHANNEL_ID: "1401730790467047586",
+      },
+    }),
+    definePythonService("duck_attachment_embedder", path.join(__dirname, "../../services/py/discord_attachment_embedder"), {
+      watch: ["./services/py/tts"],
+      env: {
+        ...discord_env,
+        DEESKTOP_CAPTURE_CHANNEL_ID: "1401730790467047586",
+      },
+    }),
+    {
+      name: "chromadb",
+      cwd: __dirname,
+      script: "./scripts/run_chroma.sh",
+      restart_delay: 10000,
+      kill_timeout: 10000,
+^ref-51932e7b-149-0
+    },
+  ],
+};
+```
+ ^ref-51932e7b-210-0
+---
+ ^ref-51932e7b-212-0
+## 🧩 Master Ecosystem File
+
+You now have a clean and declarative entrypoint:
+
+```js
+// ecosystem.config.js
+const duck = require("./agents/duck/ecosystem.config.js");
+
+const services = [
+  require("./services/py/embedding_service/ecosystem.config.js"),
+  require("./services/py/tts/ecosystem.config.js"),
+  require("./services/py/stt/ecosystem.config.js"),
+  require("./services/ts/file-watcher/ecosystem.config.js"),
+  require("./services/js/vision/ecosystem.config.js"),
+  require("./services/ts/llm/ecosystem.config.js"),
+  require("./services/js/heartbeat/ecosystem.config.js"),
+  require("./services/js/proxy/ecosystem.config.js"),
+  require("./services/js/eidolon-field/ecosystem.config.js"),
+  require("./services/ts/markdown-graph/ecosystem.config.js"),
+];
+^ref-51932e7b-212-0
+
+module.exports = {
+  apps: [...duck.apps, ...services.flatMap((svc) => svc.apps)],
+};
+``` ^ref-51932e7b-238-0
+^ref-51932e7b-217-0
+
+---
+ ^ref-51932e7b-242-0
+## 💡 Optional: Dynamic Service Loader ^ref-51932e7b-242-0
+
+If you're feeling fancy, we could load all service ecosystem files dynamically instead of manually requiring each one. Let me know if you want that too.
+ ^ref-51932e7b-245-0
+---
+ ^ref-51932e7b-247-0 ^ref-51932e7b-248-0
+Would you like this turned into a `canvas` so we can break out a real migration plan?
+inePythonService, defineNodeService } = require("../../dev/pm2Helpers");
 
 dotenv.config({ path: __dirname + "/.tokens" });
 

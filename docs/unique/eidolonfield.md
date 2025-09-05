@@ -18,6 +18,65 @@ tags:
   - arbitrary dimensions
   - particle physics
   - dynamic fields
+related_to_uuid:
+  - 06ef038a-e195-49c1-898f-a50cc117c59a
+  - c38e7047-c6c0-4a19-a0e6-5707a12e9de1
+  - 572b571b-b337-4004-97b8-386f930b5497
+  - 7a66bc1e-9276-41ce-ac22-fc08926acb2d
+  - e2955491-020a-4009-b7ed-a5a348c63cfd
+  - f24dbd59-29e1-4eeb-bb3e-d2c31116b207
+  - d65e5b6c-29ed-458f-bf9b-94bf0d48fa79
+  - 6ff8d80e-7070-47b5-898c-ee506e353471
+  - 10780cdc-5036-4e8a-9599-a11703bc30c9
+  - 395df1ea-572e-49ec-8861-aff9d095ed0e
+  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
+  - 6628c53a-7c4d-4de3-b711-8bb51ee73e92
+  - aa437a1f-eb7e-4096-a6cc-98d2eeeef8c5
+  - 150f8bb4-4322-4bb9-8a5f-9c2e3b233e05
+  - 65c145c7-fe3e-4989-9aae-5db39fa0effc
+related_to_title:
+  - 2d-sandbox-field
+  - Particle Simulation with Canvas and FFmpeg
+  - State Snapshots API and Transactional Projector
+  - pm2-orchestration-patterns
+  - chroma-toolkit-consolidation-plan
+  - Mongo Outbox Implementation
+  - sibilant-macro-targets
+  - provider-agnostic-chat-panel-implementation
+  - Eidolon Field Abstract Model
+  - Promethean System Diagrams
+  - Universal Lisp Interface
+  - polyglot-repl-interface-layer
+  - heartbeat-simulation
+  - Prometheus Observability Stack
+  - i3-layout-saver
+  - event-bus-mvp
+references:
+  - uuid: 06ef038a-e195-49c1-898f-a50cc117c59a
+    line: 108
+    col: 0
+    score: 0.97
+  - uuid: c38e7047-c6c0-4a19-a0e6-5707a12e9de1
+    line: 31
+    col: 0
+    score: 0.93
+  - uuid: 06ef038a-e195-49c1-898f-a50cc117c59a
+    line: 78
+    col: 0
+    score: 0.91
+  - uuid: 06ef038a-e195-49c1-898f-a50cc117c59a
+    line: 134
+    col: 0
+    score: 0.91
+  - uuid: 572b571b-b337-4004-97b8-386f930b5497
+    line: 177
+    col: 0
+    score: 0.86
+  - uuid: 7a66bc1e-9276-41ce-ac22-fc08926acb2d
+    line: 74
+    col: 0
+    score: 0.85
 ---
 Yes—excellent clarification. We’re not building _an_ 8-dimensional system, we’re building a **field engine** that can support _bounded n-dimensional cognition_. The number 8 was a meaningful early compression, not a constraint. ^ref-49d1e1e5-1-0
 
@@ -174,6 +233,100 @@ class FieldNode {
     for (const { pos } of region) {
       const direction = pos.subtract(this.position).normalize();
       const influence = direction.scale(this.strength);
+      field.inject(pos, influence);
+    }
+  }
+^ref-49d1e1e5-140-0
+}
+```
+
+---
+ ^ref-49d1e1e5-163-0
+## ⚪ Particle
+
+```js
+class Particle {
+  constructor(position, mass = 1.0, drag = 0.95) {
+    this.position = position;
+    this.velocity = VectorN.zero(position.values.length);
+    this.mass = mass;
+    this.drag = drag;
+  }
+
+  update(field) {
+    const force = field.get(this.position).scale(1 / this.mass);
+    this.velocity = this.velocity.add(force).scale(this.drag);
+    this.position = this.position.add(this.velocity);
+^ref-49d1e1e5-163-0
+  }
+}
+```
+ ^ref-49d1e1e5-184-0
+--- ^ref-49d1e1e5-184-0
+
+## 🔁 Tick Loop
+ ^ref-49d1e1e5-188-0
+```js
+function tick(field, nodes, particles) {
+  field.decayAll();
+  for (const node of nodes) {
+    node.apply(field);
+  }
+  for (const p of particles) {
+^ref-49d1e1e5-184-0
+    p.update(field);
+  }
+}
+^ref-49d1e1e5-188-0
+```
+ ^ref-49d1e1e5-200-0
+---
+
+## 🧪 Test Scenario (e.g., 4D field) ^ref-49d1e1e5-205-0
+
+```js
+const field = new FieldN(4);
+const node = new FieldNode(new VectorN([5, 5, 0, 0]), 1.0, 2);
+const particles = [
+  new Particle(new VectorN([0, 0, 0, 0])),
+  new Particle(new VectorN([10, 10, 0, 0]))
+];
+^ref-49d1e1e5-200-0
+
+for (let i = 0; i < 100; i++) {
+  tick(field, [node], particles);
+^ref-49d1e1e5-205-0
+}
+``` ^ref-49d1e1e5-217-0
+^ref-49d1e1e5-207-0
+^ref-49d1e1e5-205-0
+ ^ref-49d1e1e5-219-0
+--- ^ref-49d1e1e5-219-0
+ ^ref-49d1e1e5-221-0
+## 🧩 This Gives Us: ^ref-49d1e1e5-221-0
+ ^ref-49d1e1e5-223-0
+- Abstract **topology**, not bound to space or concepts ^ref-49d1e1e5-223-0
+    
+- Ability to model 2D, 3D, 4D, 8D, or more
+    
+- Clear way to **add semantic meaning later**
+ ^ref-49d1e1e5-228-0
+- Field compression possible if the space is too sparse or wide
+ ^ref-49d1e1e5-230-0
+ ^ref-49d1e1e5-232-0
+--- ^ref-49d1e1e5-232-0
+ ^ref-49d1e1e5-234-0
+Would you like me to: ^ref-49d1e1e5-234-0
+
+- Convert this to Sibilant?
+ ^ref-49d1e1e5-237-0
+- Build a test CLI that visualizes the magnitude collapse of the field in lower dimensions?
+ ^ref-49d1e1e5-239-0
+- Write a serialization format (e.g. s-expression or JSON) for field snapshots?
+ ^ref-49d1e1e5-241-0
+ ^ref-49d1e1e5-242-0 ^ref-49d1e1e5-243-0
+We now have the _nervous tissue_. Let’s see it fire.
+onst influence = direction.scale(this.strength);
       field.inject(pos, influence);
     }
   }

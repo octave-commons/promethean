@@ -18,6 +18,75 @@ tags:
   - io
   - pure
   - backwards-compatible
+related_to_uuid:
+  - 672da53b-d8ac-48cd-9cb3-e3fa9915dd6a
+  - 0a8255a5-ef49-4a1e-ae71-b2f57eb7bdf8
+  - bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+  - c09d7688-71d6-47fc-bf81-86b6193c84bc
+  - 99c6d380-a2a6-4d8e-a391-f4bc0c9a631f
+  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - e0d3201b-826a-4976-ab01-36aae28882be
+  - 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+  - 177c260c-39b2-4450-836d-1e87c0bd0035
+  - e2955491-020a-4009-b7ed-a5a348c63cfd
+  - 95410f6e-dabb-4560-80a8-1ed4fd9c3d3b
+  - 2478e18c-f621-4b0c-a4c5-9637d213cccf
+  - 65c145c7-fe3e-4989-9aae-5db39fa0effc
+  - abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+  - 9a7799ff-78bf-451d-9066-24555d8eb209
+  - bc1dc19d-0e47-4e8a-91d4-544995f143e1
+  - 3657117f-241d-4ab9-a717-4a3f584071fc
+  - c2ba3d27-5b24-4345-9cf2-5cf296f8b03d
+  - 77a0f2f2-06a6-4e0b-8fcb-a79eee68c51a
+  - 10780cdc-5036-4e8a-9599-a11703bc30c9
+  - 46b3c583-a4e2-4ecc-90de-6fd104da23db
+  - 2d0982f7-7518-432a-80b3-e89834cf9ab3
+  - 740bbd1c-c039-405c-8a32-4baeddfb5637
+  - 3841ef7c-f41e-467f-87ae-f722d99e9e0c
+  - 8b256935-02f6-4da2-a406-bf6b8415276f
+related_to_title:
+  - Factorio AI with External Agents
+  - Functional Refactor of TypeScript Document Processing
+  - chroma-embedding-refactor
+  - Migrate to Provider-Tenant Architecture
+  - Layer 1 Survivability Envelope
+  - Universal Lisp Interface
+  - Field Node Diagrams
+  - promethean-native-config-design
+  - universal-intention-code-fabric
+  - chroma-toolkit-consolidation-plan
+  - model-selection-for-lightweight-conversational-tasks
+  - Cross-Language Runtime Polymorphism
+  - event-bus-mvp
+  - RAG UI Panel with Qdrant and PostgREST
+  - Sibilant Meta-Prompt DSL
+  - layer-1-uptime-diagrams
+  - language-agnostic-mirror-system
+  - observability-infrastructure-setup
+  - Sentence Processing
+  - Eidolon Field Abstract Model
+  - Promethean Event Bus MVP
+  - i3 Config Validation Methods
+  - heartbeat-fragment-demo
+  - per-domain-policy-system-for-js-crawler
+  - Chroma-Embedding-Refactor
+references:
+  - uuid: 672da53b-d8ac-48cd-9cb3-e3fa9915dd6a
+    line: 89
+    col: 0
+    score: 0.86
+  - uuid: 672da53b-d8ac-48cd-9cb3-e3fa9915dd6a
+    line: 94
+    col: 0
+    score: 0.86
+  - uuid: 0a8255a5-ef49-4a1e-ae71-b2f57eb7bdf8
+    line: 5
+    col: 0
+    score: 0.85
+  - uuid: 672da53b-d8ac-48cd-9cb3-e3fa9915dd6a
+    line: 135
+    col: 0
+    score: 0.85
 ---
 you’ve got way too much state mutation and IO mixed into control flow. here’s a functional pass that: ^ref-a4a25141-1-0
 
@@ -63,6 +132,275 @@ import {
   readJSON,
   parseMarkdownChunks,
 } from "./utils";
+import type { Chunk, Front } from "./types";
+
+// ------------------------
+// Config (IO boundary)
+// ------------------------
+const OLLAMA_URL = process.env.OLLAMA_URL ?? "
+
+type Config = {
+  root: string;
+  exts: Set<string>;
+  embedModel: string;
+  cacheDir: string;
+  chunkCachePath: string;
+  embedCachePath: string;
+  docsMapPath: string;
+  concurrency: number;
+};
+
+const mkConfig = (): Config => {
+  const args = parseArgs({
+    "--dir": "docs/unique",
+    "--ext": ".md,.mdx,.txt",
+    "--embed-model": "nomic-embed-text:latest",
+    "--concurrency": "4",
+  });
+  const ROOT = path.resolve(args["--dir"]);
+  const EXTS = new Set(
+    args["--ext"].split(",").map((s) => s.trim().toLowerCase())
+  );
+  const EMBED_MODEL = args["--embed-model"];
+  const CACHE = path.join(process.cwd(), ".cache/docs-pipeline");
+  return {
+    root: ROOT,
+    exts: EXTS,
+    embedModel: EMBED_MODEL,
+    cacheDir: CACHE,
+    chunkCachePath: path.join(CACHE, "chunks.json"),
+    embedCachePath: path.join(CACHE, "embeddings.json"),
+    docsMapPath: path.join(CACHE, "docs-by-uuid.json"),
+    concurrency: Math.max(1, Number(args["--concurrency"]) || 4),
+  };
+};
+
+// ------------------------
+// Pure helpers
+// ------------------------
+const sha1 = (s: string) => crypto.createHash("sha1").update(s).digest("hex");
+
+type EmbeddingCacheValue = number[] | { hash: string; embedding: number[] };
+type EmbeddingCache = Record<string, EmbeddingCacheValue>;
+
+const getCachedEmbedding = (
+  id: string,
+  textHash: string,
+  cache: EmbeddingCache
+): number[] | null => {
+  const v = cache[id];
+  if (!v) return null;
+  if (Array.isArray(v)) return v; // legacy cache entry; accept as-is
+  return v.hash === textHash ? v.embedding : null;
+};
+
+const setCachedEmbedding = (
+  id: string,
+  textHash: string,
+  embedding: number[],
+  cache: EmbeddingCache
+): EmbeddingCache => {
+  return { ...cache, [id]: { hash: textHash, embedding } };
+};
+
+type Doc = {
+  path: string;
+  front: Front;
+  content: string;
+};
+
+const toChunks = (doc: Doc): Chunk[] =>
+  parseMarkdownChunks(doc.content).map((c, i) => ({
+    ...c,
+    id: `${doc.front.uuid}:${i}`,
+    docUuid: doc.front.uuid!,
+    docPath: doc.path,
+  }));
+
+const groupBy = <T, K extends string>(
+  keyFn: (x: T) => K,
+  xs: T[]
+): Record<K, T[]> =>
+  xs.reduce((acc, x) => {
+    const k = keyFn(x);
+    (acc[k] ??= []).push(x);
+    return acc;
+  }, {} as Record<K, T[]>);
+
+const buildDocsByUuid = (
+  docs: Doc[]
+): Record<string, { path: string; title: string }> =>
+  docs.reduce((acc, d) => {
+    const title = d.front.filename || path.parse(d.path).name;
+    acc[d.front.uuid!] = { path: d.path, title };
+    return acc;
+  }, {} as Record<string, { path: string; title: string }>);
+
+// ------------------------
+// Small concurrency limiter
+// ------------------------
+const limit = (concurrency: number) => {
+  let active = 0;
+  const queue: (() => void)[] = [];
+  const next = () => {
+    active--;
+    const fn = queue.shift();
+    if (fn) fn();
+  };
+  return async <T>(task: () => Promise<T>): Promise<T> =>
+    new Promise<T>((resolve, reject) => {
+      const run = () => {
+        active++;
+        task()
+          .then((v) => {
+            next();
+            resolve(v);
+          })
+          .catch((e) => {
+            next();
+            reject(e);
+          });
+      };
+      if (active < concurrency) run();
+      else queue.push(run);
+    });
+};
+
+// ------------------------
+// IO helpers
+// ------------------------
+const readDoc = async (file: string): Promise<Doc> => {
+  const raw = await fs.readFile(file, "utf-8");
+  const { data, content } = matter(raw);
+  return { path: file, front: data as Front, content };
+};
+
+const ollamaEmbed =
+  (model: string) =>
+  async (text: string): Promise<number[]> => {
+    // simple retry with jitter
+    let attempt = 0;
+    const max = 4;
+    while (true) {
+      try {
+        const res = await fetch(`${OLLAMA_URL}/api/embeddings`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ model, prompt: text }),
+        });
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status} ${res.statusText}`);
+        }
+        const data = (await res.json()) as { embedding: number[] };
+        return data.embedding;
+      } catch (err) {
+        attempt++;
+        if (attempt >= max) throw err;
+        const backoff = 250 * Math.pow(2, attempt) + Math.random() * 100;
+        await new Promise((r) => setTimeout(r, backoff));
+      }
+    }
+  };
+
+// ------------------------
+// Core flow
+// ------------------------
+async function main() {
+  const cfg = mkConfig();
+
+  // ensure cache dir exists
+  await fs.mkdir(cfg.cacheDir, { recursive: true });
+
+  // load prior caches (IO)
+  const prevChunksByDoc: Record<string, Chunk[]> = await readJSON(
+    cfg.chunkCachePath,
+    {}
+  );
+  const prevEmbedCache: EmbeddingCache = await readJSON(
+    cfg.embedCachePath,
+    {}
+  );
+  const prevDocsMap: Record<string, { path: string; title: string }> =
+    await readJSON(cfg.docsMapPath, {});
+
+  // discover files (IO)
+  const files = await listFilesRec(cfg.root, cfg.exts);
+
+  // read + parse (IO) -> filter for uuid
+  const docs: Doc[] = (
+    await Promise.all(
+      files.map(async (f) => {
+        try {
+          const d = await readDoc(f);
+          if (!d.front?.uuid) return null;
+          return d;
+        } catch (e) {
+          console.error(`! failed parsing ${f}:`, e);
+          return null;
+        }
+      })
+    )
+  ).filter(Boolean) as Doc[];
+
+  // chunkify (pure)
+  const allChunks = docs.flatMap(toChunks);
+
+  // embed with memoized cache + p-limit (IO)
+  const limiter = limit(cfg.concurrency);
+  const embedFn = ollamaEmbed(cfg.embedModel);
+
+  let nextEmbedCache = { ...prevEmbedCache };
+  const embeddedChunks: Chunk[] = await Promise.all(
+    allChunks.map((ch) =>
+      limiter(async () => {
+        const hash = sha1(ch.text);
+        const cached = getCachedEmbedding(ch.id, hash, nextEmbedCache);
+        const embedding = cached ?? (await embedFn(ch.text));
+        if (!cached) {
+          nextEmbedCache = setCachedEmbedding(ch.id, hash, embedding, nextEmbedCache);
+        }
+        return { ...ch, embedding };
+      })
+    )
+  );
+
+  // group (pure)
+  const newChunksByDoc = groupBy<Chunk, string>((c) => c.docUuid!, embeddedChunks);
+  const newDocsMap = buildDocsByUuid(docs);
+
+  // merge with previous (pure-ish)
+  const mergedChunksByDoc = { ...prevChunksByDoc, ...newChunksByDoc };
+  const mergedDocsMap = { ...prevDocsMap, ...newDocsMap };
+
+  // persist (IO)
+  await writeJSON(cfg.chunkCachePath, mergedChunksByDoc);
+  await writeJSON(cfg.embedCachePath, nextEmbedCache);
+  await writeJSON(cfg.docsMapPath, mergedDocsMap);
+
+  console.log(
+    `02-embed: done. files=${files.length} docs=${docs.length} chunks=${embeddedChunks.length} concurrency=${cfg.concurrency}`
+  );
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
+^ref-a4a25141-31-0
+```
+^ref-a4a25141-32-0 ^ref-a4a25141-301-0
+ ^ref-a4a25141-302-0
+### notes you’ll care about ^ref-a4a25141-302-0
+ ^ref-a4a25141-303-0 ^ref-a4a25141-304-0
+* **cache semantics**: `embeddings.json` can now hold either `number[]` (legacy) or `{ hash, embedding }`. that means you won’t churn embeddings on first run, and you’ll only recompute when the chunk text actually changed. ^ref-a4a25141-304-0 ^ref-a4a25141-305-0
+* **determinism**: chunk ids are still `${uuid}:${i}` to stay compatible with anything downstream that relies on that shape. ^ref-a4a25141-305-0
+* **bounded pressure**: `--concurrency` (default 4). tune it to your box; NPUs/GPUs don’t like a stampede. ^ref-a4a25141-307-0
+* **blast radius**: one corrupt file won’t nuke the run; it logs and keeps going. ^ref-a4a25141-307-0
+ ^ref-a4a25141-309-0
+if you want to go even more functional, we can make the “runner” pass in *all* side-effectors (`readFile`, `postEmbed`, `writeJSON`) as injected deps and test the whole pipeline with pure data. but this is already a big step up without over-engineering. ^ref-a4a25141-309-0
+
+\#refactor #functional #typescript #ollama #embeddings #docs-pipeline
+./utils";
 import type { Chunk, Front } from "./types";
 
 // ------------------------

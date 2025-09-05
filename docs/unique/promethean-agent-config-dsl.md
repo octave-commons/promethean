@@ -15,6 +15,63 @@ tags:
   - runtime-agnostic
   - permissions-first
   - observability
+related_to_uuid:
+  - 50ac7389-a75e-476a-ab34-bb24776d4f38
+  - d65e5b6c-29ed-458f-bf9b-94bf0d48fa79
+  - 526317d7-2eaf-4559-bb17-1f8dcfe9e30c
+  - c09d7688-71d6-47fc-bf81-86b6193c84bc
+  - e4317155-7fa6-44e8-8aee-b72384581790
+  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
+  - ed2e157e-bfed-4291-ae4c-6479df975d87
+  - 572b571b-b337-4004-97b8-386f930b5497
+  - a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+  - aa88652d-c8e5-4a1b-850e-afdf7fe15dae
+  - 10780cdc-5036-4e8a-9599-a11703bc30c9
+  - f24dbd59-29e1-4eeb-bb3e-d2c31116b207
+  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
+  - 31a2df46-9dbc-4066-b3e3-d3e860099fd0
+  - 395df1ea-572e-49ec-8861-aff9d095ed0e
+  - 58a50f5a-b073-4c50-8d3f-4284bd5df171
+  - aaf779eb-0287-499f-b6d3-6fb4d9e595bd
+  - c7b8a045-45f2-42c4-9617-b0cda73ca3cf
+  - 6420e101-2d34-45b5-bcff-d21e1c6e516b
+  - 7a66bc1e-9276-41ce-ac22-fc08926acb2d
+  - 01723341-5fbf-4118-8885-9ed0a94fca04
+  - 4d8cbf01-e44a-452f-96a0-17bde7b416a8
+  - 792a343e-674c-4bb4-8435-b3f8c163349d
+  - 177c260c-39b2-4450-836d-1e87c0bd0035
+related_to_title:
+  - promethean-full-stack-docker-setup
+  - sibilant-macro-targets
+  - Cross-Target Macro System in Sibilant
+  - Migrate to Provider-Tenant Architecture
+  - TypeScript Patch for Tool Calling Support
+  - polyglot-repl-interface-layer
+  - field-interaction-equations
+  - State Snapshots API and Transactional Projector
+  - AI-Centric OS with MCP Layer
+  - Promethean Web UI Setup
+  - Eidolon Field Abstract Model
+  - Mongo Outbox Implementation
+  - Universal Lisp Interface
+  - Stateful Partitions and Rebalancing
+  - field-node-diagram-set
+  - Promethean System Diagrams
+  - js-to-lisp-reverse-compiler
+  - sibilant-meta-string-templating-runtime
+  - i3-bluetooth-setup
+  - Eidolon Field Math Foundations
+  - pm2-orchestration-patterns
+  - Fnord Tracer Protocol
+  - pure-node-crawl-stack-with-playwright-and-crawlee
+  - windows-tiling-with-autohotkey
+  - universal-intention-code-fabric
+references:
+  - uuid: 50ac7389-a75e-476a-ab34-bb24776d4f38
+    line: 416
+    col: 0
+    score: 0.85
 ---
 # Promethean Agent Config DSL (S‑Expr) — Draft v1
 
@@ -365,6 +422,16 @@ flowchart LR
 --- ^ref-2c00ce45-306-0
 
 ## Open Questions ^ref-2c00ce45-348-0
+ ^ref-2c00ce45-333-0
+* Secret resolution backend: env, file, or Vault? Provide adapters. ^ref-2c00ce45-321-0
+* Live reload of topology on block update? (hot‑swap vs restart) ^ref-2c00ce45-311-0
+* Multi‑tenancy overlays: `(overlay :discord {...})` vs multiple `(use discord.bot/v1 ...)` forms. ^ref-2c00ce45-352-0
+* How do we describe **tools** (OpenAPI → tool specs) as composable blocks? (likely `(use tools/openapi/v1 :with {:spec ".../openapi.json"})`). ^ref-2c00ce45-353-0
+ ^ref-2c00ce45-338-0
+--- ^ref-2c00ce45-326-0
+ ^ref-2c00ce45-316-0
+*End Draft v1 — ready for iteration.*
+0ce45-348-0
  ^ref-2c00ce45-333-0
 * Secret resolution backend: env, file, or Vault? Provide adapters. ^ref-2c00ce45-321-0
 * Live reload of topology on block update? (hot‑swap vs restart) ^ref-2c00ce45-311-0

@@ -18,6 +18,95 @@ tags:
   - prometheus
   - docker
   - webui
+related_to_uuid:
+  - 26bd1c45-3706-4bc2-9c46-78e035056f61
+  - e108b8dd-c7e8-4245-8bfe-dd475c8aedf1
+  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - ba244286-4e84-425b-8bf6-b80c4eb783fc
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - d28090ac-f746-4958-aab5-ed1315382c04
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+  - d17d3a96-c84d-4738-a403-6c733b874da2
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - 4330e8f0-5f46-4235-918b-39b6b93fa561
+  - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - 80d4d883-59f9-401b-8699-7a2723148b1e
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - d2b3628c-6cad-4664-8551-94ef8280851d
+related_to_title:
+  - git-commit-ollama-semantic-grouping
+  - Git Intelligence for Strategic Code Management
+  - sibilant-meta-string-templating-runtime
+  - ecs-scheduler-and-prefabs
+  - Voice Access Layer Design
+  - System Scheduler with Resource-Aware DAG
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - universal-intention-code-fabric
+  - i3-config-validation-methods
+  - Local-Offline-Model-Deployment-Strategy
+  - State Snapshots API and Transactional Projector
+  - Pure TypeScript Search Microservice
+  - Promethean Infrastructure Setup
+  - Stateful Partitions and Rebalancing
+  - schema-evolution-workflow
+  - plan-update-confirmation
+  - homeostasis-decay-formulas
+  - Docops Feature Updates
+  - Chroma Toolkit Consolidation Plan
+  - Ghostly Smoke Interference
+  - Event Bus MVP
+  - Refactor 05-footers.ts
+  - prom ui bootstrap
+  - compiler-kit-foundations
+  - Language-Agnostic Mirror System
+references:
+  - uuid: 26bd1c45-3706-4bc2-9c46-78e035056f61
+    line: 103
+    col: 0
+    score: 1
+  - uuid: 26bd1c45-3706-4bc2-9c46-78e035056f61
+    line: 284
+    col: 0
+    score: 1
+  - uuid: e108b8dd-c7e8-4245-8bfe-dd475c8aedf1
+    line: 1
+    col: 0
+    score: 1
+  - uuid: e108b8dd-c7e8-4245-8bfe-dd475c8aedf1
+    line: 6
+    col: 0
+    score: 1
+  - uuid: 26bd1c45-3706-4bc2-9c46-78e035056f61
+    line: 108
+    col: 0
+    score: 0.94
+  - uuid: 26bd1c45-3706-4bc2-9c46-78e035056f61
+    line: 289
+    col: 0
+    score: 0.94
+  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+    line: 92
+    col: 0
+    score: 0.88
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 379
+    col: 0
+    score: 0.86
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 280
+    col: 0
+    score: 0.85
 ---
 Heck yeah—here’s a drop-in **RAG UI panel** that talks to **Qdrant** (HTTP API) and **PostgreSQL** via **PostgREST**, all still funneled through your NGINX “edge” with `X-API-Key` gating. It includes: collection browser, vector search (auto-embeds with TEI nomic), and a simple Postgres table viewer. ^ref-e1056831-1-0
 
@@ -404,6 +493,28 @@ flowchart LR
   B[Browser /ui/*] --> E[edge:80]
 ^ref-e1056831-358-0
 ^ref-e1056831-357-0 ^ref-e1056831-374-0
+^ref-e1056831-356-0
+^ref-e1056831-374-0
+  subgraph Edge (NGINX) ^ref-e1056831-352-0 ^ref-e1056831-384-0
+    E -->|/rag/qdrant/* + X-API-Key| Q[qdrant:6333]
+    E -->|/rag/pg/* + X-API-Key| P[postgrest:3000 → pg:5432] ^ref-e1056831-354-0
+    E -->|/embed/nomic/* + X-API-Key| TEI[tei-nomic:80] ^ref-e1056831-355-0
+  end ^ref-e1056831-356-0
+  B -->|/ui/* (no token)| W[web:80] ^ref-e1056831-357-0
+``` ^ref-e1056831-358-0
+
+--- ^ref-e1056831-374-0 ^ref-e1056831-384-0
+
+## Notes / tweaks
+
+* **Embedding dim**: I assumed `768` (fits `nomic-embed-text-v1.5`). If you switch TEI models, update:
+
+  * Qdrant collection `vectors.size`
+  * PG `embedding vector(DIM)`
+* **Security**: The UI still loads without a token; all `/rag/*`, `/embed/*`, etc. remain gated by `X-API-Key`.
+* **Schema**: If you’ve got a richer PG schema, expose read-only views and grant `select` to `web_anon`, then point the UI at those endpoints (e.g., `/rag/pg/my_view?select=...`).
+* **Next**: I can add a **chunker + upsert** panel (drop files → split → embed → write to PG and/or Qdrant) if you want ingest from the browser.
+ref-e1056831-357-0 ^ref-e1056831-374-0
 ^ref-e1056831-356-0
 ^ref-e1056831-374-0
   subgraph Edge (NGINX) ^ref-e1056831-352-0 ^ref-e1056831-384-0

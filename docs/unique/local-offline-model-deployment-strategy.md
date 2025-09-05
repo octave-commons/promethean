@@ -17,6 +17,79 @@ tags:
   - haystack
   - ollama
   - self-hosted
+related_to_uuid:
+  - ee4b3631-a745-485b-aff1-2da806cfadfb
+  - 6ff8d80e-7070-47b5-898c-ee506e353471
+  - 8fd08696-5338-493b-bed5-507f8a6a6ea9
+  - 5becb573-0a78-486b-8d3c-199b3c7a79ec
+  - c46718fe-73dd-4236-8f1c-f6565da58cc4
+  - f24dbd59-29e1-4eeb-bb3e-d2c31116b207
+  - 06ef038a-e195-49c1-898f-a50cc117c59a
+  - 740bbd1c-c039-405c-8a32-4baeddfb5637
+  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
+  - 1fcb8421-46eb-4813-ba66-f79b25ef5db7
+  - 6e678cce-b68f-4420-980f-5c9009f0d971
+  - a23de044-17e0-45f0-bba7-d870803cbfed
+  - 46b3c583-a4e2-4ecc-90de-6fd104da23db
+  - bdca8ded-0e64-417b-a258-4528829c4704
+  - c0e6ea38-a9a0-4379-aa9c-b634a6591a59
+  - cdb74242-b61d-4b7e-9288-5859e040e512
+  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
+  - 7842d43c-7d13-46f0-bdf1-561f5e4c6f53
+  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
+  - 315a8cf5-239b-449b-a9eb-7df496a796c6
+  - 4c87f571-9942-4288-aec4-0bc52e9cdbe7
+  - 5b8c984e-cff5-4d59-b904-4c7c558a4030
+  - aa437a1f-eb7e-4096-a6cc-98d2eeeef8c5
+  - 033f4d79-efaa-4caf-a193-9022935b8194
+  - 7b672b78-7057-4506-baf9-1262a6e477e3
+related_to_title:
+  - Promethean Documentation Pipeline Overview
+  - provider-agnostic-chat-panel-implementation
+  - typed-struct-compiler
+  - Agent Reflections and Prompt Evolution
+  - shared-package-structure
+  - Mongo Outbox Implementation
+  - 2d-sandbox-field
+  - heartbeat-fragment-demo
+  - Stateful Partitions and Rebalancing
+  - api-gateway-versioning
+  - balanced-bst
+  - Komorebi Group Manager
+  - Promethean Event Bus MVP
+  - Pure TypeScript Search Microservice
+  - board-walk-2025-08-11
+  - Event Bus Projections Architecture
+  - polyglot-repl-interface-layer
+  - promethean-infrastructure-setup
+  - dynamic-context-model-for-web-components
+  - Smoke Resonance Visualizations
+  - set-assignment-in-lisp-ast
+  - lisp-dsl-window-management
+  - Prometheus Observability Stack
+  - Prompt Programming Language for LLMs
+  - mystery-lisp-for-python-education
+references:
+  - uuid: ee4b3631-a745-485b-aff1-2da806cfadfb
+    line: 156
+    col: 0
+    score: 1
+  - uuid: ee4b3631-a745-485b-aff1-2da806cfadfb
+    line: 157
+    col: 0
+    score: 1
+  - uuid: ee4b3631-a745-485b-aff1-2da806cfadfb
+    line: 159
+    col: 0
+    score: 1
+  - uuid: 6ff8d80e-7070-47b5-898c-ee506e353471
+    line: 219
+    col: 0
+    score: 0.86
+  - uuid: 6ff8d80e-7070-47b5-898c-ee506e353471
+    line: 226
+    col: 0
+    score: 0.85
 ---
 Absolutely. Here’s a **fully-local, air-gapped** revision: no SaaS hooks, no tokens, no phone-home where we can disable it. Models served from a **local `/models`** volume; TEI/Haystack run **offline**. If you haven’t cached models yet, drop them into `./infra/models/**` before starting. ^ref-ad7f1ed3-1-0
 
@@ -275,6 +348,82 @@ pipelines:
 ^ref-ad7f1ed3-230-0 ^ref-ad7f1ed3-255-0
         inputs: [Retriever] ^ref-ad7f1ed3-248-0
 ``` ^ref-ad7f1ed3-249-0
+^ref-ad7f1ed3-232-0
+ ^ref-ad7f1ed3-240-0
+Keep `HF_HUB_OFFLINE=1` and ensure `/models/deepset-roberta-base-squad2/**` exists. ^ref-ad7f1ed3-246-0
+
+--- ^ref-ad7f1ed3-248-0
+ ^ref-ad7f1ed3-249-0
+# 3) TEI with local model dirs (embeddings later) ^ref-ad7f1ed3-255-0
+ ^ref-ad7f1ed3-246-0
+When you’re ready for vector search, point OpenSearch to embedding fields and **use TEI offline** (above). Your retriever becomes `EmbeddingRetriever` with `embedding_model:  (no tokens needed). Again: models must live under `/models`.
+ ^ref-ad7f1ed3-248-0
+--- ^ref-ad7f1ed3-249-0
+ ^ref-ad7f1ed3-255-0
+# 4) Caching models (one-time, offline-friendly)
+
+You have two options:
+
+* **Manual**: copy model directories into `./infra/models/**` so containers see them at `/models/**`.
+* **Air-gapped mirror**: on a machine with internet, `git lfs clone` or `huggingface-cli download ...` and then rsync the directories into `./infra/models/`. Inside containers we set `HF_HUB_OFFLINE=1`, so nothing reaches out.
+
+---
+
+# 5) Quick start (local-only)
+
+```bash
+# 1) put models in ./infra/models/**
+#    e.g. ./infra/models/nomic-embed-text-v1.5, ./infra/models/openai-clip-vit-large-patch14
+
+# 2) bring up core infra
+docker compose --profile data --profile observability --profile edge up -d
+
+# 3) bring up AI (offline)
+docker compose --profile ai up -d
+
+# 4) bring up RAG API
+docker compose --profile rag up -d
+
+# 5) index and query locally
+^ref-ad7f1ed3-255-0
+docker exec -it haystack bash -lc \
+  "haystack pipeline run --pipeline indexing --file /app/pipelines/samples/README.txt"
+^ref-ad7f1ed3-283-0
+^ref-ad7f1ed3-282-0
+^ref-ad7f1ed3-290-0 ^ref-ad7f1ed3-291-0
+^ref-ad7f1ed3-288-0 ^ref-ad7f1ed3-292-0
+^ref-ad7f1ed3-297-0
+^ref-ad7f1ed3-295-0 ^ref-ad7f1ed3-302-0
+^ref-ad7f1ed3-293-0
+^ref-ad7f1ed3-292-0
+^ref-ad7f1ed3-291-0 ^ref-ad7f1ed3-305-0
+^ref-ad7f1ed3-290-0 ^ref-ad7f1ed3-306-0
+^ref-ad7f1ed3-288-0 ^ref-ad7f1ed3-307-0
+^ref-ad7f1ed3-286-0
+^ref-ad7f1ed3-283-0
+^ref-ad7f1ed3-282-0
+^ref-ad7f1ed3-286-0 ^ref-ad7f1ed3-293-0
+^ref-ad7f1ed3-283-0
+^ref-ad7f1ed3-282-0 ^ref-ad7f1ed3-295-0
+ ^ref-ad7f1ed3-286-0
+curl -s  \ ^ref-ad7f1ed3-297-0
+  -H 'Content-Type: application/json' \ ^ref-ad7f1ed3-288-0
+  -d '{"query":"What is in the README?","params":{"Retriever":{"top_k":5}}}' ^ref-ad7f1ed3-282-0
+``` ^ref-ad7f1ed3-283-0 ^ref-ad7f1ed3-290-0
+ ^ref-ad7f1ed3-291-0
+--- ^ref-ad7f1ed3-292-0 ^ref-ad7f1ed3-302-0
+ ^ref-ad7f1ed3-286-0 ^ref-ad7f1ed3-293-0
+## Sanity notes
+ ^ref-ad7f1ed3-288-0 ^ref-ad7f1ed3-295-0 ^ref-ad7f1ed3-305-0
+* **No tokens anywhere.** ^ref-ad7f1ed3-306-0
+* **No SaaS IdPs.** Use **Keycloak** if you need SSO, all local. ^ref-ad7f1ed3-290-0 ^ref-ad7f1ed3-297-0 ^ref-ad7f1ed3-307-0
+* **No model downloads at runtime.** Everything mounted from `/models`. ^ref-ad7f1ed3-291-0
+* **Telemetry** disabled where supported. ^ref-ad7f1ed3-292-0
+ ^ref-ad7f1ed3-293-0
+Want me to spit out a **one-shot script** that validates all mounted model dirs exist (and fails fast) before boot? Or trim the stack further (e.g., drop Portainer/code-server if you want zero optional surfaces)?
+ ^ref-ad7f1ed3-295-0 ^ref-ad7f1ed3-302-0
+\#infrastructure #airgapped #selfhosted #docker #docker-compose #rag #search #observability #security
+-249-0
 ^ref-ad7f1ed3-232-0
  ^ref-ad7f1ed3-240-0
 Keep `HF_HUB_OFFLINE=1` and ensure `/models/deepset-roberta-base-squad2/**` exists. ^ref-ad7f1ed3-246-0

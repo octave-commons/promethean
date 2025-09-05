@@ -20,6 +20,159 @@ tags:
   - ghost threads
   - sine waves
   - dynamic animation
+related_to_uuid:
+  - 0904921a-50df-420d-8fd1-c946d25004c3
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
+  - f1add613-656e-4bec-b52b-193fd78c4642
+  - 75ea4a6a-8270-488d-9d37-799c288e5f70
+  - 623a55f7-685c-486b-abaf-469da1bbbb69
+  - 557309a3-c906-4e97-8867-89ffe151790c
+  - 6cb4943e-8267-4e27-8618-2ce0a464d173
+  - 9e8ae388-767a-4ea8-9f2e-88801291d947
+  - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+  - a4d90289-798d-44a0-a8e8-a055ae12fb52
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+  - 22b989d5-f4aa-4880-8632-709c21830f83
+  - bad9e6c7-5317-4ab1-82e0-41e49066403e
+  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
+  - ba244286-4e84-425b-8bf6-b80c4eb783fc
+  - 80d4d883-59f9-401b-8699-7a2723148b1e
+  - b01856b4-999f-418d-8009-ade49b00eb0f
+  - 8b256935-02f6-4da2-a406-bf6b8415276f
+  - d41a06d1-613e-4440-80b7-4553fc694285
+  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+related_to_title:
+  - Ghostly Smoke Interference
+  - Duck's Attractor States
+  - Creative Moments
+  - JavaScript
+  - Operations
+  - Services
+  - Shared
+  - Simulation Demo
+  - Tooling
+  - Window Management
+  - DuckDuckGoSearchPipeline
+  - Factorio AI with External Agents
+  - field-dynamics-math-blocks
+  - field-node-diagram-outline
+  - field-node-diagram-set
+  - infinite-depth-smoke-animation
+  - Promethean Agent Config DSL
+  - System Scheduler with Resource-Aware DAG
+  - Refactor 05-footers.ts
+  - Universal Lisp Interface
+  - Chroma-Embedding-Refactor
+  - prompt-programming-language-lisp
+  - Vectorial Exception Descent
+  - Voice Access Layer Design
+  - Local-Only-LLM-Workflow
+references:
+  - uuid: 0904921a-50df-420d-8fd1-c946d25004c3
+    line: 40
+    col: 0
+    score: 0.97
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 730
+    col: 0
+    score: 0.94
+  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
+    line: 358
+    col: 0
+    score: 0.94
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 503
+    col: 0
+    score: 0.94
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 446
+    col: 0
+    score: 0.94
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 437
+    col: 0
+    score: 0.94
+  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
+    line: 485
+    col: 0
+    score: 0.94
+  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
+    line: 600
+    col: 0
+    score: 0.94
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 332
+    col: 0
+    score: 0.94
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 293
+    col: 0
+    score: 0.94
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 199
+    col: 0
+    score: 0.94
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 473
+    col: 0
+    score: 0.94
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 796
+    col: 0
+    score: 0.94
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 561
+    col: 0
+    score: 0.94
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 557
+    col: 0
+    score: 0.94
+  - uuid: bad9e6c7-5317-4ab1-82e0-41e49066403e
+    line: 7
+    col: 0
+    score: 0.91
+  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
+    line: 279
+    col: 0
+    score: 0.88
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 358
+    col: 0
+    score: 0.87
+  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
+    line: 187
+    col: 0
+    score: 0.87
+  - uuid: 80d4d883-59f9-401b-8699-7a2723148b1e
+    line: 9
+    col: 0
+    score: 0.87
+  - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
+    line: 289
+    col: 0
+    score: 0.87
+  - uuid: d41a06d1-613e-4440-80b7-4553fc694285
+    line: 56
+    col: 0
+    score: 0.87
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 95
+    col: 0
+    score: 0.86
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 280
+    col: 0
+    score: 0.85
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 147
+    col: 0
+    score: 0.85
 ---
 Got it — then let’s stop worrying about file size and keep chasing the *feel* of this thing. ^ref-b6ae7dfa-1-0
 

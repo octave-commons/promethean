@@ -17,6 +17,95 @@ tags:
   - lowering
   - optimizations
   - codegen
+related_to_uuid:
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - 1de71d74-4aec-468f-9354-42999a71da8a
+  - 4c87f571-9942-4288-aec4-0bc52e9cdbe7
+  - abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - 29676fd0-d3da-46ac-8408-1ef17da73aa6
+  - 688ad325-4243-4304-bccc-1a1d8745de08
+  - 6b91d91d-6b5c-4516-a0c8-d66d9b9fcc9b
+  - 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+  - 73d64bce-f428-4735-a3d0-6225a0588e46
+  - 7a66bc1e-9276-41ce-ac22-fc08926acb2d
+  - 58a50f5a-b073-4c50-8d3f-4284bd5df171
+  - e4317155-7fa6-44e8-8aee-b72384581790
+  - 395df1ea-572e-49ec-8861-aff9d095ed0e
+  - c09d7688-71d6-47fc-bf81-86b6193c84bc
+  - 63268470-ed9f-48c5-98da-f158c15ec8f5
+  - aa437a1f-eb7e-4096-a6cc-98d2eeeef8c5
+  - 004a0f06-3808-4421-b9e1-41b5b41ebcb8
+  - 01723341-5fbf-4118-8885-9ed0a94fca04
+  - 4c63f2be-b5cd-479c-ad0d-ca26424162f7
+  - 2478e18c-f621-4b0c-a4c5-9637d213cccf
+  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
+  - 65c145c7-fe3e-4989-9aae-5db39fa0effc
+  - 3657117f-241d-4ab9-a717-4a3f584071fc
+  - a69259b4-4260-4877-bd79-22c432e1f85f
+related_to_title:
+  - compiler-kit-foundations
+  - Interop and Source Maps
+  - set-assignment-in-lisp-ast
+  - RAG UI Panel with Qdrant and PostgREST
+  - Universal Lisp Interface
+  - Lispy Macros with Syntax Rules
+  - template-based-compilation
+  - AGENTS.md
+  - promethean-native-config-design
+  - Voice Access Layer Design
+  - pm2-orchestration-patterns
+  - js-to-lisp-reverse-compiler
+  - TypeScript Patch for Tool Calling Support
+  - Promethean System Diagrams
+  - Migrate to Provider-Tenant Architecture
+  - Duck's Attractor States
+  - Prometheus Observability Stack
+  - ecs-offload-workers
+  - Fnord Tracer Protocol
+  - lisp-compiler-integration
+  - Cross-Language Runtime Polymorphism
+  - polyglot-repl-interface-layer
+  - event-bus-mvp
+  - language-agnostic-mirror-system
+  - polyglot-s-expr-bridge-python-js-lisp-interop
+references:
+  - uuid: 1de71d74-4aec-468f-9354-42999a71da8a
+    line: 322
+    col: 0
+    score: 0.91
+  - uuid: 4c87f571-9942-4288-aec4-0bc52e9cdbe7
+    line: 5
+    col: 0
+    score: 0.89
+  - uuid: 4c87f571-9942-4288-aec4-0bc52e9cdbe7
+    line: 60
+    col: 0
+    score: 0.88
+  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+    line: 146
+    col: 0
+    score: 0.87
+  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+    line: 172
+    col: 0
+    score: 0.87
+  - uuid: 29676fd0-d3da-46ac-8408-1ef17da73aa6
+    line: 304
+    col: 0
+    score: 0.87
+  - uuid: 688ad325-4243-4304-bccc-1a1d8745de08
+    line: 1
+    col: 0
+    score: 0.86
+  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+    line: 61
+    col: 0
+    score: 0.86
+  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+    line: 163
+    col: 0
+    score: 0.85
 ---
 Note: Consolidated here → ../notes/dsl/compiler-kit-foundations.md ^ref-01b21543-1-0
 
@@ -588,6 +677,84 @@ function prim(op: string, a: any, b?: any) {
     case "div": return a / b;
     case "mod": return a % b;
     case "lt": return a < b;
+    case "gt": return a > b;
+    case "le": return a <= b;
+    case "ge": return a >= b;
+^ref-01b21543-471-0
+    case "eq": return a === b;
+    case "ne": return a !== b;
+    case "not": return !a;
+    default: throw new Error("prim " + op);
+  }
+^ref-01b21543-574-0
+}
+^ref-01b21543-574-0 ^ref-01b21543-582-0
+```
+^ref-01b21543-574-0
+
+---
+
+# 8) One-line driver to prove the pipeline ^ref-01b21543-588-0
+
+```ts
+// shared/js/prom-lib/compiler/driver.ts
+import { parse } from "./parser";
+import { lower } from "./lower";
+import { compileToBytecode, runBytecode } from "./vm";
+
+export function compileAndRun(src: string) {
+  const ast = parse(src);
+  const ir = lower(ast);
+  const bc = compileToBytecode(ir);
+^ref-01b21543-574-0
+  const out = runBytecode(bc);
+  return { ast, ir, bc, out };
+}
+
+// quick demo: ^ref-01b21543-597-0
+^ref-01b21543-599-0
+^ref-01b21543-598-0 ^ref-01b21543-602-0
+^ref-01b21543-597-0
+// const r = compileAndRun(`let x = 2 + 3 in if x > 3 then x*10 else 0`); ^ref-01b21543-598-0 ^ref-01b21543-604-0
+^ref-01b21543-606-0 ^ref-01b21543-607-0
+^ref-01b21543-605-0 ^ref-01b21543-608-0
+^ref-01b21543-604-0 ^ref-01b21543-609-0
+^ref-01b21543-602-0 ^ref-01b21543-610-0
+^ref-01b21543-599-0 ^ref-01b21543-611-0
+^ref-01b21543-598-0 ^ref-01b21543-612-0
+^ref-01b21543-597-0 ^ref-01b21543-613-0
+// console.log(r.out); // 50 ^ref-01b21543-599-0 ^ref-01b21543-605-0
+^ref-01b21543-615-0 ^ref-01b21543-616-0
+^ref-01b21543-613-0
+^ref-01b21543-612-0
+^ref-01b21543-611-0 ^ref-01b21543-619-0
+^ref-01b21543-610-0 ^ref-01b21543-620-0
+^ref-01b21543-609-0 ^ref-01b21543-621-0
+^ref-01b21543-608-0
+^ref-01b21543-607-0
+^ref-01b21543-606-0 ^ref-01b21543-624-0
+^ref-01b21543-605-0 ^ref-01b21543-625-0
+^ref-01b21543-604-0 ^ref-01b21543-626-0
+^ref-01b21543-602-0 ^ref-01b21543-627-0
+^ref-01b21543-599-0 ^ref-01b21543-628-0
+^ref-01b21543-598-0 ^ref-01b21543-629-0
+^ref-01b21543-597-0 ^ref-01b21543-630-0
+^ref-01b21543-588-0
+^ref-01b21543-587-0 ^ref-01b21543-631-0
+``` ^ref-01b21543-606-0 ^ref-01b21543-615-0 ^ref-01b21543-632-0
+^ref-01b21543-590-0
+ ^ref-01b21543-607-0 ^ref-01b21543-616-0 ^ref-01b21543-633-0
+--- ^ref-01b21543-602-0 ^ref-01b21543-608-0 ^ref-01b21543-634-0
+ ^ref-01b21543-609-0
+# Where we go next ^ref-01b21543-604-0 ^ref-01b21543-610-0 ^ref-01b21543-619-0
+ ^ref-01b21543-605-0 ^ref-01b21543-611-0 ^ref-01b21543-620-0
+* Add **symbol tables & closures** (lift lambdas to `Fun[]`, closure env records) ^ref-01b21543-606-0 ^ref-01b21543-612-0 ^ref-01b21543-621-0 ^ref-01b21543-638-0
+* Optional **types**: Hindley–Milner (or zod powered dynamic checks) ^ref-01b21543-607-0 ^ref-01b21543-613-0 ^ref-01b21543-639-0
+* Real **optimizer** passes (const folding, copy-prop, DCE, inlining) ^ref-01b21543-608-0 ^ref-01b21543-640-0
+* Real **VM** (call frames, heap, closures) or emit **JS**/**WASM** ^ref-01b21543-609-0 ^ref-01b21543-615-0 ^ref-01b21543-624-0 ^ref-01b21543-641-0
+ ^ref-01b21543-610-0 ^ref-01b21543-616-0 ^ref-01b21543-625-0 ^ref-01b21543-642-0
+If you want a Lisp-flavored front-end too (Hy/Sibilant/Common Lisp comfort food), I can wire a 30-line **S-expr** reader that targets the same IR, so you can compile either infix or s-expr to the same core. Want me to add that next or jump straight to closures + call frames?
+urn a < b;
     case "gt": return a > b;
     case "le": return a <= b;
     case "ge": return a >= b;

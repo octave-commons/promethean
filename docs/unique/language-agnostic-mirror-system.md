@@ -14,6 +14,151 @@ tags:
   - ir-hashing
   - chunk-reconciliation
   - cross-language-sync
+related_to_uuid:
+  - d3dc5e9d-ec20-47d8-a824-d7ec4300c510
+  - c5fba0a0-9196-468d-a0f3-51c99e987263
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+  - d28090ac-f746-4958-aab5-ed1315382c04
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - 31f0166e-4631-45fa-aecd-b44e9a13f497
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - 4127189a-e0ab-436f-8571-cc852b8e9add
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - 1cfae310-35dc-49c2-98f1-b186da25d84b
+  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
+  - 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+  - 23df6ddb-05cf-4639-8201-f8291f8a6026
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - 51932e7b-4237-4756-bcae-8be6d535d0d1
+related_to_title:
+  - Code Deduping Guide
+  - set-assignment-in-lisp-ast
+  - ecs-scheduler-and-prefabs
+  - mystery-lisp-search-session
+  - i3-config-validation-methods
+  - Mongo Outbox Implementation
+  - RAG UI Panel with Qdrant and PostgREST
+  - i3-layout-saver
+  - komorebi-group-window-hack
+  - layer-1-uptime-diagrams
+  - Local-Only-LLM-Workflow
+  - Local-First Intention→Code Loop with Free Models
+  - Promethean Full-Stack Docker Setup
+  - file-watcher-auth-fix
+  - Voice Access Layer Design
+  - Model Selection for Lightweight Conversational Tasks
+  - Functional Refactor of TypeScript Document Processing
+  - Vectorial Exception Descent
+  - Promethean Documentation Pipeline Overview
+  - Promethean State Format
+  - Dynamic Context Model for Web Components
+  - field-dynamics-math-blocks
+  - WebSocket Gateway Implementation
+  - Cross-Language Runtime Polymorphism
+  - pm2-orchestration-patterns
+references:
+  - uuid: d3dc5e9d-ec20-47d8-a824-d7ec4300c510
+    line: 3
+    col: 0
+    score: 1
+  - uuid: d3dc5e9d-ec20-47d8-a824-d7ec4300c510
+    line: 10
+    col: 0
+    score: 1
+  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
+    line: 148
+    col: 0
+    score: 0.91
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 379
+    col: 0
+    score: 0.9
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 14
+    col: 0
+    score: 0.88
+  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+    line: 106
+    col: 0
+    score: 0.88
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 110
+    col: 0
+    score: 0.87
+  - uuid: 31f0166e-4631-45fa-aecd-b44e9a13f497
+    line: 79
+    col: 0
+    score: 0.87
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 610
+    col: 0
+    score: 0.87
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 32
+    col: 0
+    score: 0.86
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 129
+    col: 0
+    score: 0.86
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 417
+    col: 0
+    score: 0.86
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 129
+    col: 0
+    score: 0.86
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 105
+    col: 0
+    score: 0.86
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 79
+    col: 0
+    score: 0.85
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 28
+    col: 0
+    score: 0.85
+  - uuid: 9044701b-03c9-4a30-92c4-46b1bd66c11e
+    line: 32
+    col: 0
+    score: 0.85
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 280
+    col: 0
+    score: 0.85
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 95
+    col: 0
+    score: 0.85
+  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
+    line: 1624
+    col: 0
+    score: 0.85
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 1854
+    col: 0
+    score: 0.85
+  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+    line: 2455
+    col: 0
+    score: 0.85
+  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
+    line: 2739
+    col: 0
+    score: 0.85
 ---
 Ohhh this is fun. Let’s build a **language-agnostic mirror** that keeps N folders (js, ts, lisp, …) in lockstep. We’ll use: ^ref-d2b3628c-1-0
 

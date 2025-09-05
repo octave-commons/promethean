@@ -15,6 +15,459 @@ tags:
   - mongodb
   - ci-linter
   - event-streams
+related_to_uuid:
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 4330e8f0-5f46-4235-918b-39b6b93fa561
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - 75ea4a6a-8270-488d-9d37-799c288e5f70
+  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - a4a25141-6380-40b9-9cd7-b554b246b303
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - f5579967-762d-4cfd-851e-4f71b4cb77a1
+  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
+  - e87bc036-1570-419e-a558-f45b9c0db698
+  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+  - 623a55f7-685c-486b-abaf-469da1bbbb69
+  - 6cb4943e-8267-4e27-8618-2ce0a464d173
+  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+  - 9e8ae388-767a-4ea8-9f2e-88801291d947
+  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+related_to_title:
+  - Migrate to Provider-Tenant Architecture
+  - Prompt_Folder_Bootstrap
+  - eidolon-field-math-foundations
+  - Stateful Partitions and Rebalancing
+  - Unique Info Dump Index
+  - Services
+  - Per-Domain Policy System for JS Crawler
+  - Chroma Toolkit Consolidation Plan
+  - Functional Embedding Pipeline Refactor
+  - Dynamic Context Model for Web Components
+  - Performance-Optimized-Polyglot-Bridge
+  - Eidolon Field Abstract Model
+  - Model Selection for Lightweight Conversational Tasks
+  - polyglot-repl-interface-layer
+  - windows-tiling-with-autohotkey
+  - Duck's Attractor States
+  - Diagrams
+  - DSL
+  - Math Fundamentals
+  - Shared
+  - Tooling
+  - Debugging Broker Connections and Agent Behavior
+  - Window Management
+  - TypeScript Patch for Tool Calling Support
+  - typed-struct-compiler
+references:
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 95
+    col: 0
+    score: 1
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 21
+    col: 0
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 39
+    col: 0
+    score: 1
+  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
+    line: 28
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 28
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 65
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 86
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 123
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 34
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 442
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 218
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 176
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 70
+    col: 0
+    score: 1
+  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
+    line: 56
+    col: 0
+    score: 1
+  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
+    line: 74
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 75
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 104
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 46
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 64
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 40
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 137
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 82
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 454
+    col: 0
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 39
+    col: 0
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 52
+    col: 0
+    score: 1
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 34
+    col: 0
+    score: 1
+  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
+    line: 55
+    col: 0
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 43
+    col: 0
+    score: 1
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 43
+    col: 0
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 52
+    col: 0
+    score: 1
+  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
+    line: 25
+    col: 0
+    score: 1
+  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
+    line: 52
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 78
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 30
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 47
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 66
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 90
+    col: 0
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 7
+    col: 0
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 27
+    col: 0
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 30
+    col: 0
+    score: 1
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 36
+    col: 0
+    score: 1
+  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
+    line: 108
+    col: 0
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 13
+    col: 0
+    score: 1
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 14
+    col: 0
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 6
+    col: 0
+    score: 1
+  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
+    line: 85
+    col: 0
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 182
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 128
+    col: 0
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 323
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 362
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 205
+    col: 0
+    score: 1
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 378
+    col: 0
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 134
+    col: 0
+    score: 1
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 180
+    col: 0
+    score: 1
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 134
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 56
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 190
+    col: 0
+    score: 1
+  - uuid: ce37a9b8-5984-4fb8-b9e7-f72470314975
+    line: 113
+    col: 0
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 170
+    col: 0
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 180
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 135
+    col: 0
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 159
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 120
+    col: 0
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 265
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 324
+    col: 0
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 68
+    col: 0
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 10
+    col: 0
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 15
+    col: 0
+    score: 1
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 23
+    col: 0
+    score: 1
+  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
+    line: 75
+    col: 0
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 36
+    col: 0
+    score: 1
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 54
+    col: 0
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 23
+    col: 0
+    score: 1
+  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
+    line: 14
+    col: 0
+    score: 1
+  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
+    line: 99
+    col: 0
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 19
+    col: 0
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 25
+    col: 0
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 18
+    col: 0
+    score: 1
+  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
+    line: 64
+    col: 0
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 26
+    col: 0
+    score: 1
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 28
+    col: 0
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 22
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 8
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 38
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 56
+    col: 0
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 20
+    col: 0
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 9
+    col: 0
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 72
+    col: 0
+    score: 1
+  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
+    line: 23
+    col: 0
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 25
+    col: 0
+    score: 1
+  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
+    line: 11
+    col: 0
+    score: 1
+  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
+    line: 22
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 7
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 33
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 15
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 44
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 401
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 205
+    col: 0
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 91
+    col: 0
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 21
+    col: 0
+    score: 1
 ---
 Note: Consolidated here → ../notes/services/schema-evolution-dlq-changefeed.md ^ref-d8059b6a-1-0
 

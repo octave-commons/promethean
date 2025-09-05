@@ -15,6 +15,91 @@ tags:
   - immutability
   - functional
   - promises
+related_to_uuid:
+  - 41ce0216-f8cc-4eed-8d9a-fcc25be21425
+  - 80d4d883-59f9-401b-8699-7a2723148b1e
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - 681a4ab2-8fef-4833-a09d-bceb62d114da
+  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
+  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+  - af5d2824-faad-476c-a389-e912d9bc672c
+  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+  - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+  - 1cfae310-35dc-49c2-98f1-b186da25d84b
+  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
+  - 21d5cc09-b005-4ede-8f69-00b4b0794540
+  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+  - 4127189a-e0ab-436f-8571-cc852b8e9add
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
+  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+  - 8b256935-02f6-4da2-a406-bf6b8415276f
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+related_to_title:
+  - refactor-relations
+  - Refactor 05-footers.ts
+  - ecs-scheduler-and-prefabs
+  - SentenceProcessing
+  - sibilant-meta-string-templating-runtime
+  - Ghostly Smoke Interference
+  - template-based-compilation
+  - Event Bus Projections Architecture
+  - State Snapshots API and Transactional Projector
+  - Sibilant Meta-Prompt DSL
+  - Matplotlib Animation with Async Execution
+  - markdown-to-org-transpiler
+  - Functional Refactor of TypeScript Document Processing
+  - Local-First Intention→Code Loop with Free Models
+  - Exception Layer Analysis
+  - mystery-lisp-search-session
+  - file-watcher-auth-fix
+  - prom ui bootstrap
+  - layer-1-uptime-diagrams
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - polymorphic-meta-programming-engine
+  - Eidolon-Field-Optimization
+  - Chroma-Embedding-Refactor
+  - compiler-kit-foundations
+  - Promethean Event Bus MVP v0.1
+references:
+  - uuid: 41ce0216-f8cc-4eed-8d9a-fcc25be21425
+    line: 3
+    col: 0
+    score: 0.97
+  - uuid: 80d4d883-59f9-401b-8699-7a2723148b1e
+    line: 3
+    col: 0
+    score: 0.97
+  - uuid: 41ce0216-f8cc-4eed-8d9a-fcc25be21425
+    line: 6
+    col: 0
+    score: 0.9
+  - uuid: 80d4d883-59f9-401b-8699-7a2723148b1e
+    line: 6
+    col: 0
+    score: 0.9
+  - uuid: 41ce0216-f8cc-4eed-8d9a-fcc25be21425
+    line: 8
+    col: 0
+    score: 0.89
+  - uuid: 80d4d883-59f9-401b-8699-7a2723148b1e
+    line: 8
+    col: 0
+    score: 0.89
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 379
+    col: 0
+    score: 0.87
+  - uuid: 681a4ab2-8fef-4833-a09d-bceb62d114da
+    line: 30
+    col: 0
+    score: 0.86
 ---
 Refactor 01-frontmatter.ts under the following contraints: ^ref-cfbdca2f-1-0
 
