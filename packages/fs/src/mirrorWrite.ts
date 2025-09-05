@@ -3,7 +3,7 @@ import { promises as fs, Stats } from 'fs';
 import * as path from 'path';
 import { createHash } from 'crypto';
 
-import { ensureDir } from '@promethean/fs-utils';
+import { ensureDir } from './ensureDir.js';
 import { streamTreeConcurrent, StreamNode } from './streamTreeGeneratorsConcurrent.js';
 
 type OverwriteMode = 'always' | 'if-newer' | 'never';
@@ -223,7 +223,7 @@ export async function mirrorWithHandler(
             return true;
         },
         concurrency: Math.max(4, concurrency),
-        signal,
+        ...(signal ? { signal } : {}),
     })) {
         if (shouldStop()) break;
 
@@ -440,7 +440,7 @@ export async function mirrorWithHandler(
         deletedFiles,
         deletedDirs,
         errors,
-        planned: dryRun ? planned : undefined,
+        ...(dryRun ? { planned } : {}),
     };
 }
 
