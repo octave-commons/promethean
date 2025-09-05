@@ -4,7 +4,7 @@ import crypto from "crypto";
 
 import { createRemoteJWKSet, jwtVerify, decodeProtectedHeader } from "jose";
 import rateLimit from "@fastify/rate-limit";
-
+import fastifyRateLimit from "@fastify/rate-limit";
 // Route modules (legacy)
 import { createLogger } from "@promethean/utils";
 
@@ -274,6 +274,14 @@ export async function registerV0Routes(app) {
 
 	// Scope the old auth to the encapsulated /v0 prefix
 	if (enabled) app.addHook("onRequest", v0PreAuth);
+
+	// Apply rate limiting to all requests under this encapsulated scope
+	await app.register(fastifyRateLimit, {
+		max: 100, // Max requests per window per IP
+		timeWindow: 15 * 60 * 1000, // 15 minutes
+		// Optionally: Add error response customization
+		keyGenerator: (req) => req.ip,
+	});
 
 	// Mount all legacy routes under this encapsulated scope (prefix is applied by caller)
 	registerBootstrapRoutes(app);
