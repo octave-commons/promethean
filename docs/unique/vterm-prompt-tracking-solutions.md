@@ -1,28 +1,19 @@
 ---
-uuid: 92579ecd-4114-481b-b236-8820d4ef52f1
-created_at: 2025.09.02.08.52.16.md
+uuid: 3b3e06e6-1202-4cda-842d-08074d7e9b73
+created_at: vterm-prompt-tracking-solutions.md
 filename: vterm-prompt-tracking-solutions
+title: vterm-prompt-tracking-solutions
 description: >-
-  Solutions for vterm prompt tracking and scroll management without copy mode.
-  Includes directory tracking via OSC 51;A escape codes and keybindings for
-  seamless prompt navigation.
+  Solutions for vterm prompt tracking without copy mode, including directory
+  tracking via OSC 51 escape codes and scroll management techniques.
 tags:
   - vterm
   - prompt-tracking
-  - scroll-management
-  - osc-51
-  - emacs
   - directory-tracking
-  - keybindings
-related_to_uuid:
-  - 92a052a5-3351-4898-8cab-758181a86adb
-related_to_title:
-  - infinite_depth_smoke_animation
-references:
-  - uuid: 92a052a5-3351-4898-8cab-758181a86adb
-    line: 7
-    col: 0
-    score: 1
+  - scroll-management
+  - emacs
+  - osc-51
+  - prompt-jump
 ---
 Got it — no copy mode. Let’s fix the two pain points directly:
 
@@ -128,17 +119,4 @@ If you want, I can wrap this into a tiny `promethean-vterm.el` with sane default
 
 \#emacs #vterm #i3 #dotfiles #protips
 
-[1]: https://github.com/akermu/emacs-libvterm?utm_source=chatgpt.com "akermu/emacs-libvterm"
-[2]: https://sources.debian.org/src/emacs-libvterm/0.0.2%2Bgit20250113.056ad74-1/README.md/?utm_source=chatgpt.com "File: README.md - emacs-libvterm"
-[3]: https://emacs.stackexchange.com/questions/73776/opening-file-in-emacs-buffer-when-using-vterm?utm_source=chatgpt.com "Opening file in emacs buffer when using vterm"
-[4]: https://github.com/akermu/emacs-libvterm/issues/397?utm_source=chatgpt.com "Prevent auto scrolling · Issue #397 · akermu/emacs-libvterm"
-[5]: https://github.com/emacsmirror/vterm?utm_source=chatgpt.com "emacsmirror/vterm: Fully-featured terminal emulator"
-[6]: https://emacs.stackexchange.com/questions/60995/how-to-get-scrolling-without-jumps-by-one-line-in-info-mode?utm_source=chatgpt.com "How to get scrolling without jumps (by one line) in info mode?"
-[7]: https://stackoverflow.com/questions/13982486/scrolling-in-emacs-without-ever-moving-point-even-if-off-screen?utm_source=chatgpt.com "Scrolling in Emacs without ever moving point, even if off- ..."
- f wm8]: https://superuser.com/questions/1159906/how-to-set-the-linux-terminal-not-to-scroll-down-automatically-when-a-running-pr?utm_source=chatgpt.com "How to set the Linux terminal NOT to scroll down ..."
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
-## Related content
-- [infinite_depth_smoke_animation](infinite-depth-smoke-animation.md)
-## Sources
-- [infinite_depth_smoke_animation — L7](infinite-depth-smoke-animation.md#^ref-92a052a5-7-0) (line 7, col 0, score 1)
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+ f wm8]:  "How to set the Linux terminal NOT to scroll down ..."

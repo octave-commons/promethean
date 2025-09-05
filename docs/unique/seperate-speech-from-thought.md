@@ -1,17 +1,15 @@
 ---
-uuid: 8ef6b79b-cc45-478e-bf3b-3d766da472c5
-created_at: 2025.08.02.02.08.87.md
+uuid: 2018f7fc-1182-434c-a1a2-6c405513dd7f
+created_at: seperate-speech-from-thought.md
 filename: seperate-speech-from-thought
+title: seperate-speech-from-thought
 description: >-
-  A Lisp function that extracts speech from text by separating parenthetical
-  phrases.
+  A Lisp function that extracts speech from text by identifying and processing
+  parenthetical phrases.
 tags:
   - lisp
   - text-processing
   - speech-extraction
-related_to_title: []
-related_to_uuid: []
-references: []
 ---
 
 ```lisp
@@ -26,9 +24,4 @@ references: []
 	(return {speech:temp, parenthetics})
 			
 )
-```<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
-## Related content
-- _None_
-## Sources
-- _None_
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
+```
