@@ -4,7 +4,7 @@ import matter from "gray-matter";
 
 import { parseArgs, writeText, readMaybe } from "./utils.js";
 import { openLevelCache } from "@promethean/level-cache";
-import type { ScanOut, OutlinesFile } from "./types.js";
+import type { ScanOut, OutlinesFile, Outline } from "./types.js";
 
 const args = parseArgs({
   "--cache": ".cache/readmes",
@@ -17,14 +17,14 @@ const END = "<!-- READMEFLOW:END -->";
 function stripGenerated(text: string) {
   const si = text.indexOf(START),
     ei = text.indexOf(END);
-  if (si >= 0 && ei > si) return (text.slice(0, si).trimEnd() + "\n").trimEnd();
+  if (si >= 0 && ei > si) return `${text.slice(0, si).trimEnd()}\n`.trimEnd();
   return text.trimEnd();
 }
 
-function makeReadme(_pkg: any, outline: any, mermaid?: string) {
+function makeReadme(_pkg: unknown, outline: Outline, mermaid?: string) {
   const toc = outline.includeTOC ? "[TOC]\n\n" : "";
   const sec = outline.sections
-    .map((s: any) => `## ${s.heading}\n\n${s.body}\n`)
+    .map((s) => `## ${s.heading}\n\n${s.body}\n`)
     .join("\n");
   const badges = (outline.badges ?? []).join(" ");
   const diag = mermaid
@@ -45,8 +45,8 @@ function makeReadme(_pkg: any, outline: any, mermaid?: string) {
 }
 
 async function main() {
-  const cache = await openLevelCache<unknown>({
-    path: path.resolve(args["--cache"]!),
+  const cache = await openLevelCache<ScanOut | OutlinesFile>({
+    path: path.resolve(args["--cache"]),
   });
   const scan = (await cache.get("scan")) as ScanOut;
   const outlines = (await cache.get("outlines")) as OutlinesFile;
@@ -57,17 +57,20 @@ async function main() {
 
     const readmePath = path.join(pkg.dir, "README.md");
     const existing = await readMaybe(readmePath);
-    const gm = existing ? matter(existing) : { content: "", data: {} as any };
+    const gm = existing
+      ? matter(existing)
+      : { content: "", data: {} as Record<string, unknown> };
 
+    const stripped = stripGenerated(gm.content);
     const content =
-      (stripGenerated(gm.content) ? stripGenerated(gm.content) + "\n\n" : "") +
+      (stripped ? `${stripped}\n\n` : "") +
       makeReadme(
         pkg,
         out,
         args["--mermaid"] === "true" ? scan.graphMermaid : undefined,
       );
 
-    const fm = { ...(gm as any).data };
+    const fm = { ...gm.data };
     const final = matter.stringify(content, fm, { language: "yaml" });
     await writeText(readmePath, final);
   }
