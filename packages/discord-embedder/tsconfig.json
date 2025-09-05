@@ -4,11 +4,11 @@
     "rootDir": "src",
     "outDir": "dist",
     "composite": true,
-    "declaration": true
+    "declaration": true,
+    "lib": ["ES2022", "DOM", "esnext.disposable"]
   },
   "include": [
-    "src/**/*",
-    "node_modules/@promethean/types/shims/persistence.d.ts"
+    "src/**/*"
   ],
   "references": [
     { "path": "../embeddings" },

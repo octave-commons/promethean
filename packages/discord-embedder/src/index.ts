@@ -1,7 +1,11 @@
 import { ObjectId, Collection } from "mongodb";
 import { AGENT_NAME } from "@promethean/legacy/env.js";
 import { HeartbeatClient } from "@promethean/legacy/heartbeat/index.js";
-import { ContextStore, getMongoClient } from "@promethean/persistence";
+import {
+  ContextStore,
+  DualStoreManager,
+  getMongoClient,
+} from "@promethean/persistence";
 
 // Schema for raw discord messages awaiting embedding
 type DiscordMessage = {
@@ -35,11 +39,11 @@ const EMBED_DIMS = Number(process.env.EMBED_DIMS || 768);
 
   // dual store + context manager
   const ctxStore = new ContextStore();
-  const store = await ctxStore.createCollection(
+  const store = (await ctxStore.createCollection(
     "discord_messages",
     "content",
     "created_at",
-  );
+  )) as DualStoreManager<"content", "created_at">;
 
   await discordMessagesCollection.createIndex({
     [`embedding_status.${EMBED_VERSION}`]: 1,

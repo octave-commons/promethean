@@ -42,6 +42,10 @@ Under no circumstances should you introduce the following to Promethean:
 - Tie SonarQube/GitHub insights to specific paths/lines.
 - If there aren't tests, write them.
 
+## TypeScript Config Restrictions
+- Do not modify `/config/tsconfig.*` or any root `/tsconfig.*` files.
+- Only update `tsconfig.*` files within individual packages under `packages/**`.
+
 # Available MCP Servers (Intended Scope)
 - filesystem: read/write within {{ALLOWED_ROOTS}} (expected:
   /home/err/devel/promethean).
