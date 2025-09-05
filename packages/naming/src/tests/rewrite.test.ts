@@ -1,5 +1,5 @@
 import test from "ava";
-import { mkAliasRewriter, mkRelativeToJs } from "../lib.js";
+import { mkAliasRewriter, mkRelativeToJs } from "../rewrite.js";
 import { writeFileSync, mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
