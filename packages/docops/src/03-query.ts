@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 // packages/docops/src/03-query.ts
 import { OLLAMA_URL, parseArgs } from "./utils";
 import type { DBs } from "./db";
@@ -136,6 +134,9 @@ export async function runQuery(
       step: "query",
       done: Math.min(total, i + group.length),
       total,
+      message: `batch ${i / BATCH + 1}/${Math.ceil(
+        candidates.length / BATCH,
+      )} size=${group.length} computed=${computed} skipped=${skipped}`,
     });
 
     const ids = group.map((q) => q.id);

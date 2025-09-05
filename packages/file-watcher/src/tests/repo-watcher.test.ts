@@ -1,4 +1,7 @@
 import test from "ava";
+
+import { sleep } from "@promethean/test-utils/sleep";
+
 import { createRepoWatcher } from "../repo-watcher.js";
 
 test("repo watcher posts index/remove for non-ignored files", async (t) => {
@@ -22,11 +25,11 @@ test("repo watcher posts index/remove for non-ignored files", async (t) => {
   });
   // Directly invoke internal handle to avoid FS noise
   await (watcher as any)._handle("change", "src/example.ts");
-  await new Promise((r) => setTimeout(r, 10));
+  await sleep(10);
   await (watcher as any)._handle("change", "src/example.ts"); // coalesce by debounce
   await (watcher as any)._handle("unlink", "src/old.ts");
   await (watcher as any)._handle("change", "node_modules/ignore.js");
-  await new Promise((r) => setTimeout(r, 80)); // wait > debounce to flush
+  await sleep(80); // wait > debounce to flush
 
   const indexCalls = calls.filter(
     (c) => c.url.endsWith("/indexer/index") && c.body.path === "src/example.ts",

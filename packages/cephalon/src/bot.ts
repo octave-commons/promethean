@@ -14,9 +14,9 @@ import { ContextStore } from "@promethean/persistence/contextStore.js";
 import { createAgentWorld } from "@promethean/agent-ecs/world.js";
 import { AgentBus } from "@promethean/agent-ecs/bus.js";
 import { BrokerClient } from "@promethean/legacy/brokerClient.js";
-import { checkPermission } from "@promethean/legacy/permissionGate.js";
+import { checkPermission } from "@promethean/legacy";
 import { cleanupChroma } from "@promethean/persistence/maintenance.js";
-import { pushVisionFrame } from "@promethean/agent-ecs/helpers/pushVision.js";
+import { pushVisionFrame } from "@promethean/agent-ecs";
 
 import { type Interaction } from "./interactions.js";
 import { DesktopCaptureManager } from "./desktop/desktopLoop.js";

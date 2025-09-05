@@ -1,5 +1,7 @@
 
 import test from 'ava';
+
+import { sleep } from '@promethean/test-utils/sleep';
 import { TokenBucket } from '../shared/ts/dist/rate/limiter.js';
 
 test('TokenBucket limits and refills', async (t) => {
@@ -9,6 +11,6 @@ test('TokenBucket limits and refills', async (t) => {
     t.false(bucket.tryConsume());
     const deficit = bucket.deficit();
     t.true(deficit > 0);
-    await new Promise((r) => setTimeout(r, 1100));
+    await sleep(1100);
     t.true(bucket.tryConsume());
 });

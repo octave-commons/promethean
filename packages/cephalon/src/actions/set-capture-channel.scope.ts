@@ -1,5 +1,7 @@
+import { makePolicy, type PolicyChecker } from "@promethean/security";
+import { checkPermission } from "@promethean/legacy";
+
 import { makeLogger, type Logger } from "../factories/logger.js";
-import { makePolicy, type PolicyChecker } from "../factories/policy.js";
 
 export type SetCaptureChannelScope = {
   logger: Logger;
@@ -9,6 +11,6 @@ export type SetCaptureChannelScope = {
 export async function buildSetCaptureChannelScope(): Promise<SetCaptureChannelScope> {
   return {
     logger: makeLogger("set-capture-channel"),
-    policy: makePolicy(),
+    policy: makePolicy({ permissionGate: checkPermission }),
   };
 }

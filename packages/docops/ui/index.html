@@ -119,6 +119,7 @@ select { min-width: 420px; }
     </section>
     <section>
       <h2>Steps</h2>
+      <docops-step step="purge" title="00 Purge (nuke FM/footers/links)" fields="minSize"></docops-step>
       <docops-step step="frontmatter" title="01 Frontmatter" fields="genModel"></docops-step>
       <docops-step step="embed" title="02 Embed" fields="collection,embedModel"></docops-step>
       <docops-step step="query" title="03 Query" fields="collection,embedModel,k,force"></docops-step>
