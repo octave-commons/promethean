@@ -17,7 +17,7 @@
     "symdocs:all": "pnpm symdocs:01-scan && pnpm symdocs:02-docs && pnpm symdocs:03-write"
   },
   "dependencies": {
-    "@types/node": "^24.3.0",
+    "@types/node": "^20.19.11",
     "gray-matter": "^4.0.3",
     "typescript": "^5.5.4",
     "yaml": "^2.5.0",

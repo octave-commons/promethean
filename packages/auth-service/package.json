@@ -22,7 +22,7 @@
     "jose": "^5.9.6"
   },
   "devDependencies": {
-    "@types/node": "^22.17.2",
+    "@types/node": "^20.19.11",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   }
