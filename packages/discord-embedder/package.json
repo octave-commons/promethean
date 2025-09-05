@@ -28,7 +28,7 @@
   "license": "GPL-3.0-only",
   "dependencies": {
     "@discordjs/voice": "^0.18.0",
-    "@promethean/embeddings": "file:../embeddings",
+    "@promethean/embedding": "workspace:*",
     "@promethean/legacy": "workspace:*",
     "@promethean/persistence": "file:../persistence",
     "chromadb": "^3.0.9",

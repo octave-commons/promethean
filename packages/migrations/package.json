@@ -30,7 +30,7 @@
     },
     "module": "dist/index.js",
     "dependencies": {
-        "@promethean/embeddings": "file:../embeddings",
+        "@promethean/embedding": "workspace:*",
         "@promethean/persistence": "file:../persistence",
         "@types/javascript-time-ago": "^2.5.0",
         "@types/unist": "^3.0.3",

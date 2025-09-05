@@ -15,7 +15,7 @@
     "format": "prettier --cache --write . && eslint . --fix --cache || true"
   },
   "dependencies": {
-    "@promethean/embeddings": "file:../embeddings",
+    "@promethean/embedding": "workspace:*",
     "@promethean/legacy": "workspace:*",
     "@promethean/persistence": "file:../persistence",
     "chokidar": "^3.5.3",
