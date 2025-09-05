@@ -33,7 +33,17 @@ export async function startTransactionalProjector<E = any>(bus: EventBus, db: Db
                         await s.endSession();
                     }
                 },
-                { attempts: retries + 1, backoff: (a) => 100 * a },
+                {
+                    attempts: retries + 1,
+                    backoff: (a) => 100 * a + Math.floor(Math.random() * 50),
+                    shouldRetry: (err) => {
+                        const labels: readonly string[] | undefined = (err as any)?.errorLabels;
+                        return Array.isArray(labels) && (
+                            labels.includes('TransientTransactionError') ||
+                            labels.includes('UnknownTransactionCommitResult')
+                        );
+                    },
+                },
             );
         },
         { from, manualAck: false, batchSize: 200 },
