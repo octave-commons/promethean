@@ -17,456 +17,68 @@ tags:
   - system-communication
   - human-ai-relationship
 related_to_uuid:
-  - 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
-  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - 9e8ae388-767a-4ea8-9f2e-88801291d947
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - 6bcff92c-4224-453d-9993-1be8d37d47c3
-  - db74343f-8f84-43a3-adb2-499c6f00be1c
-  - a4d90289-798d-44a0-a8e8-a055ae12fb52
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - a4a25141-6380-40b9-9cd7-b554b246b303
-  - 623a55f7-685c-486b-abaf-469da1bbbb69
-  - f1add613-656e-4bec-b52b-193fd78c4642
-  - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-  - 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
-  - 5a02283e-4281-4930-9ca7-e27849de11bd
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 03a5578f-d689-45db-95e9-11300e5eee6f
-  - ffb9b2a9-744d-4a53-9565-130fceae0832
-  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
+  - 81de642d-cc98-4bf3-aa53-640bbd289ee4
+  - 5becb573-0a78-486b-8d3c-199b3c7a79ec
+  - d65e5b6c-29ed-458f-bf9b-94bf0d48fa79
+  - 7a75d992-5267-4557-b464-b6c7d3f88dad
+  - b46a41c5-8e85-4363-aec9-1aaa42694078
+  - e84ebe20-72b3-420b-8fec-a094326f8c9f
+  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - d3dc5e9d-ec20-47d8-a824-d7ec4300c510
+  - 3abeaf12-5a59-45f1-80d8-82b031b84b96
+  - e38b1810-e331-4fff-9f87-8f93a2d5d179
+  - c4c099fb-728c-470c-be48-084c9a283e50
+  - 6420e101-2d34-45b5-bcff-d21e1c6e516b
+  - 2478e18c-f621-4b0c-a4c5-9637d213cccf
+  - 10780cdc-5036-4e8a-9599-a11703bc30c9
+  - c38e7047-c6c0-4a19-a0e6-5707a12e9de1
+  - 792a343e-674c-4bb4-8435-b3f8c163349d
+  - 14a4bbf0-4780-4a02-8637-e3c1bbcc9915
 related_to_title:
-  - Protocol_0_The_Contradiction_Engine
-  - Dynamic Context Model for Web Components
-  - Duck's Self-Referential Perceptual Loop
-  - Debugging Broker Connections and Agent Behavior
+  - Promethean Forge
+  - Agent Reflections and Prompt Evolution
+  - sibilant-macro-targets
+  - field-dynamics-math-blocks
+  - Org-Babel Matplotlib Animation Template
+  - docops-pipeline
+  - Universal Lisp Interface
+  - Code Deduping Guide
+  - sibilant-metacompiler
+  - Plan Update Confirmation
+  - Promethean Copilot Intent Engine
+  - Eidolon Field Math Foundations
+  - Cross-Language Runtime Polymorphism
   - Eidolon Field Abstract Model
-  - Window Management
-  - Fnord Tracer Protocol
-  - Post-Linguistic Transhuman Design Frameworks
-  - Model Upgrade Calm-Down Guide
-  - Factorio AI with External Agents
-  - i3-bluetooth-setup
-  - Obsidian Templating Plugins Integration Guide
-  - graph-ds
-  - Functional Embedding Pipeline Refactor
-  - Shared
-  - Operations
-  - DuckDuckGoSearchPipeline
-  - Optimizing Command Limitations in System Design
-  - NPU Voice Code and Sensory Integration
-  - Duck's Attractor States
-  - Promethean_Eidolon_Synchronicity_Model
-  - eidolon-field-math-foundations
-  - Promethean Dev Workflow Update
-  - obsidian-ignore-node-modules-regex
-  - Prometheus Observability Stack
+  - Particle Simulation with Canvas and FFmpeg
+  - windows-tiling-with-autohotkey
+  - Ice Box Reorganization
 references:
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 262
+  - uuid: 81de642d-cc98-4bf3-aa53-640bbd289ee4
+    line: 3
     col: 0
     score: 1
-  - uuid: b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
-    line: 84
-    col: 0
-    score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 314
-    col: 0
-    score: 1
-  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
-    line: 26
-    col: 0
-    score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 10
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 43
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 82
-    col: 0
-    score: 1
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 37
-    col: 0
-    score: 1
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 68
-    col: 0
-    score: 1
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 294
-    col: 0
-    score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 532
-    col: 0
-    score: 1
-  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
-    line: 456
-    col: 0
-    score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 17
-    col: 0
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1035
-    col: 0
-    score: 1
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 395
-    col: 0
-    score: 1
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 169
-    col: 0
-    score: 1
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 37
-    col: 0
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 70
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 53
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 122
-    col: 0
-    score: 1
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 34
-    col: 0
-    score: 1
-  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
-    line: 44
-    col: 0
-    score: 1
-  - uuid: 95205cd3-c3d5-4047-9c33-9c5ca2b49597
-    line: 36
-    col: 0
-    score: 1
-  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
-    line: 21
-    col: 0
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 108
-    col: 0
-    score: 1
-  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
-    line: 199
-    col: 0
-    score: 1
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 428
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 20
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 9
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 72
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 23
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 25
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 11
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 22
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - uuid: 81de642d-cc98-4bf3-aa53-640bbd289ee4
     line: 7
     col: 0
     score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 33
+  - uuid: 81de642d-cc98-4bf3-aa53-640bbd289ee4
+    line: 11
     col: 0
     score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 15
+  - uuid: 81de642d-cc98-4bf3-aa53-640bbd289ee4
+    line: 16
     col: 0
     score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 44
+  - uuid: 81de642d-cc98-4bf3-aa53-640bbd289ee4
+    line: 19
     col: 0
     score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 401
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 205
-    col: 0
-    score: 1
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 426
-    col: 0
-    score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 495
-    col: 0
-    score: 1
-  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
-    line: 459
-    col: 0
-    score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 27
-    col: 0
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1002
-    col: 0
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 171
-    col: 0
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 112
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 24
-    col: 0
-    score: 1
-  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-    line: 143
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 241
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 56
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 190
-    col: 0
-    score: 1
-  - uuid: ce37a9b8-5984-4fb8-b9e7-f72470314975
-    line: 113
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 170
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 180
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 135
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 159
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 120
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 265
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 324
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 68
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 10
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 15
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+  - uuid: 81de642d-cc98-4bf3-aa53-640bbd289ee4
     line: 23
     col: 0
     score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 75
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 36
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 54
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 23
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 14
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 99
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 48
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 44
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 61
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 80
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 405
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 216
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 189
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 172
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 21
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 39
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
+  - uuid: 81de642d-cc98-4bf3-aa53-640bbd289ee4
     line: 28
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 28
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 65
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 86
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 123
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 34
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 442
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 218
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 176
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 70
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 123
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 22
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 124
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 100
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 460
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 262
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 178
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 87
     col: 0
     score: 1
 ---

@@ -18,98 +18,254 @@ tags:
   - interop
   - async
 related_to_uuid:
-  - a6fa9a4a-8e98-4a8d-82ed-da6bb778ab49
-  - 1de71d74-4aec-468f-9354-42999a71da8a
-  - e4317155-7fa6-44e8-8aee-b72384581790
-  - 688ad325-4243-4304-bccc-1a1d8745de08
-  - 0d4e63e3-0724-4bdf-bd42-b4fda58ed025
-  - 99c6d380-a2a6-4d8e-a391-f4bc0c9a631f
-  - 7d584c12-7517-4f30-8378-34ac9fc3a3f8
-  - 2478e18c-f621-4b0c-a4c5-9637d213cccf
-  - f4767ec9-7363-4ca0-ad88-ccc624247a3b
-  - abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
-  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
-  - 10780cdc-5036-4e8a-9599-a11703bc30c9
-  - 4d8cbf01-e44a-452f-96a0-17bde7b416a8
-  - 2c9f86e6-9b63-44d7-902d-84b10b0bdbe3
-  - 004a0f06-3808-4421-b9e1-41b5b41ebcb8
-  - 4316c3f9-551f-4872-b5c5-98ae73508535
-  - 4c87f571-9942-4288-aec4-0bc52e9cdbe7
-  - 4f9a7fd9-de08-4b9c-87c4-21268bc26d54
-  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
-  - f1af85cb-be45-42cf-beee-d0795ded07bf
-  - bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
-  - 740bbd1c-c039-405c-8a32-4baeddfb5637
-  - c46718fe-73dd-4236-8f1c-f6565da58cc4
-  - 73d64bce-f428-4735-a3d0-6225a0588e46
-  - 479401ac-f614-4d0b-8cc6-2ebb8d9de4d9
+  - 6420e101-2d34-45b5-bcff-d21e1c6e516b
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+  - 1d3d6c3a-039e-4b96-93c1-95854945e248
+  - ca8e1399-77bf-4f77-82a3-3f703b68706d
+  - ffb9b2a9-744d-4a53-9565-130fceae0832
+  - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - 2792d448-c3b5-4050-93dd-93768529d99c
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - b51e19b4-1326-4311-9798-33e972bf626c
+  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - af5d2824-faad-476c-a389-e912d9bc672c
 related_to_title:
-  - YAML's Hidden Dangers and Practical Fixes
-  - Interop and Source Maps
-  - TypeScript Patch for Tool Calling Support
-  - template-based-compilation
-  - Performance-Optimized Polyglot Bridge
-  - Layer 1 Survivability Envelope
-  - promethean-native-config-design
-  - Cross-Language Runtime Polymorphism
-  - ecs-scheduler
-  - RAG UI Panel with Qdrant and PostgREST
-  - Stateful Partitions and Rebalancing
-  - Eidolon Field Abstract Model
-  - pure-node-crawl-stack-with-playwright-and-crawlee
-  - Field Node Diagrams
-  - ecs-offload-workers
+  - Eidolon Field Math Foundations
   - WebSocket Gateway Implementation
-  - set-assignment-in-lisp-ast
-  - homeostasis-decay-formulas
-  - dynamic-context-model-for-web-components
-  - Zero-Copy Snapshots and Workers
-  - chroma-embedding-refactor
-  - heartbeat-fragment-demo
-  - shared-package-structure
+  - prom ui bootstrap
+  - Per-Domain Policy System for JS Crawler
+  - Migrate to Provider-Tenant Architecture
+  - ParticleSimulationWithCanvasAndFFmpeg
+  - Obsidian ChatGPT Plugin Integration Guide
+  - Obsidian ChatGPT Plugin Integration
+  - obsidian-ignore-node-modules-regex
+  - Obsidian Templating Plugins Integration Guide
+  - Ice Box Reorganization
+  - Model Selection for Lightweight Conversational Tasks
+  - komorebi-group-window-hack
+  - Promethean-native config design
+  - Local-Only-LLM-Workflow
+  - Ghostly Smoke Interference
+  - Eidolon-Field-Optimization
+  - Cross-Language Runtime Polymorphism
+  - Pure-Node Crawl Stack with Playwright and Crawlee
   - Voice Access Layer Design
-  - compiler-kit-foundations
+  - Docops Feature Updates
+  - Cross-Target Macro System in Sibilant
+  - promethean-system-diagrams
+  - observability-infrastructure-setup
+  - Sibilant Meta-Prompt DSL
 references:
-  - uuid: a6fa9a4a-8e98-4a8d-82ed-da6bb778ab49
+  - uuid: 6420e101-2d34-45b5-bcff-d21e1c6e516b
     line: 1
     col: 0
     score: 1
-  - uuid: a6fa9a4a-8e98-4a8d-82ed-da6bb778ab49
+  - uuid: 6420e101-2d34-45b5-bcff-d21e1c6e516b
     line: 3
     col: 0
     score: 1
-  - uuid: a6fa9a4a-8e98-4a8d-82ed-da6bb778ab49
+  - uuid: 6420e101-2d34-45b5-bcff-d21e1c6e516b
     line: 5
     col: 0
     score: 1
-  - uuid: a6fa9a4a-8e98-4a8d-82ed-da6bb778ab49
-    line: 6
+  - uuid: 6420e101-2d34-45b5-bcff-d21e1c6e516b
+    line: 11
     col: 0
     score: 1
-  - uuid: a6fa9a4a-8e98-4a8d-82ed-da6bb778ab49
-    line: 7
+  - uuid: 6420e101-2d34-45b5-bcff-d21e1c6e516b
+    line: 13
     col: 0
     score: 1
-  - uuid: 1de71d74-4aec-468f-9354-42999a71da8a
-    line: 21
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 631
+    col: 0
+    score: 0.9
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 4165
     col: 0
     score: 0.89
-  - uuid: e4317155-7fa6-44e8-8aee-b72384581790
-    line: 417
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 4204
+    col: 0
+    score: 0.89
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 6597
+    col: 0
+    score: 0.89
+  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
+    line: 4223
+    col: 0
+    score: 0.89
+  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
+    line: 3303
+    col: 0
+    score: 0.89
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 2919
+    col: 0
+    score: 0.89
+  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
+    line: 4487
+    col: 0
+    score: 0.89
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 4525
+    col: 0
+    score: 0.89
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 3196
+    col: 0
+    score: 0.89
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 4693
+    col: 0
+    score: 0.89
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 212
+    col: 0
+    score: 0.88
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 305
+    col: 0
+    score: 0.88
+  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+    line: 50
+    col: 0
+    score: 0.88
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 129
+    col: 0
+    score: 0.88
+  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
+    line: 40
+    col: 0
+    score: 0.88
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 280
     col: 0
     score: 0.87
-  - uuid: 0d4e63e3-0724-4bdf-bd42-b4fda58ed025
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 150
+    col: 0
+    score: 0.87
+  - uuid: b51e19b4-1326-4311-9798-33e972bf626c
+    line: 169
+    col: 0
+    score: 0.87
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 400
+    col: 0
+    score: 0.87
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 120
+    col: 0
+    score: 0.87
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 159
+    col: 0
+    score: 0.87
+  - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+    line: 232
+    col: 0
+    score: 0.87
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
     line: 171
     col: 0
     score: 0.86
-  - uuid: e4317155-7fa6-44e8-8aee-b72384581790
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
     line: 160
     col: 0
     score: 0.86
-  - uuid: 688ad325-4243-4304-bccc-1a1d8745de08
-    line: 33
+  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
+    line: 147
     col: 0
     score: 0.86
+  - uuid: 66a72fc3-4153-41fc-84bd-d6164967a6ff
+    line: 188
+    col: 0
+    score: 0.86
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 442
+    col: 0
+    score: 0.86
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 28
+    col: 0
+    score: 0.86
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 521
+    col: 0
+    score: 0.86
+  - uuid: 51932e7b-4237-4756-bcae-8be6d535d0d1
+    line: 217
+    col: 0
+    score: 0.86
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 63
+    col: 0
+    score: 0.86
+  - uuid: 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
+    line: 16
+    col: 0
+    score: 0.86
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 401
+    col: 0
+    score: 0.86
+  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
+    line: 187
+    col: 0
+    score: 0.86
+  - uuid: c5fba0a0-9196-468d-a0f3-51c99e987263
+    line: 148
+    col: 0
+    score: 0.86
+  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+    line: 272
+    col: 0
+    score: 0.86
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 360
+    col: 0
+    score: 0.85
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 388
+    col: 0
+    score: 0.85
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 303
+    col: 0
+    score: 0.85
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 129
+    col: 0
+    score: 0.85
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 95
+    col: 0
+    score: 0.85
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 348
+    col: 0
+    score: 0.85
+  - uuid: 5158f742-4a3b-466e-bfc3-d83517b64200
+    line: 818
+    col: 0
+    score: 0.85
 ---
 Yesss, I see it. You’re converging on a **polyglot, S-expr-first “universal language”** where JS, TS, Lisp, and now **Python** are all just different skins over the same core. The next move is a **seamless Python↔JS bridge** you can call from your Lisp without caring which side ran it. ^ref-63a1cc28-1-0
 

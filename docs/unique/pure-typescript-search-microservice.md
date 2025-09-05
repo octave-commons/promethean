@@ -20,458 +20,94 @@ tags:
   - nginx
   - local-search
 related_to_uuid:
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - e87bc036-1570-419e-a558-f45b9c0db698
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - 9e8ae388-767a-4ea8-9f2e-88801291d947
-  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - 6cb4943e-8267-4e27-8618-2ce0a464d173
-  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
-  - d144aa62-348c-4e5d-ae8f-38084c67ceca
-  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
-  - 75ea4a6a-8270-488d-9d37-799c288e5f70
-  - 623a55f7-685c-486b-abaf-469da1bbbb69
-  - 557309a3-c906-4e97-8867-89ffe151790c
-  - 43bfe9dd-d433-42ca-9777-f4c40eaba791
-  - a4d90289-798d-44a0-a8e8-a055ae12fb52
-  - f5579967-762d-4cfd-851e-4f71b4cb77a1
-  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
-  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
-  - 54382370-1931-4a19-a634-46735708a9ea
-  - ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
+  - e9aece2c-221c-44fc-9bc3-83c591c8e74d
+  - d975dfe2-e98e-40b1-9df0-fcd13161e951
+  - aa88652d-c8e5-4a1b-850e-afdf7fe15dae
+  - 0e289525-1904-4f7d-9d3a-4fedc53efe9b
+  - 0f203aa7-c96d-4323-9b9e-bbc438966e8c
+  - 73d64bce-f428-4735-a3d0-6225a0588e46
+  - 6b91d91d-6b5c-4516-a0c8-d66d9b9fcc9b
+  - abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+  - 2c9f86e6-9b63-44d7-902d-84b10b0bdbe3
+  - a23de044-17e0-45f0-bba7-d870803cbfed
+  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
+  - b25be760-256e-4a8a-b34d-867281847ccb
+  - 792a343e-674c-4bb4-8435-b3f8c163349d
+  - 95410f6e-dabb-4560-80a8-1ed4fd9c3d3b
+  - 740bbd1c-c039-405c-8a32-4baeddfb5637
+  - 6e678cce-b68f-4420-980f-5c9009f0d971
+  - d65e5b6c-29ed-458f-bf9b-94bf0d48fa79
+  - 46b3c583-a4e2-4ecc-90de-6fd104da23db
+  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - cdb74242-b61d-4b7e-9288-5859e040e512
+  - 004a0f06-3808-4421-b9e1-41b5b41ebcb8
+  - 65c145c7-fe3e-4989-9aae-5db39fa0effc
+  - 4d8cbf01-e44a-452f-96a0-17bde7b416a8
+  - 2478e18c-f621-4b0c-a4c5-9637d213cccf
+  - aa437a1f-eb7e-4096-a6cc-98d2eeeef8c5
 related_to_title:
-  - Diagrams
-  - DSL
-  - Math Fundamentals
-  - Dynamic Context Model for Web Components
-  - Window Management
-  - Debugging Broker Connections and Agent Behavior
-  - field-dynamics-math-blocks
-  - eidolon-node-lifecycle
-  - field-interaction-equations
-  - Eidolon Field Abstract Model
-  - Tooling
-  - Duck's Self-Referential Perceptual Loop
-  - Model Selection for Lightweight Conversational Tasks
-  - JavaScript
-  - Services
-  - Shared
-  - Simulation Demo
-  - Provider-Agnostic Chat Panel Implementation
-  - Factorio AI with External Agents
-  - Performance-Optimized-Polyglot-Bridge
-  - Per-Domain Policy System for JS Crawler
-  - Promethean Infrastructure Setup
+  - promethean-qdrant-demo
+  - minimal-typescript-qdrant-demo
+  - Promethean Web UI Setup
+  - functional-programming-in-typescript
+  - schema-evolution-workflow
+  - Voice Access Layer Design
+  - AGENTS.md
+  - RAG UI Panel with Qdrant and PostgREST
+  - Field Node Diagrams
+  - Komorebi Group Manager
+  - polyglot-repl-interface-layer
+  - ripple-propagation-demo
+  - windows-tiling-with-autohotkey
+  - model-selection-for-lightweight-conversational-tasks
+  - heartbeat-fragment-demo
+  - balanced-bst
+  - sibilant-macro-targets
+  - Promethean Event Bus MVP
+  - Universal Lisp Interface
+  - Event Bus Projections Architecture
+  - ecs-offload-workers
+  - event-bus-mvp
+  - pure-node-crawl-stack-with-playwright-and-crawlee
+  - Cross-Language Runtime Polymorphism
   - Prometheus Observability Stack
-  - Migrate to Provider-Tenant Architecture
-  - Smoke Resonance Visualizations
 references:
-  - uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
-    line: 483
+  - uuid: e9aece2c-221c-44fc-9bc3-83c591c8e74d
+    line: 42
     col: 0
-    score: 1
-  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
-    line: 1321
+    score: 0.92
+  - uuid: d975dfe2-e98e-40b1-9df0-fcd13161e951
+    line: 42
     col: 0
-    score: 1
-  - uuid: c3cd4f65-2bb3-4fca-a32e-2ac667e03f40
-    line: 561
+    score: 0.92
+  - uuid: aa88652d-c8e5-4a1b-850e-afdf7fe15dae
+    line: 241
     col: 0
-    score: 1
-  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
-    line: 522
+    score: 0.89
+  - uuid: 0e289525-1904-4f7d-9d3a-4fedc53efe9b
+    line: 316
     col: 0
-    score: 1
-  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
-    line: 1015
+    score: 0.89
+  - uuid: 0f203aa7-c96d-4323-9b9e-bbc438966e8c
+    line: 98
     col: 0
-    score: 1
-  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-    line: 1228
-    col: 0
-    score: 1
-  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
-    line: 173
-    col: 0
-    score: 1
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 1057
-    col: 0
-    score: 1
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 513
-    col: 0
-    score: 1
-  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
-    line: 618
-    col: 0
-    score: 1
-  - uuid: 930054b3-ba95-4acf-bb92-0e3ead25ed0b
-    line: 187
-    col: 0
-    score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 999
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 519
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 466
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 505
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 451
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 178
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 437
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 367
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 378
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 321
-    col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    score: 0.88
+  - uuid: 6b91d91d-6b5c-4516-a0c8-d66d9b9fcc9b
     line: 182
     col: 0
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 379
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 167
-    col: 0
-    score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 151
-    col: 0
-    score: 1
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 147
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 7
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 27
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 30
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 36
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 108
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 13
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 14
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 6
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 85
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 45
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 14
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 41
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 31
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 20
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 36
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 85
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 64
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 141
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 19
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 25
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 18
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 64
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 26
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 28
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 22
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 56
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 66
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 64
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 71
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 56
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 37
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 51
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 26
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 19
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 16
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 23
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 74
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 16
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 7
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 9
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 51
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 79
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 77
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 115
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 61
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 212
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 150
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 68
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 10
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 15
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 23
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 75
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 36
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 54
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 23
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 14
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 79
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    score: 0.86
+  - uuid: 6b91d91d-6b5c-4516-a0c8-d66d9b9fcc9b
+    line: 205
+    col: 0
+    score: 0.86
+  - uuid: 73d64bce-f428-4735-a3d0-6225a0588e46
     line: 35
     col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 91
+    score: 0.86
+  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+    line: 321
     col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 40
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 118
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 78
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 102
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 404
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 166
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 59
-    col: 0
-    score: 1
+    score: 0.85
 ---
 hell yeah. here’s a **pure TypeScript, own-it** search microservice that replaces Meili with *your* index: ^ref-d17d3a96-1-0
 

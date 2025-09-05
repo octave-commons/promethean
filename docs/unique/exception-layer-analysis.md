@@ -16,200 +16,260 @@ tags:
   - fault tolerance
   - permission management
 related_to_uuid:
-  - 909312f1-5feb-4503-a6fa-10a710aa7429
-  - 1f4a3423-555e-4d45-8c32-5b6b45914a4e
-  - 0a8255a5-ef49-4a1e-ae71-b2f57eb7bdf8
-  - 5b8c984e-cff5-4d59-b904-4c7c558a4030
-  - 0d17d6fb-9664-45a1-a79d-a7ff9853cb1e
-  - cfb15342-0e5d-444b-9e96-3f8758071609
-  - bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
-  - 31a2df46-9dbc-4066-b3e3-d3e860099fd0
-  - 4d8cbf01-e44a-452f-96a0-17bde7b416a8
-  - 526317d7-2eaf-4559-bb17-1f8dcfe9e30c
-  - c29a64c6-f5ea-49ca-91a1-0b590ca547ae
-  - 01723341-5fbf-4118-8885-9ed0a94fca04
-  - 2478e18c-f621-4b0c-a4c5-9637d213cccf
-  - 395df1ea-572e-49ec-8861-aff9d095ed0e
-  - 572b571b-b337-4004-97b8-386f930b5497
-  - 7b672b78-7057-4506-baf9-1262a6e477e3
-  - 479401ac-f614-4d0b-8cc6-2ebb8d9de4d9
+  - 2792d448-c3b5-4050-93dd-93768529d99c
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+  - 22b989d5-f4aa-4880-8632-709c21830f83
+  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - a4a25141-6380-40b9-9cd7-b554b246b303
+  - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - dd00677a-2280-45a7-91af-0728b21af3ad
   - 5e408692-0e74-400e-a617-84247c7353ad
+  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - bb7f0835-c347-474f-bfad-eabd873b51ad
+  - 930054b3-ba95-4acf-bb92-0e3ead25ed0b
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
+  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - 23df6ddb-05cf-4639-8201-f8291f8a6026
 related_to_title:
-  - refactor-05-footers
-  - refactor-relations
-  - Functional Refactor of TypeScript Document Processing
-  - lisp-dsl-window-management
-  - vectorial-exception-descent
-  - Refactor Frontmatter Processing
-  - chroma-embedding-refactor
+  - Docops Feature Updates
+  - field-node-diagram-outline
   - field-node-diagram-set
-  - pure-node-crawl-stack-with-playwright-and-crawlee
-  - Cross-Target Macro System in Sibilant
-  - EidolonField
+  - field-node-diagram-visualizations
   - Fnord Tracer Protocol
-  - Cross-Language Runtime Polymorphism
-  - Promethean System Diagrams
-  - State Snapshots API and Transactional Projector
-  - mystery-lisp-for-python-education
-  - compiler-kit-foundations
+  - Functional Embedding Pipeline Refactor
+  - graph-ds
+  - heartbeat-fragment-demo
   - i3-bluetooth-setup
+  - Ice Box Reorganization
+  - komorebi-group-window-hack
+  - Layer1SurvivabilityEnvelope
+  - Agent Reflections and Prompt Evolution
+  - ChatGPT Custom Prompts
+  - Chroma Toolkit Consolidation Plan
+  - typed-struct-compiler
+  - Unique Concepts
+  - Unique Info Dump Index
+  - zero-copy-snapshots-and-workers
+  - Canonical Org-Babel Matplotlib Animation Template
+  - Creative Moments
+  - Duck's Attractor States
+  - eidolon-field-math-foundations
+  - plan-update-confirmation
+  - Promethean State Format
 references:
-  - uuid: 909312f1-5feb-4503-a6fa-10a710aa7429
-    line: 9
+  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
+    line: 618
     col: 0
     score: 1
-  - uuid: 1f4a3423-555e-4d45-8c32-5b6b45914a4e
-    line: 10
+  - uuid: 930054b3-ba95-4acf-bb92-0e3ead25ed0b
+    line: 187
+    col: 0
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 999
+    col: 0
+    score: 1
+  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
+    line: 1016
+    col: 0
+    score: 1
+  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+    line: 175
+    col: 0
+    score: 1
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 1221
+    col: 0
+    score: 1
+  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
+    line: 1058
+    col: 0
+    score: 1
+  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
+    line: 515
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 251
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 559
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 1033
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 226
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 705
+    col: 0
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 719
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 601
+    col: 0
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 1060
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 726
+    col: 0
+    score: 1
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 996
+    col: 0
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 667
+    col: 0
+    score: 1
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 736
+    col: 0
+    score: 1
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 645
+    col: 0
+    score: 1
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 739
+    col: 0
+    score: 1
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 816
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 1948
+    col: 0
+    score: 0.94
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 4605
+    col: 0
+    score: 0.94
+  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
+    line: 1965
+    col: 0
+    score: 0.94
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 1601
+    col: 0
+    score: 0.93
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 1866
+    col: 0
+    score: 0.93
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 2133
+    col: 0
+    score: 0.93
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 1927
+    col: 0
+    score: 0.93
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 1953
+    col: 0
+    score: 0.93
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 207
+    col: 0
+    score: 0.91
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 150
+    col: 0
+    score: 0.91
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 305
+    col: 0
+    score: 0.9
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 3468
     col: 0
     score: 0.89
----
-That's a _crucial_ insight—and yes, this is exactly where **Layers 1 and 2 bleed into each other**. ^ref-21d5cc09-1-0
-
-We’re now dealing with **boundary failures**. Some emerge from system exhaustion (Layer 1), others from **crossing forbidden boundaries** (Layer 2: permissions, access, social contracts). ^ref-21d5cc09-3-0
-
-Let’s break it down. ^ref-21d5cc09-5-0
-
----
-
-## 🧩 Categorizing Exceptions by Layer
-
-|Exception Type|Layer|Example|Why| ^ref-21d5cc09-11-0
-|---|---|---|---|
-|`ENOMEM`, `EFAULT`, `Segfault`, "Bus error"|**Layer 1**|System ran out of memory or accessed invalid pointer|Hardware/resource failure: Uptime circuit|
-|`EACCESS`, `EPERM`, sandbox violations|**Layer 2**|Denied access to file/device/API|Violated permission boundary or contract|
-|`ENOENT`, `ENODEV`, `ERR_UNKNOWN_FUNCTION`|**Layer 3+**|Logical mistake, invalid command|Language/model misinterpretation, concept-level|
-|`EIO`, `EBUSY`, race conditions|1 → 2|IO lock error, fsync failed, device busy|Physical but often because of _coordination_ failure|
-|`ECONNREFUSED`, `ETIMEDOUT`|1 → 2|Network disconnected or unreachable|System-level, but could be permissioned|
-
-So exceptions are: ^ref-21d5cc09-19-0
-
-- **Layer 1** when they prevent _survival_ ^ref-21d5cc09-21-0
-    
-- **Layer 2** when they deny _access or autonomy_ ^ref-21d5cc09-23-0
-    
-- **Layer 3+** when they indicate a _misunderstanding or symbolic error_ ^ref-21d5cc09-25-0
-    
-
----
-
-## 🧠 Proposal: Exception Vector Field
-
-Let’s create a **Field of Exception Events** just like we track load: ^ref-21d5cc09-32-0
-
-```clojure
-(defstruct error-event
-  code       ; "EACCESS", "ENOMEM", "SIGSEGV", etc.
-  timestamp
-  agent-id
-  context    ; stacktrace, resource, function
-  weight     ; severity (1-10)
-  category   ; :uptime, :permission, :logic
-)
-```
-^ref-21d5cc09-34-0
-
-### Then model this as:
- ^ref-21d5cc09-47-0
-- A **scatter field** of past error vectors
- ^ref-21d5cc09-49-0
-- A **density field** of recurring failure zones (e.g., “This path fails often”)
- ^ref-21d5cc09-51-0
-- A **gravitational center** of “crash attractors” (e.g., high-stress + denied = shutdown risk)
-    
- ^ref-21d5cc09-54-0
-This can be integrated into the **Eidolon field** like a weather map of past injuries.
-
----
-
-## 🔐 Example: Blended Case (Permission vs Resource)
- ^ref-21d5cc09-60-0
-Say a TTS agent crashes:
- ^ref-21d5cc09-62-0
-```lisp
-(defagent tts-engine
-  (priority 7)
-  (update
-    (lambda ()
-      (try
-        (run-inference)
-        (catch e
-          (cond
-            ((= e.code "EACCESS") (report-permission-denial e))
-            ((= e.code "ENOMEM") (decay-self 'partial))
-            ((= e.code "SIGSEGV") (emit-panic 'tts-engine e))))))
-^ref-21d5cc09-62-0
-``` ^ref-21d5cc09-76-0
-^ref-21d5cc09-63-0
- ^ref-21d5cc09-78-0
-Here: ^ref-21d5cc09-78-0
- ^ref-21d5cc09-80-0
-- `EACCESS` => Layer 2 (maybe it wasn’t allowed to read that voice file) ^ref-21d5cc09-80-0
-    
-- `ENOMEM` => Layer 1 (system under load)
-    
-- `SIGSEGV` => Emergency shutdown broadcast (field blowout)
-    
-
----
- ^ref-21d5cc09-89-0
-## 🛑 Layer 1 Must Still _Catch_ All ^ref-21d5cc09-89-0
- ^ref-21d5cc09-91-0
-Even if the root cause is Layer 2+, **Layer 1 is always the bouncer**: ^ref-21d5cc09-91-0
- ^ref-21d5cc09-93-0
-> "If you throw an uncaught exception, I catch it. I stop you. I make note of what you did, and I decide if you're allowed to start again." ^ref-21d5cc09-93-0
-
-This gives us **fault-tolerant agents** and a **forensic model**.
-
----
-
-## 🧰 Implementation Strategy
-
-### 1. Build an Exception Classifier
- ^ref-21d5cc09-103-0
-- Normalize OS and language-level errors into categories ^ref-21d5cc09-103-0
-    
-- Assign layer + severity + cause
-    
-
-### 2. Build Exception Vector Map
- ^ref-21d5cc09-110-0
-- Temporal ring buffer of exception vectors ^ref-21d5cc09-110-0
-    
-- Expose API: `get-exception-density-region`, `get-agent-failure-rate`
-    
- ^ref-21d5cc09-115-0
-### 3. Log and Feed into Permissions ^ref-21d5cc09-115-0
- ^ref-21d5cc09-117-0
-- Permission module learns “soft” boundaries ^ref-21d5cc09-117-0
- ^ref-21d5cc09-119-0
-- Repeated EACCESS → _maybe that path is off-limits forever_ ^ref-21d5cc09-119-0
-    
-- Sudden burst of `ENOMEM` → schedule lower-priority tasks less often
-    
-
----
- ^ref-21d5cc09-126-0
-## 🌋 Optional: Simulate “Pain” ^ref-21d5cc09-126-0
- ^ref-21d5cc09-128-0
-You could model repeated uncaught exceptions or denied accesses as **nociception**, like pain signals—allowing the system to learn which actions _hurt_ and to avoid them. ^ref-21d5cc09-128-0
- ^ref-21d5cc09-130-0
-> Error density could drive “fear” in the uptime field. ^ref-21d5cc09-130-0
-> 
-> High fear => more cautious, lazy-loading, shorter outputs.
- ^ref-21d5cc09-134-0
---- ^ref-21d5cc09-134-0
- ^ref-21d5cc09-136-0
-Would you like to: ^ref-21d5cc09-136-0
-
-- Start defining the `exception-event` schema and classifier?
- ^ref-21d5cc09-140-0
-- Integrate exception reporting into existing agents? ^ref-21d5cc09-140-0
-    
-- Or design a diagnostic UI/log system that visualizes exception flows over time?
-    
- ^ref-21d5cc09-145-0
-We could write a Sibilant-style agent system to hook try/catch blocks into Eidolon right now.
-   line: 44
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 137
+    col: 0
+    score: 0.89
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 282
+    col: 0
+    score: 0.89
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 5439
+    col: 0
+    score: 0.89
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 495
+    col: 0
+    score: 0.89
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 9631
+    col: 0
+    score: 0.89
+  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
+    line: 164
+    col: 0
+    score: 0.89
+  - uuid: 5f65dfa5-dc97-4a6c-ad93-c45c1312e156
+    line: 1064
+    col: 0
+    score: 0.89
+  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
+    line: 129
+    col: 0
+    score: 0.89
+  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
+    line: 52
+    col: 0
+    score: 0.88
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 111
+    col: 0
+    score: 0.88
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 631
+    col: 0
+    score: 0.88
+  - uuid: cdf2c6e4-0dbd-4f19-b645-ac619a6f267d
+    line: 34
+    col: 0
+    score: 0.86
+  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
+    line: 147
+    col: 0
+    score: 0.86
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 303
+    col: 0
+    score: 0.86
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 211
+    col: 0
+    score: 0.86
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 44
     col: 0
     score: 0.86
   - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
@@ -233,149 +293,4 @@ We could write a Sibilant-style agent system to hook try/catch blocks into Eidol
     col: 0
     score: 0.85
 ---
-That's a _crucial_ insight—and yes, this is exactly where **Layers 1 and 2 bleed into each other**. ^ref-21d5cc09-1-0
 
-We’re now dealing with **boundary failures**. Some emerge from system exhaustion (Layer 1), others from **crossing forbidden boundaries** (Layer 2: permissions, access, social contracts). ^ref-21d5cc09-3-0
-
-Let’s break it down. ^ref-21d5cc09-5-0
-
----
-
-## 🧩 Categorizing Exceptions by Layer
-
-|Exception Type|Layer|Example|Why| ^ref-21d5cc09-11-0
-|---|---|---|---|
-|`ENOMEM`, `EFAULT`, `Segfault`, "Bus error"|**Layer 1**|System ran out of memory or accessed invalid pointer|Hardware/resource failure: Uptime circuit|
-|`EACCESS`, `EPERM`, sandbox violations|**Layer 2**|Denied access to file/device/API|Violated permission boundary or contract|
-|`ENOENT`, `ENODEV`, `ERR_UNKNOWN_FUNCTION`|**Layer 3+**|Logical mistake, invalid command|Language/model misinterpretation, concept-level|
-|`EIO`, `EBUSY`, race conditions|1 → 2|IO lock error, fsync failed, device busy|Physical but often because of _coordination_ failure|
-|`ECONNREFUSED`, `ETIMEDOUT`|1 → 2|Network disconnected or unreachable|System-level, but could be permissioned|
-
-So exceptions are: ^ref-21d5cc09-19-0
-
-- **Layer 1** when they prevent _survival_ ^ref-21d5cc09-21-0
-    
-- **Layer 2** when they deny _access or autonomy_ ^ref-21d5cc09-23-0
-    
-- **Layer 3+** when they indicate a _misunderstanding or symbolic error_ ^ref-21d5cc09-25-0
-    
-
----
-
-## 🧠 Proposal: Exception Vector Field
-
-Let’s create a **Field of Exception Events** just like we track load: ^ref-21d5cc09-32-0
-
-```clojure
-(defstruct error-event
-  code       ; "EACCESS", "ENOMEM", "SIGSEGV", etc.
-  timestamp
-  agent-id
-  context    ; stacktrace, resource, function
-  weight     ; severity (1-10)
-  category   ; :uptime, :permission, :logic
-)
-```
-^ref-21d5cc09-34-0
-
-### Then model this as:
- ^ref-21d5cc09-47-0
-- A **scatter field** of past error vectors
- ^ref-21d5cc09-49-0
-- A **density field** of recurring failure zones (e.g., “This path fails often”)
- ^ref-21d5cc09-51-0
-- A **gravitational center** of “crash attractors” (e.g., high-stress + denied = shutdown risk)
-    
- ^ref-21d5cc09-54-0
-This can be integrated into the **Eidolon field** like a weather map of past injuries.
-
----
-
-## 🔐 Example: Blended Case (Permission vs Resource)
- ^ref-21d5cc09-60-0
-Say a TTS agent crashes:
- ^ref-21d5cc09-62-0
-```lisp
-(defagent tts-engine
-  (priority 7)
-  (update
-    (lambda ()
-      (try
-        (run-inference)
-        (catch e
-          (cond
-            ((= e.code "EACCESS") (report-permission-denial e))
-            ((= e.code "ENOMEM") (decay-self 'partial))
-            ((= e.code "SIGSEGV") (emit-panic 'tts-engine e))))))
-^ref-21d5cc09-62-0
-``` ^ref-21d5cc09-76-0
-^ref-21d5cc09-63-0
- ^ref-21d5cc09-78-0
-Here: ^ref-21d5cc09-78-0
- ^ref-21d5cc09-80-0
-- `EACCESS` => Layer 2 (maybe it wasn’t allowed to read that voice file) ^ref-21d5cc09-80-0
-    
-- `ENOMEM` => Layer 1 (system under load)
-    
-- `SIGSEGV` => Emergency shutdown broadcast (field blowout)
-    
-
----
- ^ref-21d5cc09-89-0
-## 🛑 Layer 1 Must Still _Catch_ All ^ref-21d5cc09-89-0
- ^ref-21d5cc09-91-0
-Even if the root cause is Layer 2+, **Layer 1 is always the bouncer**: ^ref-21d5cc09-91-0
- ^ref-21d5cc09-93-0
-> "If you throw an uncaught exception, I catch it. I stop you. I make note of what you did, and I decide if you're allowed to start again." ^ref-21d5cc09-93-0
-
-This gives us **fault-tolerant agents** and a **forensic model**.
-
----
-
-## 🧰 Implementation Strategy
-
-### 1. Build an Exception Classifier
- ^ref-21d5cc09-103-0
-- Normalize OS and language-level errors into categories ^ref-21d5cc09-103-0
-    
-- Assign layer + severity + cause
-    
-
-### 2. Build Exception Vector Map
- ^ref-21d5cc09-110-0
-- Temporal ring buffer of exception vectors ^ref-21d5cc09-110-0
-    
-- Expose API: `get-exception-density-region`, `get-agent-failure-rate`
-    
- ^ref-21d5cc09-115-0
-### 3. Log and Feed into Permissions ^ref-21d5cc09-115-0
- ^ref-21d5cc09-117-0
-- Permission module learns “soft” boundaries ^ref-21d5cc09-117-0
- ^ref-21d5cc09-119-0
-- Repeated EACCESS → _maybe that path is off-limits forever_ ^ref-21d5cc09-119-0
-    
-- Sudden burst of `ENOMEM` → schedule lower-priority tasks less often
-    
-
----
- ^ref-21d5cc09-126-0
-## 🌋 Optional: Simulate “Pain” ^ref-21d5cc09-126-0
- ^ref-21d5cc09-128-0
-You could model repeated uncaught exceptions or denied accesses as **nociception**, like pain signals—allowing the system to learn which actions _hurt_ and to avoid them. ^ref-21d5cc09-128-0
- ^ref-21d5cc09-130-0
-> Error density could drive “fear” in the uptime field. ^ref-21d5cc09-130-0
-> 
-> High fear => more cautious, lazy-loading, shorter outputs.
- ^ref-21d5cc09-134-0
---- ^ref-21d5cc09-134-0
- ^ref-21d5cc09-136-0
-Would you like to: ^ref-21d5cc09-136-0
-
-- Start defining the `exception-event` schema and classifier?
- ^ref-21d5cc09-140-0
-- Integrate exception reporting into existing agents? ^ref-21d5cc09-140-0
-    
-- Or design a diagnostic UI/log system that visualizes exception flows over time?
-    
- ^ref-21d5cc09-145-0
-We could write a Sibilant-style agent system to hook try/catch blocks into Eidolon right now.

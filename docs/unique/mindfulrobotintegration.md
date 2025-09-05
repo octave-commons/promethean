@@ -16,13 +16,10 @@ tags:
   - critical
   - thinking
 related_to_uuid:
-  - f1add613-656e-4bec-b52b-193fd78c4642
-  - 9e8ae388-767a-4ea8-9f2e-88801291d947
   - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
   - 71726f04-eb1c-42a5-a5fe-d8209de6e159
   - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
   - a4d90289-798d-44a0-a8e8-a055ae12fb52
-  - 623a55f7-685c-486b-abaf-469da1bbbb69
   - fc21f824-4244-4030-a48e-c4170160ea1d
   - 6620e2f2-de6d-45d8-a722-5d26e160b370
   - 5e408692-0e74-400e-a617-84247c7353ad
@@ -33,22 +30,22 @@ related_to_uuid:
   - 6bcff92c-4224-453d-9993-1be8d37d47c3
   - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
   - ae24a280-678e-4c0b-8cc4-56667fa04172
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - e87bc036-1570-419e-a558-f45b9c0db698
-  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
-  - 75ea4a6a-8270-488d-9d37-799c288e5f70
-  - 6cb4943e-8267-4e27-8618-2ce0a464d173
   - 10d98225-12e0-4212-8e15-88b57cf7bee5
   - 5e8b2388-022b-46cf-952c-36ae9b8f0037
   - ffb9b2a9-744d-4a53-9565-130fceae0832
+  - 23df6ddb-05cf-4639-8201-f8291f8a6026
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - db74343f-8f84-43a3-adb2-499c6f00be1c
+  - 5a02283e-4281-4930-9ca7-e27849de11bd
+  - 1d3d6c3a-039e-4b96-93c1-95854945e248
+  - ca8e1399-77bf-4f77-82a3-3f703b68706d
+  - 9b694a91-dec5-4708-9462-3f71000ba925
 related_to_title:
-  - Operations
-  - Window Management
   - DuckDuckGoSearchPipeline
   - Duck's Self-Referential Perceptual Loop
   - Dynamic Context Model for Web Components
   - Factorio AI with External Agents
-  - Shared
   - Fnord Tracer Protocol
   - graph-ds
   - i3-bluetooth-setup
@@ -59,14 +56,17 @@ related_to_title:
   - Post-Linguistic Transhuman Design Frameworks
   - Promethean Chat Activity Report
   - Promethean-Copilot-Intent-Engine
-  - Diagrams
-  - DSL
-  - JavaScript
-  - Services
-  - Tooling
   - Creative Moments
   - Eidolon Field Abstract Model
   - obsidian-ignore-node-modules-regex
+  - Promethean State Format
+  - eidolon-field-math-foundations
+  - Duck's Attractor States
+  - Model Upgrade Calm-Down Guide
+  - NPU Voice Code and Sensory Integration
+  - Obsidian ChatGPT Plugin Integration Guide
+  - Obsidian ChatGPT Plugin Integration
+  - Obsidian Task Generation
 references:
   - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
     line: 495
@@ -140,34 +140,6 @@ references:
     line: 8
     col: 0
     score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 20
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 9
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 72
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 23
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 25
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 11
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 22
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 7
     col: 0
@@ -224,10 +196,6 @@ references:
     line: 165
     col: 0
     score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 48
-    col: 0
-    score: 1
   - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
     line: 44
     col: 0
@@ -258,18 +226,6 @@ references:
     score: 1
   - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
     line: 172
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 21
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 39
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 28
     col: 0
     score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
@@ -376,42 +332,6 @@ references:
     line: 95
     col: 0
     score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 28
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 25
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 61
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 18
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 21
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 51
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 67
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 31
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 17
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 33
     col: 0
@@ -466,6 +386,86 @@ references:
     score: 1
   - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
     line: 324
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 47
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 105
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 97
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 128
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 31
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 90
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 33
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 462
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 99
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 152
+    col: 0
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 173
+    col: 0
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 197
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 175
+    col: 0
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 217
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 136
+    col: 0
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 274
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 336
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 88
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 75
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 104
     col: 0
     score: 1
 ---

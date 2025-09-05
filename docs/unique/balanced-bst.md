@@ -21,7 +21,6 @@ tags:
 related_to_uuid:
   - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
   - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
   - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
   - 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
   - 15d25922-0de6-414f-b7d1-e50e2a57b33a
@@ -44,10 +43,10 @@ related_to_uuid:
   - 03a5578f-d689-45db-95e9-11300e5eee6f
   - 0f6f8f38-98d0-438f-9601-58f478acc0b7
   - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+  - bb90903a-4723-44f7-850e-a71415ef6224
 related_to_title:
   - field-dynamics-math-blocks
   - field-interaction-equations
-  - Math Fundamentals
   - eidolon-field-math-foundations
   - Board Walk – 2025-08-11
   - run-step-api
@@ -70,6 +69,7 @@ related_to_title:
   - Promethean Dev Workflow Update
   - windows-tiling-with-autohotkey
   - TypeScript Patch for Tool Calling Support
+  - AGENTS.md
 references:
   - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
     line: 504
@@ -85,10 +85,6 @@ references:
     score: 1
   - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
     line: 187
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 66
     col: 0
     score: 1
   - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
@@ -215,26 +211,6 @@ references:
     line: 183
     col: 0
     score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 69
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 36
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 46
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 40
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 53
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 33
     col: 0
@@ -341,10 +317,6 @@ references:
     score: 1
   - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
     line: 159
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 134
     col: 0
     score: 1
   - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
@@ -469,6 +441,34 @@ references:
     score: 1
   - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
     line: 1062
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 763
+    col: 0
+    score: 1
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 999
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 1508
+    col: 0
+    score: 1
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 1007
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 293
+    col: 0
+    score: 1
+  - uuid: 2901a3e9-96f0-497c-ae2c-775f28a702dd
+    line: 478
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 27
     col: 0
     score: 1
 ---

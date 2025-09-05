@@ -29,7 +29,6 @@ related_to_uuid:
   - 71726f04-eb1c-42a5-a5fe-d8209de6e159
   - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
   - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
   - 5c307293-04cb-4478-ba2c-4cd85dbec260
   - 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
   - e90b5a16-d58f-424d-bd36-70e9bd2861ad
@@ -41,6 +40,7 @@ related_to_uuid:
   - 1c4046b5-742d-4004-aec6-b47251fef5d6
   - 0f6f8f38-98d0-438f-9601-58f478acc0b7
   - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - 9a93a756-6d33-45d1-aca9-51b74f2b33d2
 related_to_title:
   - Duck's Attractor States
   - Promethean Chat Activity Report
@@ -55,7 +55,6 @@ related_to_title:
   - Duck's Self-Referential Perceptual Loop
   - Promethean_Eidolon_Synchronicity_Model
   - ParticleSimulationWithCanvasAndFFmpeg
-  - Diagrams
   - Self-Improving Documentation Tool
   - Git Commit Optimization for Code Reviews
   - Prometheus Observability Stack
@@ -67,6 +66,7 @@ related_to_title:
   - Promethean Notes
   - windows-tiling-with-autohotkey
   - Promethean Infrastructure Setup
+  - Protocol_0_The_Contradiction_Engine
 references:
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
     line: 4642
@@ -316,34 +316,6 @@ references:
     line: 159
     col: 0
     score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 20
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 9
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 72
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 23
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 25
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 11
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 22
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 7
     col: 0
@@ -366,10 +338,6 @@ references:
     score: 1
   - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
     line: 205
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 93
     col: 0
     score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
@@ -408,34 +376,6 @@ references:
     line: 270
     col: 0
     score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 91
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 21
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 83
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 95
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 82
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 109
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 33
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 10
     col: 0
@@ -460,12 +400,72 @@ references:
     line: 110
     col: 0
     score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 97
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 13
     col: 0
     score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 87
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 99
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 118
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 108
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 68
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 8
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 38
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 56
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 165
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 270
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 22148
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 26563
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 20101
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 271
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 166
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 272
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 14301
     col: 0
     score: 1
 ---

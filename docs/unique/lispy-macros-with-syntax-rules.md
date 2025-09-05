@@ -118,38 +118,6 @@ references:
     line: 999
     col: 0
     score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 519
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 466
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 505
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 451
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 178
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 437
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 367
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 378
-    col: 0
-    score: 1
   - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
     line: 1016
     col: 0
@@ -238,10 +206,6 @@ references:
     line: 7
     col: 0
     score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 94
-    col: 0
-    score: 0.95
   - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
     line: 113
     col: 0

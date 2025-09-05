@@ -40,9 +40,9 @@ related_to_uuid:
   - 5e408692-0e74-400e-a617-84247c7353ad
   - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
   - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-  - e87bc036-1570-419e-a558-f45b9c0db698
-  - f1add613-656e-4bec-b52b-193fd78c4642
-  - 9e8ae388-767a-4ea8-9f2e-88801291d947
+  - d614d983-7795-491f-9437-09f3a43f72cf
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
+  - 13951643-1741-46bb-89dc-1beebb122633
 related_to_title:
   - AGENTS.md
   - Promethean Chat Activity Report
@@ -66,9 +66,9 @@ related_to_title:
   - i3-bluetooth-setup
   - Layer1SurvivabilityEnvelope
   - eidolon-node-lifecycle
-  - DSL
-  - Operations
-  - Window Management
+  - Promethean Workflow Optimization
+  - zero-copy-snapshots-and-workers
+  - Duck's Attractor States
 references:
   - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
     line: 287
@@ -132,26 +132,6 @@ references:
     score: 1
   - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
     line: 183
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 69
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 36
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 46
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 40
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 53
     col: 0
     score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
@@ -254,10 +234,6 @@ references:
     line: 779
     col: 0
     score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 269
-    col: 0
-    score: 1
   - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
     line: 1431
     col: 0
@@ -344,30 +320,6 @@ references:
     score: 1
   - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
     line: 220
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 45
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 14
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 41
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 31
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 20
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 36
     col: 0
     score: 1
   - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
@@ -470,6 +422,54 @@ references:
     line: 134
     col: 0
     score: 0.99
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 258
+    col: 0
+    score: 0.99
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 226
+    col: 0
+    score: 0.98
+  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
+    line: 1509
+    col: 0
+    score: 0.98
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 142
+    col: 0
+    score: 0.98
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 277
+    col: 0
+    score: 0.98
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 26
+    col: 0
+    score: 0.98
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 313
+    col: 0
+    score: 0.98
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 167
+    col: 0
+    score: 0.98
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 732
+    col: 0
+    score: 0.97
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 812
+    col: 0
+    score: 0.97
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 825
+    col: 0
+    score: 0.97
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 119
+    col: 0
+    score: 0.97
 ---
 Got it. Here’s a lean, **drop-in `AGENTS.md` scaffold** with reusable prompt blocks you can paste and adapt. It encodes your constraints (AVA, TS FP, no React, no Python, local-only stack, concurrency-first). It’s Obsidian-friendly, includes clear roles, rubrics, and checklists, and keeps bots from drifting to Jest.
 

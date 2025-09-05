@@ -63,6 +63,22 @@ references:
     col: 0
     score: 1
   - uuid: 8792b6d3-aafd-403f-a410-e8a09ec2f8cf
+    line: 147
+    col: 0
+    score: 1
+  - uuid: 7a75d992-5267-4557-b464-b6c7d3f88dad
+    line: 134
+    col: 0
+    score: 1
+  - uuid: ed2e157e-bfed-4291-ae4c-6479df975d87
+    line: 147
+    col: 0
+    score: 1
+  - uuid: 4f9a7fd9-de08-4b9c-87c4-21268bc26d54
+    line: 147
+    col: 0
+    score: 1
+  - uuid: 8792b6d3-aafd-403f-a410-e8a09ec2f8cf
     line: 85
     col: 0
     score: 0.92
@@ -534,3 +550,49 @@ Say the word—I'll write it up. ^ref-008f2ac0-113-0
 Related notes: [[../notes/math/advanced-field-math|advanced-field-math]], [[../notes/math/aionian-feedback-oscillator|aionian-feedback-oscillator]], [[../notes/math/aionian-pulse-rhythm-model|aionian-pulse-rhythm-model]], [[../notes/math/eidolon-field-math|eidolon-field-math]], [[../notes/math/symbolic-gravity-models|symbolic-gravity-models]] [[index|unique/index]] ^ref-008f2ac0-117-0
 
 #tags: #math #theory
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [aionian-circuit-math](aionian-circuit-math.md)
+- [field-interaction-equations](field-interaction-equations.md)
+- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [agent-tasks-persistence-migration-to-dualstore](agent-tasks-persistence-migration-to-dualstore.md)
+- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
+- [promethean-infrastructure-setup](promethean-infrastructure-setup.md)
+- [Particle Simulation with Canvas and FFmpeg](particlesimulationwithcanvasandffmpeg.md)
+- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
+- [Field Node Diagrams](field-node-diagram-outline.md)
+- [prompt-folder-bootstrap](prompt-folder-bootstrap.md)
+- [Promethean Event Bus MVP](promethean-event-bus-mvp-v0-1.md)
+## Sources
+- [field-dynamics-math-blocks — L132](field-dynamics-math-blocks.md#^ref-7a75d992-132-0) (line 132, col 0, score 1)
+- [aionian-circuit-math — L145](aionian-circuit-math.md#^ref-8792b6d3-145-0) (line 145, col 0, score 1)
+- [field-interaction-equations — L145](field-interaction-equations.md#^ref-ed2e157e-145-0) (line 145, col 0, score 1)
+- [homeostasis-decay-formulas — L145](homeostasis-decay-formulas.md#^ref-4f9a7fd9-145-0) (line 145, col 0, score 1)
+- [aionian-circuit-math — L147](aionian-circuit-math.md#^ref-8792b6d3-147-0) (line 147, col 0, score 1)
+- [field-dynamics-math-blocks — L134](field-dynamics-math-blocks.md#^ref-7a75d992-134-0) (line 134, col 0, score 1)
+- [field-interaction-equations — L147](field-interaction-equations.md#^ref-ed2e157e-147-0) (line 147, col 0, score 1)
+- [homeostasis-decay-formulas — L147](homeostasis-decay-formulas.md#^ref-4f9a7fd9-147-0) (line 147, col 0, score 1)
+- [aionian-circuit-math — L85](aionian-circuit-math.md#^ref-8792b6d3-85-0) (line 85, col 0, score 0.92)
+- [aionian-circuit-math — L66](aionian-circuit-math.md#^ref-8792b6d3-66-0) (line 66, col 0, score 0.91)
+- [field-interaction-equations — L82](field-interaction-equations.md#^ref-ed2e157e-82-0) (line 82, col 0, score 0.91)
+- [aionian-circuit-math — L40](aionian-circuit-math.md#^ref-8792b6d3-40-0) (line 40, col 0, score 0.91)
+- [aionian-circuit-math — L17](aionian-circuit-math.md#^ref-8792b6d3-17-0) (line 17, col 0, score 0.9)
+- [homeostasis-decay-formulas — L17](homeostasis-decay-formulas.md#^ref-4f9a7fd9-17-0) (line 17, col 0, score 0.9)
+- [aionian-circuit-math — L105](aionian-circuit-math.md#^ref-8792b6d3-105-0) (line 105, col 0, score 0.9)
+- [field-dynamics-math-blocks — L91](field-dynamics-math-blocks.md#^ref-7a75d992-91-0) (line 91, col 0, score 0.9)
+- [field-interaction-equations — L62](field-interaction-equations.md#^ref-ed2e157e-62-0) (line 62, col 0, score 0.89)
+- [homeostasis-decay-formulas — L81](homeostasis-decay-formulas.md#^ref-4f9a7fd9-81-0) (line 81, col 0, score 0.89)
+- [field-dynamics-math-blocks — L59](field-dynamics-math-blocks.md#^ref-7a75d992-59-0) (line 59, col 0, score 0.89)
+- [field-dynamics-math-blocks — L95](field-dynamics-math-blocks.md#^ref-7a75d992-95-0) (line 95, col 0, score 0.89)
+- [field-dynamics-math-blocks — L76](field-dynamics-math-blocks.md#^ref-7a75d992-76-0) (line 76, col 0, score 0.89)
+- [field-interaction-equations — L37](field-interaction-equations.md#^ref-ed2e157e-37-0) (line 37, col 0, score 0.88)
+- [field-interaction-equations — L58](field-interaction-equations.md#^ref-ed2e157e-58-0) (line 58, col 0, score 0.88)
+- [homeostasis-decay-formulas — L61](homeostasis-decay-formulas.md#^ref-4f9a7fd9-61-0) (line 61, col 0, score 0.87)
+- [field-interaction-equations — L102](field-interaction-equations.md#^ref-ed2e157e-102-0) (line 102, col 0, score 0.87)
+- [field-interaction-equations — L17](field-interaction-equations.md#^ref-ed2e157e-17-0) (line 17, col 0, score 0.86)
+- [agent-tasks-persistence-migration-to-dualstore — L8](agent-tasks-persistence-migration-to-dualstore.md#^ref-8802d059-8-0) (line 8, col 0, score 0.86)
+- [homeostasis-decay-formulas — L40](homeostasis-decay-formulas.md#^ref-4f9a7fd9-40-0) (line 40, col 0, score 0.85)
+- [field-interaction-equations — L121](field-interaction-equations.md#^ref-ed2e157e-121-0) (line 121, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

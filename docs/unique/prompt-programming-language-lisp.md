@@ -26,7 +26,6 @@ related_to_uuid:
   - 0f6f8f38-98d0-438f-9601-58f478acc0b7
   - 6bcff92c-4224-453d-9993-1be8d37d47c3
   - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
   - 2792d448-c3b5-4050-93dd-93768529d99c
   - 61d4086b-4adf-4e94-95e4-95a249cd1b53
   - 5c152b08-6b69-4bb8-a1a7-66745789c169
@@ -42,6 +41,7 @@ related_to_uuid:
   - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
   - c34c36a6-80c9-4b44-a200-6448543b1b33
   - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
 related_to_title:
   - eidolon-field-math-foundations
   - Promethean Chat Activity Report
@@ -52,7 +52,6 @@ related_to_title:
   - windows-tiling-with-autohotkey
   - Post-Linguistic Transhuman Design Frameworks
   - Promethean_Eidolon_Synchronicity_Model
-  - JavaScript
   - Docops Feature Updates
   - sibilant-metacompiler-overview
   - OpenAPI Validation Report
@@ -67,6 +66,7 @@ related_to_title:
   - Voice Access Layer Design
   - Cross-Language Runtime Polymorphism
   - markdown-to-org-transpiler
+  - Cross-Target Macro System in Sibilant
 references:
   - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
     line: 8140
@@ -110,10 +110,6 @@ references:
     score: 0.95
   - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
     line: 215
-    col: 0
-    score: 0.95
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 157
     col: 0
     score: 0.95
   - uuid: 2792d448-c3b5-4050-93dd-93768529d99c

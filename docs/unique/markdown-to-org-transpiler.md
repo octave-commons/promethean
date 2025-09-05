@@ -277,14 +277,6 @@ references:
     line: 28
     col: 0
     score: 0.85
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 43
-    col: 0
-    score: 0.85
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 109
-    col: 0
-    score: 0.85
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
     line: 94
     col: 0

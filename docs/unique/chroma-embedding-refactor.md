@@ -15,148 +15,236 @@ tags:
   - json
   - compatibility
 related_to_uuid:
-  - 0a8255a5-ef49-4a1e-ae71-b2f57eb7bdf8
-  - 8b256935-02f6-4da2-a406-bf6b8415276f
-  - 86ef1f2b-1b3f-4ca7-a88e-b8b52e70ac10
-  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-  - a23de044-17e0-45f0-bba7-d870803cbfed
-  - b25be760-256e-4a8a-b34d-867281847ccb
-  - 972c820f-63a8-49c6-831f-013832195478
-  - 7d584c12-7517-4f30-8378-34ac9fc3a3f8
-  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
-  - 5becb573-0a78-486b-8d3c-199b3c7a79ec
-  - e4317155-7fa6-44e8-8aee-b72384581790
-  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
-  - 8802d059-6b36-4e56-bb17-6a80a7dba599
-  - c3f0e260-531f-42ea-add4-4e6bb7e5f771
-  - abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
-  - 4316c3f9-551f-4872-b5c5-98ae73508535
-  - 8fd08696-5338-493b-bed5-507f8a6a6ea9
-  - 688ad325-4243-4304-bccc-1a1d8745de08
-  - 004a0f06-3808-4421-b9e1-41b5b41ebcb8
-  - c09d7688-71d6-47fc-bf81-86b6193c84bc
-  - cfb15342-0e5d-444b-9e96-3f8758071609
-  - 3abeaf12-5a59-45f1-80d8-82b031b84b96
-  - 909312f1-5feb-4503-a6fa-10a710aa7429
-  - 792a343e-674c-4bb4-8435-b3f8c163349d
-  - aaf779eb-0287-499f-b6d3-6fb4d9e595bd
+  - 1cfae310-35dc-49c2-98f1-b186da25d84b
+  - bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - 8b8e6103-30a4-4d66-b5f2-87db1612b587
+  - bb7f0835-c347-474f-bfad-eabd873b51ad
+  - 93d2ba51-8689-49ee-94e2-296092e48058
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - b01856b4-999f-418d-8009-ade49b00eb0f
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - 8430617b-80a2-4cc9-8288-9a74cb57990b
+  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+  - 5158f742-4a3b-466e-bfc3-d83517b64200
+  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
+  - af5d2824-faad-476c-a389-e912d9bc672c
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
 related_to_title:
   - Functional Refactor of TypeScript Document Processing
-  - Chroma-Embedding-Refactor
-  - promethean-pipelines
+  - chroma-embedding-refactor
+  - Promethean-native config design
+  - i3-bluetooth-setup
+  - RAG UI Panel with Qdrant and PostgREST
+  - Promethean Pipelines
+  - Agent Reflections and Prompt Evolution
+  - 'Agent Tasks: Persistence Migration to DualStore'
+  - Chroma Toolkit Consolidation Plan
+  - eidolon-node-lifecycle
+  - Fnord Tracer Protocol
+  - Promethean Full-Stack Docker Setup
+  - universal-intention-code-fabric
   - Universal Lisp Interface
-  - Komorebi Group Manager
+  - komorebi-group-window-hack
+  - WebSocket Gateway Implementation
   - ripple-propagation-demo
   - archetype-ecs
-  - promethean-native-config-design
-  - Stateful Partitions and Rebalancing
-  - Agent Reflections and Prompt Evolution
+  - Recursive Prompt Construction Engine
+  - Promethean Agent DSL TS Scaffold
+  - file-watcher-auth-fix
+  - Sibilant Meta-Prompt DSL
+  - Event Bus MVP
+  - prom-lib-rate-limiters-and-replay-api
   - TypeScript Patch for Tool Calling Support
-  - dynamic-context-model-for-web-components
-  - agent-tasks-persistence-migration-to-dualstore
-  - Functional Embedding Pipeline Refactor
-  - RAG UI Panel with Qdrant and PostgREST
-  - WebSocket Gateway Implementation
-  - typed-struct-compiler
-  - template-based-compilation
-  - ecs-offload-workers
-  - Migrate to Provider-Tenant Architecture
-  - Refactor Frontmatter Processing
-  - sibilant-metacompiler
-  - refactor-05-footers
-  - windows-tiling-with-autohotkey
-  - sibilant-meta-string-templating-runtime
 references:
-  - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
+  - uuid: bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
     line: 114
     col: 0
     score: 0.95
-  - uuid: 0a8255a5-ef49-4a1e-ae71-b2f57eb7bdf8
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
     line: 5
     col: 0
-    score: 0.94
-  - uuid: 86ef1f2b-1b3f-4ca7-a88e-b8b52e70ac10
-    line: 84
+    score: 0.93
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 305
     col: 0
-    score: 0.88
-  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+    score: 0.93
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 2075
+    col: 0
+    score: 0.91
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 1201
+    col: 0
+    score: 0.9
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 349
+    col: 0
+    score: 0.9
+  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
+    line: 498
+    col: 0
+    score: 0.89
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 968
+    col: 0
+    score: 0.89
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 762
+    col: 0
+    score: 0.89
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 465
+    col: 0
+    score: 0.89
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 1025
+    col: 0
+    score: 0.89
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 683
+    col: 0
+    score: 0.89
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 1226
+    col: 0
+    score: 0.89
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 1646
+    col: 0
+    score: 0.89
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 2085
+    col: 0
+    score: 0.89
+  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
     line: 137
     col: 0
     score: 0.88
-  - uuid: a23de044-17e0-45f0-bba7-d870803cbfed
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
     line: 195
     col: 0
     score: 0.88
-  - uuid: 86ef1f2b-1b3f-4ca7-a88e-b8b52e70ac10
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 1625
+    col: 0
+    score: 0.88
+  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
     line: 68
     col: 0
     score: 0.87
-  - uuid: b25be760-256e-4a8a-b34d-867281847ccb
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 318
+    col: 0
+    score: 0.87
+  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
     line: 64
     col: 0
     score: 0.87
-  - uuid: 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
     line: 35
     col: 0
     score: 0.87
-  - uuid: 5becb573-0a78-486b-8d3c-199b3c7a79ec
+  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
     line: 101
     col: 0
     score: 0.87
-  - uuid: 9a1076d6-1aac-497e-bac3-66c9ea09da55
-    line: 299
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 527
     col: 0
     score: 0.87
-  - uuid: a23de044-17e0-45f0-bba7-d870803cbfed
-    line: 185
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 416
     col: 0
     score: 0.87
-  - uuid: 972c820f-63a8-49c6-831f-013832195478
-    line: 418
+  - uuid: 9044701b-03c9-4a30-92c4-46b1bd66c11e
+    line: 32
+    col: 0
+    score: 0.87
+  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
+    line: 147
+    col: 0
+    score: 0.87
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 120
+    col: 0
+    score: 0.87
+  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
+    line: 84
     col: 0
     score: 0.86
-  - uuid: 972c820f-63a8-49c6-831f-013832195478
-    line: 442
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 417
     col: 0
     score: 0.86
-  - uuid: b25be760-256e-4a8a-b34d-867281847ccb
+  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
     line: 88
     col: 0
     score: 0.86
-  - uuid: e4317155-7fa6-44e8-8aee-b72384581790
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
     line: 104
     col: 0
     score: 0.86
-  - uuid: 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
     line: 33
     col: 0
     score: 0.86
-  - uuid: 0c501d52-ba38-42aa-ad25-2d78425dfaff
-    line: 336
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 296
     col: 0
     score: 0.86
-  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-    line: 172
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 388
     col: 0
     score: 0.86
-  - uuid: 7d584c12-7517-4f30-8378-34ac9fc3a3f8
-    line: 278
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 306
     col: 0
     score: 0.86
-  - uuid: 8802d059-6b36-4e56-bb17-6a80a7dba599
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 972
+    col: 0
+    score: 0.86
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
     line: 8
     col: 0
     score: 0.85
-  - uuid: 972c820f-63a8-49c6-831f-013832195478
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
     line: 366
     col: 0
     score: 0.85
-  - uuid: 972c820f-63a8-49c6-831f-013832195478
-    line: 415
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 441
     col: 0
     score: 0.85
-  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
     line: 117
+    col: 0
+    score: 0.85
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 28
+    col: 0
+    score: 0.85
+  - uuid: 5158f742-4a3b-466e-bfc3-d83517b64200
+    line: 818
+    col: 0
+    score: 0.85
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 524
+    col: 0
+    score: 0.85
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 374
     col: 0
     score: 0.85
 ---

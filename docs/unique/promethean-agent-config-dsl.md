@@ -16,60 +16,88 @@ tags:
   - permissions-first
   - observability
 related_to_uuid:
-  - 50ac7389-a75e-476a-ab34-bb24776d4f38
-  - d65e5b6c-29ed-458f-bf9b-94bf0d48fa79
-  - 526317d7-2eaf-4559-bb17-1f8dcfe9e30c
-  - c09d7688-71d6-47fc-bf81-86b6193c84bc
-  - e4317155-7fa6-44e8-8aee-b72384581790
-  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
-  - ed2e157e-bfed-4291-ae4c-6479df975d87
-  - 572b571b-b337-4004-97b8-386f930b5497
-  - a28a39dd-8c17-463c-9050-2ffe9b56e8bc
-  - aa88652d-c8e5-4a1b-850e-afdf7fe15dae
-  - 10780cdc-5036-4e8a-9599-a11703bc30c9
-  - f24dbd59-29e1-4eeb-bb3e-d2c31116b207
-  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
-  - 31a2df46-9dbc-4066-b3e3-d3e860099fd0
-  - 395df1ea-572e-49ec-8861-aff9d095ed0e
-  - 58a50f5a-b073-4c50-8d3f-4284bd5df171
-  - aaf779eb-0287-499f-b6d3-6fb4d9e595bd
-  - c7b8a045-45f2-42c4-9617-b0cda73ca3cf
-  - 6420e101-2d34-45b5-bcff-d21e1c6e516b
-  - 7a66bc1e-9276-41ce-ac22-fc08926acb2d
-  - 01723341-5fbf-4118-8885-9ed0a94fca04
-  - 4d8cbf01-e44a-452f-96a0-17bde7b416a8
-  - 792a343e-674c-4bb4-8435-b3f8c163349d
-  - 177c260c-39b2-4450-836d-1e87c0bd0035
+  - b51e19b4-1326-4311-9798-33e972bf626c
+  - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+  - cfee6d36-b9f5-4587-885a-cdfddb4f054e
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - 5158f742-4a3b-466e-bfc3-d83517b64200
+  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
+  - 31f0166e-4631-45fa-aecd-b44e9a13f497
+  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
+  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - 58191024-d04a-4520-8aae-a18be7b94263
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - c5c9a5c6-427d-4864-8084-c083cd55faa0
+  - 4127189a-e0ab-436f-8571-cc852b8e9add
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
 related_to_title:
-  - promethean-full-stack-docker-setup
-  - sibilant-macro-targets
-  - Cross-Target Macro System in Sibilant
-  - Migrate to Provider-Tenant Architecture
-  - TypeScript Patch for Tool Calling Support
-  - polyglot-repl-interface-layer
-  - field-interaction-equations
-  - State Snapshots API and Transactional Projector
-  - AI-Centric OS with MCP Layer
-  - Promethean Web UI Setup
-  - Eidolon Field Abstract Model
-  - Mongo Outbox Implementation
-  - Universal Lisp Interface
-  - Stateful Partitions and Rebalancing
-  - field-node-diagram-set
-  - Promethean System Diagrams
-  - js-to-lisp-reverse-compiler
-  - sibilant-meta-string-templating-runtime
-  - i3-bluetooth-setup
-  - Eidolon Field Math Foundations
-  - pm2-orchestration-patterns
-  - Fnord Tracer Protocol
-  - pure-node-crawl-stack-with-playwright-and-crawlee
-  - windows-tiling-with-autohotkey
+  - promethean-system-diagrams
+  - markdown-to-org-transpiler
+  - Lisp-Compiler-Integration
+  - WebSocket Gateway Implementation
+  - observability-infrastructure-setup
+  - Promethean Agent DSL TS Scaffold
+  - Event Bus Projections Architecture
+  - i3-layout-saver
+  - file-watcher-auth-fix
+  - template-based-compilation
   - universal-intention-code-fabric
+  - Recursive Prompt Construction Engine
+  - Voice Access Layer Design
+  - Promethean Full-Stack Docker Setup
+  - mystery-lisp-search-session
+  - Cross-Target Macro System in Sibilant
+  - Cross-Language Runtime Polymorphism
+  - js-to-lisp-reverse-compiler
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - Vectorial Exception Descent
+  - Promethean-native config design
+  - sibilant-macro-targets
+  - layer-1-uptime-diagrams
+  - Local-Only-LLM-Workflow
 references:
-  - uuid: 50ac7389-a75e-476a-ab34-bb24776d4f38
-    line: 416
+  - uuid: b51e19b4-1326-4311-9798-33e972bf626c
+    line: 169
+    col: 0
+    score: 0.88
+  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+    line: 272
+    col: 0
+    score: 0.88
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 523
+    col: 0
+    score: 0.88
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 631
+    col: 0
+    score: 0.87
+  - uuid: 5158f742-4a3b-466e-bfc3-d83517b64200
+    line: 818
+    col: 0
+    score: 0.86
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 348
+    col: 0
+    score: 0.86
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 111
+    col: 0
+    score: 0.85
+  - uuid: 31f0166e-4631-45fa-aecd-b44e9a13f497
+    line: 79
     col: 0
     score: 0.85
 ---

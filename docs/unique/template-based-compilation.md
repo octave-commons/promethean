@@ -25,13 +25,6 @@ tags:
   - domain-specific-languages
 related_to_uuid:
   - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - e87bc036-1570-419e-a558-f45b9c0db698
-  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-  - f1add613-656e-4bec-b52b-193fd78c4642
-  - 75ea4a6a-8270-488d-9d37-799c288e5f70
-  - 623a55f7-685c-486b-abaf-469da1bbbb69
   - f9e200b4-742d-4786-ae2c-017996d53caf
   - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
   - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
@@ -49,15 +42,15 @@ related_to_uuid:
   - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
   - 22b989d5-f4aa-4880-8632-709c21830f83
   - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - f2d83a77-7f86-4c56-8538-1350167a0c6c
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
+  - 13951643-1741-46bb-89dc-1beebb122633
 related_to_title:
   - Chroma Toolkit Consolidation Plan
-  - Diagrams
-  - DSL
-  - JavaScript
-  - Math Fundamentals
-  - Operations
-  - Services
-  - Shared
   - level-cache
   - Promethean Chat Activity Report
   - eidolon-field-math-foundations
@@ -75,37 +68,16 @@ related_to_title:
   - field-node-diagram-outline
   - field-node-diagram-set
   - field-node-diagram-visualizations
+  - aionian-circuit-math
+  - prom ui bootstrap
+  - ecs-offload-workers
+  - Recursive Prompt Construction Engine
+  - Fnord Tracer Protocol
+  - Eidolon Field Abstract Model
+  - Duck's Attractor States
 references:
   - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
     line: 1002
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 522
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 469
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 508
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 454
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 181
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 440
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 370
     col: 0
     score: 1
   - uuid: f9e200b4-742d-4786-ae2c-017996d53caf
@@ -286,34 +258,6 @@ references:
     score: 0.87
   - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
     line: 4929
-    col: 0
-    score: 0.87
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 1905
-    col: 0
-    score: 0.87
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 1981
-    col: 0
-    score: 0.87
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 1614
-    col: 0
-    score: 0.87
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 1599
-    col: 0
-    score: 0.87
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 1799
-    col: 0
-    score: 0.87
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 1606
-    col: 0
-    score: 0.87
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 1598
     col: 0
     score: 0.87
   - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e

@@ -19,26 +19,41 @@ tags:
   - typescript
   - javascript
 related_to_uuid:
-  - a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+  - 01c5547f-27eb-42d1-af24-9cad10b6a2ca
+  - a09a2867-7f5a-4864-8150-6eee881a616b
+  - 599c228b-22a8-4fb2-ac23-edc191b630f1
+  - 7c3ee67a-f458-464f-9b5e-92f1c0ea8366
+  - 6b91d91d-6b5c-4516-a0c8-d66d9b9fcc9b
+  - e84ebe20-72b3-420b-8fec-a094326f8c9f
+  - 4594f6ff-aa66-4c55-8a18-2a8c417c03a7
+  - fda3b0d4-86dc-481e-8d89-d50ad0ec5d93
+  - a39e72eb-34f4-45d2-9b59-a0f9f4a12fc0
+  - f35d133e-6e9a-4aee-84b1-fa2579664ad8
+  - 2c6f53c5-71e1-4737-a227-714e1286274f
 related_to_title:
-  - AI-Centric OS with MCP Layer
+  - run-step-api
+  - pr-688-nitpack-extract
+  - Pseudo Pipes Overview
+  - Promethean Monorepo Law
+  - AGENTS.md
+  - docops-pipeline
+  - Pipeline Brainstorming
+  - 'Promethean Pipelines: Local TypeScript-First Workflows'
+  - mcp-server-config
+  - Pipeline Enhancements
 references:
-  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
-    line: 1
+  - uuid: 01c5547f-27eb-42d1-af24-9cad10b6a2ca
+    line: 828
     col: 0
     score: 1
-  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
-    line: 7
+  - uuid: a09a2867-7f5a-4864-8150-6eee881a616b
+    line: 66
     col: 0
-    score: 1
-  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
-    line: 8
+    score: 0.91
+  - uuid: 01c5547f-27eb-42d1-af24-9cad10b6a2ca
+    line: 20
     col: 0
-    score: 1
-  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
-    line: 10
-    col: 0
-    score: 1
+    score: 0.9
 ---
 
 pipelines:
