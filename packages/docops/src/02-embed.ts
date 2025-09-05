@@ -5,14 +5,14 @@ import matter from "gray-matter";
 import { createHash } from "node:crypto";
 import { Ollama } from "ollama";
 import { ChromaClient } from "chromadb";
-import { DBs } from "./db";
+import { DBs } from "./db.js";
 import {
   parseArgs,
   listFilesRec,
   parseMarkdownChunks,
   OLLAMA_URL,
 } from "./utils.js";
-import { Chunk } from "./types";
+import { Chunk } from "./types.js";
 import { OllamaEmbeddingFunction } from "@chroma-core/ollama";
 
 type Front = { uuid?: string; filename?: string };
@@ -77,7 +77,7 @@ function cleanChunkText(c: Chunk): string {
   if (title && REF_HEADING_RE.test(title.trim())) return "";
   const lines = (c.text || "").split("\n");
   const kept = lines.filter(
-    (L) => !(LINK_DEF_RE.test(L) || BARE_LINK_RE.test(L.trim())),
+    (L: string) => !(LINK_DEF_RE.test(L) || BARE_LINK_RE.test(L.trim())),
   );
   const s = kept.join("\n").trim();
   return s;
@@ -275,7 +275,7 @@ if (isDirect) {
     "--debug": "false",
   });
   // CLI path builds its own DB+collection when invoked directly
-  const { openDB } = await import("./db");
+  const { openDB } = await import("./db.js");
   const db = await openDB();
   const client = new ChromaClient({});
   const embedModel = args["--embed-model"] ?? "nomic-embed-text:latest";

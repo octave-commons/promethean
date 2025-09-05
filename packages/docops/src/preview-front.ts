@@ -3,10 +3,10 @@ import * as path from "node:path";
 import { pathToFileURL } from "node:url";
 import { promises as fs } from "node:fs";
 import matter from "gray-matter";
-import { openDB } from "./db";
-import type { DBs } from "./db";
-import type { Chunk, Front, QueryHit } from "./types";
-import { parseArgs } from "./utils";
+import { openDB } from "./db.js";
+import type { DBs } from "./db.js";
+import type { Chunk, Front, QueryHit } from "./types.js";
+import { parseArgs } from "./utils.js";
 
 type DocInfo = { path: string; title: string };
 type Ref = { uuid: string; line: number; col: number; score?: number };
@@ -28,8 +28,6 @@ const dbg = (...xs: any[]) => {
   if (DEBUG) console.log("[preview]", ...xs);
 };
 
-const isDocFile = (p: string) =>
-  /\.(md|mdx|txt)$/i.test(p) && p.startsWith(ROOT);
 const uniq = (xs: readonly string[] = []) =>
   Array.from(new Set(xs.filter(Boolean)));
 const round2 = (n?: number) => (n == null ? n : Math.round(n * 100) / 100);
@@ -52,10 +50,24 @@ export async function computePreview(
     valueEncoding: "json",
   });
 
-  const docs: Array<[string, DocInfo]> = [];
+  const ROOT_LOCAL = path.resolve(opts.dir);
+  let docs: Array<[string, DocInfo]> = [];
   for await (const [u, info] of docsKV.iterator()) {
     const d = info as DocInfo;
-    if (isDocFile(d.path)) docs.push([u, d]);
+    if (
+      d.path &&
+      d.path.startsWith(ROOT_LOCAL) &&
+      /\.(md|mdx|txt)$/i.test(d.path)
+    ) {
+      docs.push([u, d]);
+    }
+  }
+  // Fallback: if no docs matched the scope, include all docs
+  if (docs.length === 0) {
+    for await (const [u, info] of docsKV.iterator()) {
+      const d = info as DocInfo;
+      if (d.path && /\.(md|mdx|txt)$/i.test(d.path)) docs.push([u, d]);
+    }
   }
   const byUuid = new Map<string, DocInfo>(docs as [string, DocInfo][]);
   const allowed = new Set(docs.map(([u]) => u));
@@ -64,11 +76,48 @@ export async function computePreview(
   let uuid = (frontPathOrUuid.uuid || "").trim();
   if (!uuid) {
     const f = path.resolve(frontPathOrUuid.file || "");
-    const found = docs.find(
+    let found = docs.find(
       ([, info]) => path.resolve((info as DocInfo).path) === f,
     );
-    if (!found) throw new Error(`File not found in scope: ${f}`);
-    uuid = found[0];
+    if (!found) {
+      // fallback: scan full docsKV (no scope) to locate the file
+      for await (const [u, info] of docsKV.iterator()) {
+        const p = (info as DocInfo).path;
+        if (p && path.resolve(p) === f) {
+          found = [u, info as DocInfo] as [string, DocInfo];
+          break;
+        }
+      }
+    }
+    if (!found) {
+      // final fallback: read frontmatter of provided file to get uuid
+      try {
+        const raw = await fs.readFile(f, "utf8");
+        const gm = matter(raw);
+        const fm = (gm.data || {}) as Front;
+        if (fm.uuid) {
+          uuid = fm.uuid;
+          // ensure maps include this file
+          byUuid.set(uuid, {
+            path: f,
+            title: fm.title || fm.filename || "Doc",
+          });
+          allowed.add(uuid);
+        }
+      } catch {}
+    }
+    if (!uuid) {
+      // attempt to resolve via chunks index
+      for await (const [u, cs] of chunksKV.iterator()) {
+        const arr = (cs as readonly Chunk[]) || [];
+        if (arr.some((c) => path.resolve(c.docPath) === f)) {
+          uuid = u;
+          break;
+        }
+      }
+    }
+    if (!uuid) throw new Error(`File not found in scope: ${f}`);
+    if (found) uuid = found[0];
   }
   const info = byUuid.get(uuid);
   if (!info) throw new Error(`UUID not found in scope: ${uuid}`);

@@ -12,10 +12,12 @@ import { renderSelectedMarkdown } from "./js/render.js";
 import { getSelection } from "./js/selection.js";
 import { setSelection } from "./js/selection.js";
 
+let WS_AVAILABLE = false;
 async function loadConfigAndPopulate() {
   const cfg = await getConfig();
   document.getElementById("dir").value = cfg.dir || "";
   document.getElementById("collection").value = cfg.collection || "";
+  WS_AVAILABLE = !!cfg.ws;
 }
 
 async function populateDocList() {
@@ -83,18 +85,28 @@ document.getElementById("run").onclick = async () => {
   const progText = document.getElementById("progressText");
   logs.textContent = "";
   const files = getSelection();
-  const url =
-    "/api/run?dir=" +
-    encodeURIComponent(dir) +
-    "&collection=" +
-    encodeURIComponent(collection) +
-    "&docT=" +
-    docT +
-    "&refT=" +
-    refT +
-    (files.length ? "&files=" + encodeURIComponent(JSON.stringify(files)) : "");
+  if (!files.length) {
+    logs.textContent =
+      "Select one or more files in the explorer to run the pipeline.";
+    return;
+  }
+  // Create a run token via POST to avoid oversized query strings
+  const startRes = await fetch("/api/run-start", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ dir, collection, docT, refT, files }),
+  });
+  if (!startRes.ok) {
+    const err = await startRes.json().catch(() => ({}));
+    logs.textContent = `Failed to start: ${err.error || startRes.statusText}`;
+    return;
+  }
+  const { token, ws } = await startRes.json();
+  const url = "/api/run?token=" + encodeURIComponent(token);
   const wsProto = location.protocol === "https:" ? "wss" : "ws";
-  const wsUrl = `${wsProto}://${location.host}/ws/run?` + url.split("?")[1];
+  const wsUrl = `${wsProto}://${
+    location.host
+  }/ws/run?token=${encodeURIComponent(token)}`;
   const refreshFiles = () => {
     try {
       setSelection([]);
@@ -132,39 +144,38 @@ document.getElementById("run").onclick = async () => {
       }
     }
   };
-  try {
-    const ws = new WebSocket(wsUrl);
-    let opened = false;
-    let sseUsed = false;
-    const startSSE = () => {
-      if (sseUsed) return;
-      sseUsed = true;
-      const es = new EventSource(url);
-      es.onmessage = (ev) => handleLine(String(ev.data || ""));
-      es.onerror = () => es.close();
-    };
-    ws.onopen = () => {
-      opened = true;
-    };
-    ws.onmessage = (ev) => handleLine(String(ev.data || ""));
-    ws.onerror = () => {
-      try {
-        ws.close();
-      } catch {}
-      startSSE();
-    };
-    setTimeout(() => {
-      if (!opened) {
+  const startSSE = () => {
+    const es = new EventSource(url);
+    es.onmessage = (ev) => handleLine(String(ev.data || ""));
+    es.onerror = () => es.close();
+  };
+  if (WS_AVAILABLE && ws) {
+    try {
+      const ws = new WebSocket(wsUrl);
+      let opened = false;
+      ws.onopen = () => {
+        opened = true;
+      };
+      ws.onmessage = (ev) => handleLine(String(ev.data || ""));
+      ws.onerror = () => {
         try {
           ws.close();
         } catch {}
         startSSE();
-      }
-    }, 300);
-  } catch {
-    const es = new EventSource(url);
-    es.onmessage = (ev) => handleLine(String(ev.data || ""));
-    es.onerror = () => es.close();
+      };
+      setTimeout(() => {
+        if (!opened) {
+          try {
+            ws.close();
+          } catch {}
+          startSSE();
+        }
+      }, 250);
+    } catch {
+      startSSE();
+    }
+  } else {
+    startSSE();
   }
 };
 
@@ -295,6 +306,8 @@ async function runMissingForItem(it) {
 
   const dir = document.getElementById("dir").value || "";
   const logs = document.getElementById("logs");
+  const prog = document.getElementById("overallProgress");
+  const progText = document.getElementById("progressText");
   const fileParam = encodeURIComponent(JSON.stringify([it.path]));
 
   for (const step of steps) {
@@ -307,8 +320,28 @@ async function runMissingForItem(it) {
     await new Promise((resolve) => {
       es.onmessage = (ev) => {
         const line = ev.data || "";
-        logs.textContent += line + "\n";
-        logs.scrollTop = logs.scrollHeight;
+        // Handle progress updates for the global progress bar
+        if (String(line).startsWith("PROGRESS ")) {
+          try {
+            const p = JSON.parse(String(line).slice(9));
+            if (p && prog && progText) {
+              if (p.percent != null) {
+                const pct = Math.max(0, Math.min(100, Number(p.percent)));
+                prog.value = pct;
+                progText.textContent = `${pct}% ${p.message || ""}`;
+              } else if (p.done != null && p.total != null) {
+                const pct = Math.round((p.done / p.total) * 100);
+                prog.value = pct;
+                progText.textContent = `${pct}% ${
+                  p.message || `${p.done}/${p.total}`
+                }`;
+              }
+            }
+          } catch {}
+        } else {
+          logs.textContent += line + "\n";
+          logs.scrollTop = logs.scrollHeight;
+        }
         if (/completed/i.test(line)) {
           es.close();
           resolve(null);
@@ -335,26 +368,7 @@ async function loadStatus() {
   const box = document.getElementById("statusTable");
   box.innerHTML = "<em>Loading…</em>";
   try {
-    const res = await getStatus(dir);
-    let items = res.items || [];
-    if (onlyIncomplete) {
-      items = items.filter((it) => {
-        const embedIncomplete =
-          (it.embed?.fingerprints || 0) < (it.embed?.chunks || 0);
-        const queryIncomplete = (it.query?.withHits || 0) < (it.query?.of || 0);
-        return (
-          !it.frontmatter?.done ||
-          embedIncomplete ||
-          queryIncomplete ||
-          !it.relations?.present ||
-          !it.footers?.present
-        );
-      });
-    }
-    if (!items.length) {
-      box.innerHTML = "<em>No docs found</em>";
-      return;
-    }
+    // Build table header once
     const tbl = document.createElement("table");
     tbl.style.width = "100%";
     tbl.style.borderCollapse = "collapse";
@@ -376,81 +390,103 @@ async function loadStatus() {
       head.appendChild(th);
     });
     tbl.appendChild(head);
-    items.forEach((it) => {
-      const tr = document.createElement("tr");
-      const pct = (a, b) => (b > 0 ? ((a / b) * 100).toFixed(0) + "%" : "0%");
-      const td = (s) => {
-        const el = document.createElement("td");
-        el.style.padding = "4px";
-        el.style.borderBottom = "1px solid #f0f0f0";
-        el.textContent = s;
-        return el;
-      };
-
-      const fileTd = td(it.path);
-      fileTd.style.cursor = "pointer";
-      fileTd.style.color = "#0366d6";
-      fileTd.addEventListener("click", () => {
-        try {
-          setSelection([it.path]);
-        } catch {}
-        renderSelectedMarkdown();
-      });
-      tr.appendChild(fileTd);
-
-      const frontTd = td(it.frontmatter?.done ? "yes" : "no");
-      colorizeCell(frontTd, !!it.frontmatter?.done);
-      tr.appendChild(frontTd);
-
-      const embedOk =
-        (it.embed?.fingerprints || 0) >= (it.embed?.chunks || 0) &&
-        (it.embed?.chunks || 0) > 0;
-      const embedTd = td(
-        `${it.embed?.fingerprints || 0}/${it.embed?.chunks || 0} (${pct(
-          it.embed?.fingerprints || 0,
-          it.embed?.chunks || 0,
-        )})`,
-      );
-      colorizeCell(embedTd, embedOk);
-      tr.appendChild(embedTd);
-
-      const queryOk =
-        (it.query?.withHits || 0) >= (it.query?.of || 0) &&
-        (it.query?.of || 0) > 0;
-      const queryTd = td(
-        `${it.query?.withHits || 0}/${it.query?.of || 0} (${pct(
-          it.query?.withHits || 0,
-          it.query?.of || 0,
-        )})`,
-      );
-      colorizeCell(queryTd, queryOk);
-      tr.appendChild(queryTd);
-
-      const relTd = td(
-        it.relations?.present
-          ? `${it.relations.related || 0} rel | ${it.relations.refs || 0} refs`
-          : "no",
-      );
-      colorizeCell(relTd, !!it.relations?.present);
-      tr.appendChild(relTd);
-
-      const footTd = td(it.footers?.present ? "yes" : "no");
-      colorizeCell(footTd, !!it.footers?.present);
-      tr.appendChild(footTd);
-
-      const actTd = document.createElement("td");
-      actTd.style.padding = "4px";
-      actTd.style.borderBottom = "1px solid #f0f0f0";
-      const btn = document.createElement("button");
-      btn.textContent = "Run Missing";
-      btn.onclick = () => runMissingForItem(it);
-      actTd.appendChild(btn);
-      tr.appendChild(actTd);
-
-      tbl.appendChild(tr);
-    });
     box.innerHTML = "";
     box.appendChild(tbl);
+
+    // Fetch and append pages
+    const pageSize = 150;
+    let page = 1;
+    let appended = 0;
+    while (true) {
+      const res = await getStatus(dir, {
+        page,
+        limit: pageSize,
+        onlyIncomplete,
+      });
+      const items = res.items || [];
+      if (!items.length && page === 1) {
+        box.innerHTML = "<em>No docs found</em>";
+        return;
+      }
+      items.forEach((it) => {
+        const tr = document.createElement("tr");
+        const pct = (a, b) => (b > 0 ? ((a / b) * 100).toFixed(0) + "%" : "0%");
+        const td = (s) => {
+          const el = document.createElement("td");
+          el.style.padding = "4px";
+          el.style.borderBottom = "1px solid #f0f0f0";
+          el.textContent = s;
+          return el;
+        };
+
+        const fileTd = td(it.path);
+        fileTd.style.cursor = "pointer";
+        fileTd.style.color = "#0366d6";
+        fileTd.addEventListener("click", () => {
+          try {
+            setSelection([it.path]);
+          } catch {}
+          renderSelectedMarkdown();
+        });
+        tr.appendChild(fileTd);
+
+        const frontTd = td(it.frontmatter?.done ? "yes" : "no");
+        colorizeCell(frontTd, !!it.frontmatter?.done);
+        tr.appendChild(frontTd);
+
+        const embedOk =
+          (it.embed?.fingerprints || 0) >= (it.embed?.chunks || 0) &&
+          (it.embed?.chunks || 0) > 0;
+        const embedTd = td(
+          `${it.embed?.fingerprints || 0}/${it.embed?.chunks || 0} (${pct(
+            it.embed?.fingerprints || 0,
+            it.embed?.chunks || 0,
+          )})`,
+        );
+        colorizeCell(embedTd, embedOk);
+        tr.appendChild(embedTd);
+
+        const queryOk =
+          (it.query?.withHits || 0) >= (it.query?.of || 0) &&
+          (it.query?.of || 0) > 0;
+        const queryTd = td(
+          `${it.query?.withHits || 0}/${it.query?.of || 0} (${pct(
+            it.query?.withHits || 0,
+            it.query?.of || 0,
+          )})`,
+        );
+        colorizeCell(queryTd, queryOk);
+        tr.appendChild(queryTd);
+
+        const relTd = td(
+          it.relations?.present
+            ? `${it.relations.related || 0} rel | ${
+                it.relations.refs || 0
+              } refs`
+            : "no",
+        );
+        colorizeCell(relTd, !!it.relations?.present);
+        tr.appendChild(relTd);
+
+        const footTd = td(it.footers?.present ? "yes" : "no");
+        colorizeCell(footTd, !!it.footers?.present);
+        tr.appendChild(footTd);
+
+        const actTd = document.createElement("td");
+        actTd.style.padding = "4px";
+        actTd.style.borderBottom = "1px solid #f0f0f0";
+        const btn = document.createElement("button");
+        btn.textContent = "Run Missing";
+        btn.onclick = () => runMissingForItem(it);
+        actTd.appendChild(btn);
+        tr.appendChild(actTd);
+
+        tbl.appendChild(tr);
+        appended++;
+      });
+      if (!res.hasMore) break;
+      page++;
+    }
   } catch (e) {
     box.textContent = String(e);
   }
