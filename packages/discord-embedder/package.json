@@ -6,6 +6,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "pnpm run build && ava --config ../../../config/ava.config.mjs",
     "coverage": "pnpm run build && c8 ava --config ../../../config/ava.config.mjs",
     "build:check": "tsc --noEmit --incremental false -p .",
@@ -42,7 +44,7 @@
     "prism-media": "^2.0.0-alpha.0",
     "wav": "^1.0.2",
     "ws": "^8.18.3",
-    "@promethean/utils": "workspace:*"
+    "@promethean/utils": "workspace:0.0.1"
   },
   "devDependencies": {
     "@types/node": "^22.17.2",
