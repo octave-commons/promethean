@@ -228,24 +228,36 @@ export function createFastifyAuth() {
 			}
 			return { user: null, reason: "static_no_match" };
 		};
-	} else if (mode === "jwt") {
-		verifyToken = async (token) => {
-			try {
-				const payload = await verifyJwtAny(token);
-				return { user: payload };
-			} catch (e) {
-				const msg = String(e?.message || e);
-				if (
-					/(unauthorized|bad signature|expired|not active|iss|aud|malformed|bad header|bad payload|unsupported alg|missing jwks|missing jwt secret)/i.test(
-						msg,
-					)
-				) {
-					return { user: null, reason: msg };
-				}
-				throw e;
-			}
-		};
-	} else {
+       } else if (mode === "jwt") {
+               verifyToken = async (token) => {
+                       try {
+                               const payload = await verifyJwtAny(token);
+                               return { user: payload };
+                       } catch (e) {
+                               const msg = String(e?.message || e);
+                               // Attempt HS fallback if JWKS unavailable and a secret is configured
+                               if (/missing jwks/i.test(msg) && jwtSecret) {
+                                       try {
+                                               const payload = await verifyJwtHS(token, jwtSecret, {
+                                                       iss: jwtIssuer,
+                                                       aud: jwtAudience,
+                                               });
+                                               return { user: payload };
+                                       } catch (hsErr) {
+                                               return { user: null, reason: String(hsErr?.message || hsErr) };
+                                       }
+                               }
+                               if (
+                                       /(unauthorized|bad signature|expired|not active|iss|aud|malformed|bad header|bad payload|unsupported alg|missing jwks|missing jwt secret)/i.test(
+                                               msg,
+                                       )
+                               ) {
+                                       return { user: null, reason: msg };
+                               }
+                               throw e;
+                       }
+               };
+       } else {
 		// Unknown mode — fail closed
 		verifyToken = async () => ({ user: null, reason: "unknown auth mode" });
 	}
