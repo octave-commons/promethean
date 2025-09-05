@@ -5,7 +5,7 @@ import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
 import * as yaml from "yaml";
 import { once } from "node:events";
-import { Chunk, Front } from "./types";
+import { Chunk, Front } from "./types.js";
 import { createWriteStream } from "node:fs";
 import { randomUUID as nodeRandomUUID } from "node:crypto";
 

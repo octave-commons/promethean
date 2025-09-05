@@ -5,9 +5,9 @@ import * as path from "node:path";
 import matter from "gray-matter";
 import { z } from "zod";
 import ollama from "ollama";
-import { openDB } from "./db";
-import { parseArgs, listFilesRec, randomUUID } from "./utils";
-import type { Front } from "./types";
+import { openDB } from "./db.js";
+import { parseArgs, listFilesRec, randomUUID } from "./utils.js";
+import type { Front } from "./types.js";
 
 export type FrontmatterOptions = {
   dir: string;
@@ -23,7 +23,7 @@ const GenSchema = z.object({
   tags: z.array(z.string()).min(1),
 });
 
-import type { DBs } from "./db";
+import type { DBs } from "./db.js";
 
 export async function runFrontmatter(
   opts: FrontmatterOptions,
@@ -200,7 +200,7 @@ export async function runFrontmatter(
   let files = await listFilesRec(ROOT, EXTS);
   if (opts.files && opts.files.length) {
     const wanted = new Set(opts.files.map((p) => path.resolve(p)));
-    files = files.filter((f) => wanted.has(path.resolve(f)));
+    files = files.filter((f: string) => wanted.has(path.resolve(f)));
   }
   let done = 0;
   for (const f of files) {

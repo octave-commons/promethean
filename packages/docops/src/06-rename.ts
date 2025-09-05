@@ -1,8 +1,8 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 import matter from "gray-matter";
-import { parseArgs, slugify, extnamePrefer, listFilesRec } from "./utils";
-import type { Front } from "./types";
+import { parseArgs, slugify, extnamePrefer, listFilesRec } from "./utils.js";
+import type { Front } from "./types.js";
 
 export type RenameOptions = { dir: string; dryRun?: boolean; files?: string[] };
 let ROOT = path.resolve("docs/unique");
@@ -23,7 +23,7 @@ export async function runRename(opts: RenameOptions) {
   let files = await listFilesRec(ROOT, new Set([".md", ".mdx", ".txt"]));
   if (opts.files && opts.files.length) {
     const wanted = new Set(opts.files.map((p) => path.resolve(p)));
-    files = files.filter((f) => wanted.has(path.resolve(f)));
+    files = files.filter((f: string) => wanted.has(path.resolve(f)));
   }
   for (const f of files) {
     const raw = await fs.readFile(f, "utf-8");

@@ -1,10 +1,11 @@
 // packages/docops/src/03-query.ts
-import { OLLAMA_URL, parseArgs } from "./utils";
-import type { DBs } from "./db";
-import type { Chunk, QueryHit } from "./types";
-import { ChromaClient } from "chromadb";
-import { OllamaEmbeddingFunction } from "@chroma-core/ollama";
+import { parseArgs } from "./utils.js";
+import type { DBs } from "./db.js";
+import type { Chunk, QueryHit } from "./types.js";
 import * as Path from "path";
+import { mapHits } from "./lib/query.js";
+import type { ChromaCollection } from "./lib/query.js";
+import { getChromaCollection } from "./lib/chroma.js";
 
 export type QueryOptions = {
   embedModel: string;
@@ -21,51 +22,7 @@ const dbg = (...xs: any[]) => {
   if (__DBG) console.log("[03-query]", ...xs);
 };
 
-// Convert distance to similarity robustly:
-// - If using cosine space (0..1), score ≈ 1 - distance
-// - If using L2 (>1 possible), fallback to 1/(1+d)
-const toScore = (distance: number) => {
-  if (!Number.isFinite(distance)) return 0;
-  if (distance >= 0 && distance <= 1)
-    return Math.max(0, Math.min(1, 1 - distance));
-  return 1 / (1 + distance);
-};
-
-const mapHits = (
-  ids: readonly string[],
-  distances: readonly number[],
-  byId: ReadonlyMap<string, Chunk>,
-  qDocUuid: string,
-  k: number,
-): readonly QueryHit[] =>
-  ids
-    .map((id, i) => {
-      const c = byId.get(id);
-      if (!c || c.docUuid === qDocUuid) return null;
-      const d = distances[i] ?? 1;
-      return Object.freeze({
-        id,
-        docUuid: c.docUuid,
-        score: toScore(d),
-        startLine: c.startLine,
-        startCol: (c as any).startCol,
-      } as QueryHit);
-    })
-    .filter((x): x is QueryHit => !!x)
-    .slice(0, k);
-
-// Minimal Chroma collection shape we rely on
-type ChromaCollection = {
-  get(input: {
-    ids: string[];
-    include?: ("metadatas" | "documents" | "embeddings")[];
-  }): Promise<any>;
-  query(input: {
-    queryEmbeddings: number[][];
-    nResults: number;
-    where?: any;
-  }): Promise<any>;
-};
+// helpers moved to ./lib/query
 
 export async function runQuery(
   opts: QueryOptions,
@@ -173,10 +130,10 @@ export async function runQuery(
       computed++;
       totalHits += hits.length;
       if (__DBG && hits.length) {
-        const top = hits.slice(0, 3).map((h) => h.score.toFixed(3));
+        const top = hits.slice(0, 3).map((h: QueryHit) => h.score.toFixed(3));
         dbg("q", q.id, "hits", hits.length, "top", top);
       }
-      for (const h of hits) {
+      for (const h of hits as readonly QueryHit[]) {
         const b = Math.max(0, Math.min(10, Math.floor((h.score ?? 0) * 10)));
         hist[b]++;
       }
@@ -198,19 +155,13 @@ if (isDirect) {
     "--force": "false",
     "--debug": "false",
   });
-  const { openDB } = await import("./db");
+  const { openDB } = await import("./db.js");
   const db = await openDB();
-  const client = new ChromaClient({});
   const embedModel = args["--embed-model"] ?? "nomic-embed-text:latest";
   const collection = args["--collection"] ?? "docs";
-  const embedder = new OllamaEmbeddingFunction({
-    model: embedModel,
-    url: OLLAMA_URL,
-  });
-  const coll = await client.getOrCreateCollection({
-    name: collection,
-    metadata: { embed_model: embedModel, "hnsw:space": "cosine" },
-    embeddingFunction: embedder,
+  const { client, coll } = await getChromaCollection({
+    collection,
+    embedModel,
   });
   const k = Math.max(1, Number(args["--k"] ?? "16") | 0) || 16;
   const force = (args["--force"] ?? "false") === "true";
@@ -233,6 +184,9 @@ if (isDirect) {
     .finally(async () => {
       try {
         await db.root.close();
+        try {
+          await (client as any)?.close?.();
+        } catch {}
       } catch {}
     });
 }
