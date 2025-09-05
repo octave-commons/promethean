@@ -111,9 +111,6 @@
       "path": "./packages/timetravel"
     },
     {
-      "path": "./packages/types"
-    },
-    {
       "path": "./packages/web"
     },
     {
