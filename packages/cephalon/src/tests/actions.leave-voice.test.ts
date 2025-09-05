@@ -2,7 +2,7 @@ import test from "ava";
 
 import runLeave from "../actions/leave-voice.js";
 import type { LeaveVoiceScope } from "../actions/leave-voice.scope.js";
-import { NotAllowedError } from "../factories/policy.js";
+import { NotAllowedError } from "@promethean/security/policy.js";
 
 function makeScope(allow = true, left = true): LeaveVoiceScope {
   return {
@@ -11,6 +11,7 @@ function makeScope(allow = true, left = true): LeaveVoiceScope {
       async assertAllowed() {
         if (!allow) throw new NotAllowedError("Permission denied");
       },
+      async checkCapability() {},
     },
     voice: {
       async leaveGuild() {

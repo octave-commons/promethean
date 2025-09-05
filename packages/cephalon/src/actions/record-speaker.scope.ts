@@ -2,7 +2,8 @@ import type * as discord from "discord.js";
 
 import type { Bot } from "../bot.js";
 import { makeLogger, type Logger } from "../factories/logger.js";
-import { makePolicy, type PolicyChecker } from "../factories/policy.js";
+import { makePolicy, type PolicyChecker } from "@promethean/security/policy.js";
+import { checkPermission } from "@promethean/legacy/permissionGate.js";
 
 export type RecordSpeakerScope = {
   logger: Logger;
@@ -23,7 +24,7 @@ export async function buildRecordSpeakerScope(): Promise<
 > {
   return {
     logger: makeLogger("record-speaker"),
-    policy: makePolicy(),
+    policy: makePolicy({ permissionGate: checkPermission }),
   };
 }
 

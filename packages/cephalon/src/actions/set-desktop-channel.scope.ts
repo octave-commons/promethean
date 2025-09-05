@@ -1,5 +1,6 @@
 import { makeLogger, type Logger } from "../factories/logger.js";
-import { makePolicy, type PolicyChecker } from "../factories/policy.js";
+import { makePolicy, type PolicyChecker } from "@promethean/security/policy.js";
+import { checkPermission } from "@promethean/legacy/permissionGate.js";
 
 export type SetDesktopChannelScope = {
   logger: Logger;
@@ -9,6 +10,6 @@ export type SetDesktopChannelScope = {
 export async function buildSetDesktopChannelScope(): Promise<SetDesktopChannelScope> {
   return {
     logger: makeLogger("set-desktop-channel"),
-    policy: makePolicy(),
+    policy: makePolicy({ permissionGate: checkPermission }),
   };
 }
