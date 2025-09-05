@@ -4,7 +4,7 @@ import { dirname, join } from "node:path";
 type Rewrite = (from: string) => string | null;
 
 export const mkAliasRewriter =
-  (fromPrefix = "@shared/prom-lib", toPrefix = "@promethean-"): Rewrite =>
+  (fromPrefix = "@old", toPrefix = "@new-"): Rewrite =>
   (spec) => {
     if (!spec.startsWith(fromPrefix)) return null;
     const rest = spec.slice(fromPrefix.length).replace(/^\/+/, "");
