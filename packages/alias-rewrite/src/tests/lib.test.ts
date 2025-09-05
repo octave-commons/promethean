@@ -6,9 +6,9 @@ import { join } from "node:path";
 import { mkdirSync } from "node:fs";
 
 test("alias rewrite", (t) => {
-  const r = mkAliasRewriter("@shared/prom-lib", "@promethean-");
-  t.is(r("@shared/prom-lib/logger"), "@promethean-logger");
-  t.is(r("@shared/prom-lib/utils/path/to/x"), "@promethean-utils/path/to/x");
+  const r = mkAliasRewriter("@old", "@new-");
+  t.is(r("@old/logger"), "@new-logger");
+  t.is(r("@old/utils/path/to/x"), "@new-utils/path/to/x");
   t.is(r("lodash"), null);
 });
 
