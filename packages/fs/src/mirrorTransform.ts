@@ -4,6 +4,7 @@ import * as path from 'path';
 import { Readable, Transform, Writable } from 'stream';
 import { pipeline as _pipeline } from 'stream/promises';
 
+import { ensureDir } from '@promethean/fs-utils';
 import { streamTreeConcurrent, StreamEvent, StreamNode } from './streamTreeGeneratorsConcurrent.js';
 
 type OverwriteMode = 'always' | 'if-newer' | 'never';
@@ -68,8 +69,6 @@ export type PlannedOp =
     | { kind: 'skip'; src: string; dst: string; reason: string }
     | { kind: 'symlink'; src: string; dst: string; target: string }
     | { kind: 'error'; at: string; error: string };
-
-const ensureDir = async (p: string) => fs.mkdir(p, { recursive: true });
 
 const defaultMapPath = (info: FileInfo) => path.join(info.dstRoot, info.relPath);
 

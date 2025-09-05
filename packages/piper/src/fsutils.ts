@@ -3,12 +3,11 @@ import * as path from "path";
 import { spawn } from "child_process";
 
 import { globby } from "globby";
+import { ensureDir } from "@promethean/fs-utils";
 
 import { PiperStep } from "./types.js";
 
-export async function ensureDir(p: string) {
-  await fs.mkdir(p, { recursive: true });
-}
+export { ensureDir };
 
 export async function readTextMaybe(p: string) {
   try {
