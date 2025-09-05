@@ -60,6 +60,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.2.2
         version: 2.2.2
+      '@promethean/test-utils':
+        specifier: workspace:*
+        version: link:packages/test-utils
       '@types/jest':
         specifier: 30.0.0
         version: 30.0.0
@@ -302,6 +305,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.2.2
         version: 2.2.2
+      '@promethean/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
       '@types/body-parser':
         specifier: ^1.19.5
         version: 1.19.6
@@ -527,6 +533,12 @@ importers:
       '@biomejs/biome':
         specifier: ^2.2.2
         version: 2.2.2
+      '@promethean/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
+      '@types/node':
+        specifier: ^22.17.2
+        version: 22.18.1
       '@types/ws':
         specifier: ^8.5.12
         version: 8.18.1
@@ -873,7 +885,7 @@ importers:
         version: 7.1.4
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@24.3.1)(typescript@5.7.3)
+        version: 10.9.2(@types/node@22.18.1)(typescript@5.7.3)
       typescript:
         specifier: 5.7.3
         version: 5.7.3
@@ -2021,6 +2033,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.2.2
         version: 2.2.2
+      '@promethean/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
       '@types/body-parser':
         specifier: ^1.19.5
         version: 1.19.6
@@ -2171,8 +2186,8 @@ importers:
         version: 8.18.3
     devDependencies:
       '@promethean/test-utils':
-        specifier: file:../test-utils
-        version: file:packages/test-utils(socks@2.8.7)
+        specifier: workspace:*
+        version: link:../test-utils
       '@promethean/utils':
         specifier: workspace:*
         version: link:../utils
@@ -2757,6 +2772,9 @@ importers:
         specifier: ^9.0.0
         version: 9.0.0
     devDependencies:
+      '@promethean/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
       rimraf:
         specifier: ^6.0.0
         version: 6.0.1
@@ -2784,6 +2802,9 @@ importers:
       '@huggingface/inference':
         specifier: ^4.7.1
         version: 4.7.1
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -3061,6 +3082,9 @@ importers:
         specifier: ^3.23.3
         version: 3.24.6(zod@3.25.76)
     devDependencies:
+      '@promethean/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
       '@types/uuid':
         specifier: ^9.0.7
         version: 9.0.8
@@ -3750,6 +3774,9 @@ importers:
       '@promethean/event':
         specifier: workspace:*
         version: link:../event
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -4026,6 +4053,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.2.2
         version: 2.2.2
+      '@promethean/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
       '@types/body-parser':
         specifier: ^1.19.5
         version: 1.19.6
@@ -4298,6 +4328,12 @@ importers:
       '@biomejs/biome':
         specifier: ^2.2.2
         version: 2.2.2
+      '@promethean/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
+      '@types/node':
+        specifier: ^24.3.0
+        version: 24.3.1
       ava:
         specifier: ^6.1.3
         version: 6.4.1
@@ -4779,6 +4815,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.2.2
         version: 2.2.2
+      '@promethean/test-utils':
+        specifier: workspace:*
+        version: link:../test-utils
       '@types/body-parser':
         specifier: ^1.19.5
         version: 1.19.6
@@ -20705,7 +20744,25 @@ snapshots:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
-  ts-node@10.9.2(@types/node@24.3.1)(typescript@5.7.3):
+  ts-node@10.9.2(@types/node@22.18.1)(typescript@5.7.3):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.11
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 22.18.1
+      acorn: 8.15.0
+      acorn-walk: 8.3.4
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.7.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+
+  ts-node@10.9.2(@types/node@22.18.1)(typescript@5.9.2):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11

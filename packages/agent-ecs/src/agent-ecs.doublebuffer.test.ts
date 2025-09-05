@@ -1,4 +1,7 @@
 import test from 'ava';
+
+import { sleep } from '@promethean/test-utils/sleep';
+
 import { createAgentWorld } from './world.js';
 import { enqueueUtterance } from './helpers/enqueueUtterance.js';
 import { OrchestratorSystem } from './systems/orchestrator.js';
@@ -64,7 +67,7 @@ test('agent-ecs: arbiter picks audio and marks playing', async (t) => {
     // run systems once: arbiter should pick and call play
     await tick(0);
     // allow async factory microtask to resolve and invoke player.play
-    await new Promise((r) => setTimeout(r, 0));
+    await sleep(0);
 
     pq = w.get(agent, C.PlaybackQ)!;
     t.deepEqual(pq.items, []); // dequeued

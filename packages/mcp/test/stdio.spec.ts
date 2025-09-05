@@ -5,6 +5,8 @@ import { spawn } from "child_process";
 import { WebSocketServer } from "ws";
 import test from "ava";
 
+import { sleep } from "@promethean/test-utils/sleep";
+
 test.skip("forwards stdin lines to websocket and prints responses", async (t) => {
   const wss = new WebSocketServer({ port: 0 });
   const messages: string[] = [];
@@ -25,7 +27,7 @@ test.skip("forwards stdin lines to websocket and prints responses", async (t) =>
 
   await once(wss, "connection");
   proc.stdin.write('{"jsonrpc":"2.0","id":1,"method":"ping"}\n');
-  await new Promise((r) => setTimeout(r, 200));
+  await sleep(200);
 
   for (const client of wss.clients) client.close();
   const code = await new Promise<number>((res) =>
