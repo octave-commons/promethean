@@ -4,7 +4,7 @@ import * as path from 'path';
 import { Readable, Transform, Writable } from 'stream';
 import { pipeline as _pipeline } from 'stream/promises';
 
-import { ensureDir } from '@promethean/fs-utils';
+import { ensureDir } from './ensureDir.js';
 import { streamTreeConcurrent, StreamEvent, StreamNode } from './streamTreeGeneratorsConcurrent.js';
 
 type OverwriteMode = 'always' | 'if-newer' | 'never';
