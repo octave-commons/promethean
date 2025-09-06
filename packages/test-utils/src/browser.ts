@@ -2,6 +2,7 @@ import { chromium } from 'playwright';
 import type { Response, Browser, BrowserContext, Page } from 'playwright';
 import type { ExecutionContext } from 'ava';
 let browser: Browser | null = null;
+let activeContextCount = 0;
 
 const launchBrowser = async (): Promise<Browser> =>
     (browser ??= await chromium.launch({
@@ -21,7 +22,12 @@ export const newIsolatedPage = async (): Promise<{
     const page = await context.newPage();
     const close = async () => {
         await context.close();
+        activeContextCount = Math.max(0, activeContextCount - 1);
+        if (activeContextCount === 0) {
+            await shutdown();
+        }
     };
+    activeContextCount += 1;
     return { context, page, close };
 };
 
