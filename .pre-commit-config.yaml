@@ -11,3 +11,10 @@ repos:
         types_or: [javascript, ts, tsx, json, yaml]
         exclude: ^legacy/
         args: [--ignore-path=.prettierignore]
+  - repo: local
+    hooks:
+      - id: gen-ecosystem
+        name: Generate ecosystem config
+        entry: pnpm gen:ecosystem
+        language: system
+        pass_filenames: false
