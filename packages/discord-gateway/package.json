@@ -13,6 +13,7 @@
   "dependencies": {
     "@promethean/event": "workspace:*",
     "@promethean/platform": "workspace:*",
-    "@promethean/providers": "workspace:*"
+    "@promethean/providers": "workspace:*",
+    "@promethean/embedding": "workspace:*"
   }
 }

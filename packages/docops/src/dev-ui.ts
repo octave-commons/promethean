@@ -63,6 +63,12 @@ await app.register(fastifyStatic, {
   root: UI_ROOT,
   prefix: "/",
 });
+// Serve compiled frontend (TS) from /js
+const FRONTEND_DIST = path.resolve(
+  path.dirname(url.fileURLToPath(import.meta.url)),
+  "../frontend",
+);
+await app.register(fastifyStatic, { root: FRONTEND_DIST, prefix: "/js" });
 
 app.get("/", async (_req, reply) => {
   try {

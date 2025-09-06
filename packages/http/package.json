@@ -46,6 +46,7 @@
         "remark-parse": "^11.0.0",
         "remark-stringify": "^11.0.0",
         "sucrase": "^3.35.0",
+        "undici": "7.15.0",
         "unified": "^11.0.5",
         "unist": "^0.0.1",
         "unist-util-to-string-with-nodes": "^0.1.1",
@@ -59,6 +60,7 @@
         "@types/body-parser": "^1.19.5",
         "@types/estree": "^1.0.5",
         "@types/express": "^4.17.21",
-        "@types/ws": "^8.5.9"
+        "@types/ws": "^8.5.9",
+        "esmock": "2.5.0"
     }
 }
