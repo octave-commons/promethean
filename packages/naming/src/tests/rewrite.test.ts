@@ -1,9 +1,10 @@
-import test from "ava";
-import { mkAliasRewriter, mkRelativeToJs } from "../rewrite.js";
-import { writeFileSync, mkdtempSync } from "node:fs";
+import { mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { mkdirSync } from "node:fs";
+
+import test from "ava";
+
+import { mkAliasRewriter, mkRelativeToJs } from "../index.js";
 
 test("alias rewrite", (t) => {
   const r = mkAliasRewriter("@old", "@new-");

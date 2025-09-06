@@ -1,17 +1,39 @@
 #!/usr/bin/env node
 import fg from "fast-glob";
-import { Project, SyntaxKind } from "ts-morph";
-console.warn("@promethean/alias-rewrite is deprecated; use @promethean/naming instead.");
+import { Node, Project, SyntaxKind } from "ts-morph";
 import { mkAliasRewriter, mkRelativeToJs } from "@promethean/naming";
 
-type Args = { fromPrefix: string; toPrefix: string; globs: string[] };
+console.warn("@promethean/alias-rewrite is deprecated; use @promethean/naming instead.");
 
-const parseArgs = (argv: string[]): Args => {
+type Args = Readonly<{
+  fromPrefix: string;
+  toPrefix: string;
+  globs: readonly string[];
+}>;
+
+const parseArgs = (argv: readonly string[]): Args => {
   const fromIdx = argv.indexOf("--from");
   const toIdx = argv.indexOf("--to");
-  const fromPrefix = fromIdx >= 0 ? argv[fromIdx + 1] ?? "@old" : "@old";
-  const toPrefix = toIdx >= 0 ? argv[toIdx + 1] ?? "@new-" : "@new-";
-  const globs = argv.filter((x) => !x.startsWith("--"));
+
+  const fromVal = argv[fromIdx + 1];
+  const hasFromVal =
+    fromIdx >= 0 && fromVal != null && !fromVal.startsWith("--");
+  const toVal = argv[toIdx + 1];
+  const hasToVal = toIdx >= 0 && toVal != null && !toVal.startsWith("--");
+
+  const fromPrefix = hasFromVal ? fromVal! : "@old";
+  const toPrefix = hasToVal ? toVal! : "@new-";
+
+  const globs: string[] = [];
+  for (let i = 0; i < argv.length; i++) {
+    const t = argv[i]!;
+    if (t === "--from" || t === "--to") {
+      i++;
+      continue;
+    }
+    globs.push(t);
+  }
+
   return { fromPrefix, toPrefix, globs };
 };
 
@@ -45,7 +67,7 @@ const main = async () => {
     "**/.next/**",
   ];
 
-  const files = await fg(patterns, { ignore });
+  const files = (await fg(Array.from(patterns), { ignore })) as string[];
   const project = new Project({ skipAddingFilesFromTsConfig: true });
   files.forEach((f) => project.addSourceFileAtPath(f));
 
@@ -75,22 +97,17 @@ const main = async () => {
       }
     });
 
-      sf.forEachDescendant((node) => {
-        if (node.getKind() !== SyntaxKind.CallExpression) return;
-        // @ts-ignore
-        if (node.getExpression().getKind() !== SyntaxKind.ImportKeyword) return;
-        // @ts-ignore
-        const arg = node.getArguments?.()[0];
-        if (!arg || arg.getKind() !== SyntaxKind.StringLiteral) return;
-        // @ts-ignore
-        const lit = arg;
-        const old = lit.getLiteralText();
-        const next = rewriteSpec(old, alias, relToJs, sf.getFilePath());
-        if (next !== old) {
-          lit.setLiteralValue(next);
-          touched = true;
-        }
-      });
+    for (const call of sf.getDescendantsOfKind(SyntaxKind.CallExpression)) {
+      if (call.getExpression().getKind() !== SyntaxKind.ImportKeyword) continue;
+      const arg = call.getArguments()[0];
+      if (!arg || !Node.isStringLiteral(arg)) continue;
+      const old = arg.getLiteralText();
+      const next = rewriteSpec(old, alias, relToJs, sf.getFilePath());
+      if (next !== old) {
+        arg.setLiteralValue(next);
+        touched = true;
+      }
+    }
 
     if (touched) {
       sf.saveSync();
