@@ -1,5 +1,5 @@
 ---
-uuid: 526317d7-2eaf-4559-bb17-1f8dcfe9e30c
+uuid: d90ce164-b9e9-4692-b681-8b902f03dcba
 created_at: cross-target-macro-system-in-sibilant.md
 filename: Cross-Target Macro System in Sibilant
 title: Cross-Target Macro System in Sibilant
@@ -387,6 +387,7 @@ You can define target-prefixed macros: ^ref-5f210ca2-146-0 ^ref-5f210ca2-148-0
 ^ref-5f210ca2-148-0
 ^ref-5f210ca2-152-0 ^ref-5f210ca2-153-0
 ``` ^ref-5f210ca2-154-0
+^ref-526317d7-150-0
 ^ref-5f210ca2-150-0
 ^ref-5f210ca2-152-0
 ^ref-5f210ca2-148-0
@@ -421,3 +422,72 @@ Modular and composable. ^ref-5f210ca2-164-0 ^ref-5f210ca2-167-0 ^ref-5f210ca2-16
 --- ^ref-5f210ca2-172-0 ^ref-5f210ca2-180-0 ^ref-5f210ca2-183-0 ^ref-5f210ca2-185-0
  ^ref-5f210ca2-173-0 ^ref-5f210ca2-181-0 ^ref-5f210ca2-186-0
 Want help building the file emitter? Or should we start implementing macro aliases for a full `stdlib` of cross-language ops?
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [Docops Feature Updates](docops-feature-updates.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [graph-ds](graph-ds.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [ecs-offload-workers](ecs-offload-workers.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
+- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [Vectorial Exception Descent](vectorial-exception-descent.md)
+- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+## Sources
+- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
+- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
+- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
+- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
+- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
+- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
+- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
+- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
+- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
+- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
+- [Promethean Full-Stack Docker Setup — L416](promethean-full-stack-docker-setup.md#^ref-2c2b48ca-416-0) (line 416, col 0, score 0.95)
+- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.95)
+- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.94)
+- [layer-1-uptime-diagrams — L129](layer-1-uptime-diagrams.md#^ref-4127189a-129-0) (line 129, col 0, score 0.93)
+- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.91)
+- [Vectorial Exception Descent — L95](vectorial-exception-descent.md#^ref-d771154e-95-0) (line 95, col 0, score 0.9)
+- [System Scheduler with Resource-Aware DAG — L374](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-374-0) (line 374, col 0, score 0.9)
+- [ecs-scheduler-and-prefabs — L376](ecs-scheduler-and-prefabs.md#^ref-c62a1815-376-0) (line 376, col 0, score 0.9)
+- [RAG UI Panel with Qdrant and PostgREST — L349](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0) (line 349, col 0, score 0.89)
+- [prompt-programming-language-lisp — L56](prompt-programming-language-lisp.md#^ref-d41a06d1-56-0) (line 56, col 0, score 0.88)
+- [Promethean Event Bus MVP v0.1 — L972](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-972-0) (line 972, col 0, score 0.88)
+- [lisp-dsl-for-window-management — L29](lisp-dsl-for-window-management.md#^ref-c5c5ff1c-29-0) (line 29, col 0, score 0.87)
+- [js-to-lisp-reverse-compiler — L343](js-to-lisp-reverse-compiler.md#^ref-58191024-343-0) (line 343, col 0, score 0.87)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.87)
+- [Promethean Agent DSL TS Scaffold — L818](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-818-0) (line 818, col 0, score 0.87)
+- [Universal Lisp Interface — L187](universal-lisp-interface.md#^ref-b01856b4-187-0) (line 187, col 0, score 0.87)
+- [Promethean-native config design — L305](promethean-native-config-design.md#^ref-ab748541-305-0) (line 305, col 0, score 0.87)
+- [compiler-kit-foundations — L588](compiler-kit-foundations.md#^ref-01b21543-588-0) (line 588, col 0, score 0.87)
+- [lisp-dsl-for-window-management — L185](lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0) (line 185, col 0, score 0.87)
+- [shared-package-layout-clarification — L161](shared-package-layout-clarification.md#^ref-36c8882a-161-0) (line 161, col 0, score 0.87)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 0.86)
+- [mystery-lisp-search-session — L106](mystery-lisp-search-session.md#^ref-513dc4c7-106-0) (line 106, col 0, score 0.86)
+- [Debugging Broker Connections and Agent Behavior — L1382](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-1382-0) (line 1382, col 0, score 0.86)
+- [eidolon-field-math-foundations — L1289](eidolon-field-math-foundations.md#^ref-008f2ac0-1289-0) (line 1289, col 0, score 0.86)
+- [eidolon-node-lifecycle — L951](eidolon-node-lifecycle.md#^ref-938eca9c-951-0) (line 951, col 0, score 0.86)
+- [Factorio AI with External Agents — L1335](factorio-ai-with-external-agents.md#^ref-a4d90289-1335-0) (line 1335, col 0, score 0.86)
+- [field-dynamics-math-blocks — L1158](field-dynamics-math-blocks.md#^ref-7cfc230d-1158-0) (line 1158, col 0, score 0.86)
+- [field-node-diagram-outline — L1204](field-node-diagram-outline.md#^ref-1f32c94a-1204-0) (line 1204, col 0, score 0.86)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

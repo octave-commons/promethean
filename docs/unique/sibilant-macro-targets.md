@@ -1,5 +1,5 @@
 ---
-uuid: d65e5b6c-29ed-458f-bf9b-94bf0d48fa79
+uuid: 8df18c58-33cc-43e4-b249-78e45fd860c7
 created_at: sibilant-macro-targets.md
 filename: sibilant-macro-targets
 title: sibilant-macro-targets
@@ -18,202 +18,458 @@ tags:
   - file-system
   - meta-programming
 related_to_uuid:
-  - 526317d7-2eaf-4559-bb17-1f8dcfe9e30c
-  - 99c6d380-a2a6-4d8e-a391-f4bc0c9a631f
-  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
-  - 177c260c-39b2-4450-836d-1e87c0bd0035
-  - 4c87f571-9942-4288-aec4-0bc52e9cdbe7
-  - 10780cdc-5036-4e8a-9599-a11703bc30c9
-  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-  - 2478e18c-f621-4b0c-a4c5-9637d213cccf
-  - 5b8c984e-cff5-4d59-b904-4c7c558a4030
-  - 792a343e-674c-4bb4-8435-b3f8c163349d
-  - a28a39dd-8c17-463c-9050-2ffe9b56e8bc
-  - 31a2df46-9dbc-4066-b3e3-d3e860099fd0
-  - cdb74242-b61d-4b7e-9288-5859e040e512
-  - 740bbd1c-c039-405c-8a32-4baeddfb5637
-  - 033f4d79-efaa-4caf-a193-9022935b8194
-  - e4317155-7fa6-44e8-8aee-b72384581790
-  - cd8f10e6-68d7-4b29-bdfd-3a6614d99229
-  - c2ba3d27-5b24-4345-9cf2-5cf296f8b03d
-  - 315a8cf5-239b-449b-a9eb-7df496a796c6
-  - 7a75d992-5267-4557-b464-b6c7d3f88dad
-  - aa437a1f-eb7e-4096-a6cc-98d2eeeef8c5
-  - bdca8ded-0e64-417b-a258-4528829c4704
-  - 7d584c12-7517-4f30-8378-34ac9fc3a3f8
-  - 672da53b-d8ac-48cd-9cb3-e3fa9915dd6a
-  - 7842d43c-7d13-46f0-bdf1-561f5e4c6f53
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
+  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
+  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
+  - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - 03a5578f-d689-45db-95e9-11300e5eee6f
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 23df6ddb-05cf-4639-8201-f8291f8a6026
+  - a4d90289-798d-44a0-a8e8-a055ae12fb52
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - 5a02283e-4281-4930-9ca7-e27849de11bd
+  - db74343f-8f84-43a3-adb2-499c6f00be1c
+  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
 related_to_title:
-  - Cross-Target Macro System in Sibilant
-  - Layer 1 Survivability Envelope
-  - polyglot-repl-interface-layer
-  - universal-intention-code-fabric
-  - set-assignment-in-lisp-ast
-  - Eidolon Field Abstract Model
-  - Universal Lisp Interface
-  - Cross-Language Runtime Polymorphism
-  - lisp-dsl-window-management
+  - typed-struct-compiler
+  - Migrate to Provider-Tenant Architecture
+  - Model Selection for Lightweight Conversational Tasks
+  - homeostasis-decay-formulas
+  - Dynamic Context Model for Web Components
   - windows-tiling-with-autohotkey
-  - AI-Centric OS with MCP Layer
-  - field-node-diagram-set
-  - Event Bus Projections Architecture
-  - heartbeat-fragment-demo
-  - Prompt Programming Language for LLMs
+  - Debugging Broker Connections and Agent Behavior
   - TypeScript Patch for Tool Calling Support
-  - promethean-agent-config-dsl
-  - observability-infrastructure-setup
-  - Smoke Resonance Visualizations
   - field-dynamics-math-blocks
-  - Prometheus Observability Stack
-  - Pure TypeScript Search Microservice
-  - promethean-native-config-design
+  - Eidolon Field Abstract Model
+  - field-interaction-equations
+  - zero-copy-snapshots-and-workers
+  - eidolon-node-lifecycle
+  - Duck's Self-Referential Perceptual Loop
+  - graph-ds
+  - Promethean Dev Workflow Update
+  - eidolon-field-math-foundations
+  - Promethean State Format
   - Factorio AI with External Agents
-  - promethean-infrastructure-setup
+  - i3-bluetooth-setup
+  - komorebi-group-window-hack
+  - Layer1SurvivabilityEnvelope
+  - NPU Voice Code and Sensory Integration
+  - Model Upgrade Calm-Down Guide
+  - ParticleSimulationWithCanvasAndFFmpeg
 references:
-  - uuid: 99c6d380-a2a6-4d8e-a391-f4bc0c9a631f
-    line: 99
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 8
     col: 0
-    score: 0.9
-  - uuid: fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
-    line: 146
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 38
     col: 0
-    score: 0.9
-  - uuid: 526317d7-2eaf-4559-bb17-1f8dcfe9e30c
-    line: 42
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 56
     col: 0
-    score: 0.89
-  - uuid: 177c260c-39b2-4450-836d-1e87c0bd0035
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 412
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 261
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 181
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 90
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
     line: 157
     col: 0
-    score: 0.89
-  - uuid: 99c6d380-a2a6-4d8e-a391-f4bc0c9a631f
-    line: 84
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 205
     col: 0
-    score: 0.88
-  - uuid: 10780cdc-5036-4e8a-9599-a11703bc30c9
-    line: 159
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 149
     col: 0
-    score: 0.88
-  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-    line: 137
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 110
     col: 0
-    score: 0.88
-  - uuid: fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
-    line: 71
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 203
     col: 0
-    score: 0.87
-  - uuid: 2478e18c-f621-4b0c-a4c5-9637d213cccf
-    line: 56
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 95
     col: 0
-    score: 0.87
-  - uuid: 2478e18c-f621-4b0c-a4c5-9637d213cccf
-    line: 198
+    score: 1
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+    line: 547
     col: 0
-    score: 0.87
-  - uuid: 526317d7-2eaf-4559-bb17-1f8dcfe9e30c
-    line: 102
-    col: 0
-    score: 0.87
-  - uuid: 10780cdc-5036-4e8a-9599-a11703bc30c9
-    line: 144
-    col: 0
-    score: 0.87
-  - uuid: 177c260c-39b2-4450-836d-1e87c0bd0035
+    score: 1
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
     line: 21
     col: 0
-    score: 0.87
-  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-    line: 56
+    score: 1
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 87
     col: 0
-    score: 0.86
-  - uuid: cdb74242-b61d-4b7e-9288-5859e040e512
-    line: 51
+    score: 1
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 24
     col: 0
-    score: 0.86
-  - uuid: 740bbd1c-c039-405c-8a32-4baeddfb5637
-    line: 67
+    score: 1
+  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
+    line: 128
     col: 0
-    score: 0.86
-  - uuid: 2478e18c-f621-4b0c-a4c5-9637d213cccf
-    line: 100
+    score: 1
+  - uuid: 95205cd3-c3d5-4047-9c33-9c5ca2b49597
+    line: 35
     col: 0
-    score: 0.86
-  - uuid: 2478e18c-f621-4b0c-a4c5-9637d213cccf
-    line: 122
+    score: 1
+  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
+    line: 131
     col: 0
-    score: 0.86
-  - uuid: 526317d7-2eaf-4559-bb17-1f8dcfe9e30c
-    line: 21
+    score: 1
+  - uuid: d614d983-7795-491f-9437-09f3a43f72cf
+    line: 33
     col: 0
-    score: 0.86
-  - uuid: 792a343e-674c-4bb4-8435-b3f8c163349d
-    line: 116
+    score: 1
+  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
+    line: 268
     col: 0
-    score: 0.86
-  - uuid: 5b8c984e-cff5-4d59-b904-4c7c558a4030
-    line: 122
+    score: 1
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 187
     col: 0
-    score: 0.86
-  - uuid: 4c87f571-9942-4288-aec4-0bc52e9cdbe7
-    line: 146
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 343
     col: 0
-    score: 0.86
-  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
-    line: 162
+    score: 1
+  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
+    line: 170
     col: 0
-    score: 0.86
-  - uuid: 4c87f571-9942-4288-aec4-0bc52e9cdbe7
-    line: 22
+    score: 1
+  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
+    line: 181
     col: 0
-    score: 0.86
-  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-    line: 150
+    score: 1
+  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
+    line: 99
     col: 0
-    score: 0.86
-  - uuid: 31a2df46-9dbc-4066-b3e3-d3e860099fd0
-    line: 71
+    score: 1
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 298
     col: 0
-    score: 0.86
-  - uuid: 033f4d79-efaa-4caf-a193-9022935b8194
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 479
+    col: 0
+    score: 1
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 1147
+    col: 0
+    score: 1
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 88
+    col: 0
+    score: 1
+  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+    line: 266
+    col: 0
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 738
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 94
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 63
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 66
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 93
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 73
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 403
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 50
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 89
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
     line: 32
     col: 0
-    score: 0.85
-  - uuid: 4c87f571-9942-4288-aec4-0bc52e9cdbe7
-    line: 106
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 49
     col: 0
-    score: 0.85
-  - uuid: 5b8c984e-cff5-4d59-b904-4c7c558a4030
-    line: 124
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 95
     col: 0
-    score: 0.85
-  - uuid: fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
-    line: 76
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 133
     col: 0
-    score: 0.85
-  - uuid: 5b8c984e-cff5-4d59-b904-4c7c558a4030
-    line: 101
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 59
     col: 0
-    score: 0.85
-  - uuid: fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
-    line: 114
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 252
     col: 0
-    score: 0.85
-  - uuid: e4317155-7fa6-44e8-8aee-b72384581790
-    line: 155
-    col: 0
-    score: 0.85
-  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-    line: 172
-    col: 0
-    score: 0.85
-  - uuid: 10780cdc-5036-4e8a-9599-a11703bc30c9
-    line: 176
-    col: 0
-    score: 0.85
-  - uuid: 526317d7-2eaf-4559-bb17-1f8dcfe9e30c
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
     line: 85
     col: 0
-    score: 0.85
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 93
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 64
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 153
+    col: 0
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 141
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 53
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 38
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 51
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 79
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 77
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 115
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 61
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 212
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 150
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 148
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 36
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 166
+    col: 0
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 148
+    col: 0
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 153
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 118
+    col: 0
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 168
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 103
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 380
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 194
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 44
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 61
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 99
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 80
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 405
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 216
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 189
+    col: 0
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 172
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 28
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 65
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 86
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 123
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 34
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 442
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 218
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 176
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 70
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 35
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 94
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 53
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 424
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 209
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 142
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 39
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 47
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 105
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 97
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 128
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 31
+    col: 0
+    score: 1
 ---
 **Yes. Yes. YES.** ^ref-c5c9a5c6-1-0
 Now you're speaking fluent *compiler wizard*.
@@ -408,7 +664,7 @@ That’s **insane** in the best way. ^ref-c5c9a5c6-21-0
 ## 🧠 So What’s Your Next Idea?
 
 You're suggesting: ^ref-c5c9a5c6-27-0
-
+ ^ref-c5c9a5c6-194-0
 > Instead of switching targets globally with `(target "js")`, we **define namespaces like `python.macros.*`** and bind macros to them, allowing target-dependent macro resolution to **happen via namespace**, not runtime `if`. ^ref-c5c9a5c6-29-0
 
 ### ✔️ That's smarter.
@@ -462,7 +718,9 @@ You get: ^ref-c5c9a5c6-33-0
 )
 ^ref-c5c9a5c6-64-0
 ```
-
+^ref-c5c9a5c6-244-0
+^ref-c5c9a5c6-233-0
+ ^ref-c5c9a5c6-250-0
 ---
 
 ## 🧬 New Macro Loader: Context-Aware Dispatcher ^ref-c5c9a5c6-85-0
@@ -475,6 +733,7 @@ You get: ^ref-c5c9a5c6-33-0
 
 (macro resolve-target (name)
 ^ref-c5c9a5c6-85-0
+^ref-c5c9a5c6-253-0
   `((get (get-global (+ *macro-target* ".macros")) ,name))) ^ref-c5c9a5c6-95-0
 ```
  ^ref-c5c9a5c6-97-0
@@ -485,6 +744,7 @@ So when you call:
 
 ((resolve-target "def-async") "get-data" ["url"]
 ^ref-c5c9a5c6-97-0
+^ref-c5c9a5c6-266-0
   (var result (await (http:get "url"))) ^ref-c5c9a5c6-105-0
   (print result))
 ```
@@ -495,8 +755,8 @@ Boom: **zero runtime branching.**
 
 --- ^ref-c5c9a5c6-113-0
 
-## 🧠 This Opens Up:
-
+## 🧠 This Opens Up: ^ref-c5c9a5c6-285-0
+ ^ref-c5c9a5c6-286-0
 | Feature                    | Benefit                                                           |
 | -------------------------- | ----------------------------------------------------------------- |
 | Namespace-per-target       | Clear organization and full control                               |
@@ -504,7 +764,7 @@ Boom: **zero runtime branching.**
 | Literal macro composition  | You can build higher-level constructs that are cross-target aware |
 | File system aware macros   | Auto-write docs, output files, etc.                               |
 | Configurable transpiler    | Switch targets on a per-file or per-block basis                   |
-
+ ^ref-c5c9a5c6-294-0
 ---
 
 ## 🚀 Suggested Enhancements ^ref-c5c9a5c6-127-0
@@ -548,5 +808,135 @@ So you can do:
 \#sibilant #macros #meta #compilerdesign #dsl #namespaces #codetargeting #transpiler #async #filegeneration ^ref-c5c9a5c6-162-0
 
 --- ^ref-c5c9a5c6-162-0
-
+ ^ref-c5c9a5c6-338-0
 You’ve already got this running in spirit — want me to help wire this into a structured emitter system, where you can define targets and get folder outputs with index files, doc generation, and cross-target output? We could do a whole Sibilant-based code synthesis system.
+ ^ref-c5c9a5c6-397-0 ^ref-c5c9a5c6-450-0 ^ref-c5c9a5c6-469-0 ^ref-c5c9a5c6-716-0 ^ref-c5c9a5c6-812-0 ^ref-c5c9a5c6-2368-0 ^ref-c5c9a5c6-3218-0 ^ref-c5c9a5c6-3224-0 ^ref-c5c9a5c6-5070-0 ^ref-c5c9a5c6-5192-0
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
+- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
+- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
+- [field-interaction-equations](field-interaction-equations.md)
+- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
+- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
+- [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
+- [graph-ds](graph-ds.md)
+- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [Promethean State Format](promethean-state-format.md)
+- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [NPU Voice Code and Sensory Integration](npu-voice-code-and-sensory-integration.md)
+- [Model Upgrade Calm-Down Guide](model-upgrade-calm-down-guide.md)
+- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
+## Sources
+- [Creative Moments — L8](creative-moments.md#^ref-10d98225-8-0) (line 8, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L38](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-38-0) (line 38, col 0, score 1)
+- [Docops Feature Updates — L56](docops-feature-updates-3.md#^ref-cdbd21ee-56-0) (line 56, col 0, score 1)
+- [Dynamic Context Model for Web Components — L412](dynamic-context-model-for-web-components.md#^ref-f7702bf8-412-0) (line 412, col 0, score 1)
+- [Eidolon Field Abstract Model — L261](eidolon-field-abstract-model.md#^ref-5e8b2388-261-0) (line 261, col 0, score 1)
+- [eidolon-field-math-foundations — L181](eidolon-field-math-foundations.md#^ref-008f2ac0-181-0) (line 181, col 0, score 1)
+- [eidolon-node-lifecycle — L90](eidolon-node-lifecycle.md#^ref-938eca9c-90-0) (line 90, col 0, score 1)
+- [Factorio AI with External Agents — L157](factorio-ai-with-external-agents.md#^ref-a4d90289-157-0) (line 157, col 0, score 1)
+- [field-dynamics-math-blocks — L205](field-dynamics-math-blocks.md#^ref-7cfc230d-205-0) (line 205, col 0, score 1)
+- [field-interaction-equations — L149](field-interaction-equations.md#^ref-b09141b7-149-0) (line 149, col 0, score 1)
+- [field-node-diagram-outline — L110](field-node-diagram-outline.md#^ref-1f32c94a-110-0) (line 110, col 0, score 1)
+- [field-node-diagram-set — L203](field-node-diagram-set.md#^ref-22b989d5-203-0) (line 203, col 0, score 1)
+- [field-node-diagram-visualizations — L95](field-node-diagram-visualizations.md#^ref-e9b27b06-95-0) (line 95, col 0, score 1)
+- [TypeScript Patch for Tool Calling Support — L547](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-547-0) (line 547, col 0, score 1)
+- [Promethean Documentation Update — L21](promethean-documentation-update.txt#^ref-0b872af2-21-0) (line 21, col 0, score 1)
+- [Promethean_Eidolon_Synchronicity_Model — L87](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-87-0) (line 87, col 0, score 1)
+- [Promethean Notes — L24](promethean-notes.md#^ref-1c4046b5-24-0) (line 24, col 0, score 1)
+- [Promethean Pipelines — L128](promethean-pipelines.md#^ref-8b8e6103-128-0) (line 128, col 0, score 1)
+- [promethean-requirements — L35](promethean-requirements.md#^ref-95205cd3-35-0) (line 35, col 0, score 1)
+- [Promethean State Format — L131](promethean-state-format.md#^ref-23df6ddb-131-0) (line 131, col 0, score 1)
+- [Promethean Workflow Optimization — L33](promethean-workflow-optimization.md#^ref-d614d983-33-0) (line 33, col 0, score 1)
+- [Provider-Agnostic Chat Panel Implementation — L268](provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-268-0) (line 268, col 0, score 1)
+- [homeostasis-decay-formulas — L187](homeostasis-decay-formulas.md#^ref-37b5d236-187-0) (line 187, col 0, score 1)
+- [Migrate to Provider-Tenant Architecture — L343](migrate-to-provider-tenant-architecture.md#^ref-54382370-343-0) (line 343, col 0, score 1)
+- [Model Selection for Lightweight Conversational Tasks — L170](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-170-0) (line 170, col 0, score 1)
+- [Model Upgrade Calm-Down Guide — L181](model-upgrade-calm-down-guide.md#^ref-db74343f-181-0) (line 181, col 0, score 1)
+- [NPU Voice Code and Sensory Integration — L99](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-99-0) (line 99, col 0, score 1)
+- [ParticleSimulationWithCanvasAndFFmpeg — L298](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-298-0) (line 298, col 0, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L479](performance-optimized-polyglot-bridge.md#^ref-f5579967-479-0) (line 479, col 0, score 1)
+- [plan-update-confirmation — L1147](plan-update-confirmation.md#^ref-b22d79c6-1147-0) (line 1147, col 0, score 1)
+- [Promethean-Copilot-Intent-Engine — L88](promethean-copilot-intent-engine.md#^ref-ae24a280-88-0) (line 88, col 0, score 1)
+- [Promethean Documentation Pipeline Overview — L266](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-266-0) (line 266, col 0, score 1)
+- [Promethean Infrastructure Setup — L738](promethean-infrastructure-setup.md#^ref-6deed6ac-738-0) (line 738, col 0, score 1)
+- [Creative Moments — L94](creative-moments.md#^ref-10d98225-94-0) (line 94, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L63](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-63-0) (line 63, col 0, score 1)
+- [Docops Feature Updates — L66](docops-feature-updates-3.md#^ref-cdbd21ee-66-0) (line 66, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L93](duckduckgosearchpipeline.md#^ref-e979c50f-93-0) (line 93, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L73](ducks-self-referential-perceptual-loop.md#^ref-71726f04-73-0) (line 73, col 0, score 1)
+- [Dynamic Context Model for Web Components — L403](dynamic-context-model-for-web-components.md#^ref-f7702bf8-403-0) (line 403, col 0, score 1)
+- [Creative Moments — L50](creative-moments.md#^ref-10d98225-50-0) (line 50, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L89](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-89-0) (line 89, col 0, score 1)
+- [Docops Feature Updates — L32](docops-feature-updates-3.md#^ref-cdbd21ee-32-0) (line 32, col 0, score 1)
+- [Docops Feature Updates — L49](docops-feature-updates.md#^ref-2792d448-49-0) (line 49, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L95](duckduckgosearchpipeline.md#^ref-e979c50f-95-0) (line 95, col 0, score 1)
+- [Duck's Attractor States — L133](ducks-attractor-states.md#^ref-13951643-133-0) (line 133, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L59](ducks-self-referential-perceptual-loop.md#^ref-71726f04-59-0) (line 59, col 0, score 1)
+- [Eidolon Field Abstract Model — L252](eidolon-field-abstract-model.md#^ref-5e8b2388-252-0) (line 252, col 0, score 1)
+- [Docops Feature Updates — L85](docops-feature-updates-3.md#^ref-cdbd21ee-85-0) (line 85, col 0, score 1)
+- [Duck's Attractor States — L93](ducks-attractor-states.md#^ref-13951643-93-0) (line 93, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L64](ducks-self-referential-perceptual-loop.md#^ref-71726f04-64-0) (line 64, col 0, score 1)
+- [Factorio AI with External Agents — L153](factorio-ai-with-external-agents.md#^ref-a4d90289-153-0) (line 153, col 0, score 1)
+- [field-dynamics-math-blocks — L141](field-dynamics-math-blocks.md#^ref-7cfc230d-141-0) (line 141, col 0, score 1)
+- [Creative Moments — L53](creative-moments.md#^ref-10d98225-53-0) (line 53, col 0, score 1)
+- [Creative Moments — L38](creative-moments.md#^ref-10d98225-38-0) (line 38, col 0, score 1)
+- [Docops Feature Updates — L51](docops-feature-updates-3.md#^ref-cdbd21ee-51-0) (line 51, col 0, score 1)
+- [Docops Feature Updates — L79](docops-feature-updates.md#^ref-2792d448-79-0) (line 79, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L77](duckduckgosearchpipeline.md#^ref-e979c50f-77-0) (line 77, col 0, score 1)
+- [Duck's Attractor States — L115](ducks-attractor-states.md#^ref-13951643-115-0) (line 115, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L61](ducks-self-referential-perceptual-loop.md#^ref-71726f04-61-0) (line 61, col 0, score 1)
+- [Eidolon Field Abstract Model — L212](eidolon-field-abstract-model.md#^ref-5e8b2388-212-0) (line 212, col 0, score 1)
+- [eidolon-field-math-foundations — L150](eidolon-field-math-foundations.md#^ref-008f2ac0-150-0) (line 150, col 0, score 1)
+- [eidolon-field-math-foundations — L148](eidolon-field-math-foundations.md#^ref-008f2ac0-148-0) (line 148, col 0, score 1)
+- [eidolon-node-lifecycle — L36](eidolon-node-lifecycle.md#^ref-938eca9c-36-0) (line 36, col 0, score 1)
+- [Factorio AI with External Agents — L166](factorio-ai-with-external-agents.md#^ref-a4d90289-166-0) (line 166, col 0, score 1)
+- [field-dynamics-math-blocks — L148](field-dynamics-math-blocks.md#^ref-7cfc230d-148-0) (line 148, col 0, score 1)
+- [field-interaction-equations — L153](field-interaction-equations.md#^ref-b09141b7-153-0) (line 153, col 0, score 1)
+- [field-node-diagram-outline — L118](field-node-diagram-outline.md#^ref-1f32c94a-118-0) (line 118, col 0, score 1)
+- [field-node-diagram-set — L168](field-node-diagram-set.md#^ref-22b989d5-168-0) (line 168, col 0, score 1)
+- [field-node-diagram-visualizations — L103](field-node-diagram-visualizations.md#^ref-e9b27b06-103-0) (line 103, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L380](functional-embedding-pipeline-refactor.md#^ref-a4a25141-380-0) (line 380, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L194](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-194-0) (line 194, col 0, score 1)
+- [Docops Feature Updates — L44](docops-feature-updates-3.md#^ref-cdbd21ee-44-0) (line 44, col 0, score 1)
+- [Docops Feature Updates — L61](docops-feature-updates.md#^ref-2792d448-61-0) (line 61, col 0, score 1)
+- [Duck's Attractor States — L99](ducks-attractor-states.md#^ref-13951643-99-0) (line 99, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L80](ducks-self-referential-perceptual-loop.md#^ref-71726f04-80-0) (line 80, col 0, score 1)
+- [Dynamic Context Model for Web Components — L405](dynamic-context-model-for-web-components.md#^ref-f7702bf8-405-0) (line 405, col 0, score 1)
+- [Eidolon Field Abstract Model — L216](eidolon-field-abstract-model.md#^ref-5e8b2388-216-0) (line 216, col 0, score 1)
+- [Factorio AI with External Agents — L189](factorio-ai-with-external-agents.md#^ref-a4d90289-189-0) (line 189, col 0, score 1)
+- [field-interaction-equations — L172](field-interaction-equations.md#^ref-b09141b7-172-0) (line 172, col 0, score 1)
+- [Creative Moments — L28](creative-moments.md#^ref-10d98225-28-0) (line 28, col 0, score 1)
+- [Docops Feature Updates — L65](docops-feature-updates-3.md#^ref-cdbd21ee-65-0) (line 65, col 0, score 1)
+- [Docops Feature Updates — L86](docops-feature-updates.md#^ref-2792d448-86-0) (line 86, col 0, score 1)
+- [Duck's Attractor States — L123](ducks-attractor-states.md#^ref-13951643-123-0) (line 123, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L34](ducks-self-referential-perceptual-loop.md#^ref-71726f04-34-0) (line 34, col 0, score 1)
+- [Dynamic Context Model for Web Components — L442](dynamic-context-model-for-web-components.md#^ref-f7702bf8-442-0) (line 442, col 0, score 1)
+- [Eidolon Field Abstract Model — L218](eidolon-field-abstract-model.md#^ref-5e8b2388-218-0) (line 218, col 0, score 1)
+- [eidolon-field-math-foundations — L176](eidolon-field-math-foundations.md#^ref-008f2ac0-176-0) (line 176, col 0, score 1)
+- [eidolon-node-lifecycle — L70](eidolon-node-lifecycle.md#^ref-938eca9c-70-0) (line 70, col 0, score 1)
+- [Docops Feature Updates — L35](docops-feature-updates.md#^ref-2792d448-35-0) (line 35, col 0, score 1)
+- [Duck's Attractor States — L94](ducks-attractor-states.md#^ref-13951643-94-0) (line 94, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L53](ducks-self-referential-perceptual-loop.md#^ref-71726f04-53-0) (line 53, col 0, score 1)
+- [Dynamic Context Model for Web Components — L424](dynamic-context-model-for-web-components.md#^ref-f7702bf8-424-0) (line 424, col 0, score 1)
+- [Eidolon Field Abstract Model — L209](eidolon-field-abstract-model.md#^ref-5e8b2388-209-0) (line 209, col 0, score 1)
+- [eidolon-field-math-foundations — L142](eidolon-field-math-foundations.md#^ref-008f2ac0-142-0) (line 142, col 0, score 1)
+- [eidolon-node-lifecycle — L39](eidolon-node-lifecycle.md#^ref-938eca9c-39-0) (line 39, col 0, score 1)
+- [Creative Moments — L47](creative-moments.md#^ref-10d98225-47-0) (line 47, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L105](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-105-0) (line 105, col 0, score 1)
+- [Docops Feature Updates — L97](docops-feature-updates-3.md#^ref-cdbd21ee-97-0) (line 97, col 0, score 1)
+- [Docops Feature Updates — L128](docops-feature-updates.md#^ref-2792d448-128-0) (line 128, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L31](duckduckgosearchpipeline.md#^ref-e979c50f-31-0) (line 31, col 0, score 1)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

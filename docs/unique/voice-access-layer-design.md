@@ -1,5 +1,5 @@
 ---
-uuid: 73d64bce-f428-4735-a3d0-6225a0588e46
+uuid: 6f969b2a-010e-4bd4-b2c9-102ce618a29f
 created_at: voice-access-layer-design.md
 filename: Voice Access Layer Design
 title: Voice Access Layer Design
@@ -164,42 +164,6 @@ references:
     score: 1
   - uuid: e811123d-5841-4e52-bf8c-978f26db4230
     line: 631
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 57
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 131
-    col: 0
-    score: 1
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 88
-    col: 0
-    score: 1
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 134
-    col: 0
-    score: 1
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 48
-    col: 0
-    score: 1
-  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
-    line: 125
-    col: 0
-    score: 1
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 304
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 289
-    col: 0
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 616
     col: 0
     score: 1
   - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
@@ -838,3 +802,100 @@ If you want, I can extend the zip with:
 
 \#hashtags ^ref-543ed9b3-323-0
 \#promethean #discord #voice #rtp #opus #vad #spectrogram #stt #tts #access-layer #provider-agnostic #tenant #event-driven #typescript #openvino
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
+- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
+- [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
+- [Provider-Agnostic Chat Panel Implementation](provider-agnostic-chat-panel-implementation.md)
+- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
+- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
+- [Optimizing Command Limitations in System Design](optimizing-command-limitations-in-system-design.md)
+- [Obsidian Task Generation](obsidian-task-generation.md)
+- [OpenAPI Validation Report](openapi-validation-report.md)
+- [Docops Feature Updates](docops-feature-updates.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [graph-ds](graph-ds.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
+- [ChatGPT Custom Prompts](chatgpt-custom-prompts.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+## Sources
+- [Agent Reflections and Prompt Evolution — L618](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-618-0) (line 618, col 0, score 1)
+- [ChatGPT Custom Prompts — L187](chatgpt-custom-prompts.md#^ref-930054b3-187-0) (line 187, col 0, score 1)
+- [Chroma Toolkit Consolidation Plan — L999](chroma-toolkit-consolidation-plan.md#^ref-5020e892-999-0) (line 999, col 0, score 1)
+- [typed-struct-compiler — L1016](typed-struct-compiler.md#^ref-78eeedf7-1016-0) (line 1016, col 0, score 1)
+- [Unique Concepts — L175](unique-concepts.md#^ref-ed6f3fc9-175-0) (line 175, col 0, score 1)
+- [Unique Info Dump Index — L1221](unique-info-dump-index.md#^ref-30ec3ba6-1221-0) (line 1221, col 0, score 1)
+- [zero-copy-snapshots-and-workers — L1058](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1058-0) (line 1058, col 0, score 1)
+- [Canonical Org-Babel Matplotlib Animation Template — L515](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-515-0) (line 515, col 0, score 1)
+- [Creative Moments — L251](creative-moments.md#^ref-10d98225-251-0) (line 251, col 0, score 1)
+- [Duck's Attractor States — L559](ducks-attractor-states.md#^ref-13951643-559-0) (line 559, col 0, score 1)
+- [eidolon-field-math-foundations — L1033](eidolon-field-math-foundations.md#^ref-008f2ac0-1033-0) (line 1033, col 0, score 1)
+- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
+- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
+- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
+- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
+- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
+- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
+- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
+- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
+- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
+- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 1)
+- [mystery-lisp-search-session — L106](mystery-lisp-search-session.md#^ref-513dc4c7-106-0) (line 106, col 0, score 0.9)
+- [Lisp-Compiler-Integration — L523](lisp-compiler-integration.md#^ref-cfee6d36-523-0) (line 523, col 0, score 0.9)
+- [Migrate to Provider-Tenant Architecture — L220](migrate-to-provider-tenant-architecture.md#^ref-54382370-220-0) (line 220, col 0, score 0.89)
+- [Migrate to Provider-Tenant Architecture — L148](migrate-to-provider-tenant-architecture.md#^ref-54382370-148-0) (line 148, col 0, score 0.89)
+- [Migrate to Provider-Tenant Architecture — L132](migrate-to-provider-tenant-architecture.md#^ref-54382370-132-0) (line 132, col 0, score 0.89)
+- [Migrate to Provider-Tenant Architecture — L160](migrate-to-provider-tenant-architecture.md#^ref-54382370-160-0) (line 160, col 0, score 0.89)
+- [Migrate to Provider-Tenant Architecture — L229](migrate-to-provider-tenant-architecture.md#^ref-54382370-229-0) (line 229, col 0, score 0.89)
+- [Migrate to Provider-Tenant Architecture — L251](migrate-to-provider-tenant-architecture.md#^ref-54382370-251-0) (line 251, col 0, score 0.89)
+- [Shared Package Structure — L185](shared-package-structure.md#^ref-66a72fc3-185-0) (line 185, col 0, score 0.89)
+- [i3-bluetooth-setup — L4827](i3-bluetooth-setup.md#^ref-5e408692-4827-0) (line 4827, col 0, score 0.89)
+- [Ice Box Reorganization — L4557](ice-box-reorganization.md#^ref-291c7d91-4557-0) (line 4557, col 0, score 0.89)
+- [Migrate to Provider-Tenant Architecture — L8353](migrate-to-provider-tenant-architecture.md#^ref-54382370-8353-0) (line 8353, col 0, score 0.89)
+- [obsidian-ignore-node-modules-regex — L2598](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-2598-0) (line 2598, col 0, score 0.89)
+- [ParticleSimulationWithCanvasAndFFmpeg — L5476](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-5476-0) (line 5476, col 0, score 0.89)
+- [Per-Domain Policy System for JS Crawler — L6064](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-6064-0) (line 6064, col 0, score 0.89)
+- [Performance-Optimized-Polyglot-Bridge — L6381](performance-optimized-polyglot-bridge.md#^ref-f5579967-6381-0) (line 6381, col 0, score 0.89)
+- [polyglot-repl-interface-layer — L4172](polyglot-repl-interface-layer.md#^ref-9c79206d-4172-0) (line 4172, col 0, score 0.89)
+- [Post-Linguistic Transhuman Design Frameworks — L4019](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-4019-0) (line 4019, col 0, score 0.89)
+- [Migrate to Provider-Tenant Architecture — L207](migrate-to-provider-tenant-architecture.md#^ref-54382370-207-0) (line 207, col 0, score 0.88)
+- [Migrate to Provider-Tenant Architecture — L237](migrate-to-provider-tenant-architecture.md#^ref-54382370-237-0) (line 237, col 0, score 0.88)
+- [Migrate to Provider-Tenant Architecture — L185](migrate-to-provider-tenant-architecture.md#^ref-54382370-185-0) (line 185, col 0, score 0.88)
+- [Migrate to Provider-Tenant Architecture — L170](migrate-to-provider-tenant-architecture.md#^ref-54382370-170-0) (line 170, col 0, score 0.88)
+- [Migrate to Provider-Tenant Architecture — L175](migrate-to-provider-tenant-architecture.md#^ref-54382370-175-0) (line 175, col 0, score 0.87)
+- [Migrate to Provider-Tenant Architecture — L127](migrate-to-provider-tenant-architecture.md#^ref-54382370-127-0) (line 127, col 0, score 0.87)
+- [Lispy Macros with syntax-rules — L376](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-376-0) (line 376, col 0, score 0.87)
+- [Event Bus MVP — L383](event-bus-mvp.md#^ref-534fe91d-383-0) (line 383, col 0, score 0.86)
+- [shared-package-layout-clarification — L161](shared-package-layout-clarification.md#^ref-36c8882a-161-0) (line 161, col 0, score 0.86)
+- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.86)
+- [eidolon-field-math-foundations — L857](eidolon-field-math-foundations.md#^ref-008f2ac0-857-0) (line 857, col 0, score 0.86)
+- [field-dynamics-math-blocks — L660](field-dynamics-math-blocks.md#^ref-7cfc230d-660-0) (line 660, col 0, score 0.86)
+- [field-interaction-equations — L732](field-interaction-equations.md#^ref-b09141b7-732-0) (line 732, col 0, score 0.86)
+- [field-node-diagram-outline — L692](field-node-diagram-outline.md#^ref-1f32c94a-692-0) (line 692, col 0, score 0.86)
+- [Functional Embedding Pipeline Refactor — L1247](functional-embedding-pipeline-refactor.md#^ref-a4a25141-1247-0) (line 1247, col 0, score 0.86)
+- [graph-ds — L527](graph-ds.md#^ref-6620e2f2-527-0) (line 527, col 0, score 0.86)
+- [heartbeat-fragment-demo — L698](heartbeat-fragment-demo.md#^ref-dd00677a-698-0) (line 698, col 0, score 0.86)
+- [Event Bus Projections Architecture — L54](event-bus-projections-architecture.md#^ref-cf6b9b17-54-0) (line 54, col 0, score 0.85)
+- [js-to-lisp-reverse-compiler — L340](js-to-lisp-reverse-compiler.md#^ref-58191024-340-0) (line 340, col 0, score 0.85)
+- [Migrate to Provider-Tenant Architecture — L69](migrate-to-provider-tenant-architecture.md#^ref-54382370-69-0) (line 69, col 0, score 0.85)
+- [Migrate to Provider-Tenant Architecture — L100](migrate-to-provider-tenant-architecture.md#^ref-54382370-100-0) (line 100, col 0, score 0.85)
+- [Migrate to Provider-Tenant Architecture — L189](migrate-to-provider-tenant-architecture.md#^ref-54382370-189-0) (line 189, col 0, score 0.85)
+- [RAG UI Panel with Qdrant and PostgREST — L50](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-50-0) (line 50, col 0, score 0.85)
+- [pm2-orchestration-patterns — L217](pm2-orchestration-patterns.md#^ref-51932e7b-217-0) (line 217, col 0, score 0.85)
+- [heartbeat-simulation-snippets — L84](heartbeat-simulation-snippets.md#^ref-23e221e9-84-0) (line 84, col 0, score 0.85)
+- [prom ui bootstrap — L442](promethean-web-ui-setup.md#^ref-bc5172ca-442-0) (line 442, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

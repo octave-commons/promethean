@@ -1,0 +1,26 @@
+import test from "ava";
+import * as path from "path";
+import { promises as fs } from "fs";
+
+function dist(pathFromPkg: string) {
+  const PKG = path.resolve(
+    path.dirname(new URL(import.meta.url).pathname),
+    "..",
+    "..",
+    "..",
+    "dist",
+  );
+  return path.join(PKG, pathFromPkg);
+}
+
+test.serial(
+  "docops-step module defines element and contains Run button markup",
+  async (t) => {
+    const js = await fs.readFile(
+      dist("frontend/components/docops-step.js"),
+      "utf8",
+    );
+    t.true(js.includes('customElements.define("docops-step"'));
+    t.true(js.includes('<button id="runBtn">Run</button>'));
+  },
+);

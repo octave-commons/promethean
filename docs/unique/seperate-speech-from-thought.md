@@ -1,24 +1,18 @@
 ---
-uuid: 2018f7fc-1182-434c-a1a2-6c405513dd7f
+uuid: 7e11391e-fd77-4e80-b1dc-fa6ed1f50431
 created_at: seperate-speech-from-thought.md
 filename: seperate-speech-from-thought
 title: seperate-speech-from-thought
 description: >-
   A Lisp function that extracts speech from text by identifying and processing
-  parenthetical phrases.
+  parenthetical expressions.
 tags:
   - lisp
   - text-processing
   - speech-extraction
-related_to_uuid:
-  - 209f97db-585d-4a59-84f6-567300fb082e
-related_to_title:
-  - Self-Improving Documentation Tool
-references:
-  - uuid: 209f97db-585d-4a59-84f6-567300fb082e
-    line: 1
-    col: 0
-    score: 1
+related_to_uuid: []
+related_to_title: []
+references: []
 ---
 
 ```lisp
@@ -38,3 +32,22 @@ s})
 			
 )
 ```
+])
+	(for-each p parenthics
+		(assign temp [
+			...(.map temp (=> (s)  (.split s)))
+			]) )
+	(return {speech:temp, parenthetics})
+			
+)
+```
+s})
+			
+)
+```
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -1,5 +1,5 @@
 ---
-uuid: 7d584c12-7517-4f30-8378-34ac9fc3a3f8
+uuid: ed7b7f6e-1371-4161-af98-0457ea79ee54
 created_at: promethean-native-config-design.md
 filename: promethean-native-config-design
 title: promethean-native-config-design
@@ -75,19 +75,11 @@ references:
     col: 0
     score: 1
   - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
-    line: 1
-    col: 0
-    score: 1
-  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
     line: 9
     col: 0
     score: 1
   - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
     line: 80
-    col: 0
-    score: 1
-  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
-    line: 51
     col: 0
     score: 1
   - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
@@ -624,6 +616,7 @@ export function resolveProvider(cfg: ConfigT): ProviderCtx {
 } ^ref-ab748541-330-0
 ^ref-ab748541-330-0
 ``` ^ref-ab748541-328-0
+^ref-7d584c12-305-0
 ^ref-ab748541-305-0
 ^ref-ab748541-330-0 ^ref-ab748541-334-0
 ^ref-ab748541-328-0
@@ -694,3 +687,86 @@ I can write that as a 50‑line Node script when you’re ready. ^ref-ab748541-3
 You get predictable merges, zero surprise rewrites, and the ergonomics you wanted (profiles + per‑project scope) without living inside Codex. ^ref-ab748541-389-0
  ^ref-ab748541-401-0
 If you want, I’ll tailor the exact `config.toml` (global + project) and a `prom` CLI starter to your `Promethean` repo structure. #promethean #config #profiles #trust #direnv #devtools
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
+- [Universal Lisp Interface](universal-lisp-interface.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [Universal Lisp Interface](universal-lisp-interface.md)
+- [Field Node Diagrams](field-node-diagram-visualizations.md)
+- [ripple-propagation-demo](ripple-propagation-demo.md)
+- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [template-based-compilation](template-based-compilation.md)
+- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
+- [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [Prometheus Observability Stack](prometheus-observability-stack.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
+- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
+## Sources
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 1)
+- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 1)
+- [RAG UI Panel with Qdrant and PostgREST — L9](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-abe9ec8d-9-0) (line 9, col 0, score 1)
+- [RAG UI Panel with Qdrant and PostgREST — L80](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-abe9ec8d-80-0) (line 80, col 0, score 1)
+- [RAG UI Panel with Qdrant and PostgREST — L343](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-abe9ec8d-343-0) (line 343, col 0, score 0.96)
+- [RAG UI Panel with Qdrant and PostgREST — L50](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-abe9ec8d-50-0) (line 50, col 0, score 0.95)
+- [RAG UI Panel with Qdrant and PostgREST — L146](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-abe9ec8d-146-0) (line 146, col 0, score 0.95)
+- [RAG UI Panel with Qdrant and PostgREST — L316](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-abe9ec8d-316-0) (line 316, col 0, score 0.95)
+- [RAG UI Panel with Qdrant and PostgREST — L318](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-abe9ec8d-318-0) (line 318, col 0, score 0.95)
+- [RAG UI Panel with Qdrant and PostgREST — L47](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-abe9ec8d-47-0) (line 47, col 0, score 0.94)
+- [RAG UI Panel with Qdrant and PostgREST — L137](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-abe9ec8d-137-0) (line 137, col 0, score 0.93)
+- [WebSocket Gateway Implementation — L36](websocket-gateway-implementation.md#^ref-4316c3f9-36-0) (line 36, col 0, score 0.92)
+- [WebSocket Gateway Implementation — L56](websocket-gateway-implementation.md#^ref-4316c3f9-56-0) (line 56, col 0, score 0.91)
+- [RAG UI Panel with Qdrant and PostgREST — L345](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-abe9ec8d-345-0) (line 345, col 0, score 0.9)
+- [Universal Lisp Interface — L117](universal-lisp-interface.md#^ref-2611e17e-117-0) (line 117, col 0, score 0.9)
+- [WebSocket Gateway Implementation — L296](websocket-gateway-implementation.md#^ref-4316c3f9-296-0) (line 296, col 0, score 0.89)
+- [WebSocket Gateway Implementation — L336](websocket-gateway-implementation.md#^ref-4316c3f9-336-0) (line 336, col 0, score 0.89)
+- [WebSocket Gateway Implementation — L630](websocket-gateway-implementation.md#^ref-4316c3f9-630-0) (line 630, col 0, score 0.89)
+- [WebSocket Gateway Implementation — L43](websocket-gateway-implementation.md#^ref-4316c3f9-43-0) (line 43, col 0, score 0.89)
+- [Universal Lisp Interface — L119](universal-lisp-interface.md#^ref-2611e17e-119-0) (line 119, col 0, score 0.89)
+- [WebSocket Gateway Implementation — L450](websocket-gateway-implementation.md#^ref-4316c3f9-450-0) (line 450, col 0, score 0.88)
+- [Universal Lisp Interface — L56](universal-lisp-interface.md#^ref-2611e17e-56-0) (line 56, col 0, score 0.88)
+- [Field Node Diagrams — L63](field-node-diagram-visualizations.md#^ref-2c9f86e6-63-0) (line 63, col 0, score 0.88)
+- [Universal Lisp Interface — L61](universal-lisp-interface.md#^ref-2611e17e-61-0) (line 61, col 0, score 0.88)
+- [WebSocket Gateway Implementation — L449](websocket-gateway-implementation.md#^ref-4316c3f9-449-0) (line 449, col 0, score 0.88)
+- [TypeScript Patch for Tool Calling Support — L35](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-35-0) (line 35, col 0, score 0.87)
+- [Chroma-Embedding-Refactor — L66](chroma-embedding-refactor.md#^ref-8b256935-66-0) (line 66, col 0, score 0.87)
+- [TypeScript Patch for Tool Calling Support — L160](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-160-0) (line 160, col 0, score 0.87)
+- [Migrate to Provider-Tenant Architecture — L39](migrate-to-provider-tenant-architecture.md#^ref-54382370-39-0) (line 39, col 0, score 0.87)
+- [Event Bus MVP — L527](event-bus-mvp.md#^ref-534fe91d-527-0) (line 527, col 0, score 0.87)
+- [TypeScript Patch for Tool Calling Support — L104](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-104-0) (line 104, col 0, score 0.86)
+- [Universal Lisp Interface — L172](universal-lisp-interface.md#^ref-b01856b4-172-0) (line 172, col 0, score 0.86)
+- [WebSocket Gateway Implementation — L318](websocket-gateway-implementation.md#^ref-e811123d-318-0) (line 318, col 0, score 0.86)
+- [Dynamic Context Model for Web Components — L272](dynamic-context-model-for-web-components.md#^ref-f7702bf8-272-0) (line 272, col 0, score 0.86)
+- [TypeScript Patch for Tool Calling Support — L88](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-88-0) (line 88, col 0, score 0.86)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.86)
+- [ripple-propagation-demo — L64](ripple-propagation-demo.md#^ref-8430617b-64-0) (line 64, col 0, score 0.85)
+- [Universal Lisp Interface — L137](universal-lisp-interface.md#^ref-b01856b4-137-0) (line 137, col 0, score 0.85)
+- [Promethean Full-Stack Docker Setup — L342](promethean-full-stack-docker-setup.md#^ref-2c2b48ca-342-0) (line 342, col 0, score 0.85)
+- [komorebi-group-window-hack — L132](komorebi-group-window-hack.md#^ref-dd89372d-132-0) (line 132, col 0, score 0.85)
+- [Chroma Toolkit Consolidation Plan — L72](chroma-toolkit-consolidation-plan.md#^ref-5020e892-72-0) (line 72, col 0, score 0.85)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L332](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-332-0) (line 332, col 0, score 0.85)
+- [template-based-compilation — L21](template-based-compilation.md#^ref-f8877e5e-21-0) (line 21, col 0, score 0.85)
+- [homeostasis-decay-formulas — L81](homeostasis-decay-formulas.md#^ref-37b5d236-81-0) (line 81, col 0, score 0.85)
+- [homeostasis-decay-formulas — L61](homeostasis-decay-formulas.md#^ref-37b5d236-61-0) (line 61, col 0, score 0.85)
+- [Universal Lisp Interface — L150](universal-lisp-interface.md#^ref-b01856b4-150-0) (line 150, col 0, score 0.85)
+- [Model Selection for Lightweight Conversational Tasks — L52](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-52-0) (line 52, col 0, score 0.85)
+- [homeostasis-decay-formulas — L40](homeostasis-decay-formulas.md#^ref-37b5d236-40-0) (line 40, col 0, score 0.85)
+- [Prometheus Observability Stack — L483](prometheus-observability-stack.md#^ref-e90b5a16-483-0) (line 483, col 0, score 0.85)
+- [Prometheus Observability Stack — L480](prometheus-observability-stack.md#^ref-e90b5a16-480-0) (line 480, col 0, score 0.85)
+- [TypeScript Patch for Tool Calling Support — L115](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-115-0) (line 115, col 0, score 0.85)
+- [Stateful Partitions and Rebalancing — L299](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-299-0) (line 299, col 0, score 0.85)
+- [Stateful Partitions and Rebalancing — L272](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-272-0) (line 272, col 0, score 0.85)
+- [TypeScript Patch for Tool Calling Support — L534](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-534-0) (line 534, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

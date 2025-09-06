@@ -1,5 +1,5 @@
 ---
-uuid: 3b3e06e6-1202-4cda-842d-08074d7e9b73
+uuid: 3d18cb0d-ab4d-4e65-9bab-5ae9a121ca8e
 created_at: vterm-prompt-tracking-solutions.md
 filename: vterm-prompt-tracking-solutions
 title: vterm-prompt-tracking-solutions
@@ -34,19 +34,11 @@ references:
     col: 0
     score: 1
   - uuid: 3b86ea3e-a1d3-46cb-bd6d-774a3c7f8f68
-    line: 5
-    col: 0
-    score: 1
-  - uuid: 3b86ea3e-a1d3-46cb-bd6d-774a3c7f8f68
     line: 7
     col: 0
     score: 1
   - uuid: 3bea339f-aea3-4dae-8e1c-c7638a6899b0
     line: 5
-    col: 0
-    score: 1
-  - uuid: 3bea339f-aea3-4dae-8e1c-c7638a6899b0
-    line: 13
     col: 0
     score: 1
   - uuid: 3724ef1e-d13f-4b52-8045-ba149d90fdec
@@ -55,10 +47,6 @@ references:
     score: 1
   - uuid: 636f49b1-4bf4-4578-8153-f1f34c250b05
     line: 13
-    col: 0
-    score: 1
-  - uuid: 3bea339f-aea3-4dae-8e1c-c7638a6899b0
-    line: 15
     col: 0
     score: 1
   - uuid: 636f49b1-4bf4-4578-8153-f1f34c250b05
@@ -201,3 +189,21 @@ If you want, I can wrap this into a tiny `promethean-vterm.el` with sane default
 \#emacs #vterm #i3 #dotfiles #protips
 
  f wm8]:  "How to set the Linux terminal NOT to scroll down ..."
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Obsidian ChatGPT Plugin Integration Guide](obsidian-chatgpt-plugin-integration-guide.md)
+- [AI-First OS Model Context Protocol](ai-first-os-model-context-protocol.md)
+- [obsidian-templating-plugins-integration-guide](obsidian-templating-plugins-integration-guide.md)
+- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
+## Sources
+- [AI-First OS Model Context Protocol — L1](ai-first-os-model-context-protocol.md#^ref-3b86ea3e-1-0) (line 1, col 0, score 1)
+- [AI-First OS Model Context Protocol — L3](ai-first-os-model-context-protocol.md#^ref-3b86ea3e-3-0) (line 3, col 0, score 1)
+- [AI-First OS Model Context Protocol — L7](ai-first-os-model-context-protocol.md#^ref-3b86ea3e-7-0) (line 7, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration Guide — L5](obsidian-chatgpt-plugin-integration-guide.md#^ref-3bea339f-5-0) (line 5, col 0, score 1)
+- [obsidian-templating-plugins-integration-guide — L13](obsidian-templating-plugins-integration-guide.md#^ref-3724ef1e-13-0) (line 13, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration — L13](obsidian-chatgpt-plugin-integration.md#^ref-636f49b1-13-0) (line 13, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration — L15](obsidian-chatgpt-plugin-integration.md#^ref-636f49b1-15-0) (line 15, col 0, score 0.99)
+- [obsidian-templating-plugins-integration-guide — L15](obsidian-templating-plugins-integration-guide.md#^ref-3724ef1e-15-0) (line 15, col 0, score 0.99)
+- [Obsidian ChatGPT Plugin Integration — L5](obsidian-chatgpt-plugin-integration.md#^ref-636f49b1-5-0) (line 5, col 0, score 0.91)
+- [obsidian-templating-plugins-integration-guide — L5](obsidian-templating-plugins-integration-guide.md#^ref-3724ef1e-5-0) (line 5, col 0, score 0.89)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

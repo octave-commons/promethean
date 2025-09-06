@@ -1,5 +1,5 @@
 ---
-uuid: 06ef038a-e195-49c1-898f-a50cc117c59a
+uuid: 6a4d8c7d-1108-441d-9eec-e762d09fb65d
 created_at: 2d-sandbox-field.md
 filename: 2d-sandbox-field
 title: 2d-sandbox-field
@@ -368,3 +368,138 @@ Would you like to: ^ref-c710dc93-186-0
  ^ref-c710dc93-193-0
  ^ref-c710dc93-194-0 ^ref-c710dc93-195-0
 I recommend starting with a single `gravity-style attractor` node and a few drifting particles to make sure field decay and pull are working. Want to do that?
+ion.y);
+    if (fx >= 0 && fy >= 0 && fx < field.width && fy < field.height) {
+      const force = field.get(fx, fy).scale(1 / this.mass);
+      this.velocity = this.velocity.add(force).scale(this.drag);
+      this.position = this.position.add(this.velocity);
+    }
+^ref-c710dc93-104-0
+  }
+}
+```
+ ^ref-c710dc93-129-0
+--- ^ref-c710dc93-129-0
+
+## 🔁 Simulation Loop
+
+```js
+const field = new Field2D(40, 20);
+const node = new FieldNode(20, 10, 0.5);
+const particles = [new Particle(5, 5), new Particle(35, 15)];
+
+function tick() {
+  field.applyDecay(0.98);
+^ref-c710dc93-129-0
+  node.apply(field);
+  particles.forEach(p => p.update(field));
+}
+^ref-c710dc93-133-0
+```
+ ^ref-c710dc93-145-0
+---
+
+## 🖼️ Optional: Visualize It in ASCII ^ref-c710dc93-150-0
+
+```js
+function render(field, particles) {
+  let buffer = "";
+  for (let y = 0; y < field.height; y++) {
+    for (let x = 0; x < field.width; x++) {
+      const p = particles.find(p =>
+        Math.floor(p.position.x) === x && Math.floor(p.position.y) === y
+      );
+      if (p) buffer += "●";
+      else {
+        const mag = field.get(x, y).magnitude();
+        buffer += mag > 0.3 ? "+" : mag > 0.1 ? "." : " ";
+      }
+    }
+^ref-c710dc93-145-0
+    buffer += "\n";
+  }
+  console.log(buffer);
+^ref-c710dc93-150-0
+}
+``` ^ref-c710dc93-169-0
+^ref-c710dc93-150-0
+ ^ref-c710dc93-171-0
+--- ^ref-c710dc93-171-0
+ ^ref-c710dc93-173-0
+## 🧪 What This Lets Us Do ^ref-c710dc93-173-0
+ ^ref-c710dc93-175-0
+- Add multiple nodes (e.g., attractor + repulsor) ^ref-c710dc93-175-0
+    
+- Inject pulses over time (like an emotion spike)
+    
+- Observe particle clustering, spirals, escapes
+ ^ref-c710dc93-180-0
+- Build toward composite fields with multiple dimensions
+ ^ref-c710dc93-182-0
+ ^ref-c710dc93-184-0
+--- ^ref-c710dc93-184-0
+ ^ref-c710dc93-186-0
+Would you like to: ^ref-c710dc93-186-0
+
+- Port this to Sibilant as a first module for Promethean?
+ ^ref-c710dc93-189-0
+- Add a real-time canvas/WebGL or terminal UI to see it animate?
+ ^ref-c710dc93-191-0 ^ref-c710dc93-192-0
+- Begin testing types of particles (task, memory, emotion)? ^ref-c710dc93-192-0
+ ^ref-c710dc93-193-0
+ ^ref-c710dc93-194-0 ^ref-c710dc93-195-0
+I recommend starting with a single `gravity-style attractor` node and a few drifting particles to make sure field decay and pull are working. Want to do that?
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Duck's Attractor States](ducks-attractor-states.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
+- [i3-config-validation-methods](i3-config-validation-methods.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
+- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
+- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
+- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [shared-package-layout-clarification](shared-package-layout-clarification.md)
+- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
+- [EidolonField](eidolonfield.md)
+- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
+- [prom ui bootstrap](promethean-web-ui-setup.md)
+- [pm2-orchestration-patterns](pm2-orchestration-patterns.md)
+- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
+## Sources
+- [i3-bluetooth-setup — L1](i3-bluetooth-setup.md#^ref-c7b8a045-1-0) (line 1, col 0, score 1)
+- [Fnord Tracer Protocol — L471](fnord-tracer-protocol.md#^ref-fc21f824-471-0) (line 471, col 0, score 0.92)
+- [Duck's Attractor States — L278](ducks-attractor-states.md#^ref-13951643-278-0) (line 278, col 0, score 0.92)
+- [field-dynamics-math-blocks — L410](field-dynamics-math-blocks.md#^ref-7cfc230d-410-0) (line 410, col 0, score 0.92)
+- [homeostasis-decay-formulas — L460](homeostasis-decay-formulas.md#^ref-37b5d236-460-0) (line 460, col 0, score 0.92)
+- [i3-config-validation-methods — L28](i3-config-validation-methods.md#^ref-d28090ac-28-0) (line 28, col 0, score 0.91)
+- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.9)
+- [polymorphic-meta-programming-engine — L190](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-190-0) (line 190, col 0, score 0.9)
+- [sibilant-metacompiler-overview — L52](sibilant-metacompiler-overview.md#^ref-61d4086b-52-0) (line 52, col 0, score 0.9)
+- [Fnord Tracer Protocol — L689](fnord-tracer-protocol.md#^ref-fc21f824-689-0) (line 689, col 0, score 0.9)
+- [Layer1SurvivabilityEnvelope — L341](layer1survivabilityenvelope.md#^ref-64a9f9f9-341-0) (line 341, col 0, score 0.9)
+- [ParticleSimulationWithCanvasAndFFmpeg — L414](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-414-0) (line 414, col 0, score 0.9)
+- [Layer1SurvivabilityEnvelope — L378](layer1survivabilityenvelope.md#^ref-64a9f9f9-378-0) (line 378, col 0, score 0.9)
+- [markdown-to-org-transpiler — L272](markdown-to-org-transpiler.md#^ref-ab54cdd8-272-0) (line 272, col 0, score 0.89)
+- [Matplotlib Animation with Async Execution — L44](matplotlib-animation-with-async-execution.md#^ref-687439f9-44-0) (line 44, col 0, score 0.89)
+- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.89)
+- [Cross-Target Macro System in Sibilant — L148](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-148-0) (line 148, col 0, score 0.87)
+- [shared-package-layout-clarification — L161](shared-package-layout-clarification.md#^ref-36c8882a-161-0) (line 161, col 0, score 0.87)
+- [compiler-kit-foundations — L588](compiler-kit-foundations.md#^ref-01b21543-588-0) (line 588, col 0, score 0.87)
+- [Cross-Language Runtime Polymorphism — L211](cross-language-runtime-polymorphism.md#^ref-c34c36a6-211-0) (line 211, col 0, score 0.87)
+- [EidolonField — L205](eidolonfield.md#^ref-49d1e1e5-205-0) (line 205, col 0, score 0.86)
+- [lisp-dsl-for-window-management — L185](lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0) (line 185, col 0, score 0.86)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L490](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-490-0) (line 490, col 0, score 0.86)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L151](ollama-llm-provider-for-pseudo-code-transpiler.md#^ref-b362e12e-151-0) (line 151, col 0, score 0.86)
+- [prom ui bootstrap — L440](promethean-web-ui-setup.md#^ref-bc5172ca-440-0) (line 440, col 0, score 0.86)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

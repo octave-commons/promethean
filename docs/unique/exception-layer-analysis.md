@@ -1,20 +1,23 @@
 ---
-uuid: 90955a83-f6e5-4168-89e6-1e12eabed78b
+uuid: aa41a8b0-26ae-4cc3-9818-bd1d9df3369b
 created_at: exception-layer-analysis.md
 filename: Exception Layer Analysis
 title: Exception Layer Analysis
 description: >-
-  This document analyzes how exceptions are categorized across system layers,
-  identifying boundary failures between Layer 1 (resource exhaustion) and Layer
-  2 (permission/access violations). It proposes a vector field model to track
-  exception patterns and build fault-tolerant systems with forensic
-  capabilities.
+  This document provides a detailed analysis of the exception handling
+  mechanisms within the Promethean framework. It explores how exceptions are
+  structured, propagated, and managed across different layers of the
+  application. The analysis helps developers understand potential failure points
+  and improve system resilience.
 tags:
-  - exception layers
-  - boundary failures
-  - vector field model
-  - fault tolerance
-  - permission management
+  - exception handling
+  - promethean
+  - framework
+  - error management
+  - resilience
+  - propagation
+  - layers
+  - analysis
 related_to_uuid:
   - 2792d448-c3b5-4050-93dd-93768529d99c
   - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
@@ -294,3 +297,89 @@ references:
     score: 0.85
 ---
 
+ ^ref-21d5cc09-63-0
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Docops Feature Updates](docops-feature-updates.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [graph-ds](graph-ds.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
+- [ChatGPT Custom Prompts](chatgpt-custom-prompts.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [Unique Concepts](unique-concepts.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
+- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
+- [Creative Moments](creative-moments.md)
+- [Duck's Attractor States](ducks-attractor-states.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [plan-update-confirmation](plan-update-confirmation.md)
+- [Promethean State Format](promethean-state-format.md)
+## Sources
+- [Agent Reflections and Prompt Evolution — L618](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-618-0) (line 618, col 0, score 1)
+- [ChatGPT Custom Prompts — L187](chatgpt-custom-prompts.md#^ref-930054b3-187-0) (line 187, col 0, score 1)
+- [Chroma Toolkit Consolidation Plan — L999](chroma-toolkit-consolidation-plan.md#^ref-5020e892-999-0) (line 999, col 0, score 1)
+- [typed-struct-compiler — L1016](typed-struct-compiler.md#^ref-78eeedf7-1016-0) (line 1016, col 0, score 1)
+- [Unique Concepts — L175](unique-concepts.md#^ref-ed6f3fc9-175-0) (line 175, col 0, score 1)
+- [Unique Info Dump Index — L1221](unique-info-dump-index.md#^ref-30ec3ba6-1221-0) (line 1221, col 0, score 1)
+- [zero-copy-snapshots-and-workers — L1058](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1058-0) (line 1058, col 0, score 1)
+- [Canonical Org-Babel Matplotlib Animation Template — L515](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-515-0) (line 515, col 0, score 1)
+- [Creative Moments — L251](creative-moments.md#^ref-10d98225-251-0) (line 251, col 0, score 1)
+- [Duck's Attractor States — L559](ducks-attractor-states.md#^ref-13951643-559-0) (line 559, col 0, score 1)
+- [eidolon-field-math-foundations — L1033](eidolon-field-math-foundations.md#^ref-008f2ac0-1033-0) (line 1033, col 0, score 1)
+- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
+- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
+- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
+- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
+- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
+- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
+- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
+- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
+- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
+- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
+- [Duck's Attractor States — L1948](ducks-attractor-states.md#^ref-13951643-1948-0) (line 1948, col 0, score 0.94)
+- [plan-update-confirmation — L4605](plan-update-confirmation.md#^ref-b22d79c6-4605-0) (line 4605, col 0, score 0.94)
+- [Promethean State Format — L1965](promethean-state-format.md#^ref-23df6ddb-1965-0) (line 1965, col 0, score 0.94)
+- [Duck's Self-Referential Perceptual Loop — L1601](ducks-self-referential-perceptual-loop.md#^ref-71726f04-1601-0) (line 1601, col 0, score 0.93)
+- [field-dynamics-math-blocks — L1866](field-dynamics-math-blocks.md#^ref-7cfc230d-1866-0) (line 1866, col 0, score 0.93)
+- [field-node-diagram-set — L2133](field-node-diagram-set.md#^ref-22b989d5-2133-0) (line 2133, col 0, score 0.93)
+- [Layer1SurvivabilityEnvelope — L1927](layer1survivabilityenvelope.md#^ref-64a9f9f9-1927-0) (line 1927, col 0, score 0.93)
+- [Post-Linguistic Transhuman Design Frameworks — L1953](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-1953-0) (line 1953, col 0, score 0.93)
+- [EidolonField — L207](eidolonfield.md#^ref-49d1e1e5-207-0) (line 207, col 0, score 0.91)
+- [Cross-Target Macro System in Sibilant — L150](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-150-0) (line 150, col 0, score 0.91)
+- [Promethean-native config design — L305](promethean-native-config-design.md#^ref-ab748541-305-0) (line 305, col 0, score 0.9)
+- [Debugging Broker Connections and Agent Behavior — L3468](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-3468-0) (line 3468, col 0, score 0.89)
+- [DuckDuckGoSearchPipeline — L137](duckduckgosearchpipeline.md#^ref-e979c50f-137-0) (line 137, col 0, score 0.89)
+- [Factorio AI with External Agents — L282](factorio-ai-with-external-agents.md#^ref-a4d90289-282-0) (line 282, col 0, score 0.89)
+- [Fnord Tracer Protocol — L5439](fnord-tracer-protocol.md#^ref-fc21f824-5439-0) (line 5439, col 0, score 0.89)
+- [graph-ds — L495](graph-ds.md#^ref-6620e2f2-495-0) (line 495, col 0, score 0.89)
+- [Migrate to Provider-Tenant Architecture — L9631](migrate-to-provider-tenant-architecture.md#^ref-54382370-9631-0) (line 9631, col 0, score 0.89)
+- [Mindful Prioritization — L164](mindful-prioritization.md#^ref-40185d05-164-0) (line 164, col 0, score 0.89)
+- [MindfulRobotIntegration — L1064](mindfulrobotintegration.md#^ref-5f65dfa5-1064-0) (line 1064, col 0, score 0.89)
+- [NPU Voice Code and Sensory Integration — L129](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-129-0) (line 129, col 0, score 0.89)
+- [sibilant-metacompiler-overview — L52](sibilant-metacompiler-overview.md#^ref-61d4086b-52-0) (line 52, col 0, score 0.88)
+- [Event Bus Projections Architecture — L111](event-bus-projections-architecture.md#^ref-cf6b9b17-111-0) (line 111, col 0, score 0.88)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 0.88)
+- [Unique Info Dump Index — L34](unique-info-dump-index.md#^ref-cdf2c6e4-34-0) (line 34, col 0, score 0.86)
+- [Recursive Prompt Construction Engine — L147](recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0) (line 147, col 0, score 0.86)
+- [State Snapshots API and Transactional Projector — L303](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0) (line 303, col 0, score 0.86)
+- [Cross-Language Runtime Polymorphism — L211](cross-language-runtime-polymorphism.md#^ref-c34c36a6-211-0) (line 211, col 0, score 0.86)
+- [template-based-compilation — L44](template-based-compilation.md#^ref-f8877e5e-44-0) (line 44, col 0, score 0.86)
+- [EidolonField — L205](eidolonfield.md#^ref-49d1e1e5-205-0) (line 205, col 0, score 0.86)
+- [Local-Only-LLM-Workflow — L129](local-only-llm-workflow.md#^ref-9a8ab57e-129-0) (line 129, col 0, score 0.86)
+- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.86)
+- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.85)
+- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
