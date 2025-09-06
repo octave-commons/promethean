@@ -4,7 +4,7 @@ import { GatewayPublisher } from "../src/gateway.js";
 import { handleSocialMessageCreated as indexMessage } from "../../discord-message-indexer/src/index.js";
 import { handleSocialMessageCreated as indexAttachments } from "../../discord-attachment-indexer/src/index.js";
 import { embedMessage } from "../../discord-message-embedder/src/index.js";
-import { embedAttachments } from "../../attachment-embedder/src/index.js";
+import { embedAttachments } from "@promethean/embedding";
 
 test("end-to-end: raw -> normalized -> index + embed", async (t) => {
   process.env.DISCORD_TOKEN_DUCK = "x";
