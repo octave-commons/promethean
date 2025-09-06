@@ -17,7 +17,7 @@
   "dependencies": {
     "@promethean/embedding": "workspace:*",
     "@promethean/legacy": "workspace:*",
-    "@promethean/persistence": "file:../persistence",
+    "@promethean/persistence": "workspace:*",
     "chokidar": "^3.5.3",
     "dotenv": "^17.2.1",
     "ws": "^8.18.3"
