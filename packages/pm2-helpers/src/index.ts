@@ -54,13 +54,13 @@ export function defineApp(
     restart_delay: 10_000,
     kill_timeout: 10_000,
     env: {
-      ...env,
+      ...Object.fromEntries(Object.entries(env).map(([k, v]) => [k, String(v)])),
       PM2_PROCESS_NAME: name,
-      HEARTBEAT_PORT: defineApp.HEARTBEAT_PORT,
+      HEARTBEAT_PORT: String(defineApp.HEARTBEAT_PORT),
       PYTHONUNBUFFERED: '1',
       PYTHONPATH: defineApp.PYTHONPATH,
-      CHECK_INTERVAL: 1000 * 60 * 5,
-      HEARTBEAT_TIMEOUT: 1000 * 60 * 10,
+      CHECK_INTERVAL: String(1000 * 60 * 5),
+      HEARTBEAT_TIMEOUT: String(1000 * 60 * 10),
     },
   };
 
