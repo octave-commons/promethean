@@ -1,6 +1,6 @@
 import test from "ava";
 
-import { embedMessage } from "../src/index.js";
+import { embedMessage } from "@promethean/discord";
 
 test("embeds text into provider+tenant namespace", async (t) => {
   process.env.DISCORD_TOKEN_DUCK = "test";
