@@ -76,7 +76,7 @@ Each entry is either:
      (make-lsp-client :new-connection (lsp-stdio-connection (lambda () (list (expand-file-name "~/.roswell/bin/cl-lsp"))))
                       :activation-fn (lsp-activate-on "commonlisp")
                       :server-id 'cl-lsp))))
-(defun err-core/post-init-lisp-mode ()
+(defun err-commonlisp/post-init-lisp-mode ()
 
   (with-eval-after-load 'lisp-mode
     (add-hook 'lisp-mode-hook #'lsp-deferred)
@@ -90,7 +90,6 @@ Each entry is either:
     )
 
   )
-
 (defun err-core/post-init-flycheck ()
   (with-eval-after-load 'flycheck
     (flycheck-define-checker common-lisp-sblint
