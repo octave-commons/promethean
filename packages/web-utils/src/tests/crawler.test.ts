@@ -1,6 +1,6 @@
 import test from "ava";
 
-import { crawlPage } from '../src/crawler.js';
+import { crawlPage } from '../crawler.js';
 
 test("crawlPage fetches and extracts links", async (t) => {
   const html = `<html><head><title>Example</title></head><body>
