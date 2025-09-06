@@ -59,7 +59,8 @@
     "unist-util-visit": "^5.0.0",
     "ws": "8.18.3",
     "yaml": "2.8.1",
-    "zod": "3.25.76"
+    "zod": "3.25.76",
+    "@promethean/pm2-helpers": "workspace:*"
   },
   "devDependencies": {
     "@promethean/test-utils": "workspace:*",
