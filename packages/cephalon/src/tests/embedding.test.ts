@@ -6,7 +6,7 @@ import test from "ava";
 // Use memory broker via BrokerClient
 // @ts-ignore dynamic import of JS modules
 
-import { RemoteEmbeddingFunction } from "@promethean/embedding/remote.js";
+import { RemoteEmbeddingFunction } from "@promethean/embedding";
 const clientModule = await import("@promethean/legacy/brokerClient.js");
 const { BrokerClient } = clientModule;
 
