@@ -2,7 +2,7 @@ import test from 'ava';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
-import { findRunnablePackages } from '../scripts/dev.mjs';
+import { findRunnablePackages, buildDevArgs } from '../scripts/dev.mjs';
 
 test('findRunnablePackages returns packages with dev script', async (t) => {
   const tmp = await fs.mkdtemp(path.join(os.tmpdir(), 'devpkg-'));
@@ -22,4 +22,19 @@ test('findRunnablePackages returns packages with dev script', async (t) => {
 
   const pkgs = await findRunnablePackages(tmp);
   t.deepEqual(pkgs, ['a']);
+});
+
+test('buildDevArgs runs packages in parallel from workspace root', (t) => {
+  const args = buildDevArgs(['a', 'b']);
+  t.deepEqual(args, [
+    'run',
+    '-r',
+    '--parallel',
+    '--workspace-root',
+    '--filter',
+    'a',
+    '--filter',
+    'b',
+    'dev',
+  ]);
 });
