@@ -6,12 +6,32 @@
   "bin": {
     "alias-rewrite": "dist/cli.js"
   },
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./dist/*": "./dist/*",
+    "./*": "./dist/*"
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "test": "ava"
+    "build": "tsc -b tsconfig.json",
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "rimraf dist tsconfig.tsbuildinfo",
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs -r text -r lcov"
   },
   "dependencies": {
     "fast-glob": "^3.3.2",
-    "ts-morph": "^22.0.0"
-  }
+    "ts-morph": "^22.0.0",
+    "@promethean/naming": "workspace:*"
+  },
+  "description": "Deprecated: use @promethean/naming instead"
 }

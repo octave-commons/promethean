@@ -10,8 +10,8 @@
       "@promethean/persistence/*": ["../persistence/dist/*"],
       "@promethean/fs": ["../fs/dist/index"],
       "@promethean/fs/*": ["../fs/dist/*"],
-      "@promethean/embeddings": ["../embeddings/dist/index"],
-      "@promethean/embeddings/*": ["../embeddings/dist/*"]
+      "@promethean/embedding": ["../embedding/dist/index"],
+      "@promethean/embedding/*": ["../embedding/dist/*"]
     },
     "tsBuildInfoFile": "./dist/.tsbuildinfo"
   },
