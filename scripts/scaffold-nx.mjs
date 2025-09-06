@@ -1,24 +1,16 @@
 #!/usr/bin/env node
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
 const DRY = process.argv.includes("--dry");
 const REPO = path.resolve(process.cwd());
-const BASE = path.join(REPO, "shared/ts"); // packages live here
+const BASE = path.join(REPO, "packages"); // packages live here
 const CONFIG = path.join(REPO, "config"); // centralized configs live here
 
 const TEST_CMD = "ava"; // change to "vitest run" or "jest" if needed
 
 const rel = (p) => path.relative(REPO, p);
 const exists = async (p) => !!(await fs.stat(p).catch(() => null));
-
-async function ensureDir(p) {
-  if (!(await exists(p))) {
-    console.log(`mkdir  ${rel(p)}`);
-    if (!DRY) await fs.mkdir(p, { recursive: true });
-  }
-}
 
 async function writeIfMissing(p, content) {
   // if (await exists(p)) return false;
@@ -41,8 +33,8 @@ async function patchJson(file, patchFn) {
     created = true;
   }
   const next = patchFn(obj);
-  const changed = JSON.stringify(next, null, 2) + "\n";
-  const prev = JSON.stringify(obj, null, 2) + "\n";
+  const changed = `${JSON.stringify(next, null, 2)}\n`;
+  const prev = `${JSON.stringify(obj, null, 2)}\n`;
   if (created || prev !== changed) {
     console.log(`${created ? "create" : "update"} ${rel(file)}`);
     if (!DRY) await fs.writeFile(file, changed, "utf8");
@@ -75,13 +67,13 @@ function projectJson(pkgName, projectRoot, sourceRoot) {
         options: { command: "eslint ." },
       },
     },
-    tags: ["scope:shared-ts"],
+    tags: ["scope:packages"],
   };
 }
 
 function tsconfigJson() {
   return {
-    extends: "../../../config/tsconfig.base.json",
+    extends: "../../config/tsconfig.base.json",
     compilerOptions: {
       rootDir: "src",
       outDir: "dist",
@@ -140,14 +132,14 @@ async function scaffoldPackage(dirent) {
   const avaPath = path.join(pkgRoot, "ava.config.mjs");
   await writeIfMissing(
     avaPath,
-    `export { default } from "../../../config/ava.config.base.mjs";\n`,
+    `export { default } from "../../config/ava.config.base.mjs";\n`,
   );
 
   // .eslintrc.cjs (extends)
   const eslintrcPath = path.join(pkgRoot, ".eslintrc.cjs");
   await writeIfMissing(
     eslintrcPath,
-    `module.exports = { extends: ["../../../config/.eslintrc.base.cjs"] };\n`,
+    `module.exports = { extends: ["../../config/.eslintrc.base.cjs"] };\n`,
   );
 
   // package.json (non-destructive merge: only add missing)
