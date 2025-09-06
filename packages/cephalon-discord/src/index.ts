@@ -1,4 +1,3 @@
-// import { PostMessage } from '@shared/prom-lib';
 
 export function createPostMessage(
   provider: string,
