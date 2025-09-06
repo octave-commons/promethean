@@ -27,7 +27,7 @@
             "path": "../stream"
         },
         {
-            "path": "../web"
+            "path": "../web-utils"
         }
     ]
 }

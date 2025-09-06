@@ -1,5 +1,5 @@
 // ecosystem.config.js (ESM, but NO top-level await)
-import { defineApp } from './dev/pm2Helpers.js';
+import { defineApp } from '@promethean/pm2-helpers';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { configDotenv } from 'dotenv';

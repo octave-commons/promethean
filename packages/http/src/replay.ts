@@ -7,7 +7,10 @@ export function startReplayAPI(store: any, { port = 8083 } = {}) {
     app.get('/replay', async (req, res) => {
         try {
             const topic = String(req.query.topic || '');
-            if (!topic) return res.status(400).json({ error: 'topic required' });
+            if (!topic) {
+                res.status(400).json({ error: 'topic required' });
+                return;
+            }
 
             const from = String(req.query.from || 'earliest');
             const ts = req.query.ts ? Number(req.query.ts) : undefined;

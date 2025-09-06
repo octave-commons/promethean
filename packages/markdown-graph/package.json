@@ -27,6 +27,7 @@
     "eslint-config-neon": "^0.1.62",
     "mongodb-memory-server": "^10.1.4",
     "prettier": "^3.4.2",
-    "supertest": "^7.1.1"
+    "supertest": "^7.1.1",
+    "@promethean/pm2-helpers": "workspace:*"
   }
 }

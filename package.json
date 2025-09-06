@@ -28,7 +28,6 @@
     "script:lint-tasks": "tsx --tsconfig tsconfig.scripts.json scripts/lint_tasks.ts",
     "postinstall": "pnpm --filter @promethean/piper^... run build && pnpm --filter @promethean/piper run build",
     "generateBuildErrorReport": "pnpm -r --no-bail build | grep 'error' -i >|build-errors.txt",
-    "codemod:aliases": "pnpm -w --filter @promethean/alias-rewrite... build && alias-rewrite --from @shared/prom-lib --to @promethean-",
     "check:flat": "node scripts/check-flat.js",
     "enforce:esm-ext": "eslint \"packages/**/src/**/*.{ts,tsx}\" --rule 'import/extensions: [2, \"always\", { ignorePackages: true }]'"
   },
@@ -60,7 +59,8 @@
     "unist-util-visit": "^5.0.0",
     "ws": "8.18.3",
     "yaml": "2.8.1",
-    "zod": "3.25.76"
+    "zod": "3.25.76",
+    "@promethean/pm2-helpers": "workspace:*"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0",
