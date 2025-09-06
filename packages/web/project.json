@@ -1,33 +1,41 @@
 {
-    "name": "ts-web",
-    "root": "shared/ts/web",
-    "sourceRoot": "shared/ts/web/src",
-    "targets": {
-        "build": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "tsc -b"
-            },
-            "outputs": ["{projectRoot}/dist"]
-        },
-        "typecheck": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "tsc -p tsconfig.json --noEmit"
-            }
-        },
-        "test": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "ava"
-            }
-        },
-        "lint": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "eslint ."
-            }
-        }
+  "name": "ts-web",
+  "root": "packages/web",
+  "sourceRoot": "packages/web/src",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -b",
+        "cwd": "packages/web"
+      },
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
     },
-    "tags": ["scope:shared-ts"]
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p tsconfig.json --noEmit",
+        "cwd": "packages/web"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ava",
+        "cwd": "packages/web"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint .",
+        "cwd": "packages/web"
+      }
+    }
+  },
+  "tags": [
+    "scope:packages"
+  ]
 }
