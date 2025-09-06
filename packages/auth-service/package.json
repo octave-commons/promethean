@@ -20,5 +20,8 @@
   "dependencies": {
     "fastify": "^4.28.1",
     "jose": "^5.9.6"
+  },
+  "devDependencies": {
+    "@promethean/pm2-helpers": "workspace:*"
   }
 }
