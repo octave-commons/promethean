@@ -1,5 +1,5 @@
 ---
-uuid: 29676fd0-d3da-46ac-8408-1ef17da73aa6
+uuid: 3a5c8986-257e-4e1e-a005-dd40bb4103c8
 created_at: lispy-macros-with-syntax-rules.md
 filename: Lispy Macros with Syntax Rules
 title: Lispy Macros with Syntax Rules
@@ -634,6 +634,7 @@ export function lowerWithExterns(ast: any, externs: string[] = []): Module {
   return { funs: [], main }; ^ref-cbfe3513-317-0
 }
 ```
+^ref-29676fd0-304-0
 ^ref-cbfe3513-304-0
 ^ref-cbfe3513-319-0
 
@@ -733,3 +734,93 @@ console.log(js);
 * **Source maps**: map Lisp spans → JS for friendly stack traces.
  ^ref-cbfe3513-406-0
 Tell me which slice you want next and I’ll shovel more code.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [ollama-llm-provider-for-pseudo-code-transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
+- [Smoke Resonance Visualizations](smoke-resonance-visualizations.md)
+- [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
+- [Tracing the Signal](tracing-the-signal.md)
+- [ts-to-lisp-transpiler](ts-to-lisp-transpiler.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [Unique Concepts](unique-concepts.md)
+- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
+- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [Docops Feature Updates](docops-feature-updates.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [graph-ds](graph-ds.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
+- [ChatGPT Custom Prompts](chatgpt-custom-prompts.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+## Sources
+- [Smoke Resonance Visualizations — L483](smoke-resonance-visualizations.md#^ref-ac9d3ac5-483-0) (line 483, col 0, score 1)
+- [Stateful Partitions and Rebalancing — L1321](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-1321-0) (line 1321, col 0, score 1)
+- [Tracing the Signal — L561](tracing-the-signal.md#^ref-c3cd4f65-561-0) (line 561, col 0, score 1)
+- [ts-to-lisp-transpiler — L522](ts-to-lisp-transpiler.md#^ref-ba11486b-522-0) (line 522, col 0, score 1)
+- [typed-struct-compiler — L1015](typed-struct-compiler.md#^ref-78eeedf7-1015-0) (line 1015, col 0, score 1)
+- [TypeScript Patch for Tool Calling Support — L1228](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-1228-0) (line 1228, col 0, score 1)
+- [Unique Concepts — L173](unique-concepts.md#^ref-ed6f3fc9-173-0) (line 173, col 0, score 1)
+- [zero-copy-snapshots-and-workers — L1057](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1057-0) (line 1057, col 0, score 1)
+- [Canonical Org-Babel Matplotlib Animation Template — L513](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-513-0) (line 513, col 0, score 1)
+- [Agent Reflections and Prompt Evolution — L618](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-618-0) (line 618, col 0, score 1)
+- [ChatGPT Custom Prompts — L187](chatgpt-custom-prompts.md#^ref-930054b3-187-0) (line 187, col 0, score 1)
+- [Chroma Toolkit Consolidation Plan — L999](chroma-toolkit-consolidation-plan.md#^ref-5020e892-999-0) (line 999, col 0, score 1)
+- [typed-struct-compiler — L1016](typed-struct-compiler.md#^ref-78eeedf7-1016-0) (line 1016, col 0, score 1)
+- [Unique Concepts — L175](unique-concepts.md#^ref-ed6f3fc9-175-0) (line 175, col 0, score 1)
+- [Unique Info Dump Index — L1221](unique-info-dump-index.md#^ref-30ec3ba6-1221-0) (line 1221, col 0, score 1)
+- [zero-copy-snapshots-and-workers — L1058](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1058-0) (line 1058, col 0, score 1)
+- [Canonical Org-Babel Matplotlib Animation Template — L515](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-515-0) (line 515, col 0, score 1)
+- [Creative Moments — L251](creative-moments.md#^ref-10d98225-251-0) (line 251, col 0, score 1)
+- [Duck's Attractor States — L559](ducks-attractor-states.md#^ref-13951643-559-0) (line 559, col 0, score 1)
+- [eidolon-field-math-foundations — L1033](eidolon-field-math-foundations.md#^ref-008f2ac0-1033-0) (line 1033, col 0, score 1)
+- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
+- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
+- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
+- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
+- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
+- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
+- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
+- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
+- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
+- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
+- [ollama-llm-provider-for-pseudo-code-transpiler — L1](ollama-llm-provider-for-pseudo-code-transpiler.md#^ref-cce2f5f9-1-0) (line 1, col 0, score 1)
+- [ollama-llm-provider-for-pseudo-code-transpiler — L7](ollama-llm-provider-for-pseudo-code-transpiler.md#^ref-cce2f5f9-7-0) (line 7, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L113](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-113-0) (line 113, col 0, score 0.95)
+- [Duck's Attractor States — L151](ducks-attractor-states.md#^ref-13951643-151-0) (line 151, col 0, score 0.95)
+- [Duck's Self-Referential Perceptual Loop — L110](ducks-self-referential-perceptual-loop.md#^ref-71726f04-110-0) (line 110, col 0, score 0.95)
+- [Dynamic Context Model for Web Components — L492](dynamic-context-model-for-web-components.md#^ref-f7702bf8-492-0) (line 492, col 0, score 0.95)
+- [Eidolon Field Abstract Model — L265](eidolon-field-abstract-model.md#^ref-5e8b2388-265-0) (line 265, col 0, score 0.95)
+- [Factorio AI with External Agents — L253](factorio-ai-with-external-agents.md#^ref-a4d90289-253-0) (line 253, col 0, score 0.95)
+- [field-dynamics-math-blocks — L224](field-dynamics-math-blocks.md#^ref-7cfc230d-224-0) (line 224, col 0, score 0.95)
+- [field-node-diagram-outline — L196](field-node-diagram-outline.md#^ref-1f32c94a-196-0) (line 196, col 0, score 0.95)
+- [field-node-diagram-set — L222](field-node-diagram-set.md#^ref-22b989d5-222-0) (line 222, col 0, score 0.95)
+- [Functional Embedding Pipeline Refactor — L409](functional-embedding-pipeline-refactor.md#^ref-a4a25141-409-0) (line 409, col 0, score 0.95)
+- [Functional Refactor of TypeScript Document Processing — L227](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-227-0) (line 227, col 0, score 0.95)
+- [heartbeat-fragment-demo — L200](heartbeat-fragment-demo.md#^ref-dd00677a-200-0) (line 200, col 0, score 0.95)
+- [set-assignment-in-lisp-ast — L60](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-60-0) (line 60, col 0, score 0.94)
+- [compiler-kit-foundations — L366](compiler-kit-foundations.md#^ref-01b21543-366-0) (line 366, col 0, score 0.94)
+- [Interop and Source Maps — L322](interop-and-source-maps.md#^ref-cdfac40c-322-0) (line 322, col 0, score 0.93)
+- [State Snapshots API and Transactional Projector — L303](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0) (line 303, col 0, score 0.91)
+- [Interop and Source Maps — L426](interop-and-source-maps.md#^ref-cdfac40c-426-0) (line 426, col 0, score 0.87)
+- [Lisp-Compiler-Integration — L459](lisp-compiler-integration.md#^ref-cfee6d36-459-0) (line 459, col 0, score 0.87)
+- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.87)
+- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.87)
+- [Event Bus MVP — L527](event-bus-mvp.md#^ref-534fe91d-527-0) (line 527, col 0, score 0.87)
+- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.87)
+- [Cross-Language Runtime Polymorphism — L134](cross-language-runtime-polymorphism.md#^ref-c34c36a6-134-0) (line 134, col 0, score 0.86)
+- [Interop and Source Maps — L498](interop-and-source-maps.md#^ref-cdfac40c-498-0) (line 498, col 0, score 0.86)
+- [Promethean Event Bus MVP v0.1 — L973](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-973-0) (line 973, col 0, score 0.86)
+- [refactor-relations — L10](refactor-relations.md#^ref-41ce0216-10-0) (line 10, col 0, score 0.85)
+- [js-to-lisp-reverse-compiler — L343](js-to-lisp-reverse-compiler.md#^ref-58191024-343-0) (line 343, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

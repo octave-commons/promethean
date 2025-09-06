@@ -1,19 +1,18 @@
 ---
-uuid: c50a5705-d76b-447e-a280-7d7d0eea7ce2
+uuid: 16f12b4a-497f-46a0-af93-7e5ef57451fd
 created_at: python-services-ci.md
 filename: Python Services CI
 title: Python Services CI
 description: >-
-  This CI pipeline runs tests for Python services in a monorepo. It uses a
-  matrix strategy to test multiple services (e.g., stt, tts) in parallel. The
-  pipeline checks code changes in the services directory and executes pytest
-  with specific flags.
+  A GitHub Actions workflow that runs Python tests for multiple services in a
+  monorepo. It uses a matrix strategy to test each service independently with
+  specific dependencies and test commands.
 tags:
-  - ci
+  - github-actions
   - python
+  - ci
   - monorepo
   - pytest
-  - matrix
   - services
 related_to_uuid:
   - c54611b2-b773-43b5-ae69-ed711f1652c1
@@ -60,6 +59,7 @@ jobs:
           cd services/${{ matrix.service }}
           python -m pytest --maxfail=1 --disable-warnings -q
 ```
+^ref-4c951657-1-0
 bde7b416a8
     line: 68
     col: 0
@@ -112,3 +112,9 @@ jobs:
           cd services/${{ matrix.service }}
           python -m pytest --maxfail=1 --disable-warnings -q
 ```
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [promethean-notes](promethean-notes.md)
+## Sources
+- [promethean-notes — L2](promethean-notes.md#^ref-c54611b2-2-0) (line 2, col 0, score 1)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

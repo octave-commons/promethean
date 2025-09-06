@@ -1,5 +1,5 @@
 ---
-uuid: cd8f10e6-68d7-4b29-bdfd-3a6614d99229
+uuid: 81be89a6-ee6d-42a6-bea6-8ed2b8cfd499
 created_at: promethean-agent-config-dsl.md
 filename: promethean-agent-config-dsl
 title: promethean-agent-config-dsl
@@ -469,3 +469,40 @@ flowchart LR
 --- ^ref-2c00ce45-326-0
  ^ref-2c00ce45-316-0
 *End Draft v1 — ready for iteration.*
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [promethean-system-diagrams](promethean-system-diagrams.md)
+- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
+- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
+- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
+- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
+- [i3-layout-saver](i3-layout-saver.md)
+- [file-watcher-auth-fix](file-watcher-auth-fix.md)
+- [template-based-compilation](template-based-compilation.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [mystery-lisp-search-session](mystery-lisp-search-session.md)
+- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
+- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
+- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [Vectorial Exception Descent](vectorial-exception-descent.md)
+- [Promethean-native config design](promethean-native-config-design.md)
+- [sibilant-macro-targets](sibilant-macro-targets.md)
+- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+## Sources
+- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.88)
+- [markdown-to-org-transpiler — L272](markdown-to-org-transpiler.md#^ref-ab54cdd8-272-0) (line 272, col 0, score 0.88)
+- [Lisp-Compiler-Integration — L523](lisp-compiler-integration.md#^ref-cfee6d36-523-0) (line 523, col 0, score 0.88)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 0.87)
+- [Promethean Agent DSL TS Scaffold — L818](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-818-0) (line 818, col 0, score 0.86)
+- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.86)
+- [Event Bus Projections Architecture — L111](event-bus-projections-architecture.md#^ref-cf6b9b17-111-0) (line 111, col 0, score 0.85)
+- [i3-layout-saver — L79](i3-layout-saver.md#^ref-31f0166e-79-0) (line 79, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

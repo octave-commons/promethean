@@ -1,5 +1,5 @@
 ---
-uuid: aa437a1f-eb7e-4096-a6cc-98d2eeeef8c5
+uuid: ac45b1d1-f702-4dae-a276-fbdaa0c3d1bf
 created_at: prometheus-observability-stack.md
 filename: Prometheus Observability Stack
 title: Prometheus Observability Stack
@@ -19,613 +19,587 @@ tags:
   - traefik
   - nginx
 related_to_uuid:
-  - aa88652d-c8e5-4a1b-850e-afdf7fe15dae
-  - 7d584c12-7517-4f30-8378-34ac9fc3a3f8
-  - 4316c3f9-551f-4872-b5c5-98ae73508535
-  - 672da53b-d8ac-48cd-9cb3-e3fa9915dd6a
-  - 2c9f86e6-9b63-44d7-902d-84b10b0bdbe3
-  - abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
-  - 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-  - 40bc2ba7-9c5c-4f72-8f88-17bef3c6163f
-  - 740bbd1c-c039-405c-8a32-4baeddfb5637
-  - 0f203aa7-c96d-4323-9b9e-bbc438966e8c
-  - e4317155-7fa6-44e8-8aee-b72384581790
-  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
-  - 8802d059-6b36-4e56-bb17-6a80a7dba599
-  - 73d64bce-f428-4735-a3d0-6225a0588e46
-  - e2955491-020a-4009-b7ed-a5a348c63cfd
-  - 7842d43c-7d13-46f0-bdf1-561f5e4c6f53
-  - 50ac7389-a75e-476a-ab34-bb24776d4f38
-  - c2ba3d27-5b24-4345-9cf2-5cf296f8b03d
-  - 4d8cbf01-e44a-452f-96a0-17bde7b416a8
-  - bdca8ded-0e64-417b-a258-4528829c4704
-  - f0528a41-be17-4213-b5bc-7d37fcbef0e0
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - f5579967-762d-4cfd-851e-4f71b4cb77a1
+  - ae24a280-678e-4c0b-8cc4-56667fa04172
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - a4a25141-6380-40b9-9cd7-b554b246b303
+  - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
+  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
+  - a4d90289-798d-44a0-a8e8-a055ae12fb52
+  - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+  - ca8e1399-77bf-4f77-82a3-3f703b68706d
+  - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+  - 78eeedf7-75bc-4692-a5a7-bb6857270621
+  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
 related_to_title:
-  - Promethean Web UI Setup
-  - promethean-native-config-design
-  - WebSocket Gateway Implementation
-  - Factorio AI with External Agents
-  - Field Node Diagrams
-  - RAG UI Panel with Qdrant and PostgREST
-  - Universal Lisp Interface
-  - Lean AGENT Setup
-  - heartbeat-fragment-demo
-  - schema-evolution-workflow
-  - TypeScript Patch for Tool Calling Support
+  - Dynamic Context Model for Web Components
+  - windows-tiling-with-autohotkey
+  - Performance-Optimized-Polyglot-Bridge
+  - Promethean-Copilot-Intent-Engine
+  - Fnord Tracer Protocol
+  - Functional Embedding Pipeline Refactor
+  - graph-ds
+  - i3-bluetooth-setup
+  - Chroma Toolkit Consolidation Plan
   - polyglot-repl-interface-layer
-  - agent-tasks-persistence-migration-to-dualstore
-  - Voice Access Layer Design
-  - chroma-toolkit-consolidation-plan
-  - promethean-infrastructure-setup
-  - promethean-full-stack-docker-setup
-  - observability-infrastructure-setup
-  - pure-node-crawl-stack-with-playwright-and-crawlee
-  - Pure TypeScript Search Microservice
-  - local-offline-model-deployment-strategy
+  - Model Selection for Lightweight Conversational Tasks
+  - Eidolon Field Abstract Model
+  - field-dynamics-math-blocks
+  - field-interaction-equations
+  - zero-copy-snapshots-and-workers
+  - Duck's Self-Referential Perceptual Loop
+  - Factorio AI with External Agents
+  - DuckDuckGoSearchPipeline
+  - Obsidian ChatGPT Plugin Integration
+  - Obsidian Templating Plugins Integration Guide
+  - Debugging Broker Connections and Agent Behavior
+  - eidolon-node-lifecycle
+  - typed-struct-compiler
+  - TypeScript Patch for Tool Calling Support
+  - Promethean Infrastructure Setup
 references:
-  - uuid: aa88652d-c8e5-4a1b-850e-afdf7fe15dae
-    line: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 226
     col: 0
     score: 1
-  - uuid: 7d584c12-7517-4f30-8378-34ac9fc3a3f8
-    line: 100
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 705
     col: 0
-    score: 0.87
-  - uuid: 4316c3f9-551f-4872-b5c5-98ae73508535
-    line: 451
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 719
     col: 0
-    score: 0.87
-  - uuid: 672da53b-d8ac-48cd-9cb3-e3fa9915dd6a
-    line: 89
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 601
     col: 0
-    score: 0.86
-  - uuid: 2c9f86e6-9b63-44d7-902d-84b10b0bdbe3
-    line: 27
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 1060
     col: 0
-    score: 0.86
-  - uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
-    line: 47
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 726
     col: 0
-    score: 0.86
-  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-    line: 56
+    score: 1
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 996
     col: 0
-    score: 0.86
-  - uuid: 740bbd1c-c039-405c-8a32-4baeddfb5637
-    line: 100
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 667
     col: 0
-    score: 0.86
-  - uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
-    line: 137
+    score: 1
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 736
     col: 0
-    score: 0.86
-  - uuid: 740bbd1c-c039-405c-8a32-4baeddfb5637
-    line: 88
+    score: 1
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 645
     col: 0
-    score: 0.86
-  - uuid: 40bc2ba7-9c5c-4f72-8f88-17bef3c6163f
+    score: 1
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 739
+    col: 0
+    score: 1
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 816
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 44
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 61
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 99
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 80
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 405
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 216
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 189
+    col: 0
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 172
+    col: 0
+    score: 1
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 175
+    col: 0
+    score: 1
+  - uuid: 86a691ec-ca1f-4350-824c-0ded1f8ebe70
+    line: 90
+    col: 0
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 298
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 48
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 38
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
     line: 51
     col: 0
-    score: 0.86
-  - uuid: 2c9f86e6-9b63-44d7-902d-84b10b0bdbe3
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 79
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 77
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 115
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 61
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 212
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 150
+    col: 0
+    score: 1
+  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
+    line: 86
+    col: 0
+    score: 1
+  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
+    line: 49
+    col: 0
+    score: 1
+  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
+    line: 59
+    col: 0
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
     line: 76
     col: 0
-    score: 0.85
-  - uuid: 4316c3f9-551f-4872-b5c5-98ae73508535
-    line: 56
+    score: 1
+  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
+    line: 80
     col: 0
-    score: 0.85
-  - uuid: 2c9f86e6-9b63-44d7-902d-84b10b0bdbe3
+    score: 1
+  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
+    line: 48
+    col: 0
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 120
+    col: 0
+    score: 1
+  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
+    line: 169
+    col: 0
+    score: 1
+  - uuid: b3555ede-324a-4d24-a885-b0721e74babf
+    line: 74
+    col: 0
+    score: 1
+  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
+    line: 171
+    col: 0
+    score: 1
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 262
+    col: 0
+    score: 1
+  - uuid: b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
+    line: 84
+    col: 0
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 314
+    col: 0
+    score: 1
+  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
+    line: 26
+    col: 0
+    score: 1
+  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
+    line: 10
+    col: 0
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 43
+    col: 0
+    score: 1
+  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
+    line: 82
+    col: 0
+    score: 1
+  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
+    line: 37
+    col: 0
+    score: 1
+  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
+    line: 68
+    col: 0
+    score: 1
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 294
+    col: 0
+    score: 1
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 532
+    col: 0
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 456
+    col: 0
+    score: 1
+  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
+    line: 17
+    col: 0
+    score: 1
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 1035
+    col: 0
+    score: 1
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 313
+    col: 0
+    score: 1
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 255
+    col: 0
+    score: 1
+  - uuid: 86a691ec-ca1f-4350-824c-0ded1f8ebe70
+    line: 93
+    col: 0
+    score: 1
+  - uuid: b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
+    line: 98
+    col: 0
+    score: 1
+  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
+    line: 65
+    col: 0
+    score: 1
+  - uuid: 5f65dfa5-dc97-4a6c-ad93-c45c1312e156
     line: 63
     col: 0
-    score: 0.85
-  - uuid: 4316c3f9-551f-4872-b5c5-98ae73508535
-    line: 449
+    score: 1
+  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
+    line: 226
     col: 0
-    score: 0.85
-  - uuid: 0f203aa7-c96d-4323-9b9e-bbc438966e8c
-    line: 536
+    score: 1
+  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
+    line: 123
     col: 0
-    score: 0.85
+    score: 1
+  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
+    line: 38
+    col: 0
+    score: 1
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 1090
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 366
+    col: 0
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 219
+    col: 0
+    score: 1
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 258
+    col: 0
+    score: 1
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 161
+    col: 0
+    score: 1
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 267
+    col: 0
+    score: 1
+  - uuid: b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
+    line: 100
+    col: 0
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 388
+    col: 0
+    score: 1
+  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
+    line: 69
+    col: 0
+    score: 1
+  - uuid: 5f65dfa5-dc97-4a6c-ad93-c45c1312e156
+    line: 67
+    col: 0
+    score: 1
+  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
+    line: 234
+    col: 0
+    score: 1
+  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
+    line: 129
+    col: 0
+    score: 1
+  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
+    line: 74
+    col: 0
+    score: 1
+  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
+    line: 130
+    col: 0
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 131
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 85
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 93
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 64
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 153
+    col: 0
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 141
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 28
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 65
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 86
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 123
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 34
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 442
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 218
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 176
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 70
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 148
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 36
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 166
+    col: 0
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 148
+    col: 0
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 153
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 118
+    col: 0
+    score: 1
 ---
-got it. here’s a plug-and-play `docker-compose.yaml` that wires up everything with **profiles** so you can bring up only what you need. it assumes your infra lives under `./infra/**` (kept away from app source), and everything sits on one internal network `prom-net`. reverse proxy is optional (`traefik` or `nginx`—pick one). ^ref-e90b5a16-1-0
 
-> start examples ^ref-e90b5a16-3-0
-> `docker compose --profile observability up -d`
-> `docker compose --profile ai --profile data --profile edge up -d`
-
-```yaml
-version: "3.9"
-
-networks:
-  prom-net:
-    driver: bridge
-
-# central volumes (adjust paths as you like)
-volumes:
-  grafana_data:
-  prometheus_data:
-  loki_data:
-  tempo_data:
-  postgres_data:
-  mongo_data:
-  redis_data:
-  meili_data:
-  minio_data:
-  portainer_data:
-  gitea_data:
-  drone_data:
-  woodpecker_data:
-  sonarqube_data:
-  nats_data:
-  rabbitmq_data:
-  mosquitto_data:
-  temporal_data:
-  airflow_db_data:
-  airflow_dags_data:
-  code_server_data:
-  opensearch_data:
-
-# ---------- EDGE (choose one) ----------
-services:
-  traefik:
-    profiles: ["edge"]
-    image: traefik:v3.1
-    command:
-      - "--providers.docker=true"
-      - "--entrypoints.web.address=:80"
-      # uncomment if using tls
-      # - "--entrypoints.websecure.address=:443"
-      # - "--certificatesresolvers.le.acme.tlschallenge=true"
-      # - "--certificatesresolvers.le.acme.email=${ACME_EMAIL}"
-      # - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
-    ports:
-      - "80:80"
-      # - "443:443"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      # - ./infra/traefik/letsencrypt:/letsencrypt
-    networks: [prom-net]
-    restart: unless-stopped
-
-  edge-nginx:
-    profiles: ["edge"]
-    image: nginx:1.27-alpine
-    ports: ["80:80"]
-    volumes:
-      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./infra/nginx/secrets:/etc/nginx/secrets:ro
-    networks: [prom-net]
-    restart: unless-stopped
-
-# ---------- OBSERVABILITY ----------
-  prometheus:
-    profiles: ["observability"]
-    image: prom/prometheus:v3.0.0
-    volumes:
-      - prometheus_data:/prometheus
-      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-    networks: [prom-net]
-    restart: unless-stopped
-
-  grafana:
-    profiles: ["observability"]
-    image: grafana/grafana:11.2.0
-    environment:
-      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER:-admin}
-      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASS:-admin}
-    volumes:
-      - grafana_data:/var/lib/grafana
-      - ./infra/grafana/provisioning:/etc/grafana/provisioning
-    ports:
-      - "3000:3000"
-    networks: [prom-net]
-    restart: unless-stopped
-
-  loki:
-    profiles: ["observability"]
-    image: grafana/loki:3.1.1
-    command: ["-config.file=/etc/loki/loki-config.yaml"]
-    volumes:
-      - loki_data:/loki
-      - ./infra/loki/loki-config.yaml:/etc/loki/loki-config.yaml:ro
-    networks: [prom-net]
-    restart: unless-stopped
-
-  promtail:
-    profiles: ["observability"]
-    image: grafana/promtail:3.1.1
-    command: ["-config.file=/etc/promtail/config.yaml"]
-    volumes:
-      - /var/log:/var/log:ro
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - ./infra/promtail/config.yaml:/etc/promtail/config.yaml:ro
-    networks: [prom-net]
-    restart: unless-stopped
-
-  tempo:
-    profiles: ["observability"]
-    image: grafana/tempo:2.6.0
-    command: ["-config.file=/etc/tempo/tempo.yaml"]
-    volumes:
-      - tempo_data:/var/tempo
-      - ./infra/tempo/tempo.yaml:/etc/tempo/tempo.yaml:ro
-    networks: [prom-net]
-    restart: unless-stopped
-
-  cadvisor:
-    profiles: ["observability"]
-    image: gcr.io/cadvisor/cadvisor:v0.49.2
-    privileged: true
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-    ports:
-      - "8080:8080"
-    networks: [prom-net]
-    restart: unless-stopped
-
-  node_exporter:
-    profiles: ["observability"]
-    image: prom/node-exporter:v1.8.2
-    pid: host
-    network_mode: host
-    restart: unless-stopped
-
-  portainer:
-    profiles: ["observability"]
-    image: portainer/portainer-ce:2.21.5
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-    ports:
-      - "9443:9443"
-    networks: [prom-net]
-    restart: unless-stopped
-
-# ---------- DATA LAYER ----------
-  postgres:
-    profiles: ["data"]
-    image: postgres:16-alpine
-    environment:
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-      - POSTGRES_USER=${POSTGRES_USER:-postgres}
-      - POSTGRES_DB=${POSTGRES_DB:-app}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports: ["5432:5432"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-  mongo:
-    profiles: ["data"]
-    image: mongo:7
-    volumes:
-      - mongo_data:/data/db
-    ports: ["27017:27017"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-  redis:
-    profiles: ["data"]
-    image: redis:7-alpine
-    command: ["redis-server","--appendonly","yes"]
-    volumes:
-      - redis_data:/data
-    ports: ["6379:6379"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-  meilisearch:
-    profiles: ["data","search"]
-    image: getmeili/meilisearch:v1.12
-    environment:
-      - MEILI_NO_ANALYTICS=true
-      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY:-meili}
-    volumes:
-      - meili_data:/meili_data
-    ports: ["7700:7700"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-  minio:
-    profiles: ["data"]
-    image: minio/minio:RELEASE.2025-08-07T14-25-00Z
-    command: ["server","/data","--console-address",":9001"]
-    environment:
-      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minio}
-      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minio123}
-    volumes:
-      - minio_data:/data
-    ports:
-      - "9000:9000"
-      - "9001:9001"
-    networks: [prom-net]
-    restart: unless-stopped
-
-  opensearch:
-    profiles: ["data","search"]
-    image: opensearchproject/opensearch:2.17.0
-    environment:
-      - discovery.type=single-node
-      - plugins.security.disabled=true
-      - bootstrap.memory_lock=true
-      - OPENSEARCH_JAVA_OPTS=-Xms2g -Xmx2g
-    ulimits:
-      memlock: { soft: -1, hard: -1 }
-      nofile:  { soft: 65535, hard: 65535 }
-    volumes:
-      - opensearch_data:/usr/share/opensearch/data
-    ports: ["9200:9200","9600:9600"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-# ---------- AI / ML ----------
-  ollama:
-    profiles: ["ai"]
-    image: ollama/ollama:0.3.14
-    environment:
-      - OLLAMA_KEEP_ALIVE=24h
-      # enable one of: NVIDIA, ROCR, CPU, or Intel iGPU/NPU via oneAPI host libs
-      - NVIDIA_VISIBLE_DEVICES=all
-      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: ["gpu"]
-              driver: "nvidia"
-    volumes:
-      - /usr/share/fonts:/usr/share/fonts:ro
-      - ./infra/ollama:/root/.ollama
-    ports: ["11434:11434"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-  tei-embeddings:
-    profiles: ["ai"]
-    image: ghcr.io/huggingface/text-embeddings-inference:1.6
-    environment:
-      - MODEL_ID=${TEI_MODEL:-nomic-ai/nomic-embed-text-v1.5}
-      - NUM_SHARD=1
-    ports: ["8081:80"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-  tei-clip:
-    profiles: ["ai","vision"]
-    image: ghcr.io/huggingface/text-embeddings-inference:1.6
-    environment:
-      - MODEL_ID=${CLIP_MODEL:-openai/clip-vit-large-patch14}
-      - TASK=feature-extraction
-    ports: ["8082:80"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-  haystack:
-    profiles: ["ai","rag"]
-    image: deepset/haystack:base
-    environment:
-      - PIPELINE_YAML=/app/pipelines/default.yaml
-    volumes:
-      - ./infra/haystack:/app/pipelines
-    ports: ["8000:8000"]
-    networks: [prom-net]
-    restart: unless-stopped
-    depends_on: [opensearch, meilisearch, postgres]
-
-# ---------- WEB SEARCH / CRAWLING ----------
-  scrapy:
-    profiles: ["crawl"]
-    image: ghcr.io/scrapy/scrapy:2.11
-    working_dir: /workspace
-    volumes:
-      - ./infra/scrapy:/workspace
-    networks: [prom-net]
-    restart: unless-stopped
-
-  playwright:
-    profiles: ["crawl"]
-    image: mcr.microsoft.com/playwright:v1.47.2-jammy
-    shm_size: 1gb
-    environment:
-      - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
-    volumes:
-      - ./infra/playwright:/work
-    networks: [prom-net]
-    restart: unless-stopped
-
-  selenium:
-    profiles: ["crawl"]
-    image: selenium/standalone-chromium:4.24.0
-    shm_size: 2gb
-    ports: ["4444:4444","7900:7900"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-# ---------- DEV TOOLING ----------
-  sonarqube:
-    profiles: ["devtools"]
-    image: sonarqube:lts-community
-    environment:
-      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
-    volumes:
-      - sonarqube_data:/opt/sonarqube/data
-    ports: ["9002:9000"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-  gitea:
-    profiles: ["devtools"]
-    image: gitea/gitea:1.22.3
-    environment:
-      - USER_UID=1000
-      - USER_GID=1000
-    volumes:
-      - gitea_data:/data
-    ports:
-      - "3001:3000"
-      - "222:22"
-    networks: [prom-net]
-    restart: unless-stopped
-
-  drone-server:
-    profiles: ["devtools","ci"]
-    image: drone/drone:2
-    environment:
-      - DRONE_GITEA_SERVER=
-      - DRONE_RPC_SECRET=${DRONE_RPC_SECRET:-drone-secret}
-      - DRONE_SERVER_HOST=${DRONE_SERVER_HOST:-localhost:3003}
-      - DRONE_SERVER_PROTO=http
-    volumes:
-      - drone_data:/data
-    ports: ["3003:80"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-  code-server:
-    profiles: ["devtools"]
-    image: ghcr.io/coder/code-server:4.95.3
-    environment:
-      - PASSWORD=${CODE_SERVER_PASSWORD:-code}
-    volumes:
-      - code_server_data:/home/coder/project
-    ports: ["8443:8443"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-# ---------- SECURITY ----------
-  vaultwarden:
-    profiles: ["security"]
-    image: vaultwarden/server:1.32.7
-    environment:
-      - SIGNUPS_ALLOWED=false
-    volumes:
-      - ./infra/vaultwarden:/data
-    ports: ["8083:80"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-  oauth2-proxy:
-    profiles: ["security"]
-    image: quay.io/oauth2-proxy/oauth2-proxy:v7.6.0
-    environment:
-      - OAUTH2_PROXY_PROVIDER=github
-      - OAUTH2_PROXY_EMAIL_DOMAINS=*
-      - OAUTH2_PROXY_UPSTREAMS=
-      - OAUTH2_PROXY_CLIENT_ID=${OAUTH_CLIENT_ID}
-      - OAUTH2_PROXY_CLIENT_SECRET=${OAUTH_CLIENT_SECRET}
-      - OAUTH2_PROXY_COOKIE_SECRET=${OAUTH_COOKIE_SECRET}
-    ports: ["4180:4180"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-  keycloak:
-    profiles: ["security"]
-    image: quay.io/keycloak/keycloak:26.0
-    command: start-dev
-    environment:
-      - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN:-admin}
-      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD:-admin}
-    ports: ["8084:8080"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-  crowdsec:
-    profiles: ["security"]
-    image: crowdsecurity/crowdsec:latest
-    volumes:
-      - /var/log:/var/log:ro
-      - ./infra/crowdsec:/etc/crowdsec
-    networks: [prom-net]
-    restart: unless-stopped
-
-# ---------- MESSAGING ----------
-  nats:
-    profiles: ["messaging"]
-    image: nats:2.10
-    command: ["-js","-sd","/data"]
-    volumes:
-      - nats_data:/data
-    ports: ["4222:4222","8222:8222"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-  rabbitmq:
-    profiles: ["messaging"]
-    image: rabbitmq:3.13-management
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    networks: [prom-net]
-    restart: unless-stopped
-
-  mosquitto:
-    profiles: ["messaging","iot"]
-    image: eclipse-mosquitto:2.0
-    volumes:
-      - ./infra/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
-      - mosquitto_data:/mosquitto/data
-    ports: ["1883:1883","9002:9001"]
-    networks: [prom-net]
-    restart: unless-stopped
-
-# ---------- WORKFLOWS ----------
-  temporal:
-    profiles: ["workflows"]
-    image: temporalio/auto-setup:1.25.1
-    environment:
-      - DB=postgresql
-      - DB_PORT=5432
-      - POSTGRES_USER=${POSTGRES_USER:-postgres}
-      - POSTGRES_PWD=${POSTGRES_PASSWORD:-postgres}
-      - POSTGRES_SEEDS=postgres
-    depends_on: [postgres]
-    ports:
-      - "7233:7233"
-    networks: [prom-net]
-    restart: unless-stopped
-
-  airflow:
-    profiles: ["workflows"]
-    image: apache/airflow:2.10.2
-    environment:
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/airflow
-      - _AIRFLOW_WWW_USER_USERNAME=${AIRFLOW_USER:-airflow}
-      - _AIRFLOW_WWW_USER_PASSWORD=${AIRFLOW_PASS:-airflow}
-    user: "50000:0"
-    volumes:
-      - airflow_dags_data:/opt/airflow/dags
-      - airflow_db_data:/opt/airflow
-    depends_on: [postgres]
-    ports: ["8085:8080"]
-    networks: [prom-net]
-    restart: unless-stopped
-```
-^ref-e90b5a16-7-0 ^ref-e90b5a16-480-0
-
-### minimal config files you’ll likely want (sane defaults)
- ^ref-e90b5a16-483-0
-* `./infra/prometheus/prometheus.yml` → scrape `prometheus`, `cadvisor`, `node_exporter`, `loki`
-* `./infra/loki/loki-config.yaml` → boltdb-shipper + filesystem ^ref-e90b5a16-485-0
-* `./infra/promtail/config.yaml` → `__path__` for `/var/log/*` and docker container logs
-* `./infra/nginx/nginx.conf` or traefik labels on target services ^ref-e90b5a16-487-0
-* `./infra/mosquitto/mosquitto.conf` → listener 1883 + persistence ^ref-e90b5a16-488-0
-* (optional) `./infra/grafana/provisioning/*` → datasources (Prometheus, Loki, Tempo) pre-wired
-
-### quick wins (bring-up order)
- ^ref-e90b5a16-492-0
-1. `--profile data` (postgres/redis/minio/meili) ^ref-e90b5a16-493-0
-2. `--profile observability` (grafana/prometheus/loki/promtail/cadvisor) ^ref-e90b5a16-494-0
-3. `--profile edge` (traefik or nginx) ^ref-e90b5a16-495-0
-4. `--profile ai` (ollama + tei) ^ref-e90b5a16-496-0
-5. add `--profile messaging`, `--profile workflows`, `--profile crawl` as you need them.
- ^ref-e90b5a16-498-0
-if you want, I can also drop in **ready-to-use** sample configs for Prometheus/Loki/Promtail + pre-provisioned Grafana dashboards so you get graphs on first boot.
- ^ref-e90b5a16-500-0
-\#docker #docker-compose #infrastructure #observability #ai #rag #search #devtools #security #messaging #workflows #prometheus #grafana #loki #ollama #traefik #nginx #postgres #redis #meilisearch #minio
+ ^ref-e90b5a16-480-0 ^ref-e90b5a16-483-0 ^ref-e90b5a16-512-0 ^ref-e90b5a16-559-0 ^ref-e90b5a16-570-0 ^ref-e90b5a16-575-0 ^ref-e90b5a16-579-0 ^ref-e90b5a16-589-0 ^ref-e90b5a16-615-0 ^ref-e90b5a16-625-0 ^ref-e90b5a16-863-0 ^ref-e90b5a16-908-0 ^ref-e90b5a16-926-0 ^ref-e90b5a16-1103-0 ^ref-e90b5a16-1173-0 ^ref-e90b5a16-2351-0 ^ref-e90b5a16-2534-0
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
+- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [graph-ds](graph-ds.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [polyglot-repl-interface-layer](polyglot-repl-interface-layer.md)
+- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
+- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [field-interaction-equations](field-interaction-equations.md)
+- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
+- [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
+- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
+- [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
+- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
+- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
+- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
+- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+## Sources
+- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
+- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
+- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
+- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
+- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
+- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
+- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
+- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
+- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
+- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
+- [Docops Feature Updates — L44](docops-feature-updates-3.md#^ref-cdbd21ee-44-0) (line 44, col 0, score 1)
+- [Docops Feature Updates — L61](docops-feature-updates.md#^ref-2792d448-61-0) (line 61, col 0, score 1)
+- [Duck's Attractor States — L99](ducks-attractor-states.md#^ref-13951643-99-0) (line 99, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L80](ducks-self-referential-perceptual-loop.md#^ref-71726f04-80-0) (line 80, col 0, score 1)
+- [Dynamic Context Model for Web Components — L405](dynamic-context-model-for-web-components.md#^ref-f7702bf8-405-0) (line 405, col 0, score 1)
+- [Eidolon Field Abstract Model — L216](eidolon-field-abstract-model.md#^ref-5e8b2388-216-0) (line 216, col 0, score 1)
+- [Factorio AI with External Agents — L189](factorio-ai-with-external-agents.md#^ref-a4d90289-189-0) (line 189, col 0, score 1)
+- [field-interaction-equations — L172](field-interaction-equations.md#^ref-b09141b7-172-0) (line 172, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L175](layer1survivabilityenvelope.md#^ref-64a9f9f9-175-0) (line 175, col 0, score 1)
+- [Mathematical Samplers — L90](mathematical-samplers.md#^ref-86a691ec-90-0) (line 90, col 0, score 1)
+- [Migrate to Provider-Tenant Architecture — L298](migrate-to-provider-tenant-architecture.md#^ref-54382370-298-0) (line 298, col 0, score 1)
+- [Promethean Chat Activity Report — L48](promethean-chat-activity-report.md#^ref-18344cf9-48-0) (line 48, col 0, score 1)
+- [Creative Moments — L38](creative-moments.md#^ref-10d98225-38-0) (line 38, col 0, score 1)
+- [Docops Feature Updates — L51](docops-feature-updates-3.md#^ref-cdbd21ee-51-0) (line 51, col 0, score 1)
+- [Docops Feature Updates — L79](docops-feature-updates.md#^ref-2792d448-79-0) (line 79, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L77](duckduckgosearchpipeline.md#^ref-e979c50f-77-0) (line 77, col 0, score 1)
+- [Duck's Attractor States — L115](ducks-attractor-states.md#^ref-13951643-115-0) (line 115, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L61](ducks-self-referential-perceptual-loop.md#^ref-71726f04-61-0) (line 61, col 0, score 1)
+- [Eidolon Field Abstract Model — L212](eidolon-field-abstract-model.md#^ref-5e8b2388-212-0) (line 212, col 0, score 1)
+- [eidolon-field-math-foundations — L150](eidolon-field-math-foundations.md#^ref-008f2ac0-150-0) (line 150, col 0, score 1)
+- [Model Upgrade Calm-Down Guide — L86](model-upgrade-calm-down-guide.md#^ref-db74343f-86-0) (line 86, col 0, score 1)
+- [NPU Voice Code and Sensory Integration — L49](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-49-0) (line 49, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration Guide — L59](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-59-0) (line 59, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration — L76](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-76-0) (line 76, col 0, score 1)
+- [obsidian-ignore-node-modules-regex — L80](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-80-0) (line 80, col 0, score 1)
+- [Obsidian Task Generation — L48](obsidian-task-generation.md#^ref-9b694a91-48-0) (line 48, col 0, score 1)
+- [Obsidian Templating Plugins Integration Guide — L120](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-120-0) (line 120, col 0, score 1)
+- [Reawakening Duck — L169](reawakening-duck.md#^ref-59b5670f-169-0) (line 169, col 0, score 1)
+- [Redirecting Standard Error — L74](redirecting-standard-error.md#^ref-b3555ede-74-0) (line 74, col 0, score 1)
+- [ripple-propagation-demo — L171](ripple-propagation-demo.md#^ref-8430617b-171-0) (line 171, col 0, score 1)
+- [komorebi-group-window-hack — L262](komorebi-group-window-hack.md#^ref-dd89372d-262-0) (line 262, col 0, score 1)
+- [Mathematics Sampler — L84](mathematics-sampler.md#^ref-b5e0183e-84-0) (line 84, col 0, score 1)
+- [Migrate to Provider-Tenant Architecture — L314](migrate-to-provider-tenant-architecture.md#^ref-54382370-314-0) (line 314, col 0, score 1)
+- [Mindful Prioritization — L26](mindful-prioritization.md#^ref-40185d05-26-0) (line 26, col 0, score 1)
+- [NPU Voice Code and Sensory Integration — L10](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-10-0) (line 10, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration — L43](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-43-0) (line 43, col 0, score 1)
+- [obsidian-ignore-node-modules-regex — L82](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-82-0) (line 82, col 0, score 1)
+- [Obsidian Task Generation — L37](obsidian-task-generation.md#^ref-9b694a91-37-0) (line 37, col 0, score 1)
+- [OpenAPI Validation Report — L68](openapi-validation-report.md#^ref-5c152b08-68-0) (line 68, col 0, score 1)
+- [ParticleSimulationWithCanvasAndFFmpeg — L294](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-294-0) (line 294, col 0, score 1)
+- [Per-Domain Policy System for JS Crawler — L532](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-532-0) (line 532, col 0, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L456](performance-optimized-polyglot-bridge.md#^ref-f5579967-456-0) (line 456, col 0, score 1)
+- [Pipeline Enhancements — L17](pipeline-enhancements.md#^ref-e2135d9f-17-0) (line 17, col 0, score 1)
+- [plan-update-confirmation — L1035](plan-update-confirmation.md#^ref-b22d79c6-1035-0) (line 1035, col 0, score 1)
+- [komorebi-group-window-hack — L313](komorebi-group-window-hack.md#^ref-dd89372d-313-0) (line 313, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L255](layer1survivabilityenvelope.md#^ref-64a9f9f9-255-0) (line 255, col 0, score 1)
+- [Mathematical Samplers — L93](mathematical-samplers.md#^ref-86a691ec-93-0) (line 93, col 0, score 1)
+- [Mathematics Sampler — L98](mathematics-sampler.md#^ref-b5e0183e-98-0) (line 98, col 0, score 1)
+- [Mindful Prioritization — L65](mindful-prioritization.md#^ref-40185d05-65-0) (line 65, col 0, score 1)
+- [MindfulRobotIntegration — L63](mindfulrobotintegration.md#^ref-5f65dfa5-63-0) (line 63, col 0, score 1)
+- [Model Selection for Lightweight Conversational Tasks — L226](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-226-0) (line 226, col 0, score 1)
+- [Model Upgrade Calm-Down Guide — L123](model-upgrade-calm-down-guide.md#^ref-db74343f-123-0) (line 123, col 0, score 1)
+- [Pipeline Enhancements — L38](pipeline-enhancements.md#^ref-e2135d9f-38-0) (line 38, col 0, score 1)
+- [plan-update-confirmation — L1090](plan-update-confirmation.md#^ref-b22d79c6-1090-0) (line 1090, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L366](functional-embedding-pipeline-refactor.md#^ref-a4a25141-366-0) (line 366, col 0, score 1)
+- [heartbeat-fragment-demo — L219](heartbeat-fragment-demo.md#^ref-dd00677a-219-0) (line 219, col 0, score 1)
+- [homeostasis-decay-formulas — L258](homeostasis-decay-formulas.md#^ref-37b5d236-258-0) (line 258, col 0, score 1)
+- [Ice Box Reorganization — L161](ice-box-reorganization.md#^ref-291c7d91-161-0) (line 161, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L267](layer1survivabilityenvelope.md#^ref-64a9f9f9-267-0) (line 267, col 0, score 1)
+- [Mathematics Sampler — L100](mathematics-sampler.md#^ref-b5e0183e-100-0) (line 100, col 0, score 1)
+- [Migrate to Provider-Tenant Architecture — L388](migrate-to-provider-tenant-architecture.md#^ref-54382370-388-0) (line 388, col 0, score 1)
+- [Mindful Prioritization — L69](mindful-prioritization.md#^ref-40185d05-69-0) (line 69, col 0, score 1)
+- [MindfulRobotIntegration — L67](mindfulrobotintegration.md#^ref-5f65dfa5-67-0) (line 67, col 0, score 1)
+- [Model Selection for Lightweight Conversational Tasks — L234](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-234-0) (line 234, col 0, score 1)
+- [Model Upgrade Calm-Down Guide — L129](model-upgrade-calm-down-guide.md#^ref-db74343f-129-0) (line 129, col 0, score 1)
+- [NPU Voice Code and Sensory Integration — L74](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-74-0) (line 74, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration Guide — L130](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-130-0) (line 130, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration — L131](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-131-0) (line 131, col 0, score 1)
+- [Docops Feature Updates — L85](docops-feature-updates-3.md#^ref-cdbd21ee-85-0) (line 85, col 0, score 1)
+- [Duck's Attractor States — L93](ducks-attractor-states.md#^ref-13951643-93-0) (line 93, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L64](ducks-self-referential-perceptual-loop.md#^ref-71726f04-64-0) (line 64, col 0, score 1)
+- [Factorio AI with External Agents — L153](factorio-ai-with-external-agents.md#^ref-a4d90289-153-0) (line 153, col 0, score 1)
+- [field-dynamics-math-blocks — L141](field-dynamics-math-blocks.md#^ref-7cfc230d-141-0) (line 141, col 0, score 1)
+- [Creative Moments — L28](creative-moments.md#^ref-10d98225-28-0) (line 28, col 0, score 1)
+- [Docops Feature Updates — L65](docops-feature-updates-3.md#^ref-cdbd21ee-65-0) (line 65, col 0, score 1)
+- [Docops Feature Updates — L86](docops-feature-updates.md#^ref-2792d448-86-0) (line 86, col 0, score 1)
+- [Duck's Attractor States — L123](ducks-attractor-states.md#^ref-13951643-123-0) (line 123, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L34](ducks-self-referential-perceptual-loop.md#^ref-71726f04-34-0) (line 34, col 0, score 1)
+- [Dynamic Context Model for Web Components — L442](dynamic-context-model-for-web-components.md#^ref-f7702bf8-442-0) (line 442, col 0, score 1)
+- [Eidolon Field Abstract Model — L218](eidolon-field-abstract-model.md#^ref-5e8b2388-218-0) (line 218, col 0, score 1)
+- [eidolon-field-math-foundations — L176](eidolon-field-math-foundations.md#^ref-008f2ac0-176-0) (line 176, col 0, score 1)
+- [eidolon-node-lifecycle — L70](eidolon-node-lifecycle.md#^ref-938eca9c-70-0) (line 70, col 0, score 1)
+- [eidolon-field-math-foundations — L148](eidolon-field-math-foundations.md#^ref-008f2ac0-148-0) (line 148, col 0, score 1)
+- [eidolon-node-lifecycle — L36](eidolon-node-lifecycle.md#^ref-938eca9c-36-0) (line 36, col 0, score 1)
+- [Factorio AI with External Agents — L166](factorio-ai-with-external-agents.md#^ref-a4d90289-166-0) (line 166, col 0, score 1)
+- [field-dynamics-math-blocks — L148](field-dynamics-math-blocks.md#^ref-7cfc230d-148-0) (line 148, col 0, score 1)
+- [field-interaction-equations — L153](field-interaction-equations.md#^ref-b09141b7-153-0) (line 153, col 0, score 1)
+- [field-node-diagram-outline — L118](field-node-diagram-outline.md#^ref-1f32c94a-118-0) (line 118, col 0, score 1)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

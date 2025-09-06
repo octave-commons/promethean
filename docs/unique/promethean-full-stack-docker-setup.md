@@ -1,5 +1,5 @@
 ---
-uuid: 50ac7389-a75e-476a-ab34-bb24776d4f38
+uuid: d495e48a-cfd4-4dc6-b6cc-e31d2f554571
 created_at: promethean-full-stack-docker-setup.md
 filename: promethean-full-stack-docker-setup
 title: promethean-full-stack-docker-setup
@@ -324,6 +324,7 @@ services:
     networks: [ prom-net ]
     restart: unless-stopped
 ```
+^ref-50ac7389-3-0
 ^ref-2c2b48ca-3-0
 
 ---
@@ -765,3 +766,64 @@ volumes:
 From here we want to start serving a typescript/webcomponents based frontend that connects to everything. ^ref-2c2b48ca-438-0
 
 #docker #compose #nginx #reverseproxy #ollama #vllm #tei #clip #whisper #ovms #npu #homelab #mlops
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Field Node Diagrams](field-node-diagram-visualizations.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [Field Node Diagrams](field-node-diagram-outline.md)
+- [prom ui bootstrap](promethean-web-ui-setup.md)
+- [Eidolon Node Lifecycle](eidolon-node-lifecycle.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
+- [graph-ds](graph-ds.md)
+- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [field-interaction-equations](field-interaction-equations.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Prometheus Observability Stack](prometheus-observability-stack.md)
+- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
+## Sources
+- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 1)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 1)
+- [Field Node Diagrams — L1](field-node-diagram-visualizations.md#^ref-2c9f86e6-1-0) (line 1, col 0, score 1)
+- [field-node-diagram-set — L1](field-node-diagram-set.md#^ref-31a2df46-1-0) (line 1, col 0, score 1)
+- [Field Node Diagrams — L1](field-node-diagram-outline.md#^ref-e0d3201b-1-0) (line 1, col 0, score 0.99)
+- [Eidolon Node Lifecycle — L1](eidolon-node-lifecycle.md#^ref-975de447-1-0) (line 1, col 0, score 0.9)
+- [Migrate to Provider-Tenant Architecture — L5262](migrate-to-provider-tenant-architecture.md#^ref-54382370-5262-0) (line 5262, col 0, score 0.89)
+- [eidolon-field-math-foundations — L5120](eidolon-field-math-foundations.md#^ref-008f2ac0-5120-0) (line 5120, col 0, score 0.89)
+- [eidolon-node-lifecycle — L3506](eidolon-node-lifecycle.md#^ref-938eca9c-3506-0) (line 3506, col 0, score 0.89)
+- [field-dynamics-math-blocks — L5625](field-dynamics-math-blocks.md#^ref-7cfc230d-5625-0) (line 5625, col 0, score 0.89)
+- [field-interaction-equations — L6116](field-interaction-equations.md#^ref-b09141b7-6116-0) (line 6116, col 0, score 0.89)
+- [field-node-diagram-outline — L4676](field-node-diagram-outline.md#^ref-1f32c94a-4676-0) (line 4676, col 0, score 0.89)
+- [field-node-diagram-set — L4420](field-node-diagram-set.md#^ref-22b989d5-4420-0) (line 4420, col 0, score 0.89)
+- [field-node-diagram-visualizations — L3782](field-node-diagram-visualizations.md#^ref-e9b27b06-3782-0) (line 3782, col 0, score 0.89)
+- [graph-ds — L3994](graph-ds.md#^ref-6620e2f2-3994-0) (line 3994, col 0, score 0.89)
+- [heartbeat-fragment-demo — L4095](heartbeat-fragment-demo.md#^ref-dd00677a-4095-0) (line 4095, col 0, score 0.89)
+- [homeostasis-decay-formulas — L6409](homeostasis-decay-formulas.md#^ref-37b5d236-6409-0) (line 6409, col 0, score 0.89)
+- [i3-bluetooth-setup — L2365](i3-bluetooth-setup.md#^ref-5e408692-2365-0) (line 2365, col 0, score 0.88)
+- [Per-Domain Policy System for JS Crawler — L2046](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-2046-0) (line 2046, col 0, score 0.88)
+- [Prometheus Observability Stack — L2351](prometheus-observability-stack.md#^ref-e90b5a16-2351-0) (line 2351, col 0, score 0.88)
+- [i3-bluetooth-setup — L2381](i3-bluetooth-setup.md#^ref-5e408692-2381-0) (line 2381, col 0, score 0.87)
+- [Unique Info Dump Index — L3264](unique-info-dump-index.md#^ref-30ec3ba6-3264-0) (line 3264, col 0, score 0.87)
+- [Dynamic Context Model for Web Components — L2859](dynamic-context-model-for-web-components.md#^ref-f7702bf8-2859-0) (line 2859, col 0, score 0.87)
+- [Unique Info Dump Index — L47](unique-info-dump-index.md#^ref-cdf2c6e4-47-0) (line 47, col 0, score 0.87)
+- [Mongo Outbox Implementation — L610](mongo-outbox-implementation.md#^ref-9c1acd1e-610-0) (line 610, col 0, score 0.86)
+- [compiler-kit-foundations — L590](compiler-kit-foundations.md#^ref-01b21543-590-0) (line 590, col 0, score 0.86)
+- [Ghostly Smoke Interference — L40](ghostly-smoke-interference.md#^ref-b6ae7dfa-40-0) (line 40, col 0, score 0.86)
+- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.86)
+- [Unique Info Dump Index — L59](unique-info-dump-index.md#^ref-cdf2c6e4-59-0) (line 59, col 0, score 0.86)
+- [prom ui bootstrap — L45](promethean-web-ui-setup.md#^ref-bc5172ca-45-0) (line 45, col 0, score 0.85)
+- [Recursive Prompt Construction Engine — L147](recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0) (line 147, col 0, score 0.85)
+- [markdown-to-org-transpiler — L272](markdown-to-org-transpiler.md#^ref-ab54cdd8-272-0) (line 272, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

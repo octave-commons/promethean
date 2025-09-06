@@ -1,20 +1,20 @@
 ---
-uuid: 72a34518-1333-4760-a4e2-9fa9fba50759
+uuid: f701db90-3da6-48c5-8afc-d92f457bedb3
 created_at: promethean-os-integration.md
 filename: Promethean OS Integration
 title: Promethean OS Integration
 description: >-
-  A user-level OS integration tool designed to function as a seamless part of
-  the operating system, providing a dedicated .promethe: folder for
-  user-specific data with clear Unix permissions. Focuses on practical utility
-  rather than knowledge storage, emphasizing real-world application through a
-  minimal, permission-controlled interface.
+  A user-space program that integrates with the operating system to manage
+  knowledge workflows through a dedicated .promethean folder. It emphasizes
+  meaningful work over knowledge storage, requiring clear Unix permissions and a
+  focused UI design.
 tags:
-  - user-level
-  - OS integration
-  - unix permissions
-  - minimal interface
-  - data isolation
+  - user-space
+  - knowledge-workflow
+  - unix-permissions
+  - promethean
+  - os-integration
+  - ui-design
 related_to_uuid: []
 related_to_title: []
 references: []
@@ -66,3 +66,9 @@ I need a clear unix user/group permission model.
 The program will mound a folder called .promethean to the home folder.
 
 We need to think more about this UI.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

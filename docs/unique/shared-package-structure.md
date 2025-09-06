@@ -1,5 +1,5 @@
 ---
-uuid: c46718fe-73dd-4236-8f1c-f6565da58cc4
+uuid: b8c49d9b-ada6-4605-8dcb-1b644c3f2229
 created_at: shared-package-structure.md
 filename: shared-package-structure
 title: shared-package-structure
@@ -147,10 +147,6 @@ references:
     score: 1
   - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
     line: 816
-    col: 0
-    score: 1
-  - uuid: 672da53b-d8ac-48cd-9cb3-e3fa9915dd6a
-    line: 1
     col: 0
     score: 1
   - uuid: 672da53b-d8ac-48cd-9cb3-e3fa9915dd6a
@@ -310,7 +306,7 @@ shared/ts/
 ^ref-66a72fc3-44-0 ^ref-66a72fc3-49-0
   import { toUrn } from "@shared/ts/dist/platform/urn.js";
   ```
-^ref-66a72fc3-51-0
+^ref-66a72fc3-51-0 ^ref-c46718fe-53-0
 * Effects:
 
   ```ts
@@ -449,6 +445,7 @@ shared/ts/
 ^ref-66a72fc3-188-0
 ^ref-66a72fc3-185-0
   ``` ^ref-66a72fc3-155-0
+^ref-66a72fc3-185-0
 
 # Where the Discord bits go (namespaced) ^ref-66a72fc3-157-0
  ^ref-66a72fc3-146-0
@@ -543,3 +540,78 @@ If you want, I’ll fill in the tiny `index.ts` barrel and a one-page `normalize
 
 \#hashtags ^ref-66a72fc3-181-0
 \#promethean #namespaces #monorepo #typescript #shared-lib #architecture #clean-boundaries #provider-agnostic
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Docops Feature Updates](docops-feature-updates.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [graph-ds](graph-ds.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [Creative Moments](creative-moments.md)
+- [Duck's Attractor States](ducks-attractor-states.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [Unique Concepts](unique-concepts.md)
+- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
+- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+- [shared-package-layout-clarification](shared-package-layout-clarification.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+## Sources
+- [typed-struct-compiler — L1016](typed-struct-compiler.md#^ref-78eeedf7-1016-0) (line 1016, col 0, score 1)
+- [Unique Concepts — L175](unique-concepts.md#^ref-ed6f3fc9-175-0) (line 175, col 0, score 1)
+- [Unique Info Dump Index — L1221](unique-info-dump-index.md#^ref-30ec3ba6-1221-0) (line 1221, col 0, score 1)
+- [zero-copy-snapshots-and-workers — L1058](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1058-0) (line 1058, col 0, score 1)
+- [Canonical Org-Babel Matplotlib Animation Template — L515](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-515-0) (line 515, col 0, score 1)
+- [Creative Moments — L251](creative-moments.md#^ref-10d98225-251-0) (line 251, col 0, score 1)
+- [Duck's Attractor States — L559](ducks-attractor-states.md#^ref-13951643-559-0) (line 559, col 0, score 1)
+- [eidolon-field-math-foundations — L1033](eidolon-field-math-foundations.md#^ref-008f2ac0-1033-0) (line 1033, col 0, score 1)
+- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
+- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
+- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
+- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
+- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
+- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
+- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
+- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
+- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
+- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
+- [Factorio AI with External Agents — L5](factorio-ai-with-external-agents.md#^ref-672da53b-5-0) (line 5, col 0, score 1)
+- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.93)
+- [Fnord Tracer Protocol — L391](fnord-tracer-protocol.md#^ref-fc21f824-391-0) (line 391, col 0, score 0.93)
+- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.92)
+- [shared-package-layout-clarification — L161](shared-package-layout-clarification.md#^ref-36c8882a-161-0) (line 161, col 0, score 0.91)
+- [WebSocket Gateway Implementation — L630](websocket-gateway-implementation.md#^ref-e811123d-630-0) (line 630, col 0, score 0.91)
+- [markdown-to-org-transpiler — L272](markdown-to-org-transpiler.md#^ref-ab54cdd8-272-0) (line 272, col 0, score 0.9)
+- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.89)
+- [Cross-Target Macro System in Sibilant — L148](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-148-0) (line 148, col 0, score 0.89)
+- [lisp-dsl-for-window-management — L185](lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0) (line 185, col 0, score 0.89)
+- [Factorio AI with External Agents — L8](factorio-ai-with-external-agents.md#^ref-672da53b-8-0) (line 8, col 0, score 0.89)
+- [i3-config-validation-methods — L28](i3-config-validation-methods.md#^ref-d28090ac-28-0) (line 28, col 0, score 0.88)
+- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.88)
+- [2d-sandbox-field — L150](2d-sandbox-field.md#^ref-c710dc93-150-0) (line 150, col 0, score 0.88)
+- [Matplotlib Animation with Async Execution — L44](matplotlib-animation-with-async-execution.md#^ref-687439f9-44-0) (line 44, col 0, score 0.88)
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.87)
+- [compiler-kit-foundations — L588](compiler-kit-foundations.md#^ref-01b21543-588-0) (line 588, col 0, score 0.87)
+- [polymorphic-meta-programming-engine — L190](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-190-0) (line 190, col 0, score 0.87)
+- [System Scheduler with Resource-Aware DAG — L374](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-374-0) (line 374, col 0, score 0.87)
+- [Dynamic Context Model for Web Components — L65](dynamic-context-model-for-web-components.md#^ref-f7702bf8-65-0) (line 65, col 0, score 0.86)
+- [mystery-lisp-search-session — L85](mystery-lisp-search-session.md#^ref-513dc4c7-85-0) (line 85, col 0, score 0.86)
+- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.86)
+- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.86)
+- [Lispy Macros with syntax-rules — L375](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-375-0) (line 375, col 0, score 0.86)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.85)
+- [Promethean Agent DSL TS Scaffold — L818](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-818-0) (line 818, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

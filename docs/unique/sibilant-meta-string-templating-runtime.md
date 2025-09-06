@@ -1,23 +1,22 @@
 ---
-uuid: aaf779eb-0287-499f-b6d3-6fb4d9e595bd
+uuid: f6f8c976-32c4-4aa1-9715-d035200b6483
 created_at: sibilant-meta-string-templating-runtime.md
 filename: sibilant-meta-string-templating-runtime
 title: sibilant-meta-string-templating-runtime
 description: >-
   Sibilant's meta-string templating system enables dynamic runtime switching and
   context-aware macro expansion for multi-language code generation. It supports
-  layer-based metacognition, realignment triggers, and reusable prompt templates
-  with metadata. The DSL allows defining runtimes, layer change handlers, and
-  field dynamics for seamless cross-runtime data management.
+  defining runtimes, layer-triggered actions, and reusable prompt templates with
+  metadata. This DSL allows seamless transitions between different execution
+  environments while maintaining structured metacognitive workflows.
 tags:
   - meta-string
+  - templating
   - runtime-switching
-  - layer-based
+  - layer-aware
+  - macro-expansion
   - prompt-templates
-  - dynamic-macros
-  - cross-runtime-data
-  - realignments
-  - context-aware
+  - context-metacognition
 related_to_uuid:
   - 291c7d91-da8c-486c-9bc0-bd2254536e2d
   - fc21f824-4244-4030-a48e-c4170160ea1d
@@ -660,3 +659,89 @@ This is how we’ll eventually let Sibilant:
 ### 🔧 Want to define the `think-sequence` macro more deeply next? ^ref-2aafc801-119-0
 
 Or would you rather design a structure for prompt-building (`prompt-compose`, `chunk`, `slot`, etc.)?
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Docops Feature Updates](docops-feature-updates.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [graph-ds](graph-ds.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [The Jar of Echoes](the-jar-of-echoes.md)
+- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
+- [ChatGPT Custom Prompts](chatgpt-custom-prompts.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [Unique Concepts](unique-concepts.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
+- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
+- [Creative Moments](creative-moments.md)
+- [Duck's Attractor States](ducks-attractor-states.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+## Sources
+- [Agent Reflections and Prompt Evolution — L618](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-618-0) (line 618, col 0, score 1)
+- [ChatGPT Custom Prompts — L187](chatgpt-custom-prompts.md#^ref-930054b3-187-0) (line 187, col 0, score 1)
+- [Chroma Toolkit Consolidation Plan — L999](chroma-toolkit-consolidation-plan.md#^ref-5020e892-999-0) (line 999, col 0, score 1)
+- [typed-struct-compiler — L1016](typed-struct-compiler.md#^ref-78eeedf7-1016-0) (line 1016, col 0, score 1)
+- [Unique Concepts — L175](unique-concepts.md#^ref-ed6f3fc9-175-0) (line 175, col 0, score 1)
+- [Unique Info Dump Index — L1221](unique-info-dump-index.md#^ref-30ec3ba6-1221-0) (line 1221, col 0, score 1)
+- [zero-copy-snapshots-and-workers — L1058](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1058-0) (line 1058, col 0, score 1)
+- [Canonical Org-Babel Matplotlib Animation Template — L515](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-515-0) (line 515, col 0, score 1)
+- [Creative Moments — L251](creative-moments.md#^ref-10d98225-251-0) (line 251, col 0, score 1)
+- [Duck's Attractor States — L559](ducks-attractor-states.md#^ref-13951643-559-0) (line 559, col 0, score 1)
+- [eidolon-field-math-foundations — L1033](eidolon-field-math-foundations.md#^ref-008f2ac0-1033-0) (line 1033, col 0, score 1)
+- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
+- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
+- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
+- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
+- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
+- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
+- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
+- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
+- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
+- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
+- [The Jar of Echoes — L3](the-jar-of-echoes.md#^ref-2be841dd-3-0) (line 3, col 0, score 1)
+- [The Jar of Echoes — L9](the-jar-of-echoes.md#^ref-2be841dd-9-0) (line 9, col 0, score 1)
+- [compiler-kit-foundations — L588](compiler-kit-foundations.md#^ref-01b21543-588-0) (line 588, col 0, score 0.92)
+- [komorebi-group-window-hack — L466](komorebi-group-window-hack.md#^ref-dd89372d-466-0) (line 466, col 0, score 0.91)
+- [sibilant-macro-targets — L338](sibilant-macro-targets.md#^ref-c5c9a5c6-338-0) (line 338, col 0, score 0.9)
+- [Model Upgrade Calm-Down Guide — L197](model-upgrade-calm-down-guide.md#^ref-db74343f-197-0) (line 197, col 0, score 0.89)
+- [Promethean State Format — L352](promethean-state-format.md#^ref-23df6ddb-352-0) (line 352, col 0, score 0.89)
+- [sibilant-macro-targets — L469](sibilant-macro-targets.md#^ref-c5c9a5c6-469-0) (line 469, col 0, score 0.89)
+- [Creative Moments — L551](creative-moments.md#^ref-10d98225-551-0) (line 551, col 0, score 0.89)
+- [Debugging Broker Connections and Agent Behavior — L413](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-413-0) (line 413, col 0, score 0.89)
+- [Docops Feature Updates — L215](docops-feature-updates-3.md#^ref-cdbd21ee-215-0) (line 215, col 0, score 0.89)
+- [Docops Feature Updates — L189](docops-feature-updates.md#^ref-2792d448-189-0) (line 189, col 0, score 0.89)
+- [DuckDuckGoSearchPipeline — L562](duckduckgosearchpipeline.md#^ref-e979c50f-562-0) (line 562, col 0, score 0.89)
+- [Duck's Attractor States — L365](ducks-attractor-states.md#^ref-13951643-365-0) (line 365, col 0, score 0.89)
+- [Duck's Self-Referential Perceptual Loop — L299](ducks-self-referential-perceptual-loop.md#^ref-71726f04-299-0) (line 299, col 0, score 0.89)
+- [polyglot-repl-interface-layer — L373](polyglot-repl-interface-layer.md#^ref-9c79206d-373-0) (line 373, col 0, score 0.88)
+- [sibilant-macro-targets — L450](sibilant-macro-targets.md#^ref-c5c9a5c6-450-0) (line 450, col 0, score 0.88)
+- [Promethean State Format — L314](promethean-state-format.md#^ref-23df6ddb-314-0) (line 314, col 0, score 0.88)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L490](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-490-0) (line 490, col 0, score 0.88)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 0.87)
+- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.87)
+- [Shared Package Structure — L185](shared-package-structure.md#^ref-66a72fc3-185-0) (line 185, col 0, score 0.86)
+- [template-based-compilation — L44](template-based-compilation.md#^ref-f8877e5e-44-0) (line 44, col 0, score 0.86)
+- [Cross-Target Macro System in Sibilant — L148](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-148-0) (line 148, col 0, score 0.86)
+- [Creative Moments — L611](creative-moments.md#^ref-10d98225-611-0) (line 611, col 0, score 0.86)
+- [Debugging Broker Connections and Agent Behavior — L937](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-937-0) (line 937, col 0, score 0.86)
+- [Docops Feature Updates — L641](docops-feature-updates-3.md#^ref-cdbd21ee-641-0) (line 641, col 0, score 0.86)
+- [Docops Feature Updates — L703](docops-feature-updates.md#^ref-2792d448-703-0) (line 703, col 0, score 0.86)
+- [DuckDuckGoSearchPipeline — L640](duckduckgosearchpipeline.md#^ref-e979c50f-640-0) (line 640, col 0, score 0.86)
+- [Duck's Attractor States — L1048](ducks-attractor-states.md#^ref-13951643-1048-0) (line 1048, col 0, score 0.86)
+- [Duck's Self-Referential Perceptual Loop — L956](ducks-self-referential-perceptual-loop.md#^ref-71726f04-956-0) (line 956, col 0, score 0.86)
+- [Dynamic Context Model for Web Components — L1412](dynamic-context-model-for-web-components.md#^ref-f7702bf8-1412-0) (line 1412, col 0, score 0.86)
+- [Eidolon Field Abstract Model — L895](eidolon-field-abstract-model.md#^ref-5e8b2388-895-0) (line 895, col 0, score 0.86)
+- [set-assignment-in-lisp-ast — L148](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0) (line 148, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

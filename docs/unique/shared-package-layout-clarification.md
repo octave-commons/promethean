@@ -1,5 +1,5 @@
 ---
-uuid: 6f13f134-7536-4bc3-b695-5aaa2906bb9d
+uuid: 3f2ad16b-21d8-4cf6-b14d-ea9ccdb5c793
 created_at: shared-package-layout-clarification.md
 filename: shared-package-layout-clarification
 title: shared-package-layout-clarification
@@ -297,286 +297,91 @@ references:
     col: 0
     score: 0.85
 ---
-Got it — I was naming the **files** under `@shared/ts/dist/...` instead of the **imports**. Let’s fix the plan to match your repo reality: ^ref-36c8882a-1-0
 
-* **Source lives in** `shared/ts/src/**` ^ref-36c8882a-3-0
-* **`dist/` is build output**, not checked in ^ref-36c8882a-4-0
-* **Consumers must import from** `@shared/ts/dist/...` (your rule) ^ref-36c8882a-5-0
-
-Here’s the concrete layout + package wiring so this works cleanly. ^ref-36c8882a-7-0
-
-# Shared package layout (source vs dist)
-
-```
-shared/
-  ts/
-    package.json
-    tsconfig.json
-    tsconfig.build.json
-    src/
-      agent-envelope.ts
-      topic.ts
-      events.ts
-      urn.ts
-      provider-registry.ts
-      policy.ts
-      effects.ts
-      index.ts       # re-exports everything
-    dist/            # build output (gitignored)
-```
-^ref-36c8882a-11-0 ^ref-36c8882a-28-0
-
-## `shared/ts/src/index.ts`
- ^ref-36c8882a-31-0
-Re-export symbols so consumers can import either the barrel or subpaths:
- ^ref-36c8882a-33-0
-```ts
-export * from "./agent-envelope.js";
-export * from "./topic.js";
-export * from "./events.js";
-export * from "./urn.js";
-export * from "./provider-registry.js";
-export * from "./policy.js";
-export * from "./effects.js";
-^ref-36c8882a-33-0
-```
-
-## `shared/ts/package.json`
-
-Make **runtime imports** resolve to `dist/` while letting **subpath imports** also work: ^ref-36c8882a-47-0
-
-```json
-{
-  "name": "@shared/ts",
-  "version": "0.1.0",
-  "type": "module",
-  "private": true,
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    },
-    "./dist/*": "./dist/*"
-  },
-  "files": ["dist"],
-  "scripts": {
-    "build": "tsc -p tsconfig.build.json",
-    "clean": "rimraf dist",
-    "prepublishOnly": "npm run clean && npm run build"
-  },
-  "dependencies": {
-    "zod": "^3.23.8"
-  },
-  "devDependencies": {
-    "typescript": "^5.4.0",
-    "rimraf": "^5.0.0"
-  }
-^ref-36c8882a-47-0
-} ^ref-36c8882a-78-0
-```
-^ref-36c8882a-49-0
-
-> Key bit: the `exports` map includes **`"./dist/*": "./dist/*"`** so consumers can do `@shared/ts/dist/agent-envelope.js` if you insist on the dist-subpath style.
- ^ref-36c8882a-82-0
-## `shared/ts/tsconfig.build.json`
- ^ref-36c8882a-84-0
-Strict ESM build into `dist/` with `.js` extensions:
-
-```json
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "dist",
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "target": "ES2022",
-    "rootDir": "src",
-    "resolveJsonModule": true,
-    "verbatimModuleSyntax": true,
-    "stripInternal": false
-  },
-^ref-36c8882a-84-0
-  "include": ["src"]
-}
-```
-^ref-36c8882a-106-0
-
-## `.gitignore` (repo root or `shared/ts/.gitignore`)
-^ref-36c8882a-106-0
-
-```
-shared/ts/dist/ ^ref-36c8882a-112-0
-^ref-36c8882a-112-0 ^ref-36c8882a-114-0
-``` ^ref-36c8882a-116-0
-^ref-36c8882a-112-0
-
-# How consumers should import (matches your rule)
- ^ref-36c8882a-118-0
-^ref-36c8882a-114-0 ^ref-36c8882a-120-0
-* **Barrel import (preferred for stability):** ^ref-36c8882a-118-0
-
-  ```ts
-^ref-36c8882a-120-0
-  import { AgentEnvelope, topic, SocialMessageCreated } from "@shared/ts";
-  ```
- ^ref-36c8882a-126-0
-* **Explicit dist subpath (your stated rule):** ^ref-36c8882a-128-0
-^ref-36c8882a-120-0
- ^ref-36c8882a-126-0
-  ```ts
-  import { AgentEnvelope } from "@shared/ts/dist/agent-envelope.js"; ^ref-36c8882a-128-0
-^ref-36c8882a-128-0 ^ref-36c8882a-132-0
-  import { topic } from "@shared/ts/dist/topic.js";
-  import { SocialMessageCreated } from "@shared/ts/dist/events.js";
-  ```
-^ref-36c8882a-137-0
- ^ref-36c8882a-132-0
-  This works because of the `exports: { "./dist/*": "./dist/*" }` entry.
-
-> Don’t import from `src/` outside the shared package. Everything outside should see **only** `@shared/ts` or `@shared/ts/dist/...`.
-
-# Minimal new files (in **src/**, not dist)
- ^ref-36c8882a-143-0
-Create these **under `shared/ts/src/`**: ^ref-36c8882a-143-0 ^ref-36c8882a-146-0
- ^ref-36c8882a-145-0 ^ref-36c8882a-146-0
-* `agent-envelope.ts` ^ref-36c8882a-145-0 ^ref-36c8882a-148-0
-* `topic.ts` ^ref-36c8882a-148-0
-* `events.ts` ^ref-36c8882a-143-0 ^ref-36c8882a-149-0
-* `urn.ts` ^ref-36c8882a-149-0 ^ref-36c8882a-150-0
-* `provider-registry.ts` ^ref-36c8882a-149-0
-* `policy.ts`
-* `effects.ts`
-^ref-36c8882a-145-0 ^ref-36c8882a-153-0
-* `index.ts` (barrel) ^ref-36c8882a-149-0 ^ref-36c8882a-154-0
- ^ref-36c8882a-155-0
-Then run: ^ref-36c8882a-156-0
-^ref-36c8882a-155-0 ^ref-36c8882a-156-0 ^ref-36c8882a-157-0
-^ref-36c8882a-154-0 ^ref-36c8882a-157-0
-^ref-36c8882a-153-0 ^ref-36c8882a-161-0
- ^ref-36c8882a-159-0
-```bash ^ref-36c8882a-153-0
-pnpm --filter @shared/ts build   # or npm/yarn equivalent ^ref-36c8882a-154-0 ^ref-36c8882a-161-0
-^ref-36c8882a-161-0
-``` ^ref-36c8882a-155-0 ^ref-36c8882a-164-0
-^ref-36c8882a-161-0
- ^ref-36c8882a-156-0
-All consumers keep (or switch to) imports like `@shared/ts/dist/<module>.js`, while you, as a developer, only touch `shared/ts/src/**`. ^ref-36c8882a-157-0 ^ref-36c8882a-164-0
-
-# Sanity checks ^ref-36c8882a-159-0
- ^ref-36c8882a-169-0
-* [ ] `shared/ts/src/**` contains the real code. ^ref-36c8882a-161-0
-* [ ] `shared/ts/dist/**` is generated, **gitignored**, and contains `.js/.d.ts`. ^ref-36c8882a-169-0
-* [ ] `services/*` import from `@shared/ts/dist/...` (or `@shared/ts`). ^ref-36c8882a-173-0
-* [ ] No consumer ever imports `shared/ts/src/**`. ^ref-36c8882a-164-0 ^ref-36c8882a-173-0
-* [ ] CI builds `@shared/ts` before building the services.
- ^ref-36c8882a-173-0
-If you want, I’ll spit out the exact `src/*.ts` content for the envelope, topics, events, etc., under this structure—**all placed in `src/`**, imports set to `@shared/ts/dist/...`, zero churn to your VCS rules.
-
-\#hashtags ^ref-36c8882a-169-0
-\#promethean #shared-lib #typescript #esm #package-exports #distlayout #monorepo #build-system
-t/*": "./dist/*"`** so consumers can do `@shared/ts/dist/agent-envelope.js` if you insist on the dist-subpath style.
- ^ref-36c8882a-82-0
-## `shared/ts/tsconfig.build.json`
- ^ref-36c8882a-84-0
-Strict ESM build into `dist/` with `.js` extensions:
-
-```json
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "dist",
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": false,
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "target": "ES2022",
-    "rootDir": "src",
-    "resolveJsonModule": true,
-    "verbatimModuleSyntax": true,
-    "stripInternal": false
-  },
-^ref-36c8882a-84-0
-  "include": ["src"]
-}
-```
-^ref-36c8882a-106-0
-
-## `.gitignore` (repo root or `shared/ts/.gitignore`)
-^ref-36c8882a-106-0
-
-```
-shared/ts/dist/ ^ref-36c8882a-112-0
-^ref-36c8882a-112-0 ^ref-36c8882a-114-0
-``` ^ref-36c8882a-116-0
-^ref-36c8882a-112-0
-
-# How consumers should import (matches your rule)
- ^ref-36c8882a-118-0
-^ref-36c8882a-114-0 ^ref-36c8882a-120-0
-* **Barrel import (preferred for stability):** ^ref-36c8882a-118-0
-
-  ```ts
-^ref-36c8882a-120-0
-  import { AgentEnvelope, topic, SocialMessageCreated } from "@shared/ts";
-  ```
- ^ref-36c8882a-126-0
-* **Explicit dist subpath (your stated rule):** ^ref-36c8882a-128-0
-^ref-36c8882a-120-0
- ^ref-36c8882a-126-0
-  ```ts
-  import { AgentEnvelope } from "@shared/ts/dist/agent-envelope.js"; ^ref-36c8882a-128-0
-^ref-36c8882a-128-0 ^ref-36c8882a-132-0
-  import { topic } from "@shared/ts/dist/topic.js";
-  import { SocialMessageCreated } from "@shared/ts/dist/events.js";
-  ```
-^ref-36c8882a-137-0
- ^ref-36c8882a-132-0
-  This works because of the `exports: { "./dist/*": "./dist/*" }` entry.
-
-> Don’t import from `src/` outside the shared package. Everything outside should see **only** `@shared/ts` or `@shared/ts/dist/...`.
-
-# Minimal new files (in **src/**, not dist)
- ^ref-36c8882a-143-0
-Create these **under `shared/ts/src/`**: ^ref-36c8882a-143-0 ^ref-36c8882a-146-0
- ^ref-36c8882a-145-0 ^ref-36c8882a-146-0
-* `agent-envelope.ts` ^ref-36c8882a-145-0 ^ref-36c8882a-148-0
-* `topic.ts` ^ref-36c8882a-148-0
-* `events.ts` ^ref-36c8882a-143-0 ^ref-36c8882a-149-0
-* `urn.ts` ^ref-36c8882a-149-0 ^ref-36c8882a-150-0
-* `provider-registry.ts` ^ref-36c8882a-149-0
-* `policy.ts`
-* `effects.ts`
-^ref-36c8882a-145-0 ^ref-36c8882a-153-0
-* `index.ts` (barrel) ^ref-36c8882a-149-0 ^ref-36c8882a-154-0
- ^ref-36c8882a-155-0
-Then run: ^ref-36c8882a-156-0
-^ref-36c8882a-155-0 ^ref-36c8882a-156-0 ^ref-36c8882a-157-0
-^ref-36c8882a-154-0 ^ref-36c8882a-157-0
-^ref-36c8882a-153-0 ^ref-36c8882a-161-0
- ^ref-36c8882a-159-0
-```bash ^ref-36c8882a-153-0
-pnpm --filter @shared/ts build   # or npm/yarn equivalent ^ref-36c8882a-154-0 ^ref-36c8882a-161-0
-^ref-36c8882a-161-0
-``` ^ref-36c8882a-155-0 ^ref-36c8882a-164-0
-^ref-36c8882a-161-0
- ^ref-36c8882a-156-0
-All consumers keep (or switch to) imports like `@shared/ts/dist/<module>.js`, while you, as a developer, only touch `shared/ts/src/**`. ^ref-36c8882a-157-0 ^ref-36c8882a-164-0
-
-# Sanity checks ^ref-36c8882a-159-0
- ^ref-36c8882a-169-0
-* [ ] `shared/ts/src/**` contains the real code. ^ref-36c8882a-161-0
-* [ ] `shared/ts/dist/**` is generated, **gitignored**, and contains `.js/.d.ts`. ^ref-36c8882a-169-0
-* [ ] `services/*` import from `@shared/ts/dist/...` (or `@shared/ts`). ^ref-36c8882a-173-0
-* [ ] No consumer ever imports `shared/ts/src/**`. ^ref-36c8882a-164-0 ^ref-36c8882a-173-0
-* [ ] CI builds `@shared/ts` before building the services.
- ^ref-36c8882a-173-0
-If you want, I’ll spit out the exact `src/*.ts` content for the envelope, topics, events, etc., under this structure—**all placed in `src/`**, imports set to `@shared/ts/dist/...`, zero churn to your VCS rules.
-
-\#hashtags ^ref-36c8882a-169-0
-\#promethean #shared-lib #typescript #esm #package-exports #distlayout #monorepo #build-system
+ ^ref-6f13f134-28-0 ^ref-6f13f134-128-0 ^ref-36c8882a-137-0 ^ref-36c8882a-146-0 ^ref-36c8882a-148-0 ^ref-36c8882a-161-0
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [i3-layout-saver](i3-layout-saver.md)
+- [obsidian-templating-plugins-integration-guide](obsidian-templating-plugins-integration-guide.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [promethean-system-diagrams](promethean-system-diagrams.md)
+- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
+- [Shared Package Structure](shared-package-structure.md)
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
+- [mystery-lisp-search-session](mystery-lisp-search-session.md)
+- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
+- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
+- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [Interop and Source Maps](interop-and-source-maps.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
+- [Vectorial Exception Descent](vectorial-exception-descent.md)
+- [2d-sandbox-field](2d-sandbox-field.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+## Sources
+- [obsidian-templating-plugins-integration-guide — L5](obsidian-templating-plugins-integration-guide.md#^ref-3724ef1e-5-0) (line 5, col 0, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L490](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-490-0) (line 490, col 0, score 0.97)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L400](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-400-0) (line 400, col 0, score 0.97)
+- [Event Bus MVP — L524](event-bus-mvp.md#^ref-534fe91d-524-0) (line 524, col 0, score 0.97)
+- [WebSocket Gateway Implementation — L630](websocket-gateway-implementation.md#^ref-e811123d-630-0) (line 630, col 0, score 0.97)
+- [Lispy Macros with syntax-rules — L375](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-375-0) (line 375, col 0, score 0.96)
+- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.96)
+- [Promethean Event Bus MVP v0.1 — L972](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-972-0) (line 972, col 0, score 0.95)
+- [Matplotlib Animation with Async Execution — L44](matplotlib-animation-with-async-execution.md#^ref-687439f9-44-0) (line 44, col 0, score 0.95)
+- [mystery-lisp-search-session — L106](mystery-lisp-search-session.md#^ref-513dc4c7-106-0) (line 106, col 0, score 0.95)
+- [Shared Package Structure — L76](shared-package-structure.md#^ref-66a72fc3-76-0) (line 76, col 0, score 0.95)
+- [RAG UI Panel with Qdrant and PostgREST — L349](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0) (line 349, col 0, score 0.94)
+- [sibilant-metacompiler-overview — L52](sibilant-metacompiler-overview.md#^ref-61d4086b-52-0) (line 52, col 0, score 0.94)
+- [Cross-Target Macro System in Sibilant — L148](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-148-0) (line 148, col 0, score 0.94)
+- [Chroma-Embedding-Refactor — L289](chroma-embedding-refactor.md#^ref-8b256935-289-0) (line 289, col 0, score 0.94)
+- [sibilant-meta-string-templating-runtime — L92](sibilant-meta-string-templating-runtime.md#^ref-2aafc801-92-0) (line 92, col 0, score 0.94)
+- [ecs-scheduler-and-prefabs — L376](ecs-scheduler-and-prefabs.md#^ref-c62a1815-376-0) (line 376, col 0, score 0.94)
+- [Interop and Source Maps — L497](interop-and-source-maps.md#^ref-cdfac40c-497-0) (line 497, col 0, score 0.94)
+- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.93)
+- [Local-Only-LLM-Workflow — L147](local-only-llm-workflow.md#^ref-9a8ab57e-147-0) (line 147, col 0, score 0.93)
+- [lisp-dsl-for-window-management — L185](lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0) (line 185, col 0, score 0.93)
+- [Vectorial Exception Descent — L95](vectorial-exception-descent.md#^ref-d771154e-95-0) (line 95, col 0, score 0.92)
+- [2d-sandbox-field — L150](2d-sandbox-field.md#^ref-c710dc93-150-0) (line 150, col 0, score 0.92)
+- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.91)
+- [prom ui bootstrap — L440](promethean-web-ui-setup.md#^ref-bc5172ca-440-0) (line 440, col 0, score 0.9)
+- [pm2-orchestration-patterns — L217](pm2-orchestration-patterns.md#^ref-51932e7b-217-0) (line 217, col 0, score 0.9)
+- [Universal Lisp Interface — L187](universal-lisp-interface.md#^ref-b01856b4-187-0) (line 187, col 0, score 0.9)
+- [i3-config-validation-methods — L28](i3-config-validation-methods.md#^ref-d28090ac-28-0) (line 28, col 0, score 0.9)
+- [ecs-scheduler-and-prefabs — L370](ecs-scheduler-and-prefabs.md#^ref-c62a1815-370-0) (line 370, col 0, score 0.9)
+- [i3-layout-saver — L79](i3-layout-saver.md#^ref-31f0166e-79-0) (line 79, col 0, score 0.89)
+- [polymorphic-meta-programming-engine — L190](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-190-0) (line 190, col 0, score 0.89)
+- [Cross-Language Runtime Polymorphism — L211](cross-language-runtime-polymorphism.md#^ref-c34c36a6-211-0) (line 211, col 0, score 0.89)
+- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.89)
+- [Eidolon-Field-Optimization — L50](eidolon-field-optimization.md#^ref-40e05c14-50-0) (line 50, col 0, score 0.89)
+- [heartbeat-simulation-snippets — L80](heartbeat-simulation-snippets.md#^ref-23e221e9-80-0) (line 80, col 0, score 0.89)
+- [Shared Package Structure — L185](shared-package-structure.md#^ref-66a72fc3-185-0) (line 185, col 0, score 0.89)
+- [Promethean Infrastructure Setup — L424](promethean-infrastructure-setup.md#^ref-6deed6ac-424-0) (line 424, col 0, score 0.89)
+- [Obsidian ChatGPT Plugin Integration — L5](obsidian-chatgpt-plugin-integration.md#^ref-636f49b1-5-0) (line 5, col 0, score 0.89)
+- [Obsidian ChatGPT Plugin Integration Guide — L5](obsidian-chatgpt-plugin-integration-guide.md#^ref-3bea339f-5-0) (line 5, col 0, score 0.89)
+- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.88)
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.88)
+- [markdown-to-org-transpiler — L272](markdown-to-org-transpiler.md#^ref-ab54cdd8-272-0) (line 272, col 0, score 0.87)
+- [Chroma Toolkit Consolidation Plan — L5599](chroma-toolkit-consolidation-plan.md#^ref-5020e892-5599-0) (line 5599, col 0, score 0.87)
+- [Debugging Broker Connections and Agent Behavior — L2884](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-2884-0) (line 2884, col 0, score 0.87)
+- [Dynamic Context Model for Web Components — L6943](dynamic-context-model-for-web-components.md#^ref-f7702bf8-6943-0) (line 6943, col 0, score 0.87)
+- [eidolon-field-math-foundations — L3954](eidolon-field-math-foundations.md#^ref-008f2ac0-3954-0) (line 3954, col 0, score 0.87)
+- [Migrate to Provider-Tenant Architecture — L7484](migrate-to-provider-tenant-architecture.md#^ref-54382370-7484-0) (line 7484, col 0, score 0.87)
+- [Performance-Optimized-Polyglot-Bridge — L5734](performance-optimized-polyglot-bridge.md#^ref-f5579967-5734-0) (line 5734, col 0, score 0.87)
+- [Post-Linguistic Transhuman Design Frameworks — L2827](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-2827-0) (line 2827, col 0, score 0.87)
+- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.86)
+- [set-assignment-in-lisp-ast — L148](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0) (line 148, col 0, score 0.86)
+- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.86)
+- [ecs-scheduler-and-prefabs — L246](ecs-scheduler-and-prefabs.md#^ref-c62a1815-246-0) (line 246, col 0, score 0.85)
+- [Promethean Agent DSL TS Scaffold — L818](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-818-0) (line 818, col 0, score 0.85)
+- [Interop and Source Maps — L498](interop-and-source-maps.md#^ref-cdfac40c-498-0) (line 498, col 0, score 0.85)
+- [Local-First Intention→Code Loop with Free Models — L105](local-first-intention-code-loop-with-free-models.md#^ref-871490c7-105-0) (line 105, col 0, score 0.85)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

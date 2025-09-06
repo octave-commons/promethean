@@ -1,26 +1,25 @@
 ---
-uuid: de226416-562b-45ea-8cb3-e7e0e708a07c
+uuid: 20991655-9008-41c6-b289-ee9775d1683a
 created_at: eidolon-field-optimization.md
 filename: Eidolon Field Optimization
 title: Eidolon Field Optimization
 description: >-
-  This document outlines the optimization of eidolon fields for improved
-  contextual understanding and memory retention. It details parameters for
-  refining visual and temporal aspects of the system, along with potential new
-  features like visual recurrence and concept-image relationships. The text also
-  includes observations on handling multi-sentence parentheticals and detecting
-  interruptions in speech.
+  This document outlines the optimization parameters for the Eidolon field
+  system, including screen resolution, focus area, wave form dimensions, and
+  frame memory management. It explores potential new features like visual
+  recurrence and concept-image relationships to enhance context handling. The
+  system aims to address persistent output issues by introducing dynamic input
+  mechanisms and improving speech detection.
 tags:
-  - eidolon
-  - optimization
-  - contextual
-  - memory
-  - visual
-  - recurrence
-  - concept
-  - image
-  - speech
-  - interruption
+  - Eidolon
+  - Optimization
+  - Field
+  - Parameters
+  - Visual Recurrence
+  - Concepts
+  - Image Embedding
+  - Context Handling
+  - Speech Detection
 related_to_uuid:
   - d561308b-933e-4c30-ac2f-affb3504ae91
   - 4f9a7fd9-de08-4b9c-87c4-21268bc26d54
@@ -132,6 +131,8 @@ function seperateSpeechFromThought(str:string) {
 const test = "I have a lot to say. (Some of it in parentheticals, some of it not. Most of this is for me to hold onto as compressed representations of image data I saw. How string). But I am not sure how to say it... I am hearing this strange sound... and I don't know where it's coming from."
 console.log(seperateSpeechFromThought(test))
 ```
+^ref-de226416-50-0
+^ref-40e05c14-50-0
 -952c-36ae9b8f0037
     line: 2495
     col: 0
@@ -274,3 +275,11 @@ function seperateSpeechFromThought(str:string) {
 const test = "I have a lot to say. (Some of it in parentheticals, some of it not. Most of this is for me to hold onto as compressed representations of image data I saw. How string). But I am not sure how to say it... I am hearing this strange sound... and I don't know where it's coming from."
 console.log(seperateSpeechFromThought(test))
 ```
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Parenthetical Extraction](parenthetical-extraction.md)
+- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
+- [Promethean Eidolon Synchronicity Model](promethean-eidolon-synchronicity-model.md)
+## Sources
+- [Parenthetical Extraction — L3](parenthetical-extraction.md#^ref-d561308b-3-0) (line 3, col 0, score 0.87)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

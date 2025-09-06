@@ -1,5 +1,5 @@
 ---
-uuid: bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+uuid: 774ef257-b07e-43b3-8ce3-582e3da5c27d
 created_at: chroma-embedding-refactor.md
 filename: chroma-embedding-refactor
 title: chroma-embedding-refactor
@@ -250,8 +250,8 @@ references:
 ---
 You’re right—I shouldn’t have put giant `embedding: number[]` blobs on chunk objects at all if the target is **Chroma**. That was dumb. Here’s a **minimal-churn refactor** that: ^ref-8b256935-1-0
 
-* streams work, ^ref-8b256935-3-0
-* **writes zero vectors to JSON**, ^ref-8b256935-4-0
+* streams work, ^ref-8b256935-3-0 ^ref-bb4f4ed0-3-0
+* **writes zero vectors to JSON**, ^ref-8b256935-4-0 ^ref-bb4f4ed0-4-0
 * uses **Chroma upsert** for embeddings, ^ref-8b256935-5-0
 * **keeps `chunks.json` as a map `{ docUuid -> Chunk[] }`** so downstream code mostly survives, ^ref-8b256935-6-0
 * and gives you a tiny **compat layer** for any old code that still expects `chunk.embedding`. ^ref-8b256935-7-0
@@ -313,7 +313,7 @@ export async function writeJSONObjectStream(
 
 ## 2) New tiny Chroma adapter ^ref-8b256935-64-0
 
-`packages/docops/src/chroma.ts`: ^ref-8b256935-66-0
+`packages/docops/src/chroma.ts`: ^ref-8b256935-66-0 ^ref-bb4f4ed0-66-0
 
 ```typescript
 import { ChromaClient, type Collection } from "chromadb";
@@ -348,7 +348,7 @@ export async function upsertBatch(opts: {
 (Chroma JS client and `upsert` behavior per docs. ([Chroma Docs][2]))
 
 ---
- ^ref-8b256935-101-0
+ ^ref-8b256935-101-0 ^ref-bb4f4ed0-101-0
 ## 3) Update your `02-embed.ts` to stream + push to Chroma (no vectors in JSON)
 
 **Before** you were building `chunksByDoc` + `embedCache` with arrays. ^ref-8b256935-104-0
@@ -496,6 +496,7 @@ main().catch((e) => {
   process.exit(1); ^ref-8b256935-246-0
 });
 ``` ^ref-8b256935-248-0
+^ref-bb4f4ed0-114-0
 ^ref-8b256935-114-0
  ^ref-8b256935-249-0 ^ref-8b256935-250-0
 **Net effect** ^ref-8b256935-250-0
@@ -615,3 +616,77 @@ If you want me to also flip your other stages to query Chroma (search, RAG, etc.
 \#promethean #typescript #chroma #streaming #ollama #embeddings #obdev
  ^ref-8b256935-322-0 ^ref-8b256935-326-0
 [1]:  "Getting Started - Chroma Docs" ^ref-8b256935-323-0 ^ref-8b256935-327-0
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
+- [chroma-embedding-refactor](chroma-embedding-refactor.md)
+- [Promethean-native config design](promethean-native-config-design.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [Promethean Pipelines](promethean-pipelines.md)
+- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
+- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [Universal Lisp Interface](universal-lisp-interface.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [ripple-propagation-demo](ripple-propagation-demo.md)
+- [archetype-ecs](archetype-ecs.md)
+- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
+- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
+- [file-watcher-auth-fix](file-watcher-auth-fix.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+## Sources
+- [chroma-embedding-refactor — L114](chroma-embedding-refactor.md#^ref-bb4f4ed0-114-0) (line 114, col 0, score 0.95)
+- [Functional Refactor of TypeScript Document Processing — L5](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-5-0) (line 5, col 0, score 0.93)
+- [Promethean-native config design — L305](promethean-native-config-design.md#^ref-ab748541-305-0) (line 305, col 0, score 0.93)
+- [i3-bluetooth-setup — L2075](i3-bluetooth-setup.md#^ref-5e408692-2075-0) (line 2075, col 0, score 0.91)
+- [i3-bluetooth-setup — L1201](i3-bluetooth-setup.md#^ref-5e408692-1201-0) (line 1201, col 0, score 0.9)
+- [RAG UI Panel with Qdrant and PostgREST — L349](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0) (line 349, col 0, score 0.9)
+- [Agent Reflections and Prompt Evolution — L498](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-498-0) (line 498, col 0, score 0.89)
+- [Agent Tasks: Persistence Migration to DualStore — L968](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-968-0) (line 968, col 0, score 0.89)
+- [Chroma Toolkit Consolidation Plan — L762](chroma-toolkit-consolidation-plan.md#^ref-5020e892-762-0) (line 762, col 0, score 0.89)
+- [eidolon-node-lifecycle — L465](eidolon-node-lifecycle.md#^ref-938eca9c-465-0) (line 465, col 0, score 0.89)
+- [Fnord Tracer Protocol — L1025](fnord-tracer-protocol.md#^ref-fc21f824-1025-0) (line 1025, col 0, score 0.89)
+- [i3-bluetooth-setup — L683](i3-bluetooth-setup.md#^ref-5e408692-683-0) (line 683, col 0, score 0.89)
+- [i3-bluetooth-setup — L1226](i3-bluetooth-setup.md#^ref-5e408692-1226-0) (line 1226, col 0, score 0.89)
+- [i3-bluetooth-setup — L1646](i3-bluetooth-setup.md#^ref-5e408692-1646-0) (line 1646, col 0, score 0.89)
+- [i3-bluetooth-setup — L2085](i3-bluetooth-setup.md#^ref-5e408692-2085-0) (line 2085, col 0, score 0.89)
+- [Universal Lisp Interface — L137](universal-lisp-interface.md#^ref-b01856b4-137-0) (line 137, col 0, score 0.88)
+- [komorebi-group-window-hack — L195](komorebi-group-window-hack.md#^ref-dd89372d-195-0) (line 195, col 0, score 0.88)
+- [i3-bluetooth-setup — L1625](i3-bluetooth-setup.md#^ref-5e408692-1625-0) (line 1625, col 0, score 0.88)
+- [Promethean Pipelines — L68](promethean-pipelines.md#^ref-8b8e6103-68-0) (line 68, col 0, score 0.87)
+- [WebSocket Gateway Implementation — L318](websocket-gateway-implementation.md#^ref-e811123d-318-0) (line 318, col 0, score 0.87)
+- [ripple-propagation-demo — L64](ripple-propagation-demo.md#^ref-8430617b-64-0) (line 64, col 0, score 0.87)
+- [Promethean-native config design — L35](promethean-native-config-design.md#^ref-ab748541-35-0) (line 35, col 0, score 0.87)
+- [Agent Reflections and Prompt Evolution — L101](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-101-0) (line 101, col 0, score 0.87)
+- [Event Bus MVP — L527](event-bus-mvp.md#^ref-534fe91d-527-0) (line 527, col 0, score 0.87)
+- [Promethean Full-Stack Docker Setup — L416](promethean-full-stack-docker-setup.md#^ref-2c2b48ca-416-0) (line 416, col 0, score 0.87)
+- [file-watcher-auth-fix — L32](file-watcher-auth-fix.md#^ref-9044701b-32-0) (line 32, col 0, score 0.87)
+- [Recursive Prompt Construction Engine — L147](recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0) (line 147, col 0, score 0.87)
+- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.87)
+- [Promethean Pipelines — L84](promethean-pipelines.md#^ref-8b8e6103-84-0) (line 84, col 0, score 0.86)
+- [archetype-ecs — L417](archetype-ecs.md#^ref-8f4c1e86-417-0) (line 417, col 0, score 0.86)
+- [ripple-propagation-demo — L88](ripple-propagation-demo.md#^ref-8430617b-88-0) (line 88, col 0, score 0.86)
+- [TypeScript Patch for Tool Calling Support — L104](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-104-0) (line 104, col 0, score 0.86)
+- [Promethean-native config design — L33](promethean-native-config-design.md#^ref-ab748541-33-0) (line 33, col 0, score 0.86)
+- [WebSocket Gateway Implementation — L296](websocket-gateway-implementation.md#^ref-e811123d-296-0) (line 296, col 0, score 0.86)
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.86)
+- [prom-lib-rate-limiters-and-replay-api — L306](prom-lib-rate-limiters-and-replay-api.md#^ref-aee4718b-306-0) (line 306, col 0, score 0.86)
+- [Promethean Event Bus MVP v0.1 — L972](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-972-0) (line 972, col 0, score 0.86)
+- [Agent Tasks: Persistence Migration to DualStore — L8](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-8-0) (line 8, col 0, score 0.85)
+- [archetype-ecs — L366](archetype-ecs.md#^ref-8f4c1e86-366-0) (line 366, col 0, score 0.85)
+- [archetype-ecs — L441](archetype-ecs.md#^ref-8f4c1e86-441-0) (line 441, col 0, score 0.85)
+- [Universal Lisp Interface — L117](universal-lisp-interface.md#^ref-b01856b4-117-0) (line 117, col 0, score 0.85)
+- [i3-config-validation-methods — L28](i3-config-validation-methods.md#^ref-d28090ac-28-0) (line 28, col 0, score 0.85)
+- [Promethean Agent DSL TS Scaffold — L818](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-818-0) (line 818, col 0, score 0.85)
+- [Event Bus MVP — L524](event-bus-mvp.md#^ref-534fe91d-524-0) (line 524, col 0, score 0.85)
+- [System Scheduler with Resource-Aware DAG — L374](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-374-0) (line 374, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

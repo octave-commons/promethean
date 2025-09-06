@@ -103,7 +103,7 @@ services:
     environment:
       - PIPELINE_YAML=/app/pipelines/default.yaml
     volumes:
-      - ./infra/haystack:/app/pipelines
+      - ./data/haystack:/app/pipelines
     ports: ["8000:8000"]
     restart: unless-stopped
     depends_on: [opensearch, meilisearch, postgres]
@@ -159,10 +159,21 @@ services:
       - "9001:9001" # gRPC
       - "9090:9090" # REST
     volumes:
-      - ./infra/ovms/config.json:/config/config.json:ro
+      - ./config/ovm.json:/config/config.json:ro
       - ./models/ov:/opt/models:ro
     restart: unless-stopped
 
+  semgrep:
+    image: semgrep/semgrep:latest
+    working_dir: /src
+    volumes:
+      - ./:/src:ro # read-only mount is cautious, optional
+    entrypoint: []
+    command: >
+      semgrep scan --config p/default --json
+    # Optional environment if you need Semgrep AppSec features
+    # environment:
+    #   SEMGREP_APP_TOKEN: "${SEMGREP_APP_TOKEN}"
 volumes:
   nats_data:
   qdrant-data:

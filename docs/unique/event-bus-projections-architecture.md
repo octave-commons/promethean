@@ -1,25 +1,24 @@
 ---
-uuid: cdb74242-b61d-4b7e-9288-5859e040e512
+uuid: 833ecc4a-7e94-472a-bd2c-8c4d04c92b14
 created_at: event-bus-projections-architecture.md
 filename: Event Bus Projections Architecture
 title: Event Bus Projections Architecture
 description: >-
-  This document outlines the architecture for event-driven systems using an
-  event bus with projections. It includes publishers, event hubs, event stores,
-  stream processing, and read models. The system handles event delivery, state
-  management, and error recovery through mechanisms like outboxes, DLQs, and
-  snapshots.
+  A diagram illustrating the event-driven architecture with producers, event
+  hub, event store, and stream processing components. Shows how events flow from
+  services through the event bus to projections and read models, including
+  outbox, DLQ, and cursor stores.
 tags:
-  - event bus
+  - event-bus
   - projections
-  - event-driven architecture
-  - stream processing
+  - event-driven
+  - event-store
+  - stream-processing
   - outbox
   - dlq
-  - read models
-  - event store
+  - cursor-store
+  - read-models
   - mongodb
-  - cursor store
 related_to_uuid:
   - cfa2be7b-13fd-404b-aaa4-80abc4fa8cd2
   - cdb74242-b61d-4b7e-9288-5859e040e512
@@ -71,10 +70,6 @@ references:
     score: 1
   - uuid: cfa2be7b-13fd-404b-aaa4-80abc4fa8cd2
     line: 3
-    col: 0
-    score: 1
-  - uuid: cfa2be7b-13fd-404b-aaa4-80abc4fa8cd2
-    line: 9
     col: 0
     score: 1
   - uuid: cfa2be7b-13fd-404b-aaa4-80abc4fa8cd2
@@ -243,6 +238,7 @@ erDiagram
     number _v ^ref-cf6b9b17-143-0
   }
 ``` ^ref-cf6b9b17-145-0
+^ref-cdb74242-111-0
 ^ref-cf6b9b17-111-0
  ^ref-cf6b9b17-147-0
 If you want this **as a single canvas**, say the word and I’ll stitch these into one big overview with legends + color keys.
@@ -255,3 +251,35 @@ If you want this **as a single canvas**, say the word and I’ll stitch these in
 ^ref-cf6b9b17-111-0
  ^ref-cf6b9b17-147-0
 If you want this **as a single canvas**, say the word and I’ll stitch these into one big overview with legends + color keys.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [prompt-folder-bootstrap](prompt-folder-bootstrap.md)
+- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [refactor-relations](refactor-relations.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
+- [Refactor 05-footers.ts](refactor-05-footers-ts.md)
+- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
+- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
+- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
+- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
+- [ecs-offload-workers](ecs-offload-workers.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
+- [sibilant-metacompiler](sibilant-metacompiler-overview.md)
+## Sources
+- [prompt-folder-bootstrap — L1](prompt-folder-bootstrap.md#^ref-cfa2be7b-1-0) (line 1, col 0, score 1)
+- [prompt-folder-bootstrap — L3](prompt-folder-bootstrap.md#^ref-cfa2be7b-3-0) (line 3, col 0, score 1)
+- [prompt-folder-bootstrap — L15](prompt-folder-bootstrap.md#^ref-cfa2be7b-15-0) (line 15, col 0, score 1)
+- [Event Bus Projections Architecture — L111](event-bus-projections-architecture.md#^ref-cdb74242-111-0) (line 111, col 0, score 0.99)
+- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.88)
+- [refactor-relations — L10](refactor-relations.md#^ref-41ce0216-10-0) (line 10, col 0, score 0.86)
+- [Unique Info Dump Index — L55](unique-info-dump-index.md#^ref-cdf2c6e4-55-0) (line 55, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

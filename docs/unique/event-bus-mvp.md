@@ -1,5 +1,5 @@
 ---
-uuid: 65c145c7-fe3e-4989-9aae-5db39fa0effc
+uuid: fc592990-e875-4c72-8560-2ead1eefbc89
 created_at: event-bus-mvp.md
 filename: event-bus-mvp
 title: event-bus-mvp
@@ -74,10 +74,6 @@ related_to_title:
 references:
   - uuid: 526317d7-2eaf-4559-bb17-1f8dcfe9e30c
     line: 150
-    col: 0
-    score: 1
-  - uuid: 65c145c7-fe3e-4989-9aae-5db39fa0effc
-    line: 288
     col: 0
     score: 1
   - uuid: 53c7f86e-870b-42f7-9e96-adfa1a33b0fe
@@ -744,3 +740,51 @@ If you want, next dump I can add: ^ref-534fe91d-540-0 ^ref-534fe91d-547-0 ^ref-5
  ^ref-534fe91d-551-0 ^ref-534fe91d-558-0 ^ref-534fe91d-584-0
  ^ref-534fe91d-552-0
 Say the word and I’ll shovel Part 2 onto you.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [event-bus-mvp](event-bus-mvp.md)
+- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
+- [Mindful Robot Integration](mindfulrobotintegration.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
+- [pm2-orchestration-patterns](pm2-orchestration-patterns.md)
+- [sibilant-metacompiler](sibilant-metacompiler-overview.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
+- [schema-evolution-workflow](schema-evolution-workflow.md)
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [Universal Lisp Interface](universal-lisp-interface.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [EidolonField](eidolonfield.md)
+- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [mystery-lisp-search-session](mystery-lisp-search-session.md)
+- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
+- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
+- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
+## Sources
+- [Cross-Target Macro System in Sibilant — L150](cross-target-macro-system-in-sibilant.md#^ref-526317d7-150-0) (line 150, col 0, score 1)
+- [Mindful Robot Integration — L1](mindfulrobotintegration.md#^ref-53c7f86e-1-0) (line 1, col 0, score 1)
+- [Unique Info Dump Index — L55](unique-info-dump-index.md#^ref-cdf2c6e4-55-0) (line 55, col 0, score 0.91)
+- [State Snapshots API and Transactional Projector — L220](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-220-0) (line 220, col 0, score 0.88)
+- [State Snapshots API and Transactional Projector — L247](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-247-0) (line 247, col 0, score 0.88)
+- [Chroma Toolkit Consolidation Plan — L109](chroma-toolkit-consolidation-plan.md#^ref-5020e892-109-0) (line 109, col 0, score 0.87)
+- [State Snapshots API and Transactional Projector — L86](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-86-0) (line 86, col 0, score 0.87)
+- [Chroma-Embedding-Refactor — L289](chroma-embedding-refactor.md#^ref-8b256935-289-0) (line 289, col 0, score 0.87)
+- [Matplotlib Animation with Async Execution — L16](matplotlib-animation-with-async-execution.md#^ref-687439f9-16-0) (line 16, col 0, score 0.86)
+- [Chroma Toolkit Consolidation Plan — L137](chroma-toolkit-consolidation-plan.md#^ref-5020e892-137-0) (line 137, col 0, score 0.86)
+- [Chroma Toolkit Consolidation Plan — L124](chroma-toolkit-consolidation-plan.md#^ref-5020e892-124-0) (line 124, col 0, score 0.86)
+- [State Snapshots API and Transactional Projector — L93](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-93-0) (line 93, col 0, score 0.86)
+- [Chroma Toolkit Consolidation Plan — L122](chroma-toolkit-consolidation-plan.md#^ref-5020e892-122-0) (line 122, col 0, score 0.86)
+- [schema-evolution-workflow — L522](schema-evolution-workflow.md#^ref-d8059b6a-522-0) (line 522, col 0, score 0.86)
+- [pm2-orchestration-patterns — L217](pm2-orchestration-patterns.md#^ref-51932e7b-217-0) (line 217, col 0, score 0.86)
+- [sibilant-metacompiler — L1](sibilant-metacompiler-overview.md#^ref-3abeaf12-1-0) (line 1, col 0, score 0.86)
+- [TypeScript Patch for Tool Calling Support — L534](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-534-0) (line 534, col 0, score 0.85)
+- [Promethean Event Bus MVP v0.1 — L598](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-598-0) (line 598, col 0, score 0.85)
+- [Chroma Toolkit Consolidation Plan — L72](chroma-toolkit-consolidation-plan.md#^ref-5020e892-72-0) (line 72, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

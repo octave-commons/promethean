@@ -1,40 +1,28 @@
 ---
-uuid: bad9e6c7-5317-4ab1-82e0-41e49066403e
+uuid: ec683c2c-02ff-439f-8810-560daa0be58f
 created_at: infinite-depth-smoke-animation.md
 filename: infinite-depth-smoke-animation
 title: infinite-depth-smoke-animation
 description: >-
   An infinite-depth smoke animation with multiple layers drifting at different
-  speeds, fading in and out to create a fluid motion effect. The animation uses
-  layered color gradients and turbulence to simulate smoke movement, with a
-  foreground smoke line that pulses and breathes to enhance the visual depth.
+  speeds, fading in and out to create a sense of movement through the field. The
+  animation uses layered color gradients and turbulence effects to simulate
+  smoke behavior, with a foreground smoke line that pulses and fades.
 tags:
   - infinite-depth
   - smoke-animation
-  - layered-turbulence
-  - fluid-dynamics
-  - visual-effects
+  - layered-effects
+  - turbulence
+  - fade
+  - drifting-layers
   - animation
-related_to_uuid:
-  - 0904921a-50df-420d-8fd1-c946d25004c3
-  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
-  - 315a8cf5-239b-449b-a9eb-7df496a796c6
-related_to_title:
-  - Ghostly Smoke Interference
-  - Smoke Resonance Visualizations
-references:
-  - uuid: b6ae7dfa-0c53-4eb9-aea8-65072b825bee
-    line: 40
-    col: 0
-    score: 0.91
-  - uuid: 0904921a-50df-420d-8fd1-c946d25004c3
-    line: 40
-    col: 0
-    score: 0.91
+related_to_uuid: []
+related_to_title: []
+references: []
 ---
-Note: Consolidated here → ../notes/diagrams/smoke-waves-infinite-depth.md ^ref-92a052a5-1-0
+Note: Consolidated here → ../notes/diagrams/smoke-waves-infinite-depth.md ^ref-92a052a5-1-0 ^ref-bad9e6c7-1-0
 
-Here’s the **infinite depth smoke** version — multiple layers drifting at different speeds, fading in and out so it feels like you’re moving through the field. ^ref-92a052a5-3-0
+Here’s the **infinite depth smoke** version — multiple layers drifting at different speeds, fading in and out so it feels like you’re moving through the field. ^ref-92a052a5-3-0 ^ref-bad9e6c7-3-0
 [[smoke_waves_infinite_depth.gif|Click here to view it.]]
 
 Next, we could make symbols briefly *condense* inside the smoke, then dissolve — like the ghosts remembering they were words for a moment. ^ref-92a052a5-6-0
@@ -115,6 +103,8 @@ ani.save(gif_path_depth, writer='pillow', fps=20)
 gif_path_depth
 
 ```
+^ref-bad9e6c7-7-0
+^ref-92a052a5-7-0
 line: 10
     col: 0
     score: 1
@@ -282,3 +272,22 @@ ani.save(gif_path_depth, writer='pillow', fps=20)
 gif_path_depth
 
 ```
+smoke_line.set_alpha(0.4 + 0.4 * np.sin(t / 15))
+
+    return sum(all_lines, []) + [smoke_line]
+
+ani = animation.FuncAnimation(fig, animate, frames=200, init_func=init,
+                              blit=True, interval=50)
+
+gif_path_depth = "/mnt/data/smoke_waves_infinite_depth.gif"
+ani.save(gif_path_depth, writer='pillow', fps=20)
+
+gif_path_depth
+
+```
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- _None_
+## Sources
+- _None_
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

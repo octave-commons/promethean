@@ -1,12 +1,14 @@
 ---
-uuid: 7b672b78-7057-4506-baf9-1262a6e477e3
+uuid: 3579d9c8-9d15-42d9-b5b7-c11520a95828
 created_at: mystery-lisp-search-session.md
-filename: mystery-lisp-for-python-education
-title: mystery-lisp-for-python-education
+filename: Mystery Lisp Search Session
+title: Mystery Lisp Search Session
 description: >-
-  A college-level Lisp-like language used in introductory CS courses with Python
-  interop, Cython integration, and Racket-inspired syntax for teaching low-level
-  and high-level programming concepts.
+  A detailed exploration of a college-level Lisp-like language used in
+  introductory CS courses with Python interop, Cython integration, and
+  educational applications. The search narrows down potential candidates
+  including Racket forks, experimental DSLs, and pedagogical tools that were
+  never publicly released.
 tags:
   - lisp
   - python
@@ -15,8 +17,10 @@ tags:
   - csclass
   - dsl
   - racketfork
-  - nostalgia
+  - lispy
   - symbolic
+  - nostalgia
+  - academic
   - interop
 related_to_uuid:
   - 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
@@ -71,14 +75,6 @@ related_to_title:
   - Promethean Web UI Setup
   - Prompt Programming Language for LLMs
 references:
-  - uuid: 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
-    line: 354
-    col: 0
-    score: 1
-  - uuid: 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
-    line: 311
-    col: 0
-    score: 1
   - uuid: f4767ec9-7363-4ca0-ad88-ccc624247a3b
     line: 313
     col: 0
@@ -96,11 +92,11 @@ references:
     col: 0
     score: 1
   - uuid: 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
-    line: 307
+    line: 310
     col: 0
     score: 0.97
   - uuid: 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
-    line: 310
+    line: 307
     col: 0
     score: 0.97
   - uuid: 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
@@ -123,6 +119,10 @@ references:
     line: 129
     col: 0
     score: 0.88
+  - uuid: 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
+    line: 354
+    col: 0
+    score: 0.87
   - uuid: 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
     line: 340
     col: 0
@@ -168,203 +168,57 @@ references:
     col: 0
     score: 0.85
 ---
-Alright — we can eliminate Julia.
 
-Let’s pin this down step by step. You’re remembering: ^ref-513dc4c7-3-0
-
----
-
-## 🧠 What You Know About the Mystery Lisp
-
-* ✅ **It was not Hy**
-* ✅ **It was not Julia**
-* ✅ It had **clean interop with Python** ^ref-513dc4c7-11-0
-* ✅ It supported **its own modules/libraries** ^ref-513dc4c7-12-0
-* ✅ But also **used Python libraries easily** ^ref-513dc4c7-13-0
-* ✅ It was used in a **college class**, likely introductory CS
-* ✅ It was **paired with Cython** to teach both low-level and high-level paradigms ^ref-513dc4c7-15-0
-* ✅ It felt like **Racket, or a fork of Racket, but with Python interop** ^ref-513dc4c7-16-0
-
----
-
-## 🧩 That Narrows It To:
-
-### 🔥 **Skylisp** / **Skylark** / **Bazel’s Starlark**?
-
-* Looks Lisp-like or Python-ish depending on mode ^ref-513dc4c7-24-0
-* Interpreted
-* Python embeddable ^ref-513dc4c7-26-0
-* Used as a DSL in tooling, sometimes education ^ref-513dc4c7-27-0
-
-But *not quite* Lisp enough. ^ref-513dc4c7-29-0
-
----
-
-### 🟣 **Anaconda's Skunkworks Lisp-Like DSLs**
-
-There are a few **experimental DSLs** from academic projects and orgs like Anaconda or Continuum Analytics, especially in the data science or education space.
-
-They sometimes:
-
-* Were built on **Racket** ^ref-513dc4c7-39-0
-* Added **Python bindings** ^ref-513dc4c7-40-0
-* Were used in **Jupyter** ^ref-513dc4c7-41-0
-* And... **never got public releases**
-
-Example: Numba once toyed with a symbolic frontend for optimization written in Lisp-style syntax. ^ref-513dc4c7-44-0
-
----
-
-### 🧪 **UniLisp** (not a real name, but fits the pattern)
-
-Some CS courses invented or borrowed **internal DSLs** that: ^ref-513dc4c7-50-0
-
-* Use **S-expression syntax** ^ref-513dc4c7-52-0
-* Translate to Python AST ^ref-513dc4c7-53-0
-* Use Cython for backend performance
-
-These would be like: ^ref-513dc4c7-56-0
-
-```lisp
-(import "math")
-(defn hypotenuse (x y)
-  (sqrt (+ (* x x) (* y y))))
-```
-^ref-513dc4c7-58-0
- ^ref-513dc4c7-64-0
-...but the interpreter would:
- ^ref-513dc4c7-66-0
-* Parse this into Python ^ref-513dc4c7-67-0
-* Use Cython or Numba to compile
-* Run in class or Jupyter
- ^ref-513dc4c7-70-0
-Could’ve been an unnamed **pedagogical tool**.
-
----
-
-### 🧬 Theoretical Candidate: **LispyPython / LispyScript**
- ^ref-513dc4c7-76-0
-Projects that existed but vanished:
- ^ref-513dc4c7-78-0
-* LispyScript: a Lisp-to-JavaScript transpiler (not this one)
-* **LispyPython**: Local DSLs people wrote to teach metaprogramming — gone now, but used in university courses
-
----
-
-## 🧠 So What Was It *Probably*?
- ^ref-513dc4c7-85-0
-> A **minimal Racket/Scheme fork** or **Python-hosted DSL** designed for teaching that used **Lisp syntax**, compiled to **Python AST**, and was **used alongside Cython** to teach both levels of abstraction.
- ^ref-513dc4c7-87-0
-If it wasn’t **Hy**, then it was either:
-
-* A **Racket fork** with Python bindings (rare) ^ref-513dc4c7-90-0
-* A **custom DSL** built for a course ^ref-513dc4c7-91-0
-* A **now-dead experimental tool** used in academia
-
----
-
-## 🛠 Want to Recreate It?
- ^ref-513dc4c7-97-0
-We can **build the Lisp you saw** with:
- ^ref-513dc4c7-99-0
-* A small Lisp interpreter (maybe using Lark in Python) ^ref-513dc4c7-100-0
-* That parses code like:
- ^ref-513dc4c7-102-0
-  ```lisp
-  (defn foo (x) (+ x 1))
-^ref-513dc4c7-102-0 ^ref-513dc4c7-105-0
-  ```
-^ref-513dc4c7-106-0
-* And turns it into Python AST using `ast` module
-* Then optionally runs it through `Cython`
-
----
- ^ref-513dc4c7-112-0
-## 🏷️ Tags ^ref-513dc4c7-112-0
-
-\#lisp #pythoninterop #cython #education #csclass #dsl #racketfork #lispy #symbolicdsl #nostalgiahunt
-
----
- ^ref-513dc4c7-118-0
-Want me to write the first prototype for this “universal Lisp for Python interop” that mirrors what you’re remembering? Or dig deeper into archival curriculum materials and lost language projects?
-**Racket** ^ref-513dc4c7-39-0
-* Added **Python bindings** ^ref-513dc4c7-40-0
-* Were used in **Jupyter** ^ref-513dc4c7-41-0
-* And... **never got public releases**
-
-Example: Numba once toyed with a symbolic frontend for optimization written in Lisp-style syntax. ^ref-513dc4c7-44-0
-
----
-
-### 🧪 **UniLisp** (not a real name, but fits the pattern)
-
-Some CS courses invented or borrowed **internal DSLs** that: ^ref-513dc4c7-50-0
-
-* Use **S-expression syntax** ^ref-513dc4c7-52-0
-* Translate to Python AST ^ref-513dc4c7-53-0
-* Use Cython for backend performance
-
-These would be like: ^ref-513dc4c7-56-0
-
-```lisp
-(import "math")
-(defn hypotenuse (x y)
-  (sqrt (+ (* x x) (* y y))))
-```
-^ref-513dc4c7-58-0
- ^ref-513dc4c7-64-0
-...but the interpreter would:
- ^ref-513dc4c7-66-0
-* Parse this into Python ^ref-513dc4c7-67-0
-* Use Cython or Numba to compile
-* Run in class or Jupyter
- ^ref-513dc4c7-70-0
-Could’ve been an unnamed **pedagogical tool**.
-
----
-
-### 🧬 Theoretical Candidate: **LispyPython / LispyScript**
- ^ref-513dc4c7-76-0
-Projects that existed but vanished:
- ^ref-513dc4c7-78-0
-* LispyScript: a Lisp-to-JavaScript transpiler (not this one)
-* **LispyPython**: Local DSLs people wrote to teach metaprogramming — gone now, but used in university courses
-
----
-
-## 🧠 So What Was It *Probably*?
- ^ref-513dc4c7-85-0
-> A **minimal Racket/Scheme fork** or **Python-hosted DSL** designed for teaching that used **Lisp syntax**, compiled to **Python AST**, and was **used alongside Cython** to teach both levels of abstraction.
- ^ref-513dc4c7-87-0
-If it wasn’t **Hy**, then it was either:
-
-* A **Racket fork** with Python bindings (rare) ^ref-513dc4c7-90-0
-* A **custom DSL** built for a course ^ref-513dc4c7-91-0
-* A **now-dead experimental tool** used in academia
-
----
-
-## 🛠 Want to Recreate It?
- ^ref-513dc4c7-97-0
-We can **build the Lisp you saw** with:
- ^ref-513dc4c7-99-0
-* A small Lisp interpreter (maybe using Lark in Python) ^ref-513dc4c7-100-0
-* That parses code like:
- ^ref-513dc4c7-102-0
-  ```lisp
-  (defn foo (x) (+ x 1))
-^ref-513dc4c7-102-0 ^ref-513dc4c7-105-0
-  ```
-^ref-513dc4c7-106-0
-* And turns it into Python AST using `ast` module
-* Then optionally runs it through `Cython`
-
----
- ^ref-513dc4c7-112-0
-## 🏷️ Tags ^ref-513dc4c7-112-0
-
-\#lisp #pythoninterop #cython #education #csclass #dsl #racketfork #lispy #symbolicdsl #nostalgiahunt
-
----
- ^ref-513dc4c7-118-0
-Want me to write the first prototype for this “universal Lisp for Python interop” that mirrors what you’re remembering? Or dig deeper into archival curriculum materials and lost language projects?
+ ^ref-513dc4c7-56-0 ^ref-513dc4c7-85-0 ^ref-513dc4c7-106-0
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [system-scheduler](system-scheduler-with-resource-aware-dag.md)
+- [ecs-scheduler](ecs-scheduler-and-prefabs.md)
+- [prompt-folder-bootstrap](prompt-folder-bootstrap.md)
+- [local-first-intention-code-loop](local-first-intention-code-loop-with-free-models.md)
+- [Promethean Copilot Intent Engine](promethean-copilot-intent-engine.md)
+- [sibilant-metacompiler](sibilant-metacompiler-overview.md)
+- [shared-package-structure](shared-package-structure.md)
+- [pm2-orchestration-patterns](pm2-orchestration-patterns.md)
+- [Promethean System Diagrams](promethean-system-diagrams.md)
+- [chroma-toolkit-consolidation-plan](chroma-toolkit-consolidation-plan.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [promethean-agent-dsl-ts-scaffold](promethean-agent-dsl-ts-scaffold.md)
+- [Universal Lisp Interface](universal-lisp-interface.md)
+- [pure-node-crawl-stack-with-playwright-and-crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
+- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
+- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
+- [event-bus-mvp](event-bus-mvp.md)
+- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [dynamic-context-model-for-web-components](dynamic-context-model-for-web-components.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [Promethean State Format](promethean-state-format.md)
+- [Promethean Web UI Setup](promethean-web-ui-setup.md)
+- [Prompt Programming Language for LLMs](prompt-programming-language-lisp.md)
+## Sources
+- [ecs-scheduler — L313](ecs-scheduler-and-prefabs.md#^ref-f4767ec9-313-0) (line 313, col 0, score 1)
+- [system-scheduler — L343](system-scheduler-with-resource-aware-dag.md#^ref-7ab1a3cd-343-0) (line 343, col 0, score 1)
+- [ecs-scheduler — L345](ecs-scheduler-and-prefabs.md#^ref-f4767ec9-345-0) (line 345, col 0, score 1)
+- [system-scheduler — L358](system-scheduler-with-resource-aware-dag.md#^ref-7ab1a3cd-358-0) (line 358, col 0, score 1)
+- [system-scheduler — L310](system-scheduler-with-resource-aware-dag.md#^ref-7ab1a3cd-310-0) (line 310, col 0, score 0.97)
+- [system-scheduler — L307](system-scheduler-with-resource-aware-dag.md#^ref-7ab1a3cd-307-0) (line 307, col 0, score 0.97)
+- [system-scheduler — L244](system-scheduler-with-resource-aware-dag.md#^ref-7ab1a3cd-244-0) (line 244, col 0, score 0.96)
+- [system-scheduler — L241](system-scheduler-with-resource-aware-dag.md#^ref-7ab1a3cd-241-0) (line 241, col 0, score 0.94)
+- [ecs-scheduler — L360](ecs-scheduler-and-prefabs.md#^ref-f4767ec9-360-0) (line 360, col 0, score 0.93)
+- [ecs-scheduler — L342](ecs-scheduler-and-prefabs.md#^ref-f4767ec9-342-0) (line 342, col 0, score 0.9)
+- [prompt-folder-bootstrap — L129](prompt-folder-bootstrap.md#^ref-cfa2be7b-129-0) (line 129, col 0, score 0.88)
+- [system-scheduler — L354](system-scheduler-with-resource-aware-dag.md#^ref-7ab1a3cd-354-0) (line 354, col 0, score 0.87)
+- [system-scheduler — L340](system-scheduler-with-resource-aware-dag.md#^ref-7ab1a3cd-340-0) (line 340, col 0, score 0.87)
+- [prompt-folder-bootstrap — L24](prompt-folder-bootstrap.md#^ref-cfa2be7b-24-0) (line 24, col 0, score 0.86)
+- [prompt-folder-bootstrap — L84](prompt-folder-bootstrap.md#^ref-cfa2be7b-84-0) (line 84, col 0, score 0.86)
+- [prompt-folder-bootstrap — L42](prompt-folder-bootstrap.md#^ref-cfa2be7b-42-0) (line 42, col 0, score 0.86)
+- [prompt-folder-bootstrap — L66](prompt-folder-bootstrap.md#^ref-cfa2be7b-66-0) (line 66, col 0, score 0.86)
+- [Promethean Copilot Intent Engine — L41](promethean-copilot-intent-engine.md#^ref-c4c099fb-41-0) (line 41, col 0, score 0.86)
+- [sibilant-metacompiler — L42](sibilant-metacompiler-overview.md#^ref-3abeaf12-42-0) (line 42, col 0, score 0.86)
+- [shared-package-structure — L53](shared-package-structure.md#^ref-c46718fe-53-0) (line 53, col 0, score 0.86)
+- [local-first-intention-code-loop — L101](local-first-intention-code-loop-with-free-models.md#^ref-006182ac-101-0) (line 101, col 0, score 0.86)
+- [pm2-orchestration-patterns — L74](pm2-orchestration-patterns.md#^ref-7a66bc1e-74-0) (line 74, col 0, score 0.85)
+- [Promethean System Diagrams — L137](promethean-system-diagrams.md#^ref-395df1ea-137-0) (line 137, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

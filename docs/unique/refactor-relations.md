@@ -1,5 +1,5 @@
 ---
-uuid: 1f4a3423-555e-4d45-8c32-5b6b45914a4e
+uuid: 363d0956-eaeb-4b15-8e45-4d624302965a
 created_at: refactor-relations.md
 filename: refactor-relations
 title: refactor-relations
@@ -131,107 +131,49 @@ references:
     col: 0
     score: 0.85
 ---
-Refactor 04-relations.ts under the following contraints: ^ref-41ce0216-1-0
 
-2. use level db for kv store instead of json objects ^ref-41ce0216-3-0
-3. reduce complexity ^ref-41ce0216-4-0
-4. prefer functional style ^ref-41ce0216-5-0
-5. prefer immutability ^ref-41ce0216-6-0
-6. avoid loops ^ref-41ce0216-7-0
-7. prefer then/catch methods when handling errors with promises. ^ref-41ce0216-8-0
-
-```typescript
-
-import { promises as fs } from "fs";
-import * as path from "path";
-import matter from "gray-matter";
-import { parseArgs, readJSON } from "./utils";
-import type { Chunk, Front, QueryHit } from "./types";
-
-const args = parseArgs({
-  "--docs-dir": "docs/unique",
-  "--doc-threshold": "0.78",
-  "--ref-threshold": "0.85",
-});
-
-const ROOT = path.resolve(args["--docs-dir"]);
-const DOC_THRESHOLD = Number(args["--doc-threshold"]);
-const REF_THRESHOLD = Number(args["--ref-threshold"]);
-const CACHE = path.join(process.cwd(), ".cache/docs-pipeline");
-const CHUNK_CACHE = path.join(CACHE, "chunks.json");
-const QUERY_CACHE = path.join(CACHE, "queries.json");
-const DOCS_MAP = path.join(CACHE, "docs-by-uuid.json");
-
-async function listAllMarkdown(root: string): Promise<string[]> {
-  const out: string[] = [];
-  async function walk(dir: string) {
-    const ents = await fs.readdir(dir, { withFileTypes: true });
-    for (const ent of ents) {
-      const p = path.join(dir, ent.name);
-      if (ent.isDirectory()) await walk(p);
-      else out.push(p);
-    }
-  }
-  await walk(root);
-  return out.filter((p) => /\.(md|mdx|txt)$/i.test(p));
-}
-
-async function main() {
-  const files = await listAllMarkdown(ROOT);
-  const chunksByDoc: Record<string, Chunk[]> = await readJSON(CHUNK_CACHE, {});
-  const queryCache: Record<string, QueryHit[]> = await readJSON(QUERY_CACHE, {});
-  const docsByUuid: Record<string, { path: string; title: string }> = await readJSON(DOCS_MAP, {});
-  const docPairs: Record<string, Record<string, number>> = {};
-
-  function addPair(a: string, b: string, score: number) {
-    if (!docPairs[a]) docPairs[a] = {};
-    docPairs[a][b] = Math.max(docPairs[a][b] ?? 0, score);
-  }
-
-  // aggregate doc-to-doc by best chunk similarity
-  for (const [docUuid, chunks] of Object.entries(chunksByDoc)) {
-    for (const ch of chunks) {
-      const hits = queryCache[ch.id] || [];
-      for (const h of hits) addPair(docUuid, h.docUuid, h.score);
-    }
-  }
-
-  for (const f of files) {
-    const raw = await fs.readFile(f, "utf-8");
-    const gm = matter(raw);
-    const fm = (gm.data || {}) as Front;
-    if (!fm.uuid) continue;
-
-    // related
-    const peers = Object.entries(docPairs[fm.uuid] ?? {})
-      .filter(([, score]) => score >= DOC_THRESHOLD)
-      .sort((a, b) => b[1] - a[1]);
-    fm.related_to_uuid = Array.from(new Set([...(fm.related_to_uuid ?? []), ...peers.map(([u]) => u)]));
-    fm.related_to_title = Array.from(
-      new Set([
-        ...(fm.related_to_title ?? []),
-        ...peers.map(([u]) => docsByUuid[u]?.title ?? u),
-      ])
-    );
-
-    // references (top chunk hits above threshold)
-    const myChunks = chunksByDoc[fm.uuid] ?? [];
-    const acc = new Map<string, { uuid: string; line: number; col: number; score?: number }>();
-    for (const ch of myChunks) {
-      for (const h of (queryCache[ch.id] || []).filter((x) => x.score >= REF_THRESHOLD)) {
-        const k = `${h.docUuid}:${h.startLine}:${h.startCol}`;
-        if (!acc.has(k)) acc.set(k, { uuid: h.docUuid, line: h.startLine, col: h.startCol, score: Math.round(h.score * 100) / 100 });
-      }
-    }
-    const refs = Array.from(acc.values());
-    fm.references = refs;
-
-    // write FM only (body unchanged)
-    const out = matter.stringify(gm.content, fm, { language: "yaml" });
-    await fs.writeFile(f, out, "utf-8");
-  }
-
-  console.log("04-relations: done.");
-}
-main().catch((e) => { console.error(e); process.exit(1); });
-```
+ ^ref-41ce0216-3-0 ^ref-41ce0216-6-0 ^ref-41ce0216-8-0 ^ref-41ce0216-10-0
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Refactor 05-footers.ts](refactor-05-footers-ts.md)
+- [Refactor Frontmatter Processing](refactor-frontmatter-processing.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
+- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
+- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
+- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
+- [file-watcher-auth-fix](file-watcher-auth-fix.md)
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [promethean-system-diagrams](promethean-system-diagrams.md)
+- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
+- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [shared-package-layout-clarification](shared-package-layout-clarification.md)
+- [ecs-offload-workers](ecs-offload-workers.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+## Sources
+- [Refactor 05-footers.ts — L3](refactor-05-footers-ts.md#^ref-80d4d883-3-0) (line 3, col 0, score 0.99)
+- [Refactor 05-footers.ts — L8](refactor-05-footers-ts.md#^ref-80d4d883-8-0) (line 8, col 0, score 0.98)
+- [Refactor Frontmatter Processing — L4](refactor-frontmatter-processing.md#^ref-cfbdca2f-4-0) (line 4, col 0, score 0.97)
+- [Refactor Frontmatter Processing — L9](refactor-frontmatter-processing.md#^ref-cfbdca2f-9-0) (line 9, col 0, score 0.89)
+- [Refactor 05-footers.ts — L9](refactor-05-footers-ts.md#^ref-80d4d883-9-0) (line 9, col 0, score 0.87)
+- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.86)
+- [Event Bus Projections Architecture — L111](event-bus-projections-architecture.md#^ref-cf6b9b17-111-0) (line 111, col 0, score 0.86)
+- [RAG UI Panel with Qdrant and PostgREST — L349](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0) (line 349, col 0, score 0.86)
+- [Promethean Agent DSL TS Scaffold — L818](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-818-0) (line 818, col 0, score 0.86)
+- [Matplotlib Animation with Async Execution — L44](matplotlib-animation-with-async-execution.md#^ref-687439f9-44-0) (line 44, col 0, score 0.86)
+- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.86)
+- [Refactor Frontmatter Processing — L11](refactor-frontmatter-processing.md#^ref-cfbdca2f-11-0) (line 11, col 0, score 0.85)
+- [Lispy Macros with syntax-rules — L376](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-376-0) (line 376, col 0, score 0.85)
+- [set-assignment-in-lisp-ast — L148](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0) (line 148, col 0, score 0.85)
+- [file-watcher-auth-fix — L32](file-watcher-auth-fix.md#^ref-9044701b-32-0) (line 32, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

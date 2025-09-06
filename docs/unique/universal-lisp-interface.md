@@ -1,5 +1,5 @@
 ---
-uuid: 2611e17e-c7dd-4de6-9c66-d98fcfa9ffb5
+uuid: e9197936-607e-4ba3-b155-fc915f2edcaf
 created_at: universal-lisp-interface.md
 filename: Universal Lisp Interface
 title: Universal Lisp Interface
@@ -420,12 +420,12 @@ That’s a systems-level dream — and it’s *achievable*, with the right archi
               ▼     ▼            ▼     ▼      ▼
           PyPI  npm install   shell   crates.io
 ```
-^ref-b01856b4-39-0 ^ref-b01856b4-56-0
+^ref-b01856b4-39-0 ^ref-b01856b4-56-0 ^ref-2611e17e-56-0
 
 ---
 
 ## 🧬 DSL Example
- ^ref-b01856b4-61-0
+ ^ref-b01856b4-61-0 ^ref-2611e17e-61-0
 ```lisp
 (import "numpy" :from "pypi")
 (import "lodash" :from "npm")
@@ -481,9 +481,9 @@ Understands: ^ref-b01856b4-108-0
 Uses adapters for:
 
 * `pip`
-* `npm` ^ref-b01856b4-117-0
+* `npm` ^ref-b01856b4-117-0 ^ref-2611e17e-117-0
 * `cargo`
-* `luarocks` ^ref-b01856b4-119-0
+* `luarocks` ^ref-b01856b4-119-0 ^ref-2611e17e-119-0
 * `vcpkg` or `pkg-config`
 
 Could implement this in Python or Go to begin with.
@@ -565,3 +565,106 @@ Supports symbol aliasing, reflection, automatic type coercion.
 You ready to build this? We can start small with a Lisp-like config loader that calls Python and Node libs. Or even build a REPL for hybrid execution.
 
 Where do you want to dig first — the runtime, the DSL grammar, or the package resolution engine?
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
+- [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
+- [Promethean_Eidolon_Synchronicity_Model](promethean-eidolon-synchronicity-model.md)
+- [Docops Feature Updates](docops-feature-updates-3.md)
+- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
+- [field-interaction-equations](field-interaction-equations.md)
+- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
+- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
+- [NPU Voice Code and Sensory Integration](npu-voice-code-and-sensory-integration.md)
+- [Obsidian ChatGPT Plugin Integration Guide](obsidian-chatgpt-plugin-integration-guide.md)
+- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
+- [OpenAPI Validation Report](openapi-validation-report.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [Promethean-native config design](promethean-native-config-design.md)
+- [ripple-propagation-demo](ripple-propagation-demo.md)
+- [schema-evolution-workflow](schema-evolution-workflow.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
+- [EidolonField](eidolonfield.md)
+- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
+## Sources
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.99)
+- [obsidian-ignore-node-modules-regex — L217](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-217-0) (line 217, col 0, score 0.92)
+- [Post-Linguistic Transhuman Design Frameworks — L238](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-238-0) (line 238, col 0, score 0.92)
+- [Promethean_Eidolon_Synchronicity_Model — L211](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-211-0) (line 211, col 0, score 0.92)
+- [Docops Feature Updates — L171](docops-feature-updates-3.md#^ref-cdbd21ee-171-0) (line 171, col 0, score 0.92)
+- [sibilant-meta-string-templating-runtime — L92](sibilant-meta-string-templating-runtime.md#^ref-2aafc801-92-0) (line 92, col 0, score 0.92)
+- [field-interaction-equations — L305](field-interaction-equations.md#^ref-b09141b7-305-0) (line 305, col 0, score 0.92)
+- [NPU Voice Code and Sensory Integration — L92](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-92-0) (line 92, col 0, score 0.91)
+- [Obsidian ChatGPT Plugin Integration Guide — L66](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-66-0) (line 66, col 0, score 0.91)
+- [Obsidian ChatGPT Plugin Integration — L36](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-36-0) (line 36, col 0, score 0.91)
+- [obsidian-ignore-node-modules-regex — L103](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-103-0) (line 103, col 0, score 0.91)
+- [Obsidian Templating Plugins Integration Guide — L127](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-127-0) (line 127, col 0, score 0.91)
+- [OpenAPI Validation Report — L51](openapi-validation-report.md#^ref-5c152b08-51-0) (line 51, col 0, score 0.91)
+- [Post-Linguistic Transhuman Design Frameworks — L124](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-124-0) (line 124, col 0, score 0.91)
+- [Promethean Chat Activity Report — L56](promethean-chat-activity-report.md#^ref-18344cf9-56-0) (line 56, col 0, score 0.91)
+- [komorebi-group-window-hack — L185](komorebi-group-window-hack.md#^ref-dd89372d-185-0) (line 185, col 0, score 0.9)
+- [Local-Only-LLM-Workflow — L129](local-only-llm-workflow.md#^ref-9a8ab57e-129-0) (line 129, col 0, score 0.9)
+- [Promethean-native config design — L35](promethean-native-config-design.md#^ref-ab748541-35-0) (line 35, col 0, score 0.89)
+- [compiler-kit-foundations — L166](compiler-kit-foundations.md#^ref-01b21543-166-0) (line 166, col 0, score 0.88)
+- [TypeScript Patch for Tool Calling Support — L104](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-104-0) (line 104, col 0, score 0.88)
+- [Eidolon Field Abstract Model — L144](eidolon-field-abstract-model.md#^ref-5e8b2388-144-0) (line 144, col 0, score 0.88)
+- [Model Selection for Lightweight Conversational Tasks — L103](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-103-0) (line 103, col 0, score 0.88)
+- [field-interaction-equations — L82](field-interaction-equations.md#^ref-b09141b7-82-0) (line 82, col 0, score 0.88)
+- [Promethean-native config design — L33](promethean-native-config-design.md#^ref-ab748541-33-0) (line 33, col 0, score 0.88)
+- [Eidolon Field Abstract Model — L176](eidolon-field-abstract-model.md#^ref-5e8b2388-176-0) (line 176, col 0, score 0.88)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 0.88)
+- [EidolonField — L207](eidolonfield.md#^ref-49d1e1e5-207-0) (line 207, col 0, score 0.88)
+- [ecs-offload-workers — L39](ecs-offload-workers.md#^ref-6498b9d7-39-0) (line 39, col 0, score 0.87)
+- [promethean-system-diagrams — L34](promethean-system-diagrams.md#^ref-b51e19b4-34-0) (line 34, col 0, score 0.87)
+- [schema-evolution-workflow — L521](schema-evolution-workflow.md#^ref-d8059b6a-521-0) (line 521, col 0, score 0.87)
+- [RAG UI Panel with Qdrant and PostgREST — L50](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-50-0) (line 50, col 0, score 0.87)
+- [schema-evolution-workflow — L164](schema-evolution-workflow.md#^ref-d8059b6a-164-0) (line 164, col 0, score 0.87)
+- [RAG UI Panel with Qdrant and PostgREST — L181](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-181-0) (line 181, col 0, score 0.87)
+- [RAG UI Panel with Qdrant and PostgREST — L47](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-47-0) (line 47, col 0, score 0.87)
+- [polyglot-repl-interface-layer — L146](polyglot-repl-interface-layer.md#^ref-9c79206d-146-0) (line 146, col 0, score 0.87)
+- [ripple-propagation-demo — L88](ripple-propagation-demo.md#^ref-8430617b-88-0) (line 88, col 0, score 0.87)
+- [WebSocket Gateway Implementation — L318](websocket-gateway-implementation.md#^ref-e811123d-318-0) (line 318, col 0, score 0.87)
+- [Eidolon Field Abstract Model — L180](eidolon-field-abstract-model.md#^ref-5e8b2388-180-0) (line 180, col 0, score 0.86)
+- [promethean-system-diagrams — L137](promethean-system-diagrams.md#^ref-b51e19b4-137-0) (line 137, col 0, score 0.86)
+- [RAG UI Panel with Qdrant and PostgREST — L110](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-110-0) (line 110, col 0, score 0.86)
+- [RAG UI Panel with Qdrant and PostgREST — L79](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-79-0) (line 79, col 0, score 0.86)
+- [Event Bus MVP — L383](event-bus-mvp.md#^ref-534fe91d-383-0) (line 383, col 0, score 0.86)
+- [promethean-system-diagrams — L78](promethean-system-diagrams.md#^ref-b51e19b4-78-0) (line 78, col 0, score 0.86)
+- [RAG UI Panel with Qdrant and PostgREST — L137](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-137-0) (line 137, col 0, score 0.86)
+- [ripple-propagation-demo — L67](ripple-propagation-demo.md#^ref-8430617b-67-0) (line 67, col 0, score 0.86)
+- [RAG UI Panel with Qdrant and PostgREST — L316](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-316-0) (line 316, col 0, score 0.86)
+- [heartbeat-fragment-demo — L61](heartbeat-fragment-demo.md#^ref-dd00677a-61-0) (line 61, col 0, score 0.86)
+- [schema-evolution-workflow — L532](schema-evolution-workflow.md#^ref-d8059b6a-532-0) (line 532, col 0, score 0.86)
+- [Chroma-Embedding-Refactor — L66](chroma-embedding-refactor.md#^ref-8b256935-66-0) (line 66, col 0, score 0.86)
+- [heartbeat-fragment-demo — L65](heartbeat-fragment-demo.md#^ref-dd00677a-65-0) (line 65, col 0, score 0.86)
+- [ecs-offload-workers — L194](ecs-offload-workers.md#^ref-6498b9d7-194-0) (line 194, col 0, score 0.86)
+- [WebSocket Gateway Implementation — L56](websocket-gateway-implementation.md#^ref-e811123d-56-0) (line 56, col 0, score 0.86)
+- [WebSocket Gateway Implementation — L449](websocket-gateway-implementation.md#^ref-e811123d-449-0) (line 449, col 0, score 0.86)
+- [ripple-propagation-demo — L16](ripple-propagation-demo.md#^ref-8430617b-16-0) (line 16, col 0, score 0.86)
+- [polyglot-repl-interface-layer — L114](polyglot-repl-interface-layer.md#^ref-9c79206d-114-0) (line 114, col 0, score 0.86)
+- [ecs-offload-workers — L151](ecs-offload-workers.md#^ref-6498b9d7-151-0) (line 151, col 0, score 0.86)
+- [komorebi-group-window-hack — L132](komorebi-group-window-hack.md#^ref-dd89372d-132-0) (line 132, col 0, score 0.86)
+- [ripple-propagation-demo — L64](ripple-propagation-demo.md#^ref-8430617b-64-0) (line 64, col 0, score 0.86)
+- [Eidolon Field Abstract Model — L159](eidolon-field-abstract-model.md#^ref-5e8b2388-159-0) (line 159, col 0, score 0.86)
+- [komorebi-group-window-hack — L195](komorebi-group-window-hack.md#^ref-dd89372d-195-0) (line 195, col 0, score 0.86)
+- [schema-evolution-workflow — L236](schema-evolution-workflow.md#^ref-d8059b6a-236-0) (line 236, col 0, score 0.86)
+- [Dynamic Context Model for Web Components — L272](dynamic-context-model-for-web-components.md#^ref-f7702bf8-272-0) (line 272, col 0, score 0.86)
+- [Promethean-native config design — L32](promethean-native-config-design.md#^ref-ab748541-32-0) (line 32, col 0, score 0.86)
+- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.86)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L151](ollama-llm-provider-for-pseudo-code-transpiler.md#^ref-b362e12e-151-0) (line 151, col 0, score 0.86)
+- [Mongo Outbox Implementation — L610](mongo-outbox-implementation.md#^ref-9c1acd1e-610-0) (line 610, col 0, score 0.86)
+- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.86)
+- [compiler-kit-foundations — L582](compiler-kit-foundations.md#^ref-01b21543-582-0) (line 582, col 0, score 0.85)
+- [schema-evolution-workflow — L146](schema-evolution-workflow.md#^ref-d8059b6a-146-0) (line 146, col 0, score 0.85)
+- [Eidolon Field Abstract Model — L124](eidolon-field-abstract-model.md#^ref-5e8b2388-124-0) (line 124, col 0, score 0.85)
+- [Chroma-Embedding-Refactor — L101](chroma-embedding-refactor.md#^ref-8b256935-101-0) (line 101, col 0, score 0.85)
+- [field-interaction-equations — L121](field-interaction-equations.md#^ref-b09141b7-121-0) (line 121, col 0, score 0.85)
+- [Refactor Frontmatter Processing — L11](refactor-frontmatter-processing.md#^ref-cfbdca2f-11-0) (line 11, col 0, score 0.85)
+- [file-watcher-auth-fix — L32](file-watcher-auth-fix.md#^ref-9044701b-32-0) (line 32, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
