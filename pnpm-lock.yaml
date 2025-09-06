@@ -340,6 +340,9 @@ importers:
 
   packages/alias-rewrite:
     dependencies:
+      '@promethean/naming':
+        specifier: workspace:*
+        version: link:../naming
       fast-glob:
         specifier: ^3.3.2
         version: 3.3.3
@@ -12825,10 +12828,6 @@ snapshots:
       '@types/webidl-conversions': 7.0.3
 
   '@types/ws@8.18.1':
-    dependencies:
-      '@types/node': 24.3.1
-
-  '@types/ws@8.5.9':
     dependencies:
       '@types/node': 24.3.1
 
