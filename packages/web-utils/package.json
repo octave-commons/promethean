@@ -26,9 +26,8 @@
   },
   "module": "dist/index.js",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.12",
-    "zod": "^3.23.8",
-    "@xenova/transformers": "^2.17.2"
-  },
-  "devDependencies": {}
+    "cheerio": "1.0.0-rc.12",
+    "zod": "3.23.8",
+    "@xenova/transformers": "2.17.2"
+  }
 }
