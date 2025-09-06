@@ -164,7 +164,7 @@ services:
     restart: unless-stopped
 
   semgrep:
-    image: semgrep/semgrep:latest
+    image: ${SEMGREP_IMAGE:-semgrep/semgrep:1.92.0}
     working_dir: /src
     volumes:
       - ./:/src:ro # read-only mount is cautious, optional
