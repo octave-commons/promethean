@@ -21,9 +21,9 @@
   "dependencies": {
     "@fastify/swagger": "^8.15.0",
     "@fastify/swagger-ui": "^1.10.2",
-    "@promethean/embeddings": "file:../embeddings",
-    "@promethean/fs": "file:../fs",
-    "@promethean/persistence": "file:../persistence",
+    "@promethean/embedding": "workspace:*",
+    "@promethean/fs": "workspace:*",
+    "@promethean/persistence": "workspace:*",
     "@promethean/utils": "workspace:*",
     "ajv-formats": "^3.0.1",
     "chromadb": "^1.8.1",
