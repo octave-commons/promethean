@@ -1,6 +1,6 @@
 # services/ts/social-gateway/agent.yml (one per provider)
 agent:
-    id: discord-gateway
+    id: discord
     kind: provider-access
     version: 0.1.0
     binds: { provider: 'discord', tenants: ['duck', 'backup-duck'] }
