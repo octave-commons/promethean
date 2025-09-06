@@ -2,9 +2,7 @@ import test from "ava";
 
 test("embeds attachments into provider+tenant namespace", async (t) => {
   try {
-    const { embedAttachments } = await import("../index.js");
-    process.env.DISCORD_TOKEN_DUCK = "test";
-    process.env.EMBEDDING_DIM = "8";
+     const { embedAttachments } = await import("@promethean/embedding");
     const out = await embedAttachments({
       message_id: "m1",
       author_urn: "urn:discord:user:duck:u1",
