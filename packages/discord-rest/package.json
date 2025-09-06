@@ -7,11 +7,15 @@
     "start": "node --enable-source-maps --experimental-specifier-resolution=node ./src/index.ts",
     "test": "ava --config ../../../config/ava.config.mjs",
     "coverage": "c8 ava --config ../../../config/ava.config.mjs",
-    "build": "tsc .",
-    "lint": "pnpm exec @biomejs/biome lint . || true"
+    "build": "tsc -p tsconfig.json",
+    "lint": "pnpm dlx @biomejs/biome lint .",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
   },
   "dependencies": {
     "@promethean/agent": "workspace:*",
+    "@promethean/rate": "workspace:*",
+    "@promethean/security": "workspace:*",
     "@promethean/platform": "workspace:*"
   }
 }

@@ -94,9 +94,9 @@ export async function buildTree(root: string, opts: TreeOptions = {}): Promise<T
             path: p,
             relative,
             type,
-            size: !s.isDirectory() ? s.size : undefined,
+            ...(type === 'file' ? { size: s.size } : {}),
             mtimeMs: s.mtimeMs,
-            ext: type === 'file' ? path.extname(name) : undefined,
+            ...(type === 'file' ? { ext: path.extname(name) } : {}),
         };
 
         if (type === 'dir' && depth < maxDepth) {
@@ -158,21 +158,28 @@ export function filterTree(node: TreeNode, keep: (n: TreeNode) => boolean): Tree
  */
 export function collapseSingleChildDirs(node: TreeNode): TreeNode {
     if (!node.children || node.children.length !== 1) {
-        if (node.children) node.children = node.children.map(collapseSingleChildDirs);
+        if (node.children) {
+            const children = node.children.map(collapseSingleChildDirs);
+            return { ...node, children };
+        }
         return node;
     }
-    const only = node.children[0];
+    const only = node.children[0]!;
     if (node.type === 'dir' && only.type === 'dir') {
         const merged: TreeNode = {
-            ...only,
-            name: path.join(node.name, only.name),
-            relative: node.relative, // keep parent’s relative for top-level context
+            name: only.name, // keep basename contract
+            relative: only.relative, // must match `path` relative to root
             path: only.path,
+            type: only.type,
+            ...(only.size !== undefined ? { size: only.size } : {}),
+            ...(only.mtimeMs !== undefined ? { mtimeMs: only.mtimeMs } : {}),
+            ...(only.ext ? { ext: only.ext } : {}),
+            ...(only.children ? { children: only.children } : {}),
         };
         return collapseSingleChildDirs(merged);
     }
-    node.children = node.children.map(collapseSingleChildDirs);
-    return node;
+    const children = node.children.map(collapseSingleChildDirs);
+    return { ...node, children };
 }
 
 /** Minimal Dirent-like shim for the predicate hook */

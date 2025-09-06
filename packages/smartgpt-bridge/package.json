@@ -39,12 +39,14 @@
     "nanoid": "^5.0.7",
     "node-fetch": "^3.3.2",
     "node-pty": "^1.0.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "@fastify/rate-limit": "^10.3.0"
   },
   "devDependencies": {
     "@promethean/test-utils": "workspace:*",
     "mongodb-memory-server": "^10.2.0",
     "sinon": "^17.0.1",
-    "tsx": "^4.19.0"
+    "tsx": "^4.19.0",
+    "esmock": "^2.7.2"
   }
 }
