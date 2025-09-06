@@ -1,7 +1,9 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import { defineApp } from '@promethean/pm2-helpers';
-import deps from "../config/ecosystem.dependencies.js";
+// packages/discord-embedder/ecosystem.config.js
+
+import deps from "./ecosystem.dependencies.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
