@@ -22,9 +22,10 @@
     },
     "test": {
       "executor": "nx:run-commands",
+      "dependsOn": ["build"],
       "options": {
         "command": "ava",
-        "cwd": "packages/agent"
+        "cwd": "{projectRoot}"
       }
     },
     "lint": {
