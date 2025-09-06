@@ -1,5 +1,5 @@
 ---
-uuid: cfb15342-0e5d-444b-9e96-3f8758071609
+uuid: 3616c84d-e4ad-47c9-a206-06de43afb7f4
 created_at: refactor-frontmatter-processing.md
 filename: Refactor Frontmatter Processing
 title: Refactor Frontmatter Processing
@@ -202,3 +202,41 @@ async function main() {
 }
 main().catch((e) => { console.error(e); process.exit(1); });
 ```
+^ref-cfbdca2f-11-0
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [refactor-relations](refactor-relations.md)
+- [Refactor 05-footers.ts](refactor-05-footers-ts.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [SentenceProcessing](sentenceprocessing.md)
+- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
+- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
+- [template-based-compilation](template-based-compilation.md)
+- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
+- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
+- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
+- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
+- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [mystery-lisp-search-session](mystery-lisp-search-session.md)
+- [file-watcher-auth-fix](file-watcher-auth-fix.md)
+- [prom ui bootstrap](promethean-web-ui-setup.md)
+- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
+- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
+- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+## Sources
+- [refactor-relations — L3](refactor-relations.md#^ref-41ce0216-3-0) (line 3, col 0, score 0.97)
+- [Refactor 05-footers.ts — L3](refactor-05-footers-ts.md#^ref-80d4d883-3-0) (line 3, col 0, score 0.97)
+- [refactor-relations — L6](refactor-relations.md#^ref-41ce0216-6-0) (line 6, col 0, score 0.9)
+- [Refactor 05-footers.ts — L6](refactor-05-footers-ts.md#^ref-80d4d883-6-0) (line 6, col 0, score 0.9)
+- [refactor-relations — L8](refactor-relations.md#^ref-41ce0216-8-0) (line 8, col 0, score 0.89)
+- [Refactor 05-footers.ts — L8](refactor-05-footers-ts.md#^ref-80d4d883-8-0) (line 8, col 0, score 0.89)
+- [ecs-scheduler-and-prefabs — L379](ecs-scheduler-and-prefabs.md#^ref-c62a1815-379-0) (line 379, col 0, score 0.87)
+- [SentenceProcessing — L30](sentenceprocessing.md#^ref-681a4ab2-30-0) (line 30, col 0, score 0.86)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

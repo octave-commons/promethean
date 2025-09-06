@@ -1,5 +1,5 @@
 ---
-uuid: 2478e18c-f621-4b0c-a4c5-9637d213cccf
+uuid: b986e4a4-fb7e-44a7-9d71-a3313f58adae
 created_at: cross-language-runtime-polymorphism.md
 filename: Cross-Language Runtime Polymorphism
 title: Cross-Language Runtime Polymorphism
@@ -379,6 +379,7 @@ You could call:
     :sh {:eval sh.eval, :marshal sh.serialize})) ^ref-c34c36a6-183-0 ^ref-c34c36a6-203-0
 ^ref-c34c36a6-211-0
 ``` ^ref-c34c36a6-184-0 ^ref-c34c36a6-217-0
+^ref-2478e18c-212-0
 ^ref-c34c36a6-212-0
  ^ref-c34c36a6-185-0 ^ref-c34c36a6-205-0
 Your meta runtime becomes a **router** between brains. ^ref-c34c36a6-186-0 ^ref-c34c36a6-197-0 ^ref-c34c36a6-206-0 ^ref-c34c36a6-219-0
@@ -402,3 +403,54 @@ Your meta runtime becomes a **router** between brains. ^ref-c34c36a6-186-0 ^ref-
 --- ^ref-c34c36a6-215-0 ^ref-c34c36a6-224-0 ^ref-c34c36a6-237-0
  ^ref-c34c36a6-205-0 ^ref-c34c36a6-225-0 ^ref-c34c36a6-238-0
 You want to sketch the `MetaObject` and `register-buffer-type` interfaces next? Or write the macro wrapper that detects if a block is cross-runtime and rewrites it to a `send-json` call?
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Particle Simulation with Canvas and FFmpeg](particlesimulationwithcanvasandffmpeg.md)
+- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
+- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
+- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
+- [template-based-compilation](template-based-compilation.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
+- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
+- [sibilant-macro-targets](sibilant-macro-targets.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [Universal Lisp Interface](universal-lisp-interface.md)
+- [ripple-propagation-demo](ripple-propagation-demo.md)
+- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
+- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
+- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
+- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+## Sources
+- [Particle Simulation with Canvas and FFmpeg — L1](particlesimulationwithcanvasandffmpeg.md#^ref-c38e7047-1-0) (line 1, col 0, score 1)
+- [Particle Simulation with Canvas and FFmpeg — L3](particlesimulationwithcanvasandffmpeg.md#^ref-c38e7047-3-0) (line 3, col 0, score 1)
+- [sibilant-metacompiler-overview — L52](sibilant-metacompiler-overview.md#^ref-61d4086b-52-0) (line 52, col 0, score 0.92)
+- [Cross-Language Runtime Polymorphism — L212](cross-language-runtime-polymorphism.md#^ref-2478e18c-212-0) (line 212, col 0, score 0.91)
+- [Recursive Prompt Construction Engine — L147](recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0) (line 147, col 0, score 0.91)
+- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.89)
+- [Event Bus MVP — L527](event-bus-mvp.md#^ref-534fe91d-527-0) (line 527, col 0, score 0.87)
+- [Matplotlib Animation with Async Execution — L16](matplotlib-animation-with-async-execution.md#^ref-687439f9-16-0) (line 16, col 0, score 0.87)
+- [Promethean Full-Stack Docker Setup — L342](promethean-full-stack-docker-setup.md#^ref-2c2b48ca-342-0) (line 342, col 0, score 0.87)
+- [template-based-compilation — L44](template-based-compilation.md#^ref-f8877e5e-44-0) (line 44, col 0, score 0.87)
+- [prompt-programming-language-lisp — L56](prompt-programming-language-lisp.md#^ref-d41a06d1-56-0) (line 56, col 0, score 0.87)
+- [i3-bluetooth-setup — L1493](i3-bluetooth-setup.md#^ref-5e408692-1493-0) (line 1493, col 0, score 0.87)
+- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.86)
+- [State Snapshots API and Transactional Projector — L303](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0) (line 303, col 0, score 0.86)
+- [i3-bluetooth-setup — L2113](i3-bluetooth-setup.md#^ref-5e408692-2113-0) (line 2113, col 0, score 0.86)
+- [sibilant-macro-targets — L64](sibilant-macro-targets.md#^ref-c5c9a5c6-64-0) (line 64, col 0, score 0.85)
+- [AI-Centric OS with MCP Layer — L128](ai-centric-os-with-mcp-layer.md#^ref-0f1f8cc1-128-0) (line 128, col 0, score 0.85)
+- [i3-bluetooth-setup — L2094](i3-bluetooth-setup.md#^ref-5e408692-2094-0) (line 2094, col 0, score 0.85)
+- [System Scheduler with Resource-Aware DAG — L358](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-358-0) (line 358, col 0, score 0.85)
+- [Universal Lisp Interface — L137](universal-lisp-interface.md#^ref-b01856b4-137-0) (line 137, col 0, score 0.85)
+- [ripple-propagation-demo — L64](ripple-propagation-demo.md#^ref-8430617b-64-0) (line 64, col 0, score 0.85)
+- [i3-bluetooth-setup — L1136](i3-bluetooth-setup.md#^ref-5e408692-1136-0) (line 1136, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -1,5 +1,5 @@
 ---
-uuid: 4c63f2be-b5cd-479c-ad0d-ca26424162f7
+uuid: b6401ea8-1eb3-4f4c-8952-2c9b64f16106
 created_at: lisp-compiler-integration.md
 filename: lisp-compiler-integration
 title: lisp-compiler-integration
@@ -818,3 +818,68 @@ console.log(js); ^ref-cfee6d36-520-0 ^ref-cfee6d36-533-0 ^ref-cfee6d36-550-0
 * **Optimizations**: alpha-rename, beta-reduce, inline, fold, DCE on ANF ^ref-cfee6d36-541-0 ^ref-cfee6d36-554-0
  ^ref-cfee6d36-542-0
 If you’re cool with this baseline, I can add **syntax-rules with ellipses** next so you can write fancy macros like `match`, `for`, `struct`, and `deftype` with pattern guards.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Refactor Frontmatter Processing](refactor-frontmatter-processing.md)
+- [file-watcher-auth-fix](file-watcher-auth-fix.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
+- [The Jar of Echoes](the-jar-of-echoes.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [Docops Feature Updates](docops-feature-updates-3.md)
+- [Provider-Agnostic Chat Panel Implementation](provider-agnostic-chat-panel-implementation.md)
+- [Docops Feature Updates](docops-feature-updates.md)
+- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
+- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
+- [Shared Package Structure](shared-package-structure.md)
+- [Interop and Source Maps](interop-and-source-maps.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [Pipeline Enhancements](pipeline-enhancements.md)
+- [plan-update-confirmation](plan-update-confirmation.md)
+- [polyglot-repl-interface-layer](polyglot-repl-interface-layer.md)
+- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
+- [Model Upgrade Calm-Down Guide](model-upgrade-calm-down-guide.md)
+- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
+- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
+- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
+- [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
+- [NPU Voice Code and Sensory Integration](npu-voice-code-and-sensory-integration.md)
+- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
+## Sources
+- [Refactor Frontmatter Processing — L11](refactor-frontmatter-processing.md#^ref-cfbdca2f-11-0) (line 11, col 0, score 1)
+- [file-watcher-auth-fix — L32](file-watcher-auth-fix.md#^ref-9044701b-32-0) (line 32, col 0, score 0.99)
+- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.96)
+- [Promethean Dev Workflow Update — L17867](promethean-dev-workflow-update.md#^ref-03a5578f-17867-0) (line 17867, col 0, score 0.9)
+- [The Jar of Echoes — L17457](the-jar-of-echoes.md#^ref-18138627-17457-0) (line 17457, col 0, score 0.9)
+- [Chroma Toolkit Consolidation Plan — L1749](chroma-toolkit-consolidation-plan.md#^ref-5020e892-1749-0) (line 1749, col 0, score 0.9)
+- [Docops Feature Updates — L1010](docops-feature-updates-3.md#^ref-cdbd21ee-1010-0) (line 1010, col 0, score 0.9)
+- [Docops Feature Updates — L1270](docops-feature-updates.md#^ref-2792d448-1270-0) (line 1270, col 0, score 0.9)
+- [Provider-Agnostic Chat Panel Implementation — L3042](provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-3042-0) (line 3042, col 0, score 0.9)
+- [Per-Domain Policy System for JS Crawler — L3347](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-3347-0) (line 3347, col 0, score 0.9)
+- [Promethean-Copilot-Intent-Engine — L3746](promethean-copilot-intent-engine.md#^ref-ae24a280-3746-0) (line 3746, col 0, score 0.9)
+- [Interop and Source Maps — L426](interop-and-source-maps.md#^ref-cdfac40c-426-0) (line 426, col 0, score 0.88)
+- [Lispy Macros with syntax-rules — L325](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-325-0) (line 325, col 0, score 0.87)
+- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.87)
+- [Model Selection for Lightweight Conversational Tasks — L563](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-563-0) (line 563, col 0, score 0.87)
+- [Model Upgrade Calm-Down Guide — L1047](model-upgrade-calm-down-guide.md#^ref-db74343f-1047-0) (line 1047, col 0, score 0.87)
+- [NPU Voice Code and Sensory Integration — L929](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-929-0) (line 929, col 0, score 0.87)
+- [Obsidian ChatGPT Plugin Integration — L917](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-917-0) (line 917, col 0, score 0.87)
+- [obsidian-ignore-node-modules-regex — L1317](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-1317-0) (line 1317, col 0, score 0.87)
+- [Obsidian Templating Plugins Integration Guide — L1141](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-1141-0) (line 1141, col 0, score 0.87)
+- [Per-Domain Policy System for JS Crawler — L1608](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-1608-0) (line 1608, col 0, score 0.87)
+- [Performance-Optimized-Polyglot-Bridge — L1524](performance-optimized-polyglot-bridge.md#^ref-f5579967-1524-0) (line 1524, col 0, score 0.87)
+- [Pipeline Enhancements — L580](pipeline-enhancements.md#^ref-e2135d9f-580-0) (line 580, col 0, score 0.87)
+- [plan-update-confirmation — L2018](plan-update-confirmation.md#^ref-b22d79c6-2018-0) (line 2018, col 0, score 0.87)
+- [polyglot-repl-interface-layer — L1274](polyglot-repl-interface-layer.md#^ref-9c79206d-1274-0) (line 1274, col 0, score 0.87)
+- [Promethean Event Bus MVP v0.1 — L973](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-973-0) (line 973, col 0, score 0.86)
+- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.86)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L401](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-401-0) (line 401, col 0, score 0.86)
+- [compiler-kit-foundations — L590](compiler-kit-foundations.md#^ref-01b21543-590-0) (line 590, col 0, score 0.86)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.86)
+- [Eidolon-Field-Optimization — L50](eidolon-field-optimization.md#^ref-40e05c14-50-0) (line 50, col 0, score 0.85)
+- [Promethean_Eidolon_Synchronicity_Model — L189](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-189-0) (line 189, col 0, score 0.85)
+- [Event Bus Projections Architecture — L54](event-bus-projections-architecture.md#^ref-cf6b9b17-54-0) (line 54, col 0, score 0.85)
+- [Shared Package Structure — L188](shared-package-structure.md#^ref-66a72fc3-188-0) (line 188, col 0, score 0.85)
+- [Cross-Language Runtime Polymorphism — L212](cross-language-runtime-polymorphism.md#^ref-c34c36a6-212-0) (line 212, col 0, score 0.85)
+- [shared-package-layout-clarification — L137](shared-package-layout-clarification.md#^ref-36c8882a-137-0) (line 137, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

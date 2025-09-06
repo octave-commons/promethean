@@ -1,5 +1,5 @@
 ---
-uuid: 972c820f-63a8-49c6-831f-013832195478
+uuid: d6d8bf5b-50e1-4d8f-961d-64159c9bb5b7
 created_at: archetype-ecs.md
 filename: archetype-ecs
 title: archetype-ecs
@@ -70,23 +70,11 @@ references:
     col: 0
     score: 1
   - uuid: 96ffd77d-46ff-409d-8e59-d7e00ce7055b
-    line: 7
-    col: 0
-    score: 1
-  - uuid: 96ffd77d-46ff-409d-8e59-d7e00ce7055b
     line: 9
     col: 0
     score: 1
   - uuid: 96ffd77d-46ff-409d-8e59-d7e00ce7055b
     line: 16
-    col: 0
-    score: 1
-  - uuid: 95cb7640-a903-4a2e-99c7-2d060a0fbecf
-    line: 75
-    col: 0
-    score: 1
-  - uuid: 95cb7640-a903-4a2e-99c7-2d060a0fbecf
-    line: 78
     col: 0
     score: 1
   - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
@@ -619,6 +607,7 @@ flowchart LR
   (.makeQuery w {:all all :any any :none none :changed changed})) ^ref-8f4c1e86-450-0
 (defn iter [w q & comps] (.iter w q ~@comps))
 ``` ^ref-8f4c1e86-452-0
+^ref-8f4c1e86-445-0
 ^ref-8f4c1e86-444-0
  ^ref-8f4c1e86-453-0
 Want me to wire a **system scheduler** that uses the Graph you already have (with per-system resources, parallel-safe stages), or add a **prefab/blueprint** loader?
@@ -672,3 +661,54 @@ flowchart LR
 ^ref-8f4c1e86-444-0
  ^ref-8f4c1e86-453-0
 Want me to wire a **system scheduler** that uses the Graph you already have (with per-system resources, parallel-safe stages), or add a **prefab/blueprint** loader?
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Promethean State Format](promethean-state-format.md)
+- [ChatGPT Custom Prompts](chatgpt-custom-prompts.md)
+- [archetype-ecs](archetype-ecs.md)
+- [Promethean Code Principles](2025.09.03.20.16.19.md)
+- [promethean-pipelines](promethean-pipelines.md)
+- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
+- [chroma-embedding-refactor](chroma-embedding-refactor.md)
+- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [ecs-scheduler](ecs-scheduler-and-prefabs.md)
+- [system-scheduler](system-scheduler-with-resource-aware-dag.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
+- [shared-package-layout-clarification](shared-package-layout-clarification.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
+- [Promethean Documentation Pipeline Overview](promethean-documentation-pipeline-overview.md)
+- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
+- [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
+- [language-agnostic-mirror-system](language-agnostic-mirror-system.md)
+- [functional-programming-in-typescript](functional-programming-in-typescript.md)
+- [Lean AGENT Setup](agents-md.md)
+- [AGENTS.md](agents-md-3.md)
+## Sources
+- [archetype-ecs — L7](archetype-ecs.md#^ref-8f4c1e86-7-0) (line 7, col 0, score 1)
+- [ChatGPT Custom Prompts — L5](chatgpt-custom-prompts.md#^ref-96ffd77d-5-0) (line 5, col 0, score 1)
+- [ChatGPT Custom Prompts — L9](chatgpt-custom-prompts.md#^ref-96ffd77d-9-0) (line 9, col 0, score 1)
+- [ChatGPT Custom Prompts — L16](chatgpt-custom-prompts.md#^ref-96ffd77d-16-0) (line 16, col 0, score 1)
+- [archetype-ecs — L445](archetype-ecs.md#^ref-8f4c1e86-445-0) (line 445, col 0, score 0.97)
+- [Promethean Code Principles — L3](2025.09.03.20.16.19.md#^ref-9f8f8fb9-3-0) (line 3, col 0, score 0.94)
+- [Promethean Code Principles — L5](2025.09.03.20.16.19.md#^ref-9f8f8fb9-5-0) (line 5, col 0, score 0.92)
+- [promethean-pipelines — L68](promethean-pipelines.md#^ref-86ef1f2b-68-0) (line 68, col 0, score 0.89)
+- [Functional Refactor of TypeScript Document Processing — L1](functional-refactor-of-typescript-document-processing.md#^ref-0a8255a5-1-0) (line 1, col 0, score 0.87)
+- [promethean-pipelines — L84](promethean-pipelines.md#^ref-86ef1f2b-84-0) (line 84, col 0, score 0.87)
+- [chroma-embedding-refactor — L66](chroma-embedding-refactor.md#^ref-bb4f4ed0-66-0) (line 66, col 0, score 0.87)
+- [ecs-scheduler — L247](ecs-scheduler-and-prefabs.md#^ref-f4767ec9-247-0) (line 247, col 0, score 0.87)
+- [system-scheduler — L245](system-scheduler-with-resource-aware-dag.md#^ref-7ab1a3cd-245-0) (line 245, col 0, score 0.87)
+- [windows-tiling-with-autohotkey — L78](windows-tiling-with-autohotkey.md#^ref-792a343e-78-0) (line 78, col 0, score 0.86)
+- [WebSocket Gateway Implementation — L36](websocket-gateway-implementation.md#^ref-4316c3f9-36-0) (line 36, col 0, score 0.86)
+- [typed-struct-compiler — L358](typed-struct-compiler.md#^ref-8fd08696-358-0) (line 358, col 0, score 0.86)
+- [AI-Centric OS with MCP Layer — L128](ai-centric-os-with-mcp-layer.md#^ref-a28a39dd-128-0) (line 128, col 0, score 0.86)
+- [shared-package-layout-clarification — L28](shared-package-layout-clarification.md#^ref-6f13f134-28-0) (line 28, col 0, score 0.86)
+- [chroma-embedding-refactor — L101](chroma-embedding-refactor.md#^ref-bb4f4ed0-101-0) (line 101, col 0, score 0.86)
+- [shared-package-layout-clarification — L128](shared-package-layout-clarification.md#^ref-6f13f134-128-0) (line 128, col 0, score 0.86)
+- [TypeScript Patch for Tool Calling Support — L32](typescript-patch-for-tool-calling-support.md#^ref-e4317155-32-0) (line 32, col 0, score 0.85)
+- [AI-Centric OS with MCP Layer — L77](ai-centric-os-with-mcp-layer.md#^ref-a28a39dd-77-0) (line 77, col 0, score 0.85)
+- [AI-Centric OS with MCP Layer — L162](ai-centric-os-with-mcp-layer.md#^ref-a28a39dd-162-0) (line 162, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

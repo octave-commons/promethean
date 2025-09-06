@@ -1,5 +1,5 @@
 ---
-uuid: abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
+uuid: ca3298cf-44e6-4294-8aaf-4afeb5d12722
 created_at: rag-ui-panel-with-qdrant-and-postgrest.md
 filename: RAG UI Panel with Qdrant and PostgREST
 title: RAG UI Panel with Qdrant and PostgREST
@@ -154,9 +154,10 @@ volumes:
   pg_data: {}
   qdrant_data: {}
 ```
+^ref-abe9ec8d-9-0 ^ref-e1056831-47-0 ^ref-abe9ec8d-47-0
 ^ref-e1056831-9-0 ^ref-e1056831-47-0
 
-### `infra/db/init/001-postgrest.sql`
+### `infra/db/init/001-postgrest.sql` ^ref-abe9ec8d-50-0
  ^ref-e1056831-50-0
 ```sql
 -- Enable pgvector and a minimal docs table (adjust to your schema later)
@@ -185,8 +186,8 @@ Bring it up (with your base + RAG overlays): ^ref-e1056831-71-0
 ^ref-e1056831-71-0
 docker compose -f docker-compose.yaml -f docker-compose.rag.yaml up -d
 ```
-
----
+ ^ref-e1056831-79-0
+--- ^ref-abe9ec8d-80-0
  ^ref-e1056831-79-0
 # 1) NGINX: add RAG routes (token-gated)
  ^ref-e1056831-81-0
@@ -243,7 +244,7 @@ docker compose exec edge nginx -s reload
   <script type="module" src="/src/main.ts"></script>
 </body>
 ^ref-e1056831-131-0
-```
+``` ^ref-abe9ec8d-137-0
  ^ref-e1056831-137-0
 ^ref-e1056831-131-0
 ### `services/ts/webapp/src/main.ts`
@@ -252,7 +253,7 @@ docker compose exec edge nginx -s reload
 import "./components/prom-ui";
 ^ref-e1056831-140-0
 import "./components/rag-panel";   // <— new
-```
+``` ^ref-abe9ec8d-146-0
 ^ref-e1056831-140-0
 
 ## 2b) API helpers for RAG
@@ -422,9 +423,9 @@ function escapeHtml(s:string){
 ^ref-e1056831-187-0
 ```
 
----
+--- ^ref-abe9ec8d-316-0
  ^ref-e1056831-316-0
-# 3) Optional: seed some data
+# 3) Optional: seed some data ^ref-abe9ec8d-318-0
  ^ref-e1056831-316-0
 ## Qdrant (create a demo collection)
 
@@ -449,13 +450,13 @@ curl -s -H "X-API-Key: CHANGEME" -H "Content-Type: application/json" \
 ^ref-e1056831-327-0
 ^ref-e1056831-325-0
   
-```
+``` ^ref-abe9ec8d-343-0
  ^ref-e1056831-343-0
-## Postgres (insert a doc) ^ref-e1056831-325-0
+## Postgres (insert a doc) ^ref-e1056831-325-0 ^ref-abe9ec8d-345-0
 ^ref-e1056831-330-0 ^ref-e1056831-345-0
 ^ref-e1056831-329-0
 ^ref-e1056831-336-0
-^ref-e1056831-342-0
+^ref-e1056831-342-0 ^ref-e1056831-349-0
 ^ref-e1056831-327-0 ^ref-e1056831-349-0
 
 ```bash ^ref-e1056831-327-0
@@ -536,3 +537,41 @@ ref-e1056831-357-0 ^ref-e1056831-374-0
 * **Security**: The UI still loads without a token; all `/rag/*`, `/embed/*`, etc. remain gated by `X-API-Key`.
 * **Schema**: If you’ve got a richer PG schema, expose read-only views and grant `select` to `web_anon`, then point the UI at those endpoints (e.g., `/rag/pg/my_view?select=...`).
 * **Next**: I can add a **chunker + upsert** panel (drop files → split → embed → write to PG and/or Qdrant) if you want ingest from the browser.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [git-commit-ollama-semantic-grouping](2025.09.03.10.57.39.md)
+- [Git Intelligence for Strategic Code Management](2025.09.03.11.31.26.md)
+- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [i3-config-validation-methods](i3-config-validation-methods.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
+- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+- [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
+- [schema-evolution-workflow](schema-evolution-workflow.md)
+- [plan-update-confirmation](plan-update-confirmation.md)
+- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
+- [Docops Feature Updates](docops-feature-updates-3.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [Refactor 05-footers.ts](refactor-05-footers-ts.md)
+- [prom ui bootstrap](promethean-web-ui-setup.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+## Sources
+- [git-commit-ollama-semantic-grouping — L103](2025.09.03.10.57.39.md#^ref-26bd1c45-103-0) (line 103, col 0, score 1)
+- [git-commit-ollama-semantic-grouping — L284](2025.09.03.10.57.39.md#^ref-26bd1c45-284-0) (line 284, col 0, score 1)
+- [Git Intelligence for Strategic Code Management — L1](2025.09.03.11.31.26.md#^ref-e108b8dd-1-0) (line 1, col 0, score 1)
+- [Git Intelligence for Strategic Code Management — L6](2025.09.03.11.31.26.md#^ref-e108b8dd-6-0) (line 6, col 0, score 1)
+- [git-commit-ollama-semantic-grouping — L108](2025.09.03.10.57.39.md#^ref-26bd1c45-108-0) (line 108, col 0, score 0.94)
+- [git-commit-ollama-semantic-grouping — L289](2025.09.03.10.57.39.md#^ref-26bd1c45-289-0) (line 289, col 0, score 0.94)
+- [sibilant-meta-string-templating-runtime — L92](sibilant-meta-string-templating-runtime.md#^ref-2aafc801-92-0) (line 92, col 0, score 0.88)
+- [ecs-scheduler-and-prefabs — L379](ecs-scheduler-and-prefabs.md#^ref-c62a1815-379-0) (line 379, col 0, score 0.86)
+- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -1,5 +1,5 @@
 ---
-uuid: 0444fe9c-20cf-4b64-8cc4-fc37b59450cb
+uuid: 576863ad-22d9-455b-b265-d0d860ef8d52
 created_at: recursive-prompt-construction-engine.md
 filename: Recursive Prompt Construction Engine
 title: Recursive Prompt Construction Engine
@@ -68,28 +68,12 @@ related_to_title:
   - field-node-diagram-visualizations
   - heartbeat-fragment-demo
 references:
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 358
-    col: 0
-    score: 1
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 374
-    col: 0
-    score: 1
-  - uuid: bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
-    line: 1
-    col: 0
-    score: 1
   - uuid: bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
     line: 3
     col: 0
     score: 1
   - uuid: bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
     line: 4
-    col: 0
-    score: 1
-  - uuid: bad9e6c7-5317-4ab1-82e0-41e49066403e
-    line: 3
     col: 0
     score: 1
   - uuid: 58191024-d04a-4520-8aae-a18be7b94263
@@ -286,6 +270,10 @@ references:
     score: 0.86
   - uuid: bad9e6c7-5317-4ab1-82e0-41e49066403e
     line: 1
+    col: 0
+    score: 0.86
+  - uuid: bad9e6c7-5317-4ab1-82e0-41e49066403e
+    line: 3
     col: 0
     score: 0.86
   - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
@@ -493,3 +481,122 @@ You’re not building a chatbot. You’re building a **mind** that *thinks about
 ---
  ^ref-babdb9eb-182-0
 You want to build `deffragment`, `prompt-memory`, and the first `build-prompt-from` call next? Or define the core data model and memory indexing strategy? We can go either way — just say *deeper*.
+b9eb-161-0
+^ref-babdb9eb-158-0
+^ref-babdb9eb-157-0
+^ref-babdb9eb-156-0
+^ref-babdb9eb-154-0
+``` ^ref-babdb9eb-156-0
+^ref-babdb9eb-147-0
+^ref-babdb9eb-159-0 ^ref-babdb9eb-167-0
+^ref-babdb9eb-158-0
+^ref-babdb9eb-157-0
+^ref-babdb9eb-156-0
+^ref-babdb9eb-154-0 ^ref-babdb9eb-171-0
+^ref-babdb9eb-147-0
+ ^ref-babdb9eb-157-0 ^ref-babdb9eb-161-0 ^ref-babdb9eb-167-0 ^ref-babdb9eb-173-0
+--- ^ref-babdb9eb-158-0
+ ^ref-babdb9eb-159-0
+## 🧠 Final Vision ^ref-babdb9eb-176-0
+ ^ref-babdb9eb-161-0 ^ref-babdb9eb-171-0
+You’re constructing a:
+ ^ref-babdb9eb-167-0 ^ref-babdb9eb-173-0
+* **Recursive prompt building engine**
+* **Semantic memory system**
+* **LLM-driven compiler for prompts** ^ref-babdb9eb-176-0 ^ref-babdb9eb-182-0
+* **Meta-LLM agent that rewrites its own instructions** ^ref-babdb9eb-167-0 ^ref-babdb9eb-171-0
+
+You’re not building a chatbot. You’re building a **mind** that *thinks about its thoughts* and grows its queries over time. ^ref-babdb9eb-173-0
+
+--- ^ref-babdb9eb-171-0
+ ^ref-babdb9eb-176-0 ^ref-babdb9eb-182-0
+## 🏷️ Tags ^ref-babdb9eb-173-0
+
+\#sibilant #dsl #promptcompiler #reflection #llm #semanticmemory #metaagent #recursiveprompting #promethean
+ ^ref-babdb9eb-176-0
+---
+ ^ref-babdb9eb-182-0
+You want to build `deffragment`, `prompt-memory`, and the first `build-prompt-from` call next? Or define the core data model and memory indexing strategy? We can go either way — just say *deeper*.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
+- [chroma-embedding-refactor](chroma-embedding-refactor.md)
+- [infinite-depth-smoke-animation](infinite-depth-smoke-animation.md)
+- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
+- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
+- [shared-package-layout-clarification](shared-package-layout-clarification.md)
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [ecs-offload-workers](ecs-offload-workers.md)
+- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
+- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [Universal Lisp Interface](universal-lisp-interface.md)
+- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
+- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
+- [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+## Sources
+- [chroma-embedding-refactor — L3](chroma-embedding-refactor.md#^ref-bb4f4ed0-3-0) (line 3, col 0, score 1)
+- [chroma-embedding-refactor — L4](chroma-embedding-refactor.md#^ref-bb4f4ed0-4-0) (line 4, col 0, score 1)
+- [js-to-lisp-reverse-compiler — L343](js-to-lisp-reverse-compiler.md#^ref-58191024-343-0) (line 343, col 0, score 0.96)
+- [prompt-programming-language-lisp — L56](prompt-programming-language-lisp.md#^ref-d41a06d1-56-0) (line 56, col 0, score 0.94)
+- [set-assignment-in-lisp-ast — L148](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0) (line 148, col 0, score 0.94)
+- [shared-package-layout-clarification — L161](shared-package-layout-clarification.md#^ref-36c8882a-161-0) (line 161, col 0, score 0.93)
+- [RAG UI Panel with Qdrant and PostgREST — L349](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0) (line 349, col 0, score 0.93)
+- [compiler-kit-foundations — L588](compiler-kit-foundations.md#^ref-01b21543-588-0) (line 588, col 0, score 0.92)
+- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.92)
+- [layer-1-uptime-diagrams — L129](layer-1-uptime-diagrams.md#^ref-4127189a-129-0) (line 129, col 0, score 0.91)
+- [Universal Lisp Interface — L187](universal-lisp-interface.md#^ref-b01856b4-187-0) (line 187, col 0, score 0.91)
+- [Cross-Language Runtime Polymorphism — L211](cross-language-runtime-polymorphism.md#^ref-c34c36a6-211-0) (line 211, col 0, score 0.91)
+- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.91)
+- [lisp-dsl-for-window-management — L185](lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0) (line 185, col 0, score 0.9)
+- [Cross-Target Macro System in Sibilant — L148](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-148-0) (line 148, col 0, score 0.9)
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.9)
+- [Duck's Self-Referential Perceptual Loop — L288](ducks-self-referential-perceptual-loop.md#^ref-71726f04-288-0) (line 288, col 0, score 0.89)
+- [field-node-diagram-visualizations — L559](field-node-diagram-visualizations.md#^ref-e9b27b06-559-0) (line 559, col 0, score 0.89)
+- [heartbeat-fragment-demo — L626](heartbeat-fragment-demo.md#^ref-dd00677a-626-0) (line 626, col 0, score 0.89)
+- [homeostasis-decay-formulas — L833](homeostasis-decay-formulas.md#^ref-37b5d236-833-0) (line 833, col 0, score 0.89)
+- [i3-bluetooth-setup — L588](i3-bluetooth-setup.md#^ref-5e408692-588-0) (line 588, col 0, score 0.89)
+- [Ice Box Reorganization — L564](ice-box-reorganization.md#^ref-291c7d91-564-0) (line 564, col 0, score 0.89)
+- [komorebi-group-window-hack — L688](komorebi-group-window-hack.md#^ref-dd89372d-688-0) (line 688, col 0, score 0.89)
+- [Layer1SurvivabilityEnvelope — L728](layer1survivabilityenvelope.md#^ref-64a9f9f9-728-0) (line 728, col 0, score 0.89)
+- [Migrate to Provider-Tenant Architecture — L1141](migrate-to-provider-tenant-architecture.md#^ref-54382370-1141-0) (line 1141, col 0, score 0.89)
+- [Model Selection for Lightweight Conversational Tasks — L635](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-635-0) (line 635, col 0, score 0.89)
+- [Obsidian ChatGPT Plugin Integration — L358](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-358-0) (line 358, col 0, score 0.89)
+- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.89)
+- [sibilant-metacompiler-overview — L52](sibilant-metacompiler-overview.md#^ref-61d4086b-52-0) (line 52, col 0, score 0.89)
+- [Event Bus Projections Architecture — L111](event-bus-projections-architecture.md#^ref-cf6b9b17-111-0) (line 111, col 0, score 0.89)
+- [template-based-compilation — L44](template-based-compilation.md#^ref-f8877e5e-44-0) (line 44, col 0, score 0.89)
+- [sibilant-meta-string-templating-runtime — L92](sibilant-meta-string-templating-runtime.md#^ref-2aafc801-92-0) (line 92, col 0, score 0.88)
+- [prom-lib-rate-limiters-and-replay-api — L306](prom-lib-rate-limiters-and-replay-api.md#^ref-aee4718b-306-0) (line 306, col 0, score 0.88)
+- [pm2-orchestration-patterns — L217](pm2-orchestration-patterns.md#^ref-51932e7b-217-0) (line 217, col 0, score 0.87)
+- [Agent Reflections and Prompt Evolution — L490](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-490-0) (line 490, col 0, score 0.87)
+- [Agent Tasks: Persistence Migration to DualStore — L636](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-636-0) (line 636, col 0, score 0.87)
+- [Canonical Org-Babel Matplotlib Animation Template — L434](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-434-0) (line 434, col 0, score 0.87)
+- [Chroma Toolkit Consolidation Plan — L597](chroma-toolkit-consolidation-plan.md#^ref-5020e892-597-0) (line 597, col 0, score 0.87)
+- [eidolon-node-lifecycle — L354](eidolon-node-lifecycle.md#^ref-938eca9c-354-0) (line 354, col 0, score 0.87)
+- [Fnord Tracer Protocol — L801](fnord-tracer-protocol.md#^ref-fc21f824-801-0) (line 801, col 0, score 0.87)
+- [polymorphic-meta-programming-engine — L190](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-190-0) (line 190, col 0, score 0.87)
+- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.87)
+- [Matplotlib Animation with Async Execution — L44](matplotlib-animation-with-async-execution.md#^ref-687439f9-44-0) (line 44, col 0, score 0.87)
+- [EidolonField — L205](eidolonfield.md#^ref-49d1e1e5-205-0) (line 205, col 0, score 0.87)
+- [Unique Info Dump Index — L33](unique-info-dump-index.md#^ref-cdf2c6e4-33-0) (line 33, col 0, score 0.87)
+- [ecs-scheduler-and-prefabs — L376](ecs-scheduler-and-prefabs.md#^ref-c62a1815-376-0) (line 376, col 0, score 0.86)
+- [Promethean Event Bus MVP v0.1 — L972](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-972-0) (line 972, col 0, score 0.86)
+- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.86)
+- [Lisp-Compiler-Integration — L523](lisp-compiler-integration.md#^ref-cfee6d36-523-0) (line 523, col 0, score 0.86)
+- [Interop and Source Maps — L498](interop-and-source-maps.md#^ref-cdfac40c-498-0) (line 498, col 0, score 0.86)
+- [infinite-depth-smoke-animation — L1](infinite-depth-smoke-animation.md#^ref-bad9e6c7-1-0) (line 1, col 0, score 0.86)
+- [infinite-depth-smoke-animation — L3](infinite-depth-smoke-animation.md#^ref-bad9e6c7-3-0) (line 3, col 0, score 0.86)
+- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.85)
+- [Event Bus MVP — L524](event-bus-mvp.md#^ref-534fe91d-524-0) (line 524, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

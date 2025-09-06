@@ -1,5 +1,5 @@
 ---
-uuid: 4316c3f9-551f-4872-b5c5-98ae73508535
+uuid: fc27508e-631e-4129-95c9-47e09bcd3191
 created_at: websocket-gateway-implementation.md
 filename: WebSocket Gateway Implementation
 title: WebSocket Gateway Implementation
@@ -385,14 +385,14 @@ const {
   }
 })();
 ```
-^ref-e811123d-9-0 ^ref-e811123d-36-0
+^ref-e811123d-9-0 ^ref-e811123d-36-0 ^ref-4316c3f9-36-0
 
 ---
 
 # 1) WebSocket Gateway (server + client)
 
 ## 1a) Protocol (frames)
- ^ref-e811123d-43-0
+ ^ref-e811123d-43-0 ^ref-4316c3f9-43-0
 * `AUTH` *(client → server)* `{ op: "AUTH", token: string }` ^ref-e811123d-44-0
 * `OK` / `ERR` *(server → client)* `{ op: "OK", corr?: string }` or `{ op: "ERR", code, msg, corr? }` ^ref-e811123d-45-0
 * `SUBSCRIBE` *(client → server)* `{ op: "SUBSCRIBE", topic, group, opts? }` ^ref-e811123d-46-0
@@ -405,7 +405,7 @@ const {
 Auth is pluggable (static token or JWT verify hook).
 
 ## 1b) WS Server
- ^ref-e811123d-56-0
+ ^ref-e811123d-56-0 ^ref-4316c3f9-56-0
 ```ts
 // shared/js/prom-lib/ws/server.ts
 import { WebSocketServer, WebSocket } from "ws";
@@ -645,7 +645,7 @@ export class EventClient {
 ^ref-e811123d-219-0
 }
 ```
-^ref-e811123d-221-0
+^ref-e811123d-221-0 ^ref-4316c3f9-296-0
  ^ref-e811123d-296-0
 ## 1d) Mermaid: leasey flow
 
@@ -685,7 +685,7 @@ export const Topics = {
   ProcessStateSnapshot: "process.state.snapshot" // snapshots
 } as const;
 ```
-^ref-e811123d-333-0
+^ref-e811123d-333-0 ^ref-4316c3f9-336-0
 
 ## 2b) Compactor job
 
@@ -798,8 +798,8 @@ export const metrics = {
  ^ref-e811123d-443-0
 * `events_published_total{topic}`
 * `events_delivered_total{topic,group}` ^ref-e811123d-443-0 ^ref-e811123d-447-0
-* `events_acked_total{topic,group}` ^ref-e811123d-449-0
-* `events_nacked_total{topic,group}` ^ref-e811123d-447-0 ^ref-e811123d-450-0
+* `events_acked_total{topic,group}` ^ref-e811123d-449-0 ^ref-4316c3f9-449-0
+* `events_nacked_total{topic,group}` ^ref-e811123d-447-0 ^ref-e811123d-450-0 ^ref-4316c3f9-450-0
 * `ws_inflight{topic,group}` ^ref-e811123d-443-0
 * `delivery_latency_ms_bucket{topic,group}` (measure publish→ack if you carry a `t0` header) ^ref-e811123d-447-0
 
@@ -979,7 +979,7 @@ main().catch((e) => { console.error(e); process.exit(1); });
 ---
 
 # 7) Sibilant sugar (pseudocode)
- ^ref-e811123d-630-0
+ ^ref-e811123d-630-0 ^ref-4316c3f9-630-0
 ```lisp
 ^ref-e811123d-595-0
 ; shared/sibilant/prom/ws.sib (pseudo)
@@ -1040,3 +1040,102 @@ If you want **Part 3**, I’ll drop:
 * **JWT auth** with scope-based ACLs (`topic:read`, `topic:write`),
 * an **Ops dashboard** stub (HTTP) that shows cursors, inflight, and latest snapshots,
 * and a **typed client SDK** for Node + browser.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Docops Feature Updates](docops-feature-updates.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [graph-ds](graph-ds.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
+- [ChatGPT Custom Prompts](chatgpt-custom-prompts.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
+- [Duck's Attractor States](ducks-attractor-states.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [Unique Concepts](unique-concepts.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
+- [Creative Moments](creative-moments.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+## Sources
+- [Agent Reflections and Prompt Evolution — L618](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-618-0) (line 618, col 0, score 1)
+- [ChatGPT Custom Prompts — L187](chatgpt-custom-prompts.md#^ref-930054b3-187-0) (line 187, col 0, score 1)
+- [Chroma Toolkit Consolidation Plan — L999](chroma-toolkit-consolidation-plan.md#^ref-5020e892-999-0) (line 999, col 0, score 1)
+- [typed-struct-compiler — L1016](typed-struct-compiler.md#^ref-78eeedf7-1016-0) (line 1016, col 0, score 1)
+- [Unique Concepts — L175](unique-concepts.md#^ref-ed6f3fc9-175-0) (line 175, col 0, score 1)
+- [Unique Info Dump Index — L1221](unique-info-dump-index.md#^ref-30ec3ba6-1221-0) (line 1221, col 0, score 1)
+- [zero-copy-snapshots-and-workers — L1058](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1058-0) (line 1058, col 0, score 1)
+- [Canonical Org-Babel Matplotlib Animation Template — L515](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-515-0) (line 515, col 0, score 1)
+- [Creative Moments — L251](creative-moments.md#^ref-10d98225-251-0) (line 251, col 0, score 1)
+- [Duck's Attractor States — L559](ducks-attractor-states.md#^ref-13951643-559-0) (line 559, col 0, score 1)
+- [eidolon-field-math-foundations — L1033](eidolon-field-math-foundations.md#^ref-008f2ac0-1033-0) (line 1033, col 0, score 1)
+- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
+- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
+- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
+- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
+- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
+- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
+- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
+- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
+- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
+- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
+- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 1)
+- [RAG UI Panel with Qdrant and PostgREST — L181](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-181-0) (line 181, col 0, score 0.91)
+- [RAG UI Panel with Qdrant and PostgREST — L316](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-316-0) (line 316, col 0, score 0.9)
+- [Eidolon Field Abstract Model — L259](eidolon-field-abstract-model.md#^ref-5e8b2388-259-0) (line 259, col 0, score 0.9)
+- [Factorio AI with External Agents — L159](factorio-ai-with-external-agents.md#^ref-a4d90289-159-0) (line 159, col 0, score 0.9)
+- [Mathematics Sampler — L120](mathematics-sampler.md#^ref-b5e0183e-120-0) (line 120, col 0, score 0.9)
+- [Migrate to Provider-Tenant Architecture — L333](migrate-to-provider-tenant-architecture.md#^ref-54382370-333-0) (line 333, col 0, score 0.9)
+- [Mindful Prioritization — L65](mindful-prioritization.md#^ref-40185d05-65-0) (line 65, col 0, score 0.9)
+- [MindfulRobotIntegration — L69](mindfulrobotintegration.md#^ref-5f65dfa5-69-0) (line 69, col 0, score 0.9)
+- [Model Selection for Lightweight Conversational Tasks — L179](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-179-0) (line 179, col 0, score 0.9)
+- [Model Upgrade Calm-Down Guide — L145](model-upgrade-calm-down-guide.md#^ref-db74343f-145-0) (line 145, col 0, score 0.9)
+- [NPU Voice Code and Sensory Integration — L88](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-88-0) (line 88, col 0, score 0.9)
+- [Obsidian ChatGPT Plugin Integration Guide — L63](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-63-0) (line 63, col 0, score 0.9)
+- [Obsidian ChatGPT Plugin Integration — L58](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-58-0) (line 58, col 0, score 0.9)
+- [RAG UI Panel with Qdrant and PostgREST — L79](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-79-0) (line 79, col 0, score 0.89)
+- [RAG UI Panel with Qdrant and PostgREST — L137](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-137-0) (line 137, col 0, score 0.89)
+- [RAG UI Panel with Qdrant and PostgREST — L110](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-110-0) (line 110, col 0, score 0.89)
+- [RAG UI Panel with Qdrant and PostgREST — L50](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-50-0) (line 50, col 0, score 0.89)
+- [RAG UI Panel with Qdrant and PostgREST — L47](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-47-0) (line 47, col 0, score 0.88)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.88)
+- [obsidian-ignore-node-modules-regex — L4657](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-4657-0) (line 4657, col 0, score 0.88)
+- [Obsidian Task Generation — L125](obsidian-task-generation.md#^ref-9b694a91-125-0) (line 125, col 0, score 0.88)
+- [Obsidian Templating Plugins Integration Guide — L5473](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-5473-0) (line 5473, col 0, score 0.88)
+- [OpenAPI Validation Report — L1955](openapi-validation-report.md#^ref-5c152b08-1955-0) (line 1955, col 0, score 0.88)
+- [Optimizing Command Limitations in System Design — L3383](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-3383-0) (line 3383, col 0, score 0.88)
+- [ParticleSimulationWithCanvasAndFFmpeg — L5870](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-5870-0) (line 5870, col 0, score 0.88)
+- [Performance-Optimized-Polyglot-Bridge — L3251](performance-optimized-polyglot-bridge.md#^ref-f5579967-3251-0) (line 3251, col 0, score 0.88)
+- [Pipeline Enhancements — L1383](pipeline-enhancements.md#^ref-e2135d9f-1383-0) (line 1383, col 0, score 0.88)
+- [plan-update-confirmation — L1122](plan-update-confirmation.md#^ref-b22d79c6-1122-0) (line 1122, col 0, score 0.88)
+- [Mongo Outbox Implementation — L424](mongo-outbox-implementation.md#^ref-9c1acd1e-424-0) (line 424, col 0, score 0.87)
+- [Promethean Pipelines — L84](promethean-pipelines.md#^ref-8b8e6103-84-0) (line 84, col 0, score 0.87)
+- [Cross-Target Macro System in Sibilant — L150](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-150-0) (line 150, col 0, score 0.87)
+- [Creative Moments — L9214](creative-moments.md#^ref-10d98225-9214-0) (line 9214, col 0, score 0.87)
+- [Duck's Attractor States — L2278](ducks-attractor-states.md#^ref-13951643-2278-0) (line 2278, col 0, score 0.87)
+- [The Jar of Echoes — L18789](the-jar-of-echoes.md#^ref-18138627-18789-0) (line 18789, col 0, score 0.87)
+- [homeostasis-decay-formulas — L3969](homeostasis-decay-formulas.md#^ref-37b5d236-3969-0) (line 3969, col 0, score 0.87)
+- [Promethean_Eidolon_Synchronicity_Model — L1315](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-1315-0) (line 1315, col 0, score 0.87)
+- [Layer1SurvivabilityEnvelope — L1708](layer1survivabilityenvelope.md#^ref-64a9f9f9-1708-0) (line 1708, col 0, score 0.87)
+- [Promethean_Eidolon_Synchronicity_Model — L1340](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-1340-0) (line 1340, col 0, score 0.87)
+- [windows-tiling-with-autohotkey — L12337](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-12337-0) (line 12337, col 0, score 0.87)
+- [Chroma-Embedding-Refactor — L66](chroma-embedding-refactor.md#^ref-8b256935-66-0) (line 66, col 0, score 0.86)
+- [ecs-offload-workers — L194](ecs-offload-workers.md#^ref-6498b9d7-194-0) (line 194, col 0, score 0.86)
+- [ParticleSimulationWithCanvasAndFFmpeg — L224](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-224-0) (line 224, col 0, score 0.86)
+- [Universal Lisp Interface — L119](universal-lisp-interface.md#^ref-b01856b4-119-0) (line 119, col 0, score 0.85)
+- [Universal Lisp Interface — L117](universal-lisp-interface.md#^ref-b01856b4-117-0) (line 117, col 0, score 0.85)
+- [Eidolon Field Abstract Model — L176](eidolon-field-abstract-model.md#^ref-5e8b2388-176-0) (line 176, col 0, score 0.85)
+- [js-to-lisp-reverse-compiler — L343](js-to-lisp-reverse-compiler.md#^ref-58191024-343-0) (line 343, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

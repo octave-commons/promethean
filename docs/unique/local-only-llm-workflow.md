@@ -1,5 +1,5 @@
 ---
-uuid: 8a9432f5-cb79-40fa-bab1-d3b9e9c0bac8
+uuid: eeb5fafc-4ddc-43e9-887e-2cb3e603433b
 created_at: local-only-llm-workflow.md
 filename: Local-Only LLM Workflow
 title: Local-Only LLM Workflow
@@ -425,8 +425,9 @@ tools/intent.mjs specs/normalize2d.intent.md
 tools/intent.mjs specs --watch
 ^ref-9a8ab57e-139-0
 ``` ^ref-9a8ab57e-143-0
+^ref-9a8ab57e-143-0
 ^ref-9a8ab57e-139-0
-
+ ^ref-9a8ab57e-147-0
 # 4) Minimal spec file ^ref-9a8ab57e-147-0
 
 ```md
@@ -473,3 +474,117 @@ If you want, I can also: ^ref-9a8ab57e-169-0 ^ref-9a8ab57e-179-0
 * wire **property testing** (JS fast-check / Python hypothesis) as an extra gate,
 * add a **JS wrapper for Python** so expensive numerics live in Py but import like normal JS, ^ref-9a8ab57e-172-0 ^ref-9a8ab57e-188-0
 * or hook this into your **mirror engine** so each passing intention updates your JS/TS/Lisp trees automatically.
+out: { "mag":5, "nx":0.6, "ny":0.8 }
+^ref-9a8ab57e-158-0 ^ref-9a8ab57e-159-0
+^ref-9a8ab57e-154-0 ^ref-9a8ab57e-160-0
+- in: { "x":0, "y":0 } out: { "mag":0, "nx":0, "ny":0 } ^ref-9a8ab57e-161-0
+^ref-9a8ab57e-161-0 ^ref-9a8ab57e-163-0
+^ref-9a8ab57e-160-0
+^ref-9a8ab57e-159-0 ^ref-9a8ab57e-165-0
+^ref-9a8ab57e-158-0 ^ref-9a8ab57e-166-0
+^ref-9a8ab57e-154-0 ^ref-9a8ab57e-167-0
+^ref-9a8ab57e-147-0
+``` ^ref-9a8ab57e-158-0
+^ref-9a8ab57e-161-0 ^ref-9a8ab57e-169-0
+^ref-9a8ab57e-160-0
+^ref-9a8ab57e-159-0
+^ref-9a8ab57e-158-0 ^ref-9a8ab57e-172-0
+^ref-9a8ab57e-154-0
+^ref-9a8ab57e-147-0 ^ref-9a8ab57e-174-0
+ ^ref-9a8ab57e-159-0 ^ref-9a8ab57e-163-0 ^ref-9a8ab57e-169-0
+You’ll get `src/js/auto/normalize2d.js` and `src/py/auto/normalize2d.py` written locally, no external APIs, plus a `.report.json` with pass/fail per example. ^ref-9a8ab57e-160-0
+ ^ref-9a8ab57e-161-0 ^ref-9a8ab57e-165-0 ^ref-9a8ab57e-177-0
+# 5) Quality + speed knobs (still free) ^ref-9a8ab57e-166-0 ^ref-9a8ab57e-172-0
+ ^ref-9a8ab57e-163-0 ^ref-9a8ab57e-167-0 ^ref-9a8ab57e-179-0
+* **Two-stage schedule**: keep `providers` ordered small→big so you draft fast and repair with a stronger model. ^ref-9a8ab57e-174-0 ^ref-9a8ab57e-180-0
+* **Aggressive caching**: the `FileCacheLLM` stops recomputation when you jiggle other code around. ^ref-9a8ab57e-165-0 ^ref-9a8ab57e-169-0
+* **Determinism**: set temperature \~0.1 (or 0) and, if your server supports it, a fixed seed. ^ref-9a8ab57e-166-0
+* **Grammar-lite**: you already have stop tokens; if your local server supports JSON/regex grammars, wire it in later. ^ref-9a8ab57e-167-0 ^ref-9a8ab57e-177-0 ^ref-9a8ab57e-183-0
+ ^ref-9a8ab57e-172-0 ^ref-9a8ab57e-184-0
+If you want, I can also: ^ref-9a8ab57e-169-0 ^ref-9a8ab57e-179-0
+ ^ref-9a8ab57e-174-0 ^ref-9a8ab57e-180-0
+* wire **property testing** (JS fast-check / Python hypothesis) as an extra gate,
+* add a **JS wrapper for Python** so expensive numerics live in Py but import like normal JS, ^ref-9a8ab57e-172-0 ^ref-9a8ab57e-188-0
+* or hook this into your **mirror engine** so each passing intention updates your JS/TS/Lisp trees automatically.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Smoke Resonance Visualizations](smoke-resonance-visualizations.md)
+- [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
+- [Tracing the Signal](tracing-the-signal.md)
+- [ts-to-lisp-transpiler](ts-to-lisp-transpiler.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [Unique Concepts](unique-concepts.md)
+- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
+- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
+- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
+- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
+- [plan-update-confirmation](plan-update-confirmation.md)
+- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
+- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
+- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
+- [Obsidian Task Generation](obsidian-task-generation.md)
+- [OpenAPI Validation Report](openapi-validation-report.md)
+- [Optimizing Command Limitations in System Design](optimizing-command-limitations-in-system-design.md)
+- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
+- [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
+## Sources
+- [Smoke Resonance Visualizations — L483](smoke-resonance-visualizations.md#^ref-ac9d3ac5-483-0) (line 483, col 0, score 1)
+- [Stateful Partitions and Rebalancing — L1321](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-1321-0) (line 1321, col 0, score 1)
+- [Tracing the Signal — L561](tracing-the-signal.md#^ref-c3cd4f65-561-0) (line 561, col 0, score 1)
+- [ts-to-lisp-transpiler — L522](ts-to-lisp-transpiler.md#^ref-ba11486b-522-0) (line 522, col 0, score 1)
+- [typed-struct-compiler — L1015](typed-struct-compiler.md#^ref-78eeedf7-1015-0) (line 1015, col 0, score 1)
+- [TypeScript Patch for Tool Calling Support — L1228](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-1228-0) (line 1228, col 0, score 1)
+- [Unique Concepts — L173](unique-concepts.md#^ref-ed6f3fc9-173-0) (line 173, col 0, score 1)
+- [zero-copy-snapshots-and-workers — L1057](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1057-0) (line 1057, col 0, score 1)
+- [Canonical Org-Babel Matplotlib Animation Template — L513](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-513-0) (line 513, col 0, score 1)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 1)
+- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 1)
+- [sibilant-meta-string-templating-runtime — L92](sibilant-meta-string-templating-runtime.md#^ref-2aafc801-92-0) (line 92, col 0, score 0.92)
+- [Obsidian Task Generation — L1991](obsidian-task-generation.md#^ref-9b694a91-1991-0) (line 1991, col 0, score 0.91)
+- [Obsidian Templating Plugins Integration Guide — L5490](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-5490-0) (line 5490, col 0, score 0.91)
+- [OpenAPI Validation Report — L1972](openapi-validation-report.md#^ref-5c152b08-1972-0) (line 1972, col 0, score 0.91)
+- [Optimizing Command Limitations in System Design — L156](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-156-0) (line 156, col 0, score 0.91)
+- [Per-Domain Policy System for JS Crawler — L626](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-626-0) (line 626, col 0, score 0.91)
+- [plan-update-confirmation — L4573](plan-update-confirmation.md#^ref-b22d79c6-4573-0) (line 4573, col 0, score 0.91)
+- [Promethean Chat Activity Report — L2414](promethean-chat-activity-report.md#^ref-18344cf9-2414-0) (line 2414, col 0, score 0.91)
+- [Promethean-Copilot-Intent-Engine — L6029](promethean-copilot-intent-engine.md#^ref-ae24a280-6029-0) (line 6029, col 0, score 0.91)
+- [Promethean Dev Workflow Update — L4992](promethean-dev-workflow-update.md#^ref-03a5578f-4992-0) (line 4992, col 0, score 0.91)
+- [Universal Lisp Interface — L187](universal-lisp-interface.md#^ref-b01856b4-187-0) (line 187, col 0, score 0.9)
+- [graph-ds — L394](graph-ds.md#^ref-6620e2f2-394-0) (line 394, col 0, score 0.9)
+- [heartbeat-fragment-demo — L124](heartbeat-fragment-demo.md#^ref-dd00677a-124-0) (line 124, col 0, score 0.9)
+- [homeostasis-decay-formulas — L171](homeostasis-decay-formulas.md#^ref-37b5d236-171-0) (line 171, col 0, score 0.9)
+- [i3-bluetooth-setup — L103](i3-bluetooth-setup.md#^ref-5e408692-103-0) (line 103, col 0, score 0.9)
+- [Ice Box Reorganization — L87](ice-box-reorganization.md#^ref-291c7d91-87-0) (line 87, col 0, score 0.9)
+- [komorebi-group-window-hack — L216](komorebi-group-window-hack.md#^ref-dd89372d-216-0) (line 216, col 0, score 0.9)
+- [Mathematical Samplers — L107](mathematical-samplers.md#^ref-86a691ec-107-0) (line 107, col 0, score 0.9)
+- [Mindful Prioritization — L54](mindful-prioritization.md#^ref-40185d05-54-0) (line 54, col 0, score 0.9)
+- [NPU Voice Code and Sensory Integration — L67](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-67-0) (line 67, col 0, score 0.9)
+- [Obsidian ChatGPT Plugin Integration Guide — L33](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-33-0) (line 33, col 0, score 0.9)
+- [Obsidian ChatGPT Plugin Integration — L37](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-37-0) (line 37, col 0, score 0.9)
+- [obsidian-ignore-node-modules-regex — L64](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-64-0) (line 64, col 0, score 0.9)
+- [Obsidian Task Generation — L83](obsidian-task-generation.md#^ref-9b694a91-83-0) (line 83, col 0, score 0.9)
+- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.88)
+- [polymorphic-meta-programming-engine — L190](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-190-0) (line 190, col 0, score 0.88)
+- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.88)
+- [Lispy Macros with syntax-rules — L376](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-376-0) (line 376, col 0, score 0.88)
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.87)
+- [Event Bus Projections Architecture — L111](event-bus-projections-architecture.md#^ref-cf6b9b17-111-0) (line 111, col 0, score 0.87)
+- [SentenceProcessing — L30](sentenceprocessing.md#^ref-681a4ab2-30-0) (line 30, col 0, score 0.87)
+- [js-to-lisp-reverse-compiler — L343](js-to-lisp-reverse-compiler.md#^ref-58191024-343-0) (line 343, col 0, score 0.87)
+- [prom-lib-rate-limiters-and-replay-api — L307](prom-lib-rate-limiters-and-replay-api.md#^ref-aee4718b-307-0) (line 307, col 0, score 0.86)
+- [lisp-dsl-for-window-management — L185](lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0) (line 185, col 0, score 0.86)
+- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.86)
+- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.86)
+- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.86)
+- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.86)
+- [mystery-lisp-search-session — L106](mystery-lisp-search-session.md#^ref-513dc4c7-106-0) (line 106, col 0, score 0.86)
+- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.86)
+- [prom ui bootstrap — L442](promethean-web-ui-setup.md#^ref-bc5172ca-442-0) (line 442, col 0, score 0.85)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

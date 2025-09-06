@@ -1,5 +1,5 @@
 ---
-uuid: 479401ac-f614-4d0b-8cc6-2ebb8d9de4d9
+uuid: f22a28aa-4418-4b11-bb0d-e9a098bf81e1
 created_at: compiler-kit-foundations.md
 filename: compiler-kit-foundations
 title: compiler-kit-foundations
@@ -170,10 +170,6 @@ references:
     col: 0
     score: 1
   - uuid: 01c5547f-27eb-42d1-af24-9cad10b6a2ca
-    line: 2
-    col: 0
-    score: 1
-  - uuid: 01c5547f-27eb-42d1-af24-9cad10b6a2ca
     line: 4
     col: 0
     score: 1
@@ -258,7 +254,7 @@ references:
     col: 0
     score: 0.85
 ---
-Note: Consolidated here → ../notes/dsl/compiler-kit-foundations.md ^ref-01b21543-1-0
+Note: Consolidated here → ../notes/dsl/compiler-kit-foundations.md ^ref-01b21543-1-0 ^ref-479401ac-1-0
 
 Love it. Let’s start a **compiler kit** you can grow into whatever language you want. I’ll give you: ^ref-01b21543-3-0
 
@@ -582,6 +578,7 @@ export function parse(src: string): Expr {
   const p = new Parser(lex(src)); p.constructorOpsInit(); return p.parseProgram();
 }
 ```
+^ref-479401ac-171-0
  ^ref-01b21543-324-0
 ---
 
@@ -617,10 +614,12 @@ export type Module = { funs: Fun[]; main: Fun };
 export function gensym(prefix="t"): Sym {
   return (prefix + "_" + Math.random().toString(36).slice(2,8)) as Sym;
 }
+^ref-01b21543-360-0
+^ref-479401ac-330-0
 ``` ^ref-01b21543-360-0
 ^ref-01b21543-359-0
 
----
+--- ^ref-01b21543-366-0
 
 # 6) Lowering: AST → ANF (with simple env)
  ^ref-01b21543-366-0
@@ -838,10 +837,11 @@ function prim(op: string, a: any, b?: any) {
     default: throw new Error("prim " + op);
   }
 ^ref-01b21543-574-0
+^ref-01b21543-582-0
 }
 ^ref-01b21543-574-0 ^ref-01b21543-582-0
 ```
-^ref-01b21543-574-0
+^ref-01b21543-574-0 ^ref-01b21543-588-0
 
 ---
 
@@ -889,6 +889,7 @@ export function compileAndRun(src: string) {
 ^ref-01b21543-602-0 ^ref-01b21543-627-0
 ^ref-01b21543-599-0 ^ref-01b21543-628-0
 ^ref-01b21543-598-0 ^ref-01b21543-629-0
+^ref-01b21543-590-0
 ^ref-01b21543-597-0 ^ref-01b21543-630-0
 ^ref-01b21543-588-0
 ^ref-01b21543-587-0 ^ref-01b21543-631-0
@@ -983,3 +984,130 @@ export function compileAndRun(src: string) {
 * Real **VM** (call frames, heap, closures) or emit **JS**/**WASM** ^ref-01b21543-609-0 ^ref-01b21543-615-0 ^ref-01b21543-624-0 ^ref-01b21543-641-0
  ^ref-01b21543-610-0 ^ref-01b21543-616-0 ^ref-01b21543-625-0 ^ref-01b21543-642-0
 If you want a Lisp-flavored front-end too (Hy/Sibilant/Common Lisp comfort food), I can wire a 30-line **S-expr** reader that targets the same IR, so you can compile either infix or s-expr to the same core. Want me to add that next or jump straight to closures + call frames?
+g) {
+  const ast = parse(src);
+  const ir = lower(ast);
+  const bc = compileToBytecode(ir);
+^ref-01b21543-574-0
+  const out = runBytecode(bc);
+  return { ast, ir, bc, out };
+}
+
+// quick demo: ^ref-01b21543-597-0
+^ref-01b21543-599-0
+^ref-01b21543-598-0 ^ref-01b21543-602-0
+^ref-01b21543-597-0
+// const r = compileAndRun(`let x = 2 + 3 in if x > 3 then x*10 else 0`); ^ref-01b21543-598-0 ^ref-01b21543-604-0
+^ref-01b21543-606-0 ^ref-01b21543-607-0
+^ref-01b21543-605-0 ^ref-01b21543-608-0
+^ref-01b21543-604-0 ^ref-01b21543-609-0
+^ref-01b21543-602-0 ^ref-01b21543-610-0
+^ref-01b21543-599-0 ^ref-01b21543-611-0
+^ref-01b21543-598-0 ^ref-01b21543-612-0
+^ref-01b21543-597-0 ^ref-01b21543-613-0
+// console.log(r.out); // 50 ^ref-01b21543-599-0 ^ref-01b21543-605-0
+^ref-01b21543-615-0 ^ref-01b21543-616-0
+^ref-01b21543-613-0
+^ref-01b21543-612-0
+^ref-01b21543-611-0 ^ref-01b21543-619-0
+^ref-01b21543-610-0 ^ref-01b21543-620-0
+^ref-01b21543-609-0 ^ref-01b21543-621-0
+^ref-01b21543-608-0
+^ref-01b21543-607-0
+^ref-01b21543-606-0 ^ref-01b21543-624-0
+^ref-01b21543-605-0 ^ref-01b21543-625-0
+^ref-01b21543-604-0 ^ref-01b21543-626-0
+^ref-01b21543-602-0 ^ref-01b21543-627-0
+^ref-01b21543-599-0 ^ref-01b21543-628-0
+^ref-01b21543-598-0 ^ref-01b21543-629-0
+^ref-01b21543-597-0 ^ref-01b21543-630-0
+^ref-01b21543-588-0
+^ref-01b21543-587-0 ^ref-01b21543-631-0
+``` ^ref-01b21543-606-0 ^ref-01b21543-615-0 ^ref-01b21543-632-0
+^ref-01b21543-590-0
+ ^ref-01b21543-607-0 ^ref-01b21543-616-0 ^ref-01b21543-633-0
+--- ^ref-01b21543-602-0 ^ref-01b21543-608-0 ^ref-01b21543-634-0
+ ^ref-01b21543-609-0
+# Where we go next ^ref-01b21543-604-0 ^ref-01b21543-610-0 ^ref-01b21543-619-0
+ ^ref-01b21543-605-0 ^ref-01b21543-611-0 ^ref-01b21543-620-0
+* Add **symbol tables & closures** (lift lambdas to `Fun[]`, closure env records) ^ref-01b21543-606-0 ^ref-01b21543-612-0 ^ref-01b21543-621-0 ^ref-01b21543-638-0
+* Optional **types**: Hindley–Milner (or zod powered dynamic checks) ^ref-01b21543-607-0 ^ref-01b21543-613-0 ^ref-01b21543-639-0
+* Real **optimizer** passes (const folding, copy-prop, DCE, inlining) ^ref-01b21543-608-0 ^ref-01b21543-640-0
+* Real **VM** (call frames, heap, closures) or emit **JS**/**WASM** ^ref-01b21543-609-0 ^ref-01b21543-615-0 ^ref-01b21543-624-0 ^ref-01b21543-641-0
+ ^ref-01b21543-610-0 ^ref-01b21543-616-0 ^ref-01b21543-625-0 ^ref-01b21543-642-0
+If you want a Lisp-flavored front-end too (Hy/Sibilant/Common Lisp comfort food), I can wire a 30-line **S-expr** reader that targets the same IR, so you can compile either infix or s-expr to the same core. Want me to add that next or jump straight to closures + call frames?
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [run-step-api](run-step-api.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
+- [Creative Moments](creative-moments.md)
+- [Duck's Attractor States](ducks-attractor-states.md)
+- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
+- [Promethean Documentation Update](promethean-documentation-update.txt)
+- [Promethean Notes](promethean-notes.md)
+- [The Jar of Echoes](the-jar-of-echoes.md)
+- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [Promethean-native config design](promethean-native-config-design.md)
+- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [Interop and Source Maps](interop-and-source-maps.md)
+- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [Lispy Macros with Syntax Rules](lispy-macros-with-syntax-rules.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [Promethean Pipelines: Local TypeScript-First Workflow](promethean-pipelines-local-typescript-first-workflow.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
+## Sources
+- [Canonical Org-Babel Matplotlib Animation Template — L3575](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-3575-0) (line 3575, col 0, score 1)
+- [Creative Moments — L2066](creative-moments.md#^ref-10d98225-2066-0) (line 2066, col 0, score 1)
+- [Duck's Attractor States — L4631](ducks-attractor-states.md#^ref-13951643-4631-0) (line 4631, col 0, score 1)
+- [eidolon-field-math-foundations — L8149](eidolon-field-math-foundations.md#^ref-008f2ac0-8149-0) (line 8149, col 0, score 1)
+- [Promethean Chat Activity Report — L2138](promethean-chat-activity-report.md#^ref-18344cf9-2138-0) (line 2138, col 0, score 1)
+- [Promethean Dev Workflow Update — L5530](promethean-dev-workflow-update.md#^ref-03a5578f-5530-0) (line 5530, col 0, score 1)
+- [Promethean Documentation Update — L1842](promethean-documentation-update.txt#^ref-0b872af2-1842-0) (line 1842, col 0, score 1)
+- [Promethean Notes — L2038](promethean-notes.md#^ref-1c4046b5-2038-0) (line 2038, col 0, score 1)
+- [Canonical Org-Babel Matplotlib Animation Template — L3576](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-3576-0) (line 3576, col 0, score 1)
+- [Creative Moments — L2067](creative-moments.md#^ref-10d98225-2067-0) (line 2067, col 0, score 1)
+- [Duck's Attractor States — L4632](ducks-attractor-states.md#^ref-13951643-4632-0) (line 4632, col 0, score 1)
+- [eidolon-field-math-foundations — L8150](eidolon-field-math-foundations.md#^ref-008f2ac0-8150-0) (line 8150, col 0, score 1)
+- [Promethean Chat Activity Report — L2139](promethean-chat-activity-report.md#^ref-18344cf9-2139-0) (line 2139, col 0, score 1)
+- [Promethean Dev Workflow Update — L5531](promethean-dev-workflow-update.md#^ref-03a5578f-5531-0) (line 5531, col 0, score 1)
+- [Promethean Documentation Update — L1843](promethean-documentation-update.txt#^ref-0b872af2-1843-0) (line 1843, col 0, score 1)
+- [Promethean Notes — L2039](promethean-notes.md#^ref-1c4046b5-2039-0) (line 2039, col 0, score 1)
+- [eidolon-field-math-foundations — L8151](eidolon-field-math-foundations.md#^ref-008f2ac0-8151-0) (line 8151, col 0, score 1)
+- [Promethean Chat Activity Report — L2140](promethean-chat-activity-report.md#^ref-18344cf9-2140-0) (line 2140, col 0, score 1)
+- [Promethean Dev Workflow Update — L5532](promethean-dev-workflow-update.md#^ref-03a5578f-5532-0) (line 5532, col 0, score 1)
+- [Promethean Documentation Update — L1844](promethean-documentation-update.txt#^ref-0b872af2-1844-0) (line 1844, col 0, score 1)
+- [Promethean Notes — L2040](promethean-notes.md#^ref-1c4046b5-2040-0) (line 2040, col 0, score 1)
+- [The Jar of Echoes — L4622](the-jar-of-echoes.md#^ref-18138627-4622-0) (line 4622, col 0, score 1)
+- [windows-tiling-with-autohotkey — L5396](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-5396-0) (line 5396, col 0, score 1)
+- [compiler-kit-foundations — L171](compiler-kit-foundations.md#^ref-479401ac-171-0) (line 171, col 0, score 1)
+- [compiler-kit-foundations — L330](compiler-kit-foundations.md#^ref-479401ac-330-0) (line 330, col 0, score 1)
+- [run-step-api — L4](run-step-api.md#^ref-01c5547f-4-0) (line 4, col 0, score 1)
+- [run-step-api — L6](run-step-api.md#^ref-01c5547f-6-0) (line 6, col 0, score 1)
+- [run-step-api — L8](run-step-api.md#^ref-01c5547f-8-0) (line 8, col 0, score 1)
+- [Creative Moments — L2079](creative-moments.md#^ref-10d98225-2079-0) (line 2079, col 0, score 0.96)
+- [run-step-api — L3](run-step-api.md#^ref-01c5547f-3-0) (line 3, col 0, score 0.92)
+- [set-assignment-in-lisp-ast — L5](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-5-0) (line 5, col 0, score 0.89)
+- [Promethean-native config design — L305](promethean-native-config-design.md#^ref-ab748541-305-0) (line 305, col 0, score 0.89)
+- [Event Bus MVP — L527](event-bus-mvp.md#^ref-534fe91d-527-0) (line 527, col 0, score 0.89)
+- [Interop and Source Maps — L322](interop-and-source-maps.md#^ref-1de71d74-322-0) (line 322, col 0, score 0.88)
+- [set-assignment-in-lisp-ast — L60](set-assignment-in-lisp-ast.md#^ref-4c87f571-60-0) (line 60, col 0, score 0.88)
+- [Lispy Macros with Syntax Rules — L304](lispy-macros-with-syntax-rules.md#^ref-29676fd0-304-0) (line 304, col 0, score 0.87)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 0.87)
+- [Local-Only-LLM-Workflow — L129](local-only-llm-workflow.md#^ref-9a8ab57e-129-0) (line 129, col 0, score 0.86)
+- [Promethean Full-Stack Docker Setup — L417](promethean-full-stack-docker-setup.md#^ref-2c2b48ca-417-0) (line 417, col 0, score 0.86)
+- [heartbeat-simulation-snippets — L84](heartbeat-simulation-snippets.md#^ref-23e221e9-84-0) (line 84, col 0, score 0.86)
+- [Promethean Pipelines: Local TypeScript-First Workflow — L220](promethean-pipelines-local-typescript-first-workflow.md#^ref-6b63edca-220-0) (line 220, col 0, score 0.86)
+- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.85)
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.85)
+- [Lispy Macros with syntax-rules — L376](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-376-0) (line 376, col 0, score 0.85)
+- [markdown-to-org-transpiler — L272](markdown-to-org-transpiler.md#^ref-ab54cdd8-272-0) (line 272, col 0, score 0.85)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L401](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-401-0) (line 401, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

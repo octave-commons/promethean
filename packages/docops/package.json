@@ -4,7 +4,9 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "pnpm build && ava",
-    "doc:dev-ui": "pnpm build && node ./dist/dev-ui.js --dir ../../docs/unique --collection docs-cosine --port 3939"
+    "coverage": "pnpm build && c8 ava",
+    "doc:dev-ui": "pnpm build && node ./dist/dev-ui.js --dir ../../docs/unique --collection docs-cosine --port 3939",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@chroma-core/ollama": "^0.1.7",
