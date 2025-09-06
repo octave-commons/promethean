@@ -21,7 +21,7 @@
         "build": "tsc",
         "clean": "rimraf dist",
         "typecheck": "tsc -p tsconfig.json --noEmit",
-        "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+        "test": "pnpm run build && ava tests/**/*.test.js",
         "lint": "pnpm exec biome lint .",
         "lisp": "node dist/cli/lisp.js",
         "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
@@ -52,7 +52,8 @@
         "uuid": "^11.1.0",
         "ws": "^8.18.0",
         "yaml": "^2.5.1",
-        "zod": "^3.23.8"
+        "zod": "^3.23.8",
+        "@promethean/test-utils": "workspace:*"
     },
     "devDependencies": {
         "@types/body-parser": "^1.19.5",

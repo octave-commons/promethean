@@ -1,6 +1,6 @@
-import { fileBackedRegistry } from "@shared/prom-lib";
-import { makeChromaWrapper } from "@shared/prom-lib";
-import { makeDeterministicEmbedder } from "@shared/prom-lib";
+import { fileBackedRegistry } from "@promethean/platform";
+import { makeChromaWrapper } from "@promethean/migrations/chroma.js";
+import { makeDeterministicEmbedder } from "@promethean/migrations/embedder.js";
 
 export async function embedMessage(evt: any) {
   if (!evt.text || !evt.text.trim()) return null;

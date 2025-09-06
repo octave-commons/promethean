@@ -1,8 +1,6 @@
-import {
-  InMemoryEventBus,
-  topic,
-  normalizeDiscordMessage,
-} from "@shared/prom-lib";
+import { InMemoryEventBus } from "@promethean/event/memory.js";
+import { topic } from "@promethean/platform";
+import { normalizeDiscordMessage } from "@promethean/providers/discord/normalize.js";
 
 export class GatewayPublisher {
   constructor(private bus: InMemoryEventBus) {}
