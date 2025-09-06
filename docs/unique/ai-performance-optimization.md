@@ -52,10 +52,8 @@ references:
 - Move Level Cache into Persistence:
 
 - Better Parallelize Ollama Batching: ^ref-46e6b485-5-0
-  - We have to wait for batch processing to happen right now for a batch to start
-  - then we have to wait for a batch to finish before we can start preprocessing the next batch
-  - This leads to dead gpu time, and dead cpu time.
-
+  - We currently wait for a batch to start processing, and then wait for it to finish before preprocessing the next batch.
+  - This causes idle GPU time and idle CPU time.
 - Function Memoizer with Configurable Drivers: ^ref-46e6b485-10-0
 
 - Better Prompts for Local AI: ^ref-46e6b485-12-0
