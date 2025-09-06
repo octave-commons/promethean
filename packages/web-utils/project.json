@@ -1,7 +1,7 @@
 {
     "name": "ts-web-utils",
-    "root": "shared/ts/web-utils",
-    "sourceRoot": "shared/ts/web-utils/src",
+    "root": "packages/web-utils",
+    "sourceRoot": "packages/web-utils/src",
     "targets": {
         "build": {
             "executor": "nx:run-commands",
