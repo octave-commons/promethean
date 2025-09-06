@@ -1,1 +1,1 @@
-(configuration-layer/declare-layer-dependencies '(lsp common-lisp))
+(configuration-layer/declare-layer-dependencies '(lsp common-lisp syntax-checking))
