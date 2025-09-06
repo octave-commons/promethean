@@ -19,6 +19,9 @@ export async function crawlPage(
     throw new Error("url not allowed");
   }
   const res = await fetchFn(normalized);
+  if (!res.ok) {
+    throw new Error(`fetch failed: ${res.status} ${res.statusText}`);
+  }
   const html = await res.text();
   const $ = load(html);
   const title = $("title").text() || null;

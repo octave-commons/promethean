@@ -7,8 +7,8 @@ test("crawlPage fetches and extracts links", async (t) => {
   <a href="/a">A</a>
   <a href="https://example.com/b">B</a>
   </body></html>`;
-  const fakeFetch = (async (_input: RequestInfo) =>
-    new Response(html, { status: 200 })) as typeof fetch;
+  const fakeFetch: typeof fetch = async () =>
+    new Response(html, { status: 200 });
   const result = await crawlPage("https://example.com", fakeFetch);
   t.is(result.url, "https://example.com/");
   t.is(result.title, "Example");
