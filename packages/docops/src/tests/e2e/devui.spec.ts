@@ -1,34 +1,36 @@
 import * as path from "node:path";
 import * as url from "node:url";
+import { v4 as uuidv4 } from "uuid";
 
 import test from "ava";
 import { registerProcForFileWithPort, withPage } from "@promethean/test-utils";
 
 const PKG_ROOT = path.resolve(
   path.dirname(url.fileURLToPath(import.meta.url)),
-  "..",
+  "../../../",
 );
 
+const DOC_FIXTURE_PATH = path.join(PKG_ROOT, "./fixtures/docs");
 const { getProc } = registerProcForFileWithPort(test, {
   cmd: "node",
   args: [
     path.join(PKG_ROOT, "dist/dev-ui.js"),
     "--dir",
-    "../../docs/unique",
+    DOC_FIXTURE_PATH,
     "--collection",
-    "docs-cosine",
+    uuidv4(),
     "--port",
     ":PORT", // placeholder
   ],
   cwd: PKG_ROOT,
   env: { ...process.env },
   stdio: "inherit",
-  ready: { kind: "http", url: "http://127.0.0.1:PORT/", timeoutMs: 15000 }, // we can enhance ready to replace :PORT too (see note)
   port: { mode: "free" },
   baseUrlTemplate: (p) => `http://127.0.0.1:${p}/`,
 });
 
 test(
+  "Gets / ",
   withPage,
   { baseUrl: () => getProc().baseUrl },
   async (t, { pageGoto }) => {
@@ -38,6 +40,7 @@ test(
 );
 
 test(
+  "Get /health ",
   withPage,
   { baseUrl: () => getProc().baseUrl },
   async (t, { pageGoto }) => {
