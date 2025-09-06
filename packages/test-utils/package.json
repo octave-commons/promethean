@@ -21,11 +21,9 @@
         "build": "tsc",
         "clean": "rimraf dist",
         "typecheck": "tsc -p tsconfig.json --noEmit",
-        "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+        "test": "pnpm run build && ava",
         "lint": "pnpm exec biome lint .",
-        "lisp": "node dist/cli/lisp.js",
-        "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
-        "test:markdown": "pnpm run build && ava --config ../../config/ava.config.mjs dist/tests/markdown.*.test.js",
+        "coverage": "pnpm run build && c8 ava",
         "format": "pnpm exec biome format --write ."
     },
     "module": "dist/index.js",
