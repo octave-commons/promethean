@@ -1,8 +1,7 @@
 import test from "ava";
+import { embedAttachments } from "@promethean/embedding";
 
 test("embeds attachments into provider+tenant namespace", async (t) => {
-  try {
-     const { embedAttachments } = await import("@promethean/embedding");
     const out = await embedAttachments({
       message_id: "m1",
       author_urn: "urn:discord:user:duck:u1",
@@ -30,8 +29,4 @@ test("embeds attachments into provider+tenant namespace", async (t) => {
       t.regex(out.ns, /discord__duck/);
       t.is(out.ids.length, 2);
     }
-  } catch (err) {
-    t.log(`skipping: ${err}`);
-    t.pass();
-  }
 });
