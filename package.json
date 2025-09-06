@@ -77,7 +77,8 @@
     "puppeteer": "24.16.0",
     "ts-jest": "29.4.1",
     "tsx": "4.20.3",
-    "typescript-eslint": "8.42.0"
+    "typescript-eslint": "8.42.0",
+    "nx": "^20.0.0"
   },
   "license": "GPL-3.0-only",
   "volta": {
