@@ -23,17 +23,25 @@ const args = parseArgs({
   "--max-rdeps-list": "12", // show up to N dependents in the table cells
 });
 
-const ROOT = path.resolve(args["--root"]);
-const OUT_ROOT = path.resolve(args["--out"]);
+const ROOT = path.resolve(String(args["--root"]));
+const OUT_ROOT = path.resolve(String(args["--out"]));
 const EXTS = new Set(
-  args["--ext"].split(",").map((s) => s.trim().toLowerCase()),
+  String(args["--ext"])
+    .split(",")
+    .map((s) => s.trim().toLowerCase()),
 );
-const INCLUDE_IMPORTS = args["--include-imports"] === "true";
-const RESPECT_MANIFEST = args["--respect-manifest"] === "true";
-const RENDER_DOMAIN_GRAPHS = args["--render-domain-graphs"] === "true";
-const DOMAIN_DEPTH = Math.max(1, parseInt(args["--domain-depth"], 10) || 1);
-const RDEPS_TABLE = args["--rdeps-table"] === "true";
-const MAX_RDEPS_LIST = Math.max(0, parseInt(args["--max-rdeps-list"], 10) || 0);
+const INCLUDE_IMPORTS = String(args["--include-imports"]) === "true";
+const RESPECT_MANIFEST = String(args["--respect-manifest"]) === "true";
+const RENDER_DOMAIN_GRAPHS = String(args["--render-domain-graphs"]) === "true";
+const DOMAIN_DEPTH = Math.max(
+  1,
+  parseInt(String(args["--domain-depth"]), 10) || 1,
+);
+const RDEPS_TABLE = String(args["--rdeps-table"]) === "true";
+const MAX_RDEPS_LIST = Math.max(
+  0,
+  parseInt(String(args["--max-rdeps-list"]), 10) || 0,
+);
 
 const GLOBAL_START = "<!-- SYMPKG:BEGIN -->";
 const GLOBAL_END = "<!-- SYMPKG:END -->";
@@ -264,9 +272,10 @@ function parseArgs(defaults: Record<string, string>) {
   const out = { ...defaults };
   const a = process.argv.slice(2);
   for (let i = 0; i < a.length; i++) {
-    const k = a[i];
+    const k = a[i] ?? "";
     if (!k.startsWith("--")) continue;
-    const v = a[i + 1] && !a[i + 1].startsWith("--") ? a[++i] : "true";
+    const next = a[i + 1] ?? "";
+    const v = next && !next.startsWith("--") ? a[++i] ?? "true" : "true";
     out[k] = v;
   }
   return out;
@@ -422,7 +431,7 @@ async function readMaybe(p: string) {
   }
 }
 
-function relativeToPkgReadmeLink(fromFolder: string, toFolder: string) {
+function relativeToPkgReadmeLink(_fromFolder: string, toFolder: string) {
   return `../${toFolder}/README.md`.replace(/\\/g, "/");
 }
 
@@ -588,7 +597,7 @@ function renderReverseDepTable(
 function renderDomainGraphs(
   pkgs: Pkg[],
   edges: Array<{ from: string; to: string; kind: "manifest" | "import" }>,
-  byName: Map<string, Pkg>,
+  _byName: Map<string, Pkg>,
   hrefOfRelTo: (name: string, fromFolder: string) => string,
 ): string {
   const byDomain = new Map<string, Pkg[]>();
@@ -601,8 +610,9 @@ function renderDomainGraphs(
   for (const [domain, list] of Array.from(byDomain.entries()).sort((a, b) =>
     a[0].localeCompare(b[0]),
   )) {
+    const baseFolder = list[0]?.folder ?? "";
     const mermaid = buildMermaidDomain(domain, list, edges, (name) =>
-      hrefOfRelTo(name, /*fromFolder*/ list[0].folder),
+      hrefOfRelTo(name, baseFolder),
     );
     const cross = crossDomainEdges(
       domain,
@@ -625,7 +635,7 @@ function renderDomainGraphs(
 }
 
 function crossDomainEdges(
-  domain: string,
+  _domain: string,
   members: string[],
   edges: { from: string; to: string }[],
 ) {
