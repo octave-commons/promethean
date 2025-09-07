@@ -53,12 +53,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const files = getSelection();
     const docT = (document.getElementById("docT") as HTMLInputElement).value;
     const refT = (document.getElementById("refT") as HTMLInputElement).value;
-    let url = `/api/preview?dir=${encodeURIComponent(
-      dir,
-    )}&docT=${docT}&refT=${refT}`;
+    let url = `/api/preview?docT=${docT}&refT=${refT}`;
     if (files && files.length) {
       url += "&file=" + encodeURIComponent(files[0]!);
     } else {
+      url += "&dir=" + encodeURIComponent(dir);
       const uuid = (document.getElementById("doclist") as HTMLSelectElement)
         .value;
       if (!uuid) {
