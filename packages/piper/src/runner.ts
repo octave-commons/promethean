@@ -16,6 +16,7 @@ import {
   runNode,
   runShell,
   runTSModule,
+  runJSModule,
   writeText,
 } from "./fsutils.js";
 import { stepFingerprint } from "./hash.js";
@@ -130,6 +131,7 @@ export async function runPipeline(
       else if (s.node)
         execRes = await runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
       else if (s.ts) execRes = await runTSModule(s, cwd, s.env, s.timeoutMs);
+      else if (s.js) execRes = await runJSModule(s, cwd, s.env, s.timeoutMs);
 
       const endedAt = new Date().toISOString();
       const out: StepResult = {
