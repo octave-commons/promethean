@@ -32,17 +32,22 @@ export async function findRunnablePackages(root = process.cwd()) {
   return runnable;
 }
 
+export function buildDevArgs(packages) {
+  const args = ['run', '-r', '--parallel', '--workspace-root'];
+  for (const pkg of packages) {
+    args.push('--filter', pkg);
+  }
+  args.push('dev');
+  return args;
+}
+
 async function main() {
   const packages = await findRunnablePackages();
   if (packages.length === 0) {
     console.log('No runnable packages with a dev script found.');
     return;
   }
-  const args = ['run', '-r'];
-  for (const pkg of packages) {
-    args.push('--filter', pkg);
-  }
-  args.push('dev');
+  const args = buildDevArgs(packages);
   const child = spawn('pnpm', args, { stdio: 'inherit' });
   child.on('exit', (code) => process.exit(code ?? 0));
 }
