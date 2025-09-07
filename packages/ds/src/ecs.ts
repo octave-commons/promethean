@@ -26,7 +26,6 @@ export type Query = {
     changed?: bigint; // at least one changed since last tick
 };
 
-type Column = any[]; // SoA column per component id
 type Edge = Map<ComponentId, Archetype>; // add/remove graph edges for fast moves
 
 class Archetype {
