@@ -41,6 +41,7 @@ export const shutdown = async (): Promise<void> => {
 export type BrowserTestDeps = {
     url: (path?: string) => string;
     pageGoto: (path?: string) => Promise<Response | null>;
+    page: Page;
 };
 
 export type BrowserTestFn = (t: ExecutionContext, deps: BrowserTestDeps) => Promise<void>;
