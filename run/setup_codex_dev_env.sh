@@ -44,6 +44,13 @@ pnpm -v
 pnpm install --no-frozen-lockfile --reporter=append-only
 bash ./run/setup_playwright.sh
 curl -fsSL https://ollama.com/install.sh | sh
-pip install --user chromadb
+python3 -m pip install --user chromadb
+# start services if not already running
+nohup chromadb run --host 127.0.0.1 --port 8000 >/dev/null 2>&1 &
+nohup ollama serve >/dev/null 2>&1 &
+# wait for health
+for i in {1..60}; do curl -fsS http://127.0.0.1:8000/api/v1/heartbeat && break || sleep 1; done
+for i in {1..60}; do curl -fsS http://127.0.0.1:11434/api/tags && break || sleep 1; done
+# pull models once daemon is ready
 ollama pull qwen2.5:0.5b
 ollama pull nomic-embed-text
