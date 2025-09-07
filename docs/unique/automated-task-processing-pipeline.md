@@ -25,7 +25,7 @@ references:
 
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [promethean-pipelines](promethean-pipelines.md)
+- [[promethean-pipelines|promethean-pipelines]]
 ## Sources
-- [promethean-pipelines — L5](promethean-pipelines.md#^ref-86ef1f2b-5-0) (line 5, col 0, score 0.9)
+- [[promethean-pipelines#^ref-86ef1f2b-5-0|promethean-pipelines — L5]] (line 5, col 0, score 0.9)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
