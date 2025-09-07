@@ -19,6 +19,20 @@ pm2 start agents/duck/ecosystem.config.js
 
 Choose the config inside `agents/<agent>/` for other agents.
 
+## Development workflow
+
+Run all package development scripts without Docker:
+
+```bash
+pnpm dev:all
+```
+
+For a full-stack environment using containers:
+
+```bash
+docker compose up
+```
+
 Set `AGENT_NAME` in your environment before launching agent services to isolate collections and data.
 Promethean is a modular cognitive architecture for building embodied AI agents. It breaks the system
 into small services that handle speech-to-text, text-to-speech, memory, and higher level reasoning.
@@ -30,6 +44,10 @@ into small services that handle speech-to-text, text-to-speech, memory, and high
 
 - Prefer immutable data; avoid in-place object mutation.
 - Use key-value caches like `@promethean/level-cache` instead of JSON files for intermediate data.
+
+### Nx workspace
+
+Build tooling is managed with [Nx](https://nx.dev). See [docs/nx-workspace.md](docs/nx-workspace.md) for common commands.
 
 ### Broker Heartbeat
 

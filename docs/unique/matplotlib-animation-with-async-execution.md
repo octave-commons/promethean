@@ -1,21 +1,20 @@
 ---
-uuid: 6bbc5717-b8a5-4aaf-933d-b0225ad598b4
+uuid: 6d18f68b-7435-4eb3-a36b-5d059b183518
 created_at: matplotlib-animation-with-async-execution.md
-filename: matplotlib-animation-with-async-execution
-title: matplotlib-animation-with-async-execution
+filename: Matplotlib Animation with Async Execution
+title: Matplotlib Animation with Async Execution
 description: >-
-  Two methods to create async Matplotlib animations in Org mode: using ob-async
-  for non-session blocks or emacs-jupyter for session-based async execution.
-  Both approaches avoid UI freezing during animation rendering.
+  Two methods to run Matplotlib animations asynchronously in Org mode: using
+  `ob-async` for plain Babel blocks without sessions, or switching to
+  `emacs-jupyter` for session-based async execution with Jupyter Python blocks.
 tags:
-  - org-mode
-  - matplotlib
+  - Matplotlib
+  - Org mode
   - async
   - animation
-  - emacs
-  - jupyter
-  - ob-async
-  - emacs-jupyter
+  - Babel
+  - Jupyter
+  - Emacs
 related_to_uuid:
   - 688ad325-4243-4304-bccc-1a1d8745de08
   - 681a4ab2-8fef-4833-a09d-bceb62d114da
@@ -73,23 +72,11 @@ references:
     col: 0
     score: 1
   - uuid: 688ad325-4243-4304-bccc-1a1d8745de08
-    line: 1
-    col: 0
-    score: 1
-  - uuid: 688ad325-4243-4304-bccc-1a1d8745de08
     line: 3
     col: 0
     score: 1
   - uuid: 688ad325-4243-4304-bccc-1a1d8745de08
     line: 5
-    col: 0
-    score: 1
-  - uuid: 688ad325-4243-4304-bccc-1a1d8745de08
-    line: 7
-    col: 0
-    score: 1
-  - uuid: 688ad325-4243-4304-bccc-1a1d8745de08
-    line: 13
     col: 0
     score: 1
   - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
@@ -266,3 +253,50 @@ You can still reuse your exact animation code; just swap the block language to `
 * On `ob-async`, remember: **no `:session`**. If you need long-lived state, prefer the Jupyter route. ^ref-687439f9-67-0
 
 Want me to convert your current smoke‑symbols block to a `jupyter-python` version verbatim?
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [template-based-compilation](template-based-compilation.md)
+- [SentenceProcessing](sentenceprocessing.md)
+- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [The Jar of Echoes](the-jar-of-echoes.md)
+- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
+- [Duck's Attractor States](ducks-attractor-states.md)
+- [Promethean Pipelines](promethean-pipelines.md)
+- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [ecs-offload-workers](ecs-offload-workers.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
+- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+## Sources
+- [SentenceProcessing — L30](sentenceprocessing.md#^ref-681a4ab2-30-0) (line 30, col 0, score 1)
+- [template-based-compilation — L3](template-based-compilation.md#^ref-688ad325-3-0) (line 3, col 0, score 1)
+- [template-based-compilation — L5](template-based-compilation.md#^ref-688ad325-5-0) (line 5, col 0, score 1)
+- [Promethean Dev Workflow Update — L19229](promethean-dev-workflow-update.md#^ref-03a5578f-19229-0) (line 19229, col 0, score 0.91)
+- [eidolon-field-math-foundations — L20713](eidolon-field-math-foundations.md#^ref-008f2ac0-20713-0) (line 20713, col 0, score 0.91)
+- [The Jar of Echoes — L17481](the-jar-of-echoes.md#^ref-18138627-17481-0) (line 17481, col 0, score 0.91)
+- [Duck's Attractor States — L12868](ducks-attractor-states.md#^ref-13951643-12868-0) (line 12868, col 0, score 0.91)
+- [Promethean-Copilot-Intent-Engine — L2873](promethean-copilot-intent-engine.md#^ref-ae24a280-2873-0) (line 2873, col 0, score 0.91)
+- [Promethean Pipelines — L2297](promethean-pipelines.md#^ref-8b8e6103-2297-0) (line 2297, col 0, score 0.91)
+- [Promethean Dev Workflow Update — L17122](promethean-dev-workflow-update.md#^ref-03a5578f-17122-0) (line 17122, col 0, score 0.91)
+- [The Jar of Echoes — L16438](the-jar-of-echoes.md#^ref-18138627-16438-0) (line 16438, col 0, score 0.91)
+- [The Jar of Echoes — L17896](the-jar-of-echoes.md#^ref-18138627-17896-0) (line 17896, col 0, score 0.91)
+- [Local-First Intention→Code Loop with Free Models — L105](local-first-intention-code-loop-with-free-models.md#^ref-871490c7-105-0) (line 105, col 0, score 0.9)
+- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.88)
+- [compiler-kit-foundations — L588](compiler-kit-foundations.md#^ref-01b21543-588-0) (line 588, col 0, score 0.86)
+- [compiler-kit-foundations — L1](compiler-kit-foundations.md#^ref-479401ac-1-0) (line 1, col 0, score 0.86)
+- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.85)
+- [Event Bus MVP — L527](event-bus-mvp.md#^ref-534fe91d-527-0) (line 527, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

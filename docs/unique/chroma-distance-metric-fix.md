@@ -1,5 +1,5 @@
 ---
-uuid: 6d2e924f-8f98-463f-8255-2d5bf7337fc1
+uuid: 30f8a416-31f0-48c3-b1c8-c249b7851f10
 created_at: chroma-distance-metric-fix.md
 filename: Chroma Distance Metric Fix
 title: Chroma Distance Metric Fix
@@ -199,10 +199,6 @@ references:
     col: 0
     score: 1
   - uuid: b9540809-7346-41ac-9980-b25ed268616c
-    line: 15
-    col: 0
-    score: 1
-  - uuid: b9540809-7346-41ac-9980-b25ed268616c
     line: 16
     col: 0
     score: 1
@@ -236,14 +232,6 @@ references:
     score: 1
   - uuid: b39939e3-bed8-4305-81a6-b53e9033682a
     line: 4
-    col: 0
-    score: 1
-  - uuid: <generate-uuid>
-    line: 5
-    col: 0
-    score: 1
-  - uuid: b39939e3-bed8-4305-81a6-b53e9033682a
-    line: 5
     col: 0
     score: 1
   - uuid: <generate-uuid>
@@ -336,3 +324,82 @@ confirm scores and coverage.
 
 ▌ Explain this codebase ^ref-9fd881b6-52-0
  ⏎ send   Ctrl+J newline   Ctrl+C quit   1552624 tokens used   70% context left
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [chroma-distance-metric-fix](chroma-distance-metric-fix-2.md)
+- [Centralized File Embedder + Cache](2025.09.04.11.56.17.md)
+- [Centralized File Embedder](2025.09.04.11.56.17.md)
+- [Smoke Resonance Visualizations](smoke-resonance-visualizations.md)
+- [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
+- [Tracing the Signal](tracing-the-signal.md)
+- [ts-to-lisp-transpiler](ts-to-lisp-transpiler.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [Unique Concepts](unique-concepts.md)
+- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
+- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
+- [Docops Feature Updates](docops-feature-updates.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [graph-ds](graph-ds.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
+## Sources
+- [Smoke Resonance Visualizations — L483](smoke-resonance-visualizations.md#^ref-ac9d3ac5-483-0) (line 483, col 0, score 1)
+- [Stateful Partitions and Rebalancing — L1321](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-1321-0) (line 1321, col 0, score 1)
+- [Tracing the Signal — L561](tracing-the-signal.md#^ref-c3cd4f65-561-0) (line 561, col 0, score 1)
+- [ts-to-lisp-transpiler — L522](ts-to-lisp-transpiler.md#^ref-ba11486b-522-0) (line 522, col 0, score 1)
+- [typed-struct-compiler — L1015](typed-struct-compiler.md#^ref-78eeedf7-1015-0) (line 1015, col 0, score 1)
+- [TypeScript Patch for Tool Calling Support — L1228](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-1228-0) (line 1228, col 0, score 1)
+- [Unique Concepts — L173](unique-concepts.md#^ref-ed6f3fc9-173-0) (line 173, col 0, score 1)
+- [zero-copy-snapshots-and-workers — L1057](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1057-0) (line 1057, col 0, score 1)
+- [Canonical Org-Babel Matplotlib Animation Template — L513](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-513-0) (line 513, col 0, score 1)
+- [Agent Reflections and Prompt Evolution — L618](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-618-0) (line 618, col 0, score 1)
+- [ChatGPT Custom Prompts — L187](chatgpt-custom-prompts.md#^ref-930054b3-187-0) (line 187, col 0, score 1)
+- [Chroma Toolkit Consolidation Plan — L999](chroma-toolkit-consolidation-plan.md#^ref-5020e892-999-0) (line 999, col 0, score 1)
+- [typed-struct-compiler — L1016](typed-struct-compiler.md#^ref-78eeedf7-1016-0) (line 1016, col 0, score 1)
+- [Unique Concepts — L175](unique-concepts.md#^ref-ed6f3fc9-175-0) (line 175, col 0, score 1)
+- [Unique Info Dump Index — L1221](unique-info-dump-index.md#^ref-30ec3ba6-1221-0) (line 1221, col 0, score 1)
+- [zero-copy-snapshots-and-workers — L1058](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1058-0) (line 1058, col 0, score 1)
+- [Canonical Org-Babel Matplotlib Animation Template — L515](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-515-0) (line 515, col 0, score 1)
+- [Creative Moments — L251](creative-moments.md#^ref-10d98225-251-0) (line 251, col 0, score 1)
+- [Duck's Attractor States — L559](ducks-attractor-states.md#^ref-13951643-559-0) (line 559, col 0, score 1)
+- [eidolon-field-math-foundations — L1033](eidolon-field-math-foundations.md#^ref-008f2ac0-1033-0) (line 1033, col 0, score 1)
+- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
+- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
+- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
+- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
+- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
+- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
+- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
+- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
+- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
+- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
+- [chroma-distance-metric-fix — L16](chroma-distance-metric-fix-2.md#^ref-b9540809-16-0) (line 16, col 0, score 1)
+- [chroma-distance-metric-fix — L17](chroma-distance-metric-fix-2.md#^ref-b9540809-17-0) (line 17, col 0, score 1)
+- [chroma-distance-metric-fix — L33](chroma-distance-metric-fix-2.md#^ref-b9540809-33-0) (line 33, col 0, score 1)
+- [chroma-distance-metric-fix — L47](chroma-distance-metric-fix-2.md#^ref-b9540809-47-0) (line 47, col 0, score 1)
+- [chroma-distance-metric-fix — L51](chroma-distance-metric-fix-2.md#^ref-b9540809-51-0) (line 51, col 0, score 1)
+- [Centralized File Embedder + Cache — L2](2025.09.04.11.56.17.md#^ref-<generat-2-0) (line 2, col 0, score 1)
+- [Centralized File Embedder — L2](2025.09.04.11.56.17.md#^ref-b39939e3-2-0) (line 2, col 0, score 1)
+- [Centralized File Embedder + Cache — L4](2025.09.04.11.56.17.md#^ref-<generat-4-0) (line 4, col 0, score 1)
+- [Centralized File Embedder — L4](2025.09.04.11.56.17.md#^ref-b39939e3-4-0) (line 4, col 0, score 1)
+- [Centralized File Embedder + Cache — L6](2025.09.04.11.56.17.md#^ref-<generat-6-0) (line 6, col 0, score 1)
+- [Centralized File Embedder — L6](2025.09.04.11.56.17.md#^ref-b39939e3-6-0) (line 6, col 0, score 1)
+- [run-step-api — L160](run-step-api.md#^ref-15d25922-160-0) (line 160, col 0, score 0.9)
+- [run-step-api — L613](run-step-api.md#^ref-15d25922-613-0) (line 613, col 0, score 0.9)
+- [run-step-api — L144](run-step-api.md#^ref-15d25922-144-0) (line 144, col 0, score 0.88)
+- [run-step-api — L664](run-step-api.md#^ref-15d25922-664-0) (line 664, col 0, score 0.88)
+- [chroma-distance-metric-fix — L28](chroma-distance-metric-fix-2.md#^ref-b9540809-28-0) (line 28, col 0, score 0.86)
+- [run-step-api — L329](run-step-api.md#^ref-15d25922-329-0) (line 329, col 0, score 0.86)
+- [run-step-api — L364](run-step-api.md#^ref-15d25922-364-0) (line 364, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

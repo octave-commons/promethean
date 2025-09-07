@@ -22,7 +22,7 @@ export type DBs = {
 };
 
 export const openDB = async (
-  location = ".cache/docops.level",
+  location = process.env.DOCOPS_DB || ".cache/docops.level",
 ): Promise<DBs> => {
   const root: DBs["root"] = new Level<string, unknown>(location, {
     valueEncoding: "json",

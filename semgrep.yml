@@ -1,0 +1,24 @@
+rules:
+  - id: no-eval
+    message: Avoid eval
+    severity: ERROR
+    languages: [javascript, typescript]
+    pattern: eval($X)
+  - id: disallow-empty-catch
+    message: "Empty catch block — always handle exceptions or at least log them."
+    languages:
+      - javascript
+      - typescript
+    severity: WARNING
+    pattern: |
+      catch ($EX) {
+        $EMPTY
+      }
+    pattern-either:
+      - pattern: |
+          catch ($EX) {
+            ;
+          }
+      - pattern: |
+          catch ($EX) {
+          }

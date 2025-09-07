@@ -1,5 +1,5 @@
 ---
-uuid: 8fd08696-5338-493b-bed5-507f8a6a6ea9
+uuid: a3564445-21c0-4917-83d7-8c01736ccb36
 created_at: typed-struct-compiler.md
 filename: typed-struct-compiler
 title: typed-struct-compiler
@@ -17,696 +17,587 @@ tags:
   - type-inference
   - data-serialization
 related_to_uuid:
-  - 792a343e-674c-4bb4-8435-b3f8c163349d
-  - e4317155-7fa6-44e8-8aee-b72384581790
-  - 972c820f-63a8-49c6-831f-013832195478
-  - ee4b3631-a745-485b-aff1-2da806cfadfb
-  - a28a39dd-8c17-463c-9050-2ffe9b56e8bc
-  - f0528a41-be17-4213-b5bc-7d37fcbef0e0
-  - 740bbd1c-c039-405c-8a32-4baeddfb5637
-  - bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
-  - 7a66bc1e-9276-41ce-ac22-fc08926acb2d
-  - 0c501d52-ba38-42aa-ad25-2d78425dfaff
-  - 06ef038a-e195-49c1-898f-a50cc117c59a
-  - c46718fe-73dd-4236-8f1c-f6565da58cc4
-  - c0e6ea38-a9a0-4379-aa9c-b634a6591a59
-  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
-  - 31a2df46-9dbc-4066-b3e3-d3e860099fd0
-  - 65c145c7-fe3e-4989-9aae-5db39fa0effc
-  - 0f203aa7-c96d-4323-9b9e-bbc438966e8c
-  - abe9ec8d-5a0f-42c5-b2ab-a2080c86d70c
-  - a23de044-17e0-45f0-bba7-d870803cbfed
-  - 86ef1f2b-1b3f-4ca7-a88e-b8b52e70ac10
-  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+  - a4d90289-798d-44a0-a8e8-a055ae12fb52
+  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
+  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
+  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+  - ae24a280-678e-4c0b-8cc4-56667fa04172
+  - 13951643-1741-46bb-89dc-1beebb122633
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
+  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
+  - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
 related_to_title:
+  - Dynamic Context Model for Web Components
+  - plan-update-confirmation
+  - Debugging Broker Connections and Agent Behavior
+  - Factorio AI with External Agents
   - windows-tiling-with-autohotkey
+  - graph-ds
+  - zero-copy-snapshots-and-workers
+  - Eidolon Field Abstract Model
+  - Layer1SurvivabilityEnvelope
+  - Migrate to Provider-Tenant Architecture
+  - Model Selection for Lightweight Conversational Tasks
   - TypeScript Patch for Tool Calling Support
-  - archetype-ecs
-  - Promethean Documentation Pipeline Overview
-  - AI-Centric OS with MCP Layer
-  - local-offline-model-deployment-strategy
-  - heartbeat-fragment-demo
-  - chroma-embedding-refactor
-  - pm2-orchestration-patterns
-  - dynamic-context-model-for-web-components
-  - 2d-sandbox-field
-  - shared-package-structure
-  - board-walk-2025-08-11
-  - polyglot-repl-interface-layer
-  - field-node-diagram-set
-  - event-bus-mvp
-  - schema-evolution-workflow
-  - RAG UI Panel with Qdrant and PostgREST
-  - Komorebi Group Manager
-  - promethean-pipelines
-  - Stateful Partitions and Rebalancing
+  - Promethean-Copilot-Intent-Engine
+  - Duck's Attractor States
+  - eidolon-field-math-foundations
+  - homeostasis-decay-formulas
+  - field-interaction-equations
+  - eidolon-node-lifecycle
+  - Fnord Tracer Protocol
+  - field-dynamics-math-blocks
+  - i3-bluetooth-setup
+  - Prompt_Folder_Bootstrap
+  - Duck's Self-Referential Perceptual Loop
+  - DuckDuckGoSearchPipeline
+  - Chroma Toolkit Consolidation Plan
 references:
-  - uuid: 792a343e-674c-4bb4-8435-b3f8c163349d
-    line: 78
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 238
     col: 0
-    score: 0.9
-  - uuid: e4317155-7fa6-44e8-8aee-b72384581790
-    line: 417
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 101
     col: 0
-    score: 0.86
-  - uuid: 972c820f-63a8-49c6-831f-013832195478
-    line: 363
+    score: 1
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 139
     col: 0
-    score: 0.86
-  - uuid: e4317155-7fa6-44e8-8aee-b72384581790
-    line: 160
+    score: 1
+  - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
+    line: 66
     col: 0
-    score: 0.86
-  - uuid: ee4b3631-a745-485b-aff1-2da806cfadfb
-    line: 111
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 144
     col: 0
-    score: 0.85
-  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+    score: 1
+  - uuid: 9413237f-2537-4bbf-8768-db6180970e36
+    line: 48
+    col: 0
+    score: 1
+  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+    line: 223
+    col: 0
+    score: 1
+  - uuid: c0392040-16a2-41e8-bd54-75110319e3c0
+    line: 41
+    col: 0
+    score: 1
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 96
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 109
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 135
+    col: 0
+    score: 1
+  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+    line: 230
+    col: 0
+    score: 1
+  - uuid: c6f3cac5-5fc3-4654-bb0c-0c86334b770a
+    line: 5
+    col: 0
+    score: 1
+  - uuid: c0392040-16a2-41e8-bd54-75110319e3c0
+    line: 59
+    col: 0
+    score: 1
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
     line: 77
     col: 0
-    score: 0.85
----
-Note: Consolidated here → ../notes/js/typed-struct-compiler.md ^ref-78eeedf7-1-0
-
-Ohhh nice—let’s bolt on a **typed struct compiler** that turns declarative schemas into: ^ref-78eeedf7-3-0
-
-* **Binary layouts** with alignment/size/offsets ^ref-78eeedf7-5-0
-* **Fast pack/unpack** to/from `ArrayBuffer`/`DataView`
-* **Flattened column specs** you can feed straight into the zero-copy worker layer (SoA columns) ^ref-78eeedf7-7-0
-* **Type inference** so your objects are fully typed in TS ^ref-78eeedf7-8-0
-
-Drop this in as `shared/js/prom-lib/worker/zero/struct.ts`. It’s dependency-free, Node + browser safe. ^ref-78eeedf7-10-0
-
----
-
-# Typed Struct Compiler (fixed-size, aligned; scalars + arrays + nested structs)
-
-```ts
-// shared/js/prom-lib/worker/zero/struct.ts
-// MIT. No deps. Node + browser safe.
-//
-// Features:
-// - Scalars: f32,f64,i8,u8,i16,u16,i32,u32,bool (bool packs as u8 0/1)
-// - Arrays: fixed length arrays of any element type
-// - Nested structs
-// - Alignment: scalar-aligned per-field + struct alignment = max(field align)
-// - Endianness configurable (default little-endian)
-// - Pack/Unpack (AoS) + Columns spec for SoA (flattened field paths)
-// - TS type inference from schema
-//
-// If you later want bitfields/strings/varlen, we can extend this.
-
-export type Scalar = "f32"|"f64"|"i8"|"u8"|"i16"|"u16"|"i32"|"u32"|"bool";
-
-export type ScalarInfo = {
-  kind: "scalar";
-  t: Scalar;
-};
-export type ArrayInfo = {
-  kind: "array";
-  elem: TypeInfo;
-  len: number; // fixed length
-};
-export type StructInfo = {
-  kind: "struct";
-  fields: Record<string, TypeInfo>;
-};
-export type PadInfo = {
-  kind: "pad";
-  bytes: number;
-};
-
-export type TypeInfo = ScalarInfo | ArrayInfo | StructInfo | PadInfo;
-
-// ---------- Schema DSL ----------
-export const S = {
-  f32: (): ScalarInfo => ({ kind: "scalar", t: "f32" }),
-  f64: (): ScalarInfo => ({ kind: "scalar", t: "f64" }),
-  i8:  (): ScalarInfo => ({ kind: "scalar", t: "i8" }),
-  u8:  (): ScalarInfo => ({ kind: "scalar", t: "u8" }),
-  i16: (): ScalarInfo => ({ kind: "scalar", t: "i16" }),
-  u16: (): ScalarInfo => ({ kind: "scalar", t: "u16" }),
-  i32: (): ScalarInfo => ({ kind: "scalar", t: "i32" }),
-  u32: (): ScalarInfo => ({ kind: "scalar", t: "u32" }),
-  bool: (): ScalarInfo => ({ kind: "scalar", t: "bool" }),
-
-  array: (elem: TypeInfo, len: number): ArrayInfo => ({ kind: "array", elem, len }),
-  struct: (fields: Record<string, TypeInfo>): StructInfo => ({ kind: "struct", fields }),
-  pad: (bytes: number): PadInfo => ({ kind: "pad", bytes }),
-};
-
-// ---------- Type inference (TS) ----------
-export type Infer<T extends TypeInfo> =
-  T extends ScalarInfo ? (
-    T["t"] extends "bool" ? boolean :
-    T["t"] extends "f32"|"f64" ? number :
-    T["t"] extends "i8"|"u8"|"i16"|"u16"|"i32"|"u32" ? number :
-    never
-  ) :
-  T extends ArrayInfo ? Infer<T["elem"]>[] :
-  T extends StructInfo ? { [K in keyof T["fields"]]: Infer<T["fields"][K]> } :
-  T extends PadInfo ? never :
-  never;
-
-// ---------- Size/align ----------
-const SCALAR_SIZE: Record<Exclude<Scalar,"bool">, number> = {
-  f32: 4, f64: 8, i8: 1, u8: 1, i16: 2, u16: 2, i32: 4, u32: 4
-};
-function sizeOf(t: TypeInfo): number {
-  switch (t.kind) {
-    case "scalar": return t.t === "bool" ? 1 : SCALAR_SIZE[t.t as Exclude<Scalar,"bool">];
-    case "pad":    return t.bytes;
-    case "array":  return t.len * sizeOf(t.elem);
-    case "struct": {
-      let off = 0, align = 1;
-      for (const [_, f] of Object.entries(t.fields)) {
-        const a = alignOf(f);
-        off = alignUp(off, a);
-        off += sizeOf(f);
-        align = Math.max(align, a);
-      }
-      return alignUp(off, align);
-    }
-  }
-}
-function alignOf(t: TypeInfo): number {
-  switch (t.kind) {
-    case "scalar": return t.t === "bool" ? 1 : SCALAR_SIZE[t.t as Exclude<Scalar,"bool">];
-    case "pad":    return 1;
-    case "array":  return alignOf(t.elem);
-    case "struct": {
-      let a = 1;
-      for (const f of Object.values(t.fields)) a = Math.max(a, alignOf(f));
-      return a;
-    }
-  }
-}
-function alignUp(x: number, a: number) { return (x + (a-1)) & ~(a-1); }
-
-// ---------- Compiler ----------
-export type FieldLayout = {
-  path: string;     // flattened path, e.g. "pos.x" or "vel[3].y"
-  offset: number;
-  size: number;
-  align: number;
-  info: TypeInfo;
-};
-
-export type StructLayout<T> = {
-  size: number;
-  align: number;
-  fields: FieldLayout[];
-  // fast pack/unpack
-  read(view: DataView, offset?: number, littleEndian?: boolean): T;
-  write(view: DataView, value: T, offset?: number, littleEndian?: boolean): void;
-  // Helpers
-  flattenColumns(prefixToUnderscore?: boolean): Record<string, Scalar>; // scalars only, flattened
-};
-
-export function compileStruct<T extends StructInfo>(schema: T): StructLayout<Infer<T>> {
-  const fields: FieldLayout[] = [];
-  let offset = 0, maxAlign = 1;
-
-  const visit = (info: TypeInfo, base: string) => {
-    if (info.kind === "pad") {
-      offset += info.bytes; // explicit pad (no alignment)
-      return;
-    }
-    const a = alignOf(info);
-    offset = alignUp(offset, a);
-    maxAlign = Math.max(maxAlign, a);
-
-    if (info.kind === "scalar") {
-      const sz = sizeOf(info);
-      fields.push({ path: base, offset, size: sz, align: a, info });
-      offset += sz;
-      return;
-    }
-    if (info.kind === "array") {
-      const elemSize = sizeOf(info.elem);
-      const elemAlign = alignOf(info.elem);
-      for (let i=0;i<info.len;i++) {
-        offset = alignUp(offset, elemAlign);
-        const start = offset;
-        visit(info.elem, `${base}[${i}]`);
-        // ensure fixed stride
-        offset = start + elemSize;
-      }
-      return;
-    }
-    if (info.kind === "struct") {
-      const start = offset;
-      let innerAlign = 1;
-      for (const [k, child] of Object.entries(info.fields)) {
-        const a2 = alignOf(child);
-        offset = alignUp(offset, a2);
-        innerAlign = Math.max(innerAlign, a2);
-        visit(child, base ? `${base}.${k}` : k);
-      }
-      // pad struct to its alignment
-      offset = alignUp(offset, innerAlign);
-      maxAlign = Math.max(maxAlign, innerAlign);
-      return;
-    }
-  };
-
-  // assign offsets in order
-  for (const [k, child] of Object.entries(schema.fields)) {
-    const a = alignOf(child);
-    offset = alignUp(offset, a);
-    visit(child, k);
-  }
-  const total = alignUp(offset, maxAlign);
-
-  // Runtime read/write using DataView
-  function read(view: DataView, off = 0, le = true): any {
-    const out: any = {};
-    // we’ll lazily build nested objects on demand
-    const ensurePath = (p: string): { parent: any, key: string } => {
-      const parts = p.split("."); // might contain [i] segments—handle later
-      let cur = out;
-      for (let i=0;i<parts.length;i++) {
-        const seg = parts[i];
-        // split idx if array notation present
-        const m = seg.match(/^([^\[]+)(\[(\d+)\])?$/);
-        if (!m) continue;
-        const key = m[1];
-        const hasIdx = !!m[3];
-        if (i === parts.length - 1 && !hasIdx) return { parent: cur, key };
-        if (!(key in cur)) cur[key] = hasIdx ? [] : {};
-        cur = cur[key];
-        if (hasIdx) {
-          const idx = Number(m[3]);
-          if (!Array.isArray(cur)) cur = cur[key] = [];
-          if (!cur[idx]) cur[idx] = {};
-          if (i === parts.length - 1) return { parent: cur, key: String(idx) };
-          cur = cur[idx];
-        }
-      }
-      // fallback, though we should have returned
-      return { parent: out, key: p };
-    };
-
-    for (const f of fields) {
-      if (f.info.kind !== "scalar") continue; // only scalars produce values
-      const addr = off + f.offset;
-      const { parent, key } = ensurePath(f.path);
-      parent[key] = readScalar(view, addr, f.info.t, le);
-    }
-    return out;
-  }
-
-  function write(view: DataView, value: any, off = 0, le = true) {
-    // Walk all scalar leaves and write from 'value' by path
-    for (const f of fields) {
-      if (f.info.kind !== "scalar") continue;
-      const addr = off + f.offset;
-      const v = getByPath(value, f.path);
-      writeScalar(view, addr, f.info.t, v ?? 0, le);
-    }
-  }
-
-  function flattenColumns(prefixToUnderscore = true): Record<string, Scalar> {
-    const out: Record<string, Scalar> = {};
-    for (const f of fields) {
-      if (f.info.kind !== "scalar") continue;
-      const name = prefixToUnderscore ? f.path.replace(/\./g, "_").replace(/\[/g, "_").replace(/\]/g, "") : f.path;
-      out[name] = f.info.t;
-    }
-    return out;
-  }
-
-  return { size: total, align: maxAlign, fields, read, write, flattenColumns };
-}
-
-// ---------- Scalar R/W ----------
-function readScalar(view: DataView, addr: number, t: Scalar, le: boolean): number|boolean {
-  switch (t) {
-    case "f32": return view.getFloat32(addr, le);
-    case "f64": return view.getFloat64(addr, le);
-    case "i8":  return view.getInt8(addr);
-    case "u8":  return view.getUint8(addr);
-    case "i16": return view.getInt16(addr, le);
-    case "u16": return view.getUint16(addr, le);
-    case "i32": return view.getInt32(addr, le);
-    case "u32": return view.getUint32(addr, le);
-    case "bool":return view.getUint8(addr) !== 0;
-  }
-}
-function writeScalar(view: DataView, addr: number, t: Scalar, v: any, le: boolean) {
-  switch (t) {
-    case "f32": view.setFloat32(addr, +v, le); break;
-    case "f64": view.setFloat64(addr, +v, le); break;
-    case "i8":  view.setInt8(addr, v|0); break;
-    case "u8":  view.setUint8(addr, v>>>0 & 0xff); break;
-    case "i16": view.setInt16(addr, v|0, le); break;
-    case "u16": view.setUint16(addr, v>>>0 & 0xffff, le); break;
-    case "i32": view.setInt32(addr, v|0, le); break;
-    case "u32": view.setUint32(addr, v>>>0, le); break;
-    case "bool":view.setUint8(addr, v ? 1 : 0); break;
-  }
-}
-
-// ---------- Utils ----------
-function getByPath(obj: any, path: string): any {
-  const parts = path.split(".");
-  let cur = obj;
-  for (const seg of parts) {
-    const m = seg.match(/^([^\[]+)(\[(\d+)\])?$/);
-    if (!m) return undefined;
-    const key = m[1];
-    if (cur == null) return undefined;
-    cur = cur[key];
-    if (m[3]) cur = cur?.[Number(m[3])];
-  }
-  return cur;
-}
-```
-^ref-78eeedf7-16-0
-
----
-
-# How you use it
-
-## 1) Define schemas
- ^ref-78eeedf7-304-0
-```ts
-import { S, compileStruct, type Infer } from "./struct";
-
-// Basic
-const Position = S.struct({ x: S.f32(), y: S.f32() });
-type Position = Infer<typeof Position>; // { x:number; y:number }
-
-// Nested + arrays
-const Transform = S.struct({
-  pos: Position,
-  rot: S.f32(),
-  scale: S.f32(),
-});
-
-const Trail = S.struct({
-  pts: S.array(Position, 8),   // fixed 8 points
-  active: S.bool(),
-});
-^ref-78eeedf7-304-0
-```
-
-## 2) Compile, pack, unpack ^ref-78eeedf7-326-0
-
-```ts
-const Pos = compileStruct(Position);
-console.log(Pos.size, Pos.align); // 8, 4
-
-const buf = new ArrayBuffer(Pos.size);
-const view = new DataView(buf);
-
-Pos.write(view, { x: 1.5, y: -2.25 });
-^ref-78eeedf7-326-0
-const obj = Pos.read(view); // -> { x:1.5, y:-2.25 }
-```
- ^ref-78eeedf7-339-0
-## 3) Get flattened SoA columns for zero-copy workers
-
-```ts
-// For the physics zero-copy snapshot, flatten nested fields into column names:
-const Bullet = S.struct({ pos: Position, vel: Position, life: S.f32() });
-const B = compileStruct(Bullet);
-
-// columnsSpec matches the earlier zero-copy "FieldSpec" (field -> scalar type)
-const columnsSpec = B.flattenColumns(true); 
-// => { pos_x:"f32", pos_y:"f32", vel_x:"f32", vel_y:"f32", life:"f32" }
-
-// Build a CompLayout for cid=YourComponent.id:
-import type { CompLayout } from "./layout";
-function toCompLayout(cid: number): CompLayout {
-^ref-78eeedf7-339-0
-  return { cid, fields: columnsSpec }; ^ref-78eeedf7-355-0
-}
-```
-^ref-78eeedf7-357-0 ^ref-78eeedf7-358-0
-
-Then plug that `CompLayout` into the **zero-copy snapshot builder** you already have:
-
-```ts
-// offload.zeroCopy.build:
-zeroCopy: {
-  build: () => ({
-    types: { [CPos.id]: CPos, [CVel.id]: CVel, [CBullet.id]: CBullet },
-    layouts: [
-      { cid: CPos.id, fields: compileStruct(Position).flattenColumns(true) },
-      { cid: CVel.id, fields: compileStruct(Position).flattenColumns(true) },
-      { cid: CBullet.id, fields: compileStruct(Bullet).flattenColumns(true) },
-^ref-78eeedf7-357-0
-    ]
-  })
-}
-```
- ^ref-78eeedf7-375-0 ^ref-78eeedf7-376-0
---- ^ref-78eeedf7-376-0 ^ref-78eeedf7-377-0
- ^ref-78eeedf7-377-0 ^ref-78eeedf7-378-0
-# Notes / Extension ideas ^ref-78eeedf7-378-0
- ^ref-78eeedf7-380-0
-* Current implementation is **fixed-size only** (great for hot loops + SAB). If you need **varlen strings/blobs**, we’ll add a sidecar table (offset/length pairs) and a pool. ^ref-78eeedf7-380-0
-* **Bitfields**: easy to add by introducing a `S.bits({field:nBits,...}, base: "u32")`.
-* **Codegen**: for *absurd* speed, we can JIT `read/write` into a tiny function via `new Function` (still pure TS now for portability).
-* **Endian**: defaults to little-endian; pass `le=false` to `read/write` if you target BE data.
- ^ref-78eeedf7-384-0
-If you want, I can add a helper that takes a **Zod schema** and emits this struct schema automatically (mapping `z.number()` → `f32`/`f64`, tuple to fixed array, object to struct), so your schema registry doubles as your binary layout source of truth.
-   maxAlign = Math.max(maxAlign, a);
-
-    if (info.kind === "scalar") {
-      const sz = sizeOf(info);
-      fields.push({ path: base, offset, size: sz, align: a, info });
-      offset += sz;
-      return;
-    }
-    if (info.kind === "array") {
-      const elemSize = sizeOf(info.elem);
-      const elemAlign = alignOf(info.elem);
-      for (let i=0;i<info.len;i++) {
-        offset = alignUp(offset, elemAlign);
-        const start = offset;
-        visit(info.elem, `${base}[${i}]`);
-        // ensure fixed stride
-        offset = start + elemSize;
-      }
-      return;
-    }
-    if (info.kind === "struct") {
-      const start = offset;
-      let innerAlign = 1;
-      for (const [k, child] of Object.entries(info.fields)) {
-        const a2 = alignOf(child);
-        offset = alignUp(offset, a2);
-        innerAlign = Math.max(innerAlign, a2);
-        visit(child, base ? `${base}.${k}` : k);
-      }
-      // pad struct to its alignment
-      offset = alignUp(offset, innerAlign);
-      maxAlign = Math.max(maxAlign, innerAlign);
-      return;
-    }
-  };
-
-  // assign offsets in order
-  for (const [k, child] of Object.entries(schema.fields)) {
-    const a = alignOf(child);
-    offset = alignUp(offset, a);
-    visit(child, k);
-  }
-  const total = alignUp(offset, maxAlign);
-
-  // Runtime read/write using DataView
-  function read(view: DataView, off = 0, le = true): any {
-    const out: any = {};
-    // we’ll lazily build nested objects on demand
-    const ensurePath = (p: string): { parent: any, key: string } => {
-      const parts = p.split("."); // might contain [i] segments—handle later
-      let cur = out;
-      for (let i=0;i<parts.length;i++) {
-        const seg = parts[i];
-        // split idx if array notation present
-        const m = seg.match(/^([^\[]+)(\[(\d+)\])?$/);
-        if (!m) continue;
-        const key = m[1];
-        const hasIdx = !!m[3];
-        if (i === parts.length - 1 && !hasIdx) return { parent: cur, key };
-        if (!(key in cur)) cur[key] = hasIdx ? [] : {};
-        cur = cur[key];
-        if (hasIdx) {
-          const idx = Number(m[3]);
-          if (!Array.isArray(cur)) cur = cur[key] = [];
-          if (!cur[idx]) cur[idx] = {};
-          if (i === parts.length - 1) return { parent: cur, key: String(idx) };
-          cur = cur[idx];
-        }
-      }
-      // fallback, though we should have returned
-      return { parent: out, key: p };
-    };
-
-    for (const f of fields) {
-      if (f.info.kind !== "scalar") continue; // only scalars produce values
-      const addr = off + f.offset;
-      const { parent, key } = ensurePath(f.path);
-      parent[key] = readScalar(view, addr, f.info.t, le);
-    }
-    return out;
-  }
-
-  function write(view: DataView, value: any, off = 0, le = true) {
-    // Walk all scalar leaves and write from 'value' by path
-    for (const f of fields) {
-      if (f.info.kind !== "scalar") continue;
-      const addr = off + f.offset;
-      const v = getByPath(value, f.path);
-      writeScalar(view, addr, f.info.t, v ?? 0, le);
-    }
-  }
-
-  function flattenColumns(prefixToUnderscore = true): Record<string, Scalar> {
-    const out: Record<string, Scalar> = {};
-    for (const f of fields) {
-      if (f.info.kind !== "scalar") continue;
-      const name = prefixToUnderscore ? f.path.replace(/\./g, "_").replace(/\[/g, "_").replace(/\]/g, "") : f.path;
-      out[name] = f.info.t;
-    }
-    return out;
-  }
-
-  return { size: total, align: maxAlign, fields, read, write, flattenColumns };
-}
-
-// ---------- Scalar R/W ----------
-function readScalar(view: DataView, addr: number, t: Scalar, le: boolean): number|boolean {
-  switch (t) {
-    case "f32": return view.getFloat32(addr, le);
-    case "f64": return view.getFloat64(addr, le);
-    case "i8":  return view.getInt8(addr);
-    case "u8":  return view.getUint8(addr);
-    case "i16": return view.getInt16(addr, le);
-    case "u16": return view.getUint16(addr, le);
-    case "i32": return view.getInt32(addr, le);
-    case "u32": return view.getUint32(addr, le);
-    case "bool":return view.getUint8(addr) !== 0;
-  }
-}
-function writeScalar(view: DataView, addr: number, t: Scalar, v: any, le: boolean) {
-  switch (t) {
-    case "f32": view.setFloat32(addr, +v, le); break;
-    case "f64": view.setFloat64(addr, +v, le); break;
-    case "i8":  view.setInt8(addr, v|0); break;
-    case "u8":  view.setUint8(addr, v>>>0 & 0xff); break;
-    case "i16": view.setInt16(addr, v|0, le); break;
-    case "u16": view.setUint16(addr, v>>>0 & 0xffff, le); break;
-    case "i32": view.setInt32(addr, v|0, le); break;
-    case "u32": view.setUint32(addr, v>>>0, le); break;
-    case "bool":view.setUint8(addr, v ? 1 : 0); break;
-  }
-}
-
-// ---------- Utils ----------
-function getByPath(obj: any, path: string): any {
-  const parts = path.split(".");
-  let cur = obj;
-  for (const seg of parts) {
-    const m = seg.match(/^([^\[]+)(\[(\d+)\])?$/);
-    if (!m) return undefined;
-    const key = m[1];
-    if (cur == null) return undefined;
-    cur = cur[key];
-    if (m[3]) cur = cur?.[Number(m[3])];
-  }
-  return cur;
-}
-```
-^ref-78eeedf7-16-0
-
+    score: 1
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 152
+    col: 0
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 751
+    col: 0
+    score: 1
+  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
+    line: 198
+    col: 0
+    score: 1
+  - uuid: b3555ede-324a-4d24-a885-b0721e74babf
+    line: 82
+    col: 0
+    score: 1
+  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
+    line: 198
+    col: 0
+    score: 1
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 631
+    col: 0
+    score: 1
+  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
+    line: 237
+    col: 0
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 267
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 170
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 67
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 96
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 139
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 548
+    col: 0
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 349
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 213
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 35
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 94
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 53
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 424
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 209
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 142
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 39
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 38
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 51
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 79
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 77
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 115
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 61
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 212
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 150
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 44
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 61
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 99
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 80
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 405
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 216
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 189
+    col: 0
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 172
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 94
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 63
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 66
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 93
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 73
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 403
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 8
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 38
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 56
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 85
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 93
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 64
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 153
+    col: 0
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 141
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 47
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 105
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 97
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 128
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 31
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 90
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 33
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 462
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 28
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 65
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 86
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 123
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 34
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 442
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 218
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 176
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 70
+    col: 0
+    score: 1
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 371
+    col: 0
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 141
+    col: 0
+    score: 1
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 222
+    col: 0
+    score: 1
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 107
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 148
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 36
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 166
+    col: 0
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 148
+    col: 0
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 153
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 118
+    col: 0
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 168
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 103
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 380
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 194
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 52
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 71
+    col: 0
+    score: 1
 ---
 
-# How you use it
-
-## 1) Define schemas
- ^ref-78eeedf7-304-0
-```ts
-import { S, compileStruct, type Infer } from "./struct";
-
-// Basic
-const Position = S.struct({ x: S.f32(), y: S.f32() });
-type Position = Infer<typeof Position>; // { x:number; y:number }
-
-// Nested + arrays
-const Transform = S.struct({
-  pos: Position,
-  rot: S.f32(),
-  scale: S.f32(),
-});
-
-const Trail = S.struct({
-  pts: S.array(Position, 8),   // fixed 8 points
-  active: S.bool(),
-});
-^ref-78eeedf7-304-0
-```
-
-## 2) Compile, pack, unpack ^ref-78eeedf7-326-0
-
-```ts
-const Pos = compileStruct(Position);
-console.log(Pos.size, Pos.align); // 8, 4
-
-const buf = new ArrayBuffer(Pos.size);
-const view = new DataView(buf);
-
-Pos.write(view, { x: 1.5, y: -2.25 });
-^ref-78eeedf7-326-0
-const obj = Pos.read(view); // -> { x:1.5, y:-2.25 }
-```
- ^ref-78eeedf7-339-0
-## 3) Get flattened SoA columns for zero-copy workers
-
-```ts
-// For the physics zero-copy snapshot, flatten nested fields into column names:
-const Bullet = S.struct({ pos: Position, vel: Position, life: S.f32() });
-const B = compileStruct(Bullet);
-
-// columnsSpec matches the earlier zero-copy "FieldSpec" (field -> scalar type)
-const columnsSpec = B.flattenColumns(true); 
-// => { pos_x:"f32", pos_y:"f32", vel_x:"f32", vel_y:"f32", life:"f32" }
-
-// Build a CompLayout for cid=YourComponent.id:
-import type { CompLayout } from "./layout";
-function toCompLayout(cid: number): CompLayout {
-^ref-78eeedf7-339-0
-  return { cid, fields: columnsSpec }; ^ref-78eeedf7-355-0
-}
-```
-^ref-78eeedf7-357-0 ^ref-78eeedf7-358-0
-
-Then plug that `CompLayout` into the **zero-copy snapshot builder** you already have:
-
-```ts
-// offload.zeroCopy.build:
-zeroCopy: {
-  build: () => ({
-    types: { [CPos.id]: CPos, [CVel.id]: CVel, [CBullet.id]: CBullet },
-    layouts: [
-      { cid: CPos.id, fields: compileStruct(Position).flattenColumns(true) },
-      { cid: CVel.id, fields: compileStruct(Position).flattenColumns(true) },
-      { cid: CBullet.id, fields: compileStruct(Bullet).flattenColumns(true) },
-^ref-78eeedf7-357-0
-    ]
-  })
-}
-```
- ^ref-78eeedf7-375-0 ^ref-78eeedf7-376-0
---- ^ref-78eeedf7-376-0 ^ref-78eeedf7-377-0
- ^ref-78eeedf7-377-0 ^ref-78eeedf7-378-0
-# Notes / Extension ideas ^ref-78eeedf7-378-0
- ^ref-78eeedf7-380-0
-* Current implementation is **fixed-size only** (great for hot loops + SAB). If you need **varlen strings/blobs**, we’ll add a sidecar table (offset/length pairs) and a pool. ^ref-78eeedf7-380-0
-* **Bitfields**: easy to add by introducing a `S.bits({field:nBits,...}, base: "u32")`.
-* **Codegen**: for *absurd* speed, we can JIT `read/write` into a tiny function via `new Function` (still pure TS now for portability).
-* **Endian**: defaults to little-endian; pass `le=false` to `read/write` if you target BE data.
- ^ref-78eeedf7-384-0
-If you want, I can add a helper that takes a **Zod schema** and emits this struct schema automatically (mapping `z.number()` → `f32`/`f64`, tuple to fixed array, object to struct), so your schema registry doubles as your binary layout source of truth.
+ ^ref-78eeedf7-358-0 ^ref-8fd08696-358-0 ^ref-78eeedf7-376-0 ^ref-78eeedf7-407-0 ^ref-78eeedf7-411-0 ^ref-78eeedf7-412-0 ^ref-78eeedf7-460-0 ^ref-78eeedf7-484-0 ^ref-78eeedf7-485-0 ^ref-78eeedf7-717-0 ^ref-78eeedf7-718-0 ^ref-78eeedf7-1015-0 ^ref-78eeedf7-1016-0 ^ref-78eeedf7-1986-0
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [plan-update-confirmation](plan-update-confirmation.md)
+- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
+- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
+- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [graph-ds](graph-ds.md)
+- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
+- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
+- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
+- [Duck's Attractor States](ducks-attractor-states.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
+- [field-interaction-equations](field-interaction-equations.md)
+- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
+- [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
+- [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+## Sources
+- [polyglot-repl-interface-layer — L238](polyglot-repl-interface-layer.md#^ref-9c79206d-238-0) (line 238, col 0, score 1)
+- [Promethean Chat Activity Report — L101](promethean-chat-activity-report.md#^ref-18344cf9-101-0) (line 101, col 0, score 1)
+- [Promethean-Copilot-Intent-Engine — L139](promethean-copilot-intent-engine.md#^ref-ae24a280-139-0) (line 139, col 0, score 1)
+- [Promethean Data Sync Protocol — L66](promethean-data-sync-protocol.md#^ref-9fab9e76-66-0) (line 66, col 0, score 1)
+- [Promethean Dev Workflow Update — L144](promethean-dev-workflow-update.md#^ref-03a5578f-144-0) (line 144, col 0, score 1)
+- [Promethean Documentation Overview — L48](promethean-documentation-overview.md#^ref-9413237f-48-0) (line 48, col 0, score 1)
+- [Promethean Documentation Pipeline Overview — L223](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-223-0) (line 223, col 0, score 1)
+- [Promethean Documentation Update — L41](promethean-documentation-update.md#^ref-c0392040-41-0) (line 41, col 0, score 1)
+- [Promethean Documentation Update — L96](promethean-documentation-update.txt#^ref-0b872af2-96-0) (line 96, col 0, score 1)
+- [Promethean Chat Activity Report — L109](promethean-chat-activity-report.md#^ref-18344cf9-109-0) (line 109, col 0, score 1)
+- [Promethean Dev Workflow Update — L135](promethean-dev-workflow-update.md#^ref-03a5578f-135-0) (line 135, col 0, score 1)
+- [Promethean Documentation Pipeline Overview — L230](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-230-0) (line 230, col 0, score 1)
+- [Promethean Documentation Update — L5](promethean-documentation-update-2.md#^ref-c6f3cac5-5-0) (line 5, col 0, score 1)
+- [Promethean Documentation Update — L59](promethean-documentation-update.md#^ref-c0392040-59-0) (line 59, col 0, score 1)
+- [Promethean Documentation Update — L77](promethean-documentation-update.txt#^ref-0b872af2-77-0) (line 77, col 0, score 1)
+- [Promethean_Eidolon_Synchronicity_Model — L152](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-152-0) (line 152, col 0, score 1)
+- [Promethean Infrastructure Setup — L751](promethean-infrastructure-setup.md#^ref-6deed6ac-751-0) (line 751, col 0, score 1)
+- [Reawakening Duck — L198](reawakening-duck.md#^ref-59b5670f-198-0) (line 198, col 0, score 1)
+- [Redirecting Standard Error — L82](redirecting-standard-error.md#^ref-b3555ede-82-0) (line 82, col 0, score 1)
+- [ripple-propagation-demo — L198](ripple-propagation-demo.md#^ref-8430617b-198-0) (line 198, col 0, score 1)
+- [schema-evolution-workflow — L631](schema-evolution-workflow.md#^ref-d8059b6a-631-0) (line 631, col 0, score 1)
+- [Agent Reflections and Prompt Evolution — L237](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-237-0) (line 237, col 0, score 1)
+- [Agent Tasks: Persistence Migration to DualStore — L267](agent-tasks-persistence-migration-to-dualstore.md#^ref-93d2ba51-267-0) (line 267, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L170](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-170-0) (line 170, col 0, score 1)
+- [Docops Feature Updates — L67](docops-feature-updates-3.md#^ref-cdbd21ee-67-0) (line 67, col 0, score 1)
+- [Docops Feature Updates — L96](docops-feature-updates.md#^ref-2792d448-96-0) (line 96, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L139](ducks-self-referential-perceptual-loop.md#^ref-71726f04-139-0) (line 139, col 0, score 1)
+- [Dynamic Context Model for Web Components — L548](dynamic-context-model-for-web-components.md#^ref-f7702bf8-548-0) (line 548, col 0, score 1)
+- [Fnord Tracer Protocol — L349](fnord-tracer-protocol.md#^ref-fc21f824-349-0) (line 349, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L213](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-213-0) (line 213, col 0, score 1)
+- [Docops Feature Updates — L35](docops-feature-updates.md#^ref-2792d448-35-0) (line 35, col 0, score 1)
+- [Duck's Attractor States — L94](ducks-attractor-states.md#^ref-13951643-94-0) (line 94, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L53](ducks-self-referential-perceptual-loop.md#^ref-71726f04-53-0) (line 53, col 0, score 1)
+- [Dynamic Context Model for Web Components — L424](dynamic-context-model-for-web-components.md#^ref-f7702bf8-424-0) (line 424, col 0, score 1)
+- [Eidolon Field Abstract Model — L209](eidolon-field-abstract-model.md#^ref-5e8b2388-209-0) (line 209, col 0, score 1)
+- [eidolon-field-math-foundations — L142](eidolon-field-math-foundations.md#^ref-008f2ac0-142-0) (line 142, col 0, score 1)
+- [eidolon-node-lifecycle — L39](eidolon-node-lifecycle.md#^ref-938eca9c-39-0) (line 39, col 0, score 1)
+- [Creative Moments — L38](creative-moments.md#^ref-10d98225-38-0) (line 38, col 0, score 1)
+- [Docops Feature Updates — L51](docops-feature-updates-3.md#^ref-cdbd21ee-51-0) (line 51, col 0, score 1)
+- [Docops Feature Updates — L79](docops-feature-updates.md#^ref-2792d448-79-0) (line 79, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L77](duckduckgosearchpipeline.md#^ref-e979c50f-77-0) (line 77, col 0, score 1)
+- [Duck's Attractor States — L115](ducks-attractor-states.md#^ref-13951643-115-0) (line 115, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L61](ducks-self-referential-perceptual-loop.md#^ref-71726f04-61-0) (line 61, col 0, score 1)
+- [Eidolon Field Abstract Model — L212](eidolon-field-abstract-model.md#^ref-5e8b2388-212-0) (line 212, col 0, score 1)
+- [eidolon-field-math-foundations — L150](eidolon-field-math-foundations.md#^ref-008f2ac0-150-0) (line 150, col 0, score 1)
+- [Docops Feature Updates — L44](docops-feature-updates-3.md#^ref-cdbd21ee-44-0) (line 44, col 0, score 1)
+- [Docops Feature Updates — L61](docops-feature-updates.md#^ref-2792d448-61-0) (line 61, col 0, score 1)
+- [Duck's Attractor States — L99](ducks-attractor-states.md#^ref-13951643-99-0) (line 99, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L80](ducks-self-referential-perceptual-loop.md#^ref-71726f04-80-0) (line 80, col 0, score 1)
+- [Dynamic Context Model for Web Components — L405](dynamic-context-model-for-web-components.md#^ref-f7702bf8-405-0) (line 405, col 0, score 1)
+- [Eidolon Field Abstract Model — L216](eidolon-field-abstract-model.md#^ref-5e8b2388-216-0) (line 216, col 0, score 1)
+- [Factorio AI with External Agents — L189](factorio-ai-with-external-agents.md#^ref-a4d90289-189-0) (line 189, col 0, score 1)
+- [field-interaction-equations — L172](field-interaction-equations.md#^ref-b09141b7-172-0) (line 172, col 0, score 1)
+- [Creative Moments — L94](creative-moments.md#^ref-10d98225-94-0) (line 94, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L63](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-63-0) (line 63, col 0, score 1)
+- [Docops Feature Updates — L66](docops-feature-updates-3.md#^ref-cdbd21ee-66-0) (line 66, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L93](duckduckgosearchpipeline.md#^ref-e979c50f-93-0) (line 93, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L73](ducks-self-referential-perceptual-loop.md#^ref-71726f04-73-0) (line 73, col 0, score 1)
+- [Dynamic Context Model for Web Components — L403](dynamic-context-model-for-web-components.md#^ref-f7702bf8-403-0) (line 403, col 0, score 1)
+- [Creative Moments — L8](creative-moments.md#^ref-10d98225-8-0) (line 8, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L38](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-38-0) (line 38, col 0, score 1)
+- [Docops Feature Updates — L56](docops-feature-updates-3.md#^ref-cdbd21ee-56-0) (line 56, col 0, score 1)
+- [Docops Feature Updates — L85](docops-feature-updates-3.md#^ref-cdbd21ee-85-0) (line 85, col 0, score 1)
+- [Duck's Attractor States — L93](ducks-attractor-states.md#^ref-13951643-93-0) (line 93, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L64](ducks-self-referential-perceptual-loop.md#^ref-71726f04-64-0) (line 64, col 0, score 1)
+- [Factorio AI with External Agents — L153](factorio-ai-with-external-agents.md#^ref-a4d90289-153-0) (line 153, col 0, score 1)
+- [field-dynamics-math-blocks — L141](field-dynamics-math-blocks.md#^ref-7cfc230d-141-0) (line 141, col 0, score 1)
+- [Creative Moments — L47](creative-moments.md#^ref-10d98225-47-0) (line 47, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L105](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-105-0) (line 105, col 0, score 1)
+- [Docops Feature Updates — L97](docops-feature-updates-3.md#^ref-cdbd21ee-97-0) (line 97, col 0, score 1)
+- [Docops Feature Updates — L128](docops-feature-updates.md#^ref-2792d448-128-0) (line 128, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L31](duckduckgosearchpipeline.md#^ref-e979c50f-31-0) (line 31, col 0, score 1)
+- [Duck's Attractor States — L90](ducks-attractor-states.md#^ref-13951643-90-0) (line 90, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L33](ducks-self-referential-perceptual-loop.md#^ref-71726f04-33-0) (line 33, col 0, score 1)
+- [Dynamic Context Model for Web Components — L462](dynamic-context-model-for-web-components.md#^ref-f7702bf8-462-0) (line 462, col 0, score 1)
+- [Creative Moments — L28](creative-moments.md#^ref-10d98225-28-0) (line 28, col 0, score 1)
+- [Docops Feature Updates — L65](docops-feature-updates-3.md#^ref-cdbd21ee-65-0) (line 65, col 0, score 1)
+- [Docops Feature Updates — L86](docops-feature-updates.md#^ref-2792d448-86-0) (line 86, col 0, score 1)
+- [Duck's Attractor States — L123](ducks-attractor-states.md#^ref-13951643-123-0) (line 123, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L34](ducks-self-referential-perceptual-loop.md#^ref-71726f04-34-0) (line 34, col 0, score 1)
+- [Dynamic Context Model for Web Components — L442](dynamic-context-model-for-web-components.md#^ref-f7702bf8-442-0) (line 442, col 0, score 1)
+- [Eidolon Field Abstract Model — L218](eidolon-field-abstract-model.md#^ref-5e8b2388-218-0) (line 218, col 0, score 1)
+- [eidolon-field-math-foundations — L176](eidolon-field-math-foundations.md#^ref-008f2ac0-176-0) (line 176, col 0, score 1)
+- [eidolon-node-lifecycle — L70](eidolon-node-lifecycle.md#^ref-938eca9c-70-0) (line 70, col 0, score 1)
+- [graph-ds — L371](graph-ds.md#^ref-6620e2f2-371-0) (line 371, col 0, score 1)
+- [heartbeat-fragment-demo — L141](heartbeat-fragment-demo.md#^ref-dd00677a-141-0) (line 141, col 0, score 1)
+- [homeostasis-decay-formulas — L222](homeostasis-decay-formulas.md#^ref-37b5d236-222-0) (line 222, col 0, score 1)
+- [i3-bluetooth-setup — L107](i3-bluetooth-setup.md#^ref-5e408692-107-0) (line 107, col 0, score 1)
+- [eidolon-field-math-foundations — L148](eidolon-field-math-foundations.md#^ref-008f2ac0-148-0) (line 148, col 0, score 1)
+- [eidolon-node-lifecycle — L36](eidolon-node-lifecycle.md#^ref-938eca9c-36-0) (line 36, col 0, score 1)
+- [Factorio AI with External Agents — L166](factorio-ai-with-external-agents.md#^ref-a4d90289-166-0) (line 166, col 0, score 1)
+- [field-dynamics-math-blocks — L148](field-dynamics-math-blocks.md#^ref-7cfc230d-148-0) (line 148, col 0, score 1)
+- [field-interaction-equations — L153](field-interaction-equations.md#^ref-b09141b7-153-0) (line 153, col 0, score 1)
+- [field-node-diagram-outline — L118](field-node-diagram-outline.md#^ref-1f32c94a-118-0) (line 118, col 0, score 1)
+- [field-node-diagram-set — L168](field-node-diagram-set.md#^ref-22b989d5-168-0) (line 168, col 0, score 1)
+- [field-node-diagram-visualizations — L103](field-node-diagram-visualizations.md#^ref-e9b27b06-103-0) (line 103, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L380](functional-embedding-pipeline-refactor.md#^ref-a4a25141-380-0) (line 380, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L194](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-194-0) (line 194, col 0, score 1)
+- [Creative Moments — L52](creative-moments.md#^ref-10d98225-52-0) (line 52, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L71](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-71-0) (line 71, col 0, score 1)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
