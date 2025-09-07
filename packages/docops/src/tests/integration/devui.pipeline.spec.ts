@@ -62,23 +62,17 @@ test.after.always(async () => {
   }
 });
 
-test.serial(
-  "SSE /api/run-step footers completes",
-  withPage,
-  { baseUrl: () => state?.baseUrl },
-  async (t, { pageGoto }) => {
-    const file = path.join(DOC_FIXTURE_PATH, "hack.md");
-    const q = new URLSearchParams({
-      step: "footers",
-      dir: DOC_FIXTURE_PATH,
-      files: JSON.stringify([file]),
-      anchorStyle: "none",
-    });
-    const res = await pageGoto(`/api/run-step?${q.toString()}`);
-    t.truthy(res);
-    t.is(res!.status(), 200);
-    t.is(res!.headers()["content-type"], "text/event-stream");
-    const text = await res!.text();
-    t.true(text.includes("Step 'footers' completed."));
-  },
-);
+test.serial("SSE /api/run-step footers completes", async (t) => {
+  const file = path.join(DOC_FIXTURE_PATH, "hack.md");
+  const q = new URLSearchParams({
+    step: "footers",
+    dir: DOC_FIXTURE_PATH,
+    files: JSON.stringify([file]),
+    anchorStyle: "none",
+  });
+  const res = await fetch(`${state!.baseUrl}api/run-step?${q.toString()}`);
+  t.is(res.status, 200);
+  t.true((res.headers.get("content-type") || "").includes("text/event-stream"));
+  const text = await res.text();
+  t.true(text.includes("Step 'footers' completed."));
+});
