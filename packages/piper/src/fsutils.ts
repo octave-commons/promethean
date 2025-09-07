@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 import { spawn } from "child_process";
+import { pathToFileURL } from "url";
 
 import { globby } from "globby";
 import { ensureDir } from "@promethean/fs";
@@ -89,6 +90,48 @@ export async function runTSModule(
     args,
     ...(timeoutMs ? { timeoutMs } : {}),
   });
+}
+
+export async function runJSModule(
+  step: PiperStep,
+  cwd: string,
+  env: Record<string, string>,
+  timeoutMs?: number,
+) {
+  const modPath = path.isAbsolute(step.js!.module)
+    ? step.js!.module
+    : path.resolve(cwd, step.js!.module);
+  const url = pathToFileURL(modPath).href;
+  const prevEnv: Record<string, string | undefined> = {};
+  for (const [k, v] of Object.entries(env)) {
+    prevEnv[k] = process.env[k];
+    process.env[k] = v;
+  }
+  let timer: NodeJS.Timeout | undefined;
+  try {
+    const mod: any = await import(url);
+    const fn =
+      (step.js!.export && mod[step.js!.export]) || mod.default || mod;
+    const call = fn(step.js!.args ?? {});
+    const res = timeoutMs
+      ? await Promise.race([
+          call,
+          new Promise((_, reject) =>
+            (timer = setTimeout(() => reject(new Error("timeout")), timeoutMs)),
+          ),
+        ])
+      : await call;
+    const out = typeof res === "string" ? res : "";
+    return { code: 0, stdout: out, stderr: "" };
+  } catch (err: any) {
+    return { code: 1, stdout: "", stderr: String(err?.stack ?? err) };
+  } finally {
+    if (timer) clearTimeout(timer);
+    for (const [k, v] of Object.entries(prevEnv)) {
+      if (v === undefined) delete process.env[k];
+      else process.env[k] = v;
+    }
+  }
 }
 
 function runSpawn(
