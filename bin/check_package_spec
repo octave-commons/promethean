@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+find . -name package.json -print0 \
+| xargs -0 jq -e '
+  def bad(k):
+    (.[k] // {}) | to_entries[] | select(.value|type!="string")
+    | error("Non-string in " + k + " for " + .key + " in " + input_filename);
+  bad("dependencies"), bad("devDependencies"),
+  bad("optionalDependencies"), bad("peerDependencies")
+'
