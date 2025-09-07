@@ -4,9 +4,10 @@ Buildfix automates fixing TypeScript build errors.
 
 ## Usage
 
-Run the commands individually:
+Build the package first, then run commands individually:
 
 ```sh
+pnpm --filter @promethean/buildfix build
 pnpm --filter @promethean/buildfix bf:01-errors
 pnpm --filter @promethean/buildfix bf:02-iterate
 pnpm --filter @promethean/buildfix bf:03-report

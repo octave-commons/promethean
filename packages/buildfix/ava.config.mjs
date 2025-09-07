@@ -4,6 +4,5 @@ export default {
   ...base,
   files: [
     "dist/tests/**/*.js",
-    "dist/test/**/*.js",
   ],
 };
