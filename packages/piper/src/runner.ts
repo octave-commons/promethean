@@ -1,5 +1,6 @@
 import * as path from "path";
 import { promises as fs } from "fs";
+import { pathToFileURL } from "url";
 
 import * as chokidar from "chokidar";
 import * as YAML from "yaml";
@@ -135,7 +136,9 @@ export async function runPipeline(
         const modPath = path.isAbsolute(s.js.module)
           ? s.js.module
           : path.resolve(cwd, s.js.module);
-        const mod = await import(modPath);
+        const modUrl = pathToFileURL(modPath);
+        modUrl.search = `?t=${Date.now()}`;
+        const mod = await import(modUrl.href);
         const fn =
           (s.js.export && (mod as any)[s.js.export]) ??
           (mod as any).default ??

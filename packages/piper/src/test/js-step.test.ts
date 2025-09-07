@@ -19,7 +19,7 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   }
 }
 
-test("pipeline supports shell and js steps", async (t) => {
+test.serial("pipeline supports shell and js steps", async (t) => {
   await withTmp(async (dir) => {
     const prev = process.cwd();
     process.chdir(dir);
@@ -66,6 +66,50 @@ test("pipeline supports shell and js steps", async (t) => {
       const jsStep = res.find((r) => r.id === "js");
       t.truthy(jsStep);
       t.is(jsStep!.stdout?.trim(), "HELLO");
+    } finally {
+      process.chdir(prev);
+    }
+  });
+});
+
+test.serial("js step reloads module between runs", async (t) => {
+  await withTmp(async (dir) => {
+    const prev = process.cwd();
+    process.chdir(dir);
+    try {
+      const modPath = path.join(dir, "mod.js");
+      await fs.writeFile(modPath, "export default () => 'one'\n", "utf8");
+      const cfg = {
+        pipelines: [
+          {
+            name: "demo",
+            steps: [
+              {
+                id: "js",
+                cwd: ".",
+                deps: [],
+                inputs: [],
+                outputs: [],
+                cache: "content",
+                js: { module: "./mod.js" },
+              },
+            ],
+          },
+        ],
+      };
+      const cfgPath = path.join(dir, "pipes.json");
+      await fs.writeFile(cfgPath, JSON.stringify(cfg), "utf8");
+      const first = await runPipeline(cfgPath, "demo", { concurrency: 1 });
+      const firstJs = first.find((r) => r.id === "js");
+      t.truthy(firstJs);
+      t.is(firstJs!.stdout?.trim(), "one");
+
+      await fs.writeFile(modPath, "export default () => 'two'\n", "utf8");
+
+      const second = await runPipeline(cfgPath, "demo", { concurrency: 1 });
+      const secondJs = second.find((r) => r.id === "js");
+      t.truthy(secondJs);
+      t.is(secondJs!.stdout?.trim(), "two");
     } finally {
       process.chdir(prev);
     }
