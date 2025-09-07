@@ -38,6 +38,11 @@ export type RunArgs = {
   k?: number;
   force?: boolean;
   anchorStyle?: string;
+  // relations tuning
+  maxRelated?: number;
+  maxReferences?: number;
+  refMin?: number;
+  refMax?: number;
 };
 
 type Progress = {
@@ -116,6 +121,18 @@ export async function runDocopsStep(
         docsDir: args.dir,
         docThreshold: Number(args.docT ?? 0.78),
         refThreshold: Number(args.refT ?? 0.85),
+        ...(Number.isFinite(args.maxRelated)
+          ? { maxRelated: Number(args.maxRelated) }
+          : {}),
+        ...(Number.isFinite(args.maxReferences)
+          ? { maxReferences: Number(args.maxReferences) }
+          : {}),
+        ...(Number.isFinite(args.refMin)
+          ? { refMin: Number(args.refMin) }
+          : {}),
+        ...(Number.isFinite(args.refMax)
+          ? { refMax: Number(args.refMax) }
+          : {}),
         ...(files ? { files } : {}),
       };
       await runRelations(opts, db, onProgress);

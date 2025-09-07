@@ -47,31 +47,22 @@
     markdown-mode
     org
     flycheck
+    treesit-auto
     company
-    prettier-js
     copilot
-    typescript-mode
-    web-mode
-    common-lisp
     ))
-(defun err-core/post-init-web-mode ()
 
-  (add-hook 'web-mode-hook 'prettier-js-mode)
-
-  (eval-after-load 'web-mode
-    '(add-hook 'web-mode-hook #'add-node-modules-path))
-
-  )
 (defun err-core/post-init-copilot ()
 
   (with-eval-after-load 'copilot
+
 
     (advice-add 'copilot--infer-indentation-offset :around
                 (lambda (orig &rest args)
                   (condition-case _
                       (apply orig args)
-                    (warning (err/copilot-lisp-indent-fallback))
-                    (error   (err/copilot-lisp-indent-fallback)))))
+                    (warning (err-core/copilot-lisp-indent-fallback))
+                    (error   (err-core/copilot-lisp-indent-fallback)))))
     (dolist (m '(emacs-lisp-mode lisp-mode lisp-interaction-mode scheme-mode clojure-mode hy-mode))
       (add-hook (intern (format "%s-hook" m))
                 (lambda ()
@@ -81,64 +72,158 @@
   )
 (defun err-core/post-init-lsp-sonarlint ()
   (with-eval-after-load 'lsp-sonarlint
-    ;; (lsp-sonarlint-auto-download t)
-    ;; (lsp-sonarlint-enabled-analyzers '("javascript" "typescript" "python" "java" "cfamily"))
-    ))
+    (setq lsp-sonarlint-auto-download t)
+    (setq lsp-sonarlint-enabled-analyzers '("js" "ts" "yaml" "json" "javascript" "typescript"))))
 
-(defun err-core/post-init-typescript-mode ()
-  (with-eval-after-load 'typescript-mode
-    (add-hook 'typescript-mode-hook #'prettier-js-mode)
-    (add-hook 'typescript-mode-hook #'add-node-modules-path)))
+
 (defun err-core/post-init-lsp-mode ()
-
   (with-eval-after-load 'lsp-mode
-    (add-to-list 'lsp-language-id-configuration '(lisp-mode . "commonlisp"))
-    (lsp-register-client
-     (make-lsp-client :new-connection (lsp-stdio-connection (lambda () (list (expand-file-name "~/.roswell/bin/cl-lsp"))))
-                      :activation-fn (lsp-activate-on "commonlisp")
-                      :server-id 'cl-lsp))))
+    ;; Fewer edits during typing; helps on massive projects
+    ;; (setq lsp-diagnostic-package :none)
 
-(defun err-core/post-init-common-lisp ()
+    (setq lsp-log-io nil
+          lsp-idle-delay 0.5
+          ;; lsp-keep-workspace-alive nil
+          ;; lsp-completion-provider :capf
+          )
+    ;; (setq lsp-completion-enable-additional-text-edit nil)
 
-  (with-eval-after-load 'lisp-mode
-    (add-hook 'lisp-mode-hook #'lsp-deferred)
-    (add-hook 'lisp-mode-hook #'flycheck-mode)
-    ;; Verify this toggle exists for lisp-mode; otherwise use the generic one.
-    (when (fboundp
-           'spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hook-lisp-mode)
-      (spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hook-lisp-mode)))
+    ;; Optional: crank up logging if you’re debugging startup issues
+    (setq lsp-semgrep-trace-server 'messages)
+    ;; Emulate “eslint.run: onSave” (VS Code defaults to onType; that’s slow)
 
-  (let ((slime-helper (expand-file-name "~/quicklisp/slime-helper.el")))
-    (when (file-exists-p slime-helper)
-      (load slime-helper))))
+    ;; 1) Don’t die on slow refactors while debugging
+    (setq lsp-response-timeout 30)
 
-;;   (with-eval-after-load 'markdown-mode
-;;     (add-to-list 'auto-mode-alist '("\\.bb" . clojure-mode))
+    ;; 2) Reduce contention: disable extra analyzers for now
+    ;; (setq lsp-disabled-clients
+    ;;       (append lsp-disabled-clients '(semgrep-ls sonarlint-ls)))
 
-;;     (add-to-list 'auto-mode-alist '("\\.clj"  . clojure-mode))
-;;     (add-to-list 'auto-mode-alist '("\\.cljs" . clojure-mode))
-;;     (dolist (pair `(("\\.ts"  . typescript-mode)
-;;                     ("\\.bb"  . clojure-mode)
-;;                     ("\\.babashka" . clojure-mode)
-;;                     ("\\.clj" . clojure-mode)
-;;                     ("\\.edn" . clojure-mode)))
-;;       (add-to-list 'auto-mode-alist pair))))
+
+    ;; 3) Tame file watchers
+    (setq lsp-file-watch-threshold 1500)
+    (setq lsp-file-watch-ignored
+          (append lsp-file-watch-ignored
+                  '("[/\\\\]\\.git$" "[/\\\\]node_modules$" "[/\\\\]dist$" "[/\\\\]build$" "[/\\\\]\\.next$" "[/\\\\]\\.turbo$")))
+
+    (add-hook 'lsp-before-initialize-hook #'promethean-lsp-load-gitignore-ignores))
+  (with-eval-after-load 'lsp-mode
+    (add-to-list 'lsp-language-id-configuration '(typescript-ts-mode . "typescript"))
+    (add-to-list 'lsp-language-id-configuration '(tsx-ts-mode         . "typescriptreact"))
+    (add-to-list 'lsp-language-id-configuration '(js-ts-mode          . "javascript"))
+
+    (setq lsp-clients-typescript-server "typescript-language-server")
+    (setq lsp-diagnostics-provider :flycheck)
+    (add-hook 'lsp-mode-hook 'flycheck-mode)
+    ;; Ensure ESLint is enabled for TS/TSX/JS and that monorepo roots are found
+    (setq lsp-eslint-enable t
+          lsp-eslint-validate '("javascript" "javascriptreact" "typescript" "typescriptreact")
+          lsp-eslint-working-directories [ "auto" ]     ;; good default for monorepos
+          lsp-eslint-auto-fix-on-save t
+          lsp-eslint-format nil)                        ;; avoid formatter fights; change if you want ESLint formatting
+
+    ;; Semgrep LSP knobs (defaults shown)
+    (setq lsp-semgrep-languages '("typescript" "typescriptreact" "javascript")
+          lsp-semgrep-server-command '("semgrep" "lsp" )
+          lsp-semgrep-trace-server 'messages)  ;; set to 'verbose if you want more noise
+
+    ;; Make sure SonarLint starts for tree-sitter modes:
+    (setq lsp-sonarlint-modes-enabled '(typescript-ts-mode tsx-ts-mode js-ts-mode))
+
+    ;; Enable TS + JS analyzers (confirm names with M-x lsp-sonarlint-available-analyzers):
+    (setq lsp-sonarlint-enabled-analyzers '("javascript" "typescript"))
+
+    ;; Let it fetch the official VSCode SonarLint bundle (analyzers + backend):
+    (setq lsp-sonarlint-auto-download t)
+
+    ;; Turn on logs until it works:
+    (setq lsp-sonarlint-verbose-logs t
+          lsp-sonarlint-show-analyzer-logs t)
+
+    ;; Start LSP when opening TS/TSX/JS. No use-package here:
+    ;; (add-hook 'typescript-ts-mode-hook #'lsp)
+    ;; (add-hook 'tsx-ts-mode-hook         #'lsp)
+    ;; (add-hook 'js-ts-mode-hook          #'lsp)
+
+    (add-hook 'typescript-ts-mode-hook  'lsp-deferred)
+    (add-hook 'tsx-ts-mode-hook         'lsp-deferred)
+    (add-hook 'js-ts-mode-hook     'lsp-deferred)
+    (add-hook 'json-ts-mode-hook   'lsp-deferred)
+    (add-hook 'css-ts-mode-hook    'lsp-deferred)
+
+    ;; Optional: if Emacs GUI loses your PATH, make sure Node is visible.
+    ;; (require 'exec-path-from-shell)
+    ;; (exec-path-from-shell-initialize)
+
+
+    ;; ESLint LSP settings (keep it lean; expand once it’s working)
+    (setq lsp-eslint-auto-fix-on-save t
+          lsp-eslint-format nil                 ;; let Prettier/ts-ls handle format if desired
+          lsp-eslint-working-directories '["auto"]  ;; good default for monorepos
+          lsp-eslint-quiet nil)
+    )
+  )
+
+
+
+(defun err-core/post-init-markdown-mode ()
+  (with-eval-after-load 'markdown-mode
+
+    (setq markdown-fontify-code-blocks-natively t)
+
+    (dolist (pair `(("ts'"  . typescript-ts-mode)
+                    ("bb'"  . clojure-ts-mode)
+                    ("babashka'" . clojure-ts-mode)
+                    ("clj'" . clojure-ts-mode)
+                    ("cljs'" . clojure-ts-mode)
+                    ("edn'" . clojure-ts-mode)
+                    ("el" . elisp-mode)))
+      (add-to-list 'markdown-code-lang-modes pair))))
+
 (defun err-core/post-init-org ()
-
   (with-eval-after-load 'org
+    (org-babel-do-load-languages 'org-babel-load-languages '((python . t)))
+    (setq org-src-fontify-natively t
+          org-src-tab-acts-natively t
+          org-edit-src-content-indentation 0
+          ;; Confirm for unknown languages; skip prompt for ELisp/Python only
+          org-confirm-babel-evaluate (lambda (lang _)
+                                       (not (member lang '("emacs-lisp" "python"))))
+          org-startup-with-inline-images t
+          org-babel-python-command (or (and (file-executable-p "/home/err/.venvs/main/bin/python")
+                                            "/home/err/.venvs/main/bin/python")
+                                       (executable-find "python3")
+                                       "python3"))
     (org-babel-do-load-languages 'org-babel-load-languages '((python . t)))
     (add-hook 'org-babel-after-execute-hook #'org-display-inline-images)))
 
+(defun err-core/post-init-company ()
+  (with-eval-after-load 'company
+    (global-company-mode 1)))
 (defun err-core/post-init-flycheck ()
-  (with-eval-after-load 'flycheck
-    (flycheck-define-checker common-lisp-sblint
-      "Common Lisp linting via sblint (SBCL)."
-      :command ("sblint" source-inplace)
-      :error-patterns
-      ((error line-start (file-name) ":" line ":" column ": " (message) line-end))
-      :modes (common-lisp-mode))
-    (add-to-list 'flycheck-checkers 'common-lisp-sblint))
-  )
 
-(defun err-core/post-init-company ())
-(defun err-core/post-init-prettier-js ())
+  (with-eval-after-load 'flycheck
+    (add-hook 'after-init-hook #'global-flycheck-mode)
+    (global-flycheck-mode 1)))
+
+(defun err-core/init-treesit-auto ()
+  ;; Auto-install grammars on demand & use -ts modes when available.
+  (use-package treesit-auto
+    :ensure t
+    :custom
+    (treesit-auto-install 'prompt)     ;; or 't to auto-install silently
+    :config
+    (treesit-auto-add-to-auto-mode-alist 'all)
+    (global-treesit-auto-mode))
+
+  ;; Prefer native TS modes over legacy ones.
+  (setq major-mode-remap-alist
+        '((js-mode . js-ts-mode)
+          (typescript-mode . typescript-ts-mode)
+          (tsx-ts-mode . tsx-ts-mode)  ;; if you have it
+          (json-mode . json-ts-mode)
+          (css-mode . css-ts-mode)
+          (c-mode . c-ts-mode)
+          (c++-mode . c++-ts-mode)
+          (python-mode . python-ts-mode)
+          (yaml-mode . yaml-ts-mode))))

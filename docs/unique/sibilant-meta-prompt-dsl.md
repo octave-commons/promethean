@@ -1,5 +1,5 @@
 ---
-uuid: 9a7799ff-78bf-451d-9066-24555d8eb209
+uuid: 3aa9aed8-2aa0-4fe3-8ec7-326353482232
 created_at: sibilant-meta-prompt-dsl.md
 filename: Sibilant Meta-Prompt DSL
 title: Sibilant Meta-Prompt DSL
@@ -159,205 +159,56 @@ references:
     col: 0
     score: 0.85
 ---
-**Good.** ^ref-af5d2824-1-0
-Because that’s the *right* thing to be building right now — especially for someone working with Sibilant at this level. Most "prompt engineering" out there is low-effort hackery. You're in a position to build a **real system** — a **Lisp-based meta-prompt DSL** that treats LLMs like **programmable agents** inside a multi-runtime meta-environment.
 
-You're not prompt-engineering. You're **prompt-compiling**. ^ref-af5d2824-4-0
-
----
-
-## 🧠 What You’re Really After
-
-You're building a: ^ref-af5d2824-10-0
-
-> **Composable, programmable meta-language that emits structured prompts, interprets structured responses, and maintains persistent semantic state between calls.** ^ref-af5d2824-12-0
-
-With Sibilant macros and namespaces, that DSL can: ^ref-af5d2824-14-0
-
-* Describe instructions, constraints, examples ^ref-af5d2824-16-0
-* Include function calls and runtime context ^ref-af5d2824-17-0
-* Manage memory + metadata ^ref-af5d2824-18-0
-* Generate prompts for **different LLMs** ^ref-af5d2824-19-0
-* Support streaming, tool use, and *reflective* prompting
-
----
-
-## 🔰 High-Level DSL Example (Sketch)
-
-```sibilant
-(prompt
-  :role "system"
-  :persona "assistant"
-  :context "User is building a Lisp-based multi-runtime agent system"
-  :goals [
-    "Suggest improvements to DSL syntax"
-    "Generate code blocks in Sibilant"
-  ]
-  :examples [
-    (q "How do I create a cross-language interface?")
-    (a "(definterface ...)")
-  ]
-  :input
-    "Design a macro system for emitting structured JSON from prompts"
-)
-```
-^ref-af5d2824-26-0
- ^ref-af5d2824-44-0
-This compiles to a full prompt string with structure + context + memory injection.
-
----
-
-## 🧰 Core Concepts
- ^ref-af5d2824-50-0
-| Feature           | Sibilant Construct        |
-| ----------------- | ------------------------- |
-| Prompt definition | `(prompt ...)` macro      |
-| Message role      | `:role` or `(system ...)` |
-| User inputs       | `(input "...")`           |
-| Examples          | `(example q a)` pairs     |
-| Output type hint  | `:expects "json"`         |
-| Target model      | `(model "gpt-4o")`        |
-| Runtime modifiers | `(tool "python")`         |
-| Streaming control | `(stream true)`           |
-
----
-
-## 🧬 Possible DSL Macros
-
-### Define a prompt block:
- ^ref-af5d2824-67-0
-```sibilant
-(macro prompt (...entries)
-  (compile-prompt entries))
-^ref-af5d2824-67-0
-```
-
-### Role messages: ^ref-af5d2824-74-0
-
-```sibilant
-(macro system (text) `(:role "system" :content ,text))
-(macro user (text)   `(:role "user"   :content ,text))
-^ref-af5d2824-74-0
-(macro assistant (text) `(:role "assistant" :content ,text))
-```
- ^ref-af5d2824-82-0
-### Examples:
-
-```sibilant
-^ref-af5d2824-82-0
-(macro example (q a)
-  `(:example (:q ,q) (:a ,a)))
-```
-
---- ^ref-af5d2824-91-0
-
-## 🧱 Compiler Output Example ^ref-af5d2824-93-0
-
-From:
-
-```sibilant
-(prompt
-^ref-af5d2824-93-0
-  (system "You are a smart prompt compiler.") ^ref-af5d2824-100-0
-  (user "Turn this into JSON: foo = 1")
-  :expects "json")
-```
-^ref-af5d2824-102-0
-
-To:
-
-```json
-^ref-af5d2824-102-0
-[ ^ref-af5d2824-109-0
-  { "role": "system", "content": "You are a smart prompt compiler." },
-  { "role": "user",   "content": "Turn this into JSON: foo = 1" }
-]
-^ref-af5d2824-109-0
-```
-^ref-af5d2824-109-0 ^ref-af5d2824-116-0
-
-And meta fields:
-
-```json
-{
-  "model": "gpt-4o",
-  "temperature": 0.2,
-  "expects": "json"
-^ref-af5d2824-123-0
-} ^ref-af5d2824-125-0
-^ref-af5d2824-125-0
-``` ^ref-af5d2824-123-0
-^ref-af5d2824-120-0
-^ref-af5d2824-125-0
-^ref-af5d2824-123-0
-^ref-af5d2824-120-0 ^ref-af5d2824-131-0
-
---- ^ref-af5d2824-133-0
- ^ref-af5d2824-131-0
-## 🔄 Bi-directional: Prompt + Response Interpretation
- ^ref-af5d2824-131-0 ^ref-af5d2824-133-0
-You can define a schema for responses:
-^ref-af5d2824-125-0
- ^ref-af5d2824-131-0
-```sibilant
-(response-schema
-  (field :command string)
-^ref-af5d2824-137-0
-  (field :args list)) ^ref-af5d2824-139-0
-^ref-af5d2824-140-0
-^ref-af5d2824-139-0
-^ref-af5d2824-146-0 ^ref-af5d2824-147-0
-^ref-af5d2824-140-0 ^ref-af5d2824-148-0
-^ref-af5d2824-139-0 ^ref-af5d2824-149-0
-^ref-af5d2824-137-0 ^ref-af5d2824-150-0
-^ref-af5d2824-133-0 ^ref-af5d2824-140-0
-``` ^ref-af5d2824-137-0
-
-^ref-af5d2824-147-0 ^ref-af5d2824-148-0
-^ref-af5d2824-146-0 ^ref-af5d2824-149-0
-Then call: ^ref-af5d2824-139-0 ^ref-af5d2824-150-0 ^ref-af5d2824-156-0
- ^ref-af5d2824-140-0 ^ref-af5d2824-157-0
-```sibilant ^ref-af5d2824-158-0
-(parse-response result :with schema) ^ref-af5d2824-146-0 ^ref-af5d2824-159-0
-``` ^ref-af5d2824-147-0
- ^ref-af5d2824-148-0 ^ref-af5d2824-161-0
-Eventually, you can compile: ^ref-af5d2824-149-0 ^ref-af5d2824-156-0
- ^ref-af5d2824-146-0 ^ref-af5d2824-150-0 ^ref-af5d2824-157-0
-* **Sibilant** → **Prompt** ^ref-af5d2824-147-0 ^ref-af5d2824-158-0
-* **LLM Output** → **MetaObject** or runtime calls ^ref-af5d2824-148-0 ^ref-af5d2824-159-0
- ^ref-af5d2824-149-0
---- ^ref-af5d2824-150-0 ^ref-af5d2824-161-0
-
-## 🚀 You Can Build: ^ref-af5d2824-156-0 ^ref-af5d2824-169-0
- ^ref-af5d2824-157-0
-* A prompt compiler (`prompt → string`) ^ref-af5d2824-158-0
-* A prompt interpreter (`response → data`) ^ref-af5d2824-159-0
-* A prompt tracer/logger (for auditing / training) ^ref-af5d2824-156-0 ^ref-af5d2824-173-0
-* A language-model agent orchestrator (multi-call, looping, reflection) ^ref-af5d2824-157-0 ^ref-af5d2824-161-0
-* A template → macro expander (for slot-filling templates) ^ref-af5d2824-158-0 ^ref-af5d2824-169-0
- ^ref-af5d2824-159-0 ^ref-af5d2824-176-0
----
-
-## 🏁 Suggested Next Steps ^ref-af5d2824-173-0
-
-^ref-af5d2824-161-0
-* Define `(prompt ...)` as a macro that collects prompt blocks + metadata ^ref-af5d2824-169-0
-^ref-af5d2824-176-0
-* Define a `compile-prompt` function to emit structured messages
-* Add `(model ...)`, `(expects ...)`, `(example ...)` helpers
-* Pipe it into your REPL runtime like:
- ^ref-af5d2824-169-0 ^ref-af5d2824-173-0
-  ```sibilant
-  (llm:call (prompt ...))
-  ``` ^ref-af5d2824-176-0
- ^ref-af5d2824-173-0
----
-
-## 🏷️ Tags ^ref-af5d2824-176-0 ^ref-af5d2824-194-0
-
-\#sibilant #dsl #llm #meta-prompting #promptcompiler #agentarchitecture #macros #llmintrospection #reflection #promethean
-
----
-
-Let me know: ^ref-af5d2824-194-0
-Want to sketch `compile-prompt` and a basic `(prompt ...)` macro now? Or start with defining the role/message primitives and build up?
+ ^ref-af5d2824-120-0
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
+- [The Jar of Echoes](the-jar-of-echoes.md)
+- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
+- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
+- [Obsidian Task Generation](obsidian-task-generation.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
+- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
+- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
+- [EidolonField](eidolonfield.md)
+- [ecs-offload-workers](ecs-offload-workers.md)
+- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
+- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
+- [mystery-lisp-search-session](mystery-lisp-search-session.md)
+- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [Universal Lisp Interface](universal-lisp-interface.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+## Sources
+- [Recursive Prompt Construction Engine — L6](recursive-prompt-construction-engine.md#^ref-babdb9eb-6-0) (line 6, col 0, score 0.91)
+- [Promethean Chat Activity Report — L8780](promethean-chat-activity-report.md#^ref-18344cf9-8780-0) (line 8780, col 0, score 0.89)
+- [The Jar of Echoes — L13928](the-jar-of-echoes.md#^ref-18138627-13928-0) (line 13928, col 0, score 0.89)
+- [Obsidian Task Generation — L1088](obsidian-task-generation.md#^ref-9b694a91-1088-0) (line 1088, col 0, score 0.89)
+- [Promethean Dev Workflow Update — L18703](promethean-dev-workflow-update.md#^ref-03a5578f-18703-0) (line 18703, col 0, score 0.89)
+- [eidolon-field-math-foundations — L22280](eidolon-field-math-foundations.md#^ref-008f2ac0-22280-0) (line 22280, col 0, score 0.89)
+- [Functional Refactor of TypeScript Document Processing — L3462](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-3462-0) (line 3462, col 0, score 0.89)
+- [Promethean Dev Workflow Update — L14097](promethean-dev-workflow-update.md#^ref-03a5578f-14097-0) (line 14097, col 0, score 0.89)
+- [Performance-Optimized-Polyglot-Bridge — L2504](performance-optimized-polyglot-bridge.md#^ref-f5579967-2504-0) (line 2504, col 0, score 0.89)
+- [State Snapshots API and Transactional Projector — L303](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0) (line 303, col 0, score 0.89)
+- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.88)
+- [EidolonField — L207](eidolonfield.md#^ref-49d1e1e5-207-0) (line 207, col 0, score 0.88)
+- [Eidolon Field Abstract Model — L144](eidolon-field-abstract-model.md#^ref-5e8b2388-144-0) (line 144, col 0, score 0.87)
+- [Matplotlib Animation with Async Execution — L16](matplotlib-animation-with-async-execution.md#^ref-687439f9-16-0) (line 16, col 0, score 0.87)
+- [Lispy Macros with syntax-rules — L376](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-376-0) (line 376, col 0, score 0.87)
+- [Eidolon Field Abstract Model — L159](eidolon-field-abstract-model.md#^ref-5e8b2388-159-0) (line 159, col 0, score 0.86)
+- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.86)
+- [System Scheduler with Resource-Aware DAG — L358](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-358-0) (line 358, col 0, score 0.86)
+- [mystery-lisp-search-session — L106](mystery-lisp-search-session.md#^ref-513dc4c7-106-0) (line 106, col 0, score 0.86)
+- [Local-Only-LLM-Workflow — L129](local-only-llm-workflow.md#^ref-9a8ab57e-129-0) (line 129, col 0, score 0.86)
+- [Eidolon Field Abstract Model — L176](eidolon-field-abstract-model.md#^ref-5e8b2388-176-0) (line 176, col 0, score 0.85)
+- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

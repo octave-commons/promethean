@@ -30,6 +30,10 @@ set -euo pipefail
 
 # npm install --global corepack@latest
 # corepack enable pnpm
+apt-get update
+apt-get install -y build-essential python3 make g++ pkg-config
+# optional but helps some images:
+apt-get install -y git ca-certificates
 
 # pre-commit install
 corepack enable

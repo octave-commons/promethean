@@ -12,9 +12,11 @@
       "default": "./dist/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "pnpm run build && EMBEDDING_DIM=8 DISCORD_TOKEN_DUCK=test ava --config ../../config/ava.config.mjs",

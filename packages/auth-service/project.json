@@ -1,0 +1,41 @@
+{
+  "name": "ts-auth-service",
+  "root": "packages/auth-service",
+  "sourceRoot": "packages/auth-service/src",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -b",
+        "cwd": "packages/auth-service"
+      },
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p tsconfig.json --noEmit",
+        "cwd": "packages/auth-service"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ava",
+        "cwd": "packages/auth-service"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint .",
+        "cwd": "packages/auth-service"
+      }
+    }
+  },
+  "tags": [
+    "scope:packages"
+  ]
+}

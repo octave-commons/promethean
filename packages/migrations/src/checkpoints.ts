@@ -43,13 +43,14 @@ export class MongoCheckpointStore implements CheckpointStore {
     }
 
     async advancePhase(id: string, phase: Phase): Promise<Checkpoint> {
+        const prev = await this.get(id);
         const next: Checkpoint = {
             id,
             phase,
-            batch: (await this.get(id))?.batch ?? 0,
+            batch: prev?.batch ?? 0,
             updatedAt: new Date().toISOString(),
-            lastId: (await this.get(id))?.lastId,
-            resumeToken: (await this.get(id))?.resumeToken,
+            ...(prev?.lastId !== undefined ? { lastId: prev.lastId } : {}),
+            ...(prev?.resumeToken !== undefined ? { resumeToken: prev.resumeToken } : {}),
         };
         await this.set(next);
         return next;

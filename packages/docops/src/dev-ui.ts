@@ -61,14 +61,25 @@ const UI_ROOT = path.resolve(
 );
 await app.register(fastifyStatic, {
   root: UI_ROOT,
-  prefix: "/",
+  prefix: "/ui",
 });
 // Serve compiled frontend (TS) from /js
+// When running compiled JS (dist/dev-ui.js), the frontend assets are within
+// dist/frontend. Resolve relative to the compiled file's directory.
 const FRONTEND_DIST = path.resolve(
   path.dirname(url.fileURLToPath(import.meta.url)),
-  "../frontend",
+  "./frontend",
 );
-await app.register(fastifyStatic, { root: FRONTEND_DIST, prefix: "/js" });
+await app.register(fastifyStatic, {
+  root: FRONTEND_DIST,
+  prefix: "/js",
+  decorateReply: false,
+});
+
+app.get("/health", async (_req, reply) => {
+  reply.header("content-type", "application/json");
+  return reply.send({ ok: true });
+});
 
 app.get("/", async (_req, reply) => {
   try {
@@ -488,6 +499,10 @@ if (WS_ENABLED) {
       force?: string;
       docT?: string | number;
       refT?: string | number;
+      refMin?: string | number;
+      refMax?: string | number;
+      maxRelated?: string | number;
+      maxReferences?: string | number;
       anchorStyle?: string;
       files?: string;
     };
@@ -507,6 +522,10 @@ if (WS_ENABLED) {
           force?: string;
           docT?: string | number;
           refT?: string | number;
+          refMin?: string | number;
+          refMax?: string | number;
+          maxRelated?: string | number;
+          maxReferences?: string | number;
           anchorStyle?: string;
           files?: string;
         };
@@ -522,6 +541,18 @@ if (WS_ENABLED) {
       const force = String(q.force || "false") === "true";
       const docT = Number(q.docT ?? "0.78");
       const refT = Number(q.refT ?? "0.85");
+      const refMin =
+        q.refMin != null && Number.isFinite(Number(q.refMin))
+          ? Number(q.refMin)
+          : refT;
+      const refMax =
+        q.refMax != null && Number.isFinite(Number(q.refMax))
+          ? Number(q.refMax)
+          : 1.0;
+      const maxRelated =
+        q.maxRelated != null ? Number(q.maxRelated) : undefined;
+      const maxReferences =
+        q.maxReferences != null ? Number(q.maxReferences) : undefined;
       const anchorStyle = (q.anchorStyle || "block") as
         | "block"
         | "heading"
@@ -548,6 +579,11 @@ if (WS_ENABLED) {
           refT,
           anchorStyle,
           files,
+          // relations tuning
+          refMin,
+          refMax,
+          maxRelated,
+          maxReferences,
         };
         await runDocopsStep(db, step as StepId, args, (p) =>
           send(
@@ -589,6 +625,10 @@ app.get<{
     force?: string;
     docT?: string | number;
     refT?: string | number;
+    refMin?: string | number;
+    refMax?: string | number;
+    maxRelated?: string | number;
+    maxReferences?: string | number;
     anchorStyle?: string;
     files?: string;
   };
@@ -603,6 +643,17 @@ app.get<{
   const force = String(q.force || "false") === "true";
   const docT = Number(q.docT ?? "0.78");
   const refT = Number(q.refT ?? "0.85");
+  const refMin =
+    q.refMin != null && Number.isFinite(Number(q.refMin))
+      ? Number(q.refMin)
+      : refT;
+  const refMax =
+    q.refMax != null && Number.isFinite(Number(q.refMax))
+      ? Number(q.refMax)
+      : 1.0;
+  const maxRelated = q.maxRelated != null ? Number(q.maxRelated) : undefined;
+  const maxReferences =
+    q.maxReferences != null ? Number(q.maxReferences) : undefined;
   const anchorStyle = (q.anchorStyle || "block") as
     | "block"
     | "heading"
@@ -626,6 +677,11 @@ app.get<{
       refT,
       anchorStyle,
       files,
+      // relations tuning
+      refMin,
+      refMax,
+      maxRelated,
+      maxReferences,
     };
     await runDocopsStep(db, step as StepId, args, (p) =>
       line(

@@ -1,5 +1,5 @@
 ---
-uuid: 3e74aac4-d652-4ba2-be14-524d5dfb98f1
+uuid: 715ad925-165f-413c-811c-9d76fbbc31ac
 created_at: promethean-ci-cd-pipeline.md
 filename: Promethean CI/CD Pipeline
 title: Promethean CI/CD Pipeline
@@ -438,3 +438,21 @@ e/docops/applied-fm.touch"
           - ".cache/docops/frontmatters.json"
         outputs:
           - ".cache/docops/renames.json"
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [run-step-api](run-step-api.md)
+- [pr-688-nitpack-extract](2025.09.03.20.05.23.md)
+- [Pseudo Pipes Overview](2025.09.03.11.34.39.md)
+- [Promethean Monorepo Law](2025.09.02.23.54.00.md)
+- [AGENTS.md](agents-md-3.md)
+- [docops-pipeline](2025.09.03.20.50.47.md)
+- [Pipeline Brainstorming](2025.09.03.11.44.54.md)
+- [Promethean Pipelines: Local TypeScript-First Workflows](promethean-pipelines-local-typescript-first-workflow.md)
+- [mcp-server-config](2025.09.03.14.01.47.md)
+- [mcp-server-config](2025.09.03.14.01.47.md)
+- [Pipeline Enhancements](pipeline-enhancements.md)
+## Sources
+- [run-step-api — L828](run-step-api.md#^ref-01c5547f-828-0) (line 828, col 0, score 1)
+- [pr-688-nitpack-extract — L66](2025.09.03.20.05.23.md#^ref-a09a2867-66-0) (line 66, col 0, score 0.91)
+- [run-step-api — L20](run-step-api.md#^ref-01c5547f-20-0) (line 20, col 0, score 0.9)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

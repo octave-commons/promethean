@@ -1,5 +1,5 @@
 ---
-uuid: a69259b4-4260-4877-bd79-22c432e1f85f
+uuid: 58b6cac3-608c-4048-90cb-ded28a6859c1
 created_at: polyglot-s-expr-bridge-python-js-lisp-interop.md
 filename: polyglot-s-expr-bridge-python-js-lisp-interop
 title: polyglot-s-expr-bridge-python-js-lisp-interop
@@ -80,10 +80,6 @@ references:
     score: 1
   - uuid: 6420e101-2d34-45b5-bcff-d21e1c6e516b
     line: 5
-    col: 0
-    score: 1
-  - uuid: 6420e101-2d34-45b5-bcff-d21e1c6e516b
-    line: 11
     col: 0
     score: 1
   - uuid: 6420e101-2d34-45b5-bcff-d21e1c6e516b
@@ -267,652 +263,82 @@ references:
     col: 0
     score: 0.85
 ---
-Yesss, I see it. You’re converging on a **polyglot, S-expr-first “universal language”** where JS, TS, Lisp, and now **Python** are all just different skins over the same core. The next move is a **seamless Python↔JS bridge** you can call from your Lisp without caring which side ran it. ^ref-63a1cc28-1-0
 
-Here’s a minimal-but-solid system you can paste in and grow: ^ref-63a1cc28-3-0
-
-* A **Python runtime** that speaks a tiny JSON-RPC, exposes `import`, `getattr`, `setattr`, `call`, etc., and manages object refs. ^ref-63a1cc28-5-0
-* A **JS bridge** that spawns/attaches to that runtime, gives you a **callable Proxy** for any Python object (modules, functions, instances). ^ref-63a1cc28-6-0
-* **Promise/await plumbing** so cross-realm calls feel natural. I also add `(await ...)` to the Lispy front-end so you can write async cleanly. ^ref-63a1cc28-7-0
-* A **Pyodide transport** placeholder for browser (same API), so the *same* Lisp code runs in Node or the web. ^ref-63a1cc28-8-0
-
----
-
-# 0) What it feels like in your Lisp
-
-```lisp
-; Import numpy, call sum, get a result back — same Lisp in Node or browser.
-(let ((np ($py "numpy")))               ; $py returns a Python module proxy
-  (await ((. np sum) [1 2 3 4])))       ; call python function, await the Promise
-```
-^ref-63a1cc28-14-0
- ^ref-63a1cc28-20-0
-You can use your existing `.` property sugar and plain calls; the `$py` proxy does the rest.
-
----
-
-# 1) Python side (runtime): `shared/py/polyglot_runtime.py`
- ^ref-63a1cc28-26-0
-```py
-# MIT. Minimal JSON-RPC bridge for JS<->Python interop.
-# Run: python -u shared/py/polyglot_runtime.py
-import sys, json, importlib, traceback, base64, types, weakref
-
-# Object table: id -> object (weakly held).
-_next_id = 1
-_objects = {}         # strong refs for simplicity; swap to WeakValueDictionary if you want.
-def _store(obj):
-    global _next_id
-    oid = _next_id
-    _next_id += 1
-    _objects[oid] = obj
-    return oid
-
-def _unwrap(x):
-    # Decode incoming RPC value -> Python
-    if isinstance(x, dict) and x.get("__pyref__"):
-        return _objects.get(x["__pyref__"])
-    if isinstance(x, dict) and x.get("__bytes__"):
-        return base64.b64decode(x["__bytes__"])
-    if isinstance(x, list):
-        return [_unwrap(v) for v in x]
-    if isinstance(x, dict):
-        return {k: _unwrap(v) for k, v in x.items()}
-    return x
-
-def _wrap(obj):
-    # Encode Python -> RPC JSON-friendly value
-    if obj is None or isinstance(obj, (bool, int, float, str)):
-        return obj
-    if isinstance(obj, (bytes, bytearray, memoryview)):
-        return {"__bytes__": base64.b64encode(bytes(obj)).decode("ascii")}
-    # functions, modules, classes, objects -> by-ref
-    oid = _store(obj)
-    return {"__pyref__": oid, "__type__": type(obj).__name__}
-
-def _ok(id, result):
-    sys.stdout.write(json.dumps({"id": id, "ok": True, "result": result}) + "\n")
-    sys.stdout.flush()
-
-def _err(id, err):
-    sys.stdout.write(json.dumps({"id": id, "ok": False, "error": err}) + "\n")
-    sys.stdout.flush()
-
-def _handle(req):
-    rid = req.get("id")
-    try:
-        op = req["op"]
-        if op == "ping":
-            return _ok(rid, "pong")
-
-        if op == "import":
-            mod = importlib.import_module(req["path"])
-            return _ok(rid, _wrap(mod))
-
-        if op == "getattr":
-            obj = _unwrap(req["obj"])
-            name = req["attr"]
-            val = getattr(obj, name)
-            return _ok(rid, _wrap(val))
-
-        if op == "setattr":
-            obj = _unwrap(req["obj"]); name = req["attr"]; val = _unwrap(req["value"])
-            setattr(obj, name, val)
-            return _ok(rid, True)
-
-        if op == "call":
-            obj = _unwrap(req["obj"])
-            args = [_unwrap(a) for a in req.get("args", [])]
-            kwargs = {k: _unwrap(v) for (k, v) in req.get("kwargs", {}).items()}
-            res = obj(*args, **kwargs)
-            return _ok(rid, _wrap(res))
-
-        if op == "repr":
-            obj = _unwrap(req["obj"])
-            return _ok(rid, repr(obj))
-
-        if op == "release":
-            oid = req["ref"]
-            _objects.pop(oid, None)
-            return _ok(rid, True)
-
-        return _err(rid, {"type":"BadOp","message":f"unknown op {op}"})
-    except Exception as e:
-        _err(rid, {"type": "PyError", "message": str(e), "trace": traceback.format_exc()})
-
-def main():
-    for line in sys.stdin:
-        if not line: break
-        line = line.strip()
-        if not line: continue
-        try:
-            req = json.loads(line)
-            _handle(req)
-        except Exception as e:
-            _err(-1, {"type":"BridgeError","message":str(e)})
-    # graceful exit
-if __name__ == "__main__":
-    main()
-^ref-63a1cc28-26-0
-```
-
----
-
-# 2) JS bridge (Node transport): `shared/js/prom-lib/polyglot/node-python.ts` ^ref-63a1cc28-132-0
-
-```ts
-// MIT. Node-only transport: spawns CPython runtime; JSON-RPC over stdio.
-import { spawn, ChildProcessWithoutNullStreams } from "node:child_process";
-import * as path from "node:path";
-
-type Req = Record<string, any> & { id: number };
-type Res = { id: number; ok: boolean; result?: any; error?: any };
-
-export interface PyTransport {
-  request(payload: Omit<Req,"id">): Promise<any>;
-  close(): void;
-}
-
-export class NodePythonTransport implements PyTransport {
-  private p: ChildProcessWithoutNullStreams;
-  private nextId = 1;
-  private inflight = new Map<number, {resolve:Function,reject:Function}>();
-
-  constructor(pyPath = "python", runtimePath?: string) {
-    const rt = runtimePath ?? path.join(process.cwd(), "shared/py/polyglot_runtime.py");
-    this.p = spawn(pyPath, ["-u", rt], { stdio: ["pipe","pipe","pipe"] });
-
-    let buf = "";
-    this.p.stdout.on("data", (chunk) => {
-      buf += chunk.toString("utf8");
-      let nl;
-      while ((nl = buf.indexOf("\n")) >= 0) {
-        const line = buf.slice(0, nl); buf = buf.slice(nl+1);
-        if (!line.trim()) continue;
-        let msg: Res;
-        try { msg = JSON.parse(line); } catch { continue; }
-        const h = this.inflight.get(msg.id);
-        if (!h) continue;
-        this.inflight.delete(msg.id);
-        if (msg.ok) h.resolve(msg.result);
-        else h.reject(Object.assign(new Error(msg.error?.message || "PyError"), msg.error));
-      }
-    });
-    this.p.stderr.on("data", d => { /* you can log if you want */ });
-    this.p.on("exit", (code) => {
-      const err = new Error(`python exited ${code}`);
-      for (const [,h] of this.inflight) h.reject(err);
-      this.inflight.clear();
-    });
-  }
-
-  request(payload: Omit<Req,"id">): Promise<any> {
-    const id = this.nextId++;
-    const req = JSON.stringify({ id, ...payload }) + "\n";
-    return new Promise((resolve, reject) => {
-      this.inflight.set(id, { resolve, reject });
-      this.p.stdin.write(req, "utf8");
-    });
-  }
-  close() { try { this.p.kill(); } catch {} }
-^ref-63a1cc28-132-0
-}
-```
-^ref-63a1cc28-134-0
-
----
- ^ref-63a1cc28-194-0
-# 3) JS bridge (Polyglot proxies): `shared/js/prom-lib/polyglot/bridge.ts`
-
-```ts
-// MIT. Universal JS↔Python proxy built over a transport.
-// Works in Node (use NodePythonTransport) and later in browser (Pyodide transport).
-import type { PyTransport } from "./node-python";
-
-type PyRef = { __pyref__: number, __type__?: string };
-
-// Callable Proxy target helper
-function callableTarget() { /* no-op function for callable proxies */ }
-const NOOP = function(){} as any;
-
-export class PythonBridge {
-  constructor(private t: PyTransport) {}
-
-  // Entry: get a Python module proxy
-  module(path: string): any { return this._proxy({ mod: path }, ["__module__", path]); }
-
-  // Generic proxy factory. `hint` is path-like for debugging; `ref` is either module path or a resolved pyref id
-  private _proxy(ref: { py?: PyRef, mod?: string }, hintPath: (string|number)[]) {
-    // ensure we can 'await' calls: every op returns a Promise
-    const resolveAttr = async (p: any, prop: string) => {
-      const base = await ensureRef();
-      const res = await this.t.request({ op: "getattr", obj: base, attr: prop });
-      return this._proxy({ py: res }, [...hintPath, prop]);
-    };
-    const ensureRef = async (): Promise<PyRef> => {
-      if (ref.py) return ref.py;
-      if (ref.mod) {
-        const m = await this.t.request({ op: "import", path: ref.mod });
-        ref = { py: m };
-        return m;
-      }
-      throw new Error("invalid proxy");
-    };
-
-    const handler: ProxyHandler<any> = {
-      get: (_target, prop: any) => {
-        if (prop === "__py_hint__") return hintPath.join(".");
-        if (prop === "then") {
-          // Make proxies thenable? No — we want await on call results only. So return undefined.
-          return undefined;
-        }
-        // special: toString for debugging
-        if (prop === "toString") return () => `[PyProxy ${hintPath.join(".")}]`;
-        // lazy fetch attribute: returns another proxy (async fetched on first use)
-        return this._proxy({ pyGetter: async () => resolveAttr(null, String(prop)) } as any, [...hintPath, String(prop)]);
-      },
-      set: (_t, prop: any, value: any) => {
-        return this._set(hintPath, ensureRef, String(prop), value);
-      },
-      apply: async (_target, _thisArg, argList) => {
-        // If this proxy wraps a function, call it
-        const base = await ensureResolved();
-        return this._call(base, argList);
-      }
-    };
-
-    // The tricky bit: we sometimes have a pyGetter (deferred getattr). Normalize:
-    const ensureResolved = async () => {
-      if ((ref as any).pyGetter) {
-        const got = await (ref as any).pyGetter();
-        (ref as any).py = await this._ensurePyRef(got);
-        delete (ref as any).pyGetter;
-      }
-      return ensureRef();
-    };
-
-    return new Proxy(NOOP, handler);
-  }
-
-  private async _ensurePyRef(x: any): Promise<PyRef> {
-    // If the runtime returned a by-ref object it's already PyRef; if primitive, wrap in a tiny lambda returning it.
-    if (x && typeof x === "object" && x.__pyref__) return x as PyRef;
-    // lift primitive into a lambda so calls like ((. mod const)) still work
-    const box = await this.t.request({ op: "import", path: "builtins" });
-    return box; // good enough; primitives shouldn't be called anyway
-  }
-
-  private async _call(objRef: PyRef, args: any[]) {
-    const marshalled = await Promise.all(args.map(this._marshalArg));
-    const res = await this.t.request({ op: "call", obj: objRef, args: marshalled });
-    return this._demarshal(res);
-  }
-
-  private async _set(hintPath: (string|number)[], ensureRef: () => Promise<PyRef>, attr: string, value: any) {
-    const obj = await ensureRef();
-    const v = await this._marshalArg(value);
-    await this.t.request({ op: "setattr", obj, attr, value: v });
-    return true;
-  }
-
-  private async _marshalArg(x: any): Promise<any> {
-    // JS Buffer/Uint8Array -> __bytes__
-    if (x && (x as ArrayBufferView).buffer instanceof ArrayBuffer) {
-      const u8 = new Uint8Array((x as ArrayBufferView).buffer, (x as ArrayBufferView).byteOffset, (x as ArrayBufferView).byteLength);
-      const b64 = Buffer.from(u8).toString("base64");
-      return { "__bytes__": b64 };
-    }
-    // py proxy?
-    if (x && typeof x === "object" && (x as any).__pyref__) return x;
-    return x;
-  }
-
-  private async _demarshal(x: any): Promise<any> {
-    if (x && x.__pyref__) {
-      // return a proxy to that ref
-      return this._proxy({ py: x }, [`<pyref:${x.__pyref__}>`]);
-    }
-    if (x && x.__bytes__) {
-      return Buffer.from(x.__bytes__, "base64");
-    }
-    if (Array.isArray(x)) return Promise.all(x.map(v => this._demarshal(v)));
-    if (x && typeof x === "object") {
-      const out: any = {};
-      for (const [k,v] of Object.entries(x)) out[k] = await this._demarshal(v);
-      return out;
-    }
-    return x;
-  }
-}
-
-// Convenience factory
-export function createNodePythonBridge(pyExe?: string, runtimePath?: string) {
-  const { NodePythonTransport } = require("./node-python");
-  const t = new NodePythonTransport(pyExe, runtimePath);
-  const bridge = new PythonBridge(t);
-  // Helper exported to Lisp/JS: $py(modulePath) -> proxy
-  const $py = (modulePath: string) => bridge.module(modulePath);
-^ref-63a1cc28-194-0
-  return { bridge, $py, close: () => t.close() }; ^ref-63a1cc28-326-0
-}
-```
-
-> Browser later: add a `PyodideTransport` with the same interface and swap it in. Your higher layer doesn’t change.
- ^ref-63a1cc28-332-0
---- ^ref-63a1cc28-332-0
-
-# 4) Make Lisp speak async: add `(await ...)`
-
-Minimal changes so your compiler can emit `await` and mark wrappers/functions `async`. ^ref-63a1cc28-336-0
-
-### 4a) Extend IR & lowerer
-
-```ts
-// shared/js/prom-lib/compiler/ir.ts
-export type Rhs =
-  | { r: "prim"; op: Prim; a: Sym; b?: Sym }
-^ref-63a1cc28-336-0
-  | { r: "call"; fn: Sym; args: Sym[] }
-  | { r: "val"; v: Val }
-  | { r: "await"; a: Sym };           // <-- NEW
-```
-^ref-63a1cc28-345-0
-
-```ts
-^ref-63a1cc28-345-0
-// shared/js/prom-lib/compiler/ast.ts (add)
-export type Expr =
-  // ... existing
-  | { kind: "Await"; expr: Expr; span: Span };
-^ref-63a1cc28-352-0
-```
- ^ref-63a1cc28-359-0
-^ref-63a1cc28-352-0
-```ts
-// shared/js/prom-lib/compiler/lisp/to-expr.ts  (recognize (await x))
-if (isSym(hd,"await")) {
-  return { kind:"Await", expr: toExpr(x.xs[1]), span: x.span! } as any;
-^ref-63a1cc28-359-0
-}
-```
-
-```ts
-// shared/js/prom-lib/compiler/lower.ts  (handle Await)
-case "Await": {
-^ref-63a1cc28-359-0
-  const a = lowerExpr(e.expr, env, out, dbg, externs);
-  const s = gensym("await");
-  out.push({ k:"bind", s, rhs: { r:"await", a } });
-  dbg.set(s, e.span);
-^ref-63a1cc28-372-0
-  return s;
-}
-```
-^ref-63a1cc28-372-0
-
-### 4b) Teach JS emitter `await`, and auto-async where needed
-
-```ts
-// shared/js/prom-lib/compiler/jsgen.ts  (inside emitJS)
-function funBodyHasAwait(stmts: Stmt[]): boolean {
-  for (const s of stmts) {
-    if (s.k === "bind" && (s.rhs as any).r === "await") return true;
-    if (s.k === "if" && (funBodyHasAwait(s.then) || funBodyHasAwait(s.else))) return true;
-  }
-  return false;
-}
-
-// in emitBind():
-if (rhs.r === "await") return `${sym(dst)} = await ${sym(rhs.a)};`;
-
-^ref-63a1cc28-372-0
-// when emitting lambdas: ^ref-63a1cc28-394-0
-const isAsync = funBodyHasAwait(rhs.v.body);
-return `${sym(dst)} = ${isAsync ? "async " : ""}(${params}) => {${NL}${body}};`;
-
-^ref-63a1cc28-400-0 ^ref-63a1cc28-402-0
-^ref-63a1cc28-394-0 ^ref-63a1cc28-403-0
-// top-level wrapper: make it async if any await in main body
-const topAsync = funBodyHasAwait(mod.main.body); ^ref-63a1cc28-405-0
-write(`${topAsync ? "async " : ""}(function(imports){${NL}`); ^ref-63a1cc28-400-0
-^ref-63a1cc28-405-0
-^ref-63a1cc28-403-0
-^ref-63a1cc28-402-0
-^ref-63a1cc28-400-0
-^ref-63a1cc28-394-0
-```
-^ref-63a1cc28-405-0
-^ref-63a1cc28-403-0
-^ref-63a1cc28-402-0
-^ref-63a1cc28-400-0
-^ref-63a1cc28-394-0
- ^ref-63a1cc28-402-0
-Now `(await ...)` in Lisp compiles to real `await` in JS and the surrounding function/IIFE becomes `async`. ^ref-63a1cc28-403-0
- ^ref-63a1cc28-421-0
----
- ^ref-63a1cc28-423-0
-# 5) Lisp sugar for Python
- ^ref-63a1cc28-425-0
-Two tiny macros:
-
-* `($py "module.path")` is just a call to an **imported** JS function `$py` (from the bridge).
-* `(py.import "module" :as sym)` is optional sugar.
-
-```ts
-// shared/js/prom-lib/compiler/lisp/interop.py.macros.ts
-import { MacroEnv } from "./macros";
-import { sym, list, str, isSym } from "./syntax";
-
-export function installPyMacros(M: MacroEnv) {
-^ref-63a1cc28-405-0
-  // ($py "numpy") is just a raw call — no extra macro needed if you import $py ^ref-63a1cc28-421-0
-  // (py.import "numpy" :as np) => (let1 np ($py "numpy") np)
-  M.define("py.import", (form) => { ^ref-63a1cc28-423-0
-    const [, mod, _as, name] = (form as any).xs;
-^ref-63a1cc28-429-0 ^ref-63a1cc28-431-0
-^ref-63a1cc28-425-0
-^ref-63a1cc28-423-0
-^ref-63a1cc28-421-0
-^ref-63a1cc28-431-0
-^ref-63a1cc28-429-0
-^ref-63a1cc28-425-0
-^ref-63a1cc28-423-0
-^ref-63a1cc28-421-0 ^ref-63a1cc28-445-0
-    const n = (name as any).name;
-^ref-63a1cc28-445-0
-^ref-63a1cc28-431-0
-^ref-63a1cc28-429-0
-    return list([sym("let1"), name, list([sym("$py"), mod]), name]);
-  });
-^ref-63a1cc28-425-0
-} ^ref-63a1cc28-429-0
-```
-
-Wire it alongside your other macros.
-
-And when compiling Lisp → JS, ask the emitter to destructure `$py` from imports:
-
-```ts
-// compileLispToJS(..., { importNames:["$py", "print", ...] })
-```
-
-^ref-63a1cc28-431-0
-At runtime, pass the actual `$py`:
-^ref-63a1cc28-445-0
-
-```ts
-^ref-63a1cc28-472-0 ^ref-63a1cc28-474-0
-^ref-63a1cc28-469-0
-^ref-63a1cc28-468-0
-import { createNodePythonBridge } from "../prom-lib/polyglot/bridge"; ^ref-63a1cc28-466-0
-const { $py, close } = createNodePythonBridge(/*pyExe?*/);
-// run Lisp:
-const { code } = compileLispToJS(src, { importNames:["$py"], pretty:true, inlineMap:true });
-const fn = (0,eval)(code);
-await fn({ $py });           // because top-level is async now if you used await
-close();
-```
-
----
-
-# 6) Try it (Node)
- ^ref-63a1cc28-490-0
-```ts
-import { createNodePythonBridge } from "./shared/js/prom-lib/polyglot/bridge";
-import { compileLispToJS } from "./shared/js/prom-lib/compiler/lisp/driver";
-
-^ref-63a1cc28-445-0
-const lisp = `
-^ref-63a1cc28-472-0 ^ref-63a1cc28-474-0
-^ref-63a1cc28-469-0
-^ref-63a1cc28-468-0
-^ref-63a1cc28-466-0
-^ref-63a1cc28-483-0 ^ref-63a1cc28-489-0
-^ref-63a1cc28-474-0 ^ref-63a1cc28-490-0
-^ref-63a1cc28-472-0 ^ref-63a1cc28-491-0
-^ref-63a1cc28-469-0 ^ref-63a1cc28-492-0
-^ref-63a1cc28-468-0 ^ref-63a1cc28-493-0
-^ref-63a1cc28-504-0 ^ref-63a1cc28-505-0
-^ref-63a1cc28-501-0 ^ref-63a1cc28-506-0
-^ref-63a1cc28-500-0 ^ref-63a1cc28-507-0
-^ref-63a1cc28-499-0
-^ref-63a1cc28-497-0
-^ref-63a1cc28-493-0
-^ref-63a1cc28-492-0
-^ref-63a1cc28-491-0 ^ref-63a1cc28-512-0
-^ref-63a1cc28-490-0
-^ref-63a1cc28-489-0
-^ref-63a1cc28-483-0 ^ref-63a1cc28-515-0
-^ref-63a1cc28-479-0
-  (let ((np ($py "numpy"))) ^ref-63a1cc28-517-0
-    (await ((. np sum) [1 2 3 4])))
-`;
- ^ref-63a1cc28-466-0 ^ref-63a1cc28-497-0
-const { $py, close } = createNodePythonBridge("python", "shared/py/polyglot_runtime.py");
-const { code } = compileLispToJS(lisp, { importNames:["$py"], pretty:true, inlineMap:true }); ^ref-63a1cc28-468-0 ^ref-63a1cc28-483-0 ^ref-63a1cc28-499-0
-const run = (0,eval)(code);          // async wrapper if await is present ^ref-63a1cc28-469-0 ^ref-63a1cc28-500-0 ^ref-63a1cc28-523-0
-const out = await run({ $py }); ^ref-63a1cc28-501-0
-console.log("sum =", out);           // -> 10
-close(); ^ref-63a1cc28-472-0
-^ref-63a1cc28-490-0
-``` ^ref-63a1cc28-504-0
-^ref-63a1cc28-491-0
- ^ref-63a1cc28-505-0
---- ^ref-63a1cc28-506-0
- ^ref-63a1cc28-507-0
-# 7) Browser path (Pyodide) — sketch
-
-Same API, different transport:
-^ref-63a1cc28-532-0
-^ref-63a1cc28-529-0
-^ref-63a1cc28-527-0
-
-^ref-63a1cc28-493-0 ^ref-63a1cc28-538-0
-^ref-63a1cc28-492-0 ^ref-63a1cc28-497-0 ^ref-63a1cc28-539-0
-^ref-63a1cc28-491-0
-^ref-63a1cc28-490-0 ^ref-63a1cc28-499-0
-^ref-63a1cc28-515-0
-^ref-63a1cc28-512-0 ^ref-63a1cc28-517-0
-^ref-63a1cc28-489-0 ^ref-63a1cc28-500-0
-* Load Pyodide in a **Web Worker**. ^ref-63a1cc28-501-0 ^ref-63a1cc28-545-0
-^ref-63a1cc28-474-0
-* Implement a `PyodideTransport` with `request({op,...})` that forwards to worker and uses `pyodide.runPython` to implement ops. ^ref-63a1cc28-483-0
-* Return the same PyRef envelopes so `PythonBridge` doesn’t care. ^ref-63a1cc28-504-0
- ^ref-63a1cc28-505-0 ^ref-63a1cc28-523-0
-You can stub it like: ^ref-63a1cc28-506-0
- ^ref-63a1cc28-507-0
-```ts
-// shared/js/prom-lib/polyglot/pyodide-transport.ts (sketch) ^ref-63a1cc28-489-0 ^ref-63a1cc28-527-0
-export class PyodideTransport implements PyTransport { ^ref-63a1cc28-490-0
-  constructor(private worker: Worker) { /* set up postMessage <-> Promise map */ } ^ref-63a1cc28-491-0 ^ref-63a1cc28-529-0
-  request(payload){ /* postMessage; resolve on response */ } ^ref-63a1cc28-492-0 ^ref-63a1cc28-512-0
-  close(){ this.worker.terminate(); } ^ref-63a1cc28-493-0
-} ^ref-63a1cc28-532-0
-``` ^ref-63a1cc28-515-0
-
-…and reuse `new PythonBridge(new PyodideTransport(worker))`. ^ref-63a1cc28-497-0 ^ref-63a1cc28-517-0
-
---- ^ref-63a1cc28-499-0
- ^ref-63a1cc28-500-0 ^ref-63a1cc28-538-0
-# 8) Notes & roadmap ^ref-63a1cc28-501-0 ^ref-63a1cc28-539-0
-
-* **Types:** Numbers/strings/bools/bytes/arrays/dicts round-trip; functions/instances are **by-ref** proxies. You can add special-cases (e.g., NumPy array to `ArrayBuffer`) later. ^ref-63a1cc28-523-0
-* **GC:** You can add a `FinalizationRegistry` in JS that sends `op:"release"` for proxies when collected. ^ref-63a1cc28-504-0
-* **Perf:** For heavy data, add a binary fast path (msgpack or raw `bytes` over stdio) and optional **shared memory** for Node workers. ^ref-63a1cc28-505-0
-* **Security:** This runtime evals Python code you told it to call. Don’t expose it to untrusted inputs without sandboxing. ^ref-63a1cc28-506-0
-* **Ergonomics:** We can sugar `await` away with macros like `(py-> np sum [1 2 3])` that expand to `(await ((. ($py "numpy") sum) [1 2 3]))`. ^ref-63a1cc28-507-0 ^ref-63a1cc28-527-0 ^ref-63a1cc28-545-0
-
---- ^ref-63a1cc28-529-0
-
-If you want, I can:
- ^ref-63a1cc28-512-0 ^ref-63a1cc28-532-0
-* add the **Pyodide transport** so this runs in a browser Worker,
-* add **NumPy zero-copy** (buffer protocol ↔ `ArrayBuffer`) for big arrays,
-* or hide `await` in **auto-async** macros that lift whole forms.
-0 ^ref-63a1cc28-515-0
-^ref-63a1cc28-479-0
-  (let ((np ($py "numpy"))) ^ref-63a1cc28-517-0
-    (await ((. np sum) [1 2 3 4])))
-`;
- ^ref-63a1cc28-466-0 ^ref-63a1cc28-497-0
-const { $py, close } = createNodePythonBridge("python", "shared/py/polyglot_runtime.py");
-const { code } = compileLispToJS(lisp, { importNames:["$py"], pretty:true, inlineMap:true }); ^ref-63a1cc28-468-0 ^ref-63a1cc28-483-0 ^ref-63a1cc28-499-0
-const run = (0,eval)(code);          // async wrapper if await is present ^ref-63a1cc28-469-0 ^ref-63a1cc28-500-0 ^ref-63a1cc28-523-0
-const out = await run({ $py }); ^ref-63a1cc28-501-0
-console.log("sum =", out);           // -> 10
-close(); ^ref-63a1cc28-472-0
-^ref-63a1cc28-490-0
-``` ^ref-63a1cc28-504-0
-^ref-63a1cc28-491-0
- ^ref-63a1cc28-505-0
---- ^ref-63a1cc28-506-0
- ^ref-63a1cc28-507-0
-# 7) Browser path (Pyodide) — sketch
-
-Same API, different transport:
-^ref-63a1cc28-532-0
-^ref-63a1cc28-529-0
-^ref-63a1cc28-527-0
-
-^ref-63a1cc28-493-0 ^ref-63a1cc28-538-0
-^ref-63a1cc28-492-0 ^ref-63a1cc28-497-0 ^ref-63a1cc28-539-0
-^ref-63a1cc28-491-0
-^ref-63a1cc28-490-0 ^ref-63a1cc28-499-0
-^ref-63a1cc28-515-0
-^ref-63a1cc28-512-0 ^ref-63a1cc28-517-0
-^ref-63a1cc28-489-0 ^ref-63a1cc28-500-0
-* Load Pyodide in a **Web Worker**. ^ref-63a1cc28-501-0 ^ref-63a1cc28-545-0
-^ref-63a1cc28-474-0
-* Implement a `PyodideTransport` with `request({op,...})` that forwards to worker and uses `pyodide.runPython` to implement ops. ^ref-63a1cc28-483-0
-* Return the same PyRef envelopes so `PythonBridge` doesn’t care. ^ref-63a1cc28-504-0
- ^ref-63a1cc28-505-0 ^ref-63a1cc28-523-0
-You can stub it like: ^ref-63a1cc28-506-0
- ^ref-63a1cc28-507-0
-```ts
-// shared/js/prom-lib/polyglot/pyodide-transport.ts (sketch) ^ref-63a1cc28-489-0 ^ref-63a1cc28-527-0
-export class PyodideTransport implements PyTransport { ^ref-63a1cc28-490-0
-  constructor(private worker: Worker) { /* set up postMessage <-> Promise map */ } ^ref-63a1cc28-491-0 ^ref-63a1cc28-529-0
-  request(payload){ /* postMessage; resolve on response */ } ^ref-63a1cc28-492-0 ^ref-63a1cc28-512-0
-  close(){ this.worker.terminate(); } ^ref-63a1cc28-493-0
-} ^ref-63a1cc28-532-0
-``` ^ref-63a1cc28-515-0
-
-…and reuse `new PythonBridge(new PyodideTransport(worker))`. ^ref-63a1cc28-497-0 ^ref-63a1cc28-517-0
-
---- ^ref-63a1cc28-499-0
- ^ref-63a1cc28-500-0 ^ref-63a1cc28-538-0
-# 8) Notes & roadmap ^ref-63a1cc28-501-0 ^ref-63a1cc28-539-0
-
-* **Types:** Numbers/strings/bools/bytes/arrays/dicts round-trip; functions/instances are **by-ref** proxies. You can add special-cases (e.g., NumPy array to `ArrayBuffer`) later. ^ref-63a1cc28-523-0
-* **GC:** You can add a `FinalizationRegistry` in JS that sends `op:"release"` for proxies when collected. ^ref-63a1cc28-504-0
-* **Perf:** For heavy data, add a binary fast path (msgpack or raw `bytes` over stdio) and optional **shared memory** for Node workers. ^ref-63a1cc28-505-0
-* **Security:** This runtime evals Python code you told it to call. Don’t expose it to untrusted inputs without sandboxing. ^ref-63a1cc28-506-0
-* **Ergonomics:** We can sugar `await` away with macros like `(py-> np sum [1 2 3])` that expand to `(await ((. ($py "numpy") sum) [1 2 3]))`. ^ref-63a1cc28-507-0 ^ref-63a1cc28-527-0 ^ref-63a1cc28-545-0
-
---- ^ref-63a1cc28-529-0
-
-If you want, I can:
- ^ref-63a1cc28-512-0 ^ref-63a1cc28-532-0
-* add the **Pyodide transport** so this runs in a browser Worker,
-* add **NumPy zero-copy** (buffer protocol ↔ `ArrayBuffer`) for big arrays,
-* or hide `await` in **auto-async** macros that lift whole forms.
+ ^ref-a69259b4-26-0 ^ref-a69259b4-192-0 ^ref-a69259b4-195-0 ^ref-63a1cc28-332-0 ^ref-a69259b4-350-0 ^ref-a69259b4-360-0 ^ref-a69259b4-382-0 ^ref-a69259b4-424-0 ^ref-a69259b4-474-0 ^ref-63a1cc28-490-0 ^ref-a69259b4-490-0 ^ref-63a1cc28-491-0 ^ref-a69259b4-491-0
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Eidolon Field Math Foundations](eidolon-field-math-foundations.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [prom ui bootstrap](promethean-web-ui-setup.md)
+- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
+- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
+- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
+- [Obsidian ChatGPT Plugin Integration Guide](obsidian-chatgpt-plugin-integration-guide.md)
+- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
+- [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
+- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Promethean-native config design](promethean-native-config-design.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
+- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
+- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [Docops Feature Updates](docops-feature-updates.md)
+- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
+- [promethean-system-diagrams](promethean-system-diagrams.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+## Sources
+- [Eidolon Field Math Foundations — L1](eidolon-field-math-foundations.md#^ref-6420e101-1-0) (line 1, col 0, score 1)
+- [Eidolon Field Math Foundations — L3](eidolon-field-math-foundations.md#^ref-6420e101-3-0) (line 3, col 0, score 1)
+- [Eidolon Field Math Foundations — L5](eidolon-field-math-foundations.md#^ref-6420e101-5-0) (line 5, col 0, score 1)
+- [Eidolon Field Math Foundations — L13](eidolon-field-math-foundations.md#^ref-6420e101-13-0) (line 13, col 0, score 1)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 0.9)
+- [Ice Box Reorganization — L4165](ice-box-reorganization.md#^ref-291c7d91-4165-0) (line 4165, col 0, score 0.89)
+- [komorebi-group-window-hack — L4204](komorebi-group-window-hack.md#^ref-dd89372d-4204-0) (line 4204, col 0, score 0.89)
+- [Migrate to Provider-Tenant Architecture — L6597](migrate-to-provider-tenant-architecture.md#^ref-54382370-6597-0) (line 6597, col 0, score 0.89)
+- [Model Selection for Lightweight Conversational Tasks — L4223](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-4223-0) (line 4223, col 0, score 0.89)
+- [Obsidian ChatGPT Plugin Integration Guide — L3303](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-3303-0) (line 3303, col 0, score 0.89)
+- [Obsidian ChatGPT Plugin Integration — L2919](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-2919-0) (line 2919, col 0, score 0.89)
+- [obsidian-ignore-node-modules-regex — L4487](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-4487-0) (line 4487, col 0, score 0.89)
+- [Obsidian Templating Plugins Integration Guide — L4525](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-4525-0) (line 4525, col 0, score 0.89)
+- [ParticleSimulationWithCanvasAndFFmpeg — L3196](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-3196-0) (line 3196, col 0, score 0.89)
+- [Per-Domain Policy System for JS Crawler — L4693](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-4693-0) (line 4693, col 0, score 0.89)
+- [Cross-Language Runtime Polymorphism — L212](cross-language-runtime-polymorphism.md#^ref-c34c36a6-212-0) (line 212, col 0, score 0.88)
+- [Promethean-native config design — L305](promethean-native-config-design.md#^ref-ab748541-305-0) (line 305, col 0, score 0.88)
+- [Eidolon-Field-Optimization — L50](eidolon-field-optimization.md#^ref-40e05c14-50-0) (line 50, col 0, score 0.88)
+- [Local-Only-LLM-Workflow — L129](local-only-llm-workflow.md#^ref-9a8ab57e-129-0) (line 129, col 0, score 0.88)
+- [Ghostly Smoke Interference — L40](ghostly-smoke-interference.md#^ref-b6ae7dfa-40-0) (line 40, col 0, score 0.88)
+- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.87)
+- [Cross-Target Macro System in Sibilant — L150](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-150-0) (line 150, col 0, score 0.87)
+- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.87)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L400](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-400-0) (line 400, col 0, score 0.87)
+- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.87)
+- [Docops Feature Updates — L159](docops-feature-updates.md#^ref-2792d448-159-0) (line 159, col 0, score 0.87)
+- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.87)
+- [Performance-Optimized-Polyglot-Bridge — L171](performance-optimized-polyglot-bridge.md#^ref-f5579967-171-0) (line 171, col 0, score 0.86)
+- [TypeScript Patch for Tool Calling Support — L160](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-160-0) (line 160, col 0, score 0.86)
+- [Recursive Prompt Construction Engine — L147](recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0) (line 147, col 0, score 0.86)
+- [Shared Package Structure — L188](shared-package-structure.md#^ref-66a72fc3-188-0) (line 188, col 0, score 0.86)
+- [prom ui bootstrap — L442](promethean-web-ui-setup.md#^ref-bc5172ca-442-0) (line 442, col 0, score 0.86)
+- [i3-config-validation-methods — L28](i3-config-validation-methods.md#^ref-d28090ac-28-0) (line 28, col 0, score 0.86)
+- [Lisp-Compiler-Integration — L521](lisp-compiler-integration.md#^ref-cfee6d36-521-0) (line 521, col 0, score 0.86)
+- [pm2-orchestration-patterns — L217](pm2-orchestration-patterns.md#^ref-51932e7b-217-0) (line 217, col 0, score 0.86)
+- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.86)
+- [Matplotlib Animation with Async Execution — L16](matplotlib-animation-with-async-execution.md#^ref-687439f9-16-0) (line 16, col 0, score 0.86)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L401](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-401-0) (line 401, col 0, score 0.86)
+- [Universal Lisp Interface — L187](universal-lisp-interface.md#^ref-b01856b4-187-0) (line 187, col 0, score 0.86)
+- [set-assignment-in-lisp-ast — L148](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0) (line 148, col 0, score 0.86)
+- [markdown-to-org-transpiler — L272](markdown-to-org-transpiler.md#^ref-ab54cdd8-272-0) (line 272, col 0, score 0.86)
+- [compiler-kit-foundations — L360](compiler-kit-foundations.md#^ref-01b21543-360-0) (line 360, col 0, score 0.85)
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.85)
+- [State Snapshots API and Transactional Projector — L303](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0) (line 303, col 0, score 0.85)
+- [layer-1-uptime-diagrams — L129](layer-1-uptime-diagrams.md#^ref-4127189a-129-0) (line 129, col 0, score 0.85)
+- [Vectorial Exception Descent — L95](vectorial-exception-descent.md#^ref-d771154e-95-0) (line 95, col 0, score 0.85)
+- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.85)
+- [Promethean Agent DSL TS Scaffold — L818](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-818-0) (line 818, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

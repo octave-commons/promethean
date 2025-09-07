@@ -1,5 +1,5 @@
 ---
-uuid: a5fb863a-c6dd-48e1-8916-718b70b65434
+uuid: 19515f74-9865-4451-b92c-f3ba6fe85871
 created_at: prom-lib-rate-limiters-and-replay-api.md
 filename: prom-lib-rate-limiters-and-replay-api
 title: prom-lib-rate-limiters-and-replay-api
@@ -654,3 +654,70 @@ Want **Part 5**? I can push: ^ref-aee4718b-384-0 ^ref-aee4718b-392-0
 * **Rebalance hooks** for consumer groups,
 * **Schema registry lite** (zod validators per topic + evolution),
 * and a **Changelog projector** (topic → materialized Mongo collection with upsert/unique constraints).
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Docops Feature Updates](docops-feature-updates.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [graph-ds](graph-ds.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [Unique Concepts](unique-concepts.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
+- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
+- [Creative Moments](creative-moments.md)
+- [Duck's Attractor States](ducks-attractor-states.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [schema-evolution-workflow](schema-evolution-workflow.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
+- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+## Sources
+- [typed-struct-compiler — L1016](typed-struct-compiler.md#^ref-78eeedf7-1016-0) (line 1016, col 0, score 1)
+- [Unique Concepts — L175](unique-concepts.md#^ref-ed6f3fc9-175-0) (line 175, col 0, score 1)
+- [Unique Info Dump Index — L1221](unique-info-dump-index.md#^ref-30ec3ba6-1221-0) (line 1221, col 0, score 1)
+- [zero-copy-snapshots-and-workers — L1058](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1058-0) (line 1058, col 0, score 1)
+- [Canonical Org-Babel Matplotlib Animation Template — L515](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-515-0) (line 515, col 0, score 1)
+- [Creative Moments — L251](creative-moments.md#^ref-10d98225-251-0) (line 251, col 0, score 1)
+- [Duck's Attractor States — L559](ducks-attractor-states.md#^ref-13951643-559-0) (line 559, col 0, score 1)
+- [eidolon-field-math-foundations — L1033](eidolon-field-math-foundations.md#^ref-008f2ac0-1033-0) (line 1033, col 0, score 1)
+- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
+- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
+- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
+- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
+- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
+- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
+- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
+- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
+- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
+- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
+- [Unique Info Dump Index — L217](unique-info-dump-index.md#^ref-30ec3ba6-217-0) (line 217, col 0, score 0.93)
+- [schema-evolution-workflow — L710](schema-evolution-workflow.md#^ref-d8059b6a-710-0) (line 710, col 0, score 0.93)
+- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.88)
+- [polymorphic-meta-programming-engine — L190](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-190-0) (line 190, col 0, score 0.87)
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.87)
+- [i3-config-validation-methods — L28](i3-config-validation-methods.md#^ref-d28090ac-28-0) (line 28, col 0, score 0.87)
+- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.87)
+- [compiler-kit-foundations — L590](compiler-kit-foundations.md#^ref-01b21543-590-0) (line 590, col 0, score 0.87)
+- [Local-Only-LLM-Workflow — L129](local-only-llm-workflow.md#^ref-9a8ab57e-129-0) (line 129, col 0, score 0.86)
+- [Docops Feature Updates — L174](docops-feature-updates-3.md#^ref-cdbd21ee-174-0) (line 174, col 0, score 0.86)
+- [Pipeline Enhancements — L170](pipeline-enhancements.md#^ref-e2135d9f-170-0) (line 170, col 0, score 0.86)
+- [heartbeat-fragment-demo — L264](heartbeat-fragment-demo.md#^ref-dd00677a-264-0) (line 264, col 0, score 0.86)
+- [obsidian-ignore-node-modules-regex — L223](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-223-0) (line 223, col 0, score 0.86)
+- [Post-Linguistic Transhuman Design Frameworks — L239](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-239-0) (line 239, col 0, score 0.86)
+- [Promethean_Eidolon_Synchronicity_Model — L212](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-212-0) (line 212, col 0, score 0.86)
+- [Event Bus MVP — L260](event-bus-mvp.md#^ref-534fe91d-260-0) (line 260, col 0, score 0.85)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 0.85)
+- [set-assignment-in-lisp-ast — L148](set-assignment-in-lisp-ast.md#^ref-c5fba0a0-148-0) (line 148, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

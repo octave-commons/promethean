@@ -1,5 +1,5 @@
 ---
-uuid: c29a64c6-f5ea-49ca-91a1-0b590ca547ae
+uuid: 8d04810e-c4b7-44c1-96b2-5999520870fe
 created_at: eidolonfield.md
 filename: EidolonField
 title: EidolonField
@@ -116,10 +116,6 @@ references:
     score: 1
   - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
     line: 816
-    col: 0
-    score: 1
-  - uuid: 4c59307f-a143-4272-85e6-abc35e14b95c
-    line: 3
     col: 0
     score: 1
   - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
@@ -509,3 +505,55 @@ Would you like me to: ^ref-49d1e1e5-234-0
  ^ref-49d1e1e5-241-0
  ^ref-49d1e1e5-242-0 ^ref-49d1e1e5-243-0
 We now have the _nervous tissue_. Let’s see it fire.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Docops Feature Updates](docops-feature-updates.md)
+- [Docops Feature Updates](docops-feature-updates.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [graph-ds](graph-ds.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
+- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
+- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
+- [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
+- [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
+## Sources
+- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
+- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
+- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
+- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
+- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
+- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
+- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
+- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
+- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
+- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
+- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.88)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 0.86)
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.86)
+- [Migrate to Provider-Tenant Architecture — L2808](migrate-to-provider-tenant-architecture.md#^ref-54382370-2808-0) (line 2808, col 0, score 0.86)
+- [Per-Domain Policy System for JS Crawler — L4442](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-4442-0) (line 4442, col 0, score 0.86)
+- [Performance-Optimized-Polyglot-Bridge — L5538](performance-optimized-polyglot-bridge.md#^ref-f5579967-5538-0) (line 5538, col 0, score 0.86)
+- [Post-Linguistic Transhuman Design Frameworks — L2580](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-2580-0) (line 2580, col 0, score 0.86)
+- [Promethean Infrastructure Setup — L6239](promethean-infrastructure-setup.md#^ref-6deed6ac-6239-0) (line 6239, col 0, score 0.86)
+- [Pure TypeScript Search Microservice — L4798](pure-typescript-search-microservice.md#^ref-d17d3a96-4798-0) (line 4798, col 0, score 0.86)
+- [Unique Info Dump Index — L2718](unique-info-dump-index.md#^ref-30ec3ba6-2718-0) (line 2718, col 0, score 0.86)
+- [Eidolon-Field-Optimization — L50](eidolon-field-optimization.md#^ref-40e05c14-50-0) (line 50, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
