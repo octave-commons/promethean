@@ -155,7 +155,25 @@ test.serial(
     t.is(res!.status(), 200);
     const json = await res!.json();
     t.true(Array.isArray(json.tree));
-    const all = JSON.stringify(json.tree);
-    t.true(all.includes("hack.md"));
+    function findWithMeta(nodes: any[]): any | null {
+      for (const n of nodes) {
+        if (
+          n.type === "file" &&
+          typeof n.size === "number" &&
+          typeof n.fmLen === "number"
+        ) {
+          return n;
+        }
+        if (Array.isArray(n.children)) {
+          const r = findWithMeta(n.children);
+          if (r) return r;
+        }
+      }
+      return null;
+    }
+    const found = findWithMeta(json.tree);
+    t.truthy(found);
+    t.is(typeof found!.size, "number");
+    t.is(typeof found!.fmLen, "number");
   },
 );
