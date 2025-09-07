@@ -617,10 +617,10 @@ refT
     M packages/docops/src/dev-ui.ts
 
 tool running...
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/dev-ui.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/dev-ui.ts"})
 
 tool success, duration: 0ms
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/dev-ui.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/dev-ui.ts"})
 
 {"file:///home/err/devel/promethean/packages/docops/src/dev-ui.ts": []}
 
@@ -837,29 +837,29 @@ string }
     M packages/docops/src/03-query.ts
 
 tool running...
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/03-query.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/03-query.ts"})
 
 tool failed, duration: 1ms
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/03-query.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/03-query.ts"})
 
 Error: Failed to get diagnostics: File packages/docops/src/03-query.ts is not open. Please
 open the file with open_document before requesting diagnostics.
 
 tool running...
-lsp-mcp.open_document({"file_path":"packages/docops/
+ts-ls-lsp.open_document({"file_path":"packages/docops/
 src/03-query.ts","language_id":"typescript"})
 
 tool success, duration: 1ms
-lsp-mcp.open_document({"file_path":"packages/docops/
+ts-ls-lsp.open_document({"file_path":"packages/docops/
 src/03-query.ts","language_id":"typescript"})
 
 File successfully opened: packages/docops/src/03-query.ts
 
 tool running...
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/03-query.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/03-query.ts"})
 
 tool success, duration: 0ms
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/03-query.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/03-query.ts"})
 
 {"file:///home/err/devel/promethean/packages/docops/src/03-query.ts": []}
 
@@ -892,29 +892,29 @@ Promise.all(files.map(processFile)))
     M packages/docops/src/01-frontmatter.ts
 
 tool running...
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/01-frontmatter.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/01-frontmatter.ts"})
 
 tool failed, duration: 0ms
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/01-frontmatter.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/01-frontmatter.ts"})
 
 Error: Failed to get diagnostics: File packages/docops/src/01-frontmatter.ts is not open.
 Please open the file with open_document before requesting diagnostics.
 
 tool running...
-lsp-mcp.open_document({"file_path":"packages/docops/
+ts-ls-lsp.open_document({"file_path":"packages/docops/
 src/01-frontmatter.ts","language_id":"typescript"})
 
 tool success, duration: 0ms
-lsp-mcp.open_document({"file_path":"packages/docops/
+ts-ls-lsp.open_document({"file_path":"packages/docops/
 src/01-frontmatter.ts","language_id":"typescript"})
 
 File successfully opened: packages/docops/src/01-frontmatter.ts
 
 tool running...
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/01-frontmatter.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/01-frontmatter.ts"})
 
 tool success, duration: 0ms
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/01-frontmatter.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/01-frontmatter.ts"})
 
 {"file:///home/err/devel/promethean/packages/docops/src/01-frontmatter.ts": [{"range":
 {"start": {"line": 112, "character": 10}, "end": {"line": 112, "character": 20}}, "message":
@@ -957,29 +957,29 @@ total }
     M packages/docops/src/04-relations.ts
 
 tool running...
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/04-relations.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/04-relations.ts"})
 
 tool failed, duration: 0ms
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/04-relations.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/04-relations.ts"})
 
 Error: Failed to get diagnostics: File packages/docops/src/04-relations.ts is not open.
 Please open the file with open_document before requesting diagnostics.
 
 tool running...
-lsp-mcp.open_document({"file_path":"packages/docops/
+ts-ls-lsp.open_document({"file_path":"packages/docops/
 src/04-relations.ts","language_id":"typescript"})
 
 tool success, duration: 1ms
-lsp-mcp.open_document({"file_path":"packages/docops/
+ts-ls-lsp.open_document({"file_path":"packages/docops/
 src/04-relations.ts","language_id":"typescript"})
 
 File successfully opened: packages/docops/src/04-relations.ts
 
 tool running...
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/04-relations.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/04-relations.ts"})
 
 tool success, duration: 0ms
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/04-relations.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/04-relations.ts"})
 
 {"file:///home/err/devel/promethean/packages/docops/src/04-relations.ts": [{"range":
 {"start": {"line": 140, "character": 6}, "end": {"line": 140, "character": 16}}, "message":
@@ -1011,29 +1011,29 @@ computeAnchorsByPath(list,
     M packages/docops/src/05-footers.ts
 
 tool running...
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/05-footers.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/05-footers.ts"})
 
 tool failed, duration: 0ms
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/05-footers.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/05-footers.ts"})
 
 Error: Failed to get diagnostics: File packages/docops/src/05-footers.ts is not open. Please
 open the file with open_document before requesting diagnostics.
 
 tool running...
-lsp-mcp.open_document({"file_path":"packages/docops/
+ts-ls-lsp.open_document({"file_path":"packages/docops/
 src/05-footers.ts","language_id":"typescript"})
 
 tool success, duration: 1ms
-lsp-mcp.open_document({"file_path":"packages/docops/
+ts-ls-lsp.open_document({"file_path":"packages/docops/
 src/05-footers.ts","language_id":"typescript"})
 
 File successfully opened: packages/docops/src/05-footers.ts
 
 tool running...
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/05-footers.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/05-footers.ts"})
 
 tool success, duration: 0ms
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/05-footers.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/05-footers.ts"})
 
 {"file:///home/err/devel/promethean/packages/docops/src/05-footers.ts": [{"range": {"start":
 {"line": 116, "character": 30}, "end": {"line": 116, "character": 38}}, "message": "This may
@@ -1137,10 +1137,10 @@ percent
     M packages/docops/src/dev-ui.ts
 
 tool running...
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/dev-ui.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/dev-ui.ts"})
 
 tool success, duration: 1ms
-lsp-mcp.get_diagnostics({"file_path":"packages/docops/src/dev-ui.ts"})
+ts-ls-lsp.get_diagnostics({"file_path":"packages/docops/src/dev-ui.ts"})
 
 {"file:///home/err/devel/promethean/packages/docops/src/dev-ui.ts": []}
 
