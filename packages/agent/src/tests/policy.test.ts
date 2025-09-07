@@ -3,12 +3,12 @@ import test from 'ava';
 import { makePolicy, NotAllowedError } from '@promethean/security';
 
 const policy = makePolicy({
-  providerAccess: { allowPatterns: ['services/ts/discord-rest/'] },
+  providerAccess: { allowPatterns: ['services/ts/discord/'] },
 });
 
 test('provider caps allowed for access agents', async (t) => {
   await t.notThrowsAsync(() =>
-    policy.checkCapability('services/ts/discord-rest/', {
+    policy.checkCapability('services/ts/discord/', {
       kind: 'provider.rest.call',
       provider: 'discord',
       tenant: 'duck',
@@ -20,7 +20,7 @@ test('provider caps allowed for access agents', async (t) => {
 test('provider caps denied for others', async (t) => {
   await t.throwsAsync(
     () =>
-      policy.checkCapability('services/ts/discord-message-indexer/', {
+      policy.checkCapability('services/ts/discord-other/', {
         kind: 'provider.rest.call',
         provider: 'discord',
         tenant: 'duck',
@@ -32,11 +32,11 @@ test('provider caps denied for others', async (t) => {
 
 test('provider caps do not overmatch similar prefixes', async (t) => {
   const pol = makePolicy({
-    providerAccess: { allowPatterns: ['services/ts/discord-rest/'] },
+    providerAccess: { allowPatterns: ['services/ts/discord/'] },
   });
   await t.throwsAsync(
     () =>
-      pol.checkCapability('services/ts/discord-rest-bad/', {
+      pol.checkCapability('services/ts/discord-bad/', {
         kind: 'provider.rest.call',
         provider: 'discord',
         tenant: 'duck',

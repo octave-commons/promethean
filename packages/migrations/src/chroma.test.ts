@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { makeChromaWrapper } from './chroma.js';
+import { makeChromaWrapper } from '@promethean/embedding';
 
 test('chroma wrapper upsert/delete/count', async (t) => {
     const c = makeChromaWrapper({

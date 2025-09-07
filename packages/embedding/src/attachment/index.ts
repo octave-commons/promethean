@@ -1,6 +1,6 @@
-import { makeDeterministicEmbedder } from "@promethean/migrations/embedder.js";
+import { makeDeterministicEmbedder } from "../embedder.js";
 import { fileBackedRegistry } from "@promethean/platform/provider-registry.js";
-import { makeChromaWrapper } from "@promethean/migrations/chroma.js";
+import { makeChromaWrapper } from "../chroma.js";
 
 // TODO: This is a stub implementation that just embeds the URL of the attachment.
 // In the future we should download the attachment and embed the actual content.
