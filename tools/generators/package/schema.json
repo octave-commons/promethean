@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "title": "Package generator",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Package name",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    }
+  },
+  "required": ["name"]
+}
