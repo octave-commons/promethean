@@ -12,7 +12,7 @@
             "path": "../event"
         },
         {
-            "path": "../rate"
+            "path": "../monitoring"
         }
     ]
 }
