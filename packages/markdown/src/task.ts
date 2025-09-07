@@ -19,12 +19,13 @@ export type TaskDoc = {
 };
 
 export class MarkdownTask {
-    private readonly original: string;
+    private readonly _original: string;
     private readonly tree: any; // MDAST
     private frontmatter: TaskFrontmatter;
 
     private constructor(original: string, tree: any, fm: TaskFrontmatter) {
-        this.original = original;
+        this._original = original;
+        void this._original;
         this.tree = tree;
         this.frontmatter = fm;
     }

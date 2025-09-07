@@ -62,9 +62,8 @@ const TaskSchema = z.object({
 });
 
 function bundleKey(i: SonarIssue, mode: string, depth: number) {
-  const comp = i.component.includes(":")
-    ? i.component.split(":")[1]
-    : i.component;
+  const parts = i.component.split(":");
+  const comp = (parts.length > 1 ? parts[1] : parts[0])!;
   const pref = pathPrefix(comp, depth);
   if (mode === "rule") return `rule:${i.rule}`;
   if (mode === "prefix") return `prefix:${pref}`;
@@ -79,12 +78,16 @@ function bundleTitle(k: string) {
 }
 
 async function main() {
+  const inPath = String(args["--in"]);
+  const outPath = String(args["--out"]);
+  const model = String(args["--model"]);
+
   const { issues, project } = JSON.parse(
-    await (await fetch("file://" + process.cwd() + "/" + args["--in"])).text(),
+    await (await fetch("file://" + process.cwd() + "/" + inPath)).text(),
   ) as FetchPayload;
 
   const depth = Number(args["--prefix-depth"]);
-  const mode = args["--group-by"];
+  const mode = String(args["--group-by"]);
   const groups = new Map<string, SonarIssue[]>();
   for (const it of issues) {
     const k = bundleKey(it, mode, depth);
@@ -125,9 +128,8 @@ async function main() {
     const bullets = b.issues
       .slice(0, 30)
       .map((i) => {
-        const file = i.component.includes(":")
-          ? i.component.split(":")[1]
-          : i.component;
+        const parts = i.component.split(":");
+        const file = (parts.length > 1 ? parts[1] : parts[0])!;
         return `- [${i.severity}] ${i.type} ${i.rule} — ${file}${
           i.line ? ":" + i.line : ""
         } — ${i.message}`;
@@ -157,10 +159,7 @@ async function main() {
 
     let obj: any;
     try {
-      obj = await ollamaJSON(
-        args["--model"],
-        `SYSTEM:\n${sys}\n\nUSER:\n${user}`,
-      );
+      obj = await ollamaJSON(model, `SYSTEM:\n${sys}\n\nUSER:\n${user}`);
       const parsed = TaskSchema.safeParse(obj);
       if (!parsed.success) throw new Error("invalid LLM JSON");
     } catch {
@@ -191,9 +190,8 @@ async function main() {
     }
 
     const refs = b.issues.map((i) => {
-      const file = i.component.includes(":")
-        ? i.component.split(":")[1]
-        : i.component;
+      const parts = i.component.split(":");
+      const file = (parts.length > 1 ? parts[1] : parts[0])!;
       return { key: i.key, file, line: i.line };
     });
 
@@ -214,8 +212,8 @@ async function main() {
     plannedAt: new Date().toISOString(),
     project,
   };
-  await writeJSON(args["--out"], out);
-  console.log(`sonarflow: planned ${tasks.length} tasks → ${args["--out"]}`);
+  await writeJSON(outPath, out);
+  console.log(`sonarflow: planned ${tasks.length} tasks → ${outPath}`);
 }
 
 main().catch((e) => {
