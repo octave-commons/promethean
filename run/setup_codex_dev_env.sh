@@ -36,10 +36,38 @@ apt-get install -y build-essential python3 make g++ pkg-config
 apt-get install -y git ca-certificates
 apt-get install -y jq moreutils ripgrep
 bash ./run/install_gyp.sh
-bash ./run/setup_playwright.sh
 
 # pre-commit install
 corepack enable
 corepack prepare pnpm@9.0.0 --activate
 pnpm -v
 pnpm install --no-frozen-lockfile --reporter=append-only
+bash ./run/setup_playwright.sh
+
+# install ollama
+curl -fsSL https://ollama.com/install.sh | sh
+
+# install chroma
+python3 -m pip install --user chromadb
+# ensure user bin on PATH for chromadb CLI
+export PATH="$HOME/.local/bin:$PATH"
+
+# start services if not already running
+command -v chromadb >/dev/null || { echo "chromadb CLI not found on PATH"; exit 1; }
+
+pgrep -f 'chromadb run --host 127.0.0.1 --port 8000' >/dev/null || nohup chromadb run --host 127.0.0.1 --port 8000 >/dev/null 2>&1 &
+pgrep -f 'ollama serve' >/dev/null || nohup ollama serve >/dev/null 2>&1 &
+
+# wait for health
+# wait for health (60s timeout each)
+if ! timeout 60s bash -c 'until curl -fsS http://127.0.0.1:8000/api/v1/heartbeat >/dev/null; do sleep 1; done'; then
+  echo "ChromaDB failed to become healthy in 60s" >&2
+  exit 1
+fi
+if ! timeout 60s bash -c 'until curl -fsS http://127.0.0.1:11434/api/tags >/dev/null; do sleep 1; done'; then
+  echo "Ollama daemon failed to become ready in 60s" >&2
+  exit 1
+fi
+# pull models once daemon is ready
+ollama pull qwen2.5:0.5b
+ollama pull nomic-embed-text
