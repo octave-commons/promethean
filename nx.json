@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/nx.json",
+  "npmScope": "promethean",
+  "workspaceLayout": {
+    "appsDir": "services",
+    "libsDir": "packages"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "test", "lint", "typecheck"]
+      }
+    }
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["{projectRoot}/dist"]
+    },
+    "test": {
+      "dependsOn": ["build"]
+    }
+  },
+  "projects": {}
+}

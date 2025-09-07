@@ -112,3 +112,76 @@ test.serial("relations honors refMin/refMax and maxReferences", async (t) => {
     t.true(fm.references.every((r: any) => r.score <= 0.95));
   });
 });
+
+test.serial("relations applies default refMin/refMax", async (t) => {
+  await withTmp(async (tmp) => {
+    const docsDir = path.join(tmp, "docs");
+    await fs.mkdir(docsDir, { recursive: true });
+    const aFile = path.join(docsDir, "A.md");
+    const bFile = path.join(docsDir, "B.md");
+    await fs.writeFile(aFile, matter.stringify("# A\nHello.", {}), "utf8");
+    await fs.writeFile(bFile, matter.stringify("# B\nWorld.", {}), "utf8");
+
+    const chunksByUuid = new Map<string, any[]>();
+    const aChunks = parseMarkdownChunks("# A\nHello.").map((c, i) => ({
+      ...c,
+      id: `a:${i}`,
+      docUuid: "a",
+      docPath: aFile,
+    }));
+    const bChunks = parseMarkdownChunks("# B\nWorld.").map((c, i) => ({
+      ...c,
+      id: `b:${i}`,
+      docUuid: "b",
+      docPath: bFile,
+    }));
+    chunksByUuid.set("a", aChunks);
+    chunksByUuid.set("b", bChunks);
+
+    const docsKV = makeKV();
+    await docsKV.put("a", { path: aFile, title: "A" });
+    await docsKV.put("b", { path: bFile, title: "B" });
+    const chunksKV = makeKV();
+    await chunksKV.put("a", aChunks);
+    await chunksKV.put("b", bChunks);
+
+    // qhits include one above 1.0 and one below default refMin (0.3)
+    const qhits = new Map<string, any[]>();
+    qhits.set("a:0", [
+      { id: "b:0", docUuid: "b", startLine: 1, startCol: 1, score: 1.1 },
+      { id: "b:0", docUuid: "b", startLine: 1, startCol: 1, score: 0.4 },
+    ]);
+
+    const db = {
+      root: {
+        sublevel() {
+          return {
+            async get(k: string) {
+              return qhits.get(k) || [];
+            },
+          };
+        },
+      },
+      docs: docsKV,
+      chunks: chunksKV,
+    } as any;
+
+    await runRelations(
+      {
+        docsDir,
+        docThreshold: 0.0,
+        refThreshold: 0.3,
+      },
+      db,
+    );
+
+    const gm = matter.read(aFile);
+    const fm = gm.data || {};
+    t.true(Array.isArray(fm.references));
+    t.deepEqual(
+      fm.references.map((r: any) => r.score),
+      [0.4],
+    );
+    t.true(fm.references.every((r: any) => r.score! <= 1 && r.score! >= 0.3));
+  });
+});

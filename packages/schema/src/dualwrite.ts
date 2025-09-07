@@ -1,5 +1,5 @@
 // loosen typing to avoid cross-package type coupling
-import { SchemaRegistry } from './registry';
+import { SchemaRegistry } from './registry.js';
 
 export function withDualWrite(bus: any, reg: SchemaRegistry): any {
     return {
