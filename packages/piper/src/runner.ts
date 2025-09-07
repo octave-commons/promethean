@@ -71,6 +71,7 @@ export async function runPipeline(
   const steps = topoSort(pipeline.steps);
   const state = await loadState(pipeline.name);
   const sem = semaphore(Math.max(1, opts.concurrency ?? 2));
+  const jsSem = semaphore(1);
 
   const results: StepResult[] = [];
   const runMap = new Map<string, Promise<void>>();
@@ -79,6 +80,7 @@ export async function runPipeline(
     // ensure deps completed
     for (const d of s.deps) await runMap.get(d);
 
+    if (s.js) await jsSem.take();
     await sem.take();
     try {
       const cwd = path.resolve(s.cwd || ".");
@@ -165,6 +167,7 @@ export async function runPipeline(
       );
     } finally {
       sem.release();
+      if (s.js) jsSem.release();
     }
   };
 

@@ -69,8 +69,8 @@ export async function runJSFunction(
   let stdout = "";
   let stderr = "";
 
-  const origStdout = process.stdout.write.bind(process.stdout);
-  const origStderr = process.stderr.write.bind(process.stderr);
+  const origStdout = process.stdout.write;
+  const origStderr = process.stderr.write;
 
   (process.stdout.write as any) = (chunk: any) => {
     stdout += typeof chunk === "string" ? chunk : String(chunk);
@@ -87,6 +87,18 @@ export async function runJSFunction(
     process.env[k] = v;
   }
 
+  let cleaned = false;
+  const cleanup = () => {
+    if (cleaned) return;
+    cleaned = true;
+    (process.stdout.write as any) = origStdout;
+    (process.stderr.write as any) = origStderr;
+    for (const [k, v] of Object.entries(origEnv)) {
+      if (v === undefined) delete process.env[k];
+      else process.env[k] = v;
+    }
+  };
+
   const run = async () => {
     try {
       const res = await fn(args);
@@ -96,26 +108,25 @@ export async function runJSFunction(
       stderr += e?.stack ?? String(e);
       return { code: 1, stdout, stderr } as const;
     } finally {
-      (process.stdout.write as any) = origStdout;
-      (process.stderr.write as any) = origStderr;
-      for (const [k, v] of Object.entries(origEnv)) {
-        if (v === undefined) delete process.env[k];
-        else process.env[k] = v;
-      }
+      cleanup();
     }
   };
 
   if (!timeoutMs) return run();
 
-  let timer: NodeJS.Timeout;
-  return Promise.race([
-    run(),
-    new Promise<{ code: number | null; stdout: string; stderr: string }>((resolve) => {
+  let timer: NodeJS.Timeout | undefined;
+  const timeoutPromise = new Promise<{ code: number | null; stdout: string; stderr: string }>(
+    (resolve) => {
       timer = setTimeout(() => {
+        cleanup();
         resolve({ code: 124, stdout, stderr: stderr + "timeout" });
       }, timeoutMs);
-    }),
-  ]).finally(() => clearTimeout(timer));
+    },
+  );
+
+  return Promise.race([run(), timeoutPromise]).finally(() => {
+    if (timer) clearTimeout(timer);
+  });
 }
 
 export async function runTSModule(
