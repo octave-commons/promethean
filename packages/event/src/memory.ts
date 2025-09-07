@@ -87,7 +87,7 @@ class Subscription {
     draining = false;
     inFlightId?: string;
     attemptById = new Map<string, number>();
-    retryTimer?: NodeJS.Timeout;
+    retryTimer?: ReturnType<typeof setTimeout>;
 
     constructor(topic: string, group: string, handler: Handler, opts: SubscribeOptions) {
         this.topic = topic;
@@ -129,11 +129,6 @@ export class InMemoryEventBus implements EventBus {
             const head = await this.store.scan(topic, { ts, limit: 1 });
             if (head.length) {
                 // start before the first >= ts
-                const _before = await this.store.scan(topic, {
-                    afterId: undefined,
-                    ts: undefined,
-                    limit: 0,
-                });
                 // simpler: set no lastId and drain logic will find first >= ts
                 lastId = undefined;
             }

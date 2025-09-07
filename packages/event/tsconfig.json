@@ -5,7 +5,8 @@
         "outDir": "dist",
         "composite": true,
         "declaration": true,
-        "exactOptionalPropertyTypes": false
+        "exactOptionalPropertyTypes": false,
+        "types": ["node", "ava"]
     },
     "include": ["src/**/*"],
     "references": []

@@ -10,9 +10,10 @@ export function parseArgs(defaults: Record<string, string>) {
   const out = { ...defaults };
   const a = process.argv.slice(2);
   for (let i = 0; i < a.length; i++) {
-    const k = a[i];
+    const k = a[i] ?? "";
     if (!k.startsWith("--")) continue;
-    const v = a[i + 1] && !a[i + 1].startsWith("--") ? a[++i] : "true";
+    const next = a[i + 1] ?? "";
+    const v = next && !next.startsWith("--") ? a[++i] ?? "true" : "true";
     out[k] = v;
   }
   return out;
