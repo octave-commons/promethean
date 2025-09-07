@@ -431,8 +431,13 @@ async function readMaybe(p: string) {
   }
 }
 
-function relativeToPkgReadmeLink(_fromFolder: string, toFolder: string) {
-  return `../${toFolder}/README.md`.replace(/\\/g, "/");
+function relativeToPkgReadmeLink(fromFolder: string, toFolder: string) {
+  return path
+    .relative(
+      path.join(OUT_ROOT, fromFolder),
+      path.join(OUT_ROOT, toFolder, "README.md"),
+    )
+    .replace(/\\/g, "/");
 }
 
 /* ---------- Mermaid builders ---------- */
