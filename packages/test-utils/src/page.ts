@@ -9,6 +9,7 @@ export type Deps = {
     baseUrl: string | undefined;
     url: (path?: string) => string;
     pageGoto: PageGoto;
+    page: Page;
 };
 
 export type PageTestFn = (t: ExecutionContext, deps: Deps) => Promise<void>;
@@ -23,7 +24,7 @@ export const withPage: Macro<[{ baseUrl?: string | BaseUrlSupplier }, PageTestFn
         const pageGoto: PageGoto = (path = '/') => page.goto(url(path), { waitUntil: 'domcontentloaded' });
 
         try {
-            await fn(t, { baseUrl: supplied, url, pageGoto });
+            await fn(t, { baseUrl: supplied, url, pageGoto, page });
         } finally {
             await close();
         }
