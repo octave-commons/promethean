@@ -138,12 +138,14 @@ export async function runPipeline(
           ? s.js.module
           : path.resolve(cwd, s.js.module);
         const mod = await import(modPath);
-        const fn =
-          (s.js.export && (mod as any)[s.js.export]) ||
-          (mod as any).default ||
-          mod;
+        const exportName = s.js.export ?? "default";
+        const fn = (mod as any)[exportName];
+        if (typeof fn !== "function") {
+          throw new Error(
+            `JS step '${s.id}': export '${exportName}' is not a function.`,
+          );
+        }
         execRes = await runJSFunction(fn, s.js.args ?? {}, s.env, s.timeoutMs);
-      }
 
       const endedAt = new Date().toISOString();
       const out: StepResult = {
