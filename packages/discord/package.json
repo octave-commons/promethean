@@ -15,7 +15,9 @@
     "./dist/*": "./dist/*",
     "./*": "./dist/*"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
@@ -29,7 +31,7 @@
     "@discordjs/voice": "^0.18.0",
     "@promethean/agent": "workspace:*",
     "@promethean/effects": "workspace:*",
-    "@promethean/embeddings": "workspace:*",
+    "@promethean/embedding": "workspace:*",
     "@promethean/event": "workspace:*",
     "@promethean/legacy": "workspace:*",
     "@promethean/migrations": "workspace:*",

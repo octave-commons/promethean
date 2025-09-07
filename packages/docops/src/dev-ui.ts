@@ -76,6 +76,11 @@ await app.register(fastifyStatic, {
   decorateReply: false,
 });
 
+app.get("/health", async (_req, reply) => {
+  reply.header("content-type", "application/json");
+  return reply.send({ ok: true });
+});
+
 app.get("/", async (_req, reply) => {
   try {
     const html = await fs.readFile(path.join(UI_ROOT, "index.html"), "utf8");
@@ -536,8 +541,14 @@ if (WS_ENABLED) {
       const force = String(q.force || "false") === "true";
       const docT = Number(q.docT ?? "0.78");
       const refT = Number(q.refT ?? "0.85");
-      const refMin = q.refMin != null ? Number(q.refMin) : undefined;
-      const refMax = q.refMax != null ? Number(q.refMax) : undefined;
+      const refMin =
+        q.refMin != null && Number.isFinite(Number(q.refMin))
+          ? Number(q.refMin)
+          : refT;
+      const refMax =
+        q.refMax != null && Number.isFinite(Number(q.refMax))
+          ? Number(q.refMax)
+          : 1.0;
       const maxRelated =
         q.maxRelated != null ? Number(q.maxRelated) : undefined;
       const maxReferences =
@@ -632,8 +643,14 @@ app.get<{
   const force = String(q.force || "false") === "true";
   const docT = Number(q.docT ?? "0.78");
   const refT = Number(q.refT ?? "0.85");
-  const refMin = q.refMin != null ? Number(q.refMin) : undefined;
-  const refMax = q.refMax != null ? Number(q.refMax) : undefined;
+  const refMin =
+    q.refMin != null && Number.isFinite(Number(q.refMin))
+      ? Number(q.refMin)
+      : refT;
+  const refMax =
+    q.refMax != null && Number.isFinite(Number(q.refMax))
+      ? Number(q.refMax)
+      : 1.0;
   const maxRelated = q.maxRelated != null ? Number(q.maxRelated) : undefined;
   const maxReferences =
     q.maxReferences != null ? Number(q.maxReferences) : undefined;
