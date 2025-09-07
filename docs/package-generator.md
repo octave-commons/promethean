@@ -3,7 +3,7 @@
 Use the NX package generator to scaffold a new package that matches the `docops` layout.
 
 ```bash
-pnpm nx generate ./tools/generators/package --name my-lib
+pnpm nx generate ./tools:package --name my-lib
 ```
 
 This creates `packages/my-lib` with:
