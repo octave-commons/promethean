@@ -10,6 +10,12 @@ This repository contains a modular multi‑agent architecture. To start shared i
 pm2 start ecosystem.config.js
 ```
 
+When adding or removing packages with their own `ecosystem.config.js`, regenerate the consolidated configuration:
+
+```bash
+pnpm gen:ecosystem
+```
+
 Then start individual agents using their own ecosystem file. For Duck you would
 run:
 
