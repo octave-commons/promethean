@@ -16,9 +16,14 @@ export const StepSchema = z.object({
     export: z.string().default("default"),
     args: z.any().optional()
   }).optional(),
+  js: z.object({                    // import and run a JS function in-process
+    module: z.string(),
+    export: z.string().default("default"),
+    args: z.any().optional(),
+  }).optional(),
   args: z.array(z.string()).optional(),
   timeoutMs: z.number().optional()
-}).refine(s => !!(s.shell || s.node || s.ts), { message: "step must define shell|node|ts" });
+}).refine(s => !!(s.shell || s.node || s.ts || s.js), { message: "step must define shell|node|ts|js" });
 
 export const PipelineSchema = z.object({
   name: z.string().min(1),
