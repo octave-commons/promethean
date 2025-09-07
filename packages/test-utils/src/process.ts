@@ -107,7 +107,7 @@ export const startProcessWithPort = async (
         const r = rest.ready;
         if (!r) return r;
         if (r.kind === 'http' && typeof r.url === 'string' && port !== undefined) {
-            return { ...r, url: r.url.replace(':PORT', `:${port}`) } as typeof r;
+            return { ...r, url: r.url.replace('PORT', String(port)) } as typeof r;
         }
         if (r.kind === 'tcp' && port !== undefined) {
             return { ...r, port } as typeof r;
