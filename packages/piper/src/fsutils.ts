@@ -91,6 +91,26 @@ export async function runTSModule(
   });
 }
 
+export async function runJSFunction(
+  fn: (args: unknown) => unknown | Promise<unknown>,
+  args: unknown,
+) {
+  try {
+    const res = await fn(args as any);
+    return {
+      code: 0,
+      stdout: typeof res === "string" ? res : "",
+      stderr: "",
+    };
+  } catch (err: unknown) {
+    return {
+      code: 1,
+      stdout: "",
+      stderr: err instanceof Error ? err.message : String(err),
+    };
+  }
+}
+
 function runSpawn(
   cmd: string,
   opts: {
