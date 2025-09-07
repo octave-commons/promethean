@@ -8,7 +8,7 @@ test.afterEach(() => {
   process.argv = origArgv.slice();
 });
 
-test('parseArgs overrides defaults with CLI values', (t) => {
+test.serial('parseArgs overrides defaults with CLI values', (t) => {
   process.argv = ['node', 'test', '--foo', 'bar', '--flag'];
   const out = parseArgs({ '--foo': 'baz', '--flag': 'false' });
   t.is(out['--foo'], 'bar');
