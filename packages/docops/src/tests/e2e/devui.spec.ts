@@ -1,5 +1,6 @@
 import * as path from "node:path";
 import * as url from "node:url";
+import { promises as fs } from "node:fs";
 import { v4 as uuidv4 } from "uuid";
 
 import test from "ava";
@@ -11,6 +12,7 @@ const PKG_ROOT = path.resolve(
 );
 
 const DOC_FIXTURE_PATH = path.join(PKG_ROOT, "./fixtures/docs");
+const TMP_DB = path.join(PKG_ROOT, ".cache", `docops-test-${uuidv4()}`);
 const { getProc } = registerProcForFileWithPort(test, {
   cmd: "node",
   args: [
@@ -23,7 +25,7 @@ const { getProc } = registerProcForFileWithPort(test, {
     ":PORT", // placeholder
   ],
   cwd: PKG_ROOT,
-  env: { ...process.env },
+  env: { ...process.env, DOCOPS_DB: TMP_DB },
   stdio: "inherit",
   ready: {
     kind: "http",
@@ -36,6 +38,7 @@ const { getProc } = registerProcForFileWithPort(test, {
 
 test.after.always(async () => {
   await shutdown();
+  await fs.rm(TMP_DB, { recursive: true, force: true }).catch(() => {});
 });
 
 test(
