@@ -49,11 +49,6 @@ npm i -g node-gyp@latest
 # Find global npm prefix & binary path
 NPM_PREFIX=$(npm prefix -g)
 NODE_GYP_BIN="$NPM_PREFIX/lib/node_modules/node-gyp/bin/node-gyp.js"
-[ -f "$NODE_GYP_BIN" ] || die "node-gyp binary not found at $NODE_GYP_BIN"
-
-log "Pinning npm to use global node-gyp…"
-npm config set node_gyp "$NODE_GYP_BIN"
-
 #--- 6) Ensure npm global bin is on PATH for interactive shells ------------
 # npm honors env vars like NPM_CONFIG_* for config; PATH still matters for tools you run. :contentReference[oaicite:8]{index=8}
 NPM_BIN_DIR="$NPM_PREFIX/bin"
