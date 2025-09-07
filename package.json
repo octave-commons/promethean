@@ -64,7 +64,7 @@
     "zod": "3.25.76"
   },
   "devDependencies": {
-    "@nx/devkit": "^21.4.1",
+    "@nx/devkit": "21.4.1",
     "@playwright/test": "^1.55.0",
     "@promethean/test-utils": "workspace:*",
     "@types/jest": "30.0.0",
