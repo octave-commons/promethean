@@ -1,5 +1,5 @@
 // Using loose typing to avoid cross-package type coupling at build time
-import { dlqTopic } from './types';
+import { dlqTopic } from './types.js';
 
 export function withDLQ(bus: any, { maxAttempts = 5, group }: { maxAttempts?: number; group: string }) {
     return async function subscribeWithDLQ(topic: string, handler: (e: any) => Promise<void>, opts: any = {}) {

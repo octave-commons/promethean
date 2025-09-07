@@ -1,5 +1,5 @@
 // Loosen types to decouple cross-package declarations at build time
-import { dlqTopic } from './types';
+import { dlqTopic } from './types.js';
 
 export async function replayDLQ(
     store: any,

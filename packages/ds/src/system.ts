@@ -18,15 +18,12 @@ export type SystemCtx = {
     setIfChanged: <T>(e: Entity, c: ComponentType<T>, v: T) => void;
     carry: <T>(e: Entity, c: ComponentType<T>) => void;
     iter: World['iter']; // base iterator (for custom modes)
-    iterAll: <T extends any[]>(
-        ...cs: { [K in keyof T]: ComponentType<T[K]> }[]
-    ) => IterableIterator<[Entity, ...T]>;
+    iterAll: <T extends any[]>(...cs: { [K in keyof T]: ComponentType<T[K]> }[]) => IterableIterator<[Entity, ...T]>;
     iterPacked: <T extends any[]>(opts: {
         comps: { [K in keyof T]: ComponentType<T[K]> };
         block?: number;
     }) => IterableIterator<{ rows: number[]; cols: any[][] }>;
     entityIter: <T extends Record<string, ComponentType<any>>>(map: T) => IterableIterator<[Entity, ViewsOf<T>]>;
-
 };
 
 type ViewsOf<T extends Record<string, ComponentType<any>>> = {
@@ -130,6 +127,7 @@ export function makeStrictSystem(w: World, spec: SystemSpec) {
 }
 
 export function assertDisjointOwnership(systems: ReturnType<typeof makeStrictSystem>[], specs: SystemSpec[]) {
+    void systems;
     const owners = new Map<number, string>();
     for (const s of specs)
         for (const c of s.owns ?? []) {
@@ -156,6 +154,8 @@ export type NumericComponentSpec<T extends ArrayBufferView> = {
 };
 
 export function defineNumericComponent<T extends ArrayBufferView>(w: World, spec: NumericComponentSpec<T>) {
+    void w;
+    void spec;
     // Under the hood we still store arrays of values,
     // but for speed you can allocate backing SABs and slice them per row.
     // If you want full raw typed arrays per component, you can replace the column store
@@ -220,6 +220,7 @@ export function System(specIn: SystemSpec) {
 }
 
 export function EntityGroup(name: string, comps: ComponentType<any>[], w: World) {
+    void name;
     const q = w.makeQuery({ all: comps });
     return {
         spawn: () => {

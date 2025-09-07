@@ -60,13 +60,13 @@ export async function ensureTaskFile(tasksDir: string, filenameStem: string, id:
 }
 
 export async function ensureCardStatus(
-    board: MarkdownBoard,
-    columnName: string,
+    _board: MarkdownBoard,
+    _columnName: string,
     card: Card,
     statusHash: string,
 ): Promise<boolean> {
     const next = ensureStatusInTags(card, statusHash);
-    board.updateCard(card.id, { tags: next.tags });
+    _board.updateCard(card.id, { tags: next.tags });
     return true;
 }
 
@@ -84,8 +84,8 @@ export async function ensureCardLink(
 }
 
 export async function ensureTaskStatusForCard(
-    board: MarkdownBoard,
-    columnName: string,
+    _board: MarkdownBoard,
+    _columnName: string,
     card: Card,
     statusHash: string,
     tasksDir: string,
