@@ -7,14 +7,12 @@
     "moduleResolution": "Bundler",
     "baseUrl": ".",
     "paths": {
-      "@shared/js/*": ["../../js/*"]
+      "@shared/js/*": ["../../js/*"],
+      "@promethean/legacy/*": ["../legacy/*"]
     },
     "allowArbitraryExtensions": true
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"],
-  "references": [
-    { "path": "../embedding" },
-    { "path": "../persistence" }
-  ]
+  "references": [{ "path": "../embedding" }, { "path": "../persistence" }]
 }
