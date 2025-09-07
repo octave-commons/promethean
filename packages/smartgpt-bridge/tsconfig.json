@@ -13,6 +13,8 @@
       "@promethean/embedding": ["../embedding/dist/index"],
       "@promethean/embedding/*": ["../embedding/dist/*"]
     },
+    "composite": true,
+    "declaration": true,
     "tsBuildInfoFile": "./dist/.tsbuildinfo"
   },
   "include": ["./src/**/*.ts"],

@@ -11,7 +11,8 @@
       "@promethean/agent-ecs": ["../agent-ecs/dist/index"],
       "@promethean/agent-ecs/*": ["../agent-ecs/dist/*"],
       "@promethean/llm": ["../llm/dist/index"],
-      "@promethean/llm/*": ["../llm/dist/*"]
+      "@promethean/llm/*": ["../llm/dist/*"],
+      "@promethean/legacy/*": ["../legacy/*"]
     },
     "types": ["node"]
   },
