@@ -132,6 +132,7 @@ const sourceLines = (fm: Front, byUuid: ReadonlyMap<string, DocInfo>) =>
   Promise.all(
     (fm.references ?? []).map((r: Ref) => {
       const ref = byUuid.get(r.uuid);
+      if (!ref) return Promise.resolve<null>(null);
 
       const anchorP =
         ANCHOR_STYLE === "block"
