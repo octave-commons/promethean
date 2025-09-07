@@ -72,6 +72,53 @@ test.serial("pipeline supports shell and js steps", async (t) => {
   });
 });
 
+test.serial("js step reloads when dependency changes", async (t) => {
+  await withTmp(async (dir) => {
+    const prev = process.cwd();
+    process.chdir(dir);
+    try {
+      await fs.writeFile("helper.js", "export default () => 'one'\n", "utf8");
+      await fs.writeFile(
+        "mod.js",
+        "import helper from './helper.js';\nexport default () => helper();\n",
+        "utf8",
+      );
+      const cfg = {
+        pipelines: [
+          {
+            name: "demo",
+            steps: [
+              {
+                id: "js",
+                cwd: ".",
+                deps: [],
+                inputs: [],
+                outputs: [],
+                cache: "content",
+                js: { module: "./mod.js" },
+              },
+            ],
+          },
+        ],
+      };
+      const cfgPath = path.join(dir, "pipes.json");
+      await fs.writeFile(cfgPath, JSON.stringify(cfg), "utf8");
+      const first = await runPipeline(cfgPath, "demo", { concurrency: 1 });
+      const firstJs = first.find((r) => r.id === "js");
+      t.truthy(firstJs);
+      t.is(firstJs!.stdout?.trim(), "one");
+
+      await fs.writeFile("helper.js", "export default () => 'two'\n", "utf8");
+      const second = await runPipeline(cfgPath, "demo", { concurrency: 1 });
+      const secondJs = second.find((r) => r.id === "js");
+      t.truthy(secondJs);
+      t.is(secondJs!.stdout?.trim(), "two");
+    } finally {
+      process.chdir(prev);
+    }
+  });
+});
+
 test.serial("js step reloads module between runs", async (t) => {
   await withTmp(async (dir) => {
     const prev = process.cwd();
