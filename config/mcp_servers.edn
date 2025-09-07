@@ -28,6 +28,14 @@
           "/home/err/.volta/bin/typescript-language-server"
           "--stdio"]}
 
+  ;; compatibility alias for older configs
+  :lsp-mcp
+  {:command "npx"
+   :args ["tritlo/lsp-mcp"
+          "typescript"
+          "/home/err/.volta/bin/typescript-language-server"
+          "--stdio"]}
+
   ;; :sonarlint-lsp
   ;; {:command "npx"
   ;;  :args ["tritlo/lsp-mcp"
