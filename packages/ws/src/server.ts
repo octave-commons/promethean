@@ -19,6 +19,7 @@ export type WSGatewayOptions = {
 export function startWSGateway(bus: any, port: number, opts: WSGatewayOptions = {}) {
     const wss = new WebSocketServer({ port });
     const log = opts.log ?? (() => {});
+    void log;
     const ackTimeout = opts.ackTimeoutMs ?? 30_000;
     const maxInflight = opts.maxInflightPerSub ?? 100;
 

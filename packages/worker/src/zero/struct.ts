@@ -177,7 +177,6 @@ export function compileStruct<T extends StructInfo>(schema: T): StructLayout<Inf
             return;
         }
         if (info.kind === 'struct') {
-            const start = offset;
             let innerAlign = 1;
             for (const [k, child] of Object.entries(info.fields)) {
                 const a2 = alignOf(child);
@@ -208,11 +207,11 @@ export function compileStruct<T extends StructInfo>(schema: T): StructLayout<Inf
             const parts = p.split('.'); // might contain [i] segments—handle later
             let cur = out;
             for (let i = 0; i < parts.length; i++) {
-                const seg = parts[i];
+                const seg = parts[i] ?? '';
                 // split idx if array notation present
                 const m = seg.match(/^([^\[]+)(\[(\d+)\])?$/);
                 if (!m) continue;
-                const key = m[1];
+                const key = m[1] ?? '';
                 const hasIdx = !!m[3];
                 if (i === parts.length - 1 && !hasIdx) return { parent: cur, key };
                 if (!(key in cur)) cur[key] = hasIdx ? [] : {};
@@ -325,7 +324,7 @@ function getByPath(obj: any, path: string): any {
     for (const seg of parts) {
         const m = seg.match(/^([^\[]+)(\[(\d+)\])?$/);
         if (!m) return undefined;
-        const key = m[1];
+        const key = m[1] ?? '';
         if (cur == null) return undefined;
         cur = cur[key];
         if (m[3]) cur = cur?.[Number(m[3])];
