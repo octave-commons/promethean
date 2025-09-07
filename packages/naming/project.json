@@ -1,41 +1,37 @@
 {
-  "name": "ts-naming",
-  "root": "packages/naming",
-  "sourceRoot": "packages/naming/src",
-  "targets": {
-    "build": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "tsc -b",
-        "cwd": "packages/naming"
-      },
-      "outputs": [
-        "{projectRoot}/dist"
-      ]
+    "name": "ts-naming",
+    "root": "packages/naming",
+    "sourceRoot": "packages/naming/src",
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "tsc -b",
+                "cwd": "packages/naming"
+            },
+            "outputs": ["{projectRoot}/dist"]
+        },
+        "typecheck": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "tsc -p tsconfig.json --noEmit",
+                "cwd": "packages/naming"
+            }
+        },
+        "test": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "ava",
+                "cwd": "packages/naming"
+            }
+        },
+        "lint": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "eslint .",
+                "cwd": "packages/naming"
+            }
+        }
     },
-    "typecheck": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "tsc -p tsconfig.json --noEmit",
-        "cwd": "packages/naming"
-      }
-    },
-    "test": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "ava",
-        "cwd": "packages/naming"
-      }
-    },
-    "lint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "eslint .",
-        "cwd": "packages/naming"
-      }
-    }
-  },
-  "tags": [
-    "scope:packages"
-  ]
+    "tags": ["scope:packages"]
 }

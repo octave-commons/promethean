@@ -2,7 +2,11 @@ import test from "ava";
 import { mkdtemp, writeFile, stat } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+<<<<<<<< HEAD:packages/web-utils/src/tests/image-links.test.ts
 import { findBrokenImageLinks, fixBrokenImageLinks } from '../image-links.js';
+========
+import { findBrokenImageLinks, fixBrokenImageLinks } from '../src/image-links.js';
+>>>>>>>> origin/codex/create-web-utils-package-and-refactor-7ynlps:packages/web-utils/test/image-links.test.ts
 
 test("finds broken markdown and org image links", async (t) => {
 	const dir = await mkdtemp(path.join(os.tmpdir(), "img-test-"));
