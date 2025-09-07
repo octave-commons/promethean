@@ -8,7 +8,7 @@ import { makeTransformer, applyTransformer } from '@promethean/compiler/transfor
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-function runFixtureTransform(t: any, name: string, file: string) {
+function runFixtureTransform(t: any, _name: string, file: string) {
     const before = fs.readFileSync(path.join(__dirname, `fixtures/${file}.before.ts`), 'utf8');
     const after = fs.readFileSync(path.join(__dirname, `fixtures/${file}.after.ts`), 'utf8');
 
