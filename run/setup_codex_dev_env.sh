@@ -44,13 +44,15 @@ pnpm -v
 pnpm install --no-frozen-lockfile --reporter=append-only
 bash ./run/setup_playwright.sh
 curl -LsSf https://astral.sh/uv/install.sh | sh
-
+curl -LsSf https://astral.sh/uv/install.sh | sh
+export PATH="$HOME/.local/bin:$PATH"
+command -v uvx >/dev/null || { echo "uvx not found on PATH after install" >&2; exit 1; }
 # install ollama
 curl -fsSL https://ollama.com/install.sh | sh
 
 # start the server if not running
-pgrep -f 'uvx --from chromadb chroma run --host 127.0.0.1 --port 8000'  \
-    || nohup uvx --from chromadb chroma run --host 127.0.0.1 --port 8000 >/dev/null 2>&1 &
+pgrep -f 'uvx --from chromadb chroma run --host 127.0.0.1 --port 8000'  || \
+     nohup uvx --from chromadb chroma run --host 127.0.0.1 --port 8000 >/dev/null 2>&1 &
 pgrep -f 'ollama serve' >/dev/null || nohup ollama serve >/dev/null 2>&1 &
 
 # wait for health (60s timeout each)
