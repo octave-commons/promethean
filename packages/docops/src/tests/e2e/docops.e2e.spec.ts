@@ -165,7 +165,10 @@ test.serial(
 
     // Try direct render via the "Render Selected File" button
     await page.click(byId("renderMd"));
-    await page.waitForSelector(byId("mdRender"));
+    await page.waitForFunction(() => {
+      const el = document.getElementById("mdRender");
+      return !!el && (el.textContent?.length ?? 0) > 0;
+    });
     const mdHtml = await page.textContent(byId("mdRender"));
     t.truthy(
       mdHtml && mdHtml.length > 0,
