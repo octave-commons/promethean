@@ -14,11 +14,12 @@ export async function ensureServices() {
     throw new Error(`Ollama server unavailable at ${ollamaUrl}: ${msg}`);
   }
 
-  const chromaClient = new ChromaClient({});
+  const chromaUrl = process.env.CHROMA_URL ?? "http://localhost:8000";
+  const chromaClient = new ChromaClient({ path: chromaUrl });
   try {
     await chromaClient.heartbeat();
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    throw new Error(`ChromaDB server unavailable: ${msg}`);
+    throw new Error(`ChromaDB server unavailable at ${chromaUrl}: ${msg}`);
   }
 }
