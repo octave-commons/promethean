@@ -1,7 +1,7 @@
 import * as path from "path";
 import { promises as fs } from "fs";
-import { pathToFileURL } from "url";
 import { createHash } from "crypto";
+import { Worker } from "worker_threads";
 
 import * as chokidar from "chokidar";
 import * as YAML from "yaml";
@@ -18,7 +18,6 @@ import {
   runNode,
   runShell,
   runTSModule,
-  runJSFunction,
   writeText,
 } from "./fsutils.js";
 import { stepFingerprint } from "./hash.js";
@@ -27,6 +26,92 @@ import { semaphore } from "./lib/concurrency.js";
 import { loadState, saveState, RunState } from "./lib/state.js";
 import { renderReport } from "./lib/report.js";
 import { emitEvent } from "./lib/events.js";
+
+const JS_CACHE_TTL_MS = 5 * 60 * 1000;
+const JS_CACHE_MAX = 20;
+const jsModuleCache = new Map<string, { worker: Worker; ts: number; running?: Promise<any> }>();
+
+async function hashModuleGraph(p: string, seen = new Map<string, string>()) {
+  const abs = path.resolve(p);
+  if (seen.has(abs)) return seen.get(abs)!;
+  const code = await fs.readFile(abs, "utf8");
+  const dir = path.dirname(abs);
+  const importRe =
+    /import\s+(?:[^'"\n]*?from\s+)?["']([^"']+)["']|import\(\s*["']([^"']+)["']\s*\)/g;
+  const deps: string[] = [];
+  for (let m; (m = importRe.exec(code)); ) {
+    const spec = m[1] || m[2];
+    if (!spec) continue;
+    if (spec.startsWith(".") || spec.startsWith("/")) {
+      let resolved = path.resolve(dir, spec);
+      if (!path.extname(resolved)) {
+        try {
+          await fs.access(resolved + ".js");
+          resolved += ".js";
+        } catch {
+          try {
+            await fs.access(path.join(resolved, "index.js"));
+            resolved = path.join(resolved, "index.js");
+          } catch {
+            // ignore missing
+          }
+        }
+      }
+      deps.push(resolved);
+    }
+  }
+  const childHashes = [] as string[];
+  for (const d of deps) childHashes.push(await hashModuleGraph(d, seen));
+  childHashes.sort();
+  const h = createHash("sha1");
+  h.update(code);
+  for (const c of childHashes) h.update(c);
+  const digest = h.digest("hex");
+  seen.set(abs, digest);
+  return digest;
+}
+
+function getCachedWorker(hash: string) {
+  const entry = jsModuleCache.get(hash);
+  if (!entry) return undefined;
+  if (Date.now() - entry.ts > JS_CACHE_TTL_MS) {
+    entry.worker.terminate();
+    jsModuleCache.delete(hash);
+    return undefined;
+  }
+  entry.ts = Date.now();
+  jsModuleCache.delete(hash);
+  jsModuleCache.set(hash, entry);
+  return entry;
+}
+
+function setCachedWorker(hash: string, worker: Worker) {
+  jsModuleCache.set(hash, { worker, ts: Date.now() });
+  if (jsModuleCache.size > JS_CACHE_MAX) {
+    const oldestKey = jsModuleCache.keys().next().value;
+    const oldest = jsModuleCache.get(oldestKey);
+    if (oldest) oldest.worker.terminate();
+    jsModuleCache.delete(oldestKey);
+  }
+}
+
+function runWorker(worker: Worker, args: unknown, timeoutMs?: number) {
+  return new Promise<{ code: number | null; stdout: string; stderr: string }>((resolve) => {
+    const timer =
+      timeoutMs && timeoutMs > 0
+        ? setTimeout(() => {
+            worker.terminate();
+            resolve({ code: 1, stdout: "", stderr: "timeout" });
+          }, timeoutMs)
+        : undefined;
+    const listener = (msg: any) => {
+      if (timer) clearTimeout(timer as any);
+      resolve({ code: msg.ok ? 0 : 1, stdout: msg.ok ? msg.res : "", stderr: msg.ok ? "" : msg.err });
+    };
+    worker.once("message", listener);
+    worker.postMessage({ args });
+  });
+}
 
 function slug(s: string) {
   return s
@@ -137,16 +222,18 @@ export async function runPipeline(
           const modPath = path.isAbsolute(s.js.module)
             ? s.js.module
             : path.resolve(cwd, s.js.module);
-          const modUrl = pathToFileURL(modPath);
-          const buf = await fs.readFile(modPath);
-          const sha = createHash("sha1").update(buf).digest("hex");
-          modUrl.search = `?sha=${sha}`;
-          const mod = await import(modUrl.href);
-          const fn =
-            (s.js.export && (mod as any)[s.js.export]) ??
-            (mod as any).default ??
-            mod;
-          execRes = await runJSFunction(fn as any, s.js.args);
+          const hash = await hashModuleGraph(modPath);
+          let entry = getCachedWorker(hash);
+          if (!entry) {
+            const worker = new Worker(
+              new URL("./lib/js-worker.js", import.meta.url),
+              { workerData: { modulePath: modPath, exportName: s.js.export } },
+            );
+            worker.unref();
+            entry = { worker, ts: Date.now() };
+            setCachedWorker(hash, worker);
+          }
+          execRes = await runWorker(entry.worker, s.js.args, s.timeoutMs);
         }
 
       const endedAt = new Date().toISOString();
