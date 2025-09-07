@@ -2,7 +2,7 @@ import path from 'node:path';
 
 import test from 'ava';
 
-import { fileBackedRegistry } from '../provider-registry.js';
+import { fileBackedRegistry } from '../fileBackedRegistry.js';
 
 test('loads providers.yml and expands env', async (t) => {
     const configPath = path.resolve(process.cwd(), 'config/providers.yml');

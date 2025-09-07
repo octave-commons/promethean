@@ -11,9 +11,12 @@ export const startProcess = async (spec: ProcSpec): Promise<StartedProc> => {
     const proc = spawn(cmd, [...args], { cwd, env, stdio });
     const stop = async () => {
         if (proc.killed) return;
+        const exited = new Promise<void>((resolve) => proc.once('exit', () => resolve()));
+        const closed = new Promise<void>((resolve) => proc.once('close', () => resolve()));
         proc.kill('SIGTERM');
         await wait(500);
         if (!proc.killed) proc.kill('SIGKILL');
+        await Promise.all([exited, closed]);
     };
 
     if (ready) {

@@ -51,6 +51,10 @@ into small services that handle speech-to-text, text-to-speech, memory, and high
 - Prefer immutable data; avoid in-place object mutation.
 - Use key-value caches like `@promethean/level-cache` instead of JSON files for intermediate data.
 
+### Nx workspace
+
+Build tooling is managed with [Nx](https://nx.dev). See [docs/nx-workspace.md](docs/nx-workspace.md) for common commands.
+
 ### Broker Heartbeat
 
 `BrokerClient` sends periodic heartbeats to keep connections alive. Configure the interval in milliseconds with the `BROKER_HEARTBEAT_MS` environment variable (default `30000`).

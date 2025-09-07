@@ -36,7 +36,7 @@ const ProviderTenantSchema = z.object({
 
 export type ProviderTenant = z.infer<typeof ProviderTenantSchema>;
 
-const ProvidersFileSchema = z.object({ providers: z.array(ProviderTenantSchema) });
+export const ProvidersFileSchema = z.object({ providers: z.array(ProviderTenantSchema) });
 
 export function fileBackedRegistry(configPath = path.resolve(process.cwd(), 'config/providers.yml')): ProviderRegistry {
     let cache: ProviderTenant[] | null = null;
@@ -69,7 +69,7 @@ export function fileBackedRegistry(configPath = path.resolve(process.cwd(), 'con
     return { get, list };
 }
 
-function expandEnv(value: string): string {
+export function expandEnv(value: string): string {
     // supports ${VAR} expansion; leaves unknowns as-is
     return value.replace(/\$\{([A-Z0-9_]+)\}/g, (_, name) => process.env[name] ?? '');
 }

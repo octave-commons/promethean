@@ -147,9 +147,9 @@
 
     (add-hook 'typescript-ts-mode-hook  'lsp-deferred)
     (add-hook 'tsx-ts-mode-hook         'lsp-deferred)
-    (add-hook 'js-ts-mode          'lsp-deferred)
-    (add-hook 'json-ts-mode        'lsp-deferred)
-    (add-hook 'css-ts-mode         'lsp-deferred)
+    (add-hook 'js-ts-mode-hook     'lsp-deferred)
+    (add-hook 'json-ts-mode-hook   'lsp-deferred)
+    (add-hook 'css-ts-mode-hook    'lsp-deferred)
 
     ;; Optional: if Emacs GUI loses your PATH, make sure Node is visible.
     ;; (require 'exec-path-from-shell)
