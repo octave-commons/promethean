@@ -45,18 +45,12 @@ pnpm install --no-frozen-lockfile --reporter=append-only
 bash ./run/setup_playwright.sh
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-
-python -m pip install --user chromadb       # if not using a venv
-
-# ensure PATH has the right scripts dir (see step 2)
-SCRIPTS_DIR="$(python -c 'import sysconfig; print(sysconfig.get_path("scripts"))')"
-case ":$PATH:" in *":$SCRIPTS_DIR:"*) : ;; *) export PATH="$SCRIPTS_DIR:$PATH" ;; esac
+# install ollama
+curl -fsSL https://ollama.com/install.sh | sh
 
 # start the server if not running
-
-
-pgrep -f 'uvx --from chromadb chroma run --host 127.0.0.1 --port 8000'  \\
-    ||nohup uvx --from chromadb chroma run --host 127.0.0.1 --port 8000 >/dev/null 2>&1 &
+pgrep -f 'uvx --from chromadb chroma run --host 127.0.0.1 --port 8000'  \
+    || nohup uvx --from chromadb chroma run --host 127.0.0.1 --port 8000 >/dev/null 2>&1 &
 pgrep -f 'ollama serve' >/dev/null || nohup ollama serve >/dev/null 2>&1 &
 
 # wait for health (60s timeout each)
