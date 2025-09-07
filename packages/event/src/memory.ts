@@ -51,7 +51,7 @@ class InMemoryStore implements EventStore {
         for (const k of keys) {
             // last event with matching key
             for (let i = evs.length - 1; i >= 0; i--) {
-                const e = evs[i];
+                const e = evs[i]!;
                 if (e.key === k) {
                     out[k] = e;
                     break;
@@ -122,7 +122,7 @@ export class InMemoryEventBus implements EventBus {
         let lastId: UUID | undefined;
         if (from === 'latest') {
             const tail = await this.store.scan(topic, { limit: 1, afterId: undefined });
-            if (tail.length) lastId = tail[tail.length - 1].id;
+            if (tail.length) lastId = tail[tail.length - 1]!.id;
         } else if (from === 'afterId' && afterId) {
             lastId = afterId;
         } else if (from === 'ts' && ts) {
@@ -234,7 +234,7 @@ export class InMemoryEventBus implements EventBus {
                 limit: 1,
             });
             if (!batch.length) return; // nothing to do
-            const next = batch[0];
+            const next = batch[0]!;
 
             // delivery context
             const attempt = (sub.attemptById.get(next.id) ?? 0) + 1;
