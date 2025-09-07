@@ -34,7 +34,7 @@ apt-get update
 apt-get install -y build-essential python3 make g++ pkg-config
 # optional but helps some images:
 apt-get install -y git ca-certificates
-apt-get install -y jq moreutils rg wji
+apt-get install -y jq moreutils ripgrep
 bash ./install_gyp.sh
 bash ./setup_playwright.sh
 
