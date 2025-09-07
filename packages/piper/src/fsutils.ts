@@ -5,6 +5,7 @@ import { AsyncLocalStorage } from "async_hooks";
 
 import { globby } from "globby";
 import { ensureDir } from "@promethean/fs";
+import { semaphore } from "./lib/concurrency.js";
 import { PiperStep } from "./types.js";
 
 export { ensureDir };
@@ -62,7 +63,7 @@ export function runNode(
 }
 
 const jsFnCtx = new AsyncLocalStorage<symbol>();
-let jsFnLock: Promise<void> = Promise.resolve();
+const jsFnSem = semaphore(1);
 let jsFnOwner: symbol | undefined;
 
 export async function runJSFunction(
@@ -122,28 +123,27 @@ export async function runJSFunction(
     let timer: NodeJS.Timeout;
     return Promise.race([
       exec(),
-      new Promise<{ code: number | null; stdout: string; stderr: string }>((resolve) => {
-        timer = setTimeout(() => {
-          cleanup();
-          resolve({ code: 124, stdout, stderr: stderr + "timeout" });
-        }, timeoutMs);
-      }),
+      new Promise<{ code: number | null; stdout: string; stderr: string }>(
+        (resolve) => {
+          timer = setTimeout(() => {
+            cleanup();
+            resolve({ code: 124, stdout, stderr: stderr + "timeout" });
+          }, timeoutMs);
+        },
+      ),
     ]).finally(() => clearTimeout(timer));
   };
 
   if (current && current === jsFnOwner) return run();
 
-  const prev = jsFnLock;
-  let release!: () => void;
   const token = Symbol("jsFn");
-  jsFnLock = new Promise<void>((r) => (release = r));
+  await jsFnSem.take();
   jsFnOwner = token;
-  await prev;
   try {
     return await jsFnCtx.run(token, run);
   } finally {
     jsFnOwner = undefined;
-    release();
+    jsFnSem.release();
   }
 }
 
