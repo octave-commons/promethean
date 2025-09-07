@@ -173,7 +173,7 @@ Chat URL: https://chat.openai.com/c/68b2337b-6e5c-8323-b4c9-b4f9eaa544d0
 > **Trade-offs**
 > - *Accuracy on type errors*: LSP route (Path 1) = **authoritative** (tsserver). Refactor servers (Path 2) are powerful but may not mirror editor diagnostics perfectly. cite
 > - *Edits at scale*: ts-morph servers often have richer **batch refactoring** tools out of the box. citeturn1view0
-> - *Stack*: If you want **all TypeScript** (no Go), use **lsp-mcp**; otherwise **isaacphi/mcp-language-server** is very capable and popular. citeturn5view0turn2view0
+- *Stack*: If you want **all TypeScript** (no Go), use **ts-ls-lsp**; otherwise **isaacphi/mcp-language-server** is very capable and popular. citeturn5view0turn2view0
 > 
 > ## What I’d do (pragmatic)
 > 1) **Start with LSP bridge** so MCP sees the exact same types/errors as VS Code. 
@@ -245,7 +245,7 @@ Chat URL: https://chat.openai.com/c/68b2337b-6e5c-8323-b4c9-b4f9eaa544d0
 > ```json
 > {
 >  "mcpServers": {
->  "lsp-mcp": {
+>  "ts-ls-lsp": {
 >  "type": "stdio",
 >  "command": "npx",
 >  "args": [
@@ -279,7 +279,7 @@ Chat URL: https://chat.openai.com/c/68b2337b-6e5c-8323-b4c9-b4f9eaa544d0
 > ## Troubleshooting (pragmatic)
 > 
 > - **No tools showing up in the client?** Re-check JSON syntax and absolute paths; Claude-style docs explain the flow + where logs live. citeturn3view0 
-> - **Still no diagnostics?** For `lsp-mcp`, you likely forgot `start_lsp`. For `mcp-language-server`, ensure the `--stdio` is after `--`. citeturn1view0turn2view0 
+- **Still no diagnostics?** For `ts-ls-lsp`, you likely forgot `start_lsp`. For `mcp-language-server`, ensure the `--stdio` is after `--`. citeturn1view0turn2view0
 > - **Non-global Node installs (nvm/asdf)?** Extend `PATH` to your Node bin dir so `typescript-language-server` is discoverable. (npm page confirms it’s the official LSP wrapper around `tsserver`.) cite
 > 
 > If you tell me **which MCP client on Ubuntu** you’re using (Windsurf, Cursor, Lobe, etc.), I’ll hand you the exact file path + any client-specific quirks.
@@ -339,7 +339,7 @@ Chat URL: https://chat.openai.com/c/68b2337b-6e5c-8323-b4c9-b4f9eaa544d0
 > 
 > ---
 > 
-> ## Option B — `lsp-mcp` (all TypeScript stack)
+> ## Option B — `ts-ls-lsp` (all TypeScript stack)
 > 
 > **Config (no Go):**
 > ```json
@@ -357,7 +357,7 @@ Chat URL: https://chat.openai.com/c/68b2337b-6e5c-8323-b4c9-b4f9eaa544d0
 > ```json
 > { "tool": "start_lsp", "arguments": { "root_dir": "/ABS/PATH/TO/YOUR/REPO" } }
 > ```
-> (`lsp-mcp` has TS integration tests for hovers, completions, diagnostics, code actions.) cite
+> (`ts-ls-lsp` has TS integration tests for hovers, completions, diagnostics, code actions.) cite
 > 
 > ---
 > 
