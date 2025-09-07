@@ -4,7 +4,6 @@
   "private": true,
   "type": "module",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -25,7 +24,6 @@
   },
   "dependencies": {
     "@promethean/legacy": "workspace:*",
-    "@promethean/migrations": "workspace:*",
     "@promethean/platform": "workspace:*",
     "chromadb": "3.0.14"
   }

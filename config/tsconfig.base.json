@@ -30,10 +30,15 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable", "esnext.disposable"],
     "target": "esnext",
     "useDefineForClassFields": true,
+    "baseUrl": ".",
     "paths": {
       "@shared/ts/*": ["../shared/ts/dist/*"],
       "@promethean/test-utils/*": ["../packages/test-utils/dist/*"],
-      "@promethean/test-utils/sleep": ["../packages/test-utils/dist/sleep"]
+      "@promethean/test-utils/sleep": [
+        "../packages/test-utils/dist/sleep.d.ts",
+        "../packages/test-utils/dist/sleep.js"
+      ],
+      "@promethean/legacy/*": ["../packages/legacy/*"]
     },
     "types": ["node", "ava"]
   },
