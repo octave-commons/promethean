@@ -21,7 +21,7 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   }
 }
 
-test("runPipeline executes js function steps", async (t) => {
+test.serial("runPipeline executes js function steps", async (t) => {
   await withTmp(async (dir) => {
     const prevCwd = process.cwd();
     process.chdir(dir);
@@ -75,5 +75,54 @@ test("runJSFunction restores globals on timeout", async (t) => {
   t.is(process.stdout.write, origStdout);
   t.is(process.stderr.write, origStderr);
   t.is(process.env.TEST_VAR, origEnv);
+});
+
+test.serial("js steps execute sequentially to prevent global corruption", async (t) => {
+  await withTmp(async (dir) => {
+    const prevCwd = process.cwd();
+    process.chdir(dir);
+    try {
+      const modSrc = `export async function check(){\n  console.log(process.env.TEST_VAR);\n  await new Promise(r=>setTimeout(r,50));\n  console.log(process.env.TEST_VAR);\n}`;
+      await fs.writeFile(path.join(dir, "mod.js"), modSrc, "utf8");
+      const cfg = {
+        pipelines: [
+          {
+            name: "demo",
+            steps: [
+              {
+                id: "a",
+                cwd: ".",
+                deps: [],
+                inputs: [],
+                outputs: [],
+                cache: "content",
+                env: { TEST_VAR: "A" },
+                js: { module: "./mod.js", export: "check" },
+              },
+              {
+                id: "b",
+                cwd: ".",
+                deps: [],
+                inputs: [],
+                outputs: [],
+                cache: "content",
+                env: { TEST_VAR: "B" },
+                js: { module: "./mod.js", export: "check" },
+              },
+            ],
+          },
+        ],
+      };
+      const pipelinesPath = path.join(dir, "pipelines.yaml");
+      await fs.writeFile(pipelinesPath, YAML.stringify(cfg), "utf8");
+      const res = await runPipeline(pipelinesPath, "demo", { concurrency: 2 });
+      const a = res.find((r) => r.id === "a")!;
+      const b = res.find((r) => r.id === "b")!;
+      t.is(a.stdout, "A\nA\n");
+      t.is(b.stdout, "B\nB\n");
+    } finally {
+      process.chdir(prevCwd);
+    }
+  });
 });
 
