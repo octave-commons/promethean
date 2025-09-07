@@ -20,7 +20,7 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   }
 }
 
-test("runPipeline executes js function steps", async (t) => {
+test.serial("runPipeline executes js function steps", async (t) => {
   await withTmp(async (dir) => {
     const prevCwd = process.cwd();
     process.chdir(dir);
@@ -56,6 +56,73 @@ test("runPipeline executes js function steps", async (t) => {
       t.is(first.exitCode, 0);
       t.true(first.stdout?.includes("hello world") ?? false);
       t.true(first.stdout?.includes("done") ?? false);
+    } finally {
+      process.chdir(prevCwd);
+    }
+  });
+});
+
+test.serial("js steps serialize to avoid global state races", async (t) => {
+  await withTmp(async (dir) => {
+    const prevCwd = process.cwd();
+    process.chdir(dir);
+    try {
+      const aSrc = `export default async function(){ console.log('first'); await new Promise(r=>setTimeout(r,50)); }`;
+      const bSrc = `export default function(){ console.log(process.env.LEAK ?? 'second'); }`;
+      await fs.writeFile(path.join(dir, 'a.js'), aSrc, 'utf8');
+      await fs.writeFile(path.join(dir, 'b.js'), bSrc, 'utf8');
+      const cfg = {
+        pipelines: [
+          {
+            name: 'demo',
+            steps: [
+              { id: 'a', cwd: '.', deps: [], inputs: [], outputs: [], cache: 'content', env: { LEAK: '1' }, js: { module: './a.js' } },
+              { id: 'b', cwd: '.', deps: [], inputs: [], outputs: [], cache: 'content', js: { module: './b.js' } },
+            ],
+          },
+        ],
+      };
+      const pipelinesPath = path.join(dir, 'pipelines.yaml');
+      await fs.writeFile(pipelinesPath, YAML.stringify(cfg), 'utf8');
+      const res = await runPipeline(pipelinesPath, 'demo', { concurrency: 2 });
+      const first = res.find((r) => r.id === 'a')!;
+      const second = res.find((r) => r.id === 'b')!;
+      t.is(first.exitCode, 0);
+      t.true(first.stdout?.includes('first') ?? false);
+      t.true((second.stdout?.trim() ?? '') === 'second');
+    } finally {
+      process.chdir(prevCwd);
+    }
+  });
+});
+
+test.serial("runJSFunction restores globals on timeout", async (t) => {
+  await withTmp(async (dir) => {
+    const prevCwd = process.cwd();
+    process.chdir(dir);
+    try {
+      const hangSrc = `export default async function(){ return new Promise(()=>{}); }`;
+      const afterSrc = `export default function(){ console.log(process.env.LEAK ?? 'after'); }`;
+      await fs.writeFile(path.join(dir, 'hang.js'), hangSrc, 'utf8');
+      await fs.writeFile(path.join(dir, 'after.js'), afterSrc, 'utf8');
+      const cfg = {
+        pipelines: [
+          {
+            name: 'demo',
+            steps: [
+              { id: 'hang', cwd: '.', deps: [], inputs: [], outputs: [], cache: 'content', timeoutMs: 100, env: { LEAK: '1' }, js: { module: './hang.js' } },
+              { id: 'after', cwd: '.', deps: [], inputs: [], outputs: [], cache: 'content', js: { module: './after.js' } },
+            ],
+          },
+        ],
+      };
+      const pipelinesPath = path.join(dir, 'pipelines.yaml');
+      await fs.writeFile(pipelinesPath, YAML.stringify(cfg), 'utf8');
+      const res = await runPipeline(pipelinesPath, 'demo', { concurrency: 1 });
+      const first = res.find((r) => r.id === 'hang')!;
+      const second = res.find((r) => r.id === 'after')!;
+      t.is(first.exitCode, 124);
+      t.true((second.stdout?.trim() ?? '') === 'after');
     } finally {
       process.chdir(prevCwd);
     }
