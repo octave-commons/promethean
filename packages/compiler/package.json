@@ -4,7 +4,6 @@
     "private": true,
     "type": "module",
     "main": "dist/index.cjs",
-    "types": "dist/index.d.ts",
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
@@ -28,7 +27,6 @@
         "test:markdown": "pnpm run build && ava --config ../../config/ava.config.mjs dist/tests/markdown.*.test.js",
         "format": "pnpm exec biome format --write ."
     },
-    "module": "dist/index.js",
     "dependencies": {
         "acorn": "^8.12.1",
         "@types/javascript-time-ago": "^2.5.0",
