@@ -133,22 +133,35 @@ test.serial(
 
 		await clickFileInTree(page, "run.md");
 
-		await page.click(byId("run"));
-		await page.waitForFunction(() => {
-			const prog = document.getElementById(
-				"overallProgress",
-			) as HTMLProgressElement | null;
-			const logs = document.getElementById("logs")?.textContent || "";
-			return (prog && prog.value >= 100) || logs.includes("Done.");
-		});
+                await page.click(byId("run"));
+                const outcomeHandle = await page.waitForFunction(
+                        () => {
+                                const prog = document.getElementById(
+                                        "overallProgress",
+                                ) as HTMLProgressElement | null;
+                                const logs =
+                                        document.getElementById("logs")?.textContent || "";
+                                if (/error/i.test(logs)) return "error";
+                                if (
+                                        (prog && prog.value >= 100) ||
+                                        logs.includes("Done.")
+                                )
+                                        return "success";
+                                return false;
+                        },
+                        { timeout: 60_000 },
+                );
+                const outcome = await outcomeHandle.jsonValue();
+                t.is(outcome, "success", "Pipeline run should complete successfully");
 
-		const logsText = await page.textContent("#logs");
-		t.true(
-			!!logsText &&
-				logsText.split(/\n/).filter((l: string) => l.trim().length > 0)
-					.length >= 1,
-			"Logs should contain at least one line",
-		);
+                const logsText = await page.textContent("#logs");
+                t.true(
+                        !!logsText &&
+                                logsText.split(/\n/).filter((l: string) => l.trim().length > 0)
+                                        .length >= 1,
+                        "Logs should contain at least one line",
+                );
+                t.false(/error/i.test(logsText || ""), "Logs should not contain errors");
 
 		await page.waitForFunction(() => {
 			const sel = document.getElementById(
