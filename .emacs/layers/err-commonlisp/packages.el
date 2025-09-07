@@ -69,13 +69,25 @@ Each entry is either:
       - A list beginning with the symbol `recipe' is a melpa
         recipe.  See: https://github.com/milkypostman/melpa#recipe-format")
 
+(defcustom err-commonlisp-cl-lsp-executable
+  (or (executable-find "cl-lsp")
+      (expand-file-name "~/.roswell/bin/cl-lsp"))
+  "Path to the cl-lsp executable used for Common Lisp LSP support."
+  :type 'file
+  :group 'err-commonlisp)
+
 (defun err-commonlisp/post-init-lsp-mode ()
   (with-eval-after-load 'lsp-mode
-    (add-to-list 'lsp-language-id-configuration '(lisp-mode . "commonlisp"))
+    (setq lsp-language-id-configuration
+          (assq-delete-all 'lisp-mode lsp-language-id-configuration))
+    (push '(lisp-mode . "commonlisp") lsp-language-id-configuration)
     (lsp-register-client
-     (make-lsp-client :new-connection (lsp-stdio-connection (lambda () (list (expand-file-name "~/.roswell/bin/cl-lsp"))))
-                      :activation-fn (lsp-activate-on "commonlisp")
-                      :server-id 'cl-lsp))))
+     (make-lsp-client
+      :new-connection
+      (lsp-stdio-connection (lambda () (list (expand-file-name err-commonlisp-cl-lsp-executable))))
+      :activation-fn (lsp-activate-on "commonlisp")
+      :server-id 'cl-lsp
+      :major-modes '(lisp-mode)))))
 (defun err-commonlisp/post-init-lisp-mode ()
 
   (with-eval-after-load 'lisp-mode
