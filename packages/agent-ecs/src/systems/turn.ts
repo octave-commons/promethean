@@ -1,4 +1,4 @@
-export function TurnDetectionSystem(w: any, C: ReturnType<typeof import('../components').defineAgentComponents>) {
+export function TurnDetectionSystem(w: any, C: ReturnType<typeof import('../components.js').defineAgentComponents>) {
     const { Turn, VAD, TranscriptFinal } = C;
     const qVad = w.makeQuery({ all: [Turn, VAD] });
     const qFinal = w.makeQuery({
