@@ -80,7 +80,11 @@ export class OllamaLLM implements LLM {
                     } catch {
                         continue;
                     }
-                    if (obj.done) break;
+                   if (obj.done) {
+                       // Stop promptly when Ollama signals completion.
+                       ctrl.abort();
+                       return stripFences(out.trim());
+                   }
                     const chunk = obj.message?.content ?? '';
                     out += chunk;
                 }
