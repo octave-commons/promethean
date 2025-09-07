@@ -16,6 +16,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.2.3
         version: 2.2.3
+      '@promethean/image-link-generator':
+        specifier: workspace:*
+        version: link:packages/image-link-generator
       '@promethean/legacy':
         specifier: workspace:*
         version: link:packages/legacy

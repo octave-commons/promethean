@@ -76,6 +76,11 @@ await app.register(fastifyStatic, {
   decorateReply: false,
 });
 
+app.get("/health", async (_req, reply) => {
+  reply.header("content-type", "application/json");
+  return reply.send({ ok: true });
+});
+
 app.get("/", async (_req, reply) => {
   try {
     const html = await fs.readFile(path.join(UI_ROOT, "index.html"), "utf8");
