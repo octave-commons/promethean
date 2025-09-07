@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 import { spawn } from "child_process";
+import { AsyncLocalStorage } from "async_hooks";
 
 import { globby } from "globby";
 import { ensureDir } from "@promethean/fs";
@@ -60,7 +61,9 @@ export function runNode(
   });
 }
 
+const jsFnCtx = new AsyncLocalStorage<symbol>();
 let jsFnLock: Promise<void> = Promise.resolve();
+let jsFnOwner: symbol | undefined;
 
 export async function runJSFunction(
   fn: (args: any) => any | Promise<any>,
@@ -68,11 +71,8 @@ export async function runJSFunction(
   env: Record<string, string>,
   timeoutMs?: number,
 ) {
-  const prev = jsFnLock;
-  let release!: () => void;
-  jsFnLock = new Promise<void>((r) => (release = r));
-  await prev;
-  try {
+  const current = jsFnCtx.getStore();
+  const run = async () => {
     let stdout = "";
     let stderr = "";
 
@@ -104,7 +104,7 @@ export async function runJSFunction(
       process.env[k] = v;
     }
 
-    const run = async () => {
+    const exec = async () => {
       try {
         const res = await fn(args);
         if (typeof res === "string") stdout += res;
@@ -117,11 +117,11 @@ export async function runJSFunction(
       }
     };
 
-    if (!timeoutMs) return run();
+    if (!timeoutMs) return exec();
 
     let timer: NodeJS.Timeout;
     return Promise.race([
-      run(),
+      exec(),
       new Promise<{ code: number | null; stdout: string; stderr: string }>((resolve) => {
         timer = setTimeout(() => {
           cleanup();
@@ -129,7 +129,20 @@ export async function runJSFunction(
         }, timeoutMs);
       }),
     ]).finally(() => clearTimeout(timer));
+  };
+
+  if (current && current === jsFnOwner) return run();
+
+  const prev = jsFnLock;
+  let release!: () => void;
+  const token = Symbol("jsFn");
+  jsFnLock = new Promise<void>((r) => (release = r));
+  jsFnOwner = token;
+  await prev;
+  try {
+    return await jsFnCtx.run(token, run);
   } finally {
+    jsFnOwner = undefined;
     release();
   }
 }
