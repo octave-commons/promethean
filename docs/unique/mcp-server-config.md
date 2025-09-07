@@ -43,7 +43,7 @@ references:
   ("github" . ("/home/err/devel/promethean/scripts/mcp/bin/github.sh"))
   ("github-chat" . ("/home/err/devel/promethean/scripts/mcp/bin/github_chat.sh"))
   ("haiku-rag" . ("uvx" ["haiku-rag" "serve" "--stdio" "--db" "/home/err/.local/share/haiku-rag/db"]))
-  ("lsp-mcp" . ("npx" ["tritlo/lsp-mcp" "typescript" "/home/err/.volta/bin/typescript-language-server" "--stdio"]))
+  ("ts-ls-lsp" . ("npx" ["tritlo/lsp-mcp" "typescript" "/home/err/.volta/bin/typescript-language-server" "--stdio"]))
   ("npm-helper" . ("npx" ["-y" "npm-helper-mcp"]))
   ("obsidian" . ("/home/err/devel/promethean/scripts/mcp/bin/obsidian.sh"))
   ("sonarqube" . ("/home/err/devel/promethean/scripts/mcp/bin/sonarqube.sh"))))
@@ -69,7 +69,7 @@ First we need the right way with the right data:
          (:command "npx"
                   :args ("-y" "@modelcontextprotocol/server-sonarqube"
                          "~/devel/promethean")))
-        (:name "lsp-mcp"
+        (:name "ts-ls-lsp"
          (:command "npx"
                   :args ("-y" "@modelcontextprotocol/server-lsp-mcp"
                          "~/devel/promethean")))
@@ -164,7 +164,7 @@ We want to update this so it works to generate the right kind of lisp for mcp.el
   {:command "npx"
    :args ["-y" "npm-helper-mcp"]}
 
-  :lsp-mcp
+  :ts-ls-lsp
   {:command "npx"
    :args ["tritlo/lsp-mcp"
           "typescript"
@@ -222,7 +222,7 @@ Given the above edn config file, we expect `/home/err/devel/promethean/.emacs/la
          (:command "npx"
                   :args ("-y" "@modelcontextprotocol/server-sonarqube"
                          "~/devel/promethean")))
-        (:name "lsp-mcp"
+        (:name "ts-ls-lsp"
          (:command "npx"
                   :args ("-y" "@modelcontextprotocol/server-lsp-mcp"
                          "~/devel/promethean")))

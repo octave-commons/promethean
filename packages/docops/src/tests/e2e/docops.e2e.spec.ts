@@ -10,6 +10,7 @@ import {
   shutdown,
   startProcessWithPort,
 } from "@promethean/test-utils";
+import { ensureServices } from "../helpers/services.js";
 
 const PKG_ROOT = path.resolve(
   path.dirname(url.fileURLToPath(import.meta.url)),
@@ -26,6 +27,7 @@ const TMP_DB = path.join(PKG_ROOT, ".cache", `docops-e2e-${uuidv4()}`);
 let state: { stop: () => Promise<void>; baseUrl?: string } | null = null;
 
 test.before(async () => {
+  await ensureServices();
   await fs.mkdir(DOC_FIXTURE_PATH, { recursive: true });
   await fs.writeFile(
     path.join(DOC_FIXTURE_PATH, "hack.md"),
