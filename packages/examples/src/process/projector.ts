@@ -1,7 +1,7 @@
 // loosen typing to avoid cross-package type coupling
 import { Topics } from '@promethean/event/topics.js';
 
-import { HeartbeatPayload, ProcessState } from './types';
+import { HeartbeatPayload, ProcessState } from './types.js';
 
 const STALE_MS = 15_000;
 
@@ -28,7 +28,7 @@ export async function startProcessProjector(bus: any) {
                 name: hb.name,
                 host: hb.host,
                 pid: hb.pid,
-                sid: hb.sid,
+                ...(hb.sid !== undefined ? { sid: hb.sid } : {}),
                 cpu_pct: hb.cpu_pct,
                 mem_mb: hb.mem_mb,
                 last_seen_ts: e.ts,
@@ -43,7 +43,7 @@ export async function startProcessProjector(bus: any) {
     // staleness scanner
     const t = setInterval(async () => {
         const now = Date.now();
-        for (const [k, ps] of cache) {
+        for (const [_k, ps] of cache) {
             const status = now - ps.last_seen_ts > STALE_MS ? 'stale' : 'alive';
             if (status !== ps.status) {
                 ps.status = status;

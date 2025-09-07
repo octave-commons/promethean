@@ -1,12 +1,10 @@
 // loose typing to avoid cross-package type coupling
-import type { defineAgentComponents } from '../components';
+import type { defineAgentComponents } from '../components.js';
 
 type BargeState = { speakingSince: number | null; paused: boolean };
 
-export function SpeechArbiterSystem(w: any, C: ReturnType<typeof import('../components').defineAgentComponents>) {
-    const { Turn, PlaybackQ, AudioRef, Utterance, AudioRes, Policy } = C as ReturnType<
-        typeof defineAgentComponents
-    >;
+export function SpeechArbiterSystem(w: any, C: ReturnType<typeof import('../components.js').defineAgentComponents>) {
+    const { Turn, PlaybackQ, AudioRef, Utterance, AudioRes, Policy } = C as ReturnType<typeof defineAgentComponents>;
 
     const qAgent = w.makeQuery({ all: [Turn, PlaybackQ, AudioRef, Policy] });
     const qAllUtter = w.makeQuery({ all: [Utterance] });
