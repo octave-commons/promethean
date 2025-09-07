@@ -44,7 +44,6 @@ pnpm -v
 pnpm install --no-frozen-lockfile --reporter=append-only
 bash ./run/setup_playwright.sh
 curl -LsSf https://astral.sh/uv/install.sh | sh
-curl -LsSf https://astral.sh/uv/install.sh | sh
 export PATH="$HOME/.local/bin:$PATH"
 command -v uvx >/dev/null || { echo "uvx not found on PATH after install" >&2; exit 1; }
 # install ollama
