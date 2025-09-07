@@ -406,18 +406,17 @@ importers:
   packages/buildfix:
     dependencies:
       globby:
-        specifier: ^14.0.2
+        specifier: 14.0.2
         version: 14.0.2
       ts-morph:
-        specifier: ^22.0.0
+        specifier: 22.0.0
         version: 22.0.0
+      yaml:
+        specifier: 2.5.0
+        version: 2.5.0
       zod:
-        specifier: ^3.23.8
-        version: 3.25.76
-    devDependencies:
-      tsx:
-        specifier: ^4.19.2
-        version: 4.20.3
+        specifier: 3.23.8
+        version: 3.23.8
 
   packages/cephalon:
     dependencies:
