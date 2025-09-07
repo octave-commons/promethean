@@ -1,0 +1,41 @@
+{
+  "name": "ts-file-watcher",
+  "root": "packages/file-watcher",
+  "sourceRoot": "packages/file-watcher/src",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -b",
+        "cwd": "packages/file-watcher"
+      },
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p tsconfig.json --noEmit",
+        "cwd": "packages/file-watcher"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ava",
+        "cwd": "packages/file-watcher"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint .",
+        "cwd": "packages/file-watcher"
+      }
+    }
+  },
+  "tags": [
+    "scope:packages"
+  ]
+}
