@@ -103,9 +103,22 @@ export const startProcessWithPort = async (
     const args =
         port !== undefined ? (rest.args ?? []).map((a) => (a === ':PORT' ? String(port) : a)) : rest.args ?? [];
 
+    const ready = (() => {
+        const r = rest.ready;
+        if (!r) return r;
+        if (r.kind === 'http' && typeof r.url === 'string' && port !== undefined) {
+            return { ...r, url: r.url.replace(':PORT', `:${port}`) } as typeof r;
+        }
+        if (r.kind === 'tcp' && port !== undefined) {
+            return { ...r, port } as typeof r;
+        }
+        return r;
+    })();
+
     const proc = await startProcess({
         ...rest,
         args,
+        ...(ready ? { ready } : {}),
     });
 
     const baseUrl = port !== undefined && baseUrlTemplate ? baseUrlTemplate(port) : undefined;

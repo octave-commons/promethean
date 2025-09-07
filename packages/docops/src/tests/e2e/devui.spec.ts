@@ -3,7 +3,11 @@ import * as url from "node:url";
 import { v4 as uuidv4 } from "uuid";
 
 import test from "ava";
-import { registerProcForFileWithPort, withPage } from "@promethean/test-utils";
+import {
+  registerProcForFileWithPort,
+  withPage,
+  shutdown,
+} from "@promethean/test-utils";
 
 const PKG_ROOT = path.resolve(
   path.dirname(url.fileURLToPath(import.meta.url)),
@@ -25,8 +29,17 @@ const { getProc } = registerProcForFileWithPort(test, {
   cwd: PKG_ROOT,
   env: { ...process.env },
   stdio: "inherit",
+  ready: {
+    kind: "http",
+    url: "http://localhost:PORT/health",
+    timeoutMs: 60_000,
+  },
   port: { mode: "free" },
   baseUrlTemplate: (p) => `http://127.0.0.1:${p}/`,
+});
+
+test.after.always(async () => {
+  await shutdown();
 });
 
 test(
