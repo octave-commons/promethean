@@ -134,18 +134,23 @@ export async function runPipeline(
         execRes = await runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
       else if (s.ts) execRes = await runTSModule(s, cwd, s.env, s.timeoutMs);
       else if (s.js) {
-        const modPath = path.isAbsolute(s.js.module)
-          ? s.js.module
-          : path.resolve(cwd, s.js.module);
-        const mod = await import(modPath);
-        const exportName = s.js.export ?? "default";
-        const fn = (mod as any)[exportName];
-        if (typeof fn !== "function") {
-          throw new Error(
-            `JS step '${s.id}': export '${exportName}' is not a function.`,
-          );
+        try {
+          const modPath = path.isAbsolute(s.js.module)
+            ? s.js.module
+            : path.resolve(cwd, s.js.module);
+          const mod = await import(modPath);
+          const exportName = s.js.export ?? "default";
+          const fn = (mod as any)[exportName];
+          if (typeof fn !== "function") {
+            throw new Error(
+              `JS step '${s.id}': export '${exportName}' is not a function.`,
+            );
+          }
+          execRes = await runJSFunction(fn, s.js.args ?? {}, s.env, s.timeoutMs);
+        } catch (e: any) {
+          execRes = { code: 1, stdout: "", stderr: e?.stack ?? String(e) };
         }
-        execRes = await runJSFunction(fn, s.js.args ?? {}, s.env, s.timeoutMs);
+      }
 
       const endedAt = new Date().toISOString();
       const out: StepResult = {
