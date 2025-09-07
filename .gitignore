@@ -13,6 +13,7 @@ public/
 # keep .env ignored; provide non-secret sample for image pinning
 # copy .env.example -> .env locally
 .env
+.nx
 !.env.example
 agents/duck/chroma_data/
 
