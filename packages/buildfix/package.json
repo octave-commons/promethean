@@ -13,7 +13,10 @@
     "bf:01-errors": "tsx src/01-errors.ts",
     "bf:02-iterate": "tsx src/02-iterate.ts",
     "bf:03-report": "tsx src/03-report.ts",
-    "bf:all": "pnpm bf:01-errors && pnpm bf:02-iterate && pnpm bf:03-report"
+    "bf:all": "pnpm bf:01-errors && pnpm bf:02-iterate && pnpm bf:03-report",
+    "test": "pnpm build && ava",
+    "coverage": "pnpm build && c8 ava",
+    "doc:report": "pnpm build && node ./dist/03-report.js"
   },
   "dependencies": {
     "globby": "^14.0.2",
