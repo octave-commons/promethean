@@ -345,13 +345,13 @@ importers:
         version: link:../test-utils
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -602,13 +602,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -690,13 +690,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -754,7 +754,7 @@ importers:
         version: link:../utils
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       body-parser:
         specifier: ^1.20.3
         version: 1.20.3
@@ -779,7 +779,7 @@ importers:
     devDependencies:
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/supertest':
         specifier: ^2.0.13
         version: 2.0.16
@@ -879,13 +879,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -967,13 +967,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1052,13 +1052,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1168,13 +1168,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1202,6 +1202,9 @@ importers:
       '@promethean/migrations':
         specifier: workspace:*
         version: link:../migrations
+      '@promethean/monitoring':
+        specifier: workspace:*
+        version: link:../monitoring
       '@promethean/persistence':
         specifier: workspace:*
         version: link:../persistence
@@ -1211,9 +1214,6 @@ importers:
       '@promethean/providers':
         specifier: workspace:*
         version: link:../providers
-      '@promethean/rate':
-        specifier: workspace:*
-        version: link:../rate
       '@promethean/security':
         specifier: workspace:*
         version: link:../security
@@ -1247,48 +1247,6 @@ importers:
       ws:
         specifier: ^8.18.3
         version: 8.18.3
-
-  packages/discord-gateway:
-    dependencies:
-      '@promethean/event':
-        specifier: workspace:*
-        version: link:../event
-      '@promethean/platform':
-        specifier: workspace:*
-        version: link:../platform
-      '@promethean/providers':
-        specifier: workspace:*
-        version: link:../providers
-
-  packages/discord-message-embedder:
-    dependencies:
-      '@promethean/migrations':
-        specifier: workspace:*
-        version: link:../migrations
-
-  packages/discord-message-indexer:
-    dependencies:
-      '@promethean/effects':
-        specifier: workspace:*
-        version: link:../effects
-      '@promethean/platform':
-        specifier: workspace:*
-        version: link:../platform
-
-  packages/discord-rest:
-    dependencies:
-      '@promethean/agent':
-        specifier: workspace:*
-        version: link:../agent
-      '@promethean/monitoring':
-        specifier: workspace:*
-        version: link:../monitoring
-      '@promethean/platform':
-        specifier: workspace:*
-        version: link:../platform
-      '@promethean/security':
-        specifier: workspace:*
-        version: link:../security
 
   packages/dlq:
     dependencies:
@@ -1367,13 +1325,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1509,13 +1467,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1594,13 +1552,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1616,76 +1574,6 @@ importers:
       chromadb:
         specifier: 3.0.14
         version: 3.0.14
-      duckduckgo-search:
-        specifier: ^1.0.7
-        version: 1.0.7
-      express:
-        specifier: ^4.19.2
-        version: 4.21.2
-      gray-matter:
-        specifier: ^4.0.3
-        version: 4.0.3
-      javascript-time-ago:
-        specifier: ^2.5.11
-        version: 2.5.11
-      mongodb:
-        specifier: ^6.18.0
-        version: 6.18.0(socks@2.8.7)
-      ollama:
-        specifier: ^0.5.17
-        version: 0.5.17
-      prom-client:
-        specifier: ^15.1.0
-        version: 15.1.3
-      remark-gfm:
-        specifier: ^4.0.1
-        version: 4.0.1
-      remark-parse:
-        specifier: ^11.0.0
-        version: 11.0.0
-      remark-stringify:
-        specifier: ^11.0.0
-        version: 11.0.0
-      sucrase:
-        specifier: ^3.35.0
-        version: 3.35.0
-      unified:
-        specifier: ^11.0.5
-        version: 11.0.5
-      unist:
-        specifier: ^0.0.1
-        version: 0.0.1
-      unist-util-to-string-with-nodes:
-        specifier: ^0.1.1
-        version: 0.1.1
-      unist-util-visit:
-        specifier: ^5.0.0
-        version: 5.0.0
-      uuid:
-        specifier: ^11.1.0
-        version: 11.1.0
-      ws:
-        specifier: ^8.18.0
-        version: 8.18.3
-      yaml:
-        specifier: ^2.5.1
-        version: 2.8.1
-      zod:
-        specifier: ^3.23.8
-        version: 3.25.76
-    devDependencies:
-      '@types/body-parser':
-        specifier: ^1.19.5
-        version: 1.19.6
-      '@types/estree':
-        specifier: ^1.0.5
-        version: 1.0.8
-      '@types/express':
-        specifier: ^4.17.21
-        version: 4.17.23
-      '@types/ws':
-        specifier: ^8.5.9
-        version: 8.18.1
 
   packages/event:
     dependencies:
@@ -1764,13 +1652,13 @@ importers:
         version: link:../test-utils
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1852,13 +1740,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -1980,101 +1868,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
-      '@types/ws':
-        specifier: ^8.5.9
-        version: 8.18.1
-
-  packages/hf-http:
-    dependencies:
-      '@types/javascript-time-ago':
-        specifier: ^2.5.0
-        version: 2.5.0
-      '@types/unist':
-        specifier: ^3.0.3
-        version: 3.0.3
-      body-parser:
-        specifier: ^1.20.2
-        version: 1.20.3
-      chromadb:
-        specifier: ^3.0.14
-        version: 3.0.14
-      duckduckgo-search:
-        specifier: ^1.0.7
-        version: 1.0.7
-      express:
-        specifier: ^4.19.2
-        version: 4.21.2
-      gray-matter:
-        specifier: ^4.0.3
-        version: 4.0.3
-      javascript-time-ago:
-        specifier: ^2.5.11
-        version: 2.5.11
-      mongodb:
-        specifier: ^6.18.0
-        version: 6.18.0(socks@2.8.7)
-      ollama:
-        specifier: ^0.5.17
-        version: 0.5.17
-      prom-client:
-        specifier: ^15.1.0
-        version: 15.1.3
-      remark-gfm:
-        specifier: ^4.0.1
-        version: 4.0.1
-      remark-parse:
-        specifier: ^11.0.0
-        version: 11.0.0
-      remark-stringify:
-        specifier: ^11.0.0
-        version: 11.0.0
-      sucrase:
-        specifier: ^3.35.0
-        version: 3.35.0
-      undici:
-        specifier: ^7.15.0
-        version: 7.15.0
-      unified:
-        specifier: ^11.0.5
-        version: 11.0.5
-      unist:
-        specifier: ^0.0.1
-        version: 0.0.1
-      unist-util-to-string-with-nodes:
-        specifier: ^0.1.1
-        version: 0.1.1
-      unist-util-visit:
-        specifier: ^5.0.0
-        version: 5.0.0
-      uuid:
-        specifier: ^11.1.0
-        version: 11.1.0
-      ws:
-        specifier: ^8.18.0
-        version: 8.18.3
-      yaml:
-        specifier: ^2.5.1
-        version: 2.8.1
-      zod:
-        specifier: ^3.23.8
-        version: 3.25.76
-    devDependencies:
-      '@types/body-parser':
-        specifier: ^1.19.5
-        version: 1.19.6
-      '@types/estree':
-        specifier: ^1.0.5
-        version: 1.0.8
-      '@types/express':
-        specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -2159,13 +1959,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -2275,13 +2075,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -2361,10 +2161,10 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -2483,13 +2283,13 @@ importers:
         version: link:../pm2-helpers
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -2571,13 +2371,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -2589,7 +2389,7 @@ importers:
         version: file:packages/persistence(socks@2.8.7)
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       body-parser:
         specifier: ^1.20.3
         version: 1.20.3
@@ -2605,7 +2405,7 @@ importers:
         version: file:packages/test-utils(socks@2.8.7)
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/supertest':
         specifier: ^2.0.13
         version: 2.0.16
@@ -2658,91 +2458,6 @@ importers:
       tsx:
         specifier: ^4.20.3
         version: 4.20.3
-
-  packages/metrics:
-    dependencies:
-      '@types/javascript-time-ago':
-        specifier: ^2.5.0
-        version: 2.5.0
-      '@types/unist':
-        specifier: ^3.0.3
-        version: 3.0.3
-      body-parser:
-        specifier: ^1.20.2
-        version: 1.20.3
-      chromadb:
-        specifier: ^3.0.14
-        version: 3.0.14
-      duckduckgo-search:
-        specifier: ^1.0.7
-        version: 1.0.7
-      express:
-        specifier: ^4.19.2
-        version: 4.21.2
-      gray-matter:
-        specifier: ^4.0.3
-        version: 4.0.3
-      javascript-time-ago:
-        specifier: ^2.5.11
-        version: 2.5.11
-      mongodb:
-        specifier: ^6.18.0
-        version: 6.18.0(socks@2.8.7)
-      ollama:
-        specifier: ^0.5.17
-        version: 0.5.17
-      prom-client:
-        specifier: ^15.1.0
-        version: 15.1.3
-      remark-gfm:
-        specifier: ^4.0.1
-        version: 4.0.1
-      remark-parse:
-        specifier: ^11.0.0
-        version: 11.0.0
-      remark-stringify:
-        specifier: ^11.0.0
-        version: 11.0.0
-      sucrase:
-        specifier: ^3.35.0
-        version: 3.35.0
-      unified:
-        specifier: ^11.0.5
-        version: 11.0.5
-      unist:
-        specifier: ^0.0.1
-        version: 0.0.1
-      unist-util-to-string-with-nodes:
-        specifier: ^0.1.1
-        version: 0.1.1
-      unist-util-visit:
-        specifier: ^5.0.0
-        version: 5.0.0
-      uuid:
-        specifier: ^11.1.0
-        version: 11.1.0
-      ws:
-        specifier: ^8.18.0
-        version: 8.18.3
-      yaml:
-        specifier: ^2.5.1
-        version: 2.8.1
-      zod:
-        specifier: ^3.23.8
-        version: 3.25.76
-    devDependencies:
-      '@types/body-parser':
-        specifier: ^1.19.5
-        version: 1.19.6
-      '@types/estree':
-        specifier: ^1.0.5
-        version: 1.0.8
-      '@types/express':
-        specifier: ^4.17.21
-        version: 4.17.23
-      '@types/ws':
-        specifier: ^8.5.9
-        version: 8.18.1
 
   packages/migrations:
     dependencies:
@@ -2824,13 +2539,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -2918,13 +2633,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -3016,13 +2731,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -3107,13 +2822,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -3213,13 +2928,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -3306,13 +3021,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -3394,98 +3109,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
-      '@types/ws':
-        specifier: ^8.5.9
-        version: 8.18.1
-
-  packages/rate:
-    dependencies:
-      '@types/javascript-time-ago':
-        specifier: ^2.5.0
-        version: 2.5.0
-      '@types/unist':
-        specifier: ^3.0.3
-        version: 3.0.3
-      body-parser:
-        specifier: ^1.20.2
-        version: 1.20.3
-      chromadb:
-        specifier: ^3.0.14
-        version: 3.0.14
-      duckduckgo-search:
-        specifier: ^1.0.7
-        version: 1.0.7
-      express:
-        specifier: ^4.19.2
-        version: 4.21.2
-      gray-matter:
-        specifier: ^4.0.3
-        version: 4.0.3
-      javascript-time-ago:
-        specifier: ^2.5.11
-        version: 2.5.11
-      mongodb:
-        specifier: ^6.18.0
-        version: 6.18.0(socks@2.8.7)
-      ollama:
-        specifier: ^0.5.17
-        version: 0.5.17
-      prom-client:
-        specifier: ^15.1.0
-        version: 15.1.3
-      remark-gfm:
-        specifier: ^4.0.1
-        version: 4.0.1
-      remark-parse:
-        specifier: ^11.0.0
-        version: 11.0.0
-      remark-stringify:
-        specifier: ^11.0.0
-        version: 11.0.0
-      sucrase:
-        specifier: ^3.35.0
-        version: 3.35.0
-      unified:
-        specifier: ^11.0.5
-        version: 11.0.5
-      unist:
-        specifier: ^0.0.1
-        version: 0.0.1
-      unist-util-to-string-with-nodes:
-        specifier: ^0.1.1
-        version: 0.1.1
-      unist-util-visit:
-        specifier: ^5.0.0
-        version: 5.0.0
-      uuid:
-        specifier: ^11.1.0
-        version: 11.1.0
-      ws:
-        specifier: ^8.18.0
-        version: 8.18.3
-      yaml:
-        specifier: ^2.5.1
-        version: 2.8.1
-      zod:
-        specifier: ^3.23.8
-        version: 3.25.76
-    devDependencies:
-      '@types/body-parser':
-        specifier: ^1.19.5
-        version: 1.19.6
-      '@types/estree':
-        specifier: ^1.0.5
-        version: 1.0.8
-      '@types/express':
-        specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -3589,13 +3219,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -3799,13 +3429,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -3900,13 +3530,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -4004,13 +3634,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -4134,14 +3764,14 @@ importers:
         version: 3.25.76
     devDependencies:
       '@types/body-parser':
-        specifier: ^1.19.5
-        version: 1.19.6
+        specifier: 1.19.5
+        version: 1.19.5
       '@types/estree':
-        specifier: ^1.0.5
-        version: 1.0.8
+        specifier: 1.0.5
+        version: 1.0.5
       '@types/express':
-        specifier: ^4.17.21
-        version: 4.17.23
+        specifier: 4.17.21
+        version: 4.17.21
       '@types/ws':
         specifier: 8.5.9
         version: 8.5.9
@@ -4223,13 +3853,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -4262,189 +3892,16 @@ importers:
         version: link:../pm2-helpers
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       cross-env:
         specifier: ^10.0.0
         version: 10.0.0
 
   packages/web-utils:
     dependencies:
-      '@types/javascript-time-ago':
-        specifier: ^2.5.0
-        version: 2.5.0
-      '@types/unist':
-        specifier: ^3.0.3
-        version: 3.0.3
-      body-parser:
-        specifier: ^1.20.2
-        version: 1.20.3
-      chromadb:
-        specifier: ^3.0.14
-        version: 3.0.14
-      duckduckgo-search:
-        specifier: ^1.0.7
-        version: 1.0.7
-      express:
-        specifier: ^4.19.2
-        version: 4.21.2
-      gray-matter:
-        specifier: ^4.0.3
-        version: 4.0.3
-      javascript-time-ago:
-        specifier: ^2.5.11
-        version: 2.5.11
-      mongodb:
-        specifier: ^6.18.0
-        version: 6.18.0(socks@2.8.7)
-      ollama:
-        specifier: ^0.5.17
-        version: 0.5.17
-      prom-client:
-        specifier: ^15.1.0
-        version: 15.1.3
-      remark-gfm:
-        specifier: ^4.0.1
-        version: 4.0.1
-      remark-parse:
-        specifier: ^11.0.0
-        version: 11.0.0
-      remark-stringify:
-        specifier: ^11.0.0
-        version: 11.0.0
-      sucrase:
-        specifier: ^3.35.0
-        version: 3.35.0
-      unified:
-        specifier: ^11.0.5
-        version: 11.0.5
-      unist:
-        specifier: ^0.0.1
-        version: 0.0.1
-      unist-util-to-string-with-nodes:
-        specifier: ^0.1.1
-        version: 0.1.1
-      unist-util-visit:
-        specifier: ^5.0.0
-        version: 5.0.0
-      uuid:
-        specifier: ^11.1.0
-        version: 11.1.0
-      ws:
-        specifier: ^8.18.0
-        version: 8.18.3
-      yaml:
-        specifier: ^2.5.1
-        version: 2.8.1
-      zod:
-        specifier: ^3.23.8
-        version: 3.25.76
-    devDependencies:
-      '@types/body-parser':
-        specifier: ^1.19.5
-        version: 1.19.6
-      '@types/estree':
-        specifier: ^1.0.5
-        version: 1.0.8
-      '@types/express':
-        specifier: ^4.17.21
-        version: 4.17.23
-      '@types/ws':
-        specifier: ^8.5.9
-        version: 8.18.1
-
-  packages/web-core:
-    dependencies:
-      '@types/javascript-time-ago':
-        specifier: ^2.5.0
-        version: 2.5.0
-      '@types/unist':
-        specifier: ^3.0.3
-        version: 3.0.3
-      body-parser:
-        specifier: ^1.20.2
-        version: 1.20.3
-      chromadb:
-        specifier: ^3.0.14
-        version: 3.0.14
-      duckduckgo-search:
-        specifier: ^1.0.7
-        version: 1.0.7
-      express:
-        specifier: ^4.19.2
-        version: 4.21.2
-      gray-matter:
-        specifier: ^4.0.3
-        version: 4.0.3
-      javascript-time-ago:
-        specifier: ^2.5.11
-        version: 2.5.11
-      mongodb:
-        specifier: ^6.18.0
-        version: 6.18.0(socks@2.8.7)
-      ollama:
-        specifier: ^0.5.17
-        version: 0.5.17
-      prom-client:
-        specifier: ^15.1.0
-        version: 15.1.3
-      remark-gfm:
-        specifier: ^4.0.1
-        version: 4.0.1
-      remark-parse:
-        specifier: ^11.0.0
-        version: 11.0.0
-      remark-stringify:
-        specifier: ^11.0.0
-        version: 11.0.0
-      sucrase:
-        specifier: ^3.35.0
-        version: 3.35.0
-      unified:
-        specifier: ^11.0.5
-        version: 11.0.5
-      unist:
-        specifier: ^0.0.1
-        version: 0.0.1
-      unist-util-to-string-with-nodes:
-        specifier: ^0.1.1
-        version: 0.1.1
-      unist-util-visit:
-        specifier: ^5.0.0
-        version: 5.0.0
-      uuid:
-        specifier: ^11.1.0
-        version: 11.1.0
-      ws:
-        specifier: ^8.18.0
-        version: 8.18.3
-      yaml:
-        specifier: ^2.5.1
-        version: 2.8.1
-      zod:
-        specifier: ^3.23.8
-        version: 3.25.76
-    devDependencies:
-      '@types/body-parser':
-        specifier: ^1.19.5
-        version: 1.19.6
-      '@types/estree':
-        specifier: ^1.0.5
-        version: 1.0.8
-      '@types/express':
-        specifier: ^4.17.21
-        version: 4.17.23
-      '@types/ws':
-        specifier: ^8.5.9
-        version: 8.18.1
-      fastify:
-        specifier: ^5.0.0
-        version: 5.5.0
-
-  packages/webcrawler:
-    dependencies:
-      '@promethean/web':
-        specifier: file:../web
-        version: link:../web
+      '@xenova/transformers':
+        specifier: 2.17.2
+        version: 2.17.2
       cheerio:
         specifier: 1.0.0-rc.12
         version: 1.0.0-rc.12
@@ -4529,13 +3986,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -4620,13 +4077,13 @@ importers:
     devDependencies:
       '@types/body-parser':
         specifier: ^1.19.5
-        version: 1.19.6
+        version: 1.19.5
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.8
       '@types/express':
         specifier: ^4.17.21
-        version: 4.17.23
+        version: 4.17.21
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
@@ -13274,7 +12731,7 @@ snapshots:
 
   '@types/yauzl@2.10.3':
     dependencies:
-      '@types/node': 24.3.1
+      '@types/node': 20.19.11
     optional: true
 
   '@typescript-eslint/eslint-plugin@7.18.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1)(typescript@5.9.2)':
@@ -18545,7 +18002,7 @@ snapshots:
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
       '@types/long': 4.0.2
-      '@types/node': 24.3.1
+      '@types/node': 20.19.11
       long: 4.0.0
 
   protobufjs@7.5.4:
