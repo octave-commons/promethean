@@ -1,33 +1,37 @@
 {
     "name": "ts-test-utils",
-    "root": "shared/ts/test-utils",
-    "sourceRoot": "shared/ts/test-utils/src",
+    "root": "packages/test-utils",
+    "sourceRoot": "packages/test-utils/src",
     "targets": {
         "build": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "tsc -b"
+                "command": "tsc -b",
+                "cwd": "packages/test-utils"
             },
             "outputs": ["{projectRoot}/dist"]
         },
         "typecheck": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "tsc -p tsconfig.json --noEmit"
+                "command": "tsc -p tsconfig.json --noEmit",
+                "cwd": "packages/test-utils"
             }
         },
         "test": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "ava"
+                "command": "ava",
+                "cwd": "packages/test-utils"
             }
         },
         "lint": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "eslint ."
+                "command": "eslint .",
+                "cwd": "packages/test-utils"
             }
         }
     },
-    "tags": ["scope:shared-ts"]
+    "tags": ["scope:packages"]
 }

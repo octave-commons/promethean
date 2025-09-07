@@ -4,7 +4,11 @@ import { promises as fs } from "node:fs";
 import { v4 as uuidv4 } from "uuid";
 
 import test from "ava";
-import { registerProcForFileWithPort, withPage, shutdown } from "@promethean/test-utils";
+import {
+  registerProcForFileWithPort,
+  withPage,
+  shutdown,
+} from "@promethean/test-utils";
 
 const PKG_ROOT = path.resolve(
   path.dirname(url.fileURLToPath(import.meta.url)),

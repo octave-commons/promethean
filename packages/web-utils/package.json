@@ -1,0 +1,33 @@
+{
+  "name": "@promethean/web-utils",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./dist/*": "./dist/*",
+    "./*": "./dist/*"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "lint": "pnpm exec biome lint .",
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+    "format": "pnpm exec biome format --write ."
+  },
+  "module": "dist/index.js",
+  "dependencies": {
+    "cheerio": "1.0.0-rc.12",
+    "zod": "3.23.8",
+    "@xenova/transformers": "2.17.2"
+  }
+}

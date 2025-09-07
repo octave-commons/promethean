@@ -6,7 +6,6 @@ import matter from "gray-matter";
 import {
   parseArgs,
   stripGeneratedSections,
-  relMdLink,
   anchorId,
   injectAnchors,
 } from "./utils.js";
@@ -90,7 +89,13 @@ const computeAnchorsByPath = (
                 : null;
             })
             .filter(
-              (x): x is { path: string; line: number; id: string } => !!x,
+              (
+                x,
+              ): x is {
+                path: string;
+                line: number;
+                id: string;
+              } => !!x,
             ),
         ),
     ),
@@ -109,31 +114,24 @@ const computeAnchorsByPath = (
     return byPath;
   });
 
-const relatedLines = (
-  fm: Front,
-  fpath: string,
-  byUuid: ReadonlyMap<string, DocInfo>,
-) =>
+const relatedLines = (fm: Front, byUuid: ReadonlyMap<string, DocInfo>) =>
   (fm.related_to_uuid ?? [])
     .map((u: string) => [u, byUuid.get(u)] as const)
     .filter(([, d]) => !!d)
     .map(([, d]) => {
-      const href = relMdLink(fpath, (d as DocInfo).path);
       const title = (d as DocInfo).title || "";
-      return `- [${title}](${href})`;
+      const rel = path
+        .relative(ROOT, (d as DocInfo).path)
+        .replace(/\.md$/i, "");
+      return `- [[${rel}|${title}]]`;
     })
     .reduce((xs: string[], x: string) => xs.concat([x]), [] as string[])
     .concat((fm.related_to_uuid ?? []).length === 0 ? ["- _None_"] : []);
 
-const sourceLines = (
-  fm: Front,
-  fpath: string,
-  byUuid: ReadonlyMap<string, DocInfo>,
-) =>
+const sourceLines = (fm: Front, byUuid: ReadonlyMap<string, DocInfo>) =>
   Promise.all(
     (fm.references ?? []).map((r: Ref) => {
       const ref = byUuid.get(r.uuid);
-      if (!ref) return Promise.resolve<string | null>(null);
 
       const anchorP =
         ANCHOR_STYLE === "block"
@@ -148,12 +146,13 @@ const sourceLines = (
             : Promise.resolve("");
 
       return anchorP.then((anchor) => {
-        const href = relMdLink(fpath, ref.path, anchor || undefined);
         const title = ref.title || r.uuid;
         const meta = ` (line ${r.line}, col ${r.col}${
           r.score != null ? `, score ${Math.round(r.score * 100) / 100}` : ""
         })`;
-        return `- [${title} — L${r.line}](${href})${meta}`;
+        const rel = path.relative(ROOT, ref.path).replace(/\.md$/i, "");
+        const target = anchor ? `${rel}#${anchor}` : rel;
+        return `- [[${target}|${title} — L${r.line}]]${meta}`;
       });
     }),
   ).then((lines: Array<string | null>) => {
@@ -172,15 +171,18 @@ const renderFooter = (
     ANCHOR_STYLE === "block" && anchorsByPath.has(fpath)
       ? injectAnchors(
           body,
-          anchorsByPath.get(fpath) as Array<{ line: number; id: string }>,
+          anchorsByPath.get(fpath) as Array<{
+            line: number;
+            id: string;
+          }>,
         )
       : body;
 
   const relP = INCLUDE_RELATED
-    ? Promise.resolve(relatedLines(fm, fpath, byUuid))
+    ? Promise.resolve(relatedLines(fm, byUuid))
     : Promise.resolve<string[]>([]);
   const srcP = INCLUDE_SOURCES
-    ? sourceLines(fm, fpath, byUuid)
+    ? sourceLines(fm, byUuid)
     : Promise.resolve<string[]>([]);
 
   return Promise.all([relP, srcP]).then(([rels, srcs]) => {
@@ -253,7 +255,9 @@ export async function runFooters(
             anchorsByPath,
             byUuid,
           ).then((md) => {
-            const finalMd = matter.stringify(md, fm, { language: "yaml" });
+            const finalMd = matter.stringify(md, fm, {
+              language: "yaml",
+            });
             return DRY
               ? (console.log(
                   `Would update: ${path.relative(process.cwd(), info.path)}`,

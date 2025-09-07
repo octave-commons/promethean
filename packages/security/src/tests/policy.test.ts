@@ -3,12 +3,12 @@ import test from 'ava';
 import { makePolicy, NotAllowedError } from '../index.js';
 
 const providerPolicy = makePolicy({
-  providerAccess: { allowPatterns: ['services/ts/discord-rest/'] },
+  providerAccess: { allowPatterns: ['services/ts/discord/'] },
 });
 
 test('provider caps obey access rules', async (t) => {
   await t.notThrowsAsync(() =>
-    providerPolicy.checkCapability('services/ts/discord-rest/', {
+    providerPolicy.checkCapability('services/ts/discord/', {
       kind: 'provider.rest.call',
       provider: 'discord',
       tenant: 'duck',
@@ -17,7 +17,7 @@ test('provider caps obey access rules', async (t) => {
   );
   await t.throwsAsync(
     () =>
-      providerPolicy.checkCapability('services/ts/discord-message-indexer/', {
+      providerPolicy.checkCapability('services/ts/discord-other/', {
         kind: 'provider.rest.call',
         provider: 'discord',
         tenant: 'duck',
@@ -25,7 +25,7 @@ test('provider caps obey access rules', async (t) => {
       }),
     {
       instanceOf: NotAllowedError,
-      message: /Policy denied .*provider\.rest\.call.*agent services\/ts\/discord-message-indexer\//,
+      message: /Policy denied .*provider\.rest\.call.*agent services\/ts\/discord-other\//,
     },
   );
 });
