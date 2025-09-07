@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 import { spawn } from "child_process";
+import { Worker } from "node:worker_threads";
 
 import { globby } from "globby";
 import { ensureDir } from "@promethean/fs";
@@ -60,72 +61,39 @@ export function runNode(
   });
 }
 
-export async function runJSFunction(
-  fn: (args: any) => any | Promise<any>,
+export function runJSModule(
+  modulePath: string,
+  exportName: string,
   args: any,
   env: Record<string, string>,
   timeoutMs?: number,
+  fp?: string,
 ) {
-  let stdout = "";
-  let stderr = "";
+  return new Promise<{ code: number | null; stdout: string; stderr: string }>((resolve) => {
+    const worker = new Worker(new URL("./js-worker.js", import.meta.url), {
+      workerData: { modulePath, exportName, args, env, fp },
+    });
 
-  const origStdout = process.stdout.write;
-  const origStderr = process.stderr.write;
-
-  (process.stdout.write as any) = (chunk: any) => {
-    stdout += typeof chunk === "string" ? chunk : String(chunk);
-    return true;
-  };
-  (process.stderr.write as any) = (chunk: any) => {
-    stderr += typeof chunk === "string" ? chunk : String(chunk);
-    return true;
-  };
-
-  const origEnv: Record<string, string | undefined> = {};
-  for (const [k, v] of Object.entries(env)) {
-    origEnv[k] = process.env[k];
-    process.env[k] = v;
-  }
-
-  let cleaned = false;
-  const cleanup = () => {
-    if (cleaned) return;
-    cleaned = true;
-    (process.stdout.write as any) = origStdout;
-    (process.stderr.write as any) = origStderr;
-    for (const [k, v] of Object.entries(origEnv)) {
-      if (v === undefined) delete process.env[k];
-      else process.env[k] = v;
-    }
-  };
-
-  const run = async () => {
-    try {
-      const res = await fn(args);
-      if (typeof res === "string") stdout += res;
-      return { code: 0, stdout, stderr } as const;
-    } catch (e: any) {
-      stderr += e?.stack ?? String(e);
-      return { code: 1, stdout, stderr } as const;
-    } finally {
-      cleanup();
-    }
-  };
-
-  if (!timeoutMs) return run();
-
-  let timer: NodeJS.Timeout | undefined;
-  const timeoutPromise = new Promise<{ code: number | null; stdout: string; stderr: string }>(
-    (resolve) => {
-      timer = setTimeout(() => {
-        cleanup();
-        resolve({ code: 124, stdout, stderr: stderr + "timeout" });
+    let timer: NodeJS.Timeout | undefined;
+    if (timeoutMs && timeoutMs > 0) {
+      timer = setTimeout(async () => {
+        await worker.terminate();
+        resolve({
+          code: 124,
+          stdout: "",
+          stderr: `Timed out after ${timeoutMs}ms\n`,
+        });
       }, timeoutMs);
-    },
-  );
+    }
 
-  return Promise.race([run(), timeoutPromise]).finally(() => {
-    if (timer) clearTimeout(timer);
+    worker.once("message", (msg) => {
+      if (timer) clearTimeout(timer);
+      resolve(msg);
+    });
+    worker.once("error", (err) => {
+      if (timer) clearTimeout(timer);
+      resolve({ code: 1, stdout: "", stderr: err?.stack ?? String(err) });
+    });
   });
 }
 
