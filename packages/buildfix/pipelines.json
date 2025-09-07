@@ -4,6 +4,17 @@
       "name": "buildfix",
       "steps": [
         {
+          "id": "bf-build",
+          "shell": "pnpm --filter @promethean/buildfix build",
+          "inputs": [
+            "packages/buildfix/tsconfig.json",
+            "packages/buildfix/src/**/*"
+          ],
+          "outputs": [
+            "packages/buildfix/dist/**"
+          ]
+        },
+        {
           "id": "bf-errors",
           "shell": "pnpm --filter @promethean/buildfix bf:01-errors --tsconfig tsconfig.json --out .cache/buildfix/errors.json",
           "inputs": [
@@ -16,10 +27,8 @@
         },
         {
           "id": "bf-iterate",
-          "deps": [
-            "bf-errors"
-          ],
-          "shell": "pnpm --filter @promethean/buildfix bf:02-iterate --errors .cache/buildfix/errors.json --out .cache/buildfix --model qwen3:4b --max-cycles 5 --git per-error --commit-on always --branch-prefix buildfix --remote origin --push false --use-gh false --rollback-on-regress true\n",
+          "deps": ["bf-build", "bf-errors"],
+          "shell": "pnpm --filter @promethean/buildfix bf:02-iterate --errors .cache/buildfix/errors.json --out .cache/buildfix --model qwen3:4b --max-cycles 5 --git per-error --commit-on always --branch-prefix buildfix --remote origin --push false --use-gh false --rollback-on-regress true",
           "env": {
             "OLLAMA_URL": "${OLLAMA_URL}"
           },
@@ -36,9 +45,8 @@
         },
         {
           "id": "bf-report",
-          "deps": [
-            "bf-iterate"
-          ],
+          "deps": ["bf-build", "bf-iterate"],
+
           "shell": "pnpm --filter @promethean/buildfix bf:03-report --summary .cache/buildfix/summary.json --history-root .cache/buildfix/history --out docs/agile/reports/buildfix",
           "inputs": [
             ".cache/buildfix/summary.json"
