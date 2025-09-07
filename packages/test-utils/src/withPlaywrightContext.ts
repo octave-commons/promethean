@@ -9,7 +9,7 @@ export const withPlaywrightContext: Macro<[BrowserTestFn]> = {
         const pageGoto = (path = '/') => page.goto(url(path), { waitUntil: 'domcontentloaded' });
 
         try {
-            await fn(t, { url, pageGoto });
+            await fn(t, { page, url, pageGoto });
         } finally {
             await close();
         }
