@@ -1,41 +1,37 @@
 {
-  "name": "ts-tests",
-  "root": "packages/tests",
-  "sourceRoot": "packages/tests/src",
-  "targets": {
-    "build": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "tsc -b",
-        "cwd": "packages/tests"
-      },
-      "outputs": [
-        "{projectRoot}/dist"
-      ]
+    "name": "ts-tests",
+    "root": "packages/tests",
+    "sourceRoot": "packages/tests/src",
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "tsc -b",
+                "cwd": "packages/tests"
+            },
+            "outputs": ["{projectRoot}/dist"]
+        },
+        "typecheck": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "tsc -p tsconfig.json --noEmit",
+                "cwd": "packages/tests"
+            }
+        },
+        "test": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "ava",
+                "cwd": "packages/tests"
+            }
+        },
+        "lint": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "eslint .",
+                "cwd": "packages/tests"
+            }
+        }
     },
-    "typecheck": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "tsc -p tsconfig.json --noEmit",
-        "cwd": "packages/tests"
-      }
-    },
-    "test": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "ava",
-        "cwd": "packages/tests"
-      }
-    },
-    "lint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "eslint .",
-        "cwd": "packages/tests"
-      }
-    }
-  },
-  "tags": [
-    "scope:packages"
-  ]
+    "tags": ["scope:packages"]
 }

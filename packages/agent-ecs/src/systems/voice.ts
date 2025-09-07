@@ -1,5 +1,5 @@
 // loose typing to avoid cross-package type coupling
-import type { defineAgentComponents } from '../components';
+import type { defineAgentComponents } from '../components.js';
 import { enqueueUtterance } from '../helpers/enqueueUtterance.js';
 
 type Deps = {
@@ -14,13 +14,7 @@ type Bus = {
     publish: (msg: any) => void;
 };
 
-export function VoiceSystem(
-    w: any,
-    agent: any,
-    C: ReturnType<typeof defineAgentComponents>,
-    bus: Bus,
-    deps: Deps,
-) {
+export function VoiceSystem(w: any, agent: any, C: ReturnType<typeof defineAgentComponents>, bus: Bus, deps: Deps) {
     const { VoiceState, AudioRef } = C;
 
     bus.subscribe('VOICE/JOIN_REQUESTED', async (e: any) => {

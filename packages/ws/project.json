@@ -1,41 +1,37 @@
 {
-  "name": "ts-ws",
-  "root": "packages/ws",
-  "sourceRoot": "packages/ws/src",
-  "targets": {
-    "build": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "tsc -b",
-        "cwd": "packages/ws"
-      },
-      "outputs": [
-        "{projectRoot}/dist"
-      ]
+    "name": "ts-ws",
+    "root": "packages/ws",
+    "sourceRoot": "packages/ws/src",
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "tsc -b",
+                "cwd": "packages/ws"
+            },
+            "outputs": ["{projectRoot}/dist"]
+        },
+        "typecheck": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "tsc -p tsconfig.json --noEmit",
+                "cwd": "packages/ws"
+            }
+        },
+        "test": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "ava",
+                "cwd": "packages/ws"
+            }
+        },
+        "lint": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "eslint .",
+                "cwd": "packages/ws"
+            }
+        }
     },
-    "typecheck": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "tsc -p tsconfig.json --noEmit",
-        "cwd": "packages/ws"
-      }
-    },
-    "test": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "ava",
-        "cwd": "packages/ws"
-      }
-    },
-    "lint": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "eslint .",
-        "cwd": "packages/ws"
-      }
-    }
-  },
-  "tags": [
-    "scope:packages"
-  ]
+    "tags": ["scope:packages"]
 }

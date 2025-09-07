@@ -1,7 +1,7 @@
 export function enqueueUtterance(
     w: any,
     agent: any,
-    C: ReturnType<typeof import('../components').defineAgentComponents>,
+    C: ReturnType<typeof import('../components.js').defineAgentComponents>,
     rawOpts: {
         id?: string;
         priority?: number;

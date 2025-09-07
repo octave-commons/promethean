@@ -3,8 +3,7 @@ set -euo pipefail
 
 MATCHES=$(grep -RInE "DISCORD_TOKEN|CLIENT_SECRET|REFRESH_TOKEN|bot_token" \
   --exclude-dir=.git \
-  --exclude-dir=services/ts/discord-rest \
-  --exclude-dir=services/ts/discord-gateway \
+  --exclude-dir=packages/discord \
   --exclude=config/providers.yml \
   . || true)
 
