@@ -10,21 +10,21 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "bf:01-errors": "tsx src/01-errors.ts",
-    "bf:02-iterate": "tsx src/02-iterate.ts",
-    "bf:03-report": "tsx src/03-report.ts",
-    "bf:all": "pnpm bf:01-errors && pnpm bf:02-iterate && pnpm bf:03-report",
+    "clean": "rimraf dist .cache && tsc -b --clean",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "bf:01-errors": "node ./dist/01-errors.js",
+    "bf:02-iterate": "node ./dist/02-iterate.js",
+    "bf:03-report": "node ./dist/03-report.js",
+    "bf:all": "pnpm build && pnpm bf:01-errors && pnpm bf:02-iterate && pnpm bf:03-report",
     "test": "pnpm build && ava",
     "coverage": "pnpm build && c8 ava",
     "doc:report": "pnpm build && node ./dist/03-report.js"
   },
   "dependencies": {
-    "globby": "^14.0.2",
-    "ts-morph": "^22.0.0",
-    "yaml": "^2.5.0",
-    "zod": "^3.23.8"
+    "globby": "14.0.2",
+    "ts-morph": "22.0.0",
+    "yaml": "2.5.0",
+    "zod": "3.23.8"
   },
-  "devDependencies": {
-    "tsx": "^4.19.2"
-  }
+  "devDependencies": {}
 }
