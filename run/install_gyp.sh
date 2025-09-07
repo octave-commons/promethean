@@ -51,20 +51,6 @@ NPM_PREFIX=$(npm prefix -g)
 NODE_GYP_BIN="$NPM_PREFIX/lib/node_modules/node-gyp/bin/node-gyp.js"
 #--- 6) Ensure npm global bin is on PATH for interactive shells ------------
 # npm honors env vars like NPM_CONFIG_* for config; PATH still matters for tools you run. :contentReference[oaicite:8]{index=8}
-NPM_BIN_DIR="$NPM_PREFIX/bin"
-SHELL_RC="${HOME}/.bashrc"
-if ! grep -qs "$NPM_BIN_DIR" "$SHELL_RC"; then
-  log "Adding npm global bin to PATH in $SHELL_RC …"
-  {
-    echo ""
-    echo "# Added by setup-native-node-build.sh"
-    echo "export PATH=\"$NPM_BIN_DIR:\$PATH\""
-  } >> "$SHELL_RC"
-  # shellcheck disable=SC1090
-  . "$SHELL_RC" || true
-else
-  log "npm global bin already present in PATH configuration."
-fi
 
 #--- 7) Show effective config ------------------------------------------------
 log "Verifying configuration…"
