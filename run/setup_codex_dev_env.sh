@@ -44,21 +44,19 @@ pnpm -v
 pnpm install --no-frozen-lockfile --reporter=append-only
 bash ./run/setup_playwright.sh
 
-# install ollama
-curl -fsSL https://ollama.com/install.sh | sh
+python -m pip install --user chromadb       # if not using a venv
 
-# install chroma
-python3 -m pip install --user chromadb
-# ensure user bin on PATH for chromadb CLI
-export PATH="$HOME/.local/bin:$PATH"
+# ensure PATH has the right scripts dir (see step 2)
+SCRIPTS_DIR="$(python -c 'import sysconfig; print(sysconfig.get_path("scripts"))')"
+case ":$PATH:" in *":$SCRIPTS_DIR:"*) : ;; *) export PATH="$SCRIPTS_DIR:$PATH" ;; esac
 
-# start services if not already running
-command -v chromadb >/dev/null || { echo "chromadb CLI not found on PATH"; exit 1; }
+# check where the executable actually is
+command -v chromadb || { echo "chromadb not on PATH ($SCRIPTS_DIR)"; }
 
+# start the server if not running
 pgrep -f 'chromadb run --host 127.0.0.1 --port 8000' >/dev/null || nohup chromadb run --host 127.0.0.1 --port 8000 >/dev/null 2>&1 &
 pgrep -f 'ollama serve' >/dev/null || nohup ollama serve >/dev/null 2>&1 &
 
-# wait for health
 # wait for health (60s timeout each)
 if ! timeout 60s bash -c 'until curl -fsS http://127.0.0.1:8000/api/v1/heartbeat >/dev/null; do sleep 1; done'; then
   echo "ChromaDB failed to become healthy in 60s" >&2
