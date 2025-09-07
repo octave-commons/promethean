@@ -15,7 +15,7 @@ import {
   listOutputsExist,
   runNode,
   runShell,
-  runJSFunction,
+  runJSModule,
   runTSModule,
   writeText,
 } from "./fsutils.js";
@@ -134,15 +134,21 @@ export async function runPipeline(
         execRes = await runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
       else if (s.ts) execRes = await runTSModule(s, cwd, s.env, s.timeoutMs);
       else if (s.js) {
-        const modPath = path.isAbsolute(s.js.module)
-          ? s.js.module
-          : path.resolve(cwd, s.js.module);
-        const mod = await import(modPath);
-        const fn =
-          (s.js.export && (mod as any)[s.js.export]) ||
-          (mod as any).default ||
-          mod;
-        execRes = await runJSFunction(fn, s.js.args ?? {}, s.env, s.timeoutMs);
+        try {
+          const filePath = path.isAbsolute(s.js.module)
+            ? s.js.module
+            : path.resolve(cwd, s.js.module);
+          execRes = await runJSModule(
+            filePath,
+            s.js.export ?? "default",
+            s.js.args ?? {},
+            s.env,
+            s.timeoutMs,
+            fp,
+          );
+        } catch (e: any) {
+          execRes = { code: 1, stdout: "", stderr: e?.stack ?? String(e) };
+        }
       }
 
       const endedAt = new Date().toISOString();
