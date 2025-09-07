@@ -21,12 +21,19 @@
   {:command "npx"
    :args ["-y" "@pinkpixel/npm-helper-mcp"]}
 
-  :lsp-mcp
+  :ts-ls-lsp
   {:command "npx"
    :args ["tritlo/lsp-mcp"
           "typescript"
           "/home/err/.volta/bin/typescript-language-server"
           "--stdio"]}
+
+  ;; :sonarlint-lsp
+  ;; {:command "npx"
+  ;;  :args ["tritlo/lsp-mcp"
+  ;;         "typescript"
+  ;;         "/home/err/.volta/bin/typescript-language-server"
+  ;;         "--stdio"]}
 
   :haiku-rag
   {:command "uvx"
