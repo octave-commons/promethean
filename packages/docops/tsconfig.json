@@ -8,5 +8,5 @@
     "declaration": true
   },
   "include": ["src/**/*", "./types/**/*.d.ts"],
-  "references": ["../test-utils/"]
+  "references": [{ "path": "../test-utils" }]
 }
