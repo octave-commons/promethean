@@ -49,6 +49,18 @@ await runRename({ dir: 'docs/unique' });
 
 See `docs/docops-pipeline.md` for detailed API docs and architecture.
 
+## Testing
+
+Integration and end-to-end tests expect local Ollama and ChromaDB services.
+Start them before running the suites:
+
+```
+ollama serve &
+chromadb run & # or docker run chromadb/chroma
+pnpm --filter @promethean/docops test      # integration tests
+pnpm --filter @promethean/docops test:e2e  # Playwright e2e tests
+```
+
 ## Notes
 
 - Requires Node 20+ and pnpm.
