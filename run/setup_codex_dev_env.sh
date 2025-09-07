@@ -34,9 +34,11 @@ pnpm -v
 pnpm install --no-frozen-lockfile --reporter=append-only
 bash ./run/setup_playwright.sh
 
-pgrep -f 'ollama serve' >/dev/null || nohup ollama serve >/dev/null 2>&1 &
 # install ollama
 curl -fsSL https://ollama.com/install.sh | sh
+
+pgrep -f 'ollama serve' >/dev/null || nohup ollama serve >/dev/null 2>&1 &
+
 if ! timeout 60s bash -c 'until curl -fsS http://127.0.0.1:11434/api/tags >/dev/null; do sleep 1; done'; then
     echo "Ollama daemon failed to become ready in 60s" >&2
     exit 1
