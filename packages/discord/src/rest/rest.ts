@@ -1,5 +1,5 @@
 import { makePolicy, fileBackedRegistry } from "@promethean/security";
-import { TokenBucket } from "@promethean/rate";
+import { TokenBucket } from "@promethean/monitoring";
 
 type RestResponse = {
   ok: boolean;
@@ -139,8 +139,7 @@ export class DiscordRestProxy {
       return { ok: false, status: 429, bucket: bucketKey, retry_after_ms };
     }
     const url = `https://discord.com/api/v10${route}`;
-    const hasBody =
-      method === "POST" || method === "PUT" || method === "PATCH";
+    const hasBody = method === "POST" || method === "PUT" || method === "PATCH";
     let res: Response;
     try {
       const init: RequestInit = {
