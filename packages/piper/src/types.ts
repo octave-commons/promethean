@@ -11,14 +11,19 @@ export const StepSchema = z.object({
   cache: z.enum(["content", "mtime", "none"]).default("content"),
   shell: z.string().optional(),     // run a shell command
   node: z.string().optional(),      // run `node <file>` (cwd)
-  ts: z.object({                    // import and run a TS/JS function
+  ts: z.object({                    // transpile & run a TS module in a child proc
+    module: z.string(),
+    export: z.string().default("default"),
+    args: z.any().optional()
+  }).optional(),
+  js: z.object({                    // import and run a JS function in-process
     module: z.string(),
     export: z.string().default("default"),
     args: z.any().optional()
   }).optional(),
   args: z.array(z.string()).optional(),
   timeoutMs: z.number().optional()
-}).refine(s => !!(s.shell || s.node || s.ts), { message: "step must define shell|node|ts" });
+}).refine(s => !!(s.shell || s.node || s.ts || s.js), { message: "step must define shell|node|ts|js" });
 
 export const PipelineSchema = z.object({
   name: z.string().min(1),

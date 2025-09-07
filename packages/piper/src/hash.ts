@@ -57,8 +57,8 @@ export async function stepFingerprint(
       id: step.id,
       name: step.name,
       deps: step.deps,
-      cmd: step.shell ?? step.node ?? step.ts,
-      args: step.args ?? step.ts?.args,
+      cmd: step.shell ?? step.node ?? step.ts ?? step.js,
+      args: step.args ?? step.ts?.args ?? step.js?.args,
       env: step.env,
     }),
   );
