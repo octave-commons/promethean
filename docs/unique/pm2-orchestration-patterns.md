@@ -1,5 +1,5 @@
 ---
-uuid: 7a66bc1e-9276-41ce-ac22-fc08926acb2d
+uuid: 00eb0802-50d6-4deb-a618-e01ccdc4e993
 created_at: pm2-orchestration-patterns.md
 filename: pm2-orchestration-patterns
 title: pm2-orchestration-patterns
@@ -68,10 +68,6 @@ related_to_title:
   - polymorphic-meta-programming-engine
   - Refactor Frontmatter Processing
 references:
-  - uuid: 5158f742-4a3b-466e-bfc3-d83517b64200
-    line: 818
-    col: 0
-    score: 1
   - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
     line: 280
     col: 0
@@ -338,7 +334,7 @@ module.exports = {
   defineApp,
 };
 ```
-^ref-51932e7b-26-0 ^ref-51932e7b-74-0
+^ref-51932e7b-26-0 ^ref-51932e7b-74-0 ^ref-7a66bc1e-74-0
 
 ---
 
@@ -607,3 +603,80 @@ If you're feeling fancy, we could load all service ecosystem files dynamically i
 ---
  ^ref-51932e7b-247-0 ^ref-51932e7b-248-0
 Would you like this turned into a `canvas` so we can break out a real migration plan?
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [Promethean_Eidolon_Synchronicity_Model](promethean-eidolon-synchronicity-model.md)
+- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
+- [Promethean Documentation Update](promethean-documentation-update.txt)
+- [Promethean Notes](promethean-notes.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+- [Promethean Documentation Pipeline Overview](promethean-documentation-pipeline-overview.md)
+- [Promethean Documentation Overview](promethean-documentation-overview.md)
+- [Promethean Documentation Update](promethean-documentation-update.md)
+- [ripple-propagation-demo](ripple-propagation-demo.md)
+- [run-step-api](run-step-api.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [file-watcher-auth-fix](file-watcher-auth-fix.md)
+- [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [plan-update-confirmation](plan-update-confirmation.md)
+- [Optimizing Command Limitations in System Design](optimizing-command-limitations-in-system-design.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
+- [Duck's Attractor States](ducks-attractor-states.md)
+- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
+- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
+- [Refactor Frontmatter Processing](refactor-frontmatter-processing.md)
+## Sources
+- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 1)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 1)
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.95)
+- [Promethean Dev Workflow Update — L60](promethean-dev-workflow-update.md#^ref-03a5578f-60-0) (line 60, col 0, score 0.92)
+- [Promethean Documentation Overview — L86](promethean-documentation-overview.md#^ref-9413237f-86-0) (line 86, col 0, score 0.92)
+- [Promethean Documentation Pipeline Overview — L243](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-243-0) (line 243, col 0, score 0.92)
+- [Promethean Documentation Update — L94](promethean-documentation-update.md#^ref-c0392040-94-0) (line 94, col 0, score 0.92)
+- [Promethean Documentation Update — L12](promethean-documentation-update.txt#^ref-0b872af2-12-0) (line 12, col 0, score 0.92)
+- [Promethean_Eidolon_Synchronicity_Model — L133](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-133-0) (line 133, col 0, score 0.92)
+- [Promethean Infrastructure Setup — L750](promethean-infrastructure-setup.md#^ref-6deed6ac-750-0) (line 750, col 0, score 0.92)
+- [Promethean Notes — L8](promethean-notes.md#^ref-1c4046b5-8-0) (line 8, col 0, score 0.92)
+- [ripple-propagation-demo — L189](ripple-propagation-demo.md#^ref-8430617b-189-0) (line 189, col 0, score 0.92)
+- [run-step-api — L1038](run-step-api.md#^ref-15d25922-1038-0) (line 1038, col 0, score 0.92)
+- [Promethean Full-Stack Docker Setup — L416](promethean-full-stack-docker-setup.md#^ref-2c2b48ca-416-0) (line 416, col 0, score 0.88)
+- [TypeScript Patch for Tool Calling Support — L514](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-514-0) (line 514, col 0, score 0.88)
+- [sibilant-metacompiler-overview — L52](sibilant-metacompiler-overview.md#^ref-61d4086b-52-0) (line 52, col 0, score 0.88)
+- [polymorphic-meta-programming-engine — L190](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-190-0) (line 190, col 0, score 0.88)
+- [plan-update-confirmation — L5938](plan-update-confirmation.md#^ref-b22d79c6-5938-0) (line 5938, col 0, score 0.88)
+- [Promethean Infrastructure Setup — L3436](promethean-infrastructure-setup.md#^ref-6deed6ac-3436-0) (line 3436, col 0, score 0.88)
+- [Optimizing Command Limitations in System Design — L1247](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-1247-0) (line 1247, col 0, score 0.88)
+- [Dynamic Context Model for Web Components — L3442](dynamic-context-model-for-web-components.md#^ref-f7702bf8-3442-0) (line 3442, col 0, score 0.88)
+- [Promethean Infrastructure Setup — L3789](promethean-infrastructure-setup.md#^ref-6deed6ac-3789-0) (line 3789, col 0, score 0.88)
+- [Duck's Attractor States — L2057](ducks-attractor-states.md#^ref-13951643-2057-0) (line 2057, col 0, score 0.88)
+- [Dynamic Context Model for Web Components — L6452](dynamic-context-model-for-web-components.md#^ref-f7702bf8-6452-0) (line 6452, col 0, score 0.88)
+- [Post-Linguistic Transhuman Design Frameworks — L2314](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-2314-0) (line 2314, col 0, score 0.88)
+- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.87)
+- [Refactor Frontmatter Processing — L11](refactor-frontmatter-processing.md#^ref-cfbdca2f-11-0) (line 11, col 0, score 0.87)
+- [prom-lib-rate-limiters-and-replay-api — L306](prom-lib-rate-limiters-and-replay-api.md#^ref-aee4718b-306-0) (line 306, col 0, score 0.87)
+- [Chroma-Embedding-Refactor — L289](chroma-embedding-refactor.md#^ref-8b256935-289-0) (line 289, col 0, score 0.87)
+- [Cross-Target Macro System in Sibilant — L148](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-148-0) (line 148, col 0, score 0.87)
+- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.87)
+- [Recursive Prompt Construction Engine — L147](recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0) (line 147, col 0, score 0.86)
+- [Promethean-native config design — L305](promethean-native-config-design.md#^ref-ab748541-305-0) (line 305, col 0, score 0.86)
+- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.86)
+- [file-watcher-auth-fix — L32](file-watcher-auth-fix.md#^ref-9044701b-32-0) (line 32, col 0, score 0.86)
+- [RAG UI Panel with Qdrant and PostgREST — L349](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0) (line 349, col 0, score 0.86)
+- [Lispy Macros with syntax-rules — L375](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-375-0) (line 375, col 0, score 0.86)
+- [mystery-lisp-search-session — L85](mystery-lisp-search-session.md#^ref-513dc4c7-85-0) (line 85, col 0, score 0.86)
+- [Event Bus MVP — L524](event-bus-mvp.md#^ref-534fe91d-524-0) (line 524, col 0, score 0.86)
+- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.86)
+- [Event Bus Projections Architecture — L111](event-bus-projections-architecture.md#^ref-cf6b9b17-111-0) (line 111, col 0, score 0.86)
+- [ecs-scheduler-and-prefabs — L376](ecs-scheduler-and-prefabs.md#^ref-c62a1815-376-0) (line 376, col 0, score 0.86)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L490](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-490-0) (line 490, col 0, score 0.86)
+- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.85)
+- [prom ui bootstrap — L440](promethean-web-ui-setup.md#^ref-bc5172ca-440-0) (line 440, col 0, score 0.85)
+- [i3-layout-saver — L79](i3-layout-saver.md#^ref-31f0166e-79-0) (line 79, col 0, score 0.85)
+- [Stateful Partitions and Rebalancing — L565](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-565-0) (line 565, col 0, score 0.85)
+- [heartbeat-simulation-snippets — L84](heartbeat-simulation-snippets.md#^ref-23e221e9-84-0) (line 84, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

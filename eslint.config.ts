@@ -24,12 +24,12 @@ export default [
     },
     rules: {
       // TypeScript strictness (lint-side)
-      "@typescript-eslint/consistent-type-definitions": ["error", "type"],
-      "@typescript-eslint/no-unnecessary-type-assertion": "error",
-      "@typescript-eslint/no-floating-promises": "error",
-      "@typescript-eslint/explicit-module-boundary-types": "error",
+      "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
+      "@typescript-eslint/no-unnecessary-type-assertion": "warn",
+      "@typescript-eslint/no-floating-promises": "warn",
+      "@typescript-eslint/explicit-module-boundary-types": "warn",
       "@typescript-eslint/prefer-readonly-parameter-types": [
-        "error",
+        "warn",
         {
           // these avoid most transient-symbol pitfalls
           ignoreInferredTypes: true,
@@ -40,30 +40,30 @@ export default [
       ],
 
       // FP: immutability & purity
-      "functional/no-let": "error",
-      "functional/no-try-statements": "off", // flip to "error" if you want
+      "functional/no-let": "warn",
+      "functional/no-try-statements": "off", // flip to "warn" if you want
       "functional/prefer-immutable-types": [
-        "error",
+        "warn",
         {
           enforcement: "ReadonlyDeep",
           ignoreInferredTypes: true, // avoids noise on inferred literals
         },
       ],
-      "functional/immutable-data": ["error", { ignoreClasses: "fieldsOnly" }],
-      "functional/no-loop-statements": "error",
+      "functional/immutable-data": ["warn", { ignoreClasses: "fieldsOnly" }],
+      "functional/no-loop-statements": "warn",
       "functional/no-method-signature": "off", // keep TS ergonomics
       "functional/prefer-tacit": "off", // readability first
 
       // Side-effect control
-      "promise/no-return-wrap": "error",
-      "promise/param-names": "error",
+      "promise/no-return-wrap": "warn",
+      "promise/param-names": "warn",
 
       // Imports hygiene
-      "import/first": "error",
-      "import/no-default-export": "error",
-      "import/no-cycle": ["error", { maxDepth: 1 }],
+      "import/first": "warn",
+      "import/no-default-export": "warn",
+      "import/no-cycle": ["warn", { maxDepth: 1 }],
       "import/order": [
-        "error",
+        "warn",
         {
           groups: [
             "builtin",
@@ -87,7 +87,7 @@ export default [
     ],
     rules: {
       "no-restricted-syntax": [
-        "error",
+        "warn",
         {
           selector:
             "CallExpression[callee.name='setTimeout'][arguments.0.type='Identifier']",

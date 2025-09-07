@@ -1,5 +1,5 @@
 ---
-uuid: 004a0f06-3808-4421-b9e1-41b5b41ebcb8
+uuid: 6f292f96-3063-46aa-9e9c-99cbdc01ae1a
 created_at: ecs-offload-workers.md
 filename: ecs-offload-workers
 title: ecs-offload-workers
@@ -68,14 +68,6 @@ related_to_title:
   - Promethean Agent Config DSL
   - template-based-compilation
 references:
-  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
-    line: 490
-    col: 0
-    score: 1
-  - uuid: 004a0f06-3808-4421-b9e1-41b5b41ebcb8
-    line: 77
-    col: 0
-    score: 1
   - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
     line: 400
     col: 0
@@ -234,6 +226,10 @@ references:
     score: 0.87
   - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
     line: 388
+    col: 0
+    score: 0.87
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 490
     col: 0
     score: 0.87
   - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
@@ -459,7 +455,7 @@ export class NodeWorkerPool {
 ^ref-6498b9d7-75-0
 }
 ```
-^ref-004a0f06-77-0
+^ref-004a0f06-77-0 ^ref-6498b9d7-151-0
 ^ref-6498b9d7-149-0 ^ref-6498b9d7-151-0
 
 ```ts
@@ -735,7 +731,7 @@ sched.register({
 // main loop
 setInterval(() => sched.runFrame(0.016, Date.now()), 16);
 ```
-
+ ^ref-6498b9d7-427-0
 ```ts
 // browser/static site — Web Worker pool
 import { World } from "../../shared/js/prom-lib/ds/ecs";
@@ -851,8 +847,6 @@ If you want, I can add: ^ref-6498b9d7-457-0 ^ref-6498b9d7-466-0 ^ref-6498b9d7-48
 - [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
 - [template-based-compilation](template-based-compilation.md)
 ## Sources
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L490](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-490-0) (line 490, col 0, score 1)
-- [ecs-offload-workers — L77](ecs-offload-workers.md#^ref-004a0f06-77-0) (line 77, col 0, score 1)
 - [Pure-Node Crawl Stack with Playwright and Crawlee — L400](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-400-0) (line 400, col 0, score 0.98)
 - [Event Bus MVP — L524](event-bus-mvp.md#^ref-534fe91d-524-0) (line 524, col 0, score 0.97)
 - [i3-layout-saver — L79](i3-layout-saver.md#^ref-31f0166e-79-0) (line 79, col 0, score 0.97)
@@ -893,6 +887,7 @@ If you want, I can add: ^ref-6498b9d7-457-0 ^ref-6498b9d7-466-0 ^ref-6498b9d7-48
 - [Synchronicity Waves and Web — L204](synchronicity-waves-and-web.md#^ref-91295f3a-204-0) (line 204, col 0, score 0.88)
 - [State Snapshots API and Transactional Projector — L303](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0) (line 303, col 0, score 0.87)
 - [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.87)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L490](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-490-0) (line 490, col 0, score 0.87)
 - [prom-lib-rate-limiters-and-replay-api — L306](prom-lib-rate-limiters-and-replay-api.md#^ref-aee4718b-306-0) (line 306, col 0, score 0.87)
 - [heartbeat-simulation-snippets — L80](heartbeat-simulation-snippets.md#^ref-23e221e9-80-0) (line 80, col 0, score 0.87)
 - [Promethean-native config design — L305](promethean-native-config-design.md#^ref-ab748541-305-0) (line 305, col 0, score 0.87)

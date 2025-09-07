@@ -1,5 +1,5 @@
 ---
-uuid: 4d8cbf01-e44a-452f-96a0-17bde7b416a8
+uuid: 7e84cf99-fc55-4674-b7c9-67540db2c9b1
 created_at: pure-node-crawl-stack-with-playwright-and-crawlee.md
 filename: pure-node-crawl-stack-with-playwright-and-crawlee
 title: pure-node-crawl-stack-with-playwright-and-crawlee
@@ -71,10 +71,6 @@ related_to_title:
   - Language-Agnostic Mirror System
   - Sibilant Meta-Prompt DSL
 references:
-  - uuid: d561308b-933e-4c30-ac2f-affb3504ae91
-    line: 3
-    col: 0
-    score: 1
   - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
     line: 95
     col: 0
@@ -156,451 +152,54 @@ references:
     col: 0
     score: 0.85
 ---
-Heard. JS or bust. Here’s a **pure-Node** crawling stack: Playwright + Crawlee, no Python anywhere, no SaaS, no tokens. Local proxy optional. Data lands as JSONL and (optionally) streams into Meilisearch/OpenSearch—both via HTTP from Node. ^ref-d527c05d-1-0
 
----
-
-# `docker-compose.yml` (crawl-only, JS)
-
-Drop this into your compose (or a standalone file) and run with the `crawl-js` profile. ^ref-d527c05d-7-0
-
-```yaml
-version: "3.9"
-
-networks:
-  prom-net:
-    driver: bridge
-
-volumes:
-  crawl_data:
-  crawl_storage:     # crawlee request queue + dataset persistence
-  crawl_workspace:
-
-services:
-  # Optional local proxy (good for central throttle/egress control)
-  squid:
-    profiles: ["crawl-js","proxy"]
-    image: squidfunk/squid:latest
-    ports: ["3128:3128"]
-    volumes:
-      - ./infra/squid/squid.conf:/etc/squid/squid.conf:ro
-    networks: [prom-net]
-    restart: unless-stopped
-
-  # JS crawler (Playwright chromium baked in)
-  crawler-js:
-    profiles: ["crawl-js"]
-    image: mcr.microsoft.com/playwright:v1.47.2-jammy
-    working_dir: /workspace
-    environment:
-      # --- core crawl knobs (override via env or .env) ---
-      - CRAWL_SEED=
-      - CRAWL_MAX_PAGES=200
-      - CRAWL_CONCURRENCY=6
-      - CRAWL_REQS_PER_MIN=120
-      - RESPECT_ROBOTS=true
-      - SAME_DOMAIN_ONLY=true
-      - ALLOW_LIST= # comma-separated regex; empty = allow all
-      - DENY_LIST=  # comma-separated regex; empty = deny none
-      - PROXY_URL=
-      - OUTPUT_DIR=/data
-      - SITEMAP_DISCOVER=true
-      - RSS_DISCOVER=true
-      - DEDUP_NORMALIZE=true
-      # --- sinks (all local, optional) ---
-      - SINK_OPENSEARCH_URL=        # e.g. 
-      - SINK_OPENSEARCH_INDEX=documents
-      - SINK_MEILI_URL=             # e.g. 
-      - SINK_MEILI_KEY=             # optional local master key
-      - SINK_MEILI_INDEX=documents
-    command: bash -lc "npm ci && node src/crawl.js"
-    volumes:
-      - ./infra/crawler-js:/workspace:rw        # your code
-      - crawl_data:/data                        # JSONL output
-      - crawl_storage:/workspace/storage        # Crawlee persistence
-    depends_on:
-      - squid
-    networks: [prom-net]
-    restart: "no"
-```
-^ref-d527c05d-9-0
-
----
-
-# File tree
- ^ref-d527c05d-73-0
-```
-infra/
-├─ squid/
-│  └─ squid.conf
-└─ crawler-js/
-   ├─ package.json
-   ├─ package-lock.json      # optional
-   └─ src/
-      ├─ crawl.js
-      ├─ sinks.js
-      ├─ utils.js
-      └─ ua.json            # small rotating UA set
-^ref-d527c05d-73-0
-```
-
----
-
-# `infra/squid/squid.conf` (LAN-only, no caching) ^ref-d527c05d-91-0
-
-```conf
-http_port 3128
-acl localnet src 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16
-http_access allow localnet
-http_access deny all
-dns_v4_first on
-pipeline_prefetch off
-request_header_access Authorization deny all
-reply_header_access Server deny all
-^ref-d527c05d-91-0
-cache deny all
-```
-
----
- ^ref-d527c05d-107-0
-# `infra/crawler-js/package.json`
-
-```json
-{
-  "name": "crawler-js",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "start": "node src/crawl.js"
-  },
-  "dependencies": {
-    "crawlee": "^3.9.2",
-    "playwright": "^1.47.2",
-    "robots-parser": "^3.0.1",
-    "node-fetch": "^3.3.2",
-    "fast-xml-parser": "^4.5.0",
-    "p-limit": "^6.2.0"
-^ref-d527c05d-107-0
-  }
-}
-```
-
---- ^ref-d527c05d-130-0
-
-# `infra/crawler-js/src/utils.js`
-
-```js
-import robotsParser from 'robots-parser';
-import fetch from 'node-fetch';
-
-export const sleep = (ms) => new Promise(r => setTimeout(r, ms));
-
-export function compileRegexList(csv) {
-  if (!csv) return [];
-  return csv.split(',').map(s => s.trim()).filter(Boolean).map(s => new RegExp(s, 'i'));
-}
-
-export function normalizeUrlForDedup(url) {
-  try {
-    const u = new URL(url);
-    u.hash = '';
-    u.searchParams.sort();
-    // Strip common tracking params
-    ['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','igshid','fbclid'].forEach(p => u.searchParams.delete(p));
-    return u.toString();
-  } catch { return url; }
-}
-
-export async function buildRobotsForOrigin(origin, proxyAgent) {
-  const robotsUrl = `${origin}/robots.txt`;
-  try {
-    const res = await fetch(robotsUrl, { agent: proxyAgent, timeout: 10000 });
-    const txt = res.ok ? await res.text() : '';
-    return robotsParser(robotsUrl, txt);
-  } catch {
-    return robotsParser(robotsUrl, '');
-  }
-}
-
-export function decideUrl(url, { sameDomainOnly, seedOrigin, allow, deny }) {
-  try {
-    const u = new URL(url);
-    if (sameDomainOnly && u.origin !== seedOrigin) return false;
-    if (deny.some(rx => rx.test(url))) return false;
-    if (allow.length && !allow.some(rx => rx.test(url))) return false;
-^ref-d527c05d-130-0
-    return true;
-  } catch { return false; }
-}
-```
- ^ref-d527c05d-178-0
----
-
-# `infra/crawler-js/src/sinks.js`
-
-```js
-import fetch from 'node-fetch';
-
-export async function sinkToOpenSearch(docs, { url, index }) {
-  if (!url || !index || docs.length === 0) return;
-  const nd = docs.flatMap(d => [{ index: { _index: index } }, d]).map(x => JSON.stringify(x)).join('\n') + '\n';
-  const res = await fetch(`${url}/_bulk`, { method: 'POST', headers: { 'Content-Type': 'application/x-ndjson' }, body: nd });
-  if (!res.ok) {
-    const t = await res.text().catch(()=>'');
-    console.error('OpenSearch bulk failed', res.status, t.slice(0, 400));
-  }
-}
-
-export async function sinkToMeili(docs, { url, index, apiKey }) {
-  if (!url || !index || docs.length === 0) return;
-  const res = await fetch(`${url}/indexes/${index}/documents`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...(apiKey ? { 'Authorization': `Bearer ${apiKey}` } : {}) },
-    body: JSON.stringify(docs)
-  });
-  if (!res.ok) {
-^ref-d527c05d-178-0
-    const t = await res.text().catch(()=>'');
-    console.error('Meili push failed', res.status, t.slice(0, 400));
-  }
-}
-``` ^ref-d527c05d-209-0
-
---- ^ref-d527c05d-211-0
-
-# `infra/crawler-js/src/ua.json`
-
-Small list keeps it simple (rotate per request). Add your own.
-
-```json
-^ref-d527c05d-211-0
-[
-  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
-  "Mozilla/5.0 (X11; Linux x86_64; rv:125.0) Gecko/20100101 Firefox/125.0",
-  "Mozilla/5.0 (X11; Fedora; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122 Safari/537.36"
-]
-```
-^ref-d527c05d-223-0
-
----
-
-# `infra/crawler-js/src/crawl.js`
-
-```js
-import { PlaywrightCrawler, KeyValueStore, Dataset, log, Configuration } from 'crawlee';
-import fs from 'node:fs';
-import path from 'node:path';
-import { Agent as HttpProxyAgent } from 'node:http';
-import { Agent as HttpsProxyAgent } from 'node:https';
-import { XMLParser } from 'fast-xml-parser';
-import fetch from 'node-fetch';
-import uaPool from './ua.json' assert { type: 'json' };
-import { sleep, compileRegexList, normalizeUrlForDedup, buildRobotsForOrigin, decideUrl } from './utils.js';
-import { sinkToOpenSearch, sinkToMeili } from './sinks.js';
-
-const seed = process.env.CRAWL_SEED || '
-const maxPages = +process.env.CRAWL_MAX_PAGES || 200;
-const concurrency = +process.env.CRAWL_CONCURRENCY || 6;
-const rpm = +process.env.CRAWL_REQS_PER_MIN || 120;
-const respectRobots = String(process.env.RESPECT_ROBOTS || 'true') === 'true';
-const sameDomainOnly = String(process.env.SAME_DOMAIN_ONLY || 'true') === 'true';
-const allow = compileRegexList(process.env.ALLOW_LIST || '');
-const deny = compileRegexList(process.env.DENY_LIST || '');
-const outputDir = process.env.OUTPUT_DIR || '/data';
-const sitemapDiscover = String(process.env.SITEMAP_DISCOVER || 'true') === 'true';
-const rssDiscover = String(process.env.RSS_DISCOVER || 'true') === 'true';
-const dedupNormalize = String(process.env.DEDUP_NORMALIZE || 'true') === 'true';
-
-const OS_URL = process.env.SINK_OPENSEARCH_URL || '';
-const OS_INDEX = process.env.SINK_OPENSEARCH_INDEX || 'documents';
-const MEILI_URL = process.env.SINK_MEILI_URL || '';
-const MEILI_KEY = process.env.SINK_MEILI_KEY || '';
-const MEILI_INDEX = process.env.SINK_MEILI_INDEX || 'documents';
-
-fs.mkdirSync(outputDir, { recursive: true });
-const outPath = path.join(outputDir, 'out.jsonl');
-const appendJSONL = (o) => fs.appendFileSync(outPath, JSON.stringify(o) + '\n');
-
-const seedUrl = new URL(seed);
-const seedOrigin = seedUrl.origin;
-
-const proxyUrl = process.env.PROXY_URL || '';
-const httpAgent = proxyUrl ? new HttpProxyAgent(proxyUrl) : undefined;
-const httpsAgent = proxyUrl ? new HttpsProxyAgent(proxyUrl) : undefined;
-
-let robotsByOrigin = {};
-
-async function maybeRobots(url) {
-  const origin = new URL(url).origin;
-  if (!respectRobots) return { isAllowed: () => true };
-  if (!robotsByOrigin[origin]) robotsByOrigin[origin] = await buildRobotsForOrigin(origin, url.startsWith('https') ? httpsAgent : httpAgent);
-  return robotsByOrigin[origin];
-}
-
-async function discoverSitemaps(origin) {
-  if (!sitemapDiscover) return [];
-  try {
-    const res = await fetch(`${origin}/sitemap.xml`, { agent: origin.startsWith('https') ? httpsAgent : httpAgent, timeout: 10000 });
-    if (!res.ok) return [];
-    const xml = await res.text();
-    const parser = new XMLParser({ ignoreAttributes: false });
-    const j = parser.parse(xml);
-    const urls = [];
-    if (j.urlset?.url) {
-      const arr = Array.isArray(j.urlset.url) ? j.urlset.url : [j.urlset.url];
-      for (const u of arr) if (u.loc) urls.push(u.loc);
-    }
-    if (j.sitemapindex?.sitemap) {
-      const arr = Array.isArray(j.sitemapindex.sitemap) ? j.sitemapindex.sitemap : [j.sitemapindex.sitemap];
-      for (const sm of arr) if (sm.loc) urls.push(sm.loc);
-    }
-    return urls;
-  } catch { return []; }
-}
-
-async function discoverRSS(origin) {
-  if (!rssDiscover) return [];
-  try {
-    const res = await fetch(origin, { agent: origin.startsWith('https') ? httpsAgent : httpAgent, timeout: 10000 });
-    if (!res.ok) return [];
-    const html = await res.text();
-    const matches = [...html.matchAll(/<link[^>]+type=['"]application\/(rss\+xml|atom\+xml)['"][^>]*>/gi)];
-    const urls = [];
-    for (const m of matches) {
-      const href = (m[0].match(/href='"['"]/i) || [])[1];
-      if (href) urls.push(new URL(href, origin).toString());
-    }
-    return urls;
-  } catch { return []; }
-}
-
-function rotateUA(i) {
-  return uaPool[i % uaPool.length] || uaPool[0];
-}
-
-Configuration.set({ persistStorage: true, storageDir: './storage' });
-
-const crawler = new PlaywrightCrawler({
-  maxRequestsPerCrawl: maxPages,
-  maxConcurrency: concurrency,
-  maxRequestsPerMinute: rpm,
-  headless: true,
-  requestHandlerTimeoutSecs: 60,
-  launchContext: { launchOptions: { args: ['--no-sandbox', '--disable-dev-shm-usage'] } },
-  async preNavigationHooks([{ request, session }, gotoOptions]) {
-    // robots + allow/deny checks
-    const urlToFetch = dedupNormalize ? normalizeUrlForDedup(request.url) : request.url;
-    if (!decideUrl(urlToFetch, { sameDomainOnly, seedOrigin, allow, deny })) {
-      request.noRetry = true; throw new Error('Filtered: allow/deny or cross-domain');
-    }
-    const rb = await maybeRobots(urlToFetch);
-    if (!rb.isAllowed(urlToFetch, 'PrometheanCrawler')) {
-      request.noRetry = true; throw new Error('Robots disallow');
-    }
-    // polite headers
-    request.headers ??= {};
-    request.headers['User-Agent'] = rotateUA(session?.id ? parseInt(session.id, 10) : Math.floor(Math.random() * 1000));
-    request.headers['Accept-Language'] = 'en-US,en;q=0.9';
-    if (proxyUrl) gotoOptions.proxy = { server: proxyUrl };
-    gotoOptions.waitUntil = 'domcontentloaded';
-  },
-  async requestHandler({ request, page, enqueueLinks }) {
-    const url = dedupNormalize ? normalizeUrlForDedup(request.url) : request.url;
-
-    // content capture
-    const title = await page.title().catch(()=>'');
-    const content = await page.content().catch(()=>'');
-    const now = new Date().toISOString();
-
-    const doc = { url, title, content, fetched_at: now };
-
-    appendJSONL(doc);
-    await Dataset.pushData(doc);
-
-    // Optional sinks (batch every N items in real life)
-    await sinkToOpenSearch([doc], { url: OS_URL, index: OS_INDEX });
-    await sinkToMeili([doc], { url: MEILI_URL, index: MEILI_INDEX, apiKey: MEILI_KEY });
-
-    // enqueue same-domain links (or external if you toggled sameDomainOnly=false + allow rules)
-    await enqueueLinks({
-      strategy: sameDomainOnly ? 'same-domain' : 'all',
-      transformRequestFunction: (req) => {
-        req.url = dedupNormalize ? normalizeUrlForDedup(req.url) : req.url;
-        return req;
-      }
-    });
-  },
-  async failedRequestHandler({ request, error }) {
-    appendJSONL({ url: request.url, error: String(error), failed_at: new Date().toISOString() });
-  }
-});
-
-// bootstrap queue with seed + sitemaps + rss
-const rq = await KeyValueStore.open();
-await rq.setValue('__meta__', { seed, started_at: new Date().toISOString() });
-
-const initialUrls = new Set([seed]);
-^ref-d527c05d-223-0
-if (sitemapDiscover) for (const u of await discoverSitemaps(seedOrigin)) initialUrls.add(u);
-if (rssDiscover) for (const u of await discoverRSS(seedOrigin)) initialUrls.add(u);
-
-log.setLevel(log.LEVELS.INFO);
-await crawler.run([...initialUrls]);
-console.log(`JSONL: ${outPath}`);
-^ref-d527c05d-389-0
-```
-^ref-d527c05d-231-0
-^ref-d527c05d-389-0
-
----
-
-# Run it
- ^ref-d527c05d-400-0
-```bash
-# bring up the proxy (optional) + crawler
-docker compose --profile crawl-js up --build crawler-js
-
-^ref-d527c05d-389-0
-# tweak via env (examples) ^ref-d527c05d-402-0
-CRAWL_SEED= \
-ALLOW_LIST="^ \ ^ref-d527c05d-404-0
-CRAWL_MAX_PAGES=500 \
-CRAWL_CONCURRENCY=8 \
-CRAWL_REQS_PER_MIN=240 \
-^ref-d527c05d-404-0
-^ref-d527c05d-402-0
-docker compose --profile crawl-js up --build crawler-js ^ref-d527c05d-412-0
-^ref-d527c05d-413-0 ^ref-d527c05d-414-0
-^ref-d527c05d-412-0 ^ref-d527c05d-415-0
-^ref-d527c05d-404-0 ^ref-d527c05d-416-0
-^ref-d527c05d-402-0 ^ref-d527c05d-417-0
-^ref-d527c05d-400-0
-``` ^ref-d527c05d-413-0
-^ref-d527c05d-401-0
-^ref-d527c05d-413-0 ^ref-d527c05d-419-0
-^ref-d527c05d-412-0
-^ref-d527c05d-404-0 ^ref-d527c05d-421-0
-^ref-d527c05d-402-0
-^ref-d527c05d-400-0
- ^ref-d527c05d-414-0 ^ref-d527c05d-419-0
-**Outputs** ^ref-d527c05d-415-0
- ^ref-d527c05d-412-0 ^ref-d527c05d-416-0 ^ref-d527c05d-421-0
-* JSONL at `./crawl_data/out.jsonl` (volume) ^ref-d527c05d-413-0 ^ref-d527c05d-417-0
-* Crawlee persistent storage (queue/dataset) at `./crawl_storage/` for resumability ^ref-d527c05d-414-0
- ^ref-d527c05d-415-0 ^ref-d527c05d-419-0
---- ^ref-d527c05d-416-0
- ^ref-d527c05d-417-0 ^ref-d527c05d-421-0
-## Why this is solid (and stays JS) ^ref-d527c05d-432-0
- ^ref-d527c05d-419-0 ^ref-d527c05d-433-0
-* Playwright + Crawlee = fast, headless, resilient, tested.
-* Robots.txt respected, **allow/deny** regex gates, **same-domain** toggle. ^ref-d527c05d-421-0
-* **UA rotation**, **rate limiting** (RPM), **concurrency** caps. ^ref-d527c05d-436-0
-* **Dedup normalization** avoids re-crawling tracker variants. ^ref-d527c05d-432-0
-* **Sitemap + RSS discovery** to fan out intelligently. ^ref-d527c05d-433-0
-* **Local sinks** only (Meili/OpenSearch) — no external calls.
-* Fully reproducible in Docker; no Python creep.
- ^ref-d527c05d-436-0 ^ref-d527c05d-441-0
-Want me to add a **simple DOM extractor** (meta tags, visible text, main article heuristics) or a **per-domain config file** so you can override throttles/parsers without changing code? I can drop both in quickly. ^ref-d527c05d-432-0
- ^ref-d527c05d-433-0
-\#webcrawling #javascript #playwright #crawlee #docker #airgapped #selfhosted #meilisearch #opensearch #obsidian
-ensearch #obsidian
+ ^ref-d527c05d-400-0 ^ref-d527c05d-401-0
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Parenthetical Extraction](parenthetical-extraction.md)
+- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
+- [Vectorial Exception Descent](vectorial-exception-descent.md)
+- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [i3-config-validation-methods](i3-config-validation-methods.md)
+- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
+- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
+- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
+- [Pipeline Enhancements](pipeline-enhancements.md)
+- [Eidolon Field Optimization](eidolon-field-optimization.md)
+- [Interop and Source Maps](interop-and-source-maps.md)
+- [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
+- [promethean-system-diagrams](promethean-system-diagrams.md)
+- [Universal Lisp Interface](universal-lisp-interface.md)
+- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [mystery-lisp-search-session](mystery-lisp-search-session.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Promethean-native config design](promethean-native-config-design.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [SentenceProcessing](sentenceprocessing.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+## Sources
+- [Vectorial Exception Descent — L95](vectorial-exception-descent.md#^ref-d771154e-95-0) (line 95, col 0, score 0.89)
+- [Per-Domain Policy System for JS Crawler — L188](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-188-0) (line 188, col 0, score 0.88)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 0.88)
+- [Model Selection for Lightweight Conversational Tasks — L103](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-103-0) (line 103, col 0, score 0.87)
+- [sibilant-metacompiler-overview — L52](sibilant-metacompiler-overview.md#^ref-61d4086b-52-0) (line 52, col 0, score 0.87)
+- [State Snapshots API and Transactional Projector — L303](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0) (line 303, col 0, score 0.87)
+- [Pipeline Enhancements — L169](pipeline-enhancements.md#^ref-e2135d9f-169-0) (line 169, col 0, score 0.87)
+- [i3-config-validation-methods — L28](i3-config-validation-methods.md#^ref-d28090ac-28-0) (line 28, col 0, score 0.87)
+- [Eidolon Field Optimization — L50](eidolon-field-optimization.md#^ref-de226416-50-0) (line 50, col 0, score 0.87)
+- [Interop and Source Maps — L498](interop-and-source-maps.md#^ref-cdfac40c-498-0) (line 498, col 0, score 0.87)
+- [Universal Lisp Interface — L137](universal-lisp-interface.md#^ref-b01856b4-137-0) (line 137, col 0, score 0.86)
+- [Matplotlib Animation with Async Execution — L16](matplotlib-animation-with-async-execution.md#^ref-687439f9-16-0) (line 16, col 0, score 0.86)
+- [Post-Linguistic Transhuman Design Frameworks — L269](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-269-0) (line 269, col 0, score 0.86)
+- [komorebi-group-window-hack — L132](komorebi-group-window-hack.md#^ref-dd89372d-132-0) (line 132, col 0, score 0.85)
+- [compiler-kit-foundations — L590](compiler-kit-foundations.md#^ref-01b21543-590-0) (line 590, col 0, score 0.85)
+- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.85)
+- [mystery-lisp-search-session — L106](mystery-lisp-search-session.md#^ref-513dc4c7-106-0) (line 106, col 0, score 0.85)
+- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.85)
+- [RAG UI Panel with Qdrant and PostgREST — L349](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-349-0) (line 349, col 0, score 0.85)
+- [Promethean-native config design — L305](promethean-native-config-design.md#^ref-ab748541-305-0) (line 305, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

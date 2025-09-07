@@ -5,10 +5,11 @@ import {
   getChunks,
   getChunkHits,
   getStatus,
-} from "./js/api.js";
-import "./js/components/file-tree.js";
-import { renderSelectedMarkdown } from "./js/render.js";
-import { getSelection, setSelection } from "./js/selection.js";
+} from "./api.js";
+import "./components/file-tree.js";
+import "./components/docops-step.js";
+import { renderSelectedMarkdown } from "./render.js";
+import { getSelection, setSelection } from "./selection.js";
 
 let WS_AVAILABLE = false;
 async function loadConfigAndPopulate() {
@@ -263,4 +264,92 @@ document.addEventListener("DOMContentLoaded", () => {
   );
   const rBtn = document.getElementById("refresh");
   rBtn?.addEventListener("click", loadChunksForSelected);
+  // Search wiring
+  (
+    document.getElementById("searchBtn") as HTMLButtonElement | null
+  )?.addEventListener("click", async () => {
+    const q =
+      (document.getElementById("searchTerm") as HTMLInputElement | null)
+        ?.value || "";
+    const k =
+      Number(
+        (document.getElementById("searchK") as HTMLInputElement | null)
+          ?.value || "10",
+      ) || 10;
+    const collection =
+      (document.getElementById("collection") as HTMLInputElement | null)
+        ?.value || "";
+    const box = document.getElementById("searchResults");
+    if (!box) return;
+    if (!q.trim()) {
+      box.innerHTML = "<em>Enter a query to search.</em>";
+      return;
+    }
+    box.innerHTML = "<em>Searching…</em>";
+    try {
+      const res = await searchSemantic(q, collection, k);
+      const ul = document.createElement("ul");
+      ul.style.paddingLeft = "16px";
+      (res.items || []).forEach((it: any) => {
+        const li = document.createElement("li");
+        const sc = it.score ?? 0;
+        li.textContent = `${(sc as any).toFixed ? sc.toFixed(3) : sc} — ${
+          it.title || it.docUuid
+        } (${it.path || ""})`;
+        ul.appendChild(li);
+      });
+      box.innerHTML = "";
+      box.appendChild(ul);
+    } catch (e: any) {
+      box.innerHTML = `<em>${String(e?.message || e)}</em>`;
+    }
+  });
+  // Status wiring
+  (
+    document.getElementById("statusRefresh") as HTMLButtonElement | null
+  )?.addEventListener("click", async () => {
+    const dir =
+      (document.getElementById("dir") as HTMLInputElement | null)?.value || "";
+    const onlyIncomplete =
+      (
+        document.getElementById(
+          "statusOnlyIncomplete",
+        ) as HTMLInputElement | null
+      )?.checked || false;
+    const box = document.getElementById("statusTable");
+    if (!box) return;
+    box.innerHTML = "<em>Loading…</em>";
+    try {
+      const res = await getStatus(dir, { limit: 200, page: 1, onlyIncomplete });
+      const items = res.items || [];
+      if (!items.length) {
+        box.innerHTML = "<em>No documents found.</em>";
+        return;
+      }
+      const tbl = document.createElement("table");
+      (tbl.style as any).width = "100%";
+      (tbl.style as any).fontSize = "12px";
+      const thead = document.createElement("thead");
+      thead.innerHTML =
+        '<tr><th align="left">Title</th><th>Front</th><th>Embed</th><th>Query</th><th>Relations</th><th>Footers</th></tr>';
+      const tbody = document.createElement("tbody");
+      items.forEach((it: any) => {
+        const tr = document.createElement("tr");
+        const emOK = `${it.embed?.fingerprints || 0}/${it.embed?.chunks || 0}`;
+        const qOK = `${it.query?.withHits || 0}/${it.query?.of || 0}`;
+        tr.innerHTML = `<td>${it.title || it.path}</td><td>${
+          it.frontmatter?.done ? "✔" : "✖"
+        }</td><td>${emOK}</td><td>${qOK}</td><td>${
+          it.relations?.present ? "✔" : "✖"
+        }</td><td>${it.footers?.present ? "✔" : "✖"}</td>`;
+        tbody.appendChild(tr);
+      });
+      tbl.appendChild(thead);
+      tbl.appendChild(tbody);
+      box.innerHTML = "";
+      box.appendChild(tbl);
+    } catch (e: any) {
+      box.innerHTML = `<em>${String(e?.message || e)}</em>`;
+    }
+  });
 });

@@ -1,5 +1,5 @@
 ---
-uuid: 01c5547f-27eb-42d1-af24-9cad10b6a2ca
+uuid: 790e2135-38b8-403e-b213-0cb40f23feef
 created_at: run-step-api.md
 filename: run-step-api
 title: run-step-api
@@ -69,34 +69,6 @@ related_to_title:
   - Protocol_0_The_Contradiction_Engine
 references:
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 4642
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 2149
-    col: 0
-    score: 1
-  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 5541
-    col: 0
-    score: 1
-  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
-    line: 1854
-    col: 0
-    score: 1
-  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
-    line: 2050
-    col: 0
-    score: 1
-  - uuid: 18138627-a348-4fbb-b447-410dfb400564
-    line: 4631
-    col: 0
-    score: 1
-  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
-    line: 5406
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
     line: 4644
     col: 0
     score: 1
@@ -152,46 +124,6 @@ references:
     line: 161
     col: 0
     score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 201
-    col: 0
-    score: 1
-  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
-    line: 70
-    col: 0
-    score: 1
-  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
-    line: 192
-    col: 0
-    score: 1
-  - uuid: 95205cd3-c3d5-4047-9c33-9c5ca2b49597
-    line: 113
-    col: 0
-    score: 1
-  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
-    line: 160
-    col: 0
-    score: 1
-  - uuid: d614d983-7795-491f-9437-09f3a43f72cf
-    line: 71
-    col: 0
-    score: 1
-  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
-    line: 604
-    col: 0
-    score: 1
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 277
-    col: 0
-    score: 1
-  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-    line: 225
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 323
-    col: 0
-    score: 1
   - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
     line: 11
     col: 0
@@ -244,102 +176,6 @@ references:
     line: 217
     col: 0
     score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 245
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 171
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 208
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 202
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 236
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 186
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 347
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 420
-    col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 247
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 199
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 206
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 200
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 234
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 184
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 348
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 418
-    col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 245
-    col: 0
-    score: 1
-  - uuid: 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
-    line: 159
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 7
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 33
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 15
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 44
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 401
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 205
-    col: 0
-    score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 9
     col: 0
@@ -377,30 +213,6 @@ references:
     col: 0
     score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 10
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 57
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 67
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 434
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 121
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 110
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 13
     col: 0
     score: 1
@@ -432,14 +244,6 @@ references:
     line: 56
     col: 0
     score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 165
-    col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 270
-    col: 0
-    score: 1
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
     line: 22148
     col: 0
@@ -450,10 +254,6 @@ references:
     score: 1
   - uuid: 18138627-a348-4fbb-b447-410dfb400564
     line: 20101
-    col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 271
     col: 0
     score: 1
   - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
@@ -468,15 +268,215 @@ references:
     line: 14301
     col: 0
     score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 256
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 14778
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 167
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 273
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 168
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 274
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 275
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 173
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 278
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 14175
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 14614
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 26613
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 174
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 279
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 23246
+    col: 0
+    score: 1
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 13057
+    col: 0
+    score: 1
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 140
+    col: 0
+    score: 1
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 24916
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 175
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 280
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 176
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 281
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 177
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 282
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 179
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 14183
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 14622
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 26621
+    col: 0
+    score: 1
+  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
+    line: 13068
+    col: 0
+    score: 1
+  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
+    line: 14073
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 18111
+    col: 0
+    score: 1
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 1960
+    col: 0
+    score: 1
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 1597
+    col: 0
+    score: 1
+  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
+    line: 14256
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 12737
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 8647
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 17324
+    col: 0
+    score: 1
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 3764
+    col: 0
+    score: 1
+  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+    line: 14187
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 20691
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 8612
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 18419
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 8648
+    col: 0
+    score: 1
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 2416
+    col: 0
+    score: 1
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 2440
+    col: 0
+    score: 1
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 6191
+    col: 0
+    score: 1
+  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
+    line: 1984
+    col: 0
+    score: 1
+  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
+    line: 2155
+    col: 0
+    score: 1
+  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
+    line: 1610
+    col: 0
+    score: 1
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 2584
+    col: 0
+    score: 1
 ---
 
     - No subprocesses are spawned; it calls the pipeline JS directly
-- Index exports ^ref-15d25922-3-0
-    - index.ts now exports all run* functions + computePreview for composition
+- Index exports ^ref-15d25922-3-0 ^ref-01c5547f-3-0
+    - index.ts now exports all run* functions + computePreview for composition ^ref-01c5547f-4-0
 
-LSP status
+LSP status ^ref-01c5547f-6-0
 
-- Checked with LSP MCP: ^ref-15d25922-8-0
+- Checked with LSP MCP: ^ref-15d25922-8-0 ^ref-01c5547f-8-0
     - 03-query.ts: no diagnostics
     - 02-embed.ts: no diagnostics
     - 01-frontmatter.ts, 04-relations.ts, 05-footers.ts: only “may be async” suggestions
@@ -486,9 +486,9 @@ LSP status
 How to use
 
 - Start UI: pnpm -C packages/docops doc:dev-ui
-- Open 
+- Open ^ref-01c5547f-18-0
 - Preview uses computePreview with the server DB
-- Run pipeline:
+- Run pipeline: ^ref-01c5547f-20-0
     - Server injects shared DB and a Chroma collection
     - Steps execute in-process, no LevelDB lock contention from multiple opens
 
@@ -700,7 +700,7 @@ errors)
 ## Use It
 
 - Start UI: pnpm -C packages/docops doc:dev-ui
-- Open: 
+- Open: ^ref-01c5547f-232-0
 - In “Steps”, configure the fields for any stage and click “Run”.
 - Logs stream live under each step component.
 
@@ -1198,7 +1198,7 @@ Pipeline functions (injection + progress)
 How to use
 
 - Start: pnpm -C packages/docops doc:dev-ui
-- Open: 
+- Open: ^ref-01c5547f-730-0
 - Run any step:
     - Use the new “Steps” section; configure fields; click Run to see logs and step progress.- Run full pipeline:
     - Global “Run Pipeline” shows a progress bar and step/percent updates.
@@ -1296,7 +1296,7 @@ All functions are DI-friendly: the server injects a DBs instance; runEmbed/runQu
 receive a Chroma collection instance. Each also supports an optional progress callback.
 
 - runFrontmatter(opts, db, onProgress?)
-    - Inputs:
+    - Inputs: ^ref-01c5547f-828-0
     - `opts.dir`: docs root
     - `opts.exts?`: default `[".md",".mdx",".txt"]`
     - `opts.genModel`: e.g., `qwen3:4b`
@@ -1415,9 +1415,9 @@ Progress Semantics
     - Overall: shows percent and status via a progress bar
     - Per-step component: shows raw logs output
 
-Error Handling
+Error Handling ^ref-01c5547f-947-0
 
-Error Handling
+Error Handling ^ref-01c5547f-949-0
 
 - LevelDB:
     - All steps assume a single DB instance owned by the server, injected into the step
@@ -1435,7 +1435,7 @@ Running Manually
 
 - Full UI:
     - pnpm -C packages/docops doc:dev-ui
-    - Open 
+    - Open ^ref-01c5547f-967-0
 - Programmatic:
     - import { runFrontmatter, runEmbed, runQuery, runRelations, runFooters, runRename,
 computePreview } from '@promethean/docops/src'
@@ -1492,3 +1492,133 @@ Testing & Linting
 - Only benign “may be async” suggestions observed post-refactor.
 
 If you want, I can save this as docs/docops-pipeline.md, add a concise developer README underpackages/docops/README.md, and link from AGENTS.md.
+ ^ref-15d25922-1031-0 ^ref-15d25922-1034-0 ^ref-15d25922-1038-0 ^ref-15d25922-1044-0 ^ref-15d25922-1088-0 ^ref-15d25922-1089-0 ^ref-15d25922-1090-0 ^ref-15d25922-1117-0 ^ref-15d25922-1123-0 ^ref-15d25922-1131-0 ^ref-15d25922-1138-0
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Duck's Attractor States](ducks-attractor-states.md)
+- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
+- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
+- [Promethean Documentation Update](promethean-documentation-update.txt)
+- [The Jar of Echoes](the-jar-of-echoes.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [Smoke Resonance Visualizations](smoke-resonance-visualizations.md)
+- [Synchronicity Waves and Web](synchronicity-waves-and-web.md)
+- [Creative Moments](creative-moments.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
+- [Promethean_Eidolon_Synchronicity_Model](promethean-eidolon-synchronicity-model.md)
+- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
+- [Self-Improving Documentation Tool](self-improving-documentation-tool.md)
+- [Git Commit Optimization for Code Reviews](git-commit-optimization-for-code-reviews.md)
+- [Prometheus Observability Stack](prometheus-observability-stack.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
+- [Promethean Notes](promethean-notes.md)
+- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+- [Protocol_0_The_Contradiction_Engine](protocol-0-the-contradiction-engine.md)
+## Sources
+- [Duck's Attractor States — L4644](ducks-attractor-states.md#^ref-13951643-4644-0) (line 4644, col 0, score 1)
+- [Promethean-Copilot-Intent-Engine — L133](promethean-copilot-intent-engine.md#^ref-ae24a280-133-0) (line 133, col 0, score 1)
+- [Promethean-Copilot-Intent-Engine — L147](promethean-copilot-intent-engine.md#^ref-ae24a280-147-0) (line 147, col 0, score 1)
+- [Promethean Data Sync Protocol — L92](promethean-data-sync-protocol.md#^ref-9fab9e76-92-0) (line 92, col 0, score 1)
+- [Promethean Data Sync Protocol — L99](promethean-data-sync-protocol.md#^ref-9fab9e76-99-0) (line 99, col 0, score 1)
+- [Promethean Documentation Overview — L85](promethean-documentation-overview.md#^ref-9413237f-85-0) (line 85, col 0, score 1)
+- [Promethean Documentation Update — L92](promethean-documentation-update.md#^ref-c0392040-92-0) (line 92, col 0, score 1)
+- [Promethean Documentation Update — L101](promethean-documentation-update.txt#^ref-0b872af2-101-0) (line 101, col 0, score 1)
+- [Promethean_Eidolon_Synchronicity_Model — L132](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-132-0) (line 132, col 0, score 1)
+- [Promethean_Eidolon_Synchronicity_Model — L136](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-136-0) (line 136, col 0, score 1)
+- [Promethean Infrastructure Setup — L757](promethean-infrastructure-setup.md#^ref-6deed6ac-757-0) (line 757, col 0, score 1)
+- [Promethean Infrastructure Setup — L777](promethean-infrastructure-setup.md#^ref-6deed6ac-777-0) (line 777, col 0, score 1)
+- [Promethean Notes — L103](promethean-notes.md#^ref-1c4046b5-103-0) (line 103, col 0, score 1)
+- [Promethean Pipelines — L161](promethean-pipelines.md#^ref-8b8e6103-161-0) (line 161, col 0, score 1)
+- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#^ref-618198f4-11-0) (line 11, col 0, score 1)
+- [aionian-circuit-math — L151](aionian-circuit-math.md#^ref-f2d83a77-151-0) (line 151, col 0, score 1)
+- [aionian-circuit-math — L152](aionian-circuit-math.md#^ref-f2d83a77-152-0) (line 152, col 0, score 1)
+- [api-gateway-versioning — L286](api-gateway-versioning.md#^ref-0580dcd3-286-0) (line 286, col 0, score 1)
+- [api-gateway-versioning — L288](api-gateway-versioning.md#^ref-0580dcd3-288-0) (line 288, col 0, score 1)
+- [balanced-bst — L299](balanced-bst.md#^ref-d3e7db72-299-0) (line 299, col 0, score 1)
+- [Board Automation Improvements — L12](board-automation-improvements.md#^ref-ac60a1d6-12-0) (line 12, col 0, score 1)
+- [Board Walk – 2025-08-11 — L135](board-walk-2025-08-11.md#^ref-7aa1eb92-135-0) (line 135, col 0, score 1)
+- [field-node-diagram-outline — L186](field-node-diagram-outline.md#^ref-1f32c94a-186-0) (line 186, col 0, score 1)
+- [field-node-diagram-set — L247](field-node-diagram-set.md#^ref-22b989d5-247-0) (line 247, col 0, score 1)
+- [Fnord Tracer Protocol — L354](fnord-tracer-protocol.md#^ref-fc21f824-354-0) (line 354, col 0, score 1)
+- [Git Commit Optimization for Code Reviews — L163](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-163-0) (line 163, col 0, score 1)
+- [heartbeat-fragment-demo — L217](heartbeat-fragment-demo.md#^ref-dd00677a-217-0) (line 217, col 0, score 1)
+- [Creative Moments — L9](creative-moments.md#^ref-10d98225-9-0) (line 9, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L117](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-117-0) (line 117, col 0, score 1)
+- [Docops Feature Updates — L58](docops-feature-updates-3.md#^ref-cdbd21ee-58-0) (line 58, col 0, score 1)
+- [Docops Feature Updates — L82](docops-feature-updates.md#^ref-2792d448-82-0) (line 82, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L67](duckduckgosearchpipeline.md#^ref-e979c50f-67-0) (line 67, col 0, score 1)
+- [Duck's Attractor States — L66](ducks-attractor-states.md#^ref-13951643-66-0) (line 66, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L113](ducks-self-referential-perceptual-loop.md#^ref-71726f04-113-0) (line 113, col 0, score 1)
+- [Dynamic Context Model for Web Components — L469](dynamic-context-model-for-web-components.md#^ref-f7702bf8-469-0) (line 469, col 0, score 1)
+- [Eidolon Field Abstract Model — L270](eidolon-field-abstract-model.md#^ref-5e8b2388-270-0) (line 270, col 0, score 1)
+- [Creative Moments — L13](creative-moments.md#^ref-10d98225-13-0) (line 13, col 0, score 1)
+- [Docops Feature Updates — L99](docops-feature-updates-3.md#^ref-cdbd21ee-99-0) (line 99, col 0, score 1)
+- [Docops Feature Updates — L118](docops-feature-updates.md#^ref-2792d448-118-0) (line 118, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L108](duckduckgosearchpipeline.md#^ref-e979c50f-108-0) (line 108, col 0, score 1)
+- [Duck's Attractor States — L68](ducks-attractor-states.md#^ref-13951643-68-0) (line 68, col 0, score 1)
+- [Creative Moments — L8](creative-moments.md#^ref-10d98225-8-0) (line 8, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L38](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-38-0) (line 38, col 0, score 1)
+- [Docops Feature Updates — L56](docops-feature-updates-3.md#^ref-cdbd21ee-56-0) (line 56, col 0, score 1)
+- [Duck's Attractor States — L22148](ducks-attractor-states.md#^ref-13951643-22148-0) (line 22148, col 0, score 1)
+- [eidolon-field-math-foundations — L26563](eidolon-field-math-foundations.md#^ref-008f2ac0-26563-0) (line 26563, col 0, score 1)
+- [The Jar of Echoes — L20101](the-jar-of-echoes.md#^ref-18138627-20101-0) (line 20101, col 0, score 1)
+- [Creative Moments — L166](creative-moments.md#^ref-10d98225-166-0) (line 166, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L272](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-272-0) (line 272, col 0, score 1)
+- [Creative Moments — L14301](creative-moments.md#^ref-10d98225-14301-0) (line 14301, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L256](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-256-0) (line 256, col 0, score 1)
+- [Promethean Chat Activity Report — L14778](promethean-chat-activity-report.md#^ref-18344cf9-14778-0) (line 14778, col 0, score 1)
+- [Creative Moments — L167](creative-moments.md#^ref-10d98225-167-0) (line 167, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L273](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-273-0) (line 273, col 0, score 1)
+- [Creative Moments — L168](creative-moments.md#^ref-10d98225-168-0) (line 168, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L274](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-274-0) (line 274, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L275](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-275-0) (line 275, col 0, score 1)
+- [Creative Moments — L173](creative-moments.md#^ref-10d98225-173-0) (line 173, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L278](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-278-0) (line 278, col 0, score 1)
+- [Creative Moments — L14175](creative-moments.md#^ref-10d98225-14175-0) (line 14175, col 0, score 1)
+- [Promethean Chat Activity Report — L14614](promethean-chat-activity-report.md#^ref-18344cf9-14614-0) (line 14614, col 0, score 1)
+- [Promethean Dev Workflow Update — L26613](promethean-dev-workflow-update.md#^ref-03a5578f-26613-0) (line 26613, col 0, score 1)
+- [Creative Moments — L174](creative-moments.md#^ref-10d98225-174-0) (line 174, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L279](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-279-0) (line 279, col 0, score 1)
+- [Duck's Attractor States — L23246](ducks-attractor-states.md#^ref-13951643-23246-0) (line 23246, col 0, score 1)
+- [Promethean Documentation Update — L13057](promethean-documentation-update.txt#^ref-0b872af2-13057-0) (line 13057, col 0, score 1)
+- [Promethean Notes — L140](promethean-notes.md#^ref-1c4046b5-140-0) (line 140, col 0, score 1)
+- [windows-tiling-with-autohotkey — L24916](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-24916-0) (line 24916, col 0, score 1)
+- [Creative Moments — L175](creative-moments.md#^ref-10d98225-175-0) (line 175, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L280](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-280-0) (line 280, col 0, score 1)
+- [Creative Moments — L176](creative-moments.md#^ref-10d98225-176-0) (line 176, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L281](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-281-0) (line 281, col 0, score 1)
+- [Creative Moments — L177](creative-moments.md#^ref-10d98225-177-0) (line 177, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L282](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-282-0) (line 282, col 0, score 1)
+- [Creative Moments — L179](creative-moments.md#^ref-10d98225-179-0) (line 179, col 0, score 1)
+- [Creative Moments — L14183](creative-moments.md#^ref-10d98225-14183-0) (line 14183, col 0, score 1)
+- [Promethean Chat Activity Report — L14622](promethean-chat-activity-report.md#^ref-18344cf9-14622-0) (line 14622, col 0, score 1)
+- [Promethean Dev Workflow Update — L26621](promethean-dev-workflow-update.md#^ref-03a5578f-26621-0) (line 26621, col 0, score 1)
+- [Promethean Documentation Update — L13068](promethean-documentation-update.txt#^ref-0b872af2-13068-0) (line 13068, col 0, score 1)
+- [Promethean Notes — L14073](promethean-notes.md#^ref-1c4046b5-14073-0) (line 14073, col 0, score 1)
+- [The Jar of Echoes — L18111](the-jar-of-echoes.md#^ref-18138627-18111-0) (line 18111, col 0, score 1)
+- [graph-ds — L1960](graph-ds.md#^ref-6620e2f2-1960-0) (line 1960, col 0, score 1)
+- [ParticleSimulationWithCanvasAndFFmpeg — L1597](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-1597-0) (line 1597, col 0, score 1)
+- [windows-tiling-with-autohotkey — L14256](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-14256-0) (line 14256, col 0, score 1)
+- [Promethean Dev Workflow Update — L12737](promethean-dev-workflow-update.md#^ref-03a5578f-12737-0) (line 12737, col 0, score 1)
+- [Promethean Chat Activity Report — L8647](promethean-chat-activity-report.md#^ref-18344cf9-8647-0) (line 8647, col 0, score 1)
+- [The Jar of Echoes — L17324](the-jar-of-echoes.md#^ref-18138627-17324-0) (line 17324, col 0, score 1)
+- [homeostasis-decay-formulas — L3764](homeostasis-decay-formulas.md#^ref-37b5d236-3764-0) (line 3764, col 0, score 1)
+- [Promethean Dev Workflow Update — L14187](promethean-dev-workflow-update.md#^ref-03a5578f-14187-0) (line 14187, col 0, score 1)
+- [Duck's Attractor States — L20691](ducks-attractor-states.md#^ref-13951643-20691-0) (line 20691, col 0, score 1)
+- [Promethean Chat Activity Report — L8612](promethean-chat-activity-report.md#^ref-18344cf9-8612-0) (line 8612, col 0, score 1)
+- [eidolon-field-math-foundations — L18419](eidolon-field-math-foundations.md#^ref-008f2ac0-18419-0) (line 18419, col 0, score 1)
+- [Promethean Chat Activity Report — L8648](promethean-chat-activity-report.md#^ref-18344cf9-8648-0) (line 8648, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L2416](layer1survivabilityenvelope.md#^ref-64a9f9f9-2416-0) (line 2416, col 0, score 1)
+- [ParticleSimulationWithCanvasAndFFmpeg — L2440](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-2440-0) (line 2440, col 0, score 1)
+- [plan-update-confirmation — L6191](plan-update-confirmation.md#^ref-b22d79c6-6191-0) (line 6191, col 0, score 1)
+- [Promethean Pipelines — L1984](promethean-pipelines.md#^ref-8b8e6103-1984-0) (line 1984, col 0, score 1)
+- [zero-copy-snapshots-and-workers — L2155](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-2155-0) (line 2155, col 0, score 1)
+- [Promethean State Format — L1610](promethean-state-format.md#^ref-23df6ddb-1610-0) (line 1610, col 0, score 1)
+- [Ice Box Reorganization — L2584](ice-box-reorganization.md#^ref-291c7d91-2584-0) (line 2584, col 0, score 1)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

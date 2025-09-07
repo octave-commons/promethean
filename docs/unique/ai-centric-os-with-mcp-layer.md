@@ -1,26 +1,24 @@
 ---
-uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+uuid: b6614918-dd6a-4ea2-9b3e-1aa5d352dba1
 created_at: ai-centric-os-with-mcp-layer.md
 filename: AI-Centric OS with MCP Layer
 title: AI-Centric OS with MCP Layer
 description: >-
   A local-only, pure JavaScript framework for building AI-centric systems with a
-  modular MCP layer that enables agents to interact with domain-specific tools
-  via secure, policy-gated micro-services. Includes crawling, indexing,
-  observability, and idempotent operations without SaaS dependencies.
+  modular MCP (Middleware Control Plane) layer. It enables agents to interact
+  with domain-specific tools via micro-servers, ensuring security through policy
+  gates and observability through structured event logging.
 tags:
   - AI
   - OS
   - MCP
   - agents
-  - crawling
   - RAG
   - observability
-  - idempotency
-  - policy-gating
   - local-only
   - tooling
-  - microservices
+  - idempotency
+  - circuit-breaker
 related_to_uuid:
   - 03a5578f-d689-45db-95e9-11300e5eee6f
   - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
@@ -104,38 +102,6 @@ references:
     score: 1
   - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
     line: 5405
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 4642
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 2149
-    col: 0
-    score: 1
-  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 5541
-    col: 0
-    score: 1
-  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
-    line: 1854
-    col: 0
-    score: 1
-  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
-    line: 2050
-    col: 0
-    score: 1
-  - uuid: 18138627-a348-4fbb-b447-410dfb400564
-    line: 4631
-    col: 0
-    score: 1
-  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
-    line: 5406
-    col: 0
-    score: 1
-  - uuid: 0f203aa7-c96d-4323-9b9e-bbc438966e8c
-    line: 1
     col: 0
     score: 1
   - uuid: 13951643-1741-46bb-89dc-1beebb122633
@@ -239,7 +205,7 @@ Keep tools **narrow** and **predictable**. All args JSON-schema validated. ^ref-
   }
 }
 ```
-^ref-0f1f8cc1-42-0 ^ref-0f1f8cc1-77-0
+^ref-0f1f8cc1-42-0 ^ref-0f1f8cc1-77-0 ^ref-a28a39dd-77-0
  ^ref-0f1f8cc1-78-0
 ```json
 // mcp-policies
@@ -290,7 +256,7 @@ Keep tools **narrow** and **predictable**. All args JSON-schema validated. ^ref-
 }
 ^ref-0f1f8cc1-124-0
 ```
-^ref-0f1f8cc1-124-0 ^ref-0f1f8cc1-128-0
+^ref-0f1f8cc1-124-0 ^ref-0f1f8cc1-128-0 ^ref-a28a39dd-128-0
 
 ```json
 // mcp-search
@@ -324,7 +290,7 @@ Keep tools **narrow** and **predictable**. All args JSON-schema validated. ^ref-
 }
 ^ref-0f1f8cc1-154-0
 ```
-^ref-0f1f8cc1-154-0 ^ref-0f1f8cc1-162-0
+^ref-0f1f8cc1-154-0 ^ref-0f1f8cc1-162-0 ^ref-a28a39dd-162-0
 
 ```json
 // mcp-observe
@@ -607,3 +573,46 @@ agents:
 If you want, I’ll stub the remaining service skeletons (`mcp-policies`, `mcp-index`, `mcp-search`, `mcp-tor`, `mcp-observe`) with exact endpoints and \~50-line handlers each — JS only, clean and boring, ready to drop into your repo. ^ref-0f1f8cc1-410-0
  ^ref-0f1f8cc1-404-0 ^ref-0f1f8cc1-411-0
 \#mcp #agents #architecture #javascript #docker #nats #redis #opensearch #meilisearch #playwright #crawlee #tor #observability #prometheus #loki #grafana #promethean #permissions #circuit2
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
+- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
+- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [Duck's Attractor States](ducks-attractor-states.md)
+- [Promethean Documentation Update](promethean-documentation-update.txt)
+- [Promethean Notes](promethean-notes.md)
+- [The Jar of Echoes](the-jar-of-echoes.md)
+- [schema-evolution-workflow](schema-evolution-workflow.md)
+- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
+- [Creative Moments](creative-moments.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [archetype-ecs](archetype-ecs.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
+- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [smart-chatgpt-thingy](smart-chatgpt-thingy.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+## Sources
+- [Canonical Org-Babel Matplotlib Animation Template — L3586](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-3586-0) (line 3586, col 0, score 1)
+- [Creative Moments — L2076](creative-moments.md#^ref-10d98225-2076-0) (line 2076, col 0, score 1)
+- [Duck's Attractor States — L4641](ducks-attractor-states.md#^ref-13951643-4641-0) (line 4641, col 0, score 1)
+- [Promethean Chat Activity Report — L2148](promethean-chat-activity-report.md#^ref-18344cf9-2148-0) (line 2148, col 0, score 1)
+- [Promethean Dev Workflow Update — L5540](promethean-dev-workflow-update.md#^ref-03a5578f-5540-0) (line 5540, col 0, score 1)
+- [Promethean Documentation Update — L1853](promethean-documentation-update.txt#^ref-0b872af2-1853-0) (line 1853, col 0, score 1)
+- [Promethean Notes — L2049](promethean-notes.md#^ref-1c4046b5-2049-0) (line 2049, col 0, score 1)
+- [windows-tiling-with-autohotkey — L5405](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-5405-0) (line 5405, col 0, score 1)
+- [Duck's Attractor States — L4621](ducks-attractor-states.md#^ref-13951643-4621-0) (line 4621, col 0, score 0.98)
+- [windows-tiling-with-autohotkey — L104](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-104-0) (line 104, col 0, score 0.87)
+- [typed-struct-compiler — L376](typed-struct-compiler.md#^ref-78eeedf7-376-0) (line 376, col 0, score 0.85)
+- [archetype-ecs — L363](archetype-ecs.md#^ref-8f4c1e86-363-0) (line 363, col 0, score 0.85)
+- [typed-struct-compiler — L358](typed-struct-compiler.md#^ref-78eeedf7-358-0) (line 358, col 0, score 0.85)
+- [Unique Info Dump Index — L38](unique-info-dump-index.md#^ref-cdf2c6e4-38-0) (line 38, col 0, score 0.85)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

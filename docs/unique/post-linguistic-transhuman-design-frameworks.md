@@ -1,5 +1,5 @@
 ---
-uuid: eb21f139-3125-4969-bc81-06a30887fc3a
+uuid: f96ae7fc-cd5c-4ed5-b2bb-c49c0dba708f
 created_at: post-linguistic-transhuman-design-frameworks.md
 filename: Post-Linguistic Transhuman Design Frameworks
 title: Post-Linguistic Transhuman Design Frameworks
@@ -19,38 +19,458 @@ tags:
   - embodied cognition
   - mythic frameworks
 related_to_uuid:
-  - 7842d43c-7d13-46f0-bdf1-561f5e4c6f53
-  - cdb74242-b61d-4b7e-9288-5859e040e512
-  - 740bbd1c-c039-405c-8a32-4baeddfb5637
-  - 6f13f134-7536-4bc3-b695-5aaa2906bb9d
-  - c46718fe-73dd-4236-8f1c-f6565da58cc4
-  - fd753d3a-84cb-4bdd-ae93-8c5b09617e3b
-  - f1af85cb-be45-42cf-beee-d0795ded07bf
-  - 8a9432f5-cb79-40fa-bab1-d3b9e9c0bac8
-  - a28a39dd-8c17-463c-9050-2ffe9b56e8bc
-  - 526317d7-2eaf-4559-bb17-1f8dcfe9e30c
-  - 7a75d992-5267-4557-b464-b6c7d3f88dad
-  - d65e5b6c-29ed-458f-bf9b-94bf0d48fa79
-  - 5b8c984e-cff5-4d59-b904-4c7c558a4030
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - 6620e2f2-de6d-45d8-a722-5d26e160b370
+  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 18138627-a348-4fbb-b447-410dfb400564
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
+  - a4d90289-798d-44a0-a8e8-a055ae12fb52
+  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
+  - c3cd4f65-2bb3-4fca-a32e-2ac667e03f40
+  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+  - 9a93a756-6d33-45d1-aca9-51b74f2b33d2
+  - a4a25141-6380-40b9-9cd7-b554b246b303
+  - f5579967-762d-4cfd-851e-4f71b4cb77a1
+  - 23df6ddb-05cf-4639-8201-f8291f8a6026
+  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - dd89372d-10de-42a9-8c96-6bc13ea36d02
+  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+  - 5f65dfa5-dc97-4a6c-ad93-c45c1312e156
+  - 9b694a91-dec5-4708-9462-3f71000ba925
 related_to_title:
-  - promethean-infrastructure-setup
-  - Event Bus Projections Architecture
-  - heartbeat-fragment-demo
-  - shared-package-layout-clarification
-  - shared-package-structure
+  - Fnord Tracer Protocol
+  - graph-ds
+  - Ice Box Reorganization
+  - Model Selection for Lightweight Conversational Tasks
   - polyglot-repl-interface-layer
-  - Zero-Copy Snapshots and Workers
-  - Local-Only LLM Workflow
-  - AI-Centric OS with MCP Layer
-  - Cross-Target Macro System in Sibilant
-  - field-dynamics-math-blocks
-  - sibilant-macro-targets
-  - lisp-dsl-window-management
+  - Chroma Toolkit Consolidation Plan
+  - Dynamic Context Model for Web Components
+  - The Jar of Echoes
+  - i3-bluetooth-setup
+  - DuckDuckGoSearchPipeline
+  - Duck's Self-Referential Perceptual Loop
+  - Factorio AI with External Agents
+  - field-interaction-equations
+  - Tracing the Signal
+  - Prompt_Folder_Bootstrap
+  - Protocol_0_The_Contradiction_Engine
+  - Functional Embedding Pipeline Refactor
+  - Performance-Optimized-Polyglot-Bridge
+  - Promethean State Format
+  - field-node-diagram-visualizations
+  - homeostasis-decay-formulas
+  - komorebi-group-window-hack
+  - Layer1SurvivabilityEnvelope
+  - MindfulRobotIntegration
+  - Obsidian Task Generation
 references:
-  - uuid: 7842d43c-7d13-46f0-bdf1-561f5e4c6f53
+  - uuid: 6b63edca-7637-4fb0-bc85-d498c31cc46e
+    line: 220
+    col: 0
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 226
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 174
+    col: 0
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 326
+    col: 0
+    score: 1
+  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
+    line: 467
+    col: 0
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 204
+    col: 0
+    score: 1
+  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+    line: 245
+    col: 0
+    score: 1
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 167
+    col: 0
+    score: 1
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 334
+    col: 0
+    score: 1
+  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
+    line: 140
+    col: 0
+    score: 1
+  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
+    line: 143
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 148
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 36
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 166
+    col: 0
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 148
+    col: 0
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 153
+    col: 0
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 118
+    col: 0
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 168
+    col: 0
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 103
+    col: 0
+    score: 1
+  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
+    line: 380
+    col: 0
+    score: 1
+  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+    line: 194
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 85
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 93
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 64
+    col: 0
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 153
+    col: 0
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 141
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 35
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 94
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 53
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 424
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 209
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 142
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 39
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 53
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 38
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 51
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 79
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 77
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 115
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
     line: 61
     col: 0
-    score: 0.85
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 212
+    col: 0
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 150
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 94
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 63
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 66
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 93
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 73
+    col: 0
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 403
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 8
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 38
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 56
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 50
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 89
+    col: 0
+    score: 1
+  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+    line: 32
+    col: 0
+    score: 1
+  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
+    line: 49
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 95
+    col: 0
+    score: 1
+  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+    line: 133
+    col: 0
+    score: 1
+  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    line: 59
+    col: 0
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 252
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 52
+    col: 0
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 71
+    col: 0
+    score: 1
+  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    line: 99
+    col: 0
+    score: 1
+  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
+    line: 88
+    col: 0
+    score: 1
+  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
+    line: 91
+    col: 0
+    score: 1
+  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
+    line: 69
+    col: 0
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 64
+    col: 0
+    score: 1
+  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
+    line: 105
+    col: 0
+    score: 1
+  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
+    line: 92
+    col: 0
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 90
+    col: 0
+    score: 1
+  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
+    line: 50
+    col: 0
+    score: 1
+  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+    line: 81
+    col: 0
+    score: 1
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 220
+    col: 0
+    score: 1
+  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
+    line: 262
+    col: 0
+    score: 1
+  - uuid: b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
+    line: 84
+    col: 0
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 314
+    col: 0
+    score: 1
+  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
+    line: 26
+    col: 0
+    score: 1
+  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
+    line: 10
+    col: 0
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 43
+    col: 0
+    score: 1
+  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
+    line: 82
+    col: 0
+    score: 1
+  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
+    line: 37
+    col: 0
+    score: 1
+  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
+    line: 68
+    col: 0
+    score: 1
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 294
+    col: 0
+    score: 1
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 532
+    col: 0
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 456
+    col: 0
+    score: 1
+  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
+    line: 17
+    col: 0
+    score: 1
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 1035
+    col: 0
+    score: 1
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 233
+    col: 0
+    score: 1
+  - uuid: ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
+    line: 91
+    col: 0
+    score: 1
+  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
+    line: 633
+    col: 0
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 172
+    col: 0
+    score: 1
+  - uuid: c3cd4f65-2bb3-4fca-a32e-2ac667e03f40
+    line: 116
+    col: 0
+    score: 1
+  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
+    line: 77
+    col: 0
+    score: 1
+  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
+    line: 460
+    col: 0
+    score: 1
+  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
+    line: 160
+    col: 0
+    score: 1
+  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
+    line: 276
+    col: 0
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 628
+    col: 0
+    score: 1
+  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
+    line: 161
+    col: 0
+    score: 1
+  - uuid: b3555ede-324a-4d24-a885-b0721e74babf
+    line: 35
+    col: 0
+    score: 1
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 603
+    col: 0
+    score: 1
+  - uuid: 49a9a860-944c-467a-b532-4f99186a8593
+    line: 57
+    col: 0
+    score: 1
 ---
 Understood. I’ll begin exploring speculative architectures, philosophies, and design principles that reach toward a future not yet imagined — one that is emergent, desirable, and emotionally resonant, yet still grounded in your cognitive, creative, and technological capacities. ^ref-6bcff92c-1-0
 
@@ -163,7 +583,7 @@ In conclusion, moving toward futures not fully captured by language requires tha
     
 - Brain-to-brain “Internet of brains” replacing language in communication.
     
-- _Transhuman Ansambl_ project using voice beyond language for connection. ^ref-6bcff92c-71-0
+- _Transhuman Ansambl_ project using voice beyond language for connection. ^ref-6bcff92c-71-0 ^ref-6bcff92c-112-0
     
 - Speculation on post-language “structured resonance” replacing words. ^ref-6bcff92c-73-0
     
@@ -175,8 +595,138 @@ In conclusion, moving toward futures not fully captured by language requires tha
     
 - **Solarpunk** design ethos – optimistic integration of tech, nature, and meaning to imagine sustainable futures of purpose and harmony.
     
-- Hyperstition concept – fictions that become reality, _“materializing the future as it leaks from beyond comprehension.”_.
-    
-- Afrofuturist notion of the “Emotional Engine” – empathy and healing as kinetic forces for change.
-    
+- Hyperstition concept – fictions that become reality, _“materializing the future as it leaks from beyond comprehension.”_. ^ref-6bcff92c-124-0
+ ^ref-6bcff92c-125-0
+- Afrofuturist notion of the “Emotional Engine” – empathy and healing as kinetic forces for change. ^ref-6bcff92c-126-0
+ ^ref-6bcff92c-127-0
 - Afrofuturism’s call for “ancestral intelligence” and a future that is _“accountable, embodied, culturally rooted and morally urgent”_.
+ ^ref-6bcff92c-137-0 ^ref-6bcff92c-157-0 ^ref-6bcff92c-159-0 ^ref-6bcff92c-160-0 ^ref-6bcff92c-169-0 ^ref-6bcff92c-177-0 ^ref-6bcff92c-206-0 ^ref-6bcff92c-238-0 ^ref-6bcff92c-239-0 ^ref-6bcff92c-264-0 ^ref-6bcff92c-269-0 ^ref-6bcff92c-272-0 ^ref-6bcff92c-1045-0 ^ref-6bcff92c-1953-0 ^ref-6bcff92c-2314-0 ^ref-6bcff92c-2459-0 ^ref-6bcff92c-2580-0 ^ref-6bcff92c-2827-0 ^ref-6bcff92c-4019-0
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+## Related content
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [graph-ds](graph-ds.md)
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
+- [polyglot-repl-interface-layer](polyglot-repl-interface-layer.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [The Jar of Echoes](the-jar-of-echoes.md)
+- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
+- [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
+- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
+- [field-interaction-equations](field-interaction-equations.md)
+- [Tracing the Signal](tracing-the-signal.md)
+- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
+- [Protocol_0_The_Contradiction_Engine](protocol-0-the-contradiction-engine.md)
+- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
+- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
+- [Promethean State Format](promethean-state-format.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
+- [komorebi-group-window-hack](komorebi-group-window-hack.md)
+- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
+- [MindfulRobotIntegration](mindfulrobotintegration.md)
+- [Obsidian Task Generation](obsidian-task-generation.md)
+## Sources
+- [Promethean Pipelines: Local TypeScript-First Workflow — L220](promethean-pipelines-local-typescript-first-workflow.md#^ref-6b63edca-220-0) (line 220, col 0, score 1)
+- [field-node-diagram-set — L226](field-node-diagram-set.md#^ref-22b989d5-226-0) (line 226, col 0, score 1)
+- [field-node-diagram-visualizations — L174](field-node-diagram-visualizations.md#^ref-e9b27b06-174-0) (line 174, col 0, score 1)
+- [Fnord Tracer Protocol — L326](fnord-tracer-protocol.md#^ref-fc21f824-326-0) (line 326, col 0, score 1)
+- [graph-ds — L467](graph-ds.md#^ref-6620e2f2-467-0) (line 467, col 0, score 1)
+- [heartbeat-fragment-demo — L204](heartbeat-fragment-demo.md#^ref-dd00677a-204-0) (line 204, col 0, score 1)
+- [homeostasis-decay-formulas — L245](homeostasis-decay-formulas.md#^ref-37b5d236-245-0) (line 245, col 0, score 1)
+- [i3-bluetooth-setup — L167](i3-bluetooth-setup.md#^ref-5e408692-167-0) (line 167, col 0, score 1)
+- [komorebi-group-window-hack — L334](komorebi-group-window-hack.md#^ref-dd89372d-334-0) (line 334, col 0, score 1)
+- [Model Upgrade Calm-Down Guide — L140](model-upgrade-calm-down-guide.md#^ref-db74343f-140-0) (line 140, col 0, score 1)
+- [obsidian-ignore-node-modules-regex — L143](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-143-0) (line 143, col 0, score 1)
+- [eidolon-field-math-foundations — L148](eidolon-field-math-foundations.md#^ref-008f2ac0-148-0) (line 148, col 0, score 1)
+- [eidolon-node-lifecycle — L36](eidolon-node-lifecycle.md#^ref-938eca9c-36-0) (line 36, col 0, score 1)
+- [Factorio AI with External Agents — L166](factorio-ai-with-external-agents.md#^ref-a4d90289-166-0) (line 166, col 0, score 1)
+- [field-dynamics-math-blocks — L148](field-dynamics-math-blocks.md#^ref-7cfc230d-148-0) (line 148, col 0, score 1)
+- [field-interaction-equations — L153](field-interaction-equations.md#^ref-b09141b7-153-0) (line 153, col 0, score 1)
+- [field-node-diagram-outline — L118](field-node-diagram-outline.md#^ref-1f32c94a-118-0) (line 118, col 0, score 1)
+- [field-node-diagram-set — L168](field-node-diagram-set.md#^ref-22b989d5-168-0) (line 168, col 0, score 1)
+- [field-node-diagram-visualizations — L103](field-node-diagram-visualizations.md#^ref-e9b27b06-103-0) (line 103, col 0, score 1)
+- [Functional Embedding Pipeline Refactor — L380](functional-embedding-pipeline-refactor.md#^ref-a4a25141-380-0) (line 380, col 0, score 1)
+- [Functional Refactor of TypeScript Document Processing — L194](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-194-0) (line 194, col 0, score 1)
+- [Docops Feature Updates — L85](docops-feature-updates-3.md#^ref-cdbd21ee-85-0) (line 85, col 0, score 1)
+- [Duck's Attractor States — L93](ducks-attractor-states.md#^ref-13951643-93-0) (line 93, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L64](ducks-self-referential-perceptual-loop.md#^ref-71726f04-64-0) (line 64, col 0, score 1)
+- [Factorio AI with External Agents — L153](factorio-ai-with-external-agents.md#^ref-a4d90289-153-0) (line 153, col 0, score 1)
+- [field-dynamics-math-blocks — L141](field-dynamics-math-blocks.md#^ref-7cfc230d-141-0) (line 141, col 0, score 1)
+- [Docops Feature Updates — L35](docops-feature-updates.md#^ref-2792d448-35-0) (line 35, col 0, score 1)
+- [Duck's Attractor States — L94](ducks-attractor-states.md#^ref-13951643-94-0) (line 94, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L53](ducks-self-referential-perceptual-loop.md#^ref-71726f04-53-0) (line 53, col 0, score 1)
+- [Dynamic Context Model for Web Components — L424](dynamic-context-model-for-web-components.md#^ref-f7702bf8-424-0) (line 424, col 0, score 1)
+- [Eidolon Field Abstract Model — L209](eidolon-field-abstract-model.md#^ref-5e8b2388-209-0) (line 209, col 0, score 1)
+- [eidolon-field-math-foundations — L142](eidolon-field-math-foundations.md#^ref-008f2ac0-142-0) (line 142, col 0, score 1)
+- [eidolon-node-lifecycle — L39](eidolon-node-lifecycle.md#^ref-938eca9c-39-0) (line 39, col 0, score 1)
+- [Creative Moments — L53](creative-moments.md#^ref-10d98225-53-0) (line 53, col 0, score 1)
+- [Creative Moments — L38](creative-moments.md#^ref-10d98225-38-0) (line 38, col 0, score 1)
+- [Docops Feature Updates — L51](docops-feature-updates-3.md#^ref-cdbd21ee-51-0) (line 51, col 0, score 1)
+- [Docops Feature Updates — L79](docops-feature-updates.md#^ref-2792d448-79-0) (line 79, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L77](duckduckgosearchpipeline.md#^ref-e979c50f-77-0) (line 77, col 0, score 1)
+- [Duck's Attractor States — L115](ducks-attractor-states.md#^ref-13951643-115-0) (line 115, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L61](ducks-self-referential-perceptual-loop.md#^ref-71726f04-61-0) (line 61, col 0, score 1)
+- [Eidolon Field Abstract Model — L212](eidolon-field-abstract-model.md#^ref-5e8b2388-212-0) (line 212, col 0, score 1)
+- [eidolon-field-math-foundations — L150](eidolon-field-math-foundations.md#^ref-008f2ac0-150-0) (line 150, col 0, score 1)
+- [Creative Moments — L94](creative-moments.md#^ref-10d98225-94-0) (line 94, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L63](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-63-0) (line 63, col 0, score 1)
+- [Docops Feature Updates — L66](docops-feature-updates-3.md#^ref-cdbd21ee-66-0) (line 66, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L93](duckduckgosearchpipeline.md#^ref-e979c50f-93-0) (line 93, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L73](ducks-self-referential-perceptual-loop.md#^ref-71726f04-73-0) (line 73, col 0, score 1)
+- [Dynamic Context Model for Web Components — L403](dynamic-context-model-for-web-components.md#^ref-f7702bf8-403-0) (line 403, col 0, score 1)
+- [Creative Moments — L8](creative-moments.md#^ref-10d98225-8-0) (line 8, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L38](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-38-0) (line 38, col 0, score 1)
+- [Docops Feature Updates — L56](docops-feature-updates-3.md#^ref-cdbd21ee-56-0) (line 56, col 0, score 1)
+- [Creative Moments — L50](creative-moments.md#^ref-10d98225-50-0) (line 50, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L89](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-89-0) (line 89, col 0, score 1)
+- [Docops Feature Updates — L32](docops-feature-updates-3.md#^ref-cdbd21ee-32-0) (line 32, col 0, score 1)
+- [Docops Feature Updates — L49](docops-feature-updates.md#^ref-2792d448-49-0) (line 49, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L95](duckduckgosearchpipeline.md#^ref-e979c50f-95-0) (line 95, col 0, score 1)
+- [Duck's Attractor States — L133](ducks-attractor-states.md#^ref-13951643-133-0) (line 133, col 0, score 1)
+- [Duck's Self-Referential Perceptual Loop — L59](ducks-self-referential-perceptual-loop.md#^ref-71726f04-59-0) (line 59, col 0, score 1)
+- [Eidolon Field Abstract Model — L252](eidolon-field-abstract-model.md#^ref-5e8b2388-252-0) (line 252, col 0, score 1)
+- [Creative Moments — L52](creative-moments.md#^ref-10d98225-52-0) (line 52, col 0, score 1)
+- [Debugging Broker Connections and Agent Behavior — L71](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-71-0) (line 71, col 0, score 1)
+- [DuckDuckGoSearchPipeline — L99](duckduckgosearchpipeline.md#^ref-e979c50f-99-0) (line 99, col 0, score 1)
+- [Model Upgrade Calm-Down Guide — L88](model-upgrade-calm-down-guide.md#^ref-db74343f-88-0) (line 88, col 0, score 1)
+- [NPU Voice Code and Sensory Integration — L91](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-91-0) (line 91, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration Guide — L69](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-69-0) (line 69, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration — L64](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-64-0) (line 64, col 0, score 1)
+- [obsidian-ignore-node-modules-regex — L105](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-105-0) (line 105, col 0, score 1)
+- [Obsidian Task Generation — L92](obsidian-task-generation.md#^ref-9b694a91-92-0) (line 92, col 0, score 1)
+- [Obsidian Templating Plugins Integration Guide — L90](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-90-0) (line 90, col 0, score 1)
+- [OpenAPI Validation Report — L50](openapi-validation-report.md#^ref-5c152b08-50-0) (line 50, col 0, score 1)
+- [Optimizing Command Limitations in System Design — L81](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-81-0) (line 81, col 0, score 1)
+- [polyglot-repl-interface-layer — L220](polyglot-repl-interface-layer.md#^ref-9c79206d-220-0) (line 220, col 0, score 1)
+- [komorebi-group-window-hack — L262](komorebi-group-window-hack.md#^ref-dd89372d-262-0) (line 262, col 0, score 1)
+- [Mathematics Sampler — L84](mathematics-sampler.md#^ref-b5e0183e-84-0) (line 84, col 0, score 1)
+- [Migrate to Provider-Tenant Architecture — L314](migrate-to-provider-tenant-architecture.md#^ref-54382370-314-0) (line 314, col 0, score 1)
+- [Mindful Prioritization — L26](mindful-prioritization.md#^ref-40185d05-26-0) (line 26, col 0, score 1)
+- [NPU Voice Code and Sensory Integration — L10](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-10-0) (line 10, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration — L43](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-43-0) (line 43, col 0, score 1)
+- [obsidian-ignore-node-modules-regex — L82](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-82-0) (line 82, col 0, score 1)
+- [Obsidian Task Generation — L37](obsidian-task-generation.md#^ref-9b694a91-37-0) (line 37, col 0, score 1)
+- [OpenAPI Validation Report — L68](openapi-validation-report.md#^ref-5c152b08-68-0) (line 68, col 0, score 1)
+- [ParticleSimulationWithCanvasAndFFmpeg — L294](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-294-0) (line 294, col 0, score 1)
+- [Per-Domain Policy System for JS Crawler — L532](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-532-0) (line 532, col 0, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L456](performance-optimized-polyglot-bridge.md#^ref-f5579967-456-0) (line 456, col 0, score 1)
+- [Pipeline Enhancements — L17](pipeline-enhancements.md#^ref-e2135d9f-17-0) (line 17, col 0, score 1)
+- [plan-update-confirmation — L1035](plan-update-confirmation.md#^ref-b22d79c6-1035-0) (line 1035, col 0, score 1)
+- [sibilant-macro-targets — L233](sibilant-macro-targets.md#^ref-c5c9a5c6-233-0) (line 233, col 0, score 1)
+- [Smoke Resonance Visualizations — L91](smoke-resonance-visualizations.md#^ref-ac9d3ac5-91-0) (line 91, col 0, score 1)
+- [Stateful Partitions and Rebalancing — L633](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-633-0) (line 633, col 0, score 1)
+- [The Jar of Echoes — L172](the-jar-of-echoes.md#^ref-18138627-172-0) (line 172, col 0, score 1)
+- [Tracing the Signal — L116](tracing-the-signal.md#^ref-c3cd4f65-116-0) (line 116, col 0, score 1)
+- [ts-to-lisp-transpiler — L77](ts-to-lisp-transpiler.md#^ref-ba11486b-77-0) (line 77, col 0, score 1)
+- [typed-struct-compiler — L460](typed-struct-compiler.md#^ref-78eeedf7-460-0) (line 460, col 0, score 1)
+- [Protocol_0_The_Contradiction_Engine — L160](protocol-0-the-contradiction-engine.md#^ref-9a93a756-160-0) (line 160, col 0, score 1)
+- [Provider-Agnostic Chat Panel Implementation — L276](provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-276-0) (line 276, col 0, score 1)
+- [Pure TypeScript Search Microservice — L628](pure-typescript-search-microservice.md#^ref-d17d3a96-628-0) (line 628, col 0, score 1)
+- [Reawakening Duck — L161](reawakening-duck.md#^ref-59b5670f-161-0) (line 161, col 0, score 1)
+- [Redirecting Standard Error — L35](redirecting-standard-error.md#^ref-b3555ede-35-0) (line 35, col 0, score 1)
+- [schema-evolution-workflow — L603](schema-evolution-workflow.md#^ref-d8059b6a-603-0) (line 603, col 0, score 1)
+- [Self-Agency in AI Interaction — L57](self-agency-in-ai-interaction.md#^ref-49a9a860-57-0) (line 57, col 0, score 1)
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

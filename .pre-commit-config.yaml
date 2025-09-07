@@ -11,3 +11,10 @@ repos:
         types_or: [javascript, ts, tsx, json, yaml]
         exclude: ^legacy/
         args: [--ignore-path=.prettierignore]
+  - repo: local
+    hooks:
+      - id: generate-layer-images
+        name: Generate missing layer images
+        entry: bash -lc 'pnpm --filter @promethean/image-link-generator run build && pnpm tsx scripts/generate-layer-images.ts'
+        language: system
+        pass_filenames: false

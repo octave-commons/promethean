@@ -1,0 +1,28 @@
+{
+  "model_config_list": [
+    {
+      "config": {
+        "name": "whisper_tiny",
+        "base_path": "/opt/models/whisper-tiny",
+        "target_device": "NPU",
+        "nireq": 2
+      }
+    },
+    {
+      "config": {
+        "name": "silero_vad",
+        "base_path": "/opt/models/silero-vad",
+        "target_device": "NPU",
+        "nireq": 4
+      }
+    },
+    {
+      "config": {
+        "name": "resnet50",
+        "base_path": "/opt/models/resnet50",
+        "target_device": "GPU",
+        "nireq": 2
+      }
+    }
+  ]
+}

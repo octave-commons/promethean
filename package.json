@@ -4,11 +4,6 @@
   "name": "promethean",
   "scripts": {
     "generate_mcp_configs": "bb ./mk/mcp-compile.clj ./config/mcp_servers.edn ~/.codex/config.toml ~/.config/mcp/config.json ~/.config/Code/User/mcp.json",
-    "test": "pnpm run test:unit",
-    "test:unit": "pnpm -r run build && ava --config ./config/ava.config.mjs \"services/**/dist/**/*.test.js\" \"services/**/dist/**/tests/**/*.js\" \"packages/**/dist/**/*.test.js\" \"packages/**/dist/**/test/**/*.js\" \"packages/**/dist/**/tests/**/*.js\" \"shared/**/dist/**/*.test.js\" \"shared/**/dist/**/tests/**/*.js\" \"templates/**/dist/**/test/**/*.js\" \"templates/**/dist/**/tests/**/*.js\" \"services/**/tests/**/*.js\" \"packages/**/tests/**/*.js\" \"shared/**/tests/**/*.js\" \"templates/**/tests/**/*.js\" \"tests/**/*.js\" \"!**/*integration*.*\" \"!**/*e2e*.*\" \"!**/integration/**\" \"!**/e2e/**\" \"!**/system/**\"",
-    "test:integration": "pnpm -r run build && ava --config ./config/ava.config.mjs \"services/**/dist/**/*integration*.js\" \"services/**/dist/**/integration/**/*.js\" \"packages/**/dist/**/*integration*.js\" \"packages/**/dist/**/integration/**/*.js\" \"shared/**/dist/**/*integration*.js\" \"shared/**/dist/**/integration/**/*.js\" \"templates/**/dist/**/*integration*.js\" \"templates/**/dist/**/integration/**/*.js\" \"services/**/tests/**/*integration*.js\" \"services/**/tests/**/integration/**/*.js\" \"packages/**/tests/**/*integration*.js\" \"packages/**/tests/**/integration/**/*.js\" \"shared/**/tests/**/*integration*.js\" \"shared/**/tests/**/integration/**/*.js\" \"templates/**/tests/**/*integration*.js\" \"templates/**/tests/**/integration/**/*.js\" \"tests/**/*integration*.js\" \"tests/**/integration/**/*.js\"",
-    "test:e2e": "pnpm -r run build && ava --config ./config/ava.config.mjs \"services/**/dist/**/*e2e*.js\" \"services/**/dist/**/e2e/**/*.js\" \"services/**/dist/**/system/**/*.js\" \"packages/**/dist/**/*e2e*.js\" \"packages/**/dist/**/e2e/**/*.js\" \"packages/**/dist/**/system/**/*.js\" \"shared/**/dist/**/*e2e*.js\" \"shared/**/dist/**/e2e/**/*.js\" \"shared/**/dist/**/system/**/*.js\" \"templates/**/dist/**/*e2e*.js\" \"templates/**/dist/**/e2e/**/*.js\" \"templates/**/dist/**/system/**/*.js\" \"services/**/tests/**/*e2e*.js\" \"services/**/tests/**/e2e/**/*.js\" \"services/**/tests/**/system/**/*.js\" \"packages/**/tests/**/*e2e*.js\" \"packages/**/tests/**/e2e/**/*.js\" \"packages/**/tests/**/system/**/*.js\" \"shared/**/tests/**/*e2e*.js\" \"shared/**/tests/**/e2e/**/*.js\" \"shared/**/tests/**/system/**/*.js\" \"templates/**/tests/**/*e2e*.js\" \"templates/**/tests/**/e2e/**/*.js\" \"templates/**/tests/**/system/**/*.js\" \"tests/**/*e2e*.js\" \"tests/**/e2e/**/*.js\" \"tests/**/system/**/*.js\"",
-    "e2e": "pnpm run test:e2e",
     "coverage": "c8 --all --reporter=text --reporter=lcov ava --config ./config/ava.config.mjs \"services/**/dist/**/*.test.js\" \"packages/**/dist/**/*.test.js\" \"shared/**/dist/**/*.test.js\" \"tests/**/*.js\"",
     "build:docs": "node scripts/generate-service-docs.js",
     "health:node-abi": "node -p \"process.versions.node + ' ABI ' + process.versions.modules\"",
@@ -26,10 +21,14 @@
     "doc:06-rename": "tsx packages/docops/src/06-rename.ts --dir docs/unique",
     "doc:all": "pnpm doc:01-frontmatter && pnpm doc:02-embed && pnpm doc:03-query && pnpm doc:04-relate && pnpm doc:05-footers && pnpm doc:06-rename",
     "script:lint-tasks": "tsx --tsconfig tsconfig.scripts.json scripts/lint_tasks.ts",
-    "postinstall": "pnpm --filter @promethean/piper^... run build && pnpm --filter @promethean/piper run build",
+    "postinstall": "pnpm --filter @promethean/embedding^... run build && pnpm --filter @promethean/piper^... run build && pnpm --filter @promethean/piper run build",
     "generateBuildErrorReport": "pnpm -r --no-bail build | grep 'error' -i >|build-errors.txt",
     "check:flat": "node scripts/check-flat.js",
-    "enforce:esm-ext": "eslint \"packages/**/src/**/*.{ts,tsx}\" --rule 'import/extensions: [2, \"always\", { ignorePackages: true }]'"
+    "enforce:esm-ext": "eslint \"packages/**/src/**/*.{ts,tsx}\" --rule 'import/extensions: [2, \"always\", { ignorePackages: true }]'",
+    "clean": "pnpm -r exec bash -lc 'rm -rf dist build coverage .turbo .cache .vite .parcel-cache .rollup.cache .ava .ava_cache .eslintcache *.tsbuildinfo playwright-report test-results || true' && rm -rf .turbo pnpm-debug.log*",
+    "clean:changed": "pnpm -r --filter \"...[dev]\" exec bash -lc 'rm -rf dist build coverage .turbo .cache .vite .parcel-cache .rollup.cache .ava .ava_cache .eslintcache *.tsbuildinfo playwright-report test-results || true'",
+    "clean:deep": "pnpm run clean && pnpm -r exec bash -lc 'rm -rf node_modules || true' && rm -rf node_modules && pnpm store prune",
+    "dev:all": "node scripts/dev.mjs"
   },
   "bin": {
     "prom": "./bin/promethean.js"
@@ -39,6 +38,7 @@
     "@promethean/legacy": "workspace:*",
     "@promethean/piper": "workspace:*",
     "@promethean/utils": "workspace:*",
+    "@promethean/image-link-generator": "workspace:*",
     "@types/node": "^24.3.1",
     "@xenova/transformers": "2.17.2",
     "adm-zip": "0.5.16",
@@ -49,12 +49,12 @@
     "http-proxy": "1.18.1",
     "jiti": "^2.5.1",
     "mongodb": "6.18.0",
+    "playwright": "^1.55.0",
     "pm2": "6.0.8",
     "remark-parse": "^11.0.0",
     "rimraf": "^6.0.1",
     "source-map-support": "^0.5.21",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.2",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.0.0",
     "ws": "8.18.3",
@@ -62,6 +62,7 @@
     "zod": "3.25.76"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.0",
     "@promethean/test-utils": "workspace:*",
     "@types/jest": "30.0.0",
     "@types/mongodb": "4.0.6",
@@ -77,7 +78,9 @@
     "puppeteer": "24.16.0",
     "ts-jest": "29.4.1",
     "tsx": "4.20.3",
-    "typescript-eslint": "8.42.0"
+    "typescript": "5.4.5",
+    "typescript-eslint": "8.42.0",
+    "nx": "^20.0.0"
   },
   "license": "GPL-3.0-only",
   "volta": {
