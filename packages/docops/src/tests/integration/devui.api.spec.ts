@@ -135,7 +135,7 @@ test.serial(
   withPage,
   { baseUrl: () => state?.baseUrl },
   async (t, { pageGoto }) => {
-    const file = path.join(DOC_FIXTURE_PATH, "hack.md");
+    const file = path.join(DOC_FIXTURE_PATH, "__nope__.md");
     const res = await pageGoto(`/api/preview?file=${encodeURIComponent(file)}`);
     t.truthy(res);
     const json = await res!.json();
