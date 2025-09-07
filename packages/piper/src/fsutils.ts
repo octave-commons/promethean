@@ -60,62 +60,78 @@ export function runNode(
   });
 }
 
+let jsFnLock: Promise<void> = Promise.resolve();
+
 export async function runJSFunction(
   fn: (args: any) => any | Promise<any>,
   args: any,
   env: Record<string, string>,
   timeoutMs?: number,
 ) {
-  let stdout = "";
-  let stderr = "";
+  const prev = jsFnLock;
+  let release!: () => void;
+  jsFnLock = new Promise<void>((r) => (release = r));
+  await prev;
+  try {
+    let stdout = "";
+    let stderr = "";
 
-  const origStdout = process.stdout.write.bind(process.stdout);
-  const origStderr = process.stderr.write.bind(process.stderr);
-
-  (process.stdout.write as any) = (chunk: any) => {
-    stdout += typeof chunk === "string" ? chunk : String(chunk);
-    return true;
-  };
-  (process.stderr.write as any) = (chunk: any) => {
-    stderr += typeof chunk === "string" ? chunk : String(chunk);
-    return true;
-  };
-
-  const origEnv: Record<string, string | undefined> = {};
-  for (const [k, v] of Object.entries(env)) {
-    origEnv[k] = process.env[k];
-    process.env[k] = v;
-  }
-
-  const run = async () => {
-    try {
-      const res = await fn(args);
-      if (typeof res === "string") stdout += res;
-      return { code: 0, stdout, stderr } as const;
-    } catch (e: any) {
-      stderr += e?.stack ?? String(e);
-      return { code: 1, stdout, stderr } as const;
-    } finally {
+    const origStdout = process.stdout.write.bind(process.stdout);
+    const origStderr = process.stderr.write.bind(process.stderr);
+    const origEnv: Record<string, string | undefined> = {};
+    let cleaned = false;
+    const cleanup = () => {
+      if (cleaned) return;
+      cleaned = true;
       (process.stdout.write as any) = origStdout;
       (process.stderr.write as any) = origStderr;
       for (const [k, v] of Object.entries(origEnv)) {
         if (v === undefined) delete process.env[k];
         else process.env[k] = v;
       }
+    };
+
+    (process.stdout.write as any) = (chunk: any) => {
+      stdout += typeof chunk === "string" ? chunk : String(chunk);
+      return true;
+    };
+    (process.stderr.write as any) = (chunk: any) => {
+      stderr += typeof chunk === "string" ? chunk : String(chunk);
+      return true;
+    };
+    for (const [k, v] of Object.entries(env)) {
+      origEnv[k] = process.env[k];
+      process.env[k] = v;
     }
-  };
 
-  if (!timeoutMs) return run();
+    const run = async () => {
+      try {
+        const res = await fn(args);
+        if (typeof res === "string") stdout += res;
+        return { code: 0, stdout, stderr } as const;
+      } catch (e: any) {
+        stderr += e?.stack ?? String(e);
+        return { code: 1, stdout, stderr } as const;
+      } finally {
+        cleanup();
+      }
+    };
 
-  let timer: NodeJS.Timeout;
-  return Promise.race([
-    run(),
-    new Promise<{ code: number | null; stdout: string; stderr: string }>((resolve) => {
-      timer = setTimeout(() => {
-        resolve({ code: 124, stdout, stderr: stderr + "timeout" });
-      }, timeoutMs);
-    }),
-  ]).finally(() => clearTimeout(timer));
+    if (!timeoutMs) return run();
+
+    let timer: NodeJS.Timeout;
+    return Promise.race([
+      run(),
+      new Promise<{ code: number | null; stdout: string; stderr: string }>((resolve) => {
+        timer = setTimeout(() => {
+          cleanup();
+          resolve({ code: 124, stdout, stderr: stderr + "timeout" });
+        }, timeoutMs);
+      }),
+    ]).finally(() => clearTimeout(timer));
+  } finally {
+    release();
+  }
 }
 
 export async function runTSModule(
