@@ -43,6 +43,8 @@ corepack prepare pnpm@9.0.0 --activate
 pnpm -v
 pnpm install --no-frozen-lockfile --reporter=append-only
 bash ./run/setup_playwright.sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
 
 python -m pip install --user chromadb       # if not using a venv
 
@@ -50,11 +52,11 @@ python -m pip install --user chromadb       # if not using a venv
 SCRIPTS_DIR="$(python -c 'import sysconfig; print(sysconfig.get_path("scripts"))')"
 case ":$PATH:" in *":$SCRIPTS_DIR:"*) : ;; *) export PATH="$SCRIPTS_DIR:$PATH" ;; esac
 
-# check where the executable actually is
-command -v chromadb || { echo "chromadb not on PATH ($SCRIPTS_DIR)"; }
-
 # start the server if not running
-pgrep -f 'chromadb run --host 127.0.0.1 --port 8000' >/dev/null || nohup chromadb run --host 127.0.0.1 --port 8000 >/dev/null 2>&1 &
+
+
+pgrep -f 'uvx --from chromadb chroma run --host 127.0.0.1 --port 8000'  \\
+    ||nohup uvx --from chromadb chroma run --host 127.0.0.1 --port 8000 >/dev/null 2>&1 &
 pgrep -f 'ollama serve' >/dev/null || nohup ollama serve >/dev/null 2>&1 &
 
 # wait for health (60s timeout each)
