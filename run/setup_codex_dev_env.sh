@@ -36,10 +36,14 @@ apt-get install -y build-essential python3 make g++ pkg-config
 apt-get install -y git ca-certificates
 apt-get install -y jq moreutils ripgrep
 bash ./run/install_gyp.sh
-bash ./run/setup_playwright.sh
 
 # pre-commit install
 corepack enable
 corepack prepare pnpm@9.0.0 --activate
 pnpm -v
 pnpm install --no-frozen-lockfile --reporter=append-only
+bash ./run/setup_playwright.sh
+curl -fsSL https://ollama.com/install.sh | sh
+pip install --user chromadb
+ollama pull qwen2.5:0.5b
+ollama pull nomic-embed-text
