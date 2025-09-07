@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { pathToFileURL } from 'node:url';
 
 import { compileLispToJS, runLisp } from '@promethean/compiler/lisp/driver.js';
 import { jsToLisp } from '@promethean/compiler/lisp/js2lisp.js';
@@ -95,8 +95,9 @@ async function cmdRun(args: Argv) {
     const importSpecs = args.filter((a) => a.startsWith('--import'));
     // remove all --import entries and their values if split form used
     for (let i = 0; i < args.length; ) {
-        if (args[i] === '--import') args.splice(i, 2);
-        else if (args[i].startsWith('--import=')) args.splice(i, 1);
+        const ai = args[i] ?? '';
+        if (ai === '--import') args.splice(i, 2);
+        else if (ai.startsWith('--import=')) args.splice(i, 1);
         else i++;
     }
     const file = args.shift();
@@ -108,7 +109,7 @@ async function cmdRun(args: Argv) {
     for (const s of importSpecs) {
         const eq = s.indexOf('=');
         if (s === '--import') continue; // handled as pair above
-        merged.push(s.slice(eq + 1));
+        merged.push(eq >= 0 ? s.slice(eq + 1) : '');
     }
     const imports: Record<string, any> = {};
     for (const spec of merged) {

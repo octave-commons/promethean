@@ -6,6 +6,6 @@
     "composite": true,
     "declaration": true
   },
-  "include": ["src/**/*", "tests/**/*"],
+  "include": ["src/**/*"],
   "references": []
 }

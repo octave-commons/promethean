@@ -25,11 +25,13 @@ const args = parseArgs({
   "--out": ".cache/symdocs/symbols.json",
 });
 
-const ROOT = path.resolve(args["--root"]);
+const ROOT = path.resolve(String(args["--root"]));
 const EXTS = new Set(
-  args["--ext"].split(",").map((s) => s.trim().toLowerCase()),
+  String(args["--ext"])
+    .split(",")
+    .map((s) => s.trim().toLowerCase()),
 );
-const OUT = path.resolve(args["--out"]);
+const OUT = path.resolve(String(args["--out"]));
 const repoRoot = process.cwd();
 
 async function main() {
@@ -52,7 +54,7 @@ async function main() {
     const rel = relFromRepo(fileAbs);
     const bits = rel.split("/"); // packages/<pkg>/...
     if (bits[0] !== "packages" || bits.length < 2) continue;
-    const pkg = bits[1];
+    const pkg = bits[1] ?? "";
     const moduleRel = bits.slice(2).join("/");
 
     function pushSymbol(

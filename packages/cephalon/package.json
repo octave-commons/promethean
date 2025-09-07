@@ -24,7 +24,7 @@
     "hardware",
     "dj"
   ],
-  "author": "Amish Shah <amishshah.2k@gmail.com>",
+  "author": "Err",
   "license": "GPL-3.0-only",
   "dependencies": {
     "@chroma-core/ollama": "^0.1.7",
