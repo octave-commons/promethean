@@ -63,6 +63,7 @@
   "devDependencies": {
     "@promethean/test-utils": "workspace:*",
     "@types/ws": "^8.5.12",
-    "rewrite-imports": "^3.0.0"
+    "rewrite-imports": "^3.0.0",
+    "@promethean/pm2-helpers": "workspace:*"
   }
 }

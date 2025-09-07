@@ -1,0 +1,37 @@
+{
+  "name": "ts-cephalon-discord",
+  "root": "packages/cephalon-discord",
+  "sourceRoot": "packages/cephalon-discord/src",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -b",
+        "cwd": "packages/cephalon-discord"
+      },
+      "outputs": ["{projectRoot}/dist"]
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p tsconfig.json --noEmit",
+        "cwd": "packages/cephalon-discord"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ava",
+        "cwd": "packages/cephalon-discord"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint .",
+        "cwd": "packages/cephalon-discord"
+      }
+    }
+  },
+  "tags": ["scope:packages"]
+}

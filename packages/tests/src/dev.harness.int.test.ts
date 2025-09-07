@@ -1,6 +1,6 @@
 import test from 'ava';
 
-import { sleep } from '@promethean/test-utils/sleep';
+import { sleep } from '@promethean/test-utils/sleep.js';
 import { startHarness } from '@promethean/dev/harness.js';
 
 test('harness end-to-end', async (t) => {

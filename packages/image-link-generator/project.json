@@ -1,0 +1,37 @@
+{
+  "name": "ts-image-link-generator",
+  "root": "packages/image-link-generator",
+  "sourceRoot": "packages/image-link-generator/src",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -b",
+        "cwd": "packages/image-link-generator"
+      },
+      "outputs": ["{projectRoot}/dist"]
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p tsconfig.json --noEmit",
+        "cwd": "packages/image-link-generator"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ava",
+        "cwd": "packages/image-link-generator"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint .",
+        "cwd": "packages/image-link-generator"
+      }
+    }
+  },
+  "tags": ["scope:packages"]
+}

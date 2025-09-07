@@ -1,4 +1,4 @@
-import { reconstructAt } from './reconstruct';
+import { reconstructAt } from './reconstruct.js';
 // loosen typing to avoid cross-package type coupling
 
 export async function processAt(store: any, processId: string, atTs: number) {
@@ -6,6 +6,6 @@ export async function processAt(store: any, processId: string, atTs: number) {
         topic: 'process.state',
         key: processId,
         atTs,
-        apply: (_prev, e) => e.payload,
+        apply: (_prev: any, e: any) => e.payload,
     });
 }
