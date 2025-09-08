@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/nx-generator.json",
+  "generators": {
+    "package": {
+      "factory": "./generators/package/index.js",
+      "schema": "./generators/package/schema.json",
+      "description": "Generate a new package"
+    }
+  }
+}
