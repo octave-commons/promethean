@@ -192,7 +192,11 @@ async function runJSModuleWorker(
       let settled = false;
       let timer: NodeJS.Timeout | undefined;
 
-      const finish = (res: { code: number | null; stdout: string; stderr: string }) => {
+      const finish = (res: {
+        code: number | null;
+        stdout: string;
+        stderr: string;
+      }) => {
         if (settled) return;
         settled = true;
         if (timer) clearTimeout(timer);
@@ -201,9 +205,11 @@ async function runJSModuleWorker(
 
       if (timeoutMs && timeoutMs > 0) {
         timer = setTimeout(() => {
-          worker.terminate().finally(() =>
-            finish({ code: 124, stdout, stderr: stderr + "timeout" }),
-          );
+          worker
+            .terminate()
+            .finally(() =>
+              finish({ code: 124, stdout, stderr: stderr + "timeout" }),
+            );
         }, timeoutMs);
       }
 
@@ -220,7 +226,11 @@ async function runJSModuleWorker(
       });
 
       worker.on("error", (err) =>
-        finish({ code: 1, stdout, stderr: stderr + (err?.stack ?? String(err)) }),
+        finish({
+          code: 1,
+          stdout,
+          stderr: stderr + (err?.stack ?? String(err)),
+        }),
       );
       worker.on("exit", (code) => finish({ code, stdout, stderr }));
     },
@@ -243,7 +253,13 @@ export async function runJSModule(
     : path.resolve(cwd, step.js!.module);
 
   if ((step.js as any)?.isolate === "worker") {
-    return runJSModuleWorker(modPath, step.js!.export, step.js!.args ?? {}, env, timeoutMs);
+    return runJSModuleWorker(
+      modPath,
+      step.js!.export,
+      step.js!.args ?? {},
+      env,
+      timeoutMs,
+    );
   }
 
   const url = pathToFileURL(modPath).href;
@@ -307,7 +323,8 @@ function runSpawn(
             detached: process.platform !== "win32",
           });
 
-      let out = "", err = "";
+      let out = "",
+        err = "";
       const killTimer =
         opts.timeoutMs && opts.timeoutMs > 0
           ? setTimeout(() => {

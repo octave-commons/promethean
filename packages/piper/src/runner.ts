@@ -1,6 +1,5 @@
 import * as path from "path";
 import { promises as fs } from "fs";
-import { pathToFileURL } from "node:url";
 
 import * as chokidar from "chokidar";
 import {
@@ -144,7 +143,7 @@ export async function runPipeline(
             pathToFileURL(filePath).href + `?v=${encodeURIComponent(fp)}`;
           execRes = await runJSModule(
             modUrl,
-            s.js.export,
+            s.js.export ?? "default",
             s.js.args ?? {},
             s.env,
             s.timeoutMs,
