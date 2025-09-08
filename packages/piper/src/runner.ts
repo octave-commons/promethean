@@ -1,5 +1,7 @@
 import * as path from "path";
 import { promises as fs } from "fs";
+import { pathToFileURL } from "url";
+import { createHash } from "crypto";
 
 import * as chokidar from "chokidar";
 import * as YAML from "yaml";
@@ -127,21 +129,25 @@ export async function runPipeline(
         stderr: "",
       };
 
-      if (s.shell) execRes = await runShell(s.shell, cwd, s.env, s.timeoutMs);
-      else if (s.node)
-        execRes = await runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
-      else if (s.ts) execRes = await runTSModule(s, cwd, s.env, s.timeoutMs);
-      else if (s.js) {
-        const modPath = path.isAbsolute(s.js.module)
-          ? s.js.module
-          : path.resolve(cwd, s.js.module);
-        const mod = await import(modPath);
-        const fn =
-          (s.js.export && (mod as any)[s.js.export]) ??
-          (mod as any).default ??
-          mod;
-        execRes = await runJSFunction(fn as any, s.js.args);
-      }
+        if (s.shell) execRes = await runShell(s.shell, cwd, s.env, s.timeoutMs);
+        else if (s.node)
+          execRes = await runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
+        else if (s.ts) execRes = await runTSModule(s, cwd, s.env, s.timeoutMs);
+        else if (s.js) {
+          const modPath = path.isAbsolute(s.js.module)
+            ? s.js.module
+            : path.resolve(cwd, s.js.module);
+          const modUrl = pathToFileURL(modPath);
+          const buf = await fs.readFile(modPath);
+          const sha = createHash("sha1").update(buf).digest("hex");
+          modUrl.search = `?sha=${sha}`;
+          const mod = await import(modUrl.href);
+          const fn =
+            (s.js.export && (mod as any)[s.js.export]) ??
+            (mod as any).default ??
+            mod;
+          execRes = await runJSFunction(fn as any, s.js.args);
+        }
 
       const endedAt = new Date().toISOString();
       const out: StepResult = {
