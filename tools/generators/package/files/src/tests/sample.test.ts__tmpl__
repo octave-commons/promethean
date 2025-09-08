@@ -1,0 +1,6 @@
+import test from "ava";
+import { placeholder } from "@promethean/<%= name %>";
+
+test("placeholder returns name", (t) => {
+  t.is(placeholder(), "<%= name %>");
+});

@@ -22,5 +22,7 @@
       "dependsOn": ["build"]
     }
   },
-  "projects": {}
+  "projects": {
+    "tools": "tools"
+  }
 }
