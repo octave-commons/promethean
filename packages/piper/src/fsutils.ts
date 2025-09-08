@@ -81,7 +81,6 @@ export function runNode(
 const jsFnCtx = new AsyncLocalStorage<symbol>();
 let jsFnLock: Promise<void> = Promise.resolve();
 let jsFnOwner: symbol | undefined;
-
 export async function runJSFunction(
   fn: (args: any) => any | Promise<any>,
   args: any,
@@ -89,6 +88,7 @@ export async function runJSFunction(
   timeoutMs?: number,
 ) {
   const current = jsFnCtx.getStore();
+
   const run = async () => {
     let stdout = "";
     let stderr = "";
@@ -97,6 +97,7 @@ export async function runJSFunction(
     const origStderr = process.stderr.write.bind(process.stderr);
     const origEnv: Record<string, string | undefined> = {};
     let cleaned = false;
+
     const cleanup = () => {
       if (cleaned) return;
       cleaned = true;
@@ -139,25 +140,25 @@ export async function runJSFunction(
     let timer: NodeJS.Timeout;
     return Promise.race([
       exec(),
-      new Promise<{ code: number | null; stdout: string; stderr: string }>(
-        (resolve) => {
-          timer = setTimeout(() => {
-            cleanup();
-            resolve({ code: 124, stdout, stderr: stderr + "timeout" });
-          }, timeoutMs);
-        },
-      ),
+      new Promise<{ code: number; stdout: string; stderr: string }>((resolve) => {
+        timer = setTimeout(() => {
+          cleanup();
+          resolve({ code: 124, stdout, stderr: stderr + "timeout" });
+        }, timeoutMs);
+      }),
     ]).finally(() => clearTimeout(timer));
   };
 
-  if (current && current === jsFnOwner) return run();
+  if (current && current === jsFnOwner) {
+    return run();
+  }
 
   const prev = jsFnLock;
   let release!: () => void;
   const token = Symbol("jsFn");
   jsFnLock = new Promise<void>((r) => (release = r));
-  jsFnOwner = token;
   await prev;
+  jsFnOwner = token;
   try {
     return await jsFnCtx.run(token, run);
   } finally {
@@ -166,35 +167,6 @@ export async function runJSFunction(
   }
 }
 
-export async function runTSModule(
-  step: PiperStep,
-  cwd: string,
-  env: Record<string, string>,
-  timeoutMs?: number,
-) {
-  const modPath = path.isAbsolute(step.ts!.module)
-    ? step.ts!.module
-    : path.resolve(cwd, step.ts!.module);
-  const code = `
-    import mod from ${JSON.stringify(modPath)};
-    const exportName = ${JSON.stringify(step.ts!.export ?? "")};
-    const fn =
-      (exportName && mod && mod[exportName]) ||
-      (mod && mod.default) ||
-      mod;
-    const res = await fn(${JSON.stringify(step.ts!.args ?? {})});
-    if (typeof res === 'string') process.stdout.write(res);
-  `;
-  // Lazy-run via node -e with ESM loader
-  const cmd = process.execPath;
-  const args = ["--input-type=module", "-e", code];
-  return runSpawn(cmd, {
-    cwd,
-    env,
-    args,
-    ...(timeoutMs ? { timeoutMs } : {}),
-  });
-}
 
 export async function runJSModule(
   step: PiperStep,
