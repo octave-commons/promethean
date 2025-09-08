@@ -74,25 +74,41 @@ export function runJSModule(
       workerData: { modulePath, exportName, args, env, fp },
     });
 
+    let resolved = false;
+    const resolveOnce = (
+      result: { code: number | null; stdout: string; stderr: string },
+    ) => {
+      if (!resolved) {
+        resolved = true;
+        if (timer) clearTimeout(timer);
+        resolve(result);
+      }
+    };
+
     let timer: NodeJS.Timeout | undefined;
     if (timeoutMs && timeoutMs > 0) {
-      timer = setTimeout(async () => {
-        await worker.terminate();
-        resolve({
+      timer = setTimeout(() => {
+        resolveOnce({
           code: 124,
           stdout: "",
           stderr: `Timed out after ${timeoutMs}ms\n`,
         });
+        void worker.terminate();
       }, timeoutMs);
     }
 
     worker.once("message", (msg) => {
-      if (timer) clearTimeout(timer);
-      resolve(msg);
+      resolveOnce(msg);
     });
     worker.once("error", (err) => {
-      if (timer) clearTimeout(timer);
-      resolve({ code: 1, stdout: "", stderr: err?.stack ?? String(err) });
+      resolveOnce({ code: 1, stdout: "", stderr: err?.stack ?? String(err) });
+    });
+    worker.once("exit", (exitCode) => {
+      resolveOnce({
+        code: exitCode ?? 1,
+        stdout: "",
+        stderr: "Worker exited without sending result\n",
+      });
     });
   });
 }
