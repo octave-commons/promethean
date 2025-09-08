@@ -96,7 +96,7 @@ importers:
         version: 3.25.76
     devDependencies:
       '@nx/devkit':
-        specifier: ^21.4.1
+        specifier: 21.4.1
         version: 21.4.1(nx@20.8.2)
       '@playwright/test':
         specifier: ^1.55.0
@@ -411,9 +411,6 @@ importers:
       ts-morph:
         specifier: 22.0.0
         version: 22.0.0
-      yaml:
-        specifier: 2.5.0
-        version: 2.5.0
       zod:
         specifier: 3.23.8
         version: 3.23.8
@@ -13471,7 +13468,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.1)
+      follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -15709,7 +15706,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.4.1)
+      follow-redirects: 1.15.11(debug@4.3.7)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
