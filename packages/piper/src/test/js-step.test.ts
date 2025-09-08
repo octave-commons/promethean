@@ -81,6 +81,23 @@ test.serial("runJSModule returns code 124 on timeout", async (t) => {
   });
 });
 
+test.serial("runJSModule resolves when worker exits early", async (t) => {
+  await withTmp(async (dir) => {
+    const modSrc = `export function bye(){ process.exit(5); }`;
+    await fs.writeFile(path.join(dir, "mod.js"), modSrc, "utf8");
+    const res = await runJSModule(
+      path.join(dir, "mod.js"),
+      "bye",
+      {},
+      {},
+      1000,
+    );
+    t.is(res.code, 5);
+    t.is(res.stdout, "");
+    t.true(res.stderr.includes("Worker exited without sending result"));
+  });
+});
+
 test.serial("js steps execute sequentially to prevent global corruption", async (t) => {
   await withTmp(async (dir) => {
     const prevCwd = process.cwd();
