@@ -1,0 +1,50 @@
+{
+  "pipelines": [
+    {
+      "name": "readmes",
+      "steps": [
+        {
+          "id": "rm-scan",
+          "shell": "pnpm --filter @promethean/readmeflow rm:01-scan --root packages",
+          "inputs": [
+            "packages/**/package.json",
+            "packages/**/tsconfig.json"
+          ]
+        },
+        {
+          "id": "rm-outline",
+          "deps": [
+            "rm-scan"
+          ],
+          "shell": "pnpm --filter @promethean/readmeflow rm:02-outline --model qwen3:4b",
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          }
+        },
+        {
+          "id": "rm-write",
+          "deps": [
+            "rm-outline"
+          ],
+          "shell": "pnpm --filter @promethean/readmeflow rm:03-write --mermaid true",
+          "outputs": [
+            "packages/**/README.md"
+          ]
+        },
+        {
+          "id": "rm-verify",
+          "deps": [
+            "rm-write"
+          ],
+          "shell": "pnpm --filter @promethean/readmeflow rm:04-verify --root packages --out docs/agile/reports/readmes",
+          "inputs": [
+            "packages/**/README.md"
+          ],
+          "outputs": [
+            "docs/agile/reports/readmes/*.md"
+          ]
+        }
+      ]
+    }
+  ]
+}

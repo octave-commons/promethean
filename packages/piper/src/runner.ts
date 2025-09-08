@@ -2,7 +2,6 @@ import * as path from "path";
 import { promises as fs } from "fs";
 
 import * as chokidar from "chokidar";
-import * as YAML from "yaml";
 import {
   FileSchema,
   PiperFile,
@@ -35,7 +34,7 @@ function slug(s: string) {
 
 async function readConfig(p: string): Promise<PiperFile> {
   const raw = await fs.readFile(p, "utf-8");
-  const obj = p.endsWith(".json") ? JSON.parse(raw) : YAML.parse(raw);
+  const obj = JSON.parse(raw);
   const parsed = FileSchema.safeParse(obj);
   if (!parsed.success)
     throw new Error("pipelines config invalid: " + parsed.error.message);
@@ -80,8 +79,8 @@ export async function runPipeline(
     // ensure deps completed
     for (const d of s.deps) await runMap.get(d);
 
-    if (s.js) await jsSem.take();
     await sem.take();
+    let jsLocked = false;
     try {
       const cwd = path.resolve(s.cwd || ".");
       const fp = await stepFingerprint(s, cwd, !!opts.contentHash);
@@ -134,17 +133,20 @@ export async function runPipeline(
         execRes = await runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
       else if (s.ts) execRes = await runTSModule(s, cwd, s.env, s.timeoutMs);
       else if (s.js) {
+        await jsSem.take();
+        jsLocked = true;
         try {
           const filePath = path.isAbsolute(s.js.module)
             ? s.js.module
             : path.resolve(cwd, s.js.module);
+          const modUrl =
+            pathToFileURL(filePath).href + `?v=${encodeURIComponent(fp)}`;
           execRes = await runJSModule(
-            filePath,
+            modUrl,
             s.js.export ?? "default",
             s.js.args ?? {},
             s.env,
             s.timeoutMs,
-            fp,
           );
         } catch (e: any) {
           execRes = { code: 1, stdout: "", stderr: e?.stack ?? String(e) };
@@ -173,7 +175,7 @@ export async function runPipeline(
       );
     } finally {
       sem.release();
-      if (s.js) jsSem.release();
+      if (jsLocked) jsSem.release();
     }
   };
 
