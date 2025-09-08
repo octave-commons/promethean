@@ -8,12 +8,9 @@ import { runPipeline } from "../runner.js";
 import { runJSFunction } from "../fsutils.js";
 
 async function withTmp(fn: (dir: string) => Promise<void>) {
-  const dir = path.join(
-    process.cwd(),
-    "test-tmp",
-    String(Date.now()) + "-" + Math.random().toString(36).slice(2),
-  );
-  await fs.mkdir(dir, { recursive: true });
+  const parent = path.join(process.cwd(), "test-tmp");
+  await fs.mkdir(parent, { recursive: true });
+  const dir = await fs.mkdtemp(path.join(parent, "piper-"));
   try {
     await fn(dir);
     // small grace period for any async file watchers/flushes
