@@ -367,7 +367,7 @@ test.serial(
         "utf8",
       );
 
-      const cfg = (isTwo = false) => ({
+      const cfg = () => ({
         pipelines: [
           {
             name: "w",
