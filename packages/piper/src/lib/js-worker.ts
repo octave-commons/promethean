@@ -1,5 +1,13 @@
 import { parentPort, workerData } from "worker_threads";
 
+if (!workerData || typeof workerData !== 'object' || !('modulePath' in workerData)) {
+  parentPort!.postMessage({
+    ok: false,
+    err: "Invalid workerData: missing modulePath",
+  });
+  process.exit(1);
+}
+
 const { modulePath, exportName } = workerData as {
   modulePath: string;
   exportName?: string;
