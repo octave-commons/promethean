@@ -72,4 +72,8 @@ ollama pull nomic-embed-text
 
 # npm install --global corepack@latest
 
-uvx pre-commit install
+if [ -d .git ] && [ -f .pre-commit-config.yaml ]; then
+  uvx pre-commit install --install-hooks
+  uvx pre-commit install --hook-type commit-msg
+  uvx pre-commit install --hook-type pre-merge-commit
+fi
