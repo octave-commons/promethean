@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 import { spawn } from "child_process";
+import { Worker } from "node:worker_threads";
 
 import { globby } from "globby";
 import { ensureDir } from "@promethean/fs";
@@ -60,6 +61,64 @@ export function runNode(
   });
 }
 
+export async function runJSModule(
+  modUrl: string,
+  exportName: string | undefined,
+  args: any,
+  env: Record<string, string>,
+  timeoutMs?: number,
+) {
+  return new Promise<{ code: number | null; stdout: string; stderr: string }>(
+    (resolve) => {
+      const worker = new Worker(new URL("./js-worker.js", import.meta.url), {
+        workerData: { modUrl, exportName: exportName ?? "default", args, env },
+      });
+      let stdout = "";
+      let stderr = "";
+      let timer: NodeJS.Timeout | undefined;
+      let settled = false;
+      let timedOut = false;
+      const finish = (
+        res: { code: number | null; stdout: string; stderr: string },
+      ) => {
+        if (settled) return;
+        settled = true;
+        if (timer) clearTimeout(timer);
+        resolve(res);
+      };
+      if (timeoutMs) {
+        timer = setTimeout(() => {
+          timedOut = true;
+          worker.terminate().finally(() => {
+            finish({
+              code: 124,
+              stdout,
+              stderr: `${stderr}Timed out after ${timeoutMs}ms\n`,
+            });
+          });
+        }, timeoutMs);
+      }
+      worker.on("message", (m) => {
+        if (m.type === "stdout") stdout += m.data;
+        else if (m.type === "stderr") stderr += m.data;
+        else if (m.type === "done") {
+          finish({
+            code: m.code,
+            stdout,
+            stderr: m.error ? stderr + m.error : stderr,
+          });
+        }
+      });
+      worker.on("error", (err) => {
+        finish({ code: 1, stdout, stderr: stderr + (err?.stack ?? String(err)) });
+      });
+      worker.on("exit", (code) => {
+        if (!timedOut) finish({ code, stdout, stderr });
+      });
+    },
+  );
+}
+
 export async function runJSFunction(
   fn: (args: any) => any | Promise<any>,
   args: any,
@@ -72,12 +131,16 @@ export async function runJSFunction(
   const origStdout = process.stdout.write;
   const origStderr = process.stderr.write;
 
-  (process.stdout.write as any) = (chunk: any) => {
+  (process.stdout.write as any) = function (chunk: any, enc?: any, cb?: any) {
     stdout += typeof chunk === "string" ? chunk : String(chunk);
+    const maybeCb = typeof enc === "function" ? enc : cb;
+    if (typeof maybeCb === "function") setImmediate(maybeCb);
     return true;
   };
-  (process.stderr.write as any) = (chunk: any) => {
+  (process.stderr.write as any) = function (chunk: any, enc?: any, cb?: any) {
     stderr += typeof chunk === "string" ? chunk : String(chunk);
+    const maybeCb = typeof enc === "function" ? enc : cb;
+    if (typeof maybeCb === "function") setImmediate(maybeCb);
     return true;
   };
 
@@ -119,7 +182,11 @@ export async function runJSFunction(
     (resolve) => {
       timer = setTimeout(() => {
         cleanup();
-        resolve({ code: 124, stdout, stderr: stderr + "timeout" });
+        resolve({
+          code: 124,
+          stdout,
+          stderr: `${stderr}Timed out after ${timeoutMs}ms\n`,
+        });
       }, timeoutMs);
     },
   );
