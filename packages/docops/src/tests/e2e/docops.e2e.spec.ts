@@ -212,3 +212,35 @@ test.serial(
     t.is(await page.inputValue(byId("collection")), coll);
   },
 );
+
+test.serial(
+  "DocOps E2E: empty search shows prompt and skips API call",
+  withPage,
+  { baseUrl: () => state?.baseUrl },
+  async (t, fixtures) => {
+    const page =
+      (fixtures as any).page ??
+      (await (async () => {
+        const res = await fixtures.pageGoto?.("/");
+        t.truthy(res, "app responded at /");
+        throw new Error(
+          "withPage did not expose a Playwright `page`. Extend @promethean/test-utils to provide it.",
+        );
+      })());
+
+    await page.goto(`${state!.baseUrl}`, { waitUntil: "domcontentloaded" });
+
+    let searchCalled = false;
+    page.on("request", (req: any) => {
+      if (req.url().includes("/api/search")) searchCalled = true;
+    });
+
+    await page.fill(byId("searchTerm"), "");
+    await page.click(byId("searchBtn"));
+
+    await page.waitForSelector(byId("searchResults"));
+    const text = await page.textContent(byId("searchResults"));
+    t.regex(text ?? "", /Enter a query to search\./);
+    t.false(searchCalled, "Search API should not be called for empty query");
+  },
+);

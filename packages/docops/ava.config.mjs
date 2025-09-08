@@ -5,6 +5,7 @@ export default {
   ...base,
   files: [
     "dist/tests/**/*.js",
+    "!dist/tests/helpers/**/*.js",
     "dist/test/**/*.js",
     // intentionally omit generic "dist/**/*.test.js" to prevent duplicate runs
   ],
