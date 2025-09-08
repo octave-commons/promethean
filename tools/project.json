@@ -1,0 +1,7 @@
+{
+  "name": "tools",
+  "root": "tools",
+  "projectType": "library",
+  "targets": {},
+  "generators": "./generators.json"
+}

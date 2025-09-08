@@ -2,12 +2,29 @@ import { promises as fs } from "fs";
 import * as path from "path";
 import { spawn } from "child_process";
 import { AsyncLocalStorage } from "async_hooks";
+import { pathToFileURL } from "url";
 
 import { globby } from "globby";
 import { ensureDir } from "@promethean/fs";
 import { PiperStep } from "./types.js";
 
 export { ensureDir };
+
+class Mutex {
+  private queue: (() => void)[] = [];
+  private locked = false;
+  async acquire() {
+    if (this.locked) await new Promise<void>((res) => this.queue.push(res));
+    else this.locked = true;
+  }
+  release() {
+    const next = this.queue.shift();
+    if (next) next();
+    else this.locked = false;
+  }
+}
+
+const envMutex = new Mutex();
 
 export async function readTextMaybe(p: string) {
   try {
@@ -122,12 +139,14 @@ export async function runJSFunction(
     let timer: NodeJS.Timeout;
     return Promise.race([
       exec(),
-      new Promise<{ code: number | null; stdout: string; stderr: string }>((resolve) => {
-        timer = setTimeout(() => {
-          cleanup();
-          resolve({ code: 124, stdout, stderr: stderr + "timeout" });
-        }, timeoutMs);
-      }),
+      new Promise<{ code: number | null; stdout: string; stderr: string }>(
+        (resolve) => {
+          timer = setTimeout(() => {
+            cleanup();
+            resolve({ code: 124, stdout, stderr: stderr + "timeout" });
+          }, timeoutMs);
+        },
+      ),
     ]).finally(() => clearTimeout(timer));
   };
 
@@ -175,6 +194,53 @@ export async function runTSModule(
     args,
     ...(timeoutMs ? { timeoutMs } : {}),
   });
+}
+
+export async function runJSModule(
+  step: PiperStep,
+  cwd: string,
+  env: Record<string, string>,
+  timeoutMs?: number,
+) {
+  const modPath = path.isAbsolute(step.js!.module)
+    ? step.js!.module
+    : path.resolve(cwd, step.js!.module);
+  const url = pathToFileURL(modPath).href;
+  await envMutex.acquire();
+  const prevEnv: Record<string, string | undefined> = {};
+  for (const [k, v] of Object.entries(env)) {
+    prevEnv[k] = process.env[k];
+    process.env[k] = v;
+  }
+  let timer: NodeJS.Timeout | undefined;
+  try {
+    const mod: any = await import(url);
+    const fn = (step.js!.export && mod[step.js!.export]) || mod.default || mod;
+    const call = fn(step.js!.args ?? {});
+    const res = timeoutMs
+      ? await Promise.race([
+          call,
+          new Promise(
+            (_, reject) =>
+              (timer = setTimeout(
+                () => reject(new Error("timeout")),
+                timeoutMs,
+              )),
+          ),
+        ])
+      : await call;
+    const out = typeof res === "string" ? res : "";
+    return { code: 0, stdout: out, stderr: "" };
+  } catch (err: any) {
+    return { code: 1, stdout: "", stderr: String(err?.stack ?? err) };
+  } finally {
+    if (timer) clearTimeout(timer);
+    for (const [k, v] of Object.entries(prevEnv)) {
+      if (v === undefined) delete process.env[k];
+      else process.env[k] = v;
+    }
+    envMutex.release();
+  }
 }
 
 function runSpawn(
@@ -226,7 +292,11 @@ function runSpawn(
         resolve({ code, stdout: out, stderr: err });
       });
       child.on("error", () =>
-        resolve({ code: 127, stdout: out, stderr: err || "failed to spawn" }),
+        resolve({
+          code: 127,
+          stdout: out,
+          stderr: err || "failed to spawn",
+        }),
       );
     },
   );
