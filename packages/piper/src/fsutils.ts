@@ -4,28 +4,13 @@ import { spawn } from "child_process";
 import { Worker } from "node:worker_threads";
 import { AsyncLocalStorage } from "async_hooks";
 import { pathToFileURL } from "url";
+import { createHash } from "node:crypto";
 
 import { globby } from "globby";
 import { ensureDir } from "@promethean/fs";
 import { PiperStep } from "./types.js";
 
 export { ensureDir };
-
-class Mutex {
-  private queue: (() => void)[] = [];
-  private locked = false;
-  async acquire() {
-    if (this.locked) await new Promise<void>((res) => this.queue.push(res));
-    else this.locked = true;
-  }
-  release() {
-    const next = this.queue.shift();
-    if (next) next();
-    else this.locked = false;
-  }
-}
-
-const envMutex = new Mutex();
 
 export async function readTextMaybe(p: string) {
   try {
@@ -96,8 +81,8 @@ export async function runJSFunction(
     let stdout = "";
     let stderr = "";
 
-    const origStdout = process.stdout.write.bind(process.stdout);
-    const origStderr = process.stderr.write.bind(process.stderr);
+    const origStdout = process.stdout.write;
+    const origStderr = process.stderr.write;
     const origEnv: Record<string, string | undefined> = {};
     let cleaned = false;
 
@@ -262,59 +247,14 @@ export async function runJSModule(
     );
   }
 
-  const url = pathToFileURL(modPath).href;
-  await envMutex.acquire();
-  const prevEnv: Record<string, string | undefined> = {};
-  for (const [k, v] of Object.entries(env)) {
-    prevEnv[k] = process.env[k];
-    process.env[k] = v;
-  }
-  let timer: NodeJS.Timeout | undefined;
-  try {
-    const mod: any = await import(url);
-    const fn = (step.js!.export && mod[step.js!.export]) || mod.default || mod;
-    const call = fn(step.js!.args ?? {});
-    const res = timeoutMs
-      ? await Promise.race([
-          call,
-          new Promise((_, reject) => {
-            timer = setTimeout(() => reject(new Error("timeout")), timeoutMs);
-          }),
-        ])
-      : await call;
-    const out = typeof res === "string" ? res : "";
-    return { code: 0, stdout: out, stderr: "" };
-  } catch (err: any) {
-    return { code: 1, stdout: "", stderr: String(err?.stack ?? err) };
-  } finally {
-    if (timer) clearTimeout(timer);
-    for (const [k, v] of Object.entries(prevEnv)) {
-      if (v === undefined) delete process.env[k];
-      else process.env[k] = v;
-    }
-    envMutex.release();
-  }
+  const buf = await fs.readFile(modPath);
+  const sha = createHash("sha1").update(buf).digest("hex");
+  const url = pathToFileURL(modPath);
+  url.search = `?sha=${sha}`;
+  const mod: any = await import(url.href);
+  const fn = (step.js!.export && mod[step.js!.export]) || mod.default || mod;
+  return runJSFunction(fn as any, step.js!.args ?? {}, env, timeoutMs);
 }
-
-// export async function runJSFunction(
-//   fn: (args: unknown) => unknown | Promise<unknown>,
-//   args: unknown,
-// ) {
-//   try {
-//     const res = await fn(args as any);
-//     return {
-//       code: 0,
-//       stdout: typeof res === "string" ? res : "",
-//       stderr: "",
-//     };
-//   } catch (err: unknown) {
-//     return {
-//       code: 1,
-//       stdout: "",
-//       stderr: err instanceof Error ? err.message : String(err),
-//     };
-//   }
-// }
 
 export async function runTSModule(
   step: PiperStep,
@@ -325,15 +265,15 @@ export async function runTSModule(
   const modPath = path.isAbsolute(step.ts!.module)
     ? step.ts!.module
     : path.resolve(cwd, step.ts!.module);
+  const modUrl = pathToFileURL(modPath).href;
   const code = `
-    import mod from ${JSON.stringify(modPath)};
+    import mod from ${JSON.stringify(modUrl)};
     const fn = (mod && mod.${step.ts!.export}) || (mod && mod.default) || mod;
     const res = await fn(${JSON.stringify(step.ts!.args ?? {})});
     if (typeof res === 'string') process.stdout.write(res);
   `;
-  // Lazy-run via node -e with ESM loader
   const cmd = process.execPath;
-  const args = ["-e", code];
+  const args = ["--loader", "ts-node/esm", "--input-type=module", "-e", code];
   return runSpawn(cmd, { cwd, env, args, timeoutMs });
 }
 function runSpawn(

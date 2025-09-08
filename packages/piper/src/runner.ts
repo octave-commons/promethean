@@ -138,7 +138,6 @@ export async function runPipeline(
         code: number | null;
         stdout: string;
         stderr: string;
-        timeout?: boolean;
       } = { code: 0, stdout: "", stderr: "" };
 
       if (s.shell) {

@@ -10,7 +10,7 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   const dir = await fs.mkdtemp(path.join(parent, "piper-"));
   try {
     await fn(dir);
-    await new Promise((r) => setTimeout(r, 10));
+    await new Promise((r) => setTimeout(r, 25));
   } finally {
     await fs.rm(dir, { recursive: true, force: true });
   }

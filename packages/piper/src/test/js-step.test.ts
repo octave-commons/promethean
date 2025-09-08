@@ -14,7 +14,7 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   try {
     await fn(dir);
     // small grace period for any async file watchers/flushes
-    await new Promise((r) => setTimeout(r, 10));
+    await new Promise((r) => setTimeout(r, 25));
   } finally {
     await fs.rm(dir, { recursive: true, force: true });
   }
@@ -269,10 +269,10 @@ test.serial(
 
 test.serial("worker js step: crash rejects instead of hanging", async (t) => {
   await withTmp(async (dir) => {
-    // Syntax error to force module load failure in worker
+    // Explicit syntax error to force module load failure in worker
     await fs.writeFile(
       path.join(dir, "bad.js"),
-      "export default () => {\n",
+      "export default () => { throw new SyntaxError('Intentional test error'); }",
       "utf8",
     );
 
