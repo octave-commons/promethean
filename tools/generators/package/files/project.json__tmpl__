@@ -1,43 +1,37 @@
 {
-  "name": "ts-buildfix",
-  "root": "packages/buildfix",
-  "sourceRoot": "packages/buildfix/src",
+  "name": "ts-<%= name %>",
+  "root": "packages/<%= name %>",
+  "sourceRoot": "packages/<%= name %>/src",
   "targets": {
     "build": {
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -b",
-        "cwd": "packages/buildfix"
+        "cwd": "packages/<%= name %>"
       },
-      "outputs": [
-        "{projectRoot}/dist"
-      ]
+      "outputs": ["{projectRoot}/dist"]
     },
     "typecheck": {
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -p tsconfig.json --noEmit",
-        "cwd": "packages/buildfix"
+        "cwd": "packages/<%= name %>"
       }
     },
     "test": {
       "executor": "nx:run-commands",
-      "dependsOn": ["build"],
       "options": {
-        "command": "ava",
-        "cwd": "packages/buildfix"
+        "command": "pnpm build && ava",
+        "cwd": "packages/<%= name %>"
       }
     },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
         "command": "eslint .",
-        "cwd": "packages/buildfix"
+        "cwd": "packages/<%= name %>"
       }
     }
   },
-  "tags": [
-    "scope:packages"
-  ],
-  "pipelines": "pipelines.json"
+  "tags": ["scope:packages"]
 }
