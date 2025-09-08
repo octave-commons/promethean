@@ -71,3 +71,5 @@ ollama pull nomic-embed-text
 # bb --version || true
 
 # npm install --global corepack@latest
+
+uvx pre-commit install
