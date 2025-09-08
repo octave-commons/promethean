@@ -231,6 +231,7 @@ export async function runJSModule(
   step: PiperStep,
   cwd: string,
   env: Record<string, string>,
+  fp: string,
   timeoutMs?: number,
 ) {
   const modPath = path.isAbsolute(step.js!.module)
@@ -248,9 +249,8 @@ export async function runJSModule(
   }
 
   const buf = await fs.readFile(modPath);
-  const sha = createHash("sha1").update(buf).digest("hex");
   const url = pathToFileURL(modPath);
-  url.search = `?sha=${sha}`;
+  url.search = `?fp=${fp}`;
   const mod: any = await import(url.href);
   const fn = (step.js!.export && mod[step.js!.export]) || mod.default || mod;
   return runJSFunction(fn as any, step.js!.args ?? {}, env, timeoutMs);
