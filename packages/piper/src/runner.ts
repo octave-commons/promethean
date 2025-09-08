@@ -71,22 +71,22 @@ async function hashModuleGraph(p: string, seen = new Map<string, string>()) {
   return digest;
 }
 
-function getCachedWorker(hash: string) {
-  const entry = jsModuleCache.get(hash);
+function getCachedWorker(key: string) {
+  const entry = jsModuleCache.get(key);
   if (!entry) return undefined;
   if (Date.now() - entry.ts > JS_CACHE_TTL_MS) {
     entry.worker.terminate();
-    jsModuleCache.delete(hash);
+    jsModuleCache.delete(key);
     return undefined;
   }
   entry.ts = Date.now();
-  jsModuleCache.delete(hash);
-  jsModuleCache.set(hash, entry);
+  jsModuleCache.delete(key);
+  jsModuleCache.set(key, entry);
   return entry;
 }
 
-function setCachedWorker(hash: string, worker: Worker) {
-  jsModuleCache.set(hash, { worker, ts: Date.now() });
+function setCachedWorker(key: string, worker: Worker) {
+  jsModuleCache.set(key, { worker, ts: Date.now() });
   if (jsModuleCache.size > JS_CACHE_MAX) {
     const oldestKey = jsModuleCache.keys().next().value;
     const oldest = jsModuleCache.get(oldestKey);
@@ -96,19 +96,61 @@ function setCachedWorker(hash: string, worker: Worker) {
 }
 
 function runWorker(worker: Worker, args: unknown, timeoutMs?: number) {
-  return new Promise<{ code: number | null; stdout: string; stderr: string }>((resolve) => {
+  return new Promise<{
+    code: number | null;
+    stdout: string;
+    stderr: string;
+    timeout?: boolean;
+  }>((resolve) => {
+    let settled = false;
+    const resolveOnce = (res: {
+      code: number | null;
+      stdout: string;
+      stderr: string;
+      timeout?: boolean;
+    }) => {
+      if (!settled) {
+        settled = true;
+        if (timer) clearTimeout(timer);
+        worker.removeListener("message", onMessage);
+        worker.removeListener("error", onError);
+        worker.removeListener("exit", onExit);
+        resolve(res);
+      }
+    };
+
     const timer =
       timeoutMs && timeoutMs > 0
         ? setTimeout(() => {
             worker.terminate();
-            resolve({ code: 1, stdout: "", stderr: "timeout" });
+            resolveOnce({ code: 1, stdout: "", stderr: "timeout", timeout: true });
           }, timeoutMs)
         : undefined;
-    const listener = (msg: any) => {
-      if (timer) clearTimeout(timer as any);
-      resolve({ code: msg.ok ? 0 : 1, stdout: msg.ok ? msg.res : "", stderr: msg.ok ? "" : msg.err });
+
+    const onMessage = (msg: any) => {
+      resolveOnce({
+        code: msg.ok ? 0 : 1,
+        stdout: msg.ok ? msg.res : "",
+        stderr: msg.ok ? "" : msg.err,
+      });
     };
-    worker.once("message", listener);
+
+    const onError = (err: Error) => {
+      resolveOnce({ code: 1, stdout: "", stderr: err.message });
+    };
+
+    const onExit = (code: number) => {
+      resolveOnce({
+        code: code === 0 ? 1 : code,
+        stdout: "",
+        stderr: `worker exited with code ${code}`,
+      });
+    };
+
+    worker.on("message", onMessage);
+    worker.on("error", onError);
+    worker.on("exit", onExit);
+
     worker.postMessage({ args });
   });
 }
@@ -208,7 +250,12 @@ export async function runPipeline(
         { type: "start", stepId: s.id, at: startedAt },
         !!(opts as any).json,
       );
-      let execRes: { code: number | null; stdout: string; stderr: string } = {
+      let execRes: {
+        code: number | null;
+        stdout: string;
+        stderr: string;
+        timeout?: boolean;
+      } = {
         code: 0,
         stdout: "",
         stderr: "",
@@ -223,7 +270,8 @@ export async function runPipeline(
             ? s.js.module
             : path.resolve(cwd, s.js.module);
           const hash = await hashModuleGraph(modPath);
-          let entry = getCachedWorker(hash);
+          const cacheKey = hash + ":" + (s.js.export ?? "");
+          let entry = getCachedWorker(cacheKey);
           if (!entry) {
             const worker = new Worker(
               new URL("./lib/js-worker.js", import.meta.url),
@@ -231,9 +279,10 @@ export async function runPipeline(
             );
             worker.unref();
             entry = { worker, ts: Date.now() };
-            setCachedWorker(hash, worker);
+            setCachedWorker(cacheKey, worker);
           }
           execRes = await runWorker(entry.worker, s.js.args, s.timeoutMs);
+          if (execRes.timeout) jsModuleCache.delete(cacheKey);
         }
 
       const endedAt = new Date().toISOString();
