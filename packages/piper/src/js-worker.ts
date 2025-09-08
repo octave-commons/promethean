@@ -1,65 +1,62 @@
 import { parentPort, workerData } from "node:worker_threads";
-import { pathToFileURL } from "node:url";
 
-interface WorkerPayload {
-  modulePath: string;
-  exportName: string;
+const { modUrl, exportName, args, env } = workerData as {
+  modUrl: string;
+  exportName?: string;
   args: any;
   env: Record<string, string>;
-  fp?: string;
-}
-
-const { modulePath, exportName, args, env, fp } = workerData as WorkerPayload;
-
-let stdout = "";
-let stderr = "";
-
-const origStdout = process.stdout.write;
-const origStderr = process.stderr.write;
-
-(process.stdout.write as any) = function (chunk: any, enc?: any, cb?: any) {
-  stdout += typeof chunk === "string" ? chunk : String(chunk);
-  const maybeCb = typeof enc === "function" ? enc : cb;
-  if (typeof maybeCb === "function") setImmediate(maybeCb);
-  return true;
-};
-(process.stderr.write as any) = function (chunk: any, enc?: any, cb?: any) {
-  stderr += typeof chunk === "string" ? chunk : String(chunk);
-  const maybeCb = typeof enc === "function" ? enc : cb;
-  if (typeof maybeCb === "function") setImmediate(maybeCb);
-  return true;
-};
-
-const origEnv = { ...process.env } as Record<string, string | undefined>;
-for (const [k, v] of Object.entries(env)) {
-  process.env[k] = v;
-}
-
-const cleanup = () => {
-  (process.stdout.write as any) = origStdout;
-  (process.stderr.write as any) = origStderr;
-  for (const [k, v] of Object.entries(origEnv)) {
-    if (v === undefined) delete process.env[k];
-    else process.env[k] = v;
-  }
 };
 
 (async () => {
+  // Capture originals
+  const origEnv = { ...process.env };
+  const origStdout = process.stdout.write;
+  const origStderr = process.stderr.write;
+
+  // Apply step env
+  Object.assign(process.env, env);
+
+  // Stream-capture to parent
+  (process.stdout.write as any) = function (chunk: any, enc?: any, cb?: any) {
+    const data = typeof chunk === "string" ? chunk : String(chunk);
+    parentPort?.postMessage({ type: "stdout", data });
+    const maybeCb = typeof enc === "function" ? enc : cb;
+    if (typeof maybeCb === "function") setImmediate(maybeCb);
+    return true;
+  };
+  (process.stderr.write as any) = function (chunk: any, enc?: any, cb?: any) {
+    const data = typeof chunk === "string" ? chunk : String(chunk);
+    parentPort?.postMessage({ type: "stderr", data });
+    const maybeCb = typeof enc === "function" ? enc : cb;
+    if (typeof maybeCb === "function") setImmediate(maybeCb);
+    return true;
+  };
+
   try {
-    const url =
-      pathToFileURL(modulePath).href + (fp ? `?v=${encodeURIComponent(fp)}` : "");
-    const mod = await import(url);
-    const fn = (mod as any)[exportName];
+    const mod: any = await import(modUrl);
+    const fn =
+      (exportName && mod && mod[exportName]) || (mod && mod.default) || mod;
+
     if (typeof fn !== "function") {
-      throw new Error(`JS step export '${exportName}' is not a function.`);
+      throw new Error(`export '${exportName ?? "default"}' is not a function`);
     }
-    const res = await Promise.resolve(fn(args));
-    if (typeof res === "string") stdout += res;
-    cleanup();
-    parentPort?.postMessage({ code: 0, stdout, stderr });
+
+    const res = await fn(args);
+    if (typeof res === "string") {
+      parentPort?.postMessage({ type: "stdout", data: res });
+    }
+
+    parentPort?.postMessage({ type: "done", code: 0 });
   } catch (e: any) {
-    stderr += e?.stack ?? String(e);
-    cleanup();
-    parentPort?.postMessage({ code: 1, stdout, stderr });
+    parentPort?.postMessage({
+      type: "done",
+      code: 1,
+      error: e?.stack ?? String(e),
+    });
+  } finally {
+    // Restore globals
+    (process.stdout.write as any) = origStdout;
+    (process.stderr.write as any) = origStderr;
+    (process.env as any) = origEnv;
   }
 })();

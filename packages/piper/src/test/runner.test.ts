@@ -2,7 +2,6 @@ import * as fs from "fs/promises";
 import * as path from "path";
 
 import test from "ava";
-import YAML from "yaml";
 
 import { runPipeline } from "../runner.js";
 
@@ -54,8 +53,8 @@ test.serial(
             },
           ],
         };
-        const pipelinesPath = path.join(dir, "pipelines.yaml");
-        await fs.writeFile(pipelinesPath, YAML.stringify(cfg), "utf8");
+        const pipelinesPath = path.join(dir, "pipelines.json");
+        await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
 
         const res1 = await runPipeline(pipelinesPath, "demo", {
           concurrency: 2,
