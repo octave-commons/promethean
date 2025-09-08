@@ -1,5 +1,6 @@
 import * as path from "path";
 import { promises as fs } from "fs";
+import { pathToFileURL } from "node:url";
 
 import * as chokidar from "chokidar";
 import {
@@ -14,8 +15,8 @@ import {
   listOutputsExist,
   runNode,
   runShell,
-  runTSModule,
   runJSModule,
+  runTSModule,
   writeText,
 } from "./fsutils.js";
 import { stepFingerprint } from "./hash.js";
@@ -70,6 +71,7 @@ export async function runPipeline(
   const steps = topoSort(pipeline.steps);
   const state = await loadState(pipeline.name);
   const sem = semaphore(Math.max(1, opts.concurrency ?? 2));
+  const jsSem = semaphore(1);
 
   const results: StepResult[] = [];
   const runMap = new Map<string, Promise<void>>();
@@ -79,6 +81,7 @@ export async function runPipeline(
     for (const d of s.deps) await runMap.get(d);
 
     await sem.take();
+    let jsLocked = false;
     try {
       const cwd = path.resolve(s.cwd || ".");
       const fp = await stepFingerprint(s, cwd, !!opts.contentHash);
@@ -130,7 +133,26 @@ export async function runPipeline(
       else if (s.node)
         execRes = await runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
       else if (s.ts) execRes = await runTSModule(s, cwd, s.env, s.timeoutMs);
-      else if (s.js) execRes = await runJSModule(s, cwd, s.env, s.timeoutMs);
+      else if (s.js) {
+        await jsSem.take();
+        jsLocked = true;
+        try {
+          const filePath = path.isAbsolute(s.js.module)
+            ? s.js.module
+            : path.resolve(cwd, s.js.module);
+          const modUrl =
+            pathToFileURL(filePath).href + `?v=${encodeURIComponent(fp)}`;
+          execRes = await runJSModule(
+            modUrl,
+            s.js.export,
+            s.js.args ?? {},
+            s.env,
+            s.timeoutMs,
+          );
+        } catch (e: any) {
+          execRes = { code: 1, stdout: "", stderr: e?.stack ?? String(e) };
+        }
+      }
 
       const endedAt = new Date().toISOString();
       const out: StepResult = {
@@ -154,6 +176,7 @@ export async function runPipeline(
       );
     } finally {
       sem.release();
+      if (jsLocked) jsSem.release();
     }
   };
 
