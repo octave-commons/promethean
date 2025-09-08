@@ -51,20 +51,22 @@ export async function stepFingerprint(
     step.cache === "content" || preferContent
       ? "content"
       : step.cache ?? "content";
-  const inputsHash = await fingerprintFromGlobs(step.inputs ?? [], cwd, mode);
-  const configHash = sha1(
-    JSON.stringify({
-      id: step.id,
-      name: step.name,
-      deps: step.deps,
-// … somewhere above in this function …
+  // … somewhere above in this function …
   const inputGlobs = [
     ...(step.inputs ?? []),
     ...(step.ts?.module ? [step.ts.module] : []),
     ...(step.js?.module ? [step.js.module] : []),
   ];
   const inputsHash = await fingerprintFromGlobs(inputGlobs, cwd, mode);
-// … rest of function …
+  // … rest of function …
+  const configHash = sha1(
+    JSON.stringify({
+      id: step.id,
+      name: step.name,
+      deps: step.deps,
+      cmd: step.shell ?? step.node ?? step.ts ?? step.js,
+      args: step.args ?? step.ts?.args ?? step.js?.args,
+      env: step.env,
     }),
   );
   return sha1(inputsHash + "|" + configHash);
