@@ -4,8 +4,6 @@ import { spawn } from "child_process";
 import { Worker } from "node:worker_threads";
 import { AsyncLocalStorage } from "async_hooks";
 import { pathToFileURL } from "url";
-import { createHash } from "node:crypto";
-
 import { globby } from "globby";
 import { ensureDir } from "@promethean/fs";
 import { PiperStep } from "./types.js";
@@ -248,7 +246,6 @@ export async function runJSModule(
     );
   }
 
-  const buf = await fs.readFile(modPath);
   const url = pathToFileURL(modPath);
   url.search = `?fp=${fp}`;
   const mod: any = await import(url.href);
