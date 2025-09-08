@@ -70,6 +70,7 @@ export async function runPipeline(
   const steps = topoSort(pipeline.steps);
   const state = await loadState(pipeline.name);
   const sem = semaphore(Math.max(1, opts.concurrency ?? 2));
+  const jsSem = semaphore(1);
 
   const results: StepResult[] = [];
   const runMap = new Map<string, Promise<void>>();
@@ -78,6 +79,7 @@ export async function runPipeline(
     // ensure deps completed
     for (const d of s.deps) await runMap.get(d);
 
+    if (s.js) await jsSem.take();
     await sem.take();
     try {
       const cwd = path.resolve(s.cwd || ".");
@@ -131,15 +133,22 @@ export async function runPipeline(
         execRes = await runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
       else if (s.ts) execRes = await runTSModule(s, cwd, s.env, s.timeoutMs);
       else if (s.js) {
-        const modPath = path.isAbsolute(s.js.module)
-          ? s.js.module
-          : path.resolve(cwd, s.js.module);
-        const mod = await import(modPath);
-        const fn =
-          (s.js.export && (mod as any)[s.js.export]) ||
-          (mod as any).default ||
-          mod;
-        execRes = await runJSFunction(fn, s.js.args ?? {}, s.env, s.timeoutMs);
+        try {
+          const modPath = path.isAbsolute(s.js.module)
+            ? s.js.module
+            : path.resolve(cwd, s.js.module);
+          const mod = await import(modPath);
+          const exportName = s.js.export ?? "default";
+          const fn = (mod as any)[exportName];
+          if (typeof fn !== "function") {
+            throw new Error(
+              `JS step '${s.id}': export '${exportName}' is not a function.`,
+            );
+          }
+          execRes = await runJSFunction(fn, s.js.args ?? {}, s.env, s.timeoutMs);
+        } catch (e: any) {
+          execRes = { code: 1, stdout: "", stderr: e?.stack ?? String(e) };
+        }
       }
 
       const endedAt = new Date().toISOString();
@@ -164,6 +173,7 @@ export async function runPipeline(
       );
     } finally {
       sem.release();
+      if (s.js) jsSem.release();
     }
   };
 
