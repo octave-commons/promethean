@@ -7,17 +7,14 @@ import YAML from "yaml";
 import { runPipeline } from "../runner.js";
 
 async function withTmp(fn: (dir: string) => Promise<void>) {
-	const dir = path.join(
-		process.cwd(),
-		"test-tmp",
-		String(Date.now()) + "-" + Math.random().toString(36).slice(2),
-	);
-	await fs.mkdir(dir, { recursive: true });
-	try {
-		await fn(dir);
-	} finally {
-		await fs.rm(dir, { recursive: true, force: true });
-	}
+  const parent = path.join(process.cwd(), "test-tmp");
+  await fs.mkdir(parent, { recursive: true });
+  const dir = await fs.mkdtemp(path.join(parent, "piper-"));
+  try {
+    await fn(dir);
+  } finally {
+    await fs.rm(dir, { recursive: true, force: true });
+  }
 }
 
 test.serial("runPipeline executes js function steps", async (t) => {
@@ -104,16 +101,55 @@ test.serial(
 				};
 				const pipelinesPath = path.join(dir, "pipelines.yaml");
 				await fs.writeFile(pipelinesPath, YAML.stringify(cfg), "utf8");
-				const res = await runPipeline(pipelinesPath, "demo", {
-					concurrency: 2,
-				});
-				const a = res.find((r) => r.id === "a")!;
-				const b = res.find((r) => r.id === "b")!;
-				t.is(a.stdout, "A\nA\n");
-				t.is(b.stdout, "B\nB\n");
-			} finally {
-				process.chdir(prevCwd);
-			}
-		});
-	},
+                                const res = await runPipeline(pipelinesPath, "demo", {
+                                        concurrency: 2,
+                                });
+                                const a = res.find((r) => r.id === "a")!;
+                                const b = res.find((r) => r.id === "b")!;
+                                t.is(a.exitCode, 0);
+                                t.is(b.exitCode, 0);
+                                t.is(a.stdout, "A\nA\n");
+                                t.is(b.stdout, "B\nB\n");
+                        } finally {
+                                process.chdir(prevCwd);
+                        }
+                });
+        },
 );
+
+test.serial("js step honors timeout", async (t) => {
+  await withTmp(async (dir) => {
+    const prevCwd = process.cwd();
+    process.chdir(dir);
+    try {
+      const modSrc = `export async function wait(){ await new Promise(r=>setTimeout(r,100)); }`;
+      await fs.writeFile(path.join(dir, "mod.js"), modSrc, "utf8");
+      const cfg = {
+        pipelines: [
+          {
+            name: "demo",
+            steps: [
+              {
+                id: "js",
+                cwd: ".",
+                deps: [],
+                inputs: [],
+                outputs: [],
+                cache: "content",
+                timeoutMs: 10,
+                js: { module: "./mod.js", export: "wait" },
+              },
+            ],
+          },
+        ],
+      };
+      const pipelinesPath = path.join(dir, "pipelines.yaml");
+      await fs.writeFile(pipelinesPath, YAML.stringify(cfg), "utf8");
+      const res = await runPipeline(pipelinesPath, "demo", { concurrency: 1 });
+      const first = res.find((r) => r.id === "js")!;
+      t.is(first.exitCode, 124);
+    } finally {
+      process.chdir(prevCwd);
+    }
+  });
+});
