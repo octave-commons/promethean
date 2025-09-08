@@ -3,7 +3,6 @@ import { promises as fs } from "fs";
 import { pathToFileURL } from "node:url";
 
 import * as chokidar from "chokidar";
-import * as YAML from "yaml";
 import {
   FileSchema,
   PiperFile,
@@ -36,7 +35,7 @@ function slug(s: string) {
 
 async function readConfig(p: string): Promise<PiperFile> {
   const raw = await fs.readFile(p, "utf-8");
-  const obj = p.endsWith(".json") ? JSON.parse(raw) : YAML.parse(raw);
+  const obj = JSON.parse(raw);
   const parsed = FileSchema.safeParse(obj);
   if (!parsed.success)
     throw new Error("pipelines config invalid: " + parsed.error.message);
