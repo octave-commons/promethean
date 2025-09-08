@@ -1,7 +1,7 @@
 import * as path from "path";
 import { promises as fs } from "fs";
-import { pathToFileURL } from "url";
 import { createHash } from "crypto";
+import { Worker } from "worker_threads";
 
 import * as chokidar from "chokidar";
 import * as YAML from "yaml";
@@ -18,7 +18,6 @@ import {
   runNode,
   runShell,
   runTSModule,
-  runJSFunction,
   writeText,
 } from "./fsutils.js";
 import { stepFingerprint } from "./hash.js";
@@ -27,6 +26,134 @@ import { semaphore } from "./lib/concurrency.js";
 import { loadState, saveState, RunState } from "./lib/state.js";
 import { renderReport } from "./lib/report.js";
 import { emitEvent } from "./lib/events.js";
+
+const JS_CACHE_TTL_MS = 5 * 60 * 1000;
+const JS_CACHE_MAX = 20;
+const jsModuleCache = new Map<string, { worker: Worker; ts: number; running?: Promise<any> }>();
+
+async function hashModuleGraph(p: string, seen = new Map<string, string>()) {
+  const abs = path.resolve(p);
+  if (seen.has(abs)) return seen.get(abs)!;
+  const code = await fs.readFile(abs, "utf8");
+  const dir = path.dirname(abs);
+  const importRe =
+    /import\s+(?:[^'"\n]*?from\s+)?["']([^"']+)["']|import\(\s*["']([^"']+)["']\s*\)/g;
+  const deps: string[] = [];
+  for (let m; (m = importRe.exec(code)); ) {
+    const spec = m[1] || m[2];
+    if (!spec) continue;
+    if (spec.startsWith(".") || spec.startsWith("/")) {
+      let resolved = path.resolve(dir, spec);
+      if (!path.extname(resolved)) {
+        try {
+          await fs.access(resolved + ".js");
+          resolved += ".js";
+        } catch {
+          try {
+            await fs.access(path.join(resolved, "index.js"));
+            resolved = path.join(resolved, "index.js");
+          } catch {
+            // ignore missing
+          }
+        }
+      }
+      deps.push(resolved);
+    }
+  }
+  const childHashes = [] as string[];
+  for (const d of deps) childHashes.push(await hashModuleGraph(d, seen));
+  childHashes.sort();
+  const h = createHash("sha1");
+  h.update(code);
+  for (const c of childHashes) h.update(c);
+  const digest = h.digest("hex");
+  seen.set(abs, digest);
+  return digest;
+}
+
+function getCachedWorker(key: string) {
+  const entry = jsModuleCache.get(key);
+  if (!entry) return undefined;
+  if (Date.now() - entry.ts > JS_CACHE_TTL_MS) {
+    entry.worker.terminate();
+    jsModuleCache.delete(key);
+    return undefined;
+  }
+  entry.ts = Date.now();
+  jsModuleCache.delete(key);
+  jsModuleCache.set(key, entry);
+  return entry;
+}
+
+function setCachedWorker(key: string, worker: Worker) {
+  jsModuleCache.set(key, { worker, ts: Date.now() });
+  if (jsModuleCache.size > JS_CACHE_MAX) {
+    const oldestKey = jsModuleCache.keys().next().value;
+    const oldest = jsModuleCache.get(oldestKey);
+    if (oldest) oldest.worker.terminate();
+    jsModuleCache.delete(oldestKey);
+  }
+}
+
+function runWorker(worker: Worker, args: unknown, timeoutMs?: number) {
+  return new Promise<{
+    code: number | null;
+    stdout: string;
+    stderr: string;
+    timeout?: boolean;
+  }>((resolve) => {
+    let settled = false;
+    const resolveOnce = (res: {
+      code: number | null;
+      stdout: string;
+      stderr: string;
+      timeout?: boolean;
+    }) => {
+      if (!settled) {
+        settled = true;
+        if (timer) clearTimeout(timer);
+        worker.removeListener("message", onMessage);
+        worker.removeListener("error", onError);
+        worker.removeListener("exit", onExit);
+        resolve(res);
+      }
+    };
+
+    const timer =
+      timeoutMs && timeoutMs > 0
+        ? setTimeout(() => {
+            worker.terminate();
+            resolveOnce({ code: 1, stdout: "", stderr: "timeout", timeout: true });
+          }, timeoutMs)
+        : undefined;
+
+    const onMessage = (msg: any) => {
+      resolveOnce({
+        code: msg.ok ? 0 : 1,
+        stdout: msg.ok ? msg.res : "",
+        stderr: msg.ok ? "" : msg.err,
+      });
+    };
+
+    const onError = (err: Error) => {
+      resolveOnce({ code: 1, stdout: "", stderr: err.message });
+    };
+
+    const onExit = (code: number) => {
+      resolveOnce({
+        code: code === 0 ? 1 : code,
+        stdout: "",
+        stderr: `worker exited with code ${code}`,
+      });
+    };
+
+    worker.on("message", onMessage);
+    worker.on("error", onError);
+    worker.on("exit", onExit);
+
+    worker.postMessage({ args });
+  });
+}
 
 function slug(s: string) {
   return s
@@ -123,7 +250,12 @@ export async function runPipeline(
         { type: "start", stepId: s.id, at: startedAt },
         !!(opts as any).json,
       );
-      let execRes: { code: number | null; stdout: string; stderr: string } = {
+      let execRes: {
+        code: number | null;
+        stdout: string;
+        stderr: string;
+        timeout?: boolean;
+      } = {
         code: 0,
         stdout: "",
         stderr: "",
@@ -137,16 +269,20 @@ export async function runPipeline(
           const modPath = path.isAbsolute(s.js.module)
             ? s.js.module
             : path.resolve(cwd, s.js.module);
-          const modUrl = pathToFileURL(modPath);
-          const buf = await fs.readFile(modPath);
-          const sha = createHash("sha1").update(buf).digest("hex");
-          modUrl.search = `?sha=${sha}`;
-          const mod = await import(modUrl.href);
-          const fn =
-            (s.js.export && (mod as any)[s.js.export]) ??
-            (mod as any).default ??
-            mod;
-          execRes = await runJSFunction(fn as any, s.js.args);
+          const hash = await hashModuleGraph(modPath);
+          const cacheKey = hash + ":" + (s.js.export ?? "");
+          let entry = getCachedWorker(cacheKey);
+          if (!entry) {
+            const worker = new Worker(
+              new URL("./lib/js-worker.js", import.meta.url),
+              { workerData: { modulePath: modPath, exportName: s.js.export } },
+            );
+            worker.unref();
+            entry = { worker, ts: Date.now() };
+            setCachedWorker(cacheKey, worker);
+          }
+          execRes = await runWorker(entry.worker, s.js.args, s.timeoutMs);
+          if (execRes.timeout) jsModuleCache.delete(cacheKey);
         }
 
       const endedAt = new Date().toISOString();
