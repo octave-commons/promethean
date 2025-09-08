@@ -57,9 +57,14 @@ export async function stepFingerprint(
       id: step.id,
       name: step.name,
       deps: step.deps,
-      cmd: step.shell ?? step.node ?? step.ts ?? step.js,
-      args: step.args ?? step.ts?.args ?? step.js?.args,
-      env: step.env,
+// … somewhere above in this function …
+  const inputGlobs = [
+    ...(step.inputs ?? []),
+    ...(step.ts?.module ? [step.ts.module] : []),
+    ...(step.js?.module ? [step.js.module] : []),
+  ];
+  const inputsHash = await fingerprintFromGlobs(inputGlobs, cwd, mode);
+// … rest of function …
     }),
   );
   return sha1(inputsHash + "|" + configHash);
