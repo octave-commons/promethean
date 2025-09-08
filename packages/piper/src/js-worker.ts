@@ -39,10 +39,13 @@ const { modUrl, exportName, args, env } = workerData as {
 
     if (typeof fn !== "function") {
       throw new Error(`export '${exportName ?? "default"}' is not a function`);
-    const name = exportName ?? "default";
-    const fn = (mod as any)[name];
-    if (typeof fn !== "function") {
-      throw new Error(`JS worker: export '${name}' is not a function in ${modUrl}`);
+      // const name = exportName ?? "default";
+      // const fn = (mod as any)[name];
+      // if (typeof fn !== "function") {
+      //   throw new Error(
+      //     `JS worker: export '${name}' is not a function in ${modUrl}`,
+      //   );
+      // }
     }
 
     const res = await fn(args);
