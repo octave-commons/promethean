@@ -23,7 +23,15 @@ async function load() {
     if (typeof fn !== "function") {
       throw new Error("export is not a function");
     }
-    parentPort!.on("message", async ({ args }) => {
+    parentPort!.on("message", async (msg) => {
+      if (!msg || typeof msg !== 'object' || !('args' in msg)) {
+        parentPort!.postMessage({
+          ok: false,
+          err: "Invalid message: missing args",
+        });
+        return;
+      }
+      const { args } = msg;
       try {
         const res = await fn(args as any);
         parentPort!.postMessage({
