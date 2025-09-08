@@ -151,7 +151,7 @@ export async function runPipeline(
         await jsSem.take();
         jsLocked = true;
         try {
-          execRes = await runJSModule(s, cwd, s.env, s.timeoutMs);
+          execRes = await runJSModule(s, cwd, s.env, fp, s.timeoutMs);
         } catch (e: any) {
           execRes = { code: 1, stdout: "", stderr: e?.stack ?? String(e) };
         }
