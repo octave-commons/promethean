@@ -296,34 +296,54 @@ export async function runJSModule(
   }
 }
 
-export async function runJSFunction(
-  fn: (args: unknown) => unknown | Promise<unknown>,
-  args: unknown,
-) {
-  try {
-    const res = await fn(args as any);
-    return {
-      code: 0,
-      stdout: typeof res === "string" ? res : "",
-      stderr: "",
-    };
-  } catch (err: unknown) {
-    return {
-      code: 1,
-      stdout: "",
-      stderr: err instanceof Error ? err.message : String(err),
-    };
-  }
-}
+// export async function runJSFunction(
+//   fn: (args: unknown) => unknown | Promise<unknown>,
+//   args: unknown,
+// ) {
+//   try {
+//     const res = await fn(args as any);
+//     return {
+//       code: 0,
+//       stdout: typeof res === "string" ? res : "",
+//       stderr: "",
+//     };
+//   } catch (err: unknown) {
+//     return {
+//       code: 1,
+//       stdout: "",
+//       stderr: err instanceof Error ? err.message : String(err),
+//     };
+//   }
+// }
 
+export async function runTSModule(
+  step: PiperStep,
+  cwd: string,
+  env: Record<string, string>,
+  timeoutMs?: number,
+) {
+  const modPath = path.isAbsolute(step.ts!.module)
+    ? step.ts!.module
+    : path.resolve(cwd, step.ts!.module);
+  const code = `
+    import mod from ${JSON.stringify(modPath)};
+    const fn = (mod && mod.${step.ts!.export}) || (mod && mod.default) || mod;
+    const res = await fn(${JSON.stringify(step.ts!.args ?? {})});
+    if (typeof res === 'string') process.stdout.write(res);
+  `;
+  // Lazy-run via node -e with ESM loader
+  const cmd = process.execPath;
+  const args = ["-e", code];
+  return runSpawn(cmd, { cwd, env, args, timeoutMs });
+}
 function runSpawn(
   cmd: string,
   opts: {
     cwd: string;
     env: NodeJS.ProcessEnv;
-    shell?: boolean;
-    args?: string[];
-    timeoutMs?: number;
+    shell?: boolean | undefined;
+    args?: string[] | undefined;
+    timeoutMs?: number | undefined;
   },
 ) {
   return new Promise<{ code: number | null; stdout: string; stderr: string }>(
