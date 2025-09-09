@@ -525,12 +525,12 @@ test.serial(
           contentHash: true,
         });
 
-        const byId = new Map(res3.map((r) => [r.id ?? r.stepId ?? "", r]));
+        const byId = new Map(res3.map((r) => [r.id ?? "", r]));
         // We expect make1 and join to re-run (not skipped); make2 stays skipped
-        // We cannot rely on exact property names beyond "skipped" and potential "id"/"stepId",
-        // so we check existence and default to conservative expectations.
         t.true(
-          Array.from(byId.values()).some((r) => \!r.skipped),
+          Array.from(byId.values()).some(
+            (r) => r.skipped === false && r.exitCode === 0,
+          ),
           "at least one step re-executes after input change",
         );
 
@@ -538,9 +538,15 @@ test.serial(
         const make2 = byId.get("make2");
         const join = byId.get("join");
 
-        if (make1) t.false(make1.skipped, "make1 should re-execute");
+        if (make1) {
+          t.false(make1.skipped, "make1 should re-execute");
+          t.is(make1.exitCode, 0);
+        }
         if (make2) t.true(make2.skipped, "make2 should remain cached");
-        if (join) t.false(join.skipped, "join should re-execute due to changed input");
+        if (join) {
+          t.false(join.skipped, "join should re-execute due to changed input");
+          t.is(join.exitCode, 0);
+        }
 
         // Validate outputs still exist and reflect change
         const z = await fs.readFile(path.join(dir, "z.txt"), "utf8");
