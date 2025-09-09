@@ -33,6 +33,7 @@ export const StepSchema = z
       .optional(),
     args: z.array(z.string()).optional(),
     timeoutMs: z.number().optional(),
+    retry: z.number().default(0),
   })
   .refine((s) => !!(s.shell || s.node || s.ts || s.js), {
     message: "step must define shell|node|ts|js",
