@@ -26,7 +26,7 @@ const UI_ROOT = path.resolve(
 
 const FRONTEND_DIST = path.resolve(
   path.dirname(url.fileURLToPath(import.meta.url)),
-  "./frontend",
+  "../dist/frontend",
 );
 
 async function loadConfig() {
