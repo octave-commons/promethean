@@ -1,7 +1,8 @@
-import { globby } from "globby";
 import { readFile } from "node:fs/promises";
 import * as path from "node:path";
 import { spawnSync } from "node:child_process";
+
+import { globby } from "globby";
 
 type RgArgs = Readonly<{ args: readonly string[] }>;
 
@@ -21,7 +22,8 @@ const rgArgsFor = (key: string): RgArgs | null => {
           "packages/**/src/**/*.{ts,tsx}",
           "-e",
           "from [\\\"'][.]{1,2}/[^\\\"']*(?!\\\\.js)[\\\"']",
-          "from [\"'][.]{1,2}/[^\"']*(?!\\.js)[\"']",        ],
+          "from [\"'][.]{1,2}/[^\"']*(?!\\.js)[\"']",
+        ],
       };
     case "NO_TS_PATHS":
       return {
@@ -30,7 +32,7 @@ const rgArgsFor = (key: string): RgArgs | null => {
           "--glob",
           "packages/**/tsconfig*.json",
           "-e",
-          "\\\"paths\\\"\\s*:",
+          '\\"paths\\"\\s*:',
         ],
       };
     case "NO_EMBED_HTML":

@@ -144,7 +144,7 @@ export class World {
 
     destroyEntity(e: Entity): void {
         this.requireAlive(e);
-        const loc = this.loc[e & 0xffff]!;
+        const loc = this.loc[e & 0xffff];
         const { arch, row } = loc;
         // call onRemove hooks for all comps present
         for (let cid = 0; cid < this.nextCompId; cid++) {
@@ -173,7 +173,7 @@ export class World {
     addComponent<T>(e: Entity, ct: ComponentType<T>, value?: T): void {
         this.requireAlive(e);
         const idx = e & 0xffff;
-        const loc = this.loc[idx]!;
+        const loc = this.loc[idx];
         const from = loc.arch;
         if ((from.mask & ct.mask) !== 0n) {
             // already has: set value + mark changed
@@ -202,7 +202,7 @@ export class World {
     removeComponent<T>(e: Entity, ct: ComponentType<T>): void {
         this.requireAlive(e);
         const idx = e & 0xffff;
-        const loc = this.loc[idx]!;
+        const loc = this.loc[idx];
         const from = loc.arch;
         if ((from.mask & ct.mask) === 0n) return; // nothing to do
         const to = this.nextArchetype(from, ct.id, false);
@@ -218,7 +218,7 @@ export class World {
 
     get<T>(e: Entity, ct: ComponentType<T>): T | undefined {
         this.requireAlive(e);
-        const loc = this.loc[e & 0xffff]!;
+        const loc = this.loc[e & 0xffff];
         const { arch, row } = loc;
         if ((arch.mask & ct.mask) === 0n) return undefined;
         arch.ensureColumn(ct.id);
@@ -229,7 +229,7 @@ export class World {
     carry<T>(e: Entity, ct: ComponentType<T>): void {
         // copy prev → next for this (entity,comp) WITHOUT marking changed
         this.requireAlive(e);
-        const loc = this.loc[e & 0xffff]!;
+        const loc = this.loc[e & 0xffff];
         const { arch, row } = loc;
         if ((arch.mask & ct.mask) === 0n) throw new Error(`entity lacks ${ct.name}`);
         arch.ensureColumn(ct.id);
@@ -243,7 +243,7 @@ export class World {
 
     set<T>(e: Entity, ct: ComponentType<T>, value: T): void {
         this.requireAlive(e);
-        const loc = this.loc[e & 0xffff]!;
+        const loc = this.loc[e & 0xffff];
         const { arch, row } = loc;
         if ((arch.mask & ct.mask) === 0n) throw new Error(`entity lacks ${ct.name}`);
         arch.ensureColumn(ct.id);
@@ -268,7 +268,7 @@ export class World {
 
     has(e: Entity, ct: ComponentType<any>): boolean {
         if (!this.isAlive(e)) return false;
-        const { arch } = this.loc[e & 0xffff]!;
+        const { arch } = this.loc[e & 0xffff];
         return (arch.mask & ct.mask) !== 0n;
     }
 
@@ -404,7 +404,7 @@ export class World {
 
     private removeRow(arch: Archetype, row: number): void {
         const last = arch.entities.length - 1;
-        const eLast = arch.entities[last]!;
+        const eLast = arch.entities[last];
         // swap-remove entity row
         arch.entities[row] = eLast;
         arch.entities.pop();

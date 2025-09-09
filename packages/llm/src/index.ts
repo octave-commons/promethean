@@ -4,8 +4,8 @@ import type { Request, Response, Express } from 'express';
 import type { WebSocket } from 'ws';
 import express from 'express';
 import { WebSocketServer } from 'ws';
-
 import { retry } from '@promethean/utils';
+
 import { loadDriver, LLMDriver } from './drivers/index.js';
 import type { Tool } from './tools.js';
 
@@ -19,9 +19,17 @@ export async function loadModel(): Promise<LLMDriver> {
     return driver;
 }
 
-let generateFn = async (
-    { prompt, context = [], format, tools = [] }: { prompt: string; context?: any[]; format?: any; tools?: Tool[] },
-): Promise<any> => {
+let generateFn = async ({
+    prompt,
+    context = [],
+    format,
+    tools = [],
+}: {
+    prompt: string;
+    context?: any[];
+    format?: any;
+    tools?: Tool[];
+}): Promise<any> => {
     const d = await loadModel();
     return d.generate({ prompt, context, format, tools });
 };

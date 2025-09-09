@@ -16,7 +16,7 @@ function readConfig(): any {
     ];
     for (const p of candidates) {
         if (fs.existsSync(p)) {
-            const data = yaml.load(fs.readFileSync(p, 'utf8')) as any;
+            const data = yaml.load(fs.readFileSync(p, 'utf8'));
             return data.llm || {};
         }
     }

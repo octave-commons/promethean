@@ -1,6 +1,8 @@
-import test from "ava";
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
+
+import test from "ava";
+
 import { runFooters } from "../05-footers.js";
 
 async function withTmp(fn: (dir: string) => Promise<void>) {

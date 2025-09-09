@@ -1,6 +1,6 @@
 import test from "ava";
-
 import { sleep } from "@promethean/test-utils/sleep";
+
 import { DesktopCaptureManager } from "../desktop/desktopLoop.js";
 
 // Ensure desktop captures are sent to configured channel

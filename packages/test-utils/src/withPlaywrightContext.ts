@@ -1,4 +1,5 @@
 import type { Macro } from 'ava';
+
 import { BrowserTestFn, newIsolatedPage } from './browser.js';
 
 export const withPlaywrightContext: Macro<[BrowserTestFn]> = {

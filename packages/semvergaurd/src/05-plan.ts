@@ -201,7 +201,7 @@ async function main() {
   if (!plans) throw new Error("plans not found");
   const ROOT = path.resolve(args["--root"] ?? "packages");
   const OUT = path.resolve(args["--out"] ?? ".cache/semverguard/pr");
-  const MODE = (args["--mode"] ?? "prepare") as string;
+  const MODE = args["--mode"] ?? "prepare";
   const UPDATE_DEPS = args["--update-dependents"] === "true";
   const DEP_RANGE_MODE = args["--dep-range"] ?? "preserve";
   const BR_PREFIX = args["--branch-prefix"] ?? "semver";

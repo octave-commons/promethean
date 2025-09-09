@@ -1,6 +1,0 @@
-{
-  "theme": "",
-  "communityPlugins": ["obsidian-kanban"],
-  "enabledPlugins": ["obsidian-kanban"],
-  "showRibbon": true
-}

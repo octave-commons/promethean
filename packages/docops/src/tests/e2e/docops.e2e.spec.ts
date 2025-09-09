@@ -2,14 +2,15 @@
 import * as path from "node:path";
 import * as url from "node:url";
 import { promises as fs } from "node:fs";
-import { v4 as uuidv4 } from "uuid";
 
+import { v4 as uuidv4 } from "uuid";
 import test from "ava";
 import {
   withPage,
   shutdown,
   startProcessWithPort,
 } from "@promethean/test-utils";
+
 import { ensureServices } from "../helpers/services.js";
 
 const PKG_ROOT = path.resolve(
@@ -17,11 +18,7 @@ const PKG_ROOT = path.resolve(
   "../../../",
 );
 // spin up a temporary docs dir so the UI has at least one file to render
-const DOC_FIXTURE_PATH = path.join(
-  PKG_ROOT,
-  "test-tmp",
-  `docs-${uuidv4()}`,
-);
+const DOC_FIXTURE_PATH = path.join(PKG_ROOT, "test-tmp", `docs-${uuidv4()}`);
 const TMP_DB = path.join(PKG_ROOT, ".cache", `docops-e2e-${uuidv4()}`);
 
 let state: { stop: () => Promise<void>; baseUrl?: string } | null = null;
@@ -70,9 +67,9 @@ test.after.always(async () => {
     } finally {
       await Promise.all([
         fs.rm(TMP_DB, { recursive: true, force: true }).catch(() => {}),
-        fs.rm(DOC_FIXTURE_PATH, { recursive: true, force: true }).catch(
-          () => {},
-        ),
+        fs
+          .rm(DOC_FIXTURE_PATH, { recursive: true, force: true })
+          .catch(() => {}),
       ]);
     }
   }
