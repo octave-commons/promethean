@@ -324,11 +324,9 @@ export function createFastifyAuth() {
     fastify.get(
       "/auth/me",
       {
-        config: {
-          rateLimit: {
-            max: 10, // maximum 10 requests
-            timeWindow: "1 minute", // per minute; adjust as desired
-          },
+        rateLimit: {
+          max: 10, // maximum 10 requests
+          timeWindow: "1 minute", // per minute; adjust as desired
         },
       },
       async (req, reply) => {
