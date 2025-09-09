@@ -11,7 +11,10 @@ test("scaffolds docops-style package", async (t) => {
   t.true(exists(tree, "packages/demo/package.json"));
   t.true(exists(tree, "packages/demo/tsconfig.json"));
   t.true(exists(tree, "packages/demo/ava.config.mjs"));
-  t.true(exists(tree, "packages/demo/pipelines.yml"));
+  t.true(exists(tree, "packages/demo/pipelines.json"));
+  const pipeline = readJson(tree, "packages/demo/pipelines.json");
+  t.is(pipeline.pipelines[0].name, "demo");
+  t.is(pipeline.pipelines[0].steps[0].shell, 'echo "running demo pipeline"');
   t.true(exists(tree, "packages/demo/project.json"));
   t.true(exists(tree, "packages/demo/src/tests/sample.test.ts"));
   const pkg = readJson(tree, "packages/demo/package.json");
