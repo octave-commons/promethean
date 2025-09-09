@@ -1,6 +1,6 @@
-This package's frontend tests are written for the existing repository test runner (Vitest or Jest) with a jsdom environment.
+This package's frontend tests should use AVA with a jsdom-like environment. For ESM-safe mocking, use `esmock`.
 
-- They mock "./selection.js" and "./api.js" modules used by renderSelectedMarkdown.
+- They mock "./selection.js" and "./api.js" modules used by renderSelectedMarkdown with `esmock`.
 - Scenarios covered:
   - no DOM
   - no selection
