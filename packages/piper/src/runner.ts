@@ -231,7 +231,7 @@ export async function runPipeline(
       let execRes = await runOnce();
       while (execRes.code !== 0 && attempt < maxRetry) {
         attempt++;
-        emitEvent(
+        emit(
           {
             type: "retry",
             stepId: s.id,
