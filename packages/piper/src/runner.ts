@@ -223,8 +223,9 @@ export async function runPipeline(
       };
 
       let attempt = 0;
+      const maxRetry = Math.max(0, Math.floor(s.retry ?? 0));
       let execRes = await runOnce();
-      while (execRes.code !== 0 && attempt < s.retry) {
+      while (execRes.code !== 0 && attempt < maxRetry) {
         attempt++;
         emitEvent(
           {
@@ -237,7 +238,7 @@ export async function runPipeline(
           opts.json ?? false,
         );
         console.log(
-          `[piper] step ${s.id} failed (exit ${execRes.code}); retry ${attempt}/${s.retry}`,
+          `[piper] step ${s.id} failed (exit ${execRes.code}); retry ${attempt}/${maxRetry}`,
         );
         execRes = await runOnce();
       }
