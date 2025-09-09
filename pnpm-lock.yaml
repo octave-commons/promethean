@@ -2828,6 +2828,9 @@ importers:
 
   packages/piper:
     dependencies:
+      '@fastify/rate-limit':
+        specifier: ^10.3.0
+        version: 10.3.0
       '@fastify/static':
         specifier: ^8.2.0
         version: 8.2.0
