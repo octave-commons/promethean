@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { symbolsIndex, symbolsFind } from "../../symbols.js";
 
 export function registerSymbolsRoutes(fastify) {

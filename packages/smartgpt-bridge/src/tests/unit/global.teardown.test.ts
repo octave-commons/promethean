@@ -1,4 +1,3 @@
-// @ts-nocheck
 import test from "ava";
 import { getMongoClient } from "@promethean/persistence/clients.js";
 

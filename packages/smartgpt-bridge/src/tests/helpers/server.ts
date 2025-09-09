@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { MongoMemoryServer } from "mongodb-memory-server";
 import sinon from "sinon";
 import * as persistenceClients from "@promethean/persistence/clients.js";

@@ -1,4 +1,3 @@
-// @ts-nocheck
 export function proxy(fastify, method, urlBuilder, payloadBuilder) {
   return async function (req, reply) {
     const url = typeof urlBuilder === "function" ? urlBuilder(req) : urlBuilder;

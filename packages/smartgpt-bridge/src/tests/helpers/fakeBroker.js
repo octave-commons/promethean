@@ -137,7 +137,6 @@ var __generator =
     }
   };
 Object.defineProperty(exports, "__esModule", { value: true });
-// @ts-nocheck
 var FakeBroker = /** @class */ (function () {
   function FakeBroker(opts) {
     this.opts = opts;
