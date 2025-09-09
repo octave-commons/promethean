@@ -3,6 +3,7 @@ import * as path from "path";
 
 import test from "ava";
 
+import { sleep } from "@promethean/test-utils/dist/sleep.js";
 import { runPipeline } from "../runner.js";
 import { runJSFunction } from "../fsutils.js";
 
@@ -13,7 +14,7 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   try {
     await fn(dir);
     // small grace period for any async file watchers/flushes
-    await new Promise((r) => setTimeout(r, 25));
+    await sleep(50);
   } finally {
     await fs.rm(dir, { recursive: true, force: true });
   }
@@ -137,7 +138,7 @@ test.serial(
   async (t) => {
     const a = async () => {
       console.log("first");
-      await new Promise((r) => setTimeout(r, 50));
+      await sleep(50);
     };
     const b = () => {
       console.log(process.env.LEAK ?? "second");
@@ -172,7 +173,7 @@ test.serial(
                 deps: [],
                 inputs: [],
                 outputs: [],
-                cache: "content",
+                cache: "none",
                 timeoutMs: 100,
                 env: { LEAK: "1" },
                 js: { module: "./hang.js" },
@@ -183,7 +184,7 @@ test.serial(
                 deps: [],
                 inputs: [],
                 outputs: [],
-                cache: "content",
+                cache: "none",
                 js: { module: "./after.js" },
               },
             ],
@@ -213,12 +214,12 @@ test.serial(
       const res = await runJSFunction(inner, {}, {});
       console.log((res.stdout ?? "").trim());
     };
-    const res = (await Promise.race([
+    const res: Awaited<ReturnType<typeof runJSFunction>> = await Promise.race([
       runJSFunction(outer, {}, {}),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("deadlock")), 1000),
-      ),
-    ])) as any;
+      sleep(1000).then(() => {
+        throw new Error("deadlock");
+      }),
+    ]);
     t.is(res.code, 0);
     t.true((res.stdout ?? "").trim().endsWith("inner"));
   },
@@ -244,7 +245,7 @@ test.serial(
                 deps: [],
                 inputs: [],
                 outputs: [],
-                cache: "content",
+                cache: "none",
                 timeoutMs: 10,
                 env: { TEST_VAR: "changed" },
                 js: { module: "./mod.js", export: "slow", isolate: "worker" },
@@ -388,9 +389,9 @@ test.serial(
       // Run 1
       const p = path.join(dir, "pipelines.json");
       await fs.writeFile(p, JSON.stringify(cfg(), null, 2), "utf8");
-      let res = await runPipeline(p, "w", { concurrency: 1 });
-      let step = res.find((r) => r.id === "js")!;
-      t.is(step.stdout?.trim(), "one");
+      const res1 = await runPipeline(p, "w", { concurrency: 1 });
+      const step1 = res1.find((r) => r.id === "js")!;
+      t.is(step1.stdout?.trim(), "one");
 
       // Change a transitive dep
       await fs.writeFile(
@@ -401,9 +402,9 @@ test.serial(
 
       // Run 2 (worker imports afresh)
       await fs.writeFile(p, JSON.stringify(cfg(), null, 2), "utf8");
-      res = await runPipeline(p, "w", { concurrency: 1 });
-      step = res.find((r) => r.id === "js")!;
-      t.is(step.stdout?.trim(), "two");
+      const res2 = await runPipeline(p, "w", { concurrency: 1 });
+      const step2 = res2.find((r) => r.id === "js")!;
+      t.is(step2.stdout?.trim(), "two");
     });
   },
 );
@@ -447,9 +448,9 @@ test.serial(
         JSON.stringify(mkCfg({ HANG: "1" }, 100), null, 2),
         "utf8",
       );
-      let res = await runPipeline(p, "w", { concurrency: 1 });
-      let step = res.find((r) => r.id === "js")!;
-      t.is(step.exitCode, 124);
+      const res1 = await runPipeline(p, "w", { concurrency: 1 });
+      const step1 = res1.find((r) => r.id === "js")!;
+      t.is(step1.exitCode, 124);
 
       // Second run: no hang, should succeed and print "ok"
       await fs.writeFile(
@@ -457,10 +458,10 @@ test.serial(
         JSON.stringify(mkCfg(undefined, 1000), null, 2),
         "utf8",
       );
-      res = await runPipeline(p, "w", { concurrency: 1 });
-      step = res.find((r) => r.id === "js")!;
-      t.is(step.exitCode, 0);
-      t.is(step.stdout?.trim(), "ok");
+      const res2 = await runPipeline(p, "w", { concurrency: 1 });
+      const step2 = res2.find((r) => r.id === "js")!;
+      t.is(step2.exitCode, 0);
+      t.is(step2.stdout?.trim(), "ok");
     });
   },
 );
