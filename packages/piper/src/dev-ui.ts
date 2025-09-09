@@ -13,11 +13,14 @@ import { FileSchema } from "./types.js";
 
 function getArg(flag: string, dflt: string): string {
   const idx = process.argv.indexOf(flag);
-  return idx >= 0 ? process.argv[idx + 1] ?? dflt : dflt;
+  if (idx < 0) return dflt;
+  const val = process.argv[idx + 1];
+  return val && !val.startsWith("-") ? val : dflt;
 }
 
 const CONFIG_PATH = path.resolve(getArg("--config", "pipelines.json"));
 const PORT = Number(getArg("--port", "3939")) || 3939;
+const HOST = getArg("--host", "127.0.0.1");
 
 const UI_ROOT = path.resolve(
   path.dirname(url.fileURLToPath(import.meta.url)),
@@ -346,9 +349,15 @@ app.get<{
 });
 
 app
-  .listen({ port: PORT, host: "0.0.0.0" })
+  .listen({ port: PORT, host: HOST })
   .then(() => {
-    console.log(`Piper Dev UI running on http://localhost:${PORT}`);
+    if (HOST === "0.0.0.0") {
+      console.warn(
+        "[piper] WARNING: dev server bound to 0.0.0.0 exposes it to external networks",
+      );
+    }
+    const shownHost = HOST === "0.0.0.0" ? "localhost" : HOST;
+    console.log(`Piper Dev UI running on http://${shownHost}:${PORT}`);
   })
   .catch((err) => {
     console.error("Failed to start server:", err);
