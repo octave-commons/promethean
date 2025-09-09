@@ -2,7 +2,6 @@ import * as path from "path";
 import { promises as fs } from "fs";
 
 import * as chokidar from "chokidar";
-import YAML from "yaml";
 import AjvModule from "ajv";
 import { globby } from "globby";
 
@@ -62,18 +61,18 @@ async function validateFiles(
 
 async function readConfig(p: string): Promise<PiperFile> {
   const raw = await fs.readFile(p, "utf-8");
-  // Support YAML (preferred) and JSON for backwards compat.
   const lower = p.toLowerCase();
-  let obj: unknown;
-  if (lower.endsWith(".yaml") || lower.endsWith(".yml")) {
-    obj = YAML.parse(raw);
-  } else {
-    try {
-      obj = JSON.parse(raw);
-    } catch (e: any) {
-      throw new Error(`failed to parse JSON config ${p}: ${e?.message ?? e}`);
-    }
+  if (!lower.endsWith(".json")) {
+    throw new Error(`Piper config must be .json: ${p}`);
   }
+  const obj: unknown = (() => {
+    try {
+      return JSON.parse(raw) as unknown;
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : String(e);
+      throw new Error(`failed to parse JSON config ${p}: ${msg}`);
+    }
+  })();
   const parsed = FileSchema.safeParse(obj);
   if (!parsed.success) {
     throw new Error("pipelines config invalid: " + parsed.error.message);
@@ -103,7 +102,7 @@ export async function runPipeline(
   configPath: string,
   pipelineName: string,
   opts: RunOptions & { json?: boolean },
-) {
+): Promise<readonly StepResult[]> {
   const cfg = await readConfig(configPath);
   const pipeline = cfg.pipelines.find((p) => p.name === pipelineName);
   if (!pipeline) throw new Error(`pipeline '${pipelineName}' not found`);
@@ -117,12 +116,11 @@ export async function runPipeline(
   const results: StepResult[] = [];
   const runMap = new Map<string, Promise<void>>();
 
-  const runStep = async (s: PiperStep) => {
+  const runStep = async (s: PiperStep): Promise<void> => {
     // ensure deps completed
     for (const d of s.deps) await runMap.get(d);
 
     await sem.take();
-    let jsLocked = false;
     try {
       const cwd = path.resolve(s.cwd || ".");
       const fp = await stepFingerprint(s, cwd, !!opts.contentHash);
@@ -147,7 +145,7 @@ export async function runPipeline(
             at: new Date().toISOString(),
             reason: "dry-run",
           },
-          !!(opts as any).json,
+          opts.json ?? false,
         );
         return;
       }
@@ -155,7 +153,7 @@ export async function runPipeline(
         results.push({ id: s.id, skipped: true, reason });
         emitEvent(
           { type: "skip", stepId: s.id, at: new Date().toISOString(), reason },
-          !!(opts as any).json,
+          opts.json ?? false,
         );
         return;
       }
@@ -163,51 +161,37 @@ export async function runPipeline(
       const startedAt = new Date().toISOString();
       emitEvent(
         { type: "start", stepId: s.id, at: startedAt },
-        !!(opts as any).json,
+        opts.json ?? false,
       );
 
-      let execRes: {
-        code: number | null;
-        stdout: string;
-        stderr: string;
-      } = { code: 0, stdout: "", stderr: "" };
-
-      try {
+      const execRes = await (async () => {
         if (s.inputSchema) {
           const inFiles = await globby(s.inputs, { cwd });
           await validateFiles(inFiles, s.inputSchema, cwd, "input");
         }
 
-        if (s.shell) {
-          execRes = await runShell(s.shell, cwd, s.env, s.timeoutMs);
-        } else if (s.node) {
-          execRes = await runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
-        } else if (s.ts) {
-          execRes = await runTSModule(s, cwd, s.env, s.timeoutMs);
-        } else if (s.js) {
-          const needJsLock = (s.js as any)?.isolate !== "worker";
-          if (needJsLock) {
-            await jsSem.take();
-            jsLocked = true;
-          }
+        if (s.shell) return runShell(s.shell, cwd, s.env, s.timeoutMs);
+        if (s.node) return runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
+        if (s.ts) return runTSModule(s, cwd, s.env, s.timeoutMs);
+        if (s.js) {
+          const needJsLock = s.js?.isolate !== "worker";
+          if (needJsLock) await jsSem.take();
           try {
-            execRes = await runJSModule(s, cwd, s.env, fp, s.timeoutMs);
-          } catch (e: any) {
-            execRes = {
-              code: 1,
-              stdout: "",
-              stderr: e?.stack ?? String(e),
-            };
+            return await runJSModule(s, cwd, s.env, fp, s.timeoutMs);
+          } catch (e: unknown) {
+            const stderr =
+              e instanceof Error ? e.stack ?? e.message : String(e);
+            return { code: 1, stdout: "", stderr } as const;
+          } finally {
+            if (needJsLock) jsSem.release();
           }
-        }
-
         if (execRes.code === 0 && s.outputSchema) {
           const outFiles = await globby(s.outputs, { cwd });
           await validateFiles(outFiles, s.outputSchema, cwd, "output");
         }
-      } catch (e: any) {
-        execRes = { code: 1, stdout: "", stderr: e?.stack ?? String(e) };
-      }
+        }
+        return { code: 0, stdout: "", stderr: "" } as const;
+      })();
 
       const endedAt = new Date().toISOString();
       const out: StepResult = {
@@ -227,11 +211,10 @@ export async function runPipeline(
       await saveState(pipeline.name, state);
       emitEvent(
         { type: "end", stepId: s.id, at: endedAt, result: out },
-        !!(opts as any).json,
+        opts.json ?? false,
       );
     } finally {
       sem.release();
-      if (jsLocked) jsSem.release();
     }
   };
 
@@ -263,7 +246,7 @@ export async function watchPipeline(
   configPath: string,
   pipelineName: string,
   opts: RunOptions,
-) {
+): Promise<void> {
   const cfg = await readConfig(configPath);
   const pipeline = cfg.pipelines.find((p) => p.name === pipelineName);
   if (!pipeline) throw new Error(`pipeline '${pipelineName}' not found`);
