@@ -1,5 +1,10 @@
-export function proxy(fastify, method, urlBuilder, payloadBuilder) {
-  return async function (req, reply) {
+export function proxy(
+  fastify: any,
+  method: string,
+  urlBuilder: string | ((req: any) => string),
+  payloadBuilder?: (req: any) => any,
+) {
+  return async function (req: any, reply: any) {
     const url = typeof urlBuilder === "function" ? urlBuilder(req) : urlBuilder;
     const payload = payloadBuilder ? payloadBuilder(req) : req.body;
     const res = await fastify.inject({

@@ -33,7 +33,7 @@ function getSup(fastify: any, key: string) {
 }
 
 export function registerAgentRoutes(fastify: any) {
-  const _ROOT_PATH = fastify.ROOT_PATH;
+  // ROOT_PATH available via fastify.ROOT_PATH if needed
   fastify.post("/agent/start", {
     schema: {
       summary: "Start a background agent",
@@ -389,7 +389,7 @@ export function registerAgentRoutes(fastify: any) {
         200: { type: "object", properties: { ok: { type: "boolean" } } },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       const { id } = req.body || {};
       const key = AGENT_INDEX.get(String(id)) || "default";
       const sup = getSup(fastify, key);
@@ -416,7 +416,7 @@ export function registerAgentRoutes(fastify: any) {
         200: { type: "object", properties: { ok: { type: "boolean" } } },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       const { id } = req.body || {};
       const key = AGENT_INDEX.get(String(id)) || "default";
       const sup = getSup(fastify, key);
@@ -442,7 +442,7 @@ export function registerAgentRoutes(fastify: any) {
         },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       const { id } = req.body || {};
       const key = AGENT_INDEX.get(String(id)) || "default";
       const sup = getSup(fastify, key);

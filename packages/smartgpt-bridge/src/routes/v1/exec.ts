@@ -1,6 +1,6 @@
 import { runCommand } from "../../exec.js";
 
-export function registerExecRoutes(v1) {
+export function registerExecRoutes(v1: any) {
   const ROOT_PATH = v1.ROOT_PATH;
   v1.post("/exec/run", {
     schema: {
@@ -36,7 +36,7 @@ export function registerExecRoutes(v1) {
         },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       try {
         const execEnabled =
           String(process.env.EXEC_ENABLED || "false").toLowerCase() === "true";
@@ -56,8 +56,8 @@ export function registerExecRoutes(v1) {
           timeoutMs: Number(timeoutMs || 600000),
           tty: Boolean(tty),
         });
-        reply.send(out.ok ? out : { ok: false, ...out });
-      } catch (e) {
+        reply.send(out);
+      } catch (e: any) {
         reply.code(500).send({ ok: false, error: String(e?.message || e) });
       }
     },

@@ -3,16 +3,16 @@ import fs from "fs/promises";
 import { viewFile, treeDirectory, normalizeToRoot } from "../../files.js";
 import { indexerManager } from "../../indexer.js";
 
-export function registerFilesRoutes(v1) {
+export function registerFilesRoutes(v1: any) {
   // ------------------------------------------------------------------
   // Files
   // Unified handler for /files and /files/*
-  async function filesHandler(req, reply) {
+  async function filesHandler(req: any, reply: any) {
     const q = req.query || {};
     const p = req.params && (req.params["*"] || req.params.path);
     const dir = p || String(q.path || ".");
     const hidden = String(q.hidden || "false").toLowerCase() === "true";
-    const type = q.type ? String(q.type) : undefined;
+    // type filter not supported for tree view here
     const depth = typeof q.depth === "number" ? q.depth : Number(q.depth || 2);
     const wantTree = String(q.tree || "false").toLowerCase() === "true";
     const ROOT_PATH = process.env.ROOT_PATH || process.cwd();
@@ -28,7 +28,6 @@ export function registerFilesRoutes(v1) {
           const treeResult = await treeDirectory(ROOT_PATH, dir, {
             includeHidden: hidden,
             depth,
-            type,
           });
           reply.send({
             ok: true,
@@ -39,10 +38,9 @@ export function registerFilesRoutes(v1) {
           const treeResult = await treeDirectory(ROOT_PATH, dir, {
             includeHidden: hidden,
             depth,
-            type,
           });
-          const flat = [];
-          function walkFlat(node) {
+          const flat: any[] = [];
+          function walkFlat(node: any) {
             if (node.path !== undefined && node.type !== undefined) {
               if (node.path !== "." && node.path !== "")
                 flat.push({
@@ -61,7 +59,7 @@ export function registerFilesRoutes(v1) {
           reply.send({ ok: true, base: treeResult.base, entries: flat });
         }
       }
-    } catch (e) {
+    } catch (e: any) {
       reply.code(400).send({ ok: false, error: String(e?.message || e) });
     }
   }
@@ -127,14 +125,14 @@ export function registerFilesRoutes(v1) {
         properties: { path: { type: "string" } },
       },
     },
-    async handler(req, reply) {
+    async handler(req: any, reply: any) {
       try {
         const globs = req.body?.path;
         if (!globs)
           return reply.code(400).send({ ok: false, error: "Missing 'path'" });
         const r = await indexerManager.scheduleReindexSubset(globs);
         reply.send(r);
-      } catch (e) {
+      } catch (e: any) {
         reply.code(500).send({ ok: false, error: String(e?.message || e) });
       }
     },
@@ -179,7 +177,7 @@ export function registerFilesRoutes(v1) {
         },
       },
     },
-    async handler(req, reply) {
+    async handler(req: any, reply: any) {
       const { path: filePath, content, lines, startLine } = req.body || {};
       const ROOT_PATH = process.env.ROOT_PATH || process.cwd();
       if (!filePath)
@@ -190,7 +188,7 @@ export function registerFilesRoutes(v1) {
           await fs.writeFile(abs, content, "utf8");
           return reply.send({ ok: true, path: filePath });
         } else if (Array.isArray(lines) && typeof startLine === "number") {
-          let fileLines = [];
+          let fileLines: string[] = [];
           try {
             const raw = await fs.readFile(abs, "utf8");
             fileLines = raw.split(/\r?\n/);
@@ -208,7 +206,7 @@ export function registerFilesRoutes(v1) {
             error: "Must provide content or lines+startLine",
           });
         }
-      } catch (e) {
+      } catch (e: any) {
         reply.code(400).send({ ok: false, error: String(e?.message || e) });
       }
     },

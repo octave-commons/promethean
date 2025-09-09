@@ -1,7 +1,7 @@
 import { search } from "../../indexer.js";
 import { contextStore } from "../../sinks.js";
 
-export function registerSearchRoutes(fastify) {
+export function registerSearchRoutes(fastify: any) {
   const ROOT_PATH = fastify.ROOT_PATH;
   fastify.post("/search", {
     preHandler: [fastify.authUser, fastify.requirePolicy("read", "search")],
@@ -30,7 +30,7 @@ export function registerSearchRoutes(fastify) {
         },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       try {
         const { q, n } = req.body || {};
         if (!q)
@@ -46,10 +46,10 @@ export function registerSearchRoutes(fastify) {
               resultCount: results.length,
               service: "chroma",
             },
-          });
+          } as any);
         } catch {}
         reply.send({ ok: true, results });
-      } catch (e) {
+      } catch (e: any) {
         reply.code(500).send({ ok: false, error: String(e?.message || e) });
       }
     },
@@ -72,7 +72,7 @@ export function registerSearchRoutes(fastify) {
         },
       },
     },
-    handler: async (req) => {
+    handler: async (req: any) => {
       const { q, limit } = req.body || {};
       const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(
         q,
@@ -86,15 +86,15 @@ export function registerSearchRoutes(fastify) {
           text: JSON.stringify({ query: q, results }),
           timestamp: Date.now(),
           metadata: { query: q, resultCount: results.length },
-        });
+        } as any);
       } catch {}
       return { results };
     },
   });
 }
 
-function extractResults(data) {
-  const results = [];
+function extractResults(data: any) {
+  const results: Array<{ title: string; url: string; snippet: string }> = [];
   if (data?.Results) {
     for (const r of data.Results) {
       if (r.Text && r.FirstURL)
