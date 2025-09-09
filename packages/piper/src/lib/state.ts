@@ -27,10 +27,20 @@ export async function loadState(pipeline: string): Promise<RunState> {
       path: DB_PATH,
       namespace: pipeline,
     });
-    const steps: RunState["steps"] = {};
+    // use a null-prototype object to prevent prototype pollution
+    const steps = Object.create(null) as RunState["steps"];
     for await (const [key, val] of cache.entries()) {
-      if (typeof key === "string" && key !== "" && isValidStep(val)) {
+      if (
+        typeof key === "string" &&
+        key !== "" &&
+        key !== "__proto__" &&
+        key !== "constructor" &&
+        key !== "prototype" &&
+        isValidStep(val)
+      ) {
         steps[key] = val;
+      }
+    }
       }
     }
     return { steps };
