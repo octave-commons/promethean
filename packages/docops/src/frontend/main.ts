@@ -38,7 +38,7 @@ async function populateDocList() {
     await populateDocList();
     const ft =
       (document.getElementById("fileTree") as any) ||
-      (document.querySelector("file-tree") as any);
+      document.querySelector("file-tree");
     if (ft && ft.refresh) ft.refresh();
   };
 
@@ -99,9 +99,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
   if (!startRes.ok) {
     const err = await startRes.json().catch(() => ({}));
-    logs.textContent = `Failed to start: ${
-      (err as any).error || startRes.statusText
-    }`;
+    logs.textContent = `Failed to start: ${err.error || startRes.statusText}`;
     return;
   }
   const { token, ws } = await startRes.json();
@@ -116,7 +114,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch {}
     const ft =
       (document.getElementById("fileTree") as any) ||
-      (document.querySelector("file-tree") as any);
+      document.querySelector("file-tree");
     if (ft && ft.refresh) ft.refresh();
     populateDocList();
   };
@@ -147,7 +145,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   };
   const startSSE = () => {
     const es = new EventSource(url);
-    es.onmessage = (ev) => handleLine(String((ev as MessageEvent).data || ""));
+    es.onmessage = (ev) => handleLine(String(ev.data || ""));
     es.onerror = () => es.close();
   };
   if (WS_AVAILABLE && ws) {
@@ -157,8 +155,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       wsock.onopen = () => {
         opened = true;
       };
-      wsock.onmessage = (ev) =>
-        handleLine(String((ev as MessageEvent).data || ""));
+      wsock.onmessage = (ev) => handleLine(String(ev.data || ""));
       wsock.onerror = () => {
         try {
           wsock.close();
@@ -292,7 +289,7 @@ document.addEventListener("DOMContentLoaded", () => {
       (res.items || []).forEach((it: any) => {
         const li = document.createElement("li");
         const sc = it.score ?? 0;
-        li.textContent = `${(sc as any).toFixed ? sc.toFixed(3) : sc} — ${
+        li.textContent = `${sc.toFixed ? sc.toFixed(3) : sc} — ${
           it.title || it.docUuid
         } (${it.path || ""})`;
         ul.appendChild(li);

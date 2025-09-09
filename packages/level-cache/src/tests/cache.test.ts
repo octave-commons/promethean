@@ -2,7 +2,6 @@ import { rmSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 
 import test from "ava";
-
 import { sleep } from "@promethean/utils";
 
 import { openLevelCache } from "../index.js";

@@ -7,7 +7,7 @@ export const embedTexts = (model: string, input: readonly string[]) =>
     ? Promise.resolve([] as number[][])
     : ollama
         .embed({ model, input: input as string[] })
-        .then((r) => r.embeddings as number[][]);
+        .then((r) => r.embeddings);
 
 export const upsertWithOllama = (
   coll: Collection,

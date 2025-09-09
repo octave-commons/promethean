@@ -1,5 +1,7 @@
-import test from "ava";
 import * as path from "path";
+
+import test from "ava";
+
 import { runQuery } from "../03-query.js";
 
 function makeKV() {

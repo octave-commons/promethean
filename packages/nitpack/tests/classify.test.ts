@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { classifyComments } from "../src/classify.js";
 
 test("classify detects REL_JS_SUFFIX", (t) => {
@@ -13,10 +14,7 @@ test("classify ignores unrelated comments", (t) => {
 });
 
 test("classify aggregates multiple hits", (t) => {
-  const c = [
-    'use from "./foo" somewhere',
-    'also from "../bar" required',
-  ];
+  const c = ['use from "./foo" somewhere', 'also from "../bar" required'];
   const got = classifyComments(c);
   t.is(got.get("REL_JS_SUFFIX")?.length, 2);
 });

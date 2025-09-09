@@ -1,6 +1,7 @@
 import type { Expr } from '../ast.js';
 import { name as mkName } from '../ast.js';
 import type { Span } from '../common.js';
+
 import { S, List, Sym, Num, Str, Bool, Nil, isList, isSym, list, sym } from './syntax.js';
 
 const ZERO_SPAN: Span = { start: 0, end: 0, line: 0, col: 0 };

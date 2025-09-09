@@ -1,5 +1,6 @@
 import * as path from "path";
 import { randomUUID as nodeRandomUUID } from "node:crypto";
+
 import matter from "gray-matter";
 
 import {
@@ -41,13 +42,13 @@ async function main() {
       inferTitle(gm.content) ??
       slug(path.basename(f, ".md")).replace(/-/g, " ");
     const payload: TaskFM = {
-      uuid: fm.uuid ?? await randomUUID(),
+      uuid: fm.uuid ?? (await randomUUID()),
       title,
       status: normStatus(fm.status ?? args["--default-status"]!),
       priority: (fm.priority as any) ?? args["--default-priority"]!,
       labels: Array.isArray(fm.labels) ? fm.labels : [],
       created_at: fm.created_at ?? new Date().toISOString(),
-      ...(fm.assignee ? { assignee: fm.assignee } : {})
+      ...(fm.assignee ? { assignee: fm.assignee } : {}),
     };
 
     const final = matter.stringify(gm.content.trimStart() + "\n", payload, {

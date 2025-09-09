@@ -4,8 +4,10 @@ import { spawn } from "child_process";
 import { Worker } from "node:worker_threads";
 import { AsyncLocalStorage } from "async_hooks";
 import { pathToFileURL } from "url";
+
 import { globby } from "globby";
 import { ensureDir } from "@promethean/fs";
+
 import { PiperStep } from "./types.js";
 
 export { ensureDir };
@@ -250,7 +252,7 @@ export async function runJSModule(
   url.search = `?fp=${fp}`;
   const mod: any = await import(url.href);
   const fn = (step.js!.export && mod[step.js!.export]) || mod.default || mod;
-  return runJSFunction(fn as any, step.js!.args ?? {}, env, timeoutMs);
+  return runJSFunction(fn, step.js!.args ?? {}, env, timeoutMs);
 }
 
 export async function runTSModule(

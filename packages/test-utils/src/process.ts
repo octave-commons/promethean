@@ -1,8 +1,9 @@
 // GPL-3.0-only
-import type { ExecutionContext } from 'ava';
 import { type ChildProcess } from 'node:child_process';
 
+import type { ExecutionContext } from 'ava';
 import type ava from 'ava';
+
 import { startProcess } from './startProcess.js';
 
 export type Ready =

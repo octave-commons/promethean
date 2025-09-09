@@ -1,11 +1,13 @@
-import test from 'ava';
 import net from 'node:net';
 import http from 'node:http';
+import { spawn } from 'node:child_process';
+
+import test from 'ava';
+
 import { waitForTcp } from '../waitForTcp.js';
 import { waitForHttp } from '../waitForHttp.js';
 import { waitForLog } from '../waitForLog.js';
 import { getFreePort } from '../port-pool.js';
-import { spawn } from 'node:child_process';
 
 const canBind = async (): Promise<boolean> => {
     try {
