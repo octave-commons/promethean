@@ -1,14 +1,12 @@
 import { chromium } from 'playwright';
 import type { Response, Browser, BrowserContext, Page } from 'playwright';
 import type { ExecutionContext } from 'ava';
-let browser: Browser | null = null;
-let activeContextCount = 0;
 
 const launchBrowser = async (): Promise<Browser> =>
-    (browser ??= await chromium.launch({
+    chromium.launch({
         headless: !process.env.HEADED,
         args: process.env.CI ? ['--disable-dev-shm-usage'] : [],
-    }));
+    });
 
 export const getBrowser = async (): Promise<Browser> => launchBrowser();
 
@@ -22,25 +20,19 @@ export const newIsolatedPage = async (): Promise<{
     const page = await context.newPage();
     const close = async () => {
         await context.close();
-        activeContextCount = Math.max(0, activeContextCount - 1);
-        if (activeContextCount === 0) {
-            await shutdown();
-        }
+        await b.close();
     };
-    activeContextCount += 1;
     return { context, page, close };
 };
 
 export const shutdown = async (): Promise<void> => {
-    if (browser) {
-        await browser.close();
-        browser = null;
-    }
+    // No-op: browsers are closed per isolated page
 };
 
 export type BrowserTestDeps = {
     url: (path?: string) => string;
     pageGoto: (path?: string) => Promise<Response | null>;
+    page: Page;
 };
 
 export type BrowserTestFn = (t: ExecutionContext, deps: BrowserTestDeps) => Promise<void>;
