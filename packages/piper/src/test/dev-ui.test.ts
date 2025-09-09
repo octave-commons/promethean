@@ -376,6 +376,7 @@
 
 
 
+  test("registers rate-limit plugin (sentinel)", async () => {
     await importServer();
     expect(mockFastify.rateLimited).toBe(true);
   });
