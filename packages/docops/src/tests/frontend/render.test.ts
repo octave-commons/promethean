@@ -1,274 +1,424 @@
-/* 
-Test framework note:
-- This suite is designed to run under either Vitest or Jest with jsdom.
-- The repository's test runner should already set the testEnvironment to jsdom (Jest) or use environment: 'jsdom' (Vitest).
-- Replace the shim below if your repo exposes a different import path for the test globals.
-*/
+import test from "ava";
 
-type TestAPI = {
-  describe: typeof describe;
-  it: typeof it;
-  test: typeof test;
-  expect: typeof expect;
-  beforeEach: typeof beforeEach;
-  afterEach: typeof afterEach;
-  spyOn: (obj: any, key: PropertyKey) => any;
-  mockFn: (...args: any[]) => any;
-  resetAllMocks: () => void;
-};
-
-// Lightweight adapter to work with either Vitest or Jest
-let T: TestAPI;
-try {
-  // @ts-ignore - vitest available?
-  const v = require("vitest");
-  T = {
-    describe: v.describe,
-    it: v.it,
-    test: v.test,
-    expect: v.expect,
-    beforeEach: v.beforeEach,
-    afterEach: v.afterEach,
-    spyOn: v.vi.spyOn,
-    mockFn: v.vi.fn,
-    resetAllMocks: v.vi.resetAllMocks,
-  } as unknown as TestAPI;
-} catch {
-  // Fallback to Jest
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const j = require("@jest/globals");
-  T = {
-    describe: j.describe,
-    it: j.it,
-    test: j.test,
-    expect: j.expect,
-    beforeEach: j.beforeEach,
-    afterEach: j.afterEach,
-    spyOn: (obj: any, key: PropertyKey) => jest.spyOn(obj, key as any),
-    mockFn: (...args: any[]) => (jest.fn as any)(...args),
-    resetAllMocks: () => jest.resetAllMocks(),
-  } as unknown as TestAPI;
-}
-
-const { describe, it, test, expect, beforeEach, afterEach, mockFn, resetAllMocks } = T;
-
-// IMPORTANT: Adjust this import path if the source file resides elsewhere in this repo.
 import { renderSelectedMarkdown } from "../../frontend/render.js";
+import { setSelection } from "../../frontend/selection.js";
 
-// Mock the sibling modules used by renderSelectedMarkdown
-// The source imports relative files "./selection.js" and "./api.js". We create module mocks for them.
-jestOrViMockModule("../../frontend/selection.js", () => ({
-  getSelection: mockFn(() => [] as string[]),
-}));
-jestOrViMockModule("../../frontend/api.js", () => ({
-  readFileText: mockFn(async (_dir: string, _file: string) => "# Title\n\nHello"),
-}));
-
-function jestOrViMockModule(id: string, factory: () => any) {
-  try {
-    // Vitest
-    // @ts-ignore
-    const { vi } = require("vitest");
-    vi.mock(id, factory);
-  } catch {
-    // Jest
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const jestGlobals = require("@jest/globals");
-    (jestGlobals.jest as any).mock(id, factory);
-  }
+function makeEl() {
+  return { value: "", innerHTML: "", textContent: "" } as any;
 }
 
-function setDOM({ dirValue = "", info = "", out = "" }: { dirValue?: string; info?: string; out?: string } = {}) {
-  // Clear existing body content
-  document.body.replaceChildren();
-
-  // Create and append input element
-  const input = document.createElement("input");
-  input.id = "dir";
-  input.value = dirValue;
-  document.body.appendChild(input);
-
-  // Create and append info div
-  const infoDiv = document.createElement("div");
-  infoDiv.id = "mdInfo";
-  infoDiv.textContent = info;
-  document.body.appendChild(infoDiv);
-
-  // Create and append render div
-  const outDiv = document.createElement("div");
-  outDiv.id = "mdRender";
-  outDiv.textContent = out;
-  document.body.appendChild(outDiv);
-}
-
-function getEl(id: string): HTMLElement {
-  const el = document.getElementById(id);
-  if (!el) throw new Error(`Missing element: ${id}`);
-  return el;
-}
-
-describe("renderSelectedMarkdown", () => {
-  beforeEach(() => {
-    // fresh DOM for each test
-    document.body.replaceChildren();
-    // ensure globals are clean
-    // @ts-ignore
-    delete (globalThis as any).marked;
-    // @ts-ignore - ambient constant not actually in module scope here
-    // Nothing to delete for ambient 'marked' constant; tests simulate via globalThis only.
-    resetAllMocks();
+test("renderSelectedMarkdown handles no selection and successful render", async (t) => {
+  const els: Record<string, any> = {
+    dir: makeEl(),
+    mdInfo: makeEl(),
+    mdRender: makeEl(),
+  };
+  els.dir.value = "/docs";
+  (globalThis as any).document = { getElementById: (id: string) => els[id] };
+  (globalThis as any).marked = {
+    parse: (md: string) => `<h1>${md.replace(/^#\s*/, "")}</h1>`,
+  };
+  (globalThis as any).fetch = async (_url: string) => ({
+    ok: true,
+    text: async () => "# Hello",
   });
 
-  afterEach(() => {
-    document.body.replaceChildren();
-    // Clean up possible globals
-    // @ts-ignore
-    delete (globalThis as any).marked;
-  });
+  setSelection([]);
+  await renderSelectedMarkdown();
+  t.regex(els.mdInfo.textContent, /No file selected/i);
 
-  it("no-ops safely when required DOM elements are missing", async () => {
-    // No elements at all
-    await expect(renderSelectedMarkdown()).resolves.toBeUndefined();
-    // Nothing should throw; nothing to assert in DOM
-  });
-
-  it("shows info message when no file is selected", async () => {
-    setDOM({ dirValue: "/docs" });
-    // getSelection mocked to return []
-    await renderSelectedMarkdown();
-    expect(getEl("mdInfo").textContent).toBe("No file selected. Select a file in the File Explorer.");
-    // mdRender should be cleared
-    expect(getEl("mdRender").innerHTML).toBe("");
-  });
-
-  it("renders markdown using globalThis.marked.parse when available", async () => {
-    setDOM({ dirValue: "/docs" });
-    // Mock selection to one file
-    mockGetSelection().mockReturnValueOnce(["README.md"]);
-    // Provide global marked.parse
-    (globalThis as any).marked = {
-      parse: (md: string, opts?: any) => {
-        // Assert options received
-        expect(opts).toEqual({ mangle: false, headerIds: true });
-        return `<h1>FROM GLOBAL ${md.slice(2, 7)}</h1>`;
-      },
-    };
-
-    await renderSelectedMarkdown();
-
-    expect(getEl("mdInfo").textContent).toBe("Rendering: README.md");
-    expect(getEl("mdRender").innerHTML).toContain("<h1>FROM GLOBAL");
-  });
-
-  it("renders markdown using ambient marked (simulated) if global missing", async () => {
-    setDOM({ dirValue: "/docs" });
-    mockGetSelection().mockReturnValueOnce(["INTRO.md"]);
-
-    // Simulate module-scoped 'marked' constant by temporarily attaching to window then reading in function via fallback
-    // The implementation does: const mk = g.marked?.parse ?? marked?.parse;
-    // We can't set the ambient TS const here, but we can simulate by defining a non-enumerable property on globalThis
-    // that the module's 'marked' might refer to. As a pragmatic test, we set window.marked and rely on the nullish coalesce.
-    // First ensure globalThis.marked undefined to force ambient branch
-    // @ts-ignore
-    delete (globalThis as any).marked;
-
-    // Provide a stand-in: the function checks "marked?.parse", which we simulate here.
-    const ambient = { parse: (_md: string, _opts?: any) => "<p>AMBIENT</p>" };
-    // @ts-ignore
-    (globalThis as any).marked = ambient; // simulate availability via ambient
-
-    await renderSelectedMarkdown();
-
-    expect(getEl("mdRender").innerHTML).toBe("<p>AMBIENT</p>");
-  });
-
-  it("falls back to raw text when no markdown engine is available (offline)", async () => {
-    setDOM({ dirValue: "/z" });
-    mockGetSelection().mockReturnValueOnce(["FILE.md"]);
-    // Ensure no marked engine present
-    // @ts-ignore
-    delete (globalThis as any).marked;
-
-    // Make readFileText return markdown; it should appear as raw text
-    mockReadFileText().mockResolvedValueOnce("# Raw MD\n\nText");
-
-    await renderSelectedMarkdown();
-
-    expect(getEl("mdRender").textContent).toBe("# Raw MD\n\nText");
-  });
-
-  it("displays the error message when readFileText throws", async () => {
-    setDOM({ dirValue: "/err" });
-    mockGetSelection().mockReturnValueOnce(["BROKEN.md"]);
-    const err = new Error("boom");
-    mockReadFileText().mockRejectedValueOnce(err);
-
-    await renderSelectedMarkdown();
-
-    expect(getEl("mdRender").textContent).toBe("Error: boom");
-  });
-
-  it("handles thrown non-Error values gracefully", async () => {
-    setDOM({ dirValue: "/err2" });
-    mockGetSelection().mockReturnValueOnce(["X.md"]);
-    // Throw a string
-    mockReadFileText().mockRejectedValueOnce("string boom");
-
-    await renderSelectedMarkdown();
-
-    expect(getEl("mdRender").textContent).toBe("string boom");
-  });
-
-  it("clears previous output before rendering a new file", async () => {
-    setDOM({ dirValue: "/docs", out: "<em>stale</em>" });
-    mockGetSelection().mockReturnValueOnce(["A.md"]);
-    // No engine => fallback to text
-    mockReadFileText().mockResolvedValueOnce("content A");
-    await renderSelectedMarkdown();
-    expect(getEl("mdRender").textContent).toBe("content A");
-
-    // Now run again with HTML engine available
-    mockGetSelection().mockReturnValueOnce(["B.md"]);
-    (globalThis as any).marked = { parse: (md: string) => `<b>${md}</b>` };
-    mockReadFileText().mockResolvedValueOnce("content B");
-    await renderSelectedMarkdown();
-    expect(getEl("mdRender").innerHTML).toBe("<b>content B</b>");
-  });
-
-  it("passes the directory and filename to readFileText in order", async () => {
-    setDOM({ dirValue: "/docs" });
-    mockGetSelection().mockReturnValueOnce(["README.md"]);
-    const spy = mockReadFileText();
-    await renderSelectedMarkdown();
-    expect(spy).toHaveBeenCalledWith("/docs", "README.md");
-  });
+  setSelection(["/docs/file.md"]);
+  await renderSelectedMarkdown();
+  t.is(els.mdInfo.textContent, "Rendering: /docs/file.md");
+  t.is(els.mdRender.innerHTML, "<h1>Hello</h1>");
 });
 
-/* Utilities to access the module mocks */
 
-function mockGetSelection(): jest.Mock | import("vitest").Mock {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { getSelection } = require("../../frontend/selection.js");
-    const fn = getSelection as any;
-    return fn;
-  } catch {
-    // Vitest ESM fallback
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const mod = require("../../frontend/selection.js");
-    return (mod.getSelection as any);
-  }
-}
 
-function mockReadFileText(): jest.Mock | import("vitest").Mock {
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const { readFileText } = require("../../frontend/api.js");
-    return readFileText as any;
-  } catch {
-    // Vitest ESM fallback
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     const mod = require("../../frontend/api.js");
     return (mod.readFileText as any);
   }
 }
+// Additional tests generated to improve coverage for renderSelectedMarkdown.
+// Test framework: AVA
+// These tests focus on edge cases and failure modes surfaced by recent changes.
+
+import test from "ava";
+import { renderSelectedMarkdown } from "../../frontend/render.js";
+import { setSelection } from "../../frontend/selection.js";
+
+function makeEl() {
+  return { value: "", innerHTML: "", textContent: "" } as any;
+}
+
+function installDom(override: Partial<Record<string, any>> = {}) {
+  const els: Record<string, any> = {
+    dir: makeEl(),
+    mdInfo: makeEl(),
+    mdRender: makeEl(),
+    ...override,
+  };
+  (globalThis as any).document = { getElementById: (id: string) => (els as any)[id] };
+  return els;
+}
+
+test.serial("renderSelectedMarkdown handles non-OK fetch response (e.g., 404) gracefully", async (t) => {
+  const els = installDom();
+  els.dir.value = "/docs";
+  (globalThis as any).marked = { parse: (md: string) => `<p>${md}</p>` };
+  (globalThis as any).fetch = async (_url: string) => ({
+    ok: false,
+    status: 404,
+    statusText: "Not Found",
+    text: async () => "not found",
+  });
+
+  setSelection(["/docs/missing.md"]);
+  await renderSelectedMarkdown();
+
+  // Expectations: Implementation-specific messaging; check it indicates failure somehow.
+  t.regex(String(els.mdInfo.textContent), /(error|fail|cannot|not\s*found|status)/i);
+  // On failure, no HTML should be rendered or should be empty.
+  t.truthy(els.mdRender.innerHTML === "" || /error/i.test(String(els.mdRender.innerHTML)));
+});
+
+test.serial("renderSelectedMarkdown handles fetch rejection (network error)", async (t) => {
+  const els = installDom();
+  els.dir.value = "/docs";
+  (globalThis as any).marked = { parse: (md: string) => `<p>${md}</p>` };
+  (globalThis as any).fetch = async (_url: string) => {
+    throw new Error("Network down");
+  };
+
+  setSelection(["/docs/file.md"]);
+  await renderSelectedMarkdown();
+
+  t.regex(String(els.mdInfo.textContent), /(network|error|fail)/i);
+  t.truthy(els.mdRender.innerHTML === "" || /error/i.test(String(els.mdRender.innerHTML)));
+});
+
+test.serial("renderSelectedMarkdown handles marked.parse throwing", async (t) => {
+  const els = installDom();
+  els.dir.value = "/docs";
+  (globalThis as any).marked = {
+    parse: (_md: string) => {
+      throw new Error("Marked failed");
+    },
+  };
+  (globalThis as any).fetch = async (_url: string) => ({
+    ok: true,
+    text: async () => "# Title",
+  });
+
+  setSelection(["/docs/file.md"]);
+  await renderSelectedMarkdown();
+
+  t.regex(String(els.mdInfo.textContent), /(error|fail)/i);
+  // Ensure we don't leave partial/unsafe HTML behind.
+  t.is(els.mdRender.innerHTML, "");
+});
+
+test.serial("renderSelectedMarkdown uses the first selected file when multiple are provided", async (t) => {
+  const els = installDom();
+  els.dir.value = "/docs";
+  (globalThis as any).marked = { parse: (md: string) => `<h1>${md.replace(/^#\\s*/, "")}</h1>` };
+  const texts: Record<string, string> = {
+    "/docs/a.md": "# A",
+    "/docs/b.md": "# B",
+  };
+  (globalThis as any).fetch = async (url: string) => ({
+    ok: true,
+    text: async () => texts[url] ?? "# Unknown",
+  });
+
+  setSelection(["/docs/a.md", "/docs/b.md"]);
+  await renderSelectedMarkdown();
+
+  t.is(els.mdInfo.textContent, "Rendering: /docs/a.md");
+  t.is(els.mdRender.innerHTML, "<h1>A</h1>");
+});
+
+test.serial("renderSelectedMarkdown respects directory prefix in composed fetch URL", async (t) => {
+  const els = installDom();
+  els.dir.value = "/docs/base";
+  (globalThis as any).marked = { parse: (md: string) => `<h1>${md.replace(/^#\\s*/, "")}</h1>` };
+
+  let requestedUrl = "";
+  (globalThis as any).fetch = async (url: string) => {
+    requestedUrl = url;
+    return { ok: true, text: async () => "# Hello" };
+  };
+
+  setSelection(["/docs/base/guide.md"]);
+  await renderSelectedMarkdown();
+
+  t.regex(requestedUrl, /guide\.md$/);
+  t.is(els.mdInfo.textContent, "Rendering: /docs/base/guide.md");
+  t.is(els.mdRender.innerHTML, "<h1>Hello</h1>");
+});
+
+test.serial("renderSelectedMarkdown handles missing mdInfo or mdRender elements without throwing", async (t) => {
+  const els = installDom({ mdInfo: undefined, mdRender: undefined });
+  // When elements are missing, ensure function is resilient.
+  (globalThis as any).marked = { parse: (md: string) => `<h1>${md.replace(/^#\\s*/, "")}</h1>` };
+  (globalThis as any).fetch = async (_url: string) => ({ ok: true, text: async () => "# Hello" });
+
+  // dir is still needed if implementation reads it; provide it.
+  (globalThis as any).document.getElementById = (id: string) => {
+    if (id === "dir") return makeEl();
+    return (els as any)[id]; // undefined for missing elements
+  };
+
+  setSelection(["/docs/file.md"]);
+  await t.notThrowsAsync(renderSelectedMarkdown as any);
+});
+
+test.serial("renderSelectedMarkdown clears previous content on subsequent renders", async (t) => {
+  const els = installDom();
+  els.dir.value = "/docs";
+  (globalThis as any).marked = { parse: (md: string) => `<h1>${md.replace(/^#\\s*/, "")}</h1>` };
+  (globalThis as any).fetch = async (_url: string) => ({ ok: true, text: async () => "# First" });
+
+  setSelection(["/docs/first.md"]);
+  await renderSelectedMarkdown();
+  t.is(els.mdRender.innerHTML, "<h1>First</h1>");
+
+  // Second render with different content
+  (globalThis as any).fetch = async (_url: string) => ({ ok: true, text: async () => "# Second" });
+  setSelection(["/docs/second.md"]);
+  await renderSelectedMarkdown();
+  t.is(els.mdRender.innerHTML, "<h1>Second</h1>");
+});
