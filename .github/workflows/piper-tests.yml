@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  pnpm-install-smoke-test:
+  piper-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -30,4 +30,9 @@ jobs:
       # This will tell us if codex broke his environment.
       # Install deps (workspace-aware)
       - name: Install
+        run: pnpm install --frozen-lockfile
+
+      # This will tell us if codex broke his environment.
+      # Install deps (workspace-aware)
+      - name: piper test
         run: pnpm install --frozen-lockfile
