@@ -152,9 +152,7 @@ export async function runPipeline(
         jsLocked = true;
         try {
           execRes = await runJSModule(s, cwd, s.env, fp, s.timeoutMs);
-        } catch (e: any) {
-          execRes = { code: 1, stdout: "", stderr: e?.stack ?? String(e) };
-        }
+        } catch (e: any) {}
       }
 
       const endedAt = new Date().toISOString();

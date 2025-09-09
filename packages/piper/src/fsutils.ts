@@ -264,11 +264,12 @@ export async function runTSModule(
     : path.resolve(cwd, step.ts!.module);
   const modUrl = pathToFileURL(modPath).href;
   const code = `
-    import mod from ${JSON.stringify(modUrl)};
-    const fn = (mod && mod.${step.ts!.export}) || (mod && mod.default) || mod;
-    const res = await fn(${JSON.stringify(step.ts!.args ?? {})});
-    if (typeof res === 'string') process.stdout.write(res);
-  `;
+  import * as mod from ${JSON.stringify(modUrl)};
+  const exp = ${JSON.stringify(step.ts!.export ?? null)};
+  const fn = exp ? (mod as any)[exp] : (mod as any).default ?? (mod as any);
+  const res = await fn(${JSON.stringify(step.ts!.args ?? {})});
+  if (typeof res === 'string') process.stdout.write(res);
+`;
   const cmd = process.execPath;
   const args = ["--loader", "ts-node/esm", "--input-type=module", "-e", code];
   return runSpawn(cmd, { cwd, env, args, timeoutMs });
@@ -284,7 +285,7 @@ function runSpawn(
   },
 ) {
   return new Promise<{ code: number | null; stdout: string; stderr: string }>(
-    (resolve) => {
+    (resolve, reject) => {
       const child = opts.shell
         ? spawn(cmd, {
             cwd: opts.cwd,
@@ -301,7 +302,8 @@ function runSpawn(
           });
 
       let out = "",
-        err = "";
+        err = "",
+        timedOut = false;
       const killTimer =
         opts.timeoutMs && opts.timeoutMs > 0
           ? setTimeout(() => {
@@ -311,7 +313,26 @@ function runSpawn(
                 } else {
                   child.kill("SIGKILL");
                 }
-              } catch {}
+                timedOut = true;
+              } catch (killError: any) {
+                // EPERM, ESRCH are expected; others might be system issues
+                if (killError.code === "ESRCH") {
+                  // Process already dead - that's fine
+                } else if (killError.code === "EPERM") {
+                  // Permission denied - log it but don't fail the timeout
+                  console.warn(
+                    `Permission denied killing process ${child.pid}`,
+                  );
+                } else {
+                  // Unexpected failure - this might be important
+                  reject(
+                    new Error(
+                      `Unexpected error killing process ${child.pid}: ${killError}`,
+                    ),
+                  );
+                  console.error();
+                }
+              }
             }, opts.timeoutMs)
           : undefined;
 
@@ -319,11 +340,13 @@ function runSpawn(
       child.stderr.on("data", (d) => (err += String(d)));
       child.on("close", (code) => {
         if (killTimer) clearTimeout(killTimer as any);
-        resolve({ code, stdout: out, stderr: err });
+        resolve({
+          code,
+          stdout: out,
+          stderr: timedOut ? err + "timeout" : err,
+        });
       });
-      child.on("error", () =>
-        resolve({ code: 127, stdout: out, stderr: err || "failed to spawn" }),
-      );
+      child.on("error", (e) => reject(e));
     },
   );
 }
