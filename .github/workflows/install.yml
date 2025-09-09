@@ -27,6 +27,7 @@ jobs:
             apps/*/pnpm-lock.yaml
             packages/*/pnpm-lock.yaml
 
+      # This will tell us if codex broke his environment.
       # Install deps (workspace-aware)
       - name: Install
         run: pnpm install --frozen-lockfile
