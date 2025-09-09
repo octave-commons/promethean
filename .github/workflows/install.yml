@@ -19,7 +19,7 @@ jobs:
       # Set up Node and enable built-in pnpm cache
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
           cache: pnpm
           # If you have multiple lockfiles (monorepo), list them (comma- or newline-separated)
           cache-dependency-path: |
