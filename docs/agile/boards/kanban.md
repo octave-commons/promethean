@@ -133,6 +133,7 @@ kanban-plugin: board
 - [ ] [[docker-compose-edn-template-system]]
 - [ ] [[kubernetes-configurations-for-secure-distributed-deployment-on-local-net]]
 - [ ] [[structural-code-editing-ai-tool-that-uses-tree-diffs-instead-of-string-based-universal-diffs--ensuring-generated-results-are-always-immediately-validatable]]
+- [ ] make biome run with same settings eslint has
 
 
 ## Accepted
