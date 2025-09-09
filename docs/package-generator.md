@@ -11,7 +11,7 @@ This creates `packages/my-lib` with:
 - `package.json` named `@promethean/my-lib`
 - TypeScript config extending the workspace base
 - AVA test setup and sample test
-- default `pipelines.yml`
+- default docops-style `pipelines.json`
 - `project.json` wired for `build`, `test`, `lint`, and `typecheck`
 
 Run the new package's tests with:
