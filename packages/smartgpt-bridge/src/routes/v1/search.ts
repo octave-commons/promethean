@@ -170,10 +170,18 @@ function extractResults(data: any) {
       if (item.Topics) {
         for (const sub of item.Topics) {
           if (sub.Text && sub.FirstURL)
-            results.push({ title: sub.Text, url: sub.FirstURL, snippet: sub.Text });
+            results.push({
+              title: sub.Text,
+              url: sub.FirstURL,
+              snippet: sub.Text,
+            });
         }
       } else if (item.Text && item.FirstURL) {
-        results.push({ title: item.Text, url: item.FirstURL, snippet: item.Text });
+        results.push({
+          title: item.Text,
+          url: item.FirstURL,
+          snippet: item.Text,
+        });
       }
     }
   }

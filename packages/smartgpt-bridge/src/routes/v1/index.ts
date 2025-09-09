@@ -46,9 +46,13 @@ export async function registerV1Routes(app: any) {
     });
 
     // expose the generated v1 spec
-    v1.get("/openapi.json", { schema: { hide: true } }, async (_req: any, reply: any) => {
-      reply.type("application/json").send(v1.swagger());
-    });
+    v1.get(
+      "/openapi.json",
+      { schema: { hide: true } },
+      async (_req: any, reply: any) => {
+        reply.type("application/json").send(v1.swagger());
+      },
+    );
 
     registerFilesRoutes(v1);
     registerSearchRoutes(v1);
