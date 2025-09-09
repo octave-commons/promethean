@@ -248,9 +248,7 @@ test.serial(
 
 
 
-    }
-  });
-});
+// (removed stray closers)
 
 test.serial("runPipeline stops downstream steps when a dependency fails", async (t) => {
   await withTmp(async (dir) => {
