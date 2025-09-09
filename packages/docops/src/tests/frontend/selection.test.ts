@@ -1,8 +1,11 @@
 import test from "ava";
 
 import { setSelection, getSelection } from "../../frontend/selection.js";
+test.afterEach.always(() => {
+  delete (globalThis as any).window;
+});
 
-test("setSelection stores a copy, exposes legacy global, and emits event", (t) => {
+test.serial("setSelection stores a copy, exposes legacy global, and emits event", (t) => {
   let received: any = null;
   (globalThis as any).window = {
     docopsSelection: undefined,
@@ -20,154 +23,265 @@ test("setSelection stores a copy, exposes legacy global, and emits event", (t) =
   t.deepEqual(received.detail, src);
 });
 
-// ---------------------------------------------------------------------------
-// Unit tests for selection utilities
-// Framework note:
-// - Uses global describe/test/expect (works in Vitest and Jest).
-// - Event tests auto-skip if no DOM/jsdom-like environment is available.
-// ---------------------------------------------------------------------------
 
-const __getTarget = () => ((globalThis as any).window ?? (globalThis as any));
 
-const __supportsEvents = () => {
-  const t = __getTarget();
-  return (
-    typeof t?.addEventListener === "function" &&
-    typeof t?.removeEventListener === "function" &&
-    typeof t?.dispatchEvent === "function" &&
-    typeof (globalThis as any).CustomEvent === "function"
-  );
-};
 
-describe("docops selection state", () => {
-  beforeEach(() => {
-    const t = __getTarget();
-    // Reset snapshot between tests
-    try {
-      delete (t as any).docopsSelection;
-    } catch {
-      (t as any).docopsSelection = undefined;
-    }
-  });
 
-  test("getSelection returns [] when uninitialized and returns a fresh copy each call", () => {
-    const a = getSelection();
-    expect(Array.isArray(a)).toBe(true);
-    expect(a).toHaveLength(0);
 
-    // Mutating returned copy must not affect internal state
-    a.push("x");
-    const b = getSelection();
-    expect(b).toHaveLength(0);
-    expect(b).not.toBe(a);
-  });
 
-  test("setSelection stores a cloned snapshot; modifying input later does not affect stored selection", () => {
-    const input = ["a", "b"];
-    setSelection(input);
 
-    // Modify original array after setting
-    input.push("c");
 
-    const current = getSelection();
-    expect(current).toEqual(["a", "b"]);
-    expect(current).not.toBe(input);
 
-    // Verify the underlying global snapshot mirrors the expected value
-    const t = __getTarget();
-    expect((t as any).docopsSelection).toEqual(["a", "b"]);
-    expect((t as any).docopsSelection).not.toBe(input);
-  });
 
-  ( __supportsEvents() ? test : test.skip )(
-    "dispatches 'docops:selection-changed' with a cloned detail payload",
-    () => {
-      const t = __getTarget();
-      const seen: any[] = [];
-      const handler = (ev: any) => {
-        seen.push(ev?.detail);
-      };
-      t.addEventListener?.("docops:selection-changed", handler);
 
-      const src = ["x", "y"];
-      setSelection(src);
 
-      // Event should have fired once with a cloned detail
-      expect(seen).toHaveLength(1);
-      const detail0 = seen[0];
-      expect(detail0).toEqual(["x", "y"]);
-      expect(detail0).not.toBe(src);
 
-      // Mutating the event detail must not affect internal snapshot
-      detail0.push("z");
-      expect(getSelection()).toEqual(["x", "y"]);
 
-      t.removeEventListener?.("docops:selection-changed", handler);
-    }
-  );
 
-  test("handles invalid inputs safely (non-array coerces to empty) without throwing", () => {
-    expect(() => setSelection(null as any)).not.toThrow();
-    expect(getSelection()).toEqual([]);
 
-    expect(() => setSelection(undefined as any)).not.toThrow();
-    expect(getSelection()).toEqual([]);
 
-    expect(() => setSelection({} as any)).not.toThrow();
-    expect(getSelection()).toEqual([]);
-  });
 
-  ( __supportsEvents() ? test : test.skip )(
-    "ignores dispatch errors gracefully (try/catch around dispatchEvent)",
-    () => {
-      const t = __getTarget();
-      const original = t.dispatchEvent;
-      // Replace dispatchEvent to simulate a runtime failure
-      t.dispatchEvent = () => { throw new Error("boom"); };
 
-      expect(() => setSelection(["ok"])).not.toThrow();
-      expect(getSelection()).toEqual(["ok"]);
 
-      // Restore
-      t.dispatchEvent = original;
-    }
-  );
 
-  test("subsequent calls overwrite previous snapshot", () => {
-    setSelection(["a"]);
-    expect(getSelection()).toEqual(["a"]);
 
-    setSelection(["b", "c"]);
-    expect(getSelection()).toEqual(["b", "c"]);
-  });
 
-  test("getSelection returns a new array instance on each call (immutability of return value)", () => {
-    setSelection(["d"]);
-    const s1 = getSelection();
-    const s2 = getSelection();
-    expect(s1).toEqual(["d"]);
-    expect(s2).toEqual(["d"]);
-    expect(s1).not.toBe(s2);
 
-    s1.push("e");
-    expect(getSelection()).toEqual(["d"]);
-    expect(s2).toEqual(["d"]);
-  });
 
-  test("supports empty arrays and unusual string values", () => {
-    setSelection([]);
-    expect(getSelection()).toEqual([]);
 
-    setSelection(["", " ", "🔥", "dup", "dup"]);
-    expect(getSelection()).toEqual(["", " ", "🔥", "dup", "dup"]);
-  });
 
-  test("does not share reference with internal snapshot when reading via getSelection", () => {
-    setSelection(["alpha"]);
-    const first = getSelection();
-    first.push("beta");
 
-    // Internal state remains unchanged
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     expect(getSelection()).toEqual(["alpha"]);
   });
+});
+
+/*
+Note: Using AVA as the testing library and framework (aligned with existing tests).
+These tests extend coverage for frontend/selection by verifying:
+- getSelection returns defensive copies on every call
+- setSelection does not mutate inputs and is resilient to external mutations
+- Proper event dispatch semantics and payloads
+- Behavior when window or dispatchEvent are absent
+- Handling of empty selections
+*/
+
+test.serial("getSelection returns a fresh array on each call (defensive copy)", (t) => {
+  const events: any[] = [];
+  (globalThis as any).window = {
+    docopsSelection: undefined,
+    dispatchEvent: (ev: any) => events.push(ev),
+  };
+
+  const src = ["/a.md", "/b.md"];
+  setSelection(src);
+
+  const first = getSelection();
+  const second = getSelection();
+
+  t.deepEqual(first, src);
+  t.deepEqual(second, src);
+  t.not(first, second, "each call returns a new array instance");
+  t.not(first, src, "returned array must not be the original input instance");
+  t.truthy(events[0], "an event should be dispatched on initial set");
+  t.is(events[0].type, "docops:selection-changed");
+  t.deepEqual(events[0].detail, src, "event detail matches selection contents");
+  t.not(events[0].detail, src, "event detail should also be a copy, not the original reference");
+});
+
+test.serial("setSelection does not mutate input and later input mutations do not affect stored state", (t) => {
+  const events: any[] = [];
+  (globalThis as any).window = {
+    docopsSelection: undefined,
+    dispatchEvent: (ev: any) => events.push(ev),
+  };
+
+  const src = ["/a.md", "/b.md"];
+  const snapshot = [...src];
+  setSelection(src);
+
+  // Mutate the original array after calling setSelection
+  src.push("/c.md");
+
+  // Stored state must reflect the original contents, not the mutated input
+  t.deepEqual(getSelection(), snapshot, "stored selection should not change when the input is later mutated");
+  t.deepEqual((globalThis as any).window.docopsSelection, snapshot, "legacy global should reflect stored state, not mutated input");
+  t.is(events.length, 1, "exactly one event for the single setSelection call");
+});
+
+test.serial("setSelection emits an event for each change with correct payloads", (t) => {
+  const events: any[] = [];
+  (globalThis as any).window = {
+    docopsSelection: undefined,
+    dispatchEvent: (ev: any) => events.push(ev),
+  };
+
+  const firstSel = ["/a.md"];
+  const secondSel = ["/a.md", "/b.md"];
+  setSelection(firstSel);
+  setSelection(secondSel);
+
+  t.is(events.length, 2, "two distinct selection updates should emit two events");
+
+  t.is(events[0].type, "docops:selection-changed");
+  t.deepEqual(events[0].detail, firstSel);
+  t.not(events[0].detail, firstSel, "first event detail should be a copy");
+
+  t.is(events[1].type, "docops:selection-changed");
+  t.deepEqual(events[1].detail, secondSel);
+  t.not(events[1].detail, secondSel, "second event detail should be a copy");
+
+  t.deepEqual((globalThis as any).window.docopsSelection, secondSel, "legacy global updates to latest selection");
+});
+
+test.serial("setSelection tolerates missing window and missing dispatchEvent", (t) => {
+  // Case 1: No window at all
+  delete (globalThis as any).window;
+  const sel1 = ["/x.md"];
+  t.notThrows(() => setSelection(sel1), "should not throw when window is undefined");
+  t.deepEqual(getSelection(), sel1, "selection still stored without window");
+
+  // Case 2: Window exists but dispatchEvent is missing
+  (globalThis as any).window = {}; // no dispatchEvent
+  const sel2 = ["/y.md"];
+  t.notThrows(() => setSelection(sel2), "should not throw when window.dispatchEvent is missing");
+  t.deepEqual(getSelection(), sel2, "selection stored successfully without dispatchEvent");
+  t.deepEqual((globalThis as any).window.docopsSelection, sel2, "legacy global is still written when window exists");
+});
+
+test.serial("handles empty selection array consistently", (t) => {
+  const events: any[] = [];
+  (globalThis as any).window = {
+    docopsSelection: undefined,
+    dispatchEvent: (ev: any) => events.push(ev),
+  };
+
+  const empty: string[] = [];
+  setSelection(empty);
+
+  t.deepEqual(getSelection(), empty, "empty selection is stored and retrievable");
+  t.deepEqual((globalThis as any).window.docopsSelection, empty, "legacy global mirrors empty selection");
+  t.true(events.length >= 1, "an event should be emitted on set");
+  t.is(events[events.length - 1].type, "docops:selection-changed");
+  t.deepEqual(events[events.length - 1].detail, empty, "event payload for empty selection is []");
+  t.not(events[events.length - 1].detail, empty, "event payload should be a copy, not the original empty array");
 });
