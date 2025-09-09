@@ -8,7 +8,7 @@ import ignore from "ignore";
  * Loads and merges all .gitignore files from ROOT_PATH down to targetDir.
  * Returns an ignore matcher instance.
  */
-export async function loadGitIgnore(ROOT_PATH, targetDir) {
+export async function loadGitIgnore(ROOT_PATH: string, targetDir: string) {
   const ig = ignore();
   let current = path.resolve(ROOT_PATH);
   const target = path.resolve(targetDir);

@@ -10,13 +10,15 @@ const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 // Agent log storage
 class LogBuffer {
+  buffer: Buffer;
+  limitBytes: number;
   constructor(limitBytes = 1024 * 1024) {
     this.limitBytes = limitBytes;
     this.buffer = Buffer.alloc(0);
   }
 
-  push(data) {
-    const chunk = Buffer.from(data, "utf8");
+  push(data: string | Buffer) {
+    const chunk = Buffer.isBuffer(data) ? data : Buffer.from(data, "utf8");
     this.buffer = Buffer.concat([this.buffer, chunk]);
     if (this.buffer.length > this.limitBytes) {
       this.buffer = this.buffer.slice(this.buffer.length - this.limitBytes);
@@ -35,7 +37,16 @@ class LogBuffer {
 }
 
 export class AgentSupervisor {
-  constructor({ cwd = process.cwd(), logDir = ".logs", sandbox = false } = {}) {
+  cwd: string;
+  logDir: string;
+  sandbox: boolean | "nsjail";
+  procs: Map<string, any>;
+  subscribers: Record<string, Array<(data: string) => void>>;
+  constructor({
+    cwd = process.cwd(),
+    logDir = ".logs",
+    sandbox = false,
+  }: { cwd?: string; logDir?: string; sandbox?: boolean | "nsjail" } = {}) {
     this.cwd = cwd;
     this.logDir = logDir;
     this.sandbox = sandbox; // can be false | 'nsjail'
@@ -45,7 +56,17 @@ export class AgentSupervisor {
     if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true });
   }
 
-  start({ prompt, tty = true, env = {}, bypassApprovals = false }) {
+  start({
+    prompt,
+    tty: _tty = true,
+    env = {},
+    bypassApprovals = false,
+  }: {
+    prompt: string;
+    tty?: boolean;
+    env?: Record<string, string>;
+    bypassApprovals?: boolean;
+  }) {
     const id = nanoid();
     const logBuffer = new LogBuffer();
     const logfile = path.join(this.logDir, `${id}.log`);
@@ -96,13 +117,13 @@ export class AgentSupervisor {
       },
     });
 
-    proc.onData((data) => {
+    proc.onData((data: string) => {
       logBuffer.push(data);
       logStream.write(data);
       this.emit(id, data);
     });
 
-    proc.onExit(({ exitCode, signal }) => {
+    proc.onExit(({ exitCode, signal }: { exitCode: number; signal: any }) => {
       this.procs.set(id, {
         ...this.procs.get(id),
         exited: true,
@@ -127,26 +148,26 @@ export class AgentSupervisor {
     return id;
   }
 
-  send(id, input) {
+  send(id: string, input: string) {
     const agent = this.procs.get(id);
     if (!agent || agent.exited) throw new Error("Agent not running");
     agent.proc.write(input + "\n");
   }
 
-  logs(id, bytes = 8192) {
+  logs(id: string, bytes = 8192) {
     const agent = this.procs.get(id);
     if (!agent) throw new Error("No such agent");
     return agent.logBuffer.tail(bytes);
   }
 
-  kill(id) {
+  kill(id: string) {
     const agent = this.procs.get(id);
     if (!agent || agent.exited) return false;
     agent.proc.kill();
     return true;
   }
 
-  status(id) {
+  status(id: string) {
     const agent = this.procs.get(id);
     if (!agent) return null;
     return {
@@ -161,13 +182,13 @@ export class AgentSupervisor {
   }
 
   // Simple subscriber pattern (replace with WS later)
-  on(id, handler) {
+  on(id: string, handler: (data: string) => void) {
     if (!this.subscribers) this.subscribers = {};
     if (!this.subscribers[id]) this.subscribers[id] = [];
-    this.subscribers[id].push(handler);
+    this.subscribers[id]!.push(handler);
   }
 
-  off(id, handler) {
+  off(id: string, handler: (data: string) => void) {
     const list = this.subscribers?.[id];
     if (!list) return;
     const idx = list.indexOf(handler);
@@ -175,9 +196,9 @@ export class AgentSupervisor {
     if (list.length === 0) delete this.subscribers[id];
   }
 
-  emit(id, data) {
+  emit(id: string, data: string) {
     if (!this.subscribers || !this.subscribers[id]) return;
-    for (const fn of this.subscribers[id]) fn(data);
+    for (const fn of this.subscribers[id]!) fn(data);
   }
 }
 

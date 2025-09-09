@@ -5,7 +5,7 @@ import {
   treeDirectory,
 } from "../../files.js";
 
-export function registerFilesRoutes(fastify) {
+export function registerFilesRoutes(fastify: any) {
   const ROOT_PATH = fastify.ROOT_PATH;
 
   fastify.get("/files/list", {
@@ -44,15 +44,17 @@ export function registerFilesRoutes(fastify) {
         },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       const q = req.query || {};
       const dir = String(q.path || ".");
       const hidden = String(q.hidden || "false").toLowerCase() === "true";
       const type = q.type ? String(q.type) : undefined;
       try {
-        const out = await listDirectory(ROOT_PATH, dir, { hidden, type });
+        const opts: any = { hidden };
+        if (typeof type === "string") opts.type = type;
+        const out = await listDirectory(ROOT_PATH, dir, opts);
         reply.send(out);
-      } catch (e) {
+      } catch (e: any) {
         reply.code(400).send({ ok: false, error: String(e?.message || e) });
       }
     },
@@ -83,7 +85,7 @@ export function registerFilesRoutes(fastify) {
         },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       const q = req.query || {};
       const dir = String(q.path || ".");
       const depth = Number(q.depth || 1);
@@ -94,7 +96,7 @@ export function registerFilesRoutes(fastify) {
           includeHidden: hidden,
         });
         reply.send(out);
-      } catch (e) {
+      } catch (e: any) {
         reply.code(400).send({ ok: false, error: String(e?.message || e) });
       }
     },
@@ -129,7 +131,7 @@ export function registerFilesRoutes(fastify) {
         },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       const q = req.query || {};
       const p = q.path;
       if (!p) return reply.code(400).send({ ok: false, error: "Missing path" });
@@ -141,7 +143,7 @@ export function registerFilesRoutes(fastify) {
           Number(q.context || 25),
         );
         reply.send({ ok: true, ...info });
-      } catch (e) {
+      } catch (e: any) {
         reply.code(404).send({ ok: false, error: String(e?.message || e) });
       }
     },
@@ -171,14 +173,14 @@ export function registerFilesRoutes(fastify) {
         },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       try {
         const body = req.body || {};
         const text = body.text ?? body.trace ?? "";
         const ctx = Number(body.context || 25);
         const r = await locateStacktrace(ROOT_PATH, String(text), ctx);
         reply.send({ ok: true, results: r });
-      } catch (e) {
+      } catch (e: any) {
         reply.code(400).send({ ok: false, error: String(e?.message || e) });
       }
     },
