@@ -24,7 +24,8 @@ class FileTree extends HTMLElement {
       <div id="root"></div>
     `;
     this.shadowRoot!.appendChild(tpl.content.cloneNode(true));
-    this.refresh();
+    // Fire and forget; lifecycle hook cannot be async
+    void this.refresh();
   }
   async refresh() {
     const dir =
@@ -38,20 +39,36 @@ class FileTree extends HTMLElement {
     const root = this.shadowRoot!.getElementById("root")!;
     root.innerHTML = "";
     const ul = document.createElement("ul");
+    // A11y: expose as a tree so tests and screen readers can find items
+    ul.setAttribute("role", "tree");
     root.appendChild(ul);
-    const human = (b: number) => {
+    const human = (b?: number) => {
       if (typeof b !== "number") return "";
       const kb = b / 1024,
         mb = kb / 1024;
       return mb >= 1 ? `${mb.toFixed(1)} MB` : `${kb.toFixed(0)} KB`;
     };
-    const render = (parent: HTMLElement, nodes: any[], prefix: string) => {
+    type TreeNode = {
+      readonly type: "dir" | "file";
+      readonly name: string;
+      readonly children?: readonly TreeNode[];
+      readonly size?: number;
+    };
+    const render = (
+      parent: HTMLElement,
+      nodes: ReadonlyArray<TreeNode>,
+      prefix: string,
+    ) => {
       for (const n of nodes) {
         const li = document.createElement("li");
         if (n.type === "dir") {
           li.textContent = "📁 " + n.name;
+          // Optional: mark directories as treeitems as well
+          li.setAttribute("role", "treeitem");
+          li.setAttribute("aria-label", n.name);
           parent.appendChild(li);
           const sub = document.createElement("ul");
+          sub.setAttribute("role", "group");
           li.appendChild(sub);
           render(sub, n.children || [], prefix + "/" + n.name);
         } else {
@@ -66,6 +83,9 @@ class FileTree extends HTMLElement {
           const span = document.createElement("span");
           span.textContent = " " + n.name;
           span.className = "file";
+          // A11y: make files discoverable via role/name in tests
+          span.setAttribute("role", "treeitem");
+          span.setAttribute("aria-label", n.name);
           span.addEventListener("click", async () => {
             this.shadowRoot!.querySelectorAll<HTMLInputElement>(
               "input[type=checkbox]",
