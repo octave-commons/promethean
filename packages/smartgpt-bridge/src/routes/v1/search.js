@@ -153,7 +153,6 @@ var __generator =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerSearchRoutes = registerSearchRoutes;
-// @ts-nocheck
 var grep_js_1 = require("../../grep.js");
 var indexer_js_1 = require("../../indexer.js");
 var sinks_js_1 = require("../../sinks.js");

@@ -1,4 +1,3 @@
-// @ts-nocheck
 export class Greeter {
   constructor(private name: string) {}
   greet(): string {

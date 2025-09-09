@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { contextStore } from "../sinks.js";
 
 export async function cleanupChromaLogs(

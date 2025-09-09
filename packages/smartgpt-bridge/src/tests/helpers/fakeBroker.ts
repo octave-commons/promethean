@@ -1,4 +1,3 @@
-// @ts-nocheck
 export default class FakeBroker {
   constructor(opts) {
     this.opts = opts;

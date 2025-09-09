@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { grep } from "../../grep.js";
 import { search as semanticSearch } from "../../indexer.js";
 import { contextStore } from "../../sinks.js";

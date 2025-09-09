@@ -1,4 +1,3 @@
-// @ts-nocheck
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 

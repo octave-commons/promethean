@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * @deprecated Persistence now uses @shared/ts/persistence/DualStore.
  */

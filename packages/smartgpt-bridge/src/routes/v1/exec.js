@@ -153,7 +153,6 @@ var __generator =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerExecRoutes = registerExecRoutes;
-// @ts-nocheck
 var exec_js_1 = require("../../exec.js");
 function registerExecRoutes(v1) {
   var _this = this;

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createRequire } from "module";
 import crypto from "crypto";
 

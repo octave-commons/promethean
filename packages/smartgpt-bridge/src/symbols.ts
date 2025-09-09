@@ -1,4 +1,3 @@
-// @ts-nocheck
 import path from "path";
 import fs from "fs/promises";
 
@@ -7,22 +6,31 @@ import fg from "fast-glob";
 
 import { normalizeToRoot, isInsideRoot } from "./files.js";
 
-let SYMBOL_INDEX = []; // array of { path, name, kind, startLine, endLine, signature? }
+type SymbolEntry = {
+  path: string;
+  name: string;
+  kind: string;
+  startLine: number;
+  endLine: number;
+  signature?: string;
+};
 
-function splitCSV(s) {
+let SYMBOL_INDEX: SymbolEntry[] = []; // array of { path, name, kind, startLine, endLine, signature? }
+
+function splitCSV(s: string | undefined): string[] {
   return (s || "")
     .split(",")
     .map((x) => x.trim())
     .filter(Boolean);
 }
-function defaultExcludes() {
+function defaultExcludes(): string[] {
   const env = splitCSV(process.env.EXCLUDE_GLOBS);
   return env.length
     ? env
     : ["node_modules/**", ".git/**", "dist/**", "build/**", ".obsidian/**"];
 }
 
-function kindOf(node) {
+function kindOf(node: ts.Node): string {
   if (ts.isClassDeclaration(node)) return "class";
   if (ts.isInterfaceDeclaration(node)) return "interface";
   if (ts.isFunctionDeclaration(node)) return "function";
@@ -32,18 +40,19 @@ function kindOf(node) {
   if (ts.isEnumDeclaration(node)) return "enum";
   if (ts.isTypeAliasDeclaration(node)) return "type";
   if (ts.isModuleDeclaration(node)) return "namespace";
-  return ts.SyntaxKind[node.kind] || "node";
+  return ts.SyntaxKind[(node as any).kind] || "node";
 }
 
-function nameOf(node) {
-  const n = node.name;
+function nameOf(node: ts.Node): string | undefined {
+  const n = (node as any).name as ts.Node | undefined;
   if (!n) return undefined;
-  return n.escapedText ? String(n.escapedText) : n.getText();
+  const e = (n as any).escapedText;
+  return e != null ? String(e) : (n as any).getText?.() ?? undefined;
 }
 
-function signatureOf(node, source) {
+function signatureOf(node: ts.Node, source: ts.SourceFile): string | undefined {
   try {
-    const text = node.getText(source);
+    const text = (node as any).getText(source) as string;
     const max = 200;
     return text.length > max ? text.slice(0, max) + "…" : text;
   } catch {
@@ -51,30 +60,36 @@ function signatureOf(node, source) {
   }
 }
 
-function addSymbol(sourceFile, node, fileRel) {
+function addSymbol(sourceFile: ts.SourceFile, node: ts.Node, fileRel: string) {
   const k = kindOf(node);
   const name =
     nameOf(node) ||
     (ts.isVariableStatement(node)
-      ? node.declarationList?.declarations?.[0]?.name?.getText(sourceFile)
+      ? (node.declarationList?.declarations?.[0] as any)?.name?.getText(
+          sourceFile,
+        )
       : undefined);
   if (!name) return;
   const { line: startLine } = sourceFile.getLineAndCharacterOfPosition(
-    node.getStart(),
+    (node as any).getStart(),
   );
-  const { line: endLine } = sourceFile.getLineAndCharacterOfPosition(node.end);
-  SYMBOL_INDEX.push({
+  const { line: endLine } = sourceFile.getLineAndCharacterOfPosition(
+    (node as any).end,
+  );
+  const entry: SymbolEntry = {
     path: fileRel,
     name,
     kind: k,
     startLine: startLine + 1,
     endLine: endLine + 1,
-    signature: signatureOf(node, sourceFile),
-  });
+  };
+  const sig = signatureOf(node, sourceFile);
+  if (sig !== undefined) (entry as any).signature = sig;
+  SYMBOL_INDEX.push(entry);
 }
 
-function walk(sourceFile, fileRel) {
-  function visit(node) {
+function walk(sourceFile: ts.SourceFile, fileRel: string) {
+  function visit(node: ts.Node) {
     if (
       ts.isClassDeclaration(node) ||
       ts.isInterfaceDeclaration(node) ||
@@ -92,7 +107,11 @@ function walk(sourceFile, fileRel) {
   visit(sourceFile);
 }
 
-export async function symbolsIndex(ROOT_PATH, opts = {}) {
+type SymbolsIndexOptions = { paths?: string[]; exclude?: string[] };
+export async function symbolsIndex(
+  ROOT_PATH: string,
+  opts: SymbolsIndexOptions = {},
+): Promise<{ files: number; symbols: number; builtAt: number }> {
   SYMBOL_INDEX = [];
   const include = opts.paths || ["**/*.{ts,tsx,js,jsx}"];
   const exclude = opts.exclude || defaultExcludes();
@@ -121,12 +140,16 @@ export async function symbolsIndex(ROOT_PATH, opts = {}) {
   return { files: count, symbols: SYMBOL_INDEX.length, builtAt: Date.now() };
 }
 
-export async function symbolsFind(query, opts = {}) {
+type SymbolsFindOptions = { kind?: string; path?: string; limit?: number };
+export async function symbolsFind(
+  query: string,
+  opts: SymbolsFindOptions = {},
+): Promise<SymbolEntry[]> {
   const q = String(query || "").toLowerCase();
   const kind = opts.kind ? String(opts.kind).toLowerCase() : null;
   const pathFilter = opts.path ? String(opts.path).toLowerCase() : null;
   const limit = Number(opts.limit || 200);
-  const out = [];
+  const out: SymbolEntry[] = [];
   for (const s of SYMBOL_INDEX) {
     if (q && !s.name.toLowerCase().includes(q)) continue;
     if (kind && s.kind.toLowerCase() !== kind) continue;

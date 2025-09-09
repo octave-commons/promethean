@@ -1,4 +1,3 @@
-// @ts-nocheck
 import path from "node:path";
 
 import test from "ava";

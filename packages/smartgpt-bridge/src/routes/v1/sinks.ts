@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { contextStore } from "../../sinks.js";
 
 import { proxy } from "./proxy.js";

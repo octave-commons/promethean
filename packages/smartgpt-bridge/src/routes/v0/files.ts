@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   listDirectory,
   viewFile,

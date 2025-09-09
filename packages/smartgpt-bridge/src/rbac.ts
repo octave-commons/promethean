@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createLogger } from "@promethean/utils";
 
 import { logStream } from "./log-stream.js";

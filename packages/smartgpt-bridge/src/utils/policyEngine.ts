@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Policy } from "../models/Policy.js";
 
 export async function checkAccess(user, action, resource) {

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { reindexAll } from "./indexer.js";
 const ROOT_PATH = process.env.ROOT_PATH;
 if (!ROOT_PATH) {

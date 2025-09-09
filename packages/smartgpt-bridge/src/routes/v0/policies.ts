@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Policy } from "../../models/Policy.js";
 
 export function registerPolicyRoutes(app) {
