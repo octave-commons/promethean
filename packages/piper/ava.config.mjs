@@ -4,4 +4,5 @@ export default {
   ...base,
   // Disable worker threads for CI stability.
   workerThreads: false,
+  serial: true,
 };
