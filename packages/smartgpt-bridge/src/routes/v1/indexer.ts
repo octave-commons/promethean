@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { proxy } from "./proxy.js";
 
 export function registerIndexerRoutes(v1) {

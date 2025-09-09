@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { grep } from "../../grep.js";
 
 export function registerGrepRoutes(fastify) {

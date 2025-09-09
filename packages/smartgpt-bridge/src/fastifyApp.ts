@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Fastify from "fastify";
 // Frontend assets are served by a standalone file server under `sites/`
 import swagger from "@fastify/swagger";

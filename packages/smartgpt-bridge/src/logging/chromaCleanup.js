@@ -139,7 +139,6 @@ var __generator =
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.cleanupChromaLogs = cleanupChromaLogs;
 exports.scheduleChromaCleanup = scheduleChromaCleanup;
-// @ts-nocheck
 var sinks_js_1 = require("../sinks.js");
 function cleanupChromaLogs() {
   return __awaiter(this, arguments, void 0, function (days, max) {

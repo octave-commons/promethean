@@ -1,4 +1,3 @@
-// @ts-nocheck
 import test from "ava";
 
 import { createSupervisor } from "../../agent.js";

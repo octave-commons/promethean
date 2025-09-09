@@ -1,4 +1,3 @@
-// @ts-nocheck
 import test from "ava";
 import sinon from "sinon";
 import { sleep } from "@promethean/test-utils/sleep";

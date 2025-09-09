@@ -1,4 +1,3 @@
-// @ts-nocheck
 export default class SlowBroker {
   constructor(opts) {
     this.opts = opts;

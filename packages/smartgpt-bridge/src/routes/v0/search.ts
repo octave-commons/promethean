@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { search } from "../../indexer.js";
 import { contextStore } from "../../sinks.js";
 

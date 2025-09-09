@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { ContextStore } from "@promethean/persistence/contextStore.js";
 
 export const contextStore = new ContextStore();

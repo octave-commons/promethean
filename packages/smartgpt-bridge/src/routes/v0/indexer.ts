@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { indexerManager } from "../../indexer.js";
 
 export function registerIndexerRoutes(fastify) {

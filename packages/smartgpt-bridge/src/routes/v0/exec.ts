@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { runCommand } from "../../exec.js";
 
 export function registerExecRoutes(fastify) {
