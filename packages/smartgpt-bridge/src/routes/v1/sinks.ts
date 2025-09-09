@@ -1,8 +1,6 @@
 import { contextStore } from "../../sinks.js";
 
-import { proxy } from "./proxy.js";
-
-export function registerSinkRoutes(v1) {
+export function registerSinkRoutes(v1: any) {
   // ------------------------------------------------------------------
   // Sinks
   // ------------------------------------------------------------------
@@ -30,7 +28,7 @@ export function registerSinkRoutes(v1) {
   v1.post("/sinks/:name/search", {
     preHandler: [
       v1.authUser,
-      v1.requirePolicy("read", (req) => req.params.name),
+      v1.requirePolicy("read", (req: any) => req.params.name),
     ],
     schema: {
       summary: "Semantic search in sink (Chroma)",
@@ -59,7 +57,7 @@ export function registerSinkRoutes(v1) {
         },
       },
     },
-    async handler(req) {
+    async handler(req: any) {
       const { name } = req.params;
       const { q, n, where } = req.body || {};
       const store = contextStore.getCollection(name);

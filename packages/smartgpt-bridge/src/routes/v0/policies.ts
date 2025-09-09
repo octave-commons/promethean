@@ -1,6 +1,6 @@
 import { Policy } from "../../models/Policy.js";
 
-export function registerPolicyRoutes(app) {
+export function registerPolicyRoutes(app: any) {
   app.get("/policies/list", {
     preHandler: [app.authUser, app.requirePolicy("read", "policies")],
     schema: { operationId: "listPolicies", tags: ["Admin"] },
@@ -26,7 +26,7 @@ export function registerPolicyRoutes(app) {
         },
       },
     },
-    handler: async (req) => {
+    handler: async (req: any) => {
       const { role, action, resource, effect } = req.body || {};
       const policy = await Policy.create({
         role,
@@ -49,7 +49,7 @@ export function registerPolicyRoutes(app) {
         properties: { id: { type: "string" } },
       },
     },
-    handler: async (req) => {
+    handler: async (req: any) => {
       const { id } = req.body || {};
       await Policy.findByIdAndDelete(id);
       return { ok: true };

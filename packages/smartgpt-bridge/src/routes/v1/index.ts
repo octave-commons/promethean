@@ -8,16 +8,16 @@ import { registerIndexerRoutes } from "./indexer.js";
 import { registerAgentRoutes } from "./agents.js";
 import { registerExecRoutes } from "./exec.js";
 
-export async function registerV1Routes(app) {
+export async function registerV1Routes(app: any) {
   // Everything defined here will be reachable under /v1 because of the prefix in fastifyApp.js
-  await app.register(async function v1(v1) {
+  await app.register(async function v1(v1: any) {
     // Swagger JUST for v1 (encapsulation keeps it scoped)
     const baseUrl =
       process.env.PUBLIC_BASE_URL ||
       `http://localhost:${process.env.PORT || 3210}`;
     const authEnabled =
       String(process.env.AUTH_ENABLED || "false").toLowerCase() === "true";
-    const swaggerOpts = {
+    const swaggerOpts: any = {
       openapi: {
         openapi: "3.1.0",
         info: { title: "Promethean SmartGPT Bridge — v1", version: "1.1.0" },
@@ -46,7 +46,7 @@ export async function registerV1Routes(app) {
     });
 
     // expose the generated v1 spec
-    v1.get("/openapi.json", { schema: { hide: true } }, async (_req, reply) => {
+    v1.get("/openapi.json", { schema: { hide: true } }, async (_req: any, reply: any) => {
       reply.type("application/json").send(v1.swagger());
     });
 

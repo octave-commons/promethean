@@ -2,22 +2,22 @@ import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 
-function baseDir() {
+function baseDir(): string {
   const envDir = process.env.AGENT_STATE_DIR;
   if (envDir && envDir.trim()) return envDir;
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
   return path.join(__dirname, "../logs/agents");
 }
 
-async function ensureDir(p) {
+async function ensureDir(p: string) {
   await fs.mkdir(p, { recursive: true });
 }
 
-function agentDir(id) {
+function agentDir(id: string): string {
   return path.join(baseDir(), id);
 }
 
-export async function initAgentMeta(meta) {
+export async function initAgentMeta(meta: any) {
   const dir = agentDir(meta.id);
   await ensureDir(dir);
   await fs.writeFile(
@@ -27,7 +27,7 @@ export async function initAgentMeta(meta) {
   );
 }
 
-export async function updateAgentMeta(id, patch) {
+export async function updateAgentMeta(id: string, patch: any) {
   const dir = agentDir(id);
   await ensureDir(dir);
   let cur = {};
@@ -43,14 +43,14 @@ export async function updateAgentMeta(id, patch) {
   );
 }
 
-export async function appendAgentLog(id, chunk) {
+export async function appendAgentLog(id: string, chunk: any) {
   const dir = agentDir(id);
   await ensureDir(dir);
   const logPath = path.join(dir, "output.log");
   await fs.appendFile(logPath, Buffer.isBuffer(chunk) ? chunk : String(chunk));
 }
 
-export async function readAgentLogTail(id, bytes = 8192) {
+export async function readAgentLogTail(id: string, bytes = 8192): Promise<string> {
   const dir = agentDir(id);
   const logPath = path.join(dir, "output.log");
   try {
@@ -62,7 +62,7 @@ export async function readAgentLogTail(id, bytes = 8192) {
   }
 }
 
-export async function listAgentMetas() {
+export async function listAgentMetas(): Promise<any[]> {
   const dir = baseDir();
   try {
     const names = await fs.readdir(dir, { withFileTypes: true });
