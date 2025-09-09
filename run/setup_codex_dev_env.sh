@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
 command -v uvx >/dev/null || { echo "uvx not found on PATH after install" >&2; exit 1; }
@@ -20,7 +19,7 @@ apt-get install -y jq moreutils ripgrep
 bash ./run/install_gyp.sh
 
 
-pnpm install --no-frozen-lockfile --reporter=append-only
+pnpm install --no-frozen-lockfile
 
 bash ./run/setup_playwright.sh
 
