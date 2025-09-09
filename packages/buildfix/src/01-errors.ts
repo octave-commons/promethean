@@ -6,7 +6,10 @@ import { globby } from "globby";
 
 const args = parseArgs({
   "--tsconfig": "tsconfig.json",
-  "--root": "",
+  const rawRoot = args["--root"];
+  // If --root is passed without a value, default to CWD. Otherwise, trim provided value.
+  const root =
+    rawRoot && rawRoot !== "true" ? rawRoot.trim() : (rawRoot ? process.cwd() : "");
   "--out": ".cache/buildfix/errors.json",
 });
 
