@@ -9,6 +9,8 @@ export const StepSchema = z
     env: z.record(z.string()).default({}),
     inputs: z.array(z.string()).default([]),
     outputs: z.array(z.string()).default([]),
+    inputSchema: z.string().optional(),
+    outputSchema: z.string().optional(),
     cache: z.enum(["content", "mtime", "none"]).default("content"),
     shell: z.string().optional(), // run a shell command
     node: z.string().optional(), // run `node <file>` (cwd)
