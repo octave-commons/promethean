@@ -1,13 +1,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
+
 import YAML from 'yaml';
+
 import { ProviderRegistry, ProviderTenant, ProvidersFileSchema, expandEnv } from './provider-registry.js';
 
 export function fileBackedRegistry(configPath = path.resolve(process.cwd(), 'config/providers.yml')): ProviderRegistry {
     let cache: ProviderTenant[] | null = null;
 
     async function load(): Promise<ProviderTenant[]> {
-        if (cache) return cache!;
+        if (cache) return cache;
         const file = fs.readFileSync(configPath, 'utf8');
         const raw = YAML.parse(file);
         const parsed = ProvidersFileSchema.parse(raw);

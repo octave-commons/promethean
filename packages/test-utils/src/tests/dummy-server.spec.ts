@@ -1,6 +1,8 @@
 // packages/test-harness/tests/dummy-server.spec.ts
-import test from 'ava';
 import http from 'node:http';
+
+import test from 'ava';
+
 import { startDummyServer } from '../dummy-server.js';
 
 test('dummy server responds', async (t) => {

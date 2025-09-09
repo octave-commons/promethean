@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { InMemoryCollection } from '../persistence.js';
 
 type Doc = { id: string; user?: { age?: number; name?: string }; tags?: string[]; body?: string };

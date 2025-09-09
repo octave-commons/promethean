@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { setSelection, getSelection } from "../../frontend/selection.js";
 
 test("setSelection stores a copy, exposes legacy global, and emits event", (t) => {

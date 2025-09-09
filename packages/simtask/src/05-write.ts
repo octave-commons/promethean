@@ -1,8 +1,8 @@
 import { promises as fs } from "fs";
 import * as path from "path";
+import { randomUUID } from "crypto";
 
 import matter from "gray-matter";
-import { randomUUID } from "crypto";
 
 import { parseArgs } from "./utils.js";
 import type { ScanResult, Cluster, Plan, FunctionInfo } from "./types.js";
