@@ -66,6 +66,17 @@ await app.register(fastifyRateLimit, {
   timeWindow: 15 * 60 * 1000, // 15 minutes
 });
 
+// Optional auth: set PIPER_DEV_TOKEN env or pass --token to require a Bearer token.
+const TOKEN = process.env.PIPER_DEV_TOKEN ?? getArg("--token", "");
+if (TOKEN) {
+  app.addHook("onRequest", async (req, reply) => {
+    const auth = req.headers.authorization ?? "";
+    if (!auth.startsWith("Bearer ") || auth.slice(7) !== TOKEN) {
+      reply.header("WWW-Authenticate", "Bearer");
+      return reply.code(401).send({ error: "unauthorized" });
+    }
+  });
+}
 app.get("/health", async (_req, reply) => {
   reply.header("content-type", "application/json");
   return reply.send({ ok: true });
