@@ -381,7 +381,7 @@
   });
 });
 // Framework shim: prefer Vitest (vi) if present, otherwise Jest.
-const isVitest = typeof (globalThis as any).vi \!== 'undefined';
+const isVitest = typeof (globalThis as any).vi !== 'undefined';
 const mockFn = isVitest ? (globalThis as any).vi.fn : (globalThis as any).jest?.fn ?? (() => { throw new Error('No mock function available'); });
 const spyOnFn = isVitest ? (globalThis as any).vi.spyOn : (globalThis as any).jest?.spyOn ?? (() => { throw new Error('No spy function available'); });
 const resetAll = () => {
@@ -396,22 +396,24 @@ describe('Dev UI surface - behavior contracts', () => {
 
   beforeAll(async () => {
     try {
-      // Common potential locations; adjust after repo scan if needed.
+      // Probe likely in-package entry points only (ESM-safe).
       const candidates = [
-        'packages/piper/src/dev-ui',
-        'packages/piper/src/dev/ui',
-        'packages/piper/src/dev/index',
-        'packages/piper/src/runtime/dev-ui',
-        'packages/piper/src/lib/dev-ui',
-      ];
+        '../dev-ui',
+        './dev-ui',
+        '../dev/ui',
+        '../dev/index',
+        '../runtime/dev-ui',
+        '../lib/dev-ui',
+      ] as const;
       for (const path of candidates) {
         try {
-          // eslint-disable-next-line @typescript-eslint/no-var-requires
-          const mod = require((path));
+          const mod = await import(path);
           DevUiModule = mod;
           exported = { ...mod };
           break;
-        } catch { /* try next */ }
+        } catch {
+          /* try next */
+        }
       }
     } catch {
       // ignore; tests below will skip appropriately
@@ -423,7 +425,7 @@ describe('Dev UI surface - behavior contracts', () => {
   });
 
   test('exports are present and stable (smoke)', () => {
-    if (\!DevUiModule) {
+    if (!DevUiModule) {
       // Skip pattern that works for both Jest and Vitest
       const skip = isVitest ? (globalThis as any).vi.skip : (globalThis as any).test?.skip;
       if (skip) skip('Dev UI module not found; skip export smoke test');
@@ -437,7 +439,7 @@ describe('Dev UI surface - behavior contracts', () => {
   });
 
   test('create/mount handles minimal valid config (happy path)', async () => {
-    if (\!DevUiModule) {
+    if (!DevUiModule) {
       const skip = isVitest ? (globalThis as any).vi.skip : (globalThis as any).test?.skip;
       if (skip) skip('Dev UI module not found; skip happy path');
       return;
@@ -456,7 +458,7 @@ describe('Dev UI surface - behavior contracts', () => {
   });
 
   test('rejects invalid config (edge cases)', async () => {
-    if (\!DevUiModule) {
+    if (!DevUiModule) {
       const skip = isVitest ? (globalThis as any).vi.skip : (globalThis as any).test?.skip;
       if (skip) skip('Dev UI module not found; skip edge cases');
       return;
@@ -483,14 +485,14 @@ describe('Dev UI surface - behavior contracts', () => {
   });
 
   test('lifecycle: returns controller with teardown semantics', async () => {
-    if (\!DevUiModule) {
+    if (!DevUiModule) {
       const skip = isVitest ? (globalThis as any).vi.skip : (globalThis as any).test?.skip;
       if (skip) skip('Dev UI module not found; skip lifecycle test');
       return;
     }
     const api = exported.createDevUi ?? exported.mountDevUi ?? exported.init ?? exported.render;
     const ctl = await Promise.resolve(api({ root: '/tmp', title: 'X' }));
-    if (\!ctl || typeof ctl \!== 'object') {
+    if (!ctl || typeof ctl !== 'object') {
       // If API is void, we can only assert it didn't crash
       expect(true).toBe(true);
       return;
@@ -505,7 +507,7 @@ describe('Dev UI surface - behavior contracts', () => {
   });
 
   test('logs or reports errors when startup fails (failure path)', async () => {
-    if (\!DevUiModule) {
+    if (!DevUiModule) {
       const skip = isVitest ? (globalThis as any).vi.skip : (globalThis as any).test?.skip;
       if (skip) skip('Dev UI module not found; skip failure path');
       return;
