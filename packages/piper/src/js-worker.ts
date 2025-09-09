@@ -12,6 +12,7 @@ const { modUrl, exportName, args, env } = workerData as {
   const origEnv = { ...process.env };
   const origStdout = process.stdout.write;
   const origStderr = process.stderr.write;
+  const keepAlive = setInterval(() => {}, 1 << 30);
 
   // Apply step env
   Object.assign(process.env, env);
@@ -61,6 +62,7 @@ const { modUrl, exportName, args, env } = workerData as {
       error: e?.stack ?? String(e),
     });
   } finally {
+    clearInterval(keepAlive);
     // Restore globals
     (process.stdout.write as any) = origStdout;
     (process.stderr.write as any) = origStderr;
