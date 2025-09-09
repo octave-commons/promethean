@@ -8,7 +8,6 @@ import fastifyRateLimit from "@fastify/rate-limit";
 import type { FastifyReply } from "fastify";
 
 import { runPipeline } from "./runner.js";
-import * as events from "./lib/events.js";
 import type { PiperEvent } from "./lib/events.js";
 import { FileSchema } from "./types.js";
 
@@ -81,31 +80,24 @@ app.get<{
     reply.raw.end();
     return;
   }
-  const origEmit = events.emitEvent;
-  // eslint-disable-next-line functional/immutable-data
-  (events as { emitEvent: (ev: PiperEvent, json: boolean) => void }).emitEvent =
-    (ev: PiperEvent) => {
-      if (ev.stepId !== step) return;
-      if (ev.type === "start") send(`START ${ev.stepId}`);
-      else if (ev.type === "skip") send(`SKIP ${ev.reason}`);
-      else if (ev.type === "end") {
-        if (ev.result.stdout) send(ev.result.stdout);
-        if (ev.result.stderr) send(ev.result.stderr);
-        send(`EXIT ${ev.result.exitCode}`);
-      }
-    };
+  const emit = (ev: PiperEvent) => {
+    if (ev.stepId !== step) return;
+    if (ev.type === "start") send(`START ${ev.stepId}`);
+    else if (ev.type === "skip") send(`SKIP ${ev.reason}`);
+    else if (ev.type === "end") {
+      if (ev.result.stdout) send(ev.result.stdout);
+      if (ev.result.stderr) send(ev.result.stderr);
+      send(`EXIT ${ev.result.exitCode}`);
+    }
+  };
   try {
     await runPipeline(CONFIG_PATH, pipeline, {
       json: true,
       force: req.query.force === "true",
+      emit,
     });
   } catch (e: unknown) {
     send(String((e as Error)?.stack || e));
-  } finally {
-    // eslint-disable-next-line functional/immutable-data
-    (
-      events as { emitEvent: (ev: PiperEvent, json: boolean) => void }
-    ).emitEvent = origEmit;
   }
   reply.raw.end();
 });
