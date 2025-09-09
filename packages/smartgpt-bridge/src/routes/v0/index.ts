@@ -187,7 +187,10 @@ export async function registerV0Routes(app: any) {
           if (/missing jwks/i.test(msg) && jwtSecret) {
             // HS fallback
             const key = new TextEncoder().encode(String(jwtSecret));
-            const hsOpts: any = { clockTolerance: "60s", algorithms: ["HS256", "HS384", "HS512"] };
+            const hsOpts: any = {
+              clockTolerance: "60s",
+              algorithms: ["HS256", "HS384", "HS512"],
+            };
             if (jwtIssuer) hsOpts.issuer = jwtIssuer;
             if (jwtAudience) hsOpts.audience = jwtAudience;
             const { payload } = await jwtVerify(String(token), key, hsOpts);

@@ -50,7 +50,10 @@ export async function appendAgentLog(id: string, chunk: any) {
   await fs.appendFile(logPath, Buffer.isBuffer(chunk) ? chunk : String(chunk));
 }
 
-export async function readAgentLogTail(id: string, bytes = 8192): Promise<string> {
+export async function readAgentLogTail(
+  id: string,
+  bytes = 8192,
+): Promise<string> {
   const dir = agentDir(id);
   const logPath = path.join(dir, "output.log");
   try {
