@@ -134,7 +134,7 @@ test.serial("runPipeline surfaces step failure (non-zero exit)", async (t) => {
   });
 });
 
-test.serial("steps with cache:\\"none\\" always re-run", async (t) => {
+test.serial("steps with cache:\"none\" always re-run", async (t) => {
   await withTmp(async (dir) => {
     const prevCwd = process.cwd();
     process.chdir(dir);
