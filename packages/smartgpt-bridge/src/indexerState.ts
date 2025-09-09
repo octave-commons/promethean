@@ -7,19 +7,19 @@ function baseDir() {
   return path.join(__dirname, "../logs/indexer");
 }
 
-function safeName(s) {
+function safeName(s: string) {
   return String(s || "").replace(/[^a-zA-Z0-9._-]/g, "_");
 }
 
-export function stateDirForRoot(rootPath) {
+export function stateDirForRoot(rootPath: string) {
   return path.join(baseDir(), safeName(rootPath || "root"));
 }
 
-async function ensureDir(p) {
+async function ensureDir(p: string) {
   await fs.mkdir(p, { recursive: true });
 }
 
-export async function loadBootstrapState(rootPath) {
+export async function loadBootstrapState(rootPath: string) {
   const dir = stateDirForRoot(rootPath);
   const p = path.join(dir, "bootstrap.json");
   try {
@@ -30,7 +30,7 @@ export async function loadBootstrapState(rootPath) {
   return null;
 }
 
-export async function saveBootstrapState(rootPath, state) {
+export async function saveBootstrapState(rootPath: string, state: any) {
   const dir = stateDirForRoot(rootPath);
   await ensureDir(dir);
   const p = path.join(dir, "bootstrap.json");
@@ -38,7 +38,7 @@ export async function saveBootstrapState(rootPath, state) {
   await fs.writeFile(p, JSON.stringify(next, null, 2), "utf8");
 }
 
-export async function deleteBootstrapState(rootPath) {
+export async function deleteBootstrapState(rootPath: string) {
   const dir = stateDirForRoot(rootPath);
   const p = path.join(dir, "bootstrap.json");
   try {

@@ -1,6 +1,6 @@
 import { grep } from "../../grep.js";
 
-export function registerGrepRoutes(fastify) {
+export function registerGrepRoutes(fastify: any) {
   const ROOT_PATH = fastify.ROOT_PATH;
 
   fastify.post("/grep", {
@@ -21,7 +21,7 @@ export function registerGrepRoutes(fastify) {
         },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       try {
         const body = req.body || {};
         const results = await grep(ROOT_PATH, {
@@ -34,7 +34,7 @@ export function registerGrepRoutes(fastify) {
           context: Number(body.context || 2),
         });
         reply.send({ ok: true, results });
-      } catch (e) {
+      } catch (e: any) {
         reply.code(400).send({ ok: false, error: String(e?.message || e) });
       }
     },

@@ -4,12 +4,12 @@ import { AgentSupervisor as NewAgentSupervisor } from "../../agentSupervisor.js"
 import { supervisor as defaultSupervisor } from "../../agent.js";
 
 // Maintain separate supervisors for different sandbox modes, and a registry mapping id->supervisor
-const SUPS = new Map();
+const SUPS: Map<string, any> = new Map();
 const DEFAULT_KEY = "default";
 const NSJAIL_KEY = "nsjail";
-const AGENT_INDEX = new Map(); // id -> key
+const AGENT_INDEX: Map<string, string> = new Map(); // id -> key
 
-function getSup(fastify, key) {
+function getSup(fastify: any, key: string) {
   const k = key === "nsjail" ? NSJAIL_KEY : DEFAULT_KEY;
   if (SUPS.has(k)) return SUPS.get(k);
   // Use the long-lived supervisor from agent.js for the default sandbox so
@@ -18,7 +18,7 @@ function getSup(fastify, key) {
     SUPS.set(k, defaultSupervisor);
     return defaultSupervisor;
   }
-  const ROOT_PATH = fastify.ROOT_PATH;
+  const ROOT_PATH = fastify.ROOT_PATH as string;
   const logDir = path.join(
     path.dirname(new URL(import.meta.url).pathname),
     "../../logs/agents",
@@ -32,8 +32,8 @@ function getSup(fastify, key) {
   return sup;
 }
 
-export function registerAgentRoutes(fastify) {
-  const ROOT_PATH = fastify.ROOT_PATH;
+export function registerAgentRoutes(fastify: any) {
+  const _ROOT_PATH = fastify.ROOT_PATH;
   fastify.post("/agent/start", {
     schema: {
       summary: "Start a background agent",
@@ -71,10 +71,16 @@ export function registerAgentRoutes(fastify) {
         },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       try {
-        const { prompt, cwd, env, bypassApprovals, sandbox, tty } =
-          req.body || {};
+        const {
+          prompt,
+          cwd: _cwd,
+          env,
+          bypassApprovals,
+          sandbox,
+          tty,
+        } = (req.body as any) || {};
         const mode = sandbox === "nsjail" ? "nsjail" : "default";
         const sup = getSup(fastify, mode);
         const id = sup.start({
@@ -86,7 +92,7 @@ export function registerAgentRoutes(fastify) {
         AGENT_INDEX.set(id, mode);
         const status = sup.status(id) || {};
         reply.send({ ok: true, ...status });
-      } catch (e) {
+      } catch (e: any) {
         const name = e?.name || "";
         const msg = String(e?.message || e || "");
         if (name === "PTY_UNAVAILABLE" || msg.includes("PTY_UNAVAILABLE")) {
@@ -122,7 +128,7 @@ export function registerAgentRoutes(fastify) {
         },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       const id = String(req.query?.id || "");
       const key = AGENT_INDEX.get(id);
       const sup = key ? getSup(fastify, key) : null;
@@ -161,7 +167,7 @@ export function registerAgentRoutes(fastify) {
         },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       const id = String(req.params?.id || "");
       const key = AGENT_INDEX.get(id);
       const sup = key ? getSup(fastify, key) : null;
@@ -201,7 +207,7 @@ export function registerAgentRoutes(fastify) {
         },
       },
     },
-    handler: async (_req, reply) => {
+    handler: async (_req: any, reply: any) => {
       const agents = Array.from(AGENT_INDEX.entries()).map(([id, key]) => ({
         id,
         sandbox: key,
@@ -238,7 +244,7 @@ export function registerAgentRoutes(fastify) {
         },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       const id = String(req.query?.id || "");
       const key = AGENT_INDEX.get(id) || "default";
       const sup = getSup(fastify, key);
@@ -282,7 +288,7 @@ export function registerAgentRoutes(fastify) {
         },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       const id = String(req.query?.id || "");
       const key = AGENT_INDEX.get(id) || "default";
       const sup = getSup(fastify, key);
@@ -310,7 +316,7 @@ export function registerAgentRoutes(fastify) {
       },
       response: { 200: { type: "string" } },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       const id = String(req.query?.id || "");
       if (!id) return reply.code(400).send();
       reply.raw.writeHead(200, {
@@ -326,7 +332,7 @@ export function registerAgentRoutes(fastify) {
           `event: replay\ndata: ${JSON.stringify({ text: chunk })}\n\n`,
         );
       } catch {}
-      const handler = (data) =>
+      const handler = (data: any) =>
         reply.raw.write(
           `event: data\ndata: ${JSON.stringify({ text: String(data) })}\n\n`,
         );
@@ -355,7 +361,7 @@ export function registerAgentRoutes(fastify) {
         },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       const { id, input } = req.body || {};
       if (!id) return reply.code(400).send({ ok: false, error: "missing id" });
       const key = AGENT_INDEX.get(String(id)) || "default";
@@ -363,7 +369,7 @@ export function registerAgentRoutes(fastify) {
       try {
         sup.send(String(id), String(input || ""));
         reply.send({ ok: true });
-      } catch (e) {
+      } catch (e: any) {
         reply.send({ ok: false, error: String(e?.message || e) });
       }
     },
@@ -443,7 +449,7 @@ export function registerAgentRoutes(fastify) {
       try {
         const ok = sup.resume(String(id || ""));
         reply.send({ ok });
-      } catch (e) {
+      } catch (e: any) {
         reply.send({ ok: false, error: String(e?.message || e) });
       }
     },

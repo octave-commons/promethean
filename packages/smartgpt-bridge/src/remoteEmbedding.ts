@@ -2,16 +2,18 @@
 import { RemoteEmbeddingFunction as SharedRemoteEmbedding } from "@promethean/embedding";
 
 export class RemoteEmbeddingFunction extends SharedRemoteEmbedding {
+  __real: any;
+  _injected?: boolean;
   constructor(
     brokerUrl = process.env.BROKER_URL || "ws://localhost:7000",
     driver = process.env.EMBEDDING_DRIVER,
     fn = process.env.EMBEDDING_FUNCTION,
-    brokerInstance,
+    brokerInstance?: any,
   ) {
     // If a test sets SHARED_IMPORT, dynamically construct a broker and pass it to shared class.
     const prefix = "smartgpt-embed";
     if (brokerInstance) {
-      super(brokerUrl, driver, fn, brokerInstance, prefix);
+      super(brokerUrl, driver, fn, brokerInstance as any, prefix);
       this._injected = true;
     } else if (process.env.SHARED_IMPORT) {
       // Dynamically import the fake broker for tests
@@ -22,7 +24,7 @@ export class RemoteEmbeddingFunction extends SharedRemoteEmbedding {
         {
           get:
             (_t, p) =>
-            async (...args) => {
+            async (...args: any[]) => {
               const Mod = await modPromise;
               const Ctor = Mod.default || Mod.BrokerClient || Mod;
               if (!this.__real)
@@ -35,21 +37,23 @@ export class RemoteEmbeddingFunction extends SharedRemoteEmbedding {
         },
       );
       // Pass proxy to super; methods will delegate once used
-      super(brokerUrl, driver, fn, proxy, prefix);
+      super(brokerUrl, driver, fn, proxy as any, prefix);
     } else {
-      super(brokerUrl, driver, fn, undefined, prefix);
+      super(brokerUrl, driver, fn, undefined as any, prefix);
     }
   }
 
-  async generate(texts) {
+  override async generate(
+    texts: (string | { type: string; data: string })[],
+  ): Promise<number[][]> {
     const timeoutMs = Number(process.env.EMBEDDING_TIMEOUT_MS || 0);
-    if (!timeoutMs) return await super.generate(texts);
-    return await Promise.race([
-      super.generate(texts),
+    if (!timeoutMs) return (await super.generate(texts as any)) as any;
+    return (await Promise.race([
+      super.generate(texts as any),
       new Promise((_, reject) =>
         setTimeout(() => reject(new Error("embedding timeout")), timeoutMs),
       ),
-    ]);
+    ])) as any;
   }
 
   dispose() {

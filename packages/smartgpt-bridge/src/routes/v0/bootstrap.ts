@@ -2,7 +2,7 @@ import crypto from "crypto";
 
 import { User } from "../../models/User.js";
 
-function requireLocal(req, reply, done) {
+function requireLocal(req: any, reply: any, done: any) {
   const ip = req.ip;
   if (ip === "127.0.0.1" || ip === "::1" || ip === "::ffff:127.0.0.1") {
     return done();
@@ -10,7 +10,7 @@ function requireLocal(req, reply, done) {
   reply.code(403).send({ ok: false, error: "Bootstrap must be run locally" });
 }
 
-export function registerBootstrapRoutes(app) {
+export function registerBootstrapRoutes(app: any) {
   app.post("/bootstrap/admin", {
     preHandler: [requireLocal],
     schema: {
