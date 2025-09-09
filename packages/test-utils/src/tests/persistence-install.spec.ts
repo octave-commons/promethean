@@ -1,6 +1,7 @@
 import test from 'ava';
-import { installInMemoryPersistence } from '../persistence.js';
 import { getMongoClient, getChromaClient } from '@promethean/persistence';
+
+import { installInMemoryPersistence } from '../persistence.js';
 
 test('installInMemoryPersistence wires fake clients and dispose resets', async (t) => {
     const a = installInMemoryPersistence();

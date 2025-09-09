@@ -67,7 +67,7 @@ async function main() {
       contentHash: has("--content-hash"),
       json: has("--json"),
     } as any;
-    if (cmd === "run") await runPipeline(configPath, name, opts as any);
+    if (cmd === "run") await runPipeline(configPath, name, opts);
     else await watchPipeline(configPath, name, opts);
     return;
   }

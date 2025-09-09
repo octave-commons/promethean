@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { normalizeComments } from "../src/text.js";
 
 test("normalize strips code fences and paths", (t) => {
@@ -13,9 +14,7 @@ test("normalize strips code fences and paths", (t) => {
 });
 
 test("handles ~~~ fences and Windows paths", (t) => {
-  const input = [
-    'See C:\\proj\\a.ts:5~~~ts\nconsole.log()\n~~~',
-  ];
+  const input = ["See C:\\proj\\a.ts:5~~~ts\nconsole.log()\n~~~"];
   const got = normalizeComments(input);
   t.is(got.length, 1);
   t.false(got[0]?.includes("~~~"));

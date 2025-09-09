@@ -2,7 +2,6 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import test from "ava";
-
 import { sleep } from "@promethean/test-utils/sleep";
 
 import { AIAgent } from "../agent.js";
@@ -38,10 +37,6 @@ test.skip("throttles tick interval based on messages", async (t) => {
 
   // Cleanup
   if (client?.socket?.readyState === 1) client.disconnect();
-  if (broker)
-    await Promise.race([
-      stopBroker(broker),
-      sleep(1000),
-    ]);
+  if (broker) await Promise.race([stopBroker(broker), sleep(1000)]);
   if ((agent as any).audioPlayer?.stop) (agent as any).audioPlayer.stop(true);
 });

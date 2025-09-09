@@ -1,7 +1,8 @@
 #!/usr/bin/env node
+import readline from "node:readline";
+
 import dotenv from "dotenv";
 import WebSocket, { type RawData } from "ws";
-import readline from "node:readline";
 
 dotenv.config();
 

@@ -1,4 +1,5 @@
 import type * as EST from 'estree';
+
 import { S, Sym, Num, Str, Bool, Nil, List, sym, num, str, bool, list, nil } from './syntax.js';
 
 export type Js2LispOptions = {
@@ -161,7 +162,7 @@ function expr(n: EST.Expression, opts: Js2LispOptions): S {
             const params = n.params.map((p) => sym((p as EST.Identifier).name));
             const body = asBlockBody((n as any).body)
                 .map((s) => stmt(s, opts)!)
-                .filter(Boolean) as S[];
+                .filter(Boolean);
             return list([sym('fn'), list(params), ...(body.length ? body : [sym('nil')])]);
         }
         case 'SequenceExpression': {
