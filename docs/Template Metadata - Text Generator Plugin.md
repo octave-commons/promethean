@@ -1,4 +1,7 @@
-The Template File Metadata is a crucial component of any template in Text Generator. It serves as the header information that provides essential details about the template itself. Properly documenting this metadata ensures clarity, usability, and consistency in your template management. This documentation will guide you through the various fields within the Template File Metadata and how to use them effectively.
+The Template File Metadata is a crucial component of any template in Text Generator.
+It serves as the header information that provides essential details about the template itself.
+Properly documenting this metadata ensures clarity, usability, and consistency in your template management.
+This documentation will guide you through the various fields within the Template File Metadata and how to use them effectively.
 
 |Field|Type|Purpose|Example|
 |---|---|---|---|

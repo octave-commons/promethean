@@ -50,7 +50,10 @@ shared/py/.coverage
 
 .infio_json_db/
 **/.chromadb/
+**/chromadb/
 
+**/chroma/
+chroma/
 patch.sh
 
 frames/
