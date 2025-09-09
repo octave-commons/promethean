@@ -41,8 +41,17 @@ function sseInit(reply: FastifyReply) {
   reply.raw.setHeader("Cache-Control", "no-cache");
   reply.raw.setHeader("Connection", "keep-alive");
   reply.hijack();
-  return (line: string) =>
-    reply.raw.write(`data: ${String(line).replace(/\n/g, "\\n")}\n\n`);
+  let closed = false;
+  reply.raw.on("close", () => {
+    closed = true;
+  });
+  // send a prelude to establish the stream
+  reply.raw.write(`: ok\n\n`);
+  return (line: string) => {
+    if (closed) return;
+    const safe = String(line).replace(/[\r\n]/g, "\\n");
+    reply.raw.write(`data: ${safe}\n\n`);
+  };
 }
 
 const app = fastifyFactory({ logger: false });
@@ -87,6 +96,18 @@ app.get<{
   const send = sseInit(reply);
   if (!pipeline || !step) {
     send("missing pipeline or step");
+    reply.raw.end();
+    return;
+  }
+  const cfg = await loadConfig();
+  const pl = cfg.pipelines.find((p) => p.name === pipeline);
+  if (!pl) {
+    send(`pipeline '${pipeline}' not found`);
+    reply.raw.end();
+    return;
+  }
+  if (!pl.steps.some((s) => s.id === step)) {
+    send(`step '${step}' not found in pipeline '${pipeline}'`);
     reply.raw.end();
     return;
   }
