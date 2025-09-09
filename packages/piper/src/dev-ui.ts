@@ -85,19 +85,189 @@ app.get("/", async (_req, reply) => {
   return reply.send(html);
 });
 
-app.get("/api/pipelines", async (_req, reply) => {
-  const cfg = await loadConfig();
+// Basic file listing for File Explorer
+app.get<{
+  Querystring: {
+    dir?: string;
+    maxDepth?: string;
+    maxEntries?: string;
+    exts?: string;
+  };
+}>("/api/files", async (req, reply) => {
+  const root = path.resolve(req.query.dir || ".");
+  const maxDepth = Math.max(0, Number(req.query.maxDepth || "2") | 0) || 2;
+  const maxEntries =
+    Math.max(1, Number(req.query.maxEntries || "500") | 0) || 500;
+  const exts = new Set(
+    (req.query.exts || ".md,.mdx,.txt,.markdown")
+      .split(",")
+      .map((s) => s.trim().toLowerCase())
+      .filter(Boolean),
+  );
+  type Node = {
+    type: "dir" | "file";
+    name: string;
+    children?: Node[];
+    size?: number;
+  };
+  let count = 0;
+  async function walk(dir: string, depth: number): Promise<Node[]> {
+    if (depth > maxDepth || count >= maxEntries) return [];
+    let ents: Node[] = [];
+    try {
+      const list = await fs.readdir(dir, { withFileTypes: true });
+      for (const ent of list) {
+        if (count >= maxEntries) break;
+        if (ent.name.startsWith(".")) continue;
+        const p = path.join(dir, ent.name);
+        if (ent.isDirectory()) {
+          const children = await walk(p, depth + 1);
+          if (children.length)
+            ents.push({ type: "dir", name: ent.name, children });
+        } else {
+          const ext = path.extname(ent.name).toLowerCase();
+          if (!exts.has(ext)) continue;
+          const st = await fs.stat(p);
+          ents.push({ type: "file", name: ent.name, size: st.size });
+          count++;
+        }
+      }
+    } catch {
+      // ignore
+    }
+    return ents;
+  }
+  const tree = await walk(root, 0);
   reply.header("content-type", "application/json");
-  return reply.send({
-    pipelines: cfg.pipelines.map((p) => ({
-      name: p.name,
-      steps: p.steps.map((s) => ({ id: s.id, name: s.name })),
-    })),
-  });
+  return reply.send({ dir: root, tree });
+});
+
+// Read a text file (UTF-8) under the workspace
+app.get<{ Querystring: { path?: string } }>(
+  "/api/read-file",
+  async (req, reply) => {
+    const ROOT = process.cwd();
+    const p = req.query.path ? path.resolve(req.query.path) : "";
+    if (!p || !p.startsWith(ROOT)) {
+      return reply.code(400).send({ error: "invalid path" });
+    }
+    try {
+      const content = await fs.readFile(p, "utf8");
+      reply.header("content-type", "application/json");
+      return reply.send({ path: p, content });
+    } catch (e: unknown) {
+      return reply.code(404).send({ error: String((e as any)?.message || e) });
+    }
+  },
+);
+
+// Write a text file (UTF-8) under the workspace
+app.post<{ Body: { path?: string; content?: string } }>(
+  "/api/write-file",
+  async (req, reply) => {
+    const ROOT = process.cwd();
+    const p = req.body?.path ? path.resolve(req.body.path) : "";
+    const content = req.body?.content ?? "";
+    if (!p || !p.startsWith(ROOT)) {
+      return reply.code(400).send({ error: "invalid path" });
+    }
+    try {
+      await fs.mkdir(path.dirname(p), { recursive: true });
+      await fs.writeFile(p, content, "utf8");
+      reply.header("content-type", "application/json");
+      return reply.send({ ok: true });
+    } catch (e: unknown) {
+      return reply.code(500).send({ error: String((e as any)?.message || e) });
+    }
+  },
+);
+
+app.get("/api/pipelines", async (_req, reply) => {
+  try {
+    const cfg = await loadConfig();
+    reply.header("content-type", "application/json");
+    return reply.send({
+      pipelines: cfg.pipelines.map((p) => ({
+        name: p.name,
+        steps: p.steps.map((s) => ({ id: s.id, name: s.name })),
+      })),
+    });
+  } catch (e: unknown) {
+    reply.code(200).header("content-type", "application/json");
+    return reply.send({
+      pipelines: [],
+      error: String((e as any)?.message || e),
+    });
+  }
+});
+
+// Expose a basic JSON schema describing Piper steps for UI generation
+app.get("/api/schema", async (_req, reply) => {
+  const schema = {
+    $id: "piper.step",
+    type: "object",
+    additionalProperties: false,
+    properties: {
+      id: { type: "string" },
+      name: { type: "string" },
+      deps: { type: "array", items: { type: "string" }, default: [] },
+      cwd: { type: "string", default: "." },
+      env: {
+        type: "object",
+        additionalProperties: { type: "string" },
+        default: {},
+      },
+      inputs: { type: "array", items: { type: "string" }, default: [] },
+      outputs: { type: "array", items: { type: "string" }, default: [] },
+      cache: {
+        type: "string",
+        enum: ["content", "mtime", "none"],
+        default: "content",
+      },
+      shell: { type: "string" },
+      node: { type: "string" },
+      args: { type: "array", items: { type: "string" } },
+      timeoutMs: { type: "number" },
+      retry: { type: "integer", minimum: 0, default: 0 },
+      js: {
+        type: "object",
+        properties: {
+          module: { type: "string" },
+          export: { type: "string", default: "default" },
+          args: {},
+          isolate: { type: "string", enum: ["worker"] },
+        },
+        required: ["module"],
+      },
+      ts: {
+        type: "object",
+        properties: {
+          module: { type: "string" },
+          export: { type: "string", default: "default" },
+          args: {},
+        },
+        required: ["module"],
+      },
+    },
+    anyOf: [
+      { required: ["shell"] },
+      { required: ["node"] },
+      { required: ["js"] },
+      { required: ["ts"] },
+    ],
+    required: ["id"],
+  } as const;
+  reply.header("content-type", "application/json");
+  return reply.send(schema);
 });
 
 app.get<{
-  Querystring: { pipeline?: string; step?: string; force?: string };
+  Querystring: {
+    pipeline?: string;
+    step?: string;
+    force?: string;
+    files?: string;
+  };
 }>("/api/run-step", async (req, reply) => {
   const pipeline = req.query.pipeline ?? "";
   const step = req.query.step ?? "";
@@ -119,6 +289,40 @@ app.get<{
     reply.raw.end();
     return;
   }
+  // Optional: create a one-off config that injects selected files into the target step
+  let useConfigPath = CONFIG_PATH;
+  try {
+    const filesParam = req.query.files || "";
+    const files = filesParam
+      ? filesParam
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : [];
+    if (files.length) {
+      const clone = JSON.parse(JSON.stringify(cfg));
+      const p2 = clone.pipelines.find((p: any) => p.name === pipeline)!;
+      const s2 = p2.steps.find((x: any) => x.id === step)!;
+      if (!s2.env) s2.env = {};
+      // Prefer JS args.files when possible; otherwise pass env var usable by scripts
+      if (s2.js) {
+        const current =
+          s2.js.args && typeof s2.js.args === "object" ? s2.js.args : {};
+        s2.js.args = { ...current, files };
+      } else {
+        s2.env.PIPER_FILES = JSON.stringify(files);
+      }
+      await fs.mkdir(path.dirname(CONFIG_PATH), { recursive: true });
+      const tmpPath = path.resolve(
+        path.dirname(CONFIG_PATH),
+        ".cache/piper.ui.run.json",
+      );
+      await fs.writeFile(tmpPath, JSON.stringify(clone, null, 2), "utf8");
+      useConfigPath = tmpPath;
+    }
+  } catch (e: unknown) {
+    send("failed to prepare run config: " + String((e as any)?.message || e));
+  }
   const emit = (ev: PiperEvent) => {
     if (ev.stepId !== step) return;
     if (ev.type === "start") send(`START ${ev.stepId}`);
@@ -130,7 +334,7 @@ app.get<{
     }
   };
   try {
-    await runPipeline(CONFIG_PATH, pipeline, {
+    await runPipeline(useConfigPath, pipeline, {
       json: true,
       force: req.query.force === "true",
       emit,

@@ -60,6 +60,7 @@ export type RunOptions = {
   concurrency?: number; // parallelism for independent steps
   contentHash?: boolean; // prefer content hashing even if cache=mtime
   reportDir?: string; // write markdown reports
+  extraEnv?: Record<string, string>; // dev-ui: overlay env passed to steps
 };
 
 export type StepResult = {
