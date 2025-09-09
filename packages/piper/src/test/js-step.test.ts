@@ -1,5 +1,5 @@
-import * as fs from "fs/promises";
-import * as path from "path";
+import * as fs from "node:fs/promises";
+import * as path from "node:path";
 
 import test from "ava";
 
@@ -11,11 +11,14 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   const parent = path.join(process.cwd(), "test-tmp");
   await fs.mkdir(parent, { recursive: true });
   const dir = await fs.mkdtemp(path.join(parent, "piper-"));
+  const prevCwd = process.cwd();
+  process.chdir(dir);
   try {
     await fn(dir);
     // small grace period for any async file watchers/flushes
     await sleep(50);
   } finally {
+    process.chdir(prevCwd);
     await fs.rm(dir, { recursive: true, force: true });
   }
 }
@@ -196,8 +199,12 @@ test.serial(
       await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
       const res = await runPipeline(pipelinesPath, "demo", { concurrency: 1 });
 
-      const first = res.find((r) => r.id === "hang")!;
-      const second = res.find((r) => r.id === "after")!;
+      const first = res.find((r) => r.id === "hang");
+      t.truthy(first);
+      if (!first) return;
+      const second = res.find((r) => r.id === "after");
+      t.truthy(second);
+      if (!second) return;
       t.is(first.exitCode, 124);
       t.true((second.stdout?.trim() ?? "") === "after");
     });
@@ -259,7 +266,9 @@ test.serial(
       await fs.writeFile(p, JSON.stringify(cfg, null, 2), "utf8");
       const res = await runPipeline(p, "w", { concurrency: 1 });
 
-      const step = res.find((r) => r.id === "js")!;
+      const step = res.find((r) => r.id === "js");
+      t.truthy(step);
+      if (!step) return;
       t.is(step.exitCode, 124);
       // Parent env/streams should remain untouched in worker mode (best we can
       // do is assert test didn't crash; global equality is implicit in success).
@@ -299,7 +308,9 @@ test.serial("worker js step: crash rejects instead of hanging", async (t) => {
     await fs.writeFile(p, JSON.stringify(cfg, null, 2), "utf8");
     const res = await runPipeline(p, "w", { concurrency: 1 });
 
-    const step = res.find((r) => r.id === "js")!;
+    const step = res.find((r) => r.id === "js");
+    t.truthy(step);
+    if (!step) return;
     t.true((step.exitCode ?? 1) !== 0);
     t.truthy(step.stderr);
   });
@@ -345,8 +356,11 @@ test.serial("worker js step: export name is respected (one/two)", async (t) => {
     await fs.writeFile(p, JSON.stringify(cfg, null, 2), "utf8");
     const res = await runPipeline(p, "w", { concurrency: 1 });
 
-    const a = res.find((r) => r.id === "a")!;
-    const b = res.find((r) => r.id === "b")!;
+    const a = res.find((r) => r.id === "a");
+    t.truthy(a);
+    const b = res.find((r) => r.id === "b");
+    t.truthy(b);
+    if (!a || !b) return;
     t.is(a.stdout?.trim(), "one");
     t.is(b.stdout?.trim(), "two");
   });
@@ -390,7 +404,9 @@ test.serial(
       const p = path.join(dir, "pipelines.json");
       await fs.writeFile(p, JSON.stringify(cfg(), null, 2), "utf8");
       const res1 = await runPipeline(p, "w", { concurrency: 1 });
-      const step1 = res1.find((r) => r.id === "js")!;
+      const step1 = res1.find((r) => r.id === "js");
+      t.truthy(step1);
+      if (!step1) return;
       t.is(step1.stdout?.trim(), "one");
 
       // Change a transitive dep
@@ -403,7 +419,9 @@ test.serial(
       // Run 2 (worker imports afresh)
       await fs.writeFile(p, JSON.stringify(cfg(), null, 2), "utf8");
       const res2 = await runPipeline(p, "w", { concurrency: 1 });
-      const step2 = res2.find((r) => r.id === "js")!;
+      const step2 = res2.find((r) => r.id === "js");
+      t.truthy(step2);
+      if (!step2) return;
       t.is(step2.stdout?.trim(), "two");
     });
   },
@@ -449,7 +467,9 @@ test.serial(
         "utf8",
       );
       const res1 = await runPipeline(p, "w", { concurrency: 1 });
-      const step1 = res1.find((r) => r.id === "js")!;
+      const step1 = res1.find((r) => r.id === "js");
+      t.truthy(step1);
+      if (!step1) return;
       t.is(step1.exitCode, 124);
 
       // Second run: no hang, should succeed and print "ok"
@@ -459,7 +479,9 @@ test.serial(
         "utf8",
       );
       const res2 = await runPipeline(p, "w", { concurrency: 1 });
-      const step2 = res2.find((r) => r.id === "js")!;
+      const step2 = res2.find((r) => r.id === "js");
+      t.truthy(step2);
+      if (!step2) return;
       t.is(step2.exitCode, 0);
       t.is(step2.stdout?.trim(), "ok");
     });
