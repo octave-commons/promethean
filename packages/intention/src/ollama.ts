@@ -70,21 +70,21 @@ export class OllamaLLM implements LLM {
                     const line = buf.slice(0, nl).trim();
                     buf = buf.slice(nl + 1);
                     if (!line) continue;
-                    interface OllamaChunk {
+                    type OllamaChunk = {
                         done?: boolean;
                         message?: { content?: string };
-                    }
+                    };
                     let obj: OllamaChunk;
                     try {
                         obj = JSON.parse(line) as OllamaChunk;
                     } catch {
                         continue;
                     }
-                   if (obj.done) {
-                       // Stop promptly when Ollama signals completion.
-                       ctrl.abort();
-                       return stripFences(out.trim());
-                   }
+                    if (obj.done) {
+                        // Stop promptly when Ollama signals completion.
+                        ctrl.abort();
+                        return stripFences(out.trim());
+                    }
                     const chunk = obj.message?.content ?? '';
                     out += chunk;
                 }

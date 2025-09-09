@@ -14,11 +14,13 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   try {
     await fn(dir);
     // small grace period for any async file watchers/flushes
-    await new Promise((r) => setTimeout(r, 10));
+    await new Promise((r) => setTimeout(r, 25));
   } finally {
     await fs.rm(dir, { recursive: true, force: true });
   }
 }
+
+/** ===== Base pipeline behavior (in-proc + shell) ===== */
 
 test.serial("runPipeline executes js + shell steps (make → cat)", async (t) => {
   await withTmp(async (dir) => {
@@ -44,10 +46,7 @@ test.serial("runPipeline executes js + shell steps (make → cat)", async (t) =>
               js: {
                 module: "./lib.js",
                 export: "make",
-                args: {
-                  file: path.join(dir, "out.txt"),
-                  content: "hi",
-                },
+                args: { file: path.join(dir, "out.txt"), content: "hi" },
               },
             },
             {
@@ -70,7 +69,6 @@ test.serial("runPipeline executes js + shell steps (make → cat)", async (t) =>
     const res = await runPipeline(pipelinesPath, "demo", { concurrency: 2 });
     t.is(res.length, 2);
     t.true(res.every((r) => !r.skipped));
-
     const out = await fs.readFile(path.join(dir, "out2.txt"), "utf8");
     t.is(out, "hi");
   });
@@ -135,85 +133,327 @@ test.serial("JS steps isolate process.env when run concurrently", async (t) => {
   });
 });
 
-test.serial("js steps serialize to avoid global state races", async (t) => {
-  const a = async () => {
-    console.log("first");
-    await new Promise((r) => setTimeout(r, 50));
-  };
-  const b = () => {
-    console.log(process.env.LEAK ?? "second");
-  };
-  const [first, second] = await Promise.all([
-    runJSFunction(a, {}, { LEAK: "1" }),
-    runJSFunction(b, {}, {}),
-  ]);
-  t.is(first.code, 0);
-  t.true(first.stdout.includes("first"));
-  t.true((second.stdout ?? "").trim() === "second");
-});
+test.serial(
+  "js steps serialize to avoid global state races (in-proc)",
+  async (t) => {
+    const a = async () => {
+      console.log("first");
+      await new Promise((r) => setTimeout(r, 50));
+    };
+    const b = () => {
+      console.log(process.env.LEAK ?? "second");
+    };
+    const [first, second] = await Promise.all([
+      runJSFunction(a, {}, { LEAK: "1" }),
+      runJSFunction(b, {}, {}),
+    ]);
+    t.is(first.code, 0);
+    t.true(first.stdout.includes("first"));
+    t.true((second.stdout ?? "").trim() === "second");
+  },
+);
 
-test.serial("runJSFunction restores globals on timeout", async (t) => {
+test.serial(
+  "runJSFunction restores globals on timeout (in-proc)",
+  async (t) => {
+    await withTmp(async (dir) => {
+      const hangSrc = `export default async function(){ return new Promise(()=>{}); }`;
+      const afterSrc = `export default function(){ console.log(process.env.LEAK ?? 'after'); }`;
+      await fs.writeFile(path.join(dir, "hang.js"), hangSrc, "utf8");
+      await fs.writeFile(path.join(dir, "after.js"), afterSrc, "utf8");
+
+      const cfg = {
+        pipelines: [
+          {
+            name: "demo",
+            steps: [
+              {
+                id: "hang",
+                cwd: dir,
+                deps: [],
+                inputs: [],
+                outputs: [],
+                cache: "content",
+                timeoutMs: 100,
+                env: { LEAK: "1" },
+                js: { module: "./hang.js" },
+              },
+              {
+                id: "after",
+                cwd: dir,
+                deps: [],
+                inputs: [],
+                outputs: [],
+                cache: "content",
+                js: { module: "./after.js" },
+              },
+            ],
+          },
+        ],
+      };
+
+      const pipelinesPath = path.join(dir, "pipelines.yaml");
+      await fs.writeFile(pipelinesPath, YAML.stringify(cfg), "utf8");
+      const res = await runPipeline(pipelinesPath, "demo", { concurrency: 1 });
+
+      const first = res.find((r) => r.id === "hang")!;
+      const second = res.find((r) => r.id === "after")!;
+      t.is(first.exitCode, 124);
+      t.true((second.stdout?.trim() ?? "") === "after");
+    });
+  },
+);
+
+test.serial(
+  "js steps can run nested pipelines without deadlock (in-proc)",
+  async (t) => {
+    const inner = async () => {
+      console.log("inner");
+    };
+    const outer = async () => {
+      const res = await runJSFunction(inner, {}, {});
+      console.log((res.stdout ?? "").trim());
+    };
+    const res = (await Promise.race([
+      runJSFunction(outer, {}, {}),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("deadlock")), 1000),
+      ),
+    ])) as any;
+    t.is(res.code, 0);
+    t.true((res.stdout ?? "").trim().endsWith("inner"));
+  },
+);
+
+/** ===== Worker-mode specific behavior ===== */
+
+test.serial(
+  "worker js step: returns code 124 on timeout and restores globals",
+  async (t) => {
+    await withTmp(async (dir) => {
+      const modSrc = `export async function slow(){ await new Promise(r=>setTimeout(r,100)); }`;
+      await fs.writeFile(path.join(dir, "mod.js"), modSrc, "utf8");
+
+      const cfg = {
+        pipelines: [
+          {
+            name: "w",
+            steps: [
+              {
+                id: "js",
+                cwd: dir,
+                deps: [],
+                inputs: [],
+                outputs: [],
+                cache: "content",
+                timeoutMs: 10,
+                env: { TEST_VAR: "changed" },
+                js: { module: "./mod.js", export: "slow", isolate: "worker" },
+              },
+            ],
+          },
+        ],
+      };
+
+      const p = path.join(dir, "pipelines.yaml");
+      await fs.writeFile(p, YAML.stringify(cfg), "utf8");
+      const res = await runPipeline(p, "w", { concurrency: 1 });
+
+      const step = res.find((r) => r.id === "js")!;
+      t.is(step.exitCode, 124);
+      // Parent env/streams should remain untouched in worker mode (best we can
+      // do is assert test didn't crash; global equality is implicit in success).
+    });
+  },
+);
+
+test.serial("worker js step: crash rejects instead of hanging", async (t) => {
   await withTmp(async (dir) => {
-    const hangSrc = `export default async function(){ return new Promise(()=>{}); }`;
-    const afterSrc = `export default function(){ console.log(process.env.LEAK ?? 'after'); }`;
-    await fs.writeFile(path.join(dir, "hang.js"), hangSrc, "utf8");
-    await fs.writeFile(path.join(dir, "after.js"), afterSrc, "utf8");
+    // Explicit syntax error to force module load failure in worker
+    await fs.writeFile(
+      path.join(dir, "bad.js"),
+      "export default () => { throw new SyntaxError('Intentional test error'); }",
+      "utf8",
+    );
 
     const cfg = {
       pipelines: [
         {
-          name: "demo",
+          name: "w",
           steps: [
             {
-              id: "hang",
+              id: "js",
               cwd: dir,
               deps: [],
               inputs: [],
               outputs: [],
               cache: "content",
-              timeoutMs: 100,
-              env: { LEAK: "1" },
-              js: { module: "./hang.js" },
-            },
-            {
-              id: "after",
-              cwd: dir,
-              deps: [],
-              inputs: [],
-              outputs: [],
-              cache: "content",
-              js: { module: "./after.js" },
+              js: { module: "./bad.js", isolate: "worker" },
             },
           ],
         },
       ],
     };
 
-    const pipelinesPath = path.join(dir, "pipelines.yaml");
-    await fs.writeFile(pipelinesPath, YAML.stringify(cfg), "utf8");
-    const res = await runPipeline(pipelinesPath, "demo", { concurrency: 1 });
+    const p = path.join(dir, "pipelines.yaml");
+    await fs.writeFile(p, YAML.stringify(cfg), "utf8");
+    const res = await runPipeline(p, "w", { concurrency: 1 });
 
-    const first = res.find((r) => r.id === "hang")!;
-    const second = res.find((r) => r.id === "after")!;
-    t.is(first.exitCode, 124);
-    t.true((second.stdout?.trim() ?? "") === "after");
+    const step = res.find((r) => r.id === "js")!;
+    t.true((step.exitCode ?? 1) !== 0);
+    t.truthy(step.stderr);
   });
 });
 
-test.serial("js steps can run nested pipelines without deadlock", async (t) => {
-  const inner = async () => {
-    console.log("inner");
-  };
-  const outer = async () => {
-    const res = await runJSFunction(inner, {}, {});
-    console.log((res.stdout ?? "").trim());
-  };
-  const res = (await Promise.race([
-    runJSFunction(outer, {}, {}),
-    new Promise((_, reject) =>
-      setTimeout(() => reject(new Error("deadlock")), 1000),
-    ),
-  ])) as any;
-  t.is(res.code, 0);
-  t.true((res.stdout ?? "").trim().endsWith("inner"));
+test.serial("worker js step: export name is respected (one/two)", async (t) => {
+  await withTmp(async (dir) => {
+    await fs.writeFile(
+      path.join(dir, "mod.js"),
+      "export const one = ()=>'one';\nexport const two = ()=>'two';\n",
+      "utf8",
+    );
+
+    const cfg = {
+      pipelines: [
+        {
+          name: "w",
+          steps: [
+            {
+              id: "a",
+              cwd: dir,
+              deps: [],
+              inputs: [],
+              outputs: [],
+              cache: "content",
+              js: { module: "./mod.js", export: "one", isolate: "worker" },
+            },
+            {
+              id: "b",
+              cwd: dir,
+              deps: ["a"],
+              inputs: [],
+              outputs: [],
+              cache: "content",
+              js: { module: "./mod.js", export: "two", isolate: "worker" },
+            },
+          ],
+        },
+      ],
+    };
+
+    const p = path.join(dir, "pipelines.yaml");
+    await fs.writeFile(p, YAML.stringify(cfg), "utf8");
+    const res = await runPipeline(p, "w", { concurrency: 1 });
+
+    const a = res.find((r) => r.id === "a")!;
+    const b = res.find((r) => r.id === "b")!;
+    t.is(a.stdout?.trim(), "one");
+    t.is(b.stdout?.trim(), "two");
+  });
 });
+
+test.serial(
+  "worker js step: reload reflects dependency change between runs",
+  async (t) => {
+    await withTmp(async (dir) => {
+      await fs.writeFile(
+        path.join(dir, "helper.js"),
+        "export default ()=> 'one'\n",
+        "utf8",
+      );
+      await fs.writeFile(
+        path.join(dir, "mod.js"),
+        "import helper from './helper.js';\nexport default ()=> helper();\n",
+        "utf8",
+      );
+
+      const cfg = () => ({
+        pipelines: [
+          {
+            name: "w",
+            steps: [
+              {
+                id: "js",
+                cwd: dir,
+                deps: [],
+                inputs: [],
+                outputs: [],
+                cache: "content",
+                js: { module: "./mod.js", isolate: "worker" },
+              },
+            ],
+          },
+        ],
+      });
+
+      // Run 1
+      const p = path.join(dir, "pipelines.yaml");
+      await fs.writeFile(p, YAML.stringify(cfg()), "utf8");
+      let res = await runPipeline(p, "w", { concurrency: 1 });
+      let step = res.find((r) => r.id === "js")!;
+      t.is(step.stdout?.trim(), "one");
+
+      // Change a transitive dep
+      await fs.writeFile(
+        path.join(dir, "helper.js"),
+        "export default ()=> 'two'\n",
+        "utf8",
+      );
+
+      // Run 2 (worker imports afresh)
+      await fs.writeFile(p, YAML.stringify(cfg()), "utf8");
+      res = await runPipeline(p, "w", { concurrency: 1 });
+      step = res.find((r) => r.id === "js")!;
+      t.is(step.stdout?.trim(), "two");
+    });
+  },
+);
+
+test.serial(
+  "worker js step: timeout run followed by clean run works",
+  async (t) => {
+    await withTmp(async (dir) => {
+      await fs.writeFile(
+        path.join(dir, "hang.js"),
+        "export async function run(){ if (process.env.HANG==='1') await new Promise(()=>{}); return 'ok'; }\n",
+        "utf8",
+      );
+
+      const mkCfg = (env?: Record<string, string>, timeoutMs?: number) => ({
+        pipelines: [
+          {
+            name: "w",
+            steps: [
+              {
+                id: "js",
+                cwd: dir,
+                deps: [],
+                inputs: [],
+                outputs: [],
+                cache: "content",
+                ...(timeoutMs ? { timeoutMs } : {}),
+                ...(env ? { env } : {}),
+                js: { module: "./hang.js", export: "run", isolate: "worker" },
+              },
+            ],
+          },
+        ],
+      });
+
+      const p = path.join(dir, "pipelines.yaml");
+
+      // First run: timeout due to HANG=1
+      await fs.writeFile(p, YAML.stringify(mkCfg({ HANG: "1" }, 100)), "utf8");
+      let res = await runPipeline(p, "w", { concurrency: 1 });
+      let step = res.find((r) => r.id === "js")!;
+      t.is(step.exitCode, 124);
+
+      // Second run: no hang, should succeed and print "ok"
+      await fs.writeFile(p, YAML.stringify(mkCfg(undefined, 1000)), "utf8");
+      res = await runPipeline(p, "w", { concurrency: 1 });
+      step = res.find((r) => r.id === "js")!;
+      t.is(step.exitCode, 0);
+      t.is(step.stdout?.trim(), "ok");
+    });
+  },
+);

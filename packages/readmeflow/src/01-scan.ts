@@ -1,8 +1,9 @@
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
 
-import { parseArgs, readMaybe } from "./utils.js";
 import { openLevelCache } from "@promethean/level-cache";
+
+import { parseArgs, readMaybe } from "./utils.js";
 import type { PkgInfo, ScanOut } from "./types.js";
 
 const args = parseArgs({

@@ -1,6 +1,7 @@
 // packages/test-harness/src/with-page.ts
 import type { ExecutionContext, Macro } from 'ava';
 import type { Page } from 'playwright';
+
 import { newIsolatedPage } from './browser.js';
 
 export type PageGoto = (path?: string) => ReturnType<Page['goto']>;

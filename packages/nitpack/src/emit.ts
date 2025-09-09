@@ -1,5 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import * as path from "node:path";
+
 import { NIT_KEYS, KEY_TITLES } from "./classify.js";
 import type { Classification, NitKey } from "./classify.js";
 
@@ -25,11 +26,7 @@ export const emitTasks = async (a: EmitArgs): Promise<void> => {
       code,
       "utf8",
     ),
-    writeFile(
-      path.join(a.outDir, `pr-${a.pr}-nitpack-policy.md`),
-      pol,
-      "utf8",
-    ),
+    writeFile(path.join(a.outDir, `pr-${a.pr}-nitpack-policy.md`), pol, "utf8"),
   ]);
 };
 
@@ -68,4 +65,3 @@ const renderPolicyTask = (pr: number, policy: readonly string[]): string => {
     "",
   ].join("\n");
 };
-

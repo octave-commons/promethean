@@ -12,6 +12,7 @@ const { modUrl, exportName, args, env } = workerData as {
   const origEnv = { ...process.env };
   const origStdout = process.stdout.write;
   const origStderr = process.stderr.write;
+  const keepAlive = setInterval(() => {}, 1 << 30);
 
   // Apply step env
   Object.assign(process.env, env);
@@ -39,10 +40,13 @@ const { modUrl, exportName, args, env } = workerData as {
 
     if (typeof fn !== "function") {
       throw new Error(`export '${exportName ?? "default"}' is not a function`);
-    const name = exportName ?? "default";
-    const fn = (mod as any)[name];
-    if (typeof fn !== "function") {
-      throw new Error(`JS worker: export '${name}' is not a function in ${modUrl}`);
+      // const name = exportName ?? "default";
+      // const fn = (mod as any)[name];
+      // if (typeof fn !== "function") {
+      //   throw new Error(
+      //     `JS worker: export '${name}' is not a function in ${modUrl}`,
+      //   );
+      // }
     }
 
     const res = await fn(args);
@@ -58,6 +62,7 @@ const { modUrl, exportName, args, env } = workerData as {
       error: e?.stack ?? String(e),
     });
   } finally {
+    clearInterval(keepAlive);
     // Restore globals
     (process.stdout.write as any) = origStdout;
     (process.stderr.write as any) = origStderr;

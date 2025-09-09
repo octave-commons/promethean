@@ -1,4 +1,5 @@
 import type { Macro } from 'ava';
+
 import { ProcSpec, IntegrationTestFn } from './process.js';
 import { startProcess } from './startProcess.js';
 

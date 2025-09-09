@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { withProc } from '../withProc.js';
 
 const sleeper = "console.log('READY'); setTimeout(() => {}, 2000)";
