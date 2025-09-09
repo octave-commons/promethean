@@ -26,7 +26,7 @@ import { topoSort } from "./lib/graph.js";
 import { semaphore } from "./lib/concurrency.js";
 import { loadState, saveState, RunState } from "./lib/state.js";
 import { renderReport } from "./lib/report.js";
-import { emitEvent } from "./lib/events.js";
+import { emitEvent, type PiperEvent } from "./lib/events.js";
 
 type ValidateFn = {
   (data: unknown): boolean;
@@ -112,13 +112,17 @@ function shouldSkip(
 export async function runPipeline(
   configPath: string,
   pipelineName: string,
-  opts: RunOptions & { json?: boolean },
+  opts: RunOptions & {
+    json?: boolean;
+    emit?: (ev: PiperEvent, json: boolean) => void;
+  },
 ): Promise<readonly StepResult[]> {
   const cfg = await readConfig(configPath);
   const pipeline = cfg.pipelines.find((p) => p.name === pipelineName);
   if (!pipeline) throw new Error(`pipeline '${pipelineName}' not found`);
   const steps = topoSort(pipeline.steps);
   const state = await loadState(pipeline.name);
+  const emit = opts.emit ?? emitEvent;
 
   const sem = semaphore(Math.max(1, opts.concurrency ?? 2));
   // Serialize JS module steps to avoid in-proc global-state races.
@@ -149,7 +153,7 @@ export async function runPipeline(
 
       if (opts.dryRun) {
         results.push({ id: s.id, skipped: true, reason: "dry-run" });
-        emitEvent(
+        emit(
           {
             type: "skip",
             stepId: s.id,
@@ -162,7 +166,7 @@ export async function runPipeline(
       }
       if (skip) {
         results.push({ id: s.id, skipped: true, reason });
-        emitEvent(
+        emit(
           { type: "skip", stepId: s.id, at: new Date().toISOString(), reason },
           opts.json ?? false,
         );
@@ -170,10 +174,7 @@ export async function runPipeline(
       }
 
       const startedAt = new Date().toISOString();
-      emitEvent(
-        { type: "start", stepId: s.id, at: startedAt },
-        opts.json ?? false,
-      );
+      emit({ type: "start", stepId: s.id, at: startedAt }, opts.json ?? false);
 
       const runOnce = async () => {
         if (s.inputSchema) {
@@ -227,7 +228,7 @@ export async function runPipeline(
       let execRes = await runOnce();
       while (execRes.code !== 0 && attempt < maxRetry) {
         attempt++;
-        emitEvent(
+        emit(
           {
             type: "retry",
             stepId: s.id,
@@ -259,7 +260,7 @@ export async function runPipeline(
 
       state.steps[s.id] = { fingerprint: fp, endedAt, exitCode: execRes.code };
       await saveState(pipeline.name, state);
-      emitEvent(
+      emit(
         { type: "end", stepId: s.id, at: endedAt, result: out },
         opts.json ?? false,
       );
