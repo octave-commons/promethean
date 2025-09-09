@@ -9,6 +9,7 @@ import { globby } from "globby";
 import { ensureDir } from "@promethean/fs";
 
 import { PiperStep } from "./types.js";
+import { fingerprintJsDeps } from "./hash.js";
 
 export { ensureDir };
 
@@ -97,12 +98,16 @@ export async function runJSFunction(
       }
     };
 
-    (process.stdout.write as any) = (chunk: any) => {
+    (process.stdout.write as any) = (chunk: any, enc?: any, cb?: any) => {
       stdout += typeof chunk === "string" ? chunk : String(chunk);
+      const fn = typeof enc === "function" ? enc : cb;
+      if (typeof fn === "function") fn();
       return true;
     };
-    (process.stderr.write as any) = (chunk: any) => {
+    (process.stderr.write as any) = (chunk: any, enc?: any, cb?: any) => {
       stderr += typeof chunk === "string" ? chunk : String(chunk);
+      const fn = typeof enc === "function" ? enc : cb;
+      if (typeof fn === "function") fn();
       return true;
     };
     for (const [k, v] of Object.entries(env)) {
@@ -125,7 +130,7 @@ export async function runJSFunction(
 
     if (!timeoutMs) return exec();
 
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setTimeout> | undefined;
     return Promise.race([
       exec(),
       new Promise<{ code: number; stdout: string; stderr: string }>(
@@ -136,7 +141,9 @@ export async function runJSFunction(
           }, timeoutMs);
         },
       ),
-    ]).finally(() => clearTimeout(timer));
+    ]).finally(() => {
+      if (timer) clearTimeout(timer);
+    });
   };
 
   // If we already hold the lock in this async context, just run.
@@ -159,13 +166,12 @@ export async function runJSFunction(
 
 /** Worker-isolated JS module runner (captures console safely) */
 async function runJSModuleWorker(
-  modPath: string,
+  modUrl: string,
   exportName: string | undefined,
   args: any,
   env: Record<string, string>,
   timeoutMs?: number,
 ) {
-  const modUrl = pathToFileURL(modPath).href;
   return new Promise<{ code: number | null; stdout: string; stderr: string }>(
     (resolve) => {
       const worker = new Worker(new URL("./js-worker.js", import.meta.url), {
@@ -190,11 +196,8 @@ async function runJSModuleWorker(
 
       if (timeoutMs && timeoutMs > 0) {
         timer = setTimeout(() => {
-          worker
-            .terminate()
-            .finally(() =>
-              finish({ code: 124, stdout, stderr: stderr + "timeout" }),
-            );
+          worker.terminate();
+          finish({ code: 124, stdout, stderr: stderr + "timeout" });
         }, timeoutMs);
       }
 
@@ -223,9 +226,9 @@ async function runJSModuleWorker(
 }
 
 /** JS module runner (default in-proc fast path).
- *  - Env is isolated via a mutex and restored after run.
- *  - Only string return values are forwarded to stdout (console is not captured).
- *  - Set step.js.isolate = "worker" to capture console via worker.
+ *  - Env is isolated and restored after run (calls serialized).
+ *  - Console/stdout/stderr are captured during execution.
+ *  - Set step.js.isolate = "worker" for process isolation; console captured via worker.
  */
 export async function runJSModule(
   step: PiperStep,
@@ -237,19 +240,33 @@ export async function runJSModule(
   const modPath = path.isAbsolute(step.js!.module)
     ? step.js!.module
     : path.resolve(cwd, step.js!.module);
+  let importPath = modPath;
+  if ((step.js as any)?.isolate === "worker") {
+    const { files } = await fingerprintJsDeps(modPath, "content");
+    const base = path.dirname(modPath);
+    const copyDir = path.join(base, ".piper", fp);
+    await Promise.all(
+      files.map(async (f) => {
+        const rel = path.relative(base, f);
+        const dest = path.join(copyDir, rel);
+        await ensureDir(path.dirname(dest));
+        await fs.copyFile(f, dest);
+      }),
+    );
+    importPath = path.join(copyDir, path.relative(base, modPath));
+  }
 
+  const url = pathToFileURL(importPath);
+  url.searchParams.set("fp", fp);
   if ((step.js as any)?.isolate === "worker") {
     return runJSModuleWorker(
-      modPath,
+      url.href,
       step.js!.export,
       step.js!.args ?? {},
       env,
       timeoutMs,
     );
   }
-
-  const url = pathToFileURL(modPath);
-  url.search = `?fp=${fp}`;
   const mod: any = await import(url.href);
   const fn = (step.js!.export && mod[step.js!.export]) || mod.default || mod;
   return runJSFunction(fn, step.js!.args ?? {}, env, timeoutMs);
@@ -309,30 +326,22 @@ function runSpawn(
       const killTimer =
         opts.timeoutMs && opts.timeoutMs > 0
           ? setTimeout(() => {
+              timedOut = true;
               try {
                 if (process.platform !== "win32" && child.pid) {
                   process.kill(-child.pid, "SIGKILL");
                 } else {
                   child.kill("SIGKILL");
                 }
-                timedOut = true;
               } catch (killError: any) {
-                // EPERM, ESRCH are expected; others might be system issues
                 if (killError.code === "ESRCH") {
-                  // Process already dead - that's fine
+                  // process already dead
                 } else if (killError.code === "EPERM") {
-                  // Permission denied - log it but don't fail the timeout
                   console.warn(
                     `Permission denied killing process ${child.pid}`,
                   );
                 } else {
-                  // Unexpected failure - this might be important
-                  reject(
-                    new Error(
-                      `Unexpected error killing process ${child.pid}: ${killError}`,
-                    ),
-                  );
-                  console.error();
+                  err += `\nkill failed: ${killError.message ?? killError}`;
                 }
               }
             }, opts.timeoutMs)
@@ -343,7 +352,7 @@ function runSpawn(
       child.on("close", (code) => {
         if (killTimer) clearTimeout(killTimer as any);
         resolve({
-          code,
+          code: timedOut ? 124 : code,
           stdout: out,
           stderr: timedOut ? err + "timeout" : err,
         });

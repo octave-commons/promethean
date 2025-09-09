@@ -38,10 +38,16 @@ async function readConfig(p: string): Promise<PiperFile> {
   const raw = await fs.readFile(p, "utf-8");
   // Support YAML (preferred) and JSON for backwards compat.
   const lower = p.toLowerCase();
-  const obj =
-    lower.endsWith(".yaml") || lower.endsWith(".yml")
-      ? YAML.parse(raw)
-      : JSON.parse(raw);
+  let obj: unknown;
+  if (lower.endsWith(".yaml") || lower.endsWith(".yml")) {
+    obj = YAML.parse(raw);
+  } else {
+    try {
+      obj = JSON.parse(raw);
+    } catch (e: any) {
+      throw new Error(`failed to parse JSON config ${p}: ${e?.message ?? e}`);
+    }
+  }
   const parsed = FileSchema.safeParse(obj);
   if (!parsed.success) {
     throw new Error("pipelines config invalid: " + parsed.error.message);
@@ -147,12 +153,20 @@ export async function runPipeline(
       } else if (s.ts) {
         execRes = await runTSModule(s, cwd, s.env, s.timeoutMs);
       } else if (s.js) {
-        // We centralize in-proc vs worker choice inside fsutils.runJSModule
-        await jsSem.take();
-        jsLocked = true;
+        const needJsLock = (s.js as any)?.isolate !== "worker";
+        if (needJsLock) {
+          await jsSem.take();
+          jsLocked = true;
+        }
         try {
           execRes = await runJSModule(s, cwd, s.env, fp, s.timeoutMs);
-        } catch (e: any) {}
+        } catch (e: any) {
+          execRes = {
+            code: 1,
+            stdout: "",
+            stderr: e?.stack ?? String(e),
+          };
+        }
       }
 
       const endedAt = new Date().toISOString();
