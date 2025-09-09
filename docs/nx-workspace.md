@@ -11,3 +11,5 @@ Promethean uses [Nx](https://nx.dev) to coordinate builds and tests across packa
 - `pnpm nx typecheck <project>` – type-check a package.
 
 Each package under `packages/` provides a `project.json` describing its build and test targets. The root `nx.json` sets default caching and dependency behavior.
+
+For quick local checks, `pnpm lint:diff` runs ESLint only on files changed since `origin/main`. It's much faster than `pnpm lint`, which lints the entire repository; use the full lint only in CI or when necessary.
