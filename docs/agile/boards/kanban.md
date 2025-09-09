@@ -6,6 +6,9 @@ kanban-plugin: board
 
 ## Rejected
 
+- [ ] [[run_model_bakeoff_md|Run model bakeoff]] #ops #codex-task #IceBox #ready
+- [ ] [[kanban-processor]] #todo
+- [ ] [[setup_a_second_agent_md|setup a second agent md]] #framework-core #IceBox #todo
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #in-progress
 - [ ] [[run_model_bakeoff_md|Run model bakeoff]] #todo
 - [ ] [[gather_open_questions_about_system_direction_md_md|Gather open questions about system direction]] #todo
@@ -95,6 +98,7 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] [[redefine-all-existing-lambdas-with-high-order-functions-incoming|redefine all existing lambdas with high order functions incoming]] #framework-core #framework-core #Ready #todo
 - [ ] [[finish_whisper_npu_system_md_md|finish whisper npu system md md]] #breakdown
 - [ ] [[implement_fragment_ingestion_with_activation_vecto_md|Implement fragment ingestion with activation vectors]] #ice-box
 - [ ] [[schedule_alignment_meeting_with_stakeholders_md_md|Schedule alignment meeting with stakeholders]] #ice-box
@@ -187,6 +191,53 @@ kanban-plugin: board
 - [ ] [[auth_ci_and_load_tests|auth ci and load tests]] #auth #testing #performance #breakdown
 
 
+## Blocked
+
+- [ ] [[auth_service_scaffold_and_endpoints|auth service scaffold and endpoints]] #incoming
+- [ ] [[snapshot_prompts_specs_to_repo|Snapshot prompts specs to repo]] #todo
+- [ ] [[discord_image_awareness_md_md|discord image awareness md md]] #in-progress
+- [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #todo
+- [ ] [[llm-service-must-allow-streamed-responses|LLM service must allow streamed responses]] #ready
+- [ ] [[broker-gpt-bridge-parity-plan|broker gpt bridge parity plan]] #broker #gptbridge #testing #parity #ws #http #ci #observability #promethean #versioning #tags #broker #gptbridge #parity #ws #http #testing #ci #observability #promethean #in-review
+- [ ] [[context-service|context service]] #ready
+- [ ] [[auth_key_rotation_and_bootstrap|auth key rotation and bootstrap]] #auth #security #rotation #ready
+- [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #framework-core #eidolon-support #IceBox #ready
+- [ ] [[audio-processing-service|audio processing service]] #framework-core #framework-core #Ready #ready
+- [ ] [[connect-wikipedia|connect wikipedia]] #Ready #Ready #ready
+- [ ] [[add-git-commands-to-gpt-bridge|Add git commands to gpt bridge]] #ready
+- [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md|Add semantic overlays for layer1 through layer8]] #layerX #framework-core #IceBox #ready
+- [ ] [[discord_image_awareness_md_md|discord image awareness md md]] #framework-core #ollama-integration #ready
+- [ ] [[connect-reddit|connect reddit]] #Ready #Ready #ready
+- [ ] [[connect-bluesky|connect bluesky]] #Ready #ready
+- [ ] [[clearly-standardize-data-models|clearly standardize data models]] #framework-core #framework-core #Ready #ready
+- [ ] [[set-up-new-user-roles-and-policies-for-the-systems|Set up new user roles and policies for the systems]] #ready
+- [ ] [[snapshot_prompts_specs_to_repo|Snapshot prompts specs to repo]] #IceBox #ready
+- [ ] [[llm-service-must-accept-tool-calls|LLM service must accept tool calls]] #framework-core #framework-core #Ready #ready
+- [ ] [[make-the-system-hashtag-aware|Make the system hashtag aware]] #ready
+- [ ] [[mvp-local-llm-chat-interface-with-tool-calls-connected-to-gpt-bridge|MVP local LLM chat interface with tool calls connected to gpt bridge]] #agents #ws #openapi #tools #smartgpt-bridge #prompts #promethean #tags #promethean #pythagoras #ws #llm-worker #smartgpt-bridge #openapi #tool-calling #testing #docs #ready
+- [ ] [[promethean-health-dashboard|Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #IceBox #ready
+- [ ] [[webcrawler]] #Tags #agents #crawler #llm #summarization #chroma #mongodb #etl #dual-sink #search #observability #promethean #tag #tags #tags #c #ai #ethics #promethean #login #home #tags #promethean #agent #crawler #hyperlink-graph #summarization #tags #obsidian #chroma #mongodb #dual-sink #fastify #ollama #qwen #readability #robots #search #observability #in-progress
+- [ ] [[seperate-discord-commands-from-the-actions-they-perform|seperate discord commands from the actions they perform]] #shared #framework-core #cephalon #dependency-injection #separation-of-concerns #actions #commands #discord #in-progress
+- [ ] [[lisp-ecosystem-files|lisp ecosystem files]] #Breakdown #todo
+- [ ] [[reach_100_percent_complete_test_coverage_1_md_md|reach 100 percent complete test coverage 1 md md]] #framework-core #IceBox #todo
+- [ ] [[lisp-package-files|lisp package files]] #framework-core #framework-core #Ready #todo
+- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md|full agent mode text chat selectively join channels etc md]] #breakdown
+- [ ] [[openai-compatable-api|OpenAI compatable api]] #in-progress
+- [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|refactor speech interuption system to be more inteligent using audio data to decide if interupted md md]] #framework-core #Breakdown #todo
+- [ ] [[implement-classes-in-compiler-lisp-incoming|implement classes in compiler lisp incoming]] #in-progress
+- [ ] [[discord_chat_link_traversal_md_md|discord chat link traversal md md]] #todo
+- [ ] [[cephalon_tests_for_persistence_and_ecs|cephalon tests for persistence and ecs]] #incoming
+- [ ] [[auth_migrate_services_to_jwt|auth migrate services to jwt]] #incoming
+- [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #todo
+- [ ] [[cephalon_store_user_transcripts_unified|cephalon store user transcripts unified]] #incoming
+- [ ] [[cephalon_event_schema_updates|cephalon event schema updates]] #incoming
+- [ ] [[auth_service_rfc_and_architecture|auth service rfc and architecture]] #incoming
+- [ ] [[auth_ci_and_load_tests|auth ci and load tests]] #incoming
+- [ ] [[set-up-data-migration-pipeline-and-clearly-describe-conventions|set up data migration pipeline and clearly describe conventions]] #data #migrations #contracts #mongodb #chroma #testing #ci #promethean #tags #promethean #mongodb #chroma #migration #contracts #testing #ci #safety #idempotent #in-progress
+- [ ] [[periodicly-the-embedding-service-will-get-disconnected-from-the-broker-and-not-die--blocking-other-processes-who-require-embeddings.-incoming|periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]] #embeddings #broker #heartbeat #healthchecks #overload #resilience #promethean #tags #embeddings #reliability #heartbeat #watchdog #overload #backpressure #chaos #pm2 #broker #promethean #in-review
+- [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids|identify and resolve a service client apparently connecting repeatedly to broker with new session ids]] #in-progress
+
+
 ## Ready
 
 - [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #todo
@@ -207,56 +258,19 @@ kanban-plugin: board
 - [ ] [[thinking_model_integration_md_md|thinking model integration md md]] #framework-core #Breakdown #todo
 - [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
 - [ ] [[tamper-monkey-script-for-using-templates-defined-in-the-vault|tamper monkey script for using templates defined in the vault]] #todo
-- [ ] [[setup_a_second_agent_md|setup a second agent md]] #framework-core #IceBox #todo
-- [ ] [[refactor_speech_interuption_system_to_be_more_inteligent_using_audio_data_to_decide_if_interupted_md_md|refactor speech interuption system to be more inteligent using audio data to decide if interupted md md]] #framework-core #Breakdown #todo
-- [ ] [[redefine-all-existing-lambdas-with-high-order-functions-incoming|redefine all existing lambdas with high order functions incoming]] #framework-core #framework-core #Ready #todo
-- [ ] [[flatten-services|flatten services]] #framework-core #framework-core #Ready #todo
-- [ ] [[openai-compatable-api|OpenAI compatable api]] #in-progress
-- [ ] [[kanban-processor]] #todo
-- [ ] [[discord_chat_link_traversal_md_md|discord chat link traversal md md]] #todo
 - [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #todo
-- [ ] [[implement-classes-in-compiler-lisp-incoming|implement classes in compiler lisp incoming]] #in-progress
 - [ ] [[phase-out-proxy-in-favor-of-bridge-service|Phase out proxy in favor of bridge service]] #framework-core #framework-core #Todo #in-progress
+- [ ] [[docs/agile/tasks/file-explorer|File explorer]] #framework-core #ready
 - [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #Breakdown #todo
 - [ ] [[frontend-build-tool-chain|frontend build tool chain]] #devops #devops #Ready #todo
+- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #IceBox #ready
 - [ ] [[discord_chat_link_traversal_md_md|discord chat link traversal md md]] #framework-core #IceBox #todo
-- [ ] [[reach_100_percent_complete_test_coverage_1_md_md|reach 100 percent complete test coverage 1 md md]] #framework-core #IceBox #todo
-- [ ] [[lisp-package-files|lisp package files]] #framework-core #framework-core #Ready #todo
-- [ ] [[lisp-ecosystem-files|lisp ecosystem files]] #Breakdown #todo
-- [ ] [[seperate-discord-commands-from-the-actions-they-perform|seperate discord commands from the actions they perform]] #shared #framework-core #cephalon #dependency-injection #separation-of-concerns #actions #commands #discord #in-progress
 - [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
-- [ ] [[webcrawler]] #Tags #agents #crawler #llm #summarization #chroma #mongodb #etl #dual-sink #search #observability #promethean #tag #tags #tags #c #ai #ethics #promethean #login #home #tags #promethean #agent #crawler #hyperlink-graph #summarization #tags #obsidian #chroma #mongodb #dual-sink #fastify #ollama #qwen #readability #robots #search #observability #in-progress
 - [ ] [[create-broker-services-that-can-handle-all-the-same-tasks-as-the-gpt-bridge|Create broker services that can handle all the same tasks as the gpt bridge]] #broker #ws #api #gptbridge #parity #promethean #ops #ready
-- [ ] [[make-the-system-hashtag-aware|Make the system hashtag aware]] #ready
-- [ ] [[docs/agile/tasks/file-explorer|File explorer]] #framework-core #ready
-- [ ] [[promethean-health-dashboard|Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #IceBox #ready
-- [ ] [[llm-service-must-allow-streamed-responses|LLM service must allow streamed responses]] #ready
-- [ ] [[mvp-local-llm-chat-interface-with-tool-calls-connected-to-gpt-bridge|MVP local LLM chat interface with tool calls connected to gpt bridge]] #agents #ws #openapi #tools #smartgpt-bridge #prompts #promethean #tags #promethean #pythagoras #ws #llm-worker #smartgpt-bridge #openapi #tool-calling #testing #docs #ready
-- [ ] [[llm-service-must-accept-tool-calls|LLM service must accept tool calls]] #framework-core #framework-core #Ready #ready
-- [ ] [[run_model_bakeoff_md|Run model bakeoff]] #ops #codex-task #IceBox #ready
-- [ ] [[set-up-new-user-roles-and-policies-for-the-systems|Set up new user roles and policies for the systems]] #ready
-- [ ] [[snapshot_prompts_specs_to_repo|Snapshot prompts specs to repo]] #IceBox #ready
 - [ ] [[update_makefile_to_have_commands_specific_for_agents_md|Update Makefile to have commands specific for agents]] #devops #devops #Ready #ready
 - [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #framework-core #IceBox #ready
-- [ ] [[clearly-standardize-data-models|clearly standardize data models]] #framework-core #framework-core #Ready #ready
-- [ ] [[connect-bluesky|connect bluesky]] #Ready #ready
-- [ ] [[connect-reddit|connect reddit]] #Ready #Ready #ready
-- [ ] [[connect-wikipedia|connect wikipedia]] #Ready #Ready #ready
-- [ ] [[context-service|context service]] #ready
-- [ ] [[convert-current-services-to-packages--then-redefine-the-services-using-config-files|convert current services to packages, then redefine the services using config files]] #framework-core #framework-core #Ready #ready
-- [ ] [[convert-smartgpt-bridge-to-ts|convert smartgpt bridge to ts]] #ready
-- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #IceBox #ready
-- [ ] [[discord_image_awareness_md_md|discord image awareness md md]] #framework-core #ollama-integration #ready
-- [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md|Add semantic overlays for layer1 through layer8]] #layerX #framework-core #IceBox #ready
-- [ ] [[add-git-commands-to-gpt-bridge|Add git commands to gpt bridge]] #ready
-- [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
-- [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
 - [ ] [[cephalon_store_user_transcripts_unified|cephalon store user transcripts unified]] #cephalon #transcripts #persistence #ready
-- [ ] [[audio-processing-service|audio processing service]] #framework-core #framework-core #Ready #ready
-- [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #framework-core #eidolon-support #IceBox #ready
-- [ ] [[script-for-getting-github-action-workflow-states-for-a-branch|script for getting github action workflow states for a branch]] #ready
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ready
-- [ ] [[auth_key_rotation_and_bootstrap|auth key rotation and bootstrap]] #auth #security #rotation #ready
 - [ ] [[auth_migrate_services_to_jwt|auth migrate services to jwt]] #auth #migration #services #ready
 - [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #scripts #docs #ready
 - [ ] [[ecs_projection_jobs|ecs projection jobs]] #ecs #projections #compaction #ready
@@ -277,28 +291,12 @@ kanban-plugin: board
 - [ ] [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks Persistence Migration to DualStore]] #ready
 
 
-## Blocked
-
-- [ ] [[auth_service_scaffold_and_endpoints|auth service scaffold and endpoints]] #incoming
-- [ ] [[snapshot_prompts_specs_to_repo|Snapshot prompts specs to repo]] #todo
-- [ ] [[discord_image_awareness_md_md|discord image awareness md md]] #in-progress
-- [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #todo
-- [ ] [[broker-gpt-bridge-parity-plan|broker gpt bridge parity plan]] #broker #gptbridge #testing #parity #ws #http #ci #observability #promethean #versioning #tags #broker #gptbridge #parity #ws #http #testing #ci #observability #promethean #in-review
-- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md|full agent mode text chat selectively join channels etc md]] #breakdown
-- [ ] [[cephalon_tests_for_persistence_and_ecs|cephalon tests for persistence and ecs]] #incoming
-- [ ] [[auth_migrate_services_to_jwt|auth migrate services to jwt]] #incoming
-- [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #todo
-- [ ] [[cephalon_store_user_transcripts_unified|cephalon store user transcripts unified]] #incoming
-- [ ] [[cephalon_event_schema_updates|cephalon event schema updates]] #incoming
-- [ ] [[auth_service_rfc_and_architecture|auth service rfc and architecture]] #incoming
-- [ ] [[auth_ci_and_load_tests|auth ci and load tests]] #incoming
-- [ ] [[set-up-data-migration-pipeline-and-clearly-describe-conventions|set up data migration pipeline and clearly describe conventions]] #data #migrations #contracts #mongodb #chroma #testing #ci #promethean #tags #promethean #mongodb #chroma #migration #contracts #testing #ci #safety #idempotent #in-progress
-- [ ] [[periodicly-the-embedding-service-will-get-disconnected-from-the-broker-and-not-die--blocking-other-processes-who-require-embeddings.-incoming|periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]] #embeddings #broker #heartbeat #healthchecks #overload #resilience #promethean #tags #embeddings #reliability #heartbeat #watchdog #overload #backpressure #chaos #pm2 #broker #promethean #in-review
-- [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids|identify and resolve a service client apparently connecting repeatedly to broker with new session ids]] #in-progress
-
-
 ## Todo (21)
 
+- [ ] [[convert-current-services-to-packages--then-redefine-the-services-using-config-files|convert current services to packages, then redefine the services using config files]] #framework-core #framework-core #Ready #ready
+- [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
+- [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
+- [ ] [[script-for-getting-github-action-workflow-states-for-a-branch|script for getting github action workflow states for a branch]] #ready
 
 
 ## In Progress (8)
@@ -312,6 +310,8 @@ kanban-plugin: board
 ## Done
 
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #breakdown
+- [ ] [[flatten-services|flatten services]] #framework-core #framework-core #Ready #todo
+- [ ] [[convert-smartgpt-bridge-to-ts|convert smartgpt bridge to ts]] #ready
 - [ ] [[post-move-stablization--compat-layer---hook-diet-]] #precommit #refactor #typescript #python #imports #compat #monorepo #tooling #stabilization #accepted
 - [ ] [[add_file_system_to_context_management_system_md_md|add file system to context management system md md]] #todo
 - [ ] [[setup-new-service-generator|setup new service generator]] #framework-core #in-review
