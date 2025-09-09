@@ -65,22 +65,47 @@ export function registerIndexerRoutes(v1: any) {
       const { op, path: p } = req.body || {};
       try {
         if (op === "index") {
-          if (!p) return reply.code(400).send({ ok: false, error: "missing path" });
-          const res = await v1.inject({ method: "POST", url: "/v0/indexer/index", payload: { path: String(p) }, headers: req.headers });
+          if (!p)
+            return reply.code(400).send({ ok: false, error: "missing path" });
+          const res = await v1.inject({
+            method: "POST",
+            url: "/v0/indexer/index",
+            payload: { path: String(p) },
+            headers: req.headers,
+          });
           return reply.code(res.statusCode).send(res.json());
         } else if (op === "remove") {
-          if (!p) return reply.code(400).send({ ok: false, error: "missing path" });
-          const res = await v1.inject({ method: "POST", url: "/v0/indexer/remove", payload: { path: String(p) }, headers: req.headers });
+          if (!p)
+            return reply.code(400).send({ ok: false, error: "missing path" });
+          const res = await v1.inject({
+            method: "POST",
+            url: "/v0/indexer/remove",
+            payload: { path: String(p) },
+            headers: req.headers,
+          });
           return reply.code(res.statusCode).send(res.json());
         } else if (op === "reset") {
-          const res = await v1.inject({ method: "POST", url: "/v0/indexer/reset", headers: req.headers });
+          const res = await v1.inject({
+            method: "POST",
+            url: "/v0/indexer/reset",
+            headers: req.headers,
+          });
           return reply.code(res.statusCode).send(res.json());
         } else if (op === "reindex") {
           if (p) {
-            const res = await v1.inject({ method: "POST", url: "/v0/files/reindex", payload: { path: p }, headers: req.headers });
+            const res = await v1.inject({
+              method: "POST",
+              url: "/v0/files/reindex",
+              payload: { path: p },
+              headers: req.headers,
+            });
             return reply.code(res.statusCode).send(res.json());
           } else {
-            const res = await v1.inject({ method: "POST", url: "/v0/reindex", headers: req.headers });
+            const res = await v1.inject({
+              method: "POST",
+              url: "/v0/reindex",
+              headers: req.headers,
+            });
             return reply.code(res.statusCode).send(res.json());
           }
         }

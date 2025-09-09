@@ -40,12 +40,17 @@ export function registerAgentRoutes(v1: any) {
       summary: "Get agent status",
       operationId: "getAgentStatus",
       tags: ["Agents"],
-      params: { type: "object", required: ["id"], properties: { id: { type: "string" } } },
+      params: {
+        type: "object",
+        required: ["id"],
+        properties: { id: { type: "string" } },
+      },
     },
     handler: proxy(
       v1,
       "GET",
-      (req: any) => `/v0/agent/status?id=${encodeURIComponent(String(req.params.id))}`,
+      (req: any) =>
+        `/v0/agent/status?id=${encodeURIComponent(String(req.params.id))}`,
       undefined,
     ),
   });
@@ -59,19 +64,30 @@ export function registerAgentRoutes(v1: any) {
       summary: "Get agent logs",
       operationId: "getAgentLogs",
       tags: ["Agents"],
-      params: { type: "object", required: ["id"], properties: { id: { type: "string" } } },
+      params: {
+        type: "object",
+        required: ["id"],
+        properties: { id: { type: "string" } },
+      },
       querystring: {
         type: "object",
         properties: {
           tail: { type: "integer", minimum: 1, maximum: 5000, default: 500 },
-          level: { type: "string", enum: ["debug", "info", "warn", "error"], nullable: true },
+          level: {
+            type: "string",
+            enum: ["debug", "info", "warn", "error"],
+            nullable: true,
+          },
         },
       },
     },
     handler: proxy(
       v1,
       "GET",
-      (req: any) => `/v0/agent/tail?id=${encodeURIComponent(String(req.params.id))}&bytes=${Number(req.query?.tail || 500)}`,
+      (req: any) =>
+        `/v0/agent/tail?id=${encodeURIComponent(
+          String(req.params.id),
+        )}&bytes=${Number(req.query?.tail || 500)}`,
       undefined,
     ),
   });
@@ -85,12 +101,17 @@ export function registerAgentRoutes(v1: any) {
       summary: "Stream agent logs (SSE)",
       operationId: "streamAgentLogs",
       tags: ["Agents"],
-      params: { type: "object", required: ["id"], properties: { id: { type: "string" } } },
+      params: {
+        type: "object",
+        required: ["id"],
+        properties: { id: { type: "string" } },
+      },
     },
     handler: proxy(
       v1,
       "GET",
-      (req: any) => `/v0/agent/stream?id=${encodeURIComponent(String(req.params.id))}`,
+      (req: any) =>
+        `/v0/agent/stream?id=${encodeURIComponent(String(req.params.id))}`,
       undefined,
     ),
   });
@@ -104,13 +125,21 @@ export function registerAgentRoutes(v1: any) {
       summary: "Control agent",
       operationId: "controlAgent",
       tags: ["Agents"],
-      params: { type: "object", required: ["id"], properties: { id: { type: "string" } } },
+      params: {
+        type: "object",
+        required: ["id"],
+        properties: { id: { type: "string" } },
+      },
       body: {
         type: "object",
         required: ["op"],
         properties: {
           op: { type: "string", enum: ["send", "interrupt", "resume", "kill"] },
-          input: { type: "string", nullable: true, description: "Message for op=send" },
+          input: {
+            type: "string",
+            nullable: true,
+            description: "Message for op=send",
+          },
         },
       },
     },
@@ -134,9 +163,15 @@ export function registerAgentRoutes(v1: any) {
       } else {
         return reply.code(400).send({ ok: false, error: "invalid op" });
       }
-      const res = await v1.inject({ method: "POST", url, payload, headers: req.headers });
+      const res = await v1.inject({
+        method: "POST",
+        url,
+        payload,
+        headers: req.headers,
+      });
       reply.code(res.statusCode);
-      for (const [k, v] of Object.entries(res.headers)) reply.header(k, v as any);
+      for (const [k, v] of Object.entries(res.headers))
+        reply.header(k, v as any);
       try {
         reply.send(res.json());
       } catch {
