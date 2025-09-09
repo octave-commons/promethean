@@ -31,6 +31,6 @@ This documentation will guide you through the various fields within the Template
 |`splitter.chunkSize`|Number|Size of each chunk for input data splitting.||
 |`splitter.chunkOverlap`|Number|Overlapping elements between consecutive chunks.||
 |`strict`|Boolean|Forces the user to fill all the Variables before running the template.||
-|`viewTypes`|Array of Strings|Tells Obsidan what files are supported (markdown, excalidraw, canvas)||
+|`viewTypes`|Array of Strings|Tells Obsidian what files are supported (markdown, excalidraw, canvas)||
 
 To create a professional and clear Template File Metadata, follow these best practices:
