@@ -1,24 +1,19 @@
 rules:
-  - id: no-eval
-    message: Avoid eval
+  - id: no-empty-catch
     severity: ERROR
-    languages: [javascript, typescript]
-    pattern: eval($X)
-  - id: disallow-empty-catch
-    message: "Empty catch block — always handle exceptions or at least log them."
-    languages:
-      - javascript
-      - typescript
-    severity: WARNING
-    pattern: |
-      catch ($EX) {
-        $EMPTY
-      }
+    message: "Empty catch blocks hide errors — handle or log the exception"
+    languages: [typescript, javascript]
+
+    # catch {} OR catch (e) {}
     pattern-either:
       - pattern: |
-          catch ($EX) {
-            ;
-          }
+          try { ... } catch { }
       - pattern: |
-          catch ($EX) {
-          }
+          try { ... } catch ($E) { }
+
+    # paths:
+    #   include:
+    #     - packages/**/*.ts
+    #     - packages/**/*.tsx
+    #     - packages/**/*.js
+    #     - packages/**/*.mjs

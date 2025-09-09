@@ -13,6 +13,11 @@ repos:
         args: [--ignore-path=.prettierignore]
   - repo: local
     hooks:
+      - id: piper-build
+        name: Ensure Install Succeeds
+        entry: pnpm --filter @promethean/piper build
+        language: system
+        pass_filenames: false
       - id: gen-ecosystem
         name: Generate ecosystem config
         entry: pnpm gen:ecosystem
