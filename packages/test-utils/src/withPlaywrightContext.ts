@@ -9,11 +9,7 @@ export const withPlaywrightContext: Macro<[BrowserTestFn]> = {
         const url = (path = '/') => new URL(path, base).toString();
         const pageGoto = (path = '/') => page.goto(url(path), { waitUntil: 'domcontentloaded' });
 
-        try {
-            await fn(t, { url, pageGoto });
-        } finally {
-            await close();
-        }
+        await Promise.resolve(fn(t, { page, url, pageGoto })).finally(() => close());
     },
     title: (providedTitle = '', _fn) => providedTitle || 'withContext',
 };
