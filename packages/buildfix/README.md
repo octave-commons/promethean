@@ -26,3 +26,17 @@ pnpm --filter @promethean/piper run buildfix --config packages/buildfix/pipeline
 3. **bf-report** – render a Markdown report under `docs/agile/reports/buildfix`.
 
 See `pipelines.json` for the full configuration.
+
+## Tests
+
+Run unit and integration tests:
+
+```sh
+pnpm --filter @promethean/buildfix test
+```
+
+Run only the integration tests:
+
+```sh
+pnpm --filter @promethean/buildfix test:integration
+```
