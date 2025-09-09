@@ -4,6 +4,7 @@ import { promises as fs } from "node:fs";
 
 import fastifyFactory from "fastify";
 import fastifyStatic from "@fastify/static";
+import fastifyRateLimit from "@fastify/rate-limit";
 import type { FastifyReply } from "fastify";
 
 import { runPipeline } from "./runner.js";
@@ -42,6 +43,10 @@ function sseInit(reply: FastifyReply) {
 
 const app = fastifyFactory({ logger: false });
 await app.register(fastifyStatic, { root: UI_ROOT, prefix: "/ui" });
+await app.register(fastifyRateLimit, {
+  max: 100, // max 100 requests per window
+  timeWindow: 15 * 60 * 1000, // 15 minutes
+});
 
 app.get("/health", async (_req, reply) => {
   reply.header("content-type", "application/json");
