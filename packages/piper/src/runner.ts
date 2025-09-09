@@ -175,7 +175,7 @@ export async function runPipeline(
         opts.json ?? false,
       );
 
-      const execRes = await (async () => {
+      const runOnce = async () => {
         if (s.inputSchema) {
           try {
             const inFiles = await globby(s.inputs, { cwd });
@@ -220,7 +220,28 @@ export async function runPipeline(
           }
         }
         return base;
-      })();
+      };
+
+      let attempt = 0;
+      const maxRetry = Math.max(0, Math.floor(s.retry ?? 0));
+      let execRes = await runOnce();
+      while (execRes.code !== 0 && attempt < maxRetry) {
+        attempt++;
+        emitEvent(
+          {
+            type: "retry",
+            stepId: s.id,
+            at: new Date().toISOString(),
+            attempt,
+            exitCode: execRes.code,
+          },
+          opts.json ?? false,
+        );
+        console.log(
+          `[piper] step ${s.id} failed (exit ${execRes.code}); retry ${attempt}/${maxRetry}`,
+        );
+        execRes = await runOnce();
+      }
 
       const endedAt = new Date().toISOString();
       const out: StepResult = {
