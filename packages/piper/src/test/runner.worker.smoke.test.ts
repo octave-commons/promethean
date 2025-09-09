@@ -1,7 +1,9 @@
 import * as fs from "fs/promises";
 import * as path from "path";
+
 import test from "ava";
 import YAML from "yaml";
+
 import { runPipeline } from "../runner.js";
 
 async function withTmp(fn: (dir: string) => Promise<void>) {

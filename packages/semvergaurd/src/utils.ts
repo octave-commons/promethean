@@ -11,7 +11,7 @@ export function parseArgs(def: Record<string, string>) {
     if (!k.startsWith("--")) continue;
     const next = a[i + 1];
     const useNext = !!next && !next.startsWith("--");
-    const v = useNext ? next! : "true";
+    const v = useNext ? next : "true";
     if (useNext) i++;
     out[k] = v;
   }

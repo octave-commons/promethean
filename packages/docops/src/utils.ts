@@ -1,13 +1,15 @@
 import { promises as fs } from "fs";
 import * as path from "path";
+import { once } from "node:events";
+import { createWriteStream } from "node:fs";
+import { randomUUID as nodeRandomUUID } from "node:crypto";
+
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
 import * as yaml from "yaml";
-import { once } from "node:events";
+
 import { Chunk, Front } from "./types.js";
-import { createWriteStream } from "node:fs";
-import { randomUUID as nodeRandomUUID } from "node:crypto";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
@@ -21,7 +23,7 @@ export function parseArgs(
     if (k.startsWith("--")) {
       const next = argv[i + 1];
       const useNext = !!next && !next.startsWith("--");
-      const v = useNext ? next! : "true";
+      const v = useNext ? next : "true";
       if (useNext) i++;
       out[k] = v;
     }

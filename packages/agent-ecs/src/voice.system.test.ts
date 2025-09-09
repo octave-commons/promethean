@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { createAgentWorld } from './world.js';
 import { VoiceSystem } from './systems/voice.js';
 

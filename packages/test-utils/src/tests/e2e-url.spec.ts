@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { mkUrlBuilder } from '../e2e.js';
 
 test('mkUrlBuilder builds absolute URLs when base provided', (t) => {

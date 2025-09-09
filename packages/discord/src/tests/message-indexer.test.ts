@@ -1,5 +1,4 @@
 import test from "ava";
-
 import { indexMessage } from "@promethean/discord";
 
 test("indexes with provider+tenant key", async (t) => {

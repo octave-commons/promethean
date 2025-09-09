@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { tsToLisp } from './ts2lisp.js';
 
 test('transpiles TypeScript to Lisp', async (t) => {

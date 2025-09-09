@@ -1,10 +1,15 @@
 // packages/docops/src/04-relations.ts
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
+import { pathToFileURL } from "node:url";
+
 import matter from "gray-matter";
+
 import type { DBs } from "./db.js";
 import { parseArgs } from "./utils.js";
 import type { Chunk, Front, QueryHit } from "./types.js";
+
+// CLI
 
 export type RelationsOptions = {
   docsDir: string;
@@ -108,8 +113,7 @@ export async function runRelations(
     const acc = new Map<string, Ref>();
     for (let ci = 0; ci < chunks.length; ci++) {
       const c = chunks[ci]!;
-      const hs = ((await qhitsKV.get(c.id).catch(() => [])) ||
-        []) as readonly QueryHit[];
+      const hs = (await qhitsKV.get(c.id).catch(() => [])) || [];
       for (const h of hs) {
         if (!allowed.has(h.docUuid)) continue;
         const s = h.score ?? 0;
@@ -178,14 +182,13 @@ export async function runRelations(
     return fs.readFile(fpath, "utf8").then(async (raw) => {
       const gm = matter(raw);
       const fm = (gm.data || {}) as Front;
-      const chunks = (await chunkLoader.get(uuid)) as readonly Chunk[];
+      const chunks = await chunkLoader.get(uuid);
 
       // Compute peers: for each chunk, accumulate max score per target doc
       const maxScore = new Map<string, number>();
       for (let i = 0; i < chunks.length; i++) {
         const c = chunks[i]!;
-        const hs = ((await qhitsKV.get(c.id).catch(() => [])) ||
-          []) as readonly QueryHit[];
+        const hs = (await qhitsKV.get(c.id).catch(() => [])) || [];
         for (const h of hs) {
           if (!allowed.has(h.docUuid)) continue;
           const s = h.score ?? 0;
@@ -261,9 +264,6 @@ export async function runRelations(
     })
     .then(() => console.log("04-relations: done."));
 }
-
-// CLI
-import { pathToFileURL } from "node:url";
 const isDirect =
   !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
 if (isDirect) {

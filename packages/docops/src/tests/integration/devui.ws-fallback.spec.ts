@@ -1,6 +1,7 @@
 import * as path from "node:path";
 import * as url from "node:url";
 import { promises as fs } from "node:fs";
+
 import { v4 as uuidv4 } from "uuid";
 
 import "../helpers/setup.js";
@@ -115,10 +116,7 @@ test.serial(
       logText.includes("Step 'footers' completed."),
       "run completed via SSE",
     );
-    t.true(
-      /Running step=footers/.test(logText),
-      "progress logs streamed",
-    );
+    t.true(/Running step=footers/.test(logText), "progress logs streamed");
 
     // Clean up override
     await page.evaluate(() => {

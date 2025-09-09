@@ -107,7 +107,7 @@ export class DocOpsStep extends HTMLElement {
       sseUsed = true;
       const es = new EventSource("/api/run-step?" + params.toString());
       es.onmessage = (ev) => {
-        const line = (ev as MessageEvent).data || "";
+        const line = ev.data || "";
         (log as any).textContent += line + "\n";
         (log as any).scrollTop = (log as any).scrollHeight;
       };
@@ -119,7 +119,7 @@ export class DocOpsStep extends HTMLElement {
         opened = true;
       };
       ws.onmessage = (ev) => {
-        const line = String((ev as MessageEvent).data || "");
+        const line = String(ev.data || "");
         (log as any).textContent += line + "\n";
         (log as any).scrollTop = (log as any).scrollHeight;
         if (step === "rename" && /completed/i.test(line)) {
