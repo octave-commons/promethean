@@ -61,7 +61,7 @@ async function main() {
             "type",
             "enum",
           ].includes(kind)
-            ? (kind as any)
+            ? kind
             : "variable",
           name,
           startLine: pos.startLine,

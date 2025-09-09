@@ -1,7 +1,9 @@
 import * as path from "node:path";
 import { promises as fs } from "node:fs";
-import type { Chunk } from "../types.js";
+
 import YAML from "yaml";
+
+import type { Chunk } from "../types.js";
 import type { DBs } from "../db.js";
 
 export type DocMeta = { uuid: string; path: string; title: string };

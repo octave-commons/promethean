@@ -1,15 +1,15 @@
-import path from 'node:path';
+import path from "node:path";
 
-export interface DefineAppOptions {
+export type DefineAppOptions = {
   readonly cwd?: string;
   readonly watch?: string | string[];
   readonly env_file?: string;
   readonly env?: Record<string, unknown>;
   readonly instances?: number;
   readonly exec_mode?: string;
-}
+};
 
-export interface AppDefinition {
+export type AppDefinition = {
   readonly name: string;
   readonly script: string;
   readonly args?: readonly string[];
@@ -25,7 +25,7 @@ export interface AppDefinition {
   readonly restart_delay?: number;
   readonly kill_timeout?: number;
   readonly env?: Record<string, unknown>;
-}
+};
 
 export function defineApp(
   name: string,
@@ -39,7 +39,7 @@ export function defineApp(
     env_file,
     env = {},
     instances = 1,
-    exec_mode = 'fork',
+    exec_mode = "fork",
   } = opts;
   const base: AppDefinition = {
     name,
@@ -54,10 +54,12 @@ export function defineApp(
     restart_delay: 10_000,
     kill_timeout: 10_000,
     env: {
-      ...Object.fromEntries(Object.entries(env).map(([k, v]) => [k, String(v)])),
+      ...Object.fromEntries(
+        Object.entries(env).map(([k, v]) => [k, String(v)]),
+      ),
       PM2_PROCESS_NAME: name,
       HEARTBEAT_PORT: String(defineApp.HEARTBEAT_PORT),
-      PYTHONUNBUFFERED: '1',
+      PYTHONUNBUFFERED: "1",
       PYTHONPATH: defineApp.PYTHONPATH,
       CHECK_INTERVAL: String(1000 * 60 * 5),
       HEARTBEAT_TIMEOUT: String(1000 * 60 * 10),
@@ -73,14 +75,17 @@ export function defineApp(
 }
 
 defineApp.HEARTBEAT_PORT = 5005;
-defineApp.PYTHONPATH = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+defineApp.PYTHONPATH = path.resolve(
+  path.dirname(new URL(import.meta.url).pathname),
+  "..",
+);
 
 export function definePythonService(
   name: string,
   serviceDir: string,
   opts: DefineAppOptions = {},
 ): AppDefinition {
-  return defineApp(name, 'pipenv', ['run', 'python', '-m', 'main'], {
+  return defineApp(name, "pipenv", ["run", "python", "-m", "main"], {
     cwd: serviceDir,
     ...opts,
   });
@@ -91,7 +96,7 @@ export function defineNodeService(
   serviceDir: string,
   opts: DefineAppOptions = {},
 ): AppDefinition {
-  return defineApp(name, '.', [], {
+  return defineApp(name, ".", [], {
     cwd: serviceDir,
     ...opts,
   });

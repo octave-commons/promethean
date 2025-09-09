@@ -3,6 +3,7 @@
 
 import { promises as fs } from "fs"; // Node fs/promises ESM is fine on modern Node.
 import * as path from "path";
+
 import { globby } from "globby";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
@@ -76,7 +77,10 @@ export function relFromRepo(abs: string) {
  * Ollama embeddings.
  * NOTE: Some tooling/docs reference /api/embed; /api/embeddings is widely used.
  */
-export async function ollamaEmbed(model: string, text: string): Promise<number[]> {
+export async function ollamaEmbed(
+  model: string,
+  text: string,
+): Promise<number[]> {
   const res = await fetch(`${OLLAMA_URL}/api/embeddings`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -106,7 +110,9 @@ export async function ollamaJSON(model: string, prompt: string): Promise<any> {
   if (!res.ok) throw new Error(`ollama ${res.status}`);
   const data: any = await res.json();
   const raw =
-    typeof data.response === "string" ? data.response : JSON.stringify(data.response);
+    typeof data.response === "string"
+      ? data.response
+      : JSON.stringify(data.response);
   return JSON.parse(
     raw
       .replace(/```json\s*/g, "")
@@ -117,7 +123,9 @@ export async function ollamaJSON(model: string, prompt: string): Promise<any> {
 
 /** Cosine similarity: safe when vectors differ in length. */
 export function cosine(a: number[], b: number[]) {
-  let dot = 0, na = 0, nb = 0;
+  let dot = 0,
+    na = 0,
+    nb = 0;
   const n = Math.min(a.length, b.length);
   for (let i = 0; i < n; i++) {
     const ai = a[i]!;

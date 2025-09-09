@@ -1,9 +1,10 @@
 // @ts-nocheck
+import { emitJS } from '../jsgen.js';
+
 import { read } from './reader.js';
 import { macroexpandAll } from './expand.js';
 import { toExpr } from './to-expr.js';
 import { sym, isList } from './syntax.js';
-import { emitJS } from '../jsgen.js';
 
 export function compileLispToJS(src: string, { pretty = false, importNames = [] as string[] } = {}) {
     const forms = read(src);

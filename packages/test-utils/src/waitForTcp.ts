@@ -1,5 +1,6 @@
-import { sleep as wait } from '@promethean/utils';
 import net from 'node:net';
+
+import { sleep as wait } from '@promethean/utils';
 
 export const waitForTcp = async (port: number, host = '127.0.0.1', timeoutMs = 15000): Promise<void> => {
     const start = Date.now();

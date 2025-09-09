@@ -1,4 +1,5 @@
 import * as path from "path";
+
 import { parseArgs, tsc, codeFrame, writeJSON } from "./utils.js";
 import type { ErrorList, BuildError } from "./types.js";
 
@@ -27,9 +28,15 @@ async function main() {
     });
   }
 
-  const out: ErrorList = { createdAt: new Date().toISOString(), tsconfig, errors };
+  const out: ErrorList = {
+    createdAt: new Date().toISOString(),
+    tsconfig,
+    errors,
+  };
   await writeJSON(path.resolve(args["--out"]!), out);
-  console.log(`buildfix: collected ${errors.length} error(s) → ${args["--out"]}`);
+  console.log(
+    `buildfix: collected ${errors.length} error(s) → ${args["--out"]}`,
+  );
 }
 
 main().catch((e) => {

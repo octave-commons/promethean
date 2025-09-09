@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { renderSelectedMarkdown } from "../../frontend/render.js";
 import { setSelection } from "../../frontend/selection.js";
 

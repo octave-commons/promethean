@@ -1,5 +1,4 @@
 import test from 'ava';
-
 import { makeChromaWrapper } from '@promethean/embedding';
 
 test('chroma wrapper upsert/delete/count', async (t) => {

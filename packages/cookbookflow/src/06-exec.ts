@@ -42,19 +42,23 @@ async function main() {
     const runDir = path.join(".cache/cookbook/run", path.basename(f, ".md"));
     await fs.mkdir(runDir, { recursive: true });
 
-    let cmd = "";
+    let execCmd = "";
+    let execArgs: string[] = [];
     if (lang === "bash" || lang === "sh") {
       const sh = path.join(runDir, "run.sh");
       await fs.writeFile(sh, code, "utf-8");
-      cmd = `bash ${path.relative(process.cwd(), sh)}`;
+      execCmd = "bash";
+      execArgs = [path.relative(process.cwd(), sh)];
     } else if (lang === "ts" || lang === "typescript") {
       const ts = path.join(runDir, "run.ts");
       await fs.writeFile(ts, code, "utf-8");
-      cmd = `npx tsx ${path.relative(process.cwd(), ts)}`;
+      execCmd = "npx";
+      execArgs = ["tsx", path.relative(process.cwd(), ts)];
     } else if (lang === "js" || lang === "javascript") {
       const js = path.join(runDir, "run.js");
       await fs.writeFile(js, code, "utf-8");
-      cmd = `node ${path.relative(process.cwd(), js)}`;
+      execCmd = "node";
+      execArgs = [path.relative(process.cwd(), js)];
     } else {
       results.push({
         recipePath: f,
@@ -65,7 +69,7 @@ async function main() {
       continue;
     }
 
-    const r = await execShell(cmd, process.cwd());
+    const r = await execShell(execCmd, execArgs, process.cwd());
     const stdoutHash = sha1(r.stdout || "");
     const stderrHash = sha1(r.stderr || "");
     results.push({

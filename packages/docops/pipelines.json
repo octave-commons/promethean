@@ -1,0 +1,126 @@
+{
+  "pipelines": [
+    {
+      "name": "docops",
+      "steps": [
+        {
+          "id": "doc-fm",
+          "shell": "pnpm --filter @promethean/docops doc:01-fm-ensure --root docs/unique --out .cache/docops/frontmatters.json --model qwen3:4b\n",
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
+          "inputs": [
+            "docs/unique/**/*.md"
+          ],
+          "outputs": [
+            ".cache/docops/frontmatters.json"
+          ]
+        },
+        {
+          "id": "doc-index",
+          "deps": [
+            "doc-fm"
+          ],
+          "shell": "pnpm --filter @promethean/docops doc:02-chunk-embed --root docs/unique --in .cache/docops/frontmatters.json --chunks .cache/docops/chunks.json --embeddings .cache/docops/embeddings.json --tokenizer cl100k --embed-model nomic-embed-text:latest\n",
+          "env": {
+            "OLLAMA_URL": "${OLLAMA_URL}"
+          },
+          "inputs": [
+            "docs/unique/**/*.md",
+            ".cache/docops/frontmatters.json"
+          ],
+          "outputs": [
+            ".cache/docops/chunks.json",
+            ".cache/docops/embeddings.json"
+          ]
+        },
+        {
+          "id": "doc-similarity",
+          "deps": [
+            "doc-index"
+          ],
+          "shell": "pnpm --filter @promethean/docops doc:03-similarity --chunks .cache/docops/chunks.json --embeddings .cache/docops/embeddings.json --out .cache/docops/queries.json\n",
+          "inputs": [
+            ".cache/docops/chunks.json",
+            ".cache/docops/embeddings.json"
+          ],
+          "outputs": [
+            ".cache/docops/queries.json"
+          ]
+        },
+        {
+          "id": "doc-related",
+          "deps": [
+            "doc-similarity"
+          ],
+          "shell": "pnpm --filter @promethean/docops doc:04-related --queries .cache/docops/queries.json --frontmatter .cache/docops/frontmatters.json --threshold 0.62 --out .cache/docops/related.json\n",
+          "inputs": [
+            ".cache/docops/queries.json",
+            ".cache/docops/frontmatters.json"
+          ],
+          "outputs": [
+            ".cache/docops/related.json"
+          ]
+        },
+        {
+          "id": "doc-references",
+          "deps": [
+            "doc-similarity"
+          ],
+          "shell": "pnpm --filter @promethean/docops doc:05-references --queries .cache/docops/queries.json --chunks .cache/docops/chunks.json --ref-threshold 0.75 --out .cache/docops/references.json\n",
+          "inputs": [
+            ".cache/docops/queries.json",
+            ".cache/docops/chunks.json"
+          ],
+          "outputs": [
+            ".cache/docops/references.json"
+          ]
+        },
+        {
+          "id": "doc-apply-fm",
+          "deps": [
+            "doc-related",
+            "doc-references"
+          ],
+          "shell": "pnpm --filter @promethean/docops doc:06-apply-frontmatter --root docs/unique --frontmatter .cache/docops/frontmatters.json --related .cache/docops/related.json --references .cache/docops/references.json\n",
+          "inputs": [
+            ".cache/docops/frontmatters.json",
+            ".cache/docops/related.json",
+            ".cache/docops/references.json"
+          ],
+          "outputs": [
+            ".cache/docops/applied-fm.touch"
+          ]
+        },
+        {
+          "id": "doc-footer",
+          "deps": [
+            "doc-apply-fm"
+          ],
+          "shell": "pnpm --filter @promethean/docops doc:07-write-footer --root docs/unique --references .cache/docops/references.json --related .cache/docops/related.json --style obsidian\n",
+          "inputs": [
+            ".cache/docops/references.json",
+            ".cache/docops/related.json",
+            "docs/unique/**/*.md"
+          ],
+          "outputs": [
+            ".cache/docops/footer.touch"
+          ]
+        },
+        {
+          "id": "doc-rename",
+          "deps": [
+            "doc-apply-fm"
+          ],
+          "shell": "pnpm --filter @promethean/docops doc:08-rename --root docs/unique --frontmatter .cache/docops/frontmatters.json --out .cache/docops/renames.json\n",
+          "inputs": [
+            ".cache/docops/frontmatters.json"
+          ],
+          "outputs": [
+            ".cache/docops/renames.json"
+          ]
+        }
+      ]
+    }
+  ]
+}

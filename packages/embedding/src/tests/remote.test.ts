@@ -1,5 +1,6 @@
-import test from 'ava';
-import { RemoteEmbeddingFunction } from '../remote.js';
+import test from "ava";
+
+import { RemoteEmbeddingFunction } from "../remote.js";
 
 class StubBroker {
   async connect() {}
@@ -7,7 +8,12 @@ class StubBroker {
   enqueue() {}
 }
 
-test('exposes supported spaces', t => {
-  const fn = new RemoteEmbeddingFunction(undefined, undefined, undefined, new StubBroker() as any);
-  t.deepEqual(fn.supportedSpaces(), ['l2', 'cosine']);
+test("exposes supported spaces", (t) => {
+  const fn = new RemoteEmbeddingFunction(
+    undefined,
+    undefined,
+    undefined,
+    new StubBroker() as any,
+  );
+  t.deepEqual(fn.supportedSpaces(), ["l2", "cosine"]);
 });
