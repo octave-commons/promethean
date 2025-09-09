@@ -2,6 +2,13 @@
 
 set -euo pipefail
 
+command -v uvx >/dev/null || { echo "uvx not found on PATH after install" >&2; exit 1; }
+# If there isn't a pre-commit file, we have a problem.
+
+uvx pre-commit install
+uvx pre-commit install --install-hooks
+uvx pre-commit install --hook-type commit-msg
+uvx pre-commit install --hook-type pre-merge-commit
 
 # corepack enable pnpm
 apt-get update
@@ -10,9 +17,12 @@ apt-get install -y build-essential python3 make g++ pkg-config
 apt-get install -y git ca-certificates
 apt-get install -y jq moreutils ripgrep
 
-curl -LsSf https://astral.sh/uv/install.sh | sh
-export PATH="$HOME/.local/bin:$PATH"
-command -v uvx >/dev/null || { echo "uvx not found on PATH after install" >&2; exit 1; }
+bash ./run/install_gyp.sh
+
+
+pnpm install --no-frozen-lockfile --reporter=append-only
+
+bash ./run/setup_playwright.sh
 
 # start the server if not running
 curl -fsS http://127.0.0.1:8000/api/v2/heartbeat >/dev/null 2>&1 || \
@@ -25,14 +35,6 @@ if ! timeout 60s bash -c 'until curl -fsS http://127.0.0.1:8000/api/v2/heartbeat
     exit 1
 fi
 
-bash ./run/install_gyp.sh
-
-# pre-commit install
-corepack enable
-corepack prepare pnpm@9.0.0 --activate
-pnpm -v
-pnpm install --no-frozen-lockfile --reporter=append-only
-bash ./run/setup_playwright.sh
 
 # install ollama
 curl -fsSL https://ollama.com/install.sh | sh
@@ -71,9 +73,3 @@ ollama pull nomic-embed-text
 # bb --version || true
 
 # npm install --global corepack@latest
-
-if [ -d .git ] && [ -f .pre-commit-config.yaml ]; then
-  uvx pre-commit install --install-hooks
-  uvx pre-commit install --hook-type commit-msg
-  uvx pre-commit install --hook-type pre-merge-commit
-fi

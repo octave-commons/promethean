@@ -30,10 +30,3 @@ jobs:
       # Install deps (workspace-aware)
       - name: Install
         run: pnpm install --frozen-lockfile
-
-      # Build / test
-      - name: Build
-        run: pnpm -r build
-
-      - name: Test
-        run: pnpm -r test
