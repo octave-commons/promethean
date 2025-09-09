@@ -22,17 +22,17 @@
  * - We mock Fastify instance to avoid binding a real port and to capture route handlers.
  * - We also mock fs and runPipeline to control IO.
  */
- 
+
 import { describe, it, beforeEach, afterEach, expect, vi } from "vitest";
- 
+
 type Handler = (req: any, reply: any) => any | Promise<any>;
- 
+
 interface Route {
   method: "GET";
   url: string;
   handler: Handler;
 }
- 
+
 class MockReply {
   public headers: Record<string, string> = {};
   public codeValue: number | undefined;
@@ -73,7 +73,7 @@ class MockReply {
     return this;
   }
 }
- 
+
 class MockFastify {
   public routes: Route[] = [];
   public hooks: { onRequest: Handler[] } = { onRequest: [] };
