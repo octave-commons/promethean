@@ -1,6 +1,6 @@
 import { runCommand } from "../../exec.js";
 
-export function registerExecRoutes(fastify) {
+export function registerExecRoutes(fastify: any) {
   const ROOT_PATH = fastify.ROOT_PATH;
   fastify.post("/exec/run", {
     schema: {
@@ -36,7 +36,7 @@ export function registerExecRoutes(fastify) {
         },
       },
     },
-    handler: async (req, reply) => {
+    handler: async (req: any, reply: any) => {
       try {
         const execEnabled =
           String(process.env.EXEC_ENABLED || "false").toLowerCase() === "true";
@@ -56,7 +56,7 @@ export function registerExecRoutes(fastify) {
           timeoutMs: Number(timeoutMs || 600000),
           tty: Boolean(tty),
         });
-        reply.send(out.ok ? out : { ok: false, ...out });
+        reply.send(out);
       } catch (e) {
         reply.code(500).send({ ok: false, error: String(e?.message || e) });
       }
