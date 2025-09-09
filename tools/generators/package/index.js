@@ -1,4 +1,9 @@
-import { generateFiles, joinPathFragments, names, formatFiles } from "@nx/devkit";
+import {
+  generateFiles,
+  joinPathFragments,
+  names,
+  formatFiles,
+} from "@nx/devkit";
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
 
@@ -10,6 +15,7 @@ export default async function generator(tree, schema) {
   generateFiles(tree, joinPathFragments(__dirname, "files"), projectRoot, {
     tmpl: "",
     name: normalized,
+    pipelineExt: "json",
   });
   await formatFiles(tree);
 }
