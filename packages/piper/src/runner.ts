@@ -3,6 +3,8 @@ import { promises as fs } from "fs";
 
 import * as chokidar from "chokidar";
 import YAML from "yaml";
+import AjvModule from "ajv";
+import { globby } from "globby";
 
 import {
   FileSchema,
@@ -27,11 +29,35 @@ import { loadState, saveState, RunState } from "./lib/state.js";
 import { renderReport } from "./lib/report.js";
 import { emitEvent } from "./lib/events.js";
 
+const ajv = new AjvModule.default();
+
 function slug(s: string) {
   return s
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+async function validateFiles(
+  files: string[],
+  schemaPath: string,
+  cwd: string,
+  kind: "input" | "output",
+) {
+  if (!files.length) return;
+  const absSchema = path.resolve(cwd, schemaPath);
+  const schema = JSON.parse(await fs.readFile(absSchema, "utf-8"));
+  const validate = ajv.compile(schema);
+  for (const f of files) {
+    const absFile = path.resolve(cwd, f);
+    const data = JSON.parse(await fs.readFile(absFile, "utf-8"));
+    const ok = validate(data);
+    if (!ok) {
+      throw new Error(
+        `${kind} schema mismatch for ${f}: ${ajv.errorsText(validate.errors)}`,
+      );
+    }
+  }
 }
 
 async function readConfig(p: string): Promise<PiperFile> {
@@ -146,27 +172,41 @@ export async function runPipeline(
         stderr: string;
       } = { code: 0, stdout: "", stderr: "" };
 
-      if (s.shell) {
-        execRes = await runShell(s.shell, cwd, s.env, s.timeoutMs);
-      } else if (s.node) {
-        execRes = await runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
-      } else if (s.ts) {
-        execRes = await runTSModule(s, cwd, s.env, s.timeoutMs);
-      } else if (s.js) {
-        const needJsLock = (s.js as any)?.isolate !== "worker";
-        if (needJsLock) {
-          await jsSem.take();
-          jsLocked = true;
+      try {
+        if (s.inputSchema) {
+          const inFiles = await globby(s.inputs, { cwd });
+          await validateFiles(inFiles, s.inputSchema, cwd, "input");
         }
-        try {
-          execRes = await runJSModule(s, cwd, s.env, fp, s.timeoutMs);
-        } catch (e: any) {
-          execRes = {
-            code: 1,
-            stdout: "",
-            stderr: e?.stack ?? String(e),
-          };
+
+        if (s.shell) {
+          execRes = await runShell(s.shell, cwd, s.env, s.timeoutMs);
+        } else if (s.node) {
+          execRes = await runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
+        } else if (s.ts) {
+          execRes = await runTSModule(s, cwd, s.env, s.timeoutMs);
+        } else if (s.js) {
+          const needJsLock = (s.js as any)?.isolate !== "worker";
+          if (needJsLock) {
+            await jsSem.take();
+            jsLocked = true;
+          }
+          try {
+            execRes = await runJSModule(s, cwd, s.env, fp, s.timeoutMs);
+          } catch (e: any) {
+            execRes = {
+              code: 1,
+              stdout: "",
+              stderr: e?.stack ?? String(e),
+            };
+          }
         }
+
+        if (execRes.code === 0 && s.outputSchema) {
+          const outFiles = await globby(s.outputs, { cwd });
+          await validateFiles(outFiles, s.outputSchema, cwd, "output");
+        }
+      } catch (e: any) {
+        execRes = { code: 1, stdout: "", stderr: e?.stack ?? String(e) };
       }
 
       const endedAt = new Date().toISOString();
