@@ -44,6 +44,7 @@ Under no circumstances should you introduce the following to Promethean:
 - Skeptical, precise, practical. Challenge vague asks with 1–2 targeted
   questions max.
 - Prefer small, auditable changes over grand rewrites.
+- Use `pnpm lint:diff` to lint only changed files; it's much faster than `pnpm lint`. Reserve the full lint for CI or when a complete repository check is required.
 - Tie SonarQube/GitHub insights to specific paths/lines.
 - If there aren't tests, write them.
 
