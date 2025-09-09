@@ -28,7 +28,18 @@ import { loadState, saveState, RunState } from "./lib/state.js";
 import { renderReport } from "./lib/report.js";
 import { emitEvent } from "./lib/events.js";
 
-const ajv = new AjvModule.default();
+type ValidateFn = {
+  (data: unknown): boolean;
+  errors?: unknown;
+};
+
+type AjvLike = {
+  compile(schema: unknown): ValidateFn;
+  errorsText(errors?: unknown): string;
+};
+
+const AjvCtor = AjvModule as unknown as new () => AjvLike;
+const ajv: AjvLike = new AjvCtor();
 
 function slug(s: string) {
   return s
@@ -166,31 +177,49 @@ export async function runPipeline(
 
       const execRes = await (async () => {
         if (s.inputSchema) {
-          const inFiles = await globby(s.inputs, { cwd });
-          await validateFiles(inFiles, s.inputSchema, cwd, "input");
+          try {
+            const inFiles = await globby(s.inputs, { cwd });
+            await validateFiles(inFiles, s.inputSchema, cwd, "input");
+          } catch (e: unknown) {
+            const stderr = e instanceof Error ? e.message : String(e);
+            return { code: 1, stdout: "", stderr } as const;
+          }
         }
 
-        if (s.shell) return runShell(s.shell, cwd, s.env, s.timeoutMs);
-        if (s.node) return runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
-        if (s.ts) return runTSModule(s, cwd, s.env, s.timeoutMs);
-        if (s.js) {
-          const needJsLock = s.js?.isolate !== "worker";
-          if (needJsLock) await jsSem.take();
-          try {
-            return await runJSModule(s, cwd, s.env, fp, s.timeoutMs);
-          } catch (e: unknown) {
-            const stderr =
-              e instanceof Error ? e.stack ?? e.message : String(e);
-            return { code: 1, stdout: "", stderr } as const;
-          } finally {
-            if (needJsLock) jsSem.release();
+        const base = await (async () => {
+          if (s.shell) return runShell(s.shell, cwd, s.env, s.timeoutMs);
+          if (s.node) return runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
+          if (s.ts) return runTSModule(s, cwd, s.env, s.timeoutMs);
+          if (s.js) {
+            const needJsLock = s.js?.isolate !== "worker";
+            if (needJsLock) await jsSem.take();
+            try {
+              return await runJSModule(s, cwd, s.env, fp, s.timeoutMs);
+            } catch (e: unknown) {
+              const stderr =
+                e instanceof Error ? e.stack ?? e.message : String(e);
+              return { code: 1, stdout: "", stderr } as const;
+            } finally {
+              if (needJsLock) jsSem.release();
+            }
           }
-        if (execRes.code === 0 && s.outputSchema) {
-          const outFiles = await globby(s.outputs, { cwd });
-          await validateFiles(outFiles, s.outputSchema, cwd, "output");
+          return { code: 0, stdout: "", stderr: "" } as const;
+        })();
+
+        if (base.code === 0 && s.outputSchema) {
+          try {
+            const outFiles = await globby(s.outputs, { cwd });
+            await validateFiles(outFiles, s.outputSchema, cwd, "output");
+            return base;
+          } catch (e: unknown) {
+            return {
+              code: 1,
+              stdout: base.stdout,
+              stderr: e instanceof Error ? e.message : String(e),
+            } as const;
+          }
         }
-        }
-        return { code: 0, stdout: "", stderr: "" } as const;
+        return base;
       })();
 
       const endedAt = new Date().toISOString();
