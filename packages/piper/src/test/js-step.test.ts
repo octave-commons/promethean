@@ -2,7 +2,6 @@ import * as fs from "fs/promises";
 import * as path from "path";
 
 import test from "ava";
-import YAML from "yaml";
 
 import { runPipeline } from "../runner.js";
 import { runJSFunction } from "../fsutils.js";
@@ -63,8 +62,8 @@ test.serial("runPipeline executes js + shell steps (make → cat)", async (t) =>
       ],
     };
 
-    const pipelinesPath = path.join(dir, "pipelines.yaml");
-    await fs.writeFile(pipelinesPath, YAML.stringify(cfg), "utf8");
+    const pipelinesPath = path.join(dir, "pipelines.json");
+    await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
 
     const res = await runPipeline(pipelinesPath, "demo", { concurrency: 2 });
     t.is(res.length, 2);
@@ -121,8 +120,8 @@ test.serial("JS steps isolate process.env when run concurrently", async (t) => {
       ],
     };
 
-    const pipelinesPath = path.join(dir, "pipelines.yaml");
-    await fs.writeFile(pipelinesPath, YAML.stringify(cfg), "utf8");
+    const pipelinesPath = path.join(dir, "pipelines.json");
+    await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
     await runPipeline(pipelinesPath, "env", { concurrency: 2 });
 
     const aOut = await fs.readFile(path.join(dir, "a.txt"), "utf8");
@@ -192,8 +191,8 @@ test.serial(
         ],
       };
 
-      const pipelinesPath = path.join(dir, "pipelines.yaml");
-      await fs.writeFile(pipelinesPath, YAML.stringify(cfg), "utf8");
+      const pipelinesPath = path.join(dir, "pipelines.json");
+      await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
       const res = await runPipeline(pipelinesPath, "demo", { concurrency: 1 });
 
       const first = res.find((r) => r.id === "hang")!;
@@ -255,8 +254,8 @@ test.serial(
         ],
       };
 
-      const p = path.join(dir, "pipelines.yaml");
-      await fs.writeFile(p, YAML.stringify(cfg), "utf8");
+      const p = path.join(dir, "pipelines.json");
+      await fs.writeFile(p, JSON.stringify(cfg, null, 2), "utf8");
       const res = await runPipeline(p, "w", { concurrency: 1 });
 
       const step = res.find((r) => r.id === "js")!;
@@ -295,8 +294,8 @@ test.serial("worker js step: crash rejects instead of hanging", async (t) => {
       ],
     };
 
-    const p = path.join(dir, "pipelines.yaml");
-    await fs.writeFile(p, YAML.stringify(cfg), "utf8");
+    const p = path.join(dir, "pipelines.json");
+    await fs.writeFile(p, JSON.stringify(cfg, null, 2), "utf8");
     const res = await runPipeline(p, "w", { concurrency: 1 });
 
     const step = res.find((r) => r.id === "js")!;
@@ -341,8 +340,8 @@ test.serial("worker js step: export name is respected (one/two)", async (t) => {
       ],
     };
 
-    const p = path.join(dir, "pipelines.yaml");
-    await fs.writeFile(p, YAML.stringify(cfg), "utf8");
+    const p = path.join(dir, "pipelines.json");
+    await fs.writeFile(p, JSON.stringify(cfg, null, 2), "utf8");
     const res = await runPipeline(p, "w", { concurrency: 1 });
 
     const a = res.find((r) => r.id === "a")!;
@@ -387,8 +386,8 @@ test.serial(
       });
 
       // Run 1
-      const p = path.join(dir, "pipelines.yaml");
-      await fs.writeFile(p, YAML.stringify(cfg()), "utf8");
+      const p = path.join(dir, "pipelines.json");
+      await fs.writeFile(p, JSON.stringify(cfg(), null, 2), "utf8");
       let res = await runPipeline(p, "w", { concurrency: 1 });
       let step = res.find((r) => r.id === "js")!;
       t.is(step.stdout?.trim(), "one");
@@ -401,7 +400,7 @@ test.serial(
       );
 
       // Run 2 (worker imports afresh)
-      await fs.writeFile(p, YAML.stringify(cfg()), "utf8");
+      await fs.writeFile(p, JSON.stringify(cfg(), null, 2), "utf8");
       res = await runPipeline(p, "w", { concurrency: 1 });
       step = res.find((r) => r.id === "js")!;
       t.is(step.stdout?.trim(), "two");
@@ -440,16 +439,24 @@ test.serial(
         ],
       });
 
-      const p = path.join(dir, "pipelines.yaml");
+      const p = path.join(dir, "pipelines.json");
 
       // First run: timeout due to HANG=1
-      await fs.writeFile(p, YAML.stringify(mkCfg({ HANG: "1" }, 100)), "utf8");
+      await fs.writeFile(
+        p,
+        JSON.stringify(mkCfg({ HANG: "1" }, 100), null, 2),
+        "utf8",
+      );
       let res = await runPipeline(p, "w", { concurrency: 1 });
       let step = res.find((r) => r.id === "js")!;
       t.is(step.exitCode, 124);
 
       // Second run: no hang, should succeed and print "ok"
-      await fs.writeFile(p, YAML.stringify(mkCfg(undefined, 1000)), "utf8");
+      await fs.writeFile(
+        p,
+        JSON.stringify(mkCfg(undefined, 1000), null, 2),
+        "utf8",
+      );
       res = await runPipeline(p, "w", { concurrency: 1 });
       step = res.find((r) => r.id === "js")!;
       t.is(step.exitCode, 0);
