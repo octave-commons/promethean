@@ -1,6 +1,6 @@
 import { proxy } from "./proxy.js";
 
-export function registerIndexerRoutes(v1) {
+export function registerIndexerRoutes(v1: any) {
   v1.get("/indexer", {
     preHandler: [v1.authUser, v1.requirePolicy("read", () => "indexer")],
     schema: {
@@ -27,9 +27,7 @@ export function registerIndexerRoutes(v1) {
         },
       },
     },
-    async handler() {
-      return { ok: true, status: indexerManager.status() };
-    },
+    handler: proxy(v1, "GET", "/v0/indexer/status"),
   });
 
   v1.post("/indexer", {
@@ -63,35 +61,31 @@ export function registerIndexerRoutes(v1) {
         },
       },
     },
-    async handler(req, reply) {
+    async handler(req: any, reply: any) {
       const { op, path: p } = req.body || {};
       try {
         if (op === "index") {
-          if (!p)
-            return reply.code(400).send({ ok: false, error: "missing path" });
-          const r = await indexerManager.scheduleIndexFile(String(p));
-          return reply.send(r);
+          if (!p) return reply.code(400).send({ ok: false, error: "missing path" });
+          const res = await v1.inject({ method: "POST", url: "/v0/indexer/index", payload: { path: String(p) }, headers: req.headers });
+          return reply.code(res.statusCode).send(res.json());
         } else if (op === "remove") {
-          if (!p)
-            return reply.code(400).send({ ok: false, error: "missing path" });
-          const r = await indexerManager.removeFile(String(p));
-          return reply.send(r);
+          if (!p) return reply.code(400).send({ ok: false, error: "missing path" });
+          const res = await v1.inject({ method: "POST", url: "/v0/indexer/remove", payload: { path: String(p) }, headers: req.headers });
+          return reply.code(res.statusCode).send(res.json());
         } else if (op === "reset") {
-          if (indexerManager.isBusy())
-            return reply.code(409).send({ ok: false, error: "Indexer busy" });
-          await indexerManager.resetAndBootstrap(ROOT_PATH);
-          return reply.send({ ok: true });
+          const res = await v1.inject({ method: "POST", url: "/v0/indexer/reset", headers: req.headers });
+          return reply.code(res.statusCode).send(res.json());
         } else if (op === "reindex") {
           if (p) {
-            const r = await indexerManager.scheduleReindexSubset(p);
-            return reply.send(r);
+            const res = await v1.inject({ method: "POST", url: "/v0/files/reindex", payload: { path: p }, headers: req.headers });
+            return reply.code(res.statusCode).send(res.json());
           } else {
-            const r = await indexerManager.scheduleReindexAll();
-            return reply.send(r);
+            const res = await v1.inject({ method: "POST", url: "/v0/reindex", headers: req.headers });
+            return reply.code(res.statusCode).send(res.json());
           }
         }
         return reply.code(400).send({ ok: false, error: "invalid op" });
-      } catch (e) {
+      } catch (e: any) {
         reply.code(500).send({ ok: false, error: String(e?.message || e) });
       }
     },

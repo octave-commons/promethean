@@ -2,7 +2,7 @@ import crypto from "crypto";
 
 import { User } from "../../models/User.js";
 
-export function registerUserRoutes(app) {
+export function registerUserRoutes(app: any) {
   app.post("/users/create", {
     preHandler: [app.authUser, app.requirePolicy("write", "users")],
     schema: {
@@ -18,7 +18,7 @@ export function registerUserRoutes(app) {
         },
       },
     },
-    handler: async (req) => {
+    handler: async (req: any) => {
       const { username, roles } = req.body || {};
       const apiKey = crypto.randomBytes(32).toString("hex");
       const user = await User.create({
@@ -56,7 +56,7 @@ export function registerUserRoutes(app) {
         properties: { username: { type: "string" } },
       },
     },
-    handler: async (req) => {
+    handler: async (req: any) => {
       const { username } = req.body || {};
       await User.deleteOne({ username });
       return { ok: true };

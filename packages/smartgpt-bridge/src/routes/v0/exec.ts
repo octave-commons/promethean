@@ -57,7 +57,7 @@ export function registerExecRoutes(fastify: any) {
           tty: Boolean(tty),
         });
         reply.send(out);
-      } catch (e) {
+      } catch (e: any) {
         reply.code(500).send({ ok: false, error: String(e?.message || e) });
       }
     },
