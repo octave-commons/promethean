@@ -41,8 +41,6 @@ export async function loadState(pipeline: string): Promise<RunState> {
         steps[key] = val;
       }
     }
-      }
-    }
     return { steps };
   } catch {
     return { steps: {} };
