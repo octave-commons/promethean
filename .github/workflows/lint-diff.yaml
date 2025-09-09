@@ -1,4 +1,4 @@
-name: Lint
+name: Lint diff
 on:
   push:
     branches: [main]
@@ -20,4 +20,4 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
       - name: Lint
-        run: pnpm lint
+        run: pnpm lint:diff
