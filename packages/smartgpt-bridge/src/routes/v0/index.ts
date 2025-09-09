@@ -254,9 +254,6 @@ export async function registerV0Routes(app) {
     }
   }
 
-  // Scope the old auth to the encapsulated /v0 prefix
-  if (enabled) app.addHook("onRequest", v0PreAuth);
-
   // Apply rate limiting to all requests under this encapsulated scope
   await app.register(fastifyRateLimit, {
     max: 100, // Max requests per window per IP
@@ -264,6 +261,9 @@ export async function registerV0Routes(app) {
     // Optionally: Add error response customization
     keyGenerator: (req) => req.ip,
   });
+
+  // Scope the old auth to the encapsulated /v0 prefix
+  if (enabled) app.addHook("onRequest", v0PreAuth);
 
   // Mount all legacy routes under this encapsulated scope (prefix is applied by caller)
   registerBootstrapRoutes(app);
