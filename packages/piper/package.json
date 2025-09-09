@@ -28,5 +28,7 @@
     "@promethean/fs": "workspace:*",
     "es-module-lexer": "1.5.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@promethean/test-utils": "workspace:*"
+  }
 }

@@ -7253,7 +7253,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 >[!nexus_agent] **Assistant** - 08/31/2025 at 4:58 PM
 > yes—let’s add a tiny, durable **pipeline runner** so every CLI you’ve got becomes a target in a DAG with change-detection, caching, and watch mode.
 > 
-> Below is a complete drop-in package **@promethean/piper** plus a starter `pipelines.yaml` that wires your existing `symdocs`, `simtasks`, and `codemods` flows.
+> Below is a complete drop-in package **@promethean/piper** plus a starter `pipelines.json` that wires your existing `symdocs`, `simtasks`, and `codemods` flows.
 > 
 > ---
 > 
@@ -7720,12 +7720,12 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 >  console.log(`piper <command> [options]
 > 
 > Commands:
->  list List pipelines in pipelines.yaml
+>  list List pipelines in pipelines.json
 >  run <name> Run a pipeline
 >  watch <name> Watch inputs & re-run
 > 
 > Options for run/watch:
->  --config pipelines.yaml Path to pipelines file (yaml|json)
+>  --config pipelines.json Path to pipelines file (json)
 >  --force Ignore cache
 >  --dry Dry-run (plan)
 >  --concurrency 4 Concurrency
@@ -7751,7 +7751,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 >  };
 >  const has = (flag: string) => args.includes(flag);
 > 
->  const configPath = path.resolve(get("--config", "pipelines.yaml")!);
+>  const configPath = path.resolve(get("--config", "pipelines.json")!);
 > 
 >  if (!cmd || cmd === "help" || cmd === "--help") return usage();
 >  if (cmd === "list") return listPipelines(configPath);
@@ -7779,7 +7779,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 > 
 > ---
 > 
-> ## pipelines.yaml (at repo root)
+> ## pipelines.json (at repo root)
 > 
 > This wires your current toolchain into three pipelines: **docs**, **simtasks**, **codemods**. You can add/edit freely.
 > 
@@ -8433,7 +8433,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 > 
 > ---
 > 
-> # 2) Wire into `pipelines.yaml`
+> # 2) Wire into `pipelines.json`
 > 
 > Add a new pipeline named **sonar** (and a scanner step into your CI-friendly shell). Example:
 > 
@@ -9172,7 +9172,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 > 
 > ---
 > 
-> ## 2) Add to `pipelines.yaml`
+> ## 2) Add to `pipelines.json`
 > 
 > ```yaml
 > pipelines:
@@ -9836,7 +9836,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 > 
 > ---
 > 
-> ## Piper wiring (pipelines.yaml)
+> ## Piper wiring (pipelines.json)
 > 
 > ```yaml
 > pipelines:
@@ -10193,7 +10193,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 > 
 > ---
 > 
-> ## 3) Pipeline wiring (`pipelines.yaml`)
+> ## 3) Pipeline wiring (`pipelines.json`)
 > 
 > Append a step after `sv-write`:
 > 
@@ -10512,7 +10512,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 > piper --config pipelines.codepack.yml run codepack
 > ```
 > 
-> Want me to merge both into a single monorepo-wide `pipelines.yaml` (and add watch targets)?
+> Want me to merge both into a single monorepo-wide `pipelines.json` (and add watch targets)?
 <!-- UID: 9af50f19-dab0-4e9c-930d-c76628d08151 -->
 
 ---
@@ -10528,7 +10528,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 
 
 >[!nexus_agent] **Assistant** - 08/31/2025 at 6:08 PM
-> here you go — a single monorepo-wide `pipelines.yaml` that includes **both** pipelines (docops + codepack) and a convenience **workspace-all** pipeline. drop this at the repo root.
+> here you go — a single monorepo-wide `pipelines.json` that includes **both** pipelines (docops + codepack) and a convenience **workspace-all** pipeline. drop this at the repo root.
 > 
 > ```yaml
 > pipelines:
@@ -10739,14 +10739,14 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 >  - name: workspace-all
 >  steps:
 >  - id: run-docops
->  shell: "piper --config pipelines.yaml run docops"
+>  shell: "piper --config pipelines.json run docops"
 >  inputs:
 >  - "docs/unique/**/*.md"
 >  outputs:
 >  - ".cache/docops/footer.touch"
 >  - id: run-codepack
 >  deps: ["run-docops"]
->  shell: "piper --config pipelines.yaml run codepack"
+>  shell: "piper --config pipelines.json run codepack"
 >  inputs:
 >  - "docs/**/*.md"
 >  outputs:
@@ -10883,7 +10883,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 > ```
 > 
 > # Repo-level configs we added
-> - **`pipelines.yaml`**: unified pipelines for **docops**, **codepack**, and a **workspace-all** convenience target.
+> - **`pipelines.json`**: unified pipelines for **docops**, **codepack**, and a **workspace-all** convenience target.
 > - Equivalent split configs `pipelines.docops.yml` and `pipelines.codepack.yml` if you want them separate.
 > 
 > # How to run (quick)
@@ -10941,7 +10941,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 >[!nexus_agent] **Assistant** - 08/31/2025 at 6:11 PM
 > heck yes — let’s add a turnkey **Readme generator** pipeline. It scans each package, drafts a tight outline with Ollama, then writes/upgrades `README.md` files (mermaid diagrams included), and verifies .
 > 
-> Below is a small package **@promethean/readmeflow** + a **`readmes`** pipeline you can drop into your existing `pipelines.yaml`.
+> Below is a small package **@promethean/readmeflow** + a **`readmes`** pipeline you can drop into your existing `pipelines.json`.
 > 
 > ---
 > 
@@ -11333,7 +11333,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 > 
 > ---
 > 
-> ## Add a pipeline to `pipelines.yaml`
+> ## Add a pipeline to `pipelines.json`
 > 
 > Append this **readmes** pipeline:
 > 
@@ -12295,7 +12295,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 > 
 > ---
 > 
-> ## Add pipeline to `pipelines.yaml`
+> ## Add pipeline to `pipelines.json`
 > 
 > Append this:
 > 
@@ -12969,7 +12969,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 > 
 > ---
 > 
-> ## Pipeline wiring (`pipelines.yaml`)
+> ## Pipeline wiring (`pipelines.json`)
 > 
 > Append:
 > 
@@ -13182,7 +13182,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 > 
 > ## 2) Wire it into the pipeline
 > 
-> Update your `pipelines.yaml` test-gap pipeline to include the gate **after mapping** (so it has symbol coverage), before planning/writing tasks:
+> Update your `pipelines.json` test-gap pipeline to include the gate **after mapping** (so it has symbol coverage), before planning/writing tasks:
 > 
 > ```yaml
 > pipelines:
@@ -13721,7 +13721,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 > 
 > ---
 > 
-> # Pipeline wiring (`pipelines.yaml`)
+> # Pipeline wiring (`pipelines.json`)
 > 
 > Append this **buildfix** pipeline:
 > 
@@ -14129,7 +14129,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 > 
 > ## 4) Pipeline wiring: enable git mode & (optional) push/PR
 > 
-> ### `pipelines.yaml` (buildfix section only)
+> ### `pipelines.json` (buildfix section only)
 > ```yaml
 > pipelines:
 >  - name: buildfix
@@ -14621,7 +14621,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 > 
 > # 4) Keep the pipeline the same
 > 
-> You can keep your `pipelines.yaml` `buildfix` section as-is. The `bf:02-iterate` script name hasn’t changed, but it’s much smaller and safer now.
+> You can keep your `pipelines.json` `buildfix` section as-is. The `bf:02-iterate` script name hasn’t changed, but it’s much smaller and safer now.
 > 
 > ---
 > 
@@ -14868,7 +14868,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 > 
 > ## 4) Pipeline knob
 > 
-> In your `pipelines.yaml` buildfix step, add the flag:
+> In your `pipelines.json` buildfix step, add the flag:
 > 
 > ```yaml
 > - id: bf-iterate
@@ -14919,7 +14919,7 @@ Chat URL: https://chat.openai.com/c/68b49968-f7e4-8331-b473-1643e69c1590
 > - **@promethean/buildfix** — run `tsc` → for each error, iterate: LLM → **base64 or DSL** → ts-morph apply → rebuild → loop. 
 >  Extras: **git mode** (per-error branch, commit/push/PR), **regression rollback** (auto reset on worse builds), attempt history & summary.
 > 
-> # Unified pipelines (in `pipelines.yaml`)
+> # Unified pipelines (in `pipelines.json`)
 > ```mermaid
 > flowchart LR
 >  subgraph Docs
