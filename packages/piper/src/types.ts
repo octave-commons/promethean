@@ -26,6 +26,7 @@ export const StepSchema = z
         module: z.string(),
         export: z.string().default("default"),
         args: z.any().optional(),
+        isolate: z.enum(["worker"]).optional(),
       })
       .optional(),
     args: z.array(z.string()).optional(),

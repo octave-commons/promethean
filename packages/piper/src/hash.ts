@@ -1,7 +1,11 @@
 import { promises as fs } from "fs";
+import type { Stats } from "fs";
+import * as path from "path";
 import * as crypto from "crypto";
+import { pathToFileURL, fileURLToPath } from "url";
 
 import { globby } from "globby";
+import { init, parse } from "es-module-lexer";
 
 export function sha1(s: string) {
   return crypto.createHash("sha1").update(s).digest("hex");
@@ -58,7 +62,15 @@ export async function stepFingerprint(
     ...(step.js?.module ? [step.js.module] : []),
   ];
   const inputsHash = await fingerprintFromGlobs(inputGlobs, cwd, mode);
-  // … rest of function …
+
+  let jsDepsHash = "";
+  if (step.js?.module) {
+    const modPath = path.isAbsolute(step.js.module)
+      ? step.js.module
+      : path.resolve(cwd, step.js.module);
+    jsDepsHash = (await fingerprintJsDeps(modPath, mode)).hash;
+  }
+
   const configHash = sha1(
     JSON.stringify({
       id: step.id,
@@ -69,5 +81,55 @@ export async function stepFingerprint(
       env: step.env,
     }),
   );
-  return sha1(inputsHash + "|" + configHash);
+  return sha1(inputsHash + "|" + jsDepsHash + "|" + configHash);
+}
+
+export async function fingerprintJsDeps(
+  modPath: string,
+  mode: "content" | "mtime",
+) {
+  await init;
+  const seen = new Set<string>();
+  const h = crypto.createHash("sha1");
+  const files: string[] = [];
+
+  async function walk(p: string): Promise<void> {
+    const abs = path.resolve(p);
+    if (seen.has(abs)) return;
+    seen.add(abs);
+
+    let code: string;
+    let st: Stats;
+    try {
+      st = await fs.stat(abs);
+      code = await fs.readFile(abs, "utf8");
+    } catch {
+      return;
+    }
+
+    h.update(Buffer.from(abs));
+    files.push(abs);
+    if (mode === "content") {
+      h.update(code);
+    } else {
+      h.update(`${st.mtimeMs}|${st.size}`);
+    }
+
+    const [imports] = parse(code);
+    for (const im of imports) {
+      const spec = im.n;
+      if (!spec) continue;
+      if (spec.startsWith(".") || spec.startsWith("/")) {
+        try {
+          const depPath = fileURLToPath(new URL(spec, pathToFileURL(abs)));
+          await walk(depPath);
+        } catch {
+          /* ignore resolution errors */
+        }
+      }
+    }
+  }
+
+  await walk(modPath);
+  return { hash: h.digest("hex"), files };
 }
