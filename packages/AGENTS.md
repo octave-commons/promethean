@@ -30,6 +30,12 @@
 - **Right tool for each test level.** Fakes for unit speed; containers for realistic integration. The principle is well-established: mock *your* interfaces, not vendor clients. ([Hynek Schlawack][3], [8th Light][2])
 - `esmock` provides native ESM import mocking and has examples for AVA. It avoids invasive “test hook” exports. ([NPM][5], [Skypack][6])
 
+## Clean Code
+
+- Leave every file you touch a bit cleaner than you found it.
+- Run eslint on changed paths and fix violations instead of ignoring them.
+- Prefer small, incremental improvements to code quality.
+
 ## Example package
 Keep it simple, use barrel exports, minimal tsconfig extending `../../tsconfig.base.json`, minimal `ava.config.mjs`
 build essentials (`typescript`, `rimraf`, `biome`,`ts-node`,`ava`,`tsx`, etc) are pinned to the root ``package.json`

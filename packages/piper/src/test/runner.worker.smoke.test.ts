@@ -2,8 +2,8 @@ import * as fs from "fs/promises";
 import * as path from "path";
 
 import test from "ava";
-import YAML from "yaml";
 
+import { sleep } from "@promethean/test-utils/dist/sleep.js";
 import { runPipeline } from "../runner.js";
 
 async function withTmp(fn: (dir: string) => Promise<void>) {
@@ -12,7 +12,7 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   const dir = await fs.mkdtemp(path.join(parent, "piper-"));
   try {
     await fn(dir);
-    await new Promise((r) => setTimeout(r, 25));
+    await sleep(50);
   } finally {
     await fs.rm(dir, { recursive: true, force: true });
   }
@@ -51,8 +51,8 @@ test.serial("js step (worker isolate) basic smoke", async (t) => {
       ],
     };
 
-    const p = path.join(dir, "pipelines.yaml");
-    await fs.writeFile(p, YAML.stringify(cfg), "utf8");
+    const p = path.join(dir, "pipelines.json");
+    await fs.writeFile(p, JSON.stringify(cfg, null, 2), "utf8");
     const res = await runPipeline(p, "w", { concurrency: 2 });
 
     const s = res[0]!;
