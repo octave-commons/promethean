@@ -2,8 +2,8 @@ import * as fs from "fs/promises";
 import * as path from "path";
 
 import test from "ava";
-import YAML from "yaml";
 
+import { sleep } from "@promethean/test-utils/dist/sleep.js";
 import { runPipeline } from "../runner.js";
 import { runJSFunction } from "../fsutils.js";
 
@@ -14,7 +14,7 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   try {
     await fn(dir);
     // small grace period for any async file watchers/flushes
-    await new Promise((r) => setTimeout(r, 25));
+    await sleep(50);
   } finally {
     await fs.rm(dir, { recursive: true, force: true });
   }
@@ -63,8 +63,8 @@ test.serial("runPipeline executes js + shell steps (make → cat)", async (t) =>
       ],
     };
 
-    const pipelinesPath = path.join(dir, "pipelines.yaml");
-    await fs.writeFile(pipelinesPath, YAML.stringify(cfg), "utf8");
+    const pipelinesPath = path.join(dir, "pipelines.json");
+    await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
 
     const res = await runPipeline(pipelinesPath, "demo", { concurrency: 2 });
     t.is(res.length, 2);
@@ -121,8 +121,8 @@ test.serial("JS steps isolate process.env when run concurrently", async (t) => {
       ],
     };
 
-    const pipelinesPath = path.join(dir, "pipelines.yaml");
-    await fs.writeFile(pipelinesPath, YAML.stringify(cfg), "utf8");
+    const pipelinesPath = path.join(dir, "pipelines.json");
+    await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
     await runPipeline(pipelinesPath, "env", { concurrency: 2 });
 
     const aOut = await fs.readFile(path.join(dir, "a.txt"), "utf8");
@@ -138,7 +138,7 @@ test.serial(
   async (t) => {
     const a = async () => {
       console.log("first");
-      await new Promise((r) => setTimeout(r, 50));
+      await sleep(50);
     };
     const b = () => {
       console.log(process.env.LEAK ?? "second");
@@ -173,7 +173,7 @@ test.serial(
                 deps: [],
                 inputs: [],
                 outputs: [],
-                cache: "content",
+                cache: "none",
                 timeoutMs: 100,
                 env: { LEAK: "1" },
                 js: { module: "./hang.js" },
@@ -184,7 +184,7 @@ test.serial(
                 deps: [],
                 inputs: [],
                 outputs: [],
-                cache: "content",
+                cache: "none",
                 js: { module: "./after.js" },
               },
             ],
@@ -192,8 +192,8 @@ test.serial(
         ],
       };
 
-      const pipelinesPath = path.join(dir, "pipelines.yaml");
-      await fs.writeFile(pipelinesPath, YAML.stringify(cfg), "utf8");
+      const pipelinesPath = path.join(dir, "pipelines.json");
+      await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
       const res = await runPipeline(pipelinesPath, "demo", { concurrency: 1 });
 
       const first = res.find((r) => r.id === "hang")!;
@@ -214,12 +214,12 @@ test.serial(
       const res = await runJSFunction(inner, {}, {});
       console.log((res.stdout ?? "").trim());
     };
-    const res = (await Promise.race([
+    const res: Awaited<ReturnType<typeof runJSFunction>> = await Promise.race([
       runJSFunction(outer, {}, {}),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("deadlock")), 1000),
-      ),
-    ])) as any;
+      sleep(1000).then(() => {
+        throw new Error("deadlock");
+      }),
+    ]);
     t.is(res.code, 0);
     t.true((res.stdout ?? "").trim().endsWith("inner"));
   },
@@ -245,7 +245,7 @@ test.serial(
                 deps: [],
                 inputs: [],
                 outputs: [],
-                cache: "content",
+                cache: "none",
                 timeoutMs: 10,
                 env: { TEST_VAR: "changed" },
                 js: { module: "./mod.js", export: "slow", isolate: "worker" },
@@ -255,8 +255,8 @@ test.serial(
         ],
       };
 
-      const p = path.join(dir, "pipelines.yaml");
-      await fs.writeFile(p, YAML.stringify(cfg), "utf8");
+      const p = path.join(dir, "pipelines.json");
+      await fs.writeFile(p, JSON.stringify(cfg, null, 2), "utf8");
       const res = await runPipeline(p, "w", { concurrency: 1 });
 
       const step = res.find((r) => r.id === "js")!;
@@ -295,8 +295,8 @@ test.serial("worker js step: crash rejects instead of hanging", async (t) => {
       ],
     };
 
-    const p = path.join(dir, "pipelines.yaml");
-    await fs.writeFile(p, YAML.stringify(cfg), "utf8");
+    const p = path.join(dir, "pipelines.json");
+    await fs.writeFile(p, JSON.stringify(cfg, null, 2), "utf8");
     const res = await runPipeline(p, "w", { concurrency: 1 });
 
     const step = res.find((r) => r.id === "js")!;
@@ -341,8 +341,8 @@ test.serial("worker js step: export name is respected (one/two)", async (t) => {
       ],
     };
 
-    const p = path.join(dir, "pipelines.yaml");
-    await fs.writeFile(p, YAML.stringify(cfg), "utf8");
+    const p = path.join(dir, "pipelines.json");
+    await fs.writeFile(p, JSON.stringify(cfg, null, 2), "utf8");
     const res = await runPipeline(p, "w", { concurrency: 1 });
 
     const a = res.find((r) => r.id === "a")!;
@@ -387,11 +387,11 @@ test.serial(
       });
 
       // Run 1
-      const p = path.join(dir, "pipelines.yaml");
-      await fs.writeFile(p, YAML.stringify(cfg()), "utf8");
-      let res = await runPipeline(p, "w", { concurrency: 1 });
-      let step = res.find((r) => r.id === "js")!;
-      t.is(step.stdout?.trim(), "one");
+      const p = path.join(dir, "pipelines.json");
+      await fs.writeFile(p, JSON.stringify(cfg(), null, 2), "utf8");
+      const res1 = await runPipeline(p, "w", { concurrency: 1 });
+      const step1 = res1.find((r) => r.id === "js")!;
+      t.is(step1.stdout?.trim(), "one");
 
       // Change a transitive dep
       await fs.writeFile(
@@ -401,10 +401,10 @@ test.serial(
       );
 
       // Run 2 (worker imports afresh)
-      await fs.writeFile(p, YAML.stringify(cfg()), "utf8");
-      res = await runPipeline(p, "w", { concurrency: 1 });
-      step = res.find((r) => r.id === "js")!;
-      t.is(step.stdout?.trim(), "two");
+      await fs.writeFile(p, JSON.stringify(cfg(), null, 2), "utf8");
+      const res2 = await runPipeline(p, "w", { concurrency: 1 });
+      const step2 = res2.find((r) => r.id === "js")!;
+      t.is(step2.stdout?.trim(), "two");
     });
   },
 );
@@ -440,20 +440,28 @@ test.serial(
         ],
       });
 
-      const p = path.join(dir, "pipelines.yaml");
+      const p = path.join(dir, "pipelines.json");
 
       // First run: timeout due to HANG=1
-      await fs.writeFile(p, YAML.stringify(mkCfg({ HANG: "1" }, 100)), "utf8");
-      let res = await runPipeline(p, "w", { concurrency: 1 });
-      let step = res.find((r) => r.id === "js")!;
-      t.is(step.exitCode, 124);
+      await fs.writeFile(
+        p,
+        JSON.stringify(mkCfg({ HANG: "1" }, 100), null, 2),
+        "utf8",
+      );
+      const res1 = await runPipeline(p, "w", { concurrency: 1 });
+      const step1 = res1.find((r) => r.id === "js")!;
+      t.is(step1.exitCode, 124);
 
       // Second run: no hang, should succeed and print "ok"
-      await fs.writeFile(p, YAML.stringify(mkCfg(undefined, 1000)), "utf8");
-      res = await runPipeline(p, "w", { concurrency: 1 });
-      step = res.find((r) => r.id === "js")!;
-      t.is(step.exitCode, 0);
-      t.is(step.stdout?.trim(), "ok");
+      await fs.writeFile(
+        p,
+        JSON.stringify(mkCfg(undefined, 1000), null, 2),
+        "utf8",
+      );
+      const res2 = await runPipeline(p, "w", { concurrency: 1 });
+      const step2 = res2.find((r) => r.id === "js")!;
+      t.is(step2.exitCode, 0);
+      t.is(step2.stdout?.trim(), "ok");
     });
   },
 );

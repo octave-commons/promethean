@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 pnpm install --no-frozen-lockfile
 
 # start the server if not running
