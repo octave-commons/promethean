@@ -3,6 +3,7 @@ import * as path from "path";
 
 import test from "ava";
 
+import { sleep } from "@promethean/test-utils/dist/sleep.js";
 import { runPipeline } from "../runner.js";
 
 async function withTmp(fn: (dir: string) => Promise<void>) {
@@ -11,7 +12,7 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   const dir = await fs.mkdtemp(path.join(parent, "piper-"));
   try {
     await fn(dir);
-    await new Promise((r) => setTimeout(r, 25));
+    await sleep(50);
   } finally {
     await fs.rm(dir, { recursive: true, force: true });
   }
