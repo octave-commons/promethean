@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-import { exec as _exec } from "child_process";
+import { execFile as _execFile } from "child_process";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
@@ -109,11 +109,12 @@ export function cosine(a: number[], b: number[]) {
   return !na || !nb ? 0 : dot / (Math.sqrt(na) * Math.sqrt(nb));
 }
 
-export async function execShell(cmd: string, cwd: string) {
+export async function execShell(cmd: string, args: string[], cwd: string) {
   return new Promise<{ code: number | null; stdout: string; stderr: string }>(
     (resolve) => {
-      const child = _exec(
+      const child = _execFile(
         cmd,
+        args,
         { cwd, maxBuffer: 1024 * 1024 * 64, env: { ...process.env } },
         (err, stdout, stderr) => {
           resolve({
