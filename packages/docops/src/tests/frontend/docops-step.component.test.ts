@@ -1,6 +1,7 @@
-import test from "ava";
 import * as path from "path";
 import { promises as fs } from "fs";
+
+import test from "ava";
 
 function dist(pathFromPkg: string) {
   const PKG = path.resolve(

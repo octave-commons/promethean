@@ -1,16 +1,17 @@
+import * as url from "node:url";
+import * as path from "node:path";
+import { promises as fs } from "node:fs";
+
 import fastifyFactory from "fastify";
 import fastifyStatic from "@fastify/static";
 import websocket from "@fastify/websocket";
 import type { WebSocket } from "ws";
+import type { FastifyRequest } from "fastify";
 
-import * as url from "node:url";
-import * as path from "node:path";
-import { promises as fs } from "node:fs";
 import { openDB } from "./db.js";
 import { parseArgs } from "./utils.js";
 import { computePreview } from "./preview-front.js";
 import { sseInit } from "./lib/sse.js";
-import type { FastifyRequest } from "fastify";
 import { getChromaCollection } from "./lib/chroma.js";
 import { buildFileTree } from "./lib/files.js";
 import { computeDocStatus } from "./lib/status.js";
@@ -286,7 +287,7 @@ app.get<{ Querystring: { dir?: string; file: string } }>(
     try {
       const q = req.query || {};
       const dir = path.resolve(q.dir ?? ROOT);
-      const file = q.file as string;
+      const file = q.file;
       if (!file) throw new Error("Missing file parameter");
       const abs = path.resolve(file);
       if (!abs.startsWith(dir)) throw new Error("File outside allowed dir");
@@ -557,7 +558,7 @@ if (WS_ENABLED) {
         | "block"
         | "heading"
         | "none";
-      const sel = q.files as string | undefined;
+      const sel = q.files;
       const files = sel ? JSON.parse(sel) : undefined;
       const send = (s: string) => {
         try {
@@ -658,7 +659,7 @@ app.get<{
     | "block"
     | "heading"
     | "none";
-  const sel = q.files as string | undefined;
+  const sel = q.files;
   const files = sel ? JSON.parse(sel) : undefined;
 
   const line = sseInit(reply);

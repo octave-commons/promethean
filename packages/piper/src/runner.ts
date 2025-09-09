@@ -2,7 +2,8 @@ import * as path from "path";
 import { promises as fs } from "fs";
 
 import * as chokidar from "chokidar";
-import * as YAML from "yaml";
+import YAML from "yaml";
+
 import {
   FileSchema,
   PiperFile,
@@ -15,6 +16,7 @@ import {
   listOutputsExist,
   runNode,
   runShell,
+  runJSModule,
   runTSModule,
   writeText,
 } from "./fsutils.js";
@@ -34,10 +36,22 @@ function slug(s: string) {
 
 async function readConfig(p: string): Promise<PiperFile> {
   const raw = await fs.readFile(p, "utf-8");
-  const obj = p.endsWith(".json") ? JSON.parse(raw) : YAML.parse(raw);
+  // Support YAML (preferred) and JSON for backwards compat.
+  const lower = p.toLowerCase();
+  let obj: unknown;
+  if (lower.endsWith(".yaml") || lower.endsWith(".yml")) {
+    obj = YAML.parse(raw);
+  } else {
+    try {
+      obj = JSON.parse(raw);
+    } catch (e: any) {
+      throw new Error(`failed to parse JSON config ${p}: ${e?.message ?? e}`);
+    }
+  }
   const parsed = FileSchema.safeParse(obj);
-  if (!parsed.success)
+  if (!parsed.success) {
     throw new Error("pipelines config invalid: " + parsed.error.message);
+  }
   return parsed.data;
 }
 
@@ -69,7 +83,10 @@ export async function runPipeline(
   if (!pipeline) throw new Error(`pipeline '${pipelineName}' not found`);
   const steps = topoSort(pipeline.steps);
   const state = await loadState(pipeline.name);
+
   const sem = semaphore(Math.max(1, opts.concurrency ?? 2));
+  // Serialize JS module steps to avoid in-proc global-state races.
+  const jsSem = semaphore(1);
 
   const results: StepResult[] = [];
   const runMap = new Map<string, Promise<void>>();
@@ -79,6 +96,7 @@ export async function runPipeline(
     for (const d of s.deps) await runMap.get(d);
 
     await sem.take();
+    let jsLocked = false;
     try {
       const cwd = path.resolve(s.cwd || ".");
       const fp = await stepFingerprint(s, cwd, !!opts.contentHash);
@@ -93,6 +111,7 @@ export async function runPipeline(
         haveOutputs,
         opts.force,
       );
+
       if (opts.dryRun) {
         results.push({ id: s.id, skipped: true, reason: "dry-run" });
         emitEvent(
@@ -120,16 +139,35 @@ export async function runPipeline(
         { type: "start", stepId: s.id, at: startedAt },
         !!(opts as any).json,
       );
-      let execRes: { code: number | null; stdout: string; stderr: string } = {
-        code: 0,
-        stdout: "",
-        stderr: "",
-      };
 
-      if (s.shell) execRes = await runShell(s.shell, cwd, s.env, s.timeoutMs);
-      else if (s.node)
+      let execRes: {
+        code: number | null;
+        stdout: string;
+        stderr: string;
+      } = { code: 0, stdout: "", stderr: "" };
+
+      if (s.shell) {
+        execRes = await runShell(s.shell, cwd, s.env, s.timeoutMs);
+      } else if (s.node) {
         execRes = await runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
-      else if (s.ts) execRes = await runTSModule(s, cwd, s.env, s.timeoutMs);
+      } else if (s.ts) {
+        execRes = await runTSModule(s, cwd, s.env, s.timeoutMs);
+      } else if (s.js) {
+        const needJsLock = (s.js as any)?.isolate !== "worker";
+        if (needJsLock) {
+          await jsSem.take();
+          jsLocked = true;
+        }
+        try {
+          execRes = await runJSModule(s, cwd, s.env, fp, s.timeoutMs);
+        } catch (e: any) {
+          execRes = {
+            code: 1,
+            stdout: "",
+            stderr: e?.stack ?? String(e),
+          };
+        }
+      }
 
       const endedAt = new Date().toISOString();
       const out: StepResult = {
@@ -153,6 +191,7 @@ export async function runPipeline(
       );
     } finally {
       sem.release();
+      if (jsLocked) jsSem.release();
     }
   };
 
@@ -171,6 +210,7 @@ export async function runPipeline(
       md,
     );
   }
+
   // pretty console
   const ok = results.filter((r) => !r.skipped && r.exitCode === 0).length;
   const sk = results.filter((r) => r.skipped).length;

@@ -1,5 +1,4 @@
 import test from "ava";
-
 import { indexAttachments } from "@promethean/discord";
 
 test("indexes attachments for provider+tenant", async (t) => {

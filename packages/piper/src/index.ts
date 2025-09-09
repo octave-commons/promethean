@@ -6,13 +6,13 @@ function usage() {
   console.log(`piper <command> [options]
 
 Commands:
-  list                         List pipelines in pipelines.yaml
+  list                         List pipelines in pipelines.json
   status <name>                Show cache/status for each step
   run <name>                   Run a pipeline
   watch <name>                 Watch inputs & re-run
 
 Options for run/watch:
-  --config pipelines.yaml      Path to pipelines file (yaml|json)
+  --config pipelines.json      Path to pipelines file (json)
   --force                      Ignore cache
   --dry                        Dry-run (plan)
   --concurrency 4              Concurrency
@@ -23,9 +23,8 @@ Options for run/watch:
 
 async function listPipelines(configPath: string) {
   const { readFileSync } = await import("fs");
-  const YAML = (await import("yaml")).default;
   const raw = readFileSync(configPath, "utf-8");
-  const obj = configPath.endsWith(".json") ? JSON.parse(raw) : YAML.parse(raw);
+  const obj = JSON.parse(raw);
   const pipes = Array.isArray(obj?.pipelines) ? obj.pipelines : [];
   console.log(pipes.map((p: any) => "- " + p.name).join("\n"));
 }
@@ -39,7 +38,7 @@ async function main() {
   };
   const has = (flag: string) => args.includes(flag);
 
-  const configPath = path.resolve(get("--config", "pipelines.yaml")!);
+  const configPath = path.resolve(get("--config", "pipelines.json")!);
 
   if (!cmd || cmd === "help" || cmd === "--help") return usage();
   if (cmd === "list") return listPipelines(configPath);
@@ -68,7 +67,7 @@ async function main() {
       contentHash: has("--content-hash"),
       json: has("--json"),
     } as any;
-    if (cmd === "run") await runPipeline(configPath, name, opts as any);
+    if (cmd === "run") await runPipeline(configPath, name, opts);
     else await watchPipeline(configPath, name, opts);
     return;
   }

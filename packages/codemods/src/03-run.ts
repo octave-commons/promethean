@@ -1,6 +1,7 @@
-/* eslint-disable no-console */
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
+import { pathToFileURL } from "node:url";
+
 import { Project, SyntaxKind } from "ts-morph";
 import { diffLines } from "diff";
 
@@ -15,7 +16,7 @@ const args = parseArgs({
   "--delete-duplicates": "true",
 });
 // biome-ignore lint/style/noNonNullAssertion: argument is required with default
-const specsPath = args["--specs"]!;
+const specsPath = args["--specs"];
 
 function parseArgs<T extends Record<string, string>>(defaults: T): T {
   const out = { ...defaults };
@@ -57,7 +58,6 @@ async function loadTransforms(modsDir: string) {
   }
   return loaders;
 }
-import { pathToFileURL } from "node:url";
 
 type SpecsFile = {
   specs: Array<{
@@ -87,7 +87,9 @@ async function main() {
     skipAddingFilesFromTsConfig: true,
   });
   const files = await listCodeFiles(ROOT);
-  files.forEach((f: string) => { project.addSourceFileAtPathIfExists(f); });
+  files.forEach((f: string) => {
+    project.addSourceFileAtPathIfExists(f);
+  });
 
   const summary: string[] = [];
   const deletionsWanted = new Set<string>(); // abs paths
@@ -116,10 +118,15 @@ async function main() {
       if (MODE === "dry") {
         const diffs = diffLines(before, after);
         // biome-ignore lint/suspicious/noExplicitAny: diff library lacks types for parts
-        const pretty = diffs.map((part: any) => {
-          const prefix = part.added ? "+" : part.removed ? "-" : " ";
-          return part.value.split("\n").map((line: string) => prefix + line).join("\n");
-        }).join("");
+        const pretty = diffs
+          .map((part: any) => {
+            const prefix = part.added ? "+" : part.removed ? "-" : " ";
+            return part.value
+              .split("\n")
+              .map((line: string) => prefix + line)
+              .join("\n");
+          })
+          .join("");
         // revert in dry mode
         sf.replaceWithText(before);
 
@@ -150,7 +157,9 @@ async function main() {
 
   // Candidate deletions (files that now have no meaningful statements)
   if (DELETE) {
-    const specs: SpecsFile = JSON.parse(await fs.readFile(path.resolve(specsPath), "utf-8"));
+    const specs: SpecsFile = JSON.parse(
+      await fs.readFile(path.resolve(specsPath), "utf-8"),
+    );
     for (const s of specs.specs) {
       for (const dup of s.duplicates) {
         const abs = path.resolve(dup.file);
@@ -189,13 +198,29 @@ async function main() {
     "",
     ...summary,
     "",
-    DELETE ? `## Duplicate files ${MODE === "dry" ? "that would be deleted" : "deleted"}` : "",
-    DELETE ? (deletionsDone.length
-      ? deletionsDone.map(p => `- ${p}`).join("\n")
-      : (Array.from(deletionsWanted).length ? Array.from(deletionsWanted).map(a => `- ${relFromRepo(a)}`).join("\n") : "_None_")) : ""
-  ].filter(Boolean).join("\n");
+    DELETE
+      ? `## Duplicate files ${
+          MODE === "dry" ? "that would be deleted" : "deleted"
+        }`
+      : "",
+    DELETE
+      ? deletionsDone.length
+        ? deletionsDone.map((p) => `- ${p}`).join("\n")
+        : Array.from(deletionsWanted).length
+          ? Array.from(deletionsWanted)
+              .map((a) => `- ${relFromRepo(a)}`)
+              .join("\n")
+          : "_None_"
+      : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
 
-  await fs.writeFile(path.join(REPORT_ROOT, `README.md`), `${index}\n`, "utf-8");
+  await fs.writeFile(
+    path.join(REPORT_ROOT, `README.md`),
+    `${index}\n`,
+    "utf-8",
+  );
 
   if (MODE === "apply") {
     await project.save();

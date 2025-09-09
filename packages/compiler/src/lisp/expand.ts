@@ -25,16 +25,16 @@ function expand(x: S, M: MacroEnv): S {
 
     // handle defmacro at top or nested (register and return nil)
     if (isList(x, 'defmacro')) {
-        const head = (x as List).xs[0] as Sym;
+        const head = x.xs[0] as Sym;
         const fn = M.get('defmacro')!;
-        return fn(x as List, (y) => expand(y, M));
+        return fn(x, (y) => expand(y, M));
     }
 
     // macro call?
-    const head = (x as List).xs[0];
+    const head = x.xs[0];
     if (head.t === 'sym' && M.has(head.name)) {
         const fn = M.get(head.name)!;
-        const out = fn(x as List, (y) => expand(y, M));
+        const out = fn(x, (y) => expand(y, M));
         return expand(out, M);
     }
 
