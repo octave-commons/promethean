@@ -20,7 +20,7 @@ apt-get install -y jq moreutils ripgrep
 bash ./run/install_gyp.sh
 
 
-pnpm install --no-frozen-lockfile --reporter=append-only
+pnpm install --no-frozen-lockfile
 
 bash ./run/setup_playwright.sh
 
