@@ -3,23 +3,23 @@ import { parentPort, workerData } from "worker_threads";
 if (
   !workerData ||
   typeof workerData !== "object" ||
-  !("modulePath" in workerData)
+  !("modUrl" in workerData)
 ) {
   parentPort!.postMessage({
     ok: false,
-    err: "Invalid workerData: missing modulePath",
+    err: "Invalid workerData: missing modUrl",
   });
   process.exit(1);
 }
 
-const { modulePath, exportName } = workerData as {
-  modulePath: string;
+const { modUrl, exportName } = workerData as {
+  modUrl: string;
   exportName?: string;
 };
 
 async function load() {
   try {
-    const mod = await import(modulePath);
+    const mod = await import(modUrl);
     const fn = (exportName && mod[exportName]) ?? mod.default ?? mod;
     if (typeof fn !== "function") {
       throw new Error("export is not a function");
