@@ -109,3 +109,4 @@ error-groups/
 
 **/*.tsbuildinfo
 **/tsconfig.tsbuildinfo
+v8-compile-cache-0/
