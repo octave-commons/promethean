@@ -7,25 +7,11 @@ import { pathToFileURL } from "url";
 
 import { globby } from "globby";
 import { ensureDir } from "@promethean/fs";
+
 import { PiperStep } from "./types.js";
+import { fingerprintJsDeps } from "./hash.js";
 
 export { ensureDir };
-
-class Mutex {
-  private queue: (() => void)[] = [];
-  private locked = false;
-  async acquire() {
-    if (this.locked) await new Promise<void>((res) => this.queue.push(res));
-    else this.locked = true;
-  }
-  release() {
-    const next = this.queue.shift();
-    if (next) next();
-    else this.locked = false;
-  }
-}
-
-const envMutex = new Mutex();
 
 export async function readTextMaybe(p: string) {
   try {
@@ -96,8 +82,8 @@ export async function runJSFunction(
     let stdout = "";
     let stderr = "";
 
-    const origStdout = process.stdout.write.bind(process.stdout);
-    const origStderr = process.stderr.write.bind(process.stderr);
+    const origStdout = process.stdout.write;
+    const origStderr = process.stderr.write;
     const origEnv: Record<string, string | undefined> = {};
     let cleaned = false;
 
@@ -112,12 +98,16 @@ export async function runJSFunction(
       }
     };
 
-    (process.stdout.write as any) = (chunk: any) => {
+    (process.stdout.write as any) = (chunk: any, enc?: any, cb?: any) => {
       stdout += typeof chunk === "string" ? chunk : String(chunk);
+      const fn = typeof enc === "function" ? enc : cb;
+      if (typeof fn === "function") fn();
       return true;
     };
-    (process.stderr.write as any) = (chunk: any) => {
+    (process.stderr.write as any) = (chunk: any, enc?: any, cb?: any) => {
       stderr += typeof chunk === "string" ? chunk : String(chunk);
+      const fn = typeof enc === "function" ? enc : cb;
+      if (typeof fn === "function") fn();
       return true;
     };
     for (const [k, v] of Object.entries(env)) {
@@ -140,7 +130,7 @@ export async function runJSFunction(
 
     if (!timeoutMs) return exec();
 
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setTimeout> | undefined;
     return Promise.race([
       exec(),
       new Promise<{ code: number; stdout: string; stderr: string }>(
@@ -151,7 +141,9 @@ export async function runJSFunction(
           }, timeoutMs);
         },
       ),
-    ]).finally(() => clearTimeout(timer));
+    ]).finally(() => {
+      if (timer) clearTimeout(timer);
+    });
   };
 
   // If we already hold the lock in this async context, just run.
@@ -174,13 +166,12 @@ export async function runJSFunction(
 
 /** Worker-isolated JS module runner (captures console safely) */
 async function runJSModuleWorker(
-  modPath: string,
+  modUrl: string,
   exportName: string | undefined,
   args: any,
   env: Record<string, string>,
   timeoutMs?: number,
 ) {
-  const modUrl = pathToFileURL(modPath).href;
   return new Promise<{ code: number | null; stdout: string; stderr: string }>(
     (resolve) => {
       const worker = new Worker(new URL("./js-worker.js", import.meta.url), {
@@ -205,11 +196,8 @@ async function runJSModuleWorker(
 
       if (timeoutMs && timeoutMs > 0) {
         timer = setTimeout(() => {
-          worker
-            .terminate()
-            .finally(() =>
-              finish({ code: 124, stdout, stderr: stderr + "timeout" }),
-            );
+          worker.terminate();
+          finish({ code: 124, stdout, stderr: stderr + "timeout" });
         }, timeoutMs);
       }
 
@@ -238,76 +226,85 @@ async function runJSModuleWorker(
 }
 
 /** JS module runner (default in-proc fast path).
- *  - Env is isolated via a mutex and restored after run.
- *  - Only string return values are forwarded to stdout (console is not captured).
- *  - Set step.js.isolate = "worker" to capture console via worker.
+ *  - Env is isolated and restored after run (calls serialized).
+ *  - Console/stdout/stderr are captured during execution.
+ *  - Set step.js.isolate = "worker" for process isolation; console captured via worker.
  */
 export async function runJSModule(
   step: PiperStep,
   cwd: string,
   env: Record<string, string>,
+  fp: string,
   timeoutMs?: number,
 ) {
   const modPath = path.isAbsolute(step.js!.module)
     ? step.js!.module
     : path.resolve(cwd, step.js!.module);
+  let importPath = modPath;
+  if ((step.js as any)?.isolate === "worker") {
+    const { files } = await fingerprintJsDeps(modPath, "content");
+    const base = path.dirname(modPath);
+    const copyDir = path.join(base, ".piper", fp);
+    await Promise.all(
+      files.map(async (f) => {
+        const rel = path.relative(base, f);
+        const dest = path.join(copyDir, rel);
+        await ensureDir(path.dirname(dest));
+        await fs.copyFile(f, dest);
+      }),
+    );
+    importPath = path.join(copyDir, path.relative(base, modPath));
+  }
 
+  const url = pathToFileURL(importPath);
+  url.searchParams.set("fp", fp);
   if ((step.js as any)?.isolate === "worker") {
     return runJSModuleWorker(
-      modPath,
+      url.href,
       step.js!.export,
       step.js!.args ?? {},
       env,
       timeoutMs,
     );
   }
-
-  const url = pathToFileURL(modPath).href;
-  await envMutex.acquire();
-  const prevEnv: Record<string, string | undefined> = {};
-  for (const [k, v] of Object.entries(env)) {
-    prevEnv[k] = process.env[k];
-    process.env[k] = v;
-  }
-  let timer: NodeJS.Timeout | undefined;
-  try {
-    const mod: any = await import(url);
-    const fn = (step.js!.export && mod[step.js!.export]) || mod.default || mod;
-    const call = fn(step.js!.args ?? {});
-    const res = timeoutMs
-      ? await Promise.race([
-          call,
-          new Promise((_, reject) => {
-            timer = setTimeout(() => reject(new Error("timeout")), timeoutMs);
-          }),
-        ])
-      : await call;
-    const out = typeof res === "string" ? res : "";
-    return { code: 0, stdout: out, stderr: "" };
-  } catch (err: any) {
-    return { code: 1, stdout: "", stderr: String(err?.stack ?? err) };
-  } finally {
-    if (timer) clearTimeout(timer);
-    for (const [k, v] of Object.entries(prevEnv)) {
-      if (v === undefined) delete process.env[k];
-      else process.env[k] = v;
-    }
-    envMutex.release();
-  }
+  const mod: any = await import(url.href);
+  const fn = (step.js!.export && mod[step.js!.export]) || mod.default || mod;
+  return runJSFunction(fn, step.js!.args ?? {}, env, timeoutMs);
 }
 
+export async function runTSModule(
+  step: PiperStep,
+  cwd: string,
+  env: Record<string, string>,
+  timeoutMs?: number,
+) {
+  const modPath = path.isAbsolute(step.ts!.module)
+    ? step.ts!.module
+    : path.resolve(cwd, step.ts!.module);
+  const modUrl = pathToFileURL(modPath).href;
+  const code = `
+  import * as mod from ${JSON.stringify(modUrl)};
+  const exp = ${JSON.stringify(step.ts!.export ?? null)};
+  const fn = exp ? (mod as any)[exp] : (mod as any).default ?? (mod as any);
+  const res = await fn(${JSON.stringify(step.ts!.args ?? {})});
+  if (typeof res === 'string') process.stdout.write(res);
+`;
+  const cmd = process.execPath;
+  const args = ["--loader", "ts-node/esm", "--input-type=module", "-e", code];
+  return runSpawn(cmd, { cwd, env, args, timeoutMs });
+}
 function runSpawn(
   cmd: string,
   opts: {
     cwd: string;
     env: NodeJS.ProcessEnv;
-    shell?: boolean;
-    args?: string[];
-    timeoutMs?: number;
+    shell?: boolean | undefined;
+    args?: string[] | undefined;
+    timeoutMs?: number | undefined;
   },
 ) {
   return new Promise<{ code: number | null; stdout: string; stderr: string }>(
-    (resolve) => {
+    (resolve, reject) => {
       const child = opts.shell
         ? spawn(cmd, {
             cwd: opts.cwd,
@@ -324,17 +321,29 @@ function runSpawn(
           });
 
       let out = "",
-        err = "";
+        err = "",
+        timedOut = false;
       const killTimer =
         opts.timeoutMs && opts.timeoutMs > 0
           ? setTimeout(() => {
+              timedOut = true;
               try {
                 if (process.platform !== "win32" && child.pid) {
                   process.kill(-child.pid, "SIGKILL");
                 } else {
                   child.kill("SIGKILL");
                 }
-              } catch {}
+              } catch (killError: any) {
+                if (killError.code === "ESRCH") {
+                  // process already dead
+                } else if (killError.code === "EPERM") {
+                  console.warn(
+                    `Permission denied killing process ${child.pid}`,
+                  );
+                } else {
+                  err += `\nkill failed: ${killError.message ?? killError}`;
+                }
+              }
             }, opts.timeoutMs)
           : undefined;
 
@@ -342,11 +351,13 @@ function runSpawn(
       child.stderr.on("data", (d) => (err += String(d)));
       child.on("close", (code) => {
         if (killTimer) clearTimeout(killTimer as any);
-        resolve({ code, stdout: out, stderr: err });
+        resolve({
+          code: timedOut ? 124 : code,
+          stdout: out,
+          stderr: timedOut ? err + "timeout" : err,
+        });
       });
-      child.on("error", () =>
-        resolve({ code: 127, stdout: out, stderr: err || "failed to spawn" }),
-      );
+      child.on("error", (e) => reject(e));
     },
   );
 }

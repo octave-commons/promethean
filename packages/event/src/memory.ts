@@ -182,7 +182,7 @@ export class InMemoryEventBus implements EventBus {
         const key = gkey(topic, group);
         const cur = (await this.cursors.get(topic, group)) ?? { topic };
         cur.lastId = id;
-        await this.cursors.set(topic, group, cur as CursorPosition);
+        await this.cursors.set(topic, group, cur);
         const sub = this.subs.get(key);
         if (sub?.manualAck && sub.inFlightId === id) {
             sub.inFlightId = undefined;

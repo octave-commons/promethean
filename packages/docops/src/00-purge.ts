@@ -1,7 +1,11 @@
 // packages/docops/src/00-purge.ts
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
+import { pathToFileURL } from "node:url";
+
 import { parseArgs, listFilesRec, stripGeneratedSections } from "./utils.js";
+
+// CLI entry
 
 export type PurgeOptions = {
   dir: string;
@@ -88,9 +92,6 @@ export async function runPurge(
     });
   }
 }
-
-// CLI entry
-import { pathToFileURL } from "node:url";
 const isDirect =
   !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
 if (isDirect) {

@@ -1,4 +1,5 @@
 import type { Collection, Db, IndexSpecification } from 'mongodb';
+
 import type { EventRecord, EventStore, CursorStore, CursorPosition, UUID } from './types.js';
 import { InMemoryEventBus } from './memory.js';
 

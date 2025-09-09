@@ -2,7 +2,9 @@
 import * as path from "node:path";
 import { pathToFileURL } from "node:url";
 import { promises as fs } from "node:fs";
+
 import matter from "gray-matter";
+
 import { openDB } from "./db.js";
 import type { DBs } from "./db.js";
 import type { Chunk, Front, QueryHit } from "./types.js";
@@ -69,16 +71,14 @@ export async function computePreview(
       if (d.path && /\.(md|mdx|txt)$/i.test(d.path)) docs.push([u, d]);
     }
   }
-  const byUuid = new Map<string, DocInfo>(docs as [string, DocInfo][]);
+  const byUuid = new Map<string, DocInfo>(docs);
   const allowed = new Set(docs.map(([u]) => u));
 
   // Pick target UUID
   let uuid = (frontPathOrUuid.uuid || "").trim();
   if (!uuid) {
     const f = path.resolve(frontPathOrUuid.file || "");
-    let found = docs.find(
-      ([, info]) => path.resolve((info as DocInfo).path) === f,
-    );
+    let found = docs.find(([, info]) => path.resolve(info.path) === f);
     if (!found) {
       // fallback: scan full docsKV (no scope) to locate the file
       for await (const [u, info] of docsKV.iterator()) {
@@ -109,7 +109,7 @@ export async function computePreview(
     if (!uuid) {
       // attempt to resolve via chunks index
       for await (const [u, cs] of chunksKV.iterator()) {
-        const arr = (cs as readonly Chunk[]) || [];
+        const arr = cs || [];
         if (arr.some((c) => path.resolve(c.docPath) === f)) {
           uuid = u;
           break;

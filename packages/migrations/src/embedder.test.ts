@@ -1,5 +1,4 @@
 import test from 'ava';
-
 import { makeDeterministicEmbedder, assertDim } from '@promethean/embedding';
 
 test('deterministic embedder returns fixed dimension', async (t) => {

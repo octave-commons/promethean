@@ -1,5 +1,6 @@
 import { load } from "cheerio";
-import { canonicalUrl, isUrlAllowed } from './url.js';
+
+import { canonicalUrl, isUrlAllowed } from "./url.js";
 
 export type CrawlResult = {
   url: string;
