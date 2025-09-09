@@ -226,26 +226,33 @@ export async function runPipeline(
         return base;
       };
 
-      let attempt = 0;
+      type ExecRes = Readonly<{
+        code: number | null;
+        stdout: string;
+        stderr: string;
+      }>;
       const maxRetry = Math.max(0, Math.floor(s.retry ?? 0));
-      let execRes = await runOnce();
-      while (execRes.code !== 0 && attempt < maxRetry) {
-        attempt++;
+      const execRes: ExecRes = await (async function attemptRun(
+        attempt: number,
+      ): Promise<ExecRes> {
+        const res = await runOnce();
+        if (res.code === 0 || attempt >= maxRetry) return res;
+        const nextAttempt = attempt + 1;
         emit(
           {
             type: "retry",
             stepId: s.id,
             at: new Date().toISOString(),
-            attempt,
-            exitCode: execRes.code,
+            attempt: nextAttempt,
+            exitCode: res.code,
           },
           opts.json ?? false,
         );
         console.log(
-          `[piper] step ${s.id} failed (exit ${execRes.code}); retry ${attempt}/${maxRetry}`,
+          `[piper] step ${s.id} failed (exit ${res.code}); retry ${nextAttempt}/${maxRetry}`,
         );
-        execRes = await runOnce();
-      }
+        return attemptRun(nextAttempt);
+      })(0);
 
       const endedAt = new Date().toISOString();
       const out: StepResult = {

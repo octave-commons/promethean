@@ -138,7 +138,7 @@ test.serial(
   withPage,
   { baseUrl: () => undefined as unknown as string },
   async (t, fixtures) => {
-    const { page, baseUrl } = fixtures;
+    const { page } = fixtures;
     const { baseUrl: srvBase } = await serverReady;
     await page.goto(`${srvBase}`, { waitUntil: "domcontentloaded" });
 
