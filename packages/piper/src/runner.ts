@@ -2,7 +2,6 @@ import * as path from "path";
 import { promises as fs } from "fs";
 
 import * as chokidar from "chokidar";
-import YAML from "yaml";
 
 import {
   FileSchema,
@@ -36,17 +35,15 @@ function slug(s: string) {
 
 async function readConfig(p: string): Promise<PiperFile> {
   const raw = await fs.readFile(p, "utf-8");
-  // Support YAML (preferred) and JSON for backwards compat.
   const lower = p.toLowerCase();
+  if (!lower.endsWith(".json")) {
+    throw new Error(`Piper config must be .json: ${p}`);
+  }
   let obj: unknown;
-  if (lower.endsWith(".yaml") || lower.endsWith(".yml")) {
-    obj = YAML.parse(raw);
-  } else {
-    try {
-      obj = JSON.parse(raw);
-    } catch (e: any) {
-      throw new Error(`failed to parse JSON config ${p}: ${e?.message ?? e}`);
-    }
+  try {
+    obj = JSON.parse(raw);
+  } catch (e: any) {
+    throw new Error(`failed to parse JSON config ${p}: ${e?.message ?? e}`);
   }
   const parsed = FileSchema.safeParse(obj);
   if (!parsed.success) {
