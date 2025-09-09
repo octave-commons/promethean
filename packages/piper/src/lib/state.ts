@@ -10,28 +10,33 @@ export type RunState = {
 const DB_PATH = ".cache/piper.level";
 
 export async function loadState(pipeline: string): Promise<RunState> {
-  const cache = await openLevelCache<any>({
-    path: DB_PATH,
-    namespace: pipeline,
-  });
-  const steps: RunState["steps"] = {};
-  for await (const [key, val] of cache.entries()) {
-    if (key && val) steps[key] = val;
+  try {
+    const cache = await openLevelCache<any>({
+      path: DB_PATH,
+      namespace: pipeline,
+    });
+    const steps: RunState["steps"] = {};
+    for await (const [key, val] of cache.entries()) {
+      if (key && val) steps[key] = val;
+    }
+    await cache.close();
+    return { steps };
+  } catch {
+    return { steps: {} };
   }
-  await cache.close();
-  return { steps };
 }
 
 export async function saveState(pipeline: string, state: RunState) {
-  const cache = await openLevelCache<any>({
-    path: DB_PATH,
-    namespace: pipeline,
-  });
-  const ops = Object.entries(state.steps).map(([k, v]) => ({
-    type: "put" as const,
-    key: k,
-    value: v,
-  }));
-  if (ops.length) await cache.batch(ops);
-  await cache.close();
+  try {
+    const cache = await openLevelCache<any>({
+      path: DB_PATH,
+      namespace: pipeline,
+    });
+    for (const [k, v] of Object.entries(state.steps)) {
+      await cache.set(k, v);
+    }
+    await cache.close();
+  } catch {
+    /* ignore persistence errors */
+  }
 }
