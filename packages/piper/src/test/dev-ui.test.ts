@@ -22,17 +22,17 @@
  * - We mock Fastify instance to avoid binding a real port and to capture route handlers.
  * - We also mock fs and runPipeline to control IO.
  */
-
+ 
 import { describe, it, beforeEach, afterEach, expect, vi } from "vitest";
-
+ 
 type Handler = (req: any, reply: any) => any | Promise<any>;
-
+ 
 interface Route {
   method: "GET";
   url: string;
   handler: Handler;
 }
-
+ 
 class MockReply {
   public headers: Record<string, string> = {};
   public codeValue: number | undefined;
@@ -73,7 +73,7 @@ class MockReply {
     return this;
   }
 }
-
+ 
 class MockFastify {
   public routes: Route[] = [];
   public hooks: { onRequest: Handler[] } = { onRequest: [] };
@@ -82,7 +82,10 @@ class MockFastify {
 
   async register(plugin: any, opts?: any) {
     // Detect rate limit/static plugins for assertions
-    if (String(plugin).includes("@fastify/rate-limit") || String(plugin?.default || plugin).includes("@fastify/rate-limit")) {
+    if (
+      String(plugin).includes("@fastify/rate-limit") ||
+      String(plugin?.default || plugin).includes("@fastify/rate-limit")
+    ) {
       this.rateLimited = true;
     }
     return this;
@@ -127,8 +130,11 @@ vi.mock("node:fs", async () => {
       ...actual.promises,
       readFile: vi.fn(async (p: any, enc?: any) => {
         const key = typeof p === "string" ? p : String(p);
-        if (memFiles.has(key)) return memFiles.get(key)\!;
-        throw Object.assign(new Error(`ENOENT: no such file or directory, open '${key}'`), { code: "ENOENT" });
+        if (memFiles.has(key)) return memFiles.get(key)!;
+        throw Object.assign(
+          new Error(`ENOENT: no such file or directory, open '${key}'`),
+          { code: "ENOENT" }
+        );
       }),
     },
   };
@@ -164,7 +170,7 @@ async function importServer() {
 
 function findRoute(url: string) {
   const r = mockFastify.routes.find((x) => x.url === url);
-  if (\!r) throw new Error(`Route not found: ${url}`);
+  if (!r) throw new Error(`Route not found: ${url}`);
   return r;
 }
 
@@ -174,7 +180,7 @@ async function call(url: string, query: Record<string, string | undefined> = {},
   // Simulate onRequest hooks (e.g., auth)
   for (const hook of mockFastify.hooks.onRequest) {
     const res = await hook({ headers }, reply as any);
-    if (res \!== undefined) return reply;
+    if (res !== undefined) return reply;
   }
   await route.handler({ query, headers }, reply as any);
   return reply;
@@ -225,7 +231,10 @@ describe("root UI endpoint", () => {
     // Wait until readFile called to capture path
     await vi.waitUntil(() => (readSpy as any).mock.calls.length > 0, 1000);
     const readPath = (readSpy as any).mock.calls[0][0];
-    memFiles.set(String(readPath), "<\!doctype html><html><head><title>Piper UI</title></head><body></body></html>");
+    memFiles.set(
+      String(readPath),
+      "<!doctype html><html><head><title>Piper UI</title></head><body></body></html>"
+    );
 
     const reply = await p;
     expect(reply.headers["content-type"]).toContain("text/html");
@@ -245,7 +254,9 @@ describe("/api/pipelines", () => {
     // Trigger the handler
     const callP = call("/api/pipelines");
     await vi.waitUntil(() => (readSpy as any).mock.calls.length > 0, 1000);
-    const cfgPath = (readSpy as any).mock.calls.find((c: any[]) => String(c[0]).endsWith("pipelines.json"))?.[0] ?? (readSpy as any).mock.calls[0][0];
+    const cfgPath =
+      (readSpy as any).mock.calls.find((c: any[]) => String(c[0]).endsWith("pipelines.json"))?.[0] ??
+      (readSpy as any).mock.calls[0][0];
 
     const cfg = {
       pipelines: [
@@ -285,8 +296,13 @@ describe("/api/run-step SSE", () => {
     // Trigger to capture config path
     const pending = call("/api/run-step", { pipeline: "nope", step: "lint" });
     await vi.waitUntil(() => (readSpy as any).mock.calls.length > 0, 1000);
-    const cfgPath = (readSpy as any).mock.calls.find((c: any[]) => String(c[0]).endsWith("pipelines.json"))?.[0] ?? (readSpy as any).mock.calls[0][0];
-    memFiles.set(String(cfgPath), JSON.stringify({ pipelines: [{ name: "build", steps: [{ id: "lint", name: "Lint" }] }] }));
+    const cfgPath =
+      (readSpy as any).mock.calls.find((c: any[]) => String(c[0]).endsWith("pipelines.json"))?.[0] ??
+      (readSpy as any).mock.calls[0][0];
+    memFiles.set(
+      String(cfgPath),
+      JSON.stringify({ pipelines: [{ name: "build", steps: [{ id: "lint", name: "Lint" }] }] })
+    );
 
     const reply = await pending;
     expect(reply.stream).toContain("pipeline 'nope' not found");
@@ -299,8 +315,13 @@ describe("/api/run-step SSE", () => {
     const readSpy = vi.spyOn(fsp, "readFile");
     const pending = call("/api/run-step", { pipeline: "build", step: "zzz" });
     await vi.waitUntil(() => (readSpy as any).mock.calls.length > 0, 1000);
-    const cfgPath = (readSpy as any).mock.calls.find((c: any[]) => String(c[0]).endsWith("pipelines.json"))?.[0] ?? (readSpy as any).mock.calls[0][0];
-    memFiles.set(String(cfgPath), JSON.stringify({ pipelines: [{ name: "build", steps: [{ id: "lint", name: "Lint" }] }] }));
+    const cfgPath =
+      (readSpy as any).mock.calls.find((c: any[]) => String(c[0]).endsWith("pipelines.json"))?.[0] ??
+      (readSpy as any).mock.calls[0][0];
+    memFiles.set(
+      String(cfgPath),
+      JSON.stringify({ pipelines: [{ name: "build", steps: [{ id: "lint", name: "Lint" }] }] })
+    );
 
     const reply = await pending;
     expect(reply.stream).toContain("step 'zzz' not found in pipeline 'build'");
@@ -313,8 +334,13 @@ describe("/api/run-step SSE", () => {
     const readSpy = vi.spyOn(fsp, "readFile");
     const pending = call("/api/run-step", { pipeline: "build", step: "lint" });
     await vi.waitUntil(() => (readSpy as any).mock.calls.length > 0, 1000);
-    const cfgPath = (readSpy as any).mock.calls.find((c: any[]) => String(c[0]).endsWith("pipelines.json"))?.[0] ?? (readSpy as any).mock.calls[0][0];
-    memFiles.set(String(cfgPath), JSON.stringify({ pipelines: [{ name: "build", steps: [{ id: "lint", name: "Lint" }] }] }));
+    const cfgPath =
+      (readSpy as any).mock.calls.find((c: any[]) => String(c[0]).endsWith("pipelines.json"))?.[0] ??
+      (readSpy as any).mock.calls[0][0];
+    memFiles.set(
+      String(cfgPath),
+      JSON.stringify({ pipelines: [{ name: "build", steps: [{ id: "lint", name: "Lint" }] }] })
+    );
 
     // Simulate runPipeline calling with emit; capture the emit and invoke events
     await vi.waitUntil(() => runPipelineSpy.mock.calls.length > 0, 1000);
@@ -340,8 +366,13 @@ describe("/api/run-step SSE", () => {
     const readSpy = vi.spyOn(fsp, "readFile");
     const pending = call("/api/run-step", { pipeline: "build", step: "lint" });
     await vi.waitUntil(() => (readSpy as any).mock.calls.length > 0, 1000);
-    const cfgPath = (readSpy as any).mock.calls.find((c: any[]) => String(c[0]).endsWith("pipelines.json"))?.[0] ?? (readSpy as any).mock.calls[0][0];
-    memFiles.set(String(cfgPath), JSON.stringify({ pipelines: [{ name: "build", steps: [{ id: "lint", name: "Lint" }] }] }));
+    const cfgPath =
+      (readSpy as any).mock.calls.find((c: any[]) => String(c[0]).endsWith("pipelines.json"))?.[0] ??
+      (readSpy as any).mock.calls[0][0];
+    memFiles.set(
+      String(cfgPath),
+      JSON.stringify({ pipelines: [{ name: "build", steps: [{ id: "lint", name: "Lint" }] }] })
+    );
 
     // Throw when runPipeline is awaited
     runPipelineSpy.mockRejectedValueOnce(new Error("boom"));
