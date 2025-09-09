@@ -24,6 +24,11 @@ const UI_ROOT = path.resolve(
   "../ui",
 );
 
+const FRONTEND_DIST = path.resolve(
+  path.dirname(url.fileURLToPath(import.meta.url)),
+  "./frontend",
+);
+
 async function loadConfig() {
   const raw = await fs.readFile(CONFIG_PATH, "utf-8");
   const parsed = FileSchema.safeParse(JSON.parse(raw));
@@ -42,6 +47,11 @@ function sseInit(reply: FastifyReply) {
 
 const app = fastifyFactory({ logger: false });
 await app.register(fastifyStatic, { root: UI_ROOT, prefix: "/ui" });
+await app.register(fastifyStatic, {
+  root: FRONTEND_DIST,
+  prefix: "/js",
+  decorateReply: false,
+});
 await app.register(fastifyRateLimit, {
   max: 100, // max 100 requests per window
   timeWindow: 15 * 60 * 1000, // 15 minutes
