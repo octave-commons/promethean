@@ -1,5 +1,5 @@
-import * as fs from "fs/promises";
-import * as path from "path";
+import * as fs from "node:fs/promises";
+import * as path from "node:path";
 
 import test from "ava";
 
@@ -10,10 +10,13 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   const parent = path.join(process.cwd(), "test-tmp");
   await fs.mkdir(parent, { recursive: true });
   const dir = await fs.mkdtemp(path.join(parent, "piper-"));
+  const prevCwd = process.cwd();
+  process.chdir(dir);
   try {
     await fn(dir);
     await sleep(50);
   } finally {
+    process.chdir(prevCwd);
     await fs.rm(dir, { recursive: true, force: true });
   }
 }
@@ -55,7 +58,9 @@ test.serial("js step (worker isolate) basic smoke", async (t) => {
     await fs.writeFile(p, JSON.stringify(cfg, null, 2), "utf8");
     const res = await runPipeline(p, "w", { concurrency: 2 });
 
-    const s = res[0]!;
+    const s = res[0];
+    t.truthy(s);
+    if (!s) return;
     t.is(s.exitCode, 0);
     t.true((s.stdout ?? "").includes("ret:ok")); // always check return
 

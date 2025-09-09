@@ -2828,6 +2828,12 @@ importers:
 
   packages/piper:
     dependencies:
+      '@fastify/rate-limit':
+        specifier: ^10.3.0
+        version: 10.3.0
+      '@fastify/static':
+        specifier: ^8.2.0
+        version: 8.2.0
       '@promethean/fs':
         specifier: workspace:*
         version: link:../fs
@@ -2843,6 +2849,9 @@ importers:
       es-module-lexer:
         specifier: 1.5.1
         version: 1.5.1
+      fastify:
+        specifier: ^5.0.0
+        version: 5.6.0
       globby:
         specifier: 14.0.2
         version: 14.0.2
