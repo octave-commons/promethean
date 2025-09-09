@@ -13,14 +13,14 @@ import { registerRbac } from "./rbac.js";
 import { registerV1Routes } from "./routes/v1/index.js";
 import { mongoChromaLogger } from "./logging/index.js";
 
-export async function buildFastifyApp(ROOT_PATH) {
+export async function buildFastifyApp(ROOT_PATH: string) {
   await registerSinks();
   const app = Fastify({
     logger: false,
     trustProxy: true,
     ajv: {
       customOptions: { allowUnionTypes: true },
-      plugins: [ajvformats],
+      plugins: [(ajv: any) => (ajvformats as any)(ajv)],
     },
   });
   app.decorate("ROOT_PATH", ROOT_PATH);
@@ -133,7 +133,7 @@ export async function buildFastifyApp(ROOT_PATH) {
     additionalProperties: false,
   });
   app.addHook("preValidation", (req, _reply, done) => {
-    const rp = req.params;
+    const rp = req.params as any;
     if (rp?.path && !rp["*"]) rp["*"] = rp.path;
     done();
   });
@@ -163,7 +163,7 @@ export async function buildFastifyApp(ROOT_PATH) {
   const auth = createFastifyAuth();
   auth.registerRoutes(app); // adds /auth/me; protection handled inside
 
-  const schemas = {
+  const schemas: Record<string, unknown> = {
     GrepRequest: app.getSchema("GrepRequest"),
     GrepResult: app.getSchema("GrepResult"),
     SearchResult: app.getSchema("SearchResult"),
@@ -171,7 +171,7 @@ export async function buildFastifyApp(ROOT_PATH) {
     FileTreeNode: app.getSchema("FileTreeNode"),
     StacktraceResult: app.getSchema("StacktraceResult"),
   };
-  const swaggerOpts = {
+  const swaggerOpts: any = {
     openapi: {
       openapi: "3.1.0",
       info: { title: "Promethean SmartGPT Bridge", version: "1.0.0" },

@@ -117,7 +117,7 @@ export class AgentSupervisor {
       Connection: "keep-alive",
     });
     if (!this.subscribers.has(id)) this.subscribers.set(id, new Set());
-    this.subscribers.get(id).add(res);
+    this.subscribers.get(id)?.add(res);
     // flush headers for some proxies
     if (typeof res.flushHeaders === "function")
       try {
@@ -194,8 +194,8 @@ export class AgentSupervisor {
       cwd,
       startedAt: Date.now(),
       exited: false,
-      code: null,
-      signal: null,
+      code: null as number | null,
+      signal: null as string | null,
       paused_by_guard: false,
       log: Buffer.alloc(0),
       proc,
@@ -227,8 +227,8 @@ export class AgentSupervisor {
         this._broadcast(id, "guard", { paused: true, reason: m.source });
       }
     };
-    proc.stdout.on("data", (d) => onData(d, "stdout"));
-    proc.stderr.on("data", (d) => onData(d, "stderr"));
+    proc.stdout.on("data", (d: Buffer) => onData(d, "stdout"));
+    proc.stderr.on("data", (d: Buffer) => onData(d, "stderr"));
     proc.on("error", (err: any) => {
       const msg = `[spawn error] ${String((err && err.message) || err)}\n`;
       state.log = ringPush(state.log, msg);
@@ -306,7 +306,7 @@ export class AgentSupervisor {
 export const supervisor = new AgentSupervisor();
 
 // --- PTY-backed supervisor using node-pty (lazy loaded) ---
-let PTY_LIB = null;
+let PTY_LIB: any = null;
 async function getPtyLib() {
   if (process.env.NODE_PTY_DISABLED === "1") {
     const err = new Error("PTY_UNAVAILABLE");
@@ -396,7 +396,7 @@ export class PTYAgentSupervisor {
       Connection: "keep-alive",
     });
     if (!this.subscribers.has(id)) this.subscribers.set(id, new Set());
-    this.subscribers.get(id).add(res);
+    this.subscribers.get(id)?.add(res);
     if (typeof res.flushHeaders === "function")
       try {
         res.flushHeaders();
@@ -605,6 +605,9 @@ export async function restoreAgentsFromStore() {
     }
   }
 }
-export function createSupervisor(opts) {
+export function createSupervisor(opts?: {
+  spawnImpl?: any;
+  killImpl?: (pid: number, signal: any) => boolean;
+}) {
   return new AgentSupervisor(opts);
 }
