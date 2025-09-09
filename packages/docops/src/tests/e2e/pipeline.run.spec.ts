@@ -96,8 +96,7 @@ async function clickFileInTree(page: Page, label: string) {
   }
 }
 
-// TODO: unskip once pipeline run reliably succeeds
-test.serial.skip(
+test.serial(
   "DocOps Pipeline Run: executes pipeline and refreshes file tree",
   withPage,
   { baseUrl: () => undefined as unknown as string },
