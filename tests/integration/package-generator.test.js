@@ -19,4 +19,6 @@ test("scaffolds docops-style package", async (t) => {
   t.true(exists(tree, "packages/demo/src/tests/sample.test.ts"));
   const pkg = readJson(tree, "packages/demo/package.json");
   t.is(pkg.name, "@promethean/demo");
+  const pipelines = readJson(tree, "packages/demo/pipelines.json");
+  t.is(pipelines.pipelines[0].name, "demo");
 });
