@@ -26,10 +26,7 @@ import { topoSort } from "./lib/graph.js";
 import { semaphore } from "./lib/concurrency.js";
 import { loadState, saveState, RunState } from "./lib/state.js";
 import { renderReport } from "./lib/report.js";
-import {
-  emitEvent as defaultEmitEvent,
-  type PiperEvent,
-} from "./lib/events.js";
+import { emitEvent, type PiperEvent } from "./lib/events.js";
 
 type ValidateFn = {
   (data: unknown): boolean;
@@ -125,7 +122,7 @@ export async function runPipeline(
   if (!pipeline) throw new Error(`pipeline '${pipelineName}' not found`);
   const steps = topoSort(pipeline.steps);
   const state = await loadState(pipeline.name);
-  const emit = opts.emit ?? defaultEmitEvent;
+  const emit = opts.emit ?? emitEvent;
 
   const sem = semaphore(Math.max(1, opts.concurrency ?? 2));
   // Serialize JS module steps to avoid in-proc global-state races.
