@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
 command -v uvx >/dev/null || { echo "uvx not found on PATH after install" >&2; exit 1; }
