@@ -2837,6 +2837,9 @@ importers:
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../level-cache
+      ajv:
+        specifier: 8.17.1
+        version: 8.17.1
       chokidar:
         specifier: 3.6.0
         version: 3.6.0
