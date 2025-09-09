@@ -17,6 +17,8 @@
     "bf:03-report": "node ./dist/03-report.js",
     "bf:all": "pnpm build && pnpm bf:01-errors && pnpm bf:02-iterate && pnpm bf:03-report",
     "test": "pnpm build && ava",
+    "test:unit": "pnpm build && ava \"dist/tests/**/*.js\" \"!dist/tests/integration/**/*.js\"",
+    "test:integration": "pnpm build && ava \"dist/tests/integration/**/*.js\"",
     "coverage": "pnpm build && c8 ava",
     "doc:report": "pnpm build && node ./dist/03-report.js"
   },
