@@ -4,7 +4,7 @@ import test from "ava";
 
 import { symbolsIndex, symbolsFind } from "../../symbols.js";
 
-const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
+const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 test("symbols: indexes small TS fixtures and finds Greeter class", async (t) => {
   const info = await symbolsIndex(ROOT, { paths: ["**/*.ts"] });

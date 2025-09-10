@@ -13,7 +13,7 @@ import {
 } from "../../indexer.js";
 import type { QueryRecordsParams } from "chromadb";
 
-const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
+const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 class EmptyCollection {
   async query(_args?: QueryRecordsParams) {
