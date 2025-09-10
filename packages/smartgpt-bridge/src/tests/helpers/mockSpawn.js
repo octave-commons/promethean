@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mockSpawnFactory = mockSpawnFactory;
-// @ts-nocheck
 var node_events_1 = require("node:events");
 function mockSpawnFactory(script) {
   if (script === void 0) {

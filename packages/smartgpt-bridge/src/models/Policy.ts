@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Schema, model } from "mongoose";
 
 const PolicySchema = new Schema({

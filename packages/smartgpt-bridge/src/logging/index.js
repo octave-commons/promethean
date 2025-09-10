@@ -138,7 +138,6 @@ var __generator =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mongoChromaLogger = mongoChromaLogger;
-// @ts-nocheck
 var uuid_1 = require("uuid");
 var sinks_js_1 = require("../sinks.js");
 function mongoChromaLogger(app) {
