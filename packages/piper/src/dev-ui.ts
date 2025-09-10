@@ -97,7 +97,12 @@ app.get<{
     exts?: string;
   };
 }>("/api/files", async (req, reply) => {
-  const root = path.resolve(req.query.dir || ".");
+  const workspaceRoot = path.resolve(process.cwd());
+  const root = path.resolve(workspaceRoot, req.query.dir || ".");
+  // Make sure the resolved root is within the workspace
+  if (!root.startsWith(workspaceRoot)) {
+    return reply.code(400).send({ error: "invalid directory" });
+  }
   const maxDepth = Math.max(0, Number(req.query.maxDepth || "2") | 0) || 2;
   const maxEntries =
     Math.max(1, Number(req.query.maxEntries || "500") | 0) || 500;
@@ -115,22 +120,28 @@ app.get<{
   };
   let count = 0;
   async function walk(dir: string, depth: number): Promise<Node[]> {
+    // Make sure each traversed directory is within workspace root
+    const absDir = path.resolve(dir);
+    if (!absDir.startsWith(workspaceRoot)) return [];
     if (depth > maxDepth || count >= maxEntries) return [];
     let ents: Node[] = [];
     try {
-      const list = await fs.readdir(dir, { withFileTypes: true });
+      const list = await fs.readdir(absDir, { withFileTypes: true });
       for (const ent of list) {
         if (count >= maxEntries) break;
         if (ent.name.startsWith(".")) continue;
-        const p = path.join(dir, ent.name);
+        const p = path.join(absDir, ent.name);
+        const absP = path.resolve(p);
+        // Only traverse/return files and dirs within workspace root
+        if (!absP.startsWith(workspaceRoot)) continue;
         if (ent.isDirectory()) {
-          const children = await walk(p, depth + 1);
+          const children = await walk(absP, depth + 1);
           if (children.length)
             ents.push({ type: "dir", name: ent.name, children });
         } else {
           const ext = path.extname(ent.name).toLowerCase();
           if (!exts.has(ext)) continue;
-          const st = await fs.stat(p);
+          const st = await fs.stat(absP);
           ents.push({ type: "file", name: ent.name, size: st.size });
           count++;
         }
