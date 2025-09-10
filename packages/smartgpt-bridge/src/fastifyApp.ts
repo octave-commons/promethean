@@ -2,14 +2,13 @@ import Fastify from "fastify";
 // Frontend assets are served by a standalone file server under `sites/`
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
-import ajvformats from "ajv-formats";
 import rateLimit from "@fastify/rate-limit";
 import { createFastifyAuth } from "./fastifyAuth.js";
 import { registerV0Routes } from "./routes/v0/index.js";
 import { indexerManager as defaultIndexerManager } from "./indexer.js";
 import { restoreAgentsFromStore } from "./agent.js";
 import { registerSinks as defaultRegisterSinks } from "./sinks.js";
-import { registerRbac } from "./rbac.js";
+import { registerRbac as defaultRegisterRbac } from "./rbac.js";
 import { registerV1Routes } from "./routes/v1/index.js";
 import { mongoChromaLogger } from "./logging/index.js";
 
@@ -17,6 +16,7 @@ type BridgeDeps = {
   registerSinks?: () => Promise<void>;
   createFastifyAuth?: () => ReturnType<typeof createFastifyAuth>;
   indexerManager?: typeof defaultIndexerManager;
+  registerRbac?: (app: any) => void | Promise<void>;
 };
 
 export async function buildFastifyApp(
@@ -26,6 +26,7 @@ export async function buildFastifyApp(
   const registerSinks = deps.registerSinks || defaultRegisterSinks;
   const authFactory = deps.createFastifyAuth || createFastifyAuth;
   const indexerManager = deps.indexerManager || defaultIndexerManager;
+  const registerRbac = deps.registerRbac || defaultRegisterRbac;
 
   await registerSinks();
   const app = Fastify({
@@ -33,7 +34,7 @@ export async function buildFastifyApp(
     trustProxy: true,
     ajv: {
       customOptions: { allowUnionTypes: true },
-      plugins: [(ajv: any) => (ajvformats as any)(ajv)],
+      // No plugins to avoid duplicate ajv-formats registration across multiple instances in tests
     },
   });
   app.decorate("ROOT_PATH", ROOT_PATH);
@@ -217,7 +218,7 @@ export async function buildFastifyApp(
     return rep.type("application/json").send(getOpenapiDoc());
   });
 
-  registerRbac(app);
+  await registerRbac(app);
 
   // Mount legacy routes under /v0 with old auth scoped inside
   app.register(

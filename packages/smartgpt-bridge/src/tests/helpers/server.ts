@@ -97,6 +97,11 @@ export const withServer = async (
         preHandler: async () => {},
         registerRoutes: async () => {},
       }) as any,
+    // Provide no-op RBAC so route preHandlers don't touch Mongo
+    registerRbac: async (app: any) => {
+      app.decorate("authUser", async () => ({ id: "test" }));
+      app.decorate("requirePolicy", () => async () => {});
+    },
   });
   // Stub RBAC hooks so tests don't require seeded users/policies
   (app as any).authUser = async () => ({ id: "test" });
