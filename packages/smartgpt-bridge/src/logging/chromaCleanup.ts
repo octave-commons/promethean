@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { contextStore } from "../sinks.js";
 
 export async function cleanupChromaLogs(
@@ -14,9 +13,9 @@ export async function cleanupChromaLogs(
   let deleted = 0;
   const cutoff = Date.now() - days * 86400 * 1000;
   try {
-    const old = await col.get({
+    const old: any = await col.get({
       where: { timestamp: { $lt: cutoff } },
-      include: ["ids"],
+      // ids are returned by default; no include needed
     });
     if (old?.ids?.length) {
       await col.delete({ ids: old.ids });
@@ -29,13 +28,16 @@ export async function cleanupChromaLogs(
       const count = await col.count();
       if (count > max) {
         const excess = count - max;
-        const all = await col.get({ include: ["ids", "metadatas"] });
-        const pairs = (all.ids || []).map((id, i) => ({
+        const all: any = await col.get({ include: ["metadatas"] as any });
+        const pairs = (all.ids || []).map((id: string, i: number) => ({
           id,
           timestamp: all.metadatas?.[i]?.timestamp,
         }));
-        pairs.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
-        const toDelete = pairs.slice(0, excess).map((p) => p.id);
+        pairs.sort(
+          (a: any, b: any) =>
+            Number(a.timestamp ?? 0) - Number(b.timestamp ?? 0),
+        );
+        const toDelete = pairs.slice(0, excess).map((p: any) => p.id);
         if (toDelete.length) {
           await col.delete({ ids: toDelete });
           deleted += toDelete.length;

@@ -1,11 +1,10 @@
-// @ts-nocheck
 import path from "node:path";
 
 import test from "ava";
 
 import { withServer } from "../helpers/server.js";
 
-const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
+const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 test.serial(
   "POST /exec/run returns 403 when EXEC_ENABLED is false",
