@@ -4,7 +4,7 @@ import test from "ava";
 
 import { withServer } from "../helpers/server.js";
 
-const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
+const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 test.serial("exec run blocks cwd outside root", async (t) => {
   const prev = { EXEC_ENABLED: process.env.EXEC_ENABLED };

@@ -13,7 +13,7 @@ import {
 } from "../../indexer.js";
 import type { UpsertRecordsParams, QueryRecordsParams } from "chromadb";
 
-const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
+const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 class FakeCollection {
   upserts: UpsertRecordsParams[] = [];

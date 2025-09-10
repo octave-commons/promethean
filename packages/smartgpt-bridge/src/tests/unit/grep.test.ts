@@ -6,7 +6,7 @@ import { execa } from "execa";
 
 import { grep } from "../../grep.js";
 
-const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
+const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 type Opts = {
   flags?: string;
