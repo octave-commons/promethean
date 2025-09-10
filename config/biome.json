@@ -1,11 +1,28 @@
 {
-    "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
-    "files": {
-        "includes": ["src/**", "tests/**"]
-    },
-    "linter": {
-        "rules": {
-            "recommended": false
-        }
+  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
+  "files": {
+    "includes": ["src/**", "tests/**"]
+  },
+  "formatter": {
+    "indentWidth": 4,
+    "lineWidth": 80,
+    "indentStyle": "space"
+  },
+  "linter": {
+    "rules": {
+      "recommended": false,
+      "nursery": {
+        "noFloatingPromises": "error",
+        "noImportCycles": "warn",
+        "useConsistentTypeDefinitions": "error",
+        "useExplicitType": "error"
+      },
+      "style": {
+        "noDefaultExport": "warn"
+      },
+      "suspicious": {
+        "noExplicitAny": "error"
+      }
     }
+  }
 }
