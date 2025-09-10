@@ -50,6 +50,7 @@ export async function stepFingerprint(
   step: any,
   cwd: string,
   preferContent: boolean,
+  extraEnv?: Readonly<Record<string, string>>,
 ) {
   const mode =
     step.cache === "content" || preferContent
@@ -71,6 +72,7 @@ export async function stepFingerprint(
     jsDepsHash = (await fingerprintJsDeps(modPath, mode)).hash;
   }
 
+  const env = { ...(step.env ?? {}), ...(extraEnv ?? {}) }; // step.env then extraEnv (extraEnv overrides)
   const configHash = sha1(
     JSON.stringify({
       id: step.id,
@@ -78,7 +80,7 @@ export async function stepFingerprint(
       deps: step.deps,
       cmd: step.shell ?? step.node ?? step.ts ?? step.js,
       args: step.args ?? step.ts?.args ?? step.js?.args,
-      env: step.env,
+      env,
     }),
   );
   return sha1(inputsHash + "|" + jsDepsHash + "|" + configHash);
