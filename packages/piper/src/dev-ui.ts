@@ -257,6 +257,14 @@ app.get<{ Querystring: { path?: string } }>(
 // Write a text file (UTF-8) under the workspace
 app.post<{ Body: { path?: string; content?: string } }>(
   "/api/write-file",
+  {
+    config: {
+      rateLimit: {
+        max: 10, // limit each IP to 10 requests per minute
+        timeWindow: "1 minute",
+      },
+    },
+  },
   async (req, reply) => {
     const ROOT = process.cwd();
     const p = req.body?.path ? path.resolve(req.body.path) : "";
