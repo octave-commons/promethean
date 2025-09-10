@@ -1,8 +1,8 @@
 # Promethean Framework
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE.txt)
+[[LICENSE.txt]]
 
-This project is licensed under the [GNU GPL v3](LICENSE.txt).
+This project is licensed under the [[LICENSE.txt|GNU GPL v3]].
 
 This repository contains a modular multi‑agent architecture. To start shared infrastructure like speech services, run pm2 with the root configuration:
 
@@ -42,9 +42,9 @@ docker compose up
 Set `AGENT_NAME` in your environment before launching agent services to isolate collections and data.
 Promethean is a modular cognitive architecture for building embodied AI agents. It breaks the system
 into small services that handle speech-to-text, text-to-speech, memory, and higher level reasoning.
-📖 For a high-level overview, see [docs/vision.md](docs/vision.md).
-📊 For architecture roadmaps and visualizations, see [docs/architecture/index.md](docs/architecture/index.md).
-📦 Data migration conventions and runbooks live under [docs/data](docs/data/contracts/README.md).
+📖 For a high-level overview, see [[vision|docs/vision.md]].
+📊 For architecture roadmaps and visualizations, see [[docs/architecture/index|docs/architecture/index.md]].
+📦 Data migration conventions and runbooks live under [[docs/data/contracts/readme|docs/data]].
 
 ### Development conventions
 
@@ -53,7 +53,7 @@ into small services that handle speech-to-text, text-to-speech, memory, and high
 
 ### Nx workspace
 
-Build tooling is managed with [Nx](https://nx.dev). See [docs/nx-workspace.md](docs/nx-workspace.md) for common commands.
+Build tooling is managed with [Nx](https://nx.dev). See [[nx-workspace|docs/nx-workspace.md]] for common commands.
 
 ### Broker Heartbeat
 
