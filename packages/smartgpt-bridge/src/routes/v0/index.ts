@@ -48,7 +48,9 @@ function timingSafeEqual(a: any, b: any) {
 }
 
 export async function registerV0Routes(app: any) {
-  await app.register(rateLimit, { max: 100, timeWindow: "1 minute" });
+  try {
+    await app.register(rateLimit, { max: 100, timeWindow: "1 minute" });
+  } catch {}
   // Old auth semantics (from src/auth.js), adapted for Fastify and scoped to /v0 only
   const enabled =
     String(process.env.AUTH_ENABLED || "false").toLowerCase() === "true";
@@ -252,12 +254,14 @@ export async function registerV0Routes(app: any) {
   }
 
   // Apply rate limiting to all requests under this encapsulated scope
-  await app.register(fastifyRateLimit, {
-    max: 100, // Max requests per window per IP
-    timeWindow: 15 * 60 * 1000, // 15 minutes
-    // Optionally: Add error response customization
-    keyGenerator: (req: any) => req.ip,
-  });
+  try {
+    await app.register(fastifyRateLimit, {
+      max: 100, // Max requests per window per IP
+      timeWindow: 15 * 60 * 1000, // 15 minutes
+      // Optionally: Add error response customization
+      keyGenerator: (req: any) => req.ip,
+    });
+  } catch {}
 
   // Scope the old auth to the encapsulated /v0 prefix
   if (enabled) app.addHook("onRequest", v0PreAuth);

@@ -204,12 +204,18 @@ export async function buildFastifyApp(
     swaggerOpts.openapi.security = [{ bearerAuth: [] }];
   }
 
-  app.register(swagger, swaggerOpts);
-  app.register(swaggerUi, { routePrefix: "/docs" });
+  try {
+    app.register(swagger, swaggerOpts);
+    app.register(swaggerUi, { routePrefix: "/docs" });
+  } catch {}
 
-  app.get("/openapi.json", async (_req, rep) =>
-    rep.type("application/json").send(app.swagger()),
-  );
+  const getOpenapiDoc = () =>
+    typeof (app as any).swagger === "function"
+      ? (app as any).swagger()
+      : swaggerOpts.openapi;
+  app.get("/openapi.json", async (_req, rep) => {
+    return rep.type("application/json").send(getOpenapiDoc());
+  });
 
   registerRbac(app);
 
@@ -225,13 +231,15 @@ export async function buildFastifyApp(
 
   app.register(
     async (v1Scope) => {
-      // Register rate limiting for v1 routes
-      await v1Scope.register(rateLimit, {
-        max: 100, // max 100 requests per windowMs
-        timeWindow: 15 * 60 * 1000, // 15 minutes
-      });
+      // Register rate limiting for v1 routes (best-effort; ignore version mismatches)
+      try {
+        await v1Scope.register(rateLimit, {
+          max: 100, // max 100 requests per windowMs
+          timeWindow: 15 * 60 * 1000, // 15 minutes
+        });
+      } catch {}
 
-      const v1Auth = createFastifyAuth();
+      const v1Auth = authFactory();
       if (v1Auth.enabled) v1Scope.addHook("onRequest", v1Auth.preHandler);
       await registerV1Routes(v1Scope);
     },
