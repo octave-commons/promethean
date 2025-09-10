@@ -1,4 +1,3 @@
-// @ts-nocheck
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 
@@ -9,16 +8,16 @@ import { registerIndexerRoutes } from "./indexer.js";
 import { registerAgentRoutes } from "./agents.js";
 import { registerExecRoutes } from "./exec.js";
 
-export async function registerV1Routes(app) {
+export async function registerV1Routes(app: any) {
   // Everything defined here will be reachable under /v1 because of the prefix in fastifyApp.js
-  await app.register(async function v1(v1) {
+  await app.register(async function v1(v1: any) {
     // Swagger JUST for v1 (encapsulation keeps it scoped)
     const baseUrl =
       process.env.PUBLIC_BASE_URL ||
       `http://localhost:${process.env.PORT || 3210}`;
     const authEnabled =
       String(process.env.AUTH_ENABLED || "false").toLowerCase() === "true";
-    const swaggerOpts = {
+    const swaggerOpts: any = {
       openapi: {
         openapi: "3.1.0",
         info: { title: "Promethean SmartGPT Bridge — v1", version: "1.1.0" },
@@ -39,17 +38,29 @@ export async function registerV1Routes(app) {
       };
       swaggerOpts.openapi.security = [{ apiKey: [] }];
     }
-    await v1.register(swagger, swaggerOpts);
-
-    await v1.register(swaggerUi, {
-      routePrefix: "/docs",
-      uiConfig: { docExpansion: "list" },
-    });
+    let hasSwagger = true;
+    try {
+      await v1.register(swagger, swaggerOpts);
+      await v1.register(swaggerUi, {
+        routePrefix: "/docs",
+        uiConfig: { docExpansion: "list" },
+      });
+    } catch {
+      hasSwagger = false;
+    }
 
     // expose the generated v1 spec
-    v1.get("/openapi.json", { schema: { hide: true } }, async (_req, reply) => {
-      reply.type("application/json").send(v1.swagger());
-    });
+    v1.get(
+      "/openapi.json",
+      { schema: { hide: true } },
+      async (_req: any, reply: any) => {
+        const doc =
+          hasSwagger && typeof (v1 as any).swagger === "function"
+            ? (v1 as any).swagger()
+            : swaggerOpts.openapi;
+        reply.type("application/json").send(doc);
+      },
+    );
 
     registerFilesRoutes(v1);
     registerSearchRoutes(v1);

@@ -187,15 +187,20 @@ export async function runPipeline(
           }
         }
 
+        const envMerged = {
+          ...(s.env || {}),
+          ...(opts.extraEnv || {}),
+        } as Record<string, string>;
         const base = await (async () => {
-          if (s.shell) return runShell(s.shell, cwd, s.env, s.timeoutMs);
-          if (s.node) return runNode(s.node, s.args, cwd, s.env, s.timeoutMs);
-          if (s.ts) return runTSModule(s, cwd, s.env, s.timeoutMs);
+          if (s.shell) return runShell(s.shell, cwd, envMerged, s.timeoutMs);
+          if (s.node)
+            return runNode(s.node, s.args, cwd, envMerged, s.timeoutMs);
+          if (s.ts) return runTSModule(s, cwd, envMerged, s.timeoutMs);
           if (s.js) {
             const needJsLock = s.js?.isolate !== "worker";
             if (needJsLock) await jsSem.take();
             try {
-              return await runJSModule(s, cwd, s.env, fp, s.timeoutMs);
+              return await runJSModule(s, cwd, envMerged, fp, s.timeoutMs);
             } catch (e: unknown) {
               const stderr =
                 e instanceof Error ? e.stack ?? e.message : String(e);

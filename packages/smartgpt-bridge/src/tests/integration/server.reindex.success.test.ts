@@ -1,30 +1,32 @@
-// @ts-nocheck
 import path from "node:path";
 
 import test from "ava";
 
 import { withServer } from "../helpers/server.js";
+import type { UpsertRecordsParams } from "chromadb";
 import {
   setChromaClient,
   setEmbeddingFactory,
   resetChroma,
 } from "../../indexer.js";
 
-const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
+const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 class CollectingCollection {
-  constructor() {
-    this.calls = 0;
-  }
-  async upsert() {
+  calls = 0;
+  async upsert(_args?: UpsertRecordsParams): Promise<void> {
     this.calls++;
+  }
+  async query(): Promise<{}> {
+    return {};
+  }
+  async delete(): Promise<void> {
+    /* no-op */
   }
 }
 class FakeChroma {
-  constructor(col) {
-    this.col = col;
-  }
-  async getOrCreateCollection() {
+  constructor(private col: CollectingCollection) {}
+  async getOrCreateCollection(): Promise<CollectingCollection> {
     return this.col;
   }
 }
@@ -46,6 +48,7 @@ test.after.always(() => {
     getOrCreateCollection: async () => ({
       query: async () => ({}),
       upsert: async () => {},
+      delete: async () => {},
     }),
   });
 });

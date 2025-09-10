@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { symbolsIndex } from "./symbols.js";
 const ROOT_PATH = process.env.ROOT_PATH;
 if (!ROOT_PATH) {

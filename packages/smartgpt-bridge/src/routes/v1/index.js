@@ -138,7 +138,6 @@ var __generator =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerV1Routes = registerV1Routes;
-// @ts-nocheck
 var swagger_1 = require("@fastify/swagger");
 var swagger_ui_1 = require("@fastify/swagger-ui");
 var files_js_1 = require("./files.js");
