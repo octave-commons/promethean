@@ -19,6 +19,8 @@ apt-get install -y jq moreutils ripgrep
 bash ./run/install_gyp.sh
 
 
+corepack enable
+corepack prepare pnpm@9.0.0 --activate
 pnpm install --no-frozen-lockfile
 
 bash ./run/setup_playwright.sh
