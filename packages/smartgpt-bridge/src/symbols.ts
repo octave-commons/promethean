@@ -127,7 +127,9 @@ export async function symbolsIndex(
     if (!isInsideRoot(ROOT_PATH, abs)) continue;
     let text = "";
     try {
-      const safeAbs = normalizeToRoot(ROOT_PATH, abs);
+      const safeAbs = path.isAbsolute(abs)
+        ? abs
+        : normalizeToRoot(ROOT_PATH, abs);
       text = await fs.readFile(safeAbs, "utf8");
     } catch {
       continue;

@@ -89,6 +89,13 @@ export const withServer = async (
   const app = await createServer(root, {
     // No-op to avoid creating Chroma collections in tests
     registerSinks: async () => {},
+    // Disable auth plugin registration to avoid external deps & rate-limit
+    createFastifyAuth: () =>
+      ({
+        enabled: false,
+        preHandler: async () => {},
+        registerRoutes: async () => {},
+      }) as any,
   });
   // Stub RBAC hooks so tests don't require seeded users/policies
   (app as any).authUser = async () => ({ id: "test" });

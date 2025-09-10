@@ -329,10 +329,12 @@ export function createFastifyAuth() {
   }
 
   async function registerRoutes(fastify: any) {
-    // Register rate limit plugin if not already registered
-    await fastify.register(rateLimit, {
-      global: false, // we will use per-route rate limiting
-    });
+    // Register rate limit plugin if not already registered (best-effort)
+    try {
+      await fastify.register(rateLimit, {
+        global: false, // we will use per-route rate limiting
+      });
+    } catch {}
 
     fastify.get(
       "/auth/me",
