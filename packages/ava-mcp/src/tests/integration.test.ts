@@ -2,6 +2,7 @@ import test from "ava";
 import { promises as fs } from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import type { Server } from "@modelcontextprotocol/sdk/server";
 import { registerTddTools } from "../index.js";
 
 test("propertyCheck executes", async (t) => {
@@ -12,19 +13,23 @@ test("propertyCheck executes", async (t) => {
     "export const always = (fc) => fc.property(fc.integer(), n => n === n);\n",
   );
 
-  const handlers: Record<string, any> = {};
+  const handlers: Record<string, (input: unknown) => Promise<unknown>> = {};
   const server = {
-    registerTool: (_name: string, _schema: unknown, handler: any) => {
-      handlers[_name] = handler;
+    registerTool: (
+      name: string,
+      _schema: unknown,
+      handler: (input: unknown) => Promise<unknown>,
+    ) => {
+      handlers[name] = handler;
     },
-  } as any;
+  } as unknown as Server;
 
   registerTddTools(server);
 
-  await t.notThrowsAsync(() =>
-    handlers["tdd.propertyCheck"]({
-      propertyModule: propFile,
-      propertyExport: "always",
-    }),
-  );
+  const handler = handlers["tdd.propertyCheck"]!;
+  const res = (await handler({
+    propertyModule: propFile,
+    propertyExport: "always",
+  })) as { ok: boolean };
+  t.deepEqual(res, { ok: true });
 });

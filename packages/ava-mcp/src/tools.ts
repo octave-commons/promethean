@@ -3,14 +3,20 @@ import { z } from "zod";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { execFile } from "node:child_process";
+import { execFile, type ExecFileOptions } from "node:child_process";
 import { promisify } from "node:util";
 import { minimatch } from "minimatch";
 import fc from "fast-check";
 
 const execFileAsync = promisify(execFile);
+const EXEC_OPTS: ExecFileOptions = {
+  timeout: 120_000,
+  maxBuffer: 10 * 1024 * 1024,
+  encoding: "utf8",
+};
 
 export function registerTddTools(server: Server) {
+  // biome-ignore lint/suspicious/noExplicitAny: server uses dynamic registry
   const s = server as any;
   // scaffoldTest
   s.registerTool(
@@ -34,15 +40,15 @@ export function registerTddTools(server: Server) {
 
       const unit = `import test from "ava";
 
-test("${testName}", t => {
+test(${JSON.stringify(testName)}, t => {
   t.fail(); // TODO: implement
 });
 `;
 
       const prop = `import test from "ava";
-import * as fc from "fast-check";
+import fc from "fast-check";
 
-test("${testName}", t => {
+test(${JSON.stringify(testName)}, t => {
   fc.assert(
     fc.property(fc.anything(), value => {
       // TODO: property under test
@@ -74,15 +80,16 @@ test("${testName}", t => {
     },
     async (input: { base: string; patterns: string[] }) => {
       const { base, patterns } = input;
-      const { stdout } = await execFileAsync("git", [
-        "diff",
-        "--name-only",
-        `${base}...HEAD`,
-      ]);
-      const files = stdout
+      const { stdout } = await execFileAsync(
+        "git",
+        ["diff", "--name-only", `${base}...HEAD`],
+        EXEC_OPTS,
+      );
+      const out = stdout.toString();
+      const files = out
         .split("\n")
         .filter(Boolean)
-        .filter((f) => patterns.some((p: string) => minimatch(f, p)));
+        .filter((f: string) => patterns.some((p: string) => minimatch(f, p)));
       return { files };
     },
   );
@@ -108,19 +115,23 @@ test("${testName}", t => {
       const args = ["--yes", "ava", "--json"];
       if (tap) args.push("--tap");
       if (watch) args.push("--watch");
-      match?.forEach((m: string) => args.push("--match", m));
+      match?.forEach((m: string) => {
+        args.push("--match", m);
+      });
       if (files?.length) args.push(...files);
 
-      const { stdout } = await execFileAsync("npx", args);
-      const result = JSON.parse(stdout);
+      const { stdout } = await execFileAsync("npx", args, EXEC_OPTS);
+      const result = JSON.parse(stdout.toString());
       return {
         passed: result.stats.passed,
         failed: result.stats.failed,
         durationMs: result.stats.duration,
-        failures: result.failures?.map((f: any) => ({
-          title: f.title,
-          error: f.error,
-        })),
+        failures: result.failures?.map(
+          (f: { title: string; error: string }) => ({
+            title: f.title,
+            error: f.error,
+          }),
+        ),
       };
     },
   );
@@ -156,7 +167,7 @@ test("${testName}", t => {
         "ava",
         ...(include ?? []),
       ];
-      await execFileAsync("npx", args);
+      await execFileAsync("npx", args, EXEC_OPTS);
 
       const summaryPath = path.join(
         process.cwd(),
@@ -201,7 +212,7 @@ test("${testName}", t => {
     }) => {
       const { propertyModule, propertyExport, runs } = input;
       const mod = await import(pathToFileURL(propertyModule).href);
-      const propertyFactory = (mod as any)[propertyExport];
+      const propertyFactory = (mod as Record<string, unknown>)[propertyExport];
       if (typeof propertyFactory !== "function") {
         throw new Error(`Export "${propertyExport}" is not a function`);
       }
@@ -225,8 +236,8 @@ test("${testName}", t => {
       const args = ["--yes", "stryker", "run"];
       if (files?.length) args.push(`--mutate ${files.join(",")}`);
 
-      const { stdout } = await execFileAsync("npx", args);
-      const match = stdout.match(/Mutation score\s*([\d.]+)/);
+      const { stdout } = await execFileAsync("npx", args, EXEC_OPTS);
+      const match = stdout.toString().match(/Mutation score\s*([\d.]+)/);
       const score = match?.[1] ? parseFloat(match[1]) : 0;
 
       if (score < minScore) {
