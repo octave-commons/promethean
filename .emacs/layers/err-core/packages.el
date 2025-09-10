@@ -131,7 +131,7 @@
     (setq lsp-sonarlint-modes-enabled '(typescript-ts-mode tsx-ts-mode js-ts-mode))
 
     ;; Enable TS + JS analyzers (confirm names with M-x lsp-sonarlint-available-analyzers):
-    (setq lsp-sonarlint-enabled-analyzers '("javascript" "typescript"))
+    (setq lsp-sonarlint-enabled-analyzers '("javascript" "typescript" "json" "ts" "js"))
 
     ;; Let it fetch the official VSCode SonarLint bundle (analyzers + backend):
     (setq lsp-sonarlint-auto-download t)
