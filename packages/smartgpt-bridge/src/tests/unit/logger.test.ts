@@ -9,7 +9,7 @@ import { createLogger, sleep } from "@promethean/utils";
 test("writes logs to file when LOG_FILE is set", async (t) => {
   const file = path.join(os.tmpdir(), `smartgpt-log-${Date.now()}.log`);
   process.env.LOG_FILE = file;
-  const { buildLogStream } = await import("../../log-stream.js?" + Date.now());
+  const { buildLogStream } = await import(`../../log-stream.js?${Date.now()}`);
   const logger = createLogger({
     service: "smartgpt-bridge",
     stream: buildLogStream(),
@@ -45,11 +45,11 @@ test("falls back to stdout when log file stream errors", async (t) => {
           cb();
         },
       });
-      setImmediate(() => (stream as any).emit("error", new Error("disk full")));
+      setImmediate(() => stream.emit("error", new Error("disk full")));
       return stream as unknown as fs.WriteStream;
     },
   } as typeof fs;
-  const { buildLogStream } = await import("../../log-stream.js?" + Date.now());
+  const { buildLogStream } = await import(`../../log-stream.js?${Date.now()}`);
 
   let errorLogged = false;
   const originalError = console.error;
