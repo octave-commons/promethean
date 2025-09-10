@@ -3,12 +3,17 @@ import { z } from "zod";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { execFile } from "node:child_process";
+import { execFile, type ExecFileOptions } from "node:child_process";
 import { promisify } from "node:util";
 import { minimatch } from "minimatch";
 import fc from "fast-check";
 
 const execFileAsync = promisify(execFile);
+const EXEC_OPTS: ExecFileOptions & { encoding: "utf8" } = {
+  encoding: "utf8",
+  timeout: 120_000,
+  maxBuffer: 10 * 1024 * 1024,
+};
 
 export function registerTddTools(server: Server) {
   const s = server as any;
@@ -74,11 +79,11 @@ test("${testName}", t => {
     },
     async (input: { base: string; patterns: string[] }) => {
       const { base, patterns } = input;
-      const { stdout } = await execFileAsync("git", [
-        "diff",
-        "--name-only",
-        `${base}...HEAD`,
-      ]);
+      const { stdout } = await execFileAsync(
+        "git",
+        ["diff", "--name-only", `${base}...HEAD`],
+        EXEC_OPTS,
+      );
       const files = stdout
         .split("\n")
         .filter(Boolean)
@@ -111,7 +116,7 @@ test("${testName}", t => {
       match?.forEach((m: string) => args.push("--match", m));
       if (files?.length) args.push(...files);
 
-      const { stdout } = await execFileAsync("npx", args);
+      const { stdout } = await execFileAsync("npx", args, EXEC_OPTS);
       const result = JSON.parse(stdout);
       return {
         passed: result.stats.passed,
@@ -156,7 +161,7 @@ test("${testName}", t => {
         "ava",
         ...(include ?? []),
       ];
-      await execFileAsync("npx", args);
+      await execFileAsync("npx", args, EXEC_OPTS);
 
       const summaryPath = path.join(
         process.cwd(),
@@ -225,7 +230,7 @@ test("${testName}", t => {
       const args = ["--yes", "stryker", "run"];
       if (files?.length) args.push(`--mutate ${files.join(",")}`);
 
-      const { stdout } = await execFileAsync("npx", args);
+      const { stdout } = await execFileAsync("npx", args, EXEC_OPTS);
       const match = stdout.match(/Mutation score\s*([\d.]+)/);
       const score = match?.[1] ? parseFloat(match[1]) : 0;
 
