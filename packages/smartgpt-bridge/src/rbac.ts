@@ -25,10 +25,16 @@ function getApiKeyHeaderNames(req: any) {
 }
 
 export function registerRbac(app: any) {
-  app.decorate("authUser", async (req: any, _reply: any) => {
-    await initMongo();
+export function registerRbac(app: any) {
+  let mongoReady = false;
+  app.decorate("authUser", async (req: any, reply: any) => {
+    if (!mongoReady) {
+      await initMongo();
+      mongoReady = true;
+    }
     // If upstream auth already attached a user with roles, honor it
     if (req.user && Array.isArray(req.user.roles)) return req.user;
+    // …rest of authUser handler…
 
     // Prefer header names declared in the OpenAPI securitySchemes
     let token = null;
