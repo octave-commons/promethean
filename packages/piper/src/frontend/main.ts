@@ -187,8 +187,10 @@ async function init(): Promise<void> {
         const qs = new URLSearchParams({
           pipeline: p.name,
           step: s.id,
-          ...(files.length ? { files: JSON.stringify(files) } : {}),
+          ...(files.length ? { files: files.join(",") } : {}),
         });
+        const es = new EventSource(`/api/run-step?${qs.toString()}`);
+        es.onmessage = (e: MessageEvent<string>) => {
           (logsEl as HTMLElement).textContent += `${e.data}\n`;
         };
         es.onerror = () => es.close();
