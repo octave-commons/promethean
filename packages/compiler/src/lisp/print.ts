@@ -19,7 +19,7 @@ export function printS(x: S, opts: PrintOptions = {}, depth = 0): string {
     const xs = x.xs;
     const inner = xs.map((el) => (atomish(el) ? printS(el, opts, depth) : null));
     const inline = inner.every((s) => s !== null) && inner.join(' ').length <= maxInline;
-    if (inline) return `(${inner!.join(' ')})`;
+    if (inline) return `(${inner.join(' ')})`;
 
     const pieces = xs
         .map((el) => {

@@ -3,8 +3,7 @@ import path from "path";
 
 import { mkdirp } from "mkdirp";
 import { format } from "date-fns";
-
-import { createLogger } from "./logger.js";
+import { createLogger } from "@promethean/utils";
 
 type SaveArgs = {
   baseDir?: string;
@@ -15,8 +14,13 @@ type SaveArgs = {
   toolCalls?: any;
 };
 
+const persistLog = createLogger({
+  service: "codex-context",
+  base: { component: "persistence" },
+});
+
 export async function persistArtifact(args: SaveArgs) {
-  const log = createLogger("codex-context", { component: "persistence" });
+  const log = persistLog;
   const baseDir =
     args.baseDir || path.join(process.cwd(), "docs", "codex-context");
   const dir = path.join(baseDir, "requests");
@@ -85,7 +89,7 @@ async function ensureIndex(baseDir: string) {
     const content = `# Codex Context Artifacts\n\n- [[architecture/codex-context.md|Architecture Overview]]\n- Requests: see [[codex-context/requests|codex-context/requests]]\n`;
     await mkdirp(path.dirname(index));
     await fs.writeFile(index, content, "utf8");
-    const log = createLogger("codex-context", { component: "persistence" });
+    const log = persistLog;
     log.info("index.created", { file: index });
   }
 }

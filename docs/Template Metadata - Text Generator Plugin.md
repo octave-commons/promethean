@@ -1,4 +1,7 @@
-The Template File Metadata is a crucial component of any template in Text Generator. It serves as the header information that provides essential details about the template itself. Properly documenting this metadata ensures clarity, usability, and consistency in your template management. This documentation will guide you through the various fields within the Template File Metadata and how to use them effectively.
+The Template File Metadata is a crucial component of any template in Text Generator.
+It serves as the header information that provides essential details about the template itself.
+Properly documenting this metadata ensures clarity, usability, and consistency in your template management.
+This documentation will guide you through the various fields within the Template File Metadata and how to use them effectively.
 
 |Field|Type|Purpose|Example|
 |---|---|---|---|
@@ -28,6 +31,6 @@ The Template File Metadata is a crucial component of any template in Text Genera
 |`splitter.chunkSize`|Number|Size of each chunk for input data splitting.||
 |`splitter.chunkOverlap`|Number|Overlapping elements between consecutive chunks.||
 |`strict`|Boolean|Forces the user to fill all the Variables before running the template.||
-|`viewTypes`|Array of Strings|Tells Obsidan what files are supported (markdown, excalidraw, canvas)||
+|`viewTypes`|Array of Strings|Tells Obsidian what files are supported (markdown, excalidraw, canvas)||
 
 To create a professional and clear Template File Metadata, follow these best practices:

@@ -19,14 +19,9 @@
     "wav": "^1.0.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.2",
     "@types/express": "^4.17.21",
-    "@types/node": "^22.17.2",
-    "ava": "^6.4.1",
-    "c8": "^9.1.0",
     "cross-env": "^10.0.0",
-    "ts-node": "^10.9.2",
-    "typescript": "5.9.2"
+    "@promethean/pm2-helpers": "workspace:*"
   },
   "ava": {
     "extensions": {

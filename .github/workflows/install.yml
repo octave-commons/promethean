@@ -1,0 +1,33 @@
+name: ci
+permissions:
+  contents: read
+on:
+  push:
+  pull_request:
+
+jobs:
+  pnpm-install-smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Install pnpm (respects package.json `packageManager` if present)
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      # Set up Node and enable built-in pnpm cache
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          # If you have multiple lockfiles (monorepo), list them (comma- or newline-separated)
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            apps/*/pnpm-lock.yaml
+            packages/*/pnpm-lock.yaml
+
+      # This will tell us if codex broke his environment.
+      # Install deps (workspace-aware)
+      - name: Install
+        run: pnpm install --frozen-lockfile

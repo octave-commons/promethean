@@ -37,7 +37,3 @@
             (:command "/home/err/devel/promethean/scripts/mcp/bin/sonarqube.sh"))
           )))
 ;; AUTO GENREATED MCP SERVER CONFIG BY mk.mcp-cli END
-
-(setq mcp-server-programs
-      '(
-        ))

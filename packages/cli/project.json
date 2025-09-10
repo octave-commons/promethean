@@ -1,33 +1,37 @@
 {
     "name": "ts-cli",
-    "root": "shared/ts/cli",
-    "sourceRoot": "shared/ts/cli/src",
+    "root": "packages/cli",
+    "sourceRoot": "packages/cli/src",
     "targets": {
         "build": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "tsc -b"
+                "command": "tsc -b",
+                "cwd": "packages/cli"
             },
             "outputs": ["{projectRoot}/dist"]
         },
         "typecheck": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "tsc -p tsconfig.json --noEmit"
+                "command": "tsc -p tsconfig.json --noEmit",
+                "cwd": "packages/cli"
             }
         },
         "test": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "ava"
+                "command": "ava",
+                "cwd": "packages/cli"
             }
         },
         "lint": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "eslint ."
+                "command": "eslint .",
+                "cwd": "packages/cli"
             }
         }
     },
-    "tags": ["scope:shared-ts"]
+    "tags": ["scope:packages"]
 }

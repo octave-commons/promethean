@@ -3,9 +3,12 @@ import { createRequire } from "module";
 import crypto from "crypto";
 
 import { createRemoteJWKSet, jwtVerify, decodeProtectedHeader } from "jose";
-
+import rateLimit from "@fastify/rate-limit";
+import fastifyRateLimit from "@fastify/rate-limit";
 // Route modules (legacy)
-import { logger } from "../../logger.js";
+import { createLogger } from "@promethean/utils";
+
+import { logStream } from "../../log-stream.js";
 
 import { registerFilesRoutes } from "./files.js";
 import { registerSearchRoutes } from "./search.js";
@@ -18,6 +21,7 @@ import { registerSinkRoutes } from "./sinks.js";
 import { registerUserRoutes } from "./users.js";
 import { registerPolicyRoutes } from "./policies.js";
 import { registerBootstrapRoutes } from "./bootstrap.js";
+const logger = createLogger({ service: "smartgpt-bridge", stream: logStream });
 
 function parseCookies(req) {
   const header = req.headers?.cookie;
@@ -46,6 +50,7 @@ function timingSafeEqual(a, b) {
 }
 
 export async function registerV0Routes(app) {
+  await app.register(rateLimit, { max: 100, timeWindow: "1 minute" });
   // Old auth semantics (from src/auth.js), adapted for Fastify and scoped to /v0 only
   const enabled =
     String(process.env.AUTH_ENABLED || "false").toLowerCase() === "true";
@@ -188,8 +193,8 @@ export async function registerV0Routes(app) {
             const key = new TextEncoder().encode(String(jwtSecret));
             const { payload } = await jwtVerify(String(token), key, {
               algorithms: ["HS256", "HS384", "HS512"],
-              iss: jwtIssuer || undefined,
-              aud: jwtAudience || undefined,
+              issuer: jwtIssuer || undefined,
+              audience: jwtAudience || undefined,
               clockTolerance: "60s",
             });
             req.user = payload;
@@ -248,6 +253,14 @@ export async function registerV0Routes(app) {
       return reply.code(500).send({ ok: false, error: "auth misconfigured" });
     }
   }
+
+  // Apply rate limiting to all requests under this encapsulated scope
+  await app.register(fastifyRateLimit, {
+    max: 100, // Max requests per window per IP
+    timeWindow: 15 * 60 * 1000, // 15 minutes
+    // Optionally: Add error response customization
+    keyGenerator: (req) => req.ip,
+  });
 
   // Scope the old auth to the encapsulated /v0 prefix
   if (enabled) app.addHook("onRequest", v0PreAuth);

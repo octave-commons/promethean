@@ -3,6 +3,7 @@ import express from "express";
 import type { Express } from "express";
 import bodyParser from "body-parser";
 import ollama from "ollama";
+import { createLogger } from "@promethean/utils";
 
 import { SmartGptrRetriever } from "./retriever.js";
 import { buildAugmentedPrompt } from "./prompt.js";
@@ -16,7 +17,6 @@ import type {
   Usage,
 } from "./types/openai.js";
 import { persistArtifact } from "./save.js";
-import { createLogger } from "./logger.js";
 configDotenv();
 
 export type AppDeps = {
@@ -30,7 +30,7 @@ export function createApp(deps: AppDeps = {}): Express {
   const app = express();
   app.use(bodyParser.json({ limit: "50mb" }));
 
-  const log = createLogger("codex-context");
+  const log = createLogger({ service: "codex-context" });
   const sessions: Map<string, any[]> = new Map();
 
   const rawBridgeUrl = process.env.SMARTGPT_URL || "http://127.0.0.1:3210";
@@ -221,7 +221,9 @@ export function createApp(deps: AppDeps = {}): Express {
       const list: any = await (ollama as any).list();
       res.json(list);
     } catch (e: any) {
-      res.status(502).json({ error: { message: e?.message || String(e) } });
+      res.status(502).json({
+        error: { message: e?.message || String(e) },
+      });
     }
   });
 
@@ -237,14 +239,20 @@ export function createApp(deps: AppDeps = {}): Express {
         res.setHeader("Content-Type", "application/x-ndjson");
         res.setHeader("Cache-Control", "no-cache");
         res.setHeader("Connection", "keep-alive");
-        const it = await (ollama as any).pull({ model: name, stream: true });
+        const it = await (ollama as any).pull({
+          model: name,
+          stream: true,
+        });
         for await (const chunk of it) {
           res.write(JSON.stringify(chunk) + "\n");
         }
         res.end();
         return;
       } else {
-        const it = await (ollama as any).pull({ model: name, stream: true });
+        const it = await (ollama as any).pull({
+          model: name,
+          stream: true,
+        });
         let last: any = null;
         for await (const chunk of it) last = chunk;
         return void res.json(last || { status: "success" });
@@ -388,7 +396,11 @@ export function createApp(deps: AppDeps = {}): Express {
         created: out.created,
         model: out.model,
         choices: [
-          { index: 0, delta: { role: "assistant" }, finish_reason: null },
+          {
+            index: 0,
+            delta: { role: "assistant" },
+            finish_reason: null,
+          },
         ],
       });
       for (const c of chunks) {
@@ -397,7 +409,13 @@ export function createApp(deps: AppDeps = {}): Express {
           object: "chat.completion.chunk",
           created: out.created,
           model: out.model,
-          choices: [{ index: 0, delta: { content: c }, finish_reason: null }],
+          choices: [
+            {
+              index: 0,
+              delta: { content: c },
+              finish_reason: null,
+            },
+          ],
         });
       }
       // Final chunk with finish_reason
@@ -555,7 +573,14 @@ export function createApp(deps: AppDeps = {}): Express {
           object: "text_completion.chunk",
           created: out.created,
           model: out.model,
-          choices: [{ text: c, index: 0, logprobs: null, finish_reason: null }],
+          choices: [
+            {
+              text: c,
+              index: 0,
+              logprobs: null,
+              finish_reason: null,
+            },
+          ],
         });
       }
       sseData(res, {
@@ -564,7 +589,12 @@ export function createApp(deps: AppDeps = {}): Express {
         created: out.created,
         model: out.model,
         choices: [
-          { text: "", index: 0, logprobs: null, finish_reason: finishReason },
+          {
+            text: "",
+            index: 0,
+            logprobs: null,
+            finish_reason: finishReason,
+          },
         ],
       });
       sseDone(res);
@@ -587,7 +617,7 @@ export function createApp(deps: AppDeps = {}): Express {
 }
 
 export async function start() {
-  const log = createLogger("codex-context");
+  const log = createLogger({ service: "codex-context" });
   const app = createApp();
   const port = Number(process.env.PORT || 8140);
   return app.listen(port, "0.0.0.0", () => {

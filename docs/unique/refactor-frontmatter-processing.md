@@ -1,19 +1,20 @@
 ---
-uuid: cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
-created_at: 2025.09.01.12.42.21.md
+uuid: 3616c84d-e4ad-47c9-a206-06de43afb7f4
+created_at: refactor-frontmatter-processing.md
 filename: Refactor Frontmatter Processing
+title: Refactor Frontmatter Processing
 description: >-
-  Refactors frontmatter processing to use Ollama JS library and LevelDB for
-  key-value storage, reducing complexity while maintaining immutability and
-  functional style.
+  Refactors the frontmatter processing logic to use Ollama JS library and
+  LevelDB for key-value storage, reducing complexity and improving immutability
+  while avoiding loops and favoring functional style.
 tags:
   - refactor
+  - frontmatter
   - ollama
   - leveldb
-  - frontmatter
   - immutability
   - functional
-  - key-value
+  - promises
 related_to_uuid:
   - 41ce0216-f8cc-4eed-8d9a-fcc25be21425
   - 80d4d883-59f9-401b-8699-7a2723148b1e
@@ -40,30 +41,6 @@ related_to_uuid:
   - 8b256935-02f6-4da2-a406-bf6b8415276f
   - 01b21543-7e03-4129-8fe4-b6306be69dee
   - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
-  - b4e64f8c-4dc9-4941-a877-646c5ada068e
-  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-  - 6b63edca-7637-4fb0-bc85-d498c31cc46e
-  - c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
-  - 66a72fc3-4153-41fc-84bd-d6164967a6ff
-  - ab748541-020e-4a7e-b07d-28173bd5bea2
-  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
-  - 58191024-d04a-4520-8aae-a18be7b94263
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 18138627-a348-4fbb-b447-410dfb400564
-  - 10d98225-12e0-4212-8e15-88b57cf7bee5
-  - 0b872af2-4197-46f3-b631-afb4e6135585
-  - ae24a280-678e-4c0b-8cc4-56667fa04172
-  - e1056831-ae0c-460b-95fa-4cf09b3398c6
-  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
-  - ba244286-4e84-425b-8bf6-b80c4eb783fc
-  - b01856b4-999f-418d-8009-ade49b00eb0f
-  - d41a06d1-613e-4440-80b7-4553fc694285
-  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
-  - e811123d-5841-4e52-bf8c-978f26db4230
 related_to_title:
   - refactor-relations
   - Refactor 05-footers.ts
@@ -82,7 +59,7 @@ related_to_title:
   - Exception Layer Analysis
   - mystery-lisp-search-session
   - file-watcher-auth-fix
-  - Promethean Web UI Setup
+  - prom ui bootstrap
   - layer-1-uptime-diagrams
   - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
   - polymorphic-meta-programming-engine
@@ -90,30 +67,6 @@ related_to_title:
   - Chroma-Embedding-Refactor
   - compiler-kit-foundations
   - Promethean Event Bus MVP v0.1
-  - observability-infrastructure-setup
-  - Voice Access Layer Design
-  - Local-Only-LLM-Workflow
-  - 'Promethean Pipelines: Local TypeScript-First Workflow'
-  - lisp-dsl-for-window-management
-  - Mongo Outbox Implementation
-  - Shared Package Structure
-  - Promethean-native config design
-  - Event Bus MVP
-  - js-to-lisp-reverse-compiler
-  - field-dynamics-math-blocks
-  - Duck's Attractor States
-  - eidolon-field-math-foundations
-  - The Jar of Echoes
-  - Creative Moments
-  - Promethean Documentation Update
-  - Promethean-Copilot-Intent-Engine
-  - RAG UI Panel with Qdrant and PostgREST
-  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
-  - System Scheduler with Resource-Aware DAG
-  - Universal Lisp Interface
-  - prompt-programming-language-lisp
-  - Cross-Target Macro System in Sibilant
-  - WebSocket Gateway Implementation
 references:
   - uuid: 41ce0216-f8cc-4eed-8d9a-fcc25be21425
     line: 3
@@ -166,7 +119,7 @@ import { z } from "zod";
 import { parseArgs, listFilesRec, randomUUID } from "./utils";
 import type { Front } from "./types";
 
-const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
+const OLLAMA_URL = process.env.OLLAMA_URL ?? "
 
 const args = parseArgs({
   "--dir": "docs/unique",
@@ -248,7 +201,9 @@ async function main() {
   console.log("01-frontmatter: done.");
 }
 main().catch((e) => { console.error(e); process.exit(1); });
-```<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+```
+^ref-cfbdca2f-11-0
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [refactor-relations](refactor-relations.md)
 - [Refactor 05-footers.ts](refactor-05-footers-ts.md)
@@ -267,7 +222,7 @@ main().catch((e) => { console.error(e); process.exit(1); });
 - [Exception Layer Analysis](exception-layer-analysis.md)
 - [mystery-lisp-search-session](mystery-lisp-search-session.md)
 - [file-watcher-auth-fix](file-watcher-auth-fix.md)
-- [Promethean Web UI Setup](promethean-web-ui-setup.md)
+- [prom ui bootstrap](promethean-web-ui-setup.md)
 - [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
 - [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
 - [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
@@ -275,30 +230,6 @@ main().catch((e) => { console.error(e); process.exit(1); });
 - [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
 - [compiler-kit-foundations](compiler-kit-foundations.md)
 - [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [observability-infrastructure-setup](observability-infrastructure-setup.md)
-- [Voice Access Layer Design](voice-access-layer-design.md)
-- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
-- [Promethean Pipelines: Local TypeScript-First Workflow](promethean-pipelines-local-typescript-first-workflow.md)
-- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
-- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
-- [Shared Package Structure](shared-package-structure.md)
-- [Promethean-native config design](promethean-native-config-design.md)
-- [Event Bus MVP](event-bus-mvp.md)
-- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
-- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
-- [Duck's Attractor States](ducks-attractor-states.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [The Jar of Echoes](the-jar-of-echoes.md)
-- [Creative Moments](creative-moments.md)
-- [Promethean Documentation Update](promethean-documentation-update.txt)
-- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
-- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
-- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
-- [Universal Lisp Interface](universal-lisp-interface.md)
-- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
-- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
-- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
 ## Sources
 - [refactor-relations — L3](refactor-relations.md#^ref-41ce0216-3-0) (line 3, col 0, score 0.97)
 - [Refactor 05-footers.ts — L3](refactor-05-footers-ts.md#^ref-80d4d883-3-0) (line 3, col 0, score 0.97)

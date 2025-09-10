@@ -70,19 +70,23 @@ export class OllamaLLM implements LLM {
                     const line = buf.slice(0, nl).trim();
                     buf = buf.slice(nl + 1);
                     if (!line) continue;
-            interface OllamaChunk {
-                done?: boolean;
-                message?: { content?: string };
-            }
-            let obj: OllamaChunk;
-            try {
-                obj = JSON.parse(line) as OllamaChunk;
-            } catch {
-                continue;
-            }
-            if (obj.done) break;
-            const chunk = obj.message?.content ?? '';
-            out += chunk;
+                    type OllamaChunk = {
+                        done?: boolean;
+                        message?: { content?: string };
+                    };
+                    let obj: OllamaChunk;
+                    try {
+                        obj = JSON.parse(line) as OllamaChunk;
+                    } catch {
+                        continue;
+                    }
+                    if (obj.done) {
+                        // Stop promptly when Ollama signals completion.
+                        ctrl.abort();
+                        return stripFences(out.trim());
+                    }
+                    const chunk = obj.message?.content ?? '';
+                    out += chunk;
                 }
             }
             return stripFences(out.trim());
@@ -93,7 +97,7 @@ export class OllamaLLM implements LLM {
 }
 
 function stripFences(s: string): string {
-    const fence = s.match(/^```[\w-]*\n([\s\S]*?)\n```$/);
-    if (fence) return fence[1];
+    const m = s.match(/^```[\w-]*\n([\s\S]*?)\n```$/);
+    if (m && m[1] !== undefined) return m[1];
     return s.replace(/^```|```$/g, '');
 }

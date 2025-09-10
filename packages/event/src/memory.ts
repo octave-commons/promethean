@@ -51,7 +51,7 @@ class InMemoryStore implements EventStore {
         for (const k of keys) {
             // last event with matching key
             for (let i = evs.length - 1; i >= 0; i--) {
-                const e = evs[i];
+                const e = evs[i]!;
                 if (e.key === k) {
                     out[k] = e;
                     break;
@@ -87,7 +87,7 @@ class Subscription {
     draining = false;
     inFlightId?: string;
     attemptById = new Map<string, number>();
-    retryTimer?: NodeJS.Timeout;
+    retryTimer?: ReturnType<typeof setTimeout>;
 
     constructor(topic: string, group: string, handler: Handler, opts: SubscribeOptions) {
         this.topic = topic;
@@ -122,18 +122,13 @@ export class InMemoryEventBus implements EventBus {
         let lastId: UUID | undefined;
         if (from === 'latest') {
             const tail = await this.store.scan(topic, { limit: 1, afterId: undefined });
-            if (tail.length) lastId = tail[tail.length - 1].id;
+            if (tail.length) lastId = tail[tail.length - 1]!.id;
         } else if (from === 'afterId' && afterId) {
             lastId = afterId;
         } else if (from === 'ts' && ts) {
             const head = await this.store.scan(topic, { ts, limit: 1 });
             if (head.length) {
                 // start before the first >= ts
-                const _before = await this.store.scan(topic, {
-                    afterId: undefined,
-                    ts: undefined,
-                    limit: 0,
-                });
                 // simpler: set no lastId and drain logic will find first >= ts
                 lastId = undefined;
             }
@@ -187,7 +182,7 @@ export class InMemoryEventBus implements EventBus {
         const key = gkey(topic, group);
         const cur = (await this.cursors.get(topic, group)) ?? { topic };
         cur.lastId = id;
-        await this.cursors.set(topic, group, cur as CursorPosition);
+        await this.cursors.set(topic, group, cur);
         const sub = this.subs.get(key);
         if (sub?.manualAck && sub.inFlightId === id) {
             sub.inFlightId = undefined;
@@ -234,7 +229,7 @@ export class InMemoryEventBus implements EventBus {
                 limit: 1,
             });
             if (!batch.length) return; // nothing to do
-            const next = batch[0];
+            const next = batch[0]!;
 
             // delivery context
             const attempt = (sub.attemptById.get(next.id) ?? 0) + 1;

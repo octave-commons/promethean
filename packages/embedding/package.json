@@ -1,0 +1,30 @@
+{
+  "name": "@promethean/embedding",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && EMBEDDING_DIM=8 DISCORD_TOKEN_DUCK=test ava --config ../../config/ava.config.mjs",
+    "lint": "pnpm exec biome lint .",
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs"
+  },
+  "dependencies": {
+    "@promethean/legacy": "workspace:*",
+    "@promethean/platform": "workspace:*",
+    "chromadb": "3.0.14"
+  }
+}

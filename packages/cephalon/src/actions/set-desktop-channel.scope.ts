@@ -1,14 +1,18 @@
-import { makeLogger, type Logger } from "../factories/logger.js";
-import { makePolicy, type PolicyChecker } from "../factories/policy.js";
+import { checkPermission } from "@promethean/legacy";
+import { makePolicy, type PolicyChecker } from "@promethean/security";
+import { createLogger, type Logger } from "@promethean/utils";
 
 export type SetDesktopChannelScope = {
-  logger: Logger;
-  policy: PolicyChecker;
+	logger: Logger;
+	policy: PolicyChecker;
 };
 
 export async function buildSetDesktopChannelScope(): Promise<SetDesktopChannelScope> {
-  return {
-    logger: makeLogger("set-desktop-channel"),
-    policy: makePolicy(),
-  };
+	return {
+		logger: createLogger({
+			service: "cephalon",
+			base: { component: "set-desktop-channel" },
+		}),
+		policy: makePolicy({ permissionGate: checkPermission }),
+	};
 }

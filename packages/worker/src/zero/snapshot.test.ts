@@ -1,7 +1,7 @@
 import test from 'ava';
 
-import { buildSnapshot, commitSnapshot, type WorldLike, type ComponentRef } from './snapshot';
-import { markChanged } from './layout';
+import { buildSnapshot, commitSnapshot, type WorldLike, type ComponentRef } from './snapshot.js';
+import { markChanged } from './layout.js';
 
 class MockWorld implements WorldLike {
     comps = new Map<number, Map<number, any>>();
@@ -47,12 +47,12 @@ test('snapshot: build and commit', (t) => {
     const { snap } = buildSnapshot(world, spec, q);
     t.is(snap.rows, 1);
     t.is(snap.eids[0], 1);
-    const px = snap.comps[Pos.id].fields['x'] as Float32Array;
+    const px = snap.comps[Pos.id]!.fields['x'] as Float32Array;
     t.is(px[0], 0);
     // simulate worker mutation
     px[0] = 5;
-    markChanged(snap.comps[Pos.id].changed, 0);
+    markChanged(snap.comps[Pos.id]!.changed, 0);
     commitSnapshot(world, spec, snap);
-    const pos = world.get(1, Pos);
+    const pos = world.get(1, Pos)!;
     t.is(pos.x, 5);
 });

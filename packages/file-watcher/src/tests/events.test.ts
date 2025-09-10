@@ -1,7 +1,11 @@
-import test from "ava";
 import { mkdtempSync, writeFileSync, promises as fs } from "fs";
-import { join } from "path";
 import { tmpdir } from "os";
+import { join } from "path";
+
+import test from "ava";
+
+import { sleep } from "@promethean/test-utils/sleep";
+
 import { startFileWatcher } from "../index.js";
 const EVENTS = {
   board: "file-watcher-board-change",
@@ -24,7 +28,7 @@ test("emits board change events", async (t) => {
     publish: (type, payload) => events.push({ type, payload }),
   });
   await fs.writeFile(boardPath, "changed");
-  await new Promise((r) => setTimeout(r, 200));
+  await sleep(200);
   (await watcher).close();
   t.true(events.some((e) => e.type === EVENTS.board));
 });
@@ -43,12 +47,12 @@ test("emits task add and change events", async (t) => {
     repoRoot: root,
     publish: (type, payload) => events.push({ type, payload }),
   });
-  await new Promise((r) => setTimeout(r, 200));
+  await sleep(200);
   const taskFile = join(tasksDir, "task.md");
   await fs.writeFile(taskFile, "foo");
-  await new Promise((r) => setTimeout(r, 300));
+  await sleep(300);
   await fs.appendFile(taskFile, "bar");
-  await new Promise((r) => setTimeout(r, 300));
+  await sleep(300);
   (await watcher).close();
   t.true(events.some((e) => e.type === EVENTS.add));
 });

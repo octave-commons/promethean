@@ -1,8 +1,9 @@
 import type * as discord from "discord.js";
+import { checkPermission } from "@promethean/legacy";
+import { makePolicy, type PolicyChecker } from "@promethean/security";
+import { createLogger, type Logger } from "@promethean/utils";
 
 import type { Bot } from "../bot.js";
-import { makeLogger, type Logger } from "../factories/logger.js";
-import { makePolicy, type PolicyChecker } from "../factories/policy.js";
 
 export type RecordSpeakerScope = {
   logger: Logger;
@@ -22,8 +23,11 @@ export async function buildRecordSpeakerScope(): Promise<
   Pick<RecordSpeakerScope, "logger" | "policy">
 > {
   return {
-    logger: makeLogger("record-speaker"),
-    policy: makePolicy(),
+    logger: createLogger({
+      service: "cephalon",
+      base: { component: "record-speaker" },
+    }),
+    policy: makePolicy({ permissionGate: checkPermission }),
   };
 }
 

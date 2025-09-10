@@ -4,7 +4,9 @@
         "rootDir": "src",
         "outDir": "dist",
         "composite": true,
-        "declaration": true
+        "declaration": true,
+        "exactOptionalPropertyTypes": false,
+        "types": ["node", "ava"]
     },
     "include": ["src/**/*"],
     "references": []

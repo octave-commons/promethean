@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { argv, cwd, env, exit } from "node:process";
+
 import { normalizeArgs } from "./normalize.js";
 import { fetchAllComments } from "./github.js";
 import { normalizeComments } from "./text.js";
