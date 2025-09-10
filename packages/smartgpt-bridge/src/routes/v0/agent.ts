@@ -455,3 +455,6 @@ export function registerAgentRoutes(fastify: any) {
     },
   });
 }
+
+// Expose supervisor lookup and index for other route layers (e.g., v1 proxies)
+export { AGENT_INDEX, getSup };

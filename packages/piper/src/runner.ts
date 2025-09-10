@@ -168,7 +168,12 @@ export async function runPipeline(
     await sem.take();
     try {
       const cwd = path.resolve(s.cwd || ".");
-      const fp = await stepFingerprint(s, cwd, !!opts.contentHash);
+      const fp = await stepFingerprint(
+        s,
+        cwd,
+        !!opts.contentHash,
+        opts.extraEnv,
+      );
       const haveOutputs = s.outputs.length
         ? await listOutputsExist(s.outputs, cwd)
         : false;
