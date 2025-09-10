@@ -114,7 +114,10 @@ export function registerSearchRoutes(v1: any) {
   });
 
   v1.post("/search/web", {
-    preHandler: [v1.authUser, v1.requirePolicy("read", () => "web-search")],
+    preHandler: [
+      v1.authUser,
+      v1.requirePolicy("read", () => "bridge_searches"),
+    ],
     schema: {
       summary: "Web search",
       operationId: "webSearch",
