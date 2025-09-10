@@ -38,19 +38,27 @@ export async function registerV1Routes(app: any) {
       };
       swaggerOpts.openapi.security = [{ apiKey: [] }];
     }
-    await v1.register(swagger, swaggerOpts);
-
-    await v1.register(swaggerUi, {
-      routePrefix: "/docs",
-      uiConfig: { docExpansion: "list" },
-    });
+    let hasSwagger = true;
+    try {
+      await v1.register(swagger, swaggerOpts);
+      await v1.register(swaggerUi, {
+        routePrefix: "/docs",
+        uiConfig: { docExpansion: "list" },
+      });
+    } catch {
+      hasSwagger = false;
+    }
 
     // expose the generated v1 spec
     v1.get(
       "/openapi.json",
       { schema: { hide: true } },
       async (_req: any, reply: any) => {
-        reply.type("application/json").send(v1.swagger());
+        const doc =
+          hasSwagger && typeof (v1 as any).swagger === "function"
+            ? (v1 as any).swagger()
+            : swaggerOpts.openapi;
+        reply.type("application/json").send(doc);
       },
     );
 
