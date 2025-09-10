@@ -1,10 +1,16 @@
-import test from "ava";
 import { Writable } from "stream";
+
+import test from "ava";
+
 import { createLogger } from "../logger.js";
 
 class MemoryStream extends Writable {
   chunks: string[] = [];
-  override _write(chunk: any, _enc: BufferEncoding, cb: (error?: Error | null) => void) {
+  override _write(
+    chunk: any,
+    _enc: BufferEncoding,
+    cb: (error?: Error | null) => void,
+  ) {
     this.chunks.push(chunk.toString());
     cb();
   }
@@ -39,7 +45,12 @@ test("child logger merges fields", (t) => {
 
 test("audit bypasses level filter", (t) => {
   const stream = new MemoryStream();
-  const log = createLogger({ service: "t", level: "error", json: true, stream });
+  const log = createLogger({
+    service: "t",
+    level: "error",
+    json: true,
+    stream,
+  });
   log.audit("auth", { user: 1 });
   const obj = JSON.parse(stream.chunks[0]!);
   t.is(obj.msg, "auth");

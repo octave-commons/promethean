@@ -9,6 +9,8 @@ export const StepSchema = z
     env: z.record(z.string()).default({}),
     inputs: z.array(z.string()).default([]),
     outputs: z.array(z.string()).default([]),
+    inputSchema: z.string().optional(),
+    outputSchema: z.string().optional(),
     cache: z.enum(["content", "mtime", "none"]).default("content"),
     shell: z.string().optional(), // run a shell command
     node: z.string().optional(), // run `node <file>` (cwd)
@@ -26,10 +28,12 @@ export const StepSchema = z
         module: z.string(),
         export: z.string().default("default"),
         args: z.any().optional(),
+        isolate: z.enum(["worker"]).optional(),
       })
       .optional(),
     args: z.array(z.string()).optional(),
     timeoutMs: z.number().optional(),
+    retry: z.number().int().min(0).default(0),
   })
   .refine((s) => !!(s.shell || s.node || s.ts || s.js), {
     message: "step must define shell|node|ts|js",
@@ -56,6 +60,7 @@ export type RunOptions = {
   concurrency?: number; // parallelism for independent steps
   contentHash?: boolean; // prefer content hashing even if cache=mtime
   reportDir?: string; // write markdown reports
+  extraEnv?: Readonly<Record<string, string>>; // dev-ui: overlay env passed to steps; keys shadow step.env
 };
 
 export type StepResult = {

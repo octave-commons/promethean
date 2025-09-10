@@ -1,7 +1,9 @@
+import net from 'node:net';
+
 import test from 'ava';
+
 import { startProcess } from '../startProcess.js';
 import { getFreePort } from '../port-pool.js';
-import net from 'node:net';
 
 test('startProcess waits for HTTP readiness', async (t) => {
     const port = await getFreePort();

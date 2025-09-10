@@ -2,7 +2,6 @@ import { EventEmitter } from 'node:events';
 
 import test from 'ava';
 import ollama, { type Message } from 'ollama';
-
 import { sleep } from '@promethean/test-utils/sleep.js';
 import {
     generateTwitchStreamTitle,

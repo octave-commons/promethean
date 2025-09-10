@@ -1,0 +1,48 @@
+name: semgrep-pr
+permissions:
+  contents: read
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  semgrep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # required for proper merge-base
+
+      - name: Set up Node (for Nx)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      # Optional: show affected Nx projects (debug/visibility)
+      - name: Nx affected projects
+        run: npx nx show projects --affected --base=origin/main --head=HEAD --json | jq
+
+      - name: Compute changed TS/JS files
+        id: changed
+        shell: bash
+        run: |
+          BASELINE="$(git merge-base HEAD origin/main)"
+          echo "baseline=$BASELINE" >> $GITHUB_OUTPUT
+          FILES=$(git diff --name-only --diff-filter=AMRC "$BASELINE" HEAD \
+            | grep -E '\.(ts|tsx|js|mjs)$' || true)
+          echo "files=$FILES" >> $GITHUB_OUTPUT
+
+      - name: Semgrep (only changed files; diff-aware)
+        if: steps.changed.outputs.files != ''
+        run: |
+          pipx install semgrep
+          semgrep scan \
+            --config ./semgrep.yml \
+            --baseline-commit "${{ steps.changed.outputs.baseline }}" \
+            ${{ steps.changed.outputs.files }}
+
+      - name: Skip Semgrep (no relevant file changes)
+        if: steps.changed.outputs.files == ''
+        run: echo "No TS/JS changes; skipping Semgrep."

@@ -1,7 +1,10 @@
 // packages/docops/src/05-footers.ts
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
+import { pathToFileURL } from "node:url";
+
 import matter from "gray-matter";
+
 // DB is injected by caller
 import {
   parseArgs,
@@ -10,6 +13,8 @@ import {
   injectAnchors,
 } from "./utils.js";
 import type { Front } from "./types.js";
+
+// CLI entry
 
 export type FootersOptions = {
   dir: string;
@@ -232,9 +237,7 @@ export async function runFooters(
   let { byUuid, list } = await buildDocsMaps();
   if (opts.files && opts.files.length) {
     const wanted = new Set(opts.files.map((p) => path.resolve(p)));
-    list = list.filter(([, info]) =>
-      wanted.has(path.resolve((info as DocInfo).path)),
-    );
+    list = list.filter(([, info]) => wanted.has(path.resolve(info.path)));
   }
   const anchorsByPath =
     ANCHOR_STYLE === "block"
@@ -275,9 +278,6 @@ export async function runFooters(
   );
   // db lifecycle is owned by caller
 }
-
-// CLI entry
-import { pathToFileURL } from "node:url";
 const isDirect =
   !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
 if (isDirect) {

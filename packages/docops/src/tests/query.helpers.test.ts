@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { toScore, mapHits } from "../lib/query.js";
 import type { Chunk } from "../types.js";
 

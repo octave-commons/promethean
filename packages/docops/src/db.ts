@@ -1,6 +1,7 @@
 // src/db.ts
 import { Level } from "level";
 import type { AbstractSublevel } from "abstract-level";
+
 import type { Chunk, QueryHit } from "./types.js";
 
 export type DBs = {

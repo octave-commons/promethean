@@ -148,6 +148,10 @@ The service management targets `make start`, `make start-tts` and
 `make start-stt` require PM2. You can install it globally as shown above or add
 it as a project dependency.
 
+### Linting
+
+Use `pnpm lint:diff` during development to run ESLint only on files changed relative to `origin/main`. This is much faster than `pnpm lint`, which scans the entire repository. Reserve `pnpm lint` for CI or when a full repo check is required.
+
 ### Testing (JS/TS)
 
 Run JavaScript/TypeScript tests with AVA, split by type:

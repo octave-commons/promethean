@@ -1,11 +1,15 @@
 // packages/docops/src/03-query.ts
+import * as Path from "path";
+import { pathToFileURL } from "node:url";
+
 import { parseArgs } from "./utils.js";
 import type { DBs } from "./db.js";
 import type { Chunk, QueryHit } from "./types.js";
-import * as Path from "path";
 import { mapHits } from "./lib/query.js";
 import type { ChromaCollection } from "./lib/query.js";
 import { getChromaCollection } from "./lib/chroma.js";
+
+// CLI entry (ESM-safe)
 
 export type QueryOptions = {
   embedModel: string;
@@ -56,9 +60,9 @@ export async function runQuery(
   let total = 0;
   const allCandidates: Chunk[] = [];
   for await (const [, value] of db.chunks.iterator()) {
-    const cs = (value as readonly Chunk[]) ?? [];
+    const cs = value ?? [];
     const filtered = selectedUuids
-      ? cs.filter((c) => selectedUuids!.has(c.docUuid))
+      ? cs.filter((c) => selectedUuids.has(c.docUuid))
       : cs;
     total += filtered.length;
     for (const c of filtered) {
@@ -104,7 +108,7 @@ export async function runQuery(
     const qEmbeddings: number[][] = [];
     const qChunks: Chunk[] = [];
     for (let j = 0; j < group.length; j++) {
-      const e = (embs[j] ?? null) as number[] | null;
+      const e = embs[j] ?? null;
       if (e && Array.isArray(e) && e.length) {
         qEmbeddings.push(e);
         qChunks.push(group[j]!);
@@ -121,8 +125,8 @@ export async function runQuery(
 
     for (let j = 0; j < qChunks.length; j++) {
       const q = qChunks[j]!;
-      const idsJ = (allIds[j] || []) as string[];
-      const distsJ = (allDists[j] || []) as number[];
+      const idsJ = allIds[j] || [];
+      const distsJ = allDists[j] || [];
       const hits = Object.freeze(
         mapHits(idsJ, distsJ, byId, q.docUuid, opts.k ?? 16),
       );
@@ -133,7 +137,7 @@ export async function runQuery(
         const top = hits.slice(0, 3).map((h: QueryHit) => h.score.toFixed(3));
         dbg("q", q.id, "hits", hits.length, "top", top);
       }
-      for (const h of hits as readonly QueryHit[]) {
+      for (const h of hits) {
         const b = Math.max(0, Math.min(10, Math.floor((h.score ?? 0) * 10)));
         hist[b]++;
       }
@@ -142,9 +146,6 @@ export async function runQuery(
   dbg("summary", { computed, skipped, totalHits, hist });
   console.log("03-query: done (hits -> LevelDB sublevel 'q').");
 }
-
-// CLI entry (ESM-safe)
-import { pathToFileURL } from "node:url";
 const isDirect =
   !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
 if (isDirect) {

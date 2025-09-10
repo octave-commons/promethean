@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { configDotenv } from "dotenv";
 
 import { buildFastifyApp } from "./fastifyApp.js";

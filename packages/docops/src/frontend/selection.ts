@@ -1,18 +1,32 @@
-let selection: string[] = [];
+type GlobalWithDocops = {
+  readonly window?: unknown;
+  docopsSelection?: readonly string[];
+  dispatchEvent?: (ev: Event) => boolean;
+};
 
-export function setSelection(arr: string[]) {
-  selection = Array.isArray(arr) ? arr.slice() : [];
-  const tgt: any = (globalThis as any).window ?? globalThis;
-  tgt.docopsSelection = selection;
+const getGlobal = (): GlobalWithDocops => {
+  const g = globalThis as unknown as GlobalWithDocops & {
+    window?: GlobalWithDocops;
+  };
+  return g.window ?? g;
+};
+
+export function setSelection(arr: readonly string[]): void {
+  const next = Array.isArray(arr) ? (arr.slice() as readonly string[]) : [];
+  const tgt = getGlobal();
+  // store snapshot for other modules/UI; immutable by convention
+  (tgt as { docopsSelection?: readonly string[] }).docopsSelection = next;
   try {
     tgt.dispatchEvent?.(
       new CustomEvent("docops:selection-changed", {
-        detail: selection.slice(),
+        detail: next.slice(),
       }),
     );
   } catch {}
 }
 
-export function getSelection(): string[] {
-  return selection.slice();
+export function getSelection(): readonly string[] {
+  const tgt = getGlobal();
+  const sel = tgt.docopsSelection ?? [];
+  return sel.slice();
 }

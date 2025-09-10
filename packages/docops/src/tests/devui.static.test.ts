@@ -1,6 +1,7 @@
-import test from "ava";
 import * as path from "path";
 import * as fs from "fs/promises";
+
+import test from "ava";
 
 const PKG_ROOT = path.resolve(
   path.dirname(new URL(import.meta.url).pathname),

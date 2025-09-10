@@ -1,5 +1,4 @@
 import test from "ava";
-
 import { NotAllowedError } from "@promethean/security";
 
 import runPing from "../actions/ping.js";

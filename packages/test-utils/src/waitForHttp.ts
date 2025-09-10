@@ -1,5 +1,6 @@
-import { sleep as wait } from '@promethean/utils';
 import http from 'node:http';
+
+import { sleep as wait } from '@promethean/utils';
 
 export const waitForHttp = async (url: string, timeoutMs = 15000): Promise<void> => {
     const start = Date.now();
