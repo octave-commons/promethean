@@ -1,24 +1,23 @@
-// @ts-nocheck
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 
-function baseDir() {
+function baseDir(): string {
   const envDir = process.env.AGENT_STATE_DIR;
   if (envDir && envDir.trim()) return envDir;
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
   return path.join(__dirname, "../logs/agents");
 }
 
-async function ensureDir(p) {
+async function ensureDir(p: string) {
   await fs.mkdir(p, { recursive: true });
 }
 
-function agentDir(id) {
+function agentDir(id: string): string {
   return path.join(baseDir(), id);
 }
 
-export async function initAgentMeta(meta) {
+export async function initAgentMeta(meta: any) {
   const dir = agentDir(meta.id);
   await ensureDir(dir);
   await fs.writeFile(
@@ -28,7 +27,7 @@ export async function initAgentMeta(meta) {
   );
 }
 
-export async function updateAgentMeta(id, patch) {
+export async function updateAgentMeta(id: string, patch: any) {
   const dir = agentDir(id);
   await ensureDir(dir);
   let cur = {};
@@ -36,7 +35,8 @@ export async function updateAgentMeta(id, patch) {
     const raw = await fs.readFile(path.join(dir, "meta.json"), "utf8");
     cur = JSON.parse(raw);
   } catch {}
-  const next = { ...cur, ...patch };
+  // Keep the meta id consistent with the directory id
+  const next = { ...cur, ...patch, id };
   await fs.writeFile(
     path.join(dir, "meta.json"),
     JSON.stringify(next, null, 2),
@@ -44,26 +44,37 @@ export async function updateAgentMeta(id, patch) {
   );
 }
 
-export async function appendAgentLog(id, chunk) {
+export async function appendAgentLog(id: string, chunk: any) {
   const dir = agentDir(id);
   await ensureDir(dir);
   const logPath = path.join(dir, "output.log");
   await fs.appendFile(logPath, Buffer.isBuffer(chunk) ? chunk : String(chunk));
 }
 
-export async function readAgentLogTail(id, bytes = 8192) {
+export async function readAgentLogTail(
+  id: string,
+  bytes = 8192,
+): Promise<string> {
   const dir = agentDir(id);
   const logPath = path.join(dir, "output.log");
   try {
-    const data = await fs.readFile(logPath);
-    const start = Math.max(0, data.length - bytes);
-    return data.subarray(start).toString("utf8");
+    const fh = await fs.open(logPath, "r");
+    try {
+      const { size } = await fh.stat();
+      const start = Math.max(0, size - bytes);
+      const len = size - start;
+      const buf = Buffer.alloc(len);
+      await fh.read(buf, 0, len, start);
+      return buf.toString("utf8");
+    } finally {
+      await fh.close();
+    }
   } catch {
     return "";
   }
 }
 
-export async function listAgentMetas() {
+export async function listAgentMetas(): Promise<any[]> {
   const dir = baseDir();
   try {
     const names = await fs.readdir(dir, { withFileTypes: true });

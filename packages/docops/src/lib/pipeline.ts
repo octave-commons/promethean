@@ -1,4 +1,3 @@
-import { getChromaCollection } from "./chroma.js";
 import {
   runFrontmatter,
   type FrontmatterOptions,
@@ -16,6 +15,8 @@ import {
   type RenameOptions,
 } from "../index.js";
 import type { DBs } from "../db.js";
+
+import { getChromaCollection } from "./chroma.js";
 import type { ChromaCollection as QueryColl } from "./query.js";
 
 export type StepId =

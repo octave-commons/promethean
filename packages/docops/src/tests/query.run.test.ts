@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { runQuery } from "../03-query.js";
 
 function makeKV() {

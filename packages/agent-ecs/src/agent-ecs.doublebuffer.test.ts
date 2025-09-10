@@ -1,5 +1,4 @@
 import test from 'ava';
-
 import { sleep } from '@promethean/test-utils/sleep';
 
 import { createAgentWorld } from './world.js';
@@ -88,7 +87,7 @@ test('agent-ecs: orchestrator clears TranscriptFinal and enqueues', async (t) =>
     } as any;
     const getContext = async (_text: string) => [{ role: 'user' as const, content: 'hi' }];
     const systemPrompt = () => 'test';
-    const orch = OrchestratorSystem(w as any, bus, C as any, getContext, systemPrompt);
+    const orch = OrchestratorSystem(w, bus, C as any, getContext, systemPrompt);
 
     // Set a transcript in one frame
     const cmd = w.beginTick();

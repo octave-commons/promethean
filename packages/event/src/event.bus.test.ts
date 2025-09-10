@@ -1,5 +1,4 @@
 import test from 'ava';
-
 import { sleep } from '@promethean/test-utils/sleep';
 
 import { InMemoryEventBus } from './memory.js';

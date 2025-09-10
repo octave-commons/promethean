@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { withPage } from '../page.js';
 
 test('withPage macro exposes default title', (t) => {

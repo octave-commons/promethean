@@ -1,23 +1,21 @@
-// @ts-nocheck
 import test from "ava";
-import sinon from "sinon";
+import { sleep } from "@promethean/test-utils/dist/sleep.js";
 
-import { sleep } from "@promethean/test-utils/sleep";
-
-import { mockSpawnFactory } from "../helpers/mockSpawn.js";
+import { mockSpawnFactory, type MockStep } from "../helpers/mockSpawn.js";
 import { createSupervisor } from "../../agent.js";
 
 test("agent supervisor: guard pause, resume, then exit", async (t) => {
   // Script emits a dangerous line to trigger guard, then idle, then exit
-  const script = [
+  const script: MockStep[] = [
     { type: "stdout", data: "Starting...\n" },
     { type: "stdout", data: "rm -rf /tmp/foo\n" },
     { type: "stderr", data: "ignored\n" },
   ];
   const mockSpawn = mockSpawnFactory(script);
-  const killCalls = [];
-  const mockKill = (pid, signal) => {
+  const killCalls: Array<string | number> = [];
+  const mockKill = (_pid: number, signal: string | number) => {
     killCalls.push(signal);
+    return true;
   };
   const sup = createSupervisor({ spawnImpl: mockSpawn, killImpl: mockKill });
 
@@ -25,14 +23,14 @@ test("agent supervisor: guard pause, resume, then exit", async (t) => {
   // Give script a tick to deliver events
   await sleep(0);
 
-  const st1 = sup.status(id);
+  const st1 = sup.status(id)!;
   t.truthy(st1);
   t.true(st1.paused_by_guard, "guard should have paused process");
   t.true(killCalls.includes("SIGSTOP"));
 
   const ok = sup.resume(id);
   t.true(ok);
-  const st2 = sup.status(id);
+  const st2 = sup.status(id)!;
   t.false(st2.paused_by_guard);
   t.true(killCalls.includes("SIGCONT"));
 
@@ -46,6 +44,6 @@ test("agent supervisor: guard pause, resume, then exit", async (t) => {
   });
   const { id: id2 } = sup2.start({ prompt: "noop" });
   await sleep(0);
-  const st3 = sup2.status(id2);
+  const st3 = sup2.status(id2)!;
   t.true(st3.exited === true || st3.exited === false); // existence check; exited may be set after tick
 });

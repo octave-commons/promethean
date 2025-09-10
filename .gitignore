@@ -50,7 +50,10 @@ shared/py/.coverage
 
 .infio_json_db/
 **/.chromadb/
+**/chromadb/
 
+**/chroma/
+chroma/
 patch.sh
 
 frames/
@@ -106,3 +109,4 @@ error-groups/
 
 **/*.tsbuildinfo
 **/tsconfig.tsbuildinfo
+v8-compile-cache-0/

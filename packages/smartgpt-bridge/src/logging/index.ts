@@ -1,9 +1,8 @@
-// @ts-nocheck
 import { v4 as uuidv4 } from "uuid";
 
 import { contextStore } from "../sinks.js";
 
-export async function mongoChromaLogger(app) {
+export async function mongoChromaLogger(app: any) {
   let logStore;
   try {
     logStore = contextStore.getCollection("bridge_logs");
@@ -11,12 +10,12 @@ export async function mongoChromaLogger(app) {
     return; // sink not available
   }
 
-  app.addHook("onRequest", async (req) => {
+  app.addHook("onRequest", async (req: any) => {
     req.requestId = uuidv4();
     req.startTime = Date.now();
   });
 
-  app.addHook("onResponse", async (req, reply) => {
+  app.addHook("onResponse", async (req: any, reply: any) => {
     const latencyMs = Date.now() - (req.startTime || Date.now());
     const entry = {
       requestId: req.requestId,
@@ -30,14 +29,14 @@ export async function mongoChromaLogger(app) {
       operationId: reply.context?.schema?.operationId,
     };
     try {
-      await logStore.addEntry({
+      await (logStore as any).addEntry({
         text: JSON.stringify(entry),
         timestamp: Date.now(),
         metadata: {
           path: entry.path,
           method: entry.method,
           statusCode: entry.statusCode,
-          hasError: !!entry.error,
+          hasError: false,
           service: entry.service,
           operationId: entry.operationId,
         },
@@ -45,7 +44,7 @@ export async function mongoChromaLogger(app) {
     } catch {}
   });
 
-  app.addHook("onError", async (req, reply, error) => {
+  app.addHook("onError", async (req: any, reply: any, error: any) => {
     const latencyMs = Date.now() - (req.startTime || Date.now());
     const entry = {
       requestId: req.requestId || uuidv4(),
@@ -59,7 +58,7 @@ export async function mongoChromaLogger(app) {
       operationId: reply.context?.schema?.operationId,
     };
     try {
-      await logStore.addEntry({
+      await (logStore as any).addEntry({
         text: JSON.stringify(entry),
         timestamp: Date.now(),
         metadata: {
@@ -75,7 +74,7 @@ export async function mongoChromaLogger(app) {
   });
 }
 
-function safeParse(payload) {
+function safeParse(payload: any): any {
   if (!payload) return undefined;
   try {
     return typeof payload === "string" ? JSON.parse(payload) : payload;

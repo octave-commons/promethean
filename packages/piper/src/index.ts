@@ -10,6 +10,7 @@ Commands:
   status <name>                Show cache/status for each step
   run <name>                   Run a pipeline
   watch <name>                 Watch inputs & re-run
+  dev-ui                       Launch the Dev UI server
 
 Options for run/watch:
   --config pipelines.json      Path to pipelines file (json)
@@ -18,7 +19,12 @@ Options for run/watch:
   --concurrency 4              Concurrency
   --report docs/agile/pipelines
   --content-hash               Use content hashing even if step cache=mtime
-  --json                       Emit NDJSON events (start/skip/end)`);
+  --json                       Emit NDJSON events (start/skip/end)
+
+Options for dev-ui:
+  --config pipelines.json      Path to pipelines file (json)
+  --port 3939                  Port to bind
+  --token <string>             Optional Bearer token`);
 }
 
 async function listPipelines(configPath: string) {
@@ -53,6 +59,12 @@ async function main() {
     return showStatus(configPath, name);
   }
 
+  if (cmd === "dev-ui") {
+    // The dev UI script reads flags directly from process.argv and starts the server.
+    await import("./dev-ui.js");
+    return;
+  }
+
   if (cmd === "run" || cmd === "watch") {
     const name = args[1];
     if (!name) {
@@ -67,7 +79,7 @@ async function main() {
       contentHash: has("--content-hash"),
       json: has("--json"),
     } as any;
-    if (cmd === "run") await runPipeline(configPath, name, opts as any);
+    if (cmd === "run") await runPipeline(configPath, name, opts);
     else await watchPipeline(configPath, name, opts);
     return;
   }

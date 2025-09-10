@@ -24,10 +24,12 @@ export default [
     },
     rules: {
       // TypeScript strictness (lint-side)
-      "@typescript-eslint/consistent-type-definitions": ["warn", "type"],
-      "@typescript-eslint/no-unnecessary-type-assertion": "warn",
-      "@typescript-eslint/no-floating-promises": "warn",
-      "@typescript-eslint/explicit-module-boundary-types": "warn",
+      "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+      "@typescript-eslint/no-unnecessary-type-assertion": "error",
+      "@typescript-eslint/no-floating-promises": "error",
+      "@typescript-eslint/explicit-module-boundary-types": "error",
+
+      "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/prefer-readonly-parameter-types": [
         "warn",
         {
@@ -40,8 +42,8 @@ export default [
       ],
 
       // FP: immutability & purity
-      "functional/no-let": "warn",
-      "functional/no-try-statements": "off", // flip to "warn" if you want
+      "functional/no-let": "error",
+      "functional/no-try-statements": "warn", // flip to "warn" if you want
       "functional/prefer-immutable-types": [
         "warn",
         {
@@ -87,7 +89,7 @@ export default [
     ],
     rules: {
       "no-restricted-syntax": [
-        "warn",
+        "error",
         {
           selector:
             "CallExpression[callee.name='setTimeout'][arguments.0.type='Identifier']",
