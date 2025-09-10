@@ -13,9 +13,9 @@
     "build": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "lint": "bash -c 'pnpm exec biome lint src/tests/unit src/tests/integration src/tests/system src/tests/helpers; L1=$?; pnpm run -s lint:tests; L2=$?; exit $((L1|L2))'",
+    "lint": "bash -c 'pnpm exec eslint src/tests/unit src/tests/integration src/tests/system src/tests/helpers; L1=$?; pnpm run -s lint:tests; L2=$?; exit $((L1|L2))'",
     "lint:tests": "node --input-type=module -e \"import fs from 'fs';import path from 'path';const walk=d=>fs.readdirSync(d).some(f=>{const p=path.join(d,f);const s=fs.statSync(p);return s.isDirectory()?walk(p):p.endsWith('.test.js');});if(walk('src/tests')){console.error('Error: compiled test artifacts found');process.exit(1);} \"",
-    "format": "pnpm exec biome format --write src src/tests/unit src/tests/integration src/tests/system src/tests/helpers",
+    "format": "pnpm exec prettier --write src src/tests/unit src/tests/integration src/tests/system src/tests/helpers",
     "coverage": "pnpm run build && c8 -r text -r text-summary -r lcov -r html ava --config ../../config/ava.config.mjs"
   },
   "dependencies": {

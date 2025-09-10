@@ -14,15 +14,17 @@
     "./dist/*": "./dist/*",
     "./*": "./dist/*"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "pnpm run build && ava tests/**/*.test.js",
-    "lint": "pnpm exec biome lint .",
+    "lint": "pnpm exec eslint .",
     "coverage": "pnpm run build && c8 ava tests/**/*.test.js",
-    "format": "pnpm exec biome format --write ."
+    "format": "pnpm exec prettier --write ."
   },
   "module": "dist/index.js",
   "dependencies": {

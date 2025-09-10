@@ -105,8 +105,8 @@
 
 (defn format-ts []
   (if (u/has-pnpm?)
-    (do (u/run-dirs cfg/services-ts "pnpm exec @biomejs/biome format --write" {:shell true})
-        (u/run-dirs cfg/shared-ts "pnpm exec @biomejs/biome format --write" {:shell true}))
+    (do (u/run-dirs cfg/services-ts "pnpm exec prettier --write" {:shell true})
+        (u/run-dirs cfg/shared-ts "pnpm exec prettier --write" {:shell true}))
     (u/require-pnpm)))
 
 (defn setup-ts-service []

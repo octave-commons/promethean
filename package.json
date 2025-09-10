@@ -10,7 +10,7 @@
     "prepare": "chmod +x ./bin/promethean.js",
     "lint": "eslint --cache ./packages",
     "lint:diff": "bash ./bin/lint-diff-ts.sh",
-    "format": "biome format --config-path=biome.json --write .",
+    "format": "prettier --write .",
     "lint:tasks": "tsx scripts/lint_tasks.ts",
     "changelog:check": "tsx scripts/check_changelog.ts",
     "changelog:check-fragments": "tsx scripts/check_changelog_fragments.ts",
@@ -29,7 +29,6 @@
     "prom": "./bin/promethean.js"
   },
   "dependencies": {
-    "@biomejs/biome": "^2.2.3",
     "@promethean/image-link-generator": "workspace:*",
     "@promethean/legacy": "workspace:*",
     "@promethean/piper": "workspace:*",
@@ -71,6 +70,7 @@
     "eslint-plugin-functional": "^9.0.2",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-promise": "^7.2.1",
+    "prettier": "^3.3.3",
     "jest": "30.0.5",
     "node-gyp": "^11.4.2",
     "nx": "^20.0.0",
