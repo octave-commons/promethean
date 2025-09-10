@@ -1,12 +1,17 @@
 {
-    "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
-    "formatter": {
-        "lineWidth": 80,
-        "indentWidth": 4
-    },
-    "linter": {
-        "rules": {
-            "recommended": true
-        }
+  "$schema": "https://biomejs.dev/schemas/2.2.2/schema.json",
+  "formatter": { "indentWidth": 4, "lineWidth": 80, "indentStyle": "space" },
+  "linter": {
+    "rules": {
+      "recommended": false,
+      "nursery": {
+        "noFloatingPromises": "error",
+        "noImportCycles": "warn",
+        "useConsistentTypeDefinitions": "error",
+        "useExplicitType": "error"
+      },
+      "style": { "noDefaultExport": "warn" },
+      "suspicious": { "noExplicitAny": "error" }
     }
+  }
 }
