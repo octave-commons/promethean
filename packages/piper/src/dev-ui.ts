@@ -103,9 +103,8 @@ app.get<{
   if (!root.startsWith(workspaceRoot)) {
     return reply.code(400).send({ error: "invalid directory" });
   }
-  const maxDepth = Math.max(0, Number(req.query.maxDepth || "2") | 0) || 2;
-  const maxEntries =
-    Math.max(1, Number(req.query.maxEntries || "500") | 0) || 500;
+  const maxDepth = Math.max(0, Number(req.query.maxDepth ?? "2") | 0);
+  const maxEntries = Math.max(1, Number(req.query.maxEntries ?? "500") | 0);
   const exts = new Set(
     (req.query.exts || ".md,.mdx,.txt,.markdown")
       .split(",")
@@ -187,12 +186,18 @@ app.get<{ Querystring: { path?: string } }>(
 app.post<{ Body: { path?: string; content?: string } }>(
   "/api/write-file",
   async (req, reply) => {
-    const ROOT = process.cwd();
-    const p = req.body?.path ? path.resolve(req.body.path) : "";
-    const content = req.body?.content ?? "";
-    if (!p || !p.startsWith(ROOT)) {
-      return reply.code(400).send({ error: "invalid path" });
-    }
+-    const ROOT = process.cwd();
+    // Anchor to the real workspace root to prevent symlink bypass
+    const ROOT = await fs.realpath(process.cwd());
+    // Resolve all client paths against ROOT only
+    const p = req.body?.path ? path.resolve(ROOT, req.body.path) : "";
+     const content = req.body?.content ?? "";
+    // Compute the path relative to ROOT; outside paths start with ".."
+    const rel = p ? path.relative(ROOT, p) : "";
+    if (!p || rel.startsWith("..") || path.isAbsolute(rel)) {
+       return reply.code(400).send({ error: "invalid path" });
+     }
+     // …rest of handler…
     try {
       await fs.mkdir(path.dirname(p), { recursive: true });
       await fs.writeFile(p, content, "utf8");
@@ -334,11 +339,28 @@ app.get<{
       } else {
         s2.env.PIPER_FILES = JSON.stringify(files);
       }
-      await fs.mkdir(path.dirname(CONFIG_PATH), { recursive: true });
-      const tmpPath = path.resolve(
-        path.dirname(CONFIG_PATH),
-        ".cache/piper.ui.run.json",
-      );
+
+      // Validate file paths under the workspace root
+      const ROOT = await fs.realpath(process.cwd());
+      const absFiles = files
+        .map((f) => path.resolve(ROOT, f))
+        .filter((abs) => {
+          const rel = path.relative(ROOT, abs);
+          return !rel.startsWith("..") && !path.isAbsolute(rel);
+        });
+
+      // Inject validated files
+      if (s2.js) {
+        const current = s2.js.args && typeof s2.js.args === "object" ? s2.js.args : {};
+        s2.js.args = { ...current, files: absFiles };
+      } else {
+        s2.env.PIPER_FILES = JSON.stringify(absFiles);
+      }
+
+      // Ensure the .cache directory exists before writing
+      const cacheDir = path.resolve(path.dirname(CONFIG_PATH), ".cache");
+      await fs.mkdir(cacheDir, { recursive: true });
+      const tmpPath = path.join(cacheDir, "piper.ui.run.json");
       await fs.writeFile(tmpPath, JSON.stringify(clone, null, 2), "utf8");
       useConfigPath = tmpPath;
     }
