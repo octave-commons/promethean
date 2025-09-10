@@ -1,4 +1,4 @@
-import * as path from "path";
+import * as path from "node:path";
 
 import { parseArgs, tsc, codeFrame, writeJSON } from "./utils.js";
 import type { ErrorList, BuildError } from "./types.js";
@@ -11,12 +11,18 @@ const args = parseArgs({
 });
 
 const rawRoot: unknown = args["--root"];
-const root =
-  rawRoot === true ||
-  rawRoot === "true" ||
-  rawRoot === undefined ||
-  rawRoot === null ||
-  rawRoot === ""
+const disableRoot =
+  rawRoot === false ||
+  rawRoot === 0 ||
+  (typeof rawRoot === "string" &&
+    ["false", "no", "0"].includes(rawRoot.toLowerCase()));
+const root: string | undefined = disableRoot
+  ? undefined
+  : rawRoot === true ||
+      rawRoot === undefined ||
+      rawRoot === null ||
+      (typeof rawRoot === "string" && rawRoot.trim() === "") ||
+      (typeof rawRoot === "string" && rawRoot.toLowerCase() === "true")
     ? process.cwd()
     : String(rawRoot).trim();
 
@@ -42,7 +48,7 @@ async function collectForTsconfig(tsconfigPath: string): Promise<BuildError[]> {
 }
 
 async function main() {
-  const outFile = path.resolve(args["--out"]!);
+  const outFile = path.resolve(args["--out"] as string);
   let errors: BuildError[] = [];
   let tsconfig: string | undefined;
 
@@ -62,7 +68,7 @@ async function main() {
     }
     tsconfig = `workspace:${rootAbs}`;
   } else {
-    const single = path.resolve(args["--tsconfig"]!);
+    const single = path.resolve(args["--tsconfig"] as string);
     tsconfig = single;
     errors = await collectForTsconfig(single);
   }

@@ -44,7 +44,7 @@ test.serial("buildfix pipeline runs end-to-end", async (t) => {
         `node ${path.join(
           PKG_ROOT,
           "dist/01-errors.js",
-        )} --tsconfig ${tsconfig} --out ${errorsPath}`,
+        )} --root false --tsconfig ${tsconfig} --out ${errorsPath}`,
         PKG_ROOT,
       )
     ).code,

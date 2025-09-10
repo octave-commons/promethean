@@ -41,7 +41,7 @@ test("bf:01-errors writes error list", async (t) => {
     `node ${path.join(
       PKG_ROOT,
       "dist/01-errors.js",
-    )} --tsconfig ${tsconfig} --out ${outPath}`,
+    )} --root false --tsconfig ${tsconfig} --out ${outPath}`,
     PKG_ROOT,
   );
   t.is(code, 0);
