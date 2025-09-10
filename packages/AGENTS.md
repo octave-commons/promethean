@@ -38,7 +38,7 @@
 
 ## Example package
 Keep it simple, use barrel exports, minimal tsconfig extending `../../tsconfig.base.json`, minimal `ava.config.mjs`
-build essentials (`typescript`, `rimraf`, `biome`,`ts-node`,`ava`,`tsx`, etc) are pinned to the root ``package.json`
+build essentials (`typescript`, `rimraf`, `eslint`,`prettier`,`ts-node`,`ava`,`tsx`, etc) are pinned to the root ``package.json`
 to prevent version drift.
 
 node versions are pinned to root `package.json` to prevent version drift.
@@ -82,9 +82,9 @@ export * from "./hack.js"
     "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json",
     "test": "pnpm run build && ava",
-    "lint": "pnpm exec biome lint .",
+    "lint": "pnpm exec eslint .",
     "coverage": "pnpm run build && c8 ava",
-    "format": "pnpm exec biome format --write ."
+    "format": "pnpm exec prettier --write ."
   }
   "dependencies":{
   "@promethean/bar":"workspace:*"
