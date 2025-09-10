@@ -159,6 +159,14 @@ app.get<{
 // Read a text file (UTF-8) under the workspace
 app.get<{ Querystring: { path?: string } }>(
   "/api/read-file",
+  {
+    config: {
+      rateLimit: {
+        max: 10,            // limit each IP to 10 requests per minute
+        timeWindow: '1 minute',
+      }
+    }
+  },
   async (req, reply) => {
     const ROOT = process.cwd();
     const p = req.query.path ? path.resolve(req.query.path) : "";
