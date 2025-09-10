@@ -14,6 +14,13 @@ export function buildLogStream(fsMod: typeof fs = fs): NodeJS.WritableStream {
         console.error("log file stream error", error);
         const idx = outputs.indexOf(fileStream);
         if (idx !== -1) outputs.splice(idx, 1);
+        try {
+          if (typeof (fileStream as any).destroy === "function") {
+            (fileStream as any).destroy();
+          }
+        } catch {
+          // ignore destroy errors
+        }
       });
       outputs.push(fileStream);
     } catch {
