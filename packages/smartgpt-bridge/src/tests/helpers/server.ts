@@ -67,9 +67,10 @@ export const withServer = async (
   process.env.NODE_ENV = "test";
   // Avoid native addon crashes in CI/local when ABI mismatches
   if (!process.env.NODE_PTY_DISABLED) process.env.NODE_PTY_DISABLED = "1";
-  // Use in-memory Mongo by default for tests
+  // Skip Mongo unless explicitly requested via MONGODB_URI=memory
   let mms: MongoMemoryServer | undefined;
-  if (!process.env.MONGODB_URI || process.env.MONGODB_URI === "memory") {
+  if (!process.env.MONGODB_URI) process.env.MONGODB_URI = "disabled";
+  if (process.env.MONGODB_URI === "memory") {
     let lastErr: any = null;
     for (let i = 0; i < 5; i++) {
       try {
