@@ -105,9 +105,13 @@ test("${testName}", t => {
       tap: boolean;
     }) => {
       const { files, match, watch, tap } = input;
+      if (watch) {
+        throw new Error("watch mode is not supported");
+      }
+      if (tap) {
+        throw new Error("tap reporter is not supported");
+      }
       const args = ["--yes", "ava", "--json"];
-      if (tap) args.push("--tap");
-      if (watch) args.push("--watch");
       match?.forEach((m: string) => args.push("--match", m));
       if (files?.length) args.push(...files);
 
