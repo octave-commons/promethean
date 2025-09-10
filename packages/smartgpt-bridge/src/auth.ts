@@ -1,12 +1,11 @@
-// @ts-nocheck
 import crypto from "crypto";
 
 import { createRemoteJWKSet, jwtVerify, decodeProtectedHeader } from "jose";
 
-function parseCookies(req) {
+function parseCookies(req: { headers?: { cookie?: string } }) {
   const header = req.headers?.cookie;
-  if (!header) return {};
-  const out = {};
+  if (!header) return {} as Record<string, string>;
+  const out: Record<string, string> = {};
   for (const raw of header.split(";")) {
     const p = raw.trim();
     const idx = p.indexOf("=");
@@ -22,19 +21,23 @@ function parseCookies(req) {
   return out;
 }
 
-function timingSafeEqual(a, b) {
+function timingSafeEqual(a: unknown, b: unknown) {
   const bufA = Buffer.from(String(a));
   const bufB = Buffer.from(String(b));
   if (bufA.length !== bufB.length) return false;
   return crypto.timingSafeEqual(bufA, bufB);
 }
 
-async function verifyJwtHS(token, secret, expected = {}) {
+async function verifyJwtHS(
+  token: string,
+  secret: string,
+  expected: { iss?: string; aud?: string } = {},
+) {
   // Minimal HS256 verification without extra deps.
   // NOTE: For production OIDC, prefer JWKS verification with 'jose'.
   const [h, p, s] = String(token).split(".");
   if (!h || !p || !s) throw new Error("malformed");
-  let header, payload;
+  let header: any, payload: any;
   try {
     header = JSON.parse(Buffer.from(h, "base64url").toString("utf8"));
   } catch {
@@ -88,9 +91,9 @@ export function createAuth() {
   const jwtIssuer = process.env.AUTH_JWT_ISSUER;
   const jwtAudience = process.env.AUTH_JWT_AUDIENCE;
 
-  const router = (req, res, next) => next(); // placeholder (no login UI)
+  const router = (_req: any, _res: any, next: () => void) => next(); // placeholder (no login UI)
 
-  const getToken = (req) => {
+  const getToken = (req: any) => {
     const auth = req.headers?.authorization || "";
     if (auth.toLowerCase().startsWith("bearer ")) return auth.slice(7).trim();
     const cookies = parseCookies(req);
@@ -99,8 +102,8 @@ export function createAuth() {
   };
 
   // JOSE-based JWT verifier with alg detection and JWKS caching
-  let jwksCache = null;
-  function getJwks() {
+  let jwksCache: any = null;
+  function getJwks(): any | null {
     if (jwksCache) return jwksCache;
     let url = jwksUrl;
     if (!url && jwtIssuer) {
@@ -116,13 +119,13 @@ export function createAuth() {
     }
   }
 
-  async function verifyJwtAny(token) {
-    const { alg } = decodeProtectedHeader(String(token)) || {};
-    const opts = {
+  async function verifyJwtAny(token: string) {
+    const { alg } = (decodeProtectedHeader(String(token)) as any) || {};
+    const opts: any = {
       issuer: jwtIssuer || undefined,
-      audience: jwtAudience || undefined,
       clockTolerance: "60s",
     };
+    if (jwtAudience) opts.audience = jwtAudience;
     const allowHs = Boolean(jwtSecret);
     const allowedAsym = [
       "RS256",
@@ -163,7 +166,7 @@ export function createAuth() {
     return payload;
   }
 
-  const requireAuth = async (req, res, next) => {
+  const requireAuth = async (req: any, res: any, next: () => void) => {
     if (!enabled) return next();
     try {
       const token = getToken(req);
@@ -183,14 +186,14 @@ export function createAuth() {
         let payload;
         try {
           payload = await verifyJwtAny(token);
-        } catch (err) {
+        } catch (err: any) {
           // If explicitly HS256 and we have a secret, allow fallback to local verifier for compatibility
           const msg = String(err?.message || err);
           if (/missing jwks/.test(msg) && jwtSecret) {
-            payload = await verifyJwtHS(token, jwtSecret, {
-              iss: jwtIssuer,
-              aud: jwtAudience,
-            });
+            const expected: { iss?: string; aud?: string } = {};
+            if (jwtIssuer) expected.iss = jwtIssuer;
+            if (jwtAudience) expected.aud = jwtAudience;
+            payload = await verifyJwtHS(token, jwtSecret, expected);
           } else {
             throw err;
           }
@@ -200,7 +203,7 @@ export function createAuth() {
       }
 
       return res.status(500).json({ ok: false, error: "auth misconfigured" });
-    } catch (e) {
+    } catch (e: any) {
       const msg = String(e?.message || e);
       if (
         /(unauthorized|bad signature|expired|not active|iss|aud|malformed|bad header|bad payload|unsupported alg)/i.test(
@@ -215,8 +218,8 @@ export function createAuth() {
   };
 
   // Small helper endpoint for clients to check status
-  const mount = (app) => {
-    app.get("/auth/me", async (req, res) => {
+  const mount = (app: any) => {
+    app.get("/auth/me", async (req: any, res: any) => {
       if (!enabled)
         return res.json({ ok: true, auth: false, cookie: cookieName });
       const t = getToken(req);
@@ -242,13 +245,13 @@ export function createAuth() {
               mode: "jwt",
               cookie: cookieName,
             });
-          } catch (err) {
+          } catch (err: any) {
             const msg = String(err?.message || err);
             if (/missing jwks/.test(msg) && jwtSecret) {
-              await verifyJwtHS(t, jwtSecret, {
-                iss: jwtIssuer,
-                aud: jwtAudience,
-              });
+              const expected: { iss?: string; aud?: string } = {};
+              if (jwtIssuer) expected.iss = jwtIssuer;
+              if (jwtAudience) expected.aud = jwtAudience;
+              await verifyJwtHS(t, jwtSecret, expected);
               return res.json({
                 ok: true,
                 auth: true,

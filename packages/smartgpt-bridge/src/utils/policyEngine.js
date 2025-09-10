@@ -138,7 +138,6 @@ var __generator =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkAccess = checkAccess;
-// @ts-nocheck
 var Policy_js_1 = require("../models/Policy.js");
 function checkAccess(user, action, resource) {
   return __awaiter(this, void 0, void 0, function () {

@@ -1,8 +1,12 @@
-// @ts-nocheck
 import crypto from "crypto";
 
 import rateLimit from "@fastify/rate-limit";
-import { createRemoteJWKSet, jwtVerify, decodeProtectedHeader } from "jose";
+import {
+  createRemoteJWKSet,
+  jwtVerify,
+  decodeProtectedHeader,
+  type JWTVerifyOptions,
+} from "jose";
 import { createLogger } from "@promethean/utils";
 
 import { logStream } from "./log-stream.js";
@@ -10,10 +14,10 @@ import { initMongo } from "./mongo.js";
 import { User } from "./models/User.js";
 const logger = createLogger({ service: "smartgpt-bridge", stream: logStream });
 
-function parseCookies(req) {
-  const header = req.headers?.cookie;
+function parseCookies(req: any): Record<string, string> {
+  const header = req.headers?.cookie as string | undefined;
   if (!header) return {};
-  const out = {};
+  const out: Record<string, string> = {};
   for (const raw of header.split(";")) {
     const p = raw.trim();
     const idx = p.indexOf("=");
@@ -28,17 +32,21 @@ function parseCookies(req) {
   }
   return out;
 }
-function timingSafeEqual(a, b) {
+function timingSafeEqual(a: string | Buffer, b: string | Buffer) {
   const bufA = Buffer.from(String(a));
   const bufB = Buffer.from(String(b));
   if (bufA.length !== bufB.length) return false;
   return crypto.timingSafeEqual(bufA, bufB);
 }
 
-async function verifyJwtHS(token, secret, expected = {}) {
+async function verifyJwtHS(
+  token: string,
+  secret: string,
+  expected: { iss?: string; aud?: string } = {},
+) {
   const [h, p, s] = String(token).split(".");
   if (!h || !p || !s) throw new Error("malformed");
-  let header, payload;
+  let header: any, payload: any;
   try {
     header = JSON.parse(Buffer.from(h, "base64url").toString("utf8"));
   } catch {
@@ -68,7 +76,7 @@ async function verifyJwtHS(token, secret, expected = {}) {
   if (payload.exp && now - LEEWAY >= payload.exp) throw new Error("expired");
   if (expected.iss && payload.iss !== expected.iss) throw new Error("iss");
   if (expected.aud) {
-    const aud = payload.aud;
+    const aud: any = payload.aud;
     const ok = Array.isArray(aud)
       ? aud.includes(expected.aud)
       : aud === expected.aud;
@@ -93,8 +101,8 @@ export function createFastifyAuth() {
   const jwtAudience = process.env.AUTH_JWT_AUDIENCE;
   const jwksUrlEnv = process.env.AUTH_JWKS_URL;
 
-  let jwksCache = null;
-  function getJwks() {
+  let jwksCache: any = null;
+  function getJwks(): any {
     if (jwksCache) return jwksCache;
     let url = jwksUrlEnv;
     if (!url && jwtIssuer) {
@@ -110,13 +118,15 @@ export function createFastifyAuth() {
     }
   }
 
-  async function verifyJwtAny(token) {
-    const { alg } = decodeProtectedHeader(String(token)) || {};
-    const opts = {
-      issuer: jwtIssuer || undefined,
-      audience: jwtAudience || undefined,
+  async function verifyJwtAny(token: string) {
+    const { alg } = (decodeProtectedHeader(String(token)) as any) || {};
+    // Build options while respecting exactOptionalPropertyTypes
+    const opts: JWTVerifyOptions = {
+      issuer: jwtIssuer,
       clockTolerance: "60s",
-    };
+    } as JWTVerifyOptions;
+    if (jwtAudience) (opts as any).audience = jwtAudience;
+
     const allowHs = Boolean(jwtSecret);
     const allowedAsym = [
       "RS256",
@@ -152,13 +162,13 @@ export function createFastifyAuth() {
   }
 
   // Discover apiKey header names from the OpenAPI spec registered on this scope.
-  function getApiKeyHeaderNames(req) {
+  function getApiKeyHeaderNames(req: any): string[] {
     try {
       const spec =
         typeof req.server.swagger === "function" ? req.server.swagger() : null;
-      const schemes = spec?.components?.securitySchemes || {};
-      const names = [];
-      for (const [_k, v] of Object.entries(schemes)) {
+      const schemes = (spec as any)?.components?.securitySchemes || {};
+      const names: string[] = [];
+      for (const [_k, v] of Object.entries<any>(schemes)) {
         if (v && v.type === "apiKey" && v.in === "header" && v.name)
           names.push(String(v.name).toLowerCase());
       }
@@ -168,17 +178,18 @@ export function createFastifyAuth() {
     }
   }
 
-  function getToken(req) {
-    const auth = req.headers?.authorization || "";
+  function getToken(req: any): string | null {
+    const auth = (req.headers?.authorization as string | undefined) || "";
     if (auth.toLowerCase().startsWith("bearer ")) return auth.slice(7).trim();
     // Consult OpenAPI spec for apiKey header names
     const apiKeyHeaders = getApiKeyHeaderNames(req);
     for (const h of apiKeyHeaders) {
-      const val = req.headers?.[h];
+      const val = (req.headers?.[h] as string | undefined) || null;
       if (val) return String(val);
     }
     const cookies = parseCookies(req);
-    if (cookies[cookieName]) return cookies[cookieName];
+    const c = cookies[cookieName];
+    if (typeof c === "string" && c) return c;
     return null;
   }
 
@@ -187,7 +198,7 @@ export function createFastifyAuth() {
   const PUBLIC_PATHS = new Set(["/openapi.json", "/v1/openapi.json"]);
   const PUBLIC_PREFIXES = ["/docs", "/v1/docs"];
 
-  const isPublicPath = (req) => {
+  const isPublicPath = (req: any) => {
     if (!OPENAPI_PUBLIC) return false;
     // req.raw.url includes query; normalize to pathname for matching
     const pathname = (() => {
@@ -201,18 +212,20 @@ export function createFastifyAuth() {
     return PUBLIC_PREFIXES.some((p) => pathname.startsWith(p));
   };
 
-  const unauthorized = (reply) =>
+  const unauthorized = (reply: any) =>
     reply.code(401).send({ ok: false, error: "unauthorized" });
 
-  const misconfigured = (reply) =>
+  const misconfigured = (reply: any) =>
     reply.code(500).send({ ok: false, error: "auth misconfigured" });
 
   // Build a verifier once based on mode. Returns { user, reason }.
-  let verifyToken;
+  let verifyToken:
+    | ((token: string) => Promise<{ user: any; reason?: string | null }>)
+    | null;
   if (mode === "static") {
     // timingSafeEqual requires equal-length Buffers; normalize safely
     const staticBufs = staticTokens.map((t) => Buffer.from(String(t)));
-    verifyToken = async (token) => {
+    verifyToken = async (token: string) => {
       const tokBuf = Buffer.from(String(token));
       for (const b of staticBufs) {
         if (b.length === tokBuf.length && timingSafeEqual(b, tokBuf)) {
@@ -222,21 +235,21 @@ export function createFastifyAuth() {
       return { user: null, reason: "static_no_match" };
     };
   } else if (mode === "jwt") {
-    verifyToken = async (token) => {
+    verifyToken = async (token: string) => {
       try {
         const payload = await verifyJwtAny(token);
         return { user: payload };
-      } catch (e) {
+      } catch (e: any) {
         const msg = String(e?.message || e);
         // Attempt HS fallback if JWKS unavailable and a secret is configured
         if (/missing jwks/i.test(msg) && jwtSecret) {
           try {
-            const payload = await verifyJwtHS(token, jwtSecret, {
-              iss: jwtIssuer,
-              aud: jwtAudience,
-            });
+            const expected: { iss?: string; aud?: string } = {};
+            if (jwtIssuer) expected.iss = jwtIssuer;
+            if (jwtAudience) expected.aud = jwtAudience;
+            const payload = await verifyJwtHS(token, jwtSecret, expected);
             return { user: payload };
-          } catch (hsErr) {
+          } catch (hsErr: any) {
             return { user: null, reason: String(hsErr?.message || hsErr) };
           }
         }
@@ -255,7 +268,7 @@ export function createFastifyAuth() {
     verifyToken = async () => ({ user: null, reason: "unknown auth mode" });
   }
 
-  async function preHandler(req, reply) {
+  async function preHandler(req: any, reply: any) {
     if (!enabled) return; // auth off
     if (isPublicPath(req)) return; // allowlisted docs
 
@@ -281,12 +294,12 @@ export function createFastifyAuth() {
         await initMongo();
         const user = await User.findOne({ apiKey: token });
         if (user) {
-          req.user = user;
+          (req as any).user = user;
           return;
         }
       } catch {}
 
-      const vr = await verifyToken(token);
+      const vr = await (verifyToken as any)(token);
       if (!vr || !vr.user) {
         logger.audit("auth_unauthorized", {
           reason: vr?.reason || "invalid_token",
@@ -299,9 +312,9 @@ export function createFastifyAuth() {
         });
         return unauthorized(reply);
       }
-      req.user = vr.user;
+      (req as any).user = vr.user;
       return;
-    } catch (e) {
+    } catch (e: any) {
       logger.audit("auth_misconfigured", {
         reason: String(e?.message || e),
         mode,
@@ -315,11 +328,13 @@ export function createFastifyAuth() {
     }
   }
 
-  async function registerRoutes(fastify) {
-    // Register rate limit plugin if not already registered
-    await fastify.register(rateLimit, {
-      global: false, // we will use per-route rate limiting
-    });
+  async function registerRoutes(fastify: any) {
+    // Register rate limit plugin if not already registered (best-effort)
+    try {
+      await fastify.register(rateLimit, {
+        global: false, // we will use per-route rate limiting
+      });
+    } catch {}
 
     fastify.get(
       "/auth/me",
@@ -329,7 +344,7 @@ export function createFastifyAuth() {
           timeWindow: "1 minute", // per minute; adjust as desired
         },
       },
-      async (req, reply) => {
+      async (req: any, reply: any) => {
         if (!enabled)
           return reply.send({
             ok: true,
@@ -392,13 +407,13 @@ export function createFastifyAuth() {
                 mode: "jwt",
                 cookie: cookieName,
               });
-            } catch (err) {
+            } catch (err: any) {
               const msg = String(err?.message || err);
               if (/missing jwks/.test(msg) && jwtSecret) {
-                await verifyJwtHS(t, jwtSecret, {
-                  iss: jwtIssuer,
-                  aud: jwtAudience,
-                });
+                const expected: { iss?: string; aud?: string } = {};
+                if (jwtIssuer) expected.iss = jwtIssuer;
+                if (jwtAudience) expected.aud = jwtAudience;
+                await verifyJwtHS(t, jwtSecret, expected);
                 return reply.send({
                   ok: true,
                   auth: true,

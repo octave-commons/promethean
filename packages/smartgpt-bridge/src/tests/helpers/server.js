@@ -153,7 +153,6 @@ var __generator =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.withServer = void 0;
-// @ts-nocheck
 var fastifyApp_js_1 = require("../../fastifyApp.js");
 var mongodb_memory_server_1 = require("mongodb-memory-server");
 var sinon_1 = require("sinon");

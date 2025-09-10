@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { createLogger } from "@promethean/utils";
 
 import { logStream } from "./log-stream.js";
@@ -8,15 +7,16 @@ import { initMongo } from "./mongo.js";
 
 const logger = createLogger({ service: "smartgpt-bridge", stream: logStream });
 
-function getApiKeyHeaderNames(req) {
+function getApiKeyHeaderNames(req: any) {
   try {
     const spec =
       typeof req.server.swagger === "function" ? req.server.swagger() : null;
     const schemes = spec?.components?.securitySchemes || {};
     const names = [];
-    for (const [_k, v] of Object.entries(schemes)) {
-      if (v && v.type === "apiKey" && v.in === "header" && v.name)
-        names.push(String(v.name).toLowerCase());
+    for (const [_k, v] of Object.entries(schemes as any)) {
+      const vv: any = v;
+      if (vv && vv.type === "apiKey" && vv.in === "header" && vv.name)
+        names.push(String(vv.name).toLowerCase());
     }
     return names;
   } catch {
@@ -24,11 +24,16 @@ function getApiKeyHeaderNames(req) {
   }
 }
 
-export function registerRbac(app) {
-  app.decorate("authUser", async (req, reply) => {
-    await initMongo();
+export function registerRbac(app: any) {
+  let mongoReady = false;
+  app.decorate("authUser", async (req: any, _reply: any) => {
+    if (!mongoReady) {
+      await initMongo();
+      mongoReady = true;
+    }
     // If upstream auth already attached a user with roles, honor it
     if (req.user && Array.isArray(req.user.roles)) return req.user;
+    // …rest of authUser handler…
 
     // Prefer header names declared in the OpenAPI securitySchemes
     let token = null;
@@ -71,22 +76,26 @@ export function registerRbac(app) {
     return user;
   });
 
-  app.decorate("requirePolicy", (action, resource) => {
-    return async (req, reply) => {
-      const resName = typeof resource === "function" ? resource(req) : resource;
-      const allowed = await checkAccess(req.user, action, resName);
-      if (!allowed) {
-        logger.audit("rbac_forbidden", {
-          user: req.user?.username || req.user?._id || "unknown",
-          roles: req.user?.roles,
-          action,
-          resource: resName,
-          path: req.raw?.url || req.url,
-          method: req.method,
-          ip: req.ip,
-        });
-        return reply.code(403).send({ ok: false, error: "Forbidden" });
-      }
-    };
-  });
+  app.decorate(
+    "requirePolicy",
+    (action: string, resource: string | ((req: any) => string)) => {
+      return async (req: any, reply: any) => {
+        const resName =
+          typeof resource === "function" ? resource(req) : resource;
+        const allowed = await checkAccess(req.user, action, resName);
+        if (!allowed) {
+          logger.audit("rbac_forbidden", {
+            user: req.user?.username || req.user?._id || "unknown",
+            roles: req.user?.roles,
+            action,
+            resource: resName,
+            path: req.raw?.url || req.url,
+            method: req.method,
+            ip: req.ip,
+          });
+          return reply.code(403).send({ ok: false, error: "Forbidden" });
+        }
+      };
+    },
+  );
 }
