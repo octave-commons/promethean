@@ -5,6 +5,7 @@ import { promises as fs } from "node:fs";
 import fastifyFactory from "fastify";
 import fastifyStatic from "@fastify/static";
 import fastifyRateLimit from "@fastify/rate-limit";
+import { buildTree, filterTree, type TreeNode } from "@promethean/fs";
 import type { FastifyReply } from "fastify";
 
 import { runPipeline } from "./runner.js";
@@ -118,40 +119,38 @@ app.get<{
     children?: Node[];
     size?: number;
   };
+
+  const treeNode = await buildTree(root, { includeHidden: false, maxDepth });
   let count = 0;
-  async function walk(dir: string, depth: number): Promise<Node[]> {
-    // Make sure each traversed directory is within workspace root
-    const absDir = path.resolve(dir);
-    if (!absDir.startsWith(workspaceRoot)) return [];
-    if (depth > maxDepth || count >= maxEntries) return [];
-    let ents: Node[] = [];
-    try {
-      const list = await fs.readdir(absDir, { withFileTypes: true });
-      for (const ent of list) {
-        if (count >= maxEntries) break;
-        if (ent.name.startsWith(".")) continue;
-        const p = path.join(absDir, ent.name);
-        const absP = path.resolve(p);
-        // Only traverse/return files and dirs within workspace root
-        if (!absP.startsWith(workspaceRoot)) continue;
-        if (ent.isDirectory()) {
-          const children = await walk(absP, depth + 1);
-          if (children.length)
-            ents.push({ type: "dir", name: ent.name, children });
-        } else {
-          const ext = path.extname(ent.name).toLowerCase();
-          if (!exts.has(ext)) continue;
-          const st = await fs.stat(absP);
-          ents.push({ type: "file", name: ent.name, size: st.size });
-          count++;
-        }
-      }
-    } catch {
-      // ignore
+  const filtered = filterTree(treeNode, (n) => {
+    if (n.type === "file") {
+      const ext = (n.ext ?? "").toLowerCase();
+      if (!exts.has(ext) || count >= maxEntries) return false;
+      count++;
     }
-    return ents;
+    return true;
+  });
+
+  function toNode(n: TreeNode): Node | null {
+    if (n.type === "dir") {
+      const children = n.children
+        ?.map(toNode)
+        .filter((c): c is Node => c !== null);
+      if (!children || children.length === 0) return null;
+      return { type: "dir", name: n.name, children };
+    }
+    if (n.type === "file") {
+      return {
+        type: "file",
+        name: n.name,
+        ...(n.size !== undefined ? { size: n.size } : {}),
+      };
+    }
+    return null;
   }
-  const tree = await walk(root, 0);
+
+  const tree =
+    filtered?.children?.map(toNode).filter((c): c is Node => c !== null) ?? [];
   reply.header("content-type", "application/json");
   return reply.send({ dir: root, tree });
 });
@@ -162,10 +161,10 @@ app.get<{ Querystring: { path?: string } }>(
   {
     config: {
       rateLimit: {
-        max: 10,            // limit each IP to 10 requests per minute
-        timeWindow: '1 minute',
-      }
-    }
+        max: 10, // limit each IP to 10 requests per minute
+        timeWindow: "1 minute",
+      },
+    },
   },
   async (req, reply) => {
     const ROOT = process.cwd();
