@@ -15,13 +15,16 @@ export function registerFilesRoutes(v1: any) {
     // type filter not supported for tree view here
     const depth = typeof q.depth === "number" ? q.depth : Number(q.depth || 2);
     const wantTree = String(q.tree || "false").toLowerCase() === "true";
-    const ROOT_PATH = process.env.ROOT_PATH || process.cwd();
+    const ROOT_PATH = v1.ROOT_PATH || process.cwd();
     try {
       try {
-        // Try to view file first
-        const info = await viewFile(ROOT_PATH, dir, q.line, q.context);
-        reply.send({ ok: true, ...info });
-      } catch (viewErr) {
+        // If a specific file is requested (not '.'), try to view file first
+        if (dir && dir !== ".") {
+          const info = await viewFile(ROOT_PATH, dir, q.line, q.context);
+          return reply.send({ ok: true, ...info });
+        }
+        throw new Error("not a file");
+      } catch (_viewErr) {
         // catch view error and continue to directory listing
         // Directory listing or tree
         if (wantTree) {
@@ -179,7 +182,7 @@ export function registerFilesRoutes(v1: any) {
     },
     async handler(req: any, reply: any) {
       const { path: filePath, content, lines, startLine } = req.body || {};
-      const ROOT_PATH = process.env.ROOT_PATH || process.cwd();
+      const ROOT_PATH = v1.ROOT_PATH || process.cwd();
       if (!filePath)
         return reply.code(400).send({ ok: false, error: "Missing path" });
       const abs = normalizeToRoot(ROOT_PATH, filePath);
