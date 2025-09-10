@@ -20,7 +20,7 @@ test("POST /v0/symbols/index then /v0/symbols/find", async (t) => {
     t.true(res.body.ok);
     t.true(
       res.body.results.some(
-        (r) => r.name === "User" && r.path.endsWith("multiSymbols.ts"),
+        (r: any) => r.name === "User" && r.path.endsWith("multiSymbols.ts"),
       ),
     );
   });

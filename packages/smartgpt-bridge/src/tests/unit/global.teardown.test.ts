@@ -23,6 +23,7 @@ test.after.always("global teardown", async () => {
       getOrCreateCollection: async () => ({
         query: async () => ({}),
         upsert: async () => {},
+        delete: async () => {},
       }),
     });
   } catch {}

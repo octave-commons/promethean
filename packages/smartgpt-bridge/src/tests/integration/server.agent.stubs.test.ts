@@ -10,10 +10,16 @@ const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
 
 test("agent endpoints success paths via stubbed supervisor", async (t) => {
   const s = sinon.createSandbox();
-  s.stub(defaultSupervisor, "start").returns("S1");
+  s.stub(defaultSupervisor, "start").returns({ id: "S1", pid: 1 });
   s.stub(defaultSupervisor, "status").returns({
     id: "S1",
+    cmd: "codex",
+    args: ["exec"],
+    cwd: process.cwd(),
+    startedAt: Date.now(),
     exited: false,
+    code: null,
+    signal: null,
     paused_by_guard: false,
     bytes: 0,
   });

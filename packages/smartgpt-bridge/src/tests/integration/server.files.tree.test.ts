@@ -14,9 +14,9 @@ test("GET /v0/files/tree returns nested directory tree", async (t) => {
       .expect(200);
     t.true(res.body.ok);
     t.is(res.body.base, ".");
-    const tree = res.body.tree;
-    const sub = tree.children.find((c) => c.name === "subdir");
+    const tree: any = res.body.tree;
+    const sub = tree.children.find((c: any) => c.name === "subdir");
     t.truthy(sub);
-    t.truthy(sub.children.find((c) => c.name === "nested.md"));
+    t.truthy(sub.children.find((c: any) => c.name === "nested.md"));
   });
 });

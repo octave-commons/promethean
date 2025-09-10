@@ -2,7 +2,13 @@ import fs from "fs/promises";
 import path from "path";
 
 import fg from "fast-glob";
-import { ChromaClient, Collection } from "chromadb";
+import {
+  ChromaClient,
+  type UpsertRecordsParams,
+  type QueryRecordsParams,
+  type DeleteParams,
+  type GetOrCreateCollectionParams,
+} from "chromadb";
 import { createLogger } from "@promethean/utils";
 
 import { logStream } from "./log-stream.js";
@@ -14,15 +20,31 @@ import {
 } from "./indexerState.js";
 
 const logger = createLogger({ service: "smartgpt-bridge", stream: logStream });
-let CHROMA: ChromaClient | null = null; // lazily created to avoid holding open handles during import
+
+export interface CollectionLike {
+  upsert(args: UpsertRecordsParams): Promise<void>;
+  query(args: QueryRecordsParams): Promise<any>;
+  delete(args: DeleteParams): Promise<void>;
+  get?(...args: any[]): Promise<any>;
+  count?(): Promise<number>;
+  add?(...args: any[]): Promise<void>;
+}
+
+export interface ChromaLike {
+  getOrCreateCollection(
+    args: GetOrCreateCollectionParams,
+  ): Promise<CollectionLike>;
+}
+
+let CHROMA: ChromaLike | null = null; // lazily created to avoid holding open handles during import
 let EMBEDDING_FACTORY: (() => Promise<any>) | null = null; // optional override for tests
 let EMBEDDING_INSTANCE: any = null; // cached default embedding fn
 let EMBEDDING_INSTANCE_KEY: string | null = null; // cache key for default embedding fn
 
-export function setChromaClient(client: ChromaClient) {
+export function setChromaClient(client: ChromaLike) {
   CHROMA = client;
 }
-export function setEmbeddingFactory(factory: () => Promise<any>) {
+export function setEmbeddingFactory(factory: (() => Promise<any>) | null) {
   EMBEDDING_FACTORY = factory;
 }
 export function resetChroma() {
@@ -36,8 +58,25 @@ export function resetEmbeddingCache() {
   EMBEDDING_INSTANCE_KEY = null;
 }
 
-export function getChroma(): ChromaClient {
-  if (!CHROMA) CHROMA = new ChromaClient();
+export function getChroma(): ChromaLike {
+  if (!CHROMA) {
+    const real = new ChromaClient();
+    CHROMA = {
+      async getOrCreateCollection(
+        args: GetOrCreateCollectionParams,
+      ): Promise<CollectionLike> {
+        const col = await real.getOrCreateCollection(args);
+        return {
+          upsert: (a: UpsertRecordsParams) => col.upsert(a),
+          delete: (a: DeleteParams) => col.delete(a),
+          query: (a: QueryRecordsParams) => col.query(a),
+          get: (...a: any[]) => (col as any).get?.(...a),
+          count: () => (col as any).count?.(),
+          add: (...a: any[]) => (col as any).add?.(...a),
+        };
+      },
+    };
+  }
   return CHROMA;
 }
 
@@ -515,7 +554,7 @@ export async function collectionForFamily(
   family: string,
   version: string,
   cfg: { driver: string; fn: string; dims?: number },
-): Promise<Collection> {
+): Promise<CollectionLike> {
   const embeddingFunction = EMBEDDING_FACTORY
     ? await EMBEDDING_FACTORY()
     : await buildEmbeddingFn();
