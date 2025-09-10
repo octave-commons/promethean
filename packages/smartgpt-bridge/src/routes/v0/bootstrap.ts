@@ -3,10 +3,11 @@ import crypto from "crypto";
 import { User } from "../../models/User.js";
 
 function requireLocal(req: any, reply: any, done: any) {
-  const ip = req.ip;
-  if (ip === "127.0.0.1" || ip === "::1" || ip === "::ffff:127.0.0.1") {
-    return done();
-  }
+  const remote = req?.socket?.remoteAddress;
+  const forwarded = req.headers?.["x-forwarded-for"] || req.headers?.["forwarded"];
+  const isLoopback =
+    remote === "127.0.0.1" || remote === "::1" || remote === "::ffff:127.0.0.1";
+  if (isLoopback && !forwarded) return done();
   reply.code(403).send({ ok: false, error: "Bootstrap must be run locally" });
 }
 
