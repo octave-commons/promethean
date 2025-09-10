@@ -1,18 +1,19 @@
 export default class SlowBroker {
-  constructor(opts) {
+  opts: any;
+  constructor(opts: any) {
     this.opts = opts;
   }
-  async connect() {
+  async connect(): Promise<void> {
     /* no-op */
   }
-  subscribe() {
+  subscribe(): () => void {
     // Return unsubscribe noop
     return () => {};
   }
-  enqueue() {
+  enqueue(): void {
     // Intentionally do nothing: no replies -> trigger timeout
   }
-  disconnect() {
+  disconnect(): void {
     /* no-op */
   }
 }

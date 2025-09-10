@@ -70,7 +70,7 @@ test.serial(
 
     // Stub chroma + embeddings
     const col = new RecordingCollection();
-    setChromaClient(new FakeChroma(col));
+    setChromaClient(new FakeChroma(col) as any);
     setEmbeddingFactory(async () => ({ generate: async () => [] }));
 
     // Fresh bootstrap
