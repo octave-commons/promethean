@@ -50,10 +50,13 @@ test.serial("fails when input schema mismatches", async (t) => {
           },
         ],
       };
-      await fs.writeFile("pipelines.json", JSON.stringify(cfg, null, 2), "utf8");
+      await fs.writeFile(
+        "pipelines.json",
+        JSON.stringify(cfg, null, 2),
+        "utf8",
+      );
 
-      const res = await runPipeline("pipelines.json", "demo", {});
-      t.is(res[0]!.exitCode, 1);
+      await t.throwsAsync(() => runPipeline("pipelines.json", "demo", {}));
     } finally {
       process.chdir(prevCwd);
     }
@@ -89,13 +92,15 @@ test.serial("fails when output schema mismatches", async (t) => {
           },
         ],
       };
-      await fs.writeFile("pipelines.json", JSON.stringify(cfg, null, 2), "utf8");
+      await fs.writeFile(
+        "pipelines.json",
+        JSON.stringify(cfg, null, 2),
+        "utf8",
+      );
 
-      const res = await runPipeline("pipelines.json", "demo", {});
-      t.is(res[0]!.exitCode, 1);
+      await t.throwsAsync(() => runPipeline("pipelines.json", "demo", {}));
     } finally {
       process.chdir(prevCwd);
     }
   });
 });
-
