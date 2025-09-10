@@ -25,9 +25,8 @@ function getApiKeyHeaderNames(req: any) {
 }
 
 export function registerRbac(app: any) {
-export function registerRbac(app: any) {
   let mongoReady = false;
-  app.decorate("authUser", async (req: any, reply: any) => {
+  app.decorate("authUser", async (req: any, _reply: any) => {
     if (!mongoReady) {
       await initMongo();
       mongoReady = true;
