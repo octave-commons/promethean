@@ -1,102 +1,101 @@
-import type { Dirent } from "node:fs";
 import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
 
-export interface BrokenImageLink {
-	readonly file: string;
-	readonly url: string;
-	readonly alt: string;
-}
+export type BrokenImageLink = {
+  readonly file: string;
+  readonly url: string;
+  readonly alt: string;
+};
 
 async function pathExists(p: string): Promise<boolean> {
-	try {
-		await stat(p);
-		return true;
-	} catch {
-		return false;
-	}
+  try {
+    await stat(p);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 async function walk(dir: string, acc: string[]): Promise<void> {
-	const entries = (await readdir(dir, { withFileTypes: true })) as Dirent[];
-	await Promise.all(
-		entries.map(async (entry) => {
-			const resolved = path.join(dir, entry.name);
-			if (entry.isDirectory()) {
-				await walk(resolved, acc);
-			} else if (
-				entry.isFile() &&
-				(entry.name.endsWith(".md") || entry.name.endsWith(".org"))
-			) {
-				acc.push(resolved);
-			}
-		}),
-	);
+  const entries = await readdir(dir, { withFileTypes: true });
+  await Promise.all(
+    entries.map(async (entry) => {
+      const resolved = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        await walk(resolved, acc);
+      } else if (
+        entry.isFile() &&
+        (entry.name.endsWith(".md") || entry.name.endsWith(".org"))
+      ) {
+        acc.push(resolved);
+      }
+    }),
+  );
 }
 
 export async function findBrokenImageLinks(
-	root: string,
+  root: string,
 ): Promise<BrokenImageLink[]> {
-	const files: string[] = [];
-	await walk(root, files);
-	const results: BrokenImageLink[] = [];
-	for (const file of files) {
-		const content = await readFile(file, "utf8");
-		// markdown ![alt](url)
-		const mdRegex = /!\[(.*?)\]\((.*?)\)/g;
-		let match: RegExpExecArray | null;
-		while ((match = mdRegex.exec(content)) !== null) {
-			const alt = match[1] ?? "";
-			const url = match[2]!;
-			const imgPath = path.resolve(path.dirname(file), url);
-			if (!(await pathExists(imgPath))) {
-				results.push({ file, url, alt });
-			}
-		}
-		// org [[file:img.png][alt]] or [[img.png]]
-		const orgRegex = /\[\[(?:file:)?([^\]\[]+?)\](?:\[([^\]]*?)\])?\]/g;
-		while ((match = orgRegex.exec(content)) !== null) {
-			const url = match[1]!;
-			const alt = match[2] ?? "";
-			const imgPath = path.resolve(path.dirname(file), url);
-			if (!(await pathExists(imgPath))) {
-				results.push({ file, url, alt });
-			}
-		}
-	}
-	return results;
+  const files: string[] = [];
+  await walk(root, files);
+  const results: BrokenImageLink[] = [];
+  for (const file of files) {
+    const content = await readFile(file, "utf8");
+    // markdown ![alt](url)
+    const mdRegex = /!\[(.*?)\]\((.*?)\)/g;
+    let match: RegExpExecArray | null;
+    while ((match = mdRegex.exec(content)) !== null) {
+      const alt = match[1] ?? "";
+      const url = match[2]!;
+      const imgPath = path.resolve(path.dirname(file), url);
+      if (!(await pathExists(imgPath))) {
+        results.push({ file, url, alt });
+      }
+    }
+    // org [[file:img.png][alt]] or [[img.png]]
+    const orgRegex = /\[\[(?:file:)?([^\]\[]+?)\](?:\[([^\]]*?)\])?\]/g;
+    while ((match = orgRegex.exec(content)) !== null) {
+      const url = match[1]!;
+      const alt = match[2] ?? "";
+      const imgPath = path.resolve(path.dirname(file), url);
+      if (!(await pathExists(imgPath))) {
+        results.push({ file, url, alt });
+      }
+    }
+  }
+  return results;
 }
 
 export type ImageGenerator = (
-	prompt: string,
-	outputPath: string,
+  prompt: string,
+  outputPath: string,
 ) => Promise<void>;
 
 export async function defaultImageGenerator(
-	prompt: string,
-	outputPath: string,
+  prompt: string,
+  outputPath: string,
 ): Promise<void> {
-	const { pipeline } = await import("@xenova/transformers");
-	const pipe: any = await pipeline(
-		"text-to-image" as any,
-		"stabilityai/stable-diffusion-2-1-base" as any,
-	);
-	const result: any = await pipe(prompt);
-	// transformers.js Image type supports .save()
-	await result.images[0].save(outputPath);
+  const { pipeline } = await import("@xenova/transformers");
+  const pipe: any = await pipeline(
+    "text-to-image" as any,
+    "stabilityai/stable-diffusion-2-1-base" as any,
+  );
+  const result: any = await pipe(prompt);
+  // transformers.js Image type supports .save()
+  await result.images[0].save(outputPath);
 }
 
 export async function fixBrokenImageLinks(
-	root: string,
-	generator: ImageGenerator = defaultImageGenerator,
+  root: string,
+  generator: ImageGenerator = defaultImageGenerator,
 ): Promise<BrokenImageLink[]> {
-	const links = await findBrokenImageLinks(root);
-	await Promise.all(
-		links.map(async (link) => {
-			const output = path.resolve(path.dirname(link.file), link.url);
-			const prompt = link.alt || "placeholder image";
-			await generator(prompt, output);
-		}),
-	);
-	return links;
+  const links = await findBrokenImageLinks(root);
+  await Promise.all(
+    links.map(async (link) => {
+      const output = path.resolve(path.dirname(link.file), link.url);
+      const prompt = link.alt || "placeholder image";
+      await generator(prompt, output);
+    }),
+  );
+  return links;
 }

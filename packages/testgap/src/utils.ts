@@ -11,11 +11,11 @@ export function parseArgs(d: Record<string, string>) {
     if (!k.startsWith("--")) continue;
     const next = a[i + 1];
     const useNext = !!next && !next.startsWith("--");
-    const v = useNext ? next! : "true";
+    const v = useNext ? next : "true";
     if (useNext) i++;
     out[k] = v;
   }
-  return out as Record<string, string>;
+  return out;
 }
 export async function writeJSON(p: string, data: any) {
   await fs.mkdir(path.dirname(p), { recursive: true });

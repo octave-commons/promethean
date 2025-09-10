@@ -1,6 +1,5 @@
 import nodeFetch from "node-fetch";
-
-import { createLogger } from "./logger.js";
+import { createLogger } from "@promethean/utils";
 
 export type SearchHit = {
   path: string;
@@ -44,7 +43,10 @@ export type Retriever = {
 
 export class SmartGptrRetriever implements Retriever {
   private fetcher: (url: string, init?: any) => Promise<any>;
-  private log = createLogger("codex-context", { component: "retriever" });
+  private readonly log = createLogger({
+    service: "codex-context",
+    base: { component: "retriever" },
+  });
   constructor(
     private baseUrl: string,
     private token?: string,
@@ -56,7 +58,9 @@ export class SmartGptrRetriever implements Retriever {
   }
 
   private headers() {
-    const h: Record<string, string> = { "content-type": "application/json" };
+    const h: Record<string, string> = {
+      "content-type": "application/json",
+    };
     if (this.token) h["authorization"] = `Bearer ${this.token}`;
     return h;
   }
@@ -123,7 +127,9 @@ export class SmartGptrRetriever implements Retriever {
         count: out.symbols ? out.symbols.length : 0,
       });
     } catch (e) {
-      this.log.debug("symbols.skip", { err: String((e as any)?.message || e) });
+      this.log.debug("symbols.skip", {
+        err: String((e as any)?.message || e),
+      });
     }
     // Best-effort grep
     try {
@@ -146,9 +152,13 @@ export class SmartGptrRetriever implements Retriever {
         startLine: g.startLine ? Number(g.startLine) : undefined,
         endLine: g.endLine ? Number(g.endLine) : undefined,
       }));
-      this.log.debug("grep.ok", { count: out.grep ? out.grep.length : 0 });
+      this.log.debug("grep.ok", {
+        count: out.grep ? out.grep.length : 0,
+      });
     } catch (e) {
-      this.log.debug("grep.skip", { err: String((e as any)?.message || e) });
+      this.log.debug("grep.skip", {
+        err: String((e as any)?.message || e),
+      });
     }
     return out;
   }

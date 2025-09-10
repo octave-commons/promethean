@@ -118,13 +118,14 @@ function uniqueId(): string {
 // ---------- Board class ----------
 
 export class MarkdownBoard {
-    private readonly raw: string;
+    private readonly _raw: string;
     private readonly frontmatter: BoardFrontmatter;
     private readonly tree: any; // MDAST
     private kanbanSettings: KanbanSettings | null = null;
 
     private constructor(raw: string, frontmatter: BoardFrontmatter, tree: any, kanbanSettings: KanbanSettings | null) {
-        this.raw = raw;
+        this._raw = raw;
+        void this._raw;
         this.frontmatter = frontmatter;
         this.tree = tree;
         this.kanbanSettings = kanbanSettings;
@@ -408,6 +409,6 @@ export class MarkdownBoard {
                 }
             }
         });
-        return found;
+        return found ?? null;
     }
 }

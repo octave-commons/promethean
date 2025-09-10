@@ -1,33 +1,37 @@
 {
     "name": "ts-worker",
-    "root": "shared/ts/worker",
-    "sourceRoot": "shared/ts/worker/src",
+    "root": "packages/worker",
+    "sourceRoot": "packages/worker/src",
     "targets": {
         "build": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "tsc -b"
+                "command": "tsc -b",
+                "cwd": "packages/worker"
             },
             "outputs": ["{projectRoot}/dist"]
         },
         "typecheck": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "tsc -p tsconfig.json --noEmit"
+                "command": "tsc -p tsconfig.json --noEmit",
+                "cwd": "packages/worker"
             }
         },
         "test": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "ava"
+                "command": "ava",
+                "cwd": "packages/worker"
             }
         },
         "lint": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "eslint ."
+                "command": "eslint .",
+                "cwd": "packages/worker"
             }
         }
     },
-    "tags": ["scope:shared-ts"]
+    "tags": ["scope:packages"]
 }

@@ -1,76 +1,20 @@
 ---
-uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
-created_at: 2025.08.26.11.08.00.md
-filename: Promethean Agent Config DSL
+uuid: 81be89a6-ee6d-42a6-bea6-8ed2b8cfd499
+created_at: promethean-agent-config-dsl.md
+filename: promethean-agent-config-dsl
+title: promethean-agent-config-dsl
 description: >-
   Composable, declarative agent definitions using homoiconic S-expressions.
-  Supports runtime compilation into PM2, Docker, or Node processes with explicit
-  permissions and observability.
+  Supports runtime compilation into PM2, Docker, and Node processes with
+  explicit permissions and observability.
 tags:
-  - agent
-  - config
-  - dsl
   - s-expression
+  - agent-config
   - homoiconic
   - composable
-  - permissions
-  - runtime
+  - runtime-agnostic
+  - permissions-first
   - observability
-related_to_title:
-  - promethean-system-diagrams
-  - markdown-to-org-transpiler
-  - Lisp-Compiler-Integration
-  - WebSocket Gateway Implementation
-  - observability-infrastructure-setup
-  - Promethean Agent DSL TS Scaffold
-  - Event Bus Projections Architecture
-  - i3-layout-saver
-  - file-watcher-auth-fix
-  - template-based-compilation
-  - universal-intention-code-fabric
-  - Recursive Prompt Construction Engine
-  - Voice Access Layer Design
-  - Promethean Full-Stack Docker Setup
-  - mystery-lisp-search-session
-  - Cross-Target Macro System in Sibilant
-  - Cross-Language Runtime Polymorphism
-  - js-to-lisp-reverse-compiler
-  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
-  - Pure-Node Crawl Stack with Playwright and Crawlee
-  - Vectorial Exception Descent
-  - Promethean-native config design
-  - sibilant-macro-targets
-  - layer-1-uptime-diagrams
-  - Local-Only-LLM-Workflow
-  - polymorphic-meta-programming-engine
-  - Sibilant Meta-Prompt DSL
-  - Ghostly Smoke Interference
-  - Refactor 05-footers.ts
-  - Lispy Macros with syntax-rules
-  - Promethean Web UI Setup
-  - EidolonField
-  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
-  - Exception Layer Analysis
-  - Matplotlib Animation with Async Execution
-  - Language-Agnostic Mirror System
-  - SentenceProcessing
-  - Mongo Outbox Implementation
-  - State Snapshots API and Transactional Projector
-  - Universal Lisp Interface
-  - field-node-diagram-set
-  - Event Bus MVP
-  - i3-bluetooth-setup
-  - eidolon-field-math-foundations
-  - polyglot-repl-interface-layer
-  - pm2-orchestration-patterns
-  - Migrate to Provider-Tenant Architecture
-  - Fnord Tracer Protocol
-  - lisp-dsl-for-window-management
-  - Promethean Event Bus MVP v0.1
-  - set-assignment-in-lisp-ast
-  - Prometheus Observability Stack
-  - field-interaction-equations
-  - Chroma Toolkit Consolidation Plan
 related_to_uuid:
   - b51e19b4-1326-4311-9798-33e972bf626c
   - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
@@ -97,60 +41,37 @@ related_to_uuid:
   - c5c9a5c6-427d-4864-8084-c083cd55faa0
   - 4127189a-e0ab-436f-8571-cc852b8e9add
   - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
-  - af5d2824-faad-476c-a389-e912d9bc672c
-  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
-  - 80d4d883-59f9-401b-8699-7a2723148b1e
-  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
-  - bc5172ca-7a09-42ad-b418-8e42bb14d089
-  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
-  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
-  - 21d5cc09-b005-4ede-8f69-00b4b0794540
-  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
-  - d2b3628c-6cad-4664-8551-94ef8280851d
-  - 681a4ab2-8fef-4833-a09d-bceb62d114da
-  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
-  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
-  - b01856b4-999f-418d-8009-ade49b00eb0f
-  - 22b989d5-f4aa-4880-8632-709c21830f83
-  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-  - 51932e7b-4237-4756-bcae-8be6d535d0d1
-  - 54382370-1931-4a19-a634-46735708a9ea
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
-  - c5fba0a0-9196-468d-a0f3-51c99e987263
-  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+related_to_title:
+  - promethean-system-diagrams
+  - markdown-to-org-transpiler
+  - Lisp-Compiler-Integration
+  - WebSocket Gateway Implementation
+  - observability-infrastructure-setup
+  - Promethean Agent DSL TS Scaffold
+  - Event Bus Projections Architecture
+  - i3-layout-saver
+  - file-watcher-auth-fix
+  - template-based-compilation
+  - universal-intention-code-fabric
+  - Recursive Prompt Construction Engine
+  - Voice Access Layer Design
+  - Promethean Full-Stack Docker Setup
+  - mystery-lisp-search-session
+  - Cross-Target Macro System in Sibilant
+  - Cross-Language Runtime Polymorphism
+  - js-to-lisp-reverse-compiler
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - Vectorial Exception Descent
+  - Promethean-native config design
+  - sibilant-macro-targets
+  - layer-1-uptime-diagrams
+  - Local-Only-LLM-Workflow
 references:
-  - uuid: 5158f742-4a3b-466e-bfc3-d83517b64200
-    line: 818
-    col: 0
-    score: 0.86
-  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
-    line: 631
-    col: 0
-    score: 0.87
   - uuid: b51e19b4-1326-4311-9798-33e972bf626c
     line: 169
     col: 0
     score: 0.88
-  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
-    line: 111
-    col: 0
-    score: 0.85
-  - uuid: 31f0166e-4631-45fa-aecd-b44e9a13f497
-    line: 79
-    col: 0
-    score: 0.85
-  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
-    line: 348
-    col: 0
-    score: 0.86
   - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
     line: 272
     col: 0
@@ -159,6 +80,26 @@ references:
     line: 523
     col: 0
     score: 0.88
+  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
+    line: 631
+    col: 0
+    score: 0.87
+  - uuid: 5158f742-4a3b-466e-bfc3-d83517b64200
+    line: 818
+    col: 0
+    score: 0.86
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 348
+    col: 0
+    score: 0.86
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 111
+    col: 0
+    score: 0.85
+  - uuid: 31f0166e-4631-45fa-aecd-b44e9a13f497
+    line: 79
+    col: 0
+    score: 0.85
 ---
 # Promethean Agent Config DSL (S‑Expr) — Draft v1
 
@@ -197,7 +138,7 @@ references:
   ;; Agent‑scoped env and secrets (resolved from secret store or .env)
   (env
     {:DISCORD_TOKEN (secret :discord/duck)
-     :CHROMA_URL    "http://localhost:8000"
+     :CHROMA_URL    "
      :MONGO_URI     (secret :mongo/main)})
 
   ;; Permissions (explicit allowlist)
@@ -517,7 +458,18 @@ flowchart LR
  ^ref-2c00ce45-338-0
 --- ^ref-2c00ce45-326-0
  ^ref-2c00ce45-316-0
-*End Draft v1 — ready for iteration.*<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+*End Draft v1 — ready for iteration.*
+0ce45-348-0
+ ^ref-2c00ce45-333-0
+* Secret resolution backend: env, file, or Vault? Provide adapters. ^ref-2c00ce45-321-0
+* Live reload of topology on block update? (hot‑swap vs restart) ^ref-2c00ce45-311-0
+* Multi‑tenancy overlays: `(overlay :discord {...})` vs multiple `(use discord.bot/v1 ...)` forms. ^ref-2c00ce45-352-0
+* How do we describe **tools** (OpenAPI → tool specs) as composable blocks? (likely `(use tools/openapi/v1 :with {:spec ".../openapi.json"})`). ^ref-2c00ce45-353-0
+ ^ref-2c00ce45-338-0
+--- ^ref-2c00ce45-326-0
+ ^ref-2c00ce45-316-0
+*End Draft v1 — ready for iteration.*
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [promethean-system-diagrams](promethean-system-diagrams.md)
 - [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
@@ -544,42 +496,13 @@ flowchart LR
 - [sibilant-macro-targets](sibilant-macro-targets.md)
 - [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
 - [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
-- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
-- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
-- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
-- [Refactor 05-footers.ts](refactor-05-footers-ts.md)
-- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
-- [Promethean Web UI Setup](promethean-web-ui-setup.md)
-- [EidolonField](eidolonfield.md)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
-- [Exception Layer Analysis](exception-layer-analysis.md)
-- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
-- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
-- [SentenceProcessing](sentenceprocessing.md)
-- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
-- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
-- [Universal Lisp Interface](universal-lisp-interface.md)
-- [field-node-diagram-set](field-node-diagram-set.md)
-- [Event Bus MVP](event-bus-mvp.md)
-- [i3-bluetooth-setup](i3-bluetooth-setup.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [polyglot-repl-interface-layer](polyglot-repl-interface-layer.md)
-- [pm2-orchestration-patterns](pm2-orchestration-patterns.md)
-- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
-- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
-- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
-- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
-- [Prometheus Observability Stack](prometheus-observability-stack.md)
-- [field-interaction-equations](field-interaction-equations.md)
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
 ## Sources
-- [Promethean Agent DSL TS Scaffold — L818](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-818-0) (line 818, col 0, score 0.86)
-- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 0.87)
 - [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.88)
-- [Event Bus Projections Architecture — L111](event-bus-projections-architecture.md#^ref-cf6b9b17-111-0) (line 111, col 0, score 0.85)
-- [i3-layout-saver — L79](i3-layout-saver.md#^ref-31f0166e-79-0) (line 79, col 0, score 0.85)
-- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.86)
 - [markdown-to-org-transpiler — L272](markdown-to-org-transpiler.md#^ref-ab54cdd8-272-0) (line 272, col 0, score 0.88)
 - [Lisp-Compiler-Integration — L523](lisp-compiler-integration.md#^ref-cfee6d36-523-0) (line 523, col 0, score 0.88)
+- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 0.87)
+- [Promethean Agent DSL TS Scaffold — L818](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-818-0) (line 818, col 0, score 0.86)
+- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.86)
+- [Event Bus Projections Architecture — L111](event-bus-projections-architecture.md#^ref-cf6b9b17-111-0) (line 111, col 0, score 0.85)
+- [i3-layout-saver — L79](i3-layout-saver.md#^ref-31f0166e-79-0) (line 79, col 0, score 0.85)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

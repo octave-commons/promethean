@@ -1,8 +1,12 @@
 // @ts-nocheck
+import { createLogger } from "@promethean/utils";
+
+import { logStream } from "./log-stream.js";
 import { User } from "./models/User.js";
 import { checkAccess } from "./utils/policyEngine.js";
 import { initMongo } from "./mongo.js";
-import { logger } from "./logger.js";
+
+const logger = createLogger({ service: "smartgpt-bridge", stream: logStream });
 
 function getApiKeyHeaderNames(req) {
   try {
@@ -81,7 +85,7 @@ export function registerRbac(app) {
           method: req.method,
           ip: req.ip,
         });
-        reply.code(403).send({ ok: false, error: "Forbidden" });
+        return reply.code(403).send({ ok: false, error: "Forbidden" });
       }
     };
   });

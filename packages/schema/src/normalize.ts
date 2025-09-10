@@ -1,6 +1,6 @@
 // loosen typing to avoid cross-package type coupling
-import { SchemaRegistry } from './registry';
-import { UpcastChain } from './upcast';
+import { SchemaRegistry } from './registry.js';
+import { UpcastChain } from './upcast.js';
 
 export async function subscribeNormalized(
     bus: any,

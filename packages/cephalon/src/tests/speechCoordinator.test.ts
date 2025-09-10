@@ -1,6 +1,7 @@
 import EventEmitter from "events";
 
 import test from "ava";
+import { sleep } from "@promethean/test-utils/sleep";
 
 import {
   SpeechArbiter,
@@ -42,7 +43,7 @@ test("arbiter drops stale utterances", async (t) => {
   };
   arb.enqueue(oldU);
   arb.enqueue(newU);
-  await new Promise((r) => setTimeout(r, 10));
+  await sleep(10);
   t.deepEqual(played, ["new"]);
 });
 
@@ -70,6 +71,6 @@ test("arbiter prioritizes higher priority", async (t) => {
   };
   arb.enqueue(low);
   arb.enqueue(high);
-  await new Promise((r) => setTimeout(r, 10));
+  await sleep(10);
   t.deepEqual(played, ["high"]);
 });

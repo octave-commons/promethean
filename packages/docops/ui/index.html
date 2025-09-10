@@ -119,13 +119,14 @@ select { min-width: 420px; }
     </section>
     <section>
       <h2>Steps</h2>
+      <docops-step step="purge" title="00 Purge (nuke FM/footers/links)" fields="minSize"></docops-step>
       <docops-step step="frontmatter" title="01 Frontmatter" fields="genModel"></docops-step>
       <docops-step step="embed" title="02 Embed" fields="collection,embedModel"></docops-step>
       <docops-step step="query" title="03 Query" fields="collection,embedModel,k,force"></docops-step>
-      <docops-step step="relations" title="04 Relations" fields="docT,refT"></docops-step>
+      <docops-step step="relations" title="04 Relations" fields="docT,refT,refMin,refMax,maxReferences"></docops-step>
       <docops-step step="footers" title="05 Footers" fields="anchorStyle"></docops-step>
       <docops-step step="rename" title="06 Rename" fields=""></docops-step>
     </section>
   </main>
 </div>
-<script type="module" src="main.js"></script>
+<script type="module" src="/js/main.js"></script>

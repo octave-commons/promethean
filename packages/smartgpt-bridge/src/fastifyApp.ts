@@ -4,7 +4,7 @@ import Fastify from "fastify";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import ajvformats from "ajv-formats";
-
+import rateLimit from "@fastify/rate-limit";
 import { createFastifyAuth } from "./fastifyAuth.js";
 import { registerV0Routes } from "./routes/v0/index.js";
 import { indexerManager } from "./indexer.js";
@@ -213,6 +213,12 @@ export async function buildFastifyApp(ROOT_PATH) {
 
   app.register(
     async (v1Scope) => {
+      // Register rate limiting for v1 routes
+      await v1Scope.register(rateLimit, {
+        max: 100, // max 100 requests per windowMs
+        timeWindow: 15 * 60 * 1000, // 15 minutes
+      });
+
       const v1Auth = createFastifyAuth();
       if (v1Auth.enabled) v1Scope.addHook("onRequest", v1Auth.preHandler);
       await registerV1Routes(v1Scope);

@@ -1,0 +1,24 @@
+version: ignore
+
+components:
+  - name: document_store
+    type: InMemoryDocumentStore
+
+  - name: retriever
+    type: InMemoryBM25Retriever
+    params:
+      document_store: document_store
+
+  - name: reader
+    type: FARMReader
+    params:
+      model_name_or_path: deepset/roberta-base-squad2
+      use_gpu: false
+
+pipelines:
+  - name: query
+    nodes:
+      - name: retriever
+        inputs: [Query]
+      - name: reader
+        inputs: [retriever]

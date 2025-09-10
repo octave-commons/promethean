@@ -110,7 +110,7 @@ async function main() {
       // 1) Plan
       let plan;
       try {
-          plan = await requestPlan(args["--model"]!, err, history);
+        plan = await requestPlan(args["--model"]!, err, history);
       } catch (e) {
         console.error(`✖ plan failed for ${err.key}:`, e);
         break;
@@ -145,10 +145,7 @@ async function main() {
           await rollbackWorktree();
           rolledBack = true;
           // recompute to keep history consistent with tree
-          const { r: re } = await buildAndJudge(
-            tsconfig,
-            err.key,
-          );
+          const { r: re } = await buildAndJudge(tsconfig, err.key);
           // replace "after" snapshot with the post-rollback state
           (after as any).diags = re.diags;
         } else {
@@ -193,7 +190,7 @@ async function main() {
           att.commitSha = sha;
           if (branch) att.branch = branch;
           if (push && branch) {
-            const b = branch!;
+            const b = branch;
             att.pushed = await pushBranch(b, remote);
             if (att.pushed && useGh) {
               const pr = await createPR(b, title, bodyPath);

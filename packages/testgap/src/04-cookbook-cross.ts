@@ -17,11 +17,11 @@ function extractImports(code: string): string[] {
   let m: RegExpExecArray | null;
   while ((m = re1.exec(code))) {
     const s = m?.[1];
-    if (s != null) imps.push(s as string);
+    if (s != null) imps.push(s);
   }
   while ((m = re2.exec(code))) {
     const s = m?.[1];
-    if (s != null) imps.push(s as string);
+    if (s != null) imps.push(s);
   }
   return Array.from(new Set(imps));
 }

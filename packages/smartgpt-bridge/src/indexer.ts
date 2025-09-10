@@ -4,15 +4,17 @@ import path from "path";
 
 import fg from "fast-glob";
 import { ChromaClient } from "chromadb";
+import { createLogger } from "@promethean/utils";
 
+import { logStream } from "./log-stream.js";
 import { RemoteEmbeddingFunction } from "./remoteEmbedding.js";
-import { logger } from "./logger.js";
 import {
   loadBootstrapState,
   saveBootstrapState,
   deleteBootstrapState,
 } from "./indexerState.js";
 
+const logger = createLogger({ service: "smartgpt-bridge", stream: logStream });
 let CHROMA = null; // lazily created to avoid holding open handles during import
 let EMBEDDING_FACTORY = null; // optional override for tests
 let EMBEDDING_INSTANCE = null; // cached default embedding fn
@@ -66,7 +68,10 @@ async function scanFiles(rootPath) {
   for (const rel of files) {
     try {
       const st = await fs.stat(path.join(rootPath, rel));
-      fileInfo[rel] = { size: Number(st.size), mtimeMs: Number(st.mtimeMs) };
+      fileInfo[rel] = {
+        size: Number(st.size),
+        mtimeMs: Number(st.mtimeMs),
+      };
     } catch {
       // file could disappear between listing and stat; skip
     }
@@ -84,7 +89,14 @@ function makeChunks(text, maxLen = 2000, overlap = 200) {
     const chunk = text.slice(start, end);
     const startLine = text.slice(0, start).split("\n").length;
     const endLine = text.slice(0, end).split("\n").length;
-    chunks.push({ index: i++, start, end, startLine, endLine, text: chunk });
+    chunks.push({
+      index: i++,
+      start,
+      end,
+      startLine,
+      endLine,
+      text: chunk,
+    });
     if (end === text.length) break;
     start = end - overlap;
   }
@@ -444,7 +456,10 @@ class IndexerManager {
         try {
           await this.removeFile(rel);
         } catch (e) {
-          logger.warn("incremental remove failed", { path: rel, err: e });
+          logger.warn("incremental remove failed", {
+            path: rel,
+            err: e,
+          });
         }
       }
     }
@@ -511,7 +526,13 @@ export async function reindexAll(rootPath, options = {}) {
   for (let i = 0; i < max; i++) {
     const rel = files[i];
     const abs = path.join(rootPath, rel);
-    const raw = await fs.readFile(abs, "utf8");
+    let raw = "";
+    try {
+      raw = await fs.readFile(abs, "utf8");
+    } catch (e) {
+      logger.warn("reindexAll read failed", { path: rel, err: e });
+      continue;
+    }
     const chunks = makeChunks(raw);
     for (const c of chunks) {
       const id = `${rel}#${c.index}`;

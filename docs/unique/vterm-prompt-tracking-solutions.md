@@ -1,28 +1,70 @@
 ---
-uuid: 92579ecd-4114-481b-b236-8820d4ef52f1
-created_at: 2025.09.02.08.52.16.md
+uuid: 3d18cb0d-ab4d-4e65-9bab-5ae9a121ca8e
+created_at: vterm-prompt-tracking-solutions.md
 filename: vterm-prompt-tracking-solutions
+title: vterm-prompt-tracking-solutions
 description: >-
-  Solutions for vterm prompt tracking and scroll management without copy mode.
-  Includes directory tracking via OSC 51;A escape codes and keybindings for
-  seamless prompt navigation.
+  Solutions for vterm prompt tracking without copy mode, including directory
+  tracking via OSC 51 escape codes and scroll management techniques.
 tags:
   - vterm
   - prompt-tracking
-  - scroll-management
-  - osc-51
-  - emacs
   - directory-tracking
-  - keybindings
+  - scroll-management
+  - emacs
+  - osc-51
+  - prompt-jump
 related_to_uuid:
-  - 92a052a5-3351-4898-8cab-758181a86adb
+  - 3bea339f-aea3-4dae-8e1c-c7638a6899b0
+  - 3b86ea3e-a1d3-46cb-bd6d-774a3c7f8f68
+  - 3724ef1e-d13f-4b52-8045-ba149d90fdec
+  - 636f49b1-4bf4-4578-8153-f1f34c250b05
 related_to_title:
-  - infinite_depth_smoke_animation
+  - Obsidian ChatGPT Plugin Integration Guide
+  - AI-First OS Model Context Protocol
+  - obsidian-templating-plugins-integration-guide
+  - Obsidian ChatGPT Plugin Integration
 references:
-  - uuid: 92a052a5-3351-4898-8cab-758181a86adb
+  - uuid: 3b86ea3e-a1d3-46cb-bd6d-774a3c7f8f68
+    line: 1
+    col: 0
+    score: 1
+  - uuid: 3b86ea3e-a1d3-46cb-bd6d-774a3c7f8f68
+    line: 3
+    col: 0
+    score: 1
+  - uuid: 3b86ea3e-a1d3-46cb-bd6d-774a3c7f8f68
     line: 7
     col: 0
     score: 1
+  - uuid: 3bea339f-aea3-4dae-8e1c-c7638a6899b0
+    line: 5
+    col: 0
+    score: 1
+  - uuid: 3724ef1e-d13f-4b52-8045-ba149d90fdec
+    line: 13
+    col: 0
+    score: 1
+  - uuid: 636f49b1-4bf4-4578-8153-f1f34c250b05
+    line: 13
+    col: 0
+    score: 1
+  - uuid: 636f49b1-4bf4-4578-8153-f1f34c250b05
+    line: 15
+    col: 0
+    score: 0.99
+  - uuid: 3724ef1e-d13f-4b52-8045-ba149d90fdec
+    line: 15
+    col: 0
+    score: 0.99
+  - uuid: 636f49b1-4bf4-4578-8153-f1f34c250b05
+    line: 5
+    col: 0
+    score: 0.91
+  - uuid: 3724ef1e-d13f-4b52-8045-ba149d90fdec
+    line: 5
+    col: 0
+    score: 0.89
 ---
 Got it — no copy mode. Let’s fix the two pain points directly:
 
@@ -128,17 +170,40 @@ If you want, I can wrap this into a tiny `promethean-vterm.el` with sane default
 
 \#emacs #vterm #i3 #dotfiles #protips
 
-[1]: https://github.com/akermu/emacs-libvterm?utm_source=chatgpt.com "akermu/emacs-libvterm"
-[2]: https://sources.debian.org/src/emacs-libvterm/0.0.2%2Bgit20250113.056ad74-1/README.md/?utm_source=chatgpt.com "File: README.md - emacs-libvterm"
-[3]: https://emacs.stackexchange.com/questions/73776/opening-file-in-emacs-buffer-when-using-vterm?utm_source=chatgpt.com "Opening file in emacs buffer when using vterm"
-[4]: https://github.com/akermu/emacs-libvterm/issues/397?utm_source=chatgpt.com "Prevent auto scrolling · Issue #397 · akermu/emacs-libvterm"
-[5]: https://github.com/emacsmirror/vterm?utm_source=chatgpt.com "emacsmirror/vterm: Fully-featured terminal emulator"
-[6]: https://emacs.stackexchange.com/questions/60995/how-to-get-scrolling-without-jumps-by-one-line-in-info-mode?utm_source=chatgpt.com "How to get scrolling without jumps (by one line) in info mode?"
-[7]: https://stackoverflow.com/questions/13982486/scrolling-in-emacs-without-ever-moving-point-even-if-off-screen?utm_source=chatgpt.com "Scrolling in Emacs without ever moving point, even if off- ..."
- f wm8]: https://superuser.com/questions/1159906/how-to-set-the-linux-terminal-not-to-scroll-down-automatically-when-a-running-pr?utm_source=chatgpt.com "How to set the Linux terminal NOT to scroll down ..."
+ f wm8]:  "How to set the Linux terminal NOT to scroll down ..."
+r than “cd injection”
+
+Because **the shell itself** pushes cwd info to Emacs (OSC 51;A …), which vterm consumes to keep `default-directory` and prompt locations in sync. No brittle command injection; no “half the time it doesn’t run” issue. ([GitHub][1], [Debian Sources][2])
+
+---
+
+## Quick checklist
+
+* [x] Add OSC 51;A prompt hook to your shell for robust dir/prompt tracking. ([GitHub][1], [Debian Sources][2])
+* [x] Bind a **single key** to `vterm-next-prompt` to snap back to the prompt. ([GitHub][5])
+* [x] Set `scroll-preserve-screen-position` so window scrolls don’t drag point. ([Emacs Stack Exchange][6])
+* [x] If output storms still yank the view, hit **`C-s` / `C-q`** to pause/resume flow. ([Super User][8])
+
+If you want, I can wrap this into a tiny `promethean-vterm.el` with sane defaults and your keybindings.
+
+\#emacs #vterm #i3 #dotfiles #protips
+
+ f wm8]:  "How to set the Linux terminal NOT to scroll down ..."
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [infinite_depth_smoke_animation](infinite-depth-smoke-animation.md)
+- [Obsidian ChatGPT Plugin Integration Guide](obsidian-chatgpt-plugin-integration-guide.md)
+- [AI-First OS Model Context Protocol](ai-first-os-model-context-protocol.md)
+- [obsidian-templating-plugins-integration-guide](obsidian-templating-plugins-integration-guide.md)
+- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
 ## Sources
-- [infinite_depth_smoke_animation — L7](infinite-depth-smoke-animation.md#^ref-92a052a5-7-0) (line 7, col 0, score 1)
+- [AI-First OS Model Context Protocol — L1](ai-first-os-model-context-protocol.md#^ref-3b86ea3e-1-0) (line 1, col 0, score 1)
+- [AI-First OS Model Context Protocol — L3](ai-first-os-model-context-protocol.md#^ref-3b86ea3e-3-0) (line 3, col 0, score 1)
+- [AI-First OS Model Context Protocol — L7](ai-first-os-model-context-protocol.md#^ref-3b86ea3e-7-0) (line 7, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration Guide — L5](obsidian-chatgpt-plugin-integration-guide.md#^ref-3bea339f-5-0) (line 5, col 0, score 1)
+- [obsidian-templating-plugins-integration-guide — L13](obsidian-templating-plugins-integration-guide.md#^ref-3724ef1e-13-0) (line 13, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration — L13](obsidian-chatgpt-plugin-integration.md#^ref-636f49b1-13-0) (line 13, col 0, score 1)
+- [Obsidian ChatGPT Plugin Integration — L15](obsidian-chatgpt-plugin-integration.md#^ref-636f49b1-15-0) (line 15, col 0, score 0.99)
+- [obsidian-templating-plugins-integration-guide — L15](obsidian-templating-plugins-integration-guide.md#^ref-3724ef1e-15-0) (line 15, col 0, score 0.99)
+- [Obsidian ChatGPT Plugin Integration — L5](obsidian-chatgpt-plugin-integration.md#^ref-636f49b1-5-0) (line 5, col 0, score 0.91)
+- [obsidian-templating-plugins-integration-guide — L5](obsidian-templating-plugins-integration-guide.md#^ref-3724ef1e-5-0) (line 5, col 0, score 0.89)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

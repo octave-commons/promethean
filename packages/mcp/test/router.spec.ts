@@ -5,6 +5,7 @@ import { EventEmitter } from "events";
 
 import WebSocket, { WebSocketServer } from "ws";
 import test from "ava";
+import { sleep } from "@promethean/test-utils/sleep";
 
 import { attachRouter } from "../src/router.js";
 import { createWsServer } from "../src/wsListener.js";
@@ -38,7 +39,7 @@ test("attachRouter emits progress, result, error and cleans up on close", async 
   bridgeSocket.send(
     JSON.stringify({ kind: "tool.error", id: "3", error: "boom" }),
   );
-  await new Promise((res) => setTimeout(res, 10));
+  await sleep(10);
 
   t.deepEqual(ws.sent[0], {
     jsonrpc: "2.0",

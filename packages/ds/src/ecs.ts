@@ -26,7 +26,6 @@ export type Query = {
     changed?: bigint; // at least one changed since last tick
 };
 
-type Column = any[]; // SoA column per component id
 type Edge = Map<ComponentId, Archetype>; // add/remove graph edges for fast moves
 
 class Archetype {
@@ -145,7 +144,8 @@ export class World {
 
     destroyEntity(e: Entity): void {
         this.requireAlive(e);
-        const { arch, row } = this.loc[e & 0xffff];
+        const loc = this.loc[e & 0xffff];
+        const { arch, row } = loc;
         // call onRemove hooks for all comps present
         for (let cid = 0; cid < this.nextCompId; cid++) {
             const bit = 1n << BigInt(cid);
@@ -218,7 +218,8 @@ export class World {
 
     get<T>(e: Entity, ct: ComponentType<T>): T | undefined {
         this.requireAlive(e);
-        const { arch, row } = this.loc[e & 0xffff];
+        const loc = this.loc[e & 0xffff];
+        const { arch, row } = loc;
         if ((arch.mask & ct.mask) === 0n) return undefined;
         arch.ensureColumn(ct.id);
         const [prev] = arch.columns.get(ct.id)!;
@@ -228,7 +229,8 @@ export class World {
     carry<T>(e: Entity, ct: ComponentType<T>): void {
         // copy prev → next for this (entity,comp) WITHOUT marking changed
         this.requireAlive(e);
-        const { arch, row } = this.loc[e & 0xffff];
+        const loc = this.loc[e & 0xffff];
+        const { arch, row } = loc;
         if ((arch.mask & ct.mask) === 0n) throw new Error(`entity lacks ${ct.name}`);
         arch.ensureColumn(ct.id);
         const [prev, next] = arch.columns.get(ct.id)!;
@@ -241,7 +243,8 @@ export class World {
 
     set<T>(e: Entity, ct: ComponentType<T>, value: T): void {
         this.requireAlive(e);
-        const { arch, row } = this.loc[e & 0xffff];
+        const loc = this.loc[e & 0xffff];
+        const { arch, row } = loc;
         if ((arch.mask & ct.mask) === 0n) throw new Error(`entity lacks ${ct.name}`);
         arch.ensureColumn(ct.id);
         const [prev, next] = arch.columns.get(ct.id)!;
@@ -415,7 +418,7 @@ export class World {
             arch.writtenNext.get(cid)!.add(row);
         }
         // update moved entity loc if we swapped different entity
-        if (row !== last) {
+        if (row !== last && eLast !== undefined) {
             const idxLast = eLast & 0xffff;
             this.loc[idxLast] = { arch, row };
         }

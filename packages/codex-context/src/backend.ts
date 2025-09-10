@@ -1,8 +1,8 @@
-import ollama from "ollama";
 import nodeFetch from "node-fetch";
+import ollama from "ollama";
+import { createLogger } from "@promethean/utils";
 
 import type { ChatMessage } from "./types/openai.js";
-import { createLogger } from "./logger.js";
 
 export type GenerationParams = {
   temperature?: number;
@@ -45,9 +45,12 @@ export type BackendClient = {
 };
 
 export class OllamaBackend implements BackendClient {
-  private log = createLogger("codex-context", {
-    component: "backend",
-    driver: "ollama",
+  private readonly log = createLogger({
+    service: "codex-context",
+    base: {
+      component: "backend",
+      driver: "ollama",
+    },
   });
   constructor(private model: string) {}
 
@@ -172,9 +175,17 @@ export class OllamaBackend implements BackendClient {
           const k = Date.parse(ts);
           if (!Number.isNaN(k)) created = Math.floor(k / 1000);
         }
-        const obj = { id, object: "model", created, owned_by: "system" };
+        const obj = {
+          id,
+          object: "model",
+          created,
+          owned_by: "system",
+        };
         const t1 = process.hrtime.bigint();
-        this.log.info("model.ok", { id, ms: Number((t1 - t0) / 1000000n) });
+        this.log.info("model.ok", {
+          id,
+          ms: Number((t1 - t0) / 1000000n),
+        });
         return obj;
       } catch {
         // fallback to list() and find
@@ -188,9 +199,17 @@ export class OllamaBackend implements BackendClient {
           const k = Date.parse(ts);
           if (!Number.isNaN(k)) created = Math.floor(k / 1000);
         }
-        const obj = { id, object: "model", created, owned_by: "system" };
+        const obj = {
+          id,
+          object: "model",
+          created,
+          owned_by: "system",
+        };
         const t1 = process.hrtime.bigint();
-        this.log.info("model.ok", { id, ms: Number((t1 - t0) / 1000000n) });
+        this.log.info("model.ok", {
+          id,
+          ms: Number((t1 - t0) / 1000000n),
+        });
         return obj;
       }
     } catch (e: any) {
@@ -206,9 +225,12 @@ export class OllamaBackend implements BackendClient {
 }
 
 export class OllamaOpenAIBackend implements BackendClient {
-  private log = createLogger("codex-context", {
-    component: "backend",
-    driver: "ollama-openai",
+  private readonly log = createLogger({
+    service: "codex-context",
+    base: {
+      component: "backend",
+      driver: "ollama-openai",
+    },
   });
   private baseUrl: string;
   private apiKey?: string;
@@ -246,7 +268,10 @@ export class OllamaOpenAIBackend implements BackendClient {
     const url = `${base.replace(/\/$/, "")}/chat/completions`;
     const payload = {
       model: this.model,
-      messages: messages.map((m) => ({ role: m.role, content: m.content })),
+      messages: messages.map((m) => ({
+        role: m.role,
+        content: m.content,
+      })),
       stream: false,
       temperature: cfg.temperature,
       top_p: cfg.top_p,

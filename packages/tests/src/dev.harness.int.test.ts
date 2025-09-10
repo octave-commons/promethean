@@ -1,4 +1,5 @@
 import test from 'ava';
+import { sleep } from '@promethean/test-utils/sleep.js';
 import { startHarness } from '@promethean/dev/harness.js';
 
 test('harness end-to-end', async (t) => {
@@ -16,7 +17,7 @@ test('harness end-to-end', async (t) => {
         cpu_pct: 1,
         mem_mb: 2,
     });
-    await new Promise((r) => setTimeout(r, 200));
+    await sleep(200);
 
     // ensure projector emitted process.state
     const events = await h.bus.store.scan('process.state', { ts: 0 });

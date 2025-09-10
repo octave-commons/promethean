@@ -1,11 +1,14 @@
 // @ts-nocheck
 import crypto from "crypto";
 
+import rateLimit from "@fastify/rate-limit";
 import { createRemoteJWKSet, jwtVerify, decodeProtectedHeader } from "jose";
+import { createLogger } from "@promethean/utils";
 
+import { logStream } from "./log-stream.js";
 import { initMongo } from "./mongo.js";
 import { User } from "./models/User.js";
-import { logger } from "./logger.js";
+const logger = createLogger({ service: "smartgpt-bridge", stream: logStream });
 
 function parseCookies(req) {
   const header = req.headers?.cookie;
@@ -43,8 +46,14 @@ async function verifyJwtHS(token, secret, expected = {}) {
   }
   if (!/^HS(256|384|512)$/.test(header.alg)) throw new Error("unsupported alg");
   const data = `${h}.${p}`;
+  const hash =
+    header.alg === "HS256"
+      ? "sha256"
+      : header.alg === "HS384"
+        ? "sha384"
+        : "sha512";
   const sig = crypto
-    .createHmac("sha256", String(secret))
+    .createHmac(hash, String(secret))
     .update(data)
     .digest("base64url");
   if (!timingSafeEqual(sig, s)) throw new Error("bad signature");
@@ -215,37 +224,24 @@ export function createFastifyAuth() {
   } else if (mode === "jwt") {
     verifyToken = async (token) => {
       try {
-        // Prefer JWKS; fallback to HS* if keys missing but secret provided
-        try {
-          const { payload } = await jwtVerify(String(token), getJwks(), {
-            algorithms: allowedAsym,
-            iss: jwtIssuer,
-            aud: jwtAudience,
-          });
-          return { user: payload };
-        } catch (err) {
-          if (/missing jwks/i.test(String(err?.message)) && jwtSecret) {
-            const { payload } = await jwtVerify(String(token), key, {
-              algorithms: ["HS256", "HS384", "HS512"],
+        const payload = await verifyJwtAny(token);
+        return { user: payload };
+      } catch (e) {
+        const msg = String(e?.message || e);
+        // Attempt HS fallback if JWKS unavailable and a secret is configured
+        if (/missing jwks/i.test(msg) && jwtSecret) {
+          try {
+            const payload = await verifyJwtHS(token, jwtSecret, {
               iss: jwtIssuer,
               aud: jwtAudience,
             });
             return { user: payload };
+          } catch (hsErr) {
+            return { user: null, reason: String(hsErr?.message || hsErr) };
           }
-          const msg = String(err?.message || err);
-          if (
-            /(unauthorized|bad signature|expired|not active|iss|aud|malformed|bad header|bad payload|unsupported alg)/i.test(
-              msg,
-            )
-          ) {
-            return { user: null, reason: msg };
-          }
-          throw err;
         }
-      } catch (e) {
-        const msg = String(e?.message || e);
         if (
-          /(unauthorized|bad signature|expired|not active|iss|aud|malformed|bad header|bad payload|unsupported alg)/i.test(
+          /(unauthorized|bad signature|expired|not active|iss|aud|malformed|bad header|bad payload|unsupported alg|missing jwks|missing jwt secret)/i.test(
             msg,
           )
         ) {
@@ -256,7 +252,7 @@ export function createFastifyAuth() {
     };
   } else {
     // Unknown mode — fail closed
-    verifyToken = null;
+    verifyToken = async () => ({ user: null, reason: "unknown auth mode" });
   }
 
   async function preHandler(req, reply) {
@@ -319,115 +315,135 @@ export function createFastifyAuth() {
     }
   }
 
-  function registerRoutes(fastify) {
-    fastify.get("/auth/me", async (req, reply) => {
-      if (!enabled)
-        return reply.send({ ok: true, auth: false, cookie: cookieName });
-      const t = getToken(req);
-      if (!t) {
-        logger.audit("auth_me_unauthorized", {
-          reason: "missing_token",
-          mode,
-          path: req.raw?.url || req.url,
-          method: req.method,
-          ip: req.ip,
-          xff: req.headers["x-forwarded-for"],
-          ua: req.headers["user-agent"],
-        });
-        return reply.code(401).send({ ok: false, error: "unauthorized" });
-      }
-      try {
-        // Accept API key as bearer for me-check too
-        try {
-          await initMongo();
-          const user = await User.findOne({ apiKey: t });
-          if (user)
-            return reply.send({
-              ok: true,
-              auth: true,
-              mode: "apiKey",
-              cookie: cookieName,
-            });
-        } catch {}
-        if (mode === "static") {
-          const ok = staticTokens.some((x) => timingSafeEqual(x, t));
-          if (!ok) {
-            logger.audit("auth_me_unauthorized", {
-              reason: "static_no_match",
-              mode,
-              path: req.raw?.url || req.url,
-              method: req.method,
-              ip: req.ip,
-              xff: req.headers["x-forwarded-for"],
-              ua: req.headers["user-agent"],
-            });
-            return reply.code(401).send({ ok: false, error: "unauthorized" });
-          }
+  async function registerRoutes(fastify) {
+    // Register rate limit plugin if not already registered
+    await fastify.register(rateLimit, {
+      global: false, // we will use per-route rate limiting
+    });
+
+    fastify.get(
+      "/auth/me",
+      {
+        rateLimit: {
+          max: 10, // maximum 10 requests
+          timeWindow: "1 minute", // per minute; adjust as desired
+        },
+      },
+      async (req, reply) => {
+        if (!enabled)
           return reply.send({
             ok: true,
-            auth: true,
-            mode: "static",
+            auth: false,
             cookie: cookieName,
           });
+        const t = getToken(req);
+        if (!t) {
+          logger.audit("auth_me_unauthorized", {
+            reason: "missing_token",
+            mode,
+            path: req.raw?.url || req.url,
+            method: req.method,
+            ip: req.ip,
+            xff: req.headers["x-forwarded-for"],
+            ua: req.headers["user-agent"],
+          });
+          return reply.code(401).send({ ok: false, error: "unauthorized" });
         }
-        if (mode === "jwt") {
+        try {
+          // Accept API key as bearer for me-check too
           try {
-            await verifyJwtAny(t);
+            await initMongo();
+            const user = await User.findOne({ apiKey: t });
+            if (user)
+              return reply.send({
+                ok: true,
+                auth: true,
+                mode: "apiKey",
+                cookie: cookieName,
+              });
+          } catch {}
+          if (mode === "static") {
+            const ok = staticTokens.some((x) => timingSafeEqual(x, t));
+            if (!ok) {
+              logger.audit("auth_me_unauthorized", {
+                reason: "static_no_match",
+                mode,
+                path: req.raw?.url || req.url,
+                method: req.method,
+                ip: req.ip,
+                xff: req.headers["x-forwarded-for"],
+                ua: req.headers["user-agent"],
+              });
+              return reply.code(401).send({ ok: false, error: "unauthorized" });
+            }
             return reply.send({
               ok: true,
               auth: true,
-              mode: "jwt",
+              mode: "static",
               cookie: cookieName,
             });
-          } catch (err) {
-            const msg = String(err?.message || err);
-            if (/missing jwks/.test(msg) && jwtSecret) {
-              await verifyJwtHS(t, jwtSecret, {
-                iss: jwtIssuer,
-                aud: jwtAudience,
-              });
+          }
+          if (mode === "jwt") {
+            try {
+              await verifyJwtAny(t);
               return reply.send({
                 ok: true,
                 auth: true,
                 mode: "jwt",
                 cookie: cookieName,
               });
+            } catch (err) {
+              const msg = String(err?.message || err);
+              if (/missing jwks/.test(msg) && jwtSecret) {
+                await verifyJwtHS(t, jwtSecret, {
+                  iss: jwtIssuer,
+                  aud: jwtAudience,
+                });
+                return reply.send({
+                  ok: true,
+                  auth: true,
+                  mode: "jwt",
+                  cookie: cookieName,
+                });
+              }
+              logger.audit("auth_me_unauthorized", {
+                reason: msg || "invalid_token",
+                mode,
+                path: req.raw?.url || req.url,
+                method: req.method,
+                ip: req.ip,
+                xff: req.headers["x-forwarded-for"],
+                ua: req.headers["user-agent"],
+              });
+              throw err;
             }
-            logger.audit("auth_me_unauthorized", {
-              reason: msg || "invalid_token",
-              mode,
-              path: req.raw?.url || req.url,
-              method: req.method,
-              ip: req.ip,
-              xff: req.headers["x-forwarded-for"],
-              ua: req.headers["user-agent"],
-            });
-            throw err;
           }
+          logger.audit("auth_me_misconfigured", {
+            reason: "unknown_mode",
+            mode,
+            path: req.raw?.url || req.url,
+            method: req.method,
+            ip: req.ip,
+            xff: req.headers["x-forwarded-for"],
+            ua: req.headers["user-agent"],
+          });
+          return reply
+            .code(500)
+            .send({ ok: false, error: "auth misconfigured" });
+        } catch {
+          logger.audit("auth_me_unauthorized", {
+            reason: "invalid_token",
+            mode,
+            path: req.raw?.url || req.url,
+            method: req.method,
+            ip: req.ip,
+            xff: req.headers["x-forwarded-for"],
+            ua: req.headers["user-agent"],
+          });
+          return reply.code(401).send({ ok: false, error: "unauthorized" });
         }
-        logger.audit("auth_me_misconfigured", {
-          reason: "unknown_mode",
-          mode,
-          path: req.raw?.url || req.url,
-          method: req.method,
-          ip: req.ip,
-          xff: req.headers["x-forwarded-for"],
-          ua: req.headers["user-agent"],
-        });
-        return reply.code(500).send({ ok: false, error: "auth misconfigured" });
-      } catch {
-        logger.audit("auth_me_unauthorized", {
-          reason: "invalid_token",
-          mode,
-          path: req.raw?.url || req.url,
-          method: req.method,
-          ip: req.ip,
-          xff: req.headers["x-forwarded-for"],
-          ua: req.headers["user-agent"],
-        });
-        return reply.code(401).send({ ok: false, error: "unauthorized" });
-      }
-    });
+      },
+    );
   }
 
   return { enabled, preHandler, registerRoutes };

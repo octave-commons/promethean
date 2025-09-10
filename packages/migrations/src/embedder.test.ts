@@ -1,6 +1,5 @@
 import test from 'ava';
-
-import { makeDeterministicEmbedder, assertDim } from './embedder.js';
+import { makeDeterministicEmbedder, assertDim } from '@promethean/embedding';
 
 test('deterministic embedder returns fixed dimension', async (t) => {
     const e = makeDeterministicEmbedder({ modelId: 'det:v1', dim: 12 });

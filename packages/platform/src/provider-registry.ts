@@ -4,15 +4,8 @@ import path from 'node:path';
 import { z } from 'zod';
 import YAML from 'yaml';
 
-export type ProviderTenant = {
-    provider: string;
-    tenant: string;
-    credentials: Record<string, string>;
-    allow?: { spaces?: string[]; users?: string[]; kinds?: string[] };
-    storage: { mongo_db: string; chroma_ns: string };
-    rate?: { max_concurrent?: number; bucket_overrides?: Record<string, string> };
-    extra?: Record<string, any>;
-};
+// Define the schema first, then infer the TS type from it to
+// keep runtime validation and static types perfectly aligned.
 
 export type ProviderRegistry = {
     get(provider: string, tenant: string): Promise<ProviderTenant>;
@@ -41,7 +34,9 @@ const ProviderTenantSchema = z.object({
     extra: z.record(z.any()).optional(),
 });
 
-const ProvidersFileSchema = z.object({ providers: z.array(ProviderTenantSchema) });
+export type ProviderTenant = z.infer<typeof ProviderTenantSchema>;
+
+export const ProvidersFileSchema = z.object({ providers: z.array(ProviderTenantSchema) });
 
 export function fileBackedRegistry(configPath = path.resolve(process.cwd(), 'config/providers.yml')): ProviderRegistry {
     let cache: ProviderTenant[] | null = null;
@@ -51,11 +46,12 @@ export function fileBackedRegistry(configPath = path.resolve(process.cwd(), 'con
         const file = fs.readFileSync(configPath, 'utf8');
         const raw = YAML.parse(file);
         const parsed = ProvidersFileSchema.parse(raw);
-        cache = parsed.providers.map((p) => ({
+        const processed = parsed.providers.map((p) => ({
             ...p,
             credentials: Object.fromEntries(Object.entries(p.credentials).map(([k, v]) => [k, expandEnv(String(v))])),
         }));
-        return cache;
+        cache = processed;
+        return processed;
     }
 
     async function get(provider: string, tenant: string): Promise<ProviderTenant> {
@@ -73,7 +69,7 @@ export function fileBackedRegistry(configPath = path.resolve(process.cwd(), 'con
     return { get, list };
 }
 
-function expandEnv(value: string): string {
+export function expandEnv(value: string): string {
     // supports ${VAR} expansion; leaves unknowns as-is
     return value.replace(/\$\{([A-Z0-9_]+)\}/g, (_, name) => process.env[name] ?? '');
 }

@@ -2,7 +2,6 @@ import { promises as fs } from "fs";
 import * as path from "path";
 
 import matter from "gray-matter";
-import * as yaml from "yaml";
 
 import { parseArgs } from "./utils.js";
 import type { DocMap, ScanResult, SymbolInfo } from "./types.js";
@@ -14,14 +13,10 @@ const args = parseArgs({
   "--granularity": "module", // "module" | "symbol"
 });
 
-const OUT_ROOT = path.resolve(args["--out"]);
-const GRANULARITY = args["--granularity"] as "module" | "symbol";
+const OUT_ROOT = path.resolve(String(args["--out"]));
+const GRANULARITY = String(args["--granularity"]) as "module" | "symbol";
 
 type GroupKey = string; // pkg|moduleRel
-
-function fm(obj: any) {
-  return yaml.stringify(obj, { indent: 2, simpleKeys: true });
-}
 
 function startMark() {
   return "<!-- SYMDOCS:BEGIN -->";
@@ -32,10 +27,10 @@ function endMark() {
 
 async function main() {
   const scan: ScanResult = JSON.parse(
-    await fs.readFile(path.resolve(args["--scan"]), "utf-8"),
+    await fs.readFile(path.resolve(String(args["--scan"])), "utf-8"),
   );
   const docs: DocMap = JSON.parse(
-    await fs.readFile(path.resolve(args["--docs"]), "utf-8"),
+    await fs.readFile(path.resolve(String(args["--docs"])), "utf-8"),
   );
 
   if (GRANULARITY === "symbol") {
@@ -55,7 +50,9 @@ async function writeOnePerModule(symbols: SymbolInfo[], docs: DocMap) {
   }
 
   for (const [key, syms] of groups) {
-    const [pkg, moduleRel] = key.split("|");
+    const [pkgRaw, moduleRelRaw] = key.split("|");
+    const pkg = pkgRaw ?? "";
+    const moduleRel = moduleRelRaw ?? "";
     const outPath = path.join(
       OUT_ROOT,
       pkg,
