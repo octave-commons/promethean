@@ -1,7 +1,6 @@
-// @ts-nocheck
 import { Policy } from "../models/Policy.js";
 
-export async function checkAccess(user, action, resource) {
+export async function checkAccess(user: any, action: string, resource: string) {
   if (!user) return false;
   const policies = await Policy.find({ role: { $in: user.roles } });
 

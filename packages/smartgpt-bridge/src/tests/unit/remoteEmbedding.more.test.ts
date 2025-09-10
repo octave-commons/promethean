@@ -1,4 +1,3 @@
-// @ts-nocheck
 import path from "node:path";
 
 import test from "ava";
@@ -26,7 +25,7 @@ test("RemoteEmbeddingFunction: image url item mapping", async (t) => {
     t.true(Array.isArray(out[0]));
     t.is(ref.defaultSpace(), "l2");
     t.true(ref.supportedSpaces().includes("cosine"));
-    await ref?._ready?.catch(() => {});
+    await (ref as unknown as { _ready?: Promise<any> })._ready?.catch(() => {});
     ref?.dispose?.();
   } finally {
     if (prev === undefined) delete process.env.SHARED_IMPORT;

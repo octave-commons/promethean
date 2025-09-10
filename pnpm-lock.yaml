@@ -2828,18 +2828,36 @@ importers:
 
   packages/piper:
     dependencies:
+      '@fastify/rate-limit':
+        specifier: 10.3.0
+        version: 10.3.0
+      '@fastify/static':
+        specifier: ^8.2.0
+        version: 8.2.0
+      '@fastify/swagger':
+        specifier: 9.5.1
+        version: 9.5.1
+      '@fastify/swagger-ui':
+        specifier: 5.2.3
+        version: 5.2.3
       '@promethean/fs':
         specifier: workspace:*
         version: link:../fs
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../level-cache
+      ajv:
+        specifier: 8.17.1
+        version: 8.17.1
       chokidar:
         specifier: 3.6.0
         version: 3.6.0
       es-module-lexer:
         specifier: 1.5.1
         version: 1.5.1
+      fastify:
+        specifier: ^5.0.0
+        version: 5.6.0
       globby:
         specifier: 14.0.2
         version: 14.0.2
@@ -3339,6 +3357,9 @@ importers:
       '@promethean/test-utils':
         specifier: workspace:*
         version: link:../test-utils
+      '@types/sinon':
+        specifier: ^17.0.4
+        version: 17.0.4
       esmock:
         specifier: ^2.7.2
         version: 2.7.2
@@ -4842,8 +4863,14 @@ packages:
   '@fastify/swagger-ui@1.10.2':
     resolution: {integrity: sha512-f2mRqtblm6eRAFQ3e8zSngxVNEtiYY7rISKQVjPA++ZsWc5WYlPVTb6Bx0G/zy0BIoucNqDr/Q2Vb/kTYkOq1A==}
 
+  '@fastify/swagger-ui@5.2.3':
+    resolution: {integrity: sha512-e7ivEJi9EpFcxTONqICx4llbpB2jmlI+LI1NQ/mR7QGQnyDOqZybPK572zJtcdHZW4YyYTBHcP3a03f1pOh0SA==}
+
   '@fastify/swagger@8.15.0':
     resolution: {integrity: sha512-zy+HEEKFqPMS2sFUsQU5X0MHplhKJvWeohBwTCkBAJA/GDYGLGUWQaETEhptiqxK7Hs0fQB9B4MDb3pbwIiCwA==}
+
+  '@fastify/swagger@9.5.1':
+    resolution: {integrity: sha512-EGjYLA7vDmCPK7XViAYMF6y4+K3XUy5soVTVxsyXolNe/Svb4nFQxvtuQvvoQb2Gzc9pxiF3+ZQN/iZDHhKtTg==}
 
   '@fastify/websocket@11.2.0':
     resolution: {integrity: sha512-3HrDPbAG1CzUCqnslgJxppvzaAZffieOVbLp1DAy1huCSynUWPifSvfdEDUR8HlJLp3sp1A36uOM2tJogADS8w==}
@@ -5485,6 +5512,12 @@ packages:
 
   '@types/serve-static@1.15.8':
     resolution: {integrity: sha512-roei0UY3LhpOJvjbIP6ZZFngyLKl5dskOtDhxY5THRSpO+ZI+nzJ+m5yUMzGrp89YRa7lvknKkMYjqQFGwA7Sg==}
+
+  '@types/sinon@17.0.4':
+    resolution: {integrity: sha512-RHnIrhfPO3+tJT0s7cFaXGZvsL4bbR3/k7z3P312qMS4JaS2Tk+KiwiLx1S0rQ56ERj00u1/BtdyVd0FY+Pdew==}
+
+  '@types/sinonjs__fake-timers@8.1.5':
+    resolution: {integrity: sha512-mQkU2jY8jJEF7YHjHvsQO8+3ughTL1mcnn96igfhONmR+fUPSKIkefQYpSe8bsly2Ep7oQbn/6VG5/9/0qcArQ==}
 
   '@types/ssh2-streams@0.1.12':
     resolution: {integrity: sha512-Sy8tpEmCce4Tq0oSOYdfqaBpA3hDM8SoxoFh5vzFsu2oL+znzGz8oVWW7xb4K920yYMUY+PIG31qZnFMfPWNCg==}
@@ -8478,6 +8511,10 @@ packages:
   json-schema-resolver@2.0.0:
     resolution: {integrity: sha512-pJ4XLQP4Q9HTxl6RVDLJ8Cyh1uitSs0CzDBAz1uoJ4sRD/Bk7cFSXL1FUXDW3zJ7YnfliJx6eu8Jn283bpZ4Yg==}
     engines: {node: '>=10'}
+
+  json-schema-resolver@3.0.0:
+    resolution: {integrity: sha512-HqMnbz0tz2DaEJ3ntsqtx3ezzZyDE7G56A/pPY/NGmrPu76UzsWquOpHFRAf5beTNXoH2LU5cQePVvRli1nchA==}
+    engines: {node: '>=20'}
 
   json-schema-traverse@0.4.1:
     resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==}
@@ -11752,10 +11789,28 @@ snapshots:
       rfdc: 1.4.1
       yaml: 2.8.1
 
+  '@fastify/swagger-ui@5.2.3':
+    dependencies:
+      '@fastify/static': 8.2.0
+      fastify-plugin: 5.0.1
+      openapi-types: 12.1.3
+      rfdc: 1.4.1
+      yaml: 2.8.1
+
   '@fastify/swagger@8.15.0':
     dependencies:
       fastify-plugin: 4.5.1
       json-schema-resolver: 2.0.0
+      openapi-types: 12.1.3
+      rfdc: 1.4.1
+      yaml: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@fastify/swagger@9.5.1':
+    dependencies:
+      fastify-plugin: 5.0.1
+      json-schema-resolver: 3.0.0
       openapi-types: 12.1.3
       rfdc: 1.4.1
       yaml: 2.8.1
@@ -12696,6 +12751,12 @@ snapshots:
       '@types/node': 20.19.11
       '@types/send': 0.17.5
 
+  '@types/sinon@17.0.4':
+    dependencies:
+      '@types/sinonjs__fake-timers': 8.1.5
+
+  '@types/sinonjs__fake-timers@8.1.5': {}
+
   '@types/ssh2-streams@0.1.12':
     dependencies:
       '@types/node': 20.19.11
@@ -13478,7 +13539,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.1)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -15718,7 +15779,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.1)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -16460,6 +16521,14 @@ snapshots:
       debug: 4.4.1
       rfdc: 1.4.1
       uri-js: 4.4.1
+    transitivePeerDependencies:
+      - supports-color
+
+  json-schema-resolver@3.0.0:
+    dependencies:
+      debug: 4.4.1
+      fast-uri: 3.1.0
+      rfdc: 1.4.1
     transitivePeerDependencies:
       - supports-color
 

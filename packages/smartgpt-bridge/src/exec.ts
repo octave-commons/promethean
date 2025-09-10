@@ -1,10 +1,9 @@
-// @ts-nocheck
 import path from "path";
 
 import { execa } from "execa";
 
 import { isInsideRoot } from "./files.js";
-const REPO_ROOT = process.env.REPO_ROOT;
+const REPO_ROOT: string | undefined = process.env.REPO_ROOT || undefined;
 
 // return exec({cwd,shell:'/usr/bin/bash'})`${command}`
 const DANGER_PATTERNS = [
@@ -14,17 +13,25 @@ const DANGER_PATTERNS = [
   /\bshutdown\b|\breboot\b/i,
   /\bchmod\s+777\b/i,
 ];
-function matchDanger(s) {
+function matchDanger(s: string) {
   return DANGER_PATTERNS.find((rx) => rx.test(s));
 }
 
-export async function runCommand({
-  command,
-  cwd = REPO_ROOT,
-  repoRoot = REPO_ROOT,
-  timeoutMs = 10 * 60_000,
-  tty = false,
-} = {}) {
+export async function runCommand(opts: {
+  command: string;
+  cwd?: string;
+  repoRoot?: string;
+  timeoutMs?: number;
+  tty?: boolean;
+  env?: Record<string, string>;
+}) {
+  const {
+    command,
+    cwd = REPO_ROOT ?? process.cwd(),
+    repoRoot = REPO_ROOT ?? process.cwd(),
+    timeoutMs = 10 * 60_000,
+    tty = false,
+  } = opts;
   const t0 = Date.now();
   const useShell = /^true$/i.test(process.env.EXEC_SHELL || "false");
   try {
@@ -57,6 +64,7 @@ export async function runCommand({
       timeout: timeoutMs,
       shell: useShell,
       stdio: tty ? "inherit" : "pipe",
+      env: opts.env ? { ...process.env, ...opts.env } : process.env,
     });
 
     const result = await subprocess;
@@ -72,17 +80,17 @@ export async function runCommand({
       truncated: false,
       error: "",
     };
-  } catch (err) {
+  } catch (err: any) {
     const durationMs = Date.now() - t0;
     return {
       ok: false,
-      exitCode: err.exitCode ?? 1,
-      signal: err.signal ?? null,
-      stdout: err.stdout ?? "",
-      stderr: err.stderr ?? err.message,
-      durationMs: err.timedOut ? timeoutMs : durationMs,
+      exitCode: err?.exitCode ?? 1,
+      signal: err?.signal ?? null,
+      stdout: err?.stdout ?? "",
+      stderr: err?.stderr ?? String(err?.message ?? err ?? ""),
+      durationMs: err?.timedOut ? timeoutMs : durationMs,
       truncated: false,
-      error: err.message ?? "Execution failed",
+      error: String(err?.message || "Execution failed"),
     };
   }
 }

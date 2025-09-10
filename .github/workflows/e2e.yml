@@ -11,43 +11,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      # Install pnpm (respects package.json `packageManager` if present)
+      - uses: pnpm/action-setup@v4
         with:
-          node-version: "22.x"
-          cache: "pnpm"
+          run_install: false
 
-      - name: Enable Corepack / pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
+      # Set up Node and enable built-in pnpm cache
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          # If you have multiple lockfiles (monorepo), list them (comma- or newline-separated)
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            apps/*/pnpm-lock.yaml
+            packages/*/pnpm-lock.yaml
 
-      - name: Install deps
-        run: pnpm install
+      # This will tell us if codex broke his environment.
+      # Install deps (workspace-aware)
+      - name: Install
+        run: pnpm install --frozen-lockfile
 
       - name: Install Playwright (browsers + Linux deps)
         run: |
-          bash ci/setup-playwright.sh
-
-      # Optional caching of browser binaries (not generally recommended by Playwright)
-      # - name: Cache Playwright
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: ~/.cache/ms-playwright
-      #     key: ms-playwright-${{ hashFiles('pnpm-lock.yaml') }}
-      #     restore-keys: |
-      #       ms-playwright-
+          bash run/setup_playwright.sh
 
       - name: Run tests
         env:
           # Helpful if your tests reference DISPLAY utilities etc.
           CI: "true"
-        run: pnpm -r e2e
-
-      - name: Upload HTML report (always)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-report
-          path: playwright-report
-          retention-days: 7
+        run: pnpm -r test:e2e

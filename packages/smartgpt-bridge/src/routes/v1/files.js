@@ -165,7 +165,6 @@ var __spreadArray =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerFilesRoutes = registerFilesRoutes;
-// @ts-nocheck
 var promises_1 = require("fs/promises");
 var files_js_1 = require("../../files.js");
 var indexer_js_1 = require("../../indexer.js");
