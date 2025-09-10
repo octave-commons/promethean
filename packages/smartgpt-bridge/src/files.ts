@@ -9,7 +9,10 @@ import { loadGitIgnore } from "./gitignore-util.js";
 function resolveDir(ROOT_PATH: string, rel: string = "."): string {
   const base = path.resolve(ROOT_PATH);
   const abs = path.resolve(base, rel);
-  if (!abs.startsWith(base)) throw new Error("path outside root");
+  const relToBase = path.relative(base, abs);
+  if (relToBase.startsWith("..") || path.isAbsolute(relToBase)) {
+    throw new Error("path outside root");
+  }
   return abs;
 }
 
@@ -20,10 +23,14 @@ export function normalizeToRoot(
   const base = path.resolve(ROOT_PATH);
   const p = String(inputPath || "");
   if (p === "/" || p === "") return base;
-  const rel = p.startsWith("/") ? p.slice(1) : p;
-  const abs = path.resolve(base, rel);
-  if (!abs.startsWith(base)) throw new Error("path outside root");
-  return abs;
+  const candidate = path.isAbsolute(p)
+    ? path.resolve(p)
+    : path.resolve(base, p.replace(/^[\\/]+/, ""));
+  const relToBase = path.relative(base, candidate);
+  if (relToBase.startsWith("..") || path.isAbsolute(relToBase)) {
+    throw new Error("path outside root");
+  }
+  return candidate;
 }
 
 export function isInsideRoot(ROOT_PATH: string, absOrRel: string): boolean {
@@ -31,7 +38,8 @@ export function isInsideRoot(ROOT_PATH: string, absOrRel: string): boolean {
   const abs = path.isAbsolute(absOrRel)
     ? path.resolve(absOrRel)
     : path.resolve(base, absOrRel);
-  return abs.startsWith(base);
+  const relToBase = path.relative(base, abs);
+  return !(relToBase.startsWith("..") || path.isAbsolute(relToBase));
 }
 
 export async function resolvePath(
