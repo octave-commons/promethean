@@ -24,22 +24,19 @@ function setSelectedFiles(xs: string[]): void {
 
 // Minimal FileTree custom element (uses /api/files like DocOps)
 class FileTree extends HTMLElement {
-  connectedCallback() {
+  async connectedCallback() {
     this.attachShadow({ mode: "open" });
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = new URL("./file-tree.css", import.meta.url).toString();
+    link.href = "/ui/file-tree.css";
     this.shadowRoot?.appendChild(link);
+
+    const res = await fetch("/ui/templates/file-tree.html");
     const tpl = document.createElement("template");
-    tpl.innerHTML = `
-      <div class="toolbar">
-        <button id="selAll">Select All</button>
-        <button id="selNone">Clear</button>
-      </div>
-      <div id="root"><em>Loading…</em></div>
-    `;
+    tpl.innerHTML = await res.text();
     this.shadowRoot?.appendChild(tpl.content.cloneNode(true));
-    void this.refresh();
+
+    await this.refresh();
   }
   async refresh() {
     const rootDiv = this.shadowRoot?.getElementById("root");
