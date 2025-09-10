@@ -5,6 +5,8 @@ import { promises as fs } from "node:fs";
 import fastifyFactory from "fastify";
 import fastifyStatic from "@fastify/static";
 import fastifyRateLimit from "@fastify/rate-limit";
+import swagger from "@fastify/swagger";
+import swaggerUi from "@fastify/swagger-ui";
 import type { FastifyReply } from "fastify";
 
 import { runPipeline } from "./runner.js";
@@ -19,7 +21,8 @@ function getArg(flag: string, dflt: string): string {
 }
 
 const CONFIG_PATH = path.resolve(getArg("--config", "pipelines.json"));
-const PORT = Number(getArg("--port", "3939")) || 3939;
+const rawPort = Number(getArg("--port", "3939"));
+const PORT = Number.isFinite(rawPort) ? rawPort : 3939;
 const HOST = getArg("--host", "127.0.0.1");
 
 const UI_ROOT = path.resolve(
@@ -38,6 +41,65 @@ async function loadConfig() {
   if (!parsed.success) throw new Error(parsed.error.message);
   return parsed.data;
 }
+
+function errToString(e: unknown): string {
+  return String((e as { message?: unknown })?.message ?? e);
+}
+
+const PiperStepSchema = {
+  $id: "piper.step",
+  type: "object",
+  additionalProperties: false,
+  properties: {
+    id: { type: "string" },
+    name: { type: "string" },
+    deps: { type: "array", items: { type: "string" }, default: [] },
+    cwd: { type: "string", default: "." },
+    env: {
+      type: "object",
+      additionalProperties: { type: "string" },
+      default: {},
+    },
+    inputs: { type: "array", items: { type: "string" }, default: [] },
+    outputs: { type: "array", items: { type: "string" }, default: [] },
+    cache: {
+      type: "string",
+      enum: ["content", "mtime", "none"],
+      default: "content",
+    },
+    shell: { type: "string" },
+    node: { type: "string" },
+    args: { type: "array", items: { type: "string" } },
+    timeoutMs: { type: "number" },
+    retry: { type: "integer", minimum: 0, default: 0 },
+    js: {
+      type: "object",
+      properties: {
+        module: { type: "string" },
+        export: { type: "string", default: "default" },
+        args: {},
+        isolate: { type: "string", enum: ["worker"] },
+      },
+      required: ["module"],
+    },
+    ts: {
+      type: "object",
+      properties: {
+        module: { type: "string" },
+        export: { type: "string", default: "default" },
+        args: {},
+      },
+      required: ["module"],
+    },
+  },
+  anyOf: [
+    { required: ["shell"] },
+    { required: ["node"] },
+    { required: ["js"] },
+    { required: ["ts"] },
+  ],
+  required: ["id"],
+} as const;
 
 function sseInit(reply: FastifyReply) {
   reply.raw.setHeader("Content-Type", "text/event-stream");
@@ -65,6 +127,15 @@ await app.register(fastifyRateLimit, {
   max: 100, // max 100 requests per window
   timeWindow: 15 * 60 * 1000, // 15 minutes
 });
+await app.register(swagger, {
+  openapi: {
+    info: { title: "Piper Dev API", version: "1.0.0" },
+    components: {
+      schemas: { PiperStep: PiperStepSchema as Record<string, unknown> },
+    },
+  },
+});
+await app.register(swaggerUi, { routePrefix: "/docs" });
 
 // Optional auth: set PIPER_DEV_TOKEN env or pass --token to require a Bearer token.
 const TOKEN = process.env.PIPER_DEV_TOKEN ?? getArg("--token", "");
@@ -124,7 +195,7 @@ app.get<{
     const absDir = path.resolve(dir);
     if (!absDir.startsWith(workspaceRoot)) return [];
     if (depth > maxDepth || count >= maxEntries) return [];
-    let ents: Node[] = [];
+    const ents: Node[] = [];
     try {
       const list = await fs.readdir(absDir, { withFileTypes: true });
       for (const ent of list) {
@@ -162,10 +233,10 @@ app.get<{ Querystring: { path?: string } }>(
   {
     config: {
       rateLimit: {
-        max: 10,            // limit each IP to 10 requests per minute
-        timeWindow: '1 minute',
-      }
-    }
+        max: 10, // limit each IP to 10 requests per minute
+        timeWindow: "1 minute",
+      },
+    },
   },
   async (req, reply) => {
     const ROOT = process.cwd();
@@ -178,7 +249,7 @@ app.get<{ Querystring: { path?: string } }>(
       reply.header("content-type", "application/json");
       return reply.send({ path: p, content });
     } catch (e: unknown) {
-      return reply.code(404).send({ error: String((e as any)?.message || e) });
+      return reply.code(404).send({ error: errToString(e) });
     }
   },
 );
@@ -199,7 +270,7 @@ app.post<{ Body: { path?: string; content?: string } }>(
       reply.header("content-type", "application/json");
       return reply.send({ ok: true });
     } catch (e: unknown) {
-      return reply.code(500).send({ error: String((e as any)?.message || e) });
+      return reply.code(500).send({ error: errToString(e) });
     }
   },
 );
@@ -218,69 +289,9 @@ app.get("/api/pipelines", async (_req, reply) => {
     reply.code(200).header("content-type", "application/json");
     return reply.send({
       pipelines: [],
-      error: String((e as any)?.message || e),
+      error: errToString(e),
     });
   }
-});
-
-// Expose a basic JSON schema describing Piper steps for UI generation
-app.get("/api/schema", async (_req, reply) => {
-  const schema = {
-    $id: "piper.step",
-    type: "object",
-    additionalProperties: false,
-    properties: {
-      id: { type: "string" },
-      name: { type: "string" },
-      deps: { type: "array", items: { type: "string" }, default: [] },
-      cwd: { type: "string", default: "." },
-      env: {
-        type: "object",
-        additionalProperties: { type: "string" },
-        default: {},
-      },
-      inputs: { type: "array", items: { type: "string" }, default: [] },
-      outputs: { type: "array", items: { type: "string" }, default: [] },
-      cache: {
-        type: "string",
-        enum: ["content", "mtime", "none"],
-        default: "content",
-      },
-      shell: { type: "string" },
-      node: { type: "string" },
-      args: { type: "array", items: { type: "string" } },
-      timeoutMs: { type: "number" },
-      retry: { type: "integer", minimum: 0, default: 0 },
-      js: {
-        type: "object",
-        properties: {
-          module: { type: "string" },
-          export: { type: "string", default: "default" },
-          args: {},
-          isolate: { type: "string", enum: ["worker"] },
-        },
-        required: ["module"],
-      },
-      ts: {
-        type: "object",
-        properties: {
-          module: { type: "string" },
-          export: { type: "string", default: "default" },
-          args: {},
-        },
-        required: ["module"],
-      },
-    },
-    anyOf: [
-      { required: ["shell"] },
-      { required: ["node"] },
-      { required: ["js"] },
-      { required: ["ts"] },
-    ],
-    required: ["id"],
-  } as const;
-  reply.header("content-type", "application/json");
-  return reply.send(schema);
 });
 
 app.get<{
@@ -322,9 +333,11 @@ app.get<{
           .filter(Boolean)
       : [];
     if (files.length) {
-      const clone = JSON.parse(JSON.stringify(cfg));
-      const p2 = clone.pipelines.find((p: any) => p.name === pipeline)!;
-      const s2 = p2.steps.find((x: any) => x.id === step)!;
+      const clone = JSON.parse(JSON.stringify(cfg)) as typeof cfg;
+      const p2 = clone.pipelines.find((p) => p.name === pipeline);
+      if (!p2) throw new Error(`pipeline '${pipeline}' not found`);
+      const s2 = p2.steps.find((x) => x.id === step);
+      if (!s2) throw new Error(`step '${step}' not found`);
       if (!s2.env) s2.env = {};
       // Prefer JS args.files when possible; otherwise pass env var usable by scripts
       if (s2.js) {
@@ -343,7 +356,7 @@ app.get<{
       useConfigPath = tmpPath;
     }
   } catch (e: unknown) {
-    send("failed to prepare run config: " + String((e as any)?.message || e));
+    send(`failed to prepare run config: ${errToString(e)}`);
   }
   const emit = (ev: PiperEvent) => {
     if (ev.stepId !== step) return;
