@@ -28,21 +28,6 @@
           "/home/err/.volta/bin/typescript-language-server"
           "--stdio"]}
 
-  ;; compatibility alias for older configs
-  :lsp-mcp
-  {:command "npx"
-   :args ["tritlo/lsp-mcp"
-          "typescript"
-          "/home/err/.volta/bin/typescript-language-server"
-          "--stdio"]}
-
-  ;; :sonarlint-lsp
-  ;; {:command "npx"
-  ;;  :args ["tritlo/lsp-mcp"
-  ;;         "typescript"
-  ;;         "/home/err/.volta/bin/typescript-language-server"
-  ;;         "--stdio"]}
-
   :haiku-rag
   {:command "uvx"
    :args ["haiku-rag"
@@ -56,17 +41,16 @@
 
  :outputs
  [{:schema :codex.toml  :path "/home/err/.codex/config.toml"}
-  ;; {:schema :codex.json  :path "out/codex.json"}
   {:schema :vscode.json :path "/home/err/.config/User/mcp.json"
    :opts {:include-inputs? true}}
-  ;; codex json is just th wrong way to describe this schema.
-  ;; but codium/windsurf expects this format, so...
-  ;; This is more like claud.json, since this is how they did it, and they started this whole
-  ;; MCP craze
-  ;; Wind Surf
   {:schema :codex.json :path "/home/err/.codeium/windsurf/mcp_config.json"}
+
   ;; Oterm
   {:schema :codex.json :path "/home/err/.local/share/oterm/config.json"}
 
   ;; Emacs MCP package
+  ;; doesn't work right.
+  ;; we added a thing to parse emacs code with tree sitter to directly manipulate the
+  ;; s-expressions instead of  handling strings.
+  ;; we should use it.
   {:schema :elisp       :path "/home/err/devel/promethean/.emacs/layers/llm/config.el"}]}
