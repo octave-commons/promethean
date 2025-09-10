@@ -1,5 +1,4 @@
 import test from 'ava';
-
 import { sleep } from '@promethean/test-utils/sleep.js';
 import { startHarness } from '@promethean/dev/harness.js';
 

@@ -3,7 +3,9 @@ import fg from "fast-glob";
 import { Node, Project, SyntaxKind } from "ts-morph";
 import { mkAliasRewriter, mkRelativeToJs } from "@promethean/naming";
 
-console.warn("@promethean/alias-rewrite is deprecated; use @promethean/naming instead.");
+console.warn(
+  "@promethean/alias-rewrite is deprecated; use @promethean/naming instead.",
+);
 
 type Args = Readonly<{
   fromPrefix: string;
@@ -21,8 +23,8 @@ const parseArgs = (argv: readonly string[]): Args => {
   const toVal = argv[toIdx + 1];
   const hasToVal = toIdx >= 0 && toVal != null && !toVal.startsWith("--");
 
-  const fromPrefix = hasFromVal ? fromVal! : "@old";
-  const toPrefix = hasToVal ? toVal! : "@new-";
+  const fromPrefix = hasFromVal ? fromVal : "@old";
+  const toPrefix = hasToVal ? toVal : "@new-";
 
   const globs: string[] = [];
   for (let i = 0; i < argv.length; i++) {
@@ -67,7 +69,7 @@ const main = async () => {
     "**/.next/**",
   ];
 
-  const files = (await fg(Array.from(patterns), { ignore })) as string[];
+  const files = await fg(Array.from(patterns), { ignore });
   const project = new Project({ skipAddingFilesFromTsConfig: true });
   files.forEach((f) => project.addSourceFileAtPath(f));
 

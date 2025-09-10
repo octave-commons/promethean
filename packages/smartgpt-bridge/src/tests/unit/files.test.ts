@@ -1,14 +1,18 @@
-// @ts-nocheck
 import path from "node:path";
 
 import test from "ava";
 
 import { viewFile, resolvePath } from "../../files.js";
 
-const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
+const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 test("viewFile: returns correct window around line", async (t) => {
   const out = await viewFile(ROOT, "readme.md", 3, 2);
+  t.log({
+    totalLines: out.totalLines,
+    startLine: out.startLine,
+    endLine: out.endLine,
+  });
   t.is(out.path, "readme.md");
   t.is(out.focusLine, 3);
   t.is(out.startLine, 1);
@@ -18,5 +22,7 @@ test("viewFile: returns correct window around line", async (t) => {
 
 test("resolvePath: fuzzy by basename", async (t) => {
   const p = await resolvePath(ROOT, "hello.ts");
-  t.true(p.endsWith(path.join("src", "tests", "fixtures", "hello.ts")));
+  t.log({ resolved: p });
+  t.truthy(p);
+  t.true((p as string).endsWith(path.join("tests", "fixtures", "hello.ts")));
 });

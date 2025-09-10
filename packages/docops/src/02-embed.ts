@@ -1,10 +1,14 @@
 // packages/docops/src/02-embed.ts
 import * as path from "node:path";
 import { promises as fs } from "node:fs";
-import matter from "gray-matter";
 import { createHash } from "node:crypto";
+import { pathToFileURL } from "node:url";
+
+import matter from "gray-matter";
 import { Ollama } from "ollama";
 import { ChromaClient } from "chromadb";
+import { OllamaEmbeddingFunction } from "@chroma-core/ollama";
+
 import { DBs } from "./db.js";
 import {
   parseArgs,
@@ -13,7 +17,7 @@ import {
   OLLAMA_URL,
 } from "./utils.js";
 import { Chunk } from "./types.js";
-import { OllamaEmbeddingFunction } from "@chroma-core/ollama";
+// CLI entry
 
 type Front = { uuid?: string; filename?: string };
 
@@ -261,8 +265,6 @@ export async function runEmbed(
   dbg("totals", { files: files.length, totalChunks, totalDeltas });
   console.log("02-embed: done (vectors in Chroma; KV in Level).");
 }
-// CLI entry
-import { pathToFileURL } from "node:url";
 const isDirect =
   !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
 if (isDirect) {

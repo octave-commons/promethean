@@ -1,5 +1,4 @@
 import test from "ava";
-
 import { embedMessage } from "@promethean/discord";
 
 test("embeds text into provider+tenant namespace", async (t) => {

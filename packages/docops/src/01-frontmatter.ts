@@ -2,12 +2,18 @@
 // packages/docops/src/01-frontmatter.ts
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
+import { pathToFileURL } from "node:url";
+
 import matter from "gray-matter";
 import { z } from "zod";
 import ollama from "ollama";
+
 import { openDB } from "./db.js";
 import { parseArgs, listFilesRec, randomUUID } from "./utils.js";
 import type { Front } from "./types.js";
+import type { DBs } from "./db.js";
+
+// CLI entry (ESM-safe)
 
 export type FrontmatterOptions = {
   dir: string;
@@ -22,8 +28,6 @@ const GenSchema = z.object({
   description: z.string().min(1),
   tags: z.array(z.string()).min(1),
 });
-
-import type { DBs } from "./db.js";
 
 export async function runFrontmatter(
   opts: FrontmatterOptions,
@@ -209,9 +213,6 @@ export async function runFrontmatter(
     onProgress?.({ step: "frontmatter", done, total: files.length });
   }
 }
-
-// CLI entry (ESM-safe)
-import { pathToFileURL } from "node:url";
 const isDirect =
   !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
 if (isDirect) {

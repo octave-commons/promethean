@@ -1,13 +1,14 @@
-// @ts-nocheck
 import path from "node:path";
 
 import test from "ava";
 
 import { withServer } from "../helpers/server.js";
 
-const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
+const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
-function countOperations(paths) {
+function countOperations(
+  paths: Record<string, Record<string, unknown>>,
+): number {
   return Object.values(paths).reduce(
     (sum, item) => sum + Object.keys(item).length,
     0,

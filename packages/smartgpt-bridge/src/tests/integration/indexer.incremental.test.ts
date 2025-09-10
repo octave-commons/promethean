@@ -1,10 +1,13 @@
-// @ts-nocheck
 import fs from "node:fs/promises";
 import path from "node:path";
 
 import test from "ava";
-
-import { sleep } from "@promethean/test-utils/sleep";
+import { sleep } from "@promethean/test-utils/dist/sleep.js";
+import type {
+  UpsertRecordsParams,
+  DeleteParams,
+  QueryRecordsParams,
+} from "chromadb";
 
 import {
   setChromaClient,
@@ -23,25 +26,24 @@ async function waitIdle(timeoutMs = 5000) {
 }
 
 class RecordingCollection {
-  constructor() {
-    this.upserts = []; // { ids, metadatas }
-    this.deletes = []; // { where }
-  }
-  async upsert(payload) {
+  upserts: Array<{
+    ids: UpsertRecordsParams["ids"];
+    metadatas: UpsertRecordsParams["metadatas"];
+  }> = [];
+  deletes: Array<DeleteParams> = [];
+  async upsert(payload: UpsertRecordsParams): Promise<void> {
     this.upserts.push({ ids: payload.ids, metadatas: payload.metadatas });
   }
-  async delete(payload) {
+  async delete(payload: DeleteParams): Promise<void> {
     this.deletes.push(payload);
   }
-  async query() {
+  async query(_args?: QueryRecordsParams): Promise<{}> {
     return {};
   }
 }
 class FakeChroma {
-  constructor(col) {
-    this.col = col;
-  }
-  async getOrCreateCollection() {
+  constructor(private col: RecordingCollection) {}
+  async getOrCreateCollection(): Promise<RecordingCollection> {
     return this.col;
   }
 }
@@ -107,17 +109,22 @@ test.serial(
 
     // Validate: upserted for b and d; deleted a
     const upsertPaths = new Set(
-      col.upserts.flatMap((u) => (u.metadatas || []).map((m) => m.path)),
+      col.upserts.flatMap((u) => {
+        const metas = Array.isArray(u.metadatas) ? u.metadatas : [];
+        return metas.map((m: any) => (m && (m as any).path) as string);
+      }),
     );
     t.true(upsertPaths.has("b.txt"));
     t.true(upsertPaths.has("d.txt"));
 
     const deletedPaths = new Set(
-      col.deletes.map(
-        (d) =>
-          (d.where && d.where.path) ||
-          (d.where && d.where.eq && d.where.eq.path),
-      ),
+      col.deletes.map((d) => {
+        const w: any = (d as any).where;
+        if (!w) return undefined;
+        if (typeof w.path === "string") return w.path;
+        if (w.eq && typeof w.eq.path === "string") return w.eq.path;
+        return undefined;
+      }),
     );
     t.true(deletedPaths.has("a.txt"));
   },

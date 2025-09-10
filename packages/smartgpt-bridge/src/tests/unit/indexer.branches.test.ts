@@ -1,4 +1,3 @@
-// @ts-nocheck
 import path from "node:path";
 import fs from "node:fs/promises";
 
@@ -12,17 +11,19 @@ import {
   reindexAll,
   resetChroma,
 } from "../../indexer.js";
+import type { QueryRecordsParams } from "chromadb";
 
-const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
+const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 class EmptyCollection {
-  async query() {
+  async query(_args?: QueryRecordsParams) {
     return {};
   }
   async upsert() {}
+  async delete() {}
 }
 class WeirdCollection {
-  async query() {
+  async query(_args?: QueryRecordsParams) {
     return {
       ids: [[["id"]]],
       documents: [[["doc"]]],
@@ -30,11 +31,11 @@ class WeirdCollection {
       distances: [[["not-a-number"]]],
     };
   }
+  async upsert() {}
+  async delete() {}
 }
 class FakeChroma {
-  constructor(col) {
-    this.col = col;
-  }
+  constructor(public col: any) {}
   async getOrCreateCollection() {
     return this.col;
   }
@@ -69,7 +70,7 @@ test.serial("search handles empty result shape via fallbacks", async (t) => {
     setEmbeddingFactory(async () => ({ generate: async () => [] }));
     const res = await search(ROOT, "q", 2);
     t.deepEqual(res, []);
-  } catch (err) {
+  } catch (err: any) {
     t.fail("search threw: " + String(err?.message || err));
   }
 });
@@ -83,8 +84,8 @@ test.serial(
       setEmbeddingFactory(async () => ({ generate: async () => [] }));
       const res = await search(ROOT, "q", 1);
       t.is(res.length, 1);
-      t.is(res[0].score, undefined);
-    } catch (err) {
+      t.is(res[0]!.score, undefined);
+    } catch (err: any) {
       t.fail("search threw: " + String(err?.message || err));
     }
   },
@@ -115,6 +116,7 @@ test.after.always(() => {
     getOrCreateCollection: async () => ({
       query: async () => ({}),
       upsert: async () => {},
+      delete: async () => {},
     }),
   });
 });

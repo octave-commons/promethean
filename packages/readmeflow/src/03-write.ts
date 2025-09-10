@@ -1,9 +1,9 @@
 import * as path from "path";
 
 import matter from "gray-matter";
+import { openLevelCache } from "@promethean/level-cache";
 
 import { parseArgs, writeText, readMaybe } from "./utils.js";
-import { openLevelCache } from "@promethean/level-cache";
 import type { ScanOut, OutlinesFile, Outline } from "./types.js";
 
 const args = parseArgs({

@@ -1,4 +1,5 @@
 import test from 'ava';
+
 import { registerProcForFile, registerProcForFileWithPort, startProcessWithPort } from '../process.js';
 
 const codeWithArgPrinter = [
@@ -57,7 +58,7 @@ test.serial('startProcessWithPort allocates free port and baseUrl', async (t) =>
         baseUrlTemplate: (p) => `http://127.0.0.1:${p}/`,
     });
 
-    t.truthy(typeof port === 'number' && port! > 0);
+    t.truthy(typeof port === 'number' && port > 0);
     t.regex(baseUrl ?? '', /^http:\/\/127\.0\.0\.1:\d+\/$/);
 
     const observed = await new Promise<boolean>((resolve) => {

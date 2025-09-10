@@ -138,7 +138,6 @@ var __generator =
   };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.proxy = proxy;
-// @ts-nocheck
 function proxy(fastify, method, urlBuilder, payloadBuilder) {
   return function (req, reply) {
     return __awaiter(this, void 0, void 0, function () {
