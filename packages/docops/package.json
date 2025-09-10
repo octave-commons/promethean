@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "rimraf dist && tsc -p tsconfig.json && ava dist/tests/frontend/selection.test.js",
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
     "coverage": "pnpm build && c8 ava",
     "doc:dev-ui": "pnpm build && node ./dist/dev-ui.js --dir ../../docs/unique --collection docs-cosine --port 3939"
   },
