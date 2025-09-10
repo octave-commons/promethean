@@ -8,7 +8,8 @@ import { loadGitIgnore } from "./gitignore-util.js";
 
 function resolveDir(ROOT_PATH: string, rel: string = "."): string {
   const base = path.resolve(ROOT_PATH);
-  const abs = path.resolve(base, rel);
+  const target = rel === "/" || rel === "." || rel === "" ? "." : rel;
+  const abs = path.resolve(base, target);
   const relToBase = path.relative(base, abs);
   if (relToBase.startsWith("..") || path.isAbsolute(relToBase)) {
     throw new Error("path outside root");
@@ -22,9 +23,9 @@ export function normalizeToRoot(
 ): string {
   const base = path.resolve(ROOT_PATH);
   const p = String(inputPath || "");
-  if (p === "/" || p === "") return base;
+  if (p === "/" || p === "." || p === "") return base;
   const candidate = path.isAbsolute(p)
-    ? path.resolve(base, p.slice(1))
+    ? path.resolve(p)
     : path.resolve(base, p.replace(/^[\\/]+/, ""));
   const relToBase = path.relative(base, candidate);
   if (relToBase.startsWith("..") || path.isAbsolute(relToBase)) {
@@ -162,8 +163,9 @@ export async function listDirectory(
   );
   const type = (options as any).type as string | undefined;
   const abs = resolveDir(ROOT_PATH, rel || ".");
+  const relBase = path.relative(ROOT_PATH, abs) || ".";
   const ig = await loadGitIgnore(ROOT_PATH, abs);
-  const entries = await listDir(ROOT_PATH, rel || ".", { includeHidden });
+  const entries = await listDir(ROOT_PATH, relBase, { includeHidden });
   const out: Array<{
     name: string;
     path: string;
@@ -189,7 +191,7 @@ export async function listDirectory(
     if (a.type !== b.type) return a.type === "dir" ? -1 : 1;
     return a.name.localeCompare(b.name);
   });
-  return { ok: true, base: path.relative(ROOT_PATH, abs) || ".", entries: out };
+  return { ok: true, base: relBase, entries: out };
 }
 
 type TreeOptions = { includeHidden?: boolean; depth?: number };

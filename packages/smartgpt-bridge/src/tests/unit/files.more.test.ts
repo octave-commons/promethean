@@ -7,6 +7,7 @@ import {
   resolvePath,
   viewFile,
   normalizeToRoot,
+  listDirectory,
 } from "../../files.js";
 
 const ROOT = path.join(process.cwd(), "tests", "fixtures");
@@ -51,13 +52,29 @@ test("viewFile throws when file missing", async (t) => {
   await t.throwsAsync(() => viewFile(ROOT, "nope.txt", 1, 1));
 });
 
-test("normalizeToRoot treats leading slash as repo root", (t) => {
-  const p1 = normalizeToRoot(process.cwd(), "tests/fixtures/readme.md");
-  const p2 = normalizeToRoot(process.cwd(), "/tests/fixtures/readme.md");
-  t.is(p1, p2);
-});
-
 test('normalizeToRoot resolves "/" to repo root', (t) => {
   const p = normalizeToRoot(process.cwd(), "/");
   t.is(p, path.resolve(process.cwd()));
+});
+
+test('normalizeToRoot resolves "." to repo root', (t) => {
+  const p = normalizeToRoot(process.cwd(), ".");
+  t.is(p, path.resolve(process.cwd()));
+});
+
+test("normalizeToRoot preserves absolute paths inside root", (t) => {
+  const abs = path.join(ROOT, "readme.md");
+  const out = normalizeToRoot(ROOT, abs);
+  t.is(out, abs);
+});
+
+test("normalizeToRoot rejects absolute paths outside root", (t) => {
+  const outside = path.resolve(ROOT, "..", "outside.txt");
+  t.throws(() => normalizeToRoot(ROOT, outside));
+});
+
+test('listDirectory treats "/" as repo root', async (t) => {
+  const res = await listDirectory(ROOT, "/");
+  t.true(res.ok);
+  t.is(res.base, ".");
 });
