@@ -57,6 +57,7 @@ function makeClient(app: any) {
   return {
     get: (p: string) => new Req("GET", p),
     post: (p: string) => new Req("POST", p),
+    put: (p: string) => new Req("PUT", p),
   };
 }
 
@@ -87,22 +88,24 @@ export const withServer = async (
 
   // Disable dual-write to Chroma and skip sink registration to avoid external deps
   process.env.DUAL_WRITE_ENABLED = "false";
-  const app = await createServer(root, {
-    // No-op to avoid creating Chroma collections in tests
+  const deps: any = {
     registerSinks: async () => {},
-    // Disable auth plugin registration to avoid external deps & rate-limit
-    createFastifyAuth: () =>
-      ({
-        enabled: false,
-        preHandler: async () => {},
-        registerRoutes: async () => {},
-      }) as any,
-    // Provide no-op RBAC so route preHandlers don't touch Mongo
     registerRbac: async (app: any) => {
       app.decorate("authUser", async () => ({ id: "test" }));
       app.decorate("requirePolicy", () => async () => {});
     },
-  });
+  };
+  const authEnabled =
+    String(process.env.AUTH_ENABLED || "false").toLowerCase() === "true";
+  if (!authEnabled) {
+    deps.createFastifyAuth = () =>
+      ({
+        enabled: false,
+        preHandler: async () => {},
+        registerRoutes: async () => {},
+      }) as any;
+  }
+  const app = await createServer(root, deps);
   // Stub RBAC hooks so tests don't require seeded users/policies
   (app as any).authUser = async () => ({ id: "test" });
   (app as any).requirePolicy = () => async () => {};

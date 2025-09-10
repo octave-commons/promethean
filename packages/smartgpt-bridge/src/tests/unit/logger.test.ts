@@ -16,7 +16,16 @@ test("writes logs to file when LOG_FILE is set", async (t) => {
   });
   logger.info("hello-file");
   await sleep(60);
-  const contents = await fsp.readFile(file, "utf8");
+  // Retry read to allow async file open/flush
+  let contents = "";
+  for (let i = 0; i < 10; i++) {
+    try {
+      contents = await fsp.readFile(file, "utf8");
+      break;
+    } catch {
+      await sleep(30);
+    }
+  }
   t.true(contents.includes("hello-file"));
   await fsp.unlink(file);
   delete process.env.LOG_FILE;
