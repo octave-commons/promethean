@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "pnpm build && ava",
+    "test": "rimraf dist && tsc -p tsconfig.json && ava dist/tests/frontend/selection.test.js",
     "coverage": "pnpm build && c8 ava",
     "doc:dev-ui": "pnpm build && node ./dist/dev-ui.js --dir ../../docs/unique --collection docs-cosine --port 3939"
   },
@@ -25,6 +25,7 @@
     "unist-util-visit": "^5.0.0",
     "uuid": "^12.0.0",
     "yaml": "^2.8.1",
-    "zod": "^4.1.5"
+    "zod": "^4.1.5",
+    "@promethean/fs": "workspace:*"
   }
 }
