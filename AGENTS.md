@@ -91,7 +91,7 @@ Under no circumstances should you introduce the following to Promethean:
 ## 🗂️ Board Process
 
 When modifying files under `docs/agile/boards/` or `docs/agile/tasks/`, consult
-[`docs/agile/Process.md`](docs/agile/Process.md) for workflow guidelines before
+[[process|`docs/agile/Process.md`]] for workflow guidelines before
 making changes.
 
 ---

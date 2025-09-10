@@ -22,7 +22,7 @@ references: []
  ^ref-9044701b-32-0 ^ref-704ef9d5-32-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
+- [[eidolon-field-optimization]]
 ## Sources
 - _None_
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -44,14 +44,14 @@ references:
  ^ref-d561308b-3-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
-- [pm2-orchestration-patterns](pm2-orchestration-patterns.md)
-- [Optimizing Command Limitations in System Design](optimizing-command-limitations-in-system-design.md)
-- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
+- [[pm2-orchestration-patterns]]
+- [[optimizing-command-limitations-in-system-design|Optimizing Command Limitations in System Design]]
+- [[promethean-infrastructure-setup|Promethean Infrastructure Setup]]
 - [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
-- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
+- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
+- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
 ## Sources
-- [pm2-orchestration-patterns — L217](pm2-orchestration-patterns.md#^ref-51932e7b-217-0) (line 217, col 0, score 1)
+- [[pm2-orchestration-patterns#^ref-51932e7b-217-0|pm2-orchestration-patterns — L217]] (line 217, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

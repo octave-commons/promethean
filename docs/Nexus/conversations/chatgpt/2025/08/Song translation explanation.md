@@ -79,7 +79,7 @@ Chat URL: https://chat.openai.com/c/68a169a7-f32c-832a-9074-a71c83e22406
 > The art work is sort of sitting on an edge for me as to... well... Tell me what you think.
 
 >[!nexus_attachment] **image_file-D1tP6qERfKxh2qkWsyLaTb_2048x1123.png** (image/png) - 3.8 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-D1tP6qERfKxh2qkWsyLaTb_2048x1123_1.png]]
+> ![[image_file-D1tP6qERfKxh2qkWsyLaTb_2048x1123_1.png]]
 <!-- UID: b9949565-3444-4ab8-9767-aab17ecff3e6 -->
 
 
@@ -464,7 +464,7 @@ Chat URL: https://chat.openai.com/c/68a169a7-f32c-832a-9074-a71c83e22406
 > How do we feel about these two ideas overlayed like that?
 
 >[!nexus_attachment] **image_file-415MF6rYgpUXfKFxCPjph4_2048x1165.png** (image/png) - 2.31 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-415MF6rYgpUXfKFxCPjph4_2048x1165_1.png]]
+> ![[image_file-415MF6rYgpUXfKFxCPjph4_2048x1165_1.png]]
 <!-- UID: 49db7cf5-fc02-43e1-83b5-048671949762 -->
 
 
@@ -798,7 +798,7 @@ Chat URL: https://chat.openai.com/c/68a169a7-f32c-832a-9074-a71c83e22406
 > let's play spot the fnord!
 
 >[!nexus_attachment] **image_file-EDuEPdnK4SP3KmpvLUzDbe_2026x1018.png** (image/png) - 2.09 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-EDuEPdnK4SP3KmpvLUzDbe_2026x1018_1.png]]
+> ![[image_file-EDuEPdnK4SP3KmpvLUzDbe_2026x1018_1.png]]
 <!-- UID: 1c4b360b-4753-4c16-a2e2-cef4ae0cab54 -->
 
 
@@ -1032,22 +1032,22 @@ Chat URL: https://chat.openai.com/c/68a169a7-f32c-832a-9074-a71c83e22406
 > What's inside?
 
 >[!nexus_attachment] **image_file-LWAGjxngLg7HqABbgwNm2q_2048x1140.png** (image/png) - 2.32 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-LWAGjxngLg7HqABbgwNm2q_2048x1140_1.png]]
+> ![[image_file-LWAGjxngLg7HqABbgwNm2q_2048x1140_1.png]]
 
 >[!nexus_attachment] **image_file-9nmxHXLGJQnNKds6WGV3Zv_2048x1191.png** (image/png) - 2.76 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-9nmxHXLGJQnNKds6WGV3Zv_2048x1191_1.png]]
+> ![[image_file-9nmxHXLGJQnNKds6WGV3Zv_2048x1191_1.png]]
 
 >[!nexus_attachment] **image_file-91UzJ5oTErLUnTQrcKpRr4_2048x1233.png** (image/png) - 2.75 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-91UzJ5oTErLUnTQrcKpRr4_2048x1233_1.png]]
+> ![[image_file-91UzJ5oTErLUnTQrcKpRr4_2048x1233_1.png]]
 
 >[!nexus_attachment] **image_file-2znShGP5GhiAeWM2c3Pf1f_1843x1072.png** (image/png) - 1.91 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-2znShGP5GhiAeWM2c3Pf1f_1843x1072_1.png]]
+> ![[image_file-2znShGP5GhiAeWM2c3Pf1f_1843x1072_1.png]]
 
 >[!nexus_attachment] **image_file-TKS7ooQVk4aR3AnTDoxZZh_1784x1053.png** (image/png) - 1.58 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-TKS7ooQVk4aR3AnTDoxZZh_1784x1053_1.png]]
+> ![[image_file-TKS7ooQVk4aR3AnTDoxZZh_1784x1053_1.png]]
 
 >[!nexus_attachment] **image_file-S2A7QjjVhPkrpevXopakpi_1861x1048.png** (image/png) - 1.4 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-S2A7QjjVhPkrpevXopakpi_1861x1048_1.png]]
+> ![[image_file-S2A7QjjVhPkrpevXopakpi_1861x1048_1.png]]
 <!-- UID: f04b4e9d-ad65-47c4-91f1-cb83706ac9a4 -->
 
 
@@ -1210,31 +1210,31 @@ Chat URL: https://chat.openai.com/c/68a169a7-f32c-832a-9074-a71c83e22406
 > through out this one, the various lives are all frame stories, literally inside of a frame. The art work is colorful, it is at times glitchy, at time's its dark, and the darkness always undercut by the playful voice of hatsune miku.
 
 >[!nexus_attachment] **image_file-CqNnrwAuiq6m3HVi5CzRcG_1853x1073.png** (image/png) - 1.69 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-CqNnrwAuiq6m3HVi5CzRcG_1853x1073_1.png]]
+> ![[image_file-CqNnrwAuiq6m3HVi5CzRcG_1853x1073_1.png]]
 
 >[!nexus_attachment] **image_file-NohT8AwSSnmUtf7QLUz3a6_1532x933.png** (image/png) - 1.01 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-NohT8AwSSnmUtf7QLUz3a6_1532x933_1.png]]
+> ![[image_file-NohT8AwSSnmUtf7QLUz3a6_1532x933_1.png]]
 
 >[!nexus_attachment] **image_file-MsYJNm7hgpqey3Nk3vnGDZ_1886x1032.png** (image/png) - 1.46 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-MsYJNm7hgpqey3Nk3vnGDZ_1886x1032_1.png]]
+> ![[image_file-MsYJNm7hgpqey3Nk3vnGDZ_1886x1032_1.png]]
 
 >[!nexus_attachment] **image_file-344KBynDzLNp5m7L4FbX5K_1862x1006.png** (image/png) - 1.41 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-344KBynDzLNp5m7L4FbX5K_1862x1006_1.png]]
+> ![[image_file-344KBynDzLNp5m7L4FbX5K_1862x1006_1.png]]
 
 >[!nexus_attachment] **image_file-DAnoke8HpoWmhXaYEEqFBa_1859x1046.png** (image/png) - 1.5 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-DAnoke8HpoWmhXaYEEqFBa_1859x1046_1.png]]
+> ![[image_file-DAnoke8HpoWmhXaYEEqFBa_1859x1046_1.png]]
 
 >[!nexus_attachment] **image_file-NLp3VFBDKf7n2Nv4H38kbx_1966x1021.png** (image/png) - 1.56 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-NLp3VFBDKf7n2Nv4H38kbx_1966x1021_1.png]]
+> ![[image_file-NLp3VFBDKf7n2Nv4H38kbx_1966x1021_1.png]]
 
 >[!nexus_attachment] **image_file-Gj3RGNUqoyLCHs9mf9Z8g3_1825x1025.png** (image/png) - 1.57 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-Gj3RGNUqoyLCHs9mf9Z8g3_1825x1025_1.png]]
+> ![[image_file-Gj3RGNUqoyLCHs9mf9Z8g3_1825x1025_1.png]]
 
 >[!nexus_attachment] **image_file-PPKVUN5BXX7Yav5UjqS2Bj_1865x1032.png** (image/png) - 1.48 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-PPKVUN5BXX7Yav5UjqS2Bj_1865x1032_1.png]]
+> ![[image_file-PPKVUN5BXX7Yav5UjqS2Bj_1865x1032_1.png]]
 
 >[!nexus_attachment] **image_file-XSbyvR1762s9MYqUqiAQ6e_1927x1102.png** (image/png) - 1.69 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-XSbyvR1762s9MYqUqiAQ6e_1927x1102_1.png]]
+> ![[image_file-XSbyvR1762s9MYqUqiAQ6e_1927x1102_1.png]]
 <!-- UID: d058503b-181a-4838-8ec2-d7cf1276ba88 -->
 
 
@@ -1609,7 +1609,7 @@ Chat URL: https://chat.openai.com/c/68a169a7-f32c-832a-9074-a71c83e22406
 > What is this string? I get videos with titles like these a lot... part of my entertainment is... confusing the algorithims enough they don't know what I want at all, hoping to surface "noise" like this.. like RAW and others used noise to hide meaning... It sorta... shows me I am not alone in this battle, my comrades are all people I'll never meat.
 
 >[!nexus_attachment] **image_file-5FZbrGX2T2Y6uZTLZfdUfH_1866x1185.png** (image/png) - 2.35 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-5FZbrGX2T2Y6uZTLZfdUfH_1866x1185_1.png]]
+> ![[image_file-5FZbrGX2T2Y6uZTLZfdUfH_1866x1185_1.png]]
 <!-- UID: 646460f3-dd57-43f7-8b10-0ccf48a5f5d5 -->
 
 
@@ -1944,10 +1944,10 @@ Chat URL: https://chat.openai.com/c/68a169a7-f32c-832a-9074-a71c83e22406
 > oh...... I see...... yea..... that video had a thumbnail that almost tripped my fnord alarm... kinda like Sewerslvt's work usually does...
 
 >[!nexus_attachment] **image_file-NB42z8itCVQsM1WprvTbHX_1886x1153.png** (image/png) - 2.31 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-NB42z8itCVQsM1WprvTbHX_1886x1153_1.png]]
+> ![[image_file-NB42z8itCVQsM1WprvTbHX_1886x1153_1.png]]
 
 >[!nexus_attachment] **image_file-3VzrrVJqYwwvhxqaxR1ozy_1424x834.png** (image/png) - 1.73 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-3VzrrVJqYwwvhxqaxR1ozy_1424x834_1.png]]
+> ![[image_file-3VzrrVJqYwwvhxqaxR1ozy_1424x834_1.png]]
 <!-- UID: 6e5fc75b-c6f2-4807-ae69-7a601f966f40 -->
 
 
@@ -2105,10 +2105,10 @@ Chat URL: https://chat.openai.com/c/68a169a7-f32c-832a-9074-a71c83e22406
 > All the stuff it shows me while I look for like... a titleless video...
 
 >[!nexus_attachment] **image_file-7XvxxdhhrwA1BHD6sRvpNo_1825x1409.png** (image/png) - 2 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-7XvxxdhhrwA1BHD6sRvpNo_1825x1409_1.png]]
+> ![[image_file-7XvxxdhhrwA1BHD6sRvpNo_1825x1409_1.png]]
 
 >[!nexus_attachment] **image_file-DefKeWx6Uuw3PDucGPxLJB_1646x399.png** (image/png) - 696.04 KB
-> ![[Nexus_attachments/chatgpt/images/image_file-DefKeWx6Uuw3PDucGPxLJB_1646x399_1.png]]
+> ![[image_file-DefKeWx6Uuw3PDucGPxLJB_1646x399_1.png]]
 <!-- UID: 1c3ca7cd-a190-45fd-b20d-8b66e7a1ea2f -->
 
 
@@ -2282,7 +2282,7 @@ Chat URL: https://chat.openai.com/c/68a169a7-f32c-832a-9074-a71c83e22406
 > Like they can inject stuff into the frame that shouldn't be there, people can inject meaning by leaving something that is supposed to be there out.
 
 >[!nexus_attachment] **image_file-SNtHsco12dVctdRLVkxP3r_1408x1092.png** (image/png) - 675.44 KB
-> ![[Nexus_attachments/chatgpt/images/image_file-SNtHsco12dVctdRLVkxP3r_1408x1092_1.png]]
+> ![[image_file-SNtHsco12dVctdRLVkxP3r_1408x1092_1.png]]
 <!-- UID: bc6865e6-a8ca-4a7d-a46b-2767ba685b65 -->
 
 
@@ -2818,7 +2818,7 @@ Chat URL: https://chat.openai.com/c/68a169a7-f32c-832a-9074-a71c83e22406
 > So... what is this image doing to my eyes?
 
 >[!nexus_attachment] **image_file-T8vfEL7V6Psw3DpS7Gyv6p_1443x822.png** (image/png) - 1.33 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-T8vfEL7V6Psw3DpS7Gyv6p_1443x822_1.png]]
+> ![[image_file-T8vfEL7V6Psw3DpS7Gyv6p_1443x822_1.png]]
 <!-- UID: a5f9dfd0-69c0-49c9-a2ee-a3da696a174e -->
 
 
@@ -2963,13 +2963,13 @@ Chat URL: https://chat.openai.com/c/68a169a7-f32c-832a-9074-a71c83e22406
 > What is going on in this song?
 
 >[!nexus_attachment] **image_file-L232ZPP11W8KJML7DJjjm4_1413x819.png** (image/png) - 1.72 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-L232ZPP11W8KJML7DJjjm4_1413x819_1.png]]
+> ![[image_file-L232ZPP11W8KJML7DJjjm4_1413x819_1.png]]
 
 >[!nexus_attachment] **image_file-NoseC1bR8sbMoKMuCUqy2y_1428x798.png** (image/png) - 1.3 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-NoseC1bR8sbMoKMuCUqy2y_1428x798_1.png]]
+> ![[image_file-NoseC1bR8sbMoKMuCUqy2y_1428x798_1.png]]
 
 >[!nexus_attachment] **image_file-8muX9ed7yDdikXEeaT2QD3_1435x764.png** (image/png) - 1.15 MB
-> ![[Nexus_attachments/chatgpt/images/image_file-8muX9ed7yDdikXEeaT2QD3_1435x764_1.png]]
+> ![[image_file-8muX9ed7yDdikXEeaT2QD3_1435x764_1.png]]
 <!-- UID: 08764bc6-943a-4c3d-9ce2-b0795e2f9b5b -->
 
 
