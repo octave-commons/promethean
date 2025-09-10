@@ -2,42 +2,48 @@ export type PipelineStep = { id: string; name?: string };
 export type Pipeline = { name: string; steps: PipelineStep[] };
 
 // Lightweight selection cache within this page
+interface PiperWindow extends Window {
+  __PIPER_FILES__?: string[];
+}
+type FileNode = {
+  type: string;
+  name: string;
+  children?: FileNode[];
+};
 function getSelectedFiles(): string[] {
   try {
-    const s = (window as any).__PIPER_FILES__ as string[] | undefined;
+    const s = (window as PiperWindow).__PIPER_FILES__;
     return Array.isArray(s) ? s : [];
   } catch {
     return [];
   }
 }
 function setSelectedFiles(xs: string[]): void {
-  (window as any).__PIPER_FILES__ = xs;
+  (window as PiperWindow).__PIPER_FILES__ = xs;
 }
 
 // Minimal FileTree custom element (uses /api/files like DocOps)
 class FileTree extends HTMLElement {
   connectedCallback() {
     this.attachShadow({ mode: "open" });
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = new URL("./file-tree.css", import.meta.url).toString();
+    this.shadowRoot?.appendChild(link);
     const tpl = document.createElement("template");
     tpl.innerHTML = `
-      <style>
-        :host { display:block; border:1px solid #ddd; padding:8px; border-radius:6px; overflow:auto; }
-        ul { list-style:none; padding-left:16px; }
-        .file { cursor:pointer; color:#0366d6; }
-        .file:hover { text-decoration: underline; }
-        .toolbar { display:flex; gap:6px; align-items:center; margin-bottom:6px; flex-wrap:wrap; }
-      </style>
       <div class="toolbar">
         <button id="selAll">Select All</button>
         <button id="selNone">Clear</button>
       </div>
       <div id="root"><em>Loading…</em></div>
     `;
-    this.shadowRoot!.appendChild(tpl.content.cloneNode(true));
+    this.shadowRoot?.appendChild(tpl.content.cloneNode(true));
     void this.refresh();
   }
   async refresh() {
-    const rootDiv = this.shadowRoot!.getElementById("root")!;
+    const rootDiv = this.shadowRoot?.getElementById("root");
+    if (!rootDiv) return;
     rootDiv.innerHTML = "<em>Loading…</em>";
     const res = await fetch(
       `/api/files?dir=${encodeURIComponent(
@@ -46,27 +52,20 @@ class FileTree extends HTMLElement {
     );
     const data = await res.json();
     const ul = document.createElement("ul");
-    const render = (parent: HTMLElement, nodes: any[], prefix: string) => {
+    const render = (parent: HTMLElement, nodes: FileNode[], prefix: string) => {
       for (const n of nodes) {
         const li = document.createElement("li");
         if (n.type === "dir") {
           const line = document.createElement("div");
-          line.style.display = "flex";
-          line.style.alignItems = "center";
-          line.style.gap = "4px";
-          line.style.cursor = "pointer";
-          line.style.userSelect = "none";
+          line.className = "dir-line";
           const caret = document.createElement("span");
           caret.textContent = "▼";
-          caret.style.display = "inline-block";
-          caret.style.width = "1em";
-          caret.style.textAlign = "center";
-          caret.style.color = "#666";
+          caret.className = "caret";
           const icon = document.createElement("span");
           icon.textContent = "📁";
           const name = document.createElement("span");
           name.textContent = n.name;
-          name.style.fontWeight = "600";
+          name.className = "dir-name";
           line.appendChild(caret);
           line.appendChild(icon);
           line.appendChild(name);
@@ -74,7 +73,7 @@ class FileTree extends HTMLElement {
           const sub = document.createElement("ul");
           li.appendChild(sub);
           parent.appendChild(li);
-          render(sub, n.children || [], prefix + "/" + n.name);
+          render(sub, n.children || [], `${prefix}/${n.name}`);
           let open = true;
           const toggle = () => {
             open = !open;
@@ -86,7 +85,7 @@ class FileTree extends HTMLElement {
           const full = (
             data.dir +
             "/" +
-            (prefix + "/" + n.name).replace(/^\/+/, "")
+            `${prefix}/${n.name}`.replace(/^\/+/, "")
           ).replace(/\\/g, "/");
           const cb = document.createElement("input");
           cb.type = "checkbox";
@@ -95,11 +94,13 @@ class FileTree extends HTMLElement {
           li.appendChild(cb);
           const span = document.createElement("span");
           span.className = "file";
-          span.textContent = " " + n.name;
+          span.textContent = ` ${n.name}`;
           span.addEventListener("click", () => {
-            this.shadowRoot!.querySelectorAll<HTMLInputElement>(
-              "input[type=checkbox]",
-            ).forEach((el) => (el.checked = el.value === full));
+            this.shadowRoot
+              ?.querySelectorAll<HTMLInputElement>("input[type=checkbox]")
+              .forEach((el) => {
+                el.checked = el.value === full;
+              });
             this.updateSelection();
             // open file in editor pane
             window.dispatchEvent(
@@ -116,28 +117,32 @@ class FileTree extends HTMLElement {
     rootDiv.innerHTML = "";
     rootDiv.appendChild(ul);
     // toolbar
-    (this.shadowRoot!.getElementById("selAll") as HTMLButtonElement).onclick =
+    (this.shadowRoot?.getElementById("selAll") as HTMLButtonElement).onclick =
       () => {
-        this.shadowRoot!.querySelectorAll<HTMLInputElement>(
-          "input[type=checkbox]",
-        ).forEach((cb) => (cb.checked = true));
+        this.shadowRoot
+          ?.querySelectorAll<HTMLInputElement>("input[type=checkbox]")
+          .forEach((cb) => {
+            cb.checked = true;
+          });
         this.updateSelection();
       };
-    (this.shadowRoot!.getElementById("selNone") as HTMLButtonElement).onclick =
+    (this.shadowRoot?.getElementById("selNone") as HTMLButtonElement).onclick =
       () => {
-        this.shadowRoot!.querySelectorAll<HTMLInputElement>(
-          "input[type=checkbox]",
-        ).forEach((cb) => (cb.checked = false));
+        this.shadowRoot
+          ?.querySelectorAll<HTMLInputElement>("input[type=checkbox]")
+          .forEach((cb) => {
+            cb.checked = false;
+          });
         this.updateSelection();
       };
   }
   updateSelection() {
     const xs: string[] = [];
-    this.shadowRoot!.querySelectorAll<HTMLInputElement>(
-      "input[type=checkbox]",
-    ).forEach((cb) => {
-      if (cb.checked) xs.push(cb.value);
-    });
+    this.shadowRoot
+      ?.querySelectorAll<HTMLInputElement>("input[type=checkbox]")
+      .forEach((cb) => {
+        if (cb.checked) xs.push(cb.value);
+      });
     setSelectedFiles(xs);
     window.dispatchEvent(
       new CustomEvent("piper:files-changed", { detail: xs }),
@@ -149,10 +154,12 @@ customElements.define("file-tree", FileTree);
 async function init(): Promise<void> {
   const container = document.getElementById("pipelines");
   const logs = document.getElementById("logs");
-  const tabs = document.getElementById("editorTabs")!;
-  const editor = document.getElementById("editor") as HTMLTextAreaElement;
-  const status = document.getElementById("editorStatus")!;
-  if (!container) return;
+  const tabs = document.getElementById("editorTabs");
+  const editor = document.getElementById(
+    "editor",
+  ) as HTMLTextAreaElement | null;
+  const status = document.getElementById("editorStatus");
+  if (!container || !tabs || !editor || !status) return;
   let data: { pipelines?: Pipeline[]; error?: string } = {};
   try {
     const res = await fetch("/api/pipelines");
@@ -172,11 +179,10 @@ async function init(): Promise<void> {
     const list = document.createElement("div");
     for (const s of p.steps) {
       const row = document.createElement("div");
-      row.style.margin = "6px 0";
+      row.className = "step-row";
       const label = document.createElement("span");
       label.textContent = s.name ? `${s.id} — ${s.name}` : s.id;
-      label.style.display = "inline-block";
-      label.style.minWidth = "260px";
+      label.className = "step-label";
       const btn = document.createElement("button");
       btn.textContent = "Run Step";
       btn.onclick = () => {
@@ -207,15 +213,17 @@ async function init(): Promise<void> {
   type Tab = { path: string; content: string; saved: string; active: boolean };
   const openTabs: Tab[] = [];
   const setActive = (p: string) => {
-    openTabs.forEach((t) => (t.active = t.path === p));
+    openTabs.forEach((t) => {
+      t.active = t.path === p;
+    });
     const t = openTabs.find((t) => t.active);
     if (t) {
       editor.value = t.content;
-      (status as any).textContent =
+      status.textContent =
         t.path + (t.content !== t.saved ? " (modified)" : "");
     } else {
       editor.value = "";
-      (status as any).textContent = "";
+      status.textContent = "";
     }
     renderTabs();
   };
@@ -225,11 +233,11 @@ async function init(): Promise<void> {
       const el = document.createElement("button");
       el.textContent =
         (t.active ? "● " : "○ ") + (t.path.split("/").slice(-1)[0] || t.path);
-      el.style.padding = "4px 8px";
+      el.className = "tab-button";
       el.onclick = () => setActive(t.path);
       const x = document.createElement("span");
       x.textContent = " ×";
-      x.style.cursor = "pointer";
+      x.className = "tab-close";
       x.onclick = (ev) => {
         ev.stopPropagation();
         const idx = openTabs.findIndex((tt) => tt.path === t.path);
@@ -257,16 +265,15 @@ async function init(): Promise<void> {
     });
     setActive(j.path || path);
   }
-  window.addEventListener("piper:open-file", (ev: any) => {
-    const p = ev?.detail?.path;
+  window.addEventListener("piper:open-file", (ev: Event) => {
+    const p = (ev as CustomEvent<{ path?: string }>).detail?.path;
     if (p) void openFile(p);
   });
   editor.addEventListener("input", () => {
     const t = openTabs.find((tt) => tt.active);
     if (!t) return;
     t.content = editor.value;
-    (status as any).textContent =
-      t.path + (t.content !== t.saved ? " (modified)" : "");
+    status.textContent = t.path + (t.content !== t.saved ? " (modified)" : "");
   });
   (
     document.getElementById("saveBtn") as HTMLButtonElement | null
@@ -280,7 +287,7 @@ async function init(): Promise<void> {
     });
     if (res.ok) {
       t.saved = t.content;
-      (status as any).textContent = t.path;
+      status.textContent = t.path;
     }
   });
   (
@@ -294,7 +301,7 @@ async function init(): Promise<void> {
     t.content = j.content || "";
     t.saved = t.content;
     editor.value = t.content;
-    (status as any).textContent = t.path;
+    status.textContent = t.path;
     renderTabs();
   });
 }
