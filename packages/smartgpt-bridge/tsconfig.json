@@ -20,7 +20,6 @@
   "include": ["./src/**/*.ts"],
   "exclude": [
     "node_modules",
-    "./src/tests/**/*.ts",
     "./src/utils/scripts/**/*.ts",
     "./src/tests/fixtures/**/*.ts",
     "./src/tests/fixtures/broken.ts"
