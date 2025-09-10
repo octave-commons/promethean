@@ -259,48 +259,48 @@ gif_path_turb
 ^ref-0904921a-40-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
-- [Duck's Attractor States](ducks-attractor-states.md)
-- [Creative Moments](creative-moments.md)
+- [[ghostly-smoke-interference|Ghostly Smoke Interference]]
+- [[ducks-attractor-states|Duck's Attractor States]]
+- [[creative-moments|Creative Moments]]
 - [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
-- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
-- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
-- [field-node-diagram-outline](field-node-diagram-outline.md)
-- [field-node-diagram-set](field-node-diagram-set.md)
-- [infinite-depth-smoke-animation](infinite-depth-smoke-animation.md)
-- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
+- [[factorio-ai-with-external-agents|Factorio AI with External Agents]]
+- [[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]]
+- [[field-node-diagram-outline]]
+- [[field-node-diagram-set]]
+- [[infinite-depth-smoke-animation]]
+- [[promethean-agent-config-dsl|Promethean Agent Config DSL]]
 - [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
 - [Refactor 05-footers.ts](refactor-05-footers-ts.md)
-- [Universal Lisp Interface](universal-lisp-interface.md)
-- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
+- [[docs/unique/universal-lisp-interface|Universal Lisp Interface]]
+- [[chroma-embedding-refactor]]
 - [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
-- [Vectorial Exception Descent](vectorial-exception-descent.md)
-- [Voice Access Layer Design](voice-access-layer-design.md)
-- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
-- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
-- [pm2-orchestration-patterns](pm2-orchestration-patterns.md)
-- [mystery-lisp-search-session](mystery-lisp-search-session.md)
+- [[vectorial-exception-descent|Vectorial Exception Descent]]
+- [[voice-access-layer-design|Voice Access Layer Design]]
+- [[local-only-llm-workflow]]
+- [[ecs-scheduler-and-prefabs]]
+- [[pm2-orchestration-patterns]]
+- [[mystery-lisp-search-session]]
 - [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
-- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
-- [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
+- [[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]]
+- [[recursive-prompt-construction-engine|Recursive Prompt Construction Engine]]
+- [[prom-lib-rate-limiters-and-replay-api]]
 ## Sources
-- [Ghostly Smoke Interference — L40](ghostly-smoke-interference.md#^ref-0904921a-40-0) (line 40, col 0, score 0.97)
-- [Creative Moments — L332](creative-moments.md#^ref-10d98225-332-0) (line 332, col 0, score 0.94)
+- [[#^ref-0904921a-40-0|Ghostly Smoke Interference — L40]] (line 40, col 0, score 0.97)
+- [[creative-moments#^ref-10d98225-332-0|Creative Moments — L332]] (line 332, col 0, score 0.94)
 - [DuckDuckGoSearchPipeline — L293](duckduckgosearchpipeline.md#^ref-e979c50f-293-0) (line 293, col 0, score 0.94)
-- [Duck's Attractor States — L199](ducks-attractor-states.md#^ref-13951643-199-0) (line 199, col 0, score 0.94)
-- [Factorio AI with External Agents — L473](factorio-ai-with-external-agents.md#^ref-a4d90289-473-0) (line 473, col 0, score 0.94)
-- [field-dynamics-math-blocks — L796](field-dynamics-math-blocks.md#^ref-7cfc230d-796-0) (line 796, col 0, score 0.94)
-- [field-node-diagram-outline — L561](field-node-diagram-outline.md#^ref-1f32c94a-561-0) (line 561, col 0, score 0.94)
-- [field-node-diagram-set — L557](field-node-diagram-set.md#^ref-22b989d5-557-0) (line 557, col 0, score 0.94)
-- [infinite-depth-smoke-animation — L7](infinite-depth-smoke-animation.md#^ref-bad9e6c7-7-0) (line 7, col 0, score 0.91)
-- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.88)
+- [[ducks-attractor-states#^ref-13951643-199-0|Duck's Attractor States — L199]] (line 199, col 0, score 0.94)
+- [[factorio-ai-with-external-agents#^ref-a4d90289-473-0|Factorio AI with External Agents — L473]] (line 473, col 0, score 0.94)
+- [[docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-796-0|field-dynamics-math-blocks — L796]] (line 796, col 0, score 0.94)
+- [[field-node-diagram-outline#^ref-1f32c94a-561-0|field-node-diagram-outline — L561]] (line 561, col 0, score 0.94)
+- [[field-node-diagram-set#^ref-22b989d5-557-0|field-node-diagram-set — L557]] (line 557, col 0, score 0.94)
+- [[infinite-depth-smoke-animation#^ref-bad9e6c7-7-0|infinite-depth-smoke-animation — L7]] (line 7, col 0, score 0.91)
+- [[promethean-agent-config-dsl#^ref-2c00ce45-279-0|Promethean Agent Config DSL — L279]] (line 279, col 0, score 0.88)
 - [System Scheduler with Resource-Aware DAG — L358](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-358-0) (line 358, col 0, score 0.87)
-- [Universal Lisp Interface — L187](universal-lisp-interface.md#^ref-b01856b4-187-0) (line 187, col 0, score 0.87)
+- [[docs/unique/universal-lisp-interface#^ref-b01856b4-187-0|Universal Lisp Interface — L187]] (line 187, col 0, score 0.87)
 - [Refactor 05-footers.ts — L9](refactor-05-footers-ts.md#^ref-80d4d883-9-0) (line 9, col 0, score 0.87)
-- [Chroma-Embedding-Refactor — L289](chroma-embedding-refactor.md#^ref-8b256935-289-0) (line 289, col 0, score 0.87)
+- [[chroma-embedding-refactor#^ref-8b256935-289-0|Chroma-Embedding-Refactor — L289]] (line 289, col 0, score 0.87)
 - [prompt-programming-language-lisp — L56](prompt-programming-language-lisp.md#^ref-d41a06d1-56-0) (line 56, col 0, score 0.87)
-- [Vectorial Exception Descent — L95](vectorial-exception-descent.md#^ref-d771154e-95-0) (line 95, col 0, score 0.86)
-- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.85)
-- [Local-Only-LLM-Workflow — L147](local-only-llm-workflow.md#^ref-9a8ab57e-147-0) (line 147, col 0, score 0.85)
+- [[vectorial-exception-descent#^ref-d771154e-95-0|Vectorial Exception Descent — L95]] (line 95, col 0, score 0.86)
+- [[voice-access-layer-design#^ref-543ed9b3-280-0|Voice Access Layer Design — L280]] (line 280, col 0, score 0.85)
+- [[local-only-llm-workflow#^ref-9a8ab57e-147-0|Local-Only-LLM-Workflow — L147]] (line 147, col 0, score 0.85)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
