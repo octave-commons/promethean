@@ -1,9 +1,14 @@
-// @ts-nocheck
 import fs from "fs/promises";
 import path from "path";
 
 import fg from "fast-glob";
-import { ChromaClient } from "chromadb";
+import {
+  ChromaClient,
+  type UpsertRecordsParams,
+  type QueryRecordsParams,
+  type DeleteParams,
+  type GetOrCreateCollectionParams,
+} from "chromadb";
 import { createLogger } from "@promethean/utils";
 
 import { logStream } from "./log-stream.js";
@@ -15,15 +20,31 @@ import {
 } from "./indexerState.js";
 
 const logger = createLogger({ service: "smartgpt-bridge", stream: logStream });
-let CHROMA = null; // lazily created to avoid holding open handles during import
-let EMBEDDING_FACTORY = null; // optional override for tests
-let EMBEDDING_INSTANCE = null; // cached default embedding fn
-let EMBEDDING_INSTANCE_KEY = null; // cache key for default embedding fn
 
-export function setChromaClient(client) {
+export interface CollectionLike {
+  upsert(args: UpsertRecordsParams): Promise<void>;
+  query(args: QueryRecordsParams): Promise<any>;
+  delete(args: DeleteParams): Promise<void>;
+  get?(...args: any[]): Promise<any>;
+  count?(): Promise<number>;
+  add?(...args: any[]): Promise<void>;
+}
+
+export interface ChromaLike {
+  getOrCreateCollection(
+    args: GetOrCreateCollectionParams,
+  ): Promise<CollectionLike>;
+}
+
+let CHROMA: ChromaLike | null = null; // lazily created to avoid holding open handles during import
+let EMBEDDING_FACTORY: (() => Promise<any>) | null = null; // optional override for tests
+let EMBEDDING_INSTANCE: any = null; // cached default embedding fn
+let EMBEDDING_INSTANCE_KEY: string | null = null; // cache key for default embedding fn
+
+export function setChromaClient(client: ChromaLike) {
   CHROMA = client;
 }
-export function setEmbeddingFactory(factory) {
+export function setEmbeddingFactory(factory: (() => Promise<any>) | null) {
   EMBEDDING_FACTORY = factory;
 }
 export function resetChroma() {
@@ -37,12 +58,29 @@ export function resetEmbeddingCache() {
   EMBEDDING_INSTANCE_KEY = null;
 }
 
-export function getChroma() {
-  if (!CHROMA) CHROMA = new ChromaClient();
+export function getChroma(): ChromaLike {
+  if (!CHROMA) {
+    const real = new ChromaClient();
+    CHROMA = {
+      async getOrCreateCollection(
+        args: GetOrCreateCollectionParams,
+      ): Promise<CollectionLike> {
+        const col = await real.getOrCreateCollection(args);
+        return {
+          upsert: (a: UpsertRecordsParams) => col.upsert(a),
+          delete: (a: DeleteParams) => col.delete(a),
+          query: (a: QueryRecordsParams) => col.query(a),
+          get: (...a: any[]) => (col as any).get?.(...a),
+          count: () => (col as any).count?.(),
+          add: (...a: any[]) => (col as any).add?.(...a),
+        };
+      },
+    };
+  }
   return CHROMA;
 }
 
-function splitCSV(s) {
+function splitCSV(s?: string) {
   return (s || "")
     .split(",")
     .map((x) => x.trim())
@@ -56,7 +94,7 @@ function defaultExcludes() {
 }
 
 // Enumerate files + capture quick stats used for incremental comparisons
-async function scanFiles(rootPath) {
+async function scanFiles(rootPath: string) {
   const include = ["**/*.{md,txt,js,ts,jsx,tsx,py,go,rs,json,yml,yaml,sh}"];
   const files = await fg(include, {
     cwd: rootPath,
@@ -64,7 +102,7 @@ async function scanFiles(rootPath) {
     onlyFiles: true,
     dot: false,
   });
-  const fileInfo = {};
+  const fileInfo: Record<string, { size: number; mtimeMs: number }> = {};
   for (const rel of files) {
     try {
       const st = await fs.stat(path.join(rootPath, rel));
@@ -80,8 +118,15 @@ async function scanFiles(rootPath) {
 }
 
 // Chunk by ~2000 chars with 200 overlap; track line numbers.
-function makeChunks(text, maxLen = 2000, overlap = 200) {
-  const chunks = [];
+function makeChunks(text: string, maxLen = 2000, overlap = 200) {
+  const chunks: Array<{
+    index: number;
+    start: number;
+    end: number;
+    startLine: number;
+    endLine: number;
+    text: string;
+  }> = [];
   let i = 0;
   let start = 0;
   while (start < text.length) {
@@ -125,9 +170,13 @@ export function embeddingEnvConfig() {
 }
 
 // Index a single file (helper used by queue/manager and tests)
-export async function indexFile(rootPath, rel, options = {}) {
-  const family = process.env.COLLECTION_FAMILY || "repo_files";
-  const version = process.env.EMBED_VERSION || "dev";
+export async function indexFile(
+  rootPath: string,
+  rel: string,
+  _options: Record<string, unknown> = {},
+) {
+  const family = String(process.env.COLLECTION_FAMILY || "repo_files");
+  const version = String(process.env.EMBED_VERSION || "dev");
   const cfg = {
     driver: process.env.EMBEDDING_DRIVER || "ollama",
     fn: process.env.EMBEDDING_FUNCTION || "nomic-embed-text",
@@ -138,7 +187,7 @@ export async function indexFile(rootPath, rel, options = {}) {
   let raw = "";
   try {
     raw = await fs.readFile(abs, "utf8");
-  } catch (e) {
+  } catch (e: any) {
     logger.warn("indexFile read failed", { path: rel, err: e });
     return { ok: false, error: String(e?.message || e) };
   }
@@ -168,9 +217,9 @@ export async function indexFile(rootPath, rel, options = {}) {
   return { ok: true, path: rel, processed };
 }
 
-export async function removeFileFromIndex(rootPath, rel) {
-  const family = process.env.COLLECTION_FAMILY || "repo_files";
-  const version = process.env.EMBED_VERSION || "dev";
+export async function removeFileFromIndex(_rootPath: string, rel: string) {
+  const family = String(process.env.COLLECTION_FAMILY || "repo_files");
+  const version = String(process.env.EMBED_VERSION || "dev");
   const cfg = {
     driver: process.env.EMBEDDING_DRIVER || "ollama",
     fn: process.env.EMBEDDING_FUNCTION || "nomic-embed-text",
@@ -179,7 +228,7 @@ export async function removeFileFromIndex(rootPath, rel) {
   try {
     await col.delete({ where: { path: rel } });
     return { ok: true };
-  } catch (e) {
+  } catch (e: any) {
     logger.error("removeFileFromIndex failed", { path: rel, err: e });
     return { ok: false, error: String(e?.message || e) };
   }
@@ -187,6 +236,17 @@ export async function removeFileFromIndex(rootPath, rel) {
 
 // Simple in-memory queue manager with delay between files and bootstrap mode
 class IndexerManager {
+  mode: "bootstrap" | "indexed";
+  queue: string[];
+  active: boolean;
+  startedAt: number | null;
+  finishedAt: number | null;
+  processedFiles: number;
+  errors: string[];
+  rootPath: string | null;
+  _draining: boolean;
+  bootstrap: { fileList: string[]; cursor: number } | null;
+  state: any;
   constructor() {
     this.mode = "bootstrap"; // 'bootstrap' | 'indexed'
     this.queue = [];
@@ -224,7 +284,7 @@ class IndexerManager {
   isBusy() {
     return this.active || this._draining || this.queue.length > 0;
   }
-  async resetAndBootstrap(rootPath) {
+  async resetAndBootstrap(_rootPath: string) {
     if (this.isBusy()) throw new Error("Indexer is busy");
     this.mode = "bootstrap";
     this.queue = [];
@@ -237,11 +297,11 @@ class IndexerManager {
     this._draining = false;
     this.bootstrap = null;
     this.state = null;
-    await deleteBootstrapState(rootPath);
-    await this.ensureBootstrap(rootPath);
+    await deleteBootstrapState(_rootPath);
+    await this.ensureBootstrap(_rootPath);
     return { ok: true };
   }
-  async ensureBootstrap(rootPath) {
+  async ensureBootstrap(rootPath: string) {
     if (this.rootPath) return; // already initialized
     this.rootPath = rootPath;
     this.startedAt = Date.now();
@@ -261,7 +321,7 @@ class IndexerManager {
         const add = now.filter((f) => !known.has(f));
         if (add.length) {
           this.bootstrap.fileList.push(...add);
-          await saveBootstrapState(this.rootPath, {
+          await saveBootstrapState(this.rootPath!, {
             mode: "bootstrap",
             cursor: this.bootstrap.cursor,
             fileList: this.bootstrap.fileList,
@@ -308,7 +368,7 @@ class IndexerManager {
     this.enqueueFiles(files);
     this._drain();
   }
-  enqueueFiles(rels) {
+  enqueueFiles(rels: string[]) {
     const set = new Set(this.queue);
     for (const r of rels) {
       if (!set.has(r)) {
@@ -323,13 +383,13 @@ class IndexerManager {
     const delayMs = Number(process.env.INDEXER_FILE_DELAY_MS || 250);
     while (this.queue.length) {
       this.active = true;
-      const rel = this.queue.shift();
+      const rel = this.queue.shift()!;
       logger.info("indexer processing file", {
         path: rel,
         remaining: this.queue.length,
       });
       try {
-        await indexFile(this.rootPath, rel);
+        await indexFile(this.rootPath!, rel);
         this.processedFiles++;
         // If this item corresponds to current bootstrap cursor, advance and persist
         if (
@@ -338,14 +398,14 @@ class IndexerManager {
           this.bootstrap.fileList[this.bootstrap.cursor] === rel
         ) {
           this.bootstrap.cursor++;
-          await saveBootstrapState(this.rootPath, {
+          await saveBootstrapState(this.rootPath!, {
             mode: "bootstrap",
             cursor: this.bootstrap.cursor,
             fileList: this.bootstrap.fileList,
             startedAt: this.startedAt,
           });
         }
-      } catch (e) {
+      } catch (e: any) {
         this.errors.push(String(e?.message || e));
         logger.error("index queue error", { err: e, path: rel });
         // On error during bootstrap, skip forward to avoid being stuck
@@ -355,7 +415,7 @@ class IndexerManager {
           this.bootstrap.fileList[this.bootstrap.cursor] === rel
         ) {
           this.bootstrap.cursor++;
-          await saveBootstrapState(this.rootPath, {
+          await saveBootstrapState(this.rootPath!, {
             mode: "bootstrap",
             cursor: this.bootstrap.cursor,
             fileList: this.bootstrap.fileList,
@@ -375,8 +435,8 @@ class IndexerManager {
         this.bootstrap.cursor >= this.bootstrap.fileList.length
       ) {
         this.mode = "indexed";
-        const { files, fileInfo } = await scanFiles(this.rootPath);
-        await saveBootstrapState(this.rootPath, {
+        const { files, fileInfo } = await scanFiles(this.rootPath!);
+        await saveBootstrapState(this.rootPath!, {
           mode: "indexed",
           cursor: this.bootstrap.cursor,
           fileList: files,
@@ -397,7 +457,7 @@ class IndexerManager {
       return { ok: true, ignored: true, mode: this.mode };
     const include = ["**/*.{md,txt,js,ts,jsx,tsx,py,go,rs,json,yml,yaml,sh}"];
     const files = await fg(include, {
-      cwd: this.rootPath,
+      cwd: this.rootPath!,
       ignore: defaultExcludes(),
       onlyFiles: true,
       dot: false,
@@ -406,12 +466,12 @@ class IndexerManager {
     this._drain();
     return { ok: true, queued: files.length };
   }
-  async scheduleReindexSubset(globs) {
+  async scheduleReindexSubset(globs: string | string[]) {
     if (this.mode === "bootstrap")
       return { ok: true, ignored: true, mode: this.mode };
     const include = Array.isArray(globs) ? globs : [String(globs)];
     const files = await fg(include, {
-      cwd: this.rootPath,
+      cwd: this.rootPath!,
       ignore: defaultExcludes(),
       onlyFiles: true,
       dot: false,
@@ -420,28 +480,28 @@ class IndexerManager {
     this._drain();
     return { ok: true, queued: files.length };
   }
-  async scheduleIndexFile(rel) {
+  async scheduleIndexFile(rel: string) {
     const fileRel = path.isAbsolute(rel)
-      ? path.relative(this.rootPath, rel)
+      ? path.relative(this.rootPath!, rel)
       : rel;
     this.enqueueFiles([fileRel]);
     this._drain();
     return { ok: true, queued: 1 };
   }
-  async removeFile(rel) {
-    return await removeFileFromIndex(this.rootPath, rel);
+  async removeFile(rel: string) {
+    return await removeFileFromIndex(this.rootPath!, rel);
   }
 
-  async _scheduleIncremental(prev) {
+  async _scheduleIncremental(prev: any) {
     const { files: currentFiles, fileInfo: currentInfo } = await scanFiles(
-      this.rootPath,
+      this.rootPath!,
     );
     const prevInfo = prev?.fileInfo || {};
     const prevSet = new Set(Object.keys(prevInfo));
     const curSet = new Set(currentFiles);
     const toIndex = [];
     for (const f of currentFiles) {
-      const cur = currentInfo[f];
+      const cur = currentInfo[f]!;
       const p = prevInfo[f];
       if (!p) {
         toIndex.push(f);
@@ -455,7 +515,7 @@ class IndexerManager {
       for (const rel of toRemove) {
         try {
           await this.removeFile(rel);
-        } catch (e) {
+        } catch (e: any) {
           logger.warn("incremental remove failed", {
             path: rel,
             err: e,
@@ -477,7 +537,7 @@ class IndexerManager {
     } else {
       logger.info("indexer incremental no changes");
     }
-    await saveBootstrapState(this.rootPath, {
+    await saveBootstrapState(this.rootPath!, {
       mode: "indexed",
       cursor: prev?.cursor || 0,
       fileList: currentFiles,
@@ -490,20 +550,31 @@ class IndexerManager {
 
 export const indexerManager = new IndexerManager();
 
-export async function collectionForFamily(family, version, cfg) {
+export async function collectionForFamily(
+  family: string,
+  version: string,
+  cfg: { driver: string; fn: string; dims?: number },
+): Promise<CollectionLike> {
   const embeddingFunction = EMBEDDING_FACTORY
     ? await EMBEDDING_FACTORY()
     : await buildEmbeddingFn();
   return await getChroma().getOrCreateCollection({
     name: `${family}__${version}__${cfg.driver}__${cfg.fn}`,
     embeddingFunction,
-    metadata: { family, version, ...cfg },
+    metadata: { family, version, ...cfg } as any,
   });
 }
 
-export async function reindexAll(rootPath, options = {}) {
-  const family = process.env.COLLECTION_FAMILY || "repo_files";
-  const version = process.env.EMBED_VERSION || "dev";
+export async function reindexAll(
+  rootPath: string,
+  options: Partial<{
+    include: string[];
+    exclude: string[];
+    limit: number;
+  }> = {},
+) {
+  const family = String(process.env.COLLECTION_FAMILY || "repo_files");
+  const version = String(process.env.EMBED_VERSION || "dev");
   const include = options.include || [
     "**/*.{md,txt,js,ts,jsx,tsx,py,go,rs,json,yml,yaml,sh}",
   ];
@@ -524,12 +595,12 @@ export async function reindexAll(rootPath, options = {}) {
   const max = limit > 0 ? Math.min(limit, files.length) : files.length;
   let processed = 0;
   for (let i = 0; i < max; i++) {
-    const rel = files[i];
+    const rel = files[i]!;
     const abs = path.join(rootPath, rel);
     let raw = "";
     try {
       raw = await fs.readFile(abs, "utf8");
-    } catch (e) {
+    } catch (e: any) {
       logger.warn("reindexAll read failed", { path: rel, err: e });
       continue;
     }
@@ -559,37 +630,63 @@ export async function reindexAll(rootPath, options = {}) {
   return { family, version, processed };
 }
 
-export async function reindexSubset(rootPath, globs, options = {}) {
+export async function reindexSubset(
+  rootPath: string,
+  globs: string | string[],
+  options: Partial<{
+    include: string[];
+    exclude: string[];
+    limit: number;
+  }> = {},
+) {
   const include = Array.isArray(globs) ? globs : [String(globs)];
   const merged = { ...options, include };
   return reindexAll(rootPath, merged);
 }
 
-export async function search(rootPath, q, n = 8) {
-  const family = process.env.COLLECTION_FAMILY || "repo_files";
-  const version = process.env.EMBED_VERSION || "dev";
+export async function search(_rootPath: string, q: string, n = 8) {
+  const family = String(process.env.COLLECTION_FAMILY || "repo_files");
+  const version = String(process.env.EMBED_VERSION || "dev");
   const cfg = {
     driver: process.env.EMBEDDING_DRIVER || "ollama",
     fn: process.env.EMBEDDING_FUNCTION || "nomic-embed-text",
   };
   const col = await collectionForFamily(family, version, cfg);
   const r = await col.query({ queryTexts: [q], nResults: n });
-  const ids = r.ids?.flat(2) || [];
-  const docs = r.documents?.flat(2) || [];
-  const metas = r.metadatas?.flat(2) || [];
-  const dists = r.distances?.flat(2) || [];
-  const out = [];
+  const ids = (r.ids?.flat(2) as string[]) || [];
+  const docs = (r.documents?.flat(2) as string[]) || [];
+  const metas = (r.metadatas?.flat(2) as any[]) || [];
+  const dists = (r.distances?.flat(2) as number[]) || [];
+  const out: Array<{
+    id: string;
+    path: string;
+    chunkIndex: number;
+    startLine: number;
+    endLine: number;
+    score?: number;
+    text: string;
+  }> = [];
   for (let i = 0; i < docs.length; i++) {
-    const m = metas[i] || {};
-    out.push({
-      id: ids[i],
-      path: m.path,
-      chunkIndex: m.chunkIndex,
-      startLine: m.startLine,
-      endLine: m.endLine,
-      score: typeof dists[i] === "number" ? dists[i] : undefined,
-      text: docs[i],
-    });
+    const m = (metas[i] as any) || {};
+    const s = dists[i];
+    const item: {
+      id: string;
+      path: string;
+      chunkIndex: number;
+      startLine: number;
+      endLine: number;
+      text: string;
+      score?: number;
+    } = {
+      id: String(ids[i] ?? ""),
+      path: String(m.path || ""),
+      chunkIndex: Number(m.chunkIndex || 0),
+      startLine: Number(m.startLine || 0),
+      endLine: Number(m.endLine || 0),
+      text: String(docs[i] ?? ""),
+    };
+    if (typeof s === "number") item.score = s;
+    out.push(item);
   }
   return out;
 }

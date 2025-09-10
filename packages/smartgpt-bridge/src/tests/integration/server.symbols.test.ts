@@ -1,11 +1,10 @@
-// @ts-nocheck
 import path from "node:path";
 
 import test from "ava";
 
 import { withServer } from "../helpers/server.js";
 
-const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
+const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 test("POST /v0/symbols/index then /v0/symbols/find", async (t) => {
   await withServer(ROOT, async (req) => {
@@ -21,7 +20,7 @@ test("POST /v0/symbols/index then /v0/symbols/find", async (t) => {
     t.true(res.body.ok);
     t.true(
       res.body.results.some(
-        (r) => r.name === "User" && r.path.endsWith("multiSymbols.ts"),
+        (r: any) => r.name === "User" && r.path.endsWith("multiSymbols.ts"),
       ),
     );
   });

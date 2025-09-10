@@ -1,10 +1,9 @@
-// @ts-nocheck
 // Lazy/optional node-pty wrapper so tests and unsupported runtimes don't explode.
 // If NODE_PTY_DISABLED=1, this returns null or throws a typed error via helpers.
 
-let _pty; // undefined: not loaded, null: unavailable, object: loaded
+let _pty: any | null | undefined; // undefined: not loaded, null: unavailable, object: loaded
 
-export function getPty() {
+export function getPty(): any | null {
   if (process.env.NODE_PTY_DISABLED === "1") return null;
   if (_pty !== undefined) return _pty;
   try {
@@ -25,7 +24,11 @@ export class PtyUnavailableError extends Error {
   }
 }
 
-export function spawnPty(file, args, opts = {}) {
+export function spawnPty(
+  file: string,
+  args: string[],
+  opts: Record<string, unknown> = {},
+) {
   const pty = getPty();
   if (!pty) throw new PtyUnavailableError();
   return pty.spawn(file, args, opts);
