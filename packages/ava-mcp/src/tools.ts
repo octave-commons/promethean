@@ -3,12 +3,51 @@ import { z } from "zod";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { execFile } from "node:child_process";
+import { execFile, type ExecFileOptions } from "node:child_process";
 import { promisify } from "node:util";
 import { minimatch } from "minimatch";
 import fc from "fast-check";
 
-const execFileAsync = promisify(execFile);
+const execFileAsync = promisify(execFile) as (
+  file: string,
+  args?: readonly string[],
+  options?: ExecFileOptions & { encoding: "utf8" },
+) => Promise<{ stdout: string; stderr: string }>;
+const EXEC_OPTS: ExecFileOptions & { encoding: "utf8" } = {
+  timeout: 120_000,
+  maxBuffer: 10 * 1024 * 1024,
+  encoding: "utf8",
+};
+
+async function resolveBaseRef(base: string): Promise<string> {
+  const candidates = [base, "origin/main", "main"];
+  for (const ref of candidates) {
+    try {
+      await execFileAsync("git", ["rev-parse", "--verify", ref], EXEC_OPTS);
+      for (const args of [
+        ["merge-base", "--fork-point", "HEAD", ref],
+        ["merge-base", "HEAD", ref],
+      ]) {
+        try {
+          const { stdout } = await execFileAsync("git", args, EXEC_OPTS);
+          const mb = stdout.trim();
+          if (mb) return mb;
+        } catch {}
+      }
+      return ref;
+    } catch {}
+  }
+  try {
+    const { stdout } = await execFileAsync(
+      "git",
+      ["rev-list", "--max-parents=0", "HEAD"],
+      EXEC_OPTS,
+    );
+    return stdout.trim();
+  } catch {
+    return "HEAD";
+  }
+}
 
 export function registerTddTools(server: Server) {
   const s = server as any;
@@ -34,15 +73,15 @@ export function registerTddTools(server: Server) {
 
       const unit = `import test from "ava";
 
-test("${testName}", t => {
+test(${JSON.stringify(testName)}, t => {
   t.fail(); // TODO: implement
 });
 `;
 
       const prop = `import test from "ava";
-import * as fc from "fast-check";
+import fc from "fast-check";
 
-test("${testName}", t => {
+test(${JSON.stringify(testName)}, t => {
   fc.assert(
     fc.property(fc.anything(), value => {
       // TODO: property under test
@@ -69,20 +108,39 @@ test("${testName}", t => {
     {
       inputSchema: z.object({
         base: z.string().default("origin/main"),
-        patterns: z.array(z.string()).default(["**/*.ts", "**/*.tsx"]),
+        patterns: z
+          .array(z.string())
+          .default([
+            "**/*.ts",
+            "**/*.tsx",
+            "**/*.js",
+            "**/*.jsx",
+            "**/*.mjs",
+            "**/*.cjs",
+            "**/*.json",
+            "**/*.css",
+            "**/*.html",
+          ]),
       }),
     },
     async (input: { base: string; patterns: string[] }) => {
       const { base, patterns } = input;
-      const { stdout } = await execFileAsync("git", [
-        "diff",
-        "--name-only",
-        `${base}...HEAD`,
-      ]);
+      let rangeBase = await resolveBaseRef(base);
+      let stdout = "";
+      try {
+        const res = await execFileAsync(
+          "git",
+          ["diff", "--name-only", `${rangeBase}...HEAD`],
+          EXEC_OPTS,
+        );
+        stdout = res.stdout;
+      } catch (e) {
+        console.warn("git diff failed", e);
+      }
       const files = stdout
         .split("\n")
         .filter(Boolean)
-        .filter((f) => patterns.some((p: string) => minimatch(f, p)));
+        .filter((f) => patterns.some((p) => minimatch(f, p)));
       return { files };
     },
   );
@@ -105,13 +163,13 @@ test("${testName}", t => {
       tap: boolean;
     }) => {
       const { files, match, watch, tap } = input;
+      if (tap) throw new Error("tap reporter is not supported");
+      if (watch) throw new Error("watch mode is not supported");
       const args = ["--yes", "ava", "--json"];
-      if (tap) args.push("--tap");
-      if (watch) args.push("--watch");
       match?.forEach((m: string) => args.push("--match", m));
       if (files?.length) args.push(...files);
 
-      const { stdout } = await execFileAsync("npx", args);
+      const { stdout } = await execFileAsync("npx", args, EXEC_OPTS);
       const result = JSON.parse(stdout);
       return {
         passed: result.stats.passed,
@@ -156,14 +214,19 @@ test("${testName}", t => {
         "ava",
         ...(include ?? []),
       ];
-      await execFileAsync("npx", args);
+      await execFileAsync("npx", args, EXEC_OPTS);
 
       const summaryPath = path.join(
         process.cwd(),
         "coverage",
         "coverage-summary.json",
       );
-      const summary = JSON.parse(await fs.readFile(summaryPath, "utf8")).total;
+      let summary;
+      try {
+        summary = JSON.parse(await fs.readFile(summaryPath, "utf8")).total;
+      } catch {
+        throw new Error(`Coverage summary not found at ${summaryPath}`);
+      }
 
       const fail: string[] = [];
       if (thresholds?.lines && summary.lines.pct < thresholds.lines)
@@ -200,7 +263,10 @@ test("${testName}", t => {
       runs: number;
     }) => {
       const { propertyModule, propertyExport, runs } = input;
-      const mod = await import(pathToFileURL(propertyModule).href);
+      const abs = path.isAbsolute(propertyModule)
+        ? propertyModule
+        : path.resolve(process.cwd(), propertyModule);
+      const mod = await import(pathToFileURL(abs).href);
       const propertyFactory = (mod as any)[propertyExport];
       if (typeof propertyFactory !== "function") {
         throw new Error(`Export "${propertyExport}" is not a function`);
@@ -223,10 +289,10 @@ test("${testName}", t => {
     async (input: { files?: string[]; minScore: number }) => {
       const { files, minScore } = input;
       const args = ["--yes", "stryker", "run"];
-      if (files?.length) args.push(`--mutate ${files.join(",")}`);
+      if (files?.length) args.push("--mutate", files.join(","));
 
-      const { stdout } = await execFileAsync("npx", args);
-      const match = stdout.match(/Mutation score\s*([\d.]+)/);
+      const { stdout } = await execFileAsync("npx", args, EXEC_OPTS);
+      const match = stdout.match(/Mutation score\s*:?\s*([\d.]+)%?/i);
       const score = match?.[1] ? parseFloat(match[1]) : 0;
 
       if (score < minScore) {

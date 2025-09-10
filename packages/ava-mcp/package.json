@@ -3,17 +3,15 @@
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "main": "dist/index.cjs",
+  "sideEffects": false,
   "types": "dist/index.d.ts",
   "module": "dist/index.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": "./dist/index.js"
     },
-    "./dist/*": "./dist/*",
-    "./*": "./dist/*"
+    "./dist/*": "./dist/*"
   },
   "files": [
     "dist"
@@ -22,9 +20,9 @@
     "build": "tsc",
     "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "test": "pnpm run build && ava",
     "lint": "pnpm exec biome lint .",
-    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+    "coverage": "pnpm run build && c8 ava",
     "format": "pnpm exec biome format --write ."
   },
   "dependencies": {
