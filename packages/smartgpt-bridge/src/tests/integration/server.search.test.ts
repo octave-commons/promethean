@@ -3,6 +3,7 @@ import path from "node:path";
 import test from "ava";
 
 import { withServer } from "../helpers/server.js";
+import type { QueryRecordsParams, UpsertRecordsParams } from "chromadb";
 import {
   setChromaClient,
   setEmbeddingFactory,
@@ -12,7 +13,7 @@ import {
 const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
 
 class FakeCollection {
-  async query({ queryTexts, nResults }) {
+  async query(_args: QueryRecordsParams) {
     return {
       ids: [[["readme.md#0"]]],
       documents: [[["Matched snippet"]]],
@@ -22,10 +23,13 @@ class FakeCollection {
       distances: [[[0.12]]],
     };
   }
-  async upsert() {
+  async upsert(_args?: UpsertRecordsParams) {
     /* no-op */
   }
   async add() {
+    /* no-op */
+  }
+  async delete(): Promise<void> {
     /* no-op */
   }
 }
@@ -39,7 +43,7 @@ class FakeChroma {
 test.before(() => {
   setChromaClient(new FakeChroma());
   setEmbeddingFactory(async () => ({
-    generate: async (texts) => texts.map(() => [0.0, 0.0, 0.0]),
+    generate: async (texts: string[]) => texts.map(() => [0.0, 0.0, 0.0]),
   }));
 });
 
@@ -65,6 +69,7 @@ test.after.always(() => {
     getOrCreateCollection: async () => ({
       query: async () => ({}),
       upsert: async () => {},
+      delete: async () => {},
       add: async () => {},
     }),
   });

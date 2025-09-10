@@ -20,7 +20,7 @@ test("RemoteEmbeddingFunction: generate returns embeddings via fake broker", asy
     t.true(Array.isArray(out));
     t.is(out.length, 2);
     t.true(Array.isArray(out[0]));
-    await ref?._ready?.catch(() => {});
+    await (ref as unknown as { _ready?: Promise<any> })._ready?.catch(() => {});
     ref?.dispose?.();
   } finally {
     if (prev === undefined) delete process.env.SHARED_IMPORT;

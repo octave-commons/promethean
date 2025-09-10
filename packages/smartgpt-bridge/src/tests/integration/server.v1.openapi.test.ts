@@ -6,7 +6,9 @@ import { withServer } from "../helpers/server.js";
 
 const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
 
-function countOperations(paths) {
+function countOperations(
+  paths: Record<string, Record<string, unknown>>,
+): number {
   return Object.values(paths).reduce(
     (sum, item) => sum + Object.keys(item).length,
     0,

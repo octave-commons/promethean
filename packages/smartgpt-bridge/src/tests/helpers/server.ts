@@ -96,8 +96,10 @@ export const withServer = async (
       delete: async () => {},
     }),
   };
+  // NOTE: chromadb types vary across workspace versions; runtime mock is minimal.
   const chromaStub = sinon
     .stub(persistenceClients, "getChromaClient")
+    // @ts-expect-error test stub returns a minimal client shape used by code
     .resolves(fakeChroma);
 
   const app = await buildFastifyApp(root);

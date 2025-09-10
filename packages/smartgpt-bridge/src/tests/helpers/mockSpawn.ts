@@ -6,6 +6,8 @@ type Step = {
   code?: number;
 };
 
+export type MockStep = Step;
+
 export function mockSpawnFactory(script: Step[] = []) {
   return function mockSpawn(_cmd: string, _args?: string[], _opts?: any) {
     const ee = new EventEmitter();
