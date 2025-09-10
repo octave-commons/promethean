@@ -1,8 +1,5 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
-import sinon from "sinon";
-import * as persistenceClients from "@promethean/persistence/clients.js";
-
-import { buildFastifyApp } from "../../fastifyApp.js";
+import { createServer } from "../../server/createServer.js";
 
 function makeClient(app: any) {
   const u = (path: string, query?: Record<string, unknown>) => {
@@ -87,22 +84,12 @@ export const withServer = async (
     process.env.MONGODB_URI = mms.getUri();
   }
 
-  const fakeChroma = {
-    getOrCreateCollection: async () => ({
-      add: async () => {},
-      query: async () => ({ ids: [], documents: [], metadatas: [] }),
-      count: async () => 0,
-      get: async () => ({ ids: [] }),
-      delete: async () => {},
-    }),
-  };
-  // NOTE: chromadb types vary across workspace versions; runtime mock is minimal.
-  const chromaStub = sinon
-    .stub(persistenceClients, "getChromaClient")
-    // @ts-expect-error test stub returns a minimal client shape used by code
-    .resolves(fakeChroma);
-
-  const app = await buildFastifyApp(root);
+  // Disable dual-write to Chroma and skip sink registration to avoid external deps
+  process.env.DUAL_WRITE_ENABLED = "false";
+  const app = await createServer(root, {
+    // No-op to avoid creating Chroma collections in tests
+    registerSinks: async () => {},
+  });
   // Stub RBAC hooks so tests don't require seeded users/policies
   (app as any).authUser = async () => ({ id: "test" });
   (app as any).requirePolicy = () => async () => {};
@@ -112,9 +99,13 @@ export const withServer = async (
     return await fn(client);
   } finally {
     await app.close();
-    chromaStub.restore();
     if (mms) await mms.stop();
-    const mongo = await persistenceClients.getMongoClient();
-    await mongo.close();
+    try {
+      const { getMongoClient } = await import(
+        "@promethean/persistence/clients.js"
+      );
+      const mongo = await getMongoClient();
+      await mongo.close();
+    } catch {}
   }
 };

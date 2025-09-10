@@ -9,7 +9,7 @@ import {
   resetChroma,
 } from "../../indexer.js";
 
-const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
+const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 class ThrowingChroma {
   async getOrCreateCollection(): Promise<any> {

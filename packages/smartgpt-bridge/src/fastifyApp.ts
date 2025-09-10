@@ -6,14 +6,27 @@ import ajvformats from "ajv-formats";
 import rateLimit from "@fastify/rate-limit";
 import { createFastifyAuth } from "./fastifyAuth.js";
 import { registerV0Routes } from "./routes/v0/index.js";
-import { indexerManager } from "./indexer.js";
+import { indexerManager as defaultIndexerManager } from "./indexer.js";
 import { restoreAgentsFromStore } from "./agent.js";
-import { registerSinks } from "./sinks.js";
+import { registerSinks as defaultRegisterSinks } from "./sinks.js";
 import { registerRbac } from "./rbac.js";
 import { registerV1Routes } from "./routes/v1/index.js";
 import { mongoChromaLogger } from "./logging/index.js";
 
-export async function buildFastifyApp(ROOT_PATH: string) {
+type BridgeDeps = {
+  registerSinks?: () => Promise<void>;
+  createFastifyAuth?: () => ReturnType<typeof createFastifyAuth>;
+  indexerManager?: typeof defaultIndexerManager;
+};
+
+export async function buildFastifyApp(
+  ROOT_PATH: string,
+  deps: BridgeDeps = {},
+) {
+  const registerSinks = deps.registerSinks || defaultRegisterSinks;
+  const authFactory = deps.createFastifyAuth || createFastifyAuth;
+  const indexerManager = deps.indexerManager || defaultIndexerManager;
+
   await registerSinks();
   const app = Fastify({
     logger: false,
@@ -160,7 +173,7 @@ export async function buildFastifyApp(ROOT_PATH: string) {
     process.env.PUBLIC_BASE_URL ||
     `http://localhost:${process.env.PORT || 3210}`;
   // Register new-auth helper endpoint at root for dashboard compatibility
-  const auth = createFastifyAuth();
+  const auth = authFactory();
   auth.registerRoutes(app); // adds /auth/me; protection handled inside
 
   const schemas: Record<string, unknown> = {
