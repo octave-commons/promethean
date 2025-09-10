@@ -26,10 +26,6 @@ function setSelectedFiles(xs: string[]): void {
 class FileTree extends HTMLElement {
   connectedCallback() {
     this.attachShadow({ mode: "open" });
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = new URL("./file-tree.css", import.meta.url).toString();
-    this.shadowRoot?.appendChild(link);
     const tpl = document.createElement("template");
     tpl.innerHTML = `
       <div class="toolbar">
