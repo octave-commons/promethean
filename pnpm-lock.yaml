@@ -1340,6 +1340,9 @@ importers:
       '@fastify/websocket':
         specifier: ^11.2.0
         version: 11.2.0
+      '@promethean/fs':
+        specifier: workspace:*
+        version: link:../fs
       '@types/level':
         specifier: ^8.0.0
         version: 8.0.0
@@ -1968,6 +1971,9 @@ importers:
 
   packages/image-link-generator:
     dependencies:
+      '@promethean/fs':
+        specifier: workspace:*
+        version: link:../fs
       '@xenova/transformers':
         specifier: ^2.17.2
         version: 2.17.2
@@ -3911,6 +3917,9 @@ importers:
 
   packages/web-utils:
     dependencies:
+      '@promethean/fs':
+        specifier: workspace:*
+        version: link:../fs
       '@xenova/transformers':
         specifier: 2.17.2
         version: 2.17.2

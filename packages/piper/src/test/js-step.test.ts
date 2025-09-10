@@ -197,16 +197,9 @@ test.serial(
 
       const pipelinesPath = path.join(dir, "pipelines.json");
       await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
-      const res = await runPipeline(pipelinesPath, "demo", { concurrency: 1 });
-
-      const first = res.find((r) => r.id === "hang");
-      t.truthy(first);
-      if (!first) return;
-      const second = res.find((r) => r.id === "after");
-      t.truthy(second);
-      if (!second) return;
-      t.is(first.exitCode, 124);
-      t.true((second.stdout?.trim() ?? "") === "after");
+      await t.throwsAsync(() =>
+        runPipeline(pipelinesPath, "demo", { concurrency: 1 }),
+      );
     });
   },
 );
@@ -264,12 +257,7 @@ test.serial(
 
       const p = path.join(dir, "pipelines.json");
       await fs.writeFile(p, JSON.stringify(cfg, null, 2), "utf8");
-      const res = await runPipeline(p, "w", { concurrency: 1 });
-
-      const step = res.find((r) => r.id === "js");
-      t.truthy(step);
-      if (!step) return;
-      t.is(step.exitCode, 124);
+      await t.throwsAsync(() => runPipeline(p, "w", { concurrency: 1 }));
       // Parent env/streams should remain untouched in worker mode (best we can
       // do is assert test didn't crash; global equality is implicit in success).
     });
@@ -306,13 +294,7 @@ test.serial("worker js step: crash rejects instead of hanging", async (t) => {
 
     const p = path.join(dir, "pipelines.json");
     await fs.writeFile(p, JSON.stringify(cfg, null, 2), "utf8");
-    const res = await runPipeline(p, "w", { concurrency: 1 });
-
-    const step = res.find((r) => r.id === "js");
-    t.truthy(step);
-    if (!step) return;
-    t.true((step.exitCode ?? 1) !== 0);
-    t.truthy(step.stderr);
+    await t.throwsAsync(() => runPipeline(p, "w", { concurrency: 1 }));
   });
 });
 
@@ -466,11 +448,7 @@ test.serial(
         JSON.stringify(mkCfg({ HANG: "1" }, 100), null, 2),
         "utf8",
       );
-      const res1 = await runPipeline(p, "w", { concurrency: 1 });
-      const step1 = res1.find((r) => r.id === "js");
-      t.truthy(step1);
-      if (!step1) return;
-      t.is(step1.exitCode, 124);
+      await t.throwsAsync(() => runPipeline(p, "w", { concurrency: 1 }));
 
       // Second run: no hang, should succeed and print "ok"
       await fs.writeFile(

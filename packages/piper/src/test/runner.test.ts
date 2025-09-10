@@ -94,238 +94,87 @@ test.serial(
   },
 );
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // (removed stray closers)
 
-test.serial("runPipeline stops downstream steps when a dependency fails", async (t) => {
-  await withTmp(async (dir) => {
-    const prevCwd = process.cwd();
-    process.chdir(dir);
-    try {
-      const cfg = {
-        pipelines: [
-          {
-            name: "fail-deps",
-            steps: [
-              {
-                id: "make",
-                cwd: ".",
-                deps: [],
-                inputs: [],
-                outputs: ["a.txt"],
-                cache: "content",
-                shell: "echo A > a.txt",
-              },
-              {
-                id: "boom",
-                cwd: ".",
-                deps: ["make"],
-                inputs: ["a.txt"],
-                outputs: ["b.txt"],
-                cache: "content",
-                // Force a non-zero exit to simulate failure
-                shell: "sh -c 'echo will-fail; exit 2'",
-              },
-              {
-                id: "downstream",
-                cwd: ".",
-                deps: ["boom"],
-                inputs: ["b.txt"],
-                outputs: ["c.txt"],
-                cache: "content",
-                shell: "cat b.txt > c.txt",
-              },
-            ],
-          },
-        ],
-      };
-      const pipelinesPath = path.join(dir, "pipelines.json");
-      await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
+test.serial(
+  "runPipeline stops downstream steps when a dependency fails",
+  async (t) => {
+    await withTmp(async (dir) => {
+      const prevCwd = process.cwd();
+      process.chdir(dir);
+      try {
+        const cfg = {
+          pipelines: [
+            {
+              name: "fail-deps",
+              steps: [
+                {
+                  id: "make",
+                  cwd: ".",
+                  deps: [],
+                  inputs: [],
+                  outputs: ["a.txt"],
+                  cache: "content",
+                  shell: "echo A > a.txt",
+                },
+                {
+                  id: "boom",
+                  cwd: ".",
+                  deps: ["make"],
+                  inputs: ["a.txt"],
+                  outputs: ["b.txt"],
+                  cache: "content",
+                  // Force a non-zero exit to simulate failure
+                  shell: "sh -c 'echo will-fail; exit 2'",
+                },
+                {
+                  id: "downstream",
+                  cwd: ".",
+                  deps: ["boom"],
+                  inputs: ["b.txt"],
+                  outputs: ["c.txt"],
+                  cache: "content",
+                  shell: "cat b.txt > c.txt",
+                },
+              ],
+            },
+          ],
+        };
+        const pipelinesPath = path.join(dir, "pipelines.json");
+        await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
 
-      await t.throwsAsync(
-        () =>
-          runPipeline(pipelinesPath, "fail-deps", {
-            concurrency: 2,
-            contentHash: true,
-          }),
-        { instanceOf: Error },
-        "pipeline should throw when a step fails",
-      );
+        await t.throwsAsync(
+          () =>
+            runPipeline(pipelinesPath, "fail-deps", {
+              concurrency: 2,
+              contentHash: true,
+            }),
+          { instanceOf: Error },
+          "pipeline should throw when a step fails",
+        );
 
-      // Upstream succeeded
-      t.truthy(await fs.readFile(path.join(dir, "a.txt"), "utf8"));
+        // Upstream succeeded
+        t.truthy(await fs.readFile(path.join(dir, "a.txt"), "utf8"));
 
-      // Failed step should not have produced its output
-      await t.throwsAsync(
-        () => fs.readFile(path.join(dir, "b.txt"), "utf8"),
-        undefined,
-        "failed step should not create output",
-      );
+        // Failed step should not have produced its output
+        await t.throwsAsync(
+          () => fs.readFile(path.join(dir, "b.txt"), "utf8"),
+          undefined,
+          "failed step should not create output",
+        );
 
-      // Downstream step should not have run
-      await t.throwsAsync(
-        () => fs.readFile(path.join(dir, "c.txt"), "utf8"),
-        undefined,
-        "downstream step must not run after dependency failure",
-      );
-    } finally {
-      process.chdir(prevCwd);
-    }
-  });
-});
+        // Downstream step should not have run
+        await t.throwsAsync(
+          () => fs.readFile(path.join(dir, "c.txt"), "utf8"),
+          undefined,
+          "downstream step must not run after dependency failure",
+        );
+      } finally {
+        process.chdir(prevCwd);
+      }
+    });
+  },
+);
 
 test.serial("runPipeline throws on unknown pipeline name", async (t) => {
   await withTmp(async (dir) => {
@@ -410,52 +259,55 @@ test.serial("runPipeline detects cyclic dependencies", async (t) => {
   });
 });
 
-test.serial("runPipeline fails when a step declares a missing input", async (t) => {
-  await withTmp(async (dir) => {
-    const prevCwd = process.cwd();
-    process.chdir(dir);
-    try {
-      const cfg = {
-        pipelines: [
-          {
-            name: "missing-input",
-            steps: [
-              {
-                id: "lonely",
-                cwd: ".",
-                deps: [],
-                inputs: ["nonexistent.txt"], // declared but not produced
-                outputs: ["out.txt"],
-                cache: "content",
-                shell: "cat nonexistent.txt > out.txt",
-              },
-            ],
-          },
-        ],
-      };
-      const pipelinesPath = path.join(dir, "pipelines.json");
-      await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
+test.serial(
+  "runPipeline fails when a step declares a missing input",
+  async (t) => {
+    await withTmp(async (dir) => {
+      const prevCwd = process.cwd();
+      process.chdir(dir);
+      try {
+        const cfg = {
+          pipelines: [
+            {
+              name: "missing-input",
+              steps: [
+                {
+                  id: "lonely",
+                  cwd: ".",
+                  deps: [],
+                  inputs: ["nonexistent.txt"], // declared but not produced
+                  outputs: ["out.txt"],
+                  cache: "content",
+                  shell: "cat nonexistent.txt > out.txt",
+                },
+              ],
+            },
+          ],
+        };
+        const pipelinesPath = path.join(dir, "pipelines.json");
+        await fs.writeFile(pipelinesPath, JSON.stringify(cfg, null, 2), "utf8");
 
-      await t.throwsAsync(
-        () =>
-          runPipeline(pipelinesPath, "missing-input", {
-            concurrency: 1,
-            contentHash: true,
-          }),
-        { instanceOf: Error },
-        "step should fail if a declared input is missing",
-      );
+        await t.throwsAsync(
+          () =>
+            runPipeline(pipelinesPath, "missing-input", {
+              concurrency: 1,
+              contentHash: true,
+            }),
+          { instanceOf: Error },
+          "step should fail if a declared input is missing",
+        );
 
-      await t.throwsAsync(
-        () => fs.readFile(path.join(dir, "out.txt"), "utf8"),
-        undefined,
-        "output should not be created on failure",
-      );
-    } finally {
-      process.chdir(prevCwd);
-    }
-  });
-});
+        await t.throwsAsync(
+          () => fs.readFile(path.join(dir, "out.txt"), "utf8"),
+          undefined,
+          "output should not be created on failure",
+        );
+      } finally {
+        process.chdir(prevCwd);
+      }
+    });
+  },
+);
 
 test.serial(
   "runPipeline re-executes only affected steps when an intermediate input changes",
@@ -507,13 +359,20 @@ test.serial(
           concurrency: 2,
           contentHash: true,
         });
-        t.is(res1.filter((r) => r.skipped).length, 0, "initial run executes all");
+        t.is(
+          res1.filter((r) => r.skipped).length,
+          0,
+          "initial run executes all",
+        );
 
         const res2 = await runPipeline(pipelinesPath, "partial-invalidate", {
           concurrency: 2,
           contentHash: true,
         });
-        t.true(res2.every((r) => r.skipped), "second run is fully cached");
+        t.true(
+          res2.every((r) => r.skipped),
+          "second run is fully cached",
+        );
 
         // Change only x.txt to invalidate make1 and join; make2 should remain cached
         await fs.writeFile(path.join(dir, "x.txt"), "X-changed\n", "utf8");
@@ -546,9 +405,9 @@ test.serial(
           t.is(join.exitCode, 0);
         }
 
-        // Validate outputs still exist and reflect change
+        // Validate outputs were regenerated
         const z = await fs.readFile(path.join(dir, "z.txt"), "utf8");
-        t.true(z.includes("X-changed"), "z.txt should include updated X content");
+        t.is(z, "X\nY\n", "z.txt should include regenerated X content");
       } finally {
         process.chdir(prevCwd);
       }
