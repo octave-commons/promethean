@@ -13,6 +13,7 @@ public/
 # keep .env ignored; provide non-secret sample for image pinning
 # copy .env.example -> .env locally
 .env
+.nx
 !.env.example
 agents/duck/chroma_data/
 
@@ -49,7 +50,10 @@ shared/py/.coverage
 
 .infio_json_db/
 **/.chromadb/
+**/chromadb/
 
+**/chroma/
+chroma/
 patch.sh
 
 frames/
@@ -105,3 +109,4 @@ error-groups/
 
 **/*.tsbuildinfo
 **/tsconfig.tsbuildinfo
+v8-compile-cache-0/

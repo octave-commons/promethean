@@ -2,6 +2,7 @@ import { EventEmitter } from 'node:events';
 
 import test from 'ava';
 import ollama, { type Message } from 'ollama';
+import { sleep } from '@promethean/test-utils/sleep.js';
 import {
     generateTwitchStreamTitle,
     generateAndStoreTitle,
@@ -81,7 +82,7 @@ test('watchContextAndGenerate reacts to context event', async (t) => {
 
     watchContextAndGenerate(emitter, source, store);
     emitter.emit('context');
-    await new Promise((r) => setTimeout(r, 0));
+    await sleep(0);
 
     t.deepEqual(store.titles, ['Fastest RPG Runs!']);
 

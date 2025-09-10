@@ -1,6 +1,7 @@
 // @ts-nocheck
 import test from "ava";
 import sinon from "sinon";
+import { sleep } from "@promethean/test-utils/sleep";
 
 import { mockSpawnFactory } from "../helpers/mockSpawn.js";
 import { createSupervisor } from "../../agent.js";
@@ -21,7 +22,7 @@ test("agent supervisor: guard pause, resume, then exit", async (t) => {
 
   const { id } = sup.start({ prompt: "noop" });
   // Give script a tick to deliver events
-  await new Promise((r) => setTimeout(r, 0));
+  await sleep(0);
 
   const st1 = sup.status(id);
   t.truthy(st1);
@@ -43,7 +44,7 @@ test("agent supervisor: guard pause, resume, then exit", async (t) => {
     killImpl: mockKill,
   });
   const { id: id2 } = sup2.start({ prompt: "noop" });
-  await new Promise((r) => setTimeout(r, 0));
+  await sleep(0);
   const st3 = sup2.status(id2);
   t.true(st3.exited === true || st3.exited === false); // existence check; exited may be set after tick
 });

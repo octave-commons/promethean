@@ -1,23 +1,59 @@
 ---
-uuid: a23e211e-828d-4d6d-8fea-9df1afd9e76e
-created_at: 2025.09.02.13.18.50.md
+uuid: 715ad925-165f-413c-811c-9d76fbbc31ac
+created_at: promethean-ci-cd-pipeline.md
 filename: Promethean CI/CD Pipeline
+title: Promethean CI/CD Pipeline
 description: >-
-  This document describes the CI/CD pipeline configuration for Promethean,
-  focusing on documentation generation, code transformation, and semantic
-  versioning guardrails. The pipeline includes steps for scanning code,
-  generating documentation, clustering tasks, applying code modifications, and
-  ensuring semantic versioning compliance.
+  A comprehensive CI/CD pipeline for Promethean that automates documentation
+  generation, code transformation, semantic versioning, and board reviews. The
+  pipeline processes TypeScript/JavaScript code, generates API documentation,
+  performs code analysis, and ensures semantic versioning compliance through
+  automated checks and PR summaries.
 tags:
-  - CI/CD
+  - ci-cd
   - documentation
-  - code transformation
-  - semantic versioning
+  - code-modification
+  - semantic-versioning
   - agile
   - pipeline
-related_to_uuid: []
-related_to_title: []
-references: []
+  - typescript
+  - javascript
+related_to_uuid:
+  - 01c5547f-27eb-42d1-af24-9cad10b6a2ca
+  - a09a2867-7f5a-4864-8150-6eee881a616b
+  - 599c228b-22a8-4fb2-ac23-edc191b630f1
+  - 7c3ee67a-f458-464f-9b5e-92f1c0ea8366
+  - 6b91d91d-6b5c-4516-a0c8-d66d9b9fcc9b
+  - e84ebe20-72b3-420b-8fec-a094326f8c9f
+  - 4594f6ff-aa66-4c55-8a18-2a8c417c03a7
+  - fda3b0d4-86dc-481e-8d89-d50ad0ec5d93
+  - a39e72eb-34f4-45d2-9b59-a0f9f4a12fc0
+  - f35d133e-6e9a-4aee-84b1-fa2579664ad8
+  - 2c6f53c5-71e1-4737-a227-714e1286274f
+related_to_title:
+  - run-step-api
+  - pr-688-nitpack-extract
+  - Pseudo Pipes Overview
+  - Promethean Monorepo Law
+  - AGENTS.md
+  - docops-pipeline
+  - Pipeline Brainstorming
+  - 'Promethean Pipelines: Local TypeScript-First Workflows'
+  - mcp-server-config
+  - Pipeline Enhancements
+references:
+  - uuid: 01c5547f-27eb-42d1-af24-9cad10b6a2ca
+    line: 828
+    col: 0
+    score: 1
+  - uuid: a09a2867-7f5a-4864-8150-6eee881a616b
+    line: 66
+    col: 0
+    score: 0.91
+  - uuid: 01c5547f-27eb-42d1-af24-9cad10b6a2ca
+    line: 20
+    col: 0
+    score: 0.9
 ---
 
 pipelines:
@@ -383,9 +419,40 @@ pipelines:
           - ".cache/docops/frontmatters.json"
         outputs:
           - ".cache/docops/renames.json"
+e/docops/applied-fm.touch"
+
+      # g) Footer writer (markdown links with line anchors)
+      - id: doc-footer
+        deps: ["doc-apply-fm"]
+        inputs:
+          - ".cache/docops/references.json"
+          - ".cache/docops/related.json"
+          - "docs/unique/**/*.md"
+        outputs:
+          - ".cache/docops/footer.touch"
+
+      # h) Optional rename pass (based on generated titles)
+      - id: doc-rename
+        deps: ["doc-apply-fm"]
+        inputs:
+          - ".cache/docops/frontmatters.json"
+        outputs:
+          - ".cache/docops/renames.json"
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- _None_
+- [run-step-api](run-step-api.md)
+- [pr-688-nitpack-extract](2025.09.03.20.05.23.md)
+- [Pseudo Pipes Overview](2025.09.03.11.34.39.md)
+- [Promethean Monorepo Law](2025.09.02.23.54.00.md)
+- [AGENTS.md](agents-md-3.md)
+- [docops-pipeline](2025.09.03.20.50.47.md)
+- [Pipeline Brainstorming](2025.09.03.11.44.54.md)
+- [Promethean Pipelines: Local TypeScript-First Workflows](promethean-pipelines-local-typescript-first-workflow.md)
+- [mcp-server-config](2025.09.03.14.01.47.md)
+- [mcp-server-config](2025.09.03.14.01.47.md)
+- [Pipeline Enhancements](pipeline-enhancements.md)
 ## Sources
-- _None_
+- [run-step-api — L828](run-step-api.md#^ref-01c5547f-828-0) (line 828, col 0, score 1)
+- [pr-688-nitpack-extract — L66](2025.09.03.20.05.23.md#^ref-a09a2867-66-0) (line 66, col 0, score 0.91)
+- [run-step-api — L20](run-step-api.md#^ref-01c5547f-20-0) (line 20, col 0, score 0.9)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

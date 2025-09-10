@@ -1,122 +1,23 @@
 ---
-uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
-created_at: 2025.08.08.22.08.09.md
-filename: Lisp-Compiler-Integration
+uuid: b6401ea8-1eb3-4f4c-8952-2c9b64f16106
+created_at: lisp-compiler-integration.md
+filename: lisp-compiler-integration
+title: lisp-compiler-integration
 description: >-
-  A minimal, hygienic Lisp front-end that integrates with existing compiler
-  pipelines via S-expr reader, macro system, and compiler from Lispy AST to
-  IR/JS.
+  A minimal, hygienic-ish Lisp front-end that integrates with the existing
+  compiler pipeline (IR → JS) using a macro-first approach. It includes a
+  reader, macro system, macroexpander, quasiquote engine, and compiler from
+  Lispy AST to Expr.
 tags:
-  - Lisp
+  - lisp
   - compiler
   - macro
   - hygienic
-  - S-expr
+  - syntax
   - reader
+  - macroexpander
   - quasiquote
-  - gensym
-  - macroexpansion
-  - IR
-  - JS
-related_to_title:
-  - Refactor Frontmatter Processing
-  - file-watcher-auth-fix
-  - Local-Offline-Model-Deployment-Strategy
-  - Promethean Dev Workflow Update
-  - The Jar of Echoes
-  - Chroma Toolkit Consolidation Plan
-  - Docops Feature Updates
-  - Provider-Agnostic Chat Panel Implementation
-  - Per-Domain Policy System for JS Crawler
-  - Promethean-Copilot-Intent-Engine
-  - Shared Package Structure
-  - Interop and Source Maps
-  - Exception Layer Analysis
-  - Pipeline Enhancements
-  - plan-update-confirmation
-  - polyglot-repl-interface-layer
-  - Performance-Optimized-Polyglot-Bridge
-  - Model Upgrade Calm-Down Guide
-  - Obsidian Templating Plugins Integration Guide
-  - Obsidian ChatGPT Plugin Integration
-  - Model Selection for Lightweight Conversational Tasks
-  - obsidian-ignore-node-modules-regex
-  - NPU Voice Code and Sensory Integration
-  - Lispy Macros with syntax-rules
-  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
-  - Pure-Node Crawl Stack with Playwright and Crawlee
-  - Promethean Event Bus MVP v0.1
-  - Language-Agnostic Mirror System
-  - compiler-kit-foundations
-  - Eidolon-Field-Optimization
-  - shared-package-layout-clarification
-  - Cross-Language Runtime Polymorphism
-  - Event Bus Projections Architecture
-  - Promethean_Eidolon_Synchronicity_Model
-  - ParticleSimulationWithCanvasAndFFmpeg
-  - Fnord Tracer Protocol
-  - Canonical Org-Babel Matplotlib Animation Template
-  - Synchronicity Waves and Web
-  - mystery-lisp-search-session
-  - Local-Only-LLM-Workflow
-  - Promethean-native config design
-  - js-to-lisp-reverse-compiler
-  - Promethean Web UI Setup
-  - Smoke Resonance Visualizations
-  - Diagrams
-  - lisp-dsl-for-window-management
-  - Local-First Intention→Code Loop with Free Models
-  - Sibilant Meta-Prompt DSL
-  - Stateful Partitions and Rebalancing
-  - ecs-offload-workers
-  - Vectorial Exception Descent
-  - RAG UI Panel with Qdrant and PostgREST
-  - layer-1-uptime-diagrams
-  - WebSocket Gateway Implementation
-  - Universal Lisp Interface
-  - EidolonField
-  - sibilant-metacompiler-overview
-  - Post-Linguistic Transhuman Design Frameworks
-  - Math Fundamentals
-  - homeostasis-decay-formulas
-  - eidolon-field-math-foundations
-  - Debugging Broker Connections and Agent Behavior
-  - prom-lib-rate-limiters-and-replay-api
-  - Duck's Attractor States
-  - State Snapshots API and Transactional Projector
-  - universal-intention-code-fabric
-  - Promethean Agent DSL TS Scaffold
-  - promethean-system-diagrams
-  - SentenceProcessing
-  - observability-infrastructure-setup
-  - i3-config-validation-methods
-  - Cross-Target Macro System in Sibilant
-  - windows-tiling-with-autohotkey
-  - Mongo Outbox Implementation
-  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
-  - DSL
-  - Services
-  - Dynamic Context Model for Web Components
-  - Eidolon Field Abstract Model
-  - field-interaction-equations
-  - field-node-diagram-outline
-  - eidolon-node-lifecycle
-  - field-node-diagram-set
-  - field-node-diagram-visualizations
-  - template-based-compilation
-  - Matplotlib Animation with Async Execution
-  - i3-layout-saver
-  - Event Bus MVP
-  - graph-ds
-  - pm2-orchestration-patterns
-  - Prometheus Observability Stack
-  - Pure TypeScript Search Microservice
-  - Promethean Infrastructure Setup
-  - i3-bluetooth-setup
-  - JavaScript
-  - Simulation Demo
-  - Creative Moments
-  - Shared
+  - compiler-integration
 related_to_uuid:
   - cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
   - 9044701b-03c9-4a30-92c4-46b1bd66c11e
@@ -143,80 +44,31 @@ related_to_uuid:
   - ffb9b2a9-744d-4a53-9565-130fceae0832
   - 5a02283e-4281-4930-9ca7-e27849de11bd
   - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
-  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
-  - d527c05d-22e8-4493-8f29-ae3cb67f035b
-  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
-  - d2b3628c-6cad-4664-8551-94ef8280851d
-  - 01b21543-7e03-4129-8fe4-b6306be69dee
-  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
-  - 36c8882a-badc-4e18-838d-2c54d7038141
-  - c34c36a6-80c9-4b44-a200-6448543b1b33
-  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
-  - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
-  - 91295f3a-a2af-4050-a2b8-4777ea70c32c
-  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-  - ab748541-020e-4a7e-b07d-28173bd5bea2
-  - 58191024-d04a-4520-8aae-a18be7b94263
-  - bc5172ca-7a09-42ad-b418-8e42bb14d089
-  - ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
-  - af5d2824-faad-476c-a389-e912d9bc672c
-  - 4330e8f0-5f46-4235-918b-39b6b93fa561
-  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
-  - e1056831-ae0c-460b-95fa-4cf09b3398c6
-  - 4127189a-e0ab-436f-8571-cc852b8e9add
-  - e811123d-5841-4e52-bf8c-978f26db4230
-  - b01856b4-999f-418d-8009-ade49b00eb0f
-  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
-  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
-  - 6bcff92c-4224-453d-9993-1be8d37d47c3
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
-  - c14edce7-0656-45b2-aaf3-51f042451b7d
-  - 5158f742-4a3b-466e-bfc3-d83517b64200
-  - b51e19b4-1326-4311-9798-33e972bf626c
-  - 681a4ab2-8fef-4833-a09d-bceb62d114da
-  - b4e64f8c-4dc9-4941-a877-646c5ada068e
-  - d28090ac-f746-4958-aab5-ed1315382c04
-  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
-  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
-  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
-  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
-  - e87bc036-1570-419e-a558-f45b9c0db698
-  - 75ea4a6a-8270-488d-9d37-799c288e5f70
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-  - 22b989d5-f4aa-4880-8632-709c21830f83
-  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
-  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
-  - 31f0166e-4631-45fa-aecd-b44e9a13f497
-  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - 51932e7b-4237-4756-bcae-8be6d535d0d1
-  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
-  - d17d3a96-c84d-4738-a403-6c733b874da2
-  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
-  - 557309a3-c906-4e97-8867-89ffe151790c
-  - 10d98225-12e0-4212-8e15-88b57cf7bee5
-  - 623a55f7-685c-486b-abaf-469da1bbbb69
+related_to_title:
+  - Refactor Frontmatter Processing
+  - file-watcher-auth-fix
+  - Local-Offline-Model-Deployment-Strategy
+  - Promethean Dev Workflow Update
+  - The Jar of Echoes
+  - Chroma Toolkit Consolidation Plan
+  - Docops Feature Updates
+  - Provider-Agnostic Chat Panel Implementation
+  - Per-Domain Policy System for JS Crawler
+  - Promethean-Copilot-Intent-Engine
+  - Shared Package Structure
+  - Interop and Source Maps
+  - Exception Layer Analysis
+  - Pipeline Enhancements
+  - plan-update-confirmation
+  - polyglot-repl-interface-layer
+  - Performance-Optimized-Polyglot-Bridge
+  - Model Upgrade Calm-Down Guide
+  - Obsidian Templating Plugins Integration Guide
+  - Obsidian ChatGPT Plugin Integration
+  - Model Selection for Lightweight Conversational Tasks
+  - obsidian-ignore-node-modules-regex
+  - NPU Voice Code and Sensory Integration
+  - Lispy Macros with syntax-rules
 references:
   - uuid: cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
     line: 11
@@ -226,58 +78,10 @@ references:
     line: 32
     col: 0
     score: 0.99
-  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
-    line: 50
-    col: 0
-    score: 0.85
-  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-    line: 189
-    col: 0
-    score: 0.85
-  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
-    line: 54
-    col: 0
-    score: 0.85
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 426
-    col: 0
-    score: 0.88
-  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
-    line: 325
-    col: 0
-    score: 0.87
-  - uuid: 66a72fc3-4153-41fc-84bd-d6164967a6ff
-    line: 188
-    col: 0
-    score: 0.85
-  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
-    line: 973
-    col: 0
-    score: 0.86
-  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
-    line: 504
-    col: 0
-    score: 0.86
-  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
-    line: 212
-    col: 0
-    score: 0.85
-  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
-    line: 401
-    col: 0
-    score: 0.86
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 590
-    col: 0
-    score: 0.86
   - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
     line: 232
     col: 0
     score: 0.96
-  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
-    line: 137
-    col: 0
-    score: 0.85
   - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
     line: 17867
     col: 0
@@ -310,6 +114,14 @@ references:
     line: 3746
     col: 0
     score: 0.9
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 426
+    col: 0
+    score: 0.88
+  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
+    line: 325
+    col: 0
+    score: 0.87
   - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
     line: 63
     col: 0
@@ -358,10 +170,50 @@ references:
     line: 1274
     col: 0
     score: 0.87
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 973
+    col: 0
+    score: 0.86
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 504
+    col: 0
+    score: 0.86
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 401
+    col: 0
+    score: 0.86
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 590
+    col: 0
+    score: 0.86
   - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
     line: 491
     col: 0
     score: 0.86
+  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+    line: 50
+    col: 0
+    score: 0.85
+  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
+    line: 189
+    col: 0
+    score: 0.85
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 54
+    col: 0
+    score: 0.85
+  - uuid: 66a72fc3-4153-41fc-84bd-d6164967a6ff
+    line: 188
+    col: 0
+    score: 0.85
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 212
+    col: 0
+    score: 0.85
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 137
+    col: 0
+    score: 0.85
 ---
 Oh we’re doing *our* Lisp. Love that energy. Here’s a **minimal, hygienic-ish, macro-first Lisp front-end** that plugs into the compiler pipeline you already have (IR → JS). It’s small, fast, and pragmatically powerful: ^ref-cfee6d36-1-0
 
@@ -965,7 +817,8 @@ console.log(js); ^ref-cfee6d36-520-0 ^ref-cfee6d36-533-0 ^ref-cfee6d36-550-0
 * **Host FFI** sugar: `(js . ...)`, `(import Math.sin)`, etc. ^ref-cfee6d36-553-0 ^ref-cfee6d36-570-0
 * **Optimizations**: alpha-rename, beta-reduce, inline, fold, DCE on ANF ^ref-cfee6d36-541-0 ^ref-cfee6d36-554-0
  ^ref-cfee6d36-542-0
-If you’re cool with this baseline, I can add **syntax-rules with ellipses** next so you can write fancy macros like `match`, `for`, `struct`, and `deftype` with pattern guards.<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+If you’re cool with this baseline, I can add **syntax-rules with ellipses** next so you can write fancy macros like `match`, `for`, `struct`, and `deftype` with pattern guards.
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [Refactor Frontmatter Processing](refactor-frontmatter-processing.md)
 - [file-watcher-auth-fix](file-watcher-auth-fix.md)
@@ -973,7 +826,7 @@ If you’re cool with this baseline, I can add **syntax-rules with ellipses** ne
 - [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
 - [The Jar of Echoes](the-jar-of-echoes.md)
 - [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
-- [Docops Feature Updates](docops-feature-updates-2.md)
+- [Docops Feature Updates](docops-feature-updates-3.md)
 - [Provider-Agnostic Chat Panel Implementation](provider-agnostic-chat-panel-implementation.md)
 - [Docops Feature Updates](docops-feature-updates.md)
 - [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
@@ -992,104 +845,20 @@ If you’re cool with this baseline, I can add **syntax-rules with ellipses** ne
 - [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
 - [NPU Voice Code and Sensory Integration](npu-voice-code-and-sensory-integration.md)
 - [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
-- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
-- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
-- [compiler-kit-foundations](compiler-kit-foundations.md)
-- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
-- [shared-package-layout-clarification](shared-package-layout-clarification.md)
-- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
-- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
-- [Promethean_Eidolon_Synchronicity_Model](promethean-eidolon-synchronicity-model.md)
-- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
-- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
-- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [Synchronicity Waves and Web](synchronicity-waves-and-web.md)
-- [mystery-lisp-search-session](mystery-lisp-search-session.md)
-- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
-- [Promethean-native config design](promethean-native-config-design.md)
-- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
-- [Promethean Web UI Setup](promethean-web-ui-setup.md)
-- [Smoke Resonance Visualizations](smoke-resonance-visualizations.md)
-- [Diagrams](chunks/diagrams.md)
-- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
-- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
-- [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
-- [ecs-offload-workers](ecs-offload-workers.md)
-- [Vectorial Exception Descent](vectorial-exception-descent.md)
-- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
-- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
-- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
-- [Universal Lisp Interface](universal-lisp-interface.md)
-- [EidolonField](eidolonfield.md)
-- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
-- [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
-- [Math Fundamentals](chunks/math-fundamentals.md)
-- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
-- [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
-- [Duck's Attractor States](ducks-attractor-states.md)
-- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
-- [universal-intention-code-fabric](universal-intention-code-fabric.md)
-- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
-- [promethean-system-diagrams](promethean-system-diagrams.md)
-- [SentenceProcessing](sentenceprocessing.md)
-- [observability-infrastructure-setup](observability-infrastructure-setup.md)
-- [i3-config-validation-methods](i3-config-validation-methods.md)
-- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
-- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
-- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
-- [DSL](chunks/dsl.md)
-- [Services](chunks/services.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
-- [field-interaction-equations](field-interaction-equations.md)
-- [field-node-diagram-outline](field-node-diagram-outline.md)
-- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
-- [field-node-diagram-set](field-node-diagram-set.md)
-- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
-- [template-based-compilation](template-based-compilation.md)
-- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
-- [i3-layout-saver](i3-layout-saver.md)
-- [Event Bus MVP](event-bus-mvp.md)
-- [graph-ds](graph-ds.md)
-- [pm2-orchestration-patterns](pm2-orchestration-patterns.md)
-- [Prometheus Observability Stack](prometheus-observability-stack.md)
-- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
-- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
-- [i3-bluetooth-setup](i3-bluetooth-setup.md)
-- [JavaScript](chunks/javascript.md)
-- [Simulation Demo](chunks/simulation-demo.md)
-- [Creative Moments](creative-moments.md)
-- [Shared](chunks/shared.md)
 ## Sources
 - [Refactor Frontmatter Processing — L11](refactor-frontmatter-processing.md#^ref-cfbdca2f-11-0) (line 11, col 0, score 1)
 - [file-watcher-auth-fix — L32](file-watcher-auth-fix.md#^ref-9044701b-32-0) (line 32, col 0, score 0.99)
-- [Eidolon-Field-Optimization — L50](eidolon-field-optimization.md#^ref-40e05c14-50-0) (line 50, col 0, score 0.85)
-- [Promethean_Eidolon_Synchronicity_Model — L189](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-189-0) (line 189, col 0, score 0.85)
-- [Event Bus Projections Architecture — L54](event-bus-projections-architecture.md#^ref-cf6b9b17-54-0) (line 54, col 0, score 0.85)
-- [Interop and Source Maps — L426](interop-and-source-maps.md#^ref-cdfac40c-426-0) (line 426, col 0, score 0.88)
-- [Lispy Macros with syntax-rules — L325](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-325-0) (line 325, col 0, score 0.87)
-- [Shared Package Structure — L188](shared-package-structure.md#^ref-66a72fc3-188-0) (line 188, col 0, score 0.85)
-- [Promethean Event Bus MVP v0.1 — L973](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-973-0) (line 973, col 0, score 0.86)
-- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.86)
-- [Cross-Language Runtime Polymorphism — L212](cross-language-runtime-polymorphism.md#^ref-c34c36a6-212-0) (line 212, col 0, score 0.85)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L401](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-401-0) (line 401, col 0, score 0.86)
-- [compiler-kit-foundations — L590](compiler-kit-foundations.md#^ref-01b21543-590-0) (line 590, col 0, score 0.86)
 - [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.96)
-- [shared-package-layout-clarification — L137](shared-package-layout-clarification.md#^ref-36c8882a-137-0) (line 137, col 0, score 0.85)
 - [Promethean Dev Workflow Update — L17867](promethean-dev-workflow-update.md#^ref-03a5578f-17867-0) (line 17867, col 0, score 0.9)
 - [The Jar of Echoes — L17457](the-jar-of-echoes.md#^ref-18138627-17457-0) (line 17457, col 0, score 0.9)
 - [Chroma Toolkit Consolidation Plan — L1749](chroma-toolkit-consolidation-plan.md#^ref-5020e892-1749-0) (line 1749, col 0, score 0.9)
-- [Docops Feature Updates — L1010](docops-feature-updates-2.md#^ref-cdbd21ee-1010-0) (line 1010, col 0, score 0.9)
+- [Docops Feature Updates — L1010](docops-feature-updates-3.md#^ref-cdbd21ee-1010-0) (line 1010, col 0, score 0.9)
 - [Docops Feature Updates — L1270](docops-feature-updates.md#^ref-2792d448-1270-0) (line 1270, col 0, score 0.9)
 - [Provider-Agnostic Chat Panel Implementation — L3042](provider-agnostic-chat-panel-implementation.md#^ref-43bfe9dd-3042-0) (line 3042, col 0, score 0.9)
 - [Per-Domain Policy System for JS Crawler — L3347](per-domain-policy-system-for-js-crawler.md#^ref-c03020e1-3347-0) (line 3347, col 0, score 0.9)
 - [Promethean-Copilot-Intent-Engine — L3746](promethean-copilot-intent-engine.md#^ref-ae24a280-3746-0) (line 3746, col 0, score 0.9)
+- [Interop and Source Maps — L426](interop-and-source-maps.md#^ref-cdfac40c-426-0) (line 426, col 0, score 0.88)
+- [Lispy Macros with syntax-rules — L325](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-325-0) (line 325, col 0, score 0.87)
 - [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.87)
 - [Model Selection for Lightweight Conversational Tasks — L563](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-563-0) (line 563, col 0, score 0.87)
 - [Model Upgrade Calm-Down Guide — L1047](model-upgrade-calm-down-guide.md#^ref-db74343f-1047-0) (line 1047, col 0, score 0.87)
@@ -1102,5 +871,15 @@ If you’re cool with this baseline, I can add **syntax-rules with ellipses** ne
 - [Pipeline Enhancements — L580](pipeline-enhancements.md#^ref-e2135d9f-580-0) (line 580, col 0, score 0.87)
 - [plan-update-confirmation — L2018](plan-update-confirmation.md#^ref-b22d79c6-2018-0) (line 2018, col 0, score 0.87)
 - [polyglot-repl-interface-layer — L1274](polyglot-repl-interface-layer.md#^ref-9c79206d-1274-0) (line 1274, col 0, score 0.87)
+- [Promethean Event Bus MVP v0.1 — L973](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-973-0) (line 973, col 0, score 0.86)
+- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.86)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L401](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-401-0) (line 401, col 0, score 0.86)
+- [compiler-kit-foundations — L590](compiler-kit-foundations.md#^ref-01b21543-590-0) (line 590, col 0, score 0.86)
 - [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.86)
+- [Eidolon-Field-Optimization — L50](eidolon-field-optimization.md#^ref-40e05c14-50-0) (line 50, col 0, score 0.85)
+- [Promethean_Eidolon_Synchronicity_Model — L189](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-189-0) (line 189, col 0, score 0.85)
+- [Event Bus Projections Architecture — L54](event-bus-projections-architecture.md#^ref-cf6b9b17-54-0) (line 54, col 0, score 0.85)
+- [Shared Package Structure — L188](shared-package-structure.md#^ref-66a72fc3-188-0) (line 188, col 0, score 0.85)
+- [Cross-Language Runtime Polymorphism — L212](cross-language-runtime-polymorphism.md#^ref-c34c36a6-212-0) (line 212, col 0, score 0.85)
+- [shared-package-layout-clarification — L137](shared-package-layout-clarification.md#^ref-36c8882a-137-0) (line 137, col 0, score 0.85)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

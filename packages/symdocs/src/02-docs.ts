@@ -68,11 +68,11 @@ function semaphore(max: number) {
 }
 
 async function main() {
-  const scanPath = path.resolve(args["--scan"]);
-  const outPath = path.resolve(args["--out"]);
-  const model = args["--model"];
-  const force = args["--force"] === "true";
-  const conc = parseInt(args["--concurrency"], 10) || 4;
+  const scanPath = path.resolve(String(args["--scan"]));
+  const outPath = path.resolve(String(args["--out"]));
+  const model = String(args["--model"]);
+  const force = String(args["--force"]) === "true";
+  const conc = parseInt(String(args["--concurrency"]), 10) || 4;
 
   const { symbols }: ScanResult = JSON.parse(
     await fs.readFile(scanPath, "utf-8"),

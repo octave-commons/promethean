@@ -10,6 +10,7 @@ kanban-plugin: board
 - [ ] [[kanban-processor]] #todo
 - [ ] [[setup_a_second_agent_md|setup a second agent md]] #framework-core #IceBox #todo
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #in-progress
+- [ ] [[update_makefile_to_have_commands_specific_for_agents_md|Update Makefile to have commands specific for agents]] #devops #devops #Ready #ready
 - [ ] [[run_model_bakeoff_md|Run model bakeoff]] #todo
 - [ ] [[gather_open_questions_about_system_direction_md_md|Gather open questions about system direction]] #todo
 - [ ] [[gather_baseline_emotion_metrics_for_eidolon_field_1_md|Gather baseline emotion metrics for Eidolon field]] #todo
@@ -98,6 +99,7 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #Breakdown #todo
 - [ ] [[redefine-all-existing-lambdas-with-high-order-functions-incoming|redefine all existing lambdas with high order functions incoming]] #framework-core #framework-core #Ready #todo
 - [ ] [[finish_whisper_npu_system_md_md|finish whisper npu system md md]] #breakdown
 - [ ] [[implement_fragment_ingestion_with_activation_vecto_md|Implement fragment ingestion with activation vectors]] #ice-box
@@ -196,9 +198,25 @@ kanban-plugin: board
 
 - [ ] [[auth_service_scaffold_and_endpoints|auth service scaffold and endpoints]] #incoming
 - [ ] [[snapshot_prompts_specs_to_repo|Snapshot prompts specs to repo]] #todo
+- [ ] [[create-broker-services-that-can-handle-all-the-same-tasks-as-the-gpt-bridge|Create broker services that can handle all the same tasks as the gpt bridge]] #broker #ws #api #gptbridge #parity #promethean #ops #ready
+- [ ] [[discord_chat_link_traversal_md_md|discord chat link traversal md md]] #framework-core #IceBox #todo
+- [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #framework-core #IceBox #ready
+- [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md|setup services to recieve work from the broker via push md]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-progress
 - [ ] [[discord_image_awareness_md_md|discord image awareness md md]] #in-progress
+- [ ] [[auth_key_rotation_and_bootstrap|auth key rotation and bootstrap]] #incoming
 - [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #todo
 - [ ] [[llm-service-must-allow-streamed-responses|LLM service must allow streamed responses]] #ready
+- [ ] [[set-up-proper-openai-custom-gpt-compatable-oauth-login-flow|Set up proper openai custom gpt compatable oauth login flow]] #framework-core #ready
+- [ ] [[auth_migrate_services_to_jwt|auth migrate services to jwt]] #auth #migration #services #ready
+- [ ] [[chatgpt-export-injest-with-dedupe-index-and-hashes|ChatGPT export injest with dedupe index and hashes]] #ready
+- [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #framework-core #ready
+- [ ] [[cephalon_tests_for_persistence_and_ecs|cephalon tests for persistence and ecs]] #cephalon #tests #persistence #ecs #ready
+- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md|full agent mode text chat selectively join channels etc md]] #framework-core #ready
+- [ ] [[lsp-server-for-home-brew-lisp-incoming|LSP server for home brew lisp incoming]] #ready
+- [ ] [[finish_whisper_npu_system_md_md|finish whisper npu system md md]] #framework-core #performance-optimization #npu-integration #ready
+- [ ] [[database-migration-system|database migration system]] #ready
+- [ ] [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks Persistence Migration to DualStore]] #ready
+- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ready
 - [ ] [[broker-gpt-bridge-parity-plan|broker gpt bridge parity plan]] #broker #gptbridge #testing #parity #ws #http #ci #observability #promethean #versioning #tags #broker #gptbridge #parity #ws #http #testing #ci #observability #promethean #in-review
 - [ ] [[context-service|context service]] #ready
 - [ ] [[auth_key_rotation_and_bootstrap|auth key rotation and bootstrap]] #auth #security #rotation #ready
@@ -246,11 +264,6 @@ kanban-plugin: board
 - [ ] [[twitch_stream_title_generator_md_md|twitch stream title generator md md]] #framework-core #ollama-integration #stream-automation #in-review
 - [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #incoming
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean #ops #codex-task #tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain #in-review
-- [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md|setup services to recieve work from the broker via push md]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-progress
-- [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
-- [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md|Add semantic overlays for layer1 through layer8]] #todo
-- [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #breakdown
-- [ ] [[auth_key_rotation_and_bootstrap|auth key rotation and bootstrap]] #incoming
 - [ ] [[ecs_projection_jobs|ecs projection jobs]] #incoming
 - [ ] [[ecs_persistence_integration_cephalon|ecs persistence integration cephalon]] #incoming
 - [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #breakdown
@@ -262,55 +275,42 @@ kanban-plugin: board
 - [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #todo
 - [ ] [[phase-out-proxy-in-favor-of-bridge-service|Phase out proxy in favor of bridge service]] #framework-core #framework-core #Todo #in-progress
 - [ ] [[docs/agile/tasks/file-explorer|File explorer]] #framework-core #ready
-- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #Breakdown #todo
-- [ ] [[frontend-build-tool-chain|frontend build tool chain]] #devops #devops #Ready #todo
 - [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #IceBox #ready
-- [ ] [[discord_chat_link_traversal_md_md|discord chat link traversal md md]] #framework-core #IceBox #todo
-- [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
-- [ ] [[create-broker-services-that-can-handle-all-the-same-tasks-as-the-gpt-bridge|Create broker services that can handle all the same tasks as the gpt bridge]] #broker #ws #api #gptbridge #parity #promethean #ops #ready
-- [ ] [[update_makefile_to_have_commands_specific_for_agents_md|Update Makefile to have commands specific for agents]] #devops #devops #Ready #ready
-- [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #framework-core #IceBox #ready
 - [ ] [[cephalon_store_user_transcripts_unified|cephalon store user transcripts unified]] #cephalon #transcripts #persistence #ready
-- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ready
-- [ ] [[auth_migrate_services_to_jwt|auth migrate services to jwt]] #auth #migration #services #ready
-- [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #scripts #docs #ready
 - [ ] [[ecs_projection_jobs|ecs projection jobs]] #ecs #projections #compaction #ready
 - [ ] [[ecs_persistence_integration_cephalon|ecs persistence integration cephalon]] #ecs #cephalon #mongo #ready
-- [ ] [[cephalon_tests_for_persistence_and_ecs|cephalon tests for persistence and ecs]] #cephalon #tests #persistence #ecs #ready
-- [ ] [[move-discord-scraper-to-ts|move discord scraper to ts]] #framework-core #ready
-- [ ] [[harden-precommit-hooks|harden precommit hooks]] #ready
 - [ ] [[gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used.|gpt bridge fuzzy lookup should return multiple matches when it is used.]] #framework-core #ready
-- [ ] [[full_agent_mode_text_chat_selectively_join_channels_etc_md|full agent mode text chat selectively join channels etc md]] #framework-core #ready
-- [ ] [[finish_whisper_npu_system_md_md|finish whisper npu system md md]] #framework-core #performance-optimization #npu-integration #ready
-- [ ] [[database-migration-system|database migration system]] #ready
-- [ ] [[breakdown-makefile.hy|breakdown Makefile.hy]] #framework-core #ready
-- [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #framework-core #ready
-- [ ] [[lsp-server-for-home-brew-lisp-incoming|LSP server for home brew lisp incoming]] #ready
-- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #cephalon #layer1 #cicd #buildtools #devtools #devops #documentation #knowledge-graph #docdrivendev #ready
-- [ ] [[chatgpt-export-injest-with-dedupe-index-and-hashes|ChatGPT export injest with dedupe index and hashes]] #ready
-- [ ] [[set-up-proper-openai-custom-gpt-compatable-oauth-login-flow|Set up proper openai custom gpt compatable oauth login flow]] #framework-core #ready
-- [ ] [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks Persistence Migration to DualStore]] #ready
 
 
-## Todo (21)
+## Todo (13)
 
 - [ ] [[convert-current-services-to-packages--then-redefine-the-services-using-config-files|convert current services to packages, then redefine the services using config files]] #framework-core #framework-core #Ready #ready
+- [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
 - [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
 - [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
+- [ ] [[harden-precommit-hooks|harden precommit hooks]] #ready
 - [ ] [[script-for-getting-github-action-workflow-states-for-a-branch|script for getting github action workflow states for a branch]] #ready
+- [ ] [[frontend-build-tool-chain|frontend build tool chain]] #devops #devops #Ready #todo
+- [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #scripts #docs #ready
+- [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
+- [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #breakdown
+- [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md|Add semantic overlays for layer1 through layer8]] #todo
+- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ready
 
 
-## In Progress (8)
+## In Progress (4)
 
 
 
 ## In Review (8)
 
+- [ ] [[move-discord-scraper-to-ts|move discord scraper to ts]] #framework-core #ready
 
 
 ## Done
 
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #breakdown
+- [ ] [[breakdown-makefile.hy|breakdown Makefile.hy]] #framework-core #ready
 - [ ] [[flatten-services|flatten services]] #framework-core #framework-core #Ready #todo
 - [ ] [[convert-smartgpt-bridge-to-ts|convert smartgpt bridge to ts]] #ready
 - [ ] [[post-move-stablization--compat-layer---hook-diet-]] #precommit #refactor #typescript #python #imports #compat #monorepo #tooling #stabilization #accepted
@@ -413,6 +413,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[true,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"textgenerator/templates/local/smart_task_templater_md.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,true,true,true,true,false,false,false,false,false,false,false,false,false,false],"new-note-template":"textgenerator/templates/local/smart_task_templater_md.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

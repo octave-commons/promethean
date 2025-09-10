@@ -1,33 +1,37 @@
 {
     "name": "ts-examples",
-    "root": "shared/ts/examples",
-    "sourceRoot": "shared/ts/examples/src",
+    "root": "packages/examples",
+    "sourceRoot": "packages/examples/src",
     "targets": {
         "build": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "tsc -b"
+                "command": "tsc -b",
+                "cwd": "packages/examples"
             },
             "outputs": ["{projectRoot}/dist"]
         },
         "typecheck": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "tsc -p tsconfig.json --noEmit"
+                "command": "tsc -p tsconfig.json --noEmit",
+                "cwd": "packages/examples"
             }
         },
         "test": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "ava"
+                "command": "ava",
+                "cwd": "packages/examples"
             }
         },
         "lint": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "eslint ."
+                "command": "eslint .",
+                "cwd": "packages/examples"
             }
         }
     },
-    "tags": ["scope:shared-ts"]
+    "tags": ["scope:packages"]
 }

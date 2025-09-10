@@ -1,13 +1,19 @@
 # Promethean Framework
 
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE.txt)
+[[LICENSE.txt]]
 
-This project is licensed under the [GNU GPL v3](LICENSE.txt).
+This project is licensed under the [[LICENSE.txt|GNU GPL v3]].
 
 This repository contains a modular multi‑agent architecture. To start shared infrastructure like speech services, run pm2 with the root configuration:
 
 ```bash
 pm2 start ecosystem.config.js
+```
+
+When adding or removing packages with their own `ecosystem.config.js`, regenerate the consolidated configuration:
+
+```bash
+pnpm gen:ecosystem
 ```
 
 Then start individual agents using their own ecosystem file. For Duck you would
@@ -19,17 +25,35 @@ pm2 start agents/duck/ecosystem.config.js
 
 Choose the config inside `agents/<agent>/` for other agents.
 
+## Development workflow
+
+Run all package development scripts without Docker:
+
+```bash
+pnpm dev:all
+```
+
+For a full-stack environment using containers:
+
+```bash
+docker compose up
+```
+
 Set `AGENT_NAME` in your environment before launching agent services to isolate collections and data.
 Promethean is a modular cognitive architecture for building embodied AI agents. It breaks the system
 into small services that handle speech-to-text, text-to-speech, memory, and higher level reasoning.
-📖 For a high-level overview, see [docs/vision.md](docs/vision.md).
-📊 For architecture roadmaps and visualizations, see [docs/architecture/index.md](docs/architecture/index.md).
-📦 Data migration conventions and runbooks live under [docs/data](docs/data/contracts/README.md).
+📖 For a high-level overview, see [[vision|docs/vision.md]].
+📊 For architecture roadmaps and visualizations, see [[docs/architecture/index|docs/architecture/index.md]].
+📦 Data migration conventions and runbooks live under [[docs/data/contracts/readme|docs/data]].
 
 ### Development conventions
 
 - Prefer immutable data; avoid in-place object mutation.
 - Use key-value caches like `@promethean/level-cache` instead of JSON files for intermediate data.
+
+### Nx workspace
+
+Build tooling is managed with [Nx](https://nx.dev). See [[nx-workspace|docs/nx-workspace.md]] for common commands.
 
 ### Broker Heartbeat
 
@@ -123,6 +147,10 @@ Note: The repository sets `"packageManager": "pnpm@9"` and a `preinstall` script
 The service management targets `make start`, `make start-tts` and
 `make start-stt` require PM2. You can install it globally as shown above or add
 it as a project dependency.
+
+### Linting
+
+Use `pnpm lint:diff` during development to run ESLint only on files changed relative to `origin/main`. This is much faster than `pnpm lint`, which scans the entire repository. Reserve `pnpm lint` for CI or when a full repo check is required.
 
 ### Testing (JS/TS)
 

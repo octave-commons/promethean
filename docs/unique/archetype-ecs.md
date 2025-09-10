@@ -1,321 +1,156 @@
 ---
-uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
-created_at: 2025.08.08.21.08.70.md
+uuid: d6d8bf5b-50e1-4d8f-961d-64159c9bb5b7
+created_at: archetype-ecs.md
 filename: archetype-ecs
+title: archetype-ecs
 description: >-
-  A lightweight TypeScript ECS implementation with 64-component bitmasks, SoA
-  storage, and efficient query handling for real-time applications.
+  A lightweight, TypeScript-based ECS implementation with 64-component bitmasks,
+  SoA storage, and efficient query mechanisms for real-time applications.
 tags:
   - ecs
   - typescript
   - archetype
-  - soa
-  - query
-  - component
-  - entity
-related_to_title:
-  - seperate-speech-from-thought
-  - Docops Feature Updates
-  - field-node-diagram-outline
-  - field-node-diagram-set
-  - field-node-diagram-visualizations
-  - Fnord Tracer Protocol
-  - Functional Embedding Pipeline Refactor
-  - graph-ds
-  - heartbeat-fragment-demo
-  - i3-bluetooth-setup
-  - Ice Box Reorganization
-  - komorebi-group-window-hack
-  - Layer1SurvivabilityEnvelope
-  - file-watcher-auth-fix
-  - Agent Reflections and Prompt Evolution
-  - ChatGPT Custom Prompts
-  - Chroma Toolkit Consolidation Plan
-  - Diagrams
-  - DSL
-  - JavaScript
-  - Math Fundamentals
-  - Operations
-  - Services
-  - Shared
-  - Simulation Demo
-  - typed-struct-compiler
-  - Unique Concepts
-  - Unique Info Dump Index
-  - zero-copy-snapshots-and-workers
-  - Canonical Org-Babel Matplotlib Animation Template
-  - Creative Moments
-  - Duck's Attractor States
-  - eidolon-field-math-foundations
-  - parenthetical-extraction
-  - Promethean Pipelines
-  - Chroma-Embedding-Refactor
-  - ecs-scheduler-and-prefabs
-  - System Scheduler with Resource-Aware DAG
-  - shared-package-layout-clarification
-  - Language-Agnostic Mirror System
-  - SentenceProcessing
-  - Mongo Outbox Implementation
-  - Lispy Macros with syntax-rules
-  - observability-infrastructure-setup
-  - Recursive Prompt Construction Engine
-  - windows-tiling-with-autohotkey
-  - polymorphic-meta-programming-engine
-  - Promethean Web UI Setup
-  - promethean-system-diagrams
-  - universal-intention-code-fabric
-  - Refactor 05-footers.ts
-  - Promethean Full-Stack Docker Setup
-  - Matplotlib Animation with Async Execution
-  - AI-Centric OS with MCP Layer
-  - WebSocket Gateway Implementation
-  - Promethean-native config design
-  - Local-First Intention→Code Loop with Free Models
-  - TypeScript Patch for Tool Calling Support
-  - Stateful Partitions and Rebalancing
-  - 'Agent Tasks: Persistence Migration to DualStore'
-  - plan-update-confirmation
-  - Dynamic Context Model for Web Components
-  - homeostasis-decay-formulas
 related_to_uuid:
-  - 8ef6b79b-cc45-478e-bf3b-3d766da472c5
-  - 2792d448-c3b5-4050-93dd-93768529d99c
-  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-  - 22b989d5-f4aa-4880-8632-709c21830f83
-  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - a4a25141-6380-40b9-9cd7-b554b246b303
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - dd00677a-2280-45a7-91af-0728b21af3ad
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
-  - dd89372d-10de-42a9-8c96-6bc13ea36d02
-  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-  - 9044701b-03c9-4a30-92c4-46b1bd66c11e
-  - bb7f0835-c347-474f-bfad-eabd873b51ad
-  - 930054b3-ba95-4acf-bb92-0e3ead25ed0b
-  - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
-  - e87bc036-1570-419e-a558-f45b9c0db698
-  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
-  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-  - f1add613-656e-4bec-b52b-193fd78c4642
-  - 75ea4a6a-8270-488d-9d37-799c288e5f70
-  - 623a55f7-685c-486b-abaf-469da1bbbb69
-  - 557309a3-c906-4e97-8867-89ffe151790c
-  - 78eeedf7-75bc-4692-a5a7-bb6857270621
-  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
-  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
-  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
-  - 10d98225-12e0-4212-8e15-88b57cf7bee5
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 51a4e477-1013-4016-bb5a-bd9392e99ed7
-  - 8b8e6103-30a4-4d66-b5f2-87db1612b587
-  - 8b256935-02f6-4da2-a406-bf6b8415276f
-  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
-  - ba244286-4e84-425b-8bf6-b80c4eb783fc
-  - 36c8882a-badc-4e18-838d-2c54d7038141
-  - d2b3628c-6cad-4664-8551-94ef8280851d
-  - 681a4ab2-8fef-4833-a09d-bceb62d114da
-  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
-  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
-  - b4e64f8c-4dc9-4941-a877-646c5ada068e
-  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
-  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
-  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
-  - bc5172ca-7a09-42ad-b418-8e42bb14d089
-  - b51e19b4-1326-4311-9798-33e972bf626c
-  - c14edce7-0656-45b2-aaf3-51f042451b7d
-  - 80d4d883-59f9-401b-8699-7a2723148b1e
-  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
-  - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-  - e811123d-5841-4e52-bf8c-978f26db4230
-  - ab748541-020e-4a7e-b07d-28173bd5bea2
-  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
-  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-  - 4330e8f0-5f46-4235-918b-39b6b93fa561
-  - 93d2ba51-8689-49ee-94e2-296092e48058
-  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - 95cb7640-a903-4a2e-99c7-2d060a0fbecf
+  - 96ffd77d-46ff-409d-8e59-d7e00ce7055b
+  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+  - 9f8f8fb9-9bc4-49a4-b565-ee31a0d2503c
+  - 86ef1f2b-1b3f-4ca7-a88e-b8b52e70ac10
+  - 0a8255a5-ef49-4a1e-ae71-b2f57eb7bdf8
+  - bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+  - 792a343e-674c-4bb4-8435-b3f8c163349d
+  - f4767ec9-7363-4ca0-ad88-ccc624247a3b
+  - 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
+  - 4316c3f9-551f-4872-b5c5-98ae73508535
+  - 8fd08696-5338-493b-bed5-507f8a6a6ea9
+  - a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+  - 6f13f134-7536-4bc3-b695-5aaa2906bb9d
+  - e4317155-7fa6-44e8-8aee-b72384581790
+  - 740bbd1c-c039-405c-8a32-4baeddfb5637
+  - c2ba3d27-5b24-4345-9cf2-5cf296f8b03d
+  - ee4b3631-a745-485b-aff1-2da806cfadfb
+  - 5becb573-0a78-486b-8d3c-199b3c7a79ec
+  - 9a1076d6-1aac-497e-bac3-66c9ea09da55
+  - 3657117f-241d-4ab9-a717-4a3f584071fc
+  - 0e289525-1904-4f7d-9d3a-4fedc53efe9b
+  - 40bc2ba7-9c5c-4f72-8f88-17bef3c6163f
+  - 6b91d91d-6b5c-4516-a0c8-d66d9b9fcc9b
+related_to_title:
+  - Promethean State Format
+  - ChatGPT Custom Prompts
+  - archetype-ecs
+  - Promethean Code Principles
+  - promethean-pipelines
+  - Functional Refactor of TypeScript Document Processing
+  - chroma-embedding-refactor
+  - windows-tiling-with-autohotkey
+  - ecs-scheduler
+  - system-scheduler
+  - WebSocket Gateway Implementation
+  - typed-struct-compiler
+  - AI-Centric OS with MCP Layer
+  - shared-package-layout-clarification
+  - TypeScript Patch for Tool Calling Support
+  - heartbeat-fragment-demo
+  - observability-infrastructure-setup
+  - Promethean Documentation Pipeline Overview
+  - Agent Reflections and Prompt Evolution
+  - Stateful Partitions and Rebalancing
+  - language-agnostic-mirror-system
+  - functional-programming-in-typescript
+  - Lean AGENT Setup
+  - AGENTS.md
 references:
-  - uuid: 8ef6b79b-cc45-478e-bf3b-3d766da472c5
-    line: 2
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 7
     col: 0
     score: 1
-  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
-    line: 618
+  - uuid: 96ffd77d-46ff-409d-8e59-d7e00ce7055b
+    line: 5
     col: 0
     score: 1
-  - uuid: 930054b3-ba95-4acf-bb92-0e3ead25ed0b
-    line: 187
+  - uuid: 96ffd77d-46ff-409d-8e59-d7e00ce7055b
+    line: 9
     col: 0
     score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 999
+  - uuid: 96ffd77d-46ff-409d-8e59-d7e00ce7055b
+    line: 16
     col: 0
     score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 519
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 445
     col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 466
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 505
-    col: 0
-    score: 1
-  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
-    line: 451
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 178
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 437
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 367
-    col: 0
-    score: 1
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 378
-    col: 0
-    score: 1
-  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
-    line: 1016
-    col: 0
-    score: 1
-  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
-    line: 175
-    col: 0
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 1221
-    col: 0
-    score: 1
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 1058
-    col: 0
-    score: 1
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 515
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 251
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 559
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 1033
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 226
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 705
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 719
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 601
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 1060
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 726
-    col: 0
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 996
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 667
-    col: 0
-    score: 1
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 736
-    col: 0
-    score: 1
-  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
-    line: 645
-    col: 0
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 739
-    col: 0
-    score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 816
-    col: 0
-    score: 1
-  - uuid: 51a4e477-1013-4016-bb5a-bd9392e99ed7
+    score: 0.97
+  - uuid: 9f8f8fb9-9bc4-49a4-b565-ee31a0d2503c
     line: 3
     col: 0
+    score: 0.94
+  - uuid: 9f8f8fb9-9bc4-49a4-b565-ee31a0d2503c
+    line: 5
+    col: 0
+    score: 0.92
+  - uuid: 86ef1f2b-1b3f-4ca7-a88e-b8b52e70ac10
+    line: 68
+    col: 0
     score: 0.89
-  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
+  - uuid: 0a8255a5-ef49-4a1e-ae71-b2f57eb7bdf8
+    line: 1
+    col: 0
+    score: 0.87
+  - uuid: 86ef1f2b-1b3f-4ca7-a88e-b8b52e70ac10
     line: 84
     col: 0
     score: 0.87
-  - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
+  - uuid: bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
     line: 66
     col: 0
     score: 0.87
-  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
-    line: 28
-    col: 0
-    score: 0.86
-  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
-    line: 116
-    col: 0
-    score: 0.85
-  - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
-    line: 101
-    col: 0
-    score: 0.86
-  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - uuid: f4767ec9-7363-4ca0-ad88-ccc624247a3b
     line: 247
     col: 0
     score: 0.87
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+  - uuid: 7ab1a3cd-80a7-4d69-ae21-1da07cd0523c
     line: 245
     col: 0
     score: 0.87
-  - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
-    line: 285
+  - uuid: 792a343e-674c-4bb4-8435-b3f8c163349d
+    line: 78
     col: 0
-    score: 0.85
-  - uuid: 9044701b-03c9-4a30-92c4-46b1bd66c11e
+    score: 0.86
+  - uuid: 4316c3f9-551f-4872-b5c5-98ae73508535
+    line: 36
+    col: 0
+    score: 0.86
+  - uuid: 8fd08696-5338-493b-bed5-507f8a6a6ea9
+    line: 358
+    col: 0
+    score: 0.86
+  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+    line: 128
+    col: 0
+    score: 0.86
+  - uuid: 6f13f134-7536-4bc3-b695-5aaa2906bb9d
+    line: 28
+    col: 0
+    score: 0.86
+  - uuid: bb4f4ed0-91f3-488a-9d64-3a33bde77e4e
+    line: 101
+    col: 0
+    score: 0.86
+  - uuid: 6f13f134-7536-4bc3-b695-5aaa2906bb9d
+    line: 128
+    col: 0
+    score: 0.86
+  - uuid: e4317155-7fa6-44e8-8aee-b72384581790
     line: 32
     col: 0
-    score: 1
-  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
-    line: 504
+    score: 0.85
+  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+    line: 77
     col: 0
     score: 0.85
-  - uuid: 681a4ab2-8fef-4833-a09d-bceb62d114da
-    line: 30
+  - uuid: a28a39dd-8c17-463c-9050-2ffe9b56e8bc
+    line: 162
     col: 0
     score: 0.85
 ---
@@ -772,116 +607,108 @@ flowchart LR
   (.makeQuery w {:all all :any any :none none :changed changed})) ^ref-8f4c1e86-450-0
 (defn iter [w q & comps] (.iter w q ~@comps))
 ``` ^ref-8f4c1e86-452-0
+^ref-8f4c1e86-445-0
 ^ref-8f4c1e86-444-0
  ^ref-8f4c1e86-453-0
-Want me to wire a **system scheduler** that uses the Graph you already have (with per-system resources, parallel-safe stages), or add a **prefab/blueprint** loader?<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+Want me to wire a **system scheduler** that uses the Graph you already have (with per-system resources, parallel-safe stages), or add a **prefab/blueprint** loader?
+ cmd = world.beginTick();
+  physics(dt);
+  decay(dt);
+  cmd.flush();
+  world.endTick();
+}
+^ref-8f4c1e86-366-0
+```
+^ref-8f4c1e86-367-0
+
+# Extras you can add (optional, easy bolt-ons)
+ ^ref-8f4c1e86-417-0
+* **System scheduler** with dependencies (use the DAG you already have—toposort the system graph and run). ^ref-8f4c1e86-418-0
+* **Events**: fire component `onAdd/onRemove` (already supported) + `onChanged` subscription via `changed:` queries. ^ref-8f4c1e86-419-0
+* **Serialization**: `World → JSON` by dumping archetypes and columns; `JSON → World` by rebuilding rows.
+* **More than 64 components**: maintain two (or N) `bigint` masks per archetype and per query.
+
+# Mermaid (shape of the ECS) ^ref-8f4c1e86-423-0
+
+```mermaid
+flowchart LR
+  subgraph World
+    A[Archetype 0b0011]:::arch
+    B[Archetype 0b0111]:::arch
+    C[Archetype 0b0010]:::arch
+    A-- add C2 -->B
+    B-- remove C1 -->C
+    A -- SoA columns --> ColsA[(Pos[], Vel[])]
+    B -- SoA columns --> ColsB[(Pos[], Vel[], Life[])]
+  end
+  Sys1[Physics System] -->|query all:[Pos,Vel]| A & B
+  Sys2[Lifetime System] -->|query all:[Life]| B
+^ref-8f4c1e86-423-0
+  classDef arch fill:#eef,stroke:#88f;
+```
+ ^ref-8f4c1e86-441-0
+# Sibilant sprinkles (pseudo)
+
+```lisp
+; shared/sibilant/prom/ds/ecs.sib (pseudo)
+(defn make-world [] (new World))
+(defn defcomp [w name defaults] (.defineComponent w {:name name :defaults defaults}))
+(defn query [w & {:all [] :any [] :none [] :changed []}]
+^ref-8f4c1e86-441-0
+  (.makeQuery w {:all all :any any :none none :changed changed})) ^ref-8f4c1e86-450-0
+(defn iter [w q & comps] (.iter w q ~@comps))
+``` ^ref-8f4c1e86-452-0
+^ref-8f4c1e86-444-0
+ ^ref-8f4c1e86-453-0
+Want me to wire a **system scheduler** that uses the Graph you already have (with per-system resources, parallel-safe stages), or add a **prefab/blueprint** loader?
+<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [seperate-speech-from-thought](seperate-speech-from-thought.md)
-- [Docops Feature Updates](docops-feature-updates.md)
-- [field-node-diagram-outline](field-node-diagram-outline.md)
-- [field-node-diagram-set](field-node-diagram-set.md)
-- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
-- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
-- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
-- [graph-ds](graph-ds.md)
-- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
-- [i3-bluetooth-setup](i3-bluetooth-setup.md)
-- [Ice Box Reorganization](ice-box-reorganization.md)
-- [komorebi-group-window-hack](komorebi-group-window-hack.md)
-- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
-- [file-watcher-auth-fix](file-watcher-auth-fix.md)
-- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
+- [Promethean State Format](promethean-state-format.md)
 - [ChatGPT Custom Prompts](chatgpt-custom-prompts.md)
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
-- [Diagrams](chunks/diagrams.md)
-- [DSL](chunks/dsl.md)
-- [JavaScript](chunks/javascript.md)
-- [Math Fundamentals](chunks/math-fundamentals.md)
-- [Operations](chunks/operations.md)
-- [Services](chunks/services.md)
-- [Shared](chunks/shared.md)
-- [Simulation Demo](chunks/simulation-demo.md)
-- [typed-struct-compiler](typed-struct-compiler.md)
-- [Unique Concepts](unique-concepts.md)
-- [Unique Info Dump Index](unique-info-dump-index.md)
-- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
-- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [Creative Moments](creative-moments.md)
-- [Duck's Attractor States](ducks-attractor-states.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [parenthetical-extraction](parenthetical-extraction.md)
-- [Promethean Pipelines](promethean-pipelines.md)
-- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
-- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
-- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
-- [shared-package-layout-clarification](shared-package-layout-clarification.md)
-- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
-- [SentenceProcessing](sentenceprocessing.md)
-- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
-- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
-- [observability-infrastructure-setup](observability-infrastructure-setup.md)
-- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
+- [archetype-ecs](archetype-ecs.md)
+- [Promethean Code Principles](2025.09.03.20.16.19.md)
+- [promethean-pipelines](promethean-pipelines.md)
+- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
+- [chroma-embedding-refactor](chroma-embedding-refactor.md)
 - [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
-- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
-- [Promethean Web UI Setup](promethean-web-ui-setup.md)
-- [promethean-system-diagrams](promethean-system-diagrams.md)
-- [universal-intention-code-fabric](universal-intention-code-fabric.md)
-- [Refactor 05-footers.ts](refactor-05-footers-ts.md)
-- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
-- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
-- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
+- [ecs-scheduler](ecs-scheduler-and-prefabs.md)
+- [system-scheduler](system-scheduler-with-resource-aware-dag.md)
 - [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
-- [Promethean-native config design](promethean-native-config-design.md)
-- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
+- [typed-struct-compiler](typed-struct-compiler.md)
+- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
+- [shared-package-layout-clarification](shared-package-layout-clarification.md)
 - [TypeScript Patch for Tool Calling Support](typescript-patch-for-tool-calling-support.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
+- [Promethean Documentation Pipeline Overview](promethean-documentation-pipeline-overview.md)
+- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
 - [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
-- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
-- [plan-update-confirmation](plan-update-confirmation.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
+- [language-agnostic-mirror-system](language-agnostic-mirror-system.md)
+- [functional-programming-in-typescript](functional-programming-in-typescript.md)
+- [Lean AGENT Setup](agents-md.md)
+- [AGENTS.md](agents-md-3.md)
 ## Sources
-- [seperate-speech-from-thought — L2](seperate-speech-from-thought.md#^ref-8ef6b79b-2-0) (line 2, col 0, score 1)
-- [Agent Reflections and Prompt Evolution — L618](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-618-0) (line 618, col 0, score 1)
-- [ChatGPT Custom Prompts — L187](chatgpt-custom-prompts.md#^ref-930054b3-187-0) (line 187, col 0, score 1)
-- [Chroma Toolkit Consolidation Plan — L999](chroma-toolkit-consolidation-plan.md#^ref-5020e892-999-0) (line 999, col 0, score 1)
-- [Diagrams — L519](chunks/diagrams.md#^ref-45cd25b5-519-0) (line 519, col 0, score 1)
-- [DSL — L466](chunks/dsl.md#^ref-e87bc036-466-0) (line 466, col 0, score 1)
-- [JavaScript — L505](chunks/javascript.md#^ref-c1618c66-505-0) (line 505, col 0, score 1)
-- [Math Fundamentals — L451](chunks/math-fundamentals.md#^ref-c6e87433-451-0) (line 451, col 0, score 1)
-- [Operations — L178](chunks/operations.md#^ref-f1add613-178-0) (line 178, col 0, score 1)
-- [Services — L437](chunks/services.md#^ref-75ea4a6a-437-0) (line 437, col 0, score 1)
-- [Shared — L367](chunks/shared.md#^ref-623a55f7-367-0) (line 367, col 0, score 1)
-- [Simulation Demo — L378](chunks/simulation-demo.md#^ref-557309a3-378-0) (line 378, col 0, score 1)
-- [typed-struct-compiler — L1016](typed-struct-compiler.md#^ref-78eeedf7-1016-0) (line 1016, col 0, score 1)
-- [Unique Concepts — L175](unique-concepts.md#^ref-ed6f3fc9-175-0) (line 175, col 0, score 1)
-- [Unique Info Dump Index — L1221](unique-info-dump-index.md#^ref-30ec3ba6-1221-0) (line 1221, col 0, score 1)
-- [zero-copy-snapshots-and-workers — L1058](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1058-0) (line 1058, col 0, score 1)
-- [Canonical Org-Babel Matplotlib Animation Template — L515](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-515-0) (line 515, col 0, score 1)
-- [Creative Moments — L251](creative-moments.md#^ref-10d98225-251-0) (line 251, col 0, score 1)
-- [Duck's Attractor States — L559](ducks-attractor-states.md#^ref-13951643-559-0) (line 559, col 0, score 1)
-- [eidolon-field-math-foundations — L1033](eidolon-field-math-foundations.md#^ref-008f2ac0-1033-0) (line 1033, col 0, score 1)
-- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
-- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
-- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
-- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
-- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
-- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
-- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
-- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
-- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
-- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
-- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
-- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
-- [parenthetical-extraction — L3](parenthetical-extraction.md#^ref-51a4e477-3-0) (line 3, col 0, score 0.89)
-- [Promethean Pipelines — L84](promethean-pipelines.md#^ref-8b8e6103-84-0) (line 84, col 0, score 0.87)
-- [Chroma-Embedding-Refactor — L66](chroma-embedding-refactor.md#^ref-8b256935-66-0) (line 66, col 0, score 0.87)
-- [shared-package-layout-clarification — L28](shared-package-layout-clarification.md#^ref-36c8882a-28-0) (line 28, col 0, score 0.86)
-- [shared-package-layout-clarification — L116](shared-package-layout-clarification.md#^ref-36c8882a-116-0) (line 116, col 0, score 0.85)
-- [Chroma-Embedding-Refactor — L101](chroma-embedding-refactor.md#^ref-8b256935-101-0) (line 101, col 0, score 0.86)
-- [ecs-scheduler-and-prefabs — L247](ecs-scheduler-and-prefabs.md#^ref-c62a1815-247-0) (line 247, col 0, score 0.87)
-- [System Scheduler with Resource-Aware DAG — L245](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-245-0) (line 245, col 0, score 0.87)
-- [Chroma-Embedding-Refactor — L285](chroma-embedding-refactor.md#^ref-8b256935-285-0) (line 285, col 0, score 0.85)
-- [file-watcher-auth-fix — L32](file-watcher-auth-fix.md#^ref-9044701b-32-0) (line 32, col 0, score 1)
-- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.85)
-- [SentenceProcessing — L30](sentenceprocessing.md#^ref-681a4ab2-30-0) (line 30, col 0, score 0.85)
+- [archetype-ecs — L7](archetype-ecs.md#^ref-8f4c1e86-7-0) (line 7, col 0, score 1)
+- [ChatGPT Custom Prompts — L5](chatgpt-custom-prompts.md#^ref-96ffd77d-5-0) (line 5, col 0, score 1)
+- [ChatGPT Custom Prompts — L9](chatgpt-custom-prompts.md#^ref-96ffd77d-9-0) (line 9, col 0, score 1)
+- [ChatGPT Custom Prompts — L16](chatgpt-custom-prompts.md#^ref-96ffd77d-16-0) (line 16, col 0, score 1)
+- [archetype-ecs — L445](archetype-ecs.md#^ref-8f4c1e86-445-0) (line 445, col 0, score 0.97)
+- [Promethean Code Principles — L3](2025.09.03.20.16.19.md#^ref-9f8f8fb9-3-0) (line 3, col 0, score 0.94)
+- [Promethean Code Principles — L5](2025.09.03.20.16.19.md#^ref-9f8f8fb9-5-0) (line 5, col 0, score 0.92)
+- [promethean-pipelines — L68](promethean-pipelines.md#^ref-86ef1f2b-68-0) (line 68, col 0, score 0.89)
+- [Functional Refactor of TypeScript Document Processing — L1](functional-refactor-of-typescript-document-processing.md#^ref-0a8255a5-1-0) (line 1, col 0, score 0.87)
+- [promethean-pipelines — L84](promethean-pipelines.md#^ref-86ef1f2b-84-0) (line 84, col 0, score 0.87)
+- [chroma-embedding-refactor — L66](chroma-embedding-refactor.md#^ref-bb4f4ed0-66-0) (line 66, col 0, score 0.87)
+- [ecs-scheduler — L247](ecs-scheduler-and-prefabs.md#^ref-f4767ec9-247-0) (line 247, col 0, score 0.87)
+- [system-scheduler — L245](system-scheduler-with-resource-aware-dag.md#^ref-7ab1a3cd-245-0) (line 245, col 0, score 0.87)
+- [windows-tiling-with-autohotkey — L78](windows-tiling-with-autohotkey.md#^ref-792a343e-78-0) (line 78, col 0, score 0.86)
+- [WebSocket Gateway Implementation — L36](websocket-gateway-implementation.md#^ref-4316c3f9-36-0) (line 36, col 0, score 0.86)
+- [typed-struct-compiler — L358](typed-struct-compiler.md#^ref-8fd08696-358-0) (line 358, col 0, score 0.86)
+- [AI-Centric OS with MCP Layer — L128](ai-centric-os-with-mcp-layer.md#^ref-a28a39dd-128-0) (line 128, col 0, score 0.86)
+- [shared-package-layout-clarification — L28](shared-package-layout-clarification.md#^ref-6f13f134-28-0) (line 28, col 0, score 0.86)
+- [chroma-embedding-refactor — L101](chroma-embedding-refactor.md#^ref-bb4f4ed0-101-0) (line 101, col 0, score 0.86)
+- [shared-package-layout-clarification — L128](shared-package-layout-clarification.md#^ref-6f13f134-128-0) (line 128, col 0, score 0.86)
+- [TypeScript Patch for Tool Calling Support — L32](typescript-patch-for-tool-calling-support.md#^ref-e4317155-32-0) (line 32, col 0, score 0.85)
+- [AI-Centric OS with MCP Layer — L77](ai-centric-os-with-mcp-layer.md#^ref-a28a39dd-77-0) (line 77, col 0, score 0.85)
+- [AI-Centric OS with MCP Layer — L162](ai-centric-os-with-mcp-layer.md#^ref-a28a39dd-162-0) (line 162, col 0, score 0.85)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

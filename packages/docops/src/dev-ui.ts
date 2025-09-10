@@ -1,20 +1,26 @@
-#!/usr/bin/env node
-import fastifyFactory from "fastify";
-import fastifyStatic from "@fastify/static";
 import * as url from "node:url";
 import * as path from "node:path";
 import { promises as fs } from "node:fs";
-import { openDB } from "./db";
+
+import fastifyFactory from "fastify";
+import fastifyStatic from "@fastify/static";
+import websocket from "@fastify/websocket";
+import type { WebSocket } from "ws";
+import type { FastifyRequest } from "fastify";
+
+import { openDB } from "./db.js";
+import { parseArgs } from "./utils.js";
+import { computePreview } from "./preview-front.js";
+import { sseInit } from "./lib/sse.js";
+import { getChromaCollection } from "./lib/chroma.js";
+import { buildFileTree } from "./lib/files.js";
+import { computeDocStatus } from "./lib/status.js";
 import {
-  runFrontmatter,
-  runEmbed,
-  runQuery,
-  runRelations,
-  runFooters,
-  runRename,
-} from "./index";
-import { parseArgs } from "./utils";
-import { computePreview } from "./preview-front";
+  servePipeline,
+  type StepId,
+  runDocopsStep,
+  type RunArgs,
+} from "./lib/pipeline.js";
 
 const args = parseArgs({
   "--dir": "docs/unique",
@@ -40,18 +46,41 @@ const dbPromise = openDB();
 // Create Fastify app
 const app = fastifyFactory({ logger: false });
 
+// Try to enable WebSocket support first; fallback to SSE if plugin not installed
+let WS_ENABLED = false as boolean;
+try {
+  await app.register(websocket);
+  WS_ENABLED = true;
+} catch {
+  WS_ENABLED = false;
+}
+
 // Static UI serving
 const UI_ROOT = path.resolve(
   path.dirname(url.fileURLToPath(import.meta.url)),
   "../ui",
 );
-await app.register(
-  fastifyStatic as any,
-  {
-    root: UI_ROOT,
-    prefix: "/",
-  } as any,
+await app.register(fastifyStatic, {
+  root: UI_ROOT,
+  prefix: "/ui",
+});
+// Serve compiled frontend (TS) from /js
+// When running compiled JS (dist/dev-ui.js), the frontend assets are within
+// dist/frontend. Resolve relative to the compiled file's directory.
+const FRONTEND_DIST = path.resolve(
+  path.dirname(url.fileURLToPath(import.meta.url)),
+  "./frontend",
 );
+await app.register(fastifyStatic, {
+  root: FRONTEND_DIST,
+  prefix: "/js",
+  decorateReply: false,
+});
+
+app.get("/health", async (_req, reply) => {
+  reply.header("content-type", "application/json");
+  return reply.send({ ok: true });
+});
 
 app.get("/", async (_req, reply) => {
   try {
@@ -64,46 +93,102 @@ app.get("/", async (_req, reply) => {
   }
 });
 
-app.get("/api/config", async (_req, reply) => {
-  reply.header("content-type", "application/json");
-  return reply.send({ dir: ROOT, collection: COLLECTION });
+// Small favicon to avoid 404 noise
+app.get("/favicon.ico", async (_req, reply) => {
+  // 16x16 transparent PNG
+  const pngBase64 =
+    "iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAJ0lEQVQoka3OsQkAMAzEwP7/0yGkKQm1gk0mWZbQm0N1xYyK0C6rjv7l2kI7P0yQAA6v2gHn0V8h0AAAAAElFTkSuQmCC";
+  const buf = Buffer.from(pngBase64, "base64");
+  reply.header("Content-Type", "image/png");
+  reply.send(buf);
 });
 
-app.get("/api/docs", async (req, reply) => {
-  const q = (req.query || {}) as any;
-  const dir = path.resolve(q.dir || ROOT);
+app.get("/api/config", async (_req, reply) => {
+  reply.header("content-type", "application/json");
+  return reply.send({ dir: ROOT, collection: COLLECTION, ws: WS_ENABLED });
+});
+
+// In-memory run tokens to avoid oversized query strings
+const RUN_TOKENS = new Map<string, any>();
+const makeToken = () =>
+  Math.random().toString(36).slice(2) + Date.now().toString(36);
+
+type RunStartBody = {
+  dir?: string;
+  collection?: string;
+  docT?: string | number;
+  refT?: string | number;
+  files?: string[];
+};
+app.post<{ Body: RunStartBody }>("/api/run-start", async (req, reply) => {
+  try {
+    const body = req.body || {};
+    console.log("/api/run-start", {
+      files: Array.isArray(body.files) ? body.files.length : 0,
+    });
+    const args = {
+      dir: path.resolve(body.dir || ROOT),
+      collection: body.collection || COLLECTION,
+      docT: body.docT || "0.78",
+      refT: body.refT || "0.85",
+      files: Array.isArray(body.files) ? body.files : undefined,
+    };
+    const token = makeToken();
+    RUN_TOKENS.set(token, args);
+    // simple ttl cleanup after 10 minutes
+    setTimeout(() => RUN_TOKENS.delete(token), 10 * 60 * 1000).unref?.();
+    reply.header("content-type", "application/json");
+    return reply.send({ token, ws: WS_ENABLED });
+  } catch (e: any) {
+    reply.code(400);
+    return reply.send({ error: e?.message || String(e) });
+  }
+});
+
+app.get<{ Querystring: { dir?: string } }>("/api/docs", async (req, reply) => {
+  const q = req.query || {};
+  const dir = path.resolve(q.dir ?? ROOT);
   const db = await dbPromise;
   const xs: Array<{ uuid: string; path: string; title: string }> = [];
   for await (const [uuid, info] of db.docs.iterator()) {
-    const d = info as { path: string; title: string };
-    if (!d || !d.path) continue;
-    const abs = path.resolve(d.path);
+    if (!info || !info.path) continue;
+    const abs = path.resolve(info.path);
     if (!abs.startsWith(dir)) continue;
-    if (!/\.(md|mdx|txt)$/i.test(d.path)) continue;
-    xs.push({ uuid, path: d.path, title: d.title });
+    if (!/\.(md|mdx|txt)$/i.test(info.path)) continue;
+    xs.push({ uuid, path: info.path, title: info.title });
   }
   reply.header("content-type", "application/json");
   return reply.send(xs);
 });
 
-app.get("/api/files", async (req, reply) => {
-  const q = (req.query || {}) as any;
-  const dir = path.resolve(q.dir || ROOT);
-  async function tree(p: string): Promise<any> {
-    const ents = await fs.readdir(p, { withFileTypes: true });
-    const out: any[] = [];
-    for (const e of ents) {
-      if (e.name.startsWith(".#")) continue; // ignore lock files
-      const fp = path.join(p, e.name);
-      if (e.isDirectory())
-        out.push({ name: e.name, type: "dir", children: await tree(fp) });
-      else out.push({ name: e.name, type: "file", path: fp });
-    }
-    return out;
-  }
+app.get<{
+  Querystring: {
+    dir?: string;
+    maxDepth?: string | number;
+    maxEntries?: string | number;
+    includeMeta?: string;
+    exts?: string;
+  };
+}>("/api/files", async (req, reply) => {
+  const q = req.query || {};
+  const dir = path.resolve(q.dir ?? ROOT);
+  const maxDepth = Math.max(0, Number(q.maxDepth ?? 2) | 0) || 2;
+  const maxEntries = Math.max(1, Number(q.maxEntries ?? 500) | 0) || 500;
+  const includeMeta = String(q.includeMeta ?? "0") === "1";
+  const exts = String(q.exts ?? ".md,.mdx,.txt,.markdown")
+    .split(",")
+    .map((s: string) => s.trim().toLowerCase())
+    .filter(Boolean);
   try {
-    const root = await tree(dir);
+    const root = await buildFileTree(dir, {
+      maxDepth,
+      maxEntries,
+      includeMeta,
+      exts,
+    });
     reply.header("content-type", "application/json");
+    reply.header("Cache-Control", "no-store, no-cache, must-revalidate");
+    reply.header("Pragma", "no-cache");
     return reply.send({ dir, tree: root });
   } catch (e: any) {
     reply.code(500);
@@ -111,17 +196,29 @@ app.get("/api/files", async (req, reply) => {
   }
 });
 
-app.get("/api/preview", async (req, reply) => {
-  const q = (req.query || {}) as any;
-  const dir = path.resolve(q.dir || ROOT);
+app.get<{
+  Querystring: {
+    dir?: string;
+    uuid?: string;
+    file?: string;
+    docT?: string | number;
+    refT?: string | number;
+  };
+}>("/api/preview", async (req, reply) => {
+  const q = req.query || {};
+  const dir = path.resolve(q.dir ?? ROOT);
   const uuid = q.uuid || undefined;
   const file = q.file || undefined;
   const docT = Number(q.docT ?? "0.78");
   const refT = Number(q.refT ?? "0.85");
   try {
     const db = await dbPromise;
+    const sel = {
+      ...(uuid ? { uuid } : {}),
+      ...(file ? { file } : {}),
+    } as { uuid?: string; file?: string };
     const out = await computePreview(
-      { uuid, file },
+      sel,
       { dir, docThreshold: docT, refThreshold: refT },
       db,
     );
@@ -134,28 +231,20 @@ app.get("/api/preview", async (req, reply) => {
 });
 
 // Text search over Chroma collection, returns best match per document
-app.get("/api/search", async (req, reply) => {
+app.get<{
+  Querystring: { q?: string; collection?: string; k?: string | number };
+}>("/api/search", async (req, reply) => {
   try {
-    const q = (req.query || {}) as any;
+    const q = req.query || {};
     const query = String(q.q || "").trim();
     if (!query) return reply.send({ items: [] });
     const collection = q.collection || COLLECTION;
     const k = Math.max(1, Math.min(100, Number(q.k || "10") | 0));
 
-    const { ChromaClient } = await import("chromadb");
-    const { OllamaEmbeddingFunction } = await import("@chroma-core/ollama");
-    const { OLLAMA_URL } = await import("./utils");
     const embedModel = "nomic-embed-text:latest";
-
-    const client = new ChromaClient({});
-    const embedder = new OllamaEmbeddingFunction({
-      model: embedModel,
-      url: OLLAMA_URL,
-    });
-    const coll = await client.getOrCreateCollection({
-      name: collection,
-      metadata: { embed_model: embedModel, "hnsw:space": "cosine" },
-      embeddingFunction: embedder,
+    const { coll } = await getChromaCollection({
+      collection,
+      embedModel,
     });
 
     const res: any = await coll.query({ queryTexts: [query], nResults: k });
@@ -192,279 +281,360 @@ app.get("/api/search", async (req, reply) => {
   }
 });
 
-app.get("/api/read", async (req, reply) => {
-  try {
-    const q = (req.query || {}) as any;
-    const dir = path.resolve(q.dir || ROOT);
-    const file = q.file as string;
-    if (!file) throw new Error("Missing file parameter");
-    const abs = path.resolve(file);
-    if (!abs.startsWith(dir)) throw new Error("File outside allowed dir");
-    if (!/\.(md|mdx|markdown|txt)$/i.test(abs))
-      throw new Error("Only markdown or text files allowed");
-    const data = await fs.readFile(abs, "utf8");
-    reply.header("content-type", "text/plain; charset=utf-8");
-    return reply.send(data);
-  } catch (e: any) {
-    reply.code(400);
-    return reply.send({ error: e?.message || String(e) });
-  }
-});
+app.get<{ Querystring: { dir?: string; file: string } }>(
+  "/api/read",
+  async (req, reply) => {
+    try {
+      const q = req.query || {};
+      const dir = path.resolve(q.dir ?? ROOT);
+      const file = q.file;
+      if (!file) throw new Error("Missing file parameter");
+      const abs = path.resolve(file);
+      if (!abs.startsWith(dir)) throw new Error("File outside allowed dir");
+      if (!/\.(md|mdx|markdown|txt)$/i.test(abs))
+        throw new Error("Only markdown or text files allowed");
+      const data = await fs.readFile(abs, "utf8");
+      reply.header("content-type", "text/plain; charset=utf-8");
+      return reply.send(data);
+    } catch (e: any) {
+      reply.code(400);
+      return reply.send({ error: e?.message || String(e) });
+    }
+  },
+);
 
 // Return chunks for a given file or uuid
-app.get("/api/chunks", async (req, reply) => {
-  try {
-    const q = (req.query || {}) as any;
-    const wantFile = q.file ? path.resolve(q.file) : undefined;
-    let uuid: string | undefined = (q.uuid || undefined) as string | undefined;
+app.get<{ Querystring: { uuid?: string; file?: string } }>(
+  "/api/chunks",
+  async (req, reply) => {
+    try {
+      const q = req.query || {};
+      const wantFile = q.file ? path.resolve(q.file) : undefined;
+      let uuid: string | undefined = q.uuid || undefined;
 
-    const db = await dbPromise;
-    if (!uuid && wantFile) {
-      for await (const [u, info] of db.docs.iterator()) {
-        const p = (info as any)?.path as string | undefined;
-        if (p && path.resolve(p) === wantFile) {
-          uuid = u;
-          break;
+      const db = await dbPromise;
+      if (!uuid && wantFile) {
+        for await (const [u, info] of db.docs.iterator()) {
+          const p = info?.path as string | undefined;
+          if (p && path.resolve(p) === wantFile) {
+            uuid = u;
+            break;
+          }
         }
       }
-    }
-    if (!uuid) throw new Error("Missing uuid or file");
+      if (!uuid) throw new Error("Missing uuid or file");
 
-    const raw = (await db.chunks.get(uuid).catch(() => [])) as any;
-    const chunks = Array.isArray(raw) ? raw : [];
-    reply.header("content-type", "application/json");
-    return reply.send({ uuid, items: chunks });
-  } catch (e: any) {
-    reply.code(400);
-    return reply.send({ error: e?.message || String(e) });
-  }
-});
+      const raw = (await db.chunks.get(uuid).catch(() => [])) as unknown;
+      const chunks = Array.isArray(raw) ? (raw as unknown[]) : [];
+      reply.header("content-type", "application/json");
+      return reply.send({ uuid, items: chunks });
+    } catch (e: any) {
+      reply.code(400);
+      return reply.send({ error: e?.message || String(e) });
+    }
+  },
+);
 
 // Return precomputed query hits for a chunk id, enriched with titles/paths
-app.get("/api/chunk-hits", async (req, reply) => {
-  try {
-    const q = (req.query || {}) as any;
-    const id = String(q.id || "");
-    if (!id) throw new Error("Missing id");
-    const db = await dbPromise;
-    const qhitsKV = db.root.sublevel<string, readonly any[]>("q", {
-      valueEncoding: "json",
-    });
-    const raw = (await qhitsKV.get(id).catch(() => [])) as any;
-    const hits = Array.isArray(raw) ? raw : [];
-    // Enrich with doc title/path
-    const docs: Record<string, { title?: string; path?: string }> = {};
-    for await (const [u, info] of db.docs.iterator()) {
-      docs[u] = { title: (info as any)?.title, path: (info as any)?.path };
+app.get<{ Querystring: { id: string } }>(
+  "/api/chunk-hits",
+  async (req, reply) => {
+    try {
+      const q = req.query || {};
+      const id = String(q.id || "");
+      if (!id) throw new Error("Missing id");
+      const db = await dbPromise;
+      const raw = (await db.q.get(id).catch(() => [])) as unknown;
+      const hits = Array.isArray(raw) ? (raw as unknown[]) : [];
+      // Enrich with doc title/path
+      const docs: Record<string, { title?: string; path?: string }> = {};
+      for await (const [u, info] of db.docs.iterator()) {
+        docs[u] = { title: info?.title, path: info?.path };
+      }
+      const items = hits.map((h: any) => ({
+        docUuid: h.docUuid,
+        score: h.score,
+        startLine: h.startLine,
+        startCol: h.startCol,
+        title: docs[h.docUuid]?.title || h.docUuid,
+        path: docs[h.docUuid]?.path || "",
+      }));
+      reply.header("content-type", "application/json");
+      return reply.send({ id, items });
+    } catch (e: any) {
+      reply.code(400);
+      return reply.send({ error: e?.message || String(e) });
     }
-    const items = hits.map((h: any) => ({
-      docUuid: h.docUuid,
-      score: h.score,
-      startLine: h.startLine,
-      startCol: h.startCol,
-      title: docs[h.docUuid]?.title || h.docUuid,
-      path: docs[h.docUuid]?.path || "",
-    }));
-    reply.header("content-type", "application/json");
-    return reply.send({ id, items });
-  } catch (e: any) {
-    reply.code(400);
-    return reply.send({ error: e?.message || String(e) });
-  }
-});
-
-import { sseInit, log } from "./lib/sse";
+  },
+);
 
 // Pipeline status per document
-app.get("/api/status", async (req, reply) => {
+app.get<{
+  Querystring: {
+    dir?: string;
+    limit?: string | number;
+    page?: string | number;
+    onlyIncomplete?: string;
+  };
+}>("/api/status", async (req, reply) => {
   try {
-    const q = (req.query || {}) as any;
-    const dir = path.resolve(q.dir || ROOT);
+    const q = req.query || {};
+    const dir = path.resolve(q.dir ?? ROOT);
+    const limit = Math.max(1, Math.min(1000, Number(q.limit || "200") | 0));
+    const page = Math.max(1, Number(q.page || "1") | 0);
+    const onlyIncomplete = String(q.onlyIncomplete || "0") === "1";
     const db = await dbPromise;
     const docs: Array<{ uuid: string; path: string; title: string }> = [];
     for await (const [uuid, info] of db.docs.iterator()) {
-      const d = info as { path: string; title: string };
-      if (!d?.path) continue;
-      const abs = path.resolve(d.path);
+      if (!info?.path) continue;
+      const abs = path.resolve(info.path);
       if (!abs.startsWith(dir)) continue;
       if (!/\.(md|mdx|txt)$/i.test(abs)) continue;
-      docs.push({ uuid, path: d.path, title: d.title });
+      docs.push({ uuid, path: info.path, title: info.title });
     }
-    // helpers
-    const chunksKV = db.chunks;
-    const fpKV = db.fp;
-    const qhitsKV = db.root.sublevel<string, readonly any[]>("q", {
-      valueEncoding: "json",
-    });
-
-    async function docStatus(d: { uuid: string; path: string; title: string }) {
-      const abs = path.resolve(d.path);
-      let frontmatterDone = false;
-      let relationsPresent = false;
-      let relationsRelated = 0;
-      let relationsRefs = 0;
-      let footersPresent = false;
-      try {
-        const raw = await fs.readFile(abs, "utf8");
-        const gm = (await import("gray-matter")).default(raw);
-        const fm = (gm.data || {}) as any;
-        frontmatterDone = !!fm.uuid;
-        relationsPresent =
-          "related_to_uuid" in fm ||
-          "references" in fm ||
-          "related_to_title" in fm;
-        relationsRelated = Array.isArray(fm.related_to_uuid)
-          ? fm.related_to_uuid.length
-          : 0;
-        relationsRefs = Array.isArray(fm.references) ? fm.references.length : 0;
-        footersPresent =
-          /<!--\s*GENERATED-SECTIONS:DO-NOT-EDIT-BELOW\s*-->/.test(raw);
-      } catch {}
-      const chunks = (await chunksKV.get(d.uuid).catch(() => [])) as any;
-      const chunkArr = Array.isArray(chunks) ? (chunks as any[]) : [];
-      let fpCount = 0,
-        qCount = 0;
-      for (const c of chunkArr) {
-        try {
-          await fpKV.get(c.id);
-          fpCount++;
-        } catch {}
-        try {
-          const hs = await qhitsKV.get(c.id);
-          if (Array.isArray(hs)) qCount++;
-        } catch {}
-      }
-      return {
-        uuid: d.uuid,
-        path: d.path,
-        title: d.title,
-        frontmatter: { done: frontmatterDone },
-        embed: { chunks: chunkArr.length, fingerprints: fpCount },
-        query: { withHits: qCount, of: chunkArr.length },
-        relations: {
-          present: relationsPresent,
-          related: relationsRelated,
-          refs: relationsRefs,
-        },
-        footers: { present: footersPresent },
-      };
-    }
-
-    const items = await Promise.all(docs.map(docStatus));
+    const total = docs.length;
+    const start = (page - 1) * limit;
+    const end = Math.min(start + limit, total);
+    const pageDocs = start < end ? docs.slice(start, end) : [];
+    const itemsRaw = await Promise.all(
+      pageDocs.map((d) => computeDocStatus(db, d)),
+    );
+    const items = onlyIncomplete
+      ? itemsRaw.filter((it) => {
+          const embedIncomplete =
+            (it.embed?.fingerprints || 0) < (it.embed?.chunks || 0);
+          const queryIncomplete =
+            (it.query?.withHits || 0) < (it.query?.of || 0);
+          return (
+            !it.frontmatter?.done ||
+            embedIncomplete ||
+            queryIncomplete ||
+            !it.relations?.present ||
+            !it.footers?.present
+          );
+        })
+      : itemsRaw;
     reply.header("content-type", "application/json");
-    return reply.send({ items });
+    reply.header("Cache-Control", "no-store, no-cache, must-revalidate");
+    reply.header("Pragma", "no-cache");
+    return reply.send({ items, page, hasMore: end < total, total });
   } catch (e: any) {
     reply.code(500);
     return reply.send({ error: e?.message || String(e) });
   }
 });
 
-app.get("/api/run", async (req, reply) => {
-  const q = (req.query || {}) as any;
-  const dir = path.resolve(q.dir || ROOT);
-  const collection = q.collection || COLLECTION;
-  const docT = q.docT || "0.78";
-  const refT = q.refT || "0.85";
-  const line = sseInit(reply);
-  line(`Starting pipeline in ${dir}`);
-  try {
-    const db = await dbPromise;
-    const { getChromaCollection } = await import("./lib/chroma");
-    const embedModel = "nomic-embed-text:latest";
-    const { coll } = await getChromaCollection({ collection, embedModel });
+// ---- DRY helpers for pipeline serving over SSE/WS ----
+type RunArgsLocal = RunArgs;
 
-    line(
-      "PROGRESS " + JSON.stringify({ step: "frontmatter", index: 1, of: 6 }),
-    );
-    const sel = q.files as string | undefined;
-    const files = sel ? JSON.parse(sel) : undefined;
-    await runFrontmatter({ dir, genModel: "qwen3:4b", files }, db, (p) =>
-      line(
-        "PROGRESS " +
-          JSON.stringify({
-            step: p.step,
-            percent: Math.round((p.done / p.total) * 100),
-            message: `${p.done}/${p.total}`,
-          }),
-      ),
-    );
-    log(line, "01-frontmatter: done.");
-    line("PROGRESS " + JSON.stringify({ step: "embed", index: 2, of: 6 }));
-    await runEmbed(
-      { dir, embedModel: embedModel, collection, files },
-      db,
-      coll,
-      (p) =>
-        line(
-          "PROGRESS " +
-            JSON.stringify({
-              step: p.step,
-              percent: Math.round((p.done / p.total) * 100),
-              message: `${p.done}/${p.total}`,
-            }),
-        ),
-    );
-    log(line, "02-embed: done.");
-    line("PROGRESS " + JSON.stringify({ step: "query", index: 3, of: 6 }));
-    await runQuery(
-      { embedModel: embedModel, collection, k: 16, force: true, files },
-      db,
-      coll,
-      (p) =>
-        line(
-          "PROGRESS " +
-            JSON.stringify({
-              step: p.step,
-              percent: Math.round((p.done / p.total) * 100),
-              message: `${p.done}/${p.total}`,
-            }),
-        ),
-    );
-    log(line, "03-query: done.");
-    line("PROGRESS " + JSON.stringify({ step: "relations", index: 4, of: 6 }));
-    await runRelations(
-      {
-        docsDir: dir,
-        docThreshold: Number(docT),
-        refThreshold: Number(refT),
-        files,
-      },
-      db,
-      (p) =>
-        line(
-          "PROGRESS " +
-            JSON.stringify({
-              step: p.step,
-              percent: Math.round((p.done / p.total) * 100),
-              message: `${p.done}/${p.total}`,
-            }),
-        ),
-    );
-    log(line, "04-relations: done.");
-    line("PROGRESS " + JSON.stringify({ step: "footers", index: 5, of: 6 }));
-    await runFooters({ dir, anchorStyle: "block", files }, db, (p) =>
-      line(
-        "PROGRESS " +
-          JSON.stringify({
-            step: p.step,
-            percent: Math.round((p.done / p.total) * 100),
-            message: `${p.done}/${p.total}`,
-          }),
-      ),
-    );
-    log(line, "05-footers: done.");
-    await runRename({ dir, files });
-    line("PROGRESS " + JSON.stringify({ step: "rename", index: 6, of: 6 }));
-    log(line, "06-rename: done.");
-  } catch (e: any) {
-    log(line, String(e?.stack || e));
+function resolveRunArgs(q: any): RunArgsLocal {
+  const token = String(q?.token || "").trim();
+  if (token && RUN_TOKENS.has(token)) {
+    const a = RUN_TOKENS.get(token);
+    return {
+      dir: a.dir,
+      collection: a.collection,
+      docT: a.docT,
+      refT: a.refT,
+      files: a.files,
+    };
   }
-  line("Done.");
-  reply.raw.end();
-});
+  return {
+    dir: path.resolve(q?.dir || ROOT),
+    collection: q?.collection || COLLECTION,
+    docT: q?.docT || "0.78",
+    refT: q?.refT || "0.85",
+    files: q?.files ? JSON.parse(String(q.files)) : undefined,
+  };
+}
 
-app.get("/api/run-step", async (req, reply) => {
-  const q = (req.query || {}) as any;
+// servePipeline now lives in lib/pipeline
+
+app.get<{ Querystring: Partial<RunArgsLocal> }>(
+  "/api/run",
+  async (req, reply) => {
+    const runArgs = resolveRunArgs(req.query || {});
+    const line = sseInit(reply);
+    const db = await dbPromise;
+    await servePipeline(db, line, runArgs);
+    line("Done.");
+    reply.raw.end();
+  },
+);
+
+// WebSocket equivalent for running full pipeline (more robust than SSE)
+if (WS_ENABLED) {
+  app.get<{ Querystring: Partial<RunArgsLocal> }>(
+    "/ws/run",
+    { websocket: true },
+    async (
+      socket: WebSocket,
+      req: FastifyRequest<{ Querystring: Partial<RunArgsLocal> }>,
+    ) => {
+      const runArgs = resolveRunArgs(req.query || {});
+      const send = (line: string) => {
+        try {
+          socket.send(String(line));
+        } catch {}
+      };
+      const db = await dbPromise;
+      await servePipeline(db, send, runArgs);
+      try {
+        socket.send("Done.");
+      } catch {}
+      try {
+        socket.close();
+      } catch {}
+    },
+  );
+
+  // Single-step WS endpoint
+  app.get<{
+    Querystring: {
+      step?: string;
+      dir?: string;
+      collection?: string;
+      embedModel?: string;
+      genModel?: string;
+      k?: string | number;
+      force?: string;
+      docT?: string | number;
+      refT?: string | number;
+      refMin?: string | number;
+      refMax?: string | number;
+      maxRelated?: string | number;
+      maxReferences?: string | number;
+      anchorStyle?: string;
+      files?: string;
+    };
+  }>(
+    "/ws/run-step",
+    { websocket: true },
+    async (
+      socket: WebSocket,
+      req: FastifyRequest<{
+        Querystring: {
+          step?: string;
+          dir?: string;
+          collection?: string;
+          embedModel?: string;
+          genModel?: string;
+          k?: string | number;
+          force?: string;
+          docT?: string | number;
+          refT?: string | number;
+          refMin?: string | number;
+          refMax?: string | number;
+          maxRelated?: string | number;
+          maxReferences?: string | number;
+          anchorStyle?: string;
+          files?: string;
+        };
+      }>,
+    ) => {
+      const q = req.query || {};
+      const step = String(q.step || "").toLowerCase();
+      const dir = path.resolve(q.dir || ROOT);
+      const collection = q.collection || COLLECTION;
+      const embedModel = q.embedModel || "nomic-embed-text:latest";
+      const genModel = q.genModel || "qwen3:4b";
+      const k = Number(q.k || "16") || 16;
+      const force = String(q.force || "false") === "true";
+      const docT = Number(q.docT ?? "0.78");
+      const refT = Number(q.refT ?? "0.85");
+      const refMin =
+        q.refMin != null && Number.isFinite(Number(q.refMin))
+          ? Number(q.refMin)
+          : refT;
+      const refMax =
+        q.refMax != null && Number.isFinite(Number(q.refMax))
+          ? Number(q.refMax)
+          : 1.0;
+      const maxRelated =
+        q.maxRelated != null ? Number(q.maxRelated) : undefined;
+      const maxReferences =
+        q.maxReferences != null ? Number(q.maxReferences) : undefined;
+      const anchorStyle = (q.anchorStyle || "block") as
+        | "block"
+        | "heading"
+        | "none";
+      const sel = q.files;
+      const files = sel ? JSON.parse(sel) : undefined;
+      const send = (s: string) => {
+        try {
+          socket.send(String(s));
+        } catch {}
+      };
+      send(`Running step=${step} in ${dir}`);
+      try {
+        const db = await dbPromise;
+        const args = {
+          step,
+          dir,
+          collection,
+          embedModel,
+          genModel,
+          k,
+          force,
+          docT,
+          refT,
+          anchorStyle,
+          files,
+          // relations tuning
+          refMin,
+          refMax,
+          maxRelated,
+          maxReferences,
+        };
+        await runDocopsStep(db, step as StepId, args, (p) =>
+          send(
+            "PROGRESS " +
+              JSON.stringify({
+                step: p.step,
+                percent:
+                  p.percent ??
+                  (p.total != null && p.done != null
+                    ? Math.round((p.done / p.total) * 100)
+                    : undefined),
+                message:
+                  p.message ??
+                  (p.total != null && p.done != null
+                    ? `${p.done}/${p.total}`
+                    : undefined),
+              }),
+          ),
+        );
+        send(`Step '${step}' completed.`);
+      } catch (e: any) {
+        send(String(e?.stack || e));
+      }
+      try {
+        socket.close();
+      } catch {}
+    },
+  );
+}
+
+app.get<{
+  Querystring: {
+    step?: string;
+    dir?: string;
+    collection?: string;
+    embedModel?: string;
+    genModel?: string;
+    k?: string | number;
+    force?: string;
+    docT?: string | number;
+    refT?: string | number;
+    refMin?: string | number;
+    refMax?: string | number;
+    maxRelated?: string | number;
+    maxReferences?: string | number;
+    anchorStyle?: string;
+    files?: string;
+  };
+}>("/api/run-step", async (req, reply) => {
+  const q = req.query || {};
   const step = String(q.step || "").toLowerCase();
   const dir = path.resolve(q.dir || ROOT);
   const collection = q.collection || COLLECTION;
@@ -474,49 +644,64 @@ app.get("/api/run-step", async (req, reply) => {
   const force = String(q.force || "false") === "true";
   const docT = Number(q.docT ?? "0.78");
   const refT = Number(q.refT ?? "0.85");
+  const refMin =
+    q.refMin != null && Number.isFinite(Number(q.refMin))
+      ? Number(q.refMin)
+      : refT;
+  const refMax =
+    q.refMax != null && Number.isFinite(Number(q.refMax))
+      ? Number(q.refMax)
+      : 1.0;
+  const maxRelated = q.maxRelated != null ? Number(q.maxRelated) : undefined;
+  const maxReferences =
+    q.maxReferences != null ? Number(q.maxReferences) : undefined;
   const anchorStyle = (q.anchorStyle || "block") as
     | "block"
     | "heading"
     | "none";
-  const sel = q.files as string | undefined;
+  const sel = q.files;
   const files = sel ? JSON.parse(sel) : undefined;
 
   const line = sseInit(reply);
   line(`Running step=${step} in ${dir}`);
   try {
     const db = await dbPromise;
-    const needColl = step === "embed" || step === "query";
-    let coll: any = null;
-    if (needColl) {
-      const { getChromaCollection } = await import("./lib/chroma");
-      coll = (await getChromaCollection({ collection, embedModel })).coll;
-    }
-
-    switch (step) {
-      case "frontmatter":
-        await runFrontmatter({ dir, genModel, files }, db);
-        break;
-      case "embed":
-        await runEmbed({ dir, embedModel, collection, files }, db, coll);
-        break;
-      case "query":
-        await runQuery({ embedModel, collection, k, force, files }, db, coll);
-        break;
-      case "relations":
-        await runRelations(
-          { docsDir: dir, docThreshold: docT, refThreshold: refT, files },
-          db,
-        );
-        break;
-      case "footers":
-        await runFooters({ dir, anchorStyle, files }, db);
-        break;
-      case "rename":
-        await runRename({ dir, files });
-        break;
-      default:
-        line(`Unknown step: ${step}`);
-    }
+    const args = {
+      step,
+      dir,
+      collection,
+      embedModel,
+      genModel,
+      k,
+      force,
+      docT,
+      refT,
+      anchorStyle,
+      files,
+      // relations tuning
+      refMin,
+      refMax,
+      maxRelated,
+      maxReferences,
+    };
+    await runDocopsStep(db, step as StepId, args, (p) =>
+      line(
+        "PROGRESS " +
+          JSON.stringify({
+            step: p.step,
+            percent:
+              p.percent ??
+              (p.total != null && p.done != null
+                ? Math.round((p.done / p.total) * 100)
+                : undefined),
+            message:
+              p.message ??
+              (p.total != null && p.done != null
+                ? `${p.done}/${p.total}`
+                : undefined),
+          }),
+      ),
+    );
     line(`Step '${step}' completed.`);
   } catch (e: any) {
     line(String(e?.stack || e));

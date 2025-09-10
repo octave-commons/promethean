@@ -20,7 +20,6 @@
     "diff": "^5.2.0",
     "globby": "^14.0.2",
     "ts-morph": "^22.0.0",
-    "typescript": "5.9.2",
     "yaml": "^2.5.0"
   },
   "devDependencies": {

@@ -1,12 +1,12 @@
-
 {
-    "extends": "../../config/tsconfig.base.json",
-    "compilerOptions": {
-        "rootDir": "src",
-        "outDir": "dist",
-        "composite": true,
-        "declaration": true
-    },
-    "include": ["src/**/*"],
-    "references": []
+  "extends": "../../config/tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "composite": true,
+    "types": ["node", "ws", "ava"],
+    "declaration": true
+  },
+  "include": ["src/**/*", "./types/**/*.d.ts"],
+  "references": [{ "path": "../test-utils" }]
 }

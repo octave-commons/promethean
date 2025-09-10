@@ -222,7 +222,7 @@ export class Graph<ND = unknown, ED = unknown> {
         if (!this.directed) throw new Error('topologicalSort requires directed graph');
         const indeg = new Map<Id, number>();
         for (const { id } of this.nodes()) indeg.set(id, 0);
-        for (const { u, v } of this.edges()) indeg.set(v, (indeg.get(v) ?? 0) + 1);
+        for (const { v } of this.edges()) indeg.set(v, (indeg.get(v) ?? 0) + 1);
         const q: Id[] = [];
         for (const [id, d] of indeg) if (d === 0) q.push(id);
         const out: Id[] = [];

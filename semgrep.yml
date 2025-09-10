@@ -1,0 +1,19 @@
+rules:
+  - id: no-empty-catch
+    severity: ERROR
+    message: "Empty catch blocks hide errors — handle or log the exception"
+    languages: [typescript, javascript]
+
+    # catch {} OR catch (e) {}
+    pattern-either:
+      - pattern: |
+          try { ... } catch { }
+      - pattern: |
+          try { ... } catch ($E) { }
+
+    # paths:
+    #   include:
+    #     - packages/**/*.ts
+    #     - packages/**/*.tsx
+    #     - packages/**/*.js
+    #     - packages/**/*.mjs
