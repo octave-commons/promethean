@@ -1,4 +1,5 @@
 import { proxy } from "./proxy.js";
+import { AGENT_INDEX, getSup } from "../v0/agent.js";
 
 export function registerAgentRoutes(v1: any) {
   // ------------------------------------------------------------------
@@ -106,14 +107,35 @@ export function registerAgentRoutes(v1: any) {
         required: ["id"],
         properties: { id: { type: "string" } },
       },
+      response: { 200: { type: "string" } },
     },
-    handler: proxy(
-      v1,
-      "GET",
-      (req: any) =>
-        `/v0/agent/stream?id=${encodeURIComponent(String(req.params.id))}`,
-      undefined,
-    ),
+    async handler(req: any, reply: any) {
+      const id = String(req.params?.id || "");
+      if (!id) return reply.code(400).send();
+      reply.raw.writeHead(200, {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+      });
+      const key = AGENT_INDEX.get(id) || "default";
+      const sup = getSup(v1, key);
+      try {
+        const chunk = sup.logs(id, 2048);
+        reply.raw.write(
+          `event: replay\ndata: ${JSON.stringify({ text: chunk })}\n\n`,
+        );
+      } catch {}
+      const handler = (data: any) =>
+        reply.raw.write(
+          `event: data\ndata: ${JSON.stringify({ text: String(data) })}\n\n`,
+        );
+      sup.on(id, handler);
+      req.raw.on("close", () => {
+        try {
+          sup.off(id, handler);
+        } catch {}
+      });
+    },
   });
 
   v1.post("/agents/:id", {
