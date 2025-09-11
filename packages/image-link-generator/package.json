@@ -14,22 +14,24 @@
     "./dist/*": "./dist/*",
     "./*": "./dist/*"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
-    "lint": "pnpm exec biome lint .",
+    "lint": "pnpm exec eslint .",
     "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
-    "format": "pnpm exec biome format --write ."
+    "format": "pnpm exec prettier --write ."
   },
   "module": "dist/index.js",
   "dependencies": {
-    "@xenova/transformers": "^2.17.2"
+    "@xenova/transformers": "^2.17.2",
+    "@promethean/fs": "workspace:*"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.2.2",
     "@types/node": "^20.19.11",
     "ava": "^6.4.1",
     "c8": "^10.1.3",

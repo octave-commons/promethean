@@ -11,8 +11,8 @@
     "coverage": "pnpm run build && SKIP_NETWORK_TESTS=1 c8 ava --config ../../../config/ava.config.mjs tests/smoke.test.js --node-arguments='--enable-source-maps'",
     "build:check": "tsc --noEmit --incremental false -p .",
     "deploy": "pnpm run build && node --env-file=../../.env dist/util/deploy.js",
-    "lint": "pnpm exec biome lint --config-path ../config/biome.json .. || true",
-    "format": "pnpm exec biome format --config-path ../config/biome.json ..",
+    "lint": "pnpm exec eslint . || true",
+    "format": "pnpm exec prettier --write .",
     "start:dev": "node  --loader ts-node/esm  src/index.ts"
   },
   "keywords": [
@@ -56,8 +56,6 @@
     "wav": "^1.0.2",
     "wav-decoder": "^1.3.0",
     "ws": "^8.17.0",
-    "@promethean/embedding": "workspace:*",
-    "@promethean/utils": "workspace:*",
     "@promethean/security": "workspace:*"
   },
   "devDependencies": {
