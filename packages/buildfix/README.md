@@ -19,6 +19,17 @@ Or run the full pipeline with [piper](https://github.com/promethean-framework/pi
 pnpm --filter @promethean/piper run buildfix --config packages/buildfix/pipelines.json
 ```
 
+### Workspace vs single project
+
+`bf:01-errors` runs in workspace mode by default, scanning the current
+directory for every `tsconfig.json`. To process a single project, disable
+workspace mode by passing `--root=false` (also accepts `--root=no` or
+`--root=0`) and provide `--tsconfig`:
+
+```sh
+pnpm --filter @promethean/buildfix bf:01-errors --root=false --tsconfig path/to/tsconfig.json
+```
+
 ## Pipeline steps
 
 1. **bf-errors** – gather TypeScript diagnostics into `.cache/buildfix/errors.json`.
