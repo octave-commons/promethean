@@ -134,6 +134,7 @@ kanban-plugin: board
 - [ ] [[design-vision-pipeline-mvp]]
 - [ ] [[design-audio-pipeline-mvp]]
 - [ ] [[docker-compose-edn-template-system]]
+- [ ] whole project builds with new stricter tsconfig
 
 
 ## Accepted
