@@ -7,10 +7,12 @@ import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { minimatch } from "minimatch";
 import fc from "fast-check";
+import { Stryker } from "@stryker-mutator/core";
 
 const execFileAsync = promisify(execFile);
 
 export function registerTddTools(server: Server) {
+  // biome-ignore lint/suspicious/noExplicitAny: server typing is dynamic
   const s = server as any;
   // scaffoldTest
   s.registerTool(
@@ -108,7 +110,7 @@ test("${testName}", t => {
       const args = ["--yes", "ava", "--json"];
       if (tap) args.push("--tap");
       if (watch) args.push("--watch");
-      match?.forEach((m: string) => args.push("--match", m));
+      for (const m of match ?? []) args.push("--match", m);
       if (files?.length) args.push(...files);
 
       const { stdout } = await execFileAsync("npx", args);
@@ -201,6 +203,7 @@ test("${testName}", t => {
     }) => {
       const { propertyModule, propertyExport, runs } = input;
       const mod = await import(pathToFileURL(propertyModule).href);
+      // biome-ignore lint/suspicious/noExplicitAny: dynamic import
       const propertyFactory = (mod as any)[propertyExport];
       if (typeof propertyFactory !== "function") {
         throw new Error(`Export "${propertyExport}" is not a function`);
@@ -222,12 +225,22 @@ test("${testName}", t => {
     },
     async (input: { files?: string[]; minScore: number }) => {
       const { files, minScore } = input;
-      const args = ["--yes", "stryker", "run"];
-      if (files?.length) args.push(`--mutate ${files.join(",")}`);
-
-      const { stdout } = await execFileAsync("npx", args);
-      const match = stdout.match(/Mutation score\s*([\d.]+)/);
-      const score = match?.[1] ? parseFloat(match[1]) : 0;
+      const stryker = new Stryker({
+        mutate: files?.length ? files : undefined,
+      });
+      // biome-ignore lint/suspicious/noExplicitAny: stryker result typing
+      const results: any[] = await stryker.runMutationTest();
+      const ignored = new Set(["ignored", "init"]);
+      const success = new Set([
+        "killed",
+        "timedOut",
+        "runtimeError",
+        "compileError",
+      ]);
+      const considered = results.filter((r) => !ignored.has(r.status));
+      const killed = considered.filter((r) => success.has(r.status)).length;
+      const score =
+        considered.length === 0 ? 0 : (killed / considered.length) * 100;
 
       if (score < minScore) {
         throw new Error(
