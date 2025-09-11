@@ -29,8 +29,10 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.17.5",
+    "@stryker-mutator/core": "^9.1.1",
     "fast-check": "^3.15.1",
     "minimatch": "^9.0.3",
     "zod": "^3.25.76"
-  }
+  },
+  "devDependencies": {}
 }

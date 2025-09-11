@@ -3,15 +3,38 @@ import { z } from "zod";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { execFile } from "node:child_process";
+import { execFile, type ExecFileOptions, spawn } from "node:child_process";
+
 import { promisify } from "node:util";
 import { minimatch } from "minimatch";
 import fc from "fast-check";
+import { Stryker } from "@stryker-mutator/core";
 
 const execFileAsync = promisify(execFile);
+const EXEC_OPTS: ExecFileOptions & { encoding: "utf8" } = {
+  encoding: "utf8",
+  timeout: 120_000,
+  maxBuffer: 10 * 1024 * 1024,
+};
 
+/**
+ * Registers a set of TDD-related tools on the provided Server instance.
+ *
+ * The function adds six tools under the `tdd.*` namespace:
+ * - `tdd.scaffoldTest`: creates or appends a test file next to a module (unit or property-test template) and returns the spec path.
+ * - `tdd.changedFiles`: returns files changed against a git base ref, filtered by provided glob patterns.
+ * - `tdd.runTests`: runs AVA via npx with JSON (or TAP) output and returns aggregated results (passed, failed, durationMs, failures).
+ * - `tdd.coverage`: runs c8+AVA to produce coverage summary, optionally enforcing thresholds for lines/branches/functions.
+ * - `tdd.propertyCheck`: dynamically imports a module export that builds a fast-check property and asserts it for a given number of runs.
+ * - `tdd.mutationScore`: runs Stryker mutation testing and returns the mutation score, failing if below a minimum.
+ *
+ * Side effects: executes CLI tools (git, npx with ava/c8/stryker), reads and writes files in the workspace, and dynamically imports modules.
+ */
 export function registerTddTools(server: Server) {
+  // biome-ignore lint/suspicious/noExplicitAny: server typing is dynamic
   const s = server as any;
+  let watchProc: ReturnType<typeof spawn> | null = null;
+  let watchBuffer = "";
   // scaffoldTest
   s.registerTool(
     "tdd.scaffoldTest",
@@ -74,11 +97,11 @@ test("${testName}", t => {
     },
     async (input: { base: string; patterns: string[] }) => {
       const { base, patterns } = input;
-      const { stdout } = await execFileAsync("git", [
-        "diff",
-        "--name-only",
-        `${base}...HEAD`,
-      ]);
+      const { stdout } = await execFileAsync(
+        "git",
+        ["diff", "--name-only", `${base}...HEAD`],
+        EXEC_OPTS,
+      );
       const files = stdout
         .split("\n")
         .filter(Boolean)
@@ -94,24 +117,17 @@ test("${testName}", t => {
       inputSchema: z.object({
         files: z.array(z.string()).optional(),
         match: z.array(z.string()).optional(),
-        watch: z.boolean().default(false),
-        tap: z.boolean().default(false),
       }),
     },
-    async (input: {
-      files?: string[];
-      match?: string[];
-      watch: boolean;
-      tap: boolean;
-    }) => {
-      const { files, match, watch, tap } = input;
+    async (input: { files?: string[]; match?: string[] }) => {
+      const { files, match } = input;
       const args = ["--yes", "ava", "--json"];
       if (tap) args.push("--tap");
       if (watch) args.push("--watch");
       match?.forEach((m: string) => args.push("--match", m));
       if (files?.length) args.push(...files);
 
-      const { stdout } = await execFileAsync("npx", args);
+      const { stdout } = await execFileAsync("npx", args, EXEC_OPTS);
       const result = JSON.parse(stdout);
       return {
         passed: result.stats.passed,
@@ -124,6 +140,53 @@ test("${testName}", t => {
       };
     },
   );
+
+  // watch commands
+  s.registerTool(
+    "tdd.startWatch",
+    {
+      inputSchema: z.object({
+        files: z.array(z.string()).optional(),
+        match: z.array(z.string()).optional(),
+      }),
+    },
+    async (input: { files?: string[]; match?: string[] }) => {
+      if (watchProc) throw new Error("watch already running");
+      const { files, match } = input;
+      const args = ["--yes", "ava", "--watch"] as string[];
+      match?.forEach((m: string) => args.push("--match", m));
+      if (files?.length) args.push(...files);
+      watchBuffer = "";
+      watchProc = spawn("npx", args, { stdio: ["pipe", "pipe", "pipe"] });
+      watchProc.stdout?.on("data", (d) => {
+        watchBuffer += d.toString();
+      });
+      watchProc.stderr?.on("data", (d) => {
+        watchBuffer += d.toString();
+      });
+      return { started: true };
+    },
+  );
+
+  s.registerTool(
+    "tdd.getWatchChanges",
+    { inputSchema: z.object({}) },
+    async () => {
+      if (!watchProc) throw new Error("watch not running");
+      const out = watchBuffer;
+      watchBuffer = "";
+      return { output: out };
+    },
+  );
+
+  s.registerTool("tdd.stopWatch", { inputSchema: z.object({}) }, async () => {
+    if (!watchProc) return { stopped: false };
+    watchProc.kill();
+    watchProc = null;
+    const out = watchBuffer;
+    watchBuffer = "";
+    return { stopped: true, output: out };
+  });
 
   // coverage
   s.registerTool(
@@ -156,7 +219,7 @@ test("${testName}", t => {
         "ava",
         ...(include ?? []),
       ];
-      await execFileAsync("npx", args);
+      await execFileAsync("npx", args, EXEC_OPTS);
 
       const summaryPath = path.join(
         process.cwd(),
@@ -201,6 +264,7 @@ test("${testName}", t => {
     }) => {
       const { propertyModule, propertyExport, runs } = input;
       const mod = await import(pathToFileURL(propertyModule).href);
+      // biome-ignore lint/suspicious/noExplicitAny: dynamic import
       const propertyFactory = (mod as any)[propertyExport];
       if (typeof propertyFactory !== "function") {
         throw new Error(`Export "${propertyExport}" is not a function`);
@@ -222,12 +286,22 @@ test("${testName}", t => {
     },
     async (input: { files?: string[]; minScore: number }) => {
       const { files, minScore } = input;
-      const args = ["--yes", "stryker", "run"];
-      if (files?.length) args.push(`--mutate ${files.join(",")}`);
-
-      const { stdout } = await execFileAsync("npx", args);
-      const match = stdout.match(/Mutation score\s*([\d.]+)/);
-      const score = match?.[1] ? parseFloat(match[1]) : 0;
+      const stryker = new Stryker({
+        mutate: files?.length ? files : undefined,
+      });
+      // biome-ignore lint/suspicious/noExplicitAny: stryker result typing
+      const results: any[] = await stryker.runMutationTest();
+      const ignored = new Set(["ignored", "init"]);
+      const success = new Set([
+        "killed",
+        "timedOut",
+        "runtimeError",
+        "compileError",
+      ]);
+      const considered = results.filter((r) => !ignored.has(r.status));
+      const killed = considered.filter((r) => success.has(r.status)).length;
+      const score =
+        considered.length === 0 ? 0 : (killed / considered.length) * 100;
 
       if (score < minScore) {
         throw new Error(
