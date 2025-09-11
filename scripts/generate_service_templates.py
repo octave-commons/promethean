@@ -69,8 +69,6 @@ def generate_scaffold(target: pathlib.Path, language: str) -> None:
             "include": ["src"],
         }
         (target / "tsconfig.json").write_text(json.dumps(tsconfig, indent=2) + "\n")
-        biome_base = ROOT / "templates" / "ts" / "biome.base.json"
-        shutil.copy(biome_base, target / "biome.json")
     else:
         raise ValueError(f"Unsupported language: {language}")
 

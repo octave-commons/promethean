@@ -15,7 +15,7 @@ const args = parseArgs({
   "--specs": ".cache/codemods/specs.json",
   "--delete-duplicates": "true",
 });
-// biome-ignore lint/style/noNonNullAssertion: argument is required with default
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- argument is required with default
 const specsPath = args["--specs"];
 
 function parseArgs<T extends Record<string, string>>(defaults: T): T {
@@ -47,7 +47,7 @@ async function loadTransforms(modsDir: string) {
     const id = d.name;
     const js = path.join(modsDir, id, "transform.js");
     const ts = path.join(modsDir, id, "transform.ts");
-    // biome-ignore lint/suspicious/noExplicitAny: transforms may export any shape
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- transforms may export any shape
     let mod: any;
     try {
       mod = await import(pathToFileURL(js).href);
@@ -117,7 +117,7 @@ async function main() {
 
       if (MODE === "dry") {
         const diffs = diffLines(before, after);
-        // biome-ignore lint/suspicious/noExplicitAny: diff library lacks types for parts
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- diff library lacks types for parts
         const pretty = diffs
           .map((part: any) => {
             const prefix = part.added ? "+" : part.removed ? "-" : " ";
