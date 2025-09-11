@@ -12,17 +12,27 @@ test("propertyCheck executes", async (t) => {
     "export const always = (fc) => fc.property(fc.integer(), n => n === n);\n",
   );
 
-  const handlers: Record<string, any> = {};
+  const handlers: Record<string, (input: unknown) => unknown> = {};
   const server = {
-    registerTool: (_name: string, _schema: unknown, handler: any) => {
-      handlers[_name] = handler;
+    registerTool: (
+      name: string,
+      _schema: unknown,
+      handler: (input: unknown) => unknown,
+    ) => {
+      handlers[name] = handler;
     },
-  } as any;
+  };
 
-  registerTddTools(server);
+  // biome-ignore lint/suspicious/noExplicitAny: test server stub
+  registerTddTools(server as any);
 
   await t.notThrowsAsync(() =>
-    handlers["tdd.propertyCheck"]({
+    (
+      handlers["tdd.propertyCheck"] as (arg: {
+        propertyModule: string;
+        propertyExport: string;
+      }) => Promise<unknown>
+    )({
       propertyModule: propFile,
       propertyExport: "always",
     }),

@@ -4,8 +4,9 @@
     "rootDir": "src",
     "outDir": "dist",
     "composite": true,
-    "declaration": true
+    "declaration": true,
+    "skipLibCheck": true
   },
   "include": ["src/**/*"],
-  "references": []
+  "exclude": ["dist", "node_modules"]
 }
