@@ -334,7 +334,12 @@ export function createFastifyAuth() {
       await fastify.register(rateLimit, {
         global: false, // we will use per-route rate limiting
       });
-    } catch {}
+    } catch (err) {
+      fastify.log?.error(
+        { err },
+        "rateLimit plugin registration failed, per-route limits may not apply",
+      );
+    }
 
     fastify.get(
       "/auth/me",
