@@ -24,7 +24,7 @@ export function normalizeToRoot(
   const p = String(inputPath || "");
   if (p === "/" || p === "") return base;
   const candidate = path.isAbsolute(p)
-    ? path.resolve(p)
+    ? path.resolve(base, p.slice(1))
     : path.resolve(base, p.replace(/^[\\/]+/, ""));
   const relToBase = path.relative(base, candidate);
   if (relToBase.startsWith("..") || path.isAbsolute(relToBase)) {
@@ -48,15 +48,19 @@ export async function resolvePath(
 ): Promise<string | null> {
   if (!p) return null;
   const absCandidate = path.resolve(ROOT_PATH, p);
-  try {
-    const st = await fs.stat(absCandidate);
-    if (st.isFile()) return absCandidate;
-  } catch {}
+  if (isInsideRoot(ROOT_PATH, absCandidate)) {
+    try {
+      const st = await fs.stat(absCandidate);
+      if (st.isFile()) return absCandidate;
+    } catch {}
+  }
   const matches = (await searchFiles(ROOT_PATH, p, 1)) as Array<{
     relative: string;
   }>;
-  const first = matches.at(0);
-  if (first) return path.resolve(ROOT_PATH, first.relative);
+  for (const m of matches) {
+    const full = path.resolve(ROOT_PATH, m.relative);
+    if (isInsideRoot(ROOT_PATH, full)) return full;
+  }
   return null;
 }
 
@@ -171,6 +175,7 @@ export async function listDirectory(
     if (ig.ignores(e.relative)) continue;
     if (type && e.type !== type) continue;
     const childAbs = path.resolve(ROOT_PATH, e.relative);
+    if (!isInsideRoot(ROOT_PATH, childAbs)) continue;
     let size: number | null = null;
     let mtimeMs: number | null = null;
     try {
