@@ -6,9 +6,11 @@ kanban-plugin: board
 
 ## Rejected
 
+- [ ] make biome run with same settings eslint has
 - [ ] [[run_model_bakeoff_md|Run model bakeoff]] #ops #codex-task #IceBox #ready
 - [ ] [[kanban-processor]] #todo
 - [ ] [[setup_a_second_agent_md|setup a second agent md]] #framework-core #IceBox #todo
+- [ ] [[evaluate-ollama-openvino]]
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #in-progress
 - [ ] [[update_makefile_to_have_commands_specific_for_agents_md|Update Makefile to have commands specific for agents]] #devops #devops #Ready #ready
 - [ ] [[run_model_bakeoff_md|Run model bakeoff]] #todo
@@ -99,6 +101,7 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] [[kubernetes-configurations-for-secure-distributed-deployment-on-local-net]]
 - [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #Breakdown #todo
 - [ ] [[redefine-all-existing-lambdas-with-high-order-functions-incoming|redefine all existing lambdas with high order functions incoming]] #framework-core #framework-core #Ready #todo
 - [ ] [[finish_whisper_npu_system_md_md|finish whisper npu system md md]] #breakdown
@@ -116,8 +119,8 @@ kanban-plugin: board
 
 ## Incoming
 
+- [ ] [[structural-code-editing-ai-tool-that-uses-tree-diffs-instead-of-string-based-universal-diffs--ensuring-generated-results-are-always-immediately-validatable]]
 - [ ] [[rewrite build tools with bb]]
-- [ ] [[CI passses]]
 - [ ] codex action build file contextualizer.
 - [ ] universal package manager
 - [ ] [[docs/bb-tool-chain]] #incoming
@@ -126,16 +129,11 @@ kanban-plugin: board
 - [ ] [[integrate-sonarqube-into-devops]] #incoming
 - [ ] [[github-crawler]]
 - [ ] [[tree-diffing-tools]]
-- [ ] [[fp-ts-config-and-linting]]
 - [ ] [[add-docker-compose-files-to-services]]
-- [ ] [[evaluate-ollama-openvino]]
 - [ ] [[evaluate-docker-npu-compatability]]
 - [ ] [[design-vision-pipeline-mvp]]
 - [ ] [[design-audio-pipeline-mvp]]
 - [ ] [[docker-compose-edn-template-system]]
-- [ ] [[kubernetes-configurations-for-secure-distributed-deployment-on-local-net]]
-- [ ] [[structural-code-editing-ai-tool-that-uses-tree-diffs-instead-of-string-based-universal-diffs--ensuring-generated-results-are-always-immediately-validatable]]
-- [ ] make biome run with same settings eslint has
 
 
 ## Accepted
@@ -308,6 +306,7 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[fp-ts-config-and-linting]]
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #breakdown
 - [ ] [[breakdown-makefile.hy|breakdown Makefile.hy]] #framework-core #ready
 - [ ] [[flatten-services|flatten services]] #framework-core #framework-core #Ready #todo
@@ -413,6 +412,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,true,true,true,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"textgenerator/templates/local/smart_task_templater_md.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,true,false,true,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"textgenerator/templates/local/smart_task_templater_md.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
