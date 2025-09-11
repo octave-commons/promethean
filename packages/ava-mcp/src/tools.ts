@@ -3,7 +3,7 @@ import { z } from "zod";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { execFile } from "node:child_process";
+import { execFile, spawn } from "node:child_process";
 import { promisify } from "node:util";
 import { minimatch } from "minimatch";
 import fc from "fast-check";
@@ -14,6 +14,8 @@ const execFileAsync = promisify(execFile);
 export function registerTddTools(server: Server) {
   // biome-ignore lint/suspicious/noExplicitAny: server typing is dynamic
   const s = server as any;
+  let watchProc: ReturnType<typeof spawn> | null = null;
+  let watchBuffer = "";
   // scaffoldTest
   s.registerTool(
     "tdd.scaffoldTest",
@@ -96,21 +98,14 @@ test("${testName}", t => {
       inputSchema: z.object({
         files: z.array(z.string()).optional(),
         match: z.array(z.string()).optional(),
-        watch: z.boolean().default(false),
-        tap: z.boolean().default(false),
       }),
     },
-    async (input: {
-      files?: string[];
-      match?: string[];
-      watch: boolean;
-      tap: boolean;
-    }) => {
-      const { files, match, watch, tap } = input;
+    async (input: { files?: string[]; match?: string[] }) => {
+      const { files, match } = input;
       const args = ["--yes", "ava", "--json"];
       if (tap) args.push("--tap");
       if (watch) args.push("--watch");
-      for (const m of match ?? []) args.push("--match", m);
+      match?.forEach((m: string) => args.push("--match", m));
       if (files?.length) args.push(...files);
 
       const { stdout } = await execFileAsync("npx", args);
@@ -126,6 +121,53 @@ test("${testName}", t => {
       };
     },
   );
+
+  // watch commands
+  s.registerTool(
+    "tdd.startWatch",
+    {
+      inputSchema: z.object({
+        files: z.array(z.string()).optional(),
+        match: z.array(z.string()).optional(),
+      }),
+    },
+    async (input: { files?: string[]; match?: string[] }) => {
+      if (watchProc) throw new Error("watch already running");
+      const { files, match } = input;
+      const args = ["--yes", "ava", "--watch"] as string[];
+      match?.forEach((m: string) => args.push("--match", m));
+      if (files?.length) args.push(...files);
+      watchBuffer = "";
+      watchProc = spawn("npx", args, { stdio: ["pipe", "pipe", "pipe"] });
+      watchProc.stdout?.on("data", (d) => {
+        watchBuffer += d.toString();
+      });
+      watchProc.stderr?.on("data", (d) => {
+        watchBuffer += d.toString();
+      });
+      return { started: true };
+    },
+  );
+
+  s.registerTool(
+    "tdd.getWatchChanges",
+    { inputSchema: z.object({}) },
+    async () => {
+      if (!watchProc) throw new Error("watch not running");
+      const out = watchBuffer;
+      watchBuffer = "";
+      return { output: out };
+    },
+  );
+
+  s.registerTool("tdd.stopWatch", { inputSchema: z.object({}) }, async () => {
+    if (!watchProc) return { stopped: false };
+    watchProc.kill();
+    watchProc = null;
+    const out = watchBuffer;
+    watchBuffer = "";
+    return { stopped: true, output: out };
+  });
 
   // coverage
   s.registerTool(

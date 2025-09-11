@@ -2,4 +2,12 @@
 
 Provides Model Context Protocol tools for test-driven development:
 scaffolding tests, running tests, checking coverage, property testing,
-and mutation testing.
+mutation testing, and incremental watch results.
+
+See also [[MCP]] and [[AVA]]. #tdd #mcp
+
+Example:
+```ts
+import { registerTddTools } from "@promethean/ava-mcp";
+registerTddTools(server);
+```

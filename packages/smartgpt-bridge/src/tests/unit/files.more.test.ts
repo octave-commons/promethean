@@ -41,6 +41,12 @@ test("resolvePath returns null for non-existent", async (t) => {
   t.is(p, null);
 });
 
+test("resolvePath rejects absolute paths outside root", async (t) => {
+  const outside = path.resolve(ROOT, "..", "outside.txt");
+  const p = await resolvePath(ROOT, outside);
+  t.is(p, null);
+});
+
 test("viewFile throws when file missing", async (t) => {
   await t.throwsAsync(() => viewFile(ROOT, "nope.txt", 1, 1));
 });
