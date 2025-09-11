@@ -11,6 +11,19 @@ import { Stryker } from "@stryker-mutator/core";
 
 const execFileAsync = promisify(execFile);
 
+/**
+ * Registers a set of TDD-related tools on the provided Server instance.
+ *
+ * The function adds six tools under the `tdd.*` namespace:
+ * - `tdd.scaffoldTest`: creates or appends a test file next to a module (unit or property-test template) and returns the spec path.
+ * - `tdd.changedFiles`: returns files changed against a git base ref, filtered by provided glob patterns.
+ * - `tdd.runTests`: runs AVA via npx with JSON (or TAP) output and returns aggregated results (passed, failed, durationMs, failures).
+ * - `tdd.coverage`: runs c8+AVA to produce coverage summary, optionally enforcing thresholds for lines/branches/functions.
+ * - `tdd.propertyCheck`: dynamically imports a module export that builds a fast-check property and asserts it for a given number of runs.
+ * - `tdd.mutationScore`: runs Stryker mutation testing and returns the mutation score, failing if below a minimum.
+ *
+ * Side effects: executes CLI tools (git, npx with ava/c8/stryker), reads and writes files in the workspace, and dynamically imports modules.
+ */
 export function registerTddTools(server: Server) {
   // biome-ignore lint/suspicious/noExplicitAny: server typing is dynamic
   const s = server as any;
