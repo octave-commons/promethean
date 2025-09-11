@@ -9,15 +9,26 @@ test("scaffoldTest creates a spec", async (t) => {
   const modulePath = path.join(tmp, "foo.ts");
   await fs.writeFile(modulePath, "export const foo = 1;\n");
 
-  const handlers: Record<string, any> = {};
+  const handlers: Record<string, (input: unknown) => unknown> = {};
   const server = {
-    registerTool: (_name: string, _schema: unknown, handler: any) => {
-      handlers[_name] = handler;
+    registerTool: (
+      name: string,
+      _schema: unknown,
+      handler: (input: unknown) => unknown,
+    ) => {
+      handlers[name] = handler;
     },
-  } as any;
+  };
 
-  registerTddTools(server);
-  const result = await handlers["tdd.scaffoldTest"]({
+  // biome-ignore lint/suspicious/noExplicitAny: test server stub
+  registerTddTools(server as any);
+  const result = await (
+    handlers["tdd.scaffoldTest"] as (arg: {
+      modulePath: string;
+      testName: string;
+      template?: "unit" | "prop";
+    }) => Promise<{ specPath: string }>
+  )({
     modulePath,
     testName: "works",
   });
