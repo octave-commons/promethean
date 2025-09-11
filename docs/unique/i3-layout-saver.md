@@ -302,63 +302,63 @@ Does this fit your flow, or do you want the rofi‑picker loader too?
 ## Related content
 - [Promethean Package Structure](2025.09.04.17.17.25.md)
 - [Promethean Package Structure](2025.09.04.17.17.25.md)
-- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
-- [The Jar of Echoes](the-jar-of-echoes.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [[promethean-chat-activity-report|Promethean Chat Activity Report]]
+- [[the-jar-of-echoes|The Jar of Echoes]]
+- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
 - [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
-- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
-- [EidolonField](eidolonfield.md)
-- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
+- [[windows-tiling-with-autohotkey]]
+- [[promethean-dev-workflow-update|Promethean Dev Workflow Update]]
+- [[eidolonfield]]
+- [[chroma-embedding-refactor]]
 - [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
 - [Promethean Pipelines: Local TypeScript-First Workflow](promethean-pipelines-local-typescript-first-workflow.md)
-- [shared-package-layout-clarification](shared-package-layout-clarification.md)
-- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
-- [Shared Package Structure](shared-package-structure.md)
-- [universal-intention-code-fabric](universal-intention-code-fabric.md)
-- [i3-config-validation-methods](i3-config-validation-methods.md)
+- [[shared-package-layout-clarification]]
+- [[state-snapshots-api-and-transactional-projector|State Snapshots API and Transactional Projector]]
+- [[shared-package-structure|Shared Package Structure]]
+- [[universal-intention-code-fabric]]
+- [[i3-config-validation-methods]]
 - [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
-- [mystery-lisp-search-session](mystery-lisp-search-session.md)
+- [[mystery-lisp-search-session]]
 - [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
-- [Event Bus MVP](event-bus-mvp.md)
-- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
-- [prom ui bootstrap](promethean-web-ui-setup.md)
-- [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
+- [[promethean-agent-config-dsl|Promethean Agent Config DSL]]
+- [[docs/unique/event-bus-mvp|Event Bus MVP]]
+- [[pure-node-crawl-stack-with-playwright-and-crawlee|Pure-Node Crawl Stack with Playwright and Crawlee]]
+- [[promethean-web-ui-setup|prom ui bootstrap]]
+- [[prom-lib-rate-limiters-and-replay-api]]
 ## Sources
 - [Promethean Package Structure — L2](2025.09.04.17.17.25.md#^ref-9540bac6-2-0) (line 2, col 0, score 1)
 - [Promethean Package Structure — L2](2025.09.04.17.17.25.md#^ref-33f8d3f5-2-0) (line 2, col 0, score 1)
-- [Promethean Chat Activity Report — L1157](promethean-chat-activity-report.md#^ref-18344cf9-1157-0) (line 1157, col 0, score 0.96)
-- [eidolon-field-math-foundations — L3097](eidolon-field-math-foundations.md#^ref-008f2ac0-3097-0) (line 3097, col 0, score 0.94)
-- [The Jar of Echoes — L2827](the-jar-of-echoes.md#^ref-18138627-2827-0) (line 2827, col 0, score 0.94)
+- [[promethean-chat-activity-report#^ref-18344cf9-1157-0|Promethean Chat Activity Report — L1157]] (line 1157, col 0, score 0.96)
+- [[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-3097-0|eidolon-field-math-foundations — L3097]] (line 3097, col 0, score 0.94)
+- [[the-jar-of-echoes#^ref-18138627-2827-0|The Jar of Echoes — L2827]] (line 2827, col 0, score 0.94)
 - [Canonical Org-Babel Matplotlib Animation Template — L2418](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-2418-0) (line 2418, col 0, score 0.93)
-- [windows-tiling-with-autohotkey — L2761](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-2761-0) (line 2761, col 0, score 0.93)
-- [Promethean Dev Workflow Update — L1359](promethean-dev-workflow-update.md#^ref-03a5578f-1359-0) (line 1359, col 0, score 0.93)
-- [The Jar of Echoes — L1643](the-jar-of-echoes.md#^ref-18138627-1643-0) (line 1643, col 0, score 0.93)
-- [windows-tiling-with-autohotkey — L1574](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-1574-0) (line 1574, col 0, score 0.93)
-- [EidolonField — L205](eidolonfield.md#^ref-49d1e1e5-205-0) (line 205, col 0, score 0.93)
+- [[windows-tiling-with-autohotkey#^ref-0f6f8f38-2761-0|windows-tiling-with-autohotkey — L2761]] (line 2761, col 0, score 0.93)
+- [[promethean-dev-workflow-update#^ref-03a5578f-1359-0|Promethean Dev Workflow Update — L1359]] (line 1359, col 0, score 0.93)
+- [[the-jar-of-echoes#^ref-18138627-1643-0|The Jar of Echoes — L1643]] (line 1643, col 0, score 0.93)
+- [[windows-tiling-with-autohotkey#^ref-0f6f8f38-1574-0|windows-tiling-with-autohotkey — L1574]] (line 1574, col 0, score 0.93)
+- [[eidolonfield#^ref-49d1e1e5-205-0|EidolonField — L205]] (line 205, col 0, score 0.93)
 - [System Scheduler with Resource-Aware DAG — L374](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-374-0) (line 374, col 0, score 0.9)
-- [Chroma-Embedding-Refactor — L289](chroma-embedding-refactor.md#^ref-8b256935-289-0) (line 289, col 0, score 0.9)
+- [[chroma-embedding-refactor#^ref-8b256935-289-0|Chroma-Embedding-Refactor — L289]] (line 289, col 0, score 0.9)
 - [Promethean Pipelines: Local TypeScript-First Workflow — L220](promethean-pipelines-local-typescript-first-workflow.md#^ref-6b63edca-220-0) (line 220, col 0, score 0.9)
-- [shared-package-layout-clarification — L137](shared-package-layout-clarification.md#^ref-36c8882a-137-0) (line 137, col 0, score 0.89)
+- [[shared-package-layout-clarification#^ref-36c8882a-137-0|shared-package-layout-clarification — L137]] (line 137, col 0, score 0.89)
 - [Promethean Package Structure — L8](2025.09.04.17.17.25.md#^ref-9540bac6-8-0) (line 8, col 0, score 0.89)
 - [Promethean Package Structure — L8](2025.09.04.17.17.25.md#^ref-33f8d3f5-8-0) (line 8, col 0, score 0.89)
-- [Shared Package Structure — L185](shared-package-structure.md#^ref-66a72fc3-185-0) (line 185, col 0, score 0.88)
-- [State Snapshots API and Transactional Projector — L303](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0) (line 303, col 0, score 0.88)
+- [[shared-package-structure#^ref-66a72fc3-185-0|Shared Package Structure — L185]] (line 185, col 0, score 0.88)
+- [[state-snapshots-api-and-transactional-projector#^ref-509e1cd5-303-0|State Snapshots API and Transactional Projector — L303]] (line 303, col 0, score 0.88)
 - [prompt-programming-language-lisp — L56](prompt-programming-language-lisp.md#^ref-d41a06d1-56-0) (line 56, col 0, score 0.87)
-- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.87)
-- [i3-config-validation-methods — L28](i3-config-validation-methods.md#^ref-d28090ac-28-0) (line 28, col 0, score 0.87)
-- [mystery-lisp-search-session — L106](mystery-lisp-search-session.md#^ref-513dc4c7-106-0) (line 106, col 0, score 0.87)
-- [prom ui bootstrap — L442](promethean-web-ui-setup.md#^ref-bc5172ca-442-0) (line 442, col 0, score 0.86)
-- [shared-package-layout-clarification — L161](shared-package-layout-clarification.md#^ref-36c8882a-161-0) (line 161, col 0, score 0.86)
-- [prom-lib-rate-limiters-and-replay-api — L306](prom-lib-rate-limiters-and-replay-api.md#^ref-aee4718b-306-0) (line 306, col 0, score 0.86)
-- [Event Bus MVP — L524](event-bus-mvp.md#^ref-534fe91d-524-0) (line 524, col 0, score 0.86)
-- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.86)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L400](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-400-0) (line 400, col 0, score 0.86)
+- [[universal-intention-code-fabric#^ref-c14edce7-388-0|universal-intention-code-fabric — L388]] (line 388, col 0, score 0.87)
+- [[i3-config-validation-methods#^ref-d28090ac-28-0|i3-config-validation-methods — L28]] (line 28, col 0, score 0.87)
+- [[mystery-lisp-search-session#^ref-513dc4c7-106-0|mystery-lisp-search-session — L106]] (line 106, col 0, score 0.87)
+- [[promethean-web-ui-setup#^ref-bc5172ca-442-0|prom ui bootstrap — L442]] (line 442, col 0, score 0.86)
+- [[shared-package-layout-clarification#^ref-36c8882a-161-0|shared-package-layout-clarification — L161]] (line 161, col 0, score 0.86)
+- [[prom-lib-rate-limiters-and-replay-api#^ref-aee4718b-306-0|prom-lib-rate-limiters-and-replay-api — L306]] (line 306, col 0, score 0.86)
+- [[docs/unique/event-bus-mvp#^ref-534fe91d-524-0|Event Bus MVP — L524]] (line 524, col 0, score 0.86)
+- [[promethean-agent-config-dsl#^ref-2c00ce45-279-0|Promethean Agent Config DSL — L279]] (line 279, col 0, score 0.86)
+- [[pure-node-crawl-stack-with-playwright-and-crawlee#^ref-d527c05d-400-0|Pure-Node Crawl Stack with Playwright and Crawlee — L400]] (line 400, col 0, score 0.86)
 - [Promethean Event Bus MVP v0.1 — L972](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-972-0) (line 972, col 0, score 0.85)
-- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.85)
-- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.85)
-- [Matplotlib Animation with Async Execution — L44](matplotlib-animation-with-async-execution.md#^ref-687439f9-44-0) (line 44, col 0, score 0.85)
-- [polymorphic-meta-programming-engine — L190](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-190-0) (line 190, col 0, score 0.85)
+- [[docs/unique/ecs-offload-workers#^ref-6498b9d7-427-0|ecs-offload-workers — L427]] (line 427, col 0, score 0.85)
+- [[sibilant-meta-prompt-dsl#^ref-af5d2824-120-0|Sibilant Meta-Prompt DSL — L120]] (line 120, col 0, score 0.85)
+- [[matplotlib-animation-with-async-execution#^ref-687439f9-44-0|Matplotlib Animation with Async Execution — L44]] (line 44, col 0, score 0.85)
+- [[polymorphic-meta-programming-engine#^ref-7bed0b9a-190-0|polymorphic-meta-programming-engine — L190]] (line 190, col 0, score 0.85)
 - [heartbeat-simulation-snippets — L80](heartbeat-simulation-snippets.md#^ref-23e221e9-80-0) (line 80, col 0, score 0.85)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
