@@ -22,9 +22,9 @@
     "clean": "rimraf dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
-    "lint": "pnpm exec biome lint .",
+    "lint": "pnpm exec eslint .",
     "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
-    "format": "pnpm exec biome format --write ."
+    "format": "pnpm exec prettier --write ."
   },
   "module": "dist/index.js"
 }
