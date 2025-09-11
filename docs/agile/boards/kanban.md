@@ -135,6 +135,7 @@ kanban-plugin: board
 - [ ] [[design-audio-pipeline-mvp]]
 - [ ] [[docker-compose-edn-template-system]]
 - [ ] whole project builds with new stricter tsconfig
+- [ ] codex setup script generates a startup report
 
 
 ## Accepted
@@ -413,6 +414,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,true,false,true,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"textgenerator/templates/local/smart_task_templater_md.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,true,false,true,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
