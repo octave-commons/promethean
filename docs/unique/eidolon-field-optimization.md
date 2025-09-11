@@ -277,9 +277,9 @@ console.log(seperateSpeechFromThought(test))
 ```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Parenthetical Extraction](parenthetical-extraction.md)
-- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
-- [Promethean Eidolon Synchronicity Model](promethean-eidolon-synchronicity-model.md)
+- [[parenthetical-extraction|Parenthetical Extraction]]
+- [[homeostasis-decay-formulas]]
+- [[promethean-eidolon-synchronicity-model|Promethean Eidolon Synchronicity Model]]
 ## Sources
-- [Parenthetical Extraction — L3](parenthetical-extraction.md#^ref-d561308b-3-0) (line 3, col 0, score 0.87)
+- [[parenthetical-extraction#^ref-d561308b-3-0|Parenthetical Extraction — L3]] (line 3, col 0, score 0.87)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
