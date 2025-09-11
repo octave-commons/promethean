@@ -1,5 +1,6 @@
-import { readdir, readFile, stat } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
+import { listFiles } from "@promethean/fs";
 
 export type BrokenImageLink = {
   readonly file: string;
@@ -16,28 +17,12 @@ async function pathExists(p: string): Promise<boolean> {
   }
 }
 
-async function walk(dir: string, acc: string[]): Promise<void> {
-  const entries = await readdir(dir, { withFileTypes: true });
-  await Promise.all(
-    entries.map(async (entry) => {
-      const resolved = path.join(dir, entry.name);
-      if (entry.isDirectory()) {
-        await walk(resolved, acc);
-      } else if (
-        entry.isFile() &&
-        (entry.name.endsWith(".md") || entry.name.endsWith(".org"))
-      ) {
-        acc.push(resolved);
-      }
-    }),
-  );
-}
-
 export async function findBrokenImageLinks(
   root: string,
 ): Promise<BrokenImageLink[]> {
-  const files: string[] = [];
-  await walk(root, files);
+  const files = (await listFiles(root, { includeHidden: false }))
+    .map((e) => e.path)
+    .filter((p) => p.endsWith(".md") || p.endsWith(".org"));
   const results: BrokenImageLink[] = [];
   for (const file of files) {
     const content = await readFile(file, "utf8");
