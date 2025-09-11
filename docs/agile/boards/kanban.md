@@ -180,12 +180,12 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
+- [ ] [[clearly-document-new-repository-layout]] #devops #architectural-decisions #monorepo #packages #package-manager #runtime #multiruntime #accepted
 - [ ] [[scripts_group_indexing_tools|scripts group indexing tools]] #scripts #indexing #organization #accepted
 - [ ] [[scripts_update_ci_and_refs|scripts update ci and refs]] #scripts #ci #organization #accepted
 - [ ] [[scripts_group_kanban_remaining|scripts group kanban remaining]] #scripts #kanban #organization #accepted
 - [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #scripts #docs #organization #accepted
 - [ ] [[scripts_audit_and_standardize_cli_flags|scripts audit and standardize cli flags]] #scripts #cli #dx #accepted
-- [ ] [[clearly-document-new-repository-layout]] #devops #architectural-decisions #monorepo #packages #package-manager #runtime #multiruntime #accepted
 - [ ] [[agent-safe-stablization-after-big-moves]] #precommit #stabilization #monorepo #typescript #python #hy #agents #safety #playbook #accepted
 - [ ] [[cephalon_event_schema_updates|cephalon event schema updates]] #cephalon #events #schemas #breakdown
 - [ ] [[design_ollama_model_file_for_use_with_codex|Design Ollama model file for use with Codex]] #breakdown
@@ -203,6 +203,9 @@ kanban-plugin: board
 - [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #framework-core #IceBox #ready
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md|setup services to recieve work from the broker via push md]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-progress
 - [ ] [[ecs_projection_jobs|ecs projection jobs]] #incoming
+- [ ] [[cephalon_store_user_transcripts_unified|cephalon store user transcripts unified]] #cephalon #transcripts #persistence #ready
+- [ ] [[ecs_projection_jobs|ecs projection jobs]] #ecs #projections #compaction #ready
+- [ ] [[ecs_persistence_integration_cephalon|ecs persistence integration cephalon]] #ecs #cephalon #mongo #ready
 - [ ] [[ecs_persistence_integration_cephalon|ecs persistence integration cephalon]] #incoming
 - [ ] [[discord_image_awareness_md_md|discord image awareness md md]] #in-progress
 - [ ] [[auth_key_rotation_and_bootstrap|auth key rotation and bootstrap]] #incoming
@@ -261,6 +264,7 @@ kanban-plugin: board
 
 ## Ready
 
+- [ ] [[phase-out-proxy-in-favor-of-bridge-service|Phase out proxy in favor of bridge service]] #framework-core #framework-core #Todo #in-progress
 - [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #breakdown
 - [ ] [[twitch_stream_title_generator_md_md|twitch stream title generator md md]] #framework-core #ollama-integration #stream-automation #in-review
 - [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #incoming
@@ -270,21 +274,17 @@ kanban-plugin: board
 - [ ] [[gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used.|gpt bridge fuzzy lookup should return multiple matches when it is used.]] #framework-core #ready
 - [ ] [[tamper-monkey-script-for-using-templates-defined-in-the-vault|tamper monkey script for using templates defined in the vault]] #todo
 - [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #todo
-- [ ] [[phase-out-proxy-in-favor-of-bridge-service|Phase out proxy in favor of bridge service]] #framework-core #framework-core #Todo #in-progress
-- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #IceBox #ready
-- [ ] [[cephalon_store_user_transcripts_unified|cephalon store user transcripts unified]] #cephalon #transcripts #persistence #ready
-- [ ] [[ecs_projection_jobs|ecs projection jobs]] #ecs #projections #compaction #ready
-- [ ] [[ecs_persistence_integration_cephalon|ecs persistence integration cephalon]] #ecs #cephalon #mongo #ready
 
 
 ## Todo (13)
 
 - [ ] [[convert-current-services-to-packages--then-redefine-the-services-using-config-files|convert current services to packages, then redefine the services using config files]] #framework-core #framework-core #Ready #ready
+- [ ] [[describe_github_branching_workflow_md|describe github branching workflow md]] #todo
+- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #IceBox #ready
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean #ops #codex-task #tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain #in-review
 - [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
 - [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #breakdown
 - [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
-- [ ] [[describe_github_branching_workflow_md|describe github branching workflow md]] #todo
 - [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
 - [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
 - [ ] [[script-for-getting-github-action-workflow-states-for-a-branch|script for getting github action workflow states for a branch]] #ready
@@ -413,6 +413,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,true,true,true,true,false,false,false,false,false,false,false,false,false,false],"new-note-template":"textgenerator/templates/local/smart_task_templater_md.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,true,true,true,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"textgenerator/templates/local/smart_task_templater_md.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
