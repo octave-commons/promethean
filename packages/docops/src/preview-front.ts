@@ -53,7 +53,7 @@ export async function computePreview(
   });
 
   const ROOT_LOCAL = path.resolve(opts.dir);
-  let docs: Array<[string, DocInfo]> = [];
+  const docs: Array<[string, DocInfo]> = [];
   for await (const [u, info] of docsKV.iterator()) {
     const d = info as DocInfo;
     if (

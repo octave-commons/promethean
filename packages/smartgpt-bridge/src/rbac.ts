@@ -13,7 +13,7 @@ function getApiKeyHeaderNames(req: any) {
       typeof req.server.swagger === "function" ? req.server.swagger() : null;
     const schemes = spec?.components?.securitySchemes || {};
     const names = [];
-    for (const [_k, v] of Object.entries(schemes as any)) {
+    for (const [_k, v] of Object.entries(schemes)) {
       const vv: any = v;
       if (vv && vv.type === "apiKey" && vv.in === "header" && vv.name)
         names.push(String(vv.name).toLowerCase());

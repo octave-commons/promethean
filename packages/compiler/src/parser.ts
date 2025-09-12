@@ -100,7 +100,7 @@ export class Parser {
     }
 
     parseExpr(rbp: number): Expr {
-        let t = this.next();
+        const t = this.next();
         let left = this.nud(t);
         // postfix/call
         while (true) {

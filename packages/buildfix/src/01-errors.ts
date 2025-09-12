@@ -1,8 +1,9 @@
 import * as path from "node:path";
 
+import { globby } from "globby";
+
 import { parseArgs, tsc, codeFrame, writeJSON } from "./utils.js";
 import type { ErrorList, BuildError } from "./types.js";
-import { globby } from "globby";
 
 const args = parseArgs({
   "--tsconfig": "tsconfig.json",

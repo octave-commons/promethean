@@ -1,4 +1,5 @@
 import { getSelection } from "../selection.js";
+import { registerHotElement } from "../hmr.js";
 
 // Escape HTML special characters to prevent XSS when interpolating into HTML strings.
 function escapeHTML(str: string = ""): string {
@@ -28,6 +29,23 @@ export class PiperStep extends HTMLElement {
   connectedCallback() {
     this.attachShadow({ mode: "open" });
     this.render();
+  }
+
+  getHotState?() {
+    const s: Record<string, string> = {};
+    const inputs = this.shadowRoot?.querySelectorAll<HTMLInputElement>("input");
+    inputs?.forEach((i) => {
+      if (i.name) s[i.name] = i.value;
+    });
+    return s;
+  }
+  setHotState?(state: Record<string, string>) {
+    const inputs = this.shadowRoot?.querySelectorAll<HTMLInputElement>("input");
+    inputs?.forEach((i) => {
+      if (i.name && Object.prototype.hasOwnProperty.call(state, i.name)) {
+        i.value = state[i.name] ?? "";
+      }
+    });
   }
 
   private render() {
@@ -118,4 +136,4 @@ export class PiperStep extends HTMLElement {
   }
 }
 
-customElements.define("piper-step", PiperStep);
+registerHotElement("piper-step", PiperStep);
