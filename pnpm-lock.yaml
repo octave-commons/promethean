@@ -401,6 +401,9 @@ importers:
 
   packages/boardrev:
     dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       globby:
         specifier: ^14.0.2
         version: 14.0.2
@@ -1073,6 +1076,9 @@ importers:
 
   packages/cookbookflow:
     dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       globby:
         specifier: ^14.0.2
         version: 14.0.2
@@ -2864,6 +2870,9 @@ importers:
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../level-cache
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       ajv:
         specifier: 8.17.1
         version: 8.17.1
@@ -3158,6 +3167,9 @@ importers:
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../level-cache
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       globby:
         specifier: ^14.0.2
         version: 14.0.2
@@ -3478,6 +3490,9 @@ importers:
 
   packages/sonarflow:
     dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
