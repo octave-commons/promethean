@@ -1,26 +1,14 @@
-export type PipelineStep = { id: string; name?: string };
+export type PipelineStep = Record<string, any>;
 export type Pipeline = { name: string; steps: PipelineStep[] };
 
-// Lightweight selection cache within this page
-interface PiperWindow extends Window {
-  __PIPER_FILES__?: string[];
-}
+import { setSelection } from "./selection.js";
+import "./components/piper-step.js";
+
 type FileNode = {
   type: string;
   name: string;
   children?: FileNode[];
 };
-function getSelectedFiles(): string[] {
-  try {
-    const s = (window as PiperWindow).__PIPER_FILES__;
-    return Array.isArray(s) ? s : [];
-  } catch {
-    return [];
-  }
-}
-function setSelectedFiles(xs: string[]): void {
-  (window as PiperWindow).__PIPER_FILES__ = xs;
-}
 
 // Minimal FileTree custom element (uses /api/files like DocOps)
 class FileTree extends HTMLElement {
@@ -140,7 +128,7 @@ class FileTree extends HTMLElement {
       .forEach((cb) => {
         if (cb.checked) xs.push(cb.value);
       });
-    setSelectedFiles(xs);
+    setSelection(xs);
     window.dispatchEvent(
       new CustomEvent("piper:files-changed", { detail: xs }),
     );
@@ -175,32 +163,9 @@ async function init(): Promise<void> {
     section.appendChild(h);
     const list = document.createElement("div");
     for (const s of p.steps) {
-      const row = document.createElement("div");
-      row.className = "step-row";
-      const label = document.createElement("span");
-      label.textContent = s.name ? `${s.id} — ${s.name}` : s.id;
-      label.className = "step-label";
-      const btn = document.createElement("button");
-      btn.textContent = "Run Step";
-      btn.onclick = () => {
-        const files = getSelectedFiles();
-        const logsEl = document.getElementById("logs");
-        if (!logsEl) return;
-        (logsEl as HTMLElement).textContent = "";
-        const qs = new URLSearchParams({
-          pipeline: p.name,
-          step: s.id,
-          ...(files.length ? { files: files.join(",") } : {}),
-        });
-        const es = new EventSource(`/api/run-step?${qs.toString()}`);
-        es.onmessage = (e: MessageEvent<string>) => {
-          (logsEl as HTMLElement).textContent += `${e.data}\n`;
-        };
-        es.onerror = () => es.close();
-      };
-      row.appendChild(label);
-      row.appendChild(btn);
-      list.appendChild(row);
+      const el = document.createElement("piper-step") as any;
+      el.data = { pipeline: p.name, step: s };
+      list.appendChild(el);
     }
     section.appendChild(list);
     container.appendChild(section);

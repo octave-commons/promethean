@@ -15,13 +15,13 @@ function dist(pathFromPkg: string) {
 }
 
 test.serial(
-  "docops-step module defines element and contains Run button markup",
+  "piper-step module defines element and contains Run button markup",
   async (t) => {
     const js = await fs.readFile(
-      dist("frontend/components/docops-step.js"),
+      dist("frontend/components/piper-step.js"),
       "utf8",
     );
-    t.true(js.includes('customElements.define("docops-step"'));
+    t.true(js.includes('customElements.define("piper-step"'));
     t.true(js.includes('<button id="runBtn">Run</button>'));
   },
 );

@@ -286,106 +286,141 @@ app.get("/api/pipelines", async (_req, reply) => {
   try {
     const cfg = await loadConfig();
     reply.header("content-type", "application/json");
-    return reply.send({
-      pipelines: cfg.pipelines.map((p) => ({
-        name: p.name,
-        steps: p.steps.map((s) => ({ id: s.id, name: s.name })),
-      })),
-    });
+    return reply.send({ pipelines: cfg.pipelines });
   } catch (e: unknown) {
     reply.code(200).header("content-type", "application/json");
-    return reply.send({
-      pipelines: [],
-      error: errToString(e),
-    });
+    return reply.send({ pipelines: [], error: errToString(e) });
   }
 });
 
-app.get<{
-  Querystring: {
-    pipeline?: string;
-    step?: string;
-    force?: string;
-    files?: string;
-  };
-}>("/api/run-step", async (req, reply) => {
-  const pipeline = req.query.pipeline ?? "";
-  const step = req.query.step ?? "";
-  const send = sseInit(reply);
-  if (!pipeline || !step) {
-    send("missing pipeline or step");
-    reply.raw.end();
-    return;
-  }
-  const cfg = await loadConfig();
-  const pl = cfg.pipelines.find((p) => p.name === pipeline);
-  if (!pl) {
-    send(`pipeline '${pipeline}' not found`);
-    reply.raw.end();
-    return;
-  }
-  if (!pl.steps.some((s) => s.id === step)) {
-    send(`step '${step}' not found in pipeline '${pipeline}'`);
-    reply.raw.end();
-    return;
-  }
-  // Optional: create a one-off config that injects selected files into the target step
-  let useConfigPath = CONFIG_PATH;
-  try {
-    const filesParam = req.query.files || "";
-    const files = filesParam
-      ? filesParam
-          .split(",")
-          .map((s) => s.trim())
-          .filter(Boolean)
-      : [];
-    if (files.length) {
-      const clone = JSON.parse(JSON.stringify(cfg)) as typeof cfg;
-      const p2 = clone.pipelines.find((p) => p.name === pipeline);
-      if (!p2) throw new Error(`pipeline '${pipeline}' not found`);
-      const s2 = p2.steps.find((x) => x.id === step);
-      if (!s2) throw new Error(`step '${step}' not found`);
-      if (!s2.env) s2.env = {};
-      // Prefer JS args.files when possible; otherwise pass env var usable by scripts
-      if (s2.js) {
-        const current =
-          s2.js.args && typeof s2.js.args === "object" ? s2.js.args : {};
-        s2.js.args = { ...current, files };
-      } else {
-        s2.env.PIPER_FILES = JSON.stringify(files);
+app.get<{ Querystring: Record<string, string | undefined> }>(
+  "/api/run-step",
+  async (req, reply) => {
+    const pipeline = req.query.pipeline ?? "";
+    const step = req.query.step ?? "";
+    const send = sseInit(reply);
+    if (!pipeline || !step) {
+      send("missing pipeline or step");
+      reply.raw.end();
+      return;
+    }
+    const cfg = await loadConfig();
+    const pl = cfg.pipelines.find((p) => p.name === pipeline);
+    if (!pl) {
+      send(`pipeline '${pipeline}' not found`);
+      reply.raw.end();
+      return;
+    }
+    if (!pl.steps.some((s) => s.id === step)) {
+      send(`step '${step}' not found in pipeline '${pipeline}'`);
+      reply.raw.end();
+      return;
+    }
+    // Optional: create a one-off config that injects selected files or overrides
+    let useConfigPath = CONFIG_PATH;
+    try {
+      const filesParam = req.query.files || "";
+      const files = filesParam
+        ? filesParam
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean)
+        : [];
+
+      const overrides: Record<string, any> = {};
+      const env: Record<string, string> = {};
+      const args: Record<string, any> = {};
+      const js: Record<string, any> = {};
+      const ts: Record<string, any> = {};
+      const parseVal = (v: string) => {
+        if (v === "true") return true;
+        if (v === "false") return false;
+        const n = Number(v);
+        return Number.isNaN(n) ? v : n;
+      };
+      for (const [k, v] of Object.entries(req.query)) {
+        if (k.startsWith("env.")) env[k.slice(4)] = v!;
+        else if (k.startsWith("arg.")) args[k.slice(4)] = parseVal(v!);
+        else if (k.startsWith("js.")) js[k.slice(3)] = v!;
+        else if (k.startsWith("ts.")) ts[k.slice(3)] = v!;
+        else if (!["pipeline", "step", "files", "force"].includes(k))
+          overrides[k] = parseVal(v!);
       }
-      await fs.mkdir(path.dirname(CONFIG_PATH), { recursive: true });
-      const tmpPath = path.resolve(
-        path.dirname(CONFIG_PATH),
-        ".cache/piper.ui.run.json",
-      );
-      await fs.writeFile(tmpPath, JSON.stringify(clone, null, 2), "utf8");
-      useConfigPath = tmpPath;
+
+      const hasOverrides =
+        files.length ||
+        Object.keys(overrides).length ||
+        Object.keys(env).length ||
+        Object.keys(args).length ||
+        Object.keys(js).length ||
+        Object.keys(ts).length;
+
+      if (hasOverrides) {
+        const clone = JSON.parse(JSON.stringify(cfg)) as typeof cfg;
+        const p2 = clone.pipelines.find((p) => p.name === pipeline);
+        if (!p2) throw new Error(`pipeline '${pipeline}' not found`);
+        const s2 = p2.steps.find((x) => x.id === step);
+        if (!s2) throw new Error(`step '${step}' not found`);
+        Object.assign(s2, overrides);
+        if (Object.keys(env).length) s2.env = { ...(s2.env || {}), ...env };
+        if (Object.keys(js).length || Object.keys(args).length) {
+          s2.js = { ...(s2.js || {}), ...js } as any;
+          if (Object.keys(args).length) {
+            const cur =
+              s2.js && typeof s2.js.args === "object" ? s2.js.args : {};
+            s2.js!.args = { ...cur, ...args };
+          }
+        }
+        if (Object.keys(ts).length || Object.keys(args).length) {
+          s2.ts = { ...(s2.ts || {}), ...ts } as any;
+          if (Object.keys(args).length) {
+            const cur =
+              s2.ts && typeof s2.ts.args === "object" ? s2.ts.args : {};
+            s2.ts!.args = { ...cur, ...args };
+          }
+        }
+        if (files.length) {
+          if (s2.js) {
+            const current =
+              s2.js.args && typeof s2.js.args === "object" ? s2.js.args : {};
+            s2.js.args = { ...current, files };
+          } else {
+            s2.env = { ...(s2.env || {}), PIPER_FILES: JSON.stringify(files) };
+          }
+        }
+        await fs.mkdir(path.dirname(CONFIG_PATH), { recursive: true });
+        const tmpPath = path.resolve(
+          path.dirname(CONFIG_PATH),
+          ".cache/piper.ui.run.json",
+        );
+        await fs.writeFile(tmpPath, JSON.stringify(clone, null, 2), "utf8");
+        useConfigPath = tmpPath;
+      }
+    } catch (e: unknown) {
+      send(`failed to prepare run config: ${errToString(e)}`);
     }
-  } catch (e: unknown) {
-    send(`failed to prepare run config: ${errToString(e)}`);
-  }
-  const emit = (ev: PiperEvent) => {
-    if (ev.stepId !== step) return;
-    if (ev.type === "start") send(`START ${ev.stepId}`);
-    else if (ev.type === "skip") send(`SKIP ${ev.reason}`);
-    else if (ev.type === "end") {
-      if (ev.result.stdout) send(ev.result.stdout);
-      if (ev.result.stderr) send(ev.result.stderr);
-      send(`EXIT ${ev.result.exitCode}`);
+    const emit = (ev: PiperEvent) => {
+      if (ev.stepId !== step) return;
+      if (ev.type === "start") send(`START ${ev.stepId}`);
+      else if (ev.type === "skip") send(`SKIP ${ev.reason}`);
+      else if (ev.type === "end") {
+        if (ev.result.stdout) send(ev.result.stdout);
+        if (ev.result.stderr) send(ev.result.stderr);
+        send(`EXIT ${ev.result.exitCode}`);
+      }
+    };
+    try {
+      await runPipeline(useConfigPath, pipeline, {
+        json: true,
+        force: req.query.force === "true",
+        emit,
+      });
+    } catch (e: unknown) {
+      send(String((e as Error)?.stack || e));
     }
-  };
-  try {
-    await runPipeline(useConfigPath, pipeline, {
-      json: true,
-      force: req.query.force === "true",
-      emit,
-    });
-  } catch (e: unknown) {
-    send(String((e as Error)?.stack || e));
-  }
-  reply.raw.end();
-});
+    reply.raw.end();
+  },
+);
 
 app
   .listen({ port: PORT, host: HOST })
