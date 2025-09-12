@@ -1,7 +1,8 @@
 import * as path from "path";
 import { promises as fs } from "fs";
 
-import { parseArgs, writeJSON } from "./utils.js";
+import { parseArgs } from "@promethean/utils";
+import { writeJSON } from "./utils.js";
 import type { ExportScan, CoverageIndex, GapMap, GapItem } from "./types.ts";
 
 const args = parseArgs({
