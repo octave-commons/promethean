@@ -65,8 +65,11 @@ test.serial("hot reload keeps component input state", async (t) => {
       { baseUrl: () => baseUrl! },
       async (_t: any, { pageGoto, page }: any) => {
         await pageGoto("/");
+        await page.waitForResponse(
+          (r: any) => r.url().includes("/api/pipelines") && r.ok(),
+        );
         // Type into the first available input inside the first piper-step
-        await page.waitForSelector("piper-step");
+        await page.waitForSelector("piper-step", { state: "attached" } as any);
         const beforeVal = "custom-cwd-value";
         await page.waitForFunction(() => {
           const el = document.querySelector("piper-step");

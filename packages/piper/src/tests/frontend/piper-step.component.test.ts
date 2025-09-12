@@ -21,7 +21,7 @@ test.serial(
       dist("frontend/components/piper-step.js"),
       "utf8",
     );
-    t.true(js.includes('customElements.define("piper-step"'));
+    t.true(js.includes('registerHotElement("piper-step"'));
     t.true(js.includes('<button id="runBtn">Run</button>'));
   },
 );

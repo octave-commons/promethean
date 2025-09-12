@@ -34,10 +34,15 @@ function ensureHot() {
               const state = prev?.getHotState ? prev.getHotState() : undefined;
               const next = new impl();
               (inst as any).__impl = next;
-              if (state !== undefined && typeof next.setHotState === "function") {
+              // Forward known methods to the wrapper so impl can call this.render(), etc.
+              forwardMethods(inst as any, next as any);
+              if (
+                state !== undefined &&
+                typeof next.setHotState === "function"
+              ) {
                 next.setHotState(state);
               }
-              const r: any = (next).render;
+              const r: any = next.render;
               if (typeof r === "function") r.call(inst);
             } catch {
               // swallow hot errors; component can recover on next connect
@@ -55,6 +60,21 @@ function ensureHot() {
   return window.__PIPER_HOT;
 }
 
+function forwardMethods(
+  wrapper: HTMLElement & { [k: string]: any },
+  impl: { [k: string]: any },
+) {
+  const keys = ["render", "getHotState", "setHotState"];
+  for (const k of keys) {
+    const fn = impl?.[k];
+    if (typeof fn === "function") {
+      wrapper[k] = function (...args: any[]) {
+        return fn.apply(this, args);
+      };
+    }
+  }
+}
+
 export function registerHotElement<T extends HTMLElement>(
   name: string,
   Impl: ImplCtor<T>,
@@ -67,6 +87,33 @@ export function registerHotElement<T extends HTMLElement>(
         super();
         const impl = new Impl();
         this.__impl = impl as any;
+        // Ensure Impl methods (render/state) are callable from wrapper context
+        forwardMethods(this as any, impl as any);
+
+        // Forward common property accessors (not just methods). At minimum, proxy
+        // a `data` accessor if the implementation supports it so callers like
+        // `el.data = { ... }` configure the underlying component.
+        try {
+          const hasData =
+            Object.prototype.hasOwnProperty.call(
+              (Impl as any).prototype || {},
+              "data",
+            ) || "data" in (impl as any);
+          if (hasData) {
+            Object.defineProperty(this, "data", {
+              configurable: true,
+              enumerable: true,
+              get: () => (this.__impl as any)?.data,
+              set: (v: unknown) => {
+                if (this.__impl && "data" in (this.__impl as any)) {
+                  (this.__impl as any).data = v;
+                }
+              },
+            });
+          }
+        } catch {
+          // Best-effort; lack of accessor forwarding should not break element creation.
+        }
       }
       connectedCallback() {
         const set = hot.instances.get(name) ?? new Set();
@@ -80,7 +127,12 @@ export function registerHotElement<T extends HTMLElement>(
         if (set) set.delete(this as any);
       }
       attributeChangedCallback(attrName: string, oldVal: any, newVal: any) {
-        (this.__impl as any)?.attributeChangedCallback?.call(this, attrName, oldVal, newVal);
+        (this.__impl as any)?.attributeChangedCallback?.call(
+          this,
+          attrName,
+          oldVal,
+          newVal,
+        );
       }
       static get observedAttributes() {
         return (Impl as any).observedAttributes || [];
