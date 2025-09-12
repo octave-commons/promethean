@@ -228,6 +228,7 @@ kanban-plugin: board
 
 ## Incoming
 
+- [ ] [[migrate legacy js services to ts]]
 
 
 ## Accepted
