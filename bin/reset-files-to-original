@@ -1,31 +1,46 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DIR="${1:-.}"
-# Tweak similarity threshold if your renames include heavy edits (lower => more likely to detect rename)
-SIMILARITY="${SIMILARITY:-40}"
+DIR="${1:-.}"          # directory to scan (repo-relative)
+DRY_RUN="${DRY_RUN:-0}"  # set DRY_RUN=1 to preview only
 
-# For each file under DIR (skip .git)
-find "$DIR" -type f -not -path '*/.git/*' -print0 | while IFS= read -r -d '' f; do
-  # Get the earliest commit that touches this file, following renames
-  # and capture the filename as it existed in that earliest commit.
-  # We reverse the log, so the first block is the oldest.
-  mapfile -t first < <(
-    git -c diff.renames=true \
-        log --follow -M${SIMILARITY}% --reverse \
-        --format='%H' --name-only -- "$f" \
-      | awk 'NR==1{c=$0; getline; print c "\t" $0}'
-  )
+shopt -s lastpipe
+declare -A FIRST         # path -> first commit that added it
 
-  [[ ${#first[@]} -eq 0 ]] && continue
-  commit="${first[0]%%$'\t'*}"
-  oldpath="${first[0]#*$'\t'}"
-
-  # Safety: require both pieces
-  [[ -z "$commit" || -z "$oldpath" ]] && continue
-
-  # Write the historical blob into the current path
-  # (works even if the historical name differs)
-  git show "${commit}:${oldpath}" > "$f"
-  echo "Restored $f from ${commit}:${oldpath}"
+# Stream commits and names (oldest first, adds only)
+git log --all --reverse --diff-filter=A --name-only --format='%H' -- "$DIR" \
+| {
+  commit=""
+  while IFS= read -r line; do
+    if [[ "$line" =~ ^[0-9a-f]{40}$ ]]; then
+      commit="$line"
+      continue
+    fi
+    [[ -z "$line" ]] && continue
+    base="${line##*/}"
+    # match 2025.09.11.23.44.26.md style basenames
+    if [[ "$base" =~ ^[0-9]{4}(\.[0-9]{2}){5}\.md$ ]]; then
+      [[ -n "${FIRST[$line]:-}" ]] && continue
+      FIRST["$line"]="$commit"
+      echo -e "${commit}\t${line}"
+    fi
+  done
+} | while IFS=$'\t' read -r add_commit orig_path; do
+  echo "Found original: ${orig_path} @ ${add_commit}"
+  [[ "$DRY_RUN" == "1" ]] && continue
+  mkdir -p -- "$(dirname -- "$orig_path")"
+  tmp="$(mktemp)"
+  if git show "${add_commit}:${orig_path}" > "$tmp"; then
+    # Skip write if unchanged
+    if [[ -f "$orig_path" ]] && cmp -s "$tmp" "$orig_path"; then
+      echo "No change: $orig_path already matches first version"
+      rm -f "$tmp"
+    else
+      mv -f "$tmp" "$orig_path"
+      echo "Restored $orig_path"
+    fi
+  else
+    echo "!! Missing blob for ${add_commit}:${orig_path}"
+    rm -f "$tmp"
+  fi
 done
