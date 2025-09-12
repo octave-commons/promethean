@@ -1,6 +1,6 @@
 import test from "ava";
 
-import { setSelection, getSelection } from "../../frontend/selection.js";
+import { setSelection, getSelection } from "../../frontend/docops/selection.js";
 
 test.afterEach.always(() => {
   delete (globalThis as any).window;

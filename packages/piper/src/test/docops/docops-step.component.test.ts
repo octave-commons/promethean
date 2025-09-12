@@ -18,7 +18,7 @@ test.serial(
   "docops-step module defines element and contains Run button markup",
   async (t) => {
     const js = await fs.readFile(
-      dist("frontend/components/docops-step.js"),
+      dist("frontend/docops/components/docops-step.js"),
       "utf8",
     );
     t.true(js.includes('customElements.define("docops-step"'));

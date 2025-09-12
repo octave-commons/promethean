@@ -5,7 +5,7 @@ import {
   readFileText,
   searchSemantic,
   getStatus,
-} from "../../frontend//api.js";
+} from "../../frontend/docops/api.js";
 
 function okJson(data: any, init: any = {}) {
   return {

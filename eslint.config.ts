@@ -24,6 +24,7 @@ export default [
       import: importPlugin,
       sonarjs,
       promise,
+      ava,
     },
     rules: {
       "sonarjs/cognitive-complexity": ["error", 15],
