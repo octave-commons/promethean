@@ -243,6 +243,7 @@ kanban-plugin: board
 - [ ] [[integrate-sonarqube-into-devops]] #incoming
 - [ ] [[tree-diffing-tools]]
 - [ ] [[structural-code-editing-ai-tool-that-uses-tree-diffs-instead-of-string-based-universal-diffs--ensuring-generated-results-are-always-immediately-validatable]]
+- [ ] [[Setup Identity Experiment]]
 
 
 ## Breakdown (13)
