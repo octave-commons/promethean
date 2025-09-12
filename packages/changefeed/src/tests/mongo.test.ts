@@ -51,7 +51,7 @@ test('changefeed publishes mapped payloads and saves resume token', async (t) =>
         },
     };
 
-    const stop = startMongoChangefeed<Doc, Payload>(db, bus, {
+    const stop = await startMongoChangefeed<Doc, Payload>(db, bus, {
         collection: 'c',
         topic: 't',
         resumeTokenStore: store,
@@ -63,5 +63,7 @@ test('changefeed publishes mapped payloads and saves resume token', async (t) =>
     await stop();
 
     t.deepEqual(published, ['bar']);
+    t.is(published.length, 1);
     t.is(saved.length, 1);
+    t.deepEqual(saved[0]!, events[0]!._id as ResumeToken);
 });
