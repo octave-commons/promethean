@@ -1,101 +1,303 @@
 ---
-uuid: 833ecc4a-7e94-472a-bd2c-8c4d04c92b14
-created_at: event-bus-projections-architecture.md
+uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+created_at: 2025.08.08.20.08.43.md
 filename: Event Bus Projections Architecture
-title: Event Bus Projections Architecture
 description: >-
-  A diagram illustrating the event-driven architecture with producers, event
-  hub, event store, and stream processing components. Shows how events flow from
-  services through the event bus to projections and read models, including
-  outbox, DLQ, and cursor stores.
+  Visualizes event-driven architecture with producers, event hub, event store,
+  stream processing, and read models. Shows data flow from service events to
+  snapshots and changefeeds.
 tags:
-  - event-bus
+  - event bus
   - projections
+  - event store
+  - stream processing
+  - read models
   - event-driven
-  - event-store
-  - stream-processing
-  - outbox
-  - dlq
-  - cursor-store
-  - read-models
   - mongodb
-related_to_uuid:
-  - cfa2be7b-13fd-404b-aaa4-80abc4fa8cd2
-  - cdb74242-b61d-4b7e-9288-5859e040e512
-  - 21d5cc09-b005-4ede-8f69-00b4b0794540
-  - 41ce0216-f8cc-4eed-8d9a-fcc25be21425
-  - cdf2c6e4-0dbd-4f19-b645-ac619a6f267d
-  - 4127189a-e0ab-436f-8571-cc852b8e9add
-  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
-  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
-  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
-  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
-  - 80d4d883-59f9-401b-8699-7a2723148b1e
-  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
-  - 5becb573-0a78-486b-8d3c-199b3c7a79ec
-  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
-  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
-  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-  - d2b3628c-6cad-4664-8551-94ef8280851d
-  - 8b256935-02f6-4da2-a406-bf6b8415276f
-  - 3abeaf12-5a59-45f1-80d8-82b031b84b96
+  - event projections
 related_to_title:
-  - prompt-folder-bootstrap
-  - Event Bus Projections Architecture
-  - Exception Layer Analysis
-  - refactor-relations
+  - Diagrams
   - Unique Info Dump Index
+  - promethean-system-diagrams
+  - Promethean Event Bus MVP v0.1
   - layer-1-uptime-diagrams
+  - eidolon-node-lifecycle
+  - archetype-ecs
+  - field-node-diagram-outline
+  - aionian-circuit-math
+  - DSL
+  - 'Agent Tasks: Persistence Migration to DualStore'
+  - field-node-diagram-set
   - Event Bus MVP
-  - Lispy Macros with syntax-rules
-  - Voice Access Layer Design
-  - Local-Only-LLM-Workflow
-  - Promethean Agent Config DSL
-  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
-  - Refactor 05-footers.ts
-  - State Snapshots API and Transactional Projector
-  - Agent Reflections and Prompt Evolution
-  - Ghostly Smoke Interference
-  - Local-First Intention→Code Loop with Free Models
-  - ecs-offload-workers
-  - Language-Agnostic Mirror System
-  - Chroma-Embedding-Refactor
-  - sibilant-metacompiler
+  - Chroma Toolkit Consolidation Plan
+  - Fnord Tracer Protocol
+  - 2d-sandbox-field
+  - Eidolon Field Abstract Model
+  - EidolonField
+  - Synchronicity Waves and Web
+  - Shared
+  - infinite_depth_smoke_animation
+  - Factorio AI with External Agents
+  - field-node-diagram-visualizations
+  - AI-Centric OS with MCP Layer
+  - AI-First-OS-Model-Context-Protocol
+  - balanced-bst
+related_to_uuid:
+  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - b51e19b4-1326-4311-9798-33e972bf626c
+  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+  - 4127189a-e0ab-436f-8571-cc852b8e9add
+  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+  - f2d83a77-7f86-4c56-8538-1350167a0c6c
+  - e87bc036-1570-419e-a558-f45b9c0db698
+  - 93d2ba51-8689-49ee-94e2-296092e48058
+  - 22b989d5-f4aa-4880-8632-709c21830f83
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - c710dc93-9fec-471b-bdee-bedbd360c67f
+  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
+  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
+  - 91295f3a-a2af-4050-a2b8-4777ea70c32c
+  - 623a55f7-685c-486b-abaf-469da1bbbb69
+  - 92a052a5-3351-4898-8cab-758181a86adb
+  - a4d90289-798d-44a0-a8e8-a055ae12fb52
+  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+  - 618198f4-cfad-4677-9df6-0640d8a97bae
+  - d3e7db72-2e07-4dae-8920-0e07c499a1e5
 references:
-  - uuid: cfa2be7b-13fd-404b-aaa4-80abc4fa8cd2
-    line: 1
-    col: 0
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 7
+    col: 1
     score: 1
-  - uuid: cfa2be7b-13fd-404b-aaa4-80abc4fa8cd2
-    line: 3
-    col: 0
+  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
+    line: 7
+    col: 3
     score: 1
-  - uuid: cfa2be7b-13fd-404b-aaa4-80abc4fa8cd2
-    line: 15
-    col: 0
+  - uuid: 92a052a5-3351-4898-8cab-758181a86adb
+    line: 88
+    col: 1
     score: 1
-  - uuid: cdb74242-b61d-4b7e-9288-5859e040e512
-    line: 111
-    col: 0
-    score: 0.99
-  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
-    line: 63
-    col: 0
-    score: 0.88
-  - uuid: 41ce0216-f8cc-4eed-8d9a-fcc25be21425
+  - uuid: 92a052a5-3351-4898-8cab-758181a86adb
+    line: 88
+    col: 3
+    score: 1
+  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
+    line: 83
+    col: 1
+    score: 1
+  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
+    line: 83
+    col: 3
+    score: 1
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 67
+    col: 1
+    score: 1
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 67
+    col: 3
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 158
+    col: 1
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 158
+    col: 3
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 457
+    col: 1
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 457
+    col: 3
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 9
+    col: 1
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 9
+    col: 3
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
     line: 10
-    col: 0
-    score: 0.86
-  - uuid: cdf2c6e4-0dbd-4f19-b645-ac619a6f267d
-    line: 55
-    col: 0
-    score: 0.85
+    col: 1
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 10
+    col: 3
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 135
+    col: 1
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 135
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 34
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 34
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 103
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 103
+    col: 3
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 139
+    col: 1
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 139
+    col: 3
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 137
+    col: 1
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 137
+    col: 3
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 175
+    col: 1
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 175
+    col: 3
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 547
+    col: 1
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 547
+    col: 3
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 244
+    col: 1
+    score: 1
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 244
+    col: 3
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 199
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 199
+    col: 3
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 196
+    col: 1
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 196
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 35
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 35
+    col: 3
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 249
+    col: 1
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 249
+    col: 3
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 146
+    col: 1
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 146
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 102
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 102
+    col: 3
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 138
+    col: 1
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 138
+    col: 3
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 88
+    col: 1
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 88
+    col: 3
+    score: 1
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 406
+    col: 1
+    score: 1
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 406
+    col: 3
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 11
+    col: 1
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 11
+    col: 3
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 14
+    col: 1
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 14
+    col: 3
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 297
+    col: 1
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 297
+    col: 3
+    score: 1
 ---
-Note: Consolidated here → ../notes/diagrams/event-bus-projections-diagrams.md ^ref-cf6b9b17-1-0
+Note: Consolidated here → ../notes/diagrams/event-bus-projections-diagrams.md
 
-Got you. Here are a few **Mermaid graphs** you can paste straight into your notes. ^ref-cf6b9b17-3-0
+Got you. Here are a few **Mermaid graphs** you can paste straight into your notes.
 
 ```mermaid
 flowchart TB
@@ -143,10 +345,9 @@ flowchart TB
     Changefeed --> EB
   end
 ```
-^ref-cf6b9b17-5-0 ^ref-cf6b9b17-51-0
 
 ---
- ^ref-cf6b9b17-54-0
+
 ```mermaid
 flowchart LR
   HBR[heartbeat.received] --> PS[process.state (compaction, key=host:name:pid)]
@@ -156,10 +357,9 @@ flowchart LR
   SNAP --> API[Snapshot API]
   HBR -->|on handler error (N tries)| DLQ[dlq.heartbeat.received]
   DLQ -->|replay tool| HBR
-^ref-cf6b9b17-54-0
 ```
 
---- ^ref-cf6b9b17-67-0
+---
 
 ```mermaid
 flowchart TB
@@ -197,10 +397,9 @@ flowchart TB
 
   classDef p fill:#eef,stroke:#88f;
   classDef w fill:#efe,stroke:#4a4;
-^ref-cf6b9b17-67-0
   classDef c fill:#ffe,stroke:#aa4;
 ```
- ^ref-cf6b9b17-108-0
+
 ---
 
 ```mermaid
@@ -234,52 +433,95 @@ erDiagram
     string _key PK
     json   doc
     number _ts
-^ref-cf6b9b17-108-0
-    number _v ^ref-cf6b9b17-143-0
+    number _v
   }
-``` ^ref-cf6b9b17-145-0
-^ref-cdb74242-111-0
-^ref-cf6b9b17-111-0
- ^ref-cf6b9b17-147-0
-If you want this **as a single canvas**, say the word and I’ll stitch these into one big overview with legends + color keys.
-   json   doc
-    number _ts
-^ref-cf6b9b17-108-0
-    number _v ^ref-cf6b9b17-143-0
-  }
-``` ^ref-cf6b9b17-145-0
-^ref-cf6b9b17-111-0
- ^ref-cf6b9b17-147-0
+```
+
 If you want this **as a single canvas**, say the word and I’ll stitch these into one big overview with legends + color keys.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [prompt-folder-bootstrap](prompt-folder-bootstrap.md)
-- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
-- [Exception Layer Analysis](exception-layer-analysis.md)
-- [refactor-relations](refactor-relations.md)
+- [Diagrams](chunks/diagrams.md)
 - [Unique Info Dump Index](unique-info-dump-index.md)
+- [promethean-system-diagrams](promethean-system-diagrams.md)
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
 - [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
+- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
+- [archetype-ecs](archetype-ecs.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [aionian-circuit-math](aionian-circuit-math.md)
+- [DSL](chunks/dsl.md)
+- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
 - [Event Bus MVP](event-bus-mvp.md)
-- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
-- [Voice Access Layer Design](voice-access-layer-design.md)
-- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
-- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
-- [Refactor 05-footers.ts](refactor-05-footers-ts.md)
-- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
-- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
-- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
-- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [ecs-offload-workers](ecs-offload-workers.md)
-- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
-- [Chroma-Embedding-Refactor](chroma-embedding-refactor.md)
-- [sibilant-metacompiler](sibilant-metacompiler-overview.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [2d-sandbox-field](2d-sandbox-field.md)
+- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
+- [EidolonField](eidolonfield.md)
+- [Synchronicity Waves and Web](synchronicity-waves-and-web.md)
+- [Shared](chunks/shared.md)
+- [infinite_depth_smoke_animation](infinite-depth-smoke-animation.md)
+- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
+- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
+- [balanced-bst](balanced-bst.md)
+
 ## Sources
-- [prompt-folder-bootstrap — L1](prompt-folder-bootstrap.md#^ref-cfa2be7b-1-0) (line 1, col 0, score 1)
-- [prompt-folder-bootstrap — L3](prompt-folder-bootstrap.md#^ref-cfa2be7b-3-0) (line 3, col 0, score 1)
-- [prompt-folder-bootstrap — L15](prompt-folder-bootstrap.md#^ref-cfa2be7b-15-0) (line 15, col 0, score 1)
-- [Event Bus Projections Architecture — L111](event-bus-projections-architecture.md#^ref-cdb74242-111-0) (line 111, col 0, score 0.99)
-- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.88)
-- [refactor-relations — L10](refactor-relations.md#^ref-41ce0216-10-0) (line 10, col 0, score 0.86)
-- [Unique Info Dump Index — L55](unique-info-dump-index.md#^ref-cdf2c6e4-55-0) (line 55, col 0, score 0.85)
+- [Shared — L7](chunks/shared.md#L7) (line 7, col 1, score 1)
+- [Shared — L7](chunks/shared.md#L7) (line 7, col 3, score 1)
+- [infinite_depth_smoke_animation — L88](infinite-depth-smoke-animation.md#L88) (line 88, col 1, score 1)
+- [infinite_depth_smoke_animation — L88](infinite-depth-smoke-animation.md#L88) (line 88, col 3, score 1)
+- [Synchronicity Waves and Web — L83](synchronicity-waves-and-web.md#L83) (line 83, col 1, score 1)
+- [Synchronicity Waves and Web — L83](synchronicity-waves-and-web.md#L83) (line 83, col 3, score 1)
+- [Unique Info Dump Index — L67](unique-info-dump-index.md#L67) (line 67, col 1, score 1)
+- [Unique Info Dump Index — L67](unique-info-dump-index.md#L67) (line 67, col 3, score 1)
+- [aionian-circuit-math — L158](aionian-circuit-math.md#L158) (line 158, col 1, score 1)
+- [aionian-circuit-math — L158](aionian-circuit-math.md#L158) (line 158, col 3, score 1)
+- [archetype-ecs — L457](archetype-ecs.md#L457) (line 457, col 1, score 1)
+- [archetype-ecs — L457](archetype-ecs.md#L457) (line 457, col 3, score 1)
+- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 1, score 1)
+- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 3, score 1)
+- [DSL — L10](chunks/dsl.md#L10) (line 10, col 1, score 1)
+- [DSL — L10](chunks/dsl.md#L10) (line 10, col 3, score 1)
+- [Agent Tasks: Persistence Migration to DualStore — L135](agent-tasks-persistence-migration-to-dualstore.md#L135) (line 135, col 1, score 1)
+- [Agent Tasks: Persistence Migration to DualStore — L135](agent-tasks-persistence-migration-to-dualstore.md#L135) (line 135, col 3, score 1)
+- [eidolon-node-lifecycle — L34](eidolon-node-lifecycle.md#L34) (line 34, col 1, score 1)
+- [eidolon-node-lifecycle — L34](eidolon-node-lifecycle.md#L34) (line 34, col 3, score 1)
+- [field-node-diagram-outline — L103](field-node-diagram-outline.md#L103) (line 103, col 1, score 1)
+- [field-node-diagram-outline — L103](field-node-diagram-outline.md#L103) (line 103, col 3, score 1)
+- [field-node-diagram-set — L139](field-node-diagram-set.md#L139) (line 139, col 1, score 1)
+- [field-node-diagram-set — L139](field-node-diagram-set.md#L139) (line 139, col 3, score 1)
+- [Agent Tasks: Persistence Migration to DualStore — L137](agent-tasks-persistence-migration-to-dualstore.md#L137) (line 137, col 1, score 1)
+- [Agent Tasks: Persistence Migration to DualStore — L137](agent-tasks-persistence-migration-to-dualstore.md#L137) (line 137, col 3, score 1)
+- [Chroma Toolkit Consolidation Plan — L175](chroma-toolkit-consolidation-plan.md#L175) (line 175, col 1, score 1)
+- [Chroma Toolkit Consolidation Plan — L175](chroma-toolkit-consolidation-plan.md#L175) (line 175, col 3, score 1)
+- [Event Bus MVP — L547](event-bus-mvp.md#L547) (line 547, col 1, score 1)
+- [Event Bus MVP — L547](event-bus-mvp.md#L547) (line 547, col 3, score 1)
+- [Fnord Tracer Protocol — L244](fnord-tracer-protocol.md#L244) (line 244, col 1, score 1)
+- [Fnord Tracer Protocol — L244](fnord-tracer-protocol.md#L244) (line 244, col 3, score 1)
+- [2d-sandbox-field — L199](2d-sandbox-field.md#L199) (line 199, col 1, score 1)
+- [2d-sandbox-field — L199](2d-sandbox-field.md#L199) (line 199, col 3, score 1)
+- [Eidolon Field Abstract Model — L196](eidolon-field-abstract-model.md#L196) (line 196, col 1, score 1)
+- [Eidolon Field Abstract Model — L196](eidolon-field-abstract-model.md#L196) (line 196, col 3, score 1)
+- [eidolon-node-lifecycle — L35](eidolon-node-lifecycle.md#L35) (line 35, col 1, score 1)
+- [eidolon-node-lifecycle — L35](eidolon-node-lifecycle.md#L35) (line 35, col 3, score 1)
+- [EidolonField — L249](eidolonfield.md#L249) (line 249, col 1, score 1)
+- [EidolonField — L249](eidolonfield.md#L249) (line 249, col 3, score 1)
+- [Factorio AI with External Agents — L146](factorio-ai-with-external-agents.md#L146) (line 146, col 1, score 1)
+- [Factorio AI with External Agents — L146](factorio-ai-with-external-agents.md#L146) (line 146, col 3, score 1)
+- [field-node-diagram-outline — L102](field-node-diagram-outline.md#L102) (line 102, col 1, score 1)
+- [field-node-diagram-outline — L102](field-node-diagram-outline.md#L102) (line 102, col 3, score 1)
+- [field-node-diagram-set — L138](field-node-diagram-set.md#L138) (line 138, col 1, score 1)
+- [field-node-diagram-set — L138](field-node-diagram-set.md#L138) (line 138, col 3, score 1)
+- [field-node-diagram-visualizations — L88](field-node-diagram-visualizations.md#L88) (line 88, col 1, score 1)
+- [field-node-diagram-visualizations — L88](field-node-diagram-visualizations.md#L88) (line 88, col 3, score 1)
+- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
+- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
+- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
+- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
+- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
+- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
+- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
+- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

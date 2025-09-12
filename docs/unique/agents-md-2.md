@@ -1,13 +1,12 @@
 ---
-uuid: 8a816e35-aebc-4337-acdb-27347fa0feb2
-created_at: agents-md-3.md
+uuid: d5b16703-d7f7-438a-9a75-3ae4589b177b
+created_at: 2025.09.01.20.42.56.md
 filename: AGENTS.md
-title: AGENTS.md
 description: >-
   A lean, drop-in scaffold for creating reusable prompt blocks in Obsidian that
   enforce constraints like AVA testing, TypeScript functional style, and no
-  React/Python. Includes clear roles, rubrics, and checklists to keep bots
-  focused on local, concurrent workflows.
+  React/Python. Includes clear roles, rubrics, and checklists to maintain bot
+  behavior within defined boundaries.
 tags:
   - obsidian
   - ava
@@ -16,7 +15,6 @@ tags:
   - concurrency
   - prompt-engineering
   - reusable-prompt-blocks
-  - local-stack
 related_to_uuid:
   - bb90903a-4723-44f7-850e-a71415ef6224
   - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
@@ -34,15 +32,54 @@ related_to_uuid:
   - c0392040-16a2-41e8-bd54-75110319e3c0
   - 10d98225-12e0-4212-8e15-88b57cf7bee5
   - 291c7d91-da8c-486c-9bc0-bd2254536e2d
-  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
-  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
-  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
   - 5e408692-0e74-400e-a617-84247c7353ad
   - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
   - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+  - e87bc036-1570-419e-a558-f45b9c0db698
+  - f1add613-656e-4bec-b52b-193fd78c4642
+  - 9e8ae388-767a-4ea8-9f2e-88801291d947
   - d614d983-7795-491f-9437-09f3a43f72cf
-  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
-  - 13951643-1741-46bb-89dc-1beebb122633
+  - 557309a3-c906-4e97-8867-89ffe151790c
+  - 6cb4943e-8267-4e27-8618-2ce0a464d173
+  - ffb9b2a9-744d-4a53-9565-130fceae0832
+  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+  - 22b989d5-f4aa-4880-8632-709c21830f83
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - 1cfae310-35dc-49c2-98f1-b186da25d84b
+  - dd00677a-2280-45a7-91af-0728b21af3ad
+  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - 618198f4-cfad-4677-9df6-0640d8a97bae
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
+  - c5c9a5c6-427d-4864-8084-c083cd55faa0
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - 9a93a756-6d33-45d1-aca9-51b74f2b33d2
+  - 43bfe9dd-d433-42ca-9777-f4c40eaba791
+  - 8430617b-80a2-4cc9-8288-9a74cb57990b
+  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
+  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
+  - ae24a280-678e-4c0b-8cc4-56667fa04172
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - fc21f824-4244-4030-a48e-c4170160ea1d
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - 15d25922-0de6-414f-b7d1-e50e2a57b33a
+  - 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
+  - 5c307293-04cb-4478-ba2c-4cd85dbec260
+  - de34f84b-270b-4f16-92a8-a681a869b823
+  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - b01856b4-999f-418d-8009-ade49b00eb0f
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - bb7f0835-c347-474f-bfad-eabd873b51ad
+  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
 related_to_title:
   - AGENTS.md
   - Promethean Chat Activity Report
@@ -60,16 +97,194 @@ related_to_title:
   - Promethean Documentation Update
   - Creative Moments
   - Ice Box Reorganization
-  - windows-tiling-with-autohotkey
-  - Unique Concepts
-  - Unique Info Dump Index
   - i3-bluetooth-setup
   - Layer1SurvivabilityEnvelope
   - eidolon-node-lifecycle
+  - DSL
+  - Operations
+  - Window Management
   - Promethean Workflow Optimization
-  - zero-copy-snapshots-and-workers
-  - Duck's Attractor States
+  - Simulation Demo
+  - Tooling
+  - obsidian-ignore-node-modules-regex
+  - ParticleSimulationWithCanvasAndFFmpeg
+  - field-node-diagram-set
+  - field-dynamics-math-blocks
+  - homeostasis-decay-formulas
+  - Functional Refactor of TypeScript Document Processing
+  - heartbeat-fragment-demo
+  - field-node-diagram-visualizations
+  - AI-First-OS-Model-Context-Protocol
+  - Dynamic Context Model for Web Components
+  - eidolon-field-math-foundations
+  - Chroma Toolkit Consolidation Plan
+  - field-node-diagram-outline
+  - Prompt_Folder_Bootstrap
+  - Prometheus Observability Stack
+  - sibilant-macro-targets
+  - Promethean Infrastructure Setup
+  - Protocol_0_The_Contradiction_Engine
+  - Provider-Agnostic Chat Panel Implementation
+  - ripple-propagation-demo
+  - Canonical Org-Babel Matplotlib Animation Template
+  - JavaScript
+  - Promethean-Copilot-Intent-Engine
+  - Unique Info Dump Index
+  - Fnord Tracer Protocol
+  - Migrate to Provider-Tenant Architecture
+  - run-step-api
+  - Git Commit Optimization for Code Reviews
+  - Self-Improving Documentation Tool
+  - Language-Agnostic Mirror System
+  - compiler-kit-foundations
+  - Universal Lisp Interface
+  - RAG UI Panel with Qdrant and PostgREST
+  - Agent Reflections and Prompt Evolution
+  - plan-update-confirmation
+  - Model Selection for Lightweight Conversational Tasks
+  - windows-tiling-with-autohotkey
+  - ecs-offload-workers
 references:
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 9
+    col: 0
+    score: 0.95
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 10
+    col: 0
+    score: 0.93
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 11
+    col: 0
+    score: 0.96
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 13
+    col: 0
+    score: 0.96
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 47
+    col: 0
+    score: 0.95
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 70
+    col: 0
+    score: 0.85
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 207
+    col: 0
+    score: 0.88
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 164
+    col: 0
+    score: 0.86
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 146
+    col: 0
+    score: 0.86
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 130
+    col: 0
+    score: 0.86
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 532
+    col: 0
+    score: 0.85
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 114
+    col: 0
+    score: 0.85
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 176
+    col: 0
+    score: 0.99
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 287
+    col: 0
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 302
+    col: 0
+    score: 1
+  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+    line: 15
+    col: 0
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 137
+    col: 0
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 593
+    col: 0
+    score: 1
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 561
+    col: 0
+    score: 1
+  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
+    line: 607
+    col: 0
+    score: 1
+  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
+    line: 548
+    col: 0
+    score: 1
+  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+    line: 50
+    col: 0
+    score: 1
+  - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
+    line: 28
+    col: 0
+    score: 1
+  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
+    line: 232
+    col: 0
+    score: 1
+  - uuid: c0392040-16a2-41e8-bd54-75110319e3c0
+    line: 29
+    col: 0
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 57
+    col: 0
+    score: 1
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 124
+    col: 0
+    score: 1
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 81
+    col: 0
+    score: 1
+  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
+    line: 183
+    col: 0
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 69
+    col: 0
+    score: 1
+  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
+    line: 36
+    col: 0
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 46
+    col: 0
+    score: 1
+  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
+    line: 40
+    col: 0
+    score: 1
+  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
+    line: 53
+    col: 0
+    score: 1
+  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+    line: 33
+    col: 0
+    score: 1
   - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
     line: 11
     col: 0
@@ -155,15 +370,139 @@ references:
     col: 0
     score: 1
   - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 185
+    col: 0
+    score: 0.94
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 343
+    col: 0
+    score: 0.93
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 237
+    col: 0
+    score: 0.94
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 218
+    col: 0
+    score: 0.94
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 186
+    col: 0
+    score: 0.94
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 334
+    col: 0
+    score: 0.92
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 174
+    col: 0
+    score: 0.93
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 315
+    col: 0
+    score: 0.93
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 187
+    col: 0
+    score: 0.93
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
     line: 188
     col: 0
     score: 1
+  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
+    line: 189
+    col: 0
+    score: 0.91
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 157
+    col: 0
+    score: 0.93
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 225
+    col: 0
+    score: 0.93
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 197
+    col: 0
+    score: 0.94
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 229
+    col: 0
+    score: 0.94
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 220
+    col: 0
+    score: 0.94
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 235
+    col: 0
+    score: 0.93
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 240
+    col: 0
+    score: 0.93
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 219
+    col: 0
+    score: 0.93
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 170
+    col: 0
+    score: 0.92
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 335
+    col: 0
+    score: 0.92
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 173
+    col: 0
+    score: 0.92
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 259
+    col: 0
+    score: 0.93
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 313
+    col: 0
+    score: 0.92
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 226
+    col: 0
+    score: 0.93
+  - uuid: 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
+    line: 167
+    col: 0
+    score: 0.93
+  - uuid: de34f84b-270b-4f16-92a8-a681a869b823
+    line: 43
+    col: 0
+    score: 0.93
+  - uuid: 15d25922-0de6-414f-b7d1-e50e2a57b33a
+    line: 1034
+    col: 0
+    score: 0.93
+  - uuid: 5c307293-04cb-4478-ba2c-4cd85dbec260
+    line: 30
+    col: 0
+    score: 0.93
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 168
+    col: 0
+    score: 0.93
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 299
+    col: 0
+    score: 0.93
   - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
     line: 298
     col: 0
     score: 1
   - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
     line: 779
+    col: 0
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 269
     col: 0
     score: 1
   - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
@@ -186,94 +525,6 @@ references:
     line: 665
     col: 0
     score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 169
-    col: 0
-    score: 1
-  - uuid: d614d983-7795-491f-9437-09f3a43f72cf
-    line: 1
-    col: 0
-    score: 1
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 317
-    col: 0
-    score: 1
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 312
-    col: 0
-    score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 466
-    col: 0
-    score: 1
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 88
-    col: 0
-    score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 91
-    col: 0
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 69
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 64
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 105
-    col: 0
-    score: 1
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 92
-    col: 0
-    score: 1
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 90
-    col: 0
-    score: 1
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 50
-    col: 0
-    score: 1
-  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
-    line: 81
-    col: 0
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 220
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 85
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 103
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 64
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 141
-    col: 0
-    score: 1
-  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
-    line: 176
-    col: 0
-    score: 0.99
   - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
     line: 1352
     col: 0
@@ -314,6 +565,10 @@ references:
     line: 171
     col: 0
     score: 0.99
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 169
+    col: 0
+    score: 1
   - uuid: bb90903a-4723-44f7-850e-a71415ef6224
     line: 270
     col: 0
@@ -342,6 +597,102 @@ references:
     line: 1509
     col: 0
     score: 0.98
+  - uuid: d614d983-7795-491f-9437-09f3a43f72cf
+    line: 1
+    col: 0
+    score: 1
+  - uuid: d614d983-7795-491f-9437-09f3a43f72cf
+    line: 5
+    col: 0
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 317
+    col: 0
+    score: 1
+  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
+    line: 195
+    col: 0
+    score: 0.97
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 732
+    col: 0
+    score: 0.97
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 812
+    col: 0
+    score: 0.97
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 825
+    col: 0
+    score: 0.97
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 119
+    col: 0
+    score: 0.97
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 632
+    col: 0
+    score: 0.96
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 316
+    col: 0
+    score: 0.96
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 301
+    col: 0
+    score: 0.97
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 300
+    col: 0
+    score: 0.96
+  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
+    line: 610
+    col: 0
+    score: 0.97
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 573
+    col: 0
+    score: 0.96
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 315
+    col: 0
+    score: 0.96
+  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
+    line: 370
+    col: 0
+    score: 0.96
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 465
+    col: 0
+    score: 0.96
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 312
+    col: 0
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 71
+    col: 0
+    score: 0.96
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 173
+    col: 0
+    score: 0.96
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 143
+    col: 0
+    score: 0.96
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 416
+    col: 0
+    score: 0.96
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 172
+    col: 0
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 466
+    col: 0
+    score: 1
   - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
     line: 142
     col: 0
@@ -362,114 +713,10 @@ references:
     line: 167
     col: 0
     score: 0.98
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 732
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 144
     col: 0
-    score: 0.97
-  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
-    line: 812
-    col: 0
-    score: 0.97
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 825
-    col: 0
-    score: 0.97
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 119
-    col: 0
-    score: 0.97
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 301
-    col: 0
-    score: 0.97
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 610
-    col: 0
-    score: 0.97
-  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
-    line: 11
-    col: 0
-    score: 0.96
-  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
-    line: 13
-    col: 0
-    score: 0.96
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 632
-    col: 0
-    score: 0.96
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 316
-    col: 0
-    score: 0.96
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 300
-    col: 0
-    score: 0.96
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 573
-    col: 0
-    score: 0.96
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 315
-    col: 0
-    score: 0.96
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 370
-    col: 0
-    score: 0.96
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 465
-    col: 0
-    score: 0.96
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 71
-    col: 0
-    score: 0.96
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 173
-    col: 0
-    score: 0.96
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 416
-    col: 0
-    score: 0.96
-  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
-    line: 9
-    col: 0
-    score: 0.95
-  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
-    line: 47
-    col: 0
-    score: 0.95
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 237
-    col: 0
-    score: 0.94
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 218
-    col: 0
-    score: 0.94
-  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
-    line: 186
-    col: 0
-    score: 0.94
-  - uuid: bb90903a-4723-44f7-850e-a71415ef6224
-    line: 185
-    col: 0
-    score: 0.94
-  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
-    line: 197
-    col: 0
-    score: 0.94
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 229
-    col: 0
-    score: 0.94
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 220
-    col: 0
-    score: 0.94
+    score: 0.98
 ---
 Got it. Here’s a lean, **drop-in `AGENTS.md` scaffold** with reusable prompt blocks you can paste and adapt. It encodes your constraints (AVA, TS FP, no React, no Python, local-only stack, concurrency-first). It’s Obsidian-friendly, includes clear roles, rubrics, and checklists, and keeps bots from drifting to Jest.
 
@@ -786,9 +1033,7 @@ Then: FAIL; require DI with local fakes.
 If you want, tell me which agents you actually use day-to-day and I’ll collapse this into a **tight `AGENTS.md` v1** with your repo paths baked in (scripts, dirs, CI names). Otherwise, paste this as-is and iterate.
 
 \#hashtags
-\#agents #prompts #ava #typescript #concurrency #functionalprogramming #nodejs #devtools #obsidian ^ref-d5b16703-315-0
- ^ref-d5b16703-326-0 ^ref-d5b16703-331-0 ^ref-d5b16703-334-0 ^ref-d5b16703-335-0 ^ref-d5b16703-336-0 ^ref-d5b16703-339-0
-<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
+\#agents #prompts #ava #typescript #concurrency #functionalprogramming #nodejs #devtools #obsidian ^ref-d5b16703-315-0<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [AGENTS.md](agents-md.md)
 - [Promethean Chat Activity Report](promethean-chat-activity-report.md)
@@ -806,16 +1051,90 @@ If you want, tell me which agents you actually use day-to-day and I’ll collaps
 - [Promethean Documentation Update](promethean-documentation-update.md)
 - [Creative Moments](creative-moments.md)
 - [Ice Box Reorganization](ice-box-reorganization.md)
-- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
-- [Unique Concepts](unique-concepts.md)
-- [Unique Info Dump Index](unique-info-dump-index.md)
 - [i3-bluetooth-setup](i3-bluetooth-setup.md)
 - [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
 - [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
+- [DSL](chunks/dsl.md)
+- [Operations](chunks/operations.md)
+- [Window Management](chunks/window-management.md)
 - [Promethean Workflow Optimization](promethean-workflow-optimization.md)
-- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
-- [Duck's Attractor States](ducks-attractor-states.md)
+- [Simulation Demo](chunks/simulation-demo.md)
+- [Tooling](chunks/tooling.md)
+- [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
+- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
+- [Functional Refactor of TypeScript Document Processing](functional-refactor-of-typescript-document-processing.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
+- [Prometheus Observability Stack](prometheus-observability-stack.md)
+- [sibilant-macro-targets](sibilant-macro-targets.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+- [Protocol_0_The_Contradiction_Engine](protocol-0-the-contradiction-engine.md)
+- [Provider-Agnostic Chat Panel Implementation](provider-agnostic-chat-panel-implementation.md)
+- [ripple-propagation-demo](ripple-propagation-demo.md)
+- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
+- [JavaScript](chunks/javascript.md)
+- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
+- [Unique Info Dump Index](unique-info-dump-index.md)
+- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
+- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
+- [run-step-api](run-step-api.md)
+- [Git Commit Optimization for Code Reviews](git-commit-optimization-for-code-reviews.md)
+- [Self-Improving Documentation Tool](self-improving-documentation-tool.md)
+- [Promethean Documentation Update](promethean-documentation-update-3.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [Universal Lisp Interface](universal-lisp-interface.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
+- [plan-update-confirmation](plan-update-confirmation.md)
+- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
+- [windows-tiling-with-autohotkey](windows-tiling-with-autohotkey.md)
+- [ecs-offload-workers](ecs-offload-workers.md)
 ## Sources
+- [AGENTS.md — L9](agents-md.md#^ref-bb90903a-9-0) (line 9, col 0, score 0.95)
+- [AGENTS.md — L10](agents-md.md#^ref-bb90903a-10-0) (line 10, col 0, score 0.93)
+- [AGENTS.md — L11](agents-md.md#^ref-bb90903a-11-0) (line 11, col 0, score 0.96)
+- [AGENTS.md — L13](agents-md.md#^ref-bb90903a-13-0) (line 13, col 0, score 0.96)
+- [AGENTS.md — L47](agents-md.md#^ref-bb90903a-47-0) (line 47, col 0, score 0.95)
+- [AGENTS.md — L70](agents-md.md#^ref-bb90903a-70-0) (line 70, col 0, score 0.85)
+- [schema-evolution-workflow — L207](schema-evolution-workflow.md#^ref-d8059b6a-207-0) (line 207, col 0, score 0.88)
+- [schema-evolution-workflow — L164](schema-evolution-workflow.md#^ref-d8059b6a-164-0) (line 164, col 0, score 0.86)
+- [schema-evolution-workflow — L146](schema-evolution-workflow.md#^ref-d8059b6a-146-0) (line 146, col 0, score 0.86)
+- [Language-Agnostic Mirror System — L130](language-agnostic-mirror-system.md#^ref-d2b3628c-130-0) (line 130, col 0, score 0.86)
+- [schema-evolution-workflow — L532](schema-evolution-workflow.md#^ref-d8059b6a-532-0) (line 532, col 0, score 0.85)
+- [Pure TypeScript Search Microservice — L114](pure-typescript-search-microservice.md#^ref-d17d3a96-114-0) (line 114, col 0, score 0.85)
+- [AGENTS.md — L176](agents-md.md#^ref-bb90903a-176-0) (line 176, col 0, score 0.99)
+- [api-gateway-versioning — L287](api-gateway-versioning.md#^ref-0580dcd3-287-0) (line 287, col 0, score 1)
+- [balanced-bst — L302](balanced-bst.md#^ref-d3e7db72-302-0) (line 302, col 0, score 1)
+- [Board Automation Improvements — L15](board-automation-improvements.md#^ref-ac60a1d6-15-0) (line 15, col 0, score 1)
+- [Board Walk – 2025-08-11 — L137](board-walk-2025-08-11.md#^ref-7aa1eb92-137-0) (line 137, col 0, score 1)
+- [Pure TypeScript Search Microservice — L593](pure-typescript-search-microservice.md#^ref-d17d3a96-593-0) (line 593, col 0, score 1)
+- [schema-evolution-workflow — L561](schema-evolution-workflow.md#^ref-d8059b6a-561-0) (line 561, col 0, score 1)
+- [Stateful Partitions and Rebalancing — L607](stateful-partitions-and-rebalancing.md#^ref-4330e8f0-607-0) (line 607, col 0, score 1)
+- [TypeScript Patch for Tool Calling Support — L548](typescript-patch-for-tool-calling-support.md#^ref-7b7ca860-548-0) (line 548, col 0, score 1)
+- [Promethean Chat Activity Report — L50](promethean-chat-activity-report.md#^ref-18344cf9-50-0) (line 50, col 0, score 1)
+- [Promethean Data Sync Protocol — L28](promethean-data-sync-protocol.md#^ref-9fab9e76-28-0) (line 28, col 0, score 1)
+- [Promethean Documentation Pipeline Overview — L232](promethean-documentation-pipeline-overview.md#^ref-3a3bf2c9-232-0) (line 232, col 0, score 1)
+- [Promethean Documentation Update — L29](promethean-documentation-update.md#^ref-c0392040-29-0) (line 29, col 0, score 1)
+- [eidolon-node-lifecycle — L57](eidolon-node-lifecycle.md#^ref-938eca9c-57-0) (line 57, col 0, score 1)
+- [i3-bluetooth-setup — L124](i3-bluetooth-setup.md#^ref-5e408692-124-0) (line 124, col 0, score 1)
+- [Ice Box Reorganization — L81](ice-box-reorganization.md#^ref-291c7d91-81-0) (line 81, col 0, score 1)
+- [Layer1SurvivabilityEnvelope — L183](layer1survivabilityenvelope.md#^ref-64a9f9f9-183-0) (line 183, col 0, score 1)
+- [DSL — L69](chunks/dsl.md#^ref-e87bc036-69-0) (line 69, col 0, score 1)
+- [Operations — L36](chunks/operations.md#^ref-f1add613-36-0) (line 36, col 0, score 1)
+- [Simulation Demo — L46](chunks/simulation-demo.md#^ref-557309a3-46-0) (line 46, col 0, score 1)
+- [Tooling — L40](chunks/tooling.md#^ref-6cb4943e-40-0) (line 40, col 0, score 1)
+- [Window Management — L53](chunks/window-management.md#^ref-9e8ae388-53-0) (line 53, col 0, score 1)
+- [Creative Moments — L33](creative-moments.md#^ref-10d98225-33-0) (line 33, col 0, score 1)
 - [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#^ref-618198f4-11-0) (line 11, col 0, score 1)
 - [aionian-circuit-math — L151](aionian-circuit-math.md#^ref-f2d83a77-151-0) (line 151, col 0, score 1)
 - [aionian-circuit-math — L152](aionian-circuit-math.md#^ref-f2d83a77-152-0) (line 152, col 0, score 1)
@@ -837,36 +1156,45 @@ If you want, tell me which agents you actually use day-to-day and I’ll collaps
 - [Ice Box Reorganization — L110](ice-box-reorganization.md#^ref-291c7d91-110-0) (line 110, col 0, score 1)
 - [obsidian-ignore-node-modules-regex — L118](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-118-0) (line 118, col 0, score 1)
 - [ParticleSimulationWithCanvasAndFFmpeg — L329](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-329-0) (line 329, col 0, score 1)
+- [AGENTS.md — L185](agents-md.md#^ref-bb90903a-185-0) (line 185, col 0, score 0.94)
+- [api-gateway-versioning — L343](api-gateway-versioning.md#^ref-0580dcd3-343-0) (line 343, col 0, score 0.93)
+- [AI-First-OS-Model-Context-Protocol — L237](ai-first-os-model-context-protocol.md#^ref-618198f4-237-0) (line 237, col 0, score 0.94)
+- [aionian-circuit-math — L218](aionian-circuit-math.md#^ref-f2d83a77-218-0) (line 218, col 0, score 0.94)
+- [AGENTS.md — L186](agents-md.md#^ref-bb90903a-186-0) (line 186, col 0, score 0.94)
+- [api-gateway-versioning — L334](api-gateway-versioning.md#^ref-0580dcd3-334-0) (line 334, col 0, score 0.92)
+- [aionian-circuit-math — L174](aionian-circuit-math.md#^ref-f2d83a77-174-0) (line 174, col 0, score 0.93)
+- [api-gateway-versioning — L315](api-gateway-versioning.md#^ref-0580dcd3-315-0) (line 315, col 0, score 0.93)
+- [AGENTS.md — L187](agents-md.md#^ref-bb90903a-187-0) (line 187, col 0, score 0.93)
 - [AGENTS.md — L188](agents-md.md#^ref-bb90903a-188-0) (line 188, col 0, score 1)
+- [AGENTS.md — L189](agents-md.md#^ref-bb90903a-189-0) (line 189, col 0, score 0.91)
+- [AI-First-OS-Model-Context-Protocol — L157](ai-first-os-model-context-protocol.md#^ref-618198f4-157-0) (line 157, col 0, score 0.93)
+- [aionian-circuit-math — L225](aionian-circuit-math.md#^ref-f2d83a77-225-0) (line 225, col 0, score 0.93)
+- [AI-First-OS-Model-Context-Protocol — L197](ai-first-os-model-context-protocol.md#^ref-618198f4-197-0) (line 197, col 0, score 0.94)
+- [aionian-circuit-math — L229](aionian-circuit-math.md#^ref-f2d83a77-229-0) (line 229, col 0, score 0.94)
+- [aionian-circuit-math — L220](aionian-circuit-math.md#^ref-f2d83a77-220-0) (line 220, col 0, score 0.94)
+- [AI-First-OS-Model-Context-Protocol — L235](ai-first-os-model-context-protocol.md#^ref-618198f4-235-0) (line 235, col 0, score 0.93)
+- [AI-First-OS-Model-Context-Protocol — L240](ai-first-os-model-context-protocol.md#^ref-618198f4-240-0) (line 240, col 0, score 0.93)
+- [aionian-circuit-math — L219](aionian-circuit-math.md#^ref-f2d83a77-219-0) (line 219, col 0, score 0.93)
+- [aionian-circuit-math — L170](aionian-circuit-math.md#^ref-f2d83a77-170-0) (line 170, col 0, score 0.92)
+- [api-gateway-versioning — L335](api-gateway-versioning.md#^ref-0580dcd3-335-0) (line 335, col 0, score 0.92)
+- [aionian-circuit-math — L173](aionian-circuit-math.md#^ref-f2d83a77-173-0) (line 173, col 0, score 0.92)
+- [Board Walk – 2025-08-11 — L259](board-walk-2025-08-11.md#^ref-7aa1eb92-259-0) (line 259, col 0, score 0.93)
+- [api-gateway-versioning — L313](api-gateway-versioning.md#^ref-0580dcd3-313-0) (line 313, col 0, score 0.92)
+- [aionian-circuit-math — L226](aionian-circuit-math.md#^ref-f2d83a77-226-0) (line 226, col 0, score 0.93)
+- [Git Commit Optimization for Code Reviews — L167](git-commit-optimization-for-code-reviews.md#^ref-72e4fd3c-167-0) (line 167, col 0, score 0.93)
+- [Promethean Documentation Update — L43](promethean-documentation-update-3.md#^ref-de34f84b-43-0) (line 43, col 0, score 0.93)
+- [run-step-api — L1034](run-step-api.md#^ref-15d25922-1034-0) (line 1034, col 0, score 0.93)
+- [Self-Improving Documentation Tool — L30](self-improving-documentation-tool.md#^ref-5c307293-30-0) (line 30, col 0, score 0.93)
+- [aionian-circuit-math — L168](aionian-circuit-math.md#^ref-f2d83a77-168-0) (line 168, col 0, score 0.93)
+- [api-gateway-versioning — L299](api-gateway-versioning.md#^ref-0580dcd3-299-0) (line 299, col 0, score 0.93)
 - [api-gateway-versioning — L298](api-gateway-versioning.md#^ref-0580dcd3-298-0) (line 298, col 0, score 1)
 - [Chroma Toolkit Consolidation Plan — L779](chroma-toolkit-consolidation-plan.md#^ref-5020e892-779-0) (line 779, col 0, score 1)
+- [Simulation Demo — L269](chunks/simulation-demo.md#^ref-557309a3-269-0) (line 269, col 0, score 1)
 - [Dynamic Context Model for Web Components — L1431](dynamic-context-model-for-web-components.md#^ref-f7702bf8-1431-0) (line 1431, col 0, score 1)
 - [eidolon-field-math-foundations — L581](eidolon-field-math-foundations.md#^ref-008f2ac0-581-0) (line 581, col 0, score 1)
 - [eidolon-node-lifecycle — L393](eidolon-node-lifecycle.md#^ref-938eca9c-393-0) (line 393, col 0, score 1)
 - [field-dynamics-math-blocks — L405](field-dynamics-math-blocks.md#^ref-7cfc230d-405-0) (line 405, col 0, score 1)
 - [field-node-diagram-outline — L665](field-node-diagram-outline.md#^ref-1f32c94a-665-0) (line 665, col 0, score 1)
-- [aionian-circuit-math — L169](aionian-circuit-math.md#^ref-f2d83a77-169-0) (line 169, col 0, score 1)
-- [Promethean Workflow Optimization — L1](promethean-workflow-optimization.md#^ref-d614d983-1-0) (line 1, col 0, score 1)
-- [api-gateway-versioning — L317](api-gateway-versioning.md#^ref-0580dcd3-317-0) (line 317, col 0, score 1)
-- [api-gateway-versioning — L312](api-gateway-versioning.md#^ref-0580dcd3-312-0) (line 312, col 0, score 1)
-- [Chroma Toolkit Consolidation Plan — L466](chroma-toolkit-consolidation-plan.md#^ref-5020e892-466-0) (line 466, col 0, score 1)
-- [Model Upgrade Calm-Down Guide — L88](model-upgrade-calm-down-guide.md#^ref-db74343f-88-0) (line 88, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L91](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-91-0) (line 91, col 0, score 1)
-- [Obsidian ChatGPT Plugin Integration Guide — L69](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-69-0) (line 69, col 0, score 1)
-- [Obsidian ChatGPT Plugin Integration — L64](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-64-0) (line 64, col 0, score 1)
-- [obsidian-ignore-node-modules-regex — L105](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-105-0) (line 105, col 0, score 1)
-- [Obsidian Task Generation — L92](obsidian-task-generation.md#^ref-9b694a91-92-0) (line 92, col 0, score 1)
-- [Obsidian Templating Plugins Integration Guide — L90](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-90-0) (line 90, col 0, score 1)
-- [OpenAPI Validation Report — L50](openapi-validation-report.md#^ref-5c152b08-50-0) (line 50, col 0, score 1)
-- [Optimizing Command Limitations in System Design — L81](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-81-0) (line 81, col 0, score 1)
-- [polyglot-repl-interface-layer — L220](polyglot-repl-interface-layer.md#^ref-9c79206d-220-0) (line 220, col 0, score 1)
-- [Docops Feature Updates — L85](docops-feature-updates-3.md#^ref-cdbd21ee-85-0) (line 85, col 0, score 1)
-- [Docops Feature Updates — L103](docops-feature-updates.md#^ref-2792d448-103-0) (line 103, col 0, score 1)
-- [Duck's Attractor States — L93](ducks-attractor-states.md#^ref-13951643-93-0) (line 93, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L64](ducks-self-referential-perceptual-loop.md#^ref-71726f04-64-0) (line 64, col 0, score 1)
-- [Factorio AI with External Agents — L153](factorio-ai-with-external-agents.md#^ref-a4d90289-153-0) (line 153, col 0, score 1)
-- [field-dynamics-math-blocks — L141](field-dynamics-math-blocks.md#^ref-7cfc230d-141-0) (line 141, col 0, score 1)
-- [AGENTS.md — L176](agents-md.md#^ref-bb90903a-176-0) (line 176, col 0, score 0.99)
 - [Promethean Infrastructure Setup — L1352](promethean-infrastructure-setup.md#^ref-6deed6ac-1352-0) (line 1352, col 0, score 0.99)
 - [Prometheus Observability Stack — L1103](prometheus-observability-stack.md#^ref-e90b5a16-1103-0) (line 1103, col 0, score 0.99)
 - [Prompt_Folder_Bootstrap — L671](prompt-folder-bootstrap.md#^ref-bd4f0976-671-0) (line 671, col 0, score 0.99)
@@ -877,6 +1205,7 @@ If you want, tell me which agents you actually use day-to-day and I’ll collaps
 - [schema-evolution-workflow — L1285](schema-evolution-workflow.md#^ref-d8059b6a-1285-0) (line 1285, col 0, score 0.99)
 - [sibilant-macro-targets — L716](sibilant-macro-targets.md#^ref-c5c9a5c6-716-0) (line 716, col 0, score 0.99)
 - [aionian-circuit-math — L171](aionian-circuit-math.md#^ref-f2d83a77-171-0) (line 171, col 0, score 0.99)
+- [aionian-circuit-math — L169](aionian-circuit-math.md#^ref-f2d83a77-169-0) (line 169, col 0, score 1)
 - [AGENTS.md — L270](agents-md.md#^ref-bb90903a-270-0) (line 270, col 0, score 0.99)
 - [AGENTS.md — L264](agents-md.md#^ref-bb90903a-264-0) (line 264, col 0, score 0.99)
 - [AI-First-OS-Model-Context-Protocol — L184](ai-first-os-model-context-protocol.md#^ref-618198f4-184-0) (line 184, col 0, score 0.99)
@@ -884,36 +1213,34 @@ If you want, tell me which agents you actually use day-to-day and I’ll collaps
 - [AGENTS.md — L258](agents-md.md#^ref-bb90903a-258-0) (line 258, col 0, score 0.99)
 - [AI-First-OS-Model-Context-Protocol — L226](ai-first-os-model-context-protocol.md#^ref-618198f4-226-0) (line 226, col 0, score 0.98)
 - [Canonical Org-Babel Matplotlib Animation Template — L1509](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-1509-0) (line 1509, col 0, score 0.98)
+- [Promethean Workflow Optimization — L1](promethean-workflow-optimization.md#^ref-d614d983-1-0) (line 1, col 0, score 1)
+- [Promethean Workflow Optimization — L5](promethean-workflow-optimization.md#^ref-d614d983-5-0) (line 5, col 0, score 1)
+- [api-gateway-versioning — L317](api-gateway-versioning.md#^ref-0580dcd3-317-0) (line 317, col 0, score 1)
+- [Window Management — L195](chunks/window-management.md#^ref-9e8ae388-195-0) (line 195, col 0, score 0.97)
+- [Promethean-Copilot-Intent-Engine — L732](promethean-copilot-intent-engine.md#^ref-ae24a280-732-0) (line 732, col 0, score 0.97)
+- [sibilant-macro-targets — L812](sibilant-macro-targets.md#^ref-c5c9a5c6-812-0) (line 812, col 0, score 0.97)
+- [Unique Info Dump Index — L825](unique-info-dump-index.md#^ref-30ec3ba6-825-0) (line 825, col 0, score 0.97)
+- [AI-First-OS-Model-Context-Protocol — L119](ai-first-os-model-context-protocol.md#^ref-618198f4-119-0) (line 119, col 0, score 0.97)
+- [Migrate to Provider-Tenant Architecture — L632](migrate-to-provider-tenant-architecture.md#^ref-54382370-632-0) (line 632, col 0, score 0.96)
+- [api-gateway-versioning — L316](api-gateway-versioning.md#^ref-0580dcd3-316-0) (line 316, col 0, score 0.96)
+- [field-node-diagram-set — L301](field-node-diagram-set.md#^ref-22b989d5-301-0) (line 301, col 0, score 0.97)
+- [api-gateway-versioning — L300](api-gateway-versioning.md#^ref-0580dcd3-300-0) (line 300, col 0, score 0.96)
+- [Fnord Tracer Protocol — L610](fnord-tracer-protocol.md#^ref-fc21f824-610-0) (line 610, col 0, score 0.97)
+- [field-dynamics-math-blocks — L573](field-dynamics-math-blocks.md#^ref-7cfc230d-573-0) (line 573, col 0, score 0.96)
+- [heartbeat-fragment-demo — L315](heartbeat-fragment-demo.md#^ref-dd00677a-315-0) (line 315, col 0, score 0.96)
+- [ripple-propagation-demo — L370](ripple-propagation-demo.md#^ref-8430617b-370-0) (line 370, col 0, score 0.96)
+- [Chroma Toolkit Consolidation Plan — L465](chroma-toolkit-consolidation-plan.md#^ref-5020e892-465-0) (line 465, col 0, score 0.96)
+- [api-gateway-versioning — L312](api-gateway-versioning.md#^ref-0580dcd3-312-0) (line 312, col 0, score 1)
+- [AI-First-OS-Model-Context-Protocol — L71](ai-first-os-model-context-protocol.md#^ref-618198f4-71-0) (line 71, col 0, score 0.96)
+- [AI-First-OS-Model-Context-Protocol — L173](ai-first-os-model-context-protocol.md#^ref-618198f4-173-0) (line 173, col 0, score 0.96)
+- [JavaScript — L143](chunks/javascript.md#^ref-c1618c66-143-0) (line 143, col 0, score 0.96)
+- [Unique Info Dump Index — L416](unique-info-dump-index.md#^ref-30ec3ba6-416-0) (line 416, col 0, score 0.96)
+- [aionian-circuit-math — L172](aionian-circuit-math.md#^ref-f2d83a77-172-0) (line 172, col 0, score 1)
+- [Chroma Toolkit Consolidation Plan — L466](chroma-toolkit-consolidation-plan.md#^ref-5020e892-466-0) (line 466, col 0, score 1)
 - [AI-First-OS-Model-Context-Protocol — L142](ai-first-os-model-context-protocol.md#^ref-618198f4-142-0) (line 142, col 0, score 0.98)
 - [aionian-circuit-math — L277](aionian-circuit-math.md#^ref-f2d83a77-277-0) (line 277, col 0, score 0.98)
 - [Board Automation Improvements — L26](board-automation-improvements.md#^ref-ac60a1d6-26-0) (line 26, col 0, score 0.98)
 - [balanced-bst — L313](balanced-bst.md#^ref-d3e7db72-313-0) (line 313, col 0, score 0.98)
 - [Board Walk – 2025-08-11 — L167](board-walk-2025-08-11.md#^ref-7aa1eb92-167-0) (line 167, col 0, score 0.98)
-- [Promethean-Copilot-Intent-Engine — L732](promethean-copilot-intent-engine.md#^ref-ae24a280-732-0) (line 732, col 0, score 0.97)
-- [sibilant-macro-targets — L812](sibilant-macro-targets.md#^ref-c5c9a5c6-812-0) (line 812, col 0, score 0.97)
-- [Unique Info Dump Index — L825](unique-info-dump-index.md#^ref-30ec3ba6-825-0) (line 825, col 0, score 0.97)
-- [AI-First-OS-Model-Context-Protocol — L119](ai-first-os-model-context-protocol.md#^ref-618198f4-119-0) (line 119, col 0, score 0.97)
-- [field-node-diagram-set — L301](field-node-diagram-set.md#^ref-22b989d5-301-0) (line 301, col 0, score 0.97)
-- [Fnord Tracer Protocol — L610](fnord-tracer-protocol.md#^ref-fc21f824-610-0) (line 610, col 0, score 0.97)
-- [AGENTS.md — L11](agents-md.md#^ref-bb90903a-11-0) (line 11, col 0, score 0.96)
-- [AGENTS.md — L13](agents-md.md#^ref-bb90903a-13-0) (line 13, col 0, score 0.96)
-- [Migrate to Provider-Tenant Architecture — L632](migrate-to-provider-tenant-architecture.md#^ref-54382370-632-0) (line 632, col 0, score 0.96)
-- [api-gateway-versioning — L316](api-gateway-versioning.md#^ref-0580dcd3-316-0) (line 316, col 0, score 0.96)
-- [api-gateway-versioning — L300](api-gateway-versioning.md#^ref-0580dcd3-300-0) (line 300, col 0, score 0.96)
-- [field-dynamics-math-blocks — L573](field-dynamics-math-blocks.md#^ref-7cfc230d-573-0) (line 573, col 0, score 0.96)
-- [heartbeat-fragment-demo — L315](heartbeat-fragment-demo.md#^ref-dd00677a-315-0) (line 315, col 0, score 0.96)
-- [ripple-propagation-demo — L370](ripple-propagation-demo.md#^ref-8430617b-370-0) (line 370, col 0, score 0.96)
-- [Chroma Toolkit Consolidation Plan — L465](chroma-toolkit-consolidation-plan.md#^ref-5020e892-465-0) (line 465, col 0, score 0.96)
-- [AI-First-OS-Model-Context-Protocol — L71](ai-first-os-model-context-protocol.md#^ref-618198f4-71-0) (line 71, col 0, score 0.96)
-- [AI-First-OS-Model-Context-Protocol — L173](ai-first-os-model-context-protocol.md#^ref-618198f4-173-0) (line 173, col 0, score 0.96)
-- [Unique Info Dump Index — L416](unique-info-dump-index.md#^ref-30ec3ba6-416-0) (line 416, col 0, score 0.96)
-- [AGENTS.md — L9](agents-md.md#^ref-bb90903a-9-0) (line 9, col 0, score 0.95)
-- [AGENTS.md — L47](agents-md.md#^ref-bb90903a-47-0) (line 47, col 0, score 0.95)
-- [AI-First-OS-Model-Context-Protocol — L237](ai-first-os-model-context-protocol.md#^ref-618198f4-237-0) (line 237, col 0, score 0.94)
-- [aionian-circuit-math — L218](aionian-circuit-math.md#^ref-f2d83a77-218-0) (line 218, col 0, score 0.94)
-- [AGENTS.md — L186](agents-md.md#^ref-bb90903a-186-0) (line 186, col 0, score 0.94)
-- [AGENTS.md — L185](agents-md.md#^ref-bb90903a-185-0) (line 185, col 0, score 0.94)
-- [AI-First-OS-Model-Context-Protocol — L197](ai-first-os-model-context-protocol.md#^ref-618198f4-197-0) (line 197, col 0, score 0.94)
-- [aionian-circuit-math — L229](aionian-circuit-math.md#^ref-f2d83a77-229-0) (line 229, col 0, score 0.94)
-- [aionian-circuit-math — L220](aionian-circuit-math.md#^ref-f2d83a77-220-0) (line 220, col 0, score 0.94)
+- [JavaScript — L144](chunks/javascript.md#^ref-c1618c66-144-0) (line 144, col 0, score 0.98)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -1,479 +1,1351 @@
 ---
-uuid: a8102163-2539-435b-9877-414aede5da7c
-created_at: promethean-infrastructure-setup.md
-filename: promethean-infrastructure-setup
-title: promethean-infrastructure-setup
+uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+created_at: 2025.08.31.12.08.28.md
+filename: Promethean Infrastructure Setup
 description: >-
-  This document outlines the setup for a secure, production-grade infrastructure
-  using Docker and NGINX. It includes a TypeScript-based API gateway, crawler,
-  embeddings service, and Ollama/Qdrant integration with Tor/Privoxy for
-  optional crawler routing.
+  Configures a production-grade infrastructure using Docker Compose with NGINX,
+  Ollama, Qdrant, and Tor/Privoxy for secure, JS/TS-only services. All services
+  are containerized with minimal dependencies and hidden behind NGINX.
 tags:
-  - docker
-  - nginx
-  - typescript
-  - ollama
-  - qdrant
-  - tor
-  - privoxy
-  - api-gateway
-  - embeddings
-  - crawler
-related_to_uuid:
-  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-  - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-  - a4d90289-798d-44a0-a8e8-a055ae12fb52
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
-  - d17d3a96-c84d-4738-a403-6c733b874da2
-  - 6bcff92c-4224-453d-9993-1be8d37d47c3
-  - dd00677a-2280-45a7-91af-0728b21af3ad
-  - c5c9a5c6-427d-4864-8084-c083cd55faa0
-  - 23df6ddb-05cf-4639-8201-f8291f8a6026
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - 03a5578f-d689-45db-95e9-11300e5eee6f
-  - 10d98225-12e0-4212-8e15-88b57cf7bee5
-  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-  - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+  - Docker
+  - NGINX
+  - Ollama
+  - Qdrant
+  - Tor
+  - Privoxy
+  - TS
+  - API
+  - Crawler
+  - Embeddings
 related_to_title:
-  - plan-update-confirmation
-  - Debugging Broker Connections and Agent Behavior
-  - DuckDuckGoSearchPipeline
+  - api-gateway-versioning
   - Dynamic Context Model for Web Components
-  - Eidolon Field Abstract Model
-  - eidolon-node-lifecycle
-  - Factorio AI with External Agents
-  - field-interaction-equations
-  - Fnord Tracer Protocol
-  - i3-bluetooth-setup
-  - field-dynamics-math-blocks
-  - Duck's Self-Referential Perceptual Loop
-  - graph-ds
-  - Per-Domain Policy System for JS Crawler
-  - Pure TypeScript Search Microservice
-  - Post-Linguistic Transhuman Design Frameworks
-  - heartbeat-fragment-demo
-  - sibilant-macro-targets
-  - Promethean State Format
+  - ecs-offload-workers
+  - ecs-scheduler-and-prefabs
+  - System Scheduler with Resource-Aware DAG
+  - markdown-to-org-transpiler
+  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
+  - observability-infrastructure-setup
+  - shared-package-layout-clarification
   - eidolon-field-math-foundations
-  - Duck's Attractor States
-  - Promethean Dev Workflow Update
-  - Creative Moments
-  - Promethean Chat Activity Report
-  - schema-evolution-workflow
+  - RAG UI Panel with Qdrant and PostgREST
+  - Local-Only-LLM-Workflow
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - Shared Package Structure
+  - Per-Domain Policy System for JS Crawler
+  - Chroma Toolkit Consolidation Plan
+  - Pure TypeScript Search Microservice
+  - Promethean Web UI Setup
+  - Prometheus Observability Stack
+  - Debugging Broker Connections and Agent Behavior
+  - Promethean-native config design
+  - Promethean Full-Stack Docker Setup
+  - Performance-Optimized-Polyglot-Bridge
+  - Promethean Agent DSL TS Scaffold
+  - archetype-ecs
+  - 'Agent Tasks: Persistence Migration to DualStore'
+  - Migrate to Provider-Tenant Architecture
+  - Board Walk – 2025-08-11
+  - Voice Access Layer Design
+  - js-to-lisp-reverse-compiler
+  - Cross-Target Macro System in Sibilant
+  - JavaScript
+  - Local-First Intention→Code Loop with Free Models
+  - aionian-circuit-math
+  - Math Fundamentals
+  - Local-Offline-Model-Deployment-Strategy
+  - AI-Centric OS with MCP Layer
+  - i3-config-validation-methods
+  - Post-Linguistic Transhuman Design Frameworks
+  - Admin Dashboard for User Management
+  - Mongo Outbox Implementation
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - universal-intention-code-fabric
+  - Sibilant Meta-Prompt DSL
+related_to_uuid:
+  - 0580dcd3-533d-4834-8a2f-eae3771960a9
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - ba244286-4e84-425b-8bf6-b80c4eb783fc
+  - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
+  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - 36c8882a-badc-4e18-838d-2c54d7038141
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - 66a72fc3-4153-41fc-84bd-d6164967a6ff
+  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - d17d3a96-c84d-4738-a403-6c733b874da2
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
+  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - f5579967-762d-4cfd-851e-4f71b4cb77a1
+  - 5158f742-4a3b-466e-bfc3-d83517b64200
+  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+  - 93d2ba51-8689-49ee-94e2-296092e48058
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - 58191024-d04a-4520-8aae-a18be7b94263
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
+  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
+  - f2d83a77-7f86-4c56-8538-1350167a0c6c
+  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+  - d28090ac-f746-4958-aab5-ed1315382c04
+  - 6bcff92c-4224-453d-9993-1be8d37d47c3
+  - 2901a3e9-96f0-497c-ae2c-775f28a702dd
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - af5d2824-faad-476c-a389-e912d9bc672c
 references:
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 94
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 63
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 66
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 73
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 403
-    col: 0
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 270
-    col: 0
-    score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 221
-    col: 0
-    score: 1
-  - uuid: 86a691ec-ca1f-4350-824c-0ded1f8ebe70
-    line: 80
-    col: 0
-    score: 1
-  - uuid: b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
-    line: 86
-    col: 0
-    score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 342
-    col: 0
-    score: 1
-  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
-    line: 22
-    col: 0
-    score: 1
-  - uuid: 5f65dfa5-dc97-4a6c-ad93-c45c1312e156
-    line: 21
-    col: 0
-    score: 1
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 133
-    col: 0
-    score: 1
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 98
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 61
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 80
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 405
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 216
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 189
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 172
-    col: 0
-    score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 175
-    col: 0
-    score: 1
-  - uuid: 86a691ec-ca1f-4350-824c-0ded1f8ebe70
-    line: 90
-    col: 0
-    score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 298
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 48
-    col: 0
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 75
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 74
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 145
-    col: 0
-    score: 1
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 47
-    col: 0
-    score: 1
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 146
-    col: 0
-    score: 1
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 63
-    col: 0
-    score: 1
-  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
-    line: 72
-    col: 0
-    score: 1
-  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
-    line: 36
-    col: 0
-    score: 1
-  - uuid: 95205cd3-c3d5-4047-9c33-9c5ca2b49597
-    line: 49
-    col: 0
-    score: 1
-  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
-    line: 126
-    col: 0
-    score: 1
-  - uuid: d614d983-7795-491f-9437-09f3a43f72cf
-    line: 51
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 7
+    col: 1
+    score: 0.98
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
     line: 44
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 56
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 75
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 104
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 46
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 64
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 40
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 137
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 82
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 454
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 412
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 261
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 181
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 90
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 157
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 205
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 203
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 95
-    col: 0
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 371
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 141
-    col: 0
-    score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 222
-    col: 0
-    score: 1
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    col: 1
+    score: 0.9
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 51
+    col: 1
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 79
+    col: 1
+    score: 0.93
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
     line: 107
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 28
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 65
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 86
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 123
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 34
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 442
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 218
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 176
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 70
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 148
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 36
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 166
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 148
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 118
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 168
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 103
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 380
-    col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 194
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 85
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    col: 1
+    score: 0.86
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 117
+    col: 1
+    score: 0.86
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 47
+    col: 1
+    score: 0.9
+  - uuid: 66a72fc3-4153-41fc-84bd-d6164967a6ff
     line: 64
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 141
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 35
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 94
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 53
-    col: 0
-    score: 1
+    col: 1
+    score: 0.86
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 71
+    col: 1
+    score: 0.9
   - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 424
-    col: 0
+    line: 176
+    col: 3
     score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 209
-    col: 0
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 275
+    col: 3
     score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 275
+    col: 5
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 276
+    col: 3
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 276
+    col: 5
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 277
+    col: 3
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 277
+    col: 5
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 379
+    col: 1
+    score: 0.98
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 446
+    col: 1
+    score: 0.98
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 377
+    col: 1
+    score: 0.98
+  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+    line: 289
+    col: 1
+    score: 0.98
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 153
+    col: 1
+    score: 0.98
   - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 142
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 39
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 50
-    col: 0
+    line: 105
+    col: 1
+    score: 0.9
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 163
+    col: 1
+    score: 0.87
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 41
+    col: 1
     score: 1
   - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 89
-    col: 0
+    line: 41
+    col: 3
     score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 32
-    col: 0
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 385
+    col: 1
     score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 49
-    col: 0
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 385
+    col: 3
     score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 95
-    col: 0
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 363
+    col: 1
     score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 363
+    col: 3
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 524
+    col: 1
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 524
+    col: 3
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 285
+    col: 1
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 285
+    col: 3
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 135
+    col: 1
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 135
+    col: 3
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 167
+    col: 1
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 167
+    col: 3
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 180
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 180
+    col: 3
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 460
+    col: 1
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 460
+    col: 3
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 15
+    col: 1
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 15
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 388
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 388
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 129
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 129
+    col: 3
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 454
+    col: 1
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 454
+    col: 3
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 171
+    col: 1
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 171
+    col: 3
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 14
+    col: 1
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 14
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 454
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 454
+    col: 3
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 455
+    col: 1
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 455
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 455
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 455
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 387
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 387
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 130
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 130
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 456
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 456
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 390
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 390
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 131
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 131
+    col: 3
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 424
+    col: 1
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 424
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 457
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 457
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 391
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 391
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 132
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 132
+    col: 3
+    score: 1
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 145
+    col: 1
+    score: 1
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 145
+    col: 3
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 286
+    col: 1
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 286
+    col: 3
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 560
+    col: 1
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 560
+    col: 3
+    score: 1
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 504
+    col: 1
+    score: 1
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 504
+    col: 3
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 292
+    col: 1
+    score: 0.93
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 292
+    col: 3
+    score: 0.93
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 55
+    col: 1
+    score: 1
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 55
+    col: 3
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 182
+    col: 1
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 182
+    col: 3
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 278
+    col: 1
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 278
+    col: 3
+    score: 1
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 91
+    col: 1
+    score: 1
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 91
+    col: 3
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
     line: 133
-    col: 0
+    col: 1
     score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 59
-    col: 0
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 133
+    col: 3
     score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 252
-    col: 0
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 151
+    col: 1
     score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 151
+    col: 3
+    score: 1
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 14
+    col: 1
+    score: 1
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 14
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 460
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 460
+    col: 3
+    score: 1
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 437
+    col: 1
+    score: 1
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 437
+    col: 3
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 604
+    col: 1
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 604
+    col: 3
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 522
+    col: 1
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 522
+    col: 3
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 615
+    col: 1
+    score: 0.94
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 615
+    col: 3
+    score: 0.94
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 56
+    col: 1
+    score: 1
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 56
+    col: 3
+    score: 1
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 143
+    col: 1
+    score: 1
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 143
+    col: 3
+    score: 1
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 167
+    col: 1
+    score: 1
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 167
+    col: 3
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 438
+    col: 1
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 438
+    col: 3
+    score: 1
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 471
+    col: 1
+    score: 1
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 471
+    col: 3
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 607
+    col: 1
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 607
+    col: 3
+    score: 1
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 509
+    col: 1
+    score: 1
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 509
+    col: 3
+    score: 1
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 488
+    col: 1
+    score: 0.95
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 488
+    col: 3
+    score: 0.95
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 276
+    col: 1
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 276
+    col: 3
+    score: 1
+  - uuid: 5158f742-4a3b-466e-bfc3-d83517b64200
+    line: 832
+    col: 1
+    score: 1
+  - uuid: 5158f742-4a3b-466e-bfc3-d83517b64200
+    line: 832
+    col: 3
+    score: 1
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 166
+    col: 1
+    score: 1
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 166
+    col: 3
+    score: 1
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 307
+    col: 1
+    score: 1
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 307
+    col: 3
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 132
+    col: 1
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 132
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 136
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 136
+    col: 3
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 269
+    col: 1
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 269
+    col: 3
+    score: 1
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 425
+    col: 1
+    score: 1
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 425
+    col: 3
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 134
+    col: 1
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 134
+    col: 3
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 156
+    col: 1
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 156
+    col: 3
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 136
+    col: 1
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 136
+    col: 3
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 386
+    col: 1
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 386
+    col: 3
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 288
+    col: 1
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 288
+    col: 3
+    score: 1
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 440
+    col: 1
+    score: 1
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 440
+    col: 3
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 603
+    col: 1
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 603
+    col: 3
+    score: 1
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 510
+    col: 1
+    score: 1
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 510
+    col: 3
+    score: 1
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 436
+    col: 1
+    score: 1
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 436
+    col: 3
+    score: 1
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 428
+    col: 1
+    score: 1
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 428
+    col: 3
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 521
+    col: 1
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 521
+    col: 3
+    score: 1
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 364
+    col: 1
+    score: 1
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 364
+    col: 3
+    score: 1
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 403
+    col: 1
+    score: 1
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 403
+    col: 3
+    score: 1
+  - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+    line: 293
+    col: 1
+    score: 1
+  - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+    line: 293
+    col: 3
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 281
+    col: 1
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 281
+    col: 3
+    score: 1
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 361
+    col: 1
+    score: 1
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 361
+    col: 3
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 287
+    col: 1
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 287
+    col: 3
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 130
+    col: 1
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 130
+    col: 3
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 159
+    col: 1
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 159
+    col: 3
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 134
+    col: 1
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 134
+    col: 3
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 168
+    col: 1
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 168
+    col: 3
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 602
+    col: 1
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 602
+    col: 3
+    score: 1
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 506
+    col: 1
+    score: 1
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 506
+    col: 3
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 526
+    col: 1
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 526
+    col: 3
+    score: 1
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 362
+    col: 1
+    score: 1
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 362
+    col: 3
+    score: 1
+  - uuid: 2901a3e9-96f0-497c-ae2c-775f28a702dd
+    line: 41
+    col: 1
+    score: 1
+  - uuid: 2901a3e9-96f0-497c-ae2c-775f28a702dd
+    line: 41
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 461
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 461
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 397
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 397
+    col: 3
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 173
+    col: 1
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 173
+    col: 3
+    score: 1
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 368
+    col: 1
+    score: 1
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 368
+    col: 3
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 401
+    col: 1
+    score: 0.98
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 401
+    col: 3
+    score: 0.98
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 400
+    col: 1
+    score: 0.98
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 400
+    col: 3
+    score: 0.98
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 514
+    col: 1
+    score: 0.99
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 514
+    col: 3
+    score: 0.99
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 485
+    col: 1
+    score: 0.99
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 485
+    col: 3
+    score: 0.99
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 487
+    col: 1
+    score: 0.99
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 487
+    col: 3
+    score: 0.99
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 489
+    col: 1
+    score: 0.99
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 489
+    col: 3
+    score: 0.99
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 287
+    col: 1
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 287
+    col: 3
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 140
+    col: 1
+    score: 0.99
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 140
+    col: 3
+    score: 0.99
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 435
+    col: 1
+    score: 0.99
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 435
+    col: 3
+    score: 0.99
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 431
+    col: 1
+    score: 0.99
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 431
+    col: 3
+    score: 0.99
+  - uuid: 66a72fc3-4153-41fc-84bd-d6164967a6ff
+    line: 173
+    col: 1
+    score: 1
+  - uuid: 66a72fc3-4153-41fc-84bd-d6164967a6ff
+    line: 173
+    col: 3
+    score: 1
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 60
+    col: 1
+    score: 0.98
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 60
+    col: 3
+    score: 0.98
+  - uuid: 66a72fc3-4153-41fc-84bd-d6164967a6ff
+    line: 176
+    col: 1
+    score: 0.98
+  - uuid: 66a72fc3-4153-41fc-84bd-d6164967a6ff
+    line: 176
+    col: 3
+    score: 0.98
+  - uuid: 66a72fc3-4153-41fc-84bd-d6164967a6ff
+    line: 172
+    col: 1
+    score: 0.98
+  - uuid: 66a72fc3-4153-41fc-84bd-d6164967a6ff
+    line: 172
+    col: 3
+    score: 0.98
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 177
+    col: 1
+    score: 0.99
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 177
+    col: 3
+    score: 0.99
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 330
+    col: 1
+    score: 0.98
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 330
+    col: 3
+    score: 0.98
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 180
+    col: 1
+    score: 0.97
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 180
+    col: 3
+    score: 0.97
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 179
+    col: 1
+    score: 0.97
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 179
+    col: 3
+    score: 0.97
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 530
+    col: 1
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 530
+    col: 3
+    score: 1
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 445
+    col: 1
+    score: 0.98
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 445
+    col: 3
+    score: 0.98
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 613
+    col: 1
+    score: 0.98
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 613
+    col: 3
+    score: 0.98
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 295
+    col: 1
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 295
+    col: 3
+    score: 1
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 396
+    col: 1
+    score: 0.99
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 396
+    col: 3
+    score: 0.99
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 395
+    col: 1
+    score: 0.99
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 395
+    col: 3
+    score: 0.99
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 207
+    col: 1
+    score: 0.98
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 207
+    col: 3
+    score: 0.98
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 154
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 154
+    col: 3
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 190
+    col: 1
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 190
+    col: 3
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 454
+    col: 1
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 454
+    col: 3
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 527
+    col: 1
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 527
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 155
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 155
+    col: 3
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 191
+    col: 1
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 191
+    col: 3
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 455
+    col: 1
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 455
+    col: 3
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 528
+    col: 1
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 528
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 156
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 156
+    col: 3
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 192
+    col: 1
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 192
+    col: 3
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 456
+    col: 1
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 456
+    col: 3
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 529
+    col: 1
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 529
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 157
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 157
+    col: 3
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 193
+    col: 1
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 193
+    col: 3
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 457
+    col: 1
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 457
+    col: 3
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 530
+    col: 1
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 530
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 158
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 158
+    col: 3
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 194
+    col: 1
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 194
+    col: 3
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 458
+    col: 1
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 458
+    col: 3
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 531
+    col: 1
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 531
+    col: 3
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 147
+    col: 1
+    score: 0.99
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 147
+    col: 3
+    score: 0.99
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 477
+    col: 1
+    score: 0.99
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 477
+    col: 3
+    score: 0.99
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 427
+    col: 1
+    score: 0.99
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 427
+    col: 3
+    score: 0.99
+  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+    line: 314
+    col: 1
+    score: 0.99
+  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+    line: 314
+    col: 3
+    score: 0.99
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 452
+    col: 1
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 452
+    col: 3
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 525
+    col: 1
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 525
+    col: 3
+    score: 1
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 175
+    col: 1
+    score: 0.99
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 175
+    col: 3
+    score: 0.99
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 444
+    col: 1
+    score: 0.99
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 444
+    col: 3
+    score: 0.99
 ---
-Nice—picking it back up. Last we aligned on: **all ports hidden behind NGINX**, **no SaaS/tokens**, **JS/TS-only services**, **Dockerfiles live in `./images/`**, and **infra kept out of source**. We also said to include **Ollama**, **Qdrant** (local vector DB), **Tor (+Privoxy)** for optional crawler routing, a **TS crawler**, a **TS embeddings service** (no Python; `@xenova/transformers`), and a tiny **TS API Gateway** to give you a clean interface. Here’s the concrete drop: ^ref-6deed6ac-1-0
+Nice—picking it back up. Last we aligned on: **all ports hidden behind NGINX**, **no SaaS/tokens**, **JS/TS-only services**, **Dockerfiles live in `./images/`**, and **infra kept out of source**. We also said to include **Ollama**, **Qdrant** (local vector DB), **Tor (+Privoxy)** for optional crawler routing, a **TS crawler**, a **TS embeddings service** (no Python; `@xenova/transformers`), and a tiny **TS API Gateway** to give you a clean interface. Here’s the concrete drop:
 
 # 📁 File tree (where to put things)
 
@@ -502,10 +1374,9 @@ Nice—picking it back up. Last we aligned on: **all ports hidden behind NGINX**
   src/clients/crawler.ts
   src/clients/embeddings.ts
 ```
-^ref-6deed6ac-5-0
 
 # 🐳 `./images/ts-service.docker`
- ^ref-6deed6ac-33-0
+
 ```dockerfile
 # Minimal, reproducible TS base (no Python)
 FROM node:22-slim
@@ -523,17 +1394,15 @@ USER node
 # Services copy their own files in their image build (multi-stage or on top of this)
 ENTRYPOINT ["dumb-init", "--"]
 CMD ["node", "dist/server.js"]
-^ref-6deed6ac-33-0
 ```
 
-# 🧰 `./images/nginx.docker` ^ref-6deed6ac-54-0
+# 🧰 `./images/nginx.docker`
 
 ```dockerfile
 FROM nginx:1.27-alpine
-^ref-6deed6ac-54-0
 COPY nginx.conf /etc/nginx/nginx.conf
 ```
- ^ref-6deed6ac-61-0
+
 # 🌐 `./infrastructure/compose/nginx.conf`
 
 ```nginx
@@ -552,22 +1421,19 @@ http {
 
     # flat API surface
     location /api/ {
-      proxy_pass 
+      proxy_pass http://api_gateway/;
       proxy_set_header Host $host;
       proxy_http_version 1.1;
     }
 
     # direct service mounts (optional; can be hidden behind /api if you prefer)
-    location /ollama/   { proxy_pass  }
-    location /qdrant/   { proxy_pass  }
-    location /crawler/  { proxy_pass  }
-    location /embeddings/ { proxy_pass  }
-^ref-6deed6ac-61-0
+    location /ollama/   { proxy_pass http://ollama_up/; }
+    location /qdrant/   { proxy_pass http://qdrant_up/; }
+    location /crawler/  { proxy_pass http://crawler_up/; }
+    location /embeddings/ { proxy_pass http://embeds_up/; }
   }
 }
 ```
-^ref-6deed6ac-64-0
-^ref-6deed6ac-93-0
 
 # 🧩 `./infrastructure/compose/stack.yml`
 
@@ -638,8 +1504,8 @@ services:
       - ../../services/ts/crawler:/app
     command: ["node", "--enable-source-maps", "dist/main.js"]
     environment:
-      - HTTP_PROXY=
-      - HTTPS_PROXY=
+      - HTTP_PROXY=http://privoxy:8118
+      - HTTPS_PROXY=http://privoxy:8118
       - NO_PROXY=nginx,api-gateway,qdrant,ollama,embeddings,localhost,127.0.0.1
     networks: [prom-net]
     depends_on: [privoxy]
@@ -668,11 +1534,10 @@ services:
       - ../../services/ts/api-gateway:/app
     command: ["node", "--enable-source-maps", "dist/server.js"]
     environment:
-      - UPSTREAM_OLLAMA=
-      - UPSTREAM_QDRANT=
-      - UPSTREAM_CRAWLER=
-^ref-6deed6ac-93-0
-      - UPSTREAM_EMBEDDINGS=
+      - UPSTREAM_OLLAMA=http://ollama:11434
+      - UPSTREAM_QDRANT=http://qdrant:6333
+      - UPSTREAM_CRAWLER=http://crawler:3000
+      - UPSTREAM_EMBEDDINGS=http://embeddings:7070
     depends_on: [ollama, qdrant]
     networks: [prom-net]
 ```
@@ -699,15 +1564,10 @@ services:
     "typescript": "^5.5.4"
   }
 }
-^ref-6deed6ac-224-0
-^ref-6deed6ac-224-0
-^ref-6deed6ac-206-0
 ```
-^ref-6deed6ac-207-0
-^ref-6deed6ac-224-0
 
 # 🔌 `services/ts/api-gateway/src/server.ts`
- ^ref-6deed6ac-235-0
+
 ```typescript
 import { Hono } from 'hono'
 import { serve } from '@hono/node-server'
@@ -763,16 +1623,10 @@ app.post('/crawl', async (c) => {
     body: JSON.stringify(body),
     headers: { 'content-type': 'application/json' }
   })
-^ref-6deed6ac-224-0
   return c.newResponse(r.body, r)
 })
 
-^ref-6deed6ac-287-0
-^ref-6deed6ac-287-0
-^ref-6deed6ac-232-0
 serve({ fetch: app.fetch, port: 8080 })
-^ref-6deed6ac-287-0
-^ref-6deed6ac-235-0
 ```
 
 # 🕷️ `services/ts/crawler/package.json`
@@ -792,13 +1646,10 @@ serve({ fetch: app.fetch, port: 8080 })
     "cheerio": "^1.0.0-rc.12",
     "hono": "^4.5.7"
   },
-^ref-6deed6ac-287-0
   "devDependencies": {
     "tsx": "^4.19.2",
     "typescript": "^5.5.4"
-^ref-6deed6ac-311-0
   }
-^ref-6deed6ac-311-0
 }
 ```
 
@@ -818,13 +1669,10 @@ app.post('/crawl', async (c) => {
   const $ = cheerio.load(html)
 
   const title = $('title').first().text()
-^ref-6deed6ac-311-0
   const text = $('body').text().replace(/\s+/g, ' ').trim().slice(0, 20000)
 
   return c.json({ url, title, text })
-^ref-6deed6ac-335-0
 })
-^ref-6deed6ac-335-0
 
 serve({ fetch: app.fetch, port: 3000 })
 ```
@@ -843,13 +1691,10 @@ serve({ fetch: app.fetch, port: 3000 })
   },
   "dependencies": {
     "@xenova/transformers": "^2.17.2",
-^ref-6deed6ac-335-0
     "hono": "^4.5.7"
   },
   "devDependencies": {
-^ref-6deed6ac-358-0
     "tsx": "^4.19.2",
-^ref-6deed6ac-358-0
     "typescript": "^5.5.4"
   }
 }
@@ -875,28 +1720,21 @@ async function getEmbedder() {
 const app = new Hono()
 
 app.post('/embeddings', async (c) => {
-^ref-6deed6ac-358-0
   const { input } = await c.req.json() as { input: string[] | string }
   const run = await getEmbedder()
-  const arr = Array.isArray(input) ? input : [input] ^ref-6deed6ac-388-0
-^ref-6deed6ac-392-0
-^ref-6deed6ac-388-0
+  const arr = Array.isArray(input) ? input : [input]
   const outputs = await Promise.all(arr.map(async (t) => (await run(t)).data))
-^ref-6deed6ac-392-0
-^ref-6deed6ac-388-0
-^ref-6deed6ac-392-0
-^ref-6deed6ac-388-0
   return c.json({ embeddings: outputs })
 })
 
-serve({ fetch: app.fetch, port: 7070 }) ^ref-6deed6ac-415-0
+serve({ fetch: app.fetch, port: 7070 })
 ```
 
 # 🧱 Shared TS interface (SDK)
 
 > Note: per your rule, imports should look like `@shared/ts/dist/...` after build. Here I show source; your build should output to `@shared/ts/dist/...`.
 
-## `shared/ts/package.json` ^ref-6deed6ac-424-0
+## `shared/ts/package.json`
 
 ```json
 {
@@ -908,19 +1746,14 @@ serve({ fetch: app.fetch, port: 7070 }) ^ref-6deed6ac-415-0
   },
   "scripts": {
     "build": "tsc -p ."
-^ref-6deed6ac-392-0
   },
   "devDependencies": {
-^ref-6deed6ac-415-0
     "typescript": "^5.5.4",
-^ref-6deed6ac-415-0
-^ref-6deed6ac-439-0
     "zod": "^3.23.8"
   },
   "dependencies": {
     "undici": "^6.19.8"
   }
-^ref-6deed6ac-424-0
 }
 ```
 
@@ -936,14 +1769,9 @@ export async function jsonFetch<T>(url: string, init?: RequestInit): Promise<T> 
   })
   if (!res.ok) {
     const text = await res.text().catch(() => '')
-^ref-6deed6ac-415-0
     throw new Error(`HTTP ${res.status} ${res.statusText}: ${text}`)
   }
-^ref-6deed6ac-439-0
   return res.json() as Promise<T>
-^ref-6deed6ac-456-0
-^ref-6deed6ac-439-0
-^ref-6deed6ac-456-0
 }
 
 export const api = (base = '') => ({
@@ -957,14 +1785,9 @@ export const api = (base = '') => ({
 
 ```ts
 import { api } from '../http.js'
-^ref-6deed6ac-439-0
 
 export type ChatMsg = { role: 'system' | 'user' | 'assistant'; content: string }
-^ref-6deed6ac-456-0
-^ref-6deed6ac-471-0
 export type ChatReq = { model: string; messages: ChatMsg[] }
-^ref-6deed6ac-485-0
-^ref-6deed6ac-471-0
 export type ChatResp = { message: ChatMsg; done: boolean }
 
 export const createOllamaClient = (base = '/api') => {
@@ -976,15 +1799,11 @@ export const createOllamaClient = (base = '/api') => {
 ```
 
 ## `shared/ts/src/clients/qdrant.ts`
-^ref-6deed6ac-456-0
 
 ```ts
-^ref-6deed6ac-471-0
-^ref-6deed6ac-485-0
-^ref-6deed6ac-501-0
 import { api } from '../http.js'
 type Point = { id: string | number; vector: number[]; payload?: Record<string, unknown> }
- ^ref-6deed6ac-485-0
+
 export const createQdrantClient = (base = '/api') => {
   const a = api(base)
   return {
@@ -993,10 +1812,8 @@ export const createQdrantClient = (base = '/api') => {
   }
 }
 ```
-^ref-6deed6ac-471-0
 
 ## `shared/ts/src/clients/crawler.ts`
-^ref-6deed6ac-501-0
 
 ```ts
 import { api } from '../http.js'
@@ -1010,14 +1827,10 @@ export const createCrawlerClient = (base = '/api') => {
 }
 ```
 
-^ref-6deed6ac-485-0
 ## `shared/ts/src/clients/embeddings.ts`
 
 ```ts
-^ref-6deed6ac-501-0
-^ref-6deed6ac-536-0 ^ref-6deed6ac-540-0
-^ref-6deed6ac-534-0
-import { api } from '../http.js' ^ref-6deed6ac-542-0
+import { api } from '../http.js'
 
 export type EmbeddingsResp = { embeddings: number[][] }
 
@@ -1044,495 +1857,413 @@ flowchart LR
     QD["qdrant :6333"]
     CRAWL["crawler :3000"]
     EMB["embeddings :7070"]
-^ref-6deed6ac-501-0
     TOR["tor :9050"]
     PRX["privoxy :8118"]
   end
 
-^ref-6deed6ac-545-0
-^ref-6deed6ac-543-0
-^ref-6deed6ac-542-0 ^ref-6deed6ac-549-0
-^ref-6deed6ac-540-0
-^ref-6deed6ac-536-0 ^ref-6deed6ac-551-0
-^ref-6deed6ac-564-0
-^ref-6deed6ac-562-0
-^ref-6deed6ac-561-0 ^ref-6deed6ac-567-0
-^ref-6deed6ac-560-0
-^ref-6deed6ac-558-0
-^ref-6deed6ac-554-0
-^ref-6deed6ac-553-0
-^ref-6deed6ac-552-0
-^ref-6deed6ac-551-0
-^ref-6deed6ac-549-0
-^ref-6deed6ac-545-0
-^ref-6deed6ac-543-0
-^ref-6deed6ac-576-0 ^ref-6deed6ac-577-0
-^ref-6deed6ac-574-0 ^ref-6deed6ac-578-0
-^ref-6deed6ac-542-0 ^ref-6deed6ac-579-0
-^ref-6deed6ac-540-0
-^ref-6deed6ac-536-0
-^ref-6deed6ac-592-0
-^ref-6deed6ac-589-0 ^ref-6deed6ac-597-0
-^ref-6deed6ac-587-0
-^ref-6deed6ac-583-0
-^ref-6deed6ac-582-0
-^ref-6deed6ac-579-0
-^ref-6deed6ac-578-0
-^ref-6deed6ac-577-0
-^ref-6deed6ac-576-0 ^ref-6deed6ac-604-0
-^ref-6deed6ac-574-0
-^ref-6deed6ac-567-0
-^ref-6deed6ac-564-0
-^ref-6deed6ac-562-0 ^ref-6deed6ac-608-0
-^ref-6deed6ac-561-0
-^ref-6deed6ac-560-0
-^ref-6deed6ac-558-0
-^ref-6deed6ac-554-0
-^ref-6deed6ac-553-0
-^ref-6deed6ac-552-0
-^ref-6deed6ac-551-0
-^ref-6deed6ac-549-0
-^ref-6deed6ac-545-0
-^ref-6deed6ac-543-0 ^ref-6deed6ac-618-0
-  NGINX -->|/api/*| AG ^ref-6deed6ac-534-0 ^ref-6deed6ac-552-0 ^ref-6deed6ac-582-0
-  NGINX -->|/ollama/*| OLLAMA ^ref-6deed6ac-553-0
-  NGINX -->|/qdrant/*| QD ^ref-6deed6ac-554-0
-  NGINX -->|/crawler/*| CRAWL ^ref-6deed6ac-622-0
-^ref-6deed6ac-583-0 ^ref-6deed6ac-623-0
-  NGINX -->|/embeddings/*| EMB ^ref-6deed6ac-587-0
-^ref-6deed6ac-536-0
- ^ref-6deed6ac-540-0 ^ref-6deed6ac-558-0 ^ref-6deed6ac-589-0 ^ref-6deed6ac-626-0
+  NGINX -->|/api/*| AG
+  NGINX -->|/ollama/*| OLLAMA
+  NGINX -->|/qdrant/*| QD
+  NGINX -->|/crawler/*| CRAWL
+  NGINX -->|/embeddings/*| EMB
+
   CRAWL -->|HTTP(S) via| PRX --> TOR
-  AG --> OLLAMA ^ref-6deed6ac-542-0 ^ref-6deed6ac-560-0 ^ref-6deed6ac-628-0
-  AG --> QD ^ref-6deed6ac-543-0 ^ref-6deed6ac-561-0 ^ref-6deed6ac-592-0
-  AG --> CRAWL ^ref-6deed6ac-562-0
+  AG --> OLLAMA
+  AG --> QD
+  AG --> CRAWL
   AG --> EMB
 ```
 
-^ref-6deed6ac-545-0 ^ref-6deed6ac-597-0
-^ref-6deed6ac-564-0 ^ref-6deed6ac-567-0
---- ^ref-6deed6ac-549-0
+---
 
-## How to run ^ref-6deed6ac-551-0 ^ref-6deed6ac-638-0
- ^ref-6deed6ac-552-0
-1. Build once from repo root: ^ref-6deed6ac-553-0
- ^ref-6deed6ac-554-0 ^ref-6deed6ac-604-0
-```bash ^ref-6deed6ac-574-0
+## How to run
+
+1. Build once from repo root:
+
+```bash
 docker compose -f infrastructure/compose/stack.yml build
-``` ^ref-6deed6ac-576-0
- ^ref-6deed6ac-558-0 ^ref-6deed6ac-577-0 ^ref-6deed6ac-608-0
-2. Dev mode (hot-reload with volumes already set): ^ref-6deed6ac-578-0
- ^ref-6deed6ac-560-0 ^ref-6deed6ac-579-0
-* In each TS service folder, run `pnpm i && pnpm build` (or `pnpm dev` if you prefer local runs). ^ref-6deed6ac-561-0
-* Then: ^ref-6deed6ac-562-0 ^ref-6deed6ac-649-0
- ^ref-6deed6ac-582-0
-```bash ^ref-6deed6ac-564-0 ^ref-6deed6ac-583-0
+```
+
+2. Dev mode (hot-reload with volumes already set):
+
+* In each TS service folder, run `pnpm i && pnpm build` (or `pnpm dev` if you prefer local runs).
+* Then:
+
+```bash
 docker compose -f infrastructure/compose/stack.yml up -d
 ```
- ^ref-6deed6ac-567-0
-3. Test endpoints (all via NGINX, single port :80): ^ref-6deed6ac-587-0 ^ref-6deed6ac-618-0
 
-* Health: `curl  api/health` (note the space removed → `/api/health`) ^ref-6deed6ac-589-0 ^ref-6deed6ac-660-0
-* Chat: `curl -X POST  -d '{"model":"qwen2.5-coder:7b","messages":[{"role":"user","content":"hello"}]}' -H 'content-type: application/json'`
-* Crawl: `curl -X POST  -d '{"url":" -H 'content-type: application/json'`
-* Embeddings: `curl -X POST  -d '{"input":["hello world"]}' -H 'content-type: application/json'` ^ref-6deed6ac-592-0
- ^ref-6deed6ac-574-0
+3. Test endpoints (all via NGINX, single port :80):
+
+* Health: `curl http://localhost/ api/health` (note the space removed → `/api/health`)
+* Chat: `curl -X POST http://localhost/api/llm/chat -d '{"model":"qwen2.5-coder:7b","messages":[{"role":"user","content":"hello"}]}' -H 'content-type: application/json'`
+* Crawl: `curl -X POST http://localhost/api/crawl -d '{"url":"https://example.com"}' -H 'content-type: application/json'`
+* Embeddings: `curl -X POST http://localhost/api/embeddings -d '{"input":["hello world"]}' -H 'content-type: application/json'`
+
 ---
- ^ref-6deed6ac-576-0 ^ref-6deed6ac-626-0
-If you want, I can also add: ^ref-6deed6ac-577-0
- ^ref-6deed6ac-578-0 ^ref-6deed6ac-597-0 ^ref-6deed6ac-628-0 ^ref-6deed6ac-665-0
-* a **/rag/query** route in the gateway (crawl → embed → similarity search in Qdrant → optional LLM answer), ^ref-6deed6ac-579-0
+
+If you want, I can also add:
+
+* a **/rag/query** route in the gateway (crawl → embed → similarity search in Qdrant → optional LLM answer),
 * a **WS** endpoint for streaming LLM tokens,
 * or fold `/ollama`, `/qdrant`, `/crawler`, `/embeddings` behind `/api/*` only (fully opaque services).
- ^ref-6deed6ac-582-0
+
 What do you want next—RAG flow wired end-to-end or WS streaming?
-}) ^ref-6deed6ac-415-0
-```
-
-# 🧱 Shared TS interface (SDK)
-
-> Note: per your rule, imports should look like `@shared/ts/dist/...` after build. Here I show source; your build should output to `@shared/ts/dist/...`.
-
-## `shared/ts/package.json` ^ref-6deed6ac-424-0
-
-```json
-{
-  "name": "@shared/ts",
-  "type": "module",
-  "private": true,
-  "exports": {
-    "./dist/*": "./dist/*"
-  },
-  "scripts": {
-    "build": "tsc -p ."
-^ref-6deed6ac-392-0
-  },
-  "devDependencies": {
-^ref-6deed6ac-415-0
-    "typescript": "^5.5.4",
-^ref-6deed6ac-415-0
-^ref-6deed6ac-439-0
-    "zod": "^3.23.8"
-  },
-  "dependencies": {
-    "undici": "^6.19.8"
-  }
-^ref-6deed6ac-424-0
-}
-```
-
-## `shared/ts/src/http.ts`
-
-```ts
-import { fetch } from 'undici'
-
-export async function jsonFetch<T>(url: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(url, {
-    ...init, ^ref-6deed6ac-716-0
-    headers: { 'content-type': 'application/json', ...(init?.headers || {}) }
-  })
-  if (!res.ok) {
-    const text = await res.text().catch(() => '')
-^ref-6deed6ac-415-0
-    throw new Error(`HTTP ${res.status} ${res.statusText}: ${text}`)
-  }
-^ref-6deed6ac-439-0
-  return res.json() as Promise<T>
-^ref-6deed6ac-456-0
-^ref-6deed6ac-439-0
-^ref-6deed6ac-456-0
-}
-
-export const api = (base = '') => ({
-  get:  <T>(p: string) => jsonFetch<T>(base + p),
-  post: <T>(p: string, body: unknown) =>
-    jsonFetch<T>(base + p, { method: 'POST', body: JSON.stringify(body) }),
-})
-```
-
-## `shared/ts/src/clients/ollama.ts`
-
-```ts
-^ref-6deed6ac-739-0
-^ref-6deed6ac-738-0
-import { api } from '../http.js'
-^ref-6deed6ac-439-0 ^ref-6deed6ac-744-0
-
-export type ChatMsg = { role: 'system' | 'user' | 'assistant'; content: string }
-^ref-6deed6ac-456-0
-^ref-6deed6ac-471-0
-export type ChatReq = { model: string; messages: ChatMsg[] }
-^ref-6deed6ac-485-0 ^ref-6deed6ac-750-0
-^ref-6deed6ac-471-0 ^ref-6deed6ac-751-0
-export type ChatResp = { message: ChatMsg; done: boolean }
-
-export const createOllamaClient = (base = '/api') => {
-  const a = api(base)
-  return {
-    chat: (req: ChatReq) => a.post<ChatResp>('/llm/chat', req) ^ref-6deed6ac-757-0
-  }
-}
-```
-
-## `shared/ts/src/clients/qdrant.ts`
-^ref-6deed6ac-456-0
- ^ref-6deed6ac-764-0
-```ts
-^ref-6deed6ac-471-0
-^ref-6deed6ac-485-0
-^ref-6deed6ac-501-0
-import { api } from '../http.js'
-type Point = { id: string | number; vector: number[]; payload?: Record<string, unknown> }
- ^ref-6deed6ac-485-0
-export const createQdrantClient = (base = '/api') => {
-  const a = api(base)
-  return { ^ref-6deed6ac-774-0
-    upsert: (collection: string, points: Point[]) =>
-      a.post(`/vectors/upsert`, { collection, points })
-  }
-}
-```
-^ref-6deed6ac-471-0
-
-## `shared/ts/src/clients/crawler.ts`
-^ref-6deed6ac-501-0
-^ref-6deed6ac-777-0
-
-```ts ^ref-6deed6ac-786-0
-import { api } from '../http.js'
-export type CrawlResult = { url: string; title: string; text: string }
-
-export const createCrawlerClient = (base = '/api') => {
-  const a = api(base)
-  return {
-    crawl: (url: string) => a.post<CrawlResult>('/crawl', { url })
-  }
-}
-```
-
-^ref-6deed6ac-485-0
-## `shared/ts/src/clients/embeddings.ts`
-
-```ts
-^ref-6deed6ac-501-0
-^ref-6deed6ac-536-0 ^ref-6deed6ac-540-0
-^ref-6deed6ac-534-0
-import { api } from '../http.js' ^ref-6deed6ac-542-0
-
-export type EmbeddingsResp = { embeddings: number[][] }
-
-export const createEmbeddingsClient = (base = '/api') => {
-  const a = api(base)
-  return {
-    embed: (input: string[] | string) =>
-      a.post<EmbeddingsResp>('/embeddings', { input })
-  }
-}
-```
-
-# 🗺️ Mermaid (you like diagrams)
-
-```mermaid
-flowchart LR
-  subgraph Host[Host]
-    NGINX["NGINX :80"]
-  end
-
-  subgraph prom-net
-    AG["api-gateway :8080"]
-    OLLAMA["ollama :11434"]
-    QD["qdrant :6333"]
-    CRAWL["crawler :3000"]
-    EMB["embeddings :7070"]
-^ref-6deed6ac-501-0
-    TOR["tor :9050"]
-    PRX["privoxy :8118"]
-  end
-
-^ref-6deed6ac-545-0
-^ref-6deed6ac-543-0
-^ref-6deed6ac-542-0 ^ref-6deed6ac-549-0
-^ref-6deed6ac-540-0
-^ref-6deed6ac-536-0 ^ref-6deed6ac-551-0
-^ref-6deed6ac-564-0
-^ref-6deed6ac-562-0
-^ref-6deed6ac-561-0 ^ref-6deed6ac-567-0
-^ref-6deed6ac-560-0
-^ref-6deed6ac-558-0
-^ref-6deed6ac-554-0
-^ref-6deed6ac-553-0
-^ref-6deed6ac-552-0
-^ref-6deed6ac-551-0
-^ref-6deed6ac-549-0
-^ref-6deed6ac-545-0
-^ref-6deed6ac-543-0
-^ref-6deed6ac-576-0 ^ref-6deed6ac-577-0
-^ref-6deed6ac-574-0 ^ref-6deed6ac-578-0
-^ref-6deed6ac-542-0 ^ref-6deed6ac-579-0
-^ref-6deed6ac-540-0
-^ref-6deed6ac-536-0
-^ref-6deed6ac-592-0
-^ref-6deed6ac-589-0 ^ref-6deed6ac-597-0
-^ref-6deed6ac-587-0
-^ref-6deed6ac-583-0
-^ref-6deed6ac-582-0
-^ref-6deed6ac-579-0
-^ref-6deed6ac-578-0
-^ref-6deed6ac-577-0
-^ref-6deed6ac-576-0 ^ref-6deed6ac-604-0
-^ref-6deed6ac-574-0
-^ref-6deed6ac-567-0
-^ref-6deed6ac-564-0
-^ref-6deed6ac-562-0 ^ref-6deed6ac-608-0
-^ref-6deed6ac-561-0
-^ref-6deed6ac-560-0
-^ref-6deed6ac-558-0
-^ref-6deed6ac-554-0
-^ref-6deed6ac-553-0
-^ref-6deed6ac-552-0
-^ref-6deed6ac-551-0
-^ref-6deed6ac-549-0
-^ref-6deed6ac-545-0
-^ref-6deed6ac-543-0 ^ref-6deed6ac-618-0
-  NGINX -->|/api/*| AG ^ref-6deed6ac-534-0 ^ref-6deed6ac-552-0 ^ref-6deed6ac-582-0
-  NGINX -->|/ollama/*| OLLAMA ^ref-6deed6ac-553-0
-  NGINX -->|/qdrant/*| QD ^ref-6deed6ac-554-0
-  NGINX -->|/crawler/*| CRAWL ^ref-6deed6ac-622-0
-^ref-6deed6ac-583-0 ^ref-6deed6ac-623-0
-  NGINX -->|/embeddings/*| EMB ^ref-6deed6ac-587-0
-^ref-6deed6ac-536-0 ^ref-6deed6ac-888-0
- ^ref-6deed6ac-540-0 ^ref-6deed6ac-558-0 ^ref-6deed6ac-589-0 ^ref-6deed6ac-626-0
-  CRAWL -->|HTTP(S) via| PRX --> TOR
-  AG --> OLLAMA ^ref-6deed6ac-542-0 ^ref-6deed6ac-560-0 ^ref-6deed6ac-628-0
-  AG --> QD ^ref-6deed6ac-543-0 ^ref-6deed6ac-561-0 ^ref-6deed6ac-592-0
-  AG --> CRAWL ^ref-6deed6ac-562-0
-  AG --> EMB
-```
-
-^ref-6deed6ac-545-0 ^ref-6deed6ac-597-0
-^ref-6deed6ac-564-0 ^ref-6deed6ac-567-0
---- ^ref-6deed6ac-549-0
-
-## How to run ^ref-6deed6ac-551-0 ^ref-6deed6ac-638-0
- ^ref-6deed6ac-552-0
-1. Build once from repo root: ^ref-6deed6ac-553-0
- ^ref-6deed6ac-554-0 ^ref-6deed6ac-604-0
-```bash ^ref-6deed6ac-574-0
-docker compose -f infrastructure/compose/stack.yml build
-``` ^ref-6deed6ac-576-0
- ^ref-6deed6ac-558-0 ^ref-6deed6ac-577-0 ^ref-6deed6ac-608-0
-2. Dev mode (hot-reload with volumes already set): ^ref-6deed6ac-578-0
- ^ref-6deed6ac-560-0 ^ref-6deed6ac-579-0
-* In each TS service folder, run `pnpm i && pnpm build` (or `pnpm dev` if you prefer local runs). ^ref-6deed6ac-561-0
-* Then: ^ref-6deed6ac-562-0 ^ref-6deed6ac-649-0
- ^ref-6deed6ac-582-0
-```bash ^ref-6deed6ac-564-0 ^ref-6deed6ac-583-0
-docker compose -f infrastructure/compose/stack.yml up -d
-```
- ^ref-6deed6ac-567-0
-3. Test endpoints (all via NGINX, single port :80): ^ref-6deed6ac-587-0 ^ref-6deed6ac-618-0
-
-* Health: `curl  api/health` (note the space removed → `/api/health`) ^ref-6deed6ac-589-0 ^ref-6deed6ac-660-0
-* Chat: `curl -X POST  -d '{"model":"qwen2.5-coder:7b","messages":[{"role":"user","content":"hello"}]}' -H 'content-type: application/json'`
-* Crawl: `curl -X POST  -d '{"url":" -H 'content-type: application/json'`
-* Embeddings: `curl -X POST  -d '{"input":["hello world"]}' -H 'content-type: application/json'` ^ref-6deed6ac-592-0
- ^ref-6deed6ac-574-0
----
- ^ref-6deed6ac-576-0 ^ref-6deed6ac-626-0
-If you want, I can also add: ^ref-6deed6ac-577-0
- ^ref-6deed6ac-578-0 ^ref-6deed6ac-597-0 ^ref-6deed6ac-628-0 ^ref-6deed6ac-665-0
-* a **/rag/query** route in the gateway (crawl → embed → similarity search in Qdrant → optional LLM answer), ^ref-6deed6ac-579-0
-* a **WS** endpoint for streaming LLM tokens,
-* or fold `/ollama`, `/qdrant`, `/crawler`, `/embeddings` behind `/api/*` only (fully opaque services).
- ^ref-6deed6ac-582-0
-What do you want next—RAG flow wired end-to-end or WS streaming?
- ^ref-6deed6ac-1262-0 ^ref-6deed6ac-1270-0 ^ref-6deed6ac-1352-0 ^ref-6deed6ac-1671-0 ^ref-6deed6ac-3436-0 ^ref-6deed6ac-3789-0 ^ref-6deed6ac-6239-0 ^ref-6deed6ac-8092-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [plan-update-confirmation](plan-update-confirmation.md)
-- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
-- [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
+- [api-gateway-versioning](api-gateway-versioning.md)
 - [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
-- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
-- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
-- [field-interaction-equations](field-interaction-equations.md)
-- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
-- [i3-bluetooth-setup](i3-bluetooth-setup.md)
-- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
-- [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
-- [graph-ds](graph-ds.md)
-- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
-- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
-- [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
-- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
-- [sibilant-macro-targets](sibilant-macro-targets.md)
-- [Promethean State Format](promethean-state-format.md)
+- [ecs-offload-workers](ecs-offload-workers.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
+- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
+- [observability-infrastructure-setup](observability-infrastructure-setup.md)
+- [shared-package-layout-clarification](shared-package-layout-clarification.md)
 - [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [Duck's Attractor States](ducks-attractor-states.md)
-- [Promethean Dev Workflow Update](promethean-dev-workflow-update.md)
-- [Creative Moments](creative-moments.md)
-- [Promethean Chat Activity Report](promethean-chat-activity-report.md)
-- [schema-evolution-workflow](schema-evolution-workflow.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [Shared Package Structure](shared-package-structure.md)
+- [Per-Domain Policy System for JS Crawler](per-domain-policy-system-for-js-crawler.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
+- [Promethean Web UI Setup](promethean-web-ui-setup.md)
+- [Prometheus Observability Stack](prometheus-observability-stack.md)
+- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
+- [Promethean-native config design](promethean-native-config-design.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
+- [Promethean Agent DSL TS Scaffold](promethean-agent-dsl-ts-scaffold.md)
+- [archetype-ecs](archetype-ecs.md)
+- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
+- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
+- [Board Walk – 2025-08-11](board-walk-2025-08-11.md)
+- [Voice Access Layer Design](voice-access-layer-design.md)
+- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
+- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
+- [JavaScript](chunks/javascript.md)
+- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
+- [aionian-circuit-math](aionian-circuit-math.md)
+- [Math Fundamentals](chunks/math-fundamentals.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
+- [i3-config-validation-methods](i3-config-validation-methods.md)
+- [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
+- [Admin Dashboard for User Management](admin-dashboard-for-user-management.md)
+- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+
 ## Sources
-- [Creative Moments — L94](creative-moments.md#^ref-10d98225-94-0) (line 94, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L63](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-63-0) (line 63, col 0, score 1)
-- [Docops Feature Updates — L66](docops-feature-updates-3.md#^ref-cdbd21ee-66-0) (line 66, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L93](duckduckgosearchpipeline.md#^ref-e979c50f-93-0) (line 93, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L73](ducks-self-referential-perceptual-loop.md#^ref-71726f04-73-0) (line 73, col 0, score 1)
-- [Dynamic Context Model for Web Components — L403](dynamic-context-model-for-web-components.md#^ref-f7702bf8-403-0) (line 403, col 0, score 1)
-- [komorebi-group-window-hack — L270](komorebi-group-window-hack.md#^ref-dd89372d-270-0) (line 270, col 0, score 1)
-- [Layer1SurvivabilityEnvelope — L221](layer1survivabilityenvelope.md#^ref-64a9f9f9-221-0) (line 221, col 0, score 1)
-- [Mathematical Samplers — L80](mathematical-samplers.md#^ref-86a691ec-80-0) (line 80, col 0, score 1)
-- [Mathematics Sampler — L86](mathematics-sampler.md#^ref-b5e0183e-86-0) (line 86, col 0, score 1)
-- [Migrate to Provider-Tenant Architecture — L342](migrate-to-provider-tenant-architecture.md#^ref-54382370-342-0) (line 342, col 0, score 1)
-- [Mindful Prioritization — L22](mindful-prioritization.md#^ref-40185d05-22-0) (line 22, col 0, score 1)
-- [MindfulRobotIntegration — L21](mindfulrobotintegration.md#^ref-5f65dfa5-21-0) (line 21, col 0, score 1)
-- [Model Selection for Lightweight Conversational Tasks — L133](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-133-0) (line 133, col 0, score 1)
-- [Model Upgrade Calm-Down Guide — L98](model-upgrade-calm-down-guide.md#^ref-db74343f-98-0) (line 98, col 0, score 1)
-- [Docops Feature Updates — L61](docops-feature-updates.md#^ref-2792d448-61-0) (line 61, col 0, score 1)
-- [Duck's Attractor States — L99](ducks-attractor-states.md#^ref-13951643-99-0) (line 99, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L80](ducks-self-referential-perceptual-loop.md#^ref-71726f04-80-0) (line 80, col 0, score 1)
-- [Dynamic Context Model for Web Components — L405](dynamic-context-model-for-web-components.md#^ref-f7702bf8-405-0) (line 405, col 0, score 1)
-- [Eidolon Field Abstract Model — L216](eidolon-field-abstract-model.md#^ref-5e8b2388-216-0) (line 216, col 0, score 1)
-- [Factorio AI with External Agents — L189](factorio-ai-with-external-agents.md#^ref-a4d90289-189-0) (line 189, col 0, score 1)
-- [field-interaction-equations — L172](field-interaction-equations.md#^ref-b09141b7-172-0) (line 172, col 0, score 1)
-- [Layer1SurvivabilityEnvelope — L175](layer1survivabilityenvelope.md#^ref-64a9f9f9-175-0) (line 175, col 0, score 1)
-- [Mathematical Samplers — L90](mathematical-samplers.md#^ref-86a691ec-90-0) (line 90, col 0, score 1)
-- [Migrate to Provider-Tenant Architecture — L298](migrate-to-provider-tenant-architecture.md#^ref-54382370-298-0) (line 298, col 0, score 1)
-- [Promethean Chat Activity Report — L48](promethean-chat-activity-report.md#^ref-18344cf9-48-0) (line 48, col 0, score 1)
-- [Obsidian ChatGPT Plugin Integration Guide — L75](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-75-0) (line 75, col 0, score 1)
-- [Obsidian ChatGPT Plugin Integration — L74](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-74-0) (line 74, col 0, score 1)
-- [obsidian-ignore-node-modules-regex — L145](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-145-0) (line 145, col 0, score 1)
-- [Obsidian Task Generation — L47](obsidian-task-generation.md#^ref-9b694a91-47-0) (line 47, col 0, score 1)
-- [Obsidian Templating Plugins Integration Guide — L146](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-146-0) (line 146, col 0, score 1)
-- [OpenAPI Validation Report — L63](openapi-validation-report.md#^ref-5c152b08-63-0) (line 63, col 0, score 1)
-- [Optimizing Command Limitations in System Design — L72](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-72-0) (line 72, col 0, score 1)
-- [Promethean Notes — L36](promethean-notes.md#^ref-1c4046b5-36-0) (line 36, col 0, score 1)
-- [promethean-requirements — L49](promethean-requirements.md#^ref-95205cd3-49-0) (line 49, col 0, score 1)
-- [Promethean State Format — L126](promethean-state-format.md#^ref-23df6ddb-126-0) (line 126, col 0, score 1)
-- [Promethean Workflow Optimization — L51](promethean-workflow-optimization.md#^ref-d614d983-51-0) (line 51, col 0, score 1)
-- [Docops Feature Updates — L44](docops-feature-updates-3.md#^ref-cdbd21ee-44-0) (line 44, col 0, score 1)
-- [Creative Moments — L8](creative-moments.md#^ref-10d98225-8-0) (line 8, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L38](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-38-0) (line 38, col 0, score 1)
-- [Docops Feature Updates — L56](docops-feature-updates-3.md#^ref-cdbd21ee-56-0) (line 56, col 0, score 1)
-- [Creative Moments — L75](creative-moments.md#^ref-10d98225-75-0) (line 75, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L104](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-104-0) (line 104, col 0, score 1)
-- [Docops Feature Updates — L46](docops-feature-updates-3.md#^ref-cdbd21ee-46-0) (line 46, col 0, score 1)
-- [Docops Feature Updates — L64](docops-feature-updates.md#^ref-2792d448-64-0) (line 64, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L40](duckduckgosearchpipeline.md#^ref-e979c50f-40-0) (line 40, col 0, score 1)
-- [Duck's Attractor States — L137](ducks-attractor-states.md#^ref-13951643-137-0) (line 137, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L82](ducks-self-referential-perceptual-loop.md#^ref-71726f04-82-0) (line 82, col 0, score 1)
-- [Dynamic Context Model for Web Components — L454](dynamic-context-model-for-web-components.md#^ref-f7702bf8-454-0) (line 454, col 0, score 1)
-- [Dynamic Context Model for Web Components — L412](dynamic-context-model-for-web-components.md#^ref-f7702bf8-412-0) (line 412, col 0, score 1)
-- [Eidolon Field Abstract Model — L261](eidolon-field-abstract-model.md#^ref-5e8b2388-261-0) (line 261, col 0, score 1)
-- [eidolon-field-math-foundations — L181](eidolon-field-math-foundations.md#^ref-008f2ac0-181-0) (line 181, col 0, score 1)
-- [eidolon-node-lifecycle — L90](eidolon-node-lifecycle.md#^ref-938eca9c-90-0) (line 90, col 0, score 1)
-- [Factorio AI with External Agents — L157](factorio-ai-with-external-agents.md#^ref-a4d90289-157-0) (line 157, col 0, score 1)
-- [field-dynamics-math-blocks — L205](field-dynamics-math-blocks.md#^ref-7cfc230d-205-0) (line 205, col 0, score 1)
-- [field-node-diagram-set — L203](field-node-diagram-set.md#^ref-22b989d5-203-0) (line 203, col 0, score 1)
-- [field-node-diagram-visualizations — L95](field-node-diagram-visualizations.md#^ref-e9b27b06-95-0) (line 95, col 0, score 1)
-- [graph-ds — L371](graph-ds.md#^ref-6620e2f2-371-0) (line 371, col 0, score 1)
-- [heartbeat-fragment-demo — L141](heartbeat-fragment-demo.md#^ref-dd00677a-141-0) (line 141, col 0, score 1)
-- [homeostasis-decay-formulas — L222](homeostasis-decay-formulas.md#^ref-37b5d236-222-0) (line 222, col 0, score 1)
-- [i3-bluetooth-setup — L107](i3-bluetooth-setup.md#^ref-5e408692-107-0) (line 107, col 0, score 1)
-- [Creative Moments — L28](creative-moments.md#^ref-10d98225-28-0) (line 28, col 0, score 1)
-- [Docops Feature Updates — L65](docops-feature-updates-3.md#^ref-cdbd21ee-65-0) (line 65, col 0, score 1)
-- [Docops Feature Updates — L86](docops-feature-updates.md#^ref-2792d448-86-0) (line 86, col 0, score 1)
-- [Duck's Attractor States — L123](ducks-attractor-states.md#^ref-13951643-123-0) (line 123, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L34](ducks-self-referential-perceptual-loop.md#^ref-71726f04-34-0) (line 34, col 0, score 1)
-- [Dynamic Context Model for Web Components — L442](dynamic-context-model-for-web-components.md#^ref-f7702bf8-442-0) (line 442, col 0, score 1)
-- [Eidolon Field Abstract Model — L218](eidolon-field-abstract-model.md#^ref-5e8b2388-218-0) (line 218, col 0, score 1)
-- [eidolon-field-math-foundations — L176](eidolon-field-math-foundations.md#^ref-008f2ac0-176-0) (line 176, col 0, score 1)
-- [eidolon-node-lifecycle — L70](eidolon-node-lifecycle.md#^ref-938eca9c-70-0) (line 70, col 0, score 1)
-- [eidolon-field-math-foundations — L148](eidolon-field-math-foundations.md#^ref-008f2ac0-148-0) (line 148, col 0, score 1)
-- [eidolon-node-lifecycle — L36](eidolon-node-lifecycle.md#^ref-938eca9c-36-0) (line 36, col 0, score 1)
-- [Factorio AI with External Agents — L166](factorio-ai-with-external-agents.md#^ref-a4d90289-166-0) (line 166, col 0, score 1)
-- [field-dynamics-math-blocks — L148](field-dynamics-math-blocks.md#^ref-7cfc230d-148-0) (line 148, col 0, score 1)
-- [field-interaction-equations — L153](field-interaction-equations.md#^ref-b09141b7-153-0) (line 153, col 0, score 1)
-- [field-node-diagram-outline — L118](field-node-diagram-outline.md#^ref-1f32c94a-118-0) (line 118, col 0, score 1)
-- [field-node-diagram-set — L168](field-node-diagram-set.md#^ref-22b989d5-168-0) (line 168, col 0, score 1)
-- [field-node-diagram-visualizations — L103](field-node-diagram-visualizations.md#^ref-e9b27b06-103-0) (line 103, col 0, score 1)
-- [Functional Embedding Pipeline Refactor — L380](functional-embedding-pipeline-refactor.md#^ref-a4a25141-380-0) (line 380, col 0, score 1)
-- [Functional Refactor of TypeScript Document Processing — L194](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-194-0) (line 194, col 0, score 1)
-- [Docops Feature Updates — L85](docops-feature-updates-3.md#^ref-cdbd21ee-85-0) (line 85, col 0, score 1)
-- [Duck's Attractor States — L93](ducks-attractor-states.md#^ref-13951643-93-0) (line 93, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L64](ducks-self-referential-perceptual-loop.md#^ref-71726f04-64-0) (line 64, col 0, score 1)
-- [Factorio AI with External Agents — L153](factorio-ai-with-external-agents.md#^ref-a4d90289-153-0) (line 153, col 0, score 1)
-- [field-dynamics-math-blocks — L141](field-dynamics-math-blocks.md#^ref-7cfc230d-141-0) (line 141, col 0, score 1)
-- [Docops Feature Updates — L35](docops-feature-updates.md#^ref-2792d448-35-0) (line 35, col 0, score 1)
-- [Duck's Attractor States — L94](ducks-attractor-states.md#^ref-13951643-94-0) (line 94, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L53](ducks-self-referential-perceptual-loop.md#^ref-71726f04-53-0) (line 53, col 0, score 1)
-- [Dynamic Context Model for Web Components — L424](dynamic-context-model-for-web-components.md#^ref-f7702bf8-424-0) (line 424, col 0, score 1)
-- [Eidolon Field Abstract Model — L209](eidolon-field-abstract-model.md#^ref-5e8b2388-209-0) (line 209, col 0, score 1)
-- [eidolon-field-math-foundations — L142](eidolon-field-math-foundations.md#^ref-008f2ac0-142-0) (line 142, col 0, score 1)
-- [eidolon-node-lifecycle — L39](eidolon-node-lifecycle.md#^ref-938eca9c-39-0) (line 39, col 0, score 1)
-- [Creative Moments — L50](creative-moments.md#^ref-10d98225-50-0) (line 50, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L89](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-89-0) (line 89, col 0, score 1)
-- [Docops Feature Updates — L32](docops-feature-updates-3.md#^ref-cdbd21ee-32-0) (line 32, col 0, score 1)
-- [Docops Feature Updates — L49](docops-feature-updates.md#^ref-2792d448-49-0) (line 49, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L95](duckduckgosearchpipeline.md#^ref-e979c50f-95-0) (line 95, col 0, score 1)
-- [Duck's Attractor States — L133](ducks-attractor-states.md#^ref-13951643-133-0) (line 133, col 0, score 1)
-- [Duck's Self-Referential Perceptual Loop — L59](ducks-self-referential-perceptual-loop.md#^ref-71726f04-59-0) (line 59, col 0, score 1)
-- [Eidolon Field Abstract Model — L252](eidolon-field-abstract-model.md#^ref-5e8b2388-252-0) (line 252, col 0, score 1)
+- [api-gateway-versioning — L7](api-gateway-versioning.md#L7) (line 7, col 1, score 0.98)
+- [observability-infrastructure-setup — L44](observability-infrastructure-setup.md#L44) (line 44, col 1, score 0.9)
+- [api-gateway-versioning — L51](api-gateway-versioning.md#L51) (line 51, col 1, score 0.98)
+- [api-gateway-versioning — L79](api-gateway-versioning.md#L79) (line 79, col 1, score 0.93)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L107](pure-node-crawl-stack-with-playwright-and-crawlee.md#L107) (line 107, col 1, score 0.86)
+- [Per-Domain Policy System for JS Crawler — L117](per-domain-policy-system-for-js-crawler.md#L117) (line 117, col 1, score 0.86)
+- [shared-package-layout-clarification — L47](shared-package-layout-clarification.md#L47) (line 47, col 1, score 0.9)
+- [Shared Package Structure — L64](shared-package-structure.md#L64) (line 64, col 1, score 0.86)
+- [RAG UI Panel with Qdrant and PostgREST — L71](rag-ui-panel-with-qdrant-and-postgrest.md#L71) (line 71, col 1, score 0.9)
+- [Dynamic Context Model for Web Components — L176](dynamic-context-model-for-web-components.md#L176) (line 176, col 3, score 1)
+- [api-gateway-versioning — L275](api-gateway-versioning.md#L275) (line 275, col 3, score 1)
+- [api-gateway-versioning — L275](api-gateway-versioning.md#L275) (line 275, col 5, score 1)
+- [api-gateway-versioning — L276](api-gateway-versioning.md#L276) (line 276, col 3, score 1)
+- [api-gateway-versioning — L276](api-gateway-versioning.md#L276) (line 276, col 5, score 1)
+- [api-gateway-versioning — L277](api-gateway-versioning.md#L277) (line 277, col 3, score 1)
+- [api-gateway-versioning — L277](api-gateway-versioning.md#L277) (line 277, col 5, score 1)
+- [ecs-scheduler-and-prefabs — L379](ecs-scheduler-and-prefabs.md#L379) (line 379, col 1, score 0.98)
+- [ecs-offload-workers — L446](ecs-offload-workers.md#L446) (line 446, col 1, score 0.98)
+- [System Scheduler with Resource-Aware DAG — L377](system-scheduler-with-resource-aware-dag.md#L377) (line 377, col 1, score 0.98)
+- [markdown-to-org-transpiler — L289](markdown-to-org-transpiler.md#L289) (line 289, col 1, score 0.98)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L153](ollama-llm-provider-for-pseudo-code-transpiler.md#L153) (line 153, col 1, score 0.98)
+- [eidolon-field-math-foundations — L105](eidolon-field-math-foundations.md#L105) (line 105, col 1, score 0.9)
+- [Local-Only-LLM-Workflow — L163](local-only-llm-workflow.md#L163) (line 163, col 1, score 0.87)
+- [Debugging Broker Connections and Agent Behavior — L41](debugging-broker-connections-and-agent-behavior.md#L41) (line 41, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L41](debugging-broker-connections-and-agent-behavior.md#L41) (line 41, col 3, score 1)
+- [Dynamic Context Model for Web Components — L385](dynamic-context-model-for-web-components.md#L385) (line 385, col 1, score 1)
+- [Dynamic Context Model for Web Components — L385](dynamic-context-model-for-web-components.md#L385) (line 385, col 3, score 1)
+- [observability-infrastructure-setup — L363](observability-infrastructure-setup.md#L363) (line 363, col 1, score 1)
+- [observability-infrastructure-setup — L363](observability-infrastructure-setup.md#L363) (line 363, col 3, score 1)
+- [Pure TypeScript Search Microservice — L524](pure-typescript-search-microservice.md#L524) (line 524, col 1, score 1)
+- [Pure TypeScript Search Microservice — L524](pure-typescript-search-microservice.md#L524) (line 524, col 3, score 1)
+- [api-gateway-versioning — L285](api-gateway-versioning.md#L285) (line 285, col 1, score 1)
+- [api-gateway-versioning — L285](api-gateway-versioning.md#L285) (line 285, col 3, score 1)
+- [Board Walk – 2025-08-11 — L135](board-walk-2025-08-11.md#L135) (line 135, col 1, score 1)
+- [Board Walk – 2025-08-11 — L135](board-walk-2025-08-11.md#L135) (line 135, col 3, score 1)
+- [Chroma Toolkit Consolidation Plan — L167](chroma-toolkit-consolidation-plan.md#L167) (line 167, col 1, score 1)
+- [Chroma Toolkit Consolidation Plan — L167](chroma-toolkit-consolidation-plan.md#L167) (line 167, col 3, score 1)
+- [Cross-Target Macro System in Sibilant — L180](cross-target-macro-system-in-sibilant.md#L180) (line 180, col 1, score 1)
+- [Cross-Target Macro System in Sibilant — L180](cross-target-macro-system-in-sibilant.md#L180) (line 180, col 3, score 1)
+- [archetype-ecs — L460](archetype-ecs.md#L460) (line 460, col 1, score 1)
+- [archetype-ecs — L460](archetype-ecs.md#L460) (line 460, col 3, score 1)
+- [JavaScript — L15](chunks/javascript.md#L15) (line 15, col 1, score 1)
+- [JavaScript — L15](chunks/javascript.md#L15) (line 15, col 3, score 1)
+- [ecs-scheduler-and-prefabs — L388](ecs-scheduler-and-prefabs.md#L388) (line 388, col 1, score 1)
+- [ecs-scheduler-and-prefabs — L388](ecs-scheduler-and-prefabs.md#L388) (line 388, col 3, score 1)
+- [eidolon-field-math-foundations — L129](eidolon-field-math-foundations.md#L129) (line 129, col 1, score 1)
+- [eidolon-field-math-foundations — L129](eidolon-field-math-foundations.md#L129) (line 129, col 3, score 1)
+- [archetype-ecs — L454](archetype-ecs.md#L454) (line 454, col 1, score 1)
+- [archetype-ecs — L454](archetype-ecs.md#L454) (line 454, col 3, score 1)
+- [Chroma Toolkit Consolidation Plan — L171](chroma-toolkit-consolidation-plan.md#L171) (line 171, col 1, score 1)
+- [Chroma Toolkit Consolidation Plan — L171](chroma-toolkit-consolidation-plan.md#L171) (line 171, col 3, score 1)
+- [JavaScript — L14](chunks/javascript.md#L14) (line 14, col 1, score 1)
+- [JavaScript — L14](chunks/javascript.md#L14) (line 14, col 3, score 1)
+- [ecs-offload-workers — L454](ecs-offload-workers.md#L454) (line 454, col 1, score 1)
+- [ecs-offload-workers — L454](ecs-offload-workers.md#L454) (line 454, col 3, score 1)
+- [archetype-ecs — L455](archetype-ecs.md#L455) (line 455, col 1, score 1)
+- [archetype-ecs — L455](archetype-ecs.md#L455) (line 455, col 3, score 1)
+- [ecs-offload-workers — L455](ecs-offload-workers.md#L455) (line 455, col 1, score 1)
+- [ecs-offload-workers — L455](ecs-offload-workers.md#L455) (line 455, col 3, score 1)
+- [ecs-scheduler-and-prefabs — L387](ecs-scheduler-and-prefabs.md#L387) (line 387, col 1, score 1)
+- [ecs-scheduler-and-prefabs — L387](ecs-scheduler-and-prefabs.md#L387) (line 387, col 3, score 1)
+- [eidolon-field-math-foundations — L130](eidolon-field-math-foundations.md#L130) (line 130, col 1, score 1)
+- [eidolon-field-math-foundations — L130](eidolon-field-math-foundations.md#L130) (line 130, col 3, score 1)
+- [ecs-offload-workers — L456](ecs-offload-workers.md#L456) (line 456, col 1, score 1)
+- [ecs-offload-workers — L456](ecs-offload-workers.md#L456) (line 456, col 3, score 1)
+- [ecs-scheduler-and-prefabs — L390](ecs-scheduler-and-prefabs.md#L390) (line 390, col 1, score 1)
+- [ecs-scheduler-and-prefabs — L390](ecs-scheduler-and-prefabs.md#L390) (line 390, col 3, score 1)
+- [eidolon-field-math-foundations — L131](eidolon-field-math-foundations.md#L131) (line 131, col 1, score 1)
+- [eidolon-field-math-foundations — L131](eidolon-field-math-foundations.md#L131) (line 131, col 3, score 1)
+- [js-to-lisp-reverse-compiler — L424](js-to-lisp-reverse-compiler.md#L424) (line 424, col 1, score 1)
+- [js-to-lisp-reverse-compiler — L424](js-to-lisp-reverse-compiler.md#L424) (line 424, col 3, score 1)
+- [ecs-offload-workers — L457](ecs-offload-workers.md#L457) (line 457, col 1, score 1)
+- [ecs-offload-workers — L457](ecs-offload-workers.md#L457) (line 457, col 3, score 1)
+- [ecs-scheduler-and-prefabs — L391](ecs-scheduler-and-prefabs.md#L391) (line 391, col 1, score 1)
+- [ecs-scheduler-and-prefabs — L391](ecs-scheduler-and-prefabs.md#L391) (line 391, col 3, score 1)
+- [eidolon-field-math-foundations — L132](eidolon-field-math-foundations.md#L132) (line 132, col 1, score 1)
+- [eidolon-field-math-foundations — L132](eidolon-field-math-foundations.md#L132) (line 132, col 3, score 1)
+- [Local-First Intention→Code Loop with Free Models — L145](local-first-intention-code-loop-with-free-models.md#L145) (line 145, col 1, score 1)
+- [Local-First Intention→Code Loop with Free Models — L145](local-first-intention-code-loop-with-free-models.md#L145) (line 145, col 3, score 1)
+- [api-gateway-versioning — L286](api-gateway-versioning.md#L286) (line 286, col 1, score 1)
+- [api-gateway-versioning — L286](api-gateway-versioning.md#L286) (line 286, col 3, score 1)
+- [Mongo Outbox Implementation — L560](mongo-outbox-implementation.md#L560) (line 560, col 1, score 1)
+- [Mongo Outbox Implementation — L560](mongo-outbox-implementation.md#L560) (line 560, col 3, score 1)
+- [Prometheus Observability Stack — L504](prometheus-observability-stack.md#L504) (line 504, col 1, score 1)
+- [Prometheus Observability Stack — L504](prometheus-observability-stack.md#L504) (line 504, col 3, score 1)
+- [api-gateway-versioning — L292](api-gateway-versioning.md#L292) (line 292, col 1, score 0.93)
+- [api-gateway-versioning — L292](api-gateway-versioning.md#L292) (line 292, col 3, score 0.93)
+- [i3-config-validation-methods — L55](i3-config-validation-methods.md#L55) (line 55, col 1, score 1)
+- [i3-config-validation-methods — L55](i3-config-validation-methods.md#L55) (line 55, col 3, score 1)
+- [Local-Only-LLM-Workflow — L182](local-only-llm-workflow.md#L182) (line 182, col 1, score 1)
+- [Local-Only-LLM-Workflow — L182](local-only-llm-workflow.md#L182) (line 182, col 3, score 1)
+- [Migrate to Provider-Tenant Architecture — L278](migrate-to-provider-tenant-architecture.md#L278) (line 278, col 1, score 1)
+- [Migrate to Provider-Tenant Architecture — L278](migrate-to-provider-tenant-architecture.md#L278) (line 278, col 3, score 1)
+- [Post-Linguistic Transhuman Design Frameworks — L91](post-linguistic-transhuman-design-frameworks.md#L91) (line 91, col 1, score 1)
+- [Post-Linguistic Transhuman Design Frameworks — L91](post-linguistic-transhuman-design-frameworks.md#L91) (line 91, col 3, score 1)
+- [Agent Tasks: Persistence Migration to DualStore — L133](agent-tasks-persistence-migration-to-dualstore.md#L133) (line 133, col 1, score 1)
+- [Agent Tasks: Persistence Migration to DualStore — L133](agent-tasks-persistence-migration-to-dualstore.md#L133) (line 133, col 3, score 1)
+- [aionian-circuit-math — L151](aionian-circuit-math.md#L151) (line 151, col 1, score 1)
+- [aionian-circuit-math — L151](aionian-circuit-math.md#L151) (line 151, col 3, score 1)
+- [Math Fundamentals — L14](chunks/math-fundamentals.md#L14) (line 14, col 1, score 1)
+- [Math Fundamentals — L14](chunks/math-fundamentals.md#L14) (line 14, col 3, score 1)
+- [ecs-offload-workers — L460](ecs-offload-workers.md#L460) (line 460, col 1, score 1)
+- [ecs-offload-workers — L460](ecs-offload-workers.md#L460) (line 460, col 3, score 1)
+- [Promethean Full-Stack Docker Setup — L437](promethean-full-stack-docker-setup.md#L437) (line 437, col 1, score 1)
+- [Promethean Full-Stack Docker Setup — L437](promethean-full-stack-docker-setup.md#L437) (line 437, col 3, score 1)
+- [Promethean Web UI Setup — L604](promethean-web-ui-setup.md#L604) (line 604, col 1, score 1)
+- [Promethean Web UI Setup — L604](promethean-web-ui-setup.md#L604) (line 604, col 3, score 1)
+- [Pure TypeScript Search Microservice — L522](pure-typescript-search-microservice.md#L522) (line 522, col 1, score 1)
+- [Pure TypeScript Search Microservice — L522](pure-typescript-search-microservice.md#L522) (line 522, col 3, score 1)
+- [Promethean Web UI Setup — L615](promethean-web-ui-setup.md#L615) (line 615, col 1, score 0.94)
+- [Promethean Web UI Setup — L615](promethean-web-ui-setup.md#L615) (line 615, col 3, score 0.94)
+- [i3-config-validation-methods — L56](i3-config-validation-methods.md#L56) (line 56, col 1, score 1)
+- [i3-config-validation-methods — L56](i3-config-validation-methods.md#L56) (line 56, col 3, score 1)
+- [Local-First Intention→Code Loop with Free Models — L143](local-first-intention-code-loop-with-free-models.md#L143) (line 143, col 1, score 1)
+- [Local-First Intention→Code Loop with Free Models — L143](local-first-intention-code-loop-with-free-models.md#L143) (line 143, col 3, score 1)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167](ollama-llm-provider-for-pseudo-code-transpiler.md#L167) (line 167, col 1, score 1)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167](ollama-llm-provider-for-pseudo-code-transpiler.md#L167) (line 167, col 3, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L438](performance-optimized-polyglot-bridge.md#L438) (line 438, col 1, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L438](performance-optimized-polyglot-bridge.md#L438) (line 438, col 3, score 1)
+- [Per-Domain Policy System for JS Crawler — L471](per-domain-policy-system-for-js-crawler.md#L471) (line 471, col 1, score 1)
+- [Per-Domain Policy System for JS Crawler — L471](per-domain-policy-system-for-js-crawler.md#L471) (line 471, col 3, score 1)
+- [Promethean Web UI Setup — L607](promethean-web-ui-setup.md#L607) (line 607, col 1, score 1)
+- [Promethean Web UI Setup — L607](promethean-web-ui-setup.md#L607) (line 607, col 3, score 1)
+- [Prometheus Observability Stack — L509](prometheus-observability-stack.md#L509) (line 509, col 1, score 1)
+- [Prometheus Observability Stack — L509](prometheus-observability-stack.md#L509) (line 509, col 3, score 1)
+- [Per-Domain Policy System for JS Crawler — L488](per-domain-policy-system-for-js-crawler.md#L488) (line 488, col 1, score 0.95)
+- [Per-Domain Policy System for JS Crawler — L488](per-domain-policy-system-for-js-crawler.md#L488) (line 488, col 3, score 0.95)
+- [Migrate to Provider-Tenant Architecture — L276](migrate-to-provider-tenant-architecture.md#L276) (line 276, col 1, score 1)
+- [Migrate to Provider-Tenant Architecture — L276](migrate-to-provider-tenant-architecture.md#L276) (line 276, col 3, score 1)
+- [Promethean Agent DSL TS Scaffold — L832](promethean-agent-dsl-ts-scaffold.md#L832) (line 832, col 1, score 1)
+- [Promethean Agent DSL TS Scaffold — L832](promethean-agent-dsl-ts-scaffold.md#L832) (line 832, col 3, score 1)
+- [shared-package-layout-clarification — L166](shared-package-layout-clarification.md#L166) (line 166, col 1, score 1)
+- [shared-package-layout-clarification — L166](shared-package-layout-clarification.md#L166) (line 166, col 3, score 1)
+- [Voice Access Layer Design — L307](voice-access-layer-design.md#L307) (line 307, col 1, score 1)
+- [Voice Access Layer Design — L307](voice-access-layer-design.md#L307) (line 307, col 3, score 1)
+- [Agent Tasks: Persistence Migration to DualStore — L132](agent-tasks-persistence-migration-to-dualstore.md#L132) (line 132, col 1, score 1)
+- [Agent Tasks: Persistence Migration to DualStore — L132](agent-tasks-persistence-migration-to-dualstore.md#L132) (line 132, col 3, score 1)
+- [eidolon-field-math-foundations — L136](eidolon-field-math-foundations.md#L136) (line 136, col 1, score 1)
+- [eidolon-field-math-foundations — L136](eidolon-field-math-foundations.md#L136) (line 136, col 3, score 1)
+- [Migrate to Provider-Tenant Architecture — L269](migrate-to-provider-tenant-architecture.md#L269) (line 269, col 1, score 1)
+- [Migrate to Provider-Tenant Architecture — L269](migrate-to-provider-tenant-architecture.md#L269) (line 269, col 3, score 1)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L425](pure-node-crawl-stack-with-playwright-and-crawlee.md#L425) (line 425, col 1, score 1)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L425](pure-node-crawl-stack-with-playwright-and-crawlee.md#L425) (line 425, col 3, score 1)
+- [Agent Tasks: Persistence Migration to DualStore — L134](agent-tasks-persistence-migration-to-dualstore.md#L134) (line 134, col 1, score 1)
+- [Agent Tasks: Persistence Migration to DualStore — L134](agent-tasks-persistence-migration-to-dualstore.md#L134) (line 134, col 3, score 1)
+- [aionian-circuit-math — L156](aionian-circuit-math.md#L156) (line 156, col 1, score 1)
+- [aionian-circuit-math — L156](aionian-circuit-math.md#L156) (line 156, col 3, score 1)
+- [Board Walk – 2025-08-11 — L136](board-walk-2025-08-11.md#L136) (line 136, col 1, score 1)
+- [Board Walk – 2025-08-11 — L136](board-walk-2025-08-11.md#L136) (line 136, col 3, score 1)
+- [Dynamic Context Model for Web Components — L386](dynamic-context-model-for-web-components.md#L386) (line 386, col 1, score 1)
+- [Dynamic Context Model for Web Components — L386](dynamic-context-model-for-web-components.md#L386) (line 386, col 3, score 1)
+- [api-gateway-versioning — L288](api-gateway-versioning.md#L288) (line 288, col 1, score 1)
+- [api-gateway-versioning — L288](api-gateway-versioning.md#L288) (line 288, col 3, score 1)
+- [Promethean Full-Stack Docker Setup — L440](promethean-full-stack-docker-setup.md#L440) (line 440, col 1, score 1)
+- [Promethean Full-Stack Docker Setup — L440](promethean-full-stack-docker-setup.md#L440) (line 440, col 3, score 1)
+- [Promethean Web UI Setup — L603](promethean-web-ui-setup.md#L603) (line 603, col 1, score 1)
+- [Promethean Web UI Setup — L603](promethean-web-ui-setup.md#L603) (line 603, col 3, score 1)
+- [Prometheus Observability Stack — L510](prometheus-observability-stack.md#L510) (line 510, col 1, score 1)
+- [Prometheus Observability Stack — L510](prometheus-observability-stack.md#L510) (line 510, col 3, score 1)
+- [Promethean Full-Stack Docker Setup — L436](promethean-full-stack-docker-setup.md#L436) (line 436, col 1, score 1)
+- [Promethean Full-Stack Docker Setup — L436](promethean-full-stack-docker-setup.md#L436) (line 436, col 3, score 1)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L428](pure-node-crawl-stack-with-playwright-and-crawlee.md#L428) (line 428, col 1, score 1)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L428](pure-node-crawl-stack-with-playwright-and-crawlee.md#L428) (line 428, col 3, score 1)
+- [Pure TypeScript Search Microservice — L521](pure-typescript-search-microservice.md#L521) (line 521, col 1, score 1)
+- [Pure TypeScript Search Microservice — L521](pure-typescript-search-microservice.md#L521) (line 521, col 3, score 1)
+- [RAG UI Panel with Qdrant and PostgREST — L364](rag-ui-panel-with-qdrant-and-postgrest.md#L364) (line 364, col 1, score 1)
+- [RAG UI Panel with Qdrant and PostgREST — L364](rag-ui-panel-with-qdrant-and-postgrest.md#L364) (line 364, col 3, score 1)
+- [AI-Centric OS with MCP Layer — L403](ai-centric-os-with-mcp-layer.md#L403) (line 403, col 1, score 1)
+- [AI-Centric OS with MCP Layer — L403](ai-centric-os-with-mcp-layer.md#L403) (line 403, col 3, score 1)
+- [Local-Offline-Model-Deployment-Strategy — L293](local-offline-model-deployment-strategy.md#L293) (line 293, col 1, score 1)
+- [Local-Offline-Model-Deployment-Strategy — L293](local-offline-model-deployment-strategy.md#L293) (line 293, col 3, score 1)
+- [Migrate to Provider-Tenant Architecture — L281](migrate-to-provider-tenant-architecture.md#L281) (line 281, col 1, score 1)
+- [Migrate to Provider-Tenant Architecture — L281](migrate-to-provider-tenant-architecture.md#L281) (line 281, col 3, score 1)
+- [observability-infrastructure-setup — L361](observability-infrastructure-setup.md#L361) (line 361, col 1, score 1)
+- [observability-infrastructure-setup — L361](observability-infrastructure-setup.md#L361) (line 361, col 3, score 1)
+- [api-gateway-versioning — L287](api-gateway-versioning.md#L287) (line 287, col 1, score 1)
+- [api-gateway-versioning — L287](api-gateway-versioning.md#L287) (line 287, col 3, score 1)
+- [Agent Tasks: Persistence Migration to DualStore — L130](agent-tasks-persistence-migration-to-dualstore.md#L130) (line 130, col 1, score 1)
+- [Agent Tasks: Persistence Migration to DualStore — L130](agent-tasks-persistence-migration-to-dualstore.md#L130) (line 130, col 3, score 1)
+- [aionian-circuit-math — L159](aionian-circuit-math.md#L159) (line 159, col 1, score 1)
+- [aionian-circuit-math — L159](aionian-circuit-math.md#L159) (line 159, col 3, score 1)
+- [Board Walk – 2025-08-11 — L134](board-walk-2025-08-11.md#L134) (line 134, col 1, score 1)
+- [Board Walk – 2025-08-11 — L134](board-walk-2025-08-11.md#L134) (line 134, col 3, score 1)
+- [Chroma Toolkit Consolidation Plan — L168](chroma-toolkit-consolidation-plan.md#L168) (line 168, col 1, score 1)
+- [Chroma Toolkit Consolidation Plan — L168](chroma-toolkit-consolidation-plan.md#L168) (line 168, col 3, score 1)
+- [Promethean Web UI Setup — L602](promethean-web-ui-setup.md#L602) (line 602, col 1, score 1)
+- [Promethean Web UI Setup — L602](promethean-web-ui-setup.md#L602) (line 602, col 3, score 1)
+- [Prometheus Observability Stack — L506](prometheus-observability-stack.md#L506) (line 506, col 1, score 1)
+- [Prometheus Observability Stack — L506](prometheus-observability-stack.md#L506) (line 506, col 3, score 1)
+- [Pure TypeScript Search Microservice — L526](pure-typescript-search-microservice.md#L526) (line 526, col 1, score 1)
+- [Pure TypeScript Search Microservice — L526](pure-typescript-search-microservice.md#L526) (line 526, col 3, score 1)
+- [RAG UI Panel with Qdrant and PostgREST — L362](rag-ui-panel-with-qdrant-and-postgrest.md#L362) (line 362, col 1, score 1)
+- [RAG UI Panel with Qdrant and PostgREST — L362](rag-ui-panel-with-qdrant-and-postgrest.md#L362) (line 362, col 3, score 1)
+- [Admin Dashboard for User Management — L41](admin-dashboard-for-user-management.md#L41) (line 41, col 1, score 1)
+- [Admin Dashboard for User Management — L41](admin-dashboard-for-user-management.md#L41) (line 41, col 3, score 1)
+- [ecs-offload-workers — L461](ecs-offload-workers.md#L461) (line 461, col 1, score 1)
+- [ecs-offload-workers — L461](ecs-offload-workers.md#L461) (line 461, col 3, score 1)
+- [ecs-scheduler-and-prefabs — L397](ecs-scheduler-and-prefabs.md#L397) (line 397, col 1, score 1)
+- [ecs-scheduler-and-prefabs — L397](ecs-scheduler-and-prefabs.md#L397) (line 397, col 3, score 1)
+- [Local-Only-LLM-Workflow — L173](local-only-llm-workflow.md#L173) (line 173, col 1, score 1)
+- [Local-Only-LLM-Workflow — L173](local-only-llm-workflow.md#L173) (line 173, col 3, score 1)
+- [observability-infrastructure-setup — L368](observability-infrastructure-setup.md#L368) (line 368, col 1, score 1)
+- [observability-infrastructure-setup — L368](observability-infrastructure-setup.md#L368) (line 368, col 3, score 1)
+- [Dynamic Context Model for Web Components — L401](dynamic-context-model-for-web-components.md#L401) (line 401, col 1, score 0.98)
+- [Dynamic Context Model for Web Components — L401](dynamic-context-model-for-web-components.md#L401) (line 401, col 3, score 0.98)
+- [Dynamic Context Model for Web Components — L400](dynamic-context-model-for-web-components.md#L400) (line 400, col 1, score 0.98)
+- [Dynamic Context Model for Web Components — L400](dynamic-context-model-for-web-components.md#L400) (line 400, col 3, score 0.98)
+- [Prometheus Observability Stack — L514](prometheus-observability-stack.md#L514) (line 514, col 1, score 0.99)
+- [Prometheus Observability Stack — L514](prometheus-observability-stack.md#L514) (line 514, col 3, score 0.99)
+- [Per-Domain Policy System for JS Crawler — L485](per-domain-policy-system-for-js-crawler.md#L485) (line 485, col 1, score 0.99)
+- [Per-Domain Policy System for JS Crawler — L485](per-domain-policy-system-for-js-crawler.md#L485) (line 485, col 3, score 0.99)
+- [Per-Domain Policy System for JS Crawler — L487](per-domain-policy-system-for-js-crawler.md#L487) (line 487, col 1, score 0.99)
+- [Per-Domain Policy System for JS Crawler — L487](per-domain-policy-system-for-js-crawler.md#L487) (line 487, col 3, score 0.99)
+- [Per-Domain Policy System for JS Crawler — L489](per-domain-policy-system-for-js-crawler.md#L489) (line 489, col 1, score 0.99)
+- [Per-Domain Policy System for JS Crawler — L489](per-domain-policy-system-for-js-crawler.md#L489) (line 489, col 3, score 0.99)
+- [Migrate to Provider-Tenant Architecture — L287](migrate-to-provider-tenant-architecture.md#L287) (line 287, col 1, score 1)
+- [Migrate to Provider-Tenant Architecture — L287](migrate-to-provider-tenant-architecture.md#L287) (line 287, col 3, score 1)
+- [Agent Tasks: Persistence Migration to DualStore — L140](agent-tasks-persistence-migration-to-dualstore.md#L140) (line 140, col 1, score 0.99)
+- [Agent Tasks: Persistence Migration to DualStore — L140](agent-tasks-persistence-migration-to-dualstore.md#L140) (line 140, col 3, score 0.99)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L435](pure-node-crawl-stack-with-playwright-and-crawlee.md#L435) (line 435, col 1, score 0.99)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L435](pure-node-crawl-stack-with-playwright-and-crawlee.md#L435) (line 435, col 3, score 0.99)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L431](pure-node-crawl-stack-with-playwright-and-crawlee.md#L431) (line 431, col 1, score 0.99)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L431](pure-node-crawl-stack-with-playwright-and-crawlee.md#L431) (line 431, col 3, score 0.99)
+- [Shared Package Structure — L173](shared-package-structure.md#L173) (line 173, col 1, score 1)
+- [Shared Package Structure — L173](shared-package-structure.md#L173) (line 173, col 3, score 1)
+- [i3-config-validation-methods — L60](i3-config-validation-methods.md#L60) (line 60, col 1, score 0.98)
+- [i3-config-validation-methods — L60](i3-config-validation-methods.md#L60) (line 60, col 3, score 0.98)
+- [Shared Package Structure — L176](shared-package-structure.md#L176) (line 176, col 1, score 0.98)
+- [Shared Package Structure — L176](shared-package-structure.md#L176) (line 176, col 3, score 0.98)
+- [Shared Package Structure — L172](shared-package-structure.md#L172) (line 172, col 1, score 0.98)
+- [Shared Package Structure — L172](shared-package-structure.md#L172) (line 172, col 3, score 0.98)
+- [shared-package-layout-clarification — L177](shared-package-layout-clarification.md#L177) (line 177, col 1, score 0.99)
+- [shared-package-layout-clarification — L177](shared-package-layout-clarification.md#L177) (line 177, col 3, score 0.99)
+- [Voice Access Layer Design — L330](voice-access-layer-design.md#L330) (line 330, col 1, score 0.98)
+- [Voice Access Layer Design — L330](voice-access-layer-design.md#L330) (line 330, col 3, score 0.98)
+- [shared-package-layout-clarification — L180](shared-package-layout-clarification.md#L180) (line 180, col 1, score 0.97)
+- [shared-package-layout-clarification — L180](shared-package-layout-clarification.md#L180) (line 180, col 3, score 0.97)
+- [shared-package-layout-clarification — L179](shared-package-layout-clarification.md#L179) (line 179, col 1, score 0.97)
+- [shared-package-layout-clarification — L179](shared-package-layout-clarification.md#L179) (line 179, col 3, score 0.97)
+- [Pure TypeScript Search Microservice — L530](pure-typescript-search-microservice.md#L530) (line 530, col 1, score 1)
+- [Pure TypeScript Search Microservice — L530](pure-typescript-search-microservice.md#L530) (line 530, col 3, score 1)
+- [Promethean Full-Stack Docker Setup — L445](promethean-full-stack-docker-setup.md#L445) (line 445, col 1, score 0.98)
+- [Promethean Full-Stack Docker Setup — L445](promethean-full-stack-docker-setup.md#L445) (line 445, col 3, score 0.98)
+- [Promethean Web UI Setup — L613](promethean-web-ui-setup.md#L613) (line 613, col 1, score 0.98)
+- [Promethean Web UI Setup — L613](promethean-web-ui-setup.md#L613) (line 613, col 3, score 0.98)
+- [api-gateway-versioning — L295](api-gateway-versioning.md#L295) (line 295, col 1, score 1)
+- [api-gateway-versioning — L295](api-gateway-versioning.md#L295) (line 295, col 3, score 1)
+- [Promethean-native config design — L396](promethean-native-config-design.md#L396) (line 396, col 1, score 0.99)
+- [Promethean-native config design — L396](promethean-native-config-design.md#L396) (line 396, col 3, score 0.99)
+- [Promethean-native config design — L395](promethean-native-config-design.md#L395) (line 395, col 1, score 0.99)
+- [Promethean-native config design — L395](promethean-native-config-design.md#L395) (line 395, col 3, score 0.99)
+- [Sibilant Meta-Prompt DSL — L207](sibilant-meta-prompt-dsl.md#L207) (line 207, col 1, score 0.98)
+- [Sibilant Meta-Prompt DSL — L207](sibilant-meta-prompt-dsl.md#L207) (line 207, col 3, score 0.98)
+- [eidolon-field-math-foundations — L154](eidolon-field-math-foundations.md#L154) (line 154, col 1, score 1)
+- [eidolon-field-math-foundations — L154](eidolon-field-math-foundations.md#L154) (line 154, col 3, score 1)
+- [Local-Only-LLM-Workflow — L190](local-only-llm-workflow.md#L190) (line 190, col 1, score 1)
+- [Local-Only-LLM-Workflow — L190](local-only-llm-workflow.md#L190) (line 190, col 3, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L454](performance-optimized-polyglot-bridge.md#L454) (line 454, col 1, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L454](performance-optimized-polyglot-bridge.md#L454) (line 454, col 3, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L527](polyglot-s-expr-bridge-python-js-lisp-interop.md#L527) (line 527, col 1, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L527](polyglot-s-expr-bridge-python-js-lisp-interop.md#L527) (line 527, col 3, score 1)
+- [eidolon-field-math-foundations — L155](eidolon-field-math-foundations.md#L155) (line 155, col 1, score 1)
+- [eidolon-field-math-foundations — L155](eidolon-field-math-foundations.md#L155) (line 155, col 3, score 1)
+- [Local-Only-LLM-Workflow — L191](local-only-llm-workflow.md#L191) (line 191, col 1, score 1)
+- [Local-Only-LLM-Workflow — L191](local-only-llm-workflow.md#L191) (line 191, col 3, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L455](performance-optimized-polyglot-bridge.md#L455) (line 455, col 1, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L455](performance-optimized-polyglot-bridge.md#L455) (line 455, col 3, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L528](polyglot-s-expr-bridge-python-js-lisp-interop.md#L528) (line 528, col 1, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L528](polyglot-s-expr-bridge-python-js-lisp-interop.md#L528) (line 528, col 3, score 1)
+- [eidolon-field-math-foundations — L156](eidolon-field-math-foundations.md#L156) (line 156, col 1, score 1)
+- [eidolon-field-math-foundations — L156](eidolon-field-math-foundations.md#L156) (line 156, col 3, score 1)
+- [Local-Only-LLM-Workflow — L192](local-only-llm-workflow.md#L192) (line 192, col 1, score 1)
+- [Local-Only-LLM-Workflow — L192](local-only-llm-workflow.md#L192) (line 192, col 3, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L456](performance-optimized-polyglot-bridge.md#L456) (line 456, col 1, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L456](performance-optimized-polyglot-bridge.md#L456) (line 456, col 3, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L529](polyglot-s-expr-bridge-python-js-lisp-interop.md#L529) (line 529, col 1, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L529](polyglot-s-expr-bridge-python-js-lisp-interop.md#L529) (line 529, col 3, score 1)
+- [eidolon-field-math-foundations — L157](eidolon-field-math-foundations.md#L157) (line 157, col 1, score 1)
+- [eidolon-field-math-foundations — L157](eidolon-field-math-foundations.md#L157) (line 157, col 3, score 1)
+- [Local-Only-LLM-Workflow — L193](local-only-llm-workflow.md#L193) (line 193, col 1, score 1)
+- [Local-Only-LLM-Workflow — L193](local-only-llm-workflow.md#L193) (line 193, col 3, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L457](performance-optimized-polyglot-bridge.md#L457) (line 457, col 1, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L457](performance-optimized-polyglot-bridge.md#L457) (line 457, col 3, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L530](polyglot-s-expr-bridge-python-js-lisp-interop.md#L530) (line 530, col 1, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L530](polyglot-s-expr-bridge-python-js-lisp-interop.md#L530) (line 530, col 3, score 1)
+- [eidolon-field-math-foundations — L158](eidolon-field-math-foundations.md#L158) (line 158, col 1, score 1)
+- [eidolon-field-math-foundations — L158](eidolon-field-math-foundations.md#L158) (line 158, col 3, score 1)
+- [Local-Only-LLM-Workflow — L194](local-only-llm-workflow.md#L194) (line 194, col 1, score 1)
+- [Local-Only-LLM-Workflow — L194](local-only-llm-workflow.md#L194) (line 194, col 3, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L458](performance-optimized-polyglot-bridge.md#L458) (line 458, col 1, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L458](performance-optimized-polyglot-bridge.md#L458) (line 458, col 3, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L531](polyglot-s-expr-bridge-python-js-lisp-interop.md#L531) (line 531, col 1, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L531](polyglot-s-expr-bridge-python-js-lisp-interop.md#L531) (line 531, col 3, score 1)
+- [Agent Tasks: Persistence Migration to DualStore — L147](agent-tasks-persistence-migration-to-dualstore.md#L147) (line 147, col 1, score 0.99)
+- [Agent Tasks: Persistence Migration to DualStore — L147](agent-tasks-persistence-migration-to-dualstore.md#L147) (line 147, col 3, score 0.99)
+- [ecs-offload-workers — L477](ecs-offload-workers.md#L477) (line 477, col 1, score 0.99)
+- [ecs-offload-workers — L477](ecs-offload-workers.md#L477) (line 477, col 3, score 0.99)
+- [ecs-scheduler-and-prefabs — L427](ecs-scheduler-and-prefabs.md#L427) (line 427, col 1, score 0.99)
+- [ecs-scheduler-and-prefabs — L427](ecs-scheduler-and-prefabs.md#L427) (line 427, col 3, score 0.99)
+- [markdown-to-org-transpiler — L314](markdown-to-org-transpiler.md#L314) (line 314, col 1, score 0.99)
+- [markdown-to-org-transpiler — L314](markdown-to-org-transpiler.md#L314) (line 314, col 3, score 0.99)
+- [Performance-Optimized-Polyglot-Bridge — L452](performance-optimized-polyglot-bridge.md#L452) (line 452, col 1, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L452](performance-optimized-polyglot-bridge.md#L452) (line 452, col 3, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L525](polyglot-s-expr-bridge-python-js-lisp-interop.md#L525) (line 525, col 1, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L525](polyglot-s-expr-bridge-python-js-lisp-interop.md#L525) (line 525, col 3, score 1)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L175](ollama-llm-provider-for-pseudo-code-transpiler.md#L175) (line 175, col 1, score 0.99)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L175](ollama-llm-provider-for-pseudo-code-transpiler.md#L175) (line 175, col 3, score 0.99)
+- [universal-intention-code-fabric — L444](universal-intention-code-fabric.md#L444) (line 444, col 1, score 0.99)
+- [universal-intention-code-fabric — L444](universal-intention-code-fabric.md#L444) (line 444, col 3, score 0.99)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
