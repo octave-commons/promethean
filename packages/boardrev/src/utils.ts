@@ -50,14 +50,6 @@ export async function readMaybe(p: string) {
   }
 }
 
-export function slug(s: string) {
-  return s
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
 export function normStatus(s: string) {
   const t = (s || "").toLowerCase();
   if (/backlog/.test(t)) return "backlog";

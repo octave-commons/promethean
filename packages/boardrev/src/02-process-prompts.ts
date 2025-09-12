@@ -1,6 +1,8 @@
+/* eslint-disable */
 import * as path from "path";
 
-import { parseArgs, writeText, readMaybe, slug } from "./utils.js";
+import { slug } from "@promethean/utils";
+import { parseArgs, writeText, readMaybe } from "./utils.js";
 import type { PromptChunk } from "./types.js";
 
 const args = parseArgs({

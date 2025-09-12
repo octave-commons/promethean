@@ -1,9 +1,11 @@
+/* eslint-disable */
 import * as path from "path";
 import { promises as fs } from "fs";
 
 import matter from "gray-matter";
 
-import { parseArgs, writeText, slug } from "./utils.js";
+import { slug } from "@promethean/utils";
+import { parseArgs, writeText } from "./utils.js";
 import type { EvalItem } from "./types.js";
 
 const args = parseArgs({
@@ -13,7 +15,9 @@ const args = parseArgs({
 });
 
 async function main() {
-  const evals: { evals: EvalItem[] } = JSON.parse(await fs.readFile(path.resolve(args["--evals"]!), "utf-8"));
+  const evals: { evals: EvalItem[] } = JSON.parse(
+    await fs.readFile(path.resolve(args["--evals"]!), "utf-8"),
+  );
   await fs.mkdir(path.resolve(args["--outDir"]!), { recursive: true });
   const ts = new Date().toISOString().replace(/[:.]/g, "-");
   const out = path.join(args["--outDir"]!, `board-${ts}.md`);
@@ -96,7 +100,10 @@ async function main() {
   ].join("\n");
 
   await writeText(out, md);
-  await writeText(path.join(args["--outDir"]!, "README.md"), `# Board Reports\n\n- [Latest](${path.basename(out)})\n`);
+  await writeText(
+    path.join(args["--outDir"]!, "README.md"),
+    `# Board Reports\n\n- [Latest](${path.basename(out)})\n`,
+  );
   console.log(`boardrev: wrote report → ${path.relative(process.cwd(), out)}`);
 }
 
