@@ -1,6 +1,6 @@
 import { fileBackedRegistry } from "@promethean/platform/provider-registry.js";
 
-import { makeDeterministicEmbedder, type Embedder } from "../embedder.js";
+import { makeDeterministicEmbedder, assertDim, type Embedder } from "../embedder.js";
 import { makeChromaWrapper } from "../chroma.js";
 
 export interface AttachmentInfo {
@@ -25,6 +25,8 @@ export interface AttachmentEmbeddingConfig {
   imageModelId: string;
   fetch?: typeof fetch;
   providerConfigPath?: string;
+  timeoutMs?: number;             // default 10000
+  allowedHosts?: string[];        // e.g., ['cdn.discordapp.com', 'your-cdn.tld']
 }
 
 async function selectEmbedder(
