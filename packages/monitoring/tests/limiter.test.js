@@ -31,4 +31,13 @@ test("TokenBucket limits and refills with capacity 2", async (t) => {
   t.true(deficit > 0);
   await sleep(1100);
   t.true(bucket.tryConsume());
+
+});
+
+test("TokenBucket drain empties remaining tokens", (t) => {
+  const bucket = new TokenBucket({ capacity: 5, refillPerSec: 1 });
+  t.true(bucket.tryConsume(2));
+  const drained = bucket.drain();
+  t.is(drained, 3);
+  t.false(bucket.tryConsume());
 });
