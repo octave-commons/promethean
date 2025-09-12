@@ -44,6 +44,10 @@ function errToString(e: unknown): string {
 
 const app = fastifyFactory({ logger: false });
 
+await app.register(fastifyRateLimit, {
+  max: 100, // max 100 requests per window
+  timeWindow: 15 * 60 * 1000, // 15 minutes
+});
 // Development events: optional SSE stream for hot-reload signals.
 app.get("/api/dev-events", {
   config: {
@@ -68,10 +72,6 @@ await app.register(fastifyStatic, {
   root: FRONTEND_DIST,
   prefix: "/js",
   decorateReply: false,
-});
-await app.register(fastifyRateLimit, {
-  max: 100, // max 100 requests per window
-  timeWindow: 15 * 60 * 1000, // 15 minutes
 });
 await app.register(swagger, {
   openapi: {
