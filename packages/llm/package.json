@@ -30,6 +30,7 @@
     },
     "module": "dist/index.js",
     "dependencies": {
+        "@promethean/utils": "workspace:*",
         "@huggingface/inference": "^4.7.1",
         "@types/javascript-time-ago": "^2.5.0",
         "@types/js-yaml": "^4.0.9",
