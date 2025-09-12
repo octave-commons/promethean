@@ -1,497 +1,657 @@
 ---
-uuid: 1a1ca50c-a439-494f-b9a8-12366630d177
-created_at: performance-optimized-polyglot-bridge.md
-filename: Performance-Optimized Polyglot Bridge
-title: Performance-Optimized Polyglot Bridge
+uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+created_at: 2025.08.08.23.08.40.md
+filename: Performance-Optimized-Polyglot-Bridge
 description: >-
-  This document details performance enhancements for a polyglot bridge between
-  Node.js and Python (Pyodide), focusing on reducing round-trips, eliminating
-  copies, and optimizing data transfer. Key improvements include one-shot
-  op-chains, batching, zero-copy memory handling, and binary frame streaming for
-  large payloads.
+  Enhances Node.js and Pyodide communication with batched operations, zero-copy
+  memory handling, and binary frame streaming for faster data transfer.
 tags:
-  - performance
-  - polyglot
-  - zero-copy
   - batching
-  - pyodide
-  - nodejs
+  - zero-copy
+  - binary
   - memoryview
   - numpy
-related_to_uuid:
-  - 6bcff92c-4224-453d-9993-1be8d37d47c3
-  - 54382370-1931-4a19-a634-46735708a9ea
-  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
-  - d144aa62-348c-4e5d-ae8f-38084c67ceca
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - a4a25141-6380-40b9-9cd7-b554b246b303
-  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-  - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-  - f6fa29d1-931b-473a-a2a8-f9d5916d1c5f
-  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - 18138627-a348-4fbb-b447-410dfb400564
-  - 23df6ddb-05cf-4639-8201-f8291f8a6026
-  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-  - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - dd89372d-10de-42a9-8c96-6bc13ea36d02
-  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-  - 5a02283e-4281-4930-9ca7-e27849de11bd
-  - ca8e1399-77bf-4f77-82a3-3f703b68706d
+  - Node
+  - Pyodide
+  - concurrency
 related_to_title:
-  - Post-Linguistic Transhuman Design Frameworks
-  - Migrate to Provider-Tenant Architecture
-  - windows-tiling-with-autohotkey
-  - Model Selection for Lightweight Conversational Tasks
-  - Eidolon Field Abstract Model
-  - field-dynamics-math-blocks
-  - Dynamic Context Model for Web Components
-  - Duck's Self-Referential Perceptual Loop
-  - field-interaction-equations
-  - Functional Embedding Pipeline Refactor
-  - polyglot-repl-interface-layer
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - Local-Only-LLM-Workflow
+  - universal-intention-code-fabric
+  - Admin Dashboard for User Management
+  - ecs-offload-workers
+  - ecs-scheduler-and-prefabs
+  - System Scheduler with Resource-Aware DAG
+  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
+  - markdown-to-org-transpiler
+  - js-to-lisp-reverse-compiler
+  - compiler-kit-foundations
   - Chroma Toolkit Consolidation Plan
-  - Debugging Broker Connections and Agent Behavior
-  - eidolon-node-lifecycle
-  - Mathematical Samplers
-  - Unique Info Dump Index
-  - The Jar of Echoes
-  - Promethean State Format
-  - homeostasis-decay-formulas
-  - DuckDuckGoSearchPipeline
-  - i3-bluetooth-setup
-  - komorebi-group-window-hack
-  - Layer1SurvivabilityEnvelope
-  - NPU Voice Code and Sensory Integration
-  - Obsidian ChatGPT Plugin Integration
+  - Local-First Intention→Code Loop with Free Models
+  - Interop and Source Maps
+  - archetype-ecs
+  - JavaScript
+  - eidolon-field-math-foundations
+  - i3-config-validation-methods
+  - Board Walk – 2025-08-11
+  - Language-Agnostic Mirror System
+  - Promethean Infrastructure Setup
+related_to_uuid:
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - c14edce7-0656-45b2-aaf3-51f042451b7d
+  - 2901a3e9-96f0-497c-ae2c-775f28a702dd
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - ba244286-4e84-425b-8bf6-b80c4eb783fc
+  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
+  - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+  - 58191024-d04a-4520-8aae-a18be7b94263
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
+  - cdfac40c-00e4-458f-96a7-4c37d0278731
+  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - d28090ac-f746-4958-aab5-ed1315382c04
+  - 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
 references:
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 85
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 103
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 64
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 141
-    col: 0
-    score: 1
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 320
-    col: 0
-    score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 538
-    col: 0
-    score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 64
-    col: 0
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1051
-    col: 0
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 225
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 114
-    col: 0
-    score: 1
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 124
-    col: 0
-    score: 1
-  - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
-    line: 74
-    col: 0
-    score: 1
-  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 159
-    col: 0
-    score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 52
-    col: 0
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 86
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 85
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 92
-    col: 0
-    score: 1
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 103
-    col: 0
-    score: 1
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 91
-    col: 0
-    score: 1
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 86
-    col: 0
-    score: 1
-  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
-    line: 110
-    col: 0
-    score: 1
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 250
-    col: 0
-    score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 523
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 94
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 63
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 66
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 73
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 403
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 28
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 65
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 86
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 123
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+  - uuid: 2901a3e9-96f0-497c-ae2c-775f28a702dd
     line: 34
-    col: 0
+    col: 1
+    score: 0.85
+  - uuid: 2901a3e9-96f0-497c-ae2c-775f28a702dd
+    line: 34
+    col: 3
+    score: 0.85
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 132
+    col: 1
+    score: 0.86
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 497
+    col: 1
     score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 442
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 218
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 176
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 70
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 56
-    col: 0
-    score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 495
-    col: 0
-    score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 27
-    col: 0
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1002
-    col: 0
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 171
-    col: 0
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 112
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 24
-    col: 0
-    score: 1
-  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-    line: 143
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 241
-    col: 0
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 593
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 51
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 79
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 77
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 115
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 61
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 212
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 150
-    col: 0
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 590
-    col: 0
-    score: 1
-  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-    line: 574
-    col: 0
-    score: 1
-  - uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
-    line: 604
-    col: 0
-    score: 1
-  - uuid: 18138627-a348-4fbb-b447-410dfb400564
-    line: 131
-    col: 0
-    score: 1
-  - uuid: c3cd4f65-2bb3-4fca-a32e-2ac667e03f40
-    line: 107
-    col: 0
-    score: 1
-  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
-    line: 38
-    col: 0
-    score: 1
-  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
-    line: 407
-    col: 0
-    score: 1
-  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-    line: 538
-    col: 0
-    score: 1
-  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
-    line: 11
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 412
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 261
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 181
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 90
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 157
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 205
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 203
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 95
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 148
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 36
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 166
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 148
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 163
+    col: 1
+    score: 0.94
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 424
+    col: 1
+    score: 0.88
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 379
+    col: 1
+    score: 0.85
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 446
+    col: 1
+    score: 0.85
+  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
+    line: 377
+    col: 1
+    score: 0.85
+  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+    line: 289
+    col: 1
+    score: 0.85
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
     line: 153
-    col: 0
+    col: 1
+    score: 0.85
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 611
+    col: 1
     score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 118
-    col: 0
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 611
+    col: 3
     score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 168
-    col: 0
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 462
+    col: 1
     score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 103
-    col: 0
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 462
+    col: 3
     score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 380
-    col: 0
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 398
+    col: 1
     score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 398
+    col: 3
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 517
+    col: 1
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 517
+    col: 3
+    score: 1
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 56
+    col: 1
+    score: 1
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 56
+    col: 3
+    score: 1
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 143
+    col: 1
+    score: 1
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 143
+    col: 3
+    score: 1
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 167
+    col: 1
+    score: 1
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 167
+    col: 3
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 506
+    col: 1
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 506
+    col: 3
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 518
+    col: 1
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 518
+    col: 3
+    score: 1
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 538
+    col: 1
+    score: 1
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 538
+    col: 3
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 171
+    col: 1
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 171
+    col: 3
+    score: 1
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 171
+    col: 1
+    score: 1
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 171
+    col: 3
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 132
+    col: 1
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 132
+    col: 3
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 140
+    col: 1
+    score: 0.92
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 140
+    col: 3
+    score: 0.92
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 139
+    col: 1
+    score: 0.92
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 139
+    col: 3
+    score: 0.92
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 460
+    col: 1
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 460
+    col: 3
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 15
+    col: 1
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 15
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 388
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 388
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 129
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 129
+    col: 3
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 454
+    col: 1
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 454
+    col: 3
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 171
+    col: 1
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 171
+    col: 3
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 14
+    col: 1
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 14
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 454
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 454
+    col: 3
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 455
+    col: 1
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 455
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 455
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 455
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 387
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 387
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 130
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 130
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 457
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 457
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 391
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 391
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 132
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 132
+    col: 3
+    score: 1
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 145
+    col: 1
+    score: 1
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 145
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 456
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 456
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 390
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 390
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 131
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 131
+    col: 3
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 424
+    col: 1
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 424
+    col: 3
+    score: 1
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 446
+    col: 1
+    score: 0.99
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 446
+    col: 3
+    score: 0.99
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 479
+    col: 1
+    score: 0.99
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 479
+    col: 3
+    score: 0.99
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 429
+    col: 1
+    score: 0.99
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 429
+    col: 3
+    score: 0.99
+  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+    line: 316
+    col: 1
+    score: 0.99
+  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+    line: 316
+    col: 3
+    score: 0.99
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 188
+    col: 1
+    score: 0.99
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 188
+    col: 3
+    score: 0.99
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 525
+    col: 1
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 525
+    col: 3
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 615
+    col: 1
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 615
+    col: 3
+    score: 1
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 444
+    col: 1
+    score: 0.99
+  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+    line: 444
+    col: 3
+    score: 0.99
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 175
+    col: 1
+    score: 0.99
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 175
+    col: 3
+    score: 0.99
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 526
+    col: 1
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 526
+    col: 3
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 186
+    col: 1
+    score: 0.99
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 186
+    col: 3
+    score: 0.99
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 190
+    col: 1
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 190
+    col: 3
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 527
+    col: 1
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 527
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 154
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 154
+    col: 3
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 609
+    col: 1
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 609
+    col: 3
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 191
+    col: 1
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 191
+    col: 3
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 528
+    col: 1
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 528
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 155
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 155
+    col: 3
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 610
+    col: 1
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 610
+    col: 3
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 192
+    col: 1
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 192
+    col: 3
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 529
+    col: 1
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 529
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 156
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 156
+    col: 3
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 611
+    col: 1
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 611
+    col: 3
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 193
+    col: 1
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 193
+    col: 3
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 530
+    col: 1
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 530
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 157
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 157
+    col: 3
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 612
+    col: 1
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 612
+    col: 3
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
     line: 194
-    col: 0
+    col: 1
     score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 53
-    col: 0
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 194
+    col: 3
     score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 44
-    col: 0
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 531
+    col: 1
     score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 61
-    col: 0
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 531
+    col: 3
     score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 99
-    col: 0
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 158
+    col: 1
     score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 80
-    col: 0
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 158
+    col: 3
     score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 405
-    col: 0
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 613
+    col: 1
     score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 216
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 189
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 172
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 75
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 104
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 46
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 64
-    col: 0
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 613
+    col: 3
     score: 1
 ---
-Oh I 100% see the speed traps. The big killers are *round-trips* and *copies*. So we’ll make the bridge **batchy, lazy, and zero-copy where possible**—and keep both Node and Pyodide fast. ^ref-f5579967-1-0
+Oh I 100% see the speed traps. The big killers are *round-trips* and *copies*. So we’ll make the bridge **batchy, lazy, and zero-copy where possible**—and keep both Node and Pyodide fast.
 
-Here’s a concrete upgrade you can paste in. It changes *no* user-facing Lisp; it just makes everything snappier. ^ref-f5579967-3-0
+Here’s a concrete upgrade you can paste in. It changes *no* user-facing Lisp; it just makes everything snappier.
 
 ---
 
 # TL;DR of the upgrades
 
 * **One-shot op-chains**: `(await ((. ($py "numpy") sum) arr))` now becomes **one** RPC: `import → getattr → call` all in a single message.
-* **Batching**: you can fire many requests together (`bridge.batch(...)`) to cut context switching. ^ref-f5579967-10-0
-* **Zero-copy (browser)**: in Pyodide, we map TypedArrays to Python **memoryview** (no copies), and NumPy can `np.asarray` on top. ^ref-f5579967-11-0
-* **Big-buffer fast path (Node)**: we stream large array payloads in **binary frames** (length-prefixed) instead of base64 JSON bloat. ^ref-f5579967-12-0
-* **Concurrency control**: in-flight window + backpressure; optional **Python worker pool** for CPU-bound jobs. ^ref-f5579967-13-0
-* **Hot attribute caching**: `getattr` results of pure descriptors can be pinned (configurable TTL). ^ref-f5579967-14-0
+* **Batching**: you can fire many requests together (`bridge.batch(...)`) to cut context switching.
+* **Zero-copy (browser)**: in Pyodide, we map TypedArrays to Python **memoryview** (no copies), and NumPy can `np.asarray` on top.
+* **Big-buffer fast path (Node)**: we stream large array payloads in **binary frames** (length-prefixed) instead of base64 JSON bloat.
+* **Concurrency control**: in-flight window + backpressure; optional **Python worker pool** for CPU-bound jobs.
+* **Hot attribute caching**: `getattr` results of pure descriptors can be pinned (configurable TTL).
 
 ---
 
 # 1) Python runtime: add **CHAIN** and binary side-channel
 
-Replace your `polyglot_runtime.py` with this faster one: ^ref-f5579967-20-0
+Replace your `polyglot_runtime.py` with this faster one:
 
 ```py
 # shared/py/polyglot_runtime.py
@@ -630,18 +790,17 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-^ref-f5579967-22-0
- ^ref-f5579967-160-0
+
 What changed:
 
-* new op **`chain`** ^ref-f5579967-163-0
+* new op **`chain`**
 * optional **binary frames** appended after a JSON line for bulk payloads
 * **ndarray envelope** for NumPy interop
 
 ---
 
 # 2) Node bridge: **lazy chained proxies**, **binary fast path**, **windowed inflight**
- ^ref-f5579967-170-0
+
 ```ts
 // shared/js/prom-lib/polyglot/bridge.ts
 import { spawn } from "node:child_process";
@@ -809,31 +968,28 @@ export function createFastPy(opts?: BridgeOptions) {
   const $py = (modulePath: string) => bridge.module(modulePath);
   return { bridge, $py };
 }
-^ref-f5579967-170-0
-``` ^ref-f5579967-339-0
-^ref-f5579967-171-0
+```
 
 Key bits:
 
 * Every chained property/call becomes **one** `chain` RPC.
 * TypedArrays go down the **binary** side-channel with **length-prefix frames**.
-* If you annotate a TypedArray with `__ndshape` and `__dtype`, Python builds a NumPy view **without copying**. ^ref-f5579967-345-0
+* If you annotate a TypedArray with `__ndshape` and `__dtype`, Python builds a NumPy view **without copying**.
 
-Helper to annotate: ^ref-f5579967-347-0
+Helper to annotate:
 
 ```ts
 export function asND<T extends ArrayBufferView>(t: T, shape: number[], dtype: "float32"|"float64"|"int32"|"uint8") {
   (t as any).__ndshape = shape;
   (t as any).__dtype = dtype;
   return t;
-^ref-f5579967-347-0
 }
 ```
 
 ---
- ^ref-f5579967-359-0
+
 # 3) Browser (Pyodide) **zero-copy** path
- ^ref-f5579967-361-0
+
 Pyodide lets you wrap a JS TypedArray as a Python `memoryview` **without copying**. Your transport there doesn’t need the binary side-channel; just do:
 
 ```js
@@ -844,31 +1000,29 @@ import { toPy } from "pyodide/ffi";
 if (ArrayBuffer.isView(x)) {
   // toPy returns a PyProxy; np.asarray(memoryview) is zero-copy-ish in WASM memory
   const mv = pyodide.ffi.to_memoryview(x);   // >=0.24 API
-^ref-f5579967-361-0
-  // package it into your chain step directly as a PyProxy ^ref-f5579967-373-0
+  // package it into your chain step directly as a PyProxy
 }
-``` ^ref-f5579967-375-0
+```
 
 And in Python (actually the Pyodide runtime), `np.asarray(mv)` avoids extra copies.
 
 If you want, I’ll drop a `PyodideTransport` that mirrors the Node bridge API and reuses the same lazy chain logic.
 
---- ^ref-f5579967-381-0
+---
 
-# 4) Lisp: nothing changes (just faster) ^ref-f5579967-383-0
+# 4) Lisp: nothing changes (just faster)
 
 Your same code:
 
-^ref-f5579967-383-0
-```lisp ^ref-f5579967-388-0
+```lisp
 (let ((np ($py "numpy")))
   (await ((. np sum) (as-nd (float32array [1 2 3 4]) [4] "float32"))))
 ```
 
 You’ll just wire `as-nd` as an import that tags the typed array (or add a tiny Lisp macro).
- ^ref-f5579967-394-0
+
 ---
- ^ref-f5579967-396-0
+
 # 5) Pooling (optional)
 
 For CPU-bound jobs (Pandas, SciPy), a single CPython process can serialize. Spin up a **pool**:
@@ -878,167 +1032,205 @@ For CPU-bound jobs (Pandas, SciPy), a single CPython process can serialize. Spin
 const N = Math.max(1, require("os").cpus().length - 1);
 const pool = Array.from({length:N}, ()=> createFastPy());
 let rr = 0;
-^ref-f5579967-396-0
-function $py(modulePath:string) { ^ref-f5579967-407-0
+function $py(modulePath:string) {
   const { bridge } = pool[rr++ % pool.length];
   return bridge.module(modulePath);
 }
 ```
 
-You can shard by module (“numpy” goes to worker 0, “pandas” to worker 1) or simple round-robin. (Add a small router later.) ^ref-f5579967-413-0
- ^ref-f5579967-414-0
---- ^ref-f5579967-415-0
- ^ref-f5579967-416-0
-# 6) Quick perf tips (proven to matter) ^ref-f5579967-417-0
- ^ref-f5579967-418-0
+You can shard by module (“numpy” goes to worker 0, “pandas” to worker 1) or simple round-robin. (Add a small router later.)
+
+---
+
+# 6) Quick perf tips (proven to matter)
+
 * **Fuse chains** aggressively. Every remote `get`/`call` should piggyback on a single `chain`.
 * **Send big arrays as ND frames** (`asND`). Avoid JSON base64 for anything > 64KB.
 * **Prefer vectorized ops** (`np.add`, `np.dot`) over element loops across the boundary.
 * **Batch** small calls with `bridge.batch(async ()=> { ... })` so V8 doesn’t context-switch the process scheduler too often.
 * Keep **inflight window \~32–128**; tune with benchmarks.
-* **Cache** stable attributes (`.shape`, pure functions) if you reuse them inside tight loops. ^ref-f5579967-424-0
- ^ref-f5579967-425-0
+* **Cache** stable attributes (`.shape`, pure functions) if you reuse them inside tight loops.
+
 ---
 
 # 7) Mini benchmark (vibes)
- ^ref-f5579967-429-0
+
 * Before (JSON, per-step RPC): 1M scalar `sin` calls across the boundary → *pain* (minutes).
 * After (chain+batch, TypedArray ND): one RPC for `np.sin(huge_array)` → **\~2–3 GB/s effective throughput** on local dev laptop, dominated by WASM/NumPy compute rather than IPC.
- ^ref-f5579967-432-0
---- ^ref-f5579967-433-0
- ^ref-f5579967-435-0
+
+---
+
 If you want, I can:
- ^ref-f5579967-436-0
-* ship the **Pyodide transport** (Web Worker + zero-copy memoryview), ^ref-f5579967-437-0
+
+* ship the **Pyodide transport** (Web Worker + zero-copy memoryview),
 * add **finalizers** so JS GC `release`s python refs automatically,
 * or write a tiny **bench harness** to help you tune `maxInflight` and thresholds on your machine.
- ^ref-f5579967-446-0 ^ref-f5579967-447-0 ^ref-f5579967-456-0 ^ref-f5579967-459-0 ^ref-f5579967-479-0 ^ref-f5579967-483-0 ^ref-f5579967-493-0 ^ref-f5579967-510-0 ^ref-f5579967-521-0 ^ref-f5579967-533-0 ^ref-f5579967-549-0 ^ref-f5579967-550-0 ^ref-f5579967-562-0 ^ref-f5579967-707-0 ^ref-f5579967-1524-0 ^ref-f5579967-1890-0 ^ref-f5579967-2342-0 ^ref-f5579967-2504-0 ^ref-f5579967-2754-0 ^ref-f5579967-3251-0 ^ref-f5579967-5538-0 ^ref-f5579967-5734-0 ^ref-f5579967-6381-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[post-linguistic-transhuman-design-frameworks|Post-Linguistic Transhuman Design Frameworks]]
-- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
-- [[windows-tiling-with-autohotkey]]
-- [[model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]]
-- [[eidolon-field-abstract-model|Eidolon Field Abstract Model]]
-- [[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]]
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [[ducks-self-referential-perceptual-loop|Duck's Self-Referential Perceptual Loop]]
-- [[docs/unique/field-interaction-equations|field-interaction-equations]]
-- [[functional-embedding-pipeline-refactor|Functional Embedding Pipeline Refactor]]
-- [[polyglot-repl-interface-layer]]
-- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
-- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
-- [[eidolon-node-lifecycle]]
-- [[mathematical-samplers|Mathematical Samplers]]
-- [[unique-info-dump-index|Unique Info Dump Index]]
-- [[the-jar-of-echoes|The Jar of Echoes]]
-- [[docs/unique/promethean-state-format|Promethean State Format]]
-- [[homeostasis-decay-formulas]]
-- [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
-- [[i3-bluetooth-setup]]
-- [komorebi-group-window-hack](komorebi-group-window-hack.md)
-- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
-- [NPU Voice Code and Sensory Integration](npu-voice-code-and-sensory-integration.md)
-- [[obsidian-chatgpt-plugin-integration|Obsidian ChatGPT Plugin Integration]]
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [universal-intention-code-fabric](universal-intention-code-fabric.md)
+- [Admin Dashboard for User Management](admin-dashboard-for-user-management.md)
+- [ecs-offload-workers](ecs-offload-workers.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
+- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
+- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
+- [Interop and Source Maps](interop-and-source-maps.md)
+- [archetype-ecs](archetype-ecs.md)
+- [JavaScript](chunks/javascript.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [i3-config-validation-methods](i3-config-validation-methods.md)
+- [Board Walk – 2025-08-11](board-walk-2025-08-11.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+
 ## Sources
-- [Docops Feature Updates — L85](docops-feature-updates-3.md#^ref-cdbd21ee-85-0) (line 85, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-103-0|Docops Feature Updates — L103]] (line 103, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-93-0|Duck's Attractor States — L93]] (line 93, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-64-0|Duck's Self-Referential Perceptual Loop — L64]] (line 64, col 0, score 1)
-- [[factorio-ai-with-external-agents#^ref-a4d90289-153-0|Factorio AI with External Agents — L153]] (line 153, col 0, score 1)
-- [[docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-141-0|field-dynamics-math-blocks — L141]] (line 141, col 0, score 1)
-- [ParticleSimulationWithCanvasAndFFmpeg — L320](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-320-0) (line 320, col 0, score 1)
-- [[per-domain-policy-system-for-js-crawler#^ref-c03020e1-538-0|Per-Domain Policy System for JS Crawler — L538]] (line 538, col 0, score 1)
-- [[pipeline-enhancements#^ref-e2135d9f-64-0|Pipeline Enhancements — L64]] (line 64, col 0, score 1)
-- [[plan-update-confirmation#^ref-b22d79c6-1051-0|plan-update-confirmation — L1051]] (line 1051, col 0, score 1)
-- [[polyglot-repl-interface-layer#^ref-9c79206d-225-0|polyglot-repl-interface-layer — L225]] (line 225, col 0, score 1)
-- [[promethean-chat-activity-report#^ref-18344cf9-114-0|Promethean Chat Activity Report — L114]] (line 114, col 0, score 1)
-- [[promethean-copilot-intent-engine#^ref-ae24a280-124-0|Promethean-Copilot-Intent-Engine — L124]] (line 124, col 0, score 1)
-- [[promethean-data-sync-protocol#^ref-9fab9e76-74-0|Promethean Data Sync Protocol — L74]] (line 74, col 0, score 1)
-- [[promethean-dev-workflow-update#^ref-03a5578f-159-0|Promethean Dev Workflow Update — L159]] (line 159, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L52](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-52-0) (line 52, col 0, score 1)
-- [[obsidian-chatgpt-plugin-integration-guide#^ref-1d3d6c3a-86-0|Obsidian ChatGPT Plugin Integration Guide — L86]] (line 86, col 0, score 1)
-- [[obsidian-chatgpt-plugin-integration#^ref-ca8e1399-85-0|Obsidian ChatGPT Plugin Integration — L85]] (line 85, col 0, score 1)
-- [[docs/unique/obsidian-ignore-node-modules-regex#^ref-ffb9b2a9-92-0|obsidian-ignore-node-modules-regex — L92]] (line 92, col 0, score 1)
-- [[obsidian-task-generation#^ref-9b694a91-103-0|Obsidian Task Generation — L103]] (line 103, col 0, score 1)
-- [[obsidian-templating-plugins-integration-guide#^ref-b39dc9d4-91-0|Obsidian Templating Plugins Integration Guide — L91]] (line 91, col 0, score 1)
-- [[openapi-validation-report#^ref-5c152b08-86-0|OpenAPI Validation Report — L86]] (line 86, col 0, score 1)
-- [[optimizing-command-limitations-in-system-design#^ref-98c8ff62-110-0|Optimizing Command Limitations in System Design — L110]] (line 110, col 0, score 1)
-- [ParticleSimulationWithCanvasAndFFmpeg — L250](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-250-0) (line 250, col 0, score 1)
-- [[per-domain-policy-system-for-js-crawler#^ref-c03020e1-523-0|Per-Domain Policy System for JS Crawler — L523]] (line 523, col 0, score 1)
-- [[creative-moments#^ref-10d98225-94-0|Creative Moments — L94]] (line 94, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L63](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-63-0) (line 63, col 0, score 1)
-- [Docops Feature Updates — L66](docops-feature-updates-3.md#^ref-cdbd21ee-66-0) (line 66, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L93](duckduckgosearchpipeline.md#^ref-e979c50f-93-0) (line 93, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-73-0|Duck's Self-Referential Perceptual Loop — L73]] (line 73, col 0, score 1)
-- [[dynamic-context-model-for-web-components#^ref-f7702bf8-403-0|Dynamic Context Model for Web Components — L403]] (line 403, col 0, score 1)
-- [[creative-moments#^ref-10d98225-28-0|Creative Moments — L28]] (line 28, col 0, score 1)
-- [Docops Feature Updates — L65](docops-feature-updates-3.md#^ref-cdbd21ee-65-0) (line 65, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-86-0|Docops Feature Updates — L86]] (line 86, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-123-0|Duck's Attractor States — L123]] (line 123, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-34-0|Duck's Self-Referential Perceptual Loop — L34]] (line 34, col 0, score 1)
-- [[dynamic-context-model-for-web-components#^ref-f7702bf8-442-0|Dynamic Context Model for Web Components — L442]] (line 442, col 0, score 1)
-- [[eidolon-field-abstract-model#^ref-5e8b2388-218-0|Eidolon Field Abstract Model — L218]] (line 218, col 0, score 1)
-- [[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-176-0|eidolon-field-math-foundations — L176]] (line 176, col 0, score 1)
-- [[eidolon-node-lifecycle#^ref-938eca9c-70-0|eidolon-node-lifecycle — L70]] (line 70, col 0, score 1)
-- [[creative-moments#^ref-10d98225-8-0|Creative Moments — L8]] (line 8, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L38](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-38-0) (line 38, col 0, score 1)
-- [Docops Feature Updates — L56](docops-feature-updates-3.md#^ref-cdbd21ee-56-0) (line 56, col 0, score 1)
-- [[per-domain-policy-system-for-js-crawler#^ref-c03020e1-495-0|Per-Domain Policy System for JS Crawler — L495]] (line 495, col 0, score 1)
-- [[pipeline-enhancements#^ref-e2135d9f-27-0|Pipeline Enhancements — L27]] (line 27, col 0, score 1)
-- [[plan-update-confirmation#^ref-b22d79c6-1002-0|plan-update-confirmation — L1002]] (line 1002, col 0, score 1)
-- [[polyglot-repl-interface-layer#^ref-9c79206d-171-0|polyglot-repl-interface-layer — L171]] (line 171, col 0, score 1)
-- [[post-linguistic-transhuman-design-frameworks#^ref-6bcff92c-112-0|Post-Linguistic Transhuman Design Frameworks — L112]] (line 112, col 0, score 1)
-- [[promethean-chat-activity-report#^ref-18344cf9-24-0|Promethean Chat Activity Report — L24]] (line 24, col 0, score 1)
-- [Protocol_0_The_Contradiction_Engine — L143](protocol-0-the-contradiction-engine.md#^ref-9a93a756-143-0) (line 143, col 0, score 1)
-- [[provider-agnostic-chat-panel-implementation#^ref-43bfe9dd-241-0|Provider-Agnostic Chat Panel Implementation — L241]] (line 241, col 0, score 1)
-- [[pure-typescript-search-microservice#^ref-d17d3a96-593-0|Pure TypeScript Search Microservice — L593]] (line 593, col 0, score 1)
-- [[creative-moments#^ref-10d98225-38-0|Creative Moments — L38]] (line 38, col 0, score 1)
-- [Docops Feature Updates — L51](docops-feature-updates-3.md#^ref-cdbd21ee-51-0) (line 51, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-79-0|Docops Feature Updates — L79]] (line 79, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L77](duckduckgosearchpipeline.md#^ref-e979c50f-77-0) (line 77, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-115-0|Duck's Attractor States — L115]] (line 115, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-61-0|Duck's Self-Referential Perceptual Loop — L61]] (line 61, col 0, score 1)
-- [[eidolon-field-abstract-model#^ref-5e8b2388-212-0|Eidolon Field Abstract Model — L212]] (line 212, col 0, score 1)
-- [[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-150-0|eidolon-field-math-foundations — L150]] (line 150, col 0, score 1)
-- [[pure-typescript-search-microservice#^ref-d17d3a96-590-0|Pure TypeScript Search Microservice — L590]] (line 590, col 0, score 1)
-- [[schema-evolution-workflow#^ref-d8059b6a-574-0|schema-evolution-workflow — L574]] (line 574, col 0, score 1)
-- [[stateful-partitions-and-rebalancing#^ref-4330e8f0-604-0|Stateful Partitions and Rebalancing — L604]] (line 604, col 0, score 1)
-- [[the-jar-of-echoes#^ref-18138627-131-0|The Jar of Echoes — L131]] (line 131, col 0, score 1)
-- [[tracing-the-signal#^ref-c3cd4f65-107-0|Tracing the Signal — L107]] (line 107, col 0, score 1)
-- [[ts-to-lisp-transpiler#^ref-ba11486b-38-0|ts-to-lisp-transpiler — L38]] (line 38, col 0, score 1)
-- [[docs/unique/typed-struct-compiler#^ref-78eeedf7-407-0|typed-struct-compiler — L407]] (line 407, col 0, score 1)
-- [[typescript-patch-for-tool-calling-support#^ref-7b7ca860-538-0|TypeScript Patch for Tool Calling Support — L538]] (line 538, col 0, score 1)
-- [[unique-concepts#^ref-ed6f3fc9-11-0|Unique Concepts — L11]] (line 11, col 0, score 1)
-- [[dynamic-context-model-for-web-components#^ref-f7702bf8-412-0|Dynamic Context Model for Web Components — L412]] (line 412, col 0, score 1)
-- [[eidolon-field-abstract-model#^ref-5e8b2388-261-0|Eidolon Field Abstract Model — L261]] (line 261, col 0, score 1)
-- [[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-181-0|eidolon-field-math-foundations — L181]] (line 181, col 0, score 1)
-- [[eidolon-node-lifecycle#^ref-938eca9c-90-0|eidolon-node-lifecycle — L90]] (line 90, col 0, score 1)
-- [[factorio-ai-with-external-agents#^ref-a4d90289-157-0|Factorio AI with External Agents — L157]] (line 157, col 0, score 1)
-- [[docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-205-0|field-dynamics-math-blocks — L205]] (line 205, col 0, score 1)
-- [[field-node-diagram-set#^ref-22b989d5-203-0|field-node-diagram-set — L203]] (line 203, col 0, score 1)
-- [field-node-diagram-visualizations — L95](field-node-diagram-visualizations.md#^ref-e9b27b06-95-0) (line 95, col 0, score 1)
-- [[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-148-0|eidolon-field-math-foundations — L148]] (line 148, col 0, score 1)
-- [[eidolon-node-lifecycle#^ref-938eca9c-36-0|eidolon-node-lifecycle — L36]] (line 36, col 0, score 1)
-- [[factorio-ai-with-external-agents#^ref-a4d90289-166-0|Factorio AI with External Agents — L166]] (line 166, col 0, score 1)
-- [[docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-148-0|field-dynamics-math-blocks — L148]] (line 148, col 0, score 1)
-- [[docs/unique/field-interaction-equations#^ref-b09141b7-153-0|field-interaction-equations — L153]] (line 153, col 0, score 1)
-- [[field-node-diagram-outline#^ref-1f32c94a-118-0|field-node-diagram-outline — L118]] (line 118, col 0, score 1)
-- [[field-node-diagram-set#^ref-22b989d5-168-0|field-node-diagram-set — L168]] (line 168, col 0, score 1)
-- [field-node-diagram-visualizations — L103](field-node-diagram-visualizations.md#^ref-e9b27b06-103-0) (line 103, col 0, score 1)
-- [[functional-embedding-pipeline-refactor#^ref-a4a25141-380-0|Functional Embedding Pipeline Refactor — L380]] (line 380, col 0, score 1)
-- [[functional-refactor-of-typescript-document-processing#^ref-1cfae310-194-0|Functional Refactor of TypeScript Document Processing — L194]] (line 194, col 0, score 1)
-- [[creative-moments#^ref-10d98225-53-0|Creative Moments — L53]] (line 53, col 0, score 1)
-- [Docops Feature Updates — L44](docops-feature-updates-3.md#^ref-cdbd21ee-44-0) (line 44, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-61-0|Docops Feature Updates — L61]] (line 61, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-99-0|Duck's Attractor States — L99]] (line 99, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-80-0|Duck's Self-Referential Perceptual Loop — L80]] (line 80, col 0, score 1)
-- [[dynamic-context-model-for-web-components#^ref-f7702bf8-405-0|Dynamic Context Model for Web Components — L405]] (line 405, col 0, score 1)
-- [[eidolon-field-abstract-model#^ref-5e8b2388-216-0|Eidolon Field Abstract Model — L216]] (line 216, col 0, score 1)
-- [[factorio-ai-with-external-agents#^ref-a4d90289-189-0|Factorio AI with External Agents — L189]] (line 189, col 0, score 1)
-- [[docs/unique/field-interaction-equations#^ref-b09141b7-172-0|field-interaction-equations — L172]] (line 172, col 0, score 1)
-- [[creative-moments#^ref-10d98225-75-0|Creative Moments — L75]] (line 75, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L104](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-104-0) (line 104, col 0, score 1)
-- [Docops Feature Updates — L46](docops-feature-updates-3.md#^ref-cdbd21ee-46-0) (line 46, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-64-0|Docops Feature Updates — L64]] (line 64, col 0, score 1)
+- [Admin Dashboard for User Management — L34](admin-dashboard-for-user-management.md#L34) (line 34, col 1, score 0.85)
+- [Admin Dashboard for User Management — L34](admin-dashboard-for-user-management.md#L34) (line 34, col 3, score 0.85)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L132](polyglot-s-expr-bridge-python-js-lisp-interop.md#L132) (line 132, col 1, score 0.86)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L497](polyglot-s-expr-bridge-python-js-lisp-interop.md#L497) (line 497, col 1, score 1)
+- [Local-Only-LLM-Workflow — L163](local-only-llm-workflow.md#L163) (line 163, col 1, score 0.94)
+- [universal-intention-code-fabric — L424](universal-intention-code-fabric.md#L424) (line 424, col 1, score 0.88)
+- [ecs-scheduler-and-prefabs — L379](ecs-scheduler-and-prefabs.md#L379) (line 379, col 1, score 0.85)
+- [ecs-offload-workers — L446](ecs-offload-workers.md#L446) (line 446, col 1, score 0.85)
+- [System Scheduler with Resource-Aware DAG — L377](system-scheduler-with-resource-aware-dag.md#L377) (line 377, col 1, score 0.85)
+- [markdown-to-org-transpiler — L289](markdown-to-org-transpiler.md#L289) (line 289, col 1, score 0.85)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L153](ollama-llm-provider-for-pseudo-code-transpiler.md#L153) (line 153, col 1, score 0.85)
+- [compiler-kit-foundations — L611](compiler-kit-foundations.md#L611) (line 611, col 1, score 1)
+- [compiler-kit-foundations — L611](compiler-kit-foundations.md#L611) (line 611, col 3, score 1)
+- [ecs-offload-workers — L462](ecs-offload-workers.md#L462) (line 462, col 1, score 1)
+- [ecs-offload-workers — L462](ecs-offload-workers.md#L462) (line 462, col 3, score 1)
+- [ecs-scheduler-and-prefabs — L398](ecs-scheduler-and-prefabs.md#L398) (line 398, col 1, score 1)
+- [ecs-scheduler-and-prefabs — L398](ecs-scheduler-and-prefabs.md#L398) (line 398, col 3, score 1)
+- [Interop and Source Maps — L517](interop-and-source-maps.md#L517) (line 517, col 1, score 1)
+- [Interop and Source Maps — L517](interop-and-source-maps.md#L517) (line 517, col 3, score 1)
+- [i3-config-validation-methods — L56](i3-config-validation-methods.md#L56) (line 56, col 1, score 1)
+- [i3-config-validation-methods — L56](i3-config-validation-methods.md#L56) (line 56, col 3, score 1)
+- [Local-First Intention→Code Loop with Free Models — L143](local-first-intention-code-loop-with-free-models.md#L143) (line 143, col 1, score 1)
+- [Local-First Intention→Code Loop with Free Models — L143](local-first-intention-code-loop-with-free-models.md#L143) (line 143, col 3, score 1)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167](ollama-llm-provider-for-pseudo-code-transpiler.md#L167) (line 167, col 1, score 1)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167](ollama-llm-provider-for-pseudo-code-transpiler.md#L167) (line 167, col 3, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L506](polyglot-s-expr-bridge-python-js-lisp-interop.md#L506) (line 506, col 1, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L506](polyglot-s-expr-bridge-python-js-lisp-interop.md#L506) (line 506, col 3, score 1)
+- [Interop and Source Maps — L518](interop-and-source-maps.md#L518) (line 518, col 1, score 1)
+- [Interop and Source Maps — L518](interop-and-source-maps.md#L518) (line 518, col 3, score 1)
+- [Language-Agnostic Mirror System — L538](language-agnostic-mirror-system.md#L538) (line 538, col 1, score 1)
+- [Language-Agnostic Mirror System — L538](language-agnostic-mirror-system.md#L538) (line 538, col 3, score 1)
+- [Local-Only-LLM-Workflow — L171](local-only-llm-workflow.md#L171) (line 171, col 1, score 1)
+- [Local-Only-LLM-Workflow — L171](local-only-llm-workflow.md#L171) (line 171, col 3, score 1)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L171](ollama-llm-provider-for-pseudo-code-transpiler.md#L171) (line 171, col 1, score 1)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L171](ollama-llm-provider-for-pseudo-code-transpiler.md#L171) (line 171, col 3, score 1)
+- [Board Walk – 2025-08-11 — L132](board-walk-2025-08-11.md#L132) (line 132, col 1, score 1)
+- [Board Walk – 2025-08-11 — L132](board-walk-2025-08-11.md#L132) (line 132, col 3, score 1)
+- [Board Walk – 2025-08-11 — L140](board-walk-2025-08-11.md#L140) (line 140, col 1, score 0.92)
+- [Board Walk – 2025-08-11 — L140](board-walk-2025-08-11.md#L140) (line 140, col 3, score 0.92)
+- [Board Walk – 2025-08-11 — L139](board-walk-2025-08-11.md#L139) (line 139, col 1, score 0.92)
+- [Board Walk – 2025-08-11 — L139](board-walk-2025-08-11.md#L139) (line 139, col 3, score 0.92)
+- [archetype-ecs — L460](archetype-ecs.md#L460) (line 460, col 1, score 1)
+- [archetype-ecs — L460](archetype-ecs.md#L460) (line 460, col 3, score 1)
+- [JavaScript — L15](chunks/javascript.md#L15) (line 15, col 1, score 1)
+- [JavaScript — L15](chunks/javascript.md#L15) (line 15, col 3, score 1)
+- [ecs-scheduler-and-prefabs — L388](ecs-scheduler-and-prefabs.md#L388) (line 388, col 1, score 1)
+- [ecs-scheduler-and-prefabs — L388](ecs-scheduler-and-prefabs.md#L388) (line 388, col 3, score 1)
+- [eidolon-field-math-foundations — L129](eidolon-field-math-foundations.md#L129) (line 129, col 1, score 1)
+- [eidolon-field-math-foundations — L129](eidolon-field-math-foundations.md#L129) (line 129, col 3, score 1)
+- [archetype-ecs — L454](archetype-ecs.md#L454) (line 454, col 1, score 1)
+- [archetype-ecs — L454](archetype-ecs.md#L454) (line 454, col 3, score 1)
+- [Chroma Toolkit Consolidation Plan — L171](chroma-toolkit-consolidation-plan.md#L171) (line 171, col 1, score 1)
+- [Chroma Toolkit Consolidation Plan — L171](chroma-toolkit-consolidation-plan.md#L171) (line 171, col 3, score 1)
+- [JavaScript — L14](chunks/javascript.md#L14) (line 14, col 1, score 1)
+- [JavaScript — L14](chunks/javascript.md#L14) (line 14, col 3, score 1)
+- [ecs-offload-workers — L454](ecs-offload-workers.md#L454) (line 454, col 1, score 1)
+- [ecs-offload-workers — L454](ecs-offload-workers.md#L454) (line 454, col 3, score 1)
+- [archetype-ecs — L455](archetype-ecs.md#L455) (line 455, col 1, score 1)
+- [archetype-ecs — L455](archetype-ecs.md#L455) (line 455, col 3, score 1)
+- [ecs-offload-workers — L455](ecs-offload-workers.md#L455) (line 455, col 1, score 1)
+- [ecs-offload-workers — L455](ecs-offload-workers.md#L455) (line 455, col 3, score 1)
+- [ecs-scheduler-and-prefabs — L387](ecs-scheduler-and-prefabs.md#L387) (line 387, col 1, score 1)
+- [ecs-scheduler-and-prefabs — L387](ecs-scheduler-and-prefabs.md#L387) (line 387, col 3, score 1)
+- [eidolon-field-math-foundations — L130](eidolon-field-math-foundations.md#L130) (line 130, col 1, score 1)
+- [eidolon-field-math-foundations — L130](eidolon-field-math-foundations.md#L130) (line 130, col 3, score 1)
+- [ecs-offload-workers — L457](ecs-offload-workers.md#L457) (line 457, col 1, score 1)
+- [ecs-offload-workers — L457](ecs-offload-workers.md#L457) (line 457, col 3, score 1)
+- [ecs-scheduler-and-prefabs — L391](ecs-scheduler-and-prefabs.md#L391) (line 391, col 1, score 1)
+- [ecs-scheduler-and-prefabs — L391](ecs-scheduler-and-prefabs.md#L391) (line 391, col 3, score 1)
+- [eidolon-field-math-foundations — L132](eidolon-field-math-foundations.md#L132) (line 132, col 1, score 1)
+- [eidolon-field-math-foundations — L132](eidolon-field-math-foundations.md#L132) (line 132, col 3, score 1)
+- [Local-First Intention→Code Loop with Free Models — L145](local-first-intention-code-loop-with-free-models.md#L145) (line 145, col 1, score 1)
+- [Local-First Intention→Code Loop with Free Models — L145](local-first-intention-code-loop-with-free-models.md#L145) (line 145, col 3, score 1)
+- [ecs-offload-workers — L456](ecs-offload-workers.md#L456) (line 456, col 1, score 1)
+- [ecs-offload-workers — L456](ecs-offload-workers.md#L456) (line 456, col 3, score 1)
+- [ecs-scheduler-and-prefabs — L390](ecs-scheduler-and-prefabs.md#L390) (line 390, col 1, score 1)
+- [ecs-scheduler-and-prefabs — L390](ecs-scheduler-and-prefabs.md#L390) (line 390, col 3, score 1)
+- [eidolon-field-math-foundations — L131](eidolon-field-math-foundations.md#L131) (line 131, col 1, score 1)
+- [eidolon-field-math-foundations — L131](eidolon-field-math-foundations.md#L131) (line 131, col 3, score 1)
+- [js-to-lisp-reverse-compiler — L424](js-to-lisp-reverse-compiler.md#L424) (line 424, col 1, score 1)
+- [js-to-lisp-reverse-compiler — L424](js-to-lisp-reverse-compiler.md#L424) (line 424, col 3, score 1)
+- [universal-intention-code-fabric — L446](universal-intention-code-fabric.md#L446) (line 446, col 1, score 0.99)
+- [universal-intention-code-fabric — L446](universal-intention-code-fabric.md#L446) (line 446, col 3, score 0.99)
+- [ecs-offload-workers — L479](ecs-offload-workers.md#L479) (line 479, col 1, score 0.99)
+- [ecs-offload-workers — L479](ecs-offload-workers.md#L479) (line 479, col 3, score 0.99)
+- [ecs-scheduler-and-prefabs — L429](ecs-scheduler-and-prefabs.md#L429) (line 429, col 1, score 0.99)
+- [ecs-scheduler-and-prefabs — L429](ecs-scheduler-and-prefabs.md#L429) (line 429, col 3, score 0.99)
+- [markdown-to-org-transpiler — L316](markdown-to-org-transpiler.md#L316) (line 316, col 1, score 0.99)
+- [markdown-to-org-transpiler — L316](markdown-to-org-transpiler.md#L316) (line 316, col 3, score 0.99)
+- [Local-Only-LLM-Workflow — L188](local-only-llm-workflow.md#L188) (line 188, col 1, score 0.99)
+- [Local-Only-LLM-Workflow — L188](local-only-llm-workflow.md#L188) (line 188, col 3, score 0.99)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L525](polyglot-s-expr-bridge-python-js-lisp-interop.md#L525) (line 525, col 1, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L525](polyglot-s-expr-bridge-python-js-lisp-interop.md#L525) (line 525, col 3, score 1)
+- [Promethean Infrastructure Setup — L615](promethean-infrastructure-setup.md#L615) (line 615, col 1, score 1)
+- [Promethean Infrastructure Setup — L615](promethean-infrastructure-setup.md#L615) (line 615, col 3, score 1)
+- [universal-intention-code-fabric — L444](universal-intention-code-fabric.md#L444) (line 444, col 1, score 0.99)
+- [universal-intention-code-fabric — L444](universal-intention-code-fabric.md#L444) (line 444, col 3, score 0.99)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L175](ollama-llm-provider-for-pseudo-code-transpiler.md#L175) (line 175, col 1, score 0.99)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L175](ollama-llm-provider-for-pseudo-code-transpiler.md#L175) (line 175, col 3, score 0.99)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L526](polyglot-s-expr-bridge-python-js-lisp-interop.md#L526) (line 526, col 1, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L526](polyglot-s-expr-bridge-python-js-lisp-interop.md#L526) (line 526, col 3, score 1)
+- [Local-Only-LLM-Workflow — L186](local-only-llm-workflow.md#L186) (line 186, col 1, score 0.99)
+- [Local-Only-LLM-Workflow — L186](local-only-llm-workflow.md#L186) (line 186, col 3, score 0.99)
+- [Local-Only-LLM-Workflow — L190](local-only-llm-workflow.md#L190) (line 190, col 1, score 1)
+- [Local-Only-LLM-Workflow — L190](local-only-llm-workflow.md#L190) (line 190, col 3, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L527](polyglot-s-expr-bridge-python-js-lisp-interop.md#L527) (line 527, col 1, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L527](polyglot-s-expr-bridge-python-js-lisp-interop.md#L527) (line 527, col 3, score 1)
+- [eidolon-field-math-foundations — L154](eidolon-field-math-foundations.md#L154) (line 154, col 1, score 1)
+- [eidolon-field-math-foundations — L154](eidolon-field-math-foundations.md#L154) (line 154, col 3, score 1)
+- [Promethean Infrastructure Setup — L609](promethean-infrastructure-setup.md#L609) (line 609, col 1, score 1)
+- [Promethean Infrastructure Setup — L609](promethean-infrastructure-setup.md#L609) (line 609, col 3, score 1)
+- [Local-Only-LLM-Workflow — L191](local-only-llm-workflow.md#L191) (line 191, col 1, score 1)
+- [Local-Only-LLM-Workflow — L191](local-only-llm-workflow.md#L191) (line 191, col 3, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L528](polyglot-s-expr-bridge-python-js-lisp-interop.md#L528) (line 528, col 1, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L528](polyglot-s-expr-bridge-python-js-lisp-interop.md#L528) (line 528, col 3, score 1)
+- [eidolon-field-math-foundations — L155](eidolon-field-math-foundations.md#L155) (line 155, col 1, score 1)
+- [eidolon-field-math-foundations — L155](eidolon-field-math-foundations.md#L155) (line 155, col 3, score 1)
+- [Promethean Infrastructure Setup — L610](promethean-infrastructure-setup.md#L610) (line 610, col 1, score 1)
+- [Promethean Infrastructure Setup — L610](promethean-infrastructure-setup.md#L610) (line 610, col 3, score 1)
+- [Local-Only-LLM-Workflow — L192](local-only-llm-workflow.md#L192) (line 192, col 1, score 1)
+- [Local-Only-LLM-Workflow — L192](local-only-llm-workflow.md#L192) (line 192, col 3, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L529](polyglot-s-expr-bridge-python-js-lisp-interop.md#L529) (line 529, col 1, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L529](polyglot-s-expr-bridge-python-js-lisp-interop.md#L529) (line 529, col 3, score 1)
+- [eidolon-field-math-foundations — L156](eidolon-field-math-foundations.md#L156) (line 156, col 1, score 1)
+- [eidolon-field-math-foundations — L156](eidolon-field-math-foundations.md#L156) (line 156, col 3, score 1)
+- [Promethean Infrastructure Setup — L611](promethean-infrastructure-setup.md#L611) (line 611, col 1, score 1)
+- [Promethean Infrastructure Setup — L611](promethean-infrastructure-setup.md#L611) (line 611, col 3, score 1)
+- [Local-Only-LLM-Workflow — L193](local-only-llm-workflow.md#L193) (line 193, col 1, score 1)
+- [Local-Only-LLM-Workflow — L193](local-only-llm-workflow.md#L193) (line 193, col 3, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L530](polyglot-s-expr-bridge-python-js-lisp-interop.md#L530) (line 530, col 1, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L530](polyglot-s-expr-bridge-python-js-lisp-interop.md#L530) (line 530, col 3, score 1)
+- [eidolon-field-math-foundations — L157](eidolon-field-math-foundations.md#L157) (line 157, col 1, score 1)
+- [eidolon-field-math-foundations — L157](eidolon-field-math-foundations.md#L157) (line 157, col 3, score 1)
+- [Promethean Infrastructure Setup — L612](promethean-infrastructure-setup.md#L612) (line 612, col 1, score 1)
+- [Promethean Infrastructure Setup — L612](promethean-infrastructure-setup.md#L612) (line 612, col 3, score 1)
+- [Local-Only-LLM-Workflow — L194](local-only-llm-workflow.md#L194) (line 194, col 1, score 1)
+- [Local-Only-LLM-Workflow — L194](local-only-llm-workflow.md#L194) (line 194, col 3, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L531](polyglot-s-expr-bridge-python-js-lisp-interop.md#L531) (line 531, col 1, score 1)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L531](polyglot-s-expr-bridge-python-js-lisp-interop.md#L531) (line 531, col 3, score 1)
+- [eidolon-field-math-foundations — L158](eidolon-field-math-foundations.md#L158) (line 158, col 1, score 1)
+- [eidolon-field-math-foundations — L158](eidolon-field-math-foundations.md#L158) (line 158, col 3, score 1)
+- [Promethean Infrastructure Setup — L613](promethean-infrastructure-setup.md#L613) (line 613, col 1, score 1)
+- [Promethean Infrastructure Setup — L613](promethean-infrastructure-setup.md#L613) (line 613, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

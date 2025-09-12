@@ -398,10 +398,6 @@ importers:
       zod:
         specifier: ^3.25.76
         version: 3.25.76
-    devDependencies:
-      esmock:
-        specifier: 2.5.0
-        version: 2.5.0
 
   packages/boardrev:
     dependencies:

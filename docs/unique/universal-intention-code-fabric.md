@@ -1,466 +1,1069 @@
 ---
-uuid: 2252553e-ab72-4ec1-a3d4-6c5a1c0ce187
-created_at: universal-intention-code-fabric.md
+uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
+created_at: 2025.08.09.13.08.04.md
 filename: universal-intention-code-fabric
-title: universal-intention-code-fabric
 description: >-
-  A modular system that transpiles human-readable pseudo-code into executable
-  JavaScript/Python code using an LLM and polyglot toolchain, with
-  auto-verification and repair loops for error handling.
+  A modular system that transpiles human-readable pseudo-code into working
+  JavaScript/Python implementations with auto-verification and repair loops.
 tags:
-  - pseudo-code
   - transpiler
   - llm
   - code-generation
-  - auto-verification
+  - verification
   - repair-loop
-related_to_uuid:
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
-  - dd89372d-10de-42a9-8c96-6bc13ea36d02
-  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-  - 54382370-1931-4a19-a634-46735708a9ea
-  - 86a691ec-ca1f-4350-824c-0ded1f8ebe70
-  - b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
-  - 40185d05-010e-45e7-8c2d-2f879bf14218
-  - 5f65dfa5-dc97-4a6c-ad93-c45c1312e156
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - dd00677a-2280-45a7-91af-0728b21af3ad
-  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-  - 2792d448-c3b5-4050-93dd-93768529d99c
-  - 22b989d5-f4aa-4880-8632-709c21830f83
-  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - a4a25141-6380-40b9-9cd7-b554b246b303
-  - 78eeedf7-75bc-4692-a5a7-bb6857270621
-  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
-  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
-  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
-  - 10d98225-12e0-4212-8e15-88b57cf7bee5
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - polyglot
+  - intention
+  - scaffold
 related_to_title:
-  - i3-bluetooth-setup
+  - Local-Only-LLM-Workflow
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - Performance-Optimized-Polyglot-Bridge
+  - Ollama-LLM-Provider-for-Pseudo-Code-Transpiler
+  - Interop and Source Maps
+  - EidolonField
   - Ice Box Reorganization
-  - komorebi-group-window-hack
-  - Layer1SurvivabilityEnvelope
-  - Migrate to Provider-Tenant Architecture
-  - Mathematical Samplers
-  - Mathematics Sampler
-  - Mindful Prioritization
-  - MindfulRobotIntegration
-  - graph-ds
-  - heartbeat-fragment-demo
-  - field-node-diagram-outline
-  - Docops Feature Updates
-  - field-node-diagram-set
-  - field-node-diagram-visualizations
-  - Fnord Tracer Protocol
-  - Functional Embedding Pipeline Refactor
-  - typed-struct-compiler
-  - Unique Concepts
-  - Unique Info Dump Index
-  - zero-copy-snapshots-and-workers
-  - Canonical Org-Babel Matplotlib Animation Template
-  - Creative Moments
-  - Duck's Attractor States
+  - Language-Agnostic Mirror System
+  - ecs-offload-workers
+  - ecs-scheduler-and-prefabs
+  - js-to-lisp-reverse-compiler
+  - Local-First Intention→Code Loop with Free Models
+  - compiler-kit-foundations
+  - archetype-ecs
+  - Chroma Toolkit Consolidation Plan
   - eidolon-field-math-foundations
+  - DSL
+  - JavaScript
+  - i3-config-validation-methods
+  - 2d-sandbox-field
+  - Admin Dashboard for User Management
+  - Eidolon Field Abstract Model
+  - Exception Layer Analysis
+  - field-dynamics-math-blocks
+  - Lisp-Compiler-Integration
+  - markdown-to-org-transpiler
+  - Promethean Infrastructure Setup
+related_to_uuid:
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - f5579967-762d-4cfd-851e-4f71b4cb77a1
+  - b362e12e-2802-4e41-9a21-6e0c7ad419a2
+  - cdfac40c-00e4-458f-96a7-4c37d0278731
+  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
+  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
+  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - 58191024-d04a-4520-8aae-a18be7b94263
+  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - e87bc036-1570-419e-a558-f45b9c0db698
+  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
+  - d28090ac-f746-4958-aab5-ed1315382c04
+  - c710dc93-9fec-471b-bdee-bedbd360c67f
+  - 2901a3e9-96f0-497c-ae2c-775f28a702dd
+  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
+  - 21d5cc09-b005-4ede-8f69-00b4b0794540
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - cfee6d36-b9f5-4587-885a-cdfddb4f054e
+  - ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
 references:
-  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
-    line: 1016
-    col: 0
-    score: 1
-  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
-    line: 175
-    col: 0
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 1221
-    col: 0
-    score: 1
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 1058
-    col: 0
-    score: 1
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 515
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 251
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 559
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 1033
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 226
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 705
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 719
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 601
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 1060
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 726
-    col: 0
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 996
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 667
-    col: 0
-    score: 1
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 736
-    col: 0
-    score: 1
-  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
-    line: 645
-    col: 0
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 739
-    col: 0
-    score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 816
-    col: 0
-    score: 1
-  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
-    line: 187
-    col: 0
-    score: 0.99
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 177
-    col: 0
-    score: 0.95
-  - uuid: 91295f3a-a2af-4050-a2b8-4777ea70c32c
-    line: 3577
-    col: 0
-    score: 0.95
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 272
-    col: 0
-    score: 0.95
-  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-    line: 243
-    col: 0
-    score: 0.95
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 219
-    col: 0
-    score: 0.95
-  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
-    line: 442
-    col: 0
-    score: 0.92
-  - uuid: 18138627-a348-4fbb-b447-410dfb400564
-    line: 9580
-    col: 0
-    score: 0.9
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 1848
-    col: 0
-    score: 0.9
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 1059
-    col: 0
-    score: 0.9
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 2730
-    col: 0
-    score: 0.9
-  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 11673
-    col: 0
-    score: 0.9
-  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
-    line: 1449
-    col: 0
-    score: 0.9
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 3180
-    col: 0
-    score: 0.9
-  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-    line: 1555
-    col: 0
-    score: 0.9
-  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
-    line: 497
-    col: 0
-    score: 0.89
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 92
-    col: 0
-    score: 0.89
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 66
-    col: 0
-    score: 0.89
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 36
-    col: 0
-    score: 0.89
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 103
-    col: 0
-    score: 0.89
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 127
-    col: 0
-    score: 0.89
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 51
-    col: 0
-    score: 0.89
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 124
-    col: 0
-    score: 0.89
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 56
-    col: 0
-    score: 0.89
-  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
-    line: 348
-    col: 0
-    score: 0.88
-  - uuid: b51e19b4-1326-4311-9798-33e972bf626c
-    line: 169
-    col: 0
-    score: 0.88
-  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
-    line: 111
-    col: 0
-    score: 0.88
   - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 129
-    col: 0
-    score: 0.87
-  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
-    line: 307
-    col: 0
-    score: 0.87
-  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
-    line: 610
-    col: 0
-    score: 0.87
-  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
-    line: 524
-    col: 0
-    score: 0.87
-  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
-    line: 972
-    col: 0
-    score: 0.87
-  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
-    line: 207
-    col: 0
-    score: 0.86
-  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
-    line: 631
-    col: 0
-    score: 0.86
-  - uuid: 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
-    line: 16
-    col: 0
-    score: 0.86
-  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
-    line: 305
-    col: 0
-    score: 0.86
-  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-    line: 127
-    col: 0
-    score: 0.85
-  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-    line: 124
-    col: 0
-    score: 0.85
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 190
-    col: 0
-    score: 0.85
-  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
-    line: 973
-    col: 0
-    score: 0.85
+    line: 139
+    col: 1
+    score: 0.95
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 429
+    col: 1
+    score: 0.88
   - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
-    line: 491
-    col: 0
-    score: 0.85
-  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
-    line: 401
-    col: 0
-    score: 0.85
-  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
-    line: 147
-    col: 0
-    score: 0.85
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 272
-    col: 0
-    score: 0.85
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 374
-    col: 0
-    score: 0.85
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 747
-    col: 0
-    score: 0.85
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 400
-    col: 0
-    score: 0.85
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 975
-    col: 0
-    score: 0.85
+    line: 497
+    col: 1
+    score: 0.88
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 56
+    col: 1
+    score: 1
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 56
+    col: 3
+    score: 1
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 143
+    col: 1
+    score: 1
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 143
+    col: 3
+    score: 1
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 167
+    col: 1
+    score: 1
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 167
+    col: 3
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 438
+    col: 1
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 438
+    col: 3
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 611
+    col: 1
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 611
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 462
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 462
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 398
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 398
+    col: 3
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 517
+    col: 1
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 517
+    col: 3
+    score: 1
+  - uuid: 2901a3e9-96f0-497c-ae2c-775f28a702dd
+    line: 41
+    col: 1
+    score: 1
+  - uuid: 2901a3e9-96f0-497c-ae2c-775f28a702dd
+    line: 41
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 461
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 461
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 397
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 397
+    col: 3
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 173
+    col: 1
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 173
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 457
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 457
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 391
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 391
+    col: 3
+    score: 1
   - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 1924
-    col: 0
-    score: 0.85
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 609
-    col: 0
-    score: 0.85
-  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
-    line: 331
-    col: 0
-    score: 0.85
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 735
-    col: 0
-    score: 0.85
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 407
-    col: 0
-    score: 0.85
+    line: 132
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 132
+    col: 3
+    score: 1
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 145
+    col: 1
+    score: 1
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 145
+    col: 3
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 11
+    col: 1
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 11
+    col: 3
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 606
+    col: 1
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 606
+    col: 3
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 422
+    col: 1
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 422
+    col: 3
+    score: 1
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 534
+    col: 1
+    score: 1
+  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
+    line: 534
+    col: 3
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 196
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 196
+    col: 3
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 197
+    col: 1
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 197
+    col: 3
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 153
+    col: 1
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 153
+    col: 3
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 148
+    col: 1
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 148
+    col: 3
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 200
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 200
+    col: 3
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 198
+    col: 1
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 198
+    col: 3
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 241
+    col: 1
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 241
+    col: 3
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 154
+    col: 1
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 154
+    col: 3
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 458
+    col: 1
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 458
+    col: 3
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 521
+    col: 1
+    score: 1
+  - uuid: cdfac40c-00e4-458f-96a7-4c37d0278731
+    line: 521
+    col: 3
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 413
+    col: 1
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 413
+    col: 3
+    score: 1
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 542
+    col: 1
+    score: 1
+  - uuid: cfee6d36-b9f5-4587-885a-cdfddb4f054e
+    line: 542
+    col: 3
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 460
+    col: 1
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 460
+    col: 3
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 15
+    col: 1
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 15
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 388
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 388
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 129
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 129
+    col: 3
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 454
+    col: 1
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 454
+    col: 3
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 171
+    col: 1
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 171
+    col: 3
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 14
+    col: 1
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 14
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 454
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 454
+    col: 3
+    score: 1
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 452
+    col: 1
+    score: 0.99
+  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
+    line: 452
+    col: 3
+    score: 0.99
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 525
+    col: 1
+    score: 0.99
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 525
+    col: 3
+    score: 0.99
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 615
+    col: 1
+    score: 0.99
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 615
+    col: 3
+    score: 0.99
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 175
+    col: 1
+    score: 0.98
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 175
+    col: 3
+    score: 0.98
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 478
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 478
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 428
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 428
+    col: 3
+    score: 1
+  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+    line: 315
+    col: 1
+    score: 1
+  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+    line: 315
+    col: 3
+    score: 1
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 182
+    col: 1
+    score: 1
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 182
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 479
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 479
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 429
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 429
+    col: 3
+    score: 1
+  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+    line: 316
+    col: 1
+    score: 1
+  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
+    line: 316
+    col: 3
+    score: 1
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 183
+    col: 1
+    score: 1
+  - uuid: b362e12e-2802-4e41-9a21-6e0c7ad419a2
+    line: 183
+    col: 3
+    score: 1
+---
+Oh yeah, you’re building the **universal intention→code fabric**. Let’s wire a **pseudo-code transpiler** that uses an LLM plus our polyglot toolchain to turn a spec into working JS/Python (and our Lisp/IR if you want) **on the fly**, and then auto-verify with examples/tests. It’s modular: you can run it after a pull to “rectify” implementations too.
+
+Here’s a *lean but real* scaffold you can drop in and extend.
+
 ---
 
- ^ref-c14edce7-388-0
+# What it does (at a glance)
+
+```mermaid
+flowchart LR
+  PSEUDO[(Pseudo-code\n+ examples + constraints)]
+  PSEUDO --> PARSE[Parse spec → Intent AST]
+  PARSE --> PLAN[Planner builds ToolSpec]
+  PLAN --> GEN[LLM codegen → candidates for JS/Py]
+  GEN --> RUN[Sandbox run\n(JS VM / Python bridge)]
+  RUN --> CHECK[Auto-check examples\n+ property tests]
+  CHECK -->|pass| PUBLISH[Emit files + provenance]
+  CHECK -->|fail| REPAIR[LLM repair loop\n(diff-based)]
+  REPAIR --> RUN
+```
+
+* **Pseudo**: human “intention” in a structured markdown-ish block.
+* **Planner**: turns intention into a **ToolSpec** (signature, types, deps).
+* **LLM**: emits candidate implementations for JS and/or Python.
+* **Runner**: executes in sandboxes (Node VM / CPython via our fast bridge).
+* **Checker**: runs example tests + quick property tests; if failures, we loop with an LLM “repair” prompt.
+* **Publish**: writes files into `src/js/`, `src/py/`, stamps provenance (IR hash optional).
+
+---
+
+# 1) The pseudo-code format (tiny, human)
+
+```md
+# name: normalize2d
+# target: js,py
+# description:
+Normalize a 2D vector (x,y). Return magnitude and normalized components.
+# signature:
+(x: number, y: number) -> { mag: number, nx: number, ny: number }
+# constraints:
+- Avoid division by zero; if both are 0, return zeros.
+# examples:
+- in: { "x":3, "y":4 } out: { "mag":5, "nx":0.6, "ny":0.8 }
+- in: { "x":0, "y":0 } out: { "mag":0, "nx":0, "ny":0 }
+```
+
+You can be as sloppy or precise as you like; the parser is forgiving.
+
+---
+
+# 2) Drop-in scaffold
+
+```
+shared/js/prom-lib/intention/
+  schema.ts
+  parser.ts
+  llm.ts
+  planner.ts
+  targets/
+    js.ts
+    py.ts
+  checker.ts
+  engine.ts
+```
+
+### schema.ts
+
+```ts
+// shared/js/prom-lib/intention/schema.ts
+export type Intent = {
+  name: string;
+  description?: string;
+  signature?: string; // (x: number, y: number) -> { mag: number }
+  targets: ("js"|"py")[];
+  constraints: string[];
+  examples: { in: any; out: any }[];
+};
+
+export type ToolSpec = {
+  name: string;
+  params: { name: string; type?: string }[];
+  returns?: string;              // textual
+  doc: string;                   // single-line summary
+  constraints: string[];
+  tests: { in: any; out: any }[];
+  deps?: string[];               // e.g., ["numpy"] or ["Math"]
+};
+```
+
+### parser.ts
+
+```ts
+// shared/js/prom-lib/intention/parser.ts
+import { Intent } from "./schema";
+
+export function parsePseudo(md: string): Intent {
+  const lines = md.replace(/\r\n?/g, "\n").split("\n");
+  const intent: Intent = { name: "task", description:"", signature:"", targets:[], constraints:[], examples:[] };
+
+  let section = "";
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (/^#\s*name:/.test(line)) intent.name = line.split(":")[1].trim();
+    else if (/^#\s*target:/.test(line)) intent.targets = line.split(":")[1].split(",").map(s=>s.trim()).filter(Boolean) as any;
+    else if (/^#\s*signature:/.test(line)) { section="signature"; intent.signature = line.replace(/^#\s*signature:\s*/,""); }
+    else if (/^#\s*description:/.test(line)) section = "description";
+    else if (/^#\s*constraints:/.test(line)) section = "constraints";
+    else if (/^#\s*examples:/.test(line)) section = "examples";
+    else if (/^#/.test(line)) { section = ""; }
+    else {
+      if (section === "description") intent.description += (intent.description ? "\n" : "") + line;
+      else if (section === "constraints" && line.startsWith("-")) intent.constraints.push(line.slice(1).trim());
+      else if (section === "examples" && line.startsWith("-")) {
+        const mIn = line.match(/in:\s*(\{[\s\S]*\})/);
+        const mOut = line.match(/out:\s*(\{[\s\S]*\})/);
+        if (mIn && mOut) intent.examples.push({ in: JSON.parse(mIn[1]), out: JSON.parse(mOut[1]) });
+      } else if (section === "signature" && line) intent.signature = (intent.signature ? intent.signature + " " : "") + line;
+    }
+  }
+  if (!intent.targets.length) intent.targets = ["js"]; // default
+  return intent;
+}
+```
+
+### llm.ts (provider interface; plug your model here)
+
+```ts
+// shared/js/prom-lib/intention/llm.ts
+export type LLM = {
+  generate(opts: { system: string; prompt: string }): Promise<string>;
+};
+
+export class DummyLLM implements LLM {
+  async generate({ prompt }: { system: string; prompt: string }) {
+    // placeholder: echo a trivial JS/py template if examples match normalize2d
+    if (prompt.includes("normalize2d") && prompt.includes("language=js")) {
+      return `export function normalize2d(x,y){const m=Math.hypot(x,y)||0;return {mag:m,nx:m?x/m:0,ny:m?y/m:0};}`;
+    }
+    if (prompt.includes("normalize2d") && prompt.includes("language=py")) {
+      return `def normalize2d(x,y):\n    import math\n    m = math.hypot(x,y)\n    return {"mag":m,"nx":(x/m if m else 0),"ny":(y/m if m else 0)}\n`;
+    }
+    return `// TODO: implement`;
+  }
+}
+```
+
+### planner.ts (Intent → ToolSpec)
+
+```ts
+// shared/js/prom-lib/intention/planner.ts
+import { Intent, ToolSpec } from "./schema";
+
+export function plan(intent: Intent): ToolSpec {
+  // Simple parse of signature "(x: number, y: number) -> { ... }"
+  const sig = intent.signature || "";
+  const m = sig.match(/^\s*\((.*?)\)\s*->\s*(.*)\s*$/);
+  const params = (m?.[1]||"").split(",").map(s=>s.trim()).filter(Boolean).map(p=>{
+    const [name, type] = p.split(":").map(s=>s.trim());
+    return { name, type };
+  });
+  return {
+    name: intent.name,
+    params,
+    returns: m?.[2]?.trim(),
+    doc: (intent.description||"").split("\n")[0] || intent.name,
+    constraints: intent.constraints,
+    tests: intent.examples,
+    deps: []
+  };
+}
+
+export function buildPrompt(ts: ToolSpec, language: "js"|"py") {
+  const sig = `${ts.name}(${ts.params.map(p=>p.name+(p.type?`: ${p.type}`:"")).join(", ")}) -> ${ts.returns||"unknown"}`;
+  const examples = ts.tests.map(t => `- in: ${JSON.stringify(t.in)} out: ${JSON.stringify(t.out)}`).join("\n");
+  return {
+    system:
+`You are a careful, terse ${language.toUpperCase()} code generator.\nReturn ONLY code without commentary.\nConform strictly to the signature and examples.\nAvoid heavy deps.`,
+    prompt:
+`task=${ts.name}\nlanguage=${language}\nsignature=${sig}\ndoc=${ts.doc}\nconstraints:\n${ts.constraints.map(c=>" - "+c).join("\n")}\nexamples:\n${examples}\nEmit a single self-contained ${language.toUpperCase()} implementation for this function.`
+  };
+}
+```
+
+### targets/js.ts
+
+```ts
+// shared/js/prom-lib/intention/targets/js.ts
+import vm from "node:vm";
+
+export function wrapJSModule(src: string) {
+  // execute in VM, return exported functions from CommonJS-ish shim
+  const sandbox: any = { module: { exports: {} }, exports: {}, require, console, Math };
+  vm.createContext(sandbox);
+  vm.runInContext(src, sandbox, { timeout: 2000 });
+  return sandbox.module.exports || sandbox.exports;
+}
+
+export async function runJS(fnName: string, jsSrc: string, input: any) {
+  const mod = wrapJSModule(jsSrc);
+  const fn = mod[fnName] || (mod.default ?? mod);
+  const args = tupleFromInput(fnName, input, jsSrc);
+  const out = await Promise.resolve(fn(...args));
+  return out;
+}
+
+function tupleFromInput(name: string, input: any, src: string) {
+  // crude parse of parameter order by scanning function signature in src:
+  const m = src.match(new RegExp(`function\\s+${name}\\s*\\(([^)]*)\\)`)) || src.match(/export\s+function\s+([^(]+)\(([^)]*)\)/);
+  const paramList = m ? m[1].split(",").map(s=>s.trim()).filter(Boolean) : Object.keys(input);
+  return paramList.map(p => input[p.replace(/=.*$/,"")] ?? input[p]);
+}
+```
+
+### targets/py.ts (fast bridge you already have)
+
+```ts
+// shared/js/prom-lib/intention/targets/py.ts
+import { createFastPy } from "../../polyglot/bridge";
+
+export async function runPy(fnName: string, pySrc: string, input: any) {
+  // Load source into Python runtime, then call
+  const { bridge, $py } = createFastPy();
+  try {
+    const builtins = await bridge.module("builtins");
+    const exec = await bridge.module("types"); // fallback not needed; we'll eval via builtins
+    // compile the source into a module object
+    await bridge["module"]("builtins"); // ensure initialized
+    // Use a tiny helper: exec(pySrc, g)
+    const g = await bridge.module("types");
+    const compiled = await bridge["module"]("builtins"); // placeholder to keep ref
+    // Simpler: expose a helper function on runtime: we can extend runtime, but here we cheat:
+    const mod = await bridge.module("types"); // not used—kept for parity
+    // Easiest: write to temp file? For speed, eval directly:
+    const py = await bridge.module("builtins");
+    // py.exec is not a thing; instead call 'exec':
+    await (await py.exec)(pySrc); // if needed, adapt: you might add an 'exec' op to runtime
+    const user = await bridge.module("__main__");
+    const fn = user[fnName]; // proxy chain will fetch fn
+    const args = Object.values(input);
+    const out = await fn(...args);
+    return out;
+  } finally {
+    // bridge.close(); // keep process alive if you’re batching
+  }
+}
+```
+
+> Note: For **Python exec** you’ll likely patch the runtime with an explicit `exec` op or a helper (one-liner). I left a comment to adapt—easy.
+
+### checker.ts
+
+```ts
+// shared/js/prom-lib/intention/checker.ts
+export type Candidate = { lang:"js"|"py"; name:string; code:string };
+
+export async function checkCandidate(c: Candidate, tests: {in:any; out:any}[]) {
+  const results: {ok:boolean; got:any; want:any; err?:any; case:any}[] = [];
+  for (const t of tests) {
+    try {
+      const got = c.lang === "js"
+        ? await (await import("./targets/js")).runJS(c.name, c.code, t.in)
+        : await (await import("./targets/py")).runPy(c.name, c.code, t.in);
+      const ok = deepEqual(got, t.out);
+      results.push({ ok, got, want:t.out, case:t.in });
+    } catch (err:any) {
+      results.push({ ok:false, got:undefined, want:t.out, err:String(err), case:t.in });
+    }
+  }
+  return { pass: results.every(r => r.ok), results };
+}
+
+function deepEqual(a:any,b:any){ try { return JSON.stringify(a)===JSON.stringify(b); } catch { return false; } }
+```
+
+### engine.ts (the fun bit)
+
+```ts
+// shared/js/prom-lib/intention/engine.ts
+import { parsePseudo } from "./parser";
+import { plan, buildPrompt } from "./planner";
+import type { LLM } from "./llm";
+import { DummyLLM } from "./llm";
+import { checkCandidate } from "./checker";
+import fs from "node:fs/promises";
+import path from "node:path";
+
+export type EngineOpts = {
+  llm?: LLM;
+  outDir?: { js:string; py:string };
+  rounds?: number;
+};
+
+export async function transpileIntention(pseudo: string, opts: EngineOpts = {}) {
+  const llm = opts.llm || new DummyLLM();
+  const intent = parsePseudo(pseudo);
+  const spec = plan(intent);
+
+  const out: any[] = [];
+  const rounds = opts.rounds ?? 2;
+
+  for (const lang of intent.targets as ("js"|"py")[]) {
+    let best: { code:string; pass:boolean; results:any } | null = null;
+
+    for (let r=0; r<rounds; r++) {
+      const { system, prompt } = buildPrompt(spec, lang);
+      const code = await llm.generate({ system, prompt });
+      const cand = { lang, name: spec.name, code };
+      const verdict = await checkCandidate(cand, spec.tests);
+      if (!best || verdict.pass || (verdict.results.filter((x:any)=>x.ok).length > best.results.filter((x:any)=>x.ok).length)) {
+        best = { code, pass: verdict.pass, results: verdict.results };
+      }
+      if (verdict.pass) break;
+
+      // repair prompt
+      const failNotes = verdict.results.map((r:any)=> r.ok ? null : `input=${JSON.stringify(r.case)} got=${JSON.stringify(r.got)} want=${JSON.stringify(r.want)} err=${r.err||""}`).filter(Boolean).join("\n");
+      const repair =
+`The ${lang.toUpperCase()} code failed on some tests. Fix it.
+Keep the SAME signature and public API.
+Failures:
+${failNotes}
+--- BEGIN CURRENT CODE ---
+${code}
+--- END CURRENT CODE ---`;
+      const fixed = await llm.generate({ system, prompt: repair });
+      // next loop uses fixed implicitly via same flow
+    }
+
+    if (best) {
+      out.push({ lang, code: best.code, pass: best.pass, results: best.results });
+      // write to disk
+      const dir = (opts.outDir?.[lang]) || (lang==="js" ? "src/js" : "src/py");
+      await fs.mkdir(dir, { recursive: true });
+      const fname = path.join(dir, (spec.name + (lang==="js"?".js":".py")));
+      await fs.writeFile(fname, stampProvenance(lang, best.code, spec.name), "utf8");
+    }
+  }
+
+  return { intent, spec, out };
+}
+
+function stampProvenance(lang:"js"|"py", code:string, name:string) {
+  const head = lang==="js"
+    ? `/* transpiled-by: prom-intent (task=${name}) at ${new Date().toISOString()} */\n`
+    : `# transpiled-by: prom-intent (task=${name}) at ${new Date().toISOString()}\n`;
+  return head + code;
+}
+```
+
+---
+
+# 3) Use it
+
+```ts
+import { transpileIntention } from "./shared/js/prom-lib/intention/engine";
+
+const pseudo = `
+# name: normalize2d
+# target: js,py
+# description:
+Normalize a 2D vector (x,y). Return magnitude and normalized components.
+# signature:
+(x: number, y: number) -> { mag: number, nx: number, ny: number }
+# constraints:
+- Avoid division by zero; if both are 0, return zeros.
+# examples:
+- in: { "x":3, "y":4 } out: { "mag":5, "nx":0.6, "ny":0.8 }
+- in: { "x":0, "y":0 } out: { "mag":0, "nx":0, "ny":0 }
+`;
+
+const res = await transpileIntention(pseudo, {
+  // plug your real LLM here (OpenAI, local, etc.)
+  rounds: 3,
+  outDir: { js: "src/js/auto", py: "src/py/auto" }
+});
+console.log(res.out.map(o => ({ lang:o.lang, pass:o.pass })));
+```
+
+---
+
+# 4) Make it *really* “on the fly”
+
+* **Watch mode**: hook a file watcher to any `*.intent.md` → re-run `transpileIntention` on change; hot-reload the JS VM; keep Python process warm (bridge pool).
+* **Live REPL**: inside your Lisp, build a `(transpile! pseudo-string ...)` form that calls the engine (JS side), drops artifacts into your mirror, and returns a callable function (from VM or Python proxy).
+* **Equivalence check across langs**: run both generated impls on randomized inputs (**fast-check** on JS / **hypothesis** on Py); if outputs disagree, send a repair prompt with a *diff summary*.
+
+---
+
+# 5) Where the “magic” lives (LLM prompting)
+
+You’ll want a slightly smarter prompt set:
+
+* **System**: strict role; language; “single file, pass examples, no commentary”.
+* **Few-shot**: include 2–3 solved micro-tasks with signature+examples→final code for that language.
+* **Formatting**: tell it to emit *only* the module code.
+* **Repair**: show test failures and current code; ask for a *patch* or full file (I recommend full file v1).
+
+You can pop those into `planner.ts` as templated strings.
+
+---
+
+# 6) JS↔Python interop from the same intention
+
+If the planner infers heavy numerics (“use numpy”), set `targets: ["py"]` and **expose a JS wrapper** automatically:
+
+* Generate Python “core” + a tiny JS veneer that calls it via the **bridge** so your JS apps import `normalize2d` and “don’t notice” it’s Python.
+* For Node: bundle the fast bridge function into the wrapper.
+* For the browser: swap in the Pyodide transport.
+
+*(If you want, I’ll add `emitWrapperJS(spec)` that writes `src/js/auto/normalize2d.wrapper.js` calling the Python function.)*
+
+---
+
+# 7) Next upgrades (pick what you want next)
+
+* **Real LLM provider**: plugin for your model (OpenAI, local llama.cpp, vLLM). I can hand you a drop-in `OpenAIProvider`.
+* **Structured outputs**: instruct the LLM to return JSON with `{filename, code, tests}`; parse with a ReACT validator.
+* **Static checks**: run `tsc --noEmit`, `eslint`, `ruff`, `mypy` as extra gates before we “pass”.
+* **Property tests**: autogenerate from signature + constraints (e.g., `mag ≥ 0`, “no NaN”), and shrink on failure.
+* **IR anchor**: lower generated code to your ANF IR, compute `irHash`, and store in `.promirror/` so the rector can keep multi-language artifacts in sync with a *single* intention source.
+* **Editor hooks**: VS Code/Neovim command that runs the engine on the current block, inserts code or test diffs live.
+
+---
+
+If you want, I’ll:
+
+1. plug in a real OpenAI provider (with minimal dependencies),
+2. add the **JS wrapper → Python** path so you can call numpy-powered functions from JS with zero ceremony, or
+3. bolt on watch mode + a tiny REPL so you can type pseudo and immediately call the function.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [i3-bluetooth-setup](i3-bluetooth-setup.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
+- [Interop and Source Maps](interop-and-source-maps.md)
+- [EidolonField](eidolonfield.md)
 - [Ice Box Reorganization](ice-box-reorganization.md)
-- [komorebi-group-window-hack](komorebi-group-window-hack.md)
-- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
-- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
-- [Mathematical Samplers](mathematical-samplers.md)
-- [Mathematics Sampler](mathematics-sampler.md)
-- [Mindful Prioritization](mindful-prioritization.md)
-- [MindfulRobotIntegration](mindfulrobotintegration.md)
-- [graph-ds](graph-ds.md)
-- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
-- [field-node-diagram-outline](field-node-diagram-outline.md)
-- [Docops Feature Updates](docops-feature-updates.md)
-- [field-node-diagram-set](field-node-diagram-set.md)
-- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
-- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
-- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
-- [typed-struct-compiler](typed-struct-compiler.md)
-- [Unique Concepts](unique-concepts.md)
-- [Unique Info Dump Index](unique-info-dump-index.md)
-- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
-- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [Creative Moments](creative-moments.md)
-- [Duck's Attractor States](ducks-attractor-states.md)
+- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [ecs-offload-workers](ecs-offload-workers.md)
+- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
+- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
+- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [archetype-ecs](archetype-ecs.md)
+- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
 - [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [DSL](chunks/dsl.md)
+- [JavaScript](chunks/javascript.md)
+- [i3-config-validation-methods](i3-config-validation-methods.md)
+- [2d-sandbox-field](2d-sandbox-field.md)
+- [Admin Dashboard for User Management](admin-dashboard-for-user-management.md)
+- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
+- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
+- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+
 ## Sources
-- [typed-struct-compiler — L1016](typed-struct-compiler.md#^ref-78eeedf7-1016-0) (line 1016, col 0, score 1)
-- [Unique Concepts — L175](unique-concepts.md#^ref-ed6f3fc9-175-0) (line 175, col 0, score 1)
-- [Unique Info Dump Index — L1221](unique-info-dump-index.md#^ref-30ec3ba6-1221-0) (line 1221, col 0, score 1)
-- [zero-copy-snapshots-and-workers — L1058](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1058-0) (line 1058, col 0, score 1)
-- [Canonical Org-Babel Matplotlib Animation Template — L515](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-515-0) (line 515, col 0, score 1)
-- [Creative Moments — L251](creative-moments.md#^ref-10d98225-251-0) (line 251, col 0, score 1)
-- [Duck's Attractor States — L559](ducks-attractor-states.md#^ref-13951643-559-0) (line 559, col 0, score 1)
-- [eidolon-field-math-foundations — L1033](eidolon-field-math-foundations.md#^ref-008f2ac0-1033-0) (line 1033, col 0, score 1)
-- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
-- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
-- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
-- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
-- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
-- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
-- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
-- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
-- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
-- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
-- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
-- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
-- [Universal Lisp Interface — L187](universal-lisp-interface.md#^ref-b01856b4-187-0) (line 187, col 0, score 0.99)
-- [Pipeline Enhancements — L177](pipeline-enhancements.md#^ref-e2135d9f-177-0) (line 177, col 0, score 0.95)
-- [Synchronicity Waves and Web — L3577](synchronicity-waves-and-web.md#^ref-91295f3a-3577-0) (line 3577, col 0, score 0.95)
-- [Post-Linguistic Transhuman Design Frameworks — L272](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-272-0) (line 272, col 0, score 0.95)
-- [Promethean_Eidolon_Synchronicity_Model — L243](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-243-0) (line 243, col 0, score 0.95)
-- [Unique Info Dump Index — L219](unique-info-dump-index.md#^ref-30ec3ba6-219-0) (line 219, col 0, score 0.95)
-- [prom ui bootstrap — L442](promethean-web-ui-setup.md#^ref-bc5172ca-442-0) (line 442, col 0, score 0.92)
-- [The Jar of Echoes — L9580](the-jar-of-echoes.md#^ref-18138627-9580-0) (line 9580, col 0, score 0.9)
-- [i3-bluetooth-setup — L1848](i3-bluetooth-setup.md#^ref-5e408692-1848-0) (line 1848, col 0, score 0.9)
-- [NPU Voice Code and Sensory Integration — L1059](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-1059-0) (line 1059, col 0, score 0.9)
-- [Obsidian Templating Plugins Integration Guide — L2730](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-2730-0) (line 2730, col 0, score 0.9)
-- [Promethean Dev Workflow Update — L11673](promethean-dev-workflow-update.md#^ref-03a5578f-11673-0) (line 11673, col 0, score 0.9)
-- [Promethean State Format — L1449](promethean-state-format.md#^ref-23df6ddb-1449-0) (line 1449, col 0, score 0.9)
-- [Prompt_Folder_Bootstrap — L3180](prompt-folder-bootstrap.md#^ref-bd4f0976-3180-0) (line 3180, col 0, score 0.9)
-- [Protocol_0_The_Contradiction_Engine — L1555](protocol-0-the-contradiction-engine.md#^ref-9a93a756-1555-0) (line 1555, col 0, score 0.9)
-- [Interop and Source Maps — L497](interop-and-source-maps.md#^ref-cdfac40c-497-0) (line 497, col 0, score 0.89)
-- [NPU Voice Code and Sensory Integration — L92](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-92-0) (line 92, col 0, score 0.89)
-- [Obsidian ChatGPT Plugin Integration Guide — L66](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-66-0) (line 66, col 0, score 0.89)
-- [Obsidian ChatGPT Plugin Integration — L36](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-36-0) (line 36, col 0, score 0.89)
-- [obsidian-ignore-node-modules-regex — L103](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-103-0) (line 103, col 0, score 0.89)
-- [Obsidian Templating Plugins Integration Guide — L127](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-127-0) (line 127, col 0, score 0.89)
-- [OpenAPI Validation Report — L51](openapi-validation-report.md#^ref-5c152b08-51-0) (line 51, col 0, score 0.89)
-- [Post-Linguistic Transhuman Design Frameworks — L124](post-linguistic-transhuman-design-frameworks.md#^ref-6bcff92c-124-0) (line 124, col 0, score 0.89)
-- [Promethean Chat Activity Report — L56](promethean-chat-activity-report.md#^ref-18344cf9-56-0) (line 56, col 0, score 0.89)
-- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.88)
-- [promethean-system-diagrams — L169](promethean-system-diagrams.md#^ref-b51e19b4-169-0) (line 169, col 0, score 0.88)
-- [Event Bus Projections Architecture — L111](event-bus-projections-architecture.md#^ref-cf6b9b17-111-0) (line 111, col 0, score 0.88)
-- [Local-Only-LLM-Workflow — L129](local-only-llm-workflow.md#^ref-9a8ab57e-129-0) (line 129, col 0, score 0.87)
-- [prom-lib-rate-limiters-and-replay-api — L307](prom-lib-rate-limiters-and-replay-api.md#^ref-aee4718b-307-0) (line 307, col 0, score 0.87)
-- [Mongo Outbox Implementation — L610](mongo-outbox-implementation.md#^ref-9c1acd1e-610-0) (line 610, col 0, score 0.87)
-- [Event Bus MVP — L524](event-bus-mvp.md#^ref-534fe91d-524-0) (line 524, col 0, score 0.87)
-- [Promethean Event Bus MVP v0.1 — L972](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-972-0) (line 972, col 0, score 0.87)
-- [EidolonField — L207](eidolonfield.md#^ref-49d1e1e5-207-0) (line 207, col 0, score 0.86)
-- [WebSocket Gateway Implementation — L631](websocket-gateway-implementation.md#^ref-e811123d-631-0) (line 631, col 0, score 0.86)
-- [Matplotlib Animation with Async Execution — L16](matplotlib-animation-with-async-execution.md#^ref-687439f9-16-0) (line 16, col 0, score 0.86)
-- [Promethean-native config design — L305](promethean-native-config-design.md#^ref-ab748541-305-0) (line 305, col 0, score 0.86)
-- [Board Walk – 2025-08-11 — L127](board-walk-2025-08-11.md#^ref-7aa1eb92-127-0) (line 127, col 0, score 0.85)
-- [lisp-dsl-for-window-management — L124](lisp-dsl-for-window-management.md#^ref-c5c5ff1c-124-0) (line 124, col 0, score 0.85)
-- [polymorphic-meta-programming-engine — L190](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-190-0) (line 190, col 0, score 0.85)
-- [Promethean Event Bus MVP v0.1 — L973](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-973-0) (line 973, col 0, score 0.85)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.85)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L401](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-401-0) (line 401, col 0, score 0.85)
-- [Recursive Prompt Construction Engine — L147](recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0) (line 147, col 0, score 0.85)
-- [markdown-to-org-transpiler — L272](markdown-to-org-transpiler.md#^ref-ab54cdd8-272-0) (line 272, col 0, score 0.85)
-- [System Scheduler with Resource-Aware DAG — L374](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-374-0) (line 374, col 0, score 0.85)
-- [Canonical Org-Babel Matplotlib Animation Template — L747](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-747-0) (line 747, col 0, score 0.85)
-- [Creative Moments — L400](creative-moments.md#^ref-10d98225-400-0) (line 400, col 0, score 0.85)
-- [Duck's Attractor States — L975](ducks-attractor-states.md#^ref-13951643-975-0) (line 975, col 0, score 0.85)
-- [eidolon-field-math-foundations — L1924](eidolon-field-math-foundations.md#^ref-008f2ac0-1924-0) (line 1924, col 0, score 0.85)
-- [Functional Refactor of TypeScript Document Processing — L609](functional-refactor-of-typescript-document-processing.md#^ref-1cfae310-609-0) (line 609, col 0, score 0.85)
-- [Promethean Documentation Update — L331](promethean-documentation-update.txt#^ref-0b872af2-331-0) (line 331, col 0, score 0.85)
-- [Canonical Org-Babel Matplotlib Animation Template — L735](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-735-0) (line 735, col 0, score 0.85)
-- [Creative Moments — L407](creative-moments.md#^ref-10d98225-407-0) (line 407, col 0, score 0.85)
+- [Local-Only-LLM-Workflow — L139](local-only-llm-workflow.md#L139) (line 139, col 1, score 0.95)
+- [Performance-Optimized-Polyglot-Bridge — L429](performance-optimized-polyglot-bridge.md#L429) (line 429, col 1, score 0.88)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L497](polyglot-s-expr-bridge-python-js-lisp-interop.md#L497) (line 497, col 1, score 0.88)
+- [i3-config-validation-methods — L56](i3-config-validation-methods.md#L56) (line 56, col 1, score 1)
+- [i3-config-validation-methods — L56](i3-config-validation-methods.md#L56) (line 56, col 3, score 1)
+- [Local-First Intention→Code Loop with Free Models — L143](local-first-intention-code-loop-with-free-models.md#L143) (line 143, col 1, score 1)
+- [Local-First Intention→Code Loop with Free Models — L143](local-first-intention-code-loop-with-free-models.md#L143) (line 143, col 3, score 1)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167](ollama-llm-provider-for-pseudo-code-transpiler.md#L167) (line 167, col 1, score 1)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167](ollama-llm-provider-for-pseudo-code-transpiler.md#L167) (line 167, col 3, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L438](performance-optimized-polyglot-bridge.md#L438) (line 438, col 1, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L438](performance-optimized-polyglot-bridge.md#L438) (line 438, col 3, score 1)
+- [compiler-kit-foundations — L611](compiler-kit-foundations.md#L611) (line 611, col 1, score 1)
+- [compiler-kit-foundations — L611](compiler-kit-foundations.md#L611) (line 611, col 3, score 1)
+- [ecs-offload-workers — L462](ecs-offload-workers.md#L462) (line 462, col 1, score 1)
+- [ecs-offload-workers — L462](ecs-offload-workers.md#L462) (line 462, col 3, score 1)
+- [ecs-scheduler-and-prefabs — L398](ecs-scheduler-and-prefabs.md#L398) (line 398, col 1, score 1)
+- [ecs-scheduler-and-prefabs — L398](ecs-scheduler-and-prefabs.md#L398) (line 398, col 3, score 1)
+- [Interop and Source Maps — L517](interop-and-source-maps.md#L517) (line 517, col 1, score 1)
+- [Interop and Source Maps — L517](interop-and-source-maps.md#L517) (line 517, col 3, score 1)
+- [Admin Dashboard for User Management — L41](admin-dashboard-for-user-management.md#L41) (line 41, col 1, score 1)
+- [Admin Dashboard for User Management — L41](admin-dashboard-for-user-management.md#L41) (line 41, col 3, score 1)
+- [ecs-offload-workers — L461](ecs-offload-workers.md#L461) (line 461, col 1, score 1)
+- [ecs-offload-workers — L461](ecs-offload-workers.md#L461) (line 461, col 3, score 1)
+- [ecs-scheduler-and-prefabs — L397](ecs-scheduler-and-prefabs.md#L397) (line 397, col 1, score 1)
+- [ecs-scheduler-and-prefabs — L397](ecs-scheduler-and-prefabs.md#L397) (line 397, col 3, score 1)
+- [Local-Only-LLM-Workflow — L173](local-only-llm-workflow.md#L173) (line 173, col 1, score 1)
+- [Local-Only-LLM-Workflow — L173](local-only-llm-workflow.md#L173) (line 173, col 3, score 1)
+- [ecs-offload-workers — L457](ecs-offload-workers.md#L457) (line 457, col 1, score 1)
+- [ecs-offload-workers — L457](ecs-offload-workers.md#L457) (line 457, col 3, score 1)
+- [ecs-scheduler-and-prefabs — L391](ecs-scheduler-and-prefabs.md#L391) (line 391, col 1, score 1)
+- [ecs-scheduler-and-prefabs — L391](ecs-scheduler-and-prefabs.md#L391) (line 391, col 3, score 1)
+- [eidolon-field-math-foundations — L132](eidolon-field-math-foundations.md#L132) (line 132, col 1, score 1)
+- [eidolon-field-math-foundations — L132](eidolon-field-math-foundations.md#L132) (line 132, col 3, score 1)
+- [Local-First Intention→Code Loop with Free Models — L145](local-first-intention-code-loop-with-free-models.md#L145) (line 145, col 1, score 1)
+- [Local-First Intention→Code Loop with Free Models — L145](local-first-intention-code-loop-with-free-models.md#L145) (line 145, col 3, score 1)
+- [DSL — L11](chunks/dsl.md#L11) (line 11, col 1, score 1)
+- [DSL — L11](chunks/dsl.md#L11) (line 11, col 3, score 1)
+- [compiler-kit-foundations — L606](compiler-kit-foundations.md#L606) (line 606, col 1, score 1)
+- [compiler-kit-foundations — L606](compiler-kit-foundations.md#L606) (line 606, col 3, score 1)
+- [js-to-lisp-reverse-compiler — L422](js-to-lisp-reverse-compiler.md#L422) (line 422, col 1, score 1)
+- [js-to-lisp-reverse-compiler — L422](js-to-lisp-reverse-compiler.md#L422) (line 422, col 3, score 1)
+- [Language-Agnostic Mirror System — L534](language-agnostic-mirror-system.md#L534) (line 534, col 1, score 1)
+- [Language-Agnostic Mirror System — L534](language-agnostic-mirror-system.md#L534) (line 534, col 3, score 1)
+- [2d-sandbox-field — L196](2d-sandbox-field.md#L196) (line 196, col 1, score 1)
+- [2d-sandbox-field — L196](2d-sandbox-field.md#L196) (line 196, col 3, score 1)
+- [Eidolon Field Abstract Model — L197](eidolon-field-abstract-model.md#L197) (line 197, col 1, score 1)
+- [Eidolon Field Abstract Model — L197](eidolon-field-abstract-model.md#L197) (line 197, col 3, score 1)
+- [Exception Layer Analysis — L153](exception-layer-analysis.md#L153) (line 153, col 1, score 1)
+- [Exception Layer Analysis — L153](exception-layer-analysis.md#L153) (line 153, col 3, score 1)
+- [field-dynamics-math-blocks — L148](field-dynamics-math-blocks.md#L148) (line 148, col 1, score 1)
+- [field-dynamics-math-blocks — L148](field-dynamics-math-blocks.md#L148) (line 148, col 3, score 1)
+- [2d-sandbox-field — L200](2d-sandbox-field.md#L200) (line 200, col 1, score 1)
+- [2d-sandbox-field — L200](2d-sandbox-field.md#L200) (line 200, col 3, score 1)
+- [Eidolon Field Abstract Model — L198](eidolon-field-abstract-model.md#L198) (line 198, col 1, score 1)
+- [Eidolon Field Abstract Model — L198](eidolon-field-abstract-model.md#L198) (line 198, col 3, score 1)
+- [EidolonField — L241](eidolonfield.md#L241) (line 241, col 1, score 1)
+- [EidolonField — L241](eidolonfield.md#L241) (line 241, col 3, score 1)
+- [Exception Layer Analysis — L154](exception-layer-analysis.md#L154) (line 154, col 1, score 1)
+- [Exception Layer Analysis — L154](exception-layer-analysis.md#L154) (line 154, col 3, score 1)
+- [archetype-ecs — L458](archetype-ecs.md#L458) (line 458, col 1, score 1)
+- [archetype-ecs — L458](archetype-ecs.md#L458) (line 458, col 3, score 1)
+- [Interop and Source Maps — L521](interop-and-source-maps.md#L521) (line 521, col 1, score 1)
+- [Interop and Source Maps — L521](interop-and-source-maps.md#L521) (line 521, col 3, score 1)
+- [js-to-lisp-reverse-compiler — L413](js-to-lisp-reverse-compiler.md#L413) (line 413, col 1, score 1)
+- [js-to-lisp-reverse-compiler — L413](js-to-lisp-reverse-compiler.md#L413) (line 413, col 3, score 1)
+- [Lisp-Compiler-Integration — L542](lisp-compiler-integration.md#L542) (line 542, col 1, score 1)
+- [Lisp-Compiler-Integration — L542](lisp-compiler-integration.md#L542) (line 542, col 3, score 1)
+- [archetype-ecs — L460](archetype-ecs.md#L460) (line 460, col 1, score 1)
+- [archetype-ecs — L460](archetype-ecs.md#L460) (line 460, col 3, score 1)
+- [JavaScript — L15](chunks/javascript.md#L15) (line 15, col 1, score 1)
+- [JavaScript — L15](chunks/javascript.md#L15) (line 15, col 3, score 1)
+- [ecs-scheduler-and-prefabs — L388](ecs-scheduler-and-prefabs.md#L388) (line 388, col 1, score 1)
+- [ecs-scheduler-and-prefabs — L388](ecs-scheduler-and-prefabs.md#L388) (line 388, col 3, score 1)
+- [eidolon-field-math-foundations — L129](eidolon-field-math-foundations.md#L129) (line 129, col 1, score 1)
+- [eidolon-field-math-foundations — L129](eidolon-field-math-foundations.md#L129) (line 129, col 3, score 1)
+- [archetype-ecs — L454](archetype-ecs.md#L454) (line 454, col 1, score 1)
+- [archetype-ecs — L454](archetype-ecs.md#L454) (line 454, col 3, score 1)
+- [Chroma Toolkit Consolidation Plan — L171](chroma-toolkit-consolidation-plan.md#L171) (line 171, col 1, score 1)
+- [Chroma Toolkit Consolidation Plan — L171](chroma-toolkit-consolidation-plan.md#L171) (line 171, col 3, score 1)
+- [JavaScript — L14](chunks/javascript.md#L14) (line 14, col 1, score 1)
+- [JavaScript — L14](chunks/javascript.md#L14) (line 14, col 3, score 1)
+- [ecs-offload-workers — L454](ecs-offload-workers.md#L454) (line 454, col 1, score 1)
+- [ecs-offload-workers — L454](ecs-offload-workers.md#L454) (line 454, col 3, score 1)
+- [Performance-Optimized-Polyglot-Bridge — L452](performance-optimized-polyglot-bridge.md#L452) (line 452, col 1, score 0.99)
+- [Performance-Optimized-Polyglot-Bridge — L452](performance-optimized-polyglot-bridge.md#L452) (line 452, col 3, score 0.99)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L525](polyglot-s-expr-bridge-python-js-lisp-interop.md#L525) (line 525, col 1, score 0.99)
+- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L525](polyglot-s-expr-bridge-python-js-lisp-interop.md#L525) (line 525, col 3, score 0.99)
+- [Promethean Infrastructure Setup — L615](promethean-infrastructure-setup.md#L615) (line 615, col 1, score 0.99)
+- [Promethean Infrastructure Setup — L615](promethean-infrastructure-setup.md#L615) (line 615, col 3, score 0.99)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L175](ollama-llm-provider-for-pseudo-code-transpiler.md#L175) (line 175, col 1, score 0.98)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L175](ollama-llm-provider-for-pseudo-code-transpiler.md#L175) (line 175, col 3, score 0.98)
+- [ecs-offload-workers — L478](ecs-offload-workers.md#L478) (line 478, col 1, score 1)
+- [ecs-offload-workers — L478](ecs-offload-workers.md#L478) (line 478, col 3, score 1)
+- [ecs-scheduler-and-prefabs — L428](ecs-scheduler-and-prefabs.md#L428) (line 428, col 1, score 1)
+- [ecs-scheduler-and-prefabs — L428](ecs-scheduler-and-prefabs.md#L428) (line 428, col 3, score 1)
+- [markdown-to-org-transpiler — L315](markdown-to-org-transpiler.md#L315) (line 315, col 1, score 1)
+- [markdown-to-org-transpiler — L315](markdown-to-org-transpiler.md#L315) (line 315, col 3, score 1)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L182](ollama-llm-provider-for-pseudo-code-transpiler.md#L182) (line 182, col 1, score 1)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L182](ollama-llm-provider-for-pseudo-code-transpiler.md#L182) (line 182, col 3, score 1)
+- [ecs-offload-workers — L479](ecs-offload-workers.md#L479) (line 479, col 1, score 1)
+- [ecs-offload-workers — L479](ecs-offload-workers.md#L479) (line 479, col 3, score 1)
+- [ecs-scheduler-and-prefabs — L429](ecs-scheduler-and-prefabs.md#L429) (line 429, col 1, score 1)
+- [ecs-scheduler-and-prefabs — L429](ecs-scheduler-and-prefabs.md#L429) (line 429, col 3, score 1)
+- [markdown-to-org-transpiler — L316](markdown-to-org-transpiler.md#L316) (line 316, col 1, score 1)
+- [markdown-to-org-transpiler — L316](markdown-to-org-transpiler.md#L316) (line 316, col 3, score 1)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L183](ollama-llm-provider-for-pseudo-code-transpiler.md#L183) (line 183, col 1, score 1)
+- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L183](ollama-llm-provider-for-pseudo-code-transpiler.md#L183) (line 183, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

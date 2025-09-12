@@ -1,114 +1,302 @@
 ---
-uuid: ca3298cf-44e6-4294-8aaf-4afeb5d12722
-created_at: rag-ui-panel-with-qdrant-and-postgrest.md
+uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+created_at: 2025.08.31.10.49.42.md
 filename: RAG UI Panel with Qdrant and PostgREST
-title: RAG UI Panel with Qdrant and PostgREST
 description: >-
-  A drop-in RAG UI panel that integrates with Qdrant (HTTP API) and PostgreSQL
-  via PostgREST, using NGINX for edge routing with token-based authentication.
-  Includes collection browser, vector search with TEI nomic embeddings, and a
-  Postgres table viewer.
+  A drop-in RAG UI panel that integrates with Qdrant (HTTP API) and Postgres via
+  PostgREST, using NGINX for token-gated access. Includes collection browser,
+  vector search with TEI nomic embeddings, and a Postgres table viewer.
 tags:
   - RAG
   - Qdrant
   - PostgREST
+  - PostgreSQL
   - NGINX
-  - vector search
   - TEI
-  - prometheus
-  - docker
-  - webui
-related_to_uuid:
-  - 26bd1c45-3706-4bc2-9c46-78e035056f61
-  - e108b8dd-c7e8-4245-8bfe-dd475c8aedf1
-  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
-  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
-  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-  - ba244286-4e84-425b-8bf6-b80c4eb783fc
-  - d527c05d-22e8-4493-8f29-ae3cb67f035b
-  - c14edce7-0656-45b2-aaf3-51f042451b7d
-  - d28090ac-f746-4958-aab5-ed1315382c04
-  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
-  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
-  - d17d3a96-c84d-4738-a403-6c733b874da2
-  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-  - 4330e8f0-5f46-4235-918b-39b6b93fa561
-  - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-  - cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-  - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - b6ae7dfa-0c53-4eb9-aea8-65072b825bee
-  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
-  - 80d4d883-59f9-401b-8699-7a2723148b1e
-  - bc5172ca-7a09-42ad-b418-8e42bb14d089
-  - 01b21543-7e03-4129-8fe4-b6306be69dee
-  - d2b3628c-6cad-4664-8551-94ef8280851d
+  - vector search
 related_to_title:
-  - git-commit-ollama-semantic-grouping
-  - Git Intelligence for Strategic Code Management
-  - sibilant-meta-string-templating-runtime
-  - ecs-scheduler-and-prefabs
-  - Voice Access Layer Design
-  - System Scheduler with Resource-Aware DAG
-  - Pure-Node Crawl Stack with Playwright and Crawlee
-  - universal-intention-code-fabric
-  - i3-config-validation-methods
-  - Local-Offline-Model-Deployment-Strategy
-  - State Snapshots API and Transactional Projector
-  - Pure TypeScript Search Microservice
+  - Promethean Full-Stack Docker Setup
   - Promethean Infrastructure Setup
-  - Stateful Partitions and Rebalancing
-  - schema-evolution-workflow
-  - plan-update-confirmation
-  - homeostasis-decay-formulas
-  - Docops Feature Updates
-  - Chroma Toolkit Consolidation Plan
-  - Ghostly Smoke Interference
-  - Event Bus MVP
-  - Refactor 05-footers.ts
-  - prom ui bootstrap
-  - compiler-kit-foundations
-  - Language-Agnostic Mirror System
+  - Promethean Web UI Setup
+  - Pure TypeScript Search Microservice
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - Dynamic Context Model for Web Components
+  - api-gateway-versioning
+  - ecs-offload-workers
+  - Debugging Broker Connections and Agent Behavior
+  - Prometheus Observability Stack
+  - eidolon-field-math-foundations
+  - shared-package-layout-clarification
+  - Local-Only-LLM-Workflow
+related_to_uuid:
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+  - d17d3a96-c84d-4738-a403-6c733b874da2
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 0580dcd3-533d-4834-8a2f-eae3771960a9
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 36c8882a-badc-4e18-838d-2c54d7038141
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
 references:
-  - uuid: 26bd1c45-3706-4bc2-9c46-78e035056f61
-    line: 103
-    col: 0
-    score: 1
-  - uuid: 26bd1c45-3706-4bc2-9c46-78e035056f61
-    line: 284
-    col: 0
-    score: 1
-  - uuid: e108b8dd-c7e8-4245-8bfe-dd475c8aedf1
-    line: 1
-    col: 0
-    score: 1
-  - uuid: e108b8dd-c7e8-4245-8bfe-dd475c8aedf1
-    line: 6
-    col: 0
-    score: 1
-  - uuid: 26bd1c45-3706-4bc2-9c46-78e035056f61
-    line: 108
-    col: 0
-    score: 0.94
-  - uuid: 26bd1c45-3706-4bc2-9c46-78e035056f61
-    line: 289
-    col: 0
-    score: 0.94
-  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
-    line: 92
-    col: 0
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 404
+    col: 1
+    score: 0.96
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 545
+    col: 1
+    score: 0.9
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 62
+    col: 1
     score: 0.88
-  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
-    line: 379
-    col: 0
-    score: 0.86
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 280
-    col: 0
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 415
+    col: 1
+    score: 0.89
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 468
+    col: 1
     score: 0.85
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 581
+    col: 1
+    score: 0.9
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 496
+    col: 1
+    score: 0.88
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 589
+    col: 1
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 589
+    col: 3
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 602
+    col: 1
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 602
+    col: 3
+    score: 1
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 506
+    col: 1
+    score: 1
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 506
+    col: 3
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 526
+    col: 1
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 526
+    col: 3
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 284
+    col: 1
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 284
+    col: 3
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 40
+    col: 1
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 40
+    col: 3
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 384
+    col: 1
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 384
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 458
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 458
+    col: 3
+    score: 1
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 436
+    col: 1
+    score: 1
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 436
+    col: 3
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 585
+    col: 1
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 585
+    col: 3
+    score: 1
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 428
+    col: 1
+    score: 1
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 428
+    col: 3
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 521
+    col: 1
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 521
+    col: 3
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 288
+    col: 1
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 288
+    col: 3
+    score: 1
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 440
+    col: 1
+    score: 1
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 440
+    col: 3
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 584
+    col: 1
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 584
+    col: 3
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 603
+    col: 1
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 603
+    col: 3
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 614
+    col: 1
+    score: 0.99
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 614
+    col: 3
+    score: 0.99
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 610
+    col: 1
+    score: 0.99
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 610
+    col: 3
+    score: 0.99
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 153
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 153
+    col: 3
+    score: 1
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 178
+    col: 1
+    score: 0.99
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 178
+    col: 3
+    score: 0.99
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 189
+    col: 1
+    score: 0.99
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 189
+    col: 3
+    score: 0.99
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 476
+    col: 1
+    score: 0.99
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 476
+    col: 3
+    score: 0.99
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 612
+    col: 1
+    score: 0.99
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 612
+    col: 3
+    score: 0.99
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 611
+    col: 1
+    score: 0.99
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 611
+    col: 3
+    score: 0.99
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 443
+    col: 1
+    score: 0.99
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 443
+    col: 3
+    score: 0.99
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 444
+    col: 1
+    score: 0.99
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 444
+    col: 3
+    score: 0.99
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 531
+    col: 1
+    score: 0.98
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 531
+    col: 3
+    score: 0.98
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 532
+    col: 1
+    score: 0.98
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 532
+    col: 3
+    score: 0.98
 ---
-Heck yeah—here’s a drop-in **RAG UI panel** that talks to **Qdrant** (HTTP API) and **PostgreSQL** via **PostgREST**, all still funneled through your NGINX “edge” with `X-API-Key` gating. It includes: collection browser, vector search (auto-embeds with TEI nomic), and a simple Postgres table viewer. ^ref-e1056831-1-0
+Heck yeah—here’s a drop-in **RAG UI panel** that talks to **Qdrant** (HTTP API) and **PostgreSQL** via **PostgREST**, all still funneled through your NGINX “edge” with `X-API-Key` gating. It includes: collection browser, vector search (auto-embeds with TEI nomic), and a simple Postgres table viewer.
 
 ---
 
@@ -154,11 +342,9 @@ volumes:
   pg_data: {}
   qdrant_data: {}
 ```
-^ref-abe9ec8d-9-0 ^ref-e1056831-47-0 ^ref-abe9ec8d-47-0
-^ref-e1056831-9-0 ^ref-e1056831-47-0
 
-### `infra/db/init/001-postgrest.sql` ^ref-abe9ec8d-50-0
- ^ref-e1056831-50-0
+### `infra/db/init/001-postgrest.sql`
+
 ```sql
 -- Enable pgvector and a minimal docs table (adjust to your schema later)
 create extension if not exists vector;
@@ -176,21 +362,18 @@ create table if not exists docs (
 
 -- Least-privilege read-only for the UI
 grant select on table docs to web_anon;
-^ref-e1056831-50-0
-``` ^ref-e1056831-69-0
-^ref-e1056831-51-0
+```
 
-Bring it up (with your base + RAG overlays): ^ref-e1056831-71-0
+Bring it up (with your base + RAG overlays):
 
 ```bash
-^ref-e1056831-71-0
 docker compose -f docker-compose.yaml -f docker-compose.rag.yaml up -d
 ```
- ^ref-e1056831-79-0
---- ^ref-abe9ec8d-80-0
- ^ref-e1056831-79-0
+
+---
+
 # 1) NGINX: add RAG routes (token-gated)
- ^ref-e1056831-81-0
+
 Append these **two locations** to your existing `server { ... }` in `infra/nginx/nginx.conf` (keep your auth/limits as-is):
 
 ```nginx
@@ -203,7 +386,7 @@ Append these **two locations** to your existing `server { ... }` in `infra/nginx
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
       proxy_set_header X-Forwarded-Proto $scheme;
       rewrite ^/rag/qdrant/(.*)$ /$1 break;
-      proxy_pass 
+      proxy_pass http://qdrant:6333/;
     }
 
     # -------- RAG: PostgREST (PG over HTTP) --------
@@ -215,14 +398,11 @@ Append these **two locations** to your existing `server { ... }` in `infra/nginx
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
       proxy_set_header X-Forwarded-Proto $scheme;
       rewrite ^/rag/pg/(.*)$ /$1 break;
-^ref-e1056831-81-0
-      proxy_pass  ^ref-e1056831-107-0
+      proxy_pass http://postgrest:3000/;
     }
-``` ^ref-e1056831-110-0
-^ref-e1056831-109-0
+```
 
 Reload:
-^ref-e1056831-109-0
 
 ```bash
 docker compose exec edge nginx -s reload
@@ -230,7 +410,7 @@ docker compose exec edge nginx -s reload
 
 ---
 
-# 2) Webapp: add a RAG panel (Qdrant + PG) ^ref-e1056831-121-0
+# 2) Webapp: add a RAG panel (Qdrant + PG)
 
 ## 2a) Wire the panel into the UI
 
@@ -238,23 +418,18 @@ docker compose exec edge nginx -s reload
 
 ```html
 <body style="margin:0;font-family:system-ui,Segoe UI,Roboto,Arial">
-^ref-e1056831-121-0
   <prom-ui></prom-ui>
   <rag-panel></rag-panel>
   <script type="module" src="/src/main.ts"></script>
 </body>
-^ref-e1056831-131-0
-``` ^ref-abe9ec8d-137-0
- ^ref-e1056831-137-0
-^ref-e1056831-131-0
+```
+
 ### `services/ts/webapp/src/main.ts`
 
 ```ts
 import "./components/prom-ui";
-^ref-e1056831-140-0
 import "./components/rag-panel";   // <— new
-``` ^ref-abe9ec8d-146-0
-^ref-e1056831-140-0
+```
 
 ## 2b) API helpers for RAG
 
@@ -280,17 +455,13 @@ export const RAG = {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ vector: vec, limit: topK, with_payload: true })
     });
-^ref-e1056831-140-0
   },
 
   // PostgREST: simple SELECT on docs (adjust schema/columns later)
   pgDocs: (limit = 50) =>
-^ref-e1056831-172-0
     doFetch(`/rag/pg/docs?select=id,title&order=id.desc&limit=${limit}`)
 };
-^ref-e1056831-172-0
-``` ^ref-e1056831-181-0
-^ref-e1056831-172-0
+```
 
 ## 2c) RAG Panel component
 
@@ -409,124 +580,70 @@ export class RagPanel extends HTMLElement {
     }
   }
 
-^ref-e1056831-172-0
   private $<T extends HTMLElement>(sel:string){ return this.root.querySelector(sel) as T; }
 }
 customElements.define("rag-panel", RagPanel);
 
-^ref-e1056831-300-0
 function escapeHtml(s:string){
   return s.replace(/[&<>"']/g, (c)=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c] as string));
-^ref-e1056831-300-0
 }
-^ref-e1056831-300-0
-^ref-e1056831-187-0
 ```
 
---- ^ref-abe9ec8d-316-0
- ^ref-e1056831-316-0
-# 3) Optional: seed some data ^ref-abe9ec8d-318-0
- ^ref-e1056831-316-0
+---
+
+# 3) Optional: seed some data
+
 ## Qdrant (create a demo collection)
 
 ```bash
 curl -s -H "X-API-Key: CHANGEME" -H "Content-Type: application/json" \
   -d '{ "vectors": { "size": 768, "distance": "Cosine" }, "on_disk": true }' \
-  
-^ref-e1056831-300-0
+  http://localhost/rag/qdrant/collections/demo
 
 # upsert two points
 curl -s -H "X-API-Key: CHANGEME" -H "Content-Type: application/json" \
   -d '{ "points":[
         {"id":1,"vector":[0.01,0.02,0.03], "payload":{"title":"stub1"}},
         {"id":2,"vector":[0.02,0.03,0.04], "payload":{"title":"stub2"}}
-^ref-e1056831-316-0 ^ref-e1056831-325-0
-^ref-e1056831-327-0 ^ref-e1056831-329-0
-^ref-e1056831-325-0 ^ref-e1056831-330-0
-^ref-e1056831-316-0
       ] }' \
-^ref-e1056831-330-0
-^ref-e1056831-329-0 ^ref-e1056831-336-0
-^ref-e1056831-327-0
-^ref-e1056831-325-0
-  
-``` ^ref-abe9ec8d-343-0
- ^ref-e1056831-343-0
-## Postgres (insert a doc) ^ref-e1056831-325-0 ^ref-abe9ec8d-345-0
-^ref-e1056831-330-0 ^ref-e1056831-345-0
-^ref-e1056831-329-0
-^ref-e1056831-336-0
-^ref-e1056831-342-0 ^ref-e1056831-349-0
-^ref-e1056831-327-0 ^ref-e1056831-349-0
+  http://localhost/rag/qdrant/collections/demo/points
+```
 
-```bash ^ref-e1056831-327-0
-docker compose -f docker-compose.yaml -f docker-compose.rag.yaml exec -T pg psql -U rag -d rag -c \ ^ref-e1056831-336-0
-^ref-e1056831-349-0
-  "insert into docs(title, content, embedding) values ('Hello RAG','content here', array_fill(0.01::float, array[768])::vector);" ^ref-e1056831-329-0
-``` ^ref-e1056831-330-0 ^ref-e1056831-352-0
-^ref-e1056831-351-0
+## Postgres (insert a doc)
 
---- ^ref-e1056831-354-0
- ^ref-e1056831-355-0
-# 4) Use it ^ref-e1056831-356-0
- ^ref-e1056831-357-0
-1. Open ` ^ref-e1056831-358-0
-2. Paste your `X-API-Key` in the top card. ^ref-e1056831-352-0
+```bash
+docker compose -f docker-compose.yaml -f docker-compose.rag.yaml exec -T pg psql -U rag -d rag -c \
+  "insert into docs(title, content, embedding) values ('Hello RAG','content here', array_fill(0.01::float, array[768])::vector);"
+```
+
+---
+
+# 4) Use it
+
+1. Open `http://localhost/ui/`
+2. Paste your `X-API-Key` in the top card.
 3. Scroll to **RAG Panel**:
- ^ref-e1056831-354-0
-   * **Qdrant**: Refresh collections, pick one, type text (we auto-embed with nomic TEI), hit **Search**. ^ref-e1056831-355-0
+
+   * **Qdrant**: Refresh collections, pick one, type text (we auto-embed with nomic TEI), hit **Search**.
    * **Postgres**: Click **List docs** to view IDs/titles via PostgREST.
 
 ---
 
 # 5) (Optional) Diagram
 
-^ref-e1056831-336-0
 ```mermaid
 
 flowchart LR
-^ref-e1056831-358-0
-^ref-e1056831-357-0
-^ref-e1056831-356-0
-^ref-e1056831-355-0
-^ref-e1056831-354-0
-^ref-e1056831-352-0
   B[Browser /ui/*] --> E[edge:80]
-^ref-e1056831-358-0
-^ref-e1056831-357-0 ^ref-e1056831-374-0
-^ref-e1056831-356-0
-^ref-e1056831-374-0
-  subgraph Edge (NGINX) ^ref-e1056831-352-0 ^ref-e1056831-384-0
+  subgraph Edge (NGINX)
     E -->|/rag/qdrant/* + X-API-Key| Q[qdrant:6333]
-    E -->|/rag/pg/* + X-API-Key| P[postgrest:3000 → pg:5432] ^ref-e1056831-354-0
-    E -->|/embed/nomic/* + X-API-Key| TEI[tei-nomic:80] ^ref-e1056831-355-0
-  end ^ref-e1056831-356-0
-  B -->|/ui/* (no token)| W[web:80] ^ref-e1056831-357-0
-``` ^ref-e1056831-358-0
+    E -->|/rag/pg/* + X-API-Key| P[postgrest:3000 → pg:5432]
+    E -->|/embed/nomic/* + X-API-Key| TEI[tei-nomic:80]
+  end
+  B -->|/ui/* (no token)| W[web:80]
+```
 
---- ^ref-e1056831-374-0 ^ref-e1056831-384-0
-
-## Notes / tweaks
-
-* **Embedding dim**: I assumed `768` (fits `nomic-embed-text-v1.5`). If you switch TEI models, update:
-
-  * Qdrant collection `vectors.size`
-  * PG `embedding vector(DIM)`
-* **Security**: The UI still loads without a token; all `/rag/*`, `/embed/*`, etc. remain gated by `X-API-Key`.
-* **Schema**: If you’ve got a richer PG schema, expose read-only views and grant `select` to `web_anon`, then point the UI at those endpoints (e.g., `/rag/pg/my_view?select=...`).
-* **Next**: I can add a **chunker + upsert** panel (drop files → split → embed → write to PG and/or Qdrant) if you want ingest from the browser.
-ref-e1056831-357-0 ^ref-e1056831-374-0
-^ref-e1056831-356-0
-^ref-e1056831-374-0
-  subgraph Edge (NGINX) ^ref-e1056831-352-0 ^ref-e1056831-384-0
-    E -->|/rag/qdrant/* + X-API-Key| Q[qdrant:6333]
-    E -->|/rag/pg/* + X-API-Key| P[postgrest:3000 → pg:5432] ^ref-e1056831-354-0
-    E -->|/embed/nomic/* + X-API-Key| TEI[tei-nomic:80] ^ref-e1056831-355-0
-  end ^ref-e1056831-356-0
-  B -->|/ui/* (no token)| W[web:80] ^ref-e1056831-357-0
-``` ^ref-e1056831-358-0
-
---- ^ref-e1056831-374-0 ^ref-e1056831-384-0
+---
 
 ## Notes / tweaks
 
@@ -539,39 +656,82 @@ ref-e1056831-357-0 ^ref-e1056831-374-0
 * **Next**: I can add a **chunker + upsert** panel (drop files → split → embed → write to PG and/or Qdrant) if you want ingest from the browser.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [git-commit-ollama-semantic-grouping](2025.09.03.10.57.39.md)
-- [Git Intelligence for Strategic Code Management](2025.09.03.11.31.26.md)
-- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
-- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
-- [Voice Access Layer Design](voice-access-layer-design.md)
-- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
-- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
-- [universal-intention-code-fabric](universal-intention-code-fabric.md)
-- [i3-config-validation-methods](i3-config-validation-methods.md)
-- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
-- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
-- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
 - [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
-- [Stateful Partitions and Rebalancing](stateful-partitions-and-rebalancing.md)
-- [schema-evolution-workflow](schema-evolution-workflow.md)
-- [plan-update-confirmation](plan-update-confirmation.md)
-- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
-- [Docops Feature Updates](docops-feature-updates-3.md)
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
-- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
-- [Event Bus MVP](event-bus-mvp.md)
-- [Refactor 05-footers.ts](refactor-05-footers-ts.md)
-- [prom ui bootstrap](promethean-web-ui-setup.md)
-- [compiler-kit-foundations](compiler-kit-foundations.md)
-- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
+- [Promethean Web UI Setup](promethean-web-ui-setup.md)
+- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
+- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [api-gateway-versioning](api-gateway-versioning.md)
+- [ecs-offload-workers](ecs-offload-workers.md)
+- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
+- [Prometheus Observability Stack](prometheus-observability-stack.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [shared-package-layout-clarification](shared-package-layout-clarification.md)
+- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
+
 ## Sources
-- [git-commit-ollama-semantic-grouping — L103](2025.09.03.10.57.39.md#^ref-26bd1c45-103-0) (line 103, col 0, score 1)
-- [git-commit-ollama-semantic-grouping — L284](2025.09.03.10.57.39.md#^ref-26bd1c45-284-0) (line 284, col 0, score 1)
-- [Git Intelligence for Strategic Code Management — L1](2025.09.03.11.31.26.md#^ref-e108b8dd-1-0) (line 1, col 0, score 1)
-- [Git Intelligence for Strategic Code Management — L6](2025.09.03.11.31.26.md#^ref-e108b8dd-6-0) (line 6, col 0, score 1)
-- [git-commit-ollama-semantic-grouping — L108](2025.09.03.10.57.39.md#^ref-26bd1c45-108-0) (line 108, col 0, score 0.94)
-- [git-commit-ollama-semantic-grouping — L289](2025.09.03.10.57.39.md#^ref-26bd1c45-289-0) (line 289, col 0, score 0.94)
-- [sibilant-meta-string-templating-runtime — L92](sibilant-meta-string-templating-runtime.md#^ref-2aafc801-92-0) (line 92, col 0, score 0.88)
-- [ecs-scheduler-and-prefabs — L379](ecs-scheduler-and-prefabs.md#^ref-c62a1815-379-0) (line 379, col 0, score 0.86)
-- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.85)
+- [Promethean Full-Stack Docker Setup — L404](promethean-full-stack-docker-setup.md#L404) (line 404, col 1, score 0.96)
+- [Promethean Infrastructure Setup — L545](promethean-infrastructure-setup.md#L545) (line 545, col 1, score 0.9)
+- [Pure TypeScript Search Microservice — L62](pure-typescript-search-microservice.md#L62) (line 62, col 1, score 0.88)
+- [Promethean Web UI Setup — L415](promethean-web-ui-setup.md#L415) (line 415, col 1, score 0.89)
+- [Pure TypeScript Search Microservice — L468](pure-typescript-search-microservice.md#L468) (line 468, col 1, score 0.85)
+- [Promethean Web UI Setup — L581](promethean-web-ui-setup.md#L581) (line 581, col 1, score 0.9)
+- [Pure TypeScript Search Microservice — L496](pure-typescript-search-microservice.md#L496) (line 496, col 1, score 0.88)
+- [Promethean Infrastructure Setup — L589](promethean-infrastructure-setup.md#L589) (line 589, col 1, score 1)
+- [Promethean Infrastructure Setup — L589](promethean-infrastructure-setup.md#L589) (line 589, col 3, score 1)
+- [Promethean Web UI Setup — L602](promethean-web-ui-setup.md#L602) (line 602, col 1, score 1)
+- [Promethean Web UI Setup — L602](promethean-web-ui-setup.md#L602) (line 602, col 3, score 1)
+- [Prometheus Observability Stack — L506](prometheus-observability-stack.md#L506) (line 506, col 1, score 1)
+- [Prometheus Observability Stack — L506](prometheus-observability-stack.md#L506) (line 506, col 3, score 1)
+- [Pure TypeScript Search Microservice — L526](pure-typescript-search-microservice.md#L526) (line 526, col 1, score 1)
+- [Pure TypeScript Search Microservice — L526](pure-typescript-search-microservice.md#L526) (line 526, col 3, score 1)
+- [api-gateway-versioning — L284](api-gateway-versioning.md#L284) (line 284, col 1, score 1)
+- [api-gateway-versioning — L284](api-gateway-versioning.md#L284) (line 284, col 3, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 3, score 1)
+- [Dynamic Context Model for Web Components — L384](dynamic-context-model-for-web-components.md#L384) (line 384, col 1, score 1)
+- [Dynamic Context Model for Web Components — L384](dynamic-context-model-for-web-components.md#L384) (line 384, col 3, score 1)
+- [ecs-offload-workers — L458](ecs-offload-workers.md#L458) (line 458, col 1, score 1)
+- [ecs-offload-workers — L458](ecs-offload-workers.md#L458) (line 458, col 3, score 1)
+- [Promethean Full-Stack Docker Setup — L436](promethean-full-stack-docker-setup.md#L436) (line 436, col 1, score 1)
+- [Promethean Full-Stack Docker Setup — L436](promethean-full-stack-docker-setup.md#L436) (line 436, col 3, score 1)
+- [Promethean Infrastructure Setup — L585](promethean-infrastructure-setup.md#L585) (line 585, col 1, score 1)
+- [Promethean Infrastructure Setup — L585](promethean-infrastructure-setup.md#L585) (line 585, col 3, score 1)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L428](pure-node-crawl-stack-with-playwright-and-crawlee.md#L428) (line 428, col 1, score 1)
+- [Pure-Node Crawl Stack with Playwright and Crawlee — L428](pure-node-crawl-stack-with-playwright-and-crawlee.md#L428) (line 428, col 3, score 1)
+- [Pure TypeScript Search Microservice — L521](pure-typescript-search-microservice.md#L521) (line 521, col 1, score 1)
+- [Pure TypeScript Search Microservice — L521](pure-typescript-search-microservice.md#L521) (line 521, col 3, score 1)
+- [api-gateway-versioning — L288](api-gateway-versioning.md#L288) (line 288, col 1, score 1)
+- [api-gateway-versioning — L288](api-gateway-versioning.md#L288) (line 288, col 3, score 1)
+- [Promethean Full-Stack Docker Setup — L440](promethean-full-stack-docker-setup.md#L440) (line 440, col 1, score 1)
+- [Promethean Full-Stack Docker Setup — L440](promethean-full-stack-docker-setup.md#L440) (line 440, col 3, score 1)
+- [Promethean Infrastructure Setup — L584](promethean-infrastructure-setup.md#L584) (line 584, col 1, score 1)
+- [Promethean Infrastructure Setup — L584](promethean-infrastructure-setup.md#L584) (line 584, col 3, score 1)
+- [Promethean Web UI Setup — L603](promethean-web-ui-setup.md#L603) (line 603, col 1, score 1)
+- [Promethean Web UI Setup — L603](promethean-web-ui-setup.md#L603) (line 603, col 3, score 1)
+- [Promethean Web UI Setup — L614](promethean-web-ui-setup.md#L614) (line 614, col 1, score 0.99)
+- [Promethean Web UI Setup — L614](promethean-web-ui-setup.md#L614) (line 614, col 3, score 0.99)
+- [Promethean Web UI Setup — L610](promethean-web-ui-setup.md#L610) (line 610, col 1, score 0.99)
+- [Promethean Web UI Setup — L610](promethean-web-ui-setup.md#L610) (line 610, col 3, score 0.99)
+- [eidolon-field-math-foundations — L153](eidolon-field-math-foundations.md#L153) (line 153, col 1, score 1)
+- [eidolon-field-math-foundations — L153](eidolon-field-math-foundations.md#L153) (line 153, col 3, score 1)
+- [shared-package-layout-clarification — L178](shared-package-layout-clarification.md#L178) (line 178, col 1, score 0.99)
+- [shared-package-layout-clarification — L178](shared-package-layout-clarification.md#L178) (line 178, col 3, score 0.99)
+- [Local-Only-LLM-Workflow — L189](local-only-llm-workflow.md#L189) (line 189, col 1, score 0.99)
+- [Local-Only-LLM-Workflow — L189](local-only-llm-workflow.md#L189) (line 189, col 3, score 0.99)
+- [ecs-offload-workers — L476](ecs-offload-workers.md#L476) (line 476, col 1, score 0.99)
+- [ecs-offload-workers — L476](ecs-offload-workers.md#L476) (line 476, col 3, score 0.99)
+- [Promethean Web UI Setup — L612](promethean-web-ui-setup.md#L612) (line 612, col 1, score 0.99)
+- [Promethean Web UI Setup — L612](promethean-web-ui-setup.md#L612) (line 612, col 3, score 0.99)
+- [Promethean Web UI Setup — L611](promethean-web-ui-setup.md#L611) (line 611, col 1, score 0.99)
+- [Promethean Web UI Setup — L611](promethean-web-ui-setup.md#L611) (line 611, col 3, score 0.99)
+- [Promethean Full-Stack Docker Setup — L443](promethean-full-stack-docker-setup.md#L443) (line 443, col 1, score 0.99)
+- [Promethean Full-Stack Docker Setup — L443](promethean-full-stack-docker-setup.md#L443) (line 443, col 3, score 0.99)
+- [Promethean Full-Stack Docker Setup — L444](promethean-full-stack-docker-setup.md#L444) (line 444, col 1, score 0.99)
+- [Promethean Full-Stack Docker Setup — L444](promethean-full-stack-docker-setup.md#L444) (line 444, col 3, score 0.99)
+- [Pure TypeScript Search Microservice — L531](pure-typescript-search-microservice.md#L531) (line 531, col 1, score 0.98)
+- [Pure TypeScript Search Microservice — L531](pure-typescript-search-microservice.md#L531) (line 531, col 3, score 0.98)
+- [Pure TypeScript Search Microservice — L532](pure-typescript-search-microservice.md#L532) (line 532, col 1, score 0.98)
+- [Pure TypeScript Search Microservice — L532](pure-typescript-search-microservice.md#L532) (line 532, col 3, score 0.98)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

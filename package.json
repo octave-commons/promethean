@@ -21,6 +21,8 @@
     "enforce:esm-ext": "eslint \"packages/**/src/**/*.{ts,tsx}\" --rule 'import/extensions: [2, \"always\", { ignorePackages: true }]'",
     "dev:all": "node scripts/dev.mjs",
     "gen:ecosystem": "node scripts/generate-ecosystem.mjs",
+    "lint:dup": "jscpd --min-tokens 30 packages",
+    "lint:unused": "ts-unused-exports tsconfig.json --showLineNumbers",
     "clean": "pnpm -r exec bash -lc 'rm -rf dist build coverage .turbo .cache .vite .parcel-cache .rollup.cache .ava .ava_cache .eslintcache *.tsbuildinfo playwright-report test-results || true' && rm -rf .turbo pnpm-debug.log*",
     "clean:changed": "pnpm -r --filter \"...[dev]\" exec bash -lc 'rm -rf dist build coverage .turbo .cache .vite .parcel-cache .rollup.cache .ava .ava_cache .eslintcache *.tsbuildinfo playwright-report test-results || true'",
     "clean:deep": "pnpm run clean && pnpm -r exec bash -lc 'rm -rf node_modules || true' && rm -rf node_modules && pnpm store prune"

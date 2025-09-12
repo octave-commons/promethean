@@ -4,7 +4,6 @@ set -euo pipefail
 # discover all env vars
 set
 
-git fetch origin main
 
 command -v uvx >/dev/null || { echo "uvx not found on PATH after install" >&2; exit 1; }
 # If there isn't a pre-commit file, we have a problem.
