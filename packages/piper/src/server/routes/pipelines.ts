@@ -7,6 +7,7 @@ import { FileSchema } from "../../types.js";
 import { sseInit } from "../sse.js";
 import { runPipeline } from "../../runner.js";
 import type { PiperEvent } from "../../lib/events.js";
+import rateLimit from "@fastify/rate-limit";
 
 async function loadConfig(configPath: string) {
   const raw = await fs.readFile(configPath, "utf-8");
@@ -20,6 +21,12 @@ export async function registerPipelineRoutes(
   opts: { CONFIG_PATH: string; errToString: (e: unknown) => string },
 ) {
   const { CONFIG_PATH, errToString } = opts;
+  // Register the rate limit plugin globally if not already registered
+  await app.register(rateLimit, {
+    max: 100, // Default: max 100 requests per 15 min window
+    timeWindow: "15 minutes",
+    allowList: [], // Adjust as needed
+  });
 
   app.get("/api/pipelines", async (_req, reply) => {
     try {
