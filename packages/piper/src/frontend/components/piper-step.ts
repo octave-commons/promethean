@@ -1,5 +1,20 @@
 import { getSelection } from "../selection.js";
 
+// Escape HTML special characters to prevent XSS when interpolating into HTML strings.
+function escapeHTML(str: string = ""): string {
+  return str.replace(/[&<>"'/]/g, (char) => {
+    const escapeChars: { [key: string]: string } = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+      "/": "&#x2F;",
+    };
+    return escapeChars[char] || char;
+  });
+}
+
 export class PiperStep extends HTMLElement {
   private pipeline = "";
   private step: any = {};
@@ -27,7 +42,7 @@ export class PiperStep extends HTMLElement {
         input { flex:1 1 auto; }
         pre { background:#f6f6f6; padding:6px; border-radius:4px; max-height:180px; overflow:auto; }
       </style>
-      <h4>${step.name || step.id}</h4>
+      <h4>${escapeHTML(step.name) || escapeHTML(step.id)}</h4>
       <div id="fields"></div>
       <button id="runBtn">Run</button>
       <pre id="log"></pre>
