@@ -228,18 +228,16 @@ kanban-plugin: board
 
 ## Incoming
 
-- [ ] [[migrate legacy js services to ts]]
 
 
 ## Accepted
 
+- [ ] [[migrate legacy js services to ts]]
 - [ ] codex cloud setup script generates a startup report
 - [ ] whole project builds with new stricter tsconfig
 - [ ] [[github-crawler]]
 - [ ] [[docs/agile/boards/consolidate-all-configs-into---config--as--.edn--files]] #incoming
 - [ ] [[ci-passses]] #incoming
-- [ ] [[docs/bb-tool-chain]] #incoming
-- [ ] [[rewrite build tools with bb]]
 - [ ] [[docker-compose-edn-template-system]]
 - [ ] [[integrate-sonarqube-into-devops]] #incoming
 - [ ] [[tree-diffing-tools]]
