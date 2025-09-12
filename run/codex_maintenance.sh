@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-pnpm install --no-frozen-lockfile
+pnpm install --frozen-lockfile
 
 # start the server if not running
 curl -fsS http://127.0.0.1:8000/api/v2/heartbeat >/dev/null 2>&1 || \
