@@ -4,7 +4,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
-    "coverage": "pnpm build && c8 ava",
+    "coverage": "pnpm build && c8 ava"
   },
   "dependencies": {
     "@chroma-core/ollama": "^0.1.7",
