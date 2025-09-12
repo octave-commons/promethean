@@ -1,52 +1,84 @@
-// @ts-nocheck
-import type { Db, ResumeToken } from 'mongodb';
-import { EventBus } from '@promethean/event/types.js';
+/* eslint-disable functional/no-let, functional/no-loop-statements, functional/no-try-statements, max-lines-per-function */
+import type { Db } from 'mongodb';
+import type { EventBus } from '@promethean/event/types.js';
+import { retry } from '@promethean/utils';
 
-export type ChangefeedOptions = {
+import type { ResumeTokenStore } from './resume.mongo.js';
+
+export type ChangefeedOptions<TDoc, TPayload = TDoc> = {
     collection: string;
     topic: string;
     fullDocument?: 'updateLookup' | 'whenAvailable'; // default "updateLookup"
-    resumeTokenStore?: {
-        load(): Promise<ResumeToken | null>;
-        save(tok: ResumeToken): Promise<void>;
-    };
-    filter?: (doc: any) => boolean; // drop noisy changes if needed
-    map?: (doc: any) => any; // transform doc->payload
+    resumeTokenStore?: ResumeTokenStore;
+    filter?: (doc: TDoc) => boolean; // drop noisy changes if needed
+    map?: (doc: TDoc) => TPayload; // transform doc->payload
 };
 
-export async function startMongoChangefeed(db: Db, bus: EventBus, opts: ChangefeedOptions) {
-    const coll = db.collection(opts.collection);
-    const resume = await opts.resumeTokenStore?.load();
-
-    const cs = coll.watch([], {
-        fullDocument: opts.fullDocument ?? 'updateLookup',
-        resumeAfter: resume ?? undefined,
-    });
+export function startMongoChangefeed<TDoc extends { _id?: unknown }, TPayload = TDoc>(
+    db: Db,
+    bus: EventBus,
+    opts: ChangefeedOptions<TDoc, TPayload>,
+): () => Promise<void> {
+    const coll = db.collection<TDoc>(opts.collection);
 
     let stopped = false;
+    let currentStream: { close(): Promise<void> } | null = null;
+
     (async () => {
-        for await (const change of cs) {
-            if (stopped) break;
-            const doc = change.fullDocument ?? change.documentKey;
-            if (opts.filter && !opts.filter(doc)) continue;
-
-            const payload = opts.map ? opts.map(doc) : doc;
-            await bus.publish(opts.topic, payload, {
-                key: String(doc._id),
-                headers: {
-                    'x-mongo-op': change.operationType,
-                    'x-change-clusterTime': String(change.clusterTime),
-                },
-            });
-
-            if (opts.resumeTokenStore && change._id) await opts.resumeTokenStore.save(change._id);
+        let resume = await opts.resumeTokenStore?.load();
+        while (!stopped) {
+            try {
+                await retry(
+                    async () => {
+                        const cs = coll.watch<TDoc>([], {
+                            fullDocument: opts.fullDocument ?? 'updateLookup',
+                            resumeAfter: resume ?? undefined,
+                        });
+                        currentStream = cs;
+                        try {
+                            for await (const change of cs) {
+                                if (stopped) break;
+                                const c = change as { fullDocument?: TDoc; documentKey?: TDoc };
+                                const doc = (c.fullDocument ?? c.documentKey)!;
+                                if (opts.filter && !opts.filter(doc)) continue;
+                                const payload = opts.map ? opts.map(doc) : (doc as unknown as TPayload);
+                                await bus.publish<TPayload>(opts.topic, payload, {
+                                    key: String(doc._id ?? ''),
+                                    headers: {
+                                        'x-mongo-op': change.operationType,
+                                        'x-change-clusterTime': String(change.clusterTime),
+                                    },
+                                });
+                                if (opts.resumeTokenStore && change._id) {
+                                    await opts.resumeTokenStore.save(change._id);
+                                    resume = change._id;
+                                }
+                            }
+                        } finally {
+                            await cs.close();
+                        }
+                    },
+                    {
+                        attempts: 5,
+                        backoff: (a) => 100 * a + Math.floor(Math.random() * 50),
+                        shouldRetry: () => !stopped,
+                        onRetry: (err, attempt) => {
+                            console.error(`[changefeed:${opts.collection}] watch failed (attempt ${attempt})`, err);
+                        },
+                    },
+                );
+            } catch (err) {
+                if (!stopped) {
+                    console.error(`[changefeed:${opts.collection}] watch aborted`, err);
+                }
+            }
         }
-    })().catch(() => {
-        /* log, retry/backoff in real code */
+    })().catch((err) => {
+        console.error(`[changefeed:${opts.collection}] unexpected error`, err);
     });
 
-    return () => {
+    return async () => {
         stopped = true;
-        cs.close();
+        await currentStream?.close();
     };
 }
