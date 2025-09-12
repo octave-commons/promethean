@@ -2,9 +2,12 @@ import * as path from "node:path";
 import { promises as fs } from "node:fs";
 
 import type { FastifyInstance } from "fastify";
+import rateLimit from "@fastify/rate-limit";
 import { buildTree, filterTree, type TreeNode } from "@promethean/fs";
 
 export async function registerFileRoutes(app: FastifyInstance) {
+  // Register rate limit plugin for local route settings (not global)
+  await app.register(rateLimit, { global: false });
   // Basic file listing for File Explorer
   app.get<{
     Querystring: {
