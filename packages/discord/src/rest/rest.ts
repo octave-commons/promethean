@@ -9,9 +9,14 @@ type RestResponse = {
   body?: unknown;
 };
 
+export function getChannelId(spaceUrn: string): string {
+  const parts = spaceUrn.split(":");
+  return parts[parts.length - 1] as string;
+}
+
 export class DiscordRestProxy {
-  private readonly buckets = new Map<string, TokenBucket>();
-  private readonly retryUntil = new Map<string, number>();
+  private buckets = new Map<string, TokenBucket>();
+  private retryUntil = new Map<string, number>();
   private readonly capacity: number;
   private readonly refillPerSec: number;
 
@@ -27,14 +32,12 @@ export class DiscordRestProxy {
       capacity: this.capacity,
       refillPerSec: this.refillPerSec,
     });
-    // eslint-disable-next-line functional/immutable-data
-    this.buckets.set(key, bucket);
+    this.buckets = new Map(this.buckets).set(key, bucket);
     return bucket;
   }
 
   routeForPostMessage(spaceUrn: string) {
-    const parts = spaceUrn.split(":");
-    const channelId = parts[parts.length - 1];
+    const channelId = getChannelId(spaceUrn);
     return {
       method: "POST",
       route: `/channels/${channelId}/messages`,
@@ -42,8 +45,7 @@ export class DiscordRestProxy {
   }
 
   routeForDeleteMessage(spaceUrn: string, messageId: string) {
-    const parts = spaceUrn.split(":");
-    const channelId = parts[parts.length - 1];
+    const channelId = getChannelId(spaceUrn);
     return {
       method: "DELETE",
       route: `/channels/${channelId}/messages/${messageId}`,
@@ -51,8 +53,7 @@ export class DiscordRestProxy {
   }
 
   routeForAddReaction(spaceUrn: string, messageId: string, emoji: string) {
-    const parts = spaceUrn.split(":");
-    const channelId = parts[parts.length - 1];
+    const channelId = getChannelId(spaceUrn);
     // emoji must be URL-encoded per Discord API
     const e = encodeURIComponent(emoji);
     return {
@@ -62,8 +63,7 @@ export class DiscordRestProxy {
   }
 
   routeForRemoveReaction(spaceUrn: string, messageId: string, emoji: string) {
-    const parts = spaceUrn.split(":");
-    const channelId = parts[parts.length - 1];
+    const channelId = getChannelId(spaceUrn);
     const e = encodeURIComponent(emoji);
     return {
       method: "DELETE",
@@ -80,8 +80,7 @@ export class DiscordRestProxy {
       around?: string;
     },
   ) {
-    const parts = spaceUrn.split(":");
-    const channelId = parts[parts.length - 1];
+    const channelId = getChannelId(spaceUrn);
     const usp = new URLSearchParams();
     if (params?.limit) usp.set("limit", String(params.limit));
     if (params?.before) usp.set("before", params.before);
@@ -161,12 +160,13 @@ export class DiscordRestProxy {
     }
     if (res.status === 429) {
       // drain remaining tokens to slow down this bucket
-      // eslint-disable-next-line functional/no-loop-statements
-      while (bucket.tryConsume()) {}
+      bucket.drain();
       const retryData = (await res.json()) as { retry_after?: number };
       const retry = Number(retryData.retry_after) * 1000 || 1000;
-      // eslint-disable-next-line functional/immutable-data
-      this.retryUntil.set(bucketKey, Date.now() + retry);
+      this.retryUntil = new Map(this.retryUntil).set(
+        bucketKey,
+        Date.now() + retry,
+      );
       return {
         ok: false,
         status: 429,
