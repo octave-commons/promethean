@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DIR="${1:-.}"
+# Tweak similarity threshold if your renames include heavy edits (lower => more likely to detect rename)
+SIMILARITY="${SIMILARITY:-40}"
+
+# For each file under DIR (skip .git)
+find "$DIR" -type f -not -path '*/.git/*' -print0 | while IFS= read -r -d '' f; do
+  # Get the earliest commit that touches this file, following renames
+  # and capture the filename as it existed in that earliest commit.
+  # We reverse the log, so the first block is the oldest.
+  mapfile -t first < <(
+    git -c diff.renames=true \
+        log --follow -M${SIMILARITY}% --reverse \
+        --format='%H' --name-only -- "$f" \
+      | awk 'NR==1{c=$0; getline; print c "\t" $0}'
+  )
+
+  [[ ${#first[@]} -eq 0 ]] && continue
+  commit="${first[0]%%$'\t'*}"
+  oldpath="${first[0]#*$'\t'}"
+
+  # Safety: require both pieces
+  [[ -z "$commit" || -z "$oldpath" ]] && continue
+
+  # Write the historical blob into the current path
+  # (works even if the historical name differs)
+  git show "${commit}:${oldpath}" > "$f"
+  echo "Restored $f from ${commit}:${oldpath}"
+done
