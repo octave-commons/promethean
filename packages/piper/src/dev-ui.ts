@@ -5,14 +5,14 @@ import { promises as fs } from "node:fs";
 import fastifyFactory from "fastify";
 import fastifyStatic from "@fastify/static";
 import fastifyRateLimit from "@fastify/rate-limit";
-import { buildTree, filterTree, type TreeNode } from "@promethean/fs";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
-import type { FastifyReply } from "fastify";
+import chokidar from "chokidar";
 
-import { runPipeline } from "./runner.js";
-import type { PiperEvent } from "./lib/events.js";
-import { FileSchema } from "./types.js";
+import { registerFileRoutes } from "./server/routes/files.js";
+import { registerPipelineRoutes } from "./server/routes/pipelines.js";
+import { sseInit } from "./server/sse.js";
+import { PiperStepSchema } from "./server/schemas.js";
 
 function getArg(flag: string, dflt: string): string {
   const idx = process.argv.indexOf(flag);
@@ -21,7 +21,9 @@ function getArg(flag: string, dflt: string): string {
   return val && !val.startsWith("-") ? val : dflt;
 }
 
-const CONFIG_PATH = path.resolve(getArg("--config", "pipelines.json"));
+const CONFIG_PATH = path.resolve(
+  getArg("--config", process.env.PIPER_CONFIG || process.env.npm_config_config || "pipelines.json"),
+);
 const rawPort = Number(getArg("--port", "3939"));
 const PORT = Number.isFinite(rawPort) ? rawPort : 3939;
 const HOST = getArg("--host", "127.0.0.1");
@@ -36,88 +38,24 @@ const FRONTEND_DIST = path.resolve(
   "../dist/frontend",
 );
 
-async function loadConfig() {
-  const raw = await fs.readFile(CONFIG_PATH, "utf-8");
-  const parsed = FileSchema.safeParse(JSON.parse(raw));
-  if (!parsed.success) throw new Error(parsed.error.message);
-  return parsed.data;
-}
-
 function errToString(e: unknown): string {
   return String((e as { message?: unknown })?.message ?? e);
 }
 
-const PiperStepSchema = {
-  $id: "piper.step",
-  type: "object",
-  additionalProperties: false,
-  properties: {
-    id: { type: "string" },
-    name: { type: "string" },
-    deps: { type: "array", items: { type: "string" }, default: [] },
-    cwd: { type: "string", default: "." },
-    env: {
-      type: "object",
-      additionalProperties: { type: "string" },
-      default: {},
-    },
-    inputs: { type: "array", items: { type: "string" }, default: [] },
-    outputs: { type: "array", items: { type: "string" }, default: [] },
-    cache: {
-      type: "string",
-      enum: ["content", "mtime", "none"],
-      default: "content",
-    },
-    shell: { type: "string" },
-    node: { type: "string" },
-    args: { type: "array", items: { type: "string" } },
-    timeoutMs: { type: "number" },
-    retry: { type: "integer", minimum: 0, default: 0 },
-    js: {
-      type: "object",
-      properties: {
-        module: { type: "string" },
-        export: { type: "string", default: "default" },
-        args: {},
-        isolate: { type: "string", enum: ["worker"] },
-      },
-      required: ["module"],
-    },
-    ts: {
-      type: "object",
-      properties: {
-        module: { type: "string" },
-        export: { type: "string", default: "default" },
-        args: {},
-      },
-      required: ["module"],
-    },
-  },
-  anyOf: [
-    { required: ["shell"] },
-    { required: ["node"] },
-    { required: ["js"] },
-    { required: ["ts"] },
-  ],
-  required: ["id"],
-} as const;
-
-function sseInit(reply: FastifyReply) {
-  reply.raw.setHeader("Content-Type", "text/event-stream");
-  reply.raw.setHeader("Cache-Control", "no-cache");
-  reply.raw.setHeader("Connection", "keep-alive");
-  reply.hijack();
-  // send a prelude to establish the stream
-  reply.raw.write(`: ok\n\n`);
-  return (line: string) => {
-    const raw = reply.raw as { writableEnded?: boolean; destroyed?: boolean };
-    if (raw?.writableEnded || raw?.destroyed) return;
-    const safe = String(line).replace(/[\r\n]/g, "\\n");
-    reply.raw.write(`data: ${safe}\n\n`);
-  };
-}
-
 const app = fastifyFactory({ logger: false });
+
+// Development events: optional SSE stream for hot-reload signals.
+app.get("/api/dev-events", async (_req, reply) => {
+  const send = sseInit(reply);
+  send("frontend:update");
+  const root = path.resolve(process.cwd(), "packages/piper/src/frontend");
+  const watcher = chokidar.watch([`${root}/**/*.ts`, `${root}/**/*.css`, `${path.resolve(process.cwd(), "packages/piper/ui")}/**/*`], { ignoreInitial: true });
+  const rebuild = async () => {
+    send("frontend:update");
+  };
+  watcher.on("all", () => void rebuild());
+  reply.raw.on("close", () => watcher.close());
+});
 await app.register(fastifyStatic, { root: UI_ROOT, prefix: "/ui" });
 await app.register(fastifyStatic, {
   root: FRONTEND_DIST,
@@ -160,275 +98,8 @@ app.get("/", async (_req, reply) => {
   return reply.send(html);
 });
 
-// Basic file listing for File Explorer
-app.get<{
-  Querystring: {
-    dir?: string;
-    maxDepth?: string;
-    maxEntries?: string;
-    exts?: string;
-  };
-}>("/api/files", async (req, reply) => {
-  const workspaceRoot = path.resolve(process.cwd());
-  const root = path.resolve(workspaceRoot, req.query.dir || ".");
-  // Make sure the resolved root is within the workspace
-  if (!root.startsWith(workspaceRoot)) {
-    return reply.code(400).send({ error: "invalid directory" });
-  }
-  const maxDepth = Math.max(0, Number(req.query.maxDepth || "2") | 0) || 2;
-  const maxEntries =
-    Math.max(1, Number(req.query.maxEntries || "500") | 0) || 500;
-  const exts = new Set(
-    (req.query.exts || ".md,.mdx,.txt,.markdown")
-      .split(",")
-      .map((s) => s.trim().toLowerCase())
-      .filter(Boolean),
-  );
-  type Node = {
-    type: "dir" | "file";
-    name: string;
-    children?: Node[];
-    size?: number;
-  };
-
-  const treeNode = await buildTree(root, { includeHidden: false, maxDepth });
-  let count = 0;
-  const filtered = filterTree(treeNode, (n) => {
-    if (n.type === "file") {
-      const ext = (n.ext ?? "").toLowerCase();
-      if (!exts.has(ext) || count >= maxEntries) return false;
-      count++;
-    }
-    return true;
-  });
-
-  function toNode(n: TreeNode): Node | null {
-    if (n.type === "dir") {
-      const children = n.children
-        ?.map(toNode)
-        .filter((c): c is Node => c !== null);
-      if (!children || children.length === 0) return null;
-      return { type: "dir", name: n.name, children };
-    }
-    if (n.type === "file") {
-      return {
-        type: "file",
-        name: n.name,
-        ...(n.size !== undefined ? { size: n.size } : {}),
-      };
-    }
-    return null;
-  }
-
-  const tree =
-    filtered?.children?.map(toNode).filter((c): c is Node => c !== null) ?? [];
-  reply.header("content-type", "application/json");
-  return reply.send({ dir: root, tree });
-});
-
-// Read a text file (UTF-8) under the workspace
-app.get<{ Querystring: { path?: string } }>(
-  "/api/read-file",
-  {
-    config: {
-      rateLimit: {
-        max: 10, // limit each IP to 10 requests per minute
-        timeWindow: "1 minute",
-      },
-    },
-  },
-  async (req, reply) => {
-    const ROOT = process.cwd();
-    const p = req.query.path ? path.resolve(req.query.path) : "";
-    if (!p || !p.startsWith(ROOT)) {
-      return reply.code(400).send({ error: "invalid path" });
-    }
-    try {
-      const content = await fs.readFile(p, "utf8");
-      reply.header("content-type", "application/json");
-      return reply.send({ path: p, content });
-    } catch (e: unknown) {
-      return reply.code(404).send({ error: errToString(e) });
-    }
-  },
-);
-
-// Write a text file (UTF-8) under the workspace
-app.post<{ Body: { path?: string; content?: string } }>(
-  "/api/write-file",
-  {
-    config: {
-      rateLimit: {
-        max: 10, // limit each IP to 10 requests per minute
-        timeWindow: "1 minute",
-      },
-    },
-  },
-  async (req, reply) => {
-    const ROOT = process.cwd();
-    const p = req.body?.path ? path.resolve(req.body.path) : "";
-    const content = req.body?.content ?? "";
-    if (!p || !p.startsWith(ROOT)) {
-      return reply.code(400).send({ error: "invalid path" });
-    }
-    try {
-      await fs.mkdir(path.dirname(p), { recursive: true });
-      await fs.writeFile(p, content, "utf8");
-      reply.header("content-type", "application/json");
-      return reply.send({ ok: true });
-    } catch (e: unknown) {
-      return reply.code(500).send({ error: errToString(e) });
-    }
-  },
-);
-
-app.get("/api/pipelines", async (_req, reply) => {
-  try {
-    const cfg = await loadConfig();
-    reply.header("content-type", "application/json");
-    return reply.send({ pipelines: cfg.pipelines });
-  } catch (e: unknown) {
-    reply.code(200).header("content-type", "application/json");
-    return reply.send({ pipelines: [], error: errToString(e) });
-  }
-});
-
-app.get<{ Querystring: Record<string, string | undefined> }>(
-  "/api/run-step",
-  {
-    config: {
-      rateLimit: {
-        max: 10, // limit each IP to 10 requests per minute
-        timeWindow: "1 minute",
-      },
-    },
-  },
-  async (req, reply) => {
-    const pipeline = req.query.pipeline ?? "";
-    const step = req.query.step ?? "";
-    const send = sseInit(reply);
-    if (!pipeline || !step) {
-      send("missing pipeline or step");
-      reply.raw.end();
-      return;
-    }
-    const cfg = await loadConfig();
-    const pl = cfg.pipelines.find((p) => p.name === pipeline);
-    if (!pl) {
-      send(`pipeline '${pipeline}' not found`);
-      reply.raw.end();
-      return;
-    }
-    if (!pl.steps.some((s) => s.id === step)) {
-      send(`step '${step}' not found in pipeline '${pipeline}'`);
-      reply.raw.end();
-      return;
-    }
-    // Optional: create a one-off config that injects selected files or overrides
-    let useConfigPath = CONFIG_PATH;
-    try {
-      const filesParam = req.query.files || "";
-      const files = filesParam
-        ? filesParam
-            .split(",")
-            .map((s) => s.trim())
-            .filter(Boolean)
-        : [];
-
-      const overrides: Record<string, any> = {};
-      const env: Record<string, string> = {};
-      const args: Record<string, any> = {};
-      const js: Record<string, any> = {};
-      const ts: Record<string, any> = {};
-      const parseVal = (v: string) => {
-        if (v === "true") return true;
-        if (v === "false") return false;
-        const n = Number(v);
-        return Number.isNaN(n) ? v : n;
-      };
-      for (const [k, v] of Object.entries(req.query)) {
-        if (k.startsWith("env.")) env[k.slice(4)] = v!;
-        else if (k.startsWith("arg.")) args[k.slice(4)] = parseVal(v!);
-        else if (k.startsWith("js.")) js[k.slice(3)] = v!;
-        else if (k.startsWith("ts.")) ts[k.slice(3)] = v!;
-        else if (!["pipeline", "step", "files", "force"].includes(k))
-          overrides[k] = parseVal(v!);
-      }
-
-      const hasOverrides =
-        files.length ||
-        Object.keys(overrides).length ||
-        Object.keys(env).length ||
-        Object.keys(args).length ||
-        Object.keys(js).length ||
-        Object.keys(ts).length;
-
-      if (hasOverrides) {
-        const clone = JSON.parse(JSON.stringify(cfg)) as typeof cfg;
-        const p2 = clone.pipelines.find((p) => p.name === pipeline);
-        if (!p2) throw new Error(`pipeline '${pipeline}' not found`);
-        const s2 = p2.steps.find((x) => x.id === step);
-        if (!s2) throw new Error(`step '${step}' not found`);
-        Object.assign(s2, overrides);
-        if (Object.keys(env).length) s2.env = { ...(s2.env || {}), ...env };
-        if (Object.keys(js).length || (Object.keys(args).length && s2.js)) {
-          s2.js = { ...(s2.js || {}), ...js } as any;
-          if (Object.keys(args).length) {
-            const cur =
-              s2.js && typeof s2.js.args === "object" ? s2.js.args : {};
-            s2.js.args = { ...cur, ...args };
-          }
-        }
-        if (Object.keys(ts).length || (Object.keys(args).length && s2.ts)) {
-          s2.ts = { ...(s2.ts || {}), ...ts } as any;
-          if (Object.keys(args).length) {
-            const cur =
-              s2.ts && typeof s2.ts.args === "object" ? s2.ts.args : {};
-            s2.ts.args = { ...cur, ...args };
-          }
-        }
-        if (files.length) {
-          if (s2.js) {
-            const current =
-              s2.js.args && typeof s2.js.args === "object" ? s2.js.args : {};
-            s2.js.args = { ...current, files };
-          } else {
-            s2.env = { ...(s2.env || {}), PIPER_FILES: JSON.stringify(files) };
-          }
-        }
-        await fs.mkdir(path.dirname(CONFIG_PATH), { recursive: true });
-        const tmpPath = path.resolve(
-          path.dirname(CONFIG_PATH),
-          ".cache/piper.ui.run.json",
-        );
-        await fs.writeFile(tmpPath, JSON.stringify(clone, null, 2), "utf8");
-        useConfigPath = tmpPath;
-      }
-    } catch (e: unknown) {
-      send(`failed to prepare run config: ${errToString(e)}`);
-    }
-    const emit = (ev: PiperEvent) => {
-      if (ev.stepId !== step) return;
-      if (ev.type === "start") send(`START ${ev.stepId}`);
-      else if (ev.type === "skip") send(`SKIP ${ev.reason}`);
-      else if (ev.type === "end") {
-        if (ev.result.stdout) send(ev.result.stdout);
-        if (ev.result.stderr) send(ev.result.stderr);
-        send(`EXIT ${ev.result.exitCode}`);
-      }
-    };
-    try {
-      await runPipeline(useConfigPath, pipeline, {
-        json: true,
-        force: req.query.force === "true",
-        emit,
-      });
-    } catch (e: unknown) {
-      send(String((e as Error)?.stack || e));
-    }
-    reply.raw.end();
-  },
-);
+await registerFileRoutes(app);
+await registerPipelineRoutes(app, { CONFIG_PATH, errToString });
 
 app
   .listen({ port: PORT, host: HOST })

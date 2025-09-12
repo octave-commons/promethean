@@ -21,7 +21,7 @@ import {
 
 const logger = createLogger({ service: "smartgpt-bridge", stream: logStream });
 
-export interface CollectionLike {
+export type CollectionLike = {
   upsert(args: UpsertRecordsParams): Promise<void>;
   query(args: QueryRecordsParams): Promise<any>;
   delete(args: DeleteParams): Promise<void>;
@@ -30,7 +30,7 @@ export interface CollectionLike {
   add?(...args: any[]): Promise<void>;
 }
 
-export interface ChromaLike {
+export type ChromaLike = {
   getOrCreateCollection(
     args: GetOrCreateCollectionParams,
   ): Promise<CollectionLike>;
@@ -321,7 +321,7 @@ class IndexerManager {
         const add = now.filter((f) => !known.has(f));
         if (add.length) {
           this.bootstrap.fileList.push(...add);
-          await saveBootstrapState(this.rootPath!, {
+          await saveBootstrapState(this.rootPath, {
             mode: "bootstrap",
             cursor: this.bootstrap.cursor,
             fileList: this.bootstrap.fileList,
@@ -667,7 +667,7 @@ export async function search(_rootPath: string, q: string, n = 8) {
     text: string;
   }> = [];
   for (let i = 0; i < docs.length; i++) {
-    const m = (metas[i] as any) || {};
+    const m = (metas[i]) || {};
     const s = dists[i];
     const item: {
       id: string;

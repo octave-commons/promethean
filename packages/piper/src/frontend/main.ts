@@ -1,8 +1,33 @@
+import { setSelection } from "./selection.js";
+import "./components/piper-step.js";
+
 export type PipelineStep = Record<string, any>;
 export type Pipeline = { name: string; steps: PipelineStep[] };
 
-import { setSelection } from "./selection.js";
-import "./components/piper-step.js";
+// Dev HMR client: connects to backend events and hot-reloads modules without full refresh
+function startHMR() {
+  try {
+    const es = new EventSource("/api/dev-events");
+    es.onmessage = async (ev) => {
+      const msg = String(ev.data || "");
+      if (msg.startsWith("frontend:update")) {
+        try {
+          await import(`/js/main.js?ts=${Date.now()}`);
+          (window as any).__PIPER_HOT?.reloadAll?.();
+        } catch (e) {
+          console.warn("hot reload failed", e);
+        }
+      }
+    };
+    es.onerror = () => {
+      // keep silent; dev endpoint may be disabled
+      es.close();
+    };
+  } catch {
+    // ignore if EventSource not available
+  }
+}
+startHMR();
 
 type FileNode = {
   type: string;
@@ -12,6 +37,7 @@ type FileNode = {
 
 // Minimal FileTree custom element (uses /api/files like DocOps)
 class FileTree extends HTMLElement {
+  private cache: Map<string, FileNode[]> = new Map();
   async connectedCallback() {
     this.attachShadow({ mode: "open" });
     const link = document.createElement("link");
@@ -33,18 +59,23 @@ class FileTree extends HTMLElement {
     const res = await fetch(
       `/api/files?dir=${encodeURIComponent(
         ".",
-      )}&maxDepth=2&maxEntries=600&exts=.md,.mdx,.txt,.markdown`,
+      )}&maxDepth=1&maxEntries=600&exts=.md,.mdx,.txt,.markdown`,
     );
     const data = await res.json();
+    const baseDir: string = data.dir;
     const ul = document.createElement("ul");
-    const render = (parent: HTMLElement, nodes: FileNode[], prefix: string) => {
+    this.cache.set(baseDir, data.tree || []);
+
+    const renderFiles = (parent: HTMLElement, nodes: FileNode[], parentDir: string) => {
       for (const n of nodes) {
         const li = document.createElement("li");
         if (n.type === "dir") {
+          const dirPath = `${parentDir}/${n.name}`.replace(/\\/g, "/");
+          li.dataset.fullPath = dirPath;
           const line = document.createElement("div");
           line.className = "dir-line";
           const caret = document.createElement("span");
-          caret.textContent = "▼";
+          caret.textContent = "▶";
           caret.className = "caret";
           const icon = document.createElement("span");
           icon.textContent = "📁";
@@ -56,22 +87,40 @@ class FileTree extends HTMLElement {
           line.appendChild(name);
           li.appendChild(line);
           const sub = document.createElement("ul");
+          sub.style.display = "none";
           li.appendChild(sub);
           parent.appendChild(li);
-          render(sub, n.children || [], `${prefix}/${n.name}`);
-          let open = true;
-          const toggle = () => {
+
+          let loaded = false;
+          let open = false;
+          const toggle = async () => {
             open = !open;
             caret.textContent = open ? "▼" : "▶";
             sub.style.display = open ? "block" : "none";
+            if (open && !loaded) {
+              const cached = this.cache.get(dirPath);
+              if (cached) {
+                sub.innerHTML = "";
+                renderFiles(sub, cached, dirPath);
+                loaded = true;
+              } else {
+                // lazy load this directory
+                sub.innerHTML = "<li class=\"loading\">Loading…</li>";
+                const resp = await fetch(
+                  `/api/files?dir=${encodeURIComponent(dirPath)}&maxDepth=1&maxEntries=600&exts=.md,.mdx,.txt,.markdown`,
+                );
+                const dj = await resp.json();
+                sub.innerHTML = "";
+                const tree = dj.tree || [];
+                this.cache.set(dj.dir || dirPath, tree);
+                renderFiles(sub, tree, dj.dir || dirPath);
+                loaded = true;
+              }
+            }
           };
-          line.addEventListener("click", toggle);
+          line.addEventListener("click", () => void toggle());
         } else {
-          const full = (
-            data.dir +
-            "/" +
-            `${prefix}/${n.name}`.replace(/^\/+/, "")
-          ).replace(/\\/g, "/");
+          const full = `${parentDir}/${n.name}`.replace(/\\/g, "/");
           const cb = document.createElement("input");
           cb.type = "checkbox";
           cb.value = full;
@@ -87,7 +136,6 @@ class FileTree extends HTMLElement {
                 el.checked = el.value === full;
               });
             this.updateSelection();
-            // open file in editor pane
             window.dispatchEvent(
               new CustomEvent("piper:open-file", { detail: { path: full } }),
             );
@@ -98,7 +146,7 @@ class FileTree extends HTMLElement {
       }
     };
     ul.innerHTML = "";
-    render(ul, data.tree || [], "");
+    renderFiles(ul, data.tree || [], baseDir);
     rootDiv.innerHTML = "";
     rootDiv.appendChild(ul);
     // toolbar
@@ -151,11 +199,11 @@ async function init(): Promise<void> {
     data = await res.json();
   } catch (e) {
     if (logs)
-      (logs as HTMLElement).textContent = `Failed to load pipelines: ${e}`;
+      (logs).textContent = `Failed to load pipelines: ${e}`;
     return;
   }
   if (data?.error && logs)
-    (logs as HTMLElement).textContent = `Schema error: ${data.error}`;
+    (logs).textContent = `Schema error: ${data.error}`;
   (data.pipelines ?? []).forEach((p) => {
     const section = document.createElement("section");
     const h = document.createElement("h2");
