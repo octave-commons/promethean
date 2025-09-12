@@ -45,7 +45,14 @@ function errToString(e: unknown): string {
 const app = fastifyFactory({ logger: false });
 
 // Development events: optional SSE stream for hot-reload signals.
-app.get("/api/dev-events", async (_req, reply) => {
+app.get("/api/dev-events", {
+  config: {
+    rateLimit: {
+      max: 5, // allow 5 requests per minute for this endpoint
+      timeWindow: 60 * 1000, // 1 minute
+    }
+  }
+}, async (_req, reply) => {
   const send = sseInit(reply);
   send("frontend:update");
   const root = path.resolve(process.cwd(), "packages/piper/src/frontend");
