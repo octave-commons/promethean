@@ -3,7 +3,7 @@ import test from "ava";
 import { WebSocketServer } from "ws";
 import { once } from "events";
 
-import { sleep } from "@promethean/test-utils/sleep";
+import { sleep } from "@promethean/utils";
 import { BrokerClient } from "@shared/js/brokerClient.js";
 
 test.serial("BrokerClient sends messages and handles callbacks", async (t) => {

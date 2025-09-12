@@ -8,7 +8,7 @@ import {
   classifyPause,
   estimatePauseDuration,
 } from "../tokenizers.js";
-import { sleep } from "../util.js";
+import { sleep } from "@promethean/utils";
 
 import { Utterance } from "./speechCoordinator.js";
 

@@ -5,7 +5,7 @@ import { EventEmitter } from "events";
 
 import WebSocket, { WebSocketServer } from "ws";
 import test from "ava";
-import { sleep } from "@promethean/test-utils/sleep";
+import { sleep } from "@promethean/utils";
 
 import { attachRouter } from "../src/router.js";
 import { createWsServer } from "../src/wsListener.js";
