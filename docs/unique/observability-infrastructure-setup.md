@@ -1,263 +1,268 @@
 ---
-uuid: f6b5387b-d07f-47a8-8be2-55ae20a9ff35
-created_at: observability-infrastructure-setup.md
+uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+created_at: 2025.08.31.11.07.29.md
 filename: observability-infrastructure-setup
-title: observability-infrastructure-setup
 description: >-
   Ready-to-boot Docker Compose configuration for observability stack
-  (Prometheus, Grafana, Loki, Tempo) with reverse proxy and starter dashboards.
-  Deploy by pasting configs into `./infra/**` and running `docker compose
-  --profile observability up -d` for dashboards and logs on first boot.
+  (Prometheus, Grafana, Loki, Tempo, Nginx) with reverse proxy and dashboard
+  provisioning. Includes starter dashboards and config templates for seamless
+  deployment.
 tags:
-  - docker-compose
+  - docker
   - observability
   - prometheus
   - grafana
   - loki
   - tempo
+  - nginx
   - reverse-proxy
-  - logs
-  - metrics
   - dashboards
-related_to_uuid:
-  - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-  - 10d98225-12e0-4212-8e15-88b57cf7bee5
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
-  - 78eeedf7-75bc-4692-a5a7-bb6857270621
-  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
-  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
-  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
-  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - 1d3d6c3a-039e-4b96-93c1-95854945e248
-  - ffb9b2a9-744d-4a53-9565-130fceae0832
-  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - dd89372d-10de-42a9-8c96-6bc13ea36d02
-  - ca8e1399-77bf-4f77-82a3-3f703b68706d
-  - cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-  - bc5172ca-7a09-42ad-b418-8e42bb14d089
-  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
-  - c14edce7-0656-45b2-aaf3-51f042451b7d
-  - 0580dcd3-533d-4834-8a2f-eae3771960a9
+  - config
 related_to_title:
-  - Obsidian Templating Plugins Integration Guide
-  - Creative Moments
-  - Duck's Attractor States
-  - eidolon-field-math-foundations
-  - zero-copy-snapshots-and-workers
-  - typed-struct-compiler
-  - Unique Concepts
-  - Unique Info Dump Index
-  - Canonical Org-Babel Matplotlib Animation Template
-  - Mongo Outbox Implementation
-  - homeostasis-decay-formulas
-  - Layer1SurvivabilityEnvelope
-  - i3-bluetooth-setup
-  - Obsidian ChatGPT Plugin Integration Guide
-  - obsidian-ignore-node-modules-regex
-  - Ice Box Reorganization
-  - Fnord Tracer Protocol
-  - komorebi-group-window-hack
-  - Obsidian ChatGPT Plugin Integration
-  - Docops Feature Updates
-  - prom ui bootstrap
+  - Prometheus Observability Stack
   - Promethean Infrastructure Setup
-  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
-  - universal-intention-code-fabric
   - api-gateway-versioning
+  - Mongo Outbox Implementation
+  - Local-Offline-Model-Deployment-Strategy
+  - Promethean Full-Stack Docker Setup
+  - Migrate to Provider-Tenant Architecture
+  - AI-Centric OS with MCP Layer
+  - ecs-offload-workers
+  - Event Bus MVP
+  - Debugging Broker Connections and Agent Behavior
+  - Dynamic Context Model for Web Components
+  - Services
+  - prom-lib-rate-limiters-and-replay-api
+  - Pure TypeScript Search Microservice
+  - eidolon-field-math-foundations
+  - RAG UI Panel with Qdrant and PostgREST
+  - shared-package-layout-clarification
+related_to_uuid:
+  - e90b5a16-d58f-424d-bd36-70e9bd2861ad
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - 0580dcd3-533d-4834-8a2f-eae3771960a9
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 75ea4a6a-8270-488d-9d37-799c288e5f70
+  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+  - d17d3a96-c84d-4738-a403-6c733b874da2
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - 36c8882a-badc-4e18-838d-2c54d7038141
 references:
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 5495
-    col: 0
-    score: 1
-  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
-    line: 1016
-    col: 0
-    score: 1
-  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
-    line: 175
-    col: 0
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 1221
-    col: 0
-    score: 1
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 1058
-    col: 0
-    score: 1
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 515
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 251
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 559
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 1033
-    col: 0
-    score: 1
-  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
-    line: 610
-    col: 0
-    score: 0.93
-  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
-    line: 442
-    col: 0
-    score: 0.91
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 328
-    col: 0
-    score: 0.91
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 189
-    col: 0
-    score: 0.91
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 4742
-    col: 0
-    score: 0.91
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 6074
-    col: 0
-    score: 0.91
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 3301
-    col: 0
-    score: 0.91
-  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
-    line: 4353
-    col: 0
-    score: 0.91
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 4105
-    col: 0
-    score: 0.91
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 5171
-    col: 0
-    score: 0.91
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 3156
-    col: 0
-    score: 0.91
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 3645
-    col: 0
-    score: 0.91
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 2883
-    col: 0
-    score: 0.91
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 3204
-    col: 0
-    score: 0.91
   - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 64
-    col: 0
-    score: 0.9
-  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
-    line: 491
-    col: 0
+    line: 61
+    col: 1
     score: 0.9
   - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
     line: 7
-    col: 0
+    col: 1
     score: 0.89
-  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
-    line: 307
-    col: 0
-    score: 0.88
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 129
-    col: 0
-    score: 0.88
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 190
-    col: 0
-    score: 0.88
-  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-    line: 416
-    col: 0
-    score: 0.88
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 84
-    col: 0
-    score: 0.87
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 590
-    col: 0
-    score: 0.87
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 132
-    col: 0
-    score: 0.86
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 150
-    col: 0
-    score: 0.86
-  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
-    line: 44
-    col: 0
-    score: 0.86
-  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
-    line: 187
-    col: 0
-    score: 0.86
-  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
-    line: 279
-    col: 0
-    score: 0.86
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 120
-    col: 0
-    score: 0.86
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 158
-    col: 0
-    score: 0.86
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 275
-    col: 0
-    score: 0.86
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 268
-    col: 0
-    score: 0.86
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 149
-    col: 0
-    score: 0.85
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 99
-    col: 0
-    score: 0.85
-  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
-    line: 388
-    col: 0
-    score: 0.85
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 89
-    col: 0
-    score: 0.85
+  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+    line: 500
+    col: 1
+    score: 0.9
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 403
+    col: 1
+    score: 1
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 403
+    col: 3
+    score: 1
   - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
-    line: 232
-    col: 0
-    score: 0.85
+    line: 293
+    col: 1
+    score: 1
+  - uuid: ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+    line: 293
+    col: 3
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 281
+    col: 1
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 281
+    col: 3
+    score: 1
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 439
+    col: 1
+    score: 1
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 439
+    col: 3
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 284
+    col: 1
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 284
+    col: 3
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 40
+    col: 1
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 40
+    col: 3
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 384
+    col: 1
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 384
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 458
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 458
+    col: 3
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 41
+    col: 1
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 41
+    col: 3
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 385
+    col: 1
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 385
+    col: 3
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 568
+    col: 1
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 568
+    col: 3
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 524
+    col: 1
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 524
+    col: 3
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 13
+    col: 1
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 13
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 467
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 467
+    col: 3
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 549
+    col: 1
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 549
+    col: 3
+    score: 1
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 387
+    col: 1
+    score: 1
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 387
+    col: 3
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 291
+    col: 1
+    score: 0.99
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 291
+    col: 3
+    score: 0.99
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 153
+    col: 1
+    score: 0.99
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 153
+    col: 3
+    score: 0.99
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 369
+    col: 1
+    score: 0.99
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 369
+    col: 3
+    score: 0.99
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 178
+    col: 1
+    score: 0.99
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 178
+    col: 3
+    score: 0.99
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 593
+    col: 1
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 593
+    col: 3
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 596
+    col: 1
+    score: 0.99
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 596
+    col: 3
+    score: 0.99
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 595
+    col: 1
+    score: 0.99
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 595
+    col: 3
+    score: 0.99
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 608
+    col: 1
+    score: 0.99
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 608
+    col: 3
+    score: 0.99
 ---
-alright err — here are **ready-to-boot** infra configs to drop under `./infra/**`. they match the compose I gave you. paste ’em in, `docker compose --profile observability up -d`, and you’ll have dashboards + logs on first boot. ^ref-b4e64f8c-1-0
+alright err — here are **ready-to-boot** infra configs to drop under `./infra/**`. they match the compose I gave you. paste ’em in, `docker compose --profile observability up -d`, and you’ll have dashboards + logs on first boot.
 
 ---
 
@@ -286,21 +291,19 @@ infra/
 └─ mosquitto/
    └─ mosquitto.conf
 ```
-^ref-b4e64f8c-7-0
- ^ref-b4e64f8c-31-0
+
 > note: since `node_exporter` is `network_mode: host`, Prometheus needs a route to the host. add to your **prometheus service** in compose:
- ^ref-b4e64f8c-33-0
+
 ```yaml
 extra_hosts:
   - "host.docker.internal:host-gateway"
-^ref-b4e64f8c-33-0
 ```
 
 ---
 
 ## nginx: reverse proxy (simple)
 
-`infra/nginx/nginx.conf` ^ref-b4e64f8c-44-0
+`infra/nginx/nginx.conf`
 
 ```nginx
 worker_processes auto;
@@ -320,23 +323,23 @@ http {
 
     # grafana
     location /grafana/ {
-      proxy_pass 
+      proxy_pass http://grafana/;
       proxy_set_header Host $host;
       proxy_set_header X-Real-IP $remote_addr;
     }
     # prometheus
     location /prom/ {
-      proxy_pass 
+      proxy_pass http://prometheus/;
       proxy_set_header Host $host;
     }
     # loki
     location /loki/ {
-      proxy_pass 
+      proxy_pass http://loki/;
       proxy_set_header Host $host;
     }
     # tempo (otlp http / traces api)
     location /tempo/ {
-      proxy_pass 
+      proxy_pass http://tempo/;
       proxy_set_header Host $host;
     }
 
@@ -345,15 +348,13 @@ http {
       return 302 /grafana/;
     }
   }
-^ref-b4e64f8c-44-0
 }
 ```
-^ref-b4e64f8c-46-0 ^ref-b4e64f8c-92-0
 
 ---
 
 ## grafana: datasources provisioning
- ^ref-b4e64f8c-96-0 ^ref-b4e64f8c-97-0
+
 `infra/grafana/provisioning/datasources/datasources.yml`
 
 ```yaml
@@ -362,22 +363,21 @@ datasources:
   - name: Prometheus
     type: prometheus
     access: proxy
-    url: 
+    url: http://prometheus:9090
     isDefault: true
   - name: Loki
     type: loki
     access: proxy
-    url: 
+    url: http://loki:3100
   - name: Tempo
     type: tempo
     access: proxy
-    url: 
+    url: http://tempo:3200
     jsonData:
       nodeGraph:
         enabled: true
       tracesToLogs:
         datasourceUid: Loki
-^ref-b4e64f8c-96-0
         mappedTags: ["container", "compose_service"]
         mapTagNamesEnabled: true
 ```
@@ -394,8 +394,8 @@ providers:
     options:
       path: /etc/grafana/provisioning/dashboards
 ```
- ^ref-b4e64f8c-138-0
-### starter dashboard (containers + node) ^ref-b4e64f8c-138-0
+
+### starter dashboard (containers + node)
 
 `infra/grafana/provisioning/dashboards/node_container.json`
 
@@ -439,14 +439,13 @@ providers:
         {"expr": "{compose_project=~\".+\"}"}
       ]
     }
-^ref-b4e64f8c-138-0
   ],
   "time": {"from": "now-1h", "to": "now"}
 }
 ```
 
 ---
- ^ref-b4e64f8c-189-0
+
 ## prometheus: scrape config
 
 `infra/prometheus/prometheus.yml`
@@ -479,14 +478,13 @@ scrape_configs:
       - targets: ['loki:3100']
 
   # tempo internal metrics
-^ref-b4e64f8c-189-0
   - job_name: 'tempo'
     metrics_path: /metrics
     static_configs:
       - targets: ['tempo:3200']
 ```
- ^ref-b4e64f8c-229-0
---- ^ref-b4e64f8c-229-0
+
+---
 
 ## loki: single-node filesystem
 
@@ -517,14 +515,13 @@ schema_config:
         prefix: loki_index_
         period: 24h
 
-^ref-b4e64f8c-229-0
 ruler:
-  alertmanager_url: 
+  alertmanager_url: http://alertmanager:9093
 
 analytics:
   reporting_enabled: false
 ```
- ^ref-b4e64f8c-267-0
+
 ---
 
 ## promtail: docker + system logs
@@ -537,7 +534,7 @@ server:
   grpc_listen_port: 0
 
 clients:
-  - url: 
+  - url: http://loki:3100/loki/api/v1/push
 
 positions:
   filename: /tmp/positions.yaml
@@ -554,7 +551,6 @@ scrape_configs:
       - docker: {}
 
   # host syslog (optional)
-^ref-b4e64f8c-267-0
   - job_name: varlogs
     static_configs:
       - targets: [localhost]
@@ -562,7 +558,6 @@ scrape_configs:
           job: varlogs
           __path__: /var/log/*.log
 ```
-^ref-b4e64f8c-304-0
 
 ---
 
@@ -585,7 +580,6 @@ storage:
   trace:
     backend: local
     local:
-^ref-b4e64f8c-304-0
       path: /var/tempo/traces
     wal:
       path: /var/tempo/wal
@@ -593,9 +587,7 @@ storage:
 compactor:
   compaction:
     block_retention: 48h
-^ref-b4e64f8c-334-0
 ```
-^ref-b4e64f8c-334-0
 
 ---
 
@@ -603,258 +595,101 @@ compactor:
 
 `infra/mosquitto/mosquitto.conf`
 
-^ref-b4e64f8c-334-0
 ```conf
 listener 1883 0.0.0.0
 persistence true
 persistence_location /mosquitto/data/
-allow_anonymous true ^ref-b4e64f8c-348-0
+allow_anonymous true
 # for websockets (if you exposed 9001)
 # listener 9001
-^ref-b4e64f8c-352-0
-^ref-b4e64f8c-348-0
-# protocol websockets ^ref-b4e64f8c-355-0
-^ref-b4e64f8c-355-0 ^ref-b4e64f8c-357-0
-^ref-b4e64f8c-352-0
-^ref-b4e64f8c-348-0 ^ref-b4e64f8c-359-0
-^ref-b4e64f8c-360-0
-^ref-b4e64f8c-359-0 ^ref-b4e64f8c-362-0
-^ref-b4e64f8c-357-0 ^ref-b4e64f8c-363-0
-^ref-b4e64f8c-355-0 ^ref-b4e64f8c-364-0
-^ref-b4e64f8c-352-0 ^ref-b4e64f8c-365-0
-^ref-b4e64f8c-348-0
-^ref-b4e64f8c-347-0
-``` ^ref-b4e64f8c-352-0 ^ref-b4e64f8c-360-0 ^ref-b4e64f8c-368-0
-^ref-b4e64f8c-348-0
- ^ref-b4e64f8c-357-0 ^ref-b4e64f8c-369-0
---- ^ref-b4e64f8c-362-0 ^ref-b4e64f8c-370-0
- ^ref-b4e64f8c-355-0 ^ref-b4e64f8c-359-0 ^ref-b4e64f8c-363-0 ^ref-b4e64f8c-371-0
-### bring-up checklist ^ref-b4e64f8c-360-0 ^ref-b4e64f8c-364-0
- ^ref-b4e64f8c-357-0 ^ref-b4e64f8c-365-0 ^ref-b4e64f8c-373-0
-1. add `extra_hosts` to Prometheus service (as noted) so it can scrape `node_exporter`. ^ref-b4e64f8c-362-0
-2. `docker compose --profile observability up -d` ^ref-b4e64f8c-359-0 ^ref-b4e64f8c-363-0 ^ref-b4e64f8c-375-0
-3. hit ` → you should get redirected to Grafana ^ref-b4e64f8c-360-0 ^ref-b4e64f8c-364-0 ^ref-b4e64f8c-368-0 ^ref-b4e64f8c-376-0
- ^ref-b4e64f8c-365-0 ^ref-b4e64f8c-369-0 ^ref-b4e64f8c-377-0
-   * Prometheus, Loki, Tempo are pre-wired ^ref-b4e64f8c-362-0 ^ref-b4e64f8c-370-0 ^ref-b4e64f8c-378-0
-   * Starter dashboard is available under Dashboards ^ref-b4e64f8c-363-0 ^ref-b4e64f8c-371-0
- ^ref-b4e64f8c-364-0 ^ref-b4e64f8c-368-0
-want me to also drop **Traefik label snippets** and a **prebaked Haystack pipeline** (`infra/haystack/default.yaml`) so your RAG layer is one `--profile rag` away? I can hand you a minimal one that talks to Meili/OpenSearch and Postgres. ^ref-b4e64f8c-365-0 ^ref-b4e64f8c-369-0 ^ref-b4e64f8c-373-0 ^ref-b4e64f8c-381-0
- ^ref-b4e64f8c-370-0
-\#docker #docker-compose #observability #grafana #prometheus #loki #tempo #promtail #nginx #mosquitto #infrastructure #ops #sre
-    filesystem:
-      chunks_directory: /loki/chunks
-      rules_directory: /loki/rules
-  replication_factor: 1
-  ring:
-    kvstore:
-      store: inmemory
-
-schema_config:
-  configs:
-    - from: 2020-10-15
-      store: boltdb-shipper
-      object_store: filesystem
-      schema: v13
-      index:
-        prefix: loki_index_
-        period: 24h
-
-^ref-b4e64f8c-229-0
-ruler:
-  alertmanager_url: 
-
-analytics:
-  reporting_enabled: false
+# protocol websockets
 ```
- ^ref-b4e64f8c-267-0
----
-
-## promtail: docker + system logs
-
-`infra/promtail/config.yaml`
-
-```yaml
-server:
-  http_listen_port: 9080
-  grpc_listen_port: 0
-
-clients:
-  - url: 
-
-positions:
-  filename: /tmp/positions.yaml
-
-scrape_configs:
-  # docker containers
-  - job_name: docker
-    static_configs:
-      - targets: [localhost]
-        labels:
-          job: docker
-          __path__: /var/lib/docker/containers/*/*-json.log
-    pipeline_stages:
-      - docker: {}
-
-  # host syslog (optional)
-^ref-b4e64f8c-267-0
-  - job_name: varlogs
-    static_configs:
-      - targets: [localhost]
-        labels:
-          job: varlogs
-          __path__: /var/log/*.log
-```
-^ref-b4e64f8c-304-0
 
 ---
 
-## tempo: traces (single-process)
+### bring-up checklist
 
-`infra/tempo/tempo.yaml`
+1. add `extra_hosts` to Prometheus service (as noted) so it can scrape `node_exporter`.
+2. `docker compose --profile observability up -d`
+3. hit `http://localhost/` → you should get redirected to Grafana
 
-```yaml
-server:
-  http_listen_port: 3200
+   * Prometheus, Loki, Tempo are pre-wired
+   * Starter dashboard is available under Dashboards
 
-distributor:
-  receivers:
-    otlp:
-      protocols:
-        http:
-        grpc:
+want me to also drop **Traefik label snippets** and a **prebaked Haystack pipeline** (`infra/haystack/default.yaml`) so your RAG layer is one `--profile rag` away? I can hand you a minimal one that talks to Meili/OpenSearch and Postgres.
 
-storage:
-  trace:
-    backend: local
-    local:
-^ref-b4e64f8c-304-0
-      path: /var/tempo/traces
-    wal:
-      path: /var/tempo/wal
-
-compactor:
-  compaction:
-    block_retention: 48h
-^ref-b4e64f8c-334-0
-```
-^ref-b4e64f8c-334-0
-
----
-
-## mosquitto: minimal mqtt
-
-`infra/mosquitto/mosquitto.conf`
-
-^ref-b4e64f8c-334-0
-```conf
-listener 1883 0.0.0.0
-persistence true
-persistence_location /mosquitto/data/
-allow_anonymous true ^ref-b4e64f8c-348-0
-# for websockets (if you exposed 9001)
-# listener 9001
-^ref-b4e64f8c-352-0
-^ref-b4e64f8c-348-0
-# protocol websockets ^ref-b4e64f8c-355-0
-^ref-b4e64f8c-355-0 ^ref-b4e64f8c-357-0
-^ref-b4e64f8c-352-0
-^ref-b4e64f8c-348-0 ^ref-b4e64f8c-359-0
-^ref-b4e64f8c-360-0
-^ref-b4e64f8c-359-0 ^ref-b4e64f8c-362-0
-^ref-b4e64f8c-357-0 ^ref-b4e64f8c-363-0
-^ref-b4e64f8c-355-0 ^ref-b4e64f8c-364-0
-^ref-b4e64f8c-352-0 ^ref-b4e64f8c-365-0
-^ref-b4e64f8c-348-0
-^ref-b4e64f8c-347-0
-``` ^ref-b4e64f8c-352-0 ^ref-b4e64f8c-360-0 ^ref-b4e64f8c-368-0
-^ref-b4e64f8c-348-0
- ^ref-b4e64f8c-357-0 ^ref-b4e64f8c-369-0
---- ^ref-b4e64f8c-362-0 ^ref-b4e64f8c-370-0
- ^ref-b4e64f8c-355-0 ^ref-b4e64f8c-359-0 ^ref-b4e64f8c-363-0 ^ref-b4e64f8c-371-0
-### bring-up checklist ^ref-b4e64f8c-360-0 ^ref-b4e64f8c-364-0
- ^ref-b4e64f8c-357-0 ^ref-b4e64f8c-365-0 ^ref-b4e64f8c-373-0
-1. add `extra_hosts` to Prometheus service (as noted) so it can scrape `node_exporter`. ^ref-b4e64f8c-362-0
-2. `docker compose --profile observability up -d` ^ref-b4e64f8c-359-0 ^ref-b4e64f8c-363-0 ^ref-b4e64f8c-375-0
-3. hit ` → you should get redirected to Grafana ^ref-b4e64f8c-360-0 ^ref-b4e64f8c-364-0 ^ref-b4e64f8c-368-0 ^ref-b4e64f8c-376-0
- ^ref-b4e64f8c-365-0 ^ref-b4e64f8c-369-0 ^ref-b4e64f8c-377-0
-   * Prometheus, Loki, Tempo are pre-wired ^ref-b4e64f8c-362-0 ^ref-b4e64f8c-370-0 ^ref-b4e64f8c-378-0
-   * Starter dashboard is available under Dashboards ^ref-b4e64f8c-363-0 ^ref-b4e64f8c-371-0
- ^ref-b4e64f8c-364-0 ^ref-b4e64f8c-368-0
-want me to also drop **Traefik label snippets** and a **prebaked Haystack pipeline** (`infra/haystack/default.yaml`) so your RAG layer is one `--profile rag` away? I can hand you a minimal one that talks to Meili/OpenSearch and Postgres. ^ref-b4e64f8c-365-0 ^ref-b4e64f8c-369-0 ^ref-b4e64f8c-373-0 ^ref-b4e64f8c-381-0
- ^ref-b4e64f8c-370-0
 \#docker #docker-compose #observability #grafana #prometheus #loki #tempo #promtail #nginx #mosquitto #infrastructure #ops #sre
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
-- [Creative Moments](creative-moments.md)
-- [Duck's Attractor States](ducks-attractor-states.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
-- [typed-struct-compiler](typed-struct-compiler.md)
-- [Unique Concepts](unique-concepts.md)
-- [Unique Info Dump Index](unique-info-dump-index.md)
-- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
-- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
-- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
-- [i3-bluetooth-setup](i3-bluetooth-setup.md)
-- [Obsidian ChatGPT Plugin Integration Guide](obsidian-chatgpt-plugin-integration-guide.md)
-- [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
-- [Ice Box Reorganization](ice-box-reorganization.md)
-- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
-- [komorebi-group-window-hack](komorebi-group-window-hack.md)
-- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
-- [Docops Feature Updates](docops-feature-updates-3.md)
-- [prom ui bootstrap](promethean-web-ui-setup.md)
+- [Prometheus Observability Stack](prometheus-observability-stack.md)
 - [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
-- [universal-intention-code-fabric](universal-intention-code-fabric.md)
 - [api-gateway-versioning](api-gateway-versioning.md)
+- [Mongo Outbox Implementation](mongo-outbox-implementation.md)
+- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
+- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
+- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
+- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
+- [ecs-offload-workers](ecs-offload-workers.md)
+- [Event Bus MVP](event-bus-mvp.md)
+- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
+- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
+- [Services](chunks/services.md)
+- [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
+- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [shared-package-layout-clarification](shared-package-layout-clarification.md)
+
 ## Sources
-- [Obsidian Templating Plugins Integration Guide — L5495](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-5495-0) (line 5495, col 0, score 1)
-- [typed-struct-compiler — L1016](typed-struct-compiler.md#^ref-78eeedf7-1016-0) (line 1016, col 0, score 1)
-- [Unique Concepts — L175](unique-concepts.md#^ref-ed6f3fc9-175-0) (line 175, col 0, score 1)
-- [Unique Info Dump Index — L1221](unique-info-dump-index.md#^ref-30ec3ba6-1221-0) (line 1221, col 0, score 1)
-- [zero-copy-snapshots-and-workers — L1058](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1058-0) (line 1058, col 0, score 1)
-- [Canonical Org-Babel Matplotlib Animation Template — L515](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-515-0) (line 515, col 0, score 1)
-- [Creative Moments — L251](creative-moments.md#^ref-10d98225-251-0) (line 251, col 0, score 1)
-- [Duck's Attractor States — L559](ducks-attractor-states.md#^ref-13951643-559-0) (line 559, col 0, score 1)
-- [eidolon-field-math-foundations — L1033](eidolon-field-math-foundations.md#^ref-008f2ac0-1033-0) (line 1033, col 0, score 1)
-- [Mongo Outbox Implementation — L610](mongo-outbox-implementation.md#^ref-9c1acd1e-610-0) (line 610, col 0, score 0.93)
-- [prom ui bootstrap — L442](promethean-web-ui-setup.md#^ref-bc5172ca-442-0) (line 442, col 0, score 0.91)
-- [homeostasis-decay-formulas — L328](homeostasis-decay-formulas.md#^ref-37b5d236-328-0) (line 328, col 0, score 0.91)
-- [Docops Feature Updates — L189](docops-feature-updates-3.md#^ref-cdbd21ee-189-0) (line 189, col 0, score 0.91)
-- [Fnord Tracer Protocol — L4742](fnord-tracer-protocol.md#^ref-fc21f824-4742-0) (line 4742, col 0, score 0.91)
-- [homeostasis-decay-formulas — L6074](homeostasis-decay-formulas.md#^ref-37b5d236-6074-0) (line 6074, col 0, score 0.91)
-- [i3-bluetooth-setup — L3301](i3-bluetooth-setup.md#^ref-5e408692-3301-0) (line 3301, col 0, score 0.91)
-- [Ice Box Reorganization — L4353](ice-box-reorganization.md#^ref-291c7d91-4353-0) (line 4353, col 0, score 0.91)
-- [komorebi-group-window-hack — L4105](komorebi-group-window-hack.md#^ref-dd89372d-4105-0) (line 4105, col 0, score 0.91)
-- [Layer1SurvivabilityEnvelope — L5171](layer1survivabilityenvelope.md#^ref-64a9f9f9-5171-0) (line 5171, col 0, score 0.91)
-- [Obsidian ChatGPT Plugin Integration Guide — L3156](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-3156-0) (line 3156, col 0, score 0.91)
-- [Obsidian ChatGPT Plugin Integration — L3645](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-3645-0) (line 3645, col 0, score 0.91)
-- [obsidian-ignore-node-modules-regex — L2883](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-2883-0) (line 2883, col 0, score 0.91)
-- [Obsidian Templating Plugins Integration Guide — L3204](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-3204-0) (line 3204, col 0, score 0.91)
-- [Promethean Infrastructure Setup — L64](promethean-infrastructure-setup.md#^ref-6deed6ac-64-0) (line 64, col 0, score 0.9)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.9)
-- [api-gateway-versioning — L7](api-gateway-versioning.md#^ref-0580dcd3-7-0) (line 7, col 0, score 0.89)
-- [prom-lib-rate-limiters-and-replay-api — L307](prom-lib-rate-limiters-and-replay-api.md#^ref-aee4718b-307-0) (line 307, col 0, score 0.88)
-- [Local-Only-LLM-Workflow — L129](local-only-llm-workflow.md#^ref-9a8ab57e-129-0) (line 129, col 0, score 0.88)
-- [polymorphic-meta-programming-engine — L190](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-190-0) (line 190, col 0, score 0.88)
-- [Promethean Full-Stack Docker Setup — L416](promethean-full-stack-docker-setup.md#^ref-2c2b48ca-416-0) (line 416, col 0, score 0.88)
-- [Layer1SurvivabilityEnvelope — L84](layer1survivabilityenvelope.md#^ref-64a9f9f9-84-0) (line 84, col 0, score 0.87)
-- [compiler-kit-foundations — L590](compiler-kit-foundations.md#^ref-01b21543-590-0) (line 590, col 0, score 0.87)
-- [Layer1SurvivabilityEnvelope — L132](layer1survivabilityenvelope.md#^ref-64a9f9f9-132-0) (line 132, col 0, score 0.86)
-- [Cross-Target Macro System in Sibilant — L150](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-150-0) (line 150, col 0, score 0.86)
-- [template-based-compilation — L44](template-based-compilation.md#^ref-f8877e5e-44-0) (line 44, col 0, score 0.86)
-- [Universal Lisp Interface — L187](universal-lisp-interface.md#^ref-b01856b4-187-0) (line 187, col 0, score 0.86)
-- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.86)
-- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.86)
-- [Docops Feature Updates — L158](docops-feature-updates-3.md#^ref-cdbd21ee-158-0) (line 158, col 0, score 0.86)
-- [homeostasis-decay-formulas — L275](homeostasis-decay-formulas.md#^ref-37b5d236-275-0) (line 275, col 0, score 0.86)
-- [polyglot-repl-interface-layer — L268](polyglot-repl-interface-layer.md#^ref-9c79206d-268-0) (line 268, col 0, score 0.86)
-- [Layer1SurvivabilityEnvelope — L149](layer1survivabilityenvelope.md#^ref-64a9f9f9-149-0) (line 149, col 0, score 0.85)
-- [Layer1SurvivabilityEnvelope — L99](layer1survivabilityenvelope.md#^ref-64a9f9f9-99-0) (line 99, col 0, score 0.85)
-- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.85)
-- [Factorio AI with External Agents — L89](factorio-ai-with-external-agents.md#^ref-a4d90289-89-0) (line 89, col 0, score 0.85)
-- [Local-Offline-Model-Deployment-Strategy — L232](local-offline-model-deployment-strategy.md#^ref-ad7f1ed3-232-0) (line 232, col 0, score 0.85)
+- [Promethean Infrastructure Setup — L61](promethean-infrastructure-setup.md#L61) (line 61, col 1, score 0.9)
+- [api-gateway-versioning — L7](api-gateway-versioning.md#L7) (line 7, col 1, score 0.89)
+- [Prometheus Observability Stack — L500](prometheus-observability-stack.md#L500) (line 500, col 1, score 0.9)
+- [AI-Centric OS with MCP Layer — L403](ai-centric-os-with-mcp-layer.md#L403) (line 403, col 1, score 1)
+- [AI-Centric OS with MCP Layer — L403](ai-centric-os-with-mcp-layer.md#L403) (line 403, col 3, score 1)
+- [Local-Offline-Model-Deployment-Strategy — L293](local-offline-model-deployment-strategy.md#L293) (line 293, col 1, score 1)
+- [Local-Offline-Model-Deployment-Strategy — L293](local-offline-model-deployment-strategy.md#L293) (line 293, col 3, score 1)
+- [Migrate to Provider-Tenant Architecture — L281](migrate-to-provider-tenant-architecture.md#L281) (line 281, col 1, score 1)
+- [Migrate to Provider-Tenant Architecture — L281](migrate-to-provider-tenant-architecture.md#L281) (line 281, col 3, score 1)
+- [Promethean Full-Stack Docker Setup — L439](promethean-full-stack-docker-setup.md#L439) (line 439, col 1, score 1)
+- [Promethean Full-Stack Docker Setup — L439](promethean-full-stack-docker-setup.md#L439) (line 439, col 3, score 1)
+- [api-gateway-versioning — L284](api-gateway-versioning.md#L284) (line 284, col 1, score 1)
+- [api-gateway-versioning — L284](api-gateway-versioning.md#L284) (line 284, col 3, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 3, score 1)
+- [Dynamic Context Model for Web Components — L384](dynamic-context-model-for-web-components.md#L384) (line 384, col 1, score 1)
+- [Dynamic Context Model for Web Components — L384](dynamic-context-model-for-web-components.md#L384) (line 384, col 3, score 1)
+- [ecs-offload-workers — L458](ecs-offload-workers.md#L458) (line 458, col 1, score 1)
+- [ecs-offload-workers — L458](ecs-offload-workers.md#L458) (line 458, col 3, score 1)
+- [Debugging Broker Connections and Agent Behavior — L41](debugging-broker-connections-and-agent-behavior.md#L41) (line 41, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L41](debugging-broker-connections-and-agent-behavior.md#L41) (line 41, col 3, score 1)
+- [Dynamic Context Model for Web Components — L385](dynamic-context-model-for-web-components.md#L385) (line 385, col 1, score 1)
+- [Dynamic Context Model for Web Components — L385](dynamic-context-model-for-web-components.md#L385) (line 385, col 3, score 1)
+- [Promethean Infrastructure Setup — L568](promethean-infrastructure-setup.md#L568) (line 568, col 1, score 1)
+- [Promethean Infrastructure Setup — L568](promethean-infrastructure-setup.md#L568) (line 568, col 3, score 1)
+- [Pure TypeScript Search Microservice — L524](pure-typescript-search-microservice.md#L524) (line 524, col 1, score 1)
+- [Pure TypeScript Search Microservice — L524](pure-typescript-search-microservice.md#L524) (line 524, col 3, score 1)
+- [Services — L13](chunks/services.md#L13) (line 13, col 1, score 1)
+- [Services — L13](chunks/services.md#L13) (line 13, col 3, score 1)
+- [ecs-offload-workers — L467](ecs-offload-workers.md#L467) (line 467, col 1, score 1)
+- [ecs-offload-workers — L467](ecs-offload-workers.md#L467) (line 467, col 3, score 1)
+- [Event Bus MVP — L549](event-bus-mvp.md#L549) (line 549, col 1, score 1)
+- [Event Bus MVP — L549](event-bus-mvp.md#L549) (line 549, col 3, score 1)
+- [prom-lib-rate-limiters-and-replay-api — L387](prom-lib-rate-limiters-and-replay-api.md#L387) (line 387, col 1, score 1)
+- [prom-lib-rate-limiters-and-replay-api — L387](prom-lib-rate-limiters-and-replay-api.md#L387) (line 387, col 3, score 1)
+- [api-gateway-versioning — L291](api-gateway-versioning.md#L291) (line 291, col 1, score 0.99)
+- [api-gateway-versioning — L291](api-gateway-versioning.md#L291) (line 291, col 3, score 0.99)
+- [eidolon-field-math-foundations — L153](eidolon-field-math-foundations.md#L153) (line 153, col 1, score 0.99)
+- [eidolon-field-math-foundations — L153](eidolon-field-math-foundations.md#L153) (line 153, col 3, score 0.99)
+- [RAG UI Panel with Qdrant and PostgREST — L369](rag-ui-panel-with-qdrant-and-postgrest.md#L369) (line 369, col 1, score 0.99)
+- [RAG UI Panel with Qdrant and PostgREST — L369](rag-ui-panel-with-qdrant-and-postgrest.md#L369) (line 369, col 3, score 0.99)
+- [shared-package-layout-clarification — L178](shared-package-layout-clarification.md#L178) (line 178, col 1, score 0.99)
+- [shared-package-layout-clarification — L178](shared-package-layout-clarification.md#L178) (line 178, col 3, score 0.99)
+- [Promethean Infrastructure Setup — L593](promethean-infrastructure-setup.md#L593) (line 593, col 1, score 1)
+- [Promethean Infrastructure Setup — L593](promethean-infrastructure-setup.md#L593) (line 593, col 3, score 1)
+- [Promethean Infrastructure Setup — L596](promethean-infrastructure-setup.md#L596) (line 596, col 1, score 0.99)
+- [Promethean Infrastructure Setup — L596](promethean-infrastructure-setup.md#L596) (line 596, col 3, score 0.99)
+- [Promethean Infrastructure Setup — L595](promethean-infrastructure-setup.md#L595) (line 595, col 1, score 0.99)
+- [Promethean Infrastructure Setup — L595](promethean-infrastructure-setup.md#L595) (line 595, col 3, score 0.99)
+- [Promethean Infrastructure Setup — L608](promethean-infrastructure-setup.md#L608) (line 608, col 1, score 0.99)
+- [Promethean Infrastructure Setup — L608](promethean-infrastructure-setup.md#L608) (line 608, col 3, score 0.99)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

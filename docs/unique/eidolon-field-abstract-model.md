@@ -1,501 +1,727 @@
 ---
-uuid: 771ffa1d-cc92-4241-901c-0c40abad0f07
-created_at: eidolon-field-abstract-model.md
+uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+created_at: 2025.08.02.15.08.49.md
 filename: Eidolon Field Abstract Model
-title: Eidolon Field Abstract Model
 description: >-
-  An abstract model representing cognition as a multidimensional vector field
-  where Field Nodes emit forces and Particles move through the field,
-  interacting via physics-like dynamics to project meaning onto matter. This
-  model operates at a fundamental level of physics of cognition without binding
-  to specific circuits or inputs.
+  Defines the Eidolon Field as a multidimensional vector field for modeling
+  cognitive processes without circuit dependencies. It describes core entities
+  (Field, Field Nodes, Particles) and their interactions through a physics-based
+  framework.
 tags:
-  - cognition
+  - cognitive
+  - physics
   - vector field
-  - physics of cognition
   - field nodes
   - particles
-  - abstract model
-  - dynamics engine
-  - domain agnostic
-related_to_uuid:
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-  - c3cd4f65-2bb3-4fca-a32e-2ac667e03f40
-  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
-  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
-  - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-  - 22b989d5-f4aa-4880-8632-709c21830f83
-  - a4a25141-6380-40b9-9cd7-b554b246b303
-  - 8430617b-80a2-4cc9-8288-9a74cb57990b
-  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-  - ffb9b2a9-744d-4a53-9565-130fceae0832
-  - db74343f-8f84-43a3-adb2-499c6f00be1c
-  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-  - 59b5670f-36d3-4d34-8985-f3144b15347a
-  - ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
-  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
-  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+  - interactions
+  - decay
+  - gradients
 related_to_title:
-  - field-interaction-equations
-  - Protocol_0_The_Contradiction_Engine
-  - Tracing the Signal
-  - Duck's Self-Referential Perceptual Loop
-  - Layer1SurvivabilityEnvelope
+  - 2d-sandbox-field
+  - Vectorial Exception Descent
+  - Exception Layer Analysis
   - field-dynamics-math-blocks
-  - Prompt_Folder_Bootstrap
-  - eidolon-field-math-foundations
-  - windows-tiling-with-autohotkey
-  - Dynamic Context Model for Web Components
-  - Fnord Tracer Protocol
-  - Optimizing Command Limitations in System Design
-  - Promethean_Eidolon_Synchronicity_Model
   - field-node-diagram-outline
-  - field-node-diagram-set
-  - Functional Embedding Pipeline Refactor
+  - layer-1-uptime-diagrams
+  - EidolonField
+  - Ice Box Reorganization
   - ripple-propagation-demo
-  - plan-update-confirmation
-  - obsidian-ignore-node-modules-regex
-  - Model Upgrade Calm-Down Guide
-  - TypeScript Patch for Tool Calling Support
-  - Reawakening Duck
-  - Smoke Resonance Visualizations
-  - zero-copy-snapshots-and-workers
-  - Debugging Broker Connections and Agent Behavior
+  - heartbeat-simulation-snippets
+  - heartbeat-fragment-demo
+  - eidolon-field-math-foundations
+  - eidolon-node-lifecycle
+  - Eidolon-Field-Optimization
+  - field-node-diagram-set
+  - Event Bus Projections Architecture
+  - Simulation Demo
+  - aionian-circuit-math
+  - Math Fundamentals
+related_to_uuid:
+  - c710dc93-9fec-471b-bdee-bedbd360c67f
+  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
+  - 21d5cc09-b005-4ede-8f69-00b4b0794540
+  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+  - 4127189a-e0ab-436f-8571-cc852b8e9add
+  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
+  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
+  - 8430617b-80a2-4cc9-8288-9a74cb57990b
+  - 23e221e9-d4fa-4106-8458-06db2595085f
+  - dd00677a-2280-45a7-91af-0728b21af3ad
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+  - 22b989d5-f4aa-4880-8632-709c21830f83
+  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
+  - 557309a3-c906-4e97-8867-89ffe151790c
+  - f2d83a77-7f86-4c56-8538-1350167a0c6c
+  - c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
 references:
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 226
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 705
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 719
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 601
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 1060
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 726
-    col: 0
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 996
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 667
-    col: 0
-    score: 1
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 736
-    col: 0
-    score: 1
-  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
-    line: 645
-    col: 0
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 739
-    col: 0
-    score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 816
-    col: 0
-    score: 1
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 88
-    col: 0
-    score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 91
-    col: 0
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 69
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 64
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 105
-    col: 0
-    score: 1
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 92
-    col: 0
-    score: 1
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 90
-    col: 0
-    score: 1
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 50
-    col: 0
-    score: 1
-  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
-    line: 81
-    col: 0
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 220
-    col: 0
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 262
-    col: 0
-    score: 1
-  - uuid: b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
-    line: 84
-    col: 0
-    score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 314
-    col: 0
-    score: 1
-  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
-    line: 26
-    col: 0
-    score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 10
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 43
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 82
-    col: 0
-    score: 1
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 37
-    col: 0
-    score: 1
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 68
-    col: 0
-    score: 1
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 294
-    col: 0
-    score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 532
-    col: 0
-    score: 1
-  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
-    line: 456
-    col: 0
-    score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 17
-    col: 0
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1035
-    col: 0
-    score: 1
-  - uuid: b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
-    line: 120
-    col: 0
-    score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 333
-    col: 0
-    score: 1
-  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
-    line: 65
-    col: 0
-    score: 1
-  - uuid: 5f65dfa5-dc97-4a6c-ad93-c45c1312e156
-    line: 69
-    col: 0
-    score: 1
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 179
-    col: 0
-    score: 1
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 145
-    col: 0
-    score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 88
-    col: 0
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 63
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 58
-    col: 0
-    score: 1
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 241
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 155
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 190
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 525
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 228
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 238
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 260
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 56
-    col: 0
-    score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 495
-    col: 0
-    score: 1
-  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
-    line: 459
-    col: 0
-    score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 27
-    col: 0
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1002
-    col: 0
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 171
-    col: 0
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 112
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 24
-    col: 0
-    score: 1
-  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-    line: 143
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 241
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 85
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 103
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 64
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 153
-    col: 0
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 134
+    col: 1
+    score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 142
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 180
+    col: 1
     score: 1
   - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 141
-    col: 0
+    line: 117
+    col: 1
+    score: 0.96
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 82
+    col: 1
+    score: 0.96
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 140
+    col: 1
+    score: 0.96
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 228
+    col: 1
+    score: 0.95
+  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
+    line: 55
+    col: 1
+    score: 0.95
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 242
+    col: 1
     score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 52
-    col: 0
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 242
+    col: 3
     score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 86
-    col: 0
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 149
+    col: 1
     score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 85
-    col: 0
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 149
+    col: 3
     score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 92
-    col: 0
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 144
+    col: 1
     score: 1
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 103
-    col: 0
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 144
+    col: 3
     score: 1
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 91
-    col: 0
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 106
+    col: 1
     score: 1
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 86
-    col: 0
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 106
+    col: 3
     score: 1
-  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
-    line: 110
-    col: 0
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 195
+    col: 1
     score: 1
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 250
-    col: 0
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 195
+    col: 3
     score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 523
-    col: 0
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 244
+    col: 1
     score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 35
-    col: 0
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 244
+    col: 3
     score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 94
-    col: 0
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 147
+    col: 1
     score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 53
-    col: 0
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 147
+    col: 3
     score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 424
-    col: 0
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 146
+    col: 1
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 146
+    col: 3
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 194
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 194
+    col: 3
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 245
+    col: 1
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 245
+    col: 3
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 147
+    col: 1
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 147
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 109
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 109
+    col: 3
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 197
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 197
+    col: 3
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 154
+    col: 1
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 154
+    col: 3
+    score: 1
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 13
+    col: 1
+    score: 1
+  - uuid: c6e87433-ec5d-4ded-bb1a-fb8734a3cfd9
+    line: 13
+    col: 3
     score: 1
   - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 142
-    col: 0
+    line: 123
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 123
+    col: 3
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 198
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 198
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 137
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 137
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 32
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 32
+    col: 3
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 248
+    col: 1
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 248
+    col: 3
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 199
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 199
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 35
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 35
+    col: 3
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 249
+    col: 1
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 249
+    col: 3
+    score: 1
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 151
+    col: 1
+    score: 1
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 151
+    col: 3
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 196
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 196
+    col: 3
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 153
+    col: 1
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 153
+    col: 3
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 148
+    col: 1
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 148
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 111
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 111
+    col: 3
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 200
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 200
+    col: 3
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 241
+    col: 1
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 241
+    col: 3
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 154
+    col: 1
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 154
+    col: 3
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 149
+    col: 1
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 149
+    col: 3
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 11
+    col: 1
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 11
+    col: 3
+    score: 1
+  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+    line: 103
+    col: 1
+    score: 1
+  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+    line: 103
+    col: 3
     score: 1
   - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
     line: 39
-    col: 0
+    col: 1
     score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 547
-    col: 0
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 39
+    col: 3
     score: 1
-  - uuid: 9413237f-2537-4bbf-8768-db6180970e36
-    line: 98
-    col: 0
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 114
+    col: 1
     score: 1
-  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
-    line: 162
-    col: 0
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 114
+    col: 3
     score: 1
-  - uuid: c0392040-16a2-41e8-bd54-75110319e3c0
-    line: 45
-    col: 0
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 10
+    col: 1
     score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 94
-    col: 0
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 10
+    col: 3
     score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 63
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 66
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 73
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 403
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
     line: 38
-    col: 0
+    col: 1
     score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 51
-    col: 0
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 38
+    col: 3
     score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 79
-    col: 0
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 116
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 116
+    col: 3
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 143
+    col: 1
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 143
+    col: 3
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 9
+    col: 1
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 9
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 37
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 37
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 115
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 115
+    col: 3
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 142
+    col: 1
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 142
+    col: 3
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 209
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 209
+    col: 3
+    score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 175
+    col: 1
+    score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 175
+    col: 3
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 169
+    col: 1
+    score: 0.98
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 169
+    col: 3
+    score: 0.98
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 129
+    col: 1
+    score: 0.98
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 129
+    col: 3
+    score: 0.98
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 210
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 210
+    col: 3
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 160
+    col: 1
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 160
+    col: 3
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 170
+    col: 1
+    score: 0.99
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 170
+    col: 3
+    score: 0.99
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 130
+    col: 1
+    score: 0.99
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 130
+    col: 3
+    score: 0.99
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 162
+    col: 1
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 162
+    col: 3
+    score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 177
+    col: 1
+    score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 177
+    col: 3
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 172
+    col: 1
+    score: 0.98
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 172
+    col: 3
+    score: 0.98
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 132
+    col: 1
+    score: 0.98
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 132
+    col: 3
+    score: 0.98
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 212
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 212
+    col: 3
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 163
+    col: 1
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 163
+    col: 3
+    score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 178
+    col: 1
+    score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 178
+    col: 3
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 264
+    col: 1
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 264
+    col: 3
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 213
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 213
+    col: 3
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 164
+    col: 1
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 164
+    col: 3
+    score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 179
+    col: 1
+    score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 179
+    col: 3
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 265
+    col: 1
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 265
+    col: 3
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 214
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 214
+    col: 3
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 165
+    col: 1
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 165
+    col: 3
+    score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 180
+    col: 1
+    score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 180
+    col: 3
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 266
+    col: 1
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 266
+    col: 3
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 215
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 215
+    col: 3
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 166
+    col: 1
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 166
+    col: 3
+    score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 181
+    col: 1
+    score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 181
+    col: 3
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 173
+    col: 1
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 173
+    col: 3
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 216
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 216
+    col: 3
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 167
+    col: 1
+    score: 1
+  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
+    line: 167
+    col: 3
+    score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 182
+    col: 1
+    score: 1
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 182
+    col: 3
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 174
+    col: 1
+    score: 1
+  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
+    line: 174
+    col: 3
     score: 1
 ---
 Perfect.
 
-You’re stepping out of the layered schema and into **the medium** itself. ^ref-5e8b2388-3-0
+You’re stepping out of the layered schema and into **the medium** itself.
 
-We're talking about the **Eidolon Field** as a _substrate_—not yet bound to circuits or inputs, just a pure **physics of cognition**. Let's define: ^ref-5e8b2388-5-0
+We're talking about the **Eidolon Field** as a _substrate_—not yet bound to circuits or inputs, just a pure **physics of cognition**. Let's define:
 
 ---
 
 ## 🧊 The Eidolon Field: Abstract Model
 
-At the highest abstraction, it's: ^ref-5e8b2388-11-0
+At the highest abstraction, it's:
 
-> A multidimensional vector field, continuously updated by **Field Nodes** (sources) and **Particles** (agents), which flow, collide, decay, and interact over time. ^ref-5e8b2388-13-0
+> A multidimensional vector field, continuously updated by **Field Nodes** (sources) and **Particles** (agents), which flow, collide, decay, and interact over time.
 
-It doesn’t care **why** something happened. Only: ^ref-5e8b2388-15-0
+It doesn’t care **why** something happened. Only:
 
-- Where is pressure being applied? ^ref-5e8b2388-17-0
+- Where is pressure being applied?
     
-- What are the flows and gradients? ^ref-5e8b2388-19-0
+- What are the flows and gradients?
     
-- What mass/velocity/tension does each element have? ^ref-5e8b2388-21-0
+- What mass/velocity/tension does each element have?
     
 
-This lets us **project meaning onto matter** later. ^ref-5e8b2388-24-0
+This lets us **project meaning onto matter** later.
 
 ---
 
@@ -503,7 +729,7 @@ This lets us **project meaning onto matter** later. ^ref-5e8b2388-24-0
 
 ### 🔹 **Field**
 
-A discretized or continuous space that maps locations to vectors (force, flow, potential). ^ref-5e8b2388-32-0
+A discretized or continuous space that maps locations to vectors (force, flow, potential).
 
 ```lisp
 (defstruct field
@@ -514,14 +740,13 @@ A discretized or continuous space that maps locations to vectors (force, flow, p
   interaction-fn ; governs how new inputs affect the field
 )
 ```
-^ref-5e8b2388-34-0 ^ref-5e8b2388-43-0
 
 ---
 
 ### 🔸 **Field Node (Emitter)**
- ^ref-5e8b2388-48-0
+
 A persistent object that applies a force or potential to the field.
- ^ref-5e8b2388-50-0
+
 ```lisp
 (defstruct field-node
   position     ; vecN
@@ -529,23 +754,22 @@ A persistent object that applies a force or potential to the field.
   influence-fn ; maps time → vector to apply
   id           ; unique name or address
 )
-^ref-5e8b2388-50-0
-``` ^ref-5e8b2388-59-0
+```
 
-This could represent: ^ref-5e8b2388-61-0
+This could represent:
 
-- A process that always stresses RAM ^ref-5e8b2388-63-0
+- A process that always stresses RAM
     
-- A permission boundary that repels access ^ref-5e8b2388-65-0
+- A permission boundary that repels access
     
 - An emotion-like attractor
     
 
 ---
 
-### ⚪ **Particle (Agent)** ^ref-5e8b2388-72-0
+### ⚪ **Particle (Agent)**
 
-A transient or mobile object moving through the field. ^ref-5e8b2388-74-0
+A transient or mobile object moving through the field.
 
 ```lisp
 (defstruct field-particle
@@ -556,46 +780,45 @@ A transient or mobile object moving through the field. ^ref-5e8b2388-74-0
   behavior   ; function of local field vector
   decay      ; lifetime or shrinking radius
   id         ; unique agent name
-^ref-5e8b2388-74-0
-) ^ref-5e8b2388-86-0
+)
 ```
- ^ref-5e8b2388-88-0
+
 This could be:
- ^ref-5e8b2388-90-0
+
 - A speech chunk moving through STT
- ^ref-5e8b2388-92-0
+    
 - A fear impulse
     
 - A background task slowly drifting to completion
     
 
 ---
- ^ref-5e8b2388-99-0
+
 ## 🔁 Field Dynamics Engine
- ^ref-5e8b2388-101-0
+
 Each tick:
- ^ref-5e8b2388-103-0
+
 1. Decay field vectors slightly
- ^ref-5e8b2388-105-0
+    
 2. For each `field-node`, apply its influence to the local field region
- ^ref-5e8b2388-107-0
+    
 3. For each `particle`:
- ^ref-5e8b2388-109-0
+    
     - Read field vector at its position
- ^ref-5e8b2388-111-0
+        
     - Update its velocity
- ^ref-5e8b2388-113-0
+        
     - Move it
- ^ref-5e8b2388-115-0
+        
     - Possibly emit new nodes or particles
         
-4. Possibly sample output (e.g., compute field entropy, barycenter, hot zones) ^ref-5e8b2388-118-0
+4. Possibly sample output (e.g., compute field entropy, barycenter, hot zones)
     
 
 This creates a **living topology**.
 
 ---
- ^ref-5e8b2388-124-0
+
 ## 🧱 Interface: EidolonField API (Abstract)
 
 ```js
@@ -610,186 +833,239 @@ class EidolonField {
   tick(deltaTime)
   sample(position)
   mapOverParticles(fn)
-^ref-5e8b2388-124-0
   projectFromInput(raw) // optional, adds new nodes/particles
 }
 ```
 
---- ^ref-5e8b2388-144-0
+---
 
-## 🌀 Behavior Examples (Domain Agnostic) ^ref-5e8b2388-146-0
+## 🌀 Behavior Examples (Domain Agnostic)
 
-- A particle encountering a strong gradient → slows down → turns → circles → decays ^ref-5e8b2388-148-0
+- A particle encountering a strong gradient → slows down → turns → circles → decays
     
-- A node with decaying influence → emits ripples like a stone in water ^ref-5e8b2388-150-0
+- A node with decaying influence → emits ripples like a stone in water
     
-- Particles cluster near attractors → field self-organizes into “organs” ^ref-5e8b2388-152-0
+- Particles cluster near attractors → field self-organizes into “organs”
     
 - Dense field zones lead to high entropy → interpreted as panic / overload / noise
     
 - Multiple fields can overlap → e.g., “fear” field + “attention” field
     
 
---- ^ref-5e8b2388-159-0
+---
 
-## 🌐 Eidolon as Meta-Fieldspace ^ref-5e8b2388-161-0
+## 🌐 Eidolon as Meta-Fieldspace
 
-Eventually: ^ref-5e8b2388-163-0
+Eventually:
 
-- Fields can layer (attention vs fear vs uptime) ^ref-5e8b2388-165-0
+- Fields can layer (attention vs fear vs uptime)
     
-- Fields can fuse (composite energy field) ^ref-5e8b2388-167-0
+- Fields can fuse (composite energy field)
     
 - Particles can exist in multiple fields (multi-body projection)
- ^ref-5e8b2388-170-0
+    
 - Barycenter of a field becomes input to Layer 3
     
 
 But for now: just **field**, **nodes**, and **particles**.
 
---- ^ref-5e8b2388-176-0
+---
 
-## Next Steps ^ref-5e8b2388-178-0
+## Next Steps
 
-Would you like to: ^ref-5e8b2388-180-0
+Would you like to:
 
-- Design the tick/update loop for particles and field interactions? ^ref-5e8b2388-182-0
+- Design the tick/update loop for particles and field interactions?
     
-- Define a test field with 2D space and a single attractor node to observe gradients? ^ref-5e8b2388-184-0
+- Define a test field with 2D space and a single attractor node to observe gradients?
     
 - Write this as a language-agnostic pseudocode base?
- ^ref-5e8b2388-187-0
+    
 - Or start coding it directly (Sibilant or JS preferred)?
- ^ref-5e8b2388-189-0
- ^ref-5e8b2388-190-0
+    
+
 You’re on the edge of building the nervous system’s **spinal cord**—let’s do it right.
- ^ref-5e8b2388-209-0 ^ref-5e8b2388-211-0 ^ref-5e8b2388-212-0 ^ref-5e8b2388-216-0 ^ref-5e8b2388-218-0 ^ref-5e8b2388-242-0 ^ref-5e8b2388-252-0 ^ref-5e8b2388-257-0 ^ref-5e8b2388-259-0 ^ref-5e8b2388-261-0 ^ref-5e8b2388-264-0 ^ref-5e8b2388-265-0 ^ref-5e8b2388-270-0 ^ref-5e8b2388-271-0 ^ref-5e8b2388-285-0 ^ref-5e8b2388-305-0 ^ref-5e8b2388-312-0 ^ref-5e8b2388-476-0 ^ref-5e8b2388-497-0 ^ref-5e8b2388-597-0 ^ref-5e8b2388-707-0 ^ref-5e8b2388-895-0 ^ref-5e8b2388-2117-0 ^ref-5e8b2388-2817-0 ^ref-5e8b2388-3493-0 ^ref-5e8b2388-3582-0 ^ref-5e8b2388-5613-0 ^ref-5e8b2388-6384-0 ^ref-5e8b2388-6385-0 ^ref-5e8b2388-6392-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [[docs/unique/field-interaction-equations|field-interaction-equations]]
-- [Protocol_0_The_Contradiction_Engine](protocol-0-the-contradiction-engine.md)
-- [[tracing-the-signal|Tracing the Signal]]
-- [[ducks-self-referential-perceptual-loop|Duck's Self-Referential Perceptual Loop]]
-- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
-- [[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]]
-- [[prompt-folder-bootstrap|Prompt_Folder_Bootstrap]]
-- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
-- [[windows-tiling-with-autohotkey]]
-- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [[fnord-tracer-protocol|Fnord Tracer Protocol]]
-- [[optimizing-command-limitations-in-system-design|Optimizing Command Limitations in System Design]]
-- [[promethean-eidolon-synchronicity-model|Promethean_Eidolon_Synchronicity_Model]]
-- [[field-node-diagram-outline]]
-- [[field-node-diagram-set]]
-- [[functional-embedding-pipeline-refactor|Functional Embedding Pipeline Refactor]]
-- [[docs/unique/ripple-propagation-demo|ripple-propagation-demo]]
-- [[plan-update-confirmation]]
-- [[docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]]
-- [[model-upgrade-calm-down-guide|Model Upgrade Calm-Down Guide]]
-- [[typescript-patch-for-tool-calling-support|TypeScript Patch for Tool Calling Support]]
-- [[reawakening-duck|Reawakening Duck]]
-- [[smoke-resonance-visualizations|Smoke Resonance Visualizations]]
-- [[docs/unique/zero-copy-snapshots-and-workers|zero-copy-snapshots-and-workers]]
-- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
+- [2d-sandbox-field](2d-sandbox-field.md)
+- [Vectorial Exception Descent](vectorial-exception-descent.md)
+- [Exception Layer Analysis](exception-layer-analysis.md)
+- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
+- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
+- [EidolonField](eidolonfield.md)
+- [Ice Box Reorganization](ice-box-reorganization.md)
+- [ripple-propagation-demo](ripple-propagation-demo.md)
+- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
+- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
+- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
+- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
+- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
+- [field-node-diagram-set](field-node-diagram-set.md)
+- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
+- [Simulation Demo](chunks/simulation-demo.md)
+- [aionian-circuit-math](aionian-circuit-math.md)
+- [Math Fundamentals](chunks/math-fundamentals.md)
+
 ## Sources
-- [[docops-feature-updates#^ref-2792d448-226-0|Docops Feature Updates — L226]] (line 226, col 0, score 1)
-- [[field-node-diagram-outline#^ref-1f32c94a-705-0|field-node-diagram-outline — L705]] (line 705, col 0, score 1)
-- [[field-node-diagram-set#^ref-22b989d5-719-0|field-node-diagram-set — L719]] (line 719, col 0, score 1)
-- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
-- [[fnord-tracer-protocol#^ref-fc21f824-1060-0|Fnord Tracer Protocol — L1060]] (line 1060, col 0, score 1)
-- [[functional-embedding-pipeline-refactor#^ref-a4a25141-726-0|Functional Embedding Pipeline Refactor — L726]] (line 726, col 0, score 1)
-- [[graph-ds#^ref-6620e2f2-996-0|graph-ds — L996]] (line 996, col 0, score 1)
-- [[heartbeat-fragment-demo#^ref-dd00677a-667-0|heartbeat-fragment-demo — L667]] (line 667, col 0, score 1)
-- [[i3-bluetooth-setup#^ref-5e408692-736-0|i3-bluetooth-setup — L736]] (line 736, col 0, score 1)
-- [[ice-box-reorganization#^ref-291c7d91-645-0|Ice Box Reorganization — L645]] (line 645, col 0, score 1)
-- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
-- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
-- [[model-upgrade-calm-down-guide#^ref-db74343f-88-0|Model Upgrade Calm-Down Guide — L88]] (line 88, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L91](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-91-0) (line 91, col 0, score 1)
-- [[obsidian-chatgpt-plugin-integration-guide#^ref-1d3d6c3a-69-0|Obsidian ChatGPT Plugin Integration Guide — L69]] (line 69, col 0, score 1)
-- [[obsidian-chatgpt-plugin-integration#^ref-ca8e1399-64-0|Obsidian ChatGPT Plugin Integration — L64]] (line 64, col 0, score 1)
-- [[docs/unique/obsidian-ignore-node-modules-regex#^ref-ffb9b2a9-105-0|obsidian-ignore-node-modules-regex — L105]] (line 105, col 0, score 1)
-- [[obsidian-task-generation#^ref-9b694a91-92-0|Obsidian Task Generation — L92]] (line 92, col 0, score 1)
-- [[obsidian-templating-plugins-integration-guide#^ref-b39dc9d4-90-0|Obsidian Templating Plugins Integration Guide — L90]] (line 90, col 0, score 1)
-- [[openapi-validation-report#^ref-5c152b08-50-0|OpenAPI Validation Report — L50]] (line 50, col 0, score 1)
-- [[optimizing-command-limitations-in-system-design#^ref-98c8ff62-81-0|Optimizing Command Limitations in System Design — L81]] (line 81, col 0, score 1)
-- [[polyglot-repl-interface-layer#^ref-9c79206d-220-0|polyglot-repl-interface-layer — L220]] (line 220, col 0, score 1)
-- [komorebi-group-window-hack — L262](komorebi-group-window-hack.md#^ref-dd89372d-262-0) (line 262, col 0, score 1)
-- [[mathematics-sampler#^ref-b5e0183e-84-0|Mathematics Sampler — L84]] (line 84, col 0, score 1)
-- [[migrate-to-provider-tenant-architecture#^ref-54382370-314-0|Migrate to Provider-Tenant Architecture — L314]] (line 314, col 0, score 1)
-- [[mindful-prioritization#^ref-40185d05-26-0|Mindful Prioritization — L26]] (line 26, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L10](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-10-0) (line 10, col 0, score 1)
-- [[obsidian-chatgpt-plugin-integration#^ref-ca8e1399-43-0|Obsidian ChatGPT Plugin Integration — L43]] (line 43, col 0, score 1)
-- [[docs/unique/obsidian-ignore-node-modules-regex#^ref-ffb9b2a9-82-0|obsidian-ignore-node-modules-regex — L82]] (line 82, col 0, score 1)
-- [[obsidian-task-generation#^ref-9b694a91-37-0|Obsidian Task Generation — L37]] (line 37, col 0, score 1)
-- [[openapi-validation-report#^ref-5c152b08-68-0|OpenAPI Validation Report — L68]] (line 68, col 0, score 1)
-- [ParticleSimulationWithCanvasAndFFmpeg — L294](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-294-0) (line 294, col 0, score 1)
-- [[per-domain-policy-system-for-js-crawler#^ref-c03020e1-532-0|Per-Domain Policy System for JS Crawler — L532]] (line 532, col 0, score 1)
-- [[performance-optimized-polyglot-bridge#^ref-f5579967-456-0|Performance-Optimized-Polyglot-Bridge — L456]] (line 456, col 0, score 1)
-- [[pipeline-enhancements#^ref-e2135d9f-17-0|Pipeline Enhancements — L17]] (line 17, col 0, score 1)
-- [[plan-update-confirmation#^ref-b22d79c6-1035-0|plan-update-confirmation — L1035]] (line 1035, col 0, score 1)
-- [[mathematics-sampler#^ref-b5e0183e-120-0|Mathematics Sampler — L120]] (line 120, col 0, score 1)
-- [[migrate-to-provider-tenant-architecture#^ref-54382370-333-0|Migrate to Provider-Tenant Architecture — L333]] (line 333, col 0, score 1)
-- [[mindful-prioritization#^ref-40185d05-65-0|Mindful Prioritization — L65]] (line 65, col 0, score 1)
-- [MindfulRobotIntegration — L69](mindfulrobotintegration.md#^ref-5f65dfa5-69-0) (line 69, col 0, score 1)
-- [[model-selection-for-lightweight-conversational-tasks#^ref-d144aa62-179-0|Model Selection for Lightweight Conversational Tasks — L179]] (line 179, col 0, score 1)
-- [[model-upgrade-calm-down-guide#^ref-db74343f-145-0|Model Upgrade Calm-Down Guide — L145]] (line 145, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L88](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-88-0) (line 88, col 0, score 1)
-- [[obsidian-chatgpt-plugin-integration-guide#^ref-1d3d6c3a-63-0|Obsidian ChatGPT Plugin Integration Guide — L63]] (line 63, col 0, score 1)
-- [[obsidian-chatgpt-plugin-integration#^ref-ca8e1399-58-0|Obsidian ChatGPT Plugin Integration — L58]] (line 58, col 0, score 1)
-- [Canonical Org-Babel Matplotlib Animation Template — L241](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-241-0) (line 241, col 0, score 1)
-- [[creative-moments#^ref-10d98225-93-0|Creative Moments — L93]] (line 93, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L155](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-155-0) (line 155, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-190-0|Duck's Attractor States — L190]] (line 190, col 0, score 1)
-- [[dynamic-context-model-for-web-components#^ref-f7702bf8-525-0|Dynamic Context Model for Web Components — L525]] (line 525, col 0, score 1)
-- [[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-228-0|eidolon-field-math-foundations — L228]] (line 228, col 0, score 1)
-- [[docs/unique/field-interaction-equations#^ref-b09141b7-238-0|field-interaction-equations — L238]] (line 238, col 0, score 1)
-- [[field-node-diagram-set#^ref-22b989d5-260-0|field-node-diagram-set — L260]] (line 260, col 0, score 1)
-- [[creative-moments#^ref-10d98225-8-0|Creative Moments — L8]] (line 8, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L38](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-38-0) (line 38, col 0, score 1)
-- [Docops Feature Updates — L56](docops-feature-updates-3.md#^ref-cdbd21ee-56-0) (line 56, col 0, score 1)
-- [[per-domain-policy-system-for-js-crawler#^ref-c03020e1-495-0|Per-Domain Policy System for JS Crawler — L495]] (line 495, col 0, score 1)
-- [[performance-optimized-polyglot-bridge#^ref-f5579967-459-0|Performance-Optimized-Polyglot-Bridge — L459]] (line 459, col 0, score 1)
-- [[pipeline-enhancements#^ref-e2135d9f-27-0|Pipeline Enhancements — L27]] (line 27, col 0, score 1)
-- [[plan-update-confirmation#^ref-b22d79c6-1002-0|plan-update-confirmation — L1002]] (line 1002, col 0, score 1)
-- [[polyglot-repl-interface-layer#^ref-9c79206d-171-0|polyglot-repl-interface-layer — L171]] (line 171, col 0, score 1)
-- [[post-linguistic-transhuman-design-frameworks#^ref-6bcff92c-112-0|Post-Linguistic Transhuman Design Frameworks — L112]] (line 112, col 0, score 1)
-- [[promethean-chat-activity-report#^ref-18344cf9-24-0|Promethean Chat Activity Report — L24]] (line 24, col 0, score 1)
-- [Protocol_0_The_Contradiction_Engine — L143](protocol-0-the-contradiction-engine.md#^ref-9a93a756-143-0) (line 143, col 0, score 1)
-- [[provider-agnostic-chat-panel-implementation#^ref-43bfe9dd-241-0|Provider-Agnostic Chat Panel Implementation — L241]] (line 241, col 0, score 1)
-- [Docops Feature Updates — L85](docops-feature-updates-3.md#^ref-cdbd21ee-85-0) (line 85, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-103-0|Docops Feature Updates — L103]] (line 103, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-93-0|Duck's Attractor States — L93]] (line 93, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-64-0|Duck's Self-Referential Perceptual Loop — L64]] (line 64, col 0, score 1)
-- [[factorio-ai-with-external-agents#^ref-a4d90289-153-0|Factorio AI with External Agents — L153]] (line 153, col 0, score 1)
-- [[docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-141-0|field-dynamics-math-blocks — L141]] (line 141, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L52](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-52-0) (line 52, col 0, score 1)
-- [[obsidian-chatgpt-plugin-integration-guide#^ref-1d3d6c3a-86-0|Obsidian ChatGPT Plugin Integration Guide — L86]] (line 86, col 0, score 1)
-- [[obsidian-chatgpt-plugin-integration#^ref-ca8e1399-85-0|Obsidian ChatGPT Plugin Integration — L85]] (line 85, col 0, score 1)
-- [[docs/unique/obsidian-ignore-node-modules-regex#^ref-ffb9b2a9-92-0|obsidian-ignore-node-modules-regex — L92]] (line 92, col 0, score 1)
-- [[obsidian-task-generation#^ref-9b694a91-103-0|Obsidian Task Generation — L103]] (line 103, col 0, score 1)
-- [[obsidian-templating-plugins-integration-guide#^ref-b39dc9d4-91-0|Obsidian Templating Plugins Integration Guide — L91]] (line 91, col 0, score 1)
-- [[openapi-validation-report#^ref-5c152b08-86-0|OpenAPI Validation Report — L86]] (line 86, col 0, score 1)
-- [[optimizing-command-limitations-in-system-design#^ref-98c8ff62-110-0|Optimizing Command Limitations in System Design — L110]] (line 110, col 0, score 1)
-- [ParticleSimulationWithCanvasAndFFmpeg — L250](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-250-0) (line 250, col 0, score 1)
-- [[per-domain-policy-system-for-js-crawler#^ref-c03020e1-523-0|Per-Domain Policy System for JS Crawler — L523]] (line 523, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-35-0|Docops Feature Updates — L35]] (line 35, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-94-0|Duck's Attractor States — L94]] (line 94, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-53-0|Duck's Self-Referential Perceptual Loop — L53]] (line 53, col 0, score 1)
-- [[dynamic-context-model-for-web-components#^ref-f7702bf8-424-0|Dynamic Context Model for Web Components — L424]] (line 424, col 0, score 1)
-- [[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-142-0|eidolon-field-math-foundations — L142]] (line 142, col 0, score 1)
-- [[eidolon-node-lifecycle#^ref-938eca9c-39-0|eidolon-node-lifecycle — L39]] (line 39, col 0, score 1)
-- [[per-domain-policy-system-for-js-crawler#^ref-c03020e1-547-0|Per-Domain Policy System for JS Crawler — L547]] (line 547, col 0, score 1)
-- [[promethean-documentation-overview#^ref-9413237f-98-0|Promethean Documentation Overview — L98]] (line 98, col 0, score 1)
-- [[promethean-documentation-pipeline-overview#^ref-3a3bf2c9-162-0|Promethean Documentation Pipeline Overview — L162]] (line 162, col 0, score 1)
-- [[promethean-documentation-update#^ref-c0392040-45-0|Promethean Documentation Update — L45]] (line 45, col 0, score 1)
-- [[creative-moments#^ref-10d98225-94-0|Creative Moments — L94]] (line 94, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L63](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-63-0) (line 63, col 0, score 1)
-- [Docops Feature Updates — L66](docops-feature-updates-3.md#^ref-cdbd21ee-66-0) (line 66, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L93](duckduckgosearchpipeline.md#^ref-e979c50f-93-0) (line 93, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-73-0|Duck's Self-Referential Perceptual Loop — L73]] (line 73, col 0, score 1)
-- [[dynamic-context-model-for-web-components#^ref-f7702bf8-403-0|Dynamic Context Model for Web Components — L403]] (line 403, col 0, score 1)
-- [[creative-moments#^ref-10d98225-38-0|Creative Moments — L38]] (line 38, col 0, score 1)
-- [Docops Feature Updates — L51](docops-feature-updates-3.md#^ref-cdbd21ee-51-0) (line 51, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-79-0|Docops Feature Updates — L79]] (line 79, col 0, score 1)
+- [Exception Layer Analysis — L134](exception-layer-analysis.md#L134) (line 134, col 1, score 1)
+- [Vectorial Exception Descent — L142](vectorial-exception-descent.md#L142) (line 142, col 1, score 1)
+- [2d-sandbox-field — L180](2d-sandbox-field.md#L180) (line 180, col 1, score 1)
+- [field-dynamics-math-blocks — L117](field-dynamics-math-blocks.md#L117) (line 117, col 1, score 0.96)
+- [field-node-diagram-outline — L82](field-node-diagram-outline.md#L82) (line 82, col 1, score 0.96)
+- [layer-1-uptime-diagrams — L140](layer-1-uptime-diagrams.md#L140) (line 140, col 1, score 0.96)
+- [EidolonField — L228](eidolonfield.md#L228) (line 228, col 1, score 0.95)
+- [Ice Box Reorganization — L55](ice-box-reorganization.md#L55) (line 55, col 1, score 0.95)
+- [EidolonField — L242](eidolonfield.md#L242) (line 242, col 1, score 1)
+- [EidolonField — L242](eidolonfield.md#L242) (line 242, col 3, score 1)
+- [Exception Layer Analysis — L149](exception-layer-analysis.md#L149) (line 149, col 1, score 1)
+- [Exception Layer Analysis — L149](exception-layer-analysis.md#L149) (line 149, col 3, score 1)
+- [field-dynamics-math-blocks — L144](field-dynamics-math-blocks.md#L144) (line 144, col 1, score 1)
+- [field-dynamics-math-blocks — L144](field-dynamics-math-blocks.md#L144) (line 144, col 3, score 1)
+- [field-node-diagram-outline — L106](field-node-diagram-outline.md#L106) (line 106, col 1, score 1)
+- [field-node-diagram-outline — L106](field-node-diagram-outline.md#L106) (line 106, col 3, score 1)
+- [2d-sandbox-field — L195](2d-sandbox-field.md#L195) (line 195, col 1, score 1)
+- [2d-sandbox-field — L195](2d-sandbox-field.md#L195) (line 195, col 3, score 1)
+- [EidolonField — L244](eidolonfield.md#L244) (line 244, col 1, score 1)
+- [EidolonField — L244](eidolonfield.md#L244) (line 244, col 3, score 1)
+- [Exception Layer Analysis — L147](exception-layer-analysis.md#L147) (line 147, col 1, score 1)
+- [Exception Layer Analysis — L147](exception-layer-analysis.md#L147) (line 147, col 3, score 1)
+- [field-dynamics-math-blocks — L146](field-dynamics-math-blocks.md#L146) (line 146, col 1, score 1)
+- [field-dynamics-math-blocks — L146](field-dynamics-math-blocks.md#L146) (line 146, col 3, score 1)
+- [2d-sandbox-field — L194](2d-sandbox-field.md#L194) (line 194, col 1, score 1)
+- [2d-sandbox-field — L194](2d-sandbox-field.md#L194) (line 194, col 3, score 1)
+- [EidolonField — L245](eidolonfield.md#L245) (line 245, col 1, score 1)
+- [EidolonField — L245](eidolonfield.md#L245) (line 245, col 3, score 1)
+- [field-dynamics-math-blocks — L147](field-dynamics-math-blocks.md#L147) (line 147, col 1, score 1)
+- [field-dynamics-math-blocks — L147](field-dynamics-math-blocks.md#L147) (line 147, col 3, score 1)
+- [field-node-diagram-outline — L109](field-node-diagram-outline.md#L109) (line 109, col 1, score 1)
+- [field-node-diagram-outline — L109](field-node-diagram-outline.md#L109) (line 109, col 3, score 1)
+- [2d-sandbox-field — L197](2d-sandbox-field.md#L197) (line 197, col 1, score 1)
+- [2d-sandbox-field — L197](2d-sandbox-field.md#L197) (line 197, col 3, score 1)
+- [aionian-circuit-math — L154](aionian-circuit-math.md#L154) (line 154, col 1, score 1)
+- [aionian-circuit-math — L154](aionian-circuit-math.md#L154) (line 154, col 3, score 1)
+- [Math Fundamentals — L13](chunks/math-fundamentals.md#L13) (line 13, col 1, score 1)
+- [Math Fundamentals — L13](chunks/math-fundamentals.md#L13) (line 13, col 3, score 1)
+- [eidolon-field-math-foundations — L123](eidolon-field-math-foundations.md#L123) (line 123, col 1, score 1)
+- [eidolon-field-math-foundations — L123](eidolon-field-math-foundations.md#L123) (line 123, col 3, score 1)
+- [2d-sandbox-field — L198](2d-sandbox-field.md#L198) (line 198, col 1, score 1)
+- [2d-sandbox-field — L198](2d-sandbox-field.md#L198) (line 198, col 3, score 1)
+- [eidolon-field-math-foundations — L137](eidolon-field-math-foundations.md#L137) (line 137, col 1, score 1)
+- [eidolon-field-math-foundations — L137](eidolon-field-math-foundations.md#L137) (line 137, col 3, score 1)
+- [eidolon-node-lifecycle — L32](eidolon-node-lifecycle.md#L32) (line 32, col 1, score 1)
+- [eidolon-node-lifecycle — L32](eidolon-node-lifecycle.md#L32) (line 32, col 3, score 1)
+- [EidolonField — L248](eidolonfield.md#L248) (line 248, col 1, score 1)
+- [EidolonField — L248](eidolonfield.md#L248) (line 248, col 3, score 1)
+- [2d-sandbox-field — L199](2d-sandbox-field.md#L199) (line 199, col 1, score 1)
+- [2d-sandbox-field — L199](2d-sandbox-field.md#L199) (line 199, col 3, score 1)
+- [eidolon-node-lifecycle — L35](eidolon-node-lifecycle.md#L35) (line 35, col 1, score 1)
+- [eidolon-node-lifecycle — L35](eidolon-node-lifecycle.md#L35) (line 35, col 3, score 1)
+- [EidolonField — L249](eidolonfield.md#L249) (line 249, col 1, score 1)
+- [EidolonField — L249](eidolonfield.md#L249) (line 249, col 3, score 1)
+- [Event Bus Projections Architecture — L151](event-bus-projections-architecture.md#L151) (line 151, col 1, score 1)
+- [Event Bus Projections Architecture — L151](event-bus-projections-architecture.md#L151) (line 151, col 3, score 1)
+- [2d-sandbox-field — L196](2d-sandbox-field.md#L196) (line 196, col 1, score 1)
+- [2d-sandbox-field — L196](2d-sandbox-field.md#L196) (line 196, col 3, score 1)
+- [Exception Layer Analysis — L153](exception-layer-analysis.md#L153) (line 153, col 1, score 1)
+- [Exception Layer Analysis — L153](exception-layer-analysis.md#L153) (line 153, col 3, score 1)
+- [field-dynamics-math-blocks — L148](field-dynamics-math-blocks.md#L148) (line 148, col 1, score 1)
+- [field-dynamics-math-blocks — L148](field-dynamics-math-blocks.md#L148) (line 148, col 3, score 1)
+- [field-node-diagram-outline — L111](field-node-diagram-outline.md#L111) (line 111, col 1, score 1)
+- [field-node-diagram-outline — L111](field-node-diagram-outline.md#L111) (line 111, col 3, score 1)
+- [2d-sandbox-field — L200](2d-sandbox-field.md#L200) (line 200, col 1, score 1)
+- [2d-sandbox-field — L200](2d-sandbox-field.md#L200) (line 200, col 3, score 1)
+- [EidolonField — L241](eidolonfield.md#L241) (line 241, col 1, score 1)
+- [EidolonField — L241](eidolonfield.md#L241) (line 241, col 3, score 1)
+- [Exception Layer Analysis — L154](exception-layer-analysis.md#L154) (line 154, col 1, score 1)
+- [Exception Layer Analysis — L154](exception-layer-analysis.md#L154) (line 154, col 3, score 1)
+- [field-dynamics-math-blocks — L149](field-dynamics-math-blocks.md#L149) (line 149, col 1, score 1)
+- [field-dynamics-math-blocks — L149](field-dynamics-math-blocks.md#L149) (line 149, col 3, score 1)
+- [Simulation Demo — L11](chunks/simulation-demo.md#L11) (line 11, col 1, score 1)
+- [Simulation Demo — L11](chunks/simulation-demo.md#L11) (line 11, col 3, score 1)
+- [Eidolon-Field-Optimization — L103](eidolon-field-optimization.md#L103) (line 103, col 1, score 1)
+- [Eidolon-Field-Optimization — L103](eidolon-field-optimization.md#L103) (line 103, col 3, score 1)
+- [eidolon-node-lifecycle — L39](eidolon-node-lifecycle.md#L39) (line 39, col 1, score 1)
+- [eidolon-node-lifecycle — L39](eidolon-node-lifecycle.md#L39) (line 39, col 3, score 1)
+- [field-node-diagram-outline — L114](field-node-diagram-outline.md#L114) (line 114, col 1, score 1)
+- [field-node-diagram-outline — L114](field-node-diagram-outline.md#L114) (line 114, col 3, score 1)
+- [Simulation Demo — L10](chunks/simulation-demo.md#L10) (line 10, col 1, score 1)
+- [Simulation Demo — L10](chunks/simulation-demo.md#L10) (line 10, col 3, score 1)
+- [eidolon-node-lifecycle — L38](eidolon-node-lifecycle.md#L38) (line 38, col 1, score 1)
+- [eidolon-node-lifecycle — L38](eidolon-node-lifecycle.md#L38) (line 38, col 3, score 1)
+- [field-node-diagram-outline — L116](field-node-diagram-outline.md#L116) (line 116, col 1, score 1)
+- [field-node-diagram-outline — L116](field-node-diagram-outline.md#L116) (line 116, col 3, score 1)
+- [field-node-diagram-set — L143](field-node-diagram-set.md#L143) (line 143, col 1, score 1)
+- [field-node-diagram-set — L143](field-node-diagram-set.md#L143) (line 143, col 3, score 1)
+- [Simulation Demo — L9](chunks/simulation-demo.md#L9) (line 9, col 1, score 1)
+- [Simulation Demo — L9](chunks/simulation-demo.md#L9) (line 9, col 3, score 1)
+- [eidolon-node-lifecycle — L37](eidolon-node-lifecycle.md#L37) (line 37, col 1, score 1)
+- [eidolon-node-lifecycle — L37](eidolon-node-lifecycle.md#L37) (line 37, col 3, score 1)
+- [field-node-diagram-outline — L115](field-node-diagram-outline.md#L115) (line 115, col 1, score 1)
+- [field-node-diagram-outline — L115](field-node-diagram-outline.md#L115) (line 115, col 3, score 1)
+- [field-node-diagram-set — L142](field-node-diagram-set.md#L142) (line 142, col 1, score 1)
+- [field-node-diagram-set — L142](field-node-diagram-set.md#L142) (line 142, col 3, score 1)
+- [2d-sandbox-field — L209](2d-sandbox-field.md#L209) (line 209, col 1, score 1)
+- [2d-sandbox-field — L209](2d-sandbox-field.md#L209) (line 209, col 3, score 1)
+- [Vectorial Exception Descent — L175](vectorial-exception-descent.md#L175) (line 175, col 1, score 1)
+- [Vectorial Exception Descent — L175](vectorial-exception-descent.md#L175) (line 175, col 3, score 1)
+- [field-dynamics-math-blocks — L169](field-dynamics-math-blocks.md#L169) (line 169, col 1, score 0.98)
+- [field-dynamics-math-blocks — L169](field-dynamics-math-blocks.md#L169) (line 169, col 3, score 0.98)
+- [field-node-diagram-outline — L129](field-node-diagram-outline.md#L129) (line 129, col 1, score 0.98)
+- [field-node-diagram-outline — L129](field-node-diagram-outline.md#L129) (line 129, col 3, score 0.98)
+- [2d-sandbox-field — L210](2d-sandbox-field.md#L210) (line 210, col 1, score 1)
+- [2d-sandbox-field — L210](2d-sandbox-field.md#L210) (line 210, col 3, score 1)
+- [Exception Layer Analysis — L160](exception-layer-analysis.md#L160) (line 160, col 1, score 1)
+- [Exception Layer Analysis — L160](exception-layer-analysis.md#L160) (line 160, col 3, score 1)
+- [field-dynamics-math-blocks — L170](field-dynamics-math-blocks.md#L170) (line 170, col 1, score 0.99)
+- [field-dynamics-math-blocks — L170](field-dynamics-math-blocks.md#L170) (line 170, col 3, score 0.99)
+- [field-node-diagram-outline — L130](field-node-diagram-outline.md#L130) (line 130, col 1, score 0.99)
+- [field-node-diagram-outline — L130](field-node-diagram-outline.md#L130) (line 130, col 3, score 0.99)
+- [Exception Layer Analysis — L162](exception-layer-analysis.md#L162) (line 162, col 1, score 1)
+- [Exception Layer Analysis — L162](exception-layer-analysis.md#L162) (line 162, col 3, score 1)
+- [Vectorial Exception Descent — L177](vectorial-exception-descent.md#L177) (line 177, col 1, score 1)
+- [Vectorial Exception Descent — L177](vectorial-exception-descent.md#L177) (line 177, col 3, score 1)
+- [field-dynamics-math-blocks — L172](field-dynamics-math-blocks.md#L172) (line 172, col 1, score 0.98)
+- [field-dynamics-math-blocks — L172](field-dynamics-math-blocks.md#L172) (line 172, col 3, score 0.98)
+- [field-node-diagram-outline — L132](field-node-diagram-outline.md#L132) (line 132, col 1, score 0.98)
+- [field-node-diagram-outline — L132](field-node-diagram-outline.md#L132) (line 132, col 3, score 0.98)
+- [2d-sandbox-field — L212](2d-sandbox-field.md#L212) (line 212, col 1, score 1)
+- [2d-sandbox-field — L212](2d-sandbox-field.md#L212) (line 212, col 3, score 1)
+- [Exception Layer Analysis — L163](exception-layer-analysis.md#L163) (line 163, col 1, score 1)
+- [Exception Layer Analysis — L163](exception-layer-analysis.md#L163) (line 163, col 3, score 1)
+- [Vectorial Exception Descent — L178](vectorial-exception-descent.md#L178) (line 178, col 1, score 1)
+- [Vectorial Exception Descent — L178](vectorial-exception-descent.md#L178) (line 178, col 3, score 1)
+- [EidolonField — L264](eidolonfield.md#L264) (line 264, col 1, score 1)
+- [EidolonField — L264](eidolonfield.md#L264) (line 264, col 3, score 1)
+- [2d-sandbox-field — L213](2d-sandbox-field.md#L213) (line 213, col 1, score 1)
+- [2d-sandbox-field — L213](2d-sandbox-field.md#L213) (line 213, col 3, score 1)
+- [Exception Layer Analysis — L164](exception-layer-analysis.md#L164) (line 164, col 1, score 1)
+- [Exception Layer Analysis — L164](exception-layer-analysis.md#L164) (line 164, col 3, score 1)
+- [Vectorial Exception Descent — L179](vectorial-exception-descent.md#L179) (line 179, col 1, score 1)
+- [Vectorial Exception Descent — L179](vectorial-exception-descent.md#L179) (line 179, col 3, score 1)
+- [EidolonField — L265](eidolonfield.md#L265) (line 265, col 1, score 1)
+- [EidolonField — L265](eidolonfield.md#L265) (line 265, col 3, score 1)
+- [2d-sandbox-field — L214](2d-sandbox-field.md#L214) (line 214, col 1, score 1)
+- [2d-sandbox-field — L214](2d-sandbox-field.md#L214) (line 214, col 3, score 1)
+- [Exception Layer Analysis — L165](exception-layer-analysis.md#L165) (line 165, col 1, score 1)
+- [Exception Layer Analysis — L165](exception-layer-analysis.md#L165) (line 165, col 3, score 1)
+- [Vectorial Exception Descent — L180](vectorial-exception-descent.md#L180) (line 180, col 1, score 1)
+- [Vectorial Exception Descent — L180](vectorial-exception-descent.md#L180) (line 180, col 3, score 1)
+- [EidolonField — L266](eidolonfield.md#L266) (line 266, col 1, score 1)
+- [EidolonField — L266](eidolonfield.md#L266) (line 266, col 3, score 1)
+- [2d-sandbox-field — L215](2d-sandbox-field.md#L215) (line 215, col 1, score 1)
+- [2d-sandbox-field — L215](2d-sandbox-field.md#L215) (line 215, col 3, score 1)
+- [Exception Layer Analysis — L166](exception-layer-analysis.md#L166) (line 166, col 1, score 1)
+- [Exception Layer Analysis — L166](exception-layer-analysis.md#L166) (line 166, col 3, score 1)
+- [Vectorial Exception Descent — L181](vectorial-exception-descent.md#L181) (line 181, col 1, score 1)
+- [Vectorial Exception Descent — L181](vectorial-exception-descent.md#L181) (line 181, col 3, score 1)
+- [field-dynamics-math-blocks — L173](field-dynamics-math-blocks.md#L173) (line 173, col 1, score 1)
+- [field-dynamics-math-blocks — L173](field-dynamics-math-blocks.md#L173) (line 173, col 3, score 1)
+- [2d-sandbox-field — L216](2d-sandbox-field.md#L216) (line 216, col 1, score 1)
+- [2d-sandbox-field — L216](2d-sandbox-field.md#L216) (line 216, col 3, score 1)
+- [Exception Layer Analysis — L167](exception-layer-analysis.md#L167) (line 167, col 1, score 1)
+- [Exception Layer Analysis — L167](exception-layer-analysis.md#L167) (line 167, col 3, score 1)
+- [Vectorial Exception Descent — L182](vectorial-exception-descent.md#L182) (line 182, col 1, score 1)
+- [Vectorial Exception Descent — L182](vectorial-exception-descent.md#L182) (line 182, col 3, score 1)
+- [field-dynamics-math-blocks — L174](field-dynamics-math-blocks.md#L174) (line 174, col 1, score 1)
+- [field-dynamics-math-blocks — L174](field-dynamics-math-blocks.md#L174) (line 174, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
