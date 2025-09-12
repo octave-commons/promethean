@@ -295,6 +295,14 @@ app.get("/api/pipelines", async (_req, reply) => {
 
 app.get<{ Querystring: Record<string, string | undefined> }>(
   "/api/run-step",
+  {
+    config: {
+      rateLimit: {
+        max: 10, // limit each IP to 10 requests per minute
+        timeWindow: "1 minute",
+      },
+    },
+  },
   async (req, reply) => {
     const pipeline = req.query.pipeline ?? "";
     const step = req.query.step ?? "";
