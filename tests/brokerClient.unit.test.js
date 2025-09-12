@@ -1,6 +1,6 @@
 import test from "ava";
 
-import { sleep } from "@promethean/test-utils/sleep";
+import { sleep } from "@promethean/utils";
 import { BrokerClient } from "@shared/js/brokerClient.js";
 
 test("memory broker: publish delivers to subscribers and unsubscribe stops it", async (t) => {

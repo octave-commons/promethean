@@ -1,7 +1,7 @@
 import EventEmitter from "events";
 
 import test from "ava";
-import { sleep } from "@promethean/test-utils/sleep";
+import { sleep } from "@promethean/utils";
 
 import {
   SpeechArbiter,
