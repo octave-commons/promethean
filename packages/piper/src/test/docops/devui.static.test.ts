@@ -16,18 +16,15 @@ async function read(file: string) {
 
 test.serial("dev-ui serves index + js with correct prefixes", async (t) => {
   const distDevUi = path.join(PKG_ROOT, "dist", "dev-ui.js");
-  const uiIndex = path.join(PKG_ROOT, "ui", "docops.html");
+  const uiIndex = path.join(PKG_ROOT, "ui", "index.html");
 
   const [devUiJs, indexHtml] = await Promise.all([
     read(distDevUi),
     read(uiIndex),
   ]);
 
-  // docops page should load its frontend app from /js/docops
-  t.regex(
-    indexHtml,
-    /<script[^>]+type="module"[^>]+src="\/js\/docops\/main\.js"/,
-  );
+  // index page should load its frontend app from /js
+  t.regex(indexHtml, /<script[^>]+type="module"[^>]+src="\/js\/main\.js"/);
 
   // server should mount UI under /ui and JS under /js
   t.true(/prefix:\s*"\/ui"/.test(devUiJs), "UI static mount uses /ui prefix");

@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "test": "pnpm run build",
     "coverage": "pnpm build && c8 ava"
   },
   "dependencies": {

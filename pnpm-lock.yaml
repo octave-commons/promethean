@@ -2861,6 +2861,9 @@ importers:
       '@fastify/swagger-ui':
         specifier: 5.2.3
         version: 5.2.3
+      '@promethean/docops':
+        specifier: workspace:*
+        version: link:../docops
       '@promethean/fs':
         specifier: workspace:*
         version: link:../fs
@@ -14144,7 +14147,7 @@ snapshots:
 
   axios@1.11.0:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.4.1)
+      follow-redirects: 1.15.11(debug@4.3.7)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -16512,7 +16515,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.4.1)
+      follow-redirects: 1.15.11(debug@4.3.7)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug

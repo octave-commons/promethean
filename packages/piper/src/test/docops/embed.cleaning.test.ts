@@ -1,6 +1,6 @@
 import test from "ava";
 
-import { parseMarkdownChunks } from "../utils.js";
+import { parseMarkdownChunks } from "@promethean/docops/dist/utils.js";
 
 // Mirror cleaning rules used in 02-embed.ts
 const REF_HEADING_RE =
@@ -36,8 +36,10 @@ test("embed cleaning drops footer links and link definitions", (t) => {
   const chunks = parseMarkdownChunks(md);
   t.true(chunks.length >= 2);
 
-  const main = chunks.find((c) => (c.text || "").includes("Main paragraph"));
-  const refs = chunks.filter((c) => c.title === "References");
+  const main = chunks.find((c: any) =>
+    (c.text || "").includes("Main paragraph"),
+  );
+  const refs = chunks.filter((c: any) => c.title === "References");
 
   t.truthy(main, "main paragraph chunk exists");
   t.true(refs.length > 0, "reference section chunks exist");
@@ -51,7 +53,7 @@ test("embed cleaning drops footer links and link definitions", (t) => {
   }
 
   // Link definition lines at end are also removed
-  const linkDefs = chunks.filter((c) =>
+  const linkDefs = chunks.filter((c: any) =>
     (c.text || "").includes("[ref1]: https://foo.bar"),
   );
   for (const c of linkDefs) {

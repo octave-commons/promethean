@@ -1,6 +1,6 @@
 import test from "ava";
 
-import { setSelection, getSelection } from "../../frontend/docops/selection.js";
+import { setSelection, getSelection } from "../../frontend/selection.js";
 
 test.afterEach.always(() => {
   delete (globalThis as any).window;
@@ -24,7 +24,7 @@ test.serial(
     const sel = ["/x.md"];
     setSelection(sel);
     t.deepEqual(getSelection(), sel);
-    t.is(events[0].type, "docops:selection-changed");
+    t.is(events[0].type, "piper:selection-changed");
     t.deepEqual(events[0].detail, sel);
     t.not(events[0].detail, sel, "event payload is a copy");
   },
