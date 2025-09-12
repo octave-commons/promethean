@@ -1,55 +1,82 @@
 import { fileBackedRegistry } from "@promethean/platform/provider-registry.js";
 
-import { makeDeterministicEmbedder } from "../embedder.js";
+import { makeDeterministicEmbedder, type Embedder } from "../embedder.js";
 import { makeChromaWrapper } from "../chroma.js";
 
-// TODO: This is a stub implementation that just embeds the URL of the attachment.
-// In the future we should download the attachment and embed the actual content.
-// For images we can use an image embedding model, for text we can use a text embedding model.
-// For other types we can either skip or use a generic embedding model.
+export interface AttachmentInfo {
+  urn: string;
+  url: string;
+  content_type?: string;
+  size?: number;
+  sha256?: string;
+}
 
-// The function takes an event object with the following structure:
-// {
-//   provider: string; // e.g. 'discord'
-//   tenant: string; // e.g. 'my-server-id'
-//   message_id: string; // e.g. '1234567890'
-//   attachments: Array<{
-//     urn: string; // e.g. 'attachment-urn'
-//     url: string; // e.g. 'https://cdn.discordapp.com/attachments/...'
-//     content_type?: string; // e.g. 'image/png' or 'text/plain'
-//   }>
-// }
-// It returns an object with the namespace and the list of embedded attachment IDs:
-// {
-//   ns: string; // e.g. 'my-chroma-namespace__attachments'
-//   ids: string[]; // e.g. ['discord:my-server-id:attachment:attachment-urn', ...]
-// }
+export interface AttachmentEvent {
+  provider: string;
+  tenant: string;
+  message_id: string;
+  attachments: AttachmentInfo[];
+}
 
-// TODO: Update evt type when we have a common event type
-export async function embedAttachments(evt: any) {
-  if (!evt.attachments?.length) return [];
-  const reg = fileBackedRegistry();
+export interface AttachmentEmbeddingConfig {
+  chromaUrl: string;
+  dim: number;
+  textModelId: string;
+  imageModelId: string;
+  fetch?: typeof fetch;
+  providerConfigPath?: string;
+}
+
+async function selectEmbedder(
+  cache: Record<string, Embedder>,
+  modelId: string,
+  dim: number,
+): Promise<Embedder> {
+  if (!cache[modelId])
+    cache[modelId] = makeDeterministicEmbedder({ modelId, dim });
+  return cache[modelId]!;
+}
+
+export async function embedAttachments(
+  evt: AttachmentEvent,
+  cfg: AttachmentEmbeddingConfig,
+) {
+  if (!evt.attachments?.length) return { ns: "", ids: [] };
+
+  const reg = fileBackedRegistry(cfg.providerConfigPath);
   const tenantCfg = await reg.get(evt.provider, evt.tenant);
   const ns = `${tenantCfg.storage.chroma_ns}__attachments`;
-  const dim = Number(process.env.EMBEDDING_DIM || "1536");
-  const model = process.env.EMBEDDING_MODEL || "deterministic:v1";
   const chroma = makeChromaWrapper({
-    url: process.env.CHROMA_URL || "http://localhost:8000",
+    url: cfg.chromaUrl,
     collection: ns,
     prefix: tenantCfg.storage.chroma_ns,
-    embeddingDim: dim,
+    embeddingDim: cfg.dim,
   });
-  //
-  // TODO Use a DualStore for consistancy:
   await chroma.ensureCollection();
-  //TODO: Use the remote embedding function and use a real model.,
-  const embedder = makeDeterministicEmbedder({ modelId: model, dim });
+
+  const fetchImpl = cfg.fetch ?? fetch;
   const results: string[] = [];
+  const embedderCache: Record<string, Embedder> = {};
+
   for (const a of evt.attachments) {
-    const signal = a.content_type?.startsWith("image/")
-      ? { type: "image_url", data: a.url }
-      : { type: "text", data: a.url };
-    const embedding = await embedder.embedOne(signal);
+    const res = await fetchImpl(a.url);
+    const ct = a.content_type || res.headers.get("content-type") || "";
+    let embedding: number[];
+    if (ct.startsWith("image/")) {
+      const ab = await res.arrayBuffer();
+      const b64 = Buffer.from(ab).toString("base64");
+      const emb = await selectEmbedder(
+        embedderCache,
+        cfg.imageModelId,
+        cfg.dim,
+      );
+      embedding = await emb.embedOne({ type: "image_base64", data: b64 });
+    } else {
+      const text = await res.text();
+      const emb = await selectEmbedder(embedderCache, cfg.textModelId, cfg.dim);
+      embedding = await emb.embedOne(text);
+    }
+
     const id = `${evt.provider}:${evt.tenant}:attachment:${a.urn}`;
     await chroma.upsert([
       {
@@ -67,10 +94,6 @@ export async function embedAttachments(evt: any) {
     ]);
     results.push(id);
   }
-  return { ns, ids: results };
-}
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-  console.log("attachment-embedder ready (stub run)");
-  setInterval(() => {}, 1 << 30);
+  return { ns, ids: results };
 }
