@@ -371,20 +371,20 @@ app.get<{ Querystring: Record<string, string | undefined> }>(
         if (!s2) throw new Error(`step '${step}' not found`);
         Object.assign(s2, overrides);
         if (Object.keys(env).length) s2.env = { ...(s2.env || {}), ...env };
-        if (Object.keys(js).length || Object.keys(args).length) {
+        if (Object.keys(js).length || (Object.keys(args).length && s2.js)) {
           s2.js = { ...(s2.js || {}), ...js } as any;
           if (Object.keys(args).length) {
             const cur =
               s2.js && typeof s2.js.args === "object" ? s2.js.args : {};
-            s2.js!.args = { ...cur, ...args };
+            s2.js.args = { ...cur, ...args };
           }
         }
-        if (Object.keys(ts).length || Object.keys(args).length) {
+        if (Object.keys(ts).length || (Object.keys(args).length && s2.ts)) {
           s2.ts = { ...(s2.ts || {}), ...ts } as any;
           if (Object.keys(args).length) {
             const cur =
               s2.ts && typeof s2.ts.args === "object" ? s2.ts.args : {};
-            s2.ts!.args = { ...cur, ...args };
+            s2.ts.args = { ...cur, ...args };
           }
         }
         if (files.length) {
