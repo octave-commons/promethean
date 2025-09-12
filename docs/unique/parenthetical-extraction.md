@@ -96,21 +96,21 @@ console.log(extractParentheticals(x));
 ```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
-- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
-- [ripple-propagation-demo](ripple-propagation-demo.md)
-- [2d-sandbox-field](2d-sandbox-field.md)
-- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
-- [EidolonField](eidolonfield.md)
+- [[eidolon-field-optimization]]
+- [[homeostasis-decay-formulas]]
+- [[docs/unique/ripple-propagation-demo|ripple-propagation-demo]]
+- [[2d-sandbox-field]]
+- [[eidolon-field-abstract-model|Eidolon Field Abstract Model]]
+- [[eidolonfield]]
 
 ## Sources
-- [Eidolon-Field-Optimization — L50](eidolon-field-optimization.md#L50) (line 50, col 1, score 0.87)
-- [homeostasis-decay-formulas — L157](homeostasis-decay-formulas.md#L157) (line 157, col 1, score 1)
-- [homeostasis-decay-formulas — L157](homeostasis-decay-formulas.md#L157) (line 157, col 3, score 1)
-- [ripple-propagation-demo — L114](ripple-propagation-demo.md#L114) (line 114, col 1, score 1)
-- [ripple-propagation-demo — L114](ripple-propagation-demo.md#L114) (line 114, col 3, score 1)
-- [2d-sandbox-field — L215](2d-sandbox-field.md#L215) (line 215, col 1, score 0.86)
-- [2d-sandbox-field — L215](2d-sandbox-field.md#L215) (line 215, col 3, score 0.86)
-- [Eidolon Field Abstract Model — L210](eidolon-field-abstract-model.md#L210) (line 210, col 1, score 0.86)
-- [Eidolon Field Abstract Model — L210](eidolon-field-abstract-model.md#L210) (line 210, col 3, score 0.86)
+- [[eidolon-field-optimization#L50|Eidolon-Field-Optimization — L50]] (line 50, col 1, score 0.87)
+- [[homeostasis-decay-formulas#L157|homeostasis-decay-formulas — L157]] (line 157, col 1, score 1)
+- [[homeostasis-decay-formulas#L157|homeostasis-decay-formulas — L157]] (line 157, col 3, score 1)
+- [[docs/unique/ripple-propagation-demo#L114|ripple-propagation-demo — L114]] (line 114, col 1, score 1)
+- [[docs/unique/ripple-propagation-demo#L114|ripple-propagation-demo — L114]] (line 114, col 3, score 1)
+- [[2d-sandbox-field#L215|2d-sandbox-field — L215]] (line 215, col 1, score 0.86)
+- [[2d-sandbox-field#L215|2d-sandbox-field — L215]] (line 215, col 3, score 0.86)
+- [[eidolon-field-abstract-model#L210|Eidolon Field Abstract Model — L210]] (line 210, col 1, score 0.86)
+- [[eidolon-field-abstract-model#L210|Eidolon Field Abstract Model — L210]] (line 210, col 3, score 0.86)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -66,7 +66,7 @@ references:
 ---
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
+- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
 - [Diagrams](chunks/diagrams.md)
 - [DSL](chunks/dsl.md)
 - [JavaScript](chunks/javascript.md)
@@ -75,7 +75,7 @@ references:
 - [Services](chunks/services.md)
 - [Shared](chunks/shared.md)
 ## Sources
-- [Chroma Toolkit Consolidation Plan — L1002](chroma-toolkit-consolidation-plan.md#^ref-5020e892-1002-0) (line 1002, col 0, score 1)
+- [[chroma-toolkit-consolidation-plan#^ref-5020e892-1002-0|Chroma Toolkit Consolidation Plan — L1002]] (line 1002, col 0, score 1)
 - [Diagrams — L522](chunks/diagrams.md#^ref-45cd25b5-522-0) (line 522, col 0, score 1)
 - [DSL — L469](chunks/dsl.md#^ref-e87bc036-469-0) (line 469, col 0, score 1)
 - [JavaScript — L508](chunks/javascript.md#^ref-c1618c66-508-0) (line 508, col 0, score 1)

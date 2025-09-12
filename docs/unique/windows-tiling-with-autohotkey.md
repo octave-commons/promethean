@@ -250,32 +250,32 @@ Want me to sketch a full i3 keybind layer with workspaces, layout presets, and g
 - [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
 - [komorebi-group-window-hack](komorebi-group-window-hack.md)
 - [Window Management](chunks/window-management.md)
-- [template-based-compilation](template-based-compilation.md)
-- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
-- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
-- [2d-sandbox-field](2d-sandbox-field.md)
-- [EidolonField](eidolonfield.md)
-- [field-node-diagram-outline](field-node-diagram-outline.md)
-- [Reawakening Duck](reawakening-duck.md)
+- [[docs/unique/template-based-compilation|template-based-compilation]]
+- [[lisp-compiler-integration]]
+- [[sibilant-meta-string-templating-runtime]]
+- [[2d-sandbox-field]]
+- [[eidolonfield]]
+- [[field-node-diagram-outline]]
+- [[reawakening-duck|Reawakening Duck]]
 
 ## Sources
 - [lisp-dsl-for-window-management — L210](lisp-dsl-for-window-management.md#L210) (line 210, col 1, score 0.85)
 - [komorebi-group-window-hack — L201](komorebi-group-window-hack.md#L201) (line 201, col 1, score 1)
 - [komorebi-group-window-hack — L201](komorebi-group-window-hack.md#L201) (line 201, col 3, score 1)
-- [Lisp-Compiler-Integration — L546](lisp-compiler-integration.md#L546) (line 546, col 1, score 1)
-- [Lisp-Compiler-Integration — L546](lisp-compiler-integration.md#L546) (line 546, col 3, score 1)
-- [sibilant-meta-string-templating-runtime — L126](sibilant-meta-string-templating-runtime.md#L126) (line 126, col 1, score 1)
-- [sibilant-meta-string-templating-runtime — L126](sibilant-meta-string-templating-runtime.md#L126) (line 126, col 3, score 1)
-- [template-based-compilation — L110](template-based-compilation.md#L110) (line 110, col 1, score 1)
-- [template-based-compilation — L110](template-based-compilation.md#L110) (line 110, col 3, score 1)
-- [2d-sandbox-field — L201](2d-sandbox-field.md#L201) (line 201, col 1, score 1)
-- [2d-sandbox-field — L201](2d-sandbox-field.md#L201) (line 201, col 3, score 1)
-- [EidolonField — L246](eidolonfield.md#L246) (line 246, col 1, score 1)
-- [EidolonField — L246](eidolonfield.md#L246) (line 246, col 3, score 1)
-- [field-node-diagram-outline — L117](field-node-diagram-outline.md#L117) (line 117, col 1, score 1)
-- [field-node-diagram-outline — L117](field-node-diagram-outline.md#L117) (line 117, col 3, score 1)
-- [Reawakening Duck — L116](reawakening-duck.md#L116) (line 116, col 1, score 1)
-- [Reawakening Duck — L116](reawakening-duck.md#L116) (line 116, col 3, score 1)
+- [[lisp-compiler-integration#L546|Lisp-Compiler-Integration — L546]] (line 546, col 1, score 1)
+- [[lisp-compiler-integration#L546|Lisp-Compiler-Integration — L546]] (line 546, col 3, score 1)
+- [[sibilant-meta-string-templating-runtime#L126|sibilant-meta-string-templating-runtime — L126]] (line 126, col 1, score 1)
+- [[sibilant-meta-string-templating-runtime#L126|sibilant-meta-string-templating-runtime — L126]] (line 126, col 3, score 1)
+- [[docs/unique/template-based-compilation#L110|template-based-compilation — L110]] (line 110, col 1, score 1)
+- [[docs/unique/template-based-compilation#L110|template-based-compilation — L110]] (line 110, col 3, score 1)
+- [[2d-sandbox-field#L201|2d-sandbox-field — L201]] (line 201, col 1, score 1)
+- [[2d-sandbox-field#L201|2d-sandbox-field — L201]] (line 201, col 3, score 1)
+- [[eidolonfield#L246|EidolonField — L246]] (line 246, col 1, score 1)
+- [[eidolonfield#L246|EidolonField — L246]] (line 246, col 3, score 1)
+- [[field-node-diagram-outline#L117|field-node-diagram-outline — L117]] (line 117, col 1, score 1)
+- [[field-node-diagram-outline#L117|field-node-diagram-outline — L117]] (line 117, col 3, score 1)
+- [[reawakening-duck#L116|Reawakening Duck — L116]] (line 116, col 1, score 1)
+- [[reawakening-duck#L116|Reawakening Duck — L116]] (line 116, col 3, score 1)
 - [Window Management — L14](chunks/window-management.md#L14) (line 14, col 1, score 1)
 - [Window Management — L14](chunks/window-management.md#L14) (line 14, col 3, score 1)
 - [lisp-dsl-for-window-management — L222](lisp-dsl-for-window-management.md#L222) (line 222, col 1, score 1)

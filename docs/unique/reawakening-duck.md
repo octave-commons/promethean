@@ -233,37 +233,37 @@ Make Duck functional, expressive, and integrated again. That means:
 #duck #promethean #eidolon #voiceai #multimodal #ai-agents #project-planning
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
+- [[ducks-self-referential-perceptual-loop|Duck's Self-Referential Perceptual Loop]]
 - [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
-- [Duck's Attractor States](ducks-attractor-states.md)
-- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
-- [2d-sandbox-field](2d-sandbox-field.md)
-- [field-node-diagram-outline](field-node-diagram-outline.md)
-- [EidolonField](eidolonfield.md)
-- [sibilant-macro-targets](sibilant-macro-targets.md)
-- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
-- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
-- [balanced-bst](balanced-bst.md)
+- [[ducks-attractor-states|Duck's Attractor States]]
+- [[recursive-prompt-construction-engine|Recursive Prompt Construction Engine]]
+- [[2d-sandbox-field]]
+- [[field-node-diagram-outline]]
+- [[eidolonfield]]
+- [[sibilant-macro-targets]]
+- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
+- [[ai-first-os-model-context-protocol]]
+- [[balanced-bst]]
 
 ## Sources
-- [Duck's Attractor States — L60](ducks-attractor-states.md#L60) (line 60, col 1, score 1)
-- [Duck's Attractor States — L60](ducks-attractor-states.md#L60) (line 60, col 3, score 1)
-- [Recursive Prompt Construction Engine — L184](recursive-prompt-construction-engine.md#L184) (line 184, col 1, score 1)
-- [Recursive Prompt Construction Engine — L184](recursive-prompt-construction-engine.md#L184) (line 184, col 3, score 1)
-- [2d-sandbox-field — L201](2d-sandbox-field.md#L201) (line 201, col 1, score 1)
-- [2d-sandbox-field — L201](2d-sandbox-field.md#L201) (line 201, col 3, score 1)
-- [EidolonField — L246](eidolonfield.md#L246) (line 246, col 1, score 1)
-- [EidolonField — L246](eidolonfield.md#L246) (line 246, col 3, score 1)
-- [field-node-diagram-outline — L117](field-node-diagram-outline.md#L117) (line 117, col 1, score 1)
-- [field-node-diagram-outline — L117](field-node-diagram-outline.md#L117) (line 117, col 3, score 1)
-- [sibilant-macro-targets — L165](sibilant-macro-targets.md#L165) (line 165, col 1, score 1)
-- [sibilant-macro-targets — L165](sibilant-macro-targets.md#L165) (line 165, col 3, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- [[ducks-attractor-states#L60|Duck's Attractor States — L60]] (line 60, col 1, score 1)
+- [[ducks-attractor-states#L60|Duck's Attractor States — L60]] (line 60, col 3, score 1)
+- [[recursive-prompt-construction-engine#L184|Recursive Prompt Construction Engine — L184]] (line 184, col 1, score 1)
+- [[recursive-prompt-construction-engine#L184|Recursive Prompt Construction Engine — L184]] (line 184, col 3, score 1)
+- [[2d-sandbox-field#L201|2d-sandbox-field — L201]] (line 201, col 1, score 1)
+- [[2d-sandbox-field#L201|2d-sandbox-field — L201]] (line 201, col 3, score 1)
+- [[eidolonfield#L246|EidolonField — L246]] (line 246, col 1, score 1)
+- [[eidolonfield#L246|EidolonField — L246]] (line 246, col 3, score 1)
+- [[field-node-diagram-outline#L117|field-node-diagram-outline — L117]] (line 117, col 1, score 1)
+- [[field-node-diagram-outline#L117|field-node-diagram-outline — L117]] (line 117, col 3, score 1)
+- [[sibilant-macro-targets#L165|sibilant-macro-targets — L165]] (line 165, col 1, score 1)
+- [[sibilant-macro-targets#L165|sibilant-macro-targets — L165]] (line 165, col 3, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 1, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 3, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

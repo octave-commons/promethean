@@ -192,31 +192,31 @@ This gives you a base to build tooling *around* the AI, not just inside of it. Y
 Want me to mock up a directory structure for this kind of `.prompt.sibilant` world? Or do you want to explore the internal DSL for importing and manipulating memory regions first?
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
-- [mystery-lisp-search-session](mystery-lisp-search-session.md)
-- [ts-to-lisp-transpiler](ts-to-lisp-transpiler.md)
-- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
-- [Optimizing Command Limitations in System Design](optimizing-command-limitations-in-system-design.md)
+- [[promethean-copilot-intent-engine]]
+- [[mystery-lisp-search-session]]
+- [[ts-to-lisp-transpiler]]
+- [[obsidian-templating-plugins-integration-guide|Obsidian Templating Plugins Integration Guide]]
+- [[optimizing-command-limitations-in-system-design|Optimizing Command Limitations in System Design]]
 
 ## Sources
-- [Promethean-Copilot-Intent-Engine — L41](promethean-copilot-intent-engine.md#L41) (line 41, col 3, score 0.85)
-- [Promethean-Copilot-Intent-Engine — L41](promethean-copilot-intent-engine.md#L41) (line 41, col 5, score 0.85)
-- [mystery-lisp-search-session — L120](mystery-lisp-search-session.md#L120) (line 120, col 1, score 1)
-- [mystery-lisp-search-session — L120](mystery-lisp-search-session.md#L120) (line 120, col 3, score 1)
-- [Obsidian Templating Plugins Integration Guide — L91](obsidian-templating-plugins-integration-guide.md#L91) (line 91, col 1, score 1)
-- [Obsidian Templating Plugins Integration Guide — L91](obsidian-templating-plugins-integration-guide.md#L91) (line 91, col 3, score 1)
-- [Optimizing Command Limitations in System Design — L33](optimizing-command-limitations-in-system-design.md#L33) (line 33, col 1, score 1)
-- [Optimizing Command Limitations in System Design — L33](optimizing-command-limitations-in-system-design.md#L33) (line 33, col 3, score 1)
-- [mystery-lisp-search-session — L125](mystery-lisp-search-session.md#L125) (line 125, col 1, score 0.93)
-- [mystery-lisp-search-session — L125](mystery-lisp-search-session.md#L125) (line 125, col 3, score 0.93)
-- [Promethean-Copilot-Intent-Engine — L56](promethean-copilot-intent-engine.md#L56) (line 56, col 1, score 1)
-- [Promethean-Copilot-Intent-Engine — L56](promethean-copilot-intent-engine.md#L56) (line 56, col 3, score 1)
-- [ts-to-lisp-transpiler — L12](ts-to-lisp-transpiler.md#L12) (line 12, col 1, score 1)
-- [ts-to-lisp-transpiler — L12](ts-to-lisp-transpiler.md#L12) (line 12, col 3, score 1)
-- [Promethean-Copilot-Intent-Engine — L63](promethean-copilot-intent-engine.md#L63) (line 63, col 1, score 0.95)
-- [Promethean-Copilot-Intent-Engine — L63](promethean-copilot-intent-engine.md#L63) (line 63, col 3, score 0.95)
-- [Promethean-Copilot-Intent-Engine — L62](promethean-copilot-intent-engine.md#L62) (line 62, col 1, score 0.95)
-- [Promethean-Copilot-Intent-Engine — L62](promethean-copilot-intent-engine.md#L62) (line 62, col 3, score 0.95)
-- [mystery-lisp-search-session — L126](mystery-lisp-search-session.md#L126) (line 126, col 1, score 0.99)
-- [mystery-lisp-search-session — L126](mystery-lisp-search-session.md#L126) (line 126, col 3, score 0.99)
+- [[promethean-copilot-intent-engine#L41|Promethean-Copilot-Intent-Engine — L41]] (line 41, col 3, score 0.85)
+- [[promethean-copilot-intent-engine#L41|Promethean-Copilot-Intent-Engine — L41]] (line 41, col 5, score 0.85)
+- [[mystery-lisp-search-session#L120|mystery-lisp-search-session — L120]] (line 120, col 1, score 1)
+- [[mystery-lisp-search-session#L120|mystery-lisp-search-session — L120]] (line 120, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L91|Obsidian Templating Plugins Integration Guide — L91]] (line 91, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L91|Obsidian Templating Plugins Integration Guide — L91]] (line 91, col 3, score 1)
+- [[optimizing-command-limitations-in-system-design#L33|Optimizing Command Limitations in System Design — L33]] (line 33, col 1, score 1)
+- [[optimizing-command-limitations-in-system-design#L33|Optimizing Command Limitations in System Design — L33]] (line 33, col 3, score 1)
+- [[mystery-lisp-search-session#L125|mystery-lisp-search-session — L125]] (line 125, col 1, score 0.93)
+- [[mystery-lisp-search-session#L125|mystery-lisp-search-session — L125]] (line 125, col 3, score 0.93)
+- [[promethean-copilot-intent-engine#L56|Promethean-Copilot-Intent-Engine — L56]] (line 56, col 1, score 1)
+- [[promethean-copilot-intent-engine#L56|Promethean-Copilot-Intent-Engine — L56]] (line 56, col 3, score 1)
+- [[ts-to-lisp-transpiler#L12|ts-to-lisp-transpiler — L12]] (line 12, col 1, score 1)
+- [[ts-to-lisp-transpiler#L12|ts-to-lisp-transpiler — L12]] (line 12, col 3, score 1)
+- [[promethean-copilot-intent-engine#L63|Promethean-Copilot-Intent-Engine — L63]] (line 63, col 1, score 0.95)
+- [[promethean-copilot-intent-engine#L63|Promethean-Copilot-Intent-Engine — L63]] (line 63, col 3, score 0.95)
+- [[promethean-copilot-intent-engine#L62|Promethean-Copilot-Intent-Engine — L62]] (line 62, col 1, score 0.95)
+- [[promethean-copilot-intent-engine#L62|Promethean-Copilot-Intent-Engine — L62]] (line 62, col 3, score 0.95)
+- [[mystery-lisp-search-session#L126|mystery-lisp-search-session — L126]] (line 126, col 1, score 0.99)
+- [[mystery-lisp-search-session#L126|mystery-lisp-search-session — L126]] (line 126, col 3, score 0.99)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

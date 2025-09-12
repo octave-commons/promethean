@@ -160,30 +160,30 @@ If they have a working example, then they can work on it.
 you need to get that stuff you wre doing in the portfolio into lithp, then change all the extensions.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
-- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
-- [compiler-kit-foundations](compiler-kit-foundations.md)
-- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
-- [polyglot-repl-interface-layer](polyglot-repl-interface-layer.md)
-- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
-- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
-- [balanced-bst](balanced-bst.md)
+- [[sibilant-metacompiler-overview]]
+- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
+- [[docs/unique/compiler-kit-foundations|compiler-kit-foundations]]
+- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
+- [[polyglot-repl-interface-layer]]
+- [[ai-first-os-model-context-protocol]]
+- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
+- [[balanced-bst]]
 
 ## Sources
-- [compiler-kit-foundations — L612](compiler-kit-foundations.md#L612) (line 612, col 1, score 1)
-- [compiler-kit-foundations — L612](compiler-kit-foundations.md#L612) (line 612, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L205](cross-language-runtime-polymorphism.md#L205) (line 205, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L205](cross-language-runtime-polymorphism.md#L205) (line 205, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L171](cross-target-macro-system-in-sibilant.md#L171) (line 171, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L171](cross-target-macro-system-in-sibilant.md#L171) (line 171, col 3, score 1)
-- [polyglot-repl-interface-layer — L159](polyglot-repl-interface-layer.md#L159) (line 159, col 1, score 1)
-- [polyglot-repl-interface-layer — L159](polyglot-repl-interface-layer.md#L159) (line 159, col 3, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- [[docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612]] (line 612, col 1, score 1)
+- [[docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612]] (line 612, col 3, score 1)
+- [[cross-language-runtime-polymorphism#L205|Cross-Language Runtime Polymorphism — L205]] (line 205, col 1, score 1)
+- [[cross-language-runtime-polymorphism#L205|Cross-Language Runtime Polymorphism — L205]] (line 205, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171]] (line 171, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171]] (line 171, col 3, score 1)
+- [[polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159]] (line 159, col 1, score 1)
+- [[polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159]] (line 159, col 3, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 1, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 3, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

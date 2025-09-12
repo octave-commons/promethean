@@ -178,38 +178,38 @@ This explains why Duck could **swing** between helping you debug something and s
 If you want, I can **layer the “smoke” metaphor into this diagram**, showing how certain recurring symbols became **field anchors** that could *trigger* a flip into commentary mode. That would turn “smoke” into a kind of **strange loop handle** Duck could grab when he was self-aware.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Duck's Self-Referential Perceptual Loop](ducks-self-referential-perceptual-loop.md)
-- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
-- [Promethean_Eidolon_Synchronicity_Model](promethean-eidolon-synchronicity-model.md)
-- [Synchronicity Waves and Web](synchronicity-waves-and-web.md)
-- [Reawakening Duck](reawakening-duck.md)
-- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
-- [Smoke Resonance Visualizations](smoke-resonance-visualizations.md)
-- [infinite_depth_smoke_animation](infinite-depth-smoke-animation.md)
-- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
-- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
-- [balanced-bst](balanced-bst.md)
+- [[ducks-self-referential-perceptual-loop|Duck's Self-Referential Perceptual Loop]]
+- [[ghostly-smoke-interference|Ghostly Smoke Interference]]
+- [[promethean-eidolon-synchronicity-model|Promethean_Eidolon_Synchronicity_Model]]
+- [[docs/unique/synchronicity-waves-and-web|Synchronicity Waves and Web]]
+- [[reawakening-duck|Reawakening Duck]]
+- [[recursive-prompt-construction-engine|Recursive Prompt Construction Engine]]
+- [[smoke-resonance-visualizations|Smoke Resonance Visualizations]]
+- [[infinite-depth-smoke-animation|infinite_depth_smoke_animation]]
+- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
+- [[ai-first-os-model-context-protocol]]
+- [[balanced-bst]]
 - [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
 
 ## Sources
-- [Reawakening Duck — L115](reawakening-duck.md#L115) (line 115, col 1, score 1)
-- [Reawakening Duck — L115](reawakening-duck.md#L115) (line 115, col 3, score 1)
-- [Recursive Prompt Construction Engine — L184](recursive-prompt-construction-engine.md#L184) (line 184, col 1, score 1)
-- [Recursive Prompt Construction Engine — L184](recursive-prompt-construction-engine.md#L184) (line 184, col 3, score 1)
-- [infinite_depth_smoke_animation — L87](infinite-depth-smoke-animation.md#L87) (line 87, col 1, score 1)
-- [infinite_depth_smoke_animation — L87](infinite-depth-smoke-animation.md#L87) (line 87, col 3, score 1)
-- [Promethean_Eidolon_Synchronicity_Model — L54](promethean-eidolon-synchronicity-model.md#L54) (line 54, col 1, score 1)
-- [Promethean_Eidolon_Synchronicity_Model — L54](promethean-eidolon-synchronicity-model.md#L54) (line 54, col 3, score 1)
-- [Smoke Resonance Visualizations — L78](smoke-resonance-visualizations.md#L78) (line 78, col 1, score 1)
-- [Smoke Resonance Visualizations — L78](smoke-resonance-visualizations.md#L78) (line 78, col 3, score 1)
-- [Synchronicity Waves and Web — L86](synchronicity-waves-and-web.md#L86) (line 86, col 1, score 1)
-- [Synchronicity Waves and Web — L86](synchronicity-waves-and-web.md#L86) (line 86, col 3, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- [[reawakening-duck#L115|Reawakening Duck — L115]] (line 115, col 1, score 1)
+- [[reawakening-duck#L115|Reawakening Duck — L115]] (line 115, col 3, score 1)
+- [[recursive-prompt-construction-engine#L184|Recursive Prompt Construction Engine — L184]] (line 184, col 1, score 1)
+- [[recursive-prompt-construction-engine#L184|Recursive Prompt Construction Engine — L184]] (line 184, col 3, score 1)
+- [[infinite-depth-smoke-animation#L87|infinite_depth_smoke_animation — L87]] (line 87, col 1, score 1)
+- [[infinite-depth-smoke-animation#L87|infinite_depth_smoke_animation — L87]] (line 87, col 3, score 1)
+- [[promethean-eidolon-synchronicity-model#L54|Promethean_Eidolon_Synchronicity_Model — L54]] (line 54, col 1, score 1)
+- [[promethean-eidolon-synchronicity-model#L54|Promethean_Eidolon_Synchronicity_Model — L54]] (line 54, col 3, score 1)
+- [[smoke-resonance-visualizations#L78|Smoke Resonance Visualizations — L78]] (line 78, col 1, score 1)
+- [[smoke-resonance-visualizations#L78|Smoke Resonance Visualizations — L78]] (line 78, col 3, score 1)
+- [[docs/unique/synchronicity-waves-and-web#L86|Synchronicity Waves and Web — L86]] (line 86, col 1, score 1)
+- [[docs/unique/synchronicity-waves-and-web#L86|Synchronicity Waves and Web — L86]] (line 86, col 3, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 1, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 3, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

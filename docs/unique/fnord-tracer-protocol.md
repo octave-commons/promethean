@@ -386,42 +386,42 @@ sequenceDiagram
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
-- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
-- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
-- [Event Bus MVP](event-bus-mvp.md)
-- [2d-sandbox-field](2d-sandbox-field.md)
-- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
-- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
-- [EidolonField](eidolonfield.md)
-- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
-- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
-- [balanced-bst](balanced-bst.md)
+- [[layer-1-uptime-diagrams]]
+- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
+- [[eidolon-field-abstract-model|Eidolon Field Abstract Model]]
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
+- [[docs/unique/event-bus-mvp|Event Bus MVP]]
+- [[2d-sandbox-field]]
+- [[event-bus-projections-architecture|Event Bus Projections Architecture]]
+- [[eidolon-node-lifecycle]]
+- [[eidolonfield]]
+- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
+- [[ai-first-os-model-context-protocol]]
+- [[balanced-bst]]
 
 ## Sources
-- [Agent Tasks: Persistence Migration to DualStore — L137](agent-tasks-persistence-migration-to-dualstore.md#L137) (line 137, col 1, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L137](agent-tasks-persistence-migration-to-dualstore.md#L137) (line 137, col 3, score 1)
-- [Chroma Toolkit Consolidation Plan — L175](chroma-toolkit-consolidation-plan.md#L175) (line 175, col 1, score 1)
-- [Chroma Toolkit Consolidation Plan — L175](chroma-toolkit-consolidation-plan.md#L175) (line 175, col 3, score 1)
-- [Event Bus MVP — L547](event-bus-mvp.md#L547) (line 547, col 1, score 1)
-- [Event Bus MVP — L547](event-bus-mvp.md#L547) (line 547, col 3, score 1)
-- [Event Bus Projections Architecture — L150](event-bus-projections-architecture.md#L150) (line 150, col 1, score 1)
-- [Event Bus Projections Architecture — L150](event-bus-projections-architecture.md#L150) (line 150, col 3, score 1)
-- [2d-sandbox-field — L199](2d-sandbox-field.md#L199) (line 199, col 1, score 1)
-- [2d-sandbox-field — L199](2d-sandbox-field.md#L199) (line 199, col 3, score 1)
-- [Eidolon Field Abstract Model — L196](eidolon-field-abstract-model.md#L196) (line 196, col 1, score 1)
-- [Eidolon Field Abstract Model — L196](eidolon-field-abstract-model.md#L196) (line 196, col 3, score 1)
-- [eidolon-node-lifecycle — L35](eidolon-node-lifecycle.md#L35) (line 35, col 1, score 1)
-- [eidolon-node-lifecycle — L35](eidolon-node-lifecycle.md#L35) (line 35, col 3, score 1)
-- [EidolonField — L249](eidolonfield.md#L249) (line 249, col 1, score 1)
-- [EidolonField — L249](eidolonfield.md#L249) (line 249, col 3, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 1, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 3, score 1)
+- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 1, score 1)
+- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 3, score 1)
+- [[2d-sandbox-field#L199|2d-sandbox-field — L199]] (line 199, col 1, score 1)
+- [[2d-sandbox-field#L199|2d-sandbox-field — L199]] (line 199, col 3, score 1)
+- [[eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196]] (line 196, col 1, score 1)
+- [[eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196]] (line 196, col 3, score 1)
+- [[eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35]] (line 35, col 1, score 1)
+- [[eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35]] (line 35, col 3, score 1)
+- [[eidolonfield#L249|EidolonField — L249]] (line 249, col 1, score 1)
+- [[eidolonfield#L249|EidolonField — L249]] (line 249, col 3, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 1, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 3, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

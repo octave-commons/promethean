@@ -235,28 +235,28 @@ You will prompt me, too.
 > When in doubt, leave a note. Leave a voiceprint. Leave a memory for the next version of you.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Prompt_Folder_Bootstrap](prompt-folder-bootstrap.md)
+- [[prompt-folder-bootstrap|Prompt_Folder_Bootstrap]]
 - [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
 - [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
-- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
+- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
+- [[ecs-scheduler-and-prefabs]]
 
 ## Sources
-- [Prompt_Folder_Bootstrap — L113](prompt-folder-bootstrap.md#L113) (line 113, col 3, score 0.86)
+- [[prompt-folder-bootstrap#L113|Prompt_Folder_Bootstrap — L113]] (line 113, col 3, score 0.86)
 - [Canonical Org-Babel Matplotlib Animation Template — L110](canonical-org-babel-matplotlib-animation-template.md#L110) (line 110, col 1, score 1)
 - [Canonical Org-Babel Matplotlib Animation Template — L110](canonical-org-babel-matplotlib-animation-template.md#L110) (line 110, col 3, score 1)
-- [Chroma Toolkit Consolidation Plan — L170](chroma-toolkit-consolidation-plan.md#L170) (line 170, col 1, score 1)
-- [Chroma Toolkit Consolidation Plan — L170](chroma-toolkit-consolidation-plan.md#L170) (line 170, col 3, score 1)
-- [ecs-scheduler-and-prefabs — L389](ecs-scheduler-and-prefabs.md#L389) (line 389, col 1, score 1)
-- [ecs-scheduler-and-prefabs — L389](ecs-scheduler-and-prefabs.md#L389) (line 389, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L170|Chroma Toolkit Consolidation Plan — L170]] (line 170, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L170|Chroma Toolkit Consolidation Plan — L170]] (line 170, col 3, score 1)
+- [[ecs-scheduler-and-prefabs#L389|ecs-scheduler-and-prefabs — L389]] (line 389, col 1, score 1)
+- [[ecs-scheduler-and-prefabs#L389|ecs-scheduler-and-prefabs — L389]] (line 389, col 3, score 1)
 - [Promethean Event Bus MVP v0.1 — L884](promethean-event-bus-mvp-v0-1.md#L884) (line 884, col 1, score 1)
 - [Promethean Event Bus MVP v0.1 — L884](promethean-event-bus-mvp-v0-1.md#L884) (line 884, col 3, score 1)
 - [Promethean Event Bus MVP v0.1 — L900](promethean-event-bus-mvp-v0-1.md#L900) (line 900, col 1, score 0.99)
 - [Promethean Event Bus MVP v0.1 — L900](promethean-event-bus-mvp-v0-1.md#L900) (line 900, col 3, score 0.99)
-- [Chroma Toolkit Consolidation Plan — L198](chroma-toolkit-consolidation-plan.md#L198) (line 198, col 1, score 0.99)
-- [Chroma Toolkit Consolidation Plan — L198](chroma-toolkit-consolidation-plan.md#L198) (line 198, col 3, score 0.99)
-- [Chroma Toolkit Consolidation Plan — L199](chroma-toolkit-consolidation-plan.md#L199) (line 199, col 1, score 0.98)
-- [Chroma Toolkit Consolidation Plan — L199](chroma-toolkit-consolidation-plan.md#L199) (line 199, col 3, score 0.98)
-- [Chroma Toolkit Consolidation Plan — L196](chroma-toolkit-consolidation-plan.md#L196) (line 196, col 1, score 0.98)
-- [Chroma Toolkit Consolidation Plan — L196](chroma-toolkit-consolidation-plan.md#L196) (line 196, col 3, score 0.98)
+- [[chroma-toolkit-consolidation-plan#L198|Chroma Toolkit Consolidation Plan — L198]] (line 198, col 1, score 0.99)
+- [[chroma-toolkit-consolidation-plan#L198|Chroma Toolkit Consolidation Plan — L198]] (line 198, col 3, score 0.99)
+- [[chroma-toolkit-consolidation-plan#L199|Chroma Toolkit Consolidation Plan — L199]] (line 199, col 1, score 0.98)
+- [[chroma-toolkit-consolidation-plan#L199|Chroma Toolkit Consolidation Plan — L199]] (line 199, col 3, score 0.98)
+- [[chroma-toolkit-consolidation-plan#L196|Chroma Toolkit Consolidation Plan — L196]] (line 196, col 1, score 0.98)
+- [[chroma-toolkit-consolidation-plan#L196|Chroma Toolkit Consolidation Plan — L196]] (line 196, col 3, score 0.98)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
