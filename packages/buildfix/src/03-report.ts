@@ -1,7 +1,8 @@
 import * as path from "path";
 import { promises as fs } from "fs";
 
-import { parseArgs, readJSON } from "./utils.js";
+import { parseArgs } from "@promethean/utils";
+import { readJSON } from "./utils.js";
 import type { Summary, History } from "./types.js";
 
 const args = parseArgs({

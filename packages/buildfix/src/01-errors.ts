@@ -1,6 +1,7 @@
 import * as path from "node:path";
 
-import { parseArgs, tsc, codeFrame, writeJSON } from "./utils.js";
+import { parseArgs } from "@promethean/utils";
+import { tsc, codeFrame, writeJSON } from "./utils.js";
 import type { ErrorList, BuildError } from "./types.js";
 import { globby } from "globby";
 
