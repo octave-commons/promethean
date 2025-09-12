@@ -42,11 +42,14 @@ export type StreamOptions = {
     queueHighWater?: number; // optional: backpressure to throttle workers
 };
 
+const EOF = Symbol('EOF');
+
 /** Minimal async queue (channel) */
-class AsyncQueue<T> {
-    private buf: T[] = [];
-    private resolvers: ((v: IteratorResult<T>) => void)[] = [];
+class AsyncQueue<T> implements AsyncIterable<T | typeof EOF> {
+    private buf: (T | typeof EOF)[] = [];
+    private resolvers: ((v: IteratorResult<T | typeof EOF>) => void)[] = [];
     private ended = false;
+    private sentEOF = false;
 
     push(item: T) {
         if (this.ended) return;
@@ -60,19 +63,31 @@ class AsyncQueue<T> {
     end() {
         if (this.ended) return;
         this.ended = true;
-        while (this.resolvers.length) this.resolvers.shift()!({ value: undefined as any, done: true });
+        if (this.resolvers.length) {
+            const r = this.resolvers.shift()!;
+            this.sentEOF = true;
+            r({ value: EOF, done: false });
+        } else {
+            this.buf.push(EOF);
+        }
     }
     get size() {
         return this.buf.length;
     }
 
-    [Symbol.asyncIterator](): AsyncIterator<T> {
+    [Symbol.asyncIterator](): AsyncIterator<T | typeof EOF> {
         return {
             next: () =>
-                new Promise<IteratorResult<T>>((res) => {
-                    if (this.buf.length) res({ value: this.buf.shift()!, done: false });
-                    else if (this.ended) res({ value: undefined as any, done: true });
-                    else this.resolvers.push(res);
+                new Promise<IteratorResult<T | typeof EOF>>((res) => {
+                    if (this.buf.length) {
+                        const value = this.buf.shift()!;
+                        if (value === EOF) this.sentEOF = true;
+                        res({ value, done: false });
+                    } else if (this.sentEOF) {
+                        res({ value: undefined, done: true });
+                    } else {
+                        this.resolvers.push(res);
+                    }
                 }),
         };
     }
@@ -193,8 +208,7 @@ export async function* streamTreeConcurrent(root: string, opts: StreamOptions = 
                     try {
                         const children = await fs.readdir(absPath, { withFileTypes: true });
                         // Push in reverse so natural order is preserved when popping (DFS)
-                        for (let i = children.length - 1; i >= 0; i--) {
-                            const c = children[i]!;
+                        for (const c of [...children].reverse()) {
                             taskStack.push({ absPath: path.join(absPath, c.name), depth: depth + 1 });
                         }
                     } catch (e) {
@@ -215,12 +229,13 @@ export async function* streamTreeConcurrent(root: string, opts: StreamOptions = 
 
     // Start workers (up to #tasks)
     const workerCount = Math.max(1, Math.min(concurrency, taskStack.length || concurrency));
-    for (let i = 0; i < workerCount; i++) {
+    Array.from({ length: workerCount }).forEach(() => {
         void spawnWorker();
-    }
+    });
 
     // Drain the queue to the consumer
     for await (const ev of queue) {
+        if (ev === EOF) break;
         if (maybeStop()) break;
         yield ev;
     }

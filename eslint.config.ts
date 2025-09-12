@@ -118,6 +118,7 @@ export default [
       "**/*.spec.{ts,tsx,js}",
       "**/tests/**/*.{ts,tsx,js}",
     ],
+    plugins: { ava },
     rules: {
       "ava/no-only-test": "error",
       "ava/no-identical-title": "error",
