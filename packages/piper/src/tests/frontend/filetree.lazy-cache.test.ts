@@ -67,42 +67,44 @@ test.serial("file-tree lazy loads and caches directory contents", async (t) => {
         });
 
         await pageGoto("/");
+        await page.waitForResponse(
+          (r: any) => r.url().includes("/api/files") && r.ok(),
+        );
 
         // Expand test-tmp
         await page.waitForSelector("file-tree");
-        // Work inside shadow DOM
-        const clickDir = async (name: string) => {
-          await page.waitForFunction((label: string) => {
+        // Work inside shadow DOM by label (robust against absolute path differences)
+        const clickDirByLabel = async (label: string) => {
+          await page.waitForFunction((text: string) => {
             const el = document.querySelector("file-tree");
-            if (!el) return false;
-            const root = (el.shadowRoot as ShadowRoot) || undefined;
+            const root = (el?.shadowRoot as ShadowRoot) || undefined;
             if (!root) return false;
             const dirs = Array.from(root.querySelectorAll(".dir-line"));
             return !!dirs.find(
               (d) =>
                 (d.querySelector(".dir-name") as HTMLElement)?.textContent ===
-                label,
+                text,
             );
-          }, name);
-          await page.evaluate((label: string) => {
+          }, label);
+          await page.evaluate((text: string) => {
             const el = document.querySelector("file-tree")!;
             const root = el.shadowRoot as ShadowRoot;
             const dirs = Array.from(root.querySelectorAll(".dir-line"));
             const target = dirs.find(
               (d) =>
                 (d.querySelector(".dir-name") as HTMLElement)?.textContent ===
-                label,
-            ) as HTMLElement;
-            if (!target) throw new Error("dir not found: " + label);
+                text,
+            ) as HTMLElement | undefined;
+            if (!target) throw new Error("dir not found: " + text);
             target.click();
-          }, name);
+          }, label);
         };
 
         // Click to expand test-tmp, lazy-1, lazy-2, lazy-3 in sequence
-        await clickDir("test-tmp");
-        await clickDir("lazy-load-root");
-        await clickDir("lazy-1");
-        await clickDir("lazy-2");
+        await clickDirByLabel("test-tmp");
+        await clickDirByLabel("lazy-load-root");
+        await clickDirByLabel("lazy-1");
+        await clickDirByLabel("lazy-2");
 
         // When expanding lazy-2, its sub UL should momentarily show a loading indicator
         // We check existence of any .loading element at some point during expansion
@@ -118,7 +120,7 @@ test.serial("file-tree lazy loads and caches directory contents", async (t) => {
         });
         t.true(sawLoading, "shows loading indicator during fetch");
 
-        await clickDir("lazy-3");
+        await clickDirByLabel("lazy-3");
 
         // Leaf should be visible
         const leafVisible = await page.evaluate(() => {
@@ -134,8 +136,8 @@ test.serial("file-tree lazy loads and caches directory contents", async (t) => {
         const callsAfterFirstOpen = apiCalls.slice();
 
         // Collapse and re-open lazy-3; should not trigger another /api/files for the same dir
-        await clickDir("lazy-3"); // collapse
-        await clickDir("lazy-3"); // reopen -> should use cache
+        await clickDirByLabel("lazy-3"); // collapse
+        await clickDirByLabel("lazy-3"); // reopen -> should use cache
 
         const newCalls = apiCalls.slice(callsAfterFirstOpen.length);
         const reFetchedSameDir = newCalls.some((u) => u.includes("lazy-3"));
