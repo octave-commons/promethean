@@ -167,37 +167,37 @@ an admin dashboard for easily creating new users and defining policies
 - review
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Board Walk – 2025-08-11](board-walk-2025-08-11.md)
-- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
-- [markdown-to-org-transpiler](markdown-to-org-transpiler.md)
-- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
-- [ecs-offload-workers](ecs-offload-workers.md)
-- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [Board Automation Improvements](board-automation-improvements.md)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
+- [[board-walk-2025-08-11|Board Walk – 2025-08-11]]
+- [[performance-optimized-polyglot-bridge]]
+- [[markdown-to-org-transpiler]]
+- [[ecs-scheduler-and-prefabs]]
+- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
+- [[local-only-llm-workflow]]
+- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
+- [[board-automation-improvements|Board Automation Improvements]]
+- [[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]]
 
 ## Sources
-- [Performance-Optimized-Polyglot-Bridge — L160](performance-optimized-polyglot-bridge.md#L160) (line 160, col 1, score 0.85)
-- [Board Walk – 2025-08-11 — L110](board-walk-2025-08-11.md#L110) (line 110, col 1, score 0.9)
-- [Board Automation Improvements — L12](board-automation-improvements.md#L12) (line 12, col 1, score 1)
-- [Board Automation Improvements — L12](board-automation-improvements.md#L12) (line 12, col 3, score 1)
-- [Dynamic Context Model for Web Components — L391](dynamic-context-model-for-web-components.md#L391) (line 391, col 1, score 1)
-- [Dynamic Context Model for Web Components — L391](dynamic-context-model-for-web-components.md#L391) (line 391, col 3, score 1)
-- [ecs-offload-workers — L461](ecs-offload-workers.md#L461) (line 461, col 1, score 1)
-- [ecs-offload-workers — L461](ecs-offload-workers.md#L461) (line 461, col 3, score 1)
-- [ecs-scheduler-and-prefabs — L397](ecs-scheduler-and-prefabs.md#L397) (line 397, col 1, score 1)
-- [ecs-scheduler-and-prefabs — L397](ecs-scheduler-and-prefabs.md#L397) (line 397, col 3, score 1)
-- [Local-Only-LLM-Workflow — L173](local-only-llm-workflow.md#L173) (line 173, col 1, score 1)
-- [Local-Only-LLM-Workflow — L173](local-only-llm-workflow.md#L173) (line 173, col 3, score 1)
-- [markdown-to-org-transpiler — L304](markdown-to-org-transpiler.md#L304) (line 304, col 1, score 1)
-- [markdown-to-org-transpiler — L304](markdown-to-org-transpiler.md#L304) (line 304, col 3, score 1)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L522](polyglot-s-expr-bridge-python-js-lisp-interop.md#L522) (line 522, col 1, score 0.99)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L522](polyglot-s-expr-bridge-python-js-lisp-interop.md#L522) (line 522, col 3, score 0.99)
-- [ecs-offload-workers — L478](ecs-offload-workers.md#L478) (line 478, col 1, score 0.98)
-- [ecs-offload-workers — L478](ecs-offload-workers.md#L478) (line 478, col 3, score 0.98)
-- [ecs-scheduler-and-prefabs — L428](ecs-scheduler-and-prefabs.md#L428) (line 428, col 1, score 0.98)
-- [ecs-scheduler-and-prefabs — L428](ecs-scheduler-and-prefabs.md#L428) (line 428, col 3, score 0.98)
-- [markdown-to-org-transpiler — L315](markdown-to-org-transpiler.md#L315) (line 315, col 1, score 0.98)
-- [markdown-to-org-transpiler — L315](markdown-to-org-transpiler.md#L315) (line 315, col 3, score 0.98)
+- [[performance-optimized-polyglot-bridge#L160|Performance-Optimized-Polyglot-Bridge — L160]] (line 160, col 1, score 0.85)
+- [[board-walk-2025-08-11#L110|Board Walk – 2025-08-11 — L110]] (line 110, col 1, score 0.9)
+- [[board-automation-improvements#L12|Board Automation Improvements — L12]] (line 12, col 1, score 1)
+- [[board-automation-improvements#L12|Board Automation Improvements — L12]] (line 12, col 3, score 1)
+- [[dynamic-context-model-for-web-components#L391|Dynamic Context Model for Web Components — L391]] (line 391, col 1, score 1)
+- [[dynamic-context-model-for-web-components#L391|Dynamic Context Model for Web Components — L391]] (line 391, col 3, score 1)
+- [[docs/unique/ecs-offload-workers#L461|ecs-offload-workers — L461]] (line 461, col 1, score 1)
+- [[docs/unique/ecs-offload-workers#L461|ecs-offload-workers — L461]] (line 461, col 3, score 1)
+- [[ecs-scheduler-and-prefabs#L397|ecs-scheduler-and-prefabs — L397]] (line 397, col 1, score 1)
+- [[ecs-scheduler-and-prefabs#L397|ecs-scheduler-and-prefabs — L397]] (line 397, col 3, score 1)
+- [[local-only-llm-workflow#L173|Local-Only-LLM-Workflow — L173]] (line 173, col 1, score 1)
+- [[local-only-llm-workflow#L173|Local-Only-LLM-Workflow — L173]] (line 173, col 3, score 1)
+- [[markdown-to-org-transpiler#L304|markdown-to-org-transpiler — L304]] (line 304, col 1, score 1)
+- [[markdown-to-org-transpiler#L304|markdown-to-org-transpiler — L304]] (line 304, col 3, score 1)
+- [[polyglot-s-expr-bridge-python-js-lisp-interop#L522|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L522]] (line 522, col 1, score 0.99)
+- [[polyglot-s-expr-bridge-python-js-lisp-interop#L522|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L522]] (line 522, col 3, score 0.99)
+- [[docs/unique/ecs-offload-workers#L478|ecs-offload-workers — L478]] (line 478, col 1, score 0.98)
+- [[docs/unique/ecs-offload-workers#L478|ecs-offload-workers — L478]] (line 478, col 3, score 0.98)
+- [[ecs-scheduler-and-prefabs#L428|ecs-scheduler-and-prefabs — L428]] (line 428, col 1, score 0.98)
+- [[ecs-scheduler-and-prefabs#L428|ecs-scheduler-and-prefabs — L428]] (line 428, col 3, score 0.98)
+- [[markdown-to-org-transpiler#L315|markdown-to-org-transpiler — L315]] (line 315, col 1, score 0.98)
+- [[markdown-to-org-transpiler#L315|markdown-to-org-transpiler — L315]] (line 315, col 3, score 0.98)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -583,54 +583,54 @@ If you want, I’ll stub the remaining service skeletons (`mcp-policies`, `mcp-i
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [plan-update-confirmation](plan-update-confirmation.md)
-- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
-- [Prometheus Observability Stack](prometheus-observability-stack.md)
-- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
-- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
-- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
-- [observability-infrastructure-setup](observability-infrastructure-setup.md)
-- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
-- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
-- [Obsidian ChatGPT Plugin Integration Guide](obsidian-chatgpt-plugin-integration-guide.md)
-- [Obsidian ChatGPT Plugin Integration](obsidian-chatgpt-plugin-integration.md)
-- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
+- [[promethean-agent-config-dsl|Promethean Agent Config DSL]]
+- [[prometheus-observability-stack|Prometheus Observability Stack]]
+- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
+- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
+- [[js-to-lisp-reverse-compiler]]
+- [[lisp-compiler-integration]]
+- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
+- [[observability-infrastructure-setup]]
+- [[local-offline-model-deployment-strategy]]
+- [[promethean-full-stack-docker-setup|Promethean Full-Stack Docker Setup]]
+- [[obsidian-chatgpt-plugin-integration-guide|Obsidian ChatGPT Plugin Integration Guide]]
+- [[obsidian-chatgpt-plugin-integration|Obsidian ChatGPT Plugin Integration]]
+- [[obsidian-templating-plugins-integration-guide|Obsidian Templating Plugins Integration Guide]]
 - [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
-- [balanced-bst](balanced-bst.md)
-- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
+- [[balanced-bst]]
+- [[ai-first-os-model-context-protocol]]
 
 ## Sources
-- [Obsidian ChatGPT Plugin Integration Guide — L37](obsidian-chatgpt-plugin-integration-guide.md#L37) (line 37, col 1, score 1)
-- [Obsidian ChatGPT Plugin Integration Guide — L37](obsidian-chatgpt-plugin-integration-guide.md#L37) (line 37, col 3, score 1)
-- [Obsidian ChatGPT Plugin Integration — L37](obsidian-chatgpt-plugin-integration.md#L37) (line 37, col 1, score 1)
-- [Obsidian ChatGPT Plugin Integration — L37](obsidian-chatgpt-plugin-integration.md#L37) (line 37, col 3, score 1)
-- [Obsidian Templating Plugins Integration Guide — L89](obsidian-templating-plugins-integration-guide.md#L89) (line 89, col 1, score 1)
-- [Obsidian Templating Plugins Integration Guide — L89](obsidian-templating-plugins-integration-guide.md#L89) (line 89, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration-guide#L37|Obsidian ChatGPT Plugin Integration Guide — L37]] (line 37, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration-guide#L37|Obsidian ChatGPT Plugin Integration Guide — L37]] (line 37, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration#L37|Obsidian ChatGPT Plugin Integration — L37]] (line 37, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L37|Obsidian ChatGPT Plugin Integration — L37]] (line 37, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L89|Obsidian Templating Plugins Integration Guide — L89]] (line 89, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L89|Obsidian Templating Plugins Integration Guide — L89]] (line 89, col 3, score 1)
 - [prompt-programming-language-lisp — L70](prompt-programming-language-lisp.md#L70) (line 70, col 1, score 1)
 - [prompt-programming-language-lisp — L70](prompt-programming-language-lisp.md#L70) (line 70, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L169](cross-target-macro-system-in-sibilant.md#L169) (line 169, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L169](cross-target-macro-system-in-sibilant.md#L169) (line 169, col 3, score 1)
-- [Dynamic Context Model for Web Components — L387](dynamic-context-model-for-web-components.md#L387) (line 387, col 1, score 1)
-- [Dynamic Context Model for Web Components — L387](dynamic-context-model-for-web-components.md#L387) (line 387, col 3, score 1)
-- [js-to-lisp-reverse-compiler — L410](js-to-lisp-reverse-compiler.md#L410) (line 410, col 1, score 1)
-- [js-to-lisp-reverse-compiler — L410](js-to-lisp-reverse-compiler.md#L410) (line 410, col 3, score 1)
-- [Lisp-Compiler-Integration — L544](lisp-compiler-integration.md#L544) (line 544, col 1, score 1)
-- [Lisp-Compiler-Integration — L544](lisp-compiler-integration.md#L544) (line 544, col 3, score 1)
-- [Local-Offline-Model-Deployment-Strategy — L293](local-offline-model-deployment-strategy.md#L293) (line 293, col 1, score 1)
-- [Local-Offline-Model-Deployment-Strategy — L293](local-offline-model-deployment-strategy.md#L293) (line 293, col 3, score 1)
-- [Migrate to Provider-Tenant Architecture — L281](migrate-to-provider-tenant-architecture.md#L281) (line 281, col 1, score 1)
-- [Migrate to Provider-Tenant Architecture — L281](migrate-to-provider-tenant-architecture.md#L281) (line 281, col 3, score 1)
-- [observability-infrastructure-setup — L361](observability-infrastructure-setup.md#L361) (line 361, col 1, score 1)
-- [observability-infrastructure-setup — L361](observability-infrastructure-setup.md#L361) (line 361, col 3, score 1)
-- [Promethean Full-Stack Docker Setup — L439](promethean-full-stack-docker-setup.md#L439) (line 439, col 1, score 1)
-- [Promethean Full-Stack Docker Setup — L439](promethean-full-stack-docker-setup.md#L439) (line 439, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
-- [balanced-bst — L300](balanced-bst.md#L300) (line 300, col 1, score 1)
-- [balanced-bst — L300](balanced-bst.md#L300) (line 300, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]] (line 169, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]] (line 169, col 3, score 1)
+- [[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]] (line 387, col 1, score 1)
+- [[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]] (line 387, col 3, score 1)
+- [[js-to-lisp-reverse-compiler#L410|js-to-lisp-reverse-compiler — L410]] (line 410, col 1, score 1)
+- [[js-to-lisp-reverse-compiler#L410|js-to-lisp-reverse-compiler — L410]] (line 410, col 3, score 1)
+- [[lisp-compiler-integration#L544|Lisp-Compiler-Integration — L544]] (line 544, col 1, score 1)
+- [[lisp-compiler-integration#L544|Lisp-Compiler-Integration — L544]] (line 544, col 3, score 1)
+- [[local-offline-model-deployment-strategy#L293|Local-Offline-Model-Deployment-Strategy — L293]] (line 293, col 1, score 1)
+- [[local-offline-model-deployment-strategy#L293|Local-Offline-Model-Deployment-Strategy — L293]] (line 293, col 3, score 1)
+- [[migrate-to-provider-tenant-architecture#L281|Migrate to Provider-Tenant Architecture — L281]] (line 281, col 1, score 1)
+- [[migrate-to-provider-tenant-architecture#L281|Migrate to Provider-Tenant Architecture — L281]] (line 281, col 3, score 1)
+- [[observability-infrastructure-setup#L361|observability-infrastructure-setup — L361]] (line 361, col 1, score 1)
+- [[observability-infrastructure-setup#L361|observability-infrastructure-setup — L361]] (line 361, col 3, score 1)
+- [[promethean-full-stack-docker-setup#L439|Promethean Full-Stack Docker Setup — L439]] (line 439, col 1, score 1)
+- [[promethean-full-stack-docker-setup#L439|Promethean Full-Stack Docker Setup — L439]] (line 439, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 3, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
+- [[balanced-bst#L300|balanced-bst — L300]] (line 300, col 1, score 1)
+- [[balanced-bst#L300|balanced-bst — L300]] (line 300, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

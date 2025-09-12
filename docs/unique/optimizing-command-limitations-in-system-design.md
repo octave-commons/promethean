@@ -129,29 +129,29 @@ html has the dom... the dom allows a system to be mutated and changed...
 Document Object Model.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
-- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
-- [mystery-lisp-search-session](mystery-lisp-search-session.md)
-- [Promethean State Format](promethean-state-format.md)
-- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
-- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
-- [balanced-bst](balanced-bst.md)
+- [[promethean-copilot-intent-engine]]
+- [[obsidian-templating-plugins-integration-guide|Obsidian Templating Plugins Integration Guide]]
+- [[mystery-lisp-search-session]]
+- [[docs/unique/promethean-state-format|Promethean State Format]]
+- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
+- [[ai-first-os-model-context-protocol]]
+- [[balanced-bst]]
 
 ## Sources
-- [mystery-lisp-search-session — L120](mystery-lisp-search-session.md#L120) (line 120, col 1, score 1)
-- [mystery-lisp-search-session — L120](mystery-lisp-search-session.md#L120) (line 120, col 3, score 1)
-- [Obsidian Templating Plugins Integration Guide — L91](obsidian-templating-plugins-integration-guide.md#L91) (line 91, col 1, score 1)
-- [Obsidian Templating Plugins Integration Guide — L91](obsidian-templating-plugins-integration-guide.md#L91) (line 91, col 3, score 1)
-- [Promethean State Format — L84](promethean-state-format.md#L84) (line 84, col 1, score 1)
-- [Promethean State Format — L84](promethean-state-format.md#L84) (line 84, col 3, score 1)
-- [mystery-lisp-search-session — L125](mystery-lisp-search-session.md#L125) (line 125, col 1, score 0.93)
-- [mystery-lisp-search-session — L125](mystery-lisp-search-session.md#L125) (line 125, col 3, score 0.93)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- [[mystery-lisp-search-session#L120|mystery-lisp-search-session — L120]] (line 120, col 1, score 1)
+- [[mystery-lisp-search-session#L120|mystery-lisp-search-session — L120]] (line 120, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L91|Obsidian Templating Plugins Integration Guide — L91]] (line 91, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L91|Obsidian Templating Plugins Integration Guide — L91]] (line 91, col 3, score 1)
+- [[docs/unique/promethean-state-format#L84|Promethean State Format — L84]] (line 84, col 1, score 1)
+- [[docs/unique/promethean-state-format#L84|Promethean State Format — L84]] (line 84, col 3, score 1)
+- [[mystery-lisp-search-session#L125|mystery-lisp-search-session — L125]] (line 125, col 1, score 0.93)
+- [[mystery-lisp-search-session#L125|mystery-lisp-search-session — L125]] (line 125, col 3, score 0.93)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 1, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 3, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -380,39 +380,39 @@ Would you like this turned into a `canvas` so we can break out a real migration 
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
 - [Tooling](chunks/tooling.md)
-- [Unique Info Dump Index](unique-info-dump-index.md)
-- [aionian-circuit-math](aionian-circuit-math.md)
-- [archetype-ecs](archetype-ecs.md)
+- [[unique-info-dump-index|Unique Info Dump Index]]
+- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
+- [[docs/unique/archetype-ecs|archetype-ecs]]
 - [Diagrams](chunks/diagrams.md)
 - [DSL](chunks/dsl.md)
-- [obsidian-ignore-node-modules-regex](obsidian-ignore-node-modules-regex.md)
-- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
-- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
-- [balanced-bst](balanced-bst.md)
+- [[docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]]
+- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
+- [[ai-first-os-model-context-protocol]]
+- [[balanced-bst]]
 
 ## Sources
-- [obsidian-ignore-node-modules-regex — L50](obsidian-ignore-node-modules-regex.md#L50) (line 50, col 1, score 1)
-- [obsidian-ignore-node-modules-regex — L50](obsidian-ignore-node-modules-regex.md#L50) (line 50, col 3, score 1)
-- [Unique Info Dump Index — L66](unique-info-dump-index.md#L66) (line 66, col 1, score 1)
-- [Unique Info Dump Index — L66](unique-info-dump-index.md#L66) (line 66, col 3, score 1)
-- [Unique Info Dump Index — L150](unique-info-dump-index.md#L150) (line 150, col 1, score 0.9)
-- [Unique Info Dump Index — L150](unique-info-dump-index.md#L150) (line 150, col 3, score 0.9)
-- [Unique Info Dump Index — L151](unique-info-dump-index.md#L151) (line 151, col 1, score 0.9)
-- [Unique Info Dump Index — L151](unique-info-dump-index.md#L151) (line 151, col 3, score 0.9)
-- [aionian-circuit-math — L158](aionian-circuit-math.md#L158) (line 158, col 1, score 1)
-- [aionian-circuit-math — L158](aionian-circuit-math.md#L158) (line 158, col 3, score 1)
-- [archetype-ecs — L457](archetype-ecs.md#L457) (line 457, col 1, score 1)
-- [archetype-ecs — L457](archetype-ecs.md#L457) (line 457, col 3, score 1)
+- [[docs/unique/obsidian-ignore-node-modules-regex#L50|obsidian-ignore-node-modules-regex — L50]] (line 50, col 1, score 1)
+- [[docs/unique/obsidian-ignore-node-modules-regex#L50|obsidian-ignore-node-modules-regex — L50]] (line 50, col 3, score 1)
+- [[unique-info-dump-index#L66|Unique Info Dump Index — L66]] (line 66, col 1, score 1)
+- [[unique-info-dump-index#L66|Unique Info Dump Index — L66]] (line 66, col 3, score 1)
+- [[unique-info-dump-index#L150|Unique Info Dump Index — L150]] (line 150, col 1, score 0.9)
+- [[unique-info-dump-index#L150|Unique Info Dump Index — L150]] (line 150, col 3, score 0.9)
+- [[unique-info-dump-index#L151|Unique Info Dump Index — L151]] (line 151, col 1, score 0.9)
+- [[unique-info-dump-index#L151|Unique Info Dump Index — L151]] (line 151, col 3, score 0.9)
+- [[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]] (line 158, col 1, score 1)
+- [[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]] (line 158, col 3, score 1)
+- [[docs/unique/archetype-ecs#L457|archetype-ecs — L457]] (line 457, col 1, score 1)
+- [[docs/unique/archetype-ecs#L457|archetype-ecs — L457]] (line 457, col 3, score 1)
 - [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 1, score 1)
 - [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 3, score 1)
 - [DSL — L10](chunks/dsl.md#L10) (line 10, col 1, score 1)
 - [DSL — L10](chunks/dsl.md#L10) (line 10, col 3, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 1, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 3, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

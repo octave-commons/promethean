@@ -174,25 +174,25 @@ If you have specific requirements or need further assistance with configuring st
 [3]: https://github.com/fastify/fastify-static?utm_source=chatgpt.com "fastify/fastify-static: Plugin for serving static files as fast as ..."
 [4]: https://www.reddit.com/r/webdev/comments/15tt6rn/serving_static_with_fastify/?utm_source=chatgpt.com "Serving static with fastify : r/webdev"<!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Event Bus Projections Architecture](event-bus-projections-architecture.md)
-- [Pure TypeScript Search Microservice](pure-typescript-search-microservice.md)
-- [Lisp-Compiler-Integration](lisp-compiler-integration.md)
-- [ripple-propagation-demo](ripple-propagation-demo.md)
-- [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
-- [sibilant-macro-targets](sibilant-macro-targets.md)
+- [[event-bus-projections-architecture|Event Bus Projections Architecture]]
+- [[pure-typescript-search-microservice|Pure TypeScript Search Microservice]]
+- [[lisp-compiler-integration]]
+- [[docs/unique/ripple-propagation-demo|ripple-propagation-demo]]
+- [[post-linguistic-transhuman-design-frameworks|Post-Linguistic Transhuman Design Frameworks]]
+- [[sibilant-macro-targets]]
 - [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [Creative Moments](creative-moments.md)
+- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
+- [[creative-moments|Creative Moments]]
 - [Operations](chunks/operations.md)
 - [Shared](chunks/shared.md)
 - [Window Management](chunks/window-management.md)
-- [Admin Dashboard for User Management](admin-dashboard-for-user-management.md)
+- [[admin-dashboard-for-user-management|Admin Dashboard for User Management]]
 - [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
 - [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
-- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
+- [[factorio-ai-with-external-agents|Factorio AI with External Agents]]
 ## Sources
-- [Event Bus Projections Architecture — L5](event-bus-projections-architecture.md#^ref-cf6b9b17-5-0) (line 5, col 0, score 1)
-- [Event Bus Projections Architecture — L51](event-bus-projections-architecture.md#^ref-cf6b9b17-51-0) (line 51, col 0, score 1)
-- [Event Bus Projections Architecture — L54](event-bus-projections-architecture.md#^ref-cf6b9b17-54-0) (line 54, col 0, score 0.95)
-- [Event Bus Projections Architecture — L67](event-bus-projections-architecture.md#^ref-cf6b9b17-67-0) (line 67, col 0, score 0.94)
+- [[event-bus-projections-architecture#^ref-cf6b9b17-5-0|Event Bus Projections Architecture — L5]] (line 5, col 0, score 1)
+- [[event-bus-projections-architecture#^ref-cf6b9b17-51-0|Event Bus Projections Architecture — L51]] (line 51, col 0, score 1)
+- [[event-bus-projections-architecture#^ref-cf6b9b17-54-0|Event Bus Projections Architecture — L54]] (line 54, col 0, score 0.95)
+- [[event-bus-projections-architecture#^ref-cf6b9b17-67-0|Event Bus Projections Architecture — L67]] (line 67, col 0, score 0.94)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
