@@ -13,9 +13,14 @@ export async function registerFileRoutes(app: FastifyInstance) {
       maxEntries?: string;
       exts?: string;
     };
-  }>("/api/files", async (req, reply) => {
-    const workspaceRoot = path.resolve(process.cwd());
-    const root = path.resolve(workspaceRoot, req.query.dir || ".");
+  }>(
+    "/api/files",
+    {
+      config: { rateLimit: { max: 10, timeWindow: "1 minute" } },
+    },
+    async (req, reply) => {
+      const workspaceRoot = path.resolve(process.cwd());
+      const root = path.resolve(workspaceRoot, req.query.dir || ".");
     if (!root.startsWith(workspaceRoot)) {
       return reply.code(400).send({ error: "invalid directory" });
     }
