@@ -26,7 +26,8 @@
   ;;  :args ["-y" "@eslint/mcp@latest"]}
 
   :eslint
-  {:command "npx" :args ["mcp-eslint"]}
+  {:command "npx" :args ["-y"
+                         "@uplinq/mcp-eslint"]}
 
   :playwright
   {:command "npx"
