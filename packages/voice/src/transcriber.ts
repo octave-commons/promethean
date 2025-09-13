@@ -4,7 +4,7 @@ import { PassThrough } from "node:stream";
 
 import { User } from "discord.js";
 
-import { Speaker } from "./speaker.js";
+import type { Speaker } from "./speaker.js";
 
 export type TranscriberOptions = {
   hostname: string;

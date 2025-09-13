@@ -10,9 +10,8 @@ import { AudioReceiveStream } from "@discordjs/voice";
 import { User } from "discord.js";
 import * as prism from "prism-media";
 
-import { Transcriber } from "./transcriber.js";
-import { VoiceRecorder } from "./voice-recorder.js";
-
+import type { Transcriber } from "./transcriber.js";
+import type { VoiceRecorder } from "./voice-recorder.js";
 class OpusSilenceFilter extends Transform {
   override _transform(
     chunk: Buffer,
