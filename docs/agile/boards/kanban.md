@@ -299,12 +299,12 @@ kanban-plugin: board
 
 ## In Review (8)
 
-- [ ] whole project builds with new stricter tsconfig
 - [ ] [[docs/agile/tasks/file-explorer|File explorer]] #framework-core #ready
 
 
 ## Done
 
+- [ ] whole project builds with new stricter tsconfig
 - [ ] [[fp-ts-config-and-linting]]
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #breakdown
 - [ ] [[breakdown-makefile.hy|breakdown Makefile.hy]] #framework-core #ready
