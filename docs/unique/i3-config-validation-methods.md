@@ -233,54 +233,54 @@ That way you can CI-check your dotfiles before deploying them.
 Do you want **just syntax checking** (like `-C` gives you), or do you want to actually **sandbox-run the config** (like with Xephyr) so you can check keybind behavior and window rules too?
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [shared-package-layout-clarification](shared-package-layout-clarification.md)
-- [Local-Only-LLM-Workflow](local-only-llm-workflow.md)
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
-- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop](polyglot-s-expr-bridge-python-js-lisp-interop.md)
-- [aionian-circuit-math](aionian-circuit-math.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [Post-Linguistic Transhuman Design Frameworks](post-linguistic-transhuman-design-frameworks.md)
-- [Promethean Infrastructure Setup](promethean-infrastructure-setup.md)
+- [[shared-package-layout-clarification]]
+- [[local-only-llm-workflow]]
+- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
+- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
+- [[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]]
+- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
+- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
+- [[post-linguistic-transhuman-design-frameworks|Post-Linguistic Transhuman Design Frameworks]]
+- [[promethean-infrastructure-setup|Promethean Infrastructure Setup]]
 - [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler](ollama-llm-provider-for-pseudo-code-transpiler.md)
-- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
-- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
-- [Board Walk – 2025-08-11](board-walk-2025-08-11.md)
-- [Shared Package Structure](shared-package-structure.md)
+- [[ollama-llm-provider-for-pseudo-code-transpiler]]
+- [[performance-optimized-polyglot-bridge]]
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
+- [[board-walk-2025-08-11|Board Walk – 2025-08-11]]
+- [[shared-package-structure|Shared Package Structure]]
 
 ## Sources
-- [shared-package-layout-clarification — L143](shared-package-layout-clarification.md#L143) (line 143, col 1, score 0.91)
-- [Local-Only-LLM-Workflow — L182](local-only-llm-workflow.md#L182) (line 182, col 1, score 1)
-- [Local-Only-LLM-Workflow — L182](local-only-llm-workflow.md#L182) (line 182, col 3, score 1)
-- [Migrate to Provider-Tenant Architecture — L278](migrate-to-provider-tenant-architecture.md#L278) (line 278, col 1, score 1)
-- [Migrate to Provider-Tenant Architecture — L278](migrate-to-provider-tenant-architecture.md#L278) (line 278, col 3, score 1)
-- [Post-Linguistic Transhuman Design Frameworks — L91](post-linguistic-transhuman-design-frameworks.md#L91) (line 91, col 1, score 1)
-- [Post-Linguistic Transhuman Design Frameworks — L91](post-linguistic-transhuman-design-frameworks.md#L91) (line 91, col 3, score 1)
-- [Promethean Infrastructure Setup — L576](promethean-infrastructure-setup.md#L576) (line 576, col 1, score 1)
-- [Promethean Infrastructure Setup — L576](promethean-infrastructure-setup.md#L576) (line 576, col 3, score 1)
+- [[shared-package-layout-clarification#L143|shared-package-layout-clarification — L143]] (line 143, col 1, score 0.91)
+- [[local-only-llm-workflow#L182|Local-Only-LLM-Workflow — L182]] (line 182, col 1, score 1)
+- [[local-only-llm-workflow#L182|Local-Only-LLM-Workflow — L182]] (line 182, col 3, score 1)
+- [[migrate-to-provider-tenant-architecture#L278|Migrate to Provider-Tenant Architecture — L278]] (line 278, col 1, score 1)
+- [[migrate-to-provider-tenant-architecture#L278|Migrate to Provider-Tenant Architecture — L278]] (line 278, col 3, score 1)
+- [[post-linguistic-transhuman-design-frameworks#L91|Post-Linguistic Transhuman Design Frameworks — L91]] (line 91, col 1, score 1)
+- [[post-linguistic-transhuman-design-frameworks#L91|Post-Linguistic Transhuman Design Frameworks — L91]] (line 91, col 3, score 1)
+- [[promethean-infrastructure-setup#L576|Promethean Infrastructure Setup — L576]] (line 576, col 1, score 1)
+- [[promethean-infrastructure-setup#L576|Promethean Infrastructure Setup — L576]] (line 576, col 3, score 1)
 - [Local-First Intention→Code Loop with Free Models — L143](local-first-intention-code-loop-with-free-models.md#L143) (line 143, col 1, score 1)
 - [Local-First Intention→Code Loop with Free Models — L143](local-first-intention-code-loop-with-free-models.md#L143) (line 143, col 3, score 1)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167](ollama-llm-provider-for-pseudo-code-transpiler.md#L167) (line 167, col 1, score 1)
-- [Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167](ollama-llm-provider-for-pseudo-code-transpiler.md#L167) (line 167, col 3, score 1)
-- [Performance-Optimized-Polyglot-Bridge — L438](performance-optimized-polyglot-bridge.md#L438) (line 438, col 1, score 1)
-- [Performance-Optimized-Polyglot-Bridge — L438](performance-optimized-polyglot-bridge.md#L438) (line 438, col 3, score 1)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L506](polyglot-s-expr-bridge-python-js-lisp-interop.md#L506) (line 506, col 1, score 1)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L506](polyglot-s-expr-bridge-python-js-lisp-interop.md#L506) (line 506, col 3, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L134](agent-tasks-persistence-migration-to-dualstore.md#L134) (line 134, col 1, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L134](agent-tasks-persistence-migration-to-dualstore.md#L134) (line 134, col 3, score 1)
-- [aionian-circuit-math — L156](aionian-circuit-math.md#L156) (line 156, col 1, score 1)
-- [aionian-circuit-math — L156](aionian-circuit-math.md#L156) (line 156, col 3, score 1)
-- [Board Walk – 2025-08-11 — L136](board-walk-2025-08-11.md#L136) (line 136, col 1, score 1)
-- [Board Walk – 2025-08-11 — L136](board-walk-2025-08-11.md#L136) (line 136, col 3, score 1)
-- [Dynamic Context Model for Web Components — L386](dynamic-context-model-for-web-components.md#L386) (line 386, col 1, score 1)
-- [Dynamic Context Model for Web Components — L386](dynamic-context-model-for-web-components.md#L386) (line 386, col 3, score 1)
-- [Shared Package Structure — L176](shared-package-structure.md#L176) (line 176, col 1, score 0.99)
-- [Shared Package Structure — L176](shared-package-structure.md#L176) (line 176, col 3, score 0.99)
-- [Shared Package Structure — L172](shared-package-structure.md#L172) (line 172, col 1, score 0.98)
-- [Shared Package Structure — L172](shared-package-structure.md#L172) (line 172, col 3, score 0.98)
-- [Shared Package Structure — L173](shared-package-structure.md#L173) (line 173, col 1, score 0.98)
-- [Shared Package Structure — L173](shared-package-structure.md#L173) (line 173, col 3, score 0.98)
-- [Promethean Infrastructure Setup — L599](promethean-infrastructure-setup.md#L599) (line 599, col 1, score 0.98)
-- [Promethean Infrastructure Setup — L599](promethean-infrastructure-setup.md#L599) (line 599, col 3, score 0.98)
+- [[ollama-llm-provider-for-pseudo-code-transpiler#L167|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167]] (line 167, col 1, score 1)
+- [[ollama-llm-provider-for-pseudo-code-transpiler#L167|Ollama-LLM-Provider-for-Pseudo-Code-Transpiler — L167]] (line 167, col 3, score 1)
+- [[performance-optimized-polyglot-bridge#L438|Performance-Optimized-Polyglot-Bridge — L438]] (line 438, col 1, score 1)
+- [[performance-optimized-polyglot-bridge#L438|Performance-Optimized-Polyglot-Bridge — L438]] (line 438, col 3, score 1)
+- [[polyglot-s-expr-bridge-python-js-lisp-interop#L506|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L506]] (line 506, col 1, score 1)
+- [[polyglot-s-expr-bridge-python-js-lisp-interop#L506|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L506]] (line 506, col 3, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134]] (line 134, col 1, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134]] (line 134, col 3, score 1)
+- [[docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156]] (line 156, col 1, score 1)
+- [[docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156]] (line 156, col 3, score 1)
+- [[board-walk-2025-08-11#L136|Board Walk – 2025-08-11 — L136]] (line 136, col 1, score 1)
+- [[board-walk-2025-08-11#L136|Board Walk – 2025-08-11 — L136]] (line 136, col 3, score 1)
+- [[dynamic-context-model-for-web-components#L386|Dynamic Context Model for Web Components — L386]] (line 386, col 1, score 1)
+- [[dynamic-context-model-for-web-components#L386|Dynamic Context Model for Web Components — L386]] (line 386, col 3, score 1)
+- [[shared-package-structure#L176|Shared Package Structure — L176]] (line 176, col 1, score 0.99)
+- [[shared-package-structure#L176|Shared Package Structure — L176]] (line 176, col 3, score 0.99)
+- [[shared-package-structure#L172|Shared Package Structure — L172]] (line 172, col 1, score 0.98)
+- [[shared-package-structure#L172|Shared Package Structure — L172]] (line 172, col 3, score 0.98)
+- [[shared-package-structure#L173|Shared Package Structure — L173]] (line 173, col 1, score 0.98)
+- [[shared-package-structure#L173|Shared Package Structure — L173]] (line 173, col 3, score 0.98)
+- [[promethean-infrastructure-setup#L599|Promethean Infrastructure Setup — L599]] (line 599, col 1, score 0.98)
+- [[promethean-infrastructure-setup#L599|Promethean Infrastructure Setup — L599]] (line 599, col 3, score 0.98)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

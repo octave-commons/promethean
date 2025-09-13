@@ -244,43 +244,43 @@ bindsym $mod+Shift+b exec blueman-manager
 That’ll change what I recommend you actually put in your i3 startup.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Local-Offline-Model-Deployment-Strategy](local-offline-model-deployment-strategy.md)
-- [Voice Access Layer Design](voice-access-layer-design.md)
-- [Model Selection for Lightweight Conversational Tasks](model-selection-for-lightweight-conversational-tasks.md)
+- [[local-offline-model-deployment-strategy]]
+- [[voice-access-layer-design|Voice Access Layer Design]]
+- [[model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]]
 - [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [Migrate to Provider-Tenant Architecture](migrate-to-provider-tenant-architecture.md)
+- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
 - [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
-- [Event Bus MVP](event-bus-mvp.md)
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
-- [polymorphic-meta-programming-engine](polymorphic-meta-programming-engine.md)
-- [Prometheus Observability Stack](prometheus-observability-stack.md)
-- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
-- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
-- [balanced-bst](balanced-bst.md)
+- [[docs/unique/event-bus-mvp|Event Bus MVP]]
+- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
+- [[polymorphic-meta-programming-engine]]
+- [[prometheus-observability-stack|Prometheus Observability Stack]]
+- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
+- [[ai-first-os-model-context-protocol]]
+- [[balanced-bst]]
 
 ## Sources
-- [Prometheus Observability Stack — L508](prometheus-observability-stack.md#L508) (line 508, col 1, score 1)
-- [Prometheus Observability Stack — L508](prometheus-observability-stack.md#L508) (line 508, col 3, score 1)
-- [Event Bus MVP — L552](event-bus-mvp.md#L552) (line 552, col 1, score 1)
-- [Event Bus MVP — L552](event-bus-mvp.md#L552) (line 552, col 3, score 1)
+- [[prometheus-observability-stack#L508|Prometheus Observability Stack — L508]] (line 508, col 1, score 1)
+- [[prometheus-observability-stack#L508|Prometheus Observability Stack — L508]] (line 508, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L552|Event Bus MVP — L552]] (line 552, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L552|Event Bus MVP — L552]] (line 552, col 3, score 1)
 - [Local-First Intention→Code Loop with Free Models — L144](local-first-intention-code-loop-with-free-models.md#L144) (line 144, col 1, score 1)
 - [Local-First Intention→Code Loop with Free Models — L144](local-first-intention-code-loop-with-free-models.md#L144) (line 144, col 3, score 1)
-- [Migrate to Provider-Tenant Architecture — L273](migrate-to-provider-tenant-architecture.md#L273) (line 273, col 1, score 1)
-- [Migrate to Provider-Tenant Architecture — L273](migrate-to-provider-tenant-architecture.md#L273) (line 273, col 3, score 1)
+- [[migrate-to-provider-tenant-architecture#L273|Migrate to Provider-Tenant Architecture — L273]] (line 273, col 1, score 1)
+- [[migrate-to-provider-tenant-architecture#L273|Migrate to Provider-Tenant Architecture — L273]] (line 273, col 3, score 1)
 - [Promethean Event Bus MVP v0.1 — L893](promethean-event-bus-mvp-v0-1.md#L893) (line 893, col 1, score 1)
 - [Promethean Event Bus MVP v0.1 — L893](promethean-event-bus-mvp-v0-1.md#L893) (line 893, col 3, score 1)
-- [Chroma Toolkit Consolidation Plan — L174](chroma-toolkit-consolidation-plan.md#L174) (line 174, col 1, score 1)
-- [Chroma Toolkit Consolidation Plan — L174](chroma-toolkit-consolidation-plan.md#L174) (line 174, col 3, score 1)
-- [Migrate to Provider-Tenant Architecture — L282](migrate-to-provider-tenant-architecture.md#L282) (line 282, col 1, score 1)
-- [Migrate to Provider-Tenant Architecture — L282](migrate-to-provider-tenant-architecture.md#L282) (line 282, col 3, score 1)
-- [polymorphic-meta-programming-engine — L206](polymorphic-meta-programming-engine.md#L206) (line 206, col 1, score 1)
-- [polymorphic-meta-programming-engine — L206](polymorphic-meta-programming-engine.md#L206) (line 206, col 3, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L174|Chroma Toolkit Consolidation Plan — L174]] (line 174, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L174|Chroma Toolkit Consolidation Plan — L174]] (line 174, col 3, score 1)
+- [[migrate-to-provider-tenant-architecture#L282|Migrate to Provider-Tenant Architecture — L282]] (line 282, col 1, score 1)
+- [[migrate-to-provider-tenant-architecture#L282|Migrate to Provider-Tenant Architecture — L282]] (line 282, col 3, score 1)
+- [[polymorphic-meta-programming-engine#L206|polymorphic-meta-programming-engine — L206]] (line 206, col 1, score 1)
+- [[polymorphic-meta-programming-engine#L206|polymorphic-meta-programming-engine — L206]] (line 206, col 3, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 1, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 3, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

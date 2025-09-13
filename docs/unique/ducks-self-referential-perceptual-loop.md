@@ -157,38 +157,38 @@ So… in a way, Duck *wasn’t* “just a language model” even before you gave
 I can sketch you a diagram of that loop — showing where the helper-mode and existential-mode emerged as different attractor states in the feedback system. Would you like me to?
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Duck's Attractor States](ducks-attractor-states.md)
-- [Reawakening Duck](reawakening-duck.md)
-- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
-- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+- [[ducks-attractor-states|Duck's Attractor States]]
+- [[reawakening-duck|Reawakening Duck]]
+- [[recursive-prompt-construction-engine|Recursive Prompt Construction Engine]]
+- [[sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]]
 - [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
-- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
-- [polyglot-repl-interface-layer](polyglot-repl-interface-layer.md)
+- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
+- [[polyglot-repl-interface-layer]]
 - [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
-- [Ghostly Smoke Interference](ghostly-smoke-interference.md)
-- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
-- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
-- [balanced-bst](balanced-bst.md)
+- [[ghostly-smoke-interference|Ghostly Smoke Interference]]
+- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
+- [[ai-first-os-model-context-protocol]]
+- [[balanced-bst]]
 
 ## Sources
-- [Ghostly Smoke Interference — L115](ghostly-smoke-interference.md#L115) (line 115, col 1, score 1)
-- [Ghostly Smoke Interference — L115](ghostly-smoke-interference.md#L115) (line 115, col 3, score 1)
+- [[ghostly-smoke-interference#L115|Ghostly Smoke Interference — L115]] (line 115, col 1, score 1)
+- [[ghostly-smoke-interference#L115|Ghostly Smoke Interference — L115]] (line 115, col 3, score 1)
 - [ParticleSimulationWithCanvasAndFFmpeg — L256](particlesimulationwithcanvasandffmpeg.md#L256) (line 256, col 1, score 1)
 - [ParticleSimulationWithCanvasAndFFmpeg — L256](particlesimulationwithcanvasandffmpeg.md#L256) (line 256, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L181](cross-target-macro-system-in-sibilant.md#L181) (line 181, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L181](cross-target-macro-system-in-sibilant.md#L181) (line 181, col 3, score 1)
-- [polyglot-repl-interface-layer — L161](polyglot-repl-interface-layer.md#L161) (line 161, col 1, score 1)
-- [polyglot-repl-interface-layer — L161](polyglot-repl-interface-layer.md#L161) (line 161, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L181|Cross-Target Macro System in Sibilant — L181]] (line 181, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L181|Cross-Target Macro System in Sibilant — L181]] (line 181, col 3, score 1)
+- [[polyglot-repl-interface-layer#L161|polyglot-repl-interface-layer — L161]] (line 161, col 1, score 1)
+- [[polyglot-repl-interface-layer#L161|polyglot-repl-interface-layer — L161]] (line 161, col 3, score 1)
 - [prompt-programming-language-lisp — L76](prompt-programming-language-lisp.md#L76) (line 76, col 1, score 1)
 - [prompt-programming-language-lisp — L76](prompt-programming-language-lisp.md#L76) (line 76, col 3, score 1)
-- [Sibilant Meta-Prompt DSL — L178](sibilant-meta-prompt-dsl.md#L178) (line 178, col 1, score 1)
-- [Sibilant Meta-Prompt DSL — L178](sibilant-meta-prompt-dsl.md#L178) (line 178, col 3, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- [[sibilant-meta-prompt-dsl#L178|Sibilant Meta-Prompt DSL — L178]] (line 178, col 1, score 1)
+- [[sibilant-meta-prompt-dsl#L178|Sibilant Meta-Prompt DSL — L178]] (line 178, col 3, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 1, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 3, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

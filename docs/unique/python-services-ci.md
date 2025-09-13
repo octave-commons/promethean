@@ -91,17 +91,23 @@ jobs:
 ```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
-- [AI-First-OS-Model-Context-Protocol](ai-first-os-model-context-protocol.md)
-- [balanced-bst](balanced-bst.md)
+<<<<<<< HEAD
+- [[promethean-notes]]
+## Sources
+- [[promethean-notes#^ref-c54611b2-2-0|promethean-notes — L2]] (line 2, col 0, score 1)
+=======
+- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
+- [[ai-first-os-model-context-protocol]]
+- [[balanced-bst]]
 
 ## Sources
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L11](ai-first-os-model-context-protocol.md#L11) (line 11, col 3, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 1, score 1)
-- [AI-First-OS-Model-Context-Protocol — L14](ai-first-os-model-context-protocol.md#L14) (line 14, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 1, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 3, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
+>>>>>>> stealth/obsidian
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

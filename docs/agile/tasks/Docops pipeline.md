@@ -1,4 +1,4 @@
-## 🛠️ Task: Integrate synthesis-agent pass on `unique/` to produce draft docs
+## 🛠️ Task: Complete Docops pipeline (synthesis agent)
 
 Run the synthesis agent over the files in `docs/unique/` to generate more polished documentation. The agent should create drafts in the appropriate design subfolders.
 
@@ -46,7 +46,7 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [process](process.md)
-- [kanban](../boards/kanban.md)
+- [[process]]
+- [[kanban]]
 #IceBox
 #ready

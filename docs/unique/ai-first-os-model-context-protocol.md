@@ -64,17 +64,17 @@ We are making an AI first operating system.
 What tools would that have?
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
-- [balanced-bst](balanced-bst.md)
-- [Board Automation Improvements](board-automation-improvements.md)
+- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
+- [[balanced-bst]]
+- [[board-automation-improvements|Board Automation Improvements]]
 
 ## Sources
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 1, score 1)
-- [AI-Centric OS with MCP Layer — L406](ai-centric-os-with-mcp-layer.md#L406) (line 406, col 3, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 1, score 1)
-- [balanced-bst — L297](balanced-bst.md#L297) (line 297, col 3, score 1)
-- [balanced-bst — L300](balanced-bst.md#L300) (line 300, col 1, score 1)
-- [balanced-bst — L300](balanced-bst.md#L300) (line 300, col 3, score 1)
-- [Board Automation Improvements — L15](board-automation-improvements.md#L15) (line 15, col 1, score 1)
-- [Board Automation Improvements — L15](board-automation-improvements.md#L15) (line 15, col 3, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 1, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 3, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
+- [[balanced-bst#L300|balanced-bst — L300]] (line 300, col 1, score 1)
+- [[balanced-bst#L300|balanced-bst — L300]] (line 300, col 3, score 1)
+- [[board-automation-improvements#L15|Board Automation Improvements — L15]] (line 15, col 1, score 1)
+- [[board-automation-improvements#L15|Board Automation Improvements — L15]] (line 15, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

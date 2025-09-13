@@ -301,50 +301,50 @@ You said you want **column-normalized** hashtags on tasks and files. Proposed ca
 * Incoming is **72** items; consider a 10‑minute nightly triage to keep it from ballooning.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Admin Dashboard for User Management](admin-dashboard-for-user-management.md)
-- [Board Automation Improvements](board-automation-improvements.md)
-- [Promethean-native config design](promethean-native-config-design.md)
-- [Dynamic Context Model for Web Components](dynamic-context-model-for-web-components.md)
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
-- [Exception Layer Analysis](exception-layer-analysis.md)
-- [Agent Tasks: Persistence Migration to DualStore](agent-tasks-persistence-migration-to-dualstore.md)
-- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
-- [Cross-Target Macro System in Sibilant](cross-target-macro-system-in-sibilant.md)
-- [aionian-circuit-math](aionian-circuit-math.md)
-- [api-gateway-versioning](api-gateway-versioning.md)
-- [Performance-Optimized-Polyglot-Bridge](performance-optimized-polyglot-bridge.md)
+- [[admin-dashboard-for-user-management|Admin Dashboard for User Management]]
+- [[board-automation-improvements|Board Automation Improvements]]
+- [[promethean-native-config-design|Promethean-native config design]]
+- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
+- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
+- [[exception-layer-analysis|Exception Layer Analysis]]
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
+- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
+- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
+- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
+- [[api-gateway-versioning]]
+- [[performance-optimized-polyglot-bridge]]
 
 ## Sources
-- [Admin Dashboard for User Management — L35](admin-dashboard-for-user-management.md#L35) (line 35, col 1, score 0.9)
-- [Admin Dashboard for User Management — L35](admin-dashboard-for-user-management.md#L35) (line 35, col 3, score 0.9)
-- [Performance-Optimized-Polyglot-Bridge — L440](performance-optimized-polyglot-bridge.md#L440) (line 440, col 1, score 1)
-- [Performance-Optimized-Polyglot-Bridge — L440](performance-optimized-polyglot-bridge.md#L440) (line 440, col 3, score 1)
-- [Performance-Optimized-Polyglot-Bridge — L449](performance-optimized-polyglot-bridge.md#L449) (line 449, col 1, score 0.92)
-- [Performance-Optimized-Polyglot-Bridge — L449](performance-optimized-polyglot-bridge.md#L449) (line 449, col 3, score 0.92)
-- [Performance-Optimized-Polyglot-Bridge — L448](performance-optimized-polyglot-bridge.md#L448) (line 448, col 1, score 0.91)
-- [Performance-Optimized-Polyglot-Bridge — L448](performance-optimized-polyglot-bridge.md#L448) (line 448, col 3, score 0.91)
-- [Agent Tasks: Persistence Migration to DualStore — L130](agent-tasks-persistence-migration-to-dualstore.md#L130) (line 130, col 1, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L130](agent-tasks-persistence-migration-to-dualstore.md#L130) (line 130, col 3, score 1)
-- [aionian-circuit-math — L159](aionian-circuit-math.md#L159) (line 159, col 1, score 1)
-- [aionian-circuit-math — L159](aionian-circuit-math.md#L159) (line 159, col 3, score 1)
-- [Chroma Toolkit Consolidation Plan — L168](chroma-toolkit-consolidation-plan.md#L168) (line 168, col 1, score 1)
-- [Chroma Toolkit Consolidation Plan — L168](chroma-toolkit-consolidation-plan.md#L168) (line 168, col 3, score 1)
-- [Cross-Language Runtime Polymorphism — L209](cross-language-runtime-polymorphism.md#L209) (line 209, col 1, score 1)
-- [Cross-Language Runtime Polymorphism — L209](cross-language-runtime-polymorphism.md#L209) (line 209, col 3, score 1)
-- [api-gateway-versioning — L285](api-gateway-versioning.md#L285) (line 285, col 1, score 1)
-- [api-gateway-versioning — L285](api-gateway-versioning.md#L285) (line 285, col 3, score 1)
-- [Chroma Toolkit Consolidation Plan — L167](chroma-toolkit-consolidation-plan.md#L167) (line 167, col 1, score 1)
-- [Chroma Toolkit Consolidation Plan — L167](chroma-toolkit-consolidation-plan.md#L167) (line 167, col 3, score 1)
-- [Cross-Target Macro System in Sibilant — L180](cross-target-macro-system-in-sibilant.md#L180) (line 180, col 1, score 1)
-- [Cross-Target Macro System in Sibilant — L180](cross-target-macro-system-in-sibilant.md#L180) (line 180, col 3, score 1)
-- [Exception Layer Analysis — L157](exception-layer-analysis.md#L157) (line 157, col 1, score 1)
-- [Exception Layer Analysis — L157](exception-layer-analysis.md#L157) (line 157, col 3, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L134](agent-tasks-persistence-migration-to-dualstore.md#L134) (line 134, col 1, score 1)
-- [Agent Tasks: Persistence Migration to DualStore — L134](agent-tasks-persistence-migration-to-dualstore.md#L134) (line 134, col 3, score 1)
-- [aionian-circuit-math — L156](aionian-circuit-math.md#L156) (line 156, col 1, score 1)
-- [aionian-circuit-math — L156](aionian-circuit-math.md#L156) (line 156, col 3, score 1)
-- [Dynamic Context Model for Web Components — L386](dynamic-context-model-for-web-components.md#L386) (line 386, col 1, score 1)
-- [Dynamic Context Model for Web Components — L386](dynamic-context-model-for-web-components.md#L386) (line 386, col 3, score 1)
-- [Exception Layer Analysis — L155](exception-layer-analysis.md#L155) (line 155, col 1, score 1)
-- [Exception Layer Analysis — L155](exception-layer-analysis.md#L155) (line 155, col 3, score 1)
+- [[admin-dashboard-for-user-management#L35|Admin Dashboard for User Management — L35]] (line 35, col 1, score 0.9)
+- [[admin-dashboard-for-user-management#L35|Admin Dashboard for User Management — L35]] (line 35, col 3, score 0.9)
+- [[performance-optimized-polyglot-bridge#L440|Performance-Optimized-Polyglot-Bridge — L440]] (line 440, col 1, score 1)
+- [[performance-optimized-polyglot-bridge#L440|Performance-Optimized-Polyglot-Bridge — L440]] (line 440, col 3, score 1)
+- [[performance-optimized-polyglot-bridge#L449|Performance-Optimized-Polyglot-Bridge — L449]] (line 449, col 1, score 0.92)
+- [[performance-optimized-polyglot-bridge#L449|Performance-Optimized-Polyglot-Bridge — L449]] (line 449, col 3, score 0.92)
+- [[performance-optimized-polyglot-bridge#L448|Performance-Optimized-Polyglot-Bridge — L448]] (line 448, col 1, score 0.91)
+- [[performance-optimized-polyglot-bridge#L448|Performance-Optimized-Polyglot-Bridge — L448]] (line 448, col 3, score 0.91)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130]] (line 130, col 1, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130]] (line 130, col 3, score 1)
+- [[docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159]] (line 159, col 1, score 1)
+- [[docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159]] (line 159, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168]] (line 168, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168]] (line 168, col 3, score 1)
+- [[cross-language-runtime-polymorphism#L209|Cross-Language Runtime Polymorphism — L209]] (line 209, col 1, score 1)
+- [[cross-language-runtime-polymorphism#L209|Cross-Language Runtime Polymorphism — L209]] (line 209, col 3, score 1)
+- [[api-gateway-versioning#L285|api-gateway-versioning — L285]] (line 285, col 1, score 1)
+- [[api-gateway-versioning#L285|api-gateway-versioning — L285]] (line 285, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167]] (line 167, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L167|Chroma Toolkit Consolidation Plan — L167]] (line 167, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180]] (line 180, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L180|Cross-Target Macro System in Sibilant — L180]] (line 180, col 3, score 1)
+- [[exception-layer-analysis#L157|Exception Layer Analysis — L157]] (line 157, col 1, score 1)
+- [[exception-layer-analysis#L157|Exception Layer Analysis — L157]] (line 157, col 3, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134]] (line 134, col 1, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L134|Agent Tasks: Persistence Migration to DualStore — L134]] (line 134, col 3, score 1)
+- [[docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156]] (line 156, col 1, score 1)
+- [[docs/unique/aionian-circuit-math#L156|aionian-circuit-math — L156]] (line 156, col 3, score 1)
+- [[dynamic-context-model-for-web-components#L386|Dynamic Context Model for Web Components — L386]] (line 386, col 1, score 1)
+- [[dynamic-context-model-for-web-components#L386|Dynamic Context Model for Web Components — L386]] (line 386, col 3, score 1)
+- [[exception-layer-analysis#L155|Exception Layer Analysis — L155]] (line 155, col 1, score 1)
+- [[exception-layer-analysis#L155|Exception Layer Analysis — L155]] (line 155, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
