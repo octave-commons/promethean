@@ -36,6 +36,11 @@ const FRONTEND_DIST = path.resolve(
   "../dist/frontend",
 );
 
+const UI_COMPONENTS_DIST = path.resolve(
+  path.dirname(url.fileURLToPath(import.meta.url)),
+  "../node_modules/@promethean/ui-components/dist",
+);
+
 async function loadConfig() {
   const raw = await fs.readFile(CONFIG_PATH, "utf-8");
   const parsed = FileSchema.safeParse(JSON.parse(raw));
@@ -122,6 +127,11 @@ await app.register(fastifyStatic, { root: UI_ROOT, prefix: "/ui" });
 await app.register(fastifyStatic, {
   root: FRONTEND_DIST,
   prefix: "/js",
+  decorateReply: false,
+});
+await app.register(fastifyStatic, {
+  root: UI_COMPONENTS_DIST,
+  prefix: "/js/ui-components",
   decorateReply: false,
 });
 await app.register(fastifyRateLimit, {
