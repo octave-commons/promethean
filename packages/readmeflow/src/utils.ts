@@ -1,5 +1,6 @@
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
+import { slug } from "@promethean/utils";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
@@ -15,13 +16,7 @@ export async function writeText(p: string, s: string): Promise<void> {
   await fs.writeFile(p, s, "utf-8");
 }
 
-export function slug(s: string): string {
-  return s
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
+export { slug };
 
 export async function ollamaJSON(
   model: string,
