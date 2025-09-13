@@ -1,5 +1,5 @@
-
 #!/usr/bin/env bash
+set -euo pipefail
 INSTALL_PYTHON=/home/err/.pyenv/versions/3.12.1/bin/python
 ARGS=(hook-impl --config=.pre-commit-config.yaml --hook-type=pre-commit)
 
