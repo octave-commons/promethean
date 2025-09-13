@@ -2,8 +2,8 @@ import * as fs from "node:fs/promises";
 import * as path from "node:path";
 
 import test from "ava";
+import { sleep } from "@promethean/utils";
 
-import { sleep } from "@promethean/test-utils/dist/sleep.js";
 import { runPipeline } from "../runner.js";
 import { runJSFunction } from "../fsutils.js";
 
