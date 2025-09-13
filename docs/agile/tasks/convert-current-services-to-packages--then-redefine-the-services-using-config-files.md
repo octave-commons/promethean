@@ -13,7 +13,7 @@ Transition existing services into reusable packages and instantiate concrete ser
 
 ## 📦 Requirements
 
-- [ ] Extract core logic of each service into language-appropriate package
+- [x] Extract core logic of each service into language-appropriate package
 - [ ] Provide config-driven bootstrap that loads desired modules
 - [ ] Document migration steps for existing services
 
@@ -51,7 +51,7 @@ Nothing
 
 ## 🔍 Relevant Links
 
-- [kanban](kanban.md)
+- [[kanban]]
 
 #framework-core #Ready
 #ready

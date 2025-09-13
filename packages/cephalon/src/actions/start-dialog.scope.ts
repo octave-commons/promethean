@@ -16,7 +16,7 @@ import {
   seperateSpeechFromThought,
   splitSentances,
 } from "../tokenizers.js";
-import { sleep } from "../util.js";
+import { sleep } from "@promethean/utils";
 
 export type StartDialogInput = { bot: Bot };
 export type StartDialogOutput = { started: boolean };

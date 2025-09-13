@@ -6,6 +6,10 @@
     "composite": true,
     "declaration": true
   },
-  "include": ["src/**/*.ts"],
-  "references": [{ "path": "../fs" }, { "path": "../level-cache" }]
+  "include": ["src/**/*"],
+  "references": [
+    { "path": "../fs" },
+    { "path": "../level-cache" },
+    { "path": "../ui-components" }
+  ]
 }

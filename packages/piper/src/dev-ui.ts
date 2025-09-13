@@ -4,7 +4,6 @@ import { promises as fs } from "node:fs";
 
 import fastifyFactory from "fastify";
 import fastifyStatic from "@fastify/static";
-import fastifyRateLimit from "@fastify/rate-limit";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import chokidar from "chokidar";
@@ -22,7 +21,12 @@ function getArg(flag: string, dflt: string): string {
 }
 
 const CONFIG_PATH = path.resolve(
-  getArg("--config", process.env.PIPER_CONFIG || process.env.npm_config_config || "pipelines.json"),
+  getArg(
+    "--config",
+    process.env.PIPER_CONFIG ||
+      process.env.npm_config_config ||
+      "pipelines.json",
+  ),
 );
 const rawPort = Number(getArg("--port", "3939"));
 const PORT = Number.isFinite(rawPort) ? rawPort : 3939;
@@ -38,34 +42,41 @@ const FRONTEND_DIST = path.resolve(
   "../dist/frontend",
 );
 
+const UI_COMPONENTS_DIST = path.resolve(
+  path.dirname(url.fileURLToPath(import.meta.url)),
+  "../node_modules/@promethean/ui-components/dist",
+);
+
+// async function loadConfig() {
+//   const raw = await fs.readFile(CONFIG_PATH, "utf-8");
+//   const parsed = FileSchema.safeParse(JSON.parse(raw));
+//   if (!parsed.success) throw new Error(parsed.error.message);
+//   return parsed.data;
+// }
+
 function errToString(e: unknown): string {
   return String((e as { message?: unknown })?.message ?? e);
 }
 
 const app = fastifyFactory({ logger: false });
-
-await app.register(fastifyRateLimit, {
-  max: 100, // max 100 requests per window
-  timeWindow: 15 * 60 * 1000, // 15 minutes
-});
 // Development events: optional SSE stream for hot-reload signals.
-app.get("/api/dev-events", {
-  config: {
-    rateLimit: {
-      max: 5, // allow 5 requests per minute for this endpoint
-      timeWindow: 60 * 1000, // 1 minute
-    }
-  }
-}, async (_req, reply) => {
-  const send = sseInit(reply);
-  send("frontend:update");
+const WATCH_GLOBS = () => {
   const root = path.resolve(process.cwd(), "packages/piper/src/frontend");
-  const watcher = chokidar.watch([`${root}/**/*.ts`, `${root}/**/*.css`, `${path.resolve(process.cwd(), "packages/piper/ui")}/**/*`], { ignoreInitial: true });
+  const ui = path.resolve(process.cwd(), "packages/piper/ui");
+  return [`${root}/**/*.ts`, `${root}/**/*.css`, `${ui}/**/*`];
+};
+app.get("/api/dev-events", async (_req, reply) => {
+  const send = sseInit(reply);
+  // Do NOT emit an immediate update; only on file changes.
+  const watcher = chokidar.watch(WATCH_GLOBS(), { ignoreInitial: true });
   const rebuild = async () => {
     send("frontend:update");
   };
-  watcher.on("all", () => void rebuild());
-  reply.raw.on("close", () => watcher.close());
+  watcher.on("all", rebuild);
+  reply.raw.on("close", () => {
+    watcher.off("all", rebuild);
+    void watcher.close();
+  });
 });
 await app.register(fastifyStatic, { root: UI_ROOT, prefix: "/ui" });
 await app.register(fastifyStatic, {
@@ -73,6 +84,14 @@ await app.register(fastifyStatic, {
   prefix: "/js",
   decorateReply: false,
 });
+await app.register(fastifyStatic, {
+  root: UI_COMPONENTS_DIST,
+  prefix: "/js/ui-components",
+  decorateReply: false,
+});
+// Note: No global rate-limiting in the dev server to avoid interfering
+// with HMR/EventSource reconnects and static asset loads.
+
 await app.register(swagger, {
   openapi: {
     info: { title: "Piper Dev API", version: "1.0.0" },

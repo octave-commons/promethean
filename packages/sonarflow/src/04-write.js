@@ -1,3 +1,4 @@
+/* eslint-disable */
 "use strict";
 var __assign =
   (this && this.__assign) ||
@@ -169,6 +170,7 @@ var fs_1 = require("fs");
 var path = require("path");
 var gray_matter_1 = require("gray-matter");
 var utils_js_1 = require("./utils.js");
+var utils_1 = require("@promethean/utils");
 var args = (0, utils_js_1.parseArgs)({
   "--in": ".cache/sonar/plans.json",
   "--out": "docs/agile/tasks/sonar",
@@ -178,13 +180,6 @@ var args = (0, utils_js_1.parseArgs)({
 });
 var START = "<!-- SONARFLOW:BEGIN -->";
 var END = "<!-- SONARFLOW:END -->";
-function slug(s) {
-  return s
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
 function stripGenerated(text) {
   var si = text.indexOf(START),
     ei = text.indexOf(END);
@@ -243,7 +238,7 @@ function main() {
         case 3:
           if (!(_i < tasks_1.length)) return [3 /*break*/, 7];
           t = tasks_1[_i];
-          fname = "".concat(slug(t.title), ".md");
+          fname = "".concat((0, utils_1.slug)(t.title), ".md");
           outPath = path.join(args["--out"], fname);
           fm = {
             uuid: cryptoRandomUUID(),
