@@ -3,7 +3,7 @@ import { promises as fs } from "fs";
 
 import matter from "gray-matter";
 
-import { parseArgs } from "./utils.js";
+import { parseArgs } from "@promethean/utils";
 import type { PlanFile } from "./types.js";
 
 const args = parseArgs({
