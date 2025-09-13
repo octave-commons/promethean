@@ -2,7 +2,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import test from "ava";
-import { sleep } from "@promethean/test-utils/sleep";
+import { sleep } from "@promethean/utils";
 
 import { AIAgent } from "../agent.js";
 import type { Bot } from "../bot.js";

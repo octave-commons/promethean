@@ -1,5 +1,5 @@
 import test from 'ava';
-import { sleep } from '@promethean/test-utils/sleep';
+import { sleep } from '@promethean/utils';
 
 import { createAgentWorld } from './world.js';
 import { enqueueUtterance } from './helpers/enqueueUtterance.js';

@@ -1,6 +1,6 @@
 # @promethean/docops
 
-DocOps is a modular documentation pipeline that parses, embeds, queries, relates, and renders Markdown documents. It exposes pure JS/TS functions, a small dev server with a Web UI, and preserves standalone CLI usage for compatibility. For a generic pipeline UI, you can also use [Piper](../piper/README.md).
+DocOps is a modular documentation pipeline that parses, embeds, queries, relates, and renders Markdown documents. It exposes pure JS/TS functions, a small dev server with a Web UI, and preserves standalone CLI usage for compatibility. For a generic pipeline UI, you can also use [[packages/piper/README|Piper]].
 
 ## Features
 

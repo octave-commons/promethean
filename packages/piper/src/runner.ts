@@ -4,6 +4,7 @@ import { promises as fs } from "fs";
 import * as chokidar from "chokidar";
 import AjvModule from "ajv";
 import { globby } from "globby";
+import { slug } from "@promethean/utils";
 
 import {
   FileSchema,
@@ -40,13 +41,6 @@ type AjvLike = {
 
 const AjvCtor = AjvModule as unknown as new () => AjvLike;
 const ajv: AjvLike = new AjvCtor();
-
-function slug(s: string) {
-  return s
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
 
 async function validateFiles(
   files: string[],

@@ -1,9 +1,3 @@
-
-
-<hr class="__chatgpt_plugin">
-
-### role::assistant<span style="font-size: small;"> (llama3.2:latest)</span>
-
 ---
 promptId: smart_task_templater_md
 name: "{{title}}"
@@ -31,6 +25,7 @@ presence_penalty: 0
 stream: true
 temperature: 0.7
 ---
+
 <hr class="__chatgpt_plugin">
 
 <span style="font-size: small;"> (llama3.2:latest)</span>

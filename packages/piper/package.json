@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@promethean/level-cache": "workspace:*",
+    "@promethean/utils": "workspace:*",
     "chokidar": "3.6.0",
     "globby": "14.0.2",
     "zod": "3.23.8",
@@ -33,7 +34,8 @@
     "@fastify/rate-limit": "10.3.0",
     "@fastify/swagger": "9.5.1",
     "@fastify/swagger-ui": "5.2.3",
-    "ajv": "8.17.1"
+    "ajv": "8.17.1",
+    "@promethean/ui-components": "workspace:*"
   },
   "devDependencies": {
     "@promethean/test-utils": "workspace:*"

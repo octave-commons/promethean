@@ -3,12 +3,13 @@ import * as path from "path";
 
 import matter from "gray-matter";
 
-import { parseArgs, writeText, slug } from "./utils.js";
+import { parseArgs, writeText } from "./utils.js";
+import { slug } from "@promethean/utils";
 import type { PlanFile } from "./types.js";
 
 const args = parseArgs({
   "--plan": ".cache/cookbook/plan.json",
-  "--out": "docs/cookbook"
+  "--out": "docs/cookbook",
 } as const);
 
 const START = "<!-- COOKBOOK:BEGIN -->";

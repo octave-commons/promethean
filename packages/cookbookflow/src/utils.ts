@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import * as path from "path";
 import { execFile as _execFile } from "child_process";
+import { slug } from "@promethean/utils";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
@@ -34,13 +35,7 @@ export async function writeText(p: string, s: string) {
   await fs.writeFile(p, s, "utf-8");
 }
 
-export function slug(s: string) {
-  return s
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
+export { slug };
 export function sha1(s: string) {
   let h = 2166136261 >>> 0;
   for (let i = 0; i < s.length; i++) {

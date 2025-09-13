@@ -23,10 +23,6 @@ tags:
   - priority/p3
   - epic/EPC-000
 ---
-You’re right: one wrong line and the whole agent tunnels on it. So here’s a **bullet-proof, agent-safe playbook** that avoids “foot guns.” It’s built around tiny, gated steps, **no destructive edits**, and **new local hooks** so you don’t touch existing config until you see green.
-
-Use this as a single task card. It’s deliberately pedantic.
-
 # Task: Agent-safe stabilization after big moves (local hooks, zero-risk edits)
 
 ## Contract (read this first)

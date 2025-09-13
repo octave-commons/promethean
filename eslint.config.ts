@@ -14,6 +14,7 @@ export default [
       parser: tsParser,
       parserOptions: {
         projectService: true, // uses your tsconfig.* automatically
+        allowDefaultProject: true,
         ecmaVersion: "latest",
         sourceType: "module",
       },
