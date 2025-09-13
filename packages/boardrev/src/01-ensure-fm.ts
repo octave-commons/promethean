@@ -1,15 +1,16 @@
+/* eslint-disable */
 import * as path from "path";
 import { randomUUID as nodeRandomUUID } from "node:crypto";
 
 import matter from "gray-matter";
 
+import { slug } from "@promethean/utils";
 import {
   parseArgs,
   listTaskFiles,
   readMaybe,
   writeText,
   normStatus,
-  slug,
 } from "./utils.js";
 import type { TaskFM } from "./types.js";
 

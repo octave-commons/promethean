@@ -1,9 +1,9 @@
+/* eslint-disable */
 import { promises as fs } from "fs";
 import * as path from "path";
 
 import matter from "gray-matter";
-import * as yaml from "yaml";
-
+import { slug } from "@promethean/utils";
 import { parseArgs } from "./utils.js";
 import type { PlanPayload } from "./types.js";
 
@@ -18,13 +18,6 @@ const args = parseArgs({
 const START = "<!-- SONARFLOW:BEGIN -->";
 const END = "<!-- SONARFLOW:END -->";
 
-function slug(s: string) {
-  return s
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
 function stripGenerated(text: string) {
   const si = text.indexOf(START),
     ei = text.indexOf(END);
@@ -34,10 +27,10 @@ function stripGenerated(text: string) {
 
 async function main() {
   const { tasks, project } = JSON.parse(
-    await fs.readFile(path.resolve(args["--in"]), "utf-8"),
+    await fs.readFile(path.resolve(args["--in"]!), "utf-8"),
   ) as PlanPayload;
 
-  await fs.mkdir(path.resolve(args["--out"]), { recursive: true });
+  await fs.mkdir(path.resolve(args["--out"]!), { recursive: true });
   const index: string[] = [
     "# SonarQube remediation tasks",
     "",
@@ -47,18 +40,17 @@ async function main() {
 
   for (const t of tasks) {
     const fname = `${slug(t.title)}.md`;
-    const outPath = path.join(args["--out"], fname);
+    const outPath = path.join(args["--out"]!, fname);
 
     const fm = {
       uuid: cryptoRandomUUID(),
       title: t.title,
       project,
       priority: t.priority,
-      status: args["--status"],
+      status: args["--status"]!,
       labels: Array.from(
         new Set([
-          ...args["--label"]
-            .split(",")
+          ...args["--label"]!.split(",")
             .map((s) => s.trim())
             .filter(Boolean),
           ...(t.labels ?? []),
@@ -111,11 +103,13 @@ async function main() {
   }
 
   await fs.writeFile(
-    path.join(args["--out"], "README.md"),
+    path.join(args["--out"]!, "README.md"),
     index.join("\n") + "\n",
     "utf-8",
   );
-  console.log(`sonarflow: wrote ${tasks.length} task files → ${args["--out"]}`);
+  console.log(
+    `sonarflow: wrote ${tasks.length} task files → ${args["--out"]!}`,
+  );
 }
 
 function cryptoRandomUUID() {
