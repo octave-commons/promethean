@@ -1364,6 +1364,9 @@ importers:
       '@promethean/fs':
         specifier: workspace:*
         version: link:../fs
+      '@promethean/ui-components':
+        specifier: workspace:*
+        version: link:../ui-components
       '@types/level':
         specifier: ^8.0.0
         version: 8.0.0
@@ -2873,6 +2876,9 @@ importers:
       '@promethean/level-cache':
         specifier: workspace:*
         version: link:../level-cache
+      '@promethean/ui-components':
+        specifier: workspace:*
+        version: link:../ui-components
       ajv:
         specifier: 8.17.1
         version: 8.17.1
@@ -3914,6 +3920,8 @@ importers:
       '@types/ws':
         specifier: ^8.5.9
         version: 8.18.1
+
+  packages/ui-components: {}
 
   packages/utils: {}
 

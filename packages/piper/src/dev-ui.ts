@@ -43,6 +43,19 @@ const FRONTEND_DIST = path.resolve(
   "../dist/frontend",
 );
 
+const UI_COMPONENTS_DIST = path.resolve(
+  path.dirname(url.fileURLToPath(import.meta.url)),
+  "../node_modules/@promethean/ui-components/dist",
+);
+
+async function loadConfig() {
+  const raw = await fs.readFile(CONFIG_PATH, "utf-8");
+  const parsed = FileSchema.safeParse(JSON.parse(raw));
+  if (!parsed.success) throw new Error(parsed.error.message);
+  return parsed.data;
+}
+
+
 function errToString(e: unknown): string {
   return String((e as { message?: unknown })?.message ?? e);
 }
@@ -82,6 +95,16 @@ await app.register(fastifyStatic, {
   prefix: "/js",
   decorateReply: false,
 });
+await app.register(fastifyStatic, {
+  root: UI_COMPONENTS_DIST,
+  prefix: "/js/ui-components",
+  decorateReply: false,
+});
+await app.register(fastifyRateLimit, {
+  max: 100, // max 100 requests per window
+  timeWindow: 15 * 60 * 1000, // 15 minutes
+});
+
 await app.register(swagger, {
   openapi: {
     info: { title: "Piper Dev API", version: "1.0.0" },
