@@ -23,7 +23,6 @@ kanban-plugin: board
 - [ ] [[implement_transcendence_cascade_md|Implement transcendence cascade]] #todo
 - [ ] [[identify_ancestral_resonance_patterns_md_md|Identify ancestral resonance patterns]] #todo
 - [ ] [[annotate_legacy_code_with_migration_tags_md|Annotate legacy code with migration tags]] #ice-box
-- [ ] [[Find music that triggered copyright mute on twitch for analysis incoming.md|Find music that triggered copyright mute on twitch for analysis incoming]] #todo
 - [ ] [[add_withdlq_around_risky_consumers_set_maxattempts_md|Add **withDLQ** around risky consumers; set `maxAttempts`]] #accepted
 - [ ] [[enable_compactor_for_process_state_process_state_s_md|Enable compactor for `process.state` → `process.state.snapshot`]] #ice-box
 - [ ] [[something-something.-1]]
@@ -141,6 +140,13 @@ kanban-plugin: board
 
 ## Blocked
 
+- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #todo
+- [ ] [[gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used.|gpt bridge fuzzy lookup should return multiple matches when it is used.]] #framework-core #ready
+- [ ] [[ecs_persistence_integration_cephalon|ecs persistence integration cephalon]] #ecs #cephalon #mongo #ready
+- [ ] [[ecs_projection_jobs|ecs projection jobs]] #ecs #projections #compaction #ready
+- [ ] [[ecs_projection_jobs|ecs projection jobs]] #incoming
+- [ ] [[ecs_persistence_integration_cephalon|ecs persistence integration cephalon]] #incoming
+- [ ] [[cephalon_store_user_transcripts_unified|cephalon store user transcripts unified]] #cephalon #transcripts #persistence #ready
 - [ ] [[auth_service_scaffold_and_endpoints|auth service scaffold and endpoints]] #incoming
 - [ ] [[snapshot_prompts_specs_to_repo|Snapshot prompts specs to repo]] #todo
 - [ ] [[create-broker-services-that-can-handle-all-the-same-tasks-as-the-gpt-bridge|Create broker services that can handle all the same tasks as the gpt bridge]] #broker #ws #api #gptbridge #parity #promethean #ops #ready
@@ -259,56 +265,49 @@ kanban-plugin: board
 
 ## Ready
 
-- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #todo
+- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #breakdown
 - [ ] [[describe_github_branching_workflow_md|describe github branching workflow md]] #todo
 - [ ] [[twitch_stream_title_generator_md_md|twitch stream title generator md md]] #framework-core #ollama-integration #stream-automation #in-review
 - [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #incoming
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean #ops #codex-task #tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain #in-review
-- [ ] [[ecs_projection_jobs|ecs projection jobs]] #incoming
-- [ ] [[ecs_persistence_integration_cephalon|ecs persistence integration cephalon]] #incoming
 - [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #breakdown
-- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #breakdown
 - [ ] [[twitch_discord_general_auto_mod_md_md|twitch discord general auto mod md md]] #framework-core #observability #multimodal-context #risk #IceBox #todo
 - [ ] [[thinking_model_integration_md_md|thinking model integration md md]] #framework-core #Breakdown #todo
 - [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
 - [ ] [[tamper-monkey-script-for-using-templates-defined-in-the-vault|tamper monkey script for using templates defined in the vault]] #todo
-- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #todo
+- [ ] [[Docops pipeline|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #todo
 - [ ] [[phase-out-proxy-in-favor-of-bridge-service|Phase out proxy in favor of bridge service]] #framework-core #framework-core #Todo #in-progress
 - [ ] [[docs/agile/tasks/file-explorer|File explorer]] #framework-core #ready
-- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #IceBox #ready
-- [ ] [[cephalon_store_user_transcripts_unified|cephalon store user transcripts unified]] #cephalon #transcripts #persistence #ready
-- [ ] [[ecs_projection_jobs|ecs projection jobs]] #ecs #projections #compaction #ready
-- [ ] [[ecs_persistence_integration_cephalon|ecs persistence integration cephalon]] #ecs #cephalon #mongo #ready
-- [ ] [[gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used.|gpt bridge fuzzy lookup should return multiple matches when it is used.]] #framework-core #ready
 
 
 ## Todo (13)
 
-- [ ] [[convert-current-services-to-packages--then-redefine-the-services-using-config-files|convert current services to packages, then redefine the services using config files]] #framework-core #framework-core #Ready #ready
-- [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
+- [ ] [[Docops pipeline|Docops pipeline works]] #framework-core #IceBox #ready
 - [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
 - [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
 - [ ] [[harden-precommit-hooks|harden precommit hooks]] #ready
 - [ ] [[script-for-getting-github-action-workflow-states-for-a-branch|script for getting github action workflow states for a branch]] #ready
-- [ ] [[frontend-build-tool-chain|frontend build tool chain]] #devops #devops #Ready #todo
 - [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #scripts #docs #ready
 - [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
 - [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #breakdown
 - [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md|Add semantic overlays for layer1 through layer8]] #todo
-- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ready
 
 
 ## In Progress (4)
 
+- [ ] [[frontend-build-tool-chain|frontend build tool chain]] #devops #devops #Ready #todo
+- [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
+- [ ] [[convert-current-services-to-packages--then-redefine-the-services-using-config-files|convert current services to packages, then redefine the services using config files]] #framework-core #framework-core #Ready #ready
 
 
 ## In Review (8)
 
-- [ ] [[move-discord-scraper-to-ts|move discord scraper to ts]] #framework-core #ready
 
 
 ## Done
 
+- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ready
+- [ ] [[move-discord-scraper-to-ts|move discord scraper to ts]] #framework-core #ready
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #breakdown
 - [ ] [[breakdown-makefile.hy|breakdown Makefile.hy]] #framework-core #ready
 - [ ] [[flatten-services|flatten services]] #framework-core #framework-core #Ready #todo
@@ -413,6 +412,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[true,true,false,false,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"textgenerator/templates/local/smart_task_templater_md.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[false,true,false,false,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"textgenerator/templates/local/smart_task_templater_md.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
