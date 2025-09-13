@@ -228,12 +228,13 @@ kanban-plugin: board
 
 ## Incoming
 
-- [ ] discord text mode
-- [ ] discord mixed mode
 
 
 ## Accepted
 
+- [ ] discord text mode
+- [ ] discord mixed mode
+- [ ] dev mode for each project
 - [ ] whole project builds with new stricter tsconfig
 - [ ] [[github-crawler]]
 - [ ] [[docs/agile/boards/consolidate-all-configs-into---config--as--.edn--files]] #incoming
