@@ -33,10 +33,10 @@ references:
  ^ref-f9e200b4-1-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [js-to-lisp-reverse-compiler](js-to-lisp-reverse-compiler.md)
-- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
-- [language-agnostic-mirror-system](language-agnostic-mirror-system.md)
+- [[js-to-lisp-reverse-compiler]]
+- [[set-assignment-in-lisp-ast]]
+- [[language-agnostic-mirror-system]]
 ## Sources
-- [js-to-lisp-reverse-compiler — L4](js-to-lisp-reverse-compiler.md#^ref-58a50f5a-4-0) (line 4, col 0, score 1)
-- [js-to-lisp-reverse-compiler — L5](js-to-lisp-reverse-compiler.md#^ref-58a50f5a-5-0) (line 5, col 0, score 1)
+- [[js-to-lisp-reverse-compiler#^ref-58a50f5a-4-0|js-to-lisp-reverse-compiler — L4]] (line 4, col 0, score 1)
+- [[js-to-lisp-reverse-compiler#^ref-58a50f5a-5-0|js-to-lisp-reverse-compiler — L5]] (line 5, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

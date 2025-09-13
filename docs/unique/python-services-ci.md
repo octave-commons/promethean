@@ -114,7 +114,7 @@ jobs:
 ```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [promethean-notes](promethean-notes.md)
+- [[promethean-notes]]
 ## Sources
-- [promethean-notes — L2](promethean-notes.md#^ref-c54611b2-2-0) (line 2, col 0, score 1)
+- [[promethean-notes#^ref-c54611b2-2-0|promethean-notes — L2]] (line 2, col 0, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
