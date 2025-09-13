@@ -238,7 +238,6 @@ kanban-plugin: board
 - [ ] discord text mode
 - [ ] discord mixed mode
 - [ ] dev mode for each project
-- [ ] whole project builds with new stricter tsconfig
 - [ ] [[github-crawler]]
 - [ ] [[docs/agile/boards/consolidate-all-configs-into---config--as--.edn--files]] #incoming
 - [ ] [[ci-passses]] #incoming
@@ -299,6 +298,7 @@ kanban-plugin: board
 
 ## In Review (8)
 
+- [ ] whole project builds with new stricter tsconfig
 - [ ] [[docs/agile/tasks/file-explorer|File explorer]] #framework-core #ready
 
 
