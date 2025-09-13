@@ -426,6 +426,9 @@ importers:
 
   packages/buildfix:
     dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       globby:
         specifier: 14.0.2
         version: 14.0.2
@@ -3704,6 +3707,9 @@ importers:
 
   packages/testgap:
     dependencies:
+      '@promethean/utils':
+        specifier: workspace:*
+        version: link:../utils
       globby:
         specifier: ^14.0.2
         version: 14.0.2
