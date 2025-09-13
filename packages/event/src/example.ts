@@ -1,16 +1,16 @@
 import { InMemoryEventBus } from './memory.js';
 import type { EventRecord } from './types.js';
 
-(async () => {
+void (async () => {
     const bus = new InMemoryEventBus();
 
     // SUBSCRIBE (durable)
     await bus.subscribe(
         'heartbeat.received',
         'ops',
-        async (_e: EventRecord) => {
+        async (e: Readonly<EventRecord>) => {
             // do stuff (update process table, emit metrics, etc.)
-            // console.log("HB:", _e.payload);
+            console.log('HB:', e.payload);
         },
         { from: 'earliest', batchSize: 100 },
     );
@@ -28,7 +28,7 @@ import type { EventRecord } from './types.js';
         { tags: ['#duck', '#stt'] },
     );
 
-    // Optional: read the cursor
-    const _cur = await bus.getCursor('heartbeat.received', 'ops');
-    // console.log("cursor:", _cur);
+    // Optional: read and log the cursor
+    const cursor = await bus.getCursor('heartbeat.received', 'ops');
+    console.log('cursor:', cursor);
 })();
