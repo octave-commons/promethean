@@ -229,15 +229,16 @@ kanban-plugin: board
 
 ## Incoming
 
-- [ ] Use clojure elisp tree sitter package to generate mcp.el valid s-expr
-- [ ] make cephalon work again with new project layout
 
 
 ## Accepted
 
+- [ ] make cephalon work again with new project layout
+- [ ] Use clojure elisp tree sitter package to generate mcp.el valid s-expr
 - [ ] discord text mode
+- [ ] PM2 works again
 - [ ] discord mixed mode
-- [ ] dev mode for each project
+- [ ] [[dev mode for each package]]
 - [ ] [[github-crawler]]
 - [ ] [[docs/agile/boards/consolidate-all-configs-into---config--as--.edn--files]] #incoming
 - [ ] [[ci-passses]] #incoming
