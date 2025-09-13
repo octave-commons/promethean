@@ -6,6 +6,7 @@ kanban-plugin: board
 
 ## Rejected
 
+- [ ] [[scripts_update_ci_and_refs|scripts update ci and refs]] #scripts #ci #organization #accepted
 - [ ] [[run_model_bakeoff_md|Run model bakeoff]] #ops #codex-task #IceBox #ready
 - [ ] [[kanban-processor]] #todo
 - [ ] [[setup_a_second_agent_md|setup a second agent md]] #framework-core #IceBox #todo
@@ -224,7 +225,7 @@ kanban-plugin: board
 - [ ] [[scripts_audit_and_standardize_cli_flags|scripts audit and standardize cli flags]] #incoming
 - [ ] [[scripts_group_audio_tools|scripts group audio tools]] #incoming
 - [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #incoming
-- [ ] [[scripts_group_kanban_remaining|scripts group kanban remaining]] #incoming
+- [ ] [[Consolidate all kanban helpers to kanban package|scripts group kanban remaining]] #incoming
 - [ ] [[scripts_update_ci_and_refs|scripts update ci and refs]] #incoming
 - [ ] [[cephalon_persist_utterance_timing_metadata|cephalon persist utterance timing metadata]] #incoming
 - [ ] [[cephalon_persist_llm_replies_to_agent_messages|cephalon persist llm replies to agent messages]] #incoming
@@ -249,9 +250,7 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
-- [ ] [[scripts_group_indexing_tools|scripts group indexing tools]] #scripts #indexing #organization #accepted
-- [ ] [[scripts_update_ci_and_refs|scripts update ci and refs]] #scripts #ci #organization #accepted
-- [ ] [[scripts_group_kanban_remaining|scripts group kanban remaining]] #scripts #kanban #organization #accepted
+- [ ] [[Consolidate all kanban helpers to kanban package|scripts group kanban remaining]] #scripts #kanban #organization #accepted
 - [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #scripts #docs #organization #accepted
 - [ ] [[scripts_audit_and_standardize_cli_flags|scripts audit and standardize cli flags]] #scripts #cli #dx #accepted
 - [ ] [[clearly-document-new-repository-layout]] #devops #architectural-decisions #monorepo #packages #package-manager #runtime #multiruntime #accepted
@@ -265,6 +264,7 @@ kanban-plugin: board
 
 ## Ready
 
+- [ ] [[scripts_group_indexing_tools|scripts group indexing tools]] #scripts #indexing #organization #accepted
 - [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #breakdown
 - [ ] [[describe_github_branching_workflow_md|describe github branching workflow md]] #todo
 - [ ] [[twitch_stream_title_generator_md_md|twitch stream title generator md md]] #framework-core #ollama-integration #stream-automation #in-review
