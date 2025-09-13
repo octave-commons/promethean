@@ -7,9 +7,5 @@
     "declaration": true
   },
   "include": ["src/**/*"],
-  "references": [
-    { "path": "../fs" },
-    { "path": "../level-cache" },
-    { "path": "../ui-components" }
-  ]
+  "references": []
 }
