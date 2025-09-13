@@ -208,6 +208,7 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] [[harden-precommit-hooks|harden precommit hooks]] #ready
 - [ ] [[design-vision-pipeline-mvp]]
 - [ ] [[design-audio-pipeline-mvp]]
 - [ ] [[kubernetes-configurations-for-secure-distributed-deployment-on-local-net]]
@@ -228,6 +229,8 @@ kanban-plugin: board
 
 ## Incoming
 
+- [ ] Use clojure elisp tree sitter package to generate mcp.el valid s-expr
+- [ ] make cephalon work again with new project layout
 
 
 ## Accepted
@@ -248,6 +251,7 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
+- [ ] [[frontend-build-tool-chain|frontend build tool chain]] #devops #devops #Ready #todo
 - [ ] codex cloud setup script generates a startup report
 - [ ] [[evaluate-docker-npu-compatability]]
 - [ ] [[add-docker-compose-files-to-services]]
@@ -290,14 +294,12 @@ kanban-plugin: board
 
 ## In Progress (4)
 
-- [ ] [[docs/agile/tasks/file-explorer|File explorer]] #framework-core #ready
-- [ ] [[harden-precommit-hooks|harden precommit hooks]] #ready
-- [ ] [[frontend-build-tool-chain|frontend build tool chain]] #devops #devops #Ready #todo
 - [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
 
 
 ## In Review (8)
 
+- [ ] [[docs/agile/tasks/file-explorer|File explorer]] #framework-core #ready
 
 
 ## Done
