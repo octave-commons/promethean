@@ -3,6 +3,7 @@ import Fastify from "fastify";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import rateLimit from "@fastify/rate-limit";
+
 import { createFastifyAuth } from "./fastifyAuth.js";
 import { registerV0Routes } from "./routes/v0/index.js";
 import { indexerManager as defaultIndexerManager } from "./indexer.js";

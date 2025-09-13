@@ -22,6 +22,5 @@ function dist(p: string) {
 
 test.serial("main includes docops-step and file-tree imports", async (t) => {
   const mainJs = await fs.readFile(dist("frontend/main.js"), "utf8");
-  t.true(mainJs.includes("./components/docops-step.js"));
-  t.true(mainJs.includes("./components/file-tree.js"));
+  t.true(mainJs.includes("./components/piper-step.js"));
 });

@@ -45,7 +45,7 @@ async function main() {
   const userTask =
     process.argv.slice(2).join(" ") ||
     "Assess repo status and propose the first small test.";
-  let messages = [
+  const messages = [
     { role: "system", content: plannerPreamble },
     { role: "user", content: `Task: ${userTask}` },
   ] as { role: "system" | "user" | "assistant"; content: string }[];
