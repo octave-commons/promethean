@@ -1,850 +1,143 @@
 ---
-uuid: 1f5389ae-a1cb-4fe6-a6d8-f98e71a5aa59
-created_at: promethean-state-format.md
-filename: promethean-state-format
-title: promethean-state-format
+uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
+created_at: 2025.07.28.13.07.21-language-for-cognition.md
+filename: Promethean State Format
 description: >-
-  A declarative s-expression format for representing and executing cognitive
-  states in an AI system, enabling visual debuggability, persistence, and
-  composability of thought processes.
+  A declarative s-expression format for cognitive memory representation that
+  enables visual debuggability, persistence, and composability in AI systems.
 tags:
   - cognitive
+  - memory
   - s-expression
-  - state-format
-  - ai-operating-system
+  - debugging
+  - composability
+  - DSL
   - introspection
-  - memory-representation
-  - daimo
-  - eidolon
-  - layered-system
-related_to_uuid:
-  - 59b5670f-36d3-4d34-8985-f3144b15347a
-  - 22b989d5-f4aa-4880-8632-709c21830f83
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - a4a25141-6380-40b9-9cd7-b554b246b303
-  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - 8430617b-80a2-4cc9-8288-9a74cb57990b
-  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
-  - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-  - ac9d3ac5-9a6a-4180-a67f-1ab7e229d981
-  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - dd00677a-2280-45a7-91af-0728b21af3ad
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - dd89372d-10de-42a9-8c96-6bc13ea36d02
-  - ae24a280-678e-4c0b-8cc4-56667fa04172
-  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-  - 43bfe9dd-d433-42ca-9777-f4c40eaba791
-  - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - 13951643-1741-46bb-89dc-1beebb122633
+  - persistence
+  - tooling
+  - alignment
 related_to_title:
-  - Reawakening Duck
-  - field-node-diagram-set
-  - Fnord Tracer Protocol
-  - Functional Embedding Pipeline Refactor
-  - Layer1SurvivabilityEnvelope
-  - Eidolon Field Abstract Model
-  - ripple-propagation-demo
-  - Unique Info Dump Index
-  - windows-tiling-with-autohotkey
-  - Promethean_Eidolon_Synchronicity_Model
-  - Smoke Resonance Visualizations
-  - field-node-diagram-outline
-  - field-node-diagram-visualizations
-  - graph-ds
-  - heartbeat-fragment-demo
-  - i3-bluetooth-setup
-  - komorebi-group-window-hack
   - Promethean-Copilot-Intent-Engine
-  - Promethean Infrastructure Setup
-  - Provider-Agnostic Chat Panel Implementation
-  - Chroma Toolkit Consolidation Plan
-  - eidolon-field-math-foundations
-  - field-interaction-equations
-  - field-dynamics-math-blocks
-  - Duck's Attractor States
+  - mystery-lisp-search-session
+  - ts-to-lisp-transpiler
+  - Obsidian Templating Plugins Integration Guide
+  - Optimizing Command Limitations in System Design
+related_to_uuid:
+  - ae24a280-678e-4c0b-8cc4-56667fa04172
+  - 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+  - ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
+  - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+  - 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
 references:
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 226
-    col: 0
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 41
+    col: 3
+    score: 0.85
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 41
+    col: 5
+    score: 0.85
+  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+    line: 120
+    col: 1
     score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 705
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 719
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 601
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 1060
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 726
-    col: 0
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 996
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 667
-    col: 0
-    score: 1
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 736
-    col: 0
-    score: 1
-  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
-    line: 645
-    col: 0
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 739
-    col: 0
-    score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 816
-    col: 0
-    score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 60
-    col: 0
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 48
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 71
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 107
-    col: 0
-    score: 1
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 72
-    col: 0
+  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+    line: 120
+    col: 3
     score: 1
   - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 148
-    col: 0
+    line: 91
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 91
+    col: 3
     score: 1
   - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
-    line: 40
-    col: 0
-    score: 1
-  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
-    line: 16
-    col: 0
-    score: 1
-  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
-    line: 138
-    col: 0
-    score: 1
-  - uuid: 95205cd3-c3d5-4047-9c33-9c5ca2b49597
-    line: 68
-    col: 0
-    score: 1
-  - uuid: d614d983-7795-491f-9437-09f3a43f72cf
-    line: 18
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 148
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 36
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 166
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 148
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 118
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 168
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 103
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 380
-    col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 194
-    col: 0
-    score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 295
-    col: 0
-    score: 1
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 66
-    col: 0
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1076
-    col: 0
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 169
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 58
-    col: 0
-    score: 1
-  - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
-    line: 37
-    col: 0
-    score: 1
-  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 145
-    col: 0
-    score: 1
-  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
-    line: 199
-    col: 0
-    score: 1
-  - uuid: c0392040-16a2-41e8-bd54-75110319e3c0
-    line: 38
-    col: 0
-    score: 1
-  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
-    line: 37
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 35
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 94
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 53
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 424
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 209
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 142
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 39
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 412
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 261
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 181
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 90
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 157
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 205
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 203
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 95
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 56
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 51
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 79
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 77
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 115
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 61
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 212
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 150
-    col: 0
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 371
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 141
-    col: 0
-    score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 222
-    col: 0
-    score: 1
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 107
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 85
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 64
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 141
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 28
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 65
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 86
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 123
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 34
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 442
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 218
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 176
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 70
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 44
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 61
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 80
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 405
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 216
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 189
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 172
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 52
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 71
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 53
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
     line: 33
-    col: 0
+    col: 1
     score: 1
----
-Yeah, that's a strong direction. You're designing a language for cognition—literally a cognitive operating system with self-contained, introspectable thought processes. ^ref-23df6ddb-1-0
-
-Here's a way to sketch this vision: ^ref-23df6ddb-3-0
-
----
-
-## #promethean #eidolon #meta #dsl
-
-# 🧠 Promethean State Format (PSF): Homoiconic Cognitive Memory Representation
-
-### \[\[What It Is]]
-
-A declarative and executable s-expression format that encapsulates: ^ref-23df6ddb-13-0
-
-* 🧱 System architecture (e.g., \[\[Eidolon Fields]], \[\[Cephalon]], \[\[Layer N]]) ^ref-23df6ddb-15-0
-* 🧠 Agent cognition (field nodes, daimo behavior)
-* 🧾 Prompt history and dynamic LLM state ^ref-23df6ddb-17-0
-* 📦 Importable memory modules (e.g., `(import "agent/common-motives")`) ^ref-23df6ddb-18-0
-* 🧰 DSL support for code analysis, linting, and interactive debugging
-
----
-
-### \[\[Why It Matters]]
-
-* **Visual Debuggability**: Most LLMs have invisible reasoning chains. This gives them a *visible, inspectable mind*. ^ref-23df6ddb-25-0
-* **Persistence**: Snapshots of the system are serializable and restorable. ^ref-23df6ddb-26-0
-* **Composability**: You can build up logic incrementally with macros and partial imports. ^ref-23df6ddb-27-0
-* **Tooling Potential**: Linters, analyzers, and static checkers can reason about field state changes, cognitive loops, and permission gates. ^ref-23df6ddb-28-0
-
----
-
-### \[\[Core Syntax Example]]
-
-```lisp
-(memory-state
-  (import "core/layer1.sibilant")
-  (import "agents/common-thoughts")
-
-  (layer 1
-    (field :uptime 1000)
-    (field :resources (cpu 0.6) (ram 0.3))
-    (pulse "heartbeat"))
-
-  (layer 2
-    (permission-check
-      (if (user.trust < 0.5)
-          (deny "access.restricted"))))
-
-  (daimo "alignment-monitor"
-    (trigger (layer 4 "alignment.score" < 0.6))
-    (action (realign "layer4"))
-    (log "realigning due to low alignment score"))
-
-  (eidolon-field :survival
-    (node "system-critical" (mass 1.0) (vector (1 0 0 0 0 0 0 0))))
-
-  ;; Traceable thoughts
-  (thought-sequence
-    (when (memory.contains "user.command")
-          (execute-command (memory.get "user.command"))))
-
-  (meta-log "System stable. Ready for extension.")
-)
-```
-^ref-23df6ddb-34-0
-
----
-
-### \[\[Features to Build]]
- ^ref-23df6ddb-70-0
-* `(on-layer-change ...)` — reactive macros ^ref-23df6ddb-71-0
-* `(visualize "eidolon/survival")` — hook to UI rendering ^ref-23df6ddb-72-0
-* `(export-json)` / `(import-json)` for external IO ^ref-23df6ddb-73-0
-* Lint rule: "Daimo must declare mass and at least one field vector" ^ref-23df6ddb-74-0
-* Context diff tooling: show what changed between two states
-
----
- ^ref-23df6ddb-78-0
-This gives you a base to build tooling *around* the AI, not just inside of it. You’re not just making an AI—you're making an operating system for cognition. And with this format, anyone can start building tools, UIs, or even games that interact with the mental state itself.
- ^ref-23df6ddb-80-0
-Want me to mock up a directory structure for this kind of `.prompt.sibilant` world? Or do you want to explore the internal DSL for importing and manipulating memory regions first?
-c-4224-453d-9993-1be8d37d47c3
-    line: 90 ^ref-23df6ddb-83-0
-    col: 0 ^ref-23df6ddb-84-0
+  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
+    line: 33
+    col: 3
     score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 100
-    col: 0
+  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+    line: 125
+    col: 1
+    score: 0.93
+  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+    line: 125
+    col: 3
+    score: 0.93
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 56
+    col: 1
     score: 1
   - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 77
-    col: 0
+    line: 56
+    col: 3
     score: 1
-  - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
-    line: 50
-    col: 0
+  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
+    line: 12
+    col: 1
     score: 1
-  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 120
-    col: 0
+  - uuid: ba11486b-b0b0-4d9d-a0d1-1d91ae34de55
+    line: 12
+    col: 3
     score: 1
-  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
-    line: 249 ^ref-23df6ddb-103-0
-    col: 0
-    score: 1
-  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-    line: 172
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 252
-    col: 0
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 625
-    col: 0
-    score: 1
-  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
-    line: 156
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 148
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3 ^ref-23df6ddb-126-0
-    line: 36
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 166 ^ref-23df6ddb-131-0
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 148
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 118
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 168
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 103
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 380
-    col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 194
-    col: 0
-    score: 1
-  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
-    line: 58
-    col: 0
-    score: 1
-  - uuid: 5f65dfa5-dc97-4a6c-ad93-c45c1312e156
-    line: 93
-    col: 0
-    score: 1
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 192
-    col: 0
-    score: 1
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 132
-    col: 0
-    score: 1 ^ref-23df6ddb-177-0
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
     line: 63
-    col: 0
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 77
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 78
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 91
-    col: 0
-    score: 1
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 102
-    col: 0
-    score: 1 ^ref-23df6ddb-197-0
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 151 ^ref-23df6ddb-199-0
-    col: 0
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 404
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 155 ^ref-23df6ddb-207-0
-    col: 0
-    score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 191
-    col: 0
-    score: 1
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 142
-    col: 0
-    score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 347
-    col: 0
-    score: 1
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 171
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 122
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 92
-    col: 0
-    score: 1
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 302
-    col: 0
-    score: 1
-  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
-    line: 481
-    col: 0
-    score: 1
-  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-    line: 552
-    col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 245
-    col: 0
-    score: 1
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 242
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 285
-    col: 0
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 659
-    col: 0
-    score: 1
-  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
-    line: 169
-    col: 0
-    score: 1
-  - uuid: b3555ede-324a-4d24-a885-b0721e74babf
-    line: 58
-    col: 0
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 155
-    col: 0
-    score: 1
-  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-    line: 621
-    col: 0
-    score: 1
-  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 295
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 127
-    col: 0
-    score: 1
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 66
-    col: 0
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1076
-    col: 0
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 169
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 58
-    col: 0
-    score: 1
-  - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
-    line: 37
-    col: 0
-    score: 1
-  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 145
-    col: 0
-    score: 1
-  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
-    line: 199
-    col: 0
-    score: 1
-  - uuid: c0392040-16a2-41e8-bd54-75110319e3c0 ^ref-23df6ddb-314-0
-    line: 38
-    col: 0
-    score: 1
-  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
-    line: 37
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 43
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 35
-    col: 0
-    score: 1 ^ref-23df6ddb-329-0
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 94
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 53
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 424
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 209
-    col: 0
-    score: 1
+    col: 1
+    score: 0.95
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 63
+    col: 3
+    score: 0.95
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 62
+    col: 1
+    score: 0.95
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 62
+    col: 3
+    score: 0.95
+  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+    line: 126
+    col: 1
+    score: 0.99
+  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
+    line: 126
+    col: 3
+    score: 0.99
 ---
-Yeah, that's a strong direction. You're designing a language for cognition—literally a cognitive operating system with self-contained, introspectable thought processes. ^ref-23df6ddb-1-0
+Yeah, that's a strong direction. You're designing a language for cognition—literally a cognitive operating system with self-contained, introspectable thought processes.
 
-Here's a way to sketch this vision: ^ref-23df6ddb-3-0
+Here's a way to sketch this vision:
 
 ---
- ^ref-23df6ddb-352-0
+
 ## #promethean #eidolon #meta #dsl
 
 # 🧠 Promethean State Format (PSF): Homoiconic Cognitive Memory Representation
 
 ### \[\[What It Is]]
 
-A declarative and executable s-expression format that encapsulates: ^ref-23df6ddb-13-0
+A declarative and executable s-expression format that encapsulates:
 
-* 🧱 System architecture (e.g., \[\[Eidolon Fields]], \[\[Cephalon]], \[\[Layer N]]) ^ref-23df6ddb-15-0
+* 🧱 System architecture (e.g., \[\[Eidolon Fields]], \[\[Cephalon]], \[\[Layer N]])
 * 🧠 Agent cognition (field nodes, daimo behavior)
-* 🧾 Prompt history and dynamic LLM state ^ref-23df6ddb-17-0
-* 📦 Importable memory modules (e.g., `(import "agent/common-motives")`) ^ref-23df6ddb-18-0
+* 🧾 Prompt history and dynamic LLM state
+* 📦 Importable memory modules (e.g., `(import "agent/common-motives")`)
 * 🧰 DSL support for code analysis, linting, and interactive debugging
 
 ---
 
 ### \[\[Why It Matters]]
 
-* **Visual Debuggability**: Most LLMs have invisible reasoning chains. This gives them a *visible, inspectable mind*. ^ref-23df6ddb-25-0
-* **Persistence**: Snapshots of the system are serializable and restorable. ^ref-23df6ddb-26-0
-* **Composability**: You can build up logic incrementally with macros and partial imports. ^ref-23df6ddb-27-0
-* **Tooling Potential**: Linters, analyzers, and static checkers can reason about field state changes, cognitive loops, and permission gates. ^ref-23df6ddb-28-0
+* **Visual Debuggability**: Most LLMs have invisible reasoning chains. This gives them a *visible, inspectable mind*.
+* **Persistence**: Snapshots of the system are serializable and restorable.
+* **Composability**: You can build up logic incrementally with macros and partial imports.
+* **Tooling Potential**: Linters, analyzers, and static checkers can reason about field state changes, cognitive loops, and permission gates.
 
 ---
 
@@ -881,26 +174,25 @@ A declarative and executable s-expression format that encapsulates: ^ref-23df6dd
   (meta-log "System stable. Ready for extension.")
 )
 ```
-^ref-23df6ddb-34-0
 
 ---
 
 ### \[\[Features to Build]]
- ^ref-23df6ddb-70-0
-* `(on-layer-change ...)` — reactive macros ^ref-23df6ddb-71-0
-* `(visualize "eidolon/survival")` — hook to UI rendering ^ref-23df6ddb-72-0
-* `(export-json)` / `(import-json)` for external IO ^ref-23df6ddb-73-0
-* Lint rule: "Daimo must declare mass and at least one field vector" ^ref-23df6ddb-74-0
+
+* `(on-layer-change ...)` — reactive macros
+* `(visualize "eidolon/survival")` — hook to UI rendering
+* `(export-json)` / `(import-json)` for external IO
+* Lint rule: "Daimo must declare mass and at least one field vector"
 * Context diff tooling: show what changed between two states
 
 ---
- ^ref-23df6ddb-78-0
+
 This gives you a base to build tooling *around* the AI, not just inside of it. You’re not just making an AI—you're making an operating system for cognition. And with this format, anyone can start building tools, UIs, or even games that interact with the mental state itself.
- ^ref-23df6ddb-80-0
+
 Want me to mock up a directory structure for this kind of `.prompt.sibilant` world? Or do you want to explore the internal DSL for importing and manipulating memory regions first?
- ^ref-23df6ddb-559-0 ^ref-23df6ddb-1449-0 ^ref-23df6ddb-1610-0 ^ref-23df6ddb-1965-0 ^ref-23df6ddb-2739-0 ^ref-23df6ddb-3020-0 ^ref-23df6ddb-4048-0 ^ref-23df6ddb-4053-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
+<<<<<<< HEAD
 - [[reawakening-duck|Reawakening Duck]]
 - [[field-node-diagram-set]]
 - [[fnord-tracer-protocol|Fnord Tracer Protocol]]
@@ -1027,4 +319,33 @@ Want me to mock up a directory structure for this kind of `.prompt.sibilant` wor
 - [DuckDuckGoSearchPipeline — L99](duckduckgosearchpipeline.md#^ref-e979c50f-99-0) (line 99, col 0, score 1)
 - [[creative-moments#^ref-10d98225-53-0|Creative Moments — L53]] (line 53, col 0, score 1)
 - [[creative-moments#^ref-10d98225-33-0|Creative Moments — L33]] (line 33, col 0, score 1)
+=======
+- [[promethean-copilot-intent-engine]]
+- [[mystery-lisp-search-session]]
+- [[ts-to-lisp-transpiler]]
+- [[obsidian-templating-plugins-integration-guide|Obsidian Templating Plugins Integration Guide]]
+- [[optimizing-command-limitations-in-system-design|Optimizing Command Limitations in System Design]]
+
+## Sources
+- [[promethean-copilot-intent-engine#L41|Promethean-Copilot-Intent-Engine — L41]] (line 41, col 3, score 0.85)
+- [[promethean-copilot-intent-engine#L41|Promethean-Copilot-Intent-Engine — L41]] (line 41, col 5, score 0.85)
+- [[mystery-lisp-search-session#L120|mystery-lisp-search-session — L120]] (line 120, col 1, score 1)
+- [[mystery-lisp-search-session#L120|mystery-lisp-search-session — L120]] (line 120, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L91|Obsidian Templating Plugins Integration Guide — L91]] (line 91, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L91|Obsidian Templating Plugins Integration Guide — L91]] (line 91, col 3, score 1)
+- [[optimizing-command-limitations-in-system-design#L33|Optimizing Command Limitations in System Design — L33]] (line 33, col 1, score 1)
+- [[optimizing-command-limitations-in-system-design#L33|Optimizing Command Limitations in System Design — L33]] (line 33, col 3, score 1)
+- [[mystery-lisp-search-session#L125|mystery-lisp-search-session — L125]] (line 125, col 1, score 0.93)
+- [[mystery-lisp-search-session#L125|mystery-lisp-search-session — L125]] (line 125, col 3, score 0.93)
+- [[promethean-copilot-intent-engine#L56|Promethean-Copilot-Intent-Engine — L56]] (line 56, col 1, score 1)
+- [[promethean-copilot-intent-engine#L56|Promethean-Copilot-Intent-Engine — L56]] (line 56, col 3, score 1)
+- [[ts-to-lisp-transpiler#L12|ts-to-lisp-transpiler — L12]] (line 12, col 1, score 1)
+- [[ts-to-lisp-transpiler#L12|ts-to-lisp-transpiler — L12]] (line 12, col 3, score 1)
+- [[promethean-copilot-intent-engine#L63|Promethean-Copilot-Intent-Engine — L63]] (line 63, col 1, score 0.95)
+- [[promethean-copilot-intent-engine#L63|Promethean-Copilot-Intent-Engine — L63]] (line 63, col 3, score 0.95)
+- [[promethean-copilot-intent-engine#L62|Promethean-Copilot-Intent-Engine — L62]] (line 62, col 1, score 0.95)
+- [[promethean-copilot-intent-engine#L62|Promethean-Copilot-Intent-Engine — L62]] (line 62, col 3, score 0.95)
+- [[mystery-lisp-search-session#L126|mystery-lisp-search-session — L126]] (line 126, col 1, score 0.99)
+- [[mystery-lisp-search-session#L126|mystery-lisp-search-session — L126]] (line 126, col 3, score 0.99)
+>>>>>>> stealth/obsidian
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -1,52 +1,106 @@
-// @ts-nocheck
-import type { Db, ResumeToken } from 'mongodb';
-import { EventBus } from '@promethean/event/types.js';
+/* eslint-disable functional/no-let, functional/no-loop-statements, functional/no-try-statements, max-lines-per-function */
+import type { Db, ChangeStreamDocument } from 'mongodb';
+import type { EventBus } from '@promethean/event/types.js';
+import { retry, createLogger } from '@promethean/utils';
 
-export type ChangefeedOptions = {
+import type { ResumeTokenStore } from './resume.mongo.js';
+
+export type ChangefeedOptions<TDoc, TPayload = TDoc> = {
     collection: string;
     topic: string;
     fullDocument?: 'updateLookup' | 'whenAvailable'; // default "updateLookup"
-    resumeTokenStore?: {
-        load(): Promise<ResumeToken | null>;
-        save(tok: ResumeToken): Promise<void>;
-    };
-    filter?: (doc: any) => boolean; // drop noisy changes if needed
-    map?: (doc: any) => any; // transform doc->payload
+    resumeTokenStore?: ResumeTokenStore;
+    filter?: (doc: TDoc) => boolean; // drop noisy changes if needed
+    map?: (doc: TDoc) => TPayload; // transform doc->payload
 };
 
-export async function startMongoChangefeed(db: Db, bus: EventBus, opts: ChangefeedOptions) {
-    const coll = db.collection(opts.collection);
-    const resume = await opts.resumeTokenStore?.load();
-
-    const cs = coll.watch([], {
-        fullDocument: opts.fullDocument ?? 'updateLookup',
-        resumeAfter: resume ?? undefined,
-    });
+/**
+ * Start a MongoDB changefeed and publish mapped payloads to an EventBus.
+ * @returns cleanup function to stop the feed.
+ */
+export async function startMongoChangefeed<TDoc extends { _id?: unknown }, TPayload = TDoc>(
+    db: Db,
+    bus: EventBus,
+    opts: ChangefeedOptions<TDoc, TPayload>,
+): Promise<() => Promise<void>> {
+    const coll = db.collection<TDoc>(opts.collection);
+    const log = createLogger({ service: `changefeed:${opts.collection}` });
 
     let stopped = false;
-    (async () => {
-        for await (const change of cs) {
-            if (stopped) break;
-            const doc = change.fullDocument ?? change.documentKey;
-            if (opts.filter && !opts.filter(doc)) continue;
+    let currentStream: { close(): Promise<void> } | null = null;
 
-            const payload = opts.map ? opts.map(doc) : doc;
-            await bus.publish(opts.topic, payload, {
-                key: String(doc._id),
-                headers: {
-                    'x-mongo-op': change.operationType,
-                    'x-change-clusterTime': String(change.clusterTime),
-                },
-            });
+    let resume: unknown | null = null;
+    try {
+        resume = await opts.resumeTokenStore?.load();
+    } catch (err) {
+        log.error('resume token load failed', { err });
+        throw err;
+    }
 
-            if (opts.resumeTokenStore && change._id) await opts.resumeTokenStore.save(change._id);
+    const runner = (async () => {
+        while (!stopped) {
+            try {
+                await retry(
+                    async () => {
+                        const cs = coll.watch<TDoc>([], {
+                            fullDocument: opts.fullDocument ?? 'updateLookup',
+                            resumeAfter: resume ?? undefined,
+                            maxAwaitTimeMS: 10_000,
+                        });
+                        currentStream = cs;
+                        try {
+                            for await (const change of cs) {
+                                if (stopped) break;
+                                const c = change as ChangeStreamDocument<TDoc>;
+                                const doc =
+                                    'fullDocument' in c && (c as any).fullDocument
+                                        ? ((c as any).fullDocument as TDoc)
+                                        : (c as any).documentKey?.['_id'] !== undefined
+                                          ? ({ _id: (c as any).documentKey._id } as TDoc)
+                                          : undefined;
+                                if (!doc) continue; // no usable doc
+                                if (opts.filter && !opts.filter(doc)) continue;
+                                const payload = opts.map ? opts.map(doc) : (doc as unknown as TPayload);
+                                await bus.publish<TPayload>(opts.topic, payload, {
+                                    key: String((change as any)._id ?? doc._id ?? ''),
+                                    headers: {
+                                        'x-mongo-op': change.operationType,
+                                        'x-change-clusterTime': String(change.clusterTime),
+                                        'x-change-docId': String(doc._id ?? ''),
+                                        'x-change-resumeToken': JSON.stringify((change as any)._id ?? null),
+                                    },
+                                });
+                                if (opts.resumeTokenStore && (change as any)._id) {
+                                    await opts.resumeTokenStore.save((change as any)._id);
+                                    resume = (change as any)._id;
+                                }
+                            }
+                        } finally {
+                            await cs.close();
+                        }
+                    },
+                    {
+                        attempts: 5,
+                        backoff: (a) => Math.floor(2 ** Math.min(a, 8) * 100 * Math.random()),
+                        shouldRetry: () => !stopped,
+                        onRetry: (err, attempt) => {
+                            log.warn(`watch failed (attempt ${attempt})`, { err });
+                        },
+                    },
+                );
+            } catch (err) {
+                if (!stopped) {
+                    log.error('watch aborted', { err });
+                }
+            }
         }
-    })().catch(() => {
-        /* log, retry/backoff in real code */
+    })().catch((err) => {
+        log.error('unexpected error', { err });
     });
 
-    return () => {
+    return async () => {
         stopped = true;
-        cs.close();
+        await currentStream?.close();
+        await runner.catch(() => {});
     };
 }

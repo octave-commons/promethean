@@ -1,0 +1,52 @@
+export const PiperStepSchema = {
+  $id: "piper.step",
+  type: "object",
+  additionalProperties: false,
+  properties: {
+    id: { type: "string" },
+    name: { type: "string" },
+    deps: { type: "array", items: { type: "string" }, default: [] },
+    cwd: { type: "string", default: "." },
+    env: {
+      type: "object",
+      additionalProperties: { type: "string" },
+      default: {},
+    },
+    inputs: { type: "array", items: { type: "string" }, default: [] },
+    outputs: { type: "array", items: { type: "string" }, default: [] },
+    inputSchema: { type: "string" },
+    outputSchema: { type: "string" },
+    cache: { type: "string", enum: ["content", "mtime", "none"], default: "content" },
+    shell: { type: "string" },
+    node: { type: "string" },
+    args: { type: "array", items: { type: "string" } },
+    timeoutMs: { type: "number" },
+    retry: { type: "integer", minimum: 0, default: 0 },
+    js: {
+      type: "object",
+      properties: {
+        module: { type: "string" },
+        export: { type: "string", default: "default" },
+        args: {},
+        isolate: { type: "string", enum: ["worker"] },
+      },
+      required: ["module"],
+    },
+    ts: {
+      type: "object",
+      properties: {
+        module: { type: "string" },
+        export: { type: "string", default: "default" },
+        args: {},
+      },
+      required: ["module"],
+    },
+  },
+  anyOf: [
+    { required: ["shell"] },
+    { required: ["node"] },
+    { required: ["js"] },
+    { required: ["ts"] },
+  ],
+  required: ["id"],
+} as const;

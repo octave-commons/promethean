@@ -1,4 +1,3 @@
-// @ts-nocheck
 import test from "ava";
 import { getMongoClient } from "@promethean/persistence/clients.js";
 
@@ -24,6 +23,7 @@ test.after.always("global teardown", async () => {
       getOrCreateCollection: async () => ({
         query: async () => ({}),
         upsert: async () => {},
+        delete: async () => {},
       }),
     });
   } catch {}

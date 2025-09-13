@@ -1,11 +1,10 @@
-// @ts-nocheck
 /**
  * @deprecated Persistence now uses @shared/ts/persistence/DualStore.
  */
 import mongoose from "mongoose";
 
 let connected = false;
-let _memory = null; // { mms, uri }
+let _memory: null | { mms: any; uri: string } = null; // { mms, uri }
 
 export async function initMongo() {
   // In tests, if MONGODB_URI is not provided or explicitly set to 'memory',

@@ -1,174 +1,707 @@
 ---
-uuid: b986e4a4-fb7e-44a7-9d71-a3313f58adae
-created_at: cross-language-runtime-polymorphism.md
+uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+created_at: 2025.07.28.12.07.03.md
 filename: Cross-Language Runtime Polymorphism
-title: Cross-Language Runtime Polymorphism
 description: >-
-  A system for enabling cross-language communication through staged
-  polymorphism, where the meta runtime handles serialization, deserialization,
-  and metadata management to facilitate interoperability between different
-  language runtimes (e.g., Python, Node.js, Rust) using JSON as an initial
-  communication layer. This design supports dynamic dispatch and phased
-  transitions to typed buffers and shared memory for advanced use cases.
+  Designing a staged polymorphic runtime system that enables cross-language
+  communication through JSON message passing and metadata-driven buffer interop.
 tags:
+  - polymorphism
   - cross-language
-  - runtime-polymorphism
-  - meta-runtime
-  - json-serialization
-  - interoperability
-  - staged-polymorphism
-  - typed-buffers
-related_to_uuid:
-  - c38e7047-c6c0-4a19-a0e6-5707a12e9de1
-  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
-  - 2478e18c-f621-4b0c-a4c5-9637d213cccf
-  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
-  - af5d2824-faad-476c-a389-e912d9bc672c
-  - d41a06d1-613e-4440-80b7-4553fc694285
-  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
-  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
-  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
-  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
-  - c5c9a5c6-427d-4864-8084-c083cd55faa0
-  - 21d5cc09-b005-4ede-8f69-00b4b0794540
-  - b01856b4-999f-418d-8009-ade49b00eb0f
-  - 8430617b-80a2-4cc9-8288-9a74cb57990b
-  - ba244286-4e84-425b-8bf6-b80c4eb783fc
-  - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
-  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
-  - dd89372d-10de-42a9-8c96-6bc13ea36d02
-  - cbfe3513-6a4a-4d2e-915d-ddfab583b2de
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - c5fba0a0-9196-468d-a0f3-51c99e987263
-  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - runtime
+  - json
+  - metadata
+  - buffer
+  - interop
 related_to_title:
-  - Particle Simulation with Canvas and FFmpeg
-  - sibilant-metacompiler-overview
-  - Cross-Language Runtime Polymorphism
-  - Recursive Prompt Construction Engine
   - Sibilant Meta-Prompt DSL
-  - prompt-programming-language-lisp
+  - polymorphic-meta-programming-engine
   - template-based-compilation
-  - Event Bus MVP
-  - Promethean Full-Stack Docker Setup
-  - i3-bluetooth-setup
-  - Matplotlib Animation with Async Execution
-  - State Snapshots API and Transactional Projector
-  - sibilant-macro-targets
-  - Exception Layer Analysis
+  - polyglot-repl-interface-layer
+  - sibilant-metacompiler-overview
+  - Cross-Target Macro System in Sibilant
   - Universal Lisp Interface
-  - ripple-propagation-demo
-  - System Scheduler with Resource-Aware DAG
-  - AI-Centric OS with MCP Layer
   - sibilant-meta-string-templating-runtime
+  - Promethean-native config design
+  - sibilant-macro-targets
+  - schema-evolution-workflow
+  - prompt-programming-language-lisp
+  - Dynamic Context Model for Web Components
+  - Chroma Toolkit Consolidation Plan
+  - 'Agent Tasks: Persistence Migration to DualStore'
+  - Migrate to Provider-Tenant Architecture
+  - field-interaction-equations
+  - aionian-circuit-math
+  - js-to-lisp-reverse-compiler
+  - Board Walk – 2025-08-11
+  - Recursive Prompt Construction Engine
+  - ParticleSimulationWithCanvasAndFFmpeg
+  - compiler-kit-foundations
   - Promethean Agent Config DSL
-  - komorebi-group-window-hack
-  - Lispy Macros with syntax-rules
-  - field-dynamics-math-blocks
-  - set-assignment-in-lisp-ast
-  - Voice Access Layer Design
+  - Model Selection for Lightweight Conversational Tasks
+  - lisp-dsl-for-window-management
+  - EidolonField
+  - Local-First Intention→Code Loop with Free Models
+  - obsidian-ignore-node-modules-regex
+  - Mongo Outbox Implementation
+  - 'Polyglot S-expr Bridge: Python-JS-Lisp Interop'
+  - prom-lib-rate-limiters-and-replay-api
+  - Services
+  - Event Bus MVP
+  - heartbeat-simulation-snippets
+  - Obsidian ChatGPT Plugin Integration Guide
+  - Obsidian ChatGPT Plugin Integration
+  - Obsidian Templating Plugins Integration Guide
+related_to_uuid:
+  - af5d2824-faad-476c-a389-e912d9bc672c
+  - 7bed0b9a-8b22-4b1f-be81-054a179453cb
+  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - b01856b4-999f-418d-8009-ade49b00eb0f
+  - 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - c5c9a5c6-427d-4864-8084-c083cd55faa0
+  - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+  - d41a06d1-613e-4440-80b7-4553fc694285
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - 93d2ba51-8689-49ee-94e2-296092e48058
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
+  - f2d83a77-7f86-4c56-8538-1350167a0c6c
+  - 58191024-d04a-4520-8aae-a18be7b94263
+  - 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+  - babdb9eb-3b15-48a7-8a22-ecc53af7d397
+  - e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
+  - d144aa62-348c-4e5d-ae8f-38084c67ceca
+  - c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
+  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
+  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
+  - ffb9b2a9-744d-4a53-9565-130fceae0832
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+  - 75ea4a6a-8270-488d-9d37-799c288e5f70
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - 23e221e9-d4fa-4106-8458-06db2595085f
+  - 1d3d6c3a-039e-4b96-93c1-95854945e248
+  - ca8e1399-77bf-4f77-82a3-3f703b68706d
+  - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
 references:
-  - uuid: c38e7047-c6c0-4a19-a0e6-5707a12e9de1
-    line: 1
-    col: 0
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 131
+    col: 1
+    score: 0.88
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 188
+    col: 1
+    score: 0.88
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 90
+    col: 1
+    score: 0.87
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 146
+    col: 1
+    score: 0.87
+  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
+    line: 74
+    col: 1
+    score: 0.87
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 160
+    col: 1
+    score: 0.86
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 172
+    col: 1
     score: 1
-  - uuid: c38e7047-c6c0-4a19-a0e6-5707a12e9de1
-    line: 3
-    col: 0
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 172
+    col: 3
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 178
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 178
+    col: 3
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 251
+    col: 1
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 251
+    col: 3
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 159
+    col: 1
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 159
+    col: 3
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 172
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 172
+    col: 3
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 390
+    col: 1
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 390
+    col: 3
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 250
+    col: 1
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 250
+    col: 3
+    score: 1
+  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
+    line: 133
+    col: 1
+    score: 1
+  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
+    line: 133
+    col: 3
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 155
+    col: 1
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 155
+    col: 3
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 609
+    col: 1
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 609
+    col: 3
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 168
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 168
+    col: 3
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 155
+    col: 1
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 155
+    col: 3
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 174
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 174
+    col: 3
+    score: 1
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 198
+    col: 1
+    score: 1
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 198
+    col: 3
+    score: 1
+  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
+    line: 177
+    col: 1
+    score: 1
+  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
+    line: 177
+    col: 3
+    score: 1
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 167
+    col: 1
+    score: 1
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 167
+    col: 3
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 612
+    col: 1
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 612
+    col: 3
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 171
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 171
+    col: 3
+    score: 1
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 159
+    col: 1
+    score: 1
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 159
+    col: 3
+    score: 1
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 201
+    col: 1
+    score: 1
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 201
+    col: 3
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 393
+    col: 1
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 393
+    col: 3
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 158
+    col: 1
+    score: 1
+  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
+    line: 158
+    col: 3
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 417
+    col: 1
+    score: 1
+  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
+    line: 417
+    col: 3
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 274
+    col: 1
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 274
+    col: 3
+    score: 1
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 146
+    col: 1
+    score: 1
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 146
+    col: 3
+    score: 1
+  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
+    line: 52
+    col: 1
+    score: 1
+  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
+    line: 52
+    col: 3
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 519
+    col: 1
+    score: 1
+  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
+    line: 519
+    col: 3
+    score: 1
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 196
+    col: 1
+    score: 1
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 196
+    col: 3
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 176
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 176
+    col: 3
+    score: 1
+  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
+    line: 219
+    col: 1
+    score: 1
+  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
+    line: 219
+    col: 3
+    score: 1
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 207
+    col: 1
+    score: 1
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 207
+    col: 3
+    score: 1
+  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
+    line: 317
+    col: 1
+    score: 1
+  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
+    line: 317
+    col: 3
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 130
+    col: 1
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 130
+    col: 3
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 159
+    col: 1
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 159
+    col: 3
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 134
+    col: 1
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 134
+    col: 3
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 168
+    col: 1
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 168
+    col: 3
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 617
+    col: 1
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 617
+    col: 3
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 170
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 170
+    col: 3
+    score: 1
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 247
+    col: 1
+    score: 1
+  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
+    line: 247
+    col: 3
+    score: 1
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 160
+    col: 1
+    score: 1
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 160
+    col: 3
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 12
+    col: 1
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 12
+    col: 3
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 550
+    col: 1
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 550
+    col: 3
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 554
+    col: 1
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 554
+    col: 3
+    score: 1
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 384
+    col: 1
+    score: 1
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 384
+    col: 3
+    score: 1
+  - uuid: 23e221e9-d4fa-4106-8458-06db2595085f
+    line: 96
+    col: 1
+    score: 1
+  - uuid: 23e221e9-d4fa-4106-8458-06db2595085f
+    line: 96
+    col: 3
+    score: 1
+  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
+    line: 38
+    col: 1
+    score: 1
+  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
+    line: 38
+    col: 3
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 38
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 38
+    col: 3
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 90
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 90
+    col: 3
+    score: 1
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 411
+    col: 1
+    score: 1
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 411
+    col: 3
+    score: 1
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 181
+    col: 1
+    score: 1
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 181
+    col: 3
+    score: 1
+  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+    line: 132
+    col: 1
+    score: 0.99
+  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+    line: 132
+    col: 3
+    score: 0.99
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 182
+    col: 1
+    score: 0.99
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 182
+    col: 3
+    score: 0.99
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 193
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 193
+    col: 3
+    score: 1
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 187
+    col: 1
+    score: 1
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 187
+    col: 3
     score: 1
   - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 52
-    col: 0
-    score: 0.92
-  - uuid: 2478e18c-f621-4b0c-a4c5-9637d213cccf
-    line: 212
-    col: 0
-    score: 0.91
-  - uuid: babdb9eb-3b15-48a7-8a22-ecc53af7d397
-    line: 147
-    col: 0
-    score: 0.91
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 120
-    col: 0
-    score: 0.89
-  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
-    line: 527
-    col: 0
-    score: 0.87
-  - uuid: 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
-    line: 16
-    col: 0
-    score: 0.87
-  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
-    line: 342
-    col: 0
-    score: 0.87
+    line: 106
+    col: 1
+    score: 1
+  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
+    line: 106
+    col: 3
+    score: 1
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 166
+    col: 1
+    score: 1
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 166
+    col: 3
+    score: 1
+  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+    line: 131
+    col: 1
+    score: 1
+  - uuid: 2aafc801-c3e1-4e4f-999d-adb52af3fc41
+    line: 131
+    col: 3
+    score: 1
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 167
+    col: 1
+    score: 1
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 167
+    col: 3
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 190
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 190
+    col: 3
+    score: 1
+  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
+    line: 103
+    col: 1
+    score: 1
+  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
+    line: 103
+    col: 3
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 195
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 195
+    col: 3
+    score: 1
   - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
-    line: 44
-    col: 0
-    score: 0.87
-  - uuid: d41a06d1-613e-4440-80b7-4553fc694285
-    line: 56
-    col: 0
-    score: 0.87
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 1493
-    col: 0
-    score: 0.87
-  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
-    line: 63
-    col: 0
-    score: 0.86
-  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
-    line: 303
-    col: 0
-    score: 0.86
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 2113
-    col: 0
-    score: 0.86
+    line: 134
+    col: 1
+    score: 1
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 134
+    col: 3
+    score: 1
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 219
+    col: 1
+    score: 1
+  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+    line: 219
+    col: 3
+    score: 1
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 215
+    col: 1
+    score: 1
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 215
+    col: 3
+    score: 1
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 218
+    col: 1
+    score: 1
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 218
+    col: 3
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 192
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 192
+    col: 3
+    score: 1
   - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
-    line: 64
-    col: 0
-    score: 0.85
-  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
-    line: 128
-    col: 0
-    score: 0.85
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 2094
-    col: 0
-    score: 0.85
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 358
-    col: 0
-    score: 0.85
-  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
-    line: 137
-    col: 0
-    score: 0.85
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 64
-    col: 0
-    score: 0.85
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 1136
-    col: 0
-    score: 0.85
+    line: 186
+    col: 1
+    score: 1
+  - uuid: c5c9a5c6-427d-4864-8084-c083cd55faa0
+    line: 186
+    col: 3
+    score: 1
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 130
+    col: 1
+    score: 1
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 130
+    col: 3
+    score: 1
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 169
+    col: 1
+    score: 1
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 169
+    col: 3
+    score: 1
+  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
+    line: 105
+    col: 1
+    score: 1
+  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
+    line: 105
+    col: 3
+    score: 1
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 216
+    col: 1
+    score: 1
+  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
+    line: 216
+    col: 3
+    score: 1
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 131
+    col: 1
+    score: 1
+  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
+    line: 131
+    col: 3
+    score: 1
 ---
-**Exactly. You’re describing a staged polymorphic runtime with runtime-boundary awareness.** ^ref-c34c36a6-1-0
+**Exactly. You’re describing a staged polymorphic runtime with runtime-boundary awareness.**
 
-Let’s unpack and design this properly. ^ref-c34c36a6-3-0
+Let’s unpack and design this properly.
 
 ---
 
 ## 🧠 Core Idea: Cross-Language Communication in Promethean
 
-| Layer                    | Role                                                | ^ref-c34c36a6-9-0
+| Layer                    | Role                                                |
 | ------------------------ | --------------------------------------------------- |
 | **Meta runtime**         | Sibilant kernel running at compile-time or as shell |
 | **Language runtimes**    | Node, Python, Rust, etc. — actual execution engines |
@@ -179,19 +712,19 @@ Let’s unpack and design this properly. ^ref-c34c36a6-3-0
 
 ## 🔁 Phase 1: **JSON Message Passing**
 
-Use JSON as your **lingua franca** between: ^ref-c34c36a6-20-0
+Use JSON as your **lingua franca** between:
 
-* Meta <-> Python ^ref-c34c36a6-22-0
-* Meta <-> Node.js ^ref-c34c36a6-23-0
-* Meta <-> Rust (via stdin/stdout or FFI) ^ref-c34c36a6-24-0
-* Meta <-> Shell (via string streams) ^ref-c34c36a6-25-0
+* Meta <-> Python
+* Meta <-> Node.js
+* Meta <-> Rust (via stdin/stdout or FFI)
+* Meta <-> Shell (via string streams)
 
 ### Why JSON first?
 
 * Ubiquitous
-* Typed enough for dynamic dispatch ^ref-c34c36a6-30-0
-* Readable, inspectable ^ref-c34c36a6-31-0
-* Supports nested structures and arrays ^ref-c34c36a6-32-0
+* Typed enough for dynamic dispatch
+* Readable, inspectable
+* Supports nested structures and arrays
 
 ---
 
@@ -210,12 +743,11 @@ Use JSON as your **lingua franca** between: ^ref-c34c36a6-20-0
 
 )
 ```
-^ref-c34c36a6-38-0
 
 ---
 
 ## 💬 Example Usage
- ^ref-c34c36a6-56-0
+
 ```sibilant
 (def data (object :msg "hello" :lang "js"))
 
@@ -223,43 +755,41 @@ Use JSON as your **lingua franca** between: ^ref-c34c36a6-20-0
 
 ;; Output in JS runtime:
 ;; console.log(JSON.stringify({ msg: "hello", lang: "js" }))
-^ref-c34c36a6-56-0
 ```
 
 ---
 
-## 🧠 Phase 2: Metadata for Block Interop ^ref-c34c36a6-69-0
+## 🧠 Phase 2: Metadata for Block Interop
 
-You’ll want your meta runtime to: ^ref-c34c36a6-71-0
- ^ref-c34c36a6-72-0
+You’ll want your meta runtime to:
+
 1. Detect when a block will be executed **in another runtime**
-2. Know how to: ^ref-c34c36a6-74-0
+2. Know how to:
 
-   * Format arguments correctly ^ref-c34c36a6-76-0
+   * Format arguments correctly
    * Marshal/unmarshal data
    * Wrap results in consistent meta-wrappers
 
 ---
 
-### 🔍 Detecting Cross-Runtime Blocks ^ref-c34c36a6-82-0
+### 🔍 Detecting Cross-Runtime Blocks
 
 ```sibilant
 (macro py:fn (name args ...body)
   `(:target "py"
      :name ,name
      :args ,args
-^ref-c34c36a6-82-0
-     :body ,body)) ^ref-c34c36a6-90-0
+     :body ,body))
 ```
- ^ref-c34c36a6-92-0
-Compiler can detect: ^ref-c34c36a6-93-0
- ^ref-c34c36a6-94-0
+
+Compiler can detect:
+
 * That `:target = py`
 * Body needs to be rendered in Python
 * Output/result needs to be routed back via eval hooks
 
 ---
- ^ref-c34c36a6-100-0
+
 ### 🧠 Meta object wrapper
 
 ```sibilant
@@ -267,190 +797,289 @@ Compiler can detect: ^ref-c34c36a6-93-0
   (fn (source data)
     (object
       :_type "MetaObject"
-^ref-c34c36a6-100-0
-      :source source ^ref-c34c36a6-109-0
+      :source source
       :data data)))
 ```
-^ref-c34c36a6-111-0
 
 So when a Python function returns JSON, the meta runtime wraps it:
-^ref-c34c36a6-111-0
 
 ```sibilant
 (receive-json "py" (MetaObject "py" parsed-data))
 ```
- ^ref-c34c36a6-119-0
+
 ---
- ^ref-c34c36a6-121-0 ^ref-c34c36a6-122-0
+
 ## 🔀 Phase 3: **Typed Buffers & Shared Memory**
- ^ref-c34c36a6-123-0
-Once basic JSON piping is solid, we move to: ^ref-c34c36a6-125-0
+
+Once basic JSON piping is solid, we move to:
 
 * **Buffers**: shared memory, `ArrayBuffer`, `TypedArray`, `numpy`, `Rust slices`, etc.
 
-^ref-c34c36a6-125-0 ^ref-c34c36a6-129-0
-* **Metadata registration**: ^ref-c34c36a6-129-0
- ^ref-c34c36a6-131-0
-  ```sibilant ^ref-c34c36a6-131-0
-  (register-buffer-type "ImageRGB" :layout [height width channels]) ^ref-c34c36a6-132-0
-^ref-c34c36a6-133-0
-^ref-c34c36a6-132-0
-^ref-c34c36a6-131-0
-  ``` ^ref-c34c36a6-133-0
-^ref-c34c36a6-134-0
-^ref-c34c36a6-132-0
- ^ref-c34c36a6-139-0
-* **Shared reference model**: ^ref-c34c36a6-139-0
- ^ref-c34c36a6-141-0
-  * Use memory-mapped files ^ref-c34c36a6-141-0
+* **Metadata registration**:
+
+  ```sibilant
+  (register-buffer-type "ImageRGB" :layout [height width channels])
+  ```
+
+* **Shared reference model**:
+
+  * Use memory-mapped files
   * Or long-lived IPC pipes
-  * Or gRPC/WebSockets for bidirectional flow ^ref-c34c36a6-139-0
+  * Or gRPC/WebSockets for bidirectional flow
 
 ---
 
 ## 📦 Metadata for Buffers
 
 Each buffer object includes:
- ^ref-c34c36a6-151-0
+
 ```json
 {
   "_type": "Buffer",
-^ref-c34c36a6-141-0
-  "buffer_id": "abc123", ^ref-c34c36a6-151-0
+  "buffer_id": "abc123",
   "format": "float32",
-^ref-c34c36a6-155-0 ^ref-c34c36a6-157-0
-^ref-c34c36a6-154-0
-^ref-c34c36a6-153-0 ^ref-c34c36a6-159-0
-^ref-c34c36a6-151-0
-  "shape": [256, 256, 3], ^ref-c34c36a6-153-0
-  "language": "py" ^ref-c34c36a6-154-0
-} ^ref-c34c36a6-155-0
-^ref-c34c36a6-159-0
-^ref-c34c36a6-157-0
-^ref-c34c36a6-155-0
-^ref-c34c36a6-154-0
-^ref-c34c36a6-153-0 ^ref-c34c36a6-169-0
-^ref-c34c36a6-151-0
+  "shape": [256, 256, 3],
+  "language": "py"
+}
 ```
-^ref-c34c36a6-159-0
-^ref-c34c36a6-157-0
-^ref-c34c36a6-155-0
-^ref-c34c36a6-154-0
-^ref-c34c36a6-153-0
- ^ref-c34c36a6-157-0 ^ref-c34c36a6-177-0
+
 And the meta context knows:
 
 * Which runtime owns that buffer
 * What shape/type is expected
 * What function to call to extract data
- ^ref-c34c36a6-183-0
-^ref-c34c36a6-169-0
-^ref-c34c36a6-159-0
-^ref-c34c36a6-177-0
+
 You could call:
- ^ref-c34c36a6-183-0
-^ref-c34c36a6-186-0
-^ref-c34c36a6-185-0
-```sibilant ^ref-c34c36a6-184-0
-(def image (fetch-image "img.png")) ^ref-c34c36a6-177-0 ^ref-c34c36a6-185-0
-(buffer.shape image) ;; [256 256 3] ^ref-c34c36a6-186-0 ^ref-c34c36a6-193-0
+
+```sibilant
+(def image (fetch-image "img.png"))
+(buffer.shape image) ;; [256 256 3]
 (buffer.view image "grayscale") ;; sends a msg to owning runtime
 ```
 
---- ^ref-c34c36a6-197-0
+---
 
 ## 📡 Runtime Dispatch Map
-^ref-c34c36a6-184-0 ^ref-c34c36a6-185-0
-^ref-c34c36a6-183-0 ^ref-c34c36a6-186-0
-^ref-c34c36a6-169-0
-^ref-c34c36a6-193-0
- ^ref-c34c36a6-177-0 ^ref-c34c36a6-197-0
-^ref-c34c36a6-203-0 ^ref-c34c36a6-205-0
-^ref-c34c36a6-202-0 ^ref-c34c36a6-206-0
-^ref-c34c36a6-201-0 ^ref-c34c36a6-207-0
-^ref-c34c36a6-200-0 ^ref-c34c36a6-208-0
-^ref-c34c36a6-199-0 ^ref-c34c36a6-209-0
-^ref-c34c36a6-198-0 ^ref-c34c36a6-210-0 ^ref-c34c36a6-211-0
+
 ```sibilant
-(def runtime-dispatch ^ref-c34c36a6-199-0 ^ref-c34c36a6-212-0
-  (object ^ref-c34c36a6-200-0
-    :js {:eval js.eval, :marshal js.serialize} ^ref-c34c36a6-201-0 ^ref-c34c36a6-214-0
-    :py {:eval py.eval, :marshal py.serialize} ^ref-c34c36a6-193-0 ^ref-c34c36a6-202-0 ^ref-c34c36a6-215-0
-    :sh {:eval sh.eval, :marshal sh.serialize})) ^ref-c34c36a6-183-0 ^ref-c34c36a6-203-0
-^ref-c34c36a6-211-0
-``` ^ref-c34c36a6-184-0 ^ref-c34c36a6-217-0
-^ref-2478e18c-212-0
-^ref-c34c36a6-212-0
- ^ref-c34c36a6-185-0 ^ref-c34c36a6-205-0
-Your meta runtime becomes a **router** between brains. ^ref-c34c36a6-186-0 ^ref-c34c36a6-197-0 ^ref-c34c36a6-206-0 ^ref-c34c36a6-219-0
- ^ref-c34c36a6-207-0 ^ref-c34c36a6-220-0
---- ^ref-c34c36a6-199-0 ^ref-c34c36a6-208-0 ^ref-c34c36a6-221-0
- ^ref-c34c36a6-200-0 ^ref-c34c36a6-209-0 ^ref-c34c36a6-222-0
-## 🔧 What To Build Next? ^ref-c34c36a6-201-0 ^ref-c34c36a6-210-0 ^ref-c34c36a6-223-0
- ^ref-c34c36a6-202-0 ^ref-c34c36a6-224-0
-* `MetaObject` wrapper w/ source metadata ^ref-c34c36a6-203-0 ^ref-c34c36a6-212-0 ^ref-c34c36a6-225-0
-* `(send-json)` + `(receive-json)` dispatcher macro ^ref-c34c36a6-193-0 ^ref-c34c36a6-226-0
-* `(eval-in ...)` rewrite to auto-wrap MetaObject results ^ref-c34c36a6-205-0 ^ref-c34c36a6-214-0 ^ref-c34c36a6-227-0
-* `register-buffer-type` registry ^ref-c34c36a6-206-0 ^ref-c34c36a6-215-0 ^ref-c34c36a6-228-0
-* Hook for `(buffer.view)` to reroute extract calls to the owning runtime ^ref-c34c36a6-207-0 ^ref-c34c36a6-229-0
- ^ref-c34c36a6-197-0 ^ref-c34c36a6-208-0 ^ref-c34c36a6-217-0 ^ref-c34c36a6-230-0
---- ^ref-c34c36a6-209-0 ^ref-c34c36a6-231-0
- ^ref-c34c36a6-199-0 ^ref-c34c36a6-210-0 ^ref-c34c36a6-219-0
-## 🏷️ Tags ^ref-c34c36a6-200-0 ^ref-c34c36a6-220-0 ^ref-c34c36a6-233-0
- ^ref-c34c36a6-201-0 ^ref-c34c36a6-212-0 ^ref-c34c36a6-221-0 ^ref-c34c36a6-234-0
-\#sibilant #dsl #crosslanguage #json #buffers #ffi #metaprogramming #promethean #runtimeinterop #macrointerop ^ref-c34c36a6-202-0 ^ref-c34c36a6-222-0 ^ref-c34c36a6-235-0
- ^ref-c34c36a6-203-0 ^ref-c34c36a6-214-0 ^ref-c34c36a6-223-0 ^ref-c34c36a6-236-0
---- ^ref-c34c36a6-215-0 ^ref-c34c36a6-224-0 ^ref-c34c36a6-237-0
- ^ref-c34c36a6-205-0 ^ref-c34c36a6-225-0 ^ref-c34c36a6-238-0
+(def runtime-dispatch
+  (object
+    :js {:eval js.eval, :marshal js.serialize}
+    :py {:eval py.eval, :marshal py.serialize}
+    :sh {:eval sh.eval, :marshal sh.serialize}))
+```
+
+Your meta runtime becomes a **router** between brains.
+
+---
+
+## 🔧 What To Build Next?
+
+* `MetaObject` wrapper w/ source metadata
+* `(send-json)` + `(receive-json)` dispatcher macro
+* `(eval-in ...)` rewrite to auto-wrap MetaObject results
+* `register-buffer-type` registry
+* Hook for `(buffer.view)` to reroute extract calls to the owning runtime
+
+---
+
+## 🏷️ Tags
+
+\#sibilant #dsl #crosslanguage #json #buffers #ffi #metaprogramming #promethean #runtimeinterop #macrointerop
+
+---
+
 You want to sketch the `MetaObject` and `register-buffer-type` interfaces next? Or write the macro wrapper that detects if a block is cross-runtime and rewrites it to a `send-json` call?
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Particle Simulation with Canvas and FFmpeg](particlesimulationwithcanvasandffmpeg.md)
-- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
-- [Cross-Language Runtime Polymorphism](cross-language-runtime-polymorphism.md)
-- [Recursive Prompt Construction Engine](recursive-prompt-construction-engine.md)
-- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
+- [[sibilant-meta-prompt-dsl|Sibilant Meta-Prompt DSL]]
+- [[polymorphic-meta-programming-engine]]
+- [[docs/unique/template-based-compilation|template-based-compilation]]
+- [[polyglot-repl-interface-layer]]
+- [[sibilant-metacompiler-overview]]
+- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
+- [[docs/unique/universal-lisp-interface|Universal Lisp Interface]]
+- [[sibilant-meta-string-templating-runtime]]
+- [[promethean-native-config-design|Promethean-native config design]]
+- [[sibilant-macro-targets]]
+- [[schema-evolution-workflow]]
 - [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
-- [template-based-compilation](template-based-compilation.md)
-- [Event Bus MVP](event-bus-mvp.md)
-- [Promethean Full-Stack Docker Setup](promethean-full-stack-docker-setup.md)
-- [i3-bluetooth-setup](i3-bluetooth-setup.md)
-- [Matplotlib Animation with Async Execution](matplotlib-animation-with-async-execution.md)
-- [State Snapshots API and Transactional Projector](state-snapshots-api-and-transactional-projector.md)
-- [sibilant-macro-targets](sibilant-macro-targets.md)
-- [Exception Layer Analysis](exception-layer-analysis.md)
-- [Universal Lisp Interface](universal-lisp-interface.md)
-- [ripple-propagation-demo](ripple-propagation-demo.md)
-- [System Scheduler with Resource-Aware DAG](system-scheduler-with-resource-aware-dag.md)
-- [AI-Centric OS with MCP Layer](ai-centric-os-with-mcp-layer.md)
-- [sibilant-meta-string-templating-runtime](sibilant-meta-string-templating-runtime.md)
-- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
-- [komorebi-group-window-hack](komorebi-group-window-hack.md)
-- [Lispy Macros with syntax-rules](lispy-macros-with-syntax-rules.md)
-- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
-- [set-assignment-in-lisp-ast](set-assignment-in-lisp-ast.md)
-- [Voice Access Layer Design](voice-access-layer-design.md)
+- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
+- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
+- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
+- [[docs/unique/field-interaction-equations|field-interaction-equations]]
+- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
+- [[js-to-lisp-reverse-compiler]]
+- [[board-walk-2025-08-11|Board Walk – 2025-08-11]]
+- [[recursive-prompt-construction-engine|Recursive Prompt Construction Engine]]
+- [ParticleSimulationWithCanvasAndFFmpeg](particlesimulationwithcanvasandffmpeg.md)
+- [[docs/unique/compiler-kit-foundations|compiler-kit-foundations]]
+- [[promethean-agent-config-dsl|Promethean Agent Config DSL]]
+- [[model-selection-for-lightweight-conversational-tasks|Model Selection for Lightweight Conversational Tasks]]
+- [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
+- [[eidolonfield]]
+- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
+- [[docs/unique/obsidian-ignore-node-modules-regex|obsidian-ignore-node-modules-regex]]
+- [[mongo-outbox-implementation|Mongo Outbox Implementation]]
+- [[polyglot-s-expr-bridge-python-js-lisp-interop|Polyglot S-expr Bridge: Python-JS-Lisp Interop]]
+- [[prom-lib-rate-limiters-and-replay-api]]
+- [Services](chunks/services.md)
+- [[docs/unique/event-bus-mvp|Event Bus MVP]]
+- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
+- [[obsidian-chatgpt-plugin-integration-guide|Obsidian ChatGPT Plugin Integration Guide]]
+- [[obsidian-chatgpt-plugin-integration|Obsidian ChatGPT Plugin Integration]]
+- [[obsidian-templating-plugins-integration-guide|Obsidian Templating Plugins Integration Guide]]
+
 ## Sources
-- [Particle Simulation with Canvas and FFmpeg — L1](particlesimulationwithcanvasandffmpeg.md#^ref-c38e7047-1-0) (line 1, col 0, score 1)
-- [Particle Simulation with Canvas and FFmpeg — L3](particlesimulationwithcanvasandffmpeg.md#^ref-c38e7047-3-0) (line 3, col 0, score 1)
-- [sibilant-metacompiler-overview — L52](sibilant-metacompiler-overview.md#^ref-61d4086b-52-0) (line 52, col 0, score 0.92)
-- [Cross-Language Runtime Polymorphism — L212](cross-language-runtime-polymorphism.md#^ref-2478e18c-212-0) (line 212, col 0, score 0.91)
-- [Recursive Prompt Construction Engine — L147](recursive-prompt-construction-engine.md#^ref-babdb9eb-147-0) (line 147, col 0, score 0.91)
-- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.89)
-- [Event Bus MVP — L527](event-bus-mvp.md#^ref-534fe91d-527-0) (line 527, col 0, score 0.87)
-- [Matplotlib Animation with Async Execution — L16](matplotlib-animation-with-async-execution.md#^ref-687439f9-16-0) (line 16, col 0, score 0.87)
-- [Promethean Full-Stack Docker Setup — L342](promethean-full-stack-docker-setup.md#^ref-2c2b48ca-342-0) (line 342, col 0, score 0.87)
-- [template-based-compilation — L44](template-based-compilation.md#^ref-f8877e5e-44-0) (line 44, col 0, score 0.87)
-- [prompt-programming-language-lisp — L56](prompt-programming-language-lisp.md#^ref-d41a06d1-56-0) (line 56, col 0, score 0.87)
-- [i3-bluetooth-setup — L1493](i3-bluetooth-setup.md#^ref-5e408692-1493-0) (line 1493, col 0, score 0.87)
-- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.86)
-- [State Snapshots API and Transactional Projector — L303](state-snapshots-api-and-transactional-projector.md#^ref-509e1cd5-303-0) (line 303, col 0, score 0.86)
-- [i3-bluetooth-setup — L2113](i3-bluetooth-setup.md#^ref-5e408692-2113-0) (line 2113, col 0, score 0.86)
-- [sibilant-macro-targets — L64](sibilant-macro-targets.md#^ref-c5c9a5c6-64-0) (line 64, col 0, score 0.85)
-- [AI-Centric OS with MCP Layer — L128](ai-centric-os-with-mcp-layer.md#^ref-0f1f8cc1-128-0) (line 128, col 0, score 0.85)
-- [i3-bluetooth-setup — L2094](i3-bluetooth-setup.md#^ref-5e408692-2094-0) (line 2094, col 0, score 0.85)
-- [System Scheduler with Resource-Aware DAG — L358](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-358-0) (line 358, col 0, score 0.85)
-- [Universal Lisp Interface — L137](universal-lisp-interface.md#^ref-b01856b4-137-0) (line 137, col 0, score 0.85)
-- [ripple-propagation-demo — L64](ripple-propagation-demo.md#^ref-8430617b-64-0) (line 64, col 0, score 0.85)
-- [i3-bluetooth-setup — L1136](i3-bluetooth-setup.md#^ref-5e408692-1136-0) (line 1136, col 0, score 0.85)
+- [[sibilant-meta-prompt-dsl#L131|Sibilant Meta-Prompt DSL — L131]] (line 131, col 1, score 0.88)
+- [[polymorphic-meta-programming-engine#L188|polymorphic-meta-programming-engine — L188]] (line 188, col 1, score 0.88)
+- [[docs/unique/template-based-compilation#L90|template-based-compilation — L90]] (line 90, col 1, score 0.87)
+- [[polyglot-repl-interface-layer#L146|polyglot-repl-interface-layer — L146]] (line 146, col 1, score 0.87)
+- [[sibilant-metacompiler-overview#L74|sibilant-metacompiler-overview — L74]] (line 74, col 1, score 0.87)
+- [[cross-target-macro-system-in-sibilant#L160|Cross-Target Macro System in Sibilant — L160]] (line 160, col 1, score 0.86)
+- [[chroma-toolkit-consolidation-plan#L172|Chroma Toolkit Consolidation Plan — L172]] (line 172, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L172|Chroma Toolkit Consolidation Plan — L172]] (line 172, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L178|Cross-Target Macro System in Sibilant — L178]] (line 178, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L178|Cross-Target Macro System in Sibilant — L178]] (line 178, col 3, score 1)
+- [[eidolonfield#L251|EidolonField — L251]] (line 251, col 1, score 1)
+- [[eidolonfield#L251|EidolonField — L251]] (line 251, col 3, score 1)
+- [[docs/unique/field-interaction-equations#L159|field-interaction-equations — L159]] (line 159, col 1, score 1)
+- [[docs/unique/field-interaction-equations#L159|field-interaction-equations — L159]] (line 159, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L172|Cross-Target Macro System in Sibilant — L172]] (line 172, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L172|Cross-Target Macro System in Sibilant — L172]] (line 172, col 3, score 1)
+- [[dynamic-context-model-for-web-components#L390|Dynamic Context Model for Web Components — L390]] (line 390, col 1, score 1)
+- [[dynamic-context-model-for-web-components#L390|Dynamic Context Model for Web Components — L390]] (line 390, col 3, score 1)
+- [[eidolonfield#L250|EidolonField — L250]] (line 250, col 1, score 1)
+- [[eidolonfield#L250|EidolonField — L250]] (line 250, col 3, score 1)
+- [[model-selection-for-lightweight-conversational-tasks#L133|Model Selection for Lightweight Conversational Tasks — L133]] (line 133, col 1, score 1)
+- [[model-selection-for-lightweight-conversational-tasks#L133|Model Selection for Lightweight Conversational Tasks — L133]] (line 133, col 3, score 1)
+- [[docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155]] (line 155, col 1, score 1)
+- [[docs/unique/aionian-circuit-math#L155|aionian-circuit-math — L155]] (line 155, col 3, score 1)
+- [[docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609]] (line 609, col 1, score 1)
+- [[docs/unique/compiler-kit-foundations#L609|compiler-kit-foundations — L609]] (line 609, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168]] (line 168, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L168|Cross-Target Macro System in Sibilant — L168]] (line 168, col 3, score 1)
+- [[docs/unique/field-interaction-equations#L155|field-interaction-equations — L155]] (line 155, col 1, score 1)
+- [[docs/unique/field-interaction-equations#L155|field-interaction-equations — L155]] (line 155, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L174|Cross-Target Macro System in Sibilant — L174]] (line 174, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L174|Cross-Target Macro System in Sibilant — L174]] (line 174, col 3, score 1)
+- [[polymorphic-meta-programming-engine#L198|polymorphic-meta-programming-engine — L198]] (line 198, col 1, score 1)
+- [[polymorphic-meta-programming-engine#L198|polymorphic-meta-programming-engine — L198]] (line 198, col 3, score 1)
+- [[recursive-prompt-construction-engine#L177|Recursive Prompt Construction Engine — L177]] (line 177, col 1, score 1)
+- [[recursive-prompt-construction-engine#L177|Recursive Prompt Construction Engine — L177]] (line 177, col 3, score 1)
+- [[sibilant-macro-targets#L167|sibilant-macro-targets — L167]] (line 167, col 1, score 1)
+- [[sibilant-macro-targets#L167|sibilant-macro-targets — L167]] (line 167, col 3, score 1)
+- [[docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612]] (line 612, col 1, score 1)
+- [[docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612]] (line 612, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171]] (line 171, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171]] (line 171, col 3, score 1)
+- [[polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159]] (line 159, col 1, score 1)
+- [[polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159]] (line 159, col 3, score 1)
+- [[polymorphic-meta-programming-engine#L201|polymorphic-meta-programming-engine — L201]] (line 201, col 1, score 1)
+- [[polymorphic-meta-programming-engine#L201|polymorphic-meta-programming-engine — L201]] (line 201, col 3, score 1)
+- [[dynamic-context-model-for-web-components#L393|Dynamic Context Model for Web Components — L393]] (line 393, col 1, score 1)
+- [[dynamic-context-model-for-web-components#L393|Dynamic Context Model for Web Components — L393]] (line 393, col 3, score 1)
+- [[docs/unique/field-interaction-equations#L158|field-interaction-equations — L158]] (line 158, col 1, score 1)
+- [[docs/unique/field-interaction-equations#L158|field-interaction-equations — L158]] (line 158, col 3, score 1)
+- [[js-to-lisp-reverse-compiler#L417|js-to-lisp-reverse-compiler — L417]] (line 417, col 1, score 1)
+- [[js-to-lisp-reverse-compiler#L417|js-to-lisp-reverse-compiler — L417]] (line 417, col 3, score 1)
+- [[migrate-to-provider-tenant-architecture#L274|Migrate to Provider-Tenant Architecture — L274]] (line 274, col 1, score 1)
+- [[migrate-to-provider-tenant-architecture#L274|Migrate to Provider-Tenant Architecture — L274]] (line 274, col 3, score 1)
+- [Local-First Intention→Code Loop with Free Models — L146](local-first-intention-code-loop-with-free-models.md#L146) (line 146, col 1, score 1)
+- [Local-First Intention→Code Loop with Free Models — L146](local-first-intention-code-loop-with-free-models.md#L146) (line 146, col 3, score 1)
+- [[docs/unique/obsidian-ignore-node-modules-regex#L52|obsidian-ignore-node-modules-regex — L52]] (line 52, col 1, score 1)
+- [[docs/unique/obsidian-ignore-node-modules-regex#L52|obsidian-ignore-node-modules-regex — L52]] (line 52, col 3, score 1)
+- [[polyglot-s-expr-bridge-python-js-lisp-interop#L519|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L519]] (line 519, col 1, score 1)
+- [[polyglot-s-expr-bridge-python-js-lisp-interop#L519|Polyglot S-expr Bridge: Python-JS-Lisp Interop — L519]] (line 519, col 3, score 1)
+- [[polymorphic-meta-programming-engine#L196|polymorphic-meta-programming-engine — L196]] (line 196, col 1, score 1)
+- [[polymorphic-meta-programming-engine#L196|polymorphic-meta-programming-engine — L196]] (line 196, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L176|Cross-Target Macro System in Sibilant — L176]] (line 176, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L176|Cross-Target Macro System in Sibilant — L176]] (line 176, col 3, score 1)
+- [lisp-dsl-for-window-management — L219](lisp-dsl-for-window-management.md#L219) (line 219, col 1, score 1)
+- [lisp-dsl-for-window-management — L219](lisp-dsl-for-window-management.md#L219) (line 219, col 3, score 1)
+- [[polymorphic-meta-programming-engine#L207|polymorphic-meta-programming-engine — L207]] (line 207, col 1, score 1)
+- [[polymorphic-meta-programming-engine#L207|polymorphic-meta-programming-engine — L207]] (line 207, col 3, score 1)
+- [[promethean-agent-config-dsl#L317|Promethean Agent Config DSL — L317]] (line 317, col 1, score 1)
+- [[promethean-agent-config-dsl#L317|Promethean Agent Config DSL — L317]] (line 317, col 3, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130]] (line 130, col 1, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130]] (line 130, col 3, score 1)
+- [[docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159]] (line 159, col 1, score 1)
+- [[docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159]] (line 159, col 3, score 1)
+- [[board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134]] (line 134, col 1, score 1)
+- [[board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134]] (line 134, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168]] (line 168, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168]] (line 168, col 3, score 1)
+- [[docs/unique/compiler-kit-foundations#L617|compiler-kit-foundations — L617]] (line 617, col 1, score 1)
+- [[docs/unique/compiler-kit-foundations#L617|compiler-kit-foundations — L617]] (line 617, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L170|Cross-Target Macro System in Sibilant — L170]] (line 170, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L170|Cross-Target Macro System in Sibilant — L170]] (line 170, col 3, score 1)
+- [ParticleSimulationWithCanvasAndFFmpeg — L247](particlesimulationwithcanvasandffmpeg.md#L247) (line 247, col 1, score 1)
+- [ParticleSimulationWithCanvasAndFFmpeg — L247](particlesimulationwithcanvasandffmpeg.md#L247) (line 247, col 3, score 1)
+- [[polyglot-repl-interface-layer#L160|polyglot-repl-interface-layer — L160]] (line 160, col 1, score 1)
+- [[polyglot-repl-interface-layer#L160|polyglot-repl-interface-layer — L160]] (line 160, col 3, score 1)
+- [Services — L12](chunks/services.md#L12) (line 12, col 1, score 1)
+- [Services — L12](chunks/services.md#L12) (line 12, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]] (line 550, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]] (line 550, col 3, score 1)
+- [[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]] (line 554, col 1, score 1)
+- [[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]] (line 554, col 3, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L384|prom-lib-rate-limiters-and-replay-api — L384]] (line 384, col 1, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L384|prom-lib-rate-limiters-and-replay-api — L384]] (line 384, col 3, score 1)
+- [heartbeat-simulation-snippets — L96](heartbeat-simulation-snippets.md#L96) (line 96, col 1, score 1)
+- [heartbeat-simulation-snippets — L96](heartbeat-simulation-snippets.md#L96) (line 96, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration-guide#L38|Obsidian ChatGPT Plugin Integration Guide — L38]] (line 38, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration-guide#L38|Obsidian ChatGPT Plugin Integration Guide — L38]] (line 38, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration#L38|Obsidian ChatGPT Plugin Integration — L38]] (line 38, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L38|Obsidian ChatGPT Plugin Integration — L38]] (line 38, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L90|Obsidian Templating Plugins Integration Guide — L90]] (line 90, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L90|Obsidian Templating Plugins Integration Guide — L90]] (line 90, col 3, score 1)
+- [[promethean-native-config-design#L411|Promethean-native config design — L411]] (line 411, col 1, score 1)
+- [[promethean-native-config-design#L411|Promethean-native config design — L411]] (line 411, col 3, score 1)
+- [[sibilant-macro-targets#L181|sibilant-macro-targets — L181]] (line 181, col 1, score 1)
+- [[sibilant-macro-targets#L181|sibilant-macro-targets — L181]] (line 181, col 3, score 1)
+- [[sibilant-meta-string-templating-runtime#L132|sibilant-meta-string-templating-runtime — L132]] (line 132, col 1, score 0.99)
+- [[sibilant-meta-string-templating-runtime#L132|sibilant-meta-string-templating-runtime — L132]] (line 132, col 3, score 0.99)
+- [[chroma-toolkit-consolidation-plan#L182|Chroma Toolkit Consolidation Plan — L182]] (line 182, col 1, score 0.99)
+- [[chroma-toolkit-consolidation-plan#L182|Chroma Toolkit Consolidation Plan — L182]] (line 182, col 3, score 0.99)
+- [[cross-target-macro-system-in-sibilant#L193|Cross-Target Macro System in Sibilant — L193]] (line 193, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L193|Cross-Target Macro System in Sibilant — L193]] (line 193, col 3, score 1)
+- [[sibilant-macro-targets#L187|sibilant-macro-targets — L187]] (line 187, col 1, score 1)
+- [[sibilant-macro-targets#L187|sibilant-macro-targets — L187]] (line 187, col 3, score 1)
+- [[sibilant-metacompiler-overview#L106|sibilant-metacompiler-overview — L106]] (line 106, col 1, score 1)
+- [[sibilant-metacompiler-overview#L106|sibilant-metacompiler-overview — L106]] (line 106, col 3, score 1)
+- [[polyglot-repl-interface-layer#L166|polyglot-repl-interface-layer — L166]] (line 166, col 1, score 1)
+- [[polyglot-repl-interface-layer#L166|polyglot-repl-interface-layer — L166]] (line 166, col 3, score 1)
+- [[sibilant-meta-string-templating-runtime#L131|sibilant-meta-string-templating-runtime — L131]] (line 131, col 1, score 1)
+- [[sibilant-meta-string-templating-runtime#L131|sibilant-meta-string-templating-runtime — L131]] (line 131, col 3, score 1)
+- [[polyglot-repl-interface-layer#L167|polyglot-repl-interface-layer — L167]] (line 167, col 1, score 1)
+- [[polyglot-repl-interface-layer#L167|polyglot-repl-interface-layer — L167]] (line 167, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L190|Cross-Target Macro System in Sibilant — L190]] (line 190, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L190|Cross-Target Macro System in Sibilant — L190]] (line 190, col 3, score 1)
+- [[sibilant-metacompiler-overview#L103|sibilant-metacompiler-overview — L103]] (line 103, col 1, score 1)
+- [[sibilant-metacompiler-overview#L103|sibilant-metacompiler-overview — L103]] (line 103, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L195|Cross-Target Macro System in Sibilant — L195]] (line 195, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L195|Cross-Target Macro System in Sibilant — L195]] (line 195, col 3, score 1)
+- [[docs/unique/template-based-compilation#L134|template-based-compilation — L134]] (line 134, col 1, score 1)
+- [[docs/unique/template-based-compilation#L134|template-based-compilation — L134]] (line 134, col 3, score 1)
+- [[sibilant-meta-prompt-dsl#L219|Sibilant Meta-Prompt DSL — L219]] (line 219, col 1, score 1)
+- [[sibilant-meta-prompt-dsl#L219|Sibilant Meta-Prompt DSL — L219]] (line 219, col 3, score 1)
+- [[polymorphic-meta-programming-engine#L215|polymorphic-meta-programming-engine — L215]] (line 215, col 1, score 1)
+- [[polymorphic-meta-programming-engine#L215|polymorphic-meta-programming-engine — L215]] (line 215, col 3, score 1)
+- [[polymorphic-meta-programming-engine#L218|polymorphic-meta-programming-engine — L218]] (line 218, col 1, score 1)
+- [[polymorphic-meta-programming-engine#L218|polymorphic-meta-programming-engine — L218]] (line 218, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L192|Cross-Target Macro System in Sibilant — L192]] (line 192, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L192|Cross-Target Macro System in Sibilant — L192]] (line 192, col 3, score 1)
+- [[sibilant-macro-targets#L186|sibilant-macro-targets — L186]] (line 186, col 1, score 1)
+- [[sibilant-macro-targets#L186|sibilant-macro-targets — L186]] (line 186, col 3, score 1)
+- [[docs/unique/template-based-compilation#L130|template-based-compilation — L130]] (line 130, col 1, score 1)
+- [[docs/unique/template-based-compilation#L130|template-based-compilation — L130]] (line 130, col 3, score 1)
+- [[polyglot-repl-interface-layer#L169|polyglot-repl-interface-layer — L169]] (line 169, col 1, score 1)
+- [[polyglot-repl-interface-layer#L169|polyglot-repl-interface-layer — L169]] (line 169, col 3, score 1)
+- [[sibilant-metacompiler-overview#L105|sibilant-metacompiler-overview — L105]] (line 105, col 1, score 1)
+- [[sibilant-metacompiler-overview#L105|sibilant-metacompiler-overview — L105]] (line 105, col 3, score 1)
+- [[polymorphic-meta-programming-engine#L216|polymorphic-meta-programming-engine — L216]] (line 216, col 1, score 1)
+- [[polymorphic-meta-programming-engine#L216|polymorphic-meta-programming-engine — L216]] (line 216, col 3, score 1)
+- [[docs/unique/template-based-compilation#L131|template-based-compilation — L131]] (line 131, col 1, score 1)
+- [[docs/unique/template-based-compilation#L131|template-based-compilation — L131]] (line 131, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

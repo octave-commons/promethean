@@ -45,7 +45,7 @@ test("getFiles builds correct query and no-store cache", async (t) => {
 test.serial("readFileText returns raw text and surfaces errors", async (t) => {
   const dir = "/d";
   const file = "/d/a.md";
-  let urls: string[] = [];
+  const urls: string[] = [];
   (globalThis as any).fetch = async (url: string) => {
     const s = String(url);
     urls.push(s);

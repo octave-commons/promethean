@@ -1,8 +1,8 @@
-// @ts-nocheck
 import path from "node:path";
 import fs from "node:fs/promises";
 
 import test from "ava";
+import type { UpsertRecordsParams, QueryRecordsParams } from "chromadb";
 
 import {
   reindexAll,
@@ -13,16 +13,14 @@ import {
   resetChroma,
 } from "../../indexer.js";
 
-const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
+const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 class FakeCollection {
-  constructor() {
-    this.upserts = [];
-  }
-  async upsert(payload) {
+  upserts: UpsertRecordsParams[] = [];
+  async upsert(payload: UpsertRecordsParams) {
     this.upserts.push(payload);
   }
-  async query({ queryTexts, nResults }) {
+  async query(_args: QueryRecordsParams) {
     return {
       ids: [[["x#0"]]],
       documents: [[["doc"]]],
@@ -30,6 +28,8 @@ class FakeCollection {
       distances: [[[0.42]]],
     };
   }
+  async delete(): Promise<void> {}
+  async add(): Promise<void> {}
 }
 
 class FakeChroma {
@@ -41,7 +41,7 @@ class FakeChroma {
 test.before(() => {
   setChromaClient(new FakeChroma());
   setEmbeddingFactory(async () => ({
-    generate: async (texts) => texts.map(() => [0, 0, 0]),
+    generate: async (texts: string[]) => texts.map(() => [0, 0, 0]),
   }));
 });
 
@@ -64,6 +64,7 @@ test.after.always(() => {
     getOrCreateCollection: async () => ({
       query: async () => ({}),
       upsert: async () => {},
+      delete: async () => {},
     }),
   });
 });
@@ -82,8 +83,9 @@ test("reindexSubset forwards include globs", async (t) => {
 test("search returns shaped results from fake client", async (t) => {
   const res = await search(ROOT, "q", 1);
   t.is(res.length, 1);
-  t.is(res[0].path, "x");
-  t.is(res[0].startLine, 1);
-  t.is(res[0].endLine, 1);
-  t.is(res[0].score, 0.42);
+  const item = res[0]!;
+  t.is(item.path, "x");
+  t.is(item.startLine, 1);
+  t.is(item.endLine, 1);
+  t.is(item.score, 0.42);
 });

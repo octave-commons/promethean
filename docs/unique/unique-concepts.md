@@ -1,479 +1,64 @@
 ---
-uuid: 981ae54b-6d10-48c3-83d4-1148d4201637
-created_at: unique-concepts.md
+uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
+created_at: unique.md
 filename: Unique Concepts
-title: Unique Concepts
 description: >-
-  This document outlines key concepts that are unique to the Promethean
-  framework, providing foundational understanding for its specialized
-  applications. It serves as a reference for developers and researchers working
-  with Promethean's distinct methodologies and tools.
+  This document explores unique concepts and their applications in various
+  fields. It provides insights into how these concepts can be leveraged for
+  innovation and problem-solving. The content is designed to be accessible to a
+  broad audience.
 tags:
-  - Promethean
-  - framework
-  - concepts
-  - unique
-  - reference
-  - developer
-  - researcher
-related_to_uuid:
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - a4d90289-798d-44a0-a8e8-a055ae12fb52
-  - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - 22b989d5-f4aa-4880-8632-709c21830f83
-  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-  - 10d98225-12e0-4212-8e15-88b57cf7bee5
-  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - f5579967-762d-4cfd-851e-4f71b4cb77a1
-  - e2135d9f-c69d-47ee-9b17-0b05e98dc748
-  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-  - 6bcff92c-4224-453d-9993-1be8d37d47c3
-  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-  - ae24a280-678e-4c0b-8cc4-56667fa04172
-  - cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+  - Concepts
+  - Innovation
+  - Problem-solving
+  - Applications
+  - Accessibility
 related_to_title:
-  - Dynamic Context Model for Web Components
-  - Factorio AI with External Agents
-  - DuckDuckGoSearchPipeline
-  - Duck's Self-Referential Perceptual Loop
-  - Fnord Tracer Protocol
-  - i3-bluetooth-setup
-  - graph-ds
-  - Eidolon Field Abstract Model
-  - eidolon-field-math-foundations
-  - eidolon-node-lifecycle
-  - field-dynamics-math-blocks
-  - field-interaction-equations
-  - field-node-diagram-set
-  - field-node-diagram-visualizations
-  - Creative Moments
-  - Debugging Broker Connections and Agent Behavior
-  - Duck's Attractor States
-  - Performance-Optimized-Polyglot-Bridge
-  - Pipeline Enhancements
-  - plan-update-confirmation
-  - polyglot-repl-interface-layer
-  - Post-Linguistic Transhuman Design Frameworks
-  - Promethean Chat Activity Report
-  - Promethean-Copilot-Intent-Engine
-  - Docops Feature Updates
+  - AI-Centric OS with MCP Layer
+  - AI-First-OS-Model-Context-Protocol
+  - balanced-bst
+related_to_uuid:
+  - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+  - 618198f4-cfad-4677-9df6-0640d8a97bae
+  - d3e7db72-2e07-4dae-8920-0e07c499a1e5
 references:
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 412
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 261
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 181
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 90
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 157
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 205
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 203
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 95
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 56
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 44
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 61
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 80
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 405
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 216
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 189
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 172
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 28
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 65
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 86
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 123
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 34
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 442
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 218
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 176
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 70
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 47
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 105
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 97
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 128
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 31
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 90
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 33
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 462
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 148
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 36
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 166
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 148
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 118
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 168
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 103
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 380
-    col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 194
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 35
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 94
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 53
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 424
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 209
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 142
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 39
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 85
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 64
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 141
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 9
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 117
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 58
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 82
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 67
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 66
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 113
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 469
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 270
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 51
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 79
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 77
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 115
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 61
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 212
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 150
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 94
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 63
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 66
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 73
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 403
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 50
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 89
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 32
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 49
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 95
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 133
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 59
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 252
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 52
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 71
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 53
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 75
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 104
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 46
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 64
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 40
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 137
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 82
-    col: 0
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 406
+    col: 1
+    score: 1
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 406
+    col: 3
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 11
+    col: 1
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 11
+    col: 3
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 14
+    col: 1
+    score: 1
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 14
+    col: 3
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 297
+    col: 1
+    score: 1
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 297
+    col: 3
     score: 1
 ---
 
- ^ref-ed6f3fc9-5-0 ^ref-ed6f3fc9-10-0 ^ref-ed6f3fc9-11-0 ^ref-ed6f3fc9-105-0 ^ref-ed6f3fc9-173-0 ^ref-ed6f3fc9-175-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
+<<<<<<< HEAD
 - [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
 - [[factorio-ai-with-external-agents|Factorio AI with External Agents]]
 - [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
@@ -600,4 +185,19 @@ references:
 - [DuckDuckGoSearchPipeline — L40](duckduckgosearchpipeline.md#^ref-e979c50f-40-0) (line 40, col 0, score 1)
 - [[ducks-attractor-states#^ref-13951643-137-0|Duck's Attractor States — L137]] (line 137, col 0, score 1)
 - [[ducks-self-referential-perceptual-loop#^ref-71726f04-82-0|Duck's Self-Referential Perceptual Loop — L82]] (line 82, col 0, score 1)
+=======
+- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
+- [[ai-first-os-model-context-protocol]]
+- [[balanced-bst]]
+
+## Sources
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 1, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 3, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
+>>>>>>> stealth/obsidian
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

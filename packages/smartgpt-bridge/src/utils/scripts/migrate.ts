@@ -1,4 +1,3 @@
-// @ts-nocheck
 // migrations/20250822_seed_rbac.js
 import { Policy } from "../src/models/policy.js";
 import { User } from "../src/models/user.js";

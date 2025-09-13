@@ -1,482 +1,443 @@
 ---
-uuid: 46a0fe26-33b5-4b76-96af-719928999112
-created_at: stateful-partitions-and-rebalancing.md
+uuid: 4330e8f0-5f46-4235-918b-39b6b93fa561
+created_at: 2025.08.08.20.08.56.md
 filename: Stateful Partitions and Rebalancing
-title: Stateful Partitions and Rebalancing
 description: >-
-  Implements stateful partitions with rebalancing using Jump Consistent Hash for
-  deterministic partitioning, a coordinator for managing member assignments, and
-  a partition-aware subscribe wrapper. Includes a tiny schema-registry with
-  compatibility rules and a Changelog Projector that materializes topics into
-  MongoDB with upserts and tombstones.
+  Implements stateful partitions with jump consistent hash for deterministic
+  partitioning, in-memory coordinator for rebalancing, and partition-aware
+  subscribe wrappers. Includes a tiny schema-registry (Zod) with compatibility
+  rules and a changelog projector for materializing topics into MongoDB with
+  upserts and tombstones.
 tags:
   - stateful
   - rebalancing
   - partitioning
   - schema-registry
+  - zod
   - changelog
+  - projector
   - mongodb
-  - jump-hash
-  - coordinator
   - upsert
-  - tombstones
-related_to_uuid:
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
-  - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-  - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - 54382370-1931-4a19-a634-46735708a9ea
-  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
-  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-  - 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-  - 78eeedf7-75bc-4692-a5a7-bb6857270621
-  - 43bfe9dd-d433-42ca-9777-f4c40eaba791
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - ffb9b2a9-744d-4a53-9565-130fceae0832
-  - 10d98225-12e0-4212-8e15-88b57cf7bee5
-  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
+  - tombstone
 related_to_title:
-  - eidolon-field-math-foundations
-  - Per-Domain Policy System for JS Crawler
   - schema-evolution-workflow
-  - Chroma Toolkit Consolidation Plan
-  - Migrate to Provider-Tenant Architecture
+  - WebSocket Gateway Implementation
+  - Event Bus MVP
+  - State Snapshots API and Transactional Projector
+  - Services
   - Unique Info Dump Index
-  - Prompt_Folder_Bootstrap
-  - windows-tiling-with-autohotkey
-  - TypeScript Patch for Tool Calling Support
-  - Eidolon Field Abstract Model
-  - zero-copy-snapshots-and-workers
-  - Duck's Attractor States
-  - field-dynamics-math-blocks
-  - Dynamic Context Model for Web Components
-  - Debugging Broker Connections and Agent Behavior
-  - Duck's Self-Referential Perceptual Loop
-  - field-interaction-equations
-  - eidolon-node-lifecycle
-  - Promethean_Eidolon_Synchronicity_Model
-  - typed-struct-compiler
-  - Provider-Agnostic Chat Panel Implementation
-  - graph-ds
-  - obsidian-ignore-node-modules-regex
-  - Creative Moments
-  - homeostasis-decay-formulas
+  - prom-lib-rate-limiters-and-replay-api
+  - Mongo Outbox Implementation
+  - Promethean Event Bus MVP v0.1
+  - Promethean-native config design
+  - 'Agent Tasks: Persistence Migration to DualStore'
+  - archetype-ecs
+  - Chroma Toolkit Consolidation Plan
+  - aionian-circuit-math
+  - Diagrams
+  - DSL
+  - Board Walk – 2025-08-11
+  - Event Bus Projections Architecture
+  - ecs-offload-workers
+  - observability-infrastructure-setup
+  - Migrate to Provider-Tenant Architecture
+  - Cross-Language Runtime Polymorphism
+related_to_uuid:
+  - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+  - 75ea4a6a-8270-488d-9d37-799c288e5f70
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - 93d2ba51-8689-49ee-94e2-296092e48058
+  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - f2d83a77-7f86-4c56-8538-1350167a0c6c
+  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
+  - e87bc036-1570-419e-a558-f45b9c0db698
+  - 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
 references:
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 56
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 85
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 64
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 141
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 44
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 61
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 80
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 405
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 216
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 189
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 172
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 51
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 79
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 77
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 115
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 61
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 212
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 150
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 35
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 94
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 53
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 424
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 209
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 142
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 39
-    col: 0
-    score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 547
-    col: 0
-    score: 1
-  - uuid: 9413237f-2537-4bbf-8768-db6180970e36
-    line: 98
-    col: 0
-    score: 1
-  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
-    line: 162
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 148
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 36
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 166
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 148
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 118
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 168
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 103
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 380
-    col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 194
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 412
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 261
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 181
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 90
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 157
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 205
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 203
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 95
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 33
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 46
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 10
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 47
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 105
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 97
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 128
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 31
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 90
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 33
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 462
-    col: 0
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 371
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 141
-    col: 0
-    score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 222
-    col: 0
-    score: 1
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 107
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 52
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
     line: 71
-    col: 0
+    col: 1
+    score: 0.92
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 98
+    col: 1
+    score: 0.85
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 243
+    col: 1
+    score: 0.88
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 473
+    col: 1
+    score: 0.91
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 12
+    col: 1
     score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 99
-    col: 0
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 12
+    col: 3
     score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 53
-    col: 0
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 211
+    col: 1
     score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 75
-    col: 0
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 211
+    col: 3
     score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 104
-    col: 0
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 550
+    col: 1
     score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 46
-    col: 0
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 550
+    col: 3
     score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 64
-    col: 0
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 554
+    col: 1
     score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 40
-    col: 0
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 554
+    col: 3
     score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 137
-    col: 0
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 465
+    col: 1
     score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 82
-    col: 0
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 465
+    col: 3
     score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 454
-    col: 0
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 548
+    col: 1
     score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 50
-    col: 0
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 548
+    col: 3
     score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 89
-    col: 0
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 551
+    col: 1
     score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 32
-    col: 0
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 551
+    col: 3
     score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 49
-    col: 0
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 883
+    col: 1
     score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 95
-    col: 0
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 883
+    col: 3
     score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 133
-    col: 0
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 552
+    col: 1
     score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 59
-    col: 0
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 552
+    col: 3
     score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 252
-    col: 0
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 386
+    col: 1
     score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 246
-    col: 0
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 386
+    col: 3
     score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 881
+    col: 1
+    score: 1
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 881
+    col: 3
+    score: 1
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 485
+    col: 1
+    score: 1
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 485
+    col: 3
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 11
+    col: 1
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 11
+    col: 3
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 554
+    col: 1
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 554
+    col: 3
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 553
+    col: 1
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 553
+    col: 3
+    score: 1
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 382
+    col: 1
+    score: 1
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 382
+    col: 3
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 557
+    col: 1
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 557
+    col: 3
+    score: 1
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 486
+    col: 1
+    score: 1
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 486
+    col: 3
+    score: 1
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 337
+    col: 1
+    score: 1
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 337
+    col: 3
+    score: 1
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 68
+    col: 1
+    score: 1
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 68
+    col: 3
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 158
+    col: 1
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 158
+    col: 3
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 457
+    col: 1
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 457
+    col: 3
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
     line: 9
-    col: 0
+    col: 1
     score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 117
-    col: 0
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 9
+    col: 3
     score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 58
-    col: 0
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 10
+    col: 1
     score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 82
-    col: 0
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 10
+    col: 3
     score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 67
-    col: 0
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 136
+    col: 1
     score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 66
-    col: 0
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 136
+    col: 3
     score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 113
-    col: 0
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 166
+    col: 1
     score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 469
-    col: 0
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 166
+    col: 3
     score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 270
-    col: 0
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 551
+    col: 1
     score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 55
-    col: 0
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 551
+    col: 3
     score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 89
-    col: 0
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 284
+    col: 1
     score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 284
+    col: 3
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 13
+    col: 1
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 13
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 467
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 467
+    col: 3
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 549
+    col: 1
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 549
+    col: 3
+    score: 1
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 364
+    col: 1
+    score: 1
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 364
+    col: 3
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 137
+    col: 1
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 137
+    col: 3
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 175
+    col: 1
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 175
+    col: 3
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 547
+    col: 1
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 547
+    col: 3
+    score: 1
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 150
+    col: 1
+    score: 1
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 150
+    col: 3
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 130
+    col: 1
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 130
+    col: 3
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 159
+    col: 1
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 159
+    col: 3
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 134
+    col: 1
+    score: 1
+  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
+    line: 134
+    col: 3
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 168
+    col: 1
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 168
+    col: 3
+    score: 1
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 351
+    col: 1
+    score: 0.98
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 351
+    col: 3
+    score: 0.98
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 564
+    col: 1
+    score: 0.98
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 564
+    col: 3
+    score: 0.98
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 350
+    col: 1
+    score: 0.98
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 350
+    col: 3
+    score: 0.98
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 395
+    col: 1
+    score: 0.97
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 395
+    col: 3
+    score: 0.97
 ---
 Note: Consolidated here → ../notes/services/partitions-schema-registry-projector.md
 
-Alright, **Part 5**: stateful partitions + rebalancing, a tiny schema-registry (Zod) with compat rules, and a **Changelog Projector** that materializes a topic into a Mongo collection with upserts & tombstones. All drop-in. ⚙️ ^ref-4330e8f0-3-0
+Alright, **Part 5**: stateful partitions + rebalancing, a tiny schema-registry (Zod) with compat rules, and a **Changelog Projector** that materializes a topic into a Mongo collection with upserts & tombstones. All drop-in. ⚙️
 
 ---
 
@@ -506,10 +467,9 @@ export function jumpHash(key: string, buckets: number): number {
   return b;
 }
 ```
-^ref-4330e8f0-11-0
 
 ## 1b) Coordinator (in-memory) with rebalance hooks
- ^ref-4330e8f0-36-0
+
 ```ts
 // shared/js/prom-lib/partition/coordinator.ts
 type Member = { id: string; group: string; lastSeen: number; meta?: Record<string, any> };
@@ -567,14 +527,13 @@ function score(s: string): number {
   for (let i=0;i<s.length;i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
   return (h >>> 0) / 2**32;
 }
-^ref-4330e8f0-36-0
 ```
 
 ## 1c) Partition-aware subscribe wrapper
- ^ref-4330e8f0-98-0
-* Computes `partition = jumpHash(key || id, partitions)` ^ref-4330e8f0-99-0
+
+* Computes `partition = jumpHash(key || id, partitions)`
 * Filters deliveries to only the partitions assigned to this member
-* Reacts to rebalances ^ref-4330e8f0-101-0
+* Reacts to rebalances
 
 ```ts
 // shared/js/prom-lib/partition/subscribe.ts
@@ -634,12 +593,11 @@ export async function subscribePartitioned(
     await unsubscribe();
     coord.leave(opts.group, opts.memberId);
   };
-^ref-4330e8f0-101-0
 }
 ```
- ^ref-4330e8f0-164-0
+
 ## 1d) Partition on publish (optional, stores `partition`)
- ^ref-4330e8f0-166-0
+
 If you want `partition` persisted (nice for Mongo scans), wrap `publish`:
 
 ```ts
@@ -657,11 +615,9 @@ export function withPartitioning(bus: EventBus, partitions: number, keyOf?: (pay
       }
       return bus.publish(topic, payload, opts);
     }
-^ref-4330e8f0-166-0
-  }; ^ref-4330e8f0-185-0
+  };
 }
 ```
-^ref-4330e8f0-187-0 ^ref-4330e8f0-188-0
 
 **Mermaid (rebalance loop):**
 
@@ -669,13 +625,12 @@ export function withPartitioning(bus: EventBus, partitions: number, keyOf?: (pay
 flowchart LR
   Sub[Subscriber] -->|join/heartbeat| Coord
   Coord -->|assign| Sub
-^ref-4330e8f0-187-0
   Sub -->|filter by myPartitions| Bus
   Bus --> Sub
   Timer[[interval]] -->|rebalance| Coord
 ```
 
---- ^ref-4330e8f0-202-0
+---
 
 # 2) Schema Registry (Zod, lite compat)
 
@@ -738,14 +693,11 @@ function checkCompat(prev: ZodTypeAny, next: ZodTypeAny, compat: Compat) {
     if (!res.success) throw new Error("backward compatibility check failed");
   }
   if (compat === "forward") {
-^ref-4330e8f0-202-0
     const res = prev.safeParse((next as any).parse({} as any));
     if (!res.success) throw new Error("forward compatibility check failed");
   }
 }
-^ref-4330e8f0-267-0
 ```
-^ref-4330e8f0-267-0 ^ref-4330e8f0-272-0
 
 ## 2b) Publish validator middleware
 
@@ -763,17 +715,12 @@ export function withSchemaValidation(bus: EventBus, reg: SchemaRegistry): EventB
       if (latest) {
         reg.validate(topic, payload, latest.version);
         opts.headers = { ...(opts.headers || {}), "x-schema-version": String(latest.version) };
-^ref-4330e8f0-267-0
       }
       return bus.publish(topic, payload, opts);
     }
   };
-^ref-4330e8f0-290-0
 }
-^ref-4330e8f0-290-0
 ```
-^ref-4330e8f0-276-0 ^ref-4330e8f0-299-0
-^ref-4330e8f0-290-0
 
 ## 2c) Example schema defs
 
@@ -805,45 +752,27 @@ reg.register({
     host: z.string(),
     pid: z.number(),
     sid: z.string().optional(),
-^ref-4330e8f0-290-0
-    cpu_pct: z.number(), ^ref-4330e8f0-326-0
+    cpu_pct: z.number(),
     mem_mb: z.number(),
     last_seen_ts: z.number(),
     status: z.enum(["alive","stale"])
-^ref-4330e8f0-328-0
-^ref-4330e8f0-326-0
   })
-^ref-4330e8f0-328-0
-^ref-4330e8f0-326-0
 });
-^ref-4330e8f0-328-0 ^ref-4330e8f0-342-0
-^ref-4330e8f0-326-0
-``` ^ref-4330e8f0-344-0
+```
 
 **Mermaid (publish path):**
 
 ```mermaid
-^ref-4330e8f0-328-0
 sequenceDiagram
   participant Pub as Publisher
   participant SV as SchemaValidation
-^ref-4330e8f0-345-0
-^ref-4330e8f0-344-0 ^ref-4330e8f0-347-0
-^ref-4330e8f0-342-0
   participant EB as EventBus
-^ref-4330e8f0-351-0
-^ref-4330e8f0-347-0
-^ref-4330e8f0-345-0
-^ref-4330e8f0-344-0
-  Pub->>SV: publish(topic, payload) ^ref-4330e8f0-342-0
-^ref-4330e8f0-351-0
-^ref-4330e8f0-347-0
-^ref-4330e8f0-345-0
-  SV->>SV: reg.validate(topic,payload) ^ref-4330e8f0-351-0
-  SV->>EB: publish with header x-schema-version ^ref-4330e8f0-344-0
-``` ^ref-4330e8f0-345-0
+  Pub->>SV: publish(topic, payload)
+  SV->>SV: reg.validate(topic,payload)
+  SV->>EB: publish with header x-schema-version
+```
 
---- ^ref-4330e8f0-347-0
+---
 
 # 3) Changelog Projector (topic → Mongo collection)
 
@@ -910,13 +839,9 @@ export async function startChangelogProjector<T>(db: Db, bus: EventBus, opts: Ch
   }
 
   const stop = await bus.subscribe(
-^ref-4330e8f0-351-0
     opts.topic,
-^ref-4330e8f0-417-0
-^ref-4330e8f0-417-0
     `changelog:${opts.collection}`,
     async (e) => { await handle(e); },
-^ref-4330e8f0-417-0
     { from: "earliest", batchSize: 500, manualAck: false }
   );
 
@@ -942,13 +867,9 @@ export async function startProcessChangelog(db: Db, bus: EventBus) {
       return {
         processId: p.processId, name: p.name, host: p.host, pid: p.pid,
         sid: p.sid, cpu_pct: p.cpu_pct, mem_mb: p.mem_mb, status: p.status,
-^ref-4330e8f0-417-0
         last_seen_ts: p.last_seen_ts
-^ref-4330e8f0-448-0
-^ref-4330e8f0-448-0
       };
     },
-^ref-4330e8f0-448-0
     indexes: [
       { keys: { host: 1, name: 1 } },
       { keys: { status: 1 } }
@@ -996,258 +917,41 @@ async function main() {
     "process.state",
     async (e) => {
       // do expensive work only for assigned partitions
-^ref-4330e8f0-448-0
       void e; // placeholder
-^ref-4330e8f0-499-0
-^ref-4330e8f0-516-0
-^ref-4330e8f0-515-0
-^ref-4330e8f0-514-0
-^ref-4330e8f0-513-0 ^ref-4330e8f0-520-0
-^ref-4330e8f0-512-0
-^ref-4330e8f0-511-0 ^ref-4330e8f0-522-0
-^ref-4330e8f0-499-0 ^ref-4330e8f0-523-0
-    }, ^ref-4330e8f0-524-0
-    coord, ^ref-4330e8f0-525-0
-^ref-4330e8f0-527-0
-^ref-4330e8f0-525-0
-^ref-4330e8f0-524-0
-^ref-4330e8f0-523-0
-^ref-4330e8f0-522-0
-^ref-4330e8f0-520-0
-^ref-4330e8f0-516-0
-^ref-4330e8f0-515-0
-^ref-4330e8f0-514-0
-^ref-4330e8f0-513-0
-^ref-4330e8f0-512-0
-^ref-4330e8f0-511-0
-^ref-4330e8f0-499-0
-    { group: "analyzers", memberId, partitions: 8, rebalanceEveryMs: 2500 }
-  ); ^ref-4330e8f0-527-0
- ^ref-4330e8f0-511-0
-  console.log("[partitioned] up");
-}
-
-main().catch((e)=>{ console.error(e); process.exit(1); });
-``` ^ref-4330e8f0-555-0
-^ref-4330e8f0-499-0
-
-^ref-4330e8f0-516-0
-^ref-4330e8f0-515-0 ^ref-4330e8f0-520-0
-^ref-4330e8f0-514-0
-^ref-4330e8f0-513-0 ^ref-4330e8f0-522-0
-^ref-4330e8f0-512-0 ^ref-4330e8f0-523-0
---- ^ref-4330e8f0-524-0
- ^ref-4330e8f0-525-0
-# 5) Sibilant sugar (pseudo) ^ref-4330e8f0-565-0
- ^ref-4330e8f0-511-0 ^ref-4330e8f0-527-0
-```lisp ^ref-4330e8f0-512-0
-; shared/sibilant/prom/partition.sib (pseudo) ^ref-4330e8f0-513-0
-(defn partition-of [key partitions] (jumpHash (str key) partitions)) ^ref-4330e8f0-514-0
- ^ref-4330e8f0-515-0
-(defn start-partitioned [bus topic group member-id partitions handler] ^ref-4330e8f0-516-0
-  (subscribePartitioned bus topic handler (new PartitionCoordinator {}) {:group group :memberId member-id :partitions partitions}))
-```
-
---- ^ref-4330e8f0-520-0
-
-# 6) Kanban adds ^ref-4330e8f0-522-0 ^ref-4330e8f0-577-0
- ^ref-4330e8f0-523-0
-* [ ] Wrap `event-hub` publish path with **withSchemaValidation**; fail fast on bad payloads ^ref-4330e8f0-524-0 ^ref-4330e8f0-578-0
-* [ ] Use **subscribePartitioned** for CPU-heavy consumers; tune `partitions` (power of 2 is fine) ^ref-4330e8f0-525-0 ^ref-4330e8f0-579-0
-* [ ] Add **startChangelogProjector** for any compaction-like topic you want live-queryable
-* [ ] Ensure Mongo indexes: `{ _key: 1 } unique` + common query fields ^ref-4330e8f0-527-0
-* [ ] Add `/ops` endpoint to list **partition assignments** (optional: dump coordinator state)
-* [ ] Write a replay job that replays `process.state.snapshot` to warm the `processes` collection
- ^ref-4330e8f0-584-0
----
-
-Want **Part 6** next? I can ship:
-
-* **Schema evolution workflow** (migrations + dual-write + cutover),
-* **Dead letter queue** with replay,
-* **Changefeeds** (watch Mongo changelog and republish),
-* and a **linter** that checks topic names, headers, and schema coverage in CI.
-|| opts.tombstone?.(e) === true;
-  };
-
-  async function handle(e: EventRecord<T>) {
-    const _key = opts.keyOf(e);
-    if (!_key) return;
-
-    if (isTomb(e)) {
-      await coll.deleteOne({ _key }); ^ref-4330e8f0-602-0
-      return;
-    } ^ref-4330e8f0-604-0
-
-    const base = opts.map(e);
-    const version = opts.versionOf?.(e);
-    if (version != null) {
-      // optimistic: only upsert if newer (assumes monotonic version)
-      await coll.updateOne(
-        { _key, $or: [ { _v: { $lt: version } }, { _v: { $exists: false } } ] },
-        { $set: { ...base, _key, _v: version, _ts: e.ts } },
-        { upsert: true }
-      );
-    } else {
-      await coll.updateOne( ^ref-4330e8f0-616-0
-        { _key },
-        { $set: { ...base, _key, _ts: e.ts } },
-        { upsert: true }
-      );
-    }
-  }
-
-  const stop = await bus.subscribe(
-^ref-4330e8f0-351-0
-    opts.topic,
-^ref-4330e8f0-417-0
-^ref-4330e8f0-417-0
-    `changelog:${opts.collection}`,
-    async (e) => { await handle(e); },
-^ref-4330e8f0-417-0
-    { from: "earliest", batchSize: 500, manualAck: false }
-  ); ^ref-4330e8f0-633-0
-
-  return stop;
-}
-```
-
-## 3b) Example: materialize `process.state` → `processes` collection
-
-```ts
-// shared/js/prom-lib/examples/process/changelog.ts
-import type { Db } from "mongodb";
-import { EventBus } from "../../event/types"; ^ref-4330e8f0-644-0
-import { startChangelogProjector } from "../../projectors/changelog";
-
-export async function startProcessChangelog(db: Db, bus: EventBus) {
-  return startChangelogProjector(db, bus, {
-    topic: "process.state",
-    collection: "processes",
-    keyOf: (e) => (e.payload as any)?.processId, ^ref-4330e8f0-651-0
-    map: (e) => {
-      const p = e.payload as any;
-      return {
-        processId: p.processId, name: p.name, host: p.host, pid: p.pid,
-        sid: p.sid, cpu_pct: p.cpu_pct, mem_mb: p.mem_mb, status: p.status,
-^ref-4330e8f0-417-0
-        last_seen_ts: p.last_seen_ts
-^ref-4330e8f0-448-0
-^ref-4330e8f0-448-0
-      };
     },
-^ref-4330e8f0-448-0
-    indexes: [
-      { keys: { host: 1, name: 1 } },
-      { keys: { status: 1 } }
-    ]
-  });
-} ^ref-4330e8f0-669-0
-```
-
----
-
-# 4) Glue example (partitioned consumer + schema + changelog)
-
-```ts
-^ref-4330e8f0-671-0
-// services/js/event-hub/partitioned.ts
-import { MongoClient } from "mongodb";
-import { MongoEventBus, MongoEventStore, MongoCursorStore } from "../../shared/js/prom-lib/event/mongo";
-import { SchemaRegistry } from "../../shared/js/prom-lib/schema/registry";
-import { withSchemaValidation } from "../../shared/js/prom-lib/schema/enforce";
-import { subscribePartitioned } from "../../shared/js/prom-lib/partition/subscribe";
-import { PartitionCoordinator } from "../../shared/js/prom-lib/partition/coordinator";
-import { startProcessChangelog } from "../../shared/js/prom-lib/examples/process/changelog";
-import { startProcessProjector } from "../../shared/js/prom-lib/examples/process/projector"; ^ref-4330e8f0-686-0
-import { reg as topicSchemas } from "../../shared/js/prom-lib/schema/topics";
-
-async function main() {
-  const client = await MongoClient.connect(process.env.MONGO_URL || "mongodb://127.0.0.1:27017/prom");
-  const db = client.db();
-
-  const rawBus = new MongoEventBus(new MongoEventStore(db), new MongoCursorStore(db));
-  const reg = topicSchemas instanceof SchemaRegistry ? topicSchemas : new SchemaRegistry();
-  const bus = withSchemaValidation(rawBus, reg);
- ^ref-4330e8f0-696-0
-  // Heartbeat -> ProcessState projector (as before)
-  await startProcessProjector(bus);
-
-  // Materialize ProcessState into Mongo collection
-  await startProcessChangelog(db, bus);
-
-  // Partitioned consumer (e.g., heavy analyzer) with 8 partitions
-  const coord = new PartitionCoordinator({ ttlMs: 10_000 });
-  const memberId = `worker-${Math.random().toString(16).slice(2)}`;
- ^ref-4330e8f0-706-0
-  await subscribePartitioned(
-    bus,
-    "process.state",
-    async (e) => {
-      // do expensive work only for assigned partitions
-^ref-4330e8f0-448-0
-      void e; // placeholder
-^ref-4330e8f0-499-0
-^ref-4330e8f0-516-0
-^ref-4330e8f0-515-0
-^ref-4330e8f0-514-0
-^ref-4330e8f0-513-0 ^ref-4330e8f0-520-0
-^ref-4330e8f0-512-0
-^ref-4330e8f0-511-0 ^ref-4330e8f0-522-0
-^ref-4330e8f0-499-0 ^ref-4330e8f0-523-0
-    }, ^ref-4330e8f0-524-0
-    coord, ^ref-4330e8f0-525-0
-^ref-4330e8f0-527-0 ^ref-4330e8f0-724-0
-^ref-4330e8f0-525-0
-^ref-4330e8f0-524-0
-^ref-4330e8f0-523-0
-^ref-4330e8f0-522-0
-^ref-4330e8f0-520-0
-^ref-4330e8f0-516-0
-^ref-4330e8f0-515-0
-^ref-4330e8f0-514-0
-^ref-4330e8f0-513-0
-^ref-4330e8f0-512-0
-^ref-4330e8f0-511-0
-^ref-4330e8f0-499-0
+    coord,
     { group: "analyzers", memberId, partitions: 8, rebalanceEveryMs: 2500 }
-  ); ^ref-4330e8f0-527-0
- ^ref-4330e8f0-511-0
+  );
+
   console.log("[partitioned] up");
 }
 
 main().catch((e)=>{ console.error(e); process.exit(1); });
-``` ^ref-4330e8f0-555-0
-^ref-4330e8f0-499-0
+```
 
-^ref-4330e8f0-516-0
-^ref-4330e8f0-515-0 ^ref-4330e8f0-520-0
-^ref-4330e8f0-514-0
-^ref-4330e8f0-513-0 ^ref-4330e8f0-522-0
-^ref-4330e8f0-512-0 ^ref-4330e8f0-523-0
---- ^ref-4330e8f0-524-0
- ^ref-4330e8f0-525-0
-# 5) Sibilant sugar (pseudo) ^ref-4330e8f0-565-0
- ^ref-4330e8f0-511-0 ^ref-4330e8f0-527-0
-```lisp ^ref-4330e8f0-512-0
-; shared/sibilant/prom/partition.sib (pseudo) ^ref-4330e8f0-513-0
-(defn partition-of [key partitions] (jumpHash (str key) partitions)) ^ref-4330e8f0-514-0
- ^ref-4330e8f0-515-0
-(defn start-partitioned [bus topic group member-id partitions handler] ^ref-4330e8f0-516-0
+---
+
+# 5) Sibilant sugar (pseudo)
+
+```lisp
+; shared/sibilant/prom/partition.sib (pseudo)
+(defn partition-of [key partitions] (jumpHash (str key) partitions))
+
+(defn start-partitioned [bus topic group member-id partitions handler]
   (subscribePartitioned bus topic handler (new PartitionCoordinator {}) {:group group :memberId member-id :partitions partitions}))
 ```
 
---- ^ref-4330e8f0-520-0
+---
 
-# 6) Kanban adds ^ref-4330e8f0-522-0 ^ref-4330e8f0-577-0
- ^ref-4330e8f0-523-0
-* [ ] Wrap `event-hub` publish path with **withSchemaValidation**; fail fast on bad payloads ^ref-4330e8f0-524-0 ^ref-4330e8f0-578-0
-* [ ] Use **subscribePartitioned** for CPU-heavy consumers; tune `partitions` (power of 2 is fine) ^ref-4330e8f0-525-0 ^ref-4330e8f0-579-0
+# 6) Kanban adds
+
+* [ ] Wrap `event-hub` publish path with **withSchemaValidation**; fail fast on bad payloads
+* [ ] Use **subscribePartitioned** for CPU-heavy consumers; tune `partitions` (power of 2 is fine)
 * [ ] Add **startChangelogProjector** for any compaction-like topic you want live-queryable
-* [ ] Ensure Mongo indexes: `{ _key: 1 } unique` + common query fields ^ref-4330e8f0-527-0
+* [ ] Ensure Mongo indexes: `{ _key: 1 } unique` + common query fields
 * [ ] Add `/ops` endpoint to list **partition assignments** (optional: dump coordinator state)
 * [ ] Write a replay job that replays `process.state.snapshot` to warm the `processes` collection
- ^ref-4330e8f0-584-0
+
 ---
 
 Want **Part 6** next? I can ship:
@@ -1256,9 +960,9 @@ Want **Part 6** next? I can ship:
 * **Dead letter queue** with replay,
 * **Changefeeds** (watch Mongo changelog and republish),
 * and a **linter** that checks topic names, headers, and schema coverage in CI.
- ^ref-4330e8f0-1321-0 ^ref-4330e8f0-6073-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
+<<<<<<< HEAD
 - [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
 - [[per-domain-policy-system-for-js-crawler|Per-Domain Policy System for JS Crawler]]
 - [[schema-evolution-workflow]]
@@ -1385,4 +1089,122 @@ Want **Part 6** next? I can ship:
 - [[eidolon-field-abstract-model#^ref-5e8b2388-270-0|Eidolon Field Abstract Model — L270]] (line 270, col 0, score 1)
 - [Docops Feature Updates — L55](docops-feature-updates-3.md#^ref-cdbd21ee-55-0) (line 55, col 0, score 1)
 - [[docops-feature-updates#^ref-2792d448-89-0|Docops Feature Updates — L89]] (line 89, col 0, score 1)
+=======
+- [[schema-evolution-workflow]]
+- [[websocket-gateway-implementation|WebSocket Gateway Implementation]]
+- [[docs/unique/event-bus-mvp|Event Bus MVP]]
+- [[state-snapshots-api-and-transactional-projector|State Snapshots API and Transactional Projector]]
+- [Services](chunks/services.md)
+- [[unique-info-dump-index|Unique Info Dump Index]]
+- [[prom-lib-rate-limiters-and-replay-api]]
+- [[mongo-outbox-implementation|Mongo Outbox Implementation]]
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+- [[promethean-native-config-design|Promethean-native config design]]
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
+- [[docs/unique/archetype-ecs|archetype-ecs]]
+- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
+- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
+- [Diagrams](chunks/diagrams.md)
+- [DSL](chunks/dsl.md)
+- [[board-walk-2025-08-11|Board Walk – 2025-08-11]]
+- [[event-bus-projections-architecture|Event Bus Projections Architecture]]
+- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
+- [[observability-infrastructure-setup]]
+- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
+- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
+
+## Sources
+- [[schema-evolution-workflow#L71|schema-evolution-workflow — L71]] (line 71, col 1, score 0.92)
+- [[schema-evolution-workflow#L98|schema-evolution-workflow — L98]] (line 98, col 1, score 0.85)
+- [[schema-evolution-workflow#L243|schema-evolution-workflow — L243]] (line 243, col 1, score 0.88)
+- [[schema-evolution-workflow#L473|schema-evolution-workflow — L473]] (line 473, col 1, score 0.91)
+- [Services — L12](chunks/services.md#L12) (line 12, col 1, score 1)
+- [Services — L12](chunks/services.md#L12) (line 12, col 3, score 1)
+- [[cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211]] (line 211, col 1, score 1)
+- [[cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211]] (line 211, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]] (line 550, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]] (line 550, col 3, score 1)
+- [[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]] (line 554, col 1, score 1)
+- [[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]] (line 554, col 3, score 1)
+- [[docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465]] (line 465, col 1, score 1)
+- [[docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465]] (line 465, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L548|Event Bus MVP — L548]] (line 548, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L548|Event Bus MVP — L548]] (line 548, col 3, score 1)
+- [[mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551]] (line 551, col 1, score 1)
+- [[mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551]] (line 551, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L883](promethean-event-bus-mvp-v0-1.md#L883) (line 883, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L883](promethean-event-bus-mvp-v0-1.md#L883) (line 883, col 3, score 1)
+- [[mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552]] (line 552, col 1, score 1)
+- [[mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552]] (line 552, col 3, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386]] (line 386, col 1, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386]] (line 386, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L881](promethean-event-bus-mvp-v0-1.md#L881) (line 881, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L881](promethean-event-bus-mvp-v0-1.md#L881) (line 881, col 3, score 1)
+- [[schema-evolution-workflow#L485|schema-evolution-workflow — L485]] (line 485, col 1, score 1)
+- [[schema-evolution-workflow#L485|schema-evolution-workflow — L485]] (line 485, col 3, score 1)
+- [Services — L11](chunks/services.md#L11) (line 11, col 1, score 1)
+- [Services — L11](chunks/services.md#L11) (line 11, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L554|Event Bus MVP — L554]] (line 554, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L554|Event Bus MVP — L554]] (line 554, col 3, score 1)
+- [[mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553]] (line 553, col 1, score 1)
+- [[mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553]] (line 553, col 3, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382]] (line 382, col 1, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382]] (line 382, col 3, score 1)
+- [[mongo-outbox-implementation#L557|Mongo Outbox Implementation — L557]] (line 557, col 1, score 1)
+- [[mongo-outbox-implementation#L557|Mongo Outbox Implementation — L557]] (line 557, col 3, score 1)
+- [[schema-evolution-workflow#L486|schema-evolution-workflow — L486]] (line 486, col 1, score 1)
+- [[schema-evolution-workflow#L486|schema-evolution-workflow — L486]] (line 486, col 3, score 1)
+- [[state-snapshots-api-and-transactional-projector#L337|State Snapshots API and Transactional Projector — L337]] (line 337, col 1, score 1)
+- [[state-snapshots-api-and-transactional-projector#L337|State Snapshots API and Transactional Projector — L337]] (line 337, col 3, score 1)
+- [[unique-info-dump-index#L68|Unique Info Dump Index — L68]] (line 68, col 1, score 1)
+- [[unique-info-dump-index#L68|Unique Info Dump Index — L68]] (line 68, col 3, score 1)
+- [[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]] (line 158, col 1, score 1)
+- [[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]] (line 158, col 3, score 1)
+- [[docs/unique/archetype-ecs#L457|archetype-ecs — L457]] (line 457, col 1, score 1)
+- [[docs/unique/archetype-ecs#L457|archetype-ecs — L457]] (line 457, col 3, score 1)
+- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 1, score 1)
+- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 3, score 1)
+- [DSL — L10](chunks/dsl.md#L10) (line 10, col 1, score 1)
+- [DSL — L10](chunks/dsl.md#L10) (line 10, col 3, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L136|Agent Tasks: Persistence Migration to DualStore — L136]] (line 136, col 1, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L136|Agent Tasks: Persistence Migration to DualStore — L136]] (line 136, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L166|Chroma Toolkit Consolidation Plan — L166]] (line 166, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L166|Chroma Toolkit Consolidation Plan — L166]] (line 166, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L551|Event Bus MVP — L551]] (line 551, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L551|Event Bus MVP — L551]] (line 551, col 3, score 1)
+- [[migrate-to-provider-tenant-architecture#L284|Migrate to Provider-Tenant Architecture — L284]] (line 284, col 1, score 1)
+- [[migrate-to-provider-tenant-architecture#L284|Migrate to Provider-Tenant Architecture — L284]] (line 284, col 3, score 1)
+- [Services — L13](chunks/services.md#L13) (line 13, col 1, score 1)
+- [Services — L13](chunks/services.md#L13) (line 13, col 3, score 1)
+- [[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]] (line 467, col 1, score 1)
+- [[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]] (line 467, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]] (line 549, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]] (line 549, col 3, score 1)
+- [[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]] (line 364, col 1, score 1)
+- [[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]] (line 364, col 3, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 1, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 3, score 1)
+- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 1, score 1)
+- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 3, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130]] (line 130, col 1, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L130|Agent Tasks: Persistence Migration to DualStore — L130]] (line 130, col 3, score 1)
+- [[docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159]] (line 159, col 1, score 1)
+- [[docs/unique/aionian-circuit-math#L159|aionian-circuit-math — L159]] (line 159, col 3, score 1)
+- [[board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134]] (line 134, col 1, score 1)
+- [[board-walk-2025-08-11#L134|Board Walk – 2025-08-11 — L134]] (line 134, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168]] (line 168, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L168|Chroma Toolkit Consolidation Plan — L168]] (line 168, col 3, score 1)
+- [[state-snapshots-api-and-transactional-projector#L351|State Snapshots API and Transactional Projector — L351]] (line 351, col 1, score 0.98)
+- [[state-snapshots-api-and-transactional-projector#L351|State Snapshots API and Transactional Projector — L351]] (line 351, col 3, score 0.98)
+- [[docs/unique/event-bus-mvp#L564|Event Bus MVP — L564]] (line 564, col 1, score 0.98)
+- [[docs/unique/event-bus-mvp#L564|Event Bus MVP — L564]] (line 564, col 3, score 0.98)
+- [[state-snapshots-api-and-transactional-projector#L350|State Snapshots API and Transactional Projector — L350]] (line 350, col 1, score 0.98)
+- [[state-snapshots-api-and-transactional-projector#L350|State Snapshots API and Transactional Projector — L350]] (line 350, col 3, score 0.98)
+- [[prom-lib-rate-limiters-and-replay-api#L395|prom-lib-rate-limiters-and-replay-api — L395]] (line 395, col 1, score 0.97)
+- [[prom-lib-rate-limiters-and-replay-api#L395|prom-lib-rate-limiters-and-replay-api — L395]] (line 395, col 3, score 0.97)
+>>>>>>> stealth/obsidian
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

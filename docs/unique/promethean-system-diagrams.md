@@ -1,274 +1,898 @@
 ---
-uuid: 1633c219-d543-4944-b72b-caf3c93fef7f
-created_at: promethean-system-diagrams.md
-filename: Promethean System Diagrams
-title: Promethean System Diagrams
+uuid: b51e19b4-1326-4311-9798-33e972bf626c
+created_at: comprehensive-system-diagrams.md
+filename: promethean-system-diagrams
 description: >-
-  A collection of Obsidian-compatible Mermaid diagrams illustrating the
-  Promethean system architecture, cognitive layers, and agent interactions.
-  Includes high-level system overview, layered cognitive stack, Eidolon fields,
-  Cephalon flow, service ecosystem, Daimoi lifecycle, and voice-to-text
-  processing loops.
+  Consolidated Mermaid diagrams for Promethean system architecture, cognitive
+  layers, and agent interactions
 tags:
   - system
   - architecture
   - cognitive
   - diagrams
   - mermaid
-  - promethean
   - agent
   - services
-  - eidolon
-  - cephalon
-related_to_uuid:
-  - bc5172ca-7a09-42ad-b418-8e42bb14d089
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - d41a06d1-613e-4440-80b7-4553fc694285
-  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
-  - e811123d-5841-4e52-bf8c-978f26db4230
-  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - b01856b4-999f-418d-8009-ade49b00eb0f
-  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
-  - b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
-  - 86a691ec-ca1f-4350-824c-0ded1f8ebe70
-  - f8877e5e-1e4f-4478-93cd-a0bf86d26a41
-  - d527c05d-22e8-4493-8f29-ae3cb67f035b
-  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
-  - 4127189a-e0ab-436f-8571-cc852b8e9add
-  - b4e64f8c-4dc9-4941-a877-646c5ada068e
-  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
-  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
-  - af5d2824-faad-476c-a389-e912d9bc672c
-  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
-  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
-  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
-  - 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
-  - db74343f-8f84-43a3-adb2-499c6f00be1c
+  - flow
 related_to_title:
-  - prom ui bootstrap
-  - Duck's Attractor States
-  - prompt-programming-language-lisp
-  - Promethean Event Bus MVP v0.1
-  - WebSocket Gateway Implementation
-  - Voice Access Layer Design
-  - eidolon-field-math-foundations
-  - Universal Lisp Interface
-  - Canonical Org-Babel Matplotlib Animation Template
-  - Mathematics Sampler
-  - Mathematical Samplers
-  - template-based-compilation
-  - Pure-Node Crawl Stack with Playwright and Crawlee
-  - Event Bus MVP
+  - eidolon-node-lifecycle
   - layer-1-uptime-diagrams
-  - observability-infrastructure-setup
-  - sibilant-metacompiler-overview
+  - field-node-diagram-visualizations
+  - field-node-diagram-outline
+  - field-node-diagram-set
+  - Unique Info Dump Index
+  - Event Bus Projections Architecture
+  - 'Agent Tasks: Persistence Migration to DualStore'
+  - heartbeat-simulation-snippets
+  - ripple-propagation-demo
+  - heartbeat-fragment-demo
+  - eidolon-field-math-foundations
+  - Migrate to Provider-Tenant Architecture
+  - Promethean Event Bus MVP v0.1
+  - Chroma Toolkit Consolidation Plan
+  - aionian-circuit-math
+  - 2d-sandbox-field
+  - Eidolon Field Abstract Model
+  - archetype-ecs
+  - Diagrams
+  - DSL
+  - Per-Domain Policy System for JS Crawler
+  - EidolonField
+  - Simulation Demo
   - Eidolon-Field-Optimization
-  - Sibilant Meta-Prompt DSL
-  - prom-lib-rate-limiters-and-replay-api
-  - Promethean Agent Config DSL
-  - ecs-scheduler-and-prefabs
-  - homeostasis-decay-formulas
-  - Ice Box Reorganization
-  - Model Upgrade Calm-Down Guide
+  - Factorio AI with External Agents
+related_to_uuid:
+  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+  - 4127189a-e0ab-436f-8571-cc852b8e9add
+  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+  - 22b989d5-f4aa-4880-8632-709c21830f83
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
+  - 93d2ba51-8689-49ee-94e2-296092e48058
+  - 23e221e9-d4fa-4106-8458-06db2595085f
+  - 8430617b-80a2-4cc9-8288-9a74cb57990b
+  - dd00677a-2280-45a7-91af-0728b21af3ad
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - f2d83a77-7f86-4c56-8538-1350167a0c6c
+  - c710dc93-9fec-471b-bdee-bedbd360c67f
+  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
+  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+  - 45cd25b5-ed36-49ab-82c8-10d0903e34db
+  - e87bc036-1570-419e-a558-f45b9c0db698
+  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
+  - 49d1e1e5-5d13-4955-8f6f-7676434ec462
+  - 557309a3-c906-4e97-8867-89ffe151790c
+  - 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+  - a4d90289-798d-44a0-a8e8-a055ae12fb52
 references:
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 2629
-    col: 0
-    score: 0.92
-  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
-    line: 440
-    col: 0
-    score: 0.92
-  - uuid: d41a06d1-613e-4440-80b7-4553fc694285
-    line: 56
-    col: 0
-    score: 0.91
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 3074
-    col: 0
-    score: 0.9
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 2582
-    col: 0
-    score: 0.9
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 3840
-    col: 0
-    score: 0.9
-  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
-    line: 630
-    col: 0
-    score: 0.9
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 1989
-    col: 0
-    score: 0.89
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 6936
-    col: 0
-    score: 0.89
-  - uuid: 86a691ec-ca1f-4350-824c-0ded1f8ebe70
-    line: 142
-    col: 0
-    score: 0.89
-  - uuid: b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
-    line: 149
-    col: 0
-    score: 0.89
-  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
-    line: 187
-    col: 0
-    score: 0.89
-  - uuid: f8877e5e-1e4f-4478-93cd-a0bf86d26a41
-    line: 44
-    col: 0
-    score: 0.89
-  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
-    line: 400
-    col: 0
-    score: 0.89
-  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
-    line: 524
-    col: 0
-    score: 0.89
-  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
-    line: 129
-    col: 0
-    score: 0.89
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 15441
-    col: 0
-    score: 0.88
-  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
-    line: 348
-    col: 0
-    score: 0.88
-  - uuid: 61d4086b-4adf-4e94-95e4-95a249cd1b53
-    line: 52
-    col: 0
-    score: 0.88
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
-    line: 120
-    col: 0
-    score: 0.88
-  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
-    line: 50
-    col: 0
-    score: 0.88
-  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
-    line: 306
-    col: 0
-    score: 0.88
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 280
-    col: 0
-    score: 0.87
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 1814
-    col: 0
-    score: 0.87
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 2856
-    col: 0
-    score: 0.87
-  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
-    line: 2901
-    col: 0
-    score: 0.87
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 2509
-    col: 0
-    score: 0.87
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 3578
-    col: 0
-    score: 0.87
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 57
+    col: 1
+    score: 0.86
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 57
+    col: 3
+    score: 0.86
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 1
+    col: 1
+    score: 0.85
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 80
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 25
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 94
+    col: 1
+    score: 1
   - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 2249
-    col: 0
-    score: 0.87
-  - uuid: b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
-    line: 979
-    col: 0
-    score: 0.87
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 1695
-    col: 0
-    score: 0.87
-  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
-    line: 376
-    col: 0
-    score: 0.87
-  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
-    line: 63
-    col: 0
-    score: 0.87
-  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
-    line: 161
-    col: 0
-    score: 0.87
-  - uuid: 5158f742-4a3b-466e-bfc3-d83517b64200
-    line: 818
-    col: 0
-    score: 0.87
-  - uuid: 66a72fc3-4153-41fc-84bd-d6164967a6ff
-    line: 185
-    col: 0
-    score: 0.87
-  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
-    line: 56
-    col: 0
-    score: 0.86
-  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
-    line: 279
-    col: 0
-    score: 0.86
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 130
+    col: 1
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 150
+    col: 1
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 82
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 27
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 96
+    col: 1
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 132
+    col: 1
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 152
+    col: 1
+    score: 1
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 152
+    col: 1
+    score: 1
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 152
+    col: 3
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 146
+    col: 1
+    score: 1
+  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
+    line: 146
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 102
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 102
+    col: 3
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 138
+    col: 1
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 138
+    col: 3
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 199
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 199
+    col: 3
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 196
+    col: 1
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 196
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 35
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 35
+    col: 3
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 249
+    col: 1
+    score: 1
+  - uuid: 49d1e1e5-5d13-4955-8f6f-7676434ec462
+    line: 249
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 31
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 31
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 100
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 100
+    col: 3
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 136
+    col: 1
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 136
+    col: 3
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 105
+    col: 1
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 105
+    col: 3
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 198
+    col: 1
+    score: 1
+  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
+    line: 198
+    col: 3
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 195
+    col: 1
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 195
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
     line: 137
-    col: 0
-    score: 0.86
-  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
-    line: 95
-    col: 0
-    score: 0.86
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 137
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 32
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 32
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 33
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 33
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 101
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 101
+    col: 3
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 87
+    col: 1
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 87
+    col: 3
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 107
+    col: 1
+    score: 1
+  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
+    line: 107
+    col: 3
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 158
+    col: 1
+    score: 1
+  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
+    line: 158
+    col: 3
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 457
+    col: 1
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 457
+    col: 3
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 9
+    col: 1
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 9
+    col: 3
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 10
+    col: 1
+    score: 1
+  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
+    line: 10
+    col: 3
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 12
+    col: 1
+    score: 1
+  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
+    line: 12
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 40
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 40
+    col: 3
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 172
+    col: 1
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 172
+    col: 3
+    score: 1
   - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
-    line: 972
-    col: 0
-    score: 0.86
-  - uuid: 51932e7b-4237-4756-bcae-8be6d535d0d1
-    line: 217
-    col: 0
-    score: 0.86
-  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
-    line: 147
-    col: 0
-    score: 0.86
-  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
-    line: 401
-    col: 0
-    score: 0.85
-  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
-    line: 279
-    col: 0
-    score: 0.85
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 427
-    col: 0
-    score: 0.85
-  - uuid: cfbdca2f-5ee8-4cad-a75e-0e017e8d9b77
+    line: 887
+    col: 1
+    score: 1
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 887
+    col: 3
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 173
+    col: 1
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 173
+    col: 3
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 133
+    col: 1
+    score: 1
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 133
+    col: 3
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 266
+    col: 1
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 266
+    col: 3
+    score: 1
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 472
+    col: 1
+    score: 1
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 472
+    col: 3
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 10
+    col: 1
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 10
+    col: 3
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 200
+    col: 1
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 200
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 38
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 38
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 116
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 116
+    col: 3
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
     line: 11
-    col: 0
-    score: 0.85
-  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
-    line: 388
-    col: 0
-    score: 0.85
+    col: 1
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 11
+    col: 3
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 199
+    col: 1
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 199
+    col: 3
+    score: 1
+  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+    line: 103
+    col: 1
+    score: 1
+  - uuid: 40e05c14-0db0-44c5-bf0a-2eece2f4c2a4
+    line: 103
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 39
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 39
+    col: 3
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 9
+    col: 1
+    score: 1
+  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
+    line: 9
+    col: 3
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 201
+    col: 1
+    score: 1
+  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+    line: 201
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 37
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 37
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 115
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 115
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 123
+    col: 1
+    score: 0.99
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 123
+    col: 3
+    score: 0.99
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 150
+    col: 1
+    score: 0.99
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 150
+    col: 3
+    score: 0.99
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 100
+    col: 1
+    score: 0.99
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 100
+    col: 3
+    score: 0.99
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 176
+    col: 1
+    score: 0.99
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 176
+    col: 3
+    score: 0.99
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 124
+    col: 1
+    score: 0.99
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 124
+    col: 3
+    score: 0.99
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 151
+    col: 1
+    score: 0.99
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 151
+    col: 3
+    score: 0.99
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 101
+    col: 1
+    score: 0.99
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 101
+    col: 3
+    score: 0.99
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 177
+    col: 1
+    score: 0.99
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 177
+    col: 3
+    score: 0.99
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 122
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 122
+    col: 3
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 149
+    col: 1
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 149
+    col: 3
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 99
+    col: 1
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 99
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 126
+    col: 1
+    score: 0.99
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 126
+    col: 3
+    score: 0.99
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 50
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 50
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 135
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 135
+    col: 3
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 152
+    col: 1
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 152
+    col: 3
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 186
+    col: 1
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 186
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 137
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 137
+    col: 3
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 154
+    col: 1
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 154
+    col: 3
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 105
+    col: 1
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 105
+    col: 3
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 188
+    col: 1
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 188
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 52
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 52
+    col: 3
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 155
+    col: 1
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 155
+    col: 3
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 106
+    col: 1
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 106
+    col: 3
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 189
+    col: 1
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 189
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 53
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 53
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 138
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 138
+    col: 3
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 107
+    col: 1
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 107
+    col: 3
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 190
+    col: 1
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 190
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 54
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 54
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 139
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 139
+    col: 3
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 156
+    col: 1
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 156
+    col: 3
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 108
+    col: 1
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 108
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 55
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 55
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 140
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 140
+    col: 3
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 157
+    col: 1
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 157
+    col: 3
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 191
+    col: 1
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 191
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 142
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 142
+    col: 3
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 159
+    col: 1
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 159
+    col: 3
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 110
+    col: 1
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 110
+    col: 3
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 193
+    col: 1
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 193
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 57
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 57
+    col: 3
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 160
+    col: 1
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 160
+    col: 3
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 111
+    col: 1
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 111
+    col: 3
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 194
+    col: 1
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 194
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 58
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 58
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 143
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 143
+    col: 3
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 112
+    col: 1
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 112
+    col: 3
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 195
+    col: 1
+    score: 1
+  - uuid: 4127189a-e0ab-436f-8571-cc852b8e9add
+    line: 195
+    col: 3
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 59
+    col: 1
+    score: 1
+  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
+    line: 59
+    col: 3
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 144
+    col: 1
+    score: 1
+  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
+    line: 144
+    col: 3
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 161
+    col: 1
+    score: 1
+  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
+    line: 161
+    col: 3
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 113
+    col: 1
+    score: 1
+  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
+    line: 113
+    col: 3
+    score: 1
 ---
-Note: Consolidated here → ../notes/diagrams/full-system-overview-diagrams.md ^ref-b51e19b4-1-0
+Note: Consolidated here → ../notes/diagrams/full-system-overview-diagrams.md
 
-Absolutely. Here's a series of **Obsidian-compatible** `mermaid` diagrams based on everything we've built so far across the Promethean project — including the Cephalon, Eidolon Fields, the layered circuits, the services architecture, and agent interactions. Each diagram will be brief and self-contained so you can paste it directly into notes. We'll mix system architecture, cognitive modeling, and data flow. ^ref-b51e19b4-3-0
+Absolutely. Here's a series of **Obsidian-compatible** `mermaid` diagrams based on everything we've built so far across the Promethean project — including the Cephalon, Eidolon Fields, the layered circuits, the services architecture, and agent interactions. Each diagram will be brief and self-contained so you can paste it directly into notes. We'll mix system architecture, cognitive modeling, and data flow.
 
 ---
 
@@ -294,12 +918,11 @@ graph TD
   Cephalon --> TTS
   Cephalon --> LLM
 ```
-^ref-b51e19b4-9-0
 
 ---
 
 ## 🔁 Layered Cognitive Stack
- ^ref-b51e19b4-34-0
+
 ```mermaid
 graph TD
   L1["Layer 1: Uptime / Survival"]
@@ -312,12 +935,11 @@ graph TD
   L8["Layer 8: Self-Transformation"]
 
   L1 --> L2 --> L3 --> L4 --> L5 --> L6 --> L7 --> L8
-^ref-b51e19b4-34-0
 ```
 
 ---
 
-## ⚡ Eidolon Field Structure (Vector Field Dynamics) ^ref-b51e19b4-52-0
+## ⚡ Eidolon Field Structure (Vector Field Dynamics)
 
 ```mermaid
 graph TD
@@ -338,12 +960,11 @@ graph TD
   EidolonField --> Axis5
   EidolonField --> Axis6
   EidolonField --> Axis7
-^ref-b51e19b4-52-0
   EidolonField --> Axis8
 ```
 
 ---
- ^ref-b51e19b4-78-0
+
 ## 🧩 Cephalon Flow (Stream Processor)
 
 ```mermaid
@@ -355,12 +976,11 @@ graph TD
   ResponseGen["💭 Response Generator"]
   TTS["🔊 TTS"]
   Output["📢 Output to Agent"]
-^ref-b51e19b4-78-0
 
   Input --> STT --> Parser --> LLM --> ResponseGen --> TTS --> Output
 ```
 
---- ^ref-b51e19b4-95-0
+---
 
 ## 🕸️ Agent ↔ Service Ecosystem (Flat Service Model)
 
@@ -376,12 +996,11 @@ graph TD
 
   AgentDuck --> ServiceSTT
   AgentDuck --> ServiceTTS
-^ref-b51e19b4-95-0
   AgentDuck --> ServiceLLM
   ServiceIndexer --> DB
   ServiceEmbedder --> DB
 ```
- ^ref-b51e19b4-116-0
+
 ---
 
 ## 🔄 Daimoi Lifecycle Diagram
@@ -396,13 +1015,11 @@ flowchart TD
   Survives{"Positive Reinforcement?"}
   Dies["Daimo Dissipates"]
   Bonds["Forms Nexus (if successful)"]
-^ref-b51e19b4-116-0
 
   Start --> Bound --> Feeds --> Acts --> Evaluates --> Survives
   Survives -- Yes --> Bonds
   Survives -- No --> Dies
 ```
-^ref-b51e19b4-136-0 ^ref-b51e19b4-137-0 ^ref-395df1ea-137-0
 
 ---
 
@@ -420,15 +1037,12 @@ sequenceDiagram
   User->>Duck: Voice Input
   Duck->>STT: Capture and Transcribe
   STT->>Cephalon: Text
-^ref-b51e19b4-136-0
   Cephalon->>LLM: Prompt + Context
   LLM->>Cephalon: Generated Reply
   Cephalon->>TTS: Convert to Speech
   TTS->>Duck: Stream to VC
   Duck->>User: Audio Response
-^ref-b51e19b4-159-0
 ```
-^ref-b51e19b4-159-0
 
 ---
 
@@ -440,123 +1054,264 @@ graph TD
   AgentConfig["🦆 Duck Ecosystem"]
   GlobalConfig["⚙️ Global Services Ecosystem"]
   Services(["services/"])
-^ref-b51e19b4-159-0
   Shared(["shared/"])
 
-  Root --> AgentConfig ^ref-b51e19b4-175-0
+  Root --> AgentConfig
   Root --> GlobalConfig
-  Root --> Services ^ref-b51e19b4-177-0
-^ref-b51e19b4-179-0 ^ref-b51e19b4-180-0
-^ref-b51e19b4-177-0 ^ref-b51e19b4-181-0
-^ref-b51e19b4-175-0
-  Root --> Shared ^ref-b51e19b4-183-0
-^ref-b51e19b4-183-0
-^ref-b51e19b4-181-0
-^ref-b51e19b4-180-0 ^ref-b51e19b4-187-0
-^ref-b51e19b4-179-0
-^ref-b51e19b4-177-0 ^ref-b51e19b4-189-0
-^ref-b51e19b4-175-0
-``` ^ref-b51e19b4-179-0
-^ref-b51e19b4-169-0
-^ref-b51e19b4-183-0
-^ref-b51e19b4-181-0
-^ref-b51e19b4-180-0
-^ref-b51e19b4-179-0
-^ref-b51e19b4-177-0
-^ref-b51e19b4-175-0
-^ref-b51e19b4-169-0
- ^ref-b51e19b4-180-0
---- ^ref-b51e19b4-181-0
- ^ref-b51e19b4-187-0
-Do you want more focused diagrams next? e.g.,: ^ref-b51e19b4-183-0
- ^ref-b51e19b4-189-0 ^ref-b51e19b4-203-0
-* Nexus binding and feedback loops?
-* Eidolon Field math structure in LaTeX?
-* MongoDB entity persistence lifecycle? ^ref-b51e19b4-187-0
-* Voice-to-context buffer FSM? ^ref-b51e19b4-207-0
-* Permission Gatekeeping and Layer 2 simulation? ^ref-b51e19b4-189-0
+  Root --> Services
+  Root --> Shared
+```
 
-Just say *"More, on X"*, and I’ll generate them rapid-fire. ^ref-b51e19b4-203-0
- ^ref-b51e19b4-211-0
 ---
 
-Related notes: [[../notes/diagrams/node-type-topology-map|node-type-topology-map]], [[../notes/diagrams/circuit-weight-visualizations|circuit-weight-visualizations]], [[../notes/diagrams/full-system-overview-diagrams|full-system-overview-diagrams]], [[../notes/diagrams/layer1-uptime-diagrams|layer1-uptime-diagrams]], [[../notes/diagrams/field-node-lifecycle-additional-diagrams|field-node-lifecycle-additional-diagrams]], [[../notes/diagrams/state-diagram-node-lifecycle|state-diagram-node-lifecycle]] [[index|unique/index]] ^ref-b51e19b4-207-0
+Do you want more focused diagrams next? e.g.,:
+
+* Nexus binding and feedback loops?
+* Eidolon Field math structure in LaTeX?
+* MongoDB entity persistence lifecycle?
+* Voice-to-context buffer FSM?
+* Permission Gatekeeping and Layer 2 simulation?
+
+Just say *"More, on X"*, and I’ll generate them rapid-fire.
+
+---
+
+Related notes: [[node-type-topology-map]], [[circuit-weight-visualizations]], [[full-system-overview-diagrams]], [[layer1-uptime-diagrams]], [[field-node-lifecycle-additional-diagrams]], [[state-diagram-node-lifecycle]] [[docs/architecture/index|unique/index]]
 
 #tags: #diagram #design
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [prom ui bootstrap](promethean-web-ui-setup.md)
-- [Duck's Attractor States](ducks-attractor-states.md)
-- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
+- [[eidolon-node-lifecycle]]
+- [[layer-1-uptime-diagrams]]
+- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
+- [[field-node-diagram-outline]]
+- [[field-node-diagram-set]]
+- [[unique-info-dump-index|Unique Info Dump Index]]
+- [[event-bus-projections-architecture|Event Bus Projections Architecture]]
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
+- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
+- [[docs/unique/ripple-propagation-demo|ripple-propagation-demo]]
+- [[heartbeat-fragment-demo]]
+- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
+- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
 - [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
-- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
-- [Voice Access Layer Design](voice-access-layer-design.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [Universal Lisp Interface](universal-lisp-interface.md)
-- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [Mathematics Sampler](mathematics-sampler.md)
-- [Mathematical Samplers](mathematical-samplers.md)
-- [template-based-compilation](template-based-compilation.md)
-- [Pure-Node Crawl Stack with Playwright and Crawlee](pure-node-crawl-stack-with-playwright-and-crawlee.md)
-- [Event Bus MVP](event-bus-mvp.md)
-- [layer-1-uptime-diagrams](layer-1-uptime-diagrams.md)
-- [observability-infrastructure-setup](observability-infrastructure-setup.md)
-- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
-- [Eidolon-Field-Optimization](eidolon-field-optimization.md)
-- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
-- [prom-lib-rate-limiters-and-replay-api](prom-lib-rate-limiters-and-replay-api.md)
-- [Promethean Agent Config DSL](promethean-agent-config-dsl.md)
-- [ecs-scheduler-and-prefabs](ecs-scheduler-and-prefabs.md)
-- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
-- [Ice Box Reorganization](ice-box-reorganization.md)
-- [Model Upgrade Calm-Down Guide](model-upgrade-calm-down-guide.md)
+- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
+- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
+- [[2d-sandbox-field]]
+- [[eidolon-field-abstract-model|Eidolon Field Abstract Model]]
+- [[docs/unique/archetype-ecs|archetype-ecs]]
+- [Diagrams](chunks/diagrams.md)
+- [DSL](chunks/dsl.md)
+- [[per-domain-policy-system-for-js-crawler|Per-Domain Policy System for JS Crawler]]
+- [[eidolonfield]]
+- [Simulation Demo](chunks/simulation-demo.md)
+- [[eidolon-field-optimization]]
+- [[factorio-ai-with-external-agents|Factorio AI with External Agents]]
+
 ## Sources
-- [Duck's Attractor States — L2629](ducks-attractor-states.md#^ref-13951643-2629-0) (line 2629, col 0, score 0.92)
-- [prom ui bootstrap — L440](promethean-web-ui-setup.md#^ref-bc5172ca-440-0) (line 440, col 0, score 0.92)
-- [prompt-programming-language-lisp — L56](prompt-programming-language-lisp.md#^ref-d41a06d1-56-0) (line 56, col 0, score 0.91)
-- [Duck's Attractor States — L3074](ducks-attractor-states.md#^ref-13951643-3074-0) (line 3074, col 0, score 0.9)
-- [Duck's Attractor States — L2582](ducks-attractor-states.md#^ref-13951643-2582-0) (line 2582, col 0, score 0.9)
-- [eidolon-field-math-foundations — L3840](eidolon-field-math-foundations.md#^ref-008f2ac0-3840-0) (line 3840, col 0, score 0.9)
-- [WebSocket Gateway Implementation — L630](websocket-gateway-implementation.md#^ref-e811123d-630-0) (line 630, col 0, score 0.9)
-- [Canonical Org-Babel Matplotlib Animation Template — L1989](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-1989-0) (line 1989, col 0, score 0.89)
-- [eidolon-field-math-foundations — L6936](eidolon-field-math-foundations.md#^ref-008f2ac0-6936-0) (line 6936, col 0, score 0.89)
-- [Mathematical Samplers — L142](mathematical-samplers.md#^ref-86a691ec-142-0) (line 142, col 0, score 0.89)
-- [Mathematics Sampler — L149](mathematics-sampler.md#^ref-b5e0183e-149-0) (line 149, col 0, score 0.89)
-- [Universal Lisp Interface — L187](universal-lisp-interface.md#^ref-b01856b4-187-0) (line 187, col 0, score 0.89)
-- [template-based-compilation — L44](template-based-compilation.md#^ref-f8877e5e-44-0) (line 44, col 0, score 0.89)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L400](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-400-0) (line 400, col 0, score 0.89)
-- [Event Bus MVP — L524](event-bus-mvp.md#^ref-534fe91d-524-0) (line 524, col 0, score 0.89)
-- [layer-1-uptime-diagrams — L129](layer-1-uptime-diagrams.md#^ref-4127189a-129-0) (line 129, col 0, score 0.89)
-- [Duck's Attractor States — L15441](ducks-attractor-states.md#^ref-13951643-15441-0) (line 15441, col 0, score 0.88)
-- [observability-infrastructure-setup — L348](observability-infrastructure-setup.md#^ref-b4e64f8c-348-0) (line 348, col 0, score 0.88)
-- [sibilant-metacompiler-overview — L52](sibilant-metacompiler-overview.md#^ref-61d4086b-52-0) (line 52, col 0, score 0.88)
-- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.88)
-- [Eidolon-Field-Optimization — L50](eidolon-field-optimization.md#^ref-40e05c14-50-0) (line 50, col 0, score 0.88)
-- [prom-lib-rate-limiters-and-replay-api — L306](prom-lib-rate-limiters-and-replay-api.md#^ref-aee4718b-306-0) (line 306, col 0, score 0.88)
-- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.87)
-- [eidolon-field-math-foundations — L1814](eidolon-field-math-foundations.md#^ref-008f2ac0-1814-0) (line 1814, col 0, score 0.87)
-- [homeostasis-decay-formulas — L2856](homeostasis-decay-formulas.md#^ref-37b5d236-2856-0) (line 2856, col 0, score 0.87)
-- [Ice Box Reorganization — L2901](ice-box-reorganization.md#^ref-291c7d91-2901-0) (line 2901, col 0, score 0.87)
-- [Model Upgrade Calm-Down Guide — L2509](model-upgrade-calm-down-guide.md#^ref-db74343f-2509-0) (line 2509, col 0, score 0.87)
-- [field-interaction-equations — L3578](field-interaction-equations.md#^ref-b09141b7-3578-0) (line 3578, col 0, score 0.87)
-- [field-node-diagram-set — L2249](field-node-diagram-set.md#^ref-22b989d5-2249-0) (line 2249, col 0, score 0.87)
-- [Mathematics Sampler — L979](mathematics-sampler.md#^ref-b5e0183e-979-0) (line 979, col 0, score 0.87)
-- [Model Upgrade Calm-Down Guide — L1695](model-upgrade-calm-down-guide.md#^ref-db74343f-1695-0) (line 1695, col 0, score 0.87)
-- [ecs-scheduler-and-prefabs — L376](ecs-scheduler-and-prefabs.md#^ref-c62a1815-376-0) (line 376, col 0, score 0.87)
-- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.87)
-- [shared-package-layout-clarification — L161](shared-package-layout-clarification.md#^ref-36c8882a-161-0) (line 161, col 0, score 0.87)
-- [Promethean Agent DSL TS Scaffold — L818](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-818-0) (line 818, col 0, score 0.87)
-- [Shared Package Structure — L185](shared-package-structure.md#^ref-66a72fc3-185-0) (line 185, col 0, score 0.87)
-- [Universal Lisp Interface — L56](universal-lisp-interface.md#^ref-b01856b4-56-0) (line 56, col 0, score 0.86)
-- [prom ui bootstrap — L279](promethean-web-ui-setup.md#^ref-bc5172ca-279-0) (line 279, col 0, score 0.86)
-- [RAG UI Panel with Qdrant and PostgREST — L137](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-137-0) (line 137, col 0, score 0.86)
-- [Vectorial Exception Descent — L95](vectorial-exception-descent.md#^ref-d771154e-95-0) (line 95, col 0, score 0.86)
-- [Promethean Event Bus MVP v0.1 — L972](promethean-event-bus-mvp-v0-1.md#^ref-fe7193a2-972-0) (line 972, col 0, score 0.86)
-- [pm2-orchestration-patterns — L217](pm2-orchestration-patterns.md#^ref-51932e7b-217-0) (line 217, col 0, score 0.86)
-- [Local-Only-LLM-Workflow — L147](local-only-llm-workflow.md#^ref-9a8ab57e-147-0) (line 147, col 0, score 0.86)
-- [Pure-Node Crawl Stack with Playwright and Crawlee — L401](pure-node-crawl-stack-with-playwright-and-crawlee.md#^ref-d527c05d-401-0) (line 401, col 0, score 0.85)
-- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.85)
-- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.85)
-- [Refactor Frontmatter Processing — L11](refactor-frontmatter-processing.md#^ref-cfbdca2f-11-0) (line 11, col 0, score 0.85)
-- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.85)
+- [[unique-info-dump-index#L57|Unique Info Dump Index — L57]] (line 57, col 1, score 0.86)
+- [[unique-info-dump-index#L57|Unique Info Dump Index — L57]] (line 57, col 3, score 0.86)
+- [[eidolon-node-lifecycle#L1|eidolon-node-lifecycle — L1]] (line 1, col 1, score 0.85)
+- [field-node-diagram-visualizations — L80](field-node-diagram-visualizations.md#L80) (line 80, col 1, score 1)
+- [[eidolon-node-lifecycle#L25|eidolon-node-lifecycle — L25]] (line 25, col 1, score 1)
+- [[field-node-diagram-outline#L94|field-node-diagram-outline — L94]] (line 94, col 1, score 1)
+- [[field-node-diagram-set#L130|field-node-diagram-set — L130]] (line 130, col 1, score 1)
+- [[layer-1-uptime-diagrams#L150|layer-1-uptime-diagrams — L150]] (line 150, col 1, score 1)
+- [field-node-diagram-visualizations — L82](field-node-diagram-visualizations.md#L82) (line 82, col 1, score 1)
+- [[eidolon-node-lifecycle#L27|eidolon-node-lifecycle — L27]] (line 27, col 1, score 1)
+- [[field-node-diagram-outline#L96|field-node-diagram-outline — L96]] (line 96, col 1, score 1)
+- [[field-node-diagram-set#L132|field-node-diagram-set — L132]] (line 132, col 1, score 1)
+- [[layer-1-uptime-diagrams#L152|layer-1-uptime-diagrams — L152]] (line 152, col 1, score 1)
+- [[event-bus-projections-architecture#L152|Event Bus Projections Architecture — L152]] (line 152, col 1, score 1)
+- [[event-bus-projections-architecture#L152|Event Bus Projections Architecture — L152]] (line 152, col 3, score 1)
+- [[factorio-ai-with-external-agents#L146|Factorio AI with External Agents — L146]] (line 146, col 1, score 1)
+- [[factorio-ai-with-external-agents#L146|Factorio AI with External Agents — L146]] (line 146, col 3, score 1)
+- [[field-node-diagram-outline#L102|field-node-diagram-outline — L102]] (line 102, col 1, score 1)
+- [[field-node-diagram-outline#L102|field-node-diagram-outline — L102]] (line 102, col 3, score 1)
+- [[field-node-diagram-set#L138|field-node-diagram-set — L138]] (line 138, col 1, score 1)
+- [[field-node-diagram-set#L138|field-node-diagram-set — L138]] (line 138, col 3, score 1)
+- [[2d-sandbox-field#L199|2d-sandbox-field — L199]] (line 199, col 1, score 1)
+- [[2d-sandbox-field#L199|2d-sandbox-field — L199]] (line 199, col 3, score 1)
+- [[eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196]] (line 196, col 1, score 1)
+- [[eidolon-field-abstract-model#L196|Eidolon Field Abstract Model — L196]] (line 196, col 3, score 1)
+- [[eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35]] (line 35, col 1, score 1)
+- [[eidolon-node-lifecycle#L35|eidolon-node-lifecycle — L35]] (line 35, col 3, score 1)
+- [[eidolonfield#L249|EidolonField — L249]] (line 249, col 1, score 1)
+- [[eidolonfield#L249|EidolonField — L249]] (line 249, col 3, score 1)
+- [[eidolon-node-lifecycle#L31|eidolon-node-lifecycle — L31]] (line 31, col 1, score 1)
+- [[eidolon-node-lifecycle#L31|eidolon-node-lifecycle — L31]] (line 31, col 3, score 1)
+- [[field-node-diagram-outline#L100|field-node-diagram-outline — L100]] (line 100, col 1, score 1)
+- [[field-node-diagram-outline#L100|field-node-diagram-outline — L100]] (line 100, col 3, score 1)
+- [[field-node-diagram-set#L136|field-node-diagram-set — L136]] (line 136, col 1, score 1)
+- [[field-node-diagram-set#L136|field-node-diagram-set — L136]] (line 136, col 3, score 1)
+- [[heartbeat-fragment-demo#L105|heartbeat-fragment-demo — L105]] (line 105, col 1, score 1)
+- [[heartbeat-fragment-demo#L105|heartbeat-fragment-demo — L105]] (line 105, col 3, score 1)
+- [[2d-sandbox-field#L198|2d-sandbox-field — L198]] (line 198, col 1, score 1)
+- [[2d-sandbox-field#L198|2d-sandbox-field — L198]] (line 198, col 3, score 1)
+- [[eidolon-field-abstract-model#L195|Eidolon Field Abstract Model — L195]] (line 195, col 1, score 1)
+- [[eidolon-field-abstract-model#L195|Eidolon Field Abstract Model — L195]] (line 195, col 3, score 1)
+- [[docs/unique/eidolon-field-math-foundations#L137|eidolon-field-math-foundations — L137]] (line 137, col 1, score 1)
+- [[docs/unique/eidolon-field-math-foundations#L137|eidolon-field-math-foundations — L137]] (line 137, col 3, score 1)
+- [[eidolon-node-lifecycle#L32|eidolon-node-lifecycle — L32]] (line 32, col 1, score 1)
+- [[eidolon-node-lifecycle#L32|eidolon-node-lifecycle — L32]] (line 32, col 3, score 1)
+- [[eidolon-node-lifecycle#L33|eidolon-node-lifecycle — L33]] (line 33, col 1, score 1)
+- [[eidolon-node-lifecycle#L33|eidolon-node-lifecycle — L33]] (line 33, col 3, score 1)
+- [[field-node-diagram-outline#L101|field-node-diagram-outline — L101]] (line 101, col 1, score 1)
+- [[field-node-diagram-outline#L101|field-node-diagram-outline — L101]] (line 101, col 3, score 1)
+- [field-node-diagram-visualizations — L87](field-node-diagram-visualizations.md#L87) (line 87, col 1, score 1)
+- [field-node-diagram-visualizations — L87](field-node-diagram-visualizations.md#L87) (line 87, col 3, score 1)
+- [[heartbeat-fragment-demo#L107|heartbeat-fragment-demo — L107]] (line 107, col 1, score 1)
+- [[heartbeat-fragment-demo#L107|heartbeat-fragment-demo — L107]] (line 107, col 3, score 1)
+- [[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]] (line 158, col 1, score 1)
+- [[docs/unique/aionian-circuit-math#L158|aionian-circuit-math — L158]] (line 158, col 3, score 1)
+- [[docs/unique/archetype-ecs#L457|archetype-ecs — L457]] (line 457, col 1, score 1)
+- [[docs/unique/archetype-ecs#L457|archetype-ecs — L457]] (line 457, col 3, score 1)
+- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 1, score 1)
+- [Diagrams — L9](chunks/diagrams.md#L9) (line 9, col 3, score 1)
+- [DSL — L10](chunks/dsl.md#L10) (line 10, col 1, score 1)
+- [DSL — L10](chunks/dsl.md#L10) (line 10, col 3, score 1)
+- [Diagrams — L12](chunks/diagrams.md#L12) (line 12, col 1, score 1)
+- [Diagrams — L12](chunks/diagrams.md#L12) (line 12, col 3, score 1)
+- [[eidolon-node-lifecycle#L40|eidolon-node-lifecycle — L40]] (line 40, col 1, score 1)
+- [[eidolon-node-lifecycle#L40|eidolon-node-lifecycle — L40]] (line 40, col 3, score 1)
+- [[layer-1-uptime-diagrams#L172|layer-1-uptime-diagrams — L172]] (line 172, col 1, score 1)
+- [[layer-1-uptime-diagrams#L172|layer-1-uptime-diagrams — L172]] (line 172, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L887](promethean-event-bus-mvp-v0-1.md#L887) (line 887, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L887](promethean-event-bus-mvp-v0-1.md#L887) (line 887, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L173|Chroma Toolkit Consolidation Plan — L173]] (line 173, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L173|Chroma Toolkit Consolidation Plan — L173]] (line 173, col 3, score 1)
+- [[docs/unique/eidolon-field-math-foundations#L133|eidolon-field-math-foundations — L133]] (line 133, col 1, score 1)
+- [[docs/unique/eidolon-field-math-foundations#L133|eidolon-field-math-foundations — L133]] (line 133, col 3, score 1)
+- [[migrate-to-provider-tenant-architecture#L266|Migrate to Provider-Tenant Architecture — L266]] (line 266, col 1, score 1)
+- [[migrate-to-provider-tenant-architecture#L266|Migrate to Provider-Tenant Architecture — L266]] (line 266, col 3, score 1)
+- [[per-domain-policy-system-for-js-crawler#L472|Per-Domain Policy System for JS Crawler — L472]] (line 472, col 1, score 1)
+- [[per-domain-policy-system-for-js-crawler#L472|Per-Domain Policy System for JS Crawler — L472]] (line 472, col 3, score 1)
+- [Simulation Demo — L10](chunks/simulation-demo.md#L10) (line 10, col 1, score 1)
+- [Simulation Demo — L10](chunks/simulation-demo.md#L10) (line 10, col 3, score 1)
+- [[eidolon-field-abstract-model#L200|Eidolon Field Abstract Model — L200]] (line 200, col 1, score 1)
+- [[eidolon-field-abstract-model#L200|Eidolon Field Abstract Model — L200]] (line 200, col 3, score 1)
+- [[eidolon-node-lifecycle#L38|eidolon-node-lifecycle — L38]] (line 38, col 1, score 1)
+- [[eidolon-node-lifecycle#L38|eidolon-node-lifecycle — L38]] (line 38, col 3, score 1)
+- [[field-node-diagram-outline#L116|field-node-diagram-outline — L116]] (line 116, col 1, score 1)
+- [[field-node-diagram-outline#L116|field-node-diagram-outline — L116]] (line 116, col 3, score 1)
+- [Simulation Demo — L11](chunks/simulation-demo.md#L11) (line 11, col 1, score 1)
+- [Simulation Demo — L11](chunks/simulation-demo.md#L11) (line 11, col 3, score 1)
+- [[eidolon-field-abstract-model#L199|Eidolon Field Abstract Model — L199]] (line 199, col 1, score 1)
+- [[eidolon-field-abstract-model#L199|Eidolon Field Abstract Model — L199]] (line 199, col 3, score 1)
+- [[eidolon-field-optimization#L103|Eidolon-Field-Optimization — L103]] (line 103, col 1, score 1)
+- [[eidolon-field-optimization#L103|Eidolon-Field-Optimization — L103]] (line 103, col 3, score 1)
+- [[eidolon-node-lifecycle#L39|eidolon-node-lifecycle — L39]] (line 39, col 1, score 1)
+- [[eidolon-node-lifecycle#L39|eidolon-node-lifecycle — L39]] (line 39, col 3, score 1)
+- [Simulation Demo — L9](chunks/simulation-demo.md#L9) (line 9, col 1, score 1)
+- [Simulation Demo — L9](chunks/simulation-demo.md#L9) (line 9, col 3, score 1)
+- [[eidolon-field-abstract-model#L201|Eidolon Field Abstract Model — L201]] (line 201, col 1, score 1)
+- [[eidolon-field-abstract-model#L201|Eidolon Field Abstract Model — L201]] (line 201, col 3, score 1)
+- [[eidolon-node-lifecycle#L37|eidolon-node-lifecycle — L37]] (line 37, col 1, score 1)
+- [[eidolon-node-lifecycle#L37|eidolon-node-lifecycle — L37]] (line 37, col 3, score 1)
+- [[field-node-diagram-outline#L115|field-node-diagram-outline — L115]] (line 115, col 1, score 1)
+- [[field-node-diagram-outline#L115|field-node-diagram-outline — L115]] (line 115, col 3, score 1)
+- [[field-node-diagram-outline#L123|field-node-diagram-outline — L123]] (line 123, col 1, score 0.99)
+- [[field-node-diagram-outline#L123|field-node-diagram-outline — L123]] (line 123, col 3, score 0.99)
+- [[field-node-diagram-set#L150|field-node-diagram-set — L150]] (line 150, col 1, score 0.99)
+- [[field-node-diagram-set#L150|field-node-diagram-set — L150]] (line 150, col 3, score 0.99)
+- [field-node-diagram-visualizations — L100](field-node-diagram-visualizations.md#L100) (line 100, col 1, score 0.99)
+- [field-node-diagram-visualizations — L100](field-node-diagram-visualizations.md#L100) (line 100, col 3, score 0.99)
+- [[layer-1-uptime-diagrams#L176|layer-1-uptime-diagrams — L176]] (line 176, col 1, score 0.99)
+- [[layer-1-uptime-diagrams#L176|layer-1-uptime-diagrams — L176]] (line 176, col 3, score 0.99)
+- [[field-node-diagram-outline#L124|field-node-diagram-outline — L124]] (line 124, col 1, score 0.99)
+- [[field-node-diagram-outline#L124|field-node-diagram-outline — L124]] (line 124, col 3, score 0.99)
+- [[field-node-diagram-set#L151|field-node-diagram-set — L151]] (line 151, col 1, score 0.99)
+- [[field-node-diagram-set#L151|field-node-diagram-set — L151]] (line 151, col 3, score 0.99)
+- [field-node-diagram-visualizations — L101](field-node-diagram-visualizations.md#L101) (line 101, col 1, score 0.99)
+- [field-node-diagram-visualizations — L101](field-node-diagram-visualizations.md#L101) (line 101, col 3, score 0.99)
+- [[layer-1-uptime-diagrams#L177|layer-1-uptime-diagrams — L177]] (line 177, col 1, score 0.99)
+- [[layer-1-uptime-diagrams#L177|layer-1-uptime-diagrams — L177]] (line 177, col 3, score 0.99)
+- [[field-node-diagram-outline#L122|field-node-diagram-outline — L122]] (line 122, col 1, score 1)
+- [[field-node-diagram-outline#L122|field-node-diagram-outline — L122]] (line 122, col 3, score 1)
+- [[field-node-diagram-set#L149|field-node-diagram-set — L149]] (line 149, col 1, score 1)
+- [[field-node-diagram-set#L149|field-node-diagram-set — L149]] (line 149, col 3, score 1)
+- [field-node-diagram-visualizations — L99](field-node-diagram-visualizations.md#L99) (line 99, col 1, score 1)
+- [field-node-diagram-visualizations — L99](field-node-diagram-visualizations.md#L99) (line 99, col 3, score 1)
+- [[field-node-diagram-outline#L126|field-node-diagram-outline — L126]] (line 126, col 1, score 0.99)
+- [[field-node-diagram-outline#L126|field-node-diagram-outline — L126]] (line 126, col 3, score 0.99)
+- [[eidolon-node-lifecycle#L50|eidolon-node-lifecycle — L50]] (line 50, col 1, score 1)
+- [[eidolon-node-lifecycle#L50|eidolon-node-lifecycle — L50]] (line 50, col 3, score 1)
+- [[field-node-diagram-outline#L135|field-node-diagram-outline — L135]] (line 135, col 1, score 1)
+- [[field-node-diagram-outline#L135|field-node-diagram-outline — L135]] (line 135, col 3, score 1)
+- [[field-node-diagram-set#L152|field-node-diagram-set — L152]] (line 152, col 1, score 1)
+- [[field-node-diagram-set#L152|field-node-diagram-set — L152]] (line 152, col 3, score 1)
+- [[layer-1-uptime-diagrams#L186|layer-1-uptime-diagrams — L186]] (line 186, col 1, score 1)
+- [[layer-1-uptime-diagrams#L186|layer-1-uptime-diagrams — L186]] (line 186, col 3, score 1)
+- [[field-node-diagram-outline#L137|field-node-diagram-outline — L137]] (line 137, col 1, score 1)
+- [[field-node-diagram-outline#L137|field-node-diagram-outline — L137]] (line 137, col 3, score 1)
+- [[field-node-diagram-set#L154|field-node-diagram-set — L154]] (line 154, col 1, score 1)
+- [[field-node-diagram-set#L154|field-node-diagram-set — L154]] (line 154, col 3, score 1)
+- [field-node-diagram-visualizations — L105](field-node-diagram-visualizations.md#L105) (line 105, col 1, score 1)
+- [field-node-diagram-visualizations — L105](field-node-diagram-visualizations.md#L105) (line 105, col 3, score 1)
+- [[layer-1-uptime-diagrams#L188|layer-1-uptime-diagrams — L188]] (line 188, col 1, score 1)
+- [[layer-1-uptime-diagrams#L188|layer-1-uptime-diagrams — L188]] (line 188, col 3, score 1)
+- [[eidolon-node-lifecycle#L52|eidolon-node-lifecycle — L52]] (line 52, col 1, score 1)
+- [[eidolon-node-lifecycle#L52|eidolon-node-lifecycle — L52]] (line 52, col 3, score 1)
+- [[field-node-diagram-set#L155|field-node-diagram-set — L155]] (line 155, col 1, score 1)
+- [[field-node-diagram-set#L155|field-node-diagram-set — L155]] (line 155, col 3, score 1)
+- [field-node-diagram-visualizations — L106](field-node-diagram-visualizations.md#L106) (line 106, col 1, score 1)
+- [field-node-diagram-visualizations — L106](field-node-diagram-visualizations.md#L106) (line 106, col 3, score 1)
+- [[layer-1-uptime-diagrams#L189|layer-1-uptime-diagrams — L189]] (line 189, col 1, score 1)
+- [[layer-1-uptime-diagrams#L189|layer-1-uptime-diagrams — L189]] (line 189, col 3, score 1)
+- [[eidolon-node-lifecycle#L53|eidolon-node-lifecycle — L53]] (line 53, col 1, score 1)
+- [[eidolon-node-lifecycle#L53|eidolon-node-lifecycle — L53]] (line 53, col 3, score 1)
+- [[field-node-diagram-outline#L138|field-node-diagram-outline — L138]] (line 138, col 1, score 1)
+- [[field-node-diagram-outline#L138|field-node-diagram-outline — L138]] (line 138, col 3, score 1)
+- [field-node-diagram-visualizations — L107](field-node-diagram-visualizations.md#L107) (line 107, col 1, score 1)
+- [field-node-diagram-visualizations — L107](field-node-diagram-visualizations.md#L107) (line 107, col 3, score 1)
+- [[layer-1-uptime-diagrams#L190|layer-1-uptime-diagrams — L190]] (line 190, col 1, score 1)
+- [[layer-1-uptime-diagrams#L190|layer-1-uptime-diagrams — L190]] (line 190, col 3, score 1)
+- [[eidolon-node-lifecycle#L54|eidolon-node-lifecycle — L54]] (line 54, col 1, score 1)
+- [[eidolon-node-lifecycle#L54|eidolon-node-lifecycle — L54]] (line 54, col 3, score 1)
+- [[field-node-diagram-outline#L139|field-node-diagram-outline — L139]] (line 139, col 1, score 1)
+- [[field-node-diagram-outline#L139|field-node-diagram-outline — L139]] (line 139, col 3, score 1)
+- [[field-node-diagram-set#L156|field-node-diagram-set — L156]] (line 156, col 1, score 1)
+- [[field-node-diagram-set#L156|field-node-diagram-set — L156]] (line 156, col 3, score 1)
+- [field-node-diagram-visualizations — L108](field-node-diagram-visualizations.md#L108) (line 108, col 1, score 1)
+- [field-node-diagram-visualizations — L108](field-node-diagram-visualizations.md#L108) (line 108, col 3, score 1)
+- [[eidolon-node-lifecycle#L55|eidolon-node-lifecycle — L55]] (line 55, col 1, score 1)
+- [[eidolon-node-lifecycle#L55|eidolon-node-lifecycle — L55]] (line 55, col 3, score 1)
+- [[field-node-diagram-outline#L140|field-node-diagram-outline — L140]] (line 140, col 1, score 1)
+- [[field-node-diagram-outline#L140|field-node-diagram-outline — L140]] (line 140, col 3, score 1)
+- [[field-node-diagram-set#L157|field-node-diagram-set — L157]] (line 157, col 1, score 1)
+- [[field-node-diagram-set#L157|field-node-diagram-set — L157]] (line 157, col 3, score 1)
+- [[layer-1-uptime-diagrams#L191|layer-1-uptime-diagrams — L191]] (line 191, col 1, score 1)
+- [[layer-1-uptime-diagrams#L191|layer-1-uptime-diagrams — L191]] (line 191, col 3, score 1)
+- [[field-node-diagram-outline#L142|field-node-diagram-outline — L142]] (line 142, col 1, score 1)
+- [[field-node-diagram-outline#L142|field-node-diagram-outline — L142]] (line 142, col 3, score 1)
+- [[field-node-diagram-set#L159|field-node-diagram-set — L159]] (line 159, col 1, score 1)
+- [[field-node-diagram-set#L159|field-node-diagram-set — L159]] (line 159, col 3, score 1)
+- [field-node-diagram-visualizations — L110](field-node-diagram-visualizations.md#L110) (line 110, col 1, score 1)
+- [field-node-diagram-visualizations — L110](field-node-diagram-visualizations.md#L110) (line 110, col 3, score 1)
+- [[layer-1-uptime-diagrams#L193|layer-1-uptime-diagrams — L193]] (line 193, col 1, score 1)
+- [[layer-1-uptime-diagrams#L193|layer-1-uptime-diagrams — L193]] (line 193, col 3, score 1)
+- [[eidolon-node-lifecycle#L57|eidolon-node-lifecycle — L57]] (line 57, col 1, score 1)
+- [[eidolon-node-lifecycle#L57|eidolon-node-lifecycle — L57]] (line 57, col 3, score 1)
+- [[field-node-diagram-set#L160|field-node-diagram-set — L160]] (line 160, col 1, score 1)
+- [[field-node-diagram-set#L160|field-node-diagram-set — L160]] (line 160, col 3, score 1)
+- [field-node-diagram-visualizations — L111](field-node-diagram-visualizations.md#L111) (line 111, col 1, score 1)
+- [field-node-diagram-visualizations — L111](field-node-diagram-visualizations.md#L111) (line 111, col 3, score 1)
+- [[layer-1-uptime-diagrams#L194|layer-1-uptime-diagrams — L194]] (line 194, col 1, score 1)
+- [[layer-1-uptime-diagrams#L194|layer-1-uptime-diagrams — L194]] (line 194, col 3, score 1)
+- [[eidolon-node-lifecycle#L58|eidolon-node-lifecycle — L58]] (line 58, col 1, score 1)
+- [[eidolon-node-lifecycle#L58|eidolon-node-lifecycle — L58]] (line 58, col 3, score 1)
+- [[field-node-diagram-outline#L143|field-node-diagram-outline — L143]] (line 143, col 1, score 1)
+- [[field-node-diagram-outline#L143|field-node-diagram-outline — L143]] (line 143, col 3, score 1)
+- [field-node-diagram-visualizations — L112](field-node-diagram-visualizations.md#L112) (line 112, col 1, score 1)
+- [field-node-diagram-visualizations — L112](field-node-diagram-visualizations.md#L112) (line 112, col 3, score 1)
+- [[layer-1-uptime-diagrams#L195|layer-1-uptime-diagrams — L195]] (line 195, col 1, score 1)
+- [[layer-1-uptime-diagrams#L195|layer-1-uptime-diagrams — L195]] (line 195, col 3, score 1)
+- [[eidolon-node-lifecycle#L59|eidolon-node-lifecycle — L59]] (line 59, col 1, score 1)
+- [[eidolon-node-lifecycle#L59|eidolon-node-lifecycle — L59]] (line 59, col 3, score 1)
+- [[field-node-diagram-outline#L144|field-node-diagram-outline — L144]] (line 144, col 1, score 1)
+- [[field-node-diagram-outline#L144|field-node-diagram-outline — L144]] (line 144, col 3, score 1)
+- [[field-node-diagram-set#L161|field-node-diagram-set — L161]] (line 161, col 1, score 1)
+- [[field-node-diagram-set#L161|field-node-diagram-set — L161]] (line 161, col 3, score 1)
+- [field-node-diagram-visualizations — L113](field-node-diagram-visualizations.md#L113) (line 113, col 1, score 1)
+- [field-node-diagram-visualizations — L113](field-node-diagram-visualizations.md#L113) (line 113, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

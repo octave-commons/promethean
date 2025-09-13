@@ -1,260 +1,370 @@
 ---
-uuid: b8c49d9b-ada6-4605-8dcb-1b644c3f2229
-created_at: shared-package-structure.md
-filename: shared-package-structure
-title: shared-package-structure
+uuid: 66a72fc3-4153-41fc-84bd-d6164967a6ff
+created_at: 2025.08.25.18.44.53.md
+filename: Shared Package Structure
 description: >-
-  A clean, namespaced package structure for shared TypeScript code that avoids
-  conflicts with existing `./src` and follows import rules from
-  `@shared/ts/dist/...`. Includes explicit imports for agent, platform, effects,
-  and provider-specific helpers with minimal file contracts.
+  Defines a namespaced package structure for shared TypeScript code, avoiding
+  conflicts with existing `./src` while supporting explicit imports from
+  `@shared/ts/dist/...`.
 tags:
-  - namespaced
-  - typescript
-  - package-structure
-  - shared
-  - imports
+  - namespacing
+  - package
+  - types
+  - ts
+  - import
   - dist
-  - barrel
-related_to_uuid:
-  - 672da53b-d8ac-48cd-9cb3-e3fa9915dd6a
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - 2792d448-c3b5-4050-93dd-93768529d99c
-  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-  - 22b989d5-f4aa-4880-8632-709c21830f83
-  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - a4a25141-6380-40b9-9cd7-b554b246b303
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - dd00677a-2280-45a7-91af-0728b21af3ad
-  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
-  - dd89372d-10de-42a9-8c96-6bc13ea36d02
-  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-  - 10d98225-12e0-4212-8e15-88b57cf7bee5
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - 78eeedf7-75bc-4692-a5a7-bb6857270621
-  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
-  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
-  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - d2b3628c-6cad-4664-8551-94ef8280851d
-  - af5d2824-faad-476c-a389-e912d9bc672c
-  - 36c8882a-badc-4e18-838d-2c54d7038141
-  - e811123d-5841-4e52-bf8c-978f26db4230
+  - module
 related_to_title:
-  - Factorio AI with External Agents
-  - i3-bluetooth-setup
-  - Docops Feature Updates
-  - field-node-diagram-outline
-  - field-node-diagram-set
-  - field-node-diagram-visualizations
-  - Fnord Tracer Protocol
-  - Functional Embedding Pipeline Refactor
-  - graph-ds
-  - heartbeat-fragment-demo
-  - Ice Box Reorganization
-  - komorebi-group-window-hack
-  - Layer1SurvivabilityEnvelope
-  - Creative Moments
-  - Duck's Attractor States
-  - Unique Info Dump Index
-  - typed-struct-compiler
-  - Unique Concepts
-  - zero-copy-snapshots-and-workers
-  - Canonical Org-Babel Matplotlib Animation Template
-  - eidolon-field-math-foundations
-  - Language-Agnostic Mirror System
-  - Sibilant Meta-Prompt DSL
   - shared-package-layout-clarification
+  - Voice Access Layer Design
+  - Promethean Infrastructure Setup
+  - Promethean Agent DSL TS Scaffold
+  - Migrate to Provider-Tenant Architecture
   - WebSocket Gateway Implementation
+  - Event Bus MVP
+  - Local-First Intention→Code Loop with Free Models
+  - i3-bluetooth-setup
+  - Promethean Event Bus MVP v0.1
+  - Promethean Agent Config DSL
+  - api-gateway-versioning
+  - ecs-offload-workers
+  - Local-Only-LLM-Workflow
+  - i3-config-validation-methods
+  - Post-Linguistic Transhuman Design Frameworks
+  - Debugging Broker Connections and Agent Behavior
+  - Dynamic Context Model for Web Components
+  - Mongo Outbox Implementation
+  - 'Agent Tasks: Persistence Migration to DualStore'
+  - Chroma Toolkit Consolidation Plan
+  - Cross-Target Macro System in Sibilant
+  - Per-Domain Policy System for JS Crawler
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - Universal Lisp Interface
+  - Vectorial Exception Descent
+  - AI-Centric OS with MCP Layer
+related_to_uuid:
+  - 36c8882a-badc-4e18-838d-2c54d7038141
+  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - 5158f742-4a3b-466e-bfc3-d83517b64200
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - e811123d-5841-4e52-bf8c-978f26db4230
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - 871490c7-a050-429b-88b2-55dfeaa1f8d5
+  - 5e408692-0e74-400e-a617-84247c7353ad
+  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
+  - 0580dcd3-533d-4834-8a2f-eae3771960a9
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+  - d28090ac-f746-4958-aab5-ed1315382c04
+  - 6bcff92c-4224-453d-9993-1be8d37d47c3
+  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - 93d2ba51-8689-49ee-94e2-296092e48058
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - b01856b4-999f-418d-8009-ade49b00eb0f
+  - d771154e-a7ef-44ca-b69c-a1626cf94fbf
+  - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
 references:
-  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
-    line: 1016
-    col: 0
-    score: 1
-  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
-    line: 175
-    col: 0
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 1221
-    col: 0
-    score: 1
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 1058
-    col: 0
-    score: 1
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 515
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 251
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 559
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 1033
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 226
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 705
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 719
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 601
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 1060
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 726
-    col: 0
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 996
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 667
-    col: 0
-    score: 1
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 736
-    col: 0
-    score: 1
-  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
-    line: 645
-    col: 0
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 739
-    col: 0
-    score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 816
-    col: 0
-    score: 1
-  - uuid: 672da53b-d8ac-48cd-9cb3-e3fa9915dd6a
-    line: 5
-    col: 0
-    score: 1
-  - uuid: d2b3628c-6cad-4664-8551-94ef8280851d
-    line: 504
-    col: 0
-    score: 0.93
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 391
-    col: 0
-    score: 0.93
-  - uuid: af5d2824-faad-476c-a389-e912d9bc672c
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
     line: 120
-    col: 0
+    col: 3
+    score: 0.87
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 47
+    col: 1
+    score: 0.95
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 392
+    col: 1
+    score: 0.86
+  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
+    line: 183
+    col: 1
     score: 0.92
   - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
     line: 161
-    col: 0
-    score: 0.91
-  - uuid: e811123d-5841-4e52-bf8c-978f26db4230
-    line: 630
-    col: 0
-    score: 0.91
-  - uuid: ab54cdd8-13ce-4dcb-a9cd-da2d86e0305f
-    line: 272
-    col: 0
-    score: 0.9
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 280
-    col: 0
-    score: 0.89
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 148
-    col: 0
-    score: 0.89
-  - uuid: c5c5ff1c-d1bc-45c7-8a84-55a4a847dfc5
-    line: 185
-    col: 0
-    score: 0.89
-  - uuid: 672da53b-d8ac-48cd-9cb3-e3fa9915dd6a
-    line: 8
-    col: 0
+    col: 1
     score: 0.89
   - uuid: d28090ac-f746-4958-aab5-ed1315382c04
-    line: 28
-    col: 0
-    score: 0.88
+    line: 55
+    col: 1
+    score: 1
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 55
+    col: 3
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 182
+    col: 1
+    score: 1
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 182
+    col: 3
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 278
+    col: 1
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 278
+    col: 3
+    score: 1
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 91
+    col: 1
+    score: 1
+  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
+    line: 91
+    col: 3
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 552
+    col: 1
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 552
+    col: 3
+    score: 1
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 104
+    col: 1
+    score: 1
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 104
+    col: 3
+    score: 1
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 144
+    col: 1
+    score: 1
+  - uuid: 871490c7-a050-429b-88b2-55dfeaa1f8d5
+    line: 144
+    col: 3
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 273
+    col: 1
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 273
+    col: 3
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 284
+    col: 1
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 284
+    col: 3
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 40
+    col: 1
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 40
+    col: 3
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 384
+    col: 1
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 384
+    col: 3
+    score: 1
   - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 427
-    col: 0
-    score: 0.88
-  - uuid: c710dc93-9fec-471b-bdee-bedbd360c67f
-    line: 150
-    col: 0
-    score: 0.88
-  - uuid: 687439f9-ad1e-40a4-8a32-3a1b4ac7c017
-    line: 44
-    col: 0
-    score: 0.88
-  - uuid: c14edce7-0656-45b2-aaf3-51f042451b7d
-    line: 388
-    col: 0
+    line: 458
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 458
+    col: 3
+    score: 1
+  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
+    line: 318
+    col: 1
+    score: 1
+  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
+    line: 318
+    col: 3
+    score: 1
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 402
+    col: 1
     score: 0.87
-  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
-    line: 588
-    col: 0
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 402
+    col: 3
     score: 0.87
-  - uuid: 7bed0b9a-8b22-4b1f-be81-054a179453cb
-    line: 190
-    col: 0
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 169
+    col: 1
     score: 0.87
-  - uuid: ba244286-4e84-425b-8bf6-b80c4eb783fc
-    line: 374
-    col: 0
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 169
+    col: 3
     score: 0.87
   - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 65
-    col: 0
-    score: 0.86
-  - uuid: 513dc4c7-e045-4123-ba2e-cf5ef0b7b4a3
-    line: 85
-    col: 0
-    score: 0.86
-  - uuid: 21d5cc09-b005-4ede-8f69-00b4b0794540
-    line: 63
-    col: 0
-    score: 0.86
-  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
-    line: 279
-    col: 0
-    score: 0.86
-  - uuid: cbfe3513-6a4a-4d2e-915d-ddfab583b2de
-    line: 375
-    col: 0
-    score: 0.86
-  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
-    line: 491
-    col: 0
-    score: 0.85
-  - uuid: 5158f742-4a3b-466e-bfc3-d83517b64200
-    line: 818
-    col: 0
-    score: 0.85
+    line: 387
+    col: 1
+    score: 0.87
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 387
+    col: 3
+    score: 0.87
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 131
+    col: 1
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 131
+    col: 3
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 169
+    col: 1
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 169
+    col: 3
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 175
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 175
+    col: 3
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 392
+    col: 1
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 392
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 465
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 465
+    col: 3
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 548
+    col: 1
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 548
+    col: 3
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 551
+    col: 1
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 551
+    col: 3
+    score: 1
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 883
+    col: 1
+    score: 1
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 883
+    col: 3
+    score: 1
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 60
+    col: 1
+    score: 0.98
+  - uuid: d28090ac-f746-4958-aab5-ed1315382c04
+    line: 60
+    col: 3
+    score: 0.98
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 599
+    col: 1
+    score: 0.98
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 599
+    col: 3
+    score: 0.98
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 178
+    col: 1
+    score: 0.99
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 178
+    col: 3
+    score: 0.99
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 486
+    col: 1
+    score: 0.99
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 486
+    col: 3
+    score: 0.99
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 432
+    col: 1
+    score: 0.99
+  - uuid: d527c05d-22e8-4493-8f29-ae3cb67f035b
+    line: 432
+    col: 3
+    score: 0.99
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 189
+    col: 1
+    score: 0.99
+  - uuid: 9a8ab57e-507c-4c6b-aab4-01cea1bc0501
+    line: 189
+    col: 3
+    score: 0.99
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 308
+    col: 1
+    score: 0.97
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 308
+    col: 3
+    score: 0.97
+  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
+    line: 213
+    col: 1
+    score: 0.97
+  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
+    line: 213
+    col: 3
+    score: 0.97
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 167
+    col: 1
+    score: 0.97
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 167
+    col: 3
+    score: 0.97
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 168
+    col: 1
+    score: 0.97
+  - uuid: d771154e-a7ef-44ca-b69c-a1626cf94fbf
+    line: 168
+    col: 3
+    score: 0.97
 ---
-Yep—namespacing it is. Here’s a clean layout that won’t collide with your existing `./src` and still honors your “import from `@shared/ts/dist/...`” rule. ^ref-66a72fc3-1-0
+Yep—namespacing it is. Here’s a clean layout that won’t collide with your existing `./src` and still honors your “import from `@shared/ts/dist/...`” rule.
 
 # Shared package structure (namespaced)
 
@@ -286,50 +396,37 @@ shared/ts/
     index.ts                # barrel re-exports (namespaced)
   dist/                      # build output (gitignored)
 ```
-^ref-66a72fc3-5-0 ^ref-66a72fc3-33-0
 
 # Imports (explicitly namespaced, from `dist/`)
 
 * Envelope & runtime:
- ^ref-66a72fc3-38-0
+
   ```ts
   import { AgentEnvelope } from "@shared/ts/dist/agent/envelope.js";
   import { AgentRuntime }  from "@shared/ts/dist/agent/runtime.js";
-^ref-66a72fc3-38-0 ^ref-66a72fc3-42-0
   ```
-^ref-66a72fc3-39-0
-* Platform types/util: ^ref-66a72fc3-44-0
+* Platform types/util:
 
   ```ts
   import { SocialMessageCreated, PostMessage } from "@shared/ts/dist/platform/events.js";
   import { topic } from "@shared/ts/dist/platform/topic.js";
-^ref-66a72fc3-44-0 ^ref-66a72fc3-49-0
   import { toUrn } from "@shared/ts/dist/platform/urn.js";
   ```
-^ref-66a72fc3-51-0 ^ref-c46718fe-53-0
 * Effects:
 
   ```ts
   import { mongoForTenant }  from "@shared/ts/dist/effects/mongo.js";
-^ref-66a72fc3-51-0 ^ref-66a72fc3-56-0
   import { chromaForTenant } from "@shared/ts/dist/effects/chroma.js";
   import { restRequest }     from "@shared/ts/dist/effects/rest.js";
-^ref-66a72fc3-58-0
-^ref-66a72fc3-56-0
   ```
-^ref-66a72fc3-56-0
-^ref-66a72fc3-58-0 ^ref-66a72fc3-64-0
-^ref-66a72fc3-56-0 ^ref-66a72fc3-64-0
 * Provider-specific helpers (only access layer should use these):
-^ref-66a72fc3-58-0
 
-^ref-66a72fc3-64-0
   ```ts
   import { normalizeDiscordMessage } from "@shared/ts/dist/providers/discord/normalize.js";
   ```
 
 # `package.json` exports (allow dist subpaths per namespace)
- ^ref-66a72fc3-76-0
+
 ```json
 {
   "name": "@shared/ts",
@@ -347,33 +444,24 @@ shared/ts/
   "files": ["dist"],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
-^ref-66a72fc3-64-0
     "clean": "rimraf dist",
-^ref-66a72fc3-91-0
     "prepublishOnly": "npm run clean && npm run build"
   }
-^ref-66a72fc3-91-0
 }
-^ref-66a72fc3-91-0
-^ref-66a72fc3-76-0
 ```
-^ref-66a72fc3-77-0
 
-# Minimal file contracts (short + stable) ^ref-66a72fc3-103-0
+# Minimal file contracts (short + stable)
 
 * `src/agent/envelope.ts`
 
   ```ts
   export type AgentEnvelope<T = unknown> = {
     id: string; ts: string; src: string; dst: string;
-^ref-66a72fc3-91-0
     provider: string; tenant: string; intent: string;
-^ref-66a72fc3-103-0
     payload: T; trace?: string; corr?: string;
     build_sha?: string; models?: Array<{name:string;version:string;checksum?:string}>;
-^ref-66a72fc3-103-0
     config_rev?: string;
-  }; ^ref-66a72fc3-117-0
+  };
   ```
 
 * `src/platform/events.ts`
@@ -382,29 +470,17 @@ shared/ts/
   export type SocialMessageCreated = {
     message_id: string; author_urn: string; space_urn: string;
     text?: string; attachments?: Array<{urn:string; url:string; content_type?:string; size?:number; sha256?:string}>;
-^ref-66a72fc3-103-0
     created_at: string; provider: string; tenant: string; provider_payload?: any;
   };
-^ref-66a72fc3-122-0
-^ref-66a72fc3-117-0 ^ref-66a72fc3-124-0
   export type PostMessage = {
     provider: string; tenant: string; space_urn: string;
-^ref-66a72fc3-124-0
-^ref-66a72fc3-122-0
-^ref-66a72fc3-117-0
     in_reply_to?: string; text: string; attachments?: Array<{ data_path?: string; url?: string }>;
   };
-^ref-66a72fc3-137-0
-^ref-66a72fc3-124-0 ^ref-66a72fc3-139-0
-^ref-66a72fc3-122-0 ^ref-66a72fc3-140-0
-^ref-66a72fc3-117-0
-  ``` ^ref-66a72fc3-122-0
-^ref-66a72fc3-137-0
- ^ref-66a72fc3-139-0
-* `src/platform/topic.ts` ^ref-66a72fc3-140-0
-^ref-66a72fc3-142-0 ^ref-66a72fc3-146-0
- ^ref-66a72fc3-147-0
-  ```ts ^ref-66a72fc3-148-0
+  ```
+
+* `src/platform/topic.ts`
+
+  ```ts
   export const topic = (p:{provider:string; tenant:string; area:string; name:string}) =>
     `promethean.p.${p.provider}.t.${p.tenant}.${p.area}.${p.name}`;
   ```
@@ -412,206 +488,144 @@ shared/ts/
 * `src/agent/policy.ts` (capabilities are provider-parametric)
 
   ```ts
-^ref-66a72fc3-124-0
   export type Capability =
-^ref-66a72fc3-142-0
-^ref-66a72fc3-140-0
-^ref-66a72fc3-139-0 ^ref-66a72fc3-146-0
-^ref-66a72fc3-137-0 ^ref-66a72fc3-147-0
-^ref-66a72fc3-155-0
-^ref-66a72fc3-154-0 ^ref-66a72fc3-157-0
-^ref-66a72fc3-153-0
-^ref-66a72fc3-149-0 ^ref-66a72fc3-159-0
-^ref-66a72fc3-148-0
-^ref-66a72fc3-147-0
-^ref-66a72fc3-146-0
-^ref-66a72fc3-142-0
-    | { kind:"provider.gateway.connect"; provider:string; tenant:string } ^ref-66a72fc3-148-0
-    | { kind:"provider.rest.call";      provider:string; tenant:string; route:string } ^ref-66a72fc3-137-0 ^ref-66a72fc3-149-0 ^ref-66a72fc3-165-0
-^ref-66a72fc3-171-0
-^ref-66a72fc3-165-0
-^ref-66a72fc3-159-0
-^ref-66a72fc3-157-0
-^ref-66a72fc3-155-0
-^ref-66a72fc3-154-0 ^ref-66a72fc3-177-0
-^ref-66a72fc3-153-0
-^ref-66a72fc3-149-0
+    | { kind:"provider.gateway.connect"; provider:string; tenant:string }
+    | { kind:"provider.rest.call";      provider:string; tenant:string; route:string }
     | { kind:"storage.mongo"; db:string; coll:string }
-    | { kind:"embed.text"; model:string } ^ref-66a72fc3-139-0 ^ref-66a72fc3-181-0
-    | { kind:"embed.image"; model:string } ^ref-66a72fc3-140-0
-    | { kind:"http.fetch"; url:string; method?:string }; ^ref-66a72fc3-153-0
-^ref-66a72fc3-185-0
-  export type PolicyCheck = (agentId:string, cap:Capability) => Promise<void>; ^ref-66a72fc3-142-0 ^ref-66a72fc3-154-0
-^ref-66a72fc3-188-0
-^ref-66a72fc3-185-0
-  ``` ^ref-66a72fc3-155-0
-^ref-66a72fc3-185-0
-
-# Where the Discord bits go (namespaced) ^ref-66a72fc3-157-0
- ^ref-66a72fc3-146-0
-Only the access layer should touch these: ^ref-66a72fc3-147-0 ^ref-66a72fc3-159-0
- ^ref-66a72fc3-148-0
-* `src/providers/discord/normalize.ts` — raw Discord → `SocialMessageCreated` ^ref-66a72fc3-149-0 ^ref-66a72fc3-177-0
-* `src/providers/discord/events.ts` — (optional) raw type defs for gateway payloads
-
-Everything else (indexers, embedders, cephalon-social) sticks to `platform/` + `effects/`.
- ^ref-66a72fc3-153-0 ^ref-66a72fc3-165-0 ^ref-66a72fc3-181-0 ^ref-66a72fc3-195-0
-# Migration checklist (namespaced) ^ref-66a72fc3-154-0
- ^ref-66a72fc3-155-0
-* [ ] Add the folders above under `shared/ts/src/` (no base-level collisions).
-* [ ] Update services to import from `@shared/ts/dist/<namespace>/*.js`. ^ref-66a72fc3-157-0
-* [ ] CI rule to forbid imports from `@shared/ts/dist/providers/*` **outside** access-layer services.
-* [ ] Build shared, then services (`pnpm -F @shared/ts build` first). ^ref-66a72fc3-159-0
-
-# Sanity traps (avoid them)
-
-* Don’t leak provider-specific helpers outside `providers/<name>/`.
-* Don’t add new root files under `src/`; always tuck into `agent/`, `platform/`, `effects/`, or `providers/<name>/`.
-* Keep provider-agnostic workers blind to `providers/*`. ^ref-66a72fc3-165-0 ^ref-66a72fc3-177-0
- ^ref-66a72fc3-208-0
-If you want, I’ll fill in the tiny `index.ts` barrel and a one-page `normalizeDiscordMessage` stub under `providers/discord/` using this layout—kept terse so you can drop it in. ^ref-66a72fc3-195-0
-
-\#hashtags ^ref-66a72fc3-181-0
-\#promethean #namespaces #monorepo #typescript #shared-lib #architecture #clean-boundaries #provider-agnostic
-a:string; name:string}) =>
-    `promethean.p.${p.provider}.t.${p.tenant}.${p.area}.${p.name}`;
+    | { kind:"embed.text"; model:string }
+    | { kind:"embed.image"; model:string }
+    | { kind:"http.fetch"; url:string; method?:string };
+  export type PolicyCheck = (agentId:string, cap:Capability) => Promise<void>;
   ```
 
-* `src/agent/policy.ts` (capabilities are provider-parametric)
+# Where the Discord bits go (namespaced)
 
-  ```ts
-^ref-66a72fc3-124-0
-  export type Capability =
-^ref-66a72fc3-142-0
-^ref-66a72fc3-140-0
-^ref-66a72fc3-139-0 ^ref-66a72fc3-146-0
-^ref-66a72fc3-137-0 ^ref-66a72fc3-147-0
-^ref-66a72fc3-155-0
-^ref-66a72fc3-154-0 ^ref-66a72fc3-157-0
-^ref-66a72fc3-153-0
-^ref-66a72fc3-149-0 ^ref-66a72fc3-159-0
-^ref-66a72fc3-148-0
-^ref-66a72fc3-147-0
-^ref-66a72fc3-146-0
-^ref-66a72fc3-142-0
-    | { kind:"provider.gateway.connect"; provider:string; tenant:string } ^ref-66a72fc3-148-0
-    | { kind:"provider.rest.call";      provider:string; tenant:string; route:string } ^ref-66a72fc3-137-0 ^ref-66a72fc3-149-0 ^ref-66a72fc3-165-0
-^ref-66a72fc3-171-0
-^ref-66a72fc3-165-0
-^ref-66a72fc3-159-0
-^ref-66a72fc3-157-0
-^ref-66a72fc3-155-0
-^ref-66a72fc3-154-0 ^ref-66a72fc3-177-0
-^ref-66a72fc3-153-0
-^ref-66a72fc3-149-0
-    | { kind:"storage.mongo"; db:string; coll:string }
-    | { kind:"embed.text"; model:string } ^ref-66a72fc3-139-0 ^ref-66a72fc3-181-0
-    | { kind:"embed.image"; model:string } ^ref-66a72fc3-140-0
-    | { kind:"http.fetch"; url:string; method?:string }; ^ref-66a72fc3-153-0
-^ref-66a72fc3-185-0
-  export type PolicyCheck = (agentId:string, cap:Capability) => Promise<void>; ^ref-66a72fc3-142-0 ^ref-66a72fc3-154-0
-^ref-66a72fc3-188-0
-^ref-66a72fc3-185-0
-  ``` ^ref-66a72fc3-155-0
+Only the access layer should touch these:
 
-# Where the Discord bits go (namespaced) ^ref-66a72fc3-157-0
- ^ref-66a72fc3-146-0
-Only the access layer should touch these: ^ref-66a72fc3-147-0 ^ref-66a72fc3-159-0
- ^ref-66a72fc3-148-0
-* `src/providers/discord/normalize.ts` — raw Discord → `SocialMessageCreated` ^ref-66a72fc3-149-0 ^ref-66a72fc3-177-0
+* `src/providers/discord/normalize.ts` — raw Discord → `SocialMessageCreated`
 * `src/providers/discord/events.ts` — (optional) raw type defs for gateway payloads
 
 Everything else (indexers, embedders, cephalon-social) sticks to `platform/` + `effects/`.
- ^ref-66a72fc3-153-0 ^ref-66a72fc3-165-0 ^ref-66a72fc3-181-0 ^ref-66a72fc3-195-0
-# Migration checklist (namespaced) ^ref-66a72fc3-154-0
- ^ref-66a72fc3-155-0
+
+# Migration checklist (namespaced)
+
 * [ ] Add the folders above under `shared/ts/src/` (no base-level collisions).
-* [ ] Update services to import from `@shared/ts/dist/<namespace>/*.js`. ^ref-66a72fc3-157-0
+* [ ] Update services to import from `@shared/ts/dist/<namespace>/*.js`.
 * [ ] CI rule to forbid imports from `@shared/ts/dist/providers/*` **outside** access-layer services.
-* [ ] Build shared, then services (`pnpm -F @shared/ts build` first). ^ref-66a72fc3-159-0
+* [ ] Build shared, then services (`pnpm -F @shared/ts build` first).
 
 # Sanity traps (avoid them)
 
 * Don’t leak provider-specific helpers outside `providers/<name>/`.
 * Don’t add new root files under `src/`; always tuck into `agent/`, `platform/`, `effects/`, or `providers/<name>/`.
-* Keep provider-agnostic workers blind to `providers/*`. ^ref-66a72fc3-165-0 ^ref-66a72fc3-177-0
- ^ref-66a72fc3-208-0
-If you want, I’ll fill in the tiny `index.ts` barrel and a one-page `normalizeDiscordMessage` stub under `providers/discord/` using this layout—kept terse so you can drop it in. ^ref-66a72fc3-195-0
+* Keep provider-agnostic workers blind to `providers/*`.
 
-\#hashtags ^ref-66a72fc3-181-0
+If you want, I’ll fill in the tiny `index.ts` barrel and a one-page `normalizeDiscordMessage` stub under `providers/discord/` using this layout—kept terse so you can drop it in.
+
+\#hashtags
 \#promethean #namespaces #monorepo #typescript #shared-lib #architecture #clean-boundaries #provider-agnostic
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Factorio AI with External Agents](factorio-ai-with-external-agents.md)
-- [i3-bluetooth-setup](i3-bluetooth-setup.md)
-- [Docops Feature Updates](docops-feature-updates.md)
-- [field-node-diagram-outline](field-node-diagram-outline.md)
-- [field-node-diagram-set](field-node-diagram-set.md)
-- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
-- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
-- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
-- [graph-ds](graph-ds.md)
-- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
-- [Ice Box Reorganization](ice-box-reorganization.md)
-- [komorebi-group-window-hack](komorebi-group-window-hack.md)
-- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
-- [Creative Moments](creative-moments.md)
-- [Duck's Attractor States](ducks-attractor-states.md)
-- [Unique Info Dump Index](unique-info-dump-index.md)
-- [typed-struct-compiler](typed-struct-compiler.md)
-- [Unique Concepts](unique-concepts.md)
-- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
-- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [Language-Agnostic Mirror System](language-agnostic-mirror-system.md)
-- [Sibilant Meta-Prompt DSL](sibilant-meta-prompt-dsl.md)
-- [shared-package-layout-clarification](shared-package-layout-clarification.md)
-- [WebSocket Gateway Implementation](websocket-gateway-implementation.md)
+- [[shared-package-layout-clarification]]
+- [[voice-access-layer-design|Voice Access Layer Design]]
+- [[promethean-infrastructure-setup|Promethean Infrastructure Setup]]
+- [[promethean-agent-dsl-ts-scaffold|Promethean Agent DSL TS Scaffold]]
+- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
+- [[websocket-gateway-implementation|WebSocket Gateway Implementation]]
+- [[docs/unique/event-bus-mvp|Event Bus MVP]]
+- [Local-First Intention→Code Loop with Free Models](local-first-intention-code-loop-with-free-models.md)
+- [[i3-bluetooth-setup]]
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+- [[promethean-agent-config-dsl|Promethean Agent Config DSL]]
+- [[api-gateway-versioning]]
+- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
+- [[local-only-llm-workflow]]
+- [[i3-config-validation-methods]]
+- [[post-linguistic-transhuman-design-frameworks|Post-Linguistic Transhuman Design Frameworks]]
+- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
+- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
+- [[mongo-outbox-implementation|Mongo Outbox Implementation]]
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
+- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
+- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
+- [[per-domain-policy-system-for-js-crawler|Per-Domain Policy System for JS Crawler]]
+- [[pure-node-crawl-stack-with-playwright-and-crawlee|Pure-Node Crawl Stack with Playwright and Crawlee]]
+- [[docs/unique/universal-lisp-interface|Universal Lisp Interface]]
+- [[vectorial-exception-descent|Vectorial Exception Descent]]
+- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
+
 ## Sources
-- [typed-struct-compiler — L1016](typed-struct-compiler.md#^ref-78eeedf7-1016-0) (line 1016, col 0, score 1)
-- [Unique Concepts — L175](unique-concepts.md#^ref-ed6f3fc9-175-0) (line 175, col 0, score 1)
-- [Unique Info Dump Index — L1221](unique-info-dump-index.md#^ref-30ec3ba6-1221-0) (line 1221, col 0, score 1)
-- [zero-copy-snapshots-and-workers — L1058](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1058-0) (line 1058, col 0, score 1)
-- [Canonical Org-Babel Matplotlib Animation Template — L515](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-515-0) (line 515, col 0, score 1)
-- [Creative Moments — L251](creative-moments.md#^ref-10d98225-251-0) (line 251, col 0, score 1)
-- [Duck's Attractor States — L559](ducks-attractor-states.md#^ref-13951643-559-0) (line 559, col 0, score 1)
-- [eidolon-field-math-foundations — L1033](eidolon-field-math-foundations.md#^ref-008f2ac0-1033-0) (line 1033, col 0, score 1)
-- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
-- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
-- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
-- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
-- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
-- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
-- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
-- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
-- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
-- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
-- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
-- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
-- [Factorio AI with External Agents — L5](factorio-ai-with-external-agents.md#^ref-672da53b-5-0) (line 5, col 0, score 1)
-- [Language-Agnostic Mirror System — L504](language-agnostic-mirror-system.md#^ref-d2b3628c-504-0) (line 504, col 0, score 0.93)
-- [Fnord Tracer Protocol — L391](fnord-tracer-protocol.md#^ref-fc21f824-391-0) (line 391, col 0, score 0.93)
-- [Sibilant Meta-Prompt DSL — L120](sibilant-meta-prompt-dsl.md#^ref-af5d2824-120-0) (line 120, col 0, score 0.92)
-- [shared-package-layout-clarification — L161](shared-package-layout-clarification.md#^ref-36c8882a-161-0) (line 161, col 0, score 0.91)
-- [WebSocket Gateway Implementation — L630](websocket-gateway-implementation.md#^ref-e811123d-630-0) (line 630, col 0, score 0.91)
-- [markdown-to-org-transpiler — L272](markdown-to-org-transpiler.md#^ref-ab54cdd8-272-0) (line 272, col 0, score 0.9)
-- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 0.89)
-- [Cross-Target Macro System in Sibilant — L148](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-148-0) (line 148, col 0, score 0.89)
-- [lisp-dsl-for-window-management — L185](lisp-dsl-for-window-management.md#^ref-c5c5ff1c-185-0) (line 185, col 0, score 0.89)
-- [Factorio AI with External Agents — L8](factorio-ai-with-external-agents.md#^ref-672da53b-8-0) (line 8, col 0, score 0.89)
-- [i3-config-validation-methods — L28](i3-config-validation-methods.md#^ref-d28090ac-28-0) (line 28, col 0, score 0.88)
-- [ecs-offload-workers — L427](ecs-offload-workers.md#^ref-6498b9d7-427-0) (line 427, col 0, score 0.88)
-- [2d-sandbox-field — L150](2d-sandbox-field.md#^ref-c710dc93-150-0) (line 150, col 0, score 0.88)
-- [Matplotlib Animation with Async Execution — L44](matplotlib-animation-with-async-execution.md#^ref-687439f9-44-0) (line 44, col 0, score 0.88)
-- [universal-intention-code-fabric — L388](universal-intention-code-fabric.md#^ref-c14edce7-388-0) (line 388, col 0, score 0.87)
-- [compiler-kit-foundations — L588](compiler-kit-foundations.md#^ref-01b21543-588-0) (line 588, col 0, score 0.87)
-- [polymorphic-meta-programming-engine — L190](polymorphic-meta-programming-engine.md#^ref-7bed0b9a-190-0) (line 190, col 0, score 0.87)
-- [System Scheduler with Resource-Aware DAG — L374](system-scheduler-with-resource-aware-dag.md#^ref-ba244286-374-0) (line 374, col 0, score 0.87)
-- [Dynamic Context Model for Web Components — L65](dynamic-context-model-for-web-components.md#^ref-f7702bf8-65-0) (line 65, col 0, score 0.86)
-- [mystery-lisp-search-session — L85](mystery-lisp-search-session.md#^ref-513dc4c7-85-0) (line 85, col 0, score 0.86)
-- [Exception Layer Analysis — L63](exception-layer-analysis.md#^ref-21d5cc09-63-0) (line 63, col 0, score 0.86)
-- [Promethean Agent Config DSL — L279](promethean-agent-config-dsl.md#^ref-2c00ce45-279-0) (line 279, col 0, score 0.86)
-- [Lispy Macros with syntax-rules — L375](lispy-macros-with-syntax-rules.md#^ref-cbfe3513-375-0) (line 375, col 0, score 0.86)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.85)
-- [Promethean Agent DSL TS Scaffold — L818](promethean-agent-dsl-ts-scaffold.md#^ref-5158f742-818-0) (line 818, col 0, score 0.85)
+- [[shared-package-layout-clarification#L120|shared-package-layout-clarification — L120]] (line 120, col 3, score 0.87)
+- [[shared-package-layout-clarification#L47|shared-package-layout-clarification — L47]] (line 47, col 1, score 0.95)
+- [[promethean-infrastructure-setup#L392|Promethean Infrastructure Setup — L392]] (line 392, col 1, score 0.86)
+- [[voice-access-layer-design#L183|Voice Access Layer Design — L183]] (line 183, col 1, score 0.92)
+- [[shared-package-layout-clarification#L161|shared-package-layout-clarification — L161]] (line 161, col 1, score 0.89)
+- [[i3-config-validation-methods#L55|i3-config-validation-methods — L55]] (line 55, col 1, score 1)
+- [[i3-config-validation-methods#L55|i3-config-validation-methods — L55]] (line 55, col 3, score 1)
+- [[local-only-llm-workflow#L182|Local-Only-LLM-Workflow — L182]] (line 182, col 1, score 1)
+- [[local-only-llm-workflow#L182|Local-Only-LLM-Workflow — L182]] (line 182, col 3, score 1)
+- [[migrate-to-provider-tenant-architecture#L278|Migrate to Provider-Tenant Architecture — L278]] (line 278, col 1, score 1)
+- [[migrate-to-provider-tenant-architecture#L278|Migrate to Provider-Tenant Architecture — L278]] (line 278, col 3, score 1)
+- [[post-linguistic-transhuman-design-frameworks#L91|Post-Linguistic Transhuman Design Frameworks — L91]] (line 91, col 1, score 1)
+- [[post-linguistic-transhuman-design-frameworks#L91|Post-Linguistic Transhuman Design Frameworks — L91]] (line 91, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L552|Event Bus MVP — L552]] (line 552, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L552|Event Bus MVP — L552]] (line 552, col 3, score 1)
+- [[i3-bluetooth-setup#L104|i3-bluetooth-setup — L104]] (line 104, col 1, score 1)
+- [[i3-bluetooth-setup#L104|i3-bluetooth-setup — L104]] (line 104, col 3, score 1)
+- [Local-First Intention→Code Loop with Free Models — L144](local-first-intention-code-loop-with-free-models.md#L144) (line 144, col 1, score 1)
+- [Local-First Intention→Code Loop with Free Models — L144](local-first-intention-code-loop-with-free-models.md#L144) (line 144, col 3, score 1)
+- [[migrate-to-provider-tenant-architecture#L273|Migrate to Provider-Tenant Architecture — L273]] (line 273, col 1, score 1)
+- [[migrate-to-provider-tenant-architecture#L273|Migrate to Provider-Tenant Architecture — L273]] (line 273, col 3, score 1)
+- [[api-gateway-versioning#L284|api-gateway-versioning — L284]] (line 284, col 1, score 1)
+- [[api-gateway-versioning#L284|api-gateway-versioning — L284]] (line 284, col 3, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 3, score 1)
+- [[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]] (line 384, col 1, score 1)
+- [[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]] (line 384, col 3, score 1)
+- [[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]] (line 458, col 1, score 1)
+- [[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]] (line 458, col 3, score 1)
+- [[promethean-agent-config-dsl#L318|Promethean Agent Config DSL — L318]] (line 318, col 1, score 1)
+- [[promethean-agent-config-dsl#L318|Promethean Agent Config DSL — L318]] (line 318, col 3, score 1)
+- [[ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402]] (line 402, col 1, score 0.87)
+- [[ai-centric-os-with-mcp-layer#L402|AI-Centric OS with MCP Layer — L402]] (line 402, col 3, score 0.87)
+- [[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]] (line 169, col 1, score 0.87)
+- [[cross-target-macro-system-in-sibilant#L169|Cross-Target Macro System in Sibilant — L169]] (line 169, col 3, score 0.87)
+- [[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]] (line 387, col 1, score 0.87)
+- [[dynamic-context-model-for-web-components#L387|Dynamic Context Model for Web Components — L387]] (line 387, col 3, score 0.87)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]] (line 131, col 1, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]] (line 131, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]] (line 169, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]] (line 169, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]] (line 175, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]] (line 175, col 3, score 1)
+- [[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]] (line 392, col 1, score 1)
+- [[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]] (line 392, col 3, score 1)
+- [[docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465]] (line 465, col 1, score 1)
+- [[docs/unique/ecs-offload-workers#L465|ecs-offload-workers — L465]] (line 465, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L548|Event Bus MVP — L548]] (line 548, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L548|Event Bus MVP — L548]] (line 548, col 3, score 1)
+- [[mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551]] (line 551, col 1, score 1)
+- [[mongo-outbox-implementation#L551|Mongo Outbox Implementation — L551]] (line 551, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L883](promethean-event-bus-mvp-v0-1.md#L883) (line 883, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L883](promethean-event-bus-mvp-v0-1.md#L883) (line 883, col 3, score 1)
+- [[i3-config-validation-methods#L60|i3-config-validation-methods — L60]] (line 60, col 1, score 0.98)
+- [[i3-config-validation-methods#L60|i3-config-validation-methods — L60]] (line 60, col 3, score 0.98)
+- [[promethean-infrastructure-setup#L599|Promethean Infrastructure Setup — L599]] (line 599, col 1, score 0.98)
+- [[promethean-infrastructure-setup#L599|Promethean Infrastructure Setup — L599]] (line 599, col 3, score 0.98)
+- [[shared-package-layout-clarification#L178|shared-package-layout-clarification — L178]] (line 178, col 1, score 0.99)
+- [[shared-package-layout-clarification#L178|shared-package-layout-clarification — L178]] (line 178, col 3, score 0.99)
+- [[per-domain-policy-system-for-js-crawler#L486|Per-Domain Policy System for JS Crawler — L486]] (line 486, col 1, score 0.99)
+- [[per-domain-policy-system-for-js-crawler#L486|Per-Domain Policy System for JS Crawler — L486]] (line 486, col 3, score 0.99)
+- [[pure-node-crawl-stack-with-playwright-and-crawlee#L432|Pure-Node Crawl Stack with Playwright and Crawlee — L432]] (line 432, col 1, score 0.99)
+- [[pure-node-crawl-stack-with-playwright-and-crawlee#L432|Pure-Node Crawl Stack with Playwright and Crawlee — L432]] (line 432, col 3, score 0.99)
+- [[local-only-llm-workflow#L189|Local-Only-LLM-Workflow — L189]] (line 189, col 1, score 0.99)
+- [[local-only-llm-workflow#L189|Local-Only-LLM-Workflow — L189]] (line 189, col 3, score 0.99)
+- [[migrate-to-provider-tenant-architecture#L308|Migrate to Provider-Tenant Architecture — L308]] (line 308, col 1, score 0.97)
+- [[migrate-to-provider-tenant-architecture#L308|Migrate to Provider-Tenant Architecture — L308]] (line 308, col 3, score 0.97)
+- [[docs/unique/universal-lisp-interface#L213|Universal Lisp Interface — L213]] (line 213, col 1, score 0.97)
+- [[docs/unique/universal-lisp-interface#L213|Universal Lisp Interface — L213]] (line 213, col 3, score 0.97)
+- [[vectorial-exception-descent#L167|Vectorial Exception Descent — L167]] (line 167, col 1, score 0.97)
+- [[vectorial-exception-descent#L167|Vectorial Exception Descent — L167]] (line 167, col 3, score 0.97)
+- [[vectorial-exception-descent#L168|Vectorial Exception Descent — L168]] (line 168, col 1, score 0.97)
+- [[vectorial-exception-descent#L168|Vectorial Exception Descent — L168]] (line 168, col 3, score 0.97)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

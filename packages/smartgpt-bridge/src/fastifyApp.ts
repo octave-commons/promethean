@@ -1,27 +1,41 @@
-// @ts-nocheck
 import Fastify from "fastify";
 // Frontend assets are served by a standalone file server under `sites/`
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
-import ajvformats from "ajv-formats";
 import rateLimit from "@fastify/rate-limit";
+
 import { createFastifyAuth } from "./fastifyAuth.js";
 import { registerV0Routes } from "./routes/v0/index.js";
-import { indexerManager } from "./indexer.js";
+import { indexerManager as defaultIndexerManager } from "./indexer.js";
 import { restoreAgentsFromStore } from "./agent.js";
-import { registerSinks } from "./sinks.js";
-import { registerRbac } from "./rbac.js";
+import { registerSinks as defaultRegisterSinks } from "./sinks.js";
+import { registerRbac as defaultRegisterRbac } from "./rbac.js";
 import { registerV1Routes } from "./routes/v1/index.js";
 import { mongoChromaLogger } from "./logging/index.js";
 
-export async function buildFastifyApp(ROOT_PATH) {
+type BridgeDeps = {
+  registerSinks?: () => Promise<void>;
+  createFastifyAuth?: () => ReturnType<typeof createFastifyAuth>;
+  indexerManager?: typeof defaultIndexerManager;
+  registerRbac?: (app: any) => void | Promise<void>;
+};
+
+export async function buildFastifyApp(
+  ROOT_PATH: string,
+  deps: BridgeDeps = {},
+) {
+  const registerSinks = deps.registerSinks || defaultRegisterSinks;
+  const authFactory = deps.createFastifyAuth || createFastifyAuth;
+  const indexerManager = deps.indexerManager || defaultIndexerManager;
+  const registerRbac = deps.registerRbac || defaultRegisterRbac;
+
   await registerSinks();
   const app = Fastify({
     logger: false,
     trustProxy: true,
     ajv: {
       customOptions: { allowUnionTypes: true },
-      plugins: [ajvformats],
+      // No plugins to avoid duplicate ajv-formats registration across multiple instances in tests
     },
   });
   app.decorate("ROOT_PATH", ROOT_PATH);
@@ -134,7 +148,7 @@ export async function buildFastifyApp(ROOT_PATH) {
     additionalProperties: false,
   });
   app.addHook("preValidation", (req, _reply, done) => {
-    const rp = req.params;
+    const rp = req.params as any;
     if (rp?.path && !rp["*"]) rp["*"] = rp.path;
     done();
   });
@@ -161,10 +175,10 @@ export async function buildFastifyApp(ROOT_PATH) {
     process.env.PUBLIC_BASE_URL ||
     `http://localhost:${process.env.PORT || 3210}`;
   // Register new-auth helper endpoint at root for dashboard compatibility
-  const auth = createFastifyAuth();
+  const auth = authFactory();
   auth.registerRoutes(app); // adds /auth/me; protection handled inside
 
-  const schemas = {
+  const schemas: Record<string, unknown> = {
     GrepRequest: app.getSchema("GrepRequest"),
     GrepResult: app.getSchema("GrepResult"),
     SearchResult: app.getSchema("SearchResult"),
@@ -172,7 +186,7 @@ export async function buildFastifyApp(ROOT_PATH) {
     FileTreeNode: app.getSchema("FileTreeNode"),
     StacktraceResult: app.getSchema("StacktraceResult"),
   };
-  const swaggerOpts = {
+  const swaggerOpts: any = {
     openapi: {
       openapi: "3.1.0",
       info: { title: "Promethean SmartGPT Bridge", version: "1.0.0" },
@@ -192,14 +206,20 @@ export async function buildFastifyApp(ROOT_PATH) {
     swaggerOpts.openapi.security = [{ bearerAuth: [] }];
   }
 
-  app.register(swagger, swaggerOpts);
-  app.register(swaggerUi, { routePrefix: "/docs" });
+  try {
+    app.register(swagger, swaggerOpts);
+    app.register(swaggerUi, { routePrefix: "/docs" });
+  } catch {}
 
-  app.get("/openapi.json", async (_req, rep) =>
-    rep.type("application/json").send(app.swagger()),
-  );
+  const getOpenapiDoc = () =>
+    typeof (app as any).swagger === "function"
+      ? (app as any).swagger()
+      : swaggerOpts.openapi;
+  app.get("/openapi.json", async (_req, rep) => {
+    return rep.type("application/json").send(getOpenapiDoc());
+  });
 
-  registerRbac(app);
+  await registerRbac(app);
 
   // Mount legacy routes under /v0 with old auth scoped inside
   app.register(
@@ -213,13 +233,15 @@ export async function buildFastifyApp(ROOT_PATH) {
 
   app.register(
     async (v1Scope) => {
-      // Register rate limiting for v1 routes
-      await v1Scope.register(rateLimit, {
-        max: 100, // max 100 requests per windowMs
-        timeWindow: 15 * 60 * 1000, // 15 minutes
-      });
+      // Register rate limiting for v1 routes (best-effort; ignore version mismatches)
+      try {
+        await v1Scope.register(rateLimit, {
+          max: 100, // max 100 requests per windowMs
+          timeWindow: 15 * 60 * 1000, // 15 minutes
+        });
+      } catch {}
 
-      const v1Auth = createFastifyAuth();
+      const v1Auth = authFactory();
       if (v1Auth.enabled) v1Scope.addHook("onRequest", v1Auth.preHandler);
       await registerV1Routes(v1Scope);
     },

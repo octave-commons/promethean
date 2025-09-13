@@ -1,862 +1,765 @@
 ---
-uuid: f930232c-2b46-49d5-9fad-ab8f62c7a800
-created_at: obsidian-chatgpt-plugin-integration-guide.md
+uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
+created_at: 2025.08.30.15.08.31.md
 filename: Obsidian ChatGPT Plugin Integration Guide
-title: Obsidian ChatGPT Plugin Integration Guide
 description: >-
-  This guide explains how to integrate and use Obsidian's ChatGPT plugin for
-  direct AI interactions within notes. It covers writing in Markdown, receiving
-  input, generating Markdown responses, and linking to other notes via wiki
-  syntax.
+  This guide explains how Obsidian's ChatGPT plugin enables direct interaction
+  with AI models within Markdown notes. It covers input/output workflows,
+  Markdown integration, and wiki linking for seamless note management.
 tags:
   - Obsidian
   - ChatGPT
-  - Markdown
-  - AI Integration
   - Plugin
-  - Reference Links
-related_to_uuid:
-  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-  - a4d90289-798d-44a0-a8e8-a055ae12fb52
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 1cfae310-35dc-49c2-98f1-b186da25d84b
-  - 03a5578f-d689-45db-95e9-11300e5eee6f
-  - 18138627-a348-4fbb-b447-410dfb400564
-  - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
-  - f5579967-762d-4cfd-851e-4f71b4cb77a1
-  - e2135d9f-c69d-47ee-9b17-0b05e98dc748
-  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-  - 6bcff92c-4224-453d-9993-1be8d37d47c3
-  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
+  - Markdown
+  - AI
+  - Integration
+  - Workflow
 related_to_title:
-  - Debugging Broker Connections and Agent Behavior
-  - field-dynamics-math-blocks
-  - Dynamic Context Model for Web Components
-  - DuckDuckGoSearchPipeline
-  - Duck's Self-Referential Perceptual Loop
-  - Eidolon Field Abstract Model
-  - Fnord Tracer Protocol
-  - graph-ds
-  - i3-bluetooth-setup
-  - eidolon-node-lifecycle
-  - Factorio AI with External Agents
-  - field-interaction-equations
-  - eidolon-field-math-foundations
-  - Functional Refactor of TypeScript Document Processing
-  - Promethean Dev Workflow Update
-  - The Jar of Echoes
-  - Chroma Toolkit Consolidation Plan
-  - Duck's Attractor States
-  - Per-Domain Policy System for JS Crawler
-  - Performance-Optimized-Polyglot-Bridge
-  - Pipeline Enhancements
+  - Obsidian Templating Plugins Integration Guide
+  - Obsidian ChatGPT Plugin Integration
   - plan-update-confirmation
-  - polyglot-repl-interface-layer
-  - Post-Linguistic Transhuman Design Frameworks
-  - Promethean Chat Activity Report
+  - prompt-programming-language-lisp
+  - Protocol_0_The_Contradiction_Engine
+  - Dynamic Context Model for Web Components
+  - The Jar of Echoes
+  - Promethean-native config design
+  - Promethean-Copilot-Intent-Engine
+  - AI-Centric OS with MCP Layer
+  - Cross-Language Runtime Polymorphism
+  - heartbeat-simulation-snippets
+related_to_uuid:
+  - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+  - 7a3f66a1-3373-4db5-8581-9b4f5452f3b3
+  - ca8e1399-77bf-4f77-82a3-3f703b68706d
+  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - d41a06d1-613e-4440-80b7-4553fc694285
+  - 9a93a756-6d33-45d1-aca9-51b74f2b33d2
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - 18138627-a348-4fbb-b447-410dfb400564
+  - ab748541-020e-4a7e-b07d-28173bd5bea2
+  - ae24a280-678e-4c0b-8cc4-56667fa04172
+  - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - 23e221e9-d4fa-4106-8458-06db2595085f
 references:
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 1223
-    col: 0
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 5
+    col: 1
     score: 1
-  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 1878
-    col: 0
+  - uuid: 7a3f66a1-3373-4db5-8581-9b4f5452f3b3
+    line: 5
+    col: 1
     score: 1
-  - uuid: 18138627-a348-4fbb-b447-410dfb400564
-    line: 1661
-    col: 0
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 5
+    col: 1
     score: 1
-  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
-    line: 1371
-    col: 0
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 13
+    col: 1
     score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 495
-    col: 0
+  - uuid: 7a3f66a1-3373-4db5-8581-9b4f5452f3b3
+    line: 13
+    col: 1
     score: 1
-  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
-    line: 459
-    col: 0
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 13
+    col: 1
     score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 27
-    col: 0
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 15
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 15
+    col: 4
+    score: 1
+  - uuid: 7a3f66a1-3373-4db5-8581-9b4f5452f3b3
+    line: 15
+    col: 1
+    score: 1
+  - uuid: 7a3f66a1-3373-4db5-8581-9b4f5452f3b3
+    line: 15
+    col: 4
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 15
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 15
+    col: 4
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 16
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 16
+    col: 4
+    score: 1
+  - uuid: 7a3f66a1-3373-4db5-8581-9b4f5452f3b3
+    line: 16
+    col: 1
+    score: 1
+  - uuid: 7a3f66a1-3373-4db5-8581-9b4f5452f3b3
+    line: 16
+    col: 4
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 16
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 16
+    col: 4
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 17
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 17
+    col: 4
+    score: 1
+  - uuid: 7a3f66a1-3373-4db5-8581-9b4f5452f3b3
+    line: 17
+    col: 1
+    score: 1
+  - uuid: 7a3f66a1-3373-4db5-8581-9b4f5452f3b3
+    line: 17
+    col: 4
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 17
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 17
+    col: 4
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 18
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 18
+    col: 4
+    score: 1
+  - uuid: 7a3f66a1-3373-4db5-8581-9b4f5452f3b3
+    line: 18
+    col: 1
+    score: 1
+  - uuid: 7a3f66a1-3373-4db5-8581-9b4f5452f3b3
+    line: 18
+    col: 4
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 18
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 18
+    col: 4
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 20
+    col: 1
+    score: 1
+  - uuid: 7a3f66a1-3373-4db5-8581-9b4f5452f3b3
+    line: 20
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 20
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 26
+    col: 1
+    score: 1
+  - uuid: 7a3f66a1-3373-4db5-8581-9b4f5452f3b3
+    line: 26
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 26
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 34
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 34
+    col: 3
     score: 1
   - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1002
-    col: 0
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 171
-    col: 0
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 112
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 24
-    col: 0
-    score: 1
-  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-    line: 143
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 241
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 56
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 52
-    col: 0
-    score: 1
-  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-    line: 120
-    col: 0
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 744
-    col: 0
-    score: 1
-  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
-    line: 47
-    col: 0
-    score: 1
-  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
-    line: 183
-    col: 0
-    score: 1
-  - uuid: 95205cd3-c3d5-4047-9c33-9c5ca2b49597
-    line: 58
-    col: 0
-    score: 1
-  - uuid: d614d983-7795-491f-9437-09f3a43f72cf
-    line: 42
-    col: 0
-    score: 1
-  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
-    line: 589
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 314
-    col: 0
-    score: 1
-  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
-    line: 512
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 40
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 108
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 60
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 89
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 45
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 126
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 117
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 142
-    col: 0
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 288
-    col: 0
-    score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 37
-    col: 0
-    score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 76
-    col: 0
+    line: 990
+    col: 1
     score: 1
   - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1029
-    col: 0
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 227
-    col: 0
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 160
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 86
-    col: 0
+    line: 990
+    col: 3
     score: 1
   - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 66
-    col: 0
+    line: 59
+    col: 1
     score: 1
-  - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
-    line: 86
-    col: 0
+  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
+    line: 59
+    col: 3
     score: 1
-  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 131
-    col: 0
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 392
+    col: 1
     score: 1
-  - uuid: 9413237f-2537-4bbf-8768-db6180970e36
-    line: 76
-    col: 0
+  - uuid: ab748541-020e-4a7e-b07d-28173bd5bea2
+    line: 392
+    col: 3
     score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 262
-    col: 0
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 36
+    col: 1
     score: 1
-  - uuid: b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
-    line: 84
-    col: 0
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 36
+    col: 3
     score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 314
-    col: 0
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 87
+    col: 1
     score: 1
-  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
-    line: 26
-    col: 0
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 87
+    col: 3
     score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 10
-    col: 0
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 992
+    col: 1
+    score: 1
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 992
+    col: 3
+    score: 1
+  - uuid: d41a06d1-613e-4440-80b7-4553fc694285
+    line: 73
+    col: 1
+    score: 1
+  - uuid: d41a06d1-613e-4440-80b7-4553fc694285
+    line: 73
+    col: 3
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 88
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 88
+    col: 3
+    score: 1
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 993
+    col: 1
+    score: 1
+  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+    line: 993
+    col: 3
+    score: 1
+  - uuid: d41a06d1-613e-4440-80b7-4553fc694285
+    line: 74
+    col: 1
+    score: 1
+  - uuid: d41a06d1-613e-4440-80b7-4553fc694285
+    line: 74
+    col: 3
+    score: 1
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 401
+    col: 1
+    score: 1
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 401
+    col: 3
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 37
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 37
+    col: 3
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 89
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 89
+    col: 3
+    score: 1
+  - uuid: d41a06d1-613e-4440-80b7-4553fc694285
+    line: 70
+    col: 1
+    score: 1
+  - uuid: d41a06d1-613e-4440-80b7-4553fc694285
+    line: 70
+    col: 3
+    score: 1
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 212
+    col: 1
+    score: 1
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 212
+    col: 3
+    score: 1
+  - uuid: 23e221e9-d4fa-4106-8458-06db2595085f
+    line: 96
+    col: 1
+    score: 1
+  - uuid: 23e221e9-d4fa-4106-8458-06db2595085f
+    line: 96
+    col: 3
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 38
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 38
+    col: 3
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 90
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 90
+    col: 3
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 388
+    col: 1
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 388
+    col: 3
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 126
+    col: 1
+    score: 1
+  - uuid: 18138627-a348-4fbb-b447-410dfb400564
+    line: 126
+    col: 3
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 41
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 41
+    col: 3
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 77
+    col: 1
+    score: 0.98
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 77
+    col: 3
+    score: 0.98
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 48
+    col: 1
+    score: 0.98
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 48
+    col: 3
+    score: 0.98
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 59
+    col: 1
+    score: 0.98
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 59
+    col: 3
+    score: 0.98
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 43
+    col: 1
     score: 1
   - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
     line: 43
-    col: 0
+    col: 3
     score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 82
-    col: 0
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 96
+    col: 1
     score: 1
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 37
-    col: 0
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 96
+    col: 3
     score: 1
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 68
-    col: 0
-    score: 1
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 294
-    col: 0
-    score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 532
-    col: 0
-    score: 1
-  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
-    line: 456
-    col: 0
-    score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 17
-    col: 0
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1035
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 44
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 61
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 80
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 405
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 216
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 189
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 172
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 75
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 104
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 46
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 64
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 40
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 137
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 82
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 454
-    col: 0
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 371
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 141
-    col: 0
-    score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 222
-    col: 0
-    score: 1
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 107
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 47
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 105
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
     line: 97
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 128
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 31
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 90
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 33
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 462
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 28
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 65
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 86
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 123
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 34
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 442
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 218
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 176
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 70
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 148
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 36
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 166
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 148
-    col: 0
-    score: 1
----
-<hr class="__chatgpt_plugin">
-
-### role::user
-
-How does this work exactly? ^ref-1d3d6c3a-5-0 ^ref-3bea339f-5-0
-
-
-
-<hr class="__chatgpt_plugin">
-
-### role::assistant<span style="font-size: small;"> (llama3.2:latest)</span>
-
-Obsidian's ChatGPT MD plugin is a powerful tool that allows you to interact with me directly within your notes. Here's how it works: ^ref-1d3d6c3a-13-0
-
-1. **You write in Markdown**: You type away in Obsidian, using Markdown syntax to format your text. ^ref-1d3d6c3a-15-0
-2. **I receive the input**: When you're ready, I'll be notified and can respond to your question or provide guidance. ^ref-1d3d6c3a-16-0
-3. **My responses are inserted as Markdown**: I'll provide my response, which will be formatted as Markdown, so it integrates seamlessly with your existing notes. ^ref-1d3d6c3a-17-0
-4. **Linking and referencing**: If we need to reference other notes in your vault, I can use standard [[wiki links]] syntax or inline code (`[link]`) to make it easy for you to click through and explore related content. ^ref-1d3d6c3a-18-0
-
-Ready to get started? What's on your mind? ^ref-1d3d6c3a-20-0
-
-<hr class="__chatgpt_plugin">
-
-### role::user
-
-Yea maybe? ^ref-1d3d6c3a-26-0
-
-<hr class="__chatgpt_plugin">
-
-true
-51e-4f71b4cb77a1
-    line: 459
-    col: 0 ^ref-1d3d6c3a-33-0
-    score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 27
-    col: 0
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1002
-    col: 0
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 171
-    col: 0
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 112 ^ref-1d3d6c3a-48-0
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 24
-    col: 0
-    score: 1
-  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-    line: 143
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791 ^ref-1d3d6c3a-59-0
-    line: 241
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db ^ref-1d3d6c3a-63-0
-    line: 19
-    col: 0
-    score: 1 ^ref-1d3d6c3a-66-0
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698 ^ref-1d3d6c3a-67-0
-    line: 25
-    col: 0 ^ref-1d3d6c3a-69-0
-    score: 1 ^ref-1d3d6c3a-70-0
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 18
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642 ^ref-1d3d6c3a-75-0
-    line: 64
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 26
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 28
-    col: 0
-    score: 1 ^ref-1d3d6c3a-86-0
-  - uuid: 557309a3-c906-4e97-8867-89ffe151790c
-    line: 22
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 13
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 8
-    col: 0
-    score: 1 ^ref-1d3d6c3a-98-0
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 56
-    col: 0
-    score: 1
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 395
-    col: 0 ^ref-1d3d6c3a-109-0
-    score: 1
-  - uuid: 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-    line: 552
-    col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 245
-    col: 0
-    score: 1
-  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
-    line: 242
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 285
-    col: 0
-    score: 1
-  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
-    line: 659
-    col: 0 ^ref-1d3d6c3a-129-0
-    score: 1 ^ref-1d3d6c3a-130-0
-  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
-    line: 169
-    col: 0
-    score: 1
-  - uuid: b3555ede-324a-4d24-a885-b0721e74babf
-    line: 58
-    col: 0 ^ref-1d3d6c3a-137-0
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 155
-    col: 0
-    score: 1 ^ref-1d3d6c3a-142-0
-  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-    line: 621
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
+    col: 1
+    score: 0.99
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 97
+    col: 3
+    score: 0.99
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
     line: 52
-    col: 0
-    score: 1
-  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-    line: 120
-    col: 0
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 744
-    col: 0
-    score: 1
-  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
-    line: 47
-    col: 0
-    score: 1
-  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
-    line: 183
-    col: 0
-    score: 1
-  - uuid: 95205cd3-c3d5-4047-9c33-9c5ca2b49597
-    line: 58
-    col: 0
-    score: 1
-  - uuid: d614d983-7795-491f-9437-09f3a43f72cf
-    line: 42
-    col: 0
-    score: 1
-  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
-    line: 589
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 314
-    col: 0
-    score: 1
-  - uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
-    line: 512
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 40
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 108
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 60
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 89
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 45
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 126
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 117
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 142
-    col: 0
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 288
-    col: 0
-    score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 37
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 20
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 9
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 72
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 23
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 25
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 11
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 22
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 7
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 33
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 15
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
+    col: 1
+    score: 0.98
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 52
+    col: 3
+    score: 0.98
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 106
+    col: 1
+    score: 0.98
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 106
+    col: 3
+    score: 0.98
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
     line: 44
-    col: 0
+    col: 1
     score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 401
-    col: 0
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 44
+    col: 3
     score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 205
-    col: 0
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 65
+    col: 1
+    score: 0.98
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 65
+    col: 3
+    score: 0.98
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 66
+    col: 1
+    score: 0.98
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 66
+    col: 3
+    score: 0.98
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 46
+    col: 1
     score: 1
-  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
-    line: 5
-    col: 0
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 46
+    col: 3
     score: 1
-  - uuid: 5f65dfa5-dc97-4a6c-ad93-c45c1312e156
-    line: 7
-    col: 0
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 99
+    col: 1
     score: 1
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 147
-    col: 0
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 99
+    col: 3
     score: 1
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 67
-    col: 0
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 100
+    col: 1
+    score: 0.99
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 100
+    col: 3
+    score: 0.99
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 69
+    col: 1
+    score: 0.98
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 69
+    col: 3
+    score: 0.98
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 123
+    col: 1
+    score: 0.98
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 123
+    col: 3
+    score: 0.98
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 47
+    col: 1
     score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 16
-    col: 0
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 47
+    col: 3
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 53
+    col: 1
+    score: 0.99
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 53
+    col: 3
+    score: 0.99
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 54
+    col: 1
+    score: 0.99
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 54
+    col: 3
+    score: 0.99
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 60
+    col: 1
+    score: 0.99
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 60
+    col: 3
+    score: 0.99
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 51
+    col: 1
     score: 1
   - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
     line: 51
-    col: 0
+    col: 3
     score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 87
-    col: 0
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 103
+    col: 1
     score: 1
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 15
-    col: 0
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 103
+    col: 3
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 104
+    col: 1
+    score: 0.99
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 104
+    col: 3
+    score: 0.99
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 105
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 105
+    col: 3
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 57
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 57
+    col: 3
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 109
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 109
+    col: 3
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 58
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 58
+    col: 3
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 110
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 110
+    col: 3
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 111
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 111
+    col: 3
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 112
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 112
+    col: 3
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 63
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 63
+    col: 3
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 115
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 115
+    col: 3
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 64
+    col: 1
+    score: 0.99
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 64
+    col: 3
+    score: 0.99
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 116
+    col: 1
+    score: 0.99
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 116
+    col: 3
+    score: 0.99
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 117
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 117
+    col: 3
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 118
+    col: 1
+    score: 0.99
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 118
+    col: 3
+    score: 0.99
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 121
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 121
+    col: 3
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 70
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 70
+    col: 3
     score: 1
   - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
     line: 122
-    col: 0
+    col: 1
     score: 1
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 37
-    col: 0
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 122
+    col: 3
     score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 76
-    col: 0
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1029
-    col: 0
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 227
-    col: 0
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 160
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 86
-    col: 0
-    score: 1
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 66
-    col: 0
-    score: 1
-  - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
-    line: 86
-    col: 0
-    score: 1
-  - uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
-    line: 131
-    col: 0
-    score: 1
-  - uuid: 9413237f-2537-4bbf-8768-db6180970e36
-    line: 76
-    col: 0
-    score: 1
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 160
-    col: 0
-    score: 1
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 110
-    col: 0
-    score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 107
-    col: 0
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 124
+    col: 1
+    score: 0.99
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 124
+    col: 3
+    score: 0.99
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 71
+    col: 1
     score: 1
   - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 33
-    col: 0
+    line: 71
+    col: 3
     score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 54
-    col: 0
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 74
+    col: 1
+    score: 0.98
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 74
+    col: 3
+    score: 0.98
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 73
+    col: 1
     score: 1
-  - uuid: 23df6ddb-05cf-4639-8201-f8291f8a6026
-    line: 134
-    col: 0
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 73
+    col: 3
     score: 1
-  - uuid: b3555ede-324a-4d24-a885-b0721e74babf
-    line: 91
-    col: 0
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 126
+    col: 1
     score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 126
+    col: 3
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 127
+    col: 1
+    score: 0.99
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 127
+    col: 3
+    score: 0.99
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 76
+    col: 1
+    score: 1
+  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
+    line: 76
+    col: 3
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 129
+    col: 1
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 129
+    col: 3
+    score: 1
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 130
+    col: 1
+    score: 0.99
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 130
+    col: 3
+    score: 0.99
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 131
+    col: 1
+    score: 0.98
+  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
+    line: 131
+    col: 3
+    score: 0.98
 ---
 <hr class="__chatgpt_plugin">
 
 ### role::user
 
-How does this work exactly? ^ref-1d3d6c3a-5-0
+How does this work exactly?
 
 
 
@@ -864,151 +767,217 @@ How does this work exactly? ^ref-1d3d6c3a-5-0
 
 ### role::assistant<span style="font-size: small;"> (llama3.2:latest)</span>
 
-Obsidian's ChatGPT MD plugin is a powerful tool that allows you to interact with me directly within your notes. Here's how it works: ^ref-1d3d6c3a-13-0
+Obsidian's ChatGPT MD plugin is a powerful tool that allows you to interact with me directly within your notes. Here's how it works:
 
-1. **You write in Markdown**: You type away in Obsidian, using Markdown syntax to format your text. ^ref-1d3d6c3a-15-0
-2. **I receive the input**: When you're ready, I'll be notified and can respond to your question or provide guidance. ^ref-1d3d6c3a-16-0
-3. **My responses are inserted as Markdown**: I'll provide my response, which will be formatted as Markdown, so it integrates seamlessly with your existing notes. ^ref-1d3d6c3a-17-0
-4. **Linking and referencing**: If we need to reference other notes in your vault, I can use standard [[wiki links]] syntax or inline code (`[link]`) to make it easy for you to click through and explore related content. ^ref-1d3d6c3a-18-0
+1. **You write in Markdown**: You type away in Obsidian, using Markdown syntax to format your text.
+2. **I receive the input**: When you're ready, I'll be notified and can respond to your question or provide guidance.
+3. **My responses are inserted as Markdown**: I'll provide my response, which will be formatted as Markdown, so it integrates seamlessly with your existing notes.
+4. **Linking and referencing**: If we need to reference other notes in your vault, I can use standard [[wiki links]] syntax or inline code (`[link]`) to make it easy for you to click through and explore related content.
 
-Ready to get started? What's on your mind? ^ref-1d3d6c3a-20-0
+Ready to get started? What's on your mind?
 
 <hr class="__chatgpt_plugin">
 
 ### role::user
 
-Yea maybe? ^ref-1d3d6c3a-26-0
+Yea maybe?
 
 <hr class="__chatgpt_plugin">
 
 true
- ^ref-1d3d6c3a-3156-0 ^ref-1d3d6c3a-3173-0 ^ref-1d3d6c3a-3303-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
-- [[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]]
+- [[obsidian-templating-plugins-integration-guide|Obsidian Templating Plugins Integration Guide]]
+- [7a3f66a1-3373-4db5-8581-9b4f5452f3b3](../..)
+- [[obsidian-chatgpt-plugin-integration|Obsidian ChatGPT Plugin Integration]]
+- [plan-update-confirmation](plan-update-confirmation.md)
+- [prompt-programming-language-lisp](prompt-programming-language-lisp.md)
+- [Protocol_0_The_Contradiction_Engine](protocol-0-the-contradiction-engine.md)
 - [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
-- [DuckDuckGoSearchPipeline](duckduckgosearchpipeline.md)
-- [[ducks-self-referential-perceptual-loop|Duck's Self-Referential Perceptual Loop]]
-- [[eidolon-field-abstract-model|Eidolon Field Abstract Model]]
-- [[fnord-tracer-protocol|Fnord Tracer Protocol]]
-- [[graph-ds]]
-- [[i3-bluetooth-setup]]
-- [[eidolon-node-lifecycle]]
-- [[factorio-ai-with-external-agents|Factorio AI with External Agents]]
-- [[docs/unique/field-interaction-equations|field-interaction-equations]]
-- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
-- [[functional-refactor-of-typescript-document-processing|Functional Refactor of TypeScript Document Processing]]
-- [[promethean-dev-workflow-update|Promethean Dev Workflow Update]]
 - [[the-jar-of-echoes|The Jar of Echoes]]
-- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
-- [[ducks-attractor-states|Duck's Attractor States]]
-- [[per-domain-policy-system-for-js-crawler|Per-Domain Policy System for JS Crawler]]
-- [[performance-optimized-polyglot-bridge]]
-- [[pipeline-enhancements|Pipeline Enhancements]]
-- [[plan-update-confirmation]]
-- [[polyglot-repl-interface-layer]]
-- [[post-linguistic-transhuman-design-frameworks|Post-Linguistic Transhuman Design Frameworks]]
-- [[promethean-chat-activity-report|Promethean Chat Activity Report]]
+- [[promethean-native-config-design|Promethean-native config design]]
+- [[promethean-copilot-intent-engine]]
+- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
+- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
+- [heartbeat-simulation-snippets](heartbeat-simulation-snippets.md)
+
 ## Sources
-- [[functional-refactor-of-typescript-document-processing#^ref-1cfae310-1223-0|Functional Refactor of TypeScript Document Processing — L1223]] (line 1223, col 0, score 1)
-- [[promethean-dev-workflow-update#^ref-03a5578f-1878-0|Promethean Dev Workflow Update — L1878]] (line 1878, col 0, score 1)
-- [[the-jar-of-echoes#^ref-18138627-1661-0|The Jar of Echoes — L1661]] (line 1661, col 0, score 1)
-- [[windows-tiling-with-autohotkey#^ref-0f6f8f38-1371-0|windows-tiling-with-autohotkey — L1371]] (line 1371, col 0, score 1)
-- [[per-domain-policy-system-for-js-crawler#^ref-c03020e1-495-0|Per-Domain Policy System for JS Crawler — L495]] (line 495, col 0, score 1)
-- [[performance-optimized-polyglot-bridge#^ref-f5579967-459-0|Performance-Optimized-Polyglot-Bridge — L459]] (line 459, col 0, score 1)
-- [[pipeline-enhancements#^ref-e2135d9f-27-0|Pipeline Enhancements — L27]] (line 27, col 0, score 1)
-- [[plan-update-confirmation#^ref-b22d79c6-1002-0|plan-update-confirmation — L1002]] (line 1002, col 0, score 1)
-- [[polyglot-repl-interface-layer#^ref-9c79206d-171-0|polyglot-repl-interface-layer — L171]] (line 171, col 0, score 1)
-- [[post-linguistic-transhuman-design-frameworks#^ref-6bcff92c-112-0|Post-Linguistic Transhuman Design Frameworks — L112]] (line 112, col 0, score 1)
-- [[promethean-chat-activity-report#^ref-18344cf9-24-0|Promethean Chat Activity Report — L24]] (line 24, col 0, score 1)
-- [Protocol_0_The_Contradiction_Engine — L143](protocol-0-the-contradiction-engine.md#^ref-9a93a756-143-0) (line 143, col 0, score 1)
-- [[provider-agnostic-chat-panel-implementation#^ref-43bfe9dd-241-0|Provider-Agnostic Chat Panel Implementation — L241]] (line 241, col 0, score 1)
-- [[creative-moments#^ref-10d98225-8-0|Creative Moments — L8]] (line 8, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L38](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-38-0) (line 38, col 0, score 1)
-- [Docops Feature Updates — L56](docops-feature-updates-3.md#^ref-cdbd21ee-56-0) (line 56, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L52](duckduckgosearchpipeline.md#^ref-e979c50f-52-0) (line 52, col 0, score 1)
-- [[promethean-eidolon-synchronicity-model#^ref-2d6e5553-120-0|Promethean_Eidolon_Synchronicity_Model — L120]] (line 120, col 0, score 1)
-- [[promethean-infrastructure-setup#^ref-6deed6ac-744-0|Promethean Infrastructure Setup — L744]] (line 744, col 0, score 1)
-- [[promethean-notes#^ref-1c4046b5-47-0|Promethean Notes — L47]] (line 47, col 0, score 1)
-- [[promethean-pipelines#^ref-8b8e6103-183-0|Promethean Pipelines — L183]] (line 183, col 0, score 1)
-- [[promethean-requirements#^ref-95205cd3-58-0|promethean-requirements — L58]] (line 58, col 0, score 1)
-- [[promethean-workflow-optimization#^ref-d614d983-42-0|Promethean Workflow Optimization — L42]] (line 42, col 0, score 1)
-- [[prometheus-observability-stack#^ref-e90b5a16-589-0|Prometheus Observability Stack — L589]] (line 589, col 0, score 1)
-- [[provider-agnostic-chat-panel-implementation#^ref-43bfe9dd-314-0|Provider-Agnostic Chat Panel Implementation — L314]] (line 314, col 0, score 1)
-- [[prometheus-observability-stack#^ref-e90b5a16-512-0|Prometheus Observability Stack — L512]] (line 512, col 0, score 1)
-- [[creative-moments#^ref-10d98225-40-0|Creative Moments — L40]] (line 40, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L108](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-108-0) (line 108, col 0, score 1)
-- [Docops Feature Updates — L60](docops-feature-updates-3.md#^ref-cdbd21ee-60-0) (line 60, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-89-0|Docops Feature Updates — L89]] (line 89, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L45](duckduckgosearchpipeline.md#^ref-e979c50f-45-0) (line 45, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-126-0|Duck's Attractor States — L126]] (line 126, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-117-0|Duck's Self-Referential Perceptual Loop — L117]] (line 117, col 0, score 1)
-- [field-node-diagram-visualizations — L142](field-node-diagram-visualizations.md#^ref-e9b27b06-142-0) (line 142, col 0, score 1)
-- [komorebi-group-window-hack — L288](komorebi-group-window-hack.md#^ref-dd89372d-288-0) (line 288, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L37](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-37-0) (line 37, col 0, score 1)
-- [[pipeline-enhancements#^ref-e2135d9f-76-0|Pipeline Enhancements — L76]] (line 76, col 0, score 1)
-- [[plan-update-confirmation#^ref-b22d79c6-1029-0|plan-update-confirmation — L1029]] (line 1029, col 0, score 1)
-- [[polyglot-repl-interface-layer#^ref-9c79206d-227-0|polyglot-repl-interface-layer — L227]] (line 227, col 0, score 1)
-- [[post-linguistic-transhuman-design-frameworks#^ref-6bcff92c-160-0|Post-Linguistic Transhuman Design Frameworks — L160]] (line 160, col 0, score 1)
-- [[promethean-chat-activity-report#^ref-18344cf9-86-0|Promethean Chat Activity Report — L86]] (line 86, col 0, score 1)
-- [[promethean-copilot-intent-engine#^ref-ae24a280-66-0|Promethean-Copilot-Intent-Engine — L66]] (line 66, col 0, score 1)
-- [[promethean-data-sync-protocol#^ref-9fab9e76-86-0|Promethean Data Sync Protocol — L86]] (line 86, col 0, score 1)
-- [[promethean-dev-workflow-update#^ref-03a5578f-131-0|Promethean Dev Workflow Update — L131]] (line 131, col 0, score 1)
-- [[promethean-documentation-overview#^ref-9413237f-76-0|Promethean Documentation Overview — L76]] (line 76, col 0, score 1)
-- [komorebi-group-window-hack — L262](komorebi-group-window-hack.md#^ref-dd89372d-262-0) (line 262, col 0, score 1)
-- [[mathematics-sampler#^ref-b5e0183e-84-0|Mathematics Sampler — L84]] (line 84, col 0, score 1)
-- [[migrate-to-provider-tenant-architecture#^ref-54382370-314-0|Migrate to Provider-Tenant Architecture — L314]] (line 314, col 0, score 1)
-- [[mindful-prioritization#^ref-40185d05-26-0|Mindful Prioritization — L26]] (line 26, col 0, score 1)
-- [NPU Voice Code and Sensory Integration — L10](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-10-0) (line 10, col 0, score 1)
-- [[obsidian-chatgpt-plugin-integration#^ref-ca8e1399-43-0|Obsidian ChatGPT Plugin Integration — L43]] (line 43, col 0, score 1)
-- [[docs/unique/obsidian-ignore-node-modules-regex#^ref-ffb9b2a9-82-0|obsidian-ignore-node-modules-regex — L82]] (line 82, col 0, score 1)
-- [[obsidian-task-generation#^ref-9b694a91-37-0|Obsidian Task Generation — L37]] (line 37, col 0, score 1)
-- [[openapi-validation-report#^ref-5c152b08-68-0|OpenAPI Validation Report — L68]] (line 68, col 0, score 1)
-- [ParticleSimulationWithCanvasAndFFmpeg — L294](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-294-0) (line 294, col 0, score 1)
-- [[per-domain-policy-system-for-js-crawler#^ref-c03020e1-532-0|Per-Domain Policy System for JS Crawler — L532]] (line 532, col 0, score 1)
-- [[performance-optimized-polyglot-bridge#^ref-f5579967-456-0|Performance-Optimized-Polyglot-Bridge — L456]] (line 456, col 0, score 1)
-- [[pipeline-enhancements#^ref-e2135d9f-17-0|Pipeline Enhancements — L17]] (line 17, col 0, score 1)
-- [[plan-update-confirmation#^ref-b22d79c6-1035-0|plan-update-confirmation — L1035]] (line 1035, col 0, score 1)
-- [Docops Feature Updates — L44](docops-feature-updates-3.md#^ref-cdbd21ee-44-0) (line 44, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-61-0|Docops Feature Updates — L61]] (line 61, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-99-0|Duck's Attractor States — L99]] (line 99, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-80-0|Duck's Self-Referential Perceptual Loop — L80]] (line 80, col 0, score 1)
-- [[dynamic-context-model-for-web-components#^ref-f7702bf8-405-0|Dynamic Context Model for Web Components — L405]] (line 405, col 0, score 1)
-- [[eidolon-field-abstract-model#^ref-5e8b2388-216-0|Eidolon Field Abstract Model — L216]] (line 216, col 0, score 1)
-- [[factorio-ai-with-external-agents#^ref-a4d90289-189-0|Factorio AI with External Agents — L189]] (line 189, col 0, score 1)
-- [[docs/unique/field-interaction-equations#^ref-b09141b7-172-0|field-interaction-equations — L172]] (line 172, col 0, score 1)
-- [[creative-moments#^ref-10d98225-75-0|Creative Moments — L75]] (line 75, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L104](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-104-0) (line 104, col 0, score 1)
-- [Docops Feature Updates — L46](docops-feature-updates-3.md#^ref-cdbd21ee-46-0) (line 46, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-64-0|Docops Feature Updates — L64]] (line 64, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L40](duckduckgosearchpipeline.md#^ref-e979c50f-40-0) (line 40, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-137-0|Duck's Attractor States — L137]] (line 137, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-82-0|Duck's Self-Referential Perceptual Loop — L82]] (line 82, col 0, score 1)
-- [[dynamic-context-model-for-web-components#^ref-f7702bf8-454-0|Dynamic Context Model for Web Components — L454]] (line 454, col 0, score 1)
-- [[graph-ds#^ref-6620e2f2-371-0|graph-ds — L371]] (line 371, col 0, score 1)
-- [[heartbeat-fragment-demo#^ref-dd00677a-141-0|heartbeat-fragment-demo — L141]] (line 141, col 0, score 1)
-- [[homeostasis-decay-formulas#^ref-37b5d236-222-0|homeostasis-decay-formulas — L222]] (line 222, col 0, score 1)
-- [[i3-bluetooth-setup#^ref-5e408692-107-0|i3-bluetooth-setup — L107]] (line 107, col 0, score 1)
-- [[creative-moments#^ref-10d98225-47-0|Creative Moments — L47]] (line 47, col 0, score 1)
-- [Debugging Broker Connections and Agent Behavior — L105](debugging-broker-connections-and-agent-behavior.md#^ref-73d3dbf6-105-0) (line 105, col 0, score 1)
-- [Docops Feature Updates — L97](docops-feature-updates-3.md#^ref-cdbd21ee-97-0) (line 97, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-128-0|Docops Feature Updates — L128]] (line 128, col 0, score 1)
-- [DuckDuckGoSearchPipeline — L31](duckduckgosearchpipeline.md#^ref-e979c50f-31-0) (line 31, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-90-0|Duck's Attractor States — L90]] (line 90, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-33-0|Duck's Self-Referential Perceptual Loop — L33]] (line 33, col 0, score 1)
-- [[dynamic-context-model-for-web-components#^ref-f7702bf8-462-0|Dynamic Context Model for Web Components — L462]] (line 462, col 0, score 1)
-- [[creative-moments#^ref-10d98225-28-0|Creative Moments — L28]] (line 28, col 0, score 1)
-- [Docops Feature Updates — L65](docops-feature-updates-3.md#^ref-cdbd21ee-65-0) (line 65, col 0, score 1)
-- [[docops-feature-updates#^ref-2792d448-86-0|Docops Feature Updates — L86]] (line 86, col 0, score 1)
-- [[ducks-attractor-states#^ref-13951643-123-0|Duck's Attractor States — L123]] (line 123, col 0, score 1)
-- [[ducks-self-referential-perceptual-loop#^ref-71726f04-34-0|Duck's Self-Referential Perceptual Loop — L34]] (line 34, col 0, score 1)
-- [[dynamic-context-model-for-web-components#^ref-f7702bf8-442-0|Dynamic Context Model for Web Components — L442]] (line 442, col 0, score 1)
-- [[eidolon-field-abstract-model#^ref-5e8b2388-218-0|Eidolon Field Abstract Model — L218]] (line 218, col 0, score 1)
-- [[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-176-0|eidolon-field-math-foundations — L176]] (line 176, col 0, score 1)
-- [[eidolon-node-lifecycle#^ref-938eca9c-70-0|eidolon-node-lifecycle — L70]] (line 70, col 0, score 1)
-- [[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-148-0|eidolon-field-math-foundations — L148]] (line 148, col 0, score 1)
-- [[eidolon-node-lifecycle#^ref-938eca9c-36-0|eidolon-node-lifecycle — L36]] (line 36, col 0, score 1)
-- [[factorio-ai-with-external-agents#^ref-a4d90289-166-0|Factorio AI with External Agents — L166]] (line 166, col 0, score 1)
-- [[docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-148-0|field-dynamics-math-blocks — L148]] (line 148, col 0, score 1)
+- [[obsidian-templating-plugins-integration-guide#L5|Obsidian Templating Plugins Integration Guide — L5]] (line 5, col 1, score 1)
+- [7a3f66a1-3373-4db5-8581-9b4f5452f3b3 — L5](../..#L5) (line 5, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L5|Obsidian ChatGPT Plugin Integration — L5]] (line 5, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L13|Obsidian Templating Plugins Integration Guide — L13]] (line 13, col 1, score 1)
+- [7a3f66a1-3373-4db5-8581-9b4f5452f3b3 — L13](../..#L13) (line 13, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L13|Obsidian ChatGPT Plugin Integration — L13]] (line 13, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L15|Obsidian Templating Plugins Integration Guide — L15]] (line 15, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L15|Obsidian Templating Plugins Integration Guide — L15]] (line 15, col 4, score 1)
+- [7a3f66a1-3373-4db5-8581-9b4f5452f3b3 — L15](../..#L15) (line 15, col 1, score 1)
+- [7a3f66a1-3373-4db5-8581-9b4f5452f3b3 — L15](../..#L15) (line 15, col 4, score 1)
+- [[obsidian-chatgpt-plugin-integration#L15|Obsidian ChatGPT Plugin Integration — L15]] (line 15, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L15|Obsidian ChatGPT Plugin Integration — L15]] (line 15, col 4, score 1)
+- [[obsidian-templating-plugins-integration-guide#L16|Obsidian Templating Plugins Integration Guide — L16]] (line 16, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L16|Obsidian Templating Plugins Integration Guide — L16]] (line 16, col 4, score 1)
+- [7a3f66a1-3373-4db5-8581-9b4f5452f3b3 — L16](../..#L16) (line 16, col 1, score 1)
+- [7a3f66a1-3373-4db5-8581-9b4f5452f3b3 — L16](../..#L16) (line 16, col 4, score 1)
+- [[obsidian-chatgpt-plugin-integration#L16|Obsidian ChatGPT Plugin Integration — L16]] (line 16, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L16|Obsidian ChatGPT Plugin Integration — L16]] (line 16, col 4, score 1)
+- [[obsidian-templating-plugins-integration-guide#L17|Obsidian Templating Plugins Integration Guide — L17]] (line 17, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L17|Obsidian Templating Plugins Integration Guide — L17]] (line 17, col 4, score 1)
+- [7a3f66a1-3373-4db5-8581-9b4f5452f3b3 — L17](../..#L17) (line 17, col 1, score 1)
+- [7a3f66a1-3373-4db5-8581-9b4f5452f3b3 — L17](../..#L17) (line 17, col 4, score 1)
+- [[obsidian-chatgpt-plugin-integration#L17|Obsidian ChatGPT Plugin Integration — L17]] (line 17, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L17|Obsidian ChatGPT Plugin Integration — L17]] (line 17, col 4, score 1)
+- [[obsidian-templating-plugins-integration-guide#L18|Obsidian Templating Plugins Integration Guide — L18]] (line 18, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L18|Obsidian Templating Plugins Integration Guide — L18]] (line 18, col 4, score 1)
+- [7a3f66a1-3373-4db5-8581-9b4f5452f3b3 — L18](../..#L18) (line 18, col 1, score 1)
+- [7a3f66a1-3373-4db5-8581-9b4f5452f3b3 — L18](../..#L18) (line 18, col 4, score 1)
+- [[obsidian-chatgpt-plugin-integration#L18|Obsidian ChatGPT Plugin Integration — L18]] (line 18, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L18|Obsidian ChatGPT Plugin Integration — L18]] (line 18, col 4, score 1)
+- [[obsidian-templating-plugins-integration-guide#L20|Obsidian Templating Plugins Integration Guide — L20]] (line 20, col 1, score 1)
+- [7a3f66a1-3373-4db5-8581-9b4f5452f3b3 — L20](../..#L20) (line 20, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L20|Obsidian ChatGPT Plugin Integration — L20]] (line 20, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L26|Obsidian Templating Plugins Integration Guide — L26]] (line 26, col 1, score 1)
+- [7a3f66a1-3373-4db5-8581-9b4f5452f3b3 — L26](../..#L26) (line 26, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L26|Obsidian ChatGPT Plugin Integration — L26]] (line 26, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L34|Obsidian ChatGPT Plugin Integration — L34]] (line 34, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L34|Obsidian ChatGPT Plugin Integration — L34]] (line 34, col 3, score 1)
+- [plan-update-confirmation — L990](plan-update-confirmation.md#L990) (line 990, col 1, score 1)
+- [plan-update-confirmation — L990](plan-update-confirmation.md#L990) (line 990, col 3, score 1)
+- [[promethean-copilot-intent-engine#L59|Promethean-Copilot-Intent-Engine — L59]] (line 59, col 1, score 1)
+- [[promethean-copilot-intent-engine#L59|Promethean-Copilot-Intent-Engine — L59]] (line 59, col 3, score 1)
+- [[promethean-native-config-design#L392|Promethean-native config design — L392]] (line 392, col 1, score 1)
+- [[promethean-native-config-design#L392|Promethean-native config design — L392]] (line 392, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration#L36|Obsidian ChatGPT Plugin Integration — L36]] (line 36, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L36|Obsidian ChatGPT Plugin Integration — L36]] (line 36, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L87|Obsidian Templating Plugins Integration Guide — L87]] (line 87, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L87|Obsidian Templating Plugins Integration Guide — L87]] (line 87, col 3, score 1)
+- [plan-update-confirmation — L992](plan-update-confirmation.md#L992) (line 992, col 1, score 1)
+- [plan-update-confirmation — L992](plan-update-confirmation.md#L992) (line 992, col 3, score 1)
+- [prompt-programming-language-lisp — L73](prompt-programming-language-lisp.md#L73) (line 73, col 1, score 1)
+- [prompt-programming-language-lisp — L73](prompt-programming-language-lisp.md#L73) (line 73, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L88|Obsidian Templating Plugins Integration Guide — L88]] (line 88, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L88|Obsidian Templating Plugins Integration Guide — L88]] (line 88, col 3, score 1)
+- [plan-update-confirmation — L993](plan-update-confirmation.md#L993) (line 993, col 1, score 1)
+- [plan-update-confirmation — L993](plan-update-confirmation.md#L993) (line 993, col 3, score 1)
+- [prompt-programming-language-lisp — L74](prompt-programming-language-lisp.md#L74) (line 74, col 1, score 1)
+- [prompt-programming-language-lisp — L74](prompt-programming-language-lisp.md#L74) (line 74, col 3, score 1)
+- [[ai-centric-os-with-mcp-layer#L401|AI-Centric OS with MCP Layer — L401]] (line 401, col 1, score 1)
+- [[ai-centric-os-with-mcp-layer#L401|AI-Centric OS with MCP Layer — L401]] (line 401, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration#L37|Obsidian ChatGPT Plugin Integration — L37]] (line 37, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L37|Obsidian ChatGPT Plugin Integration — L37]] (line 37, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L89|Obsidian Templating Plugins Integration Guide — L89]] (line 89, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L89|Obsidian Templating Plugins Integration Guide — L89]] (line 89, col 3, score 1)
+- [prompt-programming-language-lisp — L70](prompt-programming-language-lisp.md#L70) (line 70, col 1, score 1)
+- [prompt-programming-language-lisp — L70](prompt-programming-language-lisp.md#L70) (line 70, col 3, score 1)
+- [[cross-language-runtime-polymorphism#L212|Cross-Language Runtime Polymorphism — L212]] (line 212, col 1, score 1)
+- [[cross-language-runtime-polymorphism#L212|Cross-Language Runtime Polymorphism — L212]] (line 212, col 3, score 1)
+- [heartbeat-simulation-snippets — L96](heartbeat-simulation-snippets.md#L96) (line 96, col 1, score 1)
+- [heartbeat-simulation-snippets — L96](heartbeat-simulation-snippets.md#L96) (line 96, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration#L38|Obsidian ChatGPT Plugin Integration — L38]] (line 38, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L38|Obsidian ChatGPT Plugin Integration — L38]] (line 38, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L90|Obsidian Templating Plugins Integration Guide — L90]] (line 90, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L90|Obsidian Templating Plugins Integration Guide — L90]] (line 90, col 3, score 1)
+- [[dynamic-context-model-for-web-components#L388|Dynamic Context Model for Web Components — L388]] (line 388, col 1, score 1)
+- [[dynamic-context-model-for-web-components#L388|Dynamic Context Model for Web Components — L388]] (line 388, col 3, score 1)
+- [[the-jar-of-echoes#L126|The Jar of Echoes — L126]] (line 126, col 1, score 1)
+- [[the-jar-of-echoes#L126|The Jar of Echoes — L126]] (line 126, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration#L41|Obsidian ChatGPT Plugin Integration — L41]] (line 41, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L41|Obsidian ChatGPT Plugin Integration — L41]] (line 41, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration#L77|Obsidian ChatGPT Plugin Integration — L77]] (line 77, col 1, score 0.98)
+- [[obsidian-chatgpt-plugin-integration#L77|Obsidian ChatGPT Plugin Integration — L77]] (line 77, col 3, score 0.98)
+- [[obsidian-chatgpt-plugin-integration#L48|Obsidian ChatGPT Plugin Integration — L48]] (line 48, col 1, score 0.98)
+- [[obsidian-chatgpt-plugin-integration#L48|Obsidian ChatGPT Plugin Integration — L48]] (line 48, col 3, score 0.98)
+- [[obsidian-chatgpt-plugin-integration#L59|Obsidian ChatGPT Plugin Integration — L59]] (line 59, col 1, score 0.98)
+- [[obsidian-chatgpt-plugin-integration#L59|Obsidian ChatGPT Plugin Integration — L59]] (line 59, col 3, score 0.98)
+- [[obsidian-chatgpt-plugin-integration#L43|Obsidian ChatGPT Plugin Integration — L43]] (line 43, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L43|Obsidian ChatGPT Plugin Integration — L43]] (line 43, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L96|Obsidian Templating Plugins Integration Guide — L96]] (line 96, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L96|Obsidian Templating Plugins Integration Guide — L96]] (line 96, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L97|Obsidian Templating Plugins Integration Guide — L97]] (line 97, col 1, score 0.99)
+- [[obsidian-templating-plugins-integration-guide#L97|Obsidian Templating Plugins Integration Guide — L97]] (line 97, col 3, score 0.99)
+- [[obsidian-chatgpt-plugin-integration#L52|Obsidian ChatGPT Plugin Integration — L52]] (line 52, col 1, score 0.98)
+- [[obsidian-chatgpt-plugin-integration#L52|Obsidian ChatGPT Plugin Integration — L52]] (line 52, col 3, score 0.98)
+- [[obsidian-templating-plugins-integration-guide#L106|Obsidian Templating Plugins Integration Guide — L106]] (line 106, col 1, score 0.98)
+- [[obsidian-templating-plugins-integration-guide#L106|Obsidian Templating Plugins Integration Guide — L106]] (line 106, col 3, score 0.98)
+- [[obsidian-chatgpt-plugin-integration#L44|Obsidian ChatGPT Plugin Integration — L44]] (line 44, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L44|Obsidian ChatGPT Plugin Integration — L44]] (line 44, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration#L65|Obsidian ChatGPT Plugin Integration — L65]] (line 65, col 1, score 0.98)
+- [[obsidian-chatgpt-plugin-integration#L65|Obsidian ChatGPT Plugin Integration — L65]] (line 65, col 3, score 0.98)
+- [[obsidian-chatgpt-plugin-integration#L66|Obsidian ChatGPT Plugin Integration — L66]] (line 66, col 1, score 0.98)
+- [[obsidian-chatgpt-plugin-integration#L66|Obsidian ChatGPT Plugin Integration — L66]] (line 66, col 3, score 0.98)
+- [[obsidian-chatgpt-plugin-integration#L46|Obsidian ChatGPT Plugin Integration — L46]] (line 46, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L46|Obsidian ChatGPT Plugin Integration — L46]] (line 46, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L99|Obsidian Templating Plugins Integration Guide — L99]] (line 99, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L99|Obsidian Templating Plugins Integration Guide — L99]] (line 99, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L100|Obsidian Templating Plugins Integration Guide — L100]] (line 100, col 1, score 0.99)
+- [[obsidian-templating-plugins-integration-guide#L100|Obsidian Templating Plugins Integration Guide — L100]] (line 100, col 3, score 0.99)
+- [[obsidian-chatgpt-plugin-integration#L69|Obsidian ChatGPT Plugin Integration — L69]] (line 69, col 1, score 0.98)
+- [[obsidian-chatgpt-plugin-integration#L69|Obsidian ChatGPT Plugin Integration — L69]] (line 69, col 3, score 0.98)
+- [[obsidian-templating-plugins-integration-guide#L123|Obsidian Templating Plugins Integration Guide — L123]] (line 123, col 1, score 0.98)
+- [[obsidian-templating-plugins-integration-guide#L123|Obsidian Templating Plugins Integration Guide — L123]] (line 123, col 3, score 0.98)
+- [[obsidian-chatgpt-plugin-integration#L47|Obsidian ChatGPT Plugin Integration — L47]] (line 47, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L47|Obsidian ChatGPT Plugin Integration — L47]] (line 47, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration#L53|Obsidian ChatGPT Plugin Integration — L53]] (line 53, col 1, score 0.99)
+- [[obsidian-chatgpt-plugin-integration#L53|Obsidian ChatGPT Plugin Integration — L53]] (line 53, col 3, score 0.99)
+- [[obsidian-chatgpt-plugin-integration#L54|Obsidian ChatGPT Plugin Integration — L54]] (line 54, col 1, score 0.99)
+- [[obsidian-chatgpt-plugin-integration#L54|Obsidian ChatGPT Plugin Integration — L54]] (line 54, col 3, score 0.99)
+- [[obsidian-chatgpt-plugin-integration#L60|Obsidian ChatGPT Plugin Integration — L60]] (line 60, col 1, score 0.99)
+- [[obsidian-chatgpt-plugin-integration#L60|Obsidian ChatGPT Plugin Integration — L60]] (line 60, col 3, score 0.99)
+- [[obsidian-chatgpt-plugin-integration#L51|Obsidian ChatGPT Plugin Integration — L51]] (line 51, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L51|Obsidian ChatGPT Plugin Integration — L51]] (line 51, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L103|Obsidian Templating Plugins Integration Guide — L103]] (line 103, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L103|Obsidian Templating Plugins Integration Guide — L103]] (line 103, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L104|Obsidian Templating Plugins Integration Guide — L104]] (line 104, col 1, score 0.99)
+- [[obsidian-templating-plugins-integration-guide#L104|Obsidian Templating Plugins Integration Guide — L104]] (line 104, col 3, score 0.99)
+- [[obsidian-templating-plugins-integration-guide#L105|Obsidian Templating Plugins Integration Guide — L105]] (line 105, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L105|Obsidian Templating Plugins Integration Guide — L105]] (line 105, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration#L57|Obsidian ChatGPT Plugin Integration — L57]] (line 57, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L57|Obsidian ChatGPT Plugin Integration — L57]] (line 57, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L109|Obsidian Templating Plugins Integration Guide — L109]] (line 109, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L109|Obsidian Templating Plugins Integration Guide — L109]] (line 109, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration#L58|Obsidian ChatGPT Plugin Integration — L58]] (line 58, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L58|Obsidian ChatGPT Plugin Integration — L58]] (line 58, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L110|Obsidian Templating Plugins Integration Guide — L110]] (line 110, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L110|Obsidian Templating Plugins Integration Guide — L110]] (line 110, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L111|Obsidian Templating Plugins Integration Guide — L111]] (line 111, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L111|Obsidian Templating Plugins Integration Guide — L111]] (line 111, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L112|Obsidian Templating Plugins Integration Guide — L112]] (line 112, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L112|Obsidian Templating Plugins Integration Guide — L112]] (line 112, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration#L63|Obsidian ChatGPT Plugin Integration — L63]] (line 63, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L63|Obsidian ChatGPT Plugin Integration — L63]] (line 63, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L115|Obsidian Templating Plugins Integration Guide — L115]] (line 115, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L115|Obsidian Templating Plugins Integration Guide — L115]] (line 115, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration#L64|Obsidian ChatGPT Plugin Integration — L64]] (line 64, col 1, score 0.99)
+- [[obsidian-chatgpt-plugin-integration#L64|Obsidian ChatGPT Plugin Integration — L64]] (line 64, col 3, score 0.99)
+- [[obsidian-templating-plugins-integration-guide#L116|Obsidian Templating Plugins Integration Guide — L116]] (line 116, col 1, score 0.99)
+- [[obsidian-templating-plugins-integration-guide#L116|Obsidian Templating Plugins Integration Guide — L116]] (line 116, col 3, score 0.99)
+- [[obsidian-templating-plugins-integration-guide#L117|Obsidian Templating Plugins Integration Guide — L117]] (line 117, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L117|Obsidian Templating Plugins Integration Guide — L117]] (line 117, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L118|Obsidian Templating Plugins Integration Guide — L118]] (line 118, col 1, score 0.99)
+- [[obsidian-templating-plugins-integration-guide#L118|Obsidian Templating Plugins Integration Guide — L118]] (line 118, col 3, score 0.99)
+- [[obsidian-templating-plugins-integration-guide#L121|Obsidian Templating Plugins Integration Guide — L121]] (line 121, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L121|Obsidian Templating Plugins Integration Guide — L121]] (line 121, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration#L70|Obsidian ChatGPT Plugin Integration — L70]] (line 70, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L70|Obsidian ChatGPT Plugin Integration — L70]] (line 70, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L122|Obsidian Templating Plugins Integration Guide — L122]] (line 122, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L122|Obsidian Templating Plugins Integration Guide — L122]] (line 122, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L124|Obsidian Templating Plugins Integration Guide — L124]] (line 124, col 1, score 0.99)
+- [[obsidian-templating-plugins-integration-guide#L124|Obsidian Templating Plugins Integration Guide — L124]] (line 124, col 3, score 0.99)
+- [[obsidian-chatgpt-plugin-integration#L71|Obsidian ChatGPT Plugin Integration — L71]] (line 71, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L71|Obsidian ChatGPT Plugin Integration — L71]] (line 71, col 3, score 1)
+- [[obsidian-chatgpt-plugin-integration#L74|Obsidian ChatGPT Plugin Integration — L74]] (line 74, col 1, score 0.98)
+- [[obsidian-chatgpt-plugin-integration#L74|Obsidian ChatGPT Plugin Integration — L74]] (line 74, col 3, score 0.98)
+- [[obsidian-chatgpt-plugin-integration#L73|Obsidian ChatGPT Plugin Integration — L73]] (line 73, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L73|Obsidian ChatGPT Plugin Integration — L73]] (line 73, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L126|Obsidian Templating Plugins Integration Guide — L126]] (line 126, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L126|Obsidian Templating Plugins Integration Guide — L126]] (line 126, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L127|Obsidian Templating Plugins Integration Guide — L127]] (line 127, col 1, score 0.99)
+- [[obsidian-templating-plugins-integration-guide#L127|Obsidian Templating Plugins Integration Guide — L127]] (line 127, col 3, score 0.99)
+- [[obsidian-chatgpt-plugin-integration#L76|Obsidian ChatGPT Plugin Integration — L76]] (line 76, col 1, score 1)
+- [[obsidian-chatgpt-plugin-integration#L76|Obsidian ChatGPT Plugin Integration — L76]] (line 76, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L129|Obsidian Templating Plugins Integration Guide — L129]] (line 129, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L129|Obsidian Templating Plugins Integration Guide — L129]] (line 129, col 3, score 1)
+- [[obsidian-templating-plugins-integration-guide#L130|Obsidian Templating Plugins Integration Guide — L130]] (line 130, col 1, score 0.99)
+- [[obsidian-templating-plugins-integration-guide#L130|Obsidian Templating Plugins Integration Guide — L130]] (line 130, col 3, score 0.99)
+- [[obsidian-templating-plugins-integration-guide#L131|Obsidian Templating Plugins Integration Guide — L131]] (line 131, col 1, score 0.98)
+- [[obsidian-templating-plugins-integration-guide#L131|Obsidian Templating Plugins Integration Guide — L131]] (line 131, col 3, score 0.98)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

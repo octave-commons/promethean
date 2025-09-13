@@ -19,20 +19,10 @@ jobs:
       # Set up Node and enable built-in pnpm cache
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version-file: package.json
           cache: pnpm
-          # If you have multiple lockfiles (monorepo), list them (comma- or newline-separated)
-          cache-dependency-path: |
-            pnpm-lock.yaml
-            apps/*/pnpm-lock.yaml
-            packages/*/pnpm-lock.yaml
 
       # This will tell us if codex broke his environment.
       # Install deps (workspace-aware)
       - name: Install
-        run: pnpm install --frozen-lockfile
-
-      # This will tell us if codex broke his environment.
-      # Install deps (workspace-aware)
-      - name: piper test
         run: pnpm install --frozen-lockfile

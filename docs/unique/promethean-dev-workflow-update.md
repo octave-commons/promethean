@@ -1,882 +1,113 @@
 ---
-uuid: 61f54e03-0f8b-4c06-a62c-3ac81d87385f
-created_at: promethean-dev-workflow-update.md
+uuid: 03a5578f-d689-45db-95e9-11300e5eee6f
+created_at: 2025.08.03.04.08.30.md
 filename: Promethean Dev Workflow Update
-title: Promethean Dev Workflow Update
 description: >-
-  The author confirms their test suites are working after resolving TypeScript
-  and test setup issues. They plan to work on staging tomorrow and mention
-  several automation ideas for local LLMs to streamline tasks like PR analysis,
-  documentation generation, and compiler error diagnosis. The focus is on
-  improving workflow efficiency with minimal external tooling.
+  Summary of current test setup status and next steps for merging dev branch to
+  staging after type fixes. Includes automation ideas for improving developer
+  workflow with local LLM tools.
 tags:
   - typescript
-  - test suites
-  - automation
+  - test
   - staging
-  - workflow
-  - llm
+  - automation
+  - dev
+  - branch
+  - merge
   - pr
-  - documentation
-related_to_uuid:
-  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
-  - 18138627-a348-4fbb-b447-410dfb400564
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - 10d98225-12e0-4212-8e15-88b57cf7bee5
-  - 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-  - 0b872af2-4197-46f3-b631-afb4e6135585
-  - 1c4046b5-742d-4004-aec6-b47251fef5d6
-  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - a4d90289-798d-44a0-a8e8-a055ae12fb52
-  - 1cfae310-35dc-49c2-98f1-b186da25d84b
-  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - d614d983-7795-491f-9437-09f3a43f72cf
-  - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-  - 40185d05-010e-45e7-8c2d-2f879bf14218
-  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-  - db74343f-8f84-43a3-adb2-499c6f00be1c
+  - ci
+  - workflow
 related_to_title:
-  - windows-tiling-with-autohotkey
-  - The Jar of Echoes
-  - Duck's Attractor States
-  - Creative Moments
-  - Promethean Chat Activity Report
-  - Promethean Documentation Update
-  - Promethean Notes
-  - Debugging Broker Connections and Agent Behavior
-  - eidolon-field-math-foundations
-  - Eidolon Field Abstract Model
-  - field-dynamics-math-blocks
-  - field-interaction-equations
-  - Factorio AI with External Agents
-  - Functional Refactor of TypeScript Document Processing
-  - Duck's Self-Referential Perceptual Loop
-  - Dynamic Context Model for Web Components
-  - Fnord Tracer Protocol
-  - Promethean Workflow Optimization
-  - DuckDuckGoSearchPipeline
-  - Mindful Prioritization
-  - eidolon-node-lifecycle
-  - graph-ds
-  - i3-bluetooth-setup
-  - plan-update-confirmation
-  - Model Upgrade Calm-Down Guide
+  - sibilant-metacompiler-overview
+  - Cross-Language Runtime Polymorphism
+  - compiler-kit-foundations
+  - Cross-Target Macro System in Sibilant
+  - polyglot-repl-interface-layer
+  - AI-First-OS-Model-Context-Protocol
+  - AI-Centric OS with MCP Layer
+  - balanced-bst
+related_to_uuid:
+  - 61d4086b-4adf-4e94-95e4-95a249cd1b53
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - 01b21543-7e03-4129-8fe4-b6306be69dee
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+  - 618198f4-cfad-4677-9df6-0640d8a97bae
+  - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+  - d3e7db72-2e07-4dae-8920-0e07c499a1e5
 references:
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 56
-    col: 0
-    score: 1
-  - uuid: 9413237f-2537-4bbf-8768-db6180970e36
-    line: 86
-    col: 0
-    score: 1
-  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
-    line: 243
-    col: 0
-    score: 1
-  - uuid: c0392040-16a2-41e8-bd54-75110319e3c0
-    line: 94
-    col: 0
-    score: 1
-  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
-    line: 12
-    col: 0
-    score: 1
-  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-    line: 133
-    col: 0
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 750
-    col: 0
-    score: 1
-  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 189
-    col: 0
-    score: 1
-  - uuid: 15d25922-0de6-414f-b7d1-e50e2a57b33a
-    line: 1038
-    col: 0
-    score: 1
-  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-    line: 634
-    col: 0
-    score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 495
-    col: 0
-    score: 1
-  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
-    line: 459
-    col: 0
-    score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 27
-    col: 0
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1002
-    col: 0
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 171
-    col: 0
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 112
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 24
-    col: 0
-    score: 1
-  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-    line: 143
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 241
-    col: 0
-    score: 1
-  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-    line: 570
-    col: 0
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 123
-    col: 0
-    score: 1
-  - uuid: 930054b3-ba95-4acf-bb92-0e3ead25ed0b
-    line: 84
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 128
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 539
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 305
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 262
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 198
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 383
-    col: 0
-    score: 1
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 271
-    col: 0
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 149
-    col: 0
-    score: 1
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 285
-    col: 0
-    score: 1
-  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
-    line: 11
-    col: 0
-    score: 1
-  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-    line: 134
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 193
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 203
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 151
-    col: 0
-    score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 281
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 181
-    col: 0
-    score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 220
-    col: 0
-    score: 1
-  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
-    line: 110
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 118
-    col: 0
-    score: 1
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 329
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 9
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 117
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 58
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 82
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 67
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 66
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 113
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 469
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 270
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 13
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 118
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 108
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 68
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 50
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 89
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 32
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 49
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 95
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 133
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 59
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 252
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 94
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 63
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 66
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 73
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 403
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 28
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 65
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 86
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 123
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 34
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 442
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 218
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 176
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 70
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 85
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 64
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 141
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 186
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 247
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 354
-    col: 0
-    score: 1
-  - uuid: 72e4fd3c-7a07-4a95-91a3-6fca7f7fcaa3
-    line: 163
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 217
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 35
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 94
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 53
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 424
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 209
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 142
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 39
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 412
-    col: 0
-    score: 1
----
-I think that may be the last remaining issue with typescript set ups and test setups... otherwise I think all my test suites are actually working... amazing. ^ref-03a5578f-1-0
-
-I should really sleep before it is too later again. ^ref-03a5578f-3-0
-
-But... just leave this here for yourself. ^ref-03a5578f-5-0
-
-To know what you need to do next tomarrow. ^ref-03a5578f-7-0
-
-the dev branch is almost ready to merge, we are just waiting for the type fix patch pr to pass in CI.
-
-Then dev should pass.
-
-Then hopfully staging can pass.
-
-you're gonna start working on staging tomarrow. ^ref-03a5578f-15-0
-
-There are a lot of prs.
-
-You've got a structure now. ^ref-03a5578f-19-0
-
-you've got the ideas mapped out pretty well. ^ref-03a5578f-21-0
-
-You have ideas flooding your mind. ^ref-03a5578f-23-0
-
- ^ref-03a5578f-25-0
-
-
-
-Here are some more ideas for stuff you can automate: ^ref-03a5578f-29-0
-Automaticly scan prs and their content, add some comments with further context, questions.
-Automaticly scan your documents for new task ideas.
-Automaticly go through every task on your board and generate suggestions
-Automaticly read test coverage files to generate a list of tests to write
-Automaticly generate documentation for undocumented code.
-Automaticly diagnose compiler errors
-Attempt to automaticly deal with merge conflicts (Will work best when test coverage is greater.)
-automaticly cleanup code generated by transpilers
-
-These are for a local LLM. ^ref-03a5578f-39-0
-These are things  you think codex  or chatgpt are over kill, that you can do faster.
-
-So you can turn this into your info dump, have the bots here organize it *automaticly* ^ref-03a5578f-42-0
-and make your work with chatgpt and codex faster and easier.
-
-The bots definately havr a hard   time with sibilant. ^ref-03a5578f-45-0
-
-We will help them. It doesn't help I even used a fucking new dialect of it basicly. ^ref-03a5578f-47-0
-
-It's not really sibilant anymore. ^ref-03a5578f-49-0
-
-I should just push through the pain and get that stuff working. ^ref-03a5578f-51-0
-
-I know I can, I know it works in the original repo. ^ref-03a5578f-53-0
-
-If they have a working example, then they can work on it. ^ref-03a5578f-55-0
-
-you need to get that stuff you wre doing in the portfolio into lithp, then change all the extensions.
-53-8dc4-497f-bf45-96f8ca00a6f6
-    line: 133
-    col: 0 ^ref-03a5578f-60-0
-    score: 1
-  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
-    line: 750
-    col: 0
-    score: 1
-  - uuid: 1c4046b5-742d-4004-aec6-b47251fef5d6
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 189
-    col: 0
-    score: 1
-  - uuid: 15d25922-0de6-414f-b7d1-e50e2a57b33a
-    line: 1038
-    col: 0
-    score: 1
-  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-    line: 634
-    col: 0
-    score: 1
-  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63 ^ref-03a5578f-82-0
-    line: 495
-    col: 0
-    score: 1
-  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
-    line: 459
-    col: 0
-    score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 27
-    col: 0
-    score: 1
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1002
-    col: 0
-    score: 1
-  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7 ^ref-03a5578f-98-0
-    line: 171
-    col: 0
-    score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 112
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 24 ^ref-03a5578f-107-0
-    col: 0
-    score: 1
-  - uuid: 9a93a756-6d33-45d1-aca9-51b74f2b33d2
-    line: 143
-    col: 0
-    score: 1
-  - uuid: 43bfe9dd-d433-42ca-9777-f4c40eaba791
-    line: 241
-    col: 0
-    score: 1
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 395
-    col: 0
-    score: 1
-  - uuid: 45cd25b5-ed36-49ab-82c8-10d0903e34db
-    line: 20
-    col: 0
-    score: 1
-  - uuid: e87bc036-1570-419e-a558-f45b9c0db698
-    line: 9
-    col: 0
-    score: 1
-  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
-    line: 72 ^ref-03a5578f-131-0
-    col: 0
-    score: 1
-  - uuid: f1add613-656e-4bec-b52b-193fd78c4642
-    line: 23 ^ref-03a5578f-135-0
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 25
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 11
-    col: 0 ^ref-03a5578f-144-0
-    score: 1 ^ref-03a5578f-145-0
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 22
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 7
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 33
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 15 ^ref-03a5578f-159-0
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 44
-    col: 0 ^ref-03a5578f-164-0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 401
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 612
+    col: 1
+    score: 1
+  - uuid: 01b21543-7e03-4129-8fe4-b6306be69dee
+    line: 612
+    col: 3
+    score: 1
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
     line: 205
-    col: 0
+    col: 1
+    score: 1
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 205
+    col: 3
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 171
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 171
+    col: 3
     score: 1
   - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-    line: 163
-    col: 0
+    line: 159
+    col: 1
     score: 1
-  - uuid: 6bcff92c-4224-453d-9993-1be8d37d47c3
-    line: 113
-    col: 0
+  - uuid: 9c79206d-4cb9-4f00-87e0-782dcea37bc7
+    line: 159
+    col: 3
     score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 32
-    col: 0
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 406
+    col: 1
     score: 1
-  - uuid: ae24a280-678e-4c0b-8cc4-56667fa04172
-    line: 73
-    col: 0
+  - uuid: 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+    line: 406
+    col: 3
     score: 1
-  - uuid: 9fab9e76-e283-4c9d-a8cd-cb76892ea7ac
-    line: 25
-    col: 0
-    score: 1 ^ref-03a5578f-193-0
-  - uuid: 9413237f-2537-4bbf-8768-db6180970e36
-    line: 8
-    col: 0
-    score: 1
-  - uuid: 3a3bf2c9-c0f6-4d7b-bf84-c83c70dece3f
-    line: 181
-    col: 0
-    score: 1
-  - uuid: c0392040-16a2-41e8-bd54-75110319e3c0
-    line: 8 ^ref-03a5578f-203-0
-    col: 0
-    score: 1
-  - uuid: 0b872af2-4197-46f3-b631-afb4e6135585
-    line: 10
-    col: 0
-    score: 1
-  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
-    line: 570
-    col: 0
-    score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c ^ref-03a5578f-214-0
-    line: 123
-    col: 0
-    score: 1
-  - uuid: 930054b3-ba95-4acf-bb92-0e3ead25ed0b
-    line: 84
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 73
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 128
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 539
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 305
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 262
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 198
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 383
-    col: 0
-    score: 1
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 271
-    col: 0
-    score: 1
-  - uuid: f2d83a77-7f86-4c56-8538-1350167a0c6c
-    line: 149
-    col: 0
-    score: 1
-  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
-    line: 285
-    col: 0
-    score: 1
-  - uuid: ac60a1d6-fd9f-46dc-bbe7-176dd8017c59
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
     line: 11
-    col: 0
+    col: 1
     score: 1
-  - uuid: 7aa1eb92-7f9a-485b-8218-9b553aa9eefc
-    line: 134
-    col: 0
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 11
+    col: 3
     score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 193
-    col: 0
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 14
+    col: 1
     score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 203
-    col: 0
+  - uuid: 618198f4-cfad-4677-9df6-0640d8a97bae
+    line: 14
+    col: 3
     score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 151
-    col: 0
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 297
+    col: 1
     score: 1
-  - uuid: 1cfae310-35dc-49c2-98f1-b186da25d84b
-    line: 281
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 181
-    col: 0
-    score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 220
-    col: 0
-    score: 1
-  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
-    line: 110
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 118
-    col: 0
-    score: 1
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 329
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 9
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 117
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 58
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 82
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 67
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 66
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 113
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 469
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 270
-    col: 0
-    score: 1
-  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
-    line: 97
-    col: 0
-    score: 1
-  - uuid: 623a55f7-685c-486b-abaf-469da1bbbb69
-    line: 87
-    col: 0
-    score: 1
-  - uuid: 6cb4943e-8267-4e27-8618-2ce0a464d173
-    line: 112
-    col: 0
-    score: 1
-  - uuid: 9e8ae388-767a-4ea8-9f2e-88801291d947
-    line: 95
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 13
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 118
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 108
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 68
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 50
-    col: 0
-    score: 1
-  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-    line: 89
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 32
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 49
-    col: 0
+  - uuid: d3e7db72-2e07-4dae-8920-0e07c499a1e5
+    line: 297
+    col: 3
     score: 1
 ---
-I think that may be the last remaining issue with typescript set ups and test setups... otherwise I think all my test suites are actually working... amazing. ^ref-03a5578f-1-0
+I think that may be the last remaining issue with typescript set ups and test setups... otherwise I think all my test suites are actually working... amazing.
 
-I should really sleep before it is too later again. ^ref-03a5578f-3-0
+I should really sleep before it is too later again.
 
-But... just leave this here for yourself. ^ref-03a5578f-5-0
+But... just leave this here for yourself.
 
-To know what you need to do next tomarrow. ^ref-03a5578f-7-0
+To know what you need to do next tomarrow.
 
 the dev branch is almost ready to merge, we are just waiting for the type fix patch pr to pass in CI.
 
@@ -884,21 +115,21 @@ Then dev should pass.
 
 Then hopfully staging can pass.
 
-you're gonna start working on staging tomarrow. ^ref-03a5578f-15-0
+you're gonna start working on staging tomarrow.
 
 There are a lot of prs.
 
-You've got a structure now. ^ref-03a5578f-19-0
+You've got a structure now.
 
-you've got the ideas mapped out pretty well. ^ref-03a5578f-21-0
+you've got the ideas mapped out pretty well.
 
-You have ideas flooding your mind. ^ref-03a5578f-23-0
+You have ideas flooding your mind.
 
- ^ref-03a5578f-25-0
+https://github.com/riatzukiza/promethean/pull/151
+https://chatgpt.com/codex/tasks/task_e_688efee51d70832487ac6d3b61731d80
+https://chatgpt.com/codex/tasks/task_e_688f0ded6bd4832490760ad4355ffe11
 
-
-
-Here are some more ideas for stuff you can automate: ^ref-03a5578f-29-0
+Here are some more ideas for stuff you can automate:
 Automaticly scan prs and their content, add some comments with further context, questions.
 Automaticly scan your documents for new task ideas.
 Automaticly go through every task on your board and generate suggestions
@@ -908,46 +139,28 @@ Automaticly diagnose compiler errors
 Attempt to automaticly deal with merge conflicts (Will work best when test coverage is greater.)
 automaticly cleanup code generated by transpilers
 
-These are for a local LLM. ^ref-03a5578f-39-0
+These are for a local LLM.
 These are things  you think codex  or chatgpt are over kill, that you can do faster.
 
-So you can turn this into your info dump, have the bots here organize it *automaticly* ^ref-03a5578f-42-0
+So you can turn this into your info dump, have the bots here organize it *automaticly*
 and make your work with chatgpt and codex faster and easier.
 
-The bots definately havr a hard   time with sibilant. ^ref-03a5578f-45-0
+The bots definately havr a hard   time with sibilant.
 
-We will help them. It doesn't help I even used a fucking new dialect of it basicly. ^ref-03a5578f-47-0
+We will help them. It doesn't help I even used a fucking new dialect of it basicly.
 
-It's not really sibilant anymore. ^ref-03a5578f-49-0
+It's not really sibilant anymore.
 
-I should just push through the pain and get that stuff working. ^ref-03a5578f-51-0
+I should just push through the pain and get that stuff working.
 
-I know I can, I know it works in the original repo. ^ref-03a5578f-53-0
+I know I can, I know it works in the original repo.
 
-If they have a working example, then they can work on it. ^ref-03a5578f-55-0
-
-you need to get that stuff you wre doing in the portfolio into lithp, then change all the extensions.
-r.
-
-So you can turn this into your info dump, have the bots here organize it *automaticly* ^ref-03a5578f-42-0
-and make your work with chatgpt and codex faster and easier.
-
-The bots definately havr a hard   time with sibilant. ^ref-03a5578f-45-0
-
-We will help them. It doesn't help I even used a fucking new dialect of it basicly. ^ref-03a5578f-47-0
-
-It's not really sibilant anymore. ^ref-03a5578f-49-0
-
-I should just push through the pain and get that stuff working. ^ref-03a5578f-51-0
-
-I know I can, I know it works in the original repo. ^ref-03a5578f-53-0
-
-If they have a working example, then they can work on it. ^ref-03a5578f-55-0
+If they have a working example, then they can work on it.
 
 you need to get that stuff you wre doing in the portfolio into lithp, then change all the extensions.
- ^ref-03a5578f-748-0 ^ref-03a5578f-761-0 ^ref-03a5578f-991-0 ^ref-03a5578f-1060-0 ^ref-03a5578f-1359-0 ^ref-03a5578f-1469-0 ^ref-03a5578f-1498-0 ^ref-03a5578f-1519-0 ^ref-03a5578f-1520-0 ^ref-03a5578f-1522-0 ^ref-03a5578f-1656-0 ^ref-03a5578f-1833-0 ^ref-03a5578f-1878-0 ^ref-03a5578f-2150-0 ^ref-03a5578f-2363-0 ^ref-03a5578f-2573-0 ^ref-03a5578f-3380-0 ^ref-03a5578f-3412-0 ^ref-03a5578f-3435-0 ^ref-03a5578f-3669-0 ^ref-03a5578f-3757-0 ^ref-03a5578f-4166-0 ^ref-03a5578f-4404-0 ^ref-03a5578f-4405-0 ^ref-03a5578f-4449-0 ^ref-03a5578f-4976-0 ^ref-03a5578f-4978-0 ^ref-03a5578f-4979-0 ^ref-03a5578f-4992-0 ^ref-03a5578f-4993-0 ^ref-03a5578f-4994-0 ^ref-03a5578f-4995-0 ^ref-03a5578f-5047-0 ^ref-03a5578f-5154-0 ^ref-03a5578f-5479-0 ^ref-03a5578f-5530-0 ^ref-03a5578f-5531-0 ^ref-03a5578f-5532-0 ^ref-03a5578f-5539-0 ^ref-03a5578f-5540-0 ^ref-03a5578f-10348-0 ^ref-03a5578f-11673-0 ^ref-03a5578f-12737-0 ^ref-03a5578f-14097-0 ^ref-03a5578f-14187-0 ^ref-03a5578f-17122-0 ^ref-03a5578f-17867-0 ^ref-03a5578f-18703-0 ^ref-03a5578f-19229-0 ^ref-03a5578f-24484-0 ^ref-03a5578f-26613-0 ^ref-03a5578f-26621-0
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
+<<<<<<< HEAD
 - [[windows-tiling-with-autohotkey]]
 - [[the-jar-of-echoes|The Jar of Echoes]]
 - [[ducks-attractor-states|Duck's Attractor States]]
@@ -1074,4 +287,32 @@ you need to get that stuff you wre doing in the portfolio into lithp, then chang
 - [[docs/unique/eidolon-field-math-foundations#^ref-008f2ac0-142-0|eidolon-field-math-foundations — L142]] (line 142, col 0, score 1)
 - [[eidolon-node-lifecycle#^ref-938eca9c-39-0|eidolon-node-lifecycle — L39]] (line 39, col 0, score 1)
 - [[dynamic-context-model-for-web-components#^ref-f7702bf8-412-0|Dynamic Context Model for Web Components — L412]] (line 412, col 0, score 1)
+=======
+- [[sibilant-metacompiler-overview]]
+- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
+- [[docs/unique/compiler-kit-foundations|compiler-kit-foundations]]
+- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
+- [[polyglot-repl-interface-layer]]
+- [[ai-first-os-model-context-protocol]]
+- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
+- [[balanced-bst]]
+
+## Sources
+- [[docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612]] (line 612, col 1, score 1)
+- [[docs/unique/compiler-kit-foundations#L612|compiler-kit-foundations — L612]] (line 612, col 3, score 1)
+- [[cross-language-runtime-polymorphism#L205|Cross-Language Runtime Polymorphism — L205]] (line 205, col 1, score 1)
+- [[cross-language-runtime-polymorphism#L205|Cross-Language Runtime Polymorphism — L205]] (line 205, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171]] (line 171, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L171|Cross-Target Macro System in Sibilant — L171]] (line 171, col 3, score 1)
+- [[polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159]] (line 159, col 1, score 1)
+- [[polyglot-repl-interface-layer#L159|polyglot-repl-interface-layer — L159]] (line 159, col 3, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 1, score 1)
+- [[ai-centric-os-with-mcp-layer#L406|AI-Centric OS with MCP Layer — L406]] (line 406, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L11|AI-First-OS-Model-Context-Protocol — L11]] (line 11, col 3, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 1, score 1)
+- [[ai-first-os-model-context-protocol#L14|AI-First-OS-Model-Context-Protocol — L14]] (line 14, col 3, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 1, score 1)
+- [[balanced-bst#L297|balanced-bst — L297]] (line 297, col 3, score 1)
+>>>>>>> stealth/obsidian
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

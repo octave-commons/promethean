@@ -1,4 +1,3 @@
-// @ts-nocheck
 import path from "node:path";
 import fs from "node:fs/promises";
 
@@ -7,9 +6,17 @@ import { execa } from "execa";
 
 import { grep } from "../../grep.js";
 
-const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
+const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
-async function runRg(pattern, opts) {
+type Opts = {
+  flags?: string;
+  paths?: string[];
+  exclude?: string[];
+  maxMatches?: number;
+  context?: number;
+};
+
+async function runRg(pattern: string, opts?: Opts) {
   const {
     flags = "g",
     paths = ["**/*.md"],
@@ -25,7 +32,7 @@ async function runRg(pattern, opts) {
     String(context),
   ];
   if (flags.includes("i")) args.push("-i");
-  exclude.forEach((ex) => {
+  exclude.forEach((ex: string) => {
     args.push("--glob", `!${ex}`);
   });
   const searchPaths = [];

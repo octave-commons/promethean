@@ -1,356 +1,463 @@
 ---
-uuid: fc27508e-631e-4129-95c9-47e09bcd3191
-created_at: websocket-gateway-implementation.md
+uuid: e811123d-5841-4e52-bf8c-978f26db4230
+created_at: 2025.08.08.15.08.47.md
 filename: WebSocket Gateway Implementation
-title: WebSocket Gateway Implementation
 description: >-
-  This document details the implementation of a WebSocket gateway for event bus
-  communication, including manual ACK mechanisms, lease management, and snapshot
-  handling. It covers protocol specifications, server-side setup, and
-  integration with Prom metrics for real-time monitoring.
+  Implements a WebSocket gateway with manual ACK support, lease management, and
+  event streaming for real-time applications. Includes protocol definitions and
+  server-side code for secure authentication and event handling.
 tags:
-  - websocket
-  - event-bus
-  - manual-ack
-  - lease-management
-  - prom-metrics
-  - snapshots
-  - projector
-related_to_uuid:
-  - 2792d448-c3b5-4050-93dd-93768529d99c
-  - 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-  - 22b989d5-f4aa-4880-8632-709c21830f83
-  - e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - a4a25141-6380-40b9-9cd7-b554b246b303
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - dd00677a-2280-45a7-91af-0728b21af3ad
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - 291c7d91-da8c-486c-9bc0-bd2254536e2d
-  - dd89372d-10de-42a9-8c96-6bc13ea36d02
-  - 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-  - bb7f0835-c347-474f-bfad-eabd873b51ad
-  - 930054b3-ba95-4acf-bb92-0e3ead25ed0b
-  - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-  - 1b1338fc-bb4d-41df-828f-e219cc9442eb
-  - 13951643-1741-46bb-89dc-1beebb122633
-  - 78eeedf7-75bc-4692-a5a7-bb6857270621
-  - ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
-  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
-  - 10d98225-12e0-4212-8e15-88b57cf7bee5
-  - 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - WebSocket
+  - EventBus
+  - ACK
+  - Lease
+  - Protocol
+  - Auth
+  - Stream
+  - Metrics
 related_to_title:
-  - Docops Feature Updates
-  - field-node-diagram-outline
-  - field-node-diagram-set
-  - field-node-diagram-visualizations
-  - Fnord Tracer Protocol
-  - Functional Embedding Pipeline Refactor
-  - graph-ds
-  - heartbeat-fragment-demo
-  - i3-bluetooth-setup
-  - Ice Box Reorganization
-  - komorebi-group-window-hack
-  - Layer1SurvivabilityEnvelope
-  - Agent Reflections and Prompt Evolution
-  - ChatGPT Custom Prompts
+  - Event Bus MVP
+  - Mongo Outbox Implementation
+  - Promethean Event Bus MVP v0.1
+  - State Snapshots API and Transactional Projector
+  - Stateful Partitions and Rebalancing
+  - ecs-offload-workers
+  - Shared Package Structure
+  - schema-evolution-workflow
+  - prom-lib-rate-limiters-and-replay-api
+  - Migrate to Provider-Tenant Architecture
+  - Promethean Agent DSL TS Scaffold
+  - Promethean Infrastructure Setup
+  - shared-package-layout-clarification
+  - Services
+  - observability-infrastructure-setup
+  - 'Agent Tasks: Persistence Migration to DualStore'
   - Chroma Toolkit Consolidation Plan
+  - archetype-ecs
+  - ecs-scheduler-and-prefabs
+  - Event Bus Projections Architecture
+  - JavaScript
   - eidolon-field-math-foundations
-  - Canonical Org-Babel Matplotlib Animation Template
-  - Duck's Attractor States
-  - typed-struct-compiler
-  - Unique Concepts
+  - Cross-Language Runtime Polymorphism
   - Unique Info Dump Index
-  - zero-copy-snapshots-and-workers
-  - Creative Moments
-  - Voice Access Layer Design
-  - RAG UI Panel with Qdrant and PostgREST
+  - Prompt_Folder_Bootstrap
+related_to_uuid:
+  - 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+  - 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+  - 4330e8f0-5f46-4235-918b-39b6b93fa561
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - 66a72fc3-4153-41fc-84bd-d6164967a6ff
+  - d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+  - aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - 5158f742-4a3b-466e-bfc3-d83517b64200
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - 36c8882a-badc-4e18-838d-2c54d7038141
+  - 75ea4a6a-8270-488d-9d37-799c288e5f70
+  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - 93d2ba51-8689-49ee-94e2-296092e48058
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+  - c62a1815-c43b-4a3b-88e6-d7fa008a155e
+  - cf6b9b17-bb91-4219-aa5c-172cba02b2da
+  - c1618c66-f73a-4e04-9bfa-ef38755f7acc
+  - 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+  - c34c36a6-80c9-4b44-a200-6448543b1b33
+  - 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+  - bd4f0976-0d5b-47f6-a20a-0601d1842dc1
 references:
-  - uuid: bb7f0835-c347-474f-bfad-eabd873b51ad
-    line: 618
-    col: 0
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 825
+    col: 1
+    score: 0.86
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 825
+    col: 3
+    score: 0.86
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 381
+    col: 1
+    score: 0.89
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 359
+    col: 1
+    score: 0.86
+  - uuid: 509e1cd5-367c-4a9d-a61b-cef2e85d42ce
+    line: 177
+    col: 1
+    score: 0.86
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 370
+    col: 1
+    score: 0.92
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 542
+    col: 1
+    score: 0.86
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 552
+    col: 1
     score: 1
-  - uuid: 930054b3-ba95-4acf-bb92-0e3ead25ed0b
-    line: 187
-    col: 0
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 552
+    col: 3
+    score: 1
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 386
+    col: 1
+    score: 1
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 386
+    col: 3
+    score: 1
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 881
+    col: 1
+    score: 1
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 881
+    col: 3
+    score: 1
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 485
+    col: 1
+    score: 1
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 485
+    col: 3
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 13
+    col: 1
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 13
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 467
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 467
+    col: 3
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 549
+    col: 1
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 549
+    col: 3
+    score: 1
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 364
+    col: 1
+    score: 1
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 364
+    col: 3
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 137
+    col: 1
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 137
+    col: 3
     score: 1
   - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
-    line: 999
-    col: 0
-    score: 1
-  - uuid: 78eeedf7-75bc-4692-a5a7-bb6857270621
-    line: 1016
-    col: 0
-    score: 1
-  - uuid: ed6f3fc9-5eb1-482c-8b3c-f0abc5aff2a2
     line: 175
-    col: 0
+    col: 1
     score: 1
-  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
-    line: 1221
-    col: 0
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 175
+    col: 3
     score: 1
-  - uuid: 62bec6f0-4e13-4f38-aca4-72c84ba02367
-    line: 1058
-    col: 0
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 547
+    col: 1
     score: 1
-  - uuid: 1b1338fc-bb4d-41df-828f-e219cc9442eb
-    line: 515
-    col: 0
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 547
+    col: 3
     score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 251
-    col: 0
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 150
+    col: 1
     score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
+  - uuid: cf6b9b17-bb91-4219-aa5c-172cba02b2da
+    line: 150
+    col: 3
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 11
+    col: 1
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 11
+    col: 3
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 554
+    col: 1
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 554
+    col: 3
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 553
+    col: 1
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 553
+    col: 3
+    score: 1
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 382
+    col: 1
+    score: 1
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 382
+    col: 3
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 14
+    col: 1
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 14
+    col: 3
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 553
+    col: 1
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 553
+    col: 3
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
     line: 559
-    col: 0
+    col: 1
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 559
+    col: 3
+    score: 1
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 388
+    col: 1
+    score: 1
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 388
+    col: 3
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 460
+    col: 1
+    score: 1
+  - uuid: 8f4c1e86-1236-4936-84ca-6ed7082af6b7
+    line: 460
+    col: 3
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 15
+    col: 1
+    score: 1
+  - uuid: c1618c66-f73a-4e04-9bfa-ef38755f7acc
+    line: 15
+    col: 3
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 388
+    col: 1
+    score: 1
+  - uuid: c62a1815-c43b-4a3b-88e6-d7fa008a155e
+    line: 388
+    col: 3
     score: 1
   - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 1033
-    col: 0
+    line: 129
+    col: 1
     score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 226
-    col: 0
+  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
+    line: 129
+    col: 3
     score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 705
-    col: 0
-    score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 719
-    col: 0
-    score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 601
-    col: 0
-    score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 1060
-    col: 0
-    score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 726
-    col: 0
-    score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 996
-    col: 0
-    score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 667
-    col: 0
-    score: 1
-  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 736
-    col: 0
-    score: 1
-  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
-    line: 645
-    col: 0
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 739
-    col: 0
-    score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 816
-    col: 0
-    score: 1
-  - uuid: 543ed9b3-b7af-4ce1-b455-f7ba71a0bbc8
-    line: 280
-    col: 0
-    score: 1
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 181
-    col: 0
-    score: 0.91
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 316
-    col: 0
-    score: 0.9
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 259
-    col: 0
-    score: 0.9
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 159
-    col: 0
-    score: 0.9
-  - uuid: b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
-    line: 120
-    col: 0
-    score: 0.9
   - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 333
-    col: 0
-    score: 0.9
-  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
-    line: 65
-    col: 0
-    score: 0.9
-  - uuid: 5f65dfa5-dc97-4a6c-ad93-c45c1312e156
-    line: 69
-    col: 0
-    score: 0.9
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 179
-    col: 0
-    score: 0.9
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 145
-    col: 0
-    score: 0.9
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 88
-    col: 0
-    score: 0.9
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 63
-    col: 0
-    score: 0.9
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 58
-    col: 0
-    score: 0.9
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 79
-    col: 0
-    score: 0.89
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 137
-    col: 0
-    score: 0.89
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 110
-    col: 0
-    score: 0.89
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 50
-    col: 0
-    score: 0.89
-  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
-    line: 47
-    col: 0
-    score: 0.88
-  - uuid: 63a1cc28-b85c-4ce2-b754-01c2bc0c0bc3
-    line: 491
-    col: 0
-    score: 0.88
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 4657
-    col: 0
-    score: 0.88
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 125
-    col: 0
-    score: 0.88
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 5473
-    col: 0
-    score: 0.88
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 1955
-    col: 0
-    score: 0.88
-  - uuid: 98c8ff62-6ea3-4172-9e8b-93913e5d4a7f
-    line: 3383
-    col: 0
-    score: 0.88
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 5870
-    col: 0
-    score: 0.88
-  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
-    line: 3251
-    col: 0
-    score: 0.88
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 1383
-    col: 0
-    score: 0.88
-  - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1122
-    col: 0
-    score: 0.88
+    line: 276
+    col: 1
+    score: 1
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 276
+    col: 3
+    score: 1
+  - uuid: 5158f742-4a3b-466e-bfc3-d83517b64200
+    line: 832
+    col: 1
+    score: 1
+  - uuid: 5158f742-4a3b-466e-bfc3-d83517b64200
+    line: 832
+    col: 3
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 581
+    col: 1
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 581
+    col: 3
+    score: 1
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 166
+    col: 1
+    score: 1
+  - uuid: 36c8882a-badc-4e18-838d-2c54d7038141
+    line: 166
+    col: 3
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 12
+    col: 1
+    score: 1
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 12
+    col: 3
+    score: 1
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 211
+    col: 1
+    score: 1
+  - uuid: c34c36a6-80c9-4b44-a200-6448543b1b33
+    line: 211
+    col: 3
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 550
+    col: 1
+    score: 1
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 550
+    col: 3
+    score: 1
   - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
-    line: 424
-    col: 0
-    score: 0.87
-  - uuid: 8b8e6103-30a4-4d66-b5f2-87db1612b587
-    line: 84
-    col: 0
-    score: 0.87
-  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
-    line: 150
-    col: 0
-    score: 0.87
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 9214
-    col: 0
-    score: 0.87
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 2278
-    col: 0
-    score: 0.87
-  - uuid: 18138627-a348-4fbb-b447-410dfb400564
-    line: 18789
-    col: 0
-    score: 0.87
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 3969
-    col: 0
-    score: 0.87
-  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-    line: 1315
-    col: 0
-    score: 0.87
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 1708
-    col: 0
-    score: 0.87
-  - uuid: 2d6e5553-8dc4-497f-bf45-96f8ca00a6f6
-    line: 1340
-    col: 0
-    score: 0.87
-  - uuid: 0f6f8f38-98d0-438f-9601-58f478acc0b7
-    line: 12337
-    col: 0
-    score: 0.87
-  - uuid: 8b256935-02f6-4da2-a406-bf6b8415276f
-    line: 66
-    col: 0
-    score: 0.86
-  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
-    line: 194
-    col: 0
-    score: 0.86
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 224
-    col: 0
-    score: 0.86
-  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
-    line: 119
-    col: 0
-    score: 0.85
-  - uuid: b01856b4-999f-418d-8009-ade49b00eb0f
-    line: 117
-    col: 0
-    score: 0.85
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 176
-    col: 0
-    score: 0.85
-  - uuid: 58191024-d04a-4520-8aae-a18be7b94263
-    line: 343
-    col: 0
-    score: 0.85
+    line: 554
+    col: 1
+    score: 1
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 554
+    col: 3
+    score: 1
+  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+    line: 197
+    col: 1
+    score: 0.99
+  - uuid: bd4f0976-0d5b-47f6-a20a-0601d1842dc1
+    line: 197
+    col: 3
+    score: 0.99
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 301
+    col: 1
+    score: 0.99
+  - uuid: 54382370-1931-4a19-a634-46735708a9ea
+    line: 301
+    col: 3
+    score: 0.99
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 560
+    col: 1
+    score: 0.99
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 560
+    col: 3
+    score: 0.99
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 399
+    col: 1
+    score: 0.99
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 399
+    col: 3
+    score: 0.99
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 563
+    col: 1
+    score: 0.98
+  - uuid: 534fe91d-e87d-4cc7-b0e7-8b6833353d9b
+    line: 563
+    col: 3
+    score: 0.98
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 398
+    col: 1
+    score: 0.98
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 398
+    col: 3
+    score: 0.98
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 564
+    col: 1
+    score: 0.98
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 564
+    col: 3
+    score: 0.98
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 498
+    col: 1
+    score: 0.98
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 498
+    col: 3
+    score: 0.98
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 907
+    col: 1
+    score: 0.98
+  - uuid: fe7193a2-a5f7-4b3c-bea0-bd028815fc2c
+    line: 907
+    col: 3
+    score: 0.98
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 397
+    col: 1
+    score: 0.99
+  - uuid: aee4718b-9f8b-4635-a0c1-ef61c9bea8f1
+    line: 397
+    col: 3
+    score: 0.99
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 496
+    col: 1
+    score: 0.99
+  - uuid: d8059b6a-c1ec-487d-8e0b-3ce33d6b4d06
+    line: 496
+    col: 3
+    score: 0.99
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 25
+    col: 1
+    score: 0.99
+  - uuid: 75ea4a6a-8270-488d-9d37-799c288e5f70
+    line: 25
+    col: 3
+    score: 0.99
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 160
+    col: 1
+    score: 0.99
+  - uuid: 30ec3ba6-fbca-4606-ac3e-89b747fbeb7c
+    line: 160
+    col: 3
+    score: 0.99
 ---
-lol ok, shovel mode engaged. Here’s **Part 2**: WS gateway, manual ACK/leases, compactor + snapshots, Prom metrics, and a concrete projector that turns heartbeats into a keyed `process.state` stream. All TS, drop-in under `shared/js/prom-lib/`. ^ref-e811123d-1-0
+lol ok, shovel mode engaged. Here’s **Part 2**: WS gateway, manual ACK/leases, compactor + snapshots, Prom metrics, and a concrete projector that turns heartbeats into a keyed `process.state` stream. All TS, drop-in under `shared/js/prom-lib/`.
 
 ---
 
@@ -385,27 +492,26 @@ const {
   }
 })();
 ```
-^ref-e811123d-9-0 ^ref-e811123d-36-0 ^ref-4316c3f9-36-0
 
 ---
 
 # 1) WebSocket Gateway (server + client)
 
 ## 1a) Protocol (frames)
- ^ref-e811123d-43-0 ^ref-4316c3f9-43-0
-* `AUTH` *(client → server)* `{ op: "AUTH", token: string }` ^ref-e811123d-44-0
-* `OK` / `ERR` *(server → client)* `{ op: "OK", corr?: string }` or `{ op: "ERR", code, msg, corr? }` ^ref-e811123d-45-0
-* `SUBSCRIBE` *(client → server)* `{ op: "SUBSCRIBE", topic, group, opts? }` ^ref-e811123d-46-0
-* `UNSUBSCRIBE` *(client → server)* `{ op: "UNSUBSCRIBE", topic, group }` ^ref-e811123d-47-0
-* `PUBLISH` *(client → server)* `{ op: "PUBLISH", topic, payload, opts? }` ^ref-e811123d-48-0
-* `EVENT` *(server → client)* `{ op: "EVENT", topic, group, event, ctx: { attempt, ack_deadline_ms } }` ^ref-e811123d-49-0
-* `ACK` / `NACK` *(client → server)* `{ op: "ACK"| "NACK", topic, group, id, reason? }` ^ref-e811123d-50-0
+
+* `AUTH` *(client → server)* `{ op: "AUTH", token: string }`
+* `OK` / `ERR` *(server → client)* `{ op: "OK", corr?: string }` or `{ op: "ERR", code, msg, corr? }`
+* `SUBSCRIBE` *(client → server)* `{ op: "SUBSCRIBE", topic, group, opts? }`
+* `UNSUBSCRIBE` *(client → server)* `{ op: "UNSUBSCRIBE", topic, group }`
+* `PUBLISH` *(client → server)* `{ op: "PUBLISH", topic, payload, opts? }`
+* `EVENT` *(server → client)* `{ op: "EVENT", topic, group, event, ctx: { attempt, ack_deadline_ms } }`
+* `ACK` / `NACK` *(client → server)* `{ op: "ACK"| "NACK", topic, group, id, reason? }`
 * `MODACK` *(client → server)* `{ op: "MODACK", topic, group, id, extend_ms }` (extend lease)
- ^ref-e811123d-52-0
+
 Auth is pluggable (static token or JWT verify hook).
 
 ## 1b) WS Server
- ^ref-e811123d-56-0 ^ref-4316c3f9-56-0
+
 ```ts
 // shared/js/prom-lib/ws/server.ts
 import { WebSocketServer, WebSocket } from "ws";
@@ -565,10 +671,9 @@ export function startWSGateway(bus: EventBus, port: number, opts: WSGatewayOptio
 
   return wss;
 }
-^ref-e811123d-56-0
 ```
 
-## 1c) Tiny WS client ^ref-e811123d-219-0
+## 1c) Tiny WS client
 
 ```ts
 // shared/js/prom-lib/ws/client.ts
@@ -642,11 +747,9 @@ export class EventClient {
   modAck(topic: string, group: string, id: string, extend_ms: number) {
     this.send({ op: "MODACK", topic, group, id, extend_ms });
   }
-^ref-e811123d-219-0
 }
 ```
-^ref-e811123d-221-0 ^ref-4316c3f9-296-0
- ^ref-e811123d-296-0
+
 ## 1d) Mermaid: leasey flow
 
 ```mermaid
@@ -663,16 +766,15 @@ sequenceDiagram
   Note right of C: process; MODACK to extend (optional)
   C->>G: ACK(id)
   G->>B: ack(t,g,id)
-^ref-e811123d-296-0
   B-->>G: OK
   G-->>C: OK
 ```
- ^ref-e811123d-318-0
---- ^ref-e811123d-318-0
+
+---
 
 # 2) Compaction + Snapshots
 
-Use compaction for “latest by key” state streams, plus periodic snapshots. ^ref-e811123d-322-0
+Use compaction for “latest by key” state streams, plus periodic snapshots.
 
 ## 2a) Config
 
@@ -680,12 +782,10 @@ Use compaction for “latest by key” state streams, plus periodic snapshots. ^
 // shared/js/prom-lib/event/topics.ts
 export const Topics = {
   HeartbeatReceived: "heartbeat.received",
-^ref-e811123d-322-0
   ProcessState: "process.state",                 // compaction (key = processId)
   ProcessStateSnapshot: "process.state.snapshot" // snapshots
 } as const;
 ```
-^ref-e811123d-333-0 ^ref-4316c3f9-336-0
 
 ## 2b) Compactor job
 
@@ -726,22 +826,16 @@ export function startCompactor(store: MongoEventStore, bus: EventBus, opts: Comp
     }
   })();
 
-^ref-e811123d-333-0
-  return () => { stopped = true; }; ^ref-e811123d-376-0
+  return () => { stopped = true; };
 }
- ^ref-e811123d-378-0
-function sleep(ms: number) { return new Promise(r => setTimeout(r, ms)); } ^ref-e811123d-379-0
-^ref-e811123d-379-0
-^ref-e811123d-376-0
-```
-^ref-e811123d-376-0
-^ref-e811123d-379-0 ^ref-e811123d-385-0
-^ref-e811123d-376-0 ^ref-e811123d-385-0
- ^ref-e811123d-387-0
-*Mongo index hints:* ^ref-e811123d-385-0 ^ref-e811123d-387-0
 
-* `events(topic, key, ts)` compound index (we already included) ^ref-e811123d-387-0
-* TTL on raw event topics if you want to shed history (e.g., `expireAfterSeconds`). ^ref-e811123d-385-0
+function sleep(ms: number) { return new Promise(r => setTimeout(r, ms)); }
+```
+
+*Mongo index hints:*
+
+* `events(topic, key, ts)` compound index (we already included)
+* TTL on raw event topics if you want to shed history (e.g., `expireAfterSeconds`).
 
 ---
 
@@ -785,23 +879,21 @@ export const metrics = {
     if (!client) return;
     const reg = client.register;
     app.get(path, async (_req: any, res: any) => {
-^ref-e811123d-387-0
       res.set("Content-Type", reg.contentType);
       res.end(await reg.metrics());
     });
   }
-}; ^ref-e811123d-437-0
-^ref-e811123d-437-0
+};
 ```
- ^ref-e811123d-443-0
-**Hook points** you likely want (sprinkle in the bus and ws gateway): ^ref-e811123d-437-0
- ^ref-e811123d-443-0
+
+**Hook points** you likely want (sprinkle in the bus and ws gateway):
+
 * `events_published_total{topic}`
-* `events_delivered_total{topic,group}` ^ref-e811123d-443-0 ^ref-e811123d-447-0
-* `events_acked_total{topic,group}` ^ref-e811123d-449-0 ^ref-4316c3f9-449-0
-* `events_nacked_total{topic,group}` ^ref-e811123d-447-0 ^ref-e811123d-450-0 ^ref-4316c3f9-450-0
-* `ws_inflight{topic,group}` ^ref-e811123d-443-0
-* `delivery_latency_ms_bucket{topic,group}` (measure publish→ack if you carry a `t0` header) ^ref-e811123d-447-0
+* `events_delivered_total{topic,group}`
+* `events_acked_total{topic,group}`
+* `events_nacked_total{topic,group}`
+* `ws_inflight{topic,group}`
+* `delivery_latency_ms_bucket{topic,group}` (measure publish→ack if you carry a `t0` header)
 
 ---
 
@@ -827,15 +919,11 @@ export interface ProcessState {
   name: string;
   host: string;
   pid: number;
-^ref-e811123d-447-0
   sid?: string;
   cpu_pct: number;
   mem_mb: number;
   last_seen_ts: number;
-^ref-e811123d-473-0
   status: "alive" | "stale";
-^ref-e811123d-473-0
-^ref-e811123d-473-0
 }
 ```
 
@@ -886,17 +974,11 @@ export async function startProcessProjector(bus: EventBus) {
       const status = (now - ps.last_seen_ts) > STALE_MS ? "stale" : "alive";
       if (status !== ps.status) {
         ps.status = status;
-^ref-e811123d-473-0
         await publishState(ps);
       }
     }
   }, 5_000);
-^ref-e811123d-533-0
- ^ref-e811123d-531-0
-^ref-e811123d-533-0
-^ref-e811123d-531-0
-^ref-e811123d-533-0
-^ref-e811123d-531-0
+
   return () => clearInterval(t);
 }
 ```
@@ -920,14 +1002,10 @@ export function startHttpPublisher(bus: EventBus, port = 8081) {
   app.post("/publish/:topic", async (req, res) => {
     try {
       const rec = await bus.publish(req.params.topic, req.body, { headers: req.headers as any });
-^ref-e811123d-533-0
       res.json({ id: rec.id });
     } catch (e: any) {
       res.status(500).json({ error: e.message ?? String(e) });
     }
-^ref-e811123d-560-0
-^ref-e811123d-560-0
-^ref-e811123d-560-0
   });
 
   return app.listen(port);
@@ -958,76 +1036,43 @@ async function main() {
   // projector
   await startProcessProjector(bus);
 
-^ref-e811123d-560-0
   // sample heartbeat tick
   setInterval(() => {
     bus.publish(Topics.HeartbeatReceived, {
       pid: 1234, name: "stt", host: "local", cpu_pct: Math.random()*50, mem_mb: 200+Math.random()*50
-^ref-e811123d-595-0
-^ref-e811123d-595-0
-^ref-e811123d-614-0 ^ref-e811123d-615-0
-^ref-e811123d-613-0 ^ref-e811123d-616-0
-^ref-e811123d-612-0 ^ref-e811123d-617-0
-^ref-e811123d-595-0 ^ref-e811123d-618-0
-    }); ^ref-e811123d-619-0
+    });
   }, 1000);
 }
- ^ref-e811123d-612-0
+
 main().catch((e) => { console.error(e); process.exit(1); });
 ```
 
 ---
 
 # 7) Sibilant sugar (pseudocode)
- ^ref-e811123d-630-0 ^ref-4316c3f9-630-0
+
 ```lisp
-^ref-e811123d-595-0
 ; shared/sibilant/prom/ws.sib (pseudo)
 (defn ws-auth [token] (if (= token (env "WS_TOKEN")) {:ok true} {:ok false :code "bad_token" :msg "no"}))
 
 (defmacro with-ws-bus [bus port & body]
-^ref-e811123d-618-0 ^ref-e811123d-619-0
-^ref-e811123d-617-0
-^ref-e811123d-616-0
-^ref-e811123d-615-0
-^ref-e811123d-614-0 ^ref-e811123d-623-0
-^ref-e811123d-613-0
-^ref-e811123d-628-0
-^ref-e811123d-626-0
-^ref-e811123d-625-0
-^ref-e811123d-623-0
-^ref-e811123d-619-0
-^ref-e811123d-618-0
-^ref-e811123d-617-0
-^ref-e811123d-616-0
-^ref-e811123d-640-0
-^ref-e811123d-628-0
-^ref-e811123d-626-0
-^ref-e811123d-625-0
-^ref-e811123d-623-0
-^ref-e811123d-620-0
-^ref-e811123d-615-0 ^ref-e811123d-640-0
-^ref-e811123d-614-0
-^ref-e811123d-613-0
-  `((startWSGateway ~bus ~port {:auth ws-auth}) ^ref-e811123d-612-0 ^ref-e811123d-625-0
-    ~@body)) ^ref-e811123d-613-0 ^ref-e811123d-626-0
- ^ref-e811123d-614-0
-; usage: ^ref-e811123d-615-0 ^ref-e811123d-628-0
-; (with-ws-bus bus 8090 ^ref-e811123d-616-0
-;   (subscribe! bus "heartbeat.received" "ops" on-heartbeat :from "earliest")) ^ref-e811123d-617-0
-^ref-e811123d-630-0
-``` ^ref-e811123d-618-0
-^ref-e811123d-631-0
- ^ref-e811123d-619-0
+  `((startWSGateway ~bus ~port {:auth ws-auth})
+    ~@body))
+
+; usage:
+; (with-ws-bus bus 8090
+;   (subscribe! bus "heartbeat.received" "ops" on-heartbeat :from "earliest"))
+```
+
 ---
 
 # 8) Quick Kanban checklist (dump to board)
- ^ref-e811123d-623-0
+
 * [ ] Add `manualAck` to event bus and re-run tests
-* [ ] Spin up WS gateway (`WS_PORT=8090 WS_TOKEN=devtoken node index.js`) ^ref-e811123d-625-0
-* [ ] Write a smoke test: client subscribes, publish 10 msgs, assert all ACKed ^ref-e811123d-626-0
-* [ ] Add Prometheus `events_*` counters in WS server hook points ^ref-e811123d-640-0
-* [ ] Wire MongoEventStore + MongoCursorStore in place of InMemory ^ref-e811123d-628-0
+* [ ] Spin up WS gateway (`WS_PORT=8090 WS_TOKEN=devtoken node index.js`)
+* [ ] Write a smoke test: client subscribes, publish 10 msgs, assert all ACKed
+* [ ] Add Prometheus `events_*` counters in WS server hook points
+* [ ] Wire MongoEventStore + MongoCursorStore in place of InMemory
 * [ ] Enable compactor for `process.state` → `process.state.snapshot`
 * [ ] Add snapshot consumer to warm cache on boot
 * [ ] Expose `/metrics` on an express app and scrape with Prom
@@ -1042,100 +1087,128 @@ If you want **Part 3**, I’ll drop:
 * and a **typed client SDK** for Node + browser.
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Docops Feature Updates](docops-feature-updates.md)
-- [field-node-diagram-outline](field-node-diagram-outline.md)
-- [field-node-diagram-set](field-node-diagram-set.md)
-- [field-node-diagram-visualizations](field-node-diagram-visualizations.md)
-- [Fnord Tracer Protocol](fnord-tracer-protocol.md)
-- [Functional Embedding Pipeline Refactor](functional-embedding-pipeline-refactor.md)
-- [graph-ds](graph-ds.md)
-- [heartbeat-fragment-demo](heartbeat-fragment-demo.md)
-- [i3-bluetooth-setup](i3-bluetooth-setup.md)
-- [Ice Box Reorganization](ice-box-reorganization.md)
-- [komorebi-group-window-hack](komorebi-group-window-hack.md)
-- [Layer1SurvivabilityEnvelope](layer1survivabilityenvelope.md)
-- [Agent Reflections and Prompt Evolution](agent-reflections-and-prompt-evolution.md)
-- [ChatGPT Custom Prompts](chatgpt-custom-prompts.md)
-- [Chroma Toolkit Consolidation Plan](chroma-toolkit-consolidation-plan.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [Canonical Org-Babel Matplotlib Animation Template](canonical-org-babel-matplotlib-animation-template.md)
-- [Duck's Attractor States](ducks-attractor-states.md)
-- [typed-struct-compiler](typed-struct-compiler.md)
-- [Unique Concepts](unique-concepts.md)
-- [Unique Info Dump Index](unique-info-dump-index.md)
-- [zero-copy-snapshots-and-workers](zero-copy-snapshots-and-workers.md)
-- [Creative Moments](creative-moments.md)
-- [Voice Access Layer Design](voice-access-layer-design.md)
-- [RAG UI Panel with Qdrant and PostgREST](rag-ui-panel-with-qdrant-and-postgrest.md)
+- [[docs/unique/event-bus-mvp|Event Bus MVP]]
+- [[mongo-outbox-implementation|Mongo Outbox Implementation]]
+- [Promethean Event Bus MVP v0.1](promethean-event-bus-mvp-v0-1.md)
+- [[state-snapshots-api-and-transactional-projector|State Snapshots API and Transactional Projector]]
+- [[stateful-partitions-and-rebalancing|Stateful Partitions and Rebalancing]]
+- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
+- [[shared-package-structure|Shared Package Structure]]
+- [[schema-evolution-workflow]]
+- [[prom-lib-rate-limiters-and-replay-api]]
+- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
+- [[promethean-agent-dsl-ts-scaffold|Promethean Agent DSL TS Scaffold]]
+- [[promethean-infrastructure-setup|Promethean Infrastructure Setup]]
+- [[shared-package-layout-clarification]]
+- [Services](chunks/services.md)
+- [[observability-infrastructure-setup]]
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
+- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
+- [[docs/unique/archetype-ecs|archetype-ecs]]
+- [[ecs-scheduler-and-prefabs]]
+- [[event-bus-projections-architecture|Event Bus Projections Architecture]]
+- [JavaScript](chunks/javascript.md)
+- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
+- [[cross-language-runtime-polymorphism|Cross-Language Runtime Polymorphism]]
+- [[unique-info-dump-index|Unique Info Dump Index]]
+- [[prompt-folder-bootstrap|Prompt_Folder_Bootstrap]]
+
 ## Sources
-- [Agent Reflections and Prompt Evolution — L618](agent-reflections-and-prompt-evolution.md#^ref-bb7f0835-618-0) (line 618, col 0, score 1)
-- [ChatGPT Custom Prompts — L187](chatgpt-custom-prompts.md#^ref-930054b3-187-0) (line 187, col 0, score 1)
-- [Chroma Toolkit Consolidation Plan — L999](chroma-toolkit-consolidation-plan.md#^ref-5020e892-999-0) (line 999, col 0, score 1)
-- [typed-struct-compiler — L1016](typed-struct-compiler.md#^ref-78eeedf7-1016-0) (line 1016, col 0, score 1)
-- [Unique Concepts — L175](unique-concepts.md#^ref-ed6f3fc9-175-0) (line 175, col 0, score 1)
-- [Unique Info Dump Index — L1221](unique-info-dump-index.md#^ref-30ec3ba6-1221-0) (line 1221, col 0, score 1)
-- [zero-copy-snapshots-and-workers — L1058](zero-copy-snapshots-and-workers.md#^ref-62bec6f0-1058-0) (line 1058, col 0, score 1)
-- [Canonical Org-Babel Matplotlib Animation Template — L515](canonical-org-babel-matplotlib-animation-template.md#^ref-1b1338fc-515-0) (line 515, col 0, score 1)
-- [Creative Moments — L251](creative-moments.md#^ref-10d98225-251-0) (line 251, col 0, score 1)
-- [Duck's Attractor States — L559](ducks-attractor-states.md#^ref-13951643-559-0) (line 559, col 0, score 1)
-- [eidolon-field-math-foundations — L1033](eidolon-field-math-foundations.md#^ref-008f2ac0-1033-0) (line 1033, col 0, score 1)
-- [Docops Feature Updates — L226](docops-feature-updates.md#^ref-2792d448-226-0) (line 226, col 0, score 1)
-- [field-node-diagram-outline — L705](field-node-diagram-outline.md#^ref-1f32c94a-705-0) (line 705, col 0, score 1)
-- [field-node-diagram-set — L719](field-node-diagram-set.md#^ref-22b989d5-719-0) (line 719, col 0, score 1)
-- [field-node-diagram-visualizations — L601](field-node-diagram-visualizations.md#^ref-e9b27b06-601-0) (line 601, col 0, score 1)
-- [Fnord Tracer Protocol — L1060](fnord-tracer-protocol.md#^ref-fc21f824-1060-0) (line 1060, col 0, score 1)
-- [Functional Embedding Pipeline Refactor — L726](functional-embedding-pipeline-refactor.md#^ref-a4a25141-726-0) (line 726, col 0, score 1)
-- [graph-ds — L996](graph-ds.md#^ref-6620e2f2-996-0) (line 996, col 0, score 1)
-- [heartbeat-fragment-demo — L667](heartbeat-fragment-demo.md#^ref-dd00677a-667-0) (line 667, col 0, score 1)
-- [i3-bluetooth-setup — L736](i3-bluetooth-setup.md#^ref-5e408692-736-0) (line 736, col 0, score 1)
-- [Ice Box Reorganization — L645](ice-box-reorganization.md#^ref-291c7d91-645-0) (line 645, col 0, score 1)
-- [komorebi-group-window-hack — L739](komorebi-group-window-hack.md#^ref-dd89372d-739-0) (line 739, col 0, score 1)
-- [Layer1SurvivabilityEnvelope — L816](layer1survivabilityenvelope.md#^ref-64a9f9f9-816-0) (line 816, col 0, score 1)
-- [Voice Access Layer Design — L280](voice-access-layer-design.md#^ref-543ed9b3-280-0) (line 280, col 0, score 1)
-- [RAG UI Panel with Qdrant and PostgREST — L181](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-181-0) (line 181, col 0, score 0.91)
-- [RAG UI Panel with Qdrant and PostgREST — L316](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-316-0) (line 316, col 0, score 0.9)
-- [Eidolon Field Abstract Model — L259](eidolon-field-abstract-model.md#^ref-5e8b2388-259-0) (line 259, col 0, score 0.9)
-- [Factorio AI with External Agents — L159](factorio-ai-with-external-agents.md#^ref-a4d90289-159-0) (line 159, col 0, score 0.9)
-- [Mathematics Sampler — L120](mathematics-sampler.md#^ref-b5e0183e-120-0) (line 120, col 0, score 0.9)
-- [Migrate to Provider-Tenant Architecture — L333](migrate-to-provider-tenant-architecture.md#^ref-54382370-333-0) (line 333, col 0, score 0.9)
-- [Mindful Prioritization — L65](mindful-prioritization.md#^ref-40185d05-65-0) (line 65, col 0, score 0.9)
-- [MindfulRobotIntegration — L69](mindfulrobotintegration.md#^ref-5f65dfa5-69-0) (line 69, col 0, score 0.9)
-- [Model Selection for Lightweight Conversational Tasks — L179](model-selection-for-lightweight-conversational-tasks.md#^ref-d144aa62-179-0) (line 179, col 0, score 0.9)
-- [Model Upgrade Calm-Down Guide — L145](model-upgrade-calm-down-guide.md#^ref-db74343f-145-0) (line 145, col 0, score 0.9)
-- [NPU Voice Code and Sensory Integration — L88](npu-voice-code-and-sensory-integration.md#^ref-5a02283e-88-0) (line 88, col 0, score 0.9)
-- [Obsidian ChatGPT Plugin Integration Guide — L63](obsidian-chatgpt-plugin-integration-guide.md#^ref-1d3d6c3a-63-0) (line 63, col 0, score 0.9)
-- [Obsidian ChatGPT Plugin Integration — L58](obsidian-chatgpt-plugin-integration.md#^ref-ca8e1399-58-0) (line 58, col 0, score 0.9)
-- [RAG UI Panel with Qdrant and PostgREST — L79](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-79-0) (line 79, col 0, score 0.89)
-- [RAG UI Panel with Qdrant and PostgREST — L137](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-137-0) (line 137, col 0, score 0.89)
-- [RAG UI Panel with Qdrant and PostgREST — L110](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-110-0) (line 110, col 0, score 0.89)
-- [RAG UI Panel with Qdrant and PostgREST — L50](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-50-0) (line 50, col 0, score 0.89)
-- [RAG UI Panel with Qdrant and PostgREST — L47](rag-ui-panel-with-qdrant-and-postgrest.md#^ref-e1056831-47-0) (line 47, col 0, score 0.88)
-- [Polyglot S-expr Bridge: Python-JS-Lisp Interop — L491](polyglot-s-expr-bridge-python-js-lisp-interop.md#^ref-63a1cc28-491-0) (line 491, col 0, score 0.88)
-- [obsidian-ignore-node-modules-regex — L4657](obsidian-ignore-node-modules-regex.md#^ref-ffb9b2a9-4657-0) (line 4657, col 0, score 0.88)
-- [Obsidian Task Generation — L125](obsidian-task-generation.md#^ref-9b694a91-125-0) (line 125, col 0, score 0.88)
-- [Obsidian Templating Plugins Integration Guide — L5473](obsidian-templating-plugins-integration-guide.md#^ref-b39dc9d4-5473-0) (line 5473, col 0, score 0.88)
-- [OpenAPI Validation Report — L1955](openapi-validation-report.md#^ref-5c152b08-1955-0) (line 1955, col 0, score 0.88)
-- [Optimizing Command Limitations in System Design — L3383](optimizing-command-limitations-in-system-design.md#^ref-98c8ff62-3383-0) (line 3383, col 0, score 0.88)
-- [ParticleSimulationWithCanvasAndFFmpeg — L5870](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-5870-0) (line 5870, col 0, score 0.88)
-- [Performance-Optimized-Polyglot-Bridge — L3251](performance-optimized-polyglot-bridge.md#^ref-f5579967-3251-0) (line 3251, col 0, score 0.88)
-- [Pipeline Enhancements — L1383](pipeline-enhancements.md#^ref-e2135d9f-1383-0) (line 1383, col 0, score 0.88)
-- [plan-update-confirmation — L1122](plan-update-confirmation.md#^ref-b22d79c6-1122-0) (line 1122, col 0, score 0.88)
-- [Mongo Outbox Implementation — L424](mongo-outbox-implementation.md#^ref-9c1acd1e-424-0) (line 424, col 0, score 0.87)
-- [Promethean Pipelines — L84](promethean-pipelines.md#^ref-8b8e6103-84-0) (line 84, col 0, score 0.87)
-- [Cross-Target Macro System in Sibilant — L150](cross-target-macro-system-in-sibilant.md#^ref-5f210ca2-150-0) (line 150, col 0, score 0.87)
-- [Creative Moments — L9214](creative-moments.md#^ref-10d98225-9214-0) (line 9214, col 0, score 0.87)
-- [Duck's Attractor States — L2278](ducks-attractor-states.md#^ref-13951643-2278-0) (line 2278, col 0, score 0.87)
-- [The Jar of Echoes — L18789](the-jar-of-echoes.md#^ref-18138627-18789-0) (line 18789, col 0, score 0.87)
-- [homeostasis-decay-formulas — L3969](homeostasis-decay-formulas.md#^ref-37b5d236-3969-0) (line 3969, col 0, score 0.87)
-- [Promethean_Eidolon_Synchronicity_Model — L1315](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-1315-0) (line 1315, col 0, score 0.87)
-- [Layer1SurvivabilityEnvelope — L1708](layer1survivabilityenvelope.md#^ref-64a9f9f9-1708-0) (line 1708, col 0, score 0.87)
-- [Promethean_Eidolon_Synchronicity_Model — L1340](promethean-eidolon-synchronicity-model.md#^ref-2d6e5553-1340-0) (line 1340, col 0, score 0.87)
-- [windows-tiling-with-autohotkey — L12337](windows-tiling-with-autohotkey.md#^ref-0f6f8f38-12337-0) (line 12337, col 0, score 0.87)
-- [Chroma-Embedding-Refactor — L66](chroma-embedding-refactor.md#^ref-8b256935-66-0) (line 66, col 0, score 0.86)
-- [ecs-offload-workers — L194](ecs-offload-workers.md#^ref-6498b9d7-194-0) (line 194, col 0, score 0.86)
-- [ParticleSimulationWithCanvasAndFFmpeg — L224](particlesimulationwithcanvasandffmpeg.md#^ref-e018dd7a-224-0) (line 224, col 0, score 0.86)
-- [Universal Lisp Interface — L119](universal-lisp-interface.md#^ref-b01856b4-119-0) (line 119, col 0, score 0.85)
-- [Universal Lisp Interface — L117](universal-lisp-interface.md#^ref-b01856b4-117-0) (line 117, col 0, score 0.85)
-- [Eidolon Field Abstract Model — L176](eidolon-field-abstract-model.md#^ref-5e8b2388-176-0) (line 176, col 0, score 0.85)
-- [js-to-lisp-reverse-compiler — L343](js-to-lisp-reverse-compiler.md#^ref-58191024-343-0) (line 343, col 0, score 0.85)
+- [Promethean Event Bus MVP v0.1 — L825](promethean-event-bus-mvp-v0-1.md#L825) (line 825, col 1, score 0.86)
+- [Promethean Event Bus MVP v0.1 — L825](promethean-event-bus-mvp-v0-1.md#L825) (line 825, col 3, score 0.86)
+- [[mongo-outbox-implementation#L381|Mongo Outbox Implementation — L381]] (line 381, col 1, score 0.89)
+- [[docs/unique/event-bus-mvp#L359|Event Bus MVP — L359]] (line 359, col 1, score 0.86)
+- [[state-snapshots-api-and-transactional-projector#L177|State Snapshots API and Transactional Projector — L177]] (line 177, col 1, score 0.86)
+- [[docs/unique/event-bus-mvp#L370|Event Bus MVP — L370]] (line 370, col 1, score 0.92)
+- [[mongo-outbox-implementation#L542|Mongo Outbox Implementation — L542]] (line 542, col 1, score 0.86)
+- [[mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552]] (line 552, col 1, score 1)
+- [[mongo-outbox-implementation#L552|Mongo Outbox Implementation — L552]] (line 552, col 3, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386]] (line 386, col 1, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L386|prom-lib-rate-limiters-and-replay-api — L386]] (line 386, col 3, score 1)
+- [Promethean Event Bus MVP v0.1 — L881](promethean-event-bus-mvp-v0-1.md#L881) (line 881, col 1, score 1)
+- [Promethean Event Bus MVP v0.1 — L881](promethean-event-bus-mvp-v0-1.md#L881) (line 881, col 3, score 1)
+- [[schema-evolution-workflow#L485|schema-evolution-workflow — L485]] (line 485, col 1, score 1)
+- [[schema-evolution-workflow#L485|schema-evolution-workflow — L485]] (line 485, col 3, score 1)
+- [Services — L13](chunks/services.md#L13) (line 13, col 1, score 1)
+- [Services — L13](chunks/services.md#L13) (line 13, col 3, score 1)
+- [[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]] (line 467, col 1, score 1)
+- [[docs/unique/ecs-offload-workers#L467|ecs-offload-workers — L467]] (line 467, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]] (line 549, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L549|Event Bus MVP — L549]] (line 549, col 3, score 1)
+- [[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]] (line 364, col 1, score 1)
+- [[observability-infrastructure-setup#L364|observability-infrastructure-setup — L364]] (line 364, col 3, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 1, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L137|Agent Tasks: Persistence Migration to DualStore — L137]] (line 137, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L175|Chroma Toolkit Consolidation Plan — L175]] (line 175, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L547|Event Bus MVP — L547]] (line 547, col 3, score 1)
+- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 1, score 1)
+- [[event-bus-projections-architecture#L150|Event Bus Projections Architecture — L150]] (line 150, col 3, score 1)
+- [Services — L11](chunks/services.md#L11) (line 11, col 1, score 1)
+- [Services — L11](chunks/services.md#L11) (line 11, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L554|Event Bus MVP — L554]] (line 554, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L554|Event Bus MVP — L554]] (line 554, col 3, score 1)
+- [[mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553]] (line 553, col 1, score 1)
+- [[mongo-outbox-implementation#L553|Mongo Outbox Implementation — L553]] (line 553, col 3, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382]] (line 382, col 1, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L382|prom-lib-rate-limiters-and-replay-api — L382]] (line 382, col 3, score 1)
+- [Services — L14](chunks/services.md#L14) (line 14, col 1, score 1)
+- [Services — L14](chunks/services.md#L14) (line 14, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L553|Event Bus MVP — L553]] (line 553, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L553|Event Bus MVP — L553]] (line 553, col 3, score 1)
+- [[mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559]] (line 559, col 1, score 1)
+- [[mongo-outbox-implementation#L559|Mongo Outbox Implementation — L559]] (line 559, col 3, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388]] (line 388, col 1, score 1)
+- [[prom-lib-rate-limiters-and-replay-api#L388|prom-lib-rate-limiters-and-replay-api — L388]] (line 388, col 3, score 1)
+- [[docs/unique/archetype-ecs#L460|archetype-ecs — L460]] (line 460, col 1, score 1)
+- [[docs/unique/archetype-ecs#L460|archetype-ecs — L460]] (line 460, col 3, score 1)
+- [JavaScript — L15](chunks/javascript.md#L15) (line 15, col 1, score 1)
+- [JavaScript — L15](chunks/javascript.md#L15) (line 15, col 3, score 1)
+- [[ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388]] (line 388, col 1, score 1)
+- [[ecs-scheduler-and-prefabs#L388|ecs-scheduler-and-prefabs — L388]] (line 388, col 3, score 1)
+- [[docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129]] (line 129, col 1, score 1)
+- [[docs/unique/eidolon-field-math-foundations#L129|eidolon-field-math-foundations — L129]] (line 129, col 3, score 1)
+- [[migrate-to-provider-tenant-architecture#L276|Migrate to Provider-Tenant Architecture — L276]] (line 276, col 1, score 1)
+- [[migrate-to-provider-tenant-architecture#L276|Migrate to Provider-Tenant Architecture — L276]] (line 276, col 3, score 1)
+- [[promethean-agent-dsl-ts-scaffold#L832|Promethean Agent DSL TS Scaffold — L832]] (line 832, col 1, score 1)
+- [[promethean-agent-dsl-ts-scaffold#L832|Promethean Agent DSL TS Scaffold — L832]] (line 832, col 3, score 1)
+- [[promethean-infrastructure-setup#L581|Promethean Infrastructure Setup — L581]] (line 581, col 1, score 1)
+- [[promethean-infrastructure-setup#L581|Promethean Infrastructure Setup — L581]] (line 581, col 3, score 1)
+- [[shared-package-layout-clarification#L166|shared-package-layout-clarification — L166]] (line 166, col 1, score 1)
+- [[shared-package-layout-clarification#L166|shared-package-layout-clarification — L166]] (line 166, col 3, score 1)
+- [Services — L12](chunks/services.md#L12) (line 12, col 1, score 1)
+- [Services — L12](chunks/services.md#L12) (line 12, col 3, score 1)
+- [[cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211]] (line 211, col 1, score 1)
+- [[cross-language-runtime-polymorphism#L211|Cross-Language Runtime Polymorphism — L211]] (line 211, col 3, score 1)
+- [[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]] (line 550, col 1, score 1)
+- [[docs/unique/event-bus-mvp#L550|Event Bus MVP — L550]] (line 550, col 3, score 1)
+- [[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]] (line 554, col 1, score 1)
+- [[mongo-outbox-implementation#L554|Mongo Outbox Implementation — L554]] (line 554, col 3, score 1)
+- [[prompt-folder-bootstrap#L197|Prompt_Folder_Bootstrap — L197]] (line 197, col 1, score 0.99)
+- [[prompt-folder-bootstrap#L197|Prompt_Folder_Bootstrap — L197]] (line 197, col 3, score 0.99)
+- [[migrate-to-provider-tenant-architecture#L301|Migrate to Provider-Tenant Architecture — L301]] (line 301, col 1, score 0.99)
+- [[migrate-to-provider-tenant-architecture#L301|Migrate to Provider-Tenant Architecture — L301]] (line 301, col 3, score 0.99)
+- [[docs/unique/event-bus-mvp#L560|Event Bus MVP — L560]] (line 560, col 1, score 0.99)
+- [[docs/unique/event-bus-mvp#L560|Event Bus MVP — L560]] (line 560, col 3, score 0.99)
+- [[prom-lib-rate-limiters-and-replay-api#L399|prom-lib-rate-limiters-and-replay-api — L399]] (line 399, col 1, score 0.99)
+- [[prom-lib-rate-limiters-and-replay-api#L399|prom-lib-rate-limiters-and-replay-api — L399]] (line 399, col 3, score 0.99)
+- [[docs/unique/event-bus-mvp#L563|Event Bus MVP — L563]] (line 563, col 1, score 0.98)
+- [[docs/unique/event-bus-mvp#L563|Event Bus MVP — L563]] (line 563, col 3, score 0.98)
+- [[prom-lib-rate-limiters-and-replay-api#L398|prom-lib-rate-limiters-and-replay-api — L398]] (line 398, col 1, score 0.98)
+- [[prom-lib-rate-limiters-and-replay-api#L398|prom-lib-rate-limiters-and-replay-api — L398]] (line 398, col 3, score 0.98)
+- [[mongo-outbox-implementation#L564|Mongo Outbox Implementation — L564]] (line 564, col 1, score 0.98)
+- [[mongo-outbox-implementation#L564|Mongo Outbox Implementation — L564]] (line 564, col 3, score 0.98)
+- [[schema-evolution-workflow#L498|schema-evolution-workflow — L498]] (line 498, col 1, score 0.98)
+- [[schema-evolution-workflow#L498|schema-evolution-workflow — L498]] (line 498, col 3, score 0.98)
+- [Promethean Event Bus MVP v0.1 — L907](promethean-event-bus-mvp-v0-1.md#L907) (line 907, col 1, score 0.98)
+- [Promethean Event Bus MVP v0.1 — L907](promethean-event-bus-mvp-v0-1.md#L907) (line 907, col 3, score 0.98)
+- [[prom-lib-rate-limiters-and-replay-api#L397|prom-lib-rate-limiters-and-replay-api — L397]] (line 397, col 1, score 0.99)
+- [[prom-lib-rate-limiters-and-replay-api#L397|prom-lib-rate-limiters-and-replay-api — L397]] (line 397, col 3, score 0.99)
+- [[schema-evolution-workflow#L496|schema-evolution-workflow — L496]] (line 496, col 1, score 0.99)
+- [[schema-evolution-workflow#L496|schema-evolution-workflow — L496]] (line 496, col 3, score 0.99)
+- [Services — L25](chunks/services.md#L25) (line 25, col 1, score 0.99)
+- [Services — L25](chunks/services.md#L25) (line 25, col 3, score 0.99)
+- [[unique-info-dump-index#L160|Unique Info Dump Index — L160]] (line 160, col 1, score 0.99)
+- [[unique-info-dump-index#L160|Unique Info Dump Index — L160]] (line 160, col 3, score 0.99)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -1,8 +1,9 @@
-import test from "ava";
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
 import * as url from "node:url";
 import { randomUUID } from "node:crypto";
+
+import test from "ava";
 
 import { run } from "../../utils.js";
 
@@ -44,7 +45,7 @@ test.serial("buildfix pipeline runs end-to-end", async (t) => {
         `node ${path.join(
           PKG_ROOT,
           "dist/01-errors.js",
-        )} --tsconfig ${tsconfig} --out ${errorsPath}`,
+        )} --root false --tsconfig ${tsconfig} --out ${errorsPath}`,
         PKG_ROOT,
       )
     ).code,

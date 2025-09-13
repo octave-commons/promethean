@@ -1,481 +1,800 @@
 ---
-uuid: ac45b1d1-f702-4dae-a276-fbdaa0c3d1bf
-created_at: prometheus-observability-stack.md
+uuid: e90b5a16-d58f-424d-bd36-70e9bd2861ad
+created_at: 2025.08.31.11.04.15.md
 filename: Prometheus Observability Stack
-title: Prometheus Observability Stack
 description: >-
-  A Docker Compose setup for monitoring and observability with profiles to
-  enable selective service deployment. Uses a single internal network and
-  supports optional reverse proxies like Traefik or Nginx. Includes Prometheus,
-  Grafana, Loki, Tempo, and other tools for comprehensive observability.
+  A Docker Compose setup for observability tools (Prometheus, Grafana, Loki,
+  Tempo, Cadvisor, Node Exporter) with profile-based profiles for flexible
+  deployment.
 tags:
-  - docker-compose
+  - docker
+  - compose
   - observability
   - prometheus
   - grafana
   - loki
   - tempo
+  - cadvisor
   - node-exporter
-  - traefik
-  - nginx
-related_to_uuid:
-  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-  - 0f6f8f38-98d0-438f-9601-58f478acc0b7
-  - f5579967-762d-4cfd-851e-4f71b4cb77a1
-  - ae24a280-678e-4c0b-8cc4-56667fa04172
-  - fc21f824-4244-4030-a48e-c4170160ea1d
-  - a4a25141-6380-40b9-9cd7-b554b246b303
-  - 6620e2f2-de6d-45d8-a722-5d26e160b370
-  - 5e408692-0e74-400e-a617-84247c7353ad
-  - 5020e892-8f18-443a-b707-6d0f3efcfe22
-  - 9c79206d-4cb9-4f00-87e0-782dcea37bc7
-  - d144aa62-348c-4e5d-ae8f-38084c67ceca
-  - 5e8b2388-022b-46cf-952c-36ae9b8f0037
-  - 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-  - b09141b7-544f-4c8e-8f49-bf76cecaacbb
-  - 62bec6f0-4e13-4f38-aca4-72c84ba02367
-  - 71726f04-eb1c-42a5-a5fe-d8209de6e159
-  - a4d90289-798d-44a0-a8e8-a055ae12fb52
-  - e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-  - ca8e1399-77bf-4f77-82a3-3f703b68706d
-  - b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
-  - 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-  - 78eeedf7-75bc-4692-a5a7-bb6857270621
-  - 7b7ca860-780c-44fa-8d3f-be8bd9496fba
-  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
 related_to_title:
-  - Dynamic Context Model for Web Components
-  - windows-tiling-with-autohotkey
-  - Performance-Optimized-Polyglot-Bridge
-  - Promethean-Copilot-Intent-Engine
-  - Fnord Tracer Protocol
-  - Functional Embedding Pipeline Refactor
-  - graph-ds
-  - i3-bluetooth-setup
-  - Chroma Toolkit Consolidation Plan
-  - polyglot-repl-interface-layer
-  - Model Selection for Lightweight Conversational Tasks
-  - Eidolon Field Abstract Model
-  - field-dynamics-math-blocks
-  - field-interaction-equations
-  - zero-copy-snapshots-and-workers
-  - Duck's Self-Referential Perceptual Loop
-  - Factorio AI with External Agents
-  - DuckDuckGoSearchPipeline
-  - Obsidian ChatGPT Plugin Integration
-  - Obsidian Templating Plugins Integration Guide
-  - Debugging Broker Connections and Agent Behavior
-  - eidolon-node-lifecycle
-  - typed-struct-compiler
-  - TypeScript Patch for Tool Calling Support
+  - observability-infrastructure-setup
   - Promethean Infrastructure Setup
+  - Promethean Full-Stack Docker Setup
+  - Migrate to Provider-Tenant Architecture
+  - Local-Offline-Model-Deployment-Strategy
+  - Pure-Node Crawl Stack with Playwright and Crawlee
+  - Pure TypeScript Search Microservice
+  - AI-Centric OS with MCP Layer
+  - Per-Domain Policy System for JS Crawler
+  - plan-update-confirmation
+  - Promethean Agent Config DSL
+  - Promethean Web UI Setup
+  - ecs-offload-workers
+  - api-gateway-versioning
+  - Debugging Broker Connections and Agent Behavior
+  - Dynamic Context Model for Web Components
+  - RAG UI Panel with Qdrant and PostgREST
+  - Cross-Target Macro System in Sibilant
+  - 'Agent Tasks: Persistence Migration to DualStore'
+  - Chroma Toolkit Consolidation Plan
+  - Mongo Outbox Implementation
+  - i3-bluetooth-setup
+related_to_uuid:
+  - b4e64f8c-4dc9-4941-a877-646c5ada068e
+  - 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+  - 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+  - 54382370-1931-4a19-a634-46735708a9ea
+  - ad7f1ed3-c9bf-4e85-9eeb-6cc4b53155f3
+  - d527c05d-22e8-4493-8f29-ae3cb67f035b
+  - d17d3a96-c84d-4738-a403-6c733b874da2
+  - 0f1f8cc1-b5a6-4307-a40d-78de3adafca2
+  - c03020e1-e3e7-48bf-aa7e-aa740c601b63
+  - b22d79c6-825b-4cd3-b0d3-1cef0532bb54
+  - 2c00ce45-08cf-4b81-9883-6157f30b7fae
+  - bc5172ca-7a09-42ad-b418-8e42bb14d089
+  - 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+  - 0580dcd3-533d-4834-8a2f-eae3771960a9
+  - 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+  - f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+  - e1056831-ae0c-460b-95fa-4cf09b3398c6
+  - 5f210ca2-54e9-445b-afe4-fb340d4992c5
+  - 93d2ba51-8689-49ee-94e2-296092e48058
+  - 5020e892-8f18-443a-b707-6d0f3efcfe22
+  - 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+  - 5e408692-0e74-400e-a617-84247c7353ad
 references:
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 226
-    col: 0
+  - uuid: b4e64f8c-4dc9-4941-a877-646c5ada068e
+    line: 357
+    col: 1
+    score: 0.9
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 286
+    col: 1
     score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 705
-    col: 0
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 286
+    col: 3
     score: 1
-  - uuid: 22b989d5-f4aa-4880-8632-709c21830f83
-    line: 719
-    col: 0
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 560
+    col: 1
     score: 1
-  - uuid: e9b27b06-f608-4734-ae6c-f03a8b1fcf5f
-    line: 601
-    col: 0
+  - uuid: 9c1acd1e-c6a4-4a49-a66f-6da8b1bc9333
+    line: 560
+    col: 3
     score: 1
-  - uuid: fc21f824-4244-4030-a48e-c4170160ea1d
-    line: 1060
-    col: 0
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 575
+    col: 1
     score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 726
-    col: 0
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 575
+    col: 3
     score: 1
-  - uuid: 6620e2f2-de6d-45d8-a722-5d26e160b370
-    line: 996
-    col: 0
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 292
+    col: 1
+    score: 0.93
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 292
+    col: 3
+    score: 0.93
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 284
+    col: 1
     score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 667
-    col: 0
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 284
+    col: 3
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 40
+    col: 1
+    score: 1
+  - uuid: 73d3dbf6-9240-46fd-ada9-cc2e7e00dc5f
+    line: 40
+    col: 3
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 384
+    col: 1
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 384
+    col: 3
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 458
+    col: 1
+    score: 1
+  - uuid: 6498b9d7-bd35-4bd3-89fb-af1c415c3cd1
+    line: 458
+    col: 3
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 589
+    col: 1
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 589
+    col: 3
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 602
+    col: 1
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 602
+    col: 3
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 526
+    col: 1
+    score: 1
+  - uuid: d17d3a96-c84d-4738-a403-6c733b874da2
+    line: 526
+    col: 3
+    score: 1
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 362
+    col: 1
+    score: 1
+  - uuid: e1056831-ae0c-460b-95fa-4cf09b3398c6
+    line: 362
+    col: 3
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 131
+    col: 1
+    score: 1
+  - uuid: 93d2ba51-8689-49ee-94e2-296092e48058
+    line: 131
+    col: 3
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 169
+    col: 1
+    score: 1
+  - uuid: 5020e892-8f18-443a-b707-6d0f3efcfe22
+    line: 169
+    col: 3
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 175
+    col: 1
+    score: 1
+  - uuid: 5f210ca2-54e9-445b-afe4-fb340d4992c5
+    line: 175
+    col: 3
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 392
+    col: 1
+    score: 1
+  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
+    line: 392
+    col: 3
     score: 1
   - uuid: 5e408692-0e74-400e-a617-84247c7353ad
-    line: 736
-    col: 0
+    line: 103
+    col: 1
     score: 1
-  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
-    line: 645
-    col: 0
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 739
-    col: 0
-    score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 816
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 44
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 61
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 99
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 80
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 405
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 216
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 189
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 172
-    col: 0
-    score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 175
-    col: 0
-    score: 1
-  - uuid: 86a691ec-ca1f-4350-824c-0ded1f8ebe70
-    line: 90
-    col: 0
-    score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 298
-    col: 0
-    score: 1
-  - uuid: 18344cf9-0c49-4a71-b6c8-b8d84d660fca
-    line: 48
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 38
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 51
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 79
-    col: 0
-    score: 1
-  - uuid: e979c50f-69bb-48b0-8417-e1ee1b31c0c0
-    line: 77
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 115
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 61
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 212
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 150
-    col: 0
-    score: 1
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 86
-    col: 0
-    score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 49
-    col: 0
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 59
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 76
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 80
-    col: 0
-    score: 1
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 48
-    col: 0
-    score: 1
-  - uuid: b39dc9d4-63e2-42d4-bbcd-041ef3167bca
-    line: 120
-    col: 0
-    score: 1
-  - uuid: 59b5670f-36d3-4d34-8985-f3144b15347a
-    line: 169
-    col: 0
-    score: 1
-  - uuid: b3555ede-324a-4d24-a885-b0721e74babf
-    line: 74
-    col: 0
-    score: 1
-  - uuid: 8430617b-80a2-4cc9-8288-9a74cb57990b
-    line: 171
-    col: 0
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 262
-    col: 0
-    score: 1
-  - uuid: b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
-    line: 84
-    col: 0
-    score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 314
-    col: 0
-    score: 1
-  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
-    line: 26
-    col: 0
-    score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 10
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 43
-    col: 0
-    score: 1
-  - uuid: ffb9b2a9-744d-4a53-9565-130fceae0832
-    line: 82
-    col: 0
-    score: 1
-  - uuid: 9b694a91-dec5-4708-9462-3f71000ba925
-    line: 37
-    col: 0
-    score: 1
-  - uuid: 5c152b08-6b69-4bb8-a1a7-66745789c169
-    line: 68
-    col: 0
-    score: 1
-  - uuid: e018dd7a-1fb7-4732-9e67-cd8b2f0831cf
-    line: 294
-    col: 0
+  - uuid: 5e408692-0e74-400e-a617-84247c7353ad
+    line: 103
+    col: 3
     score: 1
   - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
-    line: 532
-    col: 0
+    line: 471
+    col: 1
     score: 1
-  - uuid: f5579967-762d-4cfd-851e-4f71b4cb77a1
-    line: 456
-    col: 0
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 471
+    col: 3
     score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 17
-    col: 0
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 580
+    col: 1
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 580
+    col: 3
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 607
+    col: 1
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 607
+    col: 3
+    score: 1
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 488
+    col: 1
+    score: 0.95
+  - uuid: c03020e1-e3e7-48bf-aa7e-aa740c601b63
+    line: 488
+    col: 3
+    score: 0.95
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 288
+    col: 1
+    score: 1
+  - uuid: 0580dcd3-533d-4834-8a2f-eae3771960a9
+    line: 288
+    col: 3
+    score: 1
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 440
+    col: 1
+    score: 1
+  - uuid: 2c2b48ca-1476-47fb-8ad4-69d2588a6c84
+    line: 440
+    col: 3
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 584
+    col: 1
+    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 584
+    col: 3
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 603
+    col: 1
+    score: 1
+  - uuid: bc5172ca-7a09-42ad-b418-8e42bb14d089
+    line: 603
+    col: 3
     score: 1
   - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1035
-    col: 0
-    score: 1
-  - uuid: dd89372d-10de-42a9-8c96-6bc13ea36d02
-    line: 313
-    col: 0
-    score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 255
-    col: 0
-    score: 1
-  - uuid: 86a691ec-ca1f-4350-824c-0ded1f8ebe70
-    line: 93
-    col: 0
-    score: 1
-  - uuid: b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
-    line: 98
-    col: 0
-    score: 1
-  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
-    line: 65
-    col: 0
-    score: 1
-  - uuid: 5f65dfa5-dc97-4a6c-ad93-c45c1312e156
-    line: 63
-    col: 0
-    score: 1
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 226
-    col: 0
-    score: 1
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 123
-    col: 0
-    score: 1
-  - uuid: e2135d9f-c69d-47ee-9b17-0b05e98dc748
-    line: 38
-    col: 0
+    line: 994
+    col: 1
     score: 1
   - uuid: b22d79c6-825b-4cd3-b0d3-1cef0532bb54
-    line: 1090
-    col: 0
+    line: 994
+    col: 3
     score: 1
-  - uuid: a4a25141-6380-40b9-9cd7-b554b246b303
-    line: 366
-    col: 0
+  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
+    line: 315
+    col: 1
     score: 1
-  - uuid: dd00677a-2280-45a7-91af-0728b21af3ad
-    line: 219
-    col: 0
+  - uuid: 2c00ce45-08cf-4b81-9883-6157f30b7fae
+    line: 315
+    col: 3
     score: 1
-  - uuid: 37b5d236-2b3e-4a95-a4e8-31655c3023ef
-    line: 258
-    col: 0
-    score: 1
-  - uuid: 291c7d91-da8c-486c-9bc0-bd2254536e2d
-    line: 161
-    col: 0
-    score: 1
-  - uuid: 64a9f9f9-58ee-4996-bdaf-9373845c6b29
-    line: 267
-    col: 0
-    score: 1
-  - uuid: b5e0183e-c34b-44b2-8fc9-a740a1a8d4e2
-    line: 100
-    col: 0
-    score: 1
-  - uuid: 54382370-1931-4a19-a634-46735708a9ea
-    line: 388
-    col: 0
-    score: 1
-  - uuid: 40185d05-010e-45e7-8c2d-2f879bf14218
-    line: 69
-    col: 0
-    score: 1
-  - uuid: 5f65dfa5-dc97-4a6c-ad93-c45c1312e156
-    line: 67
-    col: 0
-    score: 1
-  - uuid: d144aa62-348c-4e5d-ae8f-38084c67ceca
-    line: 234
-    col: 0
-    score: 1
-  - uuid: db74343f-8f84-43a3-adb2-499c6f00be1c
-    line: 129
-    col: 0
-    score: 1
-  - uuid: 5a02283e-4281-4930-9ca7-e27849de11bd
-    line: 74
-    col: 0
-    score: 1
-  - uuid: 1d3d6c3a-039e-4b96-93c1-95854945e248
-    line: 130
-    col: 0
-    score: 1
-  - uuid: ca8e1399-77bf-4f77-82a3-3f703b68706d
-    line: 131
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 85
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 93
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 64
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 141
-    col: 0
-    score: 1
-  - uuid: 10d98225-12e0-4212-8e15-88b57cf7bee5
-    line: 28
-    col: 0
-    score: 1
-  - uuid: cdbd21ee-25a0-4bfa-884c-c1b948e9b0b2
-    line: 65
-    col: 0
-    score: 1
-  - uuid: 2792d448-c3b5-4050-93dd-93768529d99c
-    line: 86
-    col: 0
-    score: 1
-  - uuid: 13951643-1741-46bb-89dc-1beebb122633
-    line: 123
-    col: 0
-    score: 1
-  - uuid: 71726f04-eb1c-42a5-a5fe-d8209de6e159
-    line: 34
-    col: 0
-    score: 1
-  - uuid: f7702bf8-f7db-473c-9a5b-8dbf66ad3b9e
-    line: 442
-    col: 0
-    score: 1
-  - uuid: 5e8b2388-022b-46cf-952c-36ae9b8f0037
-    line: 218
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 176
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 70
-    col: 0
-    score: 1
-  - uuid: 008f2ac0-bfaa-4d52-9826-2d5e86c0059f
-    line: 148
-    col: 0
-    score: 1
-  - uuid: 938eca9c-97e2-4bcc-8653-b0ef1a5ac7a3
-    line: 36
-    col: 0
-    score: 1
-  - uuid: a4d90289-798d-44a0-a8e8-a055ae12fb52
-    line: 166
-    col: 0
-    score: 1
-  - uuid: 7cfc230d-8ec2-4cdb-b931-8aec26de2a00
-    line: 148
-    col: 0
-    score: 1
-  - uuid: b09141b7-544f-4c8e-8f49-bf76cecaacbb
-    line: 153
-    col: 0
-    score: 1
-  - uuid: 1f32c94a-4da4-4266-8ac0-6c282cfb401f
-    line: 118
-    col: 0
-    score: 1
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 594
+    col: 1
+    score: 0.99
+  - uuid: 6deed6ac-2473-40e0-bee0-ac9ae4c7bff2
+    line: 594
+    col: 3
+    score: 0.99
 ---
+got it. here’s a plug-and-play `docker-compose.yaml` that wires up everything with **profiles** so you can bring up only what you need. it assumes your infra lives under `./infra/**` (kept away from app source), and everything sits on one internal network `prom-net`. reverse proxy is optional (`traefik` or `nginx`—pick one).
 
- ^ref-e90b5a16-480-0 ^ref-e90b5a16-483-0 ^ref-e90b5a16-512-0 ^ref-e90b5a16-559-0 ^ref-e90b5a16-570-0 ^ref-e90b5a16-575-0 ^ref-e90b5a16-579-0 ^ref-e90b5a16-589-0 ^ref-e90b5a16-615-0 ^ref-e90b5a16-625-0 ^ref-e90b5a16-863-0 ^ref-e90b5a16-908-0 ^ref-e90b5a16-926-0 ^ref-e90b5a16-1103-0 ^ref-e90b5a16-1173-0 ^ref-e90b5a16-2351-0 ^ref-e90b5a16-2534-0
+> start examples
+> `docker compose --profile observability up -d`
+> `docker compose --profile ai --profile data --profile edge up -d`
+
+```yaml
+version: "3.9"
+
+networks:
+  prom-net:
+    driver: bridge
+
+# central volumes (adjust paths as you like)
+volumes:
+  grafana_data:
+  prometheus_data:
+  loki_data:
+  tempo_data:
+  postgres_data:
+  mongo_data:
+  redis_data:
+  meili_data:
+  minio_data:
+  portainer_data:
+  gitea_data:
+  drone_data:
+  woodpecker_data:
+  sonarqube_data:
+  nats_data:
+  rabbitmq_data:
+  mosquitto_data:
+  temporal_data:
+  airflow_db_data:
+  airflow_dags_data:
+  code_server_data:
+  opensearch_data:
+
+# ---------- EDGE (choose one) ----------
+services:
+  traefik:
+    profiles: ["edge"]
+    image: traefik:v3.1
+    command:
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      # uncomment if using tls
+      # - "--entrypoints.websecure.address=:443"
+      # - "--certificatesresolvers.le.acme.tlschallenge=true"
+      # - "--certificatesresolvers.le.acme.email=${ACME_EMAIL}"
+      # - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      # - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # - ./infra/traefik/letsencrypt:/letsencrypt
+    networks: [prom-net]
+    restart: unless-stopped
+
+  edge-nginx:
+    profiles: ["edge"]
+    image: nginx:1.27-alpine
+    ports: ["80:80"]
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./infra/nginx/secrets:/etc/nginx/secrets:ro
+    networks: [prom-net]
+    restart: unless-stopped
+
+# ---------- OBSERVABILITY ----------
+  prometheus:
+    profiles: ["observability"]
+    image: prom/prometheus:v3.0.0
+    volumes:
+      - prometheus_data:/prometheus
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    networks: [prom-net]
+    restart: unless-stopped
+
+  grafana:
+    profiles: ["observability"]
+    image: grafana/grafana:11.2.0
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASS:-admin}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./infra/grafana/provisioning:/etc/grafana/provisioning
+    ports:
+      - "3000:3000"
+    networks: [prom-net]
+    restart: unless-stopped
+
+  loki:
+    profiles: ["observability"]
+    image: grafana/loki:3.1.1
+    command: ["-config.file=/etc/loki/loki-config.yaml"]
+    volumes:
+      - loki_data:/loki
+      - ./infra/loki/loki-config.yaml:/etc/loki/loki-config.yaml:ro
+    networks: [prom-net]
+    restart: unless-stopped
+
+  promtail:
+    profiles: ["observability"]
+    image: grafana/promtail:3.1.1
+    command: ["-config.file=/etc/promtail/config.yaml"]
+    volumes:
+      - /var/log:/var/log:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - ./infra/promtail/config.yaml:/etc/promtail/config.yaml:ro
+    networks: [prom-net]
+    restart: unless-stopped
+
+  tempo:
+    profiles: ["observability"]
+    image: grafana/tempo:2.6.0
+    command: ["-config.file=/etc/tempo/tempo.yaml"]
+    volumes:
+      - tempo_data:/var/tempo
+      - ./infra/tempo/tempo.yaml:/etc/tempo/tempo.yaml:ro
+    networks: [prom-net]
+    restart: unless-stopped
+
+  cadvisor:
+    profiles: ["observability"]
+    image: gcr.io/cadvisor/cadvisor:v0.49.2
+    privileged: true
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - "8080:8080"
+    networks: [prom-net]
+    restart: unless-stopped
+
+  node_exporter:
+    profiles: ["observability"]
+    image: prom/node-exporter:v1.8.2
+    pid: host
+    network_mode: host
+    restart: unless-stopped
+
+  portainer:
+    profiles: ["observability"]
+    image: portainer/portainer-ce:2.21.5
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    ports:
+      - "9443:9443"
+    networks: [prom-net]
+    restart: unless-stopped
+
+# ---------- DATA LAYER ----------
+  postgres:
+    profiles: ["data"]
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-app}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports: ["5432:5432"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+  mongo:
+    profiles: ["data"]
+    image: mongo:7
+    volumes:
+      - mongo_data:/data/db
+    ports: ["27017:27017"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+  redis:
+    profiles: ["data"]
+    image: redis:7-alpine
+    command: ["redis-server","--appendonly","yes"]
+    volumes:
+      - redis_data:/data
+    ports: ["6379:6379"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+  meilisearch:
+    profiles: ["data","search"]
+    image: getmeili/meilisearch:v1.12
+    environment:
+      - MEILI_NO_ANALYTICS=true
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY:-meili}
+    volumes:
+      - meili_data:/meili_data
+    ports: ["7700:7700"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+  minio:
+    profiles: ["data"]
+    image: minio/minio:RELEASE.2025-08-07T14-25-00Z
+    command: ["server","/data","--console-address",":9001"]
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minio}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minio123}
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks: [prom-net]
+    restart: unless-stopped
+
+  opensearch:
+    profiles: ["data","search"]
+    image: opensearchproject/opensearch:2.17.0
+    environment:
+      - discovery.type=single-node
+      - plugins.security.disabled=true
+      - bootstrap.memory_lock=true
+      - OPENSEARCH_JAVA_OPTS=-Xms2g -Xmx2g
+    ulimits:
+      memlock: { soft: -1, hard: -1 }
+      nofile:  { soft: 65535, hard: 65535 }
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
+    ports: ["9200:9200","9600:9600"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+# ---------- AI / ML ----------
+  ollama:
+    profiles: ["ai"]
+    image: ollama/ollama:0.3.14
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+      # enable one of: NVIDIA, ROCR, CPU, or Intel iGPU/NPU via oneAPI host libs
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: ["gpu"]
+              driver: "nvidia"
+    volumes:
+      - /usr/share/fonts:/usr/share/fonts:ro
+      - ./infra/ollama:/root/.ollama
+    ports: ["11434:11434"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+  tei-embeddings:
+    profiles: ["ai"]
+    image: ghcr.io/huggingface/text-embeddings-inference:1.6
+    environment:
+      - MODEL_ID=${TEI_MODEL:-nomic-ai/nomic-embed-text-v1.5}
+      - NUM_SHARD=1
+    ports: ["8081:80"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+  tei-clip:
+    profiles: ["ai","vision"]
+    image: ghcr.io/huggingface/text-embeddings-inference:1.6
+    environment:
+      - MODEL_ID=${CLIP_MODEL:-openai/clip-vit-large-patch14}
+      - TASK=feature-extraction
+    ports: ["8082:80"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+  haystack:
+    profiles: ["ai","rag"]
+    image: deepset/haystack:base
+    environment:
+      - PIPELINE_YAML=/app/pipelines/default.yaml
+    volumes:
+      - ./infra/haystack:/app/pipelines
+    ports: ["8000:8000"]
+    networks: [prom-net]
+    restart: unless-stopped
+    depends_on: [opensearch, meilisearch, postgres]
+
+# ---------- WEB SEARCH / CRAWLING ----------
+  scrapy:
+    profiles: ["crawl"]
+    image: ghcr.io/scrapy/scrapy:2.11
+    working_dir: /workspace
+    volumes:
+      - ./infra/scrapy:/workspace
+    networks: [prom-net]
+    restart: unless-stopped
+
+  playwright:
+    profiles: ["crawl"]
+    image: mcr.microsoft.com/playwright:v1.47.2-jammy
+    shm_size: 1gb
+    environment:
+      - PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
+    volumes:
+      - ./infra/playwright:/work
+    networks: [prom-net]
+    restart: unless-stopped
+
+  selenium:
+    profiles: ["crawl"]
+    image: selenium/standalone-chromium:4.24.0
+    shm_size: 2gb
+    ports: ["4444:4444","7900:7900"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+# ---------- DEV TOOLING ----------
+  sonarqube:
+    profiles: ["devtools"]
+    image: sonarqube:lts-community
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+    ports: ["9002:9000"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+  gitea:
+    profiles: ["devtools"]
+    image: gitea/gitea:1.22.3
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    volumes:
+      - gitea_data:/data
+    ports:
+      - "3001:3000"
+      - "222:22"
+    networks: [prom-net]
+    restart: unless-stopped
+
+  drone-server:
+    profiles: ["devtools","ci"]
+    image: drone/drone:2
+    environment:
+      - DRONE_GITEA_SERVER=http://gitea:3000
+      - DRONE_RPC_SECRET=${DRONE_RPC_SECRET:-drone-secret}
+      - DRONE_SERVER_HOST=${DRONE_SERVER_HOST:-localhost:3003}
+      - DRONE_SERVER_PROTO=http
+    volumes:
+      - drone_data:/data
+    ports: ["3003:80"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+  code-server:
+    profiles: ["devtools"]
+    image: ghcr.io/coder/code-server:4.95.3
+    environment:
+      - PASSWORD=${CODE_SERVER_PASSWORD:-code}
+    volumes:
+      - code_server_data:/home/coder/project
+    ports: ["8443:8443"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+# ---------- SECURITY ----------
+  vaultwarden:
+    profiles: ["security"]
+    image: vaultwarden/server:1.32.7
+    environment:
+      - SIGNUPS_ALLOWED=false
+    volumes:
+      - ./infra/vaultwarden:/data
+    ports: ["8083:80"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+  oauth2-proxy:
+    profiles: ["security"]
+    image: quay.io/oauth2-proxy/oauth2-proxy:v7.6.0
+    environment:
+      - OAUTH2_PROXY_PROVIDER=github
+      - OAUTH2_PROXY_EMAIL_DOMAINS=*
+      - OAUTH2_PROXY_UPSTREAMS=http://grafana:3000
+      - OAUTH2_PROXY_CLIENT_ID=${OAUTH_CLIENT_ID}
+      - OAUTH2_PROXY_CLIENT_SECRET=${OAUTH_CLIENT_SECRET}
+      - OAUTH2_PROXY_COOKIE_SECRET=${OAUTH_COOKIE_SECRET}
+    ports: ["4180:4180"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+  keycloak:
+    profiles: ["security"]
+    image: quay.io/keycloak/keycloak:26.0
+    command: start-dev
+    environment:
+      - KEYCLOAK_ADMIN=${KEYCLOAK_ADMIN:-admin}
+      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD:-admin}
+    ports: ["8084:8080"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+  crowdsec:
+    profiles: ["security"]
+    image: crowdsecurity/crowdsec:latest
+    volumes:
+      - /var/log:/var/log:ro
+      - ./infra/crowdsec:/etc/crowdsec
+    networks: [prom-net]
+    restart: unless-stopped
+
+# ---------- MESSAGING ----------
+  nats:
+    profiles: ["messaging"]
+    image: nats:2.10
+    command: ["-js","-sd","/data"]
+    volumes:
+      - nats_data:/data
+    ports: ["4222:4222","8222:8222"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+  rabbitmq:
+    profiles: ["messaging"]
+    image: rabbitmq:3.13-management
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks: [prom-net]
+    restart: unless-stopped
+
+  mosquitto:
+    profiles: ["messaging","iot"]
+    image: eclipse-mosquitto:2.0
+    volumes:
+      - ./infra/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mosquitto_data:/mosquitto/data
+    ports: ["1883:1883","9002:9001"]
+    networks: [prom-net]
+    restart: unless-stopped
+
+# ---------- WORKFLOWS ----------
+  temporal:
+    profiles: ["workflows"]
+    image: temporalio/auto-setup:1.25.1
+    environment:
+      - DB=postgresql
+      - DB_PORT=5432
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PWD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_SEEDS=postgres
+    depends_on: [postgres]
+    ports:
+      - "7233:7233"
+    networks: [prom-net]
+    restart: unless-stopped
+
+  airflow:
+    profiles: ["workflows"]
+    image: apache/airflow:2.10.2
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/airflow
+      - _AIRFLOW_WWW_USER_USERNAME=${AIRFLOW_USER:-airflow}
+      - _AIRFLOW_WWW_USER_PASSWORD=${AIRFLOW_PASS:-airflow}
+    user: "50000:0"
+    volumes:
+      - airflow_dags_data:/opt/airflow/dags
+      - airflow_db_data:/opt/airflow
+    depends_on: [postgres]
+    ports: ["8085:8080"]
+    networks: [prom-net]
+    restart: unless-stopped
+```
+
+### minimal config files you’ll likely want (sane defaults)
+
+* `./infra/prometheus/prometheus.yml` → scrape `prometheus`, `cadvisor`, `node_exporter`, `loki`
+* `./infra/loki/loki-config.yaml` → boltdb-shipper + filesystem
+* `./infra/promtail/config.yaml` → `__path__` for `/var/log/*` and docker container logs
+* `./infra/nginx/nginx.conf` or traefik labels on target services
+* `./infra/mosquitto/mosquitto.conf` → listener 1883 + persistence
+* (optional) `./infra/grafana/provisioning/*` → datasources (Prometheus, Loki, Tempo) pre-wired
+
+### quick wins (bring-up order)
+
+1. `--profile data` (postgres/redis/minio/meili)
+2. `--profile observability` (grafana/prometheus/loki/promtail/cadvisor)
+3. `--profile edge` (traefik or nginx)
+4. `--profile ai` (ollama + tei)
+5. add `--profile messaging`, `--profile workflows`, `--profile crawl` as you need them.
+
+if you want, I can also drop in **ready-to-use** sample configs for Prometheus/Loki/Promtail + pre-provisioned Grafana dashboards so you get graphs on first boot.
+
+\#docker #docker-compose #infrastructure #observability #ai #rag #search #devtools #security #messaging #workflows #prometheus #grafana #loki #ollama #traefik #nginx #postgres #redis #meilisearch #minio
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
+<<<<<<< HEAD
 - [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
 - [[windows-tiling-with-autohotkey]]
 - [[performance-optimized-polyglot-bridge]]
@@ -602,4 +921,87 @@ references:
 - [[docs/unique/field-dynamics-math-blocks#^ref-7cfc230d-148-0|field-dynamics-math-blocks — L148]] (line 148, col 0, score 1)
 - [[docs/unique/field-interaction-equations#^ref-b09141b7-153-0|field-interaction-equations — L153]] (line 153, col 0, score 1)
 - [[field-node-diagram-outline#^ref-1f32c94a-118-0|field-node-diagram-outline — L118]] (line 118, col 0, score 1)
+=======
+- [[observability-infrastructure-setup]]
+- [[promethean-infrastructure-setup|Promethean Infrastructure Setup]]
+- [[promethean-full-stack-docker-setup|Promethean Full-Stack Docker Setup]]
+- [[migrate-to-provider-tenant-architecture|Migrate to Provider-Tenant Architecture]]
+- [[local-offline-model-deployment-strategy]]
+- [[pure-node-crawl-stack-with-playwright-and-crawlee|Pure-Node Crawl Stack with Playwright and Crawlee]]
+- [[pure-typescript-search-microservice|Pure TypeScript Search Microservice]]
+- [[ai-centric-os-with-mcp-layer|AI-Centric OS with MCP Layer]]
+- [[per-domain-policy-system-for-js-crawler|Per-Domain Policy System for JS Crawler]]
+- [plan-update-confirmation](plan-update-confirmation.md)
+- [[promethean-agent-config-dsl|Promethean Agent Config DSL]]
+- [[promethean-web-ui-setup|Promethean Web UI Setup]]
+- [[docs/unique/ecs-offload-workers|ecs-offload-workers]]
+- [[api-gateway-versioning]]
+- [Debugging Broker Connections and Agent Behavior](debugging-broker-connections-and-agent-behavior.md)
+- [[dynamic-context-model-for-web-components|Dynamic Context Model for Web Components]]
+- [[rag-ui-panel-with-qdrant-and-postgrest|RAG UI Panel with Qdrant and PostgREST]]
+- [[cross-target-macro-system-in-sibilant|Cross-Target Macro System in Sibilant]]
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore|Agent Tasks: Persistence Migration to DualStore]]
+- [[chroma-toolkit-consolidation-plan|Chroma Toolkit Consolidation Plan]]
+- [[mongo-outbox-implementation|Mongo Outbox Implementation]]
+- [[i3-bluetooth-setup]]
+
+## Sources
+- [[observability-infrastructure-setup#L357|observability-infrastructure-setup — L357]] (line 357, col 1, score 0.9)
+- [[api-gateway-versioning#L286|api-gateway-versioning — L286]] (line 286, col 1, score 1)
+- [[api-gateway-versioning#L286|api-gateway-versioning — L286]] (line 286, col 3, score 1)
+- [[mongo-outbox-implementation#L560|Mongo Outbox Implementation — L560]] (line 560, col 1, score 1)
+- [[mongo-outbox-implementation#L560|Mongo Outbox Implementation — L560]] (line 560, col 3, score 1)
+- [[promethean-infrastructure-setup#L575|Promethean Infrastructure Setup — L575]] (line 575, col 1, score 1)
+- [[promethean-infrastructure-setup#L575|Promethean Infrastructure Setup — L575]] (line 575, col 3, score 1)
+- [[api-gateway-versioning#L292|api-gateway-versioning — L292]] (line 292, col 1, score 0.93)
+- [[api-gateway-versioning#L292|api-gateway-versioning — L292]] (line 292, col 3, score 0.93)
+- [[api-gateway-versioning#L284|api-gateway-versioning — L284]] (line 284, col 1, score 1)
+- [[api-gateway-versioning#L284|api-gateway-versioning — L284]] (line 284, col 3, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 1, score 1)
+- [Debugging Broker Connections and Agent Behavior — L40](debugging-broker-connections-and-agent-behavior.md#L40) (line 40, col 3, score 1)
+- [[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]] (line 384, col 1, score 1)
+- [[dynamic-context-model-for-web-components#L384|Dynamic Context Model for Web Components — L384]] (line 384, col 3, score 1)
+- [[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]] (line 458, col 1, score 1)
+- [[docs/unique/ecs-offload-workers#L458|ecs-offload-workers — L458]] (line 458, col 3, score 1)
+- [[promethean-infrastructure-setup#L589|Promethean Infrastructure Setup — L589]] (line 589, col 1, score 1)
+- [[promethean-infrastructure-setup#L589|Promethean Infrastructure Setup — L589]] (line 589, col 3, score 1)
+- [[promethean-web-ui-setup#L602|Promethean Web UI Setup — L602]] (line 602, col 1, score 1)
+- [[promethean-web-ui-setup#L602|Promethean Web UI Setup — L602]] (line 602, col 3, score 1)
+- [[pure-typescript-search-microservice#L526|Pure TypeScript Search Microservice — L526]] (line 526, col 1, score 1)
+- [[pure-typescript-search-microservice#L526|Pure TypeScript Search Microservice — L526]] (line 526, col 3, score 1)
+- [[rag-ui-panel-with-qdrant-and-postgrest#L362|RAG UI Panel with Qdrant and PostgREST — L362]] (line 362, col 1, score 1)
+- [[rag-ui-panel-with-qdrant-and-postgrest#L362|RAG UI Panel with Qdrant and PostgREST — L362]] (line 362, col 3, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]] (line 131, col 1, score 1)
+- [[docs/unique/agent-tasks-persistence-migration-to-dualstore#L131|Agent Tasks: Persistence Migration to DualStore — L131]] (line 131, col 3, score 1)
+- [[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]] (line 169, col 1, score 1)
+- [[chroma-toolkit-consolidation-plan#L169|Chroma Toolkit Consolidation Plan — L169]] (line 169, col 3, score 1)
+- [[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]] (line 175, col 1, score 1)
+- [[cross-target-macro-system-in-sibilant#L175|Cross-Target Macro System in Sibilant — L175]] (line 175, col 3, score 1)
+- [[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]] (line 392, col 1, score 1)
+- [[dynamic-context-model-for-web-components#L392|Dynamic Context Model for Web Components — L392]] (line 392, col 3, score 1)
+- [[i3-bluetooth-setup#L103|i3-bluetooth-setup — L103]] (line 103, col 1, score 1)
+- [[i3-bluetooth-setup#L103|i3-bluetooth-setup — L103]] (line 103, col 3, score 1)
+- [[per-domain-policy-system-for-js-crawler#L471|Per-Domain Policy System for JS Crawler — L471]] (line 471, col 1, score 1)
+- [[per-domain-policy-system-for-js-crawler#L471|Per-Domain Policy System for JS Crawler — L471]] (line 471, col 3, score 1)
+- [[promethean-infrastructure-setup#L580|Promethean Infrastructure Setup — L580]] (line 580, col 1, score 1)
+- [[promethean-infrastructure-setup#L580|Promethean Infrastructure Setup — L580]] (line 580, col 3, score 1)
+- [[promethean-web-ui-setup#L607|Promethean Web UI Setup — L607]] (line 607, col 1, score 1)
+- [[promethean-web-ui-setup#L607|Promethean Web UI Setup — L607]] (line 607, col 3, score 1)
+- [[per-domain-policy-system-for-js-crawler#L488|Per-Domain Policy System for JS Crawler — L488]] (line 488, col 1, score 0.95)
+- [[per-domain-policy-system-for-js-crawler#L488|Per-Domain Policy System for JS Crawler — L488]] (line 488, col 3, score 0.95)
+- [[api-gateway-versioning#L288|api-gateway-versioning — L288]] (line 288, col 1, score 1)
+- [[api-gateway-versioning#L288|api-gateway-versioning — L288]] (line 288, col 3, score 1)
+- [[promethean-full-stack-docker-setup#L440|Promethean Full-Stack Docker Setup — L440]] (line 440, col 1, score 1)
+- [[promethean-full-stack-docker-setup#L440|Promethean Full-Stack Docker Setup — L440]] (line 440, col 3, score 1)
+- [[promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584]] (line 584, col 1, score 1)
+- [[promethean-infrastructure-setup#L584|Promethean Infrastructure Setup — L584]] (line 584, col 3, score 1)
+- [[promethean-web-ui-setup#L603|Promethean Web UI Setup — L603]] (line 603, col 1, score 1)
+- [[promethean-web-ui-setup#L603|Promethean Web UI Setup — L603]] (line 603, col 3, score 1)
+- [plan-update-confirmation — L994](plan-update-confirmation.md#L994) (line 994, col 1, score 1)
+- [plan-update-confirmation — L994](plan-update-confirmation.md#L994) (line 994, col 3, score 1)
+- [[promethean-agent-config-dsl#L315|Promethean Agent Config DSL — L315]] (line 315, col 1, score 1)
+- [[promethean-agent-config-dsl#L315|Promethean Agent Config DSL — L315]] (line 315, col 3, score 1)
+- [[promethean-infrastructure-setup#L594|Promethean Infrastructure Setup — L594]] (line 594, col 1, score 0.99)
+- [[promethean-infrastructure-setup#L594|Promethean Infrastructure Setup — L594]] (line 594, col 3, score 0.99)
+>>>>>>> stealth/obsidian
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -83,7 +83,7 @@ test.serial(
   { baseUrl: () => state?.baseUrl },
   async (t, fixtures) => {
     const page =
-      // biome-ignore lint/suspicious/noExplicitAny: test-utils does not type fixtures
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any -- test-utils does not type fixtures
       (fixtures as any).page ??
       (await (async () => {
         const res = await fixtures.pageGoto?.("/");
@@ -93,7 +93,7 @@ test.serial(
         );
       })());
 
-    // biome-ignore lint/style/noNonNullAssertion: state initialized in test.before
+     
     await page.goto(`${state!.baseUrl}`, { waitUntil: "domcontentloaded" });
 
     await page.fill(byId("dir"), DOC_FIXTURE_PATH);

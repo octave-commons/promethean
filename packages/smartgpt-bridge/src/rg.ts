@@ -1,24 +1,45 @@
-// @ts-nocheck
 import fs from "fs/promises";
 
 import { execa } from "execa";
 
 import { normalizeToRoot } from "./files.js";
 
-function splitCSV(s) {
+type GrepMatch = {
+  path: string;
+  line: number;
+  column: number;
+  lineText: string;
+  snippet: string;
+  startLine: number;
+  endLine: number;
+};
+
+function splitCSV(s: string | undefined): string[] {
   return (s || "")
     .split(",")
     .map((x) => x.trim())
     .filter(Boolean);
 }
-function defaultExcludes() {
+function defaultExcludes(): string[] {
   const env = splitCSV(process.env.EXCLUDE_GLOBS);
   return env.length
     ? env
     : ["node_modules/**", ".git/**", "dist/**", "build/**", ".obsidian/**"];
 }
 
-export async function grep(ROOT_PATH, opts) {
+type GrepOptions = {
+  pattern: string;
+  flags?: string;
+  paths?: string[];
+  exclude?: string[];
+  maxMatches?: number;
+  context?: number;
+};
+
+export async function grep(
+  ROOT_PATH: string,
+  opts?: GrepOptions,
+): Promise<GrepMatch[]> {
   const {
     pattern,
     flags = "g",
@@ -38,7 +59,7 @@ export async function grep(ROOT_PATH, opts) {
   ];
   if (flags.includes("i")) args.push("-i");
   exclude.forEach((ex) => args.push("--glob", `!${ex}`));
-  const searchPaths = [];
+  const searchPaths: string[] = [];
   for (const p of paths) {
     if (/[?*{}\[\]]/.test(p)) {
       args.push("--glob", p);
@@ -52,23 +73,29 @@ export async function grep(ROOT_PATH, opts) {
   } else {
     args.push(".");
   }
-  let stdout;
+  let stdout: string;
   try {
     ({ stdout } = await execa("rg", args, { cwd: ROOT_PATH }));
-  } catch (err) {
+  } catch (err: unknown) {
     // rg exits with code 1 when no matches are found. In that case the
     // stdout still contains a JSON summary which we can treat as an empty
     // result set.
-    if (err.exitCode === 1 && err.stdout) {
-      stdout = err.stdout;
+    const e = err as {
+      exitCode?: number;
+      stdout?: string;
+      stderr?: string;
+      message?: string;
+    };
+    if (e.exitCode === 1 && e.stdout) {
+      stdout = e.stdout;
     } else {
-      const msg = err.stderr || err.message;
+      const msg = e.stderr || e.message || String(err);
       throw new Error("rg error: " + msg);
     }
   }
   const lines = stdout.split(/\r?\n/).filter(Boolean);
-  const out = [];
-  const cache = new Map();
+  const out: GrepMatch[] = [];
+  const cache = new Map<string, string[]>();
   for (const line of lines) {
     const obj = JSON.parse(line);
     if (obj.type !== "match") continue;
@@ -86,9 +113,9 @@ export async function grep(ROOT_PATH, opts) {
         continue;
       }
     }
-    const lineNumber = obj.data.line_number;
-    const lineText = obj.data.lines.text.replace(/\n$/, "");
-    const column = (obj.data.submatches?.[0]?.start ?? 0) + 1;
+    const lineNumber: number = obj.data.line_number;
+    const lineText: string = obj.data.lines.text.replace(/\n$/, "");
+    const column: number = (obj.data.submatches?.[0]?.start ?? 0) + 1;
     const start = Math.max(0, lineNumber - 1 - context);
     const end = Math.min(fileLines.length, lineNumber - 1 + context + 1);
     const snippet = fileLines.slice(start, end).join("\n");

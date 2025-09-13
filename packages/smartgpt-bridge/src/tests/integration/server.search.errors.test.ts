@@ -1,4 +1,3 @@
-// @ts-nocheck
 import path from "node:path";
 
 import test from "ava";
@@ -10,10 +9,10 @@ import {
   resetChroma,
 } from "../../indexer.js";
 
-const ROOT = path.join(process.cwd(), "src", "tests", "fixtures");
+const ROOT = path.join(process.cwd(), "tests", "fixtures");
 
 class ThrowingChroma {
-  async getOrCreateCollection() {
+  async getOrCreateCollection(): Promise<any> {
     throw new Error("no chroma");
   }
 }
@@ -38,6 +37,7 @@ test.after.always(() => {
     getOrCreateCollection: async () => ({
       query: async () => ({}),
       upsert: async () => {},
+      delete: async () => {},
       add: async () => {},
     }),
   });

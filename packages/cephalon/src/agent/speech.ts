@@ -98,7 +98,7 @@ export async function generateVoiceResponse(this: AIAgent) {
     const finishedSentences = [] as { type: string; text: string }[];
 
     const startTime = Date.now();
-    for (let sentence of sentences) {
+    for (const sentence of sentences) {
       if (sentence.type === "thought") {
         const kind = classifyPause(sentence.text);
         const ms = estimatePauseDuration(sentence.text);

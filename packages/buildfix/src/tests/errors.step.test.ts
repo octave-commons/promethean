@@ -1,8 +1,9 @@
-import test from "ava";
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
 import * as url from "node:url";
 import { randomUUID } from "node:crypto";
+
+import test from "ava";
 
 import { run } from "../utils.js";
 
@@ -41,7 +42,7 @@ test("bf:01-errors writes error list", async (t) => {
     `node ${path.join(
       PKG_ROOT,
       "dist/01-errors.js",
-    )} --tsconfig ${tsconfig} --out ${outPath}`,
+    )} --root false --tsconfig ${tsconfig} --out ${outPath}`,
     PKG_ROOT,
   );
   t.is(code, 0);
