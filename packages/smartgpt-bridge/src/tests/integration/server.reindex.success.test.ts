@@ -1,9 +1,9 @@
 import path from "node:path";
 
 import test from "ava";
+import type { UpsertRecordsParams } from "chromadb";
 
 import { withServer } from "../helpers/server.js";
-import type { UpsertRecordsParams } from "chromadb";
 import {
   setChromaClient,
   setEmbeddingFactory,

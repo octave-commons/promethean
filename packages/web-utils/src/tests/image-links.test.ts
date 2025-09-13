@@ -1,7 +1,9 @@
-import test from "ava";
 import { mkdtemp, writeFile, stat } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
+
+import test from "ava";
+
 import { findBrokenImageLinks, fixBrokenImageLinks } from "../image-links.js";
 
 test("finds broken markdown and org image links", async (t) => {

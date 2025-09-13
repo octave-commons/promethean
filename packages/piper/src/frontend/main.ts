@@ -1,29 +1,43 @@
-export type PipelineStep = { id: string; name?: string };
+import { setSelection } from "./selection.js";
+import "./components/piper-step.js";
+
+export type PipelineStep = Record<string, any>;
 export type Pipeline = { name: string; steps: PipelineStep[] };
 
-// Lightweight selection cache within this page
-interface PiperWindow extends Window {
-  __PIPER_FILES__?: string[];
+// Dev HMR client: connects to backend events and hot-reloads modules without full refresh
+function startHMR() {
+  try {
+    const es = new EventSource("/api/dev-events");
+    es.onmessage = async (ev) => {
+      const msg = String(ev.data || "");
+      if (msg.startsWith("frontend:update")) {
+        try {
+          await import(`/js/main.js?ts=${Date.now()}`);
+          (window as any).__PIPER_HOT?.reloadAll?.();
+        } catch (e) {
+          console.warn("hot reload failed", e);
+        }
+      }
+    };
+    es.onerror = () => {
+      // keep silent; dev endpoint may be disabled
+      es.close();
+    };
+  } catch {
+    // ignore if EventSource not available
+  }
 }
+startHMR();
+
 type FileNode = {
   type: string;
   name: string;
   children?: FileNode[];
 };
-function getSelectedFiles(): string[] {
-  try {
-    const s = (window as PiperWindow).__PIPER_FILES__;
-    return Array.isArray(s) ? s : [];
-  } catch {
-    return [];
-  }
-}
-function setSelectedFiles(xs: string[]): void {
-  (window as PiperWindow).__PIPER_FILES__ = xs;
-}
 
 // Minimal FileTree custom element (uses /api/files like DocOps)
 class FileTree extends HTMLElement {
+  private cache: Map<string, FileNode[]> = new Map();
   async connectedCallback() {
     this.attachShadow({ mode: "open" });
     const link = document.createElement("link");
@@ -45,18 +59,23 @@ class FileTree extends HTMLElement {
     const res = await fetch(
       `/api/files?dir=${encodeURIComponent(
         ".",
-      )}&maxDepth=2&maxEntries=600&exts=.md,.mdx,.txt,.markdown`,
+      )}&maxDepth=1&maxEntries=600&exts=.md,.mdx,.txt,.markdown`,
     );
     const data = await res.json();
+    const baseDir: string = data.dir;
     const ul = document.createElement("ul");
-    const render = (parent: HTMLElement, nodes: FileNode[], prefix: string) => {
+    this.cache.set(baseDir, data.tree || []);
+
+    const renderFiles = (parent: HTMLElement, nodes: FileNode[], parentDir: string) => {
       for (const n of nodes) {
         const li = document.createElement("li");
         if (n.type === "dir") {
+          const dirPath = `${parentDir}/${n.name}`.replace(/\\/g, "/");
+          li.dataset.fullPath = dirPath;
           const line = document.createElement("div");
           line.className = "dir-line";
           const caret = document.createElement("span");
-          caret.textContent = "▼";
+          caret.textContent = "▶";
           caret.className = "caret";
           const icon = document.createElement("span");
           icon.textContent = "📁";
@@ -68,22 +87,40 @@ class FileTree extends HTMLElement {
           line.appendChild(name);
           li.appendChild(line);
           const sub = document.createElement("ul");
+          sub.style.display = "none";
           li.appendChild(sub);
           parent.appendChild(li);
-          render(sub, n.children || [], `${prefix}/${n.name}`);
-          let open = true;
-          const toggle = () => {
+
+          let loaded = false;
+          let open = false;
+          const toggle = async () => {
             open = !open;
             caret.textContent = open ? "▼" : "▶";
             sub.style.display = open ? "block" : "none";
+            if (open && !loaded) {
+              const cached = this.cache.get(dirPath);
+              if (cached) {
+                sub.innerHTML = "";
+                renderFiles(sub, cached, dirPath);
+                loaded = true;
+              } else {
+                // lazy load this directory
+                sub.innerHTML = "<li class=\"loading\">Loading…</li>";
+                const resp = await fetch(
+                  `/api/files?dir=${encodeURIComponent(dirPath)}&maxDepth=1&maxEntries=600&exts=.md,.mdx,.txt,.markdown`,
+                );
+                const dj = await resp.json();
+                sub.innerHTML = "";
+                const tree = dj.tree || [];
+                this.cache.set(dj.dir || dirPath, tree);
+                renderFiles(sub, tree, dj.dir || dirPath);
+                loaded = true;
+              }
+            }
           };
-          line.addEventListener("click", toggle);
+          line.addEventListener("click", () => void toggle());
         } else {
-          const full = (
-            data.dir +
-            "/" +
-            `${prefix}/${n.name}`.replace(/^\/+/, "")
-          ).replace(/\\/g, "/");
+          const full = `${parentDir}/${n.name}`.replace(/\\/g, "/");
           const cb = document.createElement("input");
           cb.type = "checkbox";
           cb.value = full;
@@ -99,7 +136,6 @@ class FileTree extends HTMLElement {
                 el.checked = el.value === full;
               });
             this.updateSelection();
-            // open file in editor pane
             window.dispatchEvent(
               new CustomEvent("piper:open-file", { detail: { path: full } }),
             );
@@ -110,7 +146,7 @@ class FileTree extends HTMLElement {
       }
     };
     ul.innerHTML = "";
-    render(ul, data.tree || [], "");
+    renderFiles(ul, data.tree || [], baseDir);
     rootDiv.innerHTML = "";
     rootDiv.appendChild(ul);
     // toolbar
@@ -140,7 +176,7 @@ class FileTree extends HTMLElement {
       .forEach((cb) => {
         if (cb.checked) xs.push(cb.value);
       });
-    setSelectedFiles(xs);
+    setSelection(xs);
     window.dispatchEvent(
       new CustomEvent("piper:files-changed", { detail: xs }),
     );
@@ -163,11 +199,11 @@ async function init(): Promise<void> {
     data = await res.json();
   } catch (e) {
     if (logs)
-      (logs as HTMLElement).textContent = `Failed to load pipelines: ${e}`;
+      (logs).textContent = `Failed to load pipelines: ${e}`;
     return;
   }
   if (data?.error && logs)
-    (logs as HTMLElement).textContent = `Schema error: ${data.error}`;
+    (logs).textContent = `Schema error: ${data.error}`;
   (data.pipelines ?? []).forEach((p) => {
     const section = document.createElement("section");
     const h = document.createElement("h2");
@@ -175,32 +211,9 @@ async function init(): Promise<void> {
     section.appendChild(h);
     const list = document.createElement("div");
     for (const s of p.steps) {
-      const row = document.createElement("div");
-      row.className = "step-row";
-      const label = document.createElement("span");
-      label.textContent = s.name ? `${s.id} — ${s.name}` : s.id;
-      label.className = "step-label";
-      const btn = document.createElement("button");
-      btn.textContent = "Run Step";
-      btn.onclick = () => {
-        const files = getSelectedFiles();
-        const logsEl = document.getElementById("logs");
-        if (!logsEl) return;
-        (logsEl as HTMLElement).textContent = "";
-        const qs = new URLSearchParams({
-          pipeline: p.name,
-          step: s.id,
-          ...(files.length ? { files: files.join(",") } : {}),
-        });
-        const es = new EventSource(`/api/run-step?${qs.toString()}`);
-        es.onmessage = (e: MessageEvent<string>) => {
-          (logsEl as HTMLElement).textContent += `${e.data}\n`;
-        };
-        es.onerror = () => es.close();
-      };
-      row.appendChild(label);
-      row.appendChild(btn);
-      list.appendChild(row);
+      const el = document.createElement("piper-step") as any;
+      el.data = { pipeline: p.name, step: s };
+      list.appendChild(el);
     }
     section.appendChild(list);
     container.appendChild(section);

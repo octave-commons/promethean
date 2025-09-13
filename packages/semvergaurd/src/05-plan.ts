@@ -68,8 +68,8 @@ type PkgJson = {
 function bump(v: string, kind: "major" | "minor" | "patch") {
   const m = v.match(/^(\d+)\.(\d+)\.(\d+)(?:[-+].*)?$/);
   if (!m) return v;
-  let [, a, b, c] = m;
-  let A = +a!,
+  const [, a, b, c] = m;
+  const A = +a!,
     B = +b!,
     C = +c!;
   if (kind === "major") return `${A + 1}.0.0`;

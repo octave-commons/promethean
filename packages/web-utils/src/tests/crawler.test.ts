@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { crawlPage } from "../crawler.js";
 
 test("crawlPage fetches and extracts links", async (t) => {
