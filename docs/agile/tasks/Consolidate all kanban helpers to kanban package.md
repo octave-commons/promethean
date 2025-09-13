@@ -1,6 +1,6 @@
 Scripts: Group remaining Kanban utilities and verify
 
-Goal: Ensure all Kanban-related scripts are under `scripts/kanban/` and update their docs.
+Goal: Ensure all Kanban-related scripts are under `packages/kanban/` and update their docs.
 
 Scope:
 - Move `kanban_to_issues.py` into `scripts/kanban/` (if not already).
