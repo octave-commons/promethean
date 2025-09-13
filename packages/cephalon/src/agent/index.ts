@@ -25,7 +25,7 @@ import {
   GenerateResponseOptions,
 } from "../types.js";
 import { defaultPrompt, defaultState, generatePrompt } from "../prompts.js";
-import { sleep } from "../util.js";
+import { sleep } from "@promethean/utils";
 
 import {
   speak as speakAction,
