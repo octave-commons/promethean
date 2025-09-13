@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 import test from "ava";
-import { sleep } from "@promethean/test-utils/dist/sleep.js";
+import { sleep } from "@promethean/utils";
 import type {
   UpsertRecordsParams,
   DeleteParams,
@@ -111,7 +111,7 @@ test.serial(
     const upsertPaths = new Set(
       col.upserts.flatMap((u) => {
         const metas = Array.isArray(u.metadatas) ? u.metadatas : [];
-        return metas.map((m: any) => (m && (m).path) as string);
+        return metas.map((m: any) => (m && m.path) as string);
       }),
     );
     t.true(upsertPaths.has("b.txt"));
