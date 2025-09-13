@@ -1,5 +1,6 @@
 import test from 'ava';
-import { makeDeterministicEmbedder, assertDim } from '@promethean/embedding';
+
+import { makeDeterministicEmbedder, assertDim } from './embedder.js';
 
 test('deterministic embedder returns fixed dimension', async (t) => {
     const e = makeDeterministicEmbedder({ modelId: 'det:v1', dim: 12 });
@@ -11,13 +12,13 @@ test('deterministic embedder returns fixed dimension', async (t) => {
 });
 
 test('assertDim throws on mismatch', (t) => {
-    t.throws(() => assertDim([1, 2, 3] as any, 2));
+    t.throws(() => assertDim([1, 2, 3] as unknown as number[], 2));
     t.throws(() =>
         assertDim(
             [
                 [1, 2],
                 [1, 2, 3],
-            ] as any,
+            ] as unknown as number[][],
             2,
         ),
     );
