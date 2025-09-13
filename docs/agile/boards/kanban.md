@@ -6,9 +6,21 @@ kanban-plugin: board
 
 ## Rejected
 
+- [ ] codex action build file contextualizer.
+- [ ] universal package manager
+- [ ] [[scripts_add_make_targets_and_aliases|scripts add make targets and aliases]] #scripts #make #dx #accepted
+- [ ] [[write_end_to_end_tests_md_md|write end to end tests md md]] #framework-core #accepted
+- [ ] [[agent-safe-stablization-after-big-moves]] #precommit #stabilization #monorepo #typescript #python #hy #agents #safety #playbook #accepted
+- [ ] [[setup_code_in_wsl_md|setup code in wsl md]] #accepted
+- [ ] [[scripts_add_make_targets_and_aliases|scripts add make targets and aliases]] #incoming
+- [ ] [[design_ollama_model_file_for_use_with_codex|Design Ollama model file for use with Codex]] #breakdown
+- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #todo
+- [ ] [[thinking_model_integration_md_md|thinking model integration md md]] #framework-core #Breakdown #todo
+- [ ] make biome run with same settings eslint has
 - [ ] [[run_model_bakeoff_md|Run model bakeoff]] #ops #codex-task #IceBox #ready
 - [ ] [[kanban-processor]] #todo
 - [ ] [[setup_a_second_agent_md|setup a second agent md]] #framework-core #IceBox #todo
+- [ ] [[evaluate-ollama-openvino]]
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #in-progress
 - [ ] [[update_makefile_to_have_commands_specific_for_agents_md|Update Makefile to have commands specific for agents]] #devops #devops #Ready #ready
 - [ ] [[run_model_bakeoff_md|Run model bakeoff]] #todo
@@ -23,7 +35,6 @@ kanban-plugin: board
 - [ ] [[implement_transcendence_cascade_md|Implement transcendence cascade]] #todo
 - [ ] [[identify_ancestral_resonance_patterns_md_md|Identify ancestral resonance patterns]] #todo
 - [ ] [[annotate_legacy_code_with_migration_tags_md|Annotate legacy code with migration tags]] #ice-box
-- [ ] [[Find music that triggered copyright mute on twitch for analysis incoming.md|Find music that triggered copyright mute on twitch for analysis incoming]] #todo
 - [ ] [[add_withdlq_around_risky_consumers_set_maxattempts_md|Add **withDLQ** around risky consumers; set `maxAttempts`]] #accepted
 - [ ] [[enable_compactor_for_process_state_process_state_s_md|Enable compactor for `process.state` → `process.state.snapshot`]] #ice-box
 - [ ] [[something-something.-1]]
@@ -97,111 +108,49 @@ kanban-plugin: board
 - [ ] [[move_all_testing_to_individual_services_md|move all testing to individual services md]] #Duplicate #rejected
 
 
-## Ice Box
-
-- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #Breakdown #todo
-- [ ] [[redefine-all-existing-lambdas-with-high-order-functions-incoming|redefine all existing lambdas with high order functions incoming]] #framework-core #framework-core #Ready #todo
-- [ ] [[finish_whisper_npu_system_md_md|finish whisper npu system md md]] #breakdown
-- [ ] [[implement_fragment_ingestion_with_activation_vecto_md|Implement fragment ingestion with activation vectors]] #ice-box
-- [ ] [[schedule_alignment_meeting_with_stakeholders_md_md|Schedule alignment meeting with stakeholders]] #ice-box
-- [ ] [[suggest_metaprogramming_updates_md|Suggest metaprogramming updates]] #ice-box
-- [ ] [[cache_decay_mechanisim_md_md|cache decay mechanisim md md]] #ice-box
-- [ ] [[obsidian_replacement_md|obsidian replacement md]] #ice-box
-- [ ] [[implement_fragment_ingestion_with_activation_vecto_md|Implement fragment ingestion with activation vectors]] #framework-core #ice-box
-- [ ] [[schedule_alignment_meeting_with_stakeholders_md_md|Schedule alignment meeting with stakeholders]] #framework-core #ice-box
-- [ ] [[cache_decay_mechanisim_md_md|cache decay mechanisim md md]] #framework-core #ice-box
-- [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md|Migrate server side sibilant libs to Promethean architecture.]] #accepted
-- [ ] [[tool_chain_management_system_md_md|tool chain management system md md]] #ice-box
-
-
-## Incoming
-
-- [ ] [[rewrite build tools with bb]]
-- [ ] [[CI passses]]
-- [ ] codex action build file contextualizer.
-- [ ] universal package manager
-- [ ] [[docs/bb-tool-chain]] #incoming
-- [ ] [[docs/agile/boards/consolidate-all-configs-into---config--as--.edn--files]] #incoming
-- [ ] [[ci-passses]] #incoming
-- [ ] [[integrate-sonarqube-into-devops]] #incoming
-- [ ] [[github-crawler]]
-- [ ] [[tree-diffing-tools]]
-- [ ] [[fp-ts-config-and-linting]]
-- [ ] [[add-docker-compose-files-to-services]]
-- [ ] [[evaluate-ollama-openvino]]
-- [ ] [[evaluate-docker-npu-compatability]]
-- [ ] [[design-vision-pipeline-mvp]]
-- [ ] [[design-audio-pipeline-mvp]]
-- [ ] [[docker-compose-edn-template-system]]
-- [ ] [[kubernetes-configurations-for-secure-distributed-deployment-on-local-net]]
-- [ ] [[structural-code-editing-ai-tool-that-uses-tree-diffs-instead-of-string-based-universal-diffs--ensuring-generated-results-are-always-immediately-validatable]]
-- [ ] make biome run with same settings eslint has
-
-
-## Accepted
-
-- [ ] [[auth_shared_clients_and_middleware|auth shared clients and middleware]] #incoming
-- [ ] [[cephalon_context_window_from_collections|cephalon context window from collections]] #incoming
-- [ ] [[cephalon_backfill_conversation_history|cephalon backfill conversation history]] #incoming
-- [ ] [[clean_up_notes_into_design_docs_md|clean up notes into design docs md]] #accepted
-- [ ] [[ecs_component_schemas_core|ecs component schemas core]] #incoming
-- [ ] [[ecs_migration_path_docs|ecs migration path docs]] #incoming
-- [ ] [[ecs_mongo_adapter_library|ecs mongo adapter library]] #incoming
-- [ ] [[discord_link_indexer_md|discord link indexer md]] #accepted
-- [ ] [[ecs_query_api_gateway|ecs query api gateway]] #incoming
-- [ ] [[scripts_add_make_targets_and_aliases|scripts add make targets and aliases]] #incoming
-- [ ] [[scripts_group_indexing_tools|scripts group indexing tools]] #incoming
-- [ ] [[setup_code_in_wsl_md|setup code in wsl md]] #accepted
-- [ ] [[scripts_audit_and_standardize_cli_flags|scripts audit and standardize cli flags]] #incoming
-- [ ] [[scripts_group_audio_tools|scripts group audio tools]] #incoming
-- [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #incoming
-- [ ] [[scripts_group_kanban_remaining|scripts group kanban remaining]] #incoming
-- [ ] [[scripts_update_ci_and_refs|scripts update ci and refs]] #incoming
-- [ ] [[cephalon_persist_utterance_timing_metadata|cephalon persist utterance timing metadata]] #incoming
-- [ ] [[cephalon_persist_llm_replies_to_agent_messages|cephalon persist llm replies to agent messages]] #incoming
-- [ ] [[cephalon_feature_flag_path_selection|cephalon feature flag path selection]] #incoming
-- [ ] [[write_end_to_end_tests_md_md|write end to end tests md md]] #accepted
-- [ ] [[auth_service_scaffold_and_endpoints|auth service scaffold and endpoints]] #auth #oauth #service #accepted
-- [ ] [[auth_shared_clients_and_middleware|auth shared clients and middleware]] #auth #libraries #ts #python #accepted
-- [ ] [[cephalon_context_window_from_collections|cephalon context window from collections]] #cephalon #context #llm #accepted
-- [ ] [[cephalon_backfill_conversation_history|cephalon backfill conversation history]] #cephalon #backfill #context #accepted
-- [ ] [[ecs_component_schemas_core|ecs component schemas core]] #ecs #schemas #conversation #accepted
-- [ ] [[ecs_migration_path_docs|ecs migration path docs]] #ecs #migration #docs #accepted
-- [ ] [[ecs_mongo_adapter_library|ecs mongo adapter library]] #ecs #mongo #orm #accepted
-- [ ] [[discord_link_indexer_md|discord link indexer md]] #framework-core #prompt-refinement #accepted
-- [ ] [[ecs_query_api_gateway|ecs query api gateway]] #ecs #api #mongo #accepted
-- [ ] [[scripts_add_make_targets_and_aliases|scripts add make targets and aliases]] #scripts #make #dx #accepted
-- [ ] [[scripts_group_audio_tools|scripts group audio tools]] #scripts #audio #organization #accepted
-- [ ] [[cephalon_persist_utterance_timing_metadata|cephalon persist utterance timing metadata]] #cephalon #timing #agent_messages #accepted
-- [ ] [[cephalon_persist_llm_replies_to_agent_messages|cephalon persist llm replies to agent messages]] #cephalon #persistence #agent_messages #accepted
-- [ ] [[cephalon_feature_flag_path_selection|cephalon feature flag path selection]] #cephalon #feature-flag #migration #accepted
-- [ ] [[write_end_to_end_tests_md_md|write end to end tests md md]] #framework-core #accepted
-
-
-## Breakdown (13)
-
-- [ ] [[scripts_group_indexing_tools|scripts group indexing tools]] #scripts #indexing #organization #accepted
-- [ ] [[scripts_update_ci_and_refs|scripts update ci and refs]] #scripts #ci #organization #accepted
-- [ ] [[scripts_group_kanban_remaining|scripts group kanban remaining]] #scripts #kanban #organization #accepted
-- [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #scripts #docs #organization #accepted
-- [ ] [[scripts_audit_and_standardize_cli_flags|scripts audit and standardize cli flags]] #scripts #cli #dx #accepted
-- [ ] [[clearly-document-new-repository-layout]] #devops #architectural-decisions #monorepo #packages #package-manager #runtime #multiruntime #accepted
-- [ ] [[agent-safe-stablization-after-big-moves]] #precommit #stabilization #monorepo #typescript #python #hy #agents #safety #playbook #accepted
-- [ ] [[cephalon_event_schema_updates|cephalon event schema updates]] #cephalon #events #schemas #breakdown
-- [ ] [[design_ollama_model_file_for_use_with_codex|Design Ollama model file for use with Codex]] #breakdown
-- [ ] [[auth_service_rfc_and_architecture|auth service rfc and architecture]] #auth #oauth #architecture #breakdown
-- [ ] [[breakdown-cephalon-voice-commands-file-using-ecs|breakdown cephalon voice commands file using ecs]] #breakdown
-- [ ] [[auth_ci_and_load_tests|auth ci and load tests]] #auth #testing #performance #breakdown
-
-
 ## Blocked
 
+- [ ] [[phase-out-proxy-in-favor-of-bridge-service|Phase out proxy in favor of bridge service]] #framework-core #framework-core #Todo #in-progress
+- [ ] [[cephalon_context_window_from_collections|cephalon context window from collections]] #incoming
+- [ ] [[cephalon_event_schema_updates|cephalon event schema updates]] #cephalon #events #schemas #breakdown
+- [ ] [[cephalon_backfill_conversation_history|cephalon backfill conversation history]] #incoming
+- [ ] [[auth_service_rfc_and_architecture|auth service rfc and architecture]] #auth #oauth #architecture #breakdown
+- [ ] [[auth_ci_and_load_tests|auth ci and load tests]] #auth #testing #performance #breakdown
+- [ ] [[auth_service_scaffold_and_endpoints|auth service scaffold and endpoints]] #auth #oauth #service #accepted
 - [ ] [[auth_service_scaffold_and_endpoints|auth service scaffold and endpoints]] #incoming
+- [ ] [[auth_shared_clients_and_middleware|auth shared clients and middleware]] #auth #libraries #ts #python #accepted
+- [ ] [[cephalon_context_window_from_collections|cephalon context window from collections]] #cephalon #context #llm #accepted
+- [ ] [[breakdown-cephalon-voice-commands-file-using-ecs|breakdown cephalon voice commands file using ecs]] #breakdown
 - [ ] [[snapshot_prompts_specs_to_repo|Snapshot prompts specs to repo]] #todo
+- [ ] [[ecs_migration_path_docs|ecs migration path docs]] #ecs #migration #docs #accepted
+- [ ] [[auth_shared_clients_and_middleware|auth shared clients and middleware]] #incoming
 - [ ] [[create-broker-services-that-can-handle-all-the-same-tasks-as-the-gpt-bridge|Create broker services that can handle all the same tasks as the gpt bridge]] #broker #ws #api #gptbridge #parity #promethean #ops #ready
+- [ ] [[cephalon_feature_flag_path_selection|cephalon feature flag path selection]] #incoming
+- [ ] [[cephalon_persist_llm_replies_to_agent_messages|cephalon persist llm replies to agent messages]] #incoming
+- [ ] [[ecs_query_api_gateway|ecs query api gateway]] #ecs #api #mongo #accepted
+- [ ] [[cephalon_feature_flag_path_selection|cephalon feature flag path selection]] #cephalon #feature-flag #migration #accepted
+- [ ] [[cephalon_persist_llm_replies_to_agent_messages|cephalon persist llm replies to agent messages]] #cephalon #persistence #agent_messages #accepted
+- [ ] [[cephalon_persist_utterance_timing_metadata|cephalon persist utterance timing metadata]] #cephalon #timing #agent_messages #accepted
+- [ ] [[scripts_group_audio_tools|scripts group audio tools]] #scripts #audio #organization #accepted
+- [ ] [[discord_link_indexer_md|discord link indexer md]] #framework-core #prompt-refinement #accepted
+- [ ] [[ecs_mongo_adapter_library|ecs mongo adapter library]] #ecs #mongo #orm #accepted
+- [ ] [[ecs_component_schemas_core|ecs component schemas core]] #ecs #schemas #conversation #accepted
+- [ ] [[cephalon_backfill_conversation_history|cephalon backfill conversation history]] #cephalon #backfill #context #accepted
+- [ ] [[cephalon_persist_utterance_timing_metadata|cephalon persist utterance timing metadata]] #incoming
+- [ ] [[ecs_component_schemas_core|ecs component schemas core]] #incoming
+- [ ] [[ecs_migration_path_docs|ecs migration path docs]] #incoming
 - [ ] [[discord_chat_link_traversal_md_md|discord chat link traversal md md]] #framework-core #IceBox #todo
+- [ ] [[scripts_group_audio_tools|scripts group audio tools]] #incoming
+- [ ] [[ecs_mongo_adapter_library|ecs mongo adapter library]] #incoming
+- [ ] [[discord_link_indexer_md|discord link indexer md]] #accepted
 - [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #framework-core #IceBox #ready
+- [ ] [[ecs_query_api_gateway|ecs query api gateway]] #incoming
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md|setup services to recieve work from the broker via push md]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-progress
+- [ ] [[ecs_projection_jobs|ecs projection jobs]] #incoming
+- [ ] [[cephalon_store_user_transcripts_unified|cephalon store user transcripts unified]] #cephalon #transcripts #persistence #ready
+- [ ] [[ecs_projection_jobs|ecs projection jobs]] #ecs #projections #compaction #ready
+- [ ] [[ecs_persistence_integration_cephalon|ecs persistence integration cephalon]] #ecs #cephalon #mongo #ready
+- [ ] [[ecs_persistence_integration_cephalon|ecs persistence integration cephalon]] #incoming
 - [ ] [[discord_image_awareness_md_md|discord image awareness md md]] #in-progress
 - [ ] [[auth_key_rotation_and_bootstrap|auth key rotation and bootstrap]] #incoming
 - [ ] [[allow_old_unnessisary_messages_to_decay_from_database_while_retaining_index_entries_ids_md_md|allow old unnessisary messages to decay from database while retaining index entries ids md md]] #todo
@@ -257,61 +206,105 @@ kanban-plugin: board
 - [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids|identify and resolve a service client apparently connecting repeatedly to broker with new session ids]] #in-progress
 
 
+## Ice Box
+
+- [ ] [[design-vision-pipeline-mvp]]
+- [ ] [[design-audio-pipeline-mvp]]
+- [ ] [[kubernetes-configurations-for-secure-distributed-deployment-on-local-net]]
+- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #framework-core #Breakdown #todo
+- [ ] [[redefine-all-existing-lambdas-with-high-order-functions-incoming|redefine all existing lambdas with high order functions incoming]] #framework-core #framework-core #Ready #todo
+- [ ] [[finish_whisper_npu_system_md_md|finish whisper npu system md md]] #breakdown
+- [ ] [[implement_fragment_ingestion_with_activation_vecto_md|Implement fragment ingestion with activation vectors]] #ice-box
+- [ ] [[schedule_alignment_meeting_with_stakeholders_md_md|Schedule alignment meeting with stakeholders]] #ice-box
+- [ ] [[suggest_metaprogramming_updates_md|Suggest metaprogramming updates]] #ice-box
+- [ ] [[cache_decay_mechanisim_md_md|cache decay mechanisim md md]] #ice-box
+- [ ] [[obsidian_replacement_md|obsidian replacement md]] #ice-box
+- [ ] [[implement_fragment_ingestion_with_activation_vecto_md|Implement fragment ingestion with activation vectors]] #framework-core #ice-box
+- [ ] [[schedule_alignment_meeting_with_stakeholders_md_md|Schedule alignment meeting with stakeholders]] #framework-core #ice-box
+- [ ] [[cache_decay_mechanisim_md_md|cache decay mechanisim md md]] #framework-core #ice-box
+- [ ] [[migrate_server_side_sibilant_libs_to_promethean_ar_md|Migrate server side sibilant libs to Promethean architecture.]] #accepted
+- [ ] [[tool_chain_management_system_md_md|tool chain management system md md]] #ice-box
+
+
+## Incoming
+
+
+
+## Accepted
+
+- [ ] whole project builds with new stricter tsconfig
+- [ ] [[github-crawler]]
+- [ ] [[docs/agile/boards/consolidate-all-configs-into---config--as--.edn--files]] #incoming
+- [ ] [[ci-passses]] #incoming
+- [ ] [[docker-compose-edn-template-system]]
+- [ ] [[integrate-sonarqube-into-devops]] #incoming
+- [ ] [[tree-diffing-tools]]
+- [ ] [[structural-code-editing-ai-tool-that-uses-tree-diffs-instead-of-string-based-universal-diffs--ensuring-generated-results-are-always-immediately-validatable]]
+- [ ] [[Setup Identity Experiment]]
+
+
+## Breakdown (13)
+
+- [ ] codex cloud setup script generates a startup report
+- [ ] [[migrate legacy js services to ts]]
+- [ ] [[evaluate-docker-npu-compatability]]
+- [ ] [[add-docker-compose-files-to-services]]
+- [ ] [[clean_up_notes_into_design_docs_md|clean up notes into design docs md]] #accepted
+- [ ] [[scripts_update_ci_and_refs|scripts update ci and refs]] #scripts #ci #organization #accepted
+- [ ] [[scripts_audit_and_standardize_cli_flags|scripts audit and standardize cli flags]] #scripts #cli #dx #accepted
+- [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #scripts #docs #organization #accepted
+- [ ] [[kanban-processor]] #scripts #kanban #organization #accepted
+- [ ] [[write_end_to_end_tests_md_md|write end to end tests md md]] #accepted
+- [ ] [[scripts_group_indexing_tools|scripts group indexing tools]] #scripts #indexing #organization #accepted
+- [ ] [[clearly-document-new-repository-layout]] #devops #architectural-decisions #monorepo #packages #package-manager #runtime #multiruntime #accepted
+
+
 ## Ready
 
-- [ ] [[design_circular_buffers_for_inputs_with_layered_states_of_persistance_in_memory_on_disk_cold_storage_so_md|design circular buffers for inputs with layered states of persistance in memory on disk cold storage so md]] #todo
+- [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean #ops #codex-task #tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain #in-review
 - [ ] [[describe_github_branching_workflow_md|describe github branching workflow md]] #todo
+- [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #breakdown
 - [ ] [[twitch_stream_title_generator_md_md|twitch stream title generator md md]] #framework-core #ollama-integration #stream-automation #in-review
 - [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #incoming
-- [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean #ops #codex-task #tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain #in-review
-- [ ] [[ecs_projection_jobs|ecs projection jobs]] #incoming
-- [ ] [[ecs_persistence_integration_cephalon|ecs persistence integration cephalon]] #incoming
-- [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #breakdown
-- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #breakdown
+- [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
 - [ ] [[twitch_discord_general_auto_mod_md_md|twitch discord general auto mod md md]] #framework-core #observability #multimodal-context #risk #IceBox #todo
-- [ ] [[thinking_model_integration_md_md|thinking model integration md md]] #framework-core #Breakdown #todo
-- [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
-- [ ] [[tamper-monkey-script-for-using-templates-defined-in-the-vault|tamper monkey script for using templates defined in the vault]] #todo
-- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #todo
-- [ ] [[phase-out-proxy-in-favor-of-bridge-service|Phase out proxy in favor of bridge service]] #framework-core #framework-core #Todo #in-progress
-- [ ] [[docs/agile/tasks/file-explorer|File explorer]] #framework-core #ready
-- [ ] [[integrate_synthesis-agent_pass_on_unique_to_produce_draft_docs_1_md|Integrate synthesis-agent pass on `unique/` to produce draft docs]] #framework-core #IceBox #ready
-- [ ] [[cephalon_store_user_transcripts_unified|cephalon store user transcripts unified]] #cephalon #transcripts #persistence #ready
-- [ ] [[ecs_projection_jobs|ecs projection jobs]] #ecs #projections #compaction #ready
-- [ ] [[ecs_persistence_integration_cephalon|ecs persistence integration cephalon]] #ecs #cephalon #mongo #ready
 - [ ] [[gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used.|gpt bridge fuzzy lookup should return multiple matches when it is used.]] #framework-core #ready
+- [ ] [[tamper-monkey-script-for-using-templates-defined-in-the-vault|tamper monkey script for using templates defined in the vault]] #todo
 
 
 ## Todo (13)
 
+- [ ] [[task-generator-system|task generator system]] #framework-core #framework-core #Ready #todo
 - [ ] [[convert-current-services-to-packages--then-redefine-the-services-using-config-files|convert current services to packages, then redefine the services using config files]] #framework-core #framework-core #Ready #ready
+- [ ] [[Docops pipeline]] #framework-core #IceBox #ready
 - [ ] [[dockerize-the-system|dockerize the system]] #devops #devops #Ready #todo
+- [ ] [[structure_vault_to_mirror_services_agents_docs_md_md|Document-Driven Development for Service Scripts]] #breakdown
 - [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #framework-core #ready
-- [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
-- [ ] [[harden-precommit-hooks|harden precommit hooks]] #ready
 - [ ] [[script-for-getting-github-action-workflow-states-for-a-branch|script for getting github action workflow states for a branch]] #ready
-- [ ] [[frontend-build-tool-chain|frontend build tool chain]] #devops #devops #Ready #todo
 - [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #scripts #docs #ready
-- [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
 - [ ] [[docs/agile/tasks/smart_task_templater_md|smart task templater md]] #breakdown
 - [ ] [[add_semantic_overlays_for_layer1_through_layer8_md_md|Add semantic overlays for layer1 through layer8]] #todo
-- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ready
 
 
 ## In Progress (4)
 
+- [ ] [[docs/agile/tasks/file-explorer|File explorer]] #framework-core #ready
+- [ ] [[harden-precommit-hooks|harden precommit hooks]] #ready
+- [ ] [[frontend-build-tool-chain|frontend build tool chain]] #devops #devops #Ready #todo
+- [ ] [[create-a-generic-markdown-helper-module|create a generic markdown helper module]] #framework-core #framework-core #Ready #todo
 
 
 ## In Review (8)
 
-- [ ] [[move-discord-scraper-to-ts|move discord scraper to ts]] #framework-core #ready
 
 
 ## Done
 
+- [ ] [[fp-ts-config-and-linting]]
 - [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #breakdown
 - [ ] [[breakdown-makefile.hy|breakdown Makefile.hy]] #framework-core #ready
 - [ ] [[flatten-services|flatten services]] #framework-core #framework-core #Ready #todo
+- [ ] [[refactor_any_python_modules_not_currently_for_ml_stuff_discord_etc_2_md|refactor any python modules not currently for ml stuff discord etc 2 md]] #framework-core #language-strategy #performance-optimization #ready
 - [ ] [[convert-smartgpt-bridge-to-ts|convert smartgpt bridge to ts]] #ready
 - [ ] [[post-move-stablization--compat-layer---hook-diet-]] #precommit #refactor #typescript #python #imports #compat #monorepo #tooling #stabilization #accepted
 - [ ] [[add_file_system_to_context_management_system_md_md|add file system to context management system md md]] #todo
@@ -413,6 +406,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,true,true,true,true,false,false,false,false,false,false,false,false,false,false],"new-note-template":"textgenerator/templates/local/smart_task_templater_md.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[true,true,true,false,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

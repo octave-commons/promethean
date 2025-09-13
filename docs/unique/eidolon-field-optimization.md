@@ -206,34 +206,34 @@ console.log(seperateSpeechFromThought(test))
 ```
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [parenthetical-extraction](parenthetical-extraction.md)
-- [homeostasis-decay-formulas](homeostasis-decay-formulas.md)
-- [ripple-propagation-demo](ripple-propagation-demo.md)
-- [aionian-circuit-math](aionian-circuit-math.md)
+- [[parenthetical-extraction]]
+- [[homeostasis-decay-formulas]]
+- [[docs/unique/ripple-propagation-demo|ripple-propagation-demo]]
+- [[docs/unique/aionian-circuit-math|aionian-circuit-math]]
 - [Math Fundamentals](chunks/math-fundamentals.md)
-- [eidolon-field-math-foundations](eidolon-field-math-foundations.md)
-- [field-dynamics-math-blocks](field-dynamics-math-blocks.md)
-- [Eidolon Field Abstract Model](eidolon-field-abstract-model.md)
+- [[docs/unique/eidolon-field-math-foundations|eidolon-field-math-foundations]]
+- [[docs/unique/field-dynamics-math-blocks|field-dynamics-math-blocks]]
+- [[eidolon-field-abstract-model|Eidolon Field Abstract Model]]
 - [Simulation Demo](chunks/simulation-demo.md)
-- [eidolon-node-lifecycle](eidolon-node-lifecycle.md)
-- [field-node-diagram-outline](field-node-diagram-outline.md)
+- [[eidolon-node-lifecycle]]
+- [[field-node-diagram-outline]]
 
 ## Sources
-- [parenthetical-extraction — L3](parenthetical-extraction.md#L3) (line 3, col 1, score 0.87)
-- [aionian-circuit-math — L152](aionian-circuit-math.md#L152) (line 152, col 1, score 1)
-- [aionian-circuit-math — L152](aionian-circuit-math.md#L152) (line 152, col 3, score 1)
+- [[parenthetical-extraction#L3|parenthetical-extraction — L3]] (line 3, col 1, score 0.87)
+- [[docs/unique/aionian-circuit-math#L152|aionian-circuit-math — L152]] (line 152, col 1, score 1)
+- [[docs/unique/aionian-circuit-math#L152|aionian-circuit-math — L152]] (line 152, col 3, score 1)
 - [Math Fundamentals — L12](chunks/math-fundamentals.md#L12) (line 12, col 1, score 1)
 - [Math Fundamentals — L12](chunks/math-fundamentals.md#L12) (line 12, col 3, score 1)
-- [eidolon-field-math-foundations — L126](eidolon-field-math-foundations.md#L126) (line 126, col 1, score 1)
-- [eidolon-field-math-foundations — L126](eidolon-field-math-foundations.md#L126) (line 126, col 3, score 1)
-- [field-dynamics-math-blocks — L141](field-dynamics-math-blocks.md#L141) (line 141, col 1, score 1)
-- [field-dynamics-math-blocks — L141](field-dynamics-math-blocks.md#L141) (line 141, col 3, score 1)
+- [[docs/unique/eidolon-field-math-foundations#L126|eidolon-field-math-foundations — L126]] (line 126, col 1, score 1)
+- [[docs/unique/eidolon-field-math-foundations#L126|eidolon-field-math-foundations — L126]] (line 126, col 3, score 1)
+- [[docs/unique/field-dynamics-math-blocks#L141|field-dynamics-math-blocks — L141]] (line 141, col 1, score 1)
+- [[docs/unique/field-dynamics-math-blocks#L141|field-dynamics-math-blocks — L141]] (line 141, col 3, score 1)
 - [Simulation Demo — L11](chunks/simulation-demo.md#L11) (line 11, col 1, score 1)
 - [Simulation Demo — L11](chunks/simulation-demo.md#L11) (line 11, col 3, score 1)
-- [Eidolon Field Abstract Model — L199](eidolon-field-abstract-model.md#L199) (line 199, col 1, score 1)
-- [Eidolon Field Abstract Model — L199](eidolon-field-abstract-model.md#L199) (line 199, col 3, score 1)
-- [eidolon-node-lifecycle — L39](eidolon-node-lifecycle.md#L39) (line 39, col 1, score 1)
-- [eidolon-node-lifecycle — L39](eidolon-node-lifecycle.md#L39) (line 39, col 3, score 1)
-- [field-node-diagram-outline — L114](field-node-diagram-outline.md#L114) (line 114, col 1, score 1)
-- [field-node-diagram-outline — L114](field-node-diagram-outline.md#L114) (line 114, col 3, score 1)
+- [[eidolon-field-abstract-model#L199|Eidolon Field Abstract Model — L199]] (line 199, col 1, score 1)
+- [[eidolon-field-abstract-model#L199|Eidolon Field Abstract Model — L199]] (line 199, col 3, score 1)
+- [[eidolon-node-lifecycle#L39|eidolon-node-lifecycle — L39]] (line 39, col 1, score 1)
+- [[eidolon-node-lifecycle#L39|eidolon-node-lifecycle — L39]] (line 39, col 3, score 1)
+- [[field-node-diagram-outline#L114|field-node-diagram-outline — L114]] (line 114, col 1, score 1)
+- [[field-node-diagram-outline#L114|field-node-diagram-outline — L114]] (line 114, col 3, score 1)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->

@@ -253,39 +253,39 @@ We can **build the Lisp you saw** with:
 Want me to write the first prototype for this “universal Lisp for Python interop” that mirrors what you’re remembering? Or dig deeper into archival curriculum materials and lost language projects?
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-BELOW -->
 ## Related content
-- [Promethean-Copilot-Intent-Engine](promethean-copilot-intent-engine.md)
-- [Promethean State Format](promethean-state-format.md)
-- [ts-to-lisp-transpiler](ts-to-lisp-transpiler.md)
-- [Optimizing Command Limitations in System Design](optimizing-command-limitations-in-system-design.md)
-- [Obsidian Templating Plugins Integration Guide](obsidian-templating-plugins-integration-guide.md)
+- [[promethean-copilot-intent-engine]]
+- [[docs/unique/promethean-state-format|Promethean State Format]]
+- [[ts-to-lisp-transpiler]]
+- [[optimizing-command-limitations-in-system-design|Optimizing Command Limitations in System Design]]
+- [[obsidian-templating-plugins-integration-guide|Obsidian Templating Plugins Integration Guide]]
 - [lisp-dsl-for-window-management](lisp-dsl-for-window-management.md)
-- [sibilant-metacompiler-overview](sibilant-metacompiler-overview.md)
-- [compiler-kit-foundations](compiler-kit-foundations.md)
+- [[sibilant-metacompiler-overview]]
+- [[docs/unique/compiler-kit-foundations|compiler-kit-foundations]]
 - [DSL](chunks/dsl.md)
 
 ## Sources
-- [Promethean-Copilot-Intent-Engine — L41](promethean-copilot-intent-engine.md#L41) (line 41, col 3, score 0.9)
-- [Promethean-Copilot-Intent-Engine — L41](promethean-copilot-intent-engine.md#L41) (line 41, col 5, score 0.9)
-- [Obsidian Templating Plugins Integration Guide — L91](obsidian-templating-plugins-integration-guide.md#L91) (line 91, col 1, score 1)
-- [Obsidian Templating Plugins Integration Guide — L91](obsidian-templating-plugins-integration-guide.md#L91) (line 91, col 3, score 1)
-- [Optimizing Command Limitations in System Design — L33](optimizing-command-limitations-in-system-design.md#L33) (line 33, col 1, score 1)
-- [Optimizing Command Limitations in System Design — L33](optimizing-command-limitations-in-system-design.md#L33) (line 33, col 3, score 1)
-- [Promethean State Format — L84](promethean-state-format.md#L84) (line 84, col 1, score 1)
-- [Promethean State Format — L84](promethean-state-format.md#L84) (line 84, col 3, score 1)
-- [Promethean State Format — L88](promethean-state-format.md#L88) (line 88, col 1, score 0.93)
-- [Promethean State Format — L88](promethean-state-format.md#L88) (line 88, col 3, score 0.93)
-- [Promethean-Copilot-Intent-Engine — L57](promethean-copilot-intent-engine.md#L57) (line 57, col 1, score 1)
-- [Promethean-Copilot-Intent-Engine — L57](promethean-copilot-intent-engine.md#L57) (line 57, col 3, score 1)
-- [Promethean-Copilot-Intent-Engine — L64](promethean-copilot-intent-engine.md#L64) (line 64, col 1, score 0.88)
-- [Promethean-Copilot-Intent-Engine — L64](promethean-copilot-intent-engine.md#L64) (line 64, col 3, score 0.88)
+- [[promethean-copilot-intent-engine#L41|Promethean-Copilot-Intent-Engine — L41]] (line 41, col 3, score 0.9)
+- [[promethean-copilot-intent-engine#L41|Promethean-Copilot-Intent-Engine — L41]] (line 41, col 5, score 0.9)
+- [[obsidian-templating-plugins-integration-guide#L91|Obsidian Templating Plugins Integration Guide — L91]] (line 91, col 1, score 1)
+- [[obsidian-templating-plugins-integration-guide#L91|Obsidian Templating Plugins Integration Guide — L91]] (line 91, col 3, score 1)
+- [[optimizing-command-limitations-in-system-design#L33|Optimizing Command Limitations in System Design — L33]] (line 33, col 1, score 1)
+- [[optimizing-command-limitations-in-system-design#L33|Optimizing Command Limitations in System Design — L33]] (line 33, col 3, score 1)
+- [[docs/unique/promethean-state-format#L84|Promethean State Format — L84]] (line 84, col 1, score 1)
+- [[docs/unique/promethean-state-format#L84|Promethean State Format — L84]] (line 84, col 3, score 1)
+- [[docs/unique/promethean-state-format#L88|Promethean State Format — L88]] (line 88, col 1, score 0.93)
+- [[docs/unique/promethean-state-format#L88|Promethean State Format — L88]] (line 88, col 3, score 0.93)
+- [[promethean-copilot-intent-engine#L57|Promethean-Copilot-Intent-Engine — L57]] (line 57, col 1, score 1)
+- [[promethean-copilot-intent-engine#L57|Promethean-Copilot-Intent-Engine — L57]] (line 57, col 3, score 1)
+- [[promethean-copilot-intent-engine#L64|Promethean-Copilot-Intent-Engine — L64]] (line 64, col 1, score 0.88)
+- [[promethean-copilot-intent-engine#L64|Promethean-Copilot-Intent-Engine — L64]] (line 64, col 3, score 0.88)
 - [DSL — L14](chunks/dsl.md#L14) (line 14, col 1, score 1)
 - [DSL — L14](chunks/dsl.md#L14) (line 14, col 3, score 1)
-- [compiler-kit-foundations — L613](compiler-kit-foundations.md#L613) (line 613, col 1, score 1)
-- [compiler-kit-foundations — L613](compiler-kit-foundations.md#L613) (line 613, col 3, score 1)
+- [[docs/unique/compiler-kit-foundations#L613|compiler-kit-foundations — L613]] (line 613, col 1, score 1)
+- [[docs/unique/compiler-kit-foundations#L613|compiler-kit-foundations — L613]] (line 613, col 3, score 1)
 - [lisp-dsl-for-window-management — L218](lisp-dsl-for-window-management.md#L218) (line 218, col 1, score 1)
 - [lisp-dsl-for-window-management — L218](lisp-dsl-for-window-management.md#L218) (line 218, col 3, score 1)
-- [sibilant-metacompiler-overview — L93](sibilant-metacompiler-overview.md#L93) (line 93, col 1, score 1)
-- [sibilant-metacompiler-overview — L93](sibilant-metacompiler-overview.md#L93) (line 93, col 3, score 1)
-- [Promethean State Format — L89](promethean-state-format.md#L89) (line 89, col 1, score 0.99)
-- [Promethean State Format — L89](promethean-state-format.md#L89) (line 89, col 3, score 0.99)
+- [[sibilant-metacompiler-overview#L93|sibilant-metacompiler-overview — L93]] (line 93, col 1, score 1)
+- [[sibilant-metacompiler-overview#L93|sibilant-metacompiler-overview — L93]] (line 93, col 3, score 1)
+- [[docs/unique/promethean-state-format#L89|Promethean State Format — L89]] (line 89, col 1, score 0.99)
+- [[docs/unique/promethean-state-format#L89|Promethean State Format — L89]] (line 89, col 3, score 0.99)
 <!-- GENERATED-SECTIONS:DO-NOT-EDIT-ABOVE -->
