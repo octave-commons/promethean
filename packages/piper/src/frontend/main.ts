@@ -1,8 +1,16 @@
+/* eslint-disable max-lines */
 import { setSelection } from "./selection.js";
 import "./components/piper-step.js";
 
-export type PipelineStep = Record<string, any>;
+export type PipelineStep = Record<string, unknown>;
 export type Pipeline = { name: string; steps: PipelineStep[] };
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+  interface Window {
+    __PIPER_HOT?: { reloadAll?: () => void };
+  }
+}
 
 // Dev HMR client: connects to backend events and hot-reloads modules without full refresh
 function startHMR() {
@@ -13,7 +21,7 @@ function startHMR() {
       if (msg.startsWith("frontend:update")) {
         try {
           await import(`/js/main.js?ts=${Date.now()}`);
-          (window as any).__PIPER_HOT?.reloadAll?.();
+          window.__PIPER_HOT?.reloadAll?.();
         } catch (e) {
           console.warn("hot reload failed", e);
         }
@@ -52,6 +60,7 @@ class FileTree extends HTMLElement {
 
     await this.refresh();
   }
+  /* eslint-disable-next-line max-lines-per-function */
   async refresh() {
     const rootDiv = this.shadowRoot?.getElementById("root");
     if (!rootDiv) return;
@@ -61,12 +70,17 @@ class FileTree extends HTMLElement {
         ".",
       )}&maxDepth=1&maxEntries=600&exts=.md,.mdx,.txt,.markdown`,
     );
-    const data = await res.json();
+    const data = (await res.json()) as { dir: string; tree?: FileNode[] };
     const baseDir: string = data.dir;
     const ul = document.createElement("ul");
     this.cache.set(baseDir, data.tree || []);
 
-    const renderFiles = (parent: HTMLElement, nodes: FileNode[], parentDir: string) => {
+    /* eslint-disable-next-line max-lines-per-function */
+    const renderFiles = (
+      parent: HTMLElement,
+      nodes: FileNode[],
+      parentDir: string,
+    ) => {
       for (const n of nodes) {
         const li = document.createElement("li");
         if (n.type === "dir") {
@@ -91,30 +105,38 @@ class FileTree extends HTMLElement {
           li.appendChild(sub);
           parent.appendChild(li);
 
-          let loaded = false;
-          let open = false;
-          const toggle = async () => {
-            open = !open;
-            caret.textContent = open ? "▼" : "▶";
-            sub.style.display = open ? "block" : "none";
-            if (open && !loaded) {
+          const isOpen = (): boolean => sub.style.display !== "none";
+          const hasLoaded = (): boolean => sub.dataset.loaded === "1";
+          const markLoaded = (): void => {
+            sub.dataset.loaded = "1";
+          };
+          const toggle = async (): Promise<void> => {
+            const next = !isOpen();
+            caret.textContent = next ? "▼" : "▶";
+            sub.style.display = next ? "block" : "none";
+            if (next && !hasLoaded()) {
               const cached = this.cache.get(dirPath);
               if (cached) {
                 sub.innerHTML = "";
                 renderFiles(sub, cached, dirPath);
-                loaded = true;
+                markLoaded();
               } else {
                 // lazy load this directory
-                sub.innerHTML = "<li class=\"loading\">Loading…</li>";
+                sub.innerHTML = '<li class="loading">Loading…</li>';
                 const resp = await fetch(
-                  `/api/files?dir=${encodeURIComponent(dirPath)}&maxDepth=1&maxEntries=600&exts=.md,.mdx,.txt,.markdown`,
+                  `/api/files?dir=${encodeURIComponent(
+                    dirPath,
+                  )}&maxDepth=1&maxEntries=600&exts=.md,.mdx,.txt,.markdown`,
                 );
-                const dj = await resp.json();
+                const dj = (await resp.json()) as {
+                  dir?: string;
+                  tree?: FileNode[];
+                };
                 sub.innerHTML = "";
                 const tree = dj.tree || [];
                 this.cache.set(dj.dir || dirPath, tree);
                 renderFiles(sub, tree, dj.dir || dirPath);
-                loaded = true;
+                markLoaded();
               }
             }
           };
@@ -184,6 +206,7 @@ class FileTree extends HTMLElement {
 }
 customElements.define("file-tree", FileTree);
 
+// eslint-disable-next-line max-lines-per-function
 async function init(): Promise<void> {
   const container = document.getElementById("pipelines");
   const logs = document.getElementById("logs");
@@ -193,26 +216,57 @@ async function init(): Promise<void> {
   ) as HTMLTextAreaElement | null;
   const status = document.getElementById("editorStatus");
   if (!container || !tabs || !editor || !status) return;
-  let data: { pipelines?: Pipeline[]; error?: string } = {};
-  try {
-    const res = await fetch("/api/pipelines");
-    data = await res.json();
-  } catch (e) {
-    if (logs)
-      (logs).textContent = `Failed to load pipelines: ${e}`;
-    return;
-  }
-  if (data?.error && logs)
-    (logs).textContent = `Schema error: ${data.error}`;
+  const data = await (async (): Promise<{
+    pipelines?: Pipeline[];
+    error?: string;
+  } | null> => {
+    try {
+      const res = await fetch("/api/pipelines");
+      return (await res.json()) as { pipelines?: Pipeline[]; error?: string };
+    } catch (e) {
+      if (logs) logs.textContent = `Failed to load pipelines: ${e}`;
+      return null;
+    }
+  })();
+  if (!data) return;
+  if (data?.error && logs) logs.textContent = `Schema error: ${data.error}`;
   (data.pipelines ?? []).forEach((p) => {
     const section = document.createElement("section");
+    const hdr = document.createElement("div");
+    hdr.style.display = "flex";
+    hdr.style.alignItems = "center";
+    hdr.style.gap = "8px";
+    const btn = document.createElement("button");
+    btn.textContent = "▼";
+    btn.title = "Collapse/Expand";
+    btn.style.border = "none";
+    btn.style.background = "transparent";
+    btn.style.cursor = "pointer";
     const h = document.createElement("h2");
     h.textContent = p.name;
-    section.appendChild(h);
+    h.style.margin = "0";
+    hdr.appendChild(btn);
+    hdr.appendChild(h);
+    section.appendChild(hdr);
     const list = document.createElement("div");
+    const key = `piper:collapse:${p.name}`;
+    const setCollapsed = (c: boolean) => {
+      btn.textContent = c ? "▶" : "▼";
+      list.style.display = c ? "none" : "block";
+      try {
+        localStorage.setItem(key, c ? "1" : "0");
+      } catch {}
+    };
+    btn.onclick = () => setCollapsed(list.style.display !== "none");
+    const saved =
+      (typeof localStorage !== "undefined"
+        ? localStorage.getItem(key)
+        : null) === "1";
+    setCollapsed(saved);
     for (const s of p.steps) {
-      const el = document.createElement("piper-step") as any;
-      el.data = { pipeline: p.name, step: s };
+      type PiperStepEl = HTMLElement & { data?: unknown };
+      const el = document.createElement("piper-step") as PiperStepEl;
+      el.data = { pipeline: p.name, step: s } as unknown;
       list.appendChild(el);
     }
     section.appendChild(list);
@@ -266,14 +320,14 @@ async function init(): Promise<void> {
     if (exists) return setActive(path);
     const r = await fetch(`/api/read-file?path=${encodeURIComponent(path)}`);
     if (!r.ok) return;
-    const j = await r.json();
+    const j = (await r.json()) as { path?: string; content?: string };
     openTabs.push({
-      path: j.path || path,
-      content: j.content || "",
-      saved: j.content || "",
+      path: j.path ?? path,
+      content: j.content ?? "",
+      saved: j.content ?? "",
       active: false,
     });
-    setActive(j.path || path);
+    setActive(j.path ?? path);
   }
   window.addEventListener("piper:open-file", (ev: Event) => {
     const p = (ev as CustomEvent<{ path?: string }>).detail?.path;
@@ -307,8 +361,8 @@ async function init(): Promise<void> {
     if (!t) return;
     const r = await fetch(`/api/read-file?path=${encodeURIComponent(t.path)}`);
     if (!r.ok) return;
-    const j = await r.json();
-    t.content = j.content || "";
+    const j = (await r.json()) as { content?: string; path?: string };
+    t.content = j.content ?? "";
     t.saved = t.content;
     editor.value = t.content;
     status.textContent = t.path;

@@ -4,7 +4,6 @@ import { promises as fs } from "node:fs";
 
 import fastifyFactory from "fastify";
 import fastifyStatic from "@fastify/static";
-import fastifyRateLimit from "@fastify/rate-limit";
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
 import chokidar from "chokidar";
@@ -60,34 +59,25 @@ function errToString(e: unknown): string {
 }
 
 const app = fastifyFactory({ logger: false });
-
-await app.register(fastifyRateLimit, {
-  max: 100, // max 100 requests per window
-  timeWindow: 15 * 60 * 1000, // 15 minutes
-});
 // Development events: optional SSE stream for hot-reload signals.
 const WATCH_GLOBS = () => {
   const root = path.resolve(process.cwd(), "packages/piper/src/frontend");
   const ui = path.resolve(process.cwd(), "packages/piper/ui");
   return [`${root}/**/*.ts`, `${root}/**/*.css`, `${ui}/**/*`];
 };
-app.get(
-  "/api/dev-events",
-  { config: { rateLimit: { max: 10, timeWindow: "1 minute" } } },
-  async (_req, reply) => {
-    const send = sseInit(reply);
+app.get("/api/dev-events", async (_req, reply) => {
+  const send = sseInit(reply);
+  // Do NOT emit an immediate update; only on file changes.
+  const watcher = chokidar.watch(WATCH_GLOBS(), { ignoreInitial: true });
+  const rebuild = async () => {
     send("frontend:update");
-    const watcher = chokidar.watch(WATCH_GLOBS(), { ignoreInitial: true });
-    const rebuild = async () => {
-      send("frontend:update");
-    };
-    watcher.on("all", rebuild);
-    reply.raw.on("close", () => {
-      watcher.off("all", rebuild);
-      void watcher.close();
-    });
-  },
-);
+  };
+  watcher.on("all", rebuild);
+  reply.raw.on("close", () => {
+    watcher.off("all", rebuild);
+    void watcher.close();
+  });
+});
 await app.register(fastifyStatic, { root: UI_ROOT, prefix: "/ui" });
 await app.register(fastifyStatic, {
   root: FRONTEND_DIST,
@@ -99,10 +89,8 @@ await app.register(fastifyStatic, {
   prefix: "/js/ui-components",
   decorateReply: false,
 });
-await app.register(fastifyRateLimit, {
-  max: 100, // max 100 requests per window
-  timeWindow: 15 * 60 * 1000, // 15 minutes
-});
+// Note: No global rate-limiting in the dev server to avoid interfering
+// with HMR/EventSource reconnects and static asset loads.
 
 await app.register(swagger, {
   openapi: {
