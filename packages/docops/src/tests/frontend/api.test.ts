@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, functional/no-let, functional/immutable-data, functional/prefer-immutable-types */
 import test from "ava";
 
 import {
@@ -5,7 +6,7 @@ import {
   readFileText,
   searchSemantic,
   getStatus,
-} from "../../frontend//api.js";
+} from "../../frontend/api.js";
 
 function okJson(data: any, init: any = {}) {
   return {
