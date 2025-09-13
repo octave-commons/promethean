@@ -232,7 +232,6 @@ kanban-plugin: board
 
 ## Accepted
 
-- [ ] codex cloud setup script generates a startup report
 - [ ] whole project builds with new stricter tsconfig
 - [ ] [[github-crawler]]
 - [ ] [[docs/agile/boards/consolidate-all-configs-into---config--as--.edn--files]] #incoming
@@ -246,6 +245,7 @@ kanban-plugin: board
 
 ## Breakdown (13)
 
+- [ ] codex cloud setup script generates a startup report
 - [ ] [[migrate legacy js services to ts]]
 - [ ] [[evaluate-docker-npu-compatability]]
 - [ ] [[add-docker-compose-files-to-services]]
