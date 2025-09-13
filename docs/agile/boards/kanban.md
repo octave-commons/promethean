@@ -116,6 +116,7 @@ kanban-plugin: board
 
 ## Incoming
 
+- [ ] [[auth_shared_clients_and_middleware|auth shared clients and middleware]] #incoming
 - [ ] [[rewrite build tools with bb]]
 - [ ] [[CI passses]]
 - [ ] codex action build file contextualizer.
@@ -138,67 +139,14 @@ kanban-plugin: board
 - [ ] make biome run with same settings eslint has
 
 
-## Accepted
-
-- [ ] [[auth_shared_clients_and_middleware|auth shared clients and middleware]] #incoming
-- [ ] [[cephalon_context_window_from_collections|cephalon context window from collections]] #incoming
-- [ ] [[cephalon_backfill_conversation_history|cephalon backfill conversation history]] #incoming
-- [ ] [[clean_up_notes_into_design_docs_md|clean up notes into design docs md]] #accepted
-- [ ] [[ecs_component_schemas_core|ecs component schemas core]] #incoming
-- [ ] [[ecs_migration_path_docs|ecs migration path docs]] #incoming
-- [ ] [[ecs_mongo_adapter_library|ecs mongo adapter library]] #incoming
-- [ ] [[discord_link_indexer_md|discord link indexer md]] #accepted
-- [ ] [[ecs_query_api_gateway|ecs query api gateway]] #incoming
-- [ ] [[scripts_add_make_targets_and_aliases|scripts add make targets and aliases]] #incoming
-- [ ] [[scripts_group_indexing_tools|scripts group indexing tools]] #incoming
-- [ ] [[setup_code_in_wsl_md|setup code in wsl md]] #accepted
-- [ ] [[scripts_audit_and_standardize_cli_flags|scripts audit and standardize cli flags]] #incoming
-- [ ] [[scripts_group_audio_tools|scripts group audio tools]] #incoming
-- [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #incoming
-- [ ] [[scripts_group_kanban_remaining|scripts group kanban remaining]] #incoming
-- [ ] [[scripts_update_ci_and_refs|scripts update ci and refs]] #incoming
-- [ ] [[cephalon_persist_utterance_timing_metadata|cephalon persist utterance timing metadata]] #incoming
-- [ ] [[cephalon_persist_llm_replies_to_agent_messages|cephalon persist llm replies to agent messages]] #incoming
-- [ ] [[cephalon_feature_flag_path_selection|cephalon feature flag path selection]] #incoming
-- [ ] [[write_end_to_end_tests_md_md|write end to end tests md md]] #accepted
-- [ ] [[auth_service_scaffold_and_endpoints|auth service scaffold and endpoints]] #auth #oauth #service #accepted
-- [ ] [[auth_shared_clients_and_middleware|auth shared clients and middleware]] #auth #libraries #ts #python #accepted
-- [ ] [[cephalon_context_window_from_collections|cephalon context window from collections]] #cephalon #context #llm #accepted
-- [ ] [[cephalon_backfill_conversation_history|cephalon backfill conversation history]] #cephalon #backfill #context #accepted
-- [ ] [[ecs_component_schemas_core|ecs component schemas core]] #ecs #schemas #conversation #accepted
-- [ ] [[ecs_migration_path_docs|ecs migration path docs]] #ecs #migration #docs #accepted
-- [ ] [[ecs_mongo_adapter_library|ecs mongo adapter library]] #ecs #mongo #orm #accepted
-- [ ] [[discord_link_indexer_md|discord link indexer md]] #framework-core #prompt-refinement #accepted
-- [ ] [[ecs_query_api_gateway|ecs query api gateway]] #ecs #api #mongo #accepted
-- [ ] [[scripts_add_make_targets_and_aliases|scripts add make targets and aliases]] #scripts #make #dx #accepted
-- [ ] [[scripts_group_audio_tools|scripts group audio tools]] #scripts #audio #organization #accepted
-- [ ] [[cephalon_persist_utterance_timing_metadata|cephalon persist utterance timing metadata]] #cephalon #timing #agent_messages #accepted
-- [ ] [[cephalon_persist_llm_replies_to_agent_messages|cephalon persist llm replies to agent messages]] #cephalon #persistence #agent_messages #accepted
-- [ ] [[cephalon_feature_flag_path_selection|cephalon feature flag path selection]] #cephalon #feature-flag #migration #accepted
-- [ ] [[write_end_to_end_tests_md_md|write end to end tests md md]] #framework-core #accepted
-
-
-## Breakdown (13)
-
-- [ ] [[scripts_group_indexing_tools|scripts group indexing tools]] #scripts #indexing #organization #accepted
-- [ ] [[scripts_update_ci_and_refs|scripts update ci and refs]] #scripts #ci #organization #accepted
-- [ ] [[scripts_group_kanban_remaining|scripts group kanban remaining]] #scripts #kanban #organization #accepted
-- [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #scripts #docs #organization #accepted
-- [ ] [[scripts_audit_and_standardize_cli_flags|scripts audit and standardize cli flags]] #scripts #cli #dx #accepted
-- [ ] [[clearly-document-new-repository-layout]] #devops #architectural-decisions #monorepo #packages #package-manager #runtime #multiruntime #accepted
-- [ ] [[agent-safe-stablization-after-big-moves]] #precommit #stabilization #monorepo #typescript #python #hy #agents #safety #playbook #accepted
-- [ ] [[cephalon_event_schema_updates|cephalon event schema updates]] #cephalon #events #schemas #breakdown
-- [ ] [[design_ollama_model_file_for_use_with_codex|Design Ollama model file for use with Codex]] #breakdown
-- [ ] [[auth_service_rfc_and_architecture|auth service rfc and architecture]] #auth #oauth #architecture #breakdown
-- [ ] [[breakdown-cephalon-voice-commands-file-using-ecs|breakdown cephalon voice commands file using ecs]] #breakdown
-- [ ] [[auth_ci_and_load_tests|auth ci and load tests]] #auth #testing #performance #breakdown
-
-
 ## Blocked
 
 - [ ] [[auth_service_scaffold_and_endpoints|auth service scaffold and endpoints]] #incoming
 - [ ] [[snapshot_prompts_specs_to_repo|Snapshot prompts specs to repo]] #todo
 - [ ] [[create-broker-services-that-can-handle-all-the-same-tasks-as-the-gpt-bridge|Create broker services that can handle all the same tasks as the gpt bridge]] #broker #ws #api #gptbridge #parity #promethean #ops #ready
+- [ ] [[ecs_mongo_adapter_library|ecs mongo adapter library]] #incoming
+- [ ] [[ecs_component_schemas_core|ecs component schemas core]] #incoming
+- [ ] [[ecs_migration_path_docs|ecs migration path docs]] #incoming
 - [ ] [[discord_chat_link_traversal_md_md|discord chat link traversal md md]] #framework-core #IceBox #todo
 - [ ] [[allow_configuration_of_hyperparameters_through_discord_context_size_spectrogram_resolution_interuption_threshold_md|allow configuration of hyperparameters through discord context size spectrogram resolution interuption threshold md]] #framework-core #IceBox #ready
 - [ ] [[setup_services_to_recieve_work_from_the_broker_via_push_md|setup services to recieve work from the broker via push md]] #codex-task #broker #queueManager #service-oriented #push-queue #agent-mode #in-progress
@@ -255,6 +203,58 @@ kanban-plugin: board
 - [ ] [[set-up-data-migration-pipeline-and-clearly-describe-conventions|set up data migration pipeline and clearly describe conventions]] #data #migrations #contracts #mongodb #chroma #testing #ci #promethean #tags #promethean #mongodb #chroma #migration #contracts #testing #ci #safety #idempotent #in-progress
 - [ ] [[periodicly-the-embedding-service-will-get-disconnected-from-the-broker-and-not-die--blocking-other-processes-who-require-embeddings.-incoming|periodicly the embedding service will get disconnected from the broker and not die, blocking other processes who require embeddings. incoming]] #embeddings #broker #heartbeat #healthchecks #overload #resilience #promethean #tags #embeddings #reliability #heartbeat #watchdog #overload #backpressure #chaos #pm2 #broker #promethean #in-review
 - [ ] [[identify_and_resolve_a_service_client_apparently_connecting_repeatedly_to_broker_with_new_session_ids|identify and resolve a service client apparently connecting repeatedly to broker with new session ids]] #in-progress
+
+
+## Accepted
+
+- [ ] [[cephalon_context_window_from_collections|cephalon context window from collections]] #incoming
+- [ ] [[cephalon_backfill_conversation_history|cephalon backfill conversation history]] #incoming
+- [ ] [[clean_up_notes_into_design_docs_md|clean up notes into design docs md]] #accepted
+- [ ] [[discord_link_indexer_md|discord link indexer md]] #accepted
+- [ ] [[ecs_query_api_gateway|ecs query api gateway]] #incoming
+- [ ] [[scripts_add_make_targets_and_aliases|scripts add make targets and aliases]] #incoming
+- [ ] [[scripts_group_indexing_tools|scripts group indexing tools]] #incoming
+- [ ] [[setup_code_in_wsl_md|setup code in wsl md]] #accepted
+- [ ] [[scripts_audit_and_standardize_cli_flags|scripts audit and standardize cli flags]] #incoming
+- [ ] [[scripts_group_audio_tools|scripts group audio tools]] #incoming
+- [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #incoming
+- [ ] [[scripts_group_kanban_remaining|scripts group kanban remaining]] #incoming
+- [ ] [[scripts_update_ci_and_refs|scripts update ci and refs]] #incoming
+- [ ] [[cephalon_persist_utterance_timing_metadata|cephalon persist utterance timing metadata]] #incoming
+- [ ] [[cephalon_persist_llm_replies_to_agent_messages|cephalon persist llm replies to agent messages]] #incoming
+- [ ] [[cephalon_feature_flag_path_selection|cephalon feature flag path selection]] #incoming
+- [ ] [[write_end_to_end_tests_md_md|write end to end tests md md]] #accepted
+- [ ] [[auth_service_scaffold_and_endpoints|auth service scaffold and endpoints]] #auth #oauth #service #accepted
+- [ ] [[auth_shared_clients_and_middleware|auth shared clients and middleware]] #auth #libraries #ts #python #accepted
+- [ ] [[cephalon_context_window_from_collections|cephalon context window from collections]] #cephalon #context #llm #accepted
+- [ ] [[cephalon_backfill_conversation_history|cephalon backfill conversation history]] #cephalon #backfill #context #accepted
+- [ ] [[ecs_component_schemas_core|ecs component schemas core]] #ecs #schemas #conversation #accepted
+- [ ] [[ecs_migration_path_docs|ecs migration path docs]] #ecs #migration #docs #accepted
+- [ ] [[ecs_mongo_adapter_library|ecs mongo adapter library]] #ecs #mongo #orm #accepted
+- [ ] [[discord_link_indexer_md|discord link indexer md]] #framework-core #prompt-refinement #accepted
+- [ ] [[ecs_query_api_gateway|ecs query api gateway]] #ecs #api #mongo #accepted
+- [ ] [[scripts_add_make_targets_and_aliases|scripts add make targets and aliases]] #scripts #make #dx #accepted
+- [ ] [[scripts_group_audio_tools|scripts group audio tools]] #scripts #audio #organization #accepted
+- [ ] [[cephalon_persist_utterance_timing_metadata|cephalon persist utterance timing metadata]] #cephalon #timing #agent_messages #accepted
+- [ ] [[cephalon_persist_llm_replies_to_agent_messages|cephalon persist llm replies to agent messages]] #cephalon #persistence #agent_messages #accepted
+- [ ] [[cephalon_feature_flag_path_selection|cephalon feature flag path selection]] #cephalon #feature-flag #migration #accepted
+- [ ] [[write_end_to_end_tests_md_md|write end to end tests md md]] #framework-core #accepted
+
+
+## Breakdown (13)
+
+- [ ] [[scripts_group_indexing_tools|scripts group indexing tools]] #scripts #indexing #organization #accepted
+- [ ] [[scripts_update_ci_and_refs|scripts update ci and refs]] #scripts #ci #organization #accepted
+- [ ] [[scripts_group_kanban_remaining|scripts group kanban remaining]] #scripts #kanban #organization #accepted
+- [ ] [[scripts_group_docs_utilities|scripts group docs utilities]] #scripts #docs #organization #accepted
+- [ ] [[scripts_audit_and_standardize_cli_flags|scripts audit and standardize cli flags]] #scripts #cli #dx #accepted
+- [ ] [[clearly-document-new-repository-layout]] #devops #architectural-decisions #monorepo #packages #package-manager #runtime #multiruntime #accepted
+- [ ] [[agent-safe-stablization-after-big-moves]] #precommit #stabilization #monorepo #typescript #python #hy #agents #safety #playbook #accepted
+- [ ] [[cephalon_event_schema_updates|cephalon event schema updates]] #cephalon #events #schemas #breakdown
+- [ ] [[design_ollama_model_file_for_use_with_codex|Design Ollama model file for use with Codex]] #breakdown
+- [ ] [[auth_service_rfc_and_architecture|auth service rfc and architecture]] #auth #oauth #architecture #breakdown
+- [ ] [[breakdown-cephalon-voice-commands-file-using-ecs|breakdown cephalon voice commands file using ecs]] #breakdown
+- [ ] [[auth_ci_and_load_tests|auth ci and load tests]] #auth #testing #performance #breakdown
 
 
 ## Ready
@@ -413,6 +413,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,true,true,true,true,false,false,false,false,false,false,false,false,false,false],"new-note-template":"textgenerator/templates/local/smart_task_templater_md.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[true,true,false,false,false,false,false,false,false,false,false,false,false,false,false],"new-note-template":"textgenerator/templates/local/smart_task_templater_md.md","new-note-folder":"agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
