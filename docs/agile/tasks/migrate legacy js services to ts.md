@@ -27,12 +27,16 @@ tags:
   - priority/p3
   - epic/EPC-000
 ---
-  drwxrwxr-x  3 err err 4096 Sep 12 14:19   broker
-  drwxrwxr-x  3 err err 4096 Sep 12 14:19   eidolon-field
-  -rw-rw-r--  1 err err  183 Sep 12 14:19   eslint.config.js
-  drwxrwxr-x  2 err err 4096 Sep 12 14:19   event-gateway
-  drwxrwxr-x  2 err err 4096 Sep 12 14:19   event-hub
-  drwxrwxr-x  3 err err 4096 Sep 12 14:19   health
-  drwxrwxr-x  3 err err 4096 Sep 12 14:19   heartbeat
-  drwxrwxr-x  3 err err 4096 Sep 12 14:19   proxy
-  drwxrwxr-x  3 err err 4096 Sep 12 14:19   vision
+# Legacy JS services are migrated to TS
+
+I had failed to move several of these to the new packages before, I reoc
+## Services
+   - [ ] broker
+   - [ ] eidolon-field
+   - [ ] eslint.config.js
+   - [ ] event-gateway
+   - [ ] event-hub
+   - [ ] health
+   - [ ] heartbeat
+   - [ ] proxy
+   - [ ] vision
