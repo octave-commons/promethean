@@ -1,6 +1,6 @@
 import test from "ava";
 
-import { sleep } from "@promethean/test-utils/sleep.js";
+import { sleep } from "@promethean/utils";
 
 import { TokenBucket } from "../dist/limiter.js";
 
@@ -31,6 +31,7 @@ test("TokenBucket limits and refills with capacity 2", async (t) => {
   t.true(deficit > 0);
   await sleep(1100);
   t.true(bucket.tryConsume());
+
 });
 
 test("TokenBucket drain empties remaining tokens", (t) => {
