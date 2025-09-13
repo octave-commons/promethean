@@ -1,5 +1,4 @@
 // loose typing to avoid cross-package type coupling
-import type { defineAgentComponents } from '../components.js';
 
 type BargeState = { speakingSince: number | null; paused: boolean };
 

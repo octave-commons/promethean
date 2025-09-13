@@ -6,7 +6,7 @@ on:
   pull_request:
 
 jobs:
-  piper-tests:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,10 +19,18 @@ jobs:
       # Set up Node and enable built-in pnpm cache
       - uses: actions/setup-node@v4
         with:
-          node-version-file: package.json
+          node-version: 22
           cache: pnpm
+          # If you have multiple lockfiles (monorepo), list them (comma- or newline-separated)
+          cache-dependency-path: |
+            pnpm-lock.yaml
+            apps/*/pnpm-lock.yaml
+            packages/*/pnpm-lock.yaml
 
-      # This will tell us if codex broke his environment.
       # Install deps (workspace-aware)
       - name: Install
         run: pnpm install --frozen-lockfile
+
+      # Build / test
+      - name: Build
+        run: pnpm -r build
