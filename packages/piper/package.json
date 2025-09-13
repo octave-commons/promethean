@@ -7,13 +7,13 @@
     "piper": "bin/piper.js"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -b tsconfig.json --force",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "pnpm build && ava",
     "coverage": "c8 -r text -r lcov ava",
     "clean": "rimraf dist",
     "prepack": "pnpm run build",
-    "dev-ui": "pnpm build && node dist/dev-ui.ts"
+    "dev-ui": "pnpm build && node dist/dev-ui.js"
   },
   "exports": {
     ".": {

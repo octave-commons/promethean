@@ -1,8 +1,9 @@
-import test from "ava";
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
 import * as url from "node:url";
 import { randomUUID } from "node:crypto";
+
+import test from "ava";
 
 import { run } from "../../utils.js";
 

@@ -15,7 +15,7 @@ const args = parseArgs({
   "--specs": ".cache/codemods/specs.json",
   "--delete-duplicates": "true",
 });
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- argument is required with default
+ 
 const specsPath = args["--specs"];
 
 function parseArgs<T extends Record<string, string>>(defaults: T): T {
@@ -117,7 +117,7 @@ async function main() {
 
       if (MODE === "dry") {
         const diffs = diffLines(before, after);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- diff library lacks types for parts
+         
         const pretty = diffs
           .map((part: any) => {
             const prefix = part.added ? "+" : part.removed ? "-" : " ";

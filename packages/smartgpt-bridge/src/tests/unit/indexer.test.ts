@@ -2,6 +2,7 @@ import path from "node:path";
 import fs from "node:fs/promises";
 
 import test from "ava";
+import type { UpsertRecordsParams, QueryRecordsParams } from "chromadb";
 
 import {
   reindexAll,
@@ -11,7 +12,6 @@ import {
   search,
   resetChroma,
 } from "../../indexer.js";
-import type { UpsertRecordsParams, QueryRecordsParams } from "chromadb";
 
 const ROOT = path.join(process.cwd(), "tests", "fixtures");
 

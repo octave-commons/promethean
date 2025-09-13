@@ -111,7 +111,7 @@ test.serial(
     const upsertPaths = new Set(
       col.upserts.flatMap((u) => {
         const metas = Array.isArray(u.metadatas) ? u.metadatas : [];
-        return metas.map((m: any) => (m && (m as any).path) as string);
+        return metas.map((m: any) => (m && (m).path) as string);
       }),
     );
     t.true(upsertPaths.has("b.txt"));
