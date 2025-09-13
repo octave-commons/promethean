@@ -10,8 +10,8 @@ import { AudioReceiveStream } from "@discordjs/voice";
 import { User } from "discord.js";
 import * as prism from "prism-media";
 
-import { Transcriber } from "./transcriber";
-import { VoiceRecorder } from "./voice-recorder";
+import { Transcriber } from "./transcriber.js";
+import { VoiceRecorder } from "./voice-recorder.js";
 
 class OpusSilenceFilter extends Transform {
   override _transform(
@@ -56,15 +56,17 @@ export class Speaker extends EventEmitter {
     this.recorder = options.recorder;
   }
 
-  get userId() {
+  get userId(): string {
     return this.user.id;
   }
 
-  get userName() {
+  get userName(): string {
     return this.user.username;
   }
 
-  async handleSpeakingStart(opusStream: AudioReceiveStream) {
+  async handleSpeakingStart(
+    opusStream: AudioReceiveStream,
+  ): Promise<PassThrough> {
     this.isSpeaking = true;
     // Silence filter
     const filter = new OpusSilenceFilter();
@@ -94,12 +96,12 @@ export class Speaker extends EventEmitter {
     return opusStream.pipe(filter).pipe(decoder).pipe(pcmSplitter);
   }
 
-  toggleTranscription() {
+  toggleTranscription(): boolean {
     this.isTranscribing = !this.isTranscribing;
     return this.isTranscribing;
   }
 
-  toggleRecording() {
+  toggleRecording(): boolean {
     this.isRecording = !this.isRecording;
     return this.isRecording;
   }
