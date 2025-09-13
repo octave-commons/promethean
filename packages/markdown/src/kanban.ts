@@ -408,6 +408,7 @@ export class MarkdownBoard {
                     return EXIT;
                 }
             }
+            return;
         });
         return found ?? null;
     }
