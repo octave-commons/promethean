@@ -117,14 +117,23 @@ test("${testName}", t => {
       inputSchema: z.object({
         files: z.array(z.string()).optional(),
         match: z.array(z.string()).optional(),
+        tap: z.boolean().optional(),
+        watch: z.boolean().optional(),
       }),
     },
-    async (input: { files?: string[]; match?: string[] }) => {
-      const { files, match } = input;
+    async (input: {
+      files?: string[];
+      match?: string[];
+      tap?: boolean;
+      watch?: boolean;
+    }) => {
+      const { files, match, tap, watch } = input;
       const args = ["--yes", "ava", "--json"];
       if (tap) args.push("--tap");
       if (watch) args.push("--watch");
-      match?.forEach((m: string) => args.push("--match", m));
+      match?.forEach((m: string) => {
+        args.push("--match", m);
+      });
       if (files?.length) args.push(...files);
 
       const { stdout } = await execFileAsync("npx", args, EXEC_OPTS);
@@ -133,10 +142,12 @@ test("${testName}", t => {
         passed: result.stats.passed,
         failed: result.stats.failed,
         durationMs: result.stats.duration,
-        failures: result.failures?.map((f: any) => ({
-          title: f.title,
-          error: f.error,
-        })),
+        failures: result.failures?.map(
+          (f: { title: string; error: string }) => ({
+            title: f.title,
+            error: f.error,
+          }),
+        ),
       };
     },
   );
@@ -154,7 +165,9 @@ test("${testName}", t => {
       if (watchProc) throw new Error("watch already running");
       const { files, match } = input;
       const args = ["--yes", "ava", "--watch"] as string[];
-      match?.forEach((m: string) => args.push("--match", m));
+      match?.forEach((m: string) => {
+        args.push("--match", m);
+      });
       if (files?.length) args.push(...files);
       watchBuffer = "";
       watchProc = spawn("npx", args, { stdio: ["pipe", "pipe", "pipe"] });
@@ -264,8 +277,7 @@ test("${testName}", t => {
     }) => {
       const { propertyModule, propertyExport, runs } = input;
       const mod = await import(pathToFileURL(propertyModule).href);
-      // biome-ignore lint/suspicious/noExplicitAny: dynamic import
-      const propertyFactory = (mod)[propertyExport];
+      const propertyFactory = mod[propertyExport];
       if (typeof propertyFactory !== "function") {
         throw new Error(`Export "${propertyExport}" is not a function`);
       }
