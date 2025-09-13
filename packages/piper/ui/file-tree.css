@@ -52,3 +52,7 @@ ul {
 .tab-close {
   cursor: pointer;
 }
+.loading {
+  color: #666;
+  font-style: italic;
+}

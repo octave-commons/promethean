@@ -3,20 +3,6 @@ import * as path from "path";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
-export function parseArgs(d: Record<string, string>) {
-  const out = { ...d } as Record<string, string>;
-  const a = process.argv.slice(2);
-  for (let i = 0; i < a.length; i++) {
-    const k = a[i] ?? "";
-    if (!k.startsWith("--")) continue;
-    const next = a[i + 1];
-    const useNext = !!next && !next.startsWith("--");
-    const v = useNext ? next : "true";
-    if (useNext) i++;
-    out[k] = v;
-  }
-  return out;
-}
 export async function writeJSON(p: string, data: any) {
   await fs.mkdir(path.dirname(p), { recursive: true });
   await fs.writeFile(p, JSON.stringify(data, null, 2), "utf-8");

@@ -10,7 +10,7 @@ import ignore from "ignore";
  */
 export async function loadGitIgnore(ROOT_PATH: string, targetDir: string) {
   const ig = ignore();
-  let current = path.resolve(ROOT_PATH);
+  const current = path.resolve(ROOT_PATH);
   const target = path.resolve(targetDir);
   const parts = target.replace(current, "").split(path.sep).filter(Boolean);
   for (let i = 0; i <= parts.length; ++i) {

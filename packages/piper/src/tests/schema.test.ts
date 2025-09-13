@@ -2,6 +2,7 @@ import * as fs from "fs/promises";
 import * as path from "path";
 
 import test from "ava";
+import { sleep } from "@promethean/test-utils/sleep.js";
 
 import { runPipeline } from "../runner.js";
 
@@ -15,7 +16,7 @@ async function withTmp(fn: (dir: string) => Promise<void>) {
   try {
     await fn(dir);
   } finally {
-    await new Promise((r) => setTimeout(r, 25));
+    await sleep(25);
     await fs.rm(dir, { recursive: true, force: true });
   }
 }

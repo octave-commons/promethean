@@ -3,21 +3,6 @@ import * as path from "node:path";
 
 export const OLLAMA_URL = process.env.OLLAMA_URL ?? "http://localhost:11434";
 
-export function parseArgs<T extends Record<string, string>>(
-  defaults: Readonly<T>,
-): Readonly<T> {
-  const pairs = process.argv
-    .slice(2)
-    .reduce<ReadonlyArray<[string, string]>>((acc, cur, idx, arr) => {
-      if (!cur.startsWith("--")) return acc;
-      const next = arr[idx + 1];
-      const value =
-        typeof next === "string" && !next.startsWith("--") ? next : "true";
-      return acc.concat([[cur, value]]);
-    }, []);
-  return { ...defaults, ...Object.fromEntries(pairs) } as Readonly<T>;
-}
-
 export async function readMaybe(p: string): Promise<string | undefined> {
   try {
     return await fs.readFile(p, "utf-8");

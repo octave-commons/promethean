@@ -97,7 +97,7 @@ export async function grep(
   const out: GrepMatch[] = [];
   const cache = new Map<string, string[]>();
   for (const line of lines) {
-    const obj = JSON.parse(line) as any;
+    const obj = JSON.parse(line);
     if (obj.type !== "match") continue;
     const relPath = obj.data.path.text.startsWith("./")
       ? obj.data.path.text.slice(2)

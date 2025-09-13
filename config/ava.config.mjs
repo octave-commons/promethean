@@ -10,6 +10,5 @@ export default {
   ],
   timeout: "30s",
   failFast: false,
-  concurrency: 0,
   nodeArguments: ["--enable-source-maps"],
 };

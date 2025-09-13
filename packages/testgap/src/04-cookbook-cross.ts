@@ -3,7 +3,8 @@ import { promises as fs } from "fs";
 
 import { globby } from "globby";
 
-import { parseArgs, writeJSON } from "./utils.js";
+import { parseArgs } from "@promethean/utils";
+import { writeJSON } from "./utils.js";
 
 const args = parseArgs({
   "--recipes": "docs/cookbook/**/*.md",
