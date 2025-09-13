@@ -1,7 +1,7 @@
 import * as path from "path";
 import { promises as fs } from "fs";
 
-import { parseArgs } from "./utils.js";
+import { parseArgs } from "@promethean/utils";
 import type { GapMap } from "./types.js";
 
 const args = parseArgs({
