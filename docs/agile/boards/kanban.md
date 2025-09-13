@@ -6,6 +6,7 @@ kanban-plugin: board
 
 ## Rejected
 
+- [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #incoming
 - [ ] codex action build file contextualizer.
 - [ ] universal package manager
 - [ ] [[scripts_add_make_targets_and_aliases|scripts add make targets and aliases]] #scripts #make #dx #accepted
@@ -110,6 +111,9 @@ kanban-plugin: board
 
 ## Blocked
 
+- [ ] [[twitch_stream_title_generator_md_md|twitch stream title generator md md]] #framework-core #ollama-integration #stream-automation #in-review
+- [ ] [[tamper-monkey-script-for-using-templates-defined-in-the-vault|tamper monkey script for using templates defined in the vault]] #todo
+- [ ] [[gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used.|gpt bridge fuzzy lookup should return multiple matches when it is used.]] #framework-core #ready
 - [ ] [[phase-out-proxy-in-favor-of-bridge-service|Phase out proxy in favor of bridge service]] #framework-core #framework-core #Todo #in-progress
 - [ ] [[cephalon_context_window_from_collections|cephalon context window from collections]] #incoming
 - [ ] [[cephalon_event_schema_updates|cephalon event schema updates]] #cephalon #events #schemas #breakdown
@@ -208,6 +212,9 @@ kanban-plugin: board
 
 ## Ice Box
 
+- [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
+- [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #breakdown
+- [ ] [[twitch_discord_general_auto_mod_md_md|twitch discord general auto mod md md]] #framework-core #observability #multimodal-context #risk #IceBox #todo
 - [ ] [[harden-precommit-hooks|harden precommit hooks]] #ready
 - [ ] [[design-vision-pipeline-mvp]]
 - [ ] [[design-audio-pipeline-mvp]]
@@ -270,13 +277,6 @@ kanban-plugin: board
 - [ ] [[migrate legacy js services to ts]]
 - [ ] [[pin_versions_in_configs_md|pin versions in configs md]] #ops #codex-task #release-engineering #ci #sre #supply-chain #promethean #ops #codex-task #tags #promethean #versioning #pinning #ci #docker #uv #ollama #openvino #sre #supplychain #in-review
 - [ ] [[describe_github_branching_workflow_md|describe github branching workflow md]] #todo
-- [ ] [[add_twitch_chat_integration_md_md|add twitch chat integration md md]] #breakdown
-- [ ] [[twitch_stream_title_generator_md_md|twitch stream title generator md md]] #framework-core #ollama-integration #stream-automation #in-review
-- [ ] [[scripts_add_folder_readmes_and_usage|scripts add folder readmes and usage]] #incoming
-- [ ] [[add-codex-layer-to-emacs|Add codex layer to emacs]] #ready
-- [ ] [[twitch_discord_general_auto_mod_md_md|twitch discord general auto mod md md]] #framework-core #observability #multimodal-context #risk #IceBox #todo
-- [ ] [[gpt-bridge-fuzzy-lookup-should-return-multiple-matches-when-it-is-used.|gpt bridge fuzzy lookup should return multiple matches when it is used.]] #framework-core #ready
-- [ ] [[tamper-monkey-script-for-using-templates-defined-in-the-vault|tamper monkey script for using templates defined in the vault]] #todo
 
 
 ## Todo (13)
