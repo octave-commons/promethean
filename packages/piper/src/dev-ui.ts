@@ -22,7 +22,12 @@ function getArg(flag: string, dflt: string): string {
 }
 
 const CONFIG_PATH = path.resolve(
-  getArg("--config", process.env.PIPER_CONFIG || process.env.npm_config_config || "pipelines.json"),
+  getArg(
+    "--config",
+    process.env.PIPER_CONFIG ||
+      process.env.npm_config_config ||
+      "pipelines.json",
+  ),
 );
 const rawPort = Number(getArg("--port", "3939"));
 const PORT = Number.isFinite(rawPort) ? rawPort : 3939;
@@ -49,24 +54,28 @@ await app.register(fastifyRateLimit, {
   timeWindow: 15 * 60 * 1000, // 15 minutes
 });
 // Development events: optional SSE stream for hot-reload signals.
-app.get("/api/dev-events", {
-  config: {
-    rateLimit: {
-      max: 5, // allow 5 requests per minute for this endpoint
-      timeWindow: 60 * 1000, // 1 minute
-    }
-  }
-}, async (_req, reply) => {
-  const send = sseInit(reply);
-  send("frontend:update");
+const WATCH_GLOBS = () => {
   const root = path.resolve(process.cwd(), "packages/piper/src/frontend");
-  const watcher = chokidar.watch([`${root}/**/*.ts`, `${root}/**/*.css`, `${path.resolve(process.cwd(), "packages/piper/ui")}/**/*`], { ignoreInitial: true });
-  const rebuild = async () => {
+  const ui = path.resolve(process.cwd(), "packages/piper/ui");
+  return [`${root}/**/*.ts`, `${root}/**/*.css`, `${ui}/**/*`];
+};
+app.get(
+  "/api/dev-events",
+  { config: { rateLimit: { max: 10, timeWindow: "1 minute" } } },
+  async (_req, reply) => {
+    const send = sseInit(reply);
     send("frontend:update");
-  };
-  watcher.on("all", () => void rebuild());
-  reply.raw.on("close", () => watcher.close());
-});
+    const watcher = chokidar.watch(WATCH_GLOBS(), { ignoreInitial: true });
+    const rebuild = async () => {
+      send("frontend:update");
+    };
+    watcher.on("all", rebuild);
+    reply.raw.on("close", () => {
+      watcher.off("all", rebuild);
+      void watcher.close();
+    });
+  },
+);
 await app.register(fastifyStatic, { root: UI_ROOT, prefix: "/ui" });
 await app.register(fastifyStatic, {
   root: FRONTEND_DIST,
