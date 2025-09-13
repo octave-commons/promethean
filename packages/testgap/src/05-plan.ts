@@ -3,7 +3,8 @@ import { promises as fs } from "fs";
 
 import { z } from "zod";
 
-import { parseArgs, writeJSON, ollamaJSON } from "./utils.js";
+import { parseArgs } from "@promethean/utils";
+import { writeJSON, ollamaJSON } from "./utils.js";
 import type { GapMap, CookbookCross, PlanFile, PlanTask } from "./types.js";
 
 const args = parseArgs({

@@ -3,7 +3,8 @@ import { promises as fs } from "fs";
 
 import { globby } from "globby";
 
-import { parseArgs, writeJSON, rel } from "./utils.js";
+import { parseArgs } from "@promethean/utils";
+import { writeJSON, rel } from "./utils.js";
 import type { CoverageIndex, FileCoverage } from "./types.js";
 
 const args = parseArgs({
