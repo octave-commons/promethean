@@ -1,10 +1,10 @@
 import { promises as fs } from "fs";
 import * as path from "path";
-import { listFiles } from "@promethean/fs";
 import { once } from "node:events";
 import { createWriteStream } from "node:fs";
 import { randomUUID as nodeRandomUUID } from "node:crypto";
 
+import { listFiles } from "@promethean/fs";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import { visit } from "unist-util-visit";
@@ -262,7 +262,7 @@ export function injectAnchors(
     return i;
   };
   for (const { line, id } of anchors) {
-    let idx = Math.max(1, Math.min(line, lines.length)) - 1;
+    const idx = Math.max(1, Math.min(line, lines.length)) - 1;
     if (hasIdOnOrNext(idx, id)) continue;
     if (inside[idx]) {
       const j = nextOutsideIdx(idx + 1);

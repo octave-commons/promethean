@@ -58,7 +58,7 @@ async function processAgentMessage(bot: Bot, content: string) {
   const finishedSentences = [] as { type: string; text: string }[];
 
   const startTime = Date.now();
-  for (let sentence of sentences) {
+  for (const sentence of sentences) {
     if (sentence.type === "thought") {
       const kind = classifyPause(sentence.text);
       const ms = estimatePauseDuration(sentence.text);
@@ -107,7 +107,7 @@ export async function runStartDialog({
   addSystem(
     OrchestratorSystem(
       w,
-      bot.bus!,
+      bot.bus,
       C,
       async (text: string) => {
         const msgs = await bot.context.compileContext([text]);

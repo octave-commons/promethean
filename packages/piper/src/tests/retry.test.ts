@@ -75,7 +75,7 @@ test("runPipeline retries failed steps", async (t) => {
             return null;
           }
         })
-        .filter(Boolean) as any[];
+        .filter(Boolean);
       const retryEvents = parsed.filter((ev) => ev.type === "retry");
       t.is(retryEvents.length, 1);
       t.is(retryEvents[0].attempt, 1);
