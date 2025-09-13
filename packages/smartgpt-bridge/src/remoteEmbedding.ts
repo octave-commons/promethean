@@ -13,7 +13,7 @@ export class RemoteEmbeddingFunction extends SharedRemoteEmbedding {
     // If a test sets SHARED_IMPORT, dynamically construct a broker and pass it to shared class.
     const prefix = "smartgpt-embed";
     if (brokerInstance) {
-      super(brokerUrl, driver, fn, brokerInstance as any, prefix);
+      super(brokerUrl, driver, fn, brokerInstance, prefix);
       this._injected = true;
     } else if (process.env.SHARED_IMPORT) {
       // Dynamically import the fake broker for tests

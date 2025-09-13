@@ -1,5 +1,5 @@
 export const getCurrentDateTime = () => {
-  var currentdate = new Date();
+  const currentdate = new Date();
   return (
     currentdate.getFullYear() +
     "/" +

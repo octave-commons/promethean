@@ -93,7 +93,7 @@ test.serial(
         );
       })());
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- state initialized in test.before
+     
     await page.goto(`${state!.baseUrl}`, { waitUntil: "domcontentloaded" });
 
     await page.fill(byId("dir"), DOC_FIXTURE_PATH);

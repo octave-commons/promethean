@@ -1,19 +1,16 @@
 import test from "ava";
 
-import { parseArgs, parseTsc, sanitizeBranch } from "../utils.js";
+import { parseArgs } from "@promethean/utils";
+import { parseTsc, sanitizeBranch } from "../utils.js";
 
-// Store original argv to restore after tests
-const origArgv = process.argv.slice();
-
-test.afterEach(() => {
-  process.argv = origArgv.slice();
-});
-
-test.serial("parseArgs overrides defaults with CLI values", (t) => {
-  process.argv = ["node", "test", "--foo", "bar", "--flag"];
-  const out = parseArgs({ "--foo": "baz", "--flag": "false" });
-  t.is(out["--foo"], "bar");
-  t.is(out["--flag"], "true");
+test("parseArgs overrides defaults with CLI values", (t) => {
+  const out = parseArgs({ "--foo": "baz", "--flag": false }, [
+    "--foo",
+    "bar",
+    "--flag",
+  ]);
+  t.is(out["--foo"] as string, "bar");
+  t.is(out["--flag"] as boolean, true);
 });
 
 test("parseTsc extracts diagnostics", (t) => {
