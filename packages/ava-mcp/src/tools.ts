@@ -1,11 +1,11 @@
-import type { Server } from "@modelcontextprotocol/sdk/server";
-import { z } from "zod";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { execFile, type ExecFileOptions, spawn } from "node:child_process";
-
 import { promisify } from "node:util";
+
+import { z } from "zod";
+import type { Server } from "@modelcontextprotocol/sdk/server";
 import { minimatch } from "minimatch";
 import fc from "fast-check";
 import { Stryker } from "@stryker-mutator/core";
@@ -265,7 +265,7 @@ test("${testName}", t => {
       const { propertyModule, propertyExport, runs } = input;
       const mod = await import(pathToFileURL(propertyModule).href);
       // biome-ignore lint/suspicious/noExplicitAny: dynamic import
-      const propertyFactory = (mod as any)[propertyExport];
+      const propertyFactory = (mod)[propertyExport];
       if (typeof propertyFactory !== "function") {
         throw new Error(`Export "${propertyExport}" is not a function`);
       }

@@ -1,5 +1,6 @@
-import { proxy } from "./proxy.js";
 import { AGENT_INDEX, getSup } from "../v0/agent.js";
+
+import { proxy } from "./proxy.js";
 
 export function registerAgentRoutes(v1: any) {
   // ------------------------------------------------------------------

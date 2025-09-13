@@ -55,8 +55,8 @@ export async function registerV1Routes(app: any) {
       { schema: { hide: true } },
       async (_req: any, reply: any) => {
         const doc =
-          hasSwagger && typeof (v1 as any).swagger === "function"
-            ? (v1 as any).swagger()
+          hasSwagger && typeof (v1).swagger === "function"
+            ? (v1).swagger()
             : swaggerOpts.openapi;
         reply.type("application/json").send(doc);
       },
