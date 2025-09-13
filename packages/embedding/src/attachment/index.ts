@@ -1,6 +1,10 @@
 import { fileBackedRegistry } from "@promethean/platform/provider-registry.js";
 
-import { makeDeterministicEmbedder, assertDim, type Embedder } from "../embedder.js";
+import {
+  makeDeterministicEmbedder,
+  assertDim,
+  type Embedder,
+} from "../embedder.js";
 import { makeChromaWrapper } from "../chroma.js";
 
 export interface AttachmentInfo {
@@ -25,8 +29,8 @@ export interface AttachmentEmbeddingConfig {
   imageModelId: string;
   fetch?: typeof fetch;
   providerConfigPath?: string;
-  timeoutMs?: number;             // default 10000
-  allowedHosts?: string[];        // e.g., ['cdn.discordapp.com', 'your-cdn.tld']
+  timeoutMs?: number; // default 10000
+  allowedHosts?: string[]; // e.g., ['cdn.discordapp.com', 'your-cdn.tld']
 }
 
 async function selectEmbedder(
@@ -42,12 +46,11 @@ async function selectEmbedder(
 export async function embedAttachments(
   evt: AttachmentEvent,
   cfg: AttachmentEmbeddingConfig,
-) {
-  if (!evt.attachments?.length) return { ns: "", ids: [] };
-
+): Promise<{ ns: string; ids: string[] }> {
   const reg = fileBackedRegistry(cfg.providerConfigPath);
   const tenantCfg = await reg.get(evt.provider, evt.tenant);
   const ns = `${tenantCfg.storage.chroma_ns}__attachments`;
+  if (!evt.attachments?.length) return { ns, ids: [] };
   const chroma = makeChromaWrapper({
     url: cfg.chromaUrl,
     collection: ns,
@@ -57,44 +60,71 @@ export async function embedAttachments(
   await chroma.ensureCollection();
 
   const fetchImpl = cfg.fetch ?? fetch;
+  const timeoutMs = cfg.timeoutMs ?? 10_000;
+  const withTimeout = async (input: RequestInfo | URL, init?: RequestInit) => {
+    const ac = new AbortController();
+    const t = setTimeout(() => ac.abort(), timeoutMs);
+    try {
+      return await fetchImpl(input, { ...init, signal: ac.signal });
+    } finally {
+      clearTimeout(t);
+    }
+  };
   const results: string[] = [];
   const embedderCache: Record<string, Embedder> = {};
 
   for (const a of evt.attachments) {
-    const res = await fetchImpl(a.url);
-    const ct = a.content_type || res.headers.get("content-type") || "";
-    let embedding: number[];
-    if (ct.startsWith("image/")) {
-      const ab = await res.arrayBuffer();
-      const b64 = Buffer.from(ab).toString("base64");
-      const emb = await selectEmbedder(
-        embedderCache,
-        cfg.imageModelId,
-        cfg.dim,
-      );
-      embedding = await emb.embedOne({ type: "image_base64", data: b64 });
-    } else {
-      const text = await res.text();
-      const emb = await selectEmbedder(embedderCache, cfg.textModelId, cfg.dim);
-      embedding = await emb.embedOne(text);
-    }
-
-    const id = `${evt.provider}:${evt.tenant}:attachment:${a.urn}`;
-    await chroma.upsert([
-      {
-        id,
-        embedding,
-        metadata: {
-          provider: evt.provider,
-          tenant: evt.tenant,
-          foreign_id: evt.message_id,
-          attachment_urn: a.urn,
-          url: a.url,
+    try {
+      const u = new URL(a.url);
+      if (u.protocol !== "https:")
+        throw new Error(`Blocked non-HTTPS URL: ${a.url}`);
+      if (cfg.allowedHosts && !cfg.allowedHosts.includes(u.host))
+        throw new Error(`Blocked host not in allowlist: ${u.host}`);
+      const res = await withTimeout(a.url);
+      if (!res.ok) throw new Error(`Fetch failed: ${a.url} (${res.status})`);
+      const ct = a.content_type || res.headers.get("content-type") || "";
+      let embedding: number[];
+      if (ct.startsWith("image/")) {
+        const ab = await res.arrayBuffer();
+        const b64 = Buffer.from(ab).toString("base64");
+        const emb = await selectEmbedder(
+          embedderCache,
+          cfg.imageModelId,
+          cfg.dim,
+        );
+        embedding = await emb.embedOne({ type: "image_base64", data: b64 });
+      } else {
+        const text = await res.text();
+        const emb = await selectEmbedder(
+          embedderCache,
+          cfg.textModelId,
+          cfg.dim,
+        );
+        embedding = await emb.embedOne(text);
+      }
+      assertDim(embedding, cfg.dim);
+      const id = `${evt.provider}:${evt.tenant}:attachment:${a.urn}`;
+      await chroma.upsert([
+        {
+          id,
+          embedding,
+          metadata: {
+            provider: evt.provider,
+            tenant: evt.tenant,
+            foreign_id: evt.message_id,
+            attachment_urn: a.urn,
+            url: a.url,
+            content_type: ct || undefined,
+            size: a.size ?? undefined,
+            sha256: a.sha256 ?? undefined,
+          },
+          document: a.url,
         },
-        document: a.url,
-      },
-    ]);
-    results.push(id);
+      ]);
+      results.push(id);
+    } catch {
+      /* swallow to continue */
+    }
   }
 
   return { ns, ids: results };

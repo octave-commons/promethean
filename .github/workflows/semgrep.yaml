@@ -8,17 +8,17 @@ jobs:
   semgrep:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955
         with:
           fetch-depth: 0 # required for proper merge-base
 
       # Install pnpm (respects package.json `packageManager` if present)
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@36de12bed180fa130ed56a35e7344f2fa7a820ab
         with:
           run_install: false
 
       - name: Set up Node (for Nx)
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: 20
 

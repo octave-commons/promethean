@@ -1,9 +1,8 @@
-import path from "node:path";
 import test from "ava";
 import { embedAttachments } from "@promethean/embedding";
 
 test("embeds attachments into provider+tenant namespace", async (t) => {
-  const fakeFetch: typeof fetch = async (input: any) => {
+  const fakeFetch: typeof fetch = async (input: RequestInfo | URL) => {
     const url = typeof input === "string" ? input : String(input);
     if (url.endsWith("img"))
       return new Response(Buffer.from("img"), {
@@ -37,9 +36,13 @@ test("embeds attachments into provider+tenant namespace", async (t) => {
       textModelId: "text:v1",
       imageModelId: "image:v1",
       fetch: fakeFetch,
-      providerConfigPath: path.resolve("../../config/providers.yml"),
+      providerConfigPath: new URL(
+        "../../../../config/providers.yml",
+        import.meta.url,
+      ).pathname,
     },
   );
   t.regex(out.ns, /discord__duck/);
   t.is(out.ids.length, 2);
+  t.true(out.ids.every((id) => id.startsWith("discord:duck:attachment:")));
 });

@@ -1,5 +1,6 @@
 export {
   embedAttachments,
+  type AttachmentInfo,
   type AttachmentEvent,
   type AttachmentEmbeddingConfig,
 } from "./attachment/index.js";
