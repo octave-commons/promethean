@@ -3,7 +3,7 @@ import { dlqTopic } from './types.js';
 
 export function withDLQ(bus: any, { maxAttempts = 5, group }: { maxAttempts?: number; group: string }) {
     return async function subscribeWithDLQ(topic: string, handler: (e: any) => Promise<void>, opts: any = {}) {
-        let attempts = new Map<string, number>();
+        const attempts = new Map<string, number>();
 
         return bus.subscribe(
             topic,

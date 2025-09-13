@@ -110,7 +110,7 @@ export async function locateStacktrace(
       if (!m) break;
       const g = m.groups as Record<string, string> | undefined;
       const file = g?.file;
-      const line = Number((g?.line as string | undefined) || 1);
+      const line = Number((g?.line) || 1);
       const col = g?.col ? Number(g.col) : undefined;
       if (!file) continue;
       const snippet = await safeView(ROOT_PATH, file, line, context);

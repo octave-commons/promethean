@@ -1,7 +1,9 @@
-import test from "ava";
 import { promises as fs } from "node:fs";
 import os from "node:os";
 import path from "node:path";
+
+import test from "ava";
+
 import { registerTddTools } from "../index.js";
 
 test("propertyCheck executes", async (t) => {
