@@ -1,3 +1,4 @@
+/* eslint-disable */
 import test from "ava";
 import { RemoteEmbeddingFunction } from "@promethean/embedding";
 
@@ -9,7 +10,7 @@ class MockBrokerClient {
   }
   subscribe(topic: string, cb: (e: any) => void) {
     if (!this.handlers[topic]) this.handlers[topic] = [];
-    this.handlers[topic].push(cb);
+    this.handlers[topic]!.push(cb);
   }
   enqueue(queue: string, payload: any) {
     if (queue !== "embedding.generate") return;

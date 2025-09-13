@@ -1,15 +1,20 @@
+/* eslint-disable */
 import test from "ava";
 import { DiscordRestProxy } from "@promethean/discord";
 
-function makeFetch(status, json, spy) {
-  return async (url, init) => {
+function makeFetch(
+  status: number,
+  json: any,
+  spy?: { calls: any[] },
+): typeof fetch {
+  return (async (url: any, init?: any) => {
     if (spy) spy.calls.push({ url, init });
     return {
       ok: status >= 200 && status < 300,
       status,
       json: async () => json,
-    };
-  };
+    } as any;
+  }) as typeof fetch;
 }
 
 test("enforces per-route token bucket", async (t) => {
@@ -21,7 +26,7 @@ test("enforces per-route token bucket", async (t) => {
   t.is(method, "POST");
   t.is(route, "/channels/123/messages");
 
-  const spy = { calls: [] };
+  const spy: { calls: any[] } = { calls: [] };
   const fetchFn = makeFetch(200, {}, spy);
 
   // consume default capacity (5)
@@ -53,7 +58,7 @@ test("enforces per-route token bucket", async (t) => {
   t.is(r6.bucket, "POST:/channels/:channel/messages");
 
   // record first call details
-  t.true(spy.calls[0].url.includes("/channels/123/messages"));
-  t.truthy(spy.calls[0].init.headers.Authorization.startsWith("Bot "));
-  t.is(spy.calls[0].init.method, "POST");
+  t.true(spy.calls[0]!.url.includes("/channels/123/messages"));
+  t.truthy(spy.calls[0]!.init.headers.Authorization.startsWith("Bot "));
+  t.is(spy.calls[0]!.init.method, "POST");
 });
