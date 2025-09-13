@@ -1,12 +1,8 @@
 import * as path from "path";
 import { promises as fs } from "fs";
 
-import {
-  parseArgs,
-  writeJSON,
-  readJSON,
-  applySnippetToProject,
-} from "./utils.js";
+import { parseArgs } from "@promethean/utils";
+import { writeJSON, readJSON, applySnippetToProject } from "./utils.js";
 import type { ErrorList, History, Attempt, Summary } from "./types.js";
 import { requestPlan, writePlanFile } from "./iter/plan.js";
 import { materializeSnippet } from "./iter/dsl.js";
