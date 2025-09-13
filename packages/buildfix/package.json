@@ -23,6 +23,7 @@
     "doc:report": "pnpm build && node ./dist/03-report.js"
   },
   "dependencies": {
+    "@promethean/utils": "workspace:*",
     "globby": "14.0.2",
     "ts-morph": "22.0.0",
     "zod": "3.23.8"
