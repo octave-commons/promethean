@@ -118,7 +118,6 @@ kanban-plugin: board
 
 - [ ] [[auth_shared_clients_and_middleware|auth shared clients and middleware]] #incoming
 - [ ] [[rewrite build tools with bb]]
-- [ ] [[CI passses]]
 - [ ] codex action build file contextualizer.
 - [ ] universal package manager
 - [ ] [[docs/bb-tool-chain]] #incoming
